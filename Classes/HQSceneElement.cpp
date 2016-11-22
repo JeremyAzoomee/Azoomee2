@@ -45,10 +45,33 @@ bool HQSceneElement::init()
     return true;
 }
 
-void HQSceneElement::addHQSceneElement(int category, int highlight, std::string filename)
+void HQSceneElement::addImageToBaseLayer(std::string filename)
+{
+    
+}
+
+void HQSceneElement::addFieldToBottom(int category)
+{
+    
+}
+
+void HQSceneElement::addIconToImage(int category)
+{
+    
+}
+
+void HQSceneElement::addNameToImage(std::string name)
+{
+    
+}
+
+void HQSceneElement::addHQSceneElement(int category, int highlight, std::string filename, std::string name)
 {
     createColourLayer(category, highlight);
-    
+    addImageToBaseLayer(filename);
+    addFieldToBottom(category);
+    addIconToImage(category);
+    addNameToImage(name);
 }
 
 void HQSceneElement::fillUpColoursAndImagesArray()

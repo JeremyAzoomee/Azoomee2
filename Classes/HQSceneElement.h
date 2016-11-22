@@ -12,11 +12,15 @@ public:
     
     void fillUpColoursAndImagesArray();
     void createColourLayer(int category, int highlight);
+    void addImageToBaseLayer(std::string filename);
+    void addFieldToBottom(int category);
+    void addIconToImage(int category);
+    void addNameToImage(std::string name);
     
     std::vector<cocos2d::Color4B> baseColours;
     std::vector<std::string> iconImages;
     
-    void addHQSceneElement(int category, int highlight, std::string filename);
+    void addHQSceneElement(int category, int highlight, std::string filename, std::string name);
     
     cocos2d::LayerColor *baseLayer;
     
