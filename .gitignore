@@ -1,0 +1,9 @@
+bin/
+cocos2d/
+proj.android/obj/
+proj.android/assets/res/
+proj.linux/
+proj.tizen/
+proj.win8.1-universal/
+proj.win10/
+proj.win32/
