@@ -1,0 +1,77 @@
+#include "OomeeLayer.h"
+#include "SimpleAudioEngine.h"
+#include "extensions/cocos-ext.h"
+#include "spine/spine.h"
+
+USING_NS_CC;
+
+using namespace spine;
+
+Scene* OomeeLayer::createScene()
+{
+    // 'scene' is an autorelease object
+    auto scene = Scene::create();
+    
+    // 'layer' is an autorelease object
+    auto layer = OomeeLayer::create();
+
+    // add layer as a child to scene
+    scene->addChild(layer);
+
+    // return the scene
+    return scene;
+}
+
+// on "init" you need to initialize your instance
+
+bool OomeeLayer::init()
+{
+    //////////////////////////////
+    // 1. super init first
+    if ( !Layer::init() )
+    {
+        return false;
+    }
+    
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    SkeletonAnimation *oomee = SkeletonAnimation::createWithFile("res/previewimg/skeleton.json", "res/previewimg/skeleton.atlas", 0.6f);
+    oomee->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.38);
+    oomee->setMix("wave2", "idle", 1);
+    oomee->setAnimation(0, "idle", true);
+    oomee->setScale(1.5);
+    oomee->setOpacity(0);
+    this->addChild(oomee);
+    
+    oomee->runAction(Sequence::create(DelayTime::create(8), FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+    
+    
+    
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = [](Touch *touch, Event *event)
+    {
+        auto target = static_cast<SkeletonAnimation*>(event->getCurrentTarget());
+        
+        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+        Size s = target->getBoundingBox().size;
+        Rect rect = Rect(-s.width * 0.25, 0, s.width * 0.75, s.height);
+        
+        if(rect.containsPoint(locationInNode))
+        {
+            //target->setAnimation(0, "wave2", false);
+            target->setAnimation(0, "wave2", false);
+            target->addAnimation(0, "idle", true);
+            
+            return true;
+        }
+        
+        return false;
+        
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, oomee);
+    
+    return true;
+}
