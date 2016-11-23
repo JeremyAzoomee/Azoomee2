@@ -37,49 +37,52 @@ bool HQSceneElement::init()
     // - we put the overlay on the top of the image (colour depending on the category)
     // - we put game icon and labels on top of the overlay image
     
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     fillUpColoursAndImagesArray();
     
+    //waiting for addHQSceneElement command from HQScene after init.
+    
     return true;
-}
-
-void HQSceneElement::addImageToBaseLayer(std::string filename)
-{
-    
-}
-
-void HQSceneElement::addFieldToBottom(int category)
-{
-    
-}
-
-void HQSceneElement::addIconToImage(int category)
-{
-    
-}
-
-void HQSceneElement::addNameToImage(std::string name)
-{
-    
 }
 
 void HQSceneElement::addHQSceneElement(int category, int highlight, std::string filename, std::string name)
 {
     createColourLayer(category, highlight);
-    addImageToBaseLayer(filename);
-    addFieldToBottom(category);
+    addImageToBaseLayer(filename); //There will be a few additional steps: add a placeholder image and start loading the real image based on downloaded data. No back-end implemented yet, TBD later.
+    addGradientToBottom(category);
     addIconToImage(category);
-    addNameToImage(name);
+    addLabelToImage(name);
 }
 
-void HQSceneElement::fillUpColoursAndImagesArray()
+void HQSceneElement::addImageToBaseLayer(std::string filename)
 {
-    baseColours.push_back(Color4B(255,0,0, 150));
-    baseColours.push_back(Color4B(0,255,0, 150));
-    baseColours.push_back(Color4B(0,0,255, 150));
-    baseColours.push_back(Color4B(0,255,255, 150));
+    auto spriteImage = Sprite::create(filename);
+    spriteImage->setPosition(baseLayer->getContentSize().width / 2, baseLayer->getContentSize().height / 2);
+    baseLayer->addChild(spriteImage);
+}
+
+void HQSceneElement::addGradientToBottom(int category)
+{
+    auto gradient = Sprite::create("res/hqscene/gradient_overlay.png");
+    gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2);
+    gradient->setScaleX(baseLayer->getContentSize().width / gradient->getContentSize().width);
+    gradient->setColor(Color3B(baseColours.at(category).r, baseColours.at(category).g, baseColours.at(category).b)); //setColor does not support Color4B, we have to use its elements to convert it to Color3B.
+    baseLayer->addChild(gradient);
+}
+
+void HQSceneElement::addIconToImage(int category)
+{
+    auto icon = Sprite::create(iconImages.at(category));
+    icon->setPosition(icon->getContentSize().width / 2, icon->getContentSize().height / 2);
+    baseLayer->addChild(icon);
+}
+
+void HQSceneElement::addLabelToImage(std::string name)
+{
+    auto label = Label::createWithTTF(name, "fonts/arial.ttf", 20);
+    label->setColor(Color3B(0,0,0));
+    label->setPosition(baseLayer->getContentSize().width / 2, label->getContentSize().height / 2);
+    baseLayer->addChild(label);
 }
 
 void HQSceneElement::createColourLayer(int category, int highlight)
@@ -90,6 +93,23 @@ void HQSceneElement::createColourLayer(int category, int highlight)
     if(highlight == 2) iconSize = Size(200,200);
     
     baseLayer = LayerColor::create(baseColours.at(category), iconSize.width, iconSize.height);
-    baseLayer->setPosition(Point(Director::getInstance()->getVisibleOrigin().x, Director::getInstance()->getVisibleOrigin().y));
+    this->addChild(baseLayer);
     
+}
+
+void HQSceneElement::fillUpColoursAndImagesArray()
+{
+    baseSizes.push_back(Size(100,100));
+    baseSizes.push_back(Size(220,100));
+    baseSizes.push_back(Size(220, 220));
+    
+    baseColours.push_back(Color4B(255,0,0, 150));
+    baseColours.push_back(Color4B(0,255,0, 150));
+    baseColours.push_back(Color4B(0,0,255, 150));
+    baseColours.push_back(Color4B(0,255,255, 150));
+    
+    iconImages.push_back("res/hqscene/icon_watch.png");
+    iconImages.push_back("res/hqscene/icon_watch.png");
+    iconImages.push_back("res/hqscene/icon_play.png");
+    iconImages.push_back("");
 }

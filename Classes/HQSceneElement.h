@@ -13,12 +13,13 @@ public:
     void fillUpColoursAndImagesArray();
     void createColourLayer(int category, int highlight);
     void addImageToBaseLayer(std::string filename);
-    void addFieldToBottom(int category);
+    void addGradientToBottom(int category);
     void addIconToImage(int category);
-    void addNameToImage(std::string name);
+    void addLabelToImage(std::string name);
     
     std::vector<cocos2d::Color4B> baseColours;
     std::vector<std::string> iconImages;
+    std::vector<cocos2d::Size> baseSizes;
     
     void addHQSceneElement(int category, int highlight, std::string filename, std::string name);
     

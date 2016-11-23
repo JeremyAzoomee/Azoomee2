@@ -16,6 +16,9 @@ public:
     void addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView);
     void setName(std::string name);
     void setBackground(std::string name);
+    void setCategoryFromName(std::string name);
+    
+    int category;
     
     
     // implement the "static create()" method manually

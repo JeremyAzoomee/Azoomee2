@@ -1,4 +1,5 @@
 #include "HQScene.h"
+#include "HQSceneElement.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -16,6 +17,14 @@ Scene* HQScene::createScene()
 
     // return the scene
     return scene;
+}
+
+void HQScene::setCategoryFromName(std::string name)
+{
+    if(name == "sVideoHQ") category = 0;
+    if(name == "sAudioHQ") category = 1;
+    if(name == "sArtsHQ") category = 2;
+    if(name == "sGameHQ") category = 3;
 }
 
 void HQScene::setBackground(std::string name)
@@ -39,6 +48,7 @@ void HQScene::setName(std::string name)
     this->addChild(title, 20);
     
     setBackground(name);
+    setCategoryFromName(name);
 }
 
 void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
@@ -171,17 +181,16 @@ bool HQScene::init()
         vScrollView->addChild(scrollView);
         
         std::vector<std::string> filenames;
-        filenames.push_back("res/previewimg/video_birds.png");
-        filenames.push_back("res/previewimg/video_jamie.png");
-        filenames.push_back("res/previewimg/video_lassie.png");
-        filenames.push_back("res/previewimg/video_moe.png");
+        filenames.push_back("res/previewimg/1a.png");
+        filenames.push_back("res/previewimg/1b.png");
+        filenames.push_back("res/previewimg/1c.png"); //TO BE REMOVED, JUST FOR PLACEHOLDER PURPOSES
         
-        for(int i = 0; i < 8; i++) //THIS IS ONLY PLACEHOLDER, HAS TO BE CHANGED TO REALLY LOADED IMAGES
+        for(int i = 0; i < 8; i++)
         {
-            auto myImg = Sprite::create(filenames.at(int(CCRANDOM_0_1() * filenames.size())));
-            myImg->setPosition(scrollView->getInnerContainerSize().width / 8 * (i + 1), scrollView->getInnerContainerSize().height / 2);
-            myImg->setTag(i);
-            scrollView->addChild(myImg);
+            auto hqSceneElement = HQSceneElement::create();
+            hqSceneElement->addHQSceneElement(category, 0, "res/previewimg/1a.png", "Angry Birds");
+            hqSceneElement->setPosition(100 + i * 450, 50);
+            this->addChild(hqSceneElement);
         }
     }
 
