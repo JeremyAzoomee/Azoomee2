@@ -138,51 +138,70 @@ void HQScene::createScrollView()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height * 0.82);
+    Node *toBeAddedTo = this;
+    int maxLines = 1;
     
-    auto vScrollView = cocos2d::ui::ScrollView::create();
-    vScrollView->setContentSize(vScrollFrameSize);
-    vScrollView->setPosition(origin);
-    vScrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
-    vScrollView->setTouchEnabled(true);
-    vScrollView->setBounceEnabled(true);
-    vScrollView->setInnerContainerSize(Size(visibleSize.width, visibleSize.height * 2));
-    vScrollView->setScrollBarEnabled(false);
-    vScrollView->setSwallowTouches(false);
-    this->addChild(vScrollView, 1);
-    
-    this->addListenerToScrollView(vScrollView);
-    
-    for(int j = 0; j < 4; j++)
+    if(category < 2) //We need the dual scrollview only when in video / audio mode. Need to clean this code, quite ugly.
+        //DEFINTELY UGLY CODE, CLEAN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! - Move vscrollview and hscrollview creation to split methods returning the views themselves. So this->addChild(createHorizontalScrollView) or previously created vScrollView->addChild(createHorizontalScrollView) is much nicer.
     {
-        Size hScrollFrameSize = Size(visibleSize.width, visibleSize.height / 3);
+    
+        Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height * 0.82);
+    
+        auto vScrollView = cocos2d::ui::ScrollView::create();
+        vScrollView->setContentSize(vScrollFrameSize);
+        vScrollView->setPosition(origin);
+        vScrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
+        vScrollView->setTouchEnabled(true);
+        vScrollView->setBounceEnabled(true);
+        vScrollView->setInnerContainerSize(Size(visibleSize.width, visibleSize.height * 2));
+        vScrollView->setScrollBarEnabled(false);
+        vScrollView->setSwallowTouches(false);
+        this->addChild(vScrollView, 1);
+    
+        this->addListenerToScrollView(vScrollView);
         
+        toBeAddedTo = vScrollView;
+        maxLines = 4;
+    }
+    
+    for(int j = 0; j < maxLines; j++)
+    {
         auto scrollView = cocos2d::ui::ScrollView::create();
         
-        scrollView->setContentSize(hScrollFrameSize);
-        scrollView->setPosition(Size(origin.x,origin.y + visibleSize.height * 2 - visibleSize.height / 2 * (j + 1)));
+        if(category < 2)
+        {
+            scrollView->setContentSize(Size(visibleSize.width, visibleSize.height / 3));
+            scrollView->setPosition(Size(origin.x,origin.y + visibleSize.height * 2 - visibleSize.height / 2 * (j + 1)));
+        }
+        else
+        {
+            scrollView->setContentSize(Size(visibleSize.width, 1100));
+            scrollView->setPosition(Size(origin.x, origin.y + 50));
+        }
+        
         scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
         scrollView->setBounceEnabled(true);
         scrollView->setTouchEnabled(true);
-        scrollView->setInnerContainerSize(Size(visibleSize.width * 2, visibleSize.height / 3));
+        scrollView->setInnerContainerSize(Size(visibleSize.width * 2, scrollView->getContentSize().height));
         scrollView->setSwallowTouches(false);
         scrollView->setScrollBarEnabled(false);
-        scrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
-        scrollView->setBackGroundColor(Color3B(20,0,0));
         
-        vScrollView->addChild(scrollView);
+        toBeAddedTo->addChild(scrollView);
         
         std::vector<std::string> filenames;
         filenames.push_back("res/previewimg/1a.png");
         filenames.push_back("res/previewimg/1b.png");
         filenames.push_back("res/previewimg/1c.png"); //TO BE REMOVED, JUST FOR PLACEHOLDER PURPOSES
         
+        Point placement = Point(50, 50);
+        
         for(int i = 0; i < 8; i++)
         {
+            int highlight = 0;
+            
             auto hqSceneElement = HQSceneElement::create();
-            hqSceneElement->addHQSceneElement(category, 0, "res/previewimg/1a.png", "Angry Birds");
-            //hqSceneElement->setPosition(100 + i * 450, 50);
-            hqSceneElement->setPosition(50 + i * 350, 50);
+            hqSceneElement->addHQSceneElement(category, highlight, "res/previewimg/1a.png", "Angry Birds");
+            hqSceneElement->setPosition(Point(i * hqSceneElement->getSizeOfLayerWithGap().width, 50));
             scrollView->addChild(hqSceneElement);
         }
     }

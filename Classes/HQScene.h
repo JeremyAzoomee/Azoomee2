@@ -19,6 +19,8 @@ public:
     void setCategoryFromName(std::string name);
     void createScrollView();
     
+    cocos2d::Point calculatePositionForIcon(cocos2d::Point currentPosition, cocos2d::Size currentIconSize, cocos2d::Node *toBeAddedTo);
+    
     int category;
     
     

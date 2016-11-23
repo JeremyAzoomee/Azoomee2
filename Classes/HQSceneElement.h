@@ -16,10 +16,12 @@ public:
     void addGradientToBottom(int category);
     void addIconToImage(int category);
     void addLabelToImage(std::string name);
+    cocos2d::Size getSizeOfLayerWithGap();
     
     std::vector<cocos2d::Color4B> baseColours;
     std::vector<std::string> iconImages;
     std::vector<cocos2d::Size> baseSizes;
+    std::vector<cocos2d::Vec2> highlightSizeMultipliers;
     
     void addHQSceneElement(int category, int highlight, std::string filename, std::string name);
     

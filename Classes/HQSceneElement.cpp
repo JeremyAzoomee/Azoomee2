@@ -29,14 +29,13 @@ bool HQSceneElement::init()
     
     //This class is responsible for displaying an element on the scrollviews. The following are set up here:
     // - highlight (the size) of an icon
-    // - category of an icon (video, audio, game or art)
+    // - category of an icon (video (0), audio (1), game (2) or art (3))
     
     //Structure:
     // - we need to create a LayerColor first, cca 10px bigger than the image
     // - we put the image on
     // - we put the overlay on the top of the image (colour depending on the category)
     // - we put game icon and labels on top of the overlay image
-    
     
     fillUpColoursAndImagesArray();
     
@@ -52,6 +51,12 @@ void HQSceneElement::addHQSceneElement(int category, int highlight, std::string 
     addGradientToBottom(category);
     addIconToImage(category);
     addLabelToImage(name);
+}
+
+Size HQSceneElement::getSizeOfLayerWithGap()
+{
+    float gapSize = 40.0f;
+    return Size(baseLayer->getContentSize().width + gapSize, baseLayer->getContentSize().height + gapSize);
 }
 
 void HQSceneElement::addImageToBaseLayer(std::string filename)
@@ -82,7 +87,7 @@ void HQSceneElement::addIconToImage(int category)
 
 void HQSceneElement::addLabelToImage(std::string name)
 {
-    auto label = Label::createWithTTF(name, "fonts/arial.ttf", 20);
+    auto label = Label::createWithTTF(name, "fonts/arial.ttf", 50);
     label->setColor(Color3B(255,255,255));
     label->setPosition(baseLayer->getContentSize().width / 2, 30 + label->getContentSize().height / 2);
     baseLayer->addChild(label);
@@ -90,16 +95,20 @@ void HQSceneElement::addLabelToImage(std::string name)
 
 void HQSceneElement::createColourLayer(int category, int highlight)
 {
-    baseLayer = LayerColor::create(baseColours.at(category), baseSizes.at(highlight).width, baseSizes.at(highlight).height);
+    baseLayer = LayerColor::create(baseColours.at(category), baseSizes.at(category).width * highlightSizeMultipliers.at(highlight).x, baseSizes.at(category).height * highlightSizeMultipliers.at(highlight).y);
     this->addChild(baseLayer);
-    
 }
 
 void HQSceneElement::fillUpColoursAndImagesArray()
 {
-    baseSizes.push_back(Size(300,300));
-    baseSizes.push_back(Size(600,300));
-    baseSizes.push_back(Size(600, 600));
+    baseSizes.push_back(Size(500, 500));
+    baseSizes.push_back(Size(500, 500));
+    baseSizes.push_back(Size(500, 1000));
+    baseSizes.push_back(Size(500, 1000));
+    
+    highlightSizeMultipliers.push_back(Vec2(1, 1));
+    highlightSizeMultipliers.push_back(Vec2(2, 1));
+    highlightSizeMultipliers.push_back(Vec2(2, 2));
     
     baseColours.push_back(Color4B(255,0,0, 150));
     baseColours.push_back(Color4B(0,255,0, 150));

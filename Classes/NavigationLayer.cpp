@@ -71,10 +71,8 @@ void NavigationLayer::changeToScene(int target)
         if((target != 0)&&(target != 3))
         {
             delayTime = 0;
-        
             travelPoint = horizontalMenuItemPositions.at(i);
         }
-        
         
         menuItemImage->runAction(Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, travelPoint), 2), NULL));
         
