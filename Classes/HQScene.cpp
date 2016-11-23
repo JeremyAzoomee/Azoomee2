@@ -25,6 +25,8 @@ void HQScene::setCategoryFromName(std::string name)
     if(name == "sAudioHQ") category = 1;
     if(name == "sArtsHQ") category = 2;
     if(name == "sGameHQ") category = 3;
+    
+    CCLOG("Selected category: %d", category);
 }
 
 void HQScene::setBackground(std::string name)
@@ -131,20 +133,8 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), vScrollView);
 }
 
-// on "init" you need to initialize your instance
-bool HQScene::init()
+void HQScene::createScrollView()
 {
-    //////////////////////////////
-    // 1. super init first
-    if ( !Layer::init() )
-    {
-        return false;
-    }
-    
-    //Creating a scrollview structure. vScrollView is the main, vertical scrollview, having several children of scrollViews, that can scroll horizontally.
-    //We capture the the touches "under" the scrollView-s, and locking all horizontal movements on vertical touchMoves, and all vertical movements on horizontal touchMove.
-    //The listener works the same way, as with all other nodes.
-    
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
@@ -177,6 +167,8 @@ bool HQScene::init()
         scrollView->setInnerContainerSize(Size(visibleSize.width * 2, visibleSize.height / 3));
         scrollView->setSwallowTouches(false);
         scrollView->setScrollBarEnabled(false);
+        scrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
+        scrollView->setBackGroundColor(Color3B(20,0,0));
         
         vScrollView->addChild(scrollView);
         
@@ -189,11 +181,29 @@ bool HQScene::init()
         {
             auto hqSceneElement = HQSceneElement::create();
             hqSceneElement->addHQSceneElement(category, 0, "res/previewimg/1a.png", "Angry Birds");
-            hqSceneElement->setPosition(100 + i * 450, 50);
-            this->addChild(hqSceneElement);
+            //hqSceneElement->setPosition(100 + i * 450, 50);
+            hqSceneElement->setPosition(50 + i * 350, 50);
+            scrollView->addChild(hqSceneElement);
         }
     }
 
+}
+
+// on "init" you need to initialize your instance
+bool HQScene::init()
+{
+    //////////////////////////////
+    // 1. super init first
+    if ( !Layer::init() )
+    {
+        return false;
+    }
+    
+    //Creating a scrollview structure. vScrollView is the main, vertical scrollview, having several children of scrollViews, that can scroll horizontally.
+    //We capture the the touches "under" the scrollView-s, and locking all horizontal movements on vertical touchMoves, and all vertical movements on horizontal touchMove.
+    //The listener works the same way, as with all other nodes.
+    
+    
     
     return true;
 }

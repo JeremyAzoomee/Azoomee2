@@ -58,6 +58,7 @@ void HQSceneElement::addImageToBaseLayer(std::string filename)
 {
     auto spriteImage = Sprite::create(filename);
     spriteImage->setPosition(baseLayer->getContentSize().width / 2, baseLayer->getContentSize().height / 2);
+    spriteImage->setScale((baseLayer->getContentSize().width - 20) / spriteImage->getContentSize().width, (baseLayer->getContentSize().height - 20) / spriteImage->getContentSize().height);
     baseLayer->addChild(spriteImage);
 }
 
@@ -72,44 +73,41 @@ void HQSceneElement::addGradientToBottom(int category)
 
 void HQSceneElement::addIconToImage(int category)
 {
+    if(iconImages.at(category) == "") return; //there is chance that there is no icon given for the given category.
+        
     auto icon = Sprite::create(iconImages.at(category));
-    icon->setPosition(icon->getContentSize().width / 2, icon->getContentSize().height / 2);
+    icon->setPosition(30 + icon->getContentSize().width / 2, 30 + icon->getContentSize().height / 2);
     baseLayer->addChild(icon);
 }
 
 void HQSceneElement::addLabelToImage(std::string name)
 {
     auto label = Label::createWithTTF(name, "fonts/arial.ttf", 20);
-    label->setColor(Color3B(0,0,0));
-    label->setPosition(baseLayer->getContentSize().width / 2, label->getContentSize().height / 2);
+    label->setColor(Color3B(255,255,255));
+    label->setPosition(baseLayer->getContentSize().width / 2, 30 + label->getContentSize().height / 2);
     baseLayer->addChild(label);
 }
 
 void HQSceneElement::createColourLayer(int category, int highlight)
 {
-    Size iconSize = Size(100,100);
-    
-    if(highlight == 1) iconSize = Size(200, 100);
-    if(highlight == 2) iconSize = Size(200,200);
-    
-    baseLayer = LayerColor::create(baseColours.at(category), iconSize.width, iconSize.height);
+    baseLayer = LayerColor::create(baseColours.at(category), baseSizes.at(highlight).width, baseSizes.at(highlight).height);
     this->addChild(baseLayer);
     
 }
 
 void HQSceneElement::fillUpColoursAndImagesArray()
 {
-    baseSizes.push_back(Size(100,100));
-    baseSizes.push_back(Size(220,100));
-    baseSizes.push_back(Size(220, 220));
+    baseSizes.push_back(Size(300,300));
+    baseSizes.push_back(Size(600,300));
+    baseSizes.push_back(Size(600, 600));
     
     baseColours.push_back(Color4B(255,0,0, 150));
     baseColours.push_back(Color4B(0,255,0, 150));
+    baseColours.push_back(Color4B(255,255,0, 150));
     baseColours.push_back(Color4B(0,0,255, 150));
-    baseColours.push_back(Color4B(0,255,255, 150));
     
     iconImages.push_back("res/hqscene/icon_watch.png");
     iconImages.push_back("res/hqscene/icon_watch.png");
-    iconImages.push_back("res/hqscene/icon_play.png");
     iconImages.push_back("");
+    iconImages.push_back("res/hqscene/icon_play.png");
 }

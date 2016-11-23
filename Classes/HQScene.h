@@ -17,6 +17,7 @@ public:
     void setName(std::string name);
     void setBackground(std::string name);
     void setCategoryFromName(std::string name);
+    void createScrollView();
     
     int category;
     
