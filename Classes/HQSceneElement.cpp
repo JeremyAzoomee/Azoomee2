@@ -30,6 +30,7 @@ bool HQSceneElement::init()
     //This class is responsible for displaying an element on the scrollviews. The following are set up here:
     // - highlight (the size) of an icon
     // - category of an icon (video (0), audio (1), game (2) or art (3))
+    // - setting up touch listener for a button and loading the content that it addresses (usually a webview, that is native in android and ios)
     
     //Structure:
     // - we need to create a LayerColor first, cca 10px bigger than the image
@@ -44,13 +45,15 @@ bool HQSceneElement::init()
     return true;
 }
 
-void HQSceneElement::addHQSceneElement(int category, int highlight, std::string filename, std::string name)
+void HQSceneElement::addHQSceneElement(int category, int highlight, std::string filename, std::string name) //This method is being called by HQScene.cpp with all variables.
 {
     createColourLayer(category, highlight);
     addImageToBaseLayer(filename); //There will be a few additional steps: add a placeholder image and start loading the real image based on downloaded data. No back-end implemented yet, TBD later.
     addGradientToBottom(category);
     addIconToImage(category);
     addLabelToImage(name);
+    addTouchOverlayToElement();
+    addListenerToElement();
 }
 
 Size HQSceneElement::getSizeOfLayerWithGap()
@@ -93,6 +96,12 @@ void HQSceneElement::addLabelToImage(std::string name)
     baseLayer->addChild(label);
 }
 
+void HQSceneElement::addTouchOverlayToElement()
+{
+    overlayWhenTouched = LayerColor::create(Color4B(baseLayer->getColor().r, baseLayer->getColor().g, baseLayer->getColor().b, 0), baseLayer->getContentSize().width, baseLayer->getContentSize().height);
+    baseLayer->addChild(overlayWhenTouched);
+}
+
 void HQSceneElement::createColourLayer(int category, int highlight)
 {
     baseLayer = LayerColor::create(baseColours.at(category), baseSizes.at(category).width * highlightSizeMultipliers.at(highlight).x, baseSizes.at(category).height * highlightSizeMultipliers.at(highlight).y);
@@ -119,4 +128,49 @@ void HQSceneElement::fillUpColoursAndImagesArray()
     iconImages.push_back("res/hqscene/icon_watch.png");
     iconImages.push_back("");
     iconImages.push_back("res/hqscene/icon_play.png");
+}
+
+void HQSceneElement::addListenerToElement()
+{
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(false);
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
+    {
+        auto target = static_cast<Node*>(event->getCurrentTarget());
+        
+        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+        Size s = target->getBoundingBox().size;//getContentSize();
+        Rect rect = Rect(0,0,s.width, s.height);
+        
+        if(rect.containsPoint(locationInNode))
+        {
+            overlayWhenTouched->runAction(FadeTo::create(0, 150));
+            
+            return true;
+        }
+        
+        return false;
+    };
+    
+    listener->onTouchMoved = [=](Touch *touch, Event *event)
+    {
+        overlayWhenTouched->stopAllActions();
+        overlayWhenTouched->runAction(FadeTo::create(0, 0));
+        
+        return true;
+    };
+    
+    listener->onTouchEnded = [=](Touch *touch, Event *event)
+    {
+        if(overlayWhenTouched->getOpacity() > 0)
+        {
+            overlayWhenTouched->stopAllActions();
+            overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
+            CCLOG("Action to come");
+        }
+        
+        return true;
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), baseLayer);
 }

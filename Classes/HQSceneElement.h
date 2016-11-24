@@ -26,6 +26,10 @@ public:
     void addHQSceneElement(int category, int highlight, std::string filename, std::string name);
     
     cocos2d::LayerColor *baseLayer;
+    cocos2d::LayerColor *overlayWhenTouched;
+    
+    void addTouchOverlayToElement();
+    void addListenerToElement();
     
     // implement the "static create()" method manually
     CREATE_FUNC(HQSceneElement);
