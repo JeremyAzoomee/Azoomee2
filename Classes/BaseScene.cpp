@@ -48,25 +48,25 @@ bool BaseScene::init()
     auto sVideoHQ = HQScene::create();
     sVideoHQ->setPosition(2732, 0);
     sVideoHQ->setName("sVideoHQ");
-    sVideoHQ->createScrollView();
+    sVideoHQ->createBidirectionalScrollView();
     contentLayer->addChild(sVideoHQ);
     
     auto sGameHQ = HQScene::create();
     sGameHQ->setPosition(0, -2048);
     sGameHQ->setName("sGameHQ");
-    sGameHQ->createScrollView();
+    sGameHQ->createMonodirectionalScrollView();
     contentLayer->addChild(sGameHQ);
     
     auto sAudioHQ = HQScene::create();
     sAudioHQ->setPosition(-2732, 0);
     sAudioHQ->setName("sAudioHQ");
-    sAudioHQ->createScrollView();
+    sAudioHQ->createMonodirectionalScrollView();
     contentLayer->addChild(sAudioHQ);
     
     auto sArtsHQ = HQScene::create();
     sArtsHQ->setPosition(0, 2048);
     sArtsHQ->setName("sArtsHQ");
-    sArtsHQ->createScrollView();
+    sArtsHQ->createMonodirectionalScrollView();
     contentLayer->addChild(sArtsHQ);
     
     //Adding InterSceneLoader to top of all layers, but below main navigation, because we want to hide all layers, except for the menu

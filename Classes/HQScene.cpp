@@ -133,79 +133,90 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), vScrollView);
 }
 
-void HQScene::createScrollView()
+cocos2d::ui::ScrollView* HQScene::createVerticalScrollView()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Node *toBeAddedTo = this;
-    int maxLines = 1;
+    Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height * 0.82);
     
-    if(category < 2) //We need the dual scrollview only when in video / audio mode. Need to clean this code, quite ugly.
-        //DEFINTELY UGLY CODE, CLEAN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! - Move vscrollview and hscrollview creation to split methods returning the views themselves. So this->addChild(createHorizontalScrollView) or previously created vScrollView->addChild(createHorizontalScrollView) is much nicer.
+    cocos2d::ui::ScrollView *vScrollView = cocos2d::ui::ScrollView::create();
+    vScrollView->setContentSize(vScrollFrameSize);
+    vScrollView->setPosition(origin);
+    vScrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
+    vScrollView->setTouchEnabled(true);
+    vScrollView->setBounceEnabled(true);
+    vScrollView->setInnerContainerSize(Size(visibleSize.width, visibleSize.height * 2));
+    vScrollView->setScrollBarEnabled(false);
+    vScrollView->setSwallowTouches(false);
+    
+    addListenerToScrollView(vScrollView);
+
+    return vScrollView;
+}
+
+cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position)
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto scrollView = cocos2d::ui::ScrollView::create();
+    scrollView->setContentSize(contentSize);
+    scrollView->setPosition(position);
+    scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
+    scrollView->setBounceEnabled(true);
+    scrollView->setTouchEnabled(true);
+    scrollView->setInnerContainerSize(Size(visibleSize.width * 2, scrollView->getContentSize().height));
+    scrollView->setSwallowTouches(false);
+    scrollView->setScrollBarEnabled(false);
+    scrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
+    scrollView->setBackGroundColor(Color3B::BLUE);
+    
+    return scrollView;
+}
+
+void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, int category, int highlight, std::string imageName, std::string label)
+{
+    int amountOfElements = (int)toBeAddedTo->getChildren().size();
+    
+    auto hqSceneElement = HQSceneElement::create();
+    hqSceneElement->addHQSceneElement(category, highlight, imageName, label);
+    hqSceneElement->setPosition(Point(amountOfElements * hqSceneElement->getSizeOfLayerWithGap().width, 50));
+    toBeAddedTo->addChild(hqSceneElement);
+}
+
+void HQScene::createMonodirectionalScrollView() //This is the method that is being called from outside of the class
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1100), Point(origin.x, origin.y + 50));
+    this->addChild(horizontalScrollView);
+    
+    //This is just to add fake icons to the scrollview:
+    for(int i = 0; i < 8; i++)
     {
-    
-        Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height * 0.82);
-    
-        auto vScrollView = cocos2d::ui::ScrollView::create();
-        vScrollView->setContentSize(vScrollFrameSize);
-        vScrollView->setPosition(origin);
-        vScrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
-        vScrollView->setTouchEnabled(true);
-        vScrollView->setBounceEnabled(true);
-        vScrollView->setInnerContainerSize(Size(visibleSize.width, visibleSize.height * 2));
-        vScrollView->setScrollBarEnabled(false);
-        vScrollView->setSwallowTouches(false);
-        this->addChild(vScrollView, 1);
-    
-        this->addListenerToScrollView(vScrollView);
-        
-        toBeAddedTo = vScrollView;
-        maxLines = 4;
+        addElementToHorizontalScrollView(horizontalScrollView, category, 0, "res/previewimg/1a.png", "Angry Birds");
     }
+}
+
+void HQScene::createBidirectionalScrollView() //This is the method that is being called from outside of the class
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    for(int j = 0; j < maxLines; j++)
+    auto verticalScrollView = createVerticalScrollView();
+    this->addChild(verticalScrollView);
+    
+    for(int j = 0; j < 4; j++)
     {
-        auto scrollView = cocos2d::ui::ScrollView::create();
-        
-        if(category < 2)
-        {
-            scrollView->setContentSize(Size(visibleSize.width, visibleSize.height / 3));
-            scrollView->setPosition(Size(origin.x,origin.y + visibleSize.height * 2 - visibleSize.height / 2 * (j + 1)));
-        }
-        else
-        {
-            scrollView->setContentSize(Size(visibleSize.width, 1100));
-            scrollView->setPosition(Size(origin.x, origin.y + 50));
-        }
-        
-        scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
-        scrollView->setBounceEnabled(true);
-        scrollView->setTouchEnabled(true);
-        scrollView->setInnerContainerSize(Size(visibleSize.width * 2, scrollView->getContentSize().height));
-        scrollView->setSwallowTouches(false);
-        scrollView->setScrollBarEnabled(false);
-        
-        toBeAddedTo->addChild(scrollView);
-        
-        std::vector<std::string> filenames;
-        filenames.push_back("res/previewimg/1a.png");
-        filenames.push_back("res/previewimg/1b.png");
-        filenames.push_back("res/previewimg/1c.png"); //TO BE REMOVED, JUST FOR PLACEHOLDER PURPOSES
-        
-        Point placement = Point(50, 50);
+        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1000), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
+        CCLOG("scrollview position: %f, %f", horizontalScrollView->getPosition().x, horizontalScrollView->getPosition().y);
+        verticalScrollView->addChild(horizontalScrollView);
         
         for(int i = 0; i < 8; i++)
         {
-            int highlight = 0;
-            
-            auto hqSceneElement = HQSceneElement::create();
-            hqSceneElement->addHQSceneElement(category, highlight, "res/previewimg/1a.png", "Angry Birds");
-            hqSceneElement->setPosition(Point(i * hqSceneElement->getSizeOfLayerWithGap().width, 50));
-            scrollView->addChild(hqSceneElement);
+            addElementToHorizontalScrollView(horizontalScrollView, category, 0, "res/previewimg/1a.png", "Angry Birds");
         }
     }
-
 }
 
 // on "init" you need to initialize your instance
@@ -221,7 +232,6 @@ bool HQScene::init()
     //Creating a scrollview structure. vScrollView is the main, vertical scrollview, having several children of scrollViews, that can scroll horizontally.
     //We capture the the touches "under" the scrollView-s, and locking all horizontal movements on vertical touchMoves, and all vertical movements on horizontal touchMove.
     //The listener works the same way, as with all other nodes.
-    
     
     
     return true;
