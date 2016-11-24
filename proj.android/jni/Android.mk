@@ -21,11 +21,11 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/MainHubBgElements.cpp \
                    ../../Classes/MainHubScene.cpp \
                    ../../Classes/NavigationLayer.cpp \
-                   ../../Classes/WebViewScene_ios.cpp \
+                   ../../Classes/WebViewSelector.cpp \
                    ../../Classes/ImageContainer.cpp \
                    ../../Classes/OomeeLayer.cpp \
                    ../../Classes/InterSceneLoader.cpp \
-                   ../../Classes/HQSceneElement.cpp
+                   ../../Classes/HQSceneElement.cpp \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
