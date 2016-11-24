@@ -29,6 +29,24 @@ void HQScene::setCategoryFromName(std::string name)
     CCLOG("Selected category: %d", category);
 }
 
+Point HQScene::getItemPositionForBidirectionalScrollView(int highlight)
+{
+    Size baseSize = Size(520, 520);
+    Point resultPoint = Point(50,50);
+    int allocatedAmount = 1;
+    
+    if((highlight == 1)||(highlight == 2))
+    {
+        if(scrollViewSpaceAllocation.size() % 2 == 1) scrollViewSpaceAllocation.push_back(false); //if the last item is on the down side, we have to skip a column, as big item is coming.
+        allocatedAmount = highlight * 2;                                                          //we need to allocate the amount of base-spaces - 2 for highlight = 1, 4 for highlight = 2
+    }
+    
+    resultPoint = Point(20 + scrollViewSpaceAllocation.size() / 2 * baseSize.width, scrollViewSpaceAllocation.size() % 2 * baseSize.height + 20);
+    for(int i = 0; i < allocatedAmount; i++) scrollViewSpaceAllocation.push_back(true);
+    
+    return resultPoint;
+}
+
 void HQScene::setBackground(std::string name)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -167,19 +185,22 @@ cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size conte
     scrollView->setInnerContainerSize(Size(visibleSize.width * 2, scrollView->getContentSize().height));
     scrollView->setSwallowTouches(false);
     scrollView->setScrollBarEnabled(false);
-    scrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
-    scrollView->setBackGroundColor(Color3B::BLUE);
     
     return scrollView;
 }
 
-void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, int category, int highlight, std::string imageName, std::string label)
+void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, Point position, int category, int highlight, std::string imageName, std::string label)
 {
-    int amountOfElements = (int)toBeAddedTo->getChildren().size();
-    
     auto hqSceneElement = HQSceneElement::create();
     hqSceneElement->addHQSceneElement(category, highlight, imageName, label);
-    hqSceneElement->setPosition(Point(amountOfElements * hqSceneElement->getSizeOfLayerWithGap().width, 50));
+    
+    if((position.x == 0)&&(position.y == 0))
+    {
+        int amountOfElements = (int)toBeAddedTo->getChildren().size();
+        position = (Point(amountOfElements * hqSceneElement->getSizeOfLayerWithGap().width, 50));
+    }
+
+    hqSceneElement->setPosition(position);
     toBeAddedTo->addChild(hqSceneElement);
 }
 
@@ -194,7 +215,7 @@ void HQScene::createMonodirectionalScrollView() //This is the method that is bei
     //This is just to add fake icons to the scrollview:
     for(int i = 0; i < 8; i++)
     {
-        addElementToHorizontalScrollView(horizontalScrollView, category, 0, "res/previewimg/1a.png", "Angry Birds");
+        addElementToHorizontalScrollView(horizontalScrollView, Point(0,0), category, 0, "res/previewimg/1a.png", "Angry Birds");
     }
 }
 
@@ -208,13 +229,17 @@ void HQScene::createBidirectionalScrollView() //This is the method that is being
     
     for(int j = 0; j < 4; j++)
     {
-        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1000), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
+        scrollViewSpaceAllocation.clear();
+        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1100), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
         CCLOG("scrollview position: %f, %f", horizontalScrollView->getPosition().x, horizontalScrollView->getPosition().y);
         verticalScrollView->addChild(horizontalScrollView);
         
-        for(int i = 0; i < 8; i++)
+        for(int i = 0; i < 16; i++)
         {
-            addElementToHorizontalScrollView(horizontalScrollView, category, 0, "res/previewimg/1a.png", "Angry Birds");
+            int highlight = 0;
+            if(i % 6 == 0) highlight = 2;
+            if(i % 7 == 0) highlight = 1;
+            addElementToHorizontalScrollView(horizontalScrollView, getItemPositionForBidirectionalScrollView(highlight), category, highlight, "res/previewimg/1a.png", "Angry Birds");
         }
     }
 }

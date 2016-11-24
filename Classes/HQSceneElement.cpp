@@ -107,8 +107,8 @@ void HQSceneElement::fillUpColoursAndImagesArray()
     baseSizes.push_back(Size(500, 1000));
     
     highlightSizeMultipliers.push_back(Vec2(1, 1));
-    highlightSizeMultipliers.push_back(Vec2(2, 1));
-    highlightSizeMultipliers.push_back(Vec2(2, 2));
+    highlightSizeMultipliers.push_back(Vec2(1, 2.04f));
+    highlightSizeMultipliers.push_back(Vec2(2.04f, 2.04f)); // we have to keep gaps in mind as well, this is the reason that the multipliers are not integers.
     
     baseColours.push_back(Color4B(255,0,0, 150));
     baseColours.push_back(Color4B(0,255,0, 150));

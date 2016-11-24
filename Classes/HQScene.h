@@ -22,10 +22,13 @@ public:
     
     cocos2d::ui::ScrollView* createVerticalScrollView();
     cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position);
-    void addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, int category, int highlight, std::string imageName, std::string label);
+    void addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, cocos2d::Point position, int category, int highlight, std::string imageName, std::string label);
     
     void createBidirectionalScrollView();
     void createMonodirectionalScrollView();
+    
+    std::vector<bool> scrollViewSpaceAllocation;
+    cocos2d::Point getItemPositionForBidirectionalScrollView(int highlight);
     
     int category;
     
