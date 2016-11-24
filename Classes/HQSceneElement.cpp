@@ -102,7 +102,7 @@ void HQSceneElement::createColourLayer(int category, int highlight)
 void HQSceneElement::fillUpColoursAndImagesArray()
 {
     baseSizes.push_back(Size(500, 500));
-    baseSizes.push_back(Size(500, 500));
+    baseSizes.push_back(Size(500, 1000));
     baseSizes.push_back(Size(500, 1000));
     baseSizes.push_back(Size(500, 1000));
     
