@@ -3,10 +3,10 @@
 
 USING_NS_CC;
 
-Scene* WebViewSelector::createScene()
+cocos2d::Scene* WebViewSelector::createScene()
 {
     // 'scene' is an autorelease object
-    auto scene = Scene::create();
+    auto scene = cocos2d::Scene::create();
     
     // 'layer' is an autorelease object
     auto layer = WebViewSelector::create();
@@ -28,8 +28,8 @@ bool WebViewSelector::init()
         return false;
     }
     
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
     
     auto iosWebView = WebViewNative_ios::create();
     this->addChild(iosWebView);

@@ -1,6 +1,8 @@
 #include "WebViewNative_ios.h"
+#include "BaseScene.h"
 
 USING_NS_CC;
+
 
 Scene* WebViewNative_ios::createScene()
 {
@@ -27,16 +29,73 @@ bool WebViewNative_ios::init()
         return false;
     }
     
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    addWebViewToScreen();
+    addBackButtonToScreen();
+    addListenerToBackButton();
+
+    return true;
+}
+
+void WebViewNative_ios::addWebViewToScreen()
+{
+    UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
-    UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(0, 0, 1024,768)];
+    UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, currentView.frame.size.width, currentView.frame.size.height)];
     NSString *url=@"http://www.google.com";
     NSURL *nsurl=[NSURL URLWithString:url];
     NSURLRequest *nsrequest=[NSURLRequest requestWithURL:nsurl];
-    [webview setCenter:CGPointMake(500, 500)];
     [webview loadRequest:nsrequest];
-    [(UIView*)Director::getInstance()->getOpenGLView()->getEAGLView() addSubview:webview];
+    [webview setExclusiveTouch:false];
+    [currentView addSubview:webview];
+    
+}
 
-    return true;
+void WebViewNative_ios::addBackButtonToScreen()
+{
+    cocos2d::Point origin = Director::getInstance()->getVisibleOrigin();
+    
+    backButton = Sprite::create("CloseNormal.png");
+    backButton->setScale(3);
+    backButton->setPosition(origin.x + backButton->getBoundingBox().size.width / 2, origin.y + backButton->getBoundingBox().size.height / 2);
+    this->addChild(backButton);
+}
+
+void WebViewNative_ios::removeWebViewAndBack()
+{
+    UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
+    
+    for(UIView *subview in currentView.subviews)
+    {
+        [subview removeFromSuperview];
+    }
+    
+    auto baseScene = BaseScene::createScene();
+    Director::getInstance()->replaceScene(baseScene);
+}
+
+void WebViewNative_ios::addListenerToBackButton()
+{
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(false);
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
+    {
+        CCLOG("touch captured");
+        
+        auto target = static_cast<Node*>(event->getCurrentTarget());
+        
+        cocos2d::Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+        cocos2d::Size s = target->getBoundingBox().size;//getContentSize();
+        cocos2d::Rect rect = cocos2d::Rect(0,0,s.width, s.height);
+        
+        if(rect.containsPoint(locationInNode))
+        {
+            CCLOG("touch on target, %f, %f", touch->getLocation().x, touch->getLocation().y);
+            this->removeWebViewAndBack();
+            return true;
+        }
+        
+        return false;
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), backButton);
 }

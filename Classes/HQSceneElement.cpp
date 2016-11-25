@@ -169,8 +169,8 @@ void HQSceneElement::addListenerToElement()
             overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
             CCLOG("Action to come");
             
-            auto webView = WebViewSelector::create();
-            this->addChild(webView);
+            auto webView = WebViewSelector::createScene();
+            Director::getInstance()->replaceScene(webView);
         }
         
         return true;
