@@ -1,5 +1,8 @@
 #include "WebViewSelector.h"
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "WebViewNative_ios.h"
+#endif
 
 USING_NS_CC;
 
@@ -18,6 +21,29 @@ cocos2d::Scene* WebViewSelector::createScene()
     return scene;
 }
 
+void WebViewSelector::loadWebView()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    auto iosWebView = WebViewNative_ios::createScene();
+    Director::getInstance()->replaceScene(iosWebView);
+#endif
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    cocos2d::JniMethodInfo methodInfo;
+    
+    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "alertJNI", "(Ljava/lang/String;)V"))
+    {
+        return;
+    }
+    
+    jstring myVariable = methodInfo.env->NewStringUTF("http://www.bonis.me/azoomee/game/index.html");
+    
+    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, myVariable);
+    methodInfo.env->DeleteLocalRef(methodInfo.classID);
+        
+#endif
+}
+
 // on "init" you need to initialize your instance
 bool WebViewSelector::init()
 {
@@ -27,12 +53,6 @@ bool WebViewSelector::init()
     {
         return false;
     }
-    
-    auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-    cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
-    
-    auto iosWebView = WebViewNative_ios::create();
-    this->addChild(iosWebView);
 
     
     return true;

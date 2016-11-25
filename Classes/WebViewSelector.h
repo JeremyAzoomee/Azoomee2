@@ -12,6 +12,8 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(WebViewSelector);
+    
+    void loadWebView();
 };
 
 #endif // __WEBVIEW_SCENE_H__

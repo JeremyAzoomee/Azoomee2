@@ -13,7 +13,19 @@ LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/AppDelegate.cpp \
-                   ../../../Classes/HelloWorldScene.cpp
+                   ../../../Classes/BaseScene.cpp \
+                   ../../../Classes/ChildSelectorScene.cpp \
+                   ../../../Classes/HQScene.cpp \
+                   ../../../Classes/IntroScene.cpp \
+                   ../../../Classes/LoginScene.cpp \
+                   ../../../Classes/MainHubBgElements.cpp \
+                   ../../../Classes/MainHubScene.cpp \
+                   ../../../Classes/NavigationLayer.cpp \
+                   ../../../Classes/WebViewSelector.cpp \
+                   ../../../Classes/ImageContainer.cpp \
+                   ../../../Classes/OomeeLayer.cpp \
+                   ../../../Classes/InterSceneLoader.cpp \
+                   ../../../Classes/HQSceneElement.cpp \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

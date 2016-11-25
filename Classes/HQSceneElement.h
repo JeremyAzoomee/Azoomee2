@@ -31,6 +31,9 @@ public:
     void addTouchOverlayToElement();
     void addListenerToElement();
     
+    cocos2d::Point touchPoint;
+    bool movedAway;
+    
     // implement the "static create()" method manually
     CREATE_FUNC(HQSceneElement);
 };

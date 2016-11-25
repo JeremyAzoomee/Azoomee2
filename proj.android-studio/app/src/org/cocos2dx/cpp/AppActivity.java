@@ -23,7 +23,41 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.cpp;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 public class AppActivity extends Cocos2dxActivity {
+
+    private static Context mContext;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = this;
+
+    }
+
+    public static void alertJNI(String receivedMessage) {
+        String tag = "JniTest";
+        String message = "I've been called from C++";
+        Log.d(tag, "Showing alert dialog: " + message + receivedMessage);
+
+        Intent nvw = new Intent(mContext, NativeView.class);
+        nvw.putExtra("url", receivedMessage);
+        mContext.startActivity(nvw);
+
+        //Intent i = new Intent(getApplicationContext(), NativeView.class);
+        //startActivity(i);
+
+    }
+
+    public static String getAnswer()
+    {
+        return "AndroidAnswer";
+    }
+
 }

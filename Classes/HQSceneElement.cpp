@@ -146,6 +146,8 @@ void HQSceneElement::addListenerToElement()
         if(rect.containsPoint(locationInNode))
         {
             overlayWhenTouched->runAction(FadeTo::create(0, 150));
+            movedAway = false;
+            touchPoint = touch->getLocation();
             
             return true;
         }
@@ -155,8 +157,12 @@ void HQSceneElement::addListenerToElement()
     
     listener->onTouchMoved = [=](Touch *touch, Event *event)
     {
-        overlayWhenTouched->stopAllActions();
-        overlayWhenTouched->runAction(FadeTo::create(0, 0));
+        if((touch->getLocation().distance(touchPoint) > 10)&&(!movedAway))
+        {
+            movedAway = true;
+            overlayWhenTouched->stopAllActions();
+            overlayWhenTouched->runAction(FadeTo::create(0, 0));
+        }
         
         return true;
     };
@@ -169,8 +175,8 @@ void HQSceneElement::addListenerToElement()
             overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
             CCLOG("Action to come");
             
-            auto webView = WebViewSelector::createScene();
-            Director::getInstance()->replaceScene(webView);
+            auto webViewSelector = WebViewSelector::create();
+            webViewSelector->loadWebView();
         }
         
         return true;
