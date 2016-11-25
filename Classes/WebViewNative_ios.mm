@@ -41,10 +41,19 @@ void WebViewNative_ios::addWebViewToScreen()
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
     UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, currentView.frame.size.width, currentView.frame.size.height)];
-    NSString *url=@"http://www.google.com";
-    NSURL *nsurl=[NSURL URLWithString:url];
+    //NSString *url=@"http://www.google.com";
+    
+    NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"res/previewGame/game/index" ofType:@"html"];
+    NSURL *nsurl=[NSURL URLWithString:htmlFile];
     NSURLRequest *nsrequest=[NSURLRequest requestWithURL:nsurl];
     [webview loadRequest:nsrequest];
+    
+    NSLog(@"%@", htmlFile);
+    
+    //[webview loadHTMLString:htmlString baseURL: [[NSBundle mainBundle] bundleURL]];
+    //NSURL *nsurl=[NSURL URLWithString:url];
+    //NSURLRequest *nsrequest=[NSURLRequest requestWithURL:nsurl];
+    //[webview loadRequest:nsrequest];
     [webview setExclusiveTouch:false];
     [currentView addSubview:webview];
     

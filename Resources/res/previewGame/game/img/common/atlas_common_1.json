@@ -1,0 +1,60 @@
+{"frames": {
+
+"buttons/no_button.png":
+{
+	"frame": {"x":2,"y":718,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":16,"w":64,"h":64},
+	"sourceSize": {"w":96,"h":96}
+},
+"buttons/ui_button_audio_all_turn_off_down.png":
+{
+	"frame": {"x":2,"y":784,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":16,"w":64,"h":64},
+	"sourceSize": {"w":96,"h":96}
+},
+"game_win_qp_bg_left.png":
+{
+	"frame": {"x":2,"y":2,"w":570,"h":640},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":570,"h":640},
+	"sourceSize": {"w":1136,"h":640}
+},
+"timeout_bar/timeout_bar_base.png":
+{
+	"frame": {"x":2,"y":644,"w":624,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":0,"w":624,"h":72},
+	"sourceSize": {"w":640,"h":72}
+},
+"timeout_bar/timeout_bar_progress_00.png":
+{
+	"frame": {"x":2,"y":850,"w":605,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":605,"h":32},
+	"sourceSize": {"w":605,"h":32}
+},
+"timeout_bar/timeout_bar_progress_01.png":
+{
+	"frame": {"x":68,"y":718,"w":605,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":605,"h":32},
+	"sourceSize": {"w":605,"h":32}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "atlas_common_1.png",
+	"format": "RGBA8888",
+	"size": {"w":1024,"h":1024},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:eea89a8b6fd717316d345beb47ff1547:ad18c60a73422f2ddd986aa55bc3e491:9f7a710fc1e00774e1be10afd4ea1c2d$"
+}
+}

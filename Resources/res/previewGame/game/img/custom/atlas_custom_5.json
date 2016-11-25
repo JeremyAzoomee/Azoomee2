@@ -1,0 +1,44 @@
+{"frames": {
+
+"background_2_left.png":
+{
+	"frame": {"x":2,"y":2,"w":642,"h":720},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":642,"h":720},
+	"sourceSize": {"w":1280,"h":720}
+},
+"column_1.png":
+{
+	"frame": {"x":646,"y":2,"w":118,"h":718},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":118,"h":718},
+	"sourceSize": {"w":120,"h":720}
+},
+"column_1_faded.png":
+{
+	"frame": {"x":766,"y":2,"w":118,"h":718},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":118,"h":718},
+	"sourceSize": {"w":120,"h":720}
+},
+"column_2.png":
+{
+	"frame": {"x":886,"y":2,"w":118,"h":718},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":118,"h":718},
+	"sourceSize": {"w":120,"h":720}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "atlas_custom_5.png",
+	"format": "RGBA8888",
+	"size": {"w":1024,"h":1024},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1673c700d6548eff86bdb931d3d2b9d2:8335878c6de50c925dbb378271335b93:8ad237bbbf0374ccd9997d241f800a7e$"
+}
+}

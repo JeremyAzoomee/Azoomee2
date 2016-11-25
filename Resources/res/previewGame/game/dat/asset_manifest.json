@@ -1,0 +1,33 @@
+{
+  "atlases": [
+    {"url":"img/common/atlas_common_#", "count":5},
+    {"url":"img/custom/atlas_custom_#", "count":13}
+  ],
+  "atlas": [
+
+  ],
+  "image": [
+
+  ],
+  "json": [
+    {"key":"cry", "url":"dat/skeleton_cry.json"},
+    {"key":"dog_anim", "url":"dat/dog_anim.json"},
+    {"key":"fruit_death_anim", "url":"dat/fruit_death_anim.json"},
+    {"key":"oomee_anim", "url":"dat/oomee_anim.json"}
+  ],
+  "bitmapFont": [
+    {"key":"oomee_font","url":"fnt/oomee_font.fnt","img":"fnt/oomee_font_0.png"},
+    {"key":"oomee_font_word","url":"fnt/oomee_font_word.fnt","img":"fnt/oomee_font_word_0.png"},
+    {"key":"oomee_font_word_blue","url":"fnt/oomee_font_word.fnt","img":"fnt/oomee_font_word_blue.png"},
+    {"key":"oomee_font_white","url":"fnt/oomee_font.fnt","img":"fnt/oomee_font_white.png"},
+    {"key":"oomee_font_colour","url":"fnt/oomee_font.fnt","img":"fnt/oomee_font_colour.png"},
+    {"key":"oomee_font_stroke","url":"fnt/oomee_font.fnt","img":"fnt/oomee_font_stroke.png"}
+  ],
+  "physics": [
+
+  ],
+  "audio": [
+    {"key":"masterAudio", "url":"snd/audio_sprites"}
+
+  ]
+}
