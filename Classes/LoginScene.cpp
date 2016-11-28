@@ -24,11 +24,28 @@ bool LoginScene::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
+    //Adding background elements to the login page
+    
+    auto leftBg = Sprite::create("res/login/wire_left.png");
+    leftBg->setPosition(0 + leftBg->getContentSize().width / 2,0);
+    this->addChild(leftBg);
+    
+    auto rightBg = Sprite::create("res/login/wire_right.png");
+    rightBg->setPosition(origin.x + visibleSize.width - rightBg->getContentSize().width / 2, 0);
+    this->addChild(rightBg);
+    
     //we add an additional layer that will slide on the screen between the username and the password.
     //we add all input elements on this layer.
     
     auto loginContent = Layer::create();
+    loginContent->setContentSize(Size(visibleSize.width * 2, visibleSize.height));
+    loginContent->setPosition(Point(origin.x, origin.y));
     this->addChild(loginContent);
+    
+    //username and password will sit on this layer, left side is for the username (e-mail address)
+    //right side is for the password field.
+    
+    
 
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
