@@ -13,6 +13,14 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
     
+    void addVisualElementsToScene();
+    void addFunctionalElementsToScene();
+    void addContentLayerToScene();
+    void addTextBoxesToLayer();
+    void addButtonsToLayer();
+    void addListenerToNextScreenButton();
+    void addListenerToLoginButton();
+    
     // implement the "static create()" method manually
     CREATE_FUNC(LoginScene);
 };
