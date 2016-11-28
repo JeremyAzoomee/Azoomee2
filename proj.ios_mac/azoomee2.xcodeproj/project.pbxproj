@@ -350,6 +350,7 @@
 				A198622D1DD480A60090F053 /* BaseScene.h */,
 				A198621D1DD3836D0090F053 /* NavigationLayer.cpp */,
 				A198621E1DD3836D0090F053 /* NavigationLayer.h */,
+				A15B2FA41DEC73B800D25334 /* Login */,
 				A1817B481DDCB74900C2D13C /* MainHubScene */,
 				A19759861DE4931600FEB03C /* HQScene */,
 				A15B2F9A1DE74F6900D25334 /* NativeWebviews */,
@@ -361,8 +362,6 @@
 				A11E73921DE31C3A00166ECA /* InterSceneLoader.h */,
 				A19862171DD3836D0090F053 /* IntroScene.cpp */,
 				A19862181DD3836D0090F053 /* IntroScene.h */,
-				A19862191DD3836D0090F053 /* LoginScene.cpp */,
-				A198621A1DD3836D0090F053 /* LoginScene.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -424,6 +423,15 @@
 				A15B2F9E1DE752D000D25334 /* WebViewNative_ios.h */,
 			);
 			name = NativeWebviews;
+			sourceTree = "<group>";
+		};
+		A15B2FA41DEC73B800D25334 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				A19862191DD3836D0090F053 /* LoginScene.cpp */,
+				A198621A1DD3836D0090F053 /* LoginScene.h */,
+			);
+			name = Login;
 			sourceTree = "<group>";
 		};
 		A1817B481DDCB74900C2D13C /* MainHubScene */ = {
