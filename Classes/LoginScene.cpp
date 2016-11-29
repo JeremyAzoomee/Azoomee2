@@ -1,5 +1,6 @@
 #include "LoginScene.h"
 #include "SimpleAudioEngine.h"
+#include "ui/UIEditBox/UIEditBox.h"
 
 USING_NS_CC;
 
@@ -21,6 +22,9 @@ bool LoginScene::init()
         return false;
     }
     
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
+    
     addVisualElementsToScene();
     addFunctionalElementsToScene();
     
@@ -41,9 +45,6 @@ void LoginScene::menuCloseCallback(Ref* pSender)
 
 void LoginScene::addVisualElementsToScene()
 {
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
     auto leftBg = Sprite::create("res/login/wire_left.png");
     leftBg->setPosition(0 + leftBg->getContentSize().width / 2,0);
     this->addChild(leftBg);
@@ -56,103 +57,140 @@ void LoginScene::addVisualElementsToScene()
 void LoginScene::addFunctionalElementsToScene()
 {
     addContentLayerToScene();
+    addLabelsToLayer();
     addTextBoxesToLayer();
     addButtonsToLayer();
 }
 
+void LoginScene::addLabelsToLayer()
+{
+    auto emailTitle = Label::createWithTTF("Login email", "fonts/azoomee.ttf", 90);
+    emailTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.7);
+    emailTitle->setColor(Color3B(28, 244, 244));
+    loginContent->addChild(emailTitle);
+    
+    auto passwordTitle = Label::createWithTTF("Login password", "fonts/azoomee.ttf", 90);
+    passwordTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
+    passwordTitle->setColor(Color3B(28, 244, 244));
+    loginContent->addChild(passwordTitle);
+}
+
 void LoginScene::addContentLayerToScene()
 {
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
     //we add an additional layer that will slide on the screen between the username and the password.
     //we add all input elements on this layer.
     
-    auto loginContent = Layer::create();
+    loginContent = Layer::create();
     loginContent->setContentSize(Size(visibleSize.width * 2, visibleSize.height));
     loginContent->setPosition(Point(origin.x, origin.y));
+    loginContent->setName("loginContent");
     this->addChild(loginContent);
 }
 
 void LoginScene::addTextBoxesToLayer()
 {
-    std::string pNormalSprite = "res/editBg.png";
-    auto _editName = ui::EditBox::create(Size(400,30), ui::Scale9Sprite::create(pNormalSprite));
+    auto _editName = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
     _editName->setColor(Color3B::WHITE);
-    _editName->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.75));
-    _editName->setFontName("fonts/arial.ttf");
-    _editName->setFontSize(20);
-    _editName->setFontColor(Color3B::BLUE);
-    _editName->setPlaceHolder("username");
-    _editName->setPlaceholderFontColor(Color3B::BLUE);
-    _editName->setMaxLength(50);
+    _editName->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.5));
+    _editName->setFont("fonts/azoomee.ttf", 90);
+    _editName->setFontColor(Color3B::WHITE);
+    _editName->setMaxLength(100);
     _editName->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    _editName->setTag(1);
-    addChild(_editName);
+    _editName->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+    _editName->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
+    _editName->setName("usernameField");
+    loginContent->addChild(_editName);
     
-    auto _editPassword = ui::EditBox::create(Size(400,30), "res/editBg.png");
-    _editPassword->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.6));
-    _editPassword->setFont("fonts/arial.ttf", 20);
-    _editPassword->setFontColor(Color3B::BLUE);
-    _editPassword->setPlaceHolder("password");
+    auto _editPassword = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
+    _editPassword->setPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
+    _editPassword->setFont("fonts/azoomee.ttf", 90);
+    _editPassword->setFontColor(Color3B::WHITE);
     _editPassword->setMaxLength(50);
     _editPassword->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
     _editPassword->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    _editPassword->setTag(2);
-    addChild(_editPassword);
+    _editPassword->setName("passwordField");
+    loginContent->addChild(_editPassword);
 }
 
 void LoginScene::addButtonsToLayer()
 {
-    auto loginButton = Sprite::create("res/loginButton.png");
-    loginButton->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height*0.45 + origin.y));
-    loginButton->setScale(2);
-    this->addChild(loginButton);
+    auto loginButton = Sprite::create("res/login/next_btn.png");
+    loginButton->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
+    loginButton->setScale(1.2);
+    loginButton->setTag(0);
+    addListenerToButton(loginButton);
+    loginContent->addChild(loginButton);
+    
+    auto nextButton = Sprite::create("res/login/next_btn.png");
+    nextButton->setPosition(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5);
+    nextButton->setTag(1);
+    addListenerToButton(nextButton);
+    loginContent->addChild(nextButton);
+    
+    auto backButton = Sprite::create("res/login/back_btn.png");
+    backButton->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
+    backButton->setTag(2);
+    addListenerToButton(backButton);
+    loginContent->addChild(backButton);
 }
 
-void LoginScene::addListenerToLoginButton()
+void LoginScene::addListenerToButton(cocos2d::Sprite *spriteImage)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
-    listener->onTouchBegan = [](Touch *touch, Event *event)
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
         auto target = static_cast<Sprite*>(event->getCurrentTarget());
         
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-        Size s = target->getContentSize();
-        Rect rect = Rect(0, 0, s.width, s.height);
+        Rect rect = Rect(0, 0, target->getContentSize().width, target->getContentSize().height);
         
         if(rect.containsPoint(locationInNode))
         {
-            //auto usernameString = target->getParent()->getChildByTag(1)->getStringValue();
+            int buttonTag = spriteImage->getTag();
             
-            ui::EditBox *myUserField = (ui::EditBox *)target->getParent()->getChildByTag(1);
-            std::string username = myUserField->getText();
-            
-            ui::EditBox *myPassField = (ui::EditBox *)target->getParent()->getChildByTag(2);
-            std::string password = myPassField->getText();
-            
-            CCLOG("%s - %s", username.c_str(), password.c_str());
-            
-            if(username == "")
+            switch(buttonTag)
             {
-                username = "klaas+ci@azoomee.com";
-                password = "test1234";
+                case(0): this->loginButtonAction(); break;
+                case(1): this->nextButtonAction(); break;
+                case(2): this->backButtonAction(); break;
             }
-            
-            auto myBeCommSt = BeCommSt::getInstance();
-            myBeCommSt->login(username, password);
-
             return true;
         }
         
         return false;
     };
-
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, loginButton);
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, spriteImage);
 }
 
-void LoginScene::addListenerToNextScreenButton()
+void LoginScene::loginButtonAction()
 {
+    std::string username = ((ui::EditBox *)loginContent->getChildByName("usernameField"))->getText();
+    std::string password = ((ui::EditBox *)loginContent->getChildByName("passwordField"))->getText();
     
+    //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
+    
+    if(username == "aaa")
+    {
+        username = "klaas+ci@azoomee.com";
+        password = "test1234";
+    }
+
+    //DELETE UNTIL THIS POINT IN PRODUCTION
+
+
+    //auto myBeCommSt = BeCommSt::getInstance();
+    //myBeCommSt->login(username, password);
+}
+
+void LoginScene::nextButtonAction()
+{
+    loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+}
+
+void LoginScene::backButtonAction()
+{
+    ((ui::EditBox *)loginContent->getChildByName("passwordField"))->setText("");
+    loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2));
 }

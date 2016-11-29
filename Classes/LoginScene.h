@@ -18,8 +18,17 @@ public:
     void addContentLayerToScene();
     void addTextBoxesToLayer();
     void addButtonsToLayer();
-    void addListenerToNextScreenButton();
-    void addListenerToLoginButton();
+    void addLabelsToLayer();
+    
+    void loginButtonAction();
+    void backButtonAction();
+    void nextButtonAction();
+    
+    void addListenerToButton(cocos2d::Sprite *spriteImage);
+    
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
+    cocos2d::Layer *loginContent;
     
     // implement the "static create()" method manually
     CREATE_FUNC(LoginScene);
