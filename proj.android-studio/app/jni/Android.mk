@@ -26,6 +26,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/OomeeLayer.cpp \
                    ../../../Classes/InterSceneLoader.cpp \
                    ../../../Classes/HQSceneElement.cpp \
+                   ../../../Classes/ModalMessages.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

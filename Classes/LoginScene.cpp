@@ -1,6 +1,7 @@
 #include "LoginScene.h"
 #include "SimpleAudioEngine.h"
 #include "ui/UIEditBox/UIEditBox.h"
+#include "ModalMessages.h"
 
 USING_NS_CC;
 
@@ -12,11 +13,8 @@ Scene* LoginScene::createScene()
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool LoginScene::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
@@ -166,6 +164,10 @@ void LoginScene::addListenerToButton(cocos2d::Sprite *spriteImage)
 
 void LoginScene::loginButtonAction()
 {
+    auto loadingScreen = ModalMessages::create();
+    this->addChild(loadingScreen);
+    loadingScreen->startLoading();
+    
     std::string username = ((ui::EditBox *)loginContent->getChildByName("usernameField"))->getText();
     std::string password = ((ui::EditBox *)loginContent->getChildByName("passwordField"))->getText();
     
