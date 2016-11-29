@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "ui/UIEditBox/UIEditBox.h"
 #include "ModalMessages.h"
+#include "BackEndCaller.h"
 
 USING_NS_CC;
 
@@ -181,9 +182,8 @@ void LoginScene::loginButtonAction()
 
     //DELETE UNTIL THIS POINT IN PRODUCTION
 
-
-    //auto myBeCommSt = BeCommSt::getInstance();
-    //myBeCommSt->login(username, password);
+    auto backEndCaller = BackEndCaller::getInstance();
+    backEndCaller->login(username, password);
 }
 
 void LoginScene::nextButtonAction()

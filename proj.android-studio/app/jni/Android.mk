@@ -26,7 +26,11 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/OomeeLayer.cpp \
                    ../../../Classes/InterSceneLoader.cpp \
                    ../../../Classes/HQSceneElement.cpp \
-                   ../../../Classes/ModalMessages.cpp
+                   ../../../Classes/ModalMessages.cpp \
+                   ../../../Classes/BackEndCaller.cpp \
+                   ../../../Classes/JWTTool.cpp \
+                   ../../../Classes/HMACSHA256_javaCaller.cpp \
+                   ../../../Classes/HMACSHA256.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
