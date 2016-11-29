@@ -165,10 +165,6 @@ void LoginScene::addListenerToButton(cocos2d::Sprite *spriteImage)
 
 void LoginScene::loginButtonAction()
 {
-    auto loadingScreen = ModalMessages::create();
-    this->addChild(loadingScreen);
-    loadingScreen->startLoading();
-    
     std::string username = ((ui::EditBox *)loginContent->getChildByName("usernameField"))->getText();
     std::string password = ((ui::EditBox *)loginContent->getChildByName("passwordField"))->getText();
     

@@ -377,8 +377,6 @@
 				A15B2FA81DEDAA2A00D25334 /* ModalMessages.h */,
 				A19862291DD383BD0090F053 /* AppDelegate.cpp */,
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
-				A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */,
-				A19862141DD3836D0090F053 /* ChildSelectorScene.h */,
 				A11E73911DE31C3A00166ECA /* InterSceneLoader.cpp */,
 				A11E73921DE31C3A00166ECA /* InterSceneLoader.h */,
 				A19862171DD3836D0090F053 /* IntroScene.cpp */,
@@ -451,6 +449,8 @@
 			children = (
 				A19862191DD3836D0090F053 /* LoginScene.cpp */,
 				A198621A1DD3836D0090F053 /* LoginScene.h */,
+				A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */,
+				A19862141DD3836D0090F053 /* ChildSelectorScene.h */,
 			);
 			name = Login;
 			sourceTree = "<group>";

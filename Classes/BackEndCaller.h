@@ -1,6 +1,7 @@
 #include "cocos2d.h"
 #include "network/HttpClient.h"
 #include "external/json/document.h"
+#include "ModalMessages.h" //We have this file included here, because we want to show loading screen on scene when data communication on login (or somewhere else) starts.
 
 class BackEndCaller : public cocos2d::Object
 {
@@ -43,5 +44,7 @@ public:
     
     std::string dataDownloadCookies;
     std::vector<std::string> jsonKeys;
+    
+    ModalMessages *modalMessages;
     
 };

@@ -19,6 +19,10 @@ USING_NS_CC;
 #include "external/json/stringbuffer.h"
 #include "external/json/prettywriter.h"
 
+//Including the following files to be able to change scenes
+
+#include "ChildSelectorScene.h"
+
 
 using namespace network;
 using namespace cocos2d;
@@ -119,7 +123,7 @@ bool BackEndCaller::parseLoginData(std::string responseData)
     
     if(!error)
     {
-        
+        getAvailableChildren();
         return true;
     }
     else
@@ -148,6 +152,10 @@ void BackEndCaller::onLoginAnswerReceived(HttpClient *sender, HttpResponse *resp
 
 void BackEndCaller::login(std::string username, std::string password)
 {
+    modalMessages = ModalMessages::create();
+    Director::getInstance()->getRunningScene()->addChild(modalMessages);
+    modalMessages->startLoading();
+    
     HttpRequest *request = new HttpRequest();
     request->setRequestType(HttpRequest::Type::POST);
     request->setUrl(LOGIN_URL);
@@ -173,24 +181,23 @@ void BackEndCaller::login(std::string username, std::string password)
 
 void BackEndCaller::onGetChildrenAnswerReceived(HttpClient *sender, HttpResponse *response)
 {
-    std::string myResponseString = StringUtils::format("");
+    std::string myResponseString = std::string("");
     
     if (response && response->getResponseData())
     {
         std::vector<char> myResponse = *response->getResponseData();
-        
-        for(int i = 0; i < myResponse.size(); i++)
-        {
-            myResponseString = StringUtils::format("%s%c", myResponseString.c_str(), myResponse[i]);
-        }
-        
-        CCLOG("%s", myResponseString.c_str());
+        myResponseString = std::string(myResponse.begin(), myResponse.end());
     }
     
     if(response->getResponseCode() == 200)
     {
         CCLOG("GET CHILDREN SUCCESS");
         childrenData.Parse(myResponseString.c_str());
+        modalMessages->stopLoading();
+        Director::getInstance()->getRunningScene()->removeChild(modalMessages);
+        
+        auto childSelectorScene = ChildSelectorScene::createScene();
+        Director::getInstance()->replaceScene(childSelectorScene);
     }
     else
     {
