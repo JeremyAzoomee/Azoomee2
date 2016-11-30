@@ -44,6 +44,10 @@ void LoginScene::menuCloseCallback(Ref* pSender)
 
 void LoginScene::addVisualElementsToScene()
 {
+    auto bg = Sprite::create("res/mainhub/bg_glow.png");
+    bg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+    this->addChild(bg);
+    
     auto leftBg = Sprite::create("res/login/wire_left.png");
     leftBg->setPosition(0 + leftBg->getContentSize().width / 2,0);
     this->addChild(leftBg);

@@ -4,6 +4,7 @@
 #include "external/json/stringbuffer.h"
 #include "external/json/prettywriter.h"
 #include "BackEndCaller.h"
+#include "DataStorage.h"
 #include <iomanip>
 
 #include "HMACSHA256.h"
@@ -33,20 +34,6 @@ JWTTool::~JWTTool(void)
 bool JWTTool::init(void)
 {
     return true;
-}
-
-std::string JWTTool::getLoginData(std::string jsonkey)
-{
-    if(childProfile)
-    {
-        return BackEndCaller::getInstance()->childLoginData[jsonkey.c_str()].GetString();
-    }
-    else
-    {
-        return BackEndCaller::getInstance()->parentLoginData[jsonkey.c_str()].GetString();
-    }
-    
-    return jsonkey;
 }
 
 std::string JWTTool::stringToLower(std::string input)
@@ -131,7 +118,7 @@ std::string JWTTool::getBodySignature(std::string method, std::string path, std:
     std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(host)).c_str(), url_encode(stringToLower(BackEndCaller::getInstance()->getDateFormatString())).c_str());
     
     std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), queryParams.c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
-    std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, getLoginData("apiSecret"));
+    std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, DataStorage::getInstance()->getParentOrChildLoginValue("apiSecret"));
     
     CCLOG("Payload signature:\n\n%send\n\n", stringToBeEncoded.c_str());
     
@@ -147,7 +134,7 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
     writer.StartObject();
     
     writer.String("iss", (int)StringUtils::format("iss").length());
-    writer.String(getLoginData("id").c_str(), (int)(StringUtils::format("%s", getLoginData("id").c_str()).length()));
+    writer.String(DataStorage::getInstance()->getParentOrChildLoginValue("id").c_str(), (int)(StringUtils::format("%s", DataStorage::getInstance()->getParentOrChildLoginValue("id").c_str()).length()));
     
     writer.String("aud", (int)StringUtils::format("aud").length());
     writer.String("", 0);
@@ -160,7 +147,8 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
     writer.String(getBodySignature(method, path, host, queryParams, requestBody).c_str(), (int)getBodySignature(method, path, host, queryParams, requestBody).length());
     
     writer.String("parentKey", (int)StringUtils::format("parentKey").length());
-    writer.String(BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString(), (int)StringUtils::format("%s", BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString()).length());
+    //writer.String(BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString() , (int)StringUtils::format("%s", BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString()).length());
+    writer.String(DataStorage::getInstance()->getParentLoginValue("apiKey").c_str(), (int)DataStorage::getInstance()->getParentLoginValue("apiKey").length());
     
     writer.EndObject();
     
@@ -181,7 +169,7 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
 std::string JWTTool::getJWTSignature(std::string sHeader, std::string sBody)
 {
     std::string unEncodedSignature = StringUtils::format("%s.%s", sHeader.c_str(), sBody.c_str());
-    std::string encodedSignature = HMACSHA256::getInstance()->getHMACSHA256Hash(unEncodedSignature, getLoginData("apiSecret"));
+    std::string encodedSignature = HMACSHA256::getInstance()->getHMACSHA256Hash(unEncodedSignature, DataStorage::getInstance()->getParentOrChildLoginValue("apiSecret"));
     
     return encodedSignature;
 }
@@ -191,7 +179,7 @@ std::string JWTTool::buildJWTString(std::string method, std::string path, std::s
     
     //HEADER STRING------------------------------------------------------------------------------
     
-    std::string sHeader = getHeaderString(getLoginData("apiKey"));
+    std::string sHeader = getHeaderString(DataStorage::getInstance()->getParentOrChildLoginValue("apiKey"));
     
     
     //PAYLOAD STRING------------------------------------------------------------------------------
@@ -204,7 +192,7 @@ std::string JWTTool::buildJWTString(std::string method, std::string path, std::s
     
     //DISPLAYING DEBUG INFO-----------------------------------------------------------------------
     
-    CCLOG("\n\n\n apiSecret: %s\n\n\n", getLoginData("apiSecret").c_str());
+    CCLOG("\n\n\n apiSecret: %s\n\n\n", DataStorage::getInstance()->getParentOrChildLoginValue("apiSecret").c_str());
     
     
     //CREATE THE FINAL JWT STRING-----------------------------------------------------------------

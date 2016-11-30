@@ -12,8 +12,6 @@ public:
     virtual ~JWTTool();
     bool init(void);
     
-    bool childProfile = 0;
-    
     std::string buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
     std::string getBase64Encoded(std::string input);
     std::string stringToLower(std::string input);
@@ -24,6 +22,4 @@ public:
     std::string getBodySignature(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
     std::string getBodyString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
     std::string getJWTSignature(std::string sHeader, std::string sBody);
-    
-    std::string getLoginData(std::string jsonkey);
 };

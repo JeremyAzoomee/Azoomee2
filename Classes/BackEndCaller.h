@@ -31,19 +31,10 @@ public:
     void getGordon();
     void onGetGordonAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
-    bool parseLoginData(std::string responseData);
     void displayError(std::string errorMessage);
     
     std::string getDateFormatString();
     std::string getDateElement(int input);
-    
-    rapidjson::Document parentLoginData;
-    rapidjson::Document childrenData;
-    rapidjson::Document childLoginData;
-    rapidjson::Document contentData;
-    
-    std::string dataDownloadCookies;
-    std::vector<std::string> jsonKeys;
     
     ModalMessages *modalMessages;
     

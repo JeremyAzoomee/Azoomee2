@@ -22,6 +22,11 @@ USING_NS_CC;
 //Including the following files to be able to change scenes
 
 #include "ChildSelectorScene.h"
+#include "BaseScene.h"
+
+//Including DataStorage.h - responsible for storing all login information during the app runtime
+
+#include "DataStorage.h"
 
 
 using namespace network;
@@ -95,43 +100,6 @@ void BackEndCaller::displayError(std::string errorMessage)
 
 //LOGGING IN BY PARENT--------------------------------------------------------------------------
 
-bool BackEndCaller::parseLoginData(std::string responseData)
-{
-    parentLoginData.Parse(responseData.c_str());
-    
-    bool error = true;
-    
-    if(parentLoginData.HasMember("code"))
-    {
-        if(parentLoginData["code"] == "INVALID_CREDENTIALS")
-        {
-            error = true;
-            this->displayError("error");
-        }
-        else
-        {
-            error = false;
-        }
-        
-    }
-    else
-    {
-        error = true;
-        this->displayError("error");
-        
-    }
-    
-    if(!error)
-    {
-        getAvailableChildren();
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
 void BackEndCaller::onLoginAnswerReceived(HttpClient *sender, HttpResponse *response)
 {
     if (response && response->getResponseCode() == 200 && response->getResponseData())
@@ -140,9 +108,7 @@ void BackEndCaller::onLoginAnswerReceived(HttpClient *sender, HttpResponse *resp
         std::vector<char> myResponse = *response->getResponseData();
         
         std::string myResponseString = std::string(myResponse.begin(), myResponse.end());
-        
-        parseLoginData(myResponseString);
-        JWTTool::getInstance()->childProfile = 0;
+        if(DataStorage::getInstance()->parseParentLoginData(myResponseString)) getAvailableChildren();
     }
     else
     {
@@ -192,7 +158,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(HttpClient *sender, HttpResponse
     if(response->getResponseCode() == 200)
     {
         CCLOG("GET CHILDREN SUCCESS");
-        childrenData.Parse(myResponseString.c_str());
+        DataStorage::getInstance()->parseAvailableChildren(myResponseString);
         modalMessages->stopLoading();
         Director::getInstance()->getRunningScene()->removeChild(modalMessages);
         
@@ -209,7 +175,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(HttpClient *sender, HttpResponse
 
 void BackEndCaller::getAvailableChildren()
 {
-    std::string requestPath = StringUtils::format("/api/user/adult/%s/owns", parentLoginData["id"].GetString());
+    std::string requestPath = StringUtils::format("/api/user/adult/%s/owns", DataStorage::getInstance()->getParentLoginValue("id").c_str());
     std::string requestUrl = StringUtils::format(CI_URL"%s?expand=true", requestPath.c_str());
     
     HttpRequest *request = new HttpRequest();
@@ -245,6 +211,10 @@ void BackEndCaller::getAvailableChildren()
 
 void BackEndCaller::childLogin(int childNumber)
 {
+    modalMessages = ModalMessages::create();
+    Director::getInstance()->getRunningScene()->addChild(modalMessages);
+    modalMessages->startLoading();
+    
     std::string requestPath = "/api/auth/switchProfile";
     std::string requestUrl = StringUtils::format(CI_URL"%s", requestPath.c_str());
     
@@ -252,7 +222,7 @@ void BackEndCaller::childLogin(int childNumber)
     request->setRequestType(HttpRequest::Type::POST);
     request->setUrl(requestUrl.c_str());
     
-    std::string requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", childrenData[childNumber]["profileName"].GetString());
+    std::string requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", DataStorage::getInstance()->getValueFromOneAvailableChild(childNumber, "profileName").c_str());
     
     const char *postData = requestBody.c_str();
     request->setRequestData(postData, strlen(postData));
@@ -298,9 +268,8 @@ void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sen
     if(response->getResponseCode() == 200)
     {
         CCLOG("CHILDREN LOGIN SUCCESS");
-        childLoginData.Parse(myResponseString.c_str());
-        
-        JWTTool::getInstance()->childProfile = 1;
+        DataStorage::getInstance()->parseChildLoginData(myResponseString);
+        getContent();
     }
     else
     {
@@ -315,7 +284,7 @@ void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sen
 
 void BackEndCaller::getContent()
 {
-    std::string requestPath = StringUtils::format("/api/content/v2/user/%s", childLoginData["id"].GetString());
+    std::string requestPath = StringUtils::format("/api/content/v2/user/%s", DataStorage::getInstance()->getChildLoginValue("id").c_str());
     std::string requestUrl = StringUtils::format(CI_URL"%s", requestPath.c_str());
     
     HttpRequest *request = new HttpRequest();
@@ -347,27 +316,26 @@ void BackEndCaller::getContent()
 
 void BackEndCaller::onGetContentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
-    std::string myResponseString = "";
+    std::string responseString = "";
     
     if (response && response->getResponseData())
     {
         std::vector<char> myResponse = *response->getResponseData();
-        myResponseString = std::string(myResponse.begin(), myResponse.end());
-        
-        CCLOG("%s", myResponseString.c_str());
+        responseString = std::string(myResponse.begin(), myResponse.end());
     }
     
     if(response->getResponseCode() == 200)
     {
         CCLOG("GET CONTENT SUCCESS");
-        contentData.Parse(myResponseString.c_str());
+        
+        DataStorage::getInstance()->parseContentData(responseString);
         
         getGordon();
     }
     else
     {
         CCLOG("GET CONTENT FAIL Response code: %ld", response->getResponseCode());
-        CCLOG("GET CONTENT FAIL Response: %s", myResponseString.c_str());
+        CCLOG("GET CONTENT FAIL Response: %s", responseString.c_str());
     }
 }
 
@@ -376,7 +344,7 @@ void BackEndCaller::onGetContentAnswerReceived(cocos2d::network::HttpClient *sen
 void BackEndCaller::getGordon()
 {
     std::string requestPath = "/api/porthole/pixel/gordon.png";
-    std::string requestUrl = StringUtils::format(CI_URL"%s?userid=%s&sessionid=%s", requestPath.c_str(), JWTTool::getInstance()->getLoginData("id").c_str(), JWTTool::getInstance()->getLoginData("cdn-sessionid").c_str());
+    std::string requestUrl = StringUtils::format(CI_URL"%s?userid=%s&sessionid=%s", requestPath.c_str(), DataStorage::getInstance()->getParentOrChildLoginValue("id").c_str(), DataStorage::getInstance()->getParentOrChildLoginValue("cdn-sessionid").c_str());
     
     HttpRequest *request = new HttpRequest();
     request->setRequestType(HttpRequest::Type::GET);
@@ -384,9 +352,7 @@ void BackEndCaller::getGordon()
     
     auto myJWTTool = JWTTool::getInstance();
     
-    //std::string buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
-    
-    std::string myRequestString = myJWTTool->buildJWTString("GET", requestPath.c_str(), CI_HOST, StringUtils::format("userid=%s&sessionid=%s", requestPath.c_str(), JWTTool::getInstance()->getLoginData("cdn-sessionid").c_str()), "");
+    std::string myRequestString = myJWTTool->buildJWTString("GET", requestPath.c_str(), CI_HOST, StringUtils::format("userid=%s&sessionid=%s", requestPath.c_str(), DataStorage::getInstance()->getParentOrChildLoginValue("cdn-sessionid").c_str()), "");
     const char *reqData = myRequestString.c_str();
     
     request->setRequestData(reqData, strlen(reqData));
@@ -406,56 +372,20 @@ void BackEndCaller::getGordon()
 
 void BackEndCaller::onGetGordonAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
-    std::string myResponseString = StringUtils::format("");
+    std::string responseString = StringUtils::format("");
     
     if (response && response->getResponseData())
     {
         std::vector<char> myResponse = *response->getResponseHeader();
+        responseString = std::string(myResponse.begin(), myResponse.end());
         
-        for(int i = 0; i < myResponse.size(); i++)
+        if(DataStorage::getInstance()->parseDownloadCookies(responseString))
         {
-            myResponseString = StringUtils::format("%s%c", myResponseString.c_str(), myResponse[i]);
-        }
-        
-        CCLOG("\n\n\nORIGINAL RESPONSE STRING: %s\n\n\n", myResponseString.c_str());
-        
-        size_t beginpos = myResponseString.find("Set-Cookie:");
-        myResponseString = myResponseString.substr(beginpos);
-        
-        myResponseString = myResponseString.substr(12);
-        
-        size_t endpos = myResponseString.find("\n");
-        myResponseString = myResponseString.substr(0, endpos);
-        
-        myResponseString = replaceAll(myResponseString, ", ", "\n");
-        
-        CCLOG("%s", myResponseString.c_str());
-        dataDownloadCookies = myResponseString;
-    }
-    
-    if(response->getResponseCode() == 200)
-    {
-        CCLOG("GET GORDON SUCCESS");
-        
-        rapidjson::Value::MemberIterator M;
-        const char *key;//,*value;
-        
-        if (contentData.HasParseError())
-        {
-            CCLOG("Json has errors!!!");
-            return;
-        }
-        
-        for (M=contentData["contentItems"].MemberBegin(); M!=contentData["contentItems"].MemberEnd(); M++)
-        {
-            key   = M->name.GetString();
-            //value = M->value.GetString();
+            modalMessages->stopLoading();
+            Director::getInstance()->getRunningScene()->removeChild(modalMessages);
             
-            if (key!=NULL)
-            {
-                jsonKeys.push_back(key);
-            }
+            auto baseScene = BaseScene::createScene();
+            Director::getInstance()->replaceScene(baseScene);
         }
     }
-
 }
