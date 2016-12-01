@@ -120,11 +120,19 @@ bool DataStorage::parseContentData(std::string responseString)
 
 bool DataStorage::parseDownloadCookies(std::string responseString)
 {
+    //storing the full response string, because iOS native webview has a method to get cookies from it.
+    pureCookieResponseString = responseString;
+    
+    CCLOG("Responsestring: %s", responseString.c_str());
+    
     size_t beginpos = responseString.find("Set-Cookie:");
     responseString = responseString.substr(beginpos);
     responseString = responseString.substr(12);
     size_t endpos = responseString.find("\n");
     responseString = responseString.substr(0, endpos);
+    
+    dataDownloadCookiesWithCommas = responseString;
+    
     responseString = replaceAll(responseString, ", ", "\n");
     
     dataDownloadCookies = responseString;
@@ -143,4 +151,9 @@ std::string DataStorage::replaceAll(std::string& str, const std::string& from, c
     }
     
     return str;
+}
+
+std::string DataStorage::getCookies()
+{
+    return dataDownloadCookies;
 }

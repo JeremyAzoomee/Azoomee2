@@ -1,5 +1,6 @@
 #include "WebViewNative_ios.h"
 #include "BaseScene.h"
+#include "DataStorage.h"
 
 USING_NS_CC;
 
@@ -38,13 +39,21 @@ bool WebViewNative_ios::init()
 
 void WebViewNative_ios::addWebViewToScreen()
 {
-    UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
+    //defaultCStringEncoding kills newlines added in C++, so we need to get the original string with commas and convert them to newlines on objective c level.
+    NSString *cookiesString = [NSString stringWithCString:DataStorage::getInstance()->dataDownloadCookiesWithCommas.c_str() encoding:[NSString defaultCStringEncoding]];
+    cookiesString = [cookiesString stringByReplacingOccurrencesOfString:@", " withString:@"\n"];
+    
+    UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, currentView.frame.size.width, currentView.frame.size.height)];
     
-    NSString *htmlFile = [[NSBundle mainBundle] pathForResource:@"res/previewGame/game/index" ofType:@"html"];
-    NSURL *nsurl=[NSURL URLWithString:htmlFile];
-    NSURLRequest *nsrequest=[NSURLRequest requestWithURL:nsurl];
+    NSString *htmlFileAddress = @"https://media.azoomee.ninja/free/f50a74dd-185f-4010-ab6f-b34858b96bcd/video_stream.m3u8";
+    NSURL *nsurl=[NSURL URLWithString:htmlFileAddress];
+    NSMutableURLRequest *nsrequest=[NSMutableURLRequest requestWithURL:nsurl];
+    
+    [nsrequest setHTTPMethod:@"GET"];
+    [nsrequest addValue:cookiesString forHTTPHeaderField:@"Cookie"];
+    
     [webview loadRequest:nsrequest];
     
     [webview setExclusiveTouch:false];

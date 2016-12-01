@@ -381,11 +381,41 @@ void BackEndCaller::onGetGordonAnswerReceived(cocos2d::network::HttpClient *send
         
         if(DataStorage::getInstance()->parseDownloadCookies(responseString))
         {
+            //getData();
+            
             modalMessages->stopLoading();
             Director::getInstance()->getRunningScene()->removeChild(modalMessages);
             
             auto baseScene = BaseScene::createScene();
             Director::getInstance()->replaceScene(baseScene);
         }
+    }
+}
+
+void BackEndCaller::getData()
+{
+    std::string requestUrl = "https://media.azoomee.ninja/free/f50a74dd-185f-4010-ab6f-b34858b96bcd/video_stream.m3u8";
+    
+    HttpRequest *request = new HttpRequest();
+    request->setRequestType(HttpRequest::Type::GET);
+    request->setUrl(requestUrl.c_str());
+    
+    std::vector<std::string> headers;
+    headers.push_back(StringUtils::format("Cookie: %s", DataStorage::getInstance()->dataDownloadCookies.c_str()));
+    request->setHeaders(headers);
+    
+    request->setResponseCallback(CC_CALLBACK_2(BackEndCaller::onGetDataAnswerReceived, this));
+    request->setTag("GET data");
+    HttpClient::getInstance()->send(request);
+}
+
+void BackEndCaller::onGetDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
+{
+    std::string responseString = StringUtils::format("");
+    
+    if (response && response->getResponseData())
+    {
+        std::vector<char> myResponse = *response->getResponseHeader();
+        responseString = std::string(myResponse.begin(), myResponse.end());
     }
 }
