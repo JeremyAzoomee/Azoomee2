@@ -9,12 +9,13 @@ public:
     
     cocos2d::Sprite *closeButton;
     
-    static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createSceneWithURL(std::string url);
 
     virtual bool init();
-    void addWebViewToScreen();
+    void addWebViewToScreen(std::string url);
     void addBackButtonToScreen();
-    void setCookie();
+    
+    void startLoadingUrl(std::string url);
     
     void addListenerToBackButton();
     cocos2d::Sprite *backButton;

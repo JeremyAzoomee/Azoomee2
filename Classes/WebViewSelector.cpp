@@ -1,4 +1,5 @@
 #include "WebViewSelector.h"
+#include "DataStorage.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "WebViewNative_ios.h"
@@ -23,22 +24,28 @@ cocos2d::Scene* WebViewSelector::createScene()
 
 void WebViewSelector::loadWebView()
 {
+    std::string url = "http://192.168.1.148/reqtest"; //"https://media.azoomee.ninja/free/f50a74dd-185f-4010-ab6f-b34858b96bcd/video_stream.m3u8";
+    CCLOG("To be sent to jni: %s", DataStorage::getInstance()->dataDownloadCookiesWithCommas.c_str());
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    auto iosWebView = WebViewNative_ios::createScene();
+    auto iosWebView = WebViewNative_ios::createSceneWithURL(url);
     Director::getInstance()->replaceScene(iosWebView);
 #endif
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     cocos2d::JniMethodInfo methodInfo;
     
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "alertJNI", "(Ljava/lang/String;)V"))
+    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "alertJNI", "(Ljava/lang/String;Ljava/lang/String;)V"))
     {
         return;
     }
     
-    jstring myVariable = methodInfo.env->NewStringUTF("http://www.bonis.me/azoomee/game/index.html");
+    jstring jurl = methodInfo.env->NewStringUTF(url.c_str());
+    jstring jcookie = methodInfo.env->NewStringUTF(DataStorage::getInstance()->dataDownloadCookiesWithCommas.c_str());
     
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, myVariable);
+    CCLOG("To be sent to jni: %s", DataStorage::getInstance()->dataDownloadCookiesWithCommas.c_str());
+    
+    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jurl, jcookie);
     methodInfo.env->DeleteLocalRef(methodInfo.classID);
         
 #endif

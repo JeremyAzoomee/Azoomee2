@@ -30,7 +30,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/BackEndCaller.cpp \
                    ../../../Classes/JWTTool.cpp \
                    ../../../Classes/HMACSHA256_javaCaller.cpp \
-                   ../../../Classes/HMACSHA256.cpp
+                   ../../../Classes/HMACSHA256.cpp \
+                   ../../../Classes/DataStorage.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

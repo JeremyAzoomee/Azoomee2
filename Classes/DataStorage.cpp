@@ -127,7 +127,15 @@ bool DataStorage::parseDownloadCookies(std::string responseString)
     
     size_t beginpos = responseString.find("Set-Cookie:");
     responseString = responseString.substr(beginpos);
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     responseString = responseString.substr(12);
+#endif
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    responseString = responseString.substr(11);
+#endif
+    
     size_t endpos = responseString.find("\n");
     responseString = responseString.substr(0, endpos);
     

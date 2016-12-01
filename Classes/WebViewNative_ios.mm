@@ -5,7 +5,7 @@
 USING_NS_CC;
 
 
-Scene* WebViewNative_ios::createScene()
+Scene* WebViewNative_ios::createSceneWithURL(std::string url)
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
@@ -15,6 +15,9 @@ Scene* WebViewNative_ios::createScene()
 
     // add layer as a child to scene
     scene->addChild(layer);
+    
+    //Overriden:
+    layer->startLoadingUrl(url);
 
     // return the scene
     return scene;
@@ -29,15 +32,18 @@ bool WebViewNative_ios::init()
     {
         return false;
     }
-    
-    addWebViewToScreen();
-    addBackButtonToScreen();
-    addListenerToBackButton();
 
     return true;
 }
 
-void WebViewNative_ios::addWebViewToScreen()
+void WebViewNative_ios::startLoadingUrl(std::string url)
+{
+    addWebViewToScreen(url);
+    addBackButtonToScreen();
+    addListenerToBackButton();
+}
+
+void WebViewNative_ios::addWebViewToScreen(std::string url)
 {
     
     //defaultCStringEncoding kills newlines added in C++, so we need to get the original string with commas and convert them to newlines on objective c level.
@@ -47,7 +53,7 @@ void WebViewNative_ios::addWebViewToScreen()
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, currentView.frame.size.width, currentView.frame.size.height)];
     
-    NSString *htmlFileAddress = @"https://media.azoomee.ninja/free/f50a74dd-185f-4010-ab6f-b34858b96bcd/video_stream.m3u8";
+    NSString *htmlFileAddress = [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]];
     NSURL *nsurl=[NSURL URLWithString:htmlFileAddress];
     NSMutableURLRequest *nsrequest=[NSMutableURLRequest requestWithURL:nsurl];
     

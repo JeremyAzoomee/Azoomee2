@@ -27,6 +27,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import android.util.Base64;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
@@ -41,13 +44,13 @@ public class AppActivity extends Cocos2dxActivity {
 
     }
 
-    public static void alertJNI(String receivedMessage) {
-        String tag = "JniTest";
-        String message = "I've been called from C++";
-        Log.d(tag, "Showing alert dialog: " + message + receivedMessage);
+    public static void alertJNI(String url, String cookie) {
+
+        Log.d("sent from cocos", url + " - " + cookie);
 
         Intent nvw = new Intent(mContext, NativeView.class);
-        nvw.putExtra("url", receivedMessage);
+        nvw.putExtra("url", url);
+        nvw.putExtra("cookie", cookie);
         mContext.startActivity(nvw);
 
         //Intent i = new Intent(getApplicationContext(), NativeView.class);
