@@ -1,4 +1,5 @@
 #include "HQScene.h"
+#include "HQSceneElement.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -16,6 +17,34 @@ Scene* HQScene::createScene()
 
     // return the scene
     return scene;
+}
+
+void HQScene::setCategoryFromName(std::string name)
+{
+    if(name == "sVideoHQ") category = 0;
+    if(name == "sAudioHQ") category = 1;
+    if(name == "sArtsHQ") category = 2;
+    if(name == "sGameHQ") category = 3;
+    
+    CCLOG("Selected category: %d", category);
+}
+
+Point HQScene::getItemPositionForBidirectionalScrollView(int highlight)
+{
+    Size baseSize = Size(520, 520);
+    Point resultPoint = Point(50,50);
+    int allocatedAmount = 1;
+    
+    if((highlight == 1)||(highlight == 2))
+    {
+        if(scrollViewSpaceAllocation.size() % 2 == 1) scrollViewSpaceAllocation.push_back(false); //if the last item is on the down side, we have to skip a column, as big item is coming.
+        allocatedAmount = highlight * 2;                                                          //we need to allocate the amount of base-spaces - 2 for highlight = 1, 4 for highlight = 2
+    }
+    
+    resultPoint = Point(20 + scrollViewSpaceAllocation.size() / 2 * baseSize.width, scrollViewSpaceAllocation.size() % 2 * baseSize.height + 20);
+    for(int i = 0; i < allocatedAmount; i++) scrollViewSpaceAllocation.push_back(true);
+    
+    return resultPoint;
 }
 
 void HQScene::setBackground(std::string name)
@@ -39,6 +68,7 @@ void HQScene::setName(std::string name)
     this->addChild(title, 20);
     
     setBackground(name);
+    setCategoryFromName(name);
 }
 
 void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
@@ -121,6 +151,99 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), vScrollView);
 }
 
+cocos2d::ui::ScrollView* HQScene::createVerticalScrollView()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height * 0.82);
+    
+    cocos2d::ui::ScrollView *vScrollView = cocos2d::ui::ScrollView::create();
+    vScrollView->setContentSize(vScrollFrameSize);
+    vScrollView->setPosition(origin);
+    vScrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
+    vScrollView->setTouchEnabled(true);
+    vScrollView->setBounceEnabled(true);
+    vScrollView->setInnerContainerSize(Size(visibleSize.width, visibleSize.height * 2));
+    vScrollView->setScrollBarEnabled(false);
+    vScrollView->setSwallowTouches(false);
+    
+    addListenerToScrollView(vScrollView);
+
+    return vScrollView;
+}
+
+cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position)
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto scrollView = cocos2d::ui::ScrollView::create();
+    scrollView->setContentSize(contentSize);
+    scrollView->setPosition(position);
+    scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
+    scrollView->setBounceEnabled(true);
+    scrollView->setTouchEnabled(true);
+    scrollView->setInnerContainerSize(Size(visibleSize.width * 2, scrollView->getContentSize().height));
+    scrollView->setSwallowTouches(false);
+    scrollView->setScrollBarEnabled(false);
+    
+    return scrollView;
+}
+
+void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, Point position, int category, int highlight, std::string imageName, std::string label)
+{
+    auto hqSceneElement = HQSceneElement::create();
+    hqSceneElement->addHQSceneElement(category, highlight, imageName, label);
+    
+    if((position.x == 0)&&(position.y == 0))
+    {
+        int amountOfElements = (int)toBeAddedTo->getChildren().size();
+        position = (Point(amountOfElements * hqSceneElement->getSizeOfLayerWithGap().width, 50));
+    }
+
+    hqSceneElement->setPosition(position);
+    toBeAddedTo->addChild(hqSceneElement);
+}
+
+void HQScene::createMonodirectionalScrollView() //This is the method that is being called from outside of the class
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1100), Point(origin.x, origin.y + 50));
+    this->addChild(horizontalScrollView);
+    
+    //This is just to add fake icons to the scrollview:
+    for(int i = 0; i < 8; i++)
+    {
+        addElementToHorizontalScrollView(horizontalScrollView, Point(0,0), category, 0, "res/previewimg/1a.png", "Angry Birds");
+    }
+}
+
+void HQScene::createBidirectionalScrollView() //This is the method that is being called from outside of the class
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto verticalScrollView = createVerticalScrollView();
+    this->addChild(verticalScrollView);
+    
+    for(int j = 0; j < 4; j++)
+    {
+        scrollViewSpaceAllocation.clear();
+        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1100), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
+        CCLOG("scrollview position: %f, %f", horizontalScrollView->getPosition().x, horizontalScrollView->getPosition().y);
+        verticalScrollView->addChild(horizontalScrollView);
+        
+        for(int i = 0; i < 16; i++)
+        {
+            int highlight = 0;
+            if(i % 6 == 0) highlight = 2;
+            if(i % 7 == 0) highlight = 1;
+            addElementToHorizontalScrollView(horizontalScrollView, getItemPositionForBidirectionalScrollView(highlight), category, highlight, "res/previewimg/1a.png", "Angry Birds");
+        }
+    }
+}
+
 // on "init" you need to initialize your instance
 bool HQScene::init()
 {
@@ -135,56 +258,6 @@ bool HQScene::init()
     //We capture the the touches "under" the scrollView-s, and locking all horizontal movements on vertical touchMoves, and all vertical movements on horizontal touchMove.
     //The listener works the same way, as with all other nodes.
     
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height * 0.82);
-    
-    auto vScrollView = cocos2d::ui::ScrollView::create();
-    vScrollView->setContentSize(vScrollFrameSize);
-    vScrollView->setPosition(origin);
-    vScrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
-    vScrollView->setTouchEnabled(true);
-    vScrollView->setBounceEnabled(true);
-    vScrollView->setInnerContainerSize(Size(visibleSize.width, visibleSize.height * 2));
-    vScrollView->setScrollBarEnabled(false);
-    vScrollView->setSwallowTouches(false);
-    this->addChild(vScrollView, 1);
-    
-    this->addListenerToScrollView(vScrollView);
-    
-    for(int j = 0; j < 4; j++)
-    {
-        Size hScrollFrameSize = Size(visibleSize.width, visibleSize.height / 3);
-        
-        auto scrollView = cocos2d::ui::ScrollView::create();
-        
-        scrollView->setContentSize(hScrollFrameSize);
-        scrollView->setPosition(Size(origin.x,origin.y + visibleSize.height * 2 - visibleSize.height / 2 * (j + 1)));
-        scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
-        scrollView->setBounceEnabled(true);
-        scrollView->setTouchEnabled(true);
-        scrollView->setInnerContainerSize(Size(visibleSize.width * 2, visibleSize.height / 3));
-        scrollView->setSwallowTouches(false);
-        scrollView->setScrollBarEnabled(false);
-        
-        vScrollView->addChild(scrollView);
-        
-        std::vector<std::string> filenames;
-        filenames.push_back("res/previewimg/video_birds.png");
-        filenames.push_back("res/previewimg/video_jamie.png");
-        filenames.push_back("res/previewimg/video_lassie.png");
-        filenames.push_back("res/previewimg/video_moe.png");
-        
-        for(int i = 0; i < 8; i++) //THIS IS ONLY PLACEHOLDER, HAS TO BE CHANGED TO REALLY LOADED IMAGES
-        {
-            auto myImg = Sprite::create(filenames.at(int(CCRANDOM_0_1() * filenames.size())));
-            myImg->setPosition(scrollView->getInnerContainerSize().width / 8 * (i + 1), scrollView->getInnerContainerSize().height / 2);
-            myImg->setTag(i);
-            scrollView->addChild(myImg);
-        }
-    }
-
     
     return true;
 }

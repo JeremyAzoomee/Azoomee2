@@ -71,10 +71,8 @@ void NavigationLayer::changeToScene(int target)
         if((target != 0)&&(target != 3))
         {
             delayTime = 0;
-        
             travelPoint = horizontalMenuItemPositions.at(i);
         }
-        
         
         menuItemImage->runAction(Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, travelPoint), 2), NULL));
         
@@ -85,8 +83,8 @@ void NavigationLayer::startRotatingTheMenu()
 {
     //The layer itself is going to be rotated.
     
-    int repeat = 4;
-    float rotateTime = 2;
+    int repeat = 2;
+    float rotateTime = 1;
     
     this->runAction(EaseOut::create(Repeat::create(RotateBy::create(rotateTime, 360), repeat), 10));
     this->schedule(schedule_selector(NavigationLayer::keepMenuPointsSideUp), 0, int(repeat * rotateTime * 60.0f), 0);

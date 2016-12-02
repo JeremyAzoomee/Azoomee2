@@ -60,6 +60,7 @@
 		A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */; };
 		A11E73931DE31C3A00166ECA /* InterSceneLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A11E73911DE31C3A00166ECA /* InterSceneLoader.cpp */; };
 		A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1817B491DDCCA5200C2D13C /* MainHubBgElements.cpp */; };
+		A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19759821DE4931200FEB03C /* HQSceneElement.cpp */; };
 		A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
 		A19862231DD3836D0090F053 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862151DD3836D0090F053 /* HQScene.cpp */; };
 		A19862241DD3836D0090F053 /* IntroScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862171DD3836D0090F053 /* IntroScene.cpp */; };
@@ -174,6 +175,8 @@
 		A11E73921DE31C3A00166ECA /* InterSceneLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterSceneLoader.h; sourceTree = "<group>"; };
 		A1817B491DDCCA5200C2D13C /* MainHubBgElements.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainHubBgElements.cpp; sourceTree = "<group>"; };
 		A1817B4A1DDCCA5200C2D13C /* MainHubBgElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainHubBgElements.h; sourceTree = "<group>"; };
+		A19759821DE4931200FEB03C /* HQSceneElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneElement.cpp; sourceTree = "<group>"; };
+		A19759831DE4931200FEB03C /* HQSceneElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneElement.h; sourceTree = "<group>"; };
 		A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildSelectorScene.cpp; sourceTree = "<group>"; };
 		A19862141DD3836D0090F053 /* ChildSelectorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildSelectorScene.h; sourceTree = "<group>"; };
 		A19862151DD3836D0090F053 /* HQScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
@@ -345,12 +348,11 @@
 				A198621D1DD3836D0090F053 /* NavigationLayer.cpp */,
 				A198621E1DD3836D0090F053 /* NavigationLayer.h */,
 				A1817B481DDCB74900C2D13C /* MainHubScene */,
+				A19759861DE4931600FEB03C /* HQScene */,
 				A19862291DD383BD0090F053 /* AppDelegate.cpp */,
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
 				A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */,
 				A19862141DD3836D0090F053 /* ChildSelectorScene.h */,
-				A19862151DD3836D0090F053 /* HQScene.cpp */,
-				A19862161DD3836D0090F053 /* HQScene.h */,
 				A11E73911DE31C3A00166ECA /* InterSceneLoader.cpp */,
 				A11E73921DE31C3A00166ECA /* InterSceneLoader.h */,
 				A19862171DD3836D0090F053 /* IntroScene.cpp */,
@@ -424,6 +426,17 @@
 				A11E738D1DDF00F100166ECA /* OomeeLayer.h */,
 			);
 			name = MainHubScene;
+			sourceTree = "<group>";
+		};
+		A19759861DE4931600FEB03C /* HQScene */ = {
+			isa = PBXGroup;
+			children = (
+				A19862151DD3836D0090F053 /* HQScene.cpp */,
+				A19862161DD3836D0090F053 /* HQScene.h */,
+				A19759821DE4931200FEB03C /* HQSceneElement.cpp */,
+				A19759831DE4931200FEB03C /* HQSceneElement.h */,
+			);
+			name = HQScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -595,6 +608,7 @@
 				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				A19862251DD3836D0090F053 /* LoginScene.cpp in Sources */,
+				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
