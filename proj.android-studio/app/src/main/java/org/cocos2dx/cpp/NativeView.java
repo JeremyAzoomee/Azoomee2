@@ -22,6 +22,10 @@ import com.tinizine.azoomee.R;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.xwalk.core.XWalkActivity;
+import org.xwalk.core.XWalkPreferences;
+import org.xwalk.core.XWalkView;
+
 import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class NativeView extends Activity {
@@ -52,6 +56,15 @@ public class NativeView extends Activity {
         }
 
         mContext = this;
+
+
+        XWalkView xWalkWebView = new XWalkView(this);
+        addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        xWalkWebView.load("https://google.co.hu", null);
+
+
+        /*
 
         webview = new WebView(this);
         //setContentView(webview);
@@ -85,6 +98,8 @@ public class NativeView extends Activity {
 
         //webview.loadUrl("http://www.bonis.me/azoomee/game/index.html");
         webview.loadUrl(myUrl, headers);
+
+        */
 
         Button extra = new Button(this);
         extra.setText("back");

@@ -24,7 +24,7 @@ cocos2d::Scene* WebViewSelector::createScene()
 
 void WebViewSelector::loadWebView()
 {
-    std::string url = "http://192.168.1.148/reqtest"; //"https://media.azoomee.ninja/free/f50a74dd-185f-4010-ab6f-b34858b96bcd/video_stream.m3u8";
+    std::string url = "https://media.azoomee.ninja/free/f50a74dd-185f-4010-ab6f-b34858b96bcd/video_stream.m3u8";
     CCLOG("To be sent to jni: %s", DataStorage::getInstance()->dataDownloadCookiesWithCommas.c_str());
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
