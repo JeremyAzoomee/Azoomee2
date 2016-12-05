@@ -19,19 +19,23 @@ import android.widget.Button;
 
 import com.tinizine.azoomee.R;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.xwalk.core.XWalkActivity;
 import org.xwalk.core.XWalkPreferences;
 import org.xwalk.core.XWalkView;
+import org.xwalk.core.XWalkCookieManager;
+
 
 import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class NativeView extends Activity {
 
     private static Context mContext;
-    public WebView webview;
+    public XWalkView xWalkWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,6 @@ public class NativeView extends Activity {
         {
             myUrl = extras.getString("url");
             myCookies = extras.getString("cookie");
-            //myCookies = myCookies.replace(", ", "\n");
         }
 
         final View decorView = getWindow().getDecorView();
@@ -57,11 +60,16 @@ public class NativeView extends Activity {
 
         mContext = this;
 
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Cookie", myCookies);
 
-        XWalkView xWalkWebView = new XWalkView(this);
+
+
+        xWalkWebView = new XWalkView(this);
         addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        xWalkWebView.load("https://google.co.hu", null);
+        //xWalkWebView.load(myUrl, null, headers);
+        xWalkWebView.load("file:///android_asset/res/jwplayer/index.html", null, headers);
 
 
         /*
@@ -111,14 +119,12 @@ public class NativeView extends Activity {
                 Log.d(tag, "Showing alert dialog: " + message);
 
 
-                webview.removeAllViews();
+                xWalkWebView.removeAllViews();
 
-                if(webview != null) {
-                    webview.clearHistory();
-                    webview.clearCache(true);
-                    webview.loadUrl("about:blank");
-                    //webview.pauseTimers();
-                    webview = null;
+                if(xWalkWebView != null)
+                {
+                    xWalkWebView.clearCache(true);
+                    xWalkWebView = null;
                 }
 
                 finish();

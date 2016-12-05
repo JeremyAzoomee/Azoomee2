@@ -346,28 +346,48 @@ void BackEndCaller::getGordon()
     std::string requestPath = "/api/porthole/pixel/gordon.png";
     std::string requestUrl = StringUtils::format(CI_URL"%s?userid=%s&sessionid=%s", requestPath.c_str(), DataStorage::getInstance()->getParentOrChildLoginValue("id").c_str(), DataStorage::getInstance()->getParentOrChildLoginValue("cdn-sessionid").c_str());
     
+    auto myJWTTool = JWTTool::getInstance();
+    
+    std::string myRequestString = myJWTTool->buildJWTString("GET", requestPath.c_str(), CI_HOST, StringUtils::format("userid=%s&sessionid=%s", requestPath.c_str(), DataStorage::getInstance()->getParentOrChildLoginValue("cdn-sessionid").c_str()), "");
+    
     HttpRequest *request = new HttpRequest();
     request->setRequestType(HttpRequest::Type::GET);
     request->setUrl(requestUrl.c_str());
     
-    auto myJWTTool = JWTTool::getInstance();
-    
-    std::string myRequestString = myJWTTool->buildJWTString("GET", requestPath.c_str(), CI_HOST, StringUtils::format("userid=%s&sessionid=%s", requestPath.c_str(), DataStorage::getInstance()->getParentOrChildLoginValue("cdn-sessionid").c_str()), "");
-    const char *reqData = myRequestString.c_str();
-    
-    request->setRequestData(reqData, strlen(reqData));
+    //request->setRequestData(reqData, strlen(reqData));
     
     CCLOG("request data is: %s", request->getRequestData());
     
     std::vector<std::string> headers;
     headers.push_back(StringUtils::format("x-az-req-datetime: %s", getDateFormatString().c_str()));
-    headers.push_back(StringUtils::format("x-az-auth-token: %s", reqData));
+    headers.push_back(StringUtils::format("x-az-auth-token: %s", myRequestString.c_str()));
     
     request->setHeaders(headers);
     
     request->setResponseCallback(CC_CALLBACK_2(BackEndCaller::onGetGordonAnswerReceived, this));
     request->setTag("GET content");
     HttpClient::getInstance()->send(request);
+    
+}
+
+void BackEndCaller::setCookiesForAndroid(std::string url, std::string cookieString)
+{
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    cocos2d::JniMethodInfo methodInfo;
+    
+    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "setCookies", "(Ljava/lang/String;Ljava/lang/String;)V"))
+    {
+        return;
+    }
+    
+    jstring jurl = methodInfo.env->NewStringUTF(url.c_str());
+    jstring jcookieString = methodInfo.env->NewStringUTF(cookieString.c_str());
+    
+    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jurl, jcookieString);
+    methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    
+    #endif
 }
 
 void BackEndCaller::onGetGordonAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -381,8 +401,12 @@ void BackEndCaller::onGetGordonAnswerReceived(cocos2d::network::HttpClient *send
         
         if(DataStorage::getInstance()->parseDownloadCookies(responseString))
         {
-            //getData();
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
             
+            setCookiesForAndroid("https://media.azoomee.ninja", "cookie = 1"); //DataStorage::getInstance()->dataDownloadCookies);
+            
+#endif
             modalMessages->stopLoading();
             Director::getInstance()->getRunningScene()->removeChild(modalMessages);
             
@@ -401,7 +425,7 @@ void BackEndCaller::getData()
     request->setUrl(requestUrl.c_str());
     
     std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", DataStorage::getInstance()->dataDownloadCookies.c_str()));
+    headers.push_back(StringUtils::format("Cookie: %s", DataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
     request->setHeaders(headers);
     
     request->setResponseCallback(CC_CALLBACK_2(BackEndCaller::onGetDataAnswerReceived, this));

@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+	<head>
+	
+	</head>
+	<body>
+		<script src="./jwplayer/jwplayer.js"></script>
+		<script>jwplayer.key="wrR1ClbRkYGQx0IOIV2gMJQggtFCdWaDaza25g==";</script>
+
+		<div id="myElement"></div>
+		<script type="text/javascript">
+			var playerInstance = jwplayer("myElement");
+			playerInstance.setup({
+    		file: "./video.mp4",
+    		mediaid: "examplevideo"
+		});
+</script>
+	
+	</body>
+</html>

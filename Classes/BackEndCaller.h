@@ -30,6 +30,7 @@ public:
     
     void getGordon();
     void onGetGordonAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+    void setCookiesForAndroid(std::string url, std::string cookieString);
     
     void getData();
     void onGetDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);

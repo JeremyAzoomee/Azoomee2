@@ -45,20 +45,32 @@ void WebViewNative_ios::startLoadingUrl(std::string url)
 
 void WebViewNative_ios::addWebViewToScreen(std::string url)
 {
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *each in cookieStorage.cookies) {
+        NSLog(@"Cookies in storage: %@", each);
+        [cookieStorage deleteCookie:each];
+    }
     
-    //defaultCStringEncoding kills newlines added in C++, so we need to get the original string with commas and convert them to newlines on objective c level.
-    NSString *cookiesString = [NSString stringWithCString:DataStorage::getInstance()->dataDownloadCookiesWithCommas.c_str() encoding:[NSString defaultCStringEncoding]];
-    cookiesString = [cookiesString stringByReplacingOccurrencesOfString:@", " withString:@"\n"];
+    for (NSHTTPCookie *each in cookieStorage.cookies) {
+        NSLog(@"Cookie after deletion: %@", each);
+    }
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    NSString *cookiesString = [NSString stringWithCString:DataStorage::getInstance()->getCookiesForRequest(url).c_str() encoding:[NSString defaultCStringEncoding]];
     
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, currentView.frame.size.width, currentView.frame.size.height)];
     
-    NSString *htmlFileAddress = [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]];
+    //NSString *htmlFileAddress = [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]];
+    NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index" ofType:@"html"];
     NSURL *nsurl=[NSURL URLWithString:htmlFileAddress];
     NSMutableURLRequest *nsrequest=[NSMutableURLRequest requestWithURL:nsurl];
     
     [nsrequest setHTTPMethod:@"GET"];
     [nsrequest addValue:cookiesString forHTTPHeaderField:@"Cookie"];
+    
+    NSLog(@"Given header: %@", [nsrequest valueForHTTPHeaderField:@"Cookie"]);
     
     [webview loadRequest:nsrequest];
     

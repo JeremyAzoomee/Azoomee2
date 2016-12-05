@@ -24,8 +24,9 @@ cocos2d::Scene* WebViewSelector::createScene()
 
 void WebViewSelector::loadWebView()
 {
+    //std::string url = "https://localhost/reqtest/index.html";
     std::string url = "https://media.azoomee.ninja/free/f50a74dd-185f-4010-ab6f-b34858b96bcd/video_stream.m3u8";
-    CCLOG("To be sent to jni: %s", DataStorage::getInstance()->dataDownloadCookiesWithCommas.c_str());
+    //CCLOG("To be sent to jni: %s", DataStorage::getInstance()->dataDownloadCookiesWithCommas.c_str());
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     auto iosWebView = WebViewNative_ios::createSceneWithURL(url);
@@ -41,9 +42,9 @@ void WebViewSelector::loadWebView()
     }
     
     jstring jurl = methodInfo.env->NewStringUTF(url.c_str());
-    jstring jcookie = methodInfo.env->NewStringUTF(DataStorage::getInstance()->dataDownloadCookiesWithCommas.c_str());
+    jstring jcookie = methodInfo.env->NewStringUTF(DataStorage::getInstance()->getCookiesForRequest(url).c_str());
     
-    CCLOG("To be sent to jni: %s", DataStorage::getInstance()->dataDownloadCookiesWithCommas.c_str());
+    CCLOG("To be sent to jni: %s", DataStorage::getInstance()->getCookiesForRequest(url).c_str());
     
     methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jurl, jcookie);
     methodInfo.env->DeleteLocalRef(methodInfo.classID);

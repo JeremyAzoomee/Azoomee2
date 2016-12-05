@@ -32,6 +32,11 @@ import javax.crypto.spec.SecretKeySpec;
 import android.util.Base64;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.xwalk.core.XWalkCookieManager;
+import org.xwalk.core.XWalkView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AppActivity extends Cocos2dxActivity {
 
@@ -81,6 +86,19 @@ public class AppActivity extends Cocos2dxActivity {
          
          return hash.trim();
      
+    }
+
+    public static void setCookies(String url, String cookieString)
+    {
+        XWalkCookieManager mCookieManager = new XWalkCookieManager();
+        mCookieManager.setAcceptCookie(true);
+        mCookieManager.setAcceptFileSchemeCookies(true);
+
+        Log.d("Final bit", "final Bit");
+
+        //mCookieManager.setCookie(url, cookieString);
+
+        //if(mCookieManager.hasCookies()) Log.d("hascookies 1:", "true");
     }
 
 }

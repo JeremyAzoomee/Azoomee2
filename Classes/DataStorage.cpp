@@ -41,6 +41,25 @@ bool DataStorage::parseParentLoginData(std::string responseData)
     return false;
 }
 
+std::vector<std::string> DataStorage::splitStringToVector(std::string inputString, std::string separator)
+{
+    std::vector<std::string> result;
+    
+    std::vector<std::string> tokens;
+    size_t prev = 0, pos = 0;
+    do
+    {
+        pos = inputString.find(separator, prev);
+        if (pos == std::string::npos) pos = inputString.length();
+        std::string token = inputString.substr(prev, pos - prev);
+        if (!token.empty()) result.push_back(token);
+        prev = pos + separator.length();
+    }
+    while (pos < inputString.length() && prev < inputString.length());
+    
+    return result;
+}
+
 std::string DataStorage::getParentLoginValue(std::string keyName)
 {
     return parentLoginData[keyName.c_str()].GetString();
@@ -120,8 +139,8 @@ bool DataStorage::parseContentData(std::string responseString)
 
 bool DataStorage::parseDownloadCookies(std::string responseString)
 {
-    //storing the full response string, because iOS native webview has a method to get cookies from it.
-    pureCookieResponseString = responseString;
+    //This is not a good aproach to parse strings by searching strings. We have to parse them by adding them to maps or vectors, otherwise we will have a browswer-dependent working method.
+    //In this example as you can see, on android we have to substr one character earlier, as it gives back Set-Cookie:content instead of Set-Cookie: content ... Crazy...
     
     CCLOG("Responsestring: %s", responseString.c_str());
     
@@ -139,11 +158,15 @@ bool DataStorage::parseDownloadCookies(std::string responseString)
     size_t endpos = responseString.find("\n");
     responseString = responseString.substr(0, endpos);
     
-    dataDownloadCookiesWithCommas = responseString;
+    pureCookieResponseString = responseString;
     
+    //Now create the array of cookies based on ", " string
+    
+    dataDownloadCookiesVector = splitStringToVector(pureCookieResponseString, ", ");
+    
+    //dataDownloadCookiesWithCommas = responseString;
     responseString = replaceAll(responseString, ", ", "\n");
-    
-    dataDownloadCookies = responseString;
+    dataDownloadCookiesForCpp = responseString;
 
     
     return true;
@@ -161,7 +184,51 @@ std::string DataStorage::replaceAll(std::string& str, const std::string& from, c
     return str;
 }
 
-std::string DataStorage::getCookies()
+std::string DataStorage::getCookiesForRequest(std::string url)
 {
-    return dataDownloadCookies;
+    std::string cookieString = "";
+    
+    for(int i = 0; i < dataDownloadCookiesVector.size(); i++)
+    {
+        if(checkIfCookieIsForUrl(dataDownloadCookiesVector.at(i), url)) cookieString = StringUtils::format("%s%s; ", cookieString.c_str(), getCookieMainContent(dataDownloadCookiesVector.at(i)).c_str());
+    }
+    
+    CCLOG("\n\n\nCookieString:\n\n\n%s", cookieString.c_str());
+    return cookieString;
+}
+
+bool DataStorage::checkIfCookieIsForUrl(std::string cookieRecord, std::string url)
+{
+    bool domainFound = false;
+    bool pathFound = false;
+    
+    std::vector<std::string> cookieParts = splitStringToVector(cookieRecord, "; ");
+    for(int i = 0; i < cookieParts.size(); i++)
+    {
+        std::vector<std::string> partKeyAndValue = splitStringToVector(cookieParts.at(i), "=");
+        if(partKeyAndValue.at(0) == "Domain")
+        {
+            if(url.find(partKeyAndValue.at(1)) != std::string::npos)
+            {
+                domainFound = true;
+            }
+        }
+        else if(partKeyAndValue.at(0) == "Path")
+        {
+            if(url.find(partKeyAndValue.at(1)) != std::string::npos)
+            {
+                pathFound = true;
+            }
+        }
+    }
+    
+    if(domainFound&&pathFound) return true;
+    return false;
+}
+
+std::string DataStorage::getCookieMainContent(std::string cookieRecord)
+{
+    std::string cookieMainContent = splitStringToVector(cookieRecord, "; ").at(0);
+    
+    return cookieMainContent;
 }
