@@ -32,7 +32,7 @@ import org.xwalk.core.XWalkCookieManager;
 
 import static com.loopj.android.http.AsyncHttpClient.log;
 
-public class NativeView extends Activity {
+public class NativeView extends XWalkActivity {
 
     private static Context mContext;
     public XWalkView xWalkWebView;
@@ -41,15 +41,6 @@ public class NativeView extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_view);
-
-        Bundle extras = getIntent().getExtras();
-        String myUrl = "about:blank";
-        String myCookies = "";
-        if(extras != null)
-        {
-            myUrl = extras.getString("url");
-            myCookies = extras.getString("cookie");
-        }
 
         final View decorView = getWindow().getDecorView();
 
@@ -60,54 +51,12 @@ public class NativeView extends Activity {
 
         mContext = this;
 
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Cookie", myCookies);
-
-
-
         xWalkWebView = new XWalkView(this);
         addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         //xWalkWebView.load(myUrl, null, headers);
-        xWalkWebView.load("file:///android_asset/res/jwplayer/index.html", null, headers);
 
 
-        /*
-
-        webview = new WebView(this);
-        //setContentView(webview);
-        addContentView(webview, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            CookieManager cookieManager = CookieManager.getInstance();
-            cookieManager.setAcceptThirdPartyCookies(webview, true);
-        }
-
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("HeaderCookie", myCookies);
-
-        for(String key : headers.keySet() ) {
-            log.d("key in headers", key);
-        }
-
-        log.d("HeaderCookie", myCookies);
-
-        webview.setWebViewClient(new WebViewClient());
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.getSettings().setAllowFileAccess(true);
-        webview.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webview.getSettings().setLoadsImagesAutomatically(true);
-        webview.getSettings().setSupportMultipleWindows(true);
-        webview.getSettings().setDomStorageEnabled(true);
-        //if(Build.VERSION.SDK_INT < 21) webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
-
-        //webview.loadUrl("http://www.bonis.me/azoomee/game/index.html");
-        webview.loadUrl(myUrl, headers);
-
-        */
 
         Button extra = new Button(this);
         extra.setText("back");
@@ -133,5 +82,41 @@ public class NativeView extends Activity {
 
         addContentView(extra, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
+    }
+
+    @Override
+    protected void onXWalkReady() {
+        Bundle extras = getIntent().getExtras();
+        String myUrl = "about:blank";
+        String myCookies = "";
+        if(extras != null)
+        {
+            myUrl = extras.getString("url");
+            myCookies = extras.getString("cookie");
+        }
+
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Cookie", myCookies);
+
+
+
+
+        // Do anything with embedding API
+
+        XWalkCookieManager mCookieManager = new XWalkCookieManager();
+        mCookieManager.setAcceptCookie(true);
+        mCookieManager.setAcceptFileSchemeCookies(true);
+
+        String[] separatedCookies = myCookies.split("; ");
+
+        for(int i = 0; i < separatedCookies.length; i++)
+        {
+            log.d("seaparatecookies: ", separatedCookies[i]);
+            mCookieManager.setCookie("https://media.azoomee.ninja", separatedCookies[i]);
+        }
+
+        log.d("cookies: ", mCookieManager.getCookie("https://media.azoomee.ninja"));
+
+        xWalkWebView.load("file:///android_asset/res/jwplayer/index.html?contentUrl=" + myUrl, null);
     }
 }

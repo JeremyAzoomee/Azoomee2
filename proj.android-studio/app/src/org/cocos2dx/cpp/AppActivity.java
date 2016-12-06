@@ -68,37 +68,20 @@ public class AppActivity extends Cocos2dxActivity {
         return "AndroidAnswer";
     }
     
-    public static String getHMACSHA256(String message, String secret)
-    {
-         String hash = "";
-         try
-         {
-             Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-             SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
-             sha256_HMAC.init(secret_key);
-             
-             hash = Base64.encodeToString(sha256_HMAC.doFinal(message.getBytes()), Base64.DEFAULT);
-         }
-         catch (Exception e)
-         {
-         
-         }
-         
-         return hash.trim();
-     
-    }
+    public static String getHMACSHA256(String message, String secret) {
+        String hash = "";
+        try {
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
 
-    public static void setCookies(String url, String cookieString)
-    {
-        XWalkCookieManager mCookieManager = new XWalkCookieManager();
-        mCookieManager.setAcceptCookie(true);
-        mCookieManager.setAcceptFileSchemeCookies(true);
+            hash = Base64.encodeToString(sha256_HMAC.doFinal(message.getBytes()), Base64.DEFAULT);
+        } catch (Exception e) {
 
-        Log.d("Final bit", "final Bit");
+        }
 
-        //mCookieManager.setCookie(url, cookieString);
+        return hash.trim();
 
-        //if(mCookieManager.hasCookies()) Log.d("hascookies 1:", "true");
     }
 
 }

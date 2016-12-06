@@ -370,26 +370,6 @@ void BackEndCaller::getGordon()
     
 }
 
-void BackEndCaller::setCookiesForAndroid(std::string url, std::string cookieString)
-{
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    cocos2d::JniMethodInfo methodInfo;
-    
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "setCookies", "(Ljava/lang/String;Ljava/lang/String;)V"))
-    {
-        return;
-    }
-    
-    jstring jurl = methodInfo.env->NewStringUTF(url.c_str());
-    jstring jcookieString = methodInfo.env->NewStringUTF(cookieString.c_str());
-    
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jurl, jcookieString);
-    methodInfo.env->DeleteLocalRef(methodInfo.classID);
-    
-    #endif
-}
-
 void BackEndCaller::onGetGordonAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
     std::string responseString = StringUtils::format("");
@@ -401,12 +381,6 @@ void BackEndCaller::onGetGordonAnswerReceived(cocos2d::network::HttpClient *send
         
         if(DataStorage::getInstance()->parseDownloadCookies(responseString))
         {
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-            
-            setCookiesForAndroid("https://media.azoomee.ninja", "cookie = 1"); //DataStorage::getInstance()->dataDownloadCookies);
-            
-#endif
             modalMessages->stopLoading();
             Director::getInstance()->getRunningScene()->removeChild(modalMessages);
             

@@ -8,11 +8,24 @@
 
 		<div id="myElement"></div>
 		<script type="text/javascript">
+			
+			var contentUrl = getUrlVars()["contentUrl"];
+		
 			var playerInstance = jwplayer("myElement");
 			playerInstance.setup({
-    		file: "./video.mp4",
-    		mediaid: "examplevideo"
+    		file: contentUrl,
+    		mediaid: "azoomeeplayer"
 		});
+		
+		function getUrlVars() 
+		{
+			var vars = {};
+			var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) 
+			{
+				vars[key] = value;
+			});
+			return vars;
+		}
 </script>
 	
 	</body>

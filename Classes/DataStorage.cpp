@@ -161,8 +161,12 @@ bool DataStorage::parseDownloadCookies(std::string responseString)
     pureCookieResponseString = responseString;
     
     //Now create the array of cookies based on ", " string
-    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     dataDownloadCookiesVector = splitStringToVector(pureCookieResponseString, ", ");
+#endif
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    dataDownloadCookiesVector = splitStringToVector(pureCookieResponseString, ",");
+#endif
     
     //dataDownloadCookiesWithCommas = responseString;
     responseString = replaceAll(responseString, ", ", "\n");
@@ -190,6 +194,7 @@ std::string DataStorage::getCookiesForRequest(std::string url)
     
     for(int i = 0; i < dataDownloadCookiesVector.size(); i++)
     {
+        CCLOG("Cookie in array: %s", dataDownloadCookiesVector.at(i).c_str());
         if(checkIfCookieIsForUrl(dataDownloadCookiesVector.at(i), url)) cookieString = StringUtils::format("%s%s; ", cookieString.c_str(), getCookieMainContent(dataDownloadCookiesVector.at(i)).c_str());
     }
     

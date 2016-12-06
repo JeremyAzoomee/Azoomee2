@@ -45,32 +45,20 @@ void WebViewNative_ios::startLoadingUrl(std::string url)
 
 void WebViewNative_ios::addWebViewToScreen(std::string url)
 {
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    for (NSHTTPCookie *each in cookieStorage.cookies) {
-        NSLog(@"Cookies in storage: %@", each);
-        [cookieStorage deleteCookie:each];
-    }
-    
-    for (NSHTTPCookie *each in cookieStorage.cookies) {
-        NSLog(@"Cookie after deletion: %@", each);
-    }
+
+    //Please note: cookie handling in ios is automatic. Set-cookie values are getting set from the httprequest's response, and they are being stored in the shared cookie storage. This is not true on Android (furthermore we are not using the built-in browser).
     
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    NSString *cookiesString = [NSString stringWithCString:DataStorage::getInstance()->getCookiesForRequest(url).c_str() encoding:[NSString defaultCStringEncoding]];
     
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, currentView.frame.size.width, currentView.frame.size.height)];
     
-    //NSString *htmlFileAddress = [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]];
     NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index" ofType:@"html"];
-    NSURL *nsurl=[NSURL URLWithString:htmlFileAddress];
+    NSString *htmlFileAddressWithGetVariable = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]]];
+    NSURL *nsurl=[NSURL URLWithString:htmlFileAddressWithGetVariable];
     NSMutableURLRequest *nsrequest=[NSMutableURLRequest requestWithURL:nsurl];
     
     [nsrequest setHTTPMethod:@"GET"];
-    [nsrequest addValue:cookiesString forHTTPHeaderField:@"Cookie"];
-    
-    NSLog(@"Given header: %@", [nsrequest valueForHTTPHeaderField:@"Cookie"]);
     
     [webview loadRequest:nsrequest];
     
