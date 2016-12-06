@@ -31,9 +31,6 @@ public:
     void getGordon();
     void onGetGordonAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
-    void getData();
-    void onGetDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
-    
     void displayError(std::string errorMessage);
     
     std::string getDateFormatString();

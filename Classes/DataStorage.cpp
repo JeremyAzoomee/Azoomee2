@@ -123,7 +123,7 @@ bool DataStorage::parseContentData(std::string responseString)
         return false;
     }
     
-    for (M=contentData["contentItems"].MemberBegin(); M!=contentData["contentItems"].MemberEnd(); M++)
+    for (M=contentData["items"].MemberBegin(); M!=contentData["items"].MemberEnd(); M++)
     {
         key   = M->name.GetString();
         

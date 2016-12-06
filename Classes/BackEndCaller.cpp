@@ -153,6 +153,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(HttpClient *sender, HttpResponse
     {
         std::vector<char> myResponse = *response->getResponseData();
         myResponseString = std::string(myResponse.begin(), myResponse.end());
+        CCLOG("children data: %s", myResponseString.c_str());
     }
     
     if(response->getResponseCode() == 200)
@@ -284,7 +285,7 @@ void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sen
 
 void BackEndCaller::getContent()
 {
-    std::string requestPath = StringUtils::format("/api/content/v2/user/%s", DataStorage::getInstance()->getChildLoginValue("id").c_str());
+    std::string requestPath = StringUtils::format("/api/electricdreams/view/categories/home/%s", DataStorage::getInstance()->getChildLoginValue("id").c_str());
     std::string requestUrl = StringUtils::format(CI_URL"%s", requestPath.c_str());
     
     HttpRequest *request = new HttpRequest();
@@ -322,6 +323,7 @@ void BackEndCaller::onGetContentAnswerReceived(cocos2d::network::HttpClient *sen
     {
         std::vector<char> myResponse = *response->getResponseData();
         responseString = std::string(myResponse.begin(), myResponse.end());
+        CCLOG("get content data: %s", responseString.c_str());
     }
     
     if(response->getResponseCode() == 200)
@@ -387,33 +389,5 @@ void BackEndCaller::onGetGordonAnswerReceived(cocos2d::network::HttpClient *send
             auto baseScene = BaseScene::createScene();
             Director::getInstance()->replaceScene(baseScene);
         }
-    }
-}
-
-void BackEndCaller::getData()
-{
-    std::string requestUrl = "https://media.azoomee.ninja/free/f50a74dd-185f-4010-ab6f-b34858b96bcd/video_stream.m3u8";
-    
-    HttpRequest *request = new HttpRequest();
-    request->setRequestType(HttpRequest::Type::GET);
-    request->setUrl(requestUrl.c_str());
-    
-    std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", DataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
-    request->setHeaders(headers);
-    
-    request->setResponseCallback(CC_CALLBACK_2(BackEndCaller::onGetDataAnswerReceived, this));
-    request->setTag("GET data");
-    HttpClient::getInstance()->send(request);
-}
-
-void BackEndCaller::onGetDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
-{
-    std::string responseString = StringUtils::format("");
-    
-    if (response && response->getResponseData())
-    {
-        std::vector<char> myResponse = *response->getResponseHeader();
-        responseString = std::string(myResponse.begin(), myResponse.end());
     }
 }
