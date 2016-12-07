@@ -211,6 +211,7 @@ void OnboardingScene::addListenerToButton(cocos2d::Sprite *spriteImage)
 
 void OnboardingScene::emailNextButton()
 {
+    //Check if Email address is in correct format
     if(isValidEmailAddress(((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText()))
     {
            onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
@@ -224,41 +225,62 @@ void OnboardingScene::emailNextButton()
 
 void OnboardingScene::passwordBackButton()
 {
-    ((ui::EditBox *)onboardingContent->getChildByName("passwordField"))->setText("");
-    onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2));
+        ((ui::EditBox *)onboardingContent->getChildByName("passwordField"))->setText("");
+        onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2));
 }
 
 void OnboardingScene::passwordNextButton()
 {
-    onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2));
+    //Check if Password is in correct format
+    if(true)
+    {
+        onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2));
+    }
+    else
+    {
+        //ERROR incorrect Password format
+    }
 }
 
 void OnboardingScene::pinBackButton()
 {
+    ((ui::EditBox *)onboardingContent->getChildByName("pinField"))->setText("");
     onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
 }
 
 void OnboardingScene::pinNextButton()
 {
-    std::string username = ((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText();
-    std::string password = ((ui::EditBox *)onboardingContent->getChildByName("passwordField"))->getText();
-    
-    //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
-    
-    if(username == "aaa")
+    //Check if Email address is in correct format
+    if(isValidPin(((ui::EditBox *)onboardingContent->getChildByName("pinField"))->getText()))
     {
-        username = "klaas+ci@azoomee.com";
-        password = "test1234";
+        std::string username = ((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText();
+        std::string password = ((ui::EditBox *)onboardingContent->getChildByName("passwordField"))->getText();
+        std::string pin = ((ui::EditBox *)onboardingContent->getChildByName("pinField"))->getText();
+        
+        //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
+        
+        if(username == "aaa")
+        {
+            username = "klaas+ci@azoomee.com";
+            password = "test1234";
+        }
+        
+        //DELETE UNTIL THIS POINT IN PRODUCTION
+        
+        auto backEndCaller = BackEndCaller::getInstance();
+        backEndCaller->login(username, password);
     }
-    
-    //DELETE UNTIL THIS POINT IN PRODUCTION
-    
-    auto backEndCaller = BackEndCaller::getInstance();
-    backEndCaller->login(username, password);
+    else
+    {
+        //ERROR incorrect pin number
+        
+    }
 }
 
 bool OnboardingScene::isCharacter(const char Character)
 {
+    //Borrowed from internet With isValidEmailAddress to check email address format
+    
     return ( (Character >= 'a' && Character <= 'z') || (Character >= 'A' && Character <= 'Z'));
     //Checks if a Character is a Valid A-Z, a-z Character, based on the ascii value
 }
@@ -270,6 +292,8 @@ bool OnboardingScene::isNumber(const char Character)
 
 bool OnboardingScene::isValidEmailAddress(const char * EmailAddress)
 {
+    //Borrowed from internet With isValidEmailAddress to check email address format
+    
     if(!EmailAddress) // If cannot read the Email Address...
         return 0;
     if(!isCharacter(EmailAddress[0])) // If the First character is not A-Z, a-z
@@ -289,4 +313,26 @@ bool OnboardingScene::isValidEmailAddress(const char * EmailAddress)
     if(AtOffset > DotOffset) // If the @ is after the Dot
         return 0;
     return !(DotOffset >= ((int)Length-1)); //Chech there is some other letters after the Dot
+}
+
+bool OnboardingScene::isValidPin(const char * pinNumber)
+{
+    if(!pinNumber) // If cannot read the Email Address...
+        return 0;
+
+    if(strlen(pinNumber) != 4) // ensure there are 4 characters
+        return 0;
+    
+    bool pinOK = true;
+    
+    for(unsigned int i = 0; i < strlen(pinNumber); i++)
+    {
+        if(!isNumber(pinNumber[i])) // the charactor is not a number, set to false.
+            pinOK = false;
+    }
+    if(pinOK) // If all characters are numbers return true.
+        return 1;
+    else
+        return 0;
+
 }

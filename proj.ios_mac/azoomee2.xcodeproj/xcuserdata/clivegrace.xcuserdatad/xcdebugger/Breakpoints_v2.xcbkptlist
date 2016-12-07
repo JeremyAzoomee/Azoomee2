@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/OnboardingScene.cpp"
-            timestampString = "502816344.648926"
+            timestampString = "502818024.977036"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "OnboardingScene::emailNextButton()"
             landmarkType = "7">
          </BreakpointContent>

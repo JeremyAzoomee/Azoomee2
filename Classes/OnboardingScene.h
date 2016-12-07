@@ -30,6 +30,7 @@ public:
     bool isCharacter(const char Character);
     bool isNumber(const char Character);
     bool isValidEmailAddress(const char * EmailAddress);
+    bool isValidPin(const char * pinNumber);
     
     void addListenerToButton(cocos2d::Sprite *spriteImage);
     
