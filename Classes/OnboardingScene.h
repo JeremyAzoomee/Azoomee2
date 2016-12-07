@@ -26,6 +26,11 @@ public:
     void pinBackButton();
     void pinNextButton();
     
+    //Email String Checker Functions
+    bool isCharacter(const char Character);
+    bool isNumber(const char Character);
+    bool isValidEmailAddress(const char * EmailAddress);
+    
     void addListenerToButton(cocos2d::Sprite *spriteImage);
     
     cocos2d::Size visibleSize;

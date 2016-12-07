@@ -134,7 +134,7 @@ void OnboardingScene::addTextBoxesToLayer()
     _editPin->setPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
     _editPin->setFont("fonts/azoomee.ttf", 90);
     _editPin->setFontColor(Color3B::WHITE);
-    _editPin->setMaxLength(50);
+    _editPin->setMaxLength(4);
     _editPin->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
     _editPin->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
     _editPin->setInputMode(ui::EditBox::InputMode::PHONE_NUMBER);
@@ -211,7 +211,15 @@ void OnboardingScene::addListenerToButton(cocos2d::Sprite *spriteImage)
 
 void OnboardingScene::emailNextButton()
 {
-    onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+    if(isValidEmailAddress(((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText()))
+    {
+           onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+    }
+    else
+    {
+        //ERROR incorrect email address
+        
+    }
 }
 
 void OnboardingScene::passwordBackButton()
@@ -247,4 +255,38 @@ void OnboardingScene::pinNextButton()
     
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->login(username, password);
+}
+
+bool OnboardingScene::isCharacter(const char Character)
+{
+    return ( (Character >= 'a' && Character <= 'z') || (Character >= 'A' && Character <= 'Z'));
+    //Checks if a Character is a Valid A-Z, a-z Character, based on the ascii value
+}
+bool OnboardingScene::isNumber(const char Character)
+{
+    return ( Character >= '0' && Character <= '9');
+    //Checks if a Character is a Valid 0-9 Number, based on the ascii value
+}
+
+bool OnboardingScene::isValidEmailAddress(const char * EmailAddress)
+{
+    if(!EmailAddress) // If cannot read the Email Address...
+        return 0;
+    if(!isCharacter(EmailAddress[0])) // If the First character is not A-Z, a-z
+        return 0;
+    int AtOffset = -1;
+    int DotOffset = -1;
+    unsigned int Length = strlen(EmailAddress); // Length = StringLength (strlen) of EmailAddress
+    for(unsigned int i = 0; i < Length; i++)
+    {
+        if(EmailAddress[i] == '@') // If one of the characters is @, store it's position in AtOffset
+            AtOffset = (int)i;
+        else if(EmailAddress[i] == '.') // Same, but with the dot
+            DotOffset = (int)i;
+    }
+    if(AtOffset == -1 || DotOffset == -1) // If cannot find a Dot or a @
+        return 0;
+    if(AtOffset > DotOffset) // If the @ is after the Dot
+        return 0;
+    return !(DotOffset >= ((int)Length-1)); //Chech there is some other letters after the Dot
 }
