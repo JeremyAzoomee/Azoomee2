@@ -15,6 +15,7 @@
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
+		430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */; };
 		46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7719C43A67006E1F66 /* CloseSelected.png */; };
@@ -137,6 +138,8 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
+		430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingScene.cpp; sourceTree = "<group>"; };
+		430B3B051DF8401C003A3AA7 /* OnboardingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingScene.h; sourceTree = "<group>"; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
 		46880B7719C43A67006E1F66 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
 		46880B7A19C43A67006E1F66 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
@@ -351,6 +354,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		430B3B021DF832A8003A3AA7 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */,
+				430B3B051DF8401C003A3AA7 /* OnboardingScene.h */,
+			);
+			name = Onboarding;
+			sourceTree = "<group>";
+		};
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -371,6 +383,7 @@
 				A198622D1DD480A60090F053 /* BaseScene.h */,
 				A198621D1DD3836D0090F053 /* NavigationLayer.cpp */,
 				A198621E1DD3836D0090F053 /* NavigationLayer.h */,
+				430B3B021DF832A8003A3AA7 /* Onboarding */,
 				A15B2FA41DEC73B800D25334 /* Login */,
 				A1817B481DDCB74900C2D13C /* MainHubScene */,
 				A19759861DE4931600FEB03C /* HQScene */,
@@ -691,6 +704,7 @@
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				A11E73931DE31C3A00166ECA /* InterSceneLoader.cpp in Sources */,
 				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,
+				430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */,
 				A15B2FB91DEDD1EA00D25334 /* HMACSHA256_ios.mm in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				A19862251DD3836D0090F053 /* LoginScene.cpp in Sources */,

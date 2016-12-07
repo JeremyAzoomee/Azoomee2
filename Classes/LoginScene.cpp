@@ -3,8 +3,12 @@
 #include "ui/UIEditBox/UIEditBox.h"
 #include "ModalMessages.h"
 #include "BackEndCaller.h"
+#include "OnboardingScene.h"
 
 USING_NS_CC;
+
+//Text Content defined here, ready to be changed when localisation method defined.
+#define ONBOARDING_BUTTON_TEXT "Sign Up"
 
 Scene* LoginScene::createScene()
 {
@@ -63,6 +67,7 @@ void LoginScene::addFunctionalElementsToScene()
     addLabelsToLayer();
     addTextBoxesToLayer();
     addButtonsToLayer();
+    addOnboardingButtonToLayer();
 }
 
 void LoginScene::addLabelsToLayer()
@@ -195,4 +200,34 @@ void LoginScene::backButtonAction()
 {
     ((ui::EditBox *)loginContent->getChildByName("passwordField"))->setText("");
     loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2));
+}
+
+void LoginScene::addOnboardingButtonToLayer()
+{
+    auto button = ui::Button::create();
+    button->setTitleText(ONBOARDING_BUTTON_TEXT);
+    button->setTitleFontName("fonts/azoomee.ttf");
+    button->setTitleFontSize(60);
+    button->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.42));
+    
+    button->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type){
+        switch (type)
+        {
+            case ui::Widget::TouchEventType::BEGAN:
+                break;
+            case ui::Widget::TouchEventType::MOVED:
+                break;
+            case ui::Widget::TouchEventType::CANCELED:
+                break;
+            case ui::Widget::TouchEventType::ENDED:
+                
+                auto newOnboardingScene = OnboardingScene::createScene();
+                
+                Director::getInstance()->replaceScene(newOnboardingScene);
+                
+                break;
+        }
+    });
+    
+    loginContent->addChild(button);
 }

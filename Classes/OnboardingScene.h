@@ -1,9 +1,9 @@
-#ifndef __LOGINSCENE_SCENE_H__
-#define __LOGINSCENE_SCENE_H__
+#ifndef __ONBOARDINGSCENE_SCENE_H__
+#define __ONBOARDINGSCENE_SCENE_H__
 
 #include "cocos2d.h"
 
-class LoginScene : public cocos2d::Layer
+class OnboardingScene : public cocos2d::Layer
 {
 public:
     static cocos2d::Scene* createScene();
@@ -19,20 +19,21 @@ public:
     void addTextBoxesToLayer();
     void addButtonsToLayer();
     void addLabelsToLayer();
-    void addOnboardingButtonToLayer();
     
-    void loginButtonAction();
-    void backButtonAction();
-    void nextButtonAction();
+    void emailNextButton();
+    void passwordBackButton();
+    void passwordNextButton();
+    void pinBackButton();
+    void pinNextButton();
     
     void addListenerToButton(cocos2d::Sprite *spriteImage);
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
-    cocos2d::Layer *loginContent;
+    cocos2d::Layer *onboardingContent;
     
     // implement the "static create()" method manually
-    CREATE_FUNC(LoginScene);
+    CREATE_FUNC(OnboardingScene);
 };
 
-#endif // __LoginScene_SCENE_H__
+#endif // __OnboardingScene_SCENE_H__
