@@ -20,6 +20,8 @@ public:
     void addButtonsToLayer();
     void addLabelsToLayer();
     
+    void checkIfEmailAlreadyEntered();
+    
     void emailNextButton();
     void passwordBackButton();
     void passwordNextButton();

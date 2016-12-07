@@ -72,6 +72,8 @@ void OnboardingScene::addFunctionalElementsToScene(std::string EmailAddress)
     addLabelsToLayer();
     addTextBoxesToLayer(EmailAddress);
     addButtonsToLayer();
+    
+    checkIfEmailAlreadyEntered();
 }
 
 void OnboardingScene::addLabelsToLayer()
@@ -214,6 +216,15 @@ void OnboardingScene::addListenerToButton(cocos2d::Sprite *spriteImage)
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, spriteImage);
+}
+
+void OnboardingScene::checkIfEmailAlreadyEntered()
+{
+    //if the scene starts with a valid email address, move to password
+    if(isValidEmailAddress(((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText()))
+    {
+        onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+    }
 }
 
 void OnboardingScene::emailNextButton()
