@@ -18,6 +18,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HQScene.cpp \
                    ../../../Classes/IntroScene.cpp \
                    ../../../Classes/LoginScene.cpp \
+                   ../../../Classes/OnboardingScene.cpp \
                    ../../../Classes/MainHubBgElements.cpp \
                    ../../../Classes/MainHubScene.cpp \
                    ../../../Classes/NavigationLayer.cpp \
