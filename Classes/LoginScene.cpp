@@ -221,8 +221,9 @@ void LoginScene::addOnboardingButtonToLayer()
                 break;
             case ui::Widget::TouchEventType::ENDED:
                 
-                auto newOnboardingScene = OnboardingScene::createScene();
-                
+                //pass email address, incase user has entered email already.
+                auto newOnboardingScene = OnboardingScene::createSceneWithEmail(((ui::EditBox *)loginContent->getChildByName("usernameField"))->getText());
+
                 Director::getInstance()->replaceScene(newOnboardingScene);
                 
                 break;

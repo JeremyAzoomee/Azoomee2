@@ -6,7 +6,7 @@
 class OnboardingScene : public cocos2d::Layer
 {
 public:
-    static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createSceneWithEmail(std::string EmailAddress);
 
     virtual bool init();
     
@@ -14,9 +14,9 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
     
     void addVisualElementsToScene();
-    void addFunctionalElementsToScene();
+    void addFunctionalElementsToScene(std::string EmailAddress);
     void addContentLayerToScene();
-    void addTextBoxesToLayer();
+    void addTextBoxesToLayer(std::string EmailAddress);
     void addButtonsToLayer();
     void addLabelsToLayer();
     
@@ -40,6 +40,7 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(OnboardingScene);
+
 };
 
 #endif // __OnboardingScene_SCENE_H__

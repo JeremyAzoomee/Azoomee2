@@ -12,11 +12,14 @@ USING_NS_CC;
 #define PIN_LABEL "Create your Azoomee App 4 digit pin"
 #define PIN_LABEL_DETAIL "Shhh! Don't tell the kids.."
 
-Scene* OnboardingScene::createScene()
+Scene* OnboardingScene::createSceneWithEmail(std::string EmailAddress)
 {
     auto scene = Scene::create();
     auto layer = OnboardingScene::create();
     scene->addChild(layer);
+    
+    //Call FunctionalElements Here to add the email address incase it is added in login.
+    layer->addFunctionalElementsToScene(EmailAddress);
     return scene;
 }
 
@@ -31,7 +34,7 @@ bool OnboardingScene::init()
     origin = Director::getInstance()->getVisibleOrigin();
     
     addVisualElementsToScene();
-    addFunctionalElementsToScene();
+    //addFunctionalElementsToScene();
     
     return true;
 }
@@ -63,11 +66,11 @@ void OnboardingScene::addVisualElementsToScene()
     this->addChild(rightBg);
 }
 
-void OnboardingScene::addFunctionalElementsToScene()
+void OnboardingScene::addFunctionalElementsToScene(std::string EmailAddress)
 {
     addContentLayerToScene();
     addLabelsToLayer();
-    addTextBoxesToLayer();
+    addTextBoxesToLayer(EmailAddress);
     addButtonsToLayer();
 }
 
@@ -106,7 +109,7 @@ void OnboardingScene::addContentLayerToScene()
     this->addChild(onboardingContent);
 }
 
-void OnboardingScene::addTextBoxesToLayer()
+void OnboardingScene::addTextBoxesToLayer(std::string EmailAddress)
 {
     auto _editName = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
     _editName->setColor(Color3B::WHITE);
@@ -117,7 +120,9 @@ void OnboardingScene::addTextBoxesToLayer()
     _editName->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     _editName->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
     _editName->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
+    _editName->setText(EmailAddress.c_str());
     _editName->setName("usernameField");
+
     onboardingContent->addChild(_editName);
     
     auto _editPassword = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
@@ -144,6 +149,8 @@ void OnboardingScene::addTextBoxesToLayer()
 
 void OnboardingScene::addButtonsToLayer()
 {
+    // in order they appear on the screen with next, then back, then next etc.
+    
     auto emailNextButton = Sprite::create("res/login/next_btn.png");
     emailNextButton->setPosition(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5);
     emailNextButton->setScale(1.2);
