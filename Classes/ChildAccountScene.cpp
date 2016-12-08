@@ -7,17 +7,24 @@
 USING_NS_CC;
 
 //Text Content defined here, ready to be changed when localisation method defined.
-#define LABEL_NEW_REQUEST_CHILD_NAME "Hello! What's your name?"
-#define LABEL_EDIT_CHILD_NAME "Want to change your name?"
-#define LABEL_NEW_REQUEST_CHILD_AGE "Please let us know your birthday."
+#define LABEL_NEW_REQUEST_CHILD_NAME "Hello! Please add a display name?"
+#define LABEL_EDIT_CHILD_NAME "Want to change the display name?"
+#define LABEL_NEW_REQUEST_CHILD_BIRTHDAY "Please add date of birth."
+#define LABEL_EDIT_REQUEST_CHILD_BIRTHDAY "Change birthday?"
 #define LABEL_NEW_REQUEST_CHILD_OOMEE "Select your favourite Oomee."
 #define LABEL_NEW_REQUEST_CHILD_OOMEE_DETAIL "Don't worry you can change it later if you want."
 #define LABEL_EDIT_CHILD_OOMEE "Change your Oomee?"
 
+#define EDITBOX_PLACEHOLDER_DOB_DAY "DD"
+#define EDITBOX_PLACEHOLDER_DOB_MONTH "MM"
+#define EDITBOX_PLACEHOLDER_DOB_YEAR "YYYY"
+
 //define objectNames
 #define OBJECTNAME_SCROLL_LAYER "scrollLayer"
 #define OBJECTNAME_EDITBOX_CHILDNAME "childName"
-
+#define OBJECTNAME_EDITBOX_DOB_DAY "childDOB_Day"
+#define OBJECTNAME_EDITBOX_DOB_MONTH "childDOB_Month"
+#define OBJECTNAME_EDITBOX_DOB_YEAR "childDOB_Year"
 
 // NOTE Child Age to be in "yyyy-MM-dd" format
 
@@ -112,20 +119,31 @@ void ChildAccountScene::addLabelsToLayer()
     emailTitle->setSystemFontName("fonts/azoomee.ttf");
     emailTitle->setSystemFontSize(90);
     
+    //Add diferent text depending on new or editing account
     if(this->isNewChildAccount)
         emailTitle->setString(LABEL_NEW_REQUEST_CHILD_NAME);
     else
         emailTitle->setString(LABEL_EDIT_CHILD_NAME);
+    
     emailTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.7);
     emailTitle->setColor(Color3B(28, 244, 244));
     childAccountContent->addChild(emailTitle);
     
-    /*auto passwordTitle = Label::createWithTTF(NEW_REQUEST_CHILD_NAME, "fonts/azoomee.ttf", 90);
-    passwordTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
-    passwordTitle->setColor(Color3B(28, 244, 244));
-    onboardingContent->addChild(passwordTitle);
+    /*auto DOB_Title = Label::create();
+    DOB_Title->setSystemFontName("fonts/azoomee.ttf");
+    DOB_Title->setSystemFontSize(90);
     
-    auto pinTitle = Label::createWithTTF(NEW_REQUEST_CHILD_NAME, "fonts/azoomee.ttf", 90);
+    //Add diferent text depending on new or editing account
+    if(this->isNewChildAccount)
+        DOB_Title->setString(LABEL_NEW_REQUEST_CHILD_BIRTHDAY);
+    else
+        DOB_Title->setString(LABEL_EDIT_REQUEST_CHILD_BIRTHDAY);
+    
+    DOB_Title->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
+    DOB_Title->setColor(Color3B(28, 244, 244));
+    childAccountContent->addChild(DOB_Title);*/
+    
+    /*auto pinTitle = Label::createWithTTF(NEW_REQUEST_CHILD_NAME, "fonts/azoomee.ttf", 90);
     pinTitle->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
     pinTitle->setColor(Color3B(28, 244, 244));
     onboardingContent->addChild(pinTitle);
@@ -149,20 +167,47 @@ void ChildAccountScene::addTextBoxesToLayer()
     _editName->setText(this->passedChildName.c_str());
     _editName->setDelegate(this);
     _editName->setName(OBJECTNAME_EDITBOX_CHILDNAME);
+    _editName->setSwallowTouches(true);
 
     childAccountContent->addChild(_editName);
     
-    /*auto _editPassword = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
-    _editPassword->setPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
-    _editPassword->setFont("fonts/azoomee.ttf", 90);
-    _editPassword->setFontColor(Color3B::WHITE);
-    _editPassword->setMaxLength(50);
-    _editPassword->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
-    _editPassword->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    _editPassword->setName("passwordField");
-    onboardingContent->addChild(_editPassword);
+    auto _editDOB_Day = ui::EditBox::create(Size(200,131), "res/login/textarea_bg.png");
+    _editDOB_Day->setPosition(Vec2(origin.x+visibleSize.width * 1.5 - 300, origin.y+visibleSize.height*0.5));
+    _editDOB_Day->setFont("fonts/azoomee.ttf", 90);
+    _editDOB_Day->setFontColor(Color3B::WHITE);
+    _editDOB_Day->setMaxLength(2);
+    _editDOB_Day->setPlaceHolder(EDITBOX_PLACEHOLDER_DOB_DAY);
+    _editDOB_Day->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
+    _editDOB_Day->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+    _editDOB_Day->setInputMode(ui::EditBox::InputMode::NUMERIC);
+    _editDOB_Day->setName(OBJECTNAME_EDITBOX_DOB_DAY);
+    childAccountContent->addChild(_editDOB_Day);
     
-    auto _editPin = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
+    auto _editDOB_Month = ui::EditBox::create(Size(200,131), "res/login/textarea_bg.png");
+    _editDOB_Month->setPosition(Vec2(origin.x+visibleSize.width * 1.5 - 50, origin.y+visibleSize.height*0.5));
+    _editDOB_Month->setFont("fonts/azoomee.ttf", 90);
+    _editDOB_Month->setFontColor(Color3B::WHITE);
+    _editDOB_Month->setMaxLength(2);
+    _editDOB_Month->setPlaceHolder(EDITBOX_PLACEHOLDER_DOB_MONTH);
+    _editDOB_Month->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
+    _editDOB_Month->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+    _editDOB_Month->setInputMode(ui::EditBox::InputMode::NUMERIC);
+    _editDOB_Month->setName(OBJECTNAME_EDITBOX_DOB_MONTH);
+    childAccountContent->addChild(_editDOB_Month);
+    
+    auto _editDOB_Year = ui::EditBox::create(Size(300,131), "res/login/textarea_bg.png");
+    _editDOB_Year->setPosition(Vec2(origin.x+visibleSize.width * 1.5 + 250, origin.y+visibleSize.height*0.5));
+    _editDOB_Year->setFont("fonts/azoomee.ttf", 90);
+    _editDOB_Year->setFontColor(Color3B::WHITE);
+    _editDOB_Year->setMaxLength(4);
+    _editDOB_Year->setPlaceHolder(EDITBOX_PLACEHOLDER_DOB_YEAR);
+    _editDOB_Year->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
+    _editDOB_Year->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+    _editDOB_Year->setInputMode(ui::EditBox::InputMode::NUMERIC);
+    _editDOB_Year->setName(OBJECTNAME_EDITBOX_DOB_YEAR);
+    childAccountContent->addChild(_editDOB_Year);
+    
+    /*auto _editPin = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
     _editPin->setPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
     _editPin->setFont("fonts/azoomee.ttf", 90);
     _editPin->setFontColor(Color3B::WHITE);
@@ -190,13 +235,13 @@ void ChildAccountScene::addButtonsToLayer()
     
     childAccountContent->addChild(childNameNextButton);
     
-/*    auto passwordBackButton = Sprite::create("res/login/back_btn.png");
-    passwordBackButton->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
-    passwordBackButton->setTag(2);
-    addListenerToButton(passwordBackButton);
-    childAccountContent->addChild(passwordBackButton);
+    /*auto DOB_BackButton = Sprite::create("res/login/back_btn.png");
+    DOB_BackButton->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
+    childNameNextButton->setName(getBackButtonName(OBJECTNAME_EDITBOX_DOB_YEAR));
+    addListenerToButton(DOB_BackButton);
+    childAccountContent->addChild(DOB_BackButton);*/
     
-    auto passwordNextButton = Sprite::create("res/login/next_btn.png");
+    /*auto passwordNextButton = Sprite::create("res/login/next_btn.png");
     passwordNextButton->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
     passwordNextButton->setTag(3);
     addListenerToButton(passwordNextButton);
@@ -231,7 +276,6 @@ void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
         {
             if(spriteImage->getName().compare(getNextButtonName(OBJECTNAME_EDITBOX_CHILDNAME).c_str()) == 0)
                 this->childNameNextButton();
-            
             
             
             /*int buttonTag = spriteImage->getTag();
@@ -433,6 +477,8 @@ void ChildAccountScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const 
 
 void ChildAccountScene::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
+    editBox->setSwallowTouches(true);
+    
     if(editBox->getName().compare(OBJECTNAME_EDITBOX_CHILDNAME) == 0)
         this->childNameNextButton();
 }
