@@ -23,6 +23,8 @@ public:
     cocos2d::Point positionElementOnScrollView(Layer *layerToBeAdded);
     void addListenerToProfileLayer(Layer *profileLayer);
     
+    void addNewChildButtonToScrollView();
+    
     cocos2d::Point startTouchPosition;
     bool touchMovedAway;
     

@@ -82,6 +82,8 @@ void ChildSelectorScene::addProfilesToScrollView()
         addListenerToProfileLayer(profileLayer);
         scrollView->addChild(profileLayer);
     }
+    
+    addNewChildButtonToScrollView();
 }
 
 Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int oomeeNumber)
@@ -195,4 +197,27 @@ Point ChildSelectorScene::positionElementOnScrollView(Layer *layerToBeAdded)
     }
     
     return newPos;
+}
+
+void ChildSelectorScene::addNewChildButtonToScrollView()
+{
+    auto addButtonLayer = Layer::create();
+    //Keep Content Size the same as Oomee
+    addButtonLayer->setContentSize(Size(300,400));
+    
+    auto selectionSprite = Sprite::create("res/childSelection/selection.png");
+    selectionSprite->setPosition(addButtonLayer->getContentSize().width / 2, addButtonLayer->getContentSize().height / 2);
+    selectionSprite->setOpacity(0);
+    addButtonLayer->addChild(selectionSprite);
+    
+    auto addButtonSprite = Sprite::create("res/childSelection/button_add_child.png");
+    addButtonSprite->setPosition(addButtonLayer->getContentSize().width / 2, addButtonLayer->getContentSize().height /2);
+    addButtonSprite->setOpacity(0);
+    addButtonLayer->addChild(addButtonSprite);
+    
+    float delayTime = CCRANDOM_0_1();
+    addButtonSprite->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+
+    addButtonLayer->setPosition(positionElementOnScrollView(addButtonLayer));
+    scrollView->addChild(addButtonLayer);
 }
