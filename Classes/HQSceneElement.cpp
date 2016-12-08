@@ -176,7 +176,7 @@ void HQSceneElement::addListenerToElement()
             CCLOG("Action to come");
             
             auto webViewSelector = WebViewSelector::create();
-            webViewSelector->loadWebView();
+            webViewSelector->loadWebView("https://media.azoomee.ninja/free/f50a74dd-185f-4010-ab6f-b34858b96bcd/video_stream.m3u8");
         }
         
         return true;

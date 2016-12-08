@@ -110,7 +110,7 @@ bool DataStorage::parseChildLoginData(std::string responseData)
     return true;
 }
 
-bool DataStorage::parseContentData(std::string responseString)
+bool DataStorage::parseMainHubContentData(std::string responseString)
 {
     contentData.Parse(responseString.c_str());
     
@@ -126,15 +126,51 @@ bool DataStorage::parseContentData(std::string responseString)
     for (M=contentData["items"].MemberBegin(); M!=contentData["items"].MemberEnd(); M++)
     {
         key   = M->name.GetString();
+        std::map<std::string, std::string> elementProperty;
         
         if (key!=NULL)
         {
-            contentDataJsonKeys.push_back(key);
+            std::vector<std::string> itemNames = {"id", "name", "title", "description", "type", "uri", "entitlement"};
+            
+            for(int i = 0; i < itemNames.size(); i++)
+            {
+                if(!contentData["items"][key][itemNames.at(i).c_str()].IsNull())
+                {
+                    elementProperty[itemNames.at(i).c_str()] = contentData["items"][key][itemNames.at(i).c_str()].GetString();
+                }
+                else
+                {
+                    elementProperty[itemNames.at(i).c_str()] = "";
+                }
+            }
+    
+            if(!contentData["items"][key]["entitled"].IsNull())
+            {
+                if(contentData["items"][key]["entitled"].GetBool()) elementProperty["entitled"] = "true";
+                else elementProperty["entitled"] = "false";
+            }
+            
+            mainHubElements.push_back(elementProperty);
         }
     }
 
     
     return true;
+}
+
+std::vector<std::map<std::string, std::string>> DataStorage::getMainHubDataForGivenType(std::string type)
+{
+    std::vector<std::map<std::string, std::string>> result;
+    
+    for(int i = 0; i < mainHubElements.size(); i++)
+    {
+        if(mainHubElements.at(i)["type"] == type.c_str())
+        {
+            result.push_back(mainHubElements.at(i));
+        }
+    }
+    
+    return result;
 }
 
 bool DataStorage::parseDownloadCookies(std::string responseString)

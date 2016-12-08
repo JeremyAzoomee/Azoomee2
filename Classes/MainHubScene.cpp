@@ -3,6 +3,7 @@
 #include "MainHubBgElements.h"
 #include "ImageContainer.h"
 #include "OomeeLayer.h"
+#include "DataStorage.h"
 
 USING_NS_CC;
 
@@ -53,17 +54,21 @@ void MainHubScene::addImageContainers()
     imageIcon->setPosition(visibleSize / 2);
     this->addChild(imageIcon);
     
-    imageIcon->createContainer("res/previewimg/video_birds.png", Color4B(248,71,89,150), 1, 5 + CCRANDOM_0_1(), Point(-1050,75));
-    imageIcon->createContainer("res/previewimg/video_jamie.png", Color4B(248,71,89,150), 0.7, 5 + CCRANDOM_0_1(), Point(-700,400));
+    std::vector<std::string> requiredTypes = {"VIDEO", "AUDIO", "GAME"};
+    std::vector<std::vector<Point>> startPositions = {std::vector<Point> {Point(-1050, 75), Point(-700, 400)}, std::vector<Point> {Point(-700, -700), Point(-1050, -475)}, std::vector<Point> {Point(600, 75), Point(400,400)} };
     
-    imageIcon->createContainer("res/previewimg/video_lassie.png", Color4B(58,188,152,150), 0.7, 5 + CCRANDOM_0_1(), Point(-700,-700));
-    imageIcon->createContainer("res/previewimg/video_moe.png", Color4B(58,188,152,150), 1, 5 + CCRANDOM_0_1(), Point(-1050,-475));
+    for(int i = 0; i < requiredTypes.size(); i++)
+    {
+        std::vector<std::map<std::string, std::string>> elementsForHub = DataStorage::getInstance()->getMainHubDataForGivenType(requiredTypes.at(i));
+        for(int j = 0; j < elementsForHub.size(); j++)
+        {
+            if(j >= startPositions.at(j).size()) break;
+            imageIcon->createContainer(elementsForHub.at(j), 1 - (j * 0.3), 5 + CCRANDOM_0_1(), startPositions.at(i).at(j));
+        }
+    }
     
-    imageIcon->createContainer("res/previewimg/video_birds.png", Color4B(86,177,255,150), 1, 5 + CCRANDOM_0_1(), Point(600,75));
-    imageIcon->createContainer("res/previewimg/video_moe.png", Color4B(86,177,255,150), 0.7, 5 + CCRANDOM_0_1(), Point(400,400));
-    
-    imageIcon->createContainer("res/previewimg/video_lassie.png", Color4B(246,185,66,150), 0.7, 5 + CCRANDOM_0_1(), Point(400,-700));
-    imageIcon->createContainer("res/previewimg/video_jamie.png", Color4B(246,185,66,150), 1, 5 + CCRANDOM_0_1(), Point(600,-475));
+    //imageIcon->createContainer("res/previewimg/video_lassie.png", Color4B(246,185,66,150), 0.7, 5 + CCRANDOM_0_1(), Point(400,-700));
+    //imageIcon->createContainer("res/previewimg/video_jamie.png", Color4B(246,185,66,150), 1, 5 + CCRANDOM_0_1(), Point(600,-475));
 }
 
 // on "init" you need to initialize your instance

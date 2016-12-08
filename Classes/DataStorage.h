@@ -34,7 +34,8 @@ public:
     //Content area
     rapidjson::Document contentData;
     std::vector<std::string> contentDataJsonKeys;
-    bool parseContentData(std::string responseString);
+    bool parseMainHubContentData(std::string responseString);
+    std::vector<std::map<std::string, std::string>> getMainHubDataForGivenType(std::string type);
     
     bool parseDownloadCookies(std::string responseString);
     
@@ -50,5 +51,7 @@ public:
     std::vector<std::string> splitStringToVector(std::string inputString, std::string separator);
     bool checkIfCookieIsForUrl(std::string cookieRecord, std::string url);
     std::string getCookieMainContent(std::string cookieRecord);
+    
+    std::vector<std::map<std::string, std::string>> mainHubElements;
     
 };

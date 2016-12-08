@@ -22,10 +22,8 @@ cocos2d::Scene* WebViewSelector::createScene()
     return scene;
 }
 
-void WebViewSelector::loadWebView()
+void WebViewSelector::loadWebView(std::string url)
 {
-    std::string url = "https://media.azoomee.ninja/free/f50a74dd-185f-4010-ab6f-b34858b96bcd/video_stream.m3u8";
-    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     auto iosWebView = WebViewNative_ios::createSceneWithURL(url);
     Director::getInstance()->replaceScene(iosWebView);

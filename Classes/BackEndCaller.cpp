@@ -330,7 +330,7 @@ void BackEndCaller::onGetContentAnswerReceived(cocos2d::network::HttpClient *sen
     {
         CCLOG("GET CONTENT SUCCESS");
         
-        DataStorage::getInstance()->parseContentData(responseString);
+        DataStorage::getInstance()->parseMainHubContentData(responseString);
         
         getGordon();
     }
