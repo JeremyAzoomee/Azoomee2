@@ -144,7 +144,7 @@ void OnboardingScene::addTextBoxesToLayer(std::string EmailAddress)
     _editPin->setMaxLength(4);
     _editPin->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
     _editPin->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    _editPin->setInputMode(ui::EditBox::InputMode::PHONE_NUMBER);
+    _editPin->setInputMode(ui::EditBox::InputMode::NUMERIC);
     _editPin->setName("pinField");
     onboardingContent->addChild(_editPin);
 }
@@ -274,6 +274,15 @@ void OnboardingScene::pinNextButton()
         std::string username = ((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText();
         std::string password = ((ui::EditBox *)onboardingContent->getChildByName("passwordField"))->getText();
         std::string pin = ((ui::EditBox *)onboardingContent->getChildByName("pinField"))->getText();
+        
+        //Need to pass SOURCE attribute to server #TODO
+        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            //SEND INAPP_IOS to Source
+        
+        #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+            //SEND INAPP_ANDROID to Source
+        
+        #endif
         
         //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
         
