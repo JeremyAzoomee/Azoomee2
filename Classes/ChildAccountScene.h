@@ -2,8 +2,9 @@
 #define __CHILDACCOUNTSCENE_SCENE_H__
 
 #include "cocos2d.h"
+#include "ui/UIEditBox/UIEditBox.h"
 
-class ChildAccountScene : public cocos2d::Layer
+class ChildAccountScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
 {
 public:
     static cocos2d::Scene* createSceneWithName(std::string ChildName);
@@ -14,19 +15,20 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
     
     void addVisualElementsToScene();
-    void addFunctionalElementsToScene(std::string ChildName);
+    void addFunctionalElementsToScene();
     void addContentLayerToScene();
-    void addTextBoxesToLayer(std::string ChildName);
+    void addTextBoxesToLayer();
     void addButtonsToLayer();
     void addLabelsToLayer();
     
-    void checkIfEmailAlreadyEntered();
-    
-    void emailNextButton();
+    void childNameNextButton();
     void passwordBackButton();
     void passwordNextButton();
     void pinBackButton();
     void pinNextButton();
+    
+    std::string getNextButtonName(std::string editBoxName);
+    std::string getBackButtonName(std::string editBoxName);
     
     //Email String Checker Functions
     bool isCharacter(const char Character);
@@ -34,14 +36,24 @@ public:
     bool isValidEmailAddress(const char * EmailAddress);
     bool isValidPin(const char * pinNumber);
     
+    void setChildName(std::string ChildName);
+    bool isNewChildAccount;
+    std::string passedChildName;
+    
     void addListenerToButton(cocos2d::Sprite *spriteImage);
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
-    cocos2d::Layer *onboardingContent;
+    cocos2d::Layer *childAccountContent;
     
     // implement the "static create()" method manually
     CREATE_FUNC(ChildAccountScene);
+    
+    //Editbox Delegate Functions
+    //void editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox);
+    //void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox);
+    void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
+    void editBoxReturn(cocos2d::ui::EditBox* editBox);
 
 };
 

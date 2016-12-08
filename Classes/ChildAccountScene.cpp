@@ -1,18 +1,23 @@
 #include "ChildAccountScene.h"
 #include "SimpleAudioEngine.h"
-#include "ui/UIEditBox/UIEditBox.h"
 #include "ModalMessages.h"
 #include "BackEndCaller.h"
+#include "DataStorage.h"
 
 USING_NS_CC;
 
 //Text Content defined here, ready to be changed when localisation method defined.
-#define NEW_REQUEST_CHILD_NAME "Enter a the name you'd like us to use for you."
-#define EDIT_CHILD_NAME "If you want to change your name, you can do it here."
-#define NEW_REQUEST_CHILD_AGE "Please let us know your birthday."
-#define NEW_REQUEST_CHILD_OOMEE "Select your favourite Oomee."
-#define NEW_REQUEST_CHILD_OOMEE_DETAIL "Don't worry you can change it later if you want."
-#define EDIT_CHILD_OOMEE "Change your Oomee?"
+#define LABEL_NEW_REQUEST_CHILD_NAME "Hello! What's your name?"
+#define LABEL_EDIT_CHILD_NAME "Want to change your name?"
+#define LABEL_NEW_REQUEST_CHILD_AGE "Please let us know your birthday."
+#define LABEL_NEW_REQUEST_CHILD_OOMEE "Select your favourite Oomee."
+#define LABEL_NEW_REQUEST_CHILD_OOMEE_DETAIL "Don't worry you can change it later if you want."
+#define LABEL_EDIT_CHILD_OOMEE "Change your Oomee?"
+
+//define objectNames
+#define OBJECTNAME_SCROLL_LAYER "scrollLayer"
+#define OBJECTNAME_EDITBOX_CHILDNAME "childName"
+
 
 // NOTE Child Age to be in "yyyy-MM-dd" format
 
@@ -21,9 +26,9 @@ Scene* ChildAccountScene::createSceneWithName(std::string ChildName)
     auto scene = Scene::create();
     auto layer = ChildAccountScene::create();
     scene->addChild(layer);
+    layer->setChildName(ChildName);
+    layer->addFunctionalElementsToScene();
     
-    //Call FunctionalElements Here to add the email address incase it is added in login.
-    layer->addFunctionalElementsToScene(ChildName);
     return scene;
 }
 
@@ -55,6 +60,17 @@ void ChildAccountScene::menuCloseCallback(Ref* pSender)
     
 }
 
+void ChildAccountScene::setChildName(std::string ChildName)
+{
+    this->passedChildName = ChildName;
+    
+    //if childName is nil, then this is a new account to add.
+    if(ChildName.compare("") == 0)
+        this->isNewChildAccount = true;
+    else
+        this->isNewChildAccount = false;
+}
+
 void ChildAccountScene::addVisualElementsToScene()
 {
     auto bg = Sprite::create("res/mainhub/bg_glow.png");
@@ -70,24 +86,41 @@ void ChildAccountScene::addVisualElementsToScene()
     this->addChild(rightBg);
 }
 
-void ChildAccountScene::addFunctionalElementsToScene(std::string ChildName)
+void ChildAccountScene::addFunctionalElementsToScene()
 {
     addContentLayerToScene();
     addLabelsToLayer();
-    addTextBoxesToLayer(ChildName);
+    addTextBoxesToLayer();
     addButtonsToLayer();
+}
+
+void ChildAccountScene::addContentLayerToScene()
+{
+    //we add an additional layer that will slide on the screen between the username and the password.
+    //we add all input elements on this layer.
     
-    checkIfEmailAlreadyEntered();
+    childAccountContent = Layer::create();
+    childAccountContent->setContentSize(Size(visibleSize.width * 3, visibleSize.height));
+    childAccountContent->setPosition(Point(origin.x, origin.y));
+    childAccountContent->setName(OBJECTNAME_SCROLL_LAYER);
+    this->addChild(childAccountContent);
 }
 
 void ChildAccountScene::addLabelsToLayer()
 {
-    auto emailTitle = Label::createWithTTF(NEW_REQUEST_CHILD_NAME, "fonts/azoomee.ttf", 90);
+    auto emailTitle = Label::create();
+    emailTitle->setSystemFontName("fonts/azoomee.ttf");
+    emailTitle->setSystemFontSize(90);
+    
+    if(this->isNewChildAccount)
+        emailTitle->setString(LABEL_NEW_REQUEST_CHILD_NAME);
+    else
+        emailTitle->setString(LABEL_EDIT_CHILD_NAME);
     emailTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.7);
     emailTitle->setColor(Color3B(28, 244, 244));
-    onboardingContent->addChild(emailTitle);
+    childAccountContent->addChild(emailTitle);
     
-    auto passwordTitle = Label::createWithTTF(NEW_REQUEST_CHILD_NAME, "fonts/azoomee.ttf", 90);
+    /*auto passwordTitle = Label::createWithTTF(NEW_REQUEST_CHILD_NAME, "fonts/azoomee.ttf", 90);
     passwordTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
     passwordTitle->setColor(Color3B(28, 244, 244));
     onboardingContent->addChild(passwordTitle);
@@ -100,38 +133,26 @@ void ChildAccountScene::addLabelsToLayer()
     auto pinDetail = Label::createWithTTF(NEW_REQUEST_CHILD_NAME, "fonts/azoomee.ttf", 60);
     pinDetail->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.6);
     pinDetail->setColor(Color3B::WHITE);
-    onboardingContent->addChild(pinDetail);
+    onboardingContent->addChild(pinDetail);*/
 }
 
-void ChildAccountScene::addContentLayerToScene()
-{
-    //we add an additional layer that will slide on the screen between the username and the password.
-    //we add all input elements on this layer.
-    
-    onboardingContent = Layer::create();
-    onboardingContent->setContentSize(Size(visibleSize.width * 3, visibleSize.height));
-    onboardingContent->setPosition(Point(origin.x, origin.y));
-    onboardingContent->setName("onboardingContent");
-    this->addChild(onboardingContent);
-}
-
-void ChildAccountScene::addTextBoxesToLayer(std::string ChildName)
+void ChildAccountScene::addTextBoxesToLayer()
 {
     auto _editName = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
     _editName->setColor(Color3B::WHITE);
     _editName->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.5));
     _editName->setFont("fonts/azoomee.ttf", 90);
     _editName->setFontColor(Color3B::WHITE);
-    _editName->setMaxLength(100);
+    _editName->setMaxLength(50);
     _editName->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     _editName->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    _editName->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
-    _editName->setText(ChildName.c_str());
-    _editName->setName("usernameField");
+    _editName->setText(this->passedChildName.c_str());
+    _editName->setDelegate(this);
+    _editName->setName(OBJECTNAME_EDITBOX_CHILDNAME);
 
-    onboardingContent->addChild(_editName);
+    childAccountContent->addChild(_editName);
     
-    auto _editPassword = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
+    /*auto _editPassword = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
     _editPassword->setPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
     _editPassword->setFont("fonts/azoomee.ttf", 90);
     _editPassword->setFontColor(Color3B::WHITE);
@@ -150,43 +171,48 @@ void ChildAccountScene::addTextBoxesToLayer(std::string ChildName)
     _editPin->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
     _editPin->setInputMode(ui::EditBox::InputMode::NUMERIC);
     _editPin->setName("pinField");
-    onboardingContent->addChild(_editPin);
+    onboardingContent->addChild(_editPin);*/
 }
 
 void ChildAccountScene::addButtonsToLayer()
 {
     // in order they appear on the screen with next, then back, then next etc.
     
-    auto emailNextButton = Sprite::create("res/login/next_btn.png");
-    emailNextButton->setPosition(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5);
-    emailNextButton->setScale(1.2);
-    emailNextButton->setTag(1);
-    addListenerToButton(emailNextButton);
-    onboardingContent->addChild(emailNextButton);
+    auto childNameNextButton = Sprite::create("res/login/next_btn.png");
+    childNameNextButton->setPosition(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5);
+    childNameNextButton->setScale(1.2);
+    childNameNextButton->setName(getNextButtonName(OBJECTNAME_EDITBOX_CHILDNAME));
+    addListenerToButton(childNameNextButton);
     
-    auto passwordBackButton = Sprite::create("res/login/back_btn.png");
+    //only show button if there is text
+    if(this->isNewChildAccount)
+        childNameNextButton->setVisible(false);
+    
+    childAccountContent->addChild(childNameNextButton);
+    
+/*    auto passwordBackButton = Sprite::create("res/login/back_btn.png");
     passwordBackButton->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
     passwordBackButton->setTag(2);
     addListenerToButton(passwordBackButton);
-    onboardingContent->addChild(passwordBackButton);
+    childAccountContent->addChild(passwordBackButton);
     
     auto passwordNextButton = Sprite::create("res/login/next_btn.png");
     passwordNextButton->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
     passwordNextButton->setTag(3);
     addListenerToButton(passwordNextButton);
-    onboardingContent->addChild(passwordNextButton);
+    childAccountContent->addChild(passwordNextButton);
     
     auto pinBackButton = Sprite::create("res/login/back_btn.png");
     pinBackButton->setPosition(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5);
     pinBackButton->setTag(4);
     addListenerToButton(pinBackButton);
-    onboardingContent->addChild(pinBackButton);
+    childAccountContent->addChild(pinBackButton);
     
     auto pinNextButton = Sprite::create("res/login/next_btn.png");
     pinNextButton->setPosition(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5);
     pinNextButton->setTag(5);
     addListenerToButton(pinNextButton);
-    onboardingContent->addChild(pinNextButton);
+    childAccountContent->addChild(pinNextButton);*/
 
 }
 
@@ -203,16 +229,20 @@ void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
         
         if(rect.containsPoint(locationInNode))
         {
-            int buttonTag = spriteImage->getTag();
+            if(spriteImage->getName().compare(getNextButtonName(OBJECTNAME_EDITBOX_CHILDNAME).c_str()) == 0)
+                this->childNameNextButton();
             
+            
+            
+            /*int buttonTag = spriteImage->getTag();
             switch(buttonTag)
             {
-                case(1): this->emailNextButton(); break;
-                case(2): this->passwordBackButton(); break;
-                case(3): this->passwordNextButton(); break;
-                case(4): this->pinBackButton(); break;
-                case(5): this->pinNextButton(); break;
-            }
+                case(1): this->childNameNextButton(); break;
+                //case(2): this->passwordBackButton(); break;
+                //case(3): this->passwordNextButton(); break;
+                //case(4): this->pinBackButton(); break;
+                //case(5): this->pinNextButton(); break;
+            }*/
             return true;
         }
         
@@ -222,33 +252,55 @@ void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, spriteImage);
 }
 
-void ChildAccountScene::checkIfEmailAlreadyEntered()
+void ChildAccountScene::childNameNextButton()
 {
-    //if the scene starts with a valid email address, move to password
-    if(isValidEmailAddress(((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText()))
+    //Check if editbox is not null, and does not exist, then move onwards
+    
+    std::string newChildsName = ((ui::EditBox *)childAccountContent->getChildByName(OBJECTNAME_EDITBOX_CHILDNAME))->getText();
+    
+    if(newChildsName.compare("") == 0)
     {
-        onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+        //ERROR MESSAGE - Must have a name
+        
     }
-}
-
-void ChildAccountScene::emailNextButton()
-{
-    //Check if Email address is in correct format
-    if(isValidEmailAddress(((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText()))
+    else if(this->passedChildName.compare(newChildsName) == 0 && !this-isNewChildAccount)
     {
-           onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+        //If the childs name has not changed, then move forward.
+        //This stops a false error of "CHILD NAME EXISTS"
+        
+        childAccountContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
     }
     else
     {
-        //ERROR incorrect email address
+        //check if child name exists
+        bool childNameExists = false;
         
+        for(int i = 0; i < DataStorage::getInstance()->getAmountOfAvailableChildren(); i++)
+        {
+            std::string storedChildsName = DataStorage::getInstance()->getValueFromOneAvailableChild(i, "profileName");
+            
+            if(newChildsName.compare(storedChildsName) == 0)
+            {
+                childNameExists = true;
+                break;
+            }
+        }
+        
+        if(childNameExists)
+        {
+            //ERROR MESSAGE - Name exists
+        }
+        else
+        {
+            childAccountContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+        }
     }
 }
 
 void ChildAccountScene::passwordBackButton()
 {
-        ((ui::EditBox *)onboardingContent->getChildByName("passwordField"))->setText("");
-        onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2));
+        ((ui::EditBox *)childAccountContent->getChildByName("passwordField"))->setText("");
+        childAccountContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2));
 }
 
 void ChildAccountScene::passwordNextButton()
@@ -256,7 +308,7 @@ void ChildAccountScene::passwordNextButton()
     //Check if Password is in correct format
     if(true)
     {
-        onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2));
+        childAccountContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2));
     }
     else
     {
@@ -266,18 +318,18 @@ void ChildAccountScene::passwordNextButton()
 
 void ChildAccountScene::pinBackButton()
 {
-    ((ui::EditBox *)onboardingContent->getChildByName("pinField"))->setText("");
-    onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+    ((ui::EditBox *)childAccountContent->getChildByName("pinField"))->setText("");
+    childAccountContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
 }
 
 void ChildAccountScene::pinNextButton()
 {
     //Check if Email address is in correct format
-    if(isValidPin(((ui::EditBox *)onboardingContent->getChildByName("pinField"))->getText()))
+    if(isValidPin(((ui::EditBox *)childAccountContent->getChildByName("pinField"))->getText()))
     {
-        std::string username = ((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText();
-        std::string password = ((ui::EditBox *)onboardingContent->getChildByName("passwordField"))->getText();
-        std::string pin = ((ui::EditBox *)onboardingContent->getChildByName("pinField"))->getText();
+        std::string username = ((ui::EditBox *)childAccountContent->getChildByName("usernameField"))->getText();
+        std::string password = ((ui::EditBox *)childAccountContent->getChildByName("passwordField"))->getText();
+        std::string pin = ((ui::EditBox *)childAccountContent->getChildByName("pinField"))->getText();
         
         //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
         
@@ -357,4 +409,30 @@ bool ChildAccountScene::isValidPin(const char * pinNumber)
     else
         return 0;
 
+}
+
+std::string ChildAccountScene::getNextButtonName(std::string editBoxName)
+{
+    return StringUtils::format("%sNextButton", editBoxName.c_str());
+}
+
+std::string ChildAccountScene::getBackButtonName(std::string editBoxName)
+{
+    return StringUtils::format("%sBackButton", editBoxName.c_str());
+}
+
+//Editbox Delegate Functions
+void ChildAccountScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
+{
+    //if there is text, then show the next button.
+    if(text.compare("") !=0)
+        ((cocos2d::Sprite *)childAccountContent->getChildByName(getNextButtonName(OBJECTNAME_EDITBOX_CHILDNAME)))->setVisible(true);
+    else
+        ((cocos2d::Sprite *)childAccountContent->getChildByName(getNextButtonName(OBJECTNAME_EDITBOX_CHILDNAME)))->setVisible(false);
+}
+
+void ChildAccountScene::editBoxReturn(cocos2d::ui::EditBox* editBox)
+{
+    if(editBox->getName().compare(OBJECTNAME_EDITBOX_CHILDNAME) == 0)
+        this->childNameNextButton();
 }
