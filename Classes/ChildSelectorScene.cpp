@@ -1,6 +1,7 @@
 #include "ChildSelectorScene.h"
 #include "BackEndCaller.h"
 #include "DataStorage.h"
+#include "ChildAccountScene.h"
 
 
 USING_NS_CC;
@@ -213,6 +214,7 @@ void ChildSelectorScene::addNewChildButtonToScrollView()
     auto addButtonSprite = Sprite::create("res/childSelection/button_add_child.png");
     addButtonSprite->setPosition(addButtonLayer->getContentSize().width / 2, addButtonLayer->getContentSize().height /2);
     addButtonSprite->setOpacity(0);
+    addListenerToAddButton(addButtonSprite);
     addButtonLayer->addChild(addButtonSprite);
     
     float delayTime = CCRANDOM_0_1();
@@ -220,4 +222,65 @@ void ChildSelectorScene::addNewChildButtonToScrollView()
 
     addButtonLayer->setPosition(positionElementOnScrollView(addButtonLayer));
     scrollView->addChild(addButtonLayer);
+}
+
+void ChildSelectorScene::addListenerToAddButton(Sprite *addButtonSprite)
+{
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(false);
+    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    {
+        touchMovedAway = false;
+        auto target = static_cast<Node*>(event->getCurrentTarget());
+        startTouchPosition = touch->getLocation();
+        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+        Size s = target->getContentSize();
+        Rect rect = Rect(0,0,s.width, s.height);
+        
+        if(rect.containsPoint(locationInNode))
+        {
+            target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.1)));
+            
+            return true;
+        }
+        
+        return false;
+    };
+    
+    listener->onTouchMoved = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    {
+        
+        
+        if((!touchMovedAway)&&(touch->getLocation().distance(startTouchPosition) > 10))
+        {
+            touchMovedAway = true;
+            auto target = static_cast<Node*>(event->getCurrentTarget());
+            target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+        }
+        
+        return true;
+    };
+    
+    listener->onTouchEnded = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    {
+        if(!touchMovedAway)
+        {
+            auto target = static_cast<Node*>(event->getCurrentTarget());
+            target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+            
+            auto newChildScene = ChildAccountScene::createSceneWithName("");
+            Director::getInstance()->pushScene(newChildScene);
+            return true;
+        }
+        
+        return false;
+    };
+    
+    listener->onTouchCancelled = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    {
+        auto target = static_cast<Node*>(event->getCurrentTarget());
+        target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), addButtonSprite);
 }

@@ -24,6 +24,7 @@ public:
     void addListenerToProfileLayer(Layer *profileLayer);
     
     void addNewChildButtonToScrollView();
+    void addListenerToAddButton(cocos2d::Sprite *profileLayer);
     
     cocos2d::Point startTouchPosition;
     bool touchMovedAway;
