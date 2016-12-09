@@ -20,15 +20,19 @@ public:
     void addTextBoxesToLayer();
     void addButtonsToLayer();
     void addLabelsToLayer();
+    void addOomeesToLayer();
     
+    void backButtonCloseScene();
     void childNameNextButton();
-    void passwordBackButton();
-    void passwordNextButton();
-    void pinBackButton();
-    void pinNextButton();
+    void moveToDOBInput();
+    void moveToChildNameInput();
+    void moveToOomeeSelection();
+    void doneButton();
     
     std::string getNextButtonName(std::string editBoxName);
     std::string getBackButtonName(std::string editBoxName);
+    
+    bool childNameExists(std::string newChildsName);
     
     //Email String Checker Functions
     bool isCharacter(const char Character);
@@ -54,6 +58,8 @@ public:
     //void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox);
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
     void editBoxReturn(cocos2d::ui::EditBox* editBox);
+    std::string  replace(std::string& str, const std::string& from, const std::string& to);
+
 
 };
 
