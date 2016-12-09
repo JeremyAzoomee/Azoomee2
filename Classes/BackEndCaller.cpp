@@ -27,6 +27,8 @@ USING_NS_CC;
 //Including DataStorage.h - responsible for storing all login information during the app runtime
 
 #include "DataStorage.h"
+#include "HQDataProvider.h"
+#include "LoginScene.h"
 
 
 using namespace network;
@@ -311,7 +313,7 @@ void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sen
     {
         CCLOG("CHILDREN LOGIN SUCCESS");
         DataStorage::getInstance()->parseChildLoginData(myResponseString);
-        getContent(StringUtils::format(CI_URL"/api/electricdreams/view/categories/home/%s", DataStorage::getInstance()->getChildLoginValue("id").c_str()), "HOME");
+        HQDataProvider::getInstance()->getContent(StringUtils::format(CI_URL"/api/electricdreams/view/categories/home/%s", DataStorage::getInstance()->getChildLoginValue("id").c_str()), "HOME");
     }
     else
     {
@@ -320,62 +322,6 @@ void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sen
     }
     
     
-}
-
-//GETTING CONTENT
-
-void BackEndCaller::getContent(std::string url, std::string category)
-{
-    HttpRequest *request = new HttpRequest();
-    request->setRequestType(HttpRequest::Type::GET);
-    request->setUrl(url.c_str());
-    
-    auto myJWTTool = JWTTool::getInstance();
-    
-    //std::string buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
-    
-    std::string myRequestString = myJWTTool->buildJWTString("GET", getPathFromUrl(url), getHostFromUrl(url), "", "");
-    
-    std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("x-az-req-datetime: %s", getDateFormatString().c_str()));
-    headers.push_back(StringUtils::format("x-az-auth-token: %s", myRequestString.c_str()));
-    
-    request->setHeaders(headers);
-    
-    request->setResponseCallback(CC_CALLBACK_2(BackEndCaller::onGetContentAnswerReceived, this));
-    request->setTag(category);
-    HttpClient::getInstance()->send(request);
-
-}
-
-void BackEndCaller::onGetContentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
-{
-    std::string responseString = "";
-    
-    if (response && response->getResponseData())
-    {
-        std::vector<char> myResponse = *response->getResponseData();
-        responseString = std::string(myResponse.begin(), myResponse.end());
-        CCLOG("get content data: %s", responseString.c_str());
-    }
-    
-    if(response->getResponseCode() == 200)          //Get content success
-    {
-        if(DataStorage::getInstance()->parseHQData(responseString, response->getHttpRequest()->getTag()))       //Parsing method returns true if there are no errors in the json string.
-        {
-            CCLOG("TAG of request: %s", response->getHttpRequest()->getTag());
-            if(strncmp(response->getHttpRequest()->getTag(), "HOME", strlen(response->getHttpRequest()->getTag())) == 0)    //If we have a home HQ set up, we have to get urls too.
-            {
-                DataStorage::getInstance()->parseHQGetContentUrls(responseString);      //Parsing method returns true if there are no errors in the json string.
-                getGordon();                                                            //If both parsings went well, we move on to getting the cookies
-            }
-        }
-    }
-    else
-    {
-        CCLOG("GET CONTENT FAIL Response code: %ld", response->getResponseCode());
-        CCLOG("GET CONTENT FAIL Response: %s", responseString.c_str());
-    }
 }
 
 //GETTING GORDON.PNG

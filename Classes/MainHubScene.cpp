@@ -3,7 +3,7 @@
 #include "MainHubBgElements.h"
 #include "ImageContainer.h"
 #include "OomeeLayer.h"
-#include "DataStorage.h"
+#include "HQDataProvider.h"
 
 USING_NS_CC;
 
@@ -59,7 +59,7 @@ void MainHubScene::addImageContainers()
     
     for(int i = 0; i < requiredTypes.size(); i++)
     {
-        std::vector<std::map<std::string, std::string>> elementsForHub = DataStorage::getInstance()->getMainHubDataForGivenType(requiredTypes.at(i));
+        std::vector<std::map<std::string, std::string>> elementsForHub = HQDataProvider::getInstance()->getMainHubDataForGivenType(requiredTypes.at(i));
         for(int j = 0; j < elementsForHub.size(); j++)
         {
             if(j >= startPositions.at(j).size()) break;

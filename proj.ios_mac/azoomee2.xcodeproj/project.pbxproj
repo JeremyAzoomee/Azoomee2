@@ -69,6 +69,7 @@
 		A15B2FBB1DEDD1EA00D25334 /* HMACSHA256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FB71DEDD1EA00D25334 /* HMACSHA256.cpp */; };
 		A15B2FBE1DEED7F500D25334 /* DataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FBC1DEED7F500D25334 /* DataStorage.cpp */; };
 		A15B2FC71DFAB3FB00D25334 /* ImageDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FC51DFAB3FB00D25334 /* ImageDownloader.cpp */; };
+		A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */; };
 		A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1817B491DDCCA5200C2D13C /* MainHubBgElements.cpp */; };
 		A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19759821DE4931200FEB03C /* HQSceneElement.cpp */; };
 		A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
@@ -202,6 +203,8 @@
 		A15B2FBD1DEED7F500D25334 /* DataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStorage.h; sourceTree = "<group>"; };
 		A15B2FC51DFAB3FB00D25334 /* ImageDownloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloader.cpp; sourceTree = "<group>"; };
 		A15B2FC61DFAB3FB00D25334 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
+		A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataProvider.cpp; sourceTree = "<group>"; };
+		A15B2FC91DFACF3800D25334 /* HQDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataProvider.h; sourceTree = "<group>"; };
 		A1817B491DDCCA5200C2D13C /* MainHubBgElements.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainHubBgElements.cpp; sourceTree = "<group>"; };
 		A1817B4A1DDCCA5200C2D13C /* MainHubBgElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainHubBgElements.h; sourceTree = "<group>"; };
 		A19759821DE4931200FEB03C /* HQSceneElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneElement.cpp; sourceTree = "<group>"; };
@@ -470,6 +473,8 @@
 				A15B2FBD1DEED7F500D25334 /* DataStorage.h */,
 				A15B2FC51DFAB3FB00D25334 /* ImageDownloader.cpp */,
 				A15B2FC61DFAB3FB00D25334 /* ImageDownloader.h */,
+				A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */,
+				A15B2FC91DFACF3800D25334 /* HQDataProvider.h */,
 				A15B2FAB1DEDD15F00D25334 /* JWTSigner */,
 			);
 			name = BackEndCommunication;
@@ -679,6 +684,7 @@
 			files = (
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
 				A15B2FBB1DEDD1EA00D25334 /* HMACSHA256.cpp in Sources */,
+				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				A19862241DD3836D0090F053 /* IntroScene.cpp in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,

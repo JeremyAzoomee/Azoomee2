@@ -1,7 +1,7 @@
 #include "cocos2d.h"
 #include "external/json/document.h"
 
-class DataStorage : public cocos2d::Object
+class DataStorage : public cocos2d::Ref
 {
     
 public:
@@ -30,20 +30,6 @@ public:
     //Quick switch to see if currently only parent or parent + kid logged in
     bool childProfile;
     std::string getParentOrChildLoginValue(std::string keyName);
-    
-    //Content area variables
-    std::map<std::string, std::vector<std::map<std::string, std::string>>> HQData;
-    std::map<std::string, std::map<std::string, std::string>> HQStructure;
-    std::map<std::string, std::string> HQGetContentUrls;                                                //HQGetContentUrls store get content urls for the separate areas
-    //Content area methods
-    bool parseHQData(std::string responseString, const char *category);
-    bool parseHQStructure(std::string responseString, const char *category);
-    bool parseHQGetContentUrls(std::string responseString);
-    std::vector<std::map<std::string, std::string>> getMainHubDataForGivenType(std::string type);
-    void getDataForHQ(std::string category);
-    void startBuildingHQ(std::string category);
-    
-    
     
     bool parseDownloadCookies(std::string responseString);
     

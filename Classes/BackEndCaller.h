@@ -3,7 +3,7 @@
 #include "external/json/document.h"
 #include "ModalMessages.h" //We have this file included here, because we want to show loading screen on scene when data communication on login (or somewhere else) starts.
 
-class BackEndCaller : public cocos2d::Object
+class BackEndCaller : public cocos2d::Ref
 {
     
 public:
@@ -32,9 +32,6 @@ public:
     
     void childLogin(int childNumber);
     void onChildLoginAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
-    
-    void getContent(std::string url, std::string category);
-    void onGetContentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     void getGordon();
     void onGetGordonAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
