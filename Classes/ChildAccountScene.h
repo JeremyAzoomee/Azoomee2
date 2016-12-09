@@ -25,6 +25,7 @@ public:
     void backButtonCloseScene();
     void childNameNextButton();
     void moveToDOBInput();
+    bool isDate();
     void moveToChildNameInput();
     void moveToOomeeSelection();
     void selectOomee(cocos2d::Sprite* selectedOomee);

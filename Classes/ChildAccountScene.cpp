@@ -4,6 +4,7 @@
 #include "BackEndCaller.h"
 #include "DataStorage.h"
 #include "ChildSelectorScene.h"
+#include <ctime>
 
 USING_NS_CC;
 
@@ -185,6 +186,7 @@ void ChildAccountScene::addTextBoxesToLayer()
     _editDOB_Day->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     _editDOB_Day->setInputMode(ui::EditBox::InputMode::NUMERIC);
     _editDOB_Day->setName(OBJECTNAME_EDITBOX_DOB_DAY);
+    _editDOB_Day->setDelegate(this);
     childAccountContent->addChild(_editDOB_Day);
     
     auto _editDOB_Month = ui::EditBox::create(Size(200,131), "res/login/textarea_bg.png");
@@ -196,6 +198,7 @@ void ChildAccountScene::addTextBoxesToLayer()
     _editDOB_Month->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     _editDOB_Month->setInputMode(ui::EditBox::InputMode::NUMERIC);
     _editDOB_Month->setName(OBJECTNAME_EDITBOX_DOB_MONTH);
+    _editDOB_Month->setDelegate(this);
     childAccountContent->addChild(_editDOB_Month);
     
     auto _editDOB_Year = ui::EditBox::create(Size(300,131), "res/login/textarea_bg.png");
@@ -207,7 +210,9 @@ void ChildAccountScene::addTextBoxesToLayer()
     _editDOB_Year->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     _editDOB_Year->setInputMode(ui::EditBox::InputMode::NUMERIC);
     _editDOB_Year->setName(OBJECTNAME_EDITBOX_DOB_YEAR);
+    _editDOB_Year->setDelegate(this);
     childAccountContent->addChild(_editDOB_Year);
+    
 }
 
 void ChildAccountScene::addButtonsToLayer()
@@ -239,6 +244,7 @@ void ChildAccountScene::addButtonsToLayer()
     auto DOB_NextButton = Sprite::create("res/login/next_btn.png");
     DOB_NextButton->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
     DOB_NextButton->setName(getNextButtonName(OBJECTNAME_LABEL_DOB));
+    DOB_NextButton->setVisible(false);
     addListenerToButton(DOB_NextButton);
     childAccountContent->addChild(DOB_NextButton);
     
@@ -387,6 +393,34 @@ void ChildAccountScene::moveToDOBInput()
     childAccountContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
 }
 
+bool ChildAccountScene::isDate()
+{
+    int d = atoi(((ui::EditBox *)childAccountContent->getChildByName(OBJECTNAME_EDITBOX_DOB_DAY))->getText());
+    int m = atoi(((ui::EditBox *)childAccountContent->getChildByName(OBJECTNAME_EDITBOX_DOB_MONTH))->getText());
+    int y = atoi(((ui::EditBox *)childAccountContent->getChildByName(OBJECTNAME_EDITBOX_DOB_YEAR))->getText());
+    
+    if (! (1582<= y )  )//comment these 2 lines out if it bothers you
+        return false;
+    if (! (1<= m && m<=12) )
+        return false;
+    if (! (1<= d && d<=31) )
+        return false;
+    if ( (d==31) && (m==2 || m==4 || m==6 || m==9 || m==11) )
+        return false;
+    if ( (d==30) && (m==2) )
+        return false;
+    if ( (m==2) && (d==29) && (y%4!=0) )
+        return false;
+    if ( (m==2) && (d==29) && (y%400==0) )
+        return true;
+    if ( (m==2) && (d==29) && (y%100==0) )
+        return false;
+    if ( (m==2) && (d==29) && (y%4==0)  )
+        return true;
+    
+    return true;
+}
+
 void ChildAccountScene::moveToChildNameInput()
 {
     childAccountContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2));
@@ -515,11 +549,21 @@ void ChildAccountScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const 
     }
     
     
-    //if there is text, then show the next button.
-    if(text.compare("") !=0)
-        ((cocos2d::Sprite *)childAccountContent->getChildByName(getNextButtonName(OBJECTNAME_EDITBOX_CHILDNAME)))->setVisible(true);
+    if(editBox->getName().compare(OBJECTNAME_EDITBOX_CHILDNAME) == 0)
+    {
+        //if there is text, then show the next button.
+        if(text.compare("") !=0)
+            ((cocos2d::Sprite *)childAccountContent->getChildByName(getNextButtonName(OBJECTNAME_EDITBOX_CHILDNAME)))->setVisible(true);
+        else
+            ((cocos2d::Sprite *)childAccountContent->getChildByName(getNextButtonName(OBJECTNAME_EDITBOX_CHILDNAME)))->setVisible(false);
+    }
     else
-        ((cocos2d::Sprite *)childAccountContent->getChildByName(getNextButtonName(OBJECTNAME_EDITBOX_CHILDNAME)))->setVisible(false);
+    {
+        if(isDate())
+            ((cocos2d::Sprite *)childAccountContent->getChildByName(getNextButtonName(OBJECTNAME_LABEL_DOB)))->setVisible(true);
+        else
+            ((cocos2d::Sprite *)childAccountContent->getChildByName(getNextButtonName(OBJECTNAME_LABEL_DOB)))->setVisible(false);
+    }
 }
 
 void ChildAccountScene::editBoxReturn(cocos2d::ui::EditBox* editBox)
