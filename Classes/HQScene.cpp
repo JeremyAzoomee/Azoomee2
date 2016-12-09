@@ -49,10 +49,17 @@ Point HQScene::getItemPositionForBidirectionalScrollView(int highlight)
 
 void HQScene::setBackground(std::string name)
 {
+    std::map<std::string, std::string> bgImageNames;
+    bgImageNames["VIDEO HQ"] = "0.jpg";
+    bgImageNames["AUDIO HQ"] = "1.jpg";
+    bgImageNames["ARTS APP"] = "2.jpg";
+    bgImageNames["GAME HQ"] = "3.jpg";
+    
+    
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto bgImage = Sprite::create(StringUtils::format("res/previewbg/%s.jpg", name.c_str()));
+    auto bgImage = Sprite::create(StringUtils::format("res/previewbg/%s", bgImageNames[name].c_str()));
     bgImage->setPosition(visibleSize.width / 2, visibleSize.height / 2);
     this->addChild(bgImage, 0);
 }

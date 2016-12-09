@@ -311,7 +311,7 @@ void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sen
     {
         CCLOG("CHILDREN LOGIN SUCCESS");
         DataStorage::getInstance()->parseChildLoginData(myResponseString);
-        getContent(CI_URL"/api/electricdreams/view/categories/home/", "HOME");
+        getContent(StringUtils::format(CI_URL"/api/electricdreams/view/categories/home/%s", DataStorage::getInstance()->getChildLoginValue("id").c_str()), "HOME");
     }
     else
     {
@@ -326,17 +326,15 @@ void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sen
 
 void BackEndCaller::getContent(std::string url, std::string category)
 {
-    std::string requestUrl = StringUtils::format("%s%s", url.c_str(), DataStorage::getInstance()->getChildLoginValue("id").c_str());
-    
     HttpRequest *request = new HttpRequest();
     request->setRequestType(HttpRequest::Type::GET);
-    request->setUrl(requestUrl.c_str());
+    request->setUrl(url.c_str());
     
     auto myJWTTool = JWTTool::getInstance();
     
     //std::string buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
     
-    std::string myRequestString = myJWTTool->buildJWTString("GET", getPathFromUrl(requestUrl), getHostFromUrl(requestUrl), "", "");
+    std::string myRequestString = myJWTTool->buildJWTString("GET", getPathFromUrl(url), getHostFromUrl(url), "", "");
     
     std::vector<std::string> headers;
     headers.push_back(StringUtils::format("x-az-req-datetime: %s", getDateFormatString().c_str()));

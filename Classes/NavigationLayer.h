@@ -29,7 +29,7 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(NavigationLayer);
     
-    void startLoadingHQScene(std::string category);
+    void startLoadingHQScene(int categoryTag);
 };
 
 #endif // __NAVIGATION_LAYER_H__

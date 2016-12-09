@@ -201,7 +201,10 @@ bool DataStorage::parseHQGetContentUrls(std::string responseString)
     {
         if(contentData["categories"][M->name.GetString()].HasMember("uri"))
         {
-            HQGetContentUrls[M->name.GetString()] = contentData["categories"][M->name.GetString()]["uri"].GetString();
+            if(!contentData["categories"][M->name.GetString()]["uri"].IsNull())
+            {
+                HQGetContentUrls[M->name.GetString()] = contentData["categories"][M->name.GetString()]["uri"].GetString();
+            }
         }
     }
     

@@ -137,9 +137,9 @@ void NavigationLayer::addMenuItemPositionsAndColours()
     
 }
 
-void NavigationLayer::startLoadingHQScene(std::string category)
+void NavigationLayer::startLoadingHQScene(int categoryTag)
 {
-    DataStorage::getInstance()->getDataForHQ(category);
+    DataStorage::getInstance()->getDataForHQ(menuItemNames.at(categoryTag));
 }
 
 // on "init" you need to initialize your instance
@@ -207,17 +207,10 @@ bool NavigationLayer::init()
             
             if(rect.containsPoint(locationInNode))
             {
-                
-                
-                //Turn off all menuitems first
-                NavigationLayer * myClass = (NavigationLayer *)target->getParent();
-                myClass->turnOffAllMenuItems();
-                
-                //After all items are off, we turn on the one that was pressed.
+                this->startLoadingHQScene(target->getTag());
+                this->turnOffAllMenuItems();
                 target->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
-                
-                //And we change the main scene position depending on the pressed button.
-                myClass->changeToScene(target->getTag());
+                this->changeToScene(target->getTag());
                 
                 return true;
             }
