@@ -123,7 +123,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     
     addGradientToBottom(Color3B(getColourByType(elementProperties["type"]).r, getColourByType(elementProperties["type"]).g, getColourByType(elementProperties["type"]).b), startDelay);
     addIconToImage(elementProperties["type"], startDelay);
-    addLabelToImage(elementProperties["name"], startDelay);
+    addLabelToImage(elementProperties["title"], startDelay);
     
     
     

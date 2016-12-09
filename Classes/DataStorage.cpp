@@ -1,4 +1,6 @@
 #include "DataStorage.h"
+#include "BackEndCaller.h"
+#include "HQScene.h"
 
 using namespace cocos2d;
 
@@ -110,18 +112,39 @@ bool DataStorage::parseChildLoginData(std::string responseData)
     return true;
 }
 
-bool DataStorage::parseMainHubContentData(std::string responseString)
+//HQ Data methods start here----------------------------------------------------------------------------------------------------------
+
+void DataStorage::startBuildingHQ(std::string category)
 {
+    HQScene *actualHQScene = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName("contentLayer")->getChildByName(category.c_str());
+    actualHQScene->startBuildingScrollViewBasedOnName();
+}
+
+void DataStorage::getDataForHQ(std::string category)
+{
+    if(HQData.find(category.c_str()) != HQData.end())
+    {
+        //we have to start building the HQ immediately - the HQ scene has to decide if the HQ is already built or not, but only at the point where the data is ready
+    }
+    else
+    {
+        if(HQGetContentUrls.find(category.c_str()) != HQGetContentUrls.end()) //We don't have the data locally. Now we have to check if the data has to be downloaded (we have an uri for it)
+        {
+            BackEndCaller::getInstance()->getContent(HQGetContentUrls[category.c_str()], category.c_str());
+        }
+    }
+}
+
+bool DataStorage::parseHQData(std::string responseString, const char *category)
+{
+    rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
+    std::vector<std::map<std::string, std::string>> HQElements;
     
     rapidjson::Value::MemberIterator M;
-    const char *key;//,*value;
+    const char *key;
     
-    if (contentData.HasParseError())
-    {
-        CCLOG("Json has errors!!!");
-        return false;
-    }
+    if (contentData.HasParseError()) return false; //JSON HAS ERRORS IN IT
     
     for (M=contentData["items"].MemberBegin(); M!=contentData["items"].MemberEnd(); M++)
     {
@@ -130,7 +153,8 @@ bool DataStorage::parseMainHubContentData(std::string responseString)
         
         if (key!=NULL)
         {
-            std::vector<std::string> itemNames = {"id", "name", "title", "description", "type", "uri", "entitlement"};
+            elementProperty["id"] = key;  //first we set up the id for the content, then we go through the properties. Reason for this: the id is the key for the contents itself, not included within the record.
+            std::vector<std::string> itemNames = {"title", "description", "type", "uri"}; //we need values for these keys from the record.
             
             for(int i = 0; i < itemNames.size(); i++)
             {
@@ -150,10 +174,36 @@ bool DataStorage::parseMainHubContentData(std::string responseString)
                 else elementProperty["entitled"] = "false";
             }
             
-            mainHubElements.push_back(elementProperty);
+            HQElements.push_back(elementProperty);
         }
     }
+    
+    HQData[StringUtils::format("%s", category)] = HQElements;
+    
+    if(strncmp(category, "HOME", strlen(category)) != 0) //If not home was built, we have to find the current HQ scene, and start building it.
+    {
+        
+    }
+    
+    return true;
+}
 
+bool DataStorage::parseHQGetContentUrls(std::string responseString)
+{
+    rapidjson::Document contentData;
+    contentData.Parse(responseString.c_str());
+    
+    rapidjson::Value::MemberIterator M;
+    
+    if (contentData.HasParseError()) return false; //JSON HAS ERRORS IN IT.
+    
+    for (M=contentData["categories"].MemberBegin(); M!=contentData["categories"].MemberEnd(); M++)
+    {
+        if(contentData["categories"][M->name.GetString()].HasMember("uri"))
+        {
+            HQGetContentUrls[M->name.GetString()] = contentData["categories"][M->name.GetString()]["uri"].GetString();
+        }
+    }
     
     return true;
 }
@@ -162,11 +212,11 @@ std::vector<std::map<std::string, std::string>> DataStorage::getMainHubDataForGi
 {
     std::vector<std::map<std::string, std::string>> result;
     
-    for(int i = 0; i < mainHubElements.size(); i++)
+    for(int i = 0; i < HQData["HOME"].size(); i++)
     {
-        if(mainHubElements.at(i)["type"] == type.c_str())
+        if(HQData["HOME"].at(i)["type"] == type.c_str())
         {
-            result.push_back(mainHubElements.at(i));
+            result.push_back(HQData["HOME"].at(i));
         }
     }
     

@@ -31,11 +31,19 @@ public:
     bool childProfile;
     std::string getParentOrChildLoginValue(std::string keyName);
     
-    //Content area
-    rapidjson::Document contentData;
-    std::vector<std::string> contentDataJsonKeys;
-    bool parseMainHubContentData(std::string responseString);
+    //Content area variables
+    std::map<std::string, std::vector<std::map<std::string, std::string>>> HQData;
+    std::map<std::string, std::map<std::string, std::string>> HQStructure;
+    std::map<std::string, std::string> HQGetContentUrls;                                                //HQGetContentUrls store get content urls for the separate areas
+    //Content area methods
+    bool parseHQData(std::string responseString, const char *category);
+    bool parseHQStructure(std::string responseString, const char *category);
+    bool parseHQGetContentUrls(std::string responseString);
     std::vector<std::map<std::string, std::string>> getMainHubDataForGivenType(std::string type);
+    void getDataForHQ(std::string category);
+    void startBuildingHQ(std::string category);
+    
+    
     
     bool parseDownloadCookies(std::string responseString);
     
@@ -51,7 +59,5 @@ public:
     std::vector<std::string> splitStringToVector(std::string inputString, std::string separator);
     bool checkIfCookieIsForUrl(std::string cookieRecord, std::string url);
     std::string getCookieMainContent(std::string cookieRecord);
-    
-    std::vector<std::map<std::string, std::string>> mainHubElements;
     
 };

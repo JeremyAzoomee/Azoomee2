@@ -18,6 +18,7 @@ public:
     std::vector<cocos2d::Point> circleMenuItemPositions;
     std::vector<cocos2d::Point> horizontalMenuItemPositions;
     std::vector<cocos2d::Vec4> menuItemColours;
+    std::vector<std::string> menuItemNames;
     std::vector<int> currentPositions;
     
     void startRotatingTheMenu();
@@ -27,6 +28,8 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(NavigationLayer);
+    
+    void startLoadingHQScene(std::string category);
 };
 
 #endif // __NAVIGATION_LAYER_H__

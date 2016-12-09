@@ -2,8 +2,7 @@
 #include "SimpleAudioEngine.h"
 
 #include "BaseScene.h"
-
-#include "InterSceneLoader.h"
+#include "DataStorage.h"
 
 USING_NS_CC;
 
@@ -127,6 +126,20 @@ void NavigationLayer::addMenuItemPositionsAndColours()
     menuItemColours.push_back(Vec4(0,0,0,0));
     menuItemColours.push_back(Vec4(246, 185, 66, 255));
     menuItemColours.push_back(Vec4(86, 177, 255, 255));
+    
+    //Define menuitem names - we know what parts of the HQ to load
+    menuItemNames.push_back("HOME");
+    menuItemNames.push_back("VIDEO HQ");
+    menuItemNames.push_back("AUIDO HQ");
+    menuItemNames.push_back("MAIL APP");
+    menuItemNames.push_back("ART APP");
+    menuItemNames.push_back("GAME HQ");
+    
+}
+
+void NavigationLayer::startLoadingHQScene(std::string category)
+{
+    DataStorage::getInstance()->getDataForHQ(category);
 }
 
 // on "init" you need to initialize your instance
@@ -194,6 +207,8 @@ bool NavigationLayer::init()
             
             if(rect.containsPoint(locationInNode))
             {
+                
+                
                 //Turn off all menuitems first
                 NavigationLayer * myClass = (NavigationLayer *)target->getParent();
                 myClass->turnOffAllMenuItems();
@@ -203,10 +218,6 @@ bool NavigationLayer::init()
                 
                 //And we change the main scene position depending on the pressed button.
                 myClass->changeToScene(target->getTag());
-                
-                //New addition: while changing hide the scene with the loader scene
-                InterSceneLoader *interSceneLoader = (InterSceneLoader *)this->getParent()->getChildByName("interSceneLoader");
-                interSceneLoader->startLoading();
                 
                 return true;
             }

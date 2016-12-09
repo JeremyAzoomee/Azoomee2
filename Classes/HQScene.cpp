@@ -21,10 +21,10 @@ Scene* HQScene::createScene()
 
 void HQScene::setCategoryFromName(std::string name)
 {
-    if(name == "sVideoHQ") category = 0;
-    if(name == "sAudioHQ") category = 1;
-    if(name == "sArtsHQ") category = 2;
-    if(name == "sGameHQ") category = 3;
+    if(name == "VIDEO HQ") category = 0;
+    if(name == "AUDIO HQ") category = 1;
+    if(name == "ARTS APP") category = 2;
+    if(name == "GAME HQ") category = 3;
     
     CCLOG("Selected category: %d", category);
 }
@@ -204,6 +204,8 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
     toBeAddedTo->addChild(hqSceneElement);
 }
 
+//---------------------------------------------------------THESE ARE THE 3 MAIN METHODS BEING CALLED TO START CONTENT CREATION
+
 void HQScene::createMonodirectionalScrollView() //This is the method that is being called from outside of the class
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -243,6 +245,14 @@ void HQScene::createBidirectionalScrollView() //This is the method that is being
         }
     }
 }
+
+void HQScene::startBuildingScrollViewBasedOnName()
+{
+    if(this->getName() == "VIDEO HQ") createBidirectionalScrollView();
+    else createMonodirectionalScrollView();
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
 
 // on "init" you need to initialize your instance
 bool HQScene::init()

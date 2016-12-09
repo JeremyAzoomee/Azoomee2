@@ -24,6 +24,7 @@ public:
     cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position);
     void addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, cocos2d::Point position, int category, int highlight, std::string imageName, std::string label);
     
+    void startBuildingScrollViewBasedOnName();
     void createBidirectionalScrollView();
     void createMonodirectionalScrollView();
     

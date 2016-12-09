@@ -54,6 +54,8 @@ bool BackEndCaller::init(void)
     return true;
 }
 
+//METHODS BEING USED COMMONLY BY ALL REQUESTS-----------------------------------------------------
+
 std::string BackEndCaller::replaceAll(std::string& str, const std::string& from, const std::string& to) {
     if(from.empty())
         return "";
@@ -97,6 +99,45 @@ void BackEndCaller::displayError(std::string errorMessage)
     auto myMessage = (Label *)Director::getInstance()->getRunningScene()->getChildByTag(0)->getChildByTag(3);
     myMessage->setString(errorMessage);
 }
+
+int BackEndCaller::findPositionOfNthString(std::string string, std::string whatToFind, int whichOne)
+{
+    int startSearchPos = 0;
+    
+    for(int i = 0; i < whichOne; i++)
+    {
+        if(string.find(whatToFind, startSearchPos) == string.npos)
+        {
+            return int(string.length());
+        }
+        else
+        {
+            startSearchPos = int(string.find(whatToFind, startSearchPos) + 1);
+        }
+    }
+    
+    return startSearchPos - 1;
+}
+
+std::string BackEndCaller::getPathFromUrl(std::string url)
+{
+    int from = findPositionOfNthString(url, "/", 3);
+    int until = findPositionOfNthString(url, "?", 1);
+    int length = until - from;
+    
+    return(url.substr(from, length)); //returning the path from the url by finding the first slash ( / ) sign after http:// - implemented a method to find 3rd /, as it can be https as well.
+}
+
+std::string BackEndCaller::getHostFromUrl(std::string url)
+{
+    int from = findPositionOfNthString(url, "/", 2) + 1;
+    int until = findPositionOfNthString(url, "/", 3);
+    int length = until - from;
+    
+    return(url.substr(from, length)); //returning string between the second slash ( / ) (after http://) until the 3rd one (where path starts).
+}
+
+//END OF METHODS BEING COMMONLY USED BY ALL REQUESTS--------------------------------------------
 
 //LOGGING IN BY PARENT--------------------------------------------------------------------------
 
@@ -270,7 +311,7 @@ void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sen
     {
         CCLOG("CHILDREN LOGIN SUCCESS");
         DataStorage::getInstance()->parseChildLoginData(myResponseString);
-        getContent();
+        getContent(CI_URL"/api/electricdreams/view/categories/home/", "HOME");
     }
     else
     {
@@ -283,10 +324,9 @@ void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sen
 
 //GETTING CONTENT
 
-void BackEndCaller::getContent()
+void BackEndCaller::getContent(std::string url, std::string category)
 {
-    std::string requestPath = StringUtils::format("/api/electricdreams/view/categories/home/%s", DataStorage::getInstance()->getChildLoginValue("id").c_str());
-    std::string requestUrl = StringUtils::format(CI_URL"%s", requestPath.c_str());
+    std::string requestUrl = StringUtils::format("%s%s", url.c_str(), DataStorage::getInstance()->getChildLoginValue("id").c_str());
     
     HttpRequest *request = new HttpRequest();
     request->setRequestType(HttpRequest::Type::GET);
@@ -296,21 +336,16 @@ void BackEndCaller::getContent()
     
     //std::string buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
     
-    std::string myRequestString = myJWTTool->buildJWTString("GET", requestPath.c_str(), CI_HOST, "", "");
-    const char *reqData = myRequestString.c_str();
-    
-    request->setRequestData(reqData, strlen(reqData));
-    
-    CCLOG("request data is: %s", request->getRequestData());
+    std::string myRequestString = myJWTTool->buildJWTString("GET", getPathFromUrl(requestUrl), getHostFromUrl(requestUrl), "", "");
     
     std::vector<std::string> headers;
     headers.push_back(StringUtils::format("x-az-req-datetime: %s", getDateFormatString().c_str()));
-    headers.push_back(StringUtils::format("x-az-auth-token: %s", reqData));
+    headers.push_back(StringUtils::format("x-az-auth-token: %s", myRequestString.c_str()));
     
     request->setHeaders(headers);
     
     request->setResponseCallback(CC_CALLBACK_2(BackEndCaller::onGetContentAnswerReceived, this));
-    request->setTag("GET content");
+    request->setTag(category);
     HttpClient::getInstance()->send(request);
 
 }
@@ -326,13 +361,17 @@ void BackEndCaller::onGetContentAnswerReceived(cocos2d::network::HttpClient *sen
         CCLOG("get content data: %s", responseString.c_str());
     }
     
-    if(response->getResponseCode() == 200)
+    if(response->getResponseCode() == 200)          //Get content success
     {
-        CCLOG("GET CONTENT SUCCESS");
-        
-        DataStorage::getInstance()->parseMainHubContentData(responseString);
-        
-        getGordon();
+        if(DataStorage::getInstance()->parseHQData(responseString, response->getHttpRequest()->getTag()))       //Parsing method returns true if there are no errors in the json string.
+        {
+            CCLOG("TAG of request: %s", response->getHttpRequest()->getTag());
+            if(strncmp(response->getHttpRequest()->getTag(), "HOME", strlen(response->getHttpRequest()->getTag())) == 0)    //If we have a home HQ set up, we have to get urls too.
+            {
+                DataStorage::getInstance()->parseHQGetContentUrls(responseString);      //Parsing method returns true if there are no errors in the json string.
+                getGordon();                                                            //If both parsings went well, we move on to getting the cookies
+            }
+        }
     }
     else
     {
