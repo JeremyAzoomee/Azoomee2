@@ -27,6 +27,7 @@ public:
     void moveToDOBInput();
     void moveToChildNameInput();
     void moveToOomeeSelection();
+    void selectOomee(cocos2d::Sprite* selectedOomee);
     void doneButton();
     
     std::string getNextButtonName(std::string editBoxName);
@@ -44,7 +45,7 @@ public:
     bool isNewChildAccount;
     std::string passedChildName;
     
-    void addListenerToButton(cocos2d::Sprite *spriteImage);
+    std::string selectedOomeeName;
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
@@ -52,6 +53,8 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(ChildAccountScene);
+    
+    void addListenerToButton(cocos2d::Sprite *spriteImage);
     
     //Editbox Delegate Functions
     //void editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox);

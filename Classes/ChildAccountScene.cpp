@@ -3,6 +3,7 @@
 #include "ModalMessages.h"
 #include "BackEndCaller.h"
 #include "DataStorage.h"
+#include "ChildSelectorScene.h"
 
 USING_NS_CC;
 
@@ -27,6 +28,7 @@ USING_NS_CC;
 #define OBJECTNAME_EDITBOX_DOB_YEAR "childDOBYear"
 #define OBJECTNAME_LABEL_DOB "childDOBLabel"
 #define OBJECTNAME_LABEL_SELECT_OOMEE "childSelectOomeeLabel"
+#define OBJECTNAME_SPRITE_OOMEE "oomeeSprite"
 
 Scene* ChildAccountScene::createSceneWithName(std::string ChildName)
 {
@@ -249,6 +251,7 @@ void ChildAccountScene::addButtonsToLayer()
     auto selectOomeeDoneButton = Sprite::create("res/login/next_btn.png");
     selectOomeeDoneButton->setPosition(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5);
     selectOomeeDoneButton->setScale(1.2);
+    selectOomeeDoneButton->setVisible(false);
     selectOomeeDoneButton->setName(getNextButtonName(OBJECTNAME_LABEL_SELECT_OOMEE));
     addListenerToButton(selectOomeeDoneButton);
     childAccountContent->addChild(selectOomeeDoneButton);
@@ -257,10 +260,42 @@ void ChildAccountScene::addButtonsToLayer()
 
 void ChildAccountScene::addOomeesToLayer()
 {
-    auto oomee = Sprite::create(StringUtils::format("res/childSelection/oomee_%d.png", oomeeNumber));
-    oomee->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height /2);
-    oomee->setOpacity(0);
-    profileLayer->addChild(oomee);
+    float gapSize = 50;
+    
+    auto oomee_0 = Sprite::create("res/childSelection/oomee_0.png");
+    oomee_0->setPosition(origin.x + visibleSize.width * 2.5 - (oomee_0->getContentSize().width*2 + gapSize*2), origin.y + visibleSize.height * 0.4);
+    oomee_0->setOpacity(0);
+    oomee_0->setName(StringUtils::format("%s_0",OBJECTNAME_SPRITE_OOMEE));
+    addListenerToButton(oomee_0);
+    childAccountContent->addChild(oomee_0);
+    
+    auto oomee_1 = Sprite::create("res/childSelection/oomee_1.png");
+    oomee_1->setPosition(origin.x + visibleSize.width * 2.5 - (oomee_0->getContentSize().width + gapSize), origin.y + visibleSize.height * 0.4);
+    oomee_1->setOpacity(0);
+    oomee_1->setName(StringUtils::format("%s_1",OBJECTNAME_SPRITE_OOMEE));
+    addListenerToButton(oomee_1);
+    childAccountContent->addChild(oomee_1);
+    
+    auto oomee_2 = Sprite::create("res/childSelection/oomee_2.png");
+    oomee_2->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.4);
+    oomee_2->setOpacity(0);
+    addListenerToButton(oomee_2);
+    oomee_2->setName(StringUtils::format("%s_2",OBJECTNAME_SPRITE_OOMEE));
+    childAccountContent->addChild(oomee_2);
+    
+    auto oomee_3 = Sprite::create("res/childSelection/oomee_3.png");
+    oomee_3->setPosition(origin.x + visibleSize.width * 2.5 + (oomee_0->getContentSize().width + gapSize), origin.y + visibleSize.height * 0.4);
+    oomee_3->setOpacity(0);
+    oomee_3->setName(StringUtils::format("%s_3",OBJECTNAME_SPRITE_OOMEE));
+    addListenerToButton(oomee_3);
+    childAccountContent->addChild(oomee_3);
+    
+    auto oomee_4 = Sprite::create("res/childSelection/oomee_4.png");
+    oomee_4->setPosition(origin.x + visibleSize.width * 2.5 + (oomee_0->getContentSize().width*2 + gapSize*2), origin.y + visibleSize.height * 0.4);
+    oomee_4->setOpacity(0);
+    oomee_4->setName(StringUtils::format("%s_4",OBJECTNAME_SPRITE_OOMEE));
+    addListenerToButton(oomee_4);
+    childAccountContent->addChild(oomee_4);
 }
 
 void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
@@ -288,6 +323,9 @@ void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
                 this->moveToDOBInput();
             else if(spriteImage->getName().compare(getNextButtonName(OBJECTNAME_LABEL_SELECT_OOMEE).c_str()) == 0)
                 this->doneButton();
+            else if(spriteImage->getName().find(OBJECTNAME_SPRITE_OOMEE, 0) != std::string::npos)
+                this->selectOomee(spriteImage);
+
             
             return true;
         }
@@ -300,7 +338,8 @@ void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
 
 void ChildAccountScene::backButtonCloseScene()
 {
-    Director::getInstance()->popScene();
+    auto childSelectorScene = ChildSelectorScene::createScene();
+    Director::getInstance()->replaceScene(childSelectorScene);
 }
 
 void ChildAccountScene::childNameNextButton()
@@ -356,6 +395,30 @@ void ChildAccountScene::moveToChildNameInput()
 void ChildAccountScene::moveToOomeeSelection()
 {
     childAccountContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2));
+    
+    for(int i=0;i<5;i++)
+    {
+        cocos2d::Sprite* oomee = (cocos2d::Sprite *)childAccountContent->getChildByName(StringUtils::format("%s_%d",OBJECTNAME_SPRITE_OOMEE,i));
+        float delayTime = CCRANDOM_0_1()+1;
+        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
+}
+
+void ChildAccountScene::selectOomee(cocos2d::Sprite* selectedOomee)
+{
+    
+    ((cocos2d::Sprite *)childAccountContent->getChildByName(getNextButtonName(OBJECTNAME_LABEL_SELECT_OOMEE)))->setVisible(true);
+    
+    //Add here what to do when Oomee selected. Currently just set to be bigger.
+    for(int i=0;i<5;i++)
+    {
+        cocos2d::Sprite* oomee = (cocos2d::Sprite *)childAccountContent->getChildByName(StringUtils::format("%s_%d",OBJECTNAME_SPRITE_OOMEE,i));
+        oomee->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1)));
+    }
+    
+    selectedOomee->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.2)));
+    
+    this->selectedOomeeName = selectedOomee->getName();
 }
 
 void ChildAccountScene::doneButton()
@@ -363,7 +426,8 @@ void ChildAccountScene::doneButton()
     // NOTE Child Age to be in "yyyy-MM-dd" format
     
     //#TODO need to save selections
-    Director::getInstance()->popScene();
+    auto childSelectorScene = ChildSelectorScene::createScene();
+    Director::getInstance()->replaceScene(childSelectorScene);
 }
 
 bool ChildAccountScene::isCharacter(const char Character)

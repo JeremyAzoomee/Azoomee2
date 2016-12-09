@@ -269,7 +269,7 @@ void ChildSelectorScene::addListenerToAddButton(Sprite *addButtonSprite)
             target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
             
             auto newChildScene = ChildAccountScene::createSceneWithName("");
-            Director::getInstance()->pushScene(newChildScene);
+            Director::getInstance()->replaceScene(newChildScene);
             return true;
         }
         
