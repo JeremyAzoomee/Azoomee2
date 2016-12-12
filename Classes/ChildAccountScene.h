@@ -23,13 +23,16 @@ public:
     void addOomeesToLayer();
     
     void backButtonCloseScene();
-    void childNameNextButton();
-    void moveToDOBInput();
+    void childNameNextButton(Node* button);
+    void moveToDOBInput(Node* button);
     bool isDate();
-    void moveToChildNameInput();
-    void moveToOomeeSelection();
+    void moveToChildNameInput(Node* button);
+    void moveToOomeeSelection(Node* button);
     void selectOomee(cocos2d::Sprite* selectedOomee);
     void doneButton();
+    
+    void disableMoveButton(Node* button);
+    void enableMoveButton(Node* button);
     
     bool childNameExists(std::string newChildsName);
     

@@ -139,7 +139,9 @@ void OnboardingScene::addTextBoxesToLayer()
     _editPassword->setFont("fonts/azoomee.ttf", 90);
     _editPassword->setFontColor(Color3B::WHITE);
     _editPassword->setMaxLength(50);
+    _editPassword->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     _editPassword->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
+    _editPassword->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
     _editPassword->setTag(TAG_PASSWORD_EDITBOX);
     _editPassword->setDelegate(this);
     onboardingContent->addChild(_editPassword);
@@ -149,6 +151,7 @@ void OnboardingScene::addTextBoxesToLayer()
     _editPin->setFont("fonts/azoomee.ttf", 90);
     _editPin->setFontColor(Color3B::WHITE);
     _editPin->setMaxLength(4);
+    _editPin->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     _editPin->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
     _editPin->setInputMode(ui::EditBox::InputMode::NUMERIC);
     _editPin->setTag(TAG_PIN_EDITBOX);
@@ -219,10 +222,10 @@ void OnboardingScene::addListenerToButton(cocos2d::Sprite *spriteImage)
             switch(buttonTag)
             {
                 case(TAG_EMAIL_BACK_BUTTON): this->closeOnboarding(); break;
-                case(TAG_EMAIL_NEXT_BUTTON): this->moveToPasswordScreen(); break;
-                case(TAG_PASSWORD_BACK_BUTTON): this->moveToEmailScreen(); break;
-                case(TAG_PASSWORD_NEXT_BUTTON): this->moveToPinScreen(); break;
-                case(TAG_PIN_BACK_BUTTON): this->moveToPasswordScreen(); break;
+                case(TAG_EMAIL_NEXT_BUTTON): this->moveToPasswordScreen(spriteImage); break;
+                case(TAG_PASSWORD_BACK_BUTTON): this->moveToEmailScreen(spriteImage); break;
+                case(TAG_PASSWORD_NEXT_BUTTON): this->moveToPinScreen(spriteImage); break;
+                case(TAG_PIN_BACK_BUTTON): this->moveToPasswordScreen(spriteImage); break;
                 case(TAG_PIN_NEXT_BUTTON): this->signup(); break;
             }
             return true;
@@ -234,26 +237,61 @@ void OnboardingScene::addListenerToButton(cocos2d::Sprite *spriteImage)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, spriteImage);
 }
 
+void OnboardingScene::disableMoveButton(Node* button)
+{
+    Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(button);
+}
+
+void OnboardingScene::enableMoveButton(Node* button)
+{
+    Director::getInstance()->getEventDispatcher()->resumeEventListenersForTarget(button);
+}
+
 void OnboardingScene::closeOnboarding()
 {
     auto _loginScene = LoginScene::createScene();
     Director::getInstance()->replaceScene(_loginScene);
 }
 
-void OnboardingScene::moveToPasswordScreen()
+void OnboardingScene::moveToPasswordScreen(Node* button)
 {
-        onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+    disableMoveButton(button);
+    
+    auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2);
+    auto callback = CallFunc::create(CC_CALLBACK_0(OnboardingScene::enableMoveButton, this,button));
+    
+    auto sequence = Sequence::create(action, callback, NULL);
+    onboardingContent->runAction(sequence);
+    
+    //Remove PIN Text, therefore Hide Pin Next Button
+    ((ui::EditBox *)onboardingContent->getChildByTag(TAG_PIN_EDITBOX))->setText("");
+    ((cocos2d::Sprite *)onboardingContent->getChildByTag(TAG_PIN_NEXT_BUTTON))->setVisible(false);
 }
 
-void OnboardingScene::moveToEmailScreen()
+void OnboardingScene::moveToEmailScreen(Node* button)
 {
-        ((ui::EditBox *)onboardingContent->getChildByTag(TAG_EMAIL_EDITBOX))->setText("");
-        onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2));
+    disableMoveButton(button);
+    
+    auto action = EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2);
+    auto callback = CallFunc::create(CC_CALLBACK_0(OnboardingScene::enableMoveButton, this,button));
+    
+    auto sequence = Sequence::create(action, callback, NULL);
+    onboardingContent->runAction(sequence);
+    
+    //Remove password Text, therefore Hide Password Next Button
+    ((ui::EditBox *)onboardingContent->getChildByTag(TAG_PASSWORD_EDITBOX))->setText("");
+    ((cocos2d::Sprite *)onboardingContent->getChildByTag(TAG_PASSWORD_NEXT_BUTTON))->setVisible(false);
 }
 
-void OnboardingScene::moveToPinScreen()
+void OnboardingScene::moveToPinScreen(Node* button)
 {
-        onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2));
+    disableMoveButton(button);
+    
+    auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2);
+    auto callback = CallFunc::create(CC_CALLBACK_0(OnboardingScene::enableMoveButton, this,button));
+    
+    auto sequence = Sequence::create(action, callback, NULL);
+    onboardingContent->runAction(sequence);
 }
 
 void OnboardingScene::signup()

@@ -22,10 +22,13 @@ public:
     void addLabelsToLayer();
     
     void closeOnboarding();
-    void moveToPasswordScreen();
-    void moveToEmailScreen();
-    void moveToPinScreen();
+    void moveToPasswordScreen(Node* button);
+    void moveToEmailScreen(Node* button);
+    void moveToPinScreen(Node* button);
     void signup();
+    
+    void disableMoveButton(Node* button);
+    void enableMoveButton(Node* button);
     
     void addListenerToButton(cocos2d::Sprite *spriteImage);
     
