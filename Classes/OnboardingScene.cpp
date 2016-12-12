@@ -1,8 +1,8 @@
 #include "OnboardingScene.h"
 #include "SimpleAudioEngine.h"
-#include "ui/UIEditBox/UIEditBox.h"
 #include "ModalMessages.h"
 #include "BackEndCaller.h"
+#include "LoginScene.h"
 
 USING_NS_CC;
 
@@ -12,14 +12,25 @@ USING_NS_CC;
 #define PIN_LABEL "Create your Azoomee App 4 digit pin"
 #define PIN_LABEL_DETAIL "Shhh! Don't tell the kids.."
 
-Scene* OnboardingScene::createSceneWithEmail(std::string EmailAddress)
+//Define Editbox Tag Numbers
+#define TAG_EMAIL_EDITBOX 1
+#define TAG_PASSWORD_EDITBOX 2
+#define TAG_PIN_EDITBOX 3
+
+//Define BUTTONS Tag Numbers
+#define TAG_EMAIL_BACK_BUTTON 10
+#define TAG_EMAIL_NEXT_BUTTON 11
+#define TAG_PASSWORD_BACK_BUTTON 12
+#define TAG_PASSWORD_NEXT_BUTTON 13
+#define TAG_PIN_BACK_BUTTON 14
+#define TAG_PIN_NEXT_BUTTON 15
+
+Scene* OnboardingScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = OnboardingScene::create();
     scene->addChild(layer);
     
-    //Call FunctionalElements Here to add the email address incase it is added in login.
-    layer->addFunctionalElementsToScene(EmailAddress);
     return scene;
 }
 
@@ -34,7 +45,7 @@ bool OnboardingScene::init()
     origin = Director::getInstance()->getVisibleOrigin();
     
     addVisualElementsToScene();
-    //addFunctionalElementsToScene();
+    addFunctionalElementsToScene();
     
     return true;
 }
@@ -66,14 +77,12 @@ void OnboardingScene::addVisualElementsToScene()
     this->addChild(rightBg);
 }
 
-void OnboardingScene::addFunctionalElementsToScene(std::string EmailAddress)
+void OnboardingScene::addFunctionalElementsToScene()
 {
     addContentLayerToScene();
     addLabelsToLayer();
-    addTextBoxesToLayer(EmailAddress);
+    addTextBoxesToLayer();
     addButtonsToLayer();
-    
-    checkIfEmailAlreadyEntered();
 }
 
 void OnboardingScene::addLabelsToLayer()
@@ -111,7 +120,7 @@ void OnboardingScene::addContentLayerToScene()
     this->addChild(onboardingContent);
 }
 
-void OnboardingScene::addTextBoxesToLayer(std::string EmailAddress)
+void OnboardingScene::addTextBoxesToLayer()
 {
     auto _editName = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
     _editName->setColor(Color3B::WHITE);
@@ -120,11 +129,9 @@ void OnboardingScene::addTextBoxesToLayer(std::string EmailAddress)
     _editName->setFontColor(Color3B::WHITE);
     _editName->setMaxLength(100);
     _editName->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    _editName->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
     _editName->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
-    _editName->setText(EmailAddress.c_str());
-    _editName->setName("usernameField");
-
+    _editName->setTag(TAG_EMAIL_EDITBOX);
+    _editName->setDelegate(this);
     onboardingContent->addChild(_editName);
     
     auto _editPassword = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
@@ -133,8 +140,8 @@ void OnboardingScene::addTextBoxesToLayer(std::string EmailAddress)
     _editPassword->setFontColor(Color3B::WHITE);
     _editPassword->setMaxLength(50);
     _editPassword->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
-    _editPassword->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    _editPassword->setName("passwordField");
+    _editPassword->setTag(TAG_PASSWORD_EDITBOX);
+    _editPassword->setDelegate(this);
     onboardingContent->addChild(_editPassword);
     
     auto _editPin = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
@@ -143,45 +150,53 @@ void OnboardingScene::addTextBoxesToLayer(std::string EmailAddress)
     _editPin->setFontColor(Color3B::WHITE);
     _editPin->setMaxLength(4);
     _editPin->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
-    _editPin->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
     _editPin->setInputMode(ui::EditBox::InputMode::NUMERIC);
-    _editPin->setName("pinField");
+    _editPin->setTag(TAG_PIN_EDITBOX);
+    _editPin->setDelegate(this);
     onboardingContent->addChild(_editPin);
 }
 
 void OnboardingScene::addButtonsToLayer()
 {
     // in order they appear on the screen with next, then back, then next etc.
+    auto emailBackButton = Sprite::create("res/login/back_btn.png");
+    emailBackButton->setPosition(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.5);
+    emailBackButton->setTag(TAG_EMAIL_BACK_BUTTON);
+    addListenerToButton(emailBackButton);
+    onboardingContent->addChild(emailBackButton);
     
     auto emailNextButton = Sprite::create("res/login/next_btn.png");
     emailNextButton->setPosition(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5);
-    emailNextButton->setScale(1.2);
-    emailNextButton->setTag(1);
+    emailNextButton->setTag(TAG_EMAIL_NEXT_BUTTON);
     addListenerToButton(emailNextButton);
+    emailNextButton->setVisible(false);
     onboardingContent->addChild(emailNextButton);
     
     auto passwordBackButton = Sprite::create("res/login/back_btn.png");
     passwordBackButton->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
-    passwordBackButton->setTag(2);
+    passwordBackButton->setTag(TAG_PASSWORD_BACK_BUTTON);
     addListenerToButton(passwordBackButton);
     onboardingContent->addChild(passwordBackButton);
     
     auto passwordNextButton = Sprite::create("res/login/next_btn.png");
     passwordNextButton->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
-    passwordNextButton->setTag(3);
+    passwordNextButton->setTag(TAG_PASSWORD_NEXT_BUTTON);
     addListenerToButton(passwordNextButton);
+    passwordNextButton->setVisible(false);
     onboardingContent->addChild(passwordNextButton);
     
     auto pinBackButton = Sprite::create("res/login/back_btn.png");
     pinBackButton->setPosition(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5);
-    pinBackButton->setTag(4);
+    pinBackButton->setTag(TAG_PIN_BACK_BUTTON);
     addListenerToButton(pinBackButton);
     onboardingContent->addChild(pinBackButton);
     
     auto pinNextButton = Sprite::create("res/login/next_btn.png");
     pinNextButton->setPosition(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5);
-    pinNextButton->setTag(5);
+    pinNextButton->setTag(TAG_PIN_NEXT_BUTTON);
     addListenerToButton(pinNextButton);
+    pinNextButton->setVisible(false);
+    pinNextButton->setScale(1.2);
     onboardingContent->addChild(pinNextButton);
 
 }
@@ -203,11 +218,12 @@ void OnboardingScene::addListenerToButton(cocos2d::Sprite *spriteImage)
             
             switch(buttonTag)
             {
-                case(1): this->emailNextButton(); break;
-                case(2): this->passwordBackButton(); break;
-                case(3): this->passwordNextButton(); break;
-                case(4): this->pinBackButton(); break;
-                case(5): this->pinNextButton(); break;
+                case(TAG_EMAIL_BACK_BUTTON): this->closeOnboarding(); break;
+                case(TAG_EMAIL_NEXT_BUTTON): this->moveToPasswordScreen(); break;
+                case(TAG_PASSWORD_BACK_BUTTON): this->moveToEmailScreen(); break;
+                case(TAG_PASSWORD_NEXT_BUTTON): this->moveToPinScreen(); break;
+                case(TAG_PIN_BACK_BUTTON): this->moveToPasswordScreen(); break;
+                case(TAG_PIN_NEXT_BUTTON): this->signup(); break;
             }
             return true;
         }
@@ -218,92 +234,87 @@ void OnboardingScene::addListenerToButton(cocos2d::Sprite *spriteImage)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, spriteImage);
 }
 
-void OnboardingScene::checkIfEmailAlreadyEntered()
+void OnboardingScene::closeOnboarding()
 {
-    //if the scene starts with a valid email address, move to password
-    if(isValidEmailAddress(((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText()))
-    {
+    auto _loginScene = LoginScene::createScene();
+    Director::getInstance()->replaceScene(_loginScene);
+}
+
+void OnboardingScene::moveToPasswordScreen()
+{
         onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
-    }
 }
 
-void OnboardingScene::emailNextButton()
+void OnboardingScene::moveToEmailScreen()
 {
-    //Check if Email address is in correct format
-    if(isValidEmailAddress(((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText()))
-    {
-           onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
-    }
-    else
-    {
-        //ERROR incorrect email address
-        
-    }
-}
-
-void OnboardingScene::passwordBackButton()
-{
-        ((ui::EditBox *)onboardingContent->getChildByName("passwordField"))->setText("");
+        ((ui::EditBox *)onboardingContent->getChildByTag(TAG_EMAIL_EDITBOX))->setText("");
         onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2));
 }
 
-void OnboardingScene::passwordNextButton()
+void OnboardingScene::moveToPinScreen()
 {
-    //Check if Password is in correct format
-    if(true)
-    {
         onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2));
-    }
-    else
-    {
-        //ERROR incorrect Password format
-    }
 }
 
-void OnboardingScene::pinBackButton()
+void OnboardingScene::signup()
 {
-    ((ui::EditBox *)onboardingContent->getChildByName("pinField"))->setText("");
-    onboardingContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+
+    std::string username = ((ui::EditBox *)onboardingContent->getChildByTag(TAG_EMAIL_EDITBOX))->getText();
+    std::string password = ((ui::EditBox *)onboardingContent->getChildByTag(TAG_PASSWORD_EDITBOX))->getText();
+    std::string pin = ((ui::EditBox *)onboardingContent->getChildByTag(TAG_PIN_EDITBOX))->getText();
+    
+    //Need to pass SOURCE attribute to server #TODO
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        //SEND INAPP_IOS to Source
+    
+    #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        //SEND INAPP_ANDROID to Source
+    
+    #endif
+    
+    //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
+    
+    if(password == "aaa")
+    {
+        username = "klaas+ci@azoomee.com";
+        password = "test1234";
+    }
+    
+    //DELETE UNTIL THIS POINT IN PRODUCTION
+    
+    auto backEndCaller = BackEndCaller::getInstance();
+    backEndCaller->login(username, password);
 }
 
-void OnboardingScene::pinNextButton()
+//Editbox Delegate Functions
+void OnboardingScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-    //Check if Email address is in correct format
-    if(isValidPin(((ui::EditBox *)onboardingContent->getChildByName("pinField"))->getText()))
+    //Make the next buttons visible if the inputs are in correct format
+    
+    if(editBox->getTag() == TAG_EMAIL_EDITBOX)
     {
-        std::string username = ((ui::EditBox *)onboardingContent->getChildByName("usernameField"))->getText();
-        std::string password = ((ui::EditBox *)onboardingContent->getChildByName("passwordField"))->getText();
-        std::string pin = ((ui::EditBox *)onboardingContent->getChildByName("pinField"))->getText();
-        
-        //Need to pass SOURCE attribute to server #TODO
-        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            //SEND INAPP_IOS to Source
-        
-        #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-            //SEND INAPP_ANDROID to Source
-        
-        #endif
-        
-        //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
-        
-        if(username == "aaa")
-        {
-            username = "klaas+ci@azoomee.com";
-            password = "test1234";
-        }
-        
-        //DELETE UNTIL THIS POINT IN PRODUCTION
-        
-        auto backEndCaller = BackEndCaller::getInstance();
-        backEndCaller->login(username, password);
+        //Set the Visibility of the Next Button to visible, if Valid email.
+        ((cocos2d::Sprite *)onboardingContent->getChildByTag(TAG_EMAIL_NEXT_BUTTON))->setVisible(isValidEmailAddress(text.c_str()));
     }
-    else
+    else if(editBox->getTag() == TAG_PASSWORD_EDITBOX)
     {
-        //ERROR incorrect pin number
-        
+        //Set the Visibility of the Next Button to visible, if Valid Password
+        ((cocos2d::Sprite *)onboardingContent->getChildByTag(TAG_PASSWORD_NEXT_BUTTON))->setVisible(isValidPassword(text.c_str()));
     }
+    else if(editBox->getTag() == TAG_PIN_EDITBOX)
+     {
+     //Set the Visibility of the Next Button to visible, if Valid PIN
+     ((cocos2d::Sprite *)onboardingContent->getChildByTag(TAG_PIN_NEXT_BUTTON))->setVisible(isValidPin(text.c_str()));
+     }
 }
 
+void OnboardingScene::editBoxReturn(cocos2d::ui::EditBox* editBox)
+{
+    //This function only really works correctly for Email_Editbox, as it has an email address
+    //Otherwise detect the \n with the text changed in the other EditBoxes
+}
+
+//INPUT CHECKING FUNCTIONS
 bool OnboardingScene::isCharacter(const char Character)
 {
     //Borrowed from internet With isValidEmailAddress to check email address format
@@ -340,6 +351,34 @@ bool OnboardingScene::isValidEmailAddress(const char * EmailAddress)
     if(AtOffset > DotOffset) // If the @ is after the Dot
         return 0;
     return !(DotOffset >= ((int)Length-1)); //Chech there is some other letters after the Dot
+}
+
+bool OnboardingScene::isValidPassword(const char * password)
+{
+    //check at least 2 chars and no white space
+    if(!password) // If cannot read the password
+        return 0;
+    
+    if(strlen(password) < 2) // ensure there are 2 or more characters
+        return 0;
+    
+    bool passwordOK = true;
+    
+    for(unsigned int i = 0; i < strlen(password); i++)
+    {
+        if(password[i] == ' ')
+            passwordOK = false;
+        else if(password[i] == '\n')
+            passwordOK = false;
+        else if(password[i] == '\t')
+            passwordOK = false;
+    }
+    
+    if(passwordOK) // If all characters are not white space
+        return 1;
+    else
+        return 0;
+    
 }
 
 bool OnboardingScene::isValidPin(const char * pinNumber)

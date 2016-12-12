@@ -21,11 +21,12 @@ public:
     void addButtonsToLayer();
     void addLabelsToLayer();
     
+    void moveToFirstScreen();
     void moveToPasswordScreen();
     void moveToEmailScreen();
     void login();
-    void moveToPinScreen();
-    void signup();
+    //void moveToPinScreen();
+    //void signup();
    
     void addListenerToButton(cocos2d::Sprite *spriteImage);
     
@@ -47,7 +48,7 @@ public:
     bool isNumber(const char Character);
     bool isValidEmailAddress(const char * EmailAddress);
     bool isValidPassword(const char * password);
-    bool isValidPin(const char * pinNumber);
+    //bool isValidPin(const char * pinNumber);
 };
 
 #endif // __LoginScene_SCENE_H__

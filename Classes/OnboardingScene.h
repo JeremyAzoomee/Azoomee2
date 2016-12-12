@@ -2,11 +2,12 @@
 #define __ONBOARDINGSCENE_SCENE_H__
 
 #include "cocos2d.h"
+#include "ui/UIEditBox/UIEditBox.h"
 
-class OnboardingScene : public cocos2d::Layer
+class OnboardingScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
 {
 public:
-    static cocos2d::Scene* createSceneWithEmail(std::string EmailAddress);
+    static cocos2d::Scene* createScene();
 
     virtual bool init();
     
@@ -14,25 +15,17 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
     
     void addVisualElementsToScene();
-    void addFunctionalElementsToScene(std::string EmailAddress);
+    void addFunctionalElementsToScene();
     void addContentLayerToScene();
-    void addTextBoxesToLayer(std::string EmailAddress);
+    void addTextBoxesToLayer();
     void addButtonsToLayer();
     void addLabelsToLayer();
     
-    void checkIfEmailAlreadyEntered();
-    
-    void emailNextButton();
-    void passwordBackButton();
-    void passwordNextButton();
-    void pinBackButton();
-    void pinNextButton();
-    
-    //Email String Checker Functions
-    bool isCharacter(const char Character);
-    bool isNumber(const char Character);
-    bool isValidEmailAddress(const char * EmailAddress);
-    bool isValidPin(const char * pinNumber);
+    void closeOnboarding();
+    void moveToPasswordScreen();
+    void moveToEmailScreen();
+    void moveToPinScreen();
+    void signup();
     
     void addListenerToButton(cocos2d::Sprite *spriteImage);
     
@@ -42,6 +35,19 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(OnboardingScene);
+    
+    //Editbox Delegate Functions
+    //void editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox);
+    //void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox);
+    void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
+    void editBoxReturn(cocos2d::ui::EditBox* editBox);
+    
+    //Input String Checker Functions
+    bool isCharacter(const char Character);
+    bool isNumber(const char Character);
+    bool isValidEmailAddress(const char * EmailAddress);
+    bool isValidPassword(const char * password);
+    bool isValidPin(const char * pinNumber);
 
 };
 

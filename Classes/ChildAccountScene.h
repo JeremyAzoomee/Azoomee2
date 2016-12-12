@@ -31,9 +31,6 @@ public:
     void selectOomee(cocos2d::Sprite* selectedOomee);
     void doneButton();
     
-    std::string getNextButtonName(std::string objectName);
-    std::string getBackButtonName(std::string objectName);
-    
     bool childNameExists(std::string newChildsName);
     
     //Email String Checker Functions
@@ -62,8 +59,6 @@ public:
     //void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox);
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
     void editBoxReturn(cocos2d::ui::EditBox* editBox);
-    std::string  replace(std::string& str, const std::string& from, const std::string& to);
-
 
 };
 

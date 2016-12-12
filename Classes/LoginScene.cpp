@@ -7,24 +7,25 @@
 USING_NS_CC;
 
 //Text Content defined here, ready to be changed when localisation method defined.
-#define LOGIN_BUTTON_TEXT "Sign In"
-#define EMAIL_LABEL "Please input your email address"
-#define PASSWORD_LABEL "Your Azoomee Password"
-#define PIN_LABEL "Create your Azoomee App 4 digit pin"
-#define PIN_LABEL_DETAIL "Shhh! Don't tell the kids.."
+#define LOGIN_BUTTON_TEXT "Log In"
+#define SIGN_UP_BUTTON_TEXT "Sign Up"
+#define EMAIL_LABEL "Login Email"
+#define PASSWORD_LABEL "Password"
+//#define PIN_LABEL "Create your Azoomee App 4 digit pin"
+//#define PIN_LABEL_DETAIL "Shhh! Don't tell the kids.."
 
 //Define Editbox Tag Numbers
 #define TAG_EMAIL_EDITBOX 1
 #define TAG_PASSWORD_EDITBOX 2
-#define TAG_PIN_EDITBOX 3
+//#define TAG_PIN_EDITBOX 3
 
 //Define BUTTONS Tag Numbers
-#define TAG_EMAIL_NEXT_BUTTON 10
-#define TAG_PASSWORD_BACK_BUTTON 11
-#define TAG_LOGIN_BUTTON 12
+#define TAG_EMAIL_BACK_BUTTON 10
+#define TAG_EMAIL_NEXT_BUTTON 11
+#define TAG_PASSWORD_BACK_BUTTON 12
 #define TAG_PASSWORD_NEXT_BUTTON 13
-#define TAG_PIN_BACK_BUTTON 14
-#define TAG_PIN_NEXT_BUTTON 15
+//#define TAG_PIN_BACK_BUTTON 14
+//#define TAG_PIN_NEXT_BUTTON 15
 
 Scene* LoginScene::createScene()
 {
@@ -88,24 +89,24 @@ void LoginScene::addFunctionalElementsToScene()
 void LoginScene::addLabelsToLayer()
 {
     auto emailTitle = Label::createWithTTF(EMAIL_LABEL, "fonts/azoomee.ttf", 90);
-    emailTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.7);
+    emailTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
     emailTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(emailTitle);
     
     auto passwordTitle = Label::createWithTTF(PASSWORD_LABEL, "fonts/azoomee.ttf", 90);
-    passwordTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
+    passwordTitle->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
     passwordTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(passwordTitle);
     
-    auto pinTitle = Label::createWithTTF(PIN_LABEL, "fonts/azoomee.ttf", 90);
-    pinTitle->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
+    /*auto pinTitle = Label::createWithTTF(PIN_LABEL, "fonts/azoomee.ttf", 90);
+    pinTitle->setPosition(origin.x + visibleSize.width * .5, origin.y + visibleSize.height * 0.7);
     pinTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(pinTitle);
     
     auto pinDetail = Label::createWithTTF(PIN_LABEL_DETAIL, "fonts/azoomee.ttf", 60);
     pinDetail->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.6);
     pinDetail->setColor(Color3B::WHITE);
-    loginContent->addChild(pinDetail);
+    loginContent->addChild(pinDetail);*/
 }
 
 void LoginScene::addContentLayerToScene()
@@ -124,7 +125,7 @@ void LoginScene::addTextBoxesToLayer()
 {
     auto _editName = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
     _editName->setColor(Color3B::WHITE);
-    _editName->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.5));
+    _editName->setPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
     _editName->setFont("fonts/azoomee.ttf", 90);
     _editName->setFontColor(Color3B::WHITE);
     _editName->setMaxLength(100);
@@ -135,7 +136,7 @@ void LoginScene::addTextBoxesToLayer()
     loginContent->addChild(_editName);
     
     auto _editPassword = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
-    _editPassword->setPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
+    _editPassword->setPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
     _editPassword->setFont("fonts/azoomee.ttf", 90);
     _editPassword->setFontColor(Color3B::WHITE);
     _editPassword->setMaxLength(50);
@@ -145,7 +146,7 @@ void LoginScene::addTextBoxesToLayer()
     _editPassword->setDelegate(this);
     loginContent->addChild(_editPassword);
     
-    auto _editPin = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
+    /*auto _editPin = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
     _editPin->setPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
     _editPin->setFont("fonts/azoomee.ttf", 90);
     _editPin->setFontColor(Color3B::WHITE);
@@ -154,36 +155,46 @@ void LoginScene::addTextBoxesToLayer()
     _editPin->setInputMode(ui::EditBox::InputMode::NUMERIC);
     _editPin->setTag(TAG_PIN_EDITBOX);
     _editPin->setDelegate(this);
-    loginContent->addChild(_editPin);
+    loginContent->addChild(_editPin);*/
 }
 
 void LoginScene::addButtonsToLayer()
 {
     // BUTTONS IN ORDER OF LAYOUT
-    auto emailNextButton = Sprite::create("res/login/next_btn.png");
-    emailNextButton->setPosition(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5);
-    emailNextButton->setTag(TAG_EMAIL_NEXT_BUTTON);
-    addListenerToButton(emailNextButton);
-    emailNextButton->setVisible(false);
-    loginContent->addChild(emailNextButton);
+    auto signUpButton = ui::Button::create();
+    signUpButton->setTitleText(SIGN_UP_BUTTON_TEXT);
+    signUpButton->setTitleFontName("fonts/azoomee.ttf");
+    signUpButton->setPosition(Vec2(origin.x+visibleSize.width * 0.5, origin.y+visibleSize.height*0.6));
+    signUpButton->setTitleFontSize(90);
+    signUpButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type){
+        switch (type)
+        {
+            case ui::Widget::TouchEventType::BEGAN:
+            {
+                auto _OnboardingScene = OnboardingScene::createScene();
+                Director::getInstance()->replaceScene(_OnboardingScene);
+                break;
+            }
+            case ui::Widget::TouchEventType::MOVED:
+                break;
+            case ui::Widget::TouchEventType::CANCELED:
+                break;
+            case ui::Widget::TouchEventType::ENDED:
+                break;
+        }
+    });
+    loginContent->addChild(signUpButton);
     
-    auto passwordBackButton = Sprite::create("res/login/back_btn.png");
-    passwordBackButton->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
-    passwordBackButton->setTag(TAG_PASSWORD_BACK_BUTTON);
-    addListenerToButton(passwordBackButton);
-    loginContent->addChild(passwordBackButton);
-
     auto loginButton = ui::Button::create();
     loginButton->setTitleText(LOGIN_BUTTON_TEXT);
     loginButton->setTitleFontName("fonts/azoomee.ttf");
-    loginButton->setPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.42));
-    loginButton->setTitleFontSize(60);
-    loginButton->setTag(TAG_LOGIN_BUTTON);
+    loginButton->setPosition(Vec2(origin.x+visibleSize.width * 0.5, origin.y+visibleSize.height*0.4));
+    loginButton->setTitleFontSize(90);
     loginButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type){
         switch (type)
         {
             case ui::Widget::TouchEventType::BEGAN:
-                login();
+                moveToEmailScreen();
                 break;
             case ui::Widget::TouchEventType::MOVED:
                 break;
@@ -193,17 +204,36 @@ void LoginScene::addButtonsToLayer()
                 break;
         }
     });
-    loginButton->setVisible(false);
     loginContent->addChild(loginButton);
     
+    auto emailBackButton = Sprite::create("res/login/back_btn.png");
+    emailBackButton->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
+    emailBackButton->setTag(TAG_EMAIL_BACK_BUTTON);
+    addListenerToButton(emailBackButton);
+    loginContent->addChild(emailBackButton);
+    
+    auto emailNextButton = Sprite::create("res/login/next_btn.png");
+    emailNextButton->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
+    emailNextButton->setTag(TAG_EMAIL_NEXT_BUTTON);
+    addListenerToButton(emailNextButton);
+    emailNextButton->setVisible(false);
+    loginContent->addChild(emailNextButton);
+    
+    auto passwordBackButton = Sprite::create("res/login/back_btn.png");
+    passwordBackButton->setPosition(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5);
+    passwordBackButton->setTag(TAG_PASSWORD_BACK_BUTTON);
+    addListenerToButton(passwordBackButton);
+    loginContent->addChild(passwordBackButton);
+    
     auto passwordNextButton = Sprite::create("res/login/next_btn.png");
-    passwordNextButton->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
+    passwordNextButton->setPosition(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5);
     passwordNextButton->setTag(TAG_PASSWORD_NEXT_BUTTON);
     addListenerToButton(passwordNextButton);
     passwordNextButton->setVisible(false);
+    passwordNextButton->setScale(1.2);
     loginContent->addChild(passwordNextButton);
     
-    auto pinBackButton = Sprite::create("res/login/back_btn.png");
+    /*auto pinBackButton = Sprite::create("res/login/back_btn.png");
     pinBackButton->setPosition(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5);
     pinBackButton->setTag(TAG_PIN_BACK_BUTTON);
     addListenerToButton(pinBackButton);
@@ -215,7 +245,7 @@ void LoginScene::addButtonsToLayer()
     pinNextButton->setTag(TAG_PIN_NEXT_BUTTON);
     addListenerToButton(pinNextButton);
     pinNextButton->setVisible(false);
-    loginContent->addChild(pinNextButton);
+    loginContent->addChild(pinNextButton);*/
 }
 
 void LoginScene::addListenerToButton(cocos2d::Sprite *spriteImage)
@@ -235,11 +265,10 @@ void LoginScene::addListenerToButton(cocos2d::Sprite *spriteImage)
             
             switch(buttonTag)
             {
+                case(TAG_EMAIL_BACK_BUTTON): this->moveToFirstScreen(); break;
                 case(TAG_EMAIL_NEXT_BUTTON): this->moveToPasswordScreen(); break;
                 case(TAG_PASSWORD_BACK_BUTTON): this->moveToEmailScreen(); break;
-                case(TAG_PASSWORD_NEXT_BUTTON): this->moveToPinScreen(); break;
-                case(TAG_PIN_BACK_BUTTON):  this->moveToPasswordScreen(); break;
-                case(TAG_PIN_NEXT_BUTTON):  this->signup(); break;
+                case(TAG_PASSWORD_NEXT_BUTTON): this->login(); break;
             }
             
             return true;
@@ -251,16 +280,22 @@ void LoginScene::addListenerToButton(cocos2d::Sprite *spriteImage)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, spriteImage);
 }
 
+void LoginScene::moveToFirstScreen()
+{
+    loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2));
+}
+
 void LoginScene::moveToPasswordScreen()
 {
-    loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+    loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2));
+    
+    //CCDATACALLBACK() var datacall_n
 }
 
 void LoginScene::moveToEmailScreen()
 {
-    //QUESTION - WHY ARE WE BLANKING THE PASSWORD - DOES IT MATTER?
-    //((ui::EditBox *)loginContent->getChildByName("passwordField"))->setText("");
-    loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2));
+    ((ui::EditBox *)loginContent->getChildByTag(TAG_PASSWORD_EDITBOX))->setText("");
+    loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
 }
 
 void LoginScene::login()
@@ -280,7 +315,7 @@ void LoginScene::login()
     
     //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
     
-    if(username == "aaa@a.a")
+    if(password == "aaa")
     {
         username = "klaas+ci@azoomee.com";
         password = "test1234";
@@ -292,7 +327,7 @@ void LoginScene::login()
     backEndCaller->login(username, password);
 }
 
-void LoginScene::moveToPinScreen()
+/*void LoginScene::moveToPinScreen()
 {
     loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2));
 }
@@ -301,7 +336,7 @@ void LoginScene::signup()
 {
     std::string username = ((ui::EditBox *)loginContent->getChildByTag(TAG_EMAIL_EDITBOX))->getText();
     std::string password = ((ui::EditBox *)loginContent->getChildByTag(TAG_PASSWORD_EDITBOX))->getText();
-    std::string pin = ((ui::EditBox *)loginContent->getChildByTag(TAG_PIN_EDITBOX))->getText();
+    //std::string pin = ((ui::EditBox *)loginContent->getChildByTag(TAG_PIN_EDITBOX))->getText();
     
     //Need to pass SOURCE attribute to server #TODO
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -312,7 +347,7 @@ void LoginScene::signup()
         
     #endif
     
-}
+}*/
 
 //Editbox Delegate Functions
 void LoginScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
@@ -327,22 +362,13 @@ void LoginScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::st
     else if(editBox->getTag() == TAG_PASSWORD_EDITBOX)
     {
         //Set the Visibility of the Next Button to visible, if Valid Password
-        if(isValidPassword(text.c_str()))
-        {
-            ((cocos2d::Sprite *)loginContent->getChildByTag(TAG_PASSWORD_NEXT_BUTTON))->setVisible(true);
-            ((cocos2d::Sprite *)loginContent->getChildByTag(TAG_LOGIN_BUTTON))->setVisible(true);
-        }
-        else
-        {
-            ((cocos2d::Sprite *)loginContent->getChildByTag(TAG_PASSWORD_NEXT_BUTTON))->setVisible(false);
-            ((cocos2d::Sprite *)loginContent->getChildByTag(TAG_LOGIN_BUTTON))->setVisible(false);
-        }
+        ((cocos2d::Sprite *)loginContent->getChildByTag(TAG_PASSWORD_NEXT_BUTTON))->setVisible(isValidPassword(text.c_str()));
     }
-    if(editBox->getTag() == TAG_PIN_EDITBOX)
+ /*   if(editBox->getTag() == TAG_PIN_EDITBOX)
     {
         //Set the Visibility of the Next Button to visible, if Valid PIN
         ((cocos2d::Sprite *)loginContent->getChildByTag(TAG_PIN_NEXT_BUTTON))->setVisible(isValidPin(text.c_str()));
-    }
+    }*/
 }
 
 void LoginScene::editBoxReturn(cocos2d::ui::EditBox* editBox)
@@ -418,7 +444,7 @@ bool LoginScene::isValidPassword(const char * password)
     
 }
 
-bool LoginScene::isValidPin(const char * pinNumber)
+/*bool LoginScene::isValidPin(const char * pinNumber)
 {
     if(!pinNumber) // If cannot read the password
         return 0;
@@ -438,5 +464,5 @@ bool LoginScene::isValidPin(const char * pinNumber)
     else
         return 0;
     
-}
+}*/
 
