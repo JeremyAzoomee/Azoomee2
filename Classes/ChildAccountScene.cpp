@@ -499,14 +499,16 @@ bool ChildAccountScene::isValidPin(const char * pinNumber)
 
 }
 
-std::string ChildAccountScene::getNextButtonName(std::string editBoxName)
+std::string ChildAccountScene::getNextButtonName(std::string objectName)
 {
-    return StringUtils::format("%sNextButton", editBoxName.c_str());
+    //To set the name of the object in consistent way
+    return StringUtils::format("%sNextButton", objectName.c_str());
 }
 
-std::string ChildAccountScene::getBackButtonName(std::string editBoxName)
+std::string ChildAccountScene::getBackButtonName(std::string objectName)
 {
-    return StringUtils::format("%sBackButton", editBoxName.c_str());
+    //To set the name of the object in consistent way
+    return StringUtils::format("%sBackButton", objectName.c_str());
 }
 
 bool ChildAccountScene::childNameExists(std::string newChildsName)

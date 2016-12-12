@@ -2,8 +2,9 @@
 #define __LOGINSCENE_SCENE_H__
 
 #include "cocos2d.h"
+#include "ui/UIEditBox/UIEditBox.h"
 
-class LoginScene : public cocos2d::Layer
+class LoginScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
 {
 public:
     static cocos2d::Scene* createScene();
@@ -19,11 +20,13 @@ public:
     void addTextBoxesToLayer();
     void addButtonsToLayer();
     void addLabelsToLayer();
-    void addOnboardingButtonToLayer();
     
-    void loginButtonAction();
-    void backButtonAction();
-    void nextButtonAction();
+    void moveToPasswordScreen();
+    void moveToEmailScreen();
+    void login();
+    void moveToPinScreen();
+    void signup();
+   
     
     void addListenerToButton(cocos2d::Sprite *spriteImage);
     
@@ -33,6 +36,22 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(LoginScene);
+    
+    //Editbox Delegate Functions
+    //void editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox);
+    //void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox);
+    void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
+    void editBoxReturn(cocos2d::ui::EditBox* editBox);
+    std::string  replace(std::string& str, const std::string& from, const std::string& to);
+    
+    bool emailDoneButtonPressed;
+    
+    //Input String Checker Functions
+    bool isCharacter(const char Character);
+    bool isNumber(const char Character);
+    bool isValidEmailAddress(const char * EmailAddress);
+    bool isValidPassword(const char * password);
+    bool isValidPin(const char * pinNumber);
 };
 
 #endif // __LoginScene_SCENE_H__

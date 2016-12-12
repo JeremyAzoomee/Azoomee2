@@ -31,8 +31,8 @@ public:
     void selectOomee(cocos2d::Sprite* selectedOomee);
     void doneButton();
     
-    std::string getNextButtonName(std::string editBoxName);
-    std::string getBackButtonName(std::string editBoxName);
+    std::string getNextButtonName(std::string objectName);
+    std::string getBackButtonName(std::string objectName);
     
     bool childNameExists(std::string newChildsName);
     
