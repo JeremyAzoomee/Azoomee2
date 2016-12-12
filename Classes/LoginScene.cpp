@@ -8,7 +8,7 @@ USING_NS_CC;
 
 //Text Content defined here, ready to be changed when localisation method defined.
 #define LOGIN_BUTTON_TEXT "Sign In"
-#define EMAIL_LABEL "Please add your email address"
+#define EMAIL_LABEL "Please input your email address"
 #define PASSWORD_LABEL "Your Azoomee Password"
 #define PIN_LABEL "Create your Azoomee App 4 digit pin"
 #define PIN_LABEL_DETAIL "Shhh! Don't tell the kids.."
@@ -235,17 +235,13 @@ void LoginScene::addListenerToButton(cocos2d::Sprite *spriteImage)
             
             switch(buttonTag)
             {
-                case(TAG_EMAIL_NEXT_BUTTON):
-                    if(!this->emailDoneButtonPressed)
-                        this->moveToPasswordScreen();
-                    break;
+                case(TAG_EMAIL_NEXT_BUTTON): this->moveToPasswordScreen(); break;
                 case(TAG_PASSWORD_BACK_BUTTON): this->moveToEmailScreen(); break;
                 case(TAG_PASSWORD_NEXT_BUTTON): this->moveToPinScreen(); break;
                 case(TAG_PIN_BACK_BUTTON):  this->moveToPasswordScreen(); break;
                 case(TAG_PIN_NEXT_BUTTON):  this->signup(); break;
             }
             
-            this->emailDoneButtonPressed = false;
             return true;
         }
         
@@ -269,7 +265,7 @@ void LoginScene::moveToEmailScreen()
 
 void LoginScene::login()
 {
-    //ALSO THE LOGIN BUTTON
+    //LOGIN BUTTON
     std::string username = ((ui::EditBox *)loginContent->getChildByTag(TAG_EMAIL_EDITBOX))->getText();
     std::string password = ((ui::EditBox *)loginContent->getChildByTag(TAG_PASSWORD_EDITBOX))->getText();
     
@@ -303,35 +299,25 @@ void LoginScene::moveToPinScreen()
 
 void LoginScene::signup()
 {
+    std::string username = ((ui::EditBox *)loginContent->getChildByTag(TAG_EMAIL_EDITBOX))->getText();
+    std::string password = ((ui::EditBox *)loginContent->getChildByTag(TAG_PASSWORD_EDITBOX))->getText();
+    std::string pin = ((ui::EditBox *)loginContent->getChildByTag(TAG_PIN_EDITBOX))->getText();
+    
+    //Need to pass SOURCE attribute to server #TODO
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        //SEND INAPP_IOS to Source
+        
+    #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        //SEND INAPP_ANDROID to Source
+        
+    #endif
     
 }
 
 //Editbox Delegate Functions
 void LoginScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-    //Need to detect if DONE is selected by detecting \n pressed
-    //Remove the linebreak and move to next screen.
-    if(text.find("\n") != std::string::npos)
-    {
-        std::string tempstring = StringUtils::format("%s",text.c_str());
-        
-        editBox->setText(replace(tempstring, "\n", "").c_str());
-        
-        //Due to error with Editbox, this cleans the input.
-        editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-        editBox->setInputMode(ui::EditBox::InputMode::ANY);
-        editBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
-        
-        //Return/Enter/Send Key pressed, action to next screen
-        //Email Editbox is detected with Editbox return
-        if(editBox->getTag() == TAG_PASSWORD_EDITBOX)
-        {
-            //DO NOTHING - Design Decision, as there are 2 options - Login and Move to Pin screen
-            editBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
-        }
-        else if(editBox->getTag() == TAG_PIN_EDITBOX && isValidPin(text.c_str()))
-            this->signup();
-    }
+    //Make the next buttons visible if the inputs are in correct format
     
     if(editBox->getTag() == TAG_EMAIL_EDITBOX)
     {
@@ -363,29 +349,6 @@ void LoginScene::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
     //This function only really works correctly for Email_Editbox, as it has an email address
     //Otherwise detect the \n with the text changed in the other EditBoxes
-    
-    if(editBox->getTag() == TAG_EMAIL_EDITBOX && isValidEmailAddress(editBox->getText()))
-    {
-        this->emailDoneButtonPressed = true;
-        this->moveToPasswordScreen();
-    }
-    else if (editBox->getTag() == TAG_EMAIL_EDITBOX)
-    {
-        //#TODO add error email is not correct format
-        
-    }
-}
-
-std::string LoginScene::replace(std::string& str, const std::string& from, const std::string& to) {
-    if(from.empty())
-        return "";
-    size_t start_pos = 0;
-    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
-        str.replace(start_pos, from.length(), to);
-        start_pos += to.length();
-    }
-    
-    return str;
 }
 
 //Valid Input Buttons
@@ -433,7 +396,7 @@ bool LoginScene::isValidPassword(const char * password)
     if(!password) // If cannot read the password
         return 0;
     
-    if(strlen(password) >= 2) // ensure there are 2 or more characters
+    if(strlen(password) < 2) // ensure there are 2 or more characters
         return 0;
     
     bool passwordOK = true;

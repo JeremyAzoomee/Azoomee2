@@ -27,7 +27,6 @@ public:
     void moveToPinScreen();
     void signup();
    
-    
     void addListenerToButton(cocos2d::Sprite *spriteImage);
     
     cocos2d::Size visibleSize;
@@ -42,9 +41,6 @@ public:
     //void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox);
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
     void editBoxReturn(cocos2d::ui::EditBox* editBox);
-    std::string  replace(std::string& str, const std::string& from, const std::string& to);
-    
-    bool emailDoneButtonPressed;
     
     //Input String Checker Functions
     bool isCharacter(const char Character);
