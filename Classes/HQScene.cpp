@@ -76,7 +76,7 @@ void HQScene::setHQName(std::string name)
     this->addChild(title, 20);
     
     this->setName(name);
-    setBackground(name);
+    //setBackground(name);
     setCategoryFromName(name);
 }
 
@@ -236,10 +236,12 @@ void HQScene::createMonodirectionalScrollView() //This is the method that is bei
     horizontalScrollView->setName("scrollView");
     this->addChild(horizontalScrollView);
     
+    std::vector<std::string> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), 0);
+    
     //This is just to add fake icons to the scrollview:
     for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfElementsForRow(this->getName(), 0); i++)
     {
-        addElementToHorizontalScrollView(horizontalScrollView, Point(0,0), category, 0, "res/previewimg/1a.png", "Angry Birds");
+        addElementToHorizontalScrollView2(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)));
     }
 }
 

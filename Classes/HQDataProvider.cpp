@@ -50,6 +50,11 @@ bool HQDataProvider::init(void)
     return true;
 }
 
+std::string HQDataProvider::getImageUrlForItem(std::string itemId)
+{
+    return StringUtils::format("https://media.azoomee.ninja/static/images/%s/toyBoxImage.jpg", itemId.c_str());
+}
+
 void HQDataProvider::startBuildingHQ(std::string category)
 {
     if(category != "HOME")
@@ -57,12 +62,6 @@ void HQDataProvider::startBuildingHQ(std::string category)
         Scene *runningScene = Director::getInstance()->getRunningScene();
         Node *baseLayer = runningScene->getChildByName("baseLayer");
         Node *contentLayer = baseLayer->getChildByName("contentLayer");
-        
-        for(int i = 0; i < contentLayer->getChildren().size(); i++)
-        {
-            CCLOG("LAYER NAME: %s", contentLayer->getChildren().at(i)->getName().c_str());
-        }
-        
         HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(category.c_str());
         
         hqLayer->startBuildingScrollViewBasedOnName();

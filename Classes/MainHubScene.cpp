@@ -67,8 +67,7 @@ void MainHubScene::addImageContainers()
         }
     }
     
-    //imageIcon->createContainer("res/previewimg/video_lassie.png", Color4B(246,185,66,150), 0.7, 5 + CCRANDOM_0_1(), Point(400,-700));
-    //imageIcon->createContainer("res/previewimg/video_jamie.png", Color4B(246,185,66,150), 1, 5 + CCRANDOM_0_1(), Point(600,-475));
+    //To be added: art app feed, messages and who is logged in!
 }
 
 // on "init" you need to initialize your instance

@@ -1,6 +1,8 @@
 #include "ImageContainer.h"
 #include "SimpleAudioEngine.h"
 #include "WebViewSelector.h"
+#include "imageDownloader.h"
+#include "HQDataProvider.h"
 
 USING_NS_CC;
 
@@ -91,6 +93,14 @@ void ImageContainer::addLockToImageContainer(float startDelay)
     
 }
 
+void ImageContainer::addImageToLayer(std::string url)
+{
+    ImageDownloader *imageDownloader = ImageDownloader::create();
+    imageDownloader->initWithURLAndSize(url, Size(bgLayer->getContentSize().width - 20, bgLayer->getContentSize().height - 20));
+    imageDownloader->setPosition(bgLayer->getContentSize() / 2);
+    bgLayer->addChild(imageDownloader);
+}
+
 void ImageContainer::createContainer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, Point position)
 {
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -108,19 +118,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     
     bgLayer->runAction(Sequence::create(DelayTime::create(startDelay), FadeTo::create(0, getColourByType(elementProperties["type"]).a), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeTo::create(0, getColourByType(elementProperties["type"]).a), DelayTime::create(1), EaseElasticOut::create(ScaleTo::create(0.5, 1.0)), NULL));
     
-    
-    //auto image = Sprite::create(imageName); - TO BE ADDED WITH THE NEW IMAGE LOADER! NO FURTHER ACTION WILL BE REQUIRED!
-    //image->setOpacity(0);
-    //image->setScale(scale);
-    //image->setPosition(bgLayer->getContentSize().width / 2, bgLayer->getContentSize(). height / 2);
-    //bgLayer->addChild(image);
-    
-    //image->runAction(Sequence::create(DelayTime::create(startDelay + 2), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
-    //We are adding another LayerColor to the object, that can be shown when the button is pressed.
-    
-    
-    
+    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"]));
     addGradientToBottom(Color3B(getColourByType(elementProperties["type"]).r, getColourByType(elementProperties["type"]).g, getColourByType(elementProperties["type"]).b), startDelay);
     addIconToImage(elementProperties["type"], startDelay);
     addLabelToImage(elementProperties["title"], startDelay);

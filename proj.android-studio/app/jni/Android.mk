@@ -31,7 +31,9 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/JWTTool.cpp \
                    ../../../Classes/HMACSHA256_javaCaller.cpp \
                    ../../../Classes/HMACSHA256.cpp \
-                   ../../../Classes/DataStorage.cpp
+                   ../../../Classes/DataStorage.cpp \
+                   ../../../Classes/HQDataProvider.cpp \
+                   ../../../Classes/ImageDownloader.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

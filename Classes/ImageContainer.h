@@ -14,7 +14,7 @@ public:
     cocos2d::Color4B getColourByType(std::string type);
     void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri);
     
-    
+    void addImageToLayer(std::string url);
     void addGradientToBottom(cocos2d::Color3B colour, float startDelay);
     void addIconToImage(std::string type, float startDelay);
     void addLabelToImage(std::string name, float startDelay);

@@ -1,5 +1,7 @@
 #include "HQSceneElement.h"
 #include "WebViewSelector.h"
+#include "ImageDownloader.h"
+#include "HQDataProvider.h"
 
 USING_NS_CC;
 
@@ -61,7 +63,7 @@ void HQSceneElement::addHQSceneElement2(std::string category, std::map<std::stri
     createColourLayer(categoryIndex, 0);
     
     //filename has to be added with the new imageDownloader!
-    //addImageToBaseLayer(filename); //There will be a few additional steps: add a placeholder image and start loading the real image based on downloaded data. No back-end implemented yet, TBD later.
+    addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemData["id"])); //There will be a few additional steps: add a placeholder image and start loading the real image based on downloaded data. No back-end implemented yet, TBD later.
     addGradientToBottom(categoryIndex);
     addIconToImage(categoryIndex);
     addLabelToImage(itemData["title"]);
@@ -80,7 +82,7 @@ void HQSceneElement::addHQSceneElement2(std::string category, std::map<std::stri
 void HQSceneElement::addHQSceneElement(int category, int highlight, std::string filename, std::string name) //This method is being called by HQScene.cpp with all variables.
 {
     createColourLayer(category, highlight);
-    addImageToBaseLayer(filename); //There will be a few additional steps: add a placeholder image and start loading the real image based on downloaded data. No back-end implemented yet, TBD later.
+    addImageToBaseLayer(filename);
     addGradientToBottom(category);
     addIconToImage(category);
     addLabelToImage(name);
@@ -94,12 +96,12 @@ Size HQSceneElement::getSizeOfLayerWithGap()
     return Size(baseLayer->getContentSize().width + gapSize, baseLayer->getContentSize().height + gapSize);
 }
 
-void HQSceneElement::addImageToBaseLayer(std::string filename)
+void HQSceneElement::addImageToBaseLayer(std::string url)
 {
-    auto spriteImage = Sprite::create(filename);
-    spriteImage->setPosition(baseLayer->getContentSize().width / 2, baseLayer->getContentSize().height / 2);
-    spriteImage->setScale((baseLayer->getContentSize().width - 20) / spriteImage->getContentSize().width, (baseLayer->getContentSize().height - 20) / spriteImage->getContentSize().height);
-    baseLayer->addChild(spriteImage);
+    ImageDownloader *imageDownloader = ImageDownloader::create();
+    imageDownloader->initWithURLAndSize(url, Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20));
+    imageDownloader->setPosition(baseLayer->getContentSize() / 2);
+    baseLayer->addChild(imageDownloader);
 }
 
 void HQSceneElement::addGradientToBottom(int category)

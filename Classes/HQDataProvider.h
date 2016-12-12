@@ -35,6 +35,7 @@ public:
     int getNumberOfElementsForRow(std::string category, int index);
     std::vector<std::string> getElementsForRow(std::string category, int index);
     std::string getTitleForRow(std::string category, int index);
+    std::string getImageUrlForItem(std::string itemId);
     
     //Callback method for HQ Scene to start building
     void startBuildingHQ(std::string category);
@@ -42,6 +43,4 @@ public:
     //Communication methods
     void getContent(std::string url, std::string category);
     void onGetContentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
-    
-    std::map<std::string, cocos2d::Node *>delegates;
 };

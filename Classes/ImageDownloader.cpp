@@ -17,6 +17,8 @@ bool ImageDownloader::initWithURLAndSize(std::string url, Size size)
     }
     
     this->setContentSize(size);
+    this->addPlaceHolderImage();
+    this->addLoadingAnimation();
     
     std::string fileName = getFileNameFromURL(url);
     if(findFileInLocalCache(fileName))
@@ -36,6 +38,8 @@ void ImageDownloader::addPlaceHolderImage()
     auto placeHolderImage = Sprite::create("res/hqscene/placeholder.png");
     placeHolderImage->setPosition(this->getContentSize() / 2);
     placeHolderImage->setName("placeHolderImage");
+    placeHolderImage->setScaleX(this->getContentSize().width / placeHolderImage->getContentSize().width);
+    placeHolderImage->setScaleY(this->getContentSize().height / placeHolderImage->getContentSize().height);
     this->addChild(placeHolderImage);
 }
 
@@ -56,8 +60,10 @@ void ImageDownloader::addLoadingAnimation()
 
 std::string ImageDownloader::getFileNameFromURL(std::string url)
 {
-    int startPoint = (int)url.find_last_of(url) + 1;
-    int endPoint = (int)url.find("?", 0);
+    int startPoint = (int)url.find_last_of("/") + 1;
+    
+    int endPoint = (int)url.length();
+    if(url.find("?", 0) != url.npos) endPoint = (int)url.find("?", 0);
     int subLength = endPoint - startPoint;
     
     return url.substr(startPoint, subLength);
@@ -130,6 +136,8 @@ void ImageDownloader::loadFileFromLocalCacheAsync(std::string fileName)
     auto finalImage = Sprite::create(localPath + fileName);
     finalImage->setPosition(this->getContentSize() / 2);
     finalImage->setOpacity(0);
+    finalImage->setScaleX(this->getContentSize().width / finalImage->getContentSize().width);
+    finalImage->setScaleY(this->getContentSize().height / finalImage->getContentSize().height);
     this->addChild(finalImage);
     
     finalImage->runAction(FadeIn::create(0.1));

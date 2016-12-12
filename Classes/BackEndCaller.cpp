@@ -295,19 +295,8 @@ void BackEndCaller::childLogin(int childNumber)
 
 void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
-    std::string myResponseString = StringUtils::format("");
-    
-    if (response && response->getResponseData())
-    {
-        std::vector<char> myResponse = *response->getResponseData();
-        
-        for(int i = 0; i < myResponse.size(); i++)
-        {
-            myResponseString = StringUtils::format("%s%c", myResponseString.c_str(), myResponse[i]);
-        }
-        
-        CCLOG("%s", myResponseString.c_str());
-    }
+    std::vector<char> myResponse = *response->getResponseData();
+    std::string myResponseString = std::string(myResponse.begin(), myResponse.end());
     
     if(response->getResponseCode() == 200)
     {
