@@ -28,6 +28,45 @@ USING_NS_CC;
 
 #include "DataStorage.h"
 
+/*
+ REGISTER PARENT
+ 
+ POST /api/user/v2/adult HTTP/1.1
+ Host: api.azoomee.com
+ Content-Type: application/json;charset=UTF-8
+ Origin: file://
+ Cookie: _ga=GA1.2.1873399231.1479295103
+ Connection: keep-alive
+ Accept: application/json, text/plain, <is star forwardslash star>  */ /*
+User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 10_1_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B100 (4299203760)
+Accept-Language: hu-hu
+Accept-Encoding: gzip, deflate
+Content-Length: 124
+{"emailAddress":"infografiakft@gmail.com","over18":"true","termsAccepted":"true","password":"B0Ta1983!","source":"childApp"}
+*/
+
+/* 
+ ADDING CHILD
+ 
+ POST /api/user/child HTTP/1.1
+ Host    api.azoomee.com
+ Accept  application/json, text/plain, <is star forwardslash star>  */ /*
+Accept-Encoding gzip, deflate
+Accept-Language hu-hu
+Content-Type    application/json;charset=UTF-8
+X-AZ-AUTH-TOKEN eyJhbGciOiJIUzI1NiIsImtpZCI6ImE5NjBhZDFmLWMzYmEtNDBmNC1hNTdmLWI1MThiZTAzYjJiZSJ9.eyJpc3MiOiI4NTVmZmY4Yi01ZmU2LTQyMWEtYTdmOC1jNmI4NDk2ODMyNGUiLCJhdWQiOiJwYXJlbnQuYXpvb21lZS5jb20iLCJhcHBsaWNhdGlvbkNsYWltIjp7InNpZ25hdHVyZSI6InVzSmkvU2pZYU54bTA2TTZWQlVWZXpLNC9HVlBabkRncDRvbTJQbzU5WjQ9IiwicGFyZW50S2V5IjpudWxsfX0=.n91fFbovCyjXgRj1OnbFZ0twqm9FR3Ro5ftPcqXrFkQ=
+Origin  https://parent.azoomee.com
+Content-Length  133
+X-AZ-INAPP  TRUE
+User-Agent  Mozilla/5.0 (iPhone; CPU iPhone OS 10_1_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B100 (4300254720)
+Referer https://parent.azoomee.com/
+X-AZ-REQ-DATETIME   2016-12-13T09:37:17Z
+Connection  keep-alive
+                                                                        
+{"profileName":"Bence","dob":"2010-08-12","sex":"MALE","avatar":"https://media.azoomee.com/static/thumbs/oomee_00.png","password":""}
+ 
+ */
+
 
 using namespace network;
 using namespace cocos2d;
