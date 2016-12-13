@@ -304,15 +304,6 @@ void LoginScene::login()
     std::string username = ((ui::EditBox *)loginContent->getChildByTag(TAG_EMAIL_EDITBOX))->getText();
     std::string password = ((ui::EditBox *)loginContent->getChildByTag(TAG_PASSWORD_EDITBOX))->getText();
     
-    //Need to pass SOURCE attribute to server #TODO
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        //SEND INAPP_IOS to Source
-    
-    #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        //SEND INAPP_ANDROID to Source
-    
-    #endif
-    
     //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
     
     if(password == "aaa")

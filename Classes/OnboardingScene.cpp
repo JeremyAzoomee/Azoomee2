@@ -34,6 +34,17 @@ Scene* OnboardingScene::createScene()
     return scene;
 }
 
+Scene* OnboardingScene::createSceneWithErrorCode(long errorCode)
+{
+    auto scene = Scene::create();
+    auto layer = OnboardingScene::create();
+    scene->addChild(layer);
+    
+    layer->handleErrorCode(errorCode);
+    
+    return scene;
+}
+
 bool OnboardingScene::init()
 {
     if ( !Layer::init() )
@@ -60,6 +71,16 @@ void OnboardingScene::menuCloseCallback(Ref* pSender)
     exit(0);
 #endif
     
+}
+
+void OnboardingScene::handleErrorCode(long errorCode)
+{
+    //#TODO have a Modal layer with error, for now just add a label to the Layer
+    
+    auto errorDetail = Label::createWithTTF(StringUtils::format("ERROR: %ld",errorCode), "fonts/azoomee.ttf", 60);
+    errorDetail->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.6);
+    errorDetail->setColor(Color3B::WHITE);
+    onboardingContent->addChild(errorDetail);
 }
 
 void OnboardingScene::addVisualElementsToScene()
@@ -301,15 +322,6 @@ void OnboardingScene::signup()
     std::string password = ((ui::EditBox *)onboardingContent->getChildByTag(TAG_PASSWORD_EDITBOX))->getText();
     std::string pin = ((ui::EditBox *)onboardingContent->getChildByTag(TAG_PIN_EDITBOX))->getText();
     
-    //Need to pass SOURCE attribute to server #TODO
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        //SEND INAPP_IOS to Source
-    
-    #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        //SEND INAPP_ANDROID to Source
-    
-    #endif
-    
     //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
     
     if(password == "aaa")
@@ -321,7 +333,7 @@ void OnboardingScene::signup()
     //DELETE UNTIL THIS POINT IN PRODUCTION
     
     auto backEndCaller = BackEndCaller::getInstance();
-    backEndCaller->login(username, password);
+    backEndCaller->registerParent(username, password);
 }
 
 //Editbox Delegate Functions

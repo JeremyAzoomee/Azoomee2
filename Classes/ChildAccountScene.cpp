@@ -503,16 +503,24 @@ void ChildAccountScene::selectOomee(cocos2d::Sprite* selectedOomee)
     
     selectedOomee->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.2)));
     
-    this->selectedOomeeName = selectedOomee->getName();
+    this->selectedOomeeNo = selectedOomee->getTag();
 }
 
 void ChildAccountScene::doneButton()
 {
+    std::string profileName = ((ui::EditBox *)childAccountContent->getChildByTag(TAG_CHILDNAME_EDITBOX))->getText();
+    
+    int d = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_DAY_EDITBOX))->getText());
+    int m = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_MONTH_EDITBOX))->getText());
+    int y = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_YEAR_EDITBOX))->getText());
+    
+    std::string DOB = StringUtils::format("%04d-%02d-%02d",y,m,d);
+    std::string gender = "male";
+    
     // NOTE Child Age to be in "yyyy-MM-dd" format
     
-    //#TODO need to save selections
-    auto childSelectorScene = ChildSelectorScene::createScene();
-    Director::getInstance()->replaceScene(childSelectorScene);
+    auto backEndCaller = BackEndCaller::getInstance();
+    backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
 }
 
 bool ChildAccountScene::isCharacter(const char Character)

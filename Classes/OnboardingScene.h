@@ -8,6 +8,10 @@ class OnboardingScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelega
 {
 public:
     static cocos2d::Scene* createScene();
+    
+    static cocos2d::Scene* createSceneWithErrorCode(long errorCode);
+    
+    void handleErrorCode(long errorCode);
 
     virtual bool init();
     

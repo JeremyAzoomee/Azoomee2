@@ -46,7 +46,7 @@ public:
     bool isNewChildAccount;
     std::string passedChildName;
     
-    std::string selectedOomeeName;
+    int selectedOomeeNo;
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;

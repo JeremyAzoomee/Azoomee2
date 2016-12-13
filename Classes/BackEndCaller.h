@@ -19,11 +19,21 @@ public:
     void login(std::string username, std::string password);
     void onLoginAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
+    void registerParent(std::string emailAddress, std::string password);
+    void onRegisterParentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+    
+    //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
+    std::string registerParentUsername;
+    std::string registerParentPassword;
+    
     void onGetChildrenAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     void getAvailableChildren();
     
     void childLogin(int childNumber);
     void onChildLoginAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+    
+    void registerChild(std::string childProfileName, std::string childGender, std::string childDOB, int oomeeNumber);
+    void onRegisterChildLoginAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     void getContent();
     void onGetContentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
