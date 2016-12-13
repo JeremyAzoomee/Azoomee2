@@ -192,7 +192,7 @@ Point ChildSelectorScene::positionElementOnScrollView(Layer *layerToBeAdded)
     
     Point newPos = Point(lastPos.x + lastChild->getContentSize().width + gapSize, lastPos.y);
     
-    if(newPos.y + layerToBeAdded->getContentSize().width > scrollView->getInnerContainerSize().width)
+    if(newPos.x + layerToBeAdded->getContentSize().width > scrollView->getInnerContainerSize().width)
     {
         newPos = Point(gapSize / 2, newPos.y - gapSize - layerToBeAdded->getContentSize().height);
     }
@@ -265,11 +265,21 @@ void ChildSelectorScene::addListenerToAddButton(Sprite *addButtonSprite)
     {
         if(!touchMovedAway)
         {
-            auto target = static_cast<Node*>(event->getCurrentTarget());
-            target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-            
-            auto newChildScene = ChildAccountScene::createSceneWithName("");
-            Director::getInstance()->replaceScene(newChildScene);
+            //Check is email verified, if not refresh profile, then error
+            if(DataStorage::getInstance()->getParentLoginValue("actorStatus") == "ACTIVE")
+            {
+                auto target = static_cast<Node*>(event->getCurrentTarget());
+                target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+                
+                auto newChildScene = ChildAccountScene::createSceneWithName("");
+                Director::getInstance()->replaceScene(newChildScene);
+            }
+            else
+            {
+                //#TODO add modal error message to Verify email or other errors that there may be.
+                this->addChild(BackEndCaller::getInstance()->modalMessages);
+                BackEndCaller::getInstance()->modalMessages->startLoading();
+            }
             return true;
         }
         

@@ -61,6 +61,17 @@ Scene* ChildAccountScene::createSceneWithName(std::string ChildName)
     return scene;
 }
 
+Scene* ChildAccountScene::createSceneWithErrorCode(long errorCode)
+{
+    auto scene = Scene::create();
+    auto layer = ChildAccountScene::create();
+    scene->addChild(layer);
+    
+    layer->handleErrorCode(errorCode);
+    
+    return scene;
+}
+
 bool ChildAccountScene::init()
 {
     if ( !Layer::init() )
@@ -87,6 +98,16 @@ void ChildAccountScene::menuCloseCallback(Ref* pSender)
     exit(0);
 #endif
     
+}
+
+void ChildAccountScene::handleErrorCode(long errorCode)
+{
+    //#TODO have a Modal layer with error, for now just add a label to the Layer
+    
+    auto errorDetail = Label::createWithTTF(StringUtils::format("ERROR: %ld",errorCode), "fonts/azoomee.ttf", 60);
+    errorDetail->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.6);
+    errorDetail->setColor(Color3B::WHITE);
+    childAccountContent->addChild(errorDetail);
 }
 
 void ChildAccountScene::setChildName(std::string ChildName)
@@ -515,7 +536,7 @@ void ChildAccountScene::doneButton()
     int y = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_YEAR_EDITBOX))->getText());
     
     std::string DOB = StringUtils::format("%04d-%02d-%02d",y,m,d);
-    std::string gender = "male";
+    std::string gender = "MALE";
     
     // NOTE Child Age to be in "yyyy-MM-dd" format
     

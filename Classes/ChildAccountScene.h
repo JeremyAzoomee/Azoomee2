@@ -8,6 +8,10 @@ class ChildAccountScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDele
 {
 public:
     static cocos2d::Scene* createSceneWithName(std::string ChildName);
+    
+    static cocos2d::Scene* createSceneWithErrorCode(long errorCode);
+    
+    void handleErrorCode(long errorCode);
 
     virtual bool init();
     

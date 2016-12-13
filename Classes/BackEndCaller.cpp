@@ -9,6 +9,7 @@
 #include "JWTTool.h"
 
 #include "OnboardingScene.h"
+#include "ChildAccountScene.h"
 
 USING_NS_CC;
 
@@ -167,7 +168,8 @@ void BackEndCaller::login(std::string username, std::string password)
     request->setRequestType(HttpRequest::Type::POST);
     request->setUrl(LOGIN_URL);
     
-    std::string myPostString = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
+    //std::string myPostString = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
+    std::string myPostString = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\"}", password.c_str(), username.c_str());
     const char *postData = myPostString.c_str();
     
     request->setRequestData(postData, strlen(postData));
@@ -400,6 +402,7 @@ void BackEndCaller::registerChild(std::string childProfileName, std::string chil
     request->setUrl(requestUrl.c_str());
     
     std::string requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"https://media.azoomee.com/static/thumbs/oomee_%02d.png\",\"password\":\"\"}",childProfileName.c_str(),childDOB.c_str(),childGender.c_str(),oomeeNumber);
+    CCLOG("This is the request body: %s", requestBody.c_str());
     
     const char *postData = requestBody.c_str();
     request->setRequestData(postData, strlen(postData));
@@ -421,7 +424,7 @@ void BackEndCaller::registerChild(std::string childProfileName, std::string chil
     request->setHeaders(headers);
     
     request->setResponseCallback(CC_CALLBACK_2(BackEndCaller::onRegisterChildLoginAnswerReceived, this));
-    request->setTag("Child login");
+    request->setTag("Add child");
     HttpClient::getInstance()->send(request);
     
 }
@@ -442,19 +445,19 @@ void BackEndCaller::onRegisterChildLoginAnswerReceived(cocos2d::network::HttpCli
         CCLOG("%s", myResponseString.c_str());
     }
     
-    if(response->getResponseCode() == 200)
+    if(response->getResponseCode() == 201)
     {
-        CCLOG("CHILDREN LOGIN SUCCESS");
-        DataStorage::getInstance()->parseChildLoginData(myResponseString);
-        getContent();
-        
-        auto childSelectorScene = ChildSelectorScene::createScene();
-        Director::getInstance()->replaceScene(childSelectorScene);
+        CCLOG("CHILDREN REGISTRATION SUCCESS");
+        getAvailableChildren();
     }
     else
     {
-        CCLOG("CHILDREN LOGIN FAIL Response code: %ld", response->getResponseCode());
-        CCLOG("CHILDREN LOGIN FAIL Response: %s", myResponseString.c_str());
+        CCLOG("CHILDREN REGISTRATION FAIL Response code: %ld", response->getResponseCode());
+        CCLOG("CHILDREN REGISTRATION FAIL Response: %s", myResponseString.c_str());
+        
+        //Restart the ChildSelectorScene with error
+        auto _ChildAccountScene = ChildAccountScene::createSceneWithErrorCode(response->getResponseCode());
+        Director::getInstance()->replaceScene(_ChildAccountScene);
     }
     
     
