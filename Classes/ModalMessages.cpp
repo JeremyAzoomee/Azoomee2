@@ -2,6 +2,10 @@
 
 USING_NS_CC;
 
+#define MESSAGE_BOX_WIDTH 1366
+#define MESSAGE_BOX_HEIGHT 1024
+#define MESSAGE_BOX_PADDING 100
+
 Scene* ModalMessages::createScene()
 {
     auto scene = Scene::create();
@@ -24,7 +28,7 @@ bool ModalMessages::init()
     return true;
 }
 
-void ModalMessages::startLoading()
+void ModalMessages::createLayer()
 {
     loadingLayer = LayerColor::create(Color4B(0,0,0,150), visibleSize.width, visibleSize.height);
     loadingLayer->setPosition(origin.x, origin.y);
@@ -32,7 +36,23 @@ void ModalMessages::startLoading()
     this->addChild(loadingLayer);
     
     addListenerToBackgroundLayer();
+}
+
+void ModalMessages::addListenerToBackgroundLayer()
+{
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    {
+        return true;
+    };
     
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), loadingLayer);
+}
+
+void ModalMessages::startLoading()
+{
+    createLayer();
     loadingLayer->runAction(FadeTo::create(0.5, 200));
     
     //ADDING SOME TEMPORARY CIRCLES AS LOADING, NOT FINAL YET
@@ -63,14 +83,48 @@ void ModalMessages::stopLoading()
     }
 }
 
-void ModalMessages::addListenerToBackgroundLayer()
+
+
+void ModalMessages::createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText)
 {
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
-    {
-        return true;
-    };
+    createLayer();
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), loadingLayer);
+    auto messageBox = LayerColor::create((Color4B::WHITE), MESSAGE_BOX_WIDTH, MESSAGE_BOX_HEIGHT);
+    messageBox->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+    loadingLayer->addChild(messageBox);
+    
+    auto titleTextField = Label::createWithTTF(messageTitle, "fonts/azoomee.ttf", 90);
+    titleTextField->setWidth(MESSAGE_BOX_WIDTH - MESSAGE_BOX_PADDING * 2);
+    titleTextField->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.7);
+    titleTextField->setColor(Color3B(28, 244, 244));
+    messageBox->addChild(titleTextField);
+    
+    loadingLayer->runAction(FadeTo::create(0.5, 200));
+}
+
+void ModalMessages::createMessageBox()
+{
+    auto messageBox = LayerColor::create((Color4B::WHITE), MESSAGE_BOX_WIDTH, MESSAGE_BOX_HEIGHT);
+    messageBox->setPosition(origin.x, origin.y);
+    messageBox->setOpacity(0);
+    loadingLayer->addChild(messageBox);
+}
+
+void ModalMessages::createMessageTitle(std::string messageTitle)
+{
+    auto titleTextField = Label::createWithTTF(messageTitle, "fonts/azoomee.ttf", 90);
+    titleTextField->setWidth(MESSAGE_BOX_WIDTH - MESSAGE_BOX_PADDING * 2);
+    titleTextField->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.7);
+    titleTextField->setColor(Color3B(28, 244, 244));
+    loadingLayer->addChild(titleTextField);
+}
+
+void ModalMessages::createMessageBody(std::string messageBody)
+{
+    
+}
+
+void ModalMessages::createButton(std::string buttonText)
+{
+    
 }

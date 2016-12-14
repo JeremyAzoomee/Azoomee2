@@ -188,7 +188,11 @@ void LoginScene::loginButtonAction()
 
 void LoginScene::nextButtonAction()
 {
-    loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+    auto modalmessage = ModalMessages::create();
+    this->addChild(modalmessage);
+    modalmessage->createMessageWithSingleButton("title", "body", "buttonTetx");
+    
+    //loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
 }
 
 void LoginScene::backButtonAction()
