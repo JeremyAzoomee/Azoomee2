@@ -333,7 +333,7 @@ void OnboardingScene::signup()
     //DELETE UNTIL THIS POINT IN PRODUCTION
     
     auto backEndCaller = BackEndCaller::getInstance();
-    backEndCaller->registerParent(username, password);
+    backEndCaller->registerParent(username, password,pin);
 }
 
 //Editbox Delegate Functions

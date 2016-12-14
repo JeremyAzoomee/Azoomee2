@@ -19,7 +19,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/IntroScene.cpp \
                    ../../../Classes/LoginScene.cpp \
                    ../../../Classes/OnboardingScene.cpp \
-                   ../../../Classes/ChildAccountSceneScene.cpp \
+                   ../../../Classes/ChildAccountScene.cpp \
                    ../../../Classes/MainHubBgElements.cpp \
                    ../../../Classes/MainHubScene.cpp \
                    ../../../Classes/NavigationLayer.cpp \

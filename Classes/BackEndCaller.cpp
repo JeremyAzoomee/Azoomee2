@@ -168,8 +168,8 @@ void BackEndCaller::login(std::string username, std::string password)
     request->setRequestType(HttpRequest::Type::POST);
     request->setUrl(LOGIN_URL);
     
-    //std::string myPostString = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
-    std::string myPostString = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\"}", password.c_str(), username.c_str());
+    std::string myPostString = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
+    //std::string myPostString = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\"}", password.c_str(), username.c_str());
     const char *postData = myPostString.c_str();
     
     request->setRequestData(postData, strlen(postData));
@@ -187,7 +187,7 @@ void BackEndCaller::login(std::string username, std::string password)
 
 //REGISTER PARENT---------------------------------------------------------------------------
 
-void BackEndCaller::registerParent(std::string emailAddress, std::string password)
+void BackEndCaller::registerParent(std::string emailAddress, std::string password, std::string pinNumber)
 {
     //Save emailAddress and password, so onRegisterParentAnswerReceived can login after success
     this->registerParentUsername = emailAddress;
@@ -211,7 +211,7 @@ void BackEndCaller::registerParent(std::string emailAddress, std::string passwor
         
     #endif
     
-    std::string myPostString = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"password\":\"%s\",\"source\":\"%s\"}", emailAddress.c_str(),password.c_str(),source.c_str());
+    std::string myPostString = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\"}", emailAddress.c_str(),password.c_str(),source.c_str(),pinNumber.c_str());
     const char *postData = myPostString.c_str();
     
     request->setRequestData(postData, strlen(postData));

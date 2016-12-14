@@ -171,6 +171,7 @@ void LoginScene::addButtonsToLayer()
         {
             case ui::Widget::TouchEventType::BEGAN:
             {
+                if ( loginContent->getNumberOfRunningActions() == 0 )
                 moveLoginToEmailScreen(loginButton);
                 break;
             }

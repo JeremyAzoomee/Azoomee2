@@ -19,7 +19,7 @@ public:
     void login(std::string username, std::string password);
     void onLoginAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
-    void registerParent(std::string emailAddress, std::string password);
+    void registerParent(std::string emailAddress, std::string password, std::string pinNumber);
     void onRegisterParentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.

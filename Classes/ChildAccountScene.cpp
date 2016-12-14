@@ -4,7 +4,6 @@
 #include "BackEndCaller.h"
 #include "DataStorage.h"
 #include "ChildSelectorScene.h"
-#include "DropdownMenu.h"
 
 USING_NS_CC;
 
@@ -218,12 +217,8 @@ void ChildAccountScene::addTextBoxesToLayer()
     _editName->setTag(TAG_CHILDNAME_EDITBOX);
     childAccountContent->addChild(_editName);
     
-    auto _dayMenu = DropdownMenu::create();
-    _dayMenu->setPosition(Vec2(origin.x+visibleSize.width * 1.5 - 300, origin.y+visibleSize.height*0.5));
-    _dayMenu->setPrompt("DAY");
-    childAccountContent->addChild(_dayMenu);
-    
-    /*auto _editDOB_Day = ui::EditBox::create(Size(200,131), "res/login/textarea_bg.png");
+
+    auto _editDOB_Day = ui::EditBox::create(Size(200,131), "res/login/textarea_bg.png");
     _editDOB_Day->setPosition(Vec2(origin.x+visibleSize.width * 1.5 - 300, origin.y+visibleSize.height*0.5));
     _editDOB_Day->setFont("fonts/azoomee.ttf", 90);
     _editDOB_Day->setFontColor(Color3B::WHITE);
@@ -257,7 +252,7 @@ void ChildAccountScene::addTextBoxesToLayer()
     _editDOB_Year->setInputMode(ui::EditBox::InputMode::NUMERIC);
     _editDOB_Year->setTag(TAG_YEAR_EDITBOX);
     _editDOB_Year->setDelegate(this);
-    childAccountContent->addChild(_editDOB_Year);*/
+    childAccountContent->addChild(_editDOB_Year);
     
 }
 
