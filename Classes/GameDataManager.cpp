@@ -310,6 +310,6 @@ bool GameDataManager::removeGameZip(std::string fileNameWithPath)
 
 void GameDataManager::startGame(std::string fileName)
 {
-    auto webViewScene = WebViewSelector::createSceneWithUrl(fileName);
-    Director::getInstance()->replaceScene(webViewScene);
+    WebViewSelector::createSceneWithUrl(fileName);
+    //We don't need to add 
 }
