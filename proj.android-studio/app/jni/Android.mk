@@ -33,7 +33,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HMACSHA256.cpp \
                    ../../../Classes/DataStorage.cpp \
                    ../../../Classes/HQDataProvider.cpp \
-                   ../../../Classes/ImageDownloader.cpp
+                   ../../../Classes/ImageDownloader.cpp \
+                   ../../../Classes/GameDataManager.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

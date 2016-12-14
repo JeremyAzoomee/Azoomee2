@@ -3,6 +3,7 @@
 #include "WebViewSelector.h"
 #include "imageDownloader.h"
 #include "HQDataProvider.h"
+#include "GameDataManager.h"
 
 USING_NS_CC;
 
@@ -34,7 +35,7 @@ bool ImageContainer::init()
     return true;
 }
 
-void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri)
+void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string itemId)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -52,8 +53,15 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
             target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
             CCLOG("uri to open: %s", uri.c_str());
             
-            auto webViewSelector = WebViewSelector::create();
-            webViewSelector->loadWebView(uri.c_str());
+            if(HQDataProvider::getInstance()->getExtensionFromUri(uri) == "json")
+            {
+                GameDataManager::getInstance()->startProcessingGame(uri, itemId);
+            }
+            else
+            {
+                auto webViewSelector = WebViewSelector::create();
+                webViewSelector->loadWebView(uri.c_str());
+            }
             
             return true;
         }
@@ -138,7 +146,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
         responseLayer->setName("responseLayer");
         bgLayer->addChild(responseLayer);
         
-        addListenerToContainer(bgLayer, getColourByType(elementProperties["type"]).a, elementProperties["uri"]);
+        addListenerToContainer(bgLayer, getColourByType(elementProperties["type"]).a, elementProperties["uri"], elementProperties["id"]);
     }
 }
 

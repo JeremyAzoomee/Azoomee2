@@ -12,7 +12,7 @@ public:
     
     void createContainer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, cocos2d::Point position);
     cocos2d::Color4B getColourByType(std::string type);
-    void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri);
+    void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string itemId);
     
     void addImageToLayer(std::string url);
     void addGradientToBottom(cocos2d::Color3B colour, float startDelay);

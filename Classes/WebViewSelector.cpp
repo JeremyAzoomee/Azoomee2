@@ -22,6 +22,23 @@ cocos2d::Scene* WebViewSelector::createScene()
     return scene;
 }
 
+cocos2d::Scene* WebViewSelector::createSceneWithUrl(std::string url)
+{
+    // 'scene' is an autorelease object
+    auto scene = cocos2d::Scene::create();
+    
+    // 'layer' is an autorelease object
+    auto layer = WebViewSelector::create();
+    
+    // add layer as a child to scene
+    scene->addChild(layer);
+    
+    layer->loadWebView(url);
+    
+    // return the scene
+    return scene;
+}
+
 void WebViewSelector::loadWebView(std::string url)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

@@ -59,6 +59,7 @@
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */; };
 		A11E73931DE31C3A00166ECA /* InterSceneLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A11E73911DE31C3A00166ECA /* InterSceneLoader.cpp */; };
+		A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A154CC501DFEE7440008A626 /* GameDataManager.cpp */; };
 		A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */; };
 		A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FA01DE7534900D25334 /* WebViewNative_ios.mm */; };
 		A15B2FA91DEDAA2A00D25334 /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FA71DEDAA2A00D25334 /* ModalMessages.cpp */; };
@@ -183,6 +184,8 @@
 		A11E738D1DDF00F100166ECA /* OomeeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeLayer.h; sourceTree = "<group>"; };
 		A11E73911DE31C3A00166ECA /* InterSceneLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterSceneLoader.cpp; sourceTree = "<group>"; };
 		A11E73921DE31C3A00166ECA /* InterSceneLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterSceneLoader.h; sourceTree = "<group>"; };
+		A154CC501DFEE7440008A626 /* GameDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameDataManager.cpp; sourceTree = "<group>"; };
+		A154CC511DFEE7440008A626 /* GameDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDataManager.h; sourceTree = "<group>"; };
 		A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebViewSelector.cpp; sourceTree = "<group>"; };
 		A15B2F981DE74F6400D25334 /* WebViewSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewSelector.h; sourceTree = "<group>"; };
 		A15B2F9E1DE752D000D25334 /* WebViewNative_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewNative_ios.h; sourceTree = "<group>"; };
@@ -475,6 +478,8 @@
 				A15B2FC61DFAB3FB00D25334 /* ImageDownloader.h */,
 				A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */,
 				A15B2FC91DFACF3800D25334 /* HQDataProvider.h */,
+				A154CC501DFEE7440008A626 /* GameDataManager.cpp */,
+				A154CC511DFEE7440008A626 /* GameDataManager.h */,
 				A15B2FAB1DEDD15F00D25334 /* JWTSigner */,
 			);
 			name = BackEndCommunication;
@@ -709,6 +714,7 @@
 				A15B2FB21DEDD1E000D25334 /* JWTTool.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
 				A15B2FBA1DEDD1EA00D25334 /* HMACSHA256_javaCaller.cpp in Sources */,
+				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@ class WebViewSelector : public cocos2d::Layer
 {
 public:
     static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createSceneWithUrl(std::string url);
 
     virtual bool init();
     

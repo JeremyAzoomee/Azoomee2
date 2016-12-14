@@ -295,3 +295,11 @@ void HQDataProvider::onGetContentAnswerReceived(cocos2d::network::HttpClient *se
         CCLOG("GET CONTENT FAIL Response: %s", responseString.c_str());
     }
 }
+
+std::string HQDataProvider::getExtensionFromUri(std::string uri)
+{
+    int startPoint = (int)uri.find_last_of(".") + 1;
+    std::string extension = uri.substr(startPoint);
+    
+    return extension;
+}
