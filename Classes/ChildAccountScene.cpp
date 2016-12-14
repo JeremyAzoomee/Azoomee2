@@ -49,24 +49,20 @@ USING_NS_CC;
 
 
 
-Scene* ChildAccountScene::createSceneWithName(std::string ChildName)
+Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode)
 {
+    //Create with errorCode == 0 (Zero) if there are no errors
+    
     auto scene = Scene::create();
     auto layer = ChildAccountScene::create();
     scene->addChild(layer);
     layer->setChildName(ChildName);
     layer->addFunctionalElementsToScene();
     
-    return scene;
-}
-
-Scene* ChildAccountScene::createSceneWithErrorCode(long errorCode)
-{
-    auto scene = Scene::create();
-    auto layer = ChildAccountScene::create();
-    scene->addChild(layer);
-    
-    layer->handleErrorCode(errorCode);
+    if(errorCode !=0)
+    {
+        layer->handleErrorCode(errorCode);
+    }
     
     return scene;
 }
@@ -308,41 +304,18 @@ void ChildAccountScene::addButtonsToLayer()
 void ChildAccountScene::addOomeesToLayer()
 {
     float gapSize = 50;
+    float oomeeWidth = 190;
+    float startX = origin.x + visibleSize.width * 2.5 - (oomeeWidth*2 + gapSize*2);
     
-    auto oomee_0 = Sprite::create("res/childSelection/oomee_0.png");
-    oomee_0->setPosition(origin.x + visibleSize.width * 2.5 - (oomee_0->getContentSize().width*2 + gapSize*2), origin.y + visibleSize.height * 0.4);
-    oomee_0->setOpacity(0);
-    oomee_0->setTag(TAG_OOMEE_0);
-    addListenerToButton(oomee_0);
-    childAccountContent->addChild(oomee_0);
-    
-    auto oomee_1 = Sprite::create("res/childSelection/oomee_1.png");
-    oomee_1->setPosition(origin.x + visibleSize.width * 2.5 - (oomee_0->getContentSize().width + gapSize), origin.y + visibleSize.height * 0.4);
-    oomee_1->setOpacity(0);
-    oomee_1->setTag(TAG_OOMEE_1);
-    addListenerToButton(oomee_1);
-    childAccountContent->addChild(oomee_1);
-    
-    auto oomee_2 = Sprite::create("res/childSelection/oomee_2.png");
-    oomee_2->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.4);
-    oomee_2->setOpacity(0);
-    addListenerToButton(oomee_2);
-    oomee_2->setTag(TAG_OOMEE_2);
-    childAccountContent->addChild(oomee_2);
-    
-    auto oomee_3 = Sprite::create("res/childSelection/oomee_3.png");
-    oomee_3->setPosition(origin.x + visibleSize.width * 2.5 + (oomee_0->getContentSize().width + gapSize), origin.y + visibleSize.height * 0.4);
-    oomee_3->setOpacity(0);
-    oomee_3->setTag(TAG_OOMEE_3);
-    addListenerToButton(oomee_3);
-    childAccountContent->addChild(oomee_3);
-    
-    auto oomee_4 = Sprite::create("res/childSelection/oomee_4.png");
-    oomee_4->setPosition(origin.x + visibleSize.width * 2.5 + (oomee_0->getContentSize().width*2 + gapSize*2), origin.y + visibleSize.height * 0.4);
-    oomee_4->setOpacity(0);
-    oomee_4->setTag(TAG_OOMEE_4);
-    addListenerToButton(oomee_4);
-    childAccountContent->addChild(oomee_4);
+    for(int i = 0; i < NO_OF_OOMEES; i++)
+    {
+        auto oomee = Sprite::create(StringUtils::format("res/childSelection/oomee_%d.png",i));
+        oomee->setPosition(startX + ((oomeeWidth+gapSize)*i), origin.y + visibleSize.height * 0.4);
+        oomee->setOpacity(0);
+        oomee->setTag(i);
+        addListenerToButton(oomee);
+        childAccountContent->addChild(oomee);
+    }
 }
 
 void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
@@ -360,19 +333,20 @@ void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
         {
             int buttonTag = spriteImage->getTag();
             
-            switch(buttonTag)
+            if(buttonTag < NO_OF_OOMEES)
+                //then handle an Oomee being selected
+                this->selectOomee(spriteImage);
+            else
             {
-                case(TAG_CHILD_CLOSE_BUTTON): this->backButtonCloseScene(); break;
-                case(TAG_CHILD_NEXT_BUTTON): this->childNameNextButton(spriteImage); break;
-                case(TAG_DOB_BACK_BUTTON): this->moveToChildNameInput(spriteImage); break;
-                case(TAG_DOB_NEXT_BUTTON):  this->moveToOomeeSelection(spriteImage); break;
-                case(TAG_OOMEE_BACK_BUTTON):  this->moveToDOBInput(spriteImage); break;
-                case(TAG_OOMEE_0):  this->selectOomee(spriteImage); break;
-                case(TAG_OOMEE_1):  this->selectOomee(spriteImage); break;
-                case(TAG_OOMEE_2):  this->selectOomee(spriteImage); break;
-                case(TAG_OOMEE_3):  this->selectOomee(spriteImage); break;
-                case(TAG_OOMEE_4):  this->selectOomee(spriteImage); break;
-                case(TAG_OOMEE_NEXT_BUTTON):  this->doneButton(); break;
+                switch(buttonTag)
+                {
+                    case(TAG_CHILD_CLOSE_BUTTON): this->backButtonCloseScene(); break;
+                    case(TAG_CHILD_NEXT_BUTTON): this->childNameNextButton(spriteImage); break;
+                    case(TAG_DOB_BACK_BUTTON): this->moveToChildNameInput(spriteImage); break;
+                    case(TAG_DOB_NEXT_BUTTON):  this->moveToOomeeSelection(spriteImage); break;
+                    case(TAG_OOMEE_BACK_BUTTON):  this->moveToDOBInput(spriteImage); break;
+                    case(TAG_OOMEE_NEXT_BUTTON):  this->doneButton(); break;
+                }
             }
             
             return true;
@@ -402,16 +376,14 @@ void ChildAccountScene::backButtonCloseScene()
 
 void ChildAccountScene::childNameNextButton(Node* button)
 {
+    //Set the childDOB label depending on if new
+    setDOBLabel();
+    
     //Check if editbox is not null, and does not exist, then move onwards
     
     std::string newChildsName = ((ui::EditBox *)childAccountContent->getChildByTag(TAG_CHILDNAME_EDITBOX))->getText();
     
-    if(newChildsName.compare("") == 0)
-    {
-        //ERROR MESSAGE - Must have a name
-        
-    }
-    else if(this->passedChildName.compare(newChildsName) == 0 && !this-isNewChildAccount)
+    if(this->passedChildName == newChildsName && !this-isNewChildAccount)
     {
         //If the childs name has not changed, then move forward.
         //This stops a false error of "CHILD NAME EXISTS"
@@ -431,6 +403,17 @@ void ChildAccountScene::childNameNextButton(Node* button)
 
 void ChildAccountScene::moveToDOBInput(Node* button)
 {
+    disableMoveButton(button);
+    
+    auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2);
+    auto callback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::enableMoveButton, this,button));
+    
+    auto sequence = Sequence::create(action, callback, NULL);
+    childAccountContent->runAction(sequence);
+}
+
+void ChildAccountScene::setDOBLabel()
+{
     //Set correct label Depending if new Child
     Label* DOB_Title = ((Label *)childAccountContent->getChildByTag(TAG_DOB_LABEL));
     
@@ -442,15 +425,88 @@ void ChildAccountScene::moveToDOBInput(Node* button)
     }
     else
         DOB_Title->setString(LABEL_EDIT_REQUEST_CHILD_BIRTHDAY);
-    
+}
+
+void ChildAccountScene::moveToChildNameInput(Node* button)
+{
     disableMoveButton(button);
     
-    auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2);
+    auto action = EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2);
     auto callback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::enableMoveButton, this,button));
     
     auto sequence = Sequence::create(action, callback, NULL);
     childAccountContent->runAction(sequence);
+}
 
+void ChildAccountScene::moveToOomeeSelection(Node* button)
+{
+    disableMoveButton(button);
+    
+    auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2);
+    auto callback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::enableMoveButton, this,button));
+    
+    auto sequence = Sequence::create(action, callback, NULL);
+    childAccountContent->runAction(sequence);
+    
+    for(int i=0;i<NO_OF_OOMEES;i++)
+    {
+        cocos2d::Sprite* oomee = (cocos2d::Sprite *)childAccountContent->getChildByTag(i);
+        float delayTime = (CCRANDOM_0_1()* 0.5) +1;
+        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    }
+}
+
+void ChildAccountScene::selectOomee(cocos2d::Sprite* selectedOomee)
+{
+    ((cocos2d::Sprite *)childAccountContent->getChildByTag(TAG_OOMEE_NEXT_BUTTON))->setVisible(true);
+    
+    //Add here what to do when Oomee selected. Currently just set to be bigger.
+    for(int i=0;i<NO_OF_OOMEES;i++)
+    {
+        cocos2d::Sprite* oomee = (cocos2d::Sprite *)childAccountContent->getChildByTag(i);
+        oomee->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1)));
+    }
+    
+    selectedOomee->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.2)));
+    
+    this->selectedOomeeNo = selectedOomee->getTag();
+}
+
+void ChildAccountScene::doneButton()
+{
+    std::string profileName = ((ui::EditBox *)childAccountContent->getChildByTag(TAG_CHILDNAME_EDITBOX))->getText();
+    
+    int d = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_DAY_EDITBOX))->getText());
+    int m = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_MONTH_EDITBOX))->getText());
+    int y = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_YEAR_EDITBOX))->getText());
+    
+    std::string DOB = StringUtils::format("%04d-%02d-%02d",y,m,d);
+    std::string gender = "MALE";
+    
+    // NOTE Child Age to be in "yyyy-MM-dd" format
+    
+    if(this->isNewChildAccount)
+    {
+       auto backEndCaller = BackEndCaller::getInstance();
+        backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
+    }
+    else
+    {
+        //NEED TO SEND CHANGE REQUEST, and handle error passing of this->passedChildName to rebuilt scene.
+    }
+}
+
+bool ChildAccountScene::isCharacter(const char Character)
+{
+    //Borrowed from internet With isValidEmailAddress to check email address format
+    
+    return ( (Character >= 'a' && Character <= 'z') || (Character >= 'A' && Character <= 'Z'));
+    //Checks if a Character is a Valid A-Z, a-z Character, based on the ascii value
+}
+bool ChildAccountScene::isNumber(const char Character)
+{
+    return ( Character >= '0' && Character <= '9');
+    //Checks if a Character is a Valid 0-9 Number, based on the ascii value
 }
 
 bool ChildAccountScene::isDate()
@@ -481,104 +537,6 @@ bool ChildAccountScene::isDate()
     return true;
 }
 
-void ChildAccountScene::moveToChildNameInput(Node* button)
-{
-    disableMoveButton(button);
-    
-    auto action = EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2);
-    auto callback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::enableMoveButton, this,button));
-    
-    auto sequence = Sequence::create(action, callback, NULL);
-    childAccountContent->runAction(sequence);
-}
-
-void ChildAccountScene::moveToOomeeSelection(Node* button)
-{
-    disableMoveButton(button);
-    
-    auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2);
-    auto callback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::enableMoveButton, this,button));
-    
-    auto sequence = Sequence::create(action, callback, NULL);
-    childAccountContent->runAction(sequence);
-    
-    for(int i=0;i<NO_OF_OOMEES;i++)
-    {
-        cocos2d::Sprite* oomee = (cocos2d::Sprite *)childAccountContent->getChildByTag(i);
-        float delayTime = CCRANDOM_0_1()+1;
-        oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    }
-}
-
-void ChildAccountScene::selectOomee(cocos2d::Sprite* selectedOomee)
-{
-    
-    ((cocos2d::Sprite *)childAccountContent->getChildByTag(TAG_OOMEE_NEXT_BUTTON))->setVisible(true);
-    
-    //Add here what to do when Oomee selected. Currently just set to be bigger.
-    for(int i=0;i<NO_OF_OOMEES;i++)
-    {
-        cocos2d::Sprite* oomee = (cocos2d::Sprite *)childAccountContent->getChildByTag(i);
-        oomee->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1)));
-    }
-    
-    selectedOomee->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.2)));
-    
-    this->selectedOomeeNo = selectedOomee->getTag();
-}
-
-void ChildAccountScene::doneButton()
-{
-    std::string profileName = ((ui::EditBox *)childAccountContent->getChildByTag(TAG_CHILDNAME_EDITBOX))->getText();
-    
-    int d = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_DAY_EDITBOX))->getText());
-    int m = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_MONTH_EDITBOX))->getText());
-    int y = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_YEAR_EDITBOX))->getText());
-    
-    std::string DOB = StringUtils::format("%04d-%02d-%02d",y,m,d);
-    std::string gender = "MALE";
-    
-    // NOTE Child Age to be in "yyyy-MM-dd" format
-    
-    auto backEndCaller = BackEndCaller::getInstance();
-    backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
-}
-
-bool ChildAccountScene::isCharacter(const char Character)
-{
-    //Borrowed from internet With isValidEmailAddress to check email address format
-    
-    return ( (Character >= 'a' && Character <= 'z') || (Character >= 'A' && Character <= 'Z'));
-    //Checks if a Character is a Valid A-Z, a-z Character, based on the ascii value
-}
-bool ChildAccountScene::isNumber(const char Character)
-{
-    return ( Character >= '0' && Character <= '9');
-    //Checks if a Character is a Valid 0-9 Number, based on the ascii value
-}
-
-bool ChildAccountScene::isValidPin(const char * pinNumber)
-{
-    if(!pinNumber) // If cannot read the Email Address...
-        return 0;
-
-    if(strlen(pinNumber) != 4) // ensure there are 4 characters
-        return 0;
-    
-    bool pinOK = true;
-    
-    for(unsigned int i = 0; i < strlen(pinNumber); i++)
-    {
-        if(!isNumber(pinNumber[i])) // the charactor is not a number, set to false.
-            pinOK = false;
-    }
-    if(pinOK) // If all characters are numbers return true.
-        return 1;
-    else
-        return 0;
-
-}
-
 bool ChildAccountScene::childNameExists(std::string newChildsName)
 {
     //check if child name exists
@@ -604,27 +562,14 @@ void ChildAccountScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const 
     //Make the next buttons visible if the inputs are in correct format
     
     if(editBox->getTag() == TAG_CHILDNAME_EDITBOX)
-    {
         //if there is text, then show the next button.
-        if(text.compare("") !=0)
-            ((cocos2d::Sprite *)childAccountContent->getChildByTag(TAG_CHILD_NEXT_BUTTON))->setVisible(true);
-        else
-            ((cocos2d::Sprite *)childAccountContent->getChildByTag(TAG_CHILD_NEXT_BUTTON))->setVisible(false);
-    }
+        ((cocos2d::Sprite *)childAccountContent->getChildByTag(TAG_CHILD_NEXT_BUTTON))->setVisible(text != "");
     else
-    {
-        if(isDate())
-            ((cocos2d::Sprite *)childAccountContent->getChildByTag(TAG_DOB_NEXT_BUTTON))->setVisible(true);
-        else
-            ((cocos2d::Sprite *)childAccountContent->getChildByTag(TAG_DOB_NEXT_BUTTON))->setVisible(false);
-    }
+        ((cocos2d::Sprite *)childAccountContent->getChildByTag(TAG_DOB_NEXT_BUTTON))->setVisible(isDate());
 }
 
 void ChildAccountScene::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
     //This function is mandatory for delegate.
     //This function is called if DONE pressed or if keyboard is closed. So cannot be used to detect DONE selection.
-    
-    std::string test =editBox->getText();
-    editBox->setText(test.c_str());
 }

@@ -169,7 +169,7 @@ void BackEndCaller::login(std::string username, std::string password)
     request->setUrl(LOGIN_URL);
     
     std::string myPostString = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
-    //std::string myPostString = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\"}", password.c_str(), username.c_str());
+
     const char *postData = myPostString.c_str();
     
     request->setRequestData(postData, strlen(postData));
@@ -242,7 +242,7 @@ void BackEndCaller::onRegisterParentAnswerReceived(cocos2d::network::HttpClient 
         CCLOG("Response code: %ld", response->getResponseCode());
         
         //Restart the Onboarding with error
-        auto _OnboardingScene = OnboardingScene::createSceneWithErrorCode(response->getResponseCode());
+        auto _OnboardingScene = OnboardingScene::createScene(response->getResponseCode());
         Director::getInstance()->replaceScene(_OnboardingScene);
     }
     
@@ -456,7 +456,7 @@ void BackEndCaller::onRegisterChildLoginAnswerReceived(cocos2d::network::HttpCli
         CCLOG("CHILDREN REGISTRATION FAIL Response: %s", myResponseString.c_str());
         
         //Restart the ChildSelectorScene with error
-        auto _ChildAccountScene = ChildAccountScene::createSceneWithErrorCode(response->getResponseCode());
+        auto _ChildAccountScene = ChildAccountScene::createScene("",response->getResponseCode());
         Director::getInstance()->replaceScene(_ChildAccountScene);
     }
     

@@ -271,14 +271,15 @@ void ChildSelectorScene::addListenerToAddButton(Sprite *addButtonSprite)
                 auto target = static_cast<Node*>(event->getCurrentTarget());
                 target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
                 
-                auto newChildScene = ChildAccountScene::createSceneWithName("");
+                auto newChildScene = ChildAccountScene::createScene("", 0);
                 Director::getInstance()->replaceScene(newChildScene);
             }
             else
             {
                 //#TODO add modal error message to Verify email or other errors that there may be.
-                this->addChild(BackEndCaller::getInstance()->modalMessages);
-                BackEndCaller::getInstance()->modalMessages->startLoading();
+                
+                //this->addChild(BackEndCaller::getInstance()->modalMessages);
+                //BackEndCaller::getInstance()->modalMessages->startLoading();
             }
             return true;
         }

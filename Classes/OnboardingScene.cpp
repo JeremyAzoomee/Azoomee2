@@ -25,22 +25,18 @@ USING_NS_CC;
 #define TAG_PIN_BACK_BUTTON 14
 #define TAG_PIN_NEXT_BUTTON 15
 
-Scene* OnboardingScene::createScene()
+Scene* OnboardingScene::createScene(long errorCode)
 {
+    //Create with 0 (Zero) if there are no errors
+    
     auto scene = Scene::create();
     auto layer = OnboardingScene::create();
     scene->addChild(layer);
     
-    return scene;
-}
-
-Scene* OnboardingScene::createSceneWithErrorCode(long errorCode)
-{
-    auto scene = Scene::create();
-    auto layer = OnboardingScene::create();
-    scene->addChild(layer);
-    
-    layer->handleErrorCode(errorCode);
+    if(errorCode !=0)
+    {
+        layer->handleErrorCode(errorCode);
+    }
     
     return scene;
 }
@@ -317,20 +313,9 @@ void OnboardingScene::moveToPinScreen(Node* button)
 
 void OnboardingScene::signup()
 {
-
     std::string username = ((ui::EditBox *)onboardingContent->getChildByTag(TAG_EMAIL_EDITBOX))->getText();
     std::string password = ((ui::EditBox *)onboardingContent->getChildByTag(TAG_PASSWORD_EDITBOX))->getText();
     std::string pin = ((ui::EditBox *)onboardingContent->getChildByTag(TAG_PIN_EDITBOX))->getText();
-    
-    //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
-    
-    if(password == "aaa")
-    {
-        username = "klaas+ci@azoomee.com";
-        password = "test1234";
-    }
-    
-    //DELETE UNTIL THIS POINT IN PRODUCTION
     
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->registerParent(username, password,pin);
@@ -388,7 +373,7 @@ bool OnboardingScene::isValidEmailAddress(const char * EmailAddress)
         return 0;
     int AtOffset = -1;
     int DotOffset = -1;
-    unsigned int Length = strlen(EmailAddress); // Length = StringLength (strlen) of EmailAddress
+    unsigned int Length = (int)strlen(EmailAddress); // Length = StringLength (strlen) of EmailAddress
     for(unsigned int i = 0; i < Length; i++)
     {
         if(EmailAddress[i] == '@') // If one of the characters is @, store it's position in AtOffset

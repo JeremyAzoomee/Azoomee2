@@ -147,7 +147,7 @@ void LoginScene::addButtonsToLayer()
         {
             case ui::Widget::TouchEventType::BEGAN:
             {
-                auto _OnboardingScene = OnboardingScene::createScene();
+                auto _OnboardingScene = OnboardingScene::createScene(0);
                 Director::getInstance()->replaceScene(_OnboardingScene);
                 break;
             }
@@ -307,13 +307,11 @@ void LoginScene::login()
     
     //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
     
-    if(password == "aaa")
+   /* if(password == "aaa")
     {
         username = "klaas+ci@azoomee.com";
         password = "test1234";
-    }
-
-    //DELETE UNTIL THIS POINT IN PRODUCTION
+    }*/
 
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->login(username, password);
@@ -366,7 +364,7 @@ bool LoginScene::isValidEmailAddress(const char * EmailAddress)
         return 0;
     int AtOffset = -1;
     int DotOffset = -1;
-    unsigned int Length = strlen(EmailAddress); // Length = StringLength (strlen) of EmailAddress
+    unsigned int Length = (int)strlen(EmailAddress); // Length = StringLength (strlen) of EmailAddress
     for(unsigned int i = 0; i < Length; i++)
     {
         if(EmailAddress[i] == '@') // If one of the characters is @, store it's position in AtOffset

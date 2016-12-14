@@ -7,9 +7,7 @@
 class OnboardingScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
 {
 public:
-    static cocos2d::Scene* createScene();
-    
-    static cocos2d::Scene* createSceneWithErrorCode(long errorCode);
+    static cocos2d::Scene* createScene(long errorCode);
     
     void handleErrorCode(long errorCode);
 

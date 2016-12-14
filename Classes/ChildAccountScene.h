@@ -7,9 +7,7 @@
 class ChildAccountScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
 {
 public:
-    static cocos2d::Scene* createSceneWithName(std::string ChildName);
-    
-    static cocos2d::Scene* createSceneWithErrorCode(long errorCode);
+    static cocos2d::Scene* createScene(std::string ChildName, long errorCode);
     
     void handleErrorCode(long errorCode);
 
@@ -28,6 +26,7 @@ public:
     
     void backButtonCloseScene();
     void childNameNextButton(Node* button);
+    void setDOBLabel();
     void moveToDOBInput(Node* button);
     bool isDate();
     void moveToChildNameInput(Node* button);
@@ -43,8 +42,6 @@ public:
     //Email String Checker Functions
     bool isCharacter(const char Character);
     bool isNumber(const char Character);
-    bool isValidEmailAddress(const char * EmailAddress);
-    bool isValidPin(const char * pinNumber);
     
     void setChildName(std::string ChildName);
     bool isNewChildAccount;
