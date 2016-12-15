@@ -6,25 +6,28 @@ USING_NS_CC;
 #define MESSAGE_BOX_PADDING 100
 #define MESSAGE_BOX_WIDTH 1366
 
-Scene* ModalMessages::createScene()
-{
-    auto scene = Scene::create();
-    auto layer = ModalMessages::create();
-    scene->addChild(layer);
+static ModalMessages *_sharedModalMessages = NULL;
 
-    return scene;
-}
-
-bool ModalMessages::init()
+ModalMessages* ModalMessages::getInstance()
 {
-    if ( !Layer::init() )
+    if (! _sharedModalMessages)
     {
-        return false;
+        _sharedModalMessages = new ModalMessages();
+        _sharedModalMessages->init();
     }
     
+    return _sharedModalMessages;
+}
+
+ModalMessages::~ModalMessages(void)
+{
+}
+
+bool ModalMessages::init(void)
+{
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
-
+    
     return true;
 }
 
@@ -33,7 +36,7 @@ void ModalMessages::createAndFadeInLayer()
     loadingLayer = LayerColor::create(Color4B(0,0,0,150), visibleSize.width, visibleSize.height);
     loadingLayer->setPosition(origin.x, origin.y);
     loadingLayer->setOpacity(0);
-    this->addChild(loadingLayer);
+    Director::getInstance()->getRunningScene()->addChild(loadingLayer);
     
     addListenerToBackgroundLayer();
     
@@ -56,7 +59,7 @@ void ModalMessages::removeLayer()
 {
     if(loadingLayer) //This might be called when loading is not active, so better to check first
     {
-        this->removeChild(loadingLayer);
+        Director::getInstance()->getRunningScene()->removeChild(loadingLayer);
     }
 }
 

@@ -23,11 +23,17 @@ USING_NS_CC;
 #define TAG_PASSWORD_BACK_BUTTON 13
 #define TAG_PASSWORD_NEXT_BUTTON 14
 
-Scene* LoginScene::createScene()
+Scene* LoginScene::createScene(long errorCode)
 {
     auto scene = Scene::create();
     auto layer = LoginScene::create();
     scene->addChild(layer);
+    
+    if(errorCode !=0)
+    {
+        layer->handleErrorCode(errorCode);
+    }
+    
     return scene;
 }
 
@@ -56,6 +62,13 @@ void LoginScene::menuCloseCallback(Ref* pSender)
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+    
+}
+
+void LoginScene::handleErrorCode(long errorCode)
+{
+    //#TODO handle modal message strings.
+    
     
 }
 
@@ -307,11 +320,11 @@ void LoginScene::login()
     
     //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
     
-   /* if(password == "aaa")
+    if(password == "aaa")
     {
         username = "klaas+ci@azoomee.com";
         password = "test1234";
-    }*/
+    }
 
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->login(username, password);

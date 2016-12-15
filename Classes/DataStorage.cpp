@@ -112,6 +112,33 @@ bool DataStorage::parseChildLoginData(std::string responseData)
     return true;
 }
 
+bool DataStorage::parseContentData(std::string responseString)
+{
+    contentData.Parse(responseString.c_str());
+    
+    rapidjson::Value::MemberIterator M;
+    const char *key;//,*value;
+    
+    if (contentData.HasParseError())
+    {
+        CCLOG("Json has errors!!!");
+        return false;
+    }
+    
+    for (M=contentData["items"].MemberBegin(); M!=contentData["items"].MemberEnd(); M++)
+    {
+        key   = M->name.GetString();
+        
+        if (key!=NULL)
+        {
+            contentDataJsonKeys.push_back(key);
+        }
+    }
+
+    
+    return true;
+}
+
 bool DataStorage::parseDownloadCookies(std::string responseString)
 {
     //This is not a good aproach to parse strings by searching strings. We have to parse them by adding them to maps or vectors, otherwise we will have a browswer-dependent working method.

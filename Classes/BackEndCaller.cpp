@@ -1,4 +1,5 @@
 #include "BackEndCaller.h"
+#include "ModalMessages.h"
 
 #include "network/HttpClient.h"
 
@@ -32,46 +33,6 @@ USING_NS_CC;
 #include "DataStorage.h"
 #include "HQDataProvider.h"
 #include "LoginScene.h"
-
-/*
- REGISTER PARENT
- 
- POST /api/user/v2/adult HTTP/1.1
- Host: api.azoomee.com
- Content-Type: application/json;charset=UTF-8
- Origin: file://
- Cookie: _ga=GA1.2.1873399231.1479295103
- Connection: keep-alive
- Accept: application/json, text/plain, <is star forwardslash star>  */ /*
-User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 10_1_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B100 (4299203760)
-Accept-Language: hu-hu
-Accept-Encoding: gzip, deflate
-Content-Length: 124
-{"emailAddress":"infografiakft@gmail.com","over18":"true","termsAccepted":"true","password":"B0Ta1983!","source":"childApp"}
-*/
-
-/* 
- ADDING CHILD
- 
- POST /api/user/child HTTP/1.1
- Host    api.azoomee.com
- Accept  application/json, text/plain, <is star forwardslash star>  */ /*
-Accept-Encoding gzip, deflate
-Accept-Language hu-hu
-Content-Type    application/json;charset=UTF-8
-X-AZ-AUTH-TOKEN eyJhbGciOiJIUzI1NiIsImtpZCI6ImE5NjBhZDFmLWMzYmEtNDBmNC1hNTdmLWI1MThiZTAzYjJiZSJ9.eyJpc3MiOiI4NTVmZmY4Yi01ZmU2LTQyMWEtYTdmOC1jNmI4NDk2ODMyNGUiLCJhdWQiOiJwYXJlbnQuYXpvb21lZS5jb20iLCJhcHBsaWNhdGlvbkNsYWltIjp7InNpZ25hdHVyZSI6InVzSmkvU2pZYU54bTA2TTZWQlVWZXpLNC9HVlBabkRncDRvbTJQbzU5WjQ9IiwicGFyZW50S2V5IjpudWxsfX0=.n91fFbovCyjXgRj1OnbFZ0twqm9FR3Ro5ftPcqXrFkQ=
-Origin  https://parent.azoomee.com
-Content-Length  133
-X-AZ-INAPP  TRUE
-User-Agent  Mozilla/5.0 (iPhone; CPU iPhone OS 10_1_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B100 (4300254720)
-Referer https://parent.azoomee.com/
-X-AZ-REQ-DATETIME   2016-12-13T09:37:17Z
-Connection  keep-alive
-                                                                        
-{"profileName":"Bence","dob":"2010-08-12","sex":"MALE","avatar":"https://media.azoomee.com/static/thumbs/oomee_00.png","password":""}
- 
- */
-
 
 using namespace network;
 using namespace cocos2d;
@@ -193,19 +154,19 @@ void BackEndCaller::onLoginAnswerReceived(HttpClient *sender, HttpResponse *resp
         std::vector<char> myResponse = *response->getResponseData();
         
         std::string myResponseString = std::string(myResponse.begin(), myResponse.end());
-        if(DataStorage::getInstance()->parseParentLoginData(myResponseString)) getAvailableChildren();
+        if(DataStorage::getInstance()->parseParentLoginData(myResponseString))
+            getAvailableChildren();
+        else
+            reloadLoginSceneWithError(response->getResponseCode(), "Response Code");
     }
     else
-    {
-        CCLOG("Response code: %ld", response->getResponseCode());
-    }
+        reloadLoginSceneWithError(response->getResponseCode(), "Response Code");
+    
 }
 
 void BackEndCaller::login(std::string username, std::string password)
 {
-    modalMessages = ModalMessages::create();
-    Director::getInstance()->getRunningScene()->addChild(modalMessages);
-    modalMessages->startLoading();
+    ModalMessages::getInstance()->startLoading();
     
     HttpRequest *request = new HttpRequest();
     request->setRequestType(HttpRequest::Type::POST);
@@ -236,9 +197,7 @@ void BackEndCaller::registerParent(std::string emailAddress, std::string passwor
     this->registerParentUsername = emailAddress;
     this->registerParentPassword = password;
     
-    modalMessages = ModalMessages::create();
-    Director::getInstance()->getRunningScene()->addChild(modalMessages);
-    modalMessages->startLoading();
+    ModalMessages::getInstance()->startLoading();
     
     HttpRequest *request = new HttpRequest();
     request->setRequestType(HttpRequest::Type::POST);
@@ -308,17 +267,13 @@ void BackEndCaller::onGetChildrenAnswerReceived(HttpClient *sender, HttpResponse
     {
         CCLOG("GET CHILDREN SUCCESS");
         DataStorage::getInstance()->parseAvailableChildren(myResponseString);
-        modalMessages->stopLoading();
-        Director::getInstance()->getRunningScene()->removeChild(modalMessages);
+        ModalMessages::getInstance()->stopLoading();
         
         auto childSelectorScene = ChildSelectorScene::createScene();
         Director::getInstance()->replaceScene(childSelectorScene);
     }
     else
-    {
-        CCLOG("GET CHILDREN FAIL Response code: %ld", response->getResponseCode());
-        CCLOG("GET CHILDREN FAIL Response: %s", myResponseString.c_str());
-    }
+        reloadLoginSceneWithError(response->getResponseCode(), StringUtils::format("GET CHILDREN FAIL Response: %s. With code",myResponseString.c_str()));
 }
 
 
@@ -360,9 +315,7 @@ void BackEndCaller::getAvailableChildren()
 
 void BackEndCaller::childLogin(int childNumber)
 {
-    modalMessages = ModalMessages::create();
-    Director::getInstance()->getRunningScene()->addChild(modalMessages);
-    modalMessages->startLoading();
+    ModalMessages::getInstance()->startLoading();
     
     std::string requestPath = "/api/auth/switchProfile";
     std::string requestUrl = StringUtils::format(CI_URL"%s", requestPath.c_str());
@@ -422,9 +375,7 @@ void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sen
 
 void BackEndCaller::registerChild(std::string childProfileName, std::string childGender, std::string childDOB, int oomeeNumber)
 {
-    modalMessages = ModalMessages::create();
-    Director::getInstance()->getRunningScene()->addChild(modalMessages);
-    modalMessages->startLoading();
+    ModalMessages::getInstance()->startLoading();
     
     std::string requestPath = "/api/user/child";
     std::string requestUrl = StringUtils::format(CI_URL"%s", requestPath.c_str());
@@ -597,11 +548,18 @@ void BackEndCaller::onGetGordonAnswerReceived(cocos2d::network::HttpClient *send
         
         if(DataStorage::getInstance()->parseDownloadCookies(responseString))
         {
-            modalMessages->stopLoading();
-            Director::getInstance()->getRunningScene()->removeChild(modalMessages);
+            ModalMessages::getInstance()->stopLoading();
             
             auto baseScene = BaseScene::createScene();
             Director::getInstance()->replaceScene(baseScene);
         }
     }
+}
+
+void BackEndCaller::reloadLoginSceneWithError(long errorCode, std::string errorMessage)
+{
+    CCLOG("%s: %ld", errorMessage.c_str(), errorCode);
+    
+    auto loginScene = LoginScene::createScene(errorCode);
+    Director::getInstance()->replaceScene(loginScene);
 }

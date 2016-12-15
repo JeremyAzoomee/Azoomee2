@@ -266,7 +266,7 @@ void OnboardingScene::enableMoveButton(Node* button)
 
 void OnboardingScene::closeOnboarding()
 {
-    auto _loginScene = LoginScene::createScene();
+    auto _loginScene = LoginScene::createScene(0);
     Director::getInstance()->replaceScene(_loginScene);
 }
 

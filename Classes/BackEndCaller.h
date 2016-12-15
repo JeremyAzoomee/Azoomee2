@@ -1,7 +1,6 @@
 #include "cocos2d.h"
 #include "network/HttpClient.h"
 #include "external/json/document.h"
-#include "ModalMessages.h" //We have this file included here, because we want to show loading screen on scene when data communication on login (or somewhere else) starts.
 
 class BackEndCaller : public cocos2d::Ref
 {
@@ -9,6 +8,8 @@ class BackEndCaller : public cocos2d::Ref
 public:
     /** Returns the shared instance of the Game Manager */
     static BackEndCaller* getInstance(void);
+    
+    void reloadLoginSceneWithError(long errorCode, std::string errorMessage);
     
 public:
     virtual ~BackEndCaller();
@@ -50,7 +51,5 @@ public:
     void onGetGordonAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     void displayError(std::string errorMessage);
-    
-    ModalMessages *modalMessages;
     
 };
