@@ -1,3 +1,5 @@
+//ConfigStorage is a singleton designed to hold all necessary "burnt-in" information for all visual scenes and layers.
+
 #include "ConfigStorage.h"
 
 using namespace cocos2d;
@@ -17,7 +19,6 @@ ConfigStorage* ConfigStorage::getInstance()
 
 ConfigStorage::~ConfigStorage(void)
 {
-    
 }
 
 bool ConfigStorage::init(void)

@@ -49,6 +49,5 @@ bool MainHubBgElements::init()
     myParticle->setPosVar(Vec2(2732, 2048));
     this->addChild(myParticle);
     
-    
     return true;
 }

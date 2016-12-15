@@ -39,7 +39,6 @@ bool MainHubScene::init()
     return true;
 }
 
-
 void MainHubScene::addBackgroundCircles()
 {
     auto blueCircle = Sprite::create("res/mainhub/blue_circle.png");

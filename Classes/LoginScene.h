@@ -10,9 +10,6 @@ public:
 
     virtual bool init();
     
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
     void addVisualElementsToScene();
     void addFunctionalElementsToScene();
     void addContentLayerToScene();

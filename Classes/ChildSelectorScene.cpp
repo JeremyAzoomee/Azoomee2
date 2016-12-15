@@ -14,7 +14,6 @@ Scene* ChildSelectorScene::createScene()
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool ChildSelectorScene::init()
 {
     if ( !Layer::init() )
@@ -24,7 +23,6 @@ bool ChildSelectorScene::init()
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
-    
     
     addVisualsToScene();
     addScrollViewForProfiles();
@@ -135,7 +133,7 @@ void ChildSelectorScene::addListenerToProfileLayer(Layer *profileLayer)
         return false;
     };
     
-    listener->onTouchMoved = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    listener->onTouchMoved = [=](Touch *touch, Event *event)
     {
         
         
@@ -149,7 +147,7 @@ void ChildSelectorScene::addListenerToProfileLayer(Layer *profileLayer)
         return true;
     };
     
-    listener->onTouchEnded = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
         if(!touchMovedAway)
         {
@@ -163,7 +161,7 @@ void ChildSelectorScene::addListenerToProfileLayer(Layer *profileLayer)
         return false;
     };
     
-    listener->onTouchCancelled = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    listener->onTouchCancelled = [=](Touch *touch, Event *event)
     {
         auto target = static_cast<Node*>(event->getCurrentTarget());
         target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));

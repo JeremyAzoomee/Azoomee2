@@ -110,7 +110,6 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
-
 }
 
 void NavigationLayer::runDisplayAnimationForMenuItem(cocos2d::Node* node1, cocos2d::Node* node2)

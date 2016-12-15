@@ -18,4 +18,4 @@ public:
     CREATE_FUNC(BaseScene);
 };
 
-#endif // __CHILDSELECTOR_SCENE_H__
+#endif

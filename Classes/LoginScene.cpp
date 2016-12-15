@@ -30,18 +30,6 @@ bool LoginScene::init()
     return true;
 }
 
-
-void LoginScene::menuCloseCallback(Ref* pSender)
-{
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
-
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
-    
-}
-
 void LoginScene::addVisualElementsToScene()
 {
     auto bg = Sprite::create("res/mainhub/bg_glow.png");
