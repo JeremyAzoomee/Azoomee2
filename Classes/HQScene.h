@@ -1,5 +1,5 @@
-#ifndef __HQSCENE_SCENE_H__
-#define __HQSCENE_SCENE_H__
+#ifndef __HQSCENE_H__
+#define __HQSCENE_H__
 
 #include "cocos2d.h"
 #include "ui/UIScrollView.h"
@@ -14,7 +14,7 @@ public:
     bool directionDecided;
     cocos2d::Point startLocation;
     void addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView);
-    void setName(std::string name);
+    void setHQName(std::string name);
     void setBackground(std::string name);
     void setCategoryFromName(std::string name);
     
@@ -23,7 +23,9 @@ public:
     cocos2d::ui::ScrollView* createVerticalScrollView();
     cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position);
     void addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, cocos2d::Point position, int category, int highlight, std::string imageName, std::string label);
+    void addElementToHorizontalScrollView2(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData);
     
+    void startBuildingScrollViewBasedOnName();
     void createBidirectionalScrollView();
     void createMonodirectionalScrollView();
     
@@ -37,4 +39,4 @@ public:
     CREATE_FUNC(HQScene);
 };
 
-#endif // __HQSCENE_SCENE_H__
+#endif // __HQSCENE_H__

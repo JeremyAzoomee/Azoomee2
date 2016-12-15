@@ -1,6 +1,7 @@
 #include "HQScene.h"
 #include "HQSceneElement.h"
 #include "SimpleAudioEngine.h"
+#include "HQDataProvider.h"
 
 USING_NS_CC;
 
@@ -21,10 +22,10 @@ Scene* HQScene::createScene()
 
 void HQScene::setCategoryFromName(std::string name)
 {
-    if(name == "sVideoHQ") category = 0;
-    if(name == "sAudioHQ") category = 1;
-    if(name == "sArtsHQ") category = 2;
-    if(name == "sGameHQ") category = 3;
+    if(name == "VIDEO HQ") category = 0;
+    if(name == "AUDIO HQ") category = 1;
+    if(name == "ARTS APP") category = 2;
+    if(name == "GAME HQ") category = 3;
     
     CCLOG("Selected category: %d", category);
 }
@@ -49,15 +50,22 @@ Point HQScene::getItemPositionForBidirectionalScrollView(int highlight)
 
 void HQScene::setBackground(std::string name)
 {
+    std::map<std::string, std::string> bgImageNames;
+    bgImageNames["VIDEO HQ"] = "0.jpg";
+    bgImageNames["AUDIO HQ"] = "1.jpg";
+    bgImageNames["ARTS APP"] = "2.jpg";
+    bgImageNames["GAME HQ"] = "3.jpg";
+    
+    
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto bgImage = Sprite::create(StringUtils::format("res/previewbg/%s.jpg", name.c_str()));
+    auto bgImage = Sprite::create(StringUtils::format("res/previewbg/%s", bgImageNames[name].c_str()));
     bgImage->setPosition(visibleSize.width / 2, visibleSize.height / 2);
     this->addChild(bgImage, 0);
 }
 
-void HQScene::setName(std::string name)
+void HQScene::setHQName(std::string name)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -67,7 +75,8 @@ void HQScene::setName(std::string name)
     title->setColor(Color3B(255,0,0));
     this->addChild(title, 20);
     
-    setBackground(name);
+    this->setName(name);
+    //setBackground(name);
     setCategoryFromName(name);
 }
 
@@ -204,18 +213,35 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
     toBeAddedTo->addChild(hqSceneElement);
 }
 
+void HQScene::addElementToHorizontalScrollView2(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData)
+{
+    auto hqSceneElement = HQSceneElement::create();
+    hqSceneElement->addHQSceneElement2(this->getName(), itemData);
+    
+    int amountOfElements = (int)toBeAddedTo->getChildren().size();
+    Point position = (Point(amountOfElements * hqSceneElement->getSizeOfLayerWithGap().width, 50));
+    
+    hqSceneElement->setPosition(position);
+    toBeAddedTo->addChild(hqSceneElement);
+}
+
+//---------------------------------------------------------THESE ARE THE 3 MAIN METHODS BEING CALLED TO START CONTENT CREATION
+
 void HQScene::createMonodirectionalScrollView() //This is the method that is being called from outside of the class
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1100), Point(origin.x, origin.y + 50));
+    horizontalScrollView->setName("scrollView");
     this->addChild(horizontalScrollView);
     
+    std::vector<std::string> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), 0);
+    
     //This is just to add fake icons to the scrollview:
-    for(int i = 0; i < 8; i++)
+    for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfElementsForRow(this->getName(), 0); i++)
     {
-        addElementToHorizontalScrollView(horizontalScrollView, Point(0,0), category, 0, "res/previewimg/1a.png", "Angry Birds");
+        addElementToHorizontalScrollView2(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)));
     }
 }
 
@@ -225,24 +251,36 @@ void HQScene::createBidirectionalScrollView() //This is the method that is being
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     auto verticalScrollView = createVerticalScrollView();
+    verticalScrollView->setName("scrollView");
     this->addChild(verticalScrollView);
     
-    for(int j = 0; j < 4; j++)
+    for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); j++)
     {
         scrollViewSpaceAllocation.clear();
         auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1100), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
         CCLOG("scrollview position: %f, %f", horizontalScrollView->getPosition().x, horizontalScrollView->getPosition().y);
         verticalScrollView->addChild(horizontalScrollView);
         
-        for(int i = 0; i < 16; i++)
+        std::vector<std::string> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), j);
+        
+        for(int i = 0; i < elementsForRow.size(); i++)
         {
-            int highlight = 0;
-            if(i % 6 == 0) highlight = 2;
-            if(i % 7 == 0) highlight = 1;
-            addElementToHorizontalScrollView(horizontalScrollView, getItemPositionForBidirectionalScrollView(highlight), category, highlight, "res/previewimg/1a.png", "Angry Birds");
+            addElementToHorizontalScrollView2(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)));
         }
     }
 }
+
+void HQScene::startBuildingScrollViewBasedOnName()
+{
+    
+    if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.
+    {
+        if(this->getName() == "VIDEO HQ") createBidirectionalScrollView();
+        else createMonodirectionalScrollView();
+    }
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
 
 // on "init" you need to initialize your instance
 bool HQScene::init()

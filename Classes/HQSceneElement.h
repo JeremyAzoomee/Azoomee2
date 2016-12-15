@@ -22,14 +22,17 @@ public:
     std::vector<std::string> iconImages;
     std::vector<cocos2d::Size> baseSizes;
     std::vector<cocos2d::Vec2> highlightSizeMultipliers;
+    std::map<std::string, int> category_translator;
     
     void addHQSceneElement(int category, int highlight, std::string filename, std::string name);
+    void addHQSceneElement2(std::string category, std::map<std::string, std::string>itemData);
     
     cocos2d::LayerColor *baseLayer;
     cocos2d::LayerColor *overlayWhenTouched;
     
     void addTouchOverlayToElement();
-    void addListenerToElement();
+    void addListenerToElement(std::string uri);
+    void addLockToElement();
     
     cocos2d::Point touchPoint;
     bool movedAway;

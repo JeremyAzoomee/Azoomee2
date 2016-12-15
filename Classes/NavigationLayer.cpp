@@ -2,8 +2,7 @@
 #include "SimpleAudioEngine.h"
 
 #include "BaseScene.h"
-
-#include "InterSceneLoader.h"
+#include "HQDataProvider.h"
 
 USING_NS_CC;
 
@@ -55,7 +54,7 @@ void NavigationLayer::changeToScene(int target)
     menuPositions.push_back(Vec2(0, 2048));
     
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
-    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(DelayTime::create(0.5), EaseInOut::create(MoveTo::create(0, Vec2(menuPositions.at(target).x, menuPositions.at(target).y - 100)), 2), DelayTime::create(0.5), EaseInOut::create(MoveTo::create(0.5, Vec2(menuPositions.at(target).x, menuPositions.at(target).y)), 2), NULL));
+    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, Vec2(menuPositions.at(target).x, menuPositions.at(target).y)), 2), DelayTime::create(0.5), NULL));
     
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
@@ -127,6 +126,20 @@ void NavigationLayer::addMenuItemPositionsAndColours()
     menuItemColours.push_back(Vec4(0,0,0,0));
     menuItemColours.push_back(Vec4(246, 185, 66, 255));
     menuItemColours.push_back(Vec4(86, 177, 255, 255));
+    
+    //Define menuitem names - we know what parts of the HQ to load
+    menuItemNames.push_back("HOME");
+    menuItemNames.push_back("VIDEO HQ");
+    menuItemNames.push_back("AUDIO HQ");
+    menuItemNames.push_back("MAIL APP");
+    menuItemNames.push_back("ART APP");
+    menuItemNames.push_back("GAME HQ");
+    
+}
+
+void NavigationLayer::startLoadingHQScene(int categoryTag)
+{
+    HQDataProvider::getInstance()->getDataForHQ(menuItemNames.at(categoryTag));
 }
 
 // on "init" you need to initialize your instance
@@ -194,19 +207,10 @@ bool NavigationLayer::init()
             
             if(rect.containsPoint(locationInNode))
             {
-                //Turn off all menuitems first
-                NavigationLayer * myClass = (NavigationLayer *)target->getParent();
-                myClass->turnOffAllMenuItems();
-                
-                //After all items are off, we turn on the one that was pressed.
+                this->startLoadingHQScene(target->getTag());
+                this->turnOffAllMenuItems();
                 target->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
-                
-                //And we change the main scene position depending on the pressed button.
-                myClass->changeToScene(target->getTag());
-                
-                //New addition: while changing hide the scene with the loader scene
-                InterSceneLoader *interSceneLoader = (InterSceneLoader *)this->getParent()->getChildByName("interSceneLoader");
-                interSceneLoader->startLoading();
+                this->changeToScene(target->getTag());
                 
                 return true;
             }

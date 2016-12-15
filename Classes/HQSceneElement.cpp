@@ -1,5 +1,7 @@
 #include "HQSceneElement.h"
 #include "WebViewSelector.h"
+#include "ImageDownloader.h"
+#include "HQDataProvider.h"
 
 USING_NS_CC;
 
@@ -46,15 +48,46 @@ bool HQSceneElement::init()
     return true;
 }
 
+void HQSceneElement::addLockToElement()
+{
+    auto lockImage = Sprite::create("res/hqscene/locked.png");
+    lockImage->setPosition(baseLayer->getContentSize() / 2);
+    lockImage->setScale(baseLayer->getContentSize().width / 445);
+    baseLayer->addChild(lockImage);
+}
+
+void HQSceneElement::addHQSceneElement2(std::string category, std::map<std::string, std::string> itemData) //This method is being called by HQScene.cpp with all variables.
+{
+    int categoryIndex = category_translator[category];
+    
+    createColourLayer(categoryIndex, 0);
+    
+    //filename has to be added with the new imageDownloader!
+    addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemData["id"])); //There will be a few additional steps: add a placeholder image and start loading the real image based on downloaded data. No back-end implemented yet, TBD later.
+    addGradientToBottom(categoryIndex);
+    addIconToImage(categoryIndex);
+    addLabelToImage(itemData["title"]);
+    addTouchOverlayToElement();
+    
+    if(itemData["entitled"] == "true")
+    {
+        addListenerToElement(itemData["uri"]);
+    }
+    else
+    {
+        addLockToElement();
+    }
+}
+
 void HQSceneElement::addHQSceneElement(int category, int highlight, std::string filename, std::string name) //This method is being called by HQScene.cpp with all variables.
 {
     createColourLayer(category, highlight);
-    addImageToBaseLayer(filename); //There will be a few additional steps: add a placeholder image and start loading the real image based on downloaded data. No back-end implemented yet, TBD later.
+    addImageToBaseLayer(filename);
     addGradientToBottom(category);
     addIconToImage(category);
     addLabelToImage(name);
     addTouchOverlayToElement();
-    addListenerToElement();
+    //addListenerToElement();
 }
 
 Size HQSceneElement::getSizeOfLayerWithGap()
@@ -63,12 +96,12 @@ Size HQSceneElement::getSizeOfLayerWithGap()
     return Size(baseLayer->getContentSize().width + gapSize, baseLayer->getContentSize().height + gapSize);
 }
 
-void HQSceneElement::addImageToBaseLayer(std::string filename)
+void HQSceneElement::addImageToBaseLayer(std::string url)
 {
-    auto spriteImage = Sprite::create(filename);
-    spriteImage->setPosition(baseLayer->getContentSize().width / 2, baseLayer->getContentSize().height / 2);
-    spriteImage->setScale((baseLayer->getContentSize().width - 20) / spriteImage->getContentSize().width, (baseLayer->getContentSize().height - 20) / spriteImage->getContentSize().height);
-    baseLayer->addChild(spriteImage);
+    ImageDownloader *imageDownloader = ImageDownloader::create();
+    imageDownloader->initWithURLAndSize(url, Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20));
+    imageDownloader->setPosition(baseLayer->getContentSize() / 2);
+    baseLayer->addChild(imageDownloader);
 }
 
 void HQSceneElement::addGradientToBottom(int category)
@@ -111,6 +144,11 @@ void HQSceneElement::createColourLayer(int category, int highlight)
 
 void HQSceneElement::fillUpColoursAndImagesArray()
 {
+    category_translator["VIDEO HQ"] = 0;
+    category_translator["AUDIO HQ"] = 1;
+    category_translator["GAME HQ"] = 2;
+    category_translator["ARTS APP"] = 3;
+    
     baseSizes.push_back(Size(500, 500));
     baseSizes.push_back(Size(500, 1000));
     baseSizes.push_back(Size(500, 1000));
@@ -131,7 +169,7 @@ void HQSceneElement::fillUpColoursAndImagesArray()
     iconImages.push_back("res/hqscene/icon_play.png");
 }
 
-void HQSceneElement::addListenerToElement()
+void HQSceneElement::addListenerToElement(std::string uri)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -173,10 +211,9 @@ void HQSceneElement::addListenerToElement()
         {
             overlayWhenTouched->stopAllActions();
             overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
-            CCLOG("Action to come");
-            
+            CCLOG("Action to come: %s", uri.c_str());
             auto webViewSelector = WebViewSelector::create();
-            webViewSelector->loadWebView();
+            webViewSelector->loadWebView(uri);
         }
         
         return true;

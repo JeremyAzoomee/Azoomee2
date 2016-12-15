@@ -63,10 +63,6 @@ public class NativeView extends XWalkActivity {
         extra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tag = "JniTest";
-                String message = "Button was pressed";
-                Log.d(tag, "Showing alert dialog: " + message);
-
 
                 xWalkWebView.removeAllViews();
 
@@ -117,6 +113,18 @@ public class NativeView extends XWalkActivity {
 
         log.d("cookies: ", mCookieManager.getCookie("https://media.azoomee.ninja"));
 
-        xWalkWebView.load("file:///android_asset/res/jwplayer/index.html?contentUrl=" + myUrl, null);
+        //Check if the url received url ends with html, or anything else. If html, then we have to
+        //open the html directly, otherwise we have to open the playlist with jw player.
+
+        log.d("url", myUrl);
+
+        if(myUrl.substring(myUrl.length() - 4).equals("html"))
+        {
+            xWalkWebView.load("file://" + myUrl, null);
+        }
+        else
+        {
+            xWalkWebView.load("file:///android_asset/res/jwplayer/index.html?contentUrl=" + myUrl, null);
+        }
     }
 }

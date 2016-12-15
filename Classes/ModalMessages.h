@@ -5,6 +5,17 @@
 
 class ModalMessages: public cocos2d::Layer
 {
+private:
+    void createAndFadeInLayer();
+    void addListenerToBackgroundLayer();
+    void removeLayer();
+    
+    //MessageBox functions
+    void createAndFadeInTitle(std::string messageTitle);
+    void createAndFadeInBody(std::string messageBody);
+    void createAndFadeInButton(std::string buttonText);
+    void createAndFadeInMessageBackground();
+    
 public:
     static cocos2d::Scene* createScene();
 
@@ -15,7 +26,8 @@ public:
     
     void startLoading();
     void stopLoading();
-    void addListenerToBackgroundLayer();
+    
+    void createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText);
     
     cocos2d::LayerColor *loadingLayer;
     

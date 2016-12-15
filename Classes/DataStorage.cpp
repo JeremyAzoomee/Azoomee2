@@ -1,4 +1,6 @@
 #include "DataStorage.h"
+#include "BackEndCaller.h"
+#include "HQScene.h"
 
 using namespace cocos2d;
 
@@ -107,33 +109,6 @@ bool DataStorage::parseChildLoginData(std::string responseData)
 {
     childProfile = true;
     childLoginData.Parse(responseData.c_str());
-    return true;
-}
-
-bool DataStorage::parseContentData(std::string responseString)
-{
-    contentData.Parse(responseString.c_str());
-    
-    rapidjson::Value::MemberIterator M;
-    const char *key;//,*value;
-    
-    if (contentData.HasParseError())
-    {
-        CCLOG("Json has errors!!!");
-        return false;
-    }
-    
-    for (M=contentData["items"].MemberBegin(); M!=contentData["items"].MemberEnd(); M++)
-    {
-        key   = M->name.GetString();
-        
-        if (key!=NULL)
-        {
-            contentDataJsonKeys.push_back(key);
-        }
-    }
-
-    
     return true;
 }
 

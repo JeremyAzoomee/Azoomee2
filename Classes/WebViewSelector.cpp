@@ -22,10 +22,25 @@ cocos2d::Scene* WebViewSelector::createScene()
     return scene;
 }
 
-void WebViewSelector::loadWebView()
+cocos2d::Scene* WebViewSelector::createSceneWithUrl(std::string url)
 {
-    std::string url = "https://media.azoomee.ninja/free/f50a74dd-185f-4010-ab6f-b34858b96bcd/video_stream.m3u8";
+    // 'scene' is an autorelease object
+    auto scene = cocos2d::Scene::create();
     
+    // 'layer' is an autorelease object
+    auto layer = WebViewSelector::create();
+    
+    // add layer as a child to scene
+    scene->addChild(layer);
+    
+    layer->loadWebView(url);
+    
+    // return the scene
+    return scene;
+}
+
+void WebViewSelector::loadWebView(std::string url)
+{
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     auto iosWebView = WebViewNative_ios::createSceneWithURL(url);
     Director::getInstance()->replaceScene(iosWebView);

@@ -30,6 +30,8 @@ USING_NS_CC;
 //Including DataStorage.h - responsible for storing all login information during the app runtime
 
 #include "DataStorage.h"
+#include "HQDataProvider.h"
+#include "LoginScene.h"
 
 /*
  REGISTER PARENT
@@ -96,6 +98,8 @@ bool BackEndCaller::init(void)
     return true;
 }
 
+//METHODS BEING USED COMMONLY BY ALL REQUESTS-----------------------------------------------------
+
 std::string BackEndCaller::replaceAll(std::string& str, const std::string& from, const std::string& to) {
     if(from.empty())
         return "";
@@ -139,6 +143,45 @@ void BackEndCaller::displayError(std::string errorMessage)
     auto myMessage = (Label *)Director::getInstance()->getRunningScene()->getChildByTag(0)->getChildByTag(3);
     myMessage->setString(errorMessage);
 }
+
+int BackEndCaller::findPositionOfNthString(std::string string, std::string whatToFind, int whichOne)
+{
+    int startSearchPos = 0;
+    
+    for(int i = 0; i < whichOne; i++)
+    {
+        if(string.find(whatToFind, startSearchPos) == string.npos)
+        {
+            return int(string.length());
+        }
+        else
+        {
+            startSearchPos = int(string.find(whatToFind, startSearchPos) + 1);
+        }
+    }
+    
+    return startSearchPos - 1;
+}
+
+std::string BackEndCaller::getPathFromUrl(std::string url)
+{
+    int from = findPositionOfNthString(url, "/", 3);
+    int until = findPositionOfNthString(url, "?", 1);
+    int length = until - from;
+    
+    return(url.substr(from, length)); //returning the path from the url by finding the first slash ( / ) sign after http:// - implemented a method to find 3rd /, as it can be https as well.
+}
+
+std::string BackEndCaller::getHostFromUrl(std::string url)
+{
+    int from = findPositionOfNthString(url, "/", 2) + 1;
+    int until = findPositionOfNthString(url, "/", 3);
+    int length = until - from;
+    
+    return(url.substr(from, length)); //returning string between the second slash ( / ) (after http://) until the 3rd one (where path starts).
+}
+
+//END OF METHODS BEING COMMONLY USED BY ALL REQUESTS--------------------------------------------
 
 //LOGGING IN BY PARENT--------------------------------------------------------------------------
 
@@ -357,25 +400,14 @@ void BackEndCaller::childLogin(int childNumber)
 
 void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
-    std::string myResponseString = StringUtils::format("");
-    
-    if (response && response->getResponseData())
-    {
-        std::vector<char> myResponse = *response->getResponseData();
-        
-        for(int i = 0; i < myResponse.size(); i++)
-        {
-            myResponseString = StringUtils::format("%s%c", myResponseString.c_str(), myResponse[i]);
-        }
-        
-        CCLOG("%s", myResponseString.c_str());
-    }
+    std::vector<char> myResponse = *response->getResponseData();
+    std::string myResponseString = std::string(myResponse.begin(), myResponse.end());
     
     if(response->getResponseCode() == 200)
     {
         CCLOG("CHILDREN LOGIN SUCCESS");
         DataStorage::getInstance()->parseChildLoginData(myResponseString);
-        getContent();
+        HQDataProvider::getInstance()->getContent(StringUtils::format(CI_URL"/api/electricdreams/view/categories/home/%s", DataStorage::getInstance()->getChildLoginValue("id").c_str()), "HOME");
     }
     else
     {

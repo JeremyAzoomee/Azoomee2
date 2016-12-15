@@ -16,6 +16,7 @@ Scene* BaseScene::createScene()
     
     // 'layer' is an autorelease object
     auto layer = BaseScene::create();
+    layer->setName("baseLayer");
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -43,41 +44,45 @@ bool BaseScene::init()
     
     auto sMainHubScene = MainHubScene::create();
     sMainHubScene->setPosition(0,0);
+    sMainHubScene->setName("HOME");
+    sMainHubScene->setTag(0);
     contentLayer->addChild(sMainHubScene);
     
     auto sVideoHQ = HQScene::create();
     sVideoHQ->setPosition(2732, 0);
-    sVideoHQ->setName("sVideoHQ");
-    sVideoHQ->createBidirectionalScrollView();
+    sVideoHQ->setHQName("VIDEO HQ");
+    sVideoHQ->setTag(1);
     contentLayer->addChild(sVideoHQ);
     
     auto sGameHQ = HQScene::create();
     sGameHQ->setPosition(0, -2048);
-    sGameHQ->setName("sGameHQ");
-    sGameHQ->createMonodirectionalScrollView();
+    sGameHQ->setHQName("GAME HQ");
+    sGameHQ->setTag(2);
     contentLayer->addChild(sGameHQ);
     
     auto sAudioHQ = HQScene::create();
     sAudioHQ->setPosition(-2732, 0);
-    sAudioHQ->setName("sAudioHQ");
-    sAudioHQ->createMonodirectionalScrollView();
+    sAudioHQ->setHQName("AUDIO HQ");
+    sAudioHQ->setTag(3);
     contentLayer->addChild(sAudioHQ);
     
     auto sArtsHQ = HQScene::create();
     sArtsHQ->setPosition(0, 2048);
-    sArtsHQ->setName("sArtsHQ");
-    sArtsHQ->createMonodirectionalScrollView();
+    sArtsHQ->setHQName("ARTS APP");
+    sArtsHQ->setTag(4);
     contentLayer->addChild(sArtsHQ);
     
     //Adding InterSceneLoader to top of all layers, but below main navigation, because we want to hide all layers, except for the menu
     
     auto interSceneLoader = InterSceneLoader::create();
+    interSceneLoader->setName("interSceneLoader");
     this->addChild(interSceneLoader);
     
     
     //Adding main menu to BaseScene (this), instead of contentLayer, as we don't want to move it, when panning contentlayer
     auto sNavigationLayer = NavigationLayer::create();
     sNavigationLayer->setPosition(0,0);
+    sNavigationLayer->setName("NavigationLayer");
     this->addChild(sNavigationLayer);
     
     

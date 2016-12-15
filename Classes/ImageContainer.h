@@ -10,8 +10,17 @@ public:
 
     virtual bool init();
     
-    void createContainer(std::string imageName, cocos2d::Color4B bgColour, float scale, float startDelay, cocos2d::Point position);
-    void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity);
+    void createContainer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, cocos2d::Point position);
+    cocos2d::Color4B getColourByType(std::string type);
+    void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string itemId);
+    
+    void addImageToLayer(std::string url);
+    void addGradientToBottom(cocos2d::Color3B colour, float startDelay);
+    void addIconToImage(std::string type, float startDelay);
+    void addLabelToImage(std::string name, float startDelay);
+    void addLockToImageContainer(float startDelay);
+    
+    cocos2d::LayerColor *bgLayer;
     
     // implement the "static create()" method manually
     CREATE_FUNC(ImageContainer);

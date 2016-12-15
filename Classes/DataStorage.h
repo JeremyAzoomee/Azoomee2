@@ -1,7 +1,7 @@
 #include "cocos2d.h"
 #include "external/json/document.h"
 
-class DataStorage : public cocos2d::Object
+class DataStorage : public cocos2d::Ref
 {
     
 public:
@@ -30,11 +30,6 @@ public:
     //Quick switch to see if currently only parent or parent + kid logged in
     bool childProfile;
     std::string getParentOrChildLoginValue(std::string keyName);
-    
-    //Content area
-    rapidjson::Document contentData;
-    std::vector<std::string> contentDataJsonKeys;
-    bool parseContentData(std::string responseString);
     
     bool parseDownloadCookies(std::string responseString);
     
