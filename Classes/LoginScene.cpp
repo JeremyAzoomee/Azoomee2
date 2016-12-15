@@ -29,10 +29,7 @@ Scene* LoginScene::createScene(long errorCode)
     auto layer = LoginScene::create();
     scene->addChild(layer);
     
-    if(errorCode !=0)
-    {
-        layer->handleErrorCode(errorCode);
-    }
+    layer->_errorCode = errorCode;
     
     return scene;
 }
@@ -65,11 +62,18 @@ void LoginScene::menuCloseCallback(Ref* pSender)
     
 }
 
+void LoginScene::onEnterTransitionDidFinish()
+{
+    if(_errorCode !=0)
+    {
+        handleErrorCode(_errorCode);
+    }
+}
+
 void LoginScene::handleErrorCode(long errorCode)
 {
     //#TODO handle modal message strings.
-    
-    
+    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
 }
 
 void LoginScene::addVisualElementsToScene()

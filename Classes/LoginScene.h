@@ -6,15 +6,20 @@
 
 class LoginScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
 {
+private:
+    void handleErrorCode(long errorCode);
+    
+    long _errorCode;
+    
 public:
     static cocos2d::Scene* createScene(long errorCode);
-    
-    void handleErrorCode(long errorCode);
 
     virtual bool init();
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
+    
+    virtual void onEnterTransitionDidFinish();
     
     void addVisualElementsToScene();
     void addFunctionalElementsToScene();
