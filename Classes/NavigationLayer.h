@@ -10,26 +10,24 @@ public:
 
     virtual bool init();
     
+    //MenuItem creation phase
+    cocos2d::Sprite* addMenuItemImage(int itemNumber);
+    cocos2d::Sprite* addMenuItemInactive(int itemNumber, cocos2d::Node *toBeAddedTo);
+    cocos2d::Sprite* addMenuItemActive(int itemNumber, cocos2d::Node *toBeAddedTo);
+    void addListenerToMenuItem(Node *toBeAddedTo);
+    void runDisplayAnimationForMenuItem(cocos2d::Node* node1, cocos2d::Node* node2);
+    void moveMenuPointsToHorizontalState();
+    void moveMenuPointsToCircleState();
+    
+    //Handling created menuitems or all menuitems
     void turnOffAllMenuItems();
     void setButtonOn(int i);
     void delayedSetButtonOn(float dt);
     void changeToScene(int target);
     
-    std::vector<cocos2d::Point> circleMenuItemPositions;
-    std::vector<cocos2d::Point> horizontalMenuItemPositions;
-    std::vector<cocos2d::Vec4> menuItemColours;
-    std::vector<std::string> menuItemNames;
-    std::vector<int> currentPositions;
-    
-    void startRotatingTheMenu();
-    void keepMenuPointsSideUp(float dt);
-    
-    void addMenuItemPositionsAndColours();
-    
-    // implement the "static create()" method manually
     CREATE_FUNC(NavigationLayer);
     
     void startLoadingHQScene(int categoryTag);
 };
 
-#endif // __NAVIGATION_LAYER_H__
+#endif
