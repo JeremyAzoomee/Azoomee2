@@ -4,23 +4,41 @@
 #include "ImageContainer.h"
 #include "OomeeLayer.h"
 #include "HQDataProvider.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
 Scene* MainHubScene::createScene()
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = MainHubScene::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
-
-    // return the scene
+    
     return scene;
 }
+
+bool MainHubScene::init()
+{
+    if ( !Layer::init() )
+    {
+        return false;
+    }
+    
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto bgElements = MainHubBgElements::create();
+    this->addChild(bgElements);
+    
+    addBackgroundCircles();
+    addImageContainers();
+    
+    auto oomeeLayer = OomeeLayer::create();
+    this->addChild(oomeeLayer);
+    
+    return true;
+}
+
 
 void MainHubScene::addBackgroundCircles()
 {
@@ -55,42 +73,16 @@ void MainHubScene::addImageContainers()
     this->addChild(imageIcon);
     
     std::vector<std::string> requiredTypes = {"VIDEO", "AUDIO", "GAME"};
-    std::vector<std::vector<Point>> startPositions = {std::vector<Point> {Point(-1050, 75), Point(-700, 400)}, std::vector<Point> {Point(-700, -700), Point(-1050, -475)}, std::vector<Point> {Point(600, 75), Point(400,400)} };
     
     for(int i = 0; i < requiredTypes.size(); i++)
     {
         std::vector<std::map<std::string, std::string>> elementsForHub = HQDataProvider::getInstance()->getMainHubDataForGivenType(requiredTypes.at(i));
         for(int j = 0; j < elementsForHub.size(); j++)
         {
-            if(j >= startPositions.at(j).size()) break;
-            imageIcon->createContainer(elementsForHub.at(j), 1 - (j * 0.3), 5 + CCRANDOM_0_1(), startPositions.at(i).at(j));
+            if(j >= ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(i).size()) break;
+            imageIcon->createContainer(elementsForHub.at(j), 1 - (j * 0.3), 5 + CCRANDOM_0_1(), ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(i).at(j));
         }
     }
     
     //To be added: art app feed, messages and who is logged in!
-}
-
-// on "init" you need to initialize your instance
-bool MainHubScene::init()
-{
-    //////////////////////////////
-    // 1. super init first
-    if ( !Layer::init() )
-    {
-        return false;
-    }
-    
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
-    
-    auto bgElements = MainHubBgElements::create();
-    this->addChild(bgElements);
-    
-    addBackgroundCircles();
-    addImageContainers();
-    
-    auto oomeeLayer = OomeeLayer::create();
-    this->addChild(oomeeLayer);
-    
-    return true;
 }

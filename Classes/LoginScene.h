@@ -29,9 +29,8 @@ public:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     cocos2d::Layer *loginContent;
-    
-    // implement the "static create()" method manually
+
     CREATE_FUNC(LoginScene);
 };
 
-#endif // __LoginScene_SCENE_H__
+#endif

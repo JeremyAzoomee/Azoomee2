@@ -64,8 +64,6 @@ void ChildSelectorScene::addScrollViewForProfiles()
     scrollView->setInnerContainerSize(scrollView->getContentSize());
     scrollView->setSwallowTouches(false);
     scrollView->setScrollBarEnabled(true);
-    //scrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
-    //scrollView->setBackGroundColor(Color3B::BLUE);
     
     this->addChild(scrollView);
 }
@@ -190,7 +188,7 @@ Point ChildSelectorScene::positionElementOnScrollView(Layer *layerToBeAdded)
     
     Point newPos = Point(lastPos.x + lastChild->getContentSize().width + gapSize, lastPos.y);
     
-    if(newPos.y + layerToBeAdded->getContentSize().width > scrollView->getInnerContainerSize().width)
+    if(newPos.x + layerToBeAdded->getContentSize().width > scrollView->getInnerContainerSize().width)
     {
         newPos = Point(gapSize / 2, newPos.y - gapSize - layerToBeAdded->getContentSize().height);
     }

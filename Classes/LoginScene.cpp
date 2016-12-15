@@ -171,16 +171,6 @@ void LoginScene::loginButtonAction()
 {
     std::string username = ((ui::EditBox *)loginContent->getChildByName("usernameField"))->getText();
     std::string password = ((ui::EditBox *)loginContent->getChildByName("passwordField"))->getText();
-    
-    //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
-    
-    if(username == "aaa")
-    {
-        username = "klaas+ci@azoomee.com";
-        password = "test1234";
-    }
-
-    //DELETE UNTIL THIS POINT IN PRODUCTION
 
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->login(username, password);

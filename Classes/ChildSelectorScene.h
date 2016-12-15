@@ -26,8 +26,7 @@ public:
     cocos2d::Point startTouchPosition;
     bool touchMovedAway;
     
-    // implement the "static create()" method manually
     CREATE_FUNC(ChildSelectorScene);
 };
 
-#endif // __CHILDSELECTOR_SCENE_H__
+#endif

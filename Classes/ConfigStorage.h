@@ -26,4 +26,12 @@ public:
     cocos2d::Color4B getColourForMenuItem(int itemNumber);
     std::string getNameForMenuItem(int itemNumber);
     cocos2d::Point getTargetPositionForMove(int itemNumber);
+    
+    //MainHubScene configuration
+    std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(int category);
+    std::string getRequiredTypesForHighlightCategory(int category);
+    
+    //ImageContainer configuration
+    cocos2d::Color4B getColourForElementType(std::string type);
+    std::string getIconNameForCategory(std::string category);
 };

@@ -4,35 +4,84 @@
 #include "imageDownloader.h"
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
 Scene* ImageContainer::createScene()
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = ImageContainer::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
 
-    // return the scene
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool ImageContainer::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
     }
     
     return true;
+}
+
+void ImageContainer::createContainer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, Point position)
+{
+    Color4B colour4 = ConfigStorage::getInstance()->getColourForElementType(elementProperties["type"]);
+    Color3B colour3 = Color3B(colour4.r, colour4.g, colour4.b);
+    
+    createBgLayer(elementProperties, scale, startDelay, position);
+    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"]));
+    addGradientToBottom(colour3, startDelay);
+    addIconToImage(elementProperties["type"], startDelay);
+    addLabelToImage(elementProperties["title"], startDelay);
+    
+    if(elementProperties["entitled"] == "false")
+    {
+        addLockToImageContainer(startDelay);
+    }
+    else
+    {
+        addReponseLayerToImage(elementProperties, scale);
+        addListenerToContainer(bgLayer, colour4.a, elementProperties["uri"], elementProperties["id"]);
+    }
+}
+
+//-----------------------------------------------------All functions below are called internally.---------------------------------------------------
+
+void ImageContainer::createBgLayer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, Point position)
+{
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    Size baseContentSize = Size(445, 339);
+    Size containerSize = baseContentSize * scale;
+    
+    Color4B colour = ConfigStorage::getInstance()->getColourForElementType(elementProperties["type"]);
+    
+    bgLayer = LayerColor::create(colour, containerSize.width + 20, containerSize.height + 20);
+    bgLayer->setAnchorPoint(Vec2(0.5, 0.5));
+    bgLayer->setPosition(Point(position.x + origin.x, position.y + origin.y));
+    bgLayer->setScale(0.1);
+    bgLayer->setOpacity(0);
+    this->addChild(bgLayer);
+    
+    bgLayer->runAction(Sequence::create(DelayTime::create(startDelay), FadeTo::create(0, colour.a), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeTo::create(0, colour.a), DelayTime::create(1), EaseElasticOut::create(ScaleTo::create(0.5, 1.0)), NULL));
+}
+
+void ImageContainer::addReponseLayerToImage(std::map<std::string, std::string> elementProperties, float scale)
+{
+    Size baseContentSize = Size(445, 339);
+    Size containerSize = baseContentSize * scale;
+    
+    Color4B colour = ConfigStorage::getInstance()->getColourForElementType(elementProperties["type"]);
+    
+    auto responseLayer = LayerColor::create(colour, containerSize.width, containerSize.height);
+    responseLayer->setAnchorPoint(Point(0.5, 0.5));
+    responseLayer->setPosition(10,10);
+    responseLayer->setOpacity(0);
+    responseLayer->setName("responseLayer");
+    bgLayer->addChild(responseLayer);
 }
 
 void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string itemId)
@@ -51,7 +100,6 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         if(rect.containsPoint(locationInNode))
         {
             target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
-            CCLOG("uri to open: %s", uri.c_str());
             
             if(HQDataProvider::getInstance()->getExtensionFromUri(uri) == "json")
             {
@@ -81,14 +129,6 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), addTo);
 }
 
-cocos2d::Color4B ImageContainer::getColourByType(std::string type)
-{
-    if(type == "GAME") return Color4B(58,188,152,150);
-    if(type == "AUDIO") return Color4B(86,177,255,150);
-    
-    return Color4B(248,71,89,150); //Video for default
-}
-
 void ImageContainer::addLockToImageContainer(float startDelay)
 {
     auto lockImage = Sprite::create("res/hqscene/locked.png");
@@ -108,46 +148,6 @@ void ImageContainer::addImageToLayer(std::string url)
     bgLayer->addChild(imageDownloader);
 }
 
-void ImageContainer::createContainer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, Point position)
-{
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    Size baseContentSize = Size(445, 339);
-    Size containerSize = baseContentSize * scale;
-    
-    bgLayer = LayerColor::create(getColourByType(elementProperties["type"]), containerSize.width + 20, containerSize.height + 20);
-    bgLayer->setAnchorPoint(Vec2(0.5, 0.5));
-    bgLayer->setPosition(Point(position.x + origin.x, position.y + origin.y));
-    bgLayer->setScale(0.1);
-    bgLayer->setOpacity(0);
-    this->addChild(bgLayer);
-    
-    bgLayer->runAction(Sequence::create(DelayTime::create(startDelay), FadeTo::create(0, getColourByType(elementProperties["type"]).a), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeTo::create(0, getColourByType(elementProperties["type"]).a), DelayTime::create(1), EaseElasticOut::create(ScaleTo::create(0.5, 1.0)), NULL));
-    
-    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"]));
-    addGradientToBottom(Color3B(getColourByType(elementProperties["type"]).r, getColourByType(elementProperties["type"]).g, getColourByType(elementProperties["type"]).b), startDelay);
-    addIconToImage(elementProperties["type"], startDelay);
-    addLabelToImage(elementProperties["title"], startDelay);
-    
-    
-    
-    if(elementProperties["entitled"] == "false")
-    {
-        addLockToImageContainer(startDelay);
-    }
-    else
-    {
-        auto responseLayer = LayerColor::create(getColourByType(elementProperties["type"]), containerSize.width, containerSize.height);
-        responseLayer->setAnchorPoint(Point(0.5, 0.5));
-        responseLayer->setPosition(10,10);
-        responseLayer->setOpacity(0);
-        responseLayer->setName("responseLayer");
-        bgLayer->addChild(responseLayer);
-        
-        addListenerToContainer(bgLayer, getColourByType(elementProperties["type"]).a, elementProperties["uri"], elementProperties["id"]);
-    }
-}
-
 void ImageContainer::addGradientToBottom(Color3B colour, float startDelay)
 {
     auto gradient = Sprite::create("res/hqscene/gradient_overlay.png");
@@ -162,12 +162,7 @@ void ImageContainer::addGradientToBottom(Color3B colour, float startDelay)
 
 void ImageContainer::addIconToImage(std::string type, float startDelay)
 {
-    std::map<std::string, std::string> iconNames;
-    iconNames["VIDEO"] = "watch";
-    iconNames["AUDIO"] = "watch";
-    iconNames["GAME"] = "play";
-    
-    auto icon = Sprite::create(StringUtils::format("res/hqscene/icon_%s.png", iconNames[type].c_str()));
+    auto icon = Sprite::create(StringUtils::format("res/hqscene/icon_%s.png", ConfigStorage::getInstance()->getIconNameForCategory(type).c_str()));
     icon->setScale(bgLayer->getContentSize().width / 445);
     icon->setPosition(30 * icon->getScale() + icon->getBoundingBox().size.width / 2, 30 * icon->getScale() + icon->getBoundingBox().size.height / 2);
     icon->setOpacity(0);

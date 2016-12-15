@@ -75,7 +75,6 @@ void HQScene::createBidirectionalScrollView()
         
         scrollViewSpaceAllocation.clear();
         auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
-        CCLOG("scrollview position: %f, %f", horizontalScrollView->getPosition().x, horizontalScrollView->getPosition().y);
         verticalScrollView->addChild(horizontalScrollView);
         
         for(int i = 0; i < elementsForRow.size(); i++)
@@ -109,8 +108,6 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
     listener->setSwallowTouches(false);
     listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
-        CCLOG("touch captured");
-        
         auto target = static_cast<Node*>(event->getCurrentTarget());
         
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
@@ -121,7 +118,6 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
         {
             startLocation = touch->getLocation();
             directionDecided = false;
-            CCLOG("touch on target, %f, %f", touch->getLocation().x, touch->getLocation().y);
             return true;
         }
         
@@ -140,14 +136,12 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
             float xdiff = fabsf(currentLocation.x - startLocation.x);
             float ydiff = fabsf(currentLocation.y - startLocation.y);
             
-            if(xdiff > ydiff)
+            if(xdiff > ydiff) //Horizontal scroll
             {
-                CCLOG("Horizontal scroll");
                 vScrollView->setTouchEnabled(false);
             }
-            else
+            else //Vertical scroll
             {
-                CCLOG("Vertical scroll");
                 vScrollView->setTouchEnabled(true);
                 
                 Vector<Node *> allHorizontals = vScrollView->getChildren();
@@ -164,7 +158,6 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
     
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
-        CCLOG("touch ended captured");
         vScrollView->setTouchEnabled(true);
         vScrollView->setSwallowTouches(false);
         
@@ -175,7 +168,6 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
             currentSv->setTouchEnabled(true);
             currentSv->setSwallowTouches(false);
         }
-        
         
         return true;
     };
