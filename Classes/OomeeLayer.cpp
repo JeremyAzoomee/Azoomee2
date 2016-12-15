@@ -9,30 +9,28 @@ using namespace spine;
 
 Scene* OomeeLayer::createScene()
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = OomeeLayer::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
 
-    // return the scene
     return scene;
 }
 
-// on "init" you need to initialize your instance
-
 bool OomeeLayer::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
     }
     
+    auto oomee = addOomeeToScreen();
+    addListenerToOomee(oomee);
+    
+    return true;
+}
+
+spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
+{
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
@@ -46,8 +44,11 @@ bool OomeeLayer::init()
     
     oomee->runAction(Sequence::create(DelayTime::create(8), FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
     
-    
-    
+    return oomee;
+}
+
+void OomeeLayer::addListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
+{
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [](Touch *touch, Event *event)
@@ -60,7 +61,6 @@ bool OomeeLayer::init()
         
         if(rect.containsPoint(locationInNode))
         {
-            //target->setAnimation(0, "wave2", false);
             target->setAnimation(0, "wave2", false);
             target->addAnimation(0, "idle", true);
             
@@ -71,7 +71,5 @@ bool OomeeLayer::init()
         
     };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, oomee);
-    
-    return true;
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, toBeAddedTo);
 }
