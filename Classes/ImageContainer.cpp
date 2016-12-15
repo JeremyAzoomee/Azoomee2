@@ -98,7 +98,6 @@ void ImageContainer::addLockToImageContainer(float startDelay)
     bgLayer->addChild(lockImage);
     
     lockImage->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
 }
 
 void ImageContainer::addImageToLayer(std::string url)
@@ -114,7 +113,6 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     Size baseContentSize = Size(445, 339);
-    
     Size containerSize = baseContentSize * scale;
     
     bgLayer = LayerColor::create(getColourByType(elementProperties["type"]), containerSize.width + 20, containerSize.height + 20);

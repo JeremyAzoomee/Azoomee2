@@ -46,7 +46,7 @@ bool GameDataManager::init(void)
 
 void GameDataManager::startProcessingGame(std::string url, std::string itemId)
 {
-    std::string basePath = FileUtils::getInstance()->getWritablePath() + itemId + "/";
+    std::string basePath = getGameIdPath(itemId);
     
     std::string fileName = getFileNameFromUrl(url);
     if(checkIfFileExists(basePath + fileName))
@@ -60,12 +60,13 @@ void GameDataManager::startProcessingGame(std::string url, std::string itemId)
         else
         {
             std::string downloadUrl = getDownloadUrlForGame(basePath + fileName);
-            getGameZipFile(downloadUrl, itemId); //getGameZipFile will call unzipGame and startGame
+            getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
         }
     }
     else
     {
-        FileUtils::getInstance()->createDirectory(basePath);
+        if(!FileUtils::getInstance()->isDirectoryExist(this->getGameCachePath())) FileUtils::getInstance()->createDirectory(this->getGameCachePath());
+        if(!FileUtils::getInstance()->isDirectoryExist(basePath)) FileUtils::getInstance()->createDirectory(basePath);
         getJSONGameData(url, itemId); //the callback of this method will fire up getDownloadUrlForGame, getGameZipFile, unzipGame and startGame
     }
 }
@@ -109,19 +110,18 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
     
     if(response->getResponseCode() == 200)          //Get content success
     {
-        std::string basePath = FileUtils::getInstance()->getWritablePath() + response->getHttpRequest()->getTag();
-        std::string targetPath = basePath + "/package.json";
+        std::string basePath = getGameIdPath(response->getHttpRequest()->getTag());
+        std::string targetPath = basePath + "package.json";
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
         
         std::string startFile = getStartFileFromJson(targetPath);
-        if(checkIfFileExists(basePath + targetPath))
+        if(checkIfFileExists(basePath + startFile))
         {
-            std::string startFileNameWithPath = getStartFileFromJson(targetPath);
-            startGame(basePath + startFileNameWithPath);
+            startGame(basePath + startFile);
         }
         else
         {
-            std::string uri = getDownloadUrlForGame(basePath + targetPath);
+            std::string uri = getDownloadUrlForGame(targetPath);
             getGameZipFile(uri, response->getHttpRequest()->getTag());
         }
         
@@ -140,15 +140,6 @@ bool GameDataManager::checkIfFileExists(std::string fileWithPath)
 
 std::string GameDataManager::getDownloadUrlForGame(std::string jsonFileName)
 {
-    if(FileUtils::getInstance()->isFileExist(jsonFileName))
-    {
-        CCLOG("The file exists here: %s", jsonFileName.c_str());
-    }
-    else
-    {
-        CCLOG("The file does not exist here: %s", jsonFileName.c_str());
-    }
-    
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
@@ -192,11 +183,9 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     
     if(response->getResponseCode() == 200)          //Get content success
     {
-        std::string basePath = FileUtils::getInstance()->getWritablePath() + response->getHttpRequest()->getTag();
-        std::string targetPath = basePath + "/game.zip";
+        std::string basePath = getGameIdPath(response->getHttpRequest()->getTag());
+        std::string targetPath = basePath + "game.zip";
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
-        
-        CCLOG("Target path: %s", targetPath.c_str());
         
         unzipGame(targetPath.c_str(), basePath.c_str(), nullptr);
     }
@@ -296,8 +285,8 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     unzClose(pFile);
     
     removeGameZip(zipPath);
-    std::string startFileNameWithPath = getStartFileFromJson(std::string(dirpath) + "/package.json");
-    startGame(std::string(dirpath) + "/" + startFileNameWithPath);
+    std::string startFileNameWithPath = getStartFileFromJson(std::string(dirpath) + "package.json");
+    startGame(std::string(dirpath) + startFileNameWithPath);
     
     return ret;
 
@@ -311,5 +300,15 @@ bool GameDataManager::removeGameZip(std::string fileNameWithPath)
 void GameDataManager::startGame(std::string fileName)
 {
     WebViewSelector::createSceneWithUrl(fileName);
-    //We don't need to add 
+    //We don't need to add this to the screen, because in create phase WebViewSelector will do a replaceScene.
+}
+
+std::string GameDataManager::getGameIdPath(std::string gameId)
+{
+    return FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/";
+}
+
+std::string GameDataManager::getGameCachePath()
+{
+    return FileUtils::getInstance()->getWritablePath() + "gameCache/";
 }

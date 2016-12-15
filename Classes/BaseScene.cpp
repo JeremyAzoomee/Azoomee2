@@ -50,34 +50,23 @@ bool BaseScene::init()
     
     auto sVideoHQ = HQScene::create();
     sVideoHQ->setPosition(2732, 0);
-    sVideoHQ->setHQName("VIDEO HQ");
-    sVideoHQ->setTag(1);
+    sVideoHQ->setName("VIDEO HQ");
     contentLayer->addChild(sVideoHQ);
     
     auto sGameHQ = HQScene::create();
     sGameHQ->setPosition(0, -2048);
-    sGameHQ->setHQName("GAME HQ");
-    sGameHQ->setTag(2);
+    sGameHQ->setName("GAME HQ");
     contentLayer->addChild(sGameHQ);
     
     auto sAudioHQ = HQScene::create();
     sAudioHQ->setPosition(-2732, 0);
-    sAudioHQ->setHQName("AUDIO HQ");
-    sAudioHQ->setTag(3);
+    sAudioHQ->setName("AUDIO HQ");
     contentLayer->addChild(sAudioHQ);
     
     auto sArtsHQ = HQScene::create();
     sArtsHQ->setPosition(0, 2048);
-    sArtsHQ->setHQName("ARTS APP");
-    sArtsHQ->setTag(4);
+    sArtsHQ->setName("ARTS APP");
     contentLayer->addChild(sArtsHQ);
-    
-    //Adding InterSceneLoader to top of all layers, but below main navigation, because we want to hide all layers, except for the menu
-    
-    auto interSceneLoader = InterSceneLoader::create();
-    interSceneLoader->setName("interSceneLoader");
-    this->addChild(interSceneLoader);
-    
     
     //Adding main menu to BaseScene (this), instead of contentLayer, as we don't want to move it, when panning contentlayer
     auto sNavigationLayer = NavigationLayer::create();
@@ -85,26 +74,14 @@ bool BaseScene::init()
     sNavigationLayer->setName("NavigationLayer");
     this->addChild(sNavigationLayer);
     
-    
-    
-    
     return true;
 }
 
-
-void BaseScene::menuCloseCallback(Ref* pSender)
+void BaseScene::createHQScene(std::string sceneName)
 {
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
-
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
+    std::map<std::string, Point> positions;
+    positions["VIDEO HQ"] = 
     
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() and exit(0) as given above,instead trigger a custom event created in RootViewController.mm as below*/
-    
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
-    
+    auto hqScene = HQScene::create();
     
 }

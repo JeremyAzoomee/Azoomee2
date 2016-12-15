@@ -20,7 +20,11 @@ bool ImageDownloader::initWithURLAndSize(std::string url, Size size)
     this->addPlaceHolderImage();
     this->addLoadingAnimation();
     
-    std::string fileName = getFileNameFromURL(url);
+    fileName = getFileNameFromURL(url);
+    imageId = getIdFromUrl(url);
+    imageCachePath = getImageCachePath();
+    imageIdPath = getImageIdPath();
+    
     if(findFileInLocalCache(fileName))
     {
         loadFileFromLocalCacheAsync(fileName);
@@ -69,10 +73,22 @@ std::string ImageDownloader::getFileNameFromURL(std::string url)
     return url.substr(startPoint, subLength);
 }
 
+std::string ImageDownloader::getIdFromUrl(std::string url)
+{
+    int endPoint = (int)url.find_last_of("/");
+    std::string cutUrl = url.substr(0, endPoint);
+    
+    int startPoint = (int)cutUrl.find_last_of("/") + 1;
+    std::string result = cutUrl.substr(startPoint);
+    
+    CCLOG("image id: %s", result.c_str());
+    
+    return result;
+}
+
 bool ImageDownloader::findFileInLocalCache(std::string fileName)
 {
-    std::string localPath = FileUtils::getInstance()->getWritablePath();
-    return FileUtils::getInstance()->isFileExist(localPath + fileName);
+    return FileUtils::getInstance()->isFileExist(imageIdPath + fileName);
 }
 
 void ImageDownloader::downloadFileFromServer(std::string url)
@@ -125,15 +141,17 @@ void ImageDownloader::removePlaceHolderImage()
 
 bool ImageDownloader::saveFileToServer(std::string data, std::string fileName)
 {
-    std::string localPath = FileUtils::getInstance()->getWritablePath();
-    return FileUtils::getInstance()->writeStringToFile(data, localPath + fileName);
+    if(!FileUtils::getInstance()->isDirectoryExist(imageCachePath)) FileUtils::getInstance()->createDirectory(imageCachePath);
+    if(!FileUtils::getInstance()->isDirectoryExist(imageIdPath)) FileUtils::getInstance()->createDirectory(imageIdPath);
+    
+    
+    return FileUtils::getInstance()->writeStringToFile(data, imageIdPath + fileName);
 }
 
 void ImageDownloader::loadFileFromLocalCacheAsync(std::string fileName)
 {
     //Sync load for the moment
-    std::string localPath = FileUtils::getInstance()->getWritablePath();
-    auto finalImage = Sprite::create(localPath + fileName);
+    auto finalImage = Sprite::create(imageIdPath + fileName);
     finalImage->setPosition(this->getContentSize() / 2);
     finalImage->setOpacity(0);
     finalImage->setScaleX(this->getContentSize().width / finalImage->getContentSize().width);
@@ -144,4 +162,14 @@ void ImageDownloader::loadFileFromLocalCacheAsync(std::string fileName)
     
     removeLoadingAnimation();
     removePlaceHolderImage();
+}
+
+std::string ImageDownloader::getImageIdPath()
+{
+    return FileUtils::getInstance()->getWritablePath() + "imagecache/" + imageId + "/";
+}
+
+std::string ImageDownloader::getImageCachePath()
+{
+    return FileUtils::getInstance()->getWritablePath() + "imageCache/";
 }

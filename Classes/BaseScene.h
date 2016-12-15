@@ -9,11 +9,8 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
+    void createHQScene(std::string sceneName);
     
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
-    // implement the "static create()" method manually
     CREATE_FUNC(BaseScene);
 };
 

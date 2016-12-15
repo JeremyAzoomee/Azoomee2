@@ -36,7 +36,7 @@ bool HQSceneElement::init()
     // - setting up touch listener for a button and loading the content that it addresses (usually a webview, that is native in android and ios)
     
     //Structure:
-    // - we need to create a LayerColor first, cca 10px bigger than the image
+    // - we need to create a LayerColor first, 10px bigger than the image
     // - we put the image on
     // - we put the overlay on the top of the image (colour depending on the category)
     // - we put game icon and labels on top of the overlay image
@@ -62,7 +62,6 @@ void HQSceneElement::addHQSceneElement2(std::string category, std::map<std::stri
     
     createColourLayer(categoryIndex, 0);
     
-    //filename has to be added with the new imageDownloader!
     addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemData["id"])); //There will be a few additional steps: add a placeholder image and start loading the real image based on downloaded data. No back-end implemented yet, TBD later.
     addGradientToBottom(categoryIndex);
     addIconToImage(categoryIndex);

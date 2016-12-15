@@ -30,5 +30,8 @@ public:
     bool unzipGame(const char *zipPath,const char *dirpath,const char *passwd);
     bool removeGameZip(std::string fileNameWithPath);
     
+    std::string getGameCachePath();
+    std::string getGameIdPath(std::string gameId);
+    
     void startGame(std::string fileName);
 };
