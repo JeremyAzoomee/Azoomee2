@@ -5,83 +5,72 @@
 #include "MainHubScene.h"
 #include "HQScene.h"
 
-#include "InterSceneLoader.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
 Scene* BaseScene::createScene()
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = BaseScene::create();
     layer->setName("baseLayer");
-
-    // add layer as a child to scene
     scene->addChild(layer);
-
-    // return the scene
+    
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool BaseScene::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
     }
     
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    auto contentLayer = Layer::create();
-    contentLayer->setPosition(0,0);
-    contentLayer->setName("contentLayer");
-    this->addChild(contentLayer);
+    Layer *contentLayer = createContentLayer();
+    addMainHubScene(contentLayer);
     
-    auto sMainHubScene = MainHubScene::create();
-    sMainHubScene->setPosition(0,0);
-    sMainHubScene->setName("HOME");
-    sMainHubScene->setTag(0);
-    contentLayer->addChild(sMainHubScene);
+    createHQScene("VIDEO HQ", contentLayer);
+    createHQScene("GAME HQ", contentLayer);
+    createHQScene("AUDIO HQ", contentLayer);
+    createHQScene("ARTS APP", contentLayer);
     
-    auto sVideoHQ = HQScene::create();
-    sVideoHQ->setPosition(2732, 0);
-    sVideoHQ->setName("VIDEO HQ");
-    contentLayer->addChild(sVideoHQ);
-    
-    auto sGameHQ = HQScene::create();
-    sGameHQ->setPosition(0, -2048);
-    sGameHQ->setName("GAME HQ");
-    contentLayer->addChild(sGameHQ);
-    
-    auto sAudioHQ = HQScene::create();
-    sAudioHQ->setPosition(-2732, 0);
-    sAudioHQ->setName("AUDIO HQ");
-    contentLayer->addChild(sAudioHQ);
-    
-    auto sArtsHQ = HQScene::create();
-    sArtsHQ->setPosition(0, 2048);
-    sArtsHQ->setName("ARTS APP");
-    contentLayer->addChild(sArtsHQ);
-    
-    //Adding main menu to BaseScene (this), instead of contentLayer, as we don't want to move it, when panning contentlayer
-    auto sNavigationLayer = NavigationLayer::create();
-    sNavigationLayer->setPosition(0,0);
-    sNavigationLayer->setName("NavigationLayer");
-    this->addChild(sNavigationLayer);
+    addNavigationLayer();
     
     return true;
 }
 
-void BaseScene::createHQScene(std::string sceneName)
+void BaseScene::createHQScene(std::string sceneName, Node *toBeAddedTo)
 {
-    std::map<std::string, Point> positions;
-    positions["VIDEO HQ"] = 
-    
     auto hqScene = HQScene::create();
+    hqScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(sceneName));
+    hqScene->setName(sceneName);
+    toBeAddedTo->addChild(hqScene);
+}
+
+Layer* BaseScene::createContentLayer()
+{
+    auto contentLayer = Layer::create();
+    contentLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions("contentLayer"));
+    contentLayer->setName("contentLayer");
+    this->addChild(contentLayer);
     
+    return contentLayer;
+}
+
+void BaseScene::addMainHubScene(Node* toBeAddedTo)
+{
+    auto sMainHubScene = MainHubScene::create();
+    sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions("HOME"));
+    sMainHubScene->setName("HOME");
+    sMainHubScene->setTag(0);
+    toBeAddedTo->addChild(sMainHubScene);
+}
+
+void BaseScene::addNavigationLayer()
+{
+    //Adding main menu to BaseScene (this), instead of contentLayer, as we don't want to move it, when panning contentlayer
+    auto sNavigationLayer = NavigationLayer::create();
+    sNavigationLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions("NavigationLayer"));
+    sNavigationLayer->setName("NavigationLayer");
+    this->addChild(sNavigationLayer);
 }

@@ -10,22 +10,16 @@ public:
 
     virtual bool init();
     
-    void fillUpColoursAndImagesArray();
-    void createColourLayer(int category, int highlight);
+    void createColourLayer(int highlight);
     void addImageToBaseLayer(std::string filename);
-    void addGradientToBottom(int category);
-    void addIconToImage(int category);
+    void addGradientToBottom();
+    void addIconToImage();
     void addLabelToImage(std::string name);
     cocos2d::Size getSizeOfLayerWithGap();
     
-    std::vector<cocos2d::Color4B> baseColours;
-    std::vector<std::string> iconImages;
-    std::vector<cocos2d::Size> baseSizes;
-    std::vector<cocos2d::Vec2> highlightSizeMultipliers;
     std::map<std::string, int> category_translator;
     
-    void addHQSceneElement(int category, int highlight, std::string filename, std::string name);
-    void addHQSceneElement2(std::string category, std::map<std::string, std::string>itemData);
+    void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData);
     
     cocos2d::LayerColor *baseLayer;
     cocos2d::LayerColor *overlayWhenTouched;
@@ -37,8 +31,7 @@ public:
     cocos2d::Point touchPoint;
     bool movedAway;
     
-    // implement the "static create()" method manually
     CREATE_FUNC(HQSceneElement);
 };
 
-#endif // __HQSCENE_SCENE_ELEMENT_H__
+#endif
