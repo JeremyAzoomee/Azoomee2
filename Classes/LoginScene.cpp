@@ -242,7 +242,7 @@ void LoginScene::addListenerToButton(cocos2d::Sprite *spriteImage)
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
         Rect rect = Rect(0, 0, target->getContentSize().width, target->getContentSize().height);
         
-        if(rect.containsPoint(locationInNode))
+        if(rect.containsPoint(locationInNode) && spriteImage->isVisible())
         {
             int buttonTag = spriteImage->getTag();
             
