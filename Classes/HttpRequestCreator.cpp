@@ -20,6 +20,7 @@
 #include "BackEndCaller.h"
 #include "HQDataProvider.h"
 #include "ConfigStorage.h"
+#include "LoginScene.h"
 
 #define CI_HOST "api.elb.ci.azoomee.ninja"
 #define CI_URL "http://" CI_HOST
@@ -198,6 +199,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         
         CCLOG("response string: %s", responseDataString.c_str());
         
-        //Add error handling here
+        Scene *loginScene = LoginScene::createScene();
+        Director::getInstance()->replaceScene(loginScene);
     }
 }
