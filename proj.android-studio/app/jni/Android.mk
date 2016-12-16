@@ -24,7 +24,6 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/WebViewSelector.cpp \
                    ../../../Classes/ImageContainer.cpp \
                    ../../../Classes/OomeeLayer.cpp \
-                   ../../../Classes/InterSceneLoader.cpp \
                    ../../../Classes/HQSceneElement.cpp \
                    ../../../Classes/ModalMessages.cpp \
                    ../../../Classes/BackEndCaller.cpp \
@@ -35,7 +34,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HQDataProvider.cpp \
                    ../../../Classes/ImageDownloader.cpp \
                    ../../../Classes/GameDataManager.cpp \
-                   ../../../Classes/HttpRequestCreator.cpp
+                   ../../../Classes/HttpRequestCreator.cpp \
+                   ../../../Classes/ConfigStorage.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

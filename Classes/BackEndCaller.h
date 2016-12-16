@@ -26,6 +26,9 @@ public:
     void getGordon();
     void onGetGordonAnswerReceived(std::string responseString);
     
+    void displayLoadingScreen();
+    void hideLoadingScreen();
+    
     ModalMessages *modalMessages;
     
 };

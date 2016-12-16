@@ -15,8 +15,6 @@
 //
 //Please note: if requestUrl is set, requestPath, host and urlParameters will be set up from that automatically by this class.
 
-USING_NS_CC;
-
 #include "HttpRequestCreator.h"
 #include "JWTTool.h"
 #include "BackEndCaller.h"
@@ -26,8 +24,8 @@ USING_NS_CC;
 #define CI_HOST "api.elb.ci.azoomee.ninja"
 #define CI_URL "http://" CI_HOST
 
-using namespace network;
 using namespace cocos2d;
+using namespace network;
 
 void HttpRequestCreator::createEncryptedGetHttpRequest()
 {

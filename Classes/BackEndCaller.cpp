@@ -1,5 +1,3 @@
-USING_NS_CC;
-
 #include "BackEndCaller.h"
 
 #include "network/HttpClient.h"
@@ -24,8 +22,8 @@ USING_NS_CC;
 #define CI_HOST "api.elb.ci.azoomee.ninja"
 #define CI_URL "http://" CI_HOST
 
-using namespace network;
 using namespace cocos2d;
+using namespace network;
 
 static BackEndCaller *_sharedBackEndCaller = NULL;
 
@@ -49,11 +47,29 @@ bool BackEndCaller::init(void)
     return true;
 }
 
+//---------------------LOADING SCREEN----------------------------------
+void BackEndCaller::displayLoadingScreen()
+{
+    modalMessages = ModalMessages::create();
+    Director::getInstance()->getRunningScene()->addChild(modalMessages);
+    modalMessages->setName("Loading");
+    modalMessages->startLoading();
+}
+
+void BackEndCaller::hideLoadingScreen()
+{
+    modalMessages->stopLoading();
+    Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("Loading"));
+}
+
+
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
 
 
 void BackEndCaller::login(std::string username, std::string password)
 {
+    displayLoadingScreen();
+    
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
     httpRequestCreator->requestPath = "/api/auth/login";
     httpRequestCreator->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
@@ -89,6 +105,8 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
 
 void BackEndCaller::childLogin(int childNumber)
 {
+    displayLoadingScreen();
+    
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
     httpRequestCreator->requestPath = "/api/auth/switchProfile";
     httpRequestCreator->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", DataStorage::getInstance()->getValueFromOneAvailableChild(childNumber, "profileName").c_str());
