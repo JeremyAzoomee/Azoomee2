@@ -18,6 +18,8 @@ USING_NS_CC;
 #include "DataStorage.h"
 #include "WebViewSelector.h"
 
+#include "BackEndCaller.h"
+
 
 using namespace network;
 using namespace cocos2d;
@@ -127,10 +129,7 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
         
     }
     else
-    {
-        CCLOG("GET CONTENT FAIL Response code: %ld", response->getResponseCode());
-        CCLOG("GET CONTENT FAIL Response: %s", responseString.c_str());
-    }
+        BackEndCaller::getInstance()->reloadChildSelectorSceneWithError(response->getResponseCode(), StringUtils::format("GET CONTENT FAIL Response: %s. With code",responseString.c_str()));
 }
 
 bool GameDataManager::checkIfFileExists(std::string fileWithPath)
@@ -190,10 +189,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         unzipGame(targetPath.c_str(), basePath.c_str(), nullptr);
     }
     else
-    {
-        CCLOG("GET CONTENT FAIL Response code: %ld", response->getResponseCode());
-        CCLOG("GET CONTENT FAIL Response: %s", responseString.c_str());
-    }
+        BackEndCaller::getInstance()->reloadChildSelectorSceneWithError(response->getResponseCode(), StringUtils::format("GET CONTENT FAIL Response: %s. With code",responseString.c_str()));
 }
 
  bool GameDataManager::unzipGame(const char *zipPath,const char *dirpath,const char *passwd)

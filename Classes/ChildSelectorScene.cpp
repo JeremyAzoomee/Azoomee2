@@ -1,15 +1,23 @@
 #include "ChildSelectorScene.h"
 #include "BackEndCaller.h"
 #include "DataStorage.h"
+#include "ChildAccountScene.h"
+#include <math.h>
+#include "ModalMessages.h"
 
+#define OOMEE_LAYER_WIDTH 300
+#define OOMEE_LAYER_HEIGHT 400
+#define OOMEE_LAYER_GAP 40
 
 USING_NS_CC;
 
-Scene* ChildSelectorScene::createScene()
+Scene* ChildSelectorScene::createScene(long errorCode)
 {
     auto scene = Scene::create();
     auto layer = ChildSelectorScene::create();
     scene->addChild(layer);
+    
+    layer->_errorCode = errorCode;
 
     return scene;
 }
@@ -32,6 +40,19 @@ bool ChildSelectorScene::init()
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
+void ChildSelectorScene::onEnterTransitionDidFinish()
+{
+    if(_errorCode !=0)
+    {
+        handleErrorCode(_errorCode);
+    }
+}
+
+void ChildSelectorScene::handleErrorCode(long errorCode)
+{
+    //#TODO handle modal message strings.
+    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
+}
 
 void ChildSelectorScene::addVisualsToScene()
 {
@@ -61,11 +82,22 @@ void ChildSelectorScene::addScrollViewForProfiles()
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
     scrollView->setBounceEnabled(true);
     scrollView->setTouchEnabled(true);
-    scrollView->setInnerContainerSize(scrollView->getContentSize());
+    scrollView->setInnerContainerSize(getScrollviewInnerSize(scrollView->getContentSize().width));
     scrollView->setSwallowTouches(false);
     scrollView->setScrollBarEnabled(true);
     
     this->addChild(scrollView);
+}
+
+Size ChildSelectorScene::getScrollviewInnerSize(float scrollviewWidth)
+{
+    double oomeeLayersPerWidth;
+    modf(scrollviewWidth/(OOMEE_LAYER_WIDTH + OOMEE_LAYER_GAP), &oomeeLayersPerWidth);
+    
+    double oomeeLayesNeededForHeight;
+    modf((DataStorage::getInstance()->getAmountOfAvailableChildren() / oomeeLayersPerWidth) + 1, &oomeeLayesNeededForHeight);
+    
+    return Size(scrollviewWidth, (OOMEE_LAYER_GAP+OOMEE_LAYER_HEIGHT)*oomeeLayesNeededForHeight);
 }
 
 void ChildSelectorScene::addProfilesToScrollView()
@@ -80,12 +112,14 @@ void ChildSelectorScene::addProfilesToScrollView()
         addListenerToProfileLayer(profileLayer);
         scrollView->addChild(profileLayer);
     }
+    
+    addNewChildButtonToScrollView();
 }
 
 Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int oomeeNumber)
 {
     auto profileLayer = Layer::create();
-    profileLayer->setContentSize(Size(300,400));
+    profileLayer->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
     
     auto selectionSprite = Sprite::create("res/childSelection/selection.png");
     selectionSprite->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height / 2);
@@ -112,10 +146,10 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     return profileLayer;
 }
 
-void ChildSelectorScene::addListenerToProfileLayer(Layer *profileLayer)
+void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
 {
     auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(false);
+    //listener->setSwallowTouches(false);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
         touchMovedAway = false;
@@ -154,9 +188,15 @@ void ChildSelectorScene::addListenerToProfileLayer(Layer *profileLayer)
         if(!touchMovedAway)
         {
             auto target = static_cast<Node*>(event->getCurrentTarget());
-            target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-            int childNumber = target->getTag();
-            BackEndCaller::getInstance()->childLogin(childNumber);
+            
+            if(target->getName() == "addChildButton")
+                addChildButtonPressed(target);
+            else //Oomee child pressed
+            {
+                target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+                int childNumber = target->getTag();
+                BackEndCaller::getInstance()->childLogin(childNumber);
+            }
             return true;
         }
         
@@ -174,24 +214,65 @@ void ChildSelectorScene::addListenerToProfileLayer(Layer *profileLayer)
 
 Point ChildSelectorScene::positionElementOnScrollView(Layer *layerToBeAdded)
 {
-    float gapSize = 40;
-    
     Vector<Node*> scrollViewChildren = scrollView->getChildren();
     
     if(scrollViewChildren.size() == 0)
     {
-        return Point(gapSize / 2, scrollView->getInnerContainerSize().height - gapSize / 2 - layerToBeAdded->getContentSize().height);
+        return Point(OOMEE_LAYER_GAP / 2, scrollView->getInnerContainerSize().height - OOMEE_LAYER_GAP / 2 - layerToBeAdded->getContentSize().height);
     }
     
     Node *lastChild = scrollViewChildren.at(scrollViewChildren.size() - 1);
     Point lastPos = lastChild->getPosition();
     
-    Point newPos = Point(lastPos.x + lastChild->getContentSize().width + gapSize, lastPos.y);
+    Point newPos = Point(lastPos.x + lastChild->getContentSize().width + OOMEE_LAYER_GAP, lastPos.y);
     
     if(newPos.x + layerToBeAdded->getContentSize().width > scrollView->getInnerContainerSize().width)
     {
-        newPos = Point(gapSize / 2, newPos.y - gapSize - layerToBeAdded->getContentSize().height);
+        newPos = Point(OOMEE_LAYER_GAP / 2, newPos.y - OOMEE_LAYER_GAP - layerToBeAdded->getContentSize().height);
     }
     
     return newPos;
 }
+
+void ChildSelectorScene::addNewChildButtonToScrollView()
+{
+    auto addButtonLayer = Layer::create();
+    //Keep Content Size the same as Oomee
+    addButtonLayer->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
+    
+    auto selectionSprite = Sprite::create("res/childSelection/selection.png");
+    selectionSprite->setPosition(addButtonLayer->getContentSize().width / 2, addButtonLayer->getContentSize().height / 2);
+    selectionSprite->setOpacity(0);
+    addButtonLayer->addChild(selectionSprite);
+    
+    auto addButtonSprite = Sprite::create("res/childSelection/button_add_child.png");
+    addButtonSprite->setPosition(addButtonLayer->getContentSize().width / 2, addButtonLayer->getContentSize().height /2);
+    addButtonSprite->setOpacity(0);
+    addButtonSprite->setName("addChildButton");
+    addListenerToProfileLayer(addButtonSprite);
+    addButtonLayer->addChild(addButtonSprite);
+    
+    float delayTime = CCRANDOM_0_1();
+    addButtonSprite->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+
+    addButtonLayer->setPosition(positionElementOnScrollView(addButtonLayer));
+    scrollView->addChild(addButtonLayer);
+}
+
+void ChildSelectorScene::addChildButtonPressed(Node* target)
+{
+    //Check is email verified, if not refresh profile, then error
+    if(DataStorage::getInstance()->getParentLoginValue("actorStatus") == "ACTIVE")
+    {
+        target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+        
+        auto newChildScene = ChildAccountScene::createScene("", 0);
+        Director::getInstance()->replaceScene(newChildScene);
+    }
+    else
+    {
+        //#TODO handle modal message strings.
+        ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", "Ensure email has been verified.", "OK");
+    }
+}
+

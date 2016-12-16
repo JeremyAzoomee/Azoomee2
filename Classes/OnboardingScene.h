@@ -1,12 +1,13 @@
-#ifndef __LOGINSCENE_SCENE_H__
-#define __LOGINSCENE_SCENE_H__
+#ifndef __ONBOARDINGSCENE_SCENE_H__
+#define __ONBOARDINGSCENE_SCENE_H__
 
 #include "cocos2d.h"
 #include "ui/UIEditBox/UIEditBox.h"
 
-class LoginScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
+class OnboardingScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
 {
 private:
+    
     void handleErrorCode(long errorCode);
     
     long _errorCode;
@@ -28,22 +29,23 @@ public:
     void addButtonsToLayer();
     void addLabelsToLayer();
     
-    void moveLoginToEmailScreen(cocos2d::ui::Button* button);
-    void moveToBackFirstScreenEnableLogin(Node* button);
+    void closeOnboarding();
     void moveToPasswordScreen(Node* button);
     void moveToEmailScreen(Node* button);
-    void login();
+    void moveToPinScreen(Node* button);
+    void signup();
     
     void disableMoveButton(Node* button);
     void enableMoveButton(Node* button);
-   
+    
     void addListenerToButton(cocos2d::Sprite *spriteImage);
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
-    cocos2d::Layer *loginContent;
-
-    CREATE_FUNC(LoginScene);
+    cocos2d::Layer *onboardingContent;
+    
+    // implement the "static create()" method manually
+    CREATE_FUNC(OnboardingScene);
     
     //Editbox Delegate Functions
     //void editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox);
@@ -56,6 +58,8 @@ public:
     bool isNumber(const char Character);
     bool isValidEmailAddress(const char * EmailAddress);
     bool isValidPassword(const char * password);
+    bool isValidPin(const char * pinNumber);
+
 };
 
-#endif
+#endif // __OnboardingScene_SCENE_H__

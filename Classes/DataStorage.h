@@ -27,6 +27,10 @@ public:
     int getAmountOfAvailableChildren();
     std::string getValueFromOneAvailableChild(int childNumber, std::string keyName);
     
+    bool parseContentData(std::string responseString);
+    rapidjson::Document contentData;
+    std::vector<std::string> contentDataJsonKeys;
+    
     //Quick switch to see if currently only parent or parent + kid logged in
     bool childProfile;
     std::string getParentOrChildLoginValue(std::string keyName);
