@@ -18,6 +18,9 @@
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
 #include "HttpRequestCreator.h"
+#include "OnboardingScene.h"
+#include "ChildAccountScene.h"
+#include "ModalMessages.h"
 
 #define CI_HOST "api.elb.ci.azoomee.ninja"
 #define CI_URL "http://" CI_HOST
@@ -50,16 +53,12 @@ bool BackEndCaller::init(void)
 //---------------------LOADING SCREEN----------------------------------
 void BackEndCaller::displayLoadingScreen()
 {
-    modalMessages = ModalMessages::create();
-    Director::getInstance()->getRunningScene()->addChild(modalMessages);
-    modalMessages->setName("Loading");
-    modalMessages->startLoading();
+    ModalMessages::getInstance()->startLoading();
 }
 
 void BackEndCaller::hideLoadingScreen()
 {
-    modalMessages->stopLoading();
-    Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("Loading"));
+    ModalMessages::getInstance()->stopLoading();
 }
 
 
@@ -97,7 +96,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
 {
     DataStorage::getInstance()->parseAvailableChildren(responseString);
         
-    auto childSelectorScene = ChildSelectorScene::createScene();
+    auto childSelectorScene = ChildSelectorScene::createScene(0);
     Director::getInstance()->replaceScene(childSelectorScene);
 }
 
@@ -207,73 +206,16 @@ void BackEndCaller::onRegisterParentAnswerReceived(cocos2d::network::HttpClient 
 
 void BackEndCaller::registerChild(std::string childProfileName, std::string childGender, std::string childDOB, int oomeeNumber)
 {
-    ModalMessages::getInstance()->startLoading();
+    displayLoadingScreen();
     
-    std::string requestPath = "/api/user/child";
-    std::string requestUrl = StringUtils::format(CI_URL"%s", requestPath.c_str());
-    
-    HttpRequest *request = new HttpRequest();
-    request->setRequestType(HttpRequest::Type::POST);
-    request->setUrl(requestUrl.c_str());
-    
-    std::string requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"https://media.azoomee.com/static/thumbs/oomee_%02d.png\",\"password\":\"\"}",childProfileName.c_str(),childDOB.c_str(),childGender.c_str(),oomeeNumber);
-    CCLOG("This is the request body: %s", requestBody.c_str());
-    
-    const char *postData = requestBody.c_str();
-    request->setRequestData(postData, strlen(postData));
-    
-    auto myJWTTool = JWTTool::getInstance();
-    std::string myRequestString = myJWTTool->buildJWTString("POST", requestPath.c_str(), CI_HOST, "", requestBody);
-    const char *reqData = myRequestString.c_str();
-    
-    //request->setRequestData(reqData, strlen(reqData));
-    
-    std::vector<std::string> headers;
-    headers.push_back("Content-Type: application/json;charset=UTF-8");
-    headers.push_back(StringUtils::format("x-az-req-datetime: %s", getDateFormatString().c_str()));
-    headers.push_back(StringUtils::format("x-az-auth-token: %s", reqData));
-    
-    
-    //headers.push_back(StringUtils::format("%s", requestBody.c_str()));
-    
-    request->setHeaders(headers);
-    
-    request->setResponseCallback(CC_CALLBACK_2(BackEndCaller::onRegisterChildLoginAnswerReceived, this));
-    request->setTag("Add child");
-    HttpClient::getInstance()->send(request);
-    
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->requestPath = "/api/user/child";
+    httpRequestCreator->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"https://media.azoomee.com/static/thumbs/oomee_%02d.png\",\"password\":\"\"}",childProfileName.c_str(),childDOB.c_str(),childGender.c_str(),oomeeNumber);
+    httpRequestCreator->requestTag = "registerChild";
+    httpRequestCreator->createEncryptedPostHttpRequest();
 }
 
-void BackEndCaller::onRegisterChildLoginAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
+void BackEndCaller::onRegisterChildAnswerReceived()
 {
-    std::string myResponseString = StringUtils::format("");
-    
-    if (response && response->getResponseData())
-    {
-        std::vector<char> myResponse = *response->getResponseData();
-        
-        for(int i = 0; i < myResponse.size(); i++)
-        {
-            myResponseString = StringUtils::format("%s%c", myResponseString.c_str(), myResponse[i]);
-        }
-        
-        CCLOG("%s", myResponseString.c_str());
-    }
-    
-    if(response->getResponseCode() == 201)
-    {
-        CCLOG("CHILDREN REGISTRATION SUCCESS");
-        getAvailableChildren();
-    }
-    else
-    {
-        CCLOG("CHILDREN REGISTRATION FAIL Response code: %ld", response->getResponseCode());
-        CCLOG("CHILDREN REGISTRATION FAIL Response: %s", myResponseString.c_str());
-        
-        //Restart the ChildSelectorScene with error
-        auto _ChildAccountScene = ChildAccountScene::createScene("",response->getResponseCode());
-        Director::getInstance()->replaceScene(_ChildAccountScene);
-    }
-    
-    
+    getAvailableChildren();
 }

@@ -1,7 +1,6 @@
 #include "cocos2d.h"
 #include "network/HttpClient.h"
 #include "external/json/document.h"
-#include "ModalMessages.h"
 
 class BackEndCaller : public cocos2d::Ref
 {
@@ -27,7 +26,7 @@ public:
     void onChildLoginAnswerReceived(std::string responseString);
     
     void registerChild(std::string childProfileName, std::string childGender, std::string childDOB, int oomeeNumber);
-    void onRegisterChildLoginAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+    void onRegisterChildAnswerReceived();
     
     void getContent();
     void onGetContentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
@@ -38,13 +37,8 @@ public:
     void displayLoadingScreen();
     void hideLoadingScreen();
     
-    void reloadLoginSceneWithError(long errorCode, std::string errorMessage);
-    void reloadChildSelectorSceneWithError(long errorCode, std::string errorMessage);
-    
     //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
     std::string registerParentUsername;
     std::string registerParentPassword;
-    
-    ModalMessages* modalMessages;
     
 };

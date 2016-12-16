@@ -128,8 +128,6 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
         }
         
     }
-    else
-        BackEndCaller::getInstance()->reloadChildSelectorSceneWithError(response->getResponseCode(), StringUtils::format("GET CONTENT FAIL Response: %s. With code",responseString.c_str()));
 }
 
 bool GameDataManager::checkIfFileExists(std::string fileWithPath)
@@ -188,8 +186,6 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         
         unzipGame(targetPath.c_str(), basePath.c_str(), nullptr);
     }
-    else
-        BackEndCaller::getInstance()->reloadChildSelectorSceneWithError(response->getResponseCode(), StringUtils::format("GET CONTENT FAIL Response: %s. With code",responseString.c_str()));
 }
 
  bool GameDataManager::unzipGame(const char *zipPath,const char *dirpath,const char *passwd)

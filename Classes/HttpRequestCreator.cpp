@@ -186,6 +186,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "childLogin") BackEndCaller::getInstance()->onChildLoginAnswerReceived(responseDataString);
         if(requestTag == "getChildren") BackEndCaller::getInstance()->onGetChildrenAnswerReceived(responseDataString);
         if(requestTag == "parentLogin") BackEndCaller::getInstance()->onLoginAnswerReceived(responseDataString);
+        if(requestTag == "registerChild") BackEndCaller::getInstance()->onRegisterChildAnswerReceived();
         
         for(int i = 0; i < 5; i++)
         {
@@ -199,7 +200,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         
         CCLOG("response string: %s", responseDataString.c_str());
         
-        Scene *loginScene = LoginScene::createScene();
+        Scene *loginScene = LoginScene::createScene(0);
         Director::getInstance()->replaceScene(loginScene);
     }
 }

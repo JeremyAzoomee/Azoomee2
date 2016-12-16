@@ -369,7 +369,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		430B3B021DF832A8003A3AA7 /* Onboarding AddOomees */ = {
+		430B3B021DF832A8003A3AA7 /* Signup_AddChild */ = {
 			isa = PBXGroup;
 			children = (
 				430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */,
@@ -377,7 +377,7 @@
 				430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */,
 				430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */,
 			);
-			name = "Onboarding AddOomees";
+			name = Signup_AddChild;
 			sourceTree = "<group>";
 		};
 		46880B7519C43A67006E1F66 /* Resources */ = {
@@ -401,7 +401,7 @@
 				A198622D1DD480A60090F053 /* BaseScene.h */,
 				A198621D1DD3836D0090F053 /* NavigationLayer.cpp */,
 				A198621E1DD3836D0090F053 /* NavigationLayer.h */,
-				430B3B021DF832A8003A3AA7 /* Onboarding AddOomees */,
+				430B3B021DF832A8003A3AA7 /* Signup_AddChild */,
 				A15B2FA41DEC73B800D25334 /* Login */,
 				A1817B481DDCB74900C2D13C /* MainHubScene */,
 				A19759861DE4931600FEB03C /* HQScene */,
