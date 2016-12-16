@@ -33,10 +33,7 @@ Scene* OnboardingScene::createScene(long errorCode)
     auto layer = OnboardingScene::create();
     scene->addChild(layer);
     
-    if(errorCode !=0)
-    {
-        layer->handleErrorCode(errorCode);
-    }
+    layer->_errorCode = errorCode;
     
     return scene;
 }
@@ -69,14 +66,18 @@ void OnboardingScene::menuCloseCallback(Ref* pSender)
     
 }
 
+void OnboardingScene::onEnterTransitionDidFinish()
+{
+    if(_errorCode !=0)
+    {
+        handleErrorCode(_errorCode);
+    }
+}
+
 void OnboardingScene::handleErrorCode(long errorCode)
 {
-    //#TODO have a Modal layer with error, for now just add a label to the Layer
-    
-    auto errorDetail = Label::createWithTTF(StringUtils::format("ERROR: %ld",errorCode), "fonts/azoomee.ttf", 60);
-    errorDetail->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.6);
-    errorDetail->setColor(Color3B::WHITE);
-    onboardingContent->addChild(errorDetail);
+    //#TODO handle modal message strings.
+    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
 }
 
 void OnboardingScene::addVisualElementsToScene()

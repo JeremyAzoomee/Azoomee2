@@ -6,15 +6,21 @@
 
 class OnboardingScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
 {
-public:
-    static cocos2d::Scene* createScene(long errorCode);
+private:
     
     void handleErrorCode(long errorCode);
+    
+    long _errorCode;
+    
+public:
+    static cocos2d::Scene* createScene(long errorCode);
 
     virtual bool init();
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
+    
+    virtual void onEnterTransitionDidFinish();
     
     void addVisualElementsToScene();
     void addFunctionalElementsToScene();

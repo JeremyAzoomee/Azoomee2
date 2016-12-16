@@ -290,10 +290,7 @@ void HQDataProvider::onGetContentAnswerReceived(cocos2d::network::HttpClient *se
         }
     }
     else
-    {
-        CCLOG("GET CONTENT FAIL Response code: %ld", response->getResponseCode());
-        CCLOG("GET CONTENT FAIL Response: %s", responseString.c_str());
-    }
+        BackEndCaller::getInstance()->reloadChildSelectorSceneWithError(response->getResponseCode(), StringUtils::format("GET CONTENT FAIL Response: %s. With code",responseString.c_str()));
 }
 
 std::string HQDataProvider::getExtensionFromUri(std::string uri)

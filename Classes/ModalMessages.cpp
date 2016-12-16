@@ -112,7 +112,7 @@ void ModalMessages::createAndFadeInTitle(std::string messageTitle)
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     titleLabel->setName("messageTitle");
     titleLabel->setOpacity(0);
-    loadingLayer->addChild(titleLabel, 2);
+    loadingLayer->addChild(titleLabel,2);
     
     titleLabel->runAction(FadeTo::create(1, 255));
 }
@@ -128,7 +128,7 @@ void ModalMessages::createAndFadeInBody(std::string messageBody)
     bodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     bodyLabel->setName("messageBody");
     bodyLabel->setOpacity(0);
-    loadingLayer->addChild(bodyLabel, 2);
+    loadingLayer->addChild(bodyLabel,2);
     
     bodyLabel->runAction(FadeTo::create(1, 255));
 }
@@ -150,9 +150,9 @@ void ModalMessages::createAndFadeInButton(std::string buttonText)
         switch (type)
         {
             case ui::Widget::TouchEventType::BEGAN:
-                this->removeLayer();
                 break;
             case ui::Widget::TouchEventType::ENDED:
+                this->removeLayer();
                 break;
             default:
                 break;
@@ -168,7 +168,7 @@ void ModalMessages::createAndFadeInMessageBackground()
 {
     auto titleLabel = (Label*)loadingLayer->getChildByName("messageTitle");
     auto bodyLabel = (Label*)loadingLayer->getChildByName("messageBody");
-    auto _button = (ui::Button*)loadingLayer->getChildByName("messageButton");
+    auto _button = (Sprite*)loadingLayer->getChildByName("messageButton");
     
     float messageBoxHeight = titleLabel->getContentSize().height + bodyLabel->getContentSize().height+_button->getContentSize().height + (4 * MESSAGE_BOX_PADDING);
     

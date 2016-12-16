@@ -9,8 +9,6 @@ public:
     /** Returns the shared instance of the Game Manager */
     static BackEndCaller* getInstance(void);
     
-    void reloadLoginSceneWithError(long errorCode, std::string errorMessage);
-    
 public:
     virtual ~BackEndCaller();
     bool init(void);
@@ -51,5 +49,8 @@ public:
     void onGetGordonAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     void displayError(std::string errorMessage);
+    
+    void reloadLoginSceneWithError(long errorCode, std::string errorMessage);
+    void reloadChildSelectorSceneWithError(long errorCode, std::string errorMessage);
     
 };

@@ -59,10 +59,7 @@ Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode)
     layer->setChildName(ChildName);
     layer->addFunctionalElementsToScene();
     
-    if(errorCode !=0)
-    {
-        layer->handleErrorCode(errorCode);
-    }
+    layer->_errorCode = errorCode;
     
     return scene;
 }
@@ -95,14 +92,18 @@ void ChildAccountScene::menuCloseCallback(Ref* pSender)
     
 }
 
+void ChildAccountScene::onEnterTransitionDidFinish()
+{
+    if(_errorCode !=0)
+    {
+        handleErrorCode(_errorCode);
+    }
+}
+
 void ChildAccountScene::handleErrorCode(long errorCode)
 {
-    //#TODO have a Modal layer with error, for now just add a label to the Layer
-    
-    auto errorDetail = Label::createWithTTF(StringUtils::format("ERROR: %ld",errorCode), "fonts/azoomee.ttf", 60);
-    errorDetail->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.6);
-    errorDetail->setColor(Color3B::WHITE);
-    childAccountContent->addChild(errorDetail);
+    //#TODO handle modal message strings.
+    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
 }
 
 void ChildAccountScene::setChildName(std::string ChildName)
@@ -370,7 +371,7 @@ void ChildAccountScene::enableMoveButton(Node* button)
 
 void ChildAccountScene::backButtonCloseScene()
 {
-    auto childSelectorScene = ChildSelectorScene::createScene();
+    auto childSelectorScene = ChildSelectorScene::createScene(0);
     Director::getInstance()->replaceScene(childSelectorScene);
 }
 
@@ -394,7 +395,8 @@ void ChildAccountScene::childNameNextButton(Node* button)
     {
         if(childNameExists(newChildsName))
         {
-            //ERROR MESSAGE - Name exists
+            //#TODO handle modal message strings.
+            ModalMessages::getInstance()->createMessageWithSingleButton("Display Name Exists", "Please insert a unique name.", "OK");
         }
         else
             moveToDOBInput(button);

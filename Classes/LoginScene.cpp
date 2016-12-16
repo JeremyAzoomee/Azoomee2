@@ -164,8 +164,6 @@ void LoginScene::addButtonsToLayer()
         {
             case ui::Widget::TouchEventType::BEGAN:
             {
-                auto _OnboardingScene = OnboardingScene::createScene(0);
-                Director::getInstance()->replaceScene(_OnboardingScene);
                 break;
             }
             case ui::Widget::TouchEventType::MOVED:
@@ -173,6 +171,8 @@ void LoginScene::addButtonsToLayer()
             case ui::Widget::TouchEventType::CANCELED:
                 break;
             case ui::Widget::TouchEventType::ENDED:
+                auto _OnboardingScene = OnboardingScene::createScene(0);
+                Director::getInstance()->replaceScene(_OnboardingScene);
                 break;
         }
     });
@@ -188,8 +188,6 @@ void LoginScene::addButtonsToLayer()
         {
             case ui::Widget::TouchEventType::BEGAN:
             {
-                if ( loginContent->getNumberOfRunningActions() == 0 )
-                moveLoginToEmailScreen(loginButton);
                 break;
             }
             case ui::Widget::TouchEventType::MOVED:
@@ -197,6 +195,8 @@ void LoginScene::addButtonsToLayer()
             case ui::Widget::TouchEventType::CANCELED:
                 break;
             case ui::Widget::TouchEventType::ENDED:
+                if ( loginContent->getNumberOfRunningActions() == 0 )
+                    moveLoginToEmailScreen(loginButton);
                 break;
         }
     });
@@ -324,11 +324,11 @@ void LoginScene::login()
     
     //FOR DEBUG PURPOSES ONLY, PLEASE REMOVE WHEN GETTING INTO PRODUCTION
     
-    if(password == "aaa")
+    /*if(password == "aaa")
     {
         username = "klaas+ci@azoomee.com";
         password = "test1234";
-    }
+    }*/
 
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->login(username, password);

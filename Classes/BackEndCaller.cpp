@@ -269,7 +269,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(HttpClient *sender, HttpResponse
         DataStorage::getInstance()->parseAvailableChildren(myResponseString);
         ModalMessages::getInstance()->stopLoading();
         
-        auto childSelectorScene = ChildSelectorScene::createScene();
+        auto childSelectorScene = ChildSelectorScene::createScene(0);
         Director::getInstance()->replaceScene(childSelectorScene);
     }
     else
@@ -363,12 +363,7 @@ void BackEndCaller::onChildLoginAnswerReceived(cocos2d::network::HttpClient *sen
         HQDataProvider::getInstance()->getContent(StringUtils::format(CI_URL"/api/electricdreams/view/categories/home/%s", DataStorage::getInstance()->getChildLoginValue("id").c_str()), "HOME");
     }
     else
-    {
-        CCLOG("CHILDREN LOGIN FAIL Response code: %ld", response->getResponseCode());
-        CCLOG("CHILDREN LOGIN FAIL Response: %s", myResponseString.c_str());
-    }
-    
-    
+        reloadChildSelectorSceneWithError(response->getResponseCode(), StringUtils::format("CHILDREN LOGIN FAIL Response: %s. With code",myResponseString.c_str()));
 }
 
 //REGISTER CHILD----------------------------------------------------------------------------
@@ -500,10 +495,7 @@ void BackEndCaller::onGetContentAnswerReceived(cocos2d::network::HttpClient *sen
         getGordon();
     }
     else
-    {
-        CCLOG("GET CONTENT FAIL Response code: %ld", response->getResponseCode());
-        CCLOG("GET CONTENT FAIL Response: %s", responseString.c_str());
-    }
+        reloadChildSelectorSceneWithError(response->getResponseCode(), StringUtils::format("GET CONTENT FAIL Response: %s. With code",responseString.c_str()));
 }
 
 //GETTING GORDON.PNG
@@ -562,4 +554,12 @@ void BackEndCaller::reloadLoginSceneWithError(long errorCode, std::string errorM
     
     auto loginScene = LoginScene::createScene(errorCode);
     Director::getInstance()->replaceScene(loginScene);
+}
+
+void BackEndCaller::reloadChildSelectorSceneWithError(long errorCode, std::string errorMessage)
+{
+    CCLOG("%s: %ld", errorMessage.c_str(), errorCode);
+    
+    auto childSelectorScene = ChildSelectorScene::createScene(errorCode);
+    Director::getInstance()->replaceScene(childSelectorScene);
 }
