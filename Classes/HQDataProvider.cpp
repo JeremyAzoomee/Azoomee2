@@ -12,7 +12,6 @@ USING_NS_CC;
 
 #define CI_HOST "api.elb.ci.azoomee.ninja"
 #define CI_URL "http://" CI_HOST
-#define LOGIN_URL CI_URL"/api/auth/login"
 
 #include "external/json/document.h"
 #include "external/json/writer.h"
@@ -23,6 +22,8 @@ USING_NS_CC;
 
 #include "BackEndCaller.h"
 #include "DataStorage.h"
+
+#include "HttpRequestCreator.h"
 
 
 using namespace network;
@@ -244,55 +245,25 @@ std::map<std::string, std::string> HQDataProvider::getItemDataForSpecificItem(st
 
 void HQDataProvider::getContent(std::string url, std::string category)
 {
-    HttpRequest *request = new HttpRequest();
-    request->setRequestType(HttpRequest::Type::GET);
-    request->setUrl(url.c_str());
-    
-    auto myJWTTool = JWTTool::getInstance();
-    
-    std::string myRequestString = myJWTTool->buildJWTString("GET", BackEndCaller::getInstance()->getPathFromUrl(url), BackEndCaller::getInstance()->getHostFromUrl(url), "", "");
-    
-    std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("x-az-req-datetime: %s", BackEndCaller::getInstance()->getDateFormatString().c_str()));
-    headers.push_back(StringUtils::format("x-az-auth-token: %s", myRequestString.c_str()));
-    
-    request->setHeaders(headers);
-    
-    request->setResponseCallback(CC_CALLBACK_2(HQDataProvider::onGetContentAnswerReceived, this));
-    request->setTag(category);
-    HttpClient::getInstance()->send(request);
-    
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->url = url;
+    httpRequestCreator->requestBody = "";
+    httpRequestCreator->requestTag = category;
+    httpRequestCreator->createEncryptedGetHttpRequest();
 }
 
-void HQDataProvider::onGetContentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
+void HQDataProvider::onGetContentAnswerReceived(std::string responseString, std::string category)
 {
-    std::string responseString = "";
-    
-    if (response && response->getResponseData())
+    if(parseHQData(responseString, category.c_str()))       //Parsing method returns true if there are no errors in the json string.
     {
-        std::vector<char> myResponse = *response->getResponseData();
-        responseString = std::string(myResponse.begin(), myResponse.end());
-        CCLOG("get content data: %s", responseString.c_str());
-    }
-    
-    if(response->getResponseCode() == 200)          //Get content success
-    {
-        if(parseHQData(responseString, response->getHttpRequest()->getTag()))       //Parsing method returns true if there are no errors in the json string.
-        {
-            parseHQStructure(responseString, response->getHttpRequest()->getTag());
-            startBuildingHQ(response->getHttpRequest()->getTag());
+        parseHQStructure(responseString, category.c_str());
+        startBuildingHQ(category.c_str());
             
-            if(strncmp(response->getHttpRequest()->getTag(), "HOME", strlen(response->getHttpRequest()->getTag())) == 0)    //If we have a home HQ set up, we have to get urls too.
-            {
-                parseHQGetContentUrls(responseString);      //Parsing method returns true if there are no errors in the json string.
-                BackEndCaller::getInstance()->getGordon();                                                            //If both parsings went well, we move on to getting the cookies
-            }
+        if(category == "HOME")    //If we have a home HQ set up, we have to get urls too.
+        {
+            parseHQGetContentUrls(responseString);      //Parsing method returns true if there are no errors in the json string.
+            BackEndCaller::getInstance()->getGordon();                                                            //If both parsings went well, we move on to getting the cookies
         }
-    }
-    else
-    {
-        CCLOG("GET CONTENT FAIL Response code: %ld", response->getResponseCode());
-        CCLOG("GET CONTENT FAIL Response: %s", responseString.c_str());
     }
 }
 

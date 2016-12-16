@@ -34,7 +34,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/DataStorage.cpp \
                    ../../../Classes/HQDataProvider.cpp \
                    ../../../Classes/ImageDownloader.cpp \
-                   ../../../Classes/GameDataManager.cpp
+                   ../../../Classes/GameDataManager.cpp \
+                   ../../../Classes/HttpRequestCreator.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

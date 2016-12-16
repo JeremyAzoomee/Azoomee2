@@ -14,29 +14,17 @@ public:
     virtual ~BackEndCaller();
     bool init(void);
     
-    //COMMON METHODS
-    std::string replaceAll(std::string& str, const std::string& from, const std::string& to);
-    std::string getPathFromUrl(std::string url);
-    std::string getHostFromUrl(std::string url);
-    int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);
-    std::string getDateFormatString();
-    std::string getDateElement(int input);
-    //END OF COMMON METHODS
-    
-    
     void login(std::string username, std::string password);
-    void onLoginAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+    void onLoginAnswerReceived(std::string responseString);
     
-    void onGetChildrenAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+    void onGetChildrenAnswerReceived(std::string responseString);
     void getAvailableChildren();
     
     void childLogin(int childNumber);
-    void onChildLoginAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+    void onChildLoginAnswerReceived(std::string responseString);
     
     void getGordon();
-    void onGetGordonAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
-    
-    void displayError(std::string errorMessage);
+    void onGetGordonAnswerReceived(std::string responseString);
     
     ModalMessages *modalMessages;
     
