@@ -39,11 +39,11 @@ bool HQSceneElement::init()
 
 void HQSceneElement::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData) //This method is being called by HQScene.cpp with all variables.
 {
-    createColourLayer(0);
+    createColourLayer(category, 0);
     
     addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemData["id"]));
-    addGradientToBottom();
-    addIconToImage();
+    addGradientToBottom(category);
+    addIconToImage(category);
     addLabelToImage(itemData["title"]);
     addTouchOverlayToElement();
     
@@ -81,12 +81,12 @@ void HQSceneElement::addImageToBaseLayer(std::string url)
     baseLayer->addChild(imageDownloader);
 }
 
-void HQSceneElement::addGradientToBottom()
+void HQSceneElement::addGradientToBottom(std::string category)
 {
     Color3B gradientColour;
-    gradientColour.r = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(this->getName()).r;
-    gradientColour.g = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(this->getName()).g;
-    gradientColour.b = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(this->getName()).b;
+    gradientColour.r = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).r;
+    gradientColour.g = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).g;
+    gradientColour.b = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).b;
     
     auto gradient = Sprite::create("res/hqscene/gradient_overlay.png");
     gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2);
@@ -95,11 +95,11 @@ void HQSceneElement::addGradientToBottom()
     baseLayer->addChild(gradient);
 }
 
-void HQSceneElement::addIconToImage()
+void HQSceneElement::addIconToImage(std::string category)
 {
-    if(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(this->getName()) == "") return; //there is chance that there is no icon given for the given category.
+    if(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category) == "") return; //there is chance that there is no icon given for the given category.
         
-    auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(this->getName()));
+    auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category));
     icon->setPosition(30 + icon->getContentSize().width / 2, 30 + icon->getContentSize().height / 2);
     baseLayer->addChild(icon);
 }
@@ -118,13 +118,12 @@ void HQSceneElement::addTouchOverlayToElement()
     baseLayer->addChild(overlayWhenTouched);
 }
 
-void HQSceneElement::createColourLayer(int highlight)
+void HQSceneElement::createColourLayer(std::string category, int highlight)
 {
     ConfigStorage* configStorage = ConfigStorage::getInstance();
-    Color4B colour = configStorage->getBaseColourForContentItemInCategory(this->getName());
-    Size size = configStorage->getSizeForContentItemInCategory(this->getName());
+    Color4B colour = configStorage->getBaseColourForContentItemInCategory(category);
+    Size size = configStorage->getSizeForContentItemInCategory(category);
     Vec2 highlightMultipler = configStorage->getHighlightSizeMultiplierForContentItem(highlight);
-    
     
     baseLayer = LayerColor::create(colour, size.width * highlightMultipler.x, size.height * highlightMultipler.y);
     this->addChild(baseLayer);

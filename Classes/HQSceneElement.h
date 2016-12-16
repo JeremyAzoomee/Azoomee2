@@ -10,10 +10,10 @@ public:
 
     virtual bool init();
     
-    void createColourLayer(int highlight);
+    void createColourLayer(std::string category, int highlight);
     void addImageToBaseLayer(std::string filename);
-    void addGradientToBottom();
-    void addIconToImage();
+    void addGradientToBottom(std::string category);
+    void addIconToImage(std::string category);
     void addLabelToImage(std::string name);
     cocos2d::Size getSizeOfLayerWithGap();
     
