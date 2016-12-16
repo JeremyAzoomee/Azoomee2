@@ -1,7 +1,7 @@
 #include "cocos2d.h"
 #include "external/json/document.h"
 
-class JWTTool : public cocos2d::Object
+class JWTTool : public cocos2d::Ref
 {
     
 public:
@@ -12,6 +12,8 @@ public:
     virtual ~JWTTool();
     bool init(void);
     
+    std::string getDateFormatString();
+    std::string addLeadingZeroToDateElement(int input);
     std::string buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
     std::string getBase64Encoded(std::string input);
     std::string stringToLower(std::string input);

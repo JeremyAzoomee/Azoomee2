@@ -35,16 +35,18 @@ bool NavigationLayer::init()
     for(int i = 0; i <= amountOfItems; i++)
     {
         auto menuItemImage = addMenuItemImage(i);
-        auto menuItemInactive = addMenuItemInactive(i, menuItemImage);
-        addMenuItemActive(i, menuItemImage);
+        auto menuItemInactive = addMenuItemInactive(i, menuItemImage);          //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
+        addMenuItemActive(i, menuItemImage);                                    //Active menuItem is visible, when we are in the given menu
         addListenerToMenuItem(menuItemImage);
-        runDisplayAnimationForMenuItem(menuItemImage, menuItemInactive);
+        runDisplayAnimationForMenuItem(menuItemImage, menuItemInactive);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
     }
     
     this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 3.5);
     
     return true;
 }
+
+//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 
 Sprite* NavigationLayer::addMenuItemImage(int itemNumber)
 {
@@ -75,7 +77,7 @@ Sprite* NavigationLayer::addMenuItemActive(int itemNumber, Node* toBeAddedTo)
 
 Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
 {
-    auto menuItemInactive = addMenuItemImage(itemNumber);
+    auto menuItemInactive = Sprite::create(StringUtils::format("res/navigation/menu%d.png", itemNumber).c_str());
     menuItemInactive->setName("off");
     menuItemInactive->setPosition(toBeAddedTo->getContentSize() / 2);
     menuItemInactive->setOpacity(0);

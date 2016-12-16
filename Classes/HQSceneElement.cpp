@@ -1,3 +1,15 @@
+//This class is responsible for displaying an element on the scrollviews. The following are set up here:
+// - highlight (the size) of an icon
+// - setting up touch listener for a button and loading the content that it addresses (usually a webview, that is native in android and ios)
+
+//Structure:
+// - we need to create a LayerColor first, 10px bigger than the image
+// - we put the image on
+// - we put the overlay on the top of the image (colour depending on the category) for touch actions
+// - we put game icon and labels on top of the overlay image
+
+//waiting for addHQSceneElement command from HQScene after init.
+
 #include "HQSceneElement.h"
 #include "WebViewSelector.h"
 #include "ImageDownloader.h"
@@ -21,18 +33,6 @@ bool HQSceneElement::init()
     {
         return false;
     }
-    
-    //This class is responsible for displaying an element on the scrollviews. The following are set up here:
-    // - highlight (the size) of an icon
-    // - setting up touch listener for a button and loading the content that it addresses (usually a webview, that is native in android and ios)
-    
-    //Structure:
-    // - we need to create a LayerColor first, 10px bigger than the image
-    // - we put the image on
-    // - we put the overlay on the top of the image (colour depending on the category) for touch actions
-    // - we put game icon and labels on top of the overlay image
-    
-    //waiting for addHQSceneElement command from HQScene after init.
     
     return true;
 }

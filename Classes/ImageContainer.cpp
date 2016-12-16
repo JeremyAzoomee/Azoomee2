@@ -49,7 +49,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     }
 }
 
-//-----------------------------------------------------All functions below are called internally.---------------------------------------------------
+//-----------------------------------------------------All methods below are called internally.---------------------------------------------------
 
 void ImageContainer::createBgLayer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, Point position)
 {

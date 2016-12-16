@@ -26,18 +26,20 @@ bool BaseScene::init()
         return false;
     }
     
-    Layer *contentLayer = createContentLayer();
+    Layer *contentLayer = createContentLayer();         //We use contentLayer to hold all HQ-s, to be able to pan between them.
     addMainHubScene(contentLayer);
     
-    createHQScene("VIDEO HQ", contentLayer);
-    createHQScene("GAME HQ", contentLayer);
+    createHQScene("VIDEO HQ", contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
+    createHQScene("GAME HQ", contentLayer);             //Probably worth moving these to configStorage?
     createHQScene("AUDIO HQ", contentLayer);
     createHQScene("ARTS APP", contentLayer);
     
-    addNavigationLayer();
+    addNavigationLayer();                               //The navigation layer is being added to "this", because that won't move with the menu.
     
     return true;
 }
+
+//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 
 void BaseScene::createHQScene(std::string sceneName, Node *toBeAddedTo)
 {

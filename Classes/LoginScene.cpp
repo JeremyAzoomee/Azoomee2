@@ -30,6 +30,8 @@ bool LoginScene::init()
     return true;
 }
 
+//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
+
 void LoginScene::addVisualElementsToScene()
 {
     auto bg = Sprite::create("res/mainhub/bg_glow.png");

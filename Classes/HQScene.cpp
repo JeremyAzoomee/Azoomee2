@@ -1,3 +1,7 @@
+//Creating a scrollview structure. vScrollView is the main, vertical scrollview, having several children of scrollViews, that can scroll horizontally.
+//We capture the the touches "under" the scrollView-s, and locking all horizontal movements on vertical touchMoves, and all vertical movements on horizontal touchMove.
+//The listener works the same way, as with all other nodes.
+
 #include "HQScene.h"
 #include "HQSceneElement.h"
 #include "SimpleAudioEngine.h"
@@ -20,10 +24,6 @@ bool HQScene::init()
     {
         return false;
     }
-    
-    //Creating a scrollview structure. vScrollView is the main, vertical scrollview, having several children of scrollViews, that can scroll horizontally.
-    //We capture the the touches "under" the scrollView-s, and locking all horizontal movements on vertical touchMoves, and all vertical movements on horizontal touchMove.
-    //The listener works the same way, as with all other nodes.
     
     return true;
 }

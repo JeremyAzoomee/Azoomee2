@@ -36,6 +36,29 @@ bool JWTTool::init(void)
     return true;
 }
 
+std::string JWTTool::getDateFormatString()
+{
+    time_t rawtime;
+    struct tm * ptm;
+    time ( &rawtime );
+    ptm = gmtime ( &rawtime );
+    
+    std::string myDateTime = StringUtils::format("%d-%s-%sT%s:%s:%sZ", ptm->tm_year + 1900, addLeadingZeroToDateElement(ptm->tm_mon + 1).c_str(), addLeadingZeroToDateElement(ptm->tm_mday).c_str(), addLeadingZeroToDateElement(ptm->tm_hour).c_str(), addLeadingZeroToDateElement(ptm->tm_min).c_str(), addLeadingZeroToDateElement(ptm->tm_sec).c_str());
+    
+    return myDateTime;
+}
+
+std::string JWTTool::addLeadingZeroToDateElement(int input)
+{
+    std::string dateFormat = StringUtils::format("%d", input);
+    if(dateFormat.length() == 1)
+    {
+        dateFormat = StringUtils::format("0%s", dateFormat.c_str());
+    }
+    
+    return dateFormat;
+}
+
 std::string JWTTool::stringToLower(std::string input)
 {
     for(int i = 0; i < input.length(); i++)
@@ -115,12 +138,12 @@ std::string JWTTool::getBodySignature(std::string method, std::string path, std:
         stringContentType = StringUtils::format("content-type=%s&", url_encode(stringToLower("application/json;charset=UTF-8")).c_str());
     }
     
-    std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(host)).c_str(), url_encode(stringToLower(BackEndCaller::getInstance()->getDateFormatString())).c_str());
+    std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(host)).c_str(), url_encode(stringToLower(getDateFormatString())).c_str());
     
     std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), queryParams.c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
     std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, DataStorage::getInstance()->getParentOrChildLoginValue("apiSecret"));
     
-    CCLOG("Payload signature:\n\n%send\n\n", stringToBeEncoded.c_str());
+    CCLOG("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
     
     
     return bodySignature;

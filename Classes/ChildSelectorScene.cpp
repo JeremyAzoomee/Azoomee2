@@ -31,6 +31,8 @@ bool ChildSelectorScene::init()
     return true;
 }
 
+//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
+
 void ChildSelectorScene::addVisualsToScene()
 {
     auto bg = Sprite::create("res/mainhub/bg_glow.png");

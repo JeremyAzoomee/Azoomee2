@@ -39,6 +39,8 @@ bool MainHubScene::init()
     return true;
 }
 
+//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
+
 void MainHubScene::addBackgroundCircles()
 {
     auto blueCircle = Sprite::create("res/mainhub/blue_circle.png");
