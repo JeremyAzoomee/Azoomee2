@@ -17,9 +17,6 @@ public:
 
     virtual bool init();
     
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
     virtual void onEnterTransitionDidFinish();
     
     void addVisualElementsToScene();

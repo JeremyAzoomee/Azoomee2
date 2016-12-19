@@ -54,18 +54,6 @@ bool OnboardingScene::init()
     return true;
 }
 
-
-void OnboardingScene::menuCloseCallback(Ref* pSender)
-{
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
-
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
-    
-}
-
 void OnboardingScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
@@ -73,6 +61,8 @@ void OnboardingScene::onEnterTransitionDidFinish()
         handleErrorCode(_errorCode);
     }
 }
+
+//-----------------------------------------All methods beyond this line are called internally----------------------------------------------------
 
 void OnboardingScene::handleErrorCode(long errorCode)
 {
@@ -318,8 +308,7 @@ void OnboardingScene::signup()
     std::string password = ((ui::EditBox *)onboardingContent->getChildByTag(TAG_PASSWORD_EDITBOX))->getText();
     std::string pin = ((ui::EditBox *)onboardingContent->getChildByTag(TAG_PIN_EDITBOX))->getText();
     
-    auto backEndCaller = BackEndCaller::getInstance();
-    backEndCaller->registerParent(username, password,pin);
+    BackEndCaller::getInstance()->registerParent(username, password,pin);
 }
 
 //Editbox Delegate Functions
