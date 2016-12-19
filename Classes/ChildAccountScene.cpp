@@ -5,55 +5,14 @@
 #include "DataStorage.h"
 #include "ChildSelectorScene.h"
 #include "TextInputChecker.h"
+#include "StringStorage.h"
 
 USING_NS_CC;
 
-//Text Content defined here, ready to be changed when localisation method defined.
-#define LABEL_NEW_REQUEST_CHILD_NAME "Hello! Please add a display name?"
-#define LABEL_EDIT_CHILD_NAME "Want to change the display name?"
-#define LABEL_NEW_REQUEST_CHILD_BIRTHDAY "Please add date of birth for"
-#define LABEL_EDIT_REQUEST_CHILD_BIRTHDAY "Change birthday?"
-#define LABEL_NEW_REQUEST_CHILD_OOMEE "Select your favourite Oomee."
-#define LABEL_NEW_REQUEST_CHILD_OOMEE_DETAIL "Don't worry you can change it later."
-#define LABEL_EDIT_CHILD_OOMEE "Change your Oomee?"
-
-#define EDITBOX_PLACEHOLDER_DOB_DAY "DD"
-#define EDITBOX_PLACEHOLDER_DOB_MONTH "MM"
-#define EDITBOX_PLACEHOLDER_DOB_YEAR "YYYY"
-
-//Define Editbox Tag Numbers
-#define TAG_CHILDNAME_EDITBOX 31
-#define TAG_DAY_EDITBOX 32
-#define TAG_MONTH_EDITBOX 33
-#define TAG_YEAR_EDITBOX 34
-
-//Define BUTTONS Tag Numbers
-#define TAG_CHILD_CLOSE_BUTTON 10
-#define TAG_CHILD_NEXT_BUTTON 11
-#define TAG_DOB_BACK_BUTTON 12
-#define TAG_DOB_NEXT_BUTTON 13
-#define TAG_OOMEE_BACK_BUTTON 14
-#define TAG_OOMEE_NEXT_BUTTON 15
-
-//Define LABEL Tag Numbers
-#define TAG_DOB_LABEL 20
-#define TAG_OOMEE_LABEL 21
-
-//Define OOMEE Tag Numbers
-#define TAG_OOMEE_0 0
-#define TAG_OOMEE_1 1
-#define TAG_OOMEE_2 2
-#define TAG_OOMEE_3 3
-#define TAG_OOMEE_4 4
-
 #define NO_OF_OOMEES 5
-
-
 
 Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode)
 {
-    //Create with errorCode == 0 (Zero) if there are no errors
-    
     auto scene = Scene::create();
     auto layer = ChildAccountScene::create();
     scene->addChild(layer);
@@ -76,21 +35,8 @@ bool ChildAccountScene::init()
     origin = Director::getInstance()->getVisibleOrigin();
     
     addVisualElementsToScene();
-    //addFunctionalElementsToScene();
     
     return true;
-}
-
-
-void ChildAccountScene::menuCloseCallback(Ref* pSender)
-{
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
-
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
-    
 }
 
 void ChildAccountScene::onEnterTransitionDidFinish()
@@ -101,17 +47,17 @@ void ChildAccountScene::onEnterTransitionDidFinish()
     }
 }
 
+//--------------------------------------Only internal calls beyond this line-------------------------------------------------------
+
 void ChildAccountScene::handleErrorCode(long errorCode)
 {
-    //#TODO handle modal message strings.
     ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
 }
 
 void ChildAccountScene::setChildName(std::string ChildName)
 {
     this->passedChildName = ChildName;
-    
-    //if childName is nil, then this is a new account to add.
+
     if(ChildName.compare("") == 0)
         this->isNewChildAccount = true;
     else
@@ -144,9 +90,6 @@ void ChildAccountScene::addFunctionalElementsToScene()
 
 void ChildAccountScene::addContentLayerToScene()
 {
-    //we add an additional layer that will slide on the screen between the username and the password.
-    //we add all input elements on this layer.
-    
     childAccountContent = Layer::create();
     childAccountContent->setContentSize(Size(visibleSize.width * 3, visibleSize.height));
     childAccountContent->setPosition(Point(origin.x, origin.y));
@@ -162,37 +105,35 @@ void ChildAccountScene::addLabelsToLayer()
     
     //Add diferent text depending on new or editing account
     if(this->isNewChildAccount)
-        addChildNameTitle->setString(LABEL_NEW_REQUEST_CHILD_NAME);
+        addChildNameTitle->setString(StringStorage::getInstance()->getStringForChildAccount("requestChildName"));
     else
-        addChildNameTitle->setString(LABEL_EDIT_CHILD_NAME);
+        addChildNameTitle->setString(StringStorage::getInstance()->getStringForChildAccount("editChildName"));
     
     addChildNameTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.7);
     addChildNameTitle->setColor(Color3B(28, 244, 244));
     childAccountContent->addChild(addChildNameTitle);
     
-    auto DOB_Title = Label::create();
-    DOB_Title->setSystemFontName("fonts/azoomee.ttf");
-    DOB_Title->setSystemFontSize(90);
-    DOB_Title->setTag(TAG_DOB_LABEL);
-    DOB_Title->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
-    DOB_Title->setColor(Color3B(28, 244, 244));
-    childAccountContent->addChild(DOB_Title);
+    labelDob = Label::create();
+    labelDob->setSystemFontName("fonts/azoomee.ttf");
+    labelDob->setSystemFontSize(90);
+    labelDob->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
+    labelDob->setColor(Color3B(28, 244, 244));
+    childAccountContent->addChild(labelDob);
     
-    auto selectOomeeTitle = Label::create();
-    selectOomeeTitle->setSystemFontName("fonts/azoomee.ttf");
-    selectOomeeTitle->setSystemFontSize(90);
-    selectOomeeTitle->setTag(TAG_OOMEE_LABEL);
+    labelOomee = Label::create();
+    labelOomee->setSystemFontName("fonts/azoomee.ttf");
+    labelOomee->setSystemFontSize(90);
     if(this->isNewChildAccount)
-        selectOomeeTitle->setString(LABEL_NEW_REQUEST_CHILD_OOMEE);
+        labelOomee->setString(StringStorage::getInstance()->getStringForChildAccount("requestChildOomee"));
     else
-        selectOomeeTitle->setString(LABEL_EDIT_CHILD_OOMEE);
-    selectOomeeTitle->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
-    selectOomeeTitle->setColor(Color3B(28, 244, 244));
-    childAccountContent->addChild(selectOomeeTitle);
+        labelOomee->setString(StringStorage::getInstance()->getStringForChildAccount("editChildName"));
+    labelOomee->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
+    labelOomee->setColor(Color3B(28, 244, 244));
+    childAccountContent->addChild(labelOomee);
     
     if(this->isNewChildAccount)
     {
-        auto selectOomeeDetail = Label::createWithTTF(LABEL_NEW_REQUEST_CHILD_OOMEE_DETAIL, "fonts/azoomee.ttf", 60);
+        auto selectOomeeDetail = Label::createWithTTF(StringStorage::getInstance()->getStringForChildAccount("requestChildOomeeSub"), "fonts/azoomee.ttf", 60);
         selectOomeeDetail->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.6);
         selectOomeeDetail->setColor(Color3B::WHITE);
         childAccountContent->addChild(selectOomeeDetail);
@@ -201,106 +142,94 @@ void ChildAccountScene::addLabelsToLayer()
 
 void ChildAccountScene::addTextBoxesToLayer()
 {
-    auto _editName = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
-    _editName->setColor(Color3B::WHITE);
-    _editName->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.5));
-    _editName->setFont("fonts/azoomee.ttf", 90);
-    _editName->setFontColor(Color3B::WHITE);
-    _editName->setMaxLength(50);
-    _editName->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    _editName->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
-    _editName->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    _editName->setText(this->passedChildName.c_str());
-    _editName->setDelegate(this);
-    _editName->setTag(TAG_CHILDNAME_EDITBOX);
-    childAccountContent->addChild(_editName);
+    editBox_childName = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
+    editBox_childName->setColor(Color3B::WHITE);
+    editBox_childName->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.5));
+    editBox_childName->setFont("fonts/azoomee.ttf", 90);
+    editBox_childName->setFontColor(Color3B::WHITE);
+    editBox_childName->setMaxLength(50);
+    editBox_childName->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
+    editBox_childName->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
+    editBox_childName->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+    editBox_childName->setText(this->passedChildName.c_str());
+    editBox_childName->setDelegate(this);
+    childAccountContent->addChild(editBox_childName);
     
-
-    auto _editDOB_Day = ui::EditBox::create(Size(200,131), "res/login/textarea_bg.png");
-    _editDOB_Day->setPosition(Vec2(origin.x+visibleSize.width * 1.5 - 300, origin.y+visibleSize.height*0.5));
-    _editDOB_Day->setFont("fonts/azoomee.ttf", 90);
-    _editDOB_Day->setFontColor(Color3B::WHITE);
-    _editDOB_Day->setMaxLength(2);
-    _editDOB_Day->setPlaceHolder(EDITBOX_PLACEHOLDER_DOB_DAY);
-    _editDOB_Day->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    _editDOB_Day->setInputMode(ui::EditBox::InputMode::NUMERIC);
-    _editDOB_Day->setTag(TAG_DAY_EDITBOX);
-    _editDOB_Day->setDelegate(this);
-    childAccountContent->addChild(_editDOB_Day);
+    editBox_day = ui::EditBox::create(Size(200,131), "res/login/textarea_bg.png");
+    editBox_day->setPosition(Vec2(origin.x+visibleSize.width * 1.5 - 300, origin.y+visibleSize.height*0.5));
+    editBox_day->setFont("fonts/azoomee.ttf", 90);
+    editBox_day->setFontColor(Color3B::WHITE);
+    editBox_day->setMaxLength(2);
+    editBox_day->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobDay").c_str());
+    editBox_day->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
+    editBox_day->setInputMode(ui::EditBox::InputMode::NUMERIC);
+    editBox_day->setDelegate(this);
+    childAccountContent->addChild(editBox_day);
     
-    auto _editDOB_Month = ui::EditBox::create(Size(200,131), "res/login/textarea_bg.png");
-    _editDOB_Month->setPosition(Vec2(origin.x+visibleSize.width * 1.5 - 50, origin.y+visibleSize.height*0.5));
-    _editDOB_Month->setFont("fonts/azoomee.ttf", 90);
-    _editDOB_Month->setFontColor(Color3B::WHITE);
-    _editDOB_Month->setMaxLength(2);
-    _editDOB_Month->setPlaceHolder(EDITBOX_PLACEHOLDER_DOB_MONTH);
-    _editDOB_Month->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    _editDOB_Month->setInputMode(ui::EditBox::InputMode::NUMERIC);
-    _editDOB_Month->setTag(TAG_MONTH_EDITBOX);
-    _editDOB_Month->setDelegate(this);
-    childAccountContent->addChild(_editDOB_Month);
+    editBox_month = ui::EditBox::create(Size(200,131), "res/login/textarea_bg.png");
+    editBox_month->setPosition(Vec2(origin.x+visibleSize.width * 1.5 - 50, origin.y+visibleSize.height*0.5));
+    editBox_month->setFont("fonts/azoomee.ttf", 90);
+    editBox_month->setFontColor(Color3B::WHITE);
+    editBox_month->setMaxLength(2);
+    editBox_month->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobMonth").c_str());
+    editBox_month->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
+    editBox_month->setInputMode(ui::EditBox::InputMode::NUMERIC);
+    editBox_month->setDelegate(this);
+    childAccountContent->addChild(editBox_month);
     
-    auto _editDOB_Year = ui::EditBox::create(Size(300,131), "res/login/textarea_bg.png");
-    _editDOB_Year->setPosition(Vec2(origin.x+visibleSize.width * 1.5 + 250, origin.y+visibleSize.height*0.5));
-    _editDOB_Year->setFont("fonts/azoomee.ttf", 90);
-    _editDOB_Year->setFontColor(Color3B::WHITE);
-    _editDOB_Year->setMaxLength(4);
-    _editDOB_Year->setPlaceHolder(EDITBOX_PLACEHOLDER_DOB_YEAR);
-    _editDOB_Year->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    _editDOB_Year->setInputMode(ui::EditBox::InputMode::NUMERIC);
-    _editDOB_Year->setTag(TAG_YEAR_EDITBOX);
-    _editDOB_Year->setDelegate(this);
-    childAccountContent->addChild(_editDOB_Year);
+    editBox_year = ui::EditBox::create(Size(300,131), "res/login/textarea_bg.png");
+    editBox_year->setPosition(Vec2(origin.x+visibleSize.width * 1.5 + 250, origin.y+visibleSize.height*0.5));
+    editBox_year->setFont("fonts/azoomee.ttf", 90);
+    editBox_year->setFontColor(Color3B::WHITE);
+    editBox_year->setMaxLength(4);
+    editBox_year->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobYear").c_str());
+    editBox_year->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
+    editBox_year->setInputMode(ui::EditBox::InputMode::NUMERIC);
+    editBox_year->setDelegate(this);
+    childAccountContent->addChild(editBox_year);
     
 }
 
 void ChildAccountScene::addButtonsToLayer()
 {
     // in order they appear on the screen with next, then back, then next etc.
-    auto closeBackButton = Sprite::create("res/login/back_btn.png");
-    closeBackButton->setPosition(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.5);
-    closeBackButton->setTag(TAG_CHILD_CLOSE_BUTTON);
-    addListenerToButton(closeBackButton);
-    childAccountContent->addChild(closeBackButton);
+    buttonCloseChild = Sprite::create("res/login/back_btn.png");
+    buttonCloseChild->setPosition(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.5);
+    addListenerToButton(buttonCloseChild);
+    childAccountContent->addChild(buttonCloseChild);
     
-    auto childNameNextButton = Sprite::create("res/login/next_btn.png");
-    childNameNextButton->setPosition(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5);
-    childNameNextButton->setTag(TAG_CHILD_NEXT_BUTTON);
-    addListenerToButton(childNameNextButton);
+    buttonNextChild = Sprite::create("res/login/next_btn.png");
+    buttonNextChild->setPosition(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5);
+    addListenerToButton(buttonNextChild);
     
     //only show button if there is text
     if(this->isNewChildAccount)
-        childNameNextButton->setVisible(false);
+        buttonNextChild->setVisible(false);
     
-    childAccountContent->addChild(childNameNextButton);
+    childAccountContent->addChild(buttonNextChild);
     
-    auto DOB_BackButton = Sprite::create("res/login/back_btn.png");
-    DOB_BackButton->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
-    DOB_BackButton->setTag(TAG_DOB_BACK_BUTTON);
-    addListenerToButton(DOB_BackButton);
-    childAccountContent->addChild(DOB_BackButton);
+    buttonBackDob = Sprite::create("res/login/back_btn.png");
+    buttonBackDob->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
+    addListenerToButton(buttonBackDob);
+    childAccountContent->addChild(buttonBackDob);
     
-    auto DOB_NextButton = Sprite::create("res/login/next_btn.png");
-    DOB_NextButton->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
-    DOB_NextButton->setTag(TAG_DOB_NEXT_BUTTON);
-    DOB_NextButton->setVisible(false);
-    addListenerToButton(DOB_NextButton);
-    childAccountContent->addChild(DOB_NextButton);
+    buttonNextDob = Sprite::create("res/login/next_btn.png");
+    buttonNextDob->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
+    buttonNextDob->setVisible(false);
+    addListenerToButton(buttonNextDob);
+    childAccountContent->addChild(buttonNextDob);
     
-    auto selectOomeeBackButton = Sprite::create("res/login/back_btn.png");
-    selectOomeeBackButton->setPosition(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5);
-    selectOomeeBackButton->setTag(TAG_OOMEE_BACK_BUTTON);
-    addListenerToButton(selectOomeeBackButton);
-    childAccountContent->addChild(selectOomeeBackButton);
+    buttonBackOomee = Sprite::create("res/login/back_btn.png");
+    buttonBackOomee->setPosition(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5);
+    addListenerToButton(buttonBackOomee);
+    childAccountContent->addChild(buttonBackOomee);
     
-    auto selectOomeeDoneButton = Sprite::create("res/login/next_btn.png");
-    selectOomeeDoneButton->setPosition(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5);
-    selectOomeeDoneButton->setScale(1.2);
-    selectOomeeDoneButton->setVisible(false);
-    selectOomeeDoneButton->setTag(TAG_OOMEE_NEXT_BUTTON);
-    addListenerToButton(selectOomeeDoneButton);
-    childAccountContent->addChild(selectOomeeDoneButton);
-
+    buttonNextOomee = Sprite::create("res/login/next_btn.png");
+    buttonNextOomee->setPosition(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5);
+    buttonNextOomee->setScale(1.2);
+    buttonNextOomee->setVisible(false);
+    addListenerToButton(buttonNextOomee);
+    childAccountContent->addChild(buttonNextOomee);
 }
 
 void ChildAccountScene::addOomeesToLayer()
@@ -333,23 +262,13 @@ void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
         
         if(rect.containsPoint(locationInNode) && spriteImage->isVisible())
         {
-            int buttonTag = spriteImage->getTag();
-            
-            if(buttonTag < NO_OF_OOMEES)
-                //then handle an Oomee being selected
-                this->selectOomee(spriteImage);
-            else
-            {
-                switch(buttonTag)
-                {
-                    case(TAG_CHILD_CLOSE_BUTTON): this->backButtonCloseScene(); break;
-                    case(TAG_CHILD_NEXT_BUTTON): this->childNameNextButton(spriteImage); break;
-                    case(TAG_DOB_BACK_BUTTON): this->moveToChildNameInput(spriteImage); break;
-                    case(TAG_DOB_NEXT_BUTTON):  this->moveToOomeeSelection(spriteImage); break;
-                    case(TAG_OOMEE_BACK_BUTTON):  this->moveToDOBInput(spriteImage); break;
-                    case(TAG_OOMEE_NEXT_BUTTON):  this->doneButton(); break;
-                }
-            }
+            if(spriteImage == buttonCloseChild) this->backButtonCloseScene();
+            else if(spriteImage == buttonNextChild) this->childNameNextButtonPressed(spriteImage);
+            else if(spriteImage == buttonBackDob) this->moveToChildNameInput(spriteImage);
+            else if(spriteImage == buttonNextDob) this->moveToOomeeSelection(spriteImage);
+            else if(spriteImage == buttonBackOomee) this->moveToDOBInput(spriteImage);
+            else if(spriteImage == buttonNextOomee) this->registerChildAccount();
+            else this->selectOomee(spriteImage);
             
             return true;
         }
@@ -376,31 +295,26 @@ void ChildAccountScene::backButtonCloseScene()
     Director::getInstance()->replaceScene(childSelectorScene);
 }
 
-void ChildAccountScene::childNameNextButton(Node* button)
+void ChildAccountScene::childNameNextButtonPressed(Node* button)
 {
-    //Set the childDOB label depending on if new
     setDOBLabel();
     
-    //Check if editbox is not null, and does not exist, then move onwards
-    
-    std::string newChildsName = ((ui::EditBox *)childAccountContent->getChildByTag(TAG_CHILDNAME_EDITBOX))->getText();
+    std::string newChildsName = editBox_childName->getText();
     
     if(this->passedChildName == newChildsName && !this-isNewChildAccount)
     {
-        //If the childs name has not changed, then move forward.
-        //This stops a false error of "CHILD NAME EXISTS"
-
         moveToDOBInput(button);
     }
     else
     {
-        if(childNameExists(newChildsName))
+        TextInputChecker *textInputChecker = new TextInputChecker();
+        if(textInputChecker->childNameExists(newChildsName))
         {
-            //#TODO handle modal message strings.
             ModalMessages::getInstance()->createMessageWithSingleButton("Display Name Exists", "Please insert a unique name.", "OK");
         }
-        else
-            moveToDOBInput(button);
+        else moveToDOBInput(button);
+        
+        textInputChecker->release();
     }
 }
 
@@ -417,17 +331,13 @@ void ChildAccountScene::moveToDOBInput(Node* button)
 
 void ChildAccountScene::setDOBLabel()
 {
-    //Set correct label Depending if new Child
-    Label* DOB_Title = ((Label *)childAccountContent->getChildByTag(TAG_DOB_LABEL));
-    
     if(this->isNewChildAccount)
     {
-        std::string newChildsName = ((ui::EditBox *)childAccountContent->getChildByTag(TAG_CHILDNAME_EDITBOX))->getText();
-        
-        DOB_Title->setString(StringUtils::format("%s %s.", LABEL_NEW_REQUEST_CHILD_BIRTHDAY,newChildsName.c_str()));
+        std::string newChildsName = editBox_childName->getText();
+        labelDob->setString(StringUtils::format("%s %s.", StringStorage::getInstance()->getStringForChildAccount("editChildBirthDay").c_str(), newChildsName.c_str()));
     }
     else
-        DOB_Title->setString(LABEL_EDIT_REQUEST_CHILD_BIRTHDAY);
+        labelDob->setString(StringStorage::getInstance()->getStringForChildAccount("editChildBirthDay").c_str());
 }
 
 void ChildAccountScene::moveToChildNameInput(Node* button)
@@ -461,9 +371,8 @@ void ChildAccountScene::moveToOomeeSelection(Node* button)
 
 void ChildAccountScene::selectOomee(cocos2d::Sprite* selectedOomee)
 {
-    ((cocos2d::Sprite *)childAccountContent->getChildByTag(TAG_OOMEE_NEXT_BUTTON))->setVisible(true);
+    buttonNextOomee->setVisible(true);
     
-    //Add here what to do when Oomee selected. Currently just set to be bigger.
     for(int i=0;i<NO_OF_OOMEES;i++)
     {
         cocos2d::Sprite* oomee = (cocos2d::Sprite *)childAccountContent->getChildByTag(i);
@@ -475,100 +384,44 @@ void ChildAccountScene::selectOomee(cocos2d::Sprite* selectedOomee)
     this->selectedOomeeNo = selectedOomee->getTag();
 }
 
-void ChildAccountScene::doneButton()
+void ChildAccountScene::registerChildAccount()
 {
-    std::string profileName = ((ui::EditBox *)childAccountContent->getChildByTag(TAG_CHILDNAME_EDITBOX))->getText();
+    std::string profileName = editBox_childName->getText();
     
-    int d = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_DAY_EDITBOX))->getText());
-    int m = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_MONTH_EDITBOX))->getText());
-    int y = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_YEAR_EDITBOX))->getText());
+    int day = atoi(editBox_day->getText());
+    int month = atoi(editBox_month->getText());
+    int year = atoi(editBox_year->getText());
     
-    std::string DOB = StringUtils::format("%04d-%02d-%02d",y,m,d);
+    std::string DOB = StringUtils::format("%04d-%02d-%02d",year,month,day);
     std::string gender = "MALE";
-    
-    // NOTE Child Age to be in "yyyy-MM-dd" format
     
     if(this->isNewChildAccount)
     {
        auto backEndCaller = BackEndCaller::getInstance();
         backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
     }
-    else
-    {
-        //NEED TO SEND CHANGE REQUEST, and handle error passing of this->passedChildName to rebuilt scene.
-    }
-}
-
-bool ChildAccountScene::isCharacter(const char Character)
-{
-    //Borrowed from internet With isValidEmailAddress to check email address format
-    
-    return ( (Character >= 'a' && Character <= 'z') || (Character >= 'A' && Character <= 'Z'));
-    //Checks if a Character is a Valid A-Z, a-z Character, based on the ascii value
-}
-bool ChildAccountScene::isNumber(const char Character)
-{
-    return ( Character >= '0' && Character <= '9');
-    //Checks if a Character is a Valid 0-9 Number, based on the ascii value
-}
-
-bool ChildAccountScene::isDate()
-{
-    int d = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_DAY_EDITBOX))->getText());
-    int m = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_MONTH_EDITBOX))->getText());
-    int y = atoi(((ui::EditBox *)childAccountContent->getChildByTag(TAG_YEAR_EDITBOX))->getText());
-    
-    if (! (1582<= y )  )//comment these 2 lines out if it bothers you
-        return false;
-    if (! (1<= m && m<=12) )
-        return false;
-    if (! (1<= d && d<=31) )
-        return false;
-    if ( (d==31) && (m==2 || m==4 || m==6 || m==9 || m==11) )
-        return false;
-    if ( (d==30) && (m==2) )
-        return false;
-    if ( (m==2) && (d==29) && (y%4!=0) )
-        return false;
-    if ( (m==2) && (d==29) && (y%400==0) )
-        return true;
-    if ( (m==2) && (d==29) && (y%100==0) )
-        return false;
-    if ( (m==2) && (d==29) && (y%4==0)  )
-        return true;
-    
-    return true;
-}
-
-bool ChildAccountScene::childNameExists(std::string newChildsName)
-{
-    //check if child name exists
-    bool childNameExists = false;
-    
-    for(int i = 0; i < DataStorage::getInstance()->getAmountOfAvailableChildren(); i++)
-    {
-        std::string storedChildsName = DataStorage::getInstance()->getValueFromOneAvailableChild(i, "profileName");
-        
-        if(newChildsName.compare(storedChildsName) == 0)
-        {
-            childNameExists = true;
-            break;
-        }
-    }
-    
-    return childNameExists;
 }
 
 //Editbox Delegate Functions
 void ChildAccountScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-    //Make the next buttons visible if the inputs are in correct format
+    TextInputChecker *textInputChecker = new TextInputChecker();
     
-    if(editBox->getTag() == TAG_CHILDNAME_EDITBOX)
-        //if there is text, then show the next button.
-        ((cocos2d::Sprite *)childAccountContent->getChildByTag(TAG_CHILD_NEXT_BUTTON))->setVisible(text != "");
+    if(editBox == editBox_childName)
+    {
+        bool canGoForward = false;
+        if(text != "") canGoForward = true;
+        buttonNextChild->setVisible(canGoForward);
+    }
     else
-        ((cocos2d::Sprite *)childAccountContent->getChildByTag(TAG_DOB_NEXT_BUTTON))->setVisible(isDate());
+    {
+        int day = atoi(editBox_day->getText());
+        int month = atoi(editBox_month->getText());
+        int year = atoi(editBox_year->getText());
+        
+        bool canGoForward = textInputChecker->isDate(day, month, year);
+        buttonNextDob->setVisible(canGoForward);
+    }
 }
 
 void ChildAccountScene::editBoxReturn(cocos2d::ui::EditBox* editBox)

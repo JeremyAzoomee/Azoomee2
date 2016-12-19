@@ -13,4 +13,7 @@ public:
     
     //Onboarding scene strings
     std::string getStringForOnboarding(std::string labelName);
+    
+    //ChildAccount scene strings
+    std::string getStringForChildAccount(std::string labelName);
 };

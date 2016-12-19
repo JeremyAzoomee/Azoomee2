@@ -17,9 +17,6 @@ public:
 
     virtual bool init();
     
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
     virtual void onEnterTransitionDidFinish();
     
     void addVisualElementsToScene();
@@ -31,23 +28,16 @@ public:
     void addOomeesToLayer();
     
     void backButtonCloseScene();
-    void childNameNextButton(Node* button);
+    void childNameNextButtonPressed(Node* button);
     void setDOBLabel();
     void moveToDOBInput(Node* button);
-    bool isDate();
     void moveToChildNameInput(Node* button);
     void moveToOomeeSelection(Node* button);
     void selectOomee(cocos2d::Sprite* selectedOomee);
-    void doneButton();
+    void registerChildAccount();
     
     void disableMoveButton(Node* button);
     void enableMoveButton(Node* button);
-    
-    bool childNameExists(std::string newChildsName);
-    
-    //Email String Checker Functions
-    bool isCharacter(const char Character);
-    bool isNumber(const char Character);
     
     void setChildName(std::string ChildName);
     bool isNewChildAccount;
@@ -69,7 +59,21 @@ public:
     //void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox);
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
     void editBoxReturn(cocos2d::ui::EditBox* editBox);
-
+    
+    cocos2d::ui::EditBox *editBox_childName;
+    cocos2d::ui::EditBox *editBox_day;
+    cocos2d::ui::EditBox *editBox_month;
+    cocos2d::ui::EditBox *editBox_year;
+    
+    cocos2d::Sprite *buttonCloseChild;
+    cocos2d::Sprite *buttonNextChild;
+    cocos2d::Sprite *buttonBackDob;
+    cocos2d::Sprite *buttonNextDob;
+    cocos2d::Sprite *buttonBackOomee;
+    cocos2d::Sprite *buttonNextOomee;
+    
+    cocos2d::Label *labelDob;
+    cocos2d::Label *labelOomee;
 };
 
 #endif // __ChildAccountScene_SCENE_H__

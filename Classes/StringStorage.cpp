@@ -37,3 +37,22 @@ std::string StringStorage::getStringForOnboarding(std::string labelName)
     
     return onboardingStrings[labelName];
 }
+
+std::string StringStorage::getStringForChildAccount(std::string labelName)
+{
+    std::map<std::string, std::string> childAccountStrings;
+    
+    childAccountStrings["requestChildName"] = "Hello! Please add a display name.";
+    childAccountStrings["editChildName"] = "Want to change the display name?";
+    childAccountStrings["requestChildBirthDay"] = "Please add date of birth for";
+    childAccountStrings["editChildBirthDay"] = "Change birthday?";
+    childAccountStrings["requestChildOomee"] = "Select your favourite Oomee.";
+    childAccountStrings["requestChildOomeeSub"] = "Don't worry you can change it later.";
+    childAccountStrings["editChildOomee"] = "Change your Oomee?";
+    
+    childAccountStrings["phDobDay"] = "DD";
+    childAccountStrings["phDobMonth"] = "MM";
+    childAccountStrings["phDobYear"] = "YYYY";
+    
+    return childAccountStrings[labelName];
+}
