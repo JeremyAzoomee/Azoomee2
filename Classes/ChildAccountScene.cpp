@@ -4,6 +4,7 @@
 #include "BackEndCaller.h"
 #include "DataStorage.h"
 #include "ChildSelectorScene.h"
+#include "TextInputChecker.h"
 
 USING_NS_CC;
 

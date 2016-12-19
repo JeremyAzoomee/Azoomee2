@@ -27,10 +27,11 @@ public:
     void addLabelsToLayer();
     
     void closeOnboarding();
-    void moveToPasswordScreen(Node* button);
-    void moveToEmailScreen(Node* button);
-    void moveToPinScreen(Node* button);
+    void cleanPasswordScreen();
+    void cleanEmailScreen();
+    void cleanPinScreen();
     void signup();
+    void moveToScreen(cocos2d::Sprite *sender);
     
     void disableMoveButton(Node* button);
     void enableMoveButton(Node* button);
@@ -45,18 +46,20 @@ public:
     CREATE_FUNC(OnboardingScene);
     
     //Editbox Delegate Functions
-    //void editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox);
-    //void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox);
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
     void editBoxReturn(cocos2d::ui::EditBox* editBox);
     
-    //Input String Checker Functions
-    bool isCharacter(const char Character);
-    bool isNumber(const char Character);
-    bool isValidEmailAddress(const char * EmailAddress);
-    bool isValidPassword(const char * password);
-    bool isValidPin(const char * pinNumber);
-
+    //global variables for textboxes and buttons
+    cocos2d::ui::EditBox *editBox_email;
+    cocos2d::ui::EditBox *editBox_password;
+    cocos2d::ui::EditBox *editBox_pin;
+    
+    cocos2d::Sprite *buttonBackEmail;
+    cocos2d::Sprite *buttonNextEmail;
+    cocos2d::Sprite *buttonBackPassword;
+    cocos2d::Sprite *buttonNextPassword;
+    cocos2d::Sprite *buttonNextPin;
+    cocos2d::Sprite *buttonBackPin;
 };
 
-#endif // __OnboardingScene_SCENE_H__
+#endif
