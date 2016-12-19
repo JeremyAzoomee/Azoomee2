@@ -1,16 +1,5 @@
 #include "BackEndCaller.h"
 
-#include "network/HttpClient.h"
-
-#include "external/json/document.h"
-#include "external/json/writer.h"
-#include "external/json/stringbuffer.h"
-
-#include "external/json/document.h"
-#include "external/json/writer.h"
-#include "external/json/stringbuffer.h"
-#include "external/json/prettywriter.h"
-
 #include "JWTTool.h"
 #include "DataStorage.h"
 #include "HQDataProvider.h"
@@ -21,12 +10,9 @@
 #include "OnboardingScene.h"
 #include "ChildAccountScene.h"
 #include "ModalMessages.h"
-
-#define CI_HOST "api.elb.ci.azoomee.ninja"
-#define CI_URL "http://" CI_HOST
+#include "ConfigStorage.h"
 
 using namespace cocos2d;
-using namespace network;
 
 static BackEndCaller *_sharedBackEndCaller = NULL;
 
@@ -70,7 +56,6 @@ void BackEndCaller::login(std::string username, std::string password)
     displayLoadingScreen();
     
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestPath = "/api/auth/login";
     httpRequestCreator->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
     httpRequestCreator->requestTag = "parentLogin";
     httpRequestCreator->createPostHttpRequest();
@@ -78,6 +63,7 @@ void BackEndCaller::login(std::string username, std::string password)
 
 void BackEndCaller::onLoginAnswerReceived(std::string responseString)
 {
+    CCLOG("Response string is: %s", responseString.c_str());
     if(DataStorage::getInstance()->parseParentLoginData(responseString)) getAvailableChildren();
 }
 
@@ -86,7 +72,6 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
 void BackEndCaller::getAvailableChildren()
 {
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestPath = StringUtils::format("/api/user/adult/%s/owns", DataStorage::getInstance()->getParentLoginValue("id").c_str());
     httpRequestCreator->urlParameters = "expand=true";
     httpRequestCreator->requestTag = "getChildren";
     httpRequestCreator->createEncryptedGetHttpRequest();
@@ -107,7 +92,6 @@ void BackEndCaller::childLogin(int childNumber)
     displayLoadingScreen();
     
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestPath = "/api/auth/switchProfile";
     httpRequestCreator->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", DataStorage::getInstance()->getValueFromOneAvailableChild(childNumber, "profileName").c_str());
     httpRequestCreator->requestTag = "childLogin";
     httpRequestCreator->createEncryptedPostHttpRequest();
@@ -116,7 +100,7 @@ void BackEndCaller::childLogin(int childNumber)
 void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 {
     DataStorage::getInstance()->parseChildLoginData(responseString);
-    HQDataProvider::getInstance()->getContent(StringUtils::format(CI_URL"/api/electricdreams/view/categories/home/%s", DataStorage::getInstance()->getChildLoginValue("id").c_str()), "HOME");
+    HQDataProvider::getInstance()->getContent(StringUtils::format("%s/api/electricdreams/view/categories/home/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), DataStorage::getInstance()->getChildLoginValue("id").c_str()), "HOME");
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------
@@ -124,7 +108,6 @@ void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 void BackEndCaller::getGordon()
 {
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestPath = "/api/porthole/pixel/gordon.png";
     httpRequestCreator->urlParameters = StringUtils::format("userid=%s&sessionid=%s", DataStorage::getInstance()->getParentOrChildLoginValue("id").c_str(), DataStorage::getInstance()->getParentOrChildLoginValue("cdn-sessionid").c_str());
     httpRequestCreator->requestTag = "getGordon";
     httpRequestCreator->createEncryptedGetHttpRequest();
@@ -147,14 +130,8 @@ void BackEndCaller::registerParent(std::string emailAddress, std::string passwor
     this->registerParentUsername = emailAddress;
     this->registerParentPassword = password;
     
-    ModalMessages::getInstance()->startLoading();
-    
-    HttpRequest *request = new HttpRequest();
-    request->setRequestType(HttpRequest::Type::POST);
-    request->setUrl(CI_URL"/api/user/v2/adult");
-    
     std::string source = "OTHER";
-    //Need to pass SOURCE attribute to server #TODO
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     source = "IOS_INAPP";
     
@@ -163,44 +140,18 @@ void BackEndCaller::registerParent(std::string emailAddress, std::string passwor
     
 #endif
     
-    std::string myPostString = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\"}", emailAddress.c_str(),password.c_str(),source.c_str(),pinNumber.c_str());
-    const char *postData = myPostString.c_str();
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\"}", emailAddress.c_str(),password.c_str(),source.c_str(),pinNumber.c_str());
+    httpRequestCreator->requestTag = "registerParent";
+    httpRequestCreator->createPostHttpRequest();
     
-    request->setRequestData(postData, strlen(postData));
-    
-    CCLOG("request data is: %s", request->getRequestData());
-    
-    std::vector<std::string> headers;
-    headers.push_back("Content-Type: application/json;charset=utf-8");
-    request->setHeaders(headers);
-    
-    request->setResponseCallback(CC_CALLBACK_2(BackEndCaller::onRegisterParentAnswerReceived, this));
-    request->setTag("registerParent");
-    HttpClient::getInstance()->send(request);
+    displayLoadingScreen();
 }
 
-void BackEndCaller::onRegisterParentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
+void BackEndCaller::onRegisterParentAnswerReceived()
 {
-    if (response && response->getResponseCode() == 201 && response->getResponseData())
-    {
-        CCLOG("\n\n\nregister parent success");
-        std::vector<char> myResponse = *response->getResponseData();
-        CCLOG("register parent feedback: %s", std::string(myResponse.begin(), myResponse.end()).c_str());
-        
-        login(this->registerParentUsername, this->registerParentPassword);
-    }
-    else
-    {
-        CCLOG("Response code: %ld", response->getResponseCode());
-        
-        //Restart the Onboarding with error
-        auto _OnboardingScene = OnboardingScene::createScene(response->getResponseCode());
-        Director::getInstance()->replaceScene(_OnboardingScene);
-    }
-    
+    login(this->registerParentUsername, this->registerParentPassword);
 }
-//GETTING AVAILABLE CHILDREN----------------------------------------------------------------
-
 
 //REGISTER CHILD----------------------------------------------------------------------------
 
@@ -209,7 +160,6 @@ void BackEndCaller::registerChild(std::string childProfileName, std::string chil
     displayLoadingScreen();
     
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestPath = "/api/user/child";
     httpRequestCreator->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"https://media.azoomee.com/static/thumbs/oomee_%02d.png\",\"password\":\"\"}",childProfileName.c_str(),childDOB.c_str(),childGender.c_str(),oomeeNumber);
     httpRequestCreator->requestTag = "registerChild";
     httpRequestCreator->createEncryptedPostHttpRequest();

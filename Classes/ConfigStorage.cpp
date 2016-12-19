@@ -1,6 +1,7 @@
 //ConfigStorage is a singleton designed to hold all necessary "burnt-in" information for all visual scenes and layers.
 
 #include "ConfigStorage.h"
+#include "DataStorage.h"
 
 using namespace cocos2d;
 
@@ -24,6 +25,28 @@ ConfigStorage::~ConfigStorage(void)
 bool ConfigStorage::init(void)
 {
     return true;
+}
+//-------------------------BACKEND CALLER CONFIGURATION--------------------
+std::string ConfigStorage::getServerHost()
+{
+    return "api.elb.ci.azoomee.ninja";
+}
+
+std::string ConfigStorage::getServerUrl()
+{
+    return "http://" + getServerHost();
+}
+
+std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
+{
+    if(httpRequestTag == "parentLogin") return "/api/auth/login";
+    if(httpRequestTag == "getChildren") return StringUtils::format("/api/user/adult/%s/owns", DataStorage::getInstance()->getParentLoginValue("id").c_str());
+    if(httpRequestTag == "childLogin") return "/api/auth/switchProfile";
+    if(httpRequestTag == "getGordon") return "/api/porthole/pixel/gordon.png";
+    if(httpRequestTag == "registerParent") return "/api/user/v2/adult";
+    if(httpRequestTag == "registerChild") return "/api/user/child";
+    
+    return "";
 }
 
 //-------------------------BASESCENE CONFIGURATION-------------------------

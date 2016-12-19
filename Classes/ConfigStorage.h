@@ -11,6 +11,11 @@ public:
     virtual ~ConfigStorage();
     bool init(void);
     
+    //Backend caller configuration
+    std::string getServerHost();
+    std::string getServerUrl();
+    std::string getPathForTag(std::string httpRequestTag);
+    
     //BaseScene configuration
     cocos2d::Point getHQScenePositions(std::string hqSceneName);
     

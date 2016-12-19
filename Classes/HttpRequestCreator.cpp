@@ -22,9 +22,6 @@
 #include "ConfigStorage.h"
 #include "LoginScene.h"
 
-#define CI_HOST "api.elb.ci.azoomee.ninja"
-#define CI_URL "http://" CI_HOST
-
 using namespace cocos2d;
 using namespace network;
 
@@ -133,7 +130,12 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     }
     else
     {
-        host = CI_HOST;
+        host = ConfigStorage::getInstance()->getServerHost();
+        
+        if(requestPath.empty())
+        {
+            requestPath = ConfigStorage::getInstance()->getPathForTag(requestTag);
+        }
     }
     
     std::string requestUrl = StringUtils::format("http://%s%s", host.c_str(), requestPath.c_str());
@@ -151,10 +153,10 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     
     if(!requestBody.empty()) headers.push_back("Content-Type: application/json;charset=UTF-8");    //Adding content type to header only, if there is data in the request.
     
-    if(requestTag != "parentLogin")                                                             //parentLogin (and register parent) is the only nonencrypted call. JWTTool is called unless the request is not coming from login.
+    if(encrypted)                                                             //parentLogin (and register parent) is the only nonencrypted call. JWTTool is called unless the request is not coming from login.
     {
         auto myJWTTool = JWTTool::getInstance();
-        std::string myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), CI_HOST, urlParameters, requestBody);
+        std::string myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), ConfigStorage::getInstance()->getServerHost(), urlParameters, requestBody);
         const char *reqData = myRequestString.c_str();
         
         headers.push_back(StringUtils::format("x-az-req-datetime: %s", getDateFormatString().c_str()));
@@ -187,6 +189,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "getChildren") BackEndCaller::getInstance()->onGetChildrenAnswerReceived(responseDataString);
         if(requestTag == "parentLogin") BackEndCaller::getInstance()->onLoginAnswerReceived(responseDataString);
         if(requestTag == "registerChild") BackEndCaller::getInstance()->onRegisterChildAnswerReceived();
+        if(requestTag == "registerParent") BackEndCaller::getInstance()->onRegisterParentAnswerReceived();
         
         for(int i = 0; i < 5; i++)
         {

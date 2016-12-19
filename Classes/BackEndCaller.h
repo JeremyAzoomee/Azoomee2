@@ -17,7 +17,7 @@ public:
     void onLoginAnswerReceived(std::string responseString);
     
     void registerParent(std::string emailAddress, std::string password, std::string pinNumber);
-    void onRegisterParentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+    void onRegisterParentAnswerReceived();
     
     void getAvailableChildren();
     void onGetChildrenAnswerReceived(std::string responseString);
