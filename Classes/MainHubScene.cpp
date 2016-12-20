@@ -86,39 +86,4 @@ void MainHubScene::addImageContainers()
             imageIcon->createContainer(HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForHub.at(j)), 1 - (j * 0.3), 5 + CCRANDOM_0_1(), ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j));
         }
     }
-    
-    //To be added: art app feed, messages and who is logged in!
-    
-    
-    
-    /*
-     void HQScene::createBidirectionalScrollView()
-     {
-     auto visibleSize = Director::getInstance()->getVisibleSize();
-     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-     
-     auto verticalScrollView = createVerticalScrollView();
-     verticalScrollView->setName("scrollView");
-     this->addChild(verticalScrollView);
-     
-     verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * 1100));
-     
-     for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); j++)
-     {
-     std::vector<std::string> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), j);
-     
-     scrollViewSpaceAllocation.clear();
-     auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
-     verticalScrollView->addChild(horizontalScrollView);
-     
-     for(int i = 0; i < elementsForRow.size(); i++)
-     {
-     addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)));
-     }
-     }
-     }
-     */
-    
-    
-    
 }

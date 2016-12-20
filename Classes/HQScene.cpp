@@ -81,6 +81,9 @@ void HQScene::createBidirectionalScrollView()
         {
             addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)));
         }
+        
+        Point titlePosition = horizontalScrollView->getPosition();
+        addTitleToHorizontalScrollView(HQDataProvider::getInstance()->getTitleForRow(this->getName(), j), verticalScrollView, horizontalScrollView->getPosition());
     }
 }
 
@@ -147,8 +150,11 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
                 Vector<Node *> allHorizontals = vScrollView->getChildren();
                 for(int i = 0; i < allHorizontals.size(); i++)
                 {
-                    auto currentSv = (cocos2d::ui::ScrollView *)allHorizontals.at(i);
-                    currentSv->setTouchEnabled(false);
+                    if(allHorizontals.at(i)->getName() != "label")
+                    {
+                        auto currentSv = (cocos2d::ui::ScrollView *)allHorizontals.at(i);
+                        currentSv->setTouchEnabled(false);
+                    }
                 }
             }
         }
@@ -164,9 +170,12 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
         Vector<Node *> allHorizontals = vScrollView->getChildren();
         for(int i = 0; i < allHorizontals.size(); i++)
         {
-            auto currentSv = (cocos2d::ui::ScrollView *)allHorizontals.at(i);
-            currentSv->setTouchEnabled(true);
-            currentSv->setSwallowTouches(false);
+            if(allHorizontals.at(i)->getName() != "label")
+            {
+                auto currentSv = (cocos2d::ui::ScrollView *)allHorizontals.at(i);
+                currentSv->setTouchEnabled(true);
+                currentSv->setSwallowTouches(false);
+            }
         }
         
         return true;
@@ -216,9 +225,11 @@ cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size conte
 
 void HQScene::addTitleToHorizontalScrollView(std::string title, Node *toBeAddedTo, Point position)
 {
-    auto scrollViewTitle = Label::createWithTTF(title, "fonts/azoomee.ttf", 20);
+    auto scrollViewTitle = Label::createWithTTF(title, "fonts/azoomee.ttf", 40);
     scrollViewTitle->setColor(Color3B::WHITE);
     scrollViewTitle->setPosition(position);
+    scrollViewTitle->setName("label");
+    scrollViewTitle->setAnchorPoint(Vec2(0, 0));
     toBeAddedTo->addChild(scrollViewTitle);
 }
 
