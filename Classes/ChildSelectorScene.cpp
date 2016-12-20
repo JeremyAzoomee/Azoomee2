@@ -77,8 +77,8 @@ void ChildSelectorScene::addVisualsToScene()
 void ChildSelectorScene::addScrollViewForProfiles()
 {
     scrollView = ui::ScrollView::create();
-    scrollView->setContentSize(Size(visibleSize.width * 0.6, visibleSize.height * 0.6));
-    scrollView->setPosition(Point(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.15));
+    scrollView->setContentSize(Size(visibleSize.width * 0.6, visibleSize.height * 0.8));
+    scrollView->setPosition(Point(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.05));
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
     scrollView->setBounceEnabled(true);
     scrollView->setTouchEnabled(true);
