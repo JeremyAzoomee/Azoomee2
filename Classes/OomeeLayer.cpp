@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "extensions/cocos-ext.h"
 #include "spine/spine.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
@@ -24,10 +25,13 @@ bool OomeeLayer::init()
     }
     
     auto oomee = addOomeeToScreen();
-    addListenerToOomee(oomee);
+    addTouchListenerToOomee(oomee);
+    addCompleteListenerToOomee(oomee);
     
     return true;
 }
+
+//---------------------------------------------------------All methods beyond this line are called internally only-----------------------------------------------
 
 spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
 {
@@ -36,8 +40,7 @@ spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
     
     SkeletonAnimation *oomee = SkeletonAnimation::createWithFile("res/oomees/Pink.json", "res/oomees/Pink.atlas", 0.6f);
     oomee->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.38);
-    oomee->setMix("Build_Dance_Wave", "Build_Float", 1);
-    oomee->setAnimation(0, "Build_Simple_Wave", true);
+    oomee->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
     oomee->setScale(2);
     oomee->setOpacity(0);
     this->addChild(oomee);
@@ -47,7 +50,7 @@ spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
     return oomee;
 }
 
-void OomeeLayer::addListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
+void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -61,8 +64,7 @@ void OomeeLayer::addListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            target->setAnimation(0, "Build_Glitch", false);
-            target->addAnimation(0, "Build_Simple_Wave", true);
+            target->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("touch").c_str(), false);
             
             return true;
         }
@@ -72,4 +74,14 @@ void OomeeLayer::addListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, toBeAddedTo);
+}
+
+void OomeeLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
+{
+    auto oomeeAnimationComplete = [=] (int trackIdx, int loopCount)
+    {
+        toBeAddedTo->addAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
+    };
+    
+    toBeAddedTo->setCompleteListener(oomeeAnimationComplete);
 }

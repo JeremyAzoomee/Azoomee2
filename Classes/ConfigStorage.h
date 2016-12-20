@@ -39,4 +39,7 @@ public:
     //ImageContainer configuration
     cocos2d::Color4B getColourForElementType(std::string type);
     std::string getIconNameForCategory(std::string category);
+    
+    //OomeeLayer animation states
+    std::string getRandomIdForAnimationType(std::string animationType);
 };

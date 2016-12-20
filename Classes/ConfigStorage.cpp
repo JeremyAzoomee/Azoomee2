@@ -218,3 +218,35 @@ std::string ConfigStorage::getIconNameForCategory(std::string category)
     
     return iconNames[category];
 }
+
+//-----------------------------------OOMEE animation identifier configuration----------------------------------
+
+std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType)
+{
+    std::vector<std::string> idleAnimations;
+    idleAnimations.push_back("Build_Double_Take_Point_Left");
+    idleAnimations.push_back("Build_Ear_Twitch");
+    idleAnimations.push_back("Build_Fall_Asleep");
+    idleAnimations.push_back("Build_Float");
+    idleAnimations.push_back("Build_Float2");
+    idleAnimations.push_back("Build_Float3");
+    idleAnimations.push_back("Build_Look_Top_Left");
+    idleAnimations.push_back("Build_Look_Top_Right");
+    //idleAnimations.push_back("Build_Point_To_Right");
+    idleAnimations.push_back("Build_Point_Bottom_Left");
+    idleAnimations.push_back("Build_Scratch");
+    idleAnimations.push_back("Build_Simple_Wave");
+    idleAnimations.push_back("Build_Smile");
+    idleAnimations.push_back("Build_Yawn");
+    
+    std::vector<std::string> touchAnimations;
+    touchAnimations.push_back("Build_Dance_Wave");
+    touchAnimations.push_back("Build_Eat");
+    touchAnimations.push_back("Build_Glitch");
+    touchAnimations.push_back("Build_Pop");
+    touchAnimations.push_back("Build_Shower");
+    touchAnimations.push_back("Build_Sneeze");
+    
+    if(animationType == "idle") return idleAnimations.at(random(0, (int)idleAnimations.size() - 1));
+    else return touchAnimations.at(random(0, (int)touchAnimations.size() - 1));
+}

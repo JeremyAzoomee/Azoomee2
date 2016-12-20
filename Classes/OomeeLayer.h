@@ -12,7 +12,9 @@ public:
 
     virtual bool init();
     spine::SkeletonAnimation* addOomeeToScreen();
-    void addListenerToOomee(spine::SkeletonAnimation* toBeAddedTo);
+    void addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo);
+    void addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedTo);
+    
     
     CREATE_FUNC(OomeeLayer);
 };
