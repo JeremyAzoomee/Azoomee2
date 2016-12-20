@@ -47,6 +47,14 @@ void BackEndCaller::hideLoadingScreen()
     ModalMessages::getInstance()->stopLoading();
 }
 
+//---------------------ERROR HANDLING----------------------------------
+
+void BackEndCaller::getBackToLoginScreen()
+{
+    auto loginScene = LoginScene::createScene(0);
+    Director::getInstance()->replaceScene(loginScene);
+}
+
 
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
 
@@ -65,6 +73,7 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
 {
     CCLOG("Response string is: %s", responseString.c_str());
     if(DataStorage::getInstance()->parseParentLoginData(responseString)) getAvailableChildren();
+    else getBackToLoginScreen();
 }
 
 //GETTING AVAILABLE CHILDREN--------------------------------------------------------------------------
