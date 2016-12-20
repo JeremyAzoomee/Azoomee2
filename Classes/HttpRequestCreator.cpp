@@ -142,6 +142,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     if(!urlParameters.empty()) requestUrl = StringUtils::format("%s?%s", requestUrl.c_str(), urlParameters.c_str());   //In URL we need to add the ?
     
     HttpRequest *request = new HttpRequest();
+    
     if(method == "POST") request->setRequestType(HttpRequest::Type::POST);
     if(method == "GET") request->setRequestType(HttpRequest::Type::GET);
     request->setUrl(requestUrl.c_str());
@@ -167,6 +168,8 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     
     request->setResponseCallback(CC_CALLBACK_2(::HttpRequestCreator::onHttpRequestAnswerReceived, this));
     request->setTag(requestTag);
+    HttpClient::getInstance()->setTimeoutForConnect(2);
+    HttpClient::getInstance()->setTimeoutForRead(2);
     HttpClient::getInstance()->send(request);
 }
 
