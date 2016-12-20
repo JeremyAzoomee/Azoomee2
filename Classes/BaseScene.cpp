@@ -63,7 +63,6 @@ void BaseScene::addMainHubScene(Node* toBeAddedTo)
 {
     auto sMainHubScene = MainHubScene::create();
     sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions("HOME"));
-    sMainHubScene->setName("HOME");
     sMainHubScene->setTag(0);
     toBeAddedTo->addChild(sMainHubScene);
 }

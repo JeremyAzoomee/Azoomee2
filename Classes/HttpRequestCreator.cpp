@@ -1,20 +1,3 @@
-//HttpRequestCreator - please use this file to create JWT signed / unencrytped calls to back-end service.
-//Usage:
-//in head: #include "HttpRequestCreator.h"
-//
-//HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-//httpRequestCreator->requestBody = std::string requestbody;
-//httpRequestCreator->urlParamteres = std::string urlParameters;
-//httpRequestCreator->method = std::string "GET"/"POST";
-//httpRequestCreator->requestPath = std::string requestPath;
-//httpRequestCreator->requestTag = std::string requestTag;
-//httpRequestCreator->enrypted = true/false;
-//httpRequestCreator->createHttpRequest();
-//
-//httpRequestCreator will release itself after the answer is received and BackEndCaller is called to do required action based on requestTag.
-//
-//Please note: if requestUrl is set, requestPath, host and urlParameters will be set up from that automatically by this class.
-
 #include "HttpRequestCreator.h"
 #include "JWTTool.h"
 #include "BackEndCaller.h"

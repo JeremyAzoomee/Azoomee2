@@ -1,17 +1,6 @@
 #include "HQDataProvider.h"
 
-#include "network/HttpClient.h"
-
-#include "external/json/document.h"
-#include "external/json/writer.h"
-#include "external/json/stringbuffer.h"
-
-#include "JWTTool.h"
-
 USING_NS_CC;
-
-#define CI_HOST "api.elb.ci.azoomee.ninja"
-#define CI_URL "http://" CI_HOST
 
 #include "external/json/document.h"
 #include "external/json/writer.h"
@@ -19,14 +8,10 @@ USING_NS_CC;
 #include "external/json/prettywriter.h"
 
 #include "HQScene.h"
-
 #include "BackEndCaller.h"
 #include "DataStorage.h"
-
 #include "HttpRequestCreator.h"
 
-
-using namespace network;
 using namespace cocos2d;
 
 static HQDataProvider *_sharedHQDataProvider = NULL;
@@ -141,9 +126,10 @@ bool HQDataProvider::parseHQStructure(std::string responseString, const char *ca
     std::vector<std::vector<std::string>> actualListElements;
     if (contentData.HasParseError()) return false; //JSON HAS ERRORS IN IT
     
+    CCLOG("Category : %s, size: %d", category, contentData["rows"].Size());
+    
     for (int i = 0; i < contentData["rows"].Size(); i++)
     {
-        
         if(contentData["rows"][i]["title"].IsNull())
         {
             actualListTitles.push_back("");
@@ -191,21 +177,6 @@ bool HQDataProvider::parseHQGetContentUrls(std::string responseString)
     HQGetContentUrls.erase("HOME"); //On front-end home is being handled separately from all other HQ-s.
     
     return true;
-}
-
-std::vector<std::map<std::string, std::string>> HQDataProvider::getMainHubDataForGivenType(std::string type)
-{
-    std::vector<std::map<std::string, std::string>> result;
-    
-    for(int i = 0; i < HQData["HOME"].size(); i++)
-    {
-        if(HQData["HOME"].at(i)["type"] == type.c_str())
-        {
-            result.push_back(HQData["HOME"].at(i));
-        }
-    }
-    
-    return result;
 }
 
 int HQDataProvider::getNumberOfRowsForHQ(std::string category)

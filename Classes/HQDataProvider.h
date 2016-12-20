@@ -26,7 +26,6 @@ public:
     bool parseHQGetContentUrls(std::string responseString);
     
     //MainHub Area services
-    std::vector<std::map<std::string, std::string>> getMainHubDataForGivenType(std::string type);
     std::map<std::string, std::string> getItemDataForSpecificItem(std::string category, std::string itemid);
     void getDataForHQ(std::string category);
     

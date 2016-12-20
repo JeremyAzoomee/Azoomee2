@@ -33,7 +33,7 @@ public:
     cocos2d::Point getTargetPositionForMove(int itemNumber);
     
     //MainHubScene configuration
-    std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(int category);
+    std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(std::string categoryName);
     std::string getRequiredTypesForHighlightCategory(int category);
     
     //ImageContainer configuration

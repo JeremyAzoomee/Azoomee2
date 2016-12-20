@@ -185,15 +185,15 @@ Point ConfigStorage::getTargetPositionForMove(int itemNumber)
     return positions.at(itemNumber);
 }
 
-std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(int category)
+std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::string categoryName)
 {
-    std::vector<std::vector<Point>> positions;
+    std::map<std::string, std::vector<Point>> positions;
     
-    positions.push_back(std::vector<Point> {Point(-1050, 75), Point(-700, 400)});
-    positions.push_back(std::vector<Point> {Point(-700, -700), Point(-1050, -475)});
-    positions.push_back(std::vector<Point> {Point(600, 75), Point(400,400)});
+    positions["PLAY"] = std::vector<Point> {Point(600, 75), Point(400,400)};
+    positions["LISTEN"] = std::vector<Point> {Point(-700, -700), Point(-1050, -475)};
+    positions["WATCH"] = std::vector<Point> {Point(-1050, 75), Point(-700, 400)};
     
-    return positions.at(category);
+    return positions[categoryName];
 }
 
 //--------------------------------IMAGECONTAINER CONFIGURATION----------------
@@ -202,8 +202,8 @@ cocos2d::Color4B ConfigStorage::getColourForElementType(std::string type)
 {
     std::map<std::string, Color4B> colours;
     
-    colours["GAME"] = Color4B(58,188,152,150);
-    colours["AUIDO"] = Color4B(86,177,255,150);
+    colours["AUDIO"] = Color4B(58,188,152,150);
+    colours["GAME"] = Color4B(86,177,255,150);
     colours["VIDEO"] = Color4B(248, 71, 89, 150);
     
     return colours[type];
