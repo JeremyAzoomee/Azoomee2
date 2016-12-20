@@ -33,7 +33,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     Color3B colour3 = Color3B(colour4.r, colour4.g, colour4.b);
     
     createBgLayer(elementProperties, scale, startDelay, position);
-    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"]));
+    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"]), startDelay);
     addGradientToBottom(colour3, startDelay);
     addIconToImage(elementProperties["type"], startDelay);
     addLabelToImage(elementProperties["title"], startDelay);
@@ -140,12 +140,15 @@ void ImageContainer::addLockToImageContainer(float startDelay)
     lockImage->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
 }
 
-void ImageContainer::addImageToLayer(std::string url)
+void ImageContainer::addImageToLayer(std::string url, float startDelay)
 {
     ImageDownloader *imageDownloader = ImageDownloader::create();
     imageDownloader->initWithURLAndSize(url, Size(bgLayer->getContentSize().width - 20, bgLayer->getContentSize().height - 20));
     imageDownloader->setPosition(bgLayer->getContentSize() / 2);
+    imageDownloader->setOpacity(0);
     bgLayer->addChild(imageDownloader);
+    
+    imageDownloader->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
 }
 
 void ImageContainer::addGradientToBottom(Color3B colour, float startDelay)

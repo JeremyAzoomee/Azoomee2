@@ -16,6 +16,7 @@ bool ImageDownloader::initWithURLAndSize(std::string url, Size size)
         return false;
     }
     
+    this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     this->addPlaceHolderImage();
     this->addLoadingAnimation();
