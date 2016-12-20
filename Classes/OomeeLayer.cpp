@@ -34,11 +34,11 @@ spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    SkeletonAnimation *oomee = SkeletonAnimation::createWithFile("res/previewimg/skeleton.json", "res/previewimg/skeleton.atlas", 0.6f);
+    SkeletonAnimation *oomee = SkeletonAnimation::createWithFile("res/oomees/Pink.json", "res/oomees/Pink.atlas", 0.6f);
     oomee->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.38);
-    oomee->setMix("wave2", "idle", 1);
-    oomee->setAnimation(0, "idle", true);
-    oomee->setScale(1.5);
+    oomee->setMix("Build_Dance_Wave", "Build_Float", 1);
+    oomee->setAnimation(0, "Build_Simple_Wave", true);
+    oomee->setScale(2);
     oomee->setOpacity(0);
     this->addChild(oomee);
     
@@ -61,8 +61,8 @@ void OomeeLayer::addListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            target->setAnimation(0, "wave2", false);
-            target->addAnimation(0, "idle", true);
+            target->setAnimation(0, "Build_Glitch", false);
+            target->addAnimation(0, "Build_Simple_Wave", true);
             
             return true;
         }
