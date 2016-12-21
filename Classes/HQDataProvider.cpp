@@ -74,6 +74,7 @@ bool HQDataProvider::parseHQData(std::string responseString, const char *categor
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
     std::vector<std::map<std::string, std::string>> HQElements;
+    std::map <std::string, Vec2> elementHighlightWithTitle;
     
     rapidjson::Value::MemberIterator M;
     const char *key;
@@ -109,10 +110,20 @@ bool HQDataProvider::parseHQData(std::string responseString, const char *categor
             }
             
             HQElements.push_back(elementProperty);
+            
+            //setting up highlight for element
+            if(!contentData["items"][key]["highlight"].IsNull())
+            {
+                int highlightx = contentData["items"][key]["highlight"][0].GetInt();
+                int highlighty = contentData["items"][key]["highlight"][1].GetInt();
+                Vec2 elementHighlight = Vec2(highlightx, highlighty);
+                elementHighlightWithTitle[key] = elementHighlight;
+            }
         }
     }
     
     HQData[StringUtils::format("%s", category)] = HQElements;
+    HQElementHighlights[category] = elementHighlightWithTitle;
     
     return true;
 }
@@ -210,6 +221,11 @@ std::map<std::string, std::string> HQDataProvider::getItemDataForSpecificItem(st
     }
     
     return result;
+}
+
+Vec2 HQDataProvider::getHighlightDataForSpecificItem(std::string category, std::string itemid)
+{
+    return HQElementHighlights[category][itemid];
 }
 
 //GETTING CONTENT

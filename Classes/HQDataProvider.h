@@ -17,6 +17,7 @@ public:
     std::map<std::string, std::vector<std::map<std::string, std::string>>> HQData;                          //MAP: VIDEO, AUDIO, GAME etc - Inside a vector of MAPS - Inside item properties
     std::map<std::string, std::vector<std::string>> HQListTitles;                                           //MAP: VIDEO, AUDIO, GAME etc - Inside: vector titles (List A, List B, List C)
     std::map<std::string, std::vector<std::vector<std::string>>> HQListElements;                            //MAP: VIDEO, AUDIO, GAME etc - Inside a vector for lists, inside a vector with the elements
+    std::map<std::string, std::map<std::string, cocos2d::Vec2>> HQElementHighlights;                        //MAP: VIDEO, AUDIO, GAME etc - Inside a map for element id-s, inside a Vec2 for highlight x and y sizes.
     
     std::map<std::string, std::string> HQGetContentUrls;                                                    //HQGetContentUrls store get content urls for the separate areas
     
@@ -27,6 +28,7 @@ public:
     
     //MainHub Area services
     std::map<std::string, std::string> getItemDataForSpecificItem(std::string category, std::string itemid);
+    cocos2d::Vec2 getHighlightDataForSpecificItem(std::string category, std::string itemid);
     void getDataForHQ(std::string category);
     
     //HQ Area services
