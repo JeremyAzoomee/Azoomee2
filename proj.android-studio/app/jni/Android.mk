@@ -39,7 +39,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HttpRequestCreator.cpp \
                    ../../../Classes/ConfigStorage.cpp \
                    ../../../Classes/TextInputChecker.cpp \
-                   ../../../Classes/StringStorage.cpp
+                   ../../../Classes/StringStorage.cpp \
+                   ../../../Classes/HQSceneElementPositioner.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
