@@ -10,7 +10,8 @@ public:
 
     virtual bool init();
     
-    void createColourLayer(std::string category, int highlight);
+    void resizeSceneElement(cocos2d::Vec2 shape, std::string category);
+    void createColourLayer(std::string category);
     void addImageToBaseLayer(std::string filename);
     void addGradientToBottom(std::string category);
     void addIconToImage(std::string category);
@@ -19,7 +20,7 @@ public:
     
     std::map<std::string, int> category_translator;
     
-    void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData);
+    void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape);
     
     cocos2d::LayerColor *baseLayer;
     cocos2d::LayerColor *overlayWhenTouched;

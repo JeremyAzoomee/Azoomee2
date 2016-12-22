@@ -6,6 +6,8 @@
 #include "HQSceneElement.h"
 #include "SimpleAudioEngine.h"
 #include "HQDataProvider.h"
+#include "ConfigStorage.h"
+#include "HQSceneElementPositioner.h"
 
 USING_NS_CC;
 
@@ -85,24 +87,6 @@ void HQScene::createBidirectionalScrollView()
         Point titlePosition = horizontalScrollView->getPosition();
         addTitleToHorizontalScrollView(HQDataProvider::getInstance()->getTitleForRow(this->getName(), j), verticalScrollView, horizontalScrollView->getPosition());
     }
-}
-
-Point HQScene::getItemPositionForBidirectionalScrollView(int highlight)
-{
-    Size baseSize = Size(520, 520);
-    Point resultPoint = Point(50,50);
-    int allocatedAmount = 1;
-    
-    if((highlight == 1)||(highlight == 2))
-    {
-        if(scrollViewSpaceAllocation.size() % 2 == 1) scrollViewSpaceAllocation.push_back(false); //if the last item is on the down side, we have to skip a column, as big item is coming.
-        allocatedAmount = highlight * 2;                                                          //we need to allocate the amount of base-spaces - 2 for highlight = 1, 4 for highlight = 2
-    }
-    
-    resultPoint = Point(20 + scrollViewSpaceAllocation.size() / 2 * baseSize.width, scrollViewSpaceAllocation.size() % 2 * baseSize.height + 20);
-    for(int i = 0; i < allocatedAmount; i++) scrollViewSpaceAllocation.push_back(true);
-    
-    return resultPoint;
 }
 
 void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
@@ -210,6 +194,7 @@ cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size conte
 {
     auto scrollView = cocos2d::ui::ScrollView::create();
     scrollView->setContentSize(contentSize);
+    scrollView->setInnerContainerSize(contentSize);
     scrollView->setPosition(position);
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     scrollView->setBounceEnabled(true);
@@ -235,13 +220,17 @@ void HQScene::addTitleToHorizontalScrollView(std::string title, Node *toBeAddedT
 
 void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData)
 {
+    Vec2 highlightDataForElement = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(this->getName(), itemData["id"]);
+    
     auto hqSceneElement = HQSceneElement::create();
-    hqSceneElement->addHQSceneElement(this->getName(), itemData);
+    hqSceneElement->addHQSceneElement(this->getName(), itemData, highlightDataForElement);
     
-    int amountOfElements = (int)toBeAddedTo->getChildren().size();
-    Point position = (Point(amountOfElements * hqSceneElement->getSizeOfLayerWithGap().width, 50));
-    toBeAddedTo->setInnerContainerSize(Size(position.x + hqSceneElement->getSizeOfLayerWithGap().width, toBeAddedTo->getInnerContainerSize().height));
+    //int amountOfElements = (int)toBeAddedTo->getChildren().size();
+    //Point position = (Point(amountOfElements * hqSceneElement->getSizeOfLayerWithGap().width, 50));
+    //toBeAddedTo->setInnerContainerSize(Size(position.x + hqSceneElement->getSizeOfLayerWithGap().width, toBeAddedTo->getInnerContainerSize().height));
     
-    hqSceneElement->setPosition(position);
     toBeAddedTo->addChild(hqSceneElement);
+    
+    auto sceneElementPositioner = new HQSceneElementPositioner();
+    sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
 }

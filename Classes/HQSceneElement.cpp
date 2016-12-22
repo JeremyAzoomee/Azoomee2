@@ -37,9 +37,10 @@ bool HQSceneElement::init()
     return true;
 }
 
-void HQSceneElement::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData) //This method is being called by HQScene.cpp with all variables.
+void HQSceneElement::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape) //This method is being called by HQScene.cpp with all variables.
 {
-    createColourLayer(category, 0);
+    resizeSceneElement(shape, category);
+    createColourLayer(category);
     
     addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemData["id"]));
     addGradientToBottom(category);
@@ -118,14 +119,22 @@ void HQSceneElement::addTouchOverlayToElement()
     baseLayer->addChild(overlayWhenTouched);
 }
 
-void HQSceneElement::createColourLayer(std::string category, int highlight)
+void HQSceneElement::resizeSceneElement(cocos2d::Vec2 shape, std::string category)
+{
+    Size defaultSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(category);
+    Size layerSize = Size(defaultSize.width * shape.x, defaultSize.height * shape.y);
+    
+    this->setContentSize(layerSize);
+}
+
+void HQSceneElement::createColourLayer(std::string category)
 {
     ConfigStorage* configStorage = ConfigStorage::getInstance();
     Color4B colour = configStorage->getBaseColourForContentItemInCategory(category);
-    Size size = configStorage->getSizeForContentItemInCategory(category);
-    Vec2 highlightMultipler = configStorage->getHighlightSizeMultiplierForContentItem(highlight);
+    Size size = Size(this->getContentSize().width - 20, this->getContentSize().height - 20);
     
-    baseLayer = LayerColor::create(colour, size.width * highlightMultipler.x, size.height * highlightMultipler.y);
+    baseLayer = LayerColor::create(colour, size.width, size.height);
+    baseLayer->setPosition(10, 10);
     this->addChild(baseLayer);
 }
 

@@ -112,10 +112,10 @@ bool HQDataProvider::parseHQData(std::string responseString, const char *categor
             HQElements.push_back(elementProperty);
             
             //setting up highlight for element
-            if(!contentData["items"][key]["highlight"].IsNull())
+            if(!contentData["items"][key]["shape"].IsNull())
             {
-                int highlightx = contentData["items"][key]["highlight"][0].GetInt();
-                int highlighty = contentData["items"][key]["highlight"][1].GetInt();
+                int highlightx = contentData["items"][key]["shape"][0].GetInt();
+                int highlighty = contentData["items"][key]["shape"][1].GetInt();
                 Vec2 elementHighlight = Vec2(highlightx, highlighty);
                 elementHighlightWithTitle[key] = elementHighlight;
             }
@@ -225,7 +225,13 @@ std::map<std::string, std::string> HQDataProvider::getItemDataForSpecificItem(st
 
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(std::string category, std::string itemid)
 {
-    return HQElementHighlights[category][itemid];
+    std::map<std::string, Vec2> mapForCategory = HQElementHighlights[category];
+    
+    if(mapForCategory.find(itemid) != mapForCategory.end())
+    {
+        return HQElementHighlights[category][itemid];
+    }
+    else return Vec2(1,1);
 }
 
 //GETTING CONTENT
