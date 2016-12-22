@@ -52,8 +52,7 @@ void HQScene::createMonodirectionalScrollView()
     this->addChild(horizontalScrollView);
     
     std::vector<std::string> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), 0);
-    
-    //This is just to add fake icons to the scrollview:
+
     for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfElementsForRow(this->getName(), 0); i++)
     {
         addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)));
@@ -224,10 +223,6 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
     
     auto hqSceneElement = HQSceneElement::create();
     hqSceneElement->addHQSceneElement(this->getName(), itemData, highlightDataForElement);
-    
-    //int amountOfElements = (int)toBeAddedTo->getChildren().size();
-    //Point position = (Point(amountOfElements * hqSceneElement->getSizeOfLayerWithGap().width, 50));
-    //toBeAddedTo->setInnerContainerSize(Size(position.x + hqSceneElement->getSizeOfLayerWithGap().width, toBeAddedTo->getInnerContainerSize().height));
     
     toBeAddedTo->addChild(hqSceneElement);
     
