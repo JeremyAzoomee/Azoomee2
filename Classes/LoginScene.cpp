@@ -58,6 +58,12 @@ void LoginScene::onEnterTransitionDidFinish()
     {
         handleErrorCode(_errorCode);
     }
+    
+    //here for development only!!!!!!!!!!!
+    
+    //BackEndCaller::getInstance()->login("klaas+ci@azoomee.com", "test1234");
+    
+    //delete until this row for prod
 }
 
 void LoginScene::handleErrorCode(long errorCode)
