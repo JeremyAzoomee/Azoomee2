@@ -11,6 +11,7 @@ USING_NS_CC;
 #include "BackEndCaller.h"
 #include "DataStorage.h"
 #include "HttpRequestCreator.h"
+#include "ConfigStorage.h"
 
 using namespace cocos2d;
 
@@ -56,6 +57,11 @@ void HQDataProvider::startBuildingHQ(std::string category)
 
 void HQDataProvider::getDataForHQ(std::string category)
 {
+    if(ConfigStorage::getInstance()->forcereload)
+    {
+        HQData.erase(category.c_str());
+    }
+    
     if(HQData.find(category.c_str()) != HQData.end())
     {
         startBuildingHQ(category);

@@ -3,6 +3,7 @@
 #include "ModalMessages.h"
 #include "BackEndCaller.h"
 #include "OnboardingScene.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
@@ -59,11 +60,10 @@ void LoginScene::onEnterTransitionDidFinish()
         handleErrorCode(_errorCode);
     }
     
-    //here for development only!!!!!!!!!!!
-    
-    //BackEndCaller::getInstance()->login("klaas+ci@azoomee.com", "test1234");
-    
-    //delete until this row for prod
+    if(ConfigStorage::getInstance()->autologin)
+    {
+        BackEndCaller::getInstance()->login("klaas+ci@azoomee.com", "test1234");
+    }
 }
 
 void LoginScene::handleErrorCode(long errorCode)

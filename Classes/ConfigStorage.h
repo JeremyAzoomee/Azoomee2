@@ -11,6 +11,10 @@ public:
     virtual ~ConfigStorage();
     bool init(void);
     
+    //General configuration
+    bool autologin = false;
+    bool forcereload = true;
+    
     //Backend caller configuration
     std::string getServerHost();
     std::string getServerUrl();

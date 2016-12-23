@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/HQSceneElementPositioner.cpp"
-            timestampString = "504110021.206157"
+            timestampString = "504180516.203545"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)"
             landmarkType = "7">
          </BreakpointContent>
