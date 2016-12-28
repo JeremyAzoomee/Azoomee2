@@ -1,7 +1,11 @@
 #include "BackEndCaller.h"
 
 #include "JWTTool.h"
-#include "DataStorage.h"
+#include "ChildDataParser.h"
+#include "ChildDataProvider.h"
+#include "ParentDataParser.h"
+#include "ParentDataProvider.h"
+#include "CookieDataParser.h"
 #include "HQDataProvider.h"
 #include "LoginScene.h"
 #include "ChildSelectorScene.h"
@@ -72,7 +76,7 @@ void BackEndCaller::login(std::string username, std::string password)
 void BackEndCaller::onLoginAnswerReceived(std::string responseString)
 {
     CCLOG("Response string is: %s", responseString.c_str());
-    if(DataStorage::getInstance()->parseParentLoginData(responseString)) getAvailableChildren();
+    if(ParentDataParser::getInstance()->parseParentLoginData(responseString)) getAvailableChildren();
     else getBackToLoginScreen();
 }
 
@@ -88,7 +92,7 @@ void BackEndCaller::getAvailableChildren()
 
 void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
 {
-    DataStorage::getInstance()->parseAvailableChildren(responseString);
+    ParentDataParser::getInstance()->parseAvailableChildren(responseString);
         
     auto childSelectorScene = ChildSelectorScene::createScene(0);
     Director::getInstance()->replaceScene(childSelectorScene);
@@ -101,15 +105,15 @@ void BackEndCaller::childLogin(int childNumber)
     displayLoadingScreen();
     
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", DataStorage::getInstance()->getValueFromOneAvailableChild(childNumber, "profileName").c_str());
+    httpRequestCreator->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", ParentDataProvider::getInstance()->getValueFromOneAvailableChild(childNumber, "profileName").c_str());
     httpRequestCreator->requestTag = "childLogin";
     httpRequestCreator->createEncryptedPostHttpRequest();
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 {
-    DataStorage::getInstance()->parseChildLoginData(responseString);
-    HQDataProvider::getInstance()->getContent(StringUtils::format("%s/api/electricdreams/view/categories/home/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), DataStorage::getInstance()->getChildLoginValue("id").c_str()), "HOME");
+    ChildDataParser::getInstance()->parseChildLoginData(responseString);
+    HQDataProvider::getInstance()->getContent(StringUtils::format("%s/api/electricdreams/view/categories/home/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ChildDataProvider::getInstance()->getChildLoginValue("id").c_str()), "HOME");
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------
@@ -117,14 +121,14 @@ void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 void BackEndCaller::getGordon()
 {
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->urlParameters = StringUtils::format("userid=%s&sessionid=%s", DataStorage::getInstance()->getParentOrChildLoginValue("id").c_str(), DataStorage::getInstance()->getParentOrChildLoginValue("cdn-sessionid").c_str());
+    httpRequestCreator->urlParameters = StringUtils::format("userid=%s&sessionid=%s", ChildDataProvider::getInstance()->getParentOrChildLoginValue("id").c_str(), ChildDataProvider::getInstance()->getParentOrChildLoginValue("cdn-sessionid").c_str());
     httpRequestCreator->requestTag = "getGordon";
     httpRequestCreator->createEncryptedGetHttpRequest();
 }
 
 void BackEndCaller::onGetGordonAnswerReceived(std::string responseString)
 {
-    if(DataStorage::getInstance()->parseDownloadCookies(responseString))
+    if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
     {
         auto baseScene = BaseScene::createScene();
         Director::getInstance()->replaceScene(baseScene);

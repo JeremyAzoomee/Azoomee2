@@ -29,8 +29,7 @@ public:
     std::string imageCachePath;
     std::string imageIdPath;
     
-    // implement the "static create()" method manually
     CREATE_FUNC(ImageDownloader);
 };
 
-#endif // __MAINHUBBGELEMENTS__
+#endif

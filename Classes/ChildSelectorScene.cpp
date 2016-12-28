@@ -1,6 +1,6 @@
 #include "ChildSelectorScene.h"
 #include "BackEndCaller.h"
-#include "DataStorage.h"
+#include "ParentDataProvider.h"
 #include "ChildAccountScene.h"
 #include <math.h>
 #include "ModalMessages.h"
@@ -95,7 +95,7 @@ Size ChildSelectorScene::getScrollviewInnerSize(float scrollviewWidth)
     modf(scrollviewWidth/(OOMEE_LAYER_WIDTH + OOMEE_LAYER_GAP), &oomeeLayersPerWidth);
     
     double oomeeLayesNeededForHeight;
-    modf((DataStorage::getInstance()->getAmountOfAvailableChildren() / oomeeLayersPerWidth) + 1, &oomeeLayesNeededForHeight);
+    modf((ParentDataProvider::getInstance()->getAmountOfAvailableChildren() / oomeeLayersPerWidth) + 1, &oomeeLayesNeededForHeight);
     
     return Size(scrollviewWidth, (OOMEE_LAYER_GAP+OOMEE_LAYER_HEIGHT)*oomeeLayesNeededForHeight);
 }
@@ -104,9 +104,9 @@ void ChildSelectorScene::addProfilesToScrollView()
 {
     //This has to be changed - not a good idea to include json handler in every classes that need it. There must be one storing class that can either give data back by request, or converts data into std::vector.
     
-    for(int i = 0; i < DataStorage::getInstance()->getAmountOfAvailableChildren(); i++)
+    for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        auto profileLayer = createChildProfileButton(DataStorage::getInstance()->getValueFromOneAvailableChild(i, "profileName"), RandomHelper::random_int(0, 4));
+        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "profileName"), RandomHelper::random_int(0, 4));
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         addListenerToProfileLayer(profileLayer);
@@ -262,7 +262,7 @@ void ChildSelectorScene::addNewChildButtonToScrollView()
 void ChildSelectorScene::addChildButtonPressed(Node* target)
 {
     //Check is email verified, if not refresh profile, then error
-    if((DataStorage::getInstance()->getParentLoginValue("actorStatus") == "VERIFIED")||(DataStorage::getInstance()->getParentLoginValue("actorStatus") == "ACTIVE"))
+    if((ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "VERIFIED")||(ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "ACTIVE"))
     {
         target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
         

@@ -1,5 +1,5 @@
 #include "TextInputChecker.h"
-#include "DataStorage.h"
+#include "ParentDataProvider.h"
 
 using namespace cocos2d;
 
@@ -97,9 +97,9 @@ bool TextInputChecker::childNameExists(std::string newChildsName)
     //check if child name exists
     bool childNameExists = false;
     
-    for(int i = 0; i < DataStorage::getInstance()->getAmountOfAvailableChildren(); i++)
+    for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        std::string storedChildsName = DataStorage::getInstance()->getValueFromOneAvailableChild(i, "profileName");
+        std::string storedChildsName = ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "profileName");
         
         if(newChildsName.compare(storedChildsName) == 0)
         {

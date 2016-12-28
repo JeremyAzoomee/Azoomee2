@@ -9,7 +9,6 @@ USING_NS_CC;
 
 #include "HQScene.h"
 #include "BackEndCaller.h"
-#include "DataStorage.h"
 #include "HttpRequestCreator.h"
 #include "ConfigStorage.h"
 

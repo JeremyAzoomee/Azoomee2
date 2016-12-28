@@ -1,5 +1,4 @@
 #include "WebViewSelector.h"
-#include "DataStorage.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "WebViewNative_ios.h"

@@ -1,7 +1,7 @@
 //ConfigStorage is a singleton designed to hold all necessary "burnt-in" information for all visual scenes and layers.
 
 #include "ConfigStorage.h"
-#include "DataStorage.h"
+#include "ParentDataProvider.h"
 
 using namespace cocos2d;
 
@@ -40,7 +40,7 @@ std::string ConfigStorage::getServerUrl()
 std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
 {
     if(httpRequestTag == "parentLogin") return "/api/auth/login";
-    if(httpRequestTag == "getChildren") return StringUtils::format("/api/user/adult/%s/owns", DataStorage::getInstance()->getParentLoginValue("id").c_str());
+    if(httpRequestTag == "getChildren") return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getParentLoginValue("id").c_str());
     if(httpRequestTag == "childLogin") return "/api/auth/switchProfile";
     if(httpRequestTag == "getGordon") return "/api/porthole/pixel/gordon.png";
     if(httpRequestTag == "registerParent") return "/api/user/v2/adult";

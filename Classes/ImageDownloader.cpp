@@ -1,16 +1,12 @@
 #include "ImageDownloader.h"
-#include "DataStorage.h"
+#include "CookieDataParser.h"
 
 USING_NS_CC;
 using namespace network;
 using namespace cocos2d;
 
-
-// on "init" you need to initialize your instance
 bool ImageDownloader::initWithURLAndSize(std::string url, Size size)
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Sprite::init() )
     {
         return false;
@@ -99,7 +95,7 @@ void ImageDownloader::downloadFileFromServer(std::string url)
     request->setUrl(url.c_str());
     
     std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", DataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
+    headers.push_back(StringUtils::format("Cookie: %s", CookieDataParser::getInstance()->dataDownloadCookiesForCpp.c_str()));
     request->setHeaders(headers);
     
     request->setResponseCallback(CC_CALLBACK_2(ImageDownloader::downloadFileFromServerAnswerReceived, this));

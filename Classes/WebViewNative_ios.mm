@@ -1,6 +1,5 @@
 #include "WebViewNative_ios.h"
 #include "BaseScene.h"
-#include "DataStorage.h"
 
 USING_NS_CC;
 
