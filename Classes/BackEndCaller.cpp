@@ -6,7 +6,7 @@
 #include "ParentDataParser.h"
 #include "ParentDataProvider.h"
 #include "CookieDataParser.h"
-#include "HQDataProvider.h"
+#include "HQDataParser.h"
 #include "LoginScene.h"
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
@@ -113,7 +113,7 @@ void BackEndCaller::childLogin(int childNumber)
 void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 {
     ChildDataParser::getInstance()->parseChildLoginData(responseString);
-    HQDataProvider::getInstance()->getContent(StringUtils::format("%s/api/electricdreams/view/categories/home/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ChildDataProvider::getInstance()->getChildLoginValue("id").c_str()), "HOME");
+    HQDataParser::getInstance()->getContent(StringUtils::format("%s/api/electricdreams/view/categories/home/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ChildDataProvider::getInstance()->getChildLoginValue("id").c_str()), "HOME");
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------

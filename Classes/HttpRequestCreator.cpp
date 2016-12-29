@@ -1,7 +1,7 @@
 #include "HttpRequestCreator.h"
 #include "JWTTool.h"
 #include "BackEndCaller.h"
-#include "HQDataProvider.h"
+#include "HQDataParser.h"
 #include "ConfigStorage.h"
 #include "LoginScene.h"
 
@@ -179,7 +179,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         
         for(int i = 0; i < 5; i++)
         {
-            if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i)) HQDataProvider::getInstance()->onGetContentAnswerReceived(responseDataString, requestTag);
+            if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i)) HQDataParser::getInstance()->onGetContentAnswerReceived(responseDataString, requestTag);
         }
     }
     else

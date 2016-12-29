@@ -1,5 +1,5 @@
 #include "ParentDataParser.h"
-#include "ChildDataParser.h"
+#include "ChildDatastorage.h"
 #include "ParentDataStorage.h"
 
 using namespace cocos2d;
@@ -28,7 +28,7 @@ bool ParentDataParser::init(void)
 
 bool ParentDataParser::parseParentLoginData(std::string responseData)
 {
-    ChildDataParser::getInstance()->childLoggedIn = false;
+    ChildDataStorage::getInstance()->childLoggedIn = false;
     ParentDataStorage::getInstance()->parentLoginData.Parse(responseData.c_str());
     
     if(ParentDataStorage::getInstance()->parentLoginData.HasMember("code"))

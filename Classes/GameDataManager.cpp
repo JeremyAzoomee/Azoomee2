@@ -16,7 +16,7 @@ USING_NS_CC;
 #include "external/unzip/unzip.h"
 
 #include "WebViewSelector.h"
-#include "CookieDataParser.h"
+#include "CookieDataStorage.h"
 #include "BackEndCaller.h"
 
 
@@ -90,7 +90,7 @@ void GameDataManager::getJSONGameData(std::string url, std::string itemId)
     request->setUrl(url.c_str());
     
     std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataParser::getInstance()->dataDownloadCookiesForCpp.c_str()));
+    headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
     request->setHeaders(headers);
     
     request->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetJSONGameDataAnswerReceived, this));
@@ -159,7 +159,7 @@ void GameDataManager::getGameZipFile(std::string url, std::string itemId)
     request->setUrl(url.c_str());
     
     std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataParser::getInstance()->dataDownloadCookiesForCpp.c_str()));
+    headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
     request->setHeaders(headers);
     
     request->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetGameZipFileAnswerReceived, this));

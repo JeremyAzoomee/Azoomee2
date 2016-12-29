@@ -438,20 +438,18 @@
 			isa = PBXGroup;
 			children = (
 				A15D58921E028C940099CDEE /* BurntInData */,
-				A1CC0C141E1407B2008B469E /* BaseScene */,
-				A1CC0C161E1407BF008B469E /* Navigation */,
+				A1CC0C261E156882008B469E /* Intro */,
 				430B3B021DF832A8003A3AA7 /* Signup_AddChild */,
 				A15B2FA41DEC73B800D25334 /* Login */,
+				A1CC0C141E1407B2008B469E /* BaseScene */,
+				A1CC0C161E1407BF008B469E /* Navigation */,
 				A1817B481DDCB74900C2D13C /* MainHubScene */,
 				A19759861DE4931600FEB03C /* HQScene */,
 				A15B2F9A1DE74F6900D25334 /* NativeWebviews */,
 				A15B2FAA1DEDD13B00D25334 /* BackEndCommunication */,
-				A15B2FA71DEDAA2A00D25334 /* ModalMessages.cpp */,
-				A15B2FA81DEDAA2A00D25334 /* ModalMessages.h */,
+				A1CC0C271E15691C008B469E /* ModalMessages */,
 				A19862291DD383BD0090F053 /* AppDelegate.cpp */,
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
-				A19862171DD3836D0090F053 /* IntroScene.cpp */,
-				A19862181DD3836D0090F053 /* IntroScene.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -529,14 +527,9 @@
 		A15B2FAA1DEDD13B00D25334 /* BackEndCommunication */ = {
 			isa = PBXGroup;
 			children = (
-				A15B2FAD1DEDD1D500D25334 /* BackEndCaller.cpp */,
-				A15B2FAE1DEDD1D500D25334 /* BackEndCaller.h */,
-				A15D58991E04099A0099CDEE /* HttpRequestCreator.cpp */,
-				A15D589A1E04099A0099CDEE /* HttpRequestCreator.h */,
-				A15B2FC51DFAB3FB00D25334 /* ImageDownloader.cpp */,
-				A15B2FC61DFAB3FB00D25334 /* ImageDownloader.h */,
-				A154CC501DFEE7440008A626 /* GameDataManager.cpp */,
-				A154CC511DFEE7440008A626 /* GameDataManager.h */,
+				A1CC0C281E15694C008B469E /* BackEndCaller */,
+				A1CC0C291E156953008B469E /* ImageDownloader */,
+				A1CC0C2A1E15695B008B469E /* GameDownloader */,
 				A1A2D3101E13B5BF00E86169 /* HQData */,
 				A1A2D30D1E13B55D00E86169 /* CookieData */,
 				A1A2D30E1E13B56700E86169 /* ChildData */,
@@ -676,6 +669,53 @@
 				A198621E1DD3836D0090F053 /* NavigationLayer.h */,
 			);
 			name = Navigation;
+			sourceTree = "<group>";
+		};
+		A1CC0C261E156882008B469E /* Intro */ = {
+			isa = PBXGroup;
+			children = (
+				A19862171DD3836D0090F053 /* IntroScene.cpp */,
+				A19862181DD3836D0090F053 /* IntroScene.h */,
+			);
+			name = Intro;
+			sourceTree = "<group>";
+		};
+		A1CC0C271E15691C008B469E /* ModalMessages */ = {
+			isa = PBXGroup;
+			children = (
+				A15B2FA71DEDAA2A00D25334 /* ModalMessages.cpp */,
+				A15B2FA81DEDAA2A00D25334 /* ModalMessages.h */,
+			);
+			name = ModalMessages;
+			sourceTree = "<group>";
+		};
+		A1CC0C281E15694C008B469E /* BackEndCaller */ = {
+			isa = PBXGroup;
+			children = (
+				A15B2FAD1DEDD1D500D25334 /* BackEndCaller.cpp */,
+				A15B2FAE1DEDD1D500D25334 /* BackEndCaller.h */,
+				A15D58991E04099A0099CDEE /* HttpRequestCreator.cpp */,
+				A15D589A1E04099A0099CDEE /* HttpRequestCreator.h */,
+			);
+			name = BackEndCaller;
+			sourceTree = "<group>";
+		};
+		A1CC0C291E156953008B469E /* ImageDownloader */ = {
+			isa = PBXGroup;
+			children = (
+				A15B2FC51DFAB3FB00D25334 /* ImageDownloader.cpp */,
+				A15B2FC61DFAB3FB00D25334 /* ImageDownloader.h */,
+			);
+			name = ImageDownloader;
+			sourceTree = "<group>";
+		};
+		A1CC0C2A1E15695B008B469E /* GameDownloader */ = {
+			isa = PBXGroup;
+			children = (
+				A154CC501DFEE7440008A626 /* GameDataManager.cpp */,
+				A154CC511DFEE7440008A626 /* GameDataManager.h */,
+			);
+			name = GameDownloader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

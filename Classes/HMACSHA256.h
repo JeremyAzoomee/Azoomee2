@@ -1,6 +1,6 @@
 #include "cocos2d.h"
 
-class HMACSHA256 : public cocos2d::Object
+class HMACSHA256 : public cocos2d::Ref
 {
     
 public:

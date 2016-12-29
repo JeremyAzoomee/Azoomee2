@@ -1,5 +1,5 @@
 #include "ImageDownloader.h"
-#include "CookieDataParser.h"
+#include "CookieDataStorage.h"
 
 USING_NS_CC;
 using namespace network;
@@ -95,7 +95,7 @@ void ImageDownloader::downloadFileFromServer(std::string url)
     request->setUrl(url.c_str());
     
     std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataParser::getInstance()->dataDownloadCookiesForCpp.c_str()));
+    headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
     request->setHeaders(headers);
     
     request->setResponseCallback(CC_CALLBACK_2(ImageDownloader::downloadFileFromServerAnswerReceived, this));

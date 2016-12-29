@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "WebViewSelector.h"
 #include "imageDownloader.h"
+#include "HQDataParser.h"
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
 #include "ConfigStorage.h"
@@ -101,7 +102,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         {
             target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
             
-            if(HQDataProvider::getInstance()->getExtensionFromUri(uri) == "json")
+            if(HQDataParser::getInstance()->getExtensionFromUri(uri) == "json")
             {
                 GameDataManager::getInstance()->startProcessingGame(uri, itemId);
             }
