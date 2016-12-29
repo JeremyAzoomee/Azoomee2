@@ -1,6 +1,6 @@
 #include "ChildDataProvider.h"
-#include "ChildDataParser.h"
-#include "ParentDataParser.h"
+#include "ChildDataStorage.h"
+#include "ParentDataStorage.h"
 
 using namespace cocos2d;
 
@@ -28,17 +28,17 @@ bool ChildDataProvider::init(void)
 
 std::string ChildDataProvider::getChildLoginValue(std::string keyName)
 {
-    return ChildDataParser::getInstance()->childLoginData[keyName.c_str()].GetString();
+    return ChildDataStorage::getInstance()->childLoginData[keyName.c_str()].GetString();
 }
 
 std::string ChildDataProvider::getParentOrChildLoginValue(std::string keyName) //if no child logged in, falls back to parent data
 {
-    if(ChildDataParser::getInstance()->childLoggedIn)
+    if(ChildDataStorage::getInstance()->childLoggedIn)
     {
-        return ChildDataParser::getInstance()->childLoginData[keyName.c_str()].GetString();
+        return ChildDataStorage::getInstance()->childLoginData[keyName.c_str()].GetString();
     }
     else
     {
-        return ParentDataParser::getInstance()->parentLoginData[keyName.c_str()].GetString();
+        return ParentDataStorage::getInstance()->parentLoginData[keyName.c_str()].GetString();
     }
 }

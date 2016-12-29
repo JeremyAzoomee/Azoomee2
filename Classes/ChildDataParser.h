@@ -11,8 +11,5 @@ public:
     virtual ~ChildDataParser();
     bool init(void);
     
-    rapidjson::Document childLoginData;
     bool parseChildLoginData(std::string responseData);
-    
-    bool childLoggedIn;
 };

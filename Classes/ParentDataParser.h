@@ -11,11 +11,6 @@ public:
     virtual ~ParentDataParser();
     bool init(void);
     
-    //Methods
     bool parseParentLoginData(std::string responseData);
     bool parseAvailableChildren(std::string responseData);
-    
-    //Variables
-    rapidjson::Document parentLoginData;
-    rapidjson::Document availableChildrenData;
 };

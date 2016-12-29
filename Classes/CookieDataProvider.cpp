@@ -1,5 +1,5 @@
 #include "CookieDataProvider.h"
-#include "CookieDataParser.h"
+#include "CookieDataStorage.h"
 
 using namespace cocos2d;
 
@@ -29,9 +29,9 @@ std::string CookieDataProvider::getCookiesForRequest(std::string url)
 {
     std::string cookieString = "";
     
-    for(int i = 0; i < CookieDataParser::getInstance()->dataDownloadCookiesVector.size(); i++)
+    for(int i = 0; i < CookieDataStorage::getInstance()->dataDownloadCookiesVector.size(); i++)
     {
-        if(checkIfCookieIsForUrl(CookieDataParser::getInstance()->dataDownloadCookiesVector.at(i), url)) cookieString = StringUtils::format("%s%s; ", cookieString.c_str(), getCookieMainContent(CookieDataParser::getInstance()->dataDownloadCookiesVector.at(i)).c_str());
+        if(checkIfCookieIsForUrl(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i), url)) cookieString = StringUtils::format("%s%s; ", cookieString.c_str(), getCookieMainContent(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i)).c_str());
     }
     
     return cookieString;

@@ -1,4 +1,5 @@
 #include "CookieDataParser.h"
+#include "CookieDataStorage.h"
 
 using namespace cocos2d;
 
@@ -42,19 +43,19 @@ bool CookieDataParser::parseDownloadCookies(std::string responseString)
     size_t endpos = responseString.find("\n");
     responseString = responseString.substr(0, endpos);
     
-    pureCookieResponseString = responseString;
+    CookieDataStorage::getInstance()->pureCookieResponseString = responseString;
     
     //Now create the array of cookies based on ", " string
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    dataDownloadCookiesVector = splitStringToVector(pureCookieResponseString, ", ");
+    CookieDataStorage::getInstance()->dataDownloadCookiesVector = splitStringToVector(CookieDataStorage::getInstance()->pureCookieResponseString, ", ");
 #endif
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    dataDownloadCookiesVector = splitStringToVector(pureCookieResponseString, ",");
+    CookieDataStorage::getInstance()->dataDownloadCookiesVector = splitStringToVector(CookieDataStorage::getInstance()->pureCookieResponseString, ",");
 #endif
     
     //dataDownloadCookiesWithCommas = responseString;
     responseString = replaceAll(responseString, ", ", "\n");
-    dataDownloadCookiesForCpp = responseString;
+    CookieDataStorage::getInstance()->dataDownloadCookiesForCpp = responseString;
     
     
     return true;

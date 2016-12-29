@@ -1,4 +1,5 @@
 #include "ChildDataParser.h"
+#include "ChildDataStorage.h"
 
 using namespace cocos2d;
 
@@ -21,14 +22,13 @@ ChildDataParser::~ChildDataParser(void)
 
 bool ChildDataParser::init(void)
 {
-    childLoggedIn = false;
-    
+    ChildDataStorage::getInstance()->childLoggedIn = false;
     return true;
 }
 
 bool ChildDataParser::parseChildLoginData(std::string responseData)
 {
-    childLoggedIn = true;
-    childLoginData.Parse(responseData.c_str());
+    ChildDataStorage::getInstance()->childLoggedIn = true;
+    ChildDataStorage::getInstance()->childLoginData.Parse(responseData.c_str());
     return true;
 }
