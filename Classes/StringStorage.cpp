@@ -56,3 +56,17 @@ std::string StringStorage::getStringForChildAccount(std::string labelName)
     
     return childAccountStrings[labelName];
 }
+
+//---------------------------------------------Login scene strings-------------
+
+std::string StringStorage::getStringForLoginScene(std::string labelName)
+{
+    std::map<std::string, std::string> loginStrings;
+    
+    loginStrings["loginButton"] = "Log in";
+    loginStrings["signupButton"] = "Sign up";
+    loginStrings["emailLabel"] = "Login e-mail";
+    loginStrings["passwordLabel"] = "Password";
+    
+    return loginStrings[labelName];
+}

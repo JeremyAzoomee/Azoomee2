@@ -19,6 +19,15 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
     
+    cocos2d::Sprite *emailBackButton;
+    cocos2d::Sprite *emailNextButton;
+    cocos2d::Sprite *passwordBackButton;
+    cocos2d::Sprite *passwordNextButton;
+    
+    cocos2d::ui::Button *loginButton;
+    cocos2d::ui::EditBox *_editName;
+    cocos2d::ui::EditBox *_editPassword;
+    
     virtual void onEnterTransitionDidFinish();
     
     void addVisualElementsToScene();
@@ -42,20 +51,11 @@ public:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     cocos2d::Layer *loginContent;
-
-    CREATE_FUNC(LoginScene);
     
-    //Editbox Delegate Functions
-    //void editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox);
-    //void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox);
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
     void editBoxReturn(cocos2d::ui::EditBox* editBox);
-    
-    //Input String Checker Functions
-    bool isCharacter(const char Character);
-    bool isNumber(const char Character);
-    bool isValidEmailAddress(const char * EmailAddress);
-    bool isValidPassword(const char * password);
+
+    CREATE_FUNC(LoginScene);
 };
 
 #endif

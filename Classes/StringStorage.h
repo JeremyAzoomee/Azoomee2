@@ -16,4 +16,7 @@ public:
     
     //ChildAccount scene strings
     std::string getStringForChildAccount(std::string labelName);
+    
+    //Login scene strings
+    std::string getStringForLoginScene(std::string labelName);
 };

@@ -4,25 +4,10 @@
 #include "BackEndCaller.h"
 #include "OnboardingScene.h"
 #include "ConfigStorage.h"
+#include "StringStorage.h"
+#include "TextInputChecker.h"
 
 USING_NS_CC;
-
-//Text Content defined here, ready to be changed when localisation method defined.
-#define LOGIN_BUTTON_TEXT "Log In"
-#define SIGN_UP_BUTTON_TEXT "Sign Up"
-#define EMAIL_LABEL "Login Email"
-#define PASSWORD_LABEL "Password"
-
-//Define Editbox Tag Numbers
-#define TAG_EMAIL_EDITBOX 1
-#define TAG_PASSWORD_EDITBOX 2
-
-//Define BUTTONS Tag Numbers
-#define TAG_LOGIN_BUTTON 10
-#define TAG_EMAIL_BACK_BUTTON 11
-#define TAG_EMAIL_NEXT_BUTTON 12
-#define TAG_PASSWORD_BACK_BUTTON 13
-#define TAG_PASSWORD_NEXT_BUTTON 14
 
 Scene* LoginScene::createScene(long errorCode)
 {
@@ -60,15 +45,13 @@ void LoginScene::onEnterTransitionDidFinish()
         handleErrorCode(_errorCode);
     }
     
-    if(ConfigStorage::getInstance()->autologin)
-    {
+#ifdef autologin
         BackEndCaller::getInstance()->login("klaas+ci@azoomee.com", "test1234");
-    }
+#endif
 }
 
 void LoginScene::handleErrorCode(long errorCode)
 {
-    //#TODO handle modal message strings.
     ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
 }
 
@@ -97,12 +80,12 @@ void LoginScene::addFunctionalElementsToScene()
 
 void LoginScene::addLabelsToLayer()
 {
-    auto emailTitle = Label::createWithTTF(EMAIL_LABEL, "fonts/azoomee.ttf", 90);
+    auto emailTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForLoginScene("emailLabel"), "fonts/azoomee.ttf", 90);
     emailTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
     emailTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(emailTitle);
     
-    auto passwordTitle = Label::createWithTTF(PASSWORD_LABEL, "fonts/azoomee.ttf", 90);
+    auto passwordTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForLoginScene("passwordLabel"), "fonts/azoomee.ttf", 90);
     passwordTitle->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
     passwordTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(passwordTitle);
@@ -110,9 +93,6 @@ void LoginScene::addLabelsToLayer()
 
 void LoginScene::addContentLayerToScene()
 {
-    //we add an additional layer that will slide on the screen between the username and the password.
-    //we add all input elements on this layer.
-    
     loginContent = Layer::create();
     loginContent->setContentSize(Size(visibleSize.width * 3, visibleSize.height));
     loginContent->setPosition(Point(origin.x, origin.y));
@@ -122,7 +102,7 @@ void LoginScene::addContentLayerToScene()
 
 void LoginScene::addTextBoxesToLayer()
 {
-    auto _editName = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
+    _editName = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
     _editName->setColor(Color3B::WHITE);
     _editName->setPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
     _editName->setFont("fonts/azoomee.ttf", 90);
@@ -130,11 +110,10 @@ void LoginScene::addTextBoxesToLayer()
     _editName->setMaxLength(100);
     _editName->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     _editName->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
-    _editName->setTag(TAG_EMAIL_EDITBOX);
     _editName->setDelegate(this);
     loginContent->addChild(_editName);
     
-    auto _editPassword = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
+    _editPassword = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
     _editPassword->setPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
     _editPassword->setFont("fonts/azoomee.ttf", 90);
     _editPassword->setFontColor(Color3B::WHITE);
@@ -142,16 +121,14 @@ void LoginScene::addTextBoxesToLayer()
     _editPassword->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     _editPassword->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
     _editPassword->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    _editPassword->setTag(TAG_PASSWORD_EDITBOX);
     _editPassword->setDelegate(this);
     loginContent->addChild(_editPassword);
 }
 
 void LoginScene::addButtonsToLayer()
 {
-    // BUTTONS IN ORDER OF LAYOUT
     auto signUpButton = ui::Button::create();
-    signUpButton->setTitleText(SIGN_UP_BUTTON_TEXT);
+    signUpButton->setTitleText(StringStorage::getInstance()->getStringForLoginScene("signupButton"));
     signUpButton->setTitleFontName("fonts/azoomee.ttf");
     signUpButton->setPosition(Vec2(origin.x+visibleSize.width * 0.5, origin.y+visibleSize.height*0.6));
     signUpButton->setTitleFontSize(90);
@@ -174,8 +151,8 @@ void LoginScene::addButtonsToLayer()
     });
     loginContent->addChild(signUpButton);
     
-    auto loginButton = ui::Button::create();
-    loginButton->setTitleText(LOGIN_BUTTON_TEXT);
+    loginButton = ui::Button::create();
+    loginButton->setTitleText(StringStorage::getInstance()->getStringForLoginScene("loginButton"));
     loginButton->setTitleFontName("fonts/azoomee.ttf");
     loginButton->setPosition(Vec2(origin.x+visibleSize.width * 0.5, origin.y+visibleSize.height*0.4));
     loginButton->setTitleFontSize(90);
@@ -196,31 +173,26 @@ void LoginScene::addButtonsToLayer()
                 break;
         }
     });
-    loginButton->setTag(TAG_LOGIN_BUTTON);
     loginContent->addChild(loginButton);
     
-    auto emailBackButton = Sprite::create("res/login/back_btn.png");
+    emailBackButton = Sprite::create("res/login/back_btn.png");
     emailBackButton->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
-    emailBackButton->setTag(TAG_EMAIL_BACK_BUTTON);
     addListenerToButton(emailBackButton);
     loginContent->addChild(emailBackButton);
     
-    auto emailNextButton = Sprite::create("res/login/next_btn.png");
+    emailNextButton = Sprite::create("res/login/next_btn.png");
     emailNextButton->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
-    emailNextButton->setTag(TAG_EMAIL_NEXT_BUTTON);
     addListenerToButton(emailNextButton);
     emailNextButton->setVisible(false);
     loginContent->addChild(emailNextButton);
     
-    auto passwordBackButton = Sprite::create("res/login/back_btn.png");
+    passwordBackButton = Sprite::create("res/login/back_btn.png");
     passwordBackButton->setPosition(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5);
-    passwordBackButton->setTag(TAG_PASSWORD_BACK_BUTTON);
     addListenerToButton(passwordBackButton);
     loginContent->addChild(passwordBackButton);
     
-    auto passwordNextButton = Sprite::create("res/login/next_btn.png");
+    passwordNextButton = Sprite::create("res/login/next_btn.png");
     passwordNextButton->setPosition(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5);
-    passwordNextButton->setTag(TAG_PASSWORD_NEXT_BUTTON);
     addListenerToButton(passwordNextButton);
     passwordNextButton->setVisible(false);
     passwordNextButton->setScale(1.2);
@@ -240,15 +212,10 @@ void LoginScene::addListenerToButton(cocos2d::Sprite *spriteImage)
         
         if(rect.containsPoint(locationInNode) && spriteImage->isVisible())
         {
-            int buttonTag = spriteImage->getTag();
-            
-            switch(buttonTag)
-            {
-                case(TAG_EMAIL_BACK_BUTTON): this->moveToBackFirstScreenEnableLogin(spriteImage); break;
-                case(TAG_EMAIL_NEXT_BUTTON): this->moveToPasswordScreen(spriteImage); break;
-                case(TAG_PASSWORD_BACK_BUTTON): this->moveToEmailScreen(spriteImage); break;
-                case(TAG_PASSWORD_NEXT_BUTTON): this->login(); break;
-            }
+            if(spriteImage == emailBackButton) this->moveToBackFirstScreenEnableLogin(spriteImage);
+            if(spriteImage == emailNextButton) this->moveToPasswordScreen(spriteImage);
+            if(spriteImage == passwordBackButton) this->moveToEmailScreen(spriteImage);
+            if(spriteImage == passwordNextButton) this->login();
             
             return true;
         }
@@ -277,8 +244,7 @@ void LoginScene::moveLoginToEmailScreen(ui::Button* button)
 void LoginScene::moveToBackFirstScreenEnableLogin(Node* button)
 {
     disableMoveButton(button);
-    //((ui::Button *)loginContent->getChildByTag(TAG_LOGIN_BUTTON))->setEnabled(true);
-
+    
     auto action = EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2);
     auto callback = CallFunc::create(CC_CALLBACK_0(LoginScene::enableMoveButton, this,button));
     
@@ -299,8 +265,8 @@ void LoginScene::moveToPasswordScreen(Node* button)
 
 void LoginScene::moveToEmailScreen(Node* button)
 {
-    std::string username = ((ui::EditBox *)loginContent->getChildByName("usernameField"))->getText();
-    std::string password = ((ui::EditBox *)loginContent->getChildByName("passwordField"))->getText();
+    std::string username = _editName->getText();
+    std::string password = _editPassword->getText();
     disableMoveButton(button);
     
     auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2);
@@ -309,108 +275,36 @@ void LoginScene::moveToEmailScreen(Node* button)
     auto sequence = Sequence::create(action, callback, NULL);
     loginContent->runAction(sequence);
     
-    //remove Password Text, therefore hide Password NextButton
-    ((ui::EditBox *)loginContent->getChildByTag(TAG_PASSWORD_EDITBOX))->setText("");
-    ((cocos2d::Sprite *)loginContent->getChildByTag(TAG_PASSWORD_NEXT_BUTTON))->setVisible(false);
+    _editPassword->setText("");
+    passwordNextButton->setVisible(false);
 }
 
 void LoginScene::login()
 {
-    //LOGIN BUTTON
-    std::string username = ((ui::EditBox *)loginContent->getChildByTag(TAG_EMAIL_EDITBOX))->getText();
-    std::string password = ((ui::EditBox *)loginContent->getChildByTag(TAG_PASSWORD_EDITBOX))->getText();
+    std::string username = _editName->getText();
+    std::string password = _editPassword->getText();
 
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->login(username, password);
 }
 
-//Editbox Delegate Functions
 void LoginScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-    //Make the next buttons visible if the inputs are in correct format
+    TextInputChecker *textInputChecker = new TextInputChecker();
     
-    if(editBox->getTag() == TAG_EMAIL_EDITBOX)
+    if(editBox == _editName)
     {
-        //Set the Visibility of the Next Button to visible, if Valid email.
-        ((cocos2d::Sprite *)loginContent->getChildByTag(TAG_EMAIL_NEXT_BUTTON))->setVisible(isValidEmailAddress(text.c_str()));
+        emailNextButton->setVisible(textInputChecker->isValidEmailAddress(text.c_str()));
     }
-    else if(editBox->getTag() == TAG_PASSWORD_EDITBOX)
+    else if(editBox == _editPassword)
     {
-        //Set the Visibility of the Next Button to visible, if Valid Password
-        ((cocos2d::Sprite *)loginContent->getChildByTag(TAG_PASSWORD_NEXT_BUTTON))->setVisible(isValidPassword(text.c_str()));
+        passwordNextButton->setVisible(textInputChecker->isValidPassword(text.c_str()));
     }
+    
+    textInputChecker->release();
 }
 
 void LoginScene::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
-    //This function only really works correctly for Email_Editbox, as it has an email address
-    //Otherwise detect the \n with the text changed in the other EditBoxes
-}
-
-//Valid Input Buttons
-bool LoginScene::isCharacter(const char Character)
-{
-    //Borrowed from internet With isValidEmailAddress to check email address format
-    
-    return ( (Character >= 'a' && Character <= 'z') || (Character >= 'A' && Character <= 'Z'));
-    //Checks if a Character is a Valid A-Z, a-z Character, based on the ascii value
-}
-bool LoginScene::isNumber(const char Character)
-{
-    return ( Character >= '0' && Character <= '9');
-    //Checks if a Character is a Valid 0-9 Number, based on the ascii value
-}
-
-bool LoginScene::isValidEmailAddress(const char * EmailAddress)
-{
-    //Borrowed from internet With isValidEmailAddress to check email address format
-    
-    if(!EmailAddress) // If cannot read the Email Address...
-        return 0;
-    if(!isCharacter(EmailAddress[0])) // If the First character is not A-Z, a-z
-        return 0;
-    int AtOffset = -1;
-    int DotOffset = -1;
-    unsigned int Length = (int)strlen(EmailAddress); // Length = StringLength (strlen) of EmailAddress
-    for(unsigned int i = 0; i < Length; i++)
-    {
-        if(EmailAddress[i] == '@') // If one of the characters is @, store it's position in AtOffset
-            AtOffset = (int)i;
-        else if(EmailAddress[i] == '.') // Same, but with the dot
-            DotOffset = (int)i;
-    }
-    if(AtOffset == -1 || DotOffset == -1) // If cannot find a Dot or a @
-        return 0;
-    if(AtOffset > DotOffset) // If the @ is after the Dot
-        return 0;
-    return !(DotOffset >= ((int)Length-1)); //Chech there is some other letters after the Dot
-}
-
-bool LoginScene::isValidPassword(const char * password)
-{
-    //check at least 2 chars and no white space
-    if(!password) // If cannot read the password
-        return 0;
-    
-    if(strlen(password) < 2) // ensure there are 2 or more characters
-        return 0;
-    
-    bool passwordOK = true;
-
-    for(unsigned int i = 0; i < strlen(password); i++)
-    {
-        if(password[i] == ' ')
-            passwordOK = false;
-        else if(password[i] == '\n')
-            passwordOK = false;
-        else if(password[i] == '\t')
-            passwordOK = false;
-    }
-    
-    if(passwordOK) // If all characters are not white space
-        return 1;
-    else
-        return 0;
     
 }
-
