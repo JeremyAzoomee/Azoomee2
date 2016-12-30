@@ -13,7 +13,7 @@ public:
     
     //General configuration
 #define autologin YES;
-    bool forcereload = true;
+#define forcereload YES;
     
     //Backend caller configuration
     std::string getServerHost();

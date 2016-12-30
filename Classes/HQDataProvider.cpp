@@ -58,10 +58,9 @@ void HQDataProvider::startBuildingHQ(std::string category)
 
 void HQDataProvider::getDataForHQ(std::string category)
 {
-    if(ConfigStorage::getInstance()->forcereload)
-    {
+#ifdef forcereload
         HQDataStorage::getInstance()->HQData.erase(category.c_str());
-    }
+#endif
     
     if(HQDataStorage::getInstance()->HQData.find(category.c_str()) != HQDataStorage::getInstance()->HQData.end())
     {

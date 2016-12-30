@@ -32,10 +32,9 @@ bool HQScene::init()
 
 void HQScene::startBuildingScrollViewBasedOnName()
 {
-    if(ConfigStorage::getInstance()->forcereload)
-    {
+#ifdef forcereload
         this->removeAllChildren();
-    }
+#endif
     
     if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.
     {

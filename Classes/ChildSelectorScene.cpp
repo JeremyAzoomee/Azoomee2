@@ -275,4 +275,3 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
         ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", "Ensure email has been verified.", "OK");
     }
 }
-
