@@ -1,4 +1,5 @@
 #include "WebViewSelector.h"
+#include "CookieDataProvider.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "WebViewNative_ios.h"
@@ -54,9 +55,9 @@ void WebViewSelector::loadWebView(std::string url)
     }
     
     jstring jurl = methodInfo.env->NewStringUTF(url.c_str());
-    jstring jcookie = methodInfo.env->NewStringUTF(DataStorage::getInstance()->getCookiesForRequest(url).c_str());
+    jstring jcookie = methodInfo.env->NewStringUTF(CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str());
     
-    CCLOG("To be sent to jni: %s", DataStorage::getInstance()->getCookiesForRequest(url).c_str());
+    CCLOG("To be sent to jni: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str());
     
     methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jurl, jcookie);
     methodInfo.env->DeleteLocalRef(methodInfo.classID);

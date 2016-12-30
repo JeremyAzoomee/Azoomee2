@@ -12,7 +12,7 @@ public:
     bool init(void);
     
     //General configuration
-    bool autologin = false;
+    bool autologin = true;
     bool forcereload = true;
     
     //Backend caller configuration

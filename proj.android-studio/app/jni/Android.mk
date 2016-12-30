@@ -32,15 +32,25 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/JWTTool.cpp \
                    ../../../Classes/HMACSHA256_javaCaller.cpp \
                    ../../../Classes/HMACSHA256.cpp \
-                   ../../../Classes/DataStorage.cpp \
-                   ../../../Classes/HQDataProvider.cpp \
                    ../../../Classes/ImageDownloader.cpp \
                    ../../../Classes/GameDataManager.cpp \
                    ../../../Classes/HttpRequestCreator.cpp \
                    ../../../Classes/ConfigStorage.cpp \
                    ../../../Classes/TextInputChecker.cpp \
                    ../../../Classes/StringStorage.cpp \
-                   ../../../Classes/HQSceneElementPositioner.cpp
+                   ../../../Classes/HQSceneElementPositioner.cpp \
+                   ../../../Classes/ParentDataStorage.cpp \
+                   ../../../Classes/ParentDataParser.cpp \
+                   ../../../Classes/ParentDataProvider.cpp \
+                   ../../../Classes/ChildDataStorage.cpp \
+                   ../../../Classes/ChildDataParser.cpp \
+                   ../../../Classes/ChildDataProvider.cpp \
+                   ../../../Classes/CookieDataStorage.cpp \
+                   ../../../Classes/CookieDataParser.cpp \
+                   ../../../Classes/CookieDataProvider.cpp \
+                   ../../../Classes/HQDataStorage.cpp \
+                   ../../../Classes/HQDataParser.cpp \
+                   ../../../Classes/HQDataProvider.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
