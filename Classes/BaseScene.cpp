@@ -5,101 +5,73 @@
 #include "MainHubScene.h"
 #include "HQScene.h"
 
-#include "InterSceneLoader.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
 Scene* BaseScene::createScene()
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = BaseScene::create();
-
-    // add layer as a child to scene
+    layer->setName("baseLayer");
     scene->addChild(layer);
-
-    // return the scene
+    
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool BaseScene::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
     }
     
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    auto contentLayer = Layer::create();
-    contentLayer->setPosition(0,0);
-    contentLayer->setName("contentLayer");
-    this->addChild(contentLayer);
+    Layer *contentLayer = createContentLayer();         //We use contentLayer to hold all HQ-s, to be able to pan between them.
+    addMainHubScene(contentLayer);
     
-    auto sMainHubScene = MainHubScene::create();
-    sMainHubScene->setPosition(0,0);
-    contentLayer->addChild(sMainHubScene);
+    createHQScene("VIDEO HQ", contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
+    createHQScene("GAME HQ", contentLayer);             //Probably worth moving these to configStorage?
+    createHQScene("AUDIO HQ", contentLayer);
+    createHQScene("ARTS APP", contentLayer);
     
-    auto sVideoHQ = HQScene::create();
-    sVideoHQ->setPosition(2732, 0);
-    sVideoHQ->setName("sVideoHQ");
-    sVideoHQ->createBidirectionalScrollView();
-    contentLayer->addChild(sVideoHQ);
-    
-    auto sGameHQ = HQScene::create();
-    sGameHQ->setPosition(0, -2048);
-    sGameHQ->setName("sGameHQ");
-    sGameHQ->createMonodirectionalScrollView();
-    contentLayer->addChild(sGameHQ);
-    
-    auto sAudioHQ = HQScene::create();
-    sAudioHQ->setPosition(-2732, 0);
-    sAudioHQ->setName("sAudioHQ");
-    sAudioHQ->createMonodirectionalScrollView();
-    contentLayer->addChild(sAudioHQ);
-    
-    auto sArtsHQ = HQScene::create();
-    sArtsHQ->setPosition(0, 2048);
-    sArtsHQ->setName("sArtsHQ");
-    sArtsHQ->createMonodirectionalScrollView();
-    contentLayer->addChild(sArtsHQ);
-    
-    //Adding InterSceneLoader to top of all layers, but below main navigation, because we want to hide all layers, except for the menu
-    
-    auto interSceneLoader = InterSceneLoader::create();
-    this->addChild(interSceneLoader);
-    
-    
-    //Adding main menu to BaseScene (this), instead of contentLayer, as we don't want to move it, when panning contentlayer
-    auto sNavigationLayer = NavigationLayer::create();
-    sNavigationLayer->setPosition(0,0);
-    this->addChild(sNavigationLayer);
-    
-    
-    
+    addNavigationLayer();                               //The navigation layer is being added to "this", because that won't move with the menu.
     
     return true;
 }
 
+//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 
-void BaseScene::menuCloseCallback(Ref* pSender)
+void BaseScene::createHQScene(std::string sceneName, Node *toBeAddedTo)
 {
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
+    auto hqScene = HQScene::create();
+    hqScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(sceneName));
+    hqScene->setName(sceneName);
+    toBeAddedTo->addChild(hqScene);
+}
 
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
+Layer* BaseScene::createContentLayer()
+{
+    auto contentLayer = Layer::create();
+    contentLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions("contentLayer"));
+    contentLayer->setName("contentLayer");
+    this->addChild(contentLayer);
     
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() and exit(0) as given above,instead trigger a custom event created in RootViewController.mm as below*/
-    
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
-    
-    
+    return contentLayer;
+}
+
+void BaseScene::addMainHubScene(Node* toBeAddedTo)
+{
+    auto sMainHubScene = MainHubScene::create();
+    sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions("HOME"));
+    sMainHubScene->setTag(0);
+    toBeAddedTo->addChild(sMainHubScene);
+}
+
+void BaseScene::addNavigationLayer()
+{
+    //Adding main menu to BaseScene (this), instead of contentLayer, as we don't want to move it, when panning contentlayer
+    auto sNavigationLayer = NavigationLayer::create();
+    sNavigationLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions("NavigationLayer"));
+    sNavigationLayer->setName("NavigationLayer");
+    this->addChild(sNavigationLayer);
 }

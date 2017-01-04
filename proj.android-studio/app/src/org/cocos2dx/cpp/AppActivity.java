@@ -23,7 +23,65 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.cpp;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import android.util.Base64;
+
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.xwalk.core.XWalkCookieManager;
+import org.xwalk.core.XWalkView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AppActivity extends Cocos2dxActivity {
+
+    private static Context mContext;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = this;
+
+    }
+
+    public static void alertJNI(String url, String cookie) {
+
+        Log.d("sent from cocos", url + " - " + cookie);
+
+        Intent nvw = new Intent(mContext, NativeView.class);
+        nvw.putExtra("url", url);
+        nvw.putExtra("cookie", cookie);
+        mContext.startActivity(nvw);
+
+        //Intent i = new Intent(getApplicationContext(), NativeView.class);
+        //startActivity(i);
+
+    }
+
+    public static String getAnswer()
+    {
+        return "AndroidAnswer";
+    }
+    
+    public static String getHMACSHA256(String message, String secret) {
+        String hash = "";
+        try {
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+
+            hash = Base64.encodeToString(sha256_HMAC.doFinal(message.getBytes()), Base64.DEFAULT);
+        } catch (Exception e) {
+
+        }
+
+        return hash.trim();
+
+    }
+
 }

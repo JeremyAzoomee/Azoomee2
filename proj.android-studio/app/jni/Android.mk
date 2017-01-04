@@ -13,7 +13,44 @@ LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/AppDelegate.cpp \
-                   ../../../Classes/HelloWorldScene.cpp
+                   ../../../Classes/BaseScene.cpp \
+                   ../../../Classes/ChildSelectorScene.cpp \
+                   ../../../Classes/HQScene.cpp \
+                   ../../../Classes/IntroScene.cpp \
+                   ../../../Classes/LoginScene.cpp \
+                   ../../../Classes/OnboardingScene.cpp \
+                   ../../../Classes/ChildAccountScene.cpp \
+                   ../../../Classes/MainHubBgElements.cpp \
+                   ../../../Classes/MainHubScene.cpp \
+                   ../../../Classes/NavigationLayer.cpp \
+                   ../../../Classes/WebViewSelector.cpp \
+                   ../../../Classes/ImageContainer.cpp \
+                   ../../../Classes/OomeeLayer.cpp \
+                   ../../../Classes/HQSceneElement.cpp \
+                   ../../../Classes/ModalMessages.cpp \
+                   ../../../Classes/BackEndCaller.cpp \
+                   ../../../Classes/JWTTool.cpp \
+                   ../../../Classes/HMACSHA256_javaCaller.cpp \
+                   ../../../Classes/HMACSHA256.cpp \
+                   ../../../Classes/ImageDownloader.cpp \
+                   ../../../Classes/GameDataManager.cpp \
+                   ../../../Classes/HttpRequestCreator.cpp \
+                   ../../../Classes/ConfigStorage.cpp \
+                   ../../../Classes/TextInputChecker.cpp \
+                   ../../../Classes/StringStorage.cpp \
+                   ../../../Classes/HQSceneElementPositioner.cpp \
+                   ../../../Classes/ParentDataStorage.cpp \
+                   ../../../Classes/ParentDataParser.cpp \
+                   ../../../Classes/ParentDataProvider.cpp \
+                   ../../../Classes/ChildDataStorage.cpp \
+                   ../../../Classes/ChildDataParser.cpp \
+                   ../../../Classes/ChildDataProvider.cpp \
+                   ../../../Classes/CookieDataStorage.cpp \
+                   ../../../Classes/CookieDataParser.cpp \
+                   ../../../Classes/CookieDataProvider.cpp \
+                   ../../../Classes/HQDataStorage.cpp \
+                   ../../../Classes/HQDataParser.cpp \
+                   ../../../Classes/HQDataProvider.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
