@@ -24,7 +24,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/WebViewScene_ios.cpp \
                    ../../Classes/ImageContainer.cpp \
                    ../../Classes/OomeeLayer.cpp \
-                   ../../Classes/InterSceneLoader.cpp
+                   ../../Classes/InterSceneLoader.cpp \
+                   ../../Classes/HQSceneElement.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
