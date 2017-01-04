@@ -38,6 +38,9 @@ import org.xwalk.core.XWalkView;
 import java.util.HashMap;
 import java.util.Map;
 
+//import com.crashlytics.android.Crashlytics;
+//import io.fabric.sdk.android.Fabric;
+
 public class AppActivity extends Cocos2dxActivity {
 
     private static Context mContext;
@@ -46,6 +49,7 @@ public class AppActivity extends Cocos2dxActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        //Fabric.with(this, new Crashlytics());
 
     }
 
@@ -83,5 +87,9 @@ public class AppActivity extends Cocos2dxActivity {
         return hash.trim();
 
     }
+
+    /*public void forceCrash(View view) {
+        throw new RuntimeException("This is a crash");
+    }*/
 
 }

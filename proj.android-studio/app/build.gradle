@@ -61,13 +61,10 @@ buildscript {
 apply plugin: 'io.fabric'
 
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
-
-repositories {
     maven {
         url 'https://download.01.org/crosswalk/releases/crosswalk/android/maven2'
     }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
