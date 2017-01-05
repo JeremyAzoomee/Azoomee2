@@ -12,4 +12,6 @@ public:
     bool init(void);
     
     bool parseChildLoginData(std::string responseData);
+    
+    void setLoggedInChildName(std::string childName);
 };
