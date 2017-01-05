@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "extensions/cocos-ext.h"
 #include "spine/spine.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
@@ -9,45 +10,48 @@ using namespace spine;
 
 Scene* OomeeLayer::createScene()
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = OomeeLayer::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
 
-    // return the scene
     return scene;
 }
 
-// on "init" you need to initialize your instance
-
 bool OomeeLayer::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
     }
     
+    auto oomee = addOomeeToScreen();
+    addTouchListenerToOomee(oomee);
+    addCompleteListenerToOomee(oomee);
+    
+    return true;
+}
+
+//---------------------------------------------------------All methods beyond this line are called internally only-----------------------------------------------
+
+spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
+{
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    SkeletonAnimation *oomee = SkeletonAnimation::createWithFile("res/previewimg/skeleton.json", "res/previewimg/skeleton.atlas", 0.6f);
+    SkeletonAnimation *oomee = SkeletonAnimation::createWithFile("res/oomees/Pink.json", "res/oomees/Pink.atlas", 0.6f);
     oomee->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.38);
-    oomee->setMix("wave2", "idle", 1);
-    oomee->setAnimation(0, "idle", true);
-    oomee->setScale(1.5);
+    oomee->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
+    oomee->setScale(2);
     oomee->setOpacity(0);
     this->addChild(oomee);
     
     oomee->runAction(Sequence::create(DelayTime::create(8), FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
     
-    
-    
+    return oomee;
+}
+
+void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
+{
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [](Touch *touch, Event *event)
@@ -60,9 +64,7 @@ bool OomeeLayer::init()
         
         if(rect.containsPoint(locationInNode))
         {
-            //target->setAnimation(0, "wave2", false);
-            target->setAnimation(0, "wave2", false);
-            target->addAnimation(0, "idle", true);
+            target->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("touch").c_str(), false);
             
             return true;
         }
@@ -71,7 +73,15 @@ bool OomeeLayer::init()
         
     };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, oomee);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, toBeAddedTo);
+}
+
+void OomeeLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
+{
+    auto oomeeAnimationComplete = [=] (int trackIdx, int loopCount)
+    {
+        toBeAddedTo->addAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
+    };
     
-    return true;
+    toBeAddedTo->setCompleteListener(oomeeAnimationComplete);
 }

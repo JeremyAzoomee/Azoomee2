@@ -5,24 +5,15 @@ USING_NS_CC;
 
 Scene* MainHubBgElements::createScene()
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = MainHubBgElements::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
 
-    // return the scene
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool MainHubBgElements::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
@@ -57,7 +48,6 @@ bool MainHubBgElements::init()
     myParticle->setScale(1);
     myParticle->setPosVar(Vec2(2732, 2048));
     this->addChild(myParticle);
-    
     
     return true;
 }

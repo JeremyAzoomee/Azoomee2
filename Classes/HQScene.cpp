@@ -1,74 +1,94 @@
+//Creating a scrollview structure. vScrollView is the main, vertical scrollview, having several children of scrollViews, that can scroll horizontally.
+//We capture the the touches "under" the scrollView-s, and locking all horizontal movements on vertical touchMoves, and all vertical movements on horizontal touchMove.
+//The listener works the same way, as with all other nodes.
+
 #include "HQScene.h"
 #include "HQSceneElement.h"
 #include "SimpleAudioEngine.h"
+#include "HQDataProvider.h"
+#include "ConfigStorage.h"
+#include "HQSceneElementPositioner.h"
 
 USING_NS_CC;
 
 Scene* HQScene::createScene()
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = HQScene::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
 
-    // return the scene
     return scene;
 }
 
-void HQScene::setCategoryFromName(std::string name)
+bool HQScene::init()
 {
-    if(name == "sVideoHQ") category = 0;
-    if(name == "sAudioHQ") category = 1;
-    if(name == "sArtsHQ") category = 2;
-    if(name == "sGameHQ") category = 3;
-    
-    CCLOG("Selected category: %d", category);
-}
-
-Point HQScene::getItemPositionForBidirectionalScrollView(int highlight)
-{
-    Size baseSize = Size(520, 520);
-    Point resultPoint = Point(50,50);
-    int allocatedAmount = 1;
-    
-    if((highlight == 1)||(highlight == 2))
+    if ( !Layer::init() )
     {
-        if(scrollViewSpaceAllocation.size() % 2 == 1) scrollViewSpaceAllocation.push_back(false); //if the last item is on the down side, we have to skip a column, as big item is coming.
-        allocatedAmount = highlight * 2;                                                          //we need to allocate the amount of base-spaces - 2 for highlight = 1, 4 for highlight = 2
+        return false;
     }
     
-    resultPoint = Point(20 + scrollViewSpaceAllocation.size() / 2 * baseSize.width, scrollViewSpaceAllocation.size() % 2 * baseSize.height + 20);
-    for(int i = 0; i < allocatedAmount; i++) scrollViewSpaceAllocation.push_back(true);
-    
-    return resultPoint;
+    return true;
 }
 
-void HQScene::setBackground(std::string name)
+void HQScene::startBuildingScrollViewBasedOnName()
+{
+#ifdef forcereload
+        this->removeAllChildren();
+#endif
+    
+    if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.
+    {
+        if(this->getName() == "VIDEO HQ") createBidirectionalScrollView();
+        else createMonodirectionalScrollView();
+    }
+}
+
+//--------------------------------------------All functions below this line are used internally----------------------------------------------------
+
+void HQScene::createMonodirectionalScrollView()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto bgImage = Sprite::create(StringUtils::format("res/previewbg/%s.jpg", name.c_str()));
-    bgImage->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-    this->addChild(bgImage, 0);
+    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(origin.x, origin.y + 50));
+    horizontalScrollView->setName("scrollView");
+    this->addChild(horizontalScrollView);
+    
+    std::vector<std::string> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), 0);
+
+    for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfElementsForRow(this->getName(), 0); i++)
+    {
+        addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)));
+    }
 }
 
-void HQScene::setName(std::string name)
+void HQScene::createBidirectionalScrollView()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto title = Label::createWithTTF(name, "fonts/arial.ttf", 40);
-    title->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
-    title->setColor(Color3B(255,0,0));
-    this->addChild(title, 20);
+    auto verticalScrollView = createVerticalScrollView();
+    verticalScrollView->setName("scrollView");
+    this->addChild(verticalScrollView);
     
-    setBackground(name);
-    setCategoryFromName(name);
+    verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * 1100));
+    
+    for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); j++)
+    {
+        std::vector<std::string> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), j);
+        
+        scrollViewSpaceAllocation.clear();
+        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
+        verticalScrollView->addChild(horizontalScrollView);
+        
+        for(int i = 0; i < elementsForRow.size(); i++)
+        {
+            addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)));
+        }
+        
+        Point titlePosition = horizontalScrollView->getPosition();
+        addTitleToHorizontalScrollView(HQDataProvider::getInstance()->getTitleForRow(this->getName(), j), verticalScrollView, horizontalScrollView->getPosition());
+    }
 }
 
 void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
@@ -77,8 +97,6 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
     listener->setSwallowTouches(false);
     listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
-        CCLOG("touch captured");
-        
         auto target = static_cast<Node*>(event->getCurrentTarget());
         
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
@@ -89,7 +107,6 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
         {
             startLocation = touch->getLocation();
             directionDecided = false;
-            CCLOG("touch on target, %f, %f", touch->getLocation().x, touch->getLocation().y);
             return true;
         }
         
@@ -108,21 +125,22 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
             float xdiff = fabsf(currentLocation.x - startLocation.x);
             float ydiff = fabsf(currentLocation.y - startLocation.y);
             
-            if(xdiff > ydiff)
+            if(xdiff > ydiff) //Horizontal scroll
             {
-                CCLOG("Horizontal scroll");
                 vScrollView->setTouchEnabled(false);
             }
-            else
+            else //Vertical scroll
             {
-                CCLOG("Vertical scroll");
                 vScrollView->setTouchEnabled(true);
                 
                 Vector<Node *> allHorizontals = vScrollView->getChildren();
                 for(int i = 0; i < allHorizontals.size(); i++)
                 {
-                    auto currentSv = (cocos2d::ui::ScrollView *)allHorizontals.at(i);
-                    currentSv->setTouchEnabled(false);
+                    if(allHorizontals.at(i)->getName() != "label")
+                    {
+                        auto currentSv = (cocos2d::ui::ScrollView *)allHorizontals.at(i);
+                        currentSv->setTouchEnabled(false);
+                    }
                 }
             }
         }
@@ -132,18 +150,19 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
     
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
-        CCLOG("touch ended captured");
         vScrollView->setTouchEnabled(true);
         vScrollView->setSwallowTouches(false);
         
         Vector<Node *> allHorizontals = vScrollView->getChildren();
         for(int i = 0; i < allHorizontals.size(); i++)
         {
-            auto currentSv = (cocos2d::ui::ScrollView *)allHorizontals.at(i);
-            currentSv->setTouchEnabled(true);
-            currentSv->setSwallowTouches(false);
+            if(allHorizontals.at(i)->getName() != "label")
+            {
+                auto currentSv = (cocos2d::ui::ScrollView *)allHorizontals.at(i);
+                currentSv->setTouchEnabled(true);
+                currentSv->setSwallowTouches(false);
+            }
         }
-        
         
         return true;
     };
@@ -175,89 +194,41 @@ cocos2d::ui::ScrollView* HQScene::createVerticalScrollView()
 
 cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position)
 {
-    auto visibleSize = Director::getInstance()->getVisibleSize();
     auto scrollView = cocos2d::ui::ScrollView::create();
     scrollView->setContentSize(contentSize);
+    scrollView->setInnerContainerSize(contentSize);
     scrollView->setPosition(position);
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     scrollView->setBounceEnabled(true);
     scrollView->setTouchEnabled(true);
-    scrollView->setInnerContainerSize(Size(visibleSize.width * 2, scrollView->getContentSize().height));
     scrollView->setSwallowTouches(false);
     scrollView->setScrollBarEnabled(false);
+    scrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
+    scrollView->setBackGroundColor(Color3B::WHITE);
+    scrollView->setBackGroundColorOpacity(25);
     
     return scrollView;
 }
 
-void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, Point position, int category, int highlight, std::string imageName, std::string label)
+void HQScene::addTitleToHorizontalScrollView(std::string title, Node *toBeAddedTo, Point position)
 {
+    auto scrollViewTitle = Label::createWithTTF(title, "fonts/azoomee.ttf", 40);
+    scrollViewTitle->setColor(Color3B::WHITE);
+    scrollViewTitle->setPosition(position);
+    scrollViewTitle->setName("label");
+    scrollViewTitle->setAnchorPoint(Vec2(0, 0));
+    toBeAddedTo->addChild(scrollViewTitle);
+}
+
+void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData)
+{
+    Vec2 highlightDataForElement = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(this->getName(), itemData["id"]);
+    
     auto hqSceneElement = HQSceneElement::create();
-    hqSceneElement->addHQSceneElement(category, highlight, imageName, label);
+    hqSceneElement->addHQSceneElement(this->getName(), itemData, highlightDataForElement);
     
-    if((position.x == 0)&&(position.y == 0))
-    {
-        int amountOfElements = (int)toBeAddedTo->getChildren().size();
-        position = (Point(amountOfElements * hqSceneElement->getSizeOfLayerWithGap().width, 50));
-    }
-
-    hqSceneElement->setPosition(position);
     toBeAddedTo->addChild(hqSceneElement);
-}
-
-void HQScene::createMonodirectionalScrollView() //This is the method that is being called from outside of the class
-{
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1100), Point(origin.x, origin.y + 50));
-    this->addChild(horizontalScrollView);
-    
-    //This is just to add fake icons to the scrollview:
-    for(int i = 0; i < 8; i++)
-    {
-        addElementToHorizontalScrollView(horizontalScrollView, Point(0,0), category, 0, "res/previewimg/1a.png", "Angry Birds");
-    }
-}
-
-void HQScene::createBidirectionalScrollView() //This is the method that is being called from outside of the class
-{
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    auto verticalScrollView = createVerticalScrollView();
-    this->addChild(verticalScrollView);
-    
-    for(int j = 0; j < 4; j++)
-    {
-        scrollViewSpaceAllocation.clear();
-        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1100), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
-        CCLOG("scrollview position: %f, %f", horizontalScrollView->getPosition().x, horizontalScrollView->getPosition().y);
-        verticalScrollView->addChild(horizontalScrollView);
-        
-        for(int i = 0; i < 16; i++)
-        {
-            int highlight = 0;
-            if(i % 6 == 0) highlight = 2;
-            if(i % 7 == 0) highlight = 1;
-            addElementToHorizontalScrollView(horizontalScrollView, getItemPositionForBidirectionalScrollView(highlight), category, highlight, "res/previewimg/1a.png", "Angry Birds");
-        }
-    }
-}
-
-// on "init" you need to initialize your instance
-bool HQScene::init()
-{
-    //////////////////////////////
-    // 1. super init first
-    if ( !Layer::init() )
-    {
-        return false;
-    }
-    
-    //Creating a scrollview structure. vScrollView is the main, vertical scrollview, having several children of scrollViews, that can scroll horizontally.
-    //We capture the the touches "under" the scrollView-s, and locking all horizontal movements on vertical touchMoves, and all vertical movements on horizontal touchMove.
-    //The listener works the same way, as with all other nodes.
-    
-    
-    return true;
+    auto sceneElementPositioner = new HQSceneElementPositioner();
+    sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
 }
