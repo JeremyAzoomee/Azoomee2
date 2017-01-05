@@ -278,25 +278,23 @@ void OnboardingScene::signup()
 //Editbox Delegate Functions
 void OnboardingScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-    TextInputChecker *textInputChecker = new TextInputChecker;
     
     if(editBox == editBox_email)
     {
-        bool canGoForward = textInputChecker->isValidEmailAddress(text.c_str());
+        bool canGoForward = isValidEmailAddress(text.c_str());
         buttonNextEmail->setVisible(canGoForward);
     }
     else if(editBox == editBox_password)
     {
-        bool canGoForward = textInputChecker->isValidPassword(text.c_str());
+        bool canGoForward = isValidPassword(text.c_str());
         buttonNextPassword->setVisible(canGoForward);
     }
     else if(editBox == editBox_pin)
     {
-        bool canGoForward = textInputChecker->isValidPin(text.c_str());
+        bool canGoForward = isValidPin(text.c_str());
         buttonNextPin->setVisible(canGoForward);
     }
-    
-    textInputChecker->release();
+
 }
 
 void OnboardingScene::editBoxReturn(cocos2d::ui::EditBox* editBox)

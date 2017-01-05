@@ -6,71 +6,70 @@
 
 USING_NS_CC;
 
+#define INPUT_IS_EMAIL 0
+#define INPUT_IS_PASSWORD 1
+#define INPUT_IS_PIN 2
+
+#define EDITBOX_CURVE_WIDTH 60
+
+/* Due to first time definition of Delegate, short setup description here
+
+1.  Create delegate class, with delegate callback functions that should be defined in class that inherits the delegate class.
+2.  Synthesize delegate in object class, with:
+    CC_SYNTHESIZE(TextInputLayerDelegate*, _delegate, Delegate);
+3.  Call the delegate function with the code from the object class whenever this call is needed:
+    this->getDelegate()->textInputIsValid(this, inputIsValid());
+ 
+    the function in the inherited class using the delegate will be fired.
+    ensure to set the object in the inherited class with the correct delegate. 
+    <TextInputLayer>->setDelegate(this);
+ 
+ */
+
+class TextInputLayer;
+
 class TextInputLayerDelegate
 {
 public:
-    virtual void textInputIsValid(Layer* inputLayer) = 0;
-    virtual void textInputNotValid(Layer* inputLayer) = 0;
+
+    virtual void textInputIsValid(TextInputLayer* inputLayer, bool isValid) = 0;
 };
 
-class TextInputLayer
+class TextInputLayer : public Layer, public cocos2d::ui::EditBoxDelegate
 {
 private:
-    TextInputLayerDelegate* textInputDelegate;
+    void createEditBoxArea();
+    void createEditBox();
+    void setupEditBoxUsingType();
     
     ui::EditBox* editBox;
     ui::Scale9Sprite* editBoxArea;
     
-    const float editBoxCurveWidth = 60;
-    
     int textInputType;
     
 public:
-    ui::EditBox* create(Size inputBoxSize, int textInputType);
+    virtual bool init();
+    
+    // implement the "static create()" method manually
+    CREATE_FUNC(TextInputLayer);
+    
+    CC_SYNTHESIZE(TextInputLayerDelegate*, _delegate, Delegate);
+    
+    static TextInputLayer* createWithSize(Size inputBoxSize, int textInputType);
+    
+    void setCenterPosition(Vec2 position);
+    
+    void focusAndShowKeyboard();
     
     bool inputIsValid();
     
-    const int TextInputIsEmail = 0;
-    const int TextInputIsPassword = 1;
-    const int TextInputIsPin = 2;
+    std::string getText();
+    void setText(std::string newText);
+    
+    //Editbox Delegate Functions
+    void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
+    void editBoxReturn(cocos2d::ui::EditBox* editBox);
     
 };
 
 #endif
-
-/*
- https://gist.github.com/syuhari/5425221
- 
- 
-class MyClassDelegate
-{
-public:
-    virtual void myDelegateMethod() = 0;
-};
-
-class MyClass
-{
-public:
-    static void doSomething(int a, int b, MyDelegate *delegate)
-    {
-        m_delegate = delegate;
-        
-        //doSomething........
-        
-        this->m_delegate->myDelegateMethod();
-    }
-private:
-    MyDelegate* m_delegate;
-};
-
-class MyUserClass : public MyClassDelegate
-{
-    void calc()
-    {
-        MyClass::doSomething(1, 2, this);
-    }
-    void myDelegateMethod()
-    {
-        ;
-    }
-}; */
