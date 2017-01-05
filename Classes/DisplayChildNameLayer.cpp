@@ -30,10 +30,13 @@ bool DisplayChildNameLayer::init()
 
 Label* DisplayChildNameLayer::addChildNameToLayer()
 {
-    auto childNameLabel = Label::createWithTTF(getLoggedInChildName(), "fonts/azoomee.ttf", 70);
+    auto childNameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getLoggedInChildName(), "fonts/azoomee.ttf", 70);
     childNameLabel->setColor(Color3B::WHITE);
+    childNameLabel->setPosition(Director::getInstance()->getVisibleSize().width / 2, 350);
     childNameLabel->setOpacity(0);
     this->addChild(childNameLabel);
+    
+    CCLOG("Layer added");
     
     childNameLabel->runAction(Sequence::create(DelayTime::create(1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     
@@ -52,7 +55,7 @@ void DisplayChildNameLayer::addFrameToLayer(Label *childNameLabel)
     
     auto labelBackground = ui::Scale9Sprite::create("res/mainhub/logged_in_as.png", spriteRect, capInsents);
     labelBackground->setContentSize(Size(size.width + offset * 2, size.height + offset * 2));
-    labelBackground->setPosition(Point(position.x - offset, position.y - offset));
+    labelBackground->setPosition(Point(position.x, position.y + offset / 2));
     this->addChild(labelBackground);
     
     labelBackground->setScale(0);

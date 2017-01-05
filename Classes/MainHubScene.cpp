@@ -40,7 +40,7 @@ bool MainHubScene::init()
     this->addChild(oomeeLayer);
     
     auto displayChildNameLayer = DisplayChildNameLayer::create();
-    displayChildNameLayer->setPosition(1351, 200);
+    //displayChildNameLayer->setPosition(1351, 200);
     this->addChild(displayChildNameLayer);
     
     
