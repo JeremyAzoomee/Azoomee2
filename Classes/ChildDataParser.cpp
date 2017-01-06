@@ -37,3 +37,8 @@ void ChildDataParser::setLoggedInChildName(std::string childName)
 {
     ChildDataStorage::getInstance()->loggedInChildName = childName;
 }
+
+void ChildDataParser::setLoggedInChildNumber(int childNumber)
+{
+    ChildDataStorage::getInstance()->loggedInChildNumber = childNumber;
+}

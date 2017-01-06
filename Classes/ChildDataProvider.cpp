@@ -47,3 +47,8 @@ std::string ChildDataProvider::getLoggedInChildName()
 {
     return ChildDataStorage::getInstance()->loggedInChildName;
 }
+
+int ChildDataProvider::getLoggedInChildNumber()
+{
+    return ChildDataStorage::getInstance()->loggedInChildNumber;
+}

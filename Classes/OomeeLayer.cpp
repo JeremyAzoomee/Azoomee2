@@ -3,6 +3,7 @@
 #include "extensions/cocos-ext.h"
 #include "spine/spine.h"
 #include "ConfigStorage.h"
+#include "ChildDataProvider.h"
 
 USING_NS_CC;
 
@@ -24,11 +25,18 @@ bool OomeeLayer::init()
         return false;
     }
     
+    displayedOomeeNumber = ChildDataProvider::getInstance()->getLoggedInChildNumber();
+    
     auto oomee = addOomeeToScreen();
     addTouchListenerToOomee(oomee);
     addCompleteListenerToOomee(oomee);
     
     return true;
+}
+
+void OomeeLayer::setDisplayedOomee(int oomeeNumber)
+{
+    displayedOomeeNumber = oomeeNumber;
 }
 
 //---------------------------------------------------------All methods beyond this line are called internally only-----------------------------------------------
@@ -38,7 +46,11 @@ spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    SkeletonAnimation *oomee = SkeletonAnimation::createWithFile("res/oomees/Pink.json", "res/oomees/Pink.atlas", 0.6f);
+    std::string oomeeName = ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber);
+    std::string jsonFileName = StringUtils::format("res/oomees/%s.json", oomeeName.c_str());
+    std::string atlasFileName = StringUtils::format("res/oomees/%s.atlas", oomeeName.c_str());
+    
+    SkeletonAnimation *oomee = SkeletonAnimation::createWithFile(jsonFileName, atlasFileName, 0.6f);
     oomee->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.38);
     oomee->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
     oomee->setScale(2);

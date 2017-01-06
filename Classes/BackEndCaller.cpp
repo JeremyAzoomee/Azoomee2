@@ -110,6 +110,7 @@ void BackEndCaller::childLogin(int childNumber)
     httpRequestCreator->createEncryptedPostHttpRequest();
     
     ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getValueFromOneAvailableChild(childNumber, "profileName"));
+    ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
