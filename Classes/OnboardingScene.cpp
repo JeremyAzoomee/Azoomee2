@@ -26,6 +26,9 @@ bool OnboardingScene::init()
         return false;
     }
     
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
+    
     addVisualElementsToScene();
     addFunctionalElementsToScene();
     
