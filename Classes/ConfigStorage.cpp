@@ -49,6 +49,53 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     return "";
 }
 
+//-------------------------ChildAccountScene settings---------------------------
+std::string ConfigStorage::getNameForOomee(int number)
+{
+    std::map<int, std::string> oomeeNames;
+    
+    oomeeNames[0] = "om_Pink";
+    oomeeNames[1] = "om_Yellow";
+    oomeeNames[2] = "om_Raspberry";
+    oomeeNames[3] = "om_Green";
+    oomeeNames[4] = "om_Blue";
+    
+    return oomeeNames[number];
+}
+
+std::string ConfigStorage::getUrlForOomee(int number)
+{
+    std::map<int, std::string> oomeeUrls;
+    
+    oomeeUrls[0] = "https://media.azoomee.com/static/thumbs/oomee_01.png";
+    oomeeUrls[1] = "https://media.azoomee.com/static/thumbs/oomee_03.png";
+    oomeeUrls[2] = "https://media.azoomee.com/static/thumbs/oomee_04.png";
+    oomeeUrls[3] = "https://media.azoomee.com/static/thumbs/oomee_05.png";
+    oomeeUrls[4] = "https://media.azoomee.com/static/thumbs/oomee_06.png";
+    
+    return oomeeUrls[number];
+}
+
+int ConfigStorage::getOomeeNumberForUrl(std::string url)
+{
+    std::map<std::string, int> oomeeNumbers;
+    
+    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_01.png"] = 0;
+    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_03.png"] = 1;
+    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_04.png"] = 2;
+    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_05.png"] = 3;
+    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_06.png"] = 4;
+    
+    if ( oomeeNumbers.find(url) == oomeeNumbers.end() )
+    {
+        return 0;
+    }
+    else
+    {
+        return oomeeNumbers[url];
+    }
+}
+
 //-------------------------BASESCENE CONFIGURATION-------------------------
 Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 {
@@ -71,9 +118,9 @@ cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string categor
 {
     std::map<std::string, Size> sizes;
     sizes["VIDEO HQ"] = Size(520,520);
-    sizes["AUDIO HQ"] = Size(520,1020);
-    sizes["GAME HQ"] = Size(520,1020);
-    sizes["ARTS APP"] = Size(520,1020);
+    sizes["AUDIO HQ"] = Size(520,520);
+    sizes["GAME HQ"] = Size(520,520);
+    sizes["ARTS APP"] = Size(520,520);
     
     return sizes[category];
 }
@@ -190,7 +237,7 @@ std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::st
     std::map<std::string, std::vector<Point>> positions;
     
     positions["PLAY"] = std::vector<Point> {Point(600, 75), Point(400,400)};
-    positions["LISTEN"] = std::vector<Point> {Point(-700, -700), Point(-1050, -475)};
+    positions["LISTEN"] = std::vector<Point> {Point(-800, -700), Point(-1050, -475)};
     positions["WATCH"] = std::vector<Point> {Point(-1050, 75), Point(-700, 400)};
     
     return positions[categoryName];

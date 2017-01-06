@@ -166,6 +166,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         std::vector<char> responseData = *response->getResponseData();
         std::string responseDataString = std::string(responseData.begin(), responseData.end());
         
+        CCLOG("response code: %ld", response->getResponseCode());
         CCLOG("response string: %s", responseDataString.c_str());
         
         std::string requestTag = response->getHttpRequest()->getTag();
@@ -177,7 +178,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "registerChild") BackEndCaller::getInstance()->onRegisterChildAnswerReceived();
         if(requestTag == "registerParent") BackEndCaller::getInstance()->onRegisterParentAnswerReceived();
         
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 6; i++)
         {
             if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i)) HQDataParser::getInstance()->onGetContentAnswerReceived(responseDataString, requestTag);
         }
