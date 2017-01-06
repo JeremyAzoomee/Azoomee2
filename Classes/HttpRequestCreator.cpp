@@ -177,7 +177,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "registerChild") BackEndCaller::getInstance()->onRegisterChildAnswerReceived();
         if(requestTag == "registerParent") BackEndCaller::getInstance()->onRegisterParentAnswerReceived();
         
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 6; i++)
         {
             if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i)) HQDataParser::getInstance()->onGetContentAnswerReceived(responseDataString, requestTag);
         }
