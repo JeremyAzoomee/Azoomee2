@@ -11,11 +11,12 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
+    spine::SkeletonAnimation* addOomeeToScreen();
+    void addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo);
+    void addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedTo);
     
-    // a selector callback
     
-    // implement the "static create()" method manually
     CREATE_FUNC(OomeeLayer);
 };
 
-#endif // __HELLOWORLD_SCENE_H__
+#endif
