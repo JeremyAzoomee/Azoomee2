@@ -4,6 +4,7 @@
 #include "spine/spine.h"
 #include "ConfigStorage.h"
 #include "ChildDataProvider.h"
+#include "ParentDataProvider.h"
 
 USING_NS_CC;
 
@@ -25,7 +26,8 @@ bool OomeeLayer::init()
         return false;
     }
     
-    displayedOomeeNumber = ChildDataProvider::getInstance()->getLoggedInChildNumber();
+    std::string oomeeUrl = ParentDataProvider::getInstance()->getValueFromOneAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber(), "avatar");
+    displayedOomeeNumber = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
     
     auto oomee = addOomeeToScreen();
     addTouchListenerToOomee(oomee);
@@ -45,6 +47,7 @@ spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
     
     std::string oomeeName = ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber);
     std::string jsonFileName = StringUtils::format("res/oomees/%s.json", oomeeName.c_str());
