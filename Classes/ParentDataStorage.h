@@ -13,4 +13,5 @@ public:
     
     rapidjson::Document parentLoginData;
     rapidjson::Document availableChildrenData;
+    std::string loggedInChildName;
 };
