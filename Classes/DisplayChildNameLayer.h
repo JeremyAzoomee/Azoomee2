@@ -9,8 +9,10 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     
-    cocos2d::Label* addChildNameToLayer();
-    void addFrameToLayer(cocos2d::Label* childNameLayer);
+    void addChildNameToLayer();
+    void addFrameToLayer();
+    void setMaxScaleForLabel(cocos2d::Label* childNameLabel);
+    std::string shortenString(std::string text, int numberOfCharacters);
     std::string getLoggedInChildName();
     
     CREATE_FUNC(DisplayChildNameLayer);

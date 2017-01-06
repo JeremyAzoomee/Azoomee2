@@ -20,49 +20,65 @@ bool DisplayChildNameLayer::init()
         return false;
     }
     
-    auto childNameLabel = addChildNameToLayer();
-    addFrameToLayer(childNameLabel);
+    addFrameToLayer();
+    addChildNameToLayer();
     
     return true;
 }
 
 //---------------------------------------------------------All methods beyond this line are called internally only-----------------------------------------------
 
-Label* DisplayChildNameLayer::addChildNameToLayer()
+void DisplayChildNameLayer::addChildNameToLayer()
 {
-    auto childNameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getLoggedInChildName(), "fonts/azoomee.ttf", 70);
+    std::string childName = getLoggedInChildName();
+    childName = shortenString(childName, 12);
+    
+    auto childNameLabel = Label::createWithTTF(childName, "fonts/azoomee.ttf", 70);
+    //auto childNameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getLoggedInChildName(), "fonts/azoomee.ttf", 70);
     childNameLabel->setColor(Color3B::WHITE);
     childNameLabel->setPosition(Director::getInstance()->getVisibleSize().width / 2, 350);
     childNameLabel->setOpacity(0);
+    
+    setMaxScaleForLabel(childNameLabel);
+    
     this->addChild(childNameLabel);
     
-    CCLOG("Layer added");
-    
     childNameLabel->runAction(Sequence::create(DelayTime::create(1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-    
-    return childNameLabel;
 }
 
-void DisplayChildNameLayer::addFrameToLayer(Label *childNameLabel)
+void DisplayChildNameLayer::addFrameToLayer()
 {
-    Rect spriteRect = Rect(0, 0, 805, 302);
-    Rect capInsents = Rect(50, 58, 725, 174);
+    auto displayNameFrame = Sprite::create("res/mainhub/logged_in_as.png");
+    displayNameFrame->setPosition(Director::getInstance()->getVisibleSize().width / 2, 370);
+    displayNameFrame->setScale(0.0);
+    displayNameFrame->setName("displayFrameName");
+    this->addChild(displayNameFrame);
     
-    float offset = 60;
-    
-    Point position = childNameLabel->getPosition();
-    Size size = childNameLabel->getContentSize();
-    
-    auto labelBackground = ui::Scale9Sprite::create("res/mainhub/logged_in_as.png", spriteRect, capInsents);
-    labelBackground->setContentSize(Size(size.width + offset * 2, size.height + offset * 2));
-    labelBackground->setPosition(Point(position.x, position.y + offset / 2));
-    this->addChild(labelBackground);
-    
-    labelBackground->setScale(0);
-    labelBackground->runAction(Sequence::create(DelayTime::create(0.5), EaseElasticOut::create(ScaleTo::create(0.5, 1)), NULL));
+    displayNameFrame->runAction(Sequence::create(DelayTime::create(0.4), EaseElasticOut::create(ScaleTo::create(0.5, 1.0f)), NULL));
 }
 
 std::string DisplayChildNameLayer::getLoggedInChildName()
 {
     return ChildDataProvider::getInstance()->getLoggedInChildName();
+}
+
+void DisplayChildNameLayer::setMaxScaleForLabel(Label* childNameLabel)
+{
+    float maxWidth = this->getChildByName("displayFrameName")->getContentSize().width - 50;
+    
+    if(childNameLabel->getContentSize().width > maxWidth)
+    {
+        childNameLabel->setScaleX(maxWidth / childNameLabel->getContentSize().width);
+    }
+}
+
+std::string DisplayChildNameLayer::shortenString(std::string text, int numberOfCharacters)
+{
+    if(text.length() > numberOfCharacters)
+    {
+        text = text.substr(0, numberOfCharacters);
+        text = text + "...";
+    }
+    
+    return text;
 }
