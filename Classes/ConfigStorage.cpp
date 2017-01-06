@@ -118,9 +118,9 @@ cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string categor
 {
     std::map<std::string, Size> sizes;
     sizes["VIDEO HQ"] = Size(520,520);
-    sizes["AUDIO HQ"] = Size(520,1020);
-    sizes["GAME HQ"] = Size(520,1020);
-    sizes["ARTS APP"] = Size(520,1020);
+    sizes["AUDIO HQ"] = Size(520,520);
+    sizes["GAME HQ"] = Size(520,520);
+    sizes["ARTS APP"] = Size(520,520);
     
     return sizes[category];
 }
