@@ -63,6 +63,7 @@ std::string StringStorage::getStringForLoginScene(std::string labelName)
 {
     std::map<std::string, std::string> loginStrings;
     
+    loginStrings["signUpLoginLabel"] = "Do you want to";
     loginStrings["loginButton"] = "Log in";
     loginStrings["signupButton"] = "Sign up";
     loginStrings["emailLabel"] = "Login e-mail";
