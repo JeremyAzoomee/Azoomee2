@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "BaseScene.h"
+#include "LoginScene.h"
 
 USING_NS_CC;
 
@@ -79,7 +79,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = BaseScene::createScene();
+    auto scene = LoginScene::createScene(0);
 
     // run
     director->runWithScene(scene);
@@ -90,6 +90,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
 void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
+    Director::getInstance()->pause();
 
     // if you use SimpleAudioEngine, it must be paused
     // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
@@ -97,6 +98,8 @@ void AppDelegate::applicationDidEnterBackground() {
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
+    Director::getInstance()->stopAnimation();
+    Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
 
     // if you use SimpleAudioEngine, it must resume here

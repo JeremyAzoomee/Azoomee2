@@ -2,8 +2,8 @@ bin/
 cocos2d/
 proj.android/obj/
 proj.android/assets/res/
-proj.android-studio/app/assets/res
-proj.android-studio/app/obj
+proj.android-studio/app/obj/
+proj.android-studio/app/assets/res/
 proj.linux/
 proj.tizen/
 proj.win8.1-universal/

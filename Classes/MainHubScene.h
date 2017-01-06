@@ -16,8 +16,7 @@ public:
     cocos2d::Size visibleSize;
     cocos2d::Point origin;
     
-    // implement the "static create()" method manually
     CREATE_FUNC(MainHubScene);
 };
 
-#endif // __MAINHUB_SCENE_H__
+#endif

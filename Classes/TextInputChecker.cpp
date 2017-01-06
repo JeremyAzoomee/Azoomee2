@@ -1,0 +1,113 @@
+#include "TextInputChecker.h"
+#include "ParentDataProvider.h"
+
+using namespace cocos2d;
+
+bool TextInputChecker::isCharacter(const char Character)
+{
+    return ( (Character >= 'a' && Character <= 'z') || (Character >= 'A' && Character <= 'Z'));
+}
+bool TextInputChecker::isNumber(const char Character)
+{
+    return ( Character >= '0' && Character <= '9');
+}
+
+bool TextInputChecker::isValidEmailAddress(const char * EmailAddress)
+{
+    if(!EmailAddress) return 0;
+    if(!isCharacter(EmailAddress[0])) return 0;
+    
+    int AtOffset = -1;
+    int DotOffset = -1;
+    
+    unsigned int Length = (int)strlen(EmailAddress);
+    for(unsigned int i = 0; i < Length; i++)
+    {
+        if(EmailAddress[i] == '@') AtOffset = (int)i;
+        else if(EmailAddress[i] == '.') DotOffset = (int)i;
+    }
+    
+    if(AtOffset == -1 || DotOffset == -1) return 0;
+    if(AtOffset > DotOffset) return 0;
+    
+    return !(DotOffset >= ((int)Length-1));
+}
+
+bool TextInputChecker::isValidPassword(const char * password)
+{
+    if(!password) return 0;
+    if(strlen(password) < 2) return 0;
+    
+    bool passwordOK = true;
+    
+    for(unsigned int i = 0; i < strlen(password); i++)
+    {
+        if(password[i] == ' ') passwordOK = false;
+        else if(password[i] == '\n') passwordOK = false;
+        else if(password[i] == '\t') passwordOK = false;
+    }
+    
+    if(passwordOK) return 1;
+    else return 0;
+}
+
+bool TextInputChecker::isValidPin(const char * pinNumber)
+{
+    if(!pinNumber) return 0;
+    if(strlen(pinNumber) != 4) return 0;
+    
+    bool pinOK = true;
+    
+    for(unsigned int i = 0; i < strlen(pinNumber); i++)
+    {
+        if(!isNumber(pinNumber[i]))
+            pinOK = false;
+    }
+    
+    if(pinOK) return 1;
+    else return 0;
+}
+
+bool TextInputChecker::isDate(int day, int month, int year)
+{
+    if (! (1582<= year )  )//comment these 2 lines out if it bothers you
+        return false;
+    if (! (1<= month && month<=12) )
+        return false;
+    if (! (1<= day && day<=31) )
+        return false;
+    if ( (day==31) && (month==2 || month==4 || month==6 || month==9 || month==11) )
+        return false;
+    if ( (day==30) && (month==2) )
+        return false;
+    if ( (month==2) && (day==29) && (year%4!=0) )
+        return false;
+    if ( (month==2) && (day==29) && (year%400==0) )
+        return true;
+    if ( (month==2) && (day==29) && (year%100==0) )
+        return false;
+    if ( (month==2) && (day==29) && (year%4==0)  )
+        return true;
+    
+    return true;
+}
+
+bool TextInputChecker::childNameExists(std::string newChildsName)
+{
+    //check if child name exists
+    bool childNameExists = false;
+    
+    for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
+    {
+        std::string storedChildsName = ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "profileName");
+        
+        if(newChildsName.compare(storedChildsName) == 0)
+        {
+            childNameExists = true;
+            break;
+        }
+    }
+    
+    return childNameExists;
+}
+
