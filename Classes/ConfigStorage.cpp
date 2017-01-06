@@ -190,7 +190,7 @@ std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::st
     std::map<std::string, std::vector<Point>> positions;
     
     positions["PLAY"] = std::vector<Point> {Point(600, 75), Point(400,400)};
-    positions["LISTEN"] = std::vector<Point> {Point(-700, -700), Point(-1050, -475)};
+    positions["LISTEN"] = std::vector<Point> {Point(-600, -700), Point(-1050, -475)};
     positions["WATCH"] = std::vector<Point> {Point(-1050, 75), Point(-700, 400)};
     
     return positions[categoryName];
