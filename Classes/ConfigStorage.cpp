@@ -250,3 +250,6 @@ std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType
     if(animationType == "idle") return idleAnimations.at(random(0, (int)idleAnimations.size() - 1));
     else return touchAnimations.at(random(0, (int)touchAnimations.size() - 1));
 }
+
+
+
