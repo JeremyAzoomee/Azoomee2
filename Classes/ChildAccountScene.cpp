@@ -306,14 +306,12 @@ void ChildAccountScene::childNameNextButtonPressed(Node* button)
     }
     else
     {
-        TextInputChecker *textInputChecker = new TextInputChecker();
-        if(textInputChecker->childNameExists(newChildsName))
+        if(childNameExists(newChildsName))
         {
             ModalMessages::getInstance()->createMessageWithSingleButton("Display Name Exists", "Please insert a unique name.", "OK");
         }
         else moveToDOBInput(button);
         
-        textInputChecker->release();
     }
 }
 
@@ -404,8 +402,6 @@ void ChildAccountScene::registerChildAccount()
 //Editbox Delegate Functions
 void ChildAccountScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-    TextInputChecker *textInputChecker = new TextInputChecker();
-    
     if(editBox == editBox_childName)
     {
         bool canGoForward = false;
@@ -418,7 +414,7 @@ void ChildAccountScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const 
         int month = atoi(editBox_month->getText());
         int year = atoi(editBox_year->getText());
         
-        bool canGoForward = textInputChecker->isDate(day, month, year);
+        bool canGoForward = isDate(day, month, year);
         buttonNextDob->setVisible(canGoForward);
     }
 }
