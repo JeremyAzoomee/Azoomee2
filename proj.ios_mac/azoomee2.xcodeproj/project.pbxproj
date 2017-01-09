@@ -99,6 +99,7 @@
 		A1CC0C1F1E141B20008B469E /* CookieDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C1D1E141B20008B469E /* CookieDataStorage.cpp */; };
 		A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C201E141B47008B469E /* HQDataParser.cpp */; };
 		A1CC0C251E141B47008B469E /* HQDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C221E141B47008B469E /* HQDataStorage.cpp */; };
+		A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */; };
 		A1E5FCFB1DDDCCBA0098DD29 /* ImageContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E5FCF91DDDCCBA0098DD29 /* ImageContainer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -282,6 +283,8 @@
 		A1CC0C211E141B47008B469E /* HQDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataParser.h; sourceTree = "<group>"; };
 		A1CC0C221E141B47008B469E /* HQDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataStorage.cpp; sourceTree = "<group>"; };
 		A1CC0C231E141B47008B469E /* HQDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataStorage.h; sourceTree = "<group>"; };
+		A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisplayChildNameLayer.cpp; sourceTree = "<group>"; };
+		A1CC0C381E1E4D45008B469E /* DisplayChildNameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayChildNameLayer.h; sourceTree = "<group>"; };
 		A1E5FCF91DDDCCBA0098DD29 /* ImageContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageContainer.cpp; sourceTree = "<group>"; };
 		A1E5FCFA1DDDCCBA0098DD29 /* ImageContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageContainer.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -618,6 +621,8 @@
 				A1E5FCFA1DDDCCBA0098DD29 /* ImageContainer.h */,
 				A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */,
 				A11E738D1DDF00F100166ECA /* OomeeLayer.h */,
+				A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */,
+				A1CC0C381E1E4D45008B469E /* DisplayChildNameLayer.h */,
 			);
 			name = MainHubScene;
 			sourceTree = "<group>";
@@ -935,6 +940,7 @@
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,
 				430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */,
+				A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */,
 				A1A2D3061E13B53200E86169 /* ChildDataProvider.cpp in Sources */,
 				A15B2FB91DEDD1EA00D25334 /* HMACSHA256_ios.mm in Sources */,
 				A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */,
