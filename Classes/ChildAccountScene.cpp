@@ -301,7 +301,7 @@ void ChildAccountScene::setDOBLabel()
     if(this->isNewChildAccount)
     {
         std::string newChildsName = editBox_childName->getText();
-        labelDob->setString(StringUtils::format("%s %s.", StringStorage::getInstance()->getStringForChildAccount("editChildBirthDay").c_str(), newChildsName.c_str()));
+        labelDob->setString(StringUtils::format("%s %s.", StringStorage::getInstance()->getStringForChildAccount("requestChildBirthDay").c_str(), newChildsName.c_str()));
     }
     else
         labelDob->setString(StringStorage::getInstance()->getStringForChildAccount("editChildBirthDay").c_str());
