@@ -34,7 +34,6 @@ void DisplayChildNameLayer::addChildNameToLayer()
     childName = shortenString(childName, 12);
     
     auto childNameLabel = Label::createWithTTF(childName, "fonts/azoomee.ttf", 70);
-    //auto childNameLabel = Label::createWithTTF(ChildDataProvider::getInstance()->getLoggedInChildName(), "fonts/azoomee.ttf", 70);
     childNameLabel->setColor(Color3B::WHITE);
     childNameLabel->setPosition(Director::getInstance()->getVisibleSize().width / 2, 350);
     childNameLabel->setOpacity(0);
