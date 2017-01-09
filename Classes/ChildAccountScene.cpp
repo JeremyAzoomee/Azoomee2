@@ -5,6 +5,7 @@
 #include "ChildSelectorScene.h"
 #include "TextInputChecker.h"
 #include "StringStorage.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
@@ -14,6 +15,7 @@ Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode)
 {
     auto scene = Scene::create();
     auto layer = ChildAccountScene::create();
+    
     scene->addChild(layer);
     layer->setChildName(ChildName);
     layer->addFunctionalElementsToScene();
@@ -44,14 +46,16 @@ void ChildAccountScene::onEnterTransitionDidFinish()
     {
         handleErrorCode(_errorCode);
     }
+    
+    editBox_childName->focusAndShowKeyboard();
 }
-
-//--------------------------------------Only internal calls beyond this line-------------------------------------------------------
 
 void ChildAccountScene::handleErrorCode(long errorCode)
 {
     ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
 }
+
+//----------------- SCENE SETUP ---------------
 
 void ChildAccountScene::setChildName(std::string ChildName)
 {
@@ -141,65 +145,37 @@ void ChildAccountScene::addLabelsToLayer()
 
 void ChildAccountScene::addTextBoxesToLayer()
 {
-    editBox_childName = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
-    editBox_childName->setColor(Color3B::WHITE);
-    editBox_childName->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.5));
-    editBox_childName->setFont("fonts/azoomee.ttf", 90);
-    editBox_childName->setFontColor(Color3B::WHITE);
-    editBox_childName->setMaxLength(50);
-    editBox_childName->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    editBox_childName->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
-    editBox_childName->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
-    editBox_childName->setText(this->passedChildName.c_str());
+    editBox_childName = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_CHILD_NAME);
+    editBox_childName->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.5));
     editBox_childName->setDelegate(this);
     childAccountContent->addChild(editBox_childName);
     
-    editBox_day = ui::EditBox::create(Size(200,131), "res/login/textarea_bg.png");
-    editBox_day->setPosition(Vec2(origin.x+visibleSize.width * 1.5 - 300, origin.y+visibleSize.height*0.5));
-    editBox_day->setFont("fonts/azoomee.ttf", 90);
-    editBox_day->setFontColor(Color3B::WHITE);
-    editBox_day->setMaxLength(2);
-    editBox_day->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobDay").c_str());
-    editBox_day->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    editBox_day->setInputMode(ui::EditBox::InputMode::NUMERIC);
+    editBox_day = TextInputLayer::createWithSize(Size(250,131), INPUT_IS_DAY);
+    editBox_day->setCenterPosition(Vec2(origin.x+visibleSize.width * 1.5 - 350, origin.y+visibleSize.height*0.5));
     editBox_day->setDelegate(this);
     childAccountContent->addChild(editBox_day);
     
-    editBox_month = ui::EditBox::create(Size(200,131), "res/login/textarea_bg.png");
-    editBox_month->setPosition(Vec2(origin.x+visibleSize.width * 1.5 - 50, origin.y+visibleSize.height*0.5));
-    editBox_month->setFont("fonts/azoomee.ttf", 90);
-    editBox_month->setFontColor(Color3B::WHITE);
-    editBox_month->setMaxLength(2);
-    editBox_month->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobMonth").c_str());
-    editBox_month->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    editBox_month->setInputMode(ui::EditBox::InputMode::NUMERIC);
+    editBox_month = TextInputLayer::createWithSize(Size(250,131), INPUT_IS_MONTH);
+    editBox_month->setCenterPosition(Vec2(origin.x+visibleSize.width * 1.5 - 50, origin.y+visibleSize.height*0.5));
     editBox_month->setDelegate(this);
     childAccountContent->addChild(editBox_month);
     
-    editBox_year = ui::EditBox::create(Size(300,131), "res/login/textarea_bg.png");
-    editBox_year->setPosition(Vec2(origin.x+visibleSize.width * 1.5 + 250, origin.y+visibleSize.height*0.5));
-    editBox_year->setFont("fonts/azoomee.ttf", 90);
-    editBox_year->setFontColor(Color3B::WHITE);
-    editBox_year->setMaxLength(4);
-    editBox_year->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobYear").c_str());
-    editBox_year->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    editBox_year->setInputMode(ui::EditBox::InputMode::NUMERIC);
+    editBox_year = TextInputLayer::createWithSize(Size(350,131), INPUT_IS_YEAR);
+    editBox_year->setCenterPosition(Vec2(origin.x+visibleSize.width * 1.5 + 300, origin.y+visibleSize.height*0.5));
     editBox_year->setDelegate(this);
     childAccountContent->addChild(editBox_year);
-    
 }
 
 void ChildAccountScene::addButtonsToLayer()
 {
-    // in order they appear on the screen with next, then back, then next etc.
-    buttonCloseChild = Sprite::create("res/login/back_btn.png");
-    buttonCloseChild->setPosition(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.5);
-    addListenerToButton(buttonCloseChild);
+    buttonCloseChild = ElectricDreamsButton::createBackButton();
+    buttonCloseChild->setCenterPosition(Vec2(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.5));
+    buttonCloseChild->setDelegate(this);
     childAccountContent->addChild(buttonCloseChild);
-    
-    buttonNextChild = Sprite::create("res/login/next_btn.png");
-    buttonNextChild->setPosition(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5);
-    addListenerToButton(buttonNextChild);
+
+    buttonNextChild = ElectricDreamsButton::createNextButton();
+    buttonNextChild->setCenterPosition(Vec2(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5));
+    buttonNextChild->setDelegate(this);
     
     //only show button if there is text
     if(this->isNewChildAccount)
@@ -207,27 +183,27 @@ void ChildAccountScene::addButtonsToLayer()
     
     childAccountContent->addChild(buttonNextChild);
     
-    buttonBackDob = Sprite::create("res/login/back_btn.png");
-    buttonBackDob->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
-    addListenerToButton(buttonBackDob);
+    buttonBackDob = ElectricDreamsButton::createBackButton();
+    buttonBackDob->setCenterPosition(Vec2(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5));
+    buttonBackDob->setDelegate(this);
     childAccountContent->addChild(buttonBackDob);
     
-    buttonNextDob = Sprite::create("res/login/next_btn.png");
-    buttonNextDob->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
+    buttonNextDob = ElectricDreamsButton::createNextButton();
+    buttonNextDob->setCenterPosition(Vec2(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5));
+    buttonNextDob->setDelegate(this);
     buttonNextDob->setVisible(false);
-    addListenerToButton(buttonNextDob);
     childAccountContent->addChild(buttonNextDob);
     
-    buttonBackOomee = Sprite::create("res/login/back_btn.png");
-    buttonBackOomee->setPosition(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5);
-    addListenerToButton(buttonBackOomee);
+    buttonBackOomee = ElectricDreamsButton::createBackButton();
+    buttonBackOomee->setCenterPosition(Vec2(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5));
+    buttonBackOomee->setDelegate(this);
     childAccountContent->addChild(buttonBackOomee);
     
-    buttonNextOomee = Sprite::create("res/login/next_btn.png");
-    buttonNextOomee->setPosition(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5);
+    buttonNextOomee = ElectricDreamsButton::createNextButton();
+    buttonNextOomee->setCenterPosition(Vec2(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5));
     buttonNextOomee->setScale(1.2);
     buttonNextOomee->setVisible(false);
-    addListenerToButton(buttonNextOomee);
+    buttonNextOomee->setDelegate(this);
     childAccountContent->addChild(buttonNextOomee);
 }
 
@@ -239,16 +215,19 @@ void ChildAccountScene::addOomeesToLayer()
     
     for(int i = 0; i < NO_OF_OOMEES; i++)
     {
-        auto oomee = Sprite::create(StringUtils::format("res/childSelection/oomee_%d.png",i));
+        auto oomee = Sprite::create(StringUtils::format(ConfigStorage::getInstance()->getOomeePNGName(i).c_str(),i));
         oomee->setPosition(startX + ((oomeeWidth+gapSize)*i), origin.y + visibleSize.height * 0.4);
         oomee->setOpacity(0);
         oomee->setTag(i);
-        addListenerToButton(oomee);
+        addListenerToOomeeButton(oomee);
         childAccountContent->addChild(oomee);
     }
 }
 
-void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
+// --------------------Oomee Selection Listener ----------------------
+// TEMPORARY LISTENER. AWAITING SOLUTION FOR BUTTON THAT HAS OOMEE ANIMATION
+
+void ChildAccountScene::addListenerToOomeeButton(Sprite *oomeeSprite)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -259,15 +238,9 @@ void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
         Rect rect = Rect(0, 0, target->getContentSize().width, target->getContentSize().height);
         
-        if(rect.containsPoint(locationInNode) && spriteImage->isVisible())
+        if(rect.containsPoint(locationInNode))
         {
-            if(spriteImage == buttonCloseChild) this->backButtonCloseScene();
-            else if(spriteImage == buttonNextChild) this->childNameNextButtonPressed(spriteImage);
-            else if(spriteImage == buttonBackDob) this->moveToChildNameInput(spriteImage);
-            else if(spriteImage == buttonNextDob) this->moveToOomeeSelection(spriteImage);
-            else if(spriteImage == buttonBackOomee) this->moveToDOBInput(spriteImage);
-            else if(spriteImage == buttonNextOomee) this->registerChildAccount();
-            else this->selectOomee(spriteImage);
+            selectOomee(oomeeSprite);
             
             return true;
         }
@@ -275,17 +248,24 @@ void ChildAccountScene::addListenerToButton(cocos2d::Sprite *spriteImage)
         return false;
     };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, spriteImage);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, oomeeSprite);
 }
 
-void ChildAccountScene::disableMoveButton(Node* button)
+//------------------- Button Functions -----------------------
+
+void ChildAccountScene::disableButton(Node* button)
 {
     Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(button);
 }
 
-void ChildAccountScene::enableMoveButton(Node* button)
+void ChildAccountScene::enableButton(Node* button)
 {
     Director::getInstance()->getEventDispatcher()->resumeEventListenersForTarget(button);
+}
+
+void ChildAccountScene::setTextInputFocus(TextInputLayer* textInputLayer)
+{
+    textInputLayer->focusAndShowKeyboard();
 }
 
 void ChildAccountScene::backButtonCloseScene()
@@ -294,36 +274,26 @@ void ChildAccountScene::backButtonCloseScene()
     Director::getInstance()->replaceScene(childSelectorScene);
 }
 
-void ChildAccountScene::childNameNextButtonPressed(Node* button)
+void ChildAccountScene::moveToAndSetupDOBInput(ElectricDreamsButton* button)
 {
     setDOBLabel();
     
     std::string newChildsName = editBox_childName->getText();
     
-    if(this->passedChildName == newChildsName && !this-isNewChildAccount)
+    if(childNameExists(newChildsName) && passedChildName != newChildsName)
     {
-        moveToDOBInput(button);
+        ModalMessages::getInstance()->createMessageWithSingleButton("Display Name Exists", "Please insert a unique name.", "OK");
+        enableButton(button);
     }
     else
     {
-        if(childNameExists(newChildsName))
-        {
-            ModalMessages::getInstance()->createMessageWithSingleButton("Display Name Exists", "Please insert a unique name.", "OK");
-        }
-        else moveToDOBInput(button);
+        auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2);
+        auto enableButtonCallback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::enableButton, this,button));
+        auto setTextInputFocusCallback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::setTextInputFocus, this,editBox_day));
         
+        auto sequence = Sequence::create(action, setTextInputFocusCallback, enableButtonCallback, NULL);
+        childAccountContent->runAction(sequence);
     }
-}
-
-void ChildAccountScene::moveToDOBInput(Node* button)
-{
-    disableMoveButton(button);
-    
-    auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2);
-    auto callback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::enableMoveButton, this,button));
-    
-    auto sequence = Sequence::create(action, callback, NULL);
-    childAccountContent->runAction(sequence);
 }
 
 void ChildAccountScene::setDOBLabel()
@@ -337,36 +307,33 @@ void ChildAccountScene::setDOBLabel()
         labelDob->setString(StringStorage::getInstance()->getStringForChildAccount("editChildBirthDay").c_str());
 }
 
-void ChildAccountScene::moveToChildNameInput(Node* button)
+void ChildAccountScene::moveBackToChildNameInput(ElectricDreamsButton* button)
 {
-    disableMoveButton(button);
-    
     auto action = EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2);
-    auto callback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::enableMoveButton, this,button));
+    auto enableButtonCallback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::enableButton, this,button));
+    auto setTextInputFocusCallback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::setTextInputFocus, this,editBox_childName));
     
-    auto sequence = Sequence::create(action, callback, NULL);
+    auto sequence = Sequence::create(action, setTextInputFocusCallback, enableButtonCallback, NULL);
     childAccountContent->runAction(sequence);
 }
 
-void ChildAccountScene::moveToOomeeSelection(Node* button)
+void ChildAccountScene::moveToAndSetupOomeeSelection(ElectricDreamsButton* button)
 {
-    disableMoveButton(button);
-    
     auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2);
-    auto callback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::enableMoveButton, this,button));
+    auto callback = CallFunc::create(CC_CALLBACK_0(ChildAccountScene::enableButton, this,button));
     
     auto sequence = Sequence::create(action, callback, NULL);
     childAccountContent->runAction(sequence);
     
     for(int i=0;i<NO_OF_OOMEES;i++)
     {
-        cocos2d::Sprite* oomee = (cocos2d::Sprite *)childAccountContent->getChildByTag(i);
+        Sprite* oomee = (Sprite *)childAccountContent->getChildByTag(i);
         float delayTime = (CCRANDOM_0_1()* 0.5) +1;
         oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     }
 }
 
-void ChildAccountScene::selectOomee(cocos2d::Sprite* selectedOomee)
+void ChildAccountScene::selectOomee(Sprite* selectedOomee)
 {
     buttonNextOomee->setVisible(true);
     
@@ -385,9 +352,9 @@ void ChildAccountScene::registerChildAccount()
 {
     std::string profileName = editBox_childName->getText();
     
-    int day = atoi(editBox_day->getText());
-    int month = atoi(editBox_month->getText());
-    int year = atoi(editBox_year->getText());
+    int day = std::atoi(editBox_day->getText().c_str());
+    int month = std::atoi(editBox_month->getText().c_str());
+    int year = std::atoi(editBox_year->getText().c_str());
     
     std::string DOB = StringUtils::format("%04d-%02d-%02d",year,month,day);
     std::string gender = "MALE";
@@ -399,28 +366,30 @@ void ChildAccountScene::registerChildAccount()
     }
 }
 
-//Editbox Delegate Functions
-void ChildAccountScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
+//----------------------- Delegate Functions ----------------------------
+
+void ChildAccountScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    if(editBox == editBox_childName)
-    {
-        bool canGoForward = false;
-        if(text != "") canGoForward = true;
-        buttonNextChild->setVisible(canGoForward);
-    }
+    if(inputLayer == editBox_childName )
+        buttonNextChild->setVisible(isValid);
     else
     {
-        int day = atoi(editBox_day->getText());
-        int month = atoi(editBox_month->getText());
-        int year = atoi(editBox_year->getText());
+        int day = std::atoi(editBox_day->getText().c_str());
+        int month = std::atoi(editBox_month->getText().c_str());
+        int year = std::atoi(editBox_year->getText().c_str());
         
-        bool canGoForward = isDate(day, month, year);
-        buttonNextDob->setVisible(canGoForward);
+        buttonNextDob->setVisible(isDate(day, month, year));
     }
 }
 
-void ChildAccountScene::editBoxReturn(cocos2d::ui::EditBox* editBox)
+void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
 {
-    //This function is mandatory for delegate.
-    //This function is called if DONE pressed or if keyboard is closed. So cannot be used to detect DONE selection.
+    disableButton(button);
+    
+    if(button == buttonCloseChild) backButtonCloseScene();
+    else if(button == buttonNextChild) moveToAndSetupDOBInput(button);
+    else if(button == buttonBackDob) moveBackToChildNameInput(button);
+    else if(button == buttonNextDob) moveToAndSetupOomeeSelection(button);
+    else if(button == buttonBackOomee) moveToAndSetupDOBInput(button);
+    else if(button == buttonNextOomee) registerChildAccount();
 }

@@ -42,3 +42,13 @@ std::string ChildDataProvider::getParentOrChildLoginValue(std::string keyName) /
         return ParentDataStorage::getInstance()->parentLoginData[keyName.c_str()].GetString();
     }
 }
+
+std::string ChildDataProvider::getLoggedInChildName()
+{
+    return ChildDataStorage::getInstance()->loggedInChildName;
+}
+
+int ChildDataProvider::getLoggedInChildNumber()
+{
+    return ChildDataStorage::getInstance()->loggedInChildNumber;
+}

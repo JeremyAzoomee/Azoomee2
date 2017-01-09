@@ -13,4 +13,6 @@ public:
     
     std::string getChildLoginValue(std::string keyName);
     std::string getParentOrChildLoginValue(std::string keyName);
+    std::string getLoggedInChildName();
+    int getLoggedInChildNumber();
 };
