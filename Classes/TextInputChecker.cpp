@@ -3,16 +3,16 @@
 
 using namespace cocos2d;
 
-bool TextInputChecker::isCharacter(const char Character)
+bool isCharacter(const char Character)
 {
     return ( (Character >= 'a' && Character <= 'z') || (Character >= 'A' && Character <= 'Z'));
 }
-bool TextInputChecker::isNumber(const char Character)
+bool isNumber(const char Character)
 {
     return ( Character >= '0' && Character <= '9');
 }
 
-bool TextInputChecker::isValidEmailAddress(const char * EmailAddress)
+bool isValidEmailAddress(const char * EmailAddress)
 {
     if(!EmailAddress) return 0;
     if(!isCharacter(EmailAddress[0])) return 0;
@@ -33,7 +33,7 @@ bool TextInputChecker::isValidEmailAddress(const char * EmailAddress)
     return !(DotOffset >= ((int)Length-1));
 }
 
-bool TextInputChecker::isValidPassword(const char * password)
+bool isValidPassword(const char * password)
 {
     if(!password) return 0;
     if(strlen(password) < 2) return 0;
@@ -51,7 +51,7 @@ bool TextInputChecker::isValidPassword(const char * password)
     else return 0;
 }
 
-bool TextInputChecker::isValidPin(const char * pinNumber)
+bool isValidPin(const char * pinNumber)
 {
     if(!pinNumber) return 0;
     if(strlen(pinNumber) != 4) return 0;
@@ -68,7 +68,7 @@ bool TextInputChecker::isValidPin(const char * pinNumber)
     else return 0;
 }
 
-bool TextInputChecker::isDate(int day, int month, int year)
+bool isDate(int day, int month, int year)
 {
     if (! (1582<= year )  )//comment these 2 lines out if it bothers you
         return false;
@@ -92,7 +92,7 @@ bool TextInputChecker::isDate(int day, int month, int year)
     return true;
 }
 
-bool TextInputChecker::childNameExists(std::string newChildsName)
+bool childNameExists(std::string newChildsName)
 {
     //check if child name exists
     bool childNameExists = false;

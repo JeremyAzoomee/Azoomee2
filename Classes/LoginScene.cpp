@@ -7,6 +7,8 @@
 #include "StringStorage.h"
 #include "TextInputChecker.h"
 
+#include "TextInputLayer.h"
+
 USING_NS_CC;
 
 Scene* LoginScene::createScene(long errorCode)
@@ -102,25 +104,13 @@ void LoginScene::addContentLayerToScene()
 
 void LoginScene::addTextBoxesToLayer()
 {
-    _editName = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
-    _editName->setColor(Color3B::WHITE);
-    _editName->setPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
-    _editName->setFont("fonts/azoomee.ttf", 90);
-    _editName->setFontColor(Color3B::WHITE);
-    _editName->setMaxLength(100);
-    _editName->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    _editName->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
+    _editName = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_EMAIL);
+    _editName->setCenterPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
     _editName->setDelegate(this);
     loginContent->addChild(_editName);
     
-    _editPassword = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
-    _editPassword->setPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
-    _editPassword->setFont("fonts/azoomee.ttf", 90);
-    _editPassword->setFontColor(Color3B::WHITE);
-    _editPassword->setMaxLength(50);
-    _editPassword->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    _editPassword->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
-    _editPassword->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+    _editPassword = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_PASSWORD);
+    _editPassword->setCenterPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
     _editPassword->setDelegate(this);
     loginContent->addChild(_editPassword);
 }
@@ -239,6 +229,8 @@ void LoginScene::enableMoveButton(Node* button)
 void LoginScene::moveLoginToEmailScreen(ui::Button* button)
 {
     loginContent->runAction(EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2));
+    
+    _editName->focusAndShowKeyboard();
 }
 
 void LoginScene::moveToBackFirstScreenEnableLogin(Node* button)
@@ -277,6 +269,8 @@ void LoginScene::moveToEmailScreen(Node* button)
     
     _editPassword->setText("");
     passwordNextButton->setVisible(false);
+    
+    _editName->focusAndShowKeyboard();
 }
 
 void LoginScene::login()
@@ -288,23 +282,11 @@ void LoginScene::login()
     backEndCaller->login(username, password);
 }
 
-void LoginScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
+void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    TextInputChecker *textInputChecker = new TextInputChecker();
-    
-    if(editBox == _editName)
-    {
-        emailNextButton->setVisible(textInputChecker->isValidEmailAddress(text.c_str()));
-    }
-    else if(editBox == _editPassword)
-    {
-        passwordNextButton->setVisible(textInputChecker->isValidPassword(text.c_str()));
-    }
-    
-    textInputChecker->release();
-}
+    if(inputLayer == _editName)
+        emailNextButton->setVisible(isValid);
+    else if(inputLayer == _editPassword)
+        passwordNextButton->setVisible(isValid);
 
-void LoginScene::editBoxReturn(cocos2d::ui::EditBox* editBox)
-{
-    
 }

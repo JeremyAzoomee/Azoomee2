@@ -36,6 +36,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/GameDataManager.cpp \
                    ../../../Classes/HttpRequestCreator.cpp \
                    ../../../Classes/ConfigStorage.cpp \
+                   ../../../Classes/TextInputLayer.cpp \
                    ../../../Classes/TextInputChecker.cpp \
                    ../../../Classes/StringStorage.cpp \
                    ../../../Classes/HQSceneElementPositioner.cpp \

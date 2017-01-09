@@ -2,14 +2,17 @@
 #define __LOGINSCENE_SCENE_H__
 
 #include "cocos2d.h"
-#include "ui/UIEditBox/UIEditBox.h"
+#include "TextInputLayer.h"
 
-class LoginScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
+class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate
 {
 private:
     void handleErrorCode(long errorCode);
     
     long _errorCode;
+    
+    TextInputLayer *_editName;
+    TextInputLayer *_editPassword;
     
 public:
     static cocos2d::Scene* createScene(long errorCode);
@@ -25,8 +28,6 @@ public:
     cocos2d::Sprite *passwordNextButton;
     
     cocos2d::ui::Button *loginButton;
-    cocos2d::ui::EditBox *_editName;
-    cocos2d::ui::EditBox *_editPassword;
     
     virtual void onEnterTransitionDidFinish();
     
@@ -54,6 +55,9 @@ public:
     
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
     void editBoxReturn(cocos2d::ui::EditBox* editBox);
+    
+    //Text Input Delegates
+    void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
 
     CREATE_FUNC(LoginScene);
 };
