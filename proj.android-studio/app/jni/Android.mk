@@ -52,7 +52,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/CookieDataProvider.cpp \
                    ../../../Classes/HQDataStorage.cpp \
                    ../../../Classes/HQDataParser.cpp \
-                   ../../../Classes/HQDataProvider.cpp
+                   ../../../Classes/HQDataProvider.cpp \
+                   ../../../Classes/DisplayChildName.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

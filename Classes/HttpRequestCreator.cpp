@@ -166,6 +166,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         std::vector<char> responseData = *response->getResponseData();
         std::string responseDataString = std::string(responseData.begin(), responseData.end());
         
+        CCLOG("response code: %ld", response->getResponseCode());
         CCLOG("response string: %s", responseDataString.c_str());
         
         std::string requestTag = response->getHttpRequest()->getTag();

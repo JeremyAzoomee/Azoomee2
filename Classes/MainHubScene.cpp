@@ -3,6 +3,7 @@
 #include "MainHubBgElements.h"
 #include "ImageContainer.h"
 #include "OomeeLayer.h"
+#include "DisplayChildNameLayer.h"
 #include "HQDataProvider.h"
 #include "ConfigStorage.h"
 
@@ -37,6 +38,11 @@ bool MainHubScene::init()
     
     auto oomeeLayer = OomeeLayer::create();
     this->addChild(oomeeLayer);
+    
+    auto displayChildNameLayer = DisplayChildNameLayer::create();
+    //displayChildNameLayer->setPosition(1351, 200);
+    this->addChild(displayChildNameLayer);
+    
     
     return true;
 }
