@@ -79,6 +79,7 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/oomee.mp3");
             target->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("touch").c_str(), false);
             
             return true;

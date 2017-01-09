@@ -145,6 +145,8 @@ void NavigationLayer::setButtonOn(int i)
 
 void NavigationLayer::changeToScene(int target)
 {
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+    
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
     this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(target)), 2), DelayTime::create(0.5), NULL));
     

@@ -15,6 +15,8 @@ public:
 //#define autologin YES;
 #define forcereload YES;
     
+    std::string getFileNameFromUrl(std::string url);
+    
     //Backend caller configuration
     std::string getServerHost();
     std::string getServerUrl();

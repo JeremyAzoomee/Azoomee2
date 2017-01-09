@@ -5,6 +5,7 @@
 #include <math.h>
 #include "ModalMessages.h"
 #include "ConfigStorage.h"
+#include "SimpleAudioEngine.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -32,6 +33,8 @@ bool ChildSelectorScene::init()
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
+    
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
     
     addVisualsToScene();
     addScrollViewForProfiles();
@@ -192,6 +195,8 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
         if(!touchMovedAway)
         {
             auto target = static_cast<Node*>(event->getCurrentTarget());
+         
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
             
             if(target->getName() == "addChildButton")
                 addChildButtonPressed(target);

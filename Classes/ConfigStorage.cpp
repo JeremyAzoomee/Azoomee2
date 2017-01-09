@@ -26,6 +26,18 @@ bool ConfigStorage::init(void)
 {
     return true;
 }
+
+std::string ConfigStorage::getFileNameFromUrl(std::string url)
+{
+    int startPoint = (int)url.find_last_of("/") + 1;
+    
+    int endPoint = (int)url.length();
+    if(url.find("?", 0) != url.npos) endPoint = (int)url.find("?", 0);
+    int subLength = endPoint - startPoint;
+    
+    return url.substr(startPoint, subLength);
+}
+
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
@@ -80,19 +92,21 @@ int ConfigStorage::getOomeeNumberForUrl(std::string url)
 {
     std::map<std::string, int> oomeeNumbers;
     
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_01.png"] = 0;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_03.png"] = 1;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_04.png"] = 2;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_05.png"] = 3;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_06.png"] = 4;
+    oomeeNumbers["oomee_01.png"] = 0;
+    oomeeNumbers["oomee_03.png"] = 1;
+    oomeeNumbers["oomee_04.png"] = 2;
+    oomeeNumbers["oomee_05.png"] = 3;
+    oomeeNumbers["oomee_06.png"] = 4;
     
-    if ( oomeeNumbers.find(url) == oomeeNumbers.end() )
+    std::string fileName = getFileNameFromUrl(url);
+    
+    if ( oomeeNumbers.find(fileName) == oomeeNumbers.end() )
     {
         return 0;
     }
     else
     {
-        return oomeeNumbers[url];
+        return oomeeNumbers[fileName];
     }
 }
 
@@ -117,10 +131,10 @@ Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string category)
 {
     std::map<std::string, Size> sizes;
-    sizes["VIDEO HQ"] = Size(520,520);
-    sizes["AUDIO HQ"] = Size(520,520);
-    sizes["GAME HQ"] = Size(520,520);
-    sizes["ARTS APP"] = Size(520,520);
+    sizes["VIDEO HQ"] = Size(693,520);
+    sizes["AUDIO HQ"] = Size(693,520);
+    sizes["GAME HQ"] = Size(693,520);
+    sizes["ARTS APP"] = Size(693,520);
     
     return sizes[category];
 }
