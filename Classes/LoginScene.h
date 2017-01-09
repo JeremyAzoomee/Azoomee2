@@ -3,33 +3,30 @@
 
 #include "cocos2d.h"
 #include "TextInputLayer.h"
+#include "ElectricDreamsButton.h"
 
-class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate
+USING_NS_CC;
+
+class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate
 {
 private:
     void handleErrorCode(long errorCode);
     
     long _errorCode;
     
-    TextInputLayer *_editName;
-    TextInputLayer *_editPassword;
+    TextInputLayer *_usernameTextInput;
+    TextInputLayer *_passwordTextInput;
     
-public:
-    static cocos2d::Scene* createScene(long errorCode);
-
-    virtual bool init();
+    Size visibleSize;
+    Vec2 origin;
+    Layer *loginContent;
     
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
-    cocos2d::Sprite *emailBackButton;
-    cocos2d::Sprite *emailNextButton;
-    cocos2d::Sprite *passwordBackButton;
-    cocos2d::Sprite *passwordNextButton;
-    
-    cocos2d::ui::Button *loginButton;
-    
-    virtual void onEnterTransitionDidFinish();
+    ElectricDreamsButton *loginOptionButton;
+    ElectricDreamsButton *signUpOptionButton;
+    ElectricDreamsButton *emailBackButton;
+    ElectricDreamsButton *emailNextButton;
+    ElectricDreamsButton *passwordBackButton;
+    ElectricDreamsButton *loginButton;
     
     void addVisualElementsToScene();
     void addFunctionalElementsToScene();
@@ -38,26 +35,27 @@ public:
     void addButtonsToLayer();
     void addLabelsToLayer();
     
-    void moveLoginToEmailScreen(cocos2d::ui::Button* button);
-    void moveToBackFirstScreenEnableLogin(Node* button);
-    void moveToPasswordScreen(Node* button);
-    void moveToEmailScreen(Node* button);
-    void login();
+    void disableButton(Node* button);
+    void enableButton(Node* button);
     
-    void disableMoveButton(Node* button);
-    void enableMoveButton(Node* button);
-   
-    void addListenerToButton(cocos2d::Sprite *spriteImage);
+    void setTextInputFocus(TextInputLayer* textInputLayer);
     
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
-    cocos2d::Layer *loginContent;
+    void switchToSignupScene(ElectricDreamsButton* button);
+    void moveToAndSetupEmailScreen(ElectricDreamsButton* button);
+    void moveToBackToSelectionScreen(ElectricDreamsButton* button);
+    void moveToAndSetupPasswordScreen(ElectricDreamsButton* button);
+    void login(ElectricDreamsButton* button);
     
-    void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
-    void editBoxReturn(cocos2d::ui::EditBox* editBox);
+    virtual void onEnterTransitionDidFinish();
     
-    //Text Input Delegates
+public:
+    static Scene* createScene(long errorCode);
+
+    virtual bool init();
+    
+    //Delegate Functions
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
+    void buttonPressed(ElectricDreamsButton* button);
 
     CREATE_FUNC(LoginScene);
 };
