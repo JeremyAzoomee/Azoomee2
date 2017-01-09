@@ -24,6 +24,7 @@ public:
     
     //ChildAccountScene settings
     std::string getNameForOomee(int number);
+    std::string getOomeePNGName(int number);
     std::string getUrlForOomee(int number);
     int getOomeeNumberForUrl(std::string url);
     
