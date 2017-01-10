@@ -56,7 +56,7 @@ ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string butto
     newButton->setContentSize(Size(buttonLabel->getContentSize().width+196, 197));
     newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
     
-    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2);
+    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);
     
     newButton->addChild(buttonLabel);
     
@@ -117,6 +117,11 @@ void ElectricDreamsButton::addListener()
         
         return false;
     };
+        
+    listener->onTouchEnded = [&](cocos2d::Touch* touch, cocos2d::Event* event)
+    {
+        return true;
+    };
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 }
@@ -126,4 +131,9 @@ void ElectricDreamsButton::addListener()
 void ElectricDreamsButton::setCenterPosition(Vec2 position)
 {
     this->setPosition(Vec2(position.x - this->getContentSize().width/2, position.y - this->getContentSize().height/2));
+}
+
+Vec2 ElectricDreamsButton::getCenterPosition()
+{
+    return Vec2(this->getPositionX() + this->getContentSize().width/2, this->getPositionY() + this->getContentSize().height/2);
 }

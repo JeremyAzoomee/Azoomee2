@@ -36,6 +36,7 @@ public:
     static ElectricDreamsButton* createBackButton();
     
     void setCenterPosition(Vec2 position);
+    Vec2 getCenterPosition();
     
 };
 
