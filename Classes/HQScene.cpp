@@ -38,8 +38,7 @@ void HQScene::startBuildingScrollViewBasedOnName()
     
     if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.
     {
-        if(this->getName() == "VIDEO HQ") createBidirectionalScrollView();
-        else createMonodirectionalScrollView();
+        createBidirectionalScrollView();
     }
 }
 
