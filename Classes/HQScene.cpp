@@ -38,8 +38,7 @@ void HQScene::startBuildingScrollViewBasedOnName()
     
     if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.
     {
-        if(this->getName() == "VIDEO HQ") createBidirectionalScrollView();
-        else createMonodirectionalScrollView();
+        createBidirectionalScrollView();
     }
 }
 
@@ -58,7 +57,7 @@ void HQScene::createMonodirectionalScrollView()
 
     for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfElementsForRow(this->getName(), 0); i++)
     {
-        addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)));
+        addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)), 0, i);
     }
 }
 
@@ -83,7 +82,7 @@ void HQScene::createBidirectionalScrollView()
         
         for(int i = 0; i < elementsForRow.size(); i++)
         {
-            addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)));
+            addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)), j, i);
         }
         
         Point titlePosition = horizontalScrollView->getPosition();
@@ -220,9 +219,9 @@ void HQScene::addTitleToHorizontalScrollView(std::string title, Node *toBeAddedT
     toBeAddedTo->addChild(scrollViewTitle);
 }
 
-void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData)
+void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData, int rowNumber, int itemNumber)
 {
-    Vec2 highlightDataForElement = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(this->getName(), itemData["id"]);
+    Vec2 highlightDataForElement = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(this->getName(), rowNumber, itemNumber);
     
     auto hqSceneElement = HQSceneElement::create();
     hqSceneElement->addHQSceneElement(this->getName(), itemData, highlightDataForElement);
