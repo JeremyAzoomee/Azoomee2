@@ -191,16 +191,18 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string itemId)
             {
                 CCLOG("Game processing");
                 GameDataManager::getInstance()->startProcessingGame(uri, itemId);
+                return true;
             }
             else
             {
                 CCLOG("Video processing");
                 auto webViewSelector = WebViewSelector::create();
                 webViewSelector->loadWebView(uri.c_str());
+                return true;
             }
         }
         
-        return true;
+        return false;
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), baseLayer);

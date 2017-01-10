@@ -89,6 +89,11 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
     };
     
+    listener->onTouchEnded = [](Touch *touch, Event *event)
+    {
+        return true;
+    };
+    
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, toBeAddedTo);
 }
 
