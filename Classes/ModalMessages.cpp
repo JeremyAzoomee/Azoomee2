@@ -97,8 +97,6 @@ void ModalMessages::stopLoading()
 
 void ModalMessages::createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText)
 {
-    //ALL MESSAGEBOX CODE NEEDS FINAL WAY OF WORKING
-    //ALSO NEEDS TO TAKE COLOURS ETC FROM CONFIG CLASS WHEN BRANCHED
     createAndFadeInLayer();
     createAndFadeInTitle(messageTitle);
     createAndFadeInBody(messageBody);
@@ -122,6 +120,7 @@ void ModalMessages::createAndFadeInTitle(std::string messageTitle)
     }
     else
     {
+        //Due to Title being more than 2 lines, currently not set to be underlined.
         messageBoxWidth = MESSAGE_BOX_MAXIMUM_WIDTH;
         titleLabel->setWidth(MESSAGE_BOX_MAXIMUM_WIDTH - MESSAGE_BOX_PADDING * 2);
     }
@@ -139,7 +138,7 @@ void ModalMessages::createAndFadeInTitle(std::string messageTitle)
 void ModalMessages::underlineTitle(Label* titleLabel)
 {
     DrawNode* newDrawNode = DrawNode::create();
-    newDrawNode->drawRect(Vec2(0, 10), Vec2(titleLabel->getContentSize().width, 14), Color4F(28 * 255, 244 * 255, 244 * 255, 1));
+    newDrawNode->drawRect(Vec2(0, 10), Vec2(titleLabel->getContentSize().width, 14), Color4F((28 * 255), (244 * 255), (244 * 255), 1));
     titleLabel->addChild(newDrawNode);
 }
 
@@ -170,35 +169,6 @@ void ModalMessages::createAndFadeInButton(std::string buttonText)
     _button->setName("messageButton");
     loadingLayer->addChild(_button, 2);
     
-    
-    
-    
-   /* auto bodyLabel = (Label*)loadingLayer->getChildByName("messageBody");
-    
-    auto _button = ui::Button::create("res/modal/tempButtonBackground.png");
-    _button->setTitleFontName("fonts/azoomee.ttf");
-    _button->setTitleFontSize(90);
-    _button->setColor(Color3B::WHITE);
-    _button->setTitleText(buttonText);
-    _button->setPosition(Vec2(loadingLayer->getContentSize().width * 0.5, bodyLabel->getPositionY() - (bodyLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (_button->getContentSize().height/2)));
-    _button->setOpacity(0);
-    _button->setName("messageButton");
-    
-    _button->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type){
-        switch (type)
-        {
-            case ui::Widget::TouchEventType::BEGAN:
-                break;
-            case ui::Widget::TouchEventType::ENDED:
-                this->removeLayer();
-                break;
-            default:
-                break;
-        }
-    });*/
-    
-    //loadingLayer->addChild(_button,2);
-    
     _button->runAction(FadeTo::create(1, 255));
 }
 
@@ -219,7 +189,7 @@ void ModalMessages::createAndFadeInMessageBackground()
     
     DrawNode* newDrawNode = DrawNode::create();
     messageBoxLayer->addChild(newDrawNode);
-    newDrawNode->drawRect(Vec2(0, 0), Vec2(messageBoxLayer->getContentSize().width, messageBoxLayer->getContentSize().height), Color4F(28 * 255, 244 * 255, 244 * 255, 1));
+    newDrawNode->drawRect(Vec2(0, 0), Vec2(messageBoxLayer->getContentSize().width, messageBoxLayer->getContentSize().height), Color4F((28 * 255), (244 * 255), (244 * 255), 1));
     
     newDrawNode->setLineWidth(4);
 

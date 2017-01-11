@@ -112,18 +112,20 @@ void ElectricDreamsButton::addListener()
         
         if(rect.containsPoint(locationInNode) && this->isVisible())
         {
-            this->getDelegate()->buttonPressed(this);
+            this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 0.1);
+            
+            return true;
         }
         
         return false;
     };
-        
-    listener->onTouchEnded = [&](cocos2d::Touch* touch, cocos2d::Event* event)
-    {
-        return true;
-    };
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+}
+
+void ElectricDreamsButton::callDelegateFunction(float dt)
+{
+    this->getDelegate()->buttonPressed(this);
 }
 
 //---------------------- public Functions After Setup -----------------------------

@@ -22,6 +22,8 @@ private:
     void addListener();
     ui::Scale9Sprite *createButtonBackground(std::string buttonText);
     
+    void callDelegateFunction(float dt);
+    
 public:
     virtual bool init();
     
