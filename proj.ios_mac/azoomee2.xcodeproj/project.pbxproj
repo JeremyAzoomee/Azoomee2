@@ -17,6 +17,8 @@
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
+		432312121E1D4EFB00C8606D /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 432312101E1D4EFB00C8606D /* TextInputLayer.cpp */; };
+		4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */; };
 		46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7719C43A67006E1F66 /* CloseSelected.png */; };
@@ -97,6 +99,7 @@
 		A1CC0C1F1E141B20008B469E /* CookieDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C1D1E141B20008B469E /* CookieDataStorage.cpp */; };
 		A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C201E141B47008B469E /* HQDataParser.cpp */; };
 		A1CC0C251E141B47008B469E /* HQDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C221E141B47008B469E /* HQDataStorage.cpp */; };
+		A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */; };
 		A1E5FCFB1DDDCCBA0098DD29 /* ImageContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E5FCF91DDDCCBA0098DD29 /* ImageContainer.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -160,6 +163,10 @@
 		430B3B051DF8401C003A3AA7 /* OnboardingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingScene.h; sourceTree = "<group>"; };
 		430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountScene.cpp; sourceTree = "<group>"; };
 		430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountScene.h; sourceTree = "<group>"; };
+		432312101E1D4EFB00C8606D /* TextInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputLayer.cpp; sourceTree = "<group>"; };
+		432312111E1D4EFB00C8606D /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
+		4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsButton.cpp; sourceTree = "<group>"; };
+		4327D9281E1F990700F912C5 /* ElectricDreamsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsButton.h; sourceTree = "<group>"; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
 		46880B7719C43A67006E1F66 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
 		46880B7A19C43A67006E1F66 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
@@ -276,6 +283,8 @@
 		A1CC0C211E141B47008B469E /* HQDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataParser.h; sourceTree = "<group>"; };
 		A1CC0C221E141B47008B469E /* HQDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataStorage.cpp; sourceTree = "<group>"; };
 		A1CC0C231E141B47008B469E /* HQDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataStorage.h; sourceTree = "<group>"; };
+		A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisplayChildNameLayer.cpp; sourceTree = "<group>"; };
+		A1CC0C381E1E4D45008B469E /* DisplayChildNameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayChildNameLayer.h; sourceTree = "<group>"; };
 		A1E5FCF91DDDCCBA0098DD29 /* ImageContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageContainer.cpp; sourceTree = "<group>"; };
 		A1E5FCFA1DDDCCBA0098DD29 /* ImageContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageContainer.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -415,10 +424,39 @@
 				430B3B051DF8401C003A3AA7 /* OnboardingScene.h */,
 				430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */,
 				430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */,
+			);
+			name = Signup_AddChild;
+			sourceTree = "<group>";
+		};
+		4323120D1E1D4DC500C8606D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A15D58921E028C940099CDEE /* BurntInData */,
+				A1CC0C271E15691C008B469E /* ModalMessages */,
+				4323120F1E1D4DFF00C8606D /* TextInput */,
+				4327D9251E1F98AC00F912C5 /* uiObjects */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		4323120F1E1D4DFF00C8606D /* TextInput */ = {
+			isa = PBXGroup;
+			children = (
+				432312101E1D4EFB00C8606D /* TextInputLayer.cpp */,
+				432312111E1D4EFB00C8606D /* TextInputLayer.h */,
 				A15D589E1E0804100099CDEE /* TextInputChecker.cpp */,
 				A15D589F1E0804100099CDEE /* TextInputChecker.h */,
 			);
-			name = Signup_AddChild;
+			name = TextInput;
+			sourceTree = "<group>";
+		};
+		4327D9251E1F98AC00F912C5 /* uiObjects */ = {
+			isa = PBXGroup;
+			children = (
+				4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */,
+				4327D9281E1F990700F912C5 /* ElectricDreamsButton.h */,
+			);
+			name = uiObjects;
 			sourceTree = "<group>";
 		};
 		46880B7519C43A67006E1F66 /* Resources */ = {
@@ -437,7 +475,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				A15D58921E028C940099CDEE /* BurntInData */,
+				4323120D1E1D4DC500C8606D /* Utilities */,
 				A1CC0C261E156882008B469E /* Intro */,
 				430B3B021DF832A8003A3AA7 /* Signup_AddChild */,
 				A15B2FA41DEC73B800D25334 /* Login */,
@@ -447,7 +485,6 @@
 				A19759861DE4931600FEB03C /* HQScene */,
 				A15B2F9A1DE74F6900D25334 /* NativeWebviews */,
 				A15B2FAA1DEDD13B00D25334 /* BackEndCommunication */,
-				A1CC0C271E15691C008B469E /* ModalMessages */,
 				A19862291DD383BD0090F053 /* AppDelegate.cpp */,
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
 			);
@@ -584,6 +621,8 @@
 				A1E5FCFA1DDDCCBA0098DD29 /* ImageContainer.h */,
 				A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */,
 				A11E738D1DDF00F100166ECA /* OomeeLayer.h */,
+				A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */,
+				A1CC0C381E1E4D45008B469E /* DisplayChildNameLayer.h */,
 			);
 			name = MainHubScene;
 			sourceTree = "<group>";
@@ -874,6 +913,7 @@
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
 				A15B2FBB1DEDD1EA00D25334 /* HMACSHA256.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
+				4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */,
 				A19862241DD3836D0090F053 /* IntroScene.cpp in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
@@ -900,11 +940,13 @@
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,
 				430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */,
+				A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */,
 				A1A2D3061E13B53200E86169 /* ChildDataProvider.cpp in Sources */,
 				A15B2FB91DEDD1EA00D25334 /* HMACSHA256_ios.mm in Sources */,
 				A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */,
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				A1A2D3051E13B53200E86169 /* ChildDataParser.cpp in Sources */,
+				432312121E1D4EFB00C8606D /* TextInputLayer.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
 				A19862251DD3836D0090F053 /* LoginScene.cpp in Sources */,

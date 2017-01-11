@@ -70,10 +70,11 @@ Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string category)
 {
     std::map<std::string, Size> sizes;
-    sizes["VIDEO HQ"] = Size(520,520);
-    sizes["AUDIO HQ"] = Size(520,520);
-    sizes["GAME HQ"] = Size(520,520);
-    sizes["ARTS APP"] = Size(520,520);
+
+    sizes["VIDEO HQ"] = Size(693,520);
+    sizes["AUDIO HQ"] = Size(693,520);
+    sizes["GAME HQ"] = Size(693,520);
+    sizes["ARTS APP"] = Size(693,520);
     
     return sizes[category];
 }
@@ -190,7 +191,7 @@ std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::st
     std::map<std::string, std::vector<Point>> positions;
     
     positions["PLAY"] = std::vector<Point> {Point(600, 75), Point(400,400)};
-    positions["LISTEN"] = std::vector<Point> {Point(-700, -700), Point(-1050, -475)};
+    positions["LISTEN"] = std::vector<Point> {Point(-800, -700), Point(-1050, -475)};
     positions["WATCH"] = std::vector<Point> {Point(-1050, 75), Point(-700, 400)};
     
     return positions[categoryName];
@@ -250,3 +251,6 @@ std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType
     if(animationType == "idle") return idleAnimations.at(random(0, (int)idleAnimations.size() - 1));
     else return touchAnimations.at(random(0, (int)touchAnimations.size() - 1));
 }
+
+
+
