@@ -68,7 +68,6 @@ static AppDelegate s_sharedApplication;
 
     [[UIApplication sharedApplication] setStatusBarHidden:true];
 
-
     return YES;
 }
 

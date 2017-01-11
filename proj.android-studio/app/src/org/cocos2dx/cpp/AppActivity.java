@@ -50,7 +50,6 @@ public class AppActivity extends Cocos2dxActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         Fabric.with(this, new Crashlytics());
-
     }
 
     public static void alertJNI(String url, String cookie) {
