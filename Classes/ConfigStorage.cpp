@@ -61,6 +61,7 @@ Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
     result["ARTS APP"] = Point(0, 2048);
     result["NavigationLayer"] = Point(0, 0);
     result["contentLayer"] = Point(0,0);
+    result["GROUP HQ"] = Point(0, 4096);
     
     return result[hqSceneName];
 }
