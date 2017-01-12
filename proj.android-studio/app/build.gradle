@@ -1,22 +1,6 @@
 
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        // These docs use an open ended version so that our plugin
-        // can be updated quickly in response to Android tooling updates
-
-        // We recommend changing it to the latest version from our changelog:
-        // https://docs.fabric.io/android/changelog.html#fabric-gradle-plugin
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
 
 apply plugin: 'com.android.application'
-
-apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 22
@@ -38,14 +22,7 @@ android {
         assets.srcDir "assets"
     }
 
-    splits {
-        abi {
-            enable true
-            reset()
-            include 'armeabi'
-            universalApk false
-        }
-    }
+
 
     signingConfigs {
 
@@ -75,26 +52,16 @@ repositories {
         url 'https://download.01.org/crosswalk/releases/crosswalk/android/maven2'
     }
 
-    maven { url 'https://maven.fabric.io/public' }
+
 }
 
-crashlytics {
-    enableNdk true
-    androidNdkOut 'obj'
-    androidNdkLibsOut 'libs'
-}
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':libcocos2dx')
     compile 'org.xwalk:xwalk_core_library:22.52.561.4'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
-    }
-    // NDK Kit
-    compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.5@aar') {
-        transitive = true
-    }
+
 }
 
 task cleanAssets(type: Delete) {
