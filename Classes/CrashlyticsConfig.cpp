@@ -4,9 +4,15 @@
 #include "Crashlytics_ios.h"
 #endif
 
-void createCrashlyticsExecption(std::string execptionMessage)
+void createCrashlyticsExecption(std::string execptionDomain, int execptionCode, std::string execptionMessage)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    createCrashlyticsExecption_ios(execptionDomain, execptionCode, execptionMessage);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    std::string messageBody = cocos2d::StringUtils::format("Domain:%s; Code:%d; Message:%s", execptionDomain.c_str(), execptionCode, execptionMessage.c_str());
+    
     cocos2d::JniMethodInfo methodInfo;
     
     if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "CrashlyticsLogException", "(Ljava/lang/String;)V"))
@@ -14,9 +20,9 @@ void createCrashlyticsExecption(std::string execptionMessage)
         return;
     }
     
-    jstring jstringMessage = methodInfo.env->NewStringUTF(execptionMessage.c_str());
+    jstring jstringMessage = methodInfo.env->NewStringUTF(messageBody.c_str());
     
-    CCLOG("To be sent to jni for Crashlytics: %s", execptionMessage.c_str());
+    CCLOG("To be sent to jni for Crashlytics: %s", messageBody.c_str());
     
     methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jstringMessage);
     methodInfo.env->DeleteLocalRef(methodInfo.classID);
@@ -26,7 +32,10 @@ void createCrashlyticsExecption(std::string execptionMessage)
 
 void createCrashlyticsUserInfo(std::string identifier, std::string email, std::string userName)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    createCrashlyticsUserInfo_ios(identifier, email, userName);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     cocos2d::JniMethodInfo methodInfo;
     
     if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "CrashlyticsLogUser", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"))
