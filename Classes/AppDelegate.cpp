@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
 #include "LoginScene.h"
+#include "IntroVideoScene.h"
 
 USING_NS_CC;
 
@@ -79,7 +80,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = LoginScene::createScene(0);
+    //auto scene = LoginScene::createScene(0);
+    auto scene = IntroVideoScene::createScene();
 
     // run
     director->runWithScene(scene);
