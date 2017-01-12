@@ -89,8 +89,15 @@ public class AppActivity extends Cocos2dxActivity {
 
     }
 
-    /*public void forceCrash(View view) {
-        throw new RuntimeException("This is a crash");
-    }*/
+    public static void CrashlyticsLogException(String message) {
+        Crashlytics.logException(new Exception(message));
+    }
+
+    private static void CrashlyticsLogUser(String identifier, String email, String userName) {
+        Crashlytics.setUserIdentifier(identifier);
+        Crashlytics.setUserEmail(email);
+        Crashlytics.setUserName(userName);
+    }
+
 
 }

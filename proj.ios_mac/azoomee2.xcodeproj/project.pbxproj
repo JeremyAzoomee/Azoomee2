@@ -19,6 +19,8 @@
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
 		432312121E1D4EFB00C8606D /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 432312101E1D4EFB00C8606D /* TextInputLayer.cpp */; };
 		4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */; };
+		4330C7881E27B79A00D32D3E /* Crashlytics_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4330C7861E27B79A00D32D3E /* Crashlytics_ios.mm */; };
+		4330C78B1E27BFD900D32D3E /* CrashlyticsConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4330C7891E27BFD900D32D3E /* CrashlyticsConfig.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
 		433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
 		46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
@@ -169,6 +171,10 @@
 		432312111E1D4EFB00C8606D /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
 		4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsButton.cpp; sourceTree = "<group>"; };
 		4327D9281E1F990700F912C5 /* ElectricDreamsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsButton.h; sourceTree = "<group>"; };
+		4330C7861E27B79A00D32D3E /* Crashlytics_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Crashlytics_ios.mm; sourceTree = "<group>"; };
+		4330C7871E27B79A00D32D3E /* Crashlytics_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crashlytics_ios.h; sourceTree = "<group>"; };
+		4330C7891E27BFD900D32D3E /* CrashlyticsConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashlyticsConfig.cpp; sourceTree = "<group>"; };
+		4330C78A1E27BFD900D32D3E /* CrashlyticsConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashlyticsConfig.h; sourceTree = "<group>"; };
 		433AD3051E252A2C003757AD /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		433AD3061E252A2C003757AD /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
@@ -439,6 +445,7 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				4330C7841E27B77600D32D3E /* Crashlytics */,
 				A15D58921E028C940099CDEE /* BurntInData */,
 				A1CC0C271E15691C008B469E /* ModalMessages */,
 				4323120F1E1D4DFF00C8606D /* TextInput */,
@@ -465,6 +472,17 @@
 				4327D9281E1F990700F912C5 /* ElectricDreamsButton.h */,
 			);
 			name = uiObjects;
+			sourceTree = "<group>";
+		};
+		4330C7841E27B77600D32D3E /* Crashlytics */ = {
+			isa = PBXGroup;
+			children = (
+				4330C7861E27B79A00D32D3E /* Crashlytics_ios.mm */,
+				4330C7871E27B79A00D32D3E /* Crashlytics_ios.h */,
+				4330C7891E27BFD900D32D3E /* CrashlyticsConfig.cpp */,
+				4330C78A1E27BFD900D32D3E /* CrashlyticsConfig.h */,
+			);
+			name = Crashlytics;
 			sourceTree = "<group>";
 		};
 		46880B7519C43A67006E1F66 /* Resources */ = {
@@ -958,6 +976,7 @@
 				A15D58A01E0804100099CDEE /* TextInputChecker.cpp in Sources */,
 				A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
+				4330C78B1E27BFD900D32D3E /* CrashlyticsConfig.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */,
 				A15D58A31E0830600099CDEE /* StringStorage.cpp in Sources */,
@@ -976,6 +995,7 @@
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
 				A19862251DD3836D0090F053 /* LoginScene.cpp in Sources */,
 				A15B2FB21DEDD1E000D25334 /* JWTTool.cpp in Sources */,
+				4330C7881E27B79A00D32D3E /* Crashlytics_ios.mm in Sources */,
 				A1CC0C1C1E141AFF008B469E /* ChildDataStorage.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
 				A15B2FBA1DEDD1EA00D25334 /* HMACSHA256_javaCaller.cpp in Sources */,
