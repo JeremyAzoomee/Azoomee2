@@ -46,7 +46,35 @@ bool NavigationLayer::init()
     return true;
 }
 
+void NavigationLayer::startLoadingGroupHQ(std::string uri)
+{
+    this->getParent()->getChildByName("contentLayer")->stopAllActions();
+    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(6)), 2), DelayTime::create(0.5), NULL));
+    
+    moveMenuPointsToHorizontalState();
+}
+
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
+
+void NavigationLayer::startLoadingHQScene(int categoryTag)
+{
+    HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(categoryTag));
+}
+
+void NavigationLayer::changeToScene(int target)
+{
+    this->getParent()->getChildByName("contentLayer")->stopAllActions();
+    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(target)), 2), DelayTime::create(0.5), NULL));
+    
+    if((target != 0)&&(target != 3))
+    {
+        moveMenuPointsToHorizontalState();
+    }
+    else
+    {
+        moveMenuPointsToCircleState();
+    }
+}
 
 Sprite* NavigationLayer::addMenuItemImage(int itemNumber)
 {
@@ -143,21 +171,6 @@ void NavigationLayer::setButtonOn(int i)
     this->getChildByTag(i)->getChildByName("on")->setOpacity(255);
 }
 
-void NavigationLayer::changeToScene(int target)
-{
-    this->getParent()->getChildByName("contentLayer")->stopAllActions();
-    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(target)), 2), DelayTime::create(0.5), NULL));
-    
-    if((target != 0)&&(target != 3))
-    {
-        moveMenuPointsToHorizontalState();
-    }
-    else
-    {
-        moveMenuPointsToCircleState();
-    }
-}
-
 void NavigationLayer::moveMenuPointsToCircleState()
 {
     for(int i = 0; i <= amountOfItems; i++)
@@ -180,9 +193,4 @@ void NavigationLayer::moveMenuPointsToHorizontalState()
         
         menuItemImage->runAction(Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), NULL));
     }
-}
-
-void NavigationLayer::startLoadingHQScene(int categoryTag)
-{
-    HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(categoryTag));
 }

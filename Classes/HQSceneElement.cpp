@@ -16,6 +16,7 @@
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
 #include "ConfigStorage.h"
+#include "NavigationLayer.h"
 
 USING_NS_CC;
 
@@ -194,7 +195,8 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             }
             else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GROUP")
             {
-                //Here we have to start building the gruop.
+                NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+                navigationLayer->startLoadingGroupHQ(uri);
             }
         }
         

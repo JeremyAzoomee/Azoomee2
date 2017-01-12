@@ -75,6 +75,12 @@ void HQDataProvider::getDataForHQ(std::string category)
     }
 }
 
+void HQDataProvider::getDataForGroupHQ(std::string uri)
+{
+    HQDataStorage::getInstance()->HQData.erase("GROUP HQ");
+    HQDataParser::getInstance()->getContent(uri, "GROUP HQ");
+}
+
 int HQDataProvider::getNumberOfRowsForHQ(std::string category)
 {
     return (int)HQDataStorage::getInstance()->HQListTitles[category].size();

@@ -10,6 +10,12 @@ public:
 
     virtual bool init();
     
+    CREATE_FUNC(NavigationLayer);
+    
+    void startLoadingGroupHQ(std::string uri);
+    
+private:
+    
     //MenuItem creation phase
     cocos2d::Sprite* addMenuItemImage(int itemNumber);
     cocos2d::Sprite* addMenuItemInactive(int itemNumber, cocos2d::Node *toBeAddedTo);
@@ -23,11 +29,9 @@ public:
     void turnOffAllMenuItems();
     void setButtonOn(int i);
     void delayedSetButtonOn(float dt);
+    void startLoadingHQScene(int categoryTag);
     void changeToScene(int target);
     
-    CREATE_FUNC(NavigationLayer);
-    
-    void startLoadingHQScene(int categoryTag);
 };
 
 #endif

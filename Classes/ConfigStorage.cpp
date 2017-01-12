@@ -183,6 +183,7 @@ Point ConfigStorage::getTargetPositionForMove(int itemNumber)
     positions.push_back(Vec2(0, 0));
     positions.push_back(Vec2(0, -2048));
     positions.push_back(Vec2(0, 2048));
+    positions.push_back(Vec2(0, -4096));
     
     return positions.at(itemNumber);
 }
