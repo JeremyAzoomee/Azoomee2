@@ -197,6 +197,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             {
                 NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
                 navigationLayer->startLoadingGroupHQ(uri);
+                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
             }
         }
         
