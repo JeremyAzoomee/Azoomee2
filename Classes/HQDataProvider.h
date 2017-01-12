@@ -24,6 +24,7 @@ public:
     std::vector<std::string> getElementsForRow(std::string category, int index);
     std::string getTitleForRow(std::string category, int index);
     std::string getImageUrlForItem(std::string itemId);
+    std::string getTypeForSpecificItem(std::string category, std::string itemId);
     
     //Callback to start building HQ
     void startBuildingHQ(std::string category);

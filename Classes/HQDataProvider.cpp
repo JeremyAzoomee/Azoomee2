@@ -112,3 +112,19 @@ Vec2 HQDataProvider::getHighlightDataForSpecificItem(std::string category, int r
 {
     return HQDataStorage::getInstance()->HQElementHighlights[category].at(rowNumber).at(itemNumber);
 }
+
+std::string HQDataProvider::getTypeForSpecificItem(std::string category, std::string itemId)
+{
+    std::vector<std::map<std::string, std::string>> allItemsInCategory = HQDataStorage::getInstance()->HQData[category];
+    
+    for(int i = 0; i < allItemsInCategory.size(); i++)
+    {
+        std::map<std::string, std::string> currentItem = allItemsInCategory.at(i);
+        if(currentItem["id"] == itemId)
+        {
+            return currentItem["type"];
+        }
+    }
+    
+    return "NILTYPE";
+}
