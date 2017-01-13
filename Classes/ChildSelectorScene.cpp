@@ -39,7 +39,6 @@ bool ChildSelectorScene::init()
     return true;
 }
 
-//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 void ChildSelectorScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
@@ -47,6 +46,8 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
         handleErrorCode(_errorCode);
     }
 }
+
+//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 
 void ChildSelectorScene::handleErrorCode(long errorCode)
 {
