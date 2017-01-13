@@ -8,15 +8,14 @@
 class OomeeLayer : public cocos2d::Layer
 {
 public:
+    CREATE_FUNC(OomeeLayer);
     static cocos2d::Scene* createScene();
-
     virtual bool init();
+    
+private:
     spine::SkeletonAnimation* addOomeeToScreen();
     void addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo);
     void addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedTo);
-    
-    
-    CREATE_FUNC(OomeeLayer);
 };
 
 #endif
