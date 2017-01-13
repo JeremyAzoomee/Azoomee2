@@ -1,31 +1,17 @@
 #include "IntroVideoScene.h"
-#include "ui/UIVideoPlayer.h"
-#include "ui/CocosGUI.h"
-
-USING_NS_CC;
-using namespace cocos2d::ui;
-using namespace cocos2d::experimental::ui;
+#include "LoginScene.h"
 
 Scene* IntroVideoScene::createScene()
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = IntroVideoScene::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
 
-    // return the scene
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool IntroVideoScene::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
@@ -33,16 +19,49 @@ bool IntroVideoScene::init()
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 
     auto videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
     videoPlayer->setContentSize(visibleSize);
-    videoPlayer->setAnchorPoint(cocos2d::Vec2::ANCHOR_MIDDLE);
-    videoPlayer->setPosition(visibleSize / 2);
-    videoPlayer->setFileName("res/TestVideo.mp4");
+    videoPlayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    videoPlayer->setPosition(Vec2(_visibleRect.origin.x + _visibleRect.size.width / 2,_visibleRect.origin.y + _visibleRect.size.height /2));
+    videoPlayer->setFileName("res/introAssets/Opening Animation.mp4");
+
+    videoPlayer->addEventListener(CC_CALLBACK_2(IntroVideoScene::videoEventCallback, this));
+    
     addChild(videoPlayer);
     videoPlayer->play();
     
     return true;
 }
 
+void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eventType)
+{
+    switch (eventType) {
+        case VideoPlayer::EventType::COMPLETED:
+        {
+            //NEED KEYVALUE TO KNOW IF FIRST TIME USER
+            bool isFirstTimeUser = false;
+            bool isLoggedIn = false;
+            
+            if(isFirstTimeUser)
+            {
+                //WILL LOAD SLIDESHOW SCENE WHEN CREATED
+            }
+            else if(isLoggedIn)
+            {
+                //WILL GO TO HUB OR CHILD SELECTOR
+            }
+            else
+            {
+                //WILL CHANGE AND GO TO PREVIEW HUB WHEN CREATED
+                auto loginScene = LoginScene::createScene(0);
+                Director::getInstance()->replaceScene(TransitionFade::create(0.5, loginScene, Color3B(0,0,0)));
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
 

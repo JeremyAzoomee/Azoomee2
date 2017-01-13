@@ -2,18 +2,22 @@
 #define __INTRO_VIDEO_SCENE_H__
 
 #include "cocos2d.h"
+#include "ui/UIVideoPlayer.h"
+
+USING_NS_CC;
+using namespace cocos2d::ui;
+using namespace cocos2d::experimental::ui;
 
 class IntroVideoScene: public cocos2d::Layer
 {
 private:
+    void videoEventCallback(Ref* sender, VideoPlayer::EventType eventType);
     
 public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
 
-    
-    // implement the "static create()" method manually
     CREATE_FUNC(IntroVideoScene);
 };
 

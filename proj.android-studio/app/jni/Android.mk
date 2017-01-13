@@ -16,7 +16,6 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/BaseScene.cpp \
                    ../../../Classes/ChildSelectorScene.cpp \
                    ../../../Classes/HQScene.cpp \
-                   ../../../Classes/IntroScene.cpp \
                    ../../../Classes/LoginScene.cpp \
                    ../../../Classes/OnboardingScene.cpp \
                    ../../../Classes/ChildAccountScene.cpp \
