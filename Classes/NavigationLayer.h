@@ -31,6 +31,11 @@ private:
     void delayedSetButtonOn(float dt);
     void startLoadingHQScene(int categoryTag);
     void changeToScene(int target);
+    void addBackButtonToNavigation();
+    void removeBackButtonFromNavigation();
+    void addListenerToBackButton(cocos2d::Node* toBeAddedTo);
+    
+    int currentScene;
     
 };
 
