@@ -10,11 +10,11 @@ public:
     CREATE_FUNC(OnboardingScene);
     virtual bool init();
     virtual void onEnterTransitionDidFinish();
+    static cocos2d::Scene* createScene(long errorCode);
     
 private:
     void handleErrorCode(long errorCode);
     long _errorCode;
-    static cocos2d::Scene* createScene(long errorCode);
     
     void addVisualElementsToScene();
     void addFunctionalElementsToScene();
