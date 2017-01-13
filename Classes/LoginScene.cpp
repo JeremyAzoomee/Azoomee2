@@ -8,7 +8,6 @@
 #include "TextInputChecker.h"
 
 #include "TextInputLayer.h"
-#include "CrashlyticsConfig.h"
 
 USING_NS_CC;
 
@@ -49,9 +48,6 @@ void LoginScene::onEnterTransitionDidFinish()
 #ifdef autologin
     BackEndCaller::getInstance()->login("klaas+ci@azoomee.com", "test1234");
 #endif
-    
-    createCrashlyticsUserInfo("testID", "testEmail@email.com", "test User Name");
-    
 }
 
 void LoginScene::handleErrorCode(long errorCode)
@@ -179,7 +175,6 @@ void LoginScene::setTextInputFocus(TextInputLayer* textInputLayer)
 
 void LoginScene::switchToSignupScene(ElectricDreamsButton* button)
 {
-    createCrashlyticsExecption("com.azoomee.domain", 400, "Switch to signupScene");
     
     auto _OnboardingScene = OnboardingScene::createScene(0);
     Director::getInstance()->replaceScene(_OnboardingScene);
