@@ -142,11 +142,7 @@ void HQSceneElement::createColourLayer(std::string category)
     this->addChild(baseLayer);
 }
 
-<<<<<<< HEAD
-void HQSceneElement::addListenerToElement(std::string uri, std::string itemId)
-=======
 void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category)
->>>>>>> AD-1310/HandleGroupHQElements
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -192,20 +188,6 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
             CCLOG("Action to come: %s", uri.c_str());
             
-<<<<<<< HEAD
-            if(HQDataParser::getInstance()->getExtensionFromUri(uri) == "json")
-            {
-                CCLOG("Game processing");
-                GameDataManager::getInstance()->startProcessingGame(uri, itemId);
-                return true;
-            }
-            else
-            {
-                CCLOG("Video processing");
-                auto webViewSelector = WebViewSelector::create();
-                webViewSelector->loadWebView(uri.c_str());
-                return true;
-=======
             if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
             {
                 GameDataManager::getInstance()->startProcessingGame(uri, contentId);
@@ -220,7 +202,6 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
                 NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
                 navigationLayer->startLoadingGroupHQ(uri);
                 HQDataProvider::getInstance()->getDataForGroupHQ(uri);
->>>>>>> AD-1310/HandleGroupHQElements
             }
         }
         
