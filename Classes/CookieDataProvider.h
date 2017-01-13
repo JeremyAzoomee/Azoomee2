@@ -13,7 +13,8 @@ public:
     
     std::string getCookiesForRequest(std::string url);
     std::string getCookieMainContent(std::string cookieRecord);
-    std::vector<std::string> splitStringToVector(std::string inputString, std::string separator);
     
+private:
+    std::vector<std::string> splitStringToVector(std::string inputString, std::string separator);
     bool checkIfCookieIsForUrl(std::string cookieRecord, std::string url);
 };
