@@ -130,10 +130,11 @@ Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string category)
 {
     std::map<std::string, Size> sizes;
-    sizes["VIDEO HQ"] = Size(520,520);
-    sizes["AUDIO HQ"] = Size(520,520);
-    sizes["GAME HQ"] = Size(520,520);
-    sizes["ARTS APP"] = Size(520,520);
+
+    sizes["VIDEO HQ"] = Size(693,520);
+    sizes["AUDIO HQ"] = Size(693,520);
+    sizes["GAME HQ"] = Size(693,520);
+    sizes["ARTS APP"] = Size(693,520);
     
     return sizes[category];
 }
