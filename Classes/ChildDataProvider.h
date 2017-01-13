@@ -10,7 +10,12 @@ public:
     virtual ~ChildDataProvider();
     bool init(void);
     
-    std::string getParentOrChildLoginValue(std::string keyName);
     std::string getLoggedInChildName();
     std::string getLoggedInChildId();
+    int getLoggedInChildNumber();
+    
+    std::string getParentOrChildId();
+    std::string getParentOrChildCdnSessionId();
+    std::string getParentOrChildApiSecret();
+    std::string getParentOrChildApiKey();
 };

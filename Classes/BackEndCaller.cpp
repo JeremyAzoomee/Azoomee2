@@ -123,7 +123,7 @@ void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 void BackEndCaller::getGordon()
 {
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->urlParameters = StringUtils::format("userid=%s&sessionid=%s", ChildDataProvider::getInstance()->getParentOrChildLoginValue("id").c_str(), ChildDataProvider::getInstance()->getParentOrChildLoginValue("cdn-sessionid").c_str());
+    httpRequestCreator->urlParameters = StringUtils::format("userid=%s&sessionid=%s", ChildDataProvider::getInstance()->getParentOrChildId().c_str(), ChildDataProvider::getInstance()->getParentOrChildCdnSessionId().c_str());
     httpRequestCreator->requestTag = "getGordon";
     httpRequestCreator->createEncryptedGetHttpRequest();
 }

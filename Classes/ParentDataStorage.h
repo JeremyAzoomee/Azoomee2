@@ -12,5 +12,9 @@ public:
     
     rapidjson::Document parentLoginData;
     rapidjson::Document availableChildrenData;
-    std::string loggedInChildName;
+    
+    std::string loggedInParentId;
+    std::string loggedInParentCdnSessionId;
+    std::string loggedInParentApiSecret;
+    std::string loggedInParentApiKey;
 };
