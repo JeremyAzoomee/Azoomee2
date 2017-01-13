@@ -115,7 +115,7 @@ void BackEndCaller::childLogin(int childNumber)
 void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 {
     ChildDataParser::getInstance()->parseChildLoginData(responseString);
-    HQDataParser::getInstance()->getContent(StringUtils::format("%s/api/electricdreams/view/categories/home/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ChildDataProvider::getInstance()->getChildLoginValue("id").c_str()), "HOME");
+    HQDataParser::getInstance()->getContent(StringUtils::format("%s/api/electricdreams/view/categories/home/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------

@@ -26,11 +26,6 @@ bool ChildDataProvider::init(void)
     return true;
 }
 
-std::string ChildDataProvider::getChildLoginValue(std::string keyName)
-{
-    return ChildDataStorage::getInstance()->childLoginData[keyName.c_str()].GetString();
-}
-
 std::string ChildDataProvider::getParentOrChildLoginValue(std::string keyName) //if no child logged in, falls back to parent data
 {
     if(ChildDataStorage::getInstance()->childLoggedIn)
@@ -46,4 +41,9 @@ std::string ChildDataProvider::getParentOrChildLoginValue(std::string keyName) /
 std::string ChildDataProvider::getLoggedInChildName()
 {
     return ChildDataStorage::getInstance()->loggedInChildName;
+}
+
+std::string ChildDataProvider::getLoggedInChildId()
+{
+    return ChildDataStorage::getInstance()->loggedInChildId;
 }
