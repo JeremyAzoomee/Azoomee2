@@ -7,7 +7,6 @@ class ChildDataStorage : public cocos2d::Ref
 public:
     static ChildDataStorage* getInstance(void);
     
-public:
     virtual ~ChildDataStorage();
     bool init(void);
     

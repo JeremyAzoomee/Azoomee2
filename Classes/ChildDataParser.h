@@ -7,7 +7,6 @@ class ChildDataParser : public cocos2d::Ref
 public:
     static ChildDataParser* getInstance(void);
     
-public:
     virtual ~ChildDataParser();
     bool init(void);
     
