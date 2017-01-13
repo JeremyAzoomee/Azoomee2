@@ -6,14 +6,12 @@ class GameDataManager : public cocos2d::Ref
 {
     
 public:
-    /** Returns the shared instance of the Game Manager */
     static GameDataManager* getInstance(void);
-    
-public:
     virtual ~GameDataManager();
     bool init(void);
-    
     void startProcessingGame(std::string url, std::string itemId);
+    
+private:
     std::string getFileNameFromUrl(std::string url);
     
     void getJSONGameData(std::string url, std::string itemId);
