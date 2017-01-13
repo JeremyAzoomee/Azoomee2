@@ -6,18 +6,15 @@
 
 class OnboardingScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
 {
-private:
-    
-    void handleErrorCode(long errorCode);
-    
-    long _errorCode;
-    
 public:
-    static cocos2d::Scene* createScene(long errorCode);
-
+    CREATE_FUNC(OnboardingScene);
     virtual bool init();
-    
     virtual void onEnterTransitionDidFinish();
+    
+private:
+    void handleErrorCode(long errorCode);
+    long _errorCode;
+    static cocos2d::Scene* createScene(long errorCode);
     
     void addVisualElementsToScene();
     void addFunctionalElementsToScene();
@@ -43,7 +40,7 @@ public:
     cocos2d::Layer *onboardingContent;
     
     // implement the "static create()" method manually
-    CREATE_FUNC(OnboardingScene);
+    
     
     //Editbox Delegate Functions
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
