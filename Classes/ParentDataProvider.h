@@ -7,7 +7,6 @@ class ParentDataProvider : public cocos2d::Ref
 public:
     static ParentDataProvider* getInstance(void);
     
-public:
     virtual ~ParentDataProvider();
     bool init(void);
     
