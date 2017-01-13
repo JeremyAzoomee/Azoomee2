@@ -16,6 +16,7 @@ public:
     std::string url;
     bool encrypted;
     
+private:
     std::string getDateFormatString();
     std::string addLeadingZeroToDateElement(int input);
     
