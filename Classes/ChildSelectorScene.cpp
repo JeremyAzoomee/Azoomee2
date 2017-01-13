@@ -240,7 +240,7 @@ void ChildSelectorScene::addNewChildButtonToScrollView()
     //Keep Content Size the same as Oomee
     addButtonLayer->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
     
-    auto selectionSprite = Sprite::create("res/childSelection/selection1.png");
+    auto selectionSprite = Sprite::create("res/childSelection/selection.png");
     selectionSprite->setPosition(addButtonLayer->getContentSize().width / 2, addButtonLayer->getContentSize().height / 2);
     selectionSprite->setOpacity(0);
     addButtonLayer->addChild(selectionSprite);
