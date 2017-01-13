@@ -76,6 +76,7 @@ cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string categor
     sizes["AUDIO HQ"] = Size(693,520);
     sizes["GAME HQ"] = Size(693,520);
     sizes["ARTS APP"] = Size(693,520);
+    sizes["GROUP HQ"] = Size(693, 520);
     
     return sizes[category];
 }
@@ -88,6 +89,7 @@ cocos2d::Color4B ConfigStorage::getBaseColourForContentItemInCategory(std::strin
     colours["AUDIO HQ"] = Color4B(0,255,0, 150);
     colours["GAME HQ"] = Color4B(255,255,0, 150);
     colours["ARTS APP"] = Color4B(0,0,255, 150);
+    colours["GROUP HQ"] = Color4B(255, 0, 0, 150);
     
     return colours[category];
 }
@@ -100,6 +102,7 @@ std::string ConfigStorage::getIconImagesForContentItemInCategory(std::string cat
     icons["AUDIO HQ"] = "res/hqscene/icon_watch.png";
     icons["GAME HQ"] = "";
     icons["ARTS APP"] = "res/hqscene/icon_play.png";
+    icons["GROUP HQ"] = "res/hqscene/icon_watch.png";
     
     return icons[category];
 }
