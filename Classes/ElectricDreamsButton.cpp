@@ -56,7 +56,7 @@ ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string butto
     newButton->setContentSize(Size(buttonLabel->getContentSize().width+196, 197));
     newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
     
-    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2);
+    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);
     
     newButton->addChild(buttonLabel);
     
@@ -112,7 +112,9 @@ void ElectricDreamsButton::addListener()
         
         if(rect.containsPoint(locationInNode) && this->isVisible())
         {
-            this->getDelegate()->buttonPressed(this);
+            this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 0.1);
+            
+            return true;
         }
         
         return false;
@@ -121,9 +123,19 @@ void ElectricDreamsButton::addListener()
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
+void ElectricDreamsButton::callDelegateFunction(float dt)
+{
+    this->getDelegate()->buttonPressed(this);
+}
+
 //---------------------- public Functions After Setup -----------------------------
 
 void ElectricDreamsButton::setCenterPosition(Vec2 position)
 {
     this->setPosition(Vec2(position.x - this->getContentSize().width/2, position.y - this->getContentSize().height/2));
+}
+
+Vec2 ElectricDreamsButton::getCenterPosition()
+{
+    return Vec2(this->getPositionX() + this->getContentSize().width/2, this->getPositionY() + this->getContentSize().height/2);
 }
