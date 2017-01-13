@@ -26,7 +26,7 @@ public:
     cocos2d::LayerColor *overlayWhenTouched;
     
     void addTouchOverlayToElement();
-    void addListenerToElement(std::string uri);
+    void addListenerToElement(std::string uri, std::string itemId);
     void addLockToElement();
     
     cocos2d::Point touchPoint;

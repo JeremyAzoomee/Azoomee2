@@ -34,7 +34,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     Color3B colour3 = Color3B(colour4.r, colour4.g, colour4.b);
     
     createBgLayer(elementProperties, scale, startDelay, position);
-    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"]), startDelay);
+    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"], Vec2(1,1)), startDelay);
     addGradientToBottom(colour3, startDelay);
     addIconToImage(elementProperties["type"], startDelay);
     addLabelToImage(elementProperties["title"], startDelay);
@@ -100,14 +100,18 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         
         if(rect.containsPoint(locationInNode))
         {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+            
             target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
             
             if(HQDataParser::getInstance()->getExtensionFromUri(uri) == "json")
             {
+                CCLOG("Game processing");
                 GameDataManager::getInstance()->startProcessingGame(uri, itemId);
             }
             else
             {
+                CCLOG("Video processing");
                 auto webViewSelector = WebViewSelector::create();
                 webViewSelector->loadWebView(uri.c_str());
             }

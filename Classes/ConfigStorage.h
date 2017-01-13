@@ -15,10 +15,18 @@ public:
 //#define autologin YES;
 #define forcereload YES;
     
+    std::string getFileNameFromUrl(std::string url);
+    
     //Backend caller configuration
     std::string getServerHost();
     std::string getServerUrl();
     std::string getPathForTag(std::string httpRequestTag);
+    
+    //ChildAccountScene settings
+    std::string getNameForOomee(int number);
+    std::string getOomeePNGName(int number);
+    std::string getUrlForOomee(int number);
+    int getOomeeNumberForUrl(std::string url);
     
     //BaseScene configuration
     cocos2d::Point getHQScenePositions(std::string hqSceneName);

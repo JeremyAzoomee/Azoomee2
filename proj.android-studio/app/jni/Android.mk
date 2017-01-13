@@ -36,6 +36,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/GameDataManager.cpp \
                    ../../../Classes/HttpRequestCreator.cpp \
                    ../../../Classes/ConfigStorage.cpp \
+                   ../../../Classes/DisplayChildNameLayer.cpp \
                    ../../../Classes/TextInputLayer.cpp \
                    ../../../Classes/TextInputChecker.cpp \
                    ../../../Classes/ElectricDreamsButton.cpp \
@@ -53,7 +54,6 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HQDataStorage.cpp \
                    ../../../Classes/HQDataParser.cpp \
                    ../../../Classes/HQDataProvider.cpp \
-                   ../../../Classes/DisplayChildName.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

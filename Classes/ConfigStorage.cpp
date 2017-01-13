@@ -26,6 +26,18 @@ bool ConfigStorage::init(void)
 {
     return true;
 }
+
+std::string ConfigStorage::getFileNameFromUrl(std::string url)
+{
+    int startPoint = (int)url.find_last_of("/") + 1;
+    
+    int endPoint = (int)url.length();
+    if(url.find("?", 0) != url.npos) endPoint = (int)url.find("?", 0);
+    int subLength = endPoint - startPoint;
+    
+    return url.substr(startPoint, subLength);
+}
+
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
@@ -49,6 +61,68 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     return "";
 }
 
+//-------------------------Oomee settings---------------------------
+std::string ConfigStorage::getNameForOomee(int number)
+{
+    std::map<int, std::string> oomeeNames;
+    
+    oomeeNames[0] = "om_Pink";
+    oomeeNames[1] = "om_Yellow";
+    oomeeNames[2] = "om_Raspberry";
+    oomeeNames[3] = "om_Green";
+    oomeeNames[4] = "om_Blue";
+    
+    return oomeeNames[number];
+}
+
+std::string ConfigStorage::getOomeePNGName(int number)
+{
+    std::map<int, std::string> oomeeNames;
+    
+    oomeeNames[0] = "res/childSelection/om_Pink.png";
+    oomeeNames[1] = "res/childSelection/om_Yellow.png";
+    oomeeNames[2] = "res/childSelection/om_Raspberry.png";
+    oomeeNames[3] = "res/childSelection/om_Green.png";
+    oomeeNames[4] = "res/childSelection/om_Blue.png";
+    
+    return oomeeNames[number];
+}
+
+std::string ConfigStorage::getUrlForOomee(int number)
+{
+    std::map<int, std::string> oomeeUrls;
+    
+    oomeeUrls[0] = "https://media.azoomee.com/static/thumbs/oomee_01.png";
+    oomeeUrls[1] = "https://media.azoomee.com/static/thumbs/oomee_03.png";
+    oomeeUrls[2] = "https://media.azoomee.com/static/thumbs/oomee_04.png";
+    oomeeUrls[3] = "https://media.azoomee.com/static/thumbs/oomee_05.png";
+    oomeeUrls[4] = "https://media.azoomee.com/static/thumbs/oomee_06.png";
+    
+    return oomeeUrls[number];
+}
+
+int ConfigStorage::getOomeeNumberForUrl(std::string url)
+{
+    std::map<std::string, int> oomeeNumbers;
+    
+    oomeeNumbers["oomee_01.png"] = 0;
+    oomeeNumbers["oomee_03.png"] = 1;
+    oomeeNumbers["oomee_04.png"] = 2;
+    oomeeNumbers["oomee_05.png"] = 3;
+    oomeeNumbers["oomee_06.png"] = 4;
+    
+    std::string fileName = getFileNameFromUrl(url);
+    
+    if ( oomeeNumbers.find(fileName) == oomeeNumbers.end() )
+    {
+        return 0;
+    }
+    else
+    {
+        return oomeeNumbers[fileName];
+    }
+}
+
 //-------------------------BASESCENE CONFIGURATION-------------------------
 Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 {
@@ -70,7 +144,7 @@ Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string category)
 {
     std::map<std::string, Size> sizes;
-
+    
     sizes["VIDEO HQ"] = Size(693,520);
     sizes["AUDIO HQ"] = Size(693,520);
     sizes["GAME HQ"] = Size(693,520);

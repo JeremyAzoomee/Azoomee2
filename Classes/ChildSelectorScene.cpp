@@ -4,6 +4,8 @@
 #include "ChildAccountScene.h"
 #include <math.h>
 #include "ModalMessages.h"
+#include "ConfigStorage.h"
+#include "SimpleAudioEngine.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -31,6 +33,8 @@ bool ChildSelectorScene::init()
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
+    
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
     
     addVisualsToScene();
     addScrollViewForProfiles();
@@ -106,7 +110,10 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "profileName"), RandomHelper::random_int(0, 4));
+        std::string oomeeUrl = ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "avatar");
+        int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
+        
+        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "profileName"), oomeeNr);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         addListenerToProfileLayer(profileLayer);
@@ -126,7 +133,7 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     selectionSprite->setOpacity(0);
     profileLayer->addChild(selectionSprite);
     
-    auto oomee = Sprite::create(StringUtils::format("res/childSelection/oomee_%d.png", oomeeNumber));
+    auto oomee = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNumber).c_str()));
     oomee->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height /2);
     oomee->setOpacity(0);
     profileLayer->addChild(oomee);
@@ -188,6 +195,8 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
         if(!touchMovedAway)
         {
             auto target = static_cast<Node*>(event->getCurrentTarget());
+         
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
             
             if(target->getName() == "addChildButton")
                 addChildButtonPressed(target);

@@ -111,3 +111,24 @@ bool childNameExists(std::string newChildsName)
     return childNameExists;
 }
 
+bool isValidChildName(const char * childName)
+{
+    if(!childName) return 0;
+    if(strlen(childName) < 2) return 0;
+    
+    bool childNameOK = true;
+    int NoOfSpaces = 0;
+    
+    for(unsigned int i = 0; i < strlen(childName); i++)
+    {
+        if(childName[i] == '\n') childNameOK = false;
+        else if(childName[i] == '\t') childNameOK = false;
+        
+        if(childName[i] == ' ') NoOfSpaces++;
+    }
+    
+    if(NoOfSpaces == strlen(childName)) return false;
+    else if(childNameOK) return 1;
+    else return 0;
+}
+

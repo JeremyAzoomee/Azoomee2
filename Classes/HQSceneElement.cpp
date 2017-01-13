@@ -15,6 +15,9 @@
 #include "ImageDownloader.h"
 #include "HQDataProvider.h"
 #include "ConfigStorage.h"
+#include "SimpleAudioEngine.h"
+#include "HQDataParser.h"
+#include "GameDataManager.h"
 
 USING_NS_CC;
 
@@ -42,7 +45,7 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     resizeSceneElement(shape, category);
     createColourLayer(category);
     
-    addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemData["id"]));
+    addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemData["id"], shape));
     addGradientToBottom(category);
     addIconToImage(category);
     addLabelToImage(itemData["title"]);
@@ -50,7 +53,7 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     
     if(itemData["entitled"] == "true")
     {
-        addListenerToElement(itemData["uri"]);
+        addListenerToElement(itemData["uri"], itemData["id"]);
     }
     else
     {
@@ -138,7 +141,7 @@ void HQSceneElement::createColourLayer(std::string category)
     this->addChild(baseLayer);
 }
 
-void HQSceneElement::addListenerToElement(std::string uri)
+void HQSceneElement::addListenerToElement(std::string uri, std::string itemId)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -178,14 +181,28 @@ void HQSceneElement::addListenerToElement(std::string uri)
     {
         if(overlayWhenTouched->getOpacity() > 0)
         {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+            
             overlayWhenTouched->stopAllActions();
             overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
             CCLOG("Action to come: %s", uri.c_str());
-            auto webViewSelector = WebViewSelector::create();
-            webViewSelector->loadWebView(uri);
+            
+            if(HQDataParser::getInstance()->getExtensionFromUri(uri) == "json")
+            {
+                CCLOG("Game processing");
+                GameDataManager::getInstance()->startProcessingGame(uri, itemId);
+                return true;
+            }
+            else
+            {
+                CCLOG("Video processing");
+                auto webViewSelector = WebViewSelector::create();
+                webViewSelector->loadWebView(uri.c_str());
+                return true;
+            }
         }
         
-        return true;
+        return false;
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), baseLayer);
