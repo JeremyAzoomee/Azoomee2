@@ -5,6 +5,7 @@
 #include "HQDataProvider.h"
 
 #include "ConfigStorage.h"
+#include "ChildSelectorScene.h"
 
 USING_NS_CC;
 
@@ -100,11 +101,19 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            this->startLoadingHQScene(target->getTag());
-            this->turnOffAllMenuItems();
-            target->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
-            this->changeToScene(target->getTag());
-            
+            if(target->getTag() == 3)
+            {
+                //Child Selection Button Pressed.
+                auto childSelectorScene = ChildSelectorScene::createScene(0);
+                Director::getInstance()->replaceScene(childSelectorScene);
+            }
+            else
+            {
+                this->startLoadingHQScene(target->getTag());
+                this->turnOffAllMenuItems();
+                target->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+                this->changeToScene(target->getTag());
+            }
             return true;
         }
         
