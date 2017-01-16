@@ -23,12 +23,20 @@ bool SlideShowScene::init()
     
     createStaticImages();
     createPageView();
-    //animateNextSlide(0);
+    createButtons();
     
     return true;
 }
 
 // --------------------- Setup -----------------------
+
+void SlideShowScene::createButtons()
+{
+    skipButton = ElectricDreamsButton::createTextAsButton("Skip");
+    skipButton->setCenterPosition(Vec2(origin.x+visibleSize.width - skipButton->getContentSize().width, origin.y + visibleSize.height- skipButton->getContentSize().height));
+    skipButton->setDelegate(this);
+    this->addChild(skipButton);
+}
 
 void SlideShowScene::createStaticImages()
 {
@@ -81,8 +89,50 @@ Layout* SlideShowScene::createSlide0()
     slideLayer->addChild(pinkOomee);
     
     auto slideMessage = Label::createWithTTF("The best kid's TV shows, games and audiobooks in one safe app.", "fonts/azoomee.ttf", 90);
-    slideMessage->setPosition(slideLayer->getContentSize().width /2, slideLayer->getContentSize().height *025);
+    slideMessage->setWidth(slideLayer->getContentSize().width * 0.66);
+    slideMessage->setPosition(slideLayer->getContentSize().width /2, slideLayer->getContentSize().height *0.25);
     slideMessage->setColor(Color3B::WHITE);
+    slideMessage->setHorizontalAlignment(TextHAlignment::CENTER);
+    slideLayer->addChild(slideMessage);
+    
+    return slideLayer;
+}
+
+Layout* SlideShowScene::createSlide1()
+{
+    Layout* slideLayer = Layout::create();
+    slideLayer->setContentSize(visibleSize);
+    
+    auto pinkOomee = Sprite::create("res/childSelection/oomee_0.png");
+    pinkOomee->setPosition(slideLayer->getContentSize().width /2, slideLayer->getContentSize().height /2);
+    pinkOomee->setScale(2);
+    slideLayer->addChild(pinkOomee);
+    
+    auto slideMessage = Label::createWithTTF("It's an awesome APP.", "fonts/azoomee.ttf", 90);
+    slideMessage->setWidth(slideLayer->getContentSize().width * 0.66);
+    slideMessage->setPosition(slideLayer->getContentSize().width /2, slideLayer->getContentSize().height *0.25);
+    slideMessage->setColor(Color3B::WHITE);
+    slideMessage->setHorizontalAlignment(TextHAlignment::CENTER);
+    slideLayer->addChild(slideMessage);
+    
+    return slideLayer;
+}
+
+Layout* SlideShowScene::createSlide2()
+{
+    Layout* slideLayer = Layout::create();
+    slideLayer->setContentSize(visibleSize);
+    
+    auto pinkOomee = Sprite::create("res/childSelection/oomee_1.png");
+    pinkOomee->setPosition(slideLayer->getContentSize().width /2, slideLayer->getContentSize().height /2);
+    pinkOomee->setScale(2);
+    slideLayer->addChild(pinkOomee);
+    
+    auto slideMessage = Label::createWithTTF("Pat yourself on the back for selecting AZOOMEE!", "fonts/azoomee.ttf", 90);
+    slideMessage->setWidth(slideLayer->getContentSize().width * 0.66);
+    slideMessage->setPosition(slideLayer->getContentSize().width /2, slideLayer->getContentSize().height *0.25);
+    slideMessage->setColor(Color3B::WHITE);
+    slideMessage->setHorizontalAlignment(TextHAlignment::CENTER);
     slideLayer->addChild(slideMessage);
     
     return slideLayer;
@@ -98,31 +148,11 @@ void SlideShowScene::createPageView()
     _pageView->setIndicatorEnabled(true);
     _pageView->setIndicatorSelectedIndexColor(Color3B(28, 244, 244));
     
-   // _pageView->insertCustomItem(createSlide0(),0);
-    //
-    int pageCount = 4;
-    for (int i = 0; i < pageCount; ++i)
-    {
-        Layout* layout = Layout::create();
-        layout->setContentSize(visibleSize);
-        
-        Label* label = Label::Label::createWithTTF(StringUtils::format("page %d",(i+1)), "fonts/azoomee.ttf", 90);
-        label->setColor(Color3B(192, 192, 192));
-        label->setPosition(Vec2(layout->getContentSize().width / 2.0f, layout->getContentSize().height / 2.0f));
-        layout->addChild(label);
-        
-        auto pinkOomee = Sprite::create("res/childSelection/oomee_3.png");
-        pinkOomee->setPosition(layout->getContentSize().width /2, layout->getContentSize().height /2);
-        pinkOomee->setScale(2);
-        layout->addChild(pinkOomee);
-        
-        _pageView->insertCustomItem(layout, i);
-    }
+    _pageView->insertCustomItem(createSlide0(),0);
+    _pageView->insertCustomItem(createSlide1(),1);
+    _pageView->insertCustomItem(createSlide2(),2);
     
-    _pageView->scrollToItem(pageCount - 2);
-    //This method is deprecated, we used here only testing purpose
-    //pageView->addEventListenerPageView(this, pagevieweventselector(UIPageViewTest::pageViewEvent));
-    
+    _pageView->scrollToItem(0);
     
     _pageView->addEventListener((PageView::ccPageViewCallback)CC_CALLBACK_2(SlideShowScene::pageViewEvent, this));
     
@@ -153,47 +183,15 @@ void SlideShowScene::pageViewEvent(Ref *pSender, PageView::EventType type)
 
 void SlideShowScene::pageViewScrollToNextPage()
 {
-    _pageView->scrollToPage(_pageView->getCurrentPageIndex()+1);
+    _pageView->scrollToItem(_pageView->getCurrentPageIndex()+1);
 }
 
-void SlideShowScene::animateNextSlide(int newSlideIndex)
+void SlideShowScene::skipSlideShow()
 {
-
-    
-    
-    /*if(currentSlideLayer != nullptr)
-        removeCurrentSlide(currentSlideLayer);
-    
-    switch (newSlideIndex)
-    
-    {
-        case 0: //TextInputIsEmail
-        {
-            currentSlideLayer = createSlide0();
-            break;
-        }
-    }
-    
-    Point targetPosition = Point(origin.x, origin.y);
-    float delayTime = 1;
-    
-    auto nextSlideCallback = CallFunc::create(CC_CALLBACK_0(SlideShowScene::animateNextSlide, this,0));
-    
-    this->runAction(Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), nextSlideCallback, NULL));*/
-    
+    _pageView->stopAllActions();
 }
 
-void SlideShowScene::animageCurrentSlide(Layer* currentSlideLayer)
+void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
 {
-    Point targetPosition = Point(origin.x - visibleSize.width, origin.y);
-    float delayTime = 1;
-    
-    auto removeLayerCallback = CallFunc::create(CC_CALLBACK_0(SlideShowScene::removeCurrentSlide, this,currentSlideLayer));
-    
-    this->runAction(Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), removeLayerCallback, NULL));
-}
-
-void SlideShowScene::removeCurrentSlide(Layer* currentSlideLayer)
-{
-
+    if(button == skipButton) skipSlideShow();
 }

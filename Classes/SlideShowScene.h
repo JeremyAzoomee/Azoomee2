@@ -3,15 +3,18 @@
 
 #include "cocos2d.h"
 #include "ui/UIPageView.h"
+#include "ElectricDreamsButton.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
 
-class SlideShowScene: public cocos2d::Layer
+class SlideShowScene: public cocos2d::Layer, public ElectricDreamsButtonDelegate
 {
 private:
     Size visibleSize;
     Vec2 origin;
+    
+    ElectricDreamsButton *skipButton;
     
     Layer* currentSlideLayer;
     
@@ -20,16 +23,17 @@ private:
     PageView* _pageView;
     
     void createStaticImages();
-    void animageCurrentSlide(Layer* currentSlideLayer);
-    void removeCurrentSlide(Layer* currentSlideLayer);
-    void animateNextSlide(int newSlideIndex);
-    void skipSlideShow();
+    void createButtons();
     void createPageView();
     void pageViewScrollToNextPage();
     
     void pageViewEvent(Ref *pSender, PageView::EventType type);
     
+    void skipSlideShow();
+    
     Layout* createSlide0();
+    Layout* createSlide1();
+    Layout* createSlide2();
     
     //cocos2d::UserDefault::getInstance()->setStringForKey("value", 1);
     
@@ -39,6 +43,9 @@ public:
     virtual bool init();
 
     CREATE_FUNC(SlideShowScene);
+    
+    //Delegate Functions
+    void buttonPressed(ElectricDreamsButton* button);
 };
 
 #endif // __SLIDESHOW_SCENE_H__
