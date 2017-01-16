@@ -2,8 +2,10 @@
 #define __SLIDESHOW_SCENE_H__
 
 #include "cocos2d.h"
+#include "ui/UIPageView.h"
 
 USING_NS_CC;
+using namespace cocos2d::ui;
 
 class SlideShowScene: public cocos2d::Layer
 {
@@ -15,14 +17,19 @@ private:
     
     int currentSlideIndex;
     int maxSlides;
+    PageView* _pageView;
     
     void createStaticImages();
     void animageCurrentSlide(Layer* currentSlideLayer);
     void removeCurrentSlide(Layer* currentSlideLayer);
     void animateNextSlide(int newSlideIndex);
     void skipSlideShow();
+    void createPageView();
+    void pageViewScrollToNextPage();
     
-    Layer* createSlide0();
+    void pageViewEvent(Ref *pSender, PageView::EventType type);
+    
+    Layout* createSlide0();
     
     //cocos2d::UserDefault::getInstance()->setStringForKey("value", 1);
     
