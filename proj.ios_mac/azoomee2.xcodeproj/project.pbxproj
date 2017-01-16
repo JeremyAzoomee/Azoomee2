@@ -21,6 +21,7 @@
 		4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */; };
 		4362C6871E292BBC00119FD0 /* SlideShowScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4362C6851E292BBC00119FD0 /* SlideShowScene.cpp */; };
 		43ED86CB1E2D0AD40024F39A /* IntroVideoScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43ED86C91E2D0AD40024F39A /* IntroVideoScene.cpp */; };
+		43ED86CD1E2D0B710024F39A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43ED86CC1E2D0B710024F39A /* MediaPlayer.framework */; };
 		46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7719C43A67006E1F66 /* CloseSelected.png */; };
@@ -172,6 +173,7 @@
 		4362C6861E292BBC00119FD0 /* SlideShowScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideShowScene.h; sourceTree = "<group>"; };
 		43ED86C91E2D0AD40024F39A /* IntroVideoScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntroVideoScene.cpp; sourceTree = "<group>"; };
 		43ED86CA1E2D0AD40024F39A /* IntroVideoScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroVideoScene.h; sourceTree = "<group>"; };
+		43ED86CC1E2D0B710024F39A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
 		46880B7719C43A67006E1F66 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
 		46880B7A19C43A67006E1F66 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43ED86CD1E2D0B710024F39A /* MediaPlayer.framework in Frameworks */,
 				294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */,
 				ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */,
 				52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */,
@@ -396,6 +399,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				43ED86CC1E2D0B710024F39A /* MediaPlayer.framework */,
 				294D0D631D0D56D500F7F5D4 /* CoreText.framework */,
 				ED545A7D1B68A1FA00C3958E /* libiconv.dylib */,
 				ED545A7B1B68A1F400C3958E /* libiconv.dylib */,

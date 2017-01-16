@@ -1,5 +1,6 @@
 #include "IntroVideoScene.h"
 #include "LoginScene.h"
+#include "SlideShowScene.h"
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
@@ -45,12 +46,13 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
         case VideoPlayer::EventType::COMPLETED:
         {
             //NEED KEYVALUE TO KNOW IF FIRST TIME USER
-            bool isFirstTimeUser = false;
+            bool isFirstTimeUser = true;
             bool isLoggedIn = false;
             
             if(isFirstTimeUser)
             {
-                //WILL LOAD SLIDESHOW SCENE WHEN CREATED
+                auto slideShowScene = SlideShowScene::createScene();
+                Director::getInstance()->replaceScene(slideShowScene);
             }
             else if(isLoggedIn)
             {

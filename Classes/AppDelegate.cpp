@@ -1,10 +1,6 @@
 #include "AppDelegate.h"
-<<<<<<< HEAD
 #include "LoginScene.h"
-#include "SlideShowScene.h"
-=======
 #include "IntroVideoScene.h"
->>>>>>> origin/AD-1312/Intro-Video-Scene
 
 USING_NS_CC;
 
