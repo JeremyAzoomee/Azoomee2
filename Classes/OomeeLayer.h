@@ -16,6 +16,9 @@ private:
     spine::SkeletonAnimation* addOomeeToScreen();
     void addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo);
     void addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedTo);
+    void setDisplayedOomee(int oomeeNumber);
+    
+    int displayedOomeeNumber;
 };
 
 #endif
