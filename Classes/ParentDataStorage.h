@@ -17,4 +17,5 @@ public:
     std::string loggedInParentCdnSessionId;
     std::string loggedInParentApiSecret;
     std::string loggedInParentApiKey;
+    std::string loggedInParentActorStatus;
 };

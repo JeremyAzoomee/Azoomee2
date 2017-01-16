@@ -25,10 +25,25 @@ bool ParentDataProvider::init(void)
     return true;
 }
 
-std::string ParentDataProvider::getParentLoginValue(std::string keyName)
+std::string ParentDataProvider::getLoggedInParentActorStatus()
 {
-    return ParentDataStorage::getInstance()->parentLoginData[keyName.c_str()].GetString();
+    return ParentDataStorage::getInstance()->loggedInParentActorStatus;
 }
+
+
+std::string ParentDataProvider::getLoggedInParentId()
+{
+    return ParentDataStorage::getInstance()->loggedInParentId;
+}
+
+
+std::string ParentDataProvider::getLoggedInParentApiKey()
+{
+    return ParentDataStorage::getInstance()->loggedInParentApiKey;
+}
+
+//------------------------------------getting information from available children------------------------------------------
+
 
 std::string ParentDataProvider::getAvailableChildrenValue(std::string keyName)
 {

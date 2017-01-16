@@ -172,7 +172,7 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
     
     writer.String("parentKey", (int)StringUtils::format("parentKey").length());
     //writer.String(BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString() , (int)StringUtils::format("%s", BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString()).length());
-    writer.String(ParentDataProvider::getInstance()->getParentLoginValue("apiKey").c_str(), (int)ParentDataProvider::getInstance()->getParentLoginValue("apiKey").length());
+    writer.String(ParentDataProvider::getInstance()->getLoggedInParentApiKey().c_str(), (int)ParentDataProvider::getInstance()->getLoggedInParentApiKey().length());
     
     writer.EndObject();
     

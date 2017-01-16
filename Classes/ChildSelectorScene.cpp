@@ -263,7 +263,7 @@ void ChildSelectorScene::addNewChildButtonToScrollView()
 void ChildSelectorScene::addChildButtonPressed(Node* target)
 {
     //Check is email verified, if not refresh profile, then error
-    if((ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "VERIFIED")||(ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "ACTIVE"))
+    if((ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "VERIFIED")||(ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "ACTIVE"))
     {
         target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
         
