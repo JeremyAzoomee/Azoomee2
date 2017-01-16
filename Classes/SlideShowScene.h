@@ -35,6 +35,8 @@ private:
     Layout* createSlide1();
     Layout* createSlide2();
     
+    void fadeInObject(Node* objectToFade);
+    
     //cocos2d::UserDefault::getInstance()->setStringForKey("value", 1);
     
 public:
