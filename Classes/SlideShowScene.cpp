@@ -1,5 +1,6 @@
 #include "SlideShowScene.h"
 #include "LoginScene.h"
+#include "ConfigStorage.h"
 
 Scene* SlideShowScene::createScene()
 {
@@ -202,9 +203,13 @@ void SlideShowScene::pageViewScrollToNextPage()
 
 void SlideShowScene::skipSlideShow()
 {
-    //should go to preview Mode
-    //Maybe slowly fade out object first.
+    //CHANGES WILL COME TO THIS SCENE
+    //should be directed to PreviewMode
+    //Maybe slowly fade out objects before replacing scene
+    
     _pageView->stopAllActions();
+    
+    ConfigStorage::getInstance()->setFirstSlideShowSeen();
     
     auto loginScene = LoginScene::createScene(0);
     Director::getInstance()->replaceScene(loginScene);

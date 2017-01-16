@@ -37,8 +37,6 @@ private:
     
     void fadeInObject(Node* objectToFade);
     
-    //cocos2d::UserDefault::getInstance()->setStringForKey("value", 1);
-    
 public:
     static cocos2d::Scene* createScene();
 

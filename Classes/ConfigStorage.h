@@ -46,4 +46,8 @@ public:
     
     //OomeeLayer animation states
     std::string getRandomIdForAnimationType(std::string animationType);
+    
+    //UserDefaults First Time User for Slideshow
+    void setFirstSlideShowSeen();
+    bool shouldShowFirstSlideShowScene();
 };
