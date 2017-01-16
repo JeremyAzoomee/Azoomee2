@@ -51,5 +51,15 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
 bool ParentDataParser::parseAvailableChildren(std::string responseData)
 {
     ParentDataStorage::getInstance()->availableChildrenData.Parse(responseData.c_str());
+    
+    for(int i = 0; i < ParentDataStorage::getInstance()->availableChildrenData.Size(); i++)
+    {
+        std::map<std::string, std::string> currentChild;
+        currentChild["profileName"] = ParentDataStorage::getInstance()->availableChildrenData[i]["profileName"].GetString();
+        currentChild["avatar"] = ParentDataStorage::getInstance()->availableChildrenData[i]["avatar"].GetString();
+        
+        ParentDataStorage::getInstance()->availableChildren.push_back(currentChild);
+    }
+    
     return true;
 }

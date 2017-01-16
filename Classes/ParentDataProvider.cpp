@@ -45,17 +45,17 @@ std::string ParentDataProvider::getLoggedInParentApiKey()
 //------------------------------------getting information from available children------------------------------------------
 
 
-std::string ParentDataProvider::getAvailableChildrenValue(std::string keyName)
-{
-    return ParentDataStorage::getInstance()->availableChildrenData[keyName.c_str()].GetString();
-}
-
 int ParentDataProvider::getAmountOfAvailableChildren()
 {
     return (int)ParentDataStorage::getInstance()->availableChildrenData.Size();
 }
 
-std::string ParentDataProvider::getValueFromOneAvailableChild(int childNumber, std::string keyName)
+std::string ParentDataProvider::getProfileNameForAnAvailableChildren(int childNumber)
 {
-    return ParentDataStorage::getInstance()->availableChildrenData[childNumber][keyName.c_str()].GetString();
+    return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["profileName"];
+}
+
+std::string ParentDataProvider::getAvatarForAnAvailableChildren(int childNumber)
+{
+    return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["avatar"];
 }

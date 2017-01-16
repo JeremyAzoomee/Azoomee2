@@ -11,9 +11,9 @@ public:
     virtual ~ParentDataProvider();
     bool init(void);
     
-    std::string getAvailableChildrenValue(std::string keyName);
     int getAmountOfAvailableChildren();
-    std::string getValueFromOneAvailableChild(int childNumber, std::string keyName);
+    std::string getProfileNameForAnAvailableChildren(int childNumber);
+    std::string getAvatarForAnAvailableChildren(int childNumber);
     
     std::string getLoggedInParentActorStatus();
     std::string getLoggedInParentId();
