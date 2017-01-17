@@ -6,6 +6,7 @@
 
 #include "ConfigStorage.h"
 #include "ChildSelectorScene.h"
+#include "ChildDataStorage.h"
 
 USING_NS_CC;
 
@@ -104,6 +105,8 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
             if(target->getTag() == 3)
             {
                 //Child Selection Button Pressed.
+                //Logout Child
+                ChildDataStorage::getInstance()->childLoggedIn = false;
                 auto childSelectorScene = ChildSelectorScene::createScene(0);
                 Director::getInstance()->replaceScene(childSelectorScene);
             }

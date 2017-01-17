@@ -5,6 +5,8 @@
 
 class NavigationLayer : public cocos2d::Layer
 {
+    
+    
 public:
     static cocos2d::Scene* createScene();
 
