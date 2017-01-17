@@ -20,15 +20,23 @@ class AwaitingAdultPinLayer : public Layer, public TextInputLayerDelegate, publi
 {
 private:
     
-    void callDelegateFunction(float dt);
+   // void callDelegateFunction(float dt);
     
     Size visibleSize;
     Vec2 origin;
     
     LayerColor *backgroundLayer;
     
+    TextInputLayer* editBox_pin;
+    
+    ElectricDreamsButton *acceptButton;
+    ElectricDreamsButton *cancelButton;
+    
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();
+    void addUIObjects();
+    
+    void removeSelf();
     
 public:
     virtual bool init();

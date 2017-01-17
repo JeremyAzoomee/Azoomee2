@@ -30,8 +30,10 @@ void TextInputLayer::createEditBoxArea()
     editBoxArea = ui::Scale9Sprite::create("res/login/textarea_bg.png", spriteRect, capInsents);
     editBoxArea->setContentSize(this->getContentSize());
     editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    
+    editBoxArea->setOpacity(0);
     this->addChild(editBoxArea);
+    
+    editBoxArea->runAction(FadeTo::create(0.5, 255));
 }
 
 void TextInputLayer::createEditBox()

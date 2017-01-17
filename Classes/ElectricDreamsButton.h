@@ -36,6 +36,8 @@ public:
     static ElectricDreamsButton* createButtonWithText(std::string buttonText);
     static ElectricDreamsButton* createNextButton();
     static ElectricDreamsButton* createBackButton();
+    static ElectricDreamsButton* createAcceptButton();
+    static ElectricDreamsButton* createCancelButton();
     
     void setCenterPosition(Vec2 position);
     Vec2 getCenterPosition();

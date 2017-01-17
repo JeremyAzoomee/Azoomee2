@@ -2,8 +2,9 @@
 #define __NAVIGATION_LAYER_H__
 
 #include "cocos2d.h"
+#include "AwaitingAdultPinLayer.h"
 
-class NavigationLayer : public cocos2d::Layer
+class NavigationLayer : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate
 {
     
     
@@ -15,6 +16,9 @@ public:
     CREATE_FUNC(NavigationLayer);
     
     void startLoadingGroupHQ(std::string uri);
+    
+    //Delegate Functions
+    void AdultPinAccepted(AwaitingAdultPinLayer* layer);
     
 private:
     

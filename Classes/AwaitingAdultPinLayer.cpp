@@ -1,4 +1,5 @@
 #include "AwaitingAdultPinLayer.h"
+#include "ModalMessages.h"
 
 bool AwaitingAdultPinLayer::init()
 {
@@ -10,6 +11,10 @@ bool AwaitingAdultPinLayer::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
+    
+    createAndFadeInLayer();
+    addUIObjects();
+    
     return true;
 }
 
@@ -17,14 +22,14 @@ bool AwaitingAdultPinLayer::init()
 
 void AwaitingAdultPinLayer::createAndFadeInLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(0,0,0,150), visibleSize.width, visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B(0,0,0,150), origin.x + visibleSize.width, origin.y +visibleSize.height);
     backgroundLayer->setPosition(origin.x, origin.y);
     backgroundLayer->setOpacity(0);
     this->addChild(backgroundLayer);
     
     addListenerToBackgroundLayer();
     
-    backgroundLayer->runAction(FadeTo::create(0.5, 200));
+    backgroundLayer->runAction(FadeTo::create(0.5, 255));
 }
 
 void AwaitingAdultPinLayer::addListenerToBackgroundLayer()
@@ -37,6 +42,36 @@ void AwaitingAdultPinLayer::addListenerToBackgroundLayer()
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), backgroundLayer);
+}
+
+void AwaitingAdultPinLayer::addUIObjects()
+{
+    auto enterYourPinTitle = Label::createWithTTF("Please enter your pin to proceed", "fonts/azoomee.ttf", 90);
+    enterYourPinTitle->setPosition(origin.x+visibleSize.width /2, origin.y+visibleSize.height*0.8);
+    enterYourPinTitle->setColor(Color3B::WHITE);
+    enterYourPinTitle->setOpacity(0);
+    backgroundLayer->addChild(enterYourPinTitle);
+    
+    enterYourPinTitle->runAction(FadeTo::create(0.5, 255));
+    
+    editBox_pin = TextInputLayer::createWithSize(Size(400,131), INPUT_IS_PIN);
+    editBox_pin->setCenterPosition(Vec2(origin.x+visibleSize.width /2, origin.y+visibleSize.height*0.65));
+    editBox_pin->setDelegate(this);
+    backgroundLayer->addChild(editBox_pin);
+    
+    editBox_pin->focusAndShowKeyboard();
+    
+    cancelButton = ElectricDreamsButton::createCancelButton();
+    cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2 - 400, origin.y + visibleSize.height * 0.65));
+    cancelButton->setDelegate(this);
+    backgroundLayer->addChild(cancelButton);
+    
+    acceptButton = ElectricDreamsButton::createAcceptButton();
+    acceptButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2 + 400, origin.y + visibleSize.height * 0.65));
+    acceptButton->setDelegate(this);
+    acceptButton->setVisible(false);
+    backgroundLayer->addChild(acceptButton);
+    
 }
 
 /*ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string buttonText)
@@ -84,9 +119,12 @@ void AwaitingAdultPinLayer::addListenerToBackgroundLayer()
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 }*/
 
-void AwaitingAdultPinLayer::callDelegateFunction(float dt)
+//---------------------- Actions -----------------
+
+void AwaitingAdultPinLayer::removeSelf()
 {
-    this->getDelegate()->AdultPinAccepted(this);
+    this->removeChild(backgroundLayer);
+    this->removeFromParent();
 }
 
 //---------------------- public Functions After Setup -----------------------------
@@ -105,13 +143,27 @@ Vec2 AwaitingAdultPinLayer::getCenterPosition()
 
 void AwaitingAdultPinLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-
+    acceptButton->setVisible(isValid);
     
 }
 
 void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
 {
-
+    if(button == cancelButton)
+        removeSelf();
+    else if(button == acceptButton)
+    {
+        if(editBox_pin->getText() == "2222")
+        {
+            this->getDelegate()->AdultPinAccepted(this);
+            removeSelf();
+        }
+        else
+        {
+            ModalMessages::getInstance()->createMessageWithSingleButton("Error", "Pin is incorrect.", "Retry");
+            editBox_pin->setText("");
+        }
+    }
     
 }
 

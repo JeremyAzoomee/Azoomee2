@@ -19,10 +19,12 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string butto
     Label* textButton = Label::createWithTTF(buttonText, "fonts/azoomee.ttf", 90);
     textButton->setColor(Color3B(28, 244, 244));
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
-
+    textButton->setOpacity(0);
     layer->setContentSize(textButton->getContentSize());
     
     layer->addChild(textButton);
+    
+    textButton->runAction(FadeTo::create(0.5, 255));
     
     layer->addListener();
     
@@ -36,8 +38,10 @@ ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string but
     ui::Scale9Sprite* newButton = layer->createButtonBackground(buttonText);
 
     layer->setContentSize(newButton->getContentSize());
-    
+    newButton->setOpacity(0);
     layer->addChild(newButton);
+    
+    newButton->runAction(FadeTo::create(0.5, 255));
     
     layer->addListener();
     
@@ -58,7 +62,10 @@ ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string butto
     
     buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);
     
+    buttonLabel->setOpacity(0);
     newButton->addChild(buttonLabel);
+    
+    buttonLabel->runAction(FadeTo::create(0.5, 255));
     
     return newButton;
 }
@@ -89,6 +96,42 @@ ElectricDreamsButton* ElectricDreamsButton::createBackButton()
     layer->setContentSize(backButton->getContentSize());
     
     layer->addChild(backButton);
+    
+    layer->addListener();
+    
+    return layer;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createAcceptButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    Sprite* acceptButton = Sprite::create("res/modal/accept.png");
+    acceptButton->setPosition(acceptButton->getContentSize().width/2, acceptButton->getContentSize().height/2);
+    acceptButton->setOpacity(0);
+    layer->setContentSize(acceptButton->getContentSize());
+    
+    layer->addChild(acceptButton);
+    
+    acceptButton->runAction(FadeTo::create(0.5, 255));
+    
+    layer->addListener();
+    
+    return layer;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createCancelButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    Sprite* cancelButton = Sprite::create("res/modal/cancel.png");
+    cancelButton->setPosition(cancelButton->getContentSize().width/2, cancelButton->getContentSize().height/2);
+    cancelButton->setOpacity(0);
+    layer->setContentSize(cancelButton->getContentSize());
+    
+    layer->addChild(cancelButton);
+    
+    cancelButton->runAction(FadeTo::create(0.5, 255));
     
     layer->addListener();
     

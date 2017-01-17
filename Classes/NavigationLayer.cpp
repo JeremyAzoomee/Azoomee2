@@ -7,6 +7,7 @@
 #include "ConfigStorage.h"
 #include "ChildSelectorScene.h"
 #include "ChildDataStorage.h"
+#include "ExitOrLogoutLayer.h"
 
 USING_NS_CC;
 
@@ -155,7 +156,10 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         if(rect.containsPoint(locationInNode))
         {   if(target->getTag() == settingsButtonTag)
             {
-                
+                auto pinLayer = AwaitingAdultPinLayer::create();
+                pinLayer->setCenterPosition(Vec2(Director::getInstance()->getVisibleSize().width/2, Director::getInstance()->getVisibleSize().height/2));
+                pinLayer->setDelegate(this);
+                this->addChild(pinLayer);
             }
             else if(target->getTag() == 3)
             {
@@ -275,4 +279,11 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
+}
+
+//----------------------- Delegate Functions ------------------------
+
+void NavigationLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
+{
+    ExitOrLogoutLayer::create();
 }
