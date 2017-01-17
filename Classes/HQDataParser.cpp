@@ -166,6 +166,15 @@ void HQDataParser::getContent(std::string url, std::string category)
     httpRequestCreator->createEncryptedGetHttpRequest();
 }
 
+void HQDataParser::getPreviewContent(std::string url, std::string category)
+{
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->url = url;
+    httpRequestCreator->requestBody = "";
+    httpRequestCreator->requestTag = category;
+    httpRequestCreator->createGetHttpRequest();
+}
+
 void HQDataParser::onGetContentAnswerReceived(std::string responseString, std::string category)
 {
     if(parseHQData(responseString, category.c_str()))       //Parsing method returns true if there are no errors in the json string.

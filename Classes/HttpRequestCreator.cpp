@@ -22,6 +22,13 @@ void HttpRequestCreator::createEncryptedPostHttpRequest()
     createHttpRequest();
 }
 
+void HttpRequestCreator::createGetHttpRequest()
+{
+    encrypted = false;
+    method = "GET";
+    createHttpRequest();
+}
+
 void HttpRequestCreator::createPostHttpRequest()
 {
     encrypted = false;

@@ -7,6 +7,7 @@ public:
     void createEncryptedGetHttpRequest();
     void createEncryptedPostHttpRequest();
     void createPostHttpRequest();
+    void createGetHttpRequest();
     
     std::string requestBody;
     std::string urlParameters;
@@ -15,6 +16,8 @@ public:
     std::string requestPath;
     std::string url;
     bool encrypted;
+    
+private:
     
     std::string getDateFormatString();
     std::string addLeadingZeroToDateElement(int input);
