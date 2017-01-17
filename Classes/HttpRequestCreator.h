@@ -18,7 +18,6 @@ public:
     bool encrypted;
     
 private:
-    
     std::string getDateFormatString();
     std::string addLeadingZeroToDateElement(int input);
     

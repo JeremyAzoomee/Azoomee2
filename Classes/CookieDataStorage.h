@@ -6,8 +6,7 @@ class CookieDataStorage : public cocos2d::Ref
     
 public:
     static CookieDataStorage* getInstance(void);
-    
-public:
+
     virtual ~CookieDataStorage();
     bool init(void);
     

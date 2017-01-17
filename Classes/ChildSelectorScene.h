@@ -6,17 +6,16 @@
 
 class ChildSelectorScene : public cocos2d::Layer
 {
+public:
+    CREATE_FUNC(ChildSelectorScene);
+    
+    virtual bool init();
+    virtual void onEnterTransitionDidFinish();
+    static cocos2d::Scene* createScene(long errorCode);
+    
 private:
     void handleErrorCode(long errorCode);
-    
     long _errorCode;
-    
-public:
-    static cocos2d::Scene* createScene(long errorCode);
-
-    virtual bool init();
-    
-    virtual void onEnterTransitionDidFinish();
     
     cocos2d::Vec2 origin;
     cocos2d::Size visibleSize;
@@ -36,8 +35,6 @@ public:
     
     cocos2d::Point startTouchPosition;
     bool touchMovedAway;
-    
-    CREATE_FUNC(ChildSelectorScene);
 };
 
 #endif

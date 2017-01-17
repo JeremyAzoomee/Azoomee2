@@ -26,26 +26,62 @@ bool ChildDataProvider::init(void)
     return true;
 }
 
-std::string ChildDataProvider::getChildLoginValue(std::string keyName)
-{
-    return ChildDataStorage::getInstance()->childLoginData[keyName.c_str()].GetString();
-}
-
-std::string ChildDataProvider::getParentOrChildLoginValue(std::string keyName) //if no child logged in, falls back to parent data
+std::string ChildDataProvider::getParentOrChildId()
 {
     if(ChildDataStorage::getInstance()->childLoggedIn)
     {
-        return ChildDataStorage::getInstance()->childLoginData[keyName.c_str()].GetString();
+        return ChildDataStorage::getInstance()->loggedInChildId;
     }
     else
     {
-        return ParentDataStorage::getInstance()->parentLoginData[keyName.c_str()].GetString();
+        return ParentDataStorage::getInstance()->loggedInParentId;
+    }
+}
+
+std::string ChildDataProvider::getParentOrChildCdnSessionId()
+{
+    if(ChildDataStorage::getInstance()->childLoggedIn)
+    {
+        return ChildDataStorage::getInstance()->loggedInChildCdnSessionId;
+    }
+    else
+    {
+        return ParentDataStorage::getInstance()->loggedInParentCdnSessionId;
+    }
+}
+
+std::string ChildDataProvider::getParentOrChildApiSecret()
+{
+    if(ChildDataStorage::getInstance()->childLoggedIn)
+    {
+        return ChildDataStorage::getInstance()->loggedInChildApiSecret;
+    }
+    else
+    {
+        return ParentDataStorage::getInstance()->loggedInParentApiSecret;
+    }
+}
+
+std::string ChildDataProvider::getParentOrChildApiKey()
+{
+    if(ChildDataStorage::getInstance()->childLoggedIn)
+    {
+        return ChildDataStorage::getInstance()->loggedInChildApiKey;
+    }
+    else
+    {
+        return ParentDataStorage::getInstance()->loggedInParentApiKey;
     }
 }
 
 std::string ChildDataProvider::getLoggedInChildName()
 {
     return ChildDataStorage::getInstance()->loggedInChildName;
+}
+
+std::string ChildDataProvider::getLoggedInChildId()
+{
+    return ChildDataStorage::getInstance()->loggedInChildId;
 }
 
 int ChildDataProvider::getLoggedInChildNumber()

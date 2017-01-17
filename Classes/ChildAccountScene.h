@@ -6,18 +6,16 @@
 
 class ChildAccountScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
 {
+public:
+    CREATE_FUNC(ChildAccountScene);
+    static cocos2d::Scene* createScene(std::string ChildName, long errorCode);
+    virtual bool init();
+    virtual void onEnterTransitionDidFinish();
+    
 private:
     
     void handleErrorCode(long errorCode);
-    
     long _errorCode;
-
-public:
-    static cocos2d::Scene* createScene(std::string ChildName, long errorCode);
-
-    virtual bool init();
-    
-    virtual void onEnterTransitionDidFinish();
     
     void addVisualElementsToScene();
     void addFunctionalElementsToScene();
@@ -48,9 +46,6 @@ public:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     cocos2d::Layer *childAccountContent;
-    
-    // implement the "static create()" method manually
-    CREATE_FUNC(ChildAccountScene);
     
     void addListenerToButton(cocos2d::Sprite *spriteImage);
     

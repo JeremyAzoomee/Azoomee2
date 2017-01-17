@@ -6,17 +6,16 @@
 class MainHubScene : public cocos2d::Layer
 {
 public:
+    CREATE_FUNC(MainHubScene);
     static cocos2d::Scene* createScene();
-
     virtual bool init();
     
+private:
     void addBackgroundCircles();
     void addImageContainers();
     
     cocos2d::Size visibleSize;
     cocos2d::Point origin;
-    
-    CREATE_FUNC(MainHubScene);
 };
 
 #endif

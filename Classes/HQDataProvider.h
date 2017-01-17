@@ -9,7 +9,6 @@ public:
     /** Returns the shared instance of the Game Manager */
     static HQDataProvider* getInstance(void);
     
-public:
     virtual ~HQDataProvider();
     bool init(void);
     

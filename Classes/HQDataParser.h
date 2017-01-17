@@ -7,8 +7,6 @@ class HQDataParser : public cocos2d::Ref
     
 public:
     static HQDataParser* getInstance(void);
-    
-public:
     virtual ~HQDataParser();
     bool init(void);
     
@@ -16,11 +14,10 @@ public:
     bool parseHQData(std::string responseString, const char *category);
     bool parseHQStructure(std::string responseString, const char *category);
     bool parseHQGetContentUrls(std::string responseString);
+    std::string getExtensionFromUri(std::string uri);
     
     //Communication methods
     void getContent(std::string url, std::string category);
     void getPreviewContent(std::string url, std::string category);
     void onGetContentAnswerReceived(std::string responseString, std::string category);
-    
-    std::string getExtensionFromUri(std::string uri);
 };

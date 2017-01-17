@@ -6,8 +6,6 @@ class HQDataStorage : public cocos2d::Ref
     
 public:
     static HQDataStorage* getInstance(void);
-    
-public:
     virtual ~HQDataStorage();
     bool init(void);
     
