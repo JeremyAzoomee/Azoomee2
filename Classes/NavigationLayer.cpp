@@ -11,6 +11,7 @@
 USING_NS_CC;
 
 int amountOfItems = 5;
+int settingsButtonTag = amountOfItems+1;
 
 Scene* NavigationLayer::createScene()
 {
@@ -44,6 +45,8 @@ bool NavigationLayer::init()
         addListenerToMenuItem(menuItemImage);
         runDisplayAnimationForMenuItem(menuItemImage, menuItemInactive);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
     }
+    
+    createSettingsButton();
     
     this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 3.5);
     
@@ -122,6 +125,21 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
     return menuItemInactive;
 }
 
+void NavigationLayer::createSettingsButton()
+{
+    Point horizontalButton = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(0);
+    
+    auto settingsButton = Sprite::create("res/navigation/settings.png");
+    settingsButton->setTag(settingsButtonTag);
+    settingsButton->setOpacity(0);
+    settingsButton->setPosition(Director::getInstance()->getVisibleSize().width-settingsButton->getContentSize().width,horizontalButton.y);
+    addListenerToMenuItem(settingsButton);
+    this->addChild(settingsButton);
+    
+    float randomDelay = RandomHelper::random_real(0.2, 0.7);
+    settingsButton->runAction(Sequence::create(DelayTime::create(3.0f + randomDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+}
+
 void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
 {
     auto listener = EventListenerTouchOneByOne::create();
@@ -135,8 +153,11 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         Rect rect = Rect(0,0,s.width, s.height);
         
         if(rect.containsPoint(locationInNode))
-        {
-            if(target->getTag() == 3)
+        {   if(target->getTag() == settingsButtonTag)
+            {
+                
+            }
+            else if(target->getTag() == 3)
             {
                 //Child Selection Button Pressed.
                 //Logout Child

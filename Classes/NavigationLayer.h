@@ -26,6 +26,7 @@ private:
     void runDisplayAnimationForMenuItem(cocos2d::Node* node1, cocos2d::Node* node2);
     void moveMenuPointsToHorizontalState();
     void moveMenuPointsToCircleState();
+    void createSettingsButton();
     
     //Handling created menuitems or all menuitems
     void turnOffAllMenuItems();
