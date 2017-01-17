@@ -26,6 +26,7 @@ public:
     cocos2d::ui::ScrollView *scrollView;
     
     void addVisualsToScene();
+    void createSettingsButton();
     void addProfilesToScrollView();
     Layer *createChildProfileButton(std::string profileName, int oomeeNumber);
     cocos2d::Point positionElementOnScrollView(Layer *layerToBeAdded);

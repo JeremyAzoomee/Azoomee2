@@ -1,4 +1,5 @@
 #include "ElectricDreamsButton.h"
+#include "ExitOrLogoutLayer.h"
 
 bool ElectricDreamsButton::init()
 {
@@ -138,6 +139,27 @@ ElectricDreamsButton* ElectricDreamsButton::createCancelButton()
     return layer;
 }
 
+ElectricDreamsButton* ElectricDreamsButton::createSettingsButton(float creationDelay)
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    Sprite* settingsButton = Sprite::create("res/navigation/settings.png");
+    settingsButton->setPosition(settingsButton->getContentSize().width/2, settingsButton->getContentSize().height/2);
+    settingsButton->setOpacity(0);
+    layer->setContentSize(settingsButton->getContentSize());
+    
+    layer->addChild(settingsButton);
+    
+    float randomDelay = RandomHelper::random_real(0.2, 0.7);
+    settingsButton->runAction(Sequence::create(DelayTime::create(creationDelay + randomDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    
+    layer->addListener();
+    
+    layer->isSettingsButton = true;
+    
+    return layer;
+}
+
 //---------------------- Listener Function -----------------------------
 
 void ElectricDreamsButton::addListener()
@@ -155,7 +177,10 @@ void ElectricDreamsButton::addListener()
         
         if(rect.containsPoint(locationInNode) && this->isVisible())
         {
-            this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 0.1);
+            if(isSettingsButton)
+                ExitOrLogoutLayer::create();
+            else
+                this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 0.1);
             
             return true;
         }

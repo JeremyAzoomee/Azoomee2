@@ -33,8 +33,10 @@ bool ChildSelectorScene::init()
     origin = Director::getInstance()->getVisibleOrigin();
     
     addVisualsToScene();
+    createSettingsButton();
     addScrollViewForProfiles();
     addProfilesToScrollView();
+    
 
     return true;
 }
@@ -72,6 +74,13 @@ void ChildSelectorScene::addVisualsToScene()
     selectTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);
     selectTitle->setColor(Color3B(28, 244, 244));
     this->addChild(selectTitle);
+}
+
+void ChildSelectorScene::createSettingsButton()
+{
+    auto settingsButton = ElectricDreamsButton::createSettingsButton(0.0f);
+    settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
+    this->addChild(settingsButton);
 }
 
 void ChildSelectorScene::addScrollViewForProfiles()

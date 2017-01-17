@@ -3,10 +3,11 @@
 
 #include "cocos2d.h"
 #include "ElectricDreamsButton.h"
+#include "AwaitingAdultPinLayer.h"
 
 USING_NS_CC;
 
-class ExitOrLogoutLayer : public Layer, public ElectricDreamsButtonDelegate
+class ExitOrLogoutLayer : public Layer, public ElectricDreamsButtonDelegate, public AwaitingAdultPinLayerDelegate
 {
 private:
     Size visibleSize;
@@ -18,6 +19,7 @@ private:
     ElectricDreamsButton *logoutButton;
     ElectricDreamsButton *cancelButton;
     
+    void askForPin();
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();
     void addUIObjects();
@@ -35,7 +37,8 @@ public:
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
-    
+    void PinCancelled(AwaitingAdultPinLayer* layer);
+    void AdultPinAccepted(AwaitingAdultPinLayer* layer);
 };
 
 #endif

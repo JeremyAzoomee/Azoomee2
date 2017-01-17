@@ -12,16 +12,14 @@ class AwaitingAdultPinLayer;
 class AwaitingAdultPinLayerDelegate
 {
 public:
-    
+    virtual void PinCancelled(AwaitingAdultPinLayer* layer) = 0;
     virtual void AdultPinAccepted(AwaitingAdultPinLayer* layer) = 0;
 };
 
 class AwaitingAdultPinLayer : public Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate
 {
 private:
-    
-   // void callDelegateFunction(float dt);
-    
+
     Size visibleSize;
     Vec2 origin;
     
@@ -36,7 +34,7 @@ private:
     void addListenerToBackgroundLayer();
     void addUIObjects();
     
-    void removeSelf();
+    void removeSelf(float dt);
     
 public:
     virtual bool init();

@@ -2,9 +2,8 @@
 #define __NAVIGATION_LAYER_H__
 
 #include "cocos2d.h"
-#include "AwaitingAdultPinLayer.h"
 
-class NavigationLayer : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate
+class NavigationLayer : public cocos2d::Layer
 {
     
     
@@ -17,10 +16,10 @@ public:
     
     void startLoadingGroupHQ(std::string uri);
     
-    //Delegate Functions
-    void AdultPinAccepted(AwaitingAdultPinLayer* layer);
-    
 private:
+    
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
     
     //MenuItem creation phase
     cocos2d::Sprite* addMenuItemImage(int itemNumber);

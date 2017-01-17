@@ -11,7 +11,6 @@ bool AwaitingAdultPinLayer::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    
     createAndFadeInLayer();
     addUIObjects();
     
@@ -46,6 +45,8 @@ void AwaitingAdultPinLayer::addListenerToBackgroundLayer()
 
 void AwaitingAdultPinLayer::addUIObjects()
 {
+    //---------- MODAL LABEL ------------
+    
     auto enterYourPinTitle = Label::createWithTTF("Please enter your pin to proceed", "fonts/azoomee.ttf", 90);
     enterYourPinTitle->setPosition(origin.x+visibleSize.width /2, origin.y+visibleSize.height*0.8);
     enterYourPinTitle->setColor(Color3B::WHITE);
@@ -54,6 +55,8 @@ void AwaitingAdultPinLayer::addUIObjects()
     
     enterYourPinTitle->runAction(FadeTo::create(0.5, 255));
     
+    //-------- PIN EDITBOX -------------
+    
     editBox_pin = TextInputLayer::createWithSize(Size(400,131), INPUT_IS_PIN);
     editBox_pin->setCenterPosition(Vec2(origin.x+visibleSize.width /2, origin.y+visibleSize.height*0.65));
     editBox_pin->setDelegate(this);
@@ -61,10 +64,14 @@ void AwaitingAdultPinLayer::addUIObjects()
     
     editBox_pin->focusAndShowKeyboard();
     
+    //-------- CANCEL BUTTON ----------
+    
     cancelButton = ElectricDreamsButton::createCancelButton();
     cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2 - 400, origin.y + visibleSize.height * 0.65));
     cancelButton->setDelegate(this);
     backgroundLayer->addChild(cancelButton);
+    
+    //------- ACCEPT BUTTON -----------
     
     acceptButton = ElectricDreamsButton::createAcceptButton();
     acceptButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2 + 400, origin.y + visibleSize.height * 0.65));
@@ -74,57 +81,15 @@ void AwaitingAdultPinLayer::addUIObjects()
     
 }
 
-/*ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string buttonText)
-{
-    auto layer = ElectricDreamsButton::create();
-    
-    Label* textButton = Label::createWithTTF(buttonText, "fonts/azoomee.ttf", 90);
-    textButton->setColor(Color3B(28, 244, 244));
-    textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
-
-    layer->setContentSize(textButton->getContentSize());
-    
-    layer->addChild(textButton);
-    
-    layer->addListener();
-    
-    return layer;
-}*/
-
-//---------------------- Listener Function -----------------------------
-
-/*void AwaitingAdultPinLayer::addListener()
-{
-
-    auto listener = cocos2d::EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    
-    listener->onTouchBegan = [&](cocos2d::Touch* touch, cocos2d::Event* event)
-    {
-        auto target = static_cast<Node*>(event->getCurrentTarget());
-        
-        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-        Rect rect = Rect(0, 0, target->getContentSize().width, target->getContentSize().height);
-        
-        if(rect.containsPoint(locationInNode) && this->isVisible())
-        {
-            this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::callDelegateFunction), 0.1);
-            
-            return true;
-        }
-        
-        return false;
-    };
-
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
-}*/
-
 //---------------------- Actions -----------------
 
-void AwaitingAdultPinLayer::removeSelf()
+void AwaitingAdultPinLayer::removeSelf(float dt)
 {
-    this->removeChild(backgroundLayer);
-    this->removeFromParent();
+    if(this)
+    {
+        this->removeChild(backgroundLayer);
+        this->removeFromParent();
+    }
 }
 
 //---------------------- public Functions After Setup -----------------------------
@@ -144,26 +109,31 @@ Vec2 AwaitingAdultPinLayer::getCenterPosition()
 void AwaitingAdultPinLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
     acceptButton->setVisible(isValid);
-    
 }
 
 void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
-        removeSelf();
+    {
+        //Schedule so it calls delegate before removing self. Avoiding crash
+        this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
+        this->getDelegate()->PinCancelled(this);
+    }
     else if(button == acceptButton)
     {
-        if(editBox_pin->getText() == "2222")
+        //TODO NEED TO VERIFY PIN AGAINST SAVED PIN.
+        if(editBox_pin->getText() == "1234")
         {
+            //Schedule so it calls delegate before removing self. Avoiding crash
+            this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
             this->getDelegate()->AdultPinAccepted(this);
-            removeSelf();
         }
         else
         {
             ModalMessages::getInstance()->createMessageWithSingleButton("Error", "Pin is incorrect.", "Retry");
             editBox_pin->setText("");
+            acceptButton->setVisible(false);
         }
     }
     
 }
-

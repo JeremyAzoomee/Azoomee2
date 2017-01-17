@@ -24,6 +24,8 @@ private:
     
     void callDelegateFunction(float dt);
     
+    bool isSettingsButton;
+    
 public:
     virtual bool init();
     
@@ -38,6 +40,7 @@ public:
     static ElectricDreamsButton* createBackButton();
     static ElectricDreamsButton* createAcceptButton();
     static ElectricDreamsButton* createCancelButton();
+    static ElectricDreamsButton* createSettingsButton(float creationDelay);
     
     void setCenterPosition(Vec2 position);
     Vec2 getCenterPosition();

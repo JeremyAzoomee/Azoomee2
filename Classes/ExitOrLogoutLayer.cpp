@@ -11,14 +11,21 @@ bool ExitOrLogoutLayer::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    
     createAndFadeInLayer();
-    addUIObjects();
+    askForPin();
     
     return true;
 }
 
 //---------------------- Create Layer -----------------------------
+
+void ExitOrLogoutLayer::askForPin()
+{
+    auto pinLayer = AwaitingAdultPinLayer::create();
+    pinLayer->setCenterPosition(Vec2(Director::getInstance()->getVisibleSize().width/2, Director::getInstance()->getVisibleSize().height/2));
+    pinLayer->setDelegate(this);
+    backgroundLayer->addChild(pinLayer);
+}
 
 void ExitOrLogoutLayer::createAndFadeInLayer()
 {
@@ -45,22 +52,26 @@ void ExitOrLogoutLayer::addListenerToBackgroundLayer()
 
 void ExitOrLogoutLayer::addUIObjects()
 {
+    // ------- CANCEL BUTTON ----------
     
     cancelButton = ElectricDreamsButton::createCancelButton();
     cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.3));
     cancelButton->setDelegate(this);
     backgroundLayer->addChild(cancelButton);
     
+    // ------- EXIT BUTTON ----------
+    
     exitButton = ElectricDreamsButton::createButtonWithText("Exit App");
     exitButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.8));
     exitButton->setDelegate(this);
     backgroundLayer->addChild(exitButton);
     
+    // ------- LOG OUT BUTTON ----------
+    
     logoutButton = ElectricDreamsButton::createButtonWithText("Log Out");
     logoutButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.6));
     logoutButton->setDelegate(this);
     backgroundLayer->addChild(logoutButton);
-    
 }
 
 //---------------------- Actions -----------------
@@ -98,6 +109,14 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
         auto loginScene = LoginScene::createScene(0);
         Director::getInstance()->replaceScene(loginScene);
     }
-    
 }
 
+void ExitOrLogoutLayer::PinCancelled(AwaitingAdultPinLayer* layer)
+{
+    removeSelf();
+}
+
+void ExitOrLogoutLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
+{
+    addUIObjects();
+}
