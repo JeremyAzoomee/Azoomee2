@@ -81,7 +81,6 @@ bool HQDataParser::parseHQData(std::string responseString, const char *category)
     }
     
     HQDataStorage::getInstance()->HQData[StringUtils::format("%s", category)] = HQElements;
-    //HQDataStorage::getInstance()->HQElementHighlights[category] = elementHighlightWithTitle;
     
     return true;
 }

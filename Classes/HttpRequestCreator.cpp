@@ -147,7 +147,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     if(encrypted)                                                             //parentLogin (and register parent) is the only nonencrypted call. JWTTool is called unless the request is not coming from login.
     {
         auto myJWTTool = JWTTool::getInstance();
-        std::string myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), ConfigStorage::getInstance()->getServerHost(), urlParameters, requestBody);
+        std::string myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
         const char *reqData = myRequestString.c_str();
         
         headers.push_back(StringUtils::format("x-az-req-datetime: %s", getDateFormatString().c_str()));
@@ -189,6 +189,8 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         {
             if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i)) HQDataParser::getInstance()->onGetContentAnswerReceived(responseDataString, requestTag);
         }
+        
+        if(requestTag == "GROUP HQ") HQDataParser::getInstance()->onGetContentAnswerReceived(responseDataString, "GROUP HQ");
     }
     else
     {
