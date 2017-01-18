@@ -65,12 +65,12 @@ void MultiButtonMessageBoxLayer::createTitle(std::string messageTitle)
     if(messageTitleLabel->getContentSize().width < (MESSAGE_BOX_MINIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
     {
         messageBoxWidth = MESSAGE_BOX_MINIMUM_WIDTH;
-        underlineTitle(messageTitleLabel);
+        underlineTitle();
     }
     else if(messageTitleLabel->getContentSize().width < (MESSAGE_BOX_MAXIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
     {
         messageBoxWidth = messageTitleLabel->getContentSize().width + (MESSAGE_BOX_PADDING * 2);
-        underlineTitle(messageTitleLabel);
+        underlineTitle();
     }
     else
     {
@@ -85,11 +85,11 @@ void MultiButtonMessageBoxLayer::createTitle(std::string messageTitle)
     backgroundLayer->addChild(messageTitleLabel,2);
 }
 
-void MultiButtonMessageBoxLayer::underlineTitle(Label* titleLabel)
+void MultiButtonMessageBoxLayer::underlineTitle()
 {
     DrawNode* newDrawNode = DrawNode::create();
-    newDrawNode->drawRect(Vec2(0, 10), Vec2(titleLabel->getContentSize().width, 14), Color4F((28 * 255), (244 * 255), (244 * 255), 1));
-    titleLabel->addChild(newDrawNode);
+    newDrawNode->drawRect(Vec2(0, 10), Vec2(messageTitleLabel->getContentSize().width, 14), Color4F((28 * 255), (244 * 255), (244 * 255), 1));
+    messageTitleLabel->addChild(newDrawNode);
 }
 
 void MultiButtonMessageBoxLayer::createBody(std::string messageBody)
@@ -110,7 +110,7 @@ void MultiButtonMessageBoxLayer::createButtons(std::vector<std::string> buttonTi
     {
         float buttonXValue = (backgroundLayer->getContentSize().width * 0.5) - (messageBoxWidth/2) + (MessageBoxButtonSpace * i) + (MessageBoxButtonSpace/2);
     
-        auto _button = ElectricDreamsButton::createButtonWithText(buttonTitleList.at(0));
+        auto _button = ElectricDreamsButton::createButtonWithText(buttonTitleList.at(i));
         _button->setCenterPosition(Vec2(buttonXValue, messageBodyLabel->getPositionY() - (messageBodyLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (_button->getContentSize().height/2)));
         _button->setDelegate(this);
         backgroundLayer->addChild(_button, 2);
@@ -127,7 +127,6 @@ void MultiButtonMessageBoxLayer::createMessageBackground()
     
     auto messageBoxLayer = LayerColor::create(Color4B::BLACK, messageBoxWidth, messageBoxHeight);
     messageBoxLayer->setPosition((visibleSize.width - messageBoxLayer->getContentSize().width)/2, messageBoxY);
-    messageBoxLayer->setOpacity(0);
     backgroundLayer->addChild(messageBoxLayer,1);
     
     DrawNode* newDrawNode = DrawNode::create();
@@ -135,8 +134,6 @@ void MultiButtonMessageBoxLayer::createMessageBackground()
     newDrawNode->drawRect(Vec2(0, 0), Vec2(messageBoxLayer->getContentSize().width, messageBoxLayer->getContentSize().height), Color4F((28 * 255), (244 * 255), (244 * 255), 1));
     
     newDrawNode->setLineWidth(4);
-    
-    messageBoxLayer->runAction(FadeTo::create(0.5, 255));
 }
 //---------------------- Actions -----------------
 
@@ -157,6 +154,8 @@ void MultiButtonMessageBoxLayer::buttonPressed(ElectricDreamsButton* button)
     {
         if(buttonsList.at(i) == button)
         {
+            //To enable call to delegate and avoid crash, schedule remove for after delegate call.
+            this->scheduleOnce(schedule_selector(MultiButtonMessageBoxLayer::removeSelf), 0.1);
             this->getDelegate()->MultiButtonMessageBoxPressed(i);
         }
     }

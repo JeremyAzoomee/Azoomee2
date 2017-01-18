@@ -6,6 +6,33 @@
 
 USING_NS_CC;
 
+/*------- NOTES FOR USAGE -------
+
+In .h file, add the delegate definition.
+
+    public MultiButtonMessageBoxLayerDelegate
+ 
+and add in the public functions of the .h file, declare the delegate function.
+
+    void MultiButtonMessageBoxPressed(int ButtonNumber);
+ 
+In the cpp to call the multimessagebox, create a vector of button titles.
+Then call the CreateMessageBox giving the message details,
+Pass the function 'this' so it can assign this class as its delegate.
+ 
+    std::vector<std::string> buttonTitles;
+    buttonTitles.push_back("b1");
+    buttonTitles.push_back("b2");
+    buttonTitles.push_back("b3");
+ 
+    MultiButtonMessageBoxLayer::createMessageBox("title", "body", buttonTitles, this);
+
+Define your delegate function, the button number (starting at 0) will be given back.
+ 
+void <YOUR CLASS>::MultiButtonMessageBoxPressed(int ButtonNumber)
+ 
+*/
+
 class MultiButtonMessageBoxLayer;
 
 class MultiButtonMessageBoxLayerDelegate
@@ -33,7 +60,7 @@ private:
     
     //MessageBox functions
     void createTitle(std::string messageTitle);
-    void underlineTitle(cocos2d::Label* titleLabel);
+    void underlineTitle();
     void createBody(std::string messageBody);
     void createButtons(std::vector<std::string> buttonTitleList);
     void createMessageBackground();
@@ -41,6 +68,7 @@ private:
     void removeSelf(float dt);
     
 public:
+    //Main function for creating a multiButtonMessageBox
     static Layer* createMessageBox(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MultiButtonMessageBoxLayerDelegate* _delegate);
     
     virtual bool init();
