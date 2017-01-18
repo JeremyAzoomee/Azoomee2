@@ -14,6 +14,7 @@ public:
     bool childLoggedIn;
     
     std::string loggedInChildName;
+    std::string loggedInChildAvatarId;
     int loggedInChildNumber;
     
     std::string loggedInChildId;

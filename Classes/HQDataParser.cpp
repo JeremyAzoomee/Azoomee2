@@ -12,6 +12,7 @@
 #include "HttpRequestCreator.h"
 #include "ConfigStorage.h"
 #include "ChildDataProvider.h"
+#include "ChildDataParser.h"
 #include "BaseScene.h"
 
 using namespace cocos2d;
@@ -176,6 +177,7 @@ void HQDataParser::onGetContentAnswerReceived(std::string responseString, std::s
         if(category == "HOME")    //If we have a home HQ set up, we have to get urls too.
         {
             parseHQGetContentUrls(responseString);      //Parsing method returns true if there are no errors in the json string.
+            ChildDataParser::getInstance()->parseOomeeData(responseString);
             BackEndCaller::getInstance()->getGordon();   //If both parsings went well, we move on to getting the cookies
         }
         else
@@ -202,6 +204,8 @@ void HQDataParser::onGetPreviewContentAnswerReceived(std::string responseString)
     {
         parseHQStructure(responseString, "HOME");
         parseHQGetContentUrls(responseString);
+        ChildDataParser::getInstance()->parseOomeeData(responseString);
+        
         BaseScene *baseScene = (BaseScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
         baseScene->startBuildingHQs();
     }

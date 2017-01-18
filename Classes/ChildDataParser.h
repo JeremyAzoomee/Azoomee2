@@ -11,8 +11,10 @@ public:
     bool init(void);
     
     bool parseChildLoginData(std::string responseData);
+    void parseOomeeData(std::string responseData);
     
     void setLoggedInChildName(std::string childName);
     void setLoggedInChildId(std::string id);
     void setLoggedInChildNumber(int childNumber);
+    void setLoggedInChildAvatarId(std::string avatarId);
 };

@@ -41,9 +41,23 @@ bool ChildDataParser::parseChildLoginData(std::string responseData)
     return true;
 }
 
+void ChildDataParser::parseOomeeData(std::string responseData)
+{
+    rapidjson::Document hqData;
+    hqData.Parse(responseData.c_str());
+    
+    setLoggedInChildName(hqData["oomee"]["name"].GetString());
+    setLoggedInChildAvatarId(hqData["oomee"]["avatar"].GetString());
+}
+
 void ChildDataParser::setLoggedInChildName(std::string childName)
 {
     ChildDataStorage::getInstance()->loggedInChildName = childName;
+}
+
+void ChildDataParser::setLoggedInChildAvatarId(std::string avatarId)
+{
+    ChildDataStorage::getInstance()->loggedInChildAvatarId = avatarId;
 }
 
 void ChildDataParser::setLoggedInChildId(std::string id)

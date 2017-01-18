@@ -12,6 +12,7 @@ public:
     
     std::string getLoggedInChildName();
     std::string getLoggedInChildId();
+    std::string getLoggedInChildAvatarId();
     int getLoggedInChildNumber();
     
     std::string getParentOrChildId();
