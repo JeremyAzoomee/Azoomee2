@@ -4,11 +4,17 @@
 #define MESSAGE_BOX_MINIMUM_WIDTH 1366
 #define MESSAGE_BOX_MAXIMUM_WIDTH 2049
 
-Layer* MultiButtonMessageBoxLayer::createMessageBox(std::string Title, std::string Body, std::string buttontext)
+Layer* MultiButtonMessageBoxLayer::createMessageBox(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MultiButtonMessageBoxLayerDelegate* _delegate)
 {
     auto layer = MultiButtonMessageBoxLayer::create();
     
-    layer->createMessageWithSingleButton(Title, Body, buttontext);
+    layer->setDelegate(_delegate);
+    
+    layer->createAndFadeInLayer();
+    layer->createTitle(Title);
+    layer->createBody(Body);
+    layer->createButtons(buttonTitleList);
+    layer->createMessageBackground();
     
     return layer;
 }
@@ -52,44 +58,31 @@ void MultiButtonMessageBoxLayer::addListenerToBackgroundLayer()
 
 //---------------------- Message Box Functions------------------------
 
-void MultiButtonMessageBoxLayer::createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText)
-{
-    createAndFadeInLayer();
-    createTitle(messageTitle);
-    createBody(messageBody);
-    createButton(buttonText);
-    createMessageBackground();
-}
-
 void MultiButtonMessageBoxLayer::createTitle(std::string messageTitle)
 {
-    auto titleLabel = Label::createWithTTF(messageTitle, "fonts/azoomee.ttf", 120);
+    messageTitleLabel = Label::createWithTTF(messageTitle, "fonts/azoomee.ttf", 120);
     
-    if(titleLabel->getContentSize().width < (MESSAGE_BOX_MINIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
+    if(messageTitleLabel->getContentSize().width < (MESSAGE_BOX_MINIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
     {
         messageBoxWidth = MESSAGE_BOX_MINIMUM_WIDTH;
-        underlineTitle(titleLabel);
+        underlineTitle(messageTitleLabel);
     }
-    else if(titleLabel->getContentSize().width < (MESSAGE_BOX_MAXIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
+    else if(messageTitleLabel->getContentSize().width < (MESSAGE_BOX_MAXIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
     {
-        messageBoxWidth = titleLabel->getContentSize().width + (MESSAGE_BOX_PADDING * 2);
-        underlineTitle(titleLabel);
+        messageBoxWidth = messageTitleLabel->getContentSize().width + (MESSAGE_BOX_PADDING * 2);
+        underlineTitle(messageTitleLabel);
     }
     else
     {
         //Due to Title being more than 2 lines, currently not set to be underlined.
         messageBoxWidth = MESSAGE_BOX_MAXIMUM_WIDTH;
-        titleLabel->setWidth(MESSAGE_BOX_MAXIMUM_WIDTH - MESSAGE_BOX_PADDING * 2);
+        messageTitleLabel->setWidth(MESSAGE_BOX_MAXIMUM_WIDTH - MESSAGE_BOX_PADDING * 2);
     }
     
-    titleLabel->setPosition(backgroundLayer->getContentSize().width * 0.5, backgroundLayer->getContentSize().height * 0.75);
-    titleLabel->setColor(Color3B(28, 244, 244));
-    titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    titleLabel->setName("messageTitle");
-    titleLabel->setOpacity(0);
-    backgroundLayer->addChild(titleLabel,2);
-    
-    titleLabel->runAction(FadeTo::create(1, 255));
+    messageTitleLabel->setPosition(backgroundLayer->getContentSize().width * 0.5, backgroundLayer->getContentSize().height * 0.75);
+    messageTitleLabel->setColor(Color3B(28, 244, 244));
+    messageTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    backgroundLayer->addChild(messageTitleLabel,2);
 }
 
 void MultiButtonMessageBoxLayer::underlineTitle(Label* titleLabel)
@@ -101,43 +94,36 @@ void MultiButtonMessageBoxLayer::underlineTitle(Label* titleLabel)
 
 void MultiButtonMessageBoxLayer::createBody(std::string messageBody)
 {
-    auto titleLabel = (Label*)backgroundLayer->getChildByName("messageTitle");
-    
-    auto bodyLabel = Label::createWithTTF(messageBody, "fonts/azoomee.ttf", 90);
-    bodyLabel->setWidth(messageBoxWidth - MESSAGE_BOX_PADDING * 2);
-    bodyLabel->setPosition(backgroundLayer->getContentSize().width * 0.5, titleLabel->getPositionY() - (titleLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (bodyLabel->getContentSize().height/2));
-    bodyLabel->setColor(Color3B::WHITE);
-    bodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    bodyLabel->setName("messageBody");
-    bodyLabel->setOpacity(0);
-    backgroundLayer->addChild(bodyLabel,2);
-    
-    bodyLabel->runAction(FadeTo::create(1, 255));
+    messageBodyLabel = Label::createWithTTF(messageBody, "fonts/azoomee.ttf", 90);
+    messageBodyLabel->setWidth(messageBoxWidth - MESSAGE_BOX_PADDING * 2);
+    messageBodyLabel->setPosition(backgroundLayer->getContentSize().width * 0.5, messageTitleLabel->getPositionY() - (messageTitleLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (messageBodyLabel->getContentSize().height/2));
+    messageBodyLabel->setColor(Color3B::WHITE);
+    messageBodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    backgroundLayer->addChild(messageBodyLabel,2);
 }
 
-void MultiButtonMessageBoxLayer::createButton(std::string buttonText)
+void MultiButtonMessageBoxLayer::createButtons(std::vector<std::string> buttonTitleList)
 {
-    auto bodyLabel = (Label*)backgroundLayer->getChildByName("messageBody");
+    float MessageBoxButtonSpace = messageBoxWidth/buttonTitleList.size();
     
-    auto _button = ElectricDreamsButton::createButtonWithText(buttonText);
-    _button->setCenterPosition(Vec2(backgroundLayer->getContentSize().width * 0.5, bodyLabel->getPositionY() - (bodyLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (_button->getContentSize().height/2)));
-    _button->setDelegate(this);
-    _button->setOpacity(0);
-    _button->setName("messageButton");
-    backgroundLayer->addChild(_button, 2);
+    for(int i=0;i < buttonTitleList.size(); i++)
+    {
+        float buttonXValue = (backgroundLayer->getContentSize().width * 0.5) - (messageBoxWidth/2) + (MessageBoxButtonSpace * i) + (MessageBoxButtonSpace/2);
     
-    _button->runAction(FadeTo::create(1, 255));
+        auto _button = ElectricDreamsButton::createButtonWithText(buttonTitleList.at(0));
+        _button->setCenterPosition(Vec2(buttonXValue, messageBodyLabel->getPositionY() - (messageBodyLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (_button->getContentSize().height/2)));
+        _button->setDelegate(this);
+        backgroundLayer->addChild(_button, 2);
+        
+        buttonsList.push_back(_button);
+    }
 }
 
 void MultiButtonMessageBoxLayer::createMessageBackground()
 {
-    auto titleLabel = (Label*)backgroundLayer->getChildByName("messageTitle");
-    auto bodyLabel = (Label*)backgroundLayer->getChildByName("messageBody");
-    auto _button = (ElectricDreamsButton*)backgroundLayer->getChildByName("messageButton");
+    float messageBoxHeight = messageTitleLabel->getContentSize().height + messageBodyLabel->getContentSize().height+buttonsList.at(0)->getContentSize().height + (4 * MESSAGE_BOX_PADDING);
     
-    float messageBoxHeight = titleLabel->getContentSize().height + bodyLabel->getContentSize().height+_button->getContentSize().height + (4 * MESSAGE_BOX_PADDING);
-    
-    float messageBoxY = _button->getCenterPosition().y - (_button->getContentSize().height/2) - MESSAGE_BOX_PADDING;
+    float messageBoxY = buttonsList.at(0)->getCenterPosition().y - (buttonsList.at(0)->getContentSize().height/2) - MESSAGE_BOX_PADDING;
     
     auto messageBoxLayer = LayerColor::create(Color4B::BLACK, messageBoxWidth, messageBoxHeight);
     messageBoxLayer->setPosition((visibleSize.width - messageBoxLayer->getContentSize().width)/2, messageBoxY);
@@ -167,5 +153,11 @@ void MultiButtonMessageBoxLayer::removeSelf(float dt)
 
 void MultiButtonMessageBoxLayer::buttonPressed(ElectricDreamsButton* button)
 {
-    
+    for(int i=0;i < buttonsList.size(); i++)
+    {
+        if(buttonsList.at(i) == button)
+        {
+            this->getDelegate()->MultiButtonMessageBoxPressed(i);
+        }
+    }
 }

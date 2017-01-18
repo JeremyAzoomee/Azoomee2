@@ -22,9 +22,9 @@ private:
     Vec2 origin;
     
     LayerColor *backgroundLayer;
-    
-    ElectricDreamsButton *acceptButton;
-    ElectricDreamsButton *cancelButton;
+    Label* messageTitleLabel;
+    Label* messageBodyLabel;
+    std::vector<ElectricDreamsButton*> buttonsList;
     
     float messageBoxWidth;
     
@@ -32,23 +32,22 @@ private:
     void addListenerToBackgroundLayer();
     
     //MessageBox functions
-    void createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText);
     void createTitle(std::string messageTitle);
     void underlineTitle(cocos2d::Label* titleLabel);
     void createBody(std::string messageBody);
-    void createButton(std::string buttonText);
+    void createButtons(std::vector<std::string> buttonTitleList);
     void createMessageBackground();
     
     void removeSelf(float dt);
     
 public:
-    static Layer* createMessageBox(std::string Title, std::string Body, std::string buttontext);
+    static Layer* createMessageBox(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MultiButtonMessageBoxLayerDelegate* _delegate);
     
     virtual bool init();
     
     CREATE_FUNC(MultiButtonMessageBoxLayer);
     
-    CC_SYNTHESIZE(MultiButtonMessageBoxLayer*, _delegate, Delegate);
+    CC_SYNTHESIZE(MultiButtonMessageBoxLayerDelegate*, _delegate, Delegate);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
