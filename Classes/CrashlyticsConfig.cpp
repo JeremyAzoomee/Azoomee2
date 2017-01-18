@@ -30,26 +30,25 @@ void createCrashlyticsExecption(std::string execptionDomain, int execptionCode, 
 #endif
 }
 
-void createCrashlyticsUserInfo(std::string identifier, std::string email, std::string userName)
+void createCrashlyticsUserInfo(std::string AdultIdentifier, std::string ChildIdentifier)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    createCrashlyticsUserInfo_ios(identifier, email, userName);
+    createCrashlyticsUserInfo_ios(AdultIdentifier, ChildIdentifier);
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     cocos2d::JniMethodInfo methodInfo;
     
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "CrashlyticsLogUser", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"))
+    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "CrashlyticsLogUser", "(Ljava/lang/String;Ljava/lang/String;)V"))
     {
         return;
     }
     
-    jstring jidentifier = methodInfo.env->NewStringUTF(identifier.c_str());
-    jstring jemail = methodInfo.env->NewStringUTF(email.c_str());
-    jstring juserName = methodInfo.env->NewStringUTF(userName.c_str());
+    jstring jAdultIdentifier = methodInfo.env->NewStringUTF(AdultIdentifier.c_str());
+    jstring jChildIdentifier = methodInfo.env->NewStringUTF(ChildIdentifier.c_str());
 
-    CCLOG("To be sent to jni for Crashlytics: indentifier:%s email:%s userName:%s", identifier.c_str(), email.c_str(), userName.c_str());
+    CCLOG("To be sent to jni for Crashlytics: AdultIdentifier:%s, ChildIdentifier:%s", AdultIdentifier.c_str(), ChildIdentifier.c_str());
     
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jidentifier, jemail, juserName);
+    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jAdultIdentifier, jChildIdentifier);
     methodInfo.env->DeleteLocalRef(methodInfo.classID);
     
 #endif

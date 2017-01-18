@@ -93,10 +93,9 @@ public class AppActivity extends Cocos2dxActivity {
         Crashlytics.logException(new Exception(message));
     }
 
-    private static void CrashlyticsLogUser(String identifier, String email, String userName) {
-        Crashlytics.setUserIdentifier(identifier);
-        Crashlytics.setUserEmail(email);
-        Crashlytics.setUserName(userName);
+    private static void CrashlyticsLogUser(String AdultIdentifier, String ChildIdentifier) {
+        Crashlytics.setUserIdentifier(AdultIdentifier);
+        Crashlytics.setUserName(ChildIdentifier);
     }
 
 

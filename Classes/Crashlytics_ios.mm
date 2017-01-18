@@ -8,9 +8,8 @@ void createCrashlyticsExecption_ios(std::string execptionDomain, int execptionCo
     [CrashlyticsKit recordError:error];
 }
 
-void createCrashlyticsUserInfo_ios(std::string identifier, std::string email, std::string userName)
+void createCrashlyticsUserInfo_ios(std::string AdultIdentifier, std::string ChildIdentifier)
 {
-    [CrashlyticsKit setUserIdentifier:[NSString stringWithUTF8String:identifier.c_str()]];
-    [CrashlyticsKit setUserEmail:[NSString stringWithUTF8String:email.c_str()]];
-    [CrashlyticsKit setUserName:[NSString stringWithUTF8String:userName.c_str()]];
+    [CrashlyticsKit setUserIdentifier:[NSString stringWithUTF8String:AdultIdentifier.c_str()]];
+    [CrashlyticsKit setUserName:[NSString stringWithUTF8String:ChildIdentifier.c_str()]];
 }
