@@ -17,6 +17,8 @@
 #include "GameDataManager.h"
 #include "ConfigStorage.h"
 #include "NavigationLayer.h"
+#include "ChildDataProvider.h"
+#include "ModalMessages.h"
 
 USING_NS_CC;
 
@@ -52,10 +54,15 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     
     if(itemData["entitled"] == "true")
     {
-        addListenerToElement(itemData["uri"], itemData["id"], category);
+        addListenerToElement(itemData["uri"], itemData["id"], category, false);
     }
     else
     {
+        if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            addListenerToElement(itemData["uri"], itemData["id"], category, true);
+        }
+        
         addLockToElement();
     }
 }
@@ -140,7 +147,7 @@ void HQSceneElement::createColourLayer(std::string category)
     this->addChild(baseLayer);
 }
 
-void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category)
+void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, bool preview)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -184,25 +191,39 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
             CCLOG("Action to come: %s", uri.c_str());
             
-            if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
+            if(!preview)
             {
-                GameDataManager::getInstance()->startProcessingGame(uri, contentId);
+                startUpElementDependingOnType(uri, contentId, category);
             }
-            else if((HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIO"))
+            else
             {
-                auto webViewSelector = WebViewSelector::create();
-                webViewSelector->loadWebView(uri.c_str());
+                ModalMessages::getInstance()->createMessageWithSingleButton("Sign up or log in", "You need to log in or sign up to watch content. It is completely free.", "Sign up / log in");
+                return true;
             }
-            else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GROUP")
-            {
-                NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-                navigationLayer->startLoadingGroupHQ(uri);
-                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-            }
+            
         }
         
         return true;
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), baseLayer);
+}
+
+void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string contentId, std::string category)
+{
+    if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
+    {
+        GameDataManager::getInstance()->startProcessingGame(uri, contentId);
+    }
+    else if((HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIO"))
+    {
+        auto webViewSelector = WebViewSelector::create();
+        webViewSelector->loadWebView(uri.c_str());
+    }
+    else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GROUP")
+    {
+        NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+        navigationLayer->startLoadingGroupHQ(uri);
+        HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+    }
 }
