@@ -10,10 +10,13 @@ Layer* MultiButtonMessageBoxLayer::createMessageBox(std::string Title, std::stri
     
     layer->setDelegate(_delegate);
     
+    layer->_buttonsTitleList = buttonTitleList;
+    layer->_messageBoxTitle = Title;
+    
     layer->createAndFadeInLayer();
-    layer->createTitle(Title);
+    layer->createTitle();
     layer->createBody(Body);
-    layer->createButtons(buttonTitleList);
+    layer->createButtons();
     layer->createMessageBackground();
     
     return layer;
@@ -58,9 +61,9 @@ void MultiButtonMessageBoxLayer::addListenerToBackgroundLayer()
 
 //---------------------- Message Box Functions------------------------
 
-void MultiButtonMessageBoxLayer::createTitle(std::string messageTitle)
+void MultiButtonMessageBoxLayer::createTitle()
 {
-    messageTitleLabel = Label::createWithTTF(messageTitle, "fonts/azoomee.ttf", 120);
+    messageTitleLabel = Label::createWithTTF(_messageBoxTitle, "fonts/azoomee.ttf", 120);
     
     if(messageTitleLabel->getContentSize().width < (MESSAGE_BOX_MINIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
     {
@@ -102,15 +105,15 @@ void MultiButtonMessageBoxLayer::createBody(std::string messageBody)
     backgroundLayer->addChild(messageBodyLabel,2);
 }
 
-void MultiButtonMessageBoxLayer::createButtons(std::vector<std::string> buttonTitleList)
+void MultiButtonMessageBoxLayer::createButtons()
 {
-    float MessageBoxButtonSpace = messageBoxWidth/buttonTitleList.size();
+    float MessageBoxButtonSpace = messageBoxWidth/_buttonsTitleList.size();
     
-    for(int i=0;i < buttonTitleList.size(); i++)
+    for(int i=0;i < _buttonsTitleList.size(); i++)
     {
         float buttonXValue = (backgroundLayer->getContentSize().width * 0.5) - (messageBoxWidth/2) + (MessageBoxButtonSpace * i) + (MessageBoxButtonSpace/2);
     
-        auto _button = ElectricDreamsButton::createButtonWithText(buttonTitleList.at(i));
+        auto _button = ElectricDreamsButton::createButtonWithText(_buttonsTitleList.at(i));
         _button->setCenterPosition(Vec2(buttonXValue, messageBodyLabel->getPositionY() - (messageBodyLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (_button->getContentSize().height/2)));
         _button->setDelegate(this);
         backgroundLayer->addChild(_button, 2);
@@ -156,7 +159,7 @@ void MultiButtonMessageBoxLayer::buttonPressed(ElectricDreamsButton* button)
         {
             //To enable call to delegate and avoid crash, schedule remove for after delegate call.
             this->scheduleOnce(schedule_selector(MultiButtonMessageBoxLayer::removeSelf), 0.1);
-            this->getDelegate()->MultiButtonMessageBoxPressed(i);
+            this->getDelegate()->MultiButtonMessageBoxPressed(_messageBoxTitle, _buttonsTitleList.at(i));
         }
     }
 }

@@ -38,7 +38,7 @@ class MultiButtonMessageBoxLayer;
 class MultiButtonMessageBoxLayerDelegate
 {
 public:
-    virtual void MultiButtonMessageBoxPressed(int ButtonNumber) = 0;
+    virtual void MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle) = 0;
 };
 
 class MultiButtonMessageBoxLayer : public Layer, public ElectricDreamsButtonDelegate
@@ -47,6 +47,9 @@ private:
 
     Size visibleSize;
     Vec2 origin;
+    
+    std::vector<std::string> _buttonsTitleList;
+    std::string _messageBoxTitle;
     
     LayerColor *backgroundLayer;
     Label* messageTitleLabel;
@@ -59,10 +62,10 @@ private:
     void addListenerToBackgroundLayer();
     
     //MessageBox functions
-    void createTitle(std::string messageTitle);
+    void createTitle();
     void underlineTitle();
     void createBody(std::string messageBody);
-    void createButtons(std::vector<std::string> buttonTitleList);
+    void createButtons();
     void createMessageBackground();
     
     void removeSelf(float dt);
