@@ -12,7 +12,7 @@ class AwaitingAdultPinLayer;
 class AwaitingAdultPinLayerDelegate
 {
 public:
-    virtual void PinCancelled(AwaitingAdultPinLayer* layer) = 0;
+    virtual void AdultPinCancelled(AwaitingAdultPinLayer* layer) = 0;
     virtual void AdultPinAccepted(AwaitingAdultPinLayer* layer) = 0;
 };
 
@@ -39,7 +39,6 @@ private:
 public:
     virtual bool init();
     
-    // implement the "static create()" method manually
     CREATE_FUNC(AwaitingAdultPinLayer);
     
     CC_SYNTHESIZE(AwaitingAdultPinLayerDelegate*, _delegate, Delegate);

@@ -1,5 +1,6 @@
 #include "ExitOrLogoutLayer.h"
 #include "LoginScene.h"
+#include "StringStorage.h"
 
 bool ExitOrLogoutLayer::init()
 {
@@ -21,16 +22,12 @@ bool ExitOrLogoutLayer::init()
 
 void ExitOrLogoutLayer::askForPin()
 {
-    auto pinLayer = AwaitingAdultPinLayer::create();
-    pinLayer->setCenterPosition(Vec2(Director::getInstance()->getVisibleSize().width/2, Director::getInstance()->getVisibleSize().height/2));
-    pinLayer->setDelegate(this);
-    backgroundLayer->addChild(pinLayer);
+    AwaitingAdultPinLayer::create()->setDelegate(this);
 }
 
 void ExitOrLogoutLayer::createAndFadeInLayer()
 {
     backgroundLayer = LayerColor::create(Color4B(0,0,0,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
-    //backgroundLayer->setPosition(origin.x, origin.y);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
@@ -42,7 +39,7 @@ void ExitOrLogoutLayer::addListenerToBackgroundLayer()
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    listener->onTouchBegan = [=](Touch *touch, Event *event) 
     {
         return true;
     };
@@ -50,7 +47,7 @@ void ExitOrLogoutLayer::addListenerToBackgroundLayer()
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), backgroundLayer);
 }
 
-void ExitOrLogoutLayer::addUIObjects()
+void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
 {
     // ------- CANCEL BUTTON ----------
     
@@ -61,14 +58,14 @@ void ExitOrLogoutLayer::addUIObjects()
     
     // ------- EXIT BUTTON ----------
     
-    exitButton = ElectricDreamsButton::createButtonWithText("Exit App");
+    exitButton = ElectricDreamsButton::createButtonWithText(EXIT_BUTTON_TEXT);
     exitButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.8));
     exitButton->setDelegate(this);
     backgroundLayer->addChild(exitButton);
     
     // ------- LOG OUT BUTTON ----------
     
-    logoutButton = ElectricDreamsButton::createButtonWithText("Log Out");
+    logoutButton = ElectricDreamsButton::createButtonWithText(LOG_OUT_BUTTON_TEXT);
     logoutButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.6));
     logoutButton->setDelegate(this);
     backgroundLayer->addChild(logoutButton);
@@ -103,6 +100,10 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == exitButton)
     {
         Director::getInstance()->end();
+        
+        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            exit(0);
+        #endif
     }
     else if(button == logoutButton)
     {
@@ -111,12 +112,12 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
     }
 }
 
-void ExitOrLogoutLayer::PinCancelled(AwaitingAdultPinLayer* layer)
+void ExitOrLogoutLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 {
     removeSelf();
 }
 
 void ExitOrLogoutLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
-    addUIObjects();
+    addExitOrLogoutUIObjects();
 }

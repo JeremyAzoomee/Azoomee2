@@ -22,14 +22,13 @@ private:
     void askForPin();
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();
-    void addUIObjects();
+    void addExitOrLogoutUIObjects();
     
     void removeSelf();
     
 public:
     virtual bool init();
     
-    // implement the "static create()" method manually
     CREATE_FUNC(ExitOrLogoutLayer);
     
     void setCenterPosition(Vec2 position);
@@ -37,7 +36,7 @@ public:
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
-    void PinCancelled(AwaitingAdultPinLayer* layer);
+    void AdultPinCancelled(AwaitingAdultPinLayer* layer);
     void AdultPinAccepted(AwaitingAdultPinLayer* layer);
 };
 

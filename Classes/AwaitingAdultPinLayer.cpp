@@ -1,5 +1,6 @@
 #include "AwaitingAdultPinLayer.h"
 #include "ModalMessages.h"
+#include "StringStorage.h"
 
 bool AwaitingAdultPinLayer::init()
 {
@@ -21,21 +22,19 @@ bool AwaitingAdultPinLayer::init()
 
 void AwaitingAdultPinLayer::createAndFadeInLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(0,0,0,150), origin.x + visibleSize.width, origin.y +visibleSize.height);
-    backgroundLayer->setPosition(origin.x, origin.y);
-    backgroundLayer->setOpacity(0);
+    backgroundLayer = LayerColor::create(Color4B(0,0,0,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    
     this->addChild(backgroundLayer);
+    Director::getInstance()->getRunningScene()->addChild(this);
     
     addListenerToBackgroundLayer();
-    
-    backgroundLayer->runAction(FadeTo::create(0.5, 255));
 }
 
 void AwaitingAdultPinLayer::addListenerToBackgroundLayer()
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    listener->onTouchBegan = [=](Touch *touch, Event *event) 
     {
         return true;
     };
@@ -47,7 +46,7 @@ void AwaitingAdultPinLayer::addUIObjects()
 {
     //---------- MODAL LABEL ------------
     
-    auto enterYourPinTitle = Label::createWithTTF("Please enter your pin to proceed", "fonts/azoomee.ttf", 90);
+    auto enterYourPinTitle = Label::createWithTTF(PIN_REQUEST_TITLE, "fonts/azoomee.ttf", 90);
     enterYourPinTitle->setPosition(origin.x+visibleSize.width /2, origin.y+visibleSize.height*0.8);
     enterYourPinTitle->setColor(Color3B::WHITE);
     enterYourPinTitle->setOpacity(0);
@@ -117,11 +116,12 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
     {
         //Schedule so it calls delegate before removing self. Avoiding crash
         this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
-        this->getDelegate()->PinCancelled(this);
+        this->getDelegate()->AdultPinCancelled(this);
     }
     else if(button == acceptButton)
     {
         //TODO NEED TO VERIFY PIN AGAINST SAVED PIN.
+        //TAMAS TO CREATE SAVING OF PIN
         if(editBox_pin->getText() == "1234")
         {
             //Schedule so it calls delegate before removing self. Avoiding crash
@@ -130,7 +130,7 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
         }
         else
         {
-            ModalMessages::getInstance()->createMessageWithSingleButton("Error", "Pin is incorrect.", "Retry");
+            ModalMessages::getInstance()->createMessageWithSingleButton(PIN_INCORRECT_ERROR_TITLE_TEXT, PIN_INCORRECT_ERROR_BODY_TEXT, PIN_INCORRECT_ERROR_BUTTON_TEXT);
             editBox_pin->setText("");
             acceptButton->setVisible(false);
         }

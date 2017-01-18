@@ -4,6 +4,7 @@
 #include "ChildAccountScene.h"
 #include <math.h>
 #include "ModalMessages.h"
+#include "StringStorage.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -274,13 +275,20 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
     if((ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "VERIFIED")||(ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "ACTIVE"))
     {
         target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-        
-        auto newChildScene = ChildAccountScene::createScene("", 0);
-        Director::getInstance()->replaceScene(newChildScene);
+        AwaitingAdultPinLayer::create()->setDelegate(this);
     }
     else
-    {
-        //#TODO handle modal message strings.
-        ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", "Ensure email has been verified.", "OK");
-    }
+        ModalMessages::getInstance()->createMessageWithSingleButton(EMAIL_NOT_VERIFIED_ERROR_TITLE_TEXT, EMAIL_NOT_VERIFIED_ERROR_BODY_TEXT, EMAIL_NOT_VERIFIED_ERROR_BUTTON_TEXT);
+}
+
+//----------------------- Delegate Functions ----------------------------
+void ChildSelectorScene::AdultPinCancelled(AwaitingAdultPinLayer* layer)
+{
+    //Do Nothing.
+}
+
+void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
+{
+    auto newChildScene = ChildAccountScene::createScene("", 0);
+    Director::getInstance()->replaceScene(newChildScene);
 }
