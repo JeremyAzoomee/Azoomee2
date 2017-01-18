@@ -11,6 +11,8 @@
 #include "BackEndCaller.h"
 #include "HttpRequestCreator.h"
 #include "ConfigStorage.h"
+#include "ChildDataProvider.h"
+#include "BaseScene.h"
 
 using namespace cocos2d;
 
@@ -165,15 +167,6 @@ void HQDataParser::getContent(std::string url, std::string category)
     httpRequestCreator->createEncryptedGetHttpRequest();
 }
 
-void HQDataParser::getPreviewContent(std::string url, std::string category)
-{
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->url = url;
-    httpRequestCreator->requestBody = "";
-    httpRequestCreator->requestTag = category;
-    httpRequestCreator->createGetHttpRequest();
-}
-
 void HQDataParser::onGetContentAnswerReceived(std::string responseString, std::string category)
 {
     if(parseHQData(responseString, category.c_str()))       //Parsing method returns true if there are no errors in the json string.
@@ -183,12 +176,34 @@ void HQDataParser::onGetContentAnswerReceived(std::string responseString, std::s
         if(category == "HOME")    //If we have a home HQ set up, we have to get urls too.
         {
             parseHQGetContentUrls(responseString);      //Parsing method returns true if there are no errors in the json string.
-            BackEndCaller::getInstance()->getGordon();                                                            //If both parsings went well, we move on to getting the cookies
+            BackEndCaller::getInstance()->getGordon();   //If both parsings went well, we move on to getting the cookies
         }
         else
         {
             HQDataProvider::getInstance()->startBuildingHQ(category);
         }
+    }
+}
+
+void HQDataParser::getPreviewContent(std::string url, std::string category)
+{
+    CCLOG("Getting data from: %s", url.c_str());
+    
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->url = url;
+    httpRequestCreator->requestBody = "";
+    httpRequestCreator->requestTag = "PreviewHOME";
+    httpRequestCreator->createGetHttpRequest();
+}
+
+void HQDataParser::onGetPreviewContentAnswerReceived(std::string responseString)
+{
+    if(parseHQData(responseString, "HOME"))       //Parsing method returns true if there are no errors in the json string.
+    {
+        parseHQStructure(responseString, "HOME");
+        parseHQGetContentUrls(responseString);
+        BaseScene *baseScene = (BaseScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
+        baseScene->startBuildingHQs();
     }
 }
 

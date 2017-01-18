@@ -18,6 +18,8 @@ public:
     
     //Communication methods
     void getContent(std::string url, std::string category);
-    void getPreviewContent(std::string url, std::string category);
     void onGetContentAnswerReceived(std::string responseString, std::string category);
+    
+    void getPreviewContent(std::string url, std::string category);
+    void onGetPreviewContentAnswerReceived(std::string responseString);
 };

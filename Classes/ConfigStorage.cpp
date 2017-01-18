@@ -45,7 +45,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == "getGordon") return "/api/porthole/pixel/gordon.png";
     if(httpRequestTag == "registerParent") return "/api/user/v2/adult";
     if(httpRequestTag == "registerChild") return "/api/user/child";
-    if(httpRequestTag == "HOME") return "/api/electricdreams/view/categories/home/";
+    if(httpRequestTag == "HOME") return "/api/electricdreams/view/categories/home";
     if(httpRequestTag == "PreviewHOME") return "/api/electricdreams/preview/view/categories/home";
     
     return "";

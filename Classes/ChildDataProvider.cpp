@@ -88,3 +88,8 @@ int ChildDataProvider::getLoggedInChildNumber()
 {
     return ChildDataStorage::getInstance()->loggedInChildNumber;
 }
+
+bool ChildDataProvider::getIsChildLoggedIn()
+{
+    return ChildDataStorage::getInstance()->childLoggedIn;
+}

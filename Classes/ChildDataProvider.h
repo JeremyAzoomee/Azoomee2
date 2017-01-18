@@ -18,4 +18,6 @@ public:
     std::string getParentOrChildCdnSessionId();
     std::string getParentOrChildApiSecret();
     std::string getParentOrChildApiKey();
+    
+    bool getIsChildLoggedIn();
 };
