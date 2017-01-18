@@ -152,7 +152,7 @@ void ImageContainer::addPreviewListenerToContainer(cocos2d::Node *addTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            ModalMessages::getInstance()->createMessageWithSingleButton("Sign up or log in", "You need to log in or sign up to watch content. It is completely free.", "Sign up / log in");
+            ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
             return true;
         }
         

@@ -107,18 +107,37 @@ void MultiButtonMessageBoxLayer::createBody(std::string messageBody)
 
 void MultiButtonMessageBoxLayer::createButtons()
 {
+    float buttonsTotalWidth = 0;
+    
+    for(int i=0;i < _buttonsTitleList.size(); i++)
+    {
+        auto _button = ElectricDreamsButton::createButtonWithText(_buttonsTitleList.at(i));
+        _button->setDelegate(this);
+        backgroundLayer->addChild(_button, 2);
+        
+        buttonsList.push_back(_button);
+        
+        buttonsTotalWidth = buttonsTotalWidth + _button->getContentSize().width;
+    }
+    positionButtonsBasedOnWidth(buttonsTotalWidth);
+}
+
+void MultiButtonMessageBoxLayer::positionButtonsBasedOnWidth(float totalButtonsWidth)
+{
+    float totalWidth =totalButtonsWidth + ((_buttonsTitleList.size()+1) * MESSAGE_BOX_PADDING);
+    
+    if(totalWidth > MESSAGE_BOX_MAXIMUM_WIDTH)
+        messageBoxWidth = MESSAGE_BOX_MAXIMUM_WIDTH;
+    else if(totalWidth > messageBoxWidth)
+        messageBoxWidth = totalWidth;
+    
     float MessageBoxButtonSpace = messageBoxWidth/_buttonsTitleList.size();
     
     for(int i=0;i < _buttonsTitleList.size(); i++)
     {
         float buttonXValue = (backgroundLayer->getContentSize().width * 0.5) - (messageBoxWidth/2) + (MessageBoxButtonSpace * i) + (MessageBoxButtonSpace/2);
-    
-        auto _button = ElectricDreamsButton::createButtonWithText(_buttonsTitleList.at(i));
-        _button->setCenterPosition(Vec2(buttonXValue, messageBodyLabel->getPositionY() - (messageBodyLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (_button->getContentSize().height/2)));
-        _button->setDelegate(this);
-        backgroundLayer->addChild(_button, 2);
         
-        buttonsList.push_back(_button);
+        buttonsList.at(i)->setCenterPosition(Vec2(buttonXValue, messageBodyLabel->getPositionY() - (messageBodyLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (buttonsList.at(i)->getContentSize().height/2)));
     }
 }
 

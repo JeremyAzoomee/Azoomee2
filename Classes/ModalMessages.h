@@ -1,8 +1,9 @@
 
 #include "cocos2d.h"
 #include "ElectricDreamsButton.h"
+#include "MultiButtonMessageBoxLayer.h"
 
-class ModalMessages: public cocos2d::Ref, public ElectricDreamsButtonDelegate
+class ModalMessages: public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MultiButtonMessageBoxLayerDelegate
 {
 public:
     /** Returns the shared instance of the Game Manager */
@@ -27,6 +28,8 @@ private:
     
     float messageBoxWidth;
     
+    std::vector<std::string> messageBoxButtonTitles;
+    
 public:
     
     virtual ~ModalMessages();
@@ -36,8 +39,10 @@ public:
     void stopLoading();
     
     void createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText);
+    void createPreviewLoginSignupMessageBox();
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
+    void MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle);
 
 };

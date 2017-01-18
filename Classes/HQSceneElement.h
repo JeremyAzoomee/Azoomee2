@@ -32,6 +32,7 @@ private:
     
     cocos2d::Point touchPoint;
     bool movedAway;
+    
 };
 
 #endif

@@ -197,7 +197,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             }
             else
             {
-                ModalMessages::getInstance()->createMessageWithSingleButton("Sign up or log in", "You need to log in or sign up to watch content. It is completely free.", "Sign up / log in");
+                ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
                 return true;
             }
             
