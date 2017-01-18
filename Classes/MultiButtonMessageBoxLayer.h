@@ -14,7 +14,7 @@ In .h file, add the delegate definition.
  
 and add in the public functions of the .h file, declare the delegate function.
 
-    void MultiButtonMessageBoxPressed(int ButtonNumber);
+    void MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle);
  
 In the cpp to call the multimessagebox, create a vector of button titles.
 Then call the CreateMessageBox giving the message details,
@@ -27,9 +27,9 @@ Pass the function 'this' so it can assign this class as its delegate.
  
     MultiButtonMessageBoxLayer::createMessageBox("title", "body", buttonTitles, this);
 
-Define your delegate function, the button number (starting at 0) will be given back.
+Define your delegate function, the message box title and button title will be given back.
  
-void <YOUR CLASS>::MultiButtonMessageBoxPressed(int ButtonNumber)
+void <YOUR CLASS>::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle)
  
 */
 
@@ -38,7 +38,7 @@ class MultiButtonMessageBoxLayer;
 class MultiButtonMessageBoxLayerDelegate
 {
 public:
-    virtual void MultiButtonMessageBoxPressed(int ButtonNumber) = 0;
+    virtual void MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle) = 0;
 };
 
 class MultiButtonMessageBoxLayer : public Layer, public ElectricDreamsButtonDelegate
@@ -47,6 +47,9 @@ private:
 
     Size visibleSize;
     Vec2 origin;
+    
+    std::vector<std::string> _buttonsTitleList;
+    std::string _messageBoxTitle;
     
     LayerColor *backgroundLayer;
     Label* messageTitleLabel;
@@ -59,10 +62,10 @@ private:
     void addListenerToBackgroundLayer();
     
     //MessageBox functions
-    void createTitle(std::string messageTitle);
+    void createTitle();
     void underlineTitle();
     void createBody(std::string messageBody);
-    void createButtons(std::vector<std::string> buttonTitleList);
+    void createButtons();
     void createMessageBackground();
     
     void removeSelf(float dt);
