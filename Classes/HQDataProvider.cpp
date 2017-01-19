@@ -75,6 +75,12 @@ void HQDataProvider::getDataForHQ(std::string category)
     }
 }
 
+void HQDataProvider::getDataForGroupHQ(std::string uri)
+{
+    HQDataStorage::getInstance()->HQData.erase("GROUP HQ");
+    HQDataParser::getInstance()->getContent(uri, "GROUP HQ");
+}
+
 int HQDataProvider::getNumberOfRowsForHQ(std::string category)
 {
     return (int)HQDataStorage::getInstance()->HQListTitles[category].size();
@@ -111,4 +117,20 @@ std::map<std::string, std::string> HQDataProvider::getItemDataForSpecificItem(st
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber)
 {
     return HQDataStorage::getInstance()->HQElementHighlights[category].at(rowNumber).at(itemNumber);
+}
+
+std::string HQDataProvider::getTypeForSpecificItem(std::string category, std::string itemId)
+{
+    std::vector<std::map<std::string, std::string>> allItemsInCategory = HQDataStorage::getInstance()->HQData[category];
+    
+    for(int i = 0; i < allItemsInCategory.size(); i++)
+    {
+        std::map<std::string, std::string> currentItem = allItemsInCategory.at(i);
+        if(currentItem["id"] == itemId)
+        {
+            return currentItem["type"];
+        }
+    }
+    
+    return "NILTYPE";
 }

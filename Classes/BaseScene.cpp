@@ -33,6 +33,7 @@ bool BaseScene::init()
     createHQScene("GAME HQ", contentLayer);             //Probably worth moving these to configStorage?
     createHQScene("AUDIO HQ", contentLayer);
     createHQScene("ARTS APP", contentLayer);
+    createHQScene("GROUP HQ", contentLayer);
     
     addNavigationLayer();                               //The navigation layer is being added to "this", because that won't move with the menu.
     
