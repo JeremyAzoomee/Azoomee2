@@ -24,6 +24,9 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(WebViewNative_ios);
+    
+private:
+    
 };
 
 #endif // __WEBVIEW_SCENE_H__

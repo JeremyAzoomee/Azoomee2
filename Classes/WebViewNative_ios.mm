@@ -1,5 +1,6 @@
 #include "WebViewNative_ios.h"
 #include "BaseScene.h"
+#include "ButtonController_ios.h"
 
 USING_NS_CC;
 
@@ -38,8 +39,8 @@ bool WebViewNative_ios::init()
 void WebViewNative_ios::startLoadingUrl(std::string url)
 {
     addWebViewToScreen(url);
-    addBackButtonToScreen();
-    addListenerToBackButton();
+    //addBackButtonToScreen();
+    //addListenerToBackButton();
 }
 
 void WebViewNative_ios::addWebViewToScreen(std::string url)
@@ -53,7 +54,7 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
     }
     
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
-    UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, currentView.frame.size.width, currentView.frame.size.height)];
+    UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(0, 0, currentView.frame.size.width, currentView.frame.size.height)];
     
     //If game is called, open the game directly, if video / audio, we open up jw player with the given url
     
@@ -85,6 +86,8 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
     
     [webview setExclusiveTouch:false];
     [currentView addSubview:webview];
+    
+    [[ButtonController_ios alloc] initWithCloseButton:currentView withWebview:webview];
     
 }
 
