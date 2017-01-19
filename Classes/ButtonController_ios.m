@@ -17,12 +17,9 @@
 {
     self.currentButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.currentButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.currentButton setFrame:CGRectMake(52, 252, 215, 40)];
-    [self.currentButton setTitle:@"Login" forState:UIControlStateNormal];
+    [self.currentButton setFrame:CGRectMake(5, 5, 20, 20)];
     [self.currentButton setExclusiveTouch:YES];
-    
-    // if you like to add backgroundImage else no need
-    //[but setbackgroundImage:[UIImage imageNamed:@"XXX.png"] forState:UIControlStateNormal];
+    [self.currentButton setImage:[UIImage imageNamed:@"res/modal/cancel.png"] forState:UIControlStateNormal];
     
     [self.currentView addSubview:self.currentButton];
 }
@@ -34,8 +31,8 @@
     [self.currentWebview removeFromSuperview];
     [self.currentButton removeFromSuperview];
     [self.currentButton release];
-    
-    self.currentWebview = nil;
+    [self.currentWebview release];
+    self.currentView = nil;
     
     navigateToBaseScene();
     
