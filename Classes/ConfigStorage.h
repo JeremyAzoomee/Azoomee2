@@ -20,6 +20,7 @@ public:
     //Backend caller configuration
     std::string getServerHost();
     std::string getServerUrl();
+    std::string getImagesUrl();
     std::string getPathForTag(std::string httpRequestTag);
     
     //ChildAccountScene settings

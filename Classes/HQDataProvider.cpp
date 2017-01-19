@@ -40,7 +40,7 @@ bool HQDataProvider::init(void)
 
 std::string HQDataProvider::getImageUrlForItem(std::string itemId, Vec2 shape)
 {
-    std::string returnString = StringUtils::format("https://media.azoomee.ninja/static/images/%s/thumb_%d_%d.jpg", itemId.c_str(), (int)shape.x, (int)shape.y);
+    std::string returnString = StringUtils::format("%s/%s/thumb_%d_%d.jpg", ConfigStorage::getInstance()->getImagesUrl().c_str(), itemId.c_str(), (int)shape.x, (int)shape.y);
     CCLOG("image for item: %s", returnString.c_str());
     return returnString;
 }

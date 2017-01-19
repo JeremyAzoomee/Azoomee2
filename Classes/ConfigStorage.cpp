@@ -41,12 +41,17 @@ std::string ConfigStorage::getFileNameFromUrl(std::string url)
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
-    return "api.elb.ci.azoomee.ninja";
+    return "api.azoomee.com";
 }
 
 std::string ConfigStorage::getServerUrl()
 {
-    return "http://" + getServerHost();
+    return "https://" + getServerHost();
+}
+
+std::string ConfigStorage::getImagesUrl()
+{
+    return "https://media.azoomee.com/static/images";
 }
 
 std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
@@ -295,6 +300,7 @@ std::string ConfigStorage::getIconNameForCategory(std::string category)
     iconNames["VIDEO"] = "watch";
     iconNames["AUDIO"] = "watch";
     iconNames["GAME"] = "play";
+    iconNames["GROUP"] = "play";
     
     return iconNames[category];
 }
