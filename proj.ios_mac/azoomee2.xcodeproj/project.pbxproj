@@ -19,6 +19,8 @@
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
 		432312121E1D4EFB00C8606D /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 432312101E1D4EFB00C8606D /* TextInputLayer.cpp */; };
 		4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */; };
+		43FDD0351E30F3A70022B464 /* ButtonController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FDD0341E30F3A70022B464 /* ButtonController_ios.m */; };
+		43FDD0391E30F3B60022B464 /* ios_Cocos2d_Callbacks.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43FDD0381E30F3B60022B464 /* ios_Cocos2d_Callbacks.mm */; };
 		46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7719C43A67006E1F66 /* CloseSelected.png */; };
@@ -167,6 +169,10 @@
 		432312111E1D4EFB00C8606D /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
 		4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsButton.cpp; sourceTree = "<group>"; };
 		4327D9281E1F990700F912C5 /* ElectricDreamsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsButton.h; sourceTree = "<group>"; };
+		43FDD0331E30F3A70022B464 /* ButtonController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonController_ios.h; sourceTree = "<group>"; };
+		43FDD0341E30F3A70022B464 /* ButtonController_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonController_ios.m; sourceTree = "<group>"; };
+		43FDD0371E30F3B60022B464 /* ios_Cocos2d_Callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ios_Cocos2d_Callbacks.h; sourceTree = "<group>"; };
+		43FDD0381E30F3B60022B464 /* ios_Cocos2d_Callbacks.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ios_Cocos2d_Callbacks.mm; sourceTree = "<group>"; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
 		46880B7719C43A67006E1F66 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
 		46880B7A19C43A67006E1F66 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
@@ -546,6 +552,10 @@
 				A15B2F981DE74F6400D25334 /* WebViewSelector.h */,
 				A15B2FA01DE7534900D25334 /* WebViewNative_ios.mm */,
 				A15B2F9E1DE752D000D25334 /* WebViewNative_ios.h */,
+				43FDD0341E30F3A70022B464 /* ButtonController_ios.m */,
+				43FDD0331E30F3A70022B464 /* ButtonController_ios.h */,
+				43FDD0381E30F3B60022B464 /* ios_Cocos2d_Callbacks.mm */,
+				43FDD0371E30F3B60022B464 /* ios_Cocos2d_Callbacks.h */,
 			);
 			name = NativeWebviews;
 			sourceTree = "<group>";
@@ -911,6 +921,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
+				43FDD0391E30F3B60022B464 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				A15B2FBB1DEDD1EA00D25334 /* HMACSHA256.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */,
@@ -953,6 +964,7 @@
 				A15B2FB21DEDD1E000D25334 /* JWTTool.cpp in Sources */,
 				A1CC0C1C1E141AFF008B469E /* ChildDataStorage.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
+				43FDD0351E30F3A70022B464 /* ButtonController_ios.m in Sources */,
 				A15B2FBA1DEDD1EA00D25334 /* HMACSHA256_javaCaller.cpp in Sources */,
 				A1A2D30C1E13B54500E86169 /* ParentDataProvider.cpp in Sources */,
 				A1CC0C251E141B47008B469E /* HQDataStorage.cpp in Sources */,
