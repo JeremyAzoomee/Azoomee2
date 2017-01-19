@@ -42,7 +42,7 @@ void HQScene::startBuildingScrollViewBasedOnName()
     }
 }
 
-//--------------------------------------------All functions below this line are used internally----------------------------------------------------
+//------------------ All functions below this line are used internally ----------------------------
 
 void HQScene::createMonodirectionalScrollView()
 {

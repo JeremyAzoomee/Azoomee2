@@ -87,7 +87,7 @@ cocos2d::Color4B ConfigStorage::getBaseColourForContentItemInCategory(std::strin
     
     colours["VIDEO HQ"] = Color4B(255,0,0, 150);
     colours["AUDIO HQ"] = Color4B(0,255,0, 150);
-    colours["GAME HQ"] = Color4B(255,255,0, 150);
+    colours["GAME HQ"] = Color4B(0,112,204, 150);
     colours["ARTS APP"] = Color4B(0,0,255, 150);
     colours["GROUP HQ"] = Color4B(255, 0, 0, 150);
     
@@ -100,7 +100,7 @@ std::string ConfigStorage::getIconImagesForContentItemInCategory(std::string cat
     
     icons["VIDEO HQ"] = "res/hqscene/icon_watch.png";
     icons["AUDIO HQ"] = "res/hqscene/icon_watch.png";
-    icons["GAME HQ"] = "";
+    icons["GAME HQ"] = "res/hqscene/icon_play.png";
     icons["ARTS APP"] = "res/hqscene/icon_play.png";
     icons["GROUP HQ"] = "res/hqscene/icon_watch.png";
     
