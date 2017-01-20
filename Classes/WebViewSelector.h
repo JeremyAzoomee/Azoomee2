@@ -14,6 +14,9 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(WebViewSelector);
     
+    std::string getUrlWithoutPath(std::string);
+    int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);
+    
     void loadWebView(std::string url);
 };
 

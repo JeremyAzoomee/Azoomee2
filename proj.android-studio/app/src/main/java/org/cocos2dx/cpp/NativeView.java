@@ -84,10 +84,12 @@ public class NativeView extends XWalkActivity {
     protected void onXWalkReady() {
         Bundle extras = getIntent().getExtras();
         String myUrl = "about:blank";
+        String myCookieUrl = "";
         String myCookies = "";
         if(extras != null)
         {
             myUrl = extras.getString("url");
+            myCookieUrl = extras.getString("cookieurl");
             myCookies = extras.getString("cookie");
         }
 
@@ -108,10 +110,10 @@ public class NativeView extends XWalkActivity {
         for(int i = 0; i < separatedCookies.length; i++)
         {
             log.d("seaparatecookies: ", separatedCookies[i]);
-            mCookieManager.setCookie("https://media.azoomee.ninja", separatedCookies[i]);
+            mCookieManager.setCookie(myCookieUrl, separatedCookies[i]);
         }
 
-        log.d("cookies: ", mCookieManager.getCookie("https://media.azoomee.ninja"));
+        log.d("cookies: ", mCookieManager.getCookie(myCookieUrl));
 
         //Check if the url received url ends with html, or anything else. If html, then we have to
         //open the html directly, otherwise we have to open the playlist with jw player.
