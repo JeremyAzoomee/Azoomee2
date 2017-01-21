@@ -38,9 +38,11 @@ bool HQDataProvider::init(void)
     return true;
 }
 
-std::string HQDataProvider::getImageUrlForItem(std::string itemId)
+std::string HQDataProvider::getImageUrlForItem(std::string itemId, Vec2 shape)
 {
-    return StringUtils::format("https://media.azoomee.ninja/static/images/%s/toyBoxImage.jpg", itemId.c_str());
+    std::string returnString = StringUtils::format("https://media.azoomee.ninja/static/images/%s/thumb_%d_%d.jpg", itemId.c_str(), (int)shape.x, (int)shape.y);
+    CCLOG("image for item: %s", returnString.c_str());
+    return returnString;
 }
 
 void HQDataProvider::startBuildingHQ(std::string category)
