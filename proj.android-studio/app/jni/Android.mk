@@ -56,7 +56,9 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/CrashlyticsConfig.cpp
                    ../../../Classes/IntroVideoScene.cpp \
                    ../../../Classes/MultiButtonMessageBoxLayer.cpp \
-                   ../../../Classes/DisplayChildName.cpp
+                   ../../../Classes/AwaitingAdultPinLayer.cpp \
+                   ../../../Classes/ExitOrLogoutLayer.cpp \
+                   ../../../Classes/DisplayChildNameLayer.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

@@ -5,6 +5,8 @@
 
 class NavigationLayer : public cocos2d::Layer
 {
+    
+    
 public:
     static cocos2d::Scene* createScene();
 
@@ -16,6 +18,9 @@ public:
     
 private:
     
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
+    
     //MenuItem creation phase
     cocos2d::Sprite* addMenuItemImage(int itemNumber);
     cocos2d::Sprite* addMenuItemInactive(int itemNumber, cocos2d::Node *toBeAddedTo);
@@ -24,6 +29,7 @@ private:
     void runDisplayAnimationForMenuItem(cocos2d::Node* node1, cocos2d::Node* node2);
     void moveMenuPointsToHorizontalState();
     void moveMenuPointsToCircleState();
+    void createSettingsButton();
     
     //Handling created menuitems or all menuitems
     void turnOffAllMenuItems();

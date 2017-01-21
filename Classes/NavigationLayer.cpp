@@ -5,6 +5,9 @@
 #include "HQDataProvider.h"
 
 #include "ConfigStorage.h"
+#include "ChildSelectorScene.h"
+#include "ChildDataStorage.h"
+#include "ExitOrLogoutLayer.h"
 
 USING_NS_CC;
 
@@ -28,7 +31,8 @@ bool NavigationLayer::init()
     
     currentScene = 0;
     
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
     
     this->setAnchorPoint(Vec2(0.5, 0.5));
     
@@ -42,6 +46,8 @@ bool NavigationLayer::init()
         addListenerToMenuItem(menuItemImage);
         runDisplayAnimationForMenuItem(menuItemImage, menuItemInactive);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
     }
+    
+    createSettingsButton();
     
     this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 3.5);
     
@@ -120,6 +126,13 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
     return menuItemInactive;
 }
 
+void NavigationLayer::createSettingsButton()
+{
+    auto settingsButton = ElectricDreamsButton::createSettingsButton(3.0f);
+    settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
+    this->addChild(settingsButton);
+}
+
 void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
 {
     auto listener = EventListenerTouchOneByOne::create();
@@ -134,11 +147,21 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            this->startLoadingHQScene(target->getTag());
-            this->turnOffAllMenuItems();
-            target->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
-            this->changeToScene(target->getTag());
-            
+            if(target->getTag() == 3)
+            {
+                //Child Selection Button Pressed.
+                //Logout Child
+                ChildDataStorage::getInstance()->childLoggedIn = false;
+                auto childSelectorScene = ChildSelectorScene::createScene(0);
+                Director::getInstance()->replaceScene(childSelectorScene);
+            }
+            else
+            {
+                this->startLoadingHQScene(target->getTag());
+                this->turnOffAllMenuItems();
+                target->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+                this->changeToScene(target->getTag());
+            }
             return true;
         }
         

@@ -14,11 +14,11 @@ private:
     void removeLayer();
     
     //MessageBox functions
-    void createAndFadeInTitle(std::string messageTitle);
+    void createTitle(std::string messageTitle);
     void underlineTitle(cocos2d::Label* titleLabel);
-    void createAndFadeInBody(std::string messageBody);
-    void createAndFadeInButton(std::string buttonText);
-    void createAndFadeInMessageBackground();
+    void createBody(std::string messageBody);
+    void createButton(std::string buttonText);
+    void createMessageBackground();
     
     cocos2d::LayerColor *loadingLayer;
     

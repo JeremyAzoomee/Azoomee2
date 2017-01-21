@@ -3,8 +3,9 @@
 
 #include "cocos2d.h"
 #include "ui/UIScrollView.h"
+#include "AwaitingAdultPinLayer.h"
 
-class ChildSelectorScene : public cocos2d::Layer
+class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate
 {
 private:
     void handleErrorCode(long errorCode);
@@ -26,6 +27,7 @@ public:
     cocos2d::ui::ScrollView *scrollView;
     
     void addVisualsToScene();
+    void createSettingsButton();
     void addProfilesToScrollView();
     Layer *createChildProfileButton(std::string profileName, int oomeeNumber);
     cocos2d::Point positionElementOnScrollView(Layer *layerToBeAdded);
@@ -38,6 +40,10 @@ public:
     bool touchMovedAway;
     
     CREATE_FUNC(ChildSelectorScene);
+    
+    //Delegate Functions
+    void AdultPinCancelled(AwaitingAdultPinLayer* layer);
+    void AdultPinAccepted(AwaitingAdultPinLayer* layer);
 };
 
 #endif
