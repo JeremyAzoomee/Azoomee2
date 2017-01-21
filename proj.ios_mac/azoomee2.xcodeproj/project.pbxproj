@@ -109,6 +109,8 @@
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
 		D113134A1E337D3A00E2C033 /* IntroVideoScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11313481E337D3A00E2C033 /* IntroVideoScene.cpp */; };
 		D113134C1E337D7C00E2C033 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D113134B1E337D7C00E2C033 /* MediaPlayer.framework */; };
+		D13C40111E339ED5002360A6 /* ButtonController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = D13C40101E339ED5002360A6 /* ButtonController_ios.m */; };
+		D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */ = {isa = PBXBuildFile; fileRef = D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */; };
 		D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620B132DFF330009C878 /* OpenAL.framework */; };
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
@@ -302,6 +304,10 @@
 		D11313481E337D3A00E2C033 /* IntroVideoScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntroVideoScene.cpp; sourceTree = "<group>"; };
 		D11313491E337D3A00E2C033 /* IntroVideoScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroVideoScene.h; sourceTree = "<group>"; };
 		D113134B1E337D7C00E2C033 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
+		D13C400F1E339ED5002360A6 /* ButtonController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonController_ios.h; sourceTree = "<group>"; };
+		D13C40101E339ED5002360A6 /* ButtonController_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonController_ios.m; sourceTree = "<group>"; };
+		D13C40131E339F5E002360A6 /* ios_Cocos2d_Callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ios_Cocos2d_Callbacks.h; sourceTree = "<group>"; };
+		D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ios_Cocos2d_Callbacks.mm; sourceTree = "<group>"; };
 		D44C620B132DFF330009C878 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -576,6 +582,10 @@
 				A15B2F981DE74F6400D25334 /* WebViewSelector.h */,
 				A15B2FA01DE7534900D25334 /* WebViewNative_ios.mm */,
 				A15B2F9E1DE752D000D25334 /* WebViewNative_ios.h */,
+				D13C400F1E339ED5002360A6 /* ButtonController_ios.h */,
+				D13C40101E339ED5002360A6 /* ButtonController_ios.m */,
+				D13C40131E339F5E002360A6 /* ios_Cocos2d_Callbacks.h */,
+				D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */,
 			);
 			name = NativeWebviews;
 			sourceTree = "<group>";
@@ -976,6 +986,7 @@
 				A1CC0C191E141AE0008B469E /* ParentDataStorage.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				A1A2D2FE1E13B52700E86169 /* CookieDataParser.cpp in Sources */,
+				D13C40111E339ED5002360A6 /* ButtonController_ios.m in Sources */,
 				A15D58A01E0804100099CDEE /* TextInputChecker.cpp in Sources */,
 				A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
@@ -987,6 +998,7 @@
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,
 				430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */,
+				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */,
 				A1A2D3061E13B53200E86169 /* ChildDataProvider.cpp in Sources */,
 				A15B2FB91DEDD1EA00D25334 /* HMACSHA256_ios.mm in Sources */,
