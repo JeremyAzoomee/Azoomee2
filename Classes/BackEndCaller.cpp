@@ -108,8 +108,6 @@ void BackEndCaller::childLogin(int childNumber)
     httpRequestCreator->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", ParentDataProvider::getInstance()->getValueFromOneAvailableChild(childNumber, "profileName").c_str());
     httpRequestCreator->requestTag = "childLogin";
     httpRequestCreator->createEncryptedPostHttpRequest();
-    
-    ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getValueFromOneAvailableChild(childNumber, "profileName"));
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
