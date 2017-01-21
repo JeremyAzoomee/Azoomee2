@@ -16,7 +16,6 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/BaseScene.cpp \
                    ../../../Classes/ChildSelectorScene.cpp \
                    ../../../Classes/HQScene.cpp \
-                   ../../../Classes/IntroScene.cpp \
                    ../../../Classes/LoginScene.cpp \
                    ../../../Classes/OnboardingScene.cpp \
                    ../../../Classes/ChildAccountScene.cpp \
@@ -53,6 +52,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HQDataStorage.cpp \
                    ../../../Classes/HQDataParser.cpp \
                    ../../../Classes/HQDataProvider.cpp \
+                   ../../../Classes/IntroVideoScene.cpp \
                    ../../../Classes/MultiButtonMessageBoxLayer.cpp \
                    ../../../Classes/DisplayChildName.cpp
 
