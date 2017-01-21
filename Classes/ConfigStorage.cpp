@@ -26,15 +26,32 @@ bool ConfigStorage::init(void)
 {
     return true;
 }
+
+std::string ConfigStorage::getFileNameFromUrl(std::string url)
+{
+    int startPoint = (int)url.find_last_of("/") + 1;
+    
+    int endPoint = (int)url.length();
+    if(url.find("?", 0) != url.npos) endPoint = (int)url.find("?", 0);
+    int subLength = endPoint - startPoint;
+    
+    return url.substr(startPoint, subLength);
+}
+
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
-    return "api.elb.ci.azoomee.ninja";
+    return "api.azoomee.com";
 }
 
 std::string ConfigStorage::getServerUrl()
 {
-    return "http://" + getServerHost();
+    return "https://" + getServerHost();
+}
+
+std::string ConfigStorage::getImagesUrl()
+{
+    return "https://media.azoomee.com/static/images";
 }
 
 std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
@@ -93,19 +110,21 @@ int ConfigStorage::getOomeeNumberForUrl(std::string url)
 {
     std::map<std::string, int> oomeeNumbers;
     
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_01.png"] = 0;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_03.png"] = 1;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_04.png"] = 2;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_05.png"] = 3;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_06.png"] = 4;
+    oomeeNumbers["oomee_01.png"] = 0;
+    oomeeNumbers["oomee_03.png"] = 1;
+    oomeeNumbers["oomee_04.png"] = 2;
+    oomeeNumbers["oomee_05.png"] = 3;
+    oomeeNumbers["oomee_06.png"] = 4;
     
-    if ( oomeeNumbers.find(url) == oomeeNumbers.end() )
+    std::string fileName = getFileNameFromUrl(url);
+    
+    if ( oomeeNumbers.find(fileName) == oomeeNumbers.end() )
     {
         return 0;
     }
     else
     {
-        return oomeeNumbers[url];
+        return oomeeNumbers[fileName];
     }
 }
 
@@ -121,6 +140,7 @@ Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
     result["ARTS APP"] = Point(0, 2048);
     result["NavigationLayer"] = Point(0, 0);
     result["contentLayer"] = Point(0,0);
+    result["GROUP HQ"] = Point(0, 4096);
     
     return result[hqSceneName];
 }
@@ -130,11 +150,12 @@ Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string category)
 {
     std::map<std::string, Size> sizes;
-
+    
     sizes["VIDEO HQ"] = Size(693,520);
     sizes["AUDIO HQ"] = Size(693,520);
     sizes["GAME HQ"] = Size(693,520);
     sizes["ARTS APP"] = Size(693,520);
+    sizes["GROUP HQ"] = Size(693, 520);
     
     return sizes[category];
 }
@@ -147,6 +168,7 @@ cocos2d::Color4B ConfigStorage::getBaseColourForContentItemInCategory(std::strin
     colours["AUDIO HQ"] = Color4B(0,255,0, 150);
     colours["GAME HQ"] = Color4B(255,255,0, 150);
     colours["ARTS APP"] = Color4B(0,0,255, 150);
+    colours["GROUP HQ"] = Color4B(255, 0, 0, 150);
     
     return colours[category];
 }
@@ -159,6 +181,7 @@ std::string ConfigStorage::getIconImagesForContentItemInCategory(std::string cat
     icons["AUDIO HQ"] = "res/hqscene/icon_watch.png";
     icons["GAME HQ"] = "";
     icons["ARTS APP"] = "res/hqscene/icon_play.png";
+    icons["GROUP HQ"] = "res/hqscene/icon_watch.png";
     
     return icons[category];
 }
@@ -242,6 +265,7 @@ Point ConfigStorage::getTargetPositionForMove(int itemNumber)
     positions.push_back(Vec2(0, 0));
     positions.push_back(Vec2(0, -2048));
     positions.push_back(Vec2(0, 2048));
+    positions.push_back(Vec2(0, -4096));
     
     return positions.at(itemNumber);
 }
@@ -276,6 +300,7 @@ std::string ConfigStorage::getIconNameForCategory(std::string category)
     iconNames["VIDEO"] = "watch";
     iconNames["AUDIO"] = "watch";
     iconNames["GAME"] = "play";
+    iconNames["GROUP"] = "play";
     
     return iconNames[category];
 }

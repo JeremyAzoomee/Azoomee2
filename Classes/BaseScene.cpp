@@ -7,6 +7,8 @@
 
 #include "ConfigStorage.h"
 
+#include "SimpleAudioEngine.h"
+
 USING_NS_CC;
 
 Scene* BaseScene::createScene()
@@ -26,6 +28,9 @@ bool BaseScene::init()
         return false;
     }
     
+    CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("res/audio/bgmusic.mp3");
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/maintitle_in.mp3");
+    
     Layer *contentLayer = createContentLayer();         //We use contentLayer to hold all HQ-s, to be able to pan between them.
     addMainHubScene(contentLayer);
     
@@ -33,6 +38,7 @@ bool BaseScene::init()
     createHQScene("GAME HQ", contentLayer);             //Probably worth moving these to configStorage?
     createHQScene("AUDIO HQ", contentLayer);
     createHQScene("ARTS APP", contentLayer);
+    createHQScene("GROUP HQ", contentLayer);
     
     addNavigationLayer();                               //The navigation layer is being added to "this", because that won't move with the menu.
     
@@ -64,7 +70,7 @@ void BaseScene::addMainHubScene(Node* toBeAddedTo)
     auto sMainHubScene = MainHubScene::create();
     sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions("HOME"));
     sMainHubScene->setTag(0);
-    toBeAddedTo->addChild(sMainHubScene);
+    toBeAddedTo->addChild(sMainHubScene, 100);
 }
 
 void BaseScene::addNavigationLayer()

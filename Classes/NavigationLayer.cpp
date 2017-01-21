@@ -26,6 +26,8 @@ bool NavigationLayer::init()
         return false;
     }
     
+    currentScene = 0;
+    
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     this->setAnchorPoint(Vec2(0.5, 0.5));
@@ -46,7 +48,39 @@ bool NavigationLayer::init()
     return true;
 }
 
+void NavigationLayer::startLoadingGroupHQ(std::string uri)
+{
+    this->getParent()->getChildByName("contentLayer")->stopAllActions();
+    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(6)), 2), DelayTime::create(0.5), NULL));
+    
+    moveMenuPointsToHorizontalState();
+    addBackButtonToNavigation();
+}
+
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
+
+void NavigationLayer::startLoadingHQScene(int categoryTag)
+{
+    HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(categoryTag));
+}
+
+void NavigationLayer::changeToScene(int target)
+{
+    currentScene = target;
+    removeBackButtonFromNavigation();
+    
+    this->getParent()->getChildByName("contentLayer")->stopAllActions();
+    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(target)), 2), DelayTime::create(0.5), NULL));
+    
+    if((target != 0)&&(target != 3))
+    {
+        moveMenuPointsToHorizontalState();
+    }
+    else
+    {
+        moveMenuPointsToCircleState();
+    }
+}
 
 Sprite* NavigationLayer::addMenuItemImage(int itemNumber)
 {
@@ -143,21 +177,6 @@ void NavigationLayer::setButtonOn(int i)
     this->getChildByTag(i)->getChildByName("on")->setOpacity(255);
 }
 
-void NavigationLayer::changeToScene(int target)
-{
-    this->getParent()->getChildByName("contentLayer")->stopAllActions();
-    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(target)), 2), DelayTime::create(0.5), NULL));
-    
-    if((target != 0)&&(target != 3))
-    {
-        moveMenuPointsToHorizontalState();
-    }
-    else
-    {
-        moveMenuPointsToCircleState();
-    }
-}
-
 void NavigationLayer::moveMenuPointsToCircleState()
 {
     for(int i = 0; i <= amountOfItems; i++)
@@ -182,7 +201,45 @@ void NavigationLayer::moveMenuPointsToHorizontalState()
     }
 }
 
-void NavigationLayer::startLoadingHQScene(int categoryTag)
+void NavigationLayer::addBackButtonToNavigation()
 {
-    HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(categoryTag));
+    auto backButtonImage = Sprite::create("res/hqscene/back_btn.png");
+    backButtonImage->setPosition(250, 1650);
+    backButtonImage->setOpacity(0);
+    backButtonImage->setName("backButton");
+    this->addChild(backButtonImage);
+    
+    backButtonImage->runAction(Sequence::create(DelayTime::create(1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    
+    addListenerToBackButton(backButtonImage);
+}
+
+void NavigationLayer::removeBackButtonFromNavigation()
+{
+    this->removeChild(this->getChildByName("backButton"));
+}
+
+void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
+{
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    {
+        auto target = static_cast<Sprite*>(event->getCurrentTarget());
+        
+        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+        Size s = target->getContentSize();
+        Rect rect = Rect(0,0,s.width, s.height);
+        
+        if(rect.containsPoint(locationInNode))
+        {
+            this->changeToScene(currentScene);
+            
+            return true;
+        }
+        
+        return false;
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
 }

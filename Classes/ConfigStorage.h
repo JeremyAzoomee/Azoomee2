@@ -15,9 +15,12 @@ public:
 //#define autologin YES;
 #define forcereload YES;
     
+    std::string getFileNameFromUrl(std::string url);
+    
     //Backend caller configuration
     std::string getServerHost();
     std::string getServerUrl();
+    std::string getImagesUrl();
     std::string getPathForTag(std::string httpRequestTag);
     
     //ChildAccountScene settings

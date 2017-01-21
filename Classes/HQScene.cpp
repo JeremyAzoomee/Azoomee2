@@ -34,6 +34,12 @@ void HQScene::startBuildingScrollViewBasedOnName()
 {
 #ifdef forcereload
         this->removeAllChildren();
+    CCLOG("%s to be deleted", (FileUtils::getInstance()->getWritablePath() + "imageCache").c_str());
+    
+    if(FileUtils::getInstance()->removeDirectory(FileUtils::getInstance()->getWritablePath() + "imageCache"))
+    {
+        CCLOG("ImageCache deleted");
+    }
 #endif
     
     if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.

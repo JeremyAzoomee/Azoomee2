@@ -79,6 +79,7 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/oomee.mp3");
             target->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("touch").c_str(), false);
             
             return true;
@@ -86,6 +87,11 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
         return false;
         
+    };
+    
+    listener->onTouchEnded = [](Touch *touch, Event *event)
+    {
+        return true;
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, toBeAddedTo);
