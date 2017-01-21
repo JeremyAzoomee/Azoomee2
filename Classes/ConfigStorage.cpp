@@ -49,6 +49,66 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     return "";
 }
 
+//-------------------------Oomee settings---------------------------
+std::string ConfigStorage::getNameForOomee(int number)
+{
+    std::map<int, std::string> oomeeNames;
+    
+    oomeeNames[0] = "om_Pink";
+    oomeeNames[1] = "om_Yellow";
+    oomeeNames[2] = "om_Raspberry";
+    oomeeNames[3] = "om_Green";
+    oomeeNames[4] = "om_Blue";
+    
+    return oomeeNames[number];
+}
+
+std::string ConfigStorage::getOomeePNGName(int number)
+{
+    std::map<int, std::string> oomeeNames;
+    
+    oomeeNames[0] = "res/childSelection/om_Pink.png";
+    oomeeNames[1] = "res/childSelection/om_Yellow.png";
+    oomeeNames[2] = "res/childSelection/om_Raspberry.png";
+    oomeeNames[3] = "res/childSelection/om_Green.png";
+    oomeeNames[4] = "res/childSelection/om_Blue.png";
+    
+    return oomeeNames[number];
+}
+
+std::string ConfigStorage::getUrlForOomee(int number)
+{
+    std::map<int, std::string> oomeeUrls;
+    
+    oomeeUrls[0] = "https://media.azoomee.com/static/thumbs/oomee_01.png";
+    oomeeUrls[1] = "https://media.azoomee.com/static/thumbs/oomee_03.png";
+    oomeeUrls[2] = "https://media.azoomee.com/static/thumbs/oomee_04.png";
+    oomeeUrls[3] = "https://media.azoomee.com/static/thumbs/oomee_05.png";
+    oomeeUrls[4] = "https://media.azoomee.com/static/thumbs/oomee_06.png";
+    
+    return oomeeUrls[number];
+}
+
+int ConfigStorage::getOomeeNumberForUrl(std::string url)
+{
+    std::map<std::string, int> oomeeNumbers;
+    
+    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_01.png"] = 0;
+    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_03.png"] = 1;
+    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_04.png"] = 2;
+    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_05.png"] = 3;
+    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_06.png"] = 4;
+    
+    if ( oomeeNumbers.find(url) == oomeeNumbers.end() )
+    {
+        return 0;
+    }
+    else
+    {
+        return oomeeNumbers[url];
+    }
+}
+
 //-------------------------BASESCENE CONFIGURATION-------------------------
 Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 {

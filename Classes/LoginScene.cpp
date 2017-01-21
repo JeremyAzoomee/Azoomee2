@@ -175,6 +175,7 @@ void LoginScene::setTextInputFocus(TextInputLayer* textInputLayer)
 
 void LoginScene::switchToSignupScene(ElectricDreamsButton* button)
 {
+    
     auto _OnboardingScene = OnboardingScene::createScene(0);
     Director::getInstance()->replaceScene(_OnboardingScene);
 }

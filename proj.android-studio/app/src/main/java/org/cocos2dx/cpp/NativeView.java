@@ -54,7 +54,7 @@ public class NativeView extends XWalkActivity {
         xWalkWebView = new XWalkView(this);
         addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        //xWalkWebView.load(myUrl, null, headers);
+        //xWAlkWebView.load(myUrl, null, headers);
 
 
 

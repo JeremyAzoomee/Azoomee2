@@ -1,0 +1,237 @@
+
+om_Yellow.png
+size: 1684,1684
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Arm_L
+  rotate: false
+  xy: 884, 116
+  size: 266, 243
+  orig: 266, 243
+  offset: 0, 0
+  index: -1
+Arm_R
+  rotate: false
+  xy: 1228, 593
+  size: 266, 243
+  orig: 266, 243
+  offset: 0, 0
+  index: -1
+Arm_Up_L
+  rotate: true
+  xy: 1320, 157
+  size: 190, 188
+  orig: 190, 188
+  offset: 0, 0
+  index: -1
+Arm_Up_R
+  rotate: true
+  xy: 1438, 401
+  size: 190, 188
+  orig: 190, 188
+  offset: 0, 0
+  index: -1
+Big_Tongue
+  rotate: false
+  xy: 878, 608
+  size: 348, 228
+  orig: 348, 228
+  offset: 0, 0
+  index: -1
+Body
+  rotate: false
+  xy: 785, 838
+  size: 592, 844
+  orig: 592, 844
+  offset: 0, 0
+  index: -1
+Cupcake
+  rotate: true
+  xy: 1173, 349
+  size: 242, 263
+  orig: 242, 263
+  offset: 0, 0
+  index: -1
+Donut
+  rotate: false
+  xy: 878, 361
+  size: 293, 245
+  orig: 293, 245
+  offset: 0, 0
+  index: -1
+Ear_L
+  rotate: false
+  xy: 1496, 732
+  size: 158, 138
+  orig: 158, 138
+  offset: 0, 0
+  index: -1
+Ear_R
+  rotate: false
+  xy: 1152, 124
+  size: 166, 223
+  orig: 166, 223
+  offset: 0, 0
+  index: -1
+Eye_L
+  rotate: false
+  xy: 1510, 159
+  size: 128, 106
+  orig: 128, 106
+  offset: 0, 0
+  index: -1
+Eye_L_Closed
+  rotate: false
+  xy: 1402, 43
+  size: 92, 40
+  orig: 92, 40
+  offset: 0, 0
+  index: -1
+Eye_L_Sad
+  rotate: false
+  xy: 314, 21
+  size: 132, 111
+  orig: 132, 111
+  offset: 0, 0
+  index: -1
+Eye_L_Scared
+  rotate: true
+  xy: 2, 24
+  size: 108, 153
+  orig: 108, 153
+  offset: 0, 0
+  index: -1
+Eye_L_Smile
+  rotate: true
+  xy: 1256, 28
+  size: 94, 70
+  orig: 94, 70
+  offset: 0, 0
+  index: -1
+Eye_Normal_L
+  rotate: false
+  xy: 785, 736
+  size: 82, 100
+  orig: 82, 100
+  offset: 0, 0
+  index: -1
+Eye_Normal_R
+  rotate: false
+  xy: 1014, 14
+  size: 82, 100
+  orig: 82, 100
+  offset: 0, 0
+  index: -1
+Eye_R
+  rotate: false
+  xy: 884, 8
+  size: 128, 106
+  orig: 128, 106
+  offset: 0, 0
+  index: -1
+Eye_R_Closed
+  rotate: false
+  xy: 448, 31
+  size: 92, 40
+  orig: 92, 40
+  offset: 0, 0
+  index: -1
+Eye_R_Sad
+  rotate: true
+  xy: 1510, 267
+  size: 132, 111
+  orig: 132, 111
+  offset: 0, 0
+  index: -1
+Eye_R_Scared
+  rotate: true
+  xy: 1496, 622
+  size: 108, 153
+  orig: 108, 153
+  offset: 0, 0
+  index: -1
+Eye_R_Smile
+  rotate: false
+  xy: 1402, 85
+  size: 94, 70
+  orig: 94, 70
+  offset: 0, 0
+  index: -1
+Eye_Sleepy
+  rotate: true
+  xy: 1098, 5
+  size: 109, 64
+  orig: 109, 64
+  offset: 0, 0
+  index: -1
+Head_Shine
+  rotate: false
+  xy: 157, 39
+  size: 155, 93
+  orig: 155, 93
+  offset: 0, 0
+  index: -1
+Large_Pixels
+  rotate: false
+  xy: 2, 721
+  size: 781, 961
+  orig: 781, 961
+  offset: 0, 0
+  index: -1
+Mouth_Pursed
+  rotate: false
+  xy: 1328, 57
+  size: 72, 98
+  orig: 72, 98
+  offset: 0, 0
+  index: -1
+Mouth_Smile
+  rotate: false
+  xy: 1164, 39
+  size: 90, 83
+  orig: 90, 83
+  offset: 0, 0
+  index: -1
+Mouth_Smile_Open
+  rotate: false
+  xy: 1379, 872
+  size: 298, 300
+  orig: 298, 300
+  offset: 0, 0
+  index: -1
+Mouth_Snore
+  rotate: false
+  xy: 480, 319
+  size: 396, 400
+  orig: 396, 400
+  offset: 0, 0
+  index: -1
+Mouth_Wide
+  rotate: true
+  xy: 1379, 1427
+  size: 255, 303
+  orig: 255, 303
+  offset: 0, 0
+  index: -1
+Mouth_grin
+  rotate: false
+  xy: 480, 73
+  size: 402, 244
+  orig: 402, 244
+  offset: 0, 0
+  index: -1
+Pizza
+  rotate: false
+  xy: 1379, 1174
+  size: 303, 251
+  orig: 303, 251
+  offset: 0, 0
+  index: -1
+Small_Pixels
+  rotate: false
+  xy: 2, 134
+  size: 476, 585
+  orig: 476, 585
+  offset: 0, 0
+  index: -1

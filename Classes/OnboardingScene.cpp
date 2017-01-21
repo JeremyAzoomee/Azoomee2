@@ -3,7 +3,6 @@
 #include "ModalMessages.h"
 #include "BackEndCaller.h"
 #include "LoginScene.h"
-#include "TextInputChecker.h"
 #include "StringStorage.h"
 
 USING_NS_CC;
@@ -26,6 +25,9 @@ bool OnboardingScene::init()
         return false;
     }
     
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
+    
     addVisualElementsToScene();
     addFunctionalElementsToScene();
     
@@ -38,14 +40,16 @@ void OnboardingScene::onEnterTransitionDidFinish()
     {
         handleErrorCode(_errorCode);
     }
+    
+    editBox_email->focusAndShowKeyboard();
 }
-
-//-----------------------------------------All methods beyond this line are called internally----------------------------------------------------
 
 void OnboardingScene::handleErrorCode(long errorCode)
 {
     ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
 }
+
+//----------------- SCENE SETUP ---------------
 
 void OnboardingScene::addVisualElementsToScene()
 {
@@ -104,111 +108,74 @@ void OnboardingScene::addContentLayerToScene()
 
 void OnboardingScene::addTextBoxesToLayer()
 {
-    editBox_email = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
-    editBox_email->setColor(Color3B::WHITE);
-    editBox_email->setPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.5));
-    editBox_email->setFont("fonts/azoomee.ttf", 90);
-    editBox_email->setFontColor(Color3B::WHITE);
-    editBox_email->setMaxLength(100);
-    editBox_email->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    editBox_email->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
+    editBox_email = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_EMAIL);
+    editBox_email->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.5));
     editBox_email->setDelegate(this);
     onboardingContent->addChild(editBox_email);
     
-    editBox_password = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
-    editBox_password->setPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
-    editBox_password->setFont("fonts/azoomee.ttf", 90);
-    editBox_password->setFontColor(Color3B::WHITE);
-    editBox_password->setMaxLength(50);
-    editBox_password->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    editBox_password->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
-    editBox_password->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+    editBox_password = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_PASSWORD);
+    editBox_password->setCenterPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
     editBox_password->setDelegate(this);
     onboardingContent->addChild(editBox_password);
     
-    editBox_pin = ui::EditBox::create(Size(736,131), "res/login/textarea_bg.png");
-    editBox_pin->setPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
-    editBox_pin->setFont("fonts/azoomee.ttf", 90);
-    editBox_pin->setFontColor(Color3B::WHITE);
-    editBox_pin->setMaxLength(4);
-    editBox_pin->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
-    editBox_pin->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
-    editBox_pin->setInputMode(ui::EditBox::InputMode::NUMERIC);
+    editBox_pin = TextInputLayer::createWithSize(Size(400,131), INPUT_IS_PIN);
+    editBox_pin->setCenterPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
     editBox_pin->setDelegate(this);
     onboardingContent->addChild(editBox_pin);
 }
 
 void OnboardingScene::addButtonsToLayer()
 {
-    // in order they appear on the screen with next, then back, then next etc.
-    buttonBackEmail = Sprite::create("res/login/back_btn.png");
-    buttonBackEmail->setPosition(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.5);
-    addListenerToButton(buttonBackEmail);
+    buttonBackEmail = ElectricDreamsButton::createBackButton();
+    buttonBackEmail->setCenterPosition(Vec2(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.5));
+    buttonBackEmail->setDelegate(this);
     onboardingContent->addChild(buttonBackEmail);
     
-    buttonNextEmail = Sprite::create("res/login/next_btn.png");
-    buttonNextEmail->setPosition(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5);
-    addListenerToButton(buttonNextEmail);
+    buttonNextEmail = ElectricDreamsButton::createNextButton();
+    buttonNextEmail->setCenterPosition(Vec2(origin.x + visibleSize.width * 0.8, origin.y + visibleSize.height * 0.5));
+    buttonNextEmail->setDelegate(this);
     buttonNextEmail->setVisible(false);
     onboardingContent->addChild(buttonNextEmail);
     
-    buttonBackPassword = Sprite::create("res/login/back_btn.png");
-    buttonBackPassword->setPosition(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5);
-    addListenerToButton(buttonBackPassword);
+    buttonBackPassword = ElectricDreamsButton::createBackButton();
+    buttonBackPassword->setCenterPosition(Vec2(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5));
+    buttonBackPassword->setDelegate(this);
     onboardingContent->addChild(buttonBackPassword);
-    
-    buttonNextPassword = Sprite::create("res/login/next_btn.png");
-    buttonNextPassword->setPosition(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5);
-    addListenerToButton(buttonNextPassword);
+
+    buttonNextPassword = ElectricDreamsButton::createNextButton();
+    buttonNextPassword->setCenterPosition(Vec2(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5));
+    buttonNextPassword->setDelegate(this);
     buttonNextPassword->setVisible(false);
     onboardingContent->addChild(buttonNextPassword);
     
-    buttonBackPin = Sprite::create("res/login/back_btn.png");
-    buttonBackPin->setPosition(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5);
-    addListenerToButton(buttonBackPin);
+    buttonBackPin = ElectricDreamsButton::createBackButton();
+    buttonBackPin->setCenterPosition(Vec2(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5));
+    buttonBackPin->setDelegate(this);
     onboardingContent->addChild(buttonBackPin);
-    
-    buttonNextPin = Sprite::create("res/login/next_btn.png");
-    buttonNextPin->setPosition(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5);
-    addListenerToButton(buttonNextPin);
-    buttonNextPin->setVisible(false);
-    buttonNextPin->setScale(1.2);
-    onboardingContent->addChild(buttonNextPin);
 
+    buttonSignUp = ElectricDreamsButton::createNextButton();
+    buttonSignUp->setCenterPosition(Vec2(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5));
+    buttonSignUp->setDelegate(this);
+    buttonSignUp->setScale(1.2);
+    buttonSignUp->setVisible(false);
+    onboardingContent->addChild(buttonSignUp);
 }
 
-void OnboardingScene::addListenerToButton(cocos2d::Sprite *spriteImage)
-{
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
-    {
-        auto target = static_cast<Sprite*>(event->getCurrentTarget());
-        
-        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-        Rect rect = Rect(0, 0, target->getContentSize().width, target->getContentSize().height);
-        
-        if(rect.containsPoint(locationInNode) && spriteImage->isVisible())
-        {
-            if(spriteImage == buttonBackEmail) this->closeOnboarding();
-            else if(spriteImage == buttonNextPin) this->signup();
-            else this->moveToScreen(spriteImage);
-        }
-        
-        return false;
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, spriteImage);
-}
+//------------------- Button Functions -----------------------
 
-void OnboardingScene::disableMoveButton(Node* button)
+void OnboardingScene::disableButton(Node* button)
 {
     Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(button);
 }
 
-void OnboardingScene::enableMoveButton(Node* button)
+void OnboardingScene::enableButton(Node* button)
 {
     Director::getInstance()->getEventDispatcher()->resumeEventListenersForTarget(button);
+}
+
+void OnboardingScene::setTextInputFocus(TextInputLayer* textInputLayer)
+{
+    textInputLayer->focusAndShowKeyboard();
 }
 
 void OnboardingScene::closeOnboarding()
@@ -217,13 +184,45 @@ void OnboardingScene::closeOnboarding()
     Director::getInstance()->replaceScene(_loginScene);
 }
 
-void OnboardingScene::cleanPasswordScreen()
+void OnboardingScene::moveToAndSetupEmailScreen(ElectricDreamsButton* button)
 {
-    editBox_pin->setText("");
-    buttonNextPin->setVisible(false);
+    auto action = EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2);
+    auto enableButtonCallback = CallFunc::create(CC_CALLBACK_0(OnboardingScene::enableButton, this,button));
+    auto setTextInputFocusCallback = CallFunc::create(CC_CALLBACK_0(OnboardingScene::setTextInputFocus, this,editBox_password));
+    
+    auto sequence = Sequence::create(action, setTextInputFocusCallback, enableButtonCallback, NULL);
+    onboardingContent->runAction(sequence);
+    
+    editBox_password->setText("");
+    buttonNextPassword->setVisible(false);
+    
+    cleanPasswordScreen();
+    cleanPinScreen();
 }
 
-void OnboardingScene::cleanEmailScreen()
+void OnboardingScene::moveToAndSetupPasswordScreen(ElectricDreamsButton* button)
+{
+    auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2);
+    auto enableButtonCallback = CallFunc::create(CC_CALLBACK_0(OnboardingScene::enableButton, this,button));
+    auto setTextInputFocusCallback = CallFunc::create(CC_CALLBACK_0(OnboardingScene::setTextInputFocus, this,editBox_password));
+    
+    auto sequence = Sequence::create(action, setTextInputFocusCallback, enableButtonCallback, NULL);
+    onboardingContent->runAction(sequence);
+    
+    cleanPinScreen();
+}
+
+void OnboardingScene::moveToAndSetupPinScreen(ElectricDreamsButton* button)
+{
+    auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width * 2 + origin.x, origin.y)), 2);
+    auto enableButtonCallback = CallFunc::create(CC_CALLBACK_0(OnboardingScene::enableButton, this,button));
+    auto setTextInputFocusCallback = CallFunc::create(CC_CALLBACK_0(OnboardingScene::setTextInputFocus, this,editBox_pin));
+    
+    auto sequence = Sequence::create(action, setTextInputFocusCallback, enableButtonCallback, NULL);
+    onboardingContent->runAction(sequence);
+}
+
+void OnboardingScene::cleanPasswordScreen()
 {
     editBox_password->setText("");
     buttonNextPassword->setVisible(false);
@@ -232,41 +231,10 @@ void OnboardingScene::cleanEmailScreen()
 void OnboardingScene::cleanPinScreen()
 {
     editBox_pin->setText("");
-    buttonNextPin->setVisible(false);
+    buttonSignUp->setVisible(false);
 }
 
-void OnboardingScene::moveToScreen(cocos2d::Sprite *sender)
-{
-    Point target;
-    
-    if((sender == buttonNextEmail)||(sender == buttonBackPin))
-    {
-        target = Point(-visibleSize.width + origin.x, origin.y);
-        cleanPasswordScreen();
-    }
-    
-    if(sender == buttonBackPassword)
-    {
-        target = Point(origin.x, origin.y);
-        cleanEmailScreen();
-    }
-    
-    if(sender == buttonNextPassword)
-    {
-        target = Point(-visibleSize.width * 2 + origin.x, origin.y);
-        cleanPinScreen();
-    }
-    
-    disableMoveButton((Node *) sender);
-    
-    auto action = EaseInOut::create(MoveTo::create(1, target), 2);
-    auto callback = CallFunc::create(CC_CALLBACK_0(OnboardingScene::enableMoveButton, this, sender));
-    
-    auto sequence = Sequence::create(action, callback, NULL);
-    onboardingContent->runAction(sequence);
-}
-
-void OnboardingScene::signup()
+void OnboardingScene::signUp()
 {
     std::string username = editBox_email->getText();
     std::string password = editBox_password->getText();
@@ -275,30 +243,26 @@ void OnboardingScene::signup()
     BackEndCaller::getInstance()->registerParent(username, password,pin);
 }
 
-//Editbox Delegate Functions
-void OnboardingScene::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
-{
-    
-    if(editBox == editBox_email)
-    {
-        bool canGoForward = isValidEmailAddress(text.c_str());
-        buttonNextEmail->setVisible(canGoForward);
-    }
-    else if(editBox == editBox_password)
-    {
-        bool canGoForward = isValidPassword(text.c_str());
-        buttonNextPassword->setVisible(canGoForward);
-    }
-    else if(editBox == editBox_pin)
-    {
-        bool canGoForward = isValidPin(text.c_str());
-        buttonNextPin->setVisible(canGoForward);
-    }
+//----------------------- Delegate Functions ----------------------------
 
+void OnboardingScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
+{
+    if(inputLayer == editBox_email)
+        buttonNextEmail->setVisible(isValid);
+    else if(inputLayer == editBox_password)
+        buttonNextPassword->setVisible(isValid);
+    else if(inputLayer == editBox_pin)
+        buttonSignUp->setVisible(isValid);
 }
 
-void OnboardingScene::editBoxReturn(cocos2d::ui::EditBox* editBox)
+void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
 {
-    //This function only really works correctly for Email_Editbox, as it has an email address
-    //Otherwise detect the \n with the text changed in the other EditBoxes
+    disableButton(button);
+    
+    if(button == buttonBackEmail) closeOnboarding();
+    else if(button == buttonNextEmail) moveToAndSetupPasswordScreen(button);
+    else if(button == buttonBackPassword) moveToAndSetupEmailScreen(button);
+    else if(button == buttonNextPassword) moveToAndSetupPinScreen(button);
+    else if(button == buttonBackPin) moveToAndSetupPasswordScreen(button);
+    else if(button == buttonSignUp) signUp();
 }

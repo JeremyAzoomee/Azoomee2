@@ -44,7 +44,7 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     resizeSceneElement(shape, category);
     createColourLayer(category);
     
-    addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemData["id"]));
+    addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemData["id"], shape));
     addGradientToBottom(category);
     addIconToImage(category);
     addLabelToImage(itemData["title"]);
