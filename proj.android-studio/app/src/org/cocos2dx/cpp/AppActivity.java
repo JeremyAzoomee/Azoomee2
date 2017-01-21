@@ -1,6 +1,6 @@
 /****************************************************************************
 Copyright (c) 2015 Chukong Technologies Inc.
- 
+ C
 http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -38,6 +38,10 @@ import org.xwalk.core.XWalkView;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.ndk.CrashlyticsNdk;
+import io.fabric.sdk.android.Fabric;
+
 public class AppActivity extends Cocos2dxActivity {
 
     private static Context mContext;
@@ -45,6 +49,7 @@ public class AppActivity extends Cocos2dxActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         mContext = this;
 
     }
@@ -83,5 +88,15 @@ public class AppActivity extends Cocos2dxActivity {
         return hash.trim();
 
     }
+
+    public static void CrashlyticsLogException(String message) {
+        Crashlytics.logException(new Exception(message));
+    }
+
+    private static void CrashlyticsLogUser(String AdultIdentifier, String ChildIdentifier) {
+        Crashlytics.setUserIdentifier(AdultIdentifier);
+        Crashlytics.setUserName(ChildIdentifier);
+    }
+
 
 }

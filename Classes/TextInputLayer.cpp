@@ -1,5 +1,6 @@
 #include "TextInputLayer.h"
 #include "TextInputChecker.h"
+#include "StringStorage.h"
 
 TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputType)
 {
@@ -55,23 +56,51 @@ void TextInputLayer::setupEditBoxUsingType()
     switch (textInputType)
     
     {
-        case INPUT_IS_EMAIL: //TextInputIsEmail
+        case INPUT_IS_EMAIL:
         {
             editBox->setMaxLength(100);
             editBox->setInputMode(ui::EditBox::InputMode::EMAIL_ADDRESS);
             break;
         }
-        case INPUT_IS_PASSWORD: //TextInputIsPassword
+        case INPUT_IS_PASSWORD:
         {
             editBox->setMaxLength(50);
             editBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
             break;
         }
-        case INPUT_IS_PIN: //TextInputIsPin
+        case INPUT_IS_PIN:
         {
             editBox->setMaxLength(4);
             editBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
+            editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
+            break;
+        }
+        case INPUT_IS_CHILD_NAME:
+        {
+            editBox->setMaxLength(50);
+            editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
+            editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+            break;
+        }
+        case INPUT_IS_DAY:
+        {
+            editBox->setMaxLength(2);
+            editBox->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobDay").c_str());
+            editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
+            break;
+        }
+        case INPUT_IS_MONTH:
+        {
+            editBox->setMaxLength(2);
+            editBox->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobMonth").c_str());
+            editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
+            break;
+        }
+        case INPUT_IS_YEAR:
+        {
+            editBox->setMaxLength(4);
+            editBox->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobYear").c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
@@ -106,22 +135,29 @@ bool TextInputLayer::inputIsValid()
     
     switch (textInputType)
     {
-        case INPUT_IS_EMAIL: //TextInputIsEmail
+        case INPUT_IS_EMAIL:
         {
             if(isValidEmailAddress(editBox->getText()))
                 isValidInput = true;
             break;
         }
-        case INPUT_IS_PASSWORD: //TextInputIsPassword
+        case INPUT_IS_PASSWORD:
         {
             if(isValidPassword(editBox->getText()))
                 isValidInput = true;
             break;
         }
-        case INPUT_IS_PIN: //TextInputIsPin
+        case INPUT_IS_PIN:
         {
             if(isValidPin(editBox->getText()))
                 isValidInput = true;
+            break;
+        }
+        case INPUT_IS_CHILD_NAME:
+        {
+            if(isValidChildName(editBox->getText()))
+                isValidInput = true;
+            break;
             break;
         }
     }

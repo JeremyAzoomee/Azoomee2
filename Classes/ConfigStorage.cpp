@@ -49,7 +49,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     return "";
 }
 
-//-------------------------ChildAccountScene settings---------------------------
+//-------------------------Oomee settings---------------------------
 std::string ConfigStorage::getNameForOomee(int number)
 {
     std::map<int, std::string> oomeeNames;
@@ -59,6 +59,19 @@ std::string ConfigStorage::getNameForOomee(int number)
     oomeeNames[2] = "om_Raspberry";
     oomeeNames[3] = "om_Green";
     oomeeNames[4] = "om_Blue";
+    
+    return oomeeNames[number];
+}
+
+std::string ConfigStorage::getOomeePNGName(int number)
+{
+    std::map<int, std::string> oomeeNames;
+    
+    oomeeNames[0] = "res/childSelection/om_Pink.png";
+    oomeeNames[1] = "res/childSelection/om_Yellow.png";
+    oomeeNames[2] = "res/childSelection/om_Raspberry.png";
+    oomeeNames[3] = "res/childSelection/om_Green.png";
+    oomeeNames[4] = "res/childSelection/om_Blue.png";
     
     return oomeeNames[number];
 }

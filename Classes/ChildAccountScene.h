@@ -2,20 +2,37 @@
 #define __CHILDACCOUNTSCENE_SCENE_H__
 
 #include "cocos2d.h"
-#include "ui/UIEditBox/UIEditBox.h"
+#include "TextInputLayer.h"
+#include "ElectricDreamsButton.h"
 
-class ChildAccountScene : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
+USING_NS_CC;
+
+class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate
 {
-public:
-    CREATE_FUNC(ChildAccountScene);
-    static cocos2d::Scene* createScene(std::string ChildName, long errorCode);
-    virtual bool init();
-    virtual void onEnterTransitionDidFinish();
-    
 private:
     
     void handleErrorCode(long errorCode);
+    
     long _errorCode;
+    
+    TextInputLayer *editBox_childName;
+    TextInputLayer *editBox_day;
+    TextInputLayer *editBox_month;
+    TextInputLayer *editBox_year;
+    
+    Size visibleSize;
+    Vec2 origin;
+    Layer *childAccountContent;
+    
+    ElectricDreamsButton *buttonCloseChild;
+    ElectricDreamsButton *buttonNextChild;
+    ElectricDreamsButton *buttonBackDob;
+    ElectricDreamsButton *buttonNextDob;
+    ElectricDreamsButton *buttonBackOomee;
+    ElectricDreamsButton *buttonNextOomee;
+    
+    Label *labelDob;
+    Label *labelOomee;
     
     void addVisualElementsToScene();
     void addFunctionalElementsToScene();
@@ -25,50 +42,42 @@ private:
     void addLabelsToLayer();
     void addOomeesToLayer();
     
+    void disableButton(Node* button);
+    void enableButton(Node* button);
+    
+    void setTextInputFocus(TextInputLayer* textInputLayer);
+    
     void backButtonCloseScene();
-    void childNameNextButtonPressed(Node* button);
-    void setDOBLabel();
-    void moveToDOBInput(Node* button);
-    void moveToChildNameInput(Node* button);
-    void moveToOomeeSelection(Node* button);
-    void selectOomee(cocos2d::Sprite* selectedOomee);
+    void moveToAndSetupDOBInput(ElectricDreamsButton* button);
+    void moveBackToChildNameInput(ElectricDreamsButton* button);
+    void moveToAndSetupOomeeSelection(ElectricDreamsButton* button);
+    void selectOomee(Sprite* selectedOomee);
     void registerChildAccount();
     
-    void disableMoveButton(Node* button);
-    void enableMoveButton(Node* button);
+    void addListenerToOomeeButton(Sprite *oomeeSprite);
     
+    void setDOBLabel();
     void setChildName(std::string ChildName);
     bool isNewChildAccount;
     std::string passedChildName;
     
     int selectedOomeeNo;
     
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
-    cocos2d::Layer *childAccountContent;
+    virtual void onEnterTransitionDidFinish();
     
-    void addListenerToButton(cocos2d::Sprite *spriteImage);
+
+public:
+    static cocos2d::Scene* createScene(std::string ChildName, long errorCode);
+
+    virtual bool init();
     
-    //Editbox Delegate Functions
-    //void editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox);
-    //void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox);
-    void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
-    void editBoxReturn(cocos2d::ui::EditBox* editBox);
+    // implement the "static create()" method manually
+    CREATE_FUNC(ChildAccountScene);
     
-    cocos2d::ui::EditBox *editBox_childName;
-    cocos2d::ui::EditBox *editBox_day;
-    cocos2d::ui::EditBox *editBox_month;
-    cocos2d::ui::EditBox *editBox_year;
-    
-    cocos2d::Sprite *buttonCloseChild;
-    cocos2d::Sprite *buttonNextChild;
-    cocos2d::Sprite *buttonBackDob;
-    cocos2d::Sprite *buttonNextDob;
-    cocos2d::Sprite *buttonBackOomee;
-    cocos2d::Sprite *buttonNextOomee;
-    
-    cocos2d::Label *labelDob;
-    cocos2d::Label *labelOomee;
+    //Delegate Functions
+    void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
+    void buttonPressed(ElectricDreamsButton* button);
+
 };
 
 #endif // __ChildAccountScene_SCENE_H__
