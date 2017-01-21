@@ -38,9 +38,11 @@ bool HQDataProvider::init(void)
     return true;
 }
 
-std::string HQDataProvider::getImageUrlForItem(std::string itemId)
+std::string HQDataProvider::getImageUrlForItem(std::string itemId, Vec2 shape)
 {
-    return StringUtils::format("https://media.azoomee.ninja/static/images/%s/toyBoxImage.jpg", itemId.c_str());
+    std::string returnString = StringUtils::format("https://media.azoomee.ninja/static/images/%s/thumb_%d_%d.jpg", itemId.c_str(), (int)shape.x, (int)shape.y);
+    CCLOG("image for item: %s", returnString.c_str());
+    return returnString;
 }
 
 void HQDataProvider::startBuildingHQ(std::string category)
@@ -108,13 +110,7 @@ std::map<std::string, std::string> HQDataProvider::getItemDataForSpecificItem(st
     return result;
 }
 
-Vec2 HQDataProvider::getHighlightDataForSpecificItem(std::string category, std::string itemid)
+Vec2 HQDataProvider::getHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber)
 {
-    std::map<std::string, Vec2> mapForCategory = HQDataStorage::getInstance()->HQElementHighlights[category];
-    
-    if(mapForCategory.find(itemid) != mapForCategory.end())
-    {
-        return HQDataStorage::getInstance()->HQElementHighlights[category][itemid];
-    }
-    else return Vec2(1,1);
+    return HQDataStorage::getInstance()->HQElementHighlights[category].at(rowNumber).at(itemNumber);
 }

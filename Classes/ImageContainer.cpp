@@ -34,7 +34,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     Color3B colour3 = Color3B(colour4.r, colour4.g, colour4.b);
     
     createBgLayer(elementProperties, scale, startDelay, position);
-    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"]), startDelay);
+    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"], Vec2(1,1)), startDelay);
     addGradientToBottom(colour3, startDelay);
     addIconToImage(elementProperties["type"], startDelay);
     addLabelToImage(elementProperties["title"], startDelay);

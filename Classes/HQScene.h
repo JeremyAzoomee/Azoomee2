@@ -20,7 +20,7 @@ public:
     cocos2d::ui::ScrollView* createVerticalScrollView();
     cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position);
     void addTitleToHorizontalScrollView(std::string title, Node *toBeAddedTo, cocos2d::Point position);
-    void addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData);
+    void addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData, int rowNumber, int itemNumber);
     
     void startBuildingScrollViewBasedOnName();
     void createBidirectionalScrollView();
