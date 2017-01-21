@@ -5,25 +5,16 @@
 
 class WebViewNative_ios : public cocos2d::Layer
 {
-public:
-    
-    cocos2d::Sprite *closeButton;
-    
+public:    
     static cocos2d::Scene* createSceneWithURL(std::string url);
-
     virtual bool init();
-    void addWebViewToScreen(std::string url);
-    void addBackButtonToScreen();
-    
-    void startLoadingUrl(std::string url);
-    
-    void addListenerToBackButton();
-    cocos2d::Sprite *backButton;
-    
-    void removeWebViewAndBack();
-    
-    // implement the "static create()" method manually
+
     CREATE_FUNC(WebViewNative_ios);
+    
+private:
+    
+    void addWebViewAndButtonToScreen(std::string url);
+    
 };
 
 #endif // __WEBVIEW_SCENE_H__
