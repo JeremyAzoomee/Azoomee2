@@ -22,6 +22,8 @@ private:
     void addListener();
     ui::Scale9Sprite *createButtonBackground(std::string buttonText);
     
+    void callDelegateFunction(float dt);
+    
 public:
     virtual bool init();
     
@@ -36,6 +38,7 @@ public:
     static ElectricDreamsButton* createBackButton();
     
     void setCenterPosition(Vec2 position);
+    Vec2 getCenterPosition();
     
 };
 
