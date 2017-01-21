@@ -4,7 +4,8 @@
 USING_NS_CC;
 
 #define MESSAGE_BOX_PADDING 100
-#define MESSAGE_BOX_WIDTH 1366
+#define MESSAGE_BOX_MINIMUM_WIDTH 1366
+#define MESSAGE_BOX_MAXIMUM_WIDTH 2049
 
 static ModalMessages *_sharedModalMessages = NULL;
 
@@ -92,10 +93,10 @@ void ModalMessages::stopLoading()
     this->removeLayer();
 }
 
+//---------------------- Message Box Functions------------------------
+
 void ModalMessages::createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText)
 {
-    //ALL MESSAGEBOX CODE NEEDS FINAL WAY OF WORKING
-    //ALSO NEEDS TO TAKE COLOURS ETC FROM CONFIG CLASS WHEN BRANCHED
     createAndFadeInLayer();
     createAndFadeInTitle(messageTitle);
     createAndFadeInBody(messageBody);
@@ -105,10 +106,27 @@ void ModalMessages::createMessageWithSingleButton(std::string messageTitle, std:
 
 void ModalMessages::createAndFadeInTitle(std::string messageTitle)
 {
-    auto titleLabel = Label::createWithTTF(messageTitle, "fonts/azoomee.ttf", 130);
-    titleLabel->setWidth(MESSAGE_BOX_WIDTH - MESSAGE_BOX_PADDING * 2);
+    auto titleLabel = Label::createWithTTF(messageTitle, "fonts/azoomee.ttf", 120);
+    
+    if(titleLabel->getContentSize().width < (MESSAGE_BOX_MINIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
+    {
+        messageBoxWidth = MESSAGE_BOX_MINIMUM_WIDTH;
+        underlineTitle(titleLabel);
+    }
+    else if(titleLabel->getContentSize().width < (MESSAGE_BOX_MAXIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
+    {
+        messageBoxWidth = titleLabel->getContentSize().width + (MESSAGE_BOX_PADDING * 2);
+        underlineTitle(titleLabel);
+    }
+    else
+    {
+        //Due to Title being more than 2 lines, currently not set to be underlined.
+        messageBoxWidth = MESSAGE_BOX_MAXIMUM_WIDTH;
+        titleLabel->setWidth(MESSAGE_BOX_MAXIMUM_WIDTH - MESSAGE_BOX_PADDING * 2);
+    }
+    
     titleLabel->setPosition(loadingLayer->getContentSize().width * 0.5, loadingLayer->getContentSize().height * 0.75);
-    titleLabel->setColor(Color3B::BLACK);
+    titleLabel->setColor(Color3B(28, 244, 244));
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     titleLabel->setName("messageTitle");
     titleLabel->setOpacity(0);
@@ -117,12 +135,19 @@ void ModalMessages::createAndFadeInTitle(std::string messageTitle)
     titleLabel->runAction(FadeTo::create(1, 255));
 }
 
+void ModalMessages::underlineTitle(Label* titleLabel)
+{
+    DrawNode* newDrawNode = DrawNode::create();
+    newDrawNode->drawRect(Vec2(0, 10), Vec2(titleLabel->getContentSize().width, 14), Color4F((28 * 255), (244 * 255), (244 * 255), 1));
+    titleLabel->addChild(newDrawNode);
+}
+
 void ModalMessages::createAndFadeInBody(std::string messageBody)
 {
     auto titleLabel = (Label*)loadingLayer->getChildByName("messageTitle");
     
     auto bodyLabel = Label::createWithTTF(messageBody, "fonts/azoomee.ttf", 90);
-    bodyLabel->setWidth(MESSAGE_BOX_WIDTH - MESSAGE_BOX_PADDING * 2);
+    bodyLabel->setWidth(messageBoxWidth - MESSAGE_BOX_PADDING * 2);
     bodyLabel->setPosition(loadingLayer->getContentSize().width * 0.5, titleLabel->getPositionY() - (titleLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (bodyLabel->getContentSize().height/2));
     bodyLabel->setColor(Color3B::WHITE);
     bodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -137,29 +162,12 @@ void ModalMessages::createAndFadeInButton(std::string buttonText)
 {
     auto bodyLabel = (Label*)loadingLayer->getChildByName("messageBody");
     
-    auto _button = ui::Button::create("res/modal/tempButtonBackground.png");
-    _button->setTitleFontName("fonts/azoomee.ttf");
-    _button->setTitleFontSize(90);
-    _button->setColor(Color3B::WHITE);
-    _button->setTitleText(buttonText);
-    _button->setPosition(Vec2(loadingLayer->getContentSize().width * 0.5, bodyLabel->getPositionY() - (bodyLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (_button->getContentSize().height/2)));
+    auto _button = ElectricDreamsButton::createButtonWithText(buttonText);
+    _button->setCenterPosition(Vec2(loadingLayer->getContentSize().width * 0.5, bodyLabel->getPositionY() - (bodyLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (_button->getContentSize().height/2)));
+    _button->setDelegate(this);
     _button->setOpacity(0);
     _button->setName("messageButton");
-    
-    _button->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type){
-        switch (type)
-        {
-            case ui::Widget::TouchEventType::BEGAN:
-                break;
-            case ui::Widget::TouchEventType::ENDED:
-                this->removeLayer();
-                break;
-            default:
-                break;
-        }
-    });
-    
-    loadingLayer->addChild(_button,2);
+    loadingLayer->addChild(_button, 2);
     
     _button->runAction(FadeTo::create(1, 255));
 }
@@ -168,18 +176,30 @@ void ModalMessages::createAndFadeInMessageBackground()
 {
     auto titleLabel = (Label*)loadingLayer->getChildByName("messageTitle");
     auto bodyLabel = (Label*)loadingLayer->getChildByName("messageBody");
-    auto _button = (Sprite*)loadingLayer->getChildByName("messageButton");
+    auto _button = (ElectricDreamsButton*)loadingLayer->getChildByName("messageButton");
     
     float messageBoxHeight = titleLabel->getContentSize().height + bodyLabel->getContentSize().height+_button->getContentSize().height + (4 * MESSAGE_BOX_PADDING);
     
-    float messageBoxY = _button->getPositionY() - (_button->getContentSize().height/2) - MESSAGE_BOX_PADDING;
+    float messageBoxY = _button->getCenterPosition().y - (_button->getContentSize().height/2) - MESSAGE_BOX_PADDING;
     
-    auto messageBoxLayer = LayerColor::create(Color4B(28, 200, 200,255), MESSAGE_BOX_WIDTH, visibleSize.height / 2);
-    messageBoxLayer->setContentSize(Size(MESSAGE_BOX_WIDTH, messageBoxHeight));
-    messageBoxLayer->setPosition(visibleSize.width / 4, messageBoxY);
+    auto messageBoxLayer = LayerColor::create(Color4B::BLACK, messageBoxWidth, messageBoxHeight);
+    messageBoxLayer->setPosition((visibleSize.width - messageBoxLayer->getContentSize().width)/2, messageBoxY);
     messageBoxLayer->setOpacity(0);
     loadingLayer->addChild(messageBoxLayer,1);
     
-    messageBoxLayer->runAction(FadeTo::create(0.5, 255));
+    DrawNode* newDrawNode = DrawNode::create();
+    messageBoxLayer->addChild(newDrawNode);
+    newDrawNode->drawRect(Vec2(0, 0), Vec2(messageBoxLayer->getContentSize().width, messageBoxLayer->getContentSize().height), Color4F((28 * 255), (244 * 255), (244 * 255), 1));
     
+    newDrawNode->setLineWidth(4);
+
+    messageBoxLayer->runAction(FadeTo::create(0.5, 255));
+}
+
+void ModalMessages::buttonPressed(ElectricDreamsButton* button)
+{
+    auto messageButton = (ElectricDreamsButton*)loadingLayer->getChildByName("messageButton");
+    
+    if(button == messageButton)
+        this->removeLayer();
 }
