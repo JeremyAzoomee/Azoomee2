@@ -11,3 +11,4 @@ proj.win10/
 proj.win32/
 !Classes/
 !Resources/
+!proj.android-studio/app/src/

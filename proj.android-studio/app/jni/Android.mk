@@ -52,6 +52,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HQDataStorage.cpp \
                    ../../../Classes/HQDataParser.cpp \
                    ../../../Classes/HQDataProvider.cpp \
+                   ../../../Classes/CrashlyticsConfig.cpp
                    ../../../Classes/IntroVideoScene.cpp \
                    ../../../Classes/MultiButtonMessageBoxLayer.cpp \
                    ../../../Classes/DisplayChildName.cpp

@@ -33,6 +33,10 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8"
+            />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -44,4 +48,5 @@
 	<uses-permission android:name="android.permission.RECORD_AUDIO" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
+
 </manifest>
