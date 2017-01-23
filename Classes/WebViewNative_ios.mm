@@ -1,5 +1,6 @@
 #include "WebViewNative_ios.h"
 #include "BaseScene.h"
+#include "WebViewController_ios.h"
 
 USING_NS_CC;
 
@@ -74,6 +75,7 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
         NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index" ofType:@"html"];
         urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, iosurl];
     }
+    
     
     
     NSURL *nsurl=[NSURL URLWithString:urlToCall];
