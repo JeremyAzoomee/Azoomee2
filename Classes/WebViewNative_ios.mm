@@ -54,7 +54,7 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
     }
     
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
-    UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, currentView.frame.size.width, currentView.frame.size.height)];
+    //UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, currentView.frame.size.width, currentView.frame.size.height)];
     
     //If game is called, open the game directly, if video / audio, we open up jw player with the given url
     
@@ -76,17 +76,18 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
         urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, iosurl];
     }
     
+    WebViewController_ios *webViewController = [[WebViewController_ios alloc] init];
+    [[currentView addSubview:[webViewController view]]];
     
+    //NSURL *nsurl=[NSURL URLWithString:urlToCall];
+    //NSMutableURLRequest *nsrequest=[NSMutableURLRequest requestWithURL:nsurl];
     
-    NSURL *nsurl=[NSURL URLWithString:urlToCall];
-    NSMutableURLRequest *nsrequest=[NSMutableURLRequest requestWithURL:nsurl];
+    //[nsrequest setHTTPMethod:@"GET"];
     
-    [nsrequest setHTTPMethod:@"GET"];
+    //[webview loadRequest:nsrequest];
     
-    [webview loadRequest:nsrequest];
-    
-    [webview setExclusiveTouch:false];
-    [currentView addSubview:webview];
+    //[webview setExclusiveTouch:false];
+    //[currentView addSubview:webview];
     
 }
 

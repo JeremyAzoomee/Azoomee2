@@ -6,13 +6,19 @@
 //  Copyright © 2017 Tamas Bonis. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "WebViewController_ios.h"
 
 @interface ViewController ()
 
 @end
 
 @implementation ViewController
+
+- (id)init
+{
+    self = [super init];
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,11 +30,6 @@
     NSURL *url = [NSURL fileURLWithPath:htmlFilePath];
     
     NSURLRequest *nsrequest = [NSURLRequest requestWithURL:url];
-    
-    
-    //NSString *url=@"http://www.google.com";
-    //NSURL *nsurl=[NSURL URLWithString:url];
-    //NSURLRequest *nsrequest=[NSURLRequest requestWithURL:nsurl];
     
     [webview setDelegate:self];
     [webview loadRequest:nsrequest];

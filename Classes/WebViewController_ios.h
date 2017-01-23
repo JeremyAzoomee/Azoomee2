@@ -10,6 +10,8 @@
 
 @interface ViewController : UIViewController <UIWebViewDelegate>
 
+-(id)init;
+
 
 @end
 
