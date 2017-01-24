@@ -185,7 +185,12 @@ void NavigationLayer::moveMenuPointsToCircleState()
         Point targetPosition = ConfigStorage::getInstance()->getCirclePositionForMenuItem(i);
         float delayTime = 0;
         
-        menuItemImage->runAction(Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), NULL));
+        menuItemImage->stopAction(menuItemImage->getActionByTag(1));
+        
+        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), NULL);
+        sequence->setTag(1);
+        
+        menuItemImage->runAction(sequence);
     }
 }
 
@@ -197,7 +202,12 @@ void NavigationLayer::moveMenuPointsToHorizontalState()
         Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(i);
         float delayTime = 0;
         
-        menuItemImage->runAction(Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), NULL));
+        menuItemImage->stopAction(menuItemImage->getActionByTag(1));
+        
+        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), NULL);
+        sequence->setTag(1);
+        
+        menuItemImage->runAction(sequence);
     }
 }
 
