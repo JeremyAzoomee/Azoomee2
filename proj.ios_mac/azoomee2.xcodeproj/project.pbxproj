@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0236D5111E3675C500B552B7 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 0236D5101E3675C500B552B7 /* WebViewController_ios.m */; };
+		025BE9331E381B3700EF76D1 /* ButtonController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9321E381B3700EF76D1 /* ButtonController_ios.m */; };
+		025BE9371E381B4800EF76D1 /* ios_Cocos2d_Callbacks.mm in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9361E381B4800EF76D1 /* ios_Cocos2d_Callbacks.mm */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -159,6 +161,10 @@
 /* Begin PBXFileReference section */
 		0236D50F1E3675C500B552B7 /* WebViewController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController_ios.h; sourceTree = "<group>"; };
 		0236D5101E3675C500B552B7 /* WebViewController_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController_ios.m; sourceTree = "<group>"; };
+		025BE9311E381B3700EF76D1 /* ButtonController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonController_ios.h; sourceTree = "<group>"; };
+		025BE9321E381B3700EF76D1 /* ButtonController_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonController_ios.m; sourceTree = "<group>"; };
+		025BE9351E381B4800EF76D1 /* ios_Cocos2d_Callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ios_Cocos2d_Callbacks.h; sourceTree = "<group>"; };
+		025BE9361E381B4800EF76D1 /* ios_Cocos2d_Callbacks.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ios_Cocos2d_Callbacks.mm; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -477,6 +483,10 @@
 			children = (
 				4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */,
 				4327D9281E1F990700F912C5 /* ElectricDreamsButton.h */,
+				025BE9311E381B3700EF76D1 /* ButtonController_ios.h */,
+				025BE9321E381B3700EF76D1 /* ButtonController_ios.m */,
+				025BE9351E381B4800EF76D1 /* ios_Cocos2d_Callbacks.h */,
+				025BE9361E381B4800EF76D1 /* ios_Cocos2d_Callbacks.mm */,
 			);
 			name = uiObjects;
 			sourceTree = "<group>";
@@ -984,6 +994,7 @@
 				A15D58A01E0804100099CDEE /* TextInputChecker.cpp in Sources */,
 				A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
+				025BE9371E381B4800EF76D1 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				4330C78B1E27BFD900D32D3E /* CrashlyticsConfig.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */,
@@ -1008,6 +1019,7 @@
 				4330C7881E27B79A00D32D3E /* Crashlytics_ios.mm in Sources */,
 				A1CC0C1C1E141AFF008B469E /* ChildDataStorage.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
+				025BE9331E381B3700EF76D1 /* ButtonController_ios.m in Sources */,
 				A15B2FBA1DEDD1EA00D25334 /* HMACSHA256_javaCaller.cpp in Sources */,
 				A1A2D30C1E13B54500E86169 /* ParentDataProvider.cpp in Sources */,
 				A1CC0C251E141B47008B469E /* HQDataStorage.cpp in Sources */,
