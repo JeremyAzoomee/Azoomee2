@@ -1,22 +1,45 @@
 <html>
 	<head>
-		<title>iFrame JS communication tool</title>
+		<title>Game storage API - android</title>
 	</head>
 	<body>
-		<iframe style="width: 100%; height: 100%" src="sender.html"></iframe>
 		<script>
+			//creating iframe
+			
+			var contentUrl = getUrlVars()["contentUrl"];
+			var iframe = document.createElement('iframe');
+			iframe.src = contentUrl;
+			iframe.width  = window.innerWidth;
+    		iframe.height = window.innerHeight;
+			document.body.appendChild(iframe);
+		
 			window.addEventListener("message", receiveMessage, false);
-			localStorage["azoomee_le_gateau_stack_o_default"] = '{"states":{"start":{},"level":{},"game":{"pb":10},"gameWin":{},"end":{}},"app_vars":{"levelsComplete":[]}}';
-			console.log(localStorage["azoomee_le_gateau_stack_o_default"]);
 
-			NativeInterface.act("Fuck you");
-			console.log(NativeInterface.getData());
-
+			function getUrlVars() 
+			{
+				var vars = {};
+				var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) 
+				{
+					vars[key] = value;
+				});
+				return vars;
+			}
+			
 			function receiveMessage(event)
 			{
-  				console.log("Message was captured!");
-  				console.log(event.data);
+  				for(var i = 0; i < localStorage.length; i++)
+  				{
+  					var title = localStorage.key(i);
+  					var data = localStorage.getItem(i);
+  					NativeInterface.act(title, data);
+  				}
+  				
     			return;
+			}
+			
+			function addDataToLocalStorage(key, data)
+			{
+				localStorage[key] = data;
 			}
 		</script>
 	</body>

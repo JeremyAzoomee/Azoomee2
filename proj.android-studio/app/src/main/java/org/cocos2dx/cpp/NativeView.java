@@ -3,6 +3,7 @@ package org.cocos2dx.cpp;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -16,9 +17,11 @@ import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.tinizine.azoomee.R;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -94,11 +97,6 @@ public class NativeView extends XWalkActivity {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Cookie", myCookies);
 
-
-
-
-        // Do anything with embedding API
-
         XWalkCookieManager mCookieManager = new XWalkCookieManager();
         mCookieManager.setAcceptCookie(true);
         mCookieManager.setAcceptFileSchemeCookies(true);
@@ -107,24 +105,48 @@ public class NativeView extends XWalkActivity {
 
         for(int i = 0; i < separatedCookies.length; i++)
         {
-            log.d("seaparatecookies: ", separatedCookies[i]);
             mCookieManager.setCookie("https://media.azoomee.ninja", separatedCookies[i]);
         }
-
-        log.d("cookies: ", mCookieManager.getCookie("https://media.azoomee.ninja"));
 
         //Check if the url received url ends with html, or anything else. If html, then we have to
         //open the html directly, otherwise we have to open the playlist with jw player.
 
-        log.d("url", myUrl);
+        log.d("urlToBeLoaded", myUrl);
 
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
-            xWalkWebView.load("file://" + myUrl, null);
+            xWalkWebView.load("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl, null);
         }
         else
         {
             xWalkWebView.load("file:///android_asset/res/jwplayer/index.html?contentUrl=" + myUrl, null);
+        }
+
+        xWalkWebView.addJavascriptInterface(new JsInterface(), "NativeInterface");
+        loadLocalDataForUser();
+    }
+
+    protected void loadLocalDataForUser()
+    {
+        ContextWrapper contextWrapper = new ContextWrapper(this);
+        String dataDir = contextWrapper.getApplicationInfo().dataDir + "/scoreCache";
+        log.d("dataDir:", dataDir);
+
+        File directory = new File(dataDir);
+        if(!directory.exists())
+        {
+            directory.mkdir();
+            log.d("directory", "created");
+            return;
+        }
+
+        File [] files = directory.listFiles();
+        log.d("Files", "Size: "+ files.length);
+        for (int i = 0; i < files.length; i++)
+        {
+            if(files[i].isDirectory()) {
+                log.d("Files", "FileName:" + files[i].getName());
+            }
         }
     }
 }
