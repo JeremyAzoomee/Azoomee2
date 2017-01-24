@@ -16,13 +16,9 @@ private:
     
     ElectricDreamsButton *skipButton;
     
-    Layer* currentSlideLayer;
-    
     int currentSlideIndex;
-    int maxSlides;
     PageView* _pageView;
     
-    void createStaticImages();
     void createButtons();
     void createPageView();
     void pageViewScrollToNextPage();
@@ -31,9 +27,13 @@ private:
     
     void skipSlideShow();
     
-    Layout* createSlide0();
-    Layout* createSlide1();
-    Layout* createSlide2();
+    Layout* layout2;
+    Layout* layout3;
+    Layout* layout4;
+    Layout* layout5;
+    
+    Layout* addSlide(int SlideNumber);
+    void SheduleSlideSpriteCreation(float dt);
     
     void fadeInObject(Node* objectToFade);
     
