@@ -54,13 +54,14 @@ public class AppActivity extends Cocos2dxActivity {
 
     }
 
-    public static void alertJNI(String url, String cookie) {
+    public static void alertJNI(String url, String cookie, String userid) {
 
         Log.d("sent from cocos", url + " - " + cookie);
 
         Intent nvw = new Intent(mContext, NativeView.class);
         nvw.putExtra("url", url);
         nvw.putExtra("cookie", cookie);
+        nvw.putExtra("userid", userid);
         mContext.startActivity(nvw);
 
         //Intent i = new Intent(getApplicationContext(), NativeView.class);

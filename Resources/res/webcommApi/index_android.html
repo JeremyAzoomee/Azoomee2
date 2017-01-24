@@ -35,6 +35,7 @@
 			}
 			
 			//Read all local data from Android
+			localStorage.clear();
 			
 			console.log("now we are starting the passive loading process");
 			console.log(NativeInterface.getAmountOfStorageElements());
@@ -53,12 +54,21 @@
 				} 
 			}
 			
+			console.log("Here is all localStorage data before starting:");
+			
+			for(var i = 0; i < localStorage.length; i++)
+			{
+				var title = localStorage.key(i);
+  				var data = localStorage.getItem(localStorage.key(i));
+				console.log(title + " - " + data);
+			}
+			
 			//creating iframe
 			
 			var contentUrl = getUrlVars()["contentUrl"];
 			var iframe = document.createElement('iframe');
-			//iframe.src = contentUrl;
-			iframe.src = "sender_test.html";
+			iframe.src = contentUrl;
+			//iframe.src = "sender_test.html";
 			iframe.width  = window.innerWidth;
     		iframe.height = window.innerHeight;
 			document.body.appendChild(iframe);

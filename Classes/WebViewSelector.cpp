@@ -1,5 +1,6 @@
 #include "WebViewSelector.h"
 #include "CookieDataProvider.h"
+#include "ChildDataProvider.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "WebViewNative_ios.h"
@@ -49,17 +50,19 @@ void WebViewSelector::loadWebView(std::string url)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     cocos2d::JniMethodInfo methodInfo;
     
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "alertJNI", "(Ljava/lang/String;Ljava/lang/String;)V"))
+    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "alertJNI", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"))
     {
         return;
     }
     
     jstring jurl = methodInfo.env->NewStringUTF(url.c_str());
     jstring jcookie = methodInfo.env->NewStringUTF(CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str());
+    jstring juserid = methodInfo.env->NewStringUTF(ChildDataProvider::getInstance()->getLoggedInChildId().c_str());
     
     CCLOG("To be sent to jni: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str());
+    CCLOG("Userid sent to jni: %s", ChildDataProvider::getInstance()->getLoggedInChildId().c_str());
     
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jurl, jcookie);
+    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jurl, jcookie, juserid);
     methodInfo.env->DeleteLocalRef(methodInfo.classID);
         
 #endif

@@ -33,6 +33,7 @@ public class NativeView extends XWalkActivity {
     private static Context mContext;
     public XWalkView xWalkWebView;
     public static XWalkView xWalkWebViewStatic;
+    public static String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,7 @@ public class NativeView extends XWalkActivity {
         {
             myUrl = extras.getString("url");
             myCookies = extras.getString("cookie");
+            userid = extras.getString("userid");
         }
 
         Map<String, String> headers = new HashMap<String, String>();
@@ -109,7 +111,7 @@ public class NativeView extends XWalkActivity {
 
         log.d("urlToBeLoaded", myUrl);
 
-        /*
+
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
             xWalkWebView.load("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl, null);
@@ -118,9 +120,9 @@ public class NativeView extends XWalkActivity {
         {
             xWalkWebView.load("file:///android_asset/res/jwplayer/index.html?contentUrl=" + myUrl, null);
         }
-        */
+
         //xWalkWebView.load("file:////android_asset/res/artapp/index.html", null);
-        xWalkWebView.load("file:////android_asset/res/webcommApi/index_android.html", null);
+        //xWalkWebView.load("file:////android_asset/res/webcommApi/index_android.html", null);
 
         xWalkWebView.addJavascriptInterface(new JsInterface(), "NativeInterface");
     }
@@ -128,10 +130,14 @@ public class NativeView extends XWalkActivity {
     static File getUserDirectory()
     {
         ContextWrapper contextWrapper = new ContextWrapper(mContext);
-        String userDir = contextWrapper.getApplicationInfo().dataDir + "/scoreCache/currentUser";      //to be replaced with real app title
 
-        File directory = new File(userDir);
-        return directory;
+        File scoreCacheDir = new File(contextWrapper.getApplicationInfo().dataDir + "/scoreCache");
+        if(!scoreCacheDir.exists()) scoreCacheDir.mkdir();
+
+        File userDir = new File(contextWrapper.getApplicationInfo().dataDir + "/scoreCache/" + userid);
+        if(!userDir.exists()) userDir.mkdir();
+
+        return userDir;
     }
 
     static File [] getFilesListFromUserDirectory()
@@ -161,7 +167,7 @@ public class NativeView extends XWalkActivity {
 
         if(!files[fileNumber].isDirectory())
         {
-            return files[fileNumber].getName();
+            return files[fileNumber].getName().substring(0, files[fileNumber].getName().length() - 5);
         }
         return "DIR";
     }
@@ -205,7 +211,7 @@ public class NativeView extends XWalkActivity {
             directory.mkdir();
         }
 
-        String currentUserDir = dataDir + "/currentUser";                       //replace with current user id sent from cpp
+        String currentUserDir = dataDir + "/" + userid;
         File currentUserDirectory = new File(currentUserDir);
         if(!currentUserDirectory.exists()) currentUserDirectory.mkdir();
 
