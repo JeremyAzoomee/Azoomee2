@@ -1,34 +1,27 @@
 package org.cocos2dx.cpp;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.webkit.CookieManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.tinizine.azoomee.R;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.xwalk.core.XWalkActivity;
-import org.xwalk.core.XWalkPreferences;
 import org.xwalk.core.XWalkView;
 import org.xwalk.core.XWalkCookieManager;
 
@@ -39,6 +32,7 @@ public class NativeView extends XWalkActivity {
 
     private static Context mContext;
     public XWalkView xWalkWebView;
+    public static XWalkView xWalkWebViewStatic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +75,8 @@ public class NativeView extends XWalkActivity {
 
         addContentView(extra, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        xWalkWebViewStatic = xWalkWebView;
     }
 
     @Override
@@ -113,6 +109,7 @@ public class NativeView extends XWalkActivity {
 
         log.d("urlToBeLoaded", myUrl);
 
+        /*
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
             xWalkWebView.load("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl, null);
@@ -121,32 +118,131 @@ public class NativeView extends XWalkActivity {
         {
             xWalkWebView.load("file:///android_asset/res/jwplayer/index.html?contentUrl=" + myUrl, null);
         }
+        */
+        //xWalkWebView.load("file:////android_asset/res/artapp/index.html", null);
+        xWalkWebView.load("file:////android_asset/res/webcommApi/index_android.html", null);
 
         xWalkWebView.addJavascriptInterface(new JsInterface(), "NativeInterface");
-        loadLocalDataForUser();
     }
 
-    protected void loadLocalDataForUser()
+    static File getUserDirectory()
     {
-        ContextWrapper contextWrapper = new ContextWrapper(this);
+        ContextWrapper contextWrapper = new ContextWrapper(mContext);
+        String userDir = contextWrapper.getApplicationInfo().dataDir + "/scoreCache/currentUser";      //to be replaced with real app title
+
+        File directory = new File(userDir);
+        return directory;
+    }
+
+    static File [] getFilesListFromUserDirectory()
+    {
+        File directory = getUserDirectory();
+        return directory.listFiles();
+    }
+
+    static int getAmountOfStorageElements()
+    {
+        File directory = getUserDirectory();
+        if(!directory.exists())
+        {
+            log.d("read", "directory doesn't exist");
+            return 0;
+        }
+        else
+        {
+            File [] files = directory.listFiles();
+            return files.length;
+        }
+    }
+
+    static String getKeyForStorageElement(int fileNumber)
+    {
+        File [] files = getFilesListFromUserDirectory();
+
+        if(!files[fileNumber].isDirectory())
+        {
+            return files[fileNumber].getName();
+        }
+        return "DIR";
+    }
+
+    static String getValueForStorageElement(int fileNumber)
+    {
+        File [] files = getFilesListFromUserDirectory();
+
+        if(files[fileNumber].isDirectory())
+        {
+            return "";
+        }
+
+        Context context = mContext;
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        BufferedReader in = null;
+
+        try {
+            in = new BufferedReader(new FileReader(files[fileNumber]));
+            while ((line = in.readLine()) != null) stringBuilder.append(line);
+
+        } catch (FileNotFoundException e) {
+            log.d("exception", e.getMessage());
+        } catch (IOException e) {
+            log.d("exception", e.getMessage());
+        }
+        String data = stringBuilder.toString();
+
+        return data;
+    }
+
+    static void saveLocalDataForUser(String title, String data)
+    {
+        ContextWrapper contextWrapper = new ContextWrapper(mContext);
         String dataDir = contextWrapper.getApplicationInfo().dataDir + "/scoreCache";
-        log.d("dataDir:", dataDir);
 
         File directory = new File(dataDir);
         if(!directory.exists())
         {
             directory.mkdir();
-            log.d("directory", "created");
-            return;
         }
 
-        File [] files = directory.listFiles();
-        log.d("Files", "Size: "+ files.length);
+        String currentUserDir = dataDir + "/currentUser";                       //replace with current user id sent from cpp
+        File currentUserDirectory = new File(currentUserDir);
+        if(!currentUserDirectory.exists()) currentUserDirectory.mkdir();
+
+        String currentWritePathString = currentUserDir + "/" + title + ".json";
+        File currentWritePath = new File(currentWritePathString);
+        if(currentWritePath.exists()) currentWritePath.delete();
+
+        try
+        {
+            currentWritePath.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(currentWritePath);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+            myOutWriter.append(data);
+
+            myOutWriter.close();
+
+            fOut.flush();
+            fOut.close();
+        }
+        catch (IOException e)
+        {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+
+        //This is only for debug purposes:
+
+        log.d("currentGameDirectory:", currentUserDir);
+        File existing = new File(currentUserDir);
+        if(existing.exists()) log.d("currentGameDirectory exists:", "YES");
+        else log.d("currentGameDirectory exists:", "NO");
+
+        File [] files = currentUserDirectory.listFiles();
+        log.d("Files after", "Size: "+ files.length);
         for (int i = 0; i < files.length; i++)
         {
-            if(files[i].isDirectory()) {
                 log.d("Files", "FileName:" + files[i].getName());
-            }
         }
+
     }
 }

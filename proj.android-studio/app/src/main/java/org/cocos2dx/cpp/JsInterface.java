@@ -1,17 +1,55 @@
 package org.cocos2dx.cpp;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.pm.ApplicationInfo;
+import android.os.Bundle;
 import android.util.Log;
 
 import org.xwalk.core.JavascriptInterface;
 
-public class JsInterface {
+import java.io.File;
+import java.io.FileOutputStream;
+
+import static com.loopj.android.http.AsyncHttpClient.log;
+
+public class JsInterface extends Activity {
+
+    private static Context mContext;
+
     public JsInterface() {
+        mContext = this;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = this;
+
     }
 
     @JavascriptInterface
-    public String getData()
+    public int getAmountOfStorageElements()
     {
-        return "returnMessage";
-        //read all files one by one and call a method to add the data to localstorage
+        return NativeView.getAmountOfStorageElements();
+    }
+
+    @JavascriptInterface
+    public String getKeyForStorageElement(int fileNumber)
+    {
+        return NativeView.getKeyForStorageElement(fileNumber);
+    }
+
+    @JavascriptInterface
+    public String getValueForStorageElement(int fileNumber)
+    {
+        return NativeView.getValueForStorageElement(fileNumber);
+    }
+
+    @JavascriptInterface
+    public void saveData(String title, String data)
+    {
+        NativeView.saveLocalDataForUser(title, data);
     }
 }

@@ -66,6 +66,7 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
     
     NSString *urlToCall;
     
+    /*
     if([iosurlExtension isEqualToString:@"html"])
     {
         urlToCall = iosurl;
@@ -75,6 +76,11 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
         NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index" ofType:@"html"];
         urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, iosurl];
     }
+     */
+    
+    
+    NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/artapp/index" ofType:@"html"];
+    urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, iosurl];
     
     NSURL *nsurl=[NSURL URLWithString:urlToCall];
     NSMutableURLRequest *nsrequest=[NSMutableURLRequest requestWithURL:nsurl];

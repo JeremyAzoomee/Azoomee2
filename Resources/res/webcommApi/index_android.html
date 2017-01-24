@@ -4,17 +4,6 @@
 	</head>
 	<body>
 		<script>
-			//creating iframe
-			
-			var contentUrl = getUrlVars()["contentUrl"];
-			var iframe = document.createElement('iframe');
-			iframe.src = contentUrl;
-			iframe.width  = window.innerWidth;
-    		iframe.height = window.innerHeight;
-			document.body.appendChild(iframe);
-		
-			window.addEventListener("message", receiveMessage, false);
-
 			function getUrlVars() 
 			{
 				var vars = {};
@@ -30,8 +19,8 @@
   				for(var i = 0; i < localStorage.length; i++)
   				{
   					var title = localStorage.key(i);
-  					var data = localStorage.getItem(i);
-  					NativeInterface.act(title, data);
+  					var data = localStorage.getItem(localStorage.key(i));
+  					NativeInterface.saveData(title, data);
   				}
   				
     			return;
@@ -40,7 +29,41 @@
 			function addDataToLocalStorage(key, data)
 			{
 				localStorage[key] = data;
+				console.log("Data added!");
+				console.log(key);
+				console.log(data);
 			}
+			
+			//Read all local data from Android
+			
+			console.log("now we are starting the passive loading process");
+			console.log(NativeInterface.getAmountOfStorageElements());
+			
+			for(var i = 0; i < NativeInterface.getAmountOfStorageElements(); i++)
+			{
+				console.log("getting key: " + i);
+				var key = NativeInterface.getKeyForStorageElement(i);
+				console.log("key got: " + key);
+				
+				if(key != "DIR")
+				{
+					console.log("getting value: " + i);
+					var data = NativeInterface.getValueForStorageElement(i);
+					addDataToLocalStorage(key, data);
+				} 
+			}
+			
+			//creating iframe
+			
+			var contentUrl = getUrlVars()["contentUrl"];
+			var iframe = document.createElement('iframe');
+			//iframe.src = contentUrl;
+			iframe.src = "sender_test.html";
+			iframe.width  = window.innerWidth;
+    		iframe.height = window.innerHeight;
+			document.body.appendChild(iframe);
+		
+			window.addEventListener("message", receiveMessage, false);
 		</script>
 	</body>
 </html>
