@@ -182,6 +182,8 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         {
             if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i)) HQDataParser::getInstance()->onGetContentAnswerReceived(responseDataString, requestTag);
         }
+        
+        if(requestTag == "GROUP HQ") HQDataParser::getInstance()->onGetContentAnswerReceived(responseDataString, "GROUP HQ");
     }
     else
     {

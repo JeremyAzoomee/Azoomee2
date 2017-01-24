@@ -9,6 +9,7 @@ public:
     CREATE_FUNC(NavigationLayer);
     static cocos2d::Scene* createScene();
     virtual bool init();
+    void startLoadingGroupHQ(std::string uri);
     
 private:
     //MenuItem creation phase
@@ -24,9 +25,14 @@ private:
     void turnOffAllMenuItems();
     void setButtonOn(int i);
     void delayedSetButtonOn(float dt);
-    void changeToScene(int target);
-    
     void startLoadingHQScene(int categoryTag);
+    void changeToScene(int target);
+    void addBackButtonToNavigation();
+    void removeBackButtonFromNavigation();
+    void addListenerToBackButton(cocos2d::Node* toBeAddedTo);
+    
+    int currentScene;
+    
 };
 
 #endif
