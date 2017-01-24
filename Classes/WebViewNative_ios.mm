@@ -7,27 +7,15 @@ USING_NS_CC;
 
 Scene* WebViewNative_ios::createSceneWithURL(std::string url)
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = WebViewNative_ios::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
-    
-    //Overriden:
     layer->startLoadingUrl(url);
 
-    // return the scene
     return scene;
 }
-
-// on "init" you need to initialize your instance
 bool WebViewNative_ios::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
@@ -35,6 +23,8 @@ bool WebViewNative_ios::init()
 
     return true;
 }
+
+//-------------------------------------------All methods are private after this line---------------------------------------
 
 void WebViewNative_ios::startLoadingUrl(std::string url)
 {

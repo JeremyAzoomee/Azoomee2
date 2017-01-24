@@ -7,10 +7,12 @@
 class HQScene : public cocos2d::Layer
 {
 public:
+    CREATE_FUNC(HQScene);
     static cocos2d::Scene* createScene();
-
     virtual bool init();
-    
+    void startBuildingScrollViewBasedOnName();
+
+private:
     bool directionDecided;
     cocos2d::Point startLocation;
     void addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView);
@@ -21,8 +23,7 @@ public:
     cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position);
     void addTitleToHorizontalScrollView(std::string title, Node *toBeAddedTo, cocos2d::Point position);
     void addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData, int rowNumber, int itemNumber);
-    
-    void startBuildingScrollViewBasedOnName();
+
     void createBidirectionalScrollView();
     void createMonodirectionalScrollView();
     
@@ -30,8 +31,6 @@ public:
     cocos2d::Point getItemPositionForBidirectionalScrollView(int highlight);
     
     int category;
-    
-    CREATE_FUNC(HQScene);
 };
 
 #endif

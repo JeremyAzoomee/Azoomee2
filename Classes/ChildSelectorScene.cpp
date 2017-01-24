@@ -40,7 +40,6 @@ bool ChildSelectorScene::init()
     return true;
 }
 
-//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 void ChildSelectorScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
@@ -48,6 +47,8 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
         handleErrorCode(_errorCode);
     }
 }
+
+//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 
 void ChildSelectorScene::handleErrorCode(long errorCode)
 {
@@ -107,10 +108,10 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        std::string oomeeUrl = ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "avatar");
+        std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(i);
         int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
         
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "profileName"), oomeeNr);
+        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(i), oomeeNr);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         addListenerToProfileLayer(profileLayer);
@@ -266,7 +267,7 @@ void ChildSelectorScene::addNewChildButtonToScrollView()
 void ChildSelectorScene::addChildButtonPressed(Node* target)
 {
     //Check is email verified, if not refresh profile, then error
-    if((ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "VERIFIED")||(ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "ACTIVE"))
+    if((ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "VERIFIED")||(ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "ACTIVE"))
     {
         target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
         

@@ -6,13 +6,13 @@ class CookieDataParser : public cocos2d::Ref
     
 public:
     static CookieDataParser* getInstance(void);
-    
-public:
     virtual ~CookieDataParser();
     bool init(void);
     
     //Methods
     bool parseDownloadCookies(std::string responseString);
+    
+private:
     std::string replaceAll(std::string& str, const std::string& from, const std::string& to);
     std::vector<std::string> splitStringToVector(std::string inputString, std::string separator);
 };

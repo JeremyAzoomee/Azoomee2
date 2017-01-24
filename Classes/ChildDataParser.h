@@ -6,13 +6,13 @@ class ChildDataParser : public cocos2d::Ref
     
 public:
     static ChildDataParser* getInstance(void);
-    
-public:
+
     virtual ~ChildDataParser();
     bool init(void);
     
     bool parseChildLoginData(std::string responseData);
     
     void setLoggedInChildName(std::string childName);
+    void setLoggedInChildId(std::string id);
     void setLoggedInChildNumber(int childNumber);
 };

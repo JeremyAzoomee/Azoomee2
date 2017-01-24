@@ -7,15 +7,14 @@ class BaseScene : public cocos2d::Layer
 {
 public:
     static cocos2d::Scene* createScene();
-
+    CREATE_FUNC(BaseScene);
     virtual bool init();
+    
+private:
     void createHQScene(std::string sceneName, Node* toBeAddedTo);
     cocos2d::Layer* createContentLayer();
     void addMainHubScene(cocos2d::Node *toBeAddedTo);
     void addNavigationLayer();
-    
-    
-    CREATE_FUNC(BaseScene);
 };
 
 #endif

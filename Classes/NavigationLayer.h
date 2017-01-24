@@ -6,10 +6,11 @@
 class NavigationLayer : public cocos2d::Layer
 {
 public:
+    CREATE_FUNC(NavigationLayer);
     static cocos2d::Scene* createScene();
-
     virtual bool init();
     
+private:
     //MenuItem creation phase
     cocos2d::Sprite* addMenuItemImage(int itemNumber);
     cocos2d::Sprite* addMenuItemInactive(int itemNumber, cocos2d::Node *toBeAddedTo);
@@ -24,8 +25,6 @@ public:
     void setButtonOn(int i);
     void delayedSetButtonOn(float dt);
     void changeToScene(int target);
-    
-    CREATE_FUNC(NavigationLayer);
     
     void startLoadingHQScene(int categoryTag);
 };

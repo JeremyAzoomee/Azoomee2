@@ -7,9 +7,15 @@
 class ImageDownloader : public cocos2d::Sprite
 {
 public:
-
+    CREATE_FUNC(ImageDownloader);
     virtual bool initWithURLAndSize(std::string url, cocos2d::Size size);
     
+    std::string fileName;
+    std::string imageId;
+    std::string imageCachePath;
+    std::string imageIdPath;
+    
+private:
     void addPlaceHolderImage();
     void addLoadingAnimation();
     std::string getFileNameFromURL(std::string url);
@@ -23,13 +29,6 @@ public:
     void loadFileFromLocalCacheAsync(std::string fileName);
     void removeLoadingAnimation();
     void removePlaceHolderImage();
-    
-    std::string fileName;
-    std::string imageId;
-    std::string imageCachePath;
-    std::string imageIdPath;
-    
-    CREATE_FUNC(ImageDownloader);
 };
 
 #endif
