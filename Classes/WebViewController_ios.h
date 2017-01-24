@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController <UIWebViewDelegate>
+@interface WebViewController : UIViewController <UIWebViewDelegate>
 
 -(id)init;
-
+- (void)startBuildingWebView:(NSString*)url userid:(NSString *)userid;
 
 @end
 
+NSString *urlToLoad;
+NSString *useridToUse;
+bool iframeloaded;

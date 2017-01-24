@@ -8,28 +8,56 @@
 
 #import "WebViewController_ios.h"
 
-@interface ViewController ()
+@interface WebViewController ()
 
 @end
 
-@implementation ViewController
+@implementation WebViewController
 
 - (id)init
 {
     self = [super init];
+    iframeloaded = false;
     return self;
+}
+
+- (void)startBuildingWebView:(NSString*)url userid:(NSString*)userid
+{
+    urlToLoad = url;
+    useridToUse = userid;
+    
+    [urlToLoad retain];
+    [useridToUse retain];
+    
+    [self addWebViewToScreen];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(20, 20, 300,600)];
+}
+
+- (void)addWebViewToScreen {
+    UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, self.view.frame.size.width, self.view.frame.size.height)];
     
-    NSString *htmlFilePath = [[NSBundle mainBundle] pathForResource:@"webres/index" ofType:@"html"];
-    NSURL *url = [NSURL fileURLWithPath:htmlFilePath];
+    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
+    NSString *urlToCall;
     
-    NSURLRequest *nsrequest = [NSURLRequest requestWithURL:url];
+    if([iosurlExtension isEqualToString:@"html"])
+    {
+        urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
+    }
+    else
+    {
+        iframeloaded = 1;
+        
+        NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index" ofType:@"html"];
+        urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, urlToLoad];
+    }
+    
+    NSURL *nsurl=[NSURL URLWithString:urlToCall];
+    NSURLRequest *nsrequest = [NSURLRequest requestWithURL:nsurl];
     
     [webview setDelegate:self];
     [webview loadRequest:nsrequest];
@@ -40,21 +68,20 @@
     NSString *urlString = [[request URL] absoluteString];
     
     if ([urlString hasPrefix:@"senddata:"]) {
-        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
-        NSArray *queryItems = [urlComponents.string componentsSeparatedByString:@"data="];
         
-        NSString *param1 = [queryItems lastObject];
-        NSString *toWrite = [param1 stringByRemovingPercentEncoding];
+        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
+        
+        NSString *dataItem = [[urlComponents.string componentsSeparatedByString:@"?title?"] lastObject];
+        
+        NSString *title = [[[dataItem componentsSeparatedByString:@"?data?"] firstObject] stringByRemovingPercentEncoding];
+        NSString *data = [[[dataItem componentsSeparatedByString:@"?data?"] lastObject] stringByRemovingPercentEncoding];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *fullFilePath = [NSString stringWithFormat:@"%@/scoreCache/%@/%@.json", [paths objectAtIndex:0], useridToUse, title];
         
-        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"data.txt"];
-        NSLog(@"%@", filePath);
+        [data writeToFile:fullFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
         
-        [toWrite writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-        
-        // NOW CALL YOUR OBJECTIVE-C METHOD WITH param1 !
+        NSLog(@"File written :%@", fullFilePath);
         
         return NO;
     }
@@ -64,7 +91,46 @@
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [webView stringByEvaluatingJavaScriptFromString:@"setLocalData(\"Fuck you\")"];
+    if(!iframeloaded)
+    {
+        //Clear local storage first!
+        [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
+        
+        //Get and add all local data to localstorage then
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *scoreCacheDirectory = [NSString stringWithFormat:@"%@/scoreCache/%@", [paths objectAtIndex:0], useridToUse];
+        NSLog(@"scorecache directory: %@", scoreCacheDirectory);
+        
+        if(![[NSFileManager defaultManager] fileExistsAtPath:scoreCacheDirectory])
+        {
+            [[NSFileManager defaultManager] createDirectoryAtPath:scoreCacheDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+        }
+        
+        NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:scoreCacheDirectory error:NULL];
+        NSLog(@"amount of files in directory: %d", (int)[directoryContent count]);
+        
+        for(int i = 0; i < (int)[directoryContent count]; i++)
+        {
+            NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", scoreCacheDirectory, [directoryContent objectAtIndex:i]];
+            
+            NSLog(@"Directorycontent: %@", [directoryContent objectAtIndex:i]);
+            NSString *title = [[directoryContent objectAtIndex:i] substringToIndex:[[directoryContent objectAtIndex:i] length] - 5];
+            NSString *data = [NSString stringWithContentsOfFile:fullFilePath encoding:NSUTF8StringEncoding error:nil];
+            
+            NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\'%@\', \'%@\')", title, data];
+            
+            NSLog(@"%@", addDataString);
+            
+            [webView stringByEvaluatingJavaScriptFromString:addDataString];
+        }
+        
+        //Finally load the iframe with the desired url
+        NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
+        [webView stringByEvaluatingJavaScriptFromString:loadString];
+        
+        //set iframe to true to avoid multiple loads
+        iframeloaded = true;
+    };
 }
 
 

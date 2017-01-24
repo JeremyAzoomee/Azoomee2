@@ -2,36 +2,42 @@
 	<head>
 		<title>Game storage API</title>
 	</head>
-	<body>
+	<body bgcolor="black">
 		<script>
-			//creating iframe element
-			
-			var contentUrl = getUrlVars()["contentUrl"];
-			var iframe = document.createElement('iframe');
-			iframe.src = contentUrl;
-			document.body.appendChild(iframe);
-			
-			window.addEventListener("message", receiveMessage, false);
-			
-			//When a message comes, write all elements of localStorage to file
+			function addFrameWithUrl(url)
+			{
+				var iframe = document.createElement('iframe');
+				iframe.src = url;
+				iframe.width  = window.innerWidth;
+    			iframe.height = window.innerHeight;
+				document.body.appendChild(iframe);
+				
+				window.addEventListener("message", receiveMessage, false);
+			}
 			
 			function receiveMessage(event)
 			{
 				for(var i = 0; i < localStorage.length; i++)
 				{
 					var title = localStorage.key(i);
-					var data = localStorage.getItem(i);
-					window.location.href = "senddata://writeDataToFile?title="+ title +"&data=" + data;
+					var data = localStorage.getItem(localStorage.key(i));
+					window.location.href = "senddata://writeDataToFile?title?"+ title + "?data?" + data;
 				}   
     			return;
 			}
-			
-			//After load, this method gets run by native to set localStorage data up
         
-            function setLocalData(title, data)
+            function clearLocalStorage()
             {
-            	localStorage["title"] = data;
+            	localStorage.clear();
             }
+            
+            function addDataToLocalStorage(key, data)
+			{
+				localStorage[key] = data;
+				console.log("Data added!");
+				console.log(key);
+				console.log(data);
+			}
 		</script>
 	</body>
 </html>
