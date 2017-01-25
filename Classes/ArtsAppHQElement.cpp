@@ -21,6 +21,7 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     notSendingFileData = newImage;
     
     createImageBorder();
+    
     addImage(filePath);
     addOverlay();
     addListenerToElement(filePath);
@@ -58,6 +59,7 @@ std::string ArtsAppHQElement::getFileNameFromPath(std::string path)
 void ArtsAppHQElement::createImageBorder()
 {
     baseLayer = LayerColor::create(ConfigStorage::getInstance()->getBaseColourForContentItemInCategory("ARTS APP"), this->getContentSize().width - 20, this->getContentSize().height - 20);
+    if(notSendingFileData) baseLayer->setOpacity(0);
     baseLayer->setPosition(10,10);
     this->addChild(baseLayer);
 }
