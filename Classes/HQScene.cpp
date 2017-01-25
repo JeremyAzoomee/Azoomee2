@@ -252,7 +252,7 @@ void HQScene::createArtsAppScrollView()
 
 void HQScene::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), true);
+    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.imag"), true);
 }
 
 void HQScene::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
@@ -264,9 +264,9 @@ void HQScene::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *to
     
     for(int i = 0; i < fileList.size(); i++)
     {
-        if(fileList.at(i).size() > 3)
+        if(fileList.at(i).size() > 4)
         {
-            if((fileList.at(i).substr(fileList.at(i).size() -3, 3) == "png")||(fileList.at(i).substr(fileList.at(i).size() -3, 3) == "jpg"))
+            if(fileList.at(i).substr(fileList.at(i).size() -4, 4) == "imag")
             {
                 std::string imagePath = StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str());
                 addImageToHorizontalScrollView(toBeAddedTo, imagePath, false);

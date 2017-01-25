@@ -14,6 +14,28 @@ define([
         .controller('ArtAppCtrl',
             ['$scope', '$rootScope', '$http', '$routeParams', '$location', 'connectivityHelper', '$timeout', 'deviceApi',
                 function ($scope, $rootScope, $http, $routeParams, $location, connectivityHelper, $timeout, deviceApi ) {
+            function saveToDevice(datURL) {
+                console.log('save to device');
+                //console.log(datURL);
+                console.log("**********");
+                localStorage['art'] = datURL;
+                window.parent.postMessage('saveImage' , '*');
+            }
+            var checkImageTimer=0;
+            function checkForCanvas() {
+                console.log('checking for canvas');
+                var currentArt=localStorage.getItem('art');
+                $scope.randomo=currentArt.length+"--"+Math.random().toString();
+                $rootScope.safeApply(null);
+                if(currentArt=="NEW") {
+                    clearInterval(checkImageTimer);
+                    controller.makeNewArt();
+                } else if (currentArt.length>1000) {
+                    clearInterval(checkImageTimer);
+                    controller.loadSavedArt(currentArt);
+                };
+            }
+                    checkImageTimer=setInterval(checkForCanvas,1000);
                     var controller = {
                         saveName: 'artApp',
                         stickers: {
@@ -39,8 +61,8 @@ define([
                             });
                         },
                         init: function () {
-                            $scope.showGallery = true;
-                            controller.showGallery();
+                            $scope.showGallery = false;
+                            //controller.showGallery();
                             $scope.selectedPattern = null;
                             $scope.patterns = {};
                             controller.setupScopeFunctionBindings();
@@ -146,8 +168,9 @@ define([
                             controller.selectedBrush = $scope.brushes[0].size;
                         },
                         loadSharing: function () {
+                            console.log("loadsharing");
                             var output=controller.$baseCanvas[0].toDataURL();
-                            console.log(output);
+                           // console.log(output);
                             //deviceApi.shareArtwork(controller.$baseCanvas[0].toDataURL());
                         },
                         undoState: null,
@@ -163,6 +186,7 @@ define([
                                     controller.saveArt();
                                 };
                                 imageObj.src = controller.previousImage;
+                                saveToDevice(controller.previousImage);
                                 return;
                             }
                             controller.showClearConfirm();
@@ -205,10 +229,12 @@ define([
                             });
                         },
                         saveArt: function (insertNew, callback) {
+                            console.log('save current status');
                             var currentArt = {
                                 artWork: controller.$baseCanvas[0].toDataURL(),
                                 timestamp: (new Date()).getTime()
                             };
+                            saveToDevice(currentArt.artWork);
                             controller.readSavedFile(function (existingSaves) {
                                 if (!existingSaves) {
                                     existingSaves = [];
@@ -238,7 +264,7 @@ define([
                         },
                         loadSavedArt: function (artwork) {
                             console.log('SAVED ART');
-                            console.log(artwork);
+                            console.log(artwork.length);
                             $scope.showGallery = false;
                             controller.previousImage = null;
                             $scope.undoDisplayState = 'bin';
@@ -379,6 +405,9 @@ define([
                                 controller.flattenCanvas();
                             }
                             controller.isDrawing = false;
+                            console.log('mouseend');
+                            saveToDevice(controller.$baseCanvas[0].toDataURL());
+
                         },
                         mouseMove: function (e) {
                             e.preventDefault();
@@ -637,9 +666,12 @@ define([
                             controller.toolSelected('marker');
                             controller.removeHammerTime();
                             controller.previousImage = controller.$baseCanvas[0].toDataURL();
+
                             $scope.undoDisplayState = 'undo';
                             controller.$baseCanvasContext.drawImage(controller.$stickerCanvas[0], 0, 0);
                             controller.clearCanvas(controller.$stickerCanvas);
+                            console.log('placeSticker');
+                            saveToDevice(controller.$baseCanvas[0].toDataURL());
                         },
                         bindHammerTime: function () {
                             controller.hammertime = new Hammer(controller.$stickerCanvas[0]);
@@ -728,6 +760,7 @@ define([
                                     controller.mouseMove(e);
                                     break;
                             }
+                            saveToDevice(controller.$baseCanvas[0].toDataURL());
                         },
                         drawSticker: function (x,y, image) {
                             controller.clearCanvas(controller.$stickerCanvas);

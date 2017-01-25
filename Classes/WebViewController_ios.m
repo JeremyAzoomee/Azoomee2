@@ -110,12 +110,8 @@
             [[NSFileManager defaultManager] createDirectoryAtPath:writePath withIntermediateDirectories:YES attributes:nil error:NULL];
         }
         
-        NSString *fullFilePath = [NSString stringWithFormat:@"%@/artCache/%@/%@.imag", [paths objectAtIndex:0], useridToUse, title];
-        NSData *plainData = [[NSData alloc] initWithBase64EncodedString:data options:0];
-        
-        [plainData writeToFile:fullFilePath atomically:YES];
-        
-        NSLog(@"File written :%@", fullFilePath);
+        NSString *fullFilePath = [NSString stringWithFormat:@"%@/artCache/%@/%@", [paths objectAtIndex:0], useridToUse, title];
+        [data writeToFile:fullFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
         
         return NO;
     }

@@ -21,6 +21,7 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     notSendingFileData = newImage;
     
     createImageBorder();
+    if(!newImage) createWhiteBackground();
     
     addImage(filePath);
     addOverlay();
@@ -64,6 +65,13 @@ void ArtsAppHQElement::createImageBorder()
     this->addChild(baseLayer);
 }
 
+void ArtsAppHQElement::createWhiteBackground()
+{
+    auto whiteBackground = LayerColor::create(Color4B(255,255,255,255), this->getContentSize().width - 40, this->getContentSize().height - 40);
+    whiteBackground->setPosition(20,20);
+    this->addChild(whiteBackground);
+}
+
 void ArtsAppHQElement::addOverlay()
 {
     overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getBaseColourForContentItemInCategory("ARTS APP"), this->getContentSize().width - 20, this->getContentSize().height - 20);
@@ -74,11 +82,25 @@ void ArtsAppHQElement::addOverlay()
 
 void ArtsAppHQElement::addImage(std::string filePath)
 {
-    CCLOG("image path: %s", filePath.c_str());
-    auto image = Sprite::create(filePath);
-    image->setScale((this->getContentSize().width - 40) / image->getContentSize().width, (this->getContentSize().height - 40) / image->getContentSize().height);
-    image->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
-    this->addChild(image);
+    std::string imageData = FileUtils::getInstance()->getStringFromFile(filePath);
+    imageData = imageData.substr(22);
+    
+    int len = 0;
+    unsigned char *buffer;
+    len = base64Decode((const unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &buffer);
+    
+    Image *img = new Image();
+    img->initWithImageData(buffer, len);
+    
+    Texture2D *texture = new Texture2D();
+    texture->initWithImage(img);
+    
+    auto sprite = Sprite::create();
+    sprite->initWithTexture(texture);
+    
+    sprite->setScale((this->getContentSize().width - 40) / sprite->getContentSize().width, (this->getContentSize().height - 40) / sprite->getContentSize().height);
+    sprite->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+    this->addChild(sprite);
 }
 
 Sprite* ArtsAppHQElement::addDeleteButton()
@@ -210,7 +232,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath)
             
             std::string fullFilePath = FileUtils::getInstance()->fullPathForFilename(filePath);
             std::string content = FileUtils::getInstance()->getStringFromFile(fullFilePath);
-            content = getBase64Encoded(content);
                 
             std::string writeFolder = StringUtils::format("%sscoreCache/%s", FileUtils::getInstance()->getDocumentsPath().c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str());
             std::string dataWritePath = StringUtils::format("%s/art.json", writeFolder.c_str());

@@ -11,6 +11,7 @@ public:
     
 private:
     void createImageBorder();
+    void createWhiteBackground();
     void addImage(std::string filePath);
     void addOverlay();
     void addListenerToElement(std::string filePath);
