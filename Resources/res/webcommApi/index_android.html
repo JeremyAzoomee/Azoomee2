@@ -16,11 +16,24 @@
 			
 			function receiveMessage(event)
 			{
-  				for(var i = 0; i < localStorage.length; i++)
-  				{
-  					var title = localStorage.key(i);
-  					var data = localStorage.getItem(localStorage.key(i));
-  					NativeInterface.saveData(title, data);
+				if(event.data == "saveImage")
+				{
+					var title = localStorage.getItem("artname");
+					var data = localStorage.getItem("art");
+					
+					if(title == "NEW") title = Date.now();
+					if(data == "NEW") return;
+					
+					NativeInterface.saveImage(title, data);
+				}
+				else
+				{			
+  					for(var i = 0; i < localStorage.length; i++)
+  					{
+  						var title = localStorage.key(i);
+  						var data = localStorage.getItem(localStorage.key(i));
+  						NativeInterface.saveData(title, data);
+  					}
   				}
   				
     			return;

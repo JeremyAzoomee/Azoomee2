@@ -52,4 +52,10 @@ public class JsInterface extends Activity {
     {
         NativeView.saveLocalDataForUser(title, data);
     }
+
+    @JavascriptInterface
+    public void saveImage(String title, String data)
+    {
+        NativeView.saveImageForUser(title, data);
+    }
 }

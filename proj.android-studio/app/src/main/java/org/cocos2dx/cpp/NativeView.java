@@ -235,20 +235,42 @@ public class NativeView extends XWalkActivity {
         {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+    }
 
-        //This is only for debug purposes:
+    static void saveImageForUser(String title, String data)
+    {
+        ContextWrapper contextWrapper = new ContextWrapper(mContext);
+        String dataDir = contextWrapper.getApplicationInfo().dataDir + "/artCache";
 
-        log.d("currentGameDirectory:", currentUserDir);
-        File existing = new File(currentUserDir);
-        if(existing.exists()) log.d("currentGameDirectory exists:", "YES");
-        else log.d("currentGameDirectory exists:", "NO");
-
-        File [] files = currentUserDirectory.listFiles();
-        log.d("Files after", "Size: "+ files.length);
-        for (int i = 0; i < files.length; i++)
+        File directory = new File(dataDir);
+        if(!directory.exists())
         {
-                log.d("Files", "FileName:" + files[i].getName());
+            directory.mkdir();
         }
 
+        String currentUserDir = dataDir + "/" + userid;
+        File currentUserDirectory = new File(currentUserDir);
+        if(!currentUserDirectory.exists()) currentUserDirectory.mkdir();
+
+        String currentWritePathString = currentUserDir + "/" + title + ".imag";
+        File currentWritePath = new File(currentWritePathString);
+        if(currentWritePath.exists()) currentWritePath.delete();
+
+        try
+        {
+            currentWritePath.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(currentWritePath);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+            myOutWriter.append(data);
+
+            myOutWriter.close();
+
+            fOut.flush();
+            fOut.close();
+        }
+        catch (IOException e)
+        {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
 }

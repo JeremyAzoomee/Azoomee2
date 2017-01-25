@@ -17,13 +17,28 @@
 			
 			function receiveMessage(event)
 			{
-				for(var i = 0; i < localStorage.length; i++)
+				if(event.data == "saveImage")
 				{
-					var title = localStorage.key(i);
-					var data = localStorage.getItem(localStorage.key(i));
-					window.location.href = "senddata://writeDataToFile?title?"+ title + "?data?" + data;
-				}   
-    			return;
+					var title = localStorage.getItem("artname");
+					var data = localStorage.getItem("art");
+					
+					if(title == "NEW") title = Date.now();
+					if(data == "NEW") return;
+					
+					window.location.href = "saveimage://writeDataToFile?title?"+ title + "?data?" + data;
+					
+					return;
+				}
+				else
+				{
+					for(var i = 0; i < localStorage.length; i++)
+					{
+						var title = localStorage.key(i);
+						var data = localStorage.getItem(localStorage.key(i));
+						window.location.href = "senddata://writeDataToFile?title?"+ title + "?data?" + data;
+					}   
+    				return;
+    			}
 			}
         
             function clearLocalStorage()
