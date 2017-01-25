@@ -39,6 +39,8 @@ private:
     void addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo);
     
     void addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage);
+    
+    std::vector<std::string>getFilesInDirectory(std::string path);
 };
 
 #endif

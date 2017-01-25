@@ -256,14 +256,13 @@ public class NativeView extends XWalkActivity {
         File currentWritePath = new File(currentWritePathString);
         if(currentWritePath.exists()) currentWritePath.delete();
 
+        byte[] fileData = android.util.Base64.decode(data, android.util.Base64.DEFAULT);
+
         try
         {
             currentWritePath.createNewFile();
             FileOutputStream fOut = new FileOutputStream(currentWritePath);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(data);
-
-            myOutWriter.close();
+            fOut.write(fileData);
 
             fOut.flush();
             fOut.close();

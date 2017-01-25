@@ -65,6 +65,7 @@ void ArtsAppHQElement::addOverlay()
 
 void ArtsAppHQElement::addImage(std::string filePath)
 {
+    CCLOG("image path: %s", filePath.c_str());
     auto image = Sprite::create(filePath);
     image->setScale((this->getContentSize().width - 40) / image->getContentSize().width, (this->getContentSize().height - 40) / image->getContentSize().height);
     image->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);

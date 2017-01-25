@@ -9,6 +9,8 @@
 #include "HQDataProvider.h"
 #include "ConfigStorage.h"
 #include "HQSceneElementPositioner.h"
+#include <dirent.h>
+#include "ChildDataProvider.h";
 
 USING_NS_CC;
 
@@ -255,10 +257,21 @@ void HQScene::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeA
 
 void HQScene::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    for(int i = 0; i < 3; i++)
+    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    std::vector<std::string> fileList = getFilesInDirectory(path);
+    
+    CCLOG("imagepath: %s", path.c_str());
+    
+    for(int i = 0; i < fileList.size(); i++)
     {
-        std::string imagePath = StringUtils::format("res/arthqscene/draw%d.jpg", i);
-        addImageToHorizontalScrollView(toBeAddedTo, imagePath, false);
+        if(fileList.at(i).size() > 3)
+        {
+            if((fileList.at(i).substr(fileList.at(i).size() -3, 3) == "png")||(fileList.at(i).substr(fileList.at(i).size() -3, 3) == "jpg"))
+            {
+                std::string imagePath = StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str());
+                addImageToHorizontalScrollView(toBeAddedTo, imagePath, false);
+            }
+        }
     }
 }
 
@@ -270,4 +283,26 @@ void HQScene::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedT
     
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)artImage);
+}
+
+std::vector<std::string> HQScene::getFilesInDirectory(std::string path)
+{
+    std::vector<std::string> fileNames;
+    
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir (path.c_str())) != NULL)
+    {
+        while ((ent = readdir (dir)) != NULL)
+        {
+            fileNames.push_back(ent->d_name);
+        }
+        closedir (dir);
+        return fileNames;
+    }
+    else
+    {
+        perror ("");
+        return fileNames;
+    }
 }
