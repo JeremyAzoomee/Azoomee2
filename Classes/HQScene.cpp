@@ -10,7 +10,7 @@
 #include "ConfigStorage.h"
 #include "HQSceneElementPositioner.h"
 #include <dirent.h>
-#include "ChildDataProvider.h";
+#include "ChildDataProvider.h"
 
 USING_NS_CC;
 

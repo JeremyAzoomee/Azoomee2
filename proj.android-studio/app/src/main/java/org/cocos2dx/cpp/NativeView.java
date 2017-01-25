@@ -224,7 +224,7 @@ public class NativeView extends XWalkActivity {
             currentWritePath.createNewFile();
             FileOutputStream fOut = new FileOutputStream(currentWritePath);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(data);
+            myOutWriter.write(data);
 
             myOutWriter.close();
 
@@ -252,17 +252,17 @@ public class NativeView extends XWalkActivity {
         File currentUserDirectory = new File(currentUserDir);
         if(!currentUserDirectory.exists()) currentUserDirectory.mkdir();
 
-        String currentWritePathString = currentUserDir + "/" + title + ".imag";
+        String currentWritePathString = currentUserDir + "/" + title;
         File currentWritePath = new File(currentWritePathString);
         if(currentWritePath.exists()) currentWritePath.delete();
 
-        byte[] fileData = android.util.Base64.decode(data, android.util.Base64.DEFAULT);
-
-        try
-        {
+        try {
             currentWritePath.createNewFile();
             FileOutputStream fOut = new FileOutputStream(currentWritePath);
-            fOut.write(fileData);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+            myOutWriter.write(data);
+
+            myOutWriter.close();
 
             fOut.flush();
             fOut.close();

@@ -21,7 +21,12 @@
 					var title = localStorage.getItem("artname");
 					var data = localStorage.getItem("art");
 					
-					if(title == "NEW") title = Date.now();
+					if(title == "NEW") 
+					{
+						title = Date.now() + ".imag";
+						localStorage["artname"] = title;
+					}
+					
 					if(data == "NEW") return;
 					
 					NativeInterface.saveImage(title, data);
