@@ -14,6 +14,16 @@ private:
     void addImage(std::string filePath);
     void addOverlay();
     void addListenerToElement(std::string filePath);
+    
+    cocos2d::Sprite *addDeleteButton();
+    cocos2d::Sprite *deleteButton;
+    void addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, std::string filePath);
+    void showDeleteButton(float dt);
+    void hideDeleteButton();
+    bool deleteButtonIsShown();
+    void scheduleShowingDeleteButton();
+    void unscheduleShowingDeleteButton();
+    
     std::string getBase64Encoded(std::string input);
     std::string getFileNameFromPath(std::string path);
     

@@ -3,6 +3,7 @@
 #include "ConfigStorage.h"
 #include "WebViewSelector.h"
 #include "ChildDataProvider.h"
+#include "HQScene.h"
 
 USING_NS_CC;
 using namespace cocos2d;
@@ -23,6 +24,12 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     addImage(filePath);
     addOverlay();
     addListenerToElement(filePath);
+    
+    if(newImage == false)
+    {
+        deleteButton = addDeleteButton();
+        addListenerToDeleteButton(deleteButton, filePath);
+    }
     
     return true;
 }
@@ -72,6 +79,80 @@ void ArtsAppHQElement::addImage(std::string filePath)
     this->addChild(image);
 }
 
+Sprite* ArtsAppHQElement::addDeleteButton()
+{
+    auto delButton = Sprite::create("res/arthqscene/delete.png");
+    delButton->setPosition(this->getContentSize().width - 80, this->getContentSize().height - 80);
+    delButton->setOpacity(0);
+    this->addChild(delButton);
+    
+    return delButton;
+}
+
+void ArtsAppHQElement::showDeleteButton(float dt)
+{
+    if(deleteButton) deleteButton->setOpacity(255);
+}
+
+void ArtsAppHQElement::hideDeleteButton()
+{
+    if(deleteButton)
+    {
+        deleteButton->setOpacity(0);
+        overlayWhenTouched->setOpacity(0);
+    }
+}
+
+void ArtsAppHQElement::scheduleShowingDeleteButton()
+{
+    if(deleteButton) this->scheduleOnce(schedule_selector(ArtsAppHQElement::showDeleteButton), 1);
+}
+
+void ArtsAppHQElement::unscheduleShowingDeleteButton()
+{
+    if(deleteButton) this->unschedule(schedule_selector(ArtsAppHQElement::showDeleteButton));
+}
+
+bool ArtsAppHQElement::deleteButtonIsShown()
+{
+    if(!deleteButton) return false;
+    
+    if(deleteButton->getOpacity() > 0) return true;
+    else return false;
+}
+
+void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, std::string filePath)
+{
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
+    {
+        auto target = static_cast<Node*>(event->getCurrentTarget());
+        
+        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+        Size s = target->getBoundingBox().size;//getContentSize();
+        Rect rect = Rect(0,0,s.width, s.height);
+        
+        if(target->getOpacity() == 255)
+        {
+            if(rect.containsPoint(locationInNode))
+            {
+                FileUtils::getInstance()->removeFile(filePath);
+                HQScene *hqScene = (HQScene *)this->getParent()->getParent()->getParent();
+                CCLOG("Name where I am : %s", hqScene->getName().c_str());
+                hqScene->removeAllChildren();
+                hqScene->startBuildingScrollViewBasedOnName();
+                
+                return true;
+            }
+        }
+        
+        return false;
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
+}
+
 void ArtsAppHQElement::addListenerToElement(std::string filePath)
 {
     auto listener = EventListenerTouchOneByOne::create();
@@ -84,11 +165,15 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath)
         Size s = target->getBoundingBox().size;//getContentSize();
         Rect rect = Rect(0,0,s.width, s.height);
         
+        this->hideDeleteButton();
+        
         if(rect.containsPoint(locationInNode))
         {
             overlayWhenTouched->runAction(FadeTo::create(0, 150));
             movedAway = false;
             touchPoint = touch->getLocation();
+            
+            this->scheduleShowingDeleteButton();
             
             return true;
         }
@@ -103,6 +188,9 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath)
             movedAway = true;
             overlayWhenTouched->stopAllActions();
             overlayWhenTouched->runAction(FadeTo::create(0, 0));
+            
+            this->unscheduleShowingDeleteButton();
+            this->hideDeleteButton();
         }
         
         return true;
@@ -110,6 +198,11 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath)
     
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
+        if(deleteButtonIsShown())
+        {
+            return true;
+        }
+        
         if(overlayWhenTouched->getOpacity() > 0)
         {
             
