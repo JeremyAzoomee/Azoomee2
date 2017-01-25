@@ -5,10 +5,21 @@
 
 class NavigationLayer : public cocos2d::Layer
 {
+    
+    
 public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
+    
+    CREATE_FUNC(NavigationLayer);
+    
+    void startLoadingGroupHQ(std::string uri);
+    
+private:
+    
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
     
     //MenuItem creation phase
     cocos2d::Sprite* addMenuItemImage(int itemNumber);
@@ -18,16 +29,20 @@ public:
     void runDisplayAnimationForMenuItem(cocos2d::Node* node1, cocos2d::Node* node2);
     void moveMenuPointsToHorizontalState();
     void moveMenuPointsToCircleState();
+    void createSettingsButton();
     
     //Handling created menuitems or all menuitems
     void turnOffAllMenuItems();
     void setButtonOn(int i);
     void delayedSetButtonOn(float dt);
-    void changeToScene(int target);
-    
-    CREATE_FUNC(NavigationLayer);
-    
     void startLoadingHQScene(int categoryTag);
+    void changeToScene(int target);
+    void addBackButtonToNavigation();
+    void removeBackButtonFromNavigation();
+    void addListenerToBackButton(cocos2d::Node* toBeAddedTo);
+    
+    int currentScene;
+    
 };
 
 #endif

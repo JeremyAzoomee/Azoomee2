@@ -52,7 +52,7 @@ void LoginScene::onEnterTransitionDidFinish()
 
 void LoginScene::handleErrorCode(long errorCode)
 {
-    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
+    ModalMessages::getInstance()->createErrorMessage(errorCode);
 }
 
 //----------------- SCENE SETUP ---------------

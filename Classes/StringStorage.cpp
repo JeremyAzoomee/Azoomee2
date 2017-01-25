@@ -71,3 +71,32 @@ std::string StringStorage::getStringForLoginScene(std::string labelName)
     
     return loginStrings[labelName];
 }
+
+// --------------------- Error Messages ----------------------
+
+std::map<std::string, std::string> StringStorage::getErrorMessageStrings(long errorCode)
+{
+    std::map<std::string, std::string> errorStrings;
+    
+    switch(errorCode){
+        case 401 :
+        case 419 :
+            errorStrings[ERROR_TITLE] = "Login Required";
+            errorStrings[ERROR_BODY] = "Your session has timed out; please login again.";
+            errorStrings[ERROR_BUTTON] = "OK";
+            break;
+            
+        case 403  :
+            errorStrings[ERROR_TITLE] = "You Can't Do That";
+            errorStrings[ERROR_BODY] = "Please ask a grown-up to help you.";
+            errorStrings[ERROR_BUTTON] = "OK";
+            break;
+
+        default :
+            errorStrings[ERROR_TITLE] = "Something Went Wrong";
+            errorStrings[ERROR_BODY] = "There was a problem selecting that child; please try again.";
+            errorStrings[ERROR_BUTTON] = "OK";
+    }
+    
+    return errorStrings;
+}

@@ -23,6 +23,8 @@
 		4330C78B1E27BFD900D32D3E /* CrashlyticsConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4330C7891E27BFD900D32D3E /* CrashlyticsConfig.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
 		433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
+		4372DFA71E38F4EF003AC35C /* AwaitingAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4372DFA51E38F4EF003AC35C /* AwaitingAdultPinLayer.cpp */; };
+		4372DFAB1E38F4F9003AC35C /* ExitOrLogoutLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4372DFA91E38F4F9003AC35C /* ExitOrLogoutLayer.cpp */; };
 		46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7719C43A67006E1F66 /* CloseSelected.png */; };
@@ -178,6 +180,10 @@
 		4330C78A1E27BFD900D32D3E /* CrashlyticsConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashlyticsConfig.h; sourceTree = "<group>"; };
 		433AD3051E252A2C003757AD /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		433AD3061E252A2C003757AD /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		4372DFA51E38F4EF003AC35C /* AwaitingAdultPinLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AwaitingAdultPinLayer.cpp; sourceTree = "<group>"; };
+		4372DFA61E38F4EF003AC35C /* AwaitingAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwaitingAdultPinLayer.h; sourceTree = "<group>"; };
+		4372DFA91E38F4F9003AC35C /* ExitOrLogoutLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExitOrLogoutLayer.cpp; sourceTree = "<group>"; };
+		4372DFAA1E38F4F9003AC35C /* ExitOrLogoutLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExitOrLogoutLayer.h; sourceTree = "<group>"; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
 		46880B7719C43A67006E1F66 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
 		46880B7A19C43A67006E1F66 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
@@ -754,6 +760,10 @@
 			children = (
 				A15B2FA71DEDAA2A00D25334 /* ModalMessages.cpp */,
 				A15B2FA81DEDAA2A00D25334 /* ModalMessages.h */,
+				4372DFA51E38F4EF003AC35C /* AwaitingAdultPinLayer.cpp */,
+				4372DFA61E38F4EF003AC35C /* AwaitingAdultPinLayer.h */,
+				4372DFA91E38F4F9003AC35C /* ExitOrLogoutLayer.cpp */,
+				4372DFAA1E38F4F9003AC35C /* ExitOrLogoutLayer.h */,
 			);
 			name = ModalMessages;
 			sourceTree = "<group>";
@@ -981,6 +991,7 @@
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				4330C78B1E27BFD900D32D3E /* CrashlyticsConfig.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				4372DFAB1E38F4F9003AC35C /* ExitOrLogoutLayer.cpp in Sources */,
 				A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */,
 				A15D58A31E0830600099CDEE /* StringStorage.cpp in Sources */,
 				A1A2D30B1E13B54500E86169 /* ParentDataParser.cpp in Sources */,
@@ -1005,6 +1016,7 @@
 				A15B2FBA1DEDD1EA00D25334 /* HMACSHA256_javaCaller.cpp in Sources */,
 				A1A2D30C1E13B54500E86169 /* ParentDataProvider.cpp in Sources */,
 				A1CC0C251E141B47008B469E /* HQDataStorage.cpp in Sources */,
+				4372DFA71E38F4EF003AC35C /* AwaitingAdultPinLayer.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

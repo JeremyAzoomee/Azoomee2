@@ -14,7 +14,9 @@
 #include "WebViewSelector.h"
 #include "ImageDownloader.h"
 #include "HQDataProvider.h"
+#include "GameDataManager.h"
 #include "ConfigStorage.h"
+#include "NavigationLayer.h"
 
 USING_NS_CC;
 
@@ -50,7 +52,7 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     
     if(itemData["entitled"] == "true")
     {
-        addListenerToElement(itemData["uri"]);
+        addListenerToElement(itemData["uri"], itemData["id"], category);
     }
     else
     {
@@ -138,7 +140,7 @@ void HQSceneElement::createColourLayer(std::string category)
     this->addChild(baseLayer);
 }
 
-void HQSceneElement::addListenerToElement(std::string uri)
+void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -181,8 +183,22 @@ void HQSceneElement::addListenerToElement(std::string uri)
             overlayWhenTouched->stopAllActions();
             overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
             CCLOG("Action to come: %s", uri.c_str());
-            auto webViewSelector = WebViewSelector::create();
-            webViewSelector->loadWebView(uri);
+            
+            if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
+            {
+                GameDataManager::getInstance()->startProcessingGame(uri, contentId);
+            }
+            else if((HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIO"))
+            {
+                auto webViewSelector = WebViewSelector::create();
+                webViewSelector->loadWebView(uri.c_str());
+            }
+            else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GROUP")
+            {
+                NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+                navigationLayer->startLoadingGroupHQ(uri);
+                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+            }
         }
         
         return true;
