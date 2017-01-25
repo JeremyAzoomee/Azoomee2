@@ -4,6 +4,7 @@
 
 #include "HQScene.h"
 #include "HQSceneElement.h"
+#include "ArtsAppHQElement.h"
 #include "SimpleAudioEngine.h"
 #include "HQDataProvider.h"
 #include "ConfigStorage.h"
@@ -38,7 +39,8 @@ void HQScene::startBuildingScrollViewBasedOnName()
     
     if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.
     {
-        createBidirectionalScrollView();
+        if(this->getName() == "ARTS APP") createArtsAppScrollView();
+        else createBidirectionalScrollView();
     }
 }
 
@@ -230,4 +232,42 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
     
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
+}
+
+//--------------------------------------------ARTS APP SCROLL VIEW CREATION----------------------------------------------------------
+
+void HQScene::createArtsAppScrollView()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(0, 300));
+    this->addChild(horizontalScrollView);
+    
+    addEmptyImageToHorizontalScrollView(horizontalScrollView);
+    addCreatedImagesToHorizontalScrollView(horizontalScrollView);
+}
+
+void HQScene::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
+{
+    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), true);
+}
+
+void HQScene::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
+{
+    for(int i = 0; i < 3; i++)
+    {
+        std::string imagePath = StringUtils::format("res/arthqscene/draw%d.jpg", i);
+        addImageToHorizontalScrollView(toBeAddedTo, imagePath, false);
+    }
+}
+
+void HQScene::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage)
+{
+    auto artImage = ArtsAppHQElement::create();
+    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage);
+    toBeAddedTo->addChild(artImage);
+    
+    auto sceneElementPositioner = new HQSceneElementPositioner();
+    sceneElementPositioner->positionHQSceneElement((Layer *)artImage);
 }

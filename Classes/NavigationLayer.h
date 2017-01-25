@@ -31,6 +31,9 @@ private:
     void removeBackButtonFromNavigation();
     void addListenerToBackButton(cocos2d::Node* toBeAddedTo);
     
+    //Handle arts app
+    void loadArtsAppHQ();
+    
     int currentScene;
     
 };

@@ -10,6 +10,7 @@
 		0236D5111E3675C500B552B7 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 0236D5101E3675C500B552B7 /* WebViewController_ios.m */; };
 		025BE9331E381B3700EF76D1 /* ButtonController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9321E381B3700EF76D1 /* ButtonController_ios.m */; };
 		025BE9371E381B4800EF76D1 /* ios_Cocos2d_Callbacks.mm in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9361E381B4800EF76D1 /* ios_Cocos2d_Callbacks.mm */; };
+		025BE93A1E382A3400EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9381E382A3400EF76D1 /* ArtsAppHQElement.cpp */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -165,6 +166,8 @@
 		025BE9321E381B3700EF76D1 /* ButtonController_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonController_ios.m; sourceTree = "<group>"; };
 		025BE9351E381B4800EF76D1 /* ios_Cocos2d_Callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ios_Cocos2d_Callbacks.h; sourceTree = "<group>"; };
 		025BE9361E381B4800EF76D1 /* ios_Cocos2d_Callbacks.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ios_Cocos2d_Callbacks.mm; sourceTree = "<group>"; };
+		025BE9381E382A3400EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
+		025BE9391E382A3400EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -681,6 +684,8 @@
 				A19759831DE4931200FEB03C /* HQSceneElement.h */,
 				A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */,
 				A134ADCD1E0C0F420030BE98 /* HQSceneElementPositioner.h */,
+				025BE9381E382A3400EF76D1 /* ArtsAppHQElement.cpp */,
+				025BE9391E382A3400EF76D1 /* ArtsAppHQElement.h */,
 			);
 			name = HQScene;
 			sourceTree = "<group>";
@@ -1012,6 +1017,7 @@
 				A1A2D3051E13B53200E86169 /* ChildDataParser.cpp in Sources */,
 				432312121E1D4EFB00C8606D /* TextInputLayer.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				025BE93A1E382A3400EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
 				A19862251DD3836D0090F053 /* LoginScene.cpp in Sources */,
 				A15B2FB21DEDD1E000D25334 /* JWTTool.cpp in Sources */,

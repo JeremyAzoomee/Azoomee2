@@ -27,10 +27,18 @@ private:
     void createBidirectionalScrollView();
     void createMonodirectionalScrollView();
     
+    
     std::vector<bool> scrollViewSpaceAllocation;
     cocos2d::Point getItemPositionForBidirectionalScrollView(int highlight);
     
     int category;
+    
+    //Arts app calls
+    void createArtsAppScrollView();
+    void addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo);
+    void addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo);
+    
+    void addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage);
 };
 
 #endif

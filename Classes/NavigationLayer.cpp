@@ -3,6 +3,7 @@
 
 #include "BaseScene.h"
 #include "HQDataProvider.h"
+#include "HQScene.h"
 
 #include "ConfigStorage.h"
 
@@ -58,9 +59,24 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
+void NavigationLayer::loadArtsAppHQ()
+{
+    Scene *runningScene = Director::getInstance()->getRunningScene();
+    Node *baseLayer = runningScene->getChildByName("baseLayer");
+    Node *contentLayer = baseLayer->getChildByName("contentLayer");
+    HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("ARTS APP");
+    
+    hqLayer->startBuildingScrollViewBasedOnName();
+}
 
 void NavigationLayer::startLoadingHQScene(int categoryTag)
 {
+    if(categoryTag == 4)
+    {
+        loadArtsAppHQ();
+        return;
+    }
+    
     HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(categoryTag));
 }
 

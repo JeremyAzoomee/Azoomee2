@@ -148,7 +148,7 @@ cocos2d::Color4B ConfigStorage::getBaseColourForContentItemInCategory(std::strin
     colours["VIDEO HQ"] = Color4B(255,0,0, 150);
     colours["AUDIO HQ"] = Color4B(0,255,0, 150);
     colours["GAME HQ"] = Color4B(0,112,204, 150);
-    colours["ARTS APP"] = Color4B(0,0,255, 150);
+    colours["ARTS APP"] = Color4B(255,255,0, 150);
     colours["GROUP HQ"] = Color4B(255, 0, 0, 150);
     
     return colours[category];

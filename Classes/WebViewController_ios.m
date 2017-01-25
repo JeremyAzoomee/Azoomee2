@@ -124,7 +124,6 @@
             [webView stringByEvaluatingJavaScriptFromString:addDataString];
         }
         
-        //Finally load the iframe with the desired url
         NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
         [webView stringByEvaluatingJavaScriptFromString:loadString];
         
