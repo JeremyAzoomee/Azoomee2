@@ -54,7 +54,7 @@ public class AppActivity extends Cocos2dxActivity {
 
     }
 
-    public static void alertJNI(String url, String cookieurl, String cookie, String userid) {
+    public static void startWebView(String url, String cookieurl, String cookie, String userid) {
 
         Log.d("sent from cocos", url + " - " + cookieurl + " - " + cookie);
 
