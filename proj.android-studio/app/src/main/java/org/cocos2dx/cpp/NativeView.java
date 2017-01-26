@@ -49,6 +49,10 @@ public class NativeView extends XWalkActivity {
 
         mContext = this;
 
+        Bundle extras = getIntent().getExtras();
+        userid = extras.getString("userid");
+        log.d("userid", userid);
+
         xWalkWebView = new XWalkView(this);
         addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
@@ -131,10 +135,10 @@ public class NativeView extends XWalkActivity {
     {
         ContextWrapper contextWrapper = new ContextWrapper(mContext);
 
-        File scoreCacheDir = new File(contextWrapper.getApplicationInfo().dataDir + "/scoreCache");
+        File scoreCacheDir = new File(contextWrapper.getApplicationInfo().dataDir + "/files/scoreCache");
         if(!scoreCacheDir.exists()) scoreCacheDir.mkdir();
 
-        File userDir = new File(contextWrapper.getApplicationInfo().dataDir + "/scoreCache/" + userid);
+        File userDir = new File(contextWrapper.getApplicationInfo().dataDir + "/files/scoreCache/" + userid);
         if(!userDir.exists()) userDir.mkdir();
 
         return userDir;
@@ -143,6 +147,9 @@ public class NativeView extends XWalkActivity {
     static File [] getFilesListFromUserDirectory()
     {
         File directory = getUserDirectory();
+
+        log.d("Directory: ", getUserDirectory().getPath());
+
         return directory.listFiles();
     }
 
@@ -157,6 +164,7 @@ public class NativeView extends XWalkActivity {
         else
         {
             File [] files = directory.listFiles();
+            log.d("amount of files", "is " + files.length);
             return files.length;
         }
     }
@@ -167,6 +175,7 @@ public class NativeView extends XWalkActivity {
 
         if(!files[fileNumber].isDirectory())
         {
+            log.d("filename", files[fileNumber].getName());
             return files[fileNumber].getName().substring(0, files[fileNumber].getName().length() - 5);
         }
         return "DIR";
@@ -197,13 +206,15 @@ public class NativeView extends XWalkActivity {
         }
         String data = stringBuilder.toString();
 
+        log.d("data", data);
+
         return data;
     }
 
     static void saveLocalDataForUser(String title, String data)
     {
         ContextWrapper contextWrapper = new ContextWrapper(mContext);
-        String dataDir = contextWrapper.getApplicationInfo().dataDir + "/scoreCache";
+        String dataDir = contextWrapper.getApplicationInfo().dataDir + "/files/scoreCache";
 
         File directory = new File(dataDir);
         if(!directory.exists())
@@ -240,7 +251,7 @@ public class NativeView extends XWalkActivity {
     static void saveImageForUser(String title, String data)
     {
         ContextWrapper contextWrapper = new ContextWrapper(mContext);
-        String dataDir = contextWrapper.getApplicationInfo().dataDir + "/artCache";
+        String dataDir = contextWrapper.getApplicationInfo().dataDir + "/files/artCache";
 
         File directory = new File(dataDir);
         if(!directory.exists())
@@ -271,5 +282,7 @@ public class NativeView extends XWalkActivity {
         {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+
+        Log.d("File was written to", currentWritePathString);
     }
 }

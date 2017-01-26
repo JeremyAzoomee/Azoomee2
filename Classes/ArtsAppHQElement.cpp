@@ -250,10 +250,22 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath)
                 FileUtils::getInstance()->writeStringToFile("NEW", nameWritePath);
             }
             
+            CCLOG("Checking if the file is working at: %s", writeFolder.c_str());
+            if(FileUtils::getInstance()->isFileExist(nameWritePath))
+            {
+                CCLOG("Data exists: %s", nameWritePath.c_str());
+            }
+            
             overlayWhenTouched->stopAllActions();
             overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
             
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
             WebViewSelector::createSceneWithUrl(FileUtils::getInstance()->fullPathForFilename("res/artapp/index.html"));
+#endif
+            
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+            WebViewSelector::createSceneWithUrl("file:///android_asset/res/artapp/index.html");
+#endif
         }
         
         return true;

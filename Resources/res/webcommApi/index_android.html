@@ -29,6 +29,8 @@
 					
 					if(data == "NEW") return;
 					
+					console.log("File save process: " + title);
+					
 					NativeInterface.saveImage(title, data);
 				}
 				else
@@ -86,9 +88,8 @@
 			var contentUrl = getUrlVars()["contentUrl"];
 			var iframe = document.createElement('iframe');
 			iframe.src = contentUrl;
-			//iframe.src = "sender_test.html";
-			iframe.width  = window.innerWidth;
-    		iframe.height = window.innerHeight;
+			iframe.width  = window.innerWidth - 50;
+    		iframe.height = window.innerHeight - 50;
 			document.body.appendChild(iframe);
 		
 			window.addEventListener("message", receiveMessage, false);
