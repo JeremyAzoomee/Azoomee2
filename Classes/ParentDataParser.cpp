@@ -50,6 +50,8 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
 
 bool ParentDataParser::parseAvailableChildren(std::string responseData)
 {
+    ParentDataStorage::getInstance()->availableChildren.clear();
+    
     ParentDataStorage::getInstance()->availableChildrenData.Parse(responseData.c_str());
     
     for(int i = 0; i < ParentDataStorage::getInstance()->availableChildrenData.Size(); i++)
