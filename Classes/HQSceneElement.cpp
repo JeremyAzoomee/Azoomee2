@@ -219,6 +219,12 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
                 navigationLayer->startLoadingGroupHQ(uri);
                 HQDataProvider::getInstance()->getDataForGroupHQ(uri);
             }
+            else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIOGROUP")
+            {
+                NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+                navigationLayer->startLoadingGroupHQ(uri);
+                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+            }
         }
         
         return false;
