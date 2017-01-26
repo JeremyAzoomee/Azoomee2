@@ -6,8 +6,8 @@
 #include "ConfigStorage.h"
 #include "StringStorage.h"
 #include "TextInputChecker.h"
-
 #include "TextInputLayer.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -29,6 +29,8 @@ bool LoginScene::init()
         return false;
     }
     
+    CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
@@ -44,17 +46,12 @@ void LoginScene::onEnterTransitionDidFinish()
     
     if(_errorCode !=0)
     {
-        handleErrorCode(_errorCode);
+        ModalMessages::getInstance()->createErrorMessage(_errorCode);
     }
     
 #ifdef autologin
     BackEndCaller::getInstance()->login("tamas.bonis@azoomee.com", "B0Ta1983!");
 #endif
-}
-
-void LoginScene::handleErrorCode(long errorCode)
-{
-    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
 }
 
 //----------------- SCENE SETUP ---------------

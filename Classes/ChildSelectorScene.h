@@ -19,7 +19,6 @@ public:
     void AdultPinAccepted(AwaitingAdultPinLayer* layer);
     
 private:
-    void handleErrorCode(long errorCode);
     long _errorCode;
     
     cocos2d::Vec2 origin;

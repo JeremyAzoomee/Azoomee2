@@ -2,6 +2,14 @@
 #include "cocos2d.h"
 #include "ElectricDreamsButton.h"
 
+//------------- ERROR MESSAGE CODES --------------
+// For use in createErrorMessage
+#define ERROR_CODE_INVALID_CREDENTIALS 1001
+#define ERROR_CODE_ANY_OTHER_LOGIN_ERROR 1002
+#define ERROR_CODE_EMAIL_VARIFICATION_REQUIRED 1003
+#define ERROR_CODE_INCORRECT_PIN 1004
+#define ERROR_CODE_NAME_EXISTS 1005
+
 class ModalMessages: public cocos2d::Ref, public ElectricDreamsButtonDelegate
 {
 public:
@@ -12,6 +20,8 @@ private:
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();
     void removeLayer();
+    
+    void createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText);
     
     //MessageBox functions
     void createTitle(std::string messageTitle);
@@ -35,7 +45,7 @@ public:
     void startLoading();
     void stopLoading();
     
-    void createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText);
+    void createErrorMessage(long errorCode);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);

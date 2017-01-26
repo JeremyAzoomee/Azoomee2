@@ -1,4 +1,5 @@
 #include "StringStorage.h"
+#include "ModalMessages.h"
 
 using namespace cocos2d;
 
@@ -70,4 +71,63 @@ std::string StringStorage::getStringForLoginScene(std::string labelName)
     loginStrings["passwordLabel"] = "Password";
     
     return loginStrings[labelName];
+}
+
+// --------------------- Error Messages ----------------------
+
+std::map<std::string, std::string> StringStorage::getErrorMessageStrings(long errorCode)
+{
+    std::map<std::string, std::string> errorStrings;
+    
+    switch(errorCode){
+        case 401 :
+        case 419 :
+            errorStrings[ERROR_TITLE] = "Login Required";
+            errorStrings[ERROR_BODY] = "Your session has timed out; please login again.";
+            errorStrings[ERROR_BUTTON] = "OK";
+            break;
+            
+        case 403  :
+            errorStrings[ERROR_TITLE] = "You Can't Do That";
+            errorStrings[ERROR_BODY] = "Please ask a grown-up to help you.";
+            errorStrings[ERROR_BUTTON] = "OK";
+            break;
+            
+        case ERROR_CODE_INVALID_CREDENTIALS:
+             errorStrings[ERROR_TITLE] = "That Didn't Work";
+             errorStrings[ERROR_BODY] = "There was a problem with either your email or your password; please try logging in again.";
+             errorStrings[ERROR_BUTTON] = "OK";
+             break;
+             
+        case ERROR_CODE_ANY_OTHER_LOGIN_ERROR :
+             errorStrings[ERROR_TITLE] = "Something Went Wrong";
+             errorStrings[ERROR_BODY] = "There was a problem logging you in; please try again.";
+             errorStrings[ERROR_BUTTON] = "OK";
+             break;
+             
+        case ERROR_CODE_EMAIL_VARIFICATION_REQUIRED :
+             errorStrings[ERROR_TITLE] = "Email Verification Required";
+             errorStrings[ERROR_BODY] = "For security reasons, you'll need to verify your email address before you can add more children. Follow the instructions in the email that we've sent you.";
+             errorStrings[ERROR_BUTTON] = "OK";
+             break;
+             
+        case ERROR_CODE_INCORRECT_PIN :
+             errorStrings[ERROR_TITLE] = "Pin Error";
+             errorStrings[ERROR_BODY] = "Please enter your correct 4 digit pin to continue.";
+             errorStrings[ERROR_BUTTON] = "OK";
+             break;
+            
+        case ERROR_CODE_NAME_EXISTS :
+            errorStrings[ERROR_TITLE] = "Display Name Exists";
+            errorStrings[ERROR_BODY] = "Please insert a unique name.";
+            errorStrings[ERROR_BUTTON] = "OK";
+            break;
+
+        default :
+            errorStrings[ERROR_TITLE] = "Something Went Wrong";
+            errorStrings[ERROR_BODY] = "There was a problem selecting that child; please try again.";
+            errorStrings[ERROR_BUTTON] = "OK";
+    }
+    
+    return errorStrings;
 }
