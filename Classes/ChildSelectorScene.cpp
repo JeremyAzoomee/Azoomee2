@@ -5,7 +5,7 @@
 #include <math.h>
 #include "ModalMessages.h"
 #include "ConfigStorage.h"
-#include "StringStorage.h"
+#include "SimpleAudioEngine.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -34,6 +34,8 @@ bool ChildSelectorScene::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+    
     addVisualsToScene();
     createSettingsButton();
     addScrollViewForProfiles();
@@ -43,20 +45,15 @@ bool ChildSelectorScene::init()
     return true;
 }
 
-//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 void ChildSelectorScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
     {
-        handleErrorCode(_errorCode);
+        ModalMessages::getInstance()->createErrorMessage(_errorCode);
     }
 }
 
-void ChildSelectorScene::handleErrorCode(long errorCode)
-{
-    //#TODO handle modal message strings.
-    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
-}
+//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 
 void ChildSelectorScene::addVisualsToScene()
 {
@@ -117,10 +114,10 @@ void ChildSelectorScene::addProfilesToScrollView()
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        std::string oomeeUrl = ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "avatar");
+        std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(i);
         int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
         
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "profileName"), oomeeNr);
+        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(i), oomeeNr);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         addListenerToProfileLayer(profileLayer);
@@ -202,6 +199,8 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
         if(!touchMovedAway)
         {
             auto target = static_cast<Node*>(event->getCurrentTarget());
+         
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
             
             if(target->getName() == "addChildButton")
                 addChildButtonPressed(target);
@@ -276,13 +275,13 @@ void ChildSelectorScene::addNewChildButtonToScrollView()
 void ChildSelectorScene::addChildButtonPressed(Node* target)
 {
     //Check is email verified, if not refresh profile, then error
-    if((ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "VERIFIED")||(ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "ACTIVE"))
+    if((ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "VERIFIED")||(ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "ACTIVE"))
     {
         target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
         AwaitingAdultPinLayer::create()->setDelegate(this);
     }
     else
-        ModalMessages::getInstance()->createMessageWithSingleButton(EMAIL_NOT_VERIFIED_ERROR_TITLE_TEXT, EMAIL_NOT_VERIFIED_ERROR_BODY_TEXT, EMAIL_NOT_VERIFIED_ERROR_BUTTON_TEXT);
+        ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED);
 }
 
 //----------------------- Delegate Functions ----------------------------

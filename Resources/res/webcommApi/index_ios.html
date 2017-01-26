@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<title>Game storage API</title>
+	</head>
+	<body bgcolor="black">
+		<script>
+			function addFrameWithUrl(url)
+			{
+				var iframe = document.createElement('iframe');
+				iframe.src = url;
+				iframe.width  = window.innerWidth - 10;
+    			iframe.height = window.innerHeight - 10;
+    			iframe.style.border = "none";
+				document.body.appendChild(iframe);
+				
+				window.addEventListener("message", receiveMessage, false);
+			}
+			
+			function receiveMessage(event)
+			{
+				if(event.data == "saveImage")
+				{
+					var title = localStorage.getItem("artname");
+					var data = localStorage.getItem("art");
+					
+					if(title == "NEW") 
+					{
+						title = Date.now() + ".imag";
+						localStorage["artname"] = title;
+					}
+					
+					if(data == "NEW") return;
+					
+					window.location.href = "saveimage://writeDataToFile?title?"+ title + "?data?" + data;
+					
+					return;
+				}
+				else
+				{
+					for(var i = 0; i < localStorage.length; i++)
+					{
+						var title = localStorage.key(i);
+						var data = localStorage.getItem(localStorage.key(i));
+						window.location.href = "senddata://writeDataToFile?title?"+ title + "?data?" + data;
+					}   
+    				return;
+    			}
+			}
+        
+            function clearLocalStorage()
+            {
+            	localStorage.clear();
+            }
+            
+            function addDataToLocalStorage(key, data)
+			{
+				localStorage[key] = data;
+			}
+		</script>
+	</body>
+</html>

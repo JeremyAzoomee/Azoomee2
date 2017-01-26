@@ -13,11 +13,14 @@ public:
     
     //General configuration
 //#define autologin YES;
-#define forcereload YES;
+//#define forcereload YES;
+    
+    std::string getFileNameFromUrl(std::string url);
     
     //Backend caller configuration
     std::string getServerHost();
     std::string getServerUrl();
+    std::string getImagesUrl();
     std::string getPathForTag(std::string httpRequestTag);
     
     //ChildAccountScene settings
@@ -52,4 +55,7 @@ public:
     
     //OomeeLayer animation states
     std::string getRandomIdForAnimationType(std::string animationType);
+    
+    //Android helper for arts app
+    int inArtsApp;
 };

@@ -24,23 +24,41 @@ ConfigStorage::~ConfigStorage(void)
 
 bool ConfigStorage::init(void)
 {
+    inArtsApp = 0;
     return true;
 }
+
+std::string ConfigStorage::getFileNameFromUrl(std::string url)
+{
+    int startPoint = (int)url.find_last_of("/") + 1;
+    
+    int endPoint = (int)url.length();
+    if(url.find("?", 0) != url.npos) endPoint = (int)url.find("?", 0);
+    int subLength = endPoint - startPoint;
+    
+    return url.substr(startPoint, subLength);
+}
+
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
-    return "api.elb.ci.azoomee.ninja";
+    return "api.azoomee.com";
 }
 
 std::string ConfigStorage::getServerUrl()
 {
-    return "http://" + getServerHost();
+    return "https://" + getServerHost();
+}
+
+std::string ConfigStorage::getImagesUrl()
+{
+    return "https://media.azoomee.com/static/images";
 }
 
 std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
 {
     if(httpRequestTag == "parentLogin") return "/api/auth/login";
-    if(httpRequestTag == "getChildren") return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getParentLoginValue("id").c_str());
+    if(httpRequestTag == "getChildren") return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == "childLogin") return "/api/auth/switchProfile";
     if(httpRequestTag == "getGordon") return "/api/porthole/pixel/gordon.png";
     if(httpRequestTag == "registerParent") return "/api/user/v2/adult";
@@ -93,19 +111,21 @@ int ConfigStorage::getOomeeNumberForUrl(std::string url)
 {
     std::map<std::string, int> oomeeNumbers;
     
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_01.png"] = 0;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_03.png"] = 1;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_04.png"] = 2;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_05.png"] = 3;
-    oomeeNumbers["https://media.azoomee.com/static/thumbs/oomee_06.png"] = 4;
+    oomeeNumbers["oomee_01.png"] = 0;
+    oomeeNumbers["oomee_03.png"] = 1;
+    oomeeNumbers["oomee_04.png"] = 2;
+    oomeeNumbers["oomee_05.png"] = 3;
+    oomeeNumbers["oomee_06.png"] = 4;
     
-    if ( oomeeNumbers.find(url) == oomeeNumbers.end() )
+    std::string fileName = getFileNameFromUrl(url);
+    
+    if ( oomeeNumbers.find(fileName) == oomeeNumbers.end() )
     {
         return 0;
     }
     else
     {
-        return oomeeNumbers[url];
+        return oomeeNumbers[fileName];
     }
 }
 
@@ -131,7 +151,7 @@ Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string category)
 {
     std::map<std::string, Size> sizes;
-
+    
     sizes["VIDEO HQ"] = Size(693,520);
     sizes["AUDIO HQ"] = Size(693,520);
     sizes["GAME HQ"] = Size(693,520);
@@ -147,8 +167,8 @@ cocos2d::Color4B ConfigStorage::getBaseColourForContentItemInCategory(std::strin
     
     colours["VIDEO HQ"] = Color4B(255,0,0, 150);
     colours["AUDIO HQ"] = Color4B(0,255,0, 150);
-    colours["GAME HQ"] = Color4B(255,255,0, 150);
-    colours["ARTS APP"] = Color4B(0,0,255, 150);
+    colours["GAME HQ"] = Color4B(0,112,204, 150);
+    colours["ARTS APP"] = Color4B(255,255,0, 150);
     colours["GROUP HQ"] = Color4B(255, 0, 0, 150);
     
     return colours[category];
@@ -160,7 +180,7 @@ std::string ConfigStorage::getIconImagesForContentItemInCategory(std::string cat
     
     icons["VIDEO HQ"] = "res/hqscene/icon_watch.png";
     icons["AUDIO HQ"] = "res/hqscene/icon_watch.png";
-    icons["GAME HQ"] = "";
+    icons["GAME HQ"] = "res/hqscene/icon_play.png";
     icons["ARTS APP"] = "res/hqscene/icon_play.png";
     icons["GROUP HQ"] = "res/hqscene/icon_watch.png";
     
@@ -258,6 +278,7 @@ std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::st
     positions["PLAY"] = std::vector<Point> {Point(600, 75), Point(400,400)};
     positions["LISTEN"] = std::vector<Point> {Point(-800, -700), Point(-1050, -475)};
     positions["WATCH"] = std::vector<Point> {Point(-1050, 75), Point(-700, 400)};
+    positions["ART"] = std::vector<Point> {Point(1950, 500), Point(1750, 350)};
     
     return positions[categoryName];
 }
@@ -281,6 +302,7 @@ std::string ConfigStorage::getIconNameForCategory(std::string category)
     iconNames["VIDEO"] = "watch";
     iconNames["AUDIO"] = "watch";
     iconNames["GAME"] = "play";
+    iconNames["GROUP"] = "play";
     
     return iconNames[category];
 }

@@ -4,10 +4,13 @@
 
 #include "HQScene.h"
 #include "HQSceneElement.h"
+#include "ArtsAppHQElement.h"
 #include "SimpleAudioEngine.h"
 #include "HQDataProvider.h"
 #include "ConfigStorage.h"
 #include "HQSceneElementPositioner.h"
+#include <dirent.h>
+#include "ChildDataProvider.h"
 
 USING_NS_CC;
 
@@ -34,15 +37,22 @@ void HQScene::startBuildingScrollViewBasedOnName()
 {
 #ifdef forcereload
         this->removeAllChildren();
+    CCLOG("%s to be deleted", (FileUtils::getInstance()->getWritablePath() + "imageCache").c_str());
+    
+    if(FileUtils::getInstance()->removeDirectory(FileUtils::getInstance()->getWritablePath() + "imageCache"))
+    {
+        CCLOG("ImageCache deleted");
+    }
 #endif
     
     if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.
     {
-        createBidirectionalScrollView();
+        if(this->getName() == "ARTS APP") createArtsAppScrollView();
+        else createBidirectionalScrollView();
     }
 }
 
-//--------------------------------------------All functions below this line are used internally----------------------------------------------------
+//------------------ All functions below this line are used internally ----------------------------
 
 void HQScene::createMonodirectionalScrollView()
 {
@@ -70,14 +80,14 @@ void HQScene::createBidirectionalScrollView()
     verticalScrollView->setName("scrollView");
     this->addChild(verticalScrollView);
     
-    verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * 1100));
+    verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * 1300));
     
     for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); j++)
     {
         std::vector<std::string> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), j);
         
         scrollViewSpaceAllocation.clear();
-        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
+        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1300)));
         verticalScrollView->addChild(horizontalScrollView);
         
         for(int i = 0; i < elementsForRow.size(); i++)
@@ -85,8 +95,8 @@ void HQScene::createBidirectionalScrollView()
             addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)), j, i);
         }
         
-        Point titlePosition = horizontalScrollView->getPosition();
-        addTitleToHorizontalScrollView(HQDataProvider::getInstance()->getTitleForRow(this->getName(), j), verticalScrollView, horizontalScrollView->getPosition());
+        Point titlePosition = Point(visibleSize.width/2,horizontalScrollView->getPosition().y + 1075);
+        addTitleToHorizontalScrollView(HQDataProvider::getInstance()->getTitleForRow(this->getName(), j), verticalScrollView, titlePosition);
     }
 }
 
@@ -211,11 +221,11 @@ cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size conte
 
 void HQScene::addTitleToHorizontalScrollView(std::string title, Node *toBeAddedTo, Point position)
 {
-    auto scrollViewTitle = Label::createWithTTF(title, "fonts/azoomee.ttf", 40);
+    auto scrollViewTitle = Label::createWithTTF(title, "fonts/azoomee.ttf", 90);
     scrollViewTitle->setColor(Color3B::WHITE);
     scrollViewTitle->setPosition(position);
     scrollViewTitle->setName("label");
-    scrollViewTitle->setAnchorPoint(Vec2(0, 0));
+    scrollViewTitle->setAnchorPoint(Vec2(0.5, 0));
     toBeAddedTo->addChild(scrollViewTitle);
 }
 
@@ -230,4 +240,75 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
     
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
+}
+
+//--------------------------------------------ARTS APP SCROLL VIEW CREATION----------------------------------------------------------
+
+void HQScene::createArtsAppScrollView()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(0, 300));
+    this->addChild(horizontalScrollView);
+    
+    addEmptyImageToHorizontalScrollView(horizontalScrollView);
+    addCreatedImagesToHorizontalScrollView(horizontalScrollView);
+}
+
+void HQScene::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
+{
+    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.imag"), true, false);
+}
+
+void HQScene::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
+{
+    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    std::vector<std::string> fileList = getFilesInDirectory(path);
+    
+    CCLOG("imagepath: %s", path.c_str());
+    
+    for(int i = 0; i < fileList.size(); i++)
+    {
+        if(fileList.at(i).size() > 4)
+        {
+            if(fileList.at(i).substr(fileList.at(i).size() -4, 4) == "imag")
+            {
+                std::string imagePath = StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str());
+                addImageToHorizontalScrollView(toBeAddedTo, imagePath, false, true);
+            }
+        }
+    }
+}
+
+void HQScene::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable)
+{
+    auto artImage = ArtsAppHQElement::create();
+    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable);
+    toBeAddedTo->addChild(artImage);
+    
+    auto sceneElementPositioner = new HQSceneElementPositioner();
+    sceneElementPositioner->positionHQSceneElement((Layer *)artImage);
+}
+
+std::vector<std::string> HQScene::getFilesInDirectory(std::string path)
+{
+    std::vector<std::string> fileNames;
+    
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir (path.c_str())) != NULL)
+    {
+        while ((ent = readdir (dir)) != NULL)
+        {
+            fileNames.push_back(ent->d_name);
+        }
+        closedir (dir);
+        return fileNames;
+    }
+    else
+    {
+        perror ("");
+        return fileNames;
+    }
 }

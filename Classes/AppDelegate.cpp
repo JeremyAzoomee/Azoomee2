@@ -1,5 +1,7 @@
 #include "AppDelegate.h"
 #include "IntroVideoScene.h"
+#include "HQScene.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
@@ -101,6 +103,18 @@ void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->stopAnimation();
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
+    
+    if(ConfigStorage::getInstance()->inArtsApp == 1)
+    {
+        ConfigStorage::getInstance()->inArtsApp = 0;
+        Scene *runningScene = Director::getInstance()->getRunningScene();
+        Node *baseLayer = runningScene->getChildByName("baseLayer");
+        Node *contentLayer = baseLayer->getChildByName("contentLayer");
+        HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("ARTS APP");
+        
+        hqLayer->removeAllChildren();
+        hqLayer->startBuildingScrollViewBasedOnName();
+    }
 
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
+		025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */; };
+		025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -23,8 +26,6 @@
 		4330C78B1E27BFD900D32D3E /* CrashlyticsConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4330C7891E27BFD900D32D3E /* CrashlyticsConfig.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
 		433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
-		4372DFA71E38F4EF003AC35C /* AwaitingAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4372DFA51E38F4EF003AC35C /* AwaitingAdultPinLayer.cpp */; };
-		4372DFAB1E38F4F9003AC35C /* ExitOrLogoutLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4372DFA91E38F4F9003AC35C /* ExitOrLogoutLayer.cpp */; };
 		46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7619C43A67006E1F66 /* CloseNormal.png */; };
 		46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 46880B7719C43A67006E1F66 /* CloseSelected.png */; };
@@ -111,6 +112,10 @@
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
 		D113134A1E337D3A00E2C033 /* IntroVideoScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11313481E337D3A00E2C033 /* IntroVideoScene.cpp */; };
 		D113134C1E337D7C00E2C033 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D113134B1E337D7C00E2C033 /* MediaPlayer.framework */; };
+		D13C40111E339ED5002360A6 /* ButtonController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = D13C40101E339ED5002360A6 /* ButtonController_ios.m */; };
+		D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */ = {isa = PBXBuildFile; fileRef = D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */; };
+		D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */; };
+		D13C401C1E33A0F0002360A6 /* ExitOrLogoutLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D13C40191E33A0F0002360A6 /* ExitOrLogoutLayer.cpp */; };
 		D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620B132DFF330009C878 /* OpenAL.framework */; };
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
@@ -158,6 +163,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
+		025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
+		025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsPreviewLayer.cpp; sourceTree = "<group>"; };
+		025BE94C1E3A1E2D00EF76D1 /* ArtsPreviewLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsPreviewLayer.h; sourceTree = "<group>"; };
+		025BE94E1E3A1E9200EF76D1 /* WebViewController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController_ios.h; sourceTree = "<group>"; };
+		025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController_ios.m; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -180,10 +191,6 @@
 		4330C78A1E27BFD900D32D3E /* CrashlyticsConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashlyticsConfig.h; sourceTree = "<group>"; };
 		433AD3051E252A2C003757AD /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		433AD3061E252A2C003757AD /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		4372DFA51E38F4EF003AC35C /* AwaitingAdultPinLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AwaitingAdultPinLayer.cpp; sourceTree = "<group>"; };
-		4372DFA61E38F4EF003AC35C /* AwaitingAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwaitingAdultPinLayer.h; sourceTree = "<group>"; };
-		4372DFA91E38F4F9003AC35C /* ExitOrLogoutLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExitOrLogoutLayer.cpp; sourceTree = "<group>"; };
-		4372DFAA1E38F4F9003AC35C /* ExitOrLogoutLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExitOrLogoutLayer.h; sourceTree = "<group>"; };
 		46880B7619C43A67006E1F66 /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
 		46880B7719C43A67006E1F66 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
 		46880B7A19C43A67006E1F66 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
@@ -308,6 +315,14 @@
 		D11313481E337D3A00E2C033 /* IntroVideoScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntroVideoScene.cpp; sourceTree = "<group>"; };
 		D11313491E337D3A00E2C033 /* IntroVideoScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroVideoScene.h; sourceTree = "<group>"; };
 		D113134B1E337D7C00E2C033 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
+		D13C400F1E339ED5002360A6 /* ButtonController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonController_ios.h; sourceTree = "<group>"; };
+		D13C40101E339ED5002360A6 /* ButtonController_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonController_ios.m; sourceTree = "<group>"; };
+		D13C40131E339F5E002360A6 /* ios_Cocos2d_Callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ios_Cocos2d_Callbacks.h; sourceTree = "<group>"; };
+		D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ios_Cocos2d_Callbacks.mm; sourceTree = "<group>"; };
+		D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AwaitingAdultPinLayer.cpp; sourceTree = "<group>"; };
+		D13C40181E33A0F0002360A6 /* AwaitingAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwaitingAdultPinLayer.h; sourceTree = "<group>"; };
+		D13C40191E33A0F0002360A6 /* ExitOrLogoutLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExitOrLogoutLayer.cpp; sourceTree = "<group>"; };
+		D13C401A1E33A0F0002360A6 /* ExitOrLogoutLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExitOrLogoutLayer.h; sourceTree = "<group>"; };
 		D44C620B132DFF330009C878 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -582,6 +597,12 @@
 				A15B2F981DE74F6400D25334 /* WebViewSelector.h */,
 				A15B2FA01DE7534900D25334 /* WebViewNative_ios.mm */,
 				A15B2F9E1DE752D000D25334 /* WebViewNative_ios.h */,
+				D13C400F1E339ED5002360A6 /* ButtonController_ios.h */,
+				D13C40101E339ED5002360A6 /* ButtonController_ios.m */,
+				D13C40131E339F5E002360A6 /* ios_Cocos2d_Callbacks.h */,
+				D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */,
+				025BE94E1E3A1E9200EF76D1 /* WebViewController_ios.h */,
+				025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */,
 			);
 			name = NativeWebviews;
 			sourceTree = "<group>";
@@ -659,6 +680,8 @@
 				A11E738D1DDF00F100166ECA /* OomeeLayer.h */,
 				A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */,
 				A1CC0C381E1E4D45008B469E /* DisplayChildNameLayer.h */,
+				025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */,
+				025BE94C1E3A1E2D00EF76D1 /* ArtsPreviewLayer.h */,
 			);
 			name = MainHubScene;
 			sourceTree = "<group>";
@@ -672,6 +695,8 @@
 				A19759831DE4931200FEB03C /* HQSceneElement.h */,
 				A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */,
 				A134ADCD1E0C0F420030BE98 /* HQSceneElementPositioner.h */,
+				025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */,
+				025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */,
 			);
 			name = HQScene;
 			sourceTree = "<group>";
@@ -760,10 +785,10 @@
 			children = (
 				A15B2FA71DEDAA2A00D25334 /* ModalMessages.cpp */,
 				A15B2FA81DEDAA2A00D25334 /* ModalMessages.h */,
-				4372DFA51E38F4EF003AC35C /* AwaitingAdultPinLayer.cpp */,
-				4372DFA61E38F4EF003AC35C /* AwaitingAdultPinLayer.h */,
-				4372DFA91E38F4F9003AC35C /* ExitOrLogoutLayer.cpp */,
-				4372DFAA1E38F4F9003AC35C /* ExitOrLogoutLayer.h */,
+				D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */,
+				D13C40181E33A0F0002360A6 /* AwaitingAdultPinLayer.h */,
+				D13C40191E33A0F0002360A6 /* ExitOrLogoutLayer.cpp */,
+				D13C401A1E33A0F0002360A6 /* ExitOrLogoutLayer.h */,
 			);
 			name = ModalMessages;
 			sourceTree = "<group>";
@@ -968,6 +993,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
+				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				A15B2FBB1DEDD1EA00D25334 /* HMACSHA256.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */,
@@ -975,6 +1001,7 @@
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
+				D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */,
 				A19862231DD3836D0090F053 /* HQScene.cpp in Sources */,
 				A15D58951E028CAB0099CDEE /* ConfigStorage.cpp in Sources */,
 				A15B2FC71DFAB3FB00D25334 /* ImageDownloader.cpp in Sources */,
@@ -982,25 +1009,29 @@
 				A15B2FA91DEDAA2A00D25334 /* ModalMessages.cpp in Sources */,
 				A1CC0C1F1E141B20008B469E /* CookieDataStorage.cpp in Sources */,
 				A15D589B1E04099A0099CDEE /* HttpRequestCreator.cpp in Sources */,
+				025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */,
 				A1A2D2FF1E13B52700E86169 /* CookieDataProvider.cpp in Sources */,
 				A1CC0C191E141AE0008B469E /* ParentDataStorage.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				A1A2D2FE1E13B52700E86169 /* CookieDataParser.cpp in Sources */,
+				D13C40111E339ED5002360A6 /* ButtonController_ios.m in Sources */,
 				A15D58A01E0804100099CDEE /* TextInputChecker.cpp in Sources */,
 				A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */,
+				025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				4330C78B1E27BFD900D32D3E /* CrashlyticsConfig.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
-				4372DFAB1E38F4F9003AC35C /* ExitOrLogoutLayer.cpp in Sources */,
 				A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */,
 				A15D58A31E0830600099CDEE /* StringStorage.cpp in Sources */,
 				A1A2D30B1E13B54500E86169 /* ParentDataParser.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,
 				430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */,
+				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */,
 				A1A2D3061E13B53200E86169 /* ChildDataProvider.cpp in Sources */,
 				A15B2FB91DEDD1EA00D25334 /* HMACSHA256_ios.mm in Sources */,
+				D13C401C1E33A0F0002360A6 /* ExitOrLogoutLayer.cpp in Sources */,
 				A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */,
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				A1A2D3051E13B53200E86169 /* ChildDataParser.cpp in Sources */,
@@ -1016,7 +1047,6 @@
 				A15B2FBA1DEDD1EA00D25334 /* HMACSHA256_javaCaller.cpp in Sources */,
 				A1A2D30C1E13B54500E86169 /* ParentDataProvider.cpp in Sources */,
 				A1CC0C251E141B47008B469E /* HQDataStorage.cpp in Sources */,
-				4372DFA71E38F4EF003AC35C /* AwaitingAdultPinLayer.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

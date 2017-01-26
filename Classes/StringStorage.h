@@ -8,9 +8,6 @@
 //------------ PIN NUMBER REQUEST AND ERROR ----------------
 
 #define PIN_REQUEST_TITLE "Please enter your pin to proceed"
-#define PIN_INCORRECT_ERROR_TITLE_TEXT "Error"
-#define PIN_INCORRECT_ERROR_BODY_TEXT "Pin is incorrect."
-#define PIN_INCORRECT_ERROR_BUTTON_TEXT "OK"
 
 //------------- ERROR MESSAGE EMAIL VERIFICATION REQUIRED ------
 

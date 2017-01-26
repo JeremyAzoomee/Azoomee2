@@ -1,31 +1,27 @@
 package org.cocos2dx.cpp;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.ContextWrapper;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.webkit.CookieManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 
 import com.tinizine.azoomee.R;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.xwalk.core.XWalkActivity;
-import org.xwalk.core.XWalkPreferences;
 import org.xwalk.core.XWalkView;
 import org.xwalk.core.XWalkCookieManager;
 
@@ -36,6 +32,8 @@ public class NativeView extends XWalkActivity {
 
     private static Context mContext;
     public XWalkView xWalkWebView;
+    public static XWalkView xWalkWebViewStatic;
+    public static String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +48,10 @@ public class NativeView extends XWalkActivity {
         }
 
         mContext = this;
+
+        Bundle extras = getIntent().getExtras();
+        userid = extras.getString("userid");
+        log.d("userid", userid);
 
         xWalkWebView = new XWalkView(this);
         addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -78,26 +80,26 @@ public class NativeView extends XWalkActivity {
 
         addContentView(extra, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        xWalkWebViewStatic = xWalkWebView;
     }
 
     @Override
     protected void onXWalkReady() {
         Bundle extras = getIntent().getExtras();
         String myUrl = "about:blank";
+        String myCookieUrl = "";
         String myCookies = "";
         if(extras != null)
         {
             myUrl = extras.getString("url");
+            myCookieUrl = extras.getString("cookieurl");
             myCookies = extras.getString("cookie");
+            userid = extras.getString("userid");
         }
 
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Cookie", myCookies);
-
-
-
-
-        // Do anything with embedding API
 
         XWalkCookieManager mCookieManager = new XWalkCookieManager();
         mCookieManager.setAcceptCookie(true);
@@ -108,23 +110,184 @@ public class NativeView extends XWalkActivity {
         for(int i = 0; i < separatedCookies.length; i++)
         {
             log.d("seaparatecookies: ", separatedCookies[i]);
-            mCookieManager.setCookie("https://media.azoomee.ninja", separatedCookies[i]);
+            mCookieManager.setCookie(myCookieUrl, separatedCookies[i]);
         }
 
-        log.d("cookies: ", mCookieManager.getCookie("https://media.azoomee.ninja"));
+        log.d("cookies: ", mCookieManager.getCookie(myCookieUrl));
 
         //Check if the url received url ends with html, or anything else. If html, then we have to
         //open the html directly, otherwise we have to open the playlist with jw player.
 
-        log.d("url", myUrl);
+        log.d("urlToBeLoaded", myUrl);
+
 
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
-            xWalkWebView.load("file://" + myUrl, null);
+            xWalkWebView.load("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl, null);
         }
         else
         {
             xWalkWebView.load("file:///android_asset/res/jwplayer/index.html?contentUrl=" + myUrl, null);
         }
+
+        //xWalkWebView.load("file:////android_asset/res/artapp/index.html", null);
+        //xWalkWebView.load("file:////android_asset/res/webcommApi/index_android.html", null);
+
+        xWalkWebView.addJavascriptInterface(new JsInterface(), "NativeInterface");
+    }
+
+    static File getUserDirectory()
+    {
+        ContextWrapper contextWrapper = new ContextWrapper(mContext);
+
+        File scoreCacheDir = new File(contextWrapper.getApplicationInfo().dataDir + "/files/scoreCache");
+        if(!scoreCacheDir.exists()) scoreCacheDir.mkdir();
+
+        File userDir = new File(contextWrapper.getApplicationInfo().dataDir + "/files/scoreCache/" + userid);
+        if(!userDir.exists()) userDir.mkdir();
+
+        return userDir;
+    }
+
+    static File [] getFilesListFromUserDirectory()
+    {
+        File directory = getUserDirectory();
+
+        log.d("Directory: ", getUserDirectory().getPath());
+
+        return directory.listFiles();
+    }
+
+    static int getAmountOfStorageElements()
+    {
+        File directory = getUserDirectory();
+        if(!directory.exists())
+        {
+            log.d("read", "directory doesn't exist");
+            return 0;
+        }
+        else
+        {
+            File [] files = directory.listFiles();
+            log.d("amount of files", "is " + files.length);
+            return files.length;
+        }
+    }
+
+    static String getKeyForStorageElement(int fileNumber)
+    {
+        File [] files = getFilesListFromUserDirectory();
+
+        if(!files[fileNumber].isDirectory())
+        {
+            log.d("filename", files[fileNumber].getName());
+            return files[fileNumber].getName().substring(0, files[fileNumber].getName().length() - 5);
+        }
+        return "DIR";
+    }
+
+    static String getValueForStorageElement(int fileNumber)
+    {
+        File [] files = getFilesListFromUserDirectory();
+
+        if(files[fileNumber].isDirectory())
+        {
+            return "";
+        }
+
+        Context context = mContext;
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        BufferedReader in = null;
+
+        try {
+            in = new BufferedReader(new FileReader(files[fileNumber]));
+            while ((line = in.readLine()) != null) stringBuilder.append(line);
+
+        } catch (FileNotFoundException e) {
+            log.d("exception", e.getMessage());
+        } catch (IOException e) {
+            log.d("exception", e.getMessage());
+        }
+        String data = stringBuilder.toString();
+
+        log.d("data", data);
+
+        return data;
+    }
+
+    static void saveLocalDataForUser(String title, String data)
+    {
+        ContextWrapper contextWrapper = new ContextWrapper(mContext);
+        String dataDir = contextWrapper.getApplicationInfo().dataDir + "/files/scoreCache";
+
+        File directory = new File(dataDir);
+        if(!directory.exists())
+        {
+            directory.mkdir();
+        }
+
+        String currentUserDir = dataDir + "/" + userid;
+        File currentUserDirectory = new File(currentUserDir);
+        if(!currentUserDirectory.exists()) currentUserDirectory.mkdir();
+
+        String currentWritePathString = currentUserDir + "/" + title + ".json";
+        File currentWritePath = new File(currentWritePathString);
+        if(currentWritePath.exists()) currentWritePath.delete();
+
+        try
+        {
+            currentWritePath.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(currentWritePath);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+            myOutWriter.write(data);
+
+            myOutWriter.close();
+
+            fOut.flush();
+            fOut.close();
+        }
+        catch (IOException e)
+        {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    static void saveImageForUser(String title, String data)
+    {
+        ContextWrapper contextWrapper = new ContextWrapper(mContext);
+        String dataDir = contextWrapper.getApplicationInfo().dataDir + "/files/artCache";
+
+        File directory = new File(dataDir);
+        if(!directory.exists())
+        {
+            directory.mkdir();
+        }
+
+        String currentUserDir = dataDir + "/" + userid;
+        File currentUserDirectory = new File(currentUserDir);
+        if(!currentUserDirectory.exists()) currentUserDirectory.mkdir();
+
+        String currentWritePathString = currentUserDir + "/" + title;
+        File currentWritePath = new File(currentWritePathString);
+        if(currentWritePath.exists()) currentWritePath.delete();
+
+        try {
+            currentWritePath.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(currentWritePath);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+            myOutWriter.write(data);
+
+            myOutWriter.close();
+
+            fOut.flush();
+            fOut.close();
+        }
+        catch (IOException e)
+        {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+
+        Log.d("File was written to", currentWritePathString);
     }
 }

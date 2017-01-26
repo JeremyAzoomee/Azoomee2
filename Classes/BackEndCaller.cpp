@@ -53,9 +53,9 @@ void BackEndCaller::hideLoadingScreen()
 
 //---------------------ERROR HANDLING----------------------------------
 
-void BackEndCaller::getBackToLoginScreen()
+void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
-    auto loginScene = LoginScene::createScene(0);
+    auto loginScene = LoginScene::createScene(errorCode);
     Director::getInstance()->replaceScene(loginScene);
 }
 
@@ -77,7 +77,7 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
 {
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString)) getAvailableChildren();
-    else getBackToLoginScreen();
+    else getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
 }
 
 //GETTING AVAILABLE CHILDREN--------------------------------------------------------------------------
@@ -105,15 +105,18 @@ void BackEndCaller::childLogin(int childNumber)
     displayLoadingScreen();
     
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", ParentDataProvider::getInstance()->getValueFromOneAvailableChild(childNumber, "profileName").c_str());
+    httpRequestCreator->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber).c_str());
     httpRequestCreator->requestTag = "childLogin";
     httpRequestCreator->createEncryptedPostHttpRequest();
+    
+    ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
+    ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 {
     ChildDataParser::getInstance()->parseChildLoginData(responseString);
-    HQDataParser::getInstance()->getContent(StringUtils::format("%s/api/electricdreams/view/categories/home/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ChildDataProvider::getInstance()->getChildLoginValue("id").c_str()), "HOME");
+    HQDataParser::getInstance()->getContent(StringUtils::format("%s/api/electricdreams/view/categories/home/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------
@@ -121,7 +124,7 @@ void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 void BackEndCaller::getGordon()
 {
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->urlParameters = StringUtils::format("userid=%s&sessionid=%s", ChildDataProvider::getInstance()->getParentOrChildLoginValue("id").c_str(), ChildDataProvider::getInstance()->getParentOrChildLoginValue("cdn-sessionid").c_str());
+    httpRequestCreator->urlParameters = StringUtils::format("userid=%s&sessionid=%s", ChildDataProvider::getInstance()->getParentOrChildId().c_str(), ChildDataProvider::getInstance()->getParentOrChildCdnSessionId().c_str());
     httpRequestCreator->requestTag = "getGordon";
     httpRequestCreator->createEncryptedGetHttpRequest();
 }

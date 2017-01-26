@@ -40,19 +40,16 @@ bool LoginScene::init()
 
 void LoginScene::onEnterTransitionDidFinish()
 {
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+    
     if(_errorCode !=0)
     {
-        handleErrorCode(_errorCode);
+        ModalMessages::getInstance()->createErrorMessage(_errorCode);
     }
     
 #ifdef autologin
     BackEndCaller::getInstance()->login("klaas+ci@azoomee.com", "test1234");
 #endif
-}
-
-void LoginScene::handleErrorCode(long errorCode)
-{
-    ModalMessages::getInstance()->createErrorMessage(errorCode);
 }
 
 //----------------- SCENE SETUP ---------------
@@ -175,6 +172,7 @@ void LoginScene::setTextInputFocus(TextInputLayer* textInputLayer)
 
 void LoginScene::switchToSignupScene(ElectricDreamsButton* button)
 {
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
     
     auto _OnboardingScene = OnboardingScene::createScene(0);
     Director::getInstance()->replaceScene(_OnboardingScene);
@@ -182,6 +180,8 @@ void LoginScene::switchToSignupScene(ElectricDreamsButton* button)
 
 void LoginScene::moveToAndSetupEmailScreen(ElectricDreamsButton* button)
 {
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+    
     auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2);
     auto enableButtonCallback = CallFunc::create(CC_CALLBACK_0(LoginScene::enableButton, this,button));
     auto setTextInputFocusCallback = CallFunc::create(CC_CALLBACK_0(LoginScene::setTextInputFocus, this,_usernameTextInput));
@@ -194,6 +194,8 @@ void LoginScene::moveToAndSetupEmailScreen(ElectricDreamsButton* button)
 
 void LoginScene::moveToBackToSelectionScreen(ElectricDreamsButton* button)
 {
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+    
     auto action = EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2);
     auto enableButtonCallback = CallFunc::create(CC_CALLBACK_0(LoginScene::enableButton, this,button));
     
@@ -205,6 +207,8 @@ void LoginScene::moveToBackToSelectionScreen(ElectricDreamsButton* button)
 
 void LoginScene::moveToAndSetupPasswordScreen(ElectricDreamsButton* button)
 {
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+    
     auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2);
     auto enableButtonCallback = CallFunc::create(CC_CALLBACK_0(LoginScene::enableButton, this,button));
     auto setTextInputFocusCallback = CallFunc::create(CC_CALLBACK_0(LoginScene::setTextInputFocus, this,_passwordTextInput));

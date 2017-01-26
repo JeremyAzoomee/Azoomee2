@@ -8,16 +8,12 @@ class NavigationLayer : public cocos2d::Layer
     
     
 public:
-    static cocos2d::Scene* createScene();
-
-    virtual bool init();
-    
     CREATE_FUNC(NavigationLayer);
-    
+    static cocos2d::Scene* createScene();
+    virtual bool init();
     void startLoadingGroupHQ(std::string uri);
     
 private:
-    
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     
@@ -40,6 +36,9 @@ private:
     void addBackButtonToNavigation();
     void removeBackButtonFromNavigation();
     void addListenerToBackButton(cocos2d::Node* toBeAddedTo);
+    
+    //Handle arts app
+    void loadArtsAppHQ();
     
     int currentScene;
     

@@ -1,32 +1,22 @@
 #include "WebViewNative_ios.h"
 #include "BaseScene.h"
+#include "WebViewController_ios.h"
+#include "ChildDataProvider.h"
 
 USING_NS_CC;
 
 
 Scene* WebViewNative_ios::createSceneWithURL(std::string url)
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = WebViewNative_ios::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
-    
-    //Overriden:
     layer->startLoadingUrl(url);
 
-    // return the scene
     return scene;
 }
-
-// on "init" you need to initialize your instance
 bool WebViewNative_ios::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
@@ -34,6 +24,8 @@ bool WebViewNative_ios::init()
 
     return true;
 }
+
+//-------------------------------------------All methods are private after this line---------------------------------------
 
 void WebViewNative_ios::startLoadingUrl(std::string url)
 {
@@ -52,40 +44,23 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
         NSLog(@"Cookies in storage: %@", each);
     }
     
-    UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
-    UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, currentView.frame.size.width, currentView.frame.size.height)];
+    std::string userid = ChildDataProvider::getInstance()->getLoggedInChildId();
     
     //If game is called, open the game directly, if video / audio, we open up jw player with the given url
     
     NSString *iosurl = [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]];
-    NSString *iosurlExtension = [iosurl substringFromIndex:MAX((int)[iosurl length]-4, 0)];
-    
+    NSString *iosuserid = [NSString stringWithCString:userid.c_str() encoding:[NSString defaultCStringEncoding]];
     NSLog(@"called url: %@", iosurl);
+    
+    NSString *iosurlExtension = [iosurl substringFromIndex:MAX((int)[iosurl length]-4, 0)];
     NSLog(@"called url extension: %@", iosurlExtension);
     
-    NSString *urlToCall;
+    UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
-    if([iosurlExtension isEqualToString:@"html"])
-    {
-        urlToCall = iosurl;
-    }
-    else
-    {
-        NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index" ofType:@"html"];
-        urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, iosurl];
-    }
+    WebViewController *webViewController = [[WebViewController alloc] init];
+    [currentView addSubview:webViewController.view];
     
-    
-    NSURL *nsurl=[NSURL URLWithString:urlToCall];
-    NSMutableURLRequest *nsrequest=[NSMutableURLRequest requestWithURL:nsurl];
-    
-    [nsrequest setHTTPMethod:@"GET"];
-    
-    [webview loadRequest:nsrequest];
-    
-    [webview setExclusiveTouch:false];
-    [currentView addSubview:webview];
-    
+    [webViewController startBuildingWebView:iosurl userid:iosuserid];
 }
 
 void WebViewNative_ios::addBackButtonToScreen()

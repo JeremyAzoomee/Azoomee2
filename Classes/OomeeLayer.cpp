@@ -26,7 +26,7 @@ bool OomeeLayer::init()
         return false;
     }
     
-    std::string oomeeUrl = ParentDataProvider::getInstance()->getValueFromOneAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber(), "avatar");
+    std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(ChildDataProvider::getInstance()->getLoggedInChildNumber());
     displayedOomeeNumber = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
     
     auto oomee = addOomeeToScreen();
@@ -79,6 +79,7 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/oomee.mp3");
             target->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("touch").c_str(), false);
             
             return true;
@@ -86,6 +87,11 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
         return false;
         
+    };
+    
+    listener->onTouchEnded = [](Touch *touch, Event *event)
+    {
+        return true;
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, toBeAddedTo);

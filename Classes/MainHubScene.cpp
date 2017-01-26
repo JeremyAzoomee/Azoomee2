@@ -6,6 +6,7 @@
 #include "DisplayChildNameLayer.h"
 #include "HQDataProvider.h"
 #include "ConfigStorage.h"
+#include "ArtsPreviewLayer.h"
 
 USING_NS_CC;
 
@@ -92,4 +93,7 @@ void MainHubScene::addImageContainers()
             imageIcon->createContainer(HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForHub.at(j)), 1 - (j * 0.3), 5 + CCRANDOM_0_1(), ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j));
         }
     }
+    
+    auto artsPreviewLayer = ArtsPreviewLayer::create();
+    this->addChild(artsPreviewLayer);
 }
