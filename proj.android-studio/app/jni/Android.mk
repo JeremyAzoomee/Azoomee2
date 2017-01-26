@@ -58,7 +58,6 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/MultiButtonMessageBoxLayer.cpp \
                    ../../../Classes/AwaitingAdultPinLayer.cpp \
                    ../../../Classes/ExitOrLogoutLayer.cpp \
-                   ../../../Classes/DisplayChildNameLayer.cpp \
                    ../../../Classes/ArtsAppHQElement.cpp \
                    ../../../Classes/ArtsPreviewLayer.cpp
 
