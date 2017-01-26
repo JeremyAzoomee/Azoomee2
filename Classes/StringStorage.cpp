@@ -91,6 +91,35 @@ std::map<std::string, std::string> StringStorage::getErrorMessageStrings(long er
             errorStrings[ERROR_BODY] = "Please ask a grown-up to help you.";
             errorStrings[ERROR_BUTTON] = "OK";
             break;
+            
+            /*
+             NEED ERROR NUMBER
+        case INVALID_CREDENTIALS (LOGINGSCENE):
+             errorStrings[ERROR_TITLE] = "That Didn't Work";
+             errorStrings[ERROR_BODY] = "There was a problem with either your email or your password; please try logging in again.";
+             errorStrings[ERROR_BUTTON] = "OK";
+             break;
+             
+        case ANY_OTHER_ERROR (LoginScene) :
+             errorStrings[ERROR_TITLE] = "Something Went Wrong";
+             errorStrings[ERROR_BODY] = "There was a problem logging you in; please try again.";
+             errorStrings[ERROR_BUTTON] = "OK";
+             break;
+             
+        case EMAIL_VARIFICATION_REQUIRED :
+             errorStrings[ERROR_TITLE] = "Email Verification Required";
+             errorStrings[ERROR_BODY] = "For security reasons, you'll need to verify your email address before you can add more children. Follow the instructions in the email that we've sent you.";
+             errorStrings[ERROR_BUTTON] = "OK";
+             break;
+             
+        case INCORRECT_PIN :
+             errorStrings[ERROR_TITLE] = "Pin Error";
+             errorStrings[ERROR_BODY] = "Please enter your correct 4 digit pin to continue.";
+             errorStrings[ERROR_BUTTON] = "OK";
+             break;
+             
+             
+             */
 
         default :
             errorStrings[ERROR_TITLE] = "Something Went Wrong";
