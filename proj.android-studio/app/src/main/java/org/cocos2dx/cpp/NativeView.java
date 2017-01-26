@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.tinizine.azoomee.R;
 
@@ -60,8 +61,9 @@ public class NativeView extends XWalkActivity {
 
 
 
-        Button extra = new Button(this);
-        extra.setText("back");
+        ImageButton extra = new ImageButton(this);
+        extra.setImageResource(R.drawable.back_new);
+        extra.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         extra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
