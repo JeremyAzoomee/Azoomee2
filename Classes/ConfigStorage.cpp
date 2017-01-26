@@ -24,6 +24,7 @@ ConfigStorage::~ConfigStorage(void)
 
 bool ConfigStorage::init(void)
 {
+    inArtsApp = 0;
     return true;
 }
 
@@ -57,7 +58,7 @@ std::string ConfigStorage::getImagesUrl()
 std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
 {
     if(httpRequestTag == "parentLogin") return "/api/auth/login";
-    if(httpRequestTag == "getChildren") return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getParentLoginValue("id").c_str());
+    if(httpRequestTag == "getChildren") return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == "childLogin") return "/api/auth/switchProfile";
     if(httpRequestTag == "getGordon") return "/api/porthole/pixel/gordon.png";
     if(httpRequestTag == "registerParent") return "/api/user/v2/adult";
@@ -167,7 +168,7 @@ cocos2d::Color4B ConfigStorage::getBaseColourForContentItemInCategory(std::strin
     colours["VIDEO HQ"] = Color4B(255,0,0, 150);
     colours["AUDIO HQ"] = Color4B(0,255,0, 150);
     colours["GAME HQ"] = Color4B(0,112,204, 150);
-    colours["ARTS APP"] = Color4B(0,0,255, 150);
+    colours["ARTS APP"] = Color4B(255,255,0, 150);
     colours["GROUP HQ"] = Color4B(255, 0, 0, 150);
     
     return colours[category];
@@ -277,6 +278,7 @@ std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::st
     positions["PLAY"] = std::vector<Point> {Point(600, 75), Point(400,400)};
     positions["LISTEN"] = std::vector<Point> {Point(-800, -700), Point(-1050, -475)};
     positions["WATCH"] = std::vector<Point> {Point(-1050, 75), Point(-700, 400)};
+    positions["ART"] = std::vector<Point> {Point(1950, 500), Point(1750, 350)};
     
     return positions[categoryName];
 }

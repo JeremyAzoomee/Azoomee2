@@ -7,7 +7,6 @@ public:
     /** Returns the shared instance of the Game Manager */
     static HMACSHA256* getInstance(void);
     
-public:
     virtual ~HMACSHA256();
     bool init(void);
     

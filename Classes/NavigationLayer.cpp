@@ -3,6 +3,7 @@
 
 #include "BaseScene.h"
 #include "HQDataProvider.h"
+#include "HQScene.h"
 
 #include "ConfigStorage.h"
 #include "ChildSelectorScene.h"
@@ -64,9 +65,24 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
+void NavigationLayer::loadArtsAppHQ()
+{
+    Scene *runningScene = Director::getInstance()->getRunningScene();
+    Node *baseLayer = runningScene->getChildByName("baseLayer");
+    Node *contentLayer = baseLayer->getChildByName("contentLayer");
+    HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("ARTS APP");
+    
+    hqLayer->startBuildingScrollViewBasedOnName();
+}
 
 void NavigationLayer::startLoadingHQScene(int categoryTag)
 {
+    if(categoryTag == 4)
+    {
+        loadArtsAppHQ();
+        return;
+    }
+    
     HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(categoryTag));
 }
 
@@ -208,7 +224,12 @@ void NavigationLayer::moveMenuPointsToCircleState()
         Point targetPosition = ConfigStorage::getInstance()->getCirclePositionForMenuItem(i);
         float delayTime = 0;
         
-        menuItemImage->runAction(Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), NULL));
+        menuItemImage->stopAction(menuItemImage->getActionByTag(1));
+        
+        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), NULL);
+        sequence->setTag(1);
+        
+        menuItemImage->runAction(sequence);
     }
 }
 
@@ -220,7 +241,12 @@ void NavigationLayer::moveMenuPointsToHorizontalState()
         Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(i);
         float delayTime = 0;
         
-        menuItemImage->runAction(Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), NULL));
+        menuItemImage->stopAction(menuItemImage->getActionByTag(1));
+        
+        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), NULL);
+        sequence->setTag(1);
+        
+        menuItemImage->runAction(sequence);
     }
 }
 

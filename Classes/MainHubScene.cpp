@@ -6,6 +6,7 @@
 #include "DisplayChildNameLayer.h"
 #include "HQDataProvider.h"
 #include "ConfigStorage.h"
+#include "ArtsPreviewLayer.h"
 
 USING_NS_CC;
 
@@ -93,29 +94,6 @@ void MainHubScene::addImageContainers()
         }
     }
     
-    
-    //Temporary stuff for demo purposes!
-    std::vector<Point> positions = {Point(1700, 345), Point(2070,600)};
-    std::vector<Size> sizes = {Size(445, 339), Size(312, 237)};
-    
-    for(int i = 0; i < 2; i++)
-    {
-        auto bgLayer = LayerColor::create(Color4B(246,185,66, 150), sizes.at(i).width, sizes.at(i).height);
-        bgLayer->setPosition(positions.at(i));
-        bgLayer->setScale(0);
-        bgLayer->setOpacity(0);
-        this->addChild(bgLayer);
-        
-        auto contentImage = Sprite::create(StringUtils::format("res/preview/art%d.png", i));
-        Vec2 imageScale = Vec2((bgLayer->getContentSize().width - 20) / contentImage->getContentSize().width, (bgLayer->getContentSize().height - 20) / contentImage->getContentSize().height);
-        contentImage->setPosition(bgLayer->getContentSize() / 2);
-        contentImage->setOpacity(0);
-        contentImage->setScale(0);
-        bgLayer->addChild(contentImage);
-        
-        float smallDelay = CCRANDOM_0_1();
-        
-        bgLayer->runAction(Sequence::create(DelayTime::create(5 + smallDelay), FadeTo::create(0, 150), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(1), EaseElasticOut::create(ScaleTo::create(0.5, 1.0)), NULL));
-        contentImage->runAction(Sequence::create(DelayTime::create(5 + smallDelay), FadeTo::create(0, 255), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeTo::create(0, 255), DelayTime::create(1), EaseElasticOut::create(ScaleTo::create(0.5, imageScale.x, imageScale.y)), NULL));
-    }
+    auto artsPreviewLayer = ArtsPreviewLayer::create();
+    this->addChild(artsPreviewLayer);
 }

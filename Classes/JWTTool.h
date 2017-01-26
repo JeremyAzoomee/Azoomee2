@@ -7,14 +7,13 @@ class JWTTool : public cocos2d::Ref
 public:
     /** Returns the shared instance of the Game Manager */
     static JWTTool* getInstance(void);
-    
-public:
     virtual ~JWTTool();
     bool init(void);
+    std::string buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
     
+private:
     std::string getDateFormatString();
     std::string addLeadingZeroToDateElement(int input);
-    std::string buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
     std::string getBase64Encoded(std::string input);
     std::string stringToLower(std::string input);
     

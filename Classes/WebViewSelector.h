@@ -6,13 +6,10 @@
 class WebViewSelector : public cocos2d::Layer
 {
 public:
+    CREATE_FUNC(WebViewSelector);
     static cocos2d::Scene* createScene();
     static cocos2d::Scene* createSceneWithUrl(std::string url);
-
     virtual bool init();
-    
-    // implement the "static create()" method manually
-    CREATE_FUNC(WebViewSelector);
     
     std::string getUrlWithoutPath(std::string);
     int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);

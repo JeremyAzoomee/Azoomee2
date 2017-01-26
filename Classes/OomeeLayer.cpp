@@ -26,7 +26,7 @@ bool OomeeLayer::init()
         return false;
     }
     
-    std::string oomeeUrl = ParentDataProvider::getInstance()->getValueFromOneAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber(), "avatar");
+    std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(ChildDataProvider::getInstance()->getLoggedInChildNumber());
     displayedOomeeNumber = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
     
     auto oomee = addOomeeToScreen();

@@ -30,12 +30,25 @@ bool ChildDataParser::parseChildLoginData(std::string responseData)
 {
     ChildDataStorage::getInstance()->childLoggedIn = true;
     ChildDataStorage::getInstance()->childLoginData.Parse(responseData.c_str());
+    
+    setLoggedInChildId(ChildDataStorage::getInstance()->childLoginData["id"].GetString());
+    
+    ChildDataStorage::getInstance()->loggedInChildId = ChildDataStorage::getInstance()->childLoginData["id"].GetString();
+    ChildDataStorage::getInstance()->loggedInChildCdnSessionId = ChildDataStorage::getInstance()->childLoginData["cdn-sessionid"].GetString();
+    ChildDataStorage::getInstance()->loggedInChildApiSecret = ChildDataStorage::getInstance()->childLoginData["apiSecret"].GetString();
+    ChildDataStorage::getInstance()->loggedInChildApiKey = ChildDataStorage::getInstance()->childLoginData["apiKey"].GetString();
+    
     return true;
 }
 
 void ChildDataParser::setLoggedInChildName(std::string childName)
 {
     ChildDataStorage::getInstance()->loggedInChildName = childName;
+}
+
+void ChildDataParser::setLoggedInChildId(std::string id)
+{
+    ChildDataStorage::getInstance()->loggedInChildId = id;
 }
 
 void ChildDataParser::setLoggedInChildNumber(int childNumber)

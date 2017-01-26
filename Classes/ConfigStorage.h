@@ -12,8 +12,8 @@ public:
     bool init(void);
     
     //General configuration
-//#define autologin YES;
-#define forcereload YES;
+#define autologin YES;
+//#define forcereload YES;
     
     std::string getFileNameFromUrl(std::string url);
     
@@ -55,4 +55,7 @@ public:
     
     //OomeeLayer animation states
     std::string getRandomIdForAnimationType(std::string animationType);
+    
+    //Android helper for arts app
+    int inArtsApp;
 };
