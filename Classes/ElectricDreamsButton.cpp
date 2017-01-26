@@ -1,4 +1,5 @@
 #include "ElectricDreamsButton.h"
+#include "ExitOrLogoutLayer.h"
 
 bool ElectricDreamsButton::init()
 {
@@ -19,10 +20,12 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string butto
     Label* textButton = Label::createWithTTF(buttonText, "fonts/azoomee.ttf", 90);
     textButton->setColor(Color3B(28, 244, 244));
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
-
+    textButton->setOpacity(0);
     layer->setContentSize(textButton->getContentSize());
     
     layer->addChild(textButton);
+    
+    textButton->runAction(FadeTo::create(0.5, 255));
     
     layer->addListener();
     
@@ -36,8 +39,10 @@ ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string but
     ui::Scale9Sprite* newButton = layer->createButtonBackground(buttonText);
 
     layer->setContentSize(newButton->getContentSize());
-    
+    newButton->setOpacity(0);
     layer->addChild(newButton);
+    
+    newButton->runAction(FadeTo::create(0.5, 255));
     
     layer->addListener();
     
@@ -58,7 +63,10 @@ ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string butto
     
     buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);
     
+    buttonLabel->setOpacity(0);
     newButton->addChild(buttonLabel);
+    
+    buttonLabel->runAction(FadeTo::create(0.5, 255));
     
     return newButton;
 }
@@ -95,6 +103,63 @@ ElectricDreamsButton* ElectricDreamsButton::createBackButton()
     return layer;
 }
 
+ElectricDreamsButton* ElectricDreamsButton::createAcceptButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    Sprite* acceptButton = Sprite::create("res/modal/accept.png");
+    acceptButton->setPosition(acceptButton->getContentSize().width/2, acceptButton->getContentSize().height/2);
+    acceptButton->setOpacity(0);
+    layer->setContentSize(acceptButton->getContentSize());
+    
+    layer->addChild(acceptButton);
+    
+    acceptButton->runAction(FadeTo::create(0.5, 255));
+    
+    layer->addListener();
+    
+    return layer;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createCancelButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    Sprite* cancelButton = Sprite::create("res/modal/cancel.png");
+    cancelButton->setPosition(cancelButton->getContentSize().width/2, cancelButton->getContentSize().height/2);
+    cancelButton->setOpacity(0);
+    layer->setContentSize(cancelButton->getContentSize());
+    
+    layer->addChild(cancelButton);
+    
+    cancelButton->runAction(FadeTo::create(0.5, 255));
+    
+    layer->addListener();
+    
+    return layer;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createSettingsButton(float creationDelay)
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    Sprite* settingsButton = Sprite::create("res/navigation/settings.png");
+    settingsButton->setPosition(settingsButton->getContentSize().width/2, settingsButton->getContentSize().height/2);
+    settingsButton->setOpacity(0);
+    layer->setContentSize(settingsButton->getContentSize());
+    
+    layer->addChild(settingsButton);
+    
+    float randomDelay = RandomHelper::random_real(0.2, 0.7);
+    settingsButton->runAction(Sequence::create(DelayTime::create(creationDelay + randomDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    
+    layer->addListener();
+    
+    layer->isSettingsButton = true;
+    
+    return layer;
+}
+
 //---------------------- Listener Function -----------------------------
 
 void ElectricDreamsButton::addListener()
@@ -112,7 +177,10 @@ void ElectricDreamsButton::addListener()
         
         if(rect.containsPoint(locationInNode) && this->isVisible())
         {
-            this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 0.1);
+            if(isSettingsButton)
+                ExitOrLogoutLayer::create();
+            else
+                this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 0.1);
             
             return true;
         }

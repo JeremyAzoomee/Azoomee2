@@ -5,6 +5,8 @@
 #include <math.h>
 #include "ModalMessages.h"
 #include "ConfigStorage.h"
+#include "SimpleAudioEngine.h"
+#include "StringStorage.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -33,9 +35,13 @@ bool ChildSelectorScene::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+    
     addVisualsToScene();
+    createSettingsButton();
     addScrollViewForProfiles();
     addProfilesToScrollView();
+    
 
     return true;
 }
@@ -73,6 +79,13 @@ void ChildSelectorScene::addVisualsToScene()
     selectTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);
     selectTitle->setColor(Color3B(28, 244, 244));
     this->addChild(selectTitle);
+}
+
+void ChildSelectorScene::createSettingsButton()
+{
+    auto settingsButton = ElectricDreamsButton::createSettingsButton(0.0f);
+    settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
+    this->addChild(settingsButton);
 }
 
 void ChildSelectorScene::addScrollViewForProfiles()
@@ -192,6 +205,8 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
         if(!touchMovedAway)
         {
             auto target = static_cast<Node*>(event->getCurrentTarget());
+         
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
             
             if(target->getName() == "addChildButton")
                 addChildButtonPressed(target);
@@ -269,13 +284,20 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
     if((ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "VERIFIED")||(ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "ACTIVE"))
     {
         target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-        
-        auto newChildScene = ChildAccountScene::createScene("", 0);
-        Director::getInstance()->replaceScene(newChildScene);
+        AwaitingAdultPinLayer::create()->setDelegate(this);
     }
     else
-    {
-        //#TODO handle modal message strings.
-        ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", "Ensure email has been verified.", "OK");
-    }
+        ModalMessages::getInstance()->createMessageWithSingleButton(EMAIL_NOT_VERIFIED_ERROR_TITLE_TEXT, EMAIL_NOT_VERIFIED_ERROR_BODY_TEXT, EMAIL_NOT_VERIFIED_ERROR_BUTTON_TEXT);
+}
+
+//----------------------- Delegate Functions ----------------------------
+void ChildSelectorScene::AdultPinCancelled(AwaitingAdultPinLayer* layer)
+{
+    //Do Nothing.
+}
+
+void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
+{
+    auto newChildScene = ChildAccountScene::createScene("", 0);
+    Director::getInstance()->replaceScene(newChildScene);
 }

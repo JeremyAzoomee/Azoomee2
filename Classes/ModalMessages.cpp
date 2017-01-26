@@ -98,13 +98,13 @@ void ModalMessages::stopLoading()
 void ModalMessages::createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText)
 {
     createAndFadeInLayer();
-    createAndFadeInTitle(messageTitle);
-    createAndFadeInBody(messageBody);
-    createAndFadeInButton(buttonText);
-    createAndFadeInMessageBackground();
+    createTitle(messageTitle);
+    createBody(messageBody);
+    createButton(buttonText);
+    createMessageBackground();
 }
 
-void ModalMessages::createAndFadeInTitle(std::string messageTitle)
+void ModalMessages::createTitle(std::string messageTitle)
 {
     auto titleLabel = Label::createWithTTF(messageTitle, "fonts/azoomee.ttf", 120);
     
@@ -129,10 +129,10 @@ void ModalMessages::createAndFadeInTitle(std::string messageTitle)
     titleLabel->setColor(Color3B(28, 244, 244));
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     titleLabel->setName("messageTitle");
-    titleLabel->setOpacity(0);
+    //titleLabel->setOpacity(0);
     loadingLayer->addChild(titleLabel,2);
     
-    titleLabel->runAction(FadeTo::create(1, 255));
+    //titleLabel->runAction(FadeTo::create(0.5, 255));
 }
 
 void ModalMessages::underlineTitle(Label* titleLabel)
@@ -142,7 +142,7 @@ void ModalMessages::underlineTitle(Label* titleLabel)
     titleLabel->addChild(newDrawNode);
 }
 
-void ModalMessages::createAndFadeInBody(std::string messageBody)
+void ModalMessages::createBody(std::string messageBody)
 {
     auto titleLabel = (Label*)loadingLayer->getChildByName("messageTitle");
     
@@ -152,27 +152,27 @@ void ModalMessages::createAndFadeInBody(std::string messageBody)
     bodyLabel->setColor(Color3B::WHITE);
     bodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     bodyLabel->setName("messageBody");
-    bodyLabel->setOpacity(0);
+    //bodyLabel->setOpacity(0);
     loadingLayer->addChild(bodyLabel,2);
     
-    bodyLabel->runAction(FadeTo::create(1, 255));
+    //bodyLabel->runAction(FadeTo::create(0.5, 255));
 }
 
-void ModalMessages::createAndFadeInButton(std::string buttonText)
+void ModalMessages::createButton(std::string buttonText)
 {
     auto bodyLabel = (Label*)loadingLayer->getChildByName("messageBody");
     
     auto _button = ElectricDreamsButton::createButtonWithText(buttonText);
     _button->setCenterPosition(Vec2(loadingLayer->getContentSize().width * 0.5, bodyLabel->getPositionY() - (bodyLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (_button->getContentSize().height/2)));
     _button->setDelegate(this);
-    _button->setOpacity(0);
+    //_button->setOpacity(0);
     _button->setName("messageButton");
     loadingLayer->addChild(_button, 2);
     
-    _button->runAction(FadeTo::create(1, 255));
+    //_button->runAction(FadeTo::create(0.5, 255));
 }
 
-void ModalMessages::createAndFadeInMessageBackground()
+void ModalMessages::createMessageBackground()
 {
     auto titleLabel = (Label*)loadingLayer->getChildByName("messageTitle");
     auto bodyLabel = (Label*)loadingLayer->getChildByName("messageBody");
@@ -184,7 +184,8 @@ void ModalMessages::createAndFadeInMessageBackground()
     
     auto messageBoxLayer = LayerColor::create(Color4B::BLACK, messageBoxWidth, messageBoxHeight);
     messageBoxLayer->setPosition((visibleSize.width - messageBoxLayer->getContentSize().width)/2, messageBoxY);
-    messageBoxLayer->setOpacity(0);
+    //messageBoxLayer->setOpacity(0);
+    messageBoxLayer->setCascadeOpacityEnabled(true);
     loadingLayer->addChild(messageBoxLayer,1);
     
     DrawNode* newDrawNode = DrawNode::create();
@@ -193,7 +194,7 @@ void ModalMessages::createAndFadeInMessageBackground()
     
     newDrawNode->setLineWidth(4);
 
-    messageBoxLayer->runAction(FadeTo::create(0.5, 255));
+    //messageBoxLayer->runAction(FadeTo::create(0.5, 255));
 }
 
 void ModalMessages::buttonPressed(ElectricDreamsButton* button)

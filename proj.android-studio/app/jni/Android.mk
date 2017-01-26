@@ -35,6 +35,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/GameDataManager.cpp \
                    ../../../Classes/HttpRequestCreator.cpp \
                    ../../../Classes/ConfigStorage.cpp \
+                   ../../../Classes/DisplayChildNameLayer.cpp \
                    ../../../Classes/TextInputLayer.cpp \
                    ../../../Classes/TextInputChecker.cpp \
                    ../../../Classes/ElectricDreamsButton.cpp \
@@ -55,7 +56,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/CrashlyticsConfig.cpp \
                    ../../../Classes/IntroVideoScene.cpp \
                    ../../../Classes/MultiButtonMessageBoxLayer.cpp \
-                   ../../../Classes/DisplayChildNameLayer.cpp
+                   ../../../Classes/AwaitingAdultPinLayer.cpp \
+                   ../../../Classes/ExitOrLogoutLayer.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

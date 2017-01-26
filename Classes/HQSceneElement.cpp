@@ -14,7 +14,11 @@
 #include "WebViewSelector.h"
 #include "ImageDownloader.h"
 #include "HQDataProvider.h"
+#include "GameDataManager.h"
 #include "ConfigStorage.h"
+#include "SimpleAudioEngine.h"
+#include "HQDataParser.h"
+#include "NavigationLayer.h"
 
 USING_NS_CC;
 
@@ -44,13 +48,13 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     
     addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemData["id"], shape));
     addGradientToBottom(category);
-    addIconToImage(category);
-    addLabelToImage(itemData["title"]);
+    auto iconSprite = addIconToImage(category);
+    addLabelsToImage(itemData, iconSprite);
     addTouchOverlayToElement();
     
     if(itemData["entitled"] == "true")
     {
-        addListenerToElement(itemData["uri"]);
+        addListenerToElement(itemData["uri"], itemData["id"], category);
     }
     else
     {
@@ -58,7 +62,7 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     }
 }
 
-//--------------------------------------------------------All elements below this are used internally---------------------------------------------
+//-------------------All elements below this are used internally-----------------
 
 void HQSceneElement::addLockToElement()
 {
@@ -96,21 +100,37 @@ void HQSceneElement::addGradientToBottom(std::string category)
     baseLayer->addChild(gradient);
 }
 
-void HQSceneElement::addIconToImage(std::string category)
+Sprite* HQSceneElement::addIconToImage(std::string category)
 {
-    if(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category) == "") return; //there is chance that there is no icon given for the given category.
+    if(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category) == "") return nullptr; //there is chance that there is no icon given for the given category.
         
     auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category));
-    icon->setPosition(30 + icon->getContentSize().width / 2, 30 + icon->getContentSize().height / 2);
+    icon->setScale(2);
+    icon->setAnchorPoint(Vec2(0.5, 0.5));
+    icon->setPosition(icon->getContentSize().width *2 ,icon->getContentSize().height *2);
     baseLayer->addChild(icon);
+    
+    return icon;
 }
 
-void HQSceneElement::addLabelToImage(std::string name)
+void HQSceneElement::addLabelsToImage(std::map<std::string, std::string>itemData, Sprite* nextToIcon)
 {
-    auto label = Label::createWithTTF(name, "fonts/arial.ttf", 50);
-    label->setColor(Color3B(255,255,255));
-    label->setPosition(baseLayer->getContentSize().width / 2, 30 + label->getContentSize().height / 2);
-    baseLayer->addChild(label);
+    auto titleLabel = Label::createWithTTF(itemData["title"], "fonts/arial.ttf", 50);
+    titleLabel->setColor(Color3B(255,255,255));
+    titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    titleLabel->setAnchorPoint(Vec2(0, 1));
+    titleLabel->setPosition(nextToIcon->getPositionX() + (nextToIcon->getContentSize().width * nextToIcon->getScale()),nextToIcon->getPositionY() + (nextToIcon->getContentSize().height/2 * nextToIcon->getScale()));
+    reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - titleLabel->getPositionY()- (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
+    baseLayer->addChild(titleLabel);
+    
+    auto descriptionLabel = Label::createWithTTF(itemData["description"], "fonts/arial.ttf", 50);
+    descriptionLabel->setColor(Color3B(255,255,255));
+    descriptionLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    descriptionLabel->setAnchorPoint(Vec2(0,1));
+    descriptionLabel->setPosition(nextToIcon->getPositionX() + (nextToIcon->getContentSize().width * nextToIcon->getScale()),nextToIcon->getPositionY() - (nextToIcon->getContentSize().height/8*nextToIcon->getScale()));
+    descriptionLabel->setOpacity(150);
+    reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - titleLabel->getPositionY()- (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
+    baseLayer->addChild(descriptionLabel);
 }
 
 void HQSceneElement::addTouchOverlayToElement()
@@ -138,7 +158,7 @@ void HQSceneElement::createColourLayer(std::string category)
     this->addChild(baseLayer);
 }
 
-void HQSceneElement::addListenerToElement(std::string uri)
+void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -178,15 +198,43 @@ void HQSceneElement::addListenerToElement(std::string uri)
     {
         if(overlayWhenTouched->getOpacity() > 0)
         {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+            
             overlayWhenTouched->stopAllActions();
             overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
             CCLOG("Action to come: %s", uri.c_str());
-            auto webViewSelector = WebViewSelector::create();
-            webViewSelector->loadWebView(uri);
+            
+            if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
+            {
+                GameDataManager::getInstance()->startProcessingGame(uri, contentId);
+            }
+            else if((HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIO"))
+            {
+                auto webViewSelector = WebViewSelector::create();
+                webViewSelector->loadWebView(uri.c_str());
+            }
+            else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GROUP")
+            {
+                NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+                navigationLayer->startLoadingGroupHQ(uri);
+                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+            }
         }
         
-        return true;
+        return false;
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), baseLayer);
+}
+
+void HQSceneElement::reduceLabelTextToFitWidth(Label* label,float maxWidth)
+{
+    std::string labelText = label->getString();
+    
+    while(label->getContentSize().width > maxWidth)
+    {
+        labelText = labelText.substr(0, labelText.length()-1);
+
+        label->setString(StringUtils::format("%s...",labelText.c_str()));
+    }
 }

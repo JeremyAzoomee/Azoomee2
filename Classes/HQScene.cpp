@@ -34,6 +34,12 @@ void HQScene::startBuildingScrollViewBasedOnName()
 {
 #ifdef forcereload
         this->removeAllChildren();
+    CCLOG("%s to be deleted", (FileUtils::getInstance()->getWritablePath() + "imageCache").c_str());
+    
+    if(FileUtils::getInstance()->removeDirectory(FileUtils::getInstance()->getWritablePath() + "imageCache"))
+    {
+        CCLOG("ImageCache deleted");
+    }
 #endif
     
     if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.
@@ -42,7 +48,7 @@ void HQScene::startBuildingScrollViewBasedOnName()
     }
 }
 
-//--------------------------------------------All functions below this line are used internally----------------------------------------------------
+//------------------ All functions below this line are used internally ----------------------------
 
 void HQScene::createMonodirectionalScrollView()
 {
@@ -70,14 +76,14 @@ void HQScene::createBidirectionalScrollView()
     verticalScrollView->setName("scrollView");
     this->addChild(verticalScrollView);
     
-    verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * 1100));
+    verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * 1300));
     
     for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); j++)
     {
         std::vector<std::string> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), j);
         
         scrollViewSpaceAllocation.clear();
-        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
+        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1300)));
         verticalScrollView->addChild(horizontalScrollView);
         
         for(int i = 0; i < elementsForRow.size(); i++)
@@ -85,8 +91,8 @@ void HQScene::createBidirectionalScrollView()
             addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)), j, i);
         }
         
-        Point titlePosition = horizontalScrollView->getPosition();
-        addTitleToHorizontalScrollView(HQDataProvider::getInstance()->getTitleForRow(this->getName(), j), verticalScrollView, horizontalScrollView->getPosition());
+        Point titlePosition = Point(visibleSize.width/2,horizontalScrollView->getPosition().y + 1075);
+        addTitleToHorizontalScrollView(HQDataProvider::getInstance()->getTitleForRow(this->getName(), j), verticalScrollView, titlePosition);
     }
 }
 
@@ -211,11 +217,11 @@ cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size conte
 
 void HQScene::addTitleToHorizontalScrollView(std::string title, Node *toBeAddedTo, Point position)
 {
-    auto scrollViewTitle = Label::createWithTTF(title, "fonts/azoomee.ttf", 40);
+    auto scrollViewTitle = Label::createWithTTF(title, "fonts/azoomee.ttf", 90);
     scrollViewTitle->setColor(Color3B::WHITE);
     scrollViewTitle->setPosition(position);
     scrollViewTitle->setName("label");
-    scrollViewTitle->setAnchorPoint(Vec2(0, 0));
+    scrollViewTitle->setAnchorPoint(Vec2(0.5, 0));
     toBeAddedTo->addChild(scrollViewTitle);
 }
 

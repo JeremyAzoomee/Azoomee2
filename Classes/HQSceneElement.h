@@ -5,34 +5,37 @@
 
 class HQSceneElement : public cocos2d::Layer
 {
-public:
-    static cocos2d::Scene* createScene();
-
-    virtual bool init();
+private:
+    void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth);
     
     void resizeSceneElement(cocos2d::Vec2 shape, std::string category);
     void createColourLayer(std::string category);
     void addImageToBaseLayer(std::string filename);
     void addGradientToBottom(std::string category);
-    void addIconToImage(std::string category);
-    void addLabelToImage(std::string name);
+    cocos2d::Sprite* addIconToImage(std::string category);
+    void addLabelsToImage(std::map<std::string, std::string>itemData, cocos2d::Sprite* nextToIcon);
     cocos2d::Size getSizeOfLayerWithGap();
     
     std::map<std::string, int> category_translator;
-    
-    void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape);
     
     cocos2d::LayerColor *baseLayer;
     cocos2d::LayerColor *overlayWhenTouched;
     
     void addTouchOverlayToElement();
-    void addListenerToElement(std::string uri);
+    void addListenerToElement(std::string uri, std::string contentId, std::string category);
     void addLockToElement();
     
     cocos2d::Point touchPoint;
     bool movedAway;
+
+public:
+    static cocos2d::Scene* createScene();
+
+    virtual bool init();
     
     CREATE_FUNC(HQSceneElement);
+    
+    void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape);
 };
 
 #endif

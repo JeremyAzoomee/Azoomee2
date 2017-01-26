@@ -54,12 +54,13 @@ public class AppActivity extends Cocos2dxActivity {
 
     }
 
-    public static void alertJNI(String url, String cookie) {
+    public static void startWebView(String url, String cookieurl, String cookie) {
 
-        Log.d("sent from cocos", url + " - " + cookie);
+        Log.d("sent from cocos", url + " - " + cookieurl + " - " + cookie);
 
         Intent nvw = new Intent(mContext, NativeView.class);
         nvw.putExtra("url", url);
+        nvw.putExtra("cookieurl", cookieurl);
         nvw.putExtra("cookie", cookie);
         mContext.startActivity(nvw);
 
