@@ -31,6 +31,8 @@ bool ChildSelectorScene::init()
         return false;
     }
     
+    CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     

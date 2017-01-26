@@ -58,6 +58,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/AwaitingAdultPinLayer.cpp \
                    ../../../Classes/ExitOrLogoutLayer.cpp \
                    ../../../Classes/ArtsAppHQElement.cpp \
+                   ../../../Classes/DisplayChildNameLayer.cpp \
                    ../../../Classes/ArtsPreviewLayer.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes

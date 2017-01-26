@@ -6,8 +6,8 @@
 #include "ConfigStorage.h"
 #include "StringStorage.h"
 #include "TextInputChecker.h"
-
 #include "TextInputLayer.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -28,6 +28,8 @@ bool LoginScene::init()
     {
         return false;
     }
+    
+    CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
