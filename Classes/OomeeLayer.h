@@ -2,7 +2,6 @@
 #define __OOMEE_SCENE_H__
 
 #include "cocos2d.h"
-#include "cocos2d.h"
 #include <spine/spine-cocos2dx.h>
 
 class OomeeLayer : public cocos2d::Layer

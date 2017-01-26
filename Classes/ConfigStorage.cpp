@@ -258,6 +258,7 @@ std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::st
     positions["PLAY"] = std::vector<Point> {Point(600, 75), Point(400,400)};
     positions["LISTEN"] = std::vector<Point> {Point(-800, -700), Point(-1050, -475)};
     positions["WATCH"] = std::vector<Point> {Point(-1050, 75), Point(-700, 400)};
+    positions["ART"] = std::vector<Point> {Point(1950, 500), Point(1750, 350)};
     
     return positions[categoryName];
 }

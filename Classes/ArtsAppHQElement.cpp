@@ -8,7 +8,7 @@
 USING_NS_CC;
 using namespace cocos2d;
 
-bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage)
+bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage, bool deletable)
 {
     if ( !Layer::init() )
     {
@@ -27,7 +27,7 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     addOverlay();
     addListenerToElement(filePath);
     
-    if(newImage == false)
+    if(deletable == true)
     {
         deleteButton = addDeleteButton();
         addListenerToDeleteButton(deleteButton, filePath);

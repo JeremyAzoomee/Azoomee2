@@ -55,32 +55,6 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
     NSString *iosurlExtension = [iosurl substringFromIndex:MAX((int)[iosurl length]-4, 0)];
     NSLog(@"called url extension: %@", iosurlExtension);
     
-    /*
-    if([iosurlExtension isEqualToString:@"html"])
-    {
-        urlToCall = iosurl;
-    }
-    else
-    {
-        NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index" ofType:@"html"];
-        urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, iosurl];
-    }
-     */
-    
-    
-    //NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/artapp/index_ios" ofType:@"html"];
-    //urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, iosurl];
-    
-    //NSURL *nsurl=[NSURL URLWithString:urlToCall];
-    //NSMutableURLRequest *nsrequest=[NSMutableURLRequest requestWithURL:nsurl];
-    
-    //[nsrequest setHTTPMethod:@"GET"];
-    
-    //[webview loadRequest:nsrequest];
-    
-    //[webview setExclusiveTouch:false];
-    //[currentView addSubview:webview];
-    
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
     WebViewController *webViewController = [[WebViewController alloc] init];
