@@ -22,6 +22,8 @@
 
 USING_NS_CC;
 
+using namespace network;
+
 Scene* HQSceneElement::createScene()
 {
     auto scene = Scene::create();
@@ -172,8 +174,9 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
         
         if(rect.containsPoint(locationInNode))
         {
-            overlayWhenTouched->runAction(FadeTo::create(0, 150));
+            overlayWhenTouched->setOpacity(150);
             movedAway = false;
+            iamtouched = true;
             touchPoint = touch->getLocation();
             
             return true;
@@ -187,8 +190,8 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
         if((touch->getLocation().distance(touchPoint) > 10)&&(!movedAway))
         {
             movedAway = true;
-            overlayWhenTouched->stopAllActions();
-            overlayWhenTouched->runAction(FadeTo::create(0, 0));
+            iamtouched = false;
+            overlayWhenTouched->setOpacity(0);
         }
         
         return true;
@@ -196,13 +199,15 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
     
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
-        if(overlayWhenTouched->getOpacity() > 0)
+        if(iamtouched)
         {
             CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
-            
-            overlayWhenTouched->stopAllActions();
-            overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
+            iamtouched = false;
+            overlayWhenTouched->setOpacity(0);
             CCLOG("Action to come: %s", uri.c_str());
+            
+            CCLOG("Category: %s", category.c_str());
+            CCLOG("Given type: %s", HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId).c_str());
             
             if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
             {
@@ -217,13 +222,23 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             {
                 NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
                 navigationLayer->startLoadingGroupHQ(uri);
-                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                
+                auto funcCallAction = CallFunc::create([=](){
+                    HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                });
+                
+                this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
             else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIOGROUP")
             {
                 NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
                 navigationLayer->startLoadingGroupHQ(uri);
-                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                
+                auto funcCallAction = CallFunc::create([=](){
+                    HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                });
+                
+                this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
         }
         

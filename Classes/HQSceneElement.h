@@ -2,6 +2,7 @@
 #define __HQSCENEELEMENT_SCENE_H__
 
 #include "cocos2d.h"
+#include "network/HttpClient.h"
 
 class HQSceneElement : public cocos2d::Layer
 {
@@ -33,6 +34,7 @@ private:
     
     cocos2d::Point touchPoint;
     bool movedAway;
+    bool iamtouched;
 };
 
 #endif

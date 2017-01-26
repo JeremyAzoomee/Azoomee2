@@ -33,6 +33,7 @@ private:
     cocos2d::LayerColor *baseLayer;
     cocos2d::LayerColor *overlayWhenTouched;
     bool movedAway;
+    bool iamtouched;
     cocos2d::Point touchPoint;
 };
 

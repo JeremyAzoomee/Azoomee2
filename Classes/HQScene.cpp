@@ -233,13 +233,19 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
 {
     Vec2 highlightDataForElement = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(this->getName(), rowNumber, itemNumber);
     
-    auto hqSceneElement = HQSceneElement::create();
-    hqSceneElement->addHQSceneElement(this->getName(), itemData, highlightDataForElement);
+    auto funcCallAction = CallFunc::create([=](){
+        auto hqSceneElement = HQSceneElement::create();
+        hqSceneElement->addHQSceneElement(this->getName(), itemData, highlightDataForElement);
+        
+        toBeAddedTo->addChild(hqSceneElement);
+        
+        auto sceneElementPositioner = new HQSceneElementPositioner();
+        sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
+    });
     
-    toBeAddedTo->addChild(hqSceneElement);
+    this->runAction(Sequence::create(DelayTime::create(rowNumber * 0.5 + itemNumber * 0.1), funcCallAction, NULL));
     
-    auto sceneElementPositioner = new HQSceneElementPositioner();
-    sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
+    
 }
 
 //--------------------------------------------ARTS APP SCROLL VIEW CREATION----------------------------------------------------------

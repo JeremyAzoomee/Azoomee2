@@ -28,6 +28,7 @@ bool LoginScene::init()
     {
         return false;
     }
+    CCLOG("Cache folder: %s", FileUtils::getInstance()->getWritablePath().c_str());
     
     CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
     

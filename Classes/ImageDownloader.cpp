@@ -147,6 +147,8 @@ bool ImageDownloader::saveFileToServer(std::string data, std::string fileName)
 
 void ImageDownloader::loadFileFromLocalCacheAsync(std::string fileName)
 {
+    if(!this) return;
+    
     //Sync load for the moment
     auto finalImage = Sprite::create(imageIdPath + fileName);
     finalImage->setPosition(this->getContentSize() / 2);
