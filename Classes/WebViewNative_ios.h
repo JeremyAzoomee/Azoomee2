@@ -14,10 +14,7 @@ public:
 private:
     void addWebViewToScreen(std::string url);
     void addWebViewAndButtonToScreen(std::string url);
-    void addBackButtonToScreen();
     void startLoadingUrl(std::string url);
-    void addListenerToBackButton();
-    cocos2d::Sprite *backButton;
     
     void removeWebViewAndBack();
 };

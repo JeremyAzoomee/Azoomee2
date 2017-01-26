@@ -7,6 +7,7 @@
 //
 
 #import "WebViewController_ios.h"
+#import "ios_Cocos2d_Callbacks.h"
 
 @interface WebViewController ()
 
@@ -29,7 +30,8 @@
     [urlToLoad retain];
     [useridToUse retain];
     
-    [self addWebViewToScreen];
+    [self addWebViewToScreen];    
+    [self createButton];
 }
 
 - (void)viewDidLoad {
@@ -39,7 +41,7 @@
 }
 
 - (void)addWebViewToScreen {
-    UIWebView *webview=[[UIWebView alloc]initWithFrame:CGRectMake(30, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    webview=[[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     
     NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
     NSString *urlToCall;
@@ -166,6 +168,25 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) createButton
+{
+    currentButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [currentButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [currentButton setFrame:CGRectMake(10, 10, 40, 40)];
+    [currentButton setExclusiveTouch:YES];
+    [currentButton setImage:[UIImage imageNamed:@"res/navigation/back_new.png"] forState:UIControlStateNormal];
+    
+    [self.view addSubview:currentButton];
+}
+
+-(void) buttonClicked:(UIButton*)sender
+{
+    [webview removeFromSuperview];
+    [currentButton removeFromSuperview];
+    
+    navigateToBaseScene();
 }
 
 
