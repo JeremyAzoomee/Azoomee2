@@ -48,7 +48,7 @@ void LoginScene::onEnterTransitionDidFinish()
     }
     
 #ifdef autologin
-    BackEndCaller::getInstance()->login("klaas+ci@azoomee.com", "test1234");
+    BackEndCaller::getInstance()->login("tamas.bonis@azoomee.com", "B0Ta1983!");
 #endif
 }
 
