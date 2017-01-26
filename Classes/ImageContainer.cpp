@@ -6,6 +6,7 @@
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
 #include "ConfigStorage.h"
+#include "NavigationLayer.h"
 
 USING_NS_CC;
 
@@ -85,7 +86,7 @@ void ImageContainer::addReponseLayerToImage(std::map<std::string, std::string> e
     bgLayer->addChild(responseLayer);
 }
 
-void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string itemId)
+void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string contentId)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -104,16 +105,26 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
             
             target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
             
-            if(HQDataParser::getInstance()->getExtensionFromUri(uri) == "json")
+            if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "GAME")
             {
-                CCLOG("Game processing");
-                GameDataManager::getInstance()->startProcessingGame(uri, itemId);
+                GameDataManager::getInstance()->startProcessingGame(uri, contentId);
             }
-            else
+            else if((HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "AUDIO"))
             {
-                CCLOG("Video processing");
                 auto webViewSelector = WebViewSelector::create();
                 webViewSelector->loadWebView(uri.c_str());
+            }
+            else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "GROUP")
+            {
+                NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+                navigationLayer->startLoadingGroupHQ(uri);
+                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+            }
+            else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "AUDIOGROUP")
+            {
+                NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+                navigationLayer->startLoadingGroupHQ(uri);
+                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
             }
             
             return true;
