@@ -18,3 +18,5 @@
 NSString *urlToLoad;
 NSString *useridToUse;
 bool iframeloaded;
+UIWebView *webview;
+UIButton* currentButton;

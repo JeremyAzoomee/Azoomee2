@@ -30,8 +30,6 @@ bool WebViewNative_ios::init()
 void WebViewNative_ios::startLoadingUrl(std::string url)
 {
     addWebViewToScreen(url);
-    addBackButtonToScreen();
-    addListenerToBackButton();
 }
 
 void WebViewNative_ios::addWebViewToScreen(std::string url)
@@ -61,51 +59,9 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
     [currentView addSubview:webViewController.view];
     
     [webViewController startBuildingWebView:iosurl userid:iosuserid];
-}
-
-void WebViewNative_ios::addBackButtonToScreen()
-{
-    cocos2d::Point origin = Director::getInstance()->getVisibleOrigin();
     
-    backButton = Sprite::create("CloseNormal.png");
-    backButton->setScale(3);
-    backButton->setPosition(origin.x + backButton->getBoundingBox().size.width / 2, origin.y + backButton->getBoundingBox().size.height / 2);
-    this->addChild(backButton);
-}
-
-void WebViewNative_ios::removeWebViewAndBack()
-{
-    UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
-    
-    for(UIView *subview in currentView.subviews)
-    {
-        [subview removeFromSuperview];
-    }
-    
-    auto baseScene = BaseScene::createScene();
-    Director::getInstance()->replaceScene(baseScene);
-}
-
-void WebViewNative_ios::addListenerToBackButton()
-{
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(false);
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
-    {
-        auto target = static_cast<Node*>(event->getCurrentTarget());
-        
-        cocos2d::Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-        cocos2d::Size s = target->getBoundingBox().size;//getContentSize();
-        cocos2d::Rect rect = cocos2d::Rect(0,0,s.width, s.height);
-        
-        if(rect.containsPoint(locationInNode))
-        {
-            this->removeWebViewAndBack();
-            return true;
-        }
-        
-        return false;
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), backButton);
+    currentView = nil;
+    cookieStorage = nil;
+    iosurl = nil;
+    iosuserid = nil;
 }
