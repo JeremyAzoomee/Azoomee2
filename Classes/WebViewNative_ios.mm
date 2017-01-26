@@ -59,4 +59,9 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
     [currentView addSubview:webViewController.view];
     
     [webViewController startBuildingWebView:iosurl userid:iosuserid];
+    
+    currentView = nil;
+    cookieStorage = nil;
+    iosurl = nil;
+    iosuserid = nil;
 }

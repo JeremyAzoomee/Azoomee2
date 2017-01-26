@@ -186,7 +186,13 @@
     [webview removeFromSuperview];
     [currentButton removeFromSuperview];
     
+    [useridToUse release];
+    [urlToLoad release];
+    [webview release];
+    
     navigateToBaseScene();
+    
+    [self release];
 }
 
 
