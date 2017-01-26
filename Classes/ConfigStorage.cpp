@@ -24,6 +24,7 @@ ConfigStorage::~ConfigStorage(void)
 
 bool ConfigStorage::init(void)
 {
+    inArtsApp = 0;
     return true;
 }
 //-------------------------BACKEND CALLER CONFIGURATION--------------------

@@ -52,4 +52,7 @@ public:
     
     //OomeeLayer animation states
     std::string getRandomIdForAnimationType(std::string animationType);
+    
+    //Android helper for arts app
+    int inArtsApp;
 };

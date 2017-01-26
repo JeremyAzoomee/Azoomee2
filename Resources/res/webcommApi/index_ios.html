@@ -8,8 +8,9 @@
 			{
 				var iframe = document.createElement('iframe');
 				iframe.src = url;
-				iframe.width  = window.innerWidth;
-    			iframe.height = window.innerHeight;
+				iframe.width  = window.innerWidth - 10;
+    			iframe.height = window.innerHeight - 10;
+    			iframe.style.border = "none";
 				document.body.appendChild(iframe);
 				
 				window.addEventListener("message", receiveMessage, false);

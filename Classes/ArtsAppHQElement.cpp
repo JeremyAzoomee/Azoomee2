@@ -4,6 +4,7 @@
 #include "WebViewSelector.h"
 #include "ChildDataProvider.h"
 #include "HQScene.h"
+#include "AppDelegate.h"
 
 USING_NS_CC;
 using namespace cocos2d;
@@ -264,6 +265,7 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath)
 #endif
             
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+            ConfigStorage::getInstance()->inArtsApp = 1;
             WebViewSelector::createSceneWithUrl("file:///android_asset/res/artapp/index.html");
 #endif
         }

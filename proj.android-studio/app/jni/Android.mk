@@ -56,7 +56,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/IntroVideoScene.cpp \
                    ../../../Classes/MultiButtonMessageBoxLayer.cpp \
                    ../../../Classes/DisplayChildNameLayer.cpp \
-                   ../../../Classes/ArtsAppHQElement.cpp
+                   ../../../Classes/ArtsAppHQElement.cpp \
+                   ../../../Classes/ArtsPreviewLayer.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

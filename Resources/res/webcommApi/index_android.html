@@ -2,7 +2,7 @@
 	<head>
 		<title>Game storage API - android</title>
 	</head>
-	<body>
+	<body bgcolor="black">
 		<script>
 			function getUrlVars() 
 			{
@@ -88,8 +88,9 @@
 			var contentUrl = getUrlVars()["contentUrl"];
 			var iframe = document.createElement('iframe');
 			iframe.src = contentUrl;
-			iframe.width  = window.innerWidth - 50;
-    		iframe.height = window.innerHeight - 50;
+			iframe.style.border = "none"
+			iframe.width  = window.innerWidth - 20;
+    		iframe.height = window.innerHeight - 20;
 			document.body.appendChild(iframe);
 		
 			window.addEventListener("message", receiveMessage, false);
