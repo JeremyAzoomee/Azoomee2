@@ -179,7 +179,7 @@ std::string ConfigStorage::getIconImagesForContentItemInCategory(std::string cat
     std::map<std::string, std::string> icons;
     
     icons["VIDEO HQ"] = "res/hqscene/icon_watch.png";
-    icons["AUDIO HQ"] = "res/hqscene/icon_watch.png";
+    icons["AUDIO HQ"] = "res/hqscene/icon_listen.png";
     icons["GAME HQ"] = "res/hqscene/icon_play.png";
     icons["ARTS APP"] = "res/hqscene/icon_play.png";
     icons["GROUP HQ"] = "res/hqscene/icon_watch.png";
@@ -300,7 +300,7 @@ std::string ConfigStorage::getIconNameForCategory(std::string category)
 {
     std::map<std::string, std::string> iconNames;
     iconNames["VIDEO"] = "watch";
-    iconNames["AUDIO"] = "watch";
+    iconNames["AUDIO"] = "listen";
     iconNames["GAME"] = "play";
     iconNames["GROUP"] = "play";
     
