@@ -11,9 +11,6 @@ USING_NS_CC;
 class OnboardingScene : public Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate
 {
 private:
-    
-    void handleErrorCode(long errorCode);
-    
     long _errorCode;
     
     TextInputLayer *editBox_email;

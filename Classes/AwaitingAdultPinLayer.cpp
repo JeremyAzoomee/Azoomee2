@@ -130,8 +130,7 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
         }
         else
         {
-            ModalMessages::getInstance()->createMessageWithSingleButton(PIN_INCORRECT_ERROR_TITLE_TEXT, PIN_INCORRECT_ERROR_BODY_TEXT, PIN_INCORRECT_ERROR_BUTTON_TEXT);
-            editBox_pin->setText("");
+            ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_INCORRECT_PIN);
             acceptButton->setVisible(false);
         }
     }

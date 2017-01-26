@@ -10,9 +10,6 @@ USING_NS_CC;
 class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate
 {
 private:
-    
-    void handleErrorCode(long errorCode);
-    
     long _errorCode;
     
     TextInputLayer *editBox_childName;

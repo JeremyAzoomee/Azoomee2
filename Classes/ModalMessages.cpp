@@ -1,5 +1,6 @@
 #include "ModalMessages.h"
 #include "ui/UIEditBox/UIEditBox.h"
+#include "StringStorage.h"
 
 USING_NS_CC;
 
@@ -196,6 +197,15 @@ void ModalMessages::createMessageBackground()
 
     //messageBoxLayer->runAction(FadeTo::create(0.5, 255));
 }
+
+void ModalMessages::createErrorMessage(long errorCode)
+{
+    std::map<std::string, std::string> errorStringMap = StringStorage::getInstance()->getErrorMessageStrings(errorCode);
+    
+    createMessageWithSingleButton(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], errorStringMap[ERROR_BUTTON]);
+}
+
+// ---------------- Delegate functions -------------
 
 void ModalMessages::buttonPressed(ElectricDreamsButton* button)
 {

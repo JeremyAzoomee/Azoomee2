@@ -44,17 +44,12 @@ void LoginScene::onEnterTransitionDidFinish()
     
     if(_errorCode !=0)
     {
-        handleErrorCode(_errorCode);
+        ModalMessages::getInstance()->createErrorMessage(_errorCode);
     }
     
 #ifdef autologin
     BackEndCaller::getInstance()->login("klaas+ci@azoomee.com", "test1234");
 #endif
-}
-
-void LoginScene::handleErrorCode(long errorCode)
-{
-    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
 }
 
 //----------------- SCENE SETUP ---------------

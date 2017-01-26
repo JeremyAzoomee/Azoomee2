@@ -6,7 +6,6 @@
 #include "ModalMessages.h"
 #include "ConfigStorage.h"
 #include "SimpleAudioEngine.h"
-#include "StringStorage.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -50,17 +49,11 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
     {
-        handleErrorCode(_errorCode);
+        ModalMessages::getInstance()->createErrorMessage(_errorCode);
     }
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
-
-void ChildSelectorScene::handleErrorCode(long errorCode)
-{
-    //#TODO handle modal message strings.
-    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
-}
 
 void ChildSelectorScene::addVisualsToScene()
 {
@@ -288,7 +281,7 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
         AwaitingAdultPinLayer::create()->setDelegate(this);
     }
     else
-        ModalMessages::getInstance()->createMessageWithSingleButton(EMAIL_NOT_VERIFIED_ERROR_TITLE_TEXT, EMAIL_NOT_VERIFIED_ERROR_BODY_TEXT, EMAIL_NOT_VERIFIED_ERROR_BUTTON_TEXT);
+        ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED);
 }
 
 //----------------------- Delegate Functions ----------------------------

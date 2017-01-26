@@ -38,15 +38,10 @@ void OnboardingScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
     {
-        handleErrorCode(_errorCode);
+        ModalMessages::getInstance()->createErrorMessage(_errorCode);
     }
     
     editBox_email->focusAndShowKeyboard();
-}
-
-void OnboardingScene::handleErrorCode(long errorCode)
-{
-    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
 }
 
 //----------------- SCENE SETUP ---------------

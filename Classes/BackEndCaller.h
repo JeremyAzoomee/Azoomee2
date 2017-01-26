@@ -36,7 +36,7 @@ public:
     
     void displayLoadingScreen();
     void hideLoadingScreen();
-    void getBackToLoginScreen();
+    void getBackToLoginScreen(long errorCode);
     
     //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
     std::string registerParentUsername;

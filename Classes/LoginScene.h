@@ -10,8 +10,6 @@ USING_NS_CC;
 class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate
 {
 private:
-    void handleErrorCode(long errorCode);
-    
     long _errorCode;
     
     TextInputLayer *_usernameTextInput;

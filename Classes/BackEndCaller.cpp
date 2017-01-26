@@ -53,9 +53,9 @@ void BackEndCaller::hideLoadingScreen()
 
 //---------------------ERROR HANDLING----------------------------------
 
-void BackEndCaller::getBackToLoginScreen()
+void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
-    auto loginScene = LoginScene::createScene(0);
+    auto loginScene = LoginScene::createScene(errorCode);
     Director::getInstance()->replaceScene(loginScene);
 }
 
@@ -77,7 +77,7 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
 {
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString)) getAvailableChildren();
-    else getBackToLoginScreen();
+    else getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
 }
 
 //GETTING AVAILABLE CHILDREN--------------------------------------------------------------------------
