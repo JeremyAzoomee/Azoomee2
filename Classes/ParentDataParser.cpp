@@ -4,6 +4,8 @@
 #include "ModalMessages.h"
 #include "LoginScene.h"
 
+#include "HQDataStorage.h"
+
 using namespace cocos2d;
 
 static ParentDataParser *_sharedParentDataParser = NULL;
@@ -42,6 +44,12 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
             ParentDataStorage::getInstance()->loggedInParentApiSecret = ParentDataStorage::getInstance()->parentLoginData["apiSecret"].GetString();
             ParentDataStorage::getInstance()->loggedInParentApiKey = ParentDataStorage::getInstance()->parentLoginData["apiKey"].GetString();
             ParentDataStorage::getInstance()->loggedInParentActorStatus = ParentDataStorage::getInstance()->parentLoginData["actorStatus"].GetString();
+            
+            HQDataStorage::getInstance()->HQListTitles.clear();
+            HQDataStorage::getInstance()->HQListElements.clear();
+            HQDataStorage::getInstance()->HQElementHighlights.clear();
+            HQDataStorage::getInstance()->HQData.clear();
+            HQDataStorage::getInstance()->HQGetContentUrls.clear();
             
             return true;
         }
