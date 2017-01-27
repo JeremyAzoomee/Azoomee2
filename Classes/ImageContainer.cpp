@@ -131,13 +131,23 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
             {
                 NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
                 navigationLayer->startLoadingGroupHQ(uri);
-                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                
+                auto funcCallAction = CallFunc::create([=](){
+                    HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                });
+                
+                this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
             else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "AUDIOGROUP")
             {
                 NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
                 navigationLayer->startLoadingGroupHQ(uri);
-                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                
+                auto funcCallAction2 = CallFunc::create([=](){
+                    HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                });
+                
+                this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
             }
             
             return true;
