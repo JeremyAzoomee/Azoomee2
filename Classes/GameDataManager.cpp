@@ -330,5 +330,5 @@ void GameDataManager::hideLoadingScreen()
 
 void GameDataManager::showErrorMessage()
 {
-    ModalMessages::getInstance()->createErrorMessage(-1);
+    ModalMessages::getInstance()->createSomethingWentWrongMessage();
 }

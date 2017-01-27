@@ -34,6 +34,9 @@ private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     
+    std::string somethingWentWrongTitle;
+    std::string somethingWentWrongButton;
+    
     float messageBoxWidth;
     
     std::vector<std::string> messageBoxButtonTitles;
@@ -49,6 +52,7 @@ public:
     void createErrorMessage(long errorCode);
     void createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText);
     void createPreviewLoginSignupMessageBox();
+    void createSomethingWentWrongMessage();
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);

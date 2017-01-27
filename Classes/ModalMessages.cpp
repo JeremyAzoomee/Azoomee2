@@ -3,6 +3,7 @@
 #include "StringStorage.h"
 #include "LoginScene.h"
 #include "OnboardingScene.h"
+#include "BaseScene.h"
 
 USING_NS_CC;
 
@@ -220,6 +221,23 @@ void ModalMessages::createPreviewLoginSignupMessageBox()
     MultiButtonMessageBoxLayer::createMessageBox(PREVIEW_MESSAGEBOX_TITLE, PREVIEW_MESSAGEBOX_BODY, messageBoxButtonTitles, this);
 }
 
+//------------- SOMETHING WENT WRONG --------------------
+void ModalMessages::createSomethingWentWrongMessage()
+{
+    std::map<std::string, std::string> errorStringMap = StringStorage::getInstance()->getErrorMessageStrings(-1);
+    
+    if(messageBoxButtonTitles.size() == 0)
+    {
+        messageBoxButtonTitles.push_back(errorStringMap[ERROR_BUTTON]);
+    }
+    
+    //setting so delegate can find these
+    somethingWentWrongTitle = errorStringMap[ERROR_TITLE];
+    somethingWentWrongButton = errorStringMap[ERROR_BODY];
+    
+    MultiButtonMessageBoxLayer::createMessageBox(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], messageBoxButtonTitles, this);
+}
+
 // ------------- DELEGATE FUNCTIONS --------------------
 
 void ModalMessages::buttonPressed(ElectricDreamsButton* button)
@@ -243,6 +261,14 @@ void ModalMessages::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std
         {
             Scene *onboardingScene = OnboardingScene::createScene(0);
             Director::getInstance()->replaceScene(onboardingScene);
+        }
+    }
+    else if(messageBoxTitle == somethingWentWrongTitle)
+    {
+        if(buttonTitle == somethingWentWrongButton)
+        {
+            auto baseScene = BaseScene::createScene();
+            Director::getInstance()->replaceScene(baseScene);
         }
     }
 }
