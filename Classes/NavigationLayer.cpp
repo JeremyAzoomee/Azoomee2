@@ -50,7 +50,7 @@ bool NavigationLayer::init()
         runDisplayAnimationForMenuItem(menuItemImage, menuItemInactive);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
     }
     
-    createSettingsButton();
+    if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) createSettingsButton();
     
     this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 3.5);
     

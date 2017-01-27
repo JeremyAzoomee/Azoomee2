@@ -16,16 +16,8 @@ bool ExitOrLogoutLayer::init()
     
     CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
     
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-    {
-        createAndFadeInLayer();
-        askForPin();
-    }
-    else
-    {
-        auto loginScene = LoginScene::createScene(0);
-        Director::getInstance()->replaceScene(loginScene);
-    }
+    createAndFadeInLayer();
+    askForPin();
     
     return true;
 }
