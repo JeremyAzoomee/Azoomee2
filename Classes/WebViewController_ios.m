@@ -183,6 +183,11 @@
 
 -(void) buttonClicked:(UIButton*)sender
 {
+    [webview loadHTMLString:@"" baseURL:nil];
+    [webview stopLoading];
+    [webview setDelegate:nil];
+    
+    
     [webview removeFromSuperview];
     [currentButton removeFromSuperview];
     
