@@ -8,7 +8,9 @@
 #include "ConfigStorage.h"
 #include "ChildSelectorScene.h"
 #include "ChildDataStorage.h"
+#include "ChildDataProvider.h"
 #include "ExitOrLogoutLayer.h"
+#include "LoginScene.h"
 
 USING_NS_CC;
 
@@ -173,11 +175,19 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         {
             if(target->getTag() == 3)
             {
-                //Child Selection Button Pressed.
-                //Logout Child
-                ChildDataStorage::getInstance()->childLoggedIn = false;
-                auto childSelectorScene = ChildSelectorScene::createScene(0);
-                Director::getInstance()->replaceScene(childSelectorScene);
+                if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+                {
+                    //Child Selection Button Pressed.
+                    //Logout Child
+                    ChildDataStorage::getInstance()->childLoggedIn = false;
+                    auto childSelectorScene = ChildSelectorScene::createScene(0);
+                    Director::getInstance()->replaceScene(childSelectorScene);
+                }
+                else
+                {
+                    auto loginScene = LoginScene::createScene(0);
+                    Director::getInstance()->replaceScene(loginScene);
+                }
             }
             else
             {

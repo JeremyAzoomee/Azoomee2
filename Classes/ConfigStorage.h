@@ -14,7 +14,7 @@ public:
     //General configuration
 //#define autologin YES;
 //#define forcereload YES;
-#define forgetuserdata YES;
+//#define forgetuserdata YES;
     
     std::string getFileNameFromUrl(std::string url);
     
