@@ -16,7 +16,7 @@ public:
 private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
-    
+
     //MenuItem creation phase
     cocos2d::Sprite* addMenuItemImage(int itemNumber);
     cocos2d::Sprite* addMenuItemInactive(int itemNumber, cocos2d::Node *toBeAddedTo);
@@ -36,12 +36,11 @@ private:
     void addBackButtonToNavigation();
     void removeBackButtonFromNavigation();
     void addListenerToBackButton(cocos2d::Node* toBeAddedTo);
-    
+
     //Handle arts app
     void loadArtsAppHQ();
     
     int currentScene;
-    
 };
 
 #endif

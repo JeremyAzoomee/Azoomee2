@@ -19,6 +19,8 @@
 #include "SimpleAudioEngine.h"
 #include "HQDataParser.h"
 #include "NavigationLayer.h"
+#include "ChildDataProvider.h"
+#include "ModalMessages.h"
 
 USING_NS_CC;
 
@@ -56,10 +58,15 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     
     if(itemData["entitled"] == "true")
     {
-        addListenerToElement(itemData["uri"], itemData["id"], category);
+        addListenerToElement(itemData["uri"], itemData["id"], category, false);
     }
     else
     {
+        if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            addListenerToElement(itemData["uri"], itemData["id"], category, true);
+        }
+        
         addLockToElement();
     }
 }
@@ -160,7 +167,7 @@ void HQSceneElement::createColourLayer(std::string category)
     this->addChild(baseLayer);
 }
 
-void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category)
+void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, bool preview)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -206,40 +213,16 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             overlayWhenTouched->setOpacity(0);
             CCLOG("Action to come: %s", uri.c_str());
             
-            CCLOG("Category: %s", category.c_str());
-            CCLOG("Given type: %s", HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId).c_str());
+            if(!preview)
+            {
+                startUpElementDependingOnType(uri, contentId, category);
+            }
+            else
+            {
+            ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
+                return true;
+            }
             
-            if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
-            {
-                GameDataManager::getInstance()->startProcessingGame(uri, contentId);
-            }
-            else if((HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIO"))
-            {
-                auto webViewSelector = WebViewSelector::create();
-                webViewSelector->loadWebView(uri.c_str());
-            }
-            else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GROUP")
-            {
-                NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-                navigationLayer->startLoadingGroupHQ(uri);
-                
-                auto funcCallAction = CallFunc::create([=](){
-                    HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-                });
-                
-                this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
-            }
-            else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIOGROUP")
-            {
-                NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-                navigationLayer->startLoadingGroupHQ(uri);
-                
-                auto funcCallAction = CallFunc::create([=](){
-                    HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-                });
-                
-                this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
-            }
         }
         
         return false;
@@ -257,5 +240,40 @@ void HQSceneElement::reduceLabelTextToFitWidth(Label* label,float maxWidth)
         labelText = labelText.substr(0, labelText.length()-1);
 
         label->setString(StringUtils::format("%s...",labelText.c_str()));
+    }
+}
+
+void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string contentId, std::string category)
+{
+    if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
+    {
+        GameDataManager::getInstance()->startProcessingGame(uri, contentId);
+    }
+    else if((HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIO"))
+    {
+        auto webViewSelector = WebViewSelector::create();
+        webViewSelector->loadWebView(uri.c_str());
+    }
+    else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIOGROUP")
+    {
+        NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+        navigationLayer->startLoadingGroupHQ(uri);
+        
+        auto funcCallAction = CallFunc::create([=](){
+            HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+    }
+    else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GROUP")
+    {
+        NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+        navigationLayer->startLoadingGroupHQ(uri);
+        
+        auto funcCallAction2 = CallFunc::create([=](){
+            HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
     }
 }

@@ -12,10 +12,13 @@ public:
     
     std::string getLoggedInChildName();
     std::string getLoggedInChildId();
+    std::string getLoggedInChildAvatarId();
     int getLoggedInChildNumber();
     
     std::string getParentOrChildId();
     std::string getParentOrChildCdnSessionId();
     std::string getParentOrChildApiSecret();
     std::string getParentOrChildApiKey();
+    
+    bool getIsChildLoggedIn();
 };

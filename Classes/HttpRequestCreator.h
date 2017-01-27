@@ -7,6 +7,7 @@ public:
     void createEncryptedGetHttpRequest();
     void createEncryptedPostHttpRequest();
     void createPostHttpRequest();
+    void createGetHttpRequest();
     
     std::string requestBody;
     std::string urlParameters;

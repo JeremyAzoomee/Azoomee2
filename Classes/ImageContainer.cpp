@@ -7,6 +7,8 @@
 #include "GameDataManager.h"
 #include "ConfigStorage.h"
 #include "NavigationLayer.h"
+#include "ModalMessages.h"
+#include "ChildDataProvider.h"
 
 USING_NS_CC;
 
@@ -49,6 +51,11 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     if(elementProperties["entitled"] == "false")
     {
         addLockToImageContainer(startDelay);
+        
+        if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            addPreviewListenerToContainer(bgLayer);
+        }
     }
     else
     {
@@ -144,6 +151,31 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         auto target = static_cast<Node*>(event->getCurrentTarget());
         target->getChildByName("responseLayer")->stopAllActions();
         target->getChildByName("responseLayer")->setOpacity(0);
+        
+        return false;
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), addTo);
+}
+
+void ImageContainer::addPreviewListenerToContainer(cocos2d::Node *addTo)
+{
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    
+    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    {
+        auto target = static_cast<Node*>(event->getCurrentTarget());
+        
+        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+        Size s = target->getContentSize();
+        Rect rect = Rect(0,0,s.width, s.height);
+        
+        if(rect.containsPoint(locationInNode))
+        {
+            ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
+            return true;
+        }
         
         return false;
     };

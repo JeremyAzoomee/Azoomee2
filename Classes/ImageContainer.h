@@ -12,7 +12,9 @@ public:
     void createContainer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, cocos2d::Point position);
 
 private:
-    void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string contentId);
+
+    void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string itemId);
+    void addPreviewListenerToContainer(cocos2d::Node *addTo);
     
     cocos2d::LayerColor *bgLayer;
     void createBgLayer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, cocos2d::Point position);

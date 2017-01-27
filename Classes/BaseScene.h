@@ -9,11 +9,12 @@ public:
     static cocos2d::Scene* createScene();
     CREATE_FUNC(BaseScene);
     virtual bool init();
+    void addMainHubScene(cocos2d::Node *toBeAddedTo);
+    void startBuildingHQs();
     
 private:
     void createHQScene(std::string sceneName, Node* toBeAddedTo);
     cocos2d::Layer* createContentLayer();
-    void addMainHubScene(cocos2d::Node *toBeAddedTo);
     void addNavigationLayer();
 };
 

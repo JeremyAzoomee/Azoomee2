@@ -6,6 +6,8 @@
 #include "HQScene.h"
 
 #include "ConfigStorage.h"
+#include "ChildDataProvider.h"
+#include "HQDataParser.h"
 
 #include "SimpleAudioEngine.h"
 
@@ -31,18 +33,40 @@ bool BaseScene::init()
     CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("res/audio/bgmusic.mp3");
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/maintitle_in.mp3");
     
-    Layer *contentLayer = createContentLayer();         //We use contentLayer to hold all HQ-s, to be able to pan between them.
-    addMainHubScene(contentLayer);
+    if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())  //if basescene is being run without a child logged in, preview mode has to be activated
+    {
+        HQDataParser::getInstance()->getPreviewContent(ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag("PreviewHOME"), "HOME");
+    }
+    else
+    {
+        startBuildingHQs();
+    }
     
+    return true;
+}
+
+void BaseScene::startBuildingHQs()
+{
+    CCLOG("startBuildingHQs happen!!!!!!");
+    
+    Layer *contentLayer = createContentLayer();
+    
+    addMainHubScene(contentLayer);
     createHQScene("VIDEO HQ", contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
     createHQScene("GAME HQ", contentLayer);             //Probably worth moving these to configStorage?
     createHQScene("AUDIO HQ", contentLayer);
     createHQScene("ARTS APP", contentLayer);
     createHQScene("GROUP HQ", contentLayer);
     
-    addNavigationLayer();                               //The navigation layer is being added to "this", because that won't move with the menu.
-    
-    return true;
+    addNavigationLayer();  //The navigation layer is being added to "this", because that won't move with the menu.
+}
+
+void BaseScene::addMainHubScene(Node* toBeAddedTo)
+{
+    auto sMainHubScene = MainHubScene::create();
+    sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions("HOME"));
+    sMainHubScene->setTag(0);
+    toBeAddedTo->addChild(sMainHubScene);
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
@@ -63,14 +87,6 @@ Layer* BaseScene::createContentLayer()
     this->addChild(contentLayer);
     
     return contentLayer;
-}
-
-void BaseScene::addMainHubScene(Node* toBeAddedTo)
-{
-    auto sMainHubScene = MainHubScene::create();
-    sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions("HOME"));
-    sMainHubScene->setTag(0);
-    toBeAddedTo->addChild(sMainHubScene, 100);
 }
 
 void BaseScene::addNavigationLayer()

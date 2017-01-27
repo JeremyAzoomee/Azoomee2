@@ -21,6 +21,13 @@
 #define ERROR_BODY "errorBody"
 #define ERROR_BUTTON "errorButton"
 
+//--------------- PREVIEW MODE MESSAGE BOX ------------
+#define SIGNUP_BUTTON_TEXT "Sign up"
+#define LOGIN_BUTTON_TEXT "Log in"
+#define CANCEL_BUTTON_TEXT "Cancel"
+#define PREVIEW_MESSAGEBOX_TITLE "Sign Up or Log In"
+#define PREVIEW_MESSAGEBOX_BODY "You need to log in or sign up to watch content."
+
 class StringStorage : public cocos2d::Ref
 {
     

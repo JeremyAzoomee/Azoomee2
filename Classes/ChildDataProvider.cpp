@@ -84,7 +84,17 @@ std::string ChildDataProvider::getLoggedInChildId()
     return ChildDataStorage::getInstance()->loggedInChildId;
 }
 
+std::string ChildDataProvider::getLoggedInChildAvatarId()
+{
+    return ChildDataStorage::getInstance()->loggedInChildAvatarId;
+}
+
 int ChildDataProvider::getLoggedInChildNumber()
 {
     return ChildDataStorage::getInstance()->loggedInChildNumber;
+}
+
+bool ChildDataProvider::getIsChildLoggedIn()
+{
+    return ChildDataStorage::getInstance()->childLoggedIn;
 }

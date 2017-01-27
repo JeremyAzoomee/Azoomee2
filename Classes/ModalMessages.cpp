@@ -1,6 +1,8 @@
 #include "ModalMessages.h"
 #include "ui/UIEditBox/UIEditBox.h"
 #include "StringStorage.h"
+#include "LoginScene.h"
+#include "OnboardingScene.h"
 
 USING_NS_CC;
 
@@ -205,7 +207,20 @@ void ModalMessages::createErrorMessage(long errorCode)
     createMessageWithSingleButton(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], errorStringMap[ERROR_BUTTON]);
 }
 
-// ---------------- Delegate functions -------------
+//------------ PREVIEW MODE MESSAGE BOX ----------------
+void ModalMessages::createPreviewLoginSignupMessageBox()
+{
+    if(messageBoxButtonTitles.size() == 0)
+    {
+        messageBoxButtonTitles.push_back(LOGIN_BUTTON_TEXT);
+        messageBoxButtonTitles.push_back(SIGNUP_BUTTON_TEXT);
+        messageBoxButtonTitles.push_back(CANCEL_BUTTON_TEXT);
+    }
+    
+    MultiButtonMessageBoxLayer::createMessageBox(PREVIEW_MESSAGEBOX_TITLE, PREVIEW_MESSAGEBOX_BODY, messageBoxButtonTitles, this);
+}
+
+// ------------- DELEGATE FUNCTIONS --------------------
 
 void ModalMessages::buttonPressed(ElectricDreamsButton* button)
 {
@@ -213,4 +228,21 @@ void ModalMessages::buttonPressed(ElectricDreamsButton* button)
     
     if(button == messageButton)
         this->removeLayer();
+}
+
+void ModalMessages::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    if(messageBoxTitle == PREVIEW_MESSAGEBOX_TITLE)
+    {
+        if(buttonTitle == LOGIN_BUTTON_TEXT)
+        {
+            Scene *loginScene = LoginScene::createScene(0);
+            Director::getInstance()->replaceScene(loginScene);
+        }
+        else if(buttonTitle == SIGNUP_BUTTON_TEXT)
+        {
+            Scene *onboardingScene = OnboardingScene::createScene(0);
+            Director::getInstance()->replaceScene(onboardingScene);
+        }
+    }
 }

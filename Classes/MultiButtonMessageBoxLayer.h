@@ -66,6 +66,7 @@ private:
     void underlineTitle();
     void createBody(std::string messageBody);
     void createButtons();
+    void positionButtonsBasedOnWidth(float totalButtonsWidth);
     void createMessageBackground();
     
     void removeSelf(float dt);

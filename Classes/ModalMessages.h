@@ -1,6 +1,7 @@
 
 #include "cocos2d.h"
 #include "ElectricDreamsButton.h"
+#include "MultiButtonMessageBoxLayer.h"
 
 //------------- ERROR MESSAGE CODES --------------
 // For use in createErrorMessage
@@ -10,7 +11,7 @@
 #define ERROR_CODE_INCORRECT_PIN 1004
 #define ERROR_CODE_NAME_EXISTS 1005
 
-class ModalMessages: public cocos2d::Ref, public ElectricDreamsButtonDelegate
+class ModalMessages: public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MultiButtonMessageBoxLayerDelegate
 {
 public:
     /** Returns the shared instance of the Game Manager */
@@ -20,8 +21,6 @@ private:
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();
     void removeLayer();
-    
-    void createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText);
     
     //MessageBox functions
     void createTitle(std::string messageTitle);
@@ -37,6 +36,8 @@ private:
     
     float messageBoxWidth;
     
+    std::vector<std::string> messageBoxButtonTitles;
+    
 public:
     
     virtual ~ModalMessages();
@@ -46,8 +47,11 @@ public:
     void stopLoading();
     
     void createErrorMessage(long errorCode);
+    void createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText);
+    void createPreviewLoginSignupMessageBox();
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
+    void MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle);
 
 };
