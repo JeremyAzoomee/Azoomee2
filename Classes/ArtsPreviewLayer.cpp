@@ -76,7 +76,9 @@ void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
     std::vector<Point> positions = ConfigStorage::getInstance()->getMainHubPositionForHighlightElements("ART");
     
     bool newImage = false;
-    if(path == "res/arthqscene/new.imag") newImage = true;
+    if(path ==  FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.imag")) newImage = true;
+    
+    CCLOG("PATH: %s", path.c_str());
     
     auto hqElement = ArtsAppHQElement::create();
     hqElement->initWithURLAndSize(path, containerSize, newImage, false, locked);
