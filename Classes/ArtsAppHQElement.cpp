@@ -22,6 +22,10 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     
     notSendingFileData = newImage;
     
+    if(notSendingFileData)
+    CCLOG("NOT SENDING FILE DATA IS TRUE!");
+    else CCLOG("NOT SENDING FILE DATA IS FALSE!");
+    
     createImageBorder();
     if(!newImage) createWhiteBackground();
     
@@ -268,11 +272,13 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
            
             if(!notSendingFileData)
             {
+                CCLOG("WE ARE SENDING FILE DATA!");
                 FileUtils::getInstance()->writeStringToFile(content, dataWritePath);
                 FileUtils::getInstance()->writeStringToFile(getFileNameFromPath(filePath), nameWritePath);
             }
             else
             {
+                CCLOG("WE ARE NOT SENDING FILE DATA");
                 FileUtils::getInstance()->writeStringToFile("NEW", dataWritePath);
                 FileUtils::getInstance()->writeStringToFile("NEW", nameWritePath);
             }
