@@ -341,5 +341,22 @@ std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType
     else return touchAnimations.at(random(0, (int)touchAnimations.size() - 1));
 }
 
+//--------------------------- UserDefaults First Time User for Slideshow------------
+
+#define USERDEFAULTS_FIRST_SLIDE_SHOW "FirstSlideShowSeen"
+#define SEEN_FIRST_SLIDE_SHOW_YES "YES"
+
+void ConfigStorage::setFirstSlideShowSeen()
+{
+    UserDefault::getInstance()->setStringForKey(USERDEFAULTS_FIRST_SLIDE_SHOW, SEEN_FIRST_SLIDE_SHOW_YES);
+}
+
+bool ConfigStorage::shouldShowFirstSlideShowScene()
+{
+    if(UserDefault::getInstance()->getStringForKey(USERDEFAULTS_FIRST_SLIDE_SHOW) == SEEN_FIRST_SLIDE_SHOW_YES)
+        return false;
+    
+    return true;
+}
 
 
