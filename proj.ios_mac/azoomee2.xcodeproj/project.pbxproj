@@ -10,6 +10,7 @@
 		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
 		025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */; };
 		025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */; };
+		025BE9571E3B591C00EF76D1 /* MultiButtonMessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9551E3B591C00EF76D1 /* MultiButtonMessageBoxLayer.cpp */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -169,6 +170,8 @@
 		025BE94C1E3A1E2D00EF76D1 /* ArtsPreviewLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsPreviewLayer.h; sourceTree = "<group>"; };
 		025BE94E1E3A1E9200EF76D1 /* WebViewController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController_ios.h; sourceTree = "<group>"; };
 		025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController_ios.m; sourceTree = "<group>"; };
+		025BE9551E3B591C00EF76D1 /* MultiButtonMessageBoxLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiButtonMessageBoxLayer.cpp; sourceTree = "<group>"; };
+		025BE9561E3B591C00EF76D1 /* MultiButtonMessageBoxLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiButtonMessageBoxLayer.h; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -787,6 +790,8 @@
 				D13C40181E33A0F0002360A6 /* AwaitingAdultPinLayer.h */,
 				D13C40191E33A0F0002360A6 /* ExitOrLogoutLayer.cpp */,
 				D13C401A1E33A0F0002360A6 /* ExitOrLogoutLayer.h */,
+				025BE9551E3B591C00EF76D1 /* MultiButtonMessageBoxLayer.cpp */,
+				025BE9561E3B591C00EF76D1 /* MultiButtonMessageBoxLayer.h */,
 			);
 			name = ModalMessages;
 			sourceTree = "<group>";
@@ -1008,6 +1013,7 @@
 				A15B2FA91DEDAA2A00D25334 /* ModalMessages.cpp in Sources */,
 				A1CC0C1F1E141B20008B469E /* CookieDataStorage.cpp in Sources */,
 				A15D589B1E04099A0099CDEE /* HttpRequestCreator.cpp in Sources */,
+				025BE9571E3B591C00EF76D1 /* MultiButtonMessageBoxLayer.cpp in Sources */,
 				025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */,
 				A1A2D2FF1E13B52700E86169 /* CookieDataProvider.cpp in Sources */,
 				A1CC0C191E141AE0008B469E /* ParentDataStorage.cpp in Sources */,
