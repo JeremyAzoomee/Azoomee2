@@ -10,6 +10,7 @@ public:
     cocos2d::Sprite *closeButton;
     static cocos2d::Scene* createSceneWithURL(std::string url);
     virtual bool init();
+    void onEnterTransitionDidFinish();
     
 private:
     void addWebViewToScreen(std::string url);

@@ -30,6 +30,8 @@ bool BaseScene::init()
         return false;
     }
     
+    Director::getInstance()->purgeCachedData();
+    
     CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("res/audio/bgmusic.mp3");
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/maintitle_in.mp3");
     

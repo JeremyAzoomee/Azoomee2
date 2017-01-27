@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
 #include "LoginScene.h"
+#include "BaseScene.h"
 #include "IntroVideoScene.h"
 #include "HQScene.h"
 #include "ConfigStorage.h"
@@ -104,6 +105,7 @@ void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
     
+    /*
     if(ConfigStorage::getInstance()->inArtsApp == 1)
     {
         ConfigStorage::getInstance()->inArtsApp = 0;
@@ -114,6 +116,13 @@ void AppDelegate::applicationWillEnterForeground() {
         
         hqLayer->removeAllChildren();
         hqLayer->startBuildingScrollViewBasedOnName();
+    }
+     */
+    
+    if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
+    {
+        auto baseScene = BaseScene::createScene();
+        Director::getInstance()->replaceScene(baseScene);
     }
 
     // if you use SimpleAudioEngine, it must resume here

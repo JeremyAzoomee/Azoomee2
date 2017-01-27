@@ -30,7 +30,8 @@
     [urlToLoad retain];
     [useridToUse retain];
     
-    [self addWebViewToScreen];    
+    [self addWebViewToScreen];
+    //[self addWKWebViewToScreen];
     [self createButton];
 }
 
@@ -38,6 +39,34 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+}
+
+- (void)addWKWebViewToScreen {
+    WKWebViewConfiguration *theConfiguration = [[WKWebViewConfiguration alloc] init];
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:theConfiguration];
+    
+    
+    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
+    NSString *urlToCall;
+    
+    if([iosurlExtension isEqualToString:@"html"])
+    {
+        urlToCall = [[NSBundle mainBundle] pathForResource:@"res/webcommApi/index_ios" ofType:@"html"];
+    }
+    else
+    {
+        iframeloaded = 1;
+        
+        NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index" ofType:@"html"];
+        urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, urlToLoad];
+    }
+    
+    webView.navigationDelegate = self;
+    NSURL *nsurl=[NSURL URLWithString:urlToCall];
+    NSURLRequest *nsrequest = [NSURLRequest requestWithURL:nsurl];
+    
+    [webView loadRequest:nsrequest];
+    [self.view addSubview:webView];
 }
 
 - (void)addWebViewToScreen {

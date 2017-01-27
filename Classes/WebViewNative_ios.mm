@@ -25,6 +25,11 @@ bool WebViewNative_ios::init()
     return true;
 }
 
+void WebViewNative_ios::onEnterTransitionDidFinish()
+{
+     Director::getInstance()->purgeCachedData();
+}
+
 //-------------------------------------------All methods are private after this line---------------------------------------
 
 void WebViewNative_ios::startLoadingUrl(std::string url)

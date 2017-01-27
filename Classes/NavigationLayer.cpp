@@ -306,6 +306,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
             HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("GROUP HQ");
             
             hqLayer->removeAllChildren();
+            Director::getInstance()->purgeCachedData();
             
             this->changeToScene(currentScene);
             

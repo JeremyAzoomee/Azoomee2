@@ -188,6 +188,7 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, s
                 HQScene *hqScene = (HQScene *)this->getParent()->getParent()->getParent();
                 CCLOG("Name where I am : %s", hqScene->getName().c_str());
                 hqScene->removeAllChildren();
+                Director::getInstance()->purgeCachedData();
                 hqScene->startBuildingScrollViewBasedOnName();
                 
                 return true;
