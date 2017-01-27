@@ -5,11 +5,12 @@
 #include "ChildDataProvider.h"
 #include "HQScene.h"
 #include "AppDelegate.h"
+#include "ModalMessages.h"
 
 USING_NS_CC;
 using namespace cocos2d;
 
-bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage, bool deletable)
+bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage, bool deletable, bool locked)
 {
     if ( !Layer::init() )
     {
@@ -26,12 +27,21 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     
     addImage(filePath);
     addOverlay();
-    addListenerToElement(filePath);
     
-    if(deletable == true)
+    if(locked == true)
     {
-        deleteButton = addDeleteButton();
-        addListenerToDeleteButton(deleteButton, filePath);
+        addLockToElement();
+        addListenerToElement(filePath, true);
+    }
+    else
+    {
+        if(deletable == true)
+        {
+            deleteButton = addDeleteButton();
+            addListenerToDeleteButton(deleteButton, filePath);
+        }
+        
+        addListenerToElement(filePath, false);
     }
     
     return true;
@@ -102,6 +112,14 @@ void ArtsAppHQElement::addImage(std::string filePath)
     sprite->setScale((this->getContentSize().width - 40) / sprite->getContentSize().width, (this->getContentSize().height - 40) / sprite->getContentSize().height);
     sprite->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
     this->addChild(sprite);
+}
+
+void ArtsAppHQElement::addLockToElement()
+{
+    auto lockImage = Sprite::create("res/hqscene/locked.png");
+    lockImage->setPosition(baseLayer->getContentSize() / 2);
+    lockImage->setScale(baseLayer->getContentSize().width / 445);
+    this->addChild(lockImage);
 }
 
 Sprite* ArtsAppHQElement::addDeleteButton()
@@ -178,7 +196,7 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, s
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
 }
 
-void ArtsAppHQElement::addListenerToElement(std::string filePath)
+void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -233,6 +251,11 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath)
         
         if(iamtouched)
         {
+            if(preview)
+            {
+                ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
+                return true;
+            }
             
             std::string fullFilePath = FileUtils::getInstance()->fullPathForFilename(filePath);
             std::string content = FileUtils::getInstance()->getStringFromFile(fullFilePath);

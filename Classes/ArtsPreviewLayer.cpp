@@ -33,9 +33,13 @@ void ArtsPreviewLayer::addImagesToMainHub()
 {
     std::vector<std::string> imagePaths = getRandomImagesFromArtsCache();
     
+    
     for(int i = 0; i < imagePaths.size(); i++)
     {
-        addImageToLayer(imagePaths.at(i), i);
+        bool locked = true;
+        if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) locked = false;
+        
+        addImageToLayer(imagePaths.at(i), i, locked);
     }
 }
 
@@ -64,7 +68,7 @@ std::vector<std::string> ArtsPreviewLayer::getRandomImagesFromArtsCache()
     return imagesToDisplay;
 }
 
-void ArtsPreviewLayer::addImageToLayer(std::string path, int index)
+void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
 {
     Size baseContentSize = Size(490, 373);
     Size containerSize = baseContentSize * (1 - (index * 0.3));
@@ -75,7 +79,7 @@ void ArtsPreviewLayer::addImageToLayer(std::string path, int index)
     if(path == "res/arthqscene/new.imag") newImage = true;
     
     auto hqElement = ArtsAppHQElement::create();
-    hqElement->initWithURLAndSize(path, containerSize, newImage, false);
+    hqElement->initWithURLAndSize(path, containerSize, newImage, false, locked);
     
     hqElement->setPosition(positions.at(index));
     this->addChild(hqElement);

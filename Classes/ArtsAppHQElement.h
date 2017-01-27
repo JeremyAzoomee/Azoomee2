@@ -7,14 +7,15 @@ class ArtsAppHQElement : public cocos2d::Layer
 {
 public:
     CREATE_FUNC(ArtsAppHQElement);
-    virtual bool initWithURLAndSize(std::string filePath, cocos2d::Size size, bool newImage, bool deletable);
+    virtual bool initWithURLAndSize(std::string filePath, cocos2d::Size size, bool newImage, bool deletable, bool locked);
     
 private:
     void createImageBorder();
     void createWhiteBackground();
     void addImage(std::string filePath);
     void addOverlay();
-    void addListenerToElement(std::string filePath);
+    void addListenerToElement(std::string filePath, bool preview);
+    void addLockToElement();
     
     cocos2d::Sprite *addDeleteButton();
     cocos2d::Sprite *deleteButton;

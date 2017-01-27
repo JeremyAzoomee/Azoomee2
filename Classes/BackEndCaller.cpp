@@ -71,6 +71,11 @@ void BackEndCaller::login(std::string username, std::string password)
     httpRequestCreator->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
     httpRequestCreator->requestTag = "parentLogin";
     httpRequestCreator->createPostHttpRequest();
+    
+    UserDefault* def = UserDefault::getInstance();
+    def->setStringForKey("username", username);
+    def->setStringForKey("password", password);
+    def->flush();
 }
 
 void BackEndCaller::onLoginAnswerReceived(std::string responseString)

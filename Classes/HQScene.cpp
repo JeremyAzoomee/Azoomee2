@@ -275,7 +275,10 @@ void HQScene::createArtsAppScrollView()
 
 void HQScene::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.imag"), true, false);
+    bool locked = true;
+    if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) locked = false;
+    
+    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.imag"), true, false, locked);
 }
 
 void HQScene::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
@@ -291,17 +294,20 @@ void HQScene::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *to
         {
             if(fileList.at(i).substr(fileList.at(i).size() -4, 4) == "imag")
             {
+                bool locked = true;
+                if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) locked = false;
+                
                 std::string imagePath = StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str());
-                addImageToHorizontalScrollView(toBeAddedTo, imagePath, false, true);
+                addImageToHorizontalScrollView(toBeAddedTo, imagePath, false, true, locked);
             }
         }
     }
 }
 
-void HQScene::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable)
+void HQScene::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable, bool locked)
 {
     auto artImage = ArtsAppHQElement::create();
-    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable);
+    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable, locked);
     toBeAddedTo->addChild(artImage);
     
     auto sceneElementPositioner = new HQSceneElementPositioner();

@@ -43,11 +43,15 @@ private:
     void moveToBackToSelectionScreen(ElectricDreamsButton* button);
     void moveToAndSetupPasswordScreen(ElectricDreamsButton* button);
     void login(ElectricDreamsButton* button);
+    void autoLogin(std::string username, std::string password);
     
     virtual void onEnterTransitionDidFinish();
     
+    bool shouldDoAutoLogin;
+    
 public:
     static Scene* createScene(long errorCode);
+    static Scene* createSceneWithAutoLogin();
 
     virtual bool init();
     

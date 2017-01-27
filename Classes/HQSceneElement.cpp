@@ -219,7 +219,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             }
             else
             {
-            ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
+                ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
                 return true;
             }
             

@@ -12,7 +12,7 @@ public:
     
 private:
     std::vector<std::string> getRandomImagesFromArtsCache();
-    void addImageToLayer(std::string path, int index);
+    void addImageToLayer(std::string path, int index, bool locked);
     std::vector<std::string> getImagesInDirectory(std::string path);
     void addImagesToMainHub();
     

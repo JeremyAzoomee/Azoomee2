@@ -2,6 +2,7 @@
 #include "LoginScene.h"
 #include "StringStorage.h"
 #include "SimpleAudioEngine.h"
+#include "ChildDataProvider.h"
 
 bool ExitOrLogoutLayer::init()
 {
@@ -15,8 +16,16 @@ bool ExitOrLogoutLayer::init()
     
     CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
     
-    createAndFadeInLayer();
-    askForPin();
+    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    {
+        createAndFadeInLayer();
+        askForPin();
+    }
+    else
+    {
+        auto loginScene = LoginScene::createScene(0);
+        Director::getInstance()->replaceScene(loginScene);
+    }
     
     return true;
 }

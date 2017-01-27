@@ -18,6 +18,19 @@ Scene* LoginScene::createScene(long errorCode)
     scene->addChild(layer);
     
     layer->_errorCode = errorCode;
+    layer->shouldDoAutoLogin = false;
+    
+    return scene;
+}
+
+Scene* LoginScene::createSceneWithAutoLogin()
+{
+    auto scene = Scene::create();
+    auto layer = LoginScene::create();
+    scene->addChild(layer);
+    
+    layer->_errorCode = 0;
+    layer->shouldDoAutoLogin = true;
     
     return scene;
 }
@@ -35,15 +48,34 @@ bool LoginScene::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    addVisualElementsToScene();
-    addFunctionalElementsToScene();
-    
     return true;
 }
 
 void LoginScene::onEnterTransitionDidFinish()
 {
     CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+    
+    if(shouldDoAutoLogin)
+    {
+        CCLOG("Should do autologin!");
+        
+        UserDefault* def = UserDefault::getInstance();
+        std::string username = def->getStringForKey("username", "");
+        std::string password = def->getStringForKey("password", "");
+        def->flush();
+        
+        if(username != "")
+        {
+            CCLOG("Doing autologin!");
+            
+            autoLogin(username, password);
+            return;
+        }
+    }
+    
+    addVisualElementsToScene();
+    addFunctionalElementsToScene();
+    
     
     if(_errorCode !=0)
     {
@@ -76,8 +108,8 @@ void LoginScene::addFunctionalElementsToScene()
 {
     addContentLayerToScene();
     addLabelsToLayer();
-    addTextBoxesToLayer();
     addButtonsToLayer();
+    addTextBoxesToLayer();
 }
 
 void LoginScene::addContentLayerToScene()
@@ -109,14 +141,23 @@ void LoginScene::addLabelsToLayer()
 
 void LoginScene::addTextBoxesToLayer()
 {
+    UserDefault* def = UserDefault::getInstance();
+    std::string username = def->getStringForKey("username", "");
+    std::string password = def->getStringForKey("password", "");
+    def->flush();
+    
+    if(username !="") emailNextButton->setVisible(true);
+    
     _usernameTextInput = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_EMAIL);
     _usernameTextInput->setCenterPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
     _usernameTextInput->setDelegate(this);
+    _usernameTextInput->setText(username);
     loginContent->addChild(_usernameTextInput);
     
     _passwordTextInput = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_PASSWORD);
     _passwordTextInput->setCenterPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
     _passwordTextInput->setDelegate(this);
+    _passwordTextInput->setText(password);
     loginContent->addChild(_passwordTextInput);
 }
 
@@ -225,6 +266,12 @@ void LoginScene::login(ElectricDreamsButton* button)
     std::string username = _usernameTextInput->getText();
     std::string password = _passwordTextInput->getText();
 
+    auto backEndCaller = BackEndCaller::getInstance();
+    backEndCaller->login(username, password);
+}
+
+void LoginScene::autoLogin(std::string username, std::string password)
+{
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->login(username, password);
 }
