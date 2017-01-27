@@ -51,7 +51,7 @@ void ImageDownloader::addLoadingAnimation()
     loadingAnimation->setOpacity(150);
     loadingAnimation->setName("loadingAnimation");
     loadingAnimation->setContentSize(this->getContentSize());
-    loadingAnimation->setPosition(-this->getContentSize().width / 2, -this->getContentSize().height / 2);
+    loadingAnimation->setPosition(0, 0);
     this->addChild(loadingAnimation);
     
     auto loadingLabel = Label::createWithTTF("Loading", "fonts/azoomee.ttf", 20);
