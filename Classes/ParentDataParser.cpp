@@ -1,6 +1,8 @@
 #include "ParentDataParser.h"
 #include "ChildDatastorage.h"
 #include "ParentDataStorage.h"
+#include "ModalMessages.h"
+#include "LoginScene.h"
 
 using namespace cocos2d;
 
@@ -42,6 +44,11 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
             ParentDataStorage::getInstance()->loggedInParentActorStatus = ParentDataStorage::getInstance()->parentLoginData["actorStatus"].GetString();
             
             return true;
+        }
+        else
+        {
+            auto loginScene = LoginScene::createScene(ERROR_CODE_INVALID_CREDENTIALS);
+            Director::getInstance()->replaceScene(loginScene);
         }
     }
     

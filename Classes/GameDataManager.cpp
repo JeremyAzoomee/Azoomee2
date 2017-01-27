@@ -236,6 +236,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
                 unzClose(pFile);
                 hideLoadingScreen(); //ERROR TO BE ADDED
                 CCLOG("unzip can not create file");
+                showErrorMessage();
                 return false;
             }
             unsigned long savedSize = 0;
@@ -268,6 +269,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         {
             unzClose(pFile);
             hideLoadingScreen(); //ERROR TO BE ADDED
+            showErrorMessage();
             return false;
         }
         else
@@ -281,6 +283,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     {
         unzClose(pFile);
         hideLoadingScreen(); //ERROR TO BE ADDED
+        showErrorMessage();
         return false;
     }
     unzClose(pFile);
@@ -323,4 +326,9 @@ void GameDataManager::displayLoadingScreen()
 void GameDataManager::hideLoadingScreen()
 {
     ModalMessages::getInstance()->stopLoading();
+}
+
+void GameDataManager::showErrorMessage()
+{
+    ModalMessages::getInstance()->createErrorMessage(-1);
 }

@@ -36,4 +36,5 @@ private:
     //Loading screen
     void displayLoadingScreen();
     void hideLoadingScreen();
+    void showErrorMessage();
 };
