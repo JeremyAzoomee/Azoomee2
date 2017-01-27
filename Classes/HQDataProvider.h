@@ -28,4 +28,8 @@ public:
     
     //Callback to start building HQ
     void startBuildingHQ(std::string category);
+    
+    //Loading screen
+    void displayLoadingScreen();
+    void hideLoadingScreen();
 };

@@ -51,7 +51,7 @@ void ImageDownloader::addLoadingAnimation()
     loadingAnimation->setOpacity(150);
     loadingAnimation->setName("loadingAnimation");
     loadingAnimation->setContentSize(this->getContentSize());
-    loadingAnimation->setPosition(-this->getContentSize().width / 2, -this->getContentSize().height / 2);
+    loadingAnimation->setPosition(0, 0);
     this->addChild(loadingAnimation);
     
     auto loadingLabel = Label::createWithTTF("Loading", "fonts/azoomee.ttf", 20);
@@ -147,6 +147,8 @@ bool ImageDownloader::saveFileToServer(std::string data, std::string fileName)
 
 void ImageDownloader::loadFileFromLocalCacheAsync(std::string fileName)
 {
+    if(!this) return;
+    
     //Sync load for the moment
     auto finalImage = Sprite::create(imageIdPath + fileName);
     finalImage->setPosition(this->getContentSize() / 2);

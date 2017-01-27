@@ -194,7 +194,8 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath)
         
         if(rect.containsPoint(locationInNode))
         {
-            overlayWhenTouched->runAction(FadeTo::create(0, 150));
+            overlayWhenTouched->setOpacity(150);
+            iamtouched = true;
             movedAway = false;
             touchPoint = touch->getLocation();
             
@@ -211,8 +212,10 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath)
         if((touch->getLocation().distance(touchPoint) > 10)&&(!movedAway))
         {
             movedAway = true;
+            iamtouched = false;
+            CCLOG("I am touched set");
             overlayWhenTouched->stopAllActions();
-            overlayWhenTouched->runAction(FadeTo::create(0, 0));
+            overlayWhenTouched->setOpacity(0);
             
             this->unscheduleShowingDeleteButton();
             this->hideDeleteButton();
@@ -228,7 +231,7 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath)
             return true;
         }
         
-        if(overlayWhenTouched->getOpacity() > 0)
+        if(iamtouched)
         {
             
             std::string fullFilePath = FileUtils::getInstance()->fullPathForFilename(filePath);
@@ -257,8 +260,9 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath)
                 CCLOG("Data exists: %s", nameWritePath.c_str());
             }
             
+            iamtouched = false;
+            overlayWhenTouched->setOpacity(0);
             overlayWhenTouched->stopAllActions();
-            overlayWhenTouched->runAction(Sequence::create(FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 150), DelayTime::create(0.1), FadeTo::create(0,0), NULL));
             
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
             WebViewSelector::createSceneWithUrl(FileUtils::getInstance()->fullPathForFilename("res/artapp/index.html"));

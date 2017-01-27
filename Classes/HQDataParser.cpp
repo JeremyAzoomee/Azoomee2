@@ -80,6 +80,7 @@ bool HQDataParser::parseHQData(std::string responseString, const char *category)
         }
     }
     
+    HQDataStorage::getInstance()->HQData[StringUtils::format("%s", category)].clear();
     HQDataStorage::getInstance()->HQData[StringUtils::format("%s", category)] = HQElements;
     
     return true;

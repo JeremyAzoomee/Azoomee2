@@ -125,7 +125,7 @@ std::map<std::string, std::string> StringStorage::getErrorMessageStrings(long er
 
         default :
             errorStrings[ERROR_TITLE] = "Something Went Wrong";
-            errorStrings[ERROR_BODY] = "There was a problem selecting that child; please try again.";
+            errorStrings[ERROR_BODY] = "No worries, a bunch of well trained Oomees are already working on this issue.";
             errorStrings[ERROR_BUTTON] = "OK";
     }
     

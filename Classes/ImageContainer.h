@@ -23,6 +23,8 @@ private:
     void addLabelToImage(std::string name, float startDelay);
     void addLockToImageContainer(float startDelay);
     void addReponseLayerToImage(std::map<std::string, std::string> elementProperties, float scale);
+    
+    bool iamtouched;
 };
 
 #endif

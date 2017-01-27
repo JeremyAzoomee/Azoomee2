@@ -18,6 +18,7 @@ USING_NS_CC;
 #include "WebViewSelector.h"
 #include "CookieDataStorage.h"
 #include "BackEndCaller.h"
+#include "ModalMessages.h"
 
 
 using namespace network;
@@ -47,6 +48,8 @@ bool GameDataManager::init(void)
 
 void GameDataManager::startProcessingGame(std::string url, std::string itemId)
 {
+    displayLoadingScreen();
+    
     std::string basePath = getGameIdPath(itemId);
     
     std::string fileName = getFileNameFromUrl(url);
@@ -229,7 +232,11 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
             
             if(!pFile2)
             {
+                
+                unzClose(pFile);
+                hideLoadingScreen(); //ERROR TO BE ADDED
                 CCLOG("unzip can not create file");
+                showErrorMessage();
                 return false;
             }
             unsigned long savedSize = 0;
@@ -260,7 +267,10 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         } while (0);
         if(nRet != UNZ_OK)
         {
-            ret = false;
+            unzClose(pFile);
+            hideLoadingScreen(); //ERROR TO BE ADDED
+            showErrorMessage();
+            return false;
         }
         else
         {
@@ -271,7 +281,10 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     
     if(err != UNZ_END_OF_LIST_OF_FILE)
     {
-        ret = false;
+        unzClose(pFile);
+        hideLoadingScreen(); //ERROR TO BE ADDED
+        showErrorMessage();
+        return false;
     }
     unzClose(pFile);
     
@@ -290,6 +303,7 @@ bool GameDataManager::removeGameZip(std::string fileNameWithPath)
 
 void GameDataManager::startGame(std::string fileName)
 {
+    hideLoadingScreen();
     WebViewSelector::createSceneWithUrl(fileName);
     //We don't need to add this to the screen, because in create phase WebViewSelector will do a replaceScene.
 }
@@ -302,4 +316,19 @@ std::string GameDataManager::getGameIdPath(std::string gameId)
 std::string GameDataManager::getGameCachePath()
 {
     return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+}
+
+//---------------------LOADING SCREEN----------------------------------
+void GameDataManager::displayLoadingScreen()
+{
+    ModalMessages::getInstance()->startLoading();
+}
+void GameDataManager::hideLoadingScreen()
+{
+    ModalMessages::getInstance()->stopLoading();
+}
+
+void GameDataManager::showErrorMessage()
+{
+    ModalMessages::getInstance()->createErrorMessage(-1);
 }

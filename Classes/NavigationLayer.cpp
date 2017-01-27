@@ -79,11 +79,19 @@ void NavigationLayer::startLoadingHQScene(int categoryTag)
 {
     if(categoryTag == 4)
     {
-        loadArtsAppHQ();
+        auto funcCallAction = CallFunc::create([=](){
+            this->loadArtsAppHQ();
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+
         return;
     }
     
-    HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(categoryTag));
+    auto funcCallAction2 = CallFunc::create([=](){
+        HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(categoryTag));
+    });
+    this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
 }
 
 void NavigationLayer::changeToScene(int target)
@@ -282,6 +290,13 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
+            Scene *runningScene = Director::getInstance()->getRunningScene();
+            Node *baseLayer = runningScene->getChildByName("baseLayer");
+            Node *contentLayer = baseLayer->getChildByName("contentLayer");
+            HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("GROUP HQ");
+            
+            hqLayer->removeAllChildren();
+            
             this->changeToScene(currentScene);
             
             return true;
