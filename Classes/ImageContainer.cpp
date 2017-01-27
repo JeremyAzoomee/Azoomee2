@@ -31,13 +31,19 @@ bool ImageContainer::init()
 
 void ImageContainer::createContainer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, Point position)
 {
-    Color4B colour4 = ConfigStorage::getInstance()->getColourForElementType(elementProperties["type"]);
+    CCLOG("Element type is: %s", elementProperties["type"].c_str());
+    
+    std::string displayType = elementProperties["type"];
+    if(elementProperties["type"] == "GROUP") displayType = "VIDEO";
+    if(elementProperties["type"] == "AUDIOGROUP") displayType = "LISTEN";
+    
+    Color4B colour4 = ConfigStorage::getInstance()->getColourForElementType(displayType);
     Color3B colour3 = Color3B(colour4.r, colour4.g, colour4.b);
     
     createBgLayer(elementProperties, scale, startDelay, position);
     addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"], Vec2(1,1)), startDelay);
     addGradientToBottom(colour3, startDelay);
-    addIconToImage(elementProperties["type"], startDelay);
+    addIconToImage(displayType, startDelay);
     addLabelToImage(elementProperties["title"], startDelay);
     
     if(elementProperties["entitled"] == "false")
