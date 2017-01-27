@@ -1,4 +1,5 @@
 #include "AppDelegate.h"
+#include "LoginScene.h"
 #include "IntroVideoScene.h"
 #include "HQScene.h"
 #include "ConfigStorage.h"
@@ -82,7 +83,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     auto scene = IntroVideoScene::createScene();
-
     // run
     director->runWithScene(scene);
 

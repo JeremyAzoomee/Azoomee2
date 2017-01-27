@@ -3,7 +3,9 @@
 //cocos2d/cocos/ui/UIVideoPlayer-ios.mm - roww 144-145 - MPMovideControlStyleNone, interactionenabled: false
 
 #include "IntroVideoScene.h"
-#include "LoginScene.h"
+#include "SlideShowScene.h"
+#include "ConfigStorage.h"
+#include "BaseScene.h"
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
@@ -48,23 +50,15 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
     switch (eventType) {
         case VideoPlayer::EventType::COMPLETED:
         {
-            //NEED KEYVALUE TO KNOW IF FIRST TIME USER
-            bool isFirstTimeUser = false;
-            bool isLoggedIn = false;
-            
-            if(isFirstTimeUser)
+            if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
             {
-                //WILL LOAD SLIDESHOW SCENE WHEN CREATED
-            }
-            else if(isLoggedIn)
-            {
-                //WILL GO TO HUB OR CHILD SELECTOR
+                auto slideShowScene = SlideShowScene::createScene();
+                Director::getInstance()->replaceScene(slideShowScene);
             }
             else
             {
-                //WILL CHANGE AND GO TO PREVIEW HUB WHEN CREATED
-                auto loginScene = LoginScene::createScene(0);
-                Director::getInstance()->replaceScene(TransitionFade::create(0.5, loginScene, Color3B(0,0,0)));
+                auto baseScene = BaseScene::createScene();
+                Director::getInstance()->replaceScene(baseScene);
             }
             break;
         }

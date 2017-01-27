@@ -12,7 +12,7 @@ public:
     bool init(void);
     
     //General configuration
-#define autologin YES;
+//#define autologin YES;
 //#define forcereload YES;
     
     std::string getFileNameFromUrl(std::string url);
@@ -58,4 +58,8 @@ public:
     
     //Android helper for arts app
     int inArtsApp;
+
+    //UserDefaults First Time User for Slideshow
+    void setFirstSlideShowSeen();
+    bool shouldShowFirstSlideShowScene();
 };
