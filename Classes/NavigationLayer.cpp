@@ -290,6 +290,13 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
+            Scene *runningScene = Director::getInstance()->getRunningScene();
+            Node *baseLayer = runningScene->getChildByName("baseLayer");
+            Node *contentLayer = baseLayer->getChildByName("contentLayer");
+            HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("GROUP HQ");
+            
+            hqLayer->removeAllChildren();
+            
             this->changeToScene(currentScene);
             
             return true;

@@ -54,6 +54,7 @@ void HQDataProvider::startBuildingHQ(std::string category)
         Node *contentLayer = baseLayer->getChildByName("contentLayer");
         HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(category.c_str());
         
+        //hqLayer->removeAllChildren();
         hqLayer->startBuildingScrollViewBasedOnName();
     }
 }
@@ -79,7 +80,7 @@ void HQDataProvider::getDataForHQ(std::string category)
 
 void HQDataProvider::getDataForGroupHQ(std::string uri)
 {
-    HQDataStorage::getInstance()->HQData.erase("GROUP HQ");
+    HQDataStorage::getInstance()->HQData["GROUP HQ"].clear();
     HQDataParser::getInstance()->getContent(uri, "GROUP HQ");
 }
 

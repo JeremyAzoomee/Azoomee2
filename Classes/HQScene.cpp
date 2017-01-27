@@ -35,6 +35,8 @@ bool HQScene::init()
 
 void HQScene::startBuildingScrollViewBasedOnName()
 {
+    CCLOG("startbuildingscrollview happening");
+    
 #ifdef forcereload
         this->removeAllChildren();
     CCLOG("%s to be deleted", (FileUtils::getInstance()->getWritablePath() + "imageCache").c_str());
@@ -234,18 +236,27 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
     Vec2 highlightDataForElement = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(this->getName(), rowNumber, itemNumber);
     
     auto funcCallAction = CallFunc::create([=](){
-        auto hqSceneElement = HQSceneElement::create();
-        hqSceneElement->addHQSceneElement(this->getName(), itemData, highlightDataForElement);
         
-        toBeAddedTo->addChild(hqSceneElement);
+        CCLOG("this getchildren size: %ld", this->getChildren().size());
         
-        auto sceneElementPositioner = new HQSceneElementPositioner();
-        sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
+        if(this->getChildren().size() > 0) CCLOG("this getchildren 0 name: %s", this->getChildren().at(0)->getName().c_str());
+        
+        if(this->getChildren().size() > 0)
+        {
+            auto hqSceneElement = HQSceneElement::create();
+            hqSceneElement->addHQSceneElement(this->getName(), itemData, highlightDataForElement);
+
+            toBeAddedTo->addChild(hqSceneElement);
+            auto sceneElementPositioner = new HQSceneElementPositioner();
+            sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
+        }
+        else
+        {
+            this->stopAllActions();
+        }
     });
     
     this->runAction(Sequence::create(DelayTime::create(rowNumber * 0.5 + itemNumber * 0.1), funcCallAction, NULL));
-    
-    
 }
 
 //--------------------------------------------ARTS APP SCROLL VIEW CREATION----------------------------------------------------------
