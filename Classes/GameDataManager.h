@@ -32,4 +32,8 @@ private:
     std::string getGameIdPath(std::string gameId);
     
     void startGame(std::string fileName);
+    
+    //Loading screen
+    void displayLoadingScreen();
+    void hideLoadingScreen();
 };

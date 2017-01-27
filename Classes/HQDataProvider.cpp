@@ -13,6 +13,7 @@ USING_NS_CC;
 #include "BackEndCaller.h"
 #include "HttpRequestCreator.h"
 #include "ConfigStorage.h"
+#include "ModalMessages.h"
 
 using namespace cocos2d;
 
@@ -47,6 +48,8 @@ std::string HQDataProvider::getImageUrlForItem(std::string itemId, Vec2 shape)
 
 void HQDataProvider::startBuildingHQ(std::string category)
 {
+    hideLoadingScreen();
+    
     if(category != "HOME")
     {
         Scene *runningScene = Director::getInstance()->getRunningScene();
@@ -61,6 +64,8 @@ void HQDataProvider::startBuildingHQ(std::string category)
 
 void HQDataProvider::getDataForHQ(std::string category)
 {
+    displayLoadingScreen();
+    
 #ifdef forcereload
         HQDataStorage::getInstance()->HQData.erase(category.c_str());
 #endif
@@ -80,6 +85,8 @@ void HQDataProvider::getDataForHQ(std::string category)
 
 void HQDataProvider::getDataForGroupHQ(std::string uri)
 {
+    displayLoadingScreen();
+    
     HQDataStorage::getInstance()->HQData["GROUP HQ"].clear();
     HQDataParser::getInstance()->getContent(uri, "GROUP HQ");
 }
@@ -136,4 +143,15 @@ std::string HQDataProvider::getTypeForSpecificItem(std::string category, std::st
     }
     
     return "NILTYPE";
+}
+
+//---------------------LOADING SCREEN----------------------------------
+void HQDataProvider::displayLoadingScreen()
+{
+    ModalMessages::getInstance()->startLoading();
+}
+
+void HQDataProvider::hideLoadingScreen()
+{
+    ModalMessages::getInstance()->stopLoading();
 }
