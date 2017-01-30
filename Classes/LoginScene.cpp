@@ -64,13 +64,19 @@ void LoginScene::onEnterTransitionDidFinish()
         std::string password = def->getStringForKey("password", "");
         def->flush();
         
-        if(username != "")
+        if((username != "")&&(password != ""))
         {
             CCLOG("Doing autologin!");
             
             autoLogin(username, password);
             return;
         }
+    }
+    else
+    {
+        UserDefault* def = UserDefault::getInstance();
+        def->setStringForKey("password", "");
+        def->flush();
     }
     
     addVisualElementsToScene();

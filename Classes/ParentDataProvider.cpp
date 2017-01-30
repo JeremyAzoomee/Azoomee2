@@ -47,6 +47,11 @@ std::string ParentDataProvider::getParentPin()
     return ParentDataStorage::getInstance()->loggedInParentPin;
 }
 
+std::string ParentDataProvider::getLoggedInParentApiSecret()
+{
+    return ParentDataStorage::getInstance()->loggedInParentApiSecret;
+}
+
 //------------------------------------getting information from available children------------------------------------------
 
 

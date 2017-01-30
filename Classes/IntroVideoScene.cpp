@@ -69,7 +69,7 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
                 std::string password = def->getStringForKey("password", "");
                 def->flush();
                 
-                if(username == "")
+                if((username == "")||(password == ""))
                 {
                     CCLOG("autologin NOT called");
                     auto baseScene = BaseScene::createScene();

@@ -18,5 +18,6 @@ public:
     std::string getLoggedInParentActorStatus();
     std::string getLoggedInParentId();
     std::string getLoggedInParentApiKey();
+    std::string getLoggedInParentApiSecret();
     std::string getParentPin();
 };

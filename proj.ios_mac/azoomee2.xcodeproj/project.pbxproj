@@ -13,6 +13,7 @@
 		025BE9571E3B591C00EF76D1 /* MultiButtonMessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9551E3B591C00EF76D1 /* MultiButtonMessageBoxLayer.cpp */; };
 		025BE95C1E3B980600EF76D1 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025BE95B1E3B980600EF76D1 /* WebKit.framework */; };
 		025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE95D1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp */; };
+		026BAF711E3F864A009C4ACE /* JWTToolForceParent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF6F1E3F864A009C4ACE /* JWTToolForceParent.cpp */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -178,6 +179,8 @@
 		025BE95B1E3B980600EF76D1 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 		025BE95D1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebViewNativeCaller_android.cpp; sourceTree = "<group>"; };
 		025BE95E1E3BD1F800EF76D1 /* WebViewNativeCaller_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewNativeCaller_android.h; sourceTree = "<group>"; };
+		026BAF6F1E3F864A009C4ACE /* JWTToolForceParent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTToolForceParent.cpp; sourceTree = "<group>"; };
+		026BAF701E3F864A009C4ACE /* JWTToolForceParent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTToolForceParent.h; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -651,6 +654,8 @@
 			children = (
 				A15B2FB01DEDD1E000D25334 /* JWTTool.cpp */,
 				A15B2FB11DEDD1E000D25334 /* JWTTool.h */,
+				026BAF6F1E3F864A009C4ACE /* JWTToolForceParent.cpp */,
+				026BAF701E3F864A009C4ACE /* JWTToolForceParent.h */,
 				A15B2FAC1DEDD16A00D25334 /* HMACSHA256 */,
 			);
 			name = JWTSigner;
@@ -1061,6 +1066,7 @@
 				A15B2FB21DEDD1E000D25334 /* JWTTool.cpp in Sources */,
 				43069CF81E3B5D2A00D6A631 /* SlideShowScene.cpp in Sources */,
 				D113134A1E337D3A00E2C033 /* IntroVideoScene.cpp in Sources */,
+				026BAF711E3F864A009C4ACE /* JWTToolForceParent.cpp in Sources */,
 				4330C7881E27B79A00D32D3E /* Crashlytics_ios.mm in Sources */,
 				A1CC0C1C1E141AFF008B469E /* ChildDataStorage.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
