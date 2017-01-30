@@ -11,7 +11,7 @@ cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(std::string url)
     auto layer = WebViewNativeCaller_android::create();
     scene->addChild(layer);
     
-    loadUrl = url;
+    layer->loadUrl = url;
 
     return scene;
 }
@@ -62,8 +62,8 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
     jstring jcookie = methodInfo.env->NewStringUTF(CookieDataProvider::getInstance()->getCookiesForRequest(loadUrl).c_str());
     jstring juserid = methodInfo.env->NewStringUTF(ChildDataProvider::getInstance()->getLoggedInChildId().c_str());
     
-    CCLOG("Cookie to be sent to jni: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str());
-    CCLOG("CookieURL to be sent to jni: %s", getUrlWithoutPath(url).c_str());
+    CCLOG("Cookie to be sent to jni: %s", CookieDataProvider::getInstance()->getCookiesForRequest(loadUrl).c_str());
+    CCLOG("CookieURL to be sent to jni: %s", getUrlWithoutPath(loadUrl).c_str());
     
     methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jurl, jcookieurl, jcookie, juserid);
 

@@ -10,7 +10,7 @@ public:
     static cocos2d::Scene* createSceneWithUrl(std::string url);
     virtual bool init();
     void onEnterTransitionDidFinish();
-    static std::string loadUrl;
+    std::string loadUrl;
     
 private:
     std::string getUrlWithoutPath(std::string url);
