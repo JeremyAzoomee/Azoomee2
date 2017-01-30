@@ -118,6 +118,11 @@ void ChildAccountScene::addLabelsToLayer()
     labelDob->setColor(Color3B(28, 244, 244));
     childAccountContent->addChild(labelDob);
     
+    auto labelDobSubTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForChildAccount("requestChildBirthDaySubTitle"), "fonts/azoomee.ttf", 60);
+    labelDobSubTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.6);
+    labelDobSubTitle->setColor(Color3B::WHITE);
+    childAccountContent->addChild(labelDobSubTitle);
+    
     labelOomee = Label::create();
     labelOomee->setSystemFontName("fonts/azoomee.ttf");
     labelOomee->setSystemFontSize(90);

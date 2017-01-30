@@ -31,10 +31,10 @@ std::string StringStorage::getStringForOnboarding(std::string labelName)
 {
     std::map<std::string, std::string> onboardingStrings;
     
-    onboardingStrings["email"] = "Registration E-mail Address";
-    onboardingStrings["password"] = "Create your Azoomee Password";
-    onboardingStrings["pintitle"] = "Create your Azoomee App 4 digit pin";
-    onboardingStrings["pinsubtitle"] = "Shhh! Don't tell the kids...";
+    onboardingStrings["email"] = "Parents: enter your email address";
+    onboardingStrings["password"] = "Create a password";
+    onboardingStrings["pintitle"] = "Create a 4 digit PIN";
+    onboardingStrings["pinsubtitle"] = "You will need this to access the parent area and exit the app\nShhh! Don't tell the kids...";
     
     return onboardingStrings[labelName];
 }
@@ -43,9 +43,10 @@ std::string StringStorage::getStringForChildAccount(std::string labelName)
 {
     std::map<std::string, std::string> childAccountStrings;
     
-    childAccountStrings["requestChildName"] = "Hello! Please add a display name.";
+    childAccountStrings["requestChildName"] = "What's your child's name";
     childAccountStrings["editChildName"] = "Want to change the display name?";
     childAccountStrings["requestChildBirthDay"] = "Please add date of birth for";
+    childAccountStrings["requestChildBirthDaySubTitle"] = "We need this to show content specifically for their age";
     childAccountStrings["editChildBirthDay"] = "Change birthday?";
     childAccountStrings["requestChildOomee"] = "Select your favourite Oomee.";
     childAccountStrings["requestChildOomeeSub"] = "Don't worry you can change it later.";
@@ -83,7 +84,7 @@ std::map<std::string, std::string> StringStorage::getErrorMessageStrings(long er
         case 401 :
         case 419 :
             errorStrings[ERROR_TITLE] = "Login Required";
-            errorStrings[ERROR_BODY] = "Your session has timed out; please login again.";
+            errorStrings[ERROR_BODY] = "Your session has timed out. Please login again.";
             errorStrings[ERROR_BUTTON] = "OK";
             break;
             
@@ -95,31 +96,31 @@ std::map<std::string, std::string> StringStorage::getErrorMessageStrings(long er
             
         case ERROR_CODE_INVALID_CREDENTIALS:
              errorStrings[ERROR_TITLE] = "That Didn't Work";
-             errorStrings[ERROR_BODY] = "There was a problem with either your email or your password; please try logging in again.";
+             errorStrings[ERROR_BODY] = "There was a problem with your email or password. Please try logging in again.";
              errorStrings[ERROR_BUTTON] = "OK";
              break;
              
         case ERROR_CODE_ANY_OTHER_LOGIN_ERROR :
              errorStrings[ERROR_TITLE] = "Something Went Wrong";
-             errorStrings[ERROR_BODY] = "There was a problem logging you in; please try again.";
+             errorStrings[ERROR_BODY] = "There was a problem logging you in. Please try again.";
              errorStrings[ERROR_BUTTON] = "OK";
              break;
              
         case ERROR_CODE_EMAIL_VARIFICATION_REQUIRED :
              errorStrings[ERROR_TITLE] = "Email Verification Required";
-             errorStrings[ERROR_BODY] = "For security reasons, you'll need to verify your email address before you can add more children. Follow the instructions in the email that we've sent you.";
+             errorStrings[ERROR_BODY] = "For security reasons, you'll need to verify your email address before you can add more children. Please follow the instructions in the email that we've sent you.";
              errorStrings[ERROR_BUTTON] = "OK";
              break;
              
         case ERROR_CODE_INCORRECT_PIN :
-             errorStrings[ERROR_TITLE] = "Pin Error";
-             errorStrings[ERROR_BODY] = "Please enter your correct 4 digit pin to continue.";
+             errorStrings[ERROR_TITLE] = "PIN Error";
+             errorStrings[ERROR_BODY] = "Please enter your correct 4 digit PIN to continue.";
              errorStrings[ERROR_BUTTON] = "OK";
              break;
             
         case ERROR_CODE_NAME_EXISTS :
-            errorStrings[ERROR_TITLE] = "Display Name Exists";
-            errorStrings[ERROR_BODY] = "Please insert a unique name.";
+            errorStrings[ERROR_TITLE] = "Name Already Exists";
+            errorStrings[ERROR_BODY] = "You already have a child with this name. Please enter a unique name.";
             errorStrings[ERROR_BUTTON] = "OK";
             break;
 

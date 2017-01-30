@@ -60,7 +60,6 @@ ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string butto
     Rect capInsents = Rect(98, 98, 1, 1);
     
     float buttonHeight = 197;
-    float testheight = buttonLabel->getContentSize().height;
     
     if(buttonLabel->getContentSize().height >179)
         buttonHeight = buttonLabel->getContentSize().height + 100;
