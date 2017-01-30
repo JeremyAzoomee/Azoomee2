@@ -1,5 +1,7 @@
 #include "ChildDataParser.h"
 #include "ChildDataStorage.h"
+#include "CrashLyticsConfig.h"
+#include "ParentDataProvider.h"
 
 using namespace cocos2d;
 
@@ -37,6 +39,8 @@ bool ChildDataParser::parseChildLoginData(std::string responseData)
     ChildDataStorage::getInstance()->loggedInChildCdnSessionId = ChildDataStorage::getInstance()->childLoginData["cdn-sessionid"].GetString();
     ChildDataStorage::getInstance()->loggedInChildApiSecret = ChildDataStorage::getInstance()->childLoginData["apiSecret"].GetString();
     ChildDataStorage::getInstance()->loggedInChildApiKey = ChildDataStorage::getInstance()->childLoginData["apiKey"].GetString();
+    
+    createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), ChildDataStorage::getInstance()->loggedInChildId);
     
     return true;
 }

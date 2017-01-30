@@ -3,6 +3,7 @@
 #include "ParentDataStorage.h"
 #include "ModalMessages.h"
 #include "LoginScene.h"
+#include "CrashLyticsConfig.h"
 
 #include "HQDataStorage.h"
 
@@ -66,6 +67,8 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
             HQDataStorage::getInstance()->HQElementHighlights.clear();
             HQDataStorage::getInstance()->HQData.clear();
             HQDataStorage::getInstance()->HQGetContentUrls.clear();
+            
+            createCrashlyticsUserInfo(ParentDataStorage::getInstance()->loggedInParentId, "");
             
             return true;
         }
