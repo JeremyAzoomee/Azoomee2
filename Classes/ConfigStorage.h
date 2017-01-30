@@ -44,6 +44,7 @@ public:
     cocos2d::Point getHorizontalPositionForMenuItem(int itemNumber);
     cocos2d::Color4B getColourForMenuItem(int itemNumber);
     std::string getNameForMenuItem(int itemNumber);
+    int getTagNumberForMenuName(std::string name);
     cocos2d::Point getTargetPositionForMove(int itemNumber);
     
     //MainHubScene configuration
@@ -63,4 +64,7 @@ public:
     //UserDefaults First Time User for Slideshow
     void setFirstSlideShowSeen();
     bool shouldShowFirstSlideShowScene();
+    
+    //quick baselayer rebuild bookmark
+    std::string hqName;
 };

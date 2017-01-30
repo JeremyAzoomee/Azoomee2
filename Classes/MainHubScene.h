@@ -14,6 +14,9 @@ private:
     void addBackgroundCircles();
     void addImageContainers();
     
+    void addBackgroundCirclesQuick();
+    void addImageContainersQuick();
+    
     cocos2d::Size visibleSize;
     cocos2d::Point origin;
 };

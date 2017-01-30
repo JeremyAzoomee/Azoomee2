@@ -33,7 +33,18 @@ bool ImageContainer::init()
 
 void ImageContainer::createContainer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, Point position)
 {
-    CCLOG("Element type is: %s", elementProperties["type"].c_str());
+    if(ConfigStorage::getInstance()->hqName == "")
+    {
+        appearPause = 0.1;
+        interTime = 1.0;
+        scaleTime = 0.5;
+    }
+    else
+    {
+        appearPause = 0;
+        interTime = 0;
+        scaleTime = 0;
+    }
     
     std::string displayType = elementProperties["type"];
     if(elementProperties["type"] == "GROUP") displayType = "VIDEO";
@@ -81,7 +92,7 @@ void ImageContainer::createBgLayer(std::map<std::string, std::string> elementPro
     bgLayer->setOpacity(0);
     this->addChild(bgLayer);
     
-    bgLayer->runAction(Sequence::create(DelayTime::create(startDelay), FadeTo::create(0, colour.a), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeTo::create(0, colour.a), DelayTime::create(1), EaseElasticOut::create(ScaleTo::create(0.5, 1.0)), NULL));
+    bgLayer->runAction(Sequence::create(DelayTime::create(startDelay), FadeTo::create(0, colour.a), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeTo::create(0, colour.a), DelayTime::create(interTime), EaseElasticOut::create(ScaleTo::create(scaleTime, 1.0)), NULL));
 }
 
 void ImageContainer::addReponseLayerToImage(std::map<std::string, std::string> elementProperties, float scale)
@@ -201,7 +212,7 @@ void ImageContainer::addLockToImageContainer(float startDelay)
     lockImage->setOpacity(0);
     bgLayer->addChild(lockImage);
     
-    lockImage->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    lockImage->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeIn::create(0), NULL));
 }
 
 void ImageContainer::addImageToLayer(std::string url, float startDelay)
@@ -212,7 +223,7 @@ void ImageContainer::addImageToLayer(std::string url, float startDelay)
     imageDownloader->setOpacity(0);
     bgLayer->addChild(imageDownloader);
     
-    imageDownloader->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    imageDownloader->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeIn::create(0), NULL));
 }
 
 void ImageContainer::addGradientToBottom(Color3B colour, float startDelay)
@@ -224,7 +235,7 @@ void ImageContainer::addGradientToBottom(Color3B colour, float startDelay)
     gradient->setOpacity(0);
     bgLayer->addChild(gradient);
     
-    gradient->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    gradient->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeIn::create(0), NULL));
 }
 
 void ImageContainer::addIconToImage(std::string type, float startDelay)
@@ -235,7 +246,7 @@ void ImageContainer::addIconToImage(std::string type, float startDelay)
     icon->setOpacity(0);
     bgLayer->addChild(icon);
     
-    icon->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    icon->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeIn::create(0), NULL));
 }
 
 void ImageContainer::addLabelToImage(std::string name, float startDelay)
@@ -253,5 +264,5 @@ void ImageContainer::addLabelToImage(std::string name, float startDelay)
     label->setPosition(bgLayer->getContentSize().width * 0.25, bgLayer->getContentSize().height * 0.1 + label->getContentSize().height / 2);
     bgLayer->addChild(label);
     
-    label->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    label->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeIn::create(0), NULL));
 }

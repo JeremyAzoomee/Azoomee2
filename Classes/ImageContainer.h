@@ -27,6 +27,10 @@ private:
     void addReponseLayerToImage(std::map<std::string, std::string> elementProperties, float scale);
     
     bool iamtouched;
+    
+    float appearPause;
+    float interTime;
+    float scaleTime;
 };
 
 #endif

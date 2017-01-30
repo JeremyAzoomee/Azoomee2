@@ -34,14 +34,21 @@ bool MainHubScene::init()
     auto bgElements = MainHubBgElements::create();
     this->addChild(bgElements);
     
-    addBackgroundCircles();
-    addImageContainers();
+    if(ConfigStorage::getInstance()->hqName != "")
+    {
+        addBackgroundCirclesQuick();
+        addImageContainersQuick();
+    }
+    else
+    {
+        addBackgroundCircles();
+        addImageContainers();
+    }
     
     auto oomeeLayer = OomeeLayer::create();
     this->addChild(oomeeLayer);
     
     auto displayChildNameLayer = DisplayChildNameLayer::create();
-    //displayChildNameLayer->setPosition(1351, 200);
     this->addChild(displayChildNameLayer);
     
     
@@ -73,7 +80,6 @@ void MainHubScene::addBackgroundCircles()
         if(i % 2 == 0) turnDirection = -1;
         circle->runAction(RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360 * turnDirection)));
     }
-
 }
 
 void MainHubScene::addImageContainers()
@@ -97,3 +103,40 @@ void MainHubScene::addImageContainers()
     auto artsPreviewLayer = ArtsPreviewLayer::create();
     this->addChild(artsPreviewLayer);
 }
+
+void MainHubScene::addBackgroundCirclesQuick()
+{
+    for(int i = 0; i < 5; i++)
+    {
+        auto circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d.png", i));
+        circle->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
+        this->addChild(circle);
+        
+        int turnDirection = 1;
+        if(i % 2 == 0) turnDirection = -1;
+        circle->runAction(RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360 * turnDirection)));
+    }
+}
+
+void MainHubScene::addImageContainersQuick()
+{
+    auto imageIcon = ImageContainer::create();
+    imageIcon->setPosition(visibleSize / 2);
+    this->addChild(imageIcon);
+    
+    for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); i++)
+    {
+        std::vector<std::string> elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), i);
+        std::string fieldTitle = HQDataProvider::getInstance()->getTitleForRow(this->getName(), i);
+        
+        for(int j = 0; j < elementsForHub.size(); j++)
+        {
+            if(j >= ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).size()) break;
+            imageIcon->createContainer(HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForHub.at(j)), 1 - (j * 0.3), 0, ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j));
+        }
+    }
+    
+    auto artsPreviewLayer = ArtsPreviewLayer::create();
+    this->addChild(artsPreviewLayer);
+}
+

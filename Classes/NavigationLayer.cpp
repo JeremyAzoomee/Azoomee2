@@ -47,12 +47,20 @@ bool NavigationLayer::init()
         auto menuItemInactive = addMenuItemInactive(i, menuItemImage);          //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
         addMenuItemActive(i, menuItemImage);                                    //Active menuItem is visible, when we are in the given menu
         addListenerToMenuItem(menuItemImage);
-        runDisplayAnimationForMenuItem(menuItemImage, menuItemInactive);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
+        
+        if(ConfigStorage::getInstance()->hqName != "")
+        {
+            runDisplayAnimationForMenuItemQuick(menuItemImage, menuItemInactive);
+            this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 0);
+        }
+        else
+        {
+            runDisplayAnimationForMenuItem(menuItemImage, menuItemInactive);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
+            this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 3.5);
+        }
     }
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) createSettingsButton();
-    
-    this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 3.5);
     
     return true;
 }
@@ -211,6 +219,14 @@ void NavigationLayer::runDisplayAnimationForMenuItem(cocos2d::Node* node1, cocos
     float randomDelay = RandomHelper::random_real(0.2, 0.7);
     node1->runAction(Sequence::create(DelayTime::create(3.0f + randomDelay), FadeTo::create(0, colour.a), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, colour.a), NULL));
     node2->runAction(Sequence::create(DelayTime::create(3.0f + randomDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+}
+
+void NavigationLayer::runDisplayAnimationForMenuItemQuick(cocos2d::Node* node1, cocos2d::Node* node2)
+{
+    Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(node1->getTag());
+    
+    node1->runAction(Sequence::create(DelayTime::create(0), FadeTo::create(0, colour.a), DelayTime::create(0), FadeTo::create(0, 0), DelayTime::create(0), FadeTo::create(0, colour.a), NULL));
+    node2->runAction(Sequence::create(DelayTime::create(0), FadeIn::create(0), DelayTime::create(0), FadeOut::create(0), DelayTime::create(0), FadeIn::create(0), NULL));
 }
 
 

@@ -1,6 +1,7 @@
 #include "DisplayChildNameLayer.h"
 #include "ChildDataProvider.h"
 #include "ui/UIScale9Sprite.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
@@ -20,8 +21,16 @@ bool DisplayChildNameLayer::init()
         return false;
     }
     
-    addFrameToLayer();
-    addChildNameToLayer();
+    if(ConfigStorage::getInstance()->hqName == "")
+    {
+        addFrameToLayer();
+        addChildNameToLayer();
+    }
+    else
+    {
+        addFrameToLayerQuick();
+        addChildNameToLayerQuick();
+    }
     
     return true;
 }
@@ -54,6 +63,28 @@ void DisplayChildNameLayer::addFrameToLayer()
     this->addChild(displayNameFrame);
     
     displayNameFrame->runAction(Sequence::create(DelayTime::create(0.4), EaseElasticOut::create(ScaleTo::create(0.5, 1.0f)), NULL));
+}
+
+void DisplayChildNameLayer::addChildNameToLayerQuick()
+{
+    std::string childName = getLoggedInChildName();
+    childName = shortenString(childName, 12);
+    
+    auto childNameLabel = Label::createWithTTF(childName, "fonts/azoomee.ttf", 70);
+    childNameLabel->setColor(Color3B::WHITE);
+    childNameLabel->setPosition(Director::getInstance()->getVisibleSize().width / 2, 350);
+    
+    setMaxScaleForLabel(childNameLabel);
+    
+    this->addChild(childNameLabel);
+}
+
+void DisplayChildNameLayer::addFrameToLayerQuick()
+{
+    auto displayNameFrame = Sprite::create("res/mainhub/logged_in_as.png");
+    displayNameFrame->setPosition(Director::getInstance()->getVisibleSize().width / 2, 370);
+    displayNameFrame->setName("displayFrameName");
+    this->addChild(displayNameFrame);
 }
 
 std::string DisplayChildNameLayer::getLoggedInChildName()

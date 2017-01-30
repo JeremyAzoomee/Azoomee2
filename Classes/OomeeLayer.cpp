@@ -29,7 +29,11 @@ bool OomeeLayer::init()
     std::string oomeeUrl = ChildDataProvider::getInstance()->getLoggedInChildAvatarId();
     displayedOomeeNumber = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
     
-    auto oomee = addOomeeToScreen();
+    spine::SkeletonAnimation* oomee;
+    
+    if(ConfigStorage::getInstance()->hqName != "") oomee = addOomeeToScreenQuick();
+    else oomee = addOomeeToScreen();
+    
     addTouchListenerToOomee(oomee);
     addCompleteListenerToOomee(oomee);
     
@@ -61,6 +65,26 @@ spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
     this->addChild(oomee);
     
     oomee->runAction(Sequence::create(DelayTime::create(8), FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+    
+    return oomee;
+}
+
+spine::SkeletonAnimation* OomeeLayer::addOomeeToScreenQuick()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    
+    std::string oomeeName = ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber);
+    std::string jsonFileName = StringUtils::format("res/oomees/%s.json", oomeeName.c_str());
+    std::string atlasFileName = StringUtils::format("res/oomees/%s.atlas", oomeeName.c_str());
+    
+    SkeletonAnimation *oomee = SkeletonAnimation::createWithFile(jsonFileName, atlasFileName, 0.6f);
+    oomee->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.38);
+    oomee->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
+    oomee->setScale(2);
+    oomee->setOpacity(255);
+    this->addChild(oomee);
     
     return oomee;
 }

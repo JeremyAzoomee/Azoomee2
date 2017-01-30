@@ -17,6 +17,22 @@ Scene* BaseScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = BaseScene::create();
+    
+    ConfigStorage::getInstance()->hqName = "VIDEO HQ";
+    
+    layer->setName("baseLayer");
+    scene->addChild(layer);
+    
+    return scene;
+}
+
+Scene* BaseScene::createSceneWithHQ(std::string hqName)
+{
+    auto scene = Scene::create();
+    auto layer = BaseScene::create();
+    
+    ConfigStorage::getInstance()->hqName = hqName;
+    
     layer->setName("baseLayer");
     scene->addChild(layer);
     

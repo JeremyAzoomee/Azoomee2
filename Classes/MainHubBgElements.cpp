@@ -1,5 +1,6 @@
 #include "MainHubBgElements.h"
 #include "SimpleAudioEngine.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
@@ -17,6 +18,12 @@ bool MainHubBgElements::init()
     if ( !Layer::init() )
     {
         return false;
+    }
+    
+    if(ConfigStorage::getInstance()->hqName != "")
+    {
+        quickBuild();
+        return true;
     }
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -50,4 +57,32 @@ bool MainHubBgElements::init()
     this->addChild(myParticle);
     
     return true;
+}
+
+void MainHubBgElements::quickBuild()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto bgGlow = Sprite::create("res/mainhub/bg_glow.png");
+    bgGlow->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
+    this->addChild(bgGlow);
+    
+    float backgroundElementsPadding = 0.7;
+    
+    auto wireLeft = Sprite::create("res/mainhub/wire_left.png");
+    wireLeft->setPosition(wireLeft->getContentSize().width / 2 * backgroundElementsPadding, visibleSize.height / 2 + origin.y);
+    this->addChild(wireLeft);
+    
+    auto wireRight = Sprite::create("res/mainhub/wire_right.png");
+    wireRight->setPosition(visibleSize.width - wireRight->getContentSize().width / 2 * backgroundElementsPadding, visibleSize.height / 2 + origin.y);
+    this->addChild(wireRight);
+    
+    auto myParticle = ParticleMeteor::create();
+    myParticle->setSpeed(30);
+    myParticle->setGravity(Vec2(0, -20));
+    myParticle->setScale(1);
+    myParticle->setPosVar(Vec2(2732, 2048));
+    this->addChild(myParticle);
+
 }

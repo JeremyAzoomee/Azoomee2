@@ -260,6 +260,20 @@ std::string ConfigStorage::getNameForMenuItem(int itemNumber)
     return names.at(itemNumber);
 }
 
+int ConfigStorage::getTagNumberForMenuName(std::string name)
+{
+    std::map<std::string, int> tagNumbers;
+    
+    tagNumbers["HOME"] = 0;
+    tagNumbers["VIDEO HQ"] = 1;
+    tagNumbers["AUDIO HQ"] = 2;
+    tagNumbers["MAIL APP"] = 3;
+    tagNumbers["ART APP"] = 4;
+    tagNumbers["GAME HQ"] = 5;
+    
+    return tagNumbers.at(name);
+}
+
 Point ConfigStorage::getTargetPositionForMove(int itemNumber)
 {
     std::vector<Point> positions;
