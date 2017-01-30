@@ -68,7 +68,7 @@ std::string StringStorage::getStringForLoginScene(std::string labelName)
     loginStrings["signUpLoginLabel"] = "Do you want to";
     loginStrings["loginButton"] = "Log in";
     loginStrings["signupButton"] = "Sign up";
-    loginStrings["emailLabel"] = "Login e-mail";
+    loginStrings["emailLabel"] = "Log in. Please enter your email.";
     loginStrings["passwordLabel"] = "Password";
     
     return loginStrings[labelName];
