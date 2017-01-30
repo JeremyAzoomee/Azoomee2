@@ -65,6 +65,8 @@ public:
     
     void focusAndShowKeyboard();
     
+    void setEditboxVisibility(bool visibility);
+    
     bool inputIsValid();
     
     std::string getText();

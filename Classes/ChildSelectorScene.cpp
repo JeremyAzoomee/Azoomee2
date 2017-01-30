@@ -51,7 +51,7 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
     {
-        ModalMessages::getInstance()->createErrorMessage(_errorCode);
+        ModalMessages::getInstance()->createErrorMessage(_errorCode, nullptr);
     }
 }
 
@@ -283,7 +283,7 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
         AwaitingAdultPinLayer::create()->setDelegate(this);
     }
     else
-        ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED);
+        ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED,nullptr);
 }
 
 //----------------------- Delegate Functions ----------------------------

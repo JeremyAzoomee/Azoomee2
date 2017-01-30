@@ -44,7 +44,7 @@ void ChildAccountScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
     {
-        ModalMessages::getInstance()->createErrorMessage(_errorCode);
+        ModalMessages::getInstance()->createErrorMessage(_errorCode,editBox_childName);
     }
     
     editBox_childName->focusAndShowKeyboard();
@@ -282,7 +282,7 @@ void ChildAccountScene::moveToAndSetupDOBInput(ElectricDreamsButton* button)
     
     if(childNameExists(newChildsName) && passedChildName != newChildsName)
     {
-        ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_NAME_EXISTS);
+        ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_NAME_EXISTS,editBox_childName);
         enableButton(button);
     }
     else

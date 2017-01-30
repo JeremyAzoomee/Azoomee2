@@ -2,6 +2,7 @@
 #include "cocos2d.h"
 #include "ElectricDreamsButton.h"
 #include "MultiButtonMessageBoxLayer.h"
+#include "TextInputLayer.h"
 
 //------------- ERROR MESSAGE CODES --------------
 // For use in createErrorMessage
@@ -41,6 +42,13 @@ private:
     
     std::vector<std::string> messageBoxButtonTitles;
     
+    //-------Object To Hide -------
+    // Due to UIEditbox always being on top
+    
+    TextInputLayer* savedTextInputToHide;
+    void hideTextInput(TextInputLayer* textInputToHide);
+    void UnHideTextInput();
+    
 public:
     
     virtual ~ModalMessages();
@@ -49,8 +57,8 @@ public:
     void startLoading();
     void stopLoading();
     
-    void createErrorMessage(long errorCode);
-    void createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText);
+    void createErrorMessage(long errorCode, TextInputLayer* textInputToHide);
+    void createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText, TextInputLayer* textInputToHide);
     void createPreviewLoginSignupMessageBox();
     void createSomethingWentWrongMessage();
     
