@@ -11,12 +11,12 @@ public:
     CREATE_FUNC(HQSceneElement);
     static cocos2d::Scene* createScene();
     virtual bool init();
-    void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape);
+    void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape, float delay);
     
 private:
     void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth);
     void resizeSceneElement(cocos2d::Vec2 shape, std::string category);
-    void createColourLayer(std::string category);
+    void createColourLayer(std::string category, float delay);
     void addImageToBaseLayer(std::string filename);
     void addGradientToBottom(std::string category);
     cocos2d::Sprite* addIconToImage(std::string category);
@@ -36,6 +36,8 @@ private:
     cocos2d::Point touchPoint;
     bool movedAway;
     bool iamtouched;
+    
+    void onExitTransitionDidStart();
 };
 
 #endif

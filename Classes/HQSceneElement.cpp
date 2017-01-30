@@ -46,30 +46,40 @@ bool HQSceneElement::init()
     return true;
 }
 
-void HQSceneElement::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape) //This method is being called by HQScene.cpp with all variables.
+void HQSceneElement::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay) //This method is being called by HQScene.cpp with all variables.
 {
     resizeSceneElement(shape, category);
-    createColourLayer(category);
+    createColourLayer(category, delay / 10);
     
-    addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemData["id"], shape));
+    std::string itemid = itemData["id"];
+    std::string itementitled = itemData["entitled"];
+    std::string itemuri = itemData["uri"];
+    
+    auto funcCallAction = CallFunc::create([=](){
+    
+    addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemid, shape));
     addGradientToBottom(category);
     auto iconSprite = addIconToImage(category);
     addLabelsToImage(itemData, iconSprite);
     addTouchOverlayToElement();
     
-    if(itemData["entitled"] == "true")
+    if(itementitled == "true")
     {
-        addListenerToElement(itemData["uri"], itemData["id"], category, false);
+        addListenerToElement(itemuri, itemid, category, false);
     }
     else
     {
         if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
-            addListenerToElement(itemData["uri"], itemData["id"], category, true);
+            addListenerToElement(itemuri, itemid, category, true);
         }
         
         addLockToElement();
     }
+        
+    });
+    
+    this->runAction(Sequence::create(DelayTime::create(delay), funcCallAction, NULL));
 }
 
 //-------------------All elements below this are used internally-----------------
@@ -157,7 +167,7 @@ void HQSceneElement::resizeSceneElement(cocos2d::Vec2 shape, std::string categor
     this->setContentSize(layerSize);
 }
 
-void HQSceneElement::createColourLayer(std::string category)
+void HQSceneElement::createColourLayer(std::string category, float delay)
 {
     ConfigStorage* configStorage = ConfigStorage::getInstance();
     Color4B colour = configStorage->getBaseColourForContentItemInCategory(category);
@@ -165,7 +175,11 @@ void HQSceneElement::createColourLayer(std::string category)
     
     baseLayer = LayerColor::create(colour, size.width, size.height);
     baseLayer->setPosition(10, 10);
+    baseLayer->setOpacity(0);
+    
     this->addChild(baseLayer);
+    
+    baseLayer->runAction(Sequence::create(DelayTime::create(delay), FadeTo::create(0.1, colour.a), NULL));
 }
 
 void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, bool preview)
@@ -279,4 +293,9 @@ void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string 
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
     }
+}
+
+void HQSceneElement::onExitTransitionDidStart()
+{
+    this->cleanup();
 }
