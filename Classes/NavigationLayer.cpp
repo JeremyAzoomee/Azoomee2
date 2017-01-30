@@ -10,7 +10,7 @@
 #include "ChildDataStorage.h"
 #include "ChildDataProvider.h"
 #include "ExitOrLogoutLayer.h"
-#include "LoginScene.h"
+#include "ModalMessages.h"
 
 USING_NS_CC;
 
@@ -185,8 +185,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
                 }
                 else
                 {
-                    auto loginScene = LoginScene::createScene(0);
-                    Director::getInstance()->replaceScene(loginScene);
+                    ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
                 }
             }
             else
