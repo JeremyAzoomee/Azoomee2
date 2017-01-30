@@ -28,4 +28,6 @@ private:
     std::string getPathFromUrl(std::string url);
     std::string getHostFromUrl(std::string url);
     std::string getUrlParametersFromUrl(std::string url);
+    
+    void handleError(std::string requestTag, long errorCode);
 };

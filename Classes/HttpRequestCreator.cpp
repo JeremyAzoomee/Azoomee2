@@ -5,6 +5,7 @@
 #include "HQDataParser.h"
 #include "ConfigStorage.h"
 #include "LoginScene.h"
+#include "OnboardingScene.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -216,8 +217,13 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         
         CCLOG("response string: %s", responseDataString.c_str());
         CCLOG("response code: %ld", response->getResponseCode());
-        
-        Scene *loginScene = LoginScene::createScene(response->getResponseCode());
-        Director::getInstance()->replaceScene(loginScene);
+
+        handleError(response->getHttpRequest()->getTag(), response->getResponseCode());
     }
+}
+
+void HttpRequestCreator::handleError(std::string requestTag, long errorCode)
+{
+    if(requestTag == "registerParent") Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
+    else Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));
 }
