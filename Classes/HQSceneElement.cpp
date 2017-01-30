@@ -21,6 +21,7 @@
 #include "NavigationLayer.h"
 #include "ChildDataProvider.h"
 #include "ModalMessages.h"
+#include "HQScene.h"
 
 USING_NS_CC;
 
@@ -245,6 +246,8 @@ void HQSceneElement::reduceLabelTextToFitWidth(Label* label,float maxWidth)
 
 void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string contentId, std::string category)
 {
+    this->getParent()->getParent()->getParent()->stopAllActions();
+    
     if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
     {
         GameDataManager::getInstance()->startProcessingGame(uri, contentId);

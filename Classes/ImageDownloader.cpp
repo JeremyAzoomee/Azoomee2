@@ -128,6 +128,8 @@ void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Htt
 
 void ImageDownloader::removeLoadingAnimation()
 {
+    if(!this->getChildByName("loadingAnimation")) return;
+    
     this->removeChild(this->getChildByName("loadingAnimation"), true);
 }
 
@@ -138,11 +140,18 @@ void ImageDownloader::removePlaceHolderImage()
 
 bool ImageDownloader::saveFileToServer(std::string data, std::string fileName)
 {
-    if(!FileUtils::getInstance()->isDirectoryExist(imageCachePath)) FileUtils::getInstance()->createDirectory(imageCachePath);
-    if(!FileUtils::getInstance()->isDirectoryExist(imageIdPath)) FileUtils::getInstance()->createDirectory(imageIdPath);
+    if(imageCachePath != "")
+    {
     
-    
-    return FileUtils::getInstance()->writeStringToFile(data, imageIdPath + fileName);
+        if(!FileUtils::getInstance()->isDirectoryExist(imageCachePath)) FileUtils::getInstance()->createDirectory(imageCachePath);
+        if(!FileUtils::getInstance()->isDirectoryExist(imageIdPath)) FileUtils::getInstance()->createDirectory(imageIdPath);
+     
+        return FileUtils::getInstance()->writeStringToFile(data, imageIdPath + fileName);
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void ImageDownloader::loadFileFromLocalCacheAsync(std::string fileName)
@@ -171,4 +180,9 @@ std::string ImageDownloader::getImageIdPath()
 std::string ImageDownloader::getImageCachePath()
 {
     return FileUtils::getInstance()->getWritablePath() + "imageCache/";
+}
+
+void ImageDownloader::onExitTransitionDidStart()
+{
+    this->cleanup();
 }

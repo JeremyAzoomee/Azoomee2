@@ -29,6 +29,7 @@ private:
     void loadFileFromLocalCacheAsync(std::string fileName);
     void removeLoadingAnimation();
     void removePlaceHolderImage();
+    void onExitTransitionDidStart();
 };
 
 #endif
