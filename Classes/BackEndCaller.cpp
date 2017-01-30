@@ -122,9 +122,9 @@ void BackEndCaller::onUpdateParentActorStatusAnswerReceived(std::string response
     {
         hideLoadingScreen();
         
-        AwaitingAdultPinLayer *checkBack = (AwaitingAdultPinLayer *)callBackNode;
+        ChildSelectorScene *checkBack = (ChildSelectorScene *)callBackNode;
         CCLOG("Calling back awaitingsomething");
-        checkBack->secondCheckForPin();
+        checkBack->secondCheckForAuthorisation();
     }
 }
 
