@@ -125,19 +125,13 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
         this->getDelegate()->AdultPinCancelled(this);
     }
     else if(button == acceptButton)
-    {
-        //ModalMessages::getInstance()->startLoading();
         BackEndCaller::getInstance()->updateParent(this, "pin");
-    }
-    
 }
 
 void AwaitingAdultPinLayer::secondCheckForPin()
 {
     //Please implement your second check here. If first check is not okay, please call: BackEndCaller::getInstance->updateParent(this);
     CCLOG("Second check for pin callback was called");
-    
-    //ModalMessages::getInstance()->stopLoading();
     
     if(editBox_pin->getText() == ParentDataProvider::getInstance()->getParentPin() || ("" == ParentDataProvider::getInstance()->getParentPin() && editBox_pin->getText() == "1234"))
     {

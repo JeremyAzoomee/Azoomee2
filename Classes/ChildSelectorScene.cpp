@@ -274,14 +274,20 @@ void ChildSelectorScene::addNewChildButtonToScrollView()
     scrollView->addChild(addButtonLayer);
 }
 
+//---------------------- Check Email Verified Before Adding Child ---------------
+
 void ChildSelectorScene::addChildButtonPressed(Node* target)
+{
+    target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+    BackEndCaller::getInstance()->updateParent(this, "actorstatus");
+}
+
+void ChildSelectorScene::secondCheckForAuthorisation()
 {
     //Check is email verified, if not refresh profile, then error
     if((ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "VERIFIED")||(ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "ACTIVE"))
-    {
-        target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+        
         AwaitingAdultPinLayer::create()->setDelegate(this);
-    }
     else
         ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED,nullptr);
 }

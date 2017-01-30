@@ -14,6 +14,8 @@ public:
     virtual void onEnterTransitionDidFinish();
     static cocos2d::Scene* createScene(long errorCode);
     
+    void secondCheckForAuthorisation();
+    
     //Delegate Functions
     void AdultPinCancelled(AwaitingAdultPinLayer* layer);
     void AdultPinAccepted(AwaitingAdultPinLayer* layer);
