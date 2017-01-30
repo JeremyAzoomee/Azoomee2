@@ -78,6 +78,11 @@ void SlideShowScene::SheduleSlideSpriteCreation(float dt)
     auto slideImag5 = Sprite::create("res/slideshow/slide_5.jpg");
     slideImag5->setPosition(layout5->getContentSize().width /2, layout5->getContentSize().height /2);
     layout5->addChild(slideImag5);
+    
+    startExporingButton = ElectricDreamsButton::createButtonWithText("Start\nExploring");
+    startExporingButton->setCenterPosition(Vec2(origin.x+visibleSize.width - startExporingButton->getContentSize().width/2 - skipButton->getContentSize().height/2, visibleSize.height/2));
+    startExporingButton->setDelegate(this);
+    layout5->addChild(startExporingButton);
 }
 
 void SlideShowScene::createPageView()
@@ -167,5 +172,5 @@ void SlideShowScene::skipSlideShow()
 
 void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == skipButton) skipSlideShow();
+    skipSlideShow();
 }

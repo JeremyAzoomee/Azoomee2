@@ -21,6 +21,7 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string butto
     textButton->setColor(Color3B(28, 244, 244));
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
     textButton->setOpacity(0);
+    textButton->setHorizontalAlignment(TextHAlignment::CENTER);
     layer->setContentSize(textButton->getContentSize());
     
     layer->addChild(textButton);
@@ -52,13 +53,20 @@ ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string but
 ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string buttonText)
 {
     Label* buttonLabel = Label::createWithTTF(buttonText, "fonts/azoomee.ttf", 90);
+    buttonLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     buttonLabel->setColor(Color3B::BLACK);
     
     Rect spriteRect = Rect(0, 0, 196, 197);
     Rect capInsents = Rect(98, 98, 1, 1);
     
+    float buttonHeight = 197;
+    float testheight = buttonLabel->getContentSize().height;
+    
+    if(buttonLabel->getContentSize().height >179)
+        buttonHeight = buttonLabel->getContentSize().height + 100;
+    
     ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/modal/generic_button_slice_ready.png", spriteRect, capInsents);
-    newButton->setContentSize(Size(buttonLabel->getContentSize().width+196, 197));
+    newButton->setContentSize(Size(buttonLabel->getContentSize().width+100, buttonHeight));
     newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
     
     buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);

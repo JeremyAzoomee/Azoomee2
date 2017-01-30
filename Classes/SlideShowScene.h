@@ -15,6 +15,7 @@ private:
     Vec2 origin;
     
     ElectricDreamsButton *skipButton;
+    ElectricDreamsButton *startExporingButton;
     
     int currentSlideIndex;
     PageView* _pageView;
