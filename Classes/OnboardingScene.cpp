@@ -38,7 +38,7 @@ void OnboardingScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
     {
-        ModalMessages::getInstance()->createErrorMessage(_errorCode);
+        ModalMessages::getInstance()->createErrorMessage(_errorCode,editBox_email);
     }
     
     editBox_email->focusAndShowKeyboard();

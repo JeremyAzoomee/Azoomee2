@@ -3,6 +3,7 @@
 #include "StringStorage.h"
 #include "SimpleAudioEngine.h"
 #include "BackEndCaller.h"
+#include "ParentDataProvider.h"
 
 bool AwaitingAdultPinLayer::init()
 {
@@ -15,8 +16,6 @@ bool AwaitingAdultPinLayer::init()
     origin = Director::getInstance()->getVisibleOrigin();
     
     CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
-    
-    BackEndCaller::getInstance()->updateParent(this, "pin");
     
     createAndFadeInLayer();
     addUIObjects();
@@ -127,19 +126,8 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == acceptButton)
     {
-        //TODO NEED TO VERIFY PIN AGAINST SAVED PIN.
-        //TAMAS TO CREATE SAVING OF PIN
-        if(editBox_pin->getText() == "1234")
-        {
-            //Schedule so it calls delegate before removing self. Avoiding crash
-            this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
-            this->getDelegate()->AdultPinAccepted(this);
-        }
-        else
-        {
-            ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_INCORRECT_PIN);
-            acceptButton->setVisible(false);
-        }
+        //ModalMessages::getInstance()->startLoading();
+        BackEndCaller::getInstance()->updateParent(this, "pin");
     }
     
 }
@@ -148,4 +136,19 @@ void AwaitingAdultPinLayer::secondCheckForPin()
 {
     //Please implement your second check here. If first check is not okay, please call: BackEndCaller::getInstance->updateParent(this);
     CCLOG("Second check for pin callback was called");
+    
+    //ModalMessages::getInstance()->stopLoading();
+    
+    if(editBox_pin->getText() == ParentDataProvider::getInstance()->getParentPin() || ("" == ParentDataProvider::getInstance()->getParentPin() && editBox_pin->getText() == "1234"))
+    {
+        //Schedule so it calls delegate before removing self. Avoiding crash
+        this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
+        this->getDelegate()->AdultPinAccepted(this);
+    }
+    else
+    {
+        ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_INCORRECT_PIN,editBox_pin);
+        acceptButton->setVisible(false);
+    }
+    
 }

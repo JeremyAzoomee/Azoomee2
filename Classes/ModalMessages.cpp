@@ -97,10 +97,31 @@ void ModalMessages::stopLoading()
     this->removeLayer();
 }
 
+//-------------------- Object To Hide Functions ----------------------
+
+void ModalMessages::hideTextInput(TextInputLayer* textInputToHide)
+{
+    if(textInputToHide)
+    {
+        textInputToHide->setEditboxVisibility(false);
+        savedTextInputToHide = textInputToHide;
+    }
+    else
+        savedTextInputToHide = nullptr;
+}
+
+void ModalMessages::UnHideTextInput()
+{
+    if(savedTextInputToHide)
+        savedTextInputToHide->setEditboxVisibility(true);
+}
+
 //---------------------- Message Box Functions------------------------
 
-void ModalMessages::createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText)
+void ModalMessages::createMessageWithSingleButton(std::string messageTitle, std::string messageBody, std::string buttonText, TextInputLayer* textInputToHide)
 {
+    hideTextInput(textInputToHide);
+    
     createAndFadeInLayer();
     createTitle(messageTitle);
     createBody(messageBody);
@@ -201,11 +222,11 @@ void ModalMessages::createMessageBackground()
     //messageBoxLayer->runAction(FadeTo::create(0.5, 255));
 }
 
-void ModalMessages::createErrorMessage(long errorCode)
+void ModalMessages::createErrorMessage(long errorCode, TextInputLayer* textInputToHide)
 {
     std::map<std::string, std::string> errorStringMap = StringStorage::getInstance()->getErrorMessageStrings(errorCode);
     
-    createMessageWithSingleButton(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], errorStringMap[ERROR_BUTTON]);
+    createMessageWithSingleButton(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], errorStringMap[ERROR_BUTTON], textInputToHide);
 }
 
 //------------ PREVIEW MODE MESSAGE BOX ----------------
@@ -242,10 +263,15 @@ void ModalMessages::createSomethingWentWrongMessage()
 
 void ModalMessages::buttonPressed(ElectricDreamsButton* button)
 {
+    UnHideTextInput();
+    
     auto messageButton = (ElectricDreamsButton*)loadingLayer->getChildByName("messageButton");
     
     if(button == messageButton)
         this->removeLayer();
+    
+    if(savedTextInputToHide)
+        savedTextInputToHide->focusAndShowKeyboard();
 }
 
 void ModalMessages::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle)

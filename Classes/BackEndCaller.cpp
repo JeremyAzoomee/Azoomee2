@@ -107,6 +107,8 @@ void BackEndCaller::onUpdateParentPinAnswerReceived(std::string responseString)
     CCLOG("Update parent response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseUpdateParentData(responseString))
     {
+        hideLoadingScreen();
+        
         AwaitingAdultPinLayer *checkBack = (AwaitingAdultPinLayer *)callBackNode;
         CCLOG("Calling back awaitingsomething");
         checkBack->secondCheckForPin();
@@ -118,6 +120,8 @@ void BackEndCaller::onUpdateParentActorStatusAnswerReceived(std::string response
     CCLOG("Update parent response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseUpdateParentData(responseString))
     {
+        hideLoadingScreen();
+        
         AwaitingAdultPinLayer *checkBack = (AwaitingAdultPinLayer *)callBackNode;
         CCLOG("Calling back awaitingsomething");
         checkBack->secondCheckForPin();
