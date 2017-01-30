@@ -16,7 +16,7 @@ bool AwaitingAdultPinLayer::init()
     
     CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
     
-    BackEndCaller::getInstance()->updateParent(this);
+    BackEndCaller::getInstance()->updateParent(this, "pin");
     
     createAndFadeInLayer();
     addUIObjects();

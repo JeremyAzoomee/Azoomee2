@@ -90,17 +90,17 @@ bool ImageDownloader::findFileInLocalCache(std::string fileName)
 
 void ImageDownloader::downloadFileFromServer(std::string url)
 {
-    HttpRequest *request = new HttpRequest();
-    request->setRequestType(HttpRequest::Type::GET);
-    request->setUrl(url.c_str());
+    downloadRequest = new HttpRequest();
+    downloadRequest->setRequestType(HttpRequest::Type::GET);
+    downloadRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers;
     headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
-    request->setHeaders(headers);
+    downloadRequest->setHeaders(headers);
     
-    request->setResponseCallback(CC_CALLBACK_2(ImageDownloader::downloadFileFromServerAnswerReceived, this));
-    request->setTag("image download");
-    HttpClient::getInstance()->send(request);
+    downloadRequest->setResponseCallback(CC_CALLBACK_2(ImageDownloader::downloadFileFromServerAnswerReceived, this));
+    downloadRequest->setTag("image download");
+    HttpClient::getInstance()->send(downloadRequest);
 }
 
 void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -128,8 +128,6 @@ void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Htt
 
 void ImageDownloader::removeLoadingAnimation()
 {
-    if(!this->getChildByName("loadingAnimation")) return;
-    
     this->removeChild(this->getChildByName("loadingAnimation"), true);
 }
 
@@ -184,5 +182,11 @@ std::string ImageDownloader::getImageCachePath()
 
 void ImageDownloader::onExitTransitionDidStart()
 {
+    if(downloadRequest)
+    {
+        downloadRequest->setResponseCallback(nullptr);
+        downloadRequest->release();
+    }
+    
     this->cleanup();
 }

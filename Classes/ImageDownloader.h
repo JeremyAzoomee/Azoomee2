@@ -30,6 +30,8 @@ private:
     void removeLoadingAnimation();
     void removePlaceHolderImage();
     void onExitTransitionDidStart();
+    
+    cocos2d::network::HttpRequest *downloadRequest;
 };
 
 #endif
