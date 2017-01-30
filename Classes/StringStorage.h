@@ -7,13 +7,7 @@
 
 //------------ PIN NUMBER REQUEST AND ERROR ----------------
 
-#define PIN_REQUEST_TITLE "Please enter your pin to proceed"
-
-//------------- ERROR MESSAGE EMAIL VERIFICATION REQUIRED ------
-
-#define EMAIL_NOT_VERIFIED_ERROR_TITLE_TEXT "Email Verification Required"
-#define EMAIL_NOT_VERIFIED_ERROR_BODY_TEXT "For security reasons, you'll need to verify your email address before you can add more children. Follow the instructions in the email that we've sent you."
-#define EMAIL_NOT_VERIFIED_ERROR_BUTTON_TEXT "OK"
+#define PIN_REQUEST_TITLE "Please enter your PIN to proceed"
 
 //------------- ERROR MAP TITLES --------------
 
@@ -26,7 +20,7 @@
 #define LOGIN_BUTTON_TEXT "Log in"
 #define CANCEL_BUTTON_TEXT "Cancel"
 #define PREVIEW_MESSAGEBOX_TITLE "Sign Up or Log In"
-#define PREVIEW_MESSAGEBOX_BODY "You need to log in or sign up to watch content."
+#define PREVIEW_MESSAGEBOX_BODY "Sign up or log in for access to the best kids’ TV shows, games and audiobooks in one safe app."
 
 class StringStorage : public cocos2d::Ref
 {

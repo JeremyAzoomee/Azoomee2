@@ -89,6 +89,7 @@ void OnboardingScene::addLabelsToLayer()
     auto pinDetail = Label::createWithTTF(StringStorage::getInstance()->getStringForOnboarding("pinsubtitle"), "fonts/azoomee.ttf", 60);
     pinDetail->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.6);
     pinDetail->setColor(Color3B::WHITE);
+    pinDetail->setHorizontalAlignment(TextHAlignment::CENTER);
     onboardingContent->addChild(pinDetail);
 }
 
