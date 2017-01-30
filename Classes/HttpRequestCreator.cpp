@@ -217,7 +217,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         CCLOG("response string: %s", responseDataString.c_str());
         CCLOG("response code: %ld", response->getResponseCode());
         
-        Scene *loginScene = LoginScene::createScene(0);
+        Scene *loginScene = LoginScene::createScene(response->getResponseCode());
         Director::getInstance()->replaceScene(loginScene);
     }
 }

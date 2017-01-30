@@ -28,6 +28,8 @@ private:
     bool unzipGame(const char *zipPath,const char *dirpath,const char *passwd);
     bool removeGameZip(std::string fileNameWithPath);
     
+    void removeGameFolderOnError(std::string dirPath);
+    
     std::string getGameCachePath();
     std::string getGameIdPath(std::string gameId);
     

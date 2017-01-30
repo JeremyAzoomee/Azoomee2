@@ -98,6 +98,8 @@ void GameDataManager::getJSONGameData(std::string url, std::string itemId)
     
     request->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetJSONGameDataAnswerReceived, this));
     request->setTag(itemId);
+    HttpClient::getInstance()->setTimeoutForConnect(2);
+    HttpClient::getInstance()->setTimeoutForRead(2);
     HttpClient::getInstance()->send(request);
 }
 
@@ -167,6 +169,8 @@ void GameDataManager::getGameZipFile(std::string url, std::string itemId)
     
     request->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetGameZipFileAnswerReceived, this));
     request->setTag(itemId);
+    HttpClient::getInstance()->setTimeoutForConnect(2);
+    HttpClient::getInstance()->setTimeoutForRead(2);
     HttpClient::getInstance()->send(request);
 }
 
@@ -234,6 +238,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
             {
                 
                 unzClose(pFile);
+                removeGameFolderOnError(dirpath);
                 hideLoadingScreen(); //ERROR TO BE ADDED
                 CCLOG("unzip can not create file");
                 showErrorMessage();
@@ -268,6 +273,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         if(nRet != UNZ_OK)
         {
             unzClose(pFile);
+            removeGameFolderOnError(dirpath);
             hideLoadingScreen(); //ERROR TO BE ADDED
             showErrorMessage();
             return false;
@@ -282,6 +288,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     if(err != UNZ_END_OF_LIST_OF_FILE)
     {
         unzClose(pFile);
+        removeGameFolderOnError(dirpath);
         hideLoadingScreen(); //ERROR TO BE ADDED
         showErrorMessage();
         return false;
@@ -331,4 +338,9 @@ void GameDataManager::hideLoadingScreen()
 void GameDataManager::showErrorMessage()
 {
     ModalMessages::getInstance()->createSomethingWentWrongMessage();
+}
+
+void GameDataManager::removeGameFolderOnError(std::string dirPath)
+{
+    FileUtils::getInstance()->removeDirectory(dirPath);
 }
