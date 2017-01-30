@@ -61,7 +61,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/DisplayChildNameLayer.cpp \
                    ../../../Classes/SlideShowScene.cpp \
                    ../../../Classes/ArtsPreviewLayer.cpp \
-                   ../../../Classes/WebViewNativeCaller_android.cpp
+                   ../../../Classes/WebViewNativeCaller_android.cpp \
+                   ../../../Classes/JWTToolForceParent.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
