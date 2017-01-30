@@ -94,6 +94,12 @@ std::map<std::string, std::string> StringStorage::getErrorMessageStrings(long er
             errorStrings[ERROR_BUTTON] = "OK";
             break;
             
+        case 409  :
+            errorStrings[ERROR_TITLE] = "Already Registered";
+            errorStrings[ERROR_BODY] = "The email address has already been used.";
+            errorStrings[ERROR_BUTTON] = "OK";
+            break;
+            
         case -1  :
             errorStrings[ERROR_TITLE] = "No internet";
             errorStrings[ERROR_BODY] = "No internet connection available, please try again after connecting to the internet.";
