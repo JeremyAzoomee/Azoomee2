@@ -15,6 +15,7 @@
 #include "ChildAccountScene.h"
 #include "ModalMessages.h"
 #include "ConfigStorage.h"
+#include "AwaitingAdultPinLayer.h"
 
 using namespace cocos2d;
 
@@ -83,6 +84,44 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString)) getAvailableChildren();
     else getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
+}
+
+//UPDATING PARENT DATA--------------------------------------------------------------------------------
+
+void BackEndCaller::updateParent(Node *callBackTo, std::string target) //"pin" or "actorstatus"
+{
+    displayLoadingScreen();
+    
+    callBackNode = callBackTo;
+    
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    
+    httpRequestCreator->requestTag = "updateParentPin";
+    if(target == "actorstatus") httpRequestCreator->requestTag = "updateParentActorStatus";
+    
+    httpRequestCreator->createEncryptedGetHttpRequest();
+}
+
+void BackEndCaller::onUpdateParentPinAnswerReceived(std::string responseString)
+{
+    CCLOG("Update parent response string is: %s", responseString.c_str());
+    if(ParentDataParser::getInstance()->parseUpdateParentData(responseString))
+    {
+        AwaitingAdultPinLayer *checkBack = (AwaitingAdultPinLayer *)callBackNode;
+        CCLOG("Calling back awaitingsomething");
+        checkBack->secondCheckForPin();
+    }
+}
+
+void BackEndCaller::onUpdateParentActorStatusAnswerReceived(std::string responseString)
+{
+    CCLOG("Update parent response string is: %s", responseString.c_str());
+    if(ParentDataParser::getInstance()->parseUpdateParentData(responseString))
+    {
+        AwaitingAdultPinLayer *checkBack = (AwaitingAdultPinLayer *)callBackNode;
+        CCLOG("Calling back awaitingsomething");
+        checkBack->secondCheckForPin();
+    }
 }
 
 //GETTING AVAILABLE CHILDREN--------------------------------------------------------------------------

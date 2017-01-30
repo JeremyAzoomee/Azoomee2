@@ -44,6 +44,7 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
             ParentDataStorage::getInstance()->loggedInParentApiSecret = ParentDataStorage::getInstance()->parentLoginData["apiSecret"].GetString();
             ParentDataStorage::getInstance()->loggedInParentApiKey = ParentDataStorage::getInstance()->parentLoginData["apiKey"].GetString();
             ParentDataStorage::getInstance()->loggedInParentActorStatus = ParentDataStorage::getInstance()->parentLoginData["actorStatus"].GetString();
+            ParentDataStorage::getInstance()->loggedInParentPin = ParentDataStorage::getInstance()->parentLoginData["pinNumber"].GetString();
             
             HQDataStorage::getInstance()->HQListTitles.clear();
             HQDataStorage::getInstance()->HQListElements.clear();
@@ -61,6 +62,20 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
     }
     
     return false;
+}
+
+bool ParentDataParser::parseUpdateParentData(std::string responseData)
+{
+    rapidjson::Document updateData;
+    updateData.Parse(responseData.c_str());
+    
+    if(updateData.HasMember("pinNumber")) ParentDataStorage::getInstance()->loggedInParentPin = updateData["pinNumber"].GetString();
+    else return false;
+    
+    if(updateData.HasMember("actorStatus")) ParentDataStorage::getInstance()->loggedInParentActorStatus = updateData["actorStatus"].GetString();
+    else return false;
+    
+    return true;
 }
 
 bool ParentDataParser::parseAvailableChildren(std::string responseData)

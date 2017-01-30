@@ -16,6 +16,10 @@ public:
     void login(std::string username, std::string password);
     void onLoginAnswerReceived(std::string responseString);
     
+    void updateParent(cocos2d::Node *callBackTo, std::string target);
+    void onUpdateParentPinAnswerReceived(std::string responseString);
+    void onUpdateParentActorStatusAnswerReceived(std::string responseString);
+    
     void registerParent(std::string emailAddress, std::string password, std::string pinNumber);
     void onRegisterParentAnswerReceived();
     
@@ -41,5 +45,9 @@ public:
     //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
     std::string registerParentUsername;
     std::string registerParentPassword;
+    
+    //------------------------------------------------------------------------------------------------------------------
+    
+    cocos2d::Node *callBackNode;
     
 };

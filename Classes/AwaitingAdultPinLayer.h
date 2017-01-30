@@ -50,6 +50,8 @@ public:
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void buttonPressed(ElectricDreamsButton* button);
     
+    void secondCheckForPin();
+    
 };
 
 #endif

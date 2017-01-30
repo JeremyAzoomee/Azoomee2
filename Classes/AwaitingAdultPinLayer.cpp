@@ -2,6 +2,7 @@
 #include "ModalMessages.h"
 #include "StringStorage.h"
 #include "SimpleAudioEngine.h"
+#include "BackEndCaller.h"
 
 bool AwaitingAdultPinLayer::init()
 {
@@ -14,6 +15,8 @@ bool AwaitingAdultPinLayer::init()
     origin = Director::getInstance()->getVisibleOrigin();
     
     CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+    
+    BackEndCaller::getInstance()->updateParent(this);
     
     createAndFadeInLayer();
     addUIObjects();
@@ -139,4 +142,10 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
         }
     }
     
+}
+
+void AwaitingAdultPinLayer::secondCheckForPin()
+{
+    //Please implement your second check here. If first check is not okay, please call: BackEndCaller::getInstance->updateParent(this);
+    CCLOG("Second check for pin callback was called");
 }

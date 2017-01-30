@@ -65,6 +65,8 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == "registerChild") return "/api/user/child";
     if(httpRequestTag == "HOME") return "/api/electricdreams/view/categories/home";
     if(httpRequestTag == "PreviewHOME") return "/api/electricdreams/preview/view/categories/home";
+    if(httpRequestTag == "updateParentPin") return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == "updateParentActorStatus") return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     
     return "";
 }

@@ -165,6 +165,8 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
 
 void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
+    CCLOG("Callback called!");
+    
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201))
     {
         std::vector<char> responseHeader = *response->getResponseHeader();
@@ -184,6 +186,8 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "parentLogin") BackEndCaller::getInstance()->onLoginAnswerReceived(responseDataString);
         if(requestTag == "registerChild") BackEndCaller::getInstance()->onRegisterChildAnswerReceived();
         if(requestTag == "registerParent") BackEndCaller::getInstance()->onRegisterParentAnswerReceived();
+        if(requestTag == "updateParentPin") BackEndCaller::getInstance()->onUpdateParentPinAnswerReceived(responseDataString);
+        if(requestTag == "updateParentActorStatus") BackEndCaller::getInstance()->onUpdateParentActorStatusAnswerReceived(responseDataString);
         if(requestTag == "PreviewHOME") HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(responseDataString);
         
         for(int i = 0; i < 6; i++)
@@ -199,6 +203,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         std::string responseDataString = std::string(responseData.begin(), responseData.end());
         
         CCLOG("response string: %s", responseDataString.c_str());
+        CCLOG("response code: %ld", response->getResponseCode());
         
         Scene *loginScene = LoginScene::createScene(0);
         Director::getInstance()->replaceScene(loginScene);
