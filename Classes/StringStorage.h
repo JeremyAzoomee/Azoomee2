@@ -20,7 +20,7 @@
 #define LOGIN_BUTTON_TEXT "Log in"
 #define CANCEL_BUTTON_TEXT "Cancel"
 #define PREVIEW_MESSAGEBOX_TITLE "Sign Up or Log In"
-#define PREVIEW_MESSAGEBOX_BODY "You need to log in or sign up to watch content."
+#define PREVIEW_MESSAGEBOX_BODY "Sign up or log in for access to the best kids’ TV shows, games and audiobooks in one safe app."
 
 class StringStorage : public cocos2d::Ref
 {
