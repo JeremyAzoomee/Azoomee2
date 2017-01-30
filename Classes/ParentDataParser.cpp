@@ -44,7 +44,22 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
             ParentDataStorage::getInstance()->loggedInParentApiSecret = ParentDataStorage::getInstance()->parentLoginData["apiSecret"].GetString();
             ParentDataStorage::getInstance()->loggedInParentApiKey = ParentDataStorage::getInstance()->parentLoginData["apiKey"].GetString();
             ParentDataStorage::getInstance()->loggedInParentActorStatus = ParentDataStorage::getInstance()->parentLoginData["actorStatus"].GetString();
-            ParentDataStorage::getInstance()->loggedInParentPin = ParentDataStorage::getInstance()->parentLoginData["pinNumber"].GetString();
+            
+            if(ParentDataStorage::getInstance()->parentLoginData.HasMember("pinNumber"))
+            {
+                if(ParentDataStorage::getInstance()->parentLoginData["pinNumber"].IsString())
+                {
+                    ParentDataStorage::getInstance()->loggedInParentPin = ParentDataStorage::getInstance()->parentLoginData["pinNumber"].GetString();
+                }
+                else
+                {
+                    ParentDataStorage::getInstance()->loggedInParentPin = "";
+                }
+            }
+            else
+            {
+                ParentDataStorage::getInstance()->loggedInParentPin = "";
+            }
             
             HQDataStorage::getInstance()->HQListTitles.clear();
             HQDataStorage::getInstance()->HQListElements.clear();
@@ -69,8 +84,21 @@ bool ParentDataParser::parseUpdateParentData(std::string responseData)
     rapidjson::Document updateData;
     updateData.Parse(responseData.c_str());
     
-    if(updateData.HasMember("pinNumber")) ParentDataStorage::getInstance()->loggedInParentPin = updateData["pinNumber"].GetString();
-    else return false;
+    if(updateData.HasMember("pinNumber"))
+    {
+        if(updateData["pinNumber"].IsString())
+        {
+            ParentDataStorage::getInstance()->loggedInParentPin = updateData["pinNumber"].GetString();
+        }
+        else
+        {
+            ParentDataStorage::getInstance()->loggedInParentPin = "";
+        }
+    }
+    else
+    {
+        ParentDataStorage::getInstance()->loggedInParentPin = "";
+    }
     
     if(updateData.HasMember("actorStatus")) ParentDataStorage::getInstance()->loggedInParentActorStatus = updateData["actorStatus"].GetString();
     else return false;
