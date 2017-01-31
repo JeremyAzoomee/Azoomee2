@@ -155,12 +155,12 @@ Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string category)
 {
     std::map<std::string, Size> sizes;
-    
-    sizes["VIDEO HQ"] = Size(693,520);
-    sizes["AUDIO HQ"] = Size(693,520);
-    sizes["GAME HQ"] = Size(693,520);
-    sizes["ARTS APP"] = Size(693,520);
-    sizes["GROUP HQ"] = Size(693, 520);
+    //693,520
+    sizes["VIDEO HQ"] = Size(555,416);
+    sizes["AUDIO HQ"] = Size(555,416);
+    sizes["GAME HQ"] = Size(555,416);
+    sizes["ARTS APP"] = Size(555,416);
+    sizes["GROUP HQ"] = Size(555,416);
     
     return sizes[category];
 }
@@ -200,6 +200,11 @@ cocos2d::Vec2 ConfigStorage::getHighlightSizeMultiplierForContentItem(int highli
     highlightMultipliers[2] = Vec2(2.04f,2.04f);
     
     return highlightMultipliers[highlightClass];
+}
+
+float ConfigStorage::getScrollviewTitleTextHeight()
+{
+    return 90;
 }
 
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------

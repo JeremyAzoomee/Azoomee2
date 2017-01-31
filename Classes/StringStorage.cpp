@@ -96,7 +96,7 @@ std::map<std::string, std::string> StringStorage::getErrorMessageStrings(long er
             
         case 409  :
             errorStrings[ERROR_TITLE] = "Already Registered";
-            errorStrings[ERROR_BODY] = "The email address has already been used.";
+            errorStrings[ERROR_BODY] = "The email address has already been registered. Please register with a new email address or log in using this email address.";
             errorStrings[ERROR_BUTTON] = "OK";
             break;
             
