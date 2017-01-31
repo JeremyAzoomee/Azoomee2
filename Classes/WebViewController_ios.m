@@ -220,6 +220,8 @@
     
     
     [webview removeFromSuperview];
+    webview = nil;
+    
     [currentButton removeFromSuperview];
     
     [useridToUse release];
