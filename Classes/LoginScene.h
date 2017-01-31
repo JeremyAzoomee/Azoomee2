@@ -25,6 +25,7 @@ private:
     ElectricDreamsButton *emailNextButton;
     ElectricDreamsButton *passwordBackButton;
     ElectricDreamsButton *loginButton;
+    ElectricDreamsButton *previewModeButton;
     
     void addVisualElementsToScene();
     void addFunctionalElementsToScene();
@@ -44,6 +45,7 @@ private:
     void moveToAndSetupPasswordScreen(ElectricDreamsButton* button);
     void login(ElectricDreamsButton* button);
     void autoLogin(std::string username, std::string password);
+    void moveToPreviewScene();
     
     virtual void onEnterTransitionDidFinish();
     

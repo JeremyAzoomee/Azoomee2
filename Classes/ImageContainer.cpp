@@ -197,6 +197,8 @@ void ImageContainer::addPreviewListenerToContainer(cocos2d::Node *addTo)
         
         if(rect.containsPoint(locationInNode))
         {
+            AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+            
             ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
             return true;
         }

@@ -16,7 +16,7 @@
 #define HQ_ELEMENT_SELECTED_AUDIO_EFFECT "Azoomee_Button_Click_08_v1.mp3"
 
 
-#define HQ_BACKGROUND_MUSIC "Azoomee_Atmos_loop_04.mp3"
+#define HQ_BACKGROUND_MUSIC "bgmusic.mp3"
 
 class AudioMixer : public cocos2d::Ref
 {
