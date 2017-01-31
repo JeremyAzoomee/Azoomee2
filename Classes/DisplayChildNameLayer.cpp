@@ -2,6 +2,7 @@
 #include "ChildDataProvider.h"
 #include "ui/UIScale9Sprite.h"
 #include "ConfigStorage.h"
+#include "HQHistoryManager.h"
 
 USING_NS_CC;
 
@@ -21,7 +22,7 @@ bool DisplayChildNameLayer::init()
         return false;
     }
     
-    if(ConfigStorage::getInstance()->hqName == "")
+    if(HQHistoryManager::getInstance()->noHistory())
     {
         addFrameToLayer();
         addChildNameToLayer();

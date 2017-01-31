@@ -65,7 +65,4 @@ public:
     //UserDefaults First Time User for Slideshow
     void setFirstSlideShowSeen();
     bool shouldShowFirstSlideShowScene();
-    
-    //quick baselayer rebuild bookmark
-    std::string hqName;
 };

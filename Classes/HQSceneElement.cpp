@@ -57,24 +57,29 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     
     auto funcCallAction = CallFunc::create([=](){
     
-    addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemid, shape));
-    addGradientToBottom(category);
-    auto iconSprite = addIconToImage(category);
-    addLabelsToImage(itemData, iconSprite);
-    addTouchOverlayToElement();
+    if(!aboutToExit) addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemid, shape));
+    if(!aboutToExit) addGradientToBottom(category);
+    
+        if(!aboutToExit)
+        {
+            auto iconSprite = addIconToImage(category);
+            addLabelsToImage(itemData, iconSprite);
+        }
+    
+    if(!aboutToExit) addTouchOverlayToElement();
     
     if(itementitled == "true")
     {
-        addListenerToElement(itemuri, itemid, category, false);
+        if(!aboutToExit) addListenerToElement(itemuri, itemid, category, false);
     }
     else
     {
         if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
-            addListenerToElement(itemuri, itemid, category, true);
+           if(!aboutToExit) addListenerToElement(itemuri, itemid, category, true);
         }
         
-        addLockToElement();
+       if(!aboutToExit) addLockToElement();
     }
         
     });
@@ -261,6 +266,7 @@ void HQSceneElement::reduceLabelTextToFitWidth(Label* label,float maxWidth)
 
 void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string contentId, std::string category)
 {
+    
     this->getParent()->getParent()->getParent()->stopAllActions();
     
     if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
@@ -298,5 +304,7 @@ void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string 
 
 void HQSceneElement::onExitTransitionDidStart()
 {
+    aboutToExit = true;
+    this->stopAllActions();
     this->cleanup();
 }

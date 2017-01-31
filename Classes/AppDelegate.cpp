@@ -4,6 +4,7 @@
 #include "IntroVideoScene.h"
 #include "HQScene.h"
 #include "ConfigStorage.h"
+#include "HQHistoryManager.h"
 
 USING_NS_CC;
 
@@ -121,8 +122,10 @@ void AppDelegate::applicationWillEnterForeground() {
     
     if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
     {
+        HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
+        
         auto baseScene = BaseScene::createScene();
-        Director::getInstance()->replaceScene(baseScene);
+        cocos2d::Director::getInstance()->replaceScene(baseScene);
     }
 
     // if you use SimpleAudioEngine, it must resume here

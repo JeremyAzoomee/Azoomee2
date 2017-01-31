@@ -14,6 +14,8 @@
 		025BE95C1E3B980600EF76D1 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 025BE95B1E3B980600EF76D1 /* WebKit.framework */; };
 		025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE95D1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp */; };
 		026BAF711E3F864A009C4ACE /* JWTToolForceParent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF6F1E3F864A009C4ACE /* JWTToolForceParent.cpp */; };
+		026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */; };
+		026BAF7B1E407A3A009C4ACE /* ImageDownloaderLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF791E407A3A009C4ACE /* ImageDownloaderLogic.cpp */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -182,6 +184,10 @@
 		025BE95E1E3BD1F800EF76D1 /* WebViewNativeCaller_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewNativeCaller_android.h; sourceTree = "<group>"; };
 		026BAF6F1E3F864A009C4ACE /* JWTToolForceParent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTToolForceParent.cpp; sourceTree = "<group>"; };
 		026BAF701E3F864A009C4ACE /* JWTToolForceParent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTToolForceParent.h; sourceTree = "<group>"; };
+		026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQHistoryManager.cpp; sourceTree = "<group>"; };
+		026BAF771E3FFD33009C4ACE /* HQHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQHistoryManager.h; sourceTree = "<group>"; };
+		026BAF791E407A3A009C4ACE /* ImageDownloaderLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderLogic.cpp; sourceTree = "<group>"; };
+		026BAF7A1E407A3A009C4ACE /* ImageDownloaderLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderLogic.h; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -686,6 +692,8 @@
 				A15D58941E028CAB0099CDEE /* ConfigStorage.h */,
 				A15D58A11E0830600099CDEE /* StringStorage.cpp */,
 				A15D58A21E0830600099CDEE /* StringStorage.h */,
+				026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */,
+				026BAF771E3FFD33009C4ACE /* HQHistoryManager.h */,
 			);
 			name = BurntInData;
 			sourceTree = "<group>";
@@ -836,6 +844,8 @@
 			children = (
 				A15B2FC51DFAB3FB00D25334 /* ImageDownloader.cpp */,
 				A15B2FC61DFAB3FB00D25334 /* ImageDownloader.h */,
+				026BAF791E407A3A009C4ACE /* ImageDownloaderLogic.cpp */,
+				026BAF7A1E407A3A009C4ACE /* ImageDownloaderLogic.h */,
 			);
 			name = ImageDownloader;
 			sourceTree = "<group>";
@@ -1021,12 +1031,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
+				026BAF7B1E407A3A009C4ACE /* ImageDownloaderLogic.cpp in Sources */,
 				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				A15B2FBB1DEDD1EA00D25334 /* HMACSHA256.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
+				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,

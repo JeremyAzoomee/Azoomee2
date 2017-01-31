@@ -11,6 +11,8 @@
 
 #include "SimpleAudioEngine.h"
 
+#include "HQHistoryManager.h"
+
 USING_NS_CC;
 
 Scene* BaseScene::createScene()
@@ -18,22 +20,6 @@ Scene* BaseScene::createScene()
     auto scene = Scene::create();
     auto layer = BaseScene::create();
     
-    ConfigStorage::getInstance()->hqName = "VIDEO HQ";
-    
-    layer->setName("baseLayer");
-    scene->addChild(layer);
-    
-    return scene;
-}
-
-Scene* BaseScene::createSceneWithHQ(std::string hqName)
-{
-    auto scene = Scene::create();
-    auto layer = BaseScene::create();
-    
-    ConfigStorage::getInstance()->hqName = hqName;
-    
-    layer->setName("baseLayer");
     scene->addChild(layer);
     
     return scene;
@@ -45,6 +31,13 @@ bool BaseScene::init()
     {
         return false;
     }
+    
+    return true;
+}
+
+void BaseScene::onEnterTransitionDidFinish()
+{
+    this->setName("baseLayer");
     
     Director::getInstance()->purgeCachedData();
     
@@ -59,8 +52,7 @@ bool BaseScene::init()
     {
         startBuildingHQs();
     }
-    
-    return true;
+
 }
 
 void BaseScene::startBuildingHQs()
@@ -95,6 +87,11 @@ void BaseScene::createHQScene(std::string sceneName, Node *toBeAddedTo)
     hqScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(sceneName));
     hqScene->setName(sceneName);
     toBeAddedTo->addChild(hqScene);
+    
+    if(HQHistoryManager::getInstance()->getCurrentHQ() == sceneName)
+    {
+        hqScene->startBuildingScrollViewBasedOnName();
+    }
 }
 
 Layer* BaseScene::createContentLayer()
@@ -114,4 +111,9 @@ void BaseScene::addNavigationLayer()
     sNavigationLayer->setPosition(ConfigStorage::getInstance()->getHQScenePositions("NavigationLayer"));
     sNavigationLayer->setName("NavigationLayer");
     this->addChild(sNavigationLayer);
+    
+    if(!HQHistoryManager::getInstance()->noHistory())
+    {
+        sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getCurrentHQ()), 0);
+    }
 }

@@ -259,8 +259,9 @@ std::string ConfigStorage::getNameForMenuItem(int itemNumber)
     names.push_back("VIDEO HQ");
     names.push_back("AUDIO HQ");
     names.push_back("MAIL APP");
-    names.push_back("ART APP");
+    names.push_back("ARTS APP");
     names.push_back("GAME HQ");
+    names.push_back("GROUP HQ");
     
     return names.at(itemNumber);
 }
@@ -273,8 +274,9 @@ int ConfigStorage::getTagNumberForMenuName(std::string name)
     tagNumbers["VIDEO HQ"] = 1;
     tagNumbers["AUDIO HQ"] = 2;
     tagNumbers["MAIL APP"] = 3;
-    tagNumbers["ART APP"] = 4;
+    tagNumbers["ARTS APP"] = 4;
     tagNumbers["GAME HQ"] = 5;
+    tagNumbers["GROUP HQ"] = 6;
     
     return tagNumbers.at(name);
 }
