@@ -1,5 +1,4 @@
 #include "MainHubBgElements.h"
-#include "SimpleAudioEngine.h"
 #include "ConfigStorage.h"
 #include "HQHistoryManager.h"
 

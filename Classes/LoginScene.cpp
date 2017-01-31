@@ -1,5 +1,4 @@
 #include "LoginScene.h"
-#include "SimpleAudioEngine.h"
 #include "ModalMessages.h"
 #include "BackEndCaller.h"
 #include "OnboardingScene.h"
@@ -7,6 +6,7 @@
 #include "StringStorage.h"
 #include "TextInputChecker.h"
 #include "TextInputLayer.h"
+#include "AudioMixer.h"
 
 USING_NS_CC;
 
@@ -42,7 +42,7 @@ bool LoginScene::init()
     }
     CCLOG("Cache folder: %s", FileUtils::getInstance()->getWritablePath().c_str());
     
-    CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    AudioMixer::getInstance()->stopBackgroundMusic();
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();

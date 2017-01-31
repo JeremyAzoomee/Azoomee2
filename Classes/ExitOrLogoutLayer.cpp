@@ -1,8 +1,8 @@
 #include "ExitOrLogoutLayer.h"
 #include "LoginScene.h"
 #include "StringStorage.h"
-#include "SimpleAudioEngine.h"
 #include "ChildDataProvider.h"
+#include "AudioMixer.h"
 
 bool ExitOrLogoutLayer::init()
 {
@@ -14,7 +14,7 @@ bool ExitOrLogoutLayer::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+    AudioMixer::getInstance()->pauseBackgroundMusic();
     
     createAndFadeInLayer();
     askForPin();
@@ -101,12 +101,12 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
     {
-        CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+        AudioMixer::getInstance()->resumeBackgroundMusic();
         removeSelf();
     }
     else if(button == exitButton)
     {
-        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+        AudioMixer::getInstance()->stopBackgroundMusic();
         Director::getInstance()->end();
         
         #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -115,7 +115,7 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == logoutButton)
     {
-        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+        AudioMixer::getInstance()->stopBackgroundMusic();
         
         auto loginScene = LoginScene::createScene(0);
         Director::getInstance()->replaceScene(loginScene);

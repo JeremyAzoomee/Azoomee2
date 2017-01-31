@@ -1,6 +1,7 @@
 #include "BaseScene.h"
-#include "SimpleAudioEngine.h"
 #include "NavigationLayer.h"
+#include "AudioMixer.h"
+#include "simpleAudioEngine.h"
 
 #include "MainHubScene.h"
 #include "HQScene.h"
@@ -8,8 +9,6 @@
 #include "ConfigStorage.h"
 #include "ChildDataProvider.h"
 #include "HQDataParser.h"
-
-#include "SimpleAudioEngine.h"
 
 #include "HQHistoryManager.h"
 
@@ -41,9 +40,8 @@ void BaseScene::onEnterTransitionDidFinish()
     
     Director::getInstance()->purgeCachedData();
     
-    CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("res/audio/bgmusic.mp3");
-    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/maintitle_in.mp3");
-    
+    AudioMixer::getInstance()->playBackgroundMusic(HQ_BACKGROUND_MUSIC);
+ 
     if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())  //if basescene is being run without a child logged in, preview mode has to be activated
     {
         HQDataParser::getInstance()->getPreviewContent(ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag("PreviewHOME"), "HOME");

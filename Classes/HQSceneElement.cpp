@@ -16,12 +16,12 @@
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
 #include "ConfigStorage.h"
-#include "SimpleAudioEngine.h"
 #include "HQDataParser.h"
 #include "NavigationLayer.h"
 #include "ChildDataProvider.h"
 #include "ModalMessages.h"
 #include "HQScene.h"
+#include "AudioMixer.h"
 
 USING_NS_CC;
 
@@ -229,7 +229,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
     {
         if(iamtouched)
         {
-            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+            AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             iamtouched = false;
             overlayWhenTouched->setOpacity(0);
             CCLOG("Action to come: %s", uri.c_str());

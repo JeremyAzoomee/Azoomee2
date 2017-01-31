@@ -1,5 +1,4 @@
 #include "MainHubScene.h"
-#include "SimpleAudioEngine.h"
 #include "MainHubBgElements.h"
 #include "ImageContainer.h"
 #include "OomeeLayer.h"

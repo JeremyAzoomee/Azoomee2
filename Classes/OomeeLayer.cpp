@@ -1,11 +1,11 @@
 #include "OomeeLayer.h"
-#include "SimpleAudioEngine.h"
 #include "extensions/cocos-ext.h"
 #include "spine/spine.h"
 #include "ConfigStorage.h"
 #include "ChildDataProvider.h"
 #include "ParentDataProvider.h"
 #include "HQHistoryManager.h"
+#include "AudioMixer.h"
 
 USING_NS_CC;
 
@@ -104,7 +104,7 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/oomee.mp3");
+            AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
             target->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("touch").c_str(), false);
             
             return true;

@@ -1,5 +1,4 @@
 #include "NavigationLayer.h"
-#include "SimpleAudioEngine.h"
 
 #include "BaseScene.h"
 #include "HQDataProvider.h"
@@ -12,6 +11,7 @@
 #include "ExitOrLogoutLayer.h"
 #include "ModalMessages.h"
 #include "HQHistoryManager.h"
+#include "AudioMixer.h"
 
 USING_NS_CC;
 
@@ -204,6 +204,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         {
             if(target->getTag() == 3)
             {
+                AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
                 {
                     //Child Selection Button Pressed.
@@ -219,6 +220,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
             }
             else
             {
+                AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
                 this->startLoadingHQScene(target->getTag());
                 this->turnOffAllMenuItems();
                 this->turnOnMenuItem(target->getTag());
@@ -341,6 +343,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
+            AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
             Scene *runningScene = Director::getInstance()->getRunningScene();
             Node *baseLayer = runningScene->getChildByName("baseLayer");
             Node *contentLayer = baseLayer->getChildByName("contentLayer");
