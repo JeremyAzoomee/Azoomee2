@@ -90,6 +90,8 @@
     NSURL *nsurl=[NSURL URLWithString:urlToCall];
     NSURLRequest *nsrequest = [NSURLRequest requestWithURL:nsurl];
     
+    [webview scrollView].scrollEnabled = NO;
+    [webview scrollView].bounces = NO;
     [webview setDelegate:self];
     [webview loadRequest:nsrequest];
     [self.view addSubview:webview];

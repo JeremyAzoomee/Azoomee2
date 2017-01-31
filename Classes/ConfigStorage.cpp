@@ -227,12 +227,15 @@ cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(int itemNumber)
 {
     std::vector<Point> positions;
     
-    positions.push_back(Point(775, 1675));
-    positions.push_back(Point(1011, 1675));
-    positions.push_back(Point(1248, 1675));
-    positions.push_back(Point(1957, 1675));
-    positions.push_back(Point(1721, 1675));
-    positions.push_back(Point(1484, 1675));
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Point visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    
+    positions.push_back(Point(775, visibleOrigin.y + visibleSize.height - 180));
+    positions.push_back(Point(1011, visibleOrigin.y + visibleSize.height - 180));
+    positions.push_back(Point(1248, visibleOrigin.y + visibleSize.height - 180));
+    positions.push_back(Point(1957, visibleOrigin.y + visibleSize.height - 180));
+    positions.push_back(Point(1721, visibleOrigin.y + visibleSize.height - 180));
+    positions.push_back(Point(1484, visibleOrigin.y + visibleSize.height - 180));
     
     return positions.at(itemNumber);
 }
