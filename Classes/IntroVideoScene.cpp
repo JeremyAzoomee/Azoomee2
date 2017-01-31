@@ -7,6 +7,7 @@
 #include "ConfigStorage.h"
 #include "BaseScene.h"
 #include "LoginScene.h"
+#include "HQHistoryManager.h"
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
@@ -72,6 +73,7 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
                 if((username == "")||(password == ""))
                 {
                     CCLOG("autologin NOT called");
+                    HQHistoryManager::getInstance()->emptyHistory();
                     auto baseScene = BaseScene::createScene();
                     Director::getInstance()->replaceScene(baseScene);
                 }

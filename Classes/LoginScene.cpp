@@ -42,6 +42,8 @@ bool LoginScene::init()
     }
     CCLOG("Cache folder: %s", FileUtils::getInstance()->getWritablePath().c_str());
     
+    
+    
     CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
     
     visibleSize = Director::getInstance()->getVisibleSize();

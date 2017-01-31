@@ -3,6 +3,7 @@
 #include "BaseScene.h"
 #include "StringStorage.h"
 #include "AudioMixer.h"
+#include "HQHistoryManager.h"
 
 Scene* SlideShowScene::createScene()
 {
@@ -182,6 +183,7 @@ void SlideShowScene::skipSlideShow()
     
     ConfigStorage::getInstance()->setFirstSlideShowSeen();
     
+    HQHistoryManager::getInstance()->emptyHistory();
     auto baseScene = BaseScene::createScene();
     Director::getInstance()->replaceScene(baseScene);
     

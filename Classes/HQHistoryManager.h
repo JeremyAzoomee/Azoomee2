@@ -15,6 +15,7 @@ public:
     std::string getPreviousHQ();                 //When checking, the last one will be the current one, no need for it. The previous one might be a webview, so
     std::string getBeforePreviousHQ();           //we might need the previous before the previous, so we can add value to the back button.
     bool noHistory();
+    void emptyHistory();
     
     void addHomeIfHistoryEmpty();
     void getHistoryLog();

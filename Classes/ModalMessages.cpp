@@ -4,6 +4,7 @@
 #include "LoginScene.h"
 #include "OnboardingScene.h"
 #include "BaseScene.h"
+#include "HQHistoryManager.h"
 
 USING_NS_CC;
 
@@ -293,6 +294,7 @@ void ModalMessages::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std
     {
         if(buttonTitle == somethingWentWrongButton)
         {
+            HQHistoryManager::getInstance()->emptyHistory();
             auto baseScene = BaseScene::createScene();
             Director::getInstance()->replaceScene(baseScene);
         }

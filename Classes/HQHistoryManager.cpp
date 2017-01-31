@@ -84,3 +84,8 @@ void HQHistoryManager::getHistoryLog()
     }
     CCLOG("End of history");
 }
+
+void HQHistoryManager::emptyHistory()
+{
+    hqNames.clear();
+}

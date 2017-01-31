@@ -16,6 +16,7 @@
 #include "ModalMessages.h"
 #include "ConfigStorage.h"
 #include "AwaitingAdultPinLayer.h"
+#include "HQHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -182,6 +183,7 @@ void BackEndCaller::onGetGordonAnswerReceived(std::string responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
     {
+        HQHistoryManager::getInstance()->emptyHistory();
         auto baseScene = BaseScene::createScene();
         Director::getInstance()->replaceScene(baseScene);
     }
