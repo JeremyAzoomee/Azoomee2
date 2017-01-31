@@ -28,7 +28,7 @@ void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
     //If fails, we replace it next to the previous one on the top.
     
     Point possibleNewPosition = Point(lastStartPoint.x, lastStartPoint.y - senderSize.height);
-    if(possibleNewPosition.y > 0)
+    if(possibleNewPosition.y >= 0)
     {
         sender->setPosition(possibleNewPosition);
     }

@@ -130,9 +130,8 @@ Sprite* HQSceneElement::addIconToImage(std::string category)
     if(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category) == "") return nullptr; //there is chance that there is no icon given for the given category.
         
     auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category));
-    icon->setScale(2);
     icon->setAnchorPoint(Vec2(0.5, 0.5));
-    icon->setPosition(icon->getContentSize().width *2 ,icon->getContentSize().height *2);
+    icon->setPosition(icon->getContentSize().width ,icon->getContentSize().height);
     baseLayer->addChild(icon);
     
     return icon;
@@ -140,22 +139,24 @@ Sprite* HQSceneElement::addIconToImage(std::string category)
 
 void HQSceneElement::addLabelsToImage(std::map<std::string, std::string>itemData, Sprite* nextToIcon)
 {
-    auto titleLabel = Label::createWithTTF(itemData["title"], "fonts/arial.ttf", 50);
-    titleLabel->setColor(Color3B(255,255,255));
-    titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
-    titleLabel->setAnchorPoint(Vec2(0, 1));
-    titleLabel->setPosition(nextToIcon->getPositionX() + (nextToIcon->getContentSize().width * nextToIcon->getScale()),nextToIcon->getPositionY() + (nextToIcon->getContentSize().height/2 * nextToIcon->getScale()));
-    reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - titleLabel->getPositionY()- (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
-    baseLayer->addChild(titleLabel);
+    float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().width * nextToIcon->getScale());
     
     auto descriptionLabel = Label::createWithTTF(itemData["description"], "fonts/arial.ttf", 50);
     descriptionLabel->setColor(Color3B(255,255,255));
     descriptionLabel->setHorizontalAlignment(TextHAlignment::LEFT);
-    descriptionLabel->setAnchorPoint(Vec2(0,1));
-    descriptionLabel->setPosition(nextToIcon->getPositionX() + (nextToIcon->getContentSize().width * nextToIcon->getScale()),nextToIcon->getPositionY() - (nextToIcon->getContentSize().height/8*nextToIcon->getScale()));
+    descriptionLabel->setAnchorPoint(Vec2(0.0f,0.7f));
+    descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY());
     descriptionLabel->setOpacity(150);
-    reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - titleLabel->getPositionY()- (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
+    reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
     baseLayer->addChild(descriptionLabel);
+    
+    auto titleLabel = Label::createWithTTF(itemData["title"], "fonts/arial.ttf", 50);
+    titleLabel->setColor(Color3B(255,255,255));
+    titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    titleLabel->setAnchorPoint(Vec2(0.0f, 0.8f));
+    titleLabel->setPosition(labelsXPosition,descriptionLabel->getPositionY() + (descriptionLabel->getContentSize().height));
+    reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
+    baseLayer->addChild(titleLabel);
 }
 
 void HQSceneElement::addTouchOverlayToElement()

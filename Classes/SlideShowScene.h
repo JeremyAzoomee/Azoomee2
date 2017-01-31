@@ -32,6 +32,7 @@ private:
     Layout* layout3;
     Layout* layout4;
     Layout* layout5;
+    Layout* layout6;
     
     Layout* addSlide(int SlideNumber);
     void SheduleSlideSpriteCreation(float dt);

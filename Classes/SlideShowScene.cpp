@@ -1,6 +1,7 @@
 #include "SlideShowScene.h"
 #include "ConfigStorage.h"
 #include "BaseScene.h"
+#include "StringStorage.h"
 
 Scene* SlideShowScene::createScene()
 {
@@ -31,7 +32,7 @@ bool SlideShowScene::init()
 
 void SlideShowScene::createButtons()
 {
-    skipButton = ElectricDreamsButton::createTextAsButton("Skip");
+    skipButton = ElectricDreamsButton::createTextAsButton(SKIP_BUTTON_TEXT);
     skipButton->setCenterPosition(Vec2(origin.x+visibleSize.width - skipButton->getContentSize().width/2 - skipButton->getContentSize().height/2, origin.y + visibleSize.height- skipButton->getContentSize().height));
     skipButton->setDelegate(this);
     this->addChild(skipButton);
@@ -79,10 +80,14 @@ void SlideShowScene::SheduleSlideSpriteCreation(float dt)
     slideImag5->setPosition(layout5->getContentSize().width /2, layout5->getContentSize().height /2);
     layout5->addChild(slideImag5);
     
-    startExporingButton = ElectricDreamsButton::createButtonWithText("Start\nExploring");
-    startExporingButton->setCenterPosition(Vec2(origin.x+visibleSize.width - startExporingButton->getContentSize().width/2 - skipButton->getContentSize().height/2, visibleSize.height/2));
+    auto slideImag6 = Sprite::create("res/slideshow/slide_6.jpg");
+    slideImag6->setPosition(layout6->getContentSize().width /2, layout6->getContentSize().height /2);
+    layout6->addChild(slideImag6);
+    
+    startExporingButton = ElectricDreamsButton::createButtonWithText(START_EXPLORING_BUTTON_TEXT);
+    startExporingButton->setCenterPosition(Vec2(layout6->getContentSize().width/2, layout6->getContentSize().height/2));
     startExporingButton->setDelegate(this);
-    layout5->addChild(startExporingButton);
+    layout6->addChild(startExporingButton);
 }
 
 void SlideShowScene::createPageView()
@@ -106,6 +111,8 @@ void SlideShowScene::createPageView()
     layout4->setContentSize(visibleSize);
     layout5 = Layout::create();
     layout5->setContentSize(visibleSize);
+    layout6 = Layout::create();
+    layout6->setContentSize(visibleSize);
     
     //Add first slide and dummy slides, to add sprites later.
     _pageView->insertCustomItem(addSlide(1),0);
@@ -113,6 +120,7 @@ void SlideShowScene::createPageView()
     _pageView->insertCustomItem(layout3,2);
     _pageView->insertCustomItem(layout4,3);
     _pageView->insertCustomItem(layout5,4);
+    _pageView->insertCustomItem(layout6,5);
     
     this->scheduleOnce(schedule_selector(SlideShowScene::SheduleSlideSpriteCreation),0.5);
     
@@ -157,10 +165,6 @@ void SlideShowScene::pageViewScrollToNextPage()
 
 void SlideShowScene::skipSlideShow()
 {
-    //CHANGES WILL COME TO THIS SCENE
-    //should be directed to PreviewMode
-    //Maybe slowly fade out objects before replacing scene
-    
     _pageView->stopAllActions();
     
     ConfigStorage::getInstance()->setFirstSlideShowSeen();

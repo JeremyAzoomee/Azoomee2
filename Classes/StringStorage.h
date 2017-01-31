@@ -22,6 +22,10 @@
 #define PREVIEW_MESSAGEBOX_TITLE "Sign Up or Log In"
 #define PREVIEW_MESSAGEBOX_BODY "Sign up or log in for access to the best kids’ TV shows, games and audiobooks in one safe app."
 
+//-----------------SLIDE SHOW BUTTONS -----------------
+#define SKIP_BUTTON_TEXT "Skip"
+#define START_EXPLORING_BUTTON_TEXT "Start Exploring"
+
 class StringStorage : public cocos2d::Ref
 {
     
