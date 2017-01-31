@@ -26,6 +26,8 @@ private:
     
     bool isSettingsButton;
     
+    std::string buttonAudioFile;
+    
 public:
     virtual bool init();
     
