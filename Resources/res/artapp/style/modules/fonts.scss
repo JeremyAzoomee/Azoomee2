@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Sofia Pro';
+  src: url('fonts/Sofia-Pro-Soft-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Sofia Pro' !important; /* to overwrite bootstrap default fonts */
+}

@@ -1,1 +1,22 @@
-<div class="lightbox"><div class="stickerOverlay overlay"><div class="close" ng-click="closeOverlay();"></div><div class="close textSticker" ng-click="showTypingTool()"></div><div class="colourType"><div class="typeWrapper"><div class="selectorWrapper" ng-class="{selected: stickerUrlGroup.name===selectedStickerPanel}" ng-repeat="stickerUrlGroup in stickerUrls"><div ng-click="toggleStickerSelector(stickerUrlGroup.name)" style="background-image: url('{{stickerUrlGroup.displayImage}}')" class="colourType stickerType sticker"></div><div style="background-image: url('{{stickerUrlGroup.selectedDisplayImage}}')" class="colourType stickerType selectedSticker sticker"></div><div class="indicator"></div></div></div></div><div class="colours"><div id="stickerPanel{{$index}}" class="coloursScroller" style="width: {{21 * Math.ceil(stickerUrlGroup.stickers.length/2)}}vw" ng-repeat="stickerUrlGroup in stickerUrls" ng-if="stickerUrlGroup.name === selectedStickerPanel"><div class="coloursWrapper" style="width: {{21 * Math.ceil(stickerUrlGroup.stickers.length/2)}}vw"><div ng-repeat="stickerUrl in stickerUrlGroup.stickers" ng-click="stickerSelected($parent.$index,$index)" class="colour sticker"><div class="stickerInner" style="background-image: url('{{stickerUrl}}')"></div></div></div></div></div></div></div>
+<div class="lightbox">
+    <div class="stickerOverlay overlay">
+        <div class="close" ng-click="closeOverlay();"></div>
+        <div class="close textSticker" ng-click="showTypingTool()"></div>
+        <div class="colourType">
+            <div class="typeWrapper">
+                <div class="selectorWrapper" ng-class="{selected: stickerUrlGroup.name===selectedStickerPanel}" ng-repeat="stickerUrlGroup in stickerUrls">
+                    <div ng-click="toggleStickerSelector(stickerUrlGroup.name)" style="background-image: url('{{stickerUrlGroup.displayImage}}');" class="colourType stickerType sticker"></div>
+                    <div style="background-image: url('{{stickerUrlGroup.selectedDisplayImage}}');" class="colourType stickerType selectedSticker sticker"></div>
+                    <div class="indicator"></div>
+                </div>
+            </div>
+        </div>
+        <div class="colours">
+            <div id="stickerPanel{{$index}}"  class="coloursScroller" style="width: {{21 * Math.ceil(stickerUrlGroup.stickers.length/2)}}vw" ng-repeat="stickerUrlGroup in stickerUrls" ng-if="stickerUrlGroup.name === selectedStickerPanel">
+                <div class="coloursWrapper" style="width: {{21 * Math.ceil(stickerUrlGroup.stickers.length/2)}}vw">
+                    <div ng-repeat="stickerUrl in stickerUrlGroup.stickers" ng-click="stickerSelected($parent.$index,$index)" class="colour sticker"><div class="stickerInner" style="background-image: url('{{stickerUrl}}');" ></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

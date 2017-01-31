@@ -1,0 +1,13 @@
+@mixin shadow($size, $colour) {
+  -webkit-box-shadow: 0 $size 0 0 $colour;
+  -moz-box-shadow: 0 $size 0 0 $colour;
+  box-shadow: 0 $size 0 0 $colour;
+}
+
+.lightShadow {
+  @include shadow(3px, rgba(190, 190, 190, 1));
+}
+
+.darkShadow {
+  @include shadow(3px, rgba(177, 177, 177, 1));
+}

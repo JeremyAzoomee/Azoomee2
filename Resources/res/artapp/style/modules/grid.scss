@@ -1,0 +1,97 @@
+
+.fullHeight {
+  height: 100%;
+  overflow: hidden;
+}
+.fullWidth {
+  width: 100%;
+  overflow: hidden;
+}
+.halfWidth {
+  width: 50%;
+}
+.backImage {
+  background-repeat: no-repeat;
+  background-image: url('images/artIcons/back.png');
+  background-size: contain;
+
+}
+.underline {
+  text-decoration: underline;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-size: 62.5%;
+  position: relative;
+  overflow: hidden;
+  @include userSelect(none);
+  font-family: $main-font;
+}
+.cookieImage {
+  position: absolute;
+  left: -1px;
+  width: 1px;
+  height: 1px;
+}
+.contentHolder {
+  height: 100%;
+  width: 100%;
+}
+.loadingIcon {
+  width: 60px;
+  height: 15px;
+}
+.verticalCenter {
+  top: 50%;
+
+  @include transform(translateY(-50%));
+  position: relative;
+}
+.unselectable {
+  -webkit-touch-callout: none;
+  @include userSelect(none);
+}
+
+
+.navigationButton {
+  position: absolute;
+  top: 2vh;
+  width: 10vh;
+  height: 10vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  direction: ltr;
+  text-indent: -500%;
+  overflow: hidden;
+  z-index: 10000;
+  @include smallHeightDevicesBreakpoint {
+    width: 16vh;
+    height: 16vh;
+  }
+}
+.home {
+  @extend .navigationButton;
+  left: 2vh;
+  background-image: url('images/artIcons/gallery/button_home.png');
+  &:active {
+    background-image: url('images/artIcons/gallery/button_down_home.png');
+  }
+
+}
+.offlineMessage {
+  width: 70%;
+  top: 0;
+  background-color: #FF0000;
+  z-index: 10000;
+  left: 15%;
+  position: absolute;
+  text-align: center;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  transition: opacity .25s ease-in-out;
+}

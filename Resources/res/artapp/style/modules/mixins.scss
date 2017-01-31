@@ -1,0 +1,41 @@
+@mixin rotate($angle) {
+  $angle: $angle+deg;
+  -ms-transform: rotate($angle); /* IE 9 */
+  -webkit-transform: rotate($angle); /* Chrome, Safari, Opera */
+  -moz-transform: rotate($angle);
+  -o-transform: rotate($angle);
+  transform: rotate($angle);
+}
+
+@mixin drop-shadow($settings) {
+  -webkit-box-shadow: $settings;
+  -moz-box-shadow: $settings;
+  box-shadow: $settings;
+}
+@mixin transform($transforms) {
+  -moz-transform: $transforms;
+  -o-transform: $transforms;
+  -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+  transform: $transforms;
+}
+@mixin transition($transitions) {
+  -moz-transition: $transitions;
+  -o-transition: $transitions;
+  -ms-transition: $transitions;
+  -webkit-transition: $transitions;
+  transition: $transitions;
+}
+@mixin userSelect($state) {
+  -moz-user-select: $state;
+  -ms-user-select: $state;
+  -khtml-user-select: $state;
+  -webkit-user-select: $state;
+  -o-user-select: $state;
+  user-select: $state;
+}
+@mixin box-sizing($state) {
+  -webkit-box-sizing: $state;
+  -moz-box-sizing: $state;
+  box-sizing: $state;
+}

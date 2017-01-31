@@ -1,1 +1,35 @@
-<div id="artApp" class="artApp unselectable"><div class="textureHolder"><ng-include src="'views/artApp/textureBackground.svg'" ng-if="selectedPattern"></ng-include></div><div class="sideTools left"><div class="placeholder" ng-if="stickerPlacement"></div><div class="sizeSliderWrapper" ng-if="!stickerPlacement"><input ng-model="sizeSlider.value" type="text" id="sizeSlider" slider options="sizeSlider.options"></div></div><div class="bottomTools"><ng-include src="'views/artApp/bottomTools.tmpl.html'"></ng-include></div><div class="stickerButtons" ng-if="stickerPlacement"><div class="cancel binIcon stickerButton" ng-click="cancelSticker()"></div><div class="confirm tickIcon stickerButton" ng-click="placeSticker()"></div></div><div id="canvasHolder" class="canvasHolders unselectable"><canvas id="baseCanvas" class="drawingCanvas unselectable" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas><canvas id="colors_sketch" class="drawingCanvas enabled{{drawingMode}} unselectable" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas><canvas id="stickerCanvas" class="drawingCanvas enabled{{stickerPlacement}} unselectable" width="{{canvasWidth}}" height="{{canvasHeight}}"></canvas></div><ng-include src="'views/artApp/colourOverlay.tmpl.html'" ng-if="colourOverlayShown"></ng-include><ng-include src="'views/artApp/stickersOverlay.tmpl.html'" ng-if="stickerOverlayShown"></ng-include><ng-include src="'views/artApp/clearConfirmOverlay.tmpl.html'" ng-if="clearConfirmOverlayShown"></ng-include><ng-include src="'views/artApp/textTypeSelector.tmpl.html'" ng-if="textOverlayShown"></ng-include><ng-include src="'views/artApp/dynamicStyle.tmpl.html'"></ng-include></div>
+<div id="artApp" class="artApp unselectable">
+    <!--ng-include src="'views/artApp/galleryOverlay.tmpl.html'" ng-if="showGallery"></ng-include-->
+    <div class="textureHolder">
+        <ng-include src="'views/artApp/textureBackground.svg'" ng-if="selectedPattern"></ng-include>
+    </div>
+    <!--div class="backImage chatBackButton home" ng-click="backClicked()" ng-if="!showGallery" ></div-->
+    <div class="sideTools left">
+        <div class="placeholder" ng-if="stickerPlacement"></div>
+        <div class="sizeSliderWrapper" ng-if="!stickerPlacement">
+            <input ng-model="sizeSlider.value" type="text" id="sizeSlider" slider options="sizeSlider.options"/>
+        </div>
+    </div>
+    <div class="bottomTools">
+        <ng-include src="'views/artApp/bottomTools.tmpl.html'"></ng-include>
+    </div>
+    <div class="stickerButtons" ng-if="stickerPlacement">
+        <div class="cancel binIcon stickerButton" ng-click="cancelSticker()"></div>
+        <div class="confirm tickIcon stickerButton" ng-click="placeSticker()"></div>
+    </div>
+    <!--div class="shareIcon" ng-click="loadSharing()"  ng-if="!showGallery && !stickerPlacement && !isOffline"></div-->
+
+    <div id="canvasHolder" class="canvasHolders unselectable">
+        <canvas id="baseCanvas" class="drawingCanvas unselectable" width="{{canvasWidth}}"
+                height="{{canvasHeight}}"></canvas>
+        <canvas id="colors_sketch" class="drawingCanvas enabled{{drawingMode}} unselectable" width="{{canvasWidth}}"
+                height="{{canvasHeight}}"></canvas>
+        <canvas id="stickerCanvas" class="drawingCanvas enabled{{stickerPlacement}} unselectable" width="{{canvasWidth}}"
+                height="{{canvasHeight}}"></canvas>
+    </div>
+    <ng-include src="'views/artApp/colourOverlay.tmpl.html'" ng-if="colourOverlayShown"></ng-include>
+    <ng-include src="'views/artApp/stickersOverlay.tmpl.html'" ng-if="stickerOverlayShown"></ng-include>
+    <ng-include src="'views/artApp/clearConfirmOverlay.tmpl.html'" ng-if="clearConfirmOverlayShown"></ng-include>
+    <ng-include src="'views/artApp/textTypeSelector.tmpl.html'" ng-if="textOverlayShown"></ng-include>
+    <ng-include src="'views/artApp/dynamicStyle.tmpl.html'"></ng-include>
+</div>

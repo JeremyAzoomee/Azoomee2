@@ -1,0 +1,785 @@
+.tickIcon {
+  background-image: url('images/artIcons/button_tick.png');
+  &:active {
+    background-image: url('images/artIcons/button_tick_down.png');
+  }
+}
+.crossIcon {
+  background-image: url('images/artIcons/popup/button_cancel.png');
+  &:active {
+    background-image: url('images/artIcons/popup/button_down_cancel.png');
+  }
+}
+.proceedIcon {
+  background-image: url('images/artIcons/popup/button_proceed.png');
+  &:active {
+    background-image: url('images/artIcons/popup/button_down_proceed.png');
+  }
+}
+
+.artApp {
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom left;
+  overflow: hidden;
+  .shareIcon {
+    @extend .navigationButton;
+    right: 2vh;
+    background-image: url('images/artIcons/button_send.png');
+  }
+
+  .binIcon {
+    background-image: url('images/artIcons/popup/button_delete.png');
+  }
+
+  .gallery {
+    font-size: 50px;
+    background-image: url('images/artIcons/gallery/art_background.png');
+    background-position: top center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    .padding {
+      height: 50px;
+      width: 100%;
+    }
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    .title {
+      width: 80%;
+      height: 10.2%;
+      margin: 0 auto;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-image: url('images/artIcons/gallery/art_title_logo.png');
+      direction: ltr;
+      text-indent: -500%;
+      overflow: hidden;
+      margin-top: 2.8vw;
+    }
+    .newArt {
+      height: 35%;
+      width: 100%;
+      margin-top: 20px;
+      .addNewWrapper {
+        @include box-sizing(border-box);
+        width: 57%;
+        padding: 0 4%;
+        padding-top: 4%;
+        height: 100%;
+        float: left;
+      }
+      .addNew {
+        height: 100%;
+        width: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-image: url('images/artIcons/gallery/art_button_new_painting.png');
+        margin-left: 5%;
+        &:active {
+          background-image: url('images/artIcons/gallery/art_button_down_new_painting.png');
+        }
+      }
+      .artIcon {
+        width: 35%;
+        height: 100%;
+        float: right;
+        margin-right: 5%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-image: url('images/artIcons/gallery/art_asset.png');
+      }
+    }
+    .artworksListWrapper {
+      width: 100%;
+      height: 40%;
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch;
+
+      .artworksList {
+        height: 100%;
+        .artworkWrapper {
+          height: 100%;
+          float: left;
+          @include box-sizing(border-box);
+          padding: 20px;
+
+        }
+        .artwork {
+          height: 100%;
+          width: 100px;
+          border-radius: 30px;
+          background-color: #FFFFFF;
+          float: left;
+          position: relative;
+          .close {
+            width: 40px;
+            height: 40px;
+          }
+          .delete {
+            width: 60px;
+            height: 60px;
+            background-image: url('images/artIcons/gallery/art_button_bin_small.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            right: -7px;
+            bottom: -3px;
+          }
+          .artWorkInnerWrapper {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            @include box-sizing(border-box);
+            .artWorkInner {
+              width: 100%;
+              height: 100%;
+              background-size: contain;
+              background-position: center;
+              background-repeat: no-repeat;
+            }
+          }
+        }
+      }
+    }
+  }
+  .clearConfirmOverlay.overlay,
+  {
+    background-image: url('images/artIcons/popup/art_popup_bg.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 48%;
+    height: 64%;
+    top: 15%;
+    left: 26%;
+    .description {
+      padding-top: 42%;
+      color: #455971;
+      margin: 0 20%;
+      text-align: center;
+      margin-bottom: 9%;
+      font-size: 2.5em;
+      @media (orientation: portrait){
+        margin: 60% 20% 7% 20%;
+        font-size: 1.5em;
+        @media (min-width: 700px){
+          font-size: 2.5em;
+          margin-top: 49%;
+        }
+        @media (min-width:1024px){
+          font-size: 4.5em;
+        }
+      }
+      @media (orientation : landscape){
+        @include largeTabletBreakpoint {
+          font-size: 6em;
+        }
+        @include smallTabletBreakpoint {
+          font-size: 1.7em;
+          margin: -9% 20% 7% 20%;
+        }
+        @include tinyTabletBreakpoint {
+          font-size: 1.5em;
+          padding-top: 27%;
+          margin-bottom: 6%;
+        }
+        @media only screen and (max-width: 569px){
+          margin-bottom: 0;
+        }
+        @media only screen and (min-width: 1260px){
+          margin-bottom: 6%;
+        }
+      }
+    }
+    &.deleteConfirmOverlay {
+      .description {
+        font-size: 0.6em;
+        @include largeTabletBreakpoint {
+          font-size: 1.7em;
+        }
+        @include smallTabletBreakpoint {
+          font-size: 0.4em;
+        }
+        @include tinyTabletBreakpoint {
+          font-size: 0.3em;
+          padding-top: 27%;
+        }
+      }
+    }
+
+    .clearButton {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 15%;
+      height: 20%;
+      overflow: hidden;
+      direction: ltr;
+      text-indent: -500%;
+      float: left;
+      margin-left: 30%;
+      &.tickIcon {
+        margin-left: 10%;
+        margin-right: 30%;
+      }
+      @include box-sizing(border-box);
+    }
+  }
+  .textureHolder {
+    height: 0;
+    width: 0;
+    overflow: hidden;
+  }
+  .sideTools {
+    height: 42%;
+    width: 5.7vw;
+    position: absolute;
+    top: 20%;
+    z-index: 10;
+    padding: 10px 0 0 10px;
+    display: block;
+    &.left {
+      left: 4.5%;
+    }
+    &.right {
+      right: 4.5%;
+      .stickerRotationSliderWrapper {
+        top: 20%;
+      }
+
+    }
+    .placeholder {
+      height: 20%;
+    }
+    .backButton {
+      cursor: pointer;
+      height: 20%;
+    }
+    .sizeSliderWrapper,
+    .stickerSliderWrapper,
+    .stickerRotationSliderWrapper {
+      height: 100%;
+      padding: 0;
+      width: 5.7vw;
+      background-image: url('images/artIcons/slideBack.png');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center top;
+      .jslider.vertical {
+        width: 18px;
+        padding-left: 50%;
+        margin-left: -1.2vw;
+        height: 95%;
+        .jslider-value,
+        .jslider-bg {
+          display: none;
+        }
+        .jslider-pointer {
+          background-image: url('images/artIcons/sliderIcon.png');
+          background-position: 0;
+          background-size: contain;
+          left: 0.25vw;
+          width: 7.7vw;
+          height: 7.7vw;
+          margin-left: 0;
+        }
+      }
+    }
+    .stickerRotationSliderWrapper {
+      .jslider.vertical {
+        .jslider-pointer {
+          background-image: url('images/artIcons/rotateSlider.png');
+        }
+      }
+    }
+    .stickerSliderWrapper {
+      .jslider.vertical {
+        .jslider-pointer {
+          background-image: url('images/artIcons/sizeSlider.png');
+        }
+      }
+    }
+  }
+  .stickerButtons {
+    position: absolute;
+    bottom: 2.8vw;
+    height: 13.5%;
+    text-align: center;
+    width: 24%;
+    margin: 0 auto;
+    left: 38%;
+    z-index: 10;
+    .stickerButton {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      float: left;
+      height: 100%;
+      width: 40%;
+    }
+    .cancel {
+      float: left;
+    }
+    .confirm {
+      float: right;
+    }
+  }
+
+  .bottomTools {
+    height: 13.5%;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    z-index: 10;
+
+    .tools {
+      padding: 0;
+      @include box-sizing(border-box);
+      background-repeat: no-repeat;
+      margin: 0 2%;
+      height: 100%;
+      overflow: hidden;
+      float: left;
+      @include transition(bottom 0.5s ease 0s);
+      background-size: cover;
+      &.left {
+        bottom: 0;
+        width: 19.8%;
+        margin: 0;
+        margin-left: 2.8vw;
+        background-image: url('images/artIcons/art_back_left.png');
+      }
+      &.right {
+        width: 11%;
+        margin: 0;
+        margin-right: 2.8vw;
+        background-image: url('images/artIcons/art_back_right.png');
+        .tool {
+          width: 100%;
+        }
+      }
+      &.middle {
+        width: 57.4%;
+        left: 25%;
+        margin: 0 3.1vw;
+        background-image: url('images/artIcons/art_back_middle.png');
+        .tool {
+          width: 14%;
+          height: 100%;
+          top: 21%;
+          svg,
+          .textIcon {
+            max-width: 100%;
+            max-height: 100%;
+          }
+          .textIcon {
+            background-image: url('images/artIcons/textToolIcon.png');
+            height: 100%;
+            width: 100%;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            @include box-sizing(border-box);
+          }
+          &.text {
+            height: 70%;
+          }
+          &.selected {
+            top: 0;
+          }
+        }
+      }
+      .tool {
+        position: relative;
+        float: left;
+        height: 60%;
+        width: 50%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        &.bin {
+          background-image: url('images/artIcons/art_button_bin.png');
+          &.undo {
+            background-image: url('images/artIcons/art_button_undo.png');
+          }
+        }
+        &.stickerSelector {
+          height: 10vh;
+          width: 10vh;
+          margin: 0 1.2vw;
+          .stickerSelectorInner {
+            width: 10vh;
+            height: 10vh;
+            background-image: url('images/artIcons/art_button_sticker.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+          }
+        }
+        &.colourSelector {
+          height: 10vh;
+          width: 10vh;
+          margin: 0 1.2vw;
+          .colourSelectorInner {
+            width: 100%;
+            height: 100%;
+            border: 5px solid #FFFFFF;
+            border-radius: 50%;
+          }
+        }
+
+      }
+      &.left {
+        left: 0;
+      }
+      &.right {
+        right: 0;
+      }
+    }
+  }
+  .close {
+    opacity: 1;
+    right: 0;
+    width: 20%;
+    height: 20%;
+    top: 5%;
+    background-image: url('images/artIcons/popup/art_button_close.png');
+    position: absolute;
+    background-size: contain;
+    background-position: top right;
+    background-repeat: no-repeat;
+    &.textSticker {
+      top: 95%;
+      background-image: none;
+      z-index: 1;
+      display: none;
+    }
+  }
+  .overlay {
+    position: absolute;
+    overflow: hidden;
+    top: 16.7%;
+    height: 70.8%;
+    left: 2.8%;
+    width: 94.6%;
+    background-color: #EEEAEA;
+    z-index: 100;
+    border-radius: 25px;
+    .close {
+      height: 19.3%;
+      top: 4%;
+      width: 19%;
+    }
+    .colourType {
+      height: 29%;
+    }
+    .colours {
+      height: 72%;
+    }
+    &.stickerOverlay {
+      .colourType {
+        .typeWrapper {
+          width: 80%;
+          .selectorWrapper {
+            padding-bottom: 0;
+            width: 16%;
+            .sticker {
+              height: 70%;
+              margin-top: 15%;
+              width: 100%;
+            }
+            .indicator {
+              height: 15%;
+              width: 100%;
+              margin: 0 15px;
+            }
+          }
+        }
+      }
+      .colours {
+        .coloursScroller {
+          .coloursWrapper {
+            margin: 0 auto;
+            padding: 30px 0;
+            box-sizing: border-box;
+            .sticker {
+              height: 50%;
+              width: 20vw;
+              box-sizing: border-box;
+              margin: 0;
+              padding: 20px;
+              .stickerInner {
+                width: 100%;
+                height: 100%;
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+              }
+            }
+          }
+        }
+      }
+    }
+    .colour {
+      width: 10vw;
+      height: 10vw;
+      border-radius: 50%;
+      float: left;
+      margin: 34px 30px;
+      @include tinyTabletBreakpoint {
+        margin: 20px 30px;
+      }
+
+      @include box-sizing(border-box);
+      background-position: center center;
+      background-size: contain;
+      &.sticker {
+        border: 0;
+        border-radius: 0;
+      }
+    }
+    .sticker {
+      background-repeat: no-repeat;
+    }
+    .colourType {
+      float: left;
+      width: 100%;
+      padding-top: 15px;
+      @include box-sizing(border-box);
+      &.stickerType {
+        @include box-sizing(border-box);
+        background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 60%;
+      }
+      .typeWrapper {
+        width: 27%;
+        display: block;
+        margin: 0 auto;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        .selectorWrapper {
+          height: 101%;
+          float: left;
+          width: 50%;
+          padding-bottom: 14%;
+          position: relative;
+          @include box-sizing(border-box);
+          margin: 0;
+          &.patternSelectorWrapper {
+            padding-left: 10% ;
+            .indicator {
+              right: 0;
+            }
+          }
+          &.colourSelectorWrapper {
+            padding-right: 10%;
+            .indicator {
+              left: 0;
+            }
+          }
+          .indicator {
+            display: none;
+            width: 89%;
+            height: 18%;
+            position: absolute;
+            bottom: 0;
+            background-image: url('images/artIcons/popup/art_selection_indicator.png');
+            background-position: bottom center;
+            background-repeat: no-repeat;
+            background-size: contain;
+          }
+          &.selected {
+            .indicator {
+              display: block;
+            }
+            .sticker {
+              display: none;
+              &.selectedSticker {
+                display: block;
+              }
+            }
+          }
+          .selectedSticker {
+            display: none;
+          }
+          .sticker {
+            width: 14%;
+            height: 100%;
+            float: left;
+            margin: 15px;
+            @include box-sizing(border-box);
+            background-position: center center;
+            background-size: contain;
+          }
+        }
+      }
+    }
+
+    .colourSelector {
+      width: 73%;
+      height: 100%;
+      @include box-sizing(border-box);
+      background-position: bottom center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url('images/artIcons/popup/art_colour_category_unselected.png');
+      &.selected {
+        background-image: url('images/artIcons/popup/art_colour_category_selected.png');
+        width: 89%;
+      }
+      &.pattern {
+        background-image: url('images/artIcons/popup/art_pattern_category_unselected.png');
+        float: left;
+        &.selected {
+          background-image: url('images/artIcons/popup/art_colour_category_selected.png');
+        }
+      }
+      &.colourGroup {
+        float: right;
+        border: 0;
+      }
+    }
+    .colours {
+      width: 100%;
+      float: left;
+      height: 71%;
+      background-color: #FFFFFF;
+      border-radius: 25px;
+      @include box-sizing(border-box);
+      overflow-x: scroll;
+      overflow-y: hidden;
+      -webkit-overflow-x-scrolling: touch;
+      .coloursScroller {
+        height: 100%;
+        min-width: 100%;
+        position: relative;
+        .coloursWrapper {
+          margin: 0 auto;
+          height: 100%;
+          padding: 4vh;
+          overflow: hidden;
+        }
+      }
+      .patternScroller {
+        .coloursWrapper {
+          width: 62%;
+        }
+      }
+    }
+  }
+  .textTypeOverlay {
+    .textTypeWrapper {
+      max-width: 1000px;
+      width: 50%;
+      height: 90%;
+      margin: 0 auto;
+      .textTool {
+        height: 40%;
+        width: 100%;
+        margin: 5%;
+        @include box-sizing(border-box);
+        background-position: center;
+        background-size: contain;
+        background-image: url('images/artIcons/typeToolIcon.png');
+        background-repeat: no-repeat;
+      }
+      .textStickerTool {
+        background-image: url('images/artIcons/textStickerIcon.png');
+      }
+    }
+  }
+  .textEditor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    .textColours {
+      height: 110px;
+      width: 650px;
+      padding: 5px 0;
+      margin: 0 auto;
+      .colour {
+        height: 100px;
+        width: 100px;
+        border: 3px solid #FFFFFF;
+        border-radius: 50%;
+        float: left;
+        margin: 0 15px;
+        @include box-sizing(border-box);
+      }
+    }
+    .textEntry {
+      height: 120px;
+      .inputWrapper {
+        padding-top: 20px;
+        width: 60%;
+        float: left;
+        .textEntryField {
+          border: 1px solid;
+          width: 100%;
+          height: 80px;
+          line-height: 60px;
+          font-size: 55px;
+          font-family: $main-font;
+          text-align: center;
+          background-color: #FFFFFF;
+          margin: 0;
+          outline: 0;
+          padding: 0;
+        }
+      }
+      .textButton {
+        width: 20%;
+        float: left;
+        height: 100%;
+        background-size: contain;
+        background-position: top center;
+        background-repeat: no-repeat;
+        &.confirm {
+          background-image: url("images/artIcons/stickerConfirm.png");
+        }
+        &.cancel {
+          background-image: url("images/artIcons/stickerBin.png");
+        }
+      }
+    }
+  }
+}
+.canvasHolders {
+  position: relative;
+  .drawingCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    &.enabledfalse {
+      display: none;
+    }
+  }
+}
+.lightbox {
+  z-index: 10000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  background-color: rgba(0,0,0,0.4);
+}
+

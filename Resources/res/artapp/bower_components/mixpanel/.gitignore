@@ -1,0 +1,4 @@
+node_modules
+.idea
+*.ps1
+*.bundle.js
