@@ -93,7 +93,20 @@ void ImageContainer::createBgLayer(std::map<std::string, std::string> elementPro
     bgLayer->setOpacity(0);
     this->addChild(bgLayer);
     
-    bgLayer->runAction(Sequence::create(DelayTime::create(startDelay), FadeTo::create(0, colour.a), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeTo::create(0, colour.a), DelayTime::create(interTime), EaseElasticOut::create(ScaleTo::create(scaleTime, 1.0)), NULL));
+    if(startDelay == 0)
+        bgLayer->runAction(Sequence::create(DelayTime::create(startDelay), FadeTo::create(0, colour.a), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeTo::create(0, colour.a), DelayTime::create(interTime), EaseElasticOut::create(ScaleTo::create(scaleTime, 1.0)), NULL));
+    else
+    {
+        auto audioCallback = CallFunc::create(CC_CALLBACK_0(ImageContainer::startAudio, this, HQ_BIG_SQUARES_APPEAR_AUDIO_EFFECT));
+        
+        bgLayer->runAction(Sequence::create(DelayTime::create(startDelay), FadeTo::create(0, colour.a), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeTo::create(0, colour.a), DelayTime::create(interTime), audioCallback, EaseElasticOut::create(ScaleTo::create(scaleTime, 1.0)), NULL));
+        
+    }
+}
+
+void ImageContainer::startAudio(std::string audioName)
+{
+    AudioMixer::getInstance()->playEffect(audioName);
 }
 
 void ImageContainer::addReponseLayerToImage(std::map<std::string, std::string> elementProperties, float scale)
