@@ -26,6 +26,8 @@ private:
     void addLockToImageContainer(float startDelay);
     void addReponseLayerToImage(std::map<std::string, std::string> elementProperties, float scale);
     
+    void startAudio(std::string audioName);
+    
     bool iamtouched;
     
     float appearPause;
