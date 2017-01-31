@@ -9,6 +9,7 @@
 #include "NavigationLayer.h"
 #include "ModalMessages.h"
 #include "ChildDataProvider.h"
+#include "HQHistoryManager.h"
 
 USING_NS_CC;
 
@@ -33,7 +34,7 @@ bool ImageContainer::init()
 
 void ImageContainer::createContainer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, Point position)
 {
-    if(ConfigStorage::getInstance()->hqName == "")
+    if(HQHistoryManager::getInstance()->noHistory())
     {
         appearPause = 0.1;
         interTime = 1.0;

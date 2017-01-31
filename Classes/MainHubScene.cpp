@@ -7,6 +7,7 @@
 #include "HQDataProvider.h"
 #include "ConfigStorage.h"
 #include "ArtsPreviewLayer.h"
+#include "HQHistoryManager.h"
 
 USING_NS_CC;
 
@@ -34,7 +35,7 @@ bool MainHubScene::init()
     auto bgElements = MainHubBgElements::create();
     this->addChild(bgElements);
     
-    if(ConfigStorage::getInstance()->hqName != "")
+    if(!HQHistoryManager::getInstance()->noHistory())
     {
         addBackgroundCirclesQuick();
         addImageContainersQuick();

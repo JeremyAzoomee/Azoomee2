@@ -38,6 +38,8 @@ private:
     bool iamtouched;
     
     void onExitTransitionDidStart();
+    
+    bool aboutToExit;
 };
 
 #endif

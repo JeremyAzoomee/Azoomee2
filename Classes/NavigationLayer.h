@@ -12,6 +12,7 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     void startLoadingGroupHQ(std::string uri);
+    void changeToScene(int target, float duration);
     
 private:
     cocos2d::Size visibleSize;
@@ -26,24 +27,23 @@ private:
     void runDisplayAnimationForMenuItem(cocos2d::Node* node1, cocos2d::Node* node2);
     void runDisplayAnimationForMenuItemQuick(cocos2d::Node* node1, cocos2d::Node* node2);
     
-    void moveMenuPointsToHorizontalState();
-    void moveMenuPointsToCircleState();
+    void moveMenuPointsToHorizontalState(float duration);
+    void moveMenuPointsToCircleState(float duration);
     void createSettingsButton();
     
     //Handling created menuitems or all menuitems
     void turnOffAllMenuItems();
+    void turnOnMenuItem(int tagNumber);
+    
     void setButtonOn(int i);
     void delayedSetButtonOn(float dt);
     void startLoadingHQScene(int categoryTag);
-    void changeToScene(int target);
     void addBackButtonToNavigation();
     void removeBackButtonFromNavigation();
     void addListenerToBackButton(cocos2d::Node* toBeAddedTo);
 
     //Handle arts app
     void loadArtsAppHQ();
-    
-    int currentScene;
 };
 
 #endif

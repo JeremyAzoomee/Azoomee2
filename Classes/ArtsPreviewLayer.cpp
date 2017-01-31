@@ -3,6 +3,7 @@
 #include "ArtsAppHQElement.h"
 #include "ConfigStorage.h"
 #include <dirent.h>
+#include "HQHistoryManager.h"
 
 USING_NS_CC;
 
@@ -86,7 +87,7 @@ void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
     hqElement->setPosition(positions.at(index));
     this->addChild(hqElement);
     
-    if(ConfigStorage::getInstance()->hqName == "")
+    if(HQHistoryManager::getInstance()->noHistory())
     {
         hqElement->setAnchorPoint(Point(0.5, 0.5));
         hqElement->setScale(0);

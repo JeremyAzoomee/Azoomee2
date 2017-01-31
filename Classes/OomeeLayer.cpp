@@ -5,6 +5,7 @@
 #include "ConfigStorage.h"
 #include "ChildDataProvider.h"
 #include "ParentDataProvider.h"
+#include "HQHistoryManager.h"
 
 USING_NS_CC;
 
@@ -31,7 +32,7 @@ bool OomeeLayer::init()
     
     spine::SkeletonAnimation* oomee;
     
-    if(ConfigStorage::getInstance()->hqName != "") oomee = addOomeeToScreenQuick();
+    if(!HQHistoryManager::getInstance()->noHistory()) oomee = addOomeeToScreenQuick();
     else oomee = addOomeeToScreen();
     
     addTouchListenerToOomee(oomee);

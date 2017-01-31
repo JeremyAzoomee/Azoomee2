@@ -11,6 +11,7 @@
 #include "ChildDataProvider.h"
 #include "ExitOrLogoutLayer.h"
 #include "ModalMessages.h"
+#include "HQHistoryManager.h"
 
 USING_NS_CC;
 
@@ -32,8 +33,6 @@ bool NavigationLayer::init()
         return false;
     }
     
-    currentScene = 0;
-    
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
@@ -48,7 +47,7 @@ bool NavigationLayer::init()
         addMenuItemActive(i, menuItemImage);                                    //Active menuItem is visible, when we are in the given menu
         addListenerToMenuItem(menuItemImage);
         
-        if(ConfigStorage::getInstance()->hqName != "")
+        if(!HQHistoryManager::getInstance()->noHistory())
         {
             runDisplayAnimationForMenuItemQuick(menuItemImage, menuItemInactive);
             this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 0);
@@ -67,16 +66,56 @@ bool NavigationLayer::init()
 
 void NavigationLayer::startLoadingGroupHQ(std::string uri)
 {
+    HQHistoryManager::getInstance()->addHQToHistoryManager("GROUP HQ");
+    
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
     this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(6)), 2), DelayTime::create(0.5), NULL));
     
-    moveMenuPointsToHorizontalState();
+    moveMenuPointsToHorizontalState(0.5);
     addBackButtonToNavigation();
+}
+
+void NavigationLayer::changeToScene(int target, float duration)
+{
+    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::getInstance()->getNameForMenuItem(target));
+    
+    this->turnOffAllMenuItems();
+    
+    if(HQHistoryManager::getInstance()->getCurrentHQ() != "GROUP HQ")
+    {
+        this->turnOnMenuItem(target);
+        removeBackButtonFromNavigation();
+        
+        Scene *runningScene = Director::getInstance()->getRunningScene();
+        Node *baseLayer = runningScene->getChildByName("baseLayer");
+        Node *contentLayer = baseLayer->getChildByName("contentLayer");
+        HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("GROUP HQ");
+        
+        hqLayer->removeAllChildren();
+    }
+    else
+    {
+        addBackButtonToNavigation();
+    }
+    
+    this->getParent()->getChildByName("contentLayer")->stopAllActions();
+    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(duration, ConfigStorage::getInstance()->getTargetPositionForMove(target)), 2), DelayTime::create(duration), NULL));
+    
+    if((target != 0)&&(target != 3))
+    {
+        moveMenuPointsToHorizontalState(duration);
+    }
+    else
+    {
+        moveMenuPointsToCircleState(duration);
+    }
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 void NavigationLayer::loadArtsAppHQ()
 {
+    HQHistoryManager::getInstance()->addHQToHistoryManager("ARTS APP");
+    
     Scene *runningScene = Director::getInstance()->getRunningScene();
     Node *baseLayer = runningScene->getChildByName("baseLayer");
     Node *contentLayer = baseLayer->getChildByName("contentLayer");
@@ -102,24 +141,6 @@ void NavigationLayer::startLoadingHQScene(int categoryTag)
         HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(categoryTag));
     });
     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
-}
-
-void NavigationLayer::changeToScene(int target)
-{
-    currentScene = target;
-    removeBackButtonFromNavigation();
-    
-    this->getParent()->getChildByName("contentLayer")->stopAllActions();
-    this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(target)), 2), DelayTime::create(0.5), NULL));
-    
-    if((target != 0)&&(target != 3))
-    {
-        moveMenuPointsToHorizontalState();
-    }
-    else
-    {
-        moveMenuPointsToCircleState();
-    }
 }
 
 Sprite* NavigationLayer::addMenuItemImage(int itemNumber)
@@ -200,8 +221,8 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
             {
                 this->startLoadingHQScene(target->getTag());
                 this->turnOffAllMenuItems();
-                target->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
-                this->changeToScene(target->getTag());
+                this->turnOnMenuItem(target->getTag());
+                this->changeToScene(target->getTag(), 0.5);
             }
             return true;
         }
@@ -239,6 +260,11 @@ void NavigationLayer::turnOffAllMenuItems()
     }
 }
 
+void NavigationLayer::turnOnMenuItem(int tagNumber)
+{
+    this->getChildByTag(tagNumber)->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+}
+
 void NavigationLayer::delayedSetButtonOn(float dt)
 {
     this->setButtonOn(0);
@@ -249,7 +275,7 @@ void NavigationLayer::setButtonOn(int i)
     this->getChildByTag(i)->getChildByName("on")->setOpacity(255);
 }
 
-void NavigationLayer::moveMenuPointsToCircleState()
+void NavigationLayer::moveMenuPointsToCircleState(float duration)
 {
     for(int i = 0; i <= amountOfItems; i++)
     {
@@ -259,14 +285,14 @@ void NavigationLayer::moveMenuPointsToCircleState()
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
-        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), NULL);
+        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(duration, targetPosition), 2), NULL);
         sequence->setTag(1);
         
         menuItemImage->runAction(sequence);
     }
 }
 
-void NavigationLayer::moveMenuPointsToHorizontalState()
+void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
 {
     for(int i = 0; i <= amountOfItems; i++)
     {
@@ -276,7 +302,7 @@ void NavigationLayer::moveMenuPointsToHorizontalState()
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
-        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(0.5, targetPosition), 2), NULL);
+        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(duration, targetPosition), 2), NULL);
         sequence->setTag(1);
         
         menuItemImage->runAction(sequence);
@@ -323,8 +349,12 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
             hqLayer->removeAllChildren();
             Director::getInstance()->purgeCachedData();
             
-            this->changeToScene(currentScene);
+            this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
+            if(HQHistoryManager::getInstance()->getPreviousHQ() == "HOME") return true;
             
+            HQScene *hqLayer2 = (HQScene *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
+            hqLayer2->startBuildingScrollViewBasedOnName();
+
             return true;
         }
         
