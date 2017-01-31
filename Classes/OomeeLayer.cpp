@@ -94,7 +94,7 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
-    listener->onTouchBegan = [](Touch *touch, Event *event)
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
         auto target = static_cast<SkeletonAnimation*>(event->getCurrentTarget());
         
@@ -104,8 +104,10 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
-            target->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("touch").c_str(), false);
+            std::string animationid = ConfigStorage::getInstance()->getRandomIdForAnimationType("touch");
+            
+            target->setAnimation(0, animationid.c_str(), false);
+            AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), animationid);
             
             return true;
         }
