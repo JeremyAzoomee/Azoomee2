@@ -4,6 +4,12 @@
 	</head>
 	<body bgcolor="black">
 		<script>
+			function removeLoadingScreen()
+			{
+				var target = document.getElementById("loadingScreen");
+				target.parentElement.removeChild(target);
+			}
+		
 			function getUrlVars() 
 			{
 				var vars = {};
@@ -92,6 +98,8 @@
 			iframe.width  = window.innerWidth - 20;
     		iframe.height = window.innerHeight - 20;
 			document.body.appendChild(iframe);
+			
+			iframe.addEventListener("load", removeLoadingScreen);
 		
 			window.addEventListener("message", receiveMessage, false);
 		</script>
