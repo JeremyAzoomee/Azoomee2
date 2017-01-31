@@ -7,6 +7,8 @@
 #include "TextInputChecker.h"
 #include "TextInputLayer.h"
 #include "AudioMixer.h"
+#include "HQHistoryManager.h"
+#include "BaseScene.h"
 
 USING_NS_CC;
 
@@ -166,6 +168,11 @@ void LoginScene::addTextBoxesToLayer()
 
 void LoginScene::addButtonsToLayer()
 {
+    previewModeButton = ElectricDreamsButton::createCancelButton();
+    previewModeButton->setCenterPosition(Vec2(origin.x+previewModeButton->getContentSize().width, visibleSize.height - previewModeButton->getContentSize().height));
+    previewModeButton->setDelegate(this);
+    loginContent->addChild(previewModeButton);
+    
     loginOptionButton = ElectricDreamsButton::createTextAsButton(StringStorage::getInstance()->getStringForLoginScene("loginButton"));
     loginOptionButton->setCenterPosition(Vec2(origin.x+visibleSize.width * 0.5, visibleSize.height*0.35));
     loginOptionButton->setDelegate(this);
@@ -271,6 +278,13 @@ void LoginScene::autoLogin(std::string username, std::string password)
     backEndCaller->login(username, password);
 }
 
+void LoginScene::moveToPreviewScene()
+{
+    HQHistoryManager::getInstance()->emptyHistory();
+    auto baseScene = BaseScene::createScene();
+    Director::getInstance()->replaceScene(baseScene);
+}
+
 //----------------------- Delegate Functions ----------------------------
 
 void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
@@ -292,5 +306,6 @@ void LoginScene::buttonPressed(ElectricDreamsButton* button)
     else if(button == emailNextButton) this->moveToAndSetupPasswordScreen(button);
     else if(button == passwordBackButton) this->moveToAndSetupEmailScreen(button);
     else if(button == loginButton) this->login(button);
+    else if(button == previewModeButton) this->moveToPreviewScene();
     
 }
