@@ -1,11 +1,11 @@
 #include "ChildAccountScene.h"
-#include "SimpleAudioEngine.h"
 #include "ModalMessages.h"
 #include "BackEndCaller.h"
 #include "ChildSelectorScene.h"
 #include "TextInputChecker.h"
 #include "StringStorage.h"
 #include "ConfigStorage.h"
+#include "AudioMixer.h"
 
 USING_NS_CC;
 
@@ -335,6 +335,7 @@ void ChildAccountScene::moveToAndSetupOomeeSelection(ElectricDreamsButton* butto
 
 void ChildAccountScene::selectOomee(Sprite* selectedOomee)
 {
+    AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
     buttonNextOomee->setVisible(true);
     
     for(int i=0;i<NO_OF_OOMEES;i++)

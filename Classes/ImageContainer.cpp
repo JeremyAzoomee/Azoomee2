@@ -1,5 +1,4 @@
 #include "ImageContainer.h"
-#include "SimpleAudioEngine.h"
 #include "WebViewSelector.h"
 #include "imageDownloader.h"
 #include "HQDataParser.h"
@@ -10,6 +9,7 @@
 #include "ModalMessages.h"
 #include "ChildDataProvider.h"
 #include "HQHistoryManager.h"
+#include "AudioMixer.h"
 
 USING_NS_CC;
 
@@ -126,7 +126,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         
         if(rect.containsPoint(locationInNode))
         {
-            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/boot.mp3");
+            AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             
             target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
             

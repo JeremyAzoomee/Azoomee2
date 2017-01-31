@@ -1,9 +1,9 @@
 #include "AwaitingAdultPinLayer.h"
 #include "ModalMessages.h"
 #include "StringStorage.h"
-#include "SimpleAudioEngine.h"
 #include "BackEndCaller.h"
 #include "ParentDataProvider.h"
+#include "AudioMixer.h"
 
 bool AwaitingAdultPinLayer::init()
 {
@@ -15,7 +15,7 @@ bool AwaitingAdultPinLayer::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+    AudioMixer::getInstance()->pauseBackgroundMusic();
     
     createAndFadeInLayer();
     addUIObjects();
@@ -119,7 +119,7 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
     {
-        CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+        AudioMixer::getInstance()->resumeBackgroundMusic();
         //Schedule so it calls delegate before removing self. Avoiding crash
         this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
         this->getDelegate()->AdultPinCancelled(this);

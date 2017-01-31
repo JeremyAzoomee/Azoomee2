@@ -1,7 +1,7 @@
 #include "WebViewNativeCaller_android.h"
-#include "SimpleAudioEngine.h"
 #include "CookieDataProvider.h"
 #include "ChildDataProvider.h"
+#include "AudioMixer.h"
 
 USING_NS_CC;
 
@@ -45,7 +45,7 @@ int WebViewNativeCaller_android::findPositionOfNthString(std::string string, std
 
 void WebViewNativeCaller_android::onEnterTransitionDidFinish()
 {
-    CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    AudioMixer::getInstance()->stopBackgroundMusic();
     Director::getInstance()->purgeCachedData();
     this->setName("androidWebView");
     

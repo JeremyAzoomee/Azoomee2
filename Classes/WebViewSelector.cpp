@@ -1,7 +1,7 @@
 #include "WebViewSelector.h"
 #include "CookieDataProvider.h"
-#include "SimpleAudioEngine.h"
 #include "ChildDataProvider.h"
+#include "AudioMixer.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "WebViewNative_ios.h"
@@ -73,7 +73,7 @@ std::string WebViewSelector::getUrlWithoutPath(std::string url)
 
 void WebViewSelector::loadWebView(std::string url)
 {
-    CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    AudioMixer::getInstance()->stopBackgroundMusic();
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     auto iosWebView = WebViewNative_ios::createSceneWithURL(url);

@@ -28,5 +28,8 @@ public:
     
     void playBackgroundMusic(std::string backgroundMusicToPlay);
     void playEffect(std::string effectToPlay);
+    void stopBackgroundMusic();
+    void pauseBackgroundMusic();
+    void resumeBackgroundMusic();
     
 };

@@ -5,7 +5,6 @@
 #include "HQScene.h"
 #include "HQSceneElement.h"
 #include "ArtsAppHQElement.h"
-#include "SimpleAudioEngine.h"
 #include "HQDataProvider.h"
 #include "ConfigStorage.h"
 #include "HQSceneElementPositioner.h"
