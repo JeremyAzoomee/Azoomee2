@@ -6,7 +6,6 @@ require.config({
         "fabricjs": "bower_components/fabric.js/dist/fabric.require",
         "angular-animate": "bower_components/angular-animate/angular-animate",
         'angular-ellipsis': 'bower_components/angular-ellipsis/src/angular-ellipsis.min',
-        'ngCordova': 'bower_components/ngCordova/dist/ng-cordova.min',
         'FastClick': 'bower_components/fastclick/lib/fastclick',
         'jquery': 'bower_components/jquery/dist/jquery.min',
         'appsflyer': 'bower_components/PhoneGap/www/appsflyer',
