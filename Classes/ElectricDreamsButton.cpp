@@ -1,5 +1,6 @@
 #include "ElectricDreamsButton.h"
 #include "ExitOrLogoutLayer.h"
+#include "AudioMixer.h"
 
 bool ElectricDreamsButton::init()
 {
@@ -26,6 +27,8 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string butto
     
     layer->addChild(textButton);
     
+    layer->buttonAudioFile = TEXT_BUTTON_AUDIO_EFFECT;
+    
     textButton->runAction(FadeTo::create(0.5, 255));
     
     layer->addListener();
@@ -44,6 +47,8 @@ ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string but
     layer->addChild(newButton);
     
     newButton->runAction(FadeTo::create(0.5, 255));
+    
+    layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
     
     layer->addListener();
     
@@ -89,6 +94,8 @@ ElectricDreamsButton* ElectricDreamsButton::createNextButton()
     
     layer->addChild(nextButton);
     
+    layer->buttonAudioFile = NEXT_BUTTON_AUDIO_EFFECT;
+    
     layer->addListener();
     
     return layer;
@@ -104,6 +111,8 @@ ElectricDreamsButton* ElectricDreamsButton::createBackButton()
     layer->setContentSize(backButton->getContentSize());
     
     layer->addChild(backButton);
+    
+    layer->buttonAudioFile = BACK_BUTTON_AUDIO_EFFECT;
     
     layer->addListener();
     
@@ -123,6 +132,8 @@ ElectricDreamsButton* ElectricDreamsButton::createAcceptButton()
     
     acceptButton->runAction(FadeTo::create(0.5, 255));
     
+    layer->buttonAudioFile = ACCEPT_BUTTON_AUDIO_EFFECT;
+    
     layer->addListener();
     
     return layer;
@@ -140,6 +151,8 @@ ElectricDreamsButton* ElectricDreamsButton::createCancelButton()
     layer->addChild(cancelButton);
     
     cancelButton->runAction(FadeTo::create(0.5, 255));
+    
+    layer->buttonAudioFile = CANCEL_BUTTON_AUDIO_EFFECT;
     
     layer->addListener();
     
@@ -159,6 +172,8 @@ ElectricDreamsButton* ElectricDreamsButton::createSettingsButton(float creationD
     
     float randomDelay = RandomHelper::random_real(0.2, 0.7);
     settingsButton->runAction(Sequence::create(DelayTime::create(creationDelay + randomDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    
+    layer->buttonAudioFile = SETTINGS_BUTTON_AUDIO_EFFECT;
     
     layer->addListener();
     
@@ -184,6 +199,8 @@ void ElectricDreamsButton::addListener()
         
         if(rect.containsPoint(locationInNode) && this->isVisible())
         {
+            AudioMixer::getInstance()->playEffect(buttonAudioFile);
+            
             if(isSettingsButton)
                 ExitOrLogoutLayer::create();
             else

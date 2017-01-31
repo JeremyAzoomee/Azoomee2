@@ -17,7 +17,8 @@ private:
     ElectricDreamsButton *skipButton;
     ElectricDreamsButton *startExporingButton;
     
-    int currentSlideIndex;
+    long currentSlideIndex;
+    bool slideShowStarted;
     PageView* _pageView;
     
     void createButtons();

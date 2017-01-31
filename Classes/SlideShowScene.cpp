@@ -2,6 +2,7 @@
 #include "ConfigStorage.h"
 #include "BaseScene.h"
 #include "StringStorage.h"
+#include "AudioMixer.h"
 
 Scene* SlideShowScene::createScene()
 {
@@ -92,6 +93,9 @@ void SlideShowScene::SheduleSlideSpriteCreation(float dt)
 
 void SlideShowScene::createPageView()
 {
+    currentSlideIndex = 0;
+    slideShowStarted = false;
+    
     _pageView = PageView::create();
     _pageView->setDirection(PageView::Direction::HORIZONTAL);
     _pageView->setContentSize(visibleSize);
@@ -122,9 +126,9 @@ void SlideShowScene::createPageView()
     _pageView->insertCustomItem(layout5,4);
     _pageView->insertCustomItem(layout6,5);
     
-    this->scheduleOnce(schedule_selector(SlideShowScene::SheduleSlideSpriteCreation),0.5);
-    
     _pageView->scrollToItem(0);
+    
+    this->scheduleOnce(schedule_selector(SlideShowScene::SheduleSlideSpriteCreation),0.3);
     
     _pageView->addEventListener((PageView::ccPageViewCallback)CC_CALLBACK_2(SlideShowScene::pageViewEvent, this));
     
@@ -140,6 +144,15 @@ void SlideShowScene::pageViewEvent(Ref *pSender, PageView::EventType type)
         case PageView::EventType::TURNING:
         {
             _pageView->stopAllActions();
+            
+            //Slideshow started - stops sound for first slide, as it is always delayed
+            if(currentSlideIndex > _pageView->getCurrentPageIndex() && slideShowStarted)
+                AudioMixer::getInstance()->playEffect(SWIPE_LEFT_AUDIO_EFFECT);
+            else if(slideShowStarted)
+                AudioMixer::getInstance()->playEffect(SWIPE_RIGHT_AUDIO_EFFECT);
+            
+            slideShowStarted = true;
+            currentSlideIndex = _pageView->getCurrentPageIndex();
             
             auto nextSlideCallback = CallFunc::create(CC_CALLBACK_0(SlideShowScene::pageViewScrollToNextPage, this));
             
