@@ -1,6 +1,4 @@
-<div id="dynamicStyle" style="display: none">
-    <style type="text/css">
-        .selected .st0 {
+<div id="dynamicStyle" style="display: none"><style type="text/css">.selected .st0 {
             fill: {{selectedColor}};
         }
         .st3 {
@@ -13,17 +11,10 @@
         .st2{fill:url(#SVGID_2_);}
         .selectedColour {
         background-color: {{selectedColor}};
-        }
-    </style>
-
-    <?xml version="1.0" encoding="UTF-8"?>
-    <style type="text/css" ng-if="selectedPattern !== null">
-        .selected .st0 {
+        }</style><?xml version="1.0" encoding="UTF-8"?><style type="text/css" ng-if="selectedPattern !== null">.selected .st0 {
             fill: url("#img1");
         }
         .selectedColour {
             background-image: url('{{selectedPattern.displayImage.src}}');
             background-size: contain;
-        }
-    </style>
-</div>
+        }</style></div>
