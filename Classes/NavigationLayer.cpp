@@ -356,11 +356,15 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
             hqLayer->removeAllChildren();
             Director::getInstance()->purgeCachedData();
             
-            this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
-            if(HQHistoryManager::getInstance()->getPreviousHQ() == "HOME") return true;
+            HQHistoryManager::getInstance()->getHistoryLog();
             
-            HQScene *hqLayer2 = (HQScene *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
-            hqLayer2->startBuildingScrollViewBasedOnName();
+            if(HQHistoryManager::getInstance()->getPreviousHQ() != "HOME")
+            {
+                HQScene *hqLayer2 = (HQScene *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
+                hqLayer2->startBuildingScrollViewBasedOnName();
+            }
+            
+            this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
 
             return true;
         }

@@ -246,7 +246,7 @@ void ModalMessages::createPreviewLoginSignupMessageBox()
 //------------- SOMETHING WENT WRONG --------------------
 void ModalMessages::createSomethingWentWrongMessage()
 {
-    std::map<std::string, std::string> errorStringMap = StringStorage::getInstance()->getErrorMessageStrings(-1);
+    std::map<std::string, std::string> errorStringMap = StringStorage::getInstance()->getErrorMessageStrings(-2);
     
     if(messageBoxButtonTitles.size() == 0)
     {
