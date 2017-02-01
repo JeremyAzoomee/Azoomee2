@@ -72,6 +72,7 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(6)), 2), DelayTime::create(0.5), NULL));
     
     moveMenuPointsToHorizontalState(0.5);
+    turnOffAllMenuItems();
     addBackButtonToNavigation();
 }
 
