@@ -1,0 +1,4 @@
+mvn install:install-file -DgroupId=org.xwalk -DartifactId=xwalk_core_library \
+      -Dversion=22.52.561.4-arm64 -Dpackaging=aar  \
+      -Dfile=/Users/tamas/Documents/works/cocos2d-x/azoomee2/xwalk_libraries/xwalk_core_library-22.52.561.4-arm64.aar  \
+      -DgeneratePom=true
