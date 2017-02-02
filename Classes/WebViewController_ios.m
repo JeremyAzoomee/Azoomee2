@@ -220,13 +220,13 @@
     
     
     [webview removeFromSuperview];
-    webview = nil;
     
     [currentButton removeFromSuperview];
     
     [useridToUse release];
     [urlToLoad release];
     [webview release];
+    webview = nil;
     
     navigateToBaseScene();
     

@@ -128,6 +128,11 @@ void LoginScene::addContentLayerToScene()
 
 void LoginScene::addLabelsToLayer()
 {
+    auto versionTitle = Label::createWithTTF(APP_VERSION_NUMBER, "fonts/azoomee.ttf", 50);
+    versionTitle->setPosition(versionTitle->getContentSize().width,versionTitle->getContentSize().height);
+    versionTitle->setColor(Color3B(28, 244, 244));
+    loginContent->addChild(versionTitle);
+    
     auto doYouWantToTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForLoginScene("signUpLoginLabel"), "fonts/azoomee.ttf", 90);
     doYouWantToTitle->setPosition(origin.x+visibleSize.width * 0.5, visibleSize.height*0.65);
     doYouWantToTitle->setColor(Color3B::WHITE);
