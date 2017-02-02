@@ -26,6 +26,10 @@
 #define SKIP_BUTTON_TEXT "Skip"
 #define START_EXPLORING_BUTTON_TEXT "Start Exploring"
 
+//-----------------Get Version Number -----------------
+
+#define APP_VERSION_NUMBER cocos2d::FileUtils::getInstance()->getStringFromFile("res/Version.txt")
+
 class StringStorage : public cocos2d::Ref
 {
     

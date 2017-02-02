@@ -53,6 +53,13 @@ void ExitOrLogoutLayer::addListenerToBackgroundLayer()
 
 void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
 {
+    //-------- VERSION NUBMER ---------
+    
+    auto versionTitle = Label::createWithTTF(APP_VERSION_NUMBER, "fonts/azoomee.ttf", 60);
+    versionTitle->setPosition(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.05);
+    versionTitle->setColor(Color3B(28, 244, 244));
+    backgroundLayer->addChild(versionTitle);
+    
     // ------- CANCEL BUTTON ----------
     
     cancelButton = ElectricDreamsButton::createCancelButton();
