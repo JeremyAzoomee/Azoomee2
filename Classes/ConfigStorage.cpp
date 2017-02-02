@@ -207,6 +207,11 @@ float ConfigStorage::getScrollviewTitleTextHeight()
     return 90;
 }
 
+Size ConfigStorage::getGroupHQLogoSize()
+{
+    return Size(920, 372);
+}
+
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 
 cocos2d::Point ConfigStorage::getCirclePositionForMenuItem(int itemNumber)
@@ -236,6 +241,23 @@ cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(int itemNumber)
     positions.push_back(Point(1957, visibleOrigin.y + visibleSize.height - 180));
     positions.push_back(Point(1721, visibleOrigin.y + visibleSize.height - 180));
     positions.push_back(Point(1484, visibleOrigin.y + visibleSize.height - 180));
+    
+    return positions.at(itemNumber);
+}
+
+cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(int itemNumber)
+{
+    std::vector<Point> positions;
+    
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Point visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    
+    positions.push_back(Point(775, visibleOrigin.y + visibleSize.height + 300));
+    positions.push_back(Point(1011, visibleOrigin.y + visibleSize.height + 300));
+    positions.push_back(Point(1248, visibleOrigin.y + visibleSize.height + 300));
+    positions.push_back(Point(1957, visibleOrigin.y + visibleSize.height + 300));
+    positions.push_back(Point(1721, visibleOrigin.y + visibleSize.height + 300));
+    positions.push_back(Point(1484, visibleOrigin.y + visibleSize.height + 300));
     
     return positions.at(itemNumber);
 }

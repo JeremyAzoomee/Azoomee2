@@ -71,7 +71,7 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
     this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(6)), 2), DelayTime::create(0.5), NULL));
     
-    moveMenuPointsToHorizontalState(0.5);
+    moveMenuPointsToHorizontalStateInGroupHQ(0.5);
     turnOffAllMenuItems();
     addBackButtonToNavigation();
 }
@@ -102,13 +102,21 @@ void NavigationLayer::changeToScene(int target, float duration)
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
     this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(duration, ConfigStorage::getInstance()->getTargetPositionForMove(target)), 2), DelayTime::create(duration), NULL));
     
-    if((target != 0)&&(target != 3))
-    {
-        moveMenuPointsToHorizontalState(duration);
-    }
-    else
-    {
-        moveMenuPointsToCircleState(duration);
+    
+    switch (target) {
+        case 0:
+            moveMenuPointsToCircleState(duration);
+            break;
+        case 3:
+            moveMenuPointsToCircleState(duration);
+            break;
+        case 6:
+            moveMenuPointsToHorizontalStateInGroupHQ(duration);
+            break;
+            
+        default:
+            moveMenuPointsToHorizontalState(duration);
+            break;
     }
 }
 
@@ -312,6 +320,24 @@ void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
         
         menuItemImage->runAction(sequence);
     }
+}
+
+void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
+{
+    for(int i = 0; i <= amountOfItems; i++)
+    {
+        auto menuItemImage = (Sprite *)this->getChildByTag(i);
+        Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItemInGroupHQ(i);
+        float delayTime = 0;
+        
+        menuItemImage->stopAction(menuItemImage->getActionByTag(1));
+        
+        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(duration, targetPosition), 2), NULL);
+        sequence->setTag(1);
+        
+        menuItemImage->runAction(sequence);
+    }
+
 }
 
 void NavigationLayer::addBackButtonToNavigation()

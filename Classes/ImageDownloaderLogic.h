@@ -12,6 +12,7 @@ public:
     std::string imageIdPath;
     cocos2d::Node *senderNode;
     std::string actualHQWhenLoaded;
+    bool groupLogo;
     
 private:
     std::string getFileNameFromURL(std::string url);

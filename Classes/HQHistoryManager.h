@@ -22,4 +22,10 @@ public:
     
     std::vector<std::string> hqNames;
     
+    //Adding last group source ID
+    
+    void setGroupHQSourceId(std::string itemId);
+    std::string getGroupHQSourceId();
+    std::string lastGroupHQSourceId;
+    
    };

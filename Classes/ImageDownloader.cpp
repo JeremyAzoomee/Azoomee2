@@ -24,6 +24,18 @@ bool ImageDownloader::initWithURLAndSize(std::string url, Size size)
     return true;
 }
 
+bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, cocos2d::Size size)
+{
+    this->setCascadeOpacityEnabled(true);
+    this->setContentSize(size);
+    
+    ImageDownloaderLogic *imageDownloaderLogic = new ImageDownloaderLogic();
+    imageDownloaderLogic->groupLogo = true;
+    imageDownloaderLogic->startProcessingImage(this, url);
+    
+    return true;
+}
+
 void ImageDownloader::addPlaceHolderImage()
 {
     auto placeHolderImage = Sprite::create("res/hqscene/placeholder.png");

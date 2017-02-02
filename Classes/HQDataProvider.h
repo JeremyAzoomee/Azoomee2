@@ -26,6 +26,8 @@ public:
     std::string getImageUrlForItem(std::string itemId, cocos2d::Vec2 shape);
     std::string getTypeForSpecificItem(std::string category, std::string itemId);
     
+    std::string getImageUrlForGroupLogo(std::string itemId);
+    
     //Callback to start building HQ
     void startBuildingHQ(std::string category);
     

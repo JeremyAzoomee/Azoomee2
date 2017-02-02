@@ -10,6 +10,7 @@
 #include "ChildDataProvider.h"
 #include "HQHistoryManager.h"
 #include "AudioMixer.h"
+#include "HQScene.h"
 
 USING_NS_CC;
 
@@ -161,6 +162,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
                 
                 auto funcCallAction = CallFunc::create([=](){
                     HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                    HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
                 });
                 
                 this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
@@ -172,6 +174,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
                 
                 auto funcCallAction2 = CallFunc::create([=](){
                     HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                    HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
                 });
                 
                 this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));

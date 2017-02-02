@@ -10,6 +10,8 @@
 #include "HQSceneElementPositioner.h"
 #include <dirent.h>
 #include "ChildDataProvider.h"
+#include "ImageDownloader.h"
+#include "HQHistoryManager.h"
 
 USING_NS_CC;
 
@@ -48,12 +50,33 @@ void HQScene::startBuildingScrollViewBasedOnName()
     
     if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.
     {
+        if(this->getName() == "GROUP HQ") addGroupHQLogo();
+        
         if(this->getName() == "ARTS APP") createArtsAppScrollView();
         else createBidirectionalScrollView();
     }
 }
 
 //------------------ All functions below this line are used internally ----------------------------
+
+void HQScene::addGroupHQLogo()
+{
+    if(HQHistoryManager::getInstance()->getGroupHQSourceId() != "")
+    {
+        std::string groupHQLogoUrl = HQDataProvider::getInstance()->getImageUrlForGroupLogo(HQHistoryManager::getInstance()->getGroupHQSourceId());
+        
+        Size visibleSize = Director::getInstance()->getVisibleSize();
+        Point visibleOrigin = Director::getInstance()->getVisibleOrigin();
+        
+        this->removeChild(this->getChildByName("groupLogo"));
+        
+        auto groupLogo = ImageDownloader::create();
+        groupLogo->initWithUrlAndSizeWithoutPlaceholder(groupHQLogoUrl, ConfigStorage::getInstance()->getGroupHQLogoSize());
+        groupLogo->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height - groupLogo->getContentSize().height * 0.8);
+        groupLogo->setName("groupLogo");
+        this->addChild(groupLogo);
+    }
+}
 
 void HQScene::createMonodirectionalScrollView()
 {
@@ -80,6 +103,8 @@ void HQScene::createBidirectionalScrollView()
     auto verticalScrollView = createVerticalScrollView();
     verticalScrollView->setName("scrollView");
     this->addChild(verticalScrollView);
+    
+    if(this->getName() == "GROUP HQ") verticalScrollView->cocos2d::Node::setPosition(origin.x , origin.y - 200);
     
     float verticalScrollViewHeight = (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2) + (ConfigStorage::getInstance()->getScrollviewTitleTextHeight() * 1.5);
     

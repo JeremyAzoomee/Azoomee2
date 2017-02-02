@@ -46,6 +46,13 @@ std::string HQDataProvider::getImageUrlForItem(std::string itemId, Vec2 shape)
     return returnString;
 }
 
+std::string HQDataProvider::getImageUrlForGroupLogo(std::string itemId)
+{
+    std::string returnString = StringUtils::format("%s/%s/logo.png", ConfigStorage::getInstance()->getImagesUrl().c_str(), itemId.c_str());
+    CCLOG("image for grouplogo: %s", returnString.c_str());
+    return returnString;
+}
+
 void HQDataProvider::startBuildingHQ(std::string category)
 {
     hideLoadingScreen();

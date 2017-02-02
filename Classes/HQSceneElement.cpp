@@ -22,6 +22,7 @@
 #include "ModalMessages.h"
 #include "HQScene.h"
 #include "AudioMixer.h"
+#include "HQHistoryManager.h"
 
 USING_NS_CC;
 
@@ -287,6 +288,7 @@ void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string 
         
         auto funcCallAction = CallFunc::create([=](){
             HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+            HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
@@ -298,6 +300,7 @@ void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string 
         
         auto funcCallAction2 = CallFunc::create([=](){
             HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+            HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));

@@ -28,6 +28,7 @@ private:
     void runDisplayAnimationForMenuItemQuick(cocos2d::Node* node1, cocos2d::Node* node2);
     
     void moveMenuPointsToHorizontalState(float duration);
+    void moveMenuPointsToHorizontalStateInGroupHQ(float duration);
     void moveMenuPointsToCircleState(float duration);
     void createSettingsButton();
     

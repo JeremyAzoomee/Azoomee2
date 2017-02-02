@@ -13,6 +13,8 @@ public:
     void startBuildingScrollViewBasedOnName();
 
 private:
+    void addGroupHQLogo();
+    
     bool directionDecided;
     cocos2d::Point startLocation;
     void addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView);
@@ -26,7 +28,6 @@ private:
 
     void createBidirectionalScrollView();
     void createMonodirectionalScrollView();
-    
     
     std::vector<bool> scrollViewSpaceAllocation;
     cocos2d::Point getItemPositionForBidirectionalScrollView(int highlight);

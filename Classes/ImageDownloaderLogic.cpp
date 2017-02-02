@@ -104,7 +104,7 @@ void ImageDownloaderLogic::removeLoadingAnimation()
 
 void ImageDownloaderLogic::removePlaceHolderImage()
 {
-    if(senderExists()) senderNode->removeChild(senderNode->getChildByName("placeHolderImage"), true);
+    if((senderExists())&&(!groupLogo)) senderNode->removeChild(senderNode->getChildByName("placeHolderImage"), true);
 }
 
 bool ImageDownloaderLogic::saveFileToServer(std::string data, std::string fileName)

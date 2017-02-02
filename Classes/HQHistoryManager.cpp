@@ -89,3 +89,15 @@ void HQHistoryManager::emptyHistory()
 {
     hqNames.clear();
 }
+
+//set last group hq sender id, so we can "remember" the group logo after rebuilding the scene in a group hq
+
+void HQHistoryManager::setGroupHQSourceId(std::string itemId)
+{
+    lastGroupHQSourceId = itemId;
+}
+
+std::string HQHistoryManager::getGroupHQSourceId()
+{
+    return lastGroupHQSourceId;
+}
