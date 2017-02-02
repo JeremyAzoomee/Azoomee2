@@ -317,7 +317,7 @@ void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
 void NavigationLayer::addBackButtonToNavigation()
 {
     auto backButtonImage = Sprite::create("res/hqscene/back_btn.png");
-    backButtonImage->setPosition(250, 1650);
+    backButtonImage->setPosition(origin.x + backButtonImage->getContentSize().width, ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(1).y);
     backButtonImage->setOpacity(0);
     backButtonImage->setName("backButton");
     this->addChild(backButtonImage);
