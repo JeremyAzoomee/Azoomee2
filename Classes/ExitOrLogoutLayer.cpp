@@ -122,6 +122,9 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == logoutButton)
     {
+        UserDefault::getInstance()->getStringForKey("password", "");
+        UserDefault::getInstance()->flush();
+        
         AudioMixer::getInstance()->stopBackgroundMusic();
         
         auto loginScene = LoginScene::createScene(0);

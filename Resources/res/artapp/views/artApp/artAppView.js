@@ -78,6 +78,18 @@ define([
                             $scope.patterns = {};
                             controller.setupScopeFunctionBindings();
                             $scope.sharingOverlayShown = false;
+                            // check for retina display
+                            try {
+                                if (window.devicePixelRatio >= 2) {
+                                    console.log("***** retina");
+                                    $scope.deviceRatio = 0.5;
+                                } else {
+                                    console.log("** NO RETINA");
+                                    $scope.deviceRatio = 1;
+                                }
+                            } catch (e) {
+                                $scope.deviceRatio = 1;
+                            }
                             controller.scale = 1;
                             this.setBrushScopeVariables();
                             $scope.canvasWidth = $('#artApp').width();
@@ -104,6 +116,10 @@ define([
                                 $scope.isOffline = connectivityHelper.isOffline();
                             }, true);
                             $scope.isOffline = connectivityHelper.isOffline();
+                            $timeout(function () {
+                                $rootScope.gootToGo=true;
+                            },3000);
+                            //;
 
                         },
                         setupScopeFunctionBindings: function () {
@@ -589,7 +605,7 @@ define([
                             $scope.stickerOverlayShown = false;
                             controller.currentSticker = sticker;
                             $scope.drawingMode = false;
-                            controller.scale = 1;
+                            controller.scale = $scope.deviceRatio;
                             controller.currentTool = 'sticker';
                             controller.stickerRotation = 360;
                             $scope.stickerPlacement = true;
@@ -666,6 +682,7 @@ define([
                             controller.clearCanvas(controller.$sketchCanvas);
                         },
                         calculateTouchPositionFromEvent: function (e) {
+
                             if (e.originalEvent.targetTouches) {
                                 e.pageX = e.originalEvent.targetTouches[0].pageX;
                                 e.pageY = e.originalEvent.targetTouches[0].pageY;

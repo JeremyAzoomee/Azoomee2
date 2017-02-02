@@ -64,6 +64,7 @@ define("app", [
     );
 
     app.init = function () {
+        console.log('init');
         function preload() {
             for (var i = 0; i < preload.arguments.length; i++) {
                 $('#preload').prepend($('<img>',{id:'preload' + i,src:preload.arguments[i]}));

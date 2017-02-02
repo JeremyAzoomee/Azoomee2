@@ -2,8 +2,9 @@
 #define __NAVIGATION_LAYER_H__
 
 #include "cocos2d.h"
+#include "ElectricDreamsButton.h"
 
-class NavigationLayer : public cocos2d::Layer
+class NavigationLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate
 {
     
     
@@ -14,9 +15,14 @@ public:
     void startLoadingGroupHQ(std::string uri);
     void changeToScene(int target, float duration);
     
+    //Delegate Functions
+    void buttonPressed(ElectricDreamsButton* button);
+    
 private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
+    
+    ElectricDreamsButton *previewLoginButton;
 
     //MenuItem creation phase
     cocos2d::Sprite* addMenuItemImage(int itemNumber);
@@ -31,6 +37,7 @@ private:
     void moveMenuPointsToHorizontalStateInGroupHQ(float duration);
     void moveMenuPointsToCircleState(float duration);
     void createSettingsButton();
+    void createPreviewLoginButton();
     
     //Handling created menuitems or all menuitems
     void turnOffAllMenuItems();
