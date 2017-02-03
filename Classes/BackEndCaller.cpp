@@ -17,6 +17,7 @@
 #include "ConfigStorage.h"
 #include "AwaitingAdultPinLayer.h"
 #include "HQHistoryManager.h"
+#include "MixPanelCalls.h"
 
 using namespace cocos2d;
 
@@ -83,7 +84,11 @@ void BackEndCaller::login(std::string username, std::string password)
 void BackEndCaller::onLoginAnswerReceived(std::string responseString)
 {
     CCLOG("Response string is: %s", responseString.c_str());
-    if(ParentDataParser::getInstance()->parseParentLoginData(responseString)) getAvailableChildren();
+    if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
+    {
+        getAvailableChildren();
+        mixPanel_signInSuccessEvent();
+    }
     else getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
 }
 
