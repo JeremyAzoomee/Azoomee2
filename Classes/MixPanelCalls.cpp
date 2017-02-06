@@ -14,7 +14,7 @@ void mixPanel_signInSuccessEvent()
     
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
-    mixPanelSendiOSEvent(mixPanelProperties, "CliveMP_TEST");
+    mixPanelSendiOSEvent(mixPanelProperties, "CliveMP_TEST_IOS");
     
     #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
         

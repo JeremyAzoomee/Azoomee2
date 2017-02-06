@@ -35,7 +35,7 @@
 		430B215B1E4487F9004ACB10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215A1E4487F9004ACB10 /* UIKit.framework */; };
 		430B215D1E448825004ACB10 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215C1E448825004ACB10 /* libicucore.tbd */; };
 		430B215F1E448AF6004ACB10 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215E1E448AF6004ACB10 /* AVFoundation.framework */; };
-		430B21631E449DAA004ACB10 /* MixPanel_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 430B21611E449DAA004ACB10 /* MixPanel_ios.mm */; };
+		430B21631E449DAA004ACB10 /* MixPanel_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 430B21611E449DAA004ACB10 /* MixPanel_ios.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		430B21661E449DC5004ACB10 /* MixPanelCalls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B21641E449DC5004ACB10 /* MixPanelCalls.cpp */; };
 		430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };

@@ -23,7 +23,5 @@ void mixPanelSendiOSEvent(std::map<std::string, std::string> map, std::string ev
     [[Mixpanel sharedInstance] track:[NSString stringWithUTF8String:eventID.c_str()]
          properties:[NSDictionary dictionaryWithDictionary:MutableDictionary]];
     
-    [MutableDictionary release];
-    [key release];
-    [value release];
+    MutableDictionary = nil;
 }
