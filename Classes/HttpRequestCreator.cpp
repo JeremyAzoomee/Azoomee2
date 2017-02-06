@@ -217,7 +217,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         
         CCLOG("response string: %s", responseDataString.c_str());
         CCLOG("response code: %ld", response->getResponseCode());
-
+        
         handleError(response->getHttpRequest()->getTag(), response->getResponseCode());
     }
 }

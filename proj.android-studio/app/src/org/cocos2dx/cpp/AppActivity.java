@@ -32,6 +32,8 @@ import javax.crypto.spec.SecretKeySpec;
 import android.util.Base64;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xwalk.core.XWalkCookieManager;
 import org.xwalk.core.XWalkView;
 
@@ -42,6 +44,8 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import io.fabric.sdk.android.Fabric;
 
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
+
 public class AppActivity extends Cocos2dxActivity {
 
     private static Context mContext;
@@ -49,6 +53,9 @@ public class AppActivity extends Cocos2dxActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
+
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         mContext = this;
 
@@ -100,5 +107,10 @@ public class AppActivity extends Cocos2dxActivity {
         Crashlytics.setUserName(ChildIdentifier);
     }
 
+    public void sendMixPanelWithEventID(String eventID, mixPanelProperties propertiesObject)
+    {
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
+        mixpanel.track(eventID, propertiesObject.getProperties());
+    }
 
 }
