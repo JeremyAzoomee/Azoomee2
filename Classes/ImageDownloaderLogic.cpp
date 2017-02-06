@@ -99,12 +99,24 @@ void ImageDownloaderLogic::downloadFileFromServerAnswerReceived(cocos2d::network
 
 void ImageDownloaderLogic::removeLoadingAnimation()
 {
-    if(senderExists()) senderNode->removeChild(senderNode->getChildByName("loadingAnimation"), true);
+    if(senderExists()&&(!groupLogo))
+    {
+        if(senderNode->getChildByName("loadingAnimation"))
+        {
+            senderNode->removeChild(senderNode->getChildByName("loadingAnimation"), true);
+        }
+    }
 }
 
 void ImageDownloaderLogic::removePlaceHolderImage()
 {
-    if((senderExists())&&(!groupLogo)) senderNode->removeChild(senderNode->getChildByName("placeHolderImage"), true);
+    if((senderExists())&&(!groupLogo))
+    {
+        if(senderNode->getChildByName("placeHolerImage"))
+        {
+            senderNode->removeChild(senderNode->getChildByName("placeHolderImage"), true);
+        }
+    }
 }
 
 bool ImageDownloaderLogic::saveFileToServer(std::string data, std::string fileName)
