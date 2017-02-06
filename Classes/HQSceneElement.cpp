@@ -201,6 +201,8 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
         Size s = target->getBoundingBox().size;//getContentSize();
         Rect rect = Rect(0,0,s.width, s.height);
         
+        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        
         if(rect.containsPoint(locationInNode))
         {
             overlayWhenTouched->setOpacity(150);
@@ -230,11 +232,12 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
     {
         if(iamtouched)
         {
+            overlayWhenTouched->setOpacity(0);
+            
             if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             iamtouched = false;
-            overlayWhenTouched->setOpacity(0);
             CCLOG("Action to come: %s", uri.c_str());
             
             if(!preview)
