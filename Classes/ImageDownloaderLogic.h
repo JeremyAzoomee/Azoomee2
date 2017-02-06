@@ -1,3 +1,6 @@
+#ifndef __IMAGEDOWNLOADER_LOGIC_H__
+#define __IMAGEDOWNLOADER_LOGIC_H__
+
 #include "cocos2d.h"
 #include "network/HttpClient.h"
 
@@ -13,6 +16,7 @@ public:
     cocos2d::Node *senderNode;
     std::string actualHQWhenLoaded;
     bool groupLogo;
+    bool senderDeleted;
     
 private:
     std::string getFileNameFromURL(std::string url);
@@ -29,6 +33,6 @@ private:
     
     cocos2d::network::HttpRequest *downloadRequest;
     cocos2d::FileUtils *fileUtils;
-    
-    bool senderExists();
 };
+
+#endif
