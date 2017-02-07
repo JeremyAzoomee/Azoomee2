@@ -49,12 +49,13 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 public class AppActivity extends Cocos2dxActivity {
 
     private static Context mContext;
+    private MixpanelAPI mixpanel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
+        mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         mContext = this;
@@ -107,10 +108,25 @@ public class AppActivity extends Cocos2dxActivity {
         Crashlytics.setUserName(ChildIdentifier);
     }
 
-    public void sendMixPanelWithEventID(String eventID, mixPanelProperties propertiesObject)
+    public static void sendMixPanelWithEventID(String eventID, String jsonPropertiesString)
     {
-        MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
-        mixpanel.track(eventID, propertiesObject.getProperties());
+        JSONObject _mixPanelProperties = null;
+
+        try {
+            _mixPanelProperties = new JSONObject(jsonPropertiesString);
+        }catch(JSONException e) {
+            _mixPanelProperties = null;
+        }
+
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
+        mixpanel.track(eventID, _mixPanelProperties);
+        //mixpanel.track(eventID, null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mixpanel.flush();
+        super.onDestroy();
     }
 
 }

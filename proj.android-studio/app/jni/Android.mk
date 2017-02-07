@@ -65,6 +65,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/ImageDownloaderLogic.cpp \
                    ../../../Classes/HQHistoryManager.cpp \
                    ../../../Classes/AudioMixer.cpp \
+                   ../../../Classes/MixPanelCalls.cpp \
                    ../../../Classes/JWTToolForceParent.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
