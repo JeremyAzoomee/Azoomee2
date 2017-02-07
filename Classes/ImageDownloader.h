@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "network/HttpClient.h"
+#include "ImageDownloaderLogic.h"
 
 class ImageDownloader : public cocos2d::Sprite
 {
@@ -12,11 +13,13 @@ public:
     virtual bool initWithUrlAndSizeWithoutPlaceholder(std::string url, cocos2d::Size size);
     void addDownloadedImage(std::string fileName);
     bool aboutToExit;
+    ImageDownloaderLogic *imageDownloaderLogic;
     
 private:
     void addPlaceHolderImage();
     void addLoadingAnimation();
     void onExitTransitionDidStart();
+    void onExit();
 };
 
 #endif

@@ -116,6 +116,7 @@ public class NativeView extends XWalkActivity {
             headers.put("Cookie", myCookies);
 
             XWalkCookieManager mCookieManager = new XWalkCookieManager();
+            mCookieManager.flushCookieStore();
             mCookieManager.setAcceptCookie(true);
             mCookieManager.setAcceptFileSchemeCookies(true);
 

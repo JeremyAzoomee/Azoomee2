@@ -1,6 +1,5 @@
 #include "ImageDownloader.h"
 #include "CookieDataStorage.h"
-#include "ImageDownloaderLogic.h"
 
 USING_NS_CC;
 using namespace network;
@@ -18,7 +17,7 @@ bool ImageDownloader::initWithURLAndSize(std::string url, Size size)
     this->addPlaceHolderImage();
     //this->addLoadingAnimation();
     
-    ImageDownloaderLogic *imageDownloaderLogic = new ImageDownloaderLogic();
+    imageDownloaderLogic = new ImageDownloaderLogic();
     imageDownloaderLogic->startProcessingImage(this, url);
     
     return true;
@@ -29,7 +28,7 @@ bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, coco
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     
-    ImageDownloaderLogic *imageDownloaderLogic = new ImageDownloaderLogic();
+    imageDownloaderLogic = new ImageDownloaderLogic();
     imageDownloaderLogic->groupLogo = true;
     imageDownloaderLogic->startProcessingImage(this, url);
     
@@ -78,5 +77,14 @@ void ImageDownloader::addDownloadedImage(std::string fileName)
 
 void ImageDownloader::onExitTransitionDidStart()
 {
+    
+    CCLOG("Sending false to downloadLogic");
     aboutToExit = true;
+}
+
+void ImageDownloader::onExit()
+{
+    CCLOG("onExit called");
+    if(imageDownloaderLogic) imageDownloaderLogic->senderDeleted = true;
+    Node::onExit();
 }

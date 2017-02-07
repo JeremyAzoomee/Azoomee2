@@ -1,7 +1,7 @@
 #include "ImageDownloaderLogic.h"
-#include "ImageDownloader.h"
 #include "CookieDataStorage.h"
 #include "HQHistoryManager.h"
+#include "ImageDownloader.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -99,12 +99,24 @@ void ImageDownloaderLogic::downloadFileFromServerAnswerReceived(cocos2d::network
 
 void ImageDownloaderLogic::removeLoadingAnimation()
 {
-    if(senderExists()) senderNode->removeChild(senderNode->getChildByName("loadingAnimation"), true);
+    if((!senderDeleted)&&(!groupLogo))
+    {
+        if(senderNode->getChildByName("loadingAnimation"))
+        {
+            senderNode->removeChild(senderNode->getChildByName("loadingAnimation"), true);
+        }
+    }
 }
 
 void ImageDownloaderLogic::removePlaceHolderImage()
 {
-    if((senderExists())&&(!groupLogo)) senderNode->removeChild(senderNode->getChildByName("placeHolderImage"), true);
+    if((!senderDeleted)&&(!groupLogo))
+    {
+        if(senderNode->getChildByName("placeHolderImage"))
+        {
+            senderNode->removeChild(senderNode->getChildByName("placeHolderImage"), true);
+        }
+    }
 }
 
 bool ImageDownloaderLogic::saveFileToServer(std::string data, std::string fileName)
@@ -128,7 +140,7 @@ void ImageDownloaderLogic::loadFileFromLocalCacheAsync(std::string fileName) //A
     removeLoadingAnimation();
     removePlaceHolderImage();
     
-    if(senderExists())
+    if(!senderDeleted)
     {
         ImageDownloader *workingFor = (ImageDownloader *)senderNode;
         workingFor->addDownloadedImage(getImageIdPath() + fileName);
@@ -143,20 +155,4 @@ std::string ImageDownloaderLogic::getImageIdPath()
 std::string ImageDownloaderLogic::getImageCachePath()
 {
     return fileUtils->getWritablePath() + "imageCache/";
-}
-
-bool ImageDownloaderLogic::senderExists()
-{
-    if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer"))
-    {
-        if(HQHistoryManager::getInstance()->getCurrentHQ() == actualHQWhenLoaded)
-        {
-           return true;
-        }
-        else return false;
-    }
-    else
-    {
-        return false;
-    }
 }
