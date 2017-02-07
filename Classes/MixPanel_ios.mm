@@ -25,3 +25,9 @@ void mixPanelSendiOSEvent(std::map<std::string, std::string> map, std::string ev
     
     MutableDictionary = nil;
 }
+
+void mixPanelSendiOSEvent(std::string eventID)
+{
+    [[Mixpanel sharedInstance] track:[NSString stringWithUTF8String:eventID.c_str()]
+                          properties:NULL];
+}

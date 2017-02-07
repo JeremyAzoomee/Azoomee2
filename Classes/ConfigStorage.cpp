@@ -2,6 +2,7 @@
 
 #include "ConfigStorage.h"
 #include "ParentDataProvider.h"
+#include "MixPanelCalls.h"
 
 using namespace cocos2d;
 
@@ -397,6 +398,7 @@ std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType
 void ConfigStorage::setFirstSlideShowSeen()
 {
     UserDefault::getInstance()->setStringForKey(USERDEFAULTS_FIRST_SLIDE_SHOW, SEEN_FIRST_SLIDE_SHOW_YES);
+    mixPanel_fistLaunchEvent();
 }
 
 bool ConfigStorage::shouldShowFirstSlideShowScene()
