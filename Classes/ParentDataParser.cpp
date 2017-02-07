@@ -33,7 +33,7 @@ bool ParentDataParser::init(void)
 
 bool ParentDataParser::parseParentLoginData(std::string responseData)
 {
-    ChildDataStorage::getInstance()->childLoggedIn = false;
+    logoutChild();
     ParentDataStorage::getInstance()->parentLoginData.Parse(responseData.c_str());
     
     if(ParentDataStorage::getInstance()->parentLoginData.HasMember("code"))
@@ -125,4 +125,9 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
     }
     
     return true;
+}
+
+void ParentDataParser::logoutChild()
+{
+    ChildDataStorage::getInstance()->childLoggedIn = false;
 }
