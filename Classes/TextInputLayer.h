@@ -59,7 +59,7 @@ public:
     
     CC_SYNTHESIZE(TextInputLayerDelegate*, _delegate, Delegate);
     
-    static TextInputLayer* createWithSize(Size inputBoxSize, int textInputType);
+    static TextInputLayer* createWithSize(cocos2d::Size inputBoxSize, int textInputType);
     
     void setCenterPosition(Vec2 position);
     

@@ -4,6 +4,7 @@ extern "C" {
 #endif
     
     void navigateToBaseScene();
+    void navigateToLoginScene();
     
 #ifdef __cplusplus
 }

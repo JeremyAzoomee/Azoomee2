@@ -2,6 +2,8 @@
 #include "CookieDataProvider.h"
 #include "ChildDataProvider.h"
 #include "AudioMixer.h"
+#include "LoginScene.h"
+#include "HQHistoryManager.h"
 
 USING_NS_CC;
 
@@ -85,3 +87,17 @@ bool WebViewNativeCaller_android::init()
     
     return true;
 }
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_getBackToLoginScreen(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_getBackToLoginScreen(JNIEnv* env, jobject thiz)
+{
+    HQHistoryManager::getInstance()->thereWasAnError = true;
+}
+
+#endif

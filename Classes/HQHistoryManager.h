@@ -28,4 +28,6 @@ public:
     std::string getGroupHQSourceId();
     std::string lastGroupHQSourceId;
     
+    bool thereWasAnError;
+    
    };

@@ -45,7 +45,7 @@ class MultiButtonMessageBoxLayer : public Layer, public ElectricDreamsButtonDele
 {
 private:
 
-    Size visibleSize;
+    cocos2d::Size visibleSize;
     Vec2 origin;
     
     std::vector<std::string> _buttonsTitleList;
