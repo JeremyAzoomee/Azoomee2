@@ -6,6 +6,7 @@
 #include "ConfigStorage.h"
 #include "LoginScene.h"
 #include "OnboardingScene.h"
+#include "MixPanelCalls.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -224,6 +225,10 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
 
 void HttpRequestCreator::handleError(std::string requestTag, long errorCode)
 {
-    if(requestTag == "registerParent") Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
+    if(requestTag == "registerParent")
+    {
+        mixPanel_accountCreatedErrorEvent(errorCode);
+        Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
+    }
     else Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));
 }

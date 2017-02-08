@@ -120,7 +120,20 @@ public class AppActivity extends Cocos2dxActivity {
 
         MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
         mixpanel.track(eventID, _mixPanelProperties);
-        //mixpanel.track(eventID, null);
+    }
+
+    public static void sendMixPanelSuperProperties(String jsonPropertiesString)
+    {
+        JSONObject _mixPanelProperties = null;
+
+        try {
+            _mixPanelProperties = new JSONObject(jsonPropertiesString);
+        }catch(JSONException e) {
+            _mixPanelProperties = null;
+        }
+
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
+        mixpanel.registerSuperProperties(_mixPanelProperties);
     }
 
     @Override

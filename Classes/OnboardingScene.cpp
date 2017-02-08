@@ -3,6 +3,7 @@
 #include "BackEndCaller.h"
 #include "LoginScene.h"
 #include "StringStorage.h"
+#include "MixPanelCalls.h"
 
 USING_NS_CC;
 
@@ -254,10 +255,25 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
 {
     disableButton(button);
     
-    if(button == buttonBackEmail) closeOnboarding();
-    else if(button == buttonNextEmail) moveToAndSetupPasswordScreen(button);
-    else if(button == buttonBackPassword) moveToAndSetupEmailScreen(button);
-    else if(button == buttonNextPassword) moveToAndSetupPinScreen(button);
-    else if(button == buttonBackPin) moveToAndSetupPasswordScreen(button);
-    else if(button == buttonSignUp) signUp();
+    if(button == buttonBackEmail)
+        closeOnboarding();
+    else if(button == buttonNextEmail)
+    {
+        moveToAndSetupPasswordScreen(button);
+        mixPanel_emailSubmittedEvent();
+    }
+    else if(button == buttonBackPassword)
+        moveToAndSetupEmailScreen(button);
+    else if(button == buttonNextPassword)
+    {
+        moveToAndSetupPinScreen(button);
+        mixPanel_passwordSubmittedEvent();
+    }
+    else if(button == buttonBackPin)
+        moveToAndSetupPasswordScreen(button);
+    else if(button == buttonSignUp)
+    {
+        mixPanel_pinSubmittedEvent();
+        signUp();
+    }
 }

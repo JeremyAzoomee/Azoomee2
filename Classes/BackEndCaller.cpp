@@ -89,7 +89,11 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
         getAvailableChildren();
         mixPanel_signInSuccessEvent();
     }
-    else getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
+    else
+    {
+        mixPanel_signInFailEvent(0);
+        getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
+    }
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
@@ -222,6 +226,7 @@ void BackEndCaller::registerParent(std::string emailAddress, std::string passwor
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
+    mixPanel_accountCreatedEvent();
     login(this->registerParentUsername, this->registerParentPassword);
 }
 
