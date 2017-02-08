@@ -151,6 +151,8 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
 
 void BackEndCaller::childLogin(int childNumber)
 {
+    HQDataParser::getInstance()->clearAllHQData();
+    
     displayLoadingScreen();
     
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
