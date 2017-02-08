@@ -17,6 +17,7 @@ USING_NS_CC;
 #include "CookieDataStorage.h"
 #include "BackEndCaller.h"
 #include "ModalMessages.h"
+#include "LoginScene.h"
 
 
 using namespace network;
@@ -131,6 +132,10 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
         }
         
     }
+    else
+    {
+        Director::getInstance()->replaceScene(LoginScene::createSceneWithAutoLoginAndErrorDisplay());
+    }
 }
 
 bool GameDataManager::checkIfFileExists(std::string fileWithPath)
@@ -190,6 +195,10 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
         
         unzipGame(targetPath.c_str(), basePath.c_str(), nullptr);
+    }
+    else
+    {
+        Director::getInstance()->replaceScene(LoginScene::createSceneWithAutoLoginAndErrorDisplay());
     }
 }
 
