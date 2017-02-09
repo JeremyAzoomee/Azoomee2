@@ -243,7 +243,7 @@ void mixPanel_childProfileOomeeEvent(int oomeeNumber)
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    mixPanel_androidJNIHelper(eventID,ConfigStorage::getInstance()->getOomeeColour(oomeeNumber));
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"selectedOomee\":\"%s\"}",ConfigStorage::getInstance()->getOomeeColour(oomeeNumber).c_str()));
     
 #endif
 }
