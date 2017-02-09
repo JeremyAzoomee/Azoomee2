@@ -1,5 +1,7 @@
 #include "MixPanelCalls.h"
 #include "StringStorage.h"
+#include "TextInputChecker.h"
+#include "ConfigStorage.h"
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -40,50 +42,7 @@ void mixPanel_androidJNIHelper(std::string eventID, std::string propertiesJSONSt
 #endif
 }
 
-//-------------- SUPER PROPERTIES
-
-//When capturing account status, if possible capture date created, type etc.
-void mixPanel_registerSuperProperties(std::string ParentID, std::string AccountStatus, std::string ChildID, std::string ChildGender,std::string ChildDob)
-{
-    std::string KEY_ParentID = "parentID";
-    std::string KEY_AccountStatus = "accountStatus";
-    std::string KEY_ChildID = "childID";
-    std::string KEY_ChildGender = "sex";
-    std::string KEY_ChildDOB = "dob";
-    std::string KEY_SWVersion = "appVersion";
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    
-    std::map<std::string, std::string> mixPanelProperties;
-    
-    mixPanelProperties[KEY_ParentID] = ParentID;
-    mixPanelProperties[KEY_AccountStatus] = AccountStatus;
-    mixPanelProperties[KEY_ChildID] = ChildID;
-    mixPanelProperties[KEY_ChildGender] = ChildGender;
-    mixPanelProperties[KEY_ChildDOB] = ChildDob;
-    mixPanelProperties[KEY_SWVersion] = APP_VERSION_NUMBER;
-    
-    mixPanel_registerSuperProperties_iOS(mixPanelProperties);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    cocos2d::JniMethodInfo methodInfo;
-    
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "sendMixPanelSuperProperties", "(Ljava/lang/String;)V"))
-    {
-        return;
-    }
-    
-   std::string propertiesJSONString = cocos2d::StringUtils::format("{\"%s\":\"%s\",\"%s\":\"%s\",\"%s\":\"%s\",\"%s\":\"%s\",\"%s\":\"%s\",\"%s\":\"%s\"}", KEY_ParentID.c_str(),ParentID.c_str(),KEY_AccountStatus.c_str(),AccountStatus.c_str(),KEY_ChildID.c_str(),ChildID.c_str(),KEY_ChildGender.c_str(),ChildGender.c_str(),KEY_ChildDOB.c_str(),ChildDob.c_str(),KEY_SWVersion.c_str(),APP_VERSION_NUMBER.c_str());
-    
-    jstring jstringJSONProperties= methodInfo.env->NewStringUTF(propertiesJSONString.c_str());
-    
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID,jstringJSONProperties);
-    
-    methodInfo.env->DeleteLocalRef(methodInfo.classID);
-    
-#endif
-}
+//-------------- SUPER PROPERTIES---------------------
 
 void mixPanel_OSSpecificSuperPropertiesCall(std::string Key, std::string Property)
 {
@@ -114,21 +73,64 @@ void mixPanel_OSSpecificSuperPropertiesCall(std::string Key, std::string Propert
 #endif
 }
 
-void mixPanel_registerParentID(std::string ParentID)
+void mixPanel_registerAppVersion()
 {
-    mixPanel_OSSpecificSuperPropertiesCall("ParentID",ParentID);
+    mixPanel_OSSpecificSuperPropertiesCall("appVersion",APP_VERSION_NUMBER);
 }
 
-void mixPanel_registerChildID(std::string ChildID)
+void mixPanel_registerParentID(std::string ParentID)
 {
-    mixPanel_OSSpecificSuperPropertiesCall("ChildID",ChildID);
+    mixPanel_OSSpecificSuperPropertiesCall("parentID",ParentID);
+}
+
+void mixPanel_registerNoOfChildren(int noOfChildren)
+{
+    mixPanel_OSSpecificSuperPropertiesCall("noOfChildren",cocos2d::StringUtils::format("%d", noOfChildren));
 }
 
 void mixPanel_registerAzoomeeEmail(std::string emailAddress)
 {
-    if (emailAddress.find("azoomee") != std::string::npos) {
-        //.. found.
-    }
+    std::string azoomeEmail = "NO";
+    
+    if (hasAzoomeeEmailAddress(emailAddress))
+        azoomeEmail = "YES";
+    
+    mixPanel_OSSpecificSuperPropertiesCall("azoomeeEmail",azoomeEmail);
+}
+
+void mixPanel_registerAccountStatus(std::string Status)
+{
+    mixPanel_OSSpecificSuperPropertiesCall("accountStatus",Status);
+}
+
+void mixPanel_registerChildID(std::string ChildID)
+{
+    mixPanel_OSSpecificSuperPropertiesCall("childID",ChildID);
+}
+
+void mixPanel_registerChildGender(std::string ChildGender)
+{
+    mixPanel_OSSpecificSuperPropertiesCall("sex",ChildGender);
+}
+
+void mixPanel_registerChildDOB(std::string ChildDOB)
+{
+    mixPanel_OSSpecificSuperPropertiesCall("dob",ChildDOB);
+}
+
+void mixPanel_logoutChild()
+{
+    mixPanel_OSSpecificSuperPropertiesCall("childID","");
+    mixPanel_OSSpecificSuperPropertiesCall("sex","");
+    mixPanel_OSSpecificSuperPropertiesCall("dob","");
+}
+
+void mixPanel_logoutParent()
+{
+    mixPanel_logoutChild();
+    mixPanel_OSSpecificSuperPropertiesCall("accountStatus","");
+    mixPanel_OSSpecificSuperPropertiesCall("parentID","");
+    mixPanel_OSSpecificSuperPropertiesCall("azoomeeEmail","");
 }
 
 //-------------Startup--------------------
@@ -219,20 +221,34 @@ void mixPanel_childProdileNameErrorEvent()
 
 void mixPanel_childProfileDOBEvent()
 {
-    createOSSpecficCall("childProfileNameError");
+    createOSSpecficCall("childProfileDOB");
 }
 
 void mixPanel_childProfileDOBErrorEvent()
 {
     //There are no errors defined at present for this function.
+    //createOSSpecficCall("childProfileDOBError");
 }
 
-void mixPanel_childProfileOomeeEvent()
+void mixPanel_childProfileOomeeEvent(int oomeeNumber)
 {
-    createOSSpecficCall("childProfileNameError");
+    std::string eventID = "childProfileOomee";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    std::map<std::string, std::string> mixPanelProperties;
+    
+    mixPanelProperties["selectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
+    
+    mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_androidJNIHelper(eventID,ConfigStorage::getInstance()->getOomeeColour(oomeeNumber));
+    
+#endif
 }
 
-void mixPanel_childProfileCreatedSuccessEvent()
+void mixPanel_childProfileCreatedSuccessEvent(int oomeeNumber)
 {
     std::string eventID = "childProfileCreatedSuccess";
     
@@ -240,12 +256,13 @@ void mixPanel_childProfileCreatedSuccessEvent()
     std::map<std::string, std::string> mixPanelProperties;
     
     mixPanelProperties["Method"] = "App";
+    mixPanelProperties["selectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
     
     mixPanelSendiOSEvent(mixPanelProperties, eventID);
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    mixPanel_androidJNIHelper(eventID,"{\"Method\":\"App\"}");
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Method\":\"App\",\"selectedOomee\":\"%s\"}",ConfigStorage::getInstance()->getOomeeColour(oomeeNumber).c_str()));
     
 #endif
 }

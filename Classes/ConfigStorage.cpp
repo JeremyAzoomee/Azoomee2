@@ -99,6 +99,19 @@ std::string ConfigStorage::getOomeePNGName(int number)
     return oomeeNames[number];
 }
 
+std::string ConfigStorage::getOomeeColour(int number)
+{
+    std::map<int, std::string> oomeeNames;
+    
+    oomeeNames[0] = "Pink";
+    oomeeNames[1] = "Yellow";
+    oomeeNames[2] = "Raspberry";
+    oomeeNames[3] = "Green";
+    oomeeNames[4] = "Blue";
+    
+    return oomeeNames[number];
+}
+
 std::string ConfigStorage::getUrlForOomee(int number)
 {
     std::map<int, std::string> oomeeUrls;

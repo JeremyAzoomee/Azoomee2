@@ -7,6 +7,7 @@
 #include "LoginScene.h"
 #include "OnboardingScene.h"
 #include "MixPanelCalls.h"
+#include "ChildAccountScene.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -229,6 +230,11 @@ void HttpRequestCreator::handleError(std::string requestTag, long errorCode)
     {
         mixPanel_accountCreatedErrorEvent(errorCode);
         Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
+    }
+    else if(requestTag == "registerChild")
+    {
+        mixPanel_childProfileCreatedErrorEvent(errorCode);
+        Director::getInstance()->replaceScene(ChildAccountScene::createScene("", errorCode));
     }
     else Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));
 }

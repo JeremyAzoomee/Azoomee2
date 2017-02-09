@@ -33,7 +33,6 @@ void createCrashlyticsExecption(std::string execptionDomain, int execptionCode, 
 
 void createCrashlyticsUserInfo(std::string AdultIdentifier, std::string ChildIdentifier)
 {
-    mixPanel_registerSuperProperties(AdultIdentifier, "TEST", ChildIdentifier, "", "");
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     createCrashlyticsUserInfo_ios(AdultIdentifier, ChildIdentifier);

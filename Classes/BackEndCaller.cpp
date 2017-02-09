@@ -79,6 +79,8 @@ void BackEndCaller::login(std::string username, std::string password)
     def->setStringForKey("username", username);
     def->setStringForKey("password", password);
     def->flush();
+    
+    mixPanel_registerAzoomeeEmail(username);
 }
 
 void BackEndCaller::onLoginAnswerReceived(std::string responseString)
@@ -244,5 +246,6 @@ void BackEndCaller::registerChild(std::string childProfileName, std::string chil
 
 void BackEndCaller::onRegisterChildAnswerReceived()
 {
+    mixPanel_childProfileCreatedSuccessEvent(-1);
     getAvailableChildren();
 }

@@ -6,6 +6,7 @@
 #include "StringStorage.h"
 #include "ConfigStorage.h"
 #include "AudioMixer.h"
+#include "MixPanelCalls.h"
 
 USING_NS_CC;
 
@@ -284,6 +285,7 @@ void ChildAccountScene::moveToAndSetupDOBInput(ElectricDreamsButton* button)
     {
         ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_NAME_EXISTS,editBox_childName);
         enableButton(button);
+        mixPanel_childProdileNameErrorEvent();
     }
     else
     {
@@ -347,6 +349,8 @@ void ChildAccountScene::selectOomee(Sprite* selectedOomee)
     selectedOomee->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.2)));
     
     this->selectedOomeeNo = selectedOomee->getTag();
+    
+    mixPanel_childProfileOomeeEvent(this->selectedOomeeNo);
 }
 
 void ChildAccountScene::registerChildAccount()
@@ -387,10 +391,22 @@ void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
 {
     disableButton(button);
     
-    if(button == buttonCloseChild) backButtonCloseScene();
-    else if(button == buttonNextChild) moveToAndSetupDOBInput(button);
-    else if(button == buttonBackDob) moveBackToChildNameInput(button);
-    else if(button == buttonNextDob) moveToAndSetupOomeeSelection(button);
-    else if(button == buttonBackOomee) moveToAndSetupDOBInput(button);
-    else if(button == buttonNextOomee) registerChildAccount();
+    if(button == buttonCloseChild)
+        backButtonCloseScene();
+    else if(button == buttonNextChild)
+    {
+        moveToAndSetupDOBInput(button);
+        mixPanel_childProfileNameEvent();
+    }
+    else if(button == buttonBackDob)
+        moveBackToChildNameInput(button);
+    else if(button == buttonNextDob)
+    {
+        moveToAndSetupOomeeSelection(button);
+        mixPanel_childProfileDOBEvent();
+    }
+    else if(button == buttonBackOomee)
+        moveToAndSetupDOBInput(button);
+    else if(button == buttonNextOomee)
+        registerChildAccount();
 }

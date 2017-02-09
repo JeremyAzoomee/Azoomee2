@@ -135,29 +135,12 @@ bool isValidChildName(const char * childName)
 
 bool hasAzoomeeEmailAddress(std::string emailAddress)
 {
-    if (stringToLower(emailAddress).find("azoomee") != std::string::npos)
+    auto atPosition = emailAddress.find("@");
+    
+    if ( atPosition != std::string::npos && stringToLower(emailAddress).find("azoomee", atPosition) != std::string::npos)
         return true;
     else
         return false;
-}
-
-int HttpRequestCreator::findPositionOfNthString(std::string string, std::string whatToFind, int whichOne)
-{
-    int startSearchPos = 0;
-    
-    for(int i = 0; i < whichOne; i++)
-    {
-        if(string.find(whatToFind, startSearchPos) == string.npos)
-        {
-            return int(string.length());
-        }
-        else
-        {
-            startSearchPos = int(string.find(whatToFind, startSearchPos) + 1);
-        }
-    }
-    
-    return startSearchPos - 1;
 }
 
 std::string stringToLower(std::string input)

@@ -52,7 +52,7 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
     switch (eventType) {
         case VideoPlayer::EventType::COMPLETED:
         {
-            mixPanel_registerSuperProperties("", "TEST", "", "", "");
+            mixPanel_registerAppVersion();
             
             if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
             {
