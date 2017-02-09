@@ -39,6 +39,8 @@ void AudioMixer::playEffect(std::string effectToPlay)
 
 void AudioMixer::playOomeeEffect(std::string oomee, std::string state)
 {
+    
+    
     CocosDenshion::SimpleAudioEngine::getInstance()->stopEffect(lastOomeeAudio);
     
     std::string fileName = oomee + "_" + state + ".mp3";

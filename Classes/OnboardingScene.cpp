@@ -25,6 +25,8 @@ bool OnboardingScene::init()
         return false;
     }
     
+    mixPanel_OnboardingStartEvent();
+    
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
@@ -260,20 +262,20 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
     else if(button == buttonNextEmail)
     {
         moveToAndSetupPasswordScreen(button);
-        mixPanel_emailSubmittedEvent();
+        mixPanel_OnboardingEmailSubmittedEvent();
     }
     else if(button == buttonBackPassword)
         moveToAndSetupEmailScreen(button);
     else if(button == buttonNextPassword)
     {
         moveToAndSetupPinScreen(button);
-        mixPanel_passwordSubmittedEvent();
+        mixPanel_OnboardingPasswordSubmittedEvent();
     }
     else if(button == buttonBackPin)
         moveToAndSetupPasswordScreen(button);
     else if(button == buttonSignUp)
     {
-        mixPanel_pinSubmittedEvent();
+        mixPanel_OnboardingPinSubmittedEvent();
         signUp();
     }
 }

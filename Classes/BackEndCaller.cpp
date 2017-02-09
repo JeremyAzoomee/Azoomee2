@@ -228,7 +228,7 @@ void BackEndCaller::registerParent(std::string emailAddress, std::string passwor
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
-    mixPanel_accountCreatedEvent();
+    mixPanel_OnboardingAccountCreatedEvent();
     login(this->registerParentUsername, this->registerParentPassword);
 }
 

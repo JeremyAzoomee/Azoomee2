@@ -228,7 +228,7 @@ void HttpRequestCreator::handleError(std::string requestTag, long errorCode)
 {
     if(requestTag == "registerParent")
     {
-        mixPanel_accountCreatedErrorEvent(errorCode);
+        mixPanel_OnboardingAccountCreatedErrorEvent(errorCode);
         Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
     }
     else if(requestTag == "registerChild")

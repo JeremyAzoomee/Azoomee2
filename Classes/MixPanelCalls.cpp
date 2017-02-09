@@ -152,22 +152,27 @@ void mixPanel_signInFailEvent(int errorCode)
 }
 
 //-------------ONBOARDING--------------------
-void mixPanel_emailSubmittedEvent()
+void mixPanel_OnboardingStartEvent()
+{
+    createOSSpecficCall("startCreateAccount");
+}
+
+void mixPanel_OnboardingEmailSubmittedEvent()
 {
     createOSSpecficCall("emailSubmitted");
 }
 
-void mixPanel_passwordSubmittedEvent()
+void mixPanel_OnboardingPasswordSubmittedEvent()
 {
     createOSSpecficCall("passwordSubmitted");
 }
 
-void mixPanel_pinSubmittedEvent()
+void mixPanel_OnboardingPinSubmittedEvent()
 {
     createOSSpecficCall("pinSubmitted");
 }
 
-void mixPanel_accountCreatedEvent()
+void mixPanel_OnboardingAccountCreatedEvent()
 {
     std::string eventID = "accountCreated";
     
@@ -185,7 +190,7 @@ void mixPanel_accountCreatedEvent()
 #endif
 }
 
-void mixPanel_accountCreatedErrorEvent(long errorCode)
+void mixPanel_OnboardingAccountCreatedErrorEvent(long errorCode)
 {
     std::string eventID = "accountCreatedError";
     
@@ -237,7 +242,7 @@ void mixPanel_childProfileOomeeEvent(int oomeeNumber)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
     
-    mixPanelProperties["selectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
+    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
     
     mixPanelSendiOSEvent(mixPanelProperties, eventID);
     
@@ -256,7 +261,7 @@ void mixPanel_childProfileCreatedSuccessEvent(int oomeeNumber)
     std::map<std::string, std::string> mixPanelProperties;
     
     mixPanelProperties["Method"] = "App";
-    mixPanelProperties["selectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
+    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
     
     mixPanelSendiOSEvent(mixPanelProperties, eventID);
     
@@ -281,6 +286,26 @@ void mixPanel_childProfileCreatedErrorEvent(long errorCode)
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
     mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"ErrorCode\":\"%ld\"}", errorCode));
+    
+#endif
+}
+
+//-------------HUB ACTIONS-------------------
+void mixPanel_hubTapOomee(int oomeeNumber, std::string oomeeAction)
+{
+    std::string eventID = "tapOomee";
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    std::map<std::string, std::string> mixPanelProperties;
+    
+    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
+    mixPanelProperties["OomeeAnimation"] = oomeeAction;
+    
+    mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"SelectedOomee\":\"%s\",\"OomeeAnimation\":\"%s\"}",ConfigStorage::getInstance()->getOomeeColour(oomeeNumber).c_str(),oomeeAction.c_str()));
     
 #endif
 }

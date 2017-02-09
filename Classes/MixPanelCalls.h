@@ -29,11 +29,12 @@ void mixPanel_signInSuccessEvent();
 void mixPanel_signInFailEvent(int errorCode); // NEED TO UNDERSTAND HOW TO PASS THE ERROR CODE
 
 //-------------ONBOARDING--------------------
-void mixPanel_emailSubmittedEvent();
-void mixPanel_passwordSubmittedEvent();
-void mixPanel_pinSubmittedEvent();
-void mixPanel_accountCreatedEvent();
-void mixPanel_accountCreatedErrorEvent(long errorCode);
+void mixPanel_OnboardingStartEvent();
+void mixPanel_OnboardingEmailSubmittedEvent();
+void mixPanel_OnboardingPasswordSubmittedEvent();
+void mixPanel_OnboardingPinSubmittedEvent();
+void mixPanel_OnboardingAccountCreatedEvent();
+void mixPanel_OnboardingAccountCreatedErrorEvent(long errorCode);
 
 //-------------CHILD PROFILE CREATION-------------
 void mixPanel_childProfileStartEvent();
@@ -44,3 +45,6 @@ void mixPanel_childProfileDOBErrorEvent(); // NO DOB CHECKING IS COMPLETED
 void mixPanel_childProfileOomeeEvent(int oomeeNumber);
 void mixPanel_childProfileCreatedSuccessEvent(int oomeeNumber); // HOW TO GET THE OOMEE NUMBER?
 void mixPanel_childProfileCreatedErrorEvent(long errorCode);
+
+//-------------HUB ACTIONS-------------------
+void mixPanel_hubTapOomee(int oomeeNumber, std::string oomeeAction);
