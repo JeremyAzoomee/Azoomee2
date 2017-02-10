@@ -48,3 +48,8 @@ void mixPanel_childProfileCreatedErrorEvent(long errorCode);
 
 //-------------HUB ACTIONS-------------------
 void mixPanel_hubTapOomee(int oomeeNumber, std::string oomeeAction);
+void mixPanel_navSelectionEvent(std::string hubOrTop, int buttonNumber);
+
+//------------- PREVIEW ACTIONS ---------------
+void mixPanel_previewContentClickedEvent(std::string Title,std::string Description, std::string Type);
+void mixPanel_previewPopupCancelledEvent();

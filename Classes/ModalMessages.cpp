@@ -5,6 +5,7 @@
 #include "OnboardingScene.h"
 #include "BaseScene.h"
 #include "HQHistoryManager.h"
+#include "MixPanelCalls.h"
 
 USING_NS_CC;
 
@@ -288,6 +289,10 @@ void ModalMessages::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std
         {
             Scene *onboardingScene = OnboardingScene::createScene(0);
             Director::getInstance()->replaceScene(onboardingScene);
+        }
+        else if(buttonTitle == CANCEL_BUTTON_TEXT)
+        {
+            mixPanel_previewPopupCancelledEvent();
         }
     }
     else if(messageBoxTitle == somethingWentWrongTitle)

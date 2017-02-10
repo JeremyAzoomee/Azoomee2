@@ -29,7 +29,7 @@ private:
     cocos2d::LayerColor *overlayWhenTouched;
     
     void addTouchOverlayToElement();
-    void addListenerToElement(std::string uri, std::string contentId, std::string category, bool preview);
+    void addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, bool preview);
     void startUpElementDependingOnType(std::string uri, std::string contentId, std::string category);
     void addLockToElement();
     

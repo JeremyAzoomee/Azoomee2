@@ -13,6 +13,7 @@
 #include "HQHistoryManager.h"
 #include "AudioMixer.h"
 #include "StringStorage.h"
+#include "MixPanelCalls.h"
 
 USING_NS_CC;
 
@@ -245,6 +246,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
             }
             else
             {
+                mixPanel_navSelectionEvent("",target->getTag());
                 AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
                 this->startLoadingHQScene(target->getTag());
                 this->turnOffAllMenuItems();

@@ -310,6 +310,37 @@ void mixPanel_hubTapOomee(int oomeeNumber, std::string oomeeAction)
 #endif
 }
 
+void mixPanel_navSelectionEvent(std::string hubOrTop, int buttonNumber)
+{
+    std::string eventID = "contentNavSelection";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    std::map<std::string, std::string> mixPanelProperties;
+    
+    mixPanelProperties["ErrorCode"] = ConfigStorage::getInstance()->getNameForMenuItem(buttonNumber);
+    
+    mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"ErrorCode\":\"%s\"}", ConfigStorage::getInstance()->getNameForMenuItem(buttonNumber).c_str()));
+    
+#endif
+}
+
+//------------- PREVIEW ACTIONS ---------------
+void mixPanel_previewContentClickedEvent(std::string Title, std::string Description, std::string Type)
+{
+    
+}
+
+void mixPanel_previewPopupCancelledEvent()
+{
+    createOSSpecficCall("previewEmailPopUpDismissed");
+}
+
+
+
 /*void mixPanel_signInSuccessEvent()
  {
  std::map<std::string, std::string> mixPanelProperties;
