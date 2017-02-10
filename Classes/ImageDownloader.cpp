@@ -85,6 +85,7 @@ void ImageDownloader::onExitTransitionDidStart()
 void ImageDownloader::onExit()
 {
     CCLOG("onExit called");
+    aboutToExit = true;
     if(imageDownloaderLogic) imageDownloaderLogic->senderDeleted = true;
     Node::onExit();
 }
