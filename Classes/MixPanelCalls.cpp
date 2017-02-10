@@ -318,12 +318,34 @@ void mixPanel_navSelectionEvent(std::string hubOrTop, int buttonNumber)
     std::map<std::string, std::string> mixPanelProperties;
     
     mixPanelProperties["ErrorCode"] = ConfigStorage::getInstance()->getNameForMenuItem(buttonNumber);
+    mixPanelProperties["Method"] = hubOrTop;
     
     mixPanelSendiOSEvent(mixPanelProperties, eventID);
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"ErrorCode\":\"%s\"}", ConfigStorage::getInstance()->getNameForMenuItem(buttonNumber).c_str()));
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"ErrorCode\":\"%s\",\"Method\":\"%s\"}", ConfigStorage::getInstance()->getNameForMenuItem(buttonNumber).c_str(),hubOrTop.c_str()));
+    
+#endif
+}
+
+void mixPanel_openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID)
+{
+    std::string eventID = "openContent";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    std::map<std::string, std::string> mixPanelProperties;
+    
+    mixPanelProperties["Title"] = Title;
+    mixPanelProperties["Description"] = Description;
+    mixPanelProperties["Type"] = Type;
+    mixPanelProperties["contentItemID"] = contentID;
+    
+    mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"contentItemID\":\"%s\"}", Title.c_str(),Description.c_str(),Type.c_str(),contentID.c_str()));
     
 #endif
 }
@@ -331,7 +353,22 @@ void mixPanel_navSelectionEvent(std::string hubOrTop, int buttonNumber)
 //------------- PREVIEW ACTIONS ---------------
 void mixPanel_previewContentClickedEvent(std::string Title, std::string Description, std::string Type)
 {
+    std::string eventID = "previewContentItemClicked";
     
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    std::map<std::string, std::string> mixPanelProperties;
+    
+    mixPanelProperties["Title"] = Title;
+    mixPanelProperties["Description"] = Description;
+    mixPanelProperties["Type"] = Type;
+    
+    mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\"}", Title.c_str(),Description.c_str(),Type.c_str()));
+    
+#endif
 }
 
 void mixPanel_previewPopupCancelledEvent()
