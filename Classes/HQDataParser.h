@@ -16,6 +16,8 @@ public:
     bool parseHQGetContentUrls(std::string responseString);
     std::string getExtensionFromUri(std::string uri);
     
+    void clearAllHQData();
+    
     //Communication methods
     void getContent(std::string url, std::string category);
     void onGetContentAnswerReceived(std::string responseString, std::string category);

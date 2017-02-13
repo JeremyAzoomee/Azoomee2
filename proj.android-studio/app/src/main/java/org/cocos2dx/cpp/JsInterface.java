@@ -58,4 +58,11 @@ public class JsInterface extends Activity {
     {
         NativeView.saveImageForUser(title, data);
     }
+
+    @JavascriptInterface
+    public void errorOccurred()
+    {
+        log.d("error", "errorOccurred called!");
+        NativeView.errorOccurred();
+    }
 }

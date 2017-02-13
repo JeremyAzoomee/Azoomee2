@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+	<head>
+	
+	</head>
+	<body bgcolor="black">
+		<script src="./jwplayer/jwplayer.js"></script>
+		<script>jwplayer.key="wrR1ClbRkYGQx0IOIV2gMJQggtFCdWaDaza25g==";</script>
+
+		<div id="videoPlayer"></div>
+		<script type="text/javascript">
+			
+			var contentUrl = getUrlVars()["contentUrl"];
+		
+			var playerInstance = jwplayer("videoPlayer");
+			
+			playerInstance.setup
+			({
+    			file: contentUrl,
+    			stretching: "exactfit",
+    			mediaid: "azoomeeplayer",
+    			height: "100%",
+      			width: "100%",
+			});
+			
+			jwplayer().on('error', function(event){
+				window.location.href = "videoerror://videoerror";
+			});
+			
+			jwplayer().on('setupError', function(event){
+				window.location.href = "videoerror://videoerror";
+			});
+		
+			function getUrlVars() 
+			{
+				var vars = {};
+				var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) 
+				{
+					vars[key] = value;
+				});
+				return vars;
+			}
+</script>
+<style type="text/css">
+			html,body 
+			{ 
+				height:100%; 
+				width:100%; 
+				padding:0; 
+				margin:0; 
+			}
+			
+			#videoPlayer
+			{
+				height:100%;
+				width:100%; 
+				padding:0; 
+			}
+		</style>
+	
+	</body>
+</html>

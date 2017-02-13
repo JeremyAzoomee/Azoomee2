@@ -1,7 +1,5 @@
 #include "GameDataManager.h"
 
-#include "network/HttpClient.h"
-
 #include "external/json/document.h"
 #include "external/json/writer.h"
 #include "external/json/stringbuffer.h"
@@ -19,6 +17,7 @@ USING_NS_CC;
 #include "CookieDataStorage.h"
 #include "BackEndCaller.h"
 #include "ModalMessages.h"
+#include "LoginScene.h"
 
 
 using namespace network;
@@ -48,6 +47,7 @@ bool GameDataManager::init(void)
 
 void GameDataManager::startProcessingGame(std::string url, std::string itemId)
 {
+    processCancelled = false;
     displayLoadingScreen();
     
     std::string basePath = getGameIdPath(itemId);
@@ -88,19 +88,19 @@ std::string GameDataManager::getFileNameFromUrl(std::string url)
 
 void GameDataManager::getJSONGameData(std::string url, std::string itemId)
 {
-    HttpRequest *request = new HttpRequest();
-    request->setRequestType(HttpRequest::Type::GET);
-    request->setUrl(url.c_str());
+    jsonRequest = new HttpRequest();
+    jsonRequest->setRequestType(HttpRequest::Type::GET);
+    jsonRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers;
     headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
-    request->setHeaders(headers);
+    jsonRequest->setHeaders(headers);
     
-    request->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetJSONGameDataAnswerReceived, this));
-    request->setTag(itemId);
+    jsonRequest->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetJSONGameDataAnswerReceived, this));
+    jsonRequest->setTag(itemId);
     HttpClient::getInstance()->setTimeoutForConnect(2);
     HttpClient::getInstance()->setTimeoutForRead(2);
-    HttpClient::getInstance()->send(request);
+    HttpClient::getInstance()->send(jsonRequest);
 }
 
 void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -132,6 +132,10 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
         }
         
     }
+    else
+    {
+        Director::getInstance()->replaceScene(LoginScene::createSceneWithAutoLoginAndErrorDisplay());
+    }
 }
 
 bool GameDataManager::checkIfFileExists(std::string fileWithPath)
@@ -159,19 +163,19 @@ std::string GameDataManager::getStartFileFromJson(std::string jsonFileName)
 
 void GameDataManager::getGameZipFile(std::string url, std::string itemId)
 {
-    HttpRequest *request = new HttpRequest();
-    request->setRequestType(HttpRequest::Type::GET);
-    request->setUrl(url.c_str());
+    zipRequest = new HttpRequest();
+    zipRequest->setRequestType(HttpRequest::Type::GET);
+    zipRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers;
     headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
-    request->setHeaders(headers);
+    zipRequest->setHeaders(headers);
     
-    request->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetGameZipFileAnswerReceived, this));
-    request->setTag(itemId);
+    zipRequest->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetGameZipFileAnswerReceived, this));
+    zipRequest->setTag(itemId);
     HttpClient::getInstance()->setTimeoutForConnect(2);
     HttpClient::getInstance()->setTimeoutForRead(2);
-    HttpClient::getInstance()->send(request);
+    HttpClient::getInstance()->send(zipRequest);
 }
 
 void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -191,6 +195,10 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
         
         unzipGame(targetPath.c_str(), basePath.c_str(), nullptr);
+    }
+    else
+    {
+        Director::getInstance()->replaceScene(LoginScene::createSceneWithAutoLoginAndErrorDisplay());
     }
 }
 
@@ -310,7 +318,9 @@ bool GameDataManager::removeGameZip(std::string fileNameWithPath)
 
 void GameDataManager::startGame(std::string fileName)
 {
-    hideLoadingScreen();
+    if(processCancelled) return;
+    
+    //hideLoadingScreen();
     WebViewSelector::createSceneWithUrl(fileName);
     //We don't need to add this to the screen, because in create phase WebViewSelector will do a replaceScene.
 }
@@ -328,10 +338,20 @@ std::string GameDataManager::getGameCachePath()
 //---------------------LOADING SCREEN----------------------------------
 void GameDataManager::displayLoadingScreen()
 {
+    Size size = Director::getInstance()->getVisibleSize();
+    Point origin = Director::getInstance()->getVisibleOrigin();
+    
     ModalMessages::getInstance()->startLoading();
+    
+    ElectricDreamsButton *cancelButton = ElectricDreamsButton::createButtonWithText("Cancel");
+    cancelButton->setName("cancelButton");
+    cancelButton->setCenterPosition(Vec2(origin.x + size.width / 2, origin.y + size.height * 0.25));
+    cancelButton->setDelegate(this);
+    Director::getInstance()->getRunningScene()->addChild(cancelButton);
 }
 void GameDataManager::hideLoadingScreen()
 {
+    Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("cancelButton"));
     ModalMessages::getInstance()->stopLoading();
 }
 
@@ -343,4 +363,15 @@ void GameDataManager::showErrorMessage()
 void GameDataManager::removeGameFolderOnError(std::string dirPath)
 {
     FileUtils::getInstance()->removeDirectory(dirPath);
+}
+
+void GameDataManager::buttonPressed(ElectricDreamsButton *button)
+{
+    processCancelled = true;
+    
+    if(zipRequest) zipRequest->setResponseCallback(nullptr);
+    if(jsonRequest) jsonRequest->setResponseCallback(nullptr);
+    
+    Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("cancelButton"));
+    ModalMessages::getInstance()->stopLoading();
 }

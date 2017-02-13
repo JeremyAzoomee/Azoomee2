@@ -219,3 +219,12 @@ std::string HQDataParser::getExtensionFromUri(std::string uri)
     
     return extension;
 }
+
+void HQDataParser::clearAllHQData()
+{
+    HQDataStorage::getInstance()->HQData.clear();
+    HQDataStorage::getInstance()->HQListTitles.clear();
+    HQDataStorage::getInstance()->HQListElements.clear();
+    HQDataStorage::getInstance()->HQElementHighlights.clear();
+    HQDataStorage::getInstance()->HQGetContentUrls.clear();
+}

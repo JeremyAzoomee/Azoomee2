@@ -57,7 +57,7 @@
     {
         iframeloaded = 1;
         
-        NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index" ofType:@"html"];
+        NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index_ios" ofType:@"html"];
         urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, urlToLoad];
     }
     
@@ -83,7 +83,7 @@
     {
         iframeloaded = 1;
         
-        NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index" ofType:@"html"];
+        NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index_ios" ofType:@"html"];
         urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, urlToLoad];
     }
     
@@ -145,6 +145,29 @@
         
         NSString *fullFilePath = [NSString stringWithFormat:@"%@/artCache/%@/%@", [paths objectAtIndex:0], useridToUse, title];
         [data writeToFile:fullFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        
+        return NO;
+    }
+    
+    if ([urlString hasPrefix:@"videoerror"])
+    {
+        [webview loadHTMLString:@"" baseURL:nil];
+        [webview stopLoading];
+        [webview setDelegate:nil];
+        
+        
+        [webview removeFromSuperview];
+        
+        [currentButton removeFromSuperview];
+        
+        [useridToUse release];
+        [urlToLoad release];
+        [webview release];
+        webview = nil;
+        
+        navigateToLoginScene();
+        
+        [self release];
         
         return NO;
     }

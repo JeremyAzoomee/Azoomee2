@@ -5,6 +5,7 @@
 #include "HQScene.h"
 #include "ConfigStorage.h"
 #include "HQHistoryManager.h"
+#include "LoginScene.h"
 
 USING_NS_CC;
 
@@ -122,6 +123,14 @@ void AppDelegate::applicationWillEnterForeground() {
     
     if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
     {
+        if(HQHistoryManager::getInstance()->thereWasAnError)
+        {
+            HQHistoryManager::getInstance()->thereWasAnError = false;
+            auto loginScene = LoginScene::createSceneWithAutoLoginAndErrorDisplay();
+            Director::getInstance()->replaceScene(loginScene);
+            return;
+        }
+        
         HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
         
         auto baseScene = BaseScene::createScene();

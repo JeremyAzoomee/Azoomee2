@@ -36,6 +36,19 @@ Scene* LoginScene::createSceneWithAutoLogin()
     return scene;
 }
 
+Scene* LoginScene::createSceneWithAutoLoginAndErrorDisplay()
+{
+    auto scene = Scene::create();
+    auto layer = LoginScene::create();
+    scene->addChild(layer);
+    
+    layer->_errorCode = 0;
+    layer->shouldDoAutoLogin = true;
+    layer->shouldDisplayMessage = true;
+    
+    return scene;
+}
+
 bool LoginScene::init()
 {
     if ( !Layer::init() )
@@ -65,10 +78,19 @@ void LoginScene::onEnterTransitionDidFinish()
         
         if((username != "")&&(password != ""))
         {
-            CCLOG("Doing autologin!");
             
-            autoLogin(username, password);
-            return;
+            if(shouldDisplayMessage)
+            {
+                MultiButtonMessageBoxLayer::createMessageBox("Something went wrong", "There was a problem so we logged you in again.", std::vector<std::string> {"Ok"}, this);
+                return;
+            }
+            else
+            {
+                CCLOG("Doing autologin!");
+                
+                autoLogin(username, password);
+                return;
+            }
         }
     }
     else
@@ -313,4 +335,13 @@ void LoginScene::buttonPressed(ElectricDreamsButton* button)
     else if(button == loginButton) this->login(button);
     else if(button == previewModeButton) this->moveToPreviewScene();
     
+}
+
+void LoginScene::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    UserDefault* def = UserDefault::getInstance();
+    std::string username = def->getStringForKey("username", "");
+    std::string password = def->getStringForKey("password", "");
+    def->flush();
+    autoLogin(username, password);
 }

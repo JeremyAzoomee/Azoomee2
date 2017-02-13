@@ -4,10 +4,11 @@
 #include "cocos2d.h"
 #include "TextInputLayer.h"
 #include "ElectricDreamsButton.h"
+#include "MultiButtonMessageBoxLayer.h"
 
 USING_NS_CC;
 
-class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate
+class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MultiButtonMessageBoxLayerDelegate
 {
 private:
     long _errorCode;
@@ -15,7 +16,7 @@ private:
     TextInputLayer *_usernameTextInput;
     TextInputLayer *_passwordTextInput;
     
-    Size visibleSize;
+    cocos2d::Size visibleSize;
     Vec2 origin;
     Layer *loginContent;
     
@@ -50,16 +51,19 @@ private:
     virtual void onEnterTransitionDidFinish();
     
     bool shouldDoAutoLogin;
+    bool shouldDisplayMessage;
     
 public:
     static Scene* createScene(long errorCode);
     static Scene* createSceneWithAutoLogin();
+    static Scene* createSceneWithAutoLoginAndErrorDisplay();
 
     virtual bool init();
     
     //Delegate Functions
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void buttonPressed(ElectricDreamsButton* button);
+    void MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle);
 
     CREATE_FUNC(LoginScene);
 };

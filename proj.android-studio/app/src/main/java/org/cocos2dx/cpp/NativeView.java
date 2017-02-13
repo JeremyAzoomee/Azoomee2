@@ -1,5 +1,6 @@
 package org.cocos2dx.cpp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.Build;
@@ -32,6 +33,7 @@ import static com.loopj.android.http.AsyncHttpClient.log;
 public class NativeView extends XWalkActivity {
 
     private static Context mContext;
+    public static Activity activity = null;
     public XWalkView xWalkWebView;
     public static XWalkView xWalkWebViewStatic;
     public static String userid;
@@ -49,6 +51,7 @@ public class NativeView extends XWalkActivity {
         }
 
         mContext = this;
+        activity = this;
 
         Bundle extras = getIntent().getExtras();
         userid = extras.getString("userid");
@@ -130,7 +133,7 @@ public class NativeView extends XWalkActivity {
 
             log.d("cookies: ", mCookieManager.getCookie(myCookieUrl));
 
-            xWalkWebView.load("file:///android_asset/res/jwplayer/index.html?contentUrl=" + myUrl, null);
+            xWalkWebView.load("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl, null);
         }
 
         //xWalkWebView.load("file:////android_asset/res/artapp/index.html", null);
@@ -293,4 +296,12 @@ public class NativeView extends XWalkActivity {
 
         Log.d("File was written to", currentWritePathString);
     }
+
+    static void errorOccurred()
+    {
+        getBackToLoginScreen();
+        activity.finish();
+    }
+
+    public static native void getBackToLoginScreen();
 }

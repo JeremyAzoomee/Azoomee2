@@ -1,8 +1,9 @@
 #include "cocos2d.h"
 #include "network/HttpClient.h"
 #include "external/json/document.h"
+#include "ElectricDreamsButton.h"
 
-class GameDataManager : public cocos2d::Ref
+class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate
 {
     
 public:
@@ -10,6 +11,9 @@ public:
     virtual ~GameDataManager();
     bool init(void);
     void startProcessingGame(std::string url, std::string itemId);
+    
+    //Delegate Functions
+    void buttonPressed(ElectricDreamsButton* button);
     
 private:
     std::string getFileNameFromUrl(std::string url);
@@ -39,4 +43,8 @@ private:
     void displayLoadingScreen();
     void hideLoadingScreen();
     void showErrorMessage();
+    
+    cocos2d::network::HttpRequest* jsonRequest;
+    cocos2d::network::HttpRequest* zipRequest;
+    bool processCancelled;
 };
