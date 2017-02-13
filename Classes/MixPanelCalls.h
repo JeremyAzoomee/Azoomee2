@@ -4,6 +4,7 @@ enum percentageComplete
 {
     quater = 25,
     half = 50,
+    threeQuarters = 75,
     complete = 100
 };
 
