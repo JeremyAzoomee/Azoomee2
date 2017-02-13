@@ -58,6 +58,7 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     std::string itemuri = itemData["uri"];
     std::string itemTitle = itemData["title"];
     std::string itemDescription = itemData["description"];
+    std::string itemType = itemData["type"];
     
     auto funcCallAction = CallFunc::create([=](){
     
@@ -74,13 +75,13 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     
     if(itementitled == "true")
     {
-        if(!aboutToExit) addListenerToElement(itemuri, itemid, category, itemTitle, itemDescription, false);
+        if(!aboutToExit) addListenerToElement(itemuri, itemid, category, itemTitle, itemDescription, itemType, false);
     }
     else
     {
         if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
-           if(!aboutToExit) addListenerToElement(itemuri, itemid, category, itemTitle, itemDescription, true);
+           if(!aboutToExit) addListenerToElement(itemuri, itemid, category, itemTitle, itemDescription, itemType, true);
         }
         
        if(!aboutToExit) addLockToElement();
@@ -192,7 +193,7 @@ void HQSceneElement::createColourLayer(std::string category, float delay)
     baseLayer->runAction(Sequence::create(DelayTime::create(delay), FadeTo::create(0.1, colour.a), NULL));
 }
 
-void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, bool preview)
+void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -245,12 +246,13 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             
             if(!preview)
             {
+                mixPanel_openContentEvent(title, description, type, contentId);
                 startUpElementDependingOnType(uri, contentId, category);
             }
             else
             {
                 CCLOG("MixPanel: %s, %s, %s", title.c_str(),description.c_str(),category.c_str());
-                mixPanel_previewContentClickedEvent(title,description,category);
+                mixPanel_previewContentClickedEvent(title,description,type);
                 ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
                 return true;
             }

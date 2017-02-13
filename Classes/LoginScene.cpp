@@ -198,16 +198,19 @@ void LoginScene::addButtonsToLayer()
     previewModeButton = ElectricDreamsButton::createCancelButton();
     previewModeButton->setCenterPosition(Vec2(origin.x+previewModeButton->getContentSize().width, visibleSize.height - previewModeButton->getContentSize().height));
     previewModeButton->setDelegate(this);
+    previewModeButton->setMixPanelButtonName("CancelLoginButton");
     loginContent->addChild(previewModeButton);
     
     loginOptionButton = ElectricDreamsButton::createTextAsButton(StringStorage::getInstance()->getStringForLoginScene("loginButton"));
     loginOptionButton->setCenterPosition(Vec2(origin.x+visibleSize.width * 0.5, visibleSize.height*0.35));
     loginOptionButton->setDelegate(this);
+    loginOptionButton->setMixPanelButtonName("Login");
     loginContent->addChild(loginOptionButton);
     
     signUpOptionButton = ElectricDreamsButton::createButtonWithText(StringStorage::getInstance()->getStringForLoginScene("signupButton"));
     signUpOptionButton->setCenterPosition(Vec2(origin.x+visibleSize.width * 0.5, visibleSize.height/2));
     signUpOptionButton->setDelegate(this);
+    signUpOptionButton->setMixPanelButtonName("sign Up");
     loginContent->addChild(signUpOptionButton);
     
     emailBackButton = ElectricDreamsButton::createBackButton();

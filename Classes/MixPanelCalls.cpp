@@ -339,15 +339,38 @@ void mixPanel_openContentEvent(std::string Title,std::string Description, std::s
     mixPanelProperties["Title"] = Title;
     mixPanelProperties["Description"] = Description;
     mixPanelProperties["Type"] = Type;
-    mixPanelProperties["contentItemID"] = contentID;
+    mixPanelProperties["ContentID"] = contentID;
     
     mixPanelSendiOSEvent(mixPanelProperties, eventID);
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"contentItemID\":\"%s\"}", Title.c_str(),Description.c_str(),Type.c_str(),contentID.c_str()));
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\"}", Title.c_str(),Description.c_str(),Type.c_str(),contentID.c_str()));
     
 #endif
+}
+
+void mixPanel_closeContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID,int SecondsInContent)
+{
+    std::string eventID = "closedContent";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    std::map<std::string, std::string> mixPanelProperties;
+    
+    mixPanelProperties["Title"] = Title;
+    mixPanelProperties["Description"] = Description;
+    mixPanelProperties["Type"] = Type;
+    mixPanelProperties["ContentID"] = contentID;
+    mixPanelProperties["SecondsInContent"] = SecondsInContent;
+    
+    mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"SecondsInContent\":\"%d\"}", Title.c_str(),Description.c_str(),Type.c_str(),contentID.c_str(), SecondsInContent));
+    
+#endif
+
 }
 
 //------------- PREVIEW ACTIONS ---------------
@@ -376,6 +399,116 @@ void mixPanel_previewPopupCancelledEvent()
     createOSSpecficCall("previewEmailPopUpDismissed");
 }
 
+//---------------MEDIA ACTIONS -----------------
+void mixPanel_mediaQuality(std::string Title,std::string Description, std::string Type, std::string contentID, int quality)
+{
+    std::string eventID = "mediaQuality";
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    std::map<std::string, std::string> mixPanelProperties;
+    
+    mixPanelProperties["Title"] = Title;
+    mixPanelProperties["Description"] = Description;
+    mixPanelProperties["Type"] = Type;
+    mixPanelProperties["ContentID"] = Type;
+    mixPanelProperties["Quality"] = quality;
+    
+    mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"SecondsInContent\":\"%d\"}", Title.c_str(),Description.c_str(),Type.c_str(),contentID.c_str(), quality));
+    
+#endif
+}
+
+void mixPanel_mediaProgress(std::string Title,std::string Description, std::string Type, std::string contentID, percentageComplete percentComplete)
+{
+    std::string eventID = "mediaQuality";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    std::map<std::string, std::string> mixPanelProperties;
+    
+    mixPanelProperties["Title"] = Title;
+    mixPanelProperties["Description"] = Description;
+    mixPanelProperties["Type"] = Type;
+    mixPanelProperties["ContentID"] = Type;
+    mixPanelProperties["Progress"] = percentComplete;
+    
+    mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"SecondsInContent\":\"%d\"}", Title.c_str(),Description.c_str(),Type.c_str(),contentID.c_str(), percentComplete));
+    
+#endif
+}
+
+void mixPanel_mediaPausedEvent()
+{
+    createOSSpecficCall("mediaPause");
+}
+
+void mixPanel_mediaEnd(std::string Title,std::string Description, std::string Type,std::string contentID, std::string NextAutoPlayMediaID, int SecondsMediaPlayed)
+{
+    std::string eventID = "mediaEnd";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    std::map<std::string, std::string> mixPanelProperties;
+    
+    mixPanelProperties["Title"] = Title;
+    mixPanelProperties["Description"] = Description;
+    mixPanelProperties["Type"] = Type;
+    mixPanelProperties["ContentID"] = Type;
+    mixPanelProperties["NextAutoPlayMediaID"] = NextAutoPlayMediaID;
+    mixPanelProperties["SecondsMediaPlayed"] = SecondsMediaPlayed;
+    
+    mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"NextAutoPlayMediaID\":\"%s\"\"SecondsMediaPlayed\":\"%d\"}", Title.c_str(),Description.c_str(),Type.c_str(),contentID.c_str(), NextAutoPlayMediaID.c_str(),SecondsMediaPlayed));
+    
+#endif
+
+}
+
+//---------------OTHER ACTION------------------
+void mixPanel_genericButtonPress(std::string buttonName)
+{
+    std::string eventID = "tapButton";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    std::map<std::string, std::string> mixPanelProperties;
+    
+    mixPanelProperties["ButtonName"] = buttonName;
+    
+    mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"ButtonName\":\"%s\"}", buttonName.c_str()));
+    
+#endif
+}
+
+void mixPanel_messageBoxShow(std::string messageTitle)
+{
+    std::string eventID = "messageBoxDisplayed";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    std::map<std::string, std::string> mixPanelProperties;
+    
+    mixPanelProperties["MessageTitle"] = messageTitle;
+    
+    mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"MessageTitle\":\"%s\"}", messageTitle.c_str()));
+    
+#endif
+}
 
 
 /*void mixPanel_signInSuccessEvent()

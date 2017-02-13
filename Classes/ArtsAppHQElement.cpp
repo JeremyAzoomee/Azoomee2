@@ -219,7 +219,10 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(rect.containsPoint(locationInNode))
         {
-            mixPanel_previewContentClickedEvent("","", "ARTS APP");
+            if(preview)
+                mixPanel_previewContentClickedEvent("","", "ARTS APP");
+            else
+                mixPanel_openContentEvent("", "", "ARTS APP", "");
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;
             movedAway = false;

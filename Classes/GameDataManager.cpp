@@ -347,6 +347,7 @@ void GameDataManager::displayLoadingScreen()
     cancelButton->setName("cancelButton");
     cancelButton->setCenterPosition(Vec2(origin.x + size.width / 2, origin.y + size.height * 0.25));
     cancelButton->setDelegate(this);
+    cancelButton->setMixPanelButtonName("CancelGameLoading");
     Director::getInstance()->getRunningScene()->addChild(cancelButton);
 }
 void GameDataManager::hideLoadingScreen()

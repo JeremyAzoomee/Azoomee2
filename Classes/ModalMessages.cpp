@@ -133,6 +133,8 @@ void ModalMessages::createMessageWithSingleButton(std::string messageTitle, std:
 
 void ModalMessages::createTitle(std::string messageTitle)
 {
+    mixPanel_messageBoxShow(messageTitle);
+    
     auto titleLabel = Label::createWithTTF(messageTitle, "fonts/azoomee.ttf", 120);
     
     if(titleLabel->getContentSize().width < (MESSAGE_BOX_MINIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))

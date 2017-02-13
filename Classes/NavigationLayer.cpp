@@ -207,6 +207,7 @@ void NavigationLayer::createPreviewLoginButton()
     previewLoginButton = ElectricDreamsButton::createTextAsButton(LOGIN_BUTTON_TEXT);
     previewLoginButton->setCenterPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width/2 + previewLoginButton->getContentSize().height/2, origin.y + visibleSize.height- previewLoginButton->getContentSize().height));
     previewLoginButton->setDelegate(this);
+    previewLoginButton->setMixPanelButtonName("PreviewLogin");
     this->addChild(previewLoginButton);
     
     previewLoginButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/2, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.5)), 2), NULL));

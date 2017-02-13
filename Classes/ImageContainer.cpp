@@ -74,7 +74,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     else
     {
         addReponseLayerToImage(elementProperties, scale);
-        addListenerToContainer(bgLayer, colour4.a, elementProperties["uri"], elementProperties["id"]);
+        addListenerToContainer(bgLayer, colour4.a, elementProperties["uri"], elementProperties["id"],elementProperties["title"],elementProperties["description"],elementProperties["type"]);
     }
 }
 
@@ -126,7 +126,7 @@ void ImageContainer::addReponseLayerToImage(std::map<std::string, std::string> e
     bgLayer->addChild(responseLayer);
 }
 
-void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string contentId)
+void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string contentId,std::string Title,std::string Description, std::string Type)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -144,6 +144,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         if(rect.containsPoint(locationInNode))
         {
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+            mixPanel_openContentEvent(Title, Description, Type, contentId);
             
             target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
             

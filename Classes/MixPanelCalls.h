@@ -1,5 +1,12 @@
 #include "cocos2d.h"
 
+enum percentageComplete
+{
+    quater = 25,
+    half = 50,
+    complete = 100
+};
+
 void createOSSpecficCall(std::string eventID);
 
 void mixPanel_androidJNIHelper(std::string eventID, std::string propertiesJSONString);
@@ -50,7 +57,20 @@ void mixPanel_childProfileCreatedErrorEvent(long errorCode);
 void mixPanel_hubTapOomee(int oomeeNumber, std::string oomeeAction);
 void mixPanel_navSelectionEvent(std::string hubOrTop, int buttonNumber);
 void mixPanel_openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID);
+void mixPanel_closeContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID,int SecondsInContent);
 
 //------------- PREVIEW ACTIONS ---------------
 void mixPanel_previewContentClickedEvent(std::string Title,std::string Description, std::string Type);
 void mixPanel_previewPopupCancelledEvent();
+
+//---------------MEDIA ACTIONS -----------------
+void mixPanel_mediaQuality(std::string Title,std::string Description, std::string Type, std::string contentID,int quality);
+void mixPanel_mediaProgress(std::string Title,std::string Description, std::string Type,std::string contentID, percentageComplete percentComplete);
+void mixPanel_mediaPausedEvent();
+void mixPanel_mediaEnd(std::string Title,std::string Description, std::string Type,std::string contentID, std::string NextAutoPlayMediaID, int SecondsMediaPlayed);
+
+//---------------OTHER ACTION------------------
+void mixPanel_genericButtonPress(std::string buttonName);
+void mixPanel_messageBoxShow(std::string messageTitle);
+
+

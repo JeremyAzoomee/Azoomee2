@@ -67,6 +67,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     cancelButton = ElectricDreamsButton::createCancelButton();
     cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.3));
     cancelButton->setDelegate(this);
+    cancelButton->setMixPanelButtonName("ExitorLogoutCancelButton");
     backgroundLayer->addChild(cancelButton);
     
     // ------- EXIT BUTTON ----------
@@ -74,6 +75,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     exitButton = ElectricDreamsButton::createButtonWithText(EXIT_BUTTON_TEXT);
     exitButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.8));
     exitButton->setDelegate(this);
+    exitButton->setMixPanelButtonName("Exit");
     backgroundLayer->addChild(exitButton);
     
     // ------- LOG OUT BUTTON ----------
@@ -81,6 +83,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     logoutButton = ElectricDreamsButton::createButtonWithText(LOG_OUT_BUTTON_TEXT);
     logoutButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.6));
     logoutButton->setDelegate(this);
+    logoutButton->setMixPanelButtonName("Log Out");
     backgroundLayer->addChild(logoutButton);
 }
 
