@@ -68,12 +68,6 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     cancelButton->setDelegate(this);
     backgroundLayer->addChild(cancelButton);
     
-    // ------- EXIT BUTTON ----------
-    
-    exitButton = ElectricDreamsButton::createButtonWithText(EXIT_BUTTON_TEXT);
-    exitButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.8));
-    exitButton->setDelegate(this);
-    backgroundLayer->addChild(exitButton);
     
     // ------- LOG OUT BUTTON ----------
     
@@ -111,15 +105,6 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
     {
         AudioMixer::getInstance()->resumeBackgroundMusic();
         removeSelf();
-    }
-    else if(button == exitButton)
-    {
-        AudioMixer::getInstance()->stopBackgroundMusic();
-        Director::getInstance()->end();
-        
-        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            exit(0);
-        #endif
     }
     else if(button == logoutButton)
     {

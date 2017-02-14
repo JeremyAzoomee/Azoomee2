@@ -15,7 +15,6 @@ private:
     
     LayerColor *backgroundLayer;
     
-    ElectricDreamsButton *exitButton;
     ElectricDreamsButton *logoutButton;
     ElectricDreamsButton *cancelButton;
     
