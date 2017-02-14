@@ -36,7 +36,7 @@
 		430B215D1E448825004ACB10 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215C1E448825004ACB10 /* libicucore.tbd */; };
 		430B215F1E448AF6004ACB10 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215E1E448AF6004ACB10 /* AVFoundation.framework */; };
 		430B21631E449DAA004ACB10 /* MixPanel_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 430B21611E449DAA004ACB10 /* MixPanel_ios.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		430B21661E449DC5004ACB10 /* MixPanelCalls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B21641E449DC5004ACB10 /* MixPanelCalls.cpp */; };
+		430B21661E449DC5004ACB10 /* MixPanelSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B21641E449DC5004ACB10 /* MixPanelSingleton.cpp */; };
 		430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
 		430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */; };
@@ -288,8 +288,8 @@
 		430B215E1E448AF6004ACB10 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		430B21611E449DAA004ACB10 /* MixPanel_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MixPanel_ios.mm; sourceTree = "<group>"; };
 		430B21621E449DAA004ACB10 /* MixPanel_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanel_ios.h; sourceTree = "<group>"; };
-		430B21641E449DC5004ACB10 /* MixPanelCalls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MixPanelCalls.cpp; sourceTree = "<group>"; };
-		430B21651E449DC5004ACB10 /* MixPanelCalls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanelCalls.h; sourceTree = "<group>"; };
+		430B21641E449DC5004ACB10 /* MixPanelSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MixPanelSingleton.cpp; sourceTree = "<group>"; };
+		430B21651E449DC5004ACB10 /* MixPanelSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanelSingleton.h; sourceTree = "<group>"; };
 		430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingScene.cpp; sourceTree = "<group>"; };
 		430B3B051DF8401C003A3AA7 /* OnboardingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingScene.h; sourceTree = "<group>"; };
 		430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountScene.cpp; sourceTree = "<group>"; };
@@ -736,8 +736,8 @@
 			children = (
 				430B21611E449DAA004ACB10 /* MixPanel_ios.mm */,
 				430B21621E449DAA004ACB10 /* MixPanel_ios.h */,
-				430B21641E449DC5004ACB10 /* MixPanelCalls.cpp */,
-				430B21651E449DC5004ACB10 /* MixPanelCalls.h */,
+				430B21641E449DC5004ACB10 /* MixPanelSingleton.cpp */,
+				430B21651E449DC5004ACB10 /* MixPanelSingleton.h */,
 			);
 			name = MixPanel;
 			sourceTree = "<group>";
@@ -1523,7 +1523,7 @@
 				A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */,
 				431A2A4C1E439BFE00DC0F3B /* MPVariant.m in Sources */,
 				431A2A551E439BFE00DC0F3B /* UIImage+MPImageEffects.m in Sources */,
-				430B21661E449DC5004ACB10 /* MixPanelCalls.cpp in Sources */,
+				430B21661E449DC5004ACB10 /* MixPanelSingleton.cpp in Sources */,
 				A15D58A31E0830600099CDEE /* StringStorage.cpp in Sources */,
 				A1A2D30B1E13B54500E86169 /* ParentDataParser.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,

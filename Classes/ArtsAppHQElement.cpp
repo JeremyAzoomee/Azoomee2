@@ -6,7 +6,7 @@
 #include "HQScene.h"
 #include "AppDelegate.h"
 #include "ModalMessages.h"
-#include "MixPanelCalls.h"
+#include "MixPanelSingleton.h"
 
 
 USING_NS_CC;
@@ -220,9 +220,9 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         if(rect.containsPoint(locationInNode))
         {
             if(preview)
-                mixPanel_previewContentClickedEvent("","", "ARTS APP");
+                MixPanelSingleton::getInstance()->mixPanel_previewContentClickedEvent("","", "ARTS APP");
             else
-                mixPanel_openContentEvent("", "", "ARTS APP", "");
+                MixPanelSingleton::getInstance()->mixPanel_openContentEvent("", "", "ARTS APP", "");
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;
             movedAway = false;

@@ -6,6 +6,7 @@
 #include "ConfigStorage.h"
 #include "HQHistoryManager.h"
 #include "LoginScene.h"
+#include "MixPanelSingleton.h"
 
 USING_NS_CC;
 
@@ -123,6 +124,8 @@ void AppDelegate::applicationWillEnterForeground() {
     
     if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
     {
+        MixPanelSingleton::getInstance()->mixPanel_closeContentEvent();
+        
         if(HQHistoryManager::getInstance()->thereWasAnError)
         {
             HQHistoryManager::getInstance()->thereWasAnError = false;

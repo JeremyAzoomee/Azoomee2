@@ -1,5 +1,5 @@
 #include "CrashlyticsConfig.h"
-#include "MixPanelCalls.h"
+#include "MixPanelSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "Crashlytics_ios.h"

@@ -5,7 +5,7 @@
 #include "OnboardingScene.h"
 #include "BaseScene.h"
 #include "HQHistoryManager.h"
-#include "MixPanelCalls.h"
+#include "MixPanelSingleton.h"
 
 USING_NS_CC;
 
@@ -133,7 +133,7 @@ void ModalMessages::createMessageWithSingleButton(std::string messageTitle, std:
 
 void ModalMessages::createTitle(std::string messageTitle)
 {
-    mixPanel_messageBoxShow(messageTitle);
+    MixPanelSingleton::getInstance()->mixPanel_messageBoxShow(messageTitle);
     
     auto titleLabel = Label::createWithTTF(messageTitle, "fonts/azoomee.ttf", 120);
     
@@ -294,7 +294,7 @@ void ModalMessages::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std
         }
         else if(buttonTitle == CANCEL_BUTTON_TEXT)
         {
-            mixPanel_previewPopupCancelledEvent();
+            MixPanelSingleton::getInstance()->mixPanel_previewPopupCancelledEvent();
         }
     }
     else if(messageBoxTitle == somethingWentWrongTitle)

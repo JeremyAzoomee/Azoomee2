@@ -6,7 +6,7 @@
 #include "ModalMessages.h"
 #include "ConfigStorage.h"
 #include "AudioMixer.h"
-#include "MixPanelCalls.h"
+#include "MixPanelSingleton.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -32,7 +32,7 @@ bool ChildSelectorScene::init()
         return false;
     }
     
-    mixPanel_logoutChild();
+    MixPanelSingleton::getInstance()->mixPanel_logoutChild();
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     
@@ -115,7 +115,7 @@ void ChildSelectorScene::addProfilesToScrollView()
 {
     //This has to be changed - not a good idea to include json handler in every classes that need it. There must be one storing class that can either give data back by request, or converts data into std::vector.
     
-    mixPanel_registerNoOfChildren(ParentDataProvider::getInstance()->getAmountOfAvailableChildren());
+    MixPanelSingleton::getInstance()->mixPanel_registerNoOfChildren(ParentDataProvider::getInstance()->getAmountOfAvailableChildren());
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
@@ -291,7 +291,7 @@ void ChildSelectorScene::secondCheckForAuthorisation()
     if((ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "VERIFIED")||(ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "ACTIVE"))
     {
         AwaitingAdultPinLayer::create()->setDelegate(this);
-        mixPanel_childProfileStartEvent();
+        MixPanelSingleton::getInstance()->mixPanel_childProfileStartEvent();
     }
     else
         ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED,nullptr);

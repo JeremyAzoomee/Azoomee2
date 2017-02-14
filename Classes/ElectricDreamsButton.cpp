@@ -1,7 +1,7 @@
 #include "ElectricDreamsButton.h"
 #include "ExitOrLogoutLayer.h"
 #include "AudioMixer.h"
-#include "MixPanelCalls.h"
+#include "MixPanelSingleton.h"
 
 bool ElectricDreamsButton::init()
 {
@@ -245,5 +245,5 @@ void ElectricDreamsButton::setMixPanelButtonName(std::string buttonName)
 void ElectricDreamsButton::sendMixPanelEvent()
 {
     if(mixPanelButtonName != "")
-        mixPanel_genericButtonPress(mixPanelButtonName);
+        MixPanelSingleton::getInstance()->mixPanel_genericButtonPress(mixPanelButtonName);
 }

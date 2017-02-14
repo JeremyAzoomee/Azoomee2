@@ -3,7 +3,7 @@
 #include "BackEndCaller.h"
 #include "LoginScene.h"
 #include "StringStorage.h"
-#include "MixPanelCalls.h"
+#include "MixPanelSingleton.h"
 
 USING_NS_CC;
 
@@ -25,7 +25,7 @@ bool OnboardingScene::init()
         return false;
     }
     
-    mixPanel_OnboardingStartEvent();
+    MixPanelSingleton::getInstance()->mixPanel_OnboardingStartEvent();
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
@@ -262,20 +262,20 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
     else if(button == buttonNextEmail)
     {
         moveToAndSetupPasswordScreen(button);
-        mixPanel_OnboardingEmailSubmittedEvent();
+        MixPanelSingleton::getInstance()->mixPanel_OnboardingEmailSubmittedEvent();
     }
     else if(button == buttonBackPassword)
         moveToAndSetupEmailScreen(button);
     else if(button == buttonNextPassword)
     {
         moveToAndSetupPinScreen(button);
-        mixPanel_OnboardingPasswordSubmittedEvent();
+        MixPanelSingleton::getInstance()->mixPanel_OnboardingPasswordSubmittedEvent();
     }
     else if(button == buttonBackPin)
         moveToAndSetupPasswordScreen(button);
     else if(button == buttonSignUp)
     {
-        mixPanel_OnboardingPinSubmittedEvent();
+        MixPanelSingleton::getInstance()->mixPanel_OnboardingPinSubmittedEvent();
         signUp();
     }
 }
