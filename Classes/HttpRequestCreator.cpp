@@ -146,6 +146,9 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     
     std::vector<std::string> headers;
     
+    //Add no cache to requests, to avoid caching
+    headers.push_back("Cache-Control: no-cache");
+    
     if(!requestBody.empty()) headers.push_back("Content-Type: application/json;charset=UTF-8");    //Adding content type to header only, if there is data in the request.
     
     if(encrypted)                                                             //parentLogin (and register parent) is the only nonencrypted call. JWTTool is called unless the request is not coming from login.

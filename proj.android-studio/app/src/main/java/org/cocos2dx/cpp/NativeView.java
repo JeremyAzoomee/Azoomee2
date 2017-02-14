@@ -71,10 +71,9 @@ public class NativeView extends XWalkActivity {
             @Override
             public void onClick(View v) {
 
-                xWalkWebView.removeAllViews();
-
                 if(xWalkWebView != null)
                 {
+                    xWalkWebView.removeAllViews();
                     xWalkWebView.clearCache(true);
                     xWalkWebView = null;
                 }

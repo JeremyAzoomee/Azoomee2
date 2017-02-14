@@ -66,7 +66,7 @@ spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
     oomee->setOpacity(0);
     this->addChild(oomee);
     
-    oomee->runAction(Sequence::create(DelayTime::create(8), FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+    oomee->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
     
     return oomee;
 }
