@@ -52,7 +52,7 @@ void DisplayChildNameLayer::addChildNameToLayer()
     
     this->addChild(childNameLabel);
     
-    childNameLabel->runAction(Sequence::create(DelayTime::create(1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    childNameLabel->runAction(Sequence::create(DelayTime::create(0.1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
 }
 
 void DisplayChildNameLayer::addFrameToLayer()
