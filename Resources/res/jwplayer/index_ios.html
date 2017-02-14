@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 	<head>
-	
+		<title>JW Player</title>
 	</head>
 	<body bgcolor="black">
 		<script src="./jwplayer/jwplayer.js"></script>
@@ -8,9 +8,7 @@
 
 		<div id="videoPlayer"></div>
 		<script type="text/javascript">
-			
 			var contentUrl = getUrlVars()["contentUrl"];
-		
 			var playerInstance = jwplayer("videoPlayer");
 			
 			playerInstance.setup
@@ -19,7 +17,7 @@
     			stretching: "exactfit",
     			mediaid: "azoomeeplayer",
     			height: "100%",
-      			width: "100%",
+      			width: "100%"
 			});
 			
 			jwplayer().on('error', function(event){
@@ -28,6 +26,18 @@
 			
 			jwplayer().on('setupError', function(event){
 				window.location.href = "videoerror://videoerror";
+			});
+			
+			jwplayer().on('play', function(event){
+				var loadingScreen = document.getElementById("loadingScreen");
+				loadingScreen.parentElement.removeChild(loadingScreen);
+				
+				window.location.href = "play://play";
+			});
+			
+			jwplayer().on('ready', function(event){
+				var loadingScreen = document.getElementById("loadingScreen");
+				loadingScreen.innerHTML = '<center><button onClick="startPlayBack()" style="margin-top: 24.5%; width: 15%; background-color: Transparent; border: none;"><img src="play.png" style="width: 50%;"></button></center>';
 			});
 		
 			function getUrlVars() 
@@ -38,6 +48,13 @@
 					vars[key] = value;
 				});
 				return vars;
+			}
+			
+			function startPlayBack()
+			{
+				jwplayer().play(true);
+				var loadingScreen = document.getElementById("loadingScreen");
+				loadingScreen.innerHTML = '<center><img src="load.png" style="margin-top: 24.5%; width: 15%;"></center>';
 			}
 </script>
 <style type="text/css">
@@ -56,6 +73,8 @@
 				padding:0; 
 			}
 		</style>
-	
+		<div id="loadingScreen" style="position: absolute; left: 0px; top: 0px; background-image: url(./loading_bg.jpg); width: 100%; height: 100vh; background-size: 100%;">
+			<center><img src="load.png" style="margin-top: 24.5%; width: 15%;"></center>
+		</div>
 	</body>
 </html>

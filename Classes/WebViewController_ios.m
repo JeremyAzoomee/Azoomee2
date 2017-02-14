@@ -172,6 +172,13 @@
         return NO;
     }
     
+    if ([urlString hasPrefix:@"play"])
+    {
+        NSLog(@"play started");
+        
+        return NO;
+    }
+    
     return YES;
 }
 
