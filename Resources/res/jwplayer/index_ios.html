@@ -29,10 +29,13 @@
 			});
 			
 			jwplayer().on('play', function(event){
-				var loadingScreen = document.getElementById("loadingScreen");
-				loadingScreen.parentElement.removeChild(loadingScreen);
+				if(document.getElementById("loadingScreen"))
+				{
+					var loadingScreen = document.getElementById("loadingScreen");
+					loadingScreen.parentElement.removeChild(loadingScreen);
+				}
 				
-				window.location.href = "videoevent://play";
+				window.location.href = "videoevent://video.play";
 			});
 			
 			jwplayer().on('ready', function(event){
@@ -41,12 +44,12 @@
 			});
 			
 				jwplayer().on('pause', function(event){
-				window.location.href = "videoevent://pause";
+				window.location.href = "videoevent://video.pause";
 			});
 			
 			jwplayer().on('visualQuality', function(event){
 				var currentQuality = jwplayer().getVisualQuality().level;
-				window.location.href = "videoevent://quality?" + currentQuality["width"] + "?" + currentQuality["height"] + "?" + currentQuality["label"];
+				window.location.href = "videoevent://video.quality?" + currentQuality["height"];
 			});
 			
 			jwplayer().on('time', function(event){
@@ -58,27 +61,27 @@
 				if((percentage > 0)&&(!sent0))
 				{
 					sent0 = true;
-					window.location.href = "videoevent://time?0";
+					window.location.href = "videoevent://video.time?0";
 				}
 				if((percentage > 25)&&(!sent25))
 				{
 					sent25 = true;
-					window.location.href = "videoevent://time?25";
+					window.location.href = "videoevent://video.time?25";
 				}
 				if((percentage > 50)&&(!sent50))
 				{
 					sent50 = true;
-					window.location.href = "videoevent://time?50";
+					window.location.href = "videoevent://video.time?50";
 				}
 				if((percentage > 75)&&(!sent75))
 				{
 					sent75 = true;
-					window.location.href = "videoevent://time?75";
+					window.location.href = "videoevent://video.time?75";
 				}
 			});
 			
 			jwplayer().on('complete', function(event){
-				window.location.href = "videoevent://complete";
+				window.location.href = "videoevent://video.complete";
 			});
 		
 			function getUrlVars() 

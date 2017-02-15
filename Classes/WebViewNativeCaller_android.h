@@ -15,6 +15,7 @@ public:
 private:
     std::string getUrlWithoutPath(std::string url);
     int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);
+    void sendEventToMixPanel(const char* eventKey, const char*eventValue);
 
 };
 

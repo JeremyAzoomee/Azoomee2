@@ -4,6 +4,7 @@
 #include "AudioMixer.h"
 #include "LoginScene.h"
 #include "HQHistoryManager.h"
+#include "MixPanelSingleton.h"
 
 USING_NS_CC;
 
@@ -44,6 +45,39 @@ int WebViewNativeCaller_android::findPositionOfNthString(std::string string, std
     return startSearchPos - 1;
 }
 
+void sendEventToMixPanel(const char* eventKey, const char* eventValue)
+{
+    CCLOG("sending to mixpanel: %s, %s", eventKey, eventValue);
+    
+    std::string strKey = StringUtils::format("%s", eventKey);
+    std::string strValue = StringUtils::format("%s", eventValue);
+    
+    if(strKey == "play")
+    {
+        //No play event in mixpanel singleton, TBI
+    }
+    
+    if(strKey == "pause")
+    {
+        MixPanelSingleton::getInstance()->mixPanel_mediaPausedEvent();
+    }
+    
+    if(strKey == "quality")
+    {
+        MixPanelSingleton::getInstance()->mixPanel_mediaQuality(strValue);
+    }
+    
+    if(strKey == "time")
+    {
+        MixPanelSingleton::getInstance()->mixPanel_mediaProgress(std::atoi(strValue.c_str()));
+    }
+    
+    if(strKey == "complete")
+    {
+        //Further implementation required - need to get played time.
+    }
+}
+
 
 void WebViewNativeCaller_android::onEnterTransitionDidFinish()
 {
@@ -74,11 +108,8 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
 #endif
 }
 
-// on "init" you need to initialize your instance
 bool WebViewNativeCaller_android::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
@@ -98,6 +129,23 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_getBackToLoginScreen(JNIEnv* env, jobject thiz)
 {
     HQHistoryManager::getInstance()->thereWasAnError = true;
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_sendMediaPlayerData(JNIEnv* env, jobject thiz, jstring eventKey, jstring eventValue);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_sendMediaPlayerData(JNIEnv* env, jobject thiz, jstring eventKey, jstring eventValue)
+{
+    const char* cEventKey = env->GetStringUTFChars(eventKey, NULL);
+    const char* cEventValue = env->GetStringUTFChars(eventValue, NULL);
+    
+    sendEventToMixPanel(cEventKey, cEventValue);
 }
 
 #endif

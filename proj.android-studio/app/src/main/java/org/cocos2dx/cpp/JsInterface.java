@@ -65,4 +65,11 @@ public class JsInterface extends Activity {
         log.d("error", "errorOccurred called!");
         NativeView.errorOccurred();
     }
+
+    @JavascriptInterface
+    public void sendMediaPlayerData(String key, String value)
+    {
+        log.d("eventhandler", "eventhandler called!");
+        NativeView.sendMediaPlayerData(key, value);
+    }
 }

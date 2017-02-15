@@ -303,4 +303,6 @@ public class NativeView extends XWalkActivity {
     }
 
     public static native void getBackToLoginScreen();
+
+    public static native void sendMediaPlayerData(String eventKey, String eventValue);
 }
