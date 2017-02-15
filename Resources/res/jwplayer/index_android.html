@@ -9,12 +9,17 @@
 
 		<div id="videoPlayer"></div>
 		<script type="text/javascript">
+			var sent0 = false;
+			var sent25 = false;
+			var sent50 = false;
+			var sent75 = false;
+		
 			var contentUrl = getUrlVars()["contentUrl"];
 			var playerInstance = jwplayer("videoPlayer");
 			
 			playerInstance.setup
 			({
-    			file: contentUrl,
+    			file: "example.mp4", //contentUrl,
     			stretching: "exactfit",
     			mediaid: "azoomeeplayer",
     			height: "100%",
@@ -32,13 +37,60 @@
 			});
 			
 			jwplayer().on('play', function(event){
-				var loadingScreen = document.getElementById("loadingScreen");
-				loadingScreen.parentElement.removeChild(loadingScreen);
+				console.log("play");
+				if(document.getElementById("loadingScreen"))
+				{
+					var loadingScreen = document.getElementById("loadingScreen");
+					loadingScreen.parentElement.removeChild(loadingScreen);
+				}
 			});
 			
 			jwplayer().on('ready', function(event){
 				var loadingScreen = document.getElementById("loadingScreen");
 				loadingScreen.innerHTML = '<center><button onClick="startPlayBack()" style="margin-top: 24.5%; width: 15%; background-color: Transparent; border: none;"><img src="play.png" style="width: 50%;"></button></center>';
+			});
+			
+			//onPause, onMediaQuality change, onTime(0-25-50-75), onComplete
+			
+			jwplayer().on('pause', function(event){
+				console.log("Pause");
+			});
+			
+			jwplayer().on('visualQuality', function(event){
+				var currentQuality = jwplayer().getVisualQuality().level;
+				console.log("Visualquality: " + currentQuality["width"] + ", " + currentQuality["height"] + ", " + currentQuality["label"]);
+			});
+			
+			jwplayer().on('time', function(event){
+				var totalDuration = jwplayer().getDuration();
+				var currentPosition = jwplayer().getPosition();
+				
+				var percentage = currentPosition / totalDuration * 100;
+				
+				if((percentage > 0)&&(!sent0))
+				{
+					sent0 = true;
+					console.log("0%");
+				}
+				if((percentage > 25)&&(!sent25))
+				{
+					sent25 = true;
+					console.log("25%");
+				}
+				if((percentage > 50)&&(!sent50))
+				{
+					sent50 = true;
+					console.log("50%");
+				}
+				if((percentage > 75)&&(!sent75))
+				{
+					sent75 = true;
+					console.log("75%");
+				}
+			});
+			
+			jwplayer().on('complete', function(event){
+				console.log("complete");
 			});
 		
 			function getUrlVars() 

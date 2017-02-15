@@ -32,12 +32,53 @@
 				var loadingScreen = document.getElementById("loadingScreen");
 				loadingScreen.parentElement.removeChild(loadingScreen);
 				
-				window.location.href = "play://play";
+				window.location.href = "videoevent://play";
 			});
 			
 			jwplayer().on('ready', function(event){
 				var loadingScreen = document.getElementById("loadingScreen");
 				loadingScreen.innerHTML = '<center><button onClick="startPlayBack()" style="margin-top: 24.5%; width: 15%; background-color: Transparent; border: none;"><img src="play.png" style="width: 50%;"></button></center>';
+			});
+			
+				jwplayer().on('pause', function(event){
+				window.location.href = "videoevent://pause";
+			});
+			
+			jwplayer().on('visualQuality', function(event){
+				var currentQuality = jwplayer().getVisualQuality().level;
+				window.location.href = "videoevent://quality?" + currentQuality["width"] + "?" + currentQuality["height"] + "?" + currentQuality["label"];
+			});
+			
+			jwplayer().on('time', function(event){
+				var totalDuration = jwplayer().getDuration();
+				var currentPosition = jwplayer().getPosition();
+				
+				var percentage = currentPosition / totalDuration * 100;
+				
+				if((percentage > 0)&&(!sent0))
+				{
+					sent0 = true;
+					window.location.href = "videoevent://time?0";
+				}
+				if((percentage > 25)&&(!sent25))
+				{
+					sent25 = true;
+					window.location.href = "videoevent://time?25";
+				}
+				if((percentage > 50)&&(!sent50))
+				{
+					sent50 = true;
+					window.location.href = "videoevent://time?50";
+				}
+				if((percentage > 75)&&(!sent75))
+				{
+					sent75 = true;
+					window.location.href = "videoevent://time?75";
+				}
+			});
+			
+			jwplayer().on('complete', function(event){
+				window.location.href = "videoevent://complete";
 			});
 		
 			function getUrlVars() 
