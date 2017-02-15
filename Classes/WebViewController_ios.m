@@ -181,30 +181,7 @@
         NSString *urlHost = [[request URL] host];
         NSString *urlQuery = [[request URL] query];
         
-        if([urlHost isEqualToString:@"play"])
-        {
-            
-        }
-        
-        if([urlHost isEqualToString:@"pause"])
-        {
-            
-        }
-        
-        if([urlHost isEqualToString:@"quality"])
-        {
-            //query is the quality string
-        }
-        
-        if([urlHost isEqualToString:@"time"])
-        {
-            //query is the current percentage
-        }
-        
-        if([urlHost isEqualToString:@"complete"])
-        {
-            
-        }
+        sendMixPanelData([urlHost cStringUsingEncoding:NSUTF8StringEncoding], [urlQuery cStringUsingEncoding:NSUTF8StringEncoding]);
         
         return NO;
     }

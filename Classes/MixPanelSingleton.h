@@ -1,14 +1,6 @@
 #include "cocos2d.h"
 #include <time.h>
 
-enum percentageComplete
-{
-    quater = 25,
-    half = 50,
-    threeQuarters = 75,
-    complete = 100
-};
-
 class MixPanelSingleton : public cocos2d::Ref
 {
     
@@ -82,8 +74,8 @@ public:
     void mixPanel_previewPopupCancelledEvent();
 
     //---------------MEDIA ACTIONS -----------------
-    void mixPanel_mediaQuality(int quality);
-    void mixPanel_mediaProgress(percentageComplete percentComplete);
+    void mixPanel_mediaQuality(std::string quality);
+    void mixPanel_mediaProgress(int percentComplete);
     void mixPanel_mediaPausedEvent();
     void mixPanel_mediaEnd(int SecondsMediaPlayed);
 

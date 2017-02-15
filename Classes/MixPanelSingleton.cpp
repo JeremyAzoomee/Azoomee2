@@ -434,7 +434,7 @@ void MixPanelSingleton::mixPanel_previewPopupCancelledEvent()
 }
 
 //---------------MEDIA ACTIONS -----------------
-void MixPanelSingleton::mixPanel_mediaQuality(int quality)
+void MixPanelSingleton::mixPanel_mediaQuality(std::string quality)
 {
     std::string eventID = "mediaQuality";
     
@@ -445,20 +445,20 @@ void MixPanelSingleton::mixPanel_mediaQuality(int quality)
     mixPanelProperties["Description"] = storedDescription;
     mixPanelProperties["Type"] = storedType;
     mixPanelProperties["ContentID"] = storedContentID;
-    mixPanelProperties["Quality"] = cocos2d::StringUtils::format("%d", quality);
+    mixPanelProperties["Quality"] = cocos2d::StringUtils::format("%s", quality.c_str());
     
     mixPanelSendiOSEvent(mixPanelProperties, eventID);
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"SecondsInContent\":\"%d\"}", storedTitle.c_str(),storedDescription.c_str(),storedType.c_str(),storedContentID.c_str(), quality));
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"Quality\":\"%s\"}", storedTitle.c_str(),storedDescription.c_str(),storedType.c_str(),storedContentID.c_str(), quality.c_str()));
     
 #endif
 }
 
-void MixPanelSingleton::mixPanel_mediaProgress(percentageComplete percentComplete)
+void MixPanelSingleton::mixPanel_mediaProgress(int percentComplete)
 {
-    std::string eventID = "mediaQuality";
+    std::string eventID = "mediaProgress";
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
@@ -473,7 +473,7 @@ void MixPanelSingleton::mixPanel_mediaProgress(percentageComplete percentComplet
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"SecondsInContent\":\"%d\"}", storedTitle.c_str(),storedDescription.c_str(),storedType.c_str(),storedContentID.c_str(), percentComplete));
+    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"Progress\":\"%d\"}", storedTitle.c_str(),storedDescription.c_str(),storedType.c_str(),storedContentID.c_str(), percentComplete));
     
 #endif
 }
