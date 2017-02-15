@@ -29,5 +29,5 @@ private:
     std::string getHostFromUrl(std::string url);
     std::string getUrlParametersFromUrl(std::string url);
     
-    void handleError(std::string requestTag, long errorCode);
+    void handleError(std::string requestTag, long errorCode, std::string responseString);
 };

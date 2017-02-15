@@ -11,6 +11,7 @@
 #define ERROR_CODE_EMAIL_VARIFICATION_REQUIRED 1003
 #define ERROR_CODE_INCORRECT_PIN 1004
 #define ERROR_CODE_NAME_EXISTS 1005
+#define ERROR_CODE_BAD_TIME_SETTING 2001
 
 class ModalMessages: public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MultiButtonMessageBoxLayerDelegate
 {

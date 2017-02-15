@@ -221,12 +221,20 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         CCLOG("response string: %s", responseDataString.c_str());
         CCLOG("response code: %ld", response->getResponseCode());
 
-        handleError(response->getHttpRequest()->getTag(), response->getResponseCode());
+        handleError(response->getHttpRequest()->getTag(), response->getResponseCode(), responseDataString);
     }
 }
 
-void HttpRequestCreator::handleError(std::string requestTag, long errorCode)
+void HttpRequestCreator::handleError(std::string requestTag, long errorCode, std::string responseString)
 {
+    if(errorCode == 401)
+    {
+        if(findPositionOfNthString(responseString, "\"message\":\"Invalid Request Time\"", 0) != responseString.length())
+        {
+            errorCode = 2001;
+        }
+    }
+    
     if(requestTag == "registerParent") Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
     else Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));
 }

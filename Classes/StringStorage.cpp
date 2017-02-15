@@ -135,6 +135,12 @@ std::map<std::string, std::string> StringStorage::getErrorMessageStrings(long er
             errorStrings[ERROR_BODY] = "You already have a child with this name. Please enter a unique name.";
             errorStrings[ERROR_BUTTON] = "OK";
             break;
+            
+        case ERROR_CODE_BAD_TIME_SETTING :
+            errorStrings[ERROR_TITLE] = "The time on your device is wrong";
+            errorStrings[ERROR_BODY] = "Please correct the time on your device and try logging in again.";
+            errorStrings[ERROR_BUTTON] = "OK";
+            break;
 
         default :
             errorStrings[ERROR_TITLE] = "Something Went Wrong";
