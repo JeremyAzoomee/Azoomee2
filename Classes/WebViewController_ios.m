@@ -172,6 +172,43 @@
         return NO;
     }
     
+    if ([urlString hasPrefix:@"videoevent"])
+    {
+        NSLog(@"VideoEvent received");
+        NSLog(@"Query: %@", [[request URL] query]);
+        NSLog(@"Host: %@", [[request URL] host]);
+        
+        NSString *urlHost = [[request URL] host];
+        NSString *urlQuery = [[request URL] query];
+        
+        if([urlHost isEqualToString:@"play"])
+        {
+            
+        }
+        
+        if([urlHost isEqualToString:@"pause"])
+        {
+            
+        }
+        
+        if([urlHost isEqualToString:@"quality"])
+        {
+            //query is the quality string
+        }
+        
+        if([urlHost isEqualToString:@"time"])
+        {
+            //query is the current percentage
+        }
+        
+        if([urlHost isEqualToString:@"complete"])
+        {
+            
+        }
+        
+        return NO;
+    }
+    
     return YES;
 }
 
