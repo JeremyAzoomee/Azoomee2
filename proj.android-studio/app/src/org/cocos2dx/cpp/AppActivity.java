@@ -46,6 +46,8 @@ import io.fabric.sdk.android.Fabric;
 
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
+import com.appsflyer.AppsFlyerLib;
+
 public class AppActivity extends Cocos2dxActivity {
 
     private static Context mContext;
@@ -141,5 +143,7 @@ public class AppActivity extends Cocos2dxActivity {
         mixpanel.flush();
         super.onDestroy();
     }
+
+
 
 }
