@@ -4,3 +4,7 @@ void mixPanelSendiOSEvent(std::map<std::string, std::string> map, std::string ev
 void mixPanelSendiOSEvent(std::string eventID);
 
 void mixPanel_registerSuperProperties_iOS(std::map<std::string, std::string> map);
+
+void appsFlyerSendiOSEvent(std::map<std::string, std::string> map, std::string eventID);
+
+void appsFlyerSendiOSEvent(std::string eventID);

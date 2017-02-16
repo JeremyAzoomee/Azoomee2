@@ -162,6 +162,16 @@ void MixPanelSingleton::mixPanel_logoutParent()
 void MixPanelSingleton::mixPanel_fistLaunchEvent()
 {
     createOSSpecficCall("firstLaunch");
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+    appsFlyerSendiOSEvent("firstLaunch");
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    
+    
+#endif
 }
 
 // -------------- SIGN IN FUNCTIONS -----------------
@@ -206,6 +216,8 @@ void MixPanelSingleton::mixPanel_OnboardingAccountCreatedEvent()
     mixPanelProperties["Method"] = "App";
     
     mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+    appsFlyerSendiOSEvent(eventID);
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
@@ -372,6 +384,8 @@ void MixPanelSingleton::mixPanel_openContentEvent(std::string Title,std::string 
     mixPanelProperties["ContentID"] = contentID;
     
     mixPanelSendiOSEvent(mixPanelProperties, eventID);
+    
+    appsFlyerSendiOSEvent(mixPanelProperties, eventID);
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
