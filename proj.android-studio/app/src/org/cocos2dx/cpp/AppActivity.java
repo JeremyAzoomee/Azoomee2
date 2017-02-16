@@ -57,6 +57,8 @@ public class AppActivity extends Cocos2dxActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        AppsFlyerLib.getInstance().startTracking(this.getApplication(),"BzPYMg8dkYsCuDn8XBUN94");
+
         mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
