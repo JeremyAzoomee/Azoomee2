@@ -32,6 +32,8 @@ import javax.crypto.spec.SecretKeySpec;
 import android.util.Base64;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xwalk.core.XWalkCookieManager;
 import org.xwalk.core.XWalkView;
 
@@ -42,13 +44,19 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import io.fabric.sdk.android.Fabric;
 
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
+
 public class AppActivity extends Cocos2dxActivity {
 
     private static Context mContext;
+    private MixpanelAPI mixpanel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
+
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         mContext = this;
 
@@ -100,5 +108,38 @@ public class AppActivity extends Cocos2dxActivity {
         Crashlytics.setUserName(ChildIdentifier);
     }
 
+    public static void sendMixPanelWithEventID(String eventID, String jsonPropertiesString)
+    {
+        JSONObject _mixPanelProperties = null;
+
+        try {
+            _mixPanelProperties = new JSONObject(jsonPropertiesString);
+        }catch(JSONException e) {
+            _mixPanelProperties = null;
+        }
+
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
+        mixpanel.track(eventID, _mixPanelProperties);
+    }
+
+    public static void sendMixPanelSuperProperties(String jsonPropertiesString)
+    {
+        JSONObject _mixPanelProperties = null;
+
+        try {
+            _mixPanelProperties = new JSONObject(jsonPropertiesString);
+        }catch(JSONException e) {
+            _mixPanelProperties = null;
+        }
+
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
+        mixpanel.registerSuperProperties(_mixPanelProperties);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mixpanel.flush();
+        super.onDestroy();
+    }
 
 }

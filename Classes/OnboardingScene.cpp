@@ -3,6 +3,7 @@
 #include "BackEndCaller.h"
 #include "LoginScene.h"
 #include "StringStorage.h"
+#include "MixPanelSingleton.h"
 
 USING_NS_CC;
 
@@ -23,6 +24,8 @@ bool OnboardingScene::init()
     {
         return false;
     }
+    
+    MixPanelSingleton::getInstance()->mixPanel_OnboardingStartEvent();
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
@@ -254,10 +257,25 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
 {
     disableButton(button);
     
-    if(button == buttonBackEmail) closeOnboarding();
-    else if(button == buttonNextEmail) moveToAndSetupPasswordScreen(button);
-    else if(button == buttonBackPassword) moveToAndSetupEmailScreen(button);
-    else if(button == buttonNextPassword) moveToAndSetupPinScreen(button);
-    else if(button == buttonBackPin) moveToAndSetupPasswordScreen(button);
-    else if(button == buttonSignUp) signUp();
+    if(button == buttonBackEmail)
+        closeOnboarding();
+    else if(button == buttonNextEmail)
+    {
+        moveToAndSetupPasswordScreen(button);
+        MixPanelSingleton::getInstance()->mixPanel_OnboardingEmailSubmittedEvent();
+    }
+    else if(button == buttonBackPassword)
+        moveToAndSetupEmailScreen(button);
+    else if(button == buttonNextPassword)
+    {
+        moveToAndSetupPinScreen(button);
+        MixPanelSingleton::getInstance()->mixPanel_OnboardingPasswordSubmittedEvent();
+    }
+    else if(button == buttonBackPin)
+        moveToAndSetupPasswordScreen(button);
+    else if(button == buttonSignUp)
+    {
+        MixPanelSingleton::getInstance()->mixPanel_OnboardingPinSubmittedEvent();
+        signUp();
+    }
 }

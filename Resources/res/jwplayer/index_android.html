@@ -19,7 +19,7 @@
 			
 			playerInstance.setup
 			({
-    			file: "example.mp4", //contentUrl,
+    			file: contentUrl,
     			stretching: "exactfit",
     			mediaid: "azoomeeplayer",
     			height: "100%",
@@ -43,6 +43,8 @@
 					var loadingScreen = document.getElementById("loadingScreen");
 					loadingScreen.parentElement.removeChild(loadingScreen);
 				}
+				
+				NativeInterface.sendMediaPlayerData("play", "");
 			});
 			
 			jwplayer().on('ready', function(event){
@@ -50,15 +52,15 @@
 				loadingScreen.innerHTML = '<center><button onClick="startPlayBack()" style="margin-top: 24.5%; width: 15%; background-color: Transparent; border: none;"><img src="play.png" style="width: 50%;"></button></center>';
 			});
 			
-			//onPause, onMediaQuality change, onTime(0-25-50-75), onComplete
-			
 			jwplayer().on('pause', function(event){
 				console.log("Pause");
+				NativeInterface.sendMediaPlayerData("pause", "");
 			});
 			
 			jwplayer().on('visualQuality', function(event){
 				var currentQuality = jwplayer().getVisualQuality().level;
 				console.log("Visualquality: " + currentQuality["width"] + ", " + currentQuality["height"] + ", " + currentQuality["label"]);
+				NativeInterface.sendMediaPlayerData("quality", currentQuality["height"]);
 			});
 			
 			jwplayer().on('time', function(event){
@@ -71,26 +73,31 @@
 				{
 					sent0 = true;
 					console.log("0%");
+					NativeInterface.sendMediaPlayerData("time", "0");
 				}
 				if((percentage > 25)&&(!sent25))
 				{
 					sent25 = true;
 					console.log("25%");
+					NativeInterface.sendMediaPlayerData("time", "25");
 				}
 				if((percentage > 50)&&(!sent50))
 				{
 					sent50 = true;
 					console.log("50%");
+					NativeInterface.sendMediaPlayerData("time", "50");
 				}
 				if((percentage > 75)&&(!sent75))
 				{
 					sent75 = true;
 					console.log("75%");
+					NativeInterface.sendMediaPlayerData("time", "75");
 				}
 			});
 			
 			jwplayer().on('complete', function(event){
 				console.log("complete");
+				NativeInterface.sendMediaPlayerData("complete", "");
 			});
 		
 			function getUrlVars() 

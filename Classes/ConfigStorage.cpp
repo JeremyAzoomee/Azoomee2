@@ -2,6 +2,7 @@
 
 #include "ConfigStorage.h"
 #include "ParentDataProvider.h"
+#include "MixPanelSingleton.h"
 
 using namespace cocos2d;
 
@@ -94,6 +95,19 @@ std::string ConfigStorage::getOomeePNGName(int number)
     oomeeNames[2] = "res/childSelection/om_Raspberry.png";
     oomeeNames[3] = "res/childSelection/om_Green.png";
     oomeeNames[4] = "res/childSelection/om_Blue.png";
+    
+    return oomeeNames[number];
+}
+
+std::string ConfigStorage::getOomeeColour(int number)
+{
+    std::map<int, std::string> oomeeNames;
+    
+    oomeeNames[0] = "Pink";
+    oomeeNames[1] = "Yellow";
+    oomeeNames[2] = "Raspberry";
+    oomeeNames[3] = "Green";
+    oomeeNames[4] = "Blue";
     
     return oomeeNames[number];
 }
@@ -397,6 +411,7 @@ std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType
 void ConfigStorage::setFirstSlideShowSeen()
 {
     UserDefault::getInstance()->setStringForKey(USERDEFAULTS_FIRST_SLIDE_SHOW, SEEN_FIRST_SLIDE_SHOW_YES);
+    MixPanelSingleton::getInstance()->mixPanel_fistLaunchEvent();
 }
 
 bool ConfigStorage::shouldShowFirstSlideShowScene()

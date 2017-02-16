@@ -73,6 +73,7 @@ void AwaitingAdultPinLayer::addUIObjects()
     cancelButton = ElectricDreamsButton::createCancelButton();
     cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2 - 400, origin.y + visibleSize.height * 0.65));
     cancelButton->setDelegate(this);
+    cancelButton->setMixPanelButtonName("PinCancelButton");
     backgroundLayer->addChild(cancelButton);
     
     //------- ACCEPT BUTTON -----------
@@ -81,6 +82,7 @@ void AwaitingAdultPinLayer::addUIObjects()
     acceptButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2 + 400, origin.y + visibleSize.height * 0.65));
     acceptButton->setDelegate(this);
     acceptButton->setVisible(false);
+    acceptButton->setMixPanelButtonName("PinAcceptButton");
     backgroundLayer->addChild(acceptButton);
     
 }

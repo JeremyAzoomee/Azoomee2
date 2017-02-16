@@ -6,6 +6,8 @@
 #include "HQScene.h"
 #include "AppDelegate.h"
 #include "ModalMessages.h"
+#include "MixPanelSingleton.h"
+
 
 USING_NS_CC;
 using namespace cocos2d;
@@ -217,6 +219,10 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(rect.containsPoint(locationInNode))
         {
+            if(preview)
+                MixPanelSingleton::getInstance()->mixPanel_previewContentClickedEvent("","", "ARTS APP");
+            else
+                MixPanelSingleton::getInstance()->mixPanel_openContentEvent("", "", "ARTS APP", "");
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;
             movedAway = false;

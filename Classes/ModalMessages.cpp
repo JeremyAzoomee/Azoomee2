@@ -5,6 +5,7 @@
 #include "OnboardingScene.h"
 #include "BaseScene.h"
 #include "HQHistoryManager.h"
+#include "MixPanelSingleton.h"
 
 USING_NS_CC;
 
@@ -132,6 +133,8 @@ void ModalMessages::createMessageWithSingleButton(std::string messageTitle, std:
 
 void ModalMessages::createTitle(std::string messageTitle)
 {
+    MixPanelSingleton::getInstance()->mixPanel_messageBoxShow(messageTitle);
+    
     auto titleLabel = Label::createWithTTF(messageTitle, "fonts/azoomee.ttf", 120);
     
     if(titleLabel->getContentSize().width < (MESSAGE_BOX_MINIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
@@ -288,6 +291,10 @@ void ModalMessages::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std
         {
             Scene *onboardingScene = OnboardingScene::createScene(0);
             Director::getInstance()->replaceScene(onboardingScene);
+        }
+        else if(buttonTitle == CANCEL_BUTTON_TEXT)
+        {
+            MixPanelSingleton::getInstance()->mixPanel_previewPopupCancelledEvent();
         }
     }
     else if(messageBoxTitle == somethingWentWrongTitle)

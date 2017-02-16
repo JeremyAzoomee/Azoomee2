@@ -1,6 +1,7 @@
 #include "ElectricDreamsButton.h"
 #include "ExitOrLogoutLayer.h"
 #include "AudioMixer.h"
+#include "MixPanelSingleton.h"
 
 bool ElectricDreamsButton::init()
 {
@@ -174,6 +175,7 @@ ElectricDreamsButton* ElectricDreamsButton::createSettingsButton(float creationD
     settingsButton->runAction(Sequence::create(DelayTime::create(creationDelay + randomDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     
     layer->buttonAudioFile = SETTINGS_BUTTON_AUDIO_EFFECT;
+    layer->mixPanelButtonName = "Settings";
     
     layer->addListener();
     
@@ -200,6 +202,7 @@ void ElectricDreamsButton::addListener()
         if(rect.containsPoint(locationInNode) && this->isVisible())
         {
             AudioMixer::getInstance()->playEffect(buttonAudioFile);
+            sendMixPanelEvent();
             
             if(isSettingsButton)
                 ExitOrLogoutLayer::create();
@@ -230,4 +233,17 @@ void ElectricDreamsButton::setCenterPosition(Vec2 position)
 Vec2 ElectricDreamsButton::getCenterPosition()
 {
     return Vec2(this->getPositionX() + this->getContentSize().width/2, this->getPositionY() + this->getContentSize().height/2);
+}
+
+void ElectricDreamsButton::setMixPanelButtonName(std::string buttonName)
+{
+    mixPanelButtonName = buttonName;
+}
+
+//------------------------- private functions ----------------------
+
+void ElectricDreamsButton::sendMixPanelEvent()
+{
+    if(mixPanelButtonName != "")
+        MixPanelSingleton::getInstance()->mixPanel_genericButtonPress(mixPanelButtonName);
 }

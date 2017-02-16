@@ -13,6 +13,7 @@
 #include "HQHistoryManager.h"
 #include "AudioMixer.h"
 #include "StringStorage.h"
+#include "MixPanelSingleton.h"
 
 USING_NS_CC;
 
@@ -206,6 +207,7 @@ void NavigationLayer::createPreviewLoginButton()
     previewLoginButton = ElectricDreamsButton::createTextAsButton(LOGIN_BUTTON_TEXT);
     previewLoginButton->setCenterPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width/2 + previewLoginButton->getContentSize().height/2, origin.y + visibleSize.height- previewLoginButton->getContentSize().height));
     previewLoginButton->setDelegate(this);
+    previewLoginButton->setMixPanelButtonName("PreviewLogin");
     this->addChild(previewLoginButton);
     
     previewLoginButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/2, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.5)), 2), NULL));
@@ -245,6 +247,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
             }
             else
             {
+                MixPanelSingleton::getInstance()->mixPanel_navSelectionEvent("",target->getTag());
                 AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
                 this->startLoadingHQScene(target->getTag());
                 this->turnOffAllMenuItems();

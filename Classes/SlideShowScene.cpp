@@ -37,6 +37,7 @@ void SlideShowScene::createButtons()
     skipButton = ElectricDreamsButton::createTextAsButton(SKIP_BUTTON_TEXT);
     skipButton->setCenterPosition(Vec2(origin.x+visibleSize.width - skipButton->getContentSize().width/2 - skipButton->getContentSize().height/2, origin.y + visibleSize.height- skipButton->getContentSize().height));
     skipButton->setDelegate(this);
+    skipButton->setMixPanelButtonName("slideshowSkip");
     this->addChild(skipButton);
     
     fadeInObject(skipButton);
@@ -89,6 +90,7 @@ void SlideShowScene::SheduleSlideSpriteCreation(float dt)
     startExporingButton = ElectricDreamsButton::createButtonWithText(START_EXPLORING_BUTTON_TEXT);
     startExporingButton->setCenterPosition(Vec2(layout6->getContentSize().width/2, layout6->getContentSize().height/2));
     startExporingButton->setDelegate(this);
+    startExporingButton->setMixPanelButtonName("SlideshowStartExploring");
     layout6->addChild(startExporingButton);
 }
 

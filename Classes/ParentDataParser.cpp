@@ -4,6 +4,7 @@
 #include "ModalMessages.h"
 #include "LoginScene.h"
 #include "CrashLyticsConfig.h"
+#include "MixPanelSingleton.h"
 
 #include "HQDataStorage.h"
 
@@ -69,6 +70,7 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
             HQDataStorage::getInstance()->HQGetContentUrls.clear();
             
             createCrashlyticsUserInfo(ParentDataStorage::getInstance()->loggedInParentId, "");
+            MixPanelSingleton::getInstance()->mixPanel_registerParentID(ParentDataStorage::getInstance()->loggedInParentId);
             
             return true;
         }

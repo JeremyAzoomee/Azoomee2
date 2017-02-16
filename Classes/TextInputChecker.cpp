@@ -133,3 +133,22 @@ bool isValidChildName(const char * childName)
     else return 0;
 }
 
+bool hasAzoomeeEmailAddress(std::string emailAddress)
+{
+    auto atPosition = emailAddress.find("@");
+    
+    if ( atPosition != std::string::npos && stringToLower(emailAddress).find("azoomee", atPosition) != std::string::npos)
+        return true;
+    else
+        return false;
+}
+
+std::string stringToLower(std::string input)
+{
+    for(int i = 0; i < input.length(); i++)
+    {
+        input[i] = tolower(input[i]);
+    }
+    
+    return input;
+}

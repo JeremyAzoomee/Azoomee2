@@ -23,6 +23,7 @@
 #include "HQScene.h"
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
+#include "MixPanelSingleton.h"
 
 USING_NS_CC;
 
@@ -55,6 +56,9 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     std::string itemid = itemData["id"];
     std::string itementitled = itemData["entitled"];
     std::string itemuri = itemData["uri"];
+    std::string itemTitle = itemData["title"];
+    std::string itemDescription = itemData["description"];
+    std::string itemType = itemData["type"];
     
     auto funcCallAction = CallFunc::create([=](){
     
@@ -71,13 +75,13 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     
     if(itementitled == "true")
     {
-        if(!aboutToExit) addListenerToElement(itemuri, itemid, category, false);
+        if(!aboutToExit) addListenerToElement(itemuri, itemid, category, itemTitle, itemDescription, itemType, false);
     }
     else
     {
         if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
-           if(!aboutToExit) addListenerToElement(itemuri, itemid, category, true);
+           if(!aboutToExit) addListenerToElement(itemuri, itemid, category, itemTitle, itemDescription, itemType, true);
         }
         
        if(!aboutToExit) addLockToElement();
@@ -189,7 +193,7 @@ void HQSceneElement::createColourLayer(std::string category, float delay)
     baseLayer->runAction(Sequence::create(DelayTime::create(delay), FadeTo::create(0.1, colour.a), NULL));
 }
 
-void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, bool preview)
+void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -242,10 +246,13 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             
             if(!preview)
             {
+                MixPanelSingleton::getInstance()->mixPanel_openContentEvent(title, description, type, contentId);
                 startUpElementDependingOnType(uri, contentId, category);
             }
             else
             {
+                CCLOG("MixPanel: %s, %s, %s", title.c_str(),description.c_str(),category.c_str());
+                MixPanelSingleton::getInstance()->mixPanel_previewContentClickedEvent(title,description,type);
                 ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
                 return true;
             }

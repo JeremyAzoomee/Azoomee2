@@ -3,6 +3,7 @@
 #include "StringStorage.h"
 #include "ChildDataProvider.h"
 #include "AudioMixer.h"
+#include "MixPanelSingleton.h"
 #include "ParentDataParser.h"
 
 bool ExitOrLogoutLayer::init()
@@ -66,14 +67,15 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     cancelButton = ElectricDreamsButton::createCancelButton();
     cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.3));
     cancelButton->setDelegate(this);
+    cancelButton->setMixPanelButtonName("ExitorLogoutCancelButton");
     backgroundLayer->addChild(cancelButton);
-    
     
     // ------- LOG OUT BUTTON ----------
     
     logoutButton = ElectricDreamsButton::createButtonWithText(LOG_OUT_BUTTON_TEXT);
     logoutButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.6));
     logoutButton->setDelegate(this);
+    logoutButton->setMixPanelButtonName("Log Out");
     backgroundLayer->addChild(logoutButton);
 }
 
@@ -108,6 +110,7 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == logoutButton)
     {
+        MixPanelSingleton::getInstance()->mixPanel_logoutParent();
         ParentDataParser::getInstance()->logoutChild();
         
         UserDefault::getInstance()->getStringForKey("password", "");

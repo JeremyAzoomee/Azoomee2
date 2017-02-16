@@ -6,6 +6,7 @@
 #include "ParentDataProvider.h"
 #include "HQHistoryManager.h"
 #include "AudioMixer.h"
+#include "MixPanelSingleton.h"
 
 USING_NS_CC;
 
@@ -108,6 +109,8 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
             
             target->setAnimation(0, animationid.c_str(), false);
             AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), animationid);
+            
+            MixPanelSingleton::getInstance()->mixPanel_hubTapOomee(displayedOomeeNumber, animationid);
             
             return true;
         }

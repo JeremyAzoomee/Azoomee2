@@ -27,6 +27,9 @@ private:
     bool isSettingsButton;
     
     std::string buttonAudioFile;
+    std::string mixPanelButtonName = "";
+    
+    void sendMixPanelEvent();
     
 public:
     virtual bool init();
@@ -46,6 +49,7 @@ public:
     
     void setCenterPosition(Vec2 position);
     Vec2 getCenterPosition();
+    void setMixPanelButtonName(std::string buttonName);
     
 };
 
