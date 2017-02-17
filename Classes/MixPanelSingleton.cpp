@@ -66,6 +66,27 @@ void MixPanelSingleton::mixPanel_androidJNIHelper(std::string eventID, std::stri
 #endif
 }
 
+void MixPanelSingleton::appsFlyer_androidJNIHelper(std::string eventID, std::string propertiesJSONString)
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    cocos2d::JniMethodInfo methodInfo;
+    
+    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "sendAppsFlyerEvent", "(Ljava/lang/String;Ljava/lang/String;)V"))
+    {
+        return;
+    }
+    
+    jstring jstringEventID= methodInfo.env->NewStringUTF(eventID.c_str());
+    jstring jstringJSONProperties= methodInfo.env->NewStringUTF(propertiesJSONString.c_str());
+    
+    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jstringEventID,jstringJSONProperties);
+    
+    methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    
+#endif
+}
+
 //-------------- SUPER PROPERTIES---------------------
 
 void MixPanelSingleton::mixPanel_OSSpecificSuperPropertiesCall(std::string Key, std::string Property)
@@ -169,7 +190,7 @@ void MixPanelSingleton::mixPanel_fistLaunchEvent()
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    
+    appsFlyer_androidJNIHelper("firstLaunch", "");
     
 #endif
 }
@@ -222,6 +243,8 @@ void MixPanelSingleton::mixPanel_OnboardingAccountCreatedEvent()
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
     mixPanel_androidJNIHelper(eventID,"{\"Method\":\"App\"}");
+    
+    appsFlyer_androidJNIHelper(eventID, "{\"Method\":\"App\"}");
     
 #endif
 }
@@ -390,6 +413,8 @@ void MixPanelSingleton::mixPanel_openContentEvent(std::string Title,std::string 
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
     mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\"}", Title.c_str(),Description.c_str(),Type.c_str(),contentID.c_str()));
+    
+    appsFlyer_androidJNIHelper(eventID, cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\"}", Title.c_str(),Description.c_str(),Type.c_str(),contentID.c_str()));
     
 #endif
 }

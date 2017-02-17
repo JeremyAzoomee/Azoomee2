@@ -9,6 +9,8 @@ private:
     
     void mixPanel_androidJNIHelper(std::string eventID, std::string propertiesJSONString);
     
+    void appsFlyer_androidJNIHelper(std::string eventID, std::string propertiesJSONString);
+    
     std::string storedTitle;
     std::string storedDescription;
     std::string storedType;
