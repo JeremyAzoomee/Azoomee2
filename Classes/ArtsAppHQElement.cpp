@@ -5,7 +5,7 @@
 #include "ChildDataProvider.h"
 #include "HQScene.h"
 #include "AppDelegate.h"
-#include "ModalMessages.h"
+#include "MessageBox.h"
 #include "MixPanelSingleton.h"
 
 
@@ -266,7 +266,7 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         {
             if(preview)
             {
-                ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
+                MessageBox::createPreviewLoginSignupMessageBox();
                 return true;
             }
             

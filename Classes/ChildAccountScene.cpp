@@ -1,5 +1,4 @@
 #include "ChildAccountScene.h"
-#include "ModalMessages.h"
 #include "BackEndCaller.h"
 #include "ChildSelectorScene.h"
 #include "TextInputChecker.h"
@@ -7,6 +6,7 @@
 #include "ConfigStorage.h"
 #include "AudioMixer.h"
 #include "MixPanelSingleton.h"
+#include "MessageBox.h"
 
 USING_NS_CC;
 
@@ -45,7 +45,7 @@ void ChildAccountScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
     {
-        ModalMessages::getInstance()->createErrorMessage(_errorCode,editBox_childName);
+        MessageBox::createWith(_errorCode, editBox_childName, nullptr);
     }
     
     editBox_childName->focusAndShowKeyboard();
@@ -283,7 +283,7 @@ void ChildAccountScene::moveToAndSetupDOBInput(ElectricDreamsButton* button)
     
     if(childNameExists(newChildsName) && passedChildName != newChildsName)
     {
-        ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_NAME_EXISTS,editBox_childName);
+        MessageBox::createWith(ERROR_CODE_NAME_EXISTS, editBox_childName, nullptr);
         enableButton(button);
         MixPanelSingleton::getInstance()->mixPanel_childProdileNameErrorEvent();
     }

@@ -2,8 +2,9 @@
 #include "network/HttpClient.h"
 #include "external/json/document.h"
 #include "ElectricDreamsButton.h"
+#include "MessageBox.h"
 
-class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate
+class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
     
 public:
@@ -14,6 +15,7 @@ public:
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
 private:
     std::string getFileNameFromUrl(std::string url);

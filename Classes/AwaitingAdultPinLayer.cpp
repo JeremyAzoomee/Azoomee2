@@ -1,9 +1,9 @@
 #include "AwaitingAdultPinLayer.h"
-#include "ModalMessages.h"
 #include "StringStorage.h"
 #include "BackEndCaller.h"
 #include "ParentDataProvider.h"
 #include "AudioMixer.h"
+#include "MessageBox.h"
 
 bool AwaitingAdultPinLayer::init()
 {
@@ -143,7 +143,7 @@ void AwaitingAdultPinLayer::secondCheckForPin()
     }
     else
     {
-        ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_INCORRECT_PIN,editBox_pin);
+        MessageBox::createWith(ERROR_CODE_INCORRECT_PIN, editBox_pin, nullptr);
         acceptButton->setVisible(false);
     }
     

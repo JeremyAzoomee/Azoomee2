@@ -19,7 +19,7 @@
 #include "HQDataParser.h"
 #include "NavigationLayer.h"
 #include "ChildDataProvider.h"
-#include "ModalMessages.h"
+#include "MessageBox.h"
 #include "HQScene.h"
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
@@ -253,7 +253,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             {
                 CCLOG("MixPanel: %s, %s, %s", title.c_str(),description.c_str(),category.c_str());
                 MixPanelSingleton::getInstance()->mixPanel_previewContentClickedEvent(title,description,type);
-                ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
+                MessageBox::createPreviewLoginSignupMessageBox();
                 return true;
             }
             

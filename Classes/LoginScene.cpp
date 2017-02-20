@@ -81,7 +81,7 @@ void LoginScene::onEnterTransitionDidFinish()
             
             if(shouldDisplayMessage)
             {
-                MultiButtonMessageBoxLayer::createMessageBox("Something went wrong", "There was a problem so we logged you in again.", std::vector<std::string> {"Ok"}, this);
+                MessageBox::createWith("Something went wrong", "There was a problem so we logged you in again.", std::vector<std::string> {"Ok"}, this);
                 return;
             }
             else
@@ -106,7 +106,7 @@ void LoginScene::onEnterTransitionDidFinish()
     
     if(_errorCode !=0)
     {
-        ModalMessages::getInstance()->createErrorMessage(_errorCode,nullptr);
+        MessageBox::createWith(_errorCode, nullptr);
     }
     
 #ifdef autologin
@@ -340,7 +340,7 @@ void LoginScene::buttonPressed(ElectricDreamsButton* button)
     
 }
 
-void LoginScene::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle)
+void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
     UserDefault* def = UserDefault::getInstance();
     std::string username = def->getStringForKey("username", "");

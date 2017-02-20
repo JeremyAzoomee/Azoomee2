@@ -14,7 +14,11 @@
         <!-- Tell Cocos2dxActivity the name of our .so -->
         <meta-data android:name="android.app.lib_name"
                    android:value="MyGame" />
-
+        <receiver android:name="com.appsflyer.SingleInstallBroadcastReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name="org.cocos2dx.cpp.AppActivity"
             android:screenOrientation="sensorLandscape"
@@ -36,6 +40,8 @@
             android:name="io.fabric.ApiKey"
             android:value="3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8"
             />
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

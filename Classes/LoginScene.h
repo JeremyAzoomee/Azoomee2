@@ -4,11 +4,11 @@
 #include "cocos2d.h"
 #include "TextInputLayer.h"
 #include "ElectricDreamsButton.h"
-#include "MultiButtonMessageBoxLayer.h"
+#include "MessageBox.h"
 
 USING_NS_CC;
 
-class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MultiButtonMessageBoxLayerDelegate
+class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
     long _errorCode;
@@ -63,7 +63,7 @@ public:
     //Delegate Functions
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void buttonPressed(ElectricDreamsButton* button);
-    void MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
 
     CREATE_FUNC(LoginScene);
 };

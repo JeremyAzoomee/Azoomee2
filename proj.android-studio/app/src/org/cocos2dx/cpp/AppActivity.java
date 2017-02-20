@@ -39,12 +39,15 @@ import org.xwalk.core.XWalkView;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import io.fabric.sdk.android.Fabric;
 
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
+
+import com.appsflyer.AppsFlyerLib;
 
 public class AppActivity extends Cocos2dxActivity {
 
@@ -54,6 +57,8 @@ public class AppActivity extends Cocos2dxActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppsFlyerLib.getInstance().startTracking(this.getApplication(),"BzPYMg8dkYsCuDn8XBUN94");
 
         mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
 
@@ -108,6 +113,8 @@ public class AppActivity extends Cocos2dxActivity {
         Crashlytics.setUserName(ChildIdentifier);
     }
 
+    //----Mix Panel------
+
     public static void sendMixPanelWithEventID(String eventID, String jsonPropertiesString)
     {
         JSONObject _mixPanelProperties = null;
@@ -140,6 +147,28 @@ public class AppActivity extends Cocos2dxActivity {
     protected void onDestroy() {
         mixpanel.flush();
         super.onDestroy();
+    }
+
+    //----- Appsflyer--------
+
+    public static void sendAppsFlyerEvent(String eventID, String jsonPropertiesString) {
+
+        jsonPropertiesString = jsonPropertiesString.replace("{","");
+        jsonPropertiesString = jsonPropertiesString.replace("}","");
+
+        Map<String, Object> _appsFlyerProperties = new HashMap<String, Object>();;
+
+        if(!Objects.equals(jsonPropertiesString, new String("")))
+        {
+            String[] pairs = jsonPropertiesString.split(",");
+            for (int i = 0; i < pairs.length; i++) {
+                String pair = pairs[i];
+                String[] keyValue = pair.split(":");
+                _appsFlyerProperties.put(keyValue[0], keyValue[1]);
+            }
+        }
+
+        AppsFlyerLib.getInstance().trackEvent(mContext, eventID, _appsFlyerProperties);
     }
 
 }
