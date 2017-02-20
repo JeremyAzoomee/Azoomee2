@@ -205,7 +205,10 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
         Size s = target->getBoundingBox().size;//getContentSize();
         Rect rect = Rect(0,0,s.width, s.height);
         
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")) //this is needed because of the offline hub
+        {
+            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        }
         
         if(rect.containsPoint(locationInNode))
         {
@@ -238,7 +241,10 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
         {
             overlayWhenTouched->setOpacity(0);
             
-            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")) //this is needed because of the offline hub
+            {
+                if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+            }
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             iamtouched = false;
@@ -247,6 +253,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             if(!preview)
             {
                 MixPanelSingleton::getInstance()->mixPanel_openContentEvent(title, description, type, contentId);
+                CCLOG("Startup running");
                 startUpElementDependingOnType(uri, contentId, category);
             }
             else
@@ -279,6 +286,8 @@ void HQSceneElement::reduceLabelTextToFitWidth(Label* label,float maxWidth)
 
 void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string contentId, std::string category)
 {
+    
+    CCLOG("uri: %s, contentid: %s, category: %s", uri.c_str(), contentId.c_str(), category.c_str());
     
     this->getParent()->getParent()->getParent()->stopAllActions();
     

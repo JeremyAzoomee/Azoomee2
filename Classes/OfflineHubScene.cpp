@@ -2,6 +2,7 @@
 #include "OfflineHubSceneVisuals.h"
 #include "OfflineHubHQ.h"
 #include "OfflineExit.h"
+#include "OfflineGameSearch.h"
 
 USING_NS_CC;
 
@@ -42,10 +43,21 @@ void OfflineHubScene::addVisuals()
 
 void OfflineHubScene::addOfflineExit()
 {
-    
+    auto offlineExit = OfflineExit::create();
+    this->addChild(offlineExit);
 }
 
 void OfflineHubScene::addHubHQ()
 {
+    auto offlineGameSearch = OfflineGameSearch::create();
+    std::vector<std::map<std::string, std::string>> gameList = offlineGameSearch->getOfflineGamesList();
     
+    for(int i = 0; i < gameList.size(); i++)
+    {
+        CCLOG("gameList: %s", gameList.at(i)["id"].c_str());
+    }
+    
+    auto offlineHubHQ = OfflineHubHQ::create();
+    offlineHubHQ->createOfflineHQ(gameList);
+    this->addChild(offlineHubHQ);
 }

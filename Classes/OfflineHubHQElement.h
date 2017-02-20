@@ -11,7 +11,10 @@ public:
     CREATE_FUNC(OfflineHubHQElement);
     virtual bool init();
     
+    void onEnter();
+    
 private:
+    
 
 };
 

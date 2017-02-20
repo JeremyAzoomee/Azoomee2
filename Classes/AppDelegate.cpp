@@ -7,6 +7,7 @@
 #include "HQHistoryManager.h"
 #include "LoginScene.h"
 #include "MixPanelSingleton.h"
+#include "OfflineHubScene.h"
 
 USING_NS_CC;
 
@@ -87,6 +88,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     auto scene = IntroVideoScene::createScene();
+    //auto scene = OfflineHubScene::createScene();
     // run
     director->runWithScene(scene);
 

@@ -24,18 +24,20 @@ bool OfflineGameSearch::init()
     return true;
 }
 
-std::vector<std::string> OfflineGameSearch::getOfflineGamesList()
+std::vector<std::map<std::string, std::string>> OfflineGameSearch::getOfflineGamesList()
 {
-    std::vector<std::string> gameList;
+    std::vector<std::map<std::string, std::string>> gameList;
     std::vector<std::string> jsonList = getJsonFileListFromDir();
     
-    for(int i = 0; i < gameList.size(); i++)
+    for(int i = 0; i < jsonList.size(); i++)
     {
-        if(gameList.at(i).length() > 3)
+        if(jsonList.at(i).length() > 3)
         {
-            if(isStarterFileExists(gameList.at(i)))
+            if(isStarterFileExists(jsonList.at(i)))
             {
-                gameList.push_back(jsonList.at(i));
+                std::map<std::string, std::string>
+                currentGameData = getGameDetails(jsonList.at(i));
+                gameList.push_back(currentGameData);
             }
         }
     }
@@ -58,7 +60,11 @@ std::vector<std::string> OfflineGameSearch::getJsonFileListFromDir()
     {
         while ((ent = readdir (dir)) != NULL)
         {
-            fileNames.push_back(ent->d_name);
+            std::string fileName = ent->d_name;
+            if(fileName.length() > 10)
+            {
+                fileNames.push_back(ent->d_name);
+            }
         }
         closedir (dir);
         return fileNames;
@@ -72,17 +78,37 @@ std::vector<std::string> OfflineGameSearch::getJsonFileListFromDir()
 
 bool OfflineGameSearch::isStarterFileExists(std::string gameId)
 {
-    std::string path = getStartFileFromJson(gameId);
+    std::string path = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/" + getStartFileFromJson(gameId);
     return FileUtils::getInstance()->isFileExist(path);
 }
 
 std::string OfflineGameSearch::getStartFileFromJson(std::string gameId)
 {
-    std::string jsonFileName = FileUtils::getInstance()->getWritablePath() + "/gameCache/" + gameId + "/package.json";
+    std::string jsonFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
     
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
     return gameData["pathToStartPage"].GetString();
+}
+
+std::map<std::string, std::string> OfflineGameSearch::getGameDetails(std::string gameId)
+{
+    std::map<std::string, std::string> currentGameData;
+    
+    std::string jsonFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
+    
+    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    rapidjson::Document gameData;
+    gameData.Parse(fileContent.c_str());
+    
+    currentGameData["id"] = gameId;
+    currentGameData["entitled"] = "true";
+    currentGameData["uri"] = gameData["pathToStartPage"].GetString();
+    currentGameData["title"] = gameData["name"].GetString();
+    currentGameData["description"] = "";
+    currentGameData["type"] = "GAME";
+    
+    return currentGameData;
 }

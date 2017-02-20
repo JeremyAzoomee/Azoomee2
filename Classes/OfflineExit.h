@@ -1,5 +1,5 @@
-#ifndef __OFFLINEHUB_SCENE_H__
-#define __OFFLINEHUB_SCENE_H__
+#ifndef __OFFLINEEXIT_H__
+#define __OFFLINEEXIT_H__
 
 #include "cocos2d.h"
 

@@ -21,3 +21,10 @@ bool OfflineHubHQElement::init()
     
     return true;
 }
+
+void OfflineHubHQElement::onEnter()
+{
+    
+    
+    Node::onEnter();
+}

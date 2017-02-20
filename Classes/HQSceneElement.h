@@ -42,4 +42,14 @@ private:
     bool aboutToExit;
 };
 
+class HQSceneElementHQListener : public cocos2d::Ref
+{
+    
+};
+
+class HQSceneelementOfflineHQListener : public cocos2d::Ref
+{
+    
+};
+
 #endif
