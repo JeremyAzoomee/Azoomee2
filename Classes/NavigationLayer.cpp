@@ -9,7 +9,7 @@
 #include "ChildDataStorage.h"
 #include "ChildDataProvider.h"
 #include "ExitOrLogoutLayer.h"
-#include "ModalMessages.h"
+#include "MessageBox.h"
 #include "HQHistoryManager.h"
 #include "AudioMixer.h"
 #include "StringStorage.h"
@@ -242,7 +242,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
                 }
                 else
                 {
-                    ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
+                    MessageBox::createPreviewLoginSignupMessageBox();
                 }
             }
             else
@@ -425,6 +425,6 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == previewLoginButton)
     {
-        ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
+        MessageBox::createPreviewLoginSignupMessageBox();
     }
 }

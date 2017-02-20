@@ -1,5 +1,5 @@
 #include "StringStorage.h"
-#include "ModalMessages.h"
+#include "MessageBox.h"
 
 using namespace cocos2d;
 

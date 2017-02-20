@@ -18,6 +18,10 @@ USING_NS_CC;
 #include "BackEndCaller.h"
 #include "ModalMessages.h"
 #include "LoginScene.h"
+#include "MessageBox.h"
+#include "StringStorage.h"
+#include "HQHistoryManager.h"
+#include "BaseScene.h"
 
 
 using namespace network;
@@ -358,13 +362,15 @@ void GameDataManager::hideLoadingScreen()
 
 void GameDataManager::showErrorMessage()
 {
-    ModalMessages::getInstance()->createSomethingWentWrongMessage();
+    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, this);
 }
 
 void GameDataManager::removeGameFolderOnError(std::string dirPath)
 {
     FileUtils::getInstance()->removeDirectory(dirPath);
 }
+
+//--------------- DELEGATE FUNCTIONS ------------------
 
 void GameDataManager::buttonPressed(ElectricDreamsButton *button)
 {
@@ -375,4 +381,16 @@ void GameDataManager::buttonPressed(ElectricDreamsButton *button)
     
     Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("cancelButton"));
     ModalMessages::getInstance()->stopLoading();
+}
+
+void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    std::map<std::string, std::string> errorStringMap = StringStorage::getInstance()->getErrorMessageStrings(ERROR_CODE_SOMETHING_WENT_WRONG);
+    
+    if(messageBoxTitle == errorStringMap[ERROR_TITLE] && buttonTitle == errorStringMap[ERROR_BUTTON])
+    {
+        HQHistoryManager::getInstance()->emptyHistory();
+        auto baseScene = BaseScene::createScene();
+        Director::getInstance()->replaceScene(baseScene);
+    }
 }

@@ -260,7 +260,6 @@ void MessageBox::buttonPressed(ElectricDreamsButton* button)
                 if(_delegate)
                     this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(i));
             }
-            
         }
     }
 }

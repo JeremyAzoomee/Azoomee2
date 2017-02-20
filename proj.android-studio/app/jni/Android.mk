@@ -54,7 +54,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HQDataProvider.cpp \
                    ../../../Classes/CrashlyticsConfig.cpp \
                    ../../../Classes/IntroVideoScene.cpp \
-                   ../../../Classes/MultiButtonMessageBoxLayer.cpp \
+                   ../../../Classes/MessageBox.cpp \
                    ../../../Classes/AwaitingAdultPinLayer.cpp \
                    ../../../Classes/ExitOrLogoutLayer.cpp \
                    ../../../Classes/ArtsAppHQElement.cpp \

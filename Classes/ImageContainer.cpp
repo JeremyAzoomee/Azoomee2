@@ -6,7 +6,7 @@
 #include "GameDataManager.h"
 #include "ConfigStorage.h"
 #include "NavigationLayer.h"
-#include "ModalMessages.h"
+#include "MessageBox.h"
 #include "ChildDataProvider.h"
 #include "HQHistoryManager.h"
 #include "AudioMixer.h"
@@ -218,7 +218,7 @@ void ImageContainer::addPreviewListenerToContainer(cocos2d::Node *addTo, std::st
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             MixPanelSingleton::getInstance()->mixPanel_previewContentClickedEvent(Title, Description, Type);
             
-            ModalMessages::getInstance()->createPreviewLoginSignupMessageBox();
+            MessageBox::createPreviewLoginSignupMessageBox();
             return true;
         }
         

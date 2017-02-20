@@ -9,39 +9,13 @@ USING_NS_CC;
 
 //------------- ERROR MESSAGE CODES --------------
 // For use in createWith(ErrorCode)
+#define ERROR_CODE_SOMETHING_WENT_WRONG -2
 #define ERROR_CODE_INVALID_CREDENTIALS 1001
 #define ERROR_CODE_ANY_OTHER_LOGIN_ERROR 1002
 #define ERROR_CODE_EMAIL_VARIFICATION_REQUIRED 1003
 #define ERROR_CODE_INCORRECT_PIN 1004
 #define ERROR_CODE_NAME_EXISTS 1005
 #define ERROR_CODE_BAD_TIME_SETTING 2001
-
-/*------- NOTES FOR USAGE -------
-
-In .h file, add the delegate definition.
-
-    public MultiButtonMessageBoxLayerDelegate
- 
-and add in the public functions of the .h file, declare the delegate function.
-
-    void MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle);
- 
-In the cpp to call the multimessagebox, create a vector of button titles.
-Then call the CreateMessageBox giving the message details,
-Pass the function 'this' so it can assign this class as its delegate.
- 
-    std::vector<std::string> buttonTitles;
-    buttonTitles.push_back("b1");
-    buttonTitles.push_back("b2");
-    buttonTitles.push_back("b3");
- 
-    MultiButtonMessageBoxLayer::createMessageBox("title", "body", buttonTitles, this);
-
-Define your delegate function, the message box title and button title will be given back.
- 
-void <YOUR CLASS>::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle)
- 
-*/
 
 class MessageBox;
 
@@ -65,6 +39,8 @@ private:
     Label* messageTitleLabel;
     Label* messageBodyLabel;
     std::vector<ElectricDreamsButton*> buttonsList;
+    
+    void initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate);
     
     float messageBoxWidth;
     
@@ -90,15 +66,13 @@ private:
     void handlePreviewLoginSignupMessageBoxSelection(int buttonSelect);
     
 public:
-    //Main function for creating a multiButtonMessageBox
+    //Main function for creating a MessageBox
     static Layer* createWith(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate);
     static Layer* createWith(std::string Title, std::string Body, std::string Button, MessageBoxDelegate* _delegate);
     static Layer* createWith(long errorCode, MessageBoxDelegate* _delegate);
     static Layer* createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* _delegate);
     
     static Layer* createPreviewLoginSignupMessageBox();
-    
-    void initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate);
     
     virtual bool init();
     
