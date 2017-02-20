@@ -243,7 +243,7 @@ void ModalMessages::createPreviewLoginSignupMessageBox()
         messageBoxButtonTitles.push_back(CANCEL_BUTTON_TEXT);
     }
     
-    MultiButtonMessageBoxLayer::createMessageBox(PREVIEW_MESSAGEBOX_TITLE, PREVIEW_MESSAGEBOX_BODY, messageBoxButtonTitles, this);
+    MessageBox::createWith(PREVIEW_MESSAGEBOX_TITLE, PREVIEW_MESSAGEBOX_BODY, messageBoxButtonTitles, this);
 }
 
 //------------- SOMETHING WENT WRONG --------------------
@@ -260,7 +260,7 @@ void ModalMessages::createSomethingWentWrongMessage()
     somethingWentWrongTitle = errorStringMap[ERROR_TITLE];
     somethingWentWrongButton = errorStringMap[ERROR_BODY];
     
-    MultiButtonMessageBoxLayer::createMessageBox(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], messageBoxButtonTitles, this);
+    MessageBox::createWith(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], messageBoxButtonTitles, this);
 }
 
 // ------------- DELEGATE FUNCTIONS --------------------
@@ -278,7 +278,7 @@ void ModalMessages::buttonPressed(ElectricDreamsButton* button)
         savedTextInputToHide->focusAndShowKeyboard();
 }
 
-void ModalMessages::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle)
+void ModalMessages::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
     if(messageBoxTitle == PREVIEW_MESSAGEBOX_TITLE)
     {

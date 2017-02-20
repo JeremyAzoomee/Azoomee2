@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "ElectricDreamsButton.h"
+#include "TextInputLayer.h"
 
 USING_NS_CC;
 
@@ -33,15 +34,15 @@ void <YOUR CLASS>::MultiButtonMessageBoxPressed(std::string messageBoxTitle,std:
  
 */
 
-class MultiButtonMessageBoxLayer;
+class MessageBox;
 
-class MultiButtonMessageBoxLayerDelegate
+class MessageBoxDelegate
 {
 public:
-    virtual void MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle) = 0;
+    virtual void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) = 0;
 };
 
-class MultiButtonMessageBoxLayer : public Layer, public ElectricDreamsButtonDelegate
+class MessageBox : public Layer, public ElectricDreamsButtonDelegate
 {
 private:
 
@@ -73,13 +74,16 @@ private:
     
 public:
     //Main function for creating a multiButtonMessageBox
-    static Layer* createMessageBox(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MultiButtonMessageBoxLayerDelegate* _delegate);
+    static Layer* createWith(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate);
+    static Layer* createWith(std::string Title, std::string Body, std::string Button, MessageBoxDelegate* _delegate);
+    
+    void initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate);
     
     virtual bool init();
     
-    CREATE_FUNC(MultiButtonMessageBoxLayer);
+    CREATE_FUNC(MessageBox);
     
-    CC_SYNTHESIZE(MultiButtonMessageBoxLayerDelegate*, _delegate, Delegate);
+    CC_SYNTHESIZE(MessageBoxDelegate*, _delegate, Delegate);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);

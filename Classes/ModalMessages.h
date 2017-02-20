@@ -1,7 +1,7 @@
 
 #include "cocos2d.h"
 #include "ElectricDreamsButton.h"
-#include "MultiButtonMessageBoxLayer.h"
+#include "MessageBox.h"
 #include "TextInputLayer.h"
 
 //------------- ERROR MESSAGE CODES --------------
@@ -13,7 +13,7 @@
 #define ERROR_CODE_NAME_EXISTS 1005
 #define ERROR_CODE_BAD_TIME_SETTING 2001
 
-class ModalMessages: public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MultiButtonMessageBoxLayerDelegate
+class ModalMessages: public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 public:
     /** Returns the shared instance of the Game Manager */
@@ -65,6 +65,6 @@ public:
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
-    void MultiButtonMessageBoxPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
 
 };

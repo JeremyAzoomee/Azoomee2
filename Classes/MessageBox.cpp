@@ -1,28 +1,56 @@
-#include "MultiButtonMessageBoxLayer.h"
+#include "MessageBox.h"
 
 #define MESSAGE_BOX_PADDING 100
 #define MESSAGE_BOX_MINIMUM_WIDTH 1366
 #define MESSAGE_BOX_MAXIMUM_WIDTH 2049
 
-Layer* MultiButtonMessageBoxLayer::createMessageBox(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MultiButtonMessageBoxLayerDelegate* _delegate)
+Layer* MessageBox::createWith(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate)
 {
-    auto layer = MultiButtonMessageBoxLayer::create();
-    
-    layer->setDelegate(_delegate);
+    auto layer = MessageBox::create();
     
     layer->_buttonsTitleList = buttonTitleList;
+    layer->initMessageBoxLayer(Title, Body, _delegate);
+    
+    //layer->setDelegate(_delegate);
+    
+    /*layer->_buttonsTitleList = buttonTitleList;
     layer->_messageBoxTitle = Title;
     
     layer->createAndFadeInLayer();
     layer->createTitle();
     layer->createBody(Body);
     layer->createButtons();
-    layer->createMessageBackground();
+    layer->createMessageBackground();*/
     
     return layer;
 }
 
-bool MultiButtonMessageBoxLayer::init()
+Layer* MessageBox::createWith(std::string Title, std::string Body, std::string Button, MessageBoxDelegate* _delegate)
+{
+    auto layer = MessageBox::create();
+    
+    layer->_buttonsTitleList.push_back(Button);
+    layer->initMessageBoxLayer(Title, Body, _delegate);
+    
+    return layer;
+}
+
+void MessageBox::initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate)
+{
+    if(_delegate)
+        setDelegate(_delegate);
+
+    _messageBoxTitle = Title;
+    
+    createAndFadeInLayer();
+    createTitle();
+    createBody(Body);
+    createButtons();
+    createMessageBackground();
+    
+}
+
+bool MessageBox::init()
 {
     if ( !Layer::init() )
     {
@@ -37,7 +65,7 @@ bool MultiButtonMessageBoxLayer::init()
 
 //---------------------- Create Layer -----------------------------
 
-void MultiButtonMessageBoxLayer::createAndFadeInLayer()
+void MessageBox::createAndFadeInLayer()
 {
     backgroundLayer = LayerColor::create(Color4B(0,0,0,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
     
@@ -47,7 +75,7 @@ void MultiButtonMessageBoxLayer::createAndFadeInLayer()
     addListenerToBackgroundLayer();
 }
 
-void MultiButtonMessageBoxLayer::addListenerToBackgroundLayer()
+void MessageBox::addListenerToBackgroundLayer()
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -61,7 +89,7 @@ void MultiButtonMessageBoxLayer::addListenerToBackgroundLayer()
 
 //---------------------- Message Box Functions------------------------
 
-void MultiButtonMessageBoxLayer::createTitle()
+void MessageBox::createTitle()
 {
     messageTitleLabel = Label::createWithTTF(_messageBoxTitle, "fonts/azoomee.ttf", 120);
     
@@ -88,14 +116,14 @@ void MultiButtonMessageBoxLayer::createTitle()
     backgroundLayer->addChild(messageTitleLabel,2);
 }
 
-void MultiButtonMessageBoxLayer::underlineTitle()
+void MessageBox::underlineTitle()
 {
     DrawNode* newDrawNode = DrawNode::create();
     newDrawNode->drawRect(Vec2(0, 10), Vec2(messageTitleLabel->getContentSize().width, 14), Color4F((28 * 255), (244 * 255), (244 * 255), 1));
     messageTitleLabel->addChild(newDrawNode);
 }
 
-void MultiButtonMessageBoxLayer::createBody(std::string messageBody)
+void MessageBox::createBody(std::string messageBody)
 {
     messageBodyLabel = Label::createWithTTF(messageBody, "fonts/azoomee.ttf", 90);
     messageBodyLabel->setWidth(messageBoxWidth - MESSAGE_BOX_PADDING * 2);
@@ -105,7 +133,7 @@ void MultiButtonMessageBoxLayer::createBody(std::string messageBody)
     backgroundLayer->addChild(messageBodyLabel,2);
 }
 
-void MultiButtonMessageBoxLayer::createButtons()
+void MessageBox::createButtons()
 {
     float buttonsTotalWidth = 0;
     
@@ -122,7 +150,7 @@ void MultiButtonMessageBoxLayer::createButtons()
     positionButtonsBasedOnWidth(buttonsTotalWidth);
 }
 
-void MultiButtonMessageBoxLayer::positionButtonsBasedOnWidth(float totalButtonsWidth)
+void MessageBox::positionButtonsBasedOnWidth(float totalButtonsWidth)
 {
     float totalWidth =totalButtonsWidth + ((_buttonsTitleList.size()+1) * MESSAGE_BOX_PADDING);
     
@@ -141,7 +169,7 @@ void MultiButtonMessageBoxLayer::positionButtonsBasedOnWidth(float totalButtonsW
     }
 }
 
-void MultiButtonMessageBoxLayer::createMessageBackground()
+void MessageBox::createMessageBackground()
 {
     float messageBoxHeight = messageTitleLabel->getContentSize().height + messageBodyLabel->getContentSize().height+buttonsList.at(0)->getContentSize().height + (4 * MESSAGE_BOX_PADDING);
     
@@ -159,7 +187,7 @@ void MultiButtonMessageBoxLayer::createMessageBackground()
 }
 //---------------------- Actions -----------------
 
-void MultiButtonMessageBoxLayer::removeSelf(float dt)
+void MessageBox::removeSelf(float dt)
 {
     if(this)
     {
@@ -170,15 +198,15 @@ void MultiButtonMessageBoxLayer::removeSelf(float dt)
 
 //----------------------- Delegate Functions ----------------------------
 
-void MultiButtonMessageBoxLayer::buttonPressed(ElectricDreamsButton* button)
+void MessageBox::buttonPressed(ElectricDreamsButton* button)
 {
     for(int i=0;i < buttonsList.size(); i++)
     {
         if(buttonsList.at(i) == button)
         {
             //To enable call to delegate and avoid crash, schedule remove for after delegate call.
-            this->scheduleOnce(schedule_selector(MultiButtonMessageBoxLayer::removeSelf), 0.1);
-            this->getDelegate()->MultiButtonMessageBoxPressed(_messageBoxTitle, _buttonsTitleList.at(i));
+            this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
+            this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(i));
         }
     }
 }
