@@ -31,6 +31,8 @@ private:
     
     void sendMixPanelEvent();
     
+    Sprite* createSpriteButton(std::string buttonImage, std::string buttonAudio);
+    
 public:
     virtual bool init();
     
