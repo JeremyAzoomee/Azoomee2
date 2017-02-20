@@ -7,6 +7,15 @@
 
 USING_NS_CC;
 
+//------------- ERROR MESSAGE CODES --------------
+// For use in createWith(ErrorCode)
+#define ERROR_CODE_INVALID_CREDENTIALS 1001
+#define ERROR_CODE_ANY_OTHER_LOGIN_ERROR 1002
+#define ERROR_CODE_EMAIL_VARIFICATION_REQUIRED 1003
+#define ERROR_CODE_INCORRECT_PIN 1004
+#define ERROR_CODE_NAME_EXISTS 1005
+#define ERROR_CODE_BAD_TIME_SETTING 2001
+
 /*------- NOTES FOR USAGE -------
 
 In .h file, add the delegate definition.
@@ -72,10 +81,18 @@ private:
     
     void removeSelf(float dt);
     
+    //-------Object To Hide -------
+    // Due to UIEditbox always being on top
+    TextInputLayer* savedTextInputToHide;
+    void hideTextInput(TextInputLayer* textInputToHide);
+    void UnHideTextInput();
+    
 public:
     //Main function for creating a multiButtonMessageBox
     static Layer* createWith(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate);
     static Layer* createWith(std::string Title, std::string Body, std::string Button, MessageBoxDelegate* _delegate);
+    static Layer* createWith(long errorCode, MessageBoxDelegate* _delegate);
+    static Layer* createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* _delegate);
     
     void initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate);
     

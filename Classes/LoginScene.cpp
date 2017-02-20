@@ -106,7 +106,7 @@ void LoginScene::onEnterTransitionDidFinish()
     
     if(_errorCode !=0)
     {
-        ModalMessages::getInstance()->createErrorMessage(_errorCode,nullptr);
+        MessageBox::createWith(_errorCode, nullptr);
     }
     
 #ifdef autologin

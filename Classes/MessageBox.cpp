@@ -1,4 +1,6 @@
 #include "MessageBox.h"
+#include "StringStorage.h"
+#include "MixPanelSingleton.h"
 
 #define MESSAGE_BOX_PADDING 100
 #define MESSAGE_BOX_MINIMUM_WIDTH 1366
@@ -35,8 +37,28 @@ Layer* MessageBox::createWith(std::string Title, std::string Body, std::string B
     return layer;
 }
 
+Layer* MessageBox::createWith(long errorCode, MessageBoxDelegate* _delegate)
+{
+    return createWith(errorCode, nullptr , _delegate);
+}
+
+Layer* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* _delegate)
+{
+    std::map<std::string, std::string> errorStringMap = StringStorage::getInstance()->getErrorMessageStrings(errorCode);
+    
+    auto layer = MessageBox::create();
+    
+    layer->hideTextInput(textInputToHide);
+    layer->_buttonsTitleList.push_back(errorStringMap[ERROR_BUTTON]);
+    layer->initMessageBoxLayer(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], _delegate);
+    
+    return layer;
+}
+
 void MessageBox::initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate)
 {
+    MixPanelSingleton::getInstance()->mixPanel_messageBoxShow(Title);
+    
     if(_delegate)
         setDelegate(_delegate);
 
@@ -196,6 +218,25 @@ void MessageBox::removeSelf(float dt)
     }
 }
 
+//-------------------- Object To Hide Functions ----------------------
+
+void MessageBox::hideTextInput(TextInputLayer* textInputToHide)
+{
+    if(textInputToHide)
+    {
+        textInputToHide->setEditboxVisibility(false);
+        savedTextInputToHide = textInputToHide;
+    }
+    else
+        savedTextInputToHide = nullptr;
+}
+
+void MessageBox::UnHideTextInput()
+{
+    if(savedTextInputToHide)
+        savedTextInputToHide->setEditboxVisibility(true);
+}
+
 //----------------------- Delegate Functions ----------------------------
 
 void MessageBox::buttonPressed(ElectricDreamsButton* button)
@@ -206,7 +247,10 @@ void MessageBox::buttonPressed(ElectricDreamsButton* button)
         {
             //To enable call to delegate and avoid crash, schedule remove for after delegate call.
             this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
-            this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(i));
+            UnHideTextInput();
+            if(_delegate)
+                this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(i));
+            
         }
     }
 }

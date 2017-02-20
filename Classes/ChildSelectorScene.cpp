@@ -3,10 +3,10 @@
 #include "ParentDataProvider.h"
 #include "ChildAccountScene.h"
 #include <math.h>
-#include "ModalMessages.h"
 #include "ConfigStorage.h"
 #include "AudioMixer.h"
 #include "MixPanelSingleton.h"
+#include "MessageBox.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -52,7 +52,7 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
     {
-        ModalMessages::getInstance()->createErrorMessage(_errorCode, nullptr);
+        MessageBox::createWith(_errorCode, nullptr);
     }
 }
 
@@ -294,7 +294,7 @@ void ChildSelectorScene::secondCheckForAuthorisation()
         MixPanelSingleton::getInstance()->mixPanel_childProfileStartEvent();
     }
     else
-        ModalMessages::getInstance()->createErrorMessage(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED,nullptr);
+        MessageBox::createWith(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED, nullptr);
 }
 
 //----------------------- Delegate Functions ----------------------------

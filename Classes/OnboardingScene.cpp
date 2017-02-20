@@ -1,9 +1,9 @@
 #include "OnboardingScene.h"
-#include "ModalMessages.h"
 #include "BackEndCaller.h"
 #include "LoginScene.h"
 #include "StringStorage.h"
 #include "MixPanelSingleton.h"
+#include "MessageBox.h"
 
 USING_NS_CC;
 
@@ -40,7 +40,7 @@ void OnboardingScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
     {
-        ModalMessages::getInstance()->createErrorMessage(_errorCode,editBox_email);
+        MessageBox::createWith(_errorCode, editBox_email, nullptr);
     }
     
     editBox_email->focusAndShowKeyboard();
