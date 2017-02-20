@@ -1,4 +1,7 @@
 #include "OfflineHubScene.h"
+#include "OfflineHubSceneVisuals.h"
+#include "OfflineHubHQ.h"
+#include "OfflineExit.h"
 
 USING_NS_CC;
 
@@ -20,4 +23,29 @@ bool OfflineHubScene::init()
     }
     
     return true;
+}
+
+void OfflineHubScene::onEnterTransitionDidFinish()
+{
+    addVisuals();
+    addOfflineExit();
+    addHubHQ();
+}
+
+//All calls are private below this line
+
+void OfflineHubScene::addVisuals()
+{
+    auto offlineHubSceneVisuals = OfflineHubSceneVisuals::create();
+    this->addChild(offlineHubSceneVisuals);
+}
+
+void OfflineHubScene::addOfflineExit()
+{
+    
+}
+
+void OfflineHubScene::addHubHQ()
+{
+    
 }

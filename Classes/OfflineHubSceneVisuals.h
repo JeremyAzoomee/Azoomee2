@@ -9,10 +9,11 @@ public:
     static cocos2d::Scene* createScene();
     
     CREATE_FUNC(OfflineHubSceneVisuals);
-    
+    void onEnter();
     virtual bool init();
     
 private:
+    void addOomeesToScreen();
 
 };
 

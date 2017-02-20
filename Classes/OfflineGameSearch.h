@@ -11,8 +11,12 @@ public:
     CREATE_FUNC(OfflineGameSearch);
     
     virtual bool init();
+    std::vector<std::string> getOfflineGamesList();
     
 private:
+    std::vector<std::string> getJsonFileListFromDir();
+    bool isStarterFileExists(std::string gameId);
+    std::string getStartFileFromJson(std::string gameId);
 
 };
 

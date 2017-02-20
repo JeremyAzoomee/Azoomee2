@@ -1,18 +1,18 @@
-#include "OfflineHubScene.h"
+#include "OfflineHubHQElement.h"
 
 USING_NS_CC;
 
-Scene* OfflineHubScene::createScene()
+Scene* OfflineHubHQElement::createScene()
 {
     auto scene = Scene::create();
-    auto layer = OfflineHubScene::create();
+    auto layer = OfflineHubHQElement::create();
     
     scene->addChild(layer);
     
     return scene;
 }
 
-bool OfflineHubScene::init()
+bool OfflineHubHQElement::init()
 {
     if ( !Layer::init() )
     {

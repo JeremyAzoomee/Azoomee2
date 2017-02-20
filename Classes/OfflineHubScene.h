@@ -11,8 +11,13 @@ public:
     CREATE_FUNC(OfflineHubScene);
     
     virtual bool init();
+    void onEnterTransitionDidFinish();
     
 private:
+    
+    void addVisuals();
+    void addHubHQ();
+    void addOfflineExit();
 
 };
 
