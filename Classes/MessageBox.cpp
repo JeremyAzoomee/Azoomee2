@@ -1,6 +1,8 @@
 #include "MessageBox.h"
 #include "StringStorage.h"
 #include "MixPanelSingleton.h"
+#include "LoginScene.h"
+#include "OnboardingScene.h"
 
 #define MESSAGE_BOX_PADDING 100
 #define MESSAGE_BOX_MINIMUM_WIDTH 1366
@@ -12,17 +14,6 @@ Layer* MessageBox::createWith(std::string Title, std::string Body, std::vector<s
     
     layer->_buttonsTitleList = buttonTitleList;
     layer->initMessageBoxLayer(Title, Body, _delegate);
-    
-    //layer->setDelegate(_delegate);
-    
-    /*layer->_buttonsTitleList = buttonTitleList;
-    layer->_messageBoxTitle = Title;
-    
-    layer->createAndFadeInLayer();
-    layer->createTitle();
-    layer->createBody(Body);
-    layer->createButtons();
-    layer->createMessageBackground();*/
     
     return layer;
 }
@@ -51,6 +42,18 @@ Layer* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHide, M
     layer->hideTextInput(textInputToHide);
     layer->_buttonsTitleList.push_back(errorStringMap[ERROR_BUTTON]);
     layer->initMessageBoxLayer(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], _delegate);
+    
+    return layer;
+}
+
+Layer* MessageBox::createPreviewLoginSignupMessageBox()
+{
+    auto layer = MessageBox::create();
+    
+    layer->_buttonsTitleList.push_back(LOGIN_BUTTON_TEXT);
+    layer->_buttonsTitleList.push_back(SIGNUP_BUTTON_TEXT);
+    layer->_buttonsTitleList.push_back(CANCEL_BUTTON_TEXT);
+    layer->initMessageBoxLayer(PREVIEW_MESSAGEBOX_TITLE, PREVIEW_MESSAGEBOX_BODY,nullptr);
     
     return layer;
 }
@@ -245,12 +248,38 @@ void MessageBox::buttonPressed(ElectricDreamsButton* button)
     {
         if(buttonsList.at(i) == button)
         {
-            //To enable call to delegate and avoid crash, schedule remove for after delegate call.
-            this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
-            UnHideTextInput();
-            if(_delegate)
-                this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(i));
+            if(_messageBoxTitle == PREVIEW_MESSAGEBOX_TITLE)
+            {
+                handlePreviewLoginSignupMessageBoxSelection(i);
+            }
+            else
+            {
+                //To enable call to delegate and avoid crash, schedule remove for after delegate call.
+                this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
+                UnHideTextInput();
+                if(_delegate)
+                    this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(i));
+            }
             
         }
+    }
+}
+
+void MessageBox::handlePreviewLoginSignupMessageBoxSelection(int buttonSelect)
+{
+    if(_buttonsTitleList.at(buttonSelect) == LOGIN_BUTTON_TEXT)
+    {
+        Scene *loginScene = LoginScene::createScene(0);
+        Director::getInstance()->replaceScene(loginScene);
+    }
+    else if(_buttonsTitleList.at(buttonSelect) == SIGNUP_BUTTON_TEXT)
+    {
+        Scene *onboardingScene = OnboardingScene::createScene(0);
+        Director::getInstance()->replaceScene(onboardingScene);
+    }
+    else if(_buttonsTitleList.at(buttonSelect) == CANCEL_BUTTON_TEXT)
+    {
+        this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
+        MixPanelSingleton::getInstance()->mixPanel_previewPopupCancelledEvent();
     }
 }

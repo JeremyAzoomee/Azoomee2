@@ -87,12 +87,16 @@ private:
     void hideTextInput(TextInputLayer* textInputToHide);
     void UnHideTextInput();
     
+    void handlePreviewLoginSignupMessageBoxSelection(int buttonSelect);
+    
 public:
     //Main function for creating a multiButtonMessageBox
     static Layer* createWith(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate);
     static Layer* createWith(std::string Title, std::string Body, std::string Button, MessageBoxDelegate* _delegate);
     static Layer* createWith(long errorCode, MessageBoxDelegate* _delegate);
     static Layer* createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* _delegate);
+    
+    static Layer* createPreviewLoginSignupMessageBox();
     
     void initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate);
     
