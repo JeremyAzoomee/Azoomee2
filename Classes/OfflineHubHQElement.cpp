@@ -50,12 +50,7 @@ void OfflineHubHQElement::addListenerToElement(std::string uri, std::string cont
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
         Size s = target->getBoundingBox().size;//getContentSize();
         Rect rect = Rect(0,0,s.width, s.height);
-        
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")) //this is needed because of the offline hub
-        {
-            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
-        }
-        
+                
         if(rect.containsPoint(locationInNode))
         {
             elementVisual->overlayWhenTouched->setOpacity(150);

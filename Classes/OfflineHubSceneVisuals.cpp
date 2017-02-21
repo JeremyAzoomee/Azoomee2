@@ -42,6 +42,7 @@ void OfflineHubSceneVisuals::addOomeesToScreen()
     for(int i = 0; i < 2; i++)
     {
         auto helperOomee = Sprite::create("res/offline/helper" + StringUtils::format("%d", i) + ".png");
+        helperOomee->setScale(0.6);
         helperOomee->setPosition(startPositions[i]);
         this->addChild(helperOomee);
         

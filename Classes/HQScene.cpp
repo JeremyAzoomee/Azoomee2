@@ -20,6 +20,10 @@ Scene* HQScene::createScene()
     auto scene = Scene::create();
     auto layer = HQScene::create();
     scene->addChild(layer);
+    
+    //if created as a scene, and not as a layer, we are in offline mode, and we are using scene only for art app, so adding initial lines:
+    layer->setName("ART APP");
+    layer->startBuildingScrollViewBasedOnName();
 
     return scene;
 }
