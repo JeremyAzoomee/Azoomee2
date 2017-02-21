@@ -231,7 +231,7 @@ void HttpRequestCreator::handleError(std::string requestTag, long errorCode, std
 {
     if(errorCode == 401)
     {
-        if(findPositionOfNthString(responseString, "\"message\":\"Invalid Request Time\"", 0) != responseString.length())
+        if(findPositionOfNthString(responseString, "Invalid Request Time", 1) != responseString.length())
         {
             errorCode = 2001;
         }
