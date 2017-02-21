@@ -1,5 +1,9 @@
 {
-    "main_menu_play_button_label":"Play",
-    "mode_selection_menu_label":"Select mode",
-    "pause_layer_pause_title":"Pause"
+    {"LoginScene":
+        {
+            "main_menu_play_button_label":"Play",
+            "mode_selection_menu_label":"Select mode",
+            "pause_layer_pause_title":"Pause"
+        }
+    }
 }
