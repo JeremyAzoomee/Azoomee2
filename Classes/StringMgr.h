@@ -18,8 +18,8 @@ public:
     virtual ~StringMgr();
     bool init(void);
     
-    string getStringForKey(string key);
-    string getErrorMessageForKey(string key);
+    string getStringForKeys(string keys);
+    string getErrorMessageWithCode(long errorCode);
     
 private:
     Document stringsDocument;
@@ -27,5 +27,8 @@ private:
     
     string getLanguageIdentifier();
     Document parseFile(string languageID, string stringFile);
+    
+    std::vector<std::string> splitStringToVector(std::string inputString, std::string separator);
+    
 };
 #endif
