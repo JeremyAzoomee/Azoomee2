@@ -140,6 +140,7 @@
 		435EBBDE1E55BA0400E55610 /* AppsFlyerLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */; };
 		435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDF1E55BB1600E55610 /* AdSupport.framework */; };
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
+		43F2C5F51E5C4DC40016F30E /* StringMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -474,6 +475,8 @@
 		435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppsFlyerLib.framework; sourceTree = "<group>"; };
 		435EBBDF1E55BB1600E55610 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
 		435EBBE11E55BB2300E55610 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/iAd.framework; sourceTree = DEVELOPER_DIR; };
+		43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringMgr.cpp; sourceTree = "<group>"; };
+		43F2C5F41E5C4DC40016F30E /* StringMgr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StringMgr.hpp; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -986,6 +989,15 @@
 			name = Crashlytics;
 			sourceTree = "<group>";
 		};
+		43F2C5F11E5C4AF60016F30E /* StringHandler */ = {
+			isa = PBXGroup;
+			children = (
+				43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */,
+				43F2C5F41E5C4DC40016F30E /* StringMgr.hpp */,
+			);
+			name = StringHandler;
+			sourceTree = "<group>";
+		};
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1117,6 +1129,7 @@
 		A15D58921E028C940099CDEE /* BurntInData */ = {
 			isa = PBXGroup;
 			children = (
+				43F2C5F11E5C4AF60016F30E /* StringHandler */,
 				430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */,
 				430EF42E1E4097DF00BEAF54 /* AudioMixer.h */,
 				A15D58931E028CAB0099CDEE /* ConfigStorage.cpp */,
@@ -1502,6 +1515,7 @@
 				431A2A571E439BFE00DC0F3B /* UIViewController+AutomaticEvents.m in Sources */,
 				A15B2FA91DEDAA2A00D25334 /* ModalMessages.cpp in Sources */,
 				A1CC0C1F1E141B20008B469E /* CookieDataStorage.cpp in Sources */,
+				43F2C5F51E5C4DC40016F30E /* StringMgr.cpp in Sources */,
 				431A2A221E439BFE00DC0F3B /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				431A2A561E439BFE00DC0F3B /* UIView+MPHelpers.m in Sources */,
 				431A2A211E439BFE00DC0F3B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
