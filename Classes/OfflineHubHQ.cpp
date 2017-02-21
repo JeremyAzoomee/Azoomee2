@@ -4,6 +4,7 @@
 #include "ConfigStorage.h"
 #include "HQScene.h"
 #include "HQHistoryManager.h"
+#include "ChildDataStorage.h"
 
 USING_NS_CC;
 
@@ -22,6 +23,16 @@ bool OfflineHubHQ::init()
     if ( !Layer::init() )
     {
         return false;
+    }
+    
+    UserDefault* def = UserDefault::getInstance();
+    std::string lastLoggedInChildId = def->getStringForKey("lastLoggedInChildId");
+    def->flush();
+    
+    if(lastLoggedInChildId != "")
+    {
+        ChildDataStorage::getInstance()->childLoggedIn = true;
+        ChildDataStorage::getInstance()->loggedInChildId = lastLoggedInChildId;
     }
     
     return true;

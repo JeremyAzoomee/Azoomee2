@@ -41,6 +41,10 @@ bool ChildDataParser::parseChildLoginData(std::string responseData)
     ChildDataStorage::getInstance()->loggedInChildApiSecret = ChildDataStorage::getInstance()->childLoginData["apiSecret"].GetString();
     ChildDataStorage::getInstance()->loggedInChildApiKey = ChildDataStorage::getInstance()->childLoginData["apiKey"].GetString();
     
+    UserDefault* def = UserDefault::getInstance();
+    def->setStringForKey("lastLoggedInChildId", ChildDataStorage::getInstance()->loggedInChildId);
+    def->flush();
+    
     createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), ChildDataStorage::getInstance()->loggedInChildId);
     
     MixPanelSingleton::getInstance()->mixPanel_registerParentID(ParentDataProvider::getInstance()->getLoggedInParentId());

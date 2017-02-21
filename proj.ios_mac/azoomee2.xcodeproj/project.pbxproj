@@ -24,6 +24,7 @@
 		02E595991E56FB4F0052F395 /* OfflineExit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595961E56FB4F0052F395 /* OfflineExit.cpp */; };
 		02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5959A1E56FC3A0052F395 /* OfflineChecker.cpp */; };
 		02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595B11E5B495B0052F395 /* HQSceneElementVisual.cpp */; };
+		02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595B71E5CA2690052F395 /* OfflineHubBackButton.cpp */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -290,6 +291,8 @@
 		02E5959B1E56FC3A0052F395 /* OfflineChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineChecker.h; sourceTree = "<group>"; };
 		02E595B11E5B495B0052F395 /* HQSceneElementVisual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneElementVisual.cpp; sourceTree = "<group>"; };
 		02E595B21E5B495B0052F395 /* HQSceneElementVisual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneElementVisual.h; sourceTree = "<group>"; };
+		02E595B71E5CA2690052F395 /* OfflineHubBackButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubBackButton.cpp; sourceTree = "<group>"; };
+		02E595B81E5CA2690052F395 /* OfflineHubBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubBackButton.h; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -683,6 +686,8 @@
 				02E595971E56FB4F0052F395 /* OfflineExit.h */,
 				02E5959A1E56FC3A0052F395 /* OfflineChecker.cpp */,
 				02E5959B1E56FC3A0052F395 /* OfflineChecker.h */,
+				02E595B71E5CA2690052F395 /* OfflineHubBackButton.cpp */,
+				02E595B81E5CA2690052F395 /* OfflineHubBackButton.h */,
 			);
 			name = Offline;
 			sourceTree = "<group>";
@@ -1610,6 +1615,7 @@
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				431A29FC1E439BFE00DC0F3B /* _MPTweakBindObserver.m in Sources */,
 				A1A2D3051E13B53200E86169 /* ChildDataParser.cpp in Sources */,
+				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				431A2A431E439BFE00DC0F3B /* MPTweakInline.m in Sources */,
 				432312121E1D4EFB00C8606D /* TextInputLayer.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,

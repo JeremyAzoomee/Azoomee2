@@ -255,7 +255,10 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
     
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer"))
+        {
+            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        }
         
         if(deleteButtonIsShown())
         {
