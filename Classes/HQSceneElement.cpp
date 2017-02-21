@@ -50,148 +50,25 @@ bool HQSceneElement::init()
 
 void HQSceneElement::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay) //This method is being called by HQScene.cpp with all variables.
 {
-    resizeSceneElement(shape, category);
-    createColourLayer(category, delay / 10);
+    elementVisual = HQSceneElementVisual::create();
+    elementVisual->addHQSceneElement(category, itemData, shape, delay);
+    this->addChild(elementVisual);
+    this->setContentSize(elementVisual->getContentSize());
     
-    std::string itemid = itemData["id"];
-    std::string itementitled = itemData["entitled"];
-    std::string itemuri = itemData["uri"];
-    std::string itemTitle = itemData["title"];
-    std::string itemDescription = itemData["description"];
-    std::string itemType = itemData["type"];
-    
-    auto funcCallAction = CallFunc::create([=](){
-    
-    if(!aboutToExit) addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemid, shape));
-    if(!aboutToExit) addGradientToBottom(category);
-    
-        if(!aboutToExit)
-        {
-            auto iconSprite = addIconToImage(category);
-            addLabelsToImage(itemData, iconSprite);
-        }
-    
-    if(!aboutToExit) addTouchOverlayToElement();
-    
-    if(itementitled == "true")
+    if(itemData["entitled"] == "true")
     {
-        if(!aboutToExit) addListenerToElement(itemuri, itemid, category, itemTitle, itemDescription, itemType, false);
+        addListenerToElement(itemData["uri"], itemData["id"], itemData["category"], itemData["title"], itemData["description"], itemData["type"], false);
     }
     else
     {
         if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
-           if(!aboutToExit) addListenerToElement(itemuri, itemid, category, itemTitle, itemDescription, itemType, true);
+           addListenerToElement(itemData["uri"], itemData["id"], itemData["category"], itemData["title"], itemData["description"], itemData["type"], true);
         }
-        
-       if(!aboutToExit) addLockToElement();
     }
-        
-    });
-    
-    this->runAction(Sequence::create(DelayTime::create(delay), funcCallAction, NULL));
 }
 
 //-------------------All elements below this are used internally-----------------
-
-void HQSceneElement::addLockToElement()
-{
-    auto lockImage = Sprite::create("res/hqscene/locked.png");
-    lockImage->setPosition(baseLayer->getContentSize() / 2);
-    lockImage->setScale(baseLayer->getContentSize().width / 445);
-    baseLayer->addChild(lockImage);
-}
-
-Size HQSceneElement::getSizeOfLayerWithGap()
-{
-    float gapSize = 40.0f;
-    return Size(baseLayer->getContentSize().width + gapSize, baseLayer->getContentSize().height + gapSize);
-}
-
-void HQSceneElement::addImageToBaseLayer(std::string url)
-{
-    ImageDownloader *imageDownloader = ImageDownloader::create();
-    imageDownloader->initWithURLAndSize(url, Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20));
-    imageDownloader->setPosition(baseLayer->getContentSize() / 2);
-    baseLayer->addChild(imageDownloader);
-}
-
-void HQSceneElement::addGradientToBottom(std::string category)
-{
-    Color3B gradientColour;
-    gradientColour.r = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).r;
-    gradientColour.g = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).g;
-    gradientColour.b = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).b;
-    
-    auto gradient = Sprite::create("res/hqscene/gradient_overlay.png");
-    gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2);
-    gradient->setScaleX(baseLayer->getContentSize().width / gradient->getContentSize().width);
-    gradient->setColor(gradientColour);
-    baseLayer->addChild(gradient);
-}
-
-Sprite* HQSceneElement::addIconToImage(std::string category)
-{
-    if(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category) == "") return nullptr; //there is chance that there is no icon given for the given category.
-        
-    auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category));
-    icon->setAnchorPoint(Vec2(0.5, 0.5));
-    icon->setPosition(icon->getContentSize().width ,icon->getContentSize().height);
-    baseLayer->addChild(icon);
-    
-    return icon;
-}
-
-void HQSceneElement::addLabelsToImage(std::map<std::string, std::string>itemData, Sprite* nextToIcon)
-{
-    float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().width * nextToIcon->getScale());
-    
-    auto descriptionLabel = Label::createWithTTF(itemData["description"], "fonts/arial.ttf", 50);
-    descriptionLabel->setColor(Color3B(255,255,255));
-    descriptionLabel->setHorizontalAlignment(TextHAlignment::LEFT);
-    descriptionLabel->setAnchorPoint(Vec2(0.0f,0.7f));
-    descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY());
-    descriptionLabel->setOpacity(150);
-    reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
-    baseLayer->addChild(descriptionLabel);
-    
-    auto titleLabel = Label::createWithTTF(itemData["title"], "fonts/arial.ttf", 50);
-    titleLabel->setColor(Color3B(255,255,255));
-    titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
-    titleLabel->setAnchorPoint(Vec2(0.0f, 0.8f));
-    titleLabel->setPosition(labelsXPosition,descriptionLabel->getPositionY() + (descriptionLabel->getContentSize().height));
-    reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
-    baseLayer->addChild(titleLabel);
-}
-
-void HQSceneElement::addTouchOverlayToElement()
-{
-    overlayWhenTouched = LayerColor::create(Color4B(baseLayer->getColor().r, baseLayer->getColor().g, baseLayer->getColor().b, 0), baseLayer->getContentSize().width, baseLayer->getContentSize().height);
-    baseLayer->addChild(overlayWhenTouched);
-}
-
-void HQSceneElement::resizeSceneElement(cocos2d::Vec2 shape, std::string category)
-{
-    Size defaultSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(category);
-    Size layerSize = Size(defaultSize.width * shape.x, defaultSize.height * shape.y);
-    
-    this->setContentSize(layerSize);
-}
-
-void HQSceneElement::createColourLayer(std::string category, float delay)
-{
-    ConfigStorage* configStorage = ConfigStorage::getInstance();
-    Color4B colour = configStorage->getBaseColourForContentItemInCategory(category);
-    Size size = Size(this->getContentSize().width - 20, this->getContentSize().height - 20);
-    
-    baseLayer = LayerColor::create(colour, size.width, size.height);
-    baseLayer->setPosition(10, 10);
-    baseLayer->setOpacity(0);
-    
-    this->addChild(baseLayer);
-    
-    baseLayer->runAction(Sequence::create(DelayTime::create(delay), FadeTo::create(0.1, colour.a), NULL));
-}
 
 void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview)
 {
@@ -205,14 +82,11 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
         Size s = target->getBoundingBox().size;//getContentSize();
         Rect rect = Rect(0,0,s.width, s.height);
         
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")) //this is needed because of the offline hub
-        {
-            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
-        }
+        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
         
         if(rect.containsPoint(locationInNode))
         {
-            overlayWhenTouched->setOpacity(150);
+            elementVisual->overlayWhenTouched->setOpacity(150);
             movedAway = false;
             iamtouched = true;
             touchPoint = touch->getLocation();
@@ -229,7 +103,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
         {
             movedAway = true;
             iamtouched = false;
-            overlayWhenTouched->setOpacity(0);
+            elementVisual->overlayWhenTouched->setOpacity(0);
         }
         
         return true;
@@ -239,12 +113,9 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
     {
         if(iamtouched)
         {
-            overlayWhenTouched->setOpacity(0);
+            elementVisual->overlayWhenTouched->setOpacity(0);
             
-            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")) //this is needed because of the offline hub
-            {
-                if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
-            }
+            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             iamtouched = false;
@@ -269,19 +140,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
         return false;
     };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), baseLayer);
-}
-
-void HQSceneElement::reduceLabelTextToFitWidth(Label* label,float maxWidth)
-{
-    std::string labelText = label->getString();
-    
-    while(label->getContentSize().width > maxWidth)
-    {
-        labelText = labelText.substr(0, labelText.length()-1);
-
-        label->setString(StringUtils::format("%s...",labelText.c_str()));
-    }
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), elementVisual->baseLayer);
 }
 
 void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string contentId, std::string category)
@@ -324,11 +183,4 @@ void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string 
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
     }
-}
-
-void HQSceneElement::onExitTransitionDidStart()
-{
-    aboutToExit = true;
-    this->stopAllActions();
-    this->cleanup();
 }

@@ -38,5 +38,7 @@ void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
         sender->setPosition(possibleNewPosition);
     }
     
+    CCLOG("positionx: %f, positiony: %f", sender->getPosition().x, sender->getPosition().y);
+    
     scrollView->setInnerContainerSize(Size(possibleNewPosition.x + senderSize.width, scrollViewSize.height));
 }

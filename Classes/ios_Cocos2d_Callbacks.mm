@@ -3,9 +3,16 @@
 #include "HQHistoryManager.h"
 #include "LoginScene.h"
 #include "MixPanelSingleton.h"
+#include "OfflineHubScene.h"
 
 void navigateToBaseScene()
 {
+    if(HQHistoryManager::getInstance()->isOffline)
+    {
+        cocos2d::Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+        return;
+    }
+    
     HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
     
     MixPanelSingleton::getInstance()->mixPanel_closeContentEvent();

@@ -17,7 +17,7 @@ public:
 private:
     cocos2d::ui::ScrollView* createHorizontalScrollView();
     void addElementsToScrollView(std::vector<std::map<std::string, std::string>> gameDataList, cocos2d::ui::ScrollView* toBeAddedTo);
-    //void addListenerToScrollView(cocos2d::ui::ScrollView* toBeAddedTo);
+    void addArtAppElementToScrollView(cocos2d::ui::ScrollView* toBeAddedTo);
     
     cocos2d::Point startLocation;
     bool directionDecided;

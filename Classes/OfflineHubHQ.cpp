@@ -1,6 +1,5 @@
 #include "OfflineHubHQ.h"
 #include "OfflineHubHQElement.h"
-#include "HQSceneElement.h"
 #include "HQSceneElementPositioner.h"
 
 USING_NS_CC;
@@ -62,11 +61,16 @@ void OfflineHubHQ::addElementsToScrollView(std::vector<std::map<std::string, std
         
         std::map<std::string, std::string> itemData = gameDataList.at(i);
         
-        auto hqSceneElement = HQSceneElement::create();
+        auto hqSceneElement = OfflineHubHQElement::create();
         hqSceneElement->addHQSceneElement("GAME HQ", itemData, Vec2(1,1), delay);
-        
         toBeAddedTo->addChild(hqSceneElement);
+        
         auto sceneElementPositioner = new HQSceneElementPositioner();
         sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
     }
+}
+
+void OfflineHubHQ::addArtAppElementToScrollView(cocos2d::ui::ScrollView* toBeAddedTo)
+{
+    
 }

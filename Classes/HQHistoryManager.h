@@ -29,5 +29,6 @@ public:
     std::string lastGroupHQSourceId;
     
     bool thereWasAnError;
+    bool isOffline;
     
    };

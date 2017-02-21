@@ -87,8 +87,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = IntroVideoScene::createScene();
-    //auto scene = OfflineHubScene::createScene();
+    //auto scene = IntroVideoScene::createScene();
+    auto scene = OfflineHubScene::createScene();
     // run
     director->runWithScene(scene);
 
@@ -133,6 +133,12 @@ void AppDelegate::applicationWillEnterForeground() {
             HQHistoryManager::getInstance()->thereWasAnError = false;
             auto loginScene = LoginScene::createSceneWithAutoLoginAndErrorDisplay();
             Director::getInstance()->replaceScene(loginScene);
+            return;
+        }
+        
+        if(HQHistoryManager::getInstance()->isOffline == true)
+        {
+            Director::getInstance()->replaceScene(OfflineHubScene::createScene());
             return;
         }
         
