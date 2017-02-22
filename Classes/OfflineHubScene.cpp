@@ -1,7 +1,7 @@
 #include "OfflineHubScene.h"
 #include "OfflineHubSceneVisuals.h"
 #include "OfflineHubHQ.h"
-#include "OfflineExit.h"
+#include "OfflineText.h"
 #include "OfflineGameSearch.h"
 #include "HQHistoryManager.h"
 
@@ -32,7 +32,7 @@ bool OfflineHubScene::init()
 void OfflineHubScene::onEnterTransitionDidFinish()
 {
     addVisuals();
-    addOfflineExit();
+    addOfflineText();
     addHubHQ();
 }
 
@@ -44,10 +44,11 @@ void OfflineHubScene::addVisuals()
     this->addChild(offlineHubSceneVisuals);
 }
 
-void OfflineHubScene::addOfflineExit()
+void OfflineHubScene::addOfflineText()
 {
-    auto offlineExit = OfflineExit::create();
-    this->addChild(offlineExit);
+    auto offlineText = OfflineText::create();
+    this->addChild(offlineText);
+    offlineText->createForOfflineHub();
 }
 
 void OfflineHubScene::addHubHQ()

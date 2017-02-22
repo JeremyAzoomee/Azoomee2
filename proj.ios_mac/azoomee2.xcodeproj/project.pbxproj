@@ -21,10 +21,11 @@
 		02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958A1E55F5ED0052F395 /* OfflineGameSearch.cpp */; };
 		02E595901E55F9960052F395 /* OfflineHubHQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958E1E55F9960052F395 /* OfflineHubHQ.cpp */; };
 		02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595911E55F9BB0052F395 /* OfflineHubHQElement.cpp */; };
-		02E595991E56FB4F0052F395 /* OfflineExit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595961E56FB4F0052F395 /* OfflineExit.cpp */; };
 		02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5959A1E56FC3A0052F395 /* OfflineChecker.cpp */; };
 		02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595B11E5B495B0052F395 /* HQSceneElementVisual.cpp */; };
 		02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595B71E5CA2690052F395 /* OfflineHubBackButton.cpp */; };
+		02E595C01E5D9CB60052F395 /* OfflineEnterLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595BE1E5D9CB60052F395 /* OfflineEnterLayer.cpp */; };
+		02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595C11E5D9EE70052F395 /* OfflineText.cpp */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -285,14 +286,16 @@
 		02E5958F1E55F9960052F395 /* OfflineHubHQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubHQ.h; sourceTree = "<group>"; };
 		02E595911E55F9BB0052F395 /* OfflineHubHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubHQElement.cpp; sourceTree = "<group>"; };
 		02E595921E55F9BB0052F395 /* OfflineHubHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubHQElement.h; sourceTree = "<group>"; };
-		02E595961E56FB4F0052F395 /* OfflineExit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineExit.cpp; sourceTree = "<group>"; };
-		02E595971E56FB4F0052F395 /* OfflineExit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineExit.h; sourceTree = "<group>"; };
 		02E5959A1E56FC3A0052F395 /* OfflineChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineChecker.cpp; sourceTree = "<group>"; };
 		02E5959B1E56FC3A0052F395 /* OfflineChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineChecker.h; sourceTree = "<group>"; };
 		02E595B11E5B495B0052F395 /* HQSceneElementVisual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneElementVisual.cpp; sourceTree = "<group>"; };
 		02E595B21E5B495B0052F395 /* HQSceneElementVisual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneElementVisual.h; sourceTree = "<group>"; };
 		02E595B71E5CA2690052F395 /* OfflineHubBackButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubBackButton.cpp; sourceTree = "<group>"; };
 		02E595B81E5CA2690052F395 /* OfflineHubBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubBackButton.h; sourceTree = "<group>"; };
+		02E595BE1E5D9CB60052F395 /* OfflineEnterLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineEnterLayer.cpp; sourceTree = "<group>"; };
+		02E595BF1E5D9CB60052F395 /* OfflineEnterLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineEnterLayer.h; sourceTree = "<group>"; };
+		02E595C11E5D9EE70052F395 /* OfflineText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineText.cpp; sourceTree = "<group>"; };
+		02E595C21E5D9EE70052F395 /* OfflineText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineText.h; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -682,12 +685,14 @@
 				02E5958F1E55F9960052F395 /* OfflineHubHQ.h */,
 				02E595911E55F9BB0052F395 /* OfflineHubHQElement.cpp */,
 				02E595921E55F9BB0052F395 /* OfflineHubHQElement.h */,
-				02E595961E56FB4F0052F395 /* OfflineExit.cpp */,
-				02E595971E56FB4F0052F395 /* OfflineExit.h */,
 				02E5959A1E56FC3A0052F395 /* OfflineChecker.cpp */,
 				02E5959B1E56FC3A0052F395 /* OfflineChecker.h */,
 				02E595B71E5CA2690052F395 /* OfflineHubBackButton.cpp */,
 				02E595B81E5CA2690052F395 /* OfflineHubBackButton.h */,
+				02E595BE1E5D9CB60052F395 /* OfflineEnterLayer.cpp */,
+				02E595BF1E5D9CB60052F395 /* OfflineEnterLayer.h */,
+				02E595C11E5D9EE70052F395 /* OfflineText.cpp */,
+				02E595C21E5D9EE70052F395 /* OfflineText.h */,
 			);
 			name = Offline;
 			sourceTree = "<group>";
@@ -1531,7 +1536,6 @@
 				431A2A131E439BFE00DC0F3B /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				431A2A2A1E439BFE00DC0F3B /* MPNetwork.m in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
-				02E595991E56FB4F0052F395 /* OfflineExit.cpp in Sources */,
 				431A2A321E439BFE00DC0F3B /* MPObjectIdentityProvider.m in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				431A2A231E439BFE00DC0F3B /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
@@ -1548,6 +1552,7 @@
 				431A2A331E439BFE00DC0F3B /* MPObjectSelector.m in Sources */,
 				431A2A0B1E439BFE00DC0F3B /* Mixpanel.m in Sources */,
 				A19862231DD3836D0090F053 /* HQScene.cpp in Sources */,
+				02E595C01E5D9CB60052F395 /* OfflineEnterLayer.cpp in Sources */,
 				A15D58951E028CAB0099CDEE /* ConfigStorage.cpp in Sources */,
 				A15B2FC71DFAB3FB00D25334 /* ImageDownloader.cpp in Sources */,
 				A1E5FCFB1DDDCCBA0098DD29 /* ImageContainer.cpp in Sources */,
@@ -1594,6 +1599,7 @@
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				431A2A141E439BFE00DC0F3B /* MPABTestDesignerConnection.m in Sources */,
 				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,
+				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				431A2A4B1E439BFE00DC0F3B /* MPUITableViewBinding.m in Sources */,
 				430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */,
 				431A2A3A1E439BFE00DC0F3B /* MPSequenceGenerator.m in Sources */,

@@ -17,7 +17,7 @@ private:
     
     void addVisuals();
     void addHubHQ();
-    void addOfflineExit();
+    void addOfflineText();
 
 };
 

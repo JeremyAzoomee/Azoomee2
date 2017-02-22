@@ -42,9 +42,11 @@ ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string but
     auto layer = ElectricDreamsButton::create();
     
     ui::Scale9Sprite* newButton = layer->createButtonBackground(buttonText);
-
+    
+    layer->setCascadeOpacityEnabled(true);
     layer->setContentSize(newButton->getContentSize());
     newButton->setOpacity(0);
+    newButton->setCascadeOpacityEnabled(true);
     layer->addChild(newButton);
     
     newButton->runAction(FadeTo::create(0.5, 255));

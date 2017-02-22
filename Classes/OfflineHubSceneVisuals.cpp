@@ -36,13 +36,12 @@ void OfflineHubSceneVisuals::addOomeesToScreen()
     Point origin = Director::getInstance()->getVisibleOrigin();
     Size size = Director::getInstance()->getVisibleSize();
     
-    std::vector<Point> startPositions = {Point(0, origin.y + size.height), Point(origin.x + size.width, 200)};
-    std::vector<Point> endPositions = {Point(0, origin.y + size.height), Point(origin.x + size.width, 200)};
+    std::vector<Point> startPositions = {Point(-220, origin.y + size.height - 650), Point(origin.x + size.width + 160, origin.y + size.height - 650)};
+    std::vector<Point> endPositions = {Point(201, origin.y + size.height - 450), Point(origin.x + size.width - 144, origin.y + size.height - 450)};
     
     for(int i = 0; i < 2; i++)
     {
         auto helperOomee = Sprite::create("res/offline/helper" + StringUtils::format("%d", i) + ".png");
-        helperOomee->setScale(0.6);
         helperOomee->setPosition(startPositions[i]);
         this->addChild(helperOomee);
         

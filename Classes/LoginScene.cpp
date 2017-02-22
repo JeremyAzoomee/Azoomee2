@@ -9,6 +9,8 @@
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
+#include "OfflineEnterLayer.h"
+#include "OfflineChecker.h"
 
 USING_NS_CC;
 
@@ -134,6 +136,7 @@ void LoginScene::addVisualElementsToScene()
 void LoginScene::addFunctionalElementsToScene()
 {
     addContentLayerToScene();
+    addOfflineOptionToScene();
     addLabelsToLayer();
     addButtonsToLayer();
     addTextBoxesToLayer();
@@ -146,6 +149,16 @@ void LoginScene::addContentLayerToScene()
     loginContent->setPosition(Point(origin.x, origin.y));
     loginContent->setName("loginContent");
     this->addChild(loginContent);
+}
+
+void LoginScene::addOfflineOptionToScene()
+{
+    auto offlineEnterLayer = OfflineEnterLayer::create();
+    offlineEnterLayer->setOpacity(0);
+    this->addChild(offlineEnterLayer, 1000);
+    
+    OfflineChecker::getInstance()->setLayerToShowWhenOffline(offlineEnterLayer);
+    OfflineChecker::getInstance()->startOfflineChecking();
 }
 
 void LoginScene::addLabelsToLayer()
