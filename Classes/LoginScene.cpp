@@ -3,12 +3,12 @@
 #include "BackEndCaller.h"
 #include "OnboardingScene.h"
 #include "ConfigStorage.h"
-#include "StringStorage.h"
 #include "TextInputChecker.h"
 #include "TextInputLayer.h"
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
+#include "StringMgr.h"
 
 USING_NS_CC;
 
@@ -81,7 +81,7 @@ void LoginScene::onEnterTransitionDidFinish()
             
             if(shouldDisplayMessage)
             {
-                MessageBox::createWith("Something went wrong", "There was a problem so we logged you in again.", std::vector<std::string> {"Ok"}, this);
+                MessageBox::createWith(ERROR_CODE_LOGGED_YOU_BACK_IN, this);
                 return;
             }
             else
@@ -155,17 +155,17 @@ void LoginScene::addLabelsToLayer()
     versionTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(versionTitle);
     
-    auto doYouWantToTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForLoginScene("signUpLoginLabel"), "fonts/azoomee.ttf", 90);
+    auto doYouWantToTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(LOGINSCENE_SIGNUP_LOGIN_LABEL), "fonts/azoomee.ttf", 90);
     doYouWantToTitle->setPosition(origin.x+visibleSize.width * 0.5, visibleSize.height*0.65);
     doYouWantToTitle->setColor(Color3B::WHITE);
     loginContent->addChild(doYouWantToTitle);
     
-    auto emailTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForLoginScene("emailLabel"), "fonts/azoomee.ttf", 90);
+    auto emailTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL), "fonts/azoomee.ttf", 90);
     emailTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
     emailTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(emailTitle);
     
-    auto passwordTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForLoginScene("passwordLabel"), "fonts/azoomee.ttf", 90);
+    auto passwordTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL), "fonts/azoomee.ttf", 90);
     passwordTitle->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
     passwordTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(passwordTitle);
@@ -201,13 +201,13 @@ void LoginScene::addButtonsToLayer()
     previewModeButton->setMixPanelButtonName("CancelLoginButton");
     loginContent->addChild(previewModeButton);
     
-    loginOptionButton = ElectricDreamsButton::createTextAsButton(StringStorage::getInstance()->getStringForLoginScene("loginButton"));
+    loginOptionButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
     loginOptionButton->setCenterPosition(Vec2(origin.x+visibleSize.width * 0.5, visibleSize.height*0.35));
     loginOptionButton->setDelegate(this);
     loginOptionButton->setMixPanelButtonName("Login");
     loginContent->addChild(loginOptionButton);
     
-    signUpOptionButton = ElectricDreamsButton::createButtonWithText(StringStorage::getInstance()->getStringForLoginScene("signupButton"));
+    signUpOptionButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP));
     signUpOptionButton->setCenterPosition(Vec2(origin.x+visibleSize.width * 0.5, visibleSize.height/2));
     signUpOptionButton->setDelegate(this);
     signUpOptionButton->setMixPanelButtonName("sign Up");

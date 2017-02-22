@@ -12,7 +12,7 @@
 #include "MessageBox.h"
 #include "HQHistoryManager.h"
 #include "AudioMixer.h"
-#include "StringStorage.h"
+#include "StringMgr.h"
 #include "MixPanelSingleton.h"
 
 USING_NS_CC;
@@ -204,7 +204,7 @@ void NavigationLayer::createSettingsButton()
 
 void NavigationLayer::createPreviewLoginButton()
 {
-    previewLoginButton = ElectricDreamsButton::createTextAsButton(LOGIN_BUTTON_TEXT);
+    previewLoginButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
     previewLoginButton->setCenterPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width/2 + previewLoginButton->getContentSize().height/2, origin.y + visibleSize.height- previewLoginButton->getContentSize().height));
     previewLoginButton->setDelegate(this);
     previewLoginButton->setMixPanelButtonName("PreviewLogin");

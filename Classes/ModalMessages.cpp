@@ -1,6 +1,5 @@
 #include "ModalMessages.h"
 #include "ui/UIEditBox/UIEditBox.h"
-#include "StringStorage.h"
 #include "LoginScene.h"
 #include "OnboardingScene.h"
 #include "BaseScene.h"

@@ -1,5 +1,5 @@
 #include "MixPanelSingleton.h"
-#include "StringStorage.h"
+#include "StringMgr.h"
 #include "TextInputChecker.h"
 #include "ConfigStorage.h"
 

@@ -1,7 +1,7 @@
 #include "OnboardingScene.h"
 #include "BackEndCaller.h"
 #include "LoginScene.h"
-#include "StringStorage.h"
+#include "StringMgr.h"
 #include "MixPanelSingleton.h"
 #include "MessageBox.h"
 
@@ -73,22 +73,22 @@ void OnboardingScene::addFunctionalElementsToScene()
 
 void OnboardingScene::addLabelsToLayer()
 {
-    auto emailTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForOnboarding("email"), "fonts/azoomee.ttf", 90);
+    auto emailTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL), "fonts/azoomee.ttf", 90);
     emailTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.7);
     emailTitle->setColor(Color3B(28, 244, 244));
     onboardingContent->addChild(emailTitle);
     
-    auto passwordTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForOnboarding("password"), "fonts/azoomee.ttf", 90);
+    auto passwordTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL), "fonts/azoomee.ttf", 90);
     passwordTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
     passwordTitle->setColor(Color3B(28, 244, 244));
     onboardingContent->addChild(passwordTitle);
     
-    auto pinTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForOnboarding("pintitle"), "fonts/azoomee.ttf", 90);
+    auto pinTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL), "fonts/azoomee.ttf", 90);
     pinTitle->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
     pinTitle->setColor(Color3B(28, 244, 244));
     onboardingContent->addChild(pinTitle);
     
-    auto pinDetail = Label::createWithTTF(StringStorage::getInstance()->getStringForOnboarding("pinsubtitle"), "fonts/azoomee.ttf", 60);
+    auto pinDetail = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL), "fonts/azoomee.ttf", 60);
     pinDetail->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.6);
     pinDetail->setColor(Color3B::WHITE);
     pinDetail->setHorizontalAlignment(TextHAlignment::CENTER);

@@ -38,7 +38,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/TextInputLayer.cpp \
                    ../../../Classes/TextInputChecker.cpp \
                    ../../../Classes/ElectricDreamsButton.cpp \
-                   ../../../Classes/StringStorage.cpp \
+                   ../../../Classes/StringMgr.cpp \
                    ../../../Classes/HQSceneElementPositioner.cpp \
                    ../../../Classes/ParentDataStorage.cpp \
                    ../../../Classes/ParentDataParser.cpp \

@@ -87,16 +87,7 @@ ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string butto
 ElectricDreamsButton* ElectricDreamsButton::createNextButton()
 {
     auto layer = ElectricDreamsButton::create();
-    
-    Sprite* nextButton = Sprite::create("res/login/next_btn.png");
-    nextButton->setPosition(nextButton->getContentSize().width/2, nextButton->getContentSize().height/2);
-    
-    layer->setContentSize(nextButton->getContentSize());
-    
-    layer->addChild(nextButton);
-    
-    layer->buttonAudioFile = NEXT_BUTTON_AUDIO_EFFECT;
-    
+    layer->addChild(layer->createSpriteButton("res/login/next_btn.png", NEXT_BUTTON_AUDIO_EFFECT ));
     layer->addListener();
     
     return layer;
@@ -105,16 +96,7 @@ ElectricDreamsButton* ElectricDreamsButton::createNextButton()
 ElectricDreamsButton* ElectricDreamsButton::createBackButton()
 {
     auto layer = ElectricDreamsButton::create();
-    
-    Sprite* backButton = Sprite::create("res/login/back_btn.png");
-    backButton->setPosition(backButton->getContentSize().width/2, backButton->getContentSize().height/2);
-    
-    layer->setContentSize(backButton->getContentSize());
-    
-    layer->addChild(backButton);
-    
-    layer->buttonAudioFile = BACK_BUTTON_AUDIO_EFFECT;
-    
+    layer->addChild(layer->createSpriteButton("res/login/back_btn.png", BACK_BUTTON_AUDIO_EFFECT ));
     layer->addListener();
     
     return layer;
@@ -123,18 +105,10 @@ ElectricDreamsButton* ElectricDreamsButton::createBackButton()
 ElectricDreamsButton* ElectricDreamsButton::createAcceptButton()
 {
     auto layer = ElectricDreamsButton::create();
-    
-    Sprite* acceptButton = Sprite::create("res/modal/accept.png");
-    acceptButton->setPosition(acceptButton->getContentSize().width/2, acceptButton->getContentSize().height/2);
+    Sprite* acceptButton =layer->createSpriteButton("res/modal/accept.png", ACCEPT_BUTTON_AUDIO_EFFECT );
     acceptButton->setOpacity(0);
-    layer->setContentSize(acceptButton->getContentSize());
-    
     layer->addChild(acceptButton);
-    
     acceptButton->runAction(FadeTo::create(0.5, 255));
-    
-    layer->buttonAudioFile = ACCEPT_BUTTON_AUDIO_EFFECT;
-    
     layer->addListener();
     
     return layer;
@@ -143,18 +117,10 @@ ElectricDreamsButton* ElectricDreamsButton::createAcceptButton()
 ElectricDreamsButton* ElectricDreamsButton::createCancelButton()
 {
     auto layer = ElectricDreamsButton::create();
-    
-    Sprite* cancelButton = Sprite::create("res/modal/cancel.png");
-    cancelButton->setPosition(cancelButton->getContentSize().width/2, cancelButton->getContentSize().height/2);
+    Sprite* cancelButton = layer->createSpriteButton("res/modal/cancel.png", CANCEL_BUTTON_AUDIO_EFFECT );
     cancelButton->setOpacity(0);
-    layer->setContentSize(cancelButton->getContentSize());
-    
     layer->addChild(cancelButton);
-    
     cancelButton->runAction(FadeTo::create(0.5, 255));
-    
-    layer->buttonAudioFile = CANCEL_BUTTON_AUDIO_EFFECT;
-    
     layer->addListener();
     
     return layer;
@@ -163,18 +129,13 @@ ElectricDreamsButton* ElectricDreamsButton::createCancelButton()
 ElectricDreamsButton* ElectricDreamsButton::createSettingsButton(float creationDelay)
 {
     auto layer = ElectricDreamsButton::create();
-    
-    Sprite* settingsButton = Sprite::create("res/navigation/settings.png");
-    settingsButton->setPosition(settingsButton->getContentSize().width/2, settingsButton->getContentSize().height/2);
+    Sprite* settingsButton = layer->createSpriteButton("res/navigation/settings.png", SETTINGS_BUTTON_AUDIO_EFFECT );
     settingsButton->setOpacity(0);
-    layer->setContentSize(settingsButton->getContentSize());
-    
     layer->addChild(settingsButton);
     
     float randomDelay = RandomHelper::random_real(0.2, 0.7);
     settingsButton->runAction(Sequence::create(DelayTime::create(creationDelay + randomDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     
-    layer->buttonAudioFile = SETTINGS_BUTTON_AUDIO_EFFECT;
     layer->mixPanelButtonName = "Settings";
     
     layer->addListener();
@@ -246,4 +207,15 @@ void ElectricDreamsButton::sendMixPanelEvent()
 {
     if(mixPanelButtonName != "")
         MixPanelSingleton::getInstance()->mixPanel_genericButtonPress(mixPanelButtonName);
+}
+
+Sprite* ElectricDreamsButton::createSpriteButton(std::string buttonImage, std::string buttonAudio)
+{
+    Sprite* spriteButton = Sprite::create(buttonImage);
+    spriteButton->setPosition(spriteButton->getContentSize().width/2, spriteButton->getContentSize().height/2);
+    
+    setContentSize(spriteButton->getContentSize());
+    buttonAudioFile = buttonAudio;
+    
+    return spriteButton;
 }

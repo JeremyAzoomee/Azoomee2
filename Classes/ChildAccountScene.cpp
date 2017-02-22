@@ -2,7 +2,7 @@
 #include "BackEndCaller.h"
 #include "ChildSelectorScene.h"
 #include "TextInputChecker.h"
-#include "StringStorage.h"
+#include "StringMgr.h"
 #include "ConfigStorage.h"
 #include "AudioMixer.h"
 #include "MixPanelSingleton.h"
@@ -104,9 +104,9 @@ void ChildAccountScene::addLabelsToLayer()
     
     //Add diferent text depending on new or editing account
     if(this->isNewChildAccount)
-        addChildNameTitle->setString(StringStorage::getInstance()->getStringForChildAccount("requestChildName"));
+        addChildNameTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_NAME_LABEL));
     else
-        addChildNameTitle->setString(StringStorage::getInstance()->getStringForChildAccount("editChildName"));
+        addChildNameTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_EDIT_NAME_LABEL));
     
     addChildNameTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.7);
     addChildNameTitle->setColor(Color3B(28, 244, 244));
@@ -119,7 +119,7 @@ void ChildAccountScene::addLabelsToLayer()
     labelDob->setColor(Color3B(28, 244, 244));
     childAccountContent->addChild(labelDob);
     
-    auto labelDobSubTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForChildAccount("requestChildBirthDaySubTitle"), "fonts/azoomee.ttf", 60);
+    auto labelDobSubTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_SUB_LABEL), "fonts/azoomee.ttf", 60);
     labelDobSubTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.6);
     labelDobSubTitle->setColor(Color3B::WHITE);
     childAccountContent->addChild(labelDobSubTitle);
@@ -128,16 +128,16 @@ void ChildAccountScene::addLabelsToLayer()
     labelOomee->setSystemFontName("fonts/azoomee.ttf");
     labelOomee->setSystemFontSize(90);
     if(this->isNewChildAccount)
-        labelOomee->setString(StringStorage::getInstance()->getStringForChildAccount("requestChildOomee"));
+        labelOomee->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_LABEL));
     else
-        labelOomee->setString(StringStorage::getInstance()->getStringForChildAccount("editChildName"));
+        labelOomee->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_EDIT_OOMEE_LABEL));
     labelOomee->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
     labelOomee->setColor(Color3B(28, 244, 244));
     childAccountContent->addChild(labelOomee);
     
     if(this->isNewChildAccount)
     {
-        auto selectOomeeDetail = Label::createWithTTF(StringStorage::getInstance()->getStringForChildAccount("requestChildOomeeSub"), "fonts/azoomee.ttf", 60);
+        auto selectOomeeDetail = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_SUB_LABEL), "fonts/azoomee.ttf", 60);
         selectOomeeDetail->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.6);
         selectOomeeDetail->setColor(Color3B::WHITE);
         childAccountContent->addChild(selectOomeeDetail);
@@ -303,10 +303,10 @@ void ChildAccountScene::setDOBLabel()
     if(this->isNewChildAccount)
     {
         std::string newChildsName = editBox_childName->getText();
-        labelDob->setString(StringUtils::format("%s %s.", StringStorage::getInstance()->getStringForChildAccount("requestChildBirthDay").c_str(), newChildsName.c_str()));
+        labelDob->setString(StringUtils::format("%s %s.", StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_LABEL).c_str(), newChildsName.c_str()));
     }
     else
-        labelDob->setString(StringStorage::getInstance()->getStringForChildAccount("editChildBirthDay").c_str());
+        labelDob->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_EDIT_DOB_LABEL));
 }
 
 void ChildAccountScene::moveBackToChildNameInput(ElectricDreamsButton* button)

@@ -9,6 +9,7 @@
 #include "LoginScene.h"
 #include "HQHistoryManager.h"
 #include "MixPanelSingleton.h"
+#include "StringMgr.h"
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
@@ -29,6 +30,9 @@ bool IntroVideoScene::init()
     {
         return false;
     }
+    
+    //auto test = StringMgr::getInstance()->getStringForKeys("LoginScene/pause_layer_pause_title/ ");
+    //auto test1 = StringMgr::getInstance()->getErrorMessageWithCode(999);
     
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();

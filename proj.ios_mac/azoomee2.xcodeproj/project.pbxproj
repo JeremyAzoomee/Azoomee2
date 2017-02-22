@@ -140,6 +140,7 @@
 		435EBBDE1E55BA0400E55610 /* AppsFlyerLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */; };
 		435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDF1E55BB1600E55610 /* AdSupport.framework */; };
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
+		43F2C5F51E5C4DC40016F30E /* StringMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -174,7 +175,6 @@
 		A15D58951E028CAB0099CDEE /* ConfigStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15D58931E028CAB0099CDEE /* ConfigStorage.cpp */; };
 		A15D589B1E04099A0099CDEE /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15D58991E04099A0099CDEE /* HttpRequestCreator.cpp */; };
 		A15D58A01E0804100099CDEE /* TextInputChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15D589E1E0804100099CDEE /* TextInputChecker.cpp */; };
-		A15D58A31E0830600099CDEE /* StringStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15D58A11E0830600099CDEE /* StringStorage.cpp */; };
 		A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1817B491DDCCA5200C2D13C /* MainHubBgElements.cpp */; };
 		A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19759821DE4931200FEB03C /* HQSceneElement.cpp */; };
 		A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
@@ -461,6 +461,7 @@
 		431A29F91E439BFE00DC0F3B /* UIViewController+AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AutomaticEvents.h"; sourceTree = "<group>"; };
 		431A29FA1E439BFE00DC0F3B /* UIViewController+AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AutomaticEvents.m"; sourceTree = "<group>"; };
 		431A29FB1E439BFE00DC0F3B /* watchos.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = watchos.modulemap; sourceTree = "<group>"; };
+		431DBABD1E5DA63500F27312 /* StringHashDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StringHashDefines.h; sourceTree = "<group>"; };
 		432312101E1D4EFB00C8606D /* TextInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputLayer.cpp; sourceTree = "<group>"; };
 		432312111E1D4EFB00C8606D /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
 		4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsButton.cpp; sourceTree = "<group>"; };
@@ -474,6 +475,9 @@
 		435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppsFlyerLib.framework; sourceTree = "<group>"; };
 		435EBBDF1E55BB1600E55610 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
 		435EBBE11E55BB2300E55610 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/iAd.framework; sourceTree = DEVELOPER_DIR; };
+		43EE53001E5DC9EA00023B4C /* ErrorCodeHashDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorCodeHashDefines.h; sourceTree = "<group>"; };
+		43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringMgr.cpp; sourceTree = "<group>"; };
+		43F2C5F41E5C4DC40016F30E /* StringMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringMgr.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -525,8 +529,6 @@
 		A15D589A1E04099A0099CDEE /* HttpRequestCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequestCreator.h; sourceTree = "<group>"; };
 		A15D589E1E0804100099CDEE /* TextInputChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputChecker.cpp; sourceTree = "<group>"; };
 		A15D589F1E0804100099CDEE /* TextInputChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputChecker.h; sourceTree = "<group>"; };
-		A15D58A11E0830600099CDEE /* StringStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringStorage.cpp; sourceTree = "<group>"; };
-		A15D58A21E0830600099CDEE /* StringStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringStorage.h; sourceTree = "<group>"; };
 		A1817B491DDCCA5200C2D13C /* MainHubBgElements.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainHubBgElements.cpp; sourceTree = "<group>"; };
 		A1817B4A1DDCCA5200C2D13C /* MainHubBgElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainHubBgElements.h; sourceTree = "<group>"; };
 		A19759821DE4931200FEB03C /* HQSceneElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneElement.cpp; sourceTree = "<group>"; };
@@ -986,6 +988,17 @@
 			name = Crashlytics;
 			sourceTree = "<group>";
 		};
+		43F2C5F11E5C4AF60016F30E /* StringHandler */ = {
+			isa = PBXGroup;
+			children = (
+				431DBABD1E5DA63500F27312 /* StringHashDefines.h */,
+				43EE53001E5DC9EA00023B4C /* ErrorCodeHashDefines.h */,
+				43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */,
+				43F2C5F41E5C4DC40016F30E /* StringMgr.h */,
+			);
+			name = StringHandler;
+			sourceTree = "<group>";
+		};
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1117,12 +1130,11 @@
 		A15D58921E028C940099CDEE /* BurntInData */ = {
 			isa = PBXGroup;
 			children = (
+				43F2C5F11E5C4AF60016F30E /* StringHandler */,
 				430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */,
 				430EF42E1E4097DF00BEAF54 /* AudioMixer.h */,
 				A15D58931E028CAB0099CDEE /* ConfigStorage.cpp */,
 				A15D58941E028CAB0099CDEE /* ConfigStorage.h */,
-				A15D58A11E0830600099CDEE /* StringStorage.cpp */,
-				A15D58A21E0830600099CDEE /* StringStorage.h */,
 				026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */,
 				026BAF771E3FFD33009C4ACE /* HQHistoryManager.h */,
 			);
@@ -1502,6 +1514,7 @@
 				431A2A571E439BFE00DC0F3B /* UIViewController+AutomaticEvents.m in Sources */,
 				A15B2FA91DEDAA2A00D25334 /* ModalMessages.cpp in Sources */,
 				A1CC0C1F1E141B20008B469E /* CookieDataStorage.cpp in Sources */,
+				43F2C5F51E5C4DC40016F30E /* StringMgr.cpp in Sources */,
 				431A2A221E439BFE00DC0F3B /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				431A2A561E439BFE00DC0F3B /* UIView+MPHelpers.m in Sources */,
 				431A2A211E439BFE00DC0F3B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
@@ -1536,7 +1549,6 @@
 				431A2A4C1E439BFE00DC0F3B /* MPVariant.m in Sources */,
 				431A2A551E439BFE00DC0F3B /* UIImage+MPImageEffects.m in Sources */,
 				430B21661E449DC5004ACB10 /* MixPanelSingleton.cpp in Sources */,
-				A15D58A31E0830600099CDEE /* StringStorage.cpp in Sources */,
 				A1A2D30B1E13B54500E86169 /* ParentDataParser.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				431A2A141E439BFE00DC0F3B /* MPABTestDesignerConnection.m in Sources */,

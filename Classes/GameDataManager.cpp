@@ -19,9 +19,9 @@ USING_NS_CC;
 #include "ModalMessages.h"
 #include "LoginScene.h"
 #include "MessageBox.h"
-#include "StringStorage.h"
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
+#include "StringMgr.h"
 
 
 using namespace network;
@@ -385,8 +385,8 @@ void GameDataManager::buttonPressed(ElectricDreamsButton *button)
 
 void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    std::map<std::string, std::string> errorStringMap = StringStorage::getInstance()->getErrorMessageStrings(ERROR_CODE_SOMETHING_WENT_WRONG);
-    
+    std::map<std::string, std::string> errorStringMap = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
+
     if(messageBoxTitle == errorStringMap[ERROR_TITLE] && buttonTitle == errorStringMap[ERROR_BUTTON])
     {
         HQHistoryManager::getInstance()->emptyHistory();

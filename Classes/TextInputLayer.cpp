@@ -1,6 +1,6 @@
 #include "TextInputLayer.h"
 #include "TextInputChecker.h"
-#include "StringStorage.h"
+#include "StringMgr.h"
 
 TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputType)
 {
@@ -88,21 +88,21 @@ void TextInputLayer::setupEditBoxUsingType()
         case INPUT_IS_DAY:
         {
             editBox->setMaxLength(2);
-            editBox->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobDay").c_str());
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_DAY_PLACEHOLDER).c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
         case INPUT_IS_MONTH:
         {
             editBox->setMaxLength(2);
-            editBox->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobMonth").c_str());
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_MONTH_PLACEHOLDER).c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
         case INPUT_IS_YEAR:
         {
             editBox->setMaxLength(4);
-            editBox->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobYear").c_str());
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_YEAR_PLACEHOLDER).c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
