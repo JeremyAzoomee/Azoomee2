@@ -50,7 +50,7 @@ void OfflineHubHQ::createOfflineHQ(std::vector<std::map<std::string, std::string
 
 ui::ScrollView* OfflineHubHQ::createHorizontalScrollView()
 {
-    Size contentSize = Size(2732, 442);
+    Size contentSize = Size(2732, 672);
     
     auto scrollView = cocos2d::ui::ScrollView::create();
     scrollView->setContentSize(contentSize);
@@ -70,6 +70,8 @@ ui::ScrollView* OfflineHubHQ::createHorizontalScrollView()
 
 void OfflineHubHQ::addElementsToScrollView(std::vector<std::map<std::string, std::string>> gameDataList, cocos2d::ui::ScrollView* toBeAddedTo)
 {
+    float endWidth = 0;
+    
     for(int i = 0; i < gameDataList.size(); i++)
     {
         float delay = i * 0.1;
@@ -79,11 +81,19 @@ void OfflineHubHQ::addElementsToScrollView(std::vector<std::map<std::string, std
         auto hqSceneElement = OfflineHubHQElement::create();
         hqSceneElement->addHQSceneElement("GAME HQ", itemData, Vec2(2,2), delay);
         hqSceneElement->setAnchorPoint(Vec2(0,0));
-        hqSceneElement->setScale(0.25);
+        hqSceneElement->setScale(0.375);
         toBeAddedTo->addChild(hqSceneElement);
         
         auto sceneElementPositioner = new HQSceneElementPositioner();
         sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
+        endWidth = hqSceneElement->getPosition().x + hqSceneElement->getBoundingBox().size.width;
+    }
+    
+    if(endWidth <= Director::getInstance()->getVisibleSize().width)
+    {
+        toBeAddedTo->setContentSize(Size(endWidth, toBeAddedTo->getContentSize().height));
+        toBeAddedTo->setInnerContainerSize(Size(endWidth, toBeAddedTo->getContentSize().height));
+        toBeAddedTo->setPositionX(Director::getInstance()->getVisibleSize().width / 2 - toBeAddedTo->getContentSize().width / 2);
     }
 }
 
@@ -91,7 +101,7 @@ void OfflineHubHQ::addArtAppElementToScrollView(cocos2d::ui::ScrollView* toBeAdd
 {
     auto iconLayer = Layer::create();
     iconLayer->setContentSize(ConfigStorage::getInstance()->getSizeForContentItemInCategory("GAME HQ"));
-    iconLayer->setContentSize(iconLayer->getContentSize() / 2);
+    iconLayer->setContentSize(iconLayer->getContentSize() * 0.75);
     
     auto artAppIcon = Sprite::create("res/offline/artAppIcon.png");
     artAppIcon->setScale((iconLayer->getContentSize().width - 5) / artAppIcon->getContentSize().width, (iconLayer->getContentSize().height - 5) / artAppIcon->getContentSize().height);

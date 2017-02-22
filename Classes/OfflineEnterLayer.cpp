@@ -1,6 +1,7 @@
 #include "OfflineEnterLayer.h"
 #include "OfflineHubScene.h"
 #include "OfflineText.h"
+#include "LoginScene.h"
 
 USING_NS_CC;
 
@@ -32,9 +33,19 @@ bool OfflineEnterLayer::init()
     return true;
 }
 
+void OfflineEnterLayer::onEnterTransitionDidFinish()
+{
+    OfflineChecker::getInstance()->setDelegate(this);
+}
+
 void OfflineEnterLayer::buttonPressed(ElectricDreamsButton *button)
 {
     Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+}
+
+void OfflineEnterLayer::connectivityStateChanged(bool online)
+{
+    if(online) Director::getInstance()->replaceScene(LoginScene::createScene(0));
 }
 
 //All methods beyond this line are private--------------------------------------------
@@ -67,11 +78,4 @@ void OfflineEnterLayer::createEnterButton()
     enterButton->setPosition(visibleOrigin.x + visibleSize.width / 2 - buttonContentSize.width / 2, visibleOrigin.y + visibleSize.height * 0.2);
     enterButton->setCascadeOpacityEnabled(true);
     this->addChild(enterButton);
-}
-
-
-void OfflineEnterLayer::update(float delta)
-{
-    //if(this->getOpacity() > 0) this->getChildByName("enterButton")->setVisible(true);
-    //else this->getChildByName("enterButton")->setVisible(false);
 }

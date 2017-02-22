@@ -32,7 +32,6 @@ private:
     void addVisualElementsToScene();
     void addFunctionalElementsToScene();
     void addContentLayerToScene();
-    void addOfflineOptionToScene();
     void addTextBoxesToLayer();
     void addButtonsToLayer();
     void addLabelsToLayer();

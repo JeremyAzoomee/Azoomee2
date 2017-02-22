@@ -68,6 +68,8 @@ bool LoginScene::init()
 
 void LoginScene::onEnterTransitionDidFinish()
 {
+    OfflineChecker::getInstance()->setDelegate(this);
+    
     if(shouldDoAutoLogin)
     {
         CCLOG("Should do autologin!");
@@ -135,7 +137,6 @@ void LoginScene::addVisualElementsToScene()
 void LoginScene::addFunctionalElementsToScene()
 {
     addContentLayerToScene();
-    addOfflineOptionToScene();
     addLabelsToLayer();
     addButtonsToLayer();
     addTextBoxesToLayer();
@@ -150,25 +151,11 @@ void LoginScene::addContentLayerToScene()
     this->addChild(loginContent);
 }
 
-void LoginScene::addOfflineOptionToScene()
-{
-    auto offlineEnterLayer = OfflineEnterLayer::create();
-    offlineEnterLayer->setOpacity(0);
-    offlineEnterLayer->setName("offlineEnterLayer");
-    this->addChild(offlineEnterLayer, 1000);
-    
-    OfflineChecker::getInstance()->setDelegate(this);
-}
-
 void LoginScene::connectivityStateChanged(bool online)
 {
-    if(online)
+    if(!online)
     {
-        this->getChildByName("offlineEnterLayer")->setOpacity(0);
-    }
-    else
-    {
-        this->getChildByName("offlineEnterLayer")->setOpacity(255);
+        Director::getInstance()->replaceScene(OfflineEnterLayer::createScene());
     }
 }
 

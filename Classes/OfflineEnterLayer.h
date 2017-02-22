@@ -3,8 +3,9 @@
 
 #include "cocos2d.h"
 #include "ElectricDreamsButton.h"
+#include "OfflineChecker.h"
 
-class OfflineEnterLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate
+class OfflineEnterLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate, public OfflineCheckerDelegate
 {
 public:
     CREATE_FUNC(OfflineEnterLayer);
@@ -12,7 +13,8 @@ public:
     virtual bool init();
     
     void buttonPressed(ElectricDreamsButton* button);
-    void update(float dt);
+    void connectivityStateChanged(bool online);
+    void onEnterTransitionDidFinish();
     
 private:
     void createEnterButton();
