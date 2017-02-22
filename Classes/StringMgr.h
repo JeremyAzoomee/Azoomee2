@@ -29,6 +29,9 @@ private:
     Document parseFile(string languageID, string stringFile);
     
     std::vector<std::string> splitStringToVector(std::string inputString, std::string separator);
+    bool keysExistInJson(string sceneID, string stringKey, Document inDocument);
+    
+    string getStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary);
     
 };
 #endif
