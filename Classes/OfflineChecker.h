@@ -1,5 +1,16 @@
+#ifndef __OFFLINECHECKER_H__
+#define __OFFLINECHECKER_H__
+
 #include "cocos2d.h"
 #include "network/HttpClient.h"
+
+class OfflineChecker;
+
+class OfflineCheckerDelegate
+{
+public:
+    virtual void connectivityStateChanged(bool online) = 0;
+};
 
 class OfflineChecker : public cocos2d::Ref
 {
@@ -12,8 +23,7 @@ public:
     bool getOfflineStatus();
     void startOfflineChecking();
     
-    void setLayerToShowWhenOffline(cocos2d::Node* layer);
-    cocos2d::Node* layerToShowWhenOffline;
+    CC_SYNTHESIZE(OfflineCheckerDelegate*, _delegate, Delegate);
     
 private:
     void sendOfflineCheckRequest();
@@ -21,3 +31,5 @@ private:
     
     bool offlineStatus;
 };
+
+#endif

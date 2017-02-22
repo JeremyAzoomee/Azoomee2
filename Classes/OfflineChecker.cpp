@@ -15,6 +15,8 @@ OfflineChecker* OfflineChecker::getInstance()
         _sharedOfflineChecker->init();
     }
     
+    _sharedOfflineChecker->startOfflineChecking();
+    
     return _sharedOfflineChecker;
 }
 
@@ -35,14 +37,18 @@ bool OfflineChecker::getOfflineStatus()
 
 void OfflineChecker::startOfflineChecking()
 {
-    CCLOG("OfflineChecking started");
+    if(Director::getInstance()->getRunningScene()->getChildByName("scheduleNode")) return;
     
     auto funcCallAction = CallFunc::create([=](){
         OfflineChecker::sendOfflineCheckRequest();
     });
+    funcCallAction->setTag(1);
     
     auto nodeToSchedule = Node::create();
+    nodeToSchedule->setName("scheduleNode");
     Director::getInstance()->getRunningScene()->addChild(nodeToSchedule);
+    
+    nodeToSchedule->stopActionByTag(1);
     nodeToSchedule->runAction(RepeatForever::create(Sequence::create(funcCallAction, DelayTime::create(5), NULL)));
 }
 
@@ -63,27 +69,25 @@ void OfflineChecker::sendOfflineCheckRequest()
 
 void OfflineChecker::onOfflineCheckRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
-    if(response->getResponseCode() == 200)
+    if((response->getResponseCode() == 200)&&(offlineStatus))
     {
         CCLOG("Online!");
         offlineStatus = false;
-        if(layerToShowWhenOffline)
+        
+        if(this->getDelegate())
         {
-            layerToShowWhenOffline->setOpacity(0);
+            this->getDelegate()->connectivityStateChanged(true);
         }
+        
     }
-    else
+    
+    if((response->getResponseCode() != 200)&&(!offlineStatus))
     {
         CCLOG("Offline!");
         offlineStatus = true;
-        if(layerToShowWhenOffline)
+        if(this->getDelegate())
         {
-            layerToShowWhenOffline->setOpacity(255);
+            this->getDelegate()->connectivityStateChanged(false);
         }
     }
-}
-
-void OfflineChecker::setLayerToShowWhenOffline(cocos2d::Node* layer)
-{
-    layerToShowWhenOffline = layer;
 }

@@ -10,7 +10,6 @@
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
 #include "OfflineEnterLayer.h"
-#include "OfflineChecker.h"
 
 USING_NS_CC;
 
@@ -155,10 +154,22 @@ void LoginScene::addOfflineOptionToScene()
 {
     auto offlineEnterLayer = OfflineEnterLayer::create();
     offlineEnterLayer->setOpacity(0);
+    offlineEnterLayer->setName("offlineEnterLayer");
     this->addChild(offlineEnterLayer, 1000);
     
-    OfflineChecker::getInstance()->setLayerToShowWhenOffline(offlineEnterLayer);
-    OfflineChecker::getInstance()->startOfflineChecking();
+    OfflineChecker::getInstance()->setDelegate(this);
+}
+
+void LoginScene::connectivityStateChanged(bool online)
+{
+    if(online)
+    {
+        this->getChildByName("offlineEnterLayer")->setOpacity(0);
+    }
+    else
+    {
+        this->getChildByName("offlineEnterLayer")->setOpacity(255);
+    }
 }
 
 void LoginScene::addLabelsToLayer()
