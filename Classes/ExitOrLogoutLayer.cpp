@@ -3,7 +3,7 @@
 #include "StringMgr.h"
 #include "ChildDataProvider.h"
 #include "AudioMixer.h"
-#include "MixPanelSingleton.h"
+#include "AnalyticsSingleton.h"
 #include "ParentDataParser.h"
 
 bool ExitOrLogoutLayer::init()
@@ -110,7 +110,7 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == logoutButton)
     {
-        MixPanelSingleton::getInstance()->mixPanel_logoutParent();
+        AnalyticsSingleton::getInstance()->mixPanel_logoutParent();
         ParentDataParser::getInstance()->logoutChild();
         
         UserDefault::getInstance()->getStringForKey("password", "");

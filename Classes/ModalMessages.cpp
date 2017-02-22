@@ -4,7 +4,7 @@
 #include "OnboardingScene.h"
 #include "BaseScene.h"
 #include "HQHistoryManager.h"
-#include "MixPanelSingleton.h"
+#include "AnalyticsSingleton.h"
 
 USING_NS_CC;
 

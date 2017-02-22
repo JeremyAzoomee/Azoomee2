@@ -2,7 +2,7 @@
 #include "ChildDataStorage.h"
 #include "CrashLyticsConfig.h"
 #include "ParentDataProvider.h"
-#include "MixPanelSingleton.h"
+#include "AnalyticsSingleton.h"
 
 using namespace cocos2d;
 
@@ -43,8 +43,8 @@ bool ChildDataParser::parseChildLoginData(std::string responseData)
     
     createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), ChildDataStorage::getInstance()->loggedInChildId);
     
-    MixPanelSingleton::getInstance()->mixPanel_registerParentID(ParentDataProvider::getInstance()->getLoggedInParentId());
-    MixPanelSingleton::getInstance()->mixPanel_registerChildID(ChildDataStorage::getInstance()->loggedInChildId);
+    AnalyticsSingleton::getInstance()->mixPanel_registerParentID(ParentDataProvider::getInstance()->getLoggedInParentId());
+    AnalyticsSingleton::getInstance()->mixPanel_registerChildID(ChildDataStorage::getInstance()->loggedInChildId);
     
     return true;
 }

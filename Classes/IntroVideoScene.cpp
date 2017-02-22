@@ -8,7 +8,7 @@
 #include "BaseScene.h"
 #include "LoginScene.h"
 #include "HQHistoryManager.h"
-#include "MixPanelSingleton.h"
+#include "AnalyticsSingleton.h"
 #include "StringMgr.h"
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
@@ -56,7 +56,7 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
     switch (eventType) {
         case VideoPlayer::EventType::COMPLETED:
         {
-            MixPanelSingleton::getInstance()->mixPanel_registerAppVersion();
+            AnalyticsSingleton::getInstance()->mixPanel_registerAppVersion();
             
             if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
             {

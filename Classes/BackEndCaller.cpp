@@ -17,7 +17,7 @@
 #include "ConfigStorage.h"
 #include "AwaitingAdultPinLayer.h"
 #include "HQHistoryManager.h"
-#include "MixPanelSingleton.h"
+#include "AnalyticsSingleton.h"
 
 using namespace cocos2d;
 
@@ -80,7 +80,7 @@ void BackEndCaller::login(std::string username, std::string password)
     def->setStringForKey("password", password);
     def->flush();
     
-    MixPanelSingleton::getInstance()->mixPanel_registerAzoomeeEmail(username);
+    AnalyticsSingleton::getInstance()->mixPanel_registerAzoomeeEmail(username);
 }
 
 void BackEndCaller::onLoginAnswerReceived(std::string responseString)
@@ -89,11 +89,11 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
         getAvailableChildren();
-        MixPanelSingleton::getInstance()->mixPanel_signInSuccessEvent();
+        AnalyticsSingleton::getInstance()->mixPanel_signInSuccessEvent();
     }
     else
     {
-        MixPanelSingleton::getInstance()->mixPanel_signInFailEvent(0);
+        AnalyticsSingleton::getInstance()->mixPanel_signInFailEvent(0);
         getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
     }
 }
@@ -230,7 +230,7 @@ void BackEndCaller::registerParent(std::string emailAddress, std::string passwor
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
-    MixPanelSingleton::getInstance()->mixPanel_OnboardingAccountCreatedEvent();
+    AnalyticsSingleton::getInstance()->mixPanel_OnboardingAccountCreatedEvent();
     login(this->registerParentUsername, this->registerParentPassword);
 }
 
@@ -248,6 +248,6 @@ void BackEndCaller::registerChild(std::string childProfileName, std::string chil
 
 void BackEndCaller::onRegisterChildAnswerReceived()
 {
-    MixPanelSingleton::getInstance()->mixPanel_childProfileCreatedSuccessEvent(-1);
+    AnalyticsSingleton::getInstance()->mixPanel_childProfileCreatedSuccessEvent(-1);
     getAvailableChildren();
 }

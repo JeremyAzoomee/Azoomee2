@@ -35,12 +35,13 @@
 		430B215B1E4487F9004ACB10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215A1E4487F9004ACB10 /* UIKit.framework */; };
 		430B215D1E448825004ACB10 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215C1E448825004ACB10 /* libicucore.tbd */; };
 		430B215F1E448AF6004ACB10 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215E1E448AF6004ACB10 /* AVFoundation.framework */; };
-		430B21631E449DAA004ACB10 /* MixPanel_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 430B21611E449DAA004ACB10 /* MixPanel_ios.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		430B21661E449DC5004ACB10 /* MixPanelSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B21641E449DC5004ACB10 /* MixPanelSingleton.cpp */; };
+		430B21631E449DAA004ACB10 /* Analytics_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 430B21611E449DAA004ACB10 /* Analytics_ios.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		430B21661E449DC5004ACB10 /* AnalyticsSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B21641E449DC5004ACB10 /* AnalyticsSingleton.cpp */; };
 		430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
 		430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */; };
 		431027831E5DEDE900B5CC8E /* Crashlytics_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431027811E5DEDE900B5CC8E /* Crashlytics_android.cpp */; };
+		431027891E5DFB2200B5CC8E /* Analytics_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431027871E5DFB2200B5CC8E /* Analytics_android.cpp */; };
 		431A29FC1E439BFE00DC0F3B /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 431A29581E439BFD00DC0F3B /* _MPTweakBindObserver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		431A29FD1E439BFE00DC0F3B /* MPArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A295C1E439BFD00DC0F3B /* MPArrowLeft.png */; };
 		431A29FE1E439BFE00DC0F3B /* MPArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A295D1E439BFD00DC0F3B /* MPArrowLeft@2x.png */; };
@@ -290,10 +291,10 @@
 		430B215A1E4487F9004ACB10 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		430B215C1E448825004ACB10 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/usr/lib/libicucore.tbd; sourceTree = DEVELOPER_DIR; };
 		430B215E1E448AF6004ACB10 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
-		430B21611E449DAA004ACB10 /* MixPanel_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MixPanel_ios.mm; sourceTree = "<group>"; };
-		430B21621E449DAA004ACB10 /* MixPanel_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanel_ios.h; sourceTree = "<group>"; };
-		430B21641E449DC5004ACB10 /* MixPanelSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MixPanelSingleton.cpp; sourceTree = "<group>"; };
-		430B21651E449DC5004ACB10 /* MixPanelSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanelSingleton.h; sourceTree = "<group>"; };
+		430B21611E449DAA004ACB10 /* Analytics_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Analytics_ios.mm; sourceTree = "<group>"; };
+		430B21621E449DAA004ACB10 /* Analytics_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analytics_ios.h; sourceTree = "<group>"; };
+		430B21641E449DC5004ACB10 /* AnalyticsSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnalyticsSingleton.cpp; sourceTree = "<group>"; };
+		430B21651E449DC5004ACB10 /* AnalyticsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalyticsSingleton.h; sourceTree = "<group>"; };
 		430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingScene.cpp; sourceTree = "<group>"; };
 		430B3B051DF8401C003A3AA7 /* OnboardingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingScene.h; sourceTree = "<group>"; };
 		430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountScene.cpp; sourceTree = "<group>"; };
@@ -302,6 +303,8 @@
 		430EF42E1E4097DF00BEAF54 /* AudioMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMixer.h; sourceTree = "<group>"; };
 		431027811E5DEDE900B5CC8E /* Crashlytics_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Crashlytics_android.cpp; sourceTree = "<group>"; };
 		431027821E5DEDE900B5CC8E /* Crashlytics_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crashlytics_android.h; sourceTree = "<group>"; };
+		431027871E5DFB2200B5CC8E /* Analytics_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Analytics_android.cpp; sourceTree = "<group>"; };
+		431027881E5DFB2200B5CC8E /* Analytics_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analytics_android.h; sourceTree = "<group>"; };
 		431A29571E439BFD00DC0F3B /* _MPTweakBindObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MPTweakBindObserver.h; sourceTree = "<group>"; };
 		431A29581E439BFD00DC0F3B /* _MPTweakBindObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MPTweakBindObserver.m; sourceTree = "<group>"; };
 		431A29591E439BFD00DC0F3B /* app_extension_module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = app_extension_module.modulemap; sourceTree = "<group>"; };
@@ -748,15 +751,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		430B21601E449D95004ACB10 /* MixPanel */ = {
+		430B21601E449D95004ACB10 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
-				430B21611E449DAA004ACB10 /* MixPanel_ios.mm */,
-				430B21621E449DAA004ACB10 /* MixPanel_ios.h */,
-				430B21641E449DC5004ACB10 /* MixPanelSingleton.cpp */,
-				430B21651E449DC5004ACB10 /* MixPanelSingleton.h */,
+				430B21641E449DC5004ACB10 /* AnalyticsSingleton.cpp */,
+				430B21651E449DC5004ACB10 /* AnalyticsSingleton.h */,
+				430B21611E449DAA004ACB10 /* Analytics_ios.mm */,
+				430B21621E449DAA004ACB10 /* Analytics_ios.h */,
+				431027871E5DFB2200B5CC8E /* Analytics_android.cpp */,
+				431027881E5DFB2200B5CC8E /* Analytics_android.h */,
 			);
-			name = MixPanel;
+			name = Analytics;
 			sourceTree = "<group>";
 		};
 		430B3B021DF832A8003A3AA7 /* Signup_AddChild */ = {
@@ -950,7 +955,7 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				430B21601E449D95004ACB10 /* MixPanel */,
+				430B21601E449D95004ACB10 /* Analytics */,
 				4330C7841E27B77600D32D3E /* Crashlytics */,
 				A15D58921E028C940099CDEE /* BurntInData */,
 				A1CC0C271E15691C008B469E /* ModalMessages */,
@@ -1494,7 +1499,7 @@
 				431A2A281E439BFE00DC0F3B /* MPEnumDescription.m in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				431A2A201E439BFE00DC0F3B /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
-				430B21631E449DAA004ACB10 /* MixPanel_ios.mm in Sources */,
+				430B21631E449DAA004ACB10 /* Analytics_ios.mm in Sources */,
 				431A2A291E439BFE00DC0F3B /* MPEventBinding.m in Sources */,
 				431A2A131E439BFE00DC0F3B /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				431A2A2A1E439BFE00DC0F3B /* MPNetwork.m in Sources */,
@@ -1521,6 +1526,7 @@
 				A15B2FA91DEDAA2A00D25334 /* ModalMessages.cpp in Sources */,
 				A1CC0C1F1E141B20008B469E /* CookieDataStorage.cpp in Sources */,
 				43F2C5F51E5C4DC40016F30E /* StringMgr.cpp in Sources */,
+				431027891E5DFB2200B5CC8E /* Analytics_android.cpp in Sources */,
 				431A2A221E439BFE00DC0F3B /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				431A2A561E439BFE00DC0F3B /* UIView+MPHelpers.m in Sources */,
 				431A2A211E439BFE00DC0F3B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
@@ -1554,7 +1560,7 @@
 				A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */,
 				431A2A4C1E439BFE00DC0F3B /* MPVariant.m in Sources */,
 				431A2A551E439BFE00DC0F3B /* UIImage+MPImageEffects.m in Sources */,
-				430B21661E449DC5004ACB10 /* MixPanelSingleton.cpp in Sources */,
+				430B21661E449DC5004ACB10 /* AnalyticsSingleton.cpp in Sources */,
 				A1A2D30B1E13B54500E86169 /* ParentDataParser.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				431A2A141E439BFE00DC0F3B /* MPABTestDesignerConnection.m in Sources */,

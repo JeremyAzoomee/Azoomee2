@@ -23,7 +23,7 @@
 #include "HQScene.h"
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
-#include "MixPanelSingleton.h"
+#include "AnalyticsSingleton.h"
 
 USING_NS_CC;
 
@@ -246,13 +246,13 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             
             if(!preview)
             {
-                MixPanelSingleton::getInstance()->mixPanel_openContentEvent(title, description, type, contentId);
+                AnalyticsSingleton::getInstance()->mixPanel_openContentEvent(title, description, type, contentId);
                 startUpElementDependingOnType(uri, contentId, category);
             }
             else
             {
                 CCLOG("MixPanel: %s, %s, %s", title.c_str(),description.c_str(),category.c_str());
-                MixPanelSingleton::getInstance()->mixPanel_previewContentClickedEvent(title,description,type);
+                AnalyticsSingleton::getInstance()->mixPanel_previewContentClickedEvent(title,description,type);
                 MessageBox::createPreviewLoginSignupMessageBox();
                 return true;
             }

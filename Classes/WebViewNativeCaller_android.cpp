@@ -4,7 +4,7 @@
 #include "AudioMixer.h"
 #include "LoginScene.h"
 #include "HQHistoryManager.h"
-#include "MixPanelSingleton.h"
+#include "AnalyticsSingleton.h"
 
 USING_NS_CC;
 
@@ -59,17 +59,17 @@ void sendEventToMixPanel(const char* eventKey, const char* eventValue)
     
     if(strKey == "pause")
     {
-        MixPanelSingleton::getInstance()->mixPanel_mediaPausedEvent();
+        AnalyticsSingleton::getInstance()->mixPanel_mediaPausedEvent();
     }
     
     if(strKey == "quality")
     {
-        MixPanelSingleton::getInstance()->mixPanel_mediaQuality(strValue);
+        AnalyticsSingleton::getInstance()->mixPanel_mediaQuality(strValue);
     }
     
     if(strKey == "time")
     {
-        MixPanelSingleton::getInstance()->mixPanel_mediaProgress(std::atoi(strValue.c_str()));
+        AnalyticsSingleton::getInstance()->mixPanel_mediaProgress(std::atoi(strValue.c_str()));
     }
     
     if(strKey == "complete")

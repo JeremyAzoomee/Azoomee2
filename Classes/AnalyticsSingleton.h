@@ -1,7 +1,7 @@
 #include "cocos2d.h"
 #include <time.h>
 
-class MixPanelSingleton : public cocos2d::Ref
+class AnalyticsSingleton : public cocos2d::Ref
 {
     
 private:
@@ -19,8 +19,8 @@ private:
     time_t timeOpenedContent;
     
 public:
-    static MixPanelSingleton* getInstance(void);
-    virtual ~MixPanelSingleton();
+    static AnalyticsSingleton* getInstance(void);
+    virtual ~AnalyticsSingleton();
     bool init(void);
 
     //---------------SUPER PROPERTIES---------

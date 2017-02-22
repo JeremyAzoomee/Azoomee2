@@ -2,7 +2,7 @@
 
 #include "ConfigStorage.h"
 #include "ParentDataProvider.h"
-#include "MixPanelSingleton.h"
+#include "AnalyticsSingleton.h"
 
 using namespace cocos2d;
 
@@ -411,7 +411,7 @@ std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType
 void ConfigStorage::setFirstSlideShowSeen()
 {
     UserDefault::getInstance()->setStringForKey(USERDEFAULTS_FIRST_SLIDE_SHOW, SEEN_FIRST_SLIDE_SHOW_YES);
-    MixPanelSingleton::getInstance()->mixPanel_fistLaunchEvent();
+    AnalyticsSingleton::getInstance()->mixPanel_fistLaunchEvent();
 }
 
 bool ConfigStorage::shouldShowFirstSlideShowScene()
