@@ -1,5 +1,5 @@
 #include "AwaitingAdultPinLayer.h"
-#include "StringStorage.h"
+#include "StringMgr.h"
 #include "BackEndCaller.h"
 #include "ParentDataProvider.h"
 #include "AudioMixer.h"
@@ -51,7 +51,7 @@ void AwaitingAdultPinLayer::addUIObjects()
 {
     //---------- MODAL LABEL ------------
     
-    auto enterYourPinTitle = Label::createWithTTF(PIN_REQUEST_TITLE, "fonts/azoomee.ttf", 90);
+    auto enterYourPinTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL), "fonts/azoomee.ttf", 90);
     enterYourPinTitle->setPosition(origin.x+visibleSize.width /2, origin.y+visibleSize.height*0.8);
     enterYourPinTitle->setColor(Color3B::WHITE);
     enterYourPinTitle->setOpacity(0);

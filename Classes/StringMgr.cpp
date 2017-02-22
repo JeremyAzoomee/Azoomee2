@@ -27,45 +27,27 @@ bool StringMgr::init(void)
     return true;
 }
 
+//--------------- Get Strings Functions ------------------
 
-string StringMgr::getStringForKeys(string keys)
+string StringMgr::getStringForKey(string key)
 {
-    //auto test1 = splitStringToVector(keys, "/");
-    
-    //test1.size()
-    
-    
-    
-    /*int jsonDataLength = stringsDocument.Size();
-    int loginSceneLength = stringsDocument["LoginScene"].Size();
-    
-    rapidjson::Value::MemberIterator M;
-    const char *key1;
-    
-    for (M=stringsDocument["LoginScene"].MemberBegin(); M!=stringsDocument["LoginScene"].MemberEnd(); M++)
-    {
-        key1   = M->name.GetString();
-        CCLOG("actual key: %s", key1);
-    }
-     
-     HasMember("code"))
-     
-     IsNull();
-     .IsString())
-     
-     
-    */
-    //rapidjson::Value& V = stringsDocument["LoginScene"];
-    //auto test = V[keys.c_str()].GetString();
-    //std:string myvalue = stringsDocument["LoginScene"][key.c_str()].GetString();
-    //GetString();
-    
-    return getStringFromJson(splitStringToVector(keys, "/"), stringsDocument);
+    return getStringFromJson(splitStringToVector(key, "/"), stringsDocument);
 }
 
-string StringMgr::getErrorMessageWithCode(long errorCode)
+std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long errorCode)
 {
-    return "";
+    string errorCodeString = StringUtils::format("%ld",errorCode);
+    
+    if(!errorMessagesDocument.HasMember(errorCodeString.c_str()))
+        errorCodeString = "default";
+    
+    std::map<std::string, std::string> errorMap;
+    
+    errorMap[ERROR_TITLE] = getStringFromJson(std::vector<std::string>{errorCodeString,ERROR_TITLE}, errorMessagesDocument);
+    errorMap[ERROR_BODY] = getStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BODY}, errorMessagesDocument);
+    errorMap[ERROR_BUTTON] = getStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON}, errorMessagesDocument);
+    
+    return errorMap;
 }
 
 //------------- PRIVATE FUNCTIONS---------------
@@ -120,80 +102,6 @@ std::vector<std::string> StringMgr::splitStringToVector(std::string inputString,
     
     return result;
 }
-
-/*bool StringMgr::keysExistInJson(string sceneID, string stringKey, Document inDocument)
-{
-    bool keyExists = true;
-    
-    if(inDocument.HasMember(sceneID.c_str()))
-        {
-            if (inDocument[sceneID.c_str()].IsNull())
-                keyExists = false;
-            
-            rapidjson::Value& sceneJsonDictionary = stringsDocument[sceneID.c_str()];
-            
-            if(sceneJsonDictionary.HasMember(stringKey.c_str()))
-            {
-                if(!sceneJsonDictionary[stringKey.c_str()].IsString())
-                    keyExists = false;
-                if(!sceneJsonDictionary[stringKey.c_str()].IsNull())
-                    keyExists = false;
-            }
-            else
-                keyExists = false;
-        }
-    else
-        keyExists = false;
-    
-    return keyExists;
-}
-
-string StringMgr::getStringFromJson(string keys, Document inDocument)
-{
-    std::vector<std::string> jsonKeys = splitStringToVector(keys, "/");
-    
-    rapidjson::Value& sceneJsonDictionary = inDocument;
-    
-    for(int i =0; i < jsonKeys.size();i++)
-    {
-        if(sceneJsonDictionary.HasMember(jsonKeys.at(i).c_str()))
-           {
-               if (inDocument[jsonKeys.at(i).c_str()].IsNull())
-                   break;
-               else
-               {
-                   
-               }
-           }
-        
-    }
-    
-    bool keyExists = true;
-    
-    if(inDocument.HasMember(sceneID.c_str()))
-    {
-        if (inDocument[sceneID.c_str()].IsNull())
-            keyExists = false;
-        
-        rapidjson::Value& sceneJsonDictionary = stringsDocument[sceneID.c_str()];
-        
-        if(sceneJsonDictionary.HasMember(stringKey.c_str()))
-        {
-            if(!sceneJsonDictionary[stringKey.c_str()].IsString())
-                keyExists = false;
-            if(!sceneJsonDictionary[stringKey.c_str()].IsNull())
-                keyExists = false;
-        }
-        else
-            keyExists = false;
-    }
-    else
-        keyExists = false;
-    
-    return keyExists;
-}
-
-*/
 
 string StringMgr::getStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary)
 {

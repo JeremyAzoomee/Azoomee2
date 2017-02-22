@@ -1,5 +1,92 @@
 {
-    "main_menu_play_button_label":"Play",
-    "mode_selection_menu_label":"Select mode",
-    "pause_layer_pause_title":"BOB"
+    "-1":
+    {
+        "title":"No internet",
+        "body":"No internet connection available, please try again after connecting to the internet.",
+        "button":"OK"
+    },
+    
+    "401":
+    {
+        "title":"Login Required",
+        "body":"Your session has timed out. Please login again.",
+        "button":"OK"
+    },
+    
+    "419":
+    {
+        "title":"Login Required",
+        "body":"Your session has timed out. Please login again.",
+        "button":"OK"
+    },
+    
+    "403":
+    {
+        "title":"You Can't Do That",
+        "body":"Please ask a grown-up to help you.",
+        "button":"OK"
+    },
+    
+    "409":
+    {
+        "title":"Already Registered",
+        "body":"The email address has already been registered. Please register with a new email address or log in using this email address.",
+        "button":"OK"
+    },
+    
+    "1001":
+    {
+        "title":"That Didn't Work",
+        "body":"There was a problem with your email or password. Please try logging in again.",
+        "button":"OK"
+    },
+    
+    "1002":
+    {
+        "title":"Something Went Wrong",
+        "body":"There was a problem logging you in. Please try again.",
+        "button":"OK"
+    },
+    
+    "1003":
+    {
+        "title":"Email Verification Required",
+        "body":"For security reasons, you'll need to verify your email address before you can add more children. Please follow the instructions in the email that we've sent you.",
+        "button":"OK"
+    },
+
+    "1004":
+    {
+        "title":"PIN Error",
+        "body":"Please enter your correct 4 digit PIN to continue.",
+        "button":"OK"
+    },
+    
+    "1005":
+    {
+        "title":"Name Already Exists",
+        "body":"You already have a child with this name. Please enter a unique name.",
+        "button":"OK"
+    },
+    
+    "1006":
+    {
+        "title":"Something Went Wrong",
+        "body":"There was a problem, however we have logged you back in.",
+        "button":"OK"
+    },
+    
+    "2001":
+    {
+        "title":"The time on your device is wrong",
+        "body":"Please correct the time on your device and try logging in again.",
+        "button":"OK"
+    },
+    
+    "default":
+    {
+        "title":"Something Went Wrong",
+        "body":"No worries, a bunch of well trained Oomees are already working on this issue.",
+        "button":"OK"
+    }
 }

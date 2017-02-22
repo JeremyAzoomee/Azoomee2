@@ -1,6 +1,6 @@
 #include "ExitOrLogoutLayer.h"
 #include "LoginScene.h"
-#include "StringStorage.h"
+#include "StringMgr.h"
 #include "ChildDataProvider.h"
 #include "AudioMixer.h"
 #include "MixPanelSingleton.h"
@@ -72,7 +72,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     
     // ------- LOG OUT BUTTON ----------
     
-    logoutButton = ElectricDreamsButton::createButtonWithText(LOG_OUT_BUTTON_TEXT);
+    logoutButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT));
     logoutButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.6));
     logoutButton->setDelegate(this);
     logoutButton->setMixPanelButtonName("Log Out");

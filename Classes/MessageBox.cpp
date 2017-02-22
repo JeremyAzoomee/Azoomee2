@@ -1,8 +1,9 @@
 #include "MessageBox.h"
-#include "StringStorage.h"
+#include "StringMgr.h"
 #include "MixPanelSingleton.h"
 #include "LoginScene.h"
 #include "OnboardingScene.h"
+#include "StringMgr.h"
 
 #define MESSAGE_BOX_PADDING 100
 #define MESSAGE_BOX_MINIMUM_WIDTH 1366
@@ -35,7 +36,7 @@ Layer* MessageBox::createWith(long errorCode, MessageBoxDelegate* _delegate)
 
 Layer* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* _delegate)
 {
-    std::map<std::string, std::string> errorStringMap = StringStorage::getInstance()->getErrorMessageStrings(errorCode);
+    std::map<std::string, std::string> errorStringMap = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
     
     auto layer = MessageBox::create();
     
@@ -50,10 +51,10 @@ Layer* MessageBox::createPreviewLoginSignupMessageBox()
 {
     auto layer = MessageBox::create();
     
-    layer->_buttonsTitleList.push_back(LOGIN_BUTTON_TEXT);
-    layer->_buttonsTitleList.push_back(SIGNUP_BUTTON_TEXT);
-    layer->_buttonsTitleList.push_back(CANCEL_BUTTON_TEXT);
-    layer->initMessageBoxLayer(PREVIEW_MESSAGEBOX_TITLE, PREVIEW_MESSAGEBOX_BODY,nullptr);
+    layer->_buttonsTitleList.push_back(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
+    layer->_buttonsTitleList.push_back(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP));
+    layer->_buttonsTitleList.push_back(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL));
+    layer->initMessageBoxLayer(StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL),StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_BODY_LABEL),nullptr);
     
     return layer;
 }
@@ -248,7 +249,7 @@ void MessageBox::buttonPressed(ElectricDreamsButton* button)
     {
         if(buttonsList.at(i) == button)
         {
-            if(_messageBoxTitle == PREVIEW_MESSAGEBOX_TITLE)
+            if(_messageBoxTitle == StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL))
             {
                 handlePreviewLoginSignupMessageBoxSelection(i);
             }
@@ -266,17 +267,17 @@ void MessageBox::buttonPressed(ElectricDreamsButton* button)
 
 void MessageBox::handlePreviewLoginSignupMessageBoxSelection(int buttonSelect)
 {
-    if(_buttonsTitleList.at(buttonSelect) == LOGIN_BUTTON_TEXT)
+    if(_buttonsTitleList.at(buttonSelect) == StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN))
     {
         Scene *loginScene = LoginScene::createScene(0);
         Director::getInstance()->replaceScene(loginScene);
     }
-    else if(_buttonsTitleList.at(buttonSelect) == SIGNUP_BUTTON_TEXT)
+    else if(_buttonsTitleList.at(buttonSelect) == StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP))
     {
         Scene *onboardingScene = OnboardingScene::createScene(0);
         Director::getInstance()->replaceScene(onboardingScene);
     }
-    else if(_buttonsTitleList.at(buttonSelect) == CANCEL_BUTTON_TEXT)
+    else if(_buttonsTitleList.at(buttonSelect) == StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL))
     {
         this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
         MixPanelSingleton::getInstance()->mixPanel_previewPopupCancelledEvent();

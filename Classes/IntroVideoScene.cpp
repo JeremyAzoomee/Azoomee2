@@ -31,7 +31,7 @@ bool IntroVideoScene::init()
         return false;
     }
     
-    auto test = StringMgr::getInstance()->getStringForKeys("LoginScene/pause_layer_pause_title/ ");
+    //auto test = StringMgr::getInstance()->getStringForKeys("LoginScene/pause_layer_pause_title/ ");
     //auto test1 = StringMgr::getInstance()->getErrorMessageWithCode(999);
     
     Vec2 origin = Director::getInstance()->getVisibleOrigin();

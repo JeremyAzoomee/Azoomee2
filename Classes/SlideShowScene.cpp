@@ -1,7 +1,7 @@
 #include "SlideShowScene.h"
 #include "ConfigStorage.h"
 #include "BaseScene.h"
-#include "StringStorage.h"
+#include "StringMgr.h"
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
 
@@ -34,7 +34,7 @@ bool SlideShowScene::init()
 
 void SlideShowScene::createButtons()
 {
-    skipButton = ElectricDreamsButton::createTextAsButton(SKIP_BUTTON_TEXT);
+    skipButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_SKIP));
     skipButton->setCenterPosition(Vec2(origin.x+visibleSize.width - skipButton->getContentSize().width/2 - skipButton->getContentSize().height/2, origin.y + visibleSize.height- skipButton->getContentSize().height));
     skipButton->setDelegate(this);
     skipButton->setMixPanelButtonName("slideshowSkip");
@@ -87,7 +87,7 @@ void SlideShowScene::SheduleSlideSpriteCreation(float dt)
     slideImag6->setPosition(layout6->getContentSize().width /2, layout6->getContentSize().height /2);
     layout6->addChild(slideImag6);
     
-    startExporingButton = ElectricDreamsButton::createButtonWithText(START_EXPLORING_BUTTON_TEXT);
+    startExporingButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_START_EXPLORING));
     startExporingButton->setCenterPosition(Vec2(layout6->getContentSize().width/2, layout6->getContentSize().height/2));
     startExporingButton->setDelegate(this);
     startExporingButton->setMixPanelButtonName("SlideshowStartExploring");
