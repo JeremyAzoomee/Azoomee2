@@ -15,6 +15,9 @@ OfflineChecker* OfflineChecker::getInstance()
         _sharedOfflineChecker->init();
     }
     
+    
+    CCLOG("Newscene set to true");
+    _sharedOfflineChecker->newScene = true;
     _sharedOfflineChecker->startOfflineChecking();
     
     return _sharedOfflineChecker;
@@ -69,10 +72,11 @@ void OfflineChecker::sendOfflineCheckRequest()
 
 void OfflineChecker::onOfflineCheckRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
-    if((response->getResponseCode() == 200)&&(offlineStatus))
+    if((response->getResponseCode() == 200)&&((newScene)||(offlineStatus)))
     {
         CCLOG("Online!");
         offlineStatus = false;
+        newScene = false;
         
         if(this->getDelegate())
         {
@@ -81,10 +85,11 @@ void OfflineChecker::onOfflineCheckRequestAnswerReceived(cocos2d::network::HttpC
         
     }
     
-    if((response->getResponseCode() != 200)&&(!offlineStatus))
+    if((response->getResponseCode() != 200)&&((newScene)||(!offlineStatus)))
     {
         CCLOG("Offline!");
         offlineStatus = true;
+        newScene = false;
         if(this->getDelegate())
         {
             this->getDelegate()->connectivityStateChanged(false);

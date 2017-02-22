@@ -50,7 +50,8 @@ void OfflineEnterLayer::onEnterTransitionDidFinish()
 
 void OfflineEnterLayer::buttonPressed(ElectricDreamsButton *button)
 {
-    Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+    if(button->getName() == "enterButton") Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+    if(button->getName() == "retryButton") Director::getInstance()->replaceScene(LoginScene::createScene(0));
 }
 
 void OfflineEnterLayer::connectivityStateChanged(bool online)
@@ -92,7 +93,16 @@ void OfflineEnterLayer::createEnterButton()
     
     enterButton->setDelegate(this);
     enterButton->setName("enterButton");
-    enterButton->setPosition(visibleOrigin.x + visibleSize.width / 2 - buttonContentSize.width / 2, visibleOrigin.y + visibleSize.height * 0.2);
+    enterButton->setPosition(visibleOrigin.x + visibleSize.width / 2 - buttonContentSize.width / 2, visibleOrigin.y + visibleSize.height * 0.4);
     enterButton->setCascadeOpacityEnabled(true);
     this->addChild(enterButton);
+    
+    auto retryButton = ElectricDreamsButton::createButtonWithText("Retry");
+    Size retryButtonContentSize = retryButton->getContentSize();
+    
+    retryButton->setDelegate(this);
+    retryButton->setName("retryButton");
+    retryButton->setPosition(visibleOrigin.x + visibleSize.width / 2 - retryButtonContentSize.width / 2, visibleOrigin.y + visibleSize.height * 0.2);
+    retryButton->setCascadeOpacityEnabled(true);
+    this->addChild(retryButton);
 }

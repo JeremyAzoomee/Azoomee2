@@ -50,11 +50,15 @@ void OfflineText::createForLoginNoUser()
 
 void OfflineText::createForOfflineHub()
 {
+    OfflineChecker::getInstance()->setDelegate(this);
+}
+
+void OfflineText::createForOfflineHubWhenOffline()
+{
     this->removeAllChildren();
     addOfflineLogoToScreen();
     addTextTitleToScreen("Oh No! You are offline");
     addTextBodyToScreen("You need to be online to use this app.\nCheck your connection and try again.\n\n\nIn the meantime you can still enjoy these.");
-    OfflineChecker::getInstance()->setDelegate(this);
 }
 
 void OfflineText::createForOfflineHubWhenOnline()
@@ -64,7 +68,6 @@ void OfflineText::createForOfflineHubWhenOnline()
     addTextTitleToScreen("Great news! You are back online.");
     addTextBodyToScreen("");
     addExitOfflineModeButtonToScreen();
-    OfflineChecker::getInstance()->setDelegate(this);
 }
 
 void OfflineText::connectivityStateChanged(bool online)
@@ -75,7 +78,7 @@ void OfflineText::connectivityStateChanged(bool online)
     }
     else
     {
-        createForOfflineHub();
+        createForOfflineHubWhenOffline();
     }
 }
 

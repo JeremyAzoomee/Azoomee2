@@ -17,13 +17,15 @@ public:
     void createForLogin();
     void createForLoginNoUser();
     void createForOfflineHub();
-    void createForOfflineHubWhenOnline();
+
     
     void buttonPressed(ElectricDreamsButton* button);
     void connectivityStateChanged(bool online);
     
 private:
     
+    void createForOfflineHubWhenOffline();
+    void createForOfflineHubWhenOnline();
     void addOfflineLogoToScreen();
     void addOnlineLogoToScreen();
     void addExitOfflineModeButtonToScreen();
