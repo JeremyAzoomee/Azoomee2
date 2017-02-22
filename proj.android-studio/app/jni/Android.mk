@@ -66,7 +66,17 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HQHistoryManager.cpp \
                    ../../../Classes/AudioMixer.cpp \
                    ../../../Classes/MixPanelSingleton.cpp \
-                   ../../../Classes/JWTToolForceParent.cpp
+                   ../../../Classes/JWTToolForceParent.cpp \
+                   ../../../Classes/OfflineHubScene.cpp \
+                   ../../../Classes/OfflineHubSceneVisuals.cpp \
+                   ../../../Classes/OfflineGameSearch.cpp \
+                   ../../../Classes/OfflineHubHQ.cpp \
+                   ../../../Classes/OfflineHubHQElement.cpp \
+                   ../../../Classes/OfflineChecker.cpp \
+                   ../../../Classes/OfflineHubBackButton.cpp \
+                   ../../../Classes/OfflineEnterLayer.cpp \
+                   ../../../Classes/OfflineText.cpp \
+                   ../../../Classes/HQSceneElementVisual.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
