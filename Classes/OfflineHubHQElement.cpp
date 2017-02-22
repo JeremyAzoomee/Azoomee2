@@ -34,7 +34,7 @@ void OfflineHubHQElement::addHQSceneElement(std::string category, std::map<std::
     
     this->setContentSize(elementVisual->getContentSize());
     
-    addListenerToElement(itemData["uri"], itemData["id"], itemData["category"], itemData["title"], itemData["description"], itemData["type"], false);
+    addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false);
 }
 
 //-------------------All elements below this are used internally-----------------

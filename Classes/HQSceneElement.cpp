@@ -57,13 +57,13 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     
     if(itemData["entitled"] == "true")
     {
-        addListenerToElement(itemData["uri"], itemData["id"], itemData["category"], itemData["title"], itemData["description"], itemData["type"], false);
+        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false);
     }
     else
     {
         if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
-           addListenerToElement(itemData["uri"], itemData["id"], itemData["category"], itemData["title"], itemData["description"], itemData["type"], true);
+           addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], true);
         }
     }
 }
