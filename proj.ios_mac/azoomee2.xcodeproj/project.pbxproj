@@ -40,6 +40,7 @@
 		430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
 		430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */; };
+		431027831E5DEDE900B5CC8E /* Crashlytics_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431027811E5DEDE900B5CC8E /* Crashlytics_android.cpp */; };
 		431A29FC1E439BFE00DC0F3B /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 431A29581E439BFD00DC0F3B /* _MPTweakBindObserver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		431A29FD1E439BFE00DC0F3B /* MPArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A295C1E439BFD00DC0F3B /* MPArrowLeft.png */; };
 		431A29FE1E439BFE00DC0F3B /* MPArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A295D1E439BFD00DC0F3B /* MPArrowLeft@2x.png */; };
@@ -299,6 +300,8 @@
 		430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountScene.h; sourceTree = "<group>"; };
 		430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
 		430EF42E1E4097DF00BEAF54 /* AudioMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMixer.h; sourceTree = "<group>"; };
+		431027811E5DEDE900B5CC8E /* Crashlytics_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Crashlytics_android.cpp; sourceTree = "<group>"; };
+		431027821E5DEDE900B5CC8E /* Crashlytics_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crashlytics_android.h; sourceTree = "<group>"; };
 		431A29571E439BFD00DC0F3B /* _MPTweakBindObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MPTweakBindObserver.h; sourceTree = "<group>"; };
 		431A29581E439BFD00DC0F3B /* _MPTweakBindObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MPTweakBindObserver.m; sourceTree = "<group>"; };
 		431A29591E439BFD00DC0F3B /* app_extension_module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = app_extension_module.modulemap; sourceTree = "<group>"; };
@@ -980,10 +983,12 @@
 		4330C7841E27B77600D32D3E /* Crashlytics */ = {
 			isa = PBXGroup;
 			children = (
-				4330C7861E27B79A00D32D3E /* Crashlytics_ios.mm */,
-				4330C7871E27B79A00D32D3E /* Crashlytics_ios.h */,
 				4330C7891E27BFD900D32D3E /* CrashlyticsConfig.cpp */,
 				4330C78A1E27BFD900D32D3E /* CrashlyticsConfig.h */,
+				4330C7861E27B79A00D32D3E /* Crashlytics_ios.mm */,
+				4330C7871E27B79A00D32D3E /* Crashlytics_ios.h */,
+				431027811E5DEDE900B5CC8E /* Crashlytics_android.cpp */,
+				431027821E5DEDE900B5CC8E /* Crashlytics_android.h */,
 			);
 			name = Crashlytics;
 			sourceTree = "<group>";
@@ -1477,6 +1482,7 @@
 				431A2A541E439BFE00DC0F3B /* UIImage+MPAverageColor.m in Sources */,
 				026BAF7B1E407A3A009C4ACE /* ImageDownloaderLogic.cpp in Sources */,
 				431A2A1C1E439BFE00DC0F3B /* MPApplicationStateSerializer.m in Sources */,
+				431027831E5DEDE900B5CC8E /* Crashlytics_android.cpp in Sources */,
 				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				431A2A381E439BFE00DC0F3B /* MPPropertyDescription.m in Sources */,
 				431A2A4E1E439BFE00DC0F3B /* NSInvocation+MPHelpers.m in Sources */,

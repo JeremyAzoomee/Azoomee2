@@ -53,6 +53,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HQDataParser.cpp \
                    ../../../Classes/HQDataProvider.cpp \
                    ../../../Classes/CrashlyticsConfig.cpp \
+                   ../../../Classes/Crashlytics_android.cpp \
                    ../../../Classes/IntroVideoScene.cpp \
                    ../../../Classes/MessageBox.cpp \
                    ../../../Classes/AwaitingAdultPinLayer.cpp \
