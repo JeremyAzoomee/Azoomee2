@@ -20,6 +20,7 @@ private:
     void createEnterButton();
     void createBlackBackground();
     void createText();
+    void createTextForNoUser();
 };
 
 #endif

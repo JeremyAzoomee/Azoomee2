@@ -40,6 +40,14 @@ void OfflineText::createForLogin()
     addTextBodyToScreen("You need to be online to use this app.\nCheck your connection and try again,\nor enter offline mode.");
 }
 
+void OfflineText::createForLoginNoUser()
+{
+    this->removeAllChildren();
+    addOfflineLogoToScreen();
+    addTextTitleToScreen("Oh No! You are offline");
+    addTextBodyToScreen("You need to be online to use this app.\nCheck your connection and try again.");
+}
+
 void OfflineText::createForOfflineHub()
 {
     this->removeAllChildren();

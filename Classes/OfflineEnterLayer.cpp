@@ -25,10 +25,20 @@ bool OfflineEnterLayer::init()
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(Size(2732, 2048));
     createBlackBackground();
-    createText();
-    createEnterButton();
     
-    this->schedule(schedule_selector(OfflineEnterLayer::update));
+    UserDefault* def = UserDefault::getInstance();
+    std::string lastLoggedInChildId = def->getStringForKey("lastLoggedInChildId");
+    def->flush();
+    
+    if(lastLoggedInChildId != "")
+    {
+        createText();
+        createEnterButton();
+    }
+    else
+    {
+        createTextForNoUser();
+    }
     
     return true;
 }
@@ -62,7 +72,14 @@ void OfflineEnterLayer::createText()
     offlineText->setCascadeOpacityEnabled(true);
     offlineText->createForLogin();
     this->addChild(offlineText);
-    offlineText->createForLogin();
+}
+
+void OfflineEnterLayer::createTextForNoUser()
+{
+    auto offlineText = OfflineText::create();
+    offlineText->setCascadeOpacityEnabled(true);
+    offlineText->createForLoginNoUser();
+    this->addChild(offlineText);
 }
 
 void OfflineEnterLayer::createEnterButton()

@@ -15,6 +15,7 @@ public:
     virtual bool init();
     
     void createForLogin();
+    void createForLoginNoUser();
     void createForOfflineHub();
     void createForOfflineHubWhenOnline();
     

@@ -62,7 +62,7 @@ ui::ScrollView* OfflineHubHQ::createHorizontalScrollView()
     scrollView->setSwallowTouches(false);
     scrollView->setScrollBarEnabled(false);
     scrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
-    scrollView->setBackGroundColor(Color3B::WHITE);
+    scrollView->setBackGroundColor(Color3B::BLACK);
     scrollView->setBackGroundColorOpacity(25);
     
     return scrollView;
@@ -70,7 +70,7 @@ ui::ScrollView* OfflineHubHQ::createHorizontalScrollView()
 
 void OfflineHubHQ::addElementsToScrollView(std::vector<std::map<std::string, std::string>> gameDataList, cocos2d::ui::ScrollView* toBeAddedTo)
 {
-    float endWidth = 0;
+    float endWidth = ConfigStorage::getInstance()->getSizeForContentItemInCategory("GAME HQ").width * 0.75;
     
     for(int i = 0; i < gameDataList.size(); i++)
     {
