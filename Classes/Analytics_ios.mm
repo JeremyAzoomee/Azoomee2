@@ -3,7 +3,7 @@
 #import <UIKit/UIKit.h>
 #import <AppsFlyerLib/AppsFlyerTracker.h>
 
-void mixPanelSendEvent_ios(std::string eventID,std::map<std::string, std::string> map)
+NSDictionary* mapToNSDictionary(std::map<std::string, std::string> map)
 {
     NSMutableDictionary * MutableDictionary = [NSMutableDictionary dictionary];
     
@@ -21,10 +21,13 @@ void mixPanelSendEvent_ios(std::string eventID,std::map<std::string, std::string
         value = nil;
     }
     
+    return [NSDictionary dictionaryWithDictionary:MutableDictionary];
+}
+
+void mixPanelSendEvent_ios(std::string eventID,std::map<std::string, std::string> map)
+{
     [[Mixpanel sharedInstance] track:[NSString stringWithUTF8String:eventID.c_str()]
-         properties:[NSDictionary dictionaryWithDictionary:MutableDictionary]];
-    
-    MutableDictionary = nil;
+         properties:mapToNSDictionary(map)];
 }
 
 void mixPanelSendEvent_ios(std::string eventID)
@@ -35,48 +38,14 @@ void mixPanelSendEvent_ios(std::string eventID)
 
 void mixPanel_registerSuperProperties_ios(std::map<std::string, std::string> map)
 {
-    NSMutableDictionary * MutableDictionary = [NSMutableDictionary dictionary];
-    
-    NSString * key;
-    NSString * value;
-    
-    for (auto it = map.begin(); it != map.end(); it++){
-        key = (0 == it->first.length())?(@""):(@(it->first.c_str()));
-        value = (0 == it->second.length())?(@""):(@(it->second.c_str()));
-        
-        [MutableDictionary setObject:value forKey:key];
-        NSLog(@"NSDictonaryFromMap() - key:%@ value:%@", key, value);
-        
-        key = nil;
-        value = nil;
-    }
-    
-    [[Mixpanel sharedInstance] registerSuperProperties:MutableDictionary];
-    
-    MutableDictionary = nil;
+    [[Mixpanel sharedInstance] registerSuperProperties:mapToNSDictionary(map)];
 }
 
 //--------------- APPSFLYER---------------
 
 void appsFlyerSendEvent_ios(std::string eventID, std::map<std::string, std::string> map)
 {
-    NSMutableDictionary * MutableDictionary = [NSMutableDictionary dictionary];
-    
-    NSString * key;
-    NSString * value;
-    
-    for (auto it = map.begin(); it != map.end(); it++){
-        key = (0 == it->first.length())?(@""):(@(it->first.c_str()));
-        value = (0 == it->second.length())?(@""):(@(it->second.c_str()));
-        
-        [MutableDictionary setObject:value forKey:key];
-        NSLog(@"NSDictonaryFromMap() - key:%@ value:%@", key, value);
-        
-        key = nil;
-        value = nil;
-    }
-
-    [[AppsFlyerTracker sharedTracker] trackEvent: [NSString stringWithUTF8String:eventID.c_str()] withValues:[NSDictionary dictionaryWithDictionary:MutableDictionary]];
+    [[AppsFlyerTracker sharedTracker] trackEvent: [NSString stringWithUTF8String:eventID.c_str()] withValues:mapToNSDictionary(map)];
 }
 
 void appsFlyerSendEvent_ios(std::string eventID)

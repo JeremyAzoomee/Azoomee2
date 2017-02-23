@@ -9,6 +9,7 @@
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
 #include "StringMgr.h"
+#include "ElectricDreamsLabels.h"
 
 USING_NS_CC;
 
@@ -160,9 +161,10 @@ void LoginScene::addLabelsToLayer()
     doYouWantToTitle->setColor(Color3B::WHITE);
     loginContent->addChild(doYouWantToTitle);
     
-    auto emailTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL), "fonts/azoomee.ttf", 90);
+    auto emailTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    //Label::createWithTTF(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL), "fonts/azoomee.ttf", 90);
     emailTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
-    emailTitle->setColor(Color3B(28, 244, 244));
+    //emailTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(emailTitle);
     
     auto passwordTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL), "fonts/azoomee.ttf", 90);
