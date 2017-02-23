@@ -59,17 +59,17 @@ void sendEventToMixPanel(const char* eventKey, const char* eventValue)
     
     if(strKey == "pause")
     {
-        AnalyticsSingleton::getInstance()->mixPanel_mediaPausedEvent();
+        AnalyticsSingleton::getInstance()->mediaPausedEvent();
     }
     
     if(strKey == "quality")
     {
-        AnalyticsSingleton::getInstance()->mixPanel_mediaQuality(strValue);
+        AnalyticsSingleton::getInstance()->mediaQualityEvent(strValue);
     }
     
     if(strKey == "time")
     {
-        AnalyticsSingleton::getInstance()->mixPanel_mediaProgress(std::atoi(strValue.c_str()));
+        AnalyticsSingleton::getInstance()->mediaProgressEvent(std::atoi(strValue.c_str()));
     }
     
     if(strKey == "complete")

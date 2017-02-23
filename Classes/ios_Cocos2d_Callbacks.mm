@@ -8,7 +8,7 @@ void navigateToBaseScene()
 {
     HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
     
-    AnalyticsSingleton::getInstance()->mixPanel_closeContentEvent();
+    AnalyticsSingleton::getInstance()->closeContentEvent();
     
     auto baseScene = BaseScene::createScene();
     cocos2d::Director::getInstance()->replaceScene(baseScene);
@@ -16,7 +16,7 @@ void navigateToBaseScene()
 
 void navigateToLoginScene()
 {
-    AnalyticsSingleton::getInstance()->mixPanel_closeContentEvent();
+    AnalyticsSingleton::getInstance()->closeContentEvent();
     
     auto loginScene = LoginScene::createSceneWithAutoLoginAndErrorDisplay();
     cocos2d::Director::getInstance()->replaceScene(loginScene);
@@ -35,17 +35,17 @@ void sendMixPanelData(const char* host, const char* query)
     
     if(strHost == "pause")
     {
-        AnalyticsSingleton::getInstance()->mixPanel_mediaPausedEvent();
+        AnalyticsSingleton::getInstance()->mediaPausedEvent();
     }
     
     if(strHost == "quality")
     {
-        AnalyticsSingleton::getInstance()->mixPanel_mediaQuality(strQuery);
+        AnalyticsSingleton::getInstance()->mediaQualityEvent(strQuery);
     }
     
     if(strHost == "time")
     {
-        AnalyticsSingleton::getInstance()->mixPanel_mediaProgress(std::atoi(strQuery.c_str()));
+        AnalyticsSingleton::getInstance()->mediaProgressEvent(std::atoi(strQuery.c_str()));
     }
     
     if(strHost == "complete")

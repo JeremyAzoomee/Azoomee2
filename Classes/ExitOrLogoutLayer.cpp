@@ -110,7 +110,7 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == logoutButton)
     {
-        AnalyticsSingleton::getInstance()->mixPanel_logoutParent();
+        AnalyticsSingleton::getInstance()->logoutParentEvent();
         ParentDataParser::getInstance()->logoutChild();
         
         UserDefault::getInstance()->getStringForKey("password", "");

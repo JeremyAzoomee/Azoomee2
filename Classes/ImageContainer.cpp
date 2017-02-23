@@ -144,7 +144,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         if(rect.containsPoint(locationInNode))
         {
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-            AnalyticsSingleton::getInstance()->mixPanel_openContentEvent(Title, Description, Type, contentId);
+            AnalyticsSingleton::getInstance()->openContentEvent(Title, Description, Type, contentId);
             
             target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
             
@@ -216,7 +216,7 @@ void ImageContainer::addPreviewListenerToContainer(cocos2d::Node *addTo, std::st
         if(rect.containsPoint(locationInNode))
         {
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-            AnalyticsSingleton::getInstance()->mixPanel_previewContentClickedEvent(Title, Description, Type);
+            AnalyticsSingleton::getInstance()->previewContentClickedEvent(Title, Description, Type);
             
             MessageBox::createPreviewLoginSignupMessageBox();
             return true;

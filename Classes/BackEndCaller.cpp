@@ -80,7 +80,7 @@ void BackEndCaller::login(std::string username, std::string password)
     def->setStringForKey("password", password);
     def->flush();
     
-    AnalyticsSingleton::getInstance()->mixPanel_registerAzoomeeEmail(username);
+    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
 }
 
 void BackEndCaller::onLoginAnswerReceived(std::string responseString)
@@ -89,11 +89,11 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
         getAvailableChildren();
-        AnalyticsSingleton::getInstance()->mixPanel_signInSuccessEvent();
+        AnalyticsSingleton::getInstance()->signInSuccessEvent();
     }
     else
     {
-        AnalyticsSingleton::getInstance()->mixPanel_signInFailEvent(0);
+        AnalyticsSingleton::getInstance()->signInFailEvent(0);
         getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
     }
 }
@@ -230,7 +230,7 @@ void BackEndCaller::registerParent(std::string emailAddress, std::string passwor
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
-    AnalyticsSingleton::getInstance()->mixPanel_OnboardingAccountCreatedEvent();
+    AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     login(this->registerParentUsername, this->registerParentPassword);
 }
 
@@ -248,6 +248,6 @@ void BackEndCaller::registerChild(std::string childProfileName, std::string chil
 
 void BackEndCaller::onRegisterChildAnswerReceived()
 {
-    AnalyticsSingleton::getInstance()->mixPanel_childProfileCreatedSuccessEvent(-1);
+    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent(-1);
     getAvailableChildren();
 }

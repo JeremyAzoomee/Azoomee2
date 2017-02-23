@@ -25,7 +25,7 @@ bool OnboardingScene::init()
         return false;
     }
     
-    AnalyticsSingleton::getInstance()->mixPanel_OnboardingStartEvent();
+    AnalyticsSingleton::getInstance()->OnboardingStartEvent();
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
@@ -262,20 +262,20 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
     else if(button == buttonNextEmail)
     {
         moveToAndSetupPasswordScreen(button);
-        AnalyticsSingleton::getInstance()->mixPanel_OnboardingEmailSubmittedEvent();
+        AnalyticsSingleton::getInstance()->OnboardingEmailSubmittedEvent();
     }
     else if(button == buttonBackPassword)
         moveToAndSetupEmailScreen(button);
     else if(button == buttonNextPassword)
     {
         moveToAndSetupPinScreen(button);
-        AnalyticsSingleton::getInstance()->mixPanel_OnboardingPasswordSubmittedEvent();
+        AnalyticsSingleton::getInstance()->OnboardingPasswordSubmittedEvent();
     }
     else if(button == buttonBackPin)
         moveToAndSetupPasswordScreen(button);
     else if(button == buttonSignUp)
     {
-        AnalyticsSingleton::getInstance()->mixPanel_OnboardingPinSubmittedEvent();
+        AnalyticsSingleton::getInstance()->OnboardingPinSubmittedEvent();
         signUp();
     }
 }

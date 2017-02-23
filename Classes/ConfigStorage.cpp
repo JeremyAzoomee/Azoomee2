@@ -411,7 +411,7 @@ std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType
 void ConfigStorage::setFirstSlideShowSeen()
 {
     UserDefault::getInstance()->setStringForKey(USERDEFAULTS_FIRST_SLIDE_SHOW, SEEN_FIRST_SLIDE_SHOW_YES);
-    AnalyticsSingleton::getInstance()->mixPanel_fistLaunchEvent();
+    AnalyticsSingleton::getInstance()->fistLaunchEvent();
 }
 
 bool ConfigStorage::shouldShowFirstSlideShowScene()

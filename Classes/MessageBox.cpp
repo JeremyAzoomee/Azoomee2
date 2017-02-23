@@ -61,7 +61,7 @@ Layer* MessageBox::createPreviewLoginSignupMessageBox()
 
 void MessageBox::initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate)
 {
-    AnalyticsSingleton::getInstance()->mixPanel_messageBoxShow(Title);
+    AnalyticsSingleton::getInstance()->messageBoxShowEvent(Title);
     
     if(_delegate)
         setDelegate(_delegate);
@@ -280,6 +280,6 @@ void MessageBox::handlePreviewLoginSignupMessageBoxSelection(int buttonSelect)
     else if(_buttonsTitleList.at(buttonSelect) == StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL))
     {
         this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
-        AnalyticsSingleton::getInstance()->mixPanel_previewPopupCancelledEvent();
+        AnalyticsSingleton::getInstance()->previewPopupCancelledEvent();
     }
 }

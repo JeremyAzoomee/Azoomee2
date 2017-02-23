@@ -247,7 +247,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
             }
             else
             {
-                AnalyticsSingleton::getInstance()->mixPanel_navSelectionEvent("",target->getTag());
+                AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
                 AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
                 this->startLoadingHQScene(target->getTag());
                 this->turnOffAllMenuItems();

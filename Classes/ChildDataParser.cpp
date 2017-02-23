@@ -43,8 +43,8 @@ bool ChildDataParser::parseChildLoginData(std::string responseData)
     
     createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), ChildDataStorage::getInstance()->loggedInChildId);
     
-    AnalyticsSingleton::getInstance()->mixPanel_registerParentID(ParentDataProvider::getInstance()->getLoggedInParentId());
-    AnalyticsSingleton::getInstance()->mixPanel_registerChildID(ChildDataStorage::getInstance()->loggedInChildId);
+    AnalyticsSingleton::getInstance()->registerParentID(ParentDataProvider::getInstance()->getLoggedInParentId());
+    AnalyticsSingleton::getInstance()->registerChildID(ChildDataStorage::getInstance()->loggedInChildId);
     
     return true;
 }

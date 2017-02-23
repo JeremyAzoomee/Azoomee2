@@ -56,7 +56,7 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
     switch (eventType) {
         case VideoPlayer::EventType::COMPLETED:
         {
-            AnalyticsSingleton::getInstance()->mixPanel_registerAppVersion();
+            AnalyticsSingleton::getInstance()->registerAppVersion();
             
             if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
             {

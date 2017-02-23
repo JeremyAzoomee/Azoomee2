@@ -5,11 +5,13 @@ class AnalyticsSingleton : public cocos2d::Ref
 {
     
 private:
-    void createOSSpecficCall(std::string eventID);
+    void mixPanel_createOSSpecficCall(std::string eventID);
+    void mixPanel_createOSSpecficCall(std::string eventID, std::map<std::string, std::string> map);
     
-    void mixPanel_androidJNIHelper(std::string eventID, std::string propertiesJSONString);
+    void mixPanel_OSSpecificSuperPropertiesCall(std::string Key, std::string Property);
     
-    void appsFlyer_androidJNIHelper(std::string eventID, std::string propertiesJSONString);
+    void appsflyer_createOSSpecficCall(std::string eventID);
+    void appsflyer_createOSSpecficCall(std::string eventID, std::map<std::string, std::string> map);
     
     std::string storedTitle;
     std::string storedDescription;
@@ -24,65 +26,63 @@ public:
     bool init(void);
 
     //---------------SUPER PROPERTIES---------
+    
+    void registerAppVersion();
+    void registerParentID(std::string ParentID);
+    void registerNoOfChildren(int noOfChildren);
+    void registerAzoomeeEmail(std::string emailAddress);
+    void registerAccountStatus(std::string Status);   //NEED TO BE ADDED TO CODE
 
-    void mixPanel_OSSpecificSuperPropertiesCall(std::string Key, std::string Property);
+    void registerChildID(std::string ChildID);
+    void registerChildGender(std::string ChildGender); //NEED TO BE ADDED TO CODE
+    void registerChildDOB(std::string ChildDOB); //NEED TO BE ADDED TO CODE
 
-    void mixPanel_registerAppVersion();
-    void mixPanel_registerParentID(std::string ParentID);
-    void mixPanel_registerNoOfChildren(int noOfChildren);
-    void mixPanel_registerAzoomeeEmail(std::string emailAddress);
-    void mixPanel_registerAccountStatus(std::string Status);   //NEED TO BE ADDED TO CODE
-
-    void mixPanel_registerChildID(std::string ChildID);
-    void mixPanel_registerChildGender(std::string ChildGender); //NEED TO BE ADDED TO CODE
-    void mixPanel_registerChildDOB(std::string ChildDOB); //NEED TO BE ADDED TO CODE
-
-    void mixPanel_logoutChild();
-    void mixPanel_logoutParent();
+    void logoutChildEvent();
+    void logoutParentEvent();
 
     //-------------Startup--------------------
 
-    void mixPanel_fistLaunchEvent();
+    void fistLaunchEvent();
 
-    void mixPanel_signInSuccessEvent();
-    void mixPanel_signInFailEvent(int errorCode); // NEED TO UNDERSTAND HOW TO PASS THE ERROR CODE
+    void signInSuccessEvent();
+    void signInFailEvent(int errorCode); // NEED TO UNDERSTAND HOW TO PASS THE ERROR CODE
 
     //-------------ONBOARDING--------------------
-    void mixPanel_OnboardingStartEvent();
-    void mixPanel_OnboardingEmailSubmittedEvent();
-    void mixPanel_OnboardingPasswordSubmittedEvent();
-    void mixPanel_OnboardingPinSubmittedEvent();
-    void mixPanel_OnboardingAccountCreatedEvent();
-    void mixPanel_OnboardingAccountCreatedErrorEvent(long errorCode);
+    void OnboardingStartEvent();
+    void OnboardingEmailSubmittedEvent();
+    void OnboardingPasswordSubmittedEvent();
+    void OnboardingPinSubmittedEvent();
+    void OnboardingAccountCreatedEvent();
+    void OnboardingAccountCreatedErrorEvent(long errorCode);
 
     //-------------CHILD PROFILE CREATION-------------
-    void mixPanel_childProfileStartEvent();
-    void mixPanel_childProfileNameEvent();
-    void mixPanel_childProdileNameErrorEvent();
-    void mixPanel_childProfileDOBEvent();
-    void mixPanel_childProfileDOBErrorEvent(); // NO DOB CHECKING IS COMPLETED
-    void mixPanel_childProfileOomeeEvent(int oomeeNumber);
-    void mixPanel_childProfileCreatedSuccessEvent(int oomeeNumber); // HOW TO GET THE OOMEE NUMBER?
-    void mixPanel_childProfileCreatedErrorEvent(long errorCode);
+    void childProfileStartEvent();
+    void childProfileNameEvent();
+    void childProdileNameErrorEvent();
+    void childProfileDOBEvent();
+    void childProfileDOBErrorEvent(); // NO DOB CHECKING IS COMPLETED
+    void childProfileOomeeEvent(int oomeeNumber);
+    void childProfileCreatedSuccessEvent(int oomeeNumber); // HOW TO GET THE OOMEE NUMBER?
+    void childProfileCreatedErrorEvent(long errorCode);
 
     //-------------HUB ACTIONS-------------------
-    void mixPanel_hubTapOomee(int oomeeNumber, std::string oomeeAction);
-    void mixPanel_navSelectionEvent(std::string hubOrTop, int buttonNumber);
-    void mixPanel_openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID);
-    void mixPanel_closeContentEvent();
+    void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
+    void navSelectionEvent(std::string hubOrTop, int buttonNumber);
+    void openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID);
+    void closeContentEvent();
 
     //------------- PREVIEW ACTIONS ---------------
-    void mixPanel_previewContentClickedEvent(std::string Title,std::string Description, std::string Type);
-    void mixPanel_previewPopupCancelledEvent();
+    void previewContentClickedEvent(std::string Title,std::string Description, std::string Type);
+    void previewPopupCancelledEvent();
 
     //---------------MEDIA ACTIONS -----------------
-    void mixPanel_mediaQuality(std::string quality);
-    void mixPanel_mediaProgress(int percentComplete);
-    void mixPanel_mediaPausedEvent();
-    void mixPanel_mediaEnd(int SecondsMediaPlayed);
+    void mediaQualityEvent(std::string quality);
+    void mediaProgressEvent(int percentComplete);
+    void mediaPausedEvent();
+    void mediaEndEvent(int SecondsMediaPlayed);
 
     //---------------OTHER ACTION------------------
-    void mixPanel_genericButtonPress(std::string buttonName);
-    void mixPanel_messageBoxShow(std::string messageTitle);
+    void genericButtonPressEvent(std::string buttonName);
+    void messageBoxShowEvent(std::string messageTitle);
 
 };

@@ -2,6 +2,7 @@
 #include "StringMgr.h"
 #include "TextInputChecker.h"
 #include "ConfigStorage.h"
+#include "Analytics_android.h"
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -32,9 +33,9 @@ bool AnalyticsSingleton::init(void)
     return true;
 }
 
-//---------------- PRIVATE FUNCTIONS -----------------
+//----------------MIX PANEL---------------
 
-void AnalyticsSingleton::createOSSpecficCall(std::string eventID)
+void AnalyticsSingleton::mixPanel_createOSSpecficCall(std::string eventID)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
@@ -47,53 +48,80 @@ void AnalyticsSingleton::createOSSpecficCall(std::string eventID)
 #endif
 }
 
-//-------------- SUPER PROPERTIES---------------------
-
-void AnalyticsSingleton::mixPanel_OSSpecificSuperPropertiesCall(std::string Key, std::string Property)
+void AnalyticsSingleton::mixPanel_createOSSpecficCall(std::string eventID, std::map<std::string, std::string> map)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
+    mixPanelSendEvent_ios(eventID, map);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanelSendEvent_android(eventID, map);
+    
+#endif
+}
+
+void AnalyticsSingleton::mixPanel_OSSpecificSuperPropertiesCall(std::string Key, std::string Property)
+{
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties[Key] = Property;
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
     mixPanel_registerSuperProperties_ios(mixPanelProperties);
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    cocos2d::JniMethodInfo methodInfo;
-    
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "sendMixPanelSuperProperties", "(Ljava/lang/String;)V"))
-    {
-        return;
-    }
-    
-    std::string propertiesJSONString = cocos2d::StringUtils::format("{\"%s\":\"%s\"}", Key.c_str(),Property.c_str());
-    
-    jstring jstringJSONProperties= methodInfo.env->NewStringUTF(propertiesJSONString.c_str());
-    
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID,jstringJSONProperties);
-    
-    methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    mixPanel_registerSuperProperties_android(mixPanelProperties);
     
 #endif
 }
 
-void AnalyticsSingleton::mixPanel_registerAppVersion()
+//-------------- APPSFLYER -----------------------
+
+void AnalyticsSingleton::appsflyer_createOSSpecficCall(std::string eventID)
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+    appsFlyerSendEvent_ios(eventID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    appsFlyerSendEvent_android(eventID);
+    
+#endif
+}
+
+void AnalyticsSingleton::appsflyer_createOSSpecficCall(std::string eventID, std::map<std::string, std::string> map)
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+    appsFlyerSendEvent_ios(eventID, map);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    appsFlyerSendEvent_android(eventID, map);
+    
+#endif
+}
+
+//-------------- SUPER PROPERTIES---------------------
+void AnalyticsSingleton::registerAppVersion()
 {
     mixPanel_OSSpecificSuperPropertiesCall("appVersion",APP_VERSION_NUMBER);
 }
 
-void AnalyticsSingleton::mixPanel_registerParentID(std::string ParentID)
+void AnalyticsSingleton::registerParentID(std::string ParentID)
 {
     mixPanel_OSSpecificSuperPropertiesCall("parentID",ParentID);
 }
 
-void AnalyticsSingleton::mixPanel_registerNoOfChildren(int noOfChildren)
+void AnalyticsSingleton::registerNoOfChildren(int noOfChildren)
 {
     mixPanel_OSSpecificSuperPropertiesCall("noOfChildren",cocos2d::StringUtils::format("%d", noOfChildren));
 }
 
-void AnalyticsSingleton::mixPanel_registerAzoomeeEmail(std::string emailAddress)
+void AnalyticsSingleton::registerAzoomeeEmail(std::string emailAddress)
 {
     std::string azoomeEmail = "NO";
     
@@ -103,36 +131,36 @@ void AnalyticsSingleton::mixPanel_registerAzoomeeEmail(std::string emailAddress)
     mixPanel_OSSpecificSuperPropertiesCall("azoomeeEmail",azoomeEmail);
 }
 
-void AnalyticsSingleton::mixPanel_registerAccountStatus(std::string Status)
+void AnalyticsSingleton::registerAccountStatus(std::string Status)
 {
     mixPanel_OSSpecificSuperPropertiesCall("accountStatus",Status);
 }
 
-void AnalyticsSingleton::mixPanel_registerChildID(std::string ChildID)
+void AnalyticsSingleton::registerChildID(std::string ChildID)
 {
     mixPanel_OSSpecificSuperPropertiesCall("childID",ChildID);
 }
 
-void AnalyticsSingleton::mixPanel_registerChildGender(std::string ChildGender)
+void AnalyticsSingleton::registerChildGender(std::string ChildGender)
 {
     mixPanel_OSSpecificSuperPropertiesCall("sex",ChildGender);
 }
 
-void AnalyticsSingleton::mixPanel_registerChildDOB(std::string ChildDOB)
+void AnalyticsSingleton::registerChildDOB(std::string ChildDOB)
 {
     mixPanel_OSSpecificSuperPropertiesCall("dob",ChildDOB);
 }
 
-void AnalyticsSingleton::mixPanel_logoutChild()
+void AnalyticsSingleton::logoutChildEvent()
 {
     mixPanel_OSSpecificSuperPropertiesCall("childID","");
     mixPanel_OSSpecificSuperPropertiesCall("sex","");
     mixPanel_OSSpecificSuperPropertiesCall("dob","");
 }
 
-void AnalyticsSingleton::mixPanel_logoutParent()
+void AnalyticsSingleton::logoutParentEvent()
 {
-    mixPanel_logoutChild();
+    logoutChildEvent();
     mixPanel_OSSpecificSuperPropertiesCall("accountStatus","");
     mixPanel_OSSpecificSuperPropertiesCall("parentID","");
     mixPanel_OSSpecificSuperPropertiesCall("azoomeeEmail","");
@@ -140,215 +168,147 @@ void AnalyticsSingleton::mixPanel_logoutParent()
 
 //-------------Startup--------------------
 
-void AnalyticsSingleton::mixPanel_fistLaunchEvent()
+void AnalyticsSingleton::fistLaunchEvent()
 {
-    createOSSpecficCall("firstLaunch");
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    
-    appsFlyerSendEvent_ios("firstLaunch");
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    appsFlyer_androidJNIHelper("firstLaunch", "");
-    
-#endif
+    mixPanel_createOSSpecficCall("firstLaunch");
+    appsflyer_createOSSpecficCall("firstLaunch");
 }
 
 // -------------- SIGN IN FUNCTIONS -----------------
-void AnalyticsSingleton::mixPanel_signInSuccessEvent()
+void AnalyticsSingleton::signInSuccessEvent()
 {
-    createOSSpecficCall("parentAppLoginSuccess");
+    mixPanel_createOSSpecficCall("parentAppLoginSuccess");
 }
 
-void AnalyticsSingleton::mixPanel_signInFailEvent(int errorCode)
+void AnalyticsSingleton::signInFailEvent(int errorCode)
 {
-    createOSSpecficCall("parentAppLoginFailure");
+    mixPanel_createOSSpecficCall("parentAppLoginFailure");
 }
 
 //-------------ONBOARDING--------------------
-void AnalyticsSingleton::mixPanel_OnboardingStartEvent()
+void AnalyticsSingleton::OnboardingStartEvent()
 {
-    createOSSpecficCall("startCreateAccount");
+    mixPanel_createOSSpecficCall("startCreateAccount");
 }
 
-void AnalyticsSingleton::mixPanel_OnboardingEmailSubmittedEvent()
+void AnalyticsSingleton::OnboardingEmailSubmittedEvent()
 {
-    createOSSpecficCall("emailSubmitted");
+    mixPanel_createOSSpecficCall("emailSubmitted");
 }
 
-void AnalyticsSingleton::mixPanel_OnboardingPasswordSubmittedEvent()
+void AnalyticsSingleton::OnboardingPasswordSubmittedEvent()
 {
-    createOSSpecficCall("passwordSubmitted");
+    mixPanel_createOSSpecficCall("passwordSubmitted");
 }
 
-void AnalyticsSingleton::mixPanel_OnboardingPinSubmittedEvent()
+void AnalyticsSingleton::OnboardingPinSubmittedEvent()
 {
-    createOSSpecficCall("pinSubmitted");
+    mixPanel_createOSSpecficCall("pinSubmitted");
 }
 
-void AnalyticsSingleton::mixPanel_OnboardingAccountCreatedEvent()
+void AnalyticsSingleton::OnboardingAccountCreatedEvent()
 {
     std::string eventID = "accountCreated";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
-    
     mixPanelProperties["Method"] = "App";
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-    appsFlyerSendEvent_ios(eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,"{\"Method\":\"App\"}");
-    
-    appsFlyer_androidJNIHelper(eventID, "{\"Method\":\"App\"}");
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
+    appsflyer_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mixPanel_OnboardingAccountCreatedErrorEvent(long errorCode)
+void AnalyticsSingleton::OnboardingAccountCreatedErrorEvent(long errorCode)
 {
     std::string eventID = "accountCreatedError";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
-    
     mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"ErrorCode\":\"%ld\"}", errorCode));
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
 //-------------CHILD PROFILE CREATION-------------
-void AnalyticsSingleton::mixPanel_childProfileStartEvent()
+void AnalyticsSingleton::childProfileStartEvent()
 {
-    createOSSpecficCall("childProfileCreateStart");
+    mixPanel_createOSSpecficCall("childProfileCreateStart");
 }
 
-void AnalyticsSingleton::mixPanel_childProfileNameEvent()
+void AnalyticsSingleton::childProfileNameEvent()
 {
-    createOSSpecficCall("childProfileName");
+    mixPanel_createOSSpecficCall("childProfileName");
 }
 
-void AnalyticsSingleton::mixPanel_childProdileNameErrorEvent()
+void AnalyticsSingleton::childProdileNameErrorEvent()
 {
-    createOSSpecficCall("childProfileNameError");
+    mixPanel_createOSSpecficCall("childProfileNameError");
 }
 
-void AnalyticsSingleton::mixPanel_childProfileDOBEvent()
+void AnalyticsSingleton::childProfileDOBEvent()
 {
-    createOSSpecficCall("childProfileDOB");
+    mixPanel_createOSSpecficCall("childProfileDOB");
 }
 
-void AnalyticsSingleton::mixPanel_childProfileDOBErrorEvent()
+void AnalyticsSingleton::childProfileDOBErrorEvent()
 {
     //There are no errors defined at present for this function.
     //createOSSpecficCall("childProfileDOBError");
 }
 
-void AnalyticsSingleton::mixPanel_childProfileOomeeEvent(int oomeeNumber)
+void AnalyticsSingleton::childProfileOomeeEvent(int oomeeNumber)
 {
     std::string eventID = "childProfileOomee";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
-    
     mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"selectedOomee\":\"%s\"}",ConfigStorage::getInstance()->getOomeeColour(oomeeNumber).c_str()));
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mixPanel_childProfileCreatedSuccessEvent(int oomeeNumber)
+void AnalyticsSingleton::childProfileCreatedSuccessEvent(int oomeeNumber)
 {
     std::string eventID = "childProfileCreatedSuccess";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
-    
     mixPanelProperties["Method"] = "App";
     mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Method\":\"App\",\"selectedOomee\":\"%s\"}",ConfigStorage::getInstance()->getOomeeColour(oomeeNumber).c_str()));
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mixPanel_childProfileCreatedErrorEvent(long errorCode)
+void AnalyticsSingleton::childProfileCreatedErrorEvent(long errorCode)
 {
     std::string eventID = "childProfileCreatedError";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
-    
     mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"ErrorCode\":\"%ld\"}", errorCode));
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
 //-------------HUB ACTIONS-------------------
-void AnalyticsSingleton::mixPanel_hubTapOomee(int oomeeNumber, std::string oomeeAction)
+void AnalyticsSingleton::hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction)
 {
     std::string eventID = "tapOomee";
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    std::map<std::string, std::string> mixPanelProperties;
     
+    std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
     mixPanelProperties["OomeeAnimation"] = oomeeAction;
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"SelectedOomee\":\"%s\",\"OomeeAnimation\":\"%s\"}",ConfigStorage::getInstance()->getOomeeColour(oomeeNumber).c_str(),oomeeAction.c_str()));
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mixPanel_navSelectionEvent(std::string hubOrTop, int buttonNumber)
+void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumber)
 {
     std::string eventID = "contentNavSelection";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
-    
-    mixPanelProperties["ErrorCode"] = ConfigStorage::getInstance()->getNameForMenuItem(buttonNumber);
+    mixPanelProperties["Type"] = ConfigStorage::getInstance()->getNameForMenuItem(buttonNumber);
     mixPanelProperties["Method"] = hubOrTop;
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"ErrorCode\":\"%s\",\"Method\":\"%s\"}", ConfigStorage::getInstance()->getNameForMenuItem(buttonNumber).c_str(),hubOrTop.c_str()));
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mixPanel_openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID)
+void AnalyticsSingleton::openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID)
 {
     time(&timeOpenedContent);
     storedTitle = Title;
@@ -358,28 +318,17 @@ void AnalyticsSingleton::mixPanel_openContentEvent(std::string Title,std::string
     
     std::string eventID = "openContent";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
-    
     mixPanelProperties["Title"] = Title;
     mixPanelProperties["Description"] = Description;
     mixPanelProperties["Type"] = Type;
     mixPanelProperties["ContentID"] = contentID;
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-    appsFlyerSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\"}", Title.c_str(),Description.c_str(),Type.c_str(),contentID.c_str()));
-    
-    appsFlyer_androidJNIHelper(eventID, cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\"}", Title.c_str(),Description.c_str(),Type.c_str(),contentID.c_str()));
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
+    appsflyer_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mixPanel_closeContentEvent()
+void AnalyticsSingleton::closeContentEvent()
 {
     time_t now;
     time(&now);
@@ -387,57 +336,39 @@ void AnalyticsSingleton::mixPanel_closeContentEvent()
     
     std::string eventID = "closedContent";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
-    
     mixPanelProperties["Title"] = storedTitle;
     mixPanelProperties["Description"] = storedDescription;
     mixPanelProperties["Type"] = storedType;
     mixPanelProperties["ContentID"] = storedContentID;
     mixPanelProperties["SecondsInContent"] = cocos2d::StringUtils::format("%.f", secondsOpened);
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"SecondsInContent\":\"%.f\"}", storedTitle.c_str(),storedDescription.c_str(),storedType.c_str(),storedContentID.c_str(), secondsOpened));
-    
-#endif
-
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
 //------------- PREVIEW ACTIONS ---------------
-void AnalyticsSingleton::mixPanel_previewContentClickedEvent(std::string Title, std::string Description, std::string Type)
+void AnalyticsSingleton::previewContentClickedEvent(std::string Title, std::string Description, std::string Type)
 {
     std::string eventID = "previewContentItemClicked";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
-    
     mixPanelProperties["Title"] = Title;
     mixPanelProperties["Description"] = Description;
     mixPanelProperties["Type"] = Type;
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\"}", Title.c_str(),Description.c_str(),Type.c_str()));
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mixPanel_previewPopupCancelledEvent()
+void AnalyticsSingleton::previewPopupCancelledEvent()
 {
-    createOSSpecficCall("previewEmailPopUpDismissed");
+    mixPanel_createOSSpecficCall("previewEmailPopUpDismissed");
 }
 
 //---------------MEDIA ACTIONS -----------------
-void AnalyticsSingleton::mixPanel_mediaQuality(std::string quality)
+void AnalyticsSingleton::mediaQualityEvent(std::string quality)
 {
     std::string eventID = "mediaQuality";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
     
     mixPanelProperties["Title"] = storedTitle;
@@ -445,21 +376,14 @@ void AnalyticsSingleton::mixPanel_mediaQuality(std::string quality)
     mixPanelProperties["Type"] = storedType;
     mixPanelProperties["ContentID"] = storedContentID;
     mixPanelProperties["Quality"] = cocos2d::StringUtils::format("%s", quality.c_str());
-    
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"Quality\":\"%s\"}", storedTitle.c_str(),storedDescription.c_str(),storedType.c_str(),storedContentID.c_str(), quality.c_str()));
-    
-#endif
+ 
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mixPanel_mediaProgress(int percentComplete)
+void AnalyticsSingleton::mediaProgressEvent(int percentComplete)
 {
     std::string eventID = "mediaProgress";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
     
     mixPanelProperties["Title"] = storedTitle;
@@ -468,76 +392,45 @@ void AnalyticsSingleton::mixPanel_mediaProgress(int percentComplete)
     mixPanelProperties["ContentID"] = storedContentID;
     mixPanelProperties["Progress"] = cocos2d::StringUtils::format("%d", percentComplete);
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"Progress\":\"%d\"}", storedTitle.c_str(),storedDescription.c_str(),storedType.c_str(),storedContentID.c_str(), percentComplete));
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mixPanel_mediaPausedEvent()
+void AnalyticsSingleton::mediaPausedEvent()
 {
-    createOSSpecficCall("mediaPause");
+    mixPanel_createOSSpecficCall("mediaPause");
 }
 
-void AnalyticsSingleton::mixPanel_mediaEnd(int SecondsMediaPlayed)
+void AnalyticsSingleton::mediaEndEvent(int SecondsMediaPlayed)
 {
     std::string eventID = "mediaEnd";
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    std::map<std::string, std::string> mixPanelProperties;
     
+    std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Title"] = storedTitle;
     mixPanelProperties["Description"] = storedDescription;
     mixPanelProperties["Type"] = storedType;
     mixPanelProperties["ContentID"] = storedContentID;
     mixPanelProperties["SecondsMediaPlayed"] = cocos2d::StringUtils::format("%d", SecondsMediaPlayed);
-    
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"Title\":\"%s\",\"Description\":\"%s\",\"Type\":\"%s\",\"ContentID\":\"%s\",\"SecondsMediaPlayed\":\"%d\"}", storedTitle.c_str(),storedDescription.c_str(),storedType.c_str(),storedContentID.c_str(),SecondsMediaPlayed));
-    
-#endif
 
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
 //---------------OTHER ACTION------------------
-void AnalyticsSingleton::mixPanel_genericButtonPress(std::string buttonName)
+void AnalyticsSingleton::genericButtonPressEvent(std::string buttonName)
 {
     std::string eventID = "tapButton";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
-    
     mixPanelProperties["ButtonName"] = buttonName;
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"ButtonName\":\"%s\"}", buttonName.c_str()));
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mixPanel_messageBoxShow(std::string messageTitle)
+void AnalyticsSingleton::messageBoxShowEvent(std::string messageTitle)
 {
     std::string eventID = "messageBoxDisplayed";
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     std::map<std::string, std::string> mixPanelProperties;
-    
     mixPanelProperties["MessageTitle"] = messageTitle;
     
-    mixPanelSendEvent_ios(mixPanelProperties, eventID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    mixPanel_androidJNIHelper(eventID,cocos2d::StringUtils::format("{\"MessageTitle\":\"%s\"}", messageTitle.c_str()));
-    
-#endif
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }

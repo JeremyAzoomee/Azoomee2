@@ -1,21 +1,22 @@
 #include "cocos2d.h"
 
-void mixPanelSendEvent_android(std::map<std::string, std::string> map, std::string eventID);
+//-------------MIX PANEL ----------
+
 void mixPanelSendEvent_android(std::string eventID);
+void mixPanelSendEvent_android(std::string eventID, std::map<std::string, std::string> map);
 
 void mixPanel_registerSuperProperties_android(std::map<std::string, std::string> map);
 
-void appsFlyerSendEvent_android(std::map<std::string, std::string> map, std::string eventID);
+//------------- APPSFLYER -------
 
 void appsFlyerSendEvent_android(std::string eventID);
+void appsFlyerSendEvent_android(std::string eventID, std::map<std::string, std::string> map);
+
 
 //------------- JNI HELPER FUNCTIONS --------------
 
-void mixPanel_androidJNIHelper(std::string eventID, std::string propertiesJSONString);
-
-void mixPanel_SuperProperties_androidJNIHelper(std::map<std::string, std::string> map);
-
-void appsFlyer_androidJNIHelper(std::string eventID, std::string propertiesJSONString);
+void androidJNIHelper(std::string eventID, std::string JNIFunction);
+void androidJNIHelper(std::string eventID, std::string propertiesJSONString, std::string JNIFunction);
 
 //------------- CONVERSION FUNCTIONS --------------
 

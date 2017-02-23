@@ -206,7 +206,7 @@ void ElectricDreamsButton::setMixPanelButtonName(std::string buttonName)
 void ElectricDreamsButton::sendMixPanelEvent()
 {
     if(mixPanelButtonName != "")
-        AnalyticsSingleton::getInstance()->mixPanel_genericButtonPress(mixPanelButtonName);
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent(mixPanelButtonName);
 }
 
 Sprite* ElectricDreamsButton::createSpriteButton(std::string buttonImage, std::string buttonAudio)

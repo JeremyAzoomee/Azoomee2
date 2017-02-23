@@ -246,13 +246,13 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             
             if(!preview)
             {
-                AnalyticsSingleton::getInstance()->mixPanel_openContentEvent(title, description, type, contentId);
+                AnalyticsSingleton::getInstance()->openContentEvent(title, description, type, contentId);
                 startUpElementDependingOnType(uri, contentId, category);
             }
             else
             {
                 CCLOG("MixPanel: %s, %s, %s", title.c_str(),description.c_str(),category.c_str());
-                AnalyticsSingleton::getInstance()->mixPanel_previewContentClickedEvent(title,description,type);
+                AnalyticsSingleton::getInstance()->previewContentClickedEvent(title,description,type);
                 MessageBox::createPreviewLoginSignupMessageBox();
                 return true;
             }

@@ -32,7 +32,7 @@ bool ChildSelectorScene::init()
         return false;
     }
     
-    AnalyticsSingleton::getInstance()->mixPanel_logoutChild();
+    AnalyticsSingleton::getInstance()->logoutChildEvent();
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     
@@ -115,7 +115,7 @@ void ChildSelectorScene::addProfilesToScrollView()
 {
     //This has to be changed - not a good idea to include json handler in every classes that need it. There must be one storing class that can either give data back by request, or converts data into std::vector.
     
-    AnalyticsSingleton::getInstance()->mixPanel_registerNoOfChildren(ParentDataProvider::getInstance()->getAmountOfAvailableChildren());
+    AnalyticsSingleton::getInstance()->registerNoOfChildren(ParentDataProvider::getInstance()->getAmountOfAvailableChildren());
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
@@ -291,7 +291,7 @@ void ChildSelectorScene::secondCheckForAuthorisation()
     if((ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "VERIFIED")||(ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "ACTIVE"))
     {
         AwaitingAdultPinLayer::create()->setDelegate(this);
-        AnalyticsSingleton::getInstance()->mixPanel_childProfileStartEvent();
+        AnalyticsSingleton::getInstance()->childProfileStartEvent();
     }
     else
         MessageBox::createWith(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED, nullptr);

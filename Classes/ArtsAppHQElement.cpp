@@ -220,9 +220,9 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         if(rect.containsPoint(locationInNode))
         {
             if(preview)
-                AnalyticsSingleton::getInstance()->mixPanel_previewContentClickedEvent("","", "ARTS APP");
+                AnalyticsSingleton::getInstance()->previewContentClickedEvent("","", "ARTS APP");
             else
-                AnalyticsSingleton::getInstance()->mixPanel_openContentEvent("", "", "ARTS APP", "");
+                AnalyticsSingleton::getInstance()->openContentEvent("", "", "ARTS APP", "");
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;
             movedAway = false;

@@ -239,12 +239,12 @@ void HttpRequestCreator::handleError(std::string requestTag, long errorCode, std
     
     if(requestTag == "registerParent")
     {
-        AnalyticsSingleton::getInstance()->mixPanel_OnboardingAccountCreatedErrorEvent(errorCode);
+        AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
         Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
     }
     else if(requestTag == "registerChild")
     {
-        AnalyticsSingleton::getInstance()->mixPanel_childProfileCreatedErrorEvent(errorCode);
+        AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
         Director::getInstance()->replaceScene(ChildAccountScene::createScene("", errorCode));
     }
     else Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));

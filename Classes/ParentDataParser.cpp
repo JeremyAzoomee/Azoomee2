@@ -70,7 +70,7 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
             HQDataStorage::getInstance()->HQGetContentUrls.clear();
             
             createCrashlyticsUserInfo(ParentDataStorage::getInstance()->loggedInParentId, "");
-            AnalyticsSingleton::getInstance()->mixPanel_registerParentID(ParentDataStorage::getInstance()->loggedInParentId);
+            AnalyticsSingleton::getInstance()->registerParentID(ParentDataStorage::getInstance()->loggedInParentId);
             
             return true;
         }

@@ -124,7 +124,7 @@ void AppDelegate::applicationWillEnterForeground() {
     
     if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
     {
-        AnalyticsSingleton::getInstance()->mixPanel_closeContentEvent();
+        AnalyticsSingleton::getInstance()->closeContentEvent();
         
         if(HQHistoryManager::getInstance()->thereWasAnError)
         {

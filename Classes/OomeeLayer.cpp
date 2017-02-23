@@ -110,7 +110,7 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
             target->setAnimation(0, animationid.c_str(), false);
             AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), animationid);
             
-            AnalyticsSingleton::getInstance()->mixPanel_hubTapOomee(displayedOomeeNumber, animationid);
+            AnalyticsSingleton::getInstance()->hubTapOomeeEvent(displayedOomeeNumber, animationid);
             
             return true;
         }
