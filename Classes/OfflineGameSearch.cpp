@@ -33,6 +33,8 @@ std::vector<std::map<std::string, std::string>> OfflineGameSearch::getOfflineGam
     {
         if(jsonList.at(i).length() > 3)
         {
+            CCLOG("jsonList item: %s", jsonList.at(i).c_str());
+            
             if(isStarterFileExists(jsonList.at(i)))
             {
                 std::map<std::string, std::string>
@@ -78,6 +80,9 @@ std::vector<std::string> OfflineGameSearch::getJsonFileListFromDir()
 
 bool OfflineGameSearch::isStarterFileExists(std::string gameId)
 {
+    CCLOG("file exists: %s", getStartFileFromJson(gameId).c_str());
+    if(getStartFileFromJson(gameId) == "ERROR") return false;
+    
     std::string path = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/" + getStartFileFromJson(gameId);
     return FileUtils::getInstance()->isFileExist(path);
 }
@@ -87,10 +92,14 @@ std::string OfflineGameSearch::getStartFileFromJson(std::string gameId)
     std::string jsonFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
     
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
-    return gameData["pathToStartPage"].GetString();
+    if(gameData.HasParseError()) return "ERROR";
+    
+    if(gameData.HasMember("pathToStartPage")) return gameData["pathToStartPage"].GetString();
+    else return "ERROR";
 }
 
 std::map<std::string, std::string> OfflineGameSearch::getGameDetails(std::string gameId)
