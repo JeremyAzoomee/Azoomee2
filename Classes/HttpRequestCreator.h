@@ -29,5 +29,9 @@ private:
     std::string getHostFromUrl(std::string url);
     std::string getUrlParametersFromUrl(std::string url);
     
-    void handleError(std::string requestTag, long errorCode, std::string responseString);
+    void handleError(cocos2d::network::HttpResponse *response);   //std::string requestTag, long errorCode, std::string responseString);
+    
+    //adding retry ability to error handling, so as two level step back - step1: kidselector, step2: main login
+    int amountOfFails;
+    void handleEventAfterError(std::string requestTag, long errorCode);
 };

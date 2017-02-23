@@ -81,3 +81,8 @@ void ChildDataParser::setLoggedInChildNumber(int childNumber)
 {
     ChildDataStorage::getInstance()->loggedInChildNumber = childNumber;
 }
+
+void ChildDataParser::setChildLoggedIn(bool loggedIn)
+{
+    ChildDataStorage::getInstance()->childLoggedIn = loggedIn;
+}
