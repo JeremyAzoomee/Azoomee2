@@ -168,7 +168,7 @@ void AnalyticsSingleton::logoutParentEvent()
 
 //-------------Startup--------------------
 
-void AnalyticsSingleton::fistLaunchEvent()
+void AnalyticsSingleton::firstLaunchEvent()
 {
     mixPanel_createOSSpecficCall("firstLaunch");
     appsflyer_createOSSpecficCall("firstLaunch");

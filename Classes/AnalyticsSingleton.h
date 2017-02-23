@@ -42,7 +42,7 @@ public:
 
     //-------------Startup--------------------
 
-    void fistLaunchEvent();
+    void firstLaunchEvent();
 
     void signInSuccessEvent();
     void signInFailEvent(int errorCode); // NEED TO UNDERSTAND HOW TO PASS THE ERROR CODE

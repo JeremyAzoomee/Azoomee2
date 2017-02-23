@@ -405,21 +405,17 @@ std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType
 
 //--------------------------- UserDefaults First Time User for Slideshow------------
 
-#define USERDEFAULTS_FIRST_SLIDE_SHOW "FirstSlideShowSeen"
-#define SEEN_FIRST_SLIDE_SHOW_YES "YES"
+#define USERDEFAULTS_FIRST_SLIDE_SHOW_SEEN "FirstSlideShowSeen"
 
 void ConfigStorage::setFirstSlideShowSeen()
 {
-    UserDefault::getInstance()->setStringForKey(USERDEFAULTS_FIRST_SLIDE_SHOW, SEEN_FIRST_SLIDE_SHOW_YES);
-    AnalyticsSingleton::getInstance()->fistLaunchEvent();
+    UserDefault::getInstance()->setBoolForKey(USERDEFAULTS_FIRST_SLIDE_SHOW_SEEN, true);
+    AnalyticsSingleton::getInstance()->firstLaunchEvent();
 }
 
 bool ConfigStorage::shouldShowFirstSlideShowScene()
 {
-    if(UserDefault::getInstance()->getStringForKey(USERDEFAULTS_FIRST_SLIDE_SHOW) == SEEN_FIRST_SLIDE_SHOW_YES)
-        return false;
-    
-    return true;
+    return !UserDefault::getInstance()->getBoolForKey(USERDEFAULTS_FIRST_SLIDE_SHOW_SEEN, false);
 }
 
 
