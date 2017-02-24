@@ -4,6 +4,7 @@
 #include "OfflineText.h"
 #include "OfflineGameSearch.h"
 #include "HQHistoryManager.h"
+#include "ChildDataStorage.h"
 
 USING_NS_CC;
 
@@ -25,6 +26,15 @@ bool OfflineHubScene::init()
     }
     
     HQHistoryManager::getInstance()->isOffline = true;
+    UserDefault* def = UserDefault::getInstance();
+    std::string lastLoggedInChildId = def->getStringForKey("lastLoggedInChildId");
+    def->flush();
+    
+    if(lastLoggedInChildId != "")
+    {
+        ChildDataStorage::getInstance()->childLoggedIn = true;
+        ChildDataStorage::getInstance()->loggedInChildId = lastLoggedInChildId;
+    }
     
     return true;
 }
@@ -33,7 +43,8 @@ void OfflineHubScene::onEnterTransitionDidFinish()
 {
     addVisuals();
     addOfflineText();
-    addHubHQ();
+    
+    if(ChildDataStorage::getInstance()->childLoggedIn) addHubHQ();
 }
 
 //All calls are private below this line

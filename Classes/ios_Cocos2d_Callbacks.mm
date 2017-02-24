@@ -1,9 +1,9 @@
 #include "ios_Cocos2d_Callbacks.h"
 #include "BaseScene.h"
 #include "HQHistoryManager.h"
-#include "LoginScene.h"
 #include "MixPanelSingleton.h"
 #include "OfflineHubScene.h"
+#include "BackEndCaller.h"
 
 void navigateToBaseScene()
 {
@@ -25,15 +25,14 @@ void navigateToLoginScene()
 {
     MixPanelSingleton::getInstance()->mixPanel_closeContentEvent();
     
-    auto loginScene = LoginScene::createSceneWithAutoLoginAndErrorDisplay();
-    cocos2d::Director::getInstance()->replaceScene(loginScene);
+    BackEndCaller::getInstance()->getAvailableChildren();
 }
 
 void sendMixPanelData(const char* host, const char* query)
 {
     CCLOG("host: %s, query: %s", host, query);
-    std::string strHost = StringUtils::format("%s", host);
-    std::string strQuery = StringUtils::format("%s", query);
+    std::string strHost = cocos2d::StringUtils::format("%s", host);
+    std::string strQuery = cocos2d::StringUtils::format("%s", query);
     
     if(strHost == "play")
     {

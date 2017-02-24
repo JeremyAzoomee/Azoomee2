@@ -74,7 +74,6 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/OfflineHubHQElement.cpp \
                    ../../../Classes/OfflineChecker.cpp \
                    ../../../Classes/OfflineHubBackButton.cpp \
-                   ../../../Classes/OfflineEnterLayer.cpp \
                    ../../../Classes/OfflineText.cpp \
                    ../../../Classes/HQSceneElementVisual.cpp
 

@@ -1,5 +1,7 @@
 #include "OfflineText.h"
-#include "LoginScene.h"
+#include "BackEndCaller.h"
+#include "ChildDataParser.h"
+#include "ChildDataProvider.h"
 
 USING_NS_CC;
 
@@ -50,6 +52,7 @@ void OfflineText::createForLoginNoUser()
 
 void OfflineText::createForOfflineHub()
 {
+    
     OfflineChecker::getInstance()->setDelegate(this);
 }
 
@@ -58,7 +61,17 @@ void OfflineText::createForOfflineHubWhenOffline()
     this->removeAllChildren();
     addOfflineLogoToScreen();
     addTextTitleToScreen("Oh No! You are offline");
-    addTextBodyToScreen("You need to be online to use this app.\nCheck your connection and try again.\n\n\nIn the meantime you can still enjoy these.");
+    
+    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    {
+        addTextBodyToScreen("You need to be online to use this app.\nCheck your connection and try again.\n\n\nIn the meantime you can still enjoy these.");
+    }
+    else
+    {
+        addTextBodyToScreen("You need to be online to use this app.\nCheck your connection and try again.");
+    }
+    
+    addRetryButtonToScreen();
 }
 
 void OfflineText::createForOfflineHubWhenOnline()
@@ -119,7 +132,8 @@ void OfflineText::addExitOfflineModeButtonToScreen()
 
 void OfflineText::buttonPressed(ElectricDreamsButton *button)
 {
-    Director::getInstance()->replaceScene(LoginScene::createSceneWithAutoLogin());
+    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    BackEndCaller::getInstance()->getAvailableChildren();
 }
 
 void OfflineText::addTextTitleToScreen(std::string text)
@@ -149,4 +163,20 @@ void OfflineText::addTextBodyToScreen(std::string text)
     this->addChild(offlineTextBody);
     
     offlineTextBody->runAction(FadeIn::create(1.5));
+}
+
+void OfflineText::addRetryButtonToScreen()
+{
+    auto retryButton = ElectricDreamsButton::createButtonWithText("Retry");
+    Size retryButtonContentSize = retryButton->getContentSize();
+    
+    retryButton->setDelegate(this);
+    retryButton->setName("retryButton");
+    
+    if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) retryButton->setPosition(visibleOrigin.x + visibleSize.width * 0.78 - retryButtonContentSize.width / 2, visibleOrigin.y + visibleSize.height * 0.6);
+    else retryButton->setPosition(visibleOrigin.x + visibleSize.width * 0.5 - retryButtonContentSize.width / 2, visibleOrigin.y + visibleSize.height * 0.4);
+    
+    retryButton->setCascadeOpacityEnabled(true);
+    this->addChild(retryButton);
+
 }

@@ -29,6 +29,8 @@ private:
     void addOfflineLogoToScreen();
     void addOnlineLogoToScreen();
     void addExitOfflineModeButtonToScreen();
+    void addRetryButtonToScreen();
+    
     void addTextTitleToScreen(std::string text);
     void addTextBodyToScreen(std::string text);
     

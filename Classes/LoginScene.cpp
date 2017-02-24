@@ -9,7 +9,7 @@
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
-#include "OfflineEnterLayer.h"
+#include "OfflineHubScene.h"
 
 USING_NS_CC;
 
@@ -155,7 +155,7 @@ void LoginScene::connectivityStateChanged(bool online)
 {
     if(!online)
     {
-        Director::getInstance()->replaceScene(OfflineEnterLayer::createScene());
+        Director::getInstance()->replaceScene(OfflineHubScene::createScene());
     }
 }
 
