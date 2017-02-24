@@ -14,8 +14,17 @@ NSDictionary* mapToNSDictionary(std::map<std::string, std::string> map)
         key = (0 == it->first.length())?(@""):(@(it->first.c_str()));
         value = (0 == it->second.length())?(@""):(@(it->second.c_str()));
         
-        [MutableDictionary setObject:value forKey:key];
-        NSLog(@"NSDictonaryFromMap() - key:%@ value:%@", key, value);
+        if ([value rangeOfString:@"NUMBER|"].location == NSNotFound) {
+            [MutableDictionary setObject:value forKey:key];
+        }
+        else
+        {
+            //value is an integer
+            NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+            NSNumber *myNumber = [f numberFromString:[[value componentsSeparatedByString:@"|"] objectAtIndex:1]];
+
+            [MutableDictionary setValue:myNumber forKey:key];
+        }
         
         key = nil;
         value = nil;

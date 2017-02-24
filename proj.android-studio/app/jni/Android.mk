@@ -69,6 +69,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/AnalyticsSingleton.cpp \
                    ../../../Classes/Analytics_android.cpp \
                    ../../../Classes/ElectricDreamsTextStyles.cpp \
+                   ../../../Classes/StringFunctions.cpp \
                    ../../../Classes/JWTToolForceParent.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes

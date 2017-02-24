@@ -118,7 +118,7 @@ void AnalyticsSingleton::registerParentID(std::string ParentID)
 
 void AnalyticsSingleton::registerNoOfChildren(int noOfChildren)
 {
-    mixPanel_OSSpecificSuperPropertiesCall("noOfChildren",cocos2d::StringUtils::format("%d", noOfChildren));
+    mixPanel_OSSpecificSuperPropertiesCall("noOfChildren",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, noOfChildren));
 }
 
 void AnalyticsSingleton::registerAzoomeeEmail(std::string emailAddress)
@@ -337,11 +337,12 @@ void AnalyticsSingleton::closeContentEvent()
     std::string eventID = "closedContent";
     
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["Title"] = storedTitle;
+    
+    mixPanelProperties["Title"] = {storedTitle,0};
     mixPanelProperties["Description"] = storedDescription;
     mixPanelProperties["Type"] = storedType;
     mixPanelProperties["ContentID"] = storedContentID;
-    mixPanelProperties["SecondsInContent"] = cocos2d::StringUtils::format("%.f", secondsOpened);
+    mixPanelProperties["SecondsInContent"] = cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened);
     
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
@@ -375,8 +376,8 @@ void AnalyticsSingleton::mediaQualityEvent(std::string quality)
     mixPanelProperties["Description"] = storedDescription;
     mixPanelProperties["Type"] = storedType;
     mixPanelProperties["ContentID"] = storedContentID;
-    mixPanelProperties["Quality"] = cocos2d::StringUtils::format("%s", quality.c_str());
- 
+    mixPanelProperties["Quality"] = quality;
+    
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
@@ -409,7 +410,7 @@ void AnalyticsSingleton::mediaEndEvent(int SecondsMediaPlayed)
     mixPanelProperties["Description"] = storedDescription;
     mixPanelProperties["Type"] = storedType;
     mixPanelProperties["ContentID"] = storedContentID;
-    mixPanelProperties["SecondsMediaPlayed"] = cocos2d::StringUtils::format("%d", SecondsMediaPlayed);
+    mixPanelProperties["SecondsMediaPlayed"] = cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, SecondsMediaPlayed);
 
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }

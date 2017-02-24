@@ -1,6 +1,8 @@
 #include "cocos2d.h"
 #include <time.h>
 
+#define NUMBER_IDENTIFIER "NUMBER|"
+
 class AnalyticsSingleton : public cocos2d::Ref
 {
     

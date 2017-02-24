@@ -1,4 +1,5 @@
 #include "Analytics_android.h"
+#include "StringFunctions.h"
 
 //-------------MIX PANEL ----------
 
@@ -84,8 +85,18 @@ std::string convertMapToJSONString(std::map<std::string, std::string> map)
         
         if(mapIterator != map.begin())
             structureAfterProperty = ",";
+        
+        
+        std::string propertyData;
+        
+        //Only way found to pass integer to the Property JSON string
+        if (mapIterator->second.find("NUMBER|") != std::string::npos) {
+            propertyData = splitStringToVector(mapIterator->second, "|")[1];
+        }
+        else
+            propertyData = cocos2d::StringUtils::format("\"%s\"",mapIterator->second.c_str());
 
-        jsonString = cocos2d::StringUtils::format("%s%s\"%s\":\"%s\"",jsonString.c_str(),structureAfterProperty.c_str(),mapIterator->first.c_str(),mapIterator->second.c_str());
+        jsonString = cocos2d::StringUtils::format("%s%s\"%s\":%s",jsonString.c_str(),structureAfterProperty.c_str(),mapIterator->first.c_str(),propertyData.c_str());
     }
     
     jsonString = cocos2d::StringUtils::format("%s}",jsonString.c_str());
