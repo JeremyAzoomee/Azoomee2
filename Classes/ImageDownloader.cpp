@@ -1,5 +1,7 @@
 #include "ImageDownloader.h"
 #include "CookieDataStorage.h"
+#include "ElectricDreamsTextStyles.h"
+#include "StringMgr.h"
 
 USING_NS_CC;
 using namespace network;
@@ -55,7 +57,7 @@ void ImageDownloader::addLoadingAnimation()
     loadingAnimation->setPosition(0, 0);
     this->addChild(loadingAnimation);
     
-    auto loadingLabel = Label::createWithTTF("Loading", "fonts/azoomee.ttf", 20);
+    auto loadingLabel = createLabelSmallLoading(StringMgr::getInstance()->getStringForKey(LOADING_LABEL));
     loadingLabel->setPosition(this->getContentSize() / 2);
     loadingAnimation->addChild(loadingLabel);
 }

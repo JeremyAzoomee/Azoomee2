@@ -59,10 +59,10 @@ string StringMgr::getLanguageIdentifier()
     switch(Application::getInstance()->getCurrentLanguage())
     {
         case cocos2d::LanguageType::ENGLISH:
-            languageID = "en";
+            languageID = "en-GB";
             break;
         default:
-            languageID = "en";
+            languageID = "en-GB";
             break;
     };
     

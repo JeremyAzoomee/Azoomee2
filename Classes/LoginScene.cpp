@@ -9,7 +9,7 @@
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
 #include "StringMgr.h"
-#include "ElectricDreamsLabels.h"
+#include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
 
@@ -151,25 +151,20 @@ void LoginScene::addContentLayerToScene()
 
 void LoginScene::addLabelsToLayer()
 {
-    auto versionTitle = Label::createWithTTF(APP_VERSION_NUMBER, "fonts/azoomee.ttf", 50);
+    auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
     versionTitle->setPosition(versionTitle->getContentSize().width,versionTitle->getContentSize().height);
-    versionTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(versionTitle);
     
-    auto doYouWantToTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(LOGINSCENE_SIGNUP_LOGIN_LABEL), "fonts/azoomee.ttf", 90);
+    auto doYouWantToTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_SIGNUP_LOGIN_LABEL));
     doYouWantToTitle->setPosition(origin.x+visibleSize.width * 0.5, visibleSize.height*0.65);
-    doYouWantToTitle->setColor(Color3B::WHITE);
     loginContent->addChild(doYouWantToTitle);
     
     auto emailTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
-    //Label::createWithTTF(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL), "fonts/azoomee.ttf", 90);
     emailTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
-    //emailTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(emailTitle);
     
-    auto passwordTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL), "fonts/azoomee.ttf", 90);
+    auto passwordTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL));
     passwordTitle->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
-    passwordTitle->setColor(Color3B(28, 244, 244));
     loginContent->addChild(passwordTitle);
 }
 

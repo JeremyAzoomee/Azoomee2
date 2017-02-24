@@ -4,6 +4,7 @@
 #include "ParentDataProvider.h"
 #include "AudioMixer.h"
 #include "MessageBox.h"
+#include "ElectricDreamsTextStyles.h"
 
 bool AwaitingAdultPinLayer::init()
 {
@@ -51,9 +52,8 @@ void AwaitingAdultPinLayer::addUIObjects()
 {
     //---------- MODAL LABEL ------------
     
-    auto enterYourPinTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL), "fonts/azoomee.ttf", 90);
+    auto enterYourPinTitle = createLabelHeaderWhite(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL));
     enterYourPinTitle->setPosition(origin.x+visibleSize.width /2, origin.y+visibleSize.height*0.8);
-    enterYourPinTitle->setColor(Color3B::WHITE);
     enterYourPinTitle->setOpacity(0);
     backgroundLayer->addChild(enterYourPinTitle);
     

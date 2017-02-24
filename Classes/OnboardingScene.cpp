@@ -4,6 +4,7 @@
 #include "StringMgr.h"
 #include "AnalyticsSingleton.h"
 #include "MessageBox.h"
+#include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
 
@@ -73,25 +74,20 @@ void OnboardingScene::addFunctionalElementsToScene()
 
 void OnboardingScene::addLabelsToLayer()
 {
-    auto emailTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL), "fonts/azoomee.ttf", 90);
+    auto emailTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
     emailTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.7);
-    emailTitle->setColor(Color3B(28, 244, 244));
     onboardingContent->addChild(emailTitle);
     
-    auto passwordTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL), "fonts/azoomee.ttf", 90);
+    auto passwordTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
     passwordTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
-    passwordTitle->setColor(Color3B(28, 244, 244));
     onboardingContent->addChild(passwordTitle);
     
-    auto pinTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL), "fonts/azoomee.ttf", 90);
+    auto pinTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL));
     pinTitle->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
-    pinTitle->setColor(Color3B(28, 244, 244));
     onboardingContent->addChild(pinTitle);
     
-    auto pinDetail = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL), "fonts/azoomee.ttf", 60);
+    auto pinDetail = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));
     pinDetail->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.6);
-    pinDetail->setColor(Color3B::WHITE);
-    pinDetail->setHorizontalAlignment(TextHAlignment::CENTER);
     onboardingContent->addChild(pinDetail);
 }
 

@@ -12,6 +12,7 @@
 #include "ChildDataProvider.h"
 #include "ImageDownloader.h"
 #include "HQHistoryManager.h"
+#include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
 
@@ -249,8 +250,7 @@ cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size conte
 
 void HQScene::addTitleToHorizontalScrollView(std::string title, Node *toBeAddedTo, Point position)
 {
-    auto scrollViewTitle = Label::createWithTTF(title, "fonts/azoomee.ttf", ConfigStorage::getInstance()->getScrollviewTitleTextHeight());
-    scrollViewTitle->setColor(Color3B::WHITE);
+    auto scrollViewTitle = createLabelRailTitle(title);
     scrollViewTitle->setPosition(position);
     scrollViewTitle->setName("label");
     scrollViewTitle->setAnchorPoint(Vec2(0.5, 0));

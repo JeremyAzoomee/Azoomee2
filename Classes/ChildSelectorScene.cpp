@@ -7,6 +7,8 @@
 #include "AudioMixer.h"
 #include "AnalyticsSingleton.h"
 #include "MessageBox.h"
+#include "StringMgr.h"
+#include "ElectricDreamsTextStyles.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -72,9 +74,8 @@ void ChildSelectorScene::addVisualsToScene()
     bg2->setPosition(visibleSize.width - bg2->getContentSize().width / 2, bg2->getContentSize().height / 2);
     this->addChild(bg2);
     
-    auto selectTitle = Label::createWithTTF("Select your kid's profile", "fonts/azoomee.ttf", 90);
+    auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
     selectTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);
-    selectTitle->setColor(Color3B(28, 244, 244));
     this->addChild(selectTitle);
 }
 
@@ -151,8 +152,7 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     CCLOG("Found delay time is: %f", delayTime);
     oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     
-    auto profileLabel = Label::createWithTTF(profileName, "fonts/azoomee.ttf", 50);
-    profileLabel->setColor(Color3B::WHITE);
+    auto profileLabel = createLabelBody(profileName);
     profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
     profileLabel->setOpacity(0);
     profileLayer->addChild(profileLabel);

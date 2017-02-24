@@ -12,6 +12,7 @@
 #include "AudioMixer.h"
 #include "HQScene.h"
 #include "AnalyticsSingleton.h"
+#include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
 
@@ -281,8 +282,7 @@ void ImageContainer::addLabelToImage(std::string name, float startDelay)
         name = name + "...";
     }
     
-    auto label = Label::createWithTTF(name, "fonts/arial.ttf", 30);
-    label->setColor(Color3B(255,255,255));
+    auto label = createLabelHubElementTitle(name);
     label->setAnchorPoint(Vec2(0,0.5));
     label->setOpacity(0);
     label->setPosition(bgLayer->getContentSize().width * 0.25, bgLayer->getContentSize().height * 0.1 + label->getContentSize().height / 2);

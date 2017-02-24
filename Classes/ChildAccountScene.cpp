@@ -7,6 +7,7 @@
 #include "AudioMixer.h"
 #include "AnalyticsSingleton.h"
 #include "MessageBox.h"
+#include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
 
@@ -98,48 +99,34 @@ void ChildAccountScene::addContentLayerToScene()
 
 void ChildAccountScene::addLabelsToLayer()
 {
-    auto addChildNameTitle = Label::create();
-    addChildNameTitle->setSystemFontName("fonts/azoomee.ttf");
-    addChildNameTitle->setSystemFontSize(90);
+    auto addChildNameTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_NAME_LABEL));
     
     //Add diferent text depending on new or editing account
-    if(this->isNewChildAccount)
-        addChildNameTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_NAME_LABEL));
-    else
+    if(!this->isNewChildAccount)
         addChildNameTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_EDIT_NAME_LABEL));
     
     addChildNameTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.7);
-    addChildNameTitle->setColor(Color3B(28, 244, 244));
     childAccountContent->addChild(addChildNameTitle);
     
-    labelDob = Label::create();
-    labelDob->setSystemFontName("fonts/azoomee.ttf");
-    labelDob->setSystemFontSize(90);
+    labelDob = createLabelHeader("");
     labelDob->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
-    labelDob->setColor(Color3B(28, 244, 244));
     childAccountContent->addChild(labelDob);
     
-    auto labelDobSubTitle = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_SUB_LABEL), "fonts/azoomee.ttf", 60);
+    auto labelDobSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_SUB_LABEL));
     labelDobSubTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.6);
-    labelDobSubTitle->setColor(Color3B::WHITE);
     childAccountContent->addChild(labelDobSubTitle);
     
-    labelOomee = Label::create();
-    labelOomee->setSystemFontName("fonts/azoomee.ttf");
-    labelOomee->setSystemFontSize(90);
-    if(this->isNewChildAccount)
-        labelOomee->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_LABEL));
-    else
+    labelOomee = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_LABEL));
+    
+    if(!this->isNewChildAccount)
         labelOomee->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_EDIT_OOMEE_LABEL));
     labelOomee->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
-    labelOomee->setColor(Color3B(28, 244, 244));
     childAccountContent->addChild(labelOomee);
     
     if(this->isNewChildAccount)
     {
-        auto selectOomeeDetail = Label::createWithTTF(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_SUB_LABEL), "fonts/azoomee.ttf", 60);
+        auto selectOomeeDetail = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_SUB_LABEL));
         selectOomeeDetail->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.6);
-        selectOomeeDetail->setColor(Color3B::WHITE);
         childAccountContent->addChild(selectOomeeDetail);
     }
 }

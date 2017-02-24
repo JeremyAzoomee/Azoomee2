@@ -35,7 +35,9 @@
     {
         "pin_request_label":"Please enter your PIN to proceed",
         "preview_messagebox_title_label":"Sign Up or Log In",
-        "preview_messagebox_body_label":"Sign up or log in for access to the best kids’ TV shows, games and audiobooks in one safe app."
+        "preview_messagebox_body_label":"Sign up or log in for access to the best kids’ TV shows, games and audiobooks in one safe app.",
+        "child_selectscene_title_label":"Select your kid's profile.",
+        "loading_label":"Loading"
     },
     
     "GenericButtons":

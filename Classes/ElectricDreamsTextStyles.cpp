@@ -1,4 +1,4 @@
-#include "ElectricDreamsLabels.h"
+#include "ElectricDreamsTextStyles.h"
 
 #define FONT_MEDIUM "fonts/Sofia Pro Soft Medium.otf"
 #define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
@@ -55,33 +55,73 @@ Label*  createLabelRailTitle(std::string text){
 }
 
 Label*  createLabelThumbnailvideo(std::string text){
-    return createLabelWith(text, FONT_MEDIUM, Color3B(231, 199, 204), 84);
+    return createLabelWith(text, FONT_REGULAR, Color3B(231, 199, 204), 34);
 }
 
 Label*  createLabelThumbnailgame(std::string text){
-    return createLabelWith(text, FONT_MEDIUM, COLOR_BRIGHT_AQUA, 84);
+    return createLabelWith(text, FONT_REGULAR, Color3B(203, 225, 245), 34);
 }
 
 Label*  createLabelThumbnailAudio(std::string text){
-    return createLabelWith(text, FONT_MEDIUM, COLOR_BRIGHT_AQUA, 84);
+    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 34);
 }
 
 Label*  createLabelHubThumbnailAudioBookTitle(std::string text){
-    return createLabelWith(text, FONT_MEDIUM, COLOR_BRIGHT_AQUA, 84);
+    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 28.9);
 }
 
 Label*  createLabelHubThumbnailVideoTitle(std::string text){
-    return createLabelWith(text, FONT_MEDIUM, COLOR_BRIGHT_AQUA, 84);
+    return createLabelWith(text, FONT_REGULAR, Color3B(231, 199, 204), 28.9);
 }
 
 Label*  createLabelHubThumbnailGameTitle(std::string text){
-    return createLabelWith(text, FONT_MEDIUM, COLOR_BRIGHT_AQUA, 84);
+    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 28.9);
 }
 
 Label*  createLabelThumnailshowtitle(std::string text){
-    return createLabelWith(text, FONT_MEDIUM, COLOR_BRIGHT_AQUA, 84);
+    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 28);
 }
 
 Label*  createLabelHubThumbnailTitle(std::string text){
-    return createLabelWith(text, FONT_MEDIUM, COLOR_BRIGHT_AQUA, 84);
+    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 23.8);
+}
+
+Label*  createLabelAppVerison(std::string text)
+{
+    return createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 50);
+}
+
+Label*  createLabelMessageBoxTitle(std::string text)
+{
+    return createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 120);
+}
+
+Label*  createLabelMessageBoxBody(std::string text)
+{
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 90);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    
+    return newLabel;
+}
+
+Label*  createLabelHubElementTitle(std::string text)
+{
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 34);
+    newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    
+    return newLabel;
+}
+
+Label*  createLabelHubElementDescription(std::string text)
+{
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 34);
+    newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    newLabel->setOpacity(200);
+    
+    return newLabel;
+}
+
+Label*  createLabelSmallLoading(std::string text)
+{
+    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 20);
 }

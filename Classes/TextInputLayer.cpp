@@ -1,6 +1,7 @@
 #include "TextInputLayer.h"
 #include "TextInputChecker.h"
 #include "StringMgr.h"
+#include "ElectricDreamsTextStyles.h"
 
 TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputType)
 {
@@ -43,7 +44,7 @@ void TextInputLayer::createEditBox()
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont("fonts/azoomee.ttf", 85);
+    editBox->setFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::WHITE);
     editBox->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     editBox->setDelegate(this);

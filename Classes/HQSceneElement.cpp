@@ -24,6 +24,7 @@
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
 #include "AnalyticsSingleton.h"
+#include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
 
@@ -146,18 +147,13 @@ void HQSceneElement::addLabelsToImage(std::map<std::string, std::string>itemData
 {
     float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().width * nextToIcon->getScale());
     
-    auto descriptionLabel = Label::createWithTTF(itemData["description"], "fonts/arial.ttf", 50);
-    descriptionLabel->setColor(Color3B(255,255,255));
-    descriptionLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    auto descriptionLabel = createLabelHubElementDescription(itemData["description"]);
     descriptionLabel->setAnchorPoint(Vec2(0.0f,0.7f));
     descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY());
-    descriptionLabel->setOpacity(150);
     reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
     baseLayer->addChild(descriptionLabel);
     
-    auto titleLabel = Label::createWithTTF(itemData["title"], "fonts/arial.ttf", 50);
-    titleLabel->setColor(Color3B(255,255,255));
-    titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    auto titleLabel = createLabelHubElementTitle(itemData["title"]);
     titleLabel->setAnchorPoint(Vec2(0.0f, 0.8f));
     titleLabel->setPosition(labelsXPosition,descriptionLabel->getPositionY() + (descriptionLabel->getContentSize().height));
     reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));

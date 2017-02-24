@@ -3,6 +3,7 @@
 #include "ui/UIScale9Sprite.h"
 #include "ConfigStorage.h"
 #include "HQHistoryManager.h"
+#include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
 
@@ -43,8 +44,7 @@ void DisplayChildNameLayer::addChildNameToLayer()
     std::string childName = getLoggedInChildName();
     childName = shortenString(childName, 12);
     
-    auto childNameLabel = Label::createWithTTF(childName, "fonts/azoomee.ttf", 70);
-    childNameLabel->setColor(Color3B::WHITE);
+    auto childNameLabel = createLabelBody(childName);
     childNameLabel->setPosition(Director::getInstance()->getVisibleSize().width / 2, 350);
     childNameLabel->setOpacity(0);
     
@@ -71,8 +71,7 @@ void DisplayChildNameLayer::addChildNameToLayerQuick()
     std::string childName = getLoggedInChildName();
     childName = shortenString(childName, 12);
     
-    auto childNameLabel = Label::createWithTTF(childName, "fonts/azoomee.ttf", 70);
-    childNameLabel->setColor(Color3B::WHITE);
+    auto childNameLabel = createLabelBody(childName);
     childNameLabel->setPosition(Director::getInstance()->getVisibleSize().width / 2, 350);
     
     setMaxScaleForLabel(childNameLabel);

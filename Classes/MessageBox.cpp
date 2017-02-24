@@ -4,6 +4,7 @@
 #include "LoginScene.h"
 #include "OnboardingScene.h"
 #include "StringMgr.h"
+#include "ElectricDreamsTextStyles.h"
 
 #define MESSAGE_BOX_PADDING 100
 #define MESSAGE_BOX_MINIMUM_WIDTH 1366
@@ -117,7 +118,7 @@ void MessageBox::addListenerToBackgroundLayer()
 
 void MessageBox::createTitle()
 {
-    messageTitleLabel = Label::createWithTTF(_messageBoxTitle, "fonts/azoomee.ttf", 120);
+    messageTitleLabel = createLabelMessageBoxTitle(_messageBoxTitle);
     
     if(messageTitleLabel->getContentSize().width < (MESSAGE_BOX_MINIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
     {
@@ -137,8 +138,7 @@ void MessageBox::createTitle()
     }
     
     messageTitleLabel->setPosition(backgroundLayer->getContentSize().width * 0.5, backgroundLayer->getContentSize().height * 0.75);
-    messageTitleLabel->setColor(Color3B(28, 244, 244));
-    messageTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    //messageTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     backgroundLayer->addChild(messageTitleLabel,2);
 }
 
@@ -151,11 +151,10 @@ void MessageBox::underlineTitle()
 
 void MessageBox::createBody(std::string messageBody)
 {
-    messageBodyLabel = Label::createWithTTF(messageBody, "fonts/azoomee.ttf", 90);
+    messageBodyLabel = createLabelMessageBoxBody(messageBody);
     messageBodyLabel->setWidth(messageBoxWidth - MESSAGE_BOX_PADDING * 2);
     messageBodyLabel->setPosition(backgroundLayer->getContentSize().width * 0.5, messageTitleLabel->getPositionY() - (messageTitleLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (messageBodyLabel->getContentSize().height/2));
-    messageBodyLabel->setColor(Color3B::WHITE);
-    messageBodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    //messageBodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     backgroundLayer->addChild(messageBodyLabel,2);
 }
 
