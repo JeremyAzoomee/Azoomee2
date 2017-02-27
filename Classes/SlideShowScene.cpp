@@ -25,23 +25,11 @@ bool SlideShowScene::init()
     origin = Director::getInstance()->getVisibleOrigin();
     
     createPageView();
-    createButtons();
     
     return true;
 }
 
 // --------------------- Setup -----------------------
-
-void SlideShowScene::createButtons()
-{
-    skipButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_SKIP));
-    skipButton->setCenterPosition(Vec2(origin.x+visibleSize.width - skipButton->getContentSize().width/2 - skipButton->getContentSize().height/2, origin.y + visibleSize.height- skipButton->getContentSize().height));
-    skipButton->setDelegate(this);
-    skipButton->setMixPanelButtonName("slideshowSkip");
-    this->addChild(skipButton);
-    
-    fadeInObject(skipButton);
-}
 
 void SlideShowScene::fadeInObject(Node* objectToFade)
 {

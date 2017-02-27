@@ -14,14 +14,12 @@ private:
     Size visibleSize;
     Vec2 origin;
     
-    ElectricDreamsButton *skipButton;
     ElectricDreamsButton *startExporingButton;
     
     long currentSlideIndex;
     bool slideShowStarted;
     PageView* _pageView;
     
-    void createButtons();
     void createPageView();
     void pageViewScrollToNextPage();
     
