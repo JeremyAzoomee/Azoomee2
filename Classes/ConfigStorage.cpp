@@ -183,11 +183,11 @@ cocos2d::Color4B ConfigStorage::getBaseColourForContentItemInCategory(std::strin
 {
     std::map<std::string, Color4B> colours;
     
-    colours["VIDEO HQ"] = Color4B(255,0,0, 150);
-    colours["AUDIO HQ"] = Color4B(0,255,0, 150);
+    colours["VIDEO HQ"] = Color4B(248,71,89, 150);
+    colours["AUDIO HQ"] = Color4B(58,188,152, 150);
     colours["GAME HQ"] = Color4B(0,112,204, 150);
     colours["ARTS APP"] = Color4B(255,255,0, 150);
-    colours["GROUP HQ"] = Color4B(255, 0, 0, 150);
+    colours["GROUP HQ"] = Color4B(248,71,89, 150);
     
     return colours[category];
 }
@@ -280,10 +280,10 @@ cocos2d::Color4B ConfigStorage::getColourForMenuItem(int itemNumber)
 {
     std::vector<Color4B> colours;
     
-    colours.push_back(Color4B(0,0,0,0));
+    colours.push_back(Color4B(28,244,244,255));
     colours.push_back(Color4B(248,71,89,255));
     colours.push_back(Color4B(58,188,152,255));
-    colours.push_back(Color4B(0,0,0,0));
+    colours.push_back(Color4B(28,244,244,255));
     colours.push_back(Color4B(246,185,66,255));
     colours.push_back(Color4B(86,177,255,255));
     

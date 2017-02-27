@@ -33,6 +33,9 @@ private:
     float appearPause;
     float interTime;
     float scaleTime;
+    float scaleFactor;
+    
+    cocos2d::Sprite* icon;
 };
 
 #endif

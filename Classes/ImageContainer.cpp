@@ -96,6 +96,8 @@ void ImageContainer::createBgLayer(std::map<std::string, std::string> elementPro
     bgLayer->setOpacity(0);
     this->addChild(bgLayer);
     
+    scaleFactor = bgLayer->getContentSize().width / 445;
+    
     if(startDelay == 0)
         bgLayer->runAction(Sequence::create(DelayTime::create(startDelay), FadeTo::create(0, colour.a), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeTo::create(0, colour.a), DelayTime::create(interTime), EaseElasticOut::create(ScaleTo::create(scaleTime, 1.0)), NULL));
     else
@@ -233,7 +235,7 @@ void ImageContainer::addLockToImageContainer(float startDelay)
 {
     auto lockImage = Sprite::create("res/hqscene/locked.png");
     lockImage->setPosition(bgLayer->getContentSize() / 2);
-    lockImage->setScale(bgLayer->getContentSize().width / 445);
+    lockImage->setScale(scaleFactor);
     lockImage->setOpacity(0);
     bgLayer->addChild(lockImage);
     
@@ -254,8 +256,9 @@ void ImageContainer::addImageToLayer(std::string url, float startDelay)
 void ImageContainer::addGradientToBottom(Color3B colour, float startDelay)
 {
     auto gradient = Sprite::create("res/hqscene/gradient_overlay.png");
-    gradient->setPosition(bgLayer->getContentSize().width / 2, gradient->getContentSize().height / 2);
+    gradient->setPosition(bgLayer->getContentSize().width / 2, gradient->getContentSize().height / 2* scaleFactor);
     gradient->setScaleX(bgLayer->getContentSize().width / gradient->getContentSize().width);
+    gradient->setScaleY(scaleFactor);
     gradient->setColor(colour);
     gradient->setOpacity(0);
     bgLayer->addChild(gradient);
@@ -265,9 +268,9 @@ void ImageContainer::addGradientToBottom(Color3B colour, float startDelay)
 
 void ImageContainer::addIconToImage(std::string type, float startDelay)
 {
-    auto icon = Sprite::create(StringUtils::format("res/hqscene/icon_%s.png", ConfigStorage::getInstance()->getIconNameForCategory(type).c_str()));
-    icon->setScale(bgLayer->getContentSize().width / 445);
-    icon->setPosition(30 * icon->getScale() + icon->getBoundingBox().size.width / 2, 30 * icon->getScale() + icon->getBoundingBox().size.height / 2);
+    icon = Sprite::create(StringUtils::format("res/hqscene/icon_%s.png", ConfigStorage::getInstance()->getIconNameForCategory(type).c_str()));
+    icon->setScale(scaleFactor);
+    icon->setPosition(icon->getContentSize().height *scaleFactor, icon->getContentSize().height *scaleFactor);
     icon->setOpacity(0);
     bgLayer->addChild(icon);
     
@@ -279,8 +282,8 @@ void ImageContainer::addLabelToImage(std::string name, float startDelay)
     auto label = createLabelHubElementTitle(name);
     label->setAnchorPoint(Vec2(0,0.5));
     label->setOpacity(0);
-    label->setPosition(bgLayer->getContentSize().width * 0.25, bgLayer->getContentSize().height * 0.1 + label->getContentSize().height / 2);
-    reduceLabelTextToFitWidth(label,bgLayer->getContentSize().width*0.70);
+    label->setPosition((icon->getContentSize().width + icon->getContentSize().height *.75)  * scaleFactor, icon->getPositionY());
+    reduceLabelTextToFitWidth(label,bgLayer->getContentSize().width - ((icon->getContentSize().width + icon->getContentSize().height)  * scaleFactor));
     bgLayer->addChild(label);
     
     label->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeIn::create(0), NULL));

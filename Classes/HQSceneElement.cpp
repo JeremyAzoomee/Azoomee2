@@ -124,6 +124,12 @@ void HQSceneElement::addGradientToBottom(std::string category)
     gradientColour.g = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).g;
     gradientColour.b = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).b;
     
+    float set;
+    if(baseLayer->getContentSize().height > 500)
+         set = baseLayer->getContentSize().height;
+    else
+         set = baseLayer->getContentSize().height;
+    
     auto gradient = Sprite::create("res/hqscene/gradient_overlay.png");
     gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2);
     gradient->setScaleX(baseLayer->getContentSize().width / gradient->getContentSize().width);
@@ -137,7 +143,8 @@ Sprite* HQSceneElement::addIconToImage(std::string category)
         
     auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category));
     icon->setAnchorPoint(Vec2(0.5, 0.5));
-    icon->setPosition(icon->getContentSize().width ,icon->getContentSize().height);
+    icon->setScale(1.2);
+    icon->setPosition(icon->getContentSize().height*icon->getScale() ,icon->getContentSize().height*0.85*icon->getScale());
     baseLayer->addChild(icon);
     
     return icon;
@@ -145,18 +152,18 @@ Sprite* HQSceneElement::addIconToImage(std::string category)
 
 void HQSceneElement::addLabelsToImage(std::map<std::string, std::string>itemData, Sprite* nextToIcon)
 {
-    float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().width * nextToIcon->getScale());
+    float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().height);
     
     auto descriptionLabel = createLabelHubElementDescription(itemData["description"]);
-    descriptionLabel->setAnchorPoint(Vec2(0.0f,0.7f));
-    descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY());
-    reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
+    descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.2f));
+    descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() - nextToIcon->getContentSize().height/2 * nextToIcon->getScale());
+    reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
     baseLayer->addChild(descriptionLabel);
     
     auto titleLabel = createLabelHubElementTitle(itemData["title"]);
     titleLabel->setAnchorPoint(Vec2(0.0f, 0.8f));
-    titleLabel->setPosition(labelsXPosition,descriptionLabel->getPositionY() + (descriptionLabel->getContentSize().height));
-    reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
+    titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
+    reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
     baseLayer->addChild(titleLabel);
 }
 

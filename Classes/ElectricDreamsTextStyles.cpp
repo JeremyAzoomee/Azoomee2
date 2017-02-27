@@ -106,7 +106,7 @@ Label*  createLabelMessageBoxBody(std::string text)
 
 Label*  createLabelHubElementTitle(std::string text)
 {
-    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 34);
+    Label* newLabel = createLabelWith(text, FONT_MEDIUM, COLOR_WHITE, 42);
     newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     
     return newLabel;
@@ -114,9 +114,9 @@ Label*  createLabelHubElementTitle(std::string text)
 
 Label*  createLabelHubElementDescription(std::string text)
 {
-    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 34);
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 42);
     newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
-    newLabel->setOpacity(200);
+    newLabel->setOpacity(220);
     
     return newLabel;
 }
