@@ -435,3 +435,14 @@ void AnalyticsSingleton::messageBoxShowEvent(std::string messageTitle)
     
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
+
+void AnalyticsSingleton::localisedStringErrorEvent(std::string stringRequested, std::string languageUsed)
+{
+    std::string eventID = "localisedStringError";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["StringRequestFor"] = stringRequested;
+    mixPanelProperties["WithLanguage"] = languageUsed;
+    
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
+}

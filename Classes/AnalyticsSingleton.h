@@ -86,5 +86,6 @@ public:
     //---------------OTHER ACTION------------------
     void genericButtonPressEvent(std::string buttonName);
     void messageBoxShowEvent(std::string messageTitle);
+    void localisedStringErrorEvent(std::string stringRequested, std::string languageUsed);
 
 };

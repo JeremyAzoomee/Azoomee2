@@ -1,5 +1,6 @@
 #include "StringMgr.h"
 #include "StringFunctions.h"
+#include "AnalyticsSingleton.h"
 
 static StringMgr *_sharedStringMgr = NULL;
 
@@ -20,7 +21,7 @@ StringMgr::~StringMgr(void)
 
 bool StringMgr::init(void)
 {
-    string languageID = getLanguageIdentifier();
+    setLanguageIdentifier();
     
     stringsDocument = parseFile(languageID, "strings");
     errorMessagesDocument = parseFile(languageID, "errormessages");
@@ -53,10 +54,8 @@ std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long error
 
 //------------- PRIVATE FUNCTIONS---------------
 
-string StringMgr::getLanguageIdentifier()
+void StringMgr::setLanguageIdentifier()
 {
-    string languageID;
-    
     switch(Application::getInstance()->getCurrentLanguage())
     {
         case cocos2d::LanguageType::ENGLISH:
@@ -66,8 +65,6 @@ string StringMgr::getLanguageIdentifier()
             languageID = "en-GB";
             break;
     };
-    
-    return languageID;
 }
 
 Document StringMgr::parseFile(string languageID, string stringFile)
@@ -91,7 +88,10 @@ string StringMgr::getStringFromJson(std::vector<std::string> jsonKeys, rapidjson
     string stringError = "";
     
     if(jsonKeys.size() == 0 || !sceneJsonDictionary.IsObject())
+    {
+        AnalyticsSingleton::getInstance()->localisedStringErrorEvent("Error With Strings File",languageID);
         return stringError;
+    }
     
     string currentKey = jsonKeys.at(0);
     
@@ -109,5 +109,6 @@ string StringMgr::getStringFromJson(std::vector<std::string> jsonKeys, rapidjson
             return getStringFromJson(jsonKeys,sceneJsonDictionary[currentKey.c_str()]);
         }
 
+    AnalyticsSingleton::getInstance()->localisedStringErrorEvent(currentKey,languageID);
     return stringError;
 }

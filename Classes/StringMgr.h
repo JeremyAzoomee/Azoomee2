@@ -33,7 +33,8 @@ private:
     Document stringsDocument;
     Document errorMessagesDocument;
     
-    string getLanguageIdentifier();
+    string languageID;
+    void setLanguageIdentifier();
     Document parseFile(string languageID, string stringFile);
 
     bool keysExistInJson(string sceneID, string stringKey, Document inDocument);
