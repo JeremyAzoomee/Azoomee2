@@ -178,13 +178,13 @@ void LoginScene::addTextBoxesToLayer()
     
     if(username !="") emailNextButton->setVisible(true);
     
-    _usernameTextInput = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_EMAIL);
+    _usernameTextInput = TextInputLayer::createWithSize(Size(1200,131), INPUT_IS_EMAIL);
     _usernameTextInput->setCenterPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
     _usernameTextInput->setDelegate(this);
     _usernameTextInput->setText(username);
     loginContent->addChild(_usernameTextInput);
     
-    _passwordTextInput = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_PASSWORD);
+    _passwordTextInput = TextInputLayer::createWithSize(Size(1200,131), INPUT_IS_PASSWORD);
     _passwordTextInput->setCenterPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
     _passwordTextInput->setDelegate(this);
     _passwordTextInput->setText(password);

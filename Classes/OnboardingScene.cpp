@@ -102,12 +102,12 @@ void OnboardingScene::addContentLayerToScene()
 
 void OnboardingScene::addTextBoxesToLayer()
 {
-    editBox_email = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_EMAIL);
+    editBox_email = TextInputLayer::createWithSize(Size(1200,131), INPUT_IS_EMAIL);
     editBox_email->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.5));
     editBox_email->setDelegate(this);
     onboardingContent->addChild(editBox_email);
     
-    editBox_password = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_PASSWORD);
+    editBox_password = TextInputLayer::createWithSize(Size(1200,131), INPUT_IS_PASSWORD);
     editBox_password->setCenterPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
     editBox_password->setDelegate(this);
     onboardingContent->addChild(editBox_password);
