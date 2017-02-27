@@ -85,7 +85,7 @@ Document StringMgr::parseFile(string languageID, string stringFile)
 
 string StringMgr::getStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary)
 {
-    string stringError = "";
+    string stringError = "Text not found.";
     
     if(jsonKeys.size() == 0 || !sceneJsonDictionary.IsObject())
     {
