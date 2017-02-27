@@ -258,7 +258,7 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
     else if(button == buttonNextEmail)
     {
         moveToAndSetupPasswordScreen(button);
-        AnalyticsSingleton::getInstance()->OnboardingEmailSubmittedEvent();
+        AnalyticsSingleton::getInstance()->OnboardingEmailSubmittedEvent(editBox_email->getText());
     }
     else if(button == buttonBackPassword)
         moveToAndSetupEmailScreen(button);

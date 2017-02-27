@@ -51,7 +51,7 @@ public:
 
     //-------------ONBOARDING--------------------
     void OnboardingStartEvent();
-    void OnboardingEmailSubmittedEvent();
+    void OnboardingEmailSubmittedEvent(std::string emailAddress);
     void OnboardingPasswordSubmittedEvent();
     void OnboardingPinSubmittedEvent();
     void OnboardingAccountCreatedEvent();

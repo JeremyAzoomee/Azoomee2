@@ -191,9 +191,11 @@ void AnalyticsSingleton::OnboardingStartEvent()
     mixPanel_createOSSpecficCall("startCreateAccount");
 }
 
-void AnalyticsSingleton::OnboardingEmailSubmittedEvent()
+void AnalyticsSingleton::OnboardingEmailSubmittedEvent(std::string emailAddress)
 {
     mixPanel_createOSSpecficCall("emailSubmitted");
+    
+    registerAzoomeeEmail(emailAddress);
 }
 
 void AnalyticsSingleton::OnboardingPasswordSubmittedEvent()

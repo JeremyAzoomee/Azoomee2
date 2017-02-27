@@ -10,6 +10,7 @@
 #include "BaseScene.h"
 #include "StringMgr.h"
 #include "ElectricDreamsTextStyles.h"
+#include "AnalyticsSingleton.h"
 
 USING_NS_CC;
 
@@ -330,7 +331,11 @@ void LoginScene::buttonPressed(ElectricDreamsButton* button)
     if(button == loginOptionButton) this->moveToAndSetupEmailScreen(button);
     else if(button == signUpOptionButton) this->switchToSignupScene(button);
     else if(button == emailBackButton) this->moveToBackToSelectionScreen(button);
-    else if(button == emailNextButton) this->moveToAndSetupPasswordScreen(button);
+    else if(button == emailNextButton)
+    {
+        this->moveToAndSetupPasswordScreen(button);
+        AnalyticsSingleton::getInstance()->registerAzoomeeEmail(_usernameTextInput->getText());
+    }
     else if(button == passwordBackButton) this->moveToAndSetupEmailScreen(button);
     else if(button == loginButton) this->login(button);
     else if(button == previewModeButton) this->moveToPreviewScene();
