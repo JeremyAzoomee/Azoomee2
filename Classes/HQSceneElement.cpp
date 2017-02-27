@@ -261,18 +261,6 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), baseLayer);
 }
 
-void HQSceneElement::reduceLabelTextToFitWidth(Label* label,float maxWidth)
-{
-    std::string labelText = label->getString();
-    
-    while(label->getContentSize().width > maxWidth)
-    {
-        labelText = labelText.substr(0, labelText.length()-1);
-
-        label->setString(StringUtils::format("%s...",labelText.c_str()));
-    }
-}
-
 void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string contentId, std::string category)
 {
     

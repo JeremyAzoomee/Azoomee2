@@ -155,6 +155,7 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     auto profileLabel = createLabelBody(profileName);
     profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
     profileLabel->setOpacity(0);
+    reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     profileLayer->addChild(profileLabel);
     
     profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));

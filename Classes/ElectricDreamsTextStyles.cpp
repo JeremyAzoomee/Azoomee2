@@ -125,3 +125,16 @@ Label*  createLabelSmallLoading(std::string text)
 {
     return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 20);
 }
+
+//----------------- Label too Long Style -------------------
+void reduceLabelTextToFitWidth(Label* label,float maxWidth)
+{
+    std::string labelText = label->getString();
+    
+    while(label->getContentSize().width > maxWidth)
+    {
+        labelText = labelText.substr(0, labelText.length()-1);
+        
+        label->setString(StringUtils::format("%s...",labelText.c_str()));
+    }
+}

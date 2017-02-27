@@ -276,16 +276,11 @@ void ImageContainer::addIconToImage(std::string type, float startDelay)
 
 void ImageContainer::addLabelToImage(std::string name, float startDelay)
 {
-    if(name.length() > 15)
-    {
-        name = name.substr(0, 15);
-        name = name + "...";
-    }
-    
     auto label = createLabelHubElementTitle(name);
     label->setAnchorPoint(Vec2(0,0.5));
     label->setOpacity(0);
     label->setPosition(bgLayer->getContentSize().width * 0.25, bgLayer->getContentSize().height * 0.1 + label->getContentSize().height / 2);
+    reduceLabelTextToFitWidth(label,bgLayer->getContentSize().width*0.70);
     bgLayer->addChild(label);
     
     label->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeIn::create(0), NULL));

@@ -14,7 +14,6 @@ public:
     void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape, float delay);
     
 private:
-    void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth);
     void resizeSceneElement(cocos2d::Vec2 shape, std::string category);
     void createColourLayer(std::string category, float delay);
     void addImageToBaseLayer(std::string filename);

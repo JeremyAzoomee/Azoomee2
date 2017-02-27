@@ -28,3 +28,5 @@ Label*  createLabelMessageBoxBody(std::string text);
 Label*  createLabelHubElementTitle(std::string text);
 Label*  createLabelHubElementDescription(std::string text);
 Label*  createLabelSmallLoading(std::string text);
+
+void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth); 
