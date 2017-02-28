@@ -1,6 +1,6 @@
 #include "OfflineHubHQElement.h"
 #include "AudioMixer.h"
-#include "MixPanelSingleton.h"
+#include "AnalyticsSingleton.h"
 #include "GameDataManager.h"
 #include "WebViewSelector.h"
 
@@ -93,7 +93,7 @@ void OfflineHubHQElement::addListenerToElement(std::string uri, std::string cont
             
             CCLOG("Action to come: %s", startUrl.c_str());
             
-            MixPanelSingleton::getInstance()->mixPanel_openContentEvent(title, description, type, contentId);
+            AnalyticsSingleton::getInstance()->openContentEvent(title, description, type, contentId);
             WebViewSelector::createSceneWithUrl(startUrl.c_str());
         }
         

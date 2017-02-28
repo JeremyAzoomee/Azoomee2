@@ -23,7 +23,6 @@
 #include "HQScene.h"
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
-#include "MixPanelSingleton.h"
 
 USING_NS_CC;
 

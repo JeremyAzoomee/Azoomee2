@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/HQScene.cpp"
-            timestampString = "509472271.570427"
+            timestampString = "509988018.486866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
             landmarkName = "HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map&lt;std::string, std::string&gt; itemData, int rowNumber, int itemNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/HQScene.cpp"
-            timestampString = "509472271.570427"
+            timestampString = "509988018.486866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
             landmarkName = "HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map&lt;std::string, std::string&gt; itemData, int rowNumber, int itemNumber)"
             landmarkType = "7">
          </BreakpointContent>
