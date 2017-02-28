@@ -71,7 +71,6 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/ElectricDreamsTextStyles.cpp \
                    ../../../Classes/StringFunctions.cpp \
                    ../../../Classes/ElectricDreamsDecoration.cpp \
-                   ../../../Classes/MixPanelSingleton.cpp \
                    ../../../Classes/JWTToolForceParent.cpp \
                    ../../../Classes/OfflineHubScene.cpp \
                    ../../../Classes/OfflineHubSceneVisuals.cpp \

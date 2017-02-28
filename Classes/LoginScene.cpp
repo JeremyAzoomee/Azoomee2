@@ -156,7 +156,7 @@ void LoginScene::connectivityStateChanged(bool online)
 void LoginScene::addLabelsToLayer()
 {
     auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
-    versionTitle->setPosition(versionTitle->getContentSize().width,versionTitle->getContentSize().height);
+    versionTitle->setPosition(visibleSize.width/2,versionTitle->getContentSize().height);
     loginContent->addChild(versionTitle);
     
     auto doYouWantToTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_SIGNUP_LOGIN_LABEL));
@@ -181,13 +181,13 @@ void LoginScene::addTextBoxesToLayer()
     
     if(username !="") emailNextButton->setVisible(true);
     
-    _usernameTextInput = TextInputLayer::createWithSize(Size(1200,131), INPUT_IS_EMAIL);
+    _usernameTextInput = TextInputLayer::createWithSize(Size(1500,131), INPUT_IS_EMAIL);
     _usernameTextInput->setCenterPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
     _usernameTextInput->setDelegate(this);
     _usernameTextInput->setText(username);
     loginContent->addChild(_usernameTextInput);
     
-    _passwordTextInput = TextInputLayer::createWithSize(Size(1200,131), INPUT_IS_PASSWORD);
+    _passwordTextInput = TextInputLayer::createWithSize(Size(1500,131), INPUT_IS_PASSWORD);
     _passwordTextInput->setCenterPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
     _passwordTextInput->setDelegate(this);
     _passwordTextInput->setText(password);
@@ -215,26 +215,25 @@ void LoginScene::addButtonsToLayer()
     loginContent->addChild(signUpOptionButton);
     
     emailBackButton = ElectricDreamsButton::createBackButton();
-    emailBackButton->setCenterPosition(Vec2(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5));
+    emailBackButton->setCenterPosition(Vec2(origin.x + visibleSize.width +emailBackButton->getContentSize().width*.7, visibleSize.height - emailBackButton->getContentSize().height*.7));
     emailBackButton->setDelegate(this);
     loginContent->addChild(emailBackButton);
     
     emailNextButton = ElectricDreamsButton::createNextButton();
-    emailNextButton->setCenterPosition(Vec2(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5));
+    emailNextButton->setCenterPosition(Vec2(origin.x + visibleSize.width*2 -emailNextButton->getContentSize().width*.7, visibleSize.height - emailNextButton->getContentSize().height*.7));
     emailNextButton->setDelegate(this);
     emailNextButton->setVisible(false);
     loginContent->addChild(emailNextButton);
     
     passwordBackButton = ElectricDreamsButton::createBackButton();
-    passwordBackButton->setCenterPosition(Vec2(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5));
+    passwordBackButton->setCenterPosition(Vec2(origin.x + visibleSize.width*2 +passwordBackButton->getContentSize().width*.7, visibleSize.height - passwordBackButton->getContentSize().height*.7));
     passwordBackButton->setDelegate(this);
     loginContent->addChild(passwordBackButton);
     
     loginButton = ElectricDreamsButton::createNextButton();
-    loginButton->setCenterPosition(Vec2(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5));
+    loginButton->setCenterPosition(Vec2(origin.x + visibleSize.width*3 -loginButton->getContentSize().width*.7, visibleSize.height - loginButton->getContentSize().height*.7));
     loginButton->setDelegate(this);
     loginButton->setVisible(false);
-    loginButton->setScale(1.2);
     loginContent->addChild(loginButton);
 }
 

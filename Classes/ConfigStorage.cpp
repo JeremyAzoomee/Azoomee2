@@ -218,7 +218,7 @@ cocos2d::Vec2 ConfigStorage::getHighlightSizeMultiplierForContentItem(int highli
 
 float ConfigStorage::getScrollviewTitleTextHeight()
 {
-    return 90;
+    return 80;
 }
 
 Size ConfigStorage::getGroupHQLogoSize()
@@ -354,8 +354,10 @@ cocos2d::Color4B ConfigStorage::getColourForElementType(std::string type)
     std::map<std::string, Color4B> colours;
     
     colours["AUDIO"] = Color4B(58,188,152,150);
+    colours["AUDIOGROUP"] = Color4B(58,188,152,150);
     colours["GAME"] = Color4B(86,177,255,150);
     colours["VIDEO"] = Color4B(248, 71, 89, 150);
+    colours["GROUP"] = Color4B(248, 71, 89, 150);
     
     return colours[type];
 }

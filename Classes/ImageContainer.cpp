@@ -279,7 +279,7 @@ void ImageContainer::addIconToImage(std::string type, float startDelay)
 
 void ImageContainer::addLabelToImage(std::string name, float startDelay)
 {
-    auto label = createLabelHubElementTitle(name);
+    auto label = createLabelHubContentTitle(name);
     label->setAnchorPoint(Vec2(0,0.5));
     label->setOpacity(0);
     label->setPosition((icon->getContentSize().width + icon->getContentSize().height *.75)  * scaleFactor, icon->getPositionY());

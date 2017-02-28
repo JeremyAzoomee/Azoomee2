@@ -70,7 +70,6 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
 }
 
 //-------------------All elements below this are used internally-----------------
-
 void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview)
 {
     auto listener = EventListenerTouchOneByOne::create();

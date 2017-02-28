@@ -23,6 +23,7 @@
 #include "HQScene.h"
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
+#include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
 
@@ -86,7 +87,6 @@ void HQSceneElementVisual::addLockToElement()
 {
     auto lockImage = Sprite::create("res/hqscene/locked.png");
     lockImage->setPosition(baseLayer->getContentSize() / 2);
-    lockImage->setScale(baseLayer->getContentSize().width / 445);
     baseLayer->addChild(lockImage);
 }
 
@@ -132,23 +132,18 @@ Sprite* HQSceneElementVisual::addIconToImage(std::string category)
 
 void HQSceneElementVisual::addLabelsToImage(std::map<std::string, std::string>itemData, Sprite* nextToIcon)
 {
-    float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().width * nextToIcon->getScale());
+    float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().height);
     
-    auto descriptionLabel = Label::createWithTTF(itemData["description"], "fonts/arial.ttf", 50);
-    descriptionLabel->setColor(Color3B(255,255,255));
-    descriptionLabel->setHorizontalAlignment(TextHAlignment::LEFT);
-    descriptionLabel->setAnchorPoint(Vec2(0.0f,0.7f));
-    descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY());
-    descriptionLabel->setOpacity(150);
-    reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
+    auto descriptionLabel = createLabelContentDescription(itemData["description"]);
+    descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.2f));
+    descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() - nextToIcon->getContentSize().height/2 * nextToIcon->getScale());
+    reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
     baseLayer->addChild(descriptionLabel);
     
-    auto titleLabel = Label::createWithTTF(itemData["title"], "fonts/arial.ttf", 50);
-    titleLabel->setColor(Color3B(255,255,255));
-    titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    auto titleLabel = createLabelContentTitle(itemData["title"]);
     titleLabel->setAnchorPoint(Vec2(0.0f, 0.8f));
-    titleLabel->setPosition(labelsXPosition,descriptionLabel->getPositionY() + (descriptionLabel->getContentSize().height));
-    reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().width * nextToIcon->getScale()/2));
+    titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
+    reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
     baseLayer->addChild(titleLabel);
 }
 
