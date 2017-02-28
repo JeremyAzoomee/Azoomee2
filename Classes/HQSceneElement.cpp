@@ -99,7 +99,7 @@ void HQSceneElement::addLockToElement()
 {
     auto lockImage = Sprite::create("res/hqscene/locked.png");
     lockImage->setPosition(baseLayer->getContentSize() / 2);
-    lockImage->setScale(baseLayer->getContentSize().width / 445);
+    //lockImage->setScale(baseLayer->getContentSize().width / 445);
     baseLayer->addChild(lockImage);
 }
 
