@@ -139,6 +139,7 @@
 		4330C78B1E27BFD900D32D3E /* CrashlyticsConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4330C7891E27BFD900D32D3E /* CrashlyticsConfig.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
 		433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
+		4348E4391E6576D600486661 /* ElectricDreamsDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4348E4371E6576D600486661 /* ElectricDreamsDecoration.cpp */; };
 		43540FB71E60803B0029E30E /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43540FB51E60803B0029E30E /* StringFunctions.cpp */; };
 		435EBBDE1E55BA0400E55610 /* AppsFlyerLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */; };
 		435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDF1E55BB1600E55610 /* AdSupport.framework */; };
@@ -480,6 +481,8 @@
 		4330C78A1E27BFD900D32D3E /* CrashlyticsConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashlyticsConfig.h; sourceTree = "<group>"; };
 		433AD3051E252A2C003757AD /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		433AD3061E252A2C003757AD /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		4348E4371E6576D600486661 /* ElectricDreamsDecoration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsDecoration.cpp; sourceTree = "<group>"; };
+		4348E4381E6576D600486661 /* ElectricDreamsDecoration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsDecoration.h; sourceTree = "<group>"; };
 		43540FB51E60803B0029E30E /* StringFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringFunctions.cpp; sourceTree = "<group>"; };
 		43540FB61E60803B0029E30E /* StringFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringFunctions.h; sourceTree = "<group>"; };
 		435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppsFlyerLib.framework; sourceTree = "<group>"; };
@@ -990,6 +993,8 @@
 				4327D9281E1F990700F912C5 /* ElectricDreamsButton.h */,
 				43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */,
 				43F067201E5F303700F9EA32 /* ElectricDreamsTextStyles.h */,
+				4348E4371E6576D600486661 /* ElectricDreamsDecoration.cpp */,
+				4348E4381E6576D600486661 /* ElectricDreamsDecoration.h */,
 			);
 			name = uiObjects;
 			sourceTree = "<group>";
@@ -1511,6 +1516,7 @@
 				431A2A4E1E439BFE00DC0F3B /* NSInvocation+MPHelpers.m in Sources */,
 				A15B2FBB1DEDD1EA00D25334 /* HMACSHA256.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
+				4348E4391E6576D600486661 /* ElectricDreamsDecoration.cpp in Sources */,
 				4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */,
 				431A2A2C1E439BFE00DC0F3B /* MPNotificationViewController.m in Sources */,
 				431A2A361E439BFE00DC0F3B /* MPObjectSerializerContext.m in Sources */,

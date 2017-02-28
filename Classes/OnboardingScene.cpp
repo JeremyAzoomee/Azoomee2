@@ -5,6 +5,7 @@
 #include "AnalyticsSingleton.h"
 #include "MessageBox.h"
 #include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsDecoration.h"
 
 USING_NS_CC;
 
@@ -51,17 +52,8 @@ void OnboardingScene::onEnterTransitionDidFinish()
 
 void OnboardingScene::addVisualElementsToScene()
 {
-    auto bg = Sprite::create("res/mainhub/bg_glow.png");
-    bg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-    this->addChild(bg);
-    
-    auto leftBg = Sprite::create("res/login/wire_left.png");
-    leftBg->setPosition(0 + leftBg->getContentSize().width / 2,0);
-    this->addChild(leftBg);
-    
-    auto rightBg = Sprite::create("res/login/wire_right.png");
-    rightBg->setPosition(origin.x + visibleSize.width - rightBg->getContentSize().width / 2, 0);
-    this->addChild(rightBg);
+    addGlowToScreen(this, 1);
+    addSideWiresToScreen(this, 0, 2);
 }
 
 void OnboardingScene::addFunctionalElementsToScene()

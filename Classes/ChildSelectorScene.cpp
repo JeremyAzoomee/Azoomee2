@@ -9,6 +9,7 @@
 #include "MessageBox.h"
 #include "StringMgr.h"
 #include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsDecoration.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -62,17 +63,8 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
 
 void ChildSelectorScene::addVisualsToScene()
 {
-    auto bg = Sprite::create("res/mainhub/bg_glow.png");
-    bg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-    this->addChild(bg);
-    
-    auto bg1 = Sprite::create("res/login/wire_left.png");
-    bg1->setPosition(bg1->getContentSize().width / 2, bg1->getContentSize().height / 2);
-    this->addChild(bg1);
-    
-    auto bg2 = Sprite::create("res/login/wire_right.png");
-    bg2->setPosition(visibleSize.width - bg2->getContentSize().width / 2, bg2->getContentSize().height / 2);
-    this->addChild(bg2);
+    addGlowToScreen(this, 1);
+    addSideWiresToScreen(this, 0, 2);
     
     auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
     selectTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);

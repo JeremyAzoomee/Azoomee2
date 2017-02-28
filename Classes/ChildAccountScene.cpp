@@ -8,6 +8,7 @@
 #include "AnalyticsSingleton.h"
 #include "MessageBox.h"
 #include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsDecoration.h"
 
 USING_NS_CC;
 
@@ -66,17 +67,10 @@ void ChildAccountScene::setChildName(std::string ChildName)
 
 void ChildAccountScene::addVisualElementsToScene()
 {
-    auto bg = Sprite::create("res/mainhub/bg_glow.png");
-    bg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-    this->addChild(bg);
+    addGlowToScreen(this, 1);
     
-    auto leftBg = Sprite::create("res/login/wire_left.png");
-    leftBg->setPosition(0 + leftBg->getContentSize().width / 2,0);
-    this->addChild(leftBg);
+    addSideWiresToScreen(this, 0, 2);
     
-    auto rightBg = Sprite::create("res/login/wire_right.png");
-    rightBg->setPosition(origin.x + visibleSize.width - rightBg->getContentSize().width / 2, 0);
-    this->addChild(rightBg);
 }
 
 void ChildAccountScene::addFunctionalElementsToScene()
