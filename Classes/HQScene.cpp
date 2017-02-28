@@ -107,7 +107,7 @@ void HQScene::createBidirectionalScrollView()
     
     if(this->getName() == "GROUP HQ") verticalScrollView->cocos2d::Node::setPosition(origin.x , origin.y - 200);
     
-    float verticalScrollViewHeight = (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2) + (ConfigStorage::getInstance()->getScrollviewTitleTextHeight() * 1.5);
+    float verticalScrollViewHeight = (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2) + (ConfigStorage::getInstance()->getScrollviewTitleTextHeight() * 2);
     
     verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * verticalScrollViewHeight));
     
@@ -124,7 +124,7 @@ void HQScene::createBidirectionalScrollView()
             addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)), j, i);
         }
         
-        Point titlePosition = Point(visibleSize.width/2,horizontalScrollView->getPosition().y + (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2));
+        Point titlePosition = Point(visibleSize.width/2,horizontalScrollView->getPosition().y + ConfigStorage::getInstance()->getScrollviewTitleTextHeight()/2 + (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2));
         addTitleToHorizontalScrollView(HQDataProvider::getInstance()->getTitleForRow(this->getName(), j), verticalScrollView, titlePosition);
     }
 }

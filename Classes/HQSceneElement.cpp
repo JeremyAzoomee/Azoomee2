@@ -154,13 +154,13 @@ void HQSceneElement::addLabelsToImage(std::map<std::string, std::string>itemData
 {
     float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().height);
     
-    auto descriptionLabel = createLabelHubElementDescription(itemData["description"]);
+    auto descriptionLabel = createLabelContentDescription(itemData["description"]);
     descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.2f));
     descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() - nextToIcon->getContentSize().height/2 * nextToIcon->getScale());
     reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
     baseLayer->addChild(descriptionLabel);
     
-    auto titleLabel = createLabelHubElementTitle(itemData["title"]);
+    auto titleLabel = createLabelContentTitle(itemData["title"]);
     titleLabel->setAnchorPoint(Vec2(0.0f, 0.8f));
     titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
     reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));

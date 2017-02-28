@@ -218,7 +218,7 @@ cocos2d::Vec2 ConfigStorage::getHighlightSizeMultiplierForContentItem(int highli
 
 float ConfigStorage::getScrollviewTitleTextHeight()
 {
-    return 90;
+    return 80;
 }
 
 Size ConfigStorage::getGroupHQLogoSize()
