@@ -27,6 +27,7 @@ bool MainHubScene::init()
     }
     
     this->setName("HOME");
+    HQHistoryManager::getInstance()->isOffline = false;
     
     return true;
 }

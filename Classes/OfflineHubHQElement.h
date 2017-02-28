@@ -1,16 +1,15 @@
-#ifndef __HQSCENEELEMENT_SCENE_H__
-#define __HQSCENEELEMENT_SCENE_H__
+#ifndef __OFFLINEHUB_HQELEMENT_H__
+#define __OFFLINEHUB_HQELEMENT_H__
 
 #include "cocos2d.h"
-#include "network/HttpClient.h"
 #include "HQSceneElementVisual.h"
 
-class HQSceneElement : public cocos2d::Layer
+class OfflineHubHQElement : public cocos2d::Layer
 {
-
 public:
-    CREATE_FUNC(HQSceneElement);
     static cocos2d::Scene* createScene();
+    
+    CREATE_FUNC(OfflineHubHQElement);
     virtual bool init();
     void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape, float delay);
     
@@ -22,6 +21,7 @@ private:
     cocos2d::Point touchPoint;
     bool movedAway;
     bool iamtouched;
+
 };
 
 #endif

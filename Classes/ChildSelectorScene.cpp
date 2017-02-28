@@ -10,6 +10,7 @@
 #include "StringMgr.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
+#include "OfflineHubScene.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -53,6 +54,8 @@ bool ChildSelectorScene::init()
 
 void ChildSelectorScene::onEnterTransitionDidFinish()
 {
+    OfflineChecker::getInstance()->setDelegate(this);
+    
     if(_errorCode !=0)
     {
         MessageBox::createWith(_errorCode, nullptr);
@@ -300,4 +303,12 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
     auto newChildScene = ChildAccountScene::createScene("", 0);
     Director::getInstance()->replaceScene(newChildScene);
+}
+
+void ChildSelectorScene::connectivityStateChanged(bool online)
+{
+    if(!online)
+    {
+        Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+    }
 }

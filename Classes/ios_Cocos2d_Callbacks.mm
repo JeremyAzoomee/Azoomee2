@@ -3,9 +3,17 @@
 #include "HQHistoryManager.h"
 #include "LoginScene.h"
 #include "AnalyticsSingleton.h"
+#include "OfflineHubScene.h"
+#include "BackEndCaller.h"
 
 void navigateToBaseScene()
 {
+    if(HQHistoryManager::getInstance()->isOffline)
+    {
+        cocos2d::Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+        return;
+    }
+    
     HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
     
     AnalyticsSingleton::getInstance()->closeContentEvent();
@@ -18,15 +26,14 @@ void navigateToLoginScene()
 {
     AnalyticsSingleton::getInstance()->closeContentEvent();
     
-    auto loginScene = LoginScene::createSceneWithAutoLoginAndErrorDisplay();
-    cocos2d::Director::getInstance()->replaceScene(loginScene);
+    BackEndCaller::getInstance()->getAvailableChildren();
 }
 
 void sendMixPanelData(const char* host, const char* query)
 {
     CCLOG("host: %s, query: %s", host, query);
-    std::string strHost = StringUtils::format("%s", host);
-    std::string strQuery = StringUtils::format("%s", query);
+    std::string strHost = cocos2d::StringUtils::format("%s", host);
+    std::string strQuery = cocos2d::StringUtils::format("%s", query);
     
     if(strHost == "play")
     {

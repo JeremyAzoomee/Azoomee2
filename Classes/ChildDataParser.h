@@ -17,4 +17,5 @@ public:
     void setLoggedInChildId(std::string id);
     void setLoggedInChildNumber(int childNumber);
     void setLoggedInChildAvatarId(std::string avatarId);
+    void setChildLoggedIn(bool loggedIn);
 };

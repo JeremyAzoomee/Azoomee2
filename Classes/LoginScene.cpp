@@ -12,6 +12,7 @@
 #include "ElectricDreamsTextStyles.h"
 #include "AnalyticsSingleton.h"
 #include "ElectricDreamsDecoration.h"
+#include "OfflineHubScene.h"
 
 USING_NS_CC;
 
@@ -70,6 +71,8 @@ bool LoginScene::init()
 
 void LoginScene::onEnterTransitionDidFinish()
 {
+    OfflineChecker::getInstance()->setDelegate(this);
+    
     if(shouldDoAutoLogin)
     {
         CCLOG("Should do autologin!");
@@ -140,6 +143,14 @@ void LoginScene::addContentLayerToScene()
     loginContent->setPosition(Point(origin.x, origin.y));
     loginContent->setName("loginContent");
     this->addChild(loginContent);
+}
+
+void LoginScene::connectivityStateChanged(bool online)
+{
+    if(!online)
+    {
+        Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+    }
 }
 
 void LoginScene::addLabelsToLayer()

@@ -7,6 +7,7 @@
 #include "HQHistoryManager.h"
 #include "LoginScene.h"
 #include "AnalyticsSingleton.h"
+#include "OfflineHubScene.h"
 
 USING_NS_CC;
 
@@ -87,6 +88,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     auto scene = IntroVideoScene::createScene();
+    //auto scene = OfflineHubScene::createScene();
     // run
     director->runWithScene(scene);
 
@@ -131,6 +133,12 @@ void AppDelegate::applicationWillEnterForeground() {
             HQHistoryManager::getInstance()->thereWasAnError = false;
             auto loginScene = LoginScene::createSceneWithAutoLoginAndErrorDisplay();
             Director::getInstance()->replaceScene(loginScene);
+            return;
+        }
+        
+        if(HQHistoryManager::getInstance()->isOffline == true)
+        {
+            Director::getInstance()->replaceScene(OfflineHubScene::createScene());
             return;
         }
         

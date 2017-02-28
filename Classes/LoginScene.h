@@ -5,10 +5,11 @@
 #include "TextInputLayer.h"
 #include "ElectricDreamsButton.h"
 #include "MessageBox.h"
+#include "OfflineChecker.h"
 
 USING_NS_CC;
 
-class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
+class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate
 {
 private:
     long _errorCode;
@@ -64,6 +65,8 @@ public:
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    
+    void connectivityStateChanged(bool online);
 
     CREATE_FUNC(LoginScene);
 };

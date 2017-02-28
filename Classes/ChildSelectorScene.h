@@ -4,8 +4,9 @@
 #include "cocos2d.h"
 #include "ui/UIScrollView.h"
 #include "AwaitingAdultPinLayer.h"
+#include "OfflineChecker.h"
 
-class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate
+class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate, public OfflineCheckerDelegate
 {
 public:
     CREATE_FUNC(ChildSelectorScene);
@@ -19,6 +20,8 @@ public:
     //Delegate Functions
     void AdultPinCancelled(AwaitingAdultPinLayer* layer);
     void AdultPinAccepted(AwaitingAdultPinLayer* layer);
+    
+    void connectivityStateChanged(bool online);
     
 private:
     long _errorCode;

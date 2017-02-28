@@ -144,6 +144,8 @@ void BackEndCaller::onUpdateParentActorStatusAnswerReceived(std::string response
 
 void BackEndCaller::getAvailableChildren()
 {
+    ModalMessages::getInstance()->startLoading();
+    
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
     httpRequestCreator->urlParameters = "expand=true";
     httpRequestCreator->requestTag = "getChildren";

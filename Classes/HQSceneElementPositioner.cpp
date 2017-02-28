@@ -9,19 +9,22 @@ void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
     Node *layout = (Node *)sender->getParent();
     
     Size scrollViewSize = scrollView->getInnerContainerSize();
-    Size senderSize = sender->getContentSize();
+    Size senderSize = sender->getBoundingBox().size;
     Vector<Node *> scrollViewChildren = layout->getChildren();
     
     if(scrollViewChildren.size() == 1)
     {
         sender->setPosition(0, scrollViewSize.height - senderSize.height);
+        CCLOG("senderSize height: %f", senderSize.height);
+        CCLOG("scrollView size height: %f", scrollViewSize.height);
+        CCLOG("start position: %f", scrollViewSize.height - senderSize.height);
         return;
     }
     
     Node *previousChild = (Node *)scrollViewChildren.at(scrollViewChildren.size() - 2);
     
     Point lastStartPoint = previousChild->getPosition();
-    Size lastContentSize = previousChild->getContentSize();
+    Size lastContentSize = previousChild->getBoundingBox().size;
     Point lastEndPoint = Point(lastStartPoint.x + lastContentSize.width, lastStartPoint.y + lastContentSize.height);
     
     //First we try to put the new element under the previous element. If success, then okay,
@@ -39,4 +42,6 @@ void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
     }
     
     scrollView->setInnerContainerSize(Size(possibleNewPosition.x + senderSize.width, scrollViewSize.height));
+    
+    CCLOG("New innercontainer size: %f", scrollView->getInnerContainerSize().width);
 }

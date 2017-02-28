@@ -44,7 +44,7 @@ define([
                             clearInterval(checkImageTimer);
                             controller.loadSavedArt(currentArt);
                         }
-                        ;
+
                     }
 
                     checkImageTimer = setInterval(checkForCanvas, 1000);
@@ -103,6 +103,11 @@ define([
                             controller.setupSliders();
                             controller.bindEvents();
                             $scope.stickerPlacement = false;
+                            $timeout(function () {
+                                document.getElementById('mySliderWrap').style.display='block';
+
+                            },3000);
+
                             $scope.colourOverlayShown = false;
                             $scope.stickerOverlayShown = false;
                             $scope.textOverlayShown = false;
@@ -117,8 +122,8 @@ define([
                             }, true);
                             $scope.isOffline = connectivityHelper.isOffline();
                             $timeout(function () {
-                                $rootScope.gootToGo=true;
-                            },3000);
+                                $rootScope.gootToGo = true;
+                            }, 3000);
                             //;
 
                         },
@@ -807,6 +812,14 @@ define([
                                 newWidth = image.width * ratio,
                                 newHeight = image.height * ratio,
                                 angleInRadians = 0.0174533 * controller.stickerRotation;
+
+                            $scope.debugRatio=ratio;
+                            $scope.debugScale=controller.scale;
+                            $scope.debugImageWidth=image.width;
+                            $scope.debugImageHeight=image.height;
+                            $scope.debugImagenewHeight=newHeight;
+                            $scope.debugImageNewidth=newWidth;
+
                             controller.$stickerCanvasContext.translate(x, y);
                             controller.$stickerCanvasContext.rotate(angleInRadians);
                             controller.$stickerCanvasContext.drawImage(image, 0 - (0.5 * newWidth), 0 - (0.5 * newHeight), newWidth, newHeight);

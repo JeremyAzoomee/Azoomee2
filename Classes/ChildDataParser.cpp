@@ -41,6 +41,10 @@ bool ChildDataParser::parseChildLoginData(std::string responseData)
     ChildDataStorage::getInstance()->loggedInChildApiSecret = ChildDataStorage::getInstance()->childLoginData["apiSecret"].GetString();
     ChildDataStorage::getInstance()->loggedInChildApiKey = ChildDataStorage::getInstance()->childLoginData["apiKey"].GetString();
     
+    UserDefault* def = UserDefault::getInstance();
+    def->setStringForKey("lastLoggedInChildId", ChildDataStorage::getInstance()->loggedInChildId);
+    def->flush();
+    
     createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), ChildDataStorage::getInstance()->loggedInChildId);
     
     AnalyticsSingleton::getInstance()->registerParentID(ParentDataProvider::getInstance()->getLoggedInParentId());
@@ -76,4 +80,9 @@ void ChildDataParser::setLoggedInChildId(std::string id)
 void ChildDataParser::setLoggedInChildNumber(int childNumber)
 {
     ChildDataStorage::getInstance()->loggedInChildNumber = childNumber;
+}
+
+void ChildDataParser::setChildLoggedIn(bool loggedIn)
+{
+    ChildDataStorage::getInstance()->childLoggedIn = loggedIn;
 }

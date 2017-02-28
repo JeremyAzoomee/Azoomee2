@@ -8,6 +8,7 @@
 #include "OnboardingScene.h"
 #include "AnalyticsSingleton.h"
 #include "ChildAccountScene.h"
+#include "ChildDataParser.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -183,8 +184,6 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
 
 void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
-    CCLOG("Callback called!");
-    
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201))
     {
         std::vector<char> responseHeader = *response->getResponseHeader();
@@ -217,35 +216,63 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     }
     else
     {
-        std::vector<char> responseData = *response->getResponseData();
-        std::string responseDataString = std::string(responseData.begin(), responseData.end());
-        
-        CCLOG("response string: %s", responseDataString.c_str());
-        CCLOG("response code: %ld", response->getResponseCode());
-
-        handleError(response->getHttpRequest()->getTag(), response->getResponseCode(), responseDataString);
+        handleError(response);
     }
 }
 
-void HttpRequestCreator::handleError(std::string requestTag, long errorCode, std::string responseString)
+void HttpRequestCreator::handleError(network::HttpResponse *response)
 {
-    if(errorCode == 401)
+    std::vector<char> responseData = *response->getResponseData();
+    std::string responseString = std::string(responseData.begin(), responseData.end());
+    std::string requestTag = response->getHttpRequest()->getTag();
+    long errorCode = response->getResponseCode();
+    
+    CCLOG("response string: %s", responseString.c_str());
+    CCLOG("response code: %ld", response->getResponseCode());
+    
+    //-----------------------Handle error code--------------------------
+    
+    if(amountOfFails < 2)
     {
-        if(findPositionOfNthString(responseString, "Invalid Request Time", 1) != responseString.length())
-        {
-            errorCode = 2001;
-        }
+        amountOfFails++;
+        createHttpRequest();
     }
+    
+    if((errorCode == 401)&&(findPositionOfNthString(responseString, "Invalid Request Time", 1) != responseString.length())) errorCode = 2001;
+    
+    handleEventAfterError(requestTag, errorCode);
+}
+
+void HttpRequestCreator::handleEventAfterError(std::string requestTag, long errorCode)
+{
+    std::map<std::string, Scene*> returnMap;
     
     if(requestTag == "registerParent")
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
         Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
+        return;
     }
-    else if(requestTag == "registerChild")
+    
+    if(requestTag == "registerChild")
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
         Director::getInstance()->replaceScene(ChildAccountScene::createScene("", errorCode));
+        return;
     }
-    else Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));
+    
+    if(requestTag == "parentLogin")
+    {
+        Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));
+        return;
+    }
+    
+    if(requestTag == "getChildren")
+    {
+        Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));
+        return;
+    }
+    
+    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    BackEndCaller::getInstance()->getAvailableChildren();
 }
