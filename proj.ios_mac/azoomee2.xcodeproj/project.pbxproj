@@ -51,6 +51,7 @@
 		430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */; };
 		431027831E5DEDE900B5CC8E /* Crashlytics_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431027811E5DEDE900B5CC8E /* Crashlytics_android.cpp */; };
 		431027891E5DFB2200B5CC8E /* Analytics_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431027871E5DFB2200B5CC8E /* Analytics_android.cpp */; };
+		4319D3DE1E66D66300110F92 /* OomeeButtonLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */; };
 		431A29FC1E439BFE00DC0F3B /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 431A29581E439BFD00DC0F3B /* _MPTweakBindObserver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		431A29FD1E439BFE00DC0F3B /* MPArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A295C1E439BFD00DC0F3B /* MPArrowLeft.png */; };
 		431A29FE1E439BFE00DC0F3B /* MPArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A295D1E439BFD00DC0F3B /* MPArrowLeft@2x.png */; };
@@ -336,6 +337,8 @@
 		431027821E5DEDE900B5CC8E /* Crashlytics_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crashlytics_android.h; sourceTree = "<group>"; };
 		431027871E5DFB2200B5CC8E /* Analytics_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Analytics_android.cpp; sourceTree = "<group>"; };
 		431027881E5DFB2200B5CC8E /* Analytics_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analytics_android.h; sourceTree = "<group>"; };
+		4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeButtonLayer.cpp; sourceTree = "<group>"; };
+		4319D3DD1E66D66300110F92 /* OomeeButtonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeButtonLayer.h; sourceTree = "<group>"; };
 		431A29571E439BFD00DC0F3B /* _MPTweakBindObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MPTweakBindObserver.h; sourceTree = "<group>"; };
 		431A29581E439BFD00DC0F3B /* _MPTweakBindObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MPTweakBindObserver.m; sourceTree = "<group>"; };
 		431A29591E439BFD00DC0F3B /* app_extension_module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = app_extension_module.modulemap; sourceTree = "<group>"; };
@@ -1063,6 +1066,8 @@
 				43F067201E5F303700F9EA32 /* ElectricDreamsTextStyles.h */,
 				4348E4371E6576D600486661 /* ElectricDreamsDecoration.cpp */,
 				4348E4381E6576D600486661 /* ElectricDreamsDecoration.h */,
+				4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */,
+				4319D3DD1E66D66300110F92 /* OomeeButtonLayer.h */,
 			);
 			name = uiObjects;
 			sourceTree = "<group>";
@@ -1682,6 +1687,7 @@
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				431A29FC1E439BFE00DC0F3B /* _MPTweakBindObserver.m in Sources */,
+				4319D3DE1E66D66300110F92 /* OomeeButtonLayer.cpp in Sources */,
 				A1A2D3051E13B53200E86169 /* ChildDataParser.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				431A2A431E439BFE00DC0F3B /* MPTweakInline.m in Sources */,

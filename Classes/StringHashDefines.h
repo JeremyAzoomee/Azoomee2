@@ -15,6 +15,12 @@
 #define ONBOARDINGSCENE_PIN_LABEL "OnboardingScene/pin_label"
 #define ONBOARDINGSCENE_PIN_SUB_LABEL "OnboardingScene/pin_sub_label"
 
+//---------- ONBOARDING SUCCESS SCENE --------------
+
+#define ONBOARDINGSUCCESSSCENE_TITLE_LABEL "OnboardingSuccessScene/title_label"
+#define ONBOARDINGSUCCESSSCENE_SUB_LABEL "OnboardingSuccessScene/sub_label"
+#define ONBOARDINGSUCCESSSCENE_CHECKEMAIL_LABEL "OnboardingSuccessScene/checkemail_label"
+
 //----------- CHILD ACCOUNT SCENE ------------
 
 #define CHILDACCOUNTSCENE_REQUEST_NAME_LABEL "ChildAccountScene/request_name_label"

@@ -14,6 +14,13 @@
         "pin_sub_label":"You will need this to access the parent area and exit the app\nShhh! Don't tell the kids..."
     },
     
+    "OnboardingSuccessScene":
+    {
+        "title_label":"YAY! Great Stuff!\nYou've successfully created an account",
+        "sub_label":"Tap Ooubrey to get started!",
+        "checkemail_label":"You can create your own Oomee later.\nCheck your email."
+    },
+    
     "ChildAccountScene":
     {
         "request_name_label":"What's your child's name",

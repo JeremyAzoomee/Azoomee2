@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include <ui/UIScale9Sprite.h>
-
+#include "OomeeButtonLayer.h"
 
 USING_NS_CC;
 
@@ -25,9 +25,11 @@ private:
     void callDelegateFunction(float dt);
     
     bool isSettingsButton;
+    bool buttonPressed;
     
     std::string buttonAudioFile;
     std::string mixPanelButtonName = "";
+    OomeeButtonLayer* oomeeLayer;
     
     void sendMixPanelEvent();
     
@@ -48,6 +50,7 @@ public:
     static ElectricDreamsButton* createAcceptButton();
     static ElectricDreamsButton* createCancelButton();
     static ElectricDreamsButton* createSettingsButton(float creationDelay);
+    static ElectricDreamsButton* createOomeeButton(int oomeeNumber, std::string oomeeName);
     
     void setCenterPosition(Vec2 position);
     Vec2 getCenterPosition();

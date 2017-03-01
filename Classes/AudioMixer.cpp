@@ -39,8 +39,6 @@ void AudioMixer::playEffect(std::string effectToPlay)
 
 void AudioMixer::playOomeeEffect(std::string oomee, std::string state)
 {
-    
-    
     CocosDenshion::SimpleAudioEngine::getInstance()->stopEffect(lastOomeeAudio);
     
     std::string fileName = oomee + "_" + state + ".mp3";
@@ -53,6 +51,11 @@ void AudioMixer::playOomeeEffect(std::string oomee, std::string state)
     CCLOG("fullpath: %s", fullPath.c_str());
     
     lastOomeeAudio = CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(fullPath.c_str());
+}
+
+void AudioMixer::stopOomeeEffect()
+{
+    CocosDenshion::SimpleAudioEngine::getInstance()->stopEffect(lastOomeeAudio);
 }
 
 void AudioMixer::stopBackgroundMusic()

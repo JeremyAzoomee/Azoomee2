@@ -3,6 +3,7 @@
 #include "AudioMixer.h"
 #include "AnalyticsSingleton.h"
 #include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsTextStyles.h"
 
 bool ElectricDreamsButton::init()
 {
@@ -146,11 +147,32 @@ ElectricDreamsButton* ElectricDreamsButton::createSettingsButton(float creationD
     return layer;
 }
 
+ElectricDreamsButton* ElectricDreamsButton::createOomeeButton(int oomeeNumber, std::string oomeeName)
+{
+    auto layer = ElectricDreamsButton::create();
+    layer->addChild(layer->createSpriteButton("res/buttons/rectangle2.png", "" ));
+    layer->addListener();
+    
+    Sprite* glow = Sprite::create("res/decoration/bg_glow.png");
+    glow->setPosition(layer->getContentSize().width/2, layer->getContentSize().height*.6);
+    glow->setScale(.3);
+    layer->addChild(glow);
+    
+    layer->oomeeLayer = OomeeButtonLayer::createOomeeLayer(oomeeNumber);
+    layer->oomeeLayer->setPosition(layer->getContentSize().width/2, layer->getContentSize().height *.30);
+    layer->addChild(layer->oomeeLayer);
+    
+    auto oomeeNameLabel = createLabelBody(oomeeName);
+    oomeeNameLabel->setPosition(layer->getContentSize().width/2, layer->getContentSize().height *.15);
+    layer->addChild(oomeeNameLabel);
+    
+    return layer;
+}
+
 //---------------------- Listener Function -----------------------------
 
 void ElectricDreamsButton::addListener()
 {
-
     auto listener = cocos2d::EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
     
@@ -161,12 +183,18 @@ void ElectricDreamsButton::addListener()
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
         Rect rect = Rect(0, 0, target->getContentSize().width, target->getContentSize().height);
         
-        if(rect.containsPoint(locationInNode) && this->isVisible())
+        if(rect.containsPoint(locationInNode) && this->isVisible() && !buttonPressed)
         {
+            buttonPressed = true;
             AudioMixer::getInstance()->playEffect(buttonAudioFile);
             sendMixPanelEvent();
             
-            if(isSettingsButton)
+            if(oomeeLayer)
+            {
+                oomeeLayer->animationBeforeButtonPress();
+                this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 2.1);
+            }
+            else if(isSettingsButton)
                 ExitOrLogoutLayer::create();
             else
                 this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 0.1);
@@ -182,6 +210,9 @@ void ElectricDreamsButton::addListener()
 
 void ElectricDreamsButton::callDelegateFunction(float dt)
 {
+    if(oomeeLayer)
+        AudioMixer::getInstance()->stopOomeeEffect();
+    
     this->getDelegate()->buttonPressed(this);
 }
 

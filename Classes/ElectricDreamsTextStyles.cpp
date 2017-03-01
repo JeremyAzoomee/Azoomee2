@@ -20,7 +20,10 @@ Label* createLabelWith(std::string text, std::string font, Color3B color, int si
 //------------------All Style functions-------------
 
 Label*  createLabelHeader(std::string text) {
-    return createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 84);
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 84);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    
+    return newLabel;
 }
 
 Label*  createLabelButtonAdultPrimary(std::string text) {
