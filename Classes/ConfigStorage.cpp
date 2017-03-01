@@ -88,6 +88,8 @@ std::string ConfigStorage::getNameForOomee(int number)
 
 std::string ConfigStorage::getOomeePNGName(int number)
 {
+    //added pathForOomeeImages to JSON, generate the path from that variable and the oomeename
+    
     std::map<int, std::string> oomeeNames;
     
     oomeeNames[0] = "res/childSelection/om_Pink.png";
@@ -101,6 +103,8 @@ std::string ConfigStorage::getOomeePNGName(int number)
 
 std::string ConfigStorage::getOomeeColour(int number)
 {
+    //changed to humanReadableNameForOomee in json
+    
     std::map<int, std::string> oomeeNames;
     
     oomeeNames[0] = "Pink";
@@ -335,6 +339,8 @@ Point ConfigStorage::getTargetPositionForMove(int itemNumber)
     return positions.at(itemNumber);
 }
 
+//--------------------------------IMAGECONTAINER CONFIGURATION----------------
+
 std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::string categoryName)
 {
     std::map<std::string, std::vector<Point>> positions;
@@ -346,8 +352,6 @@ std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::st
     
     return positions[categoryName];
 }
-
-//--------------------------------IMAGECONTAINER CONFIGURATION----------------
 
 cocos2d::Color4B ConfigStorage::getColourForElementType(std::string type)
 {

@@ -1,0 +1,93 @@
+{
+  "MainHubPositionsForHighlightElements": {
+    "PLAY": {
+      "Points": [
+        {
+          "x": 600,
+          "y": 75
+        },
+        {
+          "x": 400,
+          "y": 400
+        }
+      ]
+    },
+    "LISTEN": {
+      "Points": [
+        {
+          "x": -800,
+          "y": -700
+        },
+        {
+          "x": -1050,
+          "y": -475
+        }
+      ]
+    },
+    "WATCH": {
+      "Points": [
+        {
+          "x": -1050,
+          "y": 75
+        },
+        {
+          "x": -700,
+          "y": 400
+        }
+      ]
+    },
+    "ART": {
+      "Points": [
+        {
+          "x": 1950,
+          "y": 500
+        },
+        {
+          "x": 1750,
+          "y": 350
+        }
+      ]
+    }
+  },
+  
+  "colourForElementType": {
+    "AUDIO": {
+      "r": 58,
+      "g": 188,
+      "b": 152,
+      "a": 150
+    },
+    "AUDIOGROUP": {
+      "r": 58,
+      "g": 188,
+      "b": 152,
+      "a": 150
+    },
+    "GAME": {
+      "r": 86,
+      "g": 177,
+      "b": 255,
+      "a": 150
+    },
+    "VIDEO": {
+      "r": 248,
+      "g": 71,
+      "b": 89,
+      "a": 150
+    },
+    "GROUP": {
+      "r": 248,
+      "g": 71,
+      "b": 89,
+      "a": 150
+    }
+  },
+  
+  "iconNameForCategory": {
+    "VIDEO": "watch",
+    "GROUP": "watch",
+    "AUDIO": "listen",
+    "AUDIOGROUP": "listen",
+    "GAME": "play"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "sizeForContentLayerInCategory": {
+    "VIDEO HQ": {
+      "width": 590,
+      "height": 442
+    },
+    "AUDIO HQ": {
+      "width": 590,
+      "height": 442
+    },
+    "GAME HQ": {
+      "width": 590,
+      "height": 442
+    },
+    "ARTS APP": {
+      "width": 590,
+      "height": 442
+    },
+    "GROUP HQ": {
+      "width": 590,
+      "height": 442
+    }
+  },
+  
+  "baseColourForContentItemInCategory": {
+    "VIDEO HQ": {
+      "r": 248,
+      "g": 71,
+      "b": 89,
+      "a": 150
+    },
+    "AUDIO HQ": {
+      "r": 58,
+      "g": 188,
+      "b": 152
+    },
+    "GAME HQ": {
+      "r": 0,
+      "g": 112,
+      "b": 204,
+      "a": 150
+    },
+    "ARTS APP": {
+      "r": 255,
+      "g": 255,
+      "b": 0,
+      "a": 150
+    },
+    "GROUP HQ": {
+      "r": 248,
+      "g": 71,
+      "b": 89,
+      "a": 150
+    }
+  },
+  
+  "iconImagesForContentItemInCategory": {
+    "VIDEO HQ": "res/hqscene/icon_watch.png",
+    "AUDIO HQ": "res/hqscene/icon_listen.png",
+    "GAME HQ": "res/hqscene/icon_play.png",
+    "ARTS APP": "res/hqscene/icon_play.png",
+    "GROUP HQ": "res/hqscene/icon_watch.png"
+  },
+  
+  "highlightSizeMultiplierForContentItem": {
+    "0": {
+      "x": 1,
+      "y": 1
+    },
+    "1": {
+      "x": 1,
+      "y": 2.04
+    },
+    "2": {
+      "x": 2.04,
+      "y": 2.04
+    }
+  },
+  
+  "scrollViewTextHeight": 80,
+  
+  "groupLogoSize": {
+    "width": 920,
+    "height": 372
+  }
+}
