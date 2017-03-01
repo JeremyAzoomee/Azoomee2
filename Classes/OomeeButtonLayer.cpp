@@ -40,6 +40,11 @@ void OomeeButtonLayer::animationBeforeButtonPress()
     AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), "Build_Pop");
 }
 
+void OomeeButtonLayer::hideOomee()
+{
+    oomee->setOpacity(0);
+}
+
 //------------ PRIVATE FUNCTIONS---------------
 
 void OomeeButtonLayer::addOomeeToLayer()
@@ -49,7 +54,7 @@ void OomeeButtonLayer::addOomeeToLayer()
     std::string atlasFileName = StringUtils::format("res/oomees/%s.atlas", oomeeName.c_str());
     
     oomee = SkeletonAnimation::createWithFile(jsonFileName, atlasFileName, 0.6f);
-    oomee->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
+    oomee->setAnimation(0, ConfigStorage::getInstance()->getGreetingAnimation().c_str(), false);
     oomee->setScale(2);
     oomee->setOpacity(0);
     this->addChild(oomee);

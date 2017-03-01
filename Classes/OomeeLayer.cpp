@@ -61,7 +61,7 @@ spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
     
     SkeletonAnimation *oomee = SkeletonAnimation::createWithFile(jsonFileName, atlasFileName, 0.6f);
     oomee->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.38);
-    oomee->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
+    oomee->setAnimation(0, ConfigStorage::getInstance()->getGreetingAnimation().c_str(), false);
     oomee->setScale(2);
     oomee->setOpacity(0);
     this->addChild(oomee);

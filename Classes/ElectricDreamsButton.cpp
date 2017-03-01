@@ -192,7 +192,7 @@ void ElectricDreamsButton::addListener()
             if(oomeeLayer)
             {
                 oomeeLayer->animationBeforeButtonPress();
-                this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 2.1);
+                this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 2);
             }
             else if(isSettingsButton)
                 ExitOrLogoutLayer::create();
@@ -211,7 +211,10 @@ void ElectricDreamsButton::addListener()
 void ElectricDreamsButton::callDelegateFunction(float dt)
 {
     if(oomeeLayer)
+    {
+        oomeeLayer->hideOomee();
         AudioMixer::getInstance()->stopOomeeEffect();
+    }
     
     this->getDelegate()->buttonPressed(this);
 }

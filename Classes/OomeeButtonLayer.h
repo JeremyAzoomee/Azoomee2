@@ -12,6 +12,7 @@ public:
     virtual bool init();
     
     void animationBeforeButtonPress();
+    void hideOomee();
     
 private:
     void addOomeeToLayer();

@@ -375,6 +375,11 @@ std::string ConfigStorage::getIconNameForCategory(std::string category)
 
 //-----------------------------------OOMEE animation identifier configuration----------------------------------
 
+std::string ConfigStorage::getGreetingAnimation()
+{
+    return "Build_Simple_Wave";
+}
+
 std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType)
 {
     std::vector<std::string> idleAnimations;

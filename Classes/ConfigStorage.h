@@ -60,6 +60,7 @@ public:
     std::string getIconNameForCategory(std::string category);
     
     //OomeeLayer animation states
+    std::string getGreetingAnimation();
     std::string getRandomIdForAnimationType(std::string animationType);
     
     //Android helper for arts app

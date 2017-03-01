@@ -3,7 +3,9 @@
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
 #include "ConfigStorage.h"
-#include "LoginScene.h"
+#include "BackEndCaller.h"
+#include "ParentDataProvider.h"
+
 
 USING_NS_CC;
 
@@ -41,7 +43,10 @@ void OnboardingSuccessScene::addVisualElementsToScene()
 
 void OnboardingSuccessScene::addButtonsToScene()
 {
-    oomeeButton = ElectricDreamsButton::createOomeeButton(2, "Ooubrey");
+    std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(0);
+    int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
+    
+    oomeeButton = ElectricDreamsButton::createOomeeButton(oomeeNr, ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
     oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
     oomeeButton->setDelegate(this);
     this->addChild(oomeeButton);
@@ -66,6 +71,5 @@ void OnboardingSuccessScene::addLabelsToLayer()
 
 void OnboardingSuccessScene::buttonPressed(ElectricDreamsButton* button)
 {
-    auto loginScene = LoginScene::createScene(0);
-    Director::getInstance()->replaceScene(loginScene);
+    BackEndCaller::getInstance()->childLogin(0);
 }
