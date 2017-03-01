@@ -15,9 +15,6 @@ private:
     void addBackgroundCircles();
     void addImageContainers();
     
-    void addBackgroundCirclesQuick();
-    void addImageContainersQuick();
-    
     cocos2d::Sprite* createCirclesForBackground(int circleNumber);
     
     cocos2d::Size visibleSize;

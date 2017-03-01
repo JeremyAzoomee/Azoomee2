@@ -366,9 +366,10 @@ std::string ConfigStorage::getIconNameForCategory(std::string category)
 {
     std::map<std::string, std::string> iconNames;
     iconNames["VIDEO"] = "watch";
+    iconNames["GROUP"] = "watch";
     iconNames["AUDIO"] = "listen";
+    iconNames["AUDIOGROUP"] = "listen";
     iconNames["GAME"] = "play";
-    iconNames["GROUP"] = "play";
     
     return iconNames[category];
 }

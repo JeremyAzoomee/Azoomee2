@@ -13,7 +13,6 @@ public:
     
 private:
     spine::SkeletonAnimation* addOomeeToScreen();
-    spine::SkeletonAnimation* addOomeeToScreenQuick();
     void addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo);
     void addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedTo);
     void setDisplayedOomee(int oomeeNumber);
