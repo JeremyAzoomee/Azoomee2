@@ -4,6 +4,8 @@
 
 class BackEndCaller : public cocos2d::Ref
 {
+private:
+    bool accountJustRegistered;
     
 public:
     /** Returns the shared instance of the Game Manager */

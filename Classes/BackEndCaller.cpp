@@ -18,6 +18,7 @@
 #include "AwaitingAdultPinLayer.h"
 #include "HQHistoryManager.h"
 #include "AnalyticsSingleton.h"
+#include "OnboardingSuccessScene.h"
 
 using namespace cocos2d;
 
@@ -58,6 +59,7 @@ void BackEndCaller::hideLoadingScreen()
 
 void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
+    accountJustRegistered = false;
     auto loginScene = LoginScene::createScene(errorCode);
     Director::getInstance()->replaceScene(loginScene);
 }
@@ -155,9 +157,18 @@ void BackEndCaller::getAvailableChildren()
 void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
 {
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
-        
-    auto childSelectorScene = ChildSelectorScene::createScene(0);
-    Director::getInstance()->replaceScene(childSelectorScene);
+    
+    if(accountJustRegistered)
+    {
+        accountJustRegistered = false;
+        auto onboardingSuccessScene = OnboardingSuccessScene::createScene();
+        Director::getInstance()->replaceScene(onboardingSuccessScene);
+    }
+    else
+    {
+        auto childSelectorScene = ChildSelectorScene::createScene(0);
+        Director::getInstance()->replaceScene(childSelectorScene);
+    }
 }
 
 //CHILDREN LOGIN----------------------------------------------------------------------------------------
@@ -232,6 +243,7 @@ void BackEndCaller::registerParent(std::string emailAddress, std::string passwor
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
+    accountJustRegistered = true;
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     login(this->registerParentUsername, this->registerParentPassword);
 }
