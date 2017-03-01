@@ -52,6 +52,7 @@
 		431027831E5DEDE900B5CC8E /* Crashlytics_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431027811E5DEDE900B5CC8E /* Crashlytics_android.cpp */; };
 		431027891E5DFB2200B5CC8E /* Analytics_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431027871E5DFB2200B5CC8E /* Analytics_android.cpp */; };
 		4319D3DE1E66D66300110F92 /* OomeeButtonLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */; };
+		4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
 		431A29FC1E439BFE00DC0F3B /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 431A29581E439BFD00DC0F3B /* _MPTweakBindObserver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		431A29FD1E439BFE00DC0F3B /* MPArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A295C1E439BFD00DC0F3B /* MPArrowLeft.png */; };
 		431A29FE1E439BFE00DC0F3B /* MPArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A295D1E439BFD00DC0F3B /* MPArrowLeft@2x.png */; };
@@ -195,7 +196,6 @@
 		A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19759821DE4931200FEB03C /* HQSceneElement.cpp */; };
 		A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
 		A19862231DD3836D0090F053 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862151DD3836D0090F053 /* HQScene.cpp */; };
-		A19862251DD3836D0090F053 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862191DD3836D0090F053 /* LoginScene.cpp */; };
 		A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621B1DD3836D0090F053 /* MainHubScene.cpp */; };
 		A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621D1DD3836D0090F053 /* NavigationLayer.cpp */; };
 		A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862291DD383BD0090F053 /* AppDelegate.cpp */; };
@@ -339,6 +339,8 @@
 		431027881E5DFB2200B5CC8E /* Analytics_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analytics_android.h; sourceTree = "<group>"; };
 		4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeButtonLayer.cpp; sourceTree = "<group>"; };
 		4319D3DD1E66D66300110F92 /* OomeeButtonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeButtonLayer.h; sourceTree = "<group>"; };
+		4319D3E01E67134600110F92 /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
+		4319D3E11E67134600110F92 /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		431A29571E439BFD00DC0F3B /* _MPTweakBindObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MPTweakBindObserver.h; sourceTree = "<group>"; };
 		431A29581E439BFD00DC0F3B /* _MPTweakBindObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MPTweakBindObserver.m; sourceTree = "<group>"; };
 		431A29591E439BFD00DC0F3B /* app_extension_module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = app_extension_module.modulemap; sourceTree = "<group>"; };
@@ -585,8 +587,6 @@
 		A19862141DD3836D0090F053 /* ChildSelectorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildSelectorScene.h; sourceTree = "<group>"; };
 		A19862151DD3836D0090F053 /* HQScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
 		A19862161DD3836D0090F053 /* HQScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
-		A19862191DD3836D0090F053 /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
-		A198621A1DD3836D0090F053 /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		A198621B1DD3836D0090F053 /* MainHubScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainHubScene.cpp; sourceTree = "<group>"; };
 		A198621C1DD3836D0090F053 /* MainHubScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainHubScene.h; sourceTree = "<group>"; };
 		A198621D1DD3836D0090F053 /* NavigationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationLayer.cpp; sourceTree = "<group>"; };
@@ -1186,8 +1186,8 @@
 		A15B2FA41DEC73B800D25334 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				A19862191DD3836D0090F053 /* LoginScene.cpp */,
-				A198621A1DD3836D0090F053 /* LoginScene.h */,
+				4319D3E01E67134600110F92 /* LoginScene.cpp */,
+				4319D3E11E67134600110F92 /* LoginScene.h */,
 				A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */,
 				A19862141DD3836D0090F053 /* ChildSelectorScene.h */,
 			);
@@ -1695,7 +1695,6 @@
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				431A2A151E439BFE00DC0F3B /* MPABTestDesignerDeviceInfoRequestMessage.m in Sources */,
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
-				A19862251DD3836D0090F053 /* LoginScene.cpp in Sources */,
 				431A2A1D1E439BFE00DC0F3B /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				A15B2FB21DEDD1E000D25334 /* JWTTool.cpp in Sources */,
 				43069CF81E3B5D2A00D6A631 /* SlideShowScene.cpp in Sources */,
@@ -1715,6 +1714,7 @@
 				431A2A0A1E439BFE00DC0F3B /* Mixpanel+AutomaticEvents.m in Sources */,
 				431A2A441E439BFE00DC0F3B /* MPTweakStore.m in Sources */,
 				431A2A341E439BFE00DC0F3B /* MPObjectSerializer.m in Sources */,
+				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
 				431A2A481E439BFE00DC0F3B /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
 				A15B2FBA1DEDD1EA00D25334 /* HMACSHA256_javaCaller.cpp in Sources */,

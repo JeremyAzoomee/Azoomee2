@@ -5,49 +5,46 @@
 #include "TextInputLayer.h"
 #include "ElectricDreamsButton.h"
 #include "MessageBox.h"
-#include "OfflineChecker.h"
 
 USING_NS_CC;
 
-class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate
+enum ScreenLocationEnum { emailScreen, passwordScreen};
+
+class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
     long _errorCode;
     
-    TextInputLayer *_usernameTextInput;
-    TextInputLayer *_passwordTextInput;
+    TextInputLayer *emailTextInput;
+    TextInputLayer *passwordTextInput;
     
     cocos2d::Size visibleSize;
     Vec2 origin;
-    Layer *loginContent;
     
-    ElectricDreamsButton *loginOptionButton;
-    ElectricDreamsButton *signUpOptionButton;
-    ElectricDreamsButton *emailBackButton;
-    ElectricDreamsButton *emailNextButton;
-    ElectricDreamsButton *passwordBackButton;
-    ElectricDreamsButton *loginButton;
-    ElectricDreamsButton *previewModeButton;
+    ScreenLocationEnum currentScreen;
+    
+    Label* title;
+    
+    ElectricDreamsButton *backButton;
+    ElectricDreamsButton *nextButton;
+
+    std::string username;
+    std::string password;
+    
+    void getUserDefaults();
     
     void addVisualElementsToScene();
-    void addFunctionalElementsToScene();
-    void addContentLayerToScene();
-    void addTextBoxesToLayer();
-    void addButtonsToLayer();
-    void addLabelsToLayer();
+    void addLabelToScene();
+    void addTextboxScene();
+    void addButtonsScene();
+
+    void changeElementsToPasswordScreen();
+    void changeElementsToEmailScreen();
     
-    void disableButton(Node* button);
-    void enableButton(Node* button);
+    void backButtonPressed();
+    void nextButtonPressed();
     
-    void setTextInputFocus(TextInputLayer* textInputLayer);
-    
-    void switchToSignupScene(ElectricDreamsButton* button);
-    void moveToAndSetupEmailScreen(ElectricDreamsButton* button);
-    void moveToBackToSelectionScreen(ElectricDreamsButton* button);
-    void moveToAndSetupPasswordScreen(ElectricDreamsButton* button);
-    void login(ElectricDreamsButton* button);
-    void autoLogin(std::string username, std::string password);
-    void moveToPreviewScene();
+
     
     virtual void onEnterTransitionDidFinish();
     
@@ -58,7 +55,7 @@ public:
     static Scene* createScene(long errorCode);
     static Scene* createSceneWithAutoLogin();
     static Scene* createSceneWithAutoLoginAndErrorDisplay();
-
+    
     virtual bool init();
     
     //Delegate Functions
@@ -66,8 +63,6 @@ public:
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
-    void connectivityStateChanged(bool online);
-
     CREATE_FUNC(LoginScene);
 };
 

@@ -14,6 +14,7 @@
 #include "AudioMixer.h"
 #include "StringMgr.h"
 #include "AnalyticsSingleton.h"
+#include "LoginScene.h"
 
 USING_NS_CC;
 
@@ -425,6 +426,7 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == previewLoginButton)
     {
-        MessageBox::createPreviewLoginSignupMessageBox();
+        auto loginScene = LoginScene::createScene(0);
+        Director::getInstance()->replaceScene(loginScene);
     }
 }

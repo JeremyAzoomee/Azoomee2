@@ -217,6 +217,7 @@ void ElectricDreamsButton::callDelegateFunction(float dt)
     }
     
     this->getDelegate()->buttonPressed(this);
+    buttonPressed = false;
 }
 
 //---------------------- public Functions After Setup -----------------------------
