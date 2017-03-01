@@ -80,7 +80,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/OfflineChecker.cpp \
                    ../../../Classes/OfflineHubBackButton.cpp \
                    ../../../Classes/OfflineText.cpp \
-                   ../../../Classes/HQSceneElementVisual.cpp
+                   ../../../Classes/HQSceneElementVisual.cpp \
+                   ../../../Classes/HQSceneArtsApp.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

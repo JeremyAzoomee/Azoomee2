@@ -25,6 +25,7 @@
 		02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595B11E5B495B0052F395 /* HQSceneElementVisual.cpp */; };
 		02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595B71E5CA2690052F395 /* OfflineHubBackButton.cpp */; };
 		02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595C11E5D9EE70052F395 /* OfflineText.cpp */; };
+		02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -301,6 +302,8 @@
 		02E595B81E5CA2690052F395 /* OfflineHubBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubBackButton.h; sourceTree = "<group>"; };
 		02E595C11E5D9EE70052F395 /* OfflineText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineText.cpp; sourceTree = "<group>"; };
 		02E595C21E5D9EE70052F395 /* OfflineText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineText.h; sourceTree = "<group>"; };
+		02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneArtsApp.cpp; sourceTree = "<group>"; };
+		02E595C91E66E2160052F395 /* HQSceneArtsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneArtsApp.h; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1262,6 +1265,8 @@
 			children = (
 				A19862151DD3836D0090F053 /* HQScene.cpp */,
 				A19862161DD3836D0090F053 /* HQScene.h */,
+				02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */,
+				02E595C91E66E2160052F395 /* HQSceneArtsApp.h */,
 				02E595B01E5B40BE0052F395 /* HQSceneElement */,
 				025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */,
 				025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */,
@@ -1667,6 +1672,7 @@
 				A15B2FB91DEDD1EA00D25334 /* HMACSHA256_ios.mm in Sources */,
 				431A2A161E439BFE00DC0F3B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
+				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
 				D13C401C1E33A0F0002360A6 /* ExitOrLogoutLayer.cpp in Sources */,
 				A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */,
 				431A2A301E439BFE00DC0F3B /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
