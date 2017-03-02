@@ -261,7 +261,7 @@ void AnalyticsSingleton::childProfileOomeeEvent(int oomeeNumber)
     std::string eventID = "childProfileOomee";
     
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
+    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNumber);
     
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
@@ -272,7 +272,7 @@ void AnalyticsSingleton::childProfileCreatedSuccessEvent(int oomeeNumber)
     
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Method"] = "App";
-    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
+    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNumber);
     
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
@@ -293,7 +293,7 @@ void AnalyticsSingleton::hubTapOomeeEvent(int oomeeNumber, std::string oomeeActi
     std::string eventID = "tapOomee";
     
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getOomeeColour(oomeeNumber);
+    mixPanelProperties["SelectedOomee"] = ConfigStorage::getInstance()->getHumanReadableNameForOomee(oomeeNumber);
     mixPanelProperties["OomeeAnimation"] = oomeeAction;
     
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);

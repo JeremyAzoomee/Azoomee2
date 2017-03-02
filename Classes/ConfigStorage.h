@@ -1,4 +1,5 @@
 #include "cocos2d.h"
+#include "external/json/document.h"
 
 class ConfigStorage : public cocos2d::Ref
 {
@@ -27,7 +28,7 @@ public:
     //ChildAccountScene settings
     std::string getNameForOomee(int number);
     std::string getOomeePNGName(int number);
-    std::string getOomeeColour(int number);
+    std::string getHumanReadableNameForOomee(int number);
     std::string getUrlForOomee(int number);
     int getOomeeNumberForUrl(std::string url);
     
@@ -68,4 +69,17 @@ public:
     //UserDefaults First Time User for Slideshow
     void setFirstSlideShowSeen();
     bool shouldShowFirstSlideShowScene();
+    
+private:
+    rapidjson::Document parseJsonConfigurationFile(std::string fileName);
+    
+    rapidjson::Document BaseSceneConfiguration;
+    rapidjson::Document HQSceneConfiguration;
+    rapidjson::Document ImageContainerConfiguration;
+    rapidjson::Document NavigationConfiguration;
+    rapidjson::Document OomeeAnimationTypes;
+    rapidjson::Document OomeeConfiguration;
+    
+    cocos2d::Point visualOrigin;
+    cocos2d::Size visualSize;
 };
