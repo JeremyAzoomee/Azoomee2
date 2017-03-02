@@ -75,18 +75,15 @@ void OnboardingScene::addLabelToScene()
 void OnboardingScene::addTextboxScene()
 {
     emailTextInput = TextInputLayer::createWithSize(Size(1500,131), INPUT_IS_EMAIL);
-    emailTextInput->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.73));
     emailTextInput->setDelegate(this);
     this->addChild(emailTextInput);
     
     passwordTextInput = TextInputLayer::createWithSize(Size(1500,131), INPUT_IS_PASSWORD);
-    passwordTextInput->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.73));
     passwordTextInput->setDelegate(this);
     passwordTextInput->setEditboxVisibility(false);
     this->addChild(passwordTextInput);
     
     pinTextInput = TextInputLayer::createWithSize(Size(400,131), INPUT_IS_PIN);
-    pinTextInput->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.73));
     pinTextInput->setDelegate(this);
     pinTextInput->setEditboxVisibility(false);
     this->addChild(pinTextInput);

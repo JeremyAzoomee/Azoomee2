@@ -23,6 +23,7 @@ private:
     cocos2d::Vec2 origin;
     
     ElectricDreamsButton *previewLoginButton;
+    ElectricDreamsButton *previewSignUpButton;
 
     //MenuItem creation phase
     cocos2d::Sprite* addMenuItemImage(int itemNumber);
@@ -38,6 +39,7 @@ private:
     void moveMenuPointsToCircleState(float duration);
     void createSettingsButton();
     void createPreviewLoginButton();
+    void createPreviewSignUpButton();
     
     //Handling created menuitems or all menuitems
     void turnOffAllMenuItems();

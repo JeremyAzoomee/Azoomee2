@@ -15,6 +15,7 @@
 #include "StringMgr.h"
 #include "AnalyticsSingleton.h"
 #include "LoginScene.h"
+#include "OnboardingScene.h"
 
 USING_NS_CC;
 
@@ -65,7 +66,10 @@ bool NavigationLayer::init()
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
         createSettingsButton();
     else
+    {
         createPreviewLoginButton();
+        createPreviewSignUpButton();
+    }
     
     return true;
 }
@@ -206,12 +210,23 @@ void NavigationLayer::createSettingsButton()
 void NavigationLayer::createPreviewLoginButton()
 {
     previewLoginButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
-    previewLoginButton->setCenterPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width/2 + previewLoginButton->getContentSize().height/2, origin.y + visibleSize.height- previewLoginButton->getContentSize().height));
+    previewLoginButton->setCenterPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width/2 + previewLoginButton->getContentSize().height/2, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.5));
     previewLoginButton->setDelegate(this);
     previewLoginButton->setMixPanelButtonName("PreviewLogin");
     this->addChild(previewLoginButton);
     
     previewLoginButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/2, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.5)), 2), NULL));
+}
+
+void NavigationLayer::createPreviewSignUpButton()
+{
+    previewSignUpButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP));
+    previewSignUpButton->setCenterPosition(Vec2(origin.x - previewSignUpButton->getContentSize().width/2 - previewSignUpButton->getContentSize().height/2, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.5));
+    previewSignUpButton->setDelegate(this);
+    previewSignUpButton->setMixPanelButtonName("PreviewSignUp");
+    this->addChild(previewSignUpButton);
+    
+    previewSignUpButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x + previewSignUpButton->getContentSize().height/2, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.5)), 2), NULL));
 }
 
 void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
@@ -428,5 +443,10 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     {
         auto loginScene = LoginScene::createScene(0);
         Director::getInstance()->replaceScene(loginScene);
+    }
+    else if(button == previewSignUpButton)
+    {
+        auto onboardingScene = OnboardingScene::createScene(0);
+        Director::getInstance()->replaceScene(onboardingScene);
     }
 }

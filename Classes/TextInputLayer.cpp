@@ -5,12 +5,16 @@
 
 TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputType)
 {
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
     auto layer = TextInputLayer::create();
     layer->setContentSize(inputBoxSize);
 
     layer->createEditBoxArea();
     layer->textInputType = textInputType;
     layer->createEditBox();
+    layer->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.73));
     
     return layer;
 }
