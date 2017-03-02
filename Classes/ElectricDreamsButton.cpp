@@ -172,9 +172,9 @@ ElectricDreamsButton* ElectricDreamsButton::createOomeeButtonWithOutline(int oom
 ElectricDreamsButton* ElectricDreamsButton::createOomeeAsButton(int oomeeNumber)
 {
     auto layer = ElectricDreamsButton::create();
-    layer->setContentSize(Size(300,400));
+    layer->setContentSize(Size(300,300));
     layer->oomeeLayer = OomeeButtonLayer::createOomeeLayer(oomeeNumber);
-    layer->oomeeLayer->setPosition(layer->getContentSize().width/2, layer->getContentSize().height/2);
+    layer->oomeeLayer->setPosition(layer->getContentSize().width/2, 0);
     layer->addChild(layer->oomeeLayer);
     
     layer->setTag(oomeeNumber);

@@ -10,6 +10,7 @@
 #include "HQHistoryManager.h"
 #include "AnalyticsSingleton.h"
 #include "StringMgr.h"
+#include "ChildAccountSuccessScene.h"
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
@@ -57,8 +58,10 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
         case VideoPlayer::EventType::COMPLETED:
         {
             AnalyticsSingleton::getInstance()->registerAppVersion();
+            auto slideShowScene = ChildAccountSuccessScene::createScene();
+            Director::getInstance()->replaceScene(slideShowScene);
             
-            if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+            /*if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
             {
                 auto slideShowScene = SlideShowScene::createScene();
                 Director::getInstance()->replaceScene(slideShowScene);
@@ -91,7 +94,7 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
                     Director::getInstance()->replaceScene(loginScene);
                 }
                 
-            }
+            }*/
             break;
         }
         default:

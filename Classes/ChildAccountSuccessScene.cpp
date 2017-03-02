@@ -44,15 +44,15 @@ void ChildAccountSuccessScene::addVisualElementsToScene()
     
     auto circle = Sprite::create("res/childSelection/selection.png");
     circle->setPosition(origin.x+visibleSize.width/2, origin.y+visibleSize.height/2);
+    circle->setScale(3.5);
     this->addChild(circle);
 }
 
 void ChildAccountSuccessScene::addButtonsToScene()
 {
-    auto oomeeButton = ElectricDreamsButton::createOomeeAsButton(0);
+    oomeeButton = ElectricDreamsButton::createOomeeAsButton(0);
     oomeeButton->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height/2));
     oomeeButton->setDelegate(this);
-    oomeeButton->setVisible(false);
     oomeeButton->setScale(2);
     this->addChild(oomeeButton);
 }
@@ -73,7 +73,7 @@ void ChildAccountSuccessScene::buttonPressed(ElectricDreamsButton* button)
 
 void ChildAccountSuccessScene::callDelegateFunction(float dt)
 {
-    oomeeButton->hideOomee();
-    AudioMixer::getInstance()->stopOomeeEffect();
-    BackEndCaller::getInstance()->childLogin(0);
+    //oomeeButton->hideOomee();
+    //AudioMixer::getInstance()->stopOomeeEffect();
+    //BackEndCaller::getInstance()->childLogin(0);
 }
