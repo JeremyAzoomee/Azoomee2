@@ -8,7 +8,6 @@
 #include "TextInputChecker.h"
 #include "OfflineHubScene.h"
 #include "HQHistoryManager.h"
-#include "StringMgr.h"
 #include "AnalyticsSingleton.h"
 
 USING_NS_CC;
@@ -74,6 +73,8 @@ bool LoginScene::init()
 
 void LoginScene::onEnterTransitionDidFinish()
 {
+    currentScreen = emailLoginScreen;
+    
     OfflineChecker::getInstance()->setDelegate(this);
     
     if(shouldDoAutoLogin)
@@ -183,7 +184,7 @@ void LoginScene::changeElementsToPasswordScreen()
     emailTextInput->setEditboxVisibility(false);
     passwordTextInput->setEditboxVisibility(true);
     nextButton->setVisible(false);
-    currentScreen = passwordScreen;
+    currentScreen = passwordLoginScreen;
     passwordTextInput->focusAndShowKeyboard();
 }
 
@@ -193,28 +194,28 @@ void LoginScene::changeElementsToEmailScreen()
     passwordTextInput->setEditboxVisibility(false);
     passwordTextInput->setText("");
     emailTextInput->setEditboxVisibility(true);
-    currentScreen = emailScreen;
+    currentScreen = emailLoginScreen;
     nextButton->setVisible(isValidEmailAddress(emailTextInput->getText().c_str()));
     emailTextInput->focusAndShowKeyboard();
 }
 
 void LoginScene::backButtonPressed()
 {
-    if(currentScreen == emailScreen)
+    if(currentScreen == emailLoginScreen)
     {
         HQHistoryManager::getInstance()->emptyHistory();
         auto baseScene = BaseScene::createScene();
         Director::getInstance()->replaceScene(baseScene);
     }
-    else if(currentScreen == passwordScreen)
+    else if(currentScreen == passwordLoginScreen)
         changeElementsToEmailScreen();
 }
 
 void LoginScene::nextButtonPressed()
 {
-    if(currentScreen == emailScreen)
+    if(currentScreen == emailLoginScreen)
         changeElementsToPasswordScreen();
-    else if(currentScreen == passwordScreen)
+    else if(currentScreen == passwordLoginScreen)
     {
         password = passwordTextInput->getText();
         login();
@@ -232,10 +233,7 @@ void LoginScene::login()
 //-------------DELEGATE FUNCTIONS-------------------
 void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    if(currentScreen == emailScreen && inputLayer == emailTextInput)
-        nextButton->setVisible(isValid);
-    else if(currentScreen == passwordScreen && inputLayer == passwordTextInput)
-        nextButton->setVisible(isValid);
+    nextButton->setVisible(isValid);
 }
 void LoginScene::buttonPressed(ElectricDreamsButton* button)
 {

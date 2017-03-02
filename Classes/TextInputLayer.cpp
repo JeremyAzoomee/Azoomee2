@@ -170,6 +170,7 @@ bool TextInputLayer::inputIsValid()
 
 void TextInputLayer::setEditboxVisibility(bool visibility)
 {
+    editBoxArea->setVisible(visibility);
     editBox->setVisible(visibility);
 }
 
