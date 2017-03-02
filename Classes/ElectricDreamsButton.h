@@ -50,7 +50,11 @@ public:
     static ElectricDreamsButton* createAcceptButton();
     static ElectricDreamsButton* createCancelButton();
     static ElectricDreamsButton* createSettingsButton(float creationDelay);
-    static ElectricDreamsButton* createOomeeButton(int oomeeNumber, std::string oomeeName);
+    static ElectricDreamsButton* createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName);
+    static ElectricDreamsButton* createOomeeAsButton(int oomeeNumber);
+    
+    void playOomeeAnimation(std::string OomeeAnimation, bool loop);
+    void hideOomee();
     
     void setCenterPosition(Vec2 position);
     Vec2 getCenterPosition();

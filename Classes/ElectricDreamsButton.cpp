@@ -147,7 +147,7 @@ ElectricDreamsButton* ElectricDreamsButton::createSettingsButton(float creationD
     return layer;
 }
 
-ElectricDreamsButton* ElectricDreamsButton::createOomeeButton(int oomeeNumber, std::string oomeeName)
+ElectricDreamsButton* ElectricDreamsButton::createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName)
 {
     auto layer = ElectricDreamsButton::create();
     layer->addChild(layer->createSpriteButton("res/buttons/rectangle2.png", "" ));
@@ -169,6 +169,32 @@ ElectricDreamsButton* ElectricDreamsButton::createOomeeButton(int oomeeNumber, s
     return layer;
 }
 
+ElectricDreamsButton* ElectricDreamsButton::createOomeeAsButton(int oomeeNumber)
+{
+    auto layer = ElectricDreamsButton::create();
+    layer->setContentSize(Size(300,400));
+    layer->oomeeLayer = OomeeButtonLayer::createOomeeLayer(oomeeNumber);
+    layer->oomeeLayer->setPosition(layer->getContentSize().width/2, layer->getContentSize().height/2);
+    layer->addChild(layer->oomeeLayer);
+    
+    layer->setTag(oomeeNumber);
+    
+    layer->addListener();
+    
+    return layer;
+}
+
+void ElectricDreamsButton::playOomeeAnimation(std::string OomeeAnimation, bool loop)
+{
+    oomeeLayer->playAnimation(OomeeAnimation, loop);
+}
+
+void ElectricDreamsButton::hideOomee()
+{
+    oomeeLayer->hideOomee();
+}
+
+
 //---------------------- Listener Function -----------------------------
 
 void ElectricDreamsButton::addListener()
@@ -189,12 +215,7 @@ void ElectricDreamsButton::addListener()
             AudioMixer::getInstance()->playEffect(buttonAudioFile);
             sendMixPanelEvent();
             
-            if(oomeeLayer)
-            {
-                oomeeLayer->animationBeforeButtonPress();
-                this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 2);
-            }
-            else if(isSettingsButton)
+            if(isSettingsButton)
                 ExitOrLogoutLayer::create();
             else
                 this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 0.1);
@@ -210,12 +231,6 @@ void ElectricDreamsButton::addListener()
 
 void ElectricDreamsButton::callDelegateFunction(float dt)
 {
-    if(oomeeLayer)
-    {
-        oomeeLayer->hideOomee();
-        AudioMixer::getInstance()->stopOomeeEffect();
-    }
-    
     this->getDelegate()->buttonPressed(this);
     buttonPressed = false;
 }

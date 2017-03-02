@@ -37,6 +37,10 @@
 #define CHILDACCOUNTSCENE_DOB_MONTH_PLACEHOLDER "ChildAccountScene/dob_month_placeholder"
 #define CHILDACCOUNTSCENE_DOB_YEAR_PLACEHOLDER "ChildAccountScene/dob_year_placeholder"
 
+//----------- CHILD ACCOUNT SUCCESS SCENE ------------
+
+#define CHILDACCOUNTSUCCESSSCENE_REQUEST_NAME_LABEL "ChildAccountSuccessScene/title_label"
+
 //------------ OTHER LABELS ------------------
 
 #define PIN_REQUEST_LABEL "OtherLabels/pin_request_label"
@@ -50,7 +54,9 @@
 #define BUTTON_EXIT_APP "GenericButtons/exit_app"
 #define BUTTON_LOG_OUT "GenericButtons/log_out"
 #define BUTTON_SIGN_UP "GenericButtons/sign_up"
+#define BUTTON_SIGN_UP_MULTILINE "GenericButtons/sign_up_multiline"
 #define BUTTON_LOG_IN "GenericButtons/log_in"
+#define BUTTON_LOG_IN_MULTILINE "GenericButtons/log_in_multiline"
 #define BUTTON_CANCEL "GenericButtons/cancel"
 #define BUTTON_SKIP "GenericButtons/skip"
 #define BUTTON_START_EXPLORING "GenericButtons/start_exploring"

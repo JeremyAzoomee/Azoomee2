@@ -141,7 +141,7 @@ void HQSceneElementVisual::addLabelsToImage(std::map<std::string, std::string>it
     baseLayer->addChild(descriptionLabel);
     
     auto titleLabel = createLabelContentTitle(itemData["title"]);
-    titleLabel->setAnchorPoint(Vec2(0.0f, 0.8f));
+    titleLabel->setAnchorPoint(Vec2(0.0f, 0.6f));
     titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
     reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
     baseLayer->addChild(titleLabel);

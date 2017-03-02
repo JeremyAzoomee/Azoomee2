@@ -33,11 +33,16 @@ bool OomeeButtonLayer::init()
     return true;
 }
 
-void OomeeButtonLayer::animationBeforeButtonPress()
+void OomeeButtonLayer::playAnimation(std::string OomeeAnimation, bool loop)
 {
-    //"Build_Pop"
-    oomee->setAnimation(0, "Build_Pop", false);
-    AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), "Build_Pop");
+    AudioMixer::getInstance()->stopOomeeEffect();
+    oomee->setAnimation(0, OomeeAnimation, false);
+    AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), OomeeAnimation);
+    
+    if(loop)
+        loopAnimation = OomeeAnimation;
+    else
+        loopAnimation = "";
 }
 
 void OomeeButtonLayer::hideOomee()
@@ -68,7 +73,11 @@ void OomeeButtonLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBe
 {
     auto oomeeAnimationComplete = [=] (int trackIdx, int loopCount)
     {
-        if(animationsTillWave ==0)
+        if(loopAnimation != "")
+        {
+            toBeAddedTo->addAnimation(0, loopAnimation, false);
+        }
+        else if(animationsTillWave <=0)
         {
             animationsTillWave = 3;
             toBeAddedTo->addAnimation(0, "Build_Simple_Wave", false);

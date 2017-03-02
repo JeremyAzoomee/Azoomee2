@@ -63,11 +63,11 @@ void OnboardingScene::addVisualElementsToScene()
 void OnboardingScene::addLabelToScene()
 {
     title = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
-    title->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.9);
+    //title->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.9);
     this->addChild(title);
     
     subTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));
-    subTitle->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.82);
+    //subTitle->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.80);
     subTitle->setVisible(false);
     this->addChild(subTitle);
 }
@@ -116,6 +116,7 @@ void OnboardingScene::clearElementsOnScreen()
 void OnboardingScene::changeElementsToPasswordScreen()
 {
     clearElementsOnScreen();
+    passwordTextInput->setText("");
     title->setString(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(emailTextInput->getText());
     passwordTextInput->setEditboxVisibility(true);

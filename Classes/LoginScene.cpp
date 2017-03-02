@@ -135,11 +135,9 @@ void LoginScene::addVisualElementsToScene()
 void LoginScene::addLabelToScene()
 {
     auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
-    versionTitle->setPosition(origin.x + visibleSize.width/2,versionTitle->getContentSize().height);
     this->addChild(versionTitle);
 
     title = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
-    title->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.9);
     this->addChild(title);
 }
 
@@ -167,9 +165,7 @@ void LoginScene::addButtonsScene()
     nextButton->setCenterPosition(Vec2(origin.x + visibleSize.width -nextButton->getContentSize().width*.7, origin.y+ visibleSize.height - nextButton->getContentSize().height*.7));
     nextButton->setDelegate(this);
     
-    if(username =="")
-        nextButton->setVisible(false);
-
+    nextButton->setVisible(isValidEmailAddress(emailTextInput->getText().c_str()));
     this->addChild(nextButton);
 }
 

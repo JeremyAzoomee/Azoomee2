@@ -9,4 +9,3 @@ bool isDate(int day, int month, int year);
 bool childNameExists(std::string newChildsName);
 bool isValidChildName(const char *childName);
 bool hasAzoomeeEmailAddress(std::string emailAddress);
-std::string stringToLower(std::string input);

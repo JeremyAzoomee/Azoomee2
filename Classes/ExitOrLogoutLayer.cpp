@@ -59,8 +59,6 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     //-------- VERSION NUBMER ---------
     
     auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
-    versionTitle->setPosition(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.05);
-    versionTitle->setColor(Color3B(28, 244, 244));
     backgroundLayer->addChild(versionTitle);
     
     // ------- CANCEL BUTTON ----------
