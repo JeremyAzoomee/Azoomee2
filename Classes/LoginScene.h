@@ -5,12 +5,13 @@
 #include "TextInputLayer.h"
 #include "ElectricDreamsButton.h"
 #include "MessageBox.h"
+#include "OfflineChecker.h"
 
 USING_NS_CC;
 
 enum ScreenLocationEnum { emailScreen, passwordScreen};
 
-class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
+class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public OfflineCheckerDelegate
 {
 private:
     long _errorCode;
@@ -44,7 +45,7 @@ private:
     void backButtonPressed();
     void nextButtonPressed();
     
-
+    void login();
     
     virtual void onEnterTransitionDidFinish();
     
@@ -62,6 +63,7 @@ public:
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void connectivityStateChanged(bool online);
     
     CREATE_FUNC(LoginScene);
 };

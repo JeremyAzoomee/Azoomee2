@@ -6,6 +6,10 @@
 #include "BaseScene.h"
 #include "BackEndCaller.h"
 #include "TextInputChecker.h"
+#include "OfflineHubScene.h"
+#include "HQHistoryManager.h"
+#include "StringMgr.h"
+#include "AnalyticsSingleton.h"
 
 USING_NS_CC;
 
@@ -56,11 +60,10 @@ bool LoginScene::init()
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    getUserDefaults();
-    
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
+    getUserDefaults();
     addVisualElementsToScene();
     addLabelToScene();
     addTextboxScene();
@@ -71,7 +74,7 @@ bool LoginScene::init()
 
 void LoginScene::onEnterTransitionDidFinish()
 {
-
+    OfflineChecker::getInstance()->setDelegate(this);
     
     if(shouldDoAutoLogin)
     {
@@ -79,7 +82,6 @@ void LoginScene::onEnterTransitionDidFinish()
         
         if((username != "")&&(password != ""))
         {
-            
             if(shouldDisplayMessage)
             {
                 MessageBox::createWith(ERROR_CODE_LOGGED_YOU_BACK_IN, this);
@@ -88,8 +90,7 @@ void LoginScene::onEnterTransitionDidFinish()
             else
             {
                 CCLOG("Doing autologin!");
-                
-                //autoLogin(username, password);
+                login();
                 return;
             }
         }
@@ -99,14 +100,15 @@ void LoginScene::onEnterTransitionDidFinish()
         UserDefault* def = UserDefault::getInstance();
         def->setStringForKey("password", "");
         def->flush();
+        password = "";
     }
     
     if(_errorCode !=0)
     {
-        MessageBox::createWith(_errorCode, emailTextInput, nullptr);
+        MessageBox::createWith(_errorCode, emailTextInput, this);
     }
-    
-    emailTextInput->focusAndShowKeyboard();
+    else
+        emailTextInput->focusAndShowKeyboard();
     
 #ifdef autologin
     BackEndCaller::getInstance()->login("tamas.bonis@azoomee.com", "B0Ta1983!");
@@ -172,11 +174,12 @@ void LoginScene::addButtonsScene()
     this->addChild(nextButton);
 }
 
-//------------CHANGE INPUT----------------------
+//------------CHANGE SCREEN VISUALS ON BUTTON PRESS----------------------
 void LoginScene::changeElementsToPasswordScreen()
 {
     title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL));
     username = emailTextInput->getText();
+    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
     emailTextInput->setEditboxVisibility(false);
     passwordTextInput->setEditboxVisibility(true);
     nextButton->setVisible(false);
@@ -199,6 +202,7 @@ void LoginScene::backButtonPressed()
 {
     if(currentScreen == emailScreen)
     {
+        HQHistoryManager::getInstance()->emptyHistory();
         auto baseScene = BaseScene::createScene();
         Director::getInstance()->replaceScene(baseScene);
     }
@@ -212,9 +216,17 @@ void LoginScene::nextButtonPressed()
         changeElementsToPasswordScreen();
     else if(currentScreen == passwordScreen)
     {
-        auto backEndCaller = BackEndCaller::getInstance();
-        backEndCaller->login(username, passwordTextInput->getText());
+        password = passwordTextInput->getText();
+        login();
     }
+}
+
+//------------PRIVATE OTHER FUNCTIONS------------
+
+void LoginScene::login()
+{
+    auto backEndCaller = BackEndCaller::getInstance();
+    backEndCaller->login(username, password);
 }
 
 //-------------DELEGATE FUNCTIONS-------------------
@@ -234,5 +246,16 @@ void LoginScene::buttonPressed(ElectricDreamsButton* button)
 }
 void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    
+    if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_LOGGED_YOU_BACK_IN)[ERROR_TITLE])
+        login();
+    else
+        emailTextInput->focusAndShowKeyboard();
+}
+
+void LoginScene::connectivityStateChanged(bool online)
+{
+    if(!online)
+    {
+        Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+    }
 }
