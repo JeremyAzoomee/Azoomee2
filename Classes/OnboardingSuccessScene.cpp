@@ -72,8 +72,12 @@ void OnboardingSuccessScene::addLabelsToLayer()
 
 void OnboardingSuccessScene::buttonPressed(ElectricDreamsButton* button)
 {
-    oomeeButton->playOomeeAnimation("Build_Pop", false);
-    this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
+    if(!buttonHasBeenPressed)
+    {
+        buttonHasBeenPressed = true;
+        oomeeButton->playOomeeAnimation("Build_Pop", false);
+        this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
+    }
 }
 
 void OnboardingSuccessScene::callDelegateFunction(float dt)

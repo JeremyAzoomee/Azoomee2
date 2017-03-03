@@ -21,6 +21,8 @@ private:
     
     void addOomeeToScreen();
     
+    bool buttonHasBeenPressed;
+    
 public:
     static cocos2d::Scene* createScene();
     

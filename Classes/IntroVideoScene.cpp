@@ -58,10 +58,8 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
         case VideoPlayer::EventType::COMPLETED:
         {
             AnalyticsSingleton::getInstance()->registerAppVersion();
-            auto slideShowScene = ChildAccountSuccessScene::createScene();
-            Director::getInstance()->replaceScene(slideShowScene);
             
-            /*if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+            if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
             {
                 auto slideShowScene = SlideShowScene::createScene();
                 Director::getInstance()->replaceScene(slideShowScene);
@@ -94,7 +92,7 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
                     Director::getInstance()->replaceScene(loginScene);
                 }
                 
-            }*/
+            }
             break;
         }
         default:

@@ -50,9 +50,11 @@ public:
     static ElectricDreamsButton* createAcceptButton();
     static ElectricDreamsButton* createCancelButton();
     static ElectricDreamsButton* createSettingsButton(float creationDelay);
+    static ElectricDreamsButton* createAddButton();
+    
+    // ---------- OOMEE BUTTONS AND FUNCTIONS------------
     static ElectricDreamsButton* createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName);
     static ElectricDreamsButton* createOomeeAsButton(int oomeeNumber);
-    
     void playOomeeAnimation(std::string OomeeAnimation, bool loop);
     void hideOomee();
     

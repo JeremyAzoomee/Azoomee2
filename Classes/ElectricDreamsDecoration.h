@@ -7,3 +7,4 @@ void addSideWiresToScreen(Node* parentLayer);
 
 void addGlowToScreen(Node* parentLayer, float withDelay);
 void addGlowToScreen(Node* parentLayer);
+Sprite* createGlow();

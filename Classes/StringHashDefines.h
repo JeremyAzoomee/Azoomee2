@@ -60,3 +60,4 @@
 #define BUTTON_CANCEL "GenericButtons/cancel"
 #define BUTTON_SKIP "GenericButtons/skip"
 #define BUTTON_START_EXPLORING "GenericButtons/start_exploring"
+#define BUTTON_ADD_ANOTHER_LABEL "GenericButtons/add_another"

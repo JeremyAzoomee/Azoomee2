@@ -14,12 +14,15 @@ private:
     Vec2 origin;
     
     ElectricDreamsButton* oomeeButton;
+    ElectricDreamsButton* addChildButton;
     
     void addVisualElementsToScene();
     void addButtonsToScene();
     void addLabelsToLayer();
     
     void addOomeeToScreen();
+    
+    bool buttonHasBeenPressed;
     
 public:
     static cocos2d::Scene* createScene();

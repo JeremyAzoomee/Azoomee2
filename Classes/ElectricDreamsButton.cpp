@@ -3,7 +3,8 @@
 #include "AudioMixer.h"
 #include "AnalyticsSingleton.h"
 #include "ElectricDreamsTextStyles.h"
-#include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsDecoration.h"
+
 
 bool ElectricDreamsButton::init()
 {
@@ -147,13 +148,24 @@ ElectricDreamsButton* ElectricDreamsButton::createSettingsButton(float creationD
     return layer;
 }
 
+ElectricDreamsButton* ElectricDreamsButton::createAddButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    layer->addChild(layer->createSpriteButton("res/childSelection/button_add_child.png", NEXT_BUTTON_AUDIO_EFFECT ));
+    layer->addListener();
+    
+    return layer;
+}
+
+//-------------OOMEE BUTTONS AND FUNCTIONS---------------------
+
 ElectricDreamsButton* ElectricDreamsButton::createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName)
 {
     auto layer = ElectricDreamsButton::create();
     layer->addChild(layer->createSpriteButton("res/buttons/rectangle2.png", "" ));
     layer->addListener();
     
-    Sprite* glow = Sprite::create("res/decoration/bg_glow.png");
+    Sprite* glow = createGlow();
     glow->setPosition(layer->getContentSize().width/2, layer->getContentSize().height*.6);
     glow->setScale(.3);
     layer->addChild(glow);
