@@ -374,7 +374,7 @@ void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
 void NavigationLayer::addBackButtonToNavigation()
 {
     auto backButtonImage = Sprite::create("res/hqscene/back_btn.png");
-    backButtonImage->setPosition(origin.x + backButtonImage->getContentSize().width, origin.y + visibleSize.height - backButtonImage->getContentSize().height);
+    backButtonImage->setPosition(origin.x +backButtonImage->getContentSize().width*.7, origin.y + visibleSize.height - backButtonImage->getContentSize().height*.7);
     backButtonImage->setOpacity(0);
     backButtonImage->setName("backButton");
     this->addChild(backButtonImage);

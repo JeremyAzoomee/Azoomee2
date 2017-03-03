@@ -112,7 +112,7 @@ void ChildAccountSuccessScene::buttonPressed(ElectricDreamsButton* button)
         {
             ModalMessages::getInstance()->startLoading();
             //Delay so loading screen has time to appear, due to long loading of Spines
-            this->scheduleOnce(schedule_selector(ChildAccountSuccessScene::moveToHubScene), 0.5);
+            this->scheduleOnce(schedule_selector(ChildAccountSuccessScene::moveToChildAccountScene), 0.5);
         }
     }
 }
