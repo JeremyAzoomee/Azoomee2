@@ -10,8 +10,6 @@ public:
     virtual bool init();
     void onEnter();
     CREATE_FUNC(MainHubBgElements);
-    
-    void quickBuild();
 };
 
 #endif

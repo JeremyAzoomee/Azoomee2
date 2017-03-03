@@ -55,8 +55,6 @@ void BaseScene::onEnterTransitionDidFinish()
 
 void BaseScene::startBuildingHQs()
 {
-    CCLOG("startBuildingHQs happen!!!!!!");
-    
     Layer *contentLayer = createContentLayer();
     
     addMainHubScene(contentLayer);

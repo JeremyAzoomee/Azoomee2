@@ -34,6 +34,15 @@ bool MainHubScene::init()
 
 void MainHubScene::onEnter()
 {
+    float oomeeDelay = 2.0;
+    float imageContainerDelay = 0.5;
+    
+    if(HQHistoryManager::getInstance()->noHistory())
+    {
+        oomeeDelay = 8.0;
+        imageContainerDelay = 2.0;
+    }
+    
     Size frameSize = Director::getInstance()->getOpenGLView()->getFrameSize();
     if(frameSize.width < 2732 / 2) zoomFactor = 2.0;
     else zoomFactor = 1.0;
@@ -59,24 +68,16 @@ void MainHubScene::onEnter()
         this->addChild(oomeeLayer);
     });
     
-    this->runAction(Sequence::create(DelayTime::create(8), funcCallAction1, NULL));
+    this->runAction(Sequence::create(DelayTime::create(oomeeDelay), funcCallAction1, NULL));
     
     auto funcCallAction2 = CallFunc::create([=](){
         
-         if(!HQHistoryManager::getInstance()->noHistory())
-         {
-             addBackgroundCirclesQuick();
-             addImageContainersQuick();
-         }
-         else
-         {
-             addBackgroundCircles();
-             addImageContainers();
-         }
+        addBackgroundCircles();
+        addImageContainers();
         
     });
     
-    this->runAction(Sequence::create(DelayTime::create(2.0), funcCallAction2, NULL));
+    this->runAction(Sequence::create(DelayTime::create(imageContainerDelay), funcCallAction2, NULL));
     
     Node::onEnter();
 }
@@ -97,7 +98,17 @@ void MainHubScene::addBackgroundCircles()
     {
         auto circle = createCirclesForBackground(i);
         this->addChild(circle);
-        circle->runAction(Sequence::create(DelayTime::create(i * 0.2), EaseElasticOut::create(ScaleTo::create(0.5, zoomFactor)), NULL));
+        
+        float delayTime = i * 0.2;
+        float scaleTime = 0.5;
+        
+        if(!HQHistoryManager::getInstance()->noHistory())
+        {
+            delayTime = 0;
+            scaleTime = 0;
+        }
+        
+        circle->runAction(Sequence::create(DelayTime::create(delayTime), EaseElasticOut::create(ScaleTo::create(scaleTime, zoomFactor)), NULL));
         
         int turnDirection = 1;
         if(i % 2 == 0) turnDirection = -1;
@@ -138,44 +149,15 @@ void MainHubScene::addImageContainers()
         
         for(int j = 0; j < elementsForHub.size(); j++)
         {
+            float delayTime = 2 + CCRANDOM_0_1();
+            
+            if(!HQHistoryManager::getInstance()->noHistory())
+            {
+                delayTime = 0;
+            }
+            
             if(j >= ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).size()) break;
-            imageIcon->createContainer(HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForHub.at(j)), 1 - (j * 0.3), 2 + CCRANDOM_0_1(), ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j));
-        }
-    }
-    
-    auto artsPreviewLayer = ArtsPreviewLayer::create();
-    this->addChild(artsPreviewLayer);
-}
-
-void MainHubScene::addBackgroundCirclesQuick()
-{
-    for(int i = 0; i < 5; i++)
-    {
-        auto circle = createCirclesForBackground(i);
-        circle->setScale(zoomFactor);
-        this->addChild(circle);
-        
-        int turnDirection = 1;
-        if(i % 2 == 0) turnDirection = -1;
-        circle->runAction(RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360 * turnDirection)));
-    }
-}
-
-void MainHubScene::addImageContainersQuick()
-{
-    auto imageIcon = ImageContainer::create();
-    imageIcon->setPosition(visibleSize / 2);
-    this->addChild(imageIcon);
-    
-    for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); i++)
-    {
-        std::vector<std::string> elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), i);
-        std::string fieldTitle = HQDataProvider::getInstance()->getTitleForRow(this->getName(), i);
-        
-        for(int j = 0; j < elementsForHub.size(); j++)
-        {
-            if(j >= ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).size()) break;
-            imageIcon->createContainer(HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForHub.at(j)), 1 - (j * 0.3), 0, ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j));
+            imageIcon->createContainer(HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForHub.at(j)), 1 - (j * 0.3), delayTime, ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j));
         }
     }
     

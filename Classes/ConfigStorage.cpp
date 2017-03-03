@@ -26,6 +26,17 @@ ConfigStorage::~ConfigStorage(void)
 bool ConfigStorage::init(void)
 {
     inArtsApp = 0;
+    
+    visualOrigin = Director::getInstance()->getVisibleOrigin();
+    visualSize = Director::getInstance()->getVisibleSize();
+    
+    BaseSceneConfiguration = parseJsonConfigurationFile("BaseSceneConfiguration.json");
+    HQSceneConfiguration = parseJsonConfigurationFile("HQSceneConfiguration.json");
+    ImageContainerConfiguration = parseJsonConfigurationFile("ImageContainerConfiguration.json");
+    NavigationConfiguration = parseJsonConfigurationFile("NavigationConfiguration.json");
+    OomeeAnimationTypes = parseJsonConfigurationFile("OomeeAnimationTypes.json");
+    OomeeConfiguration = parseJsonConfigurationFile("OomeeConfiguration.json");
+    
     return true;
 }
 
@@ -38,6 +49,23 @@ std::string ConfigStorage::getFileNameFromUrl(std::string url)
     int subLength = endPoint - startPoint;
     
     return url.substr(startPoint, subLength);
+}
+
+//-------------------------PRIVATE METHOD TO PARSE CONFIG JSON FILE--------
+
+rapidjson::Document ConfigStorage::parseJsonConfigurationFile(std::string fileName)
+{
+    std::string path = "res/configuration/" + fileName;
+    
+    std::string jsonString;
+    
+    if(!FileUtils::getInstance()->isFileExist(path)) jsonString = "";
+    else jsonString = FileUtils::getInstance()->getStringFromFile(path);
+    
+    rapidjson::Document returnObject;
+    returnObject.Parse(jsonString.c_str());
+    
+    return returnObject;
 }
 
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
@@ -75,302 +103,178 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
 //-------------------------Oomee settings---------------------------
 std::string ConfigStorage::getNameForOomee(int number)
 {
-    std::map<int, std::string> oomeeNames;
-    
-    oomeeNames[0] = "om_Pink";
-    oomeeNames[1] = "om_Yellow";
-    oomeeNames[2] = "om_Raspberry";
-    oomeeNames[3] = "om_Green";
-    oomeeNames[4] = "om_Blue";
-    
-    return oomeeNames[number];
+    std::string keyName = StringUtils::format("%d", number);
+    return OomeeConfiguration["nameForOomee"][keyName.c_str()].GetString();
 }
 
 std::string ConfigStorage::getOomeePNGName(int number)
 {
-    std::map<int, std::string> oomeeNames;
+    std::string path1 = OomeeConfiguration["pathForOomeeImages"].GetString();
+    std::string path2 = getNameForOomee(number);
     
-    oomeeNames[0] = "res/childSelection/om_Pink.png";
-    oomeeNames[1] = "res/childSelection/om_Yellow.png";
-    oomeeNames[2] = "res/childSelection/om_Raspberry.png";
-    oomeeNames[3] = "res/childSelection/om_Green.png";
-    oomeeNames[4] = "res/childSelection/om_Blue.png";
-    
-    return oomeeNames[number];
+    return path1 + path2;
 }
 
-std::string ConfigStorage::getOomeeColour(int number)
+std::string ConfigStorage::getHumanReadableNameForOomee(int number)
 {
-    std::map<int, std::string> oomeeNames;
-    
-    oomeeNames[0] = "Pink";
-    oomeeNames[1] = "Yellow";
-    oomeeNames[2] = "Raspberry";
-    oomeeNames[3] = "Green";
-    oomeeNames[4] = "Blue";
-    
-    return oomeeNames[number];
+    std::string keyName = StringUtils::format("%d", number);
+    return OomeeConfiguration["humanReadableNameForOomee"][keyName.c_str()].GetString();
 }
 
 std::string ConfigStorage::getUrlForOomee(int number)
 {
-    std::map<int, std::string> oomeeUrls;
-    
-    oomeeUrls[0] = "https://media.azoomee.com/static/thumbs/oomee_01.png";
-    oomeeUrls[1] = "https://media.azoomee.com/static/thumbs/oomee_03.png";
-    oomeeUrls[2] = "https://media.azoomee.com/static/thumbs/oomee_04.png";
-    oomeeUrls[3] = "https://media.azoomee.com/static/thumbs/oomee_05.png";
-    oomeeUrls[4] = "https://media.azoomee.com/static/thumbs/oomee_06.png";
-    
-    return oomeeUrls[number];
+    std::string keyName = StringUtils::format("%d", number);
+    return OomeeConfiguration["urlForOomee"][keyName.c_str()].GetString();
 }
 
 int ConfigStorage::getOomeeNumberForUrl(std::string url)
 {
-    std::map<std::string, int> oomeeNumbers;
-    
-    oomeeNumbers["oomee_01.png"] = 0;
-    oomeeNumbers["oomee_03.png"] = 1;
-    oomeeNumbers["oomee_04.png"] = 2;
-    oomeeNumbers["oomee_05.png"] = 3;
-    oomeeNumbers["oomee_06.png"] = 4;
-    
     std::string fileName = getFileNameFromUrl(url);
     
-    if ( oomeeNumbers.find(fileName) == oomeeNumbers.end() )
-    {
-        return 0;
-    }
-    else
-    {
-        return oomeeNumbers[fileName];
-    }
+    if(OomeeConfiguration["oomeeNumberForUrl"].HasMember(fileName.c_str())) return OomeeConfiguration["oomeeNumberForUrl"][fileName.c_str()].GetInt();
+    else return 0;
 }
 
 //-------------------------BASESCENE CONFIGURATION-------------------------
 Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 {
-    std::map<std::string, Point> result;
+    float x = BaseSceneConfiguration["HQScenePositions"][hqSceneName.c_str()]["x"].GetDouble();
+    float y = BaseSceneConfiguration["HQScenePositions"][hqSceneName.c_str()]["y"].GetDouble();
     
-    result["HOME"] = Point(0,0);
-    result["VIDEO HQ"] = Point(2732, 0);
-    result["GAME HQ"] = Point(0, -2048);
-    result["AUDIO HQ"] = Point(-2732, 0);
-    result["ARTS APP"] = Point(0, 2048);
-    result["NavigationLayer"] = Point(0, 0);
-    result["contentLayer"] = Point(0,0);
-    result["GROUP HQ"] = Point(0, 4096);
-    
-    return result[hqSceneName];
+    return Point(x,y);
 }
 
 //-------------------------HQSCENEELEMENT CONFIGURATION-------------------------
 
 cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string category)
 {
-    std::map<std::string, Size> sizes;
-    //Original Size (693,520)
-    sizes["VIDEO HQ"] = Size(590,442);
-    sizes["AUDIO HQ"] = Size(590,442);
-    sizes["GAME HQ"] = Size(590,442);
-    sizes["ARTS APP"] = Size(590,442);
-    sizes["GROUP HQ"] = Size(590,442);
+    float width = HQSceneConfiguration["sizeForContentLayerInCategory"][category.c_str()]["width"].GetDouble();
+    float height = HQSceneConfiguration["sizeForContentLayerInCategory"][category.c_str()]["height"].GetDouble();
     
-    return sizes[category];
+    return Size(width, height);
 }
 
 cocos2d::Color4B ConfigStorage::getBaseColourForContentItemInCategory(std::string category)
 {
-    std::map<std::string, Color4B> colours;
+    Color4B returnColour;
     
-    colours["VIDEO HQ"] = Color4B(248,71,89, 150);
-    colours["AUDIO HQ"] = Color4B(58,188,152, 150);
-    colours["GAME HQ"] = Color4B(0,112,204, 150);
-    colours["ARTS APP"] = Color4B(255,255,0, 150);
-    colours["GROUP HQ"] = Color4B(248,71,89, 150);
+    returnColour.r = HQSceneConfiguration["baseColourForContentItemInCategory"][category.c_str()]["r"].GetInt();
+    returnColour.g = HQSceneConfiguration["baseColourForContentItemInCategory"][category.c_str()]["g"].GetInt();
+    returnColour.b = HQSceneConfiguration["baseColourForContentItemInCategory"][category.c_str()]["b"].GetInt();
+    returnColour.a = HQSceneConfiguration["baseColourForContentItemInCategory"][category.c_str()]["a"].GetInt();
     
-    return colours[category];
+    return returnColour;
 }
 
 std::string ConfigStorage::getIconImagesForContentItemInCategory(std::string category)
 {
-    std::map<std::string, std::string> icons;
-    
-    icons["VIDEO HQ"] = "res/hqscene/icon_watch.png";
-    icons["AUDIO HQ"] = "res/hqscene/icon_listen.png";
-    icons["GAME HQ"] = "res/hqscene/icon_play.png";
-    icons["ARTS APP"] = "res/hqscene/icon_play.png";
-    icons["GROUP HQ"] = "res/hqscene/icon_watch.png";
-    
-    return icons[category];
+    return HQSceneConfiguration["iconImagesForContentItemInCategory"][category.c_str()].GetString();
 }
 
 cocos2d::Vec2 ConfigStorage::getHighlightSizeMultiplierForContentItem(int highlightClass)
 {
-    std::map<int, Vec2> highlightMultipliers;
+    std::string keyName = StringUtils::format("%d", highlightClass);
+    float x = HQSceneConfiguration["highlightSizeMultiplierForContentItem"][keyName.c_str()]["x"].GetDouble();
+    float y = HQSceneConfiguration["highlightSizeMultiplierForContentItem"][keyName.c_str()]["y"].GetDouble();
     
-    highlightMultipliers[0] = Vec2(1.0f,1.0f);
-    highlightMultipliers[1] = Vec2(1.0f,2.04f);
-    highlightMultipliers[2] = Vec2(2.04f,2.04f);
-    
-    return highlightMultipliers[highlightClass];
+    return Vec2(x, y);
 }
 
 float ConfigStorage::getScrollviewTitleTextHeight()
 {
-    return 80;
+    return HQSceneConfiguration["scrollViewTextHeight"].GetDouble();
 }
 
 Size ConfigStorage::getGroupHQLogoSize()
 {
-    return Size(920, 372);
+    float width = HQSceneConfiguration["groupLogoSize"]["width"].GetDouble();
+    float height = HQSceneConfiguration["groupLogoSize"]["height"].GetDouble();
+    
+    return Size(width, height);
 }
 
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 
 cocos2d::Point ConfigStorage::getCirclePositionForMenuItem(int itemNumber)
 {
-    std::vector<Point> positions;
+    float x = NavigationConfiguration["circlePositionsForMenuItems"]["positions"][itemNumber]["x"].GetDouble();
+    float y = NavigationConfiguration["circlePositionsForMenuItems"]["positions"][itemNumber]["y"].GetDouble();
     
-    positions.push_back(Point(1366, 1458));
-    positions.push_back(Point(989, 1241));
-    positions.push_back(Point(990, 805));
-    positions.push_back(Point(1369, 589));
-    positions.push_back(Point(1745, 810));
-    positions.push_back(Point(1741, 1244));
-    
-    return positions.at(itemNumber);
+    return Point(x, y);
 }
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(int itemNumber)
 {
-    std::vector<Point> positions;
+    float x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
+    float y = visualOrigin.y + visualSize.height + NavigationConfiguration["horizontalYPositionsForMenuItems"].GetDouble();
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Point visibleOrigin = Director::getInstance()->getVisibleOrigin();
-    
-    positions.push_back(Point(775, visibleOrigin.y + visibleSize.height - 180));
-    positions.push_back(Point(1011, visibleOrigin.y + visibleSize.height - 180));
-    positions.push_back(Point(1248, visibleOrigin.y + visibleSize.height - 180));
-    positions.push_back(Point(1957, visibleOrigin.y + visibleSize.height - 180));
-    positions.push_back(Point(1721, visibleOrigin.y + visibleSize.height - 180));
-    positions.push_back(Point(1484, visibleOrigin.y + visibleSize.height - 180));
-    
-    return positions.at(itemNumber);
+    return Point(x, y);
 }
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(int itemNumber)
 {
-    std::vector<Point> positions;
+    float x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
+    float y = visualOrigin.y + visualSize.height + NavigationConfiguration["horizontalYPositionsForMenuItemsInGroupHQ"].GetDouble();
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Point visibleOrigin = Director::getInstance()->getVisibleOrigin();
-    
-    positions.push_back(Point(775, visibleOrigin.y + visibleSize.height + 300));
-    positions.push_back(Point(1011, visibleOrigin.y + visibleSize.height + 300));
-    positions.push_back(Point(1248, visibleOrigin.y + visibleSize.height + 300));
-    positions.push_back(Point(1957, visibleOrigin.y + visibleSize.height + 300));
-    positions.push_back(Point(1721, visibleOrigin.y + visibleSize.height + 300));
-    positions.push_back(Point(1484, visibleOrigin.y + visibleSize.height + 300));
-    
-    return positions.at(itemNumber);
+    return Point(x, y);
 }
 
 cocos2d::Color4B ConfigStorage::getColourForMenuItem(int itemNumber)
 {
-    std::vector<Color4B> colours;
+    Color4B returnColour;
     
-    colours.push_back(Color4B(28,244,244,255));
-    colours.push_back(Color4B(248,71,89,255));
-    colours.push_back(Color4B(58,188,152,255));
-    colours.push_back(Color4B(28,244,244,255));
-    colours.push_back(Color4B(246,185,66,255));
-    colours.push_back(Color4B(86,177,255,255));
+    returnColour.r = NavigationConfiguration["coloursForMenuItems"][itemNumber]["r"].GetInt();
+    returnColour.g = NavigationConfiguration["coloursForMenuItems"][itemNumber]["g"].GetInt();
+    returnColour.b = NavigationConfiguration["coloursForMenuItems"][itemNumber]["b"].GetInt();
+    returnColour.a = NavigationConfiguration["coloursForMenuItems"][itemNumber]["a"].GetInt();
     
-    return colours.at(itemNumber);
+    return returnColour;
 }
 
 std::string ConfigStorage::getNameForMenuItem(int itemNumber)
 {
-    std::vector<std::string> names;
-    
-    names.push_back("HOME");
-    names.push_back("VIDEO HQ");
-    names.push_back("AUDIO HQ");
-    names.push_back("MAIL APP");
-    names.push_back("ARTS APP");
-    names.push_back("GAME HQ");
-    names.push_back("GROUP HQ");
-    
-    return names.at(itemNumber);
+    return NavigationConfiguration["namesForMenuItems"][itemNumber].GetString();
 }
 
 int ConfigStorage::getTagNumberForMenuName(std::string name)
 {
-    std::map<std::string, int> tagNumbers;
-    
-    tagNumbers["HOME"] = 0;
-    tagNumbers["VIDEO HQ"] = 1;
-    tagNumbers["AUDIO HQ"] = 2;
-    tagNumbers["MAIL APP"] = 3;
-    tagNumbers["ARTS APP"] = 4;
-    tagNumbers["GAME HQ"] = 5;
-    tagNumbers["GROUP HQ"] = 6;
-    
-    return tagNumbers.at(name);
+    return NavigationConfiguration["tagNumberForMenuItems"][name.c_str()].GetInt();
 }
 
 Point ConfigStorage::getTargetPositionForMove(int itemNumber)
 {
-    std::vector<Point> positions;
+    float x = NavigationConfiguration["targetPositionsForMove"][itemNumber]["x"].GetDouble();
+    float y = NavigationConfiguration["targetPositionsForMove"][itemNumber]["y"].GetDouble();
     
-    positions.push_back(Vec2(0,0));
-    positions.push_back(Vec2(-2732, 0));
-    positions.push_back(Vec2(2732, 0));
-    positions.push_back(Vec2(0, 0));
-    positions.push_back(Vec2(0, -2048));
-    positions.push_back(Vec2(0, 2048));
-    positions.push_back(Vec2(0, -4096));
-    
-    return positions.at(itemNumber);
-}
-
-std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::string categoryName)
-{
-    std::map<std::string, std::vector<Point>> positions;
-    
-    positions["PLAY"] = std::vector<Point> {Point(600, 75), Point(400,400)};
-    positions["LISTEN"] = std::vector<Point> {Point(-800, -700), Point(-1050, -475)};
-    positions["WATCH"] = std::vector<Point> {Point(-1050, 75), Point(-700, 400)};
-    positions["ART"] = std::vector<Point> {Point(1950, 500), Point(1750, 350)};
-    
-    return positions[categoryName];
+    return Point(x, y);
 }
 
 //--------------------------------IMAGECONTAINER CONFIGURATION----------------
 
+std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::string categoryName)
+{
+    float x1 = ImageContainerConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][0]["x"].GetDouble();
+    float y1 = ImageContainerConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][0]["y"].GetDouble();
+    float x2 = ImageContainerConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][1]["x"].GetDouble();
+    float y2 = ImageContainerConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][1]["y"].GetDouble();
+    
+    return std::vector<Point> {Point(x1, y1), Point(x2, y2)};
+}
+
 cocos2d::Color4B ConfigStorage::getColourForElementType(std::string type)
 {
-    std::map<std::string, Color4B> colours;
+    Color4B returnColor;
+    returnColor.r = ImageContainerConfiguration["colourForElementType"][type.c_str()]["r"].GetInt();
+    returnColor.g = ImageContainerConfiguration["colourForElementType"][type.c_str()]["g"].GetInt();
+    returnColor.b = ImageContainerConfiguration["colourForElementType"][type.c_str()]["b"].GetInt();
+    returnColor.a = ImageContainerConfiguration["colourForElementType"][type.c_str()]["a"].GetInt();
     
-    colours["AUDIO"] = Color4B(58,188,152,150);
-    colours["AUDIOGROUP"] = Color4B(58,188,152,150);
-    colours["GAME"] = Color4B(86,177,255,150);
-    colours["VIDEO"] = Color4B(248, 71, 89, 150);
-    colours["GROUP"] = Color4B(248, 71, 89, 150);
-    
-    return colours[type];
+    return returnColor;
 }
 
 std::string ConfigStorage::getIconNameForCategory(std::string category)
 {
-    std::map<std::string, std::string> iconNames;
-    iconNames["VIDEO"] = "watch";
-    iconNames["AUDIO"] = "listen";
-    iconNames["GAME"] = "play";
-    iconNames["GROUP"] = "play";
-    
-    return iconNames[category];
+    return ImageContainerConfiguration["iconNameForCategory"][category.c_str()].GetString();
 }
 
 //-----------------------------------OOMEE animation identifier configuration----------------------------------
@@ -382,32 +286,8 @@ std::string ConfigStorage::getGreetingAnimation()
 
 std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType)
 {
-    std::vector<std::string> idleAnimations;
-    idleAnimations.push_back("Build_Double_Take_Point_Left");
-    idleAnimations.push_back("Build_Ear_Twitch");
-    idleAnimations.push_back("Build_Fall_Asleep");
-    idleAnimations.push_back("Build_Float");
-    idleAnimations.push_back("Build_Float2");
-    idleAnimations.push_back("Build_Float3");
-    idleAnimations.push_back("Build_Look_Top_Left");
-    idleAnimations.push_back("Build_Look_Top_Right");
-    //idleAnimations.push_back("Build_Point_To_Right");
-    idleAnimations.push_back("Build_Point_Bottom_Left");
-    idleAnimations.push_back("Build_Scratch");
-    idleAnimations.push_back("Build_Simple_Wave");
-    idleAnimations.push_back("Build_Smile");
-    idleAnimations.push_back("Build_Yawn");
-    
-    std::vector<std::string> touchAnimations;
-    touchAnimations.push_back("Build_Dance_Wave");
-    touchAnimations.push_back("Build_Eat");
-    touchAnimations.push_back("Build_Glitch");
-    touchAnimations.push_back("Build_Pop");
-    touchAnimations.push_back("Build_Shower");
-    touchAnimations.push_back("Build_Sneeze");
-    
-    if(animationType == "idle") return idleAnimations.at(random(0, (int)idleAnimations.size() - 1));
-    else return touchAnimations.at(random(0, (int)touchAnimations.size() - 1));
+    if(animationType == "idle") return OomeeAnimationTypes["idleAnimations"][random(0, (int)OomeeAnimationTypes["idleAnimations"].Size() - 1)].GetString();
+    else return OomeeAnimationTypes["touchAnimations"][random(0, (int)OomeeAnimationTypes["touchAnimations"].Size() - 1)].GetString();
 }
 
 //--------------------------- UserDefaults First Time User for Slideshow------------
@@ -424,5 +304,3 @@ bool ConfigStorage::shouldShowFirstSlideShowScene()
 {
     return !UserDefault::getInstance()->getBoolForKey(USERDEFAULTS_FIRST_SLIDE_SHOW_SEEN, false);
 }
-
-

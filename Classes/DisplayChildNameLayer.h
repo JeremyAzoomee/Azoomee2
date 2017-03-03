@@ -14,12 +14,12 @@ private:
     void addChildNameToLayer();
     void addFrameToLayer();
     
-    void addChildNameToLayerQuick();
-    void addFrameToLayerQuick();
-    
     void setMaxScaleForLabel(cocos2d::Label* childNameLabel);
     std::string shortenString(std::string text, int numberOfCharacters);
     std::string getLoggedInChildName();
+    
+    float delayTime;
+    float scaleTime;
     
 };
 

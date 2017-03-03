@@ -309,7 +309,18 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     
     removeGameZip(zipPath);
     std::string startFileNameWithPath = getStartFileFromJson(std::string(dirpath) + "package.json");
-    startGame(std::string(dirpath) + startFileNameWithPath);
+    
+    if(FileUtils::getInstance()->isFileExist(dirpath + startFileNameWithPath))
+    {
+       startGame(std::string(dirpath) + startFileNameWithPath);
+    }
+    else
+    {
+        removeGameFolderOnError(dirpath);
+        hideLoadingScreen();
+        showErrorMessage();
+        return false;
+    }
     
     return ret;
 
@@ -323,6 +334,13 @@ bool GameDataManager::removeGameZip(std::string fileNameWithPath)
 void GameDataManager::startGame(std::string fileName)
 {
     if(processCancelled) return;
+    
+    if(!FileUtils::getInstance()->isFileExist(fileName))
+    {
+        hideLoadingScreen();
+        showErrorMessage();
+        return;
+    }
     
     //hideLoadingScreen();
     WebViewSelector::createSceneWithUrl(fileName);

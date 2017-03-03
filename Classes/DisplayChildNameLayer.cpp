@@ -23,16 +23,17 @@ bool DisplayChildNameLayer::init()
         return false;
     }
     
+    delayTime = 0.4;
+    scaleTime = 0.5;
+    
     if(HQHistoryManager::getInstance()->noHistory())
     {
-        addFrameToLayer();
-        addChildNameToLayer();
+        delayTime = 0;
+        scaleTime = 0;
     }
-    else
-    {
-        addFrameToLayerQuick();
-        addChildNameToLayerQuick();
-    }
+    
+    addFrameToLayer();
+    addChildNameToLayer();
     
     return true;
 }
@@ -63,28 +64,7 @@ void DisplayChildNameLayer::addFrameToLayer()
     displayNameFrame->setName("displayFrameName");
     this->addChild(displayNameFrame);
     
-    displayNameFrame->runAction(Sequence::create(DelayTime::create(0.4), EaseElasticOut::create(ScaleTo::create(0.5, 1.0f)), NULL));
-}
-
-void DisplayChildNameLayer::addChildNameToLayerQuick()
-{
-    std::string childName = getLoggedInChildName();
-    childName = shortenString(childName, 12);
-    
-    auto childNameLabel = createLabelBody(childName);
-    childNameLabel->setPosition(Director::getInstance()->getVisibleSize().width / 2, 350);
-    
-    setMaxScaleForLabel(childNameLabel);
-    
-    this->addChild(childNameLabel);
-}
-
-void DisplayChildNameLayer::addFrameToLayerQuick()
-{
-    auto displayNameFrame = Sprite::create("res/mainhub/logged_in_as.png");
-    displayNameFrame->setPosition(Director::getInstance()->getVisibleSize().width / 2, 370);
-    displayNameFrame->setName("displayFrameName");
-    this->addChild(displayNameFrame);
+    displayNameFrame->runAction(Sequence::create(DelayTime::create(delayTime), EaseElasticOut::create(ScaleTo::create(scaleTime, 1.0f)), NULL));
 }
 
 std::string DisplayChildNameLayer::getLoggedInChildName()
