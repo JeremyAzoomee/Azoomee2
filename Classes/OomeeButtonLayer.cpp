@@ -45,6 +45,12 @@ void OomeeButtonLayer::playAnimation(std::string OomeeAnimation, bool loop)
         loopAnimation = "";
 }
 
+void OomeeButtonLayer::playAnimationNoSound(std::string OomeeAnimation)
+{
+    oomee->setAnimation(0, OomeeAnimation, false);
+    loopAnimation = "";
+}
+
 void OomeeButtonLayer::hideOomee()
 {
     oomee->setOpacity(0);

@@ -13,6 +13,9 @@ private:
     Size visibleSize;
     Vec2 origin;
     
+    int ChildNumber;
+    int OomeeAvatarNumber;
+    
     ElectricDreamsButton* oomeeButton;
     ElectricDreamsButton* addChildButton;
     
@@ -20,12 +23,12 @@ private:
     void addButtonsToScene();
     void addLabelsToLayer();
     
-    void addOomeeToScreen();
+    void findChildNumber(std::string ChildNameToFind);
     
     bool buttonHasBeenPressed;
     
 public:
-    static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createScene(std::string newChildName, int OomeeAvatarNumber);
     
     virtual bool init();
     

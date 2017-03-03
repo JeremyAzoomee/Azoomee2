@@ -12,6 +12,7 @@ public:
     virtual bool init();
     
     void playAnimation(std::string OomeeAnimation, bool loop);
+    void playAnimationNoSound(std::string OomeeAnimation);
     void hideOomee();
     
 private:

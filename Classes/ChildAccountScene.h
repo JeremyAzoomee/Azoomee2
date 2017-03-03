@@ -14,8 +14,6 @@ class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, 
 {
 private:
     long _errorCode;
-    bool isNewChildAccount;
-    std::string passedChildName;
     
     TextInputLayer *childNameInputText;
     TextInputLayer *dayInputText;
@@ -33,7 +31,6 @@ private:
     ElectricDreamsButton *backButton;
     ElectricDreamsButton *nextButton;
     
-    void addVisualElementsToScene();
     void addLabelToScene();
     void addTextboxScene();
     void addButtonsScene();
@@ -52,12 +49,7 @@ private:
     void registerChildAccount();
     
     std::vector<ElectricDreamsButton*> OomeeButtons;
-    
-    ElectricDreamsButton* oomeeButton0;
-    ElectricDreamsButton* oomeeButton1;
-    ElectricDreamsButton* oomeeButton2;
-    ElectricDreamsButton* oomeeButton3;
-    ElectricDreamsButton* oomeeButton4;
+    Sprite* oomeeGlow;
     
     int selectedOomeeNo;
     void addOomeesToScene();

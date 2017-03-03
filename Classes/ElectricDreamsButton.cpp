@@ -63,7 +63,6 @@ ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string but
 ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string buttonText)
 {
     Label* buttonLabel = createLabelButtonAdultPrimary(buttonText);
-    //buttonLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     
     Rect spriteRect = Rect(0, 0, 196, 197);
     Rect capInsents = Rect(98, 98, 1, 1);
@@ -199,6 +198,11 @@ ElectricDreamsButton* ElectricDreamsButton::createOomeeAsButton(int oomeeNumber)
 void ElectricDreamsButton::playOomeeAnimation(std::string OomeeAnimation, bool loop)
 {
     oomeeLayer->playAnimation(OomeeAnimation, loop);
+}
+
+void ElectricDreamsButton::playOomeeAnimationNoSound(std::string OomeeAnimation)
+{
+    oomeeLayer->playAnimationNoSound(OomeeAnimation);
 }
 
 void ElectricDreamsButton::hideOomee()

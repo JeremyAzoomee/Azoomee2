@@ -22,7 +22,6 @@ Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode)
     
     scene->addChild(layer);
     
-    layer->passedChildName = ChildName;
     layer->_errorCode = errorCode;
     
     return scene;
@@ -38,7 +37,7 @@ bool ChildAccountScene::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    addVisualElementsToScene();
+    addSideWiresToScreen(this, 0, 2);
     addLabelToScene();
     addTextboxScene();
     addButtonsScene();
@@ -58,14 +57,6 @@ void ChildAccountScene::onEnterTransitionDidFinish()
 }
 
 //----------------- SCENE SETUP ---------------
-
-void ChildAccountScene::addVisualElementsToScene()
-{
-    addGlowToScreen(this, 1);
-    addSideWiresToScreen(this, 0, 2);
-    
-}
-
 void ChildAccountScene::addLabelToScene()
 {
     title = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_NAME_LABEL));
@@ -209,6 +200,11 @@ void ChildAccountScene::nextButtonPressed()
 //----------------OOMEE SCREEN FUNCTIONS---------------
 void ChildAccountScene::addOomeesToScene()
 {
+    oomeeGlow = createGlow();
+    oomeeGlow->setVisible(false);
+    oomeeGlow->setScale(.6);
+    this->addChild(oomeeGlow);
+    
     for(int i=0;i< NO_OF_OOMEES;i++)
     {
         auto oomeeButton = ElectricDreamsButton::createOomeeAsButton(i);
@@ -233,6 +229,8 @@ void ChildAccountScene::hideOomees()
         OomeeButtons.at(i)->setVisible(false);
         OomeeButtons.at(i)->setScale(1.3);
     }
+    
+    oomeeGlow->setVisible(false);
 }
 
 void ChildAccountScene::showOomees()
@@ -240,12 +238,14 @@ void ChildAccountScene::showOomees()
     for(int i=0;i< OomeeButtons.size();i++)
     {
         OomeeButtons.at(i)->setVisible(true);
-        OomeeButtons.at(i)->playOomeeAnimation("Build_Simple_Wave", false);
+        OomeeButtons.at(i)->playOomeeAnimationNoSound("Build_Simple_Wave");
     }
 }
 
 void ChildAccountScene::selectOomee(int oomeeNumber)
 {
+    selectedOomeeNo = oomeeNumber;
+    
     for(int i=0;i< OomeeButtons.size();i++)
     {
         if(OomeeButtons.at(i)->getTag() == oomeeNumber)
@@ -254,10 +254,12 @@ void ChildAccountScene::selectOomee(int oomeeNumber)
             selectedOomeeNo = oomeeNumber;
             OomeeButtons.at(i)->playOomeeAnimation("Build_Dance_Wave", true);
             OomeeButtons.at(i)->setScale(1.7);
+            oomeeGlow->setPosition(OomeeButtons.at(i)->getCenterPosition());
+            oomeeGlow->setVisible(true);
         }
         else
         {
-            OomeeButtons.at(i)->playOomeeAnimation("Build_Fall_Asleep", false);
+            OomeeButtons.at(i)->playOomeeAnimationNoSound("Build_Fall_Asleep");
             OomeeButtons.at(i)->setScale(1);
         }
     }
@@ -275,11 +277,8 @@ void ChildAccountScene::registerChildAccount()
     std::string DOB = StringUtils::format("%04d-%02d-%02d",year,month,day);
     std::string gender = "MALE";
     
-    if(this->isNewChildAccount)
-    {
-        auto backEndCaller = BackEndCaller::getInstance();
-        backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
-    }
+    auto backEndCaller = BackEndCaller::getInstance();
+    backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
 }
 
 void ChildAccountScene::setDOBNextButtonVisible()
@@ -303,6 +302,8 @@ void ChildAccountScene::textInputIsValid(TextInputLayer* inputLayer, bool isVali
 
 void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
 {
+    AudioMixer::getInstance()->stopOomeeEffect();
+    
     if(button == nextButton)
         nextButtonPressed();
     else if(button == backButton)

@@ -63,7 +63,7 @@ bool LoginScene::init()
     origin = Director::getInstance()->getVisibleOrigin();
     
     getUserDefaults();
-    addVisualElementsToScene();
+    addSideWiresToScreen(this, 0, 2);
     addLabelToScene();
     addTextboxScene();
     addButtonsScene();
@@ -124,12 +124,6 @@ void LoginScene::getUserDefaults()
     username = def->getStringForKey("username", "");
     password = def->getStringForKey("password", "");
     def->flush();
-}
-
-void LoginScene::addVisualElementsToScene()
-{
-    addGlowToScreen(this, 1);
-    addSideWiresToScreen(this, 0, 2);
 }
 
 void LoginScene::addLabelToScene()

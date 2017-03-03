@@ -33,7 +33,7 @@ bool OnboardingScene::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    addVisualElementsToScene();
+    addSideWiresToScreen(this, 0, 2);
     addLabelToScene();
     addTextboxScene();
     addButtonsScene();
@@ -54,20 +54,12 @@ void OnboardingScene::onEnterTransitionDidFinish()
 }
 
 //----------------- SCENE SETUP ---------------
-void OnboardingScene::addVisualElementsToScene()
-{
-    addGlowToScreen(this, 1);
-    addSideWiresToScreen(this, 0, 2);
-}
-
 void OnboardingScene::addLabelToScene()
 {
     title = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
-    //title->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.9);
     this->addChild(title);
     
     subTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));
-    //subTitle->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.80);
     subTitle->setVisible(false);
     this->addChild(subTitle);
 }

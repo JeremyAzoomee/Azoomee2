@@ -30,7 +30,6 @@ private:
     ElectricDreamsButton *backButton;
     ElectricDreamsButton *nextButton;
     
-    void addVisualElementsToScene();
     void addLabelToScene();
     void addTextboxScene();
     void addButtonsScene();

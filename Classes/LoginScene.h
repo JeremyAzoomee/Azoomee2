@@ -34,7 +34,6 @@ private:
     
     void getUserDefaults();
     
-    void addVisualElementsToScene();
     void addLabelToScene();
     void addTextboxScene();
     void addButtonsScene();

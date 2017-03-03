@@ -12,10 +12,14 @@
 
 USING_NS_CC;
 
-Scene* ChildAccountSuccessScene::createScene()
+Scene* ChildAccountSuccessScene::createScene(std::string newChildName, int OomeeAvatarNumber)
 {
     auto scene = Scene::create();
     auto layer = ChildAccountSuccessScene::create();
+    layer->findChildNumber(newChildName);
+    layer->OomeeAvatarNumber = OomeeAvatarNumber;
+    layer->addButtonsToScene();
+    layer->addLabelsToLayer();
     scene->addChild(layer);
     
     return scene;
@@ -32,8 +36,6 @@ bool ChildAccountSuccessScene::init()
     origin = Director::getInstance()->getVisibleOrigin();
     
     addVisualElementsToScene();
-    addButtonsToScene();
-    addLabelsToLayer();
     
     return true;
 }
@@ -56,7 +58,7 @@ void ChildAccountSuccessScene::addVisualElementsToScene()
 
 void ChildAccountSuccessScene::addButtonsToScene()
 {
-    oomeeButton = ElectricDreamsButton::createOomeeAsButton(0);
+    oomeeButton = ElectricDreamsButton::createOomeeAsButton(OomeeAvatarNumber);
     oomeeButton->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height/2));
     oomeeButton->setDelegate(this);
     oomeeButton->setScale(1.8);
@@ -77,6 +79,20 @@ void ChildAccountSuccessScene::addLabelsToLayer()
     auto addButtonLabel = createLabelBody(StringMgr::getInstance()->getStringForKey(BUTTON_ADD_ANOTHER_LABEL));
     addButtonLabel->setPosition(addChildButton->getCenterPosition().x, addChildButton->getCenterPosition().y - addChildButton->getContentSize().height*1.2);
     this->addChild(addButtonLabel);
+}
+
+//-------------OOMEE FUNCTIONS----------
+
+void ChildAccountSuccessScene::findChildNumber(std::string ChildNameToFind)
+{
+    for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
+    {
+        if(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(i) == ChildNameToFind)
+        {
+            ChildNumber = i;
+            break;
+        }
+    }
 }
 
 //--------------DELEGATE FUNCTIONS---------
@@ -105,7 +121,7 @@ void ChildAccountSuccessScene::moveToHubScene(float dt)
 {
     oomeeButton->hideOomee();
     AudioMixer::getInstance()->stopOomeeEffect();
-    //BackEndCaller::getInstance()->childLogin(0);
+    BackEndCaller::getInstance()->childLogin(ChildNumber);
 }
 
 void ChildAccountSuccessScene::moveToChildAccountScene(float dt)
