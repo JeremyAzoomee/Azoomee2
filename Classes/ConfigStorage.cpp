@@ -187,8 +187,8 @@ float ConfigStorage::getScrollviewTitleTextHeight()
 
 Size ConfigStorage::getGroupHQLogoSize()
 {
-    float width = NavigationConfiguration["groupLogoSize"]["width"].GetDouble();
-    float height = NavigationConfiguration["groupLogoSize"]["height"].GetDouble();
+    float width = HQSceneConfiguration["groupLogoSize"]["width"].GetDouble();
+    float height = HQSceneConfiguration["groupLogoSize"]["height"].GetDouble();
     
     return Size(width, height);
 }
