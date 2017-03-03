@@ -15,6 +15,7 @@
 #include "StringMgr.h"
 #include "AnalyticsSingleton.h"
 #include "LoginScene.h"
+#include "OnboardingScene.h"
 
 USING_NS_CC;
 
@@ -64,7 +65,10 @@ bool NavigationLayer::init()
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
         createSettingsButton();
     else
+    {
         createPreviewLoginButton();
+        createPreviewSignUpButton();
+    }
     
     return true;
 }
@@ -204,13 +208,24 @@ void NavigationLayer::createSettingsButton()
 
 void NavigationLayer::createPreviewLoginButton()
 {
-    previewLoginButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
-    previewLoginButton->setCenterPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width/2 + previewLoginButton->getContentSize().height/2, origin.y + visibleSize.height- previewLoginButton->getContentSize().height));
+    previewLoginButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN_MULTILINE));
+    previewLoginButton->setPosition(Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width + previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25));
     previewLoginButton->setDelegate(this);
     previewLoginButton->setMixPanelButtonName("PreviewLogin");
     this->addChild(previewLoginButton);
     
-    previewLoginButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/2, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.5)), 2), NULL));
+    previewLoginButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.25)), 2), NULL));
+}
+
+void NavigationLayer::createPreviewSignUpButton()
+{
+    previewSignUpButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP_MULTILINE));
+    previewSignUpButton->setPosition(Vec2(origin.x - previewSignUpButton->getContentSize().width - previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25));
+    previewSignUpButton->setDelegate(this);
+    previewSignUpButton->setMixPanelButtonName("PreviewSignUp");
+    this->addChild(previewSignUpButton);
+    
+    previewSignUpButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25)), 2), NULL));
 }
 
 void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
@@ -358,7 +373,7 @@ void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
 void NavigationLayer::addBackButtonToNavigation()
 {
     auto backButtonImage = Sprite::create("res/hqscene/back_btn.png");
-    backButtonImage->setPosition(origin.x + backButtonImage->getContentSize().width, origin.y + visibleSize.height - backButtonImage->getContentSize().height);
+    backButtonImage->setPosition(origin.x +backButtonImage->getContentSize().width*.7, origin.y + visibleSize.height - backButtonImage->getContentSize().height*.7);
     backButtonImage->setOpacity(0);
     backButtonImage->setName("backButton");
     this->addChild(backButtonImage);
@@ -425,5 +440,10 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     {
         auto loginScene = LoginScene::createScene(0);
         Director::getInstance()->replaceScene(loginScene);
+    }
+    else if(button == previewSignUpButton)
+    {
+        auto onboardingScene = OnboardingScene::createScene(0);
+        Director::getInstance()->replaceScene(onboardingScene);
     }
 }

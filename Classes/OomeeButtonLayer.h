@@ -11,7 +11,8 @@ public:
     static OomeeButtonLayer* createOomeeLayer(int oomeeNumber);
     virtual bool init();
     
-    void animationBeforeButtonPress();
+    void playAnimation(std::string OomeeAnimation, bool loop);
+    void playAnimationNoSound(std::string OomeeAnimation);
     void hideOomee();
     
 private:
@@ -20,6 +21,8 @@ private:
     
     int displayedOomeeNumber;
     int animationsTillWave;
+    
+    std::string loopAnimation;
     
     spine::SkeletonAnimation* oomee;
 };

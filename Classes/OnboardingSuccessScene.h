@@ -2,7 +2,6 @@
 #define __ONBOARDINGSUCCESSSCENE_SCENE_H__
 
 #include "cocos2d.h"
-#include <spine/spine-cocos2dx.h>
 #include "ElectricDreamsButton.h"
 
 USING_NS_CC;
@@ -14,7 +13,6 @@ private:
     Size visibleSize;
     Vec2 origin;
     
-    spine::SkeletonAnimation* oomee;
     ElectricDreamsButton* oomeeButton;
     
     void addVisualElementsToScene();
@@ -22,6 +20,8 @@ private:
     void addLabelsToLayer();
     
     void addOomeeToScreen();
+    
+    bool buttonHasBeenPressed;
     
 public:
     static cocos2d::Scene* createScene();
@@ -33,6 +33,7 @@ public:
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
+    void callDelegateFunction(float dt);
     
 };
 

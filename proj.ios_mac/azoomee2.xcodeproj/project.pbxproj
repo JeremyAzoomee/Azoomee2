@@ -47,7 +47,6 @@
 		430B215F1E448AF6004ACB10 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215E1E448AF6004ACB10 /* AVFoundation.framework */; };
 		430B21631E449DAA004ACB10 /* Analytics_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 430B21611E449DAA004ACB10 /* Analytics_ios.mm */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		430B21661E449DC5004ACB10 /* AnalyticsSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B21641E449DC5004ACB10 /* AnalyticsSingleton.cpp */; };
-		430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
 		430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */; };
 		431027831E5DEDE900B5CC8E /* Crashlytics_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431027811E5DEDE900B5CC8E /* Crashlytics_android.cpp */; };
@@ -153,6 +152,8 @@
 		433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
 		4348E4391E6576D600486661 /* ElectricDreamsDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4348E4371E6576D600486661 /* ElectricDreamsDecoration.cpp */; };
 		4348E4431E65DD9B00486661 /* OnboardingSuccessScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */; };
+		434B8BD31E6821A4004C7C88 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */; };
+		434B8BD61E689C29004C7C88 /* ChildAccountSuccessScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B8BD41E689C29004C7C88 /* ChildAccountSuccessScene.cpp */; };
 		43540FB71E60803B0029E30E /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43540FB51E60803B0029E30E /* StringFunctions.cpp */; };
 		435EBBDE1E55BA0400E55610 /* AppsFlyerLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */; };
 		435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDF1E55BB1600E55610 /* AdSupport.framework */; };
@@ -330,8 +331,6 @@
 		430B21621E449DAA004ACB10 /* Analytics_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analytics_ios.h; sourceTree = "<group>"; };
 		430B21641E449DC5004ACB10 /* AnalyticsSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnalyticsSingleton.cpp; sourceTree = "<group>"; };
 		430B21651E449DC5004ACB10 /* AnalyticsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalyticsSingleton.h; sourceTree = "<group>"; };
-		430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingScene.cpp; sourceTree = "<group>"; };
-		430B3B051DF8401C003A3AA7 /* OnboardingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingScene.h; sourceTree = "<group>"; };
 		430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountScene.cpp; sourceTree = "<group>"; };
 		430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountScene.h; sourceTree = "<group>"; };
 		430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
@@ -521,6 +520,10 @@
 		4348E4381E6576D600486661 /* ElectricDreamsDecoration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsDecoration.h; sourceTree = "<group>"; };
 		4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingSuccessScene.cpp; sourceTree = "<group>"; };
 		4348E4421E65DD9B00486661 /* OnboardingSuccessScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingSuccessScene.h; sourceTree = "<group>"; };
+		434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingScene.cpp; sourceTree = "<group>"; };
+		434B8BD21E6821A4004C7C88 /* OnboardingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingScene.h; sourceTree = "<group>"; };
+		434B8BD41E689C29004C7C88 /* ChildAccountSuccessScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountSuccessScene.cpp; sourceTree = "<group>"; };
+		434B8BD51E689C29004C7C88 /* ChildAccountSuccessScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountSuccessScene.h; sourceTree = "<group>"; };
 		43540FB51E60803B0029E30E /* StringFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringFunctions.cpp; sourceTree = "<group>"; };
 		43540FB61E60803B0029E30E /* StringFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringFunctions.h; sourceTree = "<group>"; };
 		435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppsFlyerLib.framework; sourceTree = "<group>"; };
@@ -848,12 +851,14 @@
 		430B3B021DF832A8003A3AA7 /* Signup_AddChild */ = {
 			isa = PBXGroup;
 			children = (
-				430B3B041DF8401C003A3AA7 /* OnboardingScene.cpp */,
-				430B3B051DF8401C003A3AA7 /* OnboardingScene.h */,
+				434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */,
+				434B8BD21E6821A4004C7C88 /* OnboardingScene.h */,
 				4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */,
 				4348E4421E65DD9B00486661 /* OnboardingSuccessScene.h */,
 				430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */,
 				430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */,
+				434B8BD41E689C29004C7C88 /* ChildAccountSuccessScene.cpp */,
+				434B8BD51E689C29004C7C88 /* ChildAccountSuccessScene.h */,
 			);
 			name = Signup_AddChild;
 			sourceTree = "<group>";
@@ -1596,6 +1601,7 @@
 				4348E4391E6576D600486661 /* ElectricDreamsDecoration.cpp in Sources */,
 				4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */,
 				431A2A2C1E439BFE00DC0F3B /* MPNotificationViewController.m in Sources */,
+				434B8BD61E689C29004C7C88 /* ChildAccountSuccessScene.cpp in Sources */,
 				431A2A361E439BFE00DC0F3B /* MPObjectSerializerContext.m in Sources */,
 				43F067211E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp in Sources */,
 				431A2A281E439BFE00DC0F3B /* MPEnumDescription.m in Sources */,
@@ -1669,11 +1675,11 @@
 				430B21661E449DC5004ACB10 /* AnalyticsSingleton.cpp in Sources */,
 				A1A2D30B1E13B54500E86169 /* ParentDataParser.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
+				434B8BD31E6821A4004C7C88 /* OnboardingScene.cpp in Sources */,
 				431A2A141E439BFE00DC0F3B /* MPABTestDesignerConnection.m in Sources */,
 				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				431A2A4B1E439BFE00DC0F3B /* MPUITableViewBinding.m in Sources */,
-				430B3B061DF8401C003A3AA7 /* OnboardingScene.cpp in Sources */,
 				431A2A3A1E439BFE00DC0F3B /* MPSequenceGenerator.m in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				431A2A391E439BFE00DC0F3B /* MPResources.m in Sources */,

@@ -20,6 +20,7 @@ public:
     //Delegate Functions
     void AdultPinCancelled(AwaitingAdultPinLayer* layer);
     void AdultPinAccepted(AwaitingAdultPinLayer* layer);
+    void callDelegateFunction(float dt);
     
     void connectivityStateChanged(bool online);
     

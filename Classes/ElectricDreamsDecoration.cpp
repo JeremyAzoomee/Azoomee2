@@ -38,7 +38,7 @@ void addGlowToScreen(Node* parentLayer, float withDelay)
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
     
-    auto bgGlow = Sprite::create("res/decoration/bg_glow.png");
+    auto bgGlow = createGlow();
     bgGlow->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
     bgGlow->setOpacity(0);
     parentLayer->addChild(bgGlow);
@@ -51,7 +51,14 @@ void addGlowToScreen(Node* parentLayer)
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
     
-    auto bgGlow = Sprite::create("res/decoration/bg_glow.png");
+    auto bgGlow = createGlow();
     bgGlow->setPosition(visibleSize.width / 2, origin.y + visibleSize.height / 2);
     parentLayer->addChild(bgGlow);
+}
+
+Sprite* createGlow()
+{
+    auto bgGlow = Sprite::create("res/decoration/bg_glow.png");
+
+    return bgGlow;
 }

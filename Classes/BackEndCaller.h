@@ -6,6 +6,9 @@ class BackEndCaller : public cocos2d::Ref
 {
 private:
     bool accountJustRegistered;
+    bool newChildJustRegistered;
+    std::string newChildName;
+    int oomeeAvatarNumber;
     
 public:
     /** Returns the shared instance of the Game Manager */

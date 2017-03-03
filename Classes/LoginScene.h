@@ -9,7 +9,7 @@
 
 USING_NS_CC;
 
-enum ScreenLocationEnum { emailScreen, passwordScreen};
+enum LoginScreenLocationEnum { emailLoginScreen, passwordLoginScreen};
 
 class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public OfflineCheckerDelegate
 {
@@ -22,7 +22,7 @@ private:
     cocos2d::Size visibleSize;
     Vec2 origin;
     
-    ScreenLocationEnum currentScreen;
+    LoginScreenLocationEnum currentScreen;
     
     Label* title;
     
@@ -34,7 +34,6 @@ private:
     
     void getUserDefaults();
     
-    void addVisualElementsToScene();
     void addLabelToScene();
     void addTextboxScene();
     void addButtonsScene();

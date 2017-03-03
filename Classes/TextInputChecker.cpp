@@ -1,5 +1,6 @@
 #include "TextInputChecker.h"
 #include "ParentDataProvider.h"
+#include "StringFunctions.h"
 
 using namespace cocos2d;
 
@@ -141,14 +142,4 @@ bool hasAzoomeeEmailAddress(std::string emailAddress)
         return true;
     else
         return false;
-}
-
-std::string stringToLower(std::string input)
-{
-    for(int i = 0; i < input.length(); i++)
-    {
-        input[i] = tolower(input[i]);
-    }
-    
-    return input;
 }

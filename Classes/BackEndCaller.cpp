@@ -19,6 +19,7 @@
 #include "HQHistoryManager.h"
 #include "AnalyticsSingleton.h"
 #include "OnboardingSuccessScene.h"
+#include "ChildAccountSuccessScene.h"
 
 using namespace cocos2d;
 
@@ -60,6 +61,7 @@ void BackEndCaller::hideLoadingScreen()
 void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
     accountJustRegistered = false;
+    newChildJustRegistered = false;
     auto loginScene = LoginScene::createScene(errorCode);
     Director::getInstance()->replaceScene(loginScene);
 }
@@ -158,7 +160,13 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
 {
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     
-    if(accountJustRegistered)
+    if(newChildJustRegistered)
+    {
+        newChildJustRegistered = false;
+        auto childAccountSuccessScene = ChildAccountSuccessScene::createScene(newChildName, oomeeAvatarNumber);
+        Director::getInstance()->replaceScene(childAccountSuccessScene);
+    }
+    else if(accountJustRegistered)
     {
         accountJustRegistered = false;
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene();
@@ -254,6 +262,9 @@ void BackEndCaller::registerChild(std::string childProfileName, std::string chil
 {
     displayLoadingScreen();
     
+    newChildName = childProfileName;
+    oomeeAvatarNumber = oomeeNumber;
+    
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
     httpRequestCreator->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"password\":\"\"}",childProfileName.c_str(),childDOB.c_str(),childGender.c_str(),ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber).c_str());
     httpRequestCreator->requestTag = "registerChild";
@@ -262,6 +273,7 @@ void BackEndCaller::registerChild(std::string childProfileName, std::string chil
 
 void BackEndCaller::onRegisterChildAnswerReceived()
 {
-    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent(-1);
+    newChildJustRegistered = true;
+    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent(oomeeAvatarNumber);
     getAvailableChildren();
 }

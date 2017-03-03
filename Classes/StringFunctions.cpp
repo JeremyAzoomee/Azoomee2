@@ -17,3 +17,23 @@ std::vector<std::string> splitStringToVector(std::string inputString, std::strin
     
     return result;
 }
+
+std::string stringToLower(std::string input)
+{
+    for(int i = 0; i < input.length(); i++)
+    {
+        input[i] = tolower(input[i]);
+    }
+    
+    return input;
+}
+
+std::string stringToUpper(std::string input)
+{
+    for(int i = 0; i < input.length(); i++)
+    {
+        input[i] = toupper(input[i]);
+    }
+    
+    return input;
+}

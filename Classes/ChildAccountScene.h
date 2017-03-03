@@ -4,64 +4,60 @@
 #include "cocos2d.h"
 #include "TextInputLayer.h"
 #include "ElectricDreamsButton.h"
+#include "MessageBox.h"
 
 USING_NS_CC;
 
-class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate
+enum ChildAccountScreenLocationEnum { childNameScreen, childDOBScreen, childSelectOomeeScreen};
+
+class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
     long _errorCode;
     
-    TextInputLayer *editBox_childName;
-    TextInputLayer *editBox_day;
-    TextInputLayer *editBox_month;
-    TextInputLayer *editBox_year;
+    TextInputLayer *childNameInputText;
+    TextInputLayer *dayInputText;
+    TextInputLayer *monthInputText;
+    TextInputLayer *yearInputText;
     
     Size visibleSize;
     Vec2 origin;
-    Layer *childAccountContent;
     
-    ElectricDreamsButton *buttonCloseChild;
-    ElectricDreamsButton *buttonNextChild;
-    ElectricDreamsButton *buttonBackDob;
-    ElectricDreamsButton *buttonNextDob;
-    ElectricDreamsButton *buttonBackOomee;
-    ElectricDreamsButton *buttonNextOomee;
+    ChildAccountScreenLocationEnum currentScreen;
     
-    Label *labelDob;
-    Label *labelOomee;
+    Label* title;
+    Label* subTitle;
+
+    ElectricDreamsButton *backButton;
+    ElectricDreamsButton *nextButton;
     
-    void addVisualElementsToScene();
-    void addFunctionalElementsToScene();
-    void addContentLayerToScene();
-    void addTextBoxesToLayer();
-    void addButtonsToLayer();
-    void addLabelsToLayer();
-    void addOomeesToLayer();
+    void addLabelToScene();
+    void addTextboxScene();
+    void addButtonsScene();
     
-    void disableButton(Node* button);
-    void enableButton(Node* button);
+    void clearElementsOnScreen();
     
-    void setTextInputFocus(TextInputLayer* textInputLayer);
+    void changeElementsToDOBScreen();
+    void changeElementsToChildNameScreen();
+    void changeElementsToOomeeScreen();
     
-    void backButtonCloseScene();
-    void moveToAndSetupDOBInput(ElectricDreamsButton* button);
-    void moveBackToChildNameInput(ElectricDreamsButton* button);
-    void moveToAndSetupOomeeSelection(ElectricDreamsButton* button);
-    void selectOomee(Sprite* selectedOomee);
+    void setDOBNextButtonVisible();
+    
+    void backButtonPressed();
+    void nextButtonPressed();
+    
     void registerChildAccount();
     
-    void addListenerToOomeeButton(Sprite *oomeeSprite);
-    
-    void setDOBLabel();
-    void setChildName(std::string ChildName);
-    bool isNewChildAccount;
-    std::string passedChildName;
+    std::vector<ElectricDreamsButton*> OomeeButtons;
+    Sprite* oomeeGlow;
     
     int selectedOomeeNo;
+    void addOomeesToScene();
+    void hideOomees();
+    void showOomees();
+    void selectOomee(int oomeeNumber);
     
     virtual void onEnterTransitionDidFinish();
-    
 
 public:
     static cocos2d::Scene* createScene(std::string ChildName, long errorCode);
@@ -74,6 +70,7 @@ public:
     //Delegate Functions
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void buttonPressed(ElectricDreamsButton* button);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
 
 };
 

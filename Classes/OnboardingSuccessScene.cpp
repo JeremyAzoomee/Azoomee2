@@ -5,6 +5,7 @@
 #include "ConfigStorage.h"
 #include "BackEndCaller.h"
 #include "ParentDataProvider.h"
+#include "AudioMixer.h"
 
 
 USING_NS_CC;
@@ -46,7 +47,7 @@ void OnboardingSuccessScene::addButtonsToScene()
     std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(0);
     int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
     
-    oomeeButton = ElectricDreamsButton::createOomeeButton(oomeeNr, ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
+    oomeeButton = ElectricDreamsButton::createOomeeButtonWithOutline(oomeeNr, ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
     oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
     oomeeButton->setDelegate(this);
     this->addChild(oomeeButton);
@@ -71,5 +72,17 @@ void OnboardingSuccessScene::addLabelsToLayer()
 
 void OnboardingSuccessScene::buttonPressed(ElectricDreamsButton* button)
 {
+    if(!buttonHasBeenPressed)
+    {
+        buttonHasBeenPressed = true;
+        oomeeButton->playOomeeAnimation("Build_Pop", false);
+        this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
+    }
+}
+
+void OnboardingSuccessScene::callDelegateFunction(float dt)
+{
+    oomeeButton->hideOomee();
+    AudioMixer::getInstance()->stopOomeeEffect();
     BackEndCaller::getInstance()->childLogin(0);
 }

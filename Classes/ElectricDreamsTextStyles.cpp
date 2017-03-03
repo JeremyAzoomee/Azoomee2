@@ -1,4 +1,5 @@
 #include "ElectricDreamsTextStyles.h"
+#include "StringFunctions.h"
 
 #define FONT_MEDIUM "fonts/Sofia Pro Soft Medium.otf"
 #define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
@@ -20,8 +21,13 @@ Label* createLabelWith(std::string text, std::string font, Color3B color, int si
 //------------------All Style functions-------------
 
 Label*  createLabelHeader(std::string text) {
+    
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
     Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 84);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    newLabel->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.9);
     
     return newLabel;
 }
@@ -43,8 +49,14 @@ Label*  createLabelBody(std::string text){
 }
 
 Label*  createLabelBodyCentred(std::string text){
+    
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
     Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 59);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    newLabel->setAnchorPoint(Vec2(0.5f, 1.0f));
+    newLabel->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.85);
     
     return newLabel;
 }
@@ -59,7 +71,12 @@ Label*  createLabelRailTitle(std::string text){
 
 Label*  createLabelAppVerison(std::string text)
 {
-    return createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 50);
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 50);
+    newLabel->setPosition(origin.x + visibleSize.width/2,newLabel->getContentSize().height);
+    return newLabel;
 }
 
 Label*  createLabelMessageBoxTitle(std::string text)
@@ -77,7 +94,7 @@ Label*  createLabelMessageBoxBody(std::string text)
 
 Label*  createLabelContentTitle(std::string text)
 {
-    Label* newLabel = createLabelWith(text, FONT_MEDIUM, COLOR_WHITE, 42);
+    Label* newLabel = createLabelWith(stringToUpper(text), FONT_BOLD, COLOR_WHITE, 36);
     newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     
     return newLabel;

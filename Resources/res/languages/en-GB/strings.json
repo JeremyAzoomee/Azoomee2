@@ -38,6 +38,11 @@
         "dob_year_placeholder":"YYYY"
     },
     
+    "ChildAccountSuccessScene":
+    {
+        "title_label":"Good stuff, tap on your Oomee\nto explore."
+    },
+    
     "OtherLabels":
     {
         "pin_request_label":"Please enter your PIN to proceed",
@@ -53,11 +58,14 @@
         "log_out":"Log Out",
         
         "sign_up":"Sign up",
+        "sign_up_multiline":"Sign\nup",
         "log_in":"Log in",
+        "log_in_multiline":"Log\nin",
         
         "cancel":"Cancel",
         
         "skip":"Skip",
-        "start_exploring":"Start Exploring"
+        "start_exploring":"Start Exploring",
+        "add_another":"Add Another"
     }
 }
