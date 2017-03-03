@@ -50,17 +50,13 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
         scaleTime = 0;
     }
     
-    std::string displayType = elementProperties["type"];
-    if(elementProperties["type"] == "GROUP") displayType = "VIDEO";
-    if(elementProperties["type"] == "AUDIOGROUP") displayType = "LISTEN";
-    
-    Color4B colour4 = ConfigStorage::getInstance()->getColourForElementType(displayType);
+    Color4B colour4 = ConfigStorage::getInstance()->getColourForElementType(elementProperties["type"]);
     Color3B colour3 = Color3B(colour4.r, colour4.g, colour4.b);
     
     createBgLayer(elementProperties, scale, startDelay, position);
     addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"], Vec2(1,1)), startDelay);
     addGradientToBottom(colour3, startDelay);
-    addIconToImage(displayType, startDelay);
+    addIconToImage(elementProperties["type"], startDelay);
     addLabelToImage(elementProperties["title"], startDelay);
     
     if(elementProperties["entitled"] == "false")

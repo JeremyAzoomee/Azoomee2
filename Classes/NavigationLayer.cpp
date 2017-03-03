@@ -272,7 +272,6 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
             }
             return true;
         }
-        
         return false;
     };
     
@@ -370,7 +369,6 @@ void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
         
         menuItemImage->runAction(sequence);
     }
-
 }
 
 void NavigationLayer::addBackButtonToNavigation()

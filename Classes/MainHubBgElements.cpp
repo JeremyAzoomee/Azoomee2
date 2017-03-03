@@ -26,14 +26,7 @@ bool MainHubBgElements::init()
 
 void MainHubBgElements::onEnter()
 {
-    auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    if(!HQHistoryManager::getInstance()->noHistory())
-    {
-        quickBuild();
-        return;
-    }
     
     auto funcCallAction = CallFunc::create([=](){
     
@@ -60,17 +53,4 @@ void MainHubBgElements::onEnter()
     this->runAction(Sequence::create(DelayTime::create(0.3), funcCallAction3, NULL));
     
     Node::onEnter();
-}
-
-void MainHubBgElements::quickBuild()
-{
-    addGlowToScreen(this);
-    addSideWiresToScreen(this);
-    
-    auto myParticle = ParticleMeteor::create();
-    myParticle->setSpeed(30);
-    myParticle->setGravity(Vec2(0, -20));
-    myParticle->setScale(1);
-    myParticle->setPosVar(Vec2(2732, 2048));
-    this->addChild(myParticle);
 }

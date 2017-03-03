@@ -87,15 +87,15 @@ void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
     hqElement->setPosition(positions.at(index));
     this->addChild(hqElement);
     
+    hqElement->setAnchorPoint(Point(0.5, 0.5));
+    
     if(HQHistoryManager::getInstance()->noHistory())
     {
-        hqElement->setAnchorPoint(Point(0.5, 0.5));
         hqElement->setScale(0);
         hqElement->runAction(Sequence::create(DelayTime::create(3 + CCRANDOM_0_1()), EaseElasticOut::create(ScaleTo::create(0.5, 1)), NULL));
     }
     else
     {
-        hqElement->setAnchorPoint(Point(0.5, 0.5));
         hqElement->setScale(1);
     }
 }

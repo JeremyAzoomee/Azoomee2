@@ -144,7 +144,7 @@ void OfflineHubHQ::addListenerToArtElement(Layer* toBeAddedTo)
     {
         if(iamtouched)
         {
-            auto hqScene = HQScene::createScene();
+            auto hqScene = HQScene::createSceneForOfflineArtsAppHQ();
             Director::getInstance()->replaceScene(hqScene);
         }
         

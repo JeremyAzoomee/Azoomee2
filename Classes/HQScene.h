@@ -8,7 +8,7 @@ class HQScene : public cocos2d::Layer
 {
 public:
     CREATE_FUNC(HQScene);
-    static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createSceneForOfflineArtsAppHQ();
     virtual bool init();
     void startBuildingScrollViewBasedOnName();
 
@@ -34,14 +34,6 @@ private:
     
     int category;
     
-    //Arts app calls
-    void createArtsAppScrollView();
-    void addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo);
-    void addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo);
-    
-    void addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable, bool locked);
-    
-    std::vector<std::string>getFilesInDirectory(std::string path);
 };
 
 #endif
