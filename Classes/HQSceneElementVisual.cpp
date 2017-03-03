@@ -69,7 +69,7 @@ cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, st
     
         if(!aboutToExit) addTouchOverlayToElement();
         
-        if((entitled != "true")&&(!ChildDataProvider::getInstance()->getIsChildLoggedIn()))
+        if((entitled != "true")||(!ChildDataProvider::getInstance()->getIsChildLoggedIn()))
         {
             if(!aboutToExit) addLockToElement();
         }
