@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         jcenter()
-        mavenCentral()
         mavenLocal()
         maven { url 'https://maven.fabric.io/public' }
     }
@@ -24,8 +23,8 @@ android {
         applicationId "com.tinizine.azoomee"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 305001
-        versionName "3.0.5"
+        versionCode 310101
+        versionName "3.1.0"
     }
     
     splits {
@@ -98,7 +97,6 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.5@aar') {
         transitive = true
     }
-    compile 'com.appsflyer:af-android-sdk:4+@aar'
 }
 
 task cleanAssets(type: Delete) {
