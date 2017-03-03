@@ -53,7 +53,6 @@ bool NavigationLayer::init()
         if(!HQHistoryManager::getInstance()->noHistory())
         {
             runDisplayAnimationForMenuItemQuick(menuItemImage, menuItemInactive);
-            this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 0);
         }
         else
         {
