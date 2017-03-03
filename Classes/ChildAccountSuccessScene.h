@@ -34,7 +34,8 @@ public:
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
-    void callDelegateFunction(float dt);
+    void moveToHubScene(float dt);
+    void moveToChildAccountScene(float dt);
     
 };
 

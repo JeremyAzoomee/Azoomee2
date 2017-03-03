@@ -7,6 +7,7 @@
 #include "ParentDataProvider.h"
 #include "AudioMixer.h"
 #include "ChildAccountScene.h"
+#include "ModalMessages.h"
 
 
 USING_NS_CC;
@@ -89,16 +90,25 @@ void ChildAccountSuccessScene::buttonPressed(ElectricDreamsButton* button)
         if(button == oomeeButton)
         {
             oomeeButton->playOomeeAnimation("Build_Pop", false);
-            this->scheduleOnce(schedule_selector(ChildAccountSuccessScene::callDelegateFunction), 2);
+            this->scheduleOnce(schedule_selector(ChildAccountSuccessScene::moveToHubScene), 2);
         }
         else if(button == addChildButton)
-            Director::getInstance()->replaceScene(ChildAccountScene::createScene("", 0));
+        {
+            ModalMessages::getInstance()->startLoading();
+            //Delay so loading screen has time to appear, due to long loading of Spines
+            this->scheduleOnce(schedule_selector(ChildAccountSuccessScene::moveToHubScene), 0.5);
+        }
     }
 }
 
-void ChildAccountSuccessScene::callDelegateFunction(float dt)
+void ChildAccountSuccessScene::moveToHubScene(float dt)
 {
-    //oomeeButton->hideOomee();
-    //AudioMixer::getInstance()->stopOomeeEffect();
+    oomeeButton->hideOomee();
+    AudioMixer::getInstance()->stopOomeeEffect();
     //BackEndCaller::getInstance()->childLogin(0);
+}
+
+void ChildAccountSuccessScene::moveToChildAccountScene(float dt)
+{
+    Director::getInstance()->replaceScene(ChildAccountScene::createScene("", 0));
 }

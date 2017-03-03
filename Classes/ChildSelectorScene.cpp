@@ -11,6 +11,7 @@
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
 #include "OfflineHubScene.h"
+#include "ModalMessages.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -301,8 +302,9 @@ void ChildSelectorScene::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 
 void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
-    auto newChildScene = ChildAccountScene::createScene("", 0);
-    Director::getInstance()->replaceScene(newChildScene);
+    ModalMessages::getInstance()->startLoading();
+    //Delay so loading screen has time to appear, due to long loading of Spines
+    this->scheduleOnce(schedule_selector(ChildSelectorScene::callDelegateFunction), .5);
 }
 
 void ChildSelectorScene::connectivityStateChanged(bool online)
@@ -311,4 +313,10 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
     {
         Director::getInstance()->replaceScene(OfflineHubScene::createScene());
     }
+}
+
+void ChildSelectorScene::callDelegateFunction(float dt)
+{
+    auto newChildScene = ChildAccountScene::createScene("", 0);
+    Director::getInstance()->replaceScene(newChildScene);
 }

@@ -69,11 +69,9 @@ void ChildAccountScene::addVisualElementsToScene()
 void ChildAccountScene::addLabelToScene()
 {
     title = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_NAME_LABEL));
-    //title->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.9);
     this->addChild(title);
     
     subTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_SUB_LABEL));
-    //subTitle->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.80);
     subTitle->setVisible(false);
     this->addChild(subTitle);
 }
@@ -86,21 +84,18 @@ void ChildAccountScene::addTextboxScene()
     
     dayInputText = TextInputLayer::createWithSize(Size(250,131), INPUT_IS_DAY);
     dayInputText->setPositionX(origin.x+visibleSize.width/2 - 350-dayInputText->getContentSize().width/2);
-    //dayInputText->setCenterPosition(Vec2(origin.x+visibleSize.width/2 - 350, origin.y+visibleSize.height*0.5));
     dayInputText->setEditboxVisibility(false);
     dayInputText->setDelegate(this);
     this->addChild(dayInputText);
     
     monthInputText = TextInputLayer::createWithSize(Size(250,131), INPUT_IS_MONTH);
     monthInputText->setPositionX(origin.x+visibleSize.width/2 - 50-dayInputText->getContentSize().width/2);
-    //monthInputText->setCenterPosition(Vec2(origin.x+visibleSize.width/2 - 50, origin.y+visibleSize.height*0.5));
     monthInputText->setEditboxVisibility(false);
     monthInputText->setDelegate(this);
     this->addChild(monthInputText);
     
     yearInputText = TextInputLayer::createWithSize(Size(350,131), INPUT_IS_YEAR);
     yearInputText->setPositionX(origin.x+visibleSize.width/2 + 300-dayInputText->getContentSize().width/2);
-    //yearInputText->setCenterPosition(Vec2(origin.x+visibleSize.width/2 + 300, origin.y+visibleSize.height*0.5));
     yearInputText->setEditboxVisibility(false);
     yearInputText->setDelegate(this);
     this->addChild(yearInputText);
@@ -224,11 +219,11 @@ void ChildAccountScene::addOomeesToScene()
         OomeeButtons.push_back(oomeeButton);
     }
     
-    OomeeButtons.at(0)->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height*.4));
-    OomeeButtons.at(1)->setCenterPosition(Vec2(origin.x + visibleSize.width/2- 800, origin.y + visibleSize.height*.4));
-    OomeeButtons.at(2)->setCenterPosition(Vec2(origin.x + visibleSize.width/2+ 800, origin.y + visibleSize.height*.4));
-    OomeeButtons.at(3)->setCenterPosition(Vec2(origin.x + visibleSize.width/2-400, origin.y + visibleSize.height*.2));
-    OomeeButtons.at(4)->setCenterPosition(Vec2(origin.x + visibleSize.width/2+400, origin.y + visibleSize.height*.2));
+    OomeeButtons.at(0)->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height*.55));
+    OomeeButtons.at(1)->setCenterPosition(Vec2(origin.x + visibleSize.width*.2, origin.y + visibleSize.height*.55));
+    OomeeButtons.at(2)->setCenterPosition(Vec2(origin.x + visibleSize.width*.8, origin.y + visibleSize.height*.55));
+    OomeeButtons.at(3)->setCenterPosition(Vec2(origin.x + visibleSize.width*.35, origin.y + visibleSize.height*.3));
+    OomeeButtons.at(4)->setCenterPosition(Vec2(origin.x + visibleSize.width*.65, origin.y + visibleSize.height*.3));
 }
 
 void ChildAccountScene::hideOomees()
@@ -265,7 +260,6 @@ void ChildAccountScene::selectOomee(int oomeeNumber)
             OomeeButtons.at(i)->playOomeeAnimation("Build_Fall_Asleep", false);
             OomeeButtons.at(i)->setScale(1);
         }
-        
     }
 }
 
@@ -315,8 +309,6 @@ void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
         backButtonPressed();
     else
         selectOomee(button->getTag());
-
-        
 }
 
 void ChildAccountScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
