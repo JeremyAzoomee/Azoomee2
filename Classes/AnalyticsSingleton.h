@@ -36,8 +36,7 @@ public:
     void registerAccountStatus(std::string Status);
 
     void registerChildID(std::string ChildID);
-    void registerChildGenderAndDOB(int childNumber); //NEED TO BE ADDED TO CODE
-    //void registerChildDOB(std::string ChildDOB); //NEED TO BE ADDED TO CODE
+    void registerChildGenderAndAge(int childNumber);
 
     void logoutChildEvent();
     void logoutParentEvent();

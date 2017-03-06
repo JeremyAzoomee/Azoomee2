@@ -210,7 +210,7 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
             {
                 target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
                 int childNumber = target->getTag();
-                AnalyticsSingleton::getInstance()->registerChildGenderAndDOB(childNumber);
+                AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
                 BackEndCaller::getInstance()->childLogin(childNumber);
             }
             return true;

@@ -143,20 +143,20 @@ void AnalyticsSingleton::registerChildID(std::string ChildID)
     mixPanel_OSSpecificSuperPropertiesCall("childID",ChildID);
 }
 
-void AnalyticsSingleton::registerChildGenderAndDOB(int childNumber)
+void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
 {
     mixPanel_OSSpecificSuperPropertiesCall("sex",ParentDataProvider::getInstance()->getSexForAnAvailableChildren(childNumber));
     
     int childAge = ageFromDOBString(ParentDataProvider::getInstance()->getDOBForAnAvailableChildren(childNumber));
     
-    mixPanel_OSSpecificSuperPropertiesCall("dob",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
+    mixPanel_OSSpecificSuperPropertiesCall("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
 }
 
 void AnalyticsSingleton::logoutChildEvent()
 {
     mixPanel_OSSpecificSuperPropertiesCall("childID","");
     mixPanel_OSSpecificSuperPropertiesCall("sex","");
-    mixPanel_OSSpecificSuperPropertiesCall("dob","");
+    mixPanel_OSSpecificSuperPropertiesCall("age","");
 }
 
 void AnalyticsSingleton::logoutParentEvent()

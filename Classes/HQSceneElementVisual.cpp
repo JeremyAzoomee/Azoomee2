@@ -55,10 +55,11 @@ cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, st
     
     std::string itemid = itemData["id"];
     std::string entitled = itemData["entitled"];
+    std::string type = itemData["type"];
     
     auto funcCallAction = CallFunc::create([=](){
     
-        if(!aboutToExit) addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemid, shape));
+        if(!aboutToExit) addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemid, shape), type, shape);
         if(!aboutToExit) addGradientToBottom(category);
     
         if(!aboutToExit)
@@ -96,10 +97,10 @@ Size HQSceneElementVisual::getSizeOfLayerWithGap()
     return Size(baseLayer->getContentSize().width + gapSize, baseLayer->getContentSize().height + gapSize);
 }
 
-void HQSceneElementVisual::addImageToBaseLayer(std::string url)
+void HQSceneElementVisual::addImageToBaseLayer(std::string url, std::string type, Vec2 shape)
 {
     ImageDownloader *imageDownloader = ImageDownloader::create();
-    imageDownloader->initWithURLAndSize(url, Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20));
+    imageDownloader->initWithURLAndSize(url, type, Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), shape);
     imageDownloader->setPosition(baseLayer->getContentSize() / 2);
     baseLayer->addChild(imageDownloader);
 }

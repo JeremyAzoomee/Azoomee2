@@ -19,7 +19,7 @@ private:
     cocos2d::LayerColor *bgLayer;
     void createBgLayer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, cocos2d::Point position);
     
-    void addImageToLayer(std::string url, float startDelay);
+    void addImageToLayer(std::string url,std::string type, float startDelay);
     void addGradientToBottom(cocos2d::Color3B colour, float startDelay);
     void addIconToImage(std::string type, float startDelay);
     void addLabelToImage(std::string name, float startDelay);
