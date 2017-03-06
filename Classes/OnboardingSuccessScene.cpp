@@ -50,6 +50,7 @@ void OnboardingSuccessScene::addButtonsToScene()
     oomeeButton = ElectricDreamsButton::createOomeeButtonWithOutline(oomeeNr, ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
     oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
     oomeeButton->setDelegate(this);
+    oomeeButton->setMixPanelButtonName("OnboardingSuccessOomeePressed");
     this->addChild(oomeeButton);
 }
 

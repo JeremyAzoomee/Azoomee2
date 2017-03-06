@@ -71,6 +71,7 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
             
             createCrashlyticsUserInfo(ParentDataStorage::getInstance()->loggedInParentId, "");
             AnalyticsSingleton::getInstance()->registerParentID(ParentDataStorage::getInstance()->loggedInParentId);
+            AnalyticsSingleton::getInstance()->registerAccountStatus(ParentDataStorage::getInstance()->loggedInParentActorStatus);
             
             return true;
         }

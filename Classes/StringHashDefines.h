@@ -41,6 +41,15 @@
 
 #define CHILDACCOUNTSUCCESSSCENE_REQUEST_NAME_LABEL "ChildAccountSuccessScene/title_label"
 
+//----------- OFFLINE STRINGS---------------------
+
+#define OFFLINESCENE_OFFLINE_TITLE_LABEL "OfflineScene/offline_title_label"
+#define OFFLINESCENE_FOR_LOGIN_SUB_TITLE_LABEL "OfflineScene/for_login_sub_title_label"
+#define OFFLINESCENE_NO_USER_SUB_TITLE_LABEL "OfflineScene/no_user_sub_title_label"
+#define OFFLINESCENE_HUB_LOGGED_IN_SUB_TITLE_LABEL "OfflineScene/hub_logged_in_sub_title_label"
+#define OFFLINESCENE_HUB_NOT_LOGGED_IN_SUB_TITLE_LABEL "OfflineScene/hub_not_logged_in_sub_title_label"
+#define OFFLINESCENE_ONLINE_TITLE_LABEL "OfflineScene/online_title_label"
+
 //------------ OTHER LABELS ------------------
 
 #define PIN_REQUEST_LABEL "OtherLabels/pin_request_label"
@@ -61,3 +70,6 @@
 #define BUTTON_SKIP "GenericButtons/skip"
 #define BUTTON_START_EXPLORING "GenericButtons/start_exploring"
 #define BUTTON_ADD_ANOTHER_LABEL "GenericButtons/add_another"
+#define BUTTON_LETS_GO "GenericButtons/lets_go"
+#define BUTTON_RETRY "GenericButtons/retry"
+

@@ -62,12 +62,14 @@ void ChildAccountSuccessScene::addButtonsToScene()
     oomeeButton->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height/2));
     oomeeButton->setDelegate(this);
     oomeeButton->setScale(1.8);
+    oomeeButton->setMixPanelButtonName("RegisterChildSuccessOomeePressed");
     this->addChild(oomeeButton);
     
     addChildButton = ElectricDreamsButton::createAddButton();
     addChildButton->setCenterPosition(Vec2(origin.x+visibleSize.width*.2, origin.y+visibleSize.height/2));
     addChildButton->setDelegate(this);
     addChildButton->setScale(1.4);
+    addChildButton->setMixPanelButtonName("RegisterChildSuccessAddAnotherPressed");
     this->addChild(addChildButton);
 }
 

@@ -2,6 +2,8 @@
 #include "BackEndCaller.h"
 #include "ChildDataParser.h"
 #include "ChildDataProvider.h"
+#include "StringMgr.h"
+#include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
 
@@ -38,16 +40,16 @@ void OfflineText::createForLogin()
 {
     this->removeAllChildren();
     addOfflineLogoToScreen();
-    addTextTitleToScreen("Oh No! You are offline");
-    addTextBodyToScreen("You need to be online to use this app.\nCheck your connection and try again,\nor enter offline mode.");
+    addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_TITLE_LABEL));
+    addTextBodyToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_FOR_LOGIN_SUB_TITLE_LABEL));
 }
 
 void OfflineText::createForLoginNoUser()
 {
     this->removeAllChildren();
     addOfflineLogoToScreen();
-    addTextTitleToScreen("Oh No! You are offline");
-    addTextBodyToScreen("You need to be online to use this app.\nCheck your connection and try again.");
+    addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_TITLE_LABEL));
+    addTextBodyToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_NO_USER_SUB_TITLE_LABEL));
 }
 
 void OfflineText::createForOfflineHub()
@@ -60,15 +62,15 @@ void OfflineText::createForOfflineHubWhenOffline()
 {
     this->removeAllChildren();
     addOfflineLogoToScreen();
-    addTextTitleToScreen("Oh No! You are offline");
+    addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_TITLE_LABEL));
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
-        addTextBodyToScreen("You need to be online to use this app.\nCheck your connection and try again.\n\n\nIn the meantime you can still enjoy these.");
+        addTextBodyToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_HUB_LOGGED_IN_SUB_TITLE_LABEL));
     }
     else
     {
-        addTextBodyToScreen("You need to be online to use this app.\nCheck your connection and try again.");
+        addTextBodyToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_HUB_NOT_LOGGED_IN_SUB_TITLE_LABEL));
     }
     
     addRetryButtonToScreen();
@@ -78,7 +80,7 @@ void OfflineText::createForOfflineHubWhenOnline()
 {
     this->removeAllChildren();
     addOnlineLogoToScreen();
-    addTextTitleToScreen("Great news! You are back online.");
+    addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_ONLINE_TITLE_LABEL));
     addTextBodyToScreen("");
     addExitOfflineModeButtonToScreen();
 }
@@ -117,7 +119,7 @@ void OfflineText::addOnlineLogoToScreen()
 
 void OfflineText::addExitOfflineModeButtonToScreen()
 {
-    auto enterButton = ElectricDreamsButton::createButtonWithText("Let's go");
+    auto enterButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_LETS_GO));
     
     Size buttonContentSize = enterButton->getContentSize();
     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -127,6 +129,7 @@ void OfflineText::addExitOfflineModeButtonToScreen()
     enterButton->setName("enterButton");
     enterButton->setPosition(visibleOrigin.x + visibleSize.width / 2 - buttonContentSize.width / 2, visibleOrigin.y + visibleSize.height * 0.5);
     enterButton->setCascadeOpacityEnabled(true);
+    enterButton->setMixPanelButtonName("OfflineLetsGoButton");
     this->addChild(enterButton);
 }
 
@@ -138,10 +141,8 @@ void OfflineText::buttonPressed(ElectricDreamsButton *button)
 
 void OfflineText::addTextTitleToScreen(std::string text)
 {
-    auto offlineTextTitle = Label::createWithTTF(text, "fonts/azoomee.ttf", 84);
+    auto offlineTextTitle = createLabelHeader(text);
     offlineTextTitle->setCascadeOpacityEnabled(true);
-    offlineTextTitle->setHorizontalAlignment(TextHAlignment::CENTER);
-    offlineTextTitle->setColor(Color3B(28,244,244));
     offlineTextTitle->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.75);
     offlineTextTitle->setOpacity(0);
     
@@ -152,11 +153,9 @@ void OfflineText::addTextTitleToScreen(std::string text)
 
 void OfflineText::addTextBodyToScreen(std::string text)
 {
-    auto offlineTextBody = Label::createWithTTF(text, "fonts/azoomee.ttf", 57.1);
+    auto offlineTextBody = createLabelBodyCentred(text);
     offlineTextBody->setAnchorPoint(Vec2(0.5, 1.0));
-    offlineTextBody->setHorizontalAlignment(TextHAlignment::CENTER);
     offlineTextBody->setCascadeOpacityEnabled(true);
-    offlineTextBody->setColor(Color3B(255,255,255));
     offlineTextBody->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.70);
     offlineTextBody->setOpacity(0);
     
@@ -167,11 +166,12 @@ void OfflineText::addTextBodyToScreen(std::string text)
 
 void OfflineText::addRetryButtonToScreen()
 {
-    auto retryButton = ElectricDreamsButton::createButtonWithText("Retry");
+    auto retryButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_RETRY));
     Size retryButtonContentSize = retryButton->getContentSize();
     
     retryButton->setDelegate(this);
     retryButton->setName("retryButton");
+    retryButton->setMixPanelButtonName("OfflineRetryButton");
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) retryButton->setPosition(visibleOrigin.x + visibleSize.width * 0.78 - retryButtonContentSize.width / 2, visibleOrigin.y + visibleSize.height * 0.6);
     else retryButton->setPosition(visibleOrigin.x + visibleSize.width * 0.5 - retryButtonContentSize.width / 2, visibleOrigin.y + visibleSize.height * 0.4);

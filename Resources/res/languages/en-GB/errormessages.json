@@ -34,6 +34,13 @@
         "button":"OK"
     },
     
+    "422":
+    {
+        "title":"Date of Birth Error",
+        "body":"The date of birth is in the future. Please correct the date of birth.",
+        "button":"OK"
+    },
+    
     "1001":
     {
         "title":"That Didn't Work",
