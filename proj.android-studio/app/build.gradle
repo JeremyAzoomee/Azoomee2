@@ -97,6 +97,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.5@aar') {
         transitive = true
     }
+
+    compile 'com.appsflyer:af-android-sdk:4+@aar'
 }
 
 task cleanAssets(type: Delete) {
