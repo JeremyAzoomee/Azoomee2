@@ -71,6 +71,7 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
             
             createCrashlyticsUserInfo(ParentDataStorage::getInstance()->loggedInParentId, "");
             AnalyticsSingleton::getInstance()->registerParentID(ParentDataStorage::getInstance()->loggedInParentId);
+            AnalyticsSingleton::getInstance()->registerAccountStatus(ParentDataStorage::getInstance()->loggedInParentActorStatus);
             
             return true;
         }
@@ -122,6 +123,8 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
         std::map<std::string, std::string> currentChild;
         currentChild["profileName"] = ParentDataStorage::getInstance()->availableChildrenData[i]["profileName"].GetString();
         currentChild["avatar"] = ParentDataStorage::getInstance()->availableChildrenData[i]["avatar"].GetString();
+        currentChild["sex"] = ParentDataStorage::getInstance()->availableChildrenData[i]["sex"].GetString();
+        currentChild["dob"] = ParentDataStorage::getInstance()->availableChildrenData[i]["dob"].GetString();
         
         ParentDataStorage::getInstance()->availableChildren.push_back(currentChild);
     }

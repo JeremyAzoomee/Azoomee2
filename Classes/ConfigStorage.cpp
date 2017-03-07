@@ -171,6 +171,11 @@ std::string ConfigStorage::getIconImagesForContentItemInCategory(std::string cat
     return HQSceneConfiguration["iconImagesForContentItemInCategory"][category.c_str()].GetString();
 }
 
+std::string ConfigStorage::getPlaceholderImageForContentItemInCategory(std::string type)
+{
+    return HQSceneConfiguration["placeholderImageForContentItemInCategory"][type.c_str()].GetString();
+}
+
 cocos2d::Vec2 ConfigStorage::getHighlightSizeMultiplierForContentItem(int highlightClass)
 {
     std::string keyName = StringUtils::format("%d", highlightClass);

@@ -33,11 +33,10 @@ public:
     void registerParentID(std::string ParentID);
     void registerNoOfChildren(int noOfChildren);
     void registerAzoomeeEmail(std::string emailAddress);
-    void registerAccountStatus(std::string Status);   //NEED TO BE ADDED TO CODE
+    void registerAccountStatus(std::string Status);
 
     void registerChildID(std::string ChildID);
-    void registerChildGender(std::string ChildGender); //NEED TO BE ADDED TO CODE
-    void registerChildDOB(std::string ChildDOB); //NEED TO BE ADDED TO CODE
+    void registerChildGenderAndAge(int childNumber);
 
     void logoutChildEvent();
     void logoutParentEvent();
@@ -64,7 +63,7 @@ public:
     void childProfileDOBEvent();
     void childProfileDOBErrorEvent(); // NO DOB CHECKING IS COMPLETED
     void childProfileOomeeEvent(int oomeeNumber);
-    void childProfileCreatedSuccessEvent(int oomeeNumber); // HOW TO GET THE OOMEE NUMBER?
+    void childProfileCreatedSuccessEvent(int oomeeNumber);
     void childProfileCreatedErrorEvent(long errorCode);
 
     //-------------HUB ACTIONS-------------------

@@ -50,11 +50,14 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
         scaleTime = 0;
     }
     
-    Color4B colour4 = ConfigStorage::getInstance()->getColourForElementType(elementProperties["type"]);
+    std::string type = elementProperties["type"];
+    
+    Color4B colour4 = ConfigStorage::getInstance()->getColourForElementType(type);
     Color3B colour3 = Color3B(colour4.r, colour4.g, colour4.b);
     
     createBgLayer(elementProperties, scale, startDelay, position);
-    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"], Vec2(1,1)), startDelay);
+    
+    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"], Vec2(1,1)), type, startDelay);
     addGradientToBottom(colour3, startDelay);
     addIconToImage(elementProperties["type"], startDelay);
     addLabelToImage(elementProperties["title"], startDelay);
@@ -238,10 +241,10 @@ void ImageContainer::addLockToImageContainer(float startDelay)
     lockImage->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeIn::create(0), NULL));
 }
 
-void ImageContainer::addImageToLayer(std::string url, float startDelay)
+void ImageContainer::addImageToLayer(std::string url,std::string type, float startDelay)
 {
     ImageDownloader *imageDownloader = ImageDownloader::create();
-    imageDownloader->initWithURLAndSize(url, Size(bgLayer->getContentSize().width - 20, bgLayer->getContentSize().height - 20));
+    imageDownloader->initWithURLAndSize(url, type, Size(bgLayer->getContentSize().width - 20, bgLayer->getContentSize().height - 20), cocos2d::Vec2(1,1));
     imageDownloader->setPosition(bgLayer->getContentSize() / 2);
     imageDownloader->setOpacity(0);
     bgLayer->addChild(imageDownloader);

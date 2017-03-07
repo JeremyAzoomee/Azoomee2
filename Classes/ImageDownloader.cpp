@@ -2,12 +2,13 @@
 #include "CookieDataStorage.h"
 #include "ElectricDreamsTextStyles.h"
 #include "StringMgr.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 using namespace network;
 using namespace cocos2d;
 
-bool ImageDownloader::initWithURLAndSize(std::string url, Size size)
+bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size size, Vec2 shape)
 {
     if ( !Sprite::init() )
     {
@@ -16,7 +17,7 @@ bool ImageDownloader::initWithURLAndSize(std::string url, Size size)
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
-    this->addPlaceHolderImage();
+    this->addPlaceHolderImage(type, size, shape);
     //this->addLoadingAnimation();
     
     imageDownloaderLogic = new ImageDownloaderLogic();
@@ -37,9 +38,10 @@ bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, coco
     return true;
 }
 
-void ImageDownloader::addPlaceHolderImage()
+void ImageDownloader::addPlaceHolderImage(std::string type, Size contentSize, Vec2 shape)
 {
-    auto placeHolderImage = Sprite::create("res/hqscene/placeholder.png");
+    std::string placeholderImageFile = StringUtils::format("%s%.fX%.f.png",ConfigStorage::getInstance()->getPlaceholderImageForContentItemInCategory(type).c_str(),shape.x,shape.y);
+    auto placeHolderImage = Sprite::create(placeholderImageFile);
     placeHolderImage->setPosition(this->getContentSize() / 2);
     placeHolderImage->setName("placeHolderImage");
     placeHolderImage->setScaleX(this->getContentSize().width / placeHolderImage->getContentSize().width);

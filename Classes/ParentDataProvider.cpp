@@ -69,3 +69,13 @@ std::string ParentDataProvider::getAvatarForAnAvailableChildren(int childNumber)
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["avatar"];
 }
+
+std::string ParentDataProvider::getDOBForAnAvailableChildren(int childNumber)
+{
+    return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["dob"];
+}
+
+std::string ParentDataProvider::getSexForAnAvailableChildren(int childNumber)
+{
+    return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["sex"];
+}

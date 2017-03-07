@@ -3,6 +3,8 @@
 #include "TextInputChecker.h"
 #include "ConfigStorage.h"
 #include "Analytics_android.h"
+#include "ParentDataProvider.h"
+#include "StringFunctions.h"
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -141,21 +143,20 @@ void AnalyticsSingleton::registerChildID(std::string ChildID)
     mixPanel_OSSpecificSuperPropertiesCall("childID",ChildID);
 }
 
-void AnalyticsSingleton::registerChildGender(std::string ChildGender)
+void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
 {
-    mixPanel_OSSpecificSuperPropertiesCall("sex",ChildGender);
-}
-
-void AnalyticsSingleton::registerChildDOB(std::string ChildDOB)
-{
-    mixPanel_OSSpecificSuperPropertiesCall("dob",ChildDOB);
+    mixPanel_OSSpecificSuperPropertiesCall("sex",ParentDataProvider::getInstance()->getSexForAnAvailableChildren(childNumber));
+    
+    int childAge = ageFromDOBString(ParentDataProvider::getInstance()->getDOBForAnAvailableChildren(childNumber));
+    
+    mixPanel_OSSpecificSuperPropertiesCall("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
 }
 
 void AnalyticsSingleton::logoutChildEvent()
 {
     mixPanel_OSSpecificSuperPropertiesCall("childID","");
     mixPanel_OSSpecificSuperPropertiesCall("sex","");
-    mixPanel_OSSpecificSuperPropertiesCall("dob","");
+    mixPanel_OSSpecificSuperPropertiesCall("age","");
 }
 
 void AnalyticsSingleton::logoutParentEvent()

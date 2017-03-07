@@ -62,6 +62,14 @@
     "ARTS APP": "res/hqscene/icon_play.png",
     "GROUP HQ": "res/hqscene/icon_watch.png"
   },
+
+  "placeholderImageForContentItemInCategory": {
+    "VIDEO": "res/contentPlaceholders/Video",
+    "AUDIO": "res/contentPlaceholders/Audio",
+    "GAME": "res/contentPlaceholders/Games",
+    "ARTS APP": "res/contentPlaceholders/Create",
+    "GROUP": "res/contentPlaceholders/Video"
+  },
   
   "highlightSizeMultiplierForContentItem": {
     "0": {

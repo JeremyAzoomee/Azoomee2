@@ -232,7 +232,10 @@ void ElectricDreamsButton::addListener()
             sendMixPanelEvent();
             
             if(isSettingsButton)
+            {
                 ExitOrLogoutLayer::create();
+                buttonPressed = false;
+            }
             else
                 this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 0.1);
             

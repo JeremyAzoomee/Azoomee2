@@ -20,7 +20,7 @@ private:
     void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth);
     void resizeSceneElement(cocos2d::Vec2 shape, std::string category);
     void createColourLayer(std::string category, float delay);
-    void addImageToBaseLayer(std::string filename);
+    void addImageToBaseLayer(std::string filename, std::string type, cocos2d::Vec2 shape);
     void addGradientToBottom(std::string category);
     cocos2d::Sprite* addIconToImage(std::string category);
     void addLabelsToImage(std::map<std::string, std::string>itemData, cocos2d::Sprite* nextToIcon);

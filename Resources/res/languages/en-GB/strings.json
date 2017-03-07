@@ -43,6 +43,17 @@
         "title_label":"Good stuff, tap on your Oomee\nto explore."
     },
     
+    "OfflineScene":
+    {
+        "offline_title_label":"Oh No! You are offline",
+        "for_login_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again,\nor enter offline mode.",
+        "no_user_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again.",
+        "hub_logged_in_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again.\n\n\nIn the meantime you can still enjoy these.",
+        "hub_not_logged_in_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again.",
+        "online_title_label":"Great news! You are back online."
+        
+    },
+    
     "OtherLabels":
     {
         "pin_request_label":"Please enter your PIN to proceed",
@@ -66,6 +77,8 @@
         
         "skip":"Skip",
         "start_exploring":"Start Exploring",
-        "add_another":"Add Another"
+        "add_another":"Add Another",
+        "lets_go":"Let's go",
+        "retry":"Retry"
     }
 }

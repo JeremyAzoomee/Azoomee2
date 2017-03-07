@@ -9,14 +9,14 @@ class ImageDownloader : public cocos2d::Sprite
 {
 public:
     CREATE_FUNC(ImageDownloader);
-    virtual bool initWithURLAndSize(std::string url, cocos2d::Size size);
+    virtual bool initWithURLAndSize(std::string url, std::string type, cocos2d::Size size, cocos2d::Vec2 shape);
     virtual bool initWithUrlAndSizeWithoutPlaceholder(std::string url, cocos2d::Size size);
     void addDownloadedImage(std::string fileName);
     bool aboutToExit;
     ImageDownloaderLogic *imageDownloaderLogic;
     
 private:
-    void addPlaceHolderImage();
+    void addPlaceHolderImage(std::string type, cocos2d::Size contentSize, cocos2d::Vec2 shape);
     void addLoadingAnimation();
     void onExitTransitionDidStart();
     void onExit();
