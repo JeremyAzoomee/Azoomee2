@@ -190,6 +190,11 @@ float ConfigStorage::getScrollviewTitleTextHeight()
     return HQSceneConfiguration["scrollViewTextHeight"].GetDouble();
 }
 
+float ConfigStorage::getVerticalScrollViewVisiblePercentage()
+{
+    return HQSceneConfiguration["verticalScrollViewVisiblePercentage"].GetDouble();
+}
+
 Size ConfigStorage::getGroupHQLogoSize()
 {
     float width = HQSceneConfiguration["groupLogoSize"]["width"].GetDouble();

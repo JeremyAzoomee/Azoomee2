@@ -24,6 +24,7 @@ private:
     
     ElectricDreamsButton *previewLoginButton;
     ElectricDreamsButton *previewSignUpButton;
+    ElectricDreamsButton *settingsButton;
 
     //MenuItem creation phase
     cocos2d::Sprite* addMenuItemImage(int itemNumber);
@@ -38,6 +39,8 @@ private:
     void moveMenuPointsToHorizontalStateInGroupHQ(float duration);
     void moveMenuPointsToCircleState(float duration);
     void createSettingsButton();
+    void settingsButtonOffScreen();
+    void settingsButtonOnScreen();
     void createPreviewLoginButton();
     void createPreviewSignUpButton();
     

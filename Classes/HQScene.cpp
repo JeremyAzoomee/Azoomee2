@@ -223,7 +223,7 @@ cocos2d::ui::ScrollView* HQScene::createVerticalScrollView()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height * 0.82);
+    Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height * ConfigStorage::getInstance()->getVerticalScrollViewVisiblePercentage());
     
     cocos2d::ui::ScrollView *vScrollView = cocos2d::ui::ScrollView::create();
     vScrollView->setContentSize(vScrollFrameSize);

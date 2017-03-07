@@ -201,9 +201,21 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
 
 void NavigationLayer::createSettingsButton()
 {
-    auto settingsButton = ElectricDreamsButton::createSettingsButton(3.0f);
+    settingsButton = ElectricDreamsButton::createSettingsButton(3.0f);
     settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
     this->addChild(settingsButton);
+}
+
+void NavigationLayer::settingsButtonOffScreen()
+{
+    if(settingsButton)
+        settingsButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
+}
+
+void NavigationLayer::settingsButtonOnScreen()
+{
+    if(settingsButton)
+        settingsButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.5, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
 }
 
 void NavigationLayer::createPreviewLoginButton()
@@ -334,6 +346,7 @@ void NavigationLayer::moveMenuPointsToCircleState(float duration)
         
         menuItemImage->runAction(sequence);
     }
+    settingsButtonOnScreen();
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
@@ -351,6 +364,7 @@ void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
         
         menuItemImage->runAction(sequence);
     }
+    settingsButtonOffScreen();
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
@@ -368,6 +382,7 @@ void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
         
         menuItemImage->runAction(sequence);
     }
+    settingsButtonOffScreen();
 }
 
 void NavigationLayer::addBackButtonToNavigation()

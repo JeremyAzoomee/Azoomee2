@@ -42,6 +42,7 @@ public:
     std::string getPlaceholderImageForContentItemInCategory(std::string type);
     cocos2d::Vec2 getHighlightSizeMultiplierForContentItem(int highlightClass);
     float getScrollviewTitleTextHeight();
+    float getVerticalScrollViewVisiblePercentage();
     cocos2d::Size getGroupHQLogoSize();
     
     //NavigationLayer configuration
