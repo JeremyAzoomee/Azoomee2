@@ -84,7 +84,7 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
             std::string animationid = ConfigStorage::getInstance()->getRandomIdForAnimationType("touch");
             
             target->setAnimation(0, animationid.c_str(), false);
-            AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), animationid);
+            AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), animationid, true);
             
             AnalyticsSingleton::getInstance()->hubTapOomeeEvent(displayedOomeeNumber, animationid);
             
@@ -107,7 +107,10 @@ void OomeeLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedT
 {
     auto oomeeAnimationComplete = [=] (int trackIdx, int loopCount)
     {
-        toBeAddedTo->addAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
+        std::string animationid = ConfigStorage::getInstance()->getRandomIdForAnimationType("idle");
+        
+        toBeAddedTo->setAnimation(0, animationid.c_str(), false);
+        AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), animationid, false);
     };
     
     toBeAddedTo->setCompleteListener(oomeeAnimationComplete);

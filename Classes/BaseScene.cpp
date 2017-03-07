@@ -35,7 +35,7 @@ bool BaseScene::init()
 }
 
 void BaseScene::onEnterTransitionDidFinish()
-{
+{    
     this->setName("baseLayer");
     
     Director::getInstance()->purgeCachedData();

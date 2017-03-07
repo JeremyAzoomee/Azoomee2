@@ -37,20 +37,18 @@ void AudioMixer::playEffect(std::string effectToPlay)
 
 }
 
-void AudioMixer::playOomeeEffect(std::string oomee, std::string state)
+void AudioMixer::playOomeeEffect(std::string oomee, std::string state, bool fallbackToDefaultSound)
 {
     CocosDenshion::SimpleAudioEngine::getInstance()->stopEffect(lastOomeeAudio);
     
     std::string fileName = oomee + "_" + state + ".mp3";
     std::string fullPath = "res/audio/oomees/" + fileName;
-    if(!FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->fullPathForFilename(fullPath)))
-    {
-        fullPath = "res/audio/Azoomee_Button_Click_07_v1.mp3";
-    }
+    if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->fullPathForFilename(fullPath)))
+        lastOomeeAudio = CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(fullPath.c_str());
+    else if(fallbackToDefaultSound)
+        lastOomeeAudio = CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/Azoomee_Button_Click_07_v1.mp3");
     
     CCLOG("fullpath: %s", fullPath.c_str());
-    
-    lastOomeeAudio = CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(fullPath.c_str());
 }
 
 void AudioMixer::stopOomeeEffect()

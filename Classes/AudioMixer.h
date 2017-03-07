@@ -33,7 +33,7 @@ public:
     void pauseBackgroundMusic();
     void resumeBackgroundMusic();
     
-    void playOomeeEffect(std::string oomee, std::string state);
+    void playOomeeEffect(std::string oomee, std::string state, bool fallbackToDefaultSound);
     void stopOomeeEffect();
     int lastOomeeAudio;
     

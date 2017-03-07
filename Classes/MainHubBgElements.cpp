@@ -34,7 +34,7 @@ void MainHubBgElements::onEnter()
         myParticle->setSpeed(30);
         myParticle->setGravity(Vec2(0, -20));
         myParticle->setScale(1);
-        myParticle->setPosVar(Vec2(2732, 2048));
+        myParticle->setPosVar(Vec2(2732, 5192));
         this->addChild(myParticle);
     });
     
