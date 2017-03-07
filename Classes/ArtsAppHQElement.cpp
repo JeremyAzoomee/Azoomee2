@@ -115,7 +115,13 @@ void ArtsAppHQElement::addImage(std::string filePath)
     auto sprite = Sprite::create();
     sprite->initWithTexture(texture);
     
-    sprite->setScale((this->getContentSize().width - 40) / sprite->getContentSize().width, (this->getContentSize().height - 40) / sprite->getContentSize().height);
+    float scale = (this->getContentSize().width - 40) / sprite->getContentSize().width;
+    
+    if(sprite->getContentSize().height * scale > this->getContentSize().height - 40)
+        scale = (this->getContentSize().height - 40) / sprite->getContentSize().height;
+    
+    sprite->setScale(scale);
+    
     sprite->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
     this->addChild(sprite);
 }
