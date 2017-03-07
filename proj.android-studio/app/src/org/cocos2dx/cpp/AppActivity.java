@@ -41,6 +41,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import com.amazon.iap.IapManager;
+import com.amazon.iap.PurchasingListenerClass;
+import com.amazon.iap.UserIapData;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import io.fabric.sdk.android.Fabric;
@@ -49,10 +52,14 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import com.appsflyer.AppsFlyerLib;
 
+import com.amazon.device.iap.*;
+
+
 public class AppActivity extends Cocos2dxActivity {
 
     private static Context mContext;
     private MixpanelAPI mixpanel;
+    private IapManager iapManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,8 @@ public class AppActivity extends Cocos2dxActivity {
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         mContext = this;
+
+        setupIAPOnCreate();
 
     }
 
@@ -169,6 +178,28 @@ public class AppActivity extends Cocos2dxActivity {
         }
 
         AppsFlyerLib.getInstance().trackEvent(mContext, eventID, _appsFlyerProperties);
+    }
+
+    //----- AMAZON IAP -------------------------------------------
+
+    private void setupIAPOnCreate()
+    {
+        iapManager = new IapManager(this);
+
+        final PurchasingListener purchasingListener = new PurchasingListenerClass(iapManager);
+        Log.d("IAP", "onCreate: registering PurchasingListener");
+
+        PurchasingService.registerListener(this.getApplicationContext(), purchasingListener);
+
+        Log.d("IAP", "IS_SANDBOX_MODE:" + PurchasingService.IS_SANDBOX_MODE);
+
+        PurchasingService.getUserData();
+        PurchasingService.getPurchaseUpdates(false);
+    }
+
+    public static void startAmazonPurchase()
+    {
+        PurchasingService.purchase("com.tinizine.azoomee.monthly.02");
     }
 
 }
