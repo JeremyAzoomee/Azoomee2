@@ -225,17 +225,13 @@ void ElectricDreamsButton::addListener()
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
         Rect rect = Rect(0, 0, target->getContentSize().width, target->getContentSize().height);
         
-        if(rect.containsPoint(locationInNode) && this->isVisible() && !buttonPressed)
+        if(rect.containsPoint(locationInNode) && this->isVisible())
         {
-            buttonPressed = true;
             AudioMixer::getInstance()->playEffect(buttonAudioFile);
             sendMixPanelEvent();
             
             if(isSettingsButton)
-            {
                 ExitOrLogoutLayer::create();
-                buttonPressed = false;
-            }
             else
                 this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 0.1);
             
@@ -251,7 +247,6 @@ void ElectricDreamsButton::addListener()
 void ElectricDreamsButton::callDelegateFunction(float dt)
 {
     this->getDelegate()->buttonPressed(this);
-    buttonPressed = false;
 }
 
 //---------------------- public Functions After Setup -----------------------------

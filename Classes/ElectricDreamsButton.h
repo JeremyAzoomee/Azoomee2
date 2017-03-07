@@ -25,7 +25,6 @@ private:
     void callDelegateFunction(float dt);
     
     bool isSettingsButton;
-    bool buttonPressed;
     
     std::string buttonAudioFile;
     std::string mixPanelButtonName = "";
