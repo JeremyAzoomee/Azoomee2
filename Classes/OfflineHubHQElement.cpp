@@ -53,7 +53,7 @@ void OfflineHubHQElement::addListenerToElement(std::string uri, std::string cont
                 
         if(rect.containsPoint(locationInNode))
         {
-            elementVisual->overlayWhenTouched->setOpacity(150);
+            if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(150);
             movedAway = false;
             iamtouched = true;
             touchPoint = touch->getLocation();
@@ -70,7 +70,7 @@ void OfflineHubHQElement::addListenerToElement(std::string uri, std::string cont
         {
             movedAway = true;
             iamtouched = false;
-            elementVisual->overlayWhenTouched->setOpacity(0);
+            if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(0);
         }
         
         return true;
@@ -80,7 +80,7 @@ void OfflineHubHQElement::addListenerToElement(std::string uri, std::string cont
     {
         if(iamtouched)
         {
-            elementVisual->overlayWhenTouched->setOpacity(0);
+            if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(0);
             
             if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")) //this is needed because of the offline hub
             {

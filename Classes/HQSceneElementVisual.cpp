@@ -195,3 +195,9 @@ void HQSceneElementVisual::onExitTransitionDidStart()
     this->stopAllActions();
     this->cleanup();
 }
+
+void HQSceneElementVisual::onExit()
+{
+    
+    Node::onExit();
+}

@@ -33,6 +33,7 @@ private:
     void addLockToElement();
     
     void onExitTransitionDidStart();
+    void onExit();
     
     bool aboutToExit;
 };

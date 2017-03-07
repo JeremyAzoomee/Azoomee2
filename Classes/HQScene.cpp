@@ -24,9 +24,6 @@ Scene* HQScene::createSceneForOfflineArtsAppHQ()
     auto layer = HQScene::create();
     scene->addChild(layer);
     
-    layer->visibleSize = Director::getInstance()->getVisibleSize();
-    layer->origin = Director::getInstance()->getVisibleOrigin();
-    
     //if created as a scene, and not as a layer, we are in offline mode, and we are using scene only for art app, so adding initial lines:
     layer->setName("ARTS APP");
     
@@ -34,7 +31,7 @@ Scene* HQScene::createSceneForOfflineArtsAppHQ()
     layer->addChild(offlineArtsAppScrollView);
     
     auto offlineHubBackButton = OfflineHubBackButton::create();
-    offlineHubBackButton->setPosition(Point(100, layer->origin.y + layer->visibleSize.height - 250));
+    offlineHubBackButton->setPosition(Point(100, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height - 250));
     layer->addChild(offlineHubBackButton);
 
     return scene;
@@ -79,11 +76,14 @@ void HQScene::addGroupHQLogo()
     {
         std::string groupHQLogoUrl = HQDataProvider::getInstance()->getImageUrlForGroupLogo(HQHistoryManager::getInstance()->getGroupHQSourceId());
         
+        Size visibleSize = Director::getInstance()->getVisibleSize();
+        Point visibleOrigin = Director::getInstance()->getVisibleOrigin();
+        
         this->removeChild(this->getChildByName("groupLogo"));
         
         auto groupLogo = ImageDownloader::create();
         groupLogo->initWithUrlAndSizeWithoutPlaceholder(groupHQLogoUrl, ConfigStorage::getInstance()->getGroupHQLogoSize());
-        groupLogo->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - groupLogo->getContentSize().height * 0.8);
+        groupLogo->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height - groupLogo->getContentSize().height * 0.8);
         groupLogo->setName("groupLogo");
         this->addChild(groupLogo);
     }
@@ -91,6 +91,9 @@ void HQScene::addGroupHQLogo()
 
 void HQScene::createMonodirectionalScrollView()
 {
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
     auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2), Point(origin.x, origin.y + 50));
     horizontalScrollView->setName("scrollView");
     this->addChild(horizontalScrollView);
@@ -105,6 +108,9 @@ void HQScene::createMonodirectionalScrollView()
 
 void HQScene::createBidirectionalScrollView()
 {
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
     auto verticalScrollView = createVerticalScrollView();
     verticalScrollView->setName("scrollView");
     this->addChild(verticalScrollView);
@@ -217,6 +223,9 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
 
 cocos2d::ui::ScrollView* HQScene::createVerticalScrollView()
 {
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
     Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height * ConfigStorage::getInstance()->getVerticalScrollViewVisiblePercentage());
     
     cocos2d::ui::ScrollView *vScrollView = cocos2d::ui::ScrollView::create();
@@ -235,7 +244,10 @@ cocos2d::ui::ScrollView* HQScene::createVerticalScrollView()
 }
 
 Sprite* HQScene::createVerticalScrollGradient()
-{ 
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
     Sprite* verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
     verticalScrollGradient->setAnchorPoint(Vec2(0.5, 1.0));
     verticalScrollGradient->setScaleX(visibleSize.width / verticalScrollGradient->getContentSize().width);

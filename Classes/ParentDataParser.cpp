@@ -124,12 +124,12 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
         currentChild["profileName"] = ParentDataStorage::getInstance()->availableChildrenData[i]["profileName"].GetString();
         currentChild["avatar"] = ParentDataStorage::getInstance()->availableChildrenData[i]["avatar"].GetString();
         
-        /*if(ParentDataStorage::getInstance()->availableChildrenData[i].HasMember("sex"))
-            if(ParentDataStorage::getInstance()->availableChildrenData[i]["sex"].IsString())*/
+        if(ParentDataStorage::getInstance()->availableChildrenData[i].HasMember("sex"))
+            if(ParentDataStorage::getInstance()->availableChildrenData[i]["sex"].IsString())
             currentChild["sex"] = ParentDataStorage::getInstance()->availableChildrenData[i]["sex"].GetString();
         
-        /*if(ParentDataStorage::getInstance()->availableChildrenData[i].HasMember("dob"))
-            if(ParentDataStorage::getInstance()->availableChildrenData[i]["dob"].IsString())*/
+        if(ParentDataStorage::getInstance()->availableChildrenData[i].HasMember("dob"))
+            if(ParentDataStorage::getInstance()->availableChildrenData[i]["dob"].IsString())
                 currentChild["dob"] = ParentDataStorage::getInstance()->availableChildrenData[i]["dob"].GetString();
         
         ParentDataStorage::getInstance()->availableChildren.push_back(currentChild);

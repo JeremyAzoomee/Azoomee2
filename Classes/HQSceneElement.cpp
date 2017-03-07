@@ -86,7 +86,8 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
         
         if(rect.containsPoint(locationInNode))
         {
-            elementVisual->overlayWhenTouched->setOpacity(150);
+            if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(150);
+            
             movedAway = false;
             iamtouched = true;
             touchPoint = touch->getLocation();
@@ -103,7 +104,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
         {
             movedAway = true;
             iamtouched = false;
-            elementVisual->overlayWhenTouched->setOpacity(0);
+             if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(0);
         }
         
         return true;
@@ -113,7 +114,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
     {
         if(iamtouched)
         {
-            elementVisual->overlayWhenTouched->setOpacity(0);
+            if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(0);
             
             if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
             
