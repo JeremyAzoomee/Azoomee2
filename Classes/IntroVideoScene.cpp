@@ -32,9 +32,14 @@ bool IntroVideoScene::init()
         return false;
     }
     
-    //auto test = StringMgr::getInstance()->getStringForKeys("LoginScene/pause_layer_pause_title/ ");
-    //auto test1 = StringMgr::getInstance()->getErrorMessageWithCode(999);
+    auto funcCallAction = CallFunc::create([=](){
+        
+        navigateToBaseScene();
+    });
     
+    funcCallAction->setTag(2);
+    this->runAction(Sequence::create(DelayTime::create(6.5), funcCallAction, NULL));
+
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 
@@ -42,7 +47,7 @@ bool IntroVideoScene::init()
     videoPlayer->setContentSize(_visibleRect.size);
     videoPlayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     videoPlayer->setPosition(Vec2(_visibleRect.origin.x + _visibleRect.size.width / 2,_visibleRect.origin.y + _visibleRect.size.height /2));
-    videoPlayer->setFileName("res/introAssets/Opening Animation.mp4");
+    videoPlayer->setFileName("res/introAssets/Opening_Animation.mp4");
     videoPlayer->setKeepAspectRatioEnabled(true);
     videoPlayer->addEventListener(CC_CALLBACK_2(IntroVideoScene::videoEventCallback, this));
     
@@ -55,8 +60,13 @@ bool IntroVideoScene::init()
 void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eventType)
 {
     switch (eventType) {
+        case VideoPlayer::EventType::PAUSED:
+            break;
+        case VideoPlayer::EventType::PLAYING:
+            break;
         case VideoPlayer::EventType::COMPLETED:
         {
+            this->stopActionByTag(2);
             AnalyticsSingleton::getInstance()->registerAppVersion();
             
             if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
@@ -81,9 +91,7 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
                 if((username == "")||(password == ""))
                 {
                     CCLOG("autologin NOT called");
-                    HQHistoryManager::getInstance()->emptyHistory();
-                    auto baseScene = BaseScene::createScene();
-                    Director::getInstance()->replaceScene(baseScene);
+                    navigateToBaseScene();
                 }
                 else
                 {
@@ -96,7 +104,17 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
             break;
         }
         default:
+        {
+            navigateToBaseScene();
             break;
+        }
     }
+}
+
+void IntroVideoScene::navigateToBaseScene()
+{
+    HQHistoryManager::getInstance()->emptyHistory();
+    auto baseScene = BaseScene::createScene();
+    Director::getInstance()->replaceScene(baseScene);
 }
 
