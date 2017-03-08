@@ -112,7 +112,7 @@ void HQSceneElementVisual::addGradientToBottom(std::string category)
     gradientColour.g = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).g;
     gradientColour.b = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).b;
     
-    auto gradient = Sprite::create("res/hqscene/gradient_overlay.png");
+    auto gradient = Sprite::create(ConfigStorage::getInstance()->getGradientImageForCategory(category));
     gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2);
     gradient->setScaleX(baseLayer->getContentSize().width / gradient->getContentSize().width);
     gradient->setColor(gradientColour);

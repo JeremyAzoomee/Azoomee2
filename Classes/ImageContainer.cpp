@@ -257,7 +257,7 @@ void ImageContainer::addGradientToBottom(Color3B colour, float startDelay)
     auto gradient = Sprite::create("res/hqscene/gradient_overlay.png");
     gradient->setPosition(bgLayer->getContentSize().width / 2, gradient->getContentSize().height / 2* (scaleFactor*.7));
     gradient->setScaleX(bgLayer->getContentSize().width / gradient->getContentSize().width);
-    gradient->setScaleY(scaleFactor*.7);
+    gradient->setScaleY(scaleFactor*.85);
     gradient->setColor(colour);
     gradient->setOpacity(0);
     bgLayer->addChild(gradient);
@@ -269,7 +269,7 @@ void ImageContainer::addIconToImage(std::string type, float startDelay)
 {
     icon = Sprite::create(StringUtils::format("res/hqscene/icon_%s.png", ConfigStorage::getInstance()->getIconNameForCategory(type).c_str()));
     icon->setScale(scaleFactor);
-    icon->setPosition(icon->getContentSize().height *scaleFactor, icon->getContentSize().height *scaleFactor);
+    icon->setPosition(icon->getContentSize().height *scaleFactor, icon->getContentSize().height*.6 *scaleFactor);
     icon->setOpacity(0);
     bgLayer->addChild(icon);
     
@@ -279,7 +279,7 @@ void ImageContainer::addIconToImage(std::string type, float startDelay)
 void ImageContainer::addLabelToImage(std::string name, float startDelay)
 {
     auto label = createLabelHubContentTitle(name);
-    label->setAnchorPoint(Vec2(0,0.55));
+    label->setAnchorPoint(Vec2(0,0.6));
     label->setOpacity(0);
     label->setPosition((icon->getContentSize().width + icon->getContentSize().height *.75)  * scaleFactor, icon->getPositionY());
     reduceLabelTextToFitWidth(label,bgLayer->getContentSize().width - ((icon->getContentSize().width + icon->getContentSize().height)  * scaleFactor));

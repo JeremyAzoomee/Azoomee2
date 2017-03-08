@@ -287,6 +287,14 @@ std::string ConfigStorage::getIconNameForCategory(std::string category)
     return ImageContainerConfiguration["iconNameForCategory"][category.c_str()].GetString();
 }
 
+std::string ConfigStorage::getGradientImageForCategory(std::string category)
+{
+    if(category == "VIDEO HQ")
+        return "res/hqscene/gradient_overlay.png";
+    else
+        return "res/hqscene/gradient_overlay_large.png";
+}
+
 //-----------------------------------OOMEE animation identifier configuration----------------------------------
 
 std::string ConfigStorage::getGreetingAnimation()
