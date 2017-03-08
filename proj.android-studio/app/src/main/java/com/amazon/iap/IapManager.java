@@ -16,7 +16,7 @@ import com.amazon.device.iap.model.UserData;
 import org.cocos2dx.cpp.AppActivity;
 
 public class IapManager {
-    private static final String TAG = "SampleIAPManager";
+    private static final String TAG = "IAPManager";
     private final AppActivity mainActivity;
     private final SubscriptionDataSource dataSource;
 
@@ -28,13 +28,6 @@ public class IapManager {
         this.dataSource = new SubscriptionDataSource(mainActivity.getApplicationContext());
     }
 
-    /**
-     * Method to set the app's amazon user id and marketplace from IAP SDK
-     * responses.
-     * 
-     * @param newAmazonUserId
-     * @param newAmazonMarketplace
-     */
     public void setAmazonUserId(final String newAmazonUserId, final String newAmazonMarketplace) {
         // Reload everything if the Amazon user has changed.
         if (newAmazonUserId == null) {
@@ -55,22 +48,12 @@ public class IapManager {
         }
     }
 
-    /**
-     * Enable the magazine subscription.
-     * 
-     * @param productData
-     */
     public void enablePurchaseForSkus(final Map<String, Product> productData) {
         if (productData.containsKey(MySku.MY_MAGAZINE_SUBS.getSku())) {
             magazineSubsAvailable = true;
         }
     }
 
-    /**
-     * Disable the magazine subscription.
-     * 
-     * @param unavailableSkus
-     */
     public void disablePurchaseForSkus(final Set<String> unavailableSkus) {
         if (unavailableSkus.contains(MySku.MY_MAGAZINE_SUBS.toString())) {
             magazineSubsAvailable = false;
@@ -97,7 +80,7 @@ public class IapManager {
                     Log.d("iap", "Purchase cannot be verified, please retry later.");
                     return;
                 }
-                grantSubscriptionPurchase(receipt, userData);
+                //grantSubscriptionPurchase(receipt, userData);
             }
             return;
         } catch (final Throwable e) {
@@ -144,10 +127,6 @@ public class IapManager {
         }
     }
 
-    /**
-     * Show purchase failed message
-     * @param sku
-     */
     public void purchaseFailed(final String sku) {
         Log.d("iap", "Purchase failed!");
     }
@@ -164,44 +143,27 @@ public class IapManager {
         this.magazineSubsAvailable = magazineSubsAvailable;
     }
 
-    /**
-     * Disable all magezine subscriptions on UI
-     */
     public void disableAllPurchases() {
         this.setMagazineSubsAvailable(false);
         refreshMagazineSubsAvailability();
     }
-    
-    /**
-     * Reload the magazine subscription availability
-     */
+
     public void refreshMagazineSubsAvailability() {
         final boolean available = magazineSubsAvailable && userIapData!=null;
         //mainActivity.setMagazineSubsAvail(available,
                                           //userIapData != null && !userIapData.isSubsActiveCurrently();
     }
 
-    /**
-     * Gracefully close the database when the main activity's onStop and
-     * onDestroy
-     * 
-     */
     public void deactivate() {
         dataSource.close();
 
     }
 
-    /**
-     * Connect to the database when main activity's onStart and onResume
-     */
     public void activate() {
         dataSource.open();
 
     }
 
-    /**
-     * Reload the subscription history from database
-     */
     public void reloadSubscriptionStatus() {
         final List<SubscriptionRecord> subsRecords = dataSource.getSubscriptionRecords(userIapData.getAmazonUserId());
         userIapData.setSubscriptionRecords(subsRecords);
@@ -209,18 +171,6 @@ public class IapManager {
         refreshMagazineSubsAvailability();
     }
 
-    /**
-     * 
-     * This sample app includes a simple SQLite implementation for save
-     * subscription purchase detail locally.
-     * 
-     * We strongly recommend that you save the purchase information on a server.
-     * 
-     * 
-     * 
-     * @param receipt
-     * @param userId
-     */
     private void saveSubscriptionRecord(final Receipt receipt, final String userId) {
         // TODO replace with your own implementation
 
@@ -234,33 +184,11 @@ public class IapManager {
 
     }
 
-    /**
-     * We strongly recommend verifying the receipt on your own server side
-     * first. The server side verification ideally should include checking with
-     * Amazon RVS (Receipt Verification Service) to verify the receipt details.
-     * 
-     * @see <a href=
-     *      "https://developer.amazon.com/appsandservices/apis/earn/in-app-purchasing/docs/rvs"
-     *      >Appstore's Receipt Verification Service</a>
-     * 
-     * @param receiptId
-     * @return
-     */
     private boolean verifyReceiptFromYourService(final String receiptId, final UserData userData) {
         // TODO Add your own server side accessing and verification code
         return true;
     }
 
-    /**
-     * Private method to revoke a subscription purchase from the customer
-     * 
-     * Please implement your application-specific logic to handle the revocation
-     * of a subscription purchase.
-     * 
-     * 
-     * @param receipt
-     * @param userId
-     */
     private void revokeSubscription(final Receipt receipt, final String userId) {
         final String receiptId = receipt.getReceiptId();
         dataSource.cancelSubscription(receiptId, receipt.getCancelDate().getTime());

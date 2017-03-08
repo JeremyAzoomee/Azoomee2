@@ -90,6 +90,13 @@
         "button":"OK"
     },
     
+    "3001":
+    {
+    	"title":"Thank you!",
+        "body":"You can enjoy all content after logging in again.",
+        "button":"OK"
+    },
+    
     "default":
     {
         "title":"Something Went Wrong",

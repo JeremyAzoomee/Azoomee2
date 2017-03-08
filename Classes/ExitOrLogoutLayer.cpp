@@ -6,6 +6,7 @@
 #include "AnalyticsSingleton.h"
 #include "ParentDataParser.h"
 #include "ElectricDreamsTextStyles.h"
+#include "PaymentSingleton.h"
 
 bool ExitOrLogoutLayer::init()
 {
@@ -76,6 +77,15 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     logoutButton->setDelegate(this);
     logoutButton->setMixPanelButtonName("Log Out");
     backgroundLayer->addChild(logoutButton);
+    
+    // ------- PURCHASE BUTTON ----------
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    ElectricDreamsButton *premiumButton = ElectricDreamsButton::createButtonWithText("I want it all!");
+    premiumButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.45));
+    premiumButton->setDelegate(this);
+    backgroundLayer->addChild(premiumButton);
+#endif
 }
 
 //---------------------- Actions -----------------
@@ -120,6 +130,21 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
         auto loginScene = LoginScene::createScene(0);
         Director::getInstance()->replaceScene(loginScene);
     }
+    else
+    {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        cocos2d::JniMethodInfo methodInfo;
+        
+        if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startAmazonPurchase", "()V"))
+        {
+            return;
+        }
+        
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+
+#endif
+    }
 }
 
 void ExitOrLogoutLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
@@ -131,3 +156,24 @@ void ExitOrLogoutLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
     addExitOrLogoutUIObjects();
 }
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv* env, jobject thiz, jstring requestId, jstring receiptId, jstring amazonUserid);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv* env, jobject thiz, jstring requestId, jstring receiptId, jstring amazonUserid)
+{
+    const char* cRequestId = env->GetStringUTFChars(requestId, NULL);
+    const char* cReceiptId = env->GetStringUTFChars(receiptId, NULL);
+    const char* cAmazonUserid = env->GetStringUTFChars(amazonUserid, NULL);
+    
+    CCLOG("COCOS2DX: I have the data: requestid: %s, receiptid: %s, amazonuserid: %s", cRequestId, cReceiptId, cAmazonUserid);
+    
+    PaymentSingleton::getInstance()->amazonPaymentMade(cRequestId, cReceiptId, cAmazonUserid);
+}
+
+#endif
+

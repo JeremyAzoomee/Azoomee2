@@ -9,6 +9,7 @@
 #include "AnalyticsSingleton.h"
 #include "ChildAccountScene.h"
 #include "ChildDataParser.h"
+#include "PaymentSingleton.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -133,7 +134,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
         }
     }
     
-    std::string requestUrl = StringUtils::format("https://%s%s", host.c_str(), requestPath.c_str());
+    std::string requestUrl = StringUtils::format("http://%s%s", host.c_str(), requestPath.c_str());
     if(!urlParameters.empty()) requestUrl = StringUtils::format("%s?%s", requestUrl.c_str(), urlParameters.c_str());   //In URL we need to add the ?
     
     HttpRequest *request = new HttpRequest();
@@ -156,7 +157,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     {
         std::string myRequestString;
         
-        if((requestTag == "updateParentPin")||(requestTag == "updateParentActorStatus"))
+        if((requestTag == "updateParentPin")||(requestTag == "updateParentActorStatus")||(requestTag == "iapAmazonPaymentMade"))
         {
             auto myJWTTool = JWTToolForceParent::getInstance();
             myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
@@ -192,6 +193,8 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         std::vector<char> responseData = *response->getResponseData();
         std::string responseDataString = std::string(responseData.begin(), responseData.end());
         
+        CCLOG("request tag: %s", requestTag.c_str());
+        CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
         CCLOG("response code: %ld", response->getResponseCode());
         CCLOG("response string: %s", responseDataString.c_str());
         
@@ -206,6 +209,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "updateParentPin") BackEndCaller::getInstance()->onUpdateParentPinAnswerReceived(responseDataString);
         if(requestTag == "updateParentActorStatus") BackEndCaller::getInstance()->onUpdateParentActorStatusAnswerReceived(responseDataString);
         if(requestTag == "PreviewHOME") HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(responseDataString);
+        if(requestTag == "iapAmazonPaymentMade") PaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(responseDataString);
         
         for(int i = 0; i < 6; i++)
         {
@@ -227,6 +231,8 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
     std::string requestTag = response->getHttpRequest()->getTag();
     long errorCode = response->getResponseCode();
     
+    CCLOG("request tag: %s", requestTag.c_str());
+    CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
     CCLOG("response string: %s", responseString.c_str());
     CCLOG("response code: %ld", response->getResponseCode());
     
