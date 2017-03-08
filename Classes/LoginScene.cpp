@@ -63,9 +63,9 @@ bool LoginScene::init()
     origin = Director::getInstance()->getVisibleOrigin();
     
     getUserDefaults();
+    addTextboxScene();
     addSideWiresToScreen(this, 0, 2);
     addLabelToScene();
-    addTextboxScene();
     addButtonsScene();
     
     return true;
@@ -111,6 +111,8 @@ void LoginScene::onEnterTransitionDidFinish()
     else
         emailTextInput->focusAndShowKeyboard();
     
+    nextButton->setVisible(isValidEmailAddress(username.c_str()));
+    
 #ifdef autologin
     BackEndCaller::getInstance()->login("tamas.bonis@azoomee.com", "B0Ta1983!");
 #endif
@@ -137,15 +139,15 @@ void LoginScene::addLabelToScene()
 
 void LoginScene::addTextboxScene()
 {
-    emailTextInput = TextInputLayer::createWithSize(Size(1500,131), INPUT_IS_EMAIL);
-    emailTextInput->setDelegate(this);
-    emailTextInput->setText(username);
-    this->addChild(emailTextInput);
-    
     passwordTextInput = TextInputLayer::createWithSize(Size(1500,131), INPUT_IS_PASSWORD);
     passwordTextInput->setDelegate(this);
     passwordTextInput->setEditboxVisibility(false);
     this->addChild(passwordTextInput);
+    
+    emailTextInput = TextInputLayer::createWithSize(Size(1500,131), INPUT_IS_EMAIL);
+    emailTextInput->setDelegate(this);
+    emailTextInput->setText(username);
+    this->addChild(emailTextInput);
 }
 
 void LoginScene::addButtonsScene()
@@ -158,8 +160,6 @@ void LoginScene::addButtonsScene()
     nextButton = ElectricDreamsButton::createNextButton();
     nextButton->setCenterPosition(Vec2(origin.x + visibleSize.width -nextButton->getContentSize().width*.7, origin.y+ visibleSize.height - nextButton->getContentSize().height*.7));
     nextButton->setDelegate(this);
-    
-    nextButton->setVisible(isValidEmailAddress(username.c_str()));
     this->addChild(nextButton);
 }
 
@@ -171,6 +171,7 @@ void LoginScene::changeElementsToPasswordScreen()
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
     emailTextInput->setEditboxVisibility(false);
     passwordTextInput->setEditboxVisibility(true);
+    CCLOG("NEXT NextButton visible false - change to password");
     nextButton->setVisible(false);
     currentScreen = passwordLoginScreen;
     passwordTextInput->focusAndShowKeyboard();
@@ -183,6 +184,7 @@ void LoginScene::changeElementsToEmailScreen()
     passwordTextInput->setText("");
     emailTextInput->setEditboxVisibility(true);
     currentScreen = emailLoginScreen;
+    CCLOG("NEXT NextButton visible change to email %d",isValidEmailAddress(emailTextInput->getText().c_str()));
     nextButton->setVisible(isValidEmailAddress(emailTextInput->getText().c_str()));
     emailTextInput->focusAndShowKeyboard();
 }
@@ -221,6 +223,7 @@ void LoginScene::login()
 //-------------DELEGATE FUNCTIONS-------------------
 void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
+    CCLOG("NEXT Check Input TextBox is %d", isValid);
     nextButton->setVisible(isValid);
 }
 void LoginScene::buttonPressed(ElectricDreamsButton* button)

@@ -289,7 +289,7 @@ std::string ConfigStorage::getIconNameForCategory(std::string category)
 
 std::string ConfigStorage::getGradientImageForCategory(std::string category)
 {
-    if(category == "VIDEO HQ")
+    if(category == "VIDEO HQ" || category == "GROUP HQ" )
         return "res/hqscene/gradient_overlay.png";
     else
         return "res/hqscene/gradient_overlay_large.png";
