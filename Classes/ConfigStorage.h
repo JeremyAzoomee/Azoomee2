@@ -42,12 +42,12 @@ public:
     std::string getPlaceholderImageForContentItemInCategory(std::string type);
     cocos2d::Vec2 getHighlightSizeMultiplierForContentItem(int highlightClass);
     float getScrollviewTitleTextHeight();
-    float getVerticalScrollViewVisiblePercentage();
     cocos2d::Size getGroupHQLogoSize();
     
     //NavigationLayer configuration
     cocos2d::Point getCirclePositionForMenuItem(int itemNumber);
     cocos2d::Point getHorizontalPositionForMenuItem(int itemNumber);
+    float getHorizontalMenuItemsHeight();
     cocos2d::Point getHorizontalPositionForMenuItemInGroupHQ(int itemNumber);
     cocos2d::Color4B getColourForMenuItem(int itemNumber);
     std::string getNameForMenuItem(int itemNumber);

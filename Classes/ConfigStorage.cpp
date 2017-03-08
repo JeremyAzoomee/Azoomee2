@@ -190,11 +190,6 @@ float ConfigStorage::getScrollviewTitleTextHeight()
     return HQSceneConfiguration["scrollViewTextHeight"].GetDouble();
 }
 
-float ConfigStorage::getVerticalScrollViewVisiblePercentage()
-{
-    return HQSceneConfiguration["verticalScrollViewVisiblePercentage"].GetDouble();
-}
-
 Size ConfigStorage::getGroupHQLogoSize()
 {
     float width = HQSceneConfiguration["groupLogoSize"]["width"].GetDouble();
@@ -219,6 +214,11 @@ cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(int itemNumber)
     float y = visualOrigin.y + visualSize.height + NavigationConfiguration["horizontalYPositionsForMenuItems"].GetDouble();
     
     return Point(x, y);
+}
+
+float ConfigStorage::getHorizontalMenuItemsHeight()
+{
+    return NavigationConfiguration["horizontalMenuItemsHeight"].GetDouble();
 }
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(int itemNumber)

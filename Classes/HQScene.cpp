@@ -226,7 +226,7 @@ cocos2d::ui::ScrollView* HQScene::createVerticalScrollView()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height * ConfigStorage::getInstance()->getVerticalScrollViewVisiblePercentage());
+    Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height - ConfigStorage::getInstance()->getHorizontalMenuItemsHeight());
     
     cocos2d::ui::ScrollView *vScrollView = cocos2d::ui::ScrollView::create();
     vScrollView->setContentSize(vScrollFrameSize);
@@ -251,7 +251,7 @@ Sprite* HQScene::createVerticalScrollGradient()
     Sprite* verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
     verticalScrollGradient->setAnchorPoint(Vec2(0.5, 1.0));
     verticalScrollGradient->setScaleX(visibleSize.width / verticalScrollGradient->getContentSize().width);
-    verticalScrollGradient->setPosition(origin.x+visibleSize.width/2,origin.y + visibleSize.height * ConfigStorage::getInstance()->getVerticalScrollViewVisiblePercentage());
+    verticalScrollGradient->setPosition(origin.x+visibleSize.width/2,origin.y + visibleSize.height - ConfigStorage::getInstance()->getHorizontalMenuItemsHeight());
     verticalScrollGradient->setColor(Color3B::BLACK);
     
     return verticalScrollGradient;
