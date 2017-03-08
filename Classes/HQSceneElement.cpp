@@ -52,7 +52,7 @@ bool HQSceneElement::init()
 void HQSceneElement::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay) //This method is being called by HQScene.cpp with all variables.
 {
     elementVisual = HQSceneElementVisual::create();
-    elementVisual->addHQSceneElement(category, itemData, shape, delay);
+    elementVisual->addHQSceneElement(category, itemData, shape, delay,false);
     this->addChild(elementVisual);
     this->setContentSize(elementVisual->getContentSize());
     

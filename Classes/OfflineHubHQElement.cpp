@@ -28,8 +28,10 @@ bool OfflineHubHQElement::init()
 
 void OfflineHubHQElement::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay) //This method is being called by HQScene.cpp with all variables.
 {
+    //category = "GAME HQ";
+    
     elementVisual = HQSceneElementVisual::create();
-    elementVisual->addHQSceneElement(category, itemData, shape, delay);
+    elementVisual->addHQSceneElement(category, itemData, shape, delay, true);
     this->addChild(elementVisual);
     
     this->setContentSize(elementVisual->getContentSize());

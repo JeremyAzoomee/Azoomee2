@@ -159,7 +159,7 @@ void LoginScene::addButtonsScene()
     nextButton->setCenterPosition(Vec2(origin.x + visibleSize.width -nextButton->getContentSize().width*.7, origin.y+ visibleSize.height - nextButton->getContentSize().height*.7));
     nextButton->setDelegate(this);
     
-    nextButton->setVisible(isValidEmailAddress(emailTextInput->getText().c_str()));
+    nextButton->setVisible(isValidEmailAddress(username.c_str()));
     this->addChild(nextButton);
 }
 

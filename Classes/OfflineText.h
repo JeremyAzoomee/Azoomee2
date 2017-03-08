@@ -32,6 +32,7 @@ private:
     void addRetryButtonToScreen();
     
     void addTextTitleToScreen(std::string text);
+    void addTextSubTitleToScreen(std::string text);
     void addTextBodyToScreen(std::string text);
     
     cocos2d::Point visibleOrigin;

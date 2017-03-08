@@ -11,7 +11,7 @@ public:
     CREATE_FUNC(HQSceneElementVisual);
     static cocos2d::Scene* createScene();
     virtual bool init();
-    cocos2d::Layer* addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape, float delay);
+    cocos2d::Layer* addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape, float delay, bool createForOffline);
     
     cocos2d::LayerColor *baseLayer;
     cocos2d::LayerColor *overlayWhenTouched;
@@ -36,6 +36,7 @@ private:
     void onExit();
     
     bool aboutToExit;
+    bool isOffline;
 };
 
 #endif

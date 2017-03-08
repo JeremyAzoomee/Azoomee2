@@ -41,7 +41,7 @@ void OfflineText::createForLogin()
     this->removeAllChildren();
     addOfflineLogoToScreen();
     addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_TITLE_LABEL));
-    addTextBodyToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_FOR_LOGIN_SUB_TITLE_LABEL));
+    addTextSubTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_FOR_LOGIN_SUB_TITLE_LABEL));
 }
 
 void OfflineText::createForLoginNoUser()
@@ -49,7 +49,7 @@ void OfflineText::createForLoginNoUser()
     this->removeAllChildren();
     addOfflineLogoToScreen();
     addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_TITLE_LABEL));
-    addTextBodyToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_NO_USER_SUB_TITLE_LABEL));
+    addTextSubTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_SUB_TITLE_LABEL));
 }
 
 void OfflineText::createForOfflineHub()
@@ -66,11 +66,12 @@ void OfflineText::createForOfflineHubWhenOffline()
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
-        addTextBodyToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_HUB_LOGGED_IN_SUB_TITLE_LABEL));
+        addTextSubTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_SUB_TITLE_LABEL));
+        addTextBodyToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_HUB_LOGGED_IN_BODY_LABEL));
     }
     else
     {
-        addTextBodyToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_HUB_NOT_LOGGED_IN_SUB_TITLE_LABEL));
+        addTextSubTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_SUB_TITLE_LABEL));
     }
     
     addRetryButtonToScreen();
@@ -81,7 +82,7 @@ void OfflineText::createForOfflineHubWhenOnline()
     this->removeAllChildren();
     addOnlineLogoToScreen();
     addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_ONLINE_TITLE_LABEL));
-    addTextBodyToScreen("");
+    addTextSubTitleToScreen("");
     addExitOfflineModeButtonToScreen();
 }
 
@@ -102,7 +103,7 @@ void OfflineText::connectivityStateChanged(bool online)
 void OfflineText::addOfflineLogoToScreen()
 {
     auto offlineIcon = Sprite::create("res/offline/offlineIcon.png");
-    offlineIcon->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height - offlineIcon->getContentSize().height / 1.1);
+    offlineIcon->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height - offlineIcon->getContentSize().height *.75);
     offlineIcon->setOpacity(255);
     offlineIcon->setName("offlineIcon");
     this->addChild(offlineIcon);
@@ -143,7 +144,7 @@ void OfflineText::addTextTitleToScreen(std::string text)
 {
     auto offlineTextTitle = createLabelHeader(text);
     offlineTextTitle->setCascadeOpacityEnabled(true);
-    offlineTextTitle->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.75);
+    offlineTextTitle->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.82);
     offlineTextTitle->setOpacity(0);
     
     this->addChild(offlineTextTitle);
@@ -151,12 +152,25 @@ void OfflineText::addTextTitleToScreen(std::string text)
     offlineTextTitle->runAction(FadeIn::create(1));
 }
 
+void OfflineText::addTextSubTitleToScreen(std::string text)
+{
+    auto offlineTextSubTitle = createLabelBodyCentred(text);
+    offlineTextSubTitle->setAnchorPoint(Vec2(0.5, 1.0));
+    offlineTextSubTitle->setCascadeOpacityEnabled(true);
+    offlineTextSubTitle->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.78);
+    offlineTextSubTitle->setOpacity(0);
+    
+    this->addChild(offlineTextSubTitle);
+    
+    offlineTextSubTitle->runAction(FadeIn::create(1.5));
+}
+
 void OfflineText::addTextBodyToScreen(std::string text)
 {
     auto offlineTextBody = createLabelBodyCentred(text);
     offlineTextBody->setAnchorPoint(Vec2(0.5, 1.0));
     offlineTextBody->setCascadeOpacityEnabled(true);
-    offlineTextBody->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.70);
+    offlineTextBody->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.52);
     offlineTextBody->setOpacity(0);
     
     this->addChild(offlineTextBody);
@@ -172,9 +186,7 @@ void OfflineText::addRetryButtonToScreen()
     retryButton->setDelegate(this);
     retryButton->setName("retryButton");
     retryButton->setMixPanelButtonName("OfflineRetryButton");
-    
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) retryButton->setPosition(visibleOrigin.x + visibleSize.width * 0.78 - retryButtonContentSize.width / 2, visibleOrigin.y + visibleSize.height * 0.6);
-    else retryButton->setPosition(visibleOrigin.x + visibleSize.width * 0.5 - retryButtonContentSize.width / 2, visibleOrigin.y + visibleSize.height * 0.4);
+    retryButton->setCenterPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5, visibleOrigin.y + visibleSize.height * 0.61));
     
     retryButton->setCascadeOpacityEnabled(true);
     this->addChild(retryButton);

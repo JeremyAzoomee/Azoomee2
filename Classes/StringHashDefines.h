@@ -45,9 +45,8 @@
 
 #define OFFLINESCENE_OFFLINE_TITLE_LABEL "OfflineScene/offline_title_label"
 #define OFFLINESCENE_FOR_LOGIN_SUB_TITLE_LABEL "OfflineScene/for_login_sub_title_label"
-#define OFFLINESCENE_NO_USER_SUB_TITLE_LABEL "OfflineScene/no_user_sub_title_label"
-#define OFFLINESCENE_HUB_LOGGED_IN_SUB_TITLE_LABEL "OfflineScene/hub_logged_in_sub_title_label"
-#define OFFLINESCENE_HUB_NOT_LOGGED_IN_SUB_TITLE_LABEL "OfflineScene/hub_not_logged_in_sub_title_label"
+#define OFFLINESCENE_OFFLINE_SUB_TITLE_LABEL "OfflineScene/offline_sub_title_label"
+#define OFFLINESCENE_HUB_LOGGED_IN_BODY_LABEL "OfflineScene/hub_logged_in_body_label"
 #define OFFLINESCENE_ONLINE_TITLE_LABEL "OfflineScene/online_title_label"
 
 //------------ OTHER LABELS ------------------

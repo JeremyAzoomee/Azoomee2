@@ -47,9 +47,8 @@
     {
         "offline_title_label":"Oh No! You are offline",
         "for_login_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again,\nor enter offline mode.",
-        "no_user_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again.",
-        "hub_logged_in_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again.\n\n\nIn the meantime you can still enjoy these.",
-        "hub_not_logged_in_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again.",
+        "offline_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again.",
+        "hub_logged_in_body_label":"In the meantime you can still enjoy these.",
         "online_title_label":"Great news! You are back online."
         
     },

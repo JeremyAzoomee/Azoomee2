@@ -48,8 +48,10 @@ bool HQSceneElementVisual::init()
     return true;
 }
 
-cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay) //This method is being called by HQScene.cpp with all variables.
+cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay, bool createForOffline) //This method is being called by HQScene.cpp with all variables.
 {
+    isOffline = createForOffline;
+    
     resizeSceneElement(shape, category);
     createColourLayer(category, delay / 10);
     
@@ -65,7 +67,8 @@ cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, st
         if(!aboutToExit)
         {
             auto iconSprite = addIconToImage(category);
-            addLabelsToImage(itemData, iconSprite);
+            if(!isOffline)
+                addLabelsToImage(itemData, iconSprite);
         }
     
         if(!aboutToExit) addTouchOverlayToElement();
@@ -112,9 +115,15 @@ void HQSceneElementVisual::addGradientToBottom(std::string category)
     gradientColour.g = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).g;
     gradientColour.b = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(category).b;
     
+    float iconScaleFactor = 1;
+    
+    if(isOffline)
+        iconScaleFactor = 1.8;
+    
     auto gradient = Sprite::create(ConfigStorage::getInstance()->getGradientImageForCategory(category));
-    gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2);
+    gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2 * iconScaleFactor);
     gradient->setScaleX(baseLayer->getContentSize().width / gradient->getContentSize().width);
+    gradient->setScaleY(iconScaleFactor);
     gradient->setColor(gradientColour);
     baseLayer->addChild(gradient);
 }
@@ -122,10 +131,16 @@ void HQSceneElementVisual::addGradientToBottom(std::string category)
 Sprite* HQSceneElementVisual::addIconToImage(std::string category)
 {
     if(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category) == "") return nullptr; //there is chance that there is no icon given for the given category.
-        
+    
+    float iconScaleFactor = 1;
+    
+    if(isOffline)
+        iconScaleFactor = 2;
+    
     auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category));
     icon->setAnchorPoint(Vec2(0.5, 0.5));
-    icon->setPosition(icon->getContentSize().width ,icon->getContentSize().height);
+    icon->setPosition(icon->getContentSize().width * iconScaleFactor,icon->getContentSize().height * iconScaleFactor);
+    icon->setScale(iconScaleFactor);
     baseLayer->addChild(icon);
     
     return icon;
