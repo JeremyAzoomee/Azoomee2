@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		020ACCFF1E70564B002490CE /* PaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020ACCFD1E70564B002490CE /* PaymentSingleton.cpp */; };
 		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
 		025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */; };
 		025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */; };
@@ -270,6 +271,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		020ACCFD1E70564B002490CE /* PaymentSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PaymentSingleton.cpp; sourceTree = "<group>"; };
+		020ACCFE1E70564B002490CE /* PaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentSingleton.h; sourceTree = "<group>"; };
 		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
 		025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
 		025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsPreviewLayer.cpp; sourceTree = "<group>"; };
@@ -707,6 +710,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		020ACCFB1E70561F002490CE /* PaymentSingleton */ = {
+			isa = PBXGroup;
+			children = (
+				020ACCFD1E70564B002490CE /* PaymentSingleton.cpp */,
+				020ACCFE1E70564B002490CE /* PaymentSingleton.h */,
+			);
+			name = PaymentSingleton;
+			sourceTree = "<group>";
+		};
 		02E595821E55DE5E0052F395 /* Offline */ = {
 			isa = PBXGroup;
 			children = (
@@ -1043,6 +1055,7 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				020ACCFB1E70561F002490CE /* PaymentSingleton */,
 				43540FB31E6080190029E30E /* UsefulFunctions */,
 				430B21601E449D95004ACB10 /* Analytics */,
 				4330C7841E27B77600D32D3E /* Crashlytics */,
@@ -1618,6 +1631,7 @@
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
 				431A2A1F1E439BFE00DC0F3B /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
 				431A2A111E439BFE00DC0F3B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
+				020ACCFF1E70564B002490CE /* PaymentSingleton.cpp in Sources */,
 				431A2A2B1E439BFE00DC0F3B /* MPNotification.m in Sources */,
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,

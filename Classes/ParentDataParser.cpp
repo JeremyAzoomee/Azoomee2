@@ -123,7 +123,7 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
         std::map<std::string, std::string> currentChild;
         currentChild["profileName"] = ParentDataStorage::getInstance()->availableChildrenData[i]["profileName"].GetString();
         currentChild["avatar"] = ParentDataStorage::getInstance()->availableChildrenData[i]["avatar"].GetString();
-        
+
         if(ParentDataStorage::getInstance()->availableChildrenData[i].HasMember("sex"))
             if(ParentDataStorage::getInstance()->availableChildrenData[i]["sex"].IsString())
             currentChild["sex"] = ParentDataStorage::getInstance()->availableChildrenData[i]["sex"].GetString();

@@ -34,13 +34,19 @@ import android.util.Base64;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xwalk.core.XWalkCookieManager;
-import org.xwalk.core.XWalkView;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
+import com.amazon.device.iap.PurchasingService;
+import com.amazon.device.iap.model.FulfillmentResult;
+import com.amazon.device.iap.model.RequestId;
+import com.amazon.iap.IapManager;
+import com.amazon.iap.MySku;
+import com.amazon.iap.PurchasingListenerClass;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import io.fabric.sdk.android.Fabric;
@@ -49,22 +55,24 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import com.appsflyer.AppsFlyerLib;
 
+
 public class AppActivity extends Cocos2dxActivity {
 
     private static Context mContext;
     private MixpanelAPI mixpanel;
+    private IapManager iapManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setupIAPOnCreate();
         AppsFlyerLib.getInstance().startTracking(this.getApplication(),"BzPYMg8dkYsCuDn8XBUN94");
 
         mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         mContext = this;
-
     }
 
     public static void startWebView(String url, String cookieurl, String cookie, String userid) {
@@ -179,4 +187,63 @@ public class AppActivity extends Cocos2dxActivity {
         AppsFlyerLib.getInstance().trackEvent(mContext, eventID, _appsFlyerProperties);
     }
 
+    //----- AMAZON IAP -------------------------------------------
+
+    private void setupIAPOnCreate()
+    {
+        iapManager = new IapManager(this);
+
+        final PurchasingListenerClass purchasingListener = new PurchasingListenerClass(iapManager);
+        purchasingListener.setMainActivity(this);
+
+        PurchasingService.registerListener(this.getApplicationContext(), purchasingListener);
+
+        PurchasingService.getUserData();
+        PurchasingService.getPurchaseUpdates(false);
+
+        final Set<String> productSkus = new HashSet<String>();
+        for (final MySku mySku : MySku.values()) {
+            productSkus.add(mySku.getSku());
+        }
+        PurchasingService.getProductData(productSkus);
+    }
+
+    public String receiptId;
+    private String amazonUserid;
+    private String requestId;
+
+    public static void startAmazonPurchase()
+    {
+        final RequestId requestId = PurchasingService.purchase("com.tinizine.azoomee.monthly.02");
+        Log.d("IAPAPI", "Request id: " + requestId.toString());
+        Log.d("IAPAPI", "purchase service started, app on pause");
+    }
+
+    public static void fulfillAmazonPurchase(String receiptId)
+    {
+        PurchasingService.notifyFulfillment(receiptId, FulfillmentResult.FULFILLED);
+    }
+
+    public void setReceiptId(String sentReceiptId)
+    {
+        receiptId = sentReceiptId;
+    }
+
+    public void setRequestId(String sentRequestId)
+    {
+        requestId = sentRequestId;
+    }
+
+    public void setAmazonUserid(String sentAmazonUserid)
+    {
+        amazonUserid = sentAmazonUserid;
+    }
+
+    public void sendCollectedDataToCocos()
+    {
+        Log.d("purchase data:", "purchase happened is called. requestid: " + requestId + " receiptid: " + receiptId + " amazonUserid: " + amazonUserid);
+        purchaseHappened(requestId, receiptId, amazonUserid);
+    }
+
+    public static native void purchaseHappened(String requestId, String receiptId, String amazonUserid);
 }
