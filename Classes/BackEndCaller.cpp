@@ -92,6 +92,7 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
+        updateBillingData();
         getAvailableChildren();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
     }
@@ -100,6 +101,20 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
         AnalyticsSingleton::getInstance()->signInFailEvent(0);
         getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
     }
+}
+
+//UPDATING BILLING DATA-------------------------------------------------------------------------------
+
+void BackEndCaller::updateBillingData()
+{
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->requestTag = "updateBilling";
+    httpRequestCreator->createEncryptedGetHttpRequest();
+}
+
+void BackEndCaller::onUpdateBillingDataAnswerReceived(std::string responseString)
+{
+    ParentDataParser::getInstance()->parseParentBillingData(responseString);
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------

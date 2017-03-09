@@ -104,6 +104,13 @@
         "button":"OK"
     },
     
+    "3003":
+    {
+    	"title":"Double purchase",
+        "body":"It seems you have previously subscribed. Please contact customer service.",
+        "button":"OK"
+    },
+    
     "default":
     {
         "title":"Something Went Wrong",

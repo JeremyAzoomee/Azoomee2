@@ -52,6 +52,11 @@ std::string ParentDataProvider::getLoggedInParentApiSecret()
     return ParentDataStorage::getInstance()->loggedInParentApiSecret;
 }
 
+std::string ParentDataProvider::getParentBillingStatus()
+{
+    return ParentDataStorage::getInstance()->loggedInParentBillingStatus;
+}
+
 //------------------------------------getting information from available children------------------------------------------
 
 

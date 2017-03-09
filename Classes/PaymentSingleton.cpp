@@ -31,7 +31,7 @@ bool PaymentSingleton::init(void)
     return true;
 }
 
-void startAmazonPayment()
+void PaymentSingleton::startAmazonPayment()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     cocos2d::JniMethodInfo methodInfo;

@@ -132,6 +132,26 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
     return true;
 }
 
+bool ParentDataParser::parseParentBillingData(std::string responseData)
+{
+    rapidjson::Document billingData;
+    billingData.Parse(responseData.c_str());
+    
+    if(billingData.HasParseError()) return false;
+    
+    if(billingData.HasMember("billingStatus"))
+    {
+        if(billingData["billingStatus"].IsString())
+        {
+            ParentDataStorage::getInstance()->loggedInParentBillingStatus = billingData["billingStatus"].GetString();
+            
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 void ParentDataParser::logoutChild()
 {
     ChildDataStorage::getInstance()->childLoggedIn = false;
