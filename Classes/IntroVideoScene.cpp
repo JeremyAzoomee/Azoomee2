@@ -34,6 +34,8 @@ bool IntroVideoScene::init()
     
     auto funcCallAction = CallFunc::create([=](){
         
+        videoErrorText = StringUtils::format("%svideo failsafe triggered.",videoErrorText.c_str());
+        AnalyticsSingleton::getInstance()->introVideoTimedOutError(videoErrorText);
         navigateToNextScene();
     });
     
@@ -63,6 +65,9 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
         case VideoPlayer::EventType::PAUSED:
             break;
         case VideoPlayer::EventType::PLAYING:
+        {
+            videoErrorText = "Video Started Playing and ";
+        }
             break;
         case VideoPlayer::EventType::COMPLETED:
         {
@@ -71,6 +76,8 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
         }
         default:
         {
+            videoErrorText = StringUtils::format("%svideo default event triggered.",videoErrorText.c_str());
+            AnalyticsSingleton::getInstance()->introVideoTimedOutError(videoErrorText);
             navigateToNextScene();
             break;
         }

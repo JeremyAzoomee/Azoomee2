@@ -467,3 +467,13 @@ void AnalyticsSingleton::localisedStringErrorEvent(std::string stringRequested, 
     
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
+
+void AnalyticsSingleton::introVideoTimedOutError(std::string errorMessage)
+{
+    std::string eventID = "introVideoTimedOutError";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["ErrorMessage"] = errorMessage;
+    
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
+}

@@ -88,5 +88,6 @@ public:
     void genericButtonPressEvent(std::string buttonName);
     void messageBoxShowEvent(std::string messageTitle);
     void localisedStringErrorEvent(std::string stringRequested, std::string languageUsed);
+    void introVideoTimedOutError(std::string errorMessage);
 
 };
