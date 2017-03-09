@@ -132,18 +132,7 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else
     {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        cocos2d::JniMethodInfo methodInfo;
-        
-        if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startAmazonPurchase", "()V"))
-        {
-            return;
-        }
-        
-        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
-        methodInfo.env->DeleteLocalRef(methodInfo.classID);
-
-#endif
+        PaymentSingleton::getInstance()->startAmazonPayment();
     }
 }
 

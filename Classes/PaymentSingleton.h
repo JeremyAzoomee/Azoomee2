@@ -13,6 +13,7 @@ public:
     
     void onAmazonPaymentMadeAnswerReceived(std::string responseDataString);
     void amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid);
+    void startAmazonPayment();
     
 private:
     void fulfillAmazonPayment(std::string receiptId);

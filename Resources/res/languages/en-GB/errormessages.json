@@ -97,6 +97,13 @@
         "button":"OK"
     },
     
+    "3002":
+    {
+    	"title":"Error",
+        "body":"Your purchase could not be completed. Please try again later.",
+        "button":"OK"
+    },
+    
     "default":
     {
         "title":"Something Went Wrong",

@@ -126,7 +126,7 @@ public class PurchasingListenerClass implements PurchasingListener {
             final Receipt receipt = response.getReceipt();
             Log.d("IAPAPIListener", "onPurchaseResponse: receipt json:" + receipt.toJSON());
 
-            appActivity.setReceiptId(receipt.getReceiptId());
+            appActivity.setReceiptId(response.getReceipt().getReceiptId());
             appActivity.setRequestId(response.getRequestId().toString());
 
             Log.d("appactivity: ", appActivity.receiptId);
@@ -140,6 +140,14 @@ public class PurchasingListenerClass implements PurchasingListener {
         case ALREADY_PURCHASED:
             Log.i("IAPAPIListener",
                   "onPurchaseResponse: already purchased, you should verify the subscription purchase on your side and make sure the purchase was granted to customer");
+
+            appActivity.setReceiptId(response.getReceipt().getReceiptId());
+            appActivity.setRequestId(response.getRequestId().toString());
+
+            Log.d("appactivity: ", appActivity.receiptId);
+            Log.d("About to send data", "To appActivity");
+            appActivity.sendCollectedDataToCocos();
+
             break;
         case INVALID_SKU:
             Log.d("IAPAPIListener",
