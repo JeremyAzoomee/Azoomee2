@@ -52,6 +52,7 @@
 		430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */; };
 		431027831E5DEDE900B5CC8E /* Crashlytics_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431027811E5DEDE900B5CC8E /* Crashlytics_android.cpp */; };
 		431027891E5DFB2200B5CC8E /* Analytics_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431027871E5DFB2200B5CC8E /* Analytics_android.cpp */; };
+		4311FB5F1E71BCC500367A4B /* IAPUpsaleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4311FB5D1E71BCC500367A4B /* IAPUpsaleScene.cpp */; };
 		4319D3DE1E66D66300110F92 /* OomeeButtonLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */; };
 		4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
 		431A29FC1E439BFE00DC0F3B /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 431A29581E439BFD00DC0F3B /* _MPTweakBindObserver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -342,6 +343,8 @@
 		431027821E5DEDE900B5CC8E /* Crashlytics_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crashlytics_android.h; sourceTree = "<group>"; };
 		431027871E5DFB2200B5CC8E /* Analytics_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Analytics_android.cpp; sourceTree = "<group>"; };
 		431027881E5DFB2200B5CC8E /* Analytics_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analytics_android.h; sourceTree = "<group>"; };
+		4311FB5D1E71BCC500367A4B /* IAPUpsaleScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPUpsaleScene.cpp; sourceTree = "<group>"; };
+		4311FB5E1E71BCC500367A4B /* IAPUpsaleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPUpsaleScene.h; sourceTree = "<group>"; };
 		4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeButtonLayer.cpp; sourceTree = "<group>"; };
 		4319D3DD1E66D66300110F92 /* OomeeButtonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeButtonLayer.h; sourceTree = "<group>"; };
 		4319D3E01E67134600110F92 /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
@@ -863,6 +866,7 @@
 		430B3B021DF832A8003A3AA7 /* Signup_AddChild */ = {
 			isa = PBXGroup;
 			children = (
+				4311FB5B1E71BA0C00367A4B /* IAPScenes */,
 				434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */,
 				434B8BD21E6821A4004C7C88 /* OnboardingScene.h */,
 				4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */,
@@ -873,6 +877,15 @@
 				434B8BD51E689C29004C7C88 /* ChildAccountSuccessScene.h */,
 			);
 			name = Signup_AddChild;
+			sourceTree = "<group>";
+		};
+		4311FB5B1E71BA0C00367A4B /* IAPScenes */ = {
+			isa = PBXGroup;
+			children = (
+				4311FB5D1E71BCC500367A4B /* IAPUpsaleScene.cpp */,
+				4311FB5E1E71BCC500367A4B /* IAPUpsaleScene.h */,
+			);
+			name = IAPScenes;
 			sourceTree = "<group>";
 		};
 		431A29561E439BFD00DC0F3B /* Mixpanel */ = {
@@ -1636,6 +1649,7 @@
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
 				431A2A451E439BFE00DC0F3B /* MPTypeDescription.m in Sources */,
+				4311FB5F1E71BCC500367A4B /* IAPUpsaleScene.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
 				431A2A351E439BFE00DC0F3B /* MPObjectSerializerConfig.m in Sources */,
 				D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */,
