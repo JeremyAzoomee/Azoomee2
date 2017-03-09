@@ -21,6 +21,9 @@ public:
     void login(std::string username, std::string password);
     void onLoginAnswerReceived(std::string responseString);
     
+    void updateBillingData();
+    void onUpdateBillingDataAnswerReceived(std::string responseString);
+    
     void updateParent(cocos2d::Node *callBackTo, std::string target);
     void onUpdateParentPinAnswerReceived(std::string responseString);
     void onUpdateParentActorStatusAnswerReceived(std::string responseString);

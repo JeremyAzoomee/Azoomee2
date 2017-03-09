@@ -31,6 +31,22 @@ bool PaymentSingleton::init(void)
     return true;
 }
 
+void PaymentSingleton::startAmazonPayment()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    cocos2d::JniMethodInfo methodInfo;
+    
+    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startAmazonPurchase", "()V"))
+    {
+        return;
+    }
+    
+    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+    methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    
+#endif
+}
+
 void PaymentSingleton::amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid)
 {
     ModalMessages::getInstance()->startLoading();
@@ -65,23 +81,26 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
                 std::string receiptId = paymentData["receiptId"].GetString();
                 fulfillAmazonPayment(receiptId);
                 
-                Director::getInstance()->replaceScene(LoginScene::createScene(3001));
+                Director::getInstance()->replaceScene(LoginScene::createScene(ERROR_CODE_AMAZON_PURCHASE_SUCCESSFUL));
             }
             else
             {
                 //handle status is not fulfilled
+                MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_FAILURE, nullptr);
                 return;
             }
         }
         else
         {
             //handle receiptStatus value unexpected
+            MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_FAILURE, nullptr);
             return;
         }
     }
     else
     {
         //Handle string not having member of receiptStatus
+        MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_FAILURE, nullptr);
         return;
     }
     

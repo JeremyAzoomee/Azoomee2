@@ -97,6 +97,20 @@
         "button":"OK"
     },
     
+    "3002":
+    {
+    	"title":"Error",
+        "body":"Your purchase could not be completed. Please try again later.",
+        "button":"OK"
+    },
+    
+    "3003":
+    {
+    	"title":"Double purchase",
+        "body":"It seems you have previously subscribed. Please contact customer service.",
+        "button":"OK"
+    },
+    
     "default":
     {
         "title":"Something Went Wrong",

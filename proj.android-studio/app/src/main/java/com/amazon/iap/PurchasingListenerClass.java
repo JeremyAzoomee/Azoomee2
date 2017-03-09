@@ -89,9 +89,12 @@ public class PurchasingListenerClass implements PurchasingListener {
         final PurchaseUpdatesResponse.RequestStatus status = response.getRequestStatus();
         switch (status) {
         case SUCCESSFUL:
+
             iapManager.setAmazonUserId(response.getUserData().getUserId(), response.getUserData().getMarketplace());
             for (final Receipt receipt : response.getReceipts()) {
-                iapManager.handleReceipt(response.getRequestId().toString(), receipt, response.getUserData());
+                //iapManager.handleReceipt(response.getRequestId().toString(), receipt, response.getUserData());
+                appActivity.setReceiptId(receipt.getReceiptId());
+                appActivity.setRequestId(response.getRequestId().toString());
             }
             if (response.hasMore()) {
                 PurchasingService.getPurchaseUpdates(false);
@@ -126,7 +129,7 @@ public class PurchasingListenerClass implements PurchasingListener {
             final Receipt receipt = response.getReceipt();
             Log.d("IAPAPIListener", "onPurchaseResponse: receipt json:" + receipt.toJSON());
 
-            appActivity.setReceiptId(receipt.getReceiptId());
+            appActivity.setReceiptId(response.getReceipt().getReceiptId());
             appActivity.setRequestId(response.getRequestId().toString());
 
             Log.d("appactivity: ", appActivity.receiptId);
@@ -138,8 +141,10 @@ public class PurchasingListenerClass implements PurchasingListener {
 
             break;
         case ALREADY_PURCHASED:
-            Log.i("IAPAPIListener",
+            appActivity.amazonAlreadyPurchased();
+            Log.i("IAPAPIListener2",
                   "onPurchaseResponse: already purchased, you should verify the subscription purchase on your side and make sure the purchase was granted to customer");
+
             break;
         case INVALID_SKU:
             Log.d("IAPAPIListener",

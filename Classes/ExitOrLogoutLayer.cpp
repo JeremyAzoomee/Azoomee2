@@ -5,8 +5,10 @@
 #include "AudioMixer.h"
 #include "AnalyticsSingleton.h"
 #include "ParentDataParser.h"
+#include "ParentDataProvider.h"
 #include "ElectricDreamsTextStyles.h"
 #include "PaymentSingleton.h"
+#include "MessageBox.h"
 
 bool ExitOrLogoutLayer::init()
 {
@@ -80,12 +82,15 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     
     // ------- PURCHASE BUTTON ----------
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    ElectricDreamsButton *premiumButton = ElectricDreamsButton::createButtonWithText("I want it all!");
-    premiumButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.45));
-    premiumButton->setDelegate(this);
-    backgroundLayer->addChild(premiumButton);
-#endif
+    if(ParentDataProvider::getInstance()->getParentBillingStatus() != "SUBSCRIBED")
+    {
+        #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+            ElectricDreamsButton *premiumButton = ElectricDreamsButton::createButtonWithText("I want it all!");
+            premiumButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.45));
+            premiumButton->setDelegate(this);
+            backgroundLayer->addChild(premiumButton);
+        #endif
+    }
 }
 
 //---------------------- Actions -----------------
@@ -132,18 +137,7 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else
     {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        cocos2d::JniMethodInfo methodInfo;
-        
-        if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startAmazonPurchase", "()V"))
-        {
-            return;
-        }
-        
-        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
-        methodInfo.env->DeleteLocalRef(methodInfo.classID);
-
-#endif
+        PaymentSingleton::getInstance()->startAmazonPayment();
     }
 }
 
@@ -177,3 +171,17 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv
 
 #endif
 
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv* env, jobject thiz)
+{
+    MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_DOUBLE, nullptr);
+}
+
+#endif
