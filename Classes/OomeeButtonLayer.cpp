@@ -36,6 +36,7 @@ bool OomeeButtonLayer::init()
 void OomeeButtonLayer::playAnimation(std::string OomeeAnimation, bool loop)
 {
     AudioMixer::getInstance()->stopOomeeEffect();
+    AudioMixer::getInstance()->playOomeeIdleSounds(true);
     oomee->setAnimation(0, OomeeAnimation, false);
     AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), OomeeAnimation, true);
     

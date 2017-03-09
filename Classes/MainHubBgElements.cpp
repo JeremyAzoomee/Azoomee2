@@ -47,7 +47,8 @@ void MainHubBgElements::onEnter()
     this->runAction(Sequence::create(DelayTime::create(0.2), funcCallAction2, NULL));
     
     auto funcCallAction3 = CallFunc::create([=](){
-        addSideWiresToScreen(this, 3, 2);
+        if(HQHistoryManager::getInstance()->noHistory()) addSideWiresToScreen(this, 3, 2);
+        else addSideWiresToScreen(this);
     });
     
     this->runAction(Sequence::create(DelayTime::create(0.3), funcCallAction3, NULL));

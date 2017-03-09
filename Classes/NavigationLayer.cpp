@@ -37,6 +37,8 @@ bool NavigationLayer::init()
         return false;
     }
     
+    AudioMixer::getInstance()->playOomeeIdleSounds(true);
+    
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
@@ -333,6 +335,7 @@ void NavigationLayer::setButtonOn(int i)
 
 void NavigationLayer::moveMenuPointsToCircleState(float duration)
 {
+    AudioMixer::getInstance()->playOomeeIdleSounds(true);
     for(int i = 0; i <= amountOfItems; i++)
     {
         auto menuItemImage = (Sprite *)this->getChildByTag(i);
@@ -351,6 +354,7 @@ void NavigationLayer::moveMenuPointsToCircleState(float duration)
 
 void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
 {
+    AudioMixer::getInstance()->playOomeeIdleSounds(false);
     for(int i = 0; i <= amountOfItems; i++)
     {
         auto menuItemImage = (Sprite *)this->getChildByTag(i);
@@ -369,6 +373,7 @@ void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
 
 void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
 {
+    AudioMixer::getInstance()->playOomeeIdleSounds(false);
     for(int i = 0; i <= amountOfItems; i++)
     {
         auto menuItemImage = (Sprite *)this->getChildByTag(i);

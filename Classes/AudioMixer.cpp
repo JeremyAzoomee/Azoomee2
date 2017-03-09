@@ -23,6 +23,7 @@ AudioMixer::~AudioMixer(void)
 
 bool AudioMixer::init(void)
 {
+    shouldPlayOomeeIdleSounds = true;
     return true;
 }
 
@@ -43,12 +44,17 @@ void AudioMixer::playOomeeEffect(std::string oomee, std::string state, bool fall
     
     std::string fileName = oomee + "_" + state + ".mp3";
     std::string fullPath = "res/audio/oomees/" + fileName;
-    if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->fullPathForFilename(fullPath)))
+    if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->fullPathForFilename(fullPath)) && shouldPlayOomeeIdleSounds)
         lastOomeeAudio = CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(fullPath.c_str());
-    else if(fallbackToDefaultSound)
+    else if(fallbackToDefaultSound && shouldPlayOomeeIdleSounds)
         lastOomeeAudio = CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/Azoomee_Button_Click_07_v1.mp3");
     
     CCLOG("fullpath: %s", fullPath.c_str());
+}
+
+void AudioMixer::playOomeeIdleSounds(bool playSounds)
+{
+    shouldPlayOomeeIdleSounds = playSounds;
 }
 
 void AudioMixer::stopOomeeEffect()
