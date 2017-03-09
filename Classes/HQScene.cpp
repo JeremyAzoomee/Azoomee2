@@ -61,8 +61,13 @@ void HQScene::startBuildingScrollViewBasedOnName()
         
         if(this->getName() == "ARTS APP")
         {
-            auto offlineArtsAppScrollView = HQSceneArtsApp::create();
-            this->addChild(offlineArtsAppScrollView);
+            auto artsLayer = this->getChildByName("ArtLayer");
+            if(!artsLayer)
+            {
+                auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+                offlineArtsAppScrollView->setName("ArtLayer");
+                this->addChild(offlineArtsAppScrollView);
+            }
         }
         else createBidirectionalScrollView();
     }
