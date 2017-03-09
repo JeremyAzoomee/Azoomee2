@@ -38,7 +38,7 @@ bool IntroVideoScene::init()
     });
     
     funcCallAction->setTag(2);
-    this->runAction(Sequence::create(DelayTime::create(6.5), funcCallAction, NULL));
+    this->runAction(Sequence::create(DelayTime::create(7), funcCallAction, NULL));
 
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
