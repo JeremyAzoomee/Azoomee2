@@ -79,6 +79,20 @@ void AnalyticsSingleton::mixPanel_OSSpecificSuperPropertiesCall(std::string Key,
 #endif
 }
 
+void AnalyticsSingleton::mixPanel_OSSpecificPeoplePropertiesCall(std::string parentID, std::map<std::string, std::string> map)
+{
+    mixPanel_RegisterIdentity(parentID);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+    mixPanel_RegisterIdentity(parentID,map);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    mixPanel_RegisterIdentity(parentID);
+    
+#endif
+}
+
 //-------------- APPSFLYER -----------------------
 
 void AnalyticsSingleton::appsflyer_createOSSpecficCall(std::string eventID)
@@ -115,7 +129,11 @@ void AnalyticsSingleton::registerAppVersion()
 
 void AnalyticsSingleton::registerParentID(std::string ParentID)
 {
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["First Name"] = ParentID;
+    
     mixPanel_OSSpecificSuperPropertiesCall("parentID",ParentID);
+    mixPanel_OSSpecificPeoplePropertiesCall(ParentID,mixPanelProperties);
 }
 
 void AnalyticsSingleton::registerNoOfChildren(int noOfChildren)

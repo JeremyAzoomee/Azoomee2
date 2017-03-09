@@ -143,6 +143,14 @@ public class AppActivity extends Cocos2dxActivity {
         mixpanel.registerSuperProperties(_mixPanelProperties);
     }
 
+    public static void sendMixPanelPeopleProperties(String parentID)
+    {
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
+        mixpanel.identify(parentID);
+        mixpanel.getPeople().identify(parentID);
+        mixpanel.getPeople().set("First Name", parentID);
+    }
+
     @Override
     protected void onDestroy() {
         mixpanel.flush();

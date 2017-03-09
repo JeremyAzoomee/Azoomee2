@@ -7,6 +7,8 @@ void mixPanelSendEvent_android(std::string eventID, std::map<std::string, std::s
 
 void mixPanel_registerSuperProperties_android(std::map<std::string, std::string> map);
 
+void mixPanel_RegisterIdentity(std::string ParentID);
+
 //------------- APPSFLYER -------
 
 void appsFlyerSendEvent_android(std::string eventID);

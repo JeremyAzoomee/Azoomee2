@@ -50,6 +50,12 @@ void mixPanel_registerSuperProperties_ios(std::map<std::string, std::string> map
     [[Mixpanel sharedInstance] registerSuperProperties:mapToNSDictionary(map)];
 }
 
+void mixPanel_RegisterIdentity(std::string ParentID, std::map<std::string, std::string> name)
+{
+    [[Mixpanel sharedInstance] identify:[NSString stringWithUTF8String:ParentID.c_str()]];
+    [[Mixpanel sharedInstance].people set:mapToNSDictionary(name)];
+}
+
 //--------------- APPSFLYER---------------
 
 void appsFlyerSendEvent_ios(std::string eventID, std::map<std::string, std::string> map)

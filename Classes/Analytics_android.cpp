@@ -18,6 +18,11 @@ void mixPanel_registerSuperProperties_android(std::map<std::string, std::string>
     androidJNIHelper(convertMapToJSONString(map), "sendMixPanelSuperProperties");
 }
 
+void mixPanel_RegisterIdentity(std::string ParentID)
+{
+    androidJNIHelper(ParentID, "sendMixPanelPeopleProperties");
+}
+
 //------------- APPSFLYER -------
 
 void appsFlyerSendEvent_android(std::string eventID)

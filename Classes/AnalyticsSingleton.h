@@ -12,6 +12,8 @@ private:
     
     void mixPanel_OSSpecificSuperPropertiesCall(std::string Key, std::string Property);
     
+    void mixPanel_OSSpecificPeoplePropertiesCall(std::string parentID, std::map<std::string, std::string> map);
+    
     void appsflyer_createOSSpecficCall(std::string eventID);
     void appsflyer_createOSSpecficCall(std::string eventID, std::map<std::string, std::string> map);
     
