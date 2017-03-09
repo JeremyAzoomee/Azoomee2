@@ -34,7 +34,7 @@ bool IntroVideoScene::init()
     
     auto funcCallAction = CallFunc::create([=](){
         
-        navigateToBaseScene();
+        navigateToNextScene();
     });
     
     funcCallAction->setTag(2);
@@ -66,55 +66,55 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
             break;
         case VideoPlayer::EventType::COMPLETED:
         {
-            this->stopActionByTag(2);
-            AnalyticsSingleton::getInstance()->registerAppVersion();
-            
-            if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
-            {
-                auto slideShowScene = SlideShowScene::createScene();
-                Director::getInstance()->replaceScene(slideShowScene);
-            }
-            else
-            {
-#ifdef forgetuserdata
-                UserDefault* def2 = UserDefault::getInstance();
-                def2->setStringForKey("username", "");
-                def2->setStringForKey("password", "");
-                def2->flush();
-#endif
-                
-                UserDefault* def = UserDefault::getInstance();
-                std::string username = def->getStringForKey("username", "");
-                std::string password = def->getStringForKey("password", "");
-                def->flush();
-                
-                if((username == "")||(password == ""))
-                {
-                    CCLOG("autologin NOT called");
-                    navigateToBaseScene();
-                }
-                else
-                {
-                    CCLOG("autologin called");
-                    auto loginScene = LoginScene::createSceneWithAutoLogin();
-                    Director::getInstance()->replaceScene(loginScene);
-                }
-                
-            }
+            navigateToNextScene();
             break;
         }
         default:
         {
-            navigateToBaseScene();
+            navigateToNextScene();
             break;
         }
     }
 }
 
-void IntroVideoScene::navigateToBaseScene()
+void IntroVideoScene::navigateToNextScene()
 {
-    HQHistoryManager::getInstance()->emptyHistory();
-    auto baseScene = BaseScene::createScene();
-    Director::getInstance()->replaceScene(baseScene);
+    this->stopActionByTag(2);
+    AnalyticsSingleton::getInstance()->registerAppVersion();
+    
+    if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+    {
+        auto slideShowScene = SlideShowScene::createScene();
+        Director::getInstance()->replaceScene(slideShowScene);
+    }
+    else
+    {
+#ifdef forgetuserdata
+        UserDefault* def2 = UserDefault::getInstance();
+        def2->setStringForKey("username", "");
+        def2->setStringForKey("password", "");
+        def2->flush();
+#endif
+        
+        UserDefault* def = UserDefault::getInstance();
+        std::string username = def->getStringForKey("username", "");
+        std::string password = def->getStringForKey("password", "");
+        def->flush();
+        
+        if((username == "")||(password == ""))
+        {
+            CCLOG("autologin NOT called");
+            HQHistoryManager::getInstance()->emptyHistory();
+            auto baseScene = BaseScene::createScene();
+            Director::getInstance()->replaceScene(baseScene);
+        }
+        else
+        {
+            CCLOG("autologin called");
+            auto loginScene = LoginScene::createSceneWithAutoLogin();
+            Director::getInstance()->replaceScene(loginScene);
+        }
+        
+    }
 }
 
