@@ -83,6 +83,7 @@ public:
     void mediaProgressEvent(int percentComplete);
     void mediaPausedEvent();
     void mediaEndEvent(int SecondsMediaPlayed);
+    void mediaPlayerFirstFrameEvent(std::string loadTimeMS);
 
     //---------------OTHER ACTION------------------
     void genericButtonPressEvent(std::string buttonName);

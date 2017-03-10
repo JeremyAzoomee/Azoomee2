@@ -436,6 +436,16 @@ void AnalyticsSingleton::mediaEndEvent(int SecondsMediaPlayed)
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
+void AnalyticsSingleton::mediaPlayerFirstFrameEvent(std::string loadTimeMS)
+{
+    std::string eventID = "mediaFirstFrame";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["LoadTime"] = cocos2d::StringUtils::format("%s%s",NUMBER_IDENTIFIER, loadTimeMS.c_str());
+    
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
+}
+
 //---------------OTHER ACTION------------------
 void AnalyticsSingleton::genericButtonPressEvent(std::string buttonName)
 {

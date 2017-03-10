@@ -76,6 +76,11 @@ void sendEventToMixPanel(const char* eventKey, const char* eventValue)
     {
         //Further implementation required - need to get played time.
     }
+    
+    if(strKey == "firstFrame")
+    {
+        AnalyticsSingleton::getInstance()->mediaPlayerFirstFrameEvent(strValue.c_str());
+    }
 }
 
 

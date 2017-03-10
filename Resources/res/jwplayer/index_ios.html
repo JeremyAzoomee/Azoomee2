@@ -83,6 +83,11 @@
 			jwplayer().on('complete', function(event){
 				window.location.href = "videoevent://video.complete";
 			});
+			
+			jwplayer().on('firstFrame', function(event){
+				var loadtime = event.loadTime;
+				window.location.href = "videoevent://video.firstFrame?" + loadtime.toString();
+			});
 		
 			function getUrlVars() 
 			{

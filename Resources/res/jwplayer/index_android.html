@@ -99,6 +99,12 @@
 				console.log("complete");
 				NativeInterface.sendMediaPlayerData("complete", "");
 			});
+			
+			jwplayer().on('firstFrame', function(event){
+				console.log("firstFrame");
+				var loadtime = event.loadTime;
+				NativeInterface.sendMediaPlayerData("firstFrame", loadtime.toString());
+			});
 		
 			function getUrlVars() 
 			{
