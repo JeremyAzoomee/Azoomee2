@@ -168,7 +168,7 @@ public class IapManager {
         final List<SubscriptionRecord> subsRecords = dataSource.getSubscriptionRecords(userIapData.getAmazonUserId());
         userIapData.setSubscriptionRecords(subsRecords);
         userIapData.reloadSubscriptionStatus();
-        refreshMagazineSubsAvailability();
+        refreshMagazineSubsAvailability(); 
     }
 
     private void saveSubscriptionRecord(final Receipt receipt, final String userId) {
