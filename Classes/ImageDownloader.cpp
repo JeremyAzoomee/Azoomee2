@@ -64,11 +64,12 @@ void ImageDownloader::addLoadingAnimation()
     loadingAnimation->addChild(loadingLabel);
 }
 
-void ImageDownloader::addDownloadedImage(std::string fileName)
+void ImageDownloader::imageAddedToCache(Texture2D* resulting_texture)
 {
-    if(!aboutToExit)
+    if ( resulting_texture )
     {
-        auto finalImage = Sprite::create(fileName);
+        CCLOG("Got valid texture");
+        auto finalImage = Sprite::createWithTexture( resulting_texture );
         finalImage->setPosition(this->getContentSize() / 2);
         finalImage->setOpacity(0);
         finalImage->setScaleX(this->getContentSize().width / finalImage->getContentSize().width);
@@ -76,7 +77,28 @@ void ImageDownloader::addDownloadedImage(std::string fileName)
         this->addChild(finalImage);
         
         finalImage->runAction(FadeIn::create(0.1));
+
     }
+}
+
+void ImageDownloader::addDownloadedImage(std::string fileName)
+{
+    Director::getInstance()->getTextureCache()->addImageAsync(fileName, CC_CALLBACK_1(ImageDownloader::imageAddedToCache, this));
+    
+    /*
+    
+        if(!aboutToExit)
+        {
+            auto finalImage = Sprite::create(fileName);
+            finalImage->setPosition(this->getContentSize() / 2);
+            finalImage->setOpacity(0);
+            finalImage->setScaleX(this->getContentSize().width / finalImage->getContentSize().width);
+            finalImage->setScaleY(this->getContentSize().height / finalImage->getContentSize().height);
+            this->addChild(finalImage);
+            
+            finalImage->runAction(FadeIn::create(0.1));
+        }
+     */
 }
 
 void ImageDownloader::onExitTransitionDidStart()

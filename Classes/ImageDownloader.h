@@ -20,6 +20,7 @@ private:
     void addLoadingAnimation();
     void onExitTransitionDidStart();
     void onExit();
+    void imageAddedToCache(cocos2d::Texture2D* resulting_texture);
 };
 
 #endif
