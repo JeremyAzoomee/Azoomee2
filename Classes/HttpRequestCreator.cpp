@@ -245,6 +245,8 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
 
 void HttpRequestCreator::handleEventAfterError(std::string requestTag, long errorCode)
 {
+    HttpClient::getInstance()->destroyInstance();
+    
     std::map<std::string, Scene*> returnMap;
     
     if(requestTag == "registerParent")
