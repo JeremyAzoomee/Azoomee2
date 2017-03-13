@@ -161,18 +161,30 @@ public class AppActivity extends Cocos2dxActivity {
 
     public static void sendAppsFlyerEvent(String eventID, String jsonPropertiesString) {
 
-        jsonPropertiesString = jsonPropertiesString.replace("{","");
-        jsonPropertiesString = jsonPropertiesString.replace("}","");
+        JSONObject _mixPanelProperties = null;
 
-        Map<String, Object> _appsFlyerProperties = new HashMap<String, Object>();;
+        try {
+            _mixPanelProperties = new JSONObject(jsonPropertiesString);
+        }catch(JSONException e) {
+            _mixPanelProperties = null;
+        }
 
-        if(!Objects.equals(jsonPropertiesString, new String("")))
-        {
-            String[] pairs = jsonPropertiesString.split(",");
-            for (int i = 0; i < pairs.length; i++) {
-                String pair = pairs[i];
-                String[] keyValue = pair.split(":");
-                _appsFlyerProperties.put(keyValue[0], keyValue[1]);
+        Map<String, Object> _appsFlyerProperties = new HashMap<String, Object>();
+
+        java.util.Iterator<?> keys = _mixPanelProperties.keys();
+
+        while( keys.hasNext() ) {
+            String key = (String) keys.next();
+
+            java.lang.Object properties = null;
+
+            try {
+                properties = _mixPanelProperties.get(key);
+            } catch (JSONException e) {
+            }
+
+            if (properties != null) {
+                _appsFlyerProperties.put(key, properties);
             }
         }
 
