@@ -18,6 +18,7 @@ bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     this->addPlaceHolderImage(type, size, shape);
+    this->retain();
     //this->addLoadingAnimation();
     
     imageDownloaderLogic = new ImageDownloaderLogic();
@@ -30,6 +31,7 @@ bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, coco
 {
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
+    this->retain();
     
     imageDownloaderLogic = new ImageDownloaderLogic();
     imageDownloaderLogic->groupLogo = true;
@@ -66,21 +68,30 @@ void ImageDownloader::addLoadingAnimation()
 
 void ImageDownloader::imageAddedToCache(Texture2D* resulting_texture)
 {
-    if ( (resulting_texture) && (!aboutToExit) )
+    
+    if(!addStarted) return;
+    
+    if ( (resulting_texture) && (!aboutToExit))
     {
+        Size holderContentSize = this->getContentSize();
+        
         auto finalImage = Sprite::createWithTexture( resulting_texture );
-        if(!aboutToExit) finalImage->setPosition(this->getContentSize() / 2);
+        finalImage->setPosition(holderContentSize / 2);
         finalImage->setOpacity(0);
-        if(!aboutToExit) finalImage->setScaleX(this->getContentSize().width / finalImage->getContentSize().width);
-        if(!aboutToExit) finalImage->setScaleY(this->getContentSize().height / finalImage->getContentSize().height);
+        finalImage->setScaleX(holderContentSize.width / finalImage->getContentSize().width);
+        finalImage->setScaleY(holderContentSize.height / finalImage->getContentSize().height);
+        
         if(!aboutToExit) this->addChild(finalImage);
         
         finalImage->runAction(FadeIn::create(0.1));
+        
+        if(aboutToExit) this->release(); //If onExit was called in the meantime, we release this after adding the image.
     }
 }
 
 void ImageDownloader::addDownloadedImage(std::string fileName)
 {
+    addStarted = true;
     this->setName(fileName);
     Director::getInstance()->getTextureCache()->addImageAsync(fileName, CC_CALLBACK_1(ImageDownloader::imageAddedToCache, this));
 }
@@ -97,5 +108,6 @@ void ImageDownloader::onExit()
     CCLOG("onExit called");
     aboutToExit = true;
     if(imageDownloaderLogic) imageDownloaderLogic->senderDeleted = true;
-    Node::onExit();
+    if(!addStarted) this->release();
+    Sprite::onExit();
 }
