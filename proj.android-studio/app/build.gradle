@@ -23,8 +23,8 @@ android {
         applicationId "com.tinizine.azoomee"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 310101
-        versionName "3.1.0"
+        versionCode 311001
+        versionName "3.1.1"
     }
     
     splits {
