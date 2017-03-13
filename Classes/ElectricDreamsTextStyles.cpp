@@ -75,7 +75,7 @@ Label*  createLabelAppVerison(std::string text)
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 50);
-    newLabel->setPosition(origin.x + visibleSize.width/2,newLabel->getContentSize().height);
+    newLabel->setPosition(origin.x + visibleSize.width/2,origin.y+newLabel->getContentSize().height);
     return newLabel;
 }
 
