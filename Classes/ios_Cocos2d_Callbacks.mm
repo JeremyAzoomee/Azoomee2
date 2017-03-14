@@ -35,28 +35,32 @@ void sendMixPanelData(const char* host, const char* query)
     std::string strHost = cocos2d::StringUtils::format("%s", host);
     std::string strQuery = cocos2d::StringUtils::format("%s", query);
     
-    if(strHost == "play")
+    if(strHost == "video.play")
     {
         //No play event in mixpanel singleton, TBI
     }
     
-    if(strHost == "pause")
+    if(strHost == "video.pause")
     {
         AnalyticsSingleton::getInstance()->mediaPausedEvent();
     }
     
-    if(strHost == "quality")
+    if(strHost == "video.quality")
     {
         AnalyticsSingleton::getInstance()->mediaQualityEvent(strQuery);
     }
     
-    if(strHost == "time")
+    if(strHost == "video.time")
     {
         AnalyticsSingleton::getInstance()->mediaProgressEvent(std::atoi(strQuery.c_str()));
     }
     
-    if(strHost == "complete")
+    if(strHost == "video.complete")
     {
         //Further implementation required - need to get played time.
+    }
+    if(strHost == "video.firstFrame")
+    {
+        AnalyticsSingleton::getInstance()->mediaPlayerFirstFrameEvent(strQuery.c_str());
     }
 }
