@@ -9,6 +9,8 @@
 #include "AnalyticsSingleton.h"
 #include "OfflineHubScene.h"
 
+#include "IAPUpsaleScene.h"
+
 USING_NS_CC;
 
 //static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
@@ -87,7 +89,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = IntroVideoScene::createScene();
+    auto scene = IAPUpsaleScene::createScene();
     //auto scene = OfflineHubScene::createScene();
     // run
     director->runWithScene(scene);
