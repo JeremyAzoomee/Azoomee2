@@ -169,26 +169,28 @@ public class AppActivity extends Cocos2dxActivity {
             _mixPanelProperties = null;
         }
 
-        Map<String, Object> _appsFlyerProperties = new HashMap<String, Object>();
+        if(_mixPanelProperties != null) {
+            Map<String, Object> _appsFlyerProperties = new HashMap<String, Object>();
+            java.util.Iterator<?> keys = _mixPanelProperties.keys();
 
-        java.util.Iterator<?> keys = _mixPanelProperties.keys();
+            while (keys.hasNext()) {
+                String key = (String) keys.next();
 
-        while( keys.hasNext() ) {
-            String key = (String) keys.next();
+                java.lang.Object properties = null;
 
-            java.lang.Object properties = null;
+                try {
+                    properties = _mixPanelProperties.get(key);
+                } catch (JSONException e) {
+                }
 
-            try {
-                properties = _mixPanelProperties.get(key);
-            } catch (JSONException e) {
+                if (properties != null) {
+                    _appsFlyerProperties.put(key, properties);
+                }
             }
-
-            if (properties != null) {
-                _appsFlyerProperties.put(key, properties);
-            }
+            AppsFlyerLib.getInstance().trackEvent(mContext, eventID, _appsFlyerProperties);
         }
-
-        AppsFlyerLib.getInstance().trackEvent(mContext, eventID, _appsFlyerProperties);
+        else
+            AppsFlyerLib.getInstance().trackEvent(mContext, eventID, null);
     }
 
 }
