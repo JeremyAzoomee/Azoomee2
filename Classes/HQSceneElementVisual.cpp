@@ -55,6 +55,7 @@ cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, st
     resizeSceneElement(shape, category);
     createColourLayer(category, delay / 10);
     
+    
     std::string itemid = itemData["id"];
     std::string entitled = itemData["entitled"];
     std::string type = itemData["type"];
@@ -79,8 +80,10 @@ cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, st
         }
         
     });
+     
     
     this->runAction(Sequence::create(DelayTime::create(delay), funcCallAction, NULL));
+     
     
     return this;
 }

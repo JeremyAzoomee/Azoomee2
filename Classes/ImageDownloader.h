@@ -22,6 +22,8 @@ private:
     void onExit();
     void imageAddedToCache(cocos2d::Texture2D* resulting_texture);
     bool addStarted;
+    
+    float identifier;
 };
 
 #endif
