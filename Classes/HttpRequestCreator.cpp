@@ -157,7 +157,8 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     {
         std::string myRequestString;
         
-        if((requestTag == "updateParentPin")||(requestTag == "updateParentActorStatus")||(requestTag == "iapAmazonPaymentMade")||(requestTag == "updateBilling"))
+        if((requestTag == "updateParentPin")||(requestTag == "updateParentActorStatus")||(requestTag == "iapAmazonPaymentMade")||(requestTag == "updateBilling")
+           )
         {
             auto myJWTTool = JWTToolForceParent::getInstance();
             myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
@@ -252,6 +253,8 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
 
 void HttpRequestCreator::handleEventAfterError(std::string requestTag, long errorCode)
 {
+    HttpClient::getInstance()->destroyInstance();
+    
     std::map<std::string, Scene*> returnMap;
     
     if(requestTag == "registerParent")

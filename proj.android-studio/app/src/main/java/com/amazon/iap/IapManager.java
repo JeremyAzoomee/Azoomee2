@@ -165,22 +165,11 @@ public class IapManager {
     }
 
     public void reloadSubscriptionStatus() {
-        final List<SubscriptionRecord> subsRecords = dataSource.getSubscriptionRecords(userIapData.getAmazonUserId());
-        userIapData.setSubscriptionRecords(subsRecords);
-        userIapData.reloadSubscriptionStatus();
-        refreshMagazineSubsAvailability();
+
     }
 
     private void saveSubscriptionRecord(final Receipt receipt, final String userId) {
         // TODO replace with your own implementation
-
-        dataSource
-            .insertOrUpdateSubscriptionRecord(receipt.getReceiptId(),
-                                              userId,
-                                              receipt.getPurchaseDate().getTime(),
-                                              receipt.getCancelDate() == null ? SubscriptionRecord.TO_DATE_NOT_SET
-                                                      : receipt.getCancelDate().getTime(),
-                                              receipt.getSku());
 
     }
 

@@ -92,9 +92,7 @@ public class PurchasingListenerClass implements PurchasingListener {
 
             iapManager.setAmazonUserId(response.getUserData().getUserId(), response.getUserData().getMarketplace());
             for (final Receipt receipt : response.getReceipts()) {
-                //iapManager.handleReceipt(response.getRequestId().toString(), receipt, response.getUserData());
-                appActivity.setReceiptId(receipt.getReceiptId());
-                appActivity.setRequestId(response.getRequestId().toString());
+                iapManager.handleReceipt(response.getRequestId().toString(), receipt, response.getUserData());
             }
             if (response.hasMore()) {
                 PurchasingService.getPurchaseUpdates(false);

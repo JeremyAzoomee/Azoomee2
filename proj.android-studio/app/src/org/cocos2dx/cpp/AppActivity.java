@@ -199,14 +199,14 @@ public class AppActivity extends Cocos2dxActivity {
         PurchasingService.registerListener(this.getApplicationContext(), purchasingListener);
 
         PurchasingService.getUserData();
-        //PurchasingService.getPurchaseUpdates(false);
+        PurchasingService.getPurchaseUpdates(false);
 
-        //final Set<String> productSkus = new HashSet<String>();
-        //for (final MySku mySku : MySku.values()) {
-        //    productSkus.add(mySku.getSku());
-        //}
+        final Set<String> productSkus = new HashSet<String>();
+        for (final MySku mySku : MySku.values()) {
+            productSkus.add(mySku.getSku());
+        }
 
-        //PurchasingService.getProductData(productSkus);
+        PurchasingService.getProductData(productSkus);
     }
 
     public String receiptId;
