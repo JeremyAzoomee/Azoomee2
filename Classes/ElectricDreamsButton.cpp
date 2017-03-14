@@ -39,11 +39,35 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string butto
     return layer;
 }
 
-ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string buttonText)
+ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string buttonText, float fontSize, bool underlined)
+{    
+    auto layer = ElectricDreamsButton::create();
+    
+    Label* textButton = Label::createWithTTF(buttonText, "fonts/Sofia Pro Soft Regular.otf", fontSize);
+    textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
+    textButton->setHorizontalAlignment(TextHAlignment::CENTER);
+    layer->setContentSize(textButton->getContentSize());
+    
+    layer->addChild(textButton);
+    
+    layer->buttonAudioFile = CANCEL_BUTTON_AUDIO_EFFECT;
+    layer->addListener();
+    
+    if(underlined)
+    {
+        DrawNode* newDrawNode = DrawNode::create();
+        newDrawNode->drawRect(Vec2(0, -7), Vec2(textButton->getContentSize().width, -6), Color4F::WHITE);
+        layer->addChild(newDrawNode);
+    }
+    
+    return layer;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string buttonText, float textPadding)
 {
     auto layer = ElectricDreamsButton::create();
     
-    ui::Scale9Sprite* newButton = layer->createButtonBackground(buttonText);
+    ui::Scale9Sprite* newButton = layer->createButtonBackground(buttonText, textPadding);
     
     layer->setCascadeOpacityEnabled(true);
     layer->setContentSize(newButton->getContentSize());
@@ -60,7 +84,12 @@ ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string but
     return layer;
 }
 
-ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string buttonText)
+ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string buttonText)
+{
+    return createButtonWithText(buttonText,0);
+}
+
+ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string buttonText, float textPadding)
 {
     Label* buttonLabel = createLabelButtonAdultPrimary(buttonText);
     
@@ -73,7 +102,7 @@ ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string butto
         buttonHeight = buttonLabel->getContentSize().height + 100;
     
     ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/modal/generic_button_slice_ready.png", spriteRect, capInsents);
-    newButton->setContentSize(Size(buttonLabel->getContentSize().width+150, buttonHeight));
+    newButton->setContentSize(Size(buttonLabel->getContentSize().width+150+textPadding, buttonHeight));
     newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
     
     buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);
@@ -84,6 +113,48 @@ ui::Scale9Sprite* ElectricDreamsButton::createButtonBackground(std::string butto
     buttonLabel->runAction(FadeTo::create(0.5, 255));
     
     return newButton;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createOutlineButtonWithText(std::string buttonText)
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    ui::Scale9Sprite* newButton = layer->createButtonOutline(buttonText);
+    
+    layer->setCascadeOpacityEnabled(true);
+    layer->setContentSize(newButton->getContentSize());
+    newButton->setCascadeOpacityEnabled(true);
+    layer->addChild(newButton);
+    
+    layer->buttonAudioFile = CANCEL_BUTTON_AUDIO_EFFECT;
+    
+    layer->addListener();
+    
+    return layer;
+}
+
+ui::Scale9Sprite* ElectricDreamsButton::createButtonOutline(std::string buttonText)
+{
+    Label* buttonLabel = createLabelBody(buttonText);
+    
+    Rect spriteRect = Rect(0, 0, 736, 131);
+    Rect capInsents = Rect(60, 65, 616, 1);
+    
+    float buttonHeight = 131;
+    
+    if(buttonLabel->getContentSize().height >110)
+        buttonHeight = buttonLabel->getContentSize().height + 80;
+    
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/login/textarea_bg.png", spriteRect, capInsents);
+    newButton->setContentSize(Size(buttonLabel->getContentSize().width+100, buttonHeight));
+    newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
+    
+    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);
+    
+    newButton->addChild(buttonLabel);
+    
+    return newButton;
+
 }
 
 ElectricDreamsButton* ElectricDreamsButton::createNextButton()

@@ -13,9 +13,22 @@ private:
     Size visibleSize;
     Vec2 origin;
     
-    void addVisualElementsToScene();
-    void addButtonsToScene();
-    void addLabelsToLayer();
+    ElectricDreamsButton* startTrialButton;
+    ElectricDreamsButton* restoreButton;
+    ElectricDreamsButton* notNowButton;
+    
+    Label* titleLabel;
+    Label* cancelAnytimeLabel;
+    
+    Sprite* oomeesImage;
+    
+    void addTitle();
+    void addCancelAnytimeLabel();
+    void addButtons();
+    void addImage();
+    void addALLBulletsAndLabel();
+    void addBulletAndLabel(std::string BOLDtext, std::string regularText, float yPosition);
+    void addOptionalSubscriptionLabel();
     
 public:
     static cocos2d::Scene* createScene();
@@ -23,7 +36,7 @@ public:
     virtual bool init();
     
     // implement the "static create()" method manually
-    CREATE_FUNC(OnboardingSuccessScene);
+    CREATE_FUNC(IAPUpsaleScene);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);

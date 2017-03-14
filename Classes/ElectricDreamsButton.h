@@ -20,7 +20,8 @@ class ElectricDreamsButton : public Layer
 {
 private:
     void addListener();
-    ui::Scale9Sprite *createButtonBackground(std::string buttonText);
+    ui::Scale9Sprite *createButtonBackground(std::string buttonText, float textPadding);
+    ui::Scale9Sprite *createButtonOutline(std::string buttonText);
     
     void callDelegateFunction(float dt);
     
@@ -43,7 +44,10 @@ public:
     CC_SYNTHESIZE(ElectricDreamsButtonDelegate*, _delegate, Delegate);
     
     static ElectricDreamsButton* createTextAsButton(std::string buttonText);
+    static ElectricDreamsButton* createTextAsButton(std::string buttonText, float fontSize, bool underlined);
     static ElectricDreamsButton* createButtonWithText(std::string buttonText);
+    static ElectricDreamsButton* createButtonWithText(std::string buttonText, float textPadding);
+    static ElectricDreamsButton* createOutlineButtonWithText(std::string buttonText);
     static ElectricDreamsButton* createNextButton();
     static ElectricDreamsButton* createBackButton();
     static ElectricDreamsButton* createAcceptButton();
