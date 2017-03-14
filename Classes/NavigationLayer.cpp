@@ -91,6 +91,8 @@ void NavigationLayer::changeToScene(int target, float duration)
 {
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::getInstance()->getNameForMenuItem(target));
     
+    cleanUpPreviousHQ();
+    
     this->turnOffAllMenuItems();
     
     if(HQHistoryManager::getInstance()->getCurrentHQ() != "GROUP HQ")
@@ -428,17 +430,19 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
             Scene *runningScene = Director::getInstance()->getRunningScene();
             Node *baseLayer = runningScene->getChildByName("baseLayer");
             Node *contentLayer = baseLayer->getChildByName("contentLayer");
-            HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("GROUP HQ");
-            
-            hqLayer->removeAllChildren();
-            Director::getInstance()->purgeCachedData();
             
             HQHistoryManager::getInstance()->getHistoryLog();
             
             if(HQHistoryManager::getInstance()->getPreviousHQ() != "HOME")
             {
+                
                 HQScene *hqLayer2 = (HQScene *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
-                hqLayer2->startBuildingScrollViewBasedOnName();
+                
+                auto funcCallAction = CallFunc::create([=](){
+                    hqLayer2->startBuildingScrollViewBasedOnName();
+                });
+                
+                this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
             
             this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
@@ -465,5 +469,23 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     {
         auto onboardingScene = OnboardingScene::createScene(0);
         Director::getInstance()->replaceScene(onboardingScene);
+    }
+}
+
+void NavigationLayer::cleanUpPreviousHQ()
+{
+    CCLOG("previous hq is: %s", HQHistoryManager::getInstance()->getPreviousHQ().c_str());
+    std::string previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
+    if(previousHqName != "HOME")
+    {
+        HQScene* lastHQLayer = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(previousHqName);
+        
+        auto funcCallAction = CallFunc::create([=](){
+            lastHQLayer->removeAllChildrenWithCleanup(true);
+            Director::getInstance()->purgeCachedData();
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.4), funcCallAction, NULL));
+        
     }
 }

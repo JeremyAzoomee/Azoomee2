@@ -15,10 +15,11 @@ bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size
         return false;
     }
     
+    identifier = CCRANDOM_0_1() * 1000 + 1000;
+    
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     this->addPlaceHolderImage(type, size, shape);
-    this->retain();
     //this->addLoadingAnimation();
     
     imageDownloaderLogic = new ImageDownloaderLogic();
@@ -31,7 +32,6 @@ bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, coco
 {
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
-    this->retain();
     
     imageDownloaderLogic = new ImageDownloaderLogic();
     imageDownloaderLogic->groupLogo = true;
@@ -68,11 +68,15 @@ void ImageDownloader::addLoadingAnimation()
 
 void ImageDownloader::imageAddedToCache(Texture2D* resulting_texture)
 {
-    
-    if(!addStarted) return;
-    
     if ( (resulting_texture) && (!aboutToExit))
     {
+        if((identifier < 999)||(identifier > 2001))
+        {
+            CCLOG("identifier value: %f", identifier);
+            return;
+        }
+        
+        CCLOG("identifier on creating image: %f", identifier);
         Size holderContentSize = this->getContentSize();
         
         auto finalImage = Sprite::createWithTexture( resulting_texture );
@@ -84,8 +88,6 @@ void ImageDownloader::imageAddedToCache(Texture2D* resulting_texture)
         if(!aboutToExit) this->addChild(finalImage);
         
         finalImage->runAction(FadeIn::create(0.1));
-        
-        if(aboutToExit) this->release(); //If onExit was called in the meantime, we release this after adding the image.
     }
 }
 
@@ -99,15 +101,17 @@ void ImageDownloader::addDownloadedImage(std::string fileName)
 void ImageDownloader::onExitTransitionDidStart()
 {
     
-    CCLOG("Sending false to downloadLogic");
+    CCLOG("onExitTransitionDidStart");
     aboutToExit = true;
+    Node::onExitTransitionDidStart();
 }
 
 void ImageDownloader::onExit()
 {
+    CCLOG("identifier on exit: %f", identifier);
+    CCLOG("this contentSize height: %f", this->getContentSize().height);
     CCLOG("onExit called");
     aboutToExit = true;
     if(imageDownloaderLogic) imageDownloaderLogic->senderDeleted = true;
-    if(!addStarted) this->release();
-    Sprite::onExit();
+    Node::onExit();
 }
