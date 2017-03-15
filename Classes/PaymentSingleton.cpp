@@ -5,6 +5,10 @@
 #include "MessageBox.h"
 #include "LoginScene.h"
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#include "platform/android/jni/JniHelper.h"
+#endif
+
 USING_NS_CC;
 
 using namespace cocos2d;
@@ -104,6 +108,129 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
         return;
     }
     
+}
+
+bool PaymentSingleton::isAmazonDevice()
+{
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    CCLOG("ASKING FOR AMAZON DEVICE");
+    
+    //cocos2d::JniMethodInfo methodInfo;
+    //jclass cls2 = methodInfo.env->FindClass("org/cocos2dx/cpp/AppActivity");
+    
+    /*jmethodID midCallBack = methodInfo.env->GetStaticMethodID(cls2, "getAnswer", "()Ljava/lang/String;"); //"getStringToCppSide" is the name of a Java function of ofAndroid.java
+    jstring resultJNIStr = (jstring)methodInfo.env->CallObjectMethod(cls2, midCallBack);
+    const char *resultCStr = methodInfo.env->GetStringUTFChars(resultJNIStr, NULL);
+    std::string resultStr(resultCStr);
+    //methodInfo.env->ReleaseStringUTFChars(resultJNIStr, resultCStr);*/
+    
+    
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer", "()Ljava/lang/String;");
+    CCLOG("amazon : found getAnswer");
+    jstring str = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID);
+    CCLOG("amazon : got str");
+    const char *resultCStr = t.env->GetStringUTFChars(str, NULL);
+    CCLOG("amazon : got resultCStr");
+    std::string resultStr(resultCStr);
+    
+    
+    
+         //const char *resultCStr = (char*)JniHelper::jstring2string(str).c_str();
+        //std::string resultStr(resultCStr);
+    CCLOG("trying to Show Amazon Device");
+    CCLOG("IS AMAZON DEVICE:%s",resultStr.c_str());
+    
+    
+    /*cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "getAnswer", "()V");
+    
+    jclass diagLayerClass = methodInfo.env->FindClass("org/cocos2dx/cpp/AppActivity");
+    CCLOG("Got Class");
+    jmethodID getDESCDiagLayerMethodID = methodInfo.env->GetMethodID(diagLayerClass, "getAnswer", "()Ljava/lang/String;");
+    CCLOG("getDESCDiagLayerMethodID");
+    jstring resultJNIStr = (jstring) methodInfo.env->CallObjectMethod(diagLayerClass, getDESCDiagLayerMethodID);
+    CCLOG("resultJNIStr");
+    const char *resultCStr = methodInfo.env->GetStringUTFChars(resultJNIStr, NULL);
+    CCLOG("resultCStr");
+    std::string resultStr(resultCStr);
+
+    
+    
+    
+    
+    
+    
+    /*cocos2d::JniMethodInfo methodInfo;
+    
+    cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "getAnswer", "()V");
+    
+    jstring resultJNIStr = (jstring)methodInfo.env->CallObjectMethod(methodInfo.classID, methodInfo.methodID);
+    const char *resultCStr = methodInfo.env->GetStringUTFChars(resultJNIStr, NULL);
+    std::string resultStr(resultCStr);
+    methodInfo.env->ReleaseStringUTFChars(resultJNIStr, resultCStr);*/
+    
+    
+    
+    
+    
+    
+    
+    
+    //CCLOG("IS AMAZON DEVICE:%s",resultStr.c_str());
+    
+    //methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    
+   // cocos2d::JniMethodInfo methodInfo;
+    
+    //cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "getAnswer", "()V");
+    
+    //CCLOG("ASKING FOR AMAZON DEVICE");
+    
+     /*   jmethodID midCallBack = getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "getAnswer", "()V");
+        jstring resultJNIStr = (jstring)methodInfo.env->CallObjectMethod("org/cocos2dx/cpp/AppActivity", midCallBack);
+        const char *resultCStr = methodInfo.env->GetStringUTFChars(resultJNIStr, NULL);
+        std::string resultStr(resultCStr);
+        //methodInfo.env->ReleaseStringUTFChars(resultJNIStr, resultCStr);
+    
+        CCLOG("IS AMAZON DEVICE:%s",resultStr.c_str());*/
+
+    //jclass cls2 = methodInfo.env->FindClass("AppActivity");
+    //jmethodID mid2 = methodInfo.env->GetStaticMethodID(cls2, "getAnswer", "()V");
+
+    //auto text = methodInfo.env->CallStaticVoidMethod(cls2, mid2);
+    
+    //CCLOG("IS AMAZON DEVICE:%s",text.c_str());
+    /*cocos2d::JniMethodInfo methodInfo;
+    
+    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "getAnswer", "()V"))
+    {
+        return;
+    }
+    
+    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+    
+    
+    
+    methodInfo.env->DeleteLocalRef(methodInfo.classID)
+    
+    
+    const char *DiagLayerContainer_getDESC(JNIEnv *env, jobject diagLayer) {
+        jclass diagLayerClass = env->FindClass(PARSER_CLASS);
+        jmethodID getDESCDiagLayerMethodID = env->GetMethodID(diagLayerClass, "getDESCDiagLayer", "(Ljava/lang/Object;)Ljava/lang/String;");
+        jstring returnString = (jstring) env->CallObjectMethod(diagLayer, getDESCDiagLayerMethodID);
+        return env->GetStringUTFChars(returnString, JNI_FALSE);
+    
+    
+    const char *js = env->GetStringUTFChars(returnString, NULL);
+    std::string cs(js);
+    env->ReleaseStringUTFChars(returnString, js);
+    return cs;*/
+    
+        return true;
+    #else
+        return false;
+    #endif
 }
 
 void PaymentSingleton::fulfillAmazonPayment(std::string receiptId)

@@ -1,6 +1,7 @@
 #include "IAPUpsaleScene.h"
 #include "cocos/ui/UIRichText.h"
 #include "ElectricDreamsDecoration.h"
+#include "PaymentSingleton.h"
 
 USING_NS_CC;
 
@@ -37,6 +38,8 @@ bool IAPUpsaleScene::init()
     addButtons();
     addALLBulletsAndLabel();
     addOptionalSubscriptionLabel();
+    
+    PaymentSingleton::getInstance()->isAmazonDevice();
     
     return true;
 }

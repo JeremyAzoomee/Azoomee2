@@ -95,6 +95,11 @@ public class AppActivity extends Cocos2dxActivity {
     {
         return "AndroidAnswer";
     }
+
+    public static String getOSBuildManufacturer()
+    {
+        return android.os.Build.MANUFACTURER;
+    }
     
     public static String getHMACSHA256(String message, String secret) {
         String hash = "";

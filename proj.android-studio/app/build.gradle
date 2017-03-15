@@ -99,8 +99,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.5@aar') {
         transitive = true
     }
-
     compile 'com.appsflyer:af-android-sdk:4+@aar'
+    compile files('libs/armeabi-v7a/in-app-purchasing-2.0.76.jar')
 }
 
 task cleanAssets(type: Delete) {
