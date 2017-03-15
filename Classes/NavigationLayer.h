@@ -57,6 +57,9 @@ private:
 
     //Handle arts app
     void loadArtsAppHQ();
+    
+    //memory management
+    void cleanUpPreviousHQ();
 };
 
 #endif

@@ -61,11 +61,11 @@ void HQScene::startBuildingScrollViewBasedOnName()
         
         if(this->getName() == "ARTS APP")
         {
-            auto artsLayer = this->getChildByName("ArtLayer");
+            auto artsLayer = this->getChildByName("ARTS APP");
             if(!artsLayer)
             {
                 auto offlineArtsAppScrollView = HQSceneArtsApp::create();
-                offlineArtsAppScrollView->setName("ArtLayer");
+                offlineArtsAppScrollView->setName("ARTS APP");
                 this->addChild(offlineArtsAppScrollView);
             }
         }

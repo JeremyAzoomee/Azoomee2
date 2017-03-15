@@ -87,10 +87,12 @@ void ImageDownloaderLogic::downloadFileFromServerAnswerReceived(cocos2d::network
             if(saveFileToServer(responseString, fileName))
             {
                 loadFileFromLocalCacheAsync(fileName);
+                downloadRequest->release();
                 return;
             }
             else
             {
+                downloadRequest->release();
                 return;
             }
         }
