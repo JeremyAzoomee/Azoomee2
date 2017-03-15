@@ -59,11 +59,14 @@ cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, st
     
     std::string itemid = itemData["id"];
     std::string entitled = itemData["entitled"];
-    std::string type = itemData["type"];
+    
+    elementUrl = HQDataProvider::getInstance()->getImageUrlForItem(itemid, shape);
+    elementType = itemData["type"];
+    elementShape = shape;
     
     auto funcCallAction = CallFunc::create([=](){
     
-        if(!aboutToExit) addImageToBaseLayer(HQDataProvider::getInstance()->getImageUrlForItem(itemid, shape), type, shape);
+        if(!aboutToExit) addOnScreenChecker();
         if(!aboutToExit) addGradientToBottom(category);
     
         if(!aboutToExit)
@@ -104,17 +107,29 @@ Size HQSceneElementVisual::getSizeOfLayerWithGap()
     return Size(baseLayer->getContentSize().width + gapSize, baseLayer->getContentSize().height + gapSize);
 }
 
-void HQSceneElementVisual::addImageToBaseLayer(std::string url, std::string type, Vec2 shape)
+void HQSceneElementVisual::addOnScreenChecker()
+{
+    auto onScreenChecker = new ImageDownloaderOnScreenChecker();
+    onScreenChecker->startCheckingForOnScreenPosition(this);
+}
+
+void HQSceneElementVisual::startLoadingImage()
 {
     ImageDownloader *imageDownloader = ImageDownloader::create();
-    imageDownloader->initWithURLAndSize(url, type, Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), shape);
+    imageDownloader->initWithURLAndSize(elementUrl, elementType, Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), elementShape);
     imageDownloader->setPosition(baseLayer->getContentSize() / 2);
     baseLayer->addChild(imageDownloader);
     
-    if(url == "https://media.azoomee.com/static/images/e188cbb4-0013-4555-af05-24272adcec18/thumb_2_2.jpg")
+    downloadedImage = (Sprite *)imageDownloader;
+}
+
+void HQSceneElementVisual::removeLoadedImage()
+{
+    if(downloadedImage)
     {
-        auto onScreenChecker = new ImageDownloaderOnScreenChecker();
-        onScreenChecker->startCheckingForOnScreenPosition(imageDownloader);
+        downloadedImage->getParent()->removeChild(downloadedImage);
+        Director::getInstance()->purgeCachedData();
+        downloadedImage = nullptr;
     }
 }
 

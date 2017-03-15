@@ -3,11 +3,11 @@
 class ImageDownloaderOnScreenChecker : public cocos2d::Ref
 {
 public:
-    void startCheckingForOnScreenPosition(cocos2d::Sprite* sender);
+    void startCheckingForOnScreenPosition(cocos2d::Node* sender);
+    bool checkIfElementIsOnScreen(cocos2d::Node *item);
     
 private:
-    void checkIfElementIsOnScreen();
-    void elementDisappeared();
-    void elementAppeared();
+    void elementDisappeared(cocos2d::Node *sender);
+    void elementAppeared(cocos2d::Node *sender);
     bool elementOnScreen;
 };

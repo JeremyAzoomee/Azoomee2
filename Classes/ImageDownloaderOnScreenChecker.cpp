@@ -1,33 +1,67 @@
 #include "ImageDownloaderOnScreenChecker.h"
-#include "ImageDownloader.h"
+#include "HQSceneElementVisual.h"
 
 using namespace cocos2d;
 
-void ImageDownloaderOnScreenChecker::startCheckingForOnScreenPosition(cocos2d::Sprite* sender)
+void ImageDownloaderOnScreenChecker::startCheckingForOnScreenPosition(Node* sender)
 {
+    elementOnScreen = !ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen(sender);
+    
     auto scheduler = Director::getInstance()->getScheduler();
     scheduler->schedule([=](float dt)
                         {
-                            ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen();
-                        }, this, 0.1f, kRepeatForever, 0.0f, false, "myCallbackKey");
+                            bool isVisible = ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen(sender);
+                            
+                            if((isVisible)&&(!elementOnScreen))
+                            {
+                                elementOnScreen = true;
+                                ImageDownloaderOnScreenChecker::elementAppeared(sender);
+                            }
+                            else if((!isVisible)&&(elementOnScreen))
+                            {
+                                elementOnScreen = false;
+                                ImageDownloaderOnScreenChecker::elementDisappeared(sender);
+                            }
+                        }, this, 0.5f, kRepeatForever, 0.0f, false, "myCallbackKey");
+}
+
+bool ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen(Node* itemToCheck)
+{
+    Size extraBoundary = Size(-200,-200);
+    
+    Point directPosition = itemToCheck->getPosition();
+    Point worldPosition = itemToCheck->getParent()->convertToWorldSpace(itemToCheck->getPosition());
+    Point visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Size itemSize = itemToCheck->getBoundingBox().size;
+    
+    Point visibleRectStartPoint = Point(visibleOrigin.x - extraBoundary.width - itemSize.width, visibleOrigin.y - extraBoundary.height - itemSize.height);
+    Size visibleRectSize = Size(visibleSize.width + 2*extraBoundary.width + itemSize.width, visibleSize.height + 2*extraBoundary.height + itemSize.height);
+    
+    Rect visibleRect = Rect(visibleRectStartPoint.x, visibleRectStartPoint.y, visibleRectSize.width, visibleRectSize.height);
+    
+    if(visibleRect.containsPoint(worldPosition))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 //------------------------------------All methods are private below this line------------------
 
-void ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen()
+void ImageDownloaderOnScreenChecker::elementAppeared(Node* sender)
 {
-    CCLOG("check is running");
-    
+    CCLOG("element appeared!");
+    HQSceneElementVisual* owner = (HQSceneElementVisual*)sender;
+    owner->startLoadingImage();
 }
 
-void ImageDownloaderOnScreenChecker::elementAppeared()
+void ImageDownloaderOnScreenChecker::elementDisappeared(Node* sender)
 {
-    if(elementOnScreen) return;
-    elementOnScreen = true;
-}
-
-void ImageDownloaderOnScreenChecker::elementDisappeared()
-{
-    if(!elementOnScreen) return;
-    elementOnScreen = false;
+    CCLOG("element disappeared!");
+    HQSceneElementVisual* owner = (HQSceneElementVisual*)sender;
+    owner->removeLoadedImage();
 }

@@ -16,11 +16,15 @@ public:
     cocos2d::LayerColor *baseLayer;
     cocos2d::LayerColor *overlayWhenTouched;
     
+    void removeLoadedImage();
+    void startLoadingImage();
+    
 private:
+    cocos2d::Sprite* downloadedImage;
     void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth);
     void resizeSceneElement(cocos2d::Vec2 shape, std::string category);
     void createColourLayer(std::string category, float delay);
-    void addImageToBaseLayer(std::string filename, std::string type, cocos2d::Vec2 shape);
+    void addOnScreenChecker();
     void addGradientToBottom(std::string category);
     cocos2d::Sprite* addIconToImage(std::string category);
     void addLabelsToImage(std::map<std::string, std::string>itemData, cocos2d::Sprite* nextToIcon);
@@ -37,6 +41,10 @@ private:
     
     bool aboutToExit;
     bool isOffline;
+    
+    std::string elementUrl;
+    std::string elementType;
+    cocos2d::Vec2 elementShape;
 };
 
 #endif
