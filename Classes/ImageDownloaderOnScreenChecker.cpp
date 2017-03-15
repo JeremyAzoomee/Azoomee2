@@ -1,5 +1,5 @@
 #include "ImageDownloaderOnScreenChecker.h"
-#include "HQSceneElementVisual.h"
+#include "ImageDownloader.h"
 
 using namespace cocos2d;
 
@@ -22,12 +22,12 @@ void ImageDownloaderOnScreenChecker::startCheckingForOnScreenPosition(Node* send
                                 elementOnScreen = false;
                                 ImageDownloaderOnScreenChecker::elementDisappeared(sender);
                             }
-                        }, this, 0.5f, kRepeatForever, 0.0f, false, "myCallbackKey");
+                        }, this, 0.5f, kRepeatForever, 0.0f, false, "onScreenCheck");
 }
 
 bool ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen(Node* itemToCheck)
 {
-    Size extraBoundary = Size(-200,-200);
+    Size extraBoundary = Size(100,100);
     
     Point directPosition = itemToCheck->getPosition();
     Point worldPosition = itemToCheck->getParent()->convertToWorldSpace(itemToCheck->getPosition());
@@ -35,7 +35,7 @@ bool ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen(Node* itemToCheck)
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Size itemSize = itemToCheck->getBoundingBox().size;
     
-    Point visibleRectStartPoint = Point(visibleOrigin.x - extraBoundary.width - itemSize.width, visibleOrigin.y - extraBoundary.height - itemSize.height);
+    Point visibleRectStartPoint = Point(visibleOrigin.x - extraBoundary.width - itemSize.width / 2, visibleOrigin.y - extraBoundary.height - itemSize.height / 2);
     Size visibleRectSize = Size(visibleSize.width + 2*extraBoundary.width + itemSize.width, visibleSize.height + 2*extraBoundary.height + itemSize.height);
     
     Rect visibleRect = Rect(visibleRectStartPoint.x, visibleRectStartPoint.y, visibleRectSize.width, visibleRectSize.height);
@@ -54,14 +54,17 @@ bool ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen(Node* itemToCheck)
 
 void ImageDownloaderOnScreenChecker::elementAppeared(Node* sender)
 {
-    CCLOG("element appeared!");
-    HQSceneElementVisual* owner = (HQSceneElementVisual*)sender;
+    ImageDownloader* owner = (ImageDownloader*)sender;
     owner->startLoadingImage();
 }
 
 void ImageDownloaderOnScreenChecker::elementDisappeared(Node* sender)
 {
-    CCLOG("element disappeared!");
-    HQSceneElementVisual* owner = (HQSceneElementVisual*)sender;
+    ImageDownloader* owner = (ImageDownloader*)sender;
     owner->removeLoadedImage();
+}
+
+void ImageDownloaderOnScreenChecker::endCheck()
+{
+    Director::getInstance()->getScheduler()->unschedule("onScreenCheck", this);
 }

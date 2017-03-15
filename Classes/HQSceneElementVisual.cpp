@@ -66,7 +66,7 @@ cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, st
     
     auto funcCallAction = CallFunc::create([=](){
     
-        if(!aboutToExit) addOnScreenChecker();
+        if(!aboutToExit) addImageDownloader();
         if(!aboutToExit) addGradientToBottom(category);
     
         if(!aboutToExit)
@@ -107,30 +107,12 @@ Size HQSceneElementVisual::getSizeOfLayerWithGap()
     return Size(baseLayer->getContentSize().width + gapSize, baseLayer->getContentSize().height + gapSize);
 }
 
-void HQSceneElementVisual::addOnScreenChecker()
-{
-    auto onScreenChecker = new ImageDownloaderOnScreenChecker();
-    onScreenChecker->startCheckingForOnScreenPosition(this);
-}
-
-void HQSceneElementVisual::startLoadingImage()
+void HQSceneElementVisual::addImageDownloader()
 {
     ImageDownloader *imageDownloader = ImageDownloader::create();
     imageDownloader->initWithURLAndSize(elementUrl, elementType, Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), elementShape);
     imageDownloader->setPosition(baseLayer->getContentSize() / 2);
     baseLayer->addChild(imageDownloader);
-    
-    downloadedImage = (Sprite *)imageDownloader;
-}
-
-void HQSceneElementVisual::removeLoadedImage()
-{
-    if(downloadedImage)
-    {
-        downloadedImage->getParent()->removeChild(downloadedImage);
-        Director::getInstance()->purgeCachedData();
-        downloadedImage = nullptr;
-    }
 }
 
 void HQSceneElementVisual::addGradientToBottom(std::string category)

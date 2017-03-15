@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "network/HttpClient.h"
 #include "ImageDownloaderLogic.h"
+#include "ImageDownloaderOnScreenChecker.h"
 
 class ImageDownloader : public cocos2d::Sprite
 {
@@ -15,6 +16,9 @@ public:
     bool aboutToExit;
     ImageDownloaderLogic *imageDownloaderLogic;
     
+    void startLoadingImage();
+    void removeLoadedImage();
+    
 private:
     void addPlaceHolderImage(std::string type, cocos2d::Size contentSize, cocos2d::Vec2 shape);
     void addLoadingAnimation();
@@ -24,6 +28,11 @@ private:
     bool addStarted;
     
     float identifier;
+    std::string imageUrl;
+    cocos2d::Sprite* loadedImage;
+    
+    void onEnter();
+    ImageDownloaderOnScreenChecker *onScreenChecker;
 };
 
 #endif
