@@ -10,6 +10,7 @@
 #include "OfflineHubScene.h"
 
 #include "IAPUpsaleScene.h"
+#include "PaymentSingleton.h"
 
 USING_NS_CC;
 
@@ -89,10 +90,18 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = IAPUpsaleScene::createScene();
+    if(PaymentSingleton::getInstance()->isAmazonDevice())
+    {
+        auto scene = IAPUpsaleScene::createScene();
+        director->runWithScene(scene);
+    }
+    else
+    {
+        auto scene = IntroVideoScene::createScene();
     //auto scene = OfflineHubScene::createScene();
     // run
     director->runWithScene(scene);
+    }
 
     return true;
 }
