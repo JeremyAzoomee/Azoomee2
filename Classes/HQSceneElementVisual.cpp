@@ -24,6 +24,7 @@
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
 #include "ElectricDreamsTextStyles.h"
+#include "ImageDownloaderOnScreenChecker.h"
 
 USING_NS_CC;
 
@@ -109,6 +110,12 @@ void HQSceneElementVisual::addImageToBaseLayer(std::string url, std::string type
     imageDownloader->initWithURLAndSize(url, type, Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), shape);
     imageDownloader->setPosition(baseLayer->getContentSize() / 2);
     baseLayer->addChild(imageDownloader);
+    
+    if(url == "https://media.azoomee.com/static/images/e188cbb4-0013-4555-af05-24272adcec18/thumb_2_2.jpg")
+    {
+        auto onScreenChecker = new ImageDownloaderOnScreenChecker();
+        onScreenChecker->startCheckingForOnScreenPosition(imageDownloader);
+    }
 }
 
 void HQSceneElementVisual::addGradientToBottom(std::string category)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		020ACD0B1E793EEC002490CE /* ImageDownloaderOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020ACD091E793EEC002490CE /* ImageDownloaderOnScreenChecker.cpp */; };
 		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
 		025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */; };
 		025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */; };
@@ -270,6 +271,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		020ACD091E793EEC002490CE /* ImageDownloaderOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderOnScreenChecker.cpp; sourceTree = "<group>"; };
+		020ACD0A1E793EEC002490CE /* ImageDownloaderOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderOnScreenChecker.h; sourceTree = "<group>"; };
 		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
 		025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
 		025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsPreviewLayer.cpp; sourceTree = "<group>"; };
@@ -1403,6 +1406,8 @@
 				A15B2FC61DFAB3FB00D25334 /* ImageDownloader.h */,
 				026BAF791E407A3A009C4ACE /* ImageDownloaderLogic.cpp */,
 				026BAF7A1E407A3A009C4ACE /* ImageDownloaderLogic.h */,
+				020ACD091E793EEC002490CE /* ImageDownloaderOnScreenChecker.cpp */,
+				020ACD0A1E793EEC002490CE /* ImageDownloaderOnScreenChecker.h */,
 			);
 			name = ImageDownloader;
 			sourceTree = "<group>";
@@ -1648,6 +1653,7 @@
 				A1A2D2FF1E13B52700E86169 /* CookieDataProvider.cpp in Sources */,
 				431A2A261E439BFE00DC0F3B /* MPDesignerEventBindingResponseMesssage.m in Sources */,
 				431A2A3B1E439BFE00DC0F3B /* MPSurvey.m in Sources */,
+				020ACD0B1E793EEC002490CE /* ImageDownloaderOnScreenChecker.cpp in Sources */,
 				431A2A411E439BFE00DC0F3B /* MPSwizzler.m in Sources */,
 				431A2A1A1E439BFE00DC0F3B /* MPABTestDesignerTweakRequestMessage.m in Sources */,
 				A1CC0C191E141AE0008B469E /* ParentDataStorage.cpp in Sources */,
