@@ -62,3 +62,15 @@ Sprite* createGlow()
 
     return bgGlow;
 }
+
+void addFullScreenGlowToScreen(Node* parentLayer)
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto fullscreenGlow = Sprite::create("res/decoration/fullscreen_glow.png");
+    fullscreenGlow->setScaleX(visibleSize.width / fullscreenGlow->getContentSize().width);
+    fullscreenGlow->setScaleY(visibleSize.height / fullscreenGlow->getContentSize().height);
+    fullscreenGlow->setPosition(visibleSize.width / 2, origin.y + visibleSize.height / 2);
+    parentLayer->addChild(fullscreenGlow);
+}

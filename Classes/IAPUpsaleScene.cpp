@@ -1,5 +1,6 @@
 #include "IAPUpsaleScene.h"
 #include "cocos/ui/UIRichText.h"
+#include "ElectricDreamsDecoration.h"
 
 USING_NS_CC;
 
@@ -30,7 +31,7 @@ bool IAPUpsaleScene::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    
+    addFullScreenGlowToScreen(this);
     addImage();
     addTitle();
     addButtons();
