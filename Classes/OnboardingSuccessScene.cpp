@@ -8,7 +8,7 @@
 #include "AudioMixer.h"
 #include "IAPUpsaleLayer.h"
 #include "StringFunctions.h"
-
+#include "PaymentSingleton.h"
 
 USING_NS_CC;
 
@@ -60,6 +60,14 @@ void OnboardingSuccessScene::addButtonsToScene()
     oomeeButton->setDelegate(this);
     oomeeButton->setMixPanelButtonName("OnboardingSuccessOomeePressed");
     this->addChild(oomeeButton);
+    
+    if(IAPUpsaleLayer::isAmazonDevice())
+    {
+        startTrial = ElectricDreamsButton::createButtonWithText("Start Your Free Trial!", 100);
+        startTrial->setPosition(origin.x + startTrial->getContentSize().height,origin.y+ startTrial->getContentSize().height);
+        startTrial->setDelegate(this);
+        this->addChild(startTrial);
+    }
 }
 
 void OnboardingSuccessScene::addLabelsToLayer()
@@ -85,9 +93,14 @@ void OnboardingSuccessScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(!buttonHasBeenPressed)
     {
-        buttonHasBeenPressed = true;
-        oomeeButton->playOomeeAnimation("Build_Pop", false);
-        this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
+        if(button == oomeeButton)
+        {
+            buttonHasBeenPressed = true;
+            oomeeButton->playOomeeAnimation("Build_Pop", false);
+            this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
+        }
+        else if(button == startTrial)
+            PaymentSingleton::getInstance()->startAmazonPayment();
     }
 }
 

@@ -14,6 +14,8 @@ private:
     Vec2 origin;
     
     ElectricDreamsButton* oomeeButton;
+    ElectricDreamsButton* startTrial;
+
     
     void addVisualElementsToScene();
     void addButtonsToScene();

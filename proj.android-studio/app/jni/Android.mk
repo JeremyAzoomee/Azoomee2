@@ -85,7 +85,6 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/ChildAccountSuccessScene.cpp \
                    ../../../Classes/HQSceneElementVisual.cpp \
                    ../../../Classes/HQSceneArtsApp.cpp \
-                   ../../../Classes/IAPUpsaleScene.cpp \
                    ../../../Classes/IAPUpsaleLayer.cpp \
                    ../../../Classes/PaymentSingleton.cpp
 
