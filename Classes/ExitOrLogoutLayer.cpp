@@ -151,6 +151,7 @@ void ExitOrLogoutLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
     addExitOrLogoutUIObjects();
 }
 
+/*
 void showDoublePurchase()
 {
     auto funcCallAction = CallFunc::create([=](){
@@ -190,4 +191,4 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv
     showDoublePurchase();
 }
 
-#endif
+#endif*/

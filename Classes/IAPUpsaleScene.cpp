@@ -2,6 +2,7 @@
 #include "cocos/ui/UIRichText.h"
 #include "ElectricDreamsDecoration.h"
 #include "PaymentSingleton.h"
+#include "MessageBox.h"
 
 USING_NS_CC;
 
@@ -132,7 +133,7 @@ void IAPUpsaleScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == startTrialButton)
     {
-        
+        PaymentSingleton::getInstance()->startAmazonPayment();
     }
     if(button == restoreButton)
     {
@@ -144,4 +145,46 @@ void IAPUpsaleScene::buttonPressed(ElectricDreamsButton* button)
         
     }
 }
+
+void showDoublePurchase()
+{
+    auto funcCallAction = CallFunc::create([=](){
+        MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_DOUBLE, nullptr);
+    });
+    
+    Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from amazon window, otherwise the app will crash
+}
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv* env, jobject thiz, jstring requestId, jstring receiptId, jstring amazonUserid);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv* env, jobject thiz, jstring requestId, jstring receiptId, jstring amazonUserid)
+{
+    const char* cRequestId = env->GetStringUTFChars(requestId, NULL);
+    const char* cReceiptId = env->GetStringUTFChars(receiptId, NULL);
+    const char* cAmazonUserid = env->GetStringUTFChars(amazonUserid, NULL);
+    
+    CCLOG("COCOS2DX: I have the data: requestid: %s, receiptid: %s, amazonuserid: %s", cRequestId, cReceiptId, cAmazonUserid);
+    
+    PaymentSingleton::getInstance()->amazonPaymentMade(cRequestId, cReceiptId, cAmazonUserid);
+}
+
+extern "C"
+
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv* env, jobject thiz)
+{
+    CCLOG("COCOS2DX: alreadyPurchased CALLED!!!!!");
+    showDoublePurchase();
+}
+
+#endif
+
 

@@ -30,6 +30,8 @@ private:
     void addBulletAndLabel(std::string BOLDtext, std::string regularText, float yPosition);
     void addOptionalSubscriptionLabel();
     
+    void showDoublePurchase();
+    
 public:
     static cocos2d::Scene* createScene();
     

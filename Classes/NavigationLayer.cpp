@@ -485,7 +485,7 @@ void NavigationLayer::cleanUpPreviousHQ()
             Director::getInstance()->purgeCachedData();
         });
         
-        this->runAction(Sequence::create(DelayTime::create(0.4), funcCallAction, NULL));
+        this->runAction(Sequence::create(DelayTime::create(0.0), funcCallAction, NULL));
         
     }
 }
