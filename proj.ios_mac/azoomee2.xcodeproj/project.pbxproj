@@ -152,6 +152,7 @@
 		4330C78B1E27BFD900D32D3E /* CrashlyticsConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4330C7891E27BFD900D32D3E /* CrashlyticsConfig.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
 		433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
+		433FA7F61E7AA9C400A8C27F /* IAPUpsaleLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 433FA7F41E7AA9C400A8C27F /* IAPUpsaleLayer.cpp */; };
 		4348E4391E6576D600486661 /* ElectricDreamsDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4348E4371E6576D600486661 /* ElectricDreamsDecoration.cpp */; };
 		4348E4431E65DD9B00486661 /* OnboardingSuccessScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */; };
 		434B8BD31E6821A4004C7C88 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */; };
@@ -522,6 +523,8 @@
 		4330C78A1E27BFD900D32D3E /* CrashlyticsConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashlyticsConfig.h; sourceTree = "<group>"; };
 		433AD3051E252A2C003757AD /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		433AD3061E252A2C003757AD /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		433FA7F41E7AA9C400A8C27F /* IAPUpsaleLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPUpsaleLayer.cpp; sourceTree = "<group>"; };
+		433FA7F51E7AA9C400A8C27F /* IAPUpsaleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPUpsaleLayer.h; sourceTree = "<group>"; };
 		4348E4371E6576D600486661 /* ElectricDreamsDecoration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsDecoration.cpp; sourceTree = "<group>"; };
 		4348E4381E6576D600486661 /* ElectricDreamsDecoration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsDecoration.h; sourceTree = "<group>"; };
 		4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingSuccessScene.cpp; sourceTree = "<group>"; };
@@ -716,6 +719,8 @@
 		020ACCFB1E70561F002490CE /* PaymentSingleton */ = {
 			isa = PBXGroup;
 			children = (
+				433FA7F41E7AA9C400A8C27F /* IAPUpsaleLayer.cpp */,
+				433FA7F51E7AA9C400A8C27F /* IAPUpsaleLayer.h */,
 				020ACCFD1E70564B002490CE /* PaymentSingleton.cpp */,
 				020ACCFE1E70564B002490CE /* PaymentSingleton.h */,
 			);
@@ -1645,6 +1650,7 @@
 				431A2A1F1E439BFE00DC0F3B /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
 				431A2A111E439BFE00DC0F3B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				020ACCFF1E70564B002490CE /* PaymentSingleton.cpp in Sources */,
+				433FA7F61E7AA9C400A8C27F /* IAPUpsaleLayer.cpp in Sources */,
 				431A2A2B1E439BFE00DC0F3B /* MPNotification.m in Sources */,
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,

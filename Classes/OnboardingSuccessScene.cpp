@@ -6,6 +6,8 @@
 #include "BackEndCaller.h"
 #include "ParentDataProvider.h"
 #include "AudioMixer.h"
+#include "IAPUpsaleLayer.h"
+#include "StringFunctions.h"
 
 
 USING_NS_CC;
@@ -36,6 +38,12 @@ bool OnboardingSuccessScene::init()
     return true;
 }
 
+void OnboardingSuccessScene::onEnterTransitionDidFinish()
+{
+    if(IAPUpsaleLayer::isAmazonDevice())
+        IAPUpsaleLayer::create();
+}
+
 //----------------- SCENE SETUP ---------------
 void OnboardingSuccessScene::addVisualElementsToScene()
 {
@@ -60,7 +68,9 @@ void OnboardingSuccessScene::addLabelsToLayer()
     title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
     this->addChild(title);
     
-    auto subTitle = createLabelHeaderWhite(StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_SUB_LABEL));
+    std::string subTitleString = stringReplace(StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_SUB_LABEL), "%s", ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
+
+    auto subTitle = createLabelHeaderWhite(subTitleString);
     subTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.78);
     this->addChild(subTitle);
     

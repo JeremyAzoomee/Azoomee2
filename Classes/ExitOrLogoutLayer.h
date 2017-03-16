@@ -24,7 +24,7 @@ private:
     void addExitOrLogoutUIObjects();
     
     void removeSelf();
-    void showDoublePurchase();
+    //void showDoublePurchase();
     
 public:
     virtual bool init();

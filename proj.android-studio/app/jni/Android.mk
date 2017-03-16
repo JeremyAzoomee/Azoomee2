@@ -86,6 +86,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HQSceneElementVisual.cpp \
                    ../../../Classes/HQSceneArtsApp.cpp \
                    ../../../Classes/IAPUpsaleScene.cpp \
+                   ../../../Classes/IAPUpsaleLayer.cpp \
                    ../../../Classes/PaymentSingleton.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes

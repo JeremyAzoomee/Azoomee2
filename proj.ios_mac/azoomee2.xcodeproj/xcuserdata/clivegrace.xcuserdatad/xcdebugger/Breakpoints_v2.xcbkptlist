@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../Classes/NavigationLayer.cpp"
-            timestampString = "510746655.276076"
+            timestampString = "511365393.793027"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "337"
+            endingLineNumber = "337"
             landmarkName = "NavigationLayer::moveMenuPointsToCircleState(float duration)"
             landmarkType = "7">
          </BreakpointContent>

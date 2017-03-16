@@ -23,6 +23,8 @@ private:
     
     bool buttonHasBeenPressed;
     
+    virtual void onEnterTransitionDidFinish();
+    
 public:
     static cocos2d::Scene* createScene();
     

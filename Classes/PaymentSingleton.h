@@ -15,8 +15,6 @@ public:
     void amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid);
     void startAmazonPayment();
     
-    bool isAmazonDevice();
-    
 private:
     void fulfillAmazonPayment(std::string receiptId);
     

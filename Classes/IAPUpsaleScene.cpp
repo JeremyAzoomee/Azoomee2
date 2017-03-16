@@ -40,8 +40,6 @@ bool IAPUpsaleScene::init()
     addALLBulletsAndLabel();
     addOptionalSubscriptionLabel();
     
-    PaymentSingleton::getInstance()->isAmazonDevice();
-    
     return true;
 }
 
@@ -146,6 +144,7 @@ void IAPUpsaleScene::buttonPressed(ElectricDreamsButton* button)
     }
 }
 
+/*
 void showDoublePurchase()
 {
     auto funcCallAction = CallFunc::create([=](){
@@ -185,6 +184,6 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv
     showDoublePurchase();
 }
 
-#endif
+#endif*/
 
 

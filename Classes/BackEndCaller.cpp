@@ -175,13 +175,15 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
 {
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     
+    
     if(newChildJustRegistered)
     {
         newChildJustRegistered = false;
         auto childAccountSuccessScene = ChildAccountSuccessScene::createScene(newChildName, oomeeAvatarNumber);
         Director::getInstance()->replaceScene(childAccountSuccessScene);
     }
-    else if(accountJustRegistered)
+    //else if(accountJustRegistered)
+    else if(true)
     {
         accountJustRegistered = false;
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene();

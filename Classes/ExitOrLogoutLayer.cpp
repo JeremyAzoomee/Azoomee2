@@ -151,8 +151,8 @@ void ExitOrLogoutLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
     addExitOrLogoutUIObjects();
 }
 
-/*
-void showDoublePurchase()
+
+/*void showDoublePurchase()
 {
     auto funcCallAction = CallFunc::create([=](){
         MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_DOUBLE, nullptr);

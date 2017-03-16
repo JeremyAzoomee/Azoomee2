@@ -38,8 +38,8 @@ bool PaymentSingleton::init(void)
 void PaymentSingleton::startAmazonPayment()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    cocos2d::JniMethodInfo methodInfo;
     
+    cocos2d::JniMethodInfo methodInfo;
     if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startAmazonPurchase", "()V"))
     {
         return;
@@ -110,25 +110,6 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
     
 }
 
-bool PaymentSingleton::isAmazonDevice()
-{
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer", "()Ljava/lang/String;");
-    jstring str = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID);
-    const char *resultCStr = t.env->GetStringUTFChars(str, NULL);
-    std::string resultStr(resultCStr);
-    t.env->ReleaseStringUTFChars(str, resultCStr);
-
-    CCLOG("DEVICE TYPE:%s",resultStr.c_str());
-    
-        return resultStr == "Amazon";
-    #else
-        return false;
-    #endif
-}
-
 void PaymentSingleton::fulfillAmazonPayment(std::string receiptId)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -145,3 +126,44 @@ void PaymentSingleton::fulfillAmazonPayment(std::string receiptId)
 #endif
 
 }
+
+void showDoublePurchase()
+{
+    auto funcCallAction = CallFunc::create([=](){
+        MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_DOUBLE, nullptr);
+    });
+    
+    Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from amazon window, otherwise the app will crash
+}
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv* env, jobject thiz, jstring requestId, jstring receiptId, jstring amazonUserid);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv* env, jobject thiz, jstring requestId, jstring receiptId, jstring amazonUserid)
+{
+    const char* cRequestId = env->GetStringUTFChars(requestId, NULL);
+    const char* cReceiptId = env->GetStringUTFChars(receiptId, NULL);
+    const char* cAmazonUserid = env->GetStringUTFChars(amazonUserid, NULL);
+    
+    CCLOG("COCOS2DX: I have the data: requestid: %s, receiptid: %s, amazonuserid: %s", cRequestId, cReceiptId, cAmazonUserid);
+    
+    PaymentSingleton::getInstance()->amazonPaymentMade(cRequestId, cReceiptId, cAmazonUserid);
+}
+
+extern "C"
+
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv* env, jobject thiz)
+{
+    CCLOG("COCOS2DX: alreadyPurchased CALLED!!!!!");
+    showDoublePurchase();
+}
+
+#endif

@@ -8,7 +8,6 @@
 #include "ChildSelectorScene.h"
 #include "ChildDataStorage.h"
 #include "ChildDataProvider.h"
-#include "ExitOrLogoutLayer.h"
 #include "MessageBox.h"
 #include "HQHistoryManager.h"
 #include "AudioMixer.h"

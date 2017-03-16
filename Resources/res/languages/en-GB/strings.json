@@ -17,7 +17,7 @@
     "OnboardingSuccessScene":
     {
         "title_label":"YAY! Great Stuff!\nYou've successfully created an account",
-        "sub_label":"Tap Ooubrey to get started!",
+        "sub_label":"Tap %s to get started!",
         "checkemail_label":"You can create your own Oomee later.\nCheck your email."
     },
     

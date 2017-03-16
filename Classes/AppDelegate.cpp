@@ -90,18 +90,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    if(PaymentSingleton::getInstance()->isAmazonDevice())
-    {
-        auto scene = IAPUpsaleScene::createScene();
-        director->runWithScene(scene);
-    }
-    else
-    {
-        auto scene = IntroVideoScene::createScene();
-    //auto scene = OfflineHubScene::createScene();
-    // run
+    auto scene = IntroVideoScene::createScene();
     director->runWithScene(scene);
-    }
 
     return true;
 }
