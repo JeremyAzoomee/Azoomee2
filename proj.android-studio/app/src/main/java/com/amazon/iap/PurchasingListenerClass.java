@@ -145,6 +145,7 @@ public class PurchasingListenerClass implements PurchasingListener {
 
             break;
         case INVALID_SKU:
+            appActivity.sendIAPFAILToCocos();
             Log.d("IAPAPIListener",
                   "onPurchaseResponse: invalid SKU!  onProductDataResponse should have disabled buy button already.");
             final Set<String> unavailableSkus = new HashSet<String>();
@@ -153,6 +154,7 @@ public class PurchasingListenerClass implements PurchasingListener {
             break;
         case FAILED:
         case NOT_SUPPORTED:
+            appActivity.sendIAPFAILToCocos();
             Log.d("IAPAPIListener", "onPurchaseResponse: failed so remove purchase request from local storage");
             iapManager.purchaseFailed(response.getReceipt().getSku());
             break;

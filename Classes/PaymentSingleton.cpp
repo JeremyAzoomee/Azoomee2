@@ -37,6 +37,7 @@ bool PaymentSingleton::init(void)
 
 void PaymentSingleton::startAmazonPayment()
 {
+    ModalMessages::getInstance()->startLoading();
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
     cocos2d::JniMethodInfo methodInfo;
@@ -53,8 +54,6 @@ void PaymentSingleton::startAmazonPayment()
 
 void PaymentSingleton::amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid)
 {
-    ModalMessages::getInstance()->startLoading();
-    
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
     httpRequestCreator->requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
     httpRequestCreator->requestTag = "iapAmazonPaymentMade";
@@ -87,27 +86,12 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
                 
                 Director::getInstance()->replaceScene(LoginScene::createScene(ERROR_CODE_AMAZON_PURCHASE_SUCCESSFUL));
             }
-            else
-            {
-                //handle status is not fulfilled
-                MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_FAILURE, nullptr);
-                return;
-            }
-        }
-        else
-        {
-            //handle receiptStatus value unexpected
-            MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_FAILURE, nullptr);
-            return;
         }
     }
-    else
-    {
-        //Handle string not having member of receiptStatus
-        MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_FAILURE, nullptr);
-        return;
-    }
-    
+
+    //Handle string not having member of receiptStatus
+    MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_FAILURE, nullptr);
+    return;
 }
 
 void PaymentSingleton::fulfillAmazonPayment(std::string receiptId)
@@ -127,9 +111,16 @@ void PaymentSingleton::fulfillAmazonPayment(std::string receiptId)
 
 }
 
+void PaymentSingleton::purchaseFailed()
+{
+    CCLOG("PaymentSingleton: PURCHASE FAILED");
+    ModalMessages::getInstance()->stopLoading();
+}
+
 void showDoublePurchase()
 {
     auto funcCallAction = CallFunc::create([=](){
+        ModalMessages::getInstance()->stopLoading();
         MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_DOUBLE, nullptr);
     });
     
@@ -164,6 +155,18 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv
 {
     CCLOG("COCOS2DX: alreadyPurchased CALLED!!!!!");
     showDoublePurchase();
+}
+
+extern "C"
+
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseFailed(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseFailed(JNIEnv* env, jobject thiz)
+{
+    CCLOG("COCOS2DX: PURCHASE FAILED");
+    PaymentSingleton::getInstance()->purchaseFailed();
 }
 
 #endif

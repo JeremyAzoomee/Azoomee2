@@ -265,12 +265,16 @@ public class AppActivity extends Cocos2dxActivity {
         purchaseHappened(requestId, receiptId, amazonUserid);
     }
 
+    public void sendIAPFAILToCocos() { purchaseFailed(); }
+
     public void amazonAlreadyPurchased()
     {
         alreadyPurchased();
     }
 
     public static native void purchaseHappened(String requestId, String receiptId, String amazonUserid);
+
+    public static native void purchaseFailed();
 
     public static native void alreadyPurchased();
 }

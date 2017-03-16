@@ -41,7 +41,7 @@ bool OnboardingSuccessScene::init()
 void OnboardingSuccessScene::onEnterTransitionDidFinish()
 {
     if(IAPUpsaleLayer::isAmazonDevice())
-        IAPUpsaleLayer::create();
+        IAPUpsaleLayer::createRequiresPin();
 }
 
 //----------------- SCENE SETUP ---------------
