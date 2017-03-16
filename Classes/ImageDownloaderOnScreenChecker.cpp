@@ -5,8 +5,6 @@ using namespace cocos2d;
 
 void ImageDownloaderOnScreenChecker::startCheckingForOnScreenPosition(Node* sender)
 {
-    elementOnScreen = !ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen(sender);
-    
     auto scheduler = Director::getInstance()->getScheduler();
     scheduler->schedule([=](float dt)
                         {
