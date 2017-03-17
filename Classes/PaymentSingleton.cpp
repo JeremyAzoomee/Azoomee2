@@ -1,7 +1,6 @@
 #include "PaymentSingleton.h"
 #include "HttpRequestCreator.h"
 #include "external/json/document.h"
-#include "ModalMessages.h"
 #include "MessageBox.h"
 #include "BackEndCaller.h"
 
@@ -58,7 +57,7 @@ void PaymentSingleton::setupIsEnabledIAP()
 
 void PaymentSingleton::startAmazonPayment()
 {
-    ModalMessages::getInstance()->startLoading();
+    createModalLayer();
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
     cocos2d::JniMethodInfo methodInfo;
@@ -83,7 +82,7 @@ void PaymentSingleton::amazonPaymentMade(std::string requestId, std::string rece
 
 void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDataString)
 {
-    ModalMessages::getInstance()->stopLoading();
+    removeModalLayer();
     
     CCLOG("The response id is: %s", responseDataString.c_str());
     
@@ -117,7 +116,7 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
 
     if(paymentFailed)
     {
-        MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_FAILURE, nullptr);
+        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
         return;
     }
 }
@@ -142,7 +141,7 @@ void PaymentSingleton::fulfillAmazonPayment(std::string receiptId)
 void PaymentSingleton::purchaseFailed()
 {
     CCLOG("PaymentSingleton: PURCHASE FAILED");
-    ModalMessages::getInstance()->stopLoading();
+    removeModalLayer();
 }
 
 bool PaymentSingleton::enableIAP()
@@ -150,13 +149,50 @@ bool PaymentSingleton::enableIAP()
     return isEnabledIAP;
 }
 
+//-------------------- Modal Layer Functions----------------
+
+void PaymentSingleton::createModalLayer()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    modalLayer = LayerColor::create(Color4B(0,0,0,150), visibleSize.width, visibleSize.height);
+    modalLayer->setPosition(origin.x, origin.y);
+    modalLayer->setOpacity(0);
+    Director::getInstance()->getRunningScene()->addChild(modalLayer);
+    
+    addListenerToBackgroundLayer();
+    
+    modalLayer->runAction(FadeTo::create(0.5, 255));
+}
+
+void PaymentSingleton::removeModalLayer()
+{
+    if(modalLayer) //This might be called when loading is not active, so better to check first
+    {
+        Director::getInstance()->getRunningScene()->removeChild(modalLayer);
+    }
+}
+
+void PaymentSingleton::addListenerToBackgroundLayer()
+{
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    {
+        return true;
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), modalLayer);
+}
+
 //-------------------- JAVA RETURN FUNCTIONS-----------------
 
 void showDoublePurchase()
 {
     auto funcCallAction = CallFunc::create([=](){
-        ModalMessages::getInstance()->stopLoading();
-        MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_DOUBLE, nullptr);
+        PaymentSingleton::getInstance()->removeModalLayer();
+        MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
     });
     
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from amazon window, otherwise the app will crash

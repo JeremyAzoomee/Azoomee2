@@ -5,6 +5,7 @@
 #include "AudioMixer.h"
 #include "MessageBox.h"
 #include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsDecoration.h"
 
 bool AwaitingAdultPinLayer::init()
 {
@@ -28,7 +29,7 @@ bool AwaitingAdultPinLayer::init()
 
 void AwaitingAdultPinLayer::createAndFadeInLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(0,0,0,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
@@ -50,6 +51,12 @@ void AwaitingAdultPinLayer::addListenerToBackgroundLayer()
 
 void AwaitingAdultPinLayer::addUIObjects()
 {
+    addSideWiresToScreen(this, 0, 2);
+    
+    windowLayer = createWindowLayer(visibleSize.height/3);
+    windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + visibleSize.height - visibleSize.height/10- windowLayer->getContentSize().height);
+    this->addChild(windowLayer);
+    
     //---------- MODAL LABEL ------------
     
     auto enterYourPinTitle = createLabelHeaderWhite(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL));

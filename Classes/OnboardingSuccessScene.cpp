@@ -91,9 +91,18 @@ void OnboardingSuccessScene::addButtonsToScene()
 void OnboardingSuccessScene::addLabelsToLayer()
 {
     std::string TitleText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_TITLE_LABEL);
+    std::string SubTitleText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_CHECKEMAIL_LABEL);
     
     if(IAPSuccess)
-        TitleText = "You've successfully enabled your trial";
+    {
+        TitleText = "Your Azoomee subscription is now active!\nEnjoy unlimited access to TV shows, games and audiobooks";
+        SubTitleText = "You can choose your own Oomee later.";
+    }
+    else if(IAPEnabled)
+    {
+        TitleText = "Don’t worry, you can still access lots of exciting TV shows,\ngames and audiobooks for free.";
+        SubTitleText = "You can always unlock full access later.";
+    }
     
     auto title = createLabelHeader(TitleText);
     title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
@@ -105,9 +114,9 @@ void OnboardingSuccessScene::addLabelsToLayer()
     subTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.78);
     this->addChild(subTitle);
     
-    if(!IAPSuccess)
+    if(!IAPSuccess && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 1)
     {
-        auto checkEmail = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_CHECKEMAIL_LABEL));
+        auto checkEmail = createLabelBodyCentred(SubTitleText);
         checkEmail->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.2);
         this->addChild(checkEmail);
     }

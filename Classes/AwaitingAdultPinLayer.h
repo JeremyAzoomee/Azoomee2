@@ -25,6 +25,8 @@ private:
     
     LayerColor *backgroundLayer;
     
+    Layer* windowLayer;
+    
     TextInputLayer* editBox_pin;
     
     ElectricDreamsButton *acceptButton;

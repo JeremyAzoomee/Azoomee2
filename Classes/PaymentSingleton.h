@@ -19,11 +19,17 @@ public:
     
     bool enableIAP();
     
+    void removeModalLayer();
+    
 private:
     void fulfillAmazonPayment(std::string receiptId);
     
     bool isEnabledIAP;
     void setupIsEnabledIAP();
+    
+    cocos2d::LayerColor *modalLayer;
+    void createModalLayer();
+    void addListenerToBackgroundLayer();
     
 };
 
