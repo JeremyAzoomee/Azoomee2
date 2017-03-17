@@ -100,28 +100,22 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSString *urlString = [[request URL] absoluteString];
     
-    if ([urlString hasPrefix:@"senddata:"]) {
+    if ([urlString hasPrefix:@"apirequest:"]) {
         
         NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
         
-        NSString *dataItem = [[urlComponents.string componentsSeparatedByString:@"?title?"] lastObject];
+        NSArray *urlItems = [urlComponents.string componentsSeparatedByString:@"?"];
+        NSString *method = [urlItems objectAtIndex:2];
+        NSString *responseId = [urlItems objectAtIndex:4];
+        NSString *score = @"null";
+        if([method isEqualToString:@"updateHighScore"]) score = [urlItems objectAtIndex:6];
         
-        NSString *title = [[[dataItem componentsSeparatedByString:@"?data?"] firstObject] stringByRemovingPercentEncoding];
-        NSString *data = [[[dataItem componentsSeparatedByString:@"?data?"] lastObject] stringByRemovingPercentEncoding];
+        const char* returnString = sendGameApiRequest([method cStringUsingEncoding:NSUTF8StringEncoding], [responseId cStringUsingEncoding:NSUTF8StringEncoding], [score cStringUsingEncoding:NSUTF8StringEncoding]);
+        NSLog(@"Sending string back to web: %s", returnString);
         
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *writePath = [NSString stringWithFormat:@"%@/scoreCache/%@", [paths objectAtIndex:0], useridToUse];
-        
-        if(![[NSFileManager defaultManager] fileExistsAtPath:writePath])
-        {
-            [[NSFileManager defaultManager] createDirectoryAtPath:writePath withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
-        
-        NSString *fullFilePath = [NSString stringWithFormat:@"%@/scoreCache/%@/%@.json", [paths objectAtIndex:0], useridToUse, title];
-        
-        [data writeToFile:fullFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-        
-        NSLog(@"File written :%@", fullFilePath);
+        NSString *callString = [NSString stringWithFormat:@"answerMessageReceivedFromAPI(\"%s\")", returnString];
+        NSLog(@"callstring is: %@", callString);
+        [webView stringByEvaluatingJavaScriptFromString:callString];
         
         return NO;
     }
