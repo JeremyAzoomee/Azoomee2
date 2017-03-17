@@ -96,12 +96,16 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
         return;
     }
     
+    bool paymentFailed = true;
+    
     if(paymentData.HasMember("receiptStatus"))
     {
         if(paymentData["receiptStatus"].IsString())
         {
             if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
             {
+                paymentFailed = false;
+                
                 std::string receiptId = paymentData["receiptId"].GetString();
                 fulfillAmazonPayment(receiptId);
                 
@@ -111,9 +115,11 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
         }
     }
 
-    //Handle string not having member of receiptStatus
-    MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_FAILURE, nullptr);
-    return;
+    if(paymentFailed)
+    {
+        MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_FAILURE, nullptr);
+        return;
+    }
 }
 
 void PaymentSingleton::fulfillAmazonPayment(std::string receiptId)

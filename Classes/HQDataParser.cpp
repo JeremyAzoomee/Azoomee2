@@ -63,7 +63,11 @@ bool HQDataParser::parseHQData(std::string responseString, const char *category)
             
             for(int i = 0; i < itemNames.size(); i++)
             {
-                if(!contentData["items"][key][itemNames.at(i).c_str()].IsNull())
+                if(!contentData["items"][key].HasMember(itemNames.at(i).c_str()))
+                {
+                    elementProperty[itemNames.at(i).c_str()] = "";
+                }
+                else if(!contentData["items"][key][itemNames.at(i).c_str()].IsNull())
                 {
                     elementProperty[itemNames.at(i).c_str()] = contentData["items"][key][itemNames.at(i).c_str()].GetString();
                 }

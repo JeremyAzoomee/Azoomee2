@@ -58,7 +58,7 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     this->addChild(elementVisual);
     this->setContentSize(elementVisual->getContentSize());
     
-    /*if(itemData["entitled"] == "false" && !ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(itemData["entitled"] == "false" && !ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
         addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], true, itemData["entitled"], false);
         
@@ -66,7 +66,7 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     else
     {
         addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false,itemData["entitled"], PaymentSingleton::getInstance()->enableIAP());
-    }*/
+    }
 }
 
 //-------------------All elements below this are used internally-----------------

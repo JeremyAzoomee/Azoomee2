@@ -195,12 +195,14 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
     }
     else if(accountJustRegistered)
     {
+        CCLOG("Just registered account : backendcaller");
         accountJustRegistered = false;
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene(PaymentSingleton::getInstance()->enableIAP(),false);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
     else if(newTrialJustStarted)
     {
+        CCLOG("Just started new trial : backendcaller");
         newTrialJustStarted = false;
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene(PaymentSingleton::getInstance()->enableIAP(),true);
         Director::getInstance()->replaceScene(onboardingSuccessScene);

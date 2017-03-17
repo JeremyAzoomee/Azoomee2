@@ -16,7 +16,7 @@ private:
     ElectricDreamsButton* oomeeButton;
     ElectricDreamsButton* startTrial;
 
-    
+    void setupScene();
     void addVisualElementsToScene();
     void addButtonsToScene();
     void addLabelsToLayer();

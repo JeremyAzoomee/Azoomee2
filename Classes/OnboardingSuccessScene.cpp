@@ -19,6 +19,7 @@ Scene* OnboardingSuccessScene::createScene()
     scene->addChild(layer);
     layer->IAPEnabled = false;
     layer->IAPSuccess = false;
+    layer->setupScene();
     
     return scene;
 }
@@ -30,6 +31,7 @@ Scene* OnboardingSuccessScene::createScene(bool IAPEnabled, bool IAPSuccess)
     scene->addChild(layer);
     layer->IAPEnabled = IAPEnabled;
     layer->IAPSuccess = IAPSuccess;
+    layer->setupScene();
     
     return scene;
 }
@@ -44,11 +46,14 @@ bool OnboardingSuccessScene::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
+    return true;
+}
+
+ void OnboardingSuccessScene::setupScene()
+{
     addVisualElementsToScene();
     addButtonsToScene();
     addLabelsToLayer();
-    
-    return true;
 }
 
 void OnboardingSuccessScene::onEnterTransitionDidFinish()
@@ -76,8 +81,8 @@ void OnboardingSuccessScene::addButtonsToScene()
     
     if(IAPEnabled && !IAPSuccess)
     {
-        startTrial = ElectricDreamsButton::createButtonWithText("Start Your Free Trial!", 100);
-        startTrial->setPosition(origin.x + startTrial->getContentSize().height,origin.y+ visibleSize.height/2);
+        startTrial = ElectricDreamsButton::createButtonWithText("Start Trial!", 100);
+        startTrial->setPosition(origin.x + startTrial->getContentSize().height,oomeeButton->getPositionY());
         startTrial->setDelegate(this);
         this->addChild(startTrial);
     }
