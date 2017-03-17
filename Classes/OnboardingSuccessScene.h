@@ -27,8 +27,13 @@ private:
     
     virtual void onEnterTransitionDidFinish();
     
+    bool IAPEnabled;
+    bool IAPSuccess;
+    
 public:
     static cocos2d::Scene* createScene();
+    
+    static cocos2d::Scene* createScene(bool IAPEnabled, bool IAPSuccess);
     
     virtual bool init();
     

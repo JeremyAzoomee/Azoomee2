@@ -17,6 +17,19 @@ Scene* OnboardingSuccessScene::createScene()
     auto scene = Scene::create();
     auto layer = OnboardingSuccessScene::create();
     scene->addChild(layer);
+    layer->IAPEnabled = false;
+    layer->IAPSuccess = false;
+    
+    return scene;
+}
+
+Scene* OnboardingSuccessScene::createScene(bool IAPEnabled, bool IAPSuccess)
+{
+    auto scene = Scene::create();
+    auto layer = OnboardingSuccessScene::create();
+    scene->addChild(layer);
+    layer->IAPEnabled = IAPEnabled;
+    layer->IAPSuccess = IAPSuccess;
     
     return scene;
 }
@@ -40,8 +53,8 @@ bool OnboardingSuccessScene::init()
 
 void OnboardingSuccessScene::onEnterTransitionDidFinish()
 {
-    if(IAPUpsaleLayer::isAmazonDevice())
-        IAPUpsaleLayer::createRequiresPin();
+    if(IAPEnabled && !IAPSuccess)
+        IAPUpsaleLayer::create();
 }
 
 //----------------- SCENE SETUP ---------------
@@ -61,10 +74,10 @@ void OnboardingSuccessScene::addButtonsToScene()
     oomeeButton->setMixPanelButtonName("OnboardingSuccessOomeePressed");
     this->addChild(oomeeButton);
     
-    if(IAPUpsaleLayer::isAmazonDevice())
+    if(IAPEnabled && !IAPSuccess)
     {
         startTrial = ElectricDreamsButton::createButtonWithText("Start Your Free Trial!", 100);
-        startTrial->setPosition(origin.x + startTrial->getContentSize().height,origin.y+ startTrial->getContentSize().height);
+        startTrial->setPosition(origin.x + startTrial->getContentSize().height,origin.y+ visibleSize.height/2);
         startTrial->setDelegate(this);
         this->addChild(startTrial);
     }
@@ -72,7 +85,12 @@ void OnboardingSuccessScene::addButtonsToScene()
 
 void OnboardingSuccessScene::addLabelsToLayer()
 {
-    auto title = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_TITLE_LABEL));
+    std::string TitleText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_TITLE_LABEL);
+    
+    if(IAPSuccess)
+        TitleText = "You've successfully enabled your trial";
+    
+    auto title = createLabelHeader(TitleText);
     title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
     this->addChild(title);
     
@@ -82,9 +100,12 @@ void OnboardingSuccessScene::addLabelsToLayer()
     subTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.78);
     this->addChild(subTitle);
     
-    auto checkEmail = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_CHECKEMAIL_LABEL));
-    checkEmail->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.2);
-    this->addChild(checkEmail);
+    if(!IAPSuccess)
+    {
+        auto checkEmail = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_CHECKEMAIL_LABEL));
+        checkEmail->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.2);
+        this->addChild(checkEmail);
+    }
 }
 
 //--------------DELEGATE FUNCTIONS---------

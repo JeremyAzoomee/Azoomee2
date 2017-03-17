@@ -178,26 +178,6 @@ void IAPUpsaleLayer::removeSelf()
     this->removeFromParent();
 }
 
-//----------------- PUBLIC FUNCTIONS ------------------
-bool IAPUpsaleLayer::isAmazonDevice()
-{
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer", "()Ljava/lang/String;");
-    jstring str = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID);
-    const char *resultCStr = t.env->GetStringUTFChars(str, NULL);
-    std::string resultStr(resultCStr);
-    t.env->ReleaseStringUTFChars(str, resultCStr);
-    
-    CCLOG("DEVICE TYPE:%s",resultStr.c_str());
-    
-    return resultStr == "Amazon";
-#else
-    return false;
-#endif
-}
-
 //----------------------- Delegate Functions ----------------------------
 
 void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)

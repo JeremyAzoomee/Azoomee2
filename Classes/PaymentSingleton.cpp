@@ -3,7 +3,7 @@
 #include "external/json/document.h"
 #include "ModalMessages.h"
 #include "MessageBox.h"
-#include "LoginScene.h"
+#include "BackEndCaller.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -21,6 +21,7 @@ PaymentSingleton* PaymentSingleton::getInstance()
     {
         _sharedPaymentSingleton = new PaymentSingleton();
         _sharedPaymentSingleton->init();
+        _sharedPaymentSingleton->setupIsEnabledIAP();
     }
     
     return _sharedPaymentSingleton;
@@ -34,6 +35,26 @@ bool PaymentSingleton::init(void)
 {
     return true;
 }
+void PaymentSingleton::setupIsEnabledIAP()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer", "()Ljava/lang/String;");
+    jstring str = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID);
+    const char *resultCStr = t.env->GetStringUTFChars(str, NULL);
+    std::string resultStr(resultCStr);
+    t.env->ReleaseStringUTFChars(str, resultCStr);
+    
+    CCLOG("DEVICE TYPE:%s",resultStr.c_str());
+    
+    isEnabledIAP = (resultStr == "Amazon");
+#else
+    isEnabledIAP =  false;
+#endif
+}
+
+//--------------------PAYMENT FUNCTIONS------------------
 
 void PaymentSingleton::startAmazonPayment()
 {
@@ -84,7 +105,8 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
                 std::string receiptId = paymentData["receiptId"].GetString();
                 fulfillAmazonPayment(receiptId);
                 
-                Director::getInstance()->replaceScene(LoginScene::createScene(ERROR_CODE_AMAZON_PURCHASE_SUCCESSFUL));
+                BackEndCaller::getInstance()->newTrialJustStarted = true;
+                BackEndCaller::getInstance()->autoLogin();
             }
         }
     }
@@ -116,6 +138,13 @@ void PaymentSingleton::purchaseFailed()
     CCLOG("PaymentSingleton: PURCHASE FAILED");
     ModalMessages::getInstance()->stopLoading();
 }
+
+bool PaymentSingleton::enableIAP()
+{
+    return isEnabledIAP;
+}
+
+//-------------------- JAVA RETURN FUNCTIONS-----------------
 
 void showDoublePurchase()
 {

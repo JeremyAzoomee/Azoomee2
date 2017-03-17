@@ -13,6 +13,8 @@
 #include "HQScene.h"
 #include "AnalyticsSingleton.h"
 #include "ElectricDreamsTextStyles.h"
+#include "PaymentSingleton.h"
+#include "IAPUpsaleLayer.h"
 
 USING_NS_CC;
 
@@ -62,19 +64,19 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     addIconToImage(elementProperties["type"], startDelay);
     addLabelToImage(elementProperties["title"], startDelay);
     
-    if(elementProperties["entitled"] == "false")
+    if(elementProperties["entitled"] == "false" && !ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
         addLockToImageContainer(startDelay);
-        
-        if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
-        {
-            addPreviewListenerToContainer(bgLayer,elementProperties["title"],elementProperties["description"],elementProperties["type"]);
-        }
+        addPreviewListenerToContainer(bgLayer,elementProperties["title"],elementProperties["description"],elementProperties["type"]);
+
     }
     else
     {
+        if(elementProperties["entitled"] == "false")
+            addLockToImageContainer(startDelay);
+        
         addReponseLayerToImage(elementProperties, scale);
-        addListenerToContainer(bgLayer, colour4.a, elementProperties["uri"], elementProperties["id"],elementProperties["title"],elementProperties["description"],elementProperties["type"]);
+        addListenerToContainer(bgLayer, colour4.a, elementProperties["uri"], elementProperties["id"],elementProperties["title"],elementProperties["description"],elementProperties["type"], elementProperties["entitled"], PaymentSingleton::getInstance()->enableIAP());
     }
 }
 
@@ -128,7 +130,7 @@ void ImageContainer::addReponseLayerToImage(std::map<std::string, std::string> e
     bgLayer->addChild(responseLayer);
 }
 
-void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string contentId,std::string Title,std::string Description, std::string Type)
+void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string contentId,std::string Title,std::string Description, std::string Type, std::string Entitled, bool IAPEnabled)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -145,43 +147,54 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         
         if(rect.containsPoint(locationInNode))
         {
-            AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-            AnalyticsSingleton::getInstance()->openContentEvent(Title, Description, Type, contentId);
-            
-            target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
-            
-            if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "GAME")
+            if(Entitled == "false")
             {
-                GameDataManager::getInstance()->startProcessingGame(uri, contentId);
+                if(IAPEnabled)
+                {
+                    AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+                    IAPUpsaleLayer::createRequiresPin();
+                }
             }
-            else if((HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "AUDIO"))
+            else
             {
-                auto webViewSelector = WebViewSelector::create();
-                webViewSelector->loadWebView(uri.c_str());
-            }
-            else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "GROUP")
-            {
-                NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-                navigationLayer->startLoadingGroupHQ(uri);
+                AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+                AnalyticsSingleton::getInstance()->openContentEvent(Title, Description, Type, contentId);
                 
-                auto funcCallAction = CallFunc::create([=](){
-                    HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-                    HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
-                });
+                target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
                 
-                this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
-            }
-            else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "AUDIOGROUP")
-            {
-                NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-                navigationLayer->startLoadingGroupHQ(uri);
-                
-                auto funcCallAction2 = CallFunc::create([=](){
-                    HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-                    HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
-                });
-                
-                this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
+                if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "GAME")
+                {
+                    GameDataManager::getInstance()->startProcessingGame(uri, contentId);
+                }
+                else if((HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "AUDIO"))
+                {
+                    auto webViewSelector = WebViewSelector::create();
+                    webViewSelector->loadWebView(uri.c_str());
+                }
+                else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "GROUP")
+                {
+                    NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+                    navigationLayer->startLoadingGroupHQ(uri);
+                    
+                    auto funcCallAction = CallFunc::create([=](){
+                        HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                        HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
+                    });
+                    
+                    this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+                }
+                else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "AUDIOGROUP")
+                {
+                    NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+                    navigationLayer->startLoadingGroupHQ(uri);
+                    
+                    auto funcCallAction2 = CallFunc::create([=](){
+                        HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                        HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
+                    });
+                    
+                    this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
+                }
             }
             
             return true;

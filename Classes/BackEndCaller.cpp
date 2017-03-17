@@ -20,6 +20,7 @@
 #include "AnalyticsSingleton.h"
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
+#include "PaymentSingleton.h"
 
 using namespace cocos2d;
 
@@ -62,6 +63,7 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
     accountJustRegistered = false;
     newChildJustRegistered = false;
+    newTrialJustStarted = false;
     auto loginScene = LoginScene::createScene(errorCode);
     Director::getInstance()->replaceScene(loginScene);
 }
@@ -69,6 +71,15 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
 
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
 
+void BackEndCaller::autoLogin()
+{
+    UserDefault* def = UserDefault::getInstance();
+    std::string username = def->getStringForKey("username", "");
+    std::string password = def->getStringForKey("password", "");
+    def->flush();
+    
+    login(username, password);
+}
 
 void BackEndCaller::login(std::string username, std::string password)
 {
@@ -182,11 +193,16 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
         auto childAccountSuccessScene = ChildAccountSuccessScene::createScene(newChildName, oomeeAvatarNumber);
         Director::getInstance()->replaceScene(childAccountSuccessScene);
     }
-    //else if(accountJustRegistered)
-    else if(true)
+    else if(accountJustRegistered)
     {
         accountJustRegistered = false;
-        auto onboardingSuccessScene = OnboardingSuccessScene::createScene();
+        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(PaymentSingleton::getInstance()->enableIAP(),false);
+        Director::getInstance()->replaceScene(onboardingSuccessScene);
+    }
+    else if(newTrialJustStarted)
+    {
+        newTrialJustStarted = false;
+        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(PaymentSingleton::getInstance()->enableIAP(),true);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
     else

@@ -16,7 +16,7 @@ public:
     
 private:
     HQSceneElementVisual* elementVisual;
-    void addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview);
+    void addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview, std::string entitled, bool IAPEnabled);
     void startUpElementDependingOnType(std::string uri, std::string contentId, std::string category);
     
     cocos2d::Point touchPoint;

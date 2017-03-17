@@ -18,6 +18,7 @@ public:
     virtual ~BackEndCaller();
     bool init(void);
     
+    void autoLogin();
     void login(std::string username, std::string password);
     void onLoginAnswerReceived(std::string responseString);
     
@@ -53,6 +54,9 @@ public:
     //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
     std::string registerParentUsername;
     std::string registerParentPassword;
+    
+    bool newTrialJustStarted;
+
     
     //------------------------------------------------------------------------------------------------------------------
     

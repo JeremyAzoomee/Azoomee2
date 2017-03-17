@@ -51,8 +51,6 @@ public:
     virtual bool init();
     
     CREATE_FUNC(IAPUpsaleLayer);
-    
-    static bool isAmazonDevice();
 
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);

@@ -17,8 +17,13 @@ public:
     
     void purchaseFailed();
     
+    bool enableIAP();
+    
 private:
     void fulfillAmazonPayment(std::string receiptId);
+    
+    bool isEnabledIAP;
+    void setupIsEnabledIAP();
     
 };
 

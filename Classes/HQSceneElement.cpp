@@ -25,6 +25,8 @@
 #include "HQHistoryManager.h"
 #include "AnalyticsSingleton.h"
 #include "ElectricDreamsTextStyles.h"
+#include "PaymentSingleton.h"
+#include "IAPUpsaleLayer.h"
 
 USING_NS_CC;
 
@@ -56,21 +58,29 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     this->addChild(elementVisual);
     this->setContentSize(elementVisual->getContentSize());
     
-    if(itemData["entitled"] == "true")
+    if(itemData["entitled"] == "false" && !ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
-        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false);
+        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], true, itemData["entitled"], false);
+        
     }
     else
     {
-        if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
-        {
-           addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], true);
-        }
+
+    }
+    
+    
+    if(itemData["entitled"] == "true")
+    {
+        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false,itemData["entitled"], PaymentSingleton::getInstance()->enableIAP());
+    }
+    else
+    {
+
     }
 }
 
 //-------------------All elements below this are used internally-----------------
-void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview)
+void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview, std::string entitled, bool IAPEnabled)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -122,17 +132,28 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             iamtouched = false;
             CCLOG("Action to come: %s", uri.c_str());
             
-            if(!preview)
-            {
-                AnalyticsSingleton::getInstance()->openContentEvent(title, description, type, contentId);
-                startUpElementDependingOnType(uri, contentId, category);
-            }
-            else
+            if(preview)
             {
                 CCLOG("MixPanel: %s, %s, %s", title.c_str(),description.c_str(),category.c_str());
                 AnalyticsSingleton::getInstance()->previewContentClickedEvent(title,description,type);
                 MessageBox::createPreviewLoginSignupMessageBox();
                 return true;
+            }
+            else
+            {
+                if(entitled == "false")
+                {
+                    if(IAPEnabled)
+                    {
+                        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+                        IAPUpsaleLayer::createRequiresPin();
+                    }
+                }
+                else
+                {
+                    AnalyticsSingleton::getInstance()->openContentEvent(title, description, type, contentId);
+                    startUpElementDependingOnType(uri, contentId, category);
+                }
             }
             
         }

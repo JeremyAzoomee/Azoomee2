@@ -7,7 +7,6 @@
 #include "ParentDataParser.h"
 #include "ParentDataProvider.h"
 #include "ElectricDreamsTextStyles.h"
-#include "PaymentSingleton.h"
 #include "MessageBox.h"
 
 bool ExitOrLogoutLayer::init()
@@ -80,17 +79,6 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     logoutButton->setMixPanelButtonName("Log Out");
     backgroundLayer->addChild(logoutButton);
     
-    // ------- PURCHASE BUTTON ----------
-    
-    if(ParentDataProvider::getInstance()->getParentBillingStatus() != "SUBSCRIBED")
-    {
-        #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-            ElectricDreamsButton *premiumButton = ElectricDreamsButton::createButtonWithText("I want it all!");
-            premiumButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.45));
-            premiumButton->setDelegate(this);
-            backgroundLayer->addChild(premiumButton);
-        #endif
-    }
 }
 
 //---------------------- Actions -----------------
@@ -135,10 +123,6 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
         auto loginScene = LoginScene::createScene(0);
         Director::getInstance()->replaceScene(loginScene);
     }
-    else
-    {
-        PaymentSingleton::getInstance()->startAmazonPayment();
-    }
 }
 
 void ExitOrLogoutLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
@@ -150,45 +134,3 @@ void ExitOrLogoutLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
     addExitOrLogoutUIObjects();
 }
-
-
-/*void showDoublePurchase()
-{
-    auto funcCallAction = CallFunc::create([=](){
-        MessageBox::createWith(ERROR_CODE_AMAZON_PURCHASE_DOUBLE, nullptr);
-    });
-    
-    Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from amazon window, otherwise the app will crash
-}
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-
-extern "C"
-{
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv* env, jobject thiz, jstring requestId, jstring receiptId, jstring amazonUserid);
-};
-
-JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv* env, jobject thiz, jstring requestId, jstring receiptId, jstring amazonUserid)
-{
-    const char* cRequestId = env->GetStringUTFChars(requestId, NULL);
-    const char* cReceiptId = env->GetStringUTFChars(receiptId, NULL);
-    const char* cAmazonUserid = env->GetStringUTFChars(amazonUserid, NULL);
-    
-    CCLOG("COCOS2DX: I have the data: requestid: %s, receiptid: %s, amazonuserid: %s", cRequestId, cReceiptId, cAmazonUserid);
-    
-    PaymentSingleton::getInstance()->amazonPaymentMade(cRequestId, cReceiptId, cAmazonUserid);
-}
-
-extern "C"
-
-{
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv* env, jobject thiz);
-};
-
-JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv* env, jobject thiz)
-{
-    CCLOG("COCOS2DX: alreadyPurchased CALLED!!!!!");
-    showDoublePurchase();
-}
-
-#endif*/
