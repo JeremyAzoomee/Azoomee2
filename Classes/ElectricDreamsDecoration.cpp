@@ -80,7 +80,8 @@ Layer* createWindowLayer(float height)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     
-    LayerColor* newLayer = LayerColor::create(Color4B::BLACK, visibleSize.width*.66, height);
+    Layer* newLayer = Layer::create();
+    newLayer->setContentSize(Size(visibleSize.width*.66, height));
     
     Rect spriteRect = Rect(0, 0, 455, 268);
     Rect capInsents = Rect(100, 100, 255, 1);
