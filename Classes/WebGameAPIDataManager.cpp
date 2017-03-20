@@ -85,13 +85,6 @@ std::string WebGameAPIDataManager::getPathForHighScoreFile()
     return filePath;
 }
 
-std::string WebGameAPIDataManager::getPathForLocalStorageFile()
-{
-    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + runningGameId + "/localstorage.data";
-    CCLOG("filePath: %s", filePath.c_str());
-    return filePath;
-}
-
 int WebGameAPIDataManager::getCurrentHighScoreForGame()
 {
     if(FileUtils::getInstance()->isFileExist(getPathForHighScoreFile())) return atoi(FileUtils::getInstance()->getStringFromFile(getPathForHighScoreFile()).c_str());
@@ -124,4 +117,28 @@ void WebGameAPIDataManager::createDirectoryTree()
     
     std::string gameScoreCacheFolder = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + runningGameId;
     if(!FileUtils::getInstance()->isDirectoryExist(gameScoreCacheFolder)) FileUtils::getInstance()->createDirectory(gameScoreCacheFolder);
+}
+
+//---------------------------------------------------------Local storage save / restore-----------------------------------------------------------
+
+void WebGameAPIDataManager::saveLocalStorageData(char* stringToBeWritten)
+{
+    createDirectoryTree();
+    FileUtils::getInstance()->writeStringToFile(stringToBeWritten, getPathForLocalStorageFile());
+}
+
+char* WebGameAPIDataManager::getLocalStorageData()
+{
+    std::string returnString = "";
+    
+    createDirectoryTree();
+    if(!FileUtils::getInstance()->isFileExist(getPathForLocalStorageFile())) return strdup(returnString.c_str());
+    else return strdup((FileUtils::getInstance()->getStringFromFile(getPathForLocalStorageFile()).c_str()));
+}
+
+std::string WebGameAPIDataManager::getPathForLocalStorageFile()
+{
+    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + runningGameId + "/localstorage.data";
+    CCLOG("filePath: %s", filePath.c_str());
+    return filePath;
 }

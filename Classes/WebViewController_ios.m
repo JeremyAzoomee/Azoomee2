@@ -100,6 +100,25 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSString *urlString = [[request URL] absoluteString];
     
+    if ([urlString hasPrefix:@"savelocaldata:"]) {
+        
+        NSLog(@"savelocaldatawascalled!");
+        
+        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
+        
+        NSArray *urlItems = [urlComponents.string componentsSeparatedByString:@"?"];
+        NSString *localStorageData = [urlItems objectAtIndex:1];
+        
+        NSLog(@"second part of the local data is: %@", localStorageData);
+        
+        const char* localStorageDataChar = [localStorageData cStringUsingEncoding:NSUTF8StringEncoding];
+        saveLocalStorageData(localStorageDataChar);
+        
+        [self finishView];
+        
+        return NO;
+    }
+    
     if ([urlString hasPrefix:@"apirequest:"]) {
         
         NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
@@ -187,41 +206,14 @@
 {
     if(!iframeloaded)
     {
-        //Clear local storage first!
         [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
-        
-        //Get and add all local data to localstorage then
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *scoreCacheDirectory = [NSString stringWithFormat:@"%@/scoreCache/%@", [paths objectAtIndex:0], useridToUse];
-        NSLog(@"scorecache directory: %@", scoreCacheDirectory);
-        
-        if(![[NSFileManager defaultManager] fileExistsAtPath:scoreCacheDirectory])
-        {
-            [[NSFileManager defaultManager] createDirectoryAtPath:scoreCacheDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
-        
-        NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:scoreCacheDirectory error:NULL];
-        NSLog(@"amount of files in directory: %d", (int)[directoryContent count]);
-        
-        for(int i = 0; i < (int)[directoryContent count]; i++)
-        {
-            NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", scoreCacheDirectory, [directoryContent objectAtIndex:i]];
             
-            NSLog(@"Directorycontent: %@", [directoryContent objectAtIndex:i]);
-            NSString *title = [[directoryContent objectAtIndex:i] substringToIndex:[[directoryContent objectAtIndex:i] length] - 5];
-            NSString *data = [NSString stringWithContentsOfFile:fullFilePath encoding:NSUTF8StringEncoding error:nil];
-            
-            NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\'%@\', \'%@\')", title, data];
-            
-            NSLog(@"%@", addDataString);
-            
-            [webView stringByEvaluatingJavaScriptFromString:addDataString];
-        }
+        NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%s\")", getLocalStorageForGame()];
+        [webView stringByEvaluatingJavaScriptFromString:addDataString];
         
         NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
         [webView stringByEvaluatingJavaScriptFromString:loadString];
         
-        //set iframe to true to avoid multiple loads
         iframeloaded = true;
     };
 }
@@ -244,6 +236,12 @@
 }
 
 -(void) buttonClicked:(UIButton*)sender
+{
+    NSLog(@"before exit is here!");
+    [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+}
+
+-(void) finishView
 {
     [webview loadHTMLString:@"" baseURL:nil];
     [webview stopLoading];

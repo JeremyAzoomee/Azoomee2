@@ -70,9 +70,29 @@
             	localStorage.clear();
             }
             
-            function addDataToLocalStorage(key, data)
+            function addDataToLocalStorage(data)
 			{
-				localStorage[key] = data;
+				var allRecords = data.split("|||");
+				for(var i = 0; i < data.length; i++)
+				{
+					var currentRecord = allRecords(i).split("||");
+					var currentKey = currentRecord(0);
+					var currentValue = currentRecord(1);
+					
+					localStorage[currentKey] = currentValue;
+				}
+			}
+			
+			function saveLocalDataBeforeExit()
+			{
+				var stringToSave = "";
+				for(var i = 0; i < localStorage.length; i++)
+				{
+					if(i > 0) stringToSave += "|||";
+					stringToSave += localStorage.key(i) + "||" + localStorage.getItem(localStorage.key(i));
+				}
+				
+				window.location.href = "savelocaldata://write?"+ stringToSave;
 			}
 			
 			function answerMessageReceivedFromAPI(answerString)

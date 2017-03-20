@@ -73,3 +73,14 @@ const char* sendGameApiRequest(const char* method, const char* responseid, const
     
     return returnString;
 }
+
+const char* getLocalStorageForGame()
+{
+    char* returnString = WebGameAPIDataManager::getInstance()->getLocalStorageData();
+    return returnString;
+}
+
+void saveLocalStorageData(const char* stringToSave)
+{
+    WebGameAPIDataManager::getInstance()->saveLocalStorageData(strdup(stringToSave));
+}

@@ -9,6 +9,8 @@ public:
     bool init(void);
     char* handleAPIRequest(const char* method, const char* responseId, const char* score);
     void setGameId(std::string gameId);
+    void saveLocalStorageData(char* stringToBeWritten);
+    char* getLocalStorageData();
     
 private:
     char* createReturnStringForAPI(const char* method, const char* responseId, const char* responseKey, const char* responseValue);
