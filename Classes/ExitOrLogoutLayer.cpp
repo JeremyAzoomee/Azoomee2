@@ -8,6 +8,7 @@
 #include "ParentDataProvider.h"
 #include "ElectricDreamsTextStyles.h"
 #include "MessageBox.h"
+#include "ElectricDreamsDecoration.h"
 
 bool ExitOrLogoutLayer::init()
 {
@@ -36,7 +37,7 @@ void ExitOrLogoutLayer::askForPin()
 
 void ExitOrLogoutLayer::createAndFadeInLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(0,0,0,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
@@ -58,26 +59,40 @@ void ExitOrLogoutLayer::addListenerToBackgroundLayer()
 
 void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
 {
+    addSideWiresToScreen(this, 0, 2);
+    
+    windowLayer = createWindowLayer(1100);
+    float windowLayerBottomPadding = (visibleSize.height - windowLayer->getContentSize().height) * .66;
+    windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + windowLayerBottomPadding);
+    this->addChild(windowLayer);
+    
     //-------- VERSION NUBMER ---------
     
     auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
-    backgroundLayer->addChild(versionTitle);
+    versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 1.5);
+    windowLayer->addChild(versionTitle);
     
-    // ------- CANCEL BUTTON ----------
+    //-------- USERNAME---------------
     
-    cancelButton = ElectricDreamsButton::createCancelButton();
-    cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.3));
+    Label* usernameLabel = createUserNameLabelWithWidth(windowLayer->getContentSize().width - 50);
+    usernameLabel->setPosition(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.85);
+    windowLayer->addChild(usernameLabel);
+
+    //-------- CLOSE BUTTON ----------
+    
+    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("ExitorLogoutCancelButton");
-    backgroundLayer->addChild(cancelButton);
+    windowLayer->addChild(cancelButton);
     
     // ------- LOG OUT BUTTON ----------
     
     logoutButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT));
-    logoutButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.6));
+    logoutButton->setCenterPosition(Vec2(windowLayer->getContentSize().width /2, windowLayer->getContentSize().height*.6));
     logoutButton->setDelegate(this);
     logoutButton->setMixPanelButtonName("Log Out");
-    backgroundLayer->addChild(logoutButton);
+    windowLayer->addChild(logoutButton);
     
 }
 

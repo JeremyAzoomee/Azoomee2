@@ -14,6 +14,7 @@ private:
     Vec2 origin;
     
     LayerColor *backgroundLayer;
+    Layer* windowLayer;
     
     ElectricDreamsButton *logoutButton;
     ElectricDreamsButton *cancelButton;

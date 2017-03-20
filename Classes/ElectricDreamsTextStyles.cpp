@@ -122,6 +122,19 @@ Label*  createLabelSmallLoading(std::string text)
     return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 20);
 }
 
+Label*  createUserNameLabelWithWidth(float width)
+{
+    UserDefault* def = UserDefault::getInstance();
+    std::string username = def->getStringForKey("username", "");
+    def->flush();
+    
+    Label* newLabel = createLabelWith(username, FONT_REGULAR, COLOR_WHITE, 84);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    newLabel->setWidth(width);
+    
+    return newLabel;
+}
+
 //----------------- Label too Long Style -------------------
 void reduceLabelTextToFitWidth(Label* label,float maxWidth)
 {
