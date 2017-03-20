@@ -76,7 +76,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
             addLockToImageContainer(startDelay);
         
         addReponseLayerToImage(elementProperties, scale);
-        addListenerToContainer(bgLayer, colour4.a, elementProperties["uri"], elementProperties["id"],elementProperties["title"],elementProperties["description"],elementProperties["type"], elementProperties["entitled"], PaymentSingleton::getInstance()->enableIAP());
+        addListenerToContainer(bgLayer, colour4.a, elementProperties["uri"], elementProperties["id"],elementProperties["title"],elementProperties["description"],elementProperties["type"], elementProperties["entitled"], PaymentSingleton::getInstance()->showIAPContent());
     }
 }
 

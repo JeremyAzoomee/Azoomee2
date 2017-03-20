@@ -17,20 +17,20 @@ public:
     
     void purchaseFailed();
     
-    bool enableIAP();
+    bool OS_is_IAP_Compatible();
+    bool showIAPContent();
     
     void removeModalLayer();
     
 private:
     void fulfillAmazonPayment(std::string receiptId);
     
-    bool isEnabledIAP;
-    void setupIsEnabledIAP();
+    bool isOS_IAP_Compatible;
+    void setupisOS_IAP_Compatible();
     
     cocos2d::LayerColor *modalLayer;
     void createModalLayer();
     void addListenerToBackgroundLayer();
-    
 };
 
 #endif

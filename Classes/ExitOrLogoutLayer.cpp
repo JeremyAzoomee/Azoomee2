@@ -9,6 +9,8 @@
 #include "ElectricDreamsTextStyles.h"
 #include "MessageBox.h"
 #include "ElectricDreamsDecoration.h"
+#include "PaymentSingleton.h"
+#include "IAPUpsaleLayer.h"
 
 bool ExitOrLogoutLayer::init()
 {
@@ -94,6 +96,16 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     logoutButton->setMixPanelButtonName("Log Out");
     windowLayer->addChild(logoutButton);
     
+    //--------- START TRIAL BUTTON ---------
+    
+    if(PaymentSingleton::getInstance()->showIAPContent())
+    {
+        iapButton = ElectricDreamsButton::createButtonWithText("Start Trial");
+        iapButton->setCenterPosition(Vec2(windowLayer->getContentSize().width /2, windowLayer->getContentSize().height*.3));
+        iapButton->setDelegate(this);
+        iapButton->setMixPanelButtonName("ExitorLogoutStartTrialButton");
+        windowLayer->addChild(iapButton);
+    }
 }
 
 //---------------------- Actions -----------------
@@ -138,6 +150,8 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
         auto loginScene = LoginScene::createScene(0);
         Director::getInstance()->replaceScene(loginScene);
     }
+    else if(button == iapButton)
+        IAPUpsaleLayer::create();
 }
 
 void ExitOrLogoutLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)

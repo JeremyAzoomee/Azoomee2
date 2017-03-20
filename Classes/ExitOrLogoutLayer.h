@@ -18,6 +18,7 @@ private:
     
     ElectricDreamsButton *logoutButton;
     ElectricDreamsButton *cancelButton;
+    ElectricDreamsButton *iapButton;
     
     void askForPin();
     void createAndFadeInLayer();

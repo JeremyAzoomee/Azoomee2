@@ -3,6 +3,7 @@
 #include "external/json/document.h"
 #include "MessageBox.h"
 #include "BackEndCaller.h"
+#include "ParentDataProvider.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -20,7 +21,7 @@ PaymentSingleton* PaymentSingleton::getInstance()
     {
         _sharedPaymentSingleton = new PaymentSingleton();
         _sharedPaymentSingleton->init();
-        _sharedPaymentSingleton->setupIsEnabledIAP();
+        _sharedPaymentSingleton->setupisOS_IAP_Compatible();
     }
     
     return _sharedPaymentSingleton;
@@ -34,7 +35,7 @@ bool PaymentSingleton::init(void)
 {
     return true;
 }
-void PaymentSingleton::setupIsEnabledIAP()
+void PaymentSingleton::setupisOS_IAP_Compatible()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
@@ -47,9 +48,9 @@ void PaymentSingleton::setupIsEnabledIAP()
     
     CCLOG("DEVICE TYPE:%s",resultStr.c_str());
     
-    isEnabledIAP = (resultStr == "Amazon");
+    isOS_IAP_Compatible = (resultStr == "Amazon");
 #else
-    isEnabledIAP =  false;
+    isOS_IAP_Compatible =  false;
 #endif
 }
 
@@ -144,9 +145,14 @@ void PaymentSingleton::purchaseFailed()
     removeModalLayer();
 }
 
-bool PaymentSingleton::enableIAP()
+bool PaymentSingleton::OS_is_IAP_Compatible()
 {
-    return isEnabledIAP;
+    return isOS_IAP_Compatible;
+}
+
+bool PaymentSingleton::showIAPContent()
+{
+    return (isOS_IAP_Compatible && (ParentDataProvider::getInstance()->getParentBillingStatus() != "SUBSCRIBED"));
 }
 
 //-------------------- Modal Layer Functions----------------

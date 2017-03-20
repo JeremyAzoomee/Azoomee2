@@ -65,7 +65,7 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     }
     else
     {
-        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false,itemData["entitled"], PaymentSingleton::getInstance()->enableIAP());
+        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false,itemData["entitled"], PaymentSingleton::getInstance()->showIAPContent());
     }
 }
 
