@@ -52,6 +52,7 @@ public:
     static ElectricDreamsButton* createBackButton();
     static ElectricDreamsButton* createAcceptButton();
     static ElectricDreamsButton* createCancelButton();
+    static ElectricDreamsButton* createWindowCloselButton();
     static ElectricDreamsButton* createSettingsButton(float creationDelay);
     static ElectricDreamsButton* createAddButton();
     

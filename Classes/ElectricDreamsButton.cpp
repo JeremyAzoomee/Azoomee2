@@ -199,6 +199,16 @@ ElectricDreamsButton* ElectricDreamsButton::createCancelButton()
     return layer;
 }
 
+ElectricDreamsButton* ElectricDreamsButton::createWindowCloselButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    Sprite* cancelButton = layer->createSpriteButton("res/buttons/windowCloseButton.png", CANCEL_BUTTON_AUDIO_EFFECT );
+    layer->addChild(cancelButton);
+    layer->addListener();
+    
+    return layer;
+}
+
 ElectricDreamsButton* ElectricDreamsButton::createSettingsButton(float creationDelay)
 {
     auto layer = ElectricDreamsButton::create();
