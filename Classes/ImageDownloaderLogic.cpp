@@ -110,17 +110,6 @@ void ImageDownloaderLogic::removeLoadingAnimation()
     }
 }
 
-void ImageDownloaderLogic::removePlaceHolderImage()
-{
-    if((!senderDeleted)&&(!groupLogo))
-    {
-        if(senderNode->getChildByName("placeHolderImage"))
-        {
-            senderNode->removeChild(senderNode->getChildByName("placeHolderImage"), true);
-        }
-    }
-}
-
 bool ImageDownloaderLogic::saveFileToServer(std::string data, std::string fileName)
 {
     if(!fileUtils->isDirectoryExist(imageCachePath))
@@ -140,7 +129,6 @@ bool ImageDownloaderLogic::saveFileToServer(std::string data, std::string fileNa
 void ImageDownloaderLogic::loadFileFromLocalCacheAsync(std::string fileName) //ADD TO SENDER IF ISRUNNING
 {
     removeLoadingAnimation();
-    removePlaceHolderImage();
     
     if(!senderDeleted)
     {
