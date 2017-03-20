@@ -29,7 +29,6 @@ private:
     bool saveFileToServer(std::string data, std::string fileName);
     void loadFileFromLocalCacheAsync(std::string fileName);
     void removeLoadingAnimation();
-    void removePlaceHolderImage();
     
     cocos2d::network::HttpRequest *downloadRequest;
     cocos2d::FileUtils *fileUtils;

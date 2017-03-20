@@ -84,7 +84,9 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/OomeeButtonLayer.cpp \
                    ../../../Classes/ChildAccountSuccessScene.cpp \
                    ../../../Classes/HQSceneElementVisual.cpp \
-                   ../../../Classes/HQSceneArtsApp.cpp
+                   ../../../Classes/HQSceneArtsApp.cpp \
+                   ../../../Classes/ImageDownloaderOnScreenChecker.cpp \
+                   ../../../Classes/ImageDownloaderCacheCleanerLogic.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

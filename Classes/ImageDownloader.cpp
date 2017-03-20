@@ -3,6 +3,7 @@
 #include "ElectricDreamsTextStyles.h"
 #include "StringMgr.h"
 #include "ConfigStorage.h"
+#include "ImageDownloaderCacheCleanerLogic.h"
 
 USING_NS_CC;
 using namespace network;
@@ -22,8 +23,8 @@ bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size
     this->addPlaceHolderImage(type, size, shape);
     //this->addLoadingAnimation();
     
+    imageUrl = url;
     imageDownloaderLogic = new ImageDownloaderLogic();
-    imageDownloaderLogic->startProcessingImage(this, url);
     
     return true;
 }
@@ -33,11 +34,37 @@ bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, coco
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     
+    imageUrl = url;
     imageDownloaderLogic = new ImageDownloaderLogic();
     imageDownloaderLogic->groupLogo = true;
-    imageDownloaderLogic->startProcessingImage(this, url);
     
     return true;
+}
+
+void ImageDownloader::onEnter()
+{
+    CCLOG("onscreenchecker starts");
+    onScreenChecker = new ImageDownloaderOnScreenChecker();
+    onScreenChecker->startCheckingForOnScreenPosition(this);
+    
+    Node::onEnter();
+}
+
+void ImageDownloader::startLoadingImage()
+{
+    if(loadedImage) return;
+    imageDownloaderLogic->startProcessingImage(this, imageUrl);
+}
+
+void ImageDownloader::removeLoadedImage()
+{
+    if(loadedImage)
+    {
+        loadedImage->getParent()->removeChild(loadedImage);
+        loadedImage = nullptr;
+        
+        ImageDownloaderCacheCleanerLogic::getInstance()->imageRemoved();
+    }
 }
 
 void ImageDownloader::addPlaceHolderImage(std::string type, Size contentSize, Vec2 shape)
@@ -86,6 +113,7 @@ void ImageDownloader::imageAddedToCache(Texture2D* resulting_texture)
         finalImage->setScaleY(holderContentSize.height / finalImage->getContentSize().height);
         
         if(!aboutToExit) this->addChild(finalImage);
+        loadedImage = finalImage;
         
         finalImage->runAction(FadeIn::create(0.1));
     }
@@ -108,6 +136,13 @@ void ImageDownloader::onExitTransitionDidStart()
 
 void ImageDownloader::onExit()
 {
+    if(onScreenChecker)
+    {
+        onScreenChecker->endCheck();
+        onScreenChecker->release();
+    }
+    
+    
     CCLOG("identifier on exit: %f", identifier);
     CCLOG("this contentSize height: %f", this->getContentSize().height);
     CCLOG("onExit called");
