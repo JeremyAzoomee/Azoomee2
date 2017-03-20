@@ -160,6 +160,8 @@
 		435EBBDE1E55BA0400E55610 /* AppsFlyerLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */; };
 		435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDF1E55BB1600E55610 /* AdSupport.framework */; };
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
+		43C6BED81E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C6BED61E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp */; };
+		43C6BEDC1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C6BEDA1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp */; };
 		43F067211E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */; };
 		43F2C5F51E5C4DC40016F30E /* StringMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
@@ -535,6 +537,10 @@
 		435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppsFlyerLib.framework; sourceTree = "<group>"; };
 		435EBBDF1E55BB1600E55610 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
 		435EBBE11E55BB2300E55610 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/iAd.framework; sourceTree = DEVELOPER_DIR; };
+		43C6BED61E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderOnScreenChecker.cpp; sourceTree = "<group>"; };
+		43C6BED71E7FF42800415E21 /* ImageDownloaderOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderOnScreenChecker.h; sourceTree = "<group>"; };
+		43C6BEDA1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderCacheCleanerLogic.cpp; sourceTree = "<group>"; };
+		43C6BEDB1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderCacheCleanerLogic.h; sourceTree = "<group>"; };
 		43EE53001E5DC9EA00023B4C /* ErrorCodeHashDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorCodeHashDefines.h; sourceTree = "<group>"; };
 		43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsTextStyles.cpp; sourceTree = "<group>"; };
 		43F067201E5F303700F9EA32 /* ElectricDreamsTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsTextStyles.h; sourceTree = "<group>"; };
@@ -1421,6 +1427,10 @@
 				A15B2FC61DFAB3FB00D25334 /* ImageDownloader.h */,
 				026BAF791E407A3A009C4ACE /* ImageDownloaderLogic.cpp */,
 				026BAF7A1E407A3A009C4ACE /* ImageDownloaderLogic.h */,
+				43C6BED61E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp */,
+				43C6BED71E7FF42800415E21 /* ImageDownloaderOnScreenChecker.h */,
+				43C6BEDA1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp */,
+				43C6BEDB1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.h */,
 			);
 			name = ImageDownloader;
 			sourceTree = "<group>";
@@ -1731,6 +1741,7 @@
 				A15B2FB21DEDD1E000D25334 /* JWTTool.cpp in Sources */,
 				43069CF81E3B5D2A00D6A631 /* SlideShowScene.cpp in Sources */,
 				430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */,
+				43C6BEDC1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp in Sources */,
 				D113134A1E337D3A00E2C033 /* IntroVideoScene.cpp in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				026BAF711E3F864A009C4ACE /* JWTToolForceParent.cpp in Sources */,
@@ -1739,6 +1750,7 @@
 				4330C7881E27B79A00D32D3E /* Crashlytics_ios.mm in Sources */,
 				431A2A0C1E439BFE00DC0F3B /* MixpanelExceptionHandler.m in Sources */,
 				431A2A241E439BFE00DC0F3B /* MPClassDescription.m in Sources */,
+				43C6BED81E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp in Sources */,
 				A1CC0C1C1E141AFF008B469E /* ChildDataStorage.cpp in Sources */,
 				431A2A251E439BFE00DC0F3B /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				431A2A1E1E439BFE00DC0F3B /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
