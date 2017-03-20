@@ -3,7 +3,6 @@
 #include "BackEndCaller.h"
 #include "ParentDataProvider.h"
 #include "AudioMixer.h"
-#include "MessageBox.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
 
@@ -74,6 +73,8 @@ void AwaitingAdultPinLayer::addUIObjects()
     
     editBox_pin->focusAndShowKeyboard();
     
+    //--------- LOCATION FOR ACCEPT BUTTON---------
+    
     acceptButton->setPosition(Vec2(editBox_pin->getPositionX() + editBox_pin->getContentSize().width + acceptButton->getContentSize().width/2,editBox_pin->getPositionY()));
     
     //---------- MODAL LABEL ------------
@@ -102,18 +103,6 @@ void AwaitingAdultPinLayer::removeSelf(float dt)
     }
 }
 
-//---------------------- public Functions After Setup -----------------------------
-
-void AwaitingAdultPinLayer::setCenterPosition(Vec2 position)
-{
-    this->setPosition(Vec2(position.x - this->getContentSize().width/2, position.y - this->getContentSize().height/2));
-}
-
-Vec2 AwaitingAdultPinLayer::getCenterPosition()
-{
-    return Vec2(this->getPositionX() + this->getContentSize().width/2, this->getPositionY() + this->getContentSize().height/2);
-}
-
 //----------------------- Delegate Functions ----------------------------
 
 void AwaitingAdultPinLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
@@ -134,6 +123,11 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
         BackEndCaller::getInstance()->updateParent(this, "pin");
 }
 
+void AwaitingAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    editBox_pin->focusAndShowKeyboard();
+}
+
 void AwaitingAdultPinLayer::secondCheckForPin()
 {
     //Please implement your second check here. If first check is not okay, please call: BackEndCaller::getInstance->updateParent(this);
@@ -147,7 +141,8 @@ void AwaitingAdultPinLayer::secondCheckForPin()
     }
     else
     {
-        MessageBox::createWith(ERROR_CODE_INCORRECT_PIN, editBox_pin, nullptr);
+        editBox_pin->setText("");
+        MessageBox::createWith(ERROR_CODE_INCORRECT_PIN, editBox_pin, this);
         acceptButton->setVisible(false);
     }
     
