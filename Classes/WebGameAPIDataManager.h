@@ -17,4 +17,6 @@ private:
     int updateCurrentHighScoreForGame(int newScore);
     std::string getPathForHighScoreFile();
     void createDirectoryTree();
+    
+    std::string getPathForLocalStorageFile();
 };

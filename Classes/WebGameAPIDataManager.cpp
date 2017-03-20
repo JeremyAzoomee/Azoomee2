@@ -85,6 +85,13 @@ std::string WebGameAPIDataManager::getPathForHighScoreFile()
     return filePath;
 }
 
+std::string WebGameAPIDataManager::getPathForLocalStorageFile()
+{
+    std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + runningGameId + "/localstorage.data";
+    CCLOG("filePath: %s", filePath.c_str());
+    return filePath;
+}
+
 int WebGameAPIDataManager::getCurrentHighScoreForGame()
 {
     if(FileUtils::getInstance()->isFileExist(getPathForHighScoreFile())) return atoi(FileUtils::getInstance()->getStringFromFile(getPathForHighScoreFile()).c_str());
