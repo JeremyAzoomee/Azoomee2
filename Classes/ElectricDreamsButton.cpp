@@ -231,6 +231,7 @@ ElectricDreamsButton* ElectricDreamsButton::createAcceptButton()
     Sprite* acceptButton =layer->createSpriteButton("res/modal/accept.png", ACCEPT_BUTTON_AUDIO_EFFECT );
     acceptButton->setOpacity(0);
     layer->addChild(acceptButton);
+    layer->setCascadeOpacityEnabled(true);
     acceptButton->runAction(FadeTo::create(0.5, 255));
     layer->addListener();
     
@@ -283,6 +284,16 @@ ElectricDreamsButton* ElectricDreamsButton::createAddButton()
     auto layer = ElectricDreamsButton::create();
     layer->addChild(layer->createSpriteButton("res/childSelection/button_add_child.png", NEXT_BUTTON_AUDIO_EFFECT ));
     layer->addListener();
+    
+    return layer;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    layer->addChild(layer->createSpriteButton("res/modal/generic_button_slice_ready.png", NEXT_BUTTON_AUDIO_EFFECT ));
+    layer->setCascadeOpacityEnabled(true);
+    layer->setOpacity(80);
     
     return layer;
 }

@@ -161,6 +161,11 @@ void AnalyticsSingleton::registerBillingStatus(std::string Status)
     mixPanel_OSSpecificSuperPropertiesCall("billingStatus",Status);
 }
 
+void AnalyticsSingleton::registerIAPOS(std::string OS_String)
+{
+    mixPanel_OSSpecificSuperPropertiesCall("iAP_OS",OS_String);
+}
+
 void AnalyticsSingleton::registerChildID(std::string ChildID)
 {
     mixPanel_OSSpecificSuperPropertiesCall("childID",ChildID);
@@ -522,6 +527,11 @@ void AnalyticsSingleton::iapSubscriptionErrorEvent(std::string errorDescription)
 void AnalyticsSingleton::iapSubscriptionFailedEvent()
 {
     mixPanel_createOSSpecficCall("iapSubscriptionFailed");
+}
+
+void AnalyticsSingleton::iapUserDataFailedEvent()
+{
+    mixPanel_createOSSpecficCall("iapUserDataFailed");
 }
 
 void AnalyticsSingleton::iapSubscriptionDoublePurchaseEvent()

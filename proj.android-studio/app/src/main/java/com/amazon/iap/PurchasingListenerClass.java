@@ -49,6 +49,7 @@ public class PurchasingListenerClass implements PurchasingListener {
 
         case FAILED:
         case NOT_SUPPORTED:
+            appActivity.sendUserDataFAILToCocos();
             Log.d("IAPAPIListener", "onUserDataResponse failed, status code is " + status);
             iapManager.setAmazonUserId(null, null);
             break;

@@ -56,6 +56,12 @@ void AwaitingAdultPinLayer::addUIObjects()
     windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + visibleSize.height*.72 - windowLayer->getContentSize().height/2);
     this->addChild(windowLayer);
     
+    //-------ACCEPT PLACEHOLDER BUTTON-------
+    
+    auto placeHolderAcceptButton= ElectricDreamsButton::createPlaceHolderButton();
+    windowLayer->addChild(placeHolderAcceptButton);
+
+    
     //------- CREATE ACCEPT BUTTON -----------
     
     acceptButton = ElectricDreamsButton::createAcceptButton();
@@ -75,6 +81,7 @@ void AwaitingAdultPinLayer::addUIObjects()
     
     //--------- LOCATION FOR ACCEPT BUTTON---------
     
+    placeHolderAcceptButton->setPosition(Vec2(editBox_pin->getPositionX() + editBox_pin->getContentSize().width + acceptButton->getContentSize().width/2,editBox_pin->getPositionY()));
     acceptButton->setPosition(Vec2(editBox_pin->getPositionX() + editBox_pin->getContentSize().width + acceptButton->getContentSize().width/2,editBox_pin->getPositionY()));
     
     //---------- MODAL LABEL ------------
@@ -143,7 +150,7 @@ void AwaitingAdultPinLayer::secondCheckForPin()
     {
         editBox_pin->setText("");
         MessageBox::createWith(ERROR_CODE_INCORRECT_PIN, editBox_pin, this);
-        acceptButton->setVisible(false);
+        acceptButton->setOpacity(false);
     }
     
 }

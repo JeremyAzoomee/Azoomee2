@@ -14,7 +14,7 @@ USING_NS_CC;
 #define INPUT_IS_MONTH 5
 #define INPUT_IS_YEAR 6
 
-#define EDITBOX_CURVE_WIDTH 60
+#define EDITBOX_CURVE_WIDTH 100
 
 /* Due to first time definition of Delegate, short setup description here
 

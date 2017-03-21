@@ -268,6 +268,7 @@ public class AppActivity extends Cocos2dxActivity {
     }
 
     public void sendIAPFAILToCocos() { purchaseFailed(); }
+    public void sendUserDataFAILToCocos() { userDataFailed(); }
 
     public void amazonAlreadyPurchased()
     {
@@ -277,6 +278,8 @@ public class AppActivity extends Cocos2dxActivity {
     public static native void purchaseHappened(String requestId, String receiptId, String amazonUserid);
 
     public static native void purchaseFailed();
+
+    public static native void userDataFailed();
 
     public static native void alreadyPurchased();
 }

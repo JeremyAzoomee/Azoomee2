@@ -49,9 +49,19 @@ void PaymentSingleton::setupisOS_IAP_Compatible()
     
     CCLOG("DEVICE TYPE:%s",resultStr.c_str());
     
-    isOS_IAP_Compatible = (resultStr == "Amazon");
+    if (resultStr == "Amazon")
+    {
+        isOS_IAP_Compatible = true;
+        AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
+    }
+    else
+    {
+        isOS_IAP_Compatible = false;
+        AnalyticsSingleton::getInstance()->registerIAPOS("Google");
+    }
 #else
     isOS_IAP_Compatible =  false;
+    AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
 #endif
 }
 
@@ -266,6 +276,18 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseFailed(JNIEnv* 
 {
     CCLOG("COCOS2DX: PURCHASE FAILED");
     PaymentSingleton::getInstance()->purchaseFailed();
+}
+
+extern "C"
+
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_userDataFailed(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_userDataFailed(JNIEnv* env, jobject thiz)
+{
+    CCLOG("COCOS2DX: USER DATA FAILED");
+    AnalyticsSingleton::getInstance()->iapUserDataFailedEvent();
 }
 
 #endif

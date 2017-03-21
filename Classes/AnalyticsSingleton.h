@@ -37,6 +37,8 @@ public:
     void registerAzoomeeEmail(std::string emailAddress);
     void registerAccountStatus(std::string Status);
     void registerBillingStatus(std::string Status);
+    void registerIAPOS(std::string OS_String);
+
 
     void registerChildID(std::string ChildID);
     void registerChildGenderAndAge(int childNumber);
@@ -97,6 +99,7 @@ public:
     void iapSubscriptionSuccessEvent();
     void iapSubscriptionErrorEvent(std::string errorDescription);
     void iapSubscriptionFailedEvent();
+    void iapUserDataFailedEvent();
     void iapSubscriptionDoublePurchaseEvent();
 
 };

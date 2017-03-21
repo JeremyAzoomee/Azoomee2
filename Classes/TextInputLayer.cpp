@@ -31,8 +31,8 @@ bool TextInputLayer::init()
 
 void TextInputLayer::createEditBoxArea()
 {
-    Rect spriteRect = Rect(0, 0, 736, 131);
-    Rect capInsents = Rect(EDITBOX_CURVE_WIDTH, 65, 616, 1);
+    Rect spriteRect = Rect(0, 0, 272, 197);
+    Rect capInsents = Rect(EDITBOX_CURVE_WIDTH, 98, 1, 1);
     editBoxArea = ui::Scale9Sprite::create("res/login/textarea_bg.png", spriteRect, capInsents);
     editBoxArea->setContentSize(this->getContentSize());
     editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));

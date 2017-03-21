@@ -58,6 +58,7 @@ public:
     static ElectricDreamsButton* createWindowCloselButton();
     static ElectricDreamsButton* createSettingsButton(float creationDelay);
     static ElectricDreamsButton* createAddButton();
+    static ElectricDreamsButton* createPlaceHolderButton();
     
     // ---------- OOMEE BUTTONS AND FUNCTIONS------------
     static ElectricDreamsButton* createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName);
