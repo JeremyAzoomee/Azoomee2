@@ -69,13 +69,16 @@ char* WebGameAPIDataManager::createReturnStringForAPI(const char* method, const 
     const char* status = "OK";
     if(strncmp(responseKey, "error", strlen(responseKey)) == 0) status = "Error";
     
-    std::string returnString = StringUtils::format("{\\\"method\\\": \\\"%s\\\", \\\"responseID\\\": \\\"%s\\\", \\\"status\\\": \\\"%s\\\", \\\"response\\\": {\\\"%s\\\": \\\"%s\\\"}}", method, responseId, status, responseKey, responseValue);
+    std::string returnString = StringUtils::format("{\"method\": \"%s\", \"responseID\": \"%s\", \"status\": \"%s\", \"response\": {\"%s\": \"%s\"}}", method, responseId, status, responseKey, responseValue);
     if(strncmp(responseKey, "score", strlen(responseKey)) == 0)
     {
-        returnString = StringUtils::format("{\\\"method\\\": \\\"%s\\\", \\\"responseID\\\": \\\"%s\\\", \\\"status\\\": \\\"%s\\\", \\\"response\\\": {\\\"%s\\\": %s}}", method, responseId, status, responseKey, responseValue);
+        returnString = StringUtils::format("{\"method\": \"%s\", \"responseID\": \"%s\", \"status\": \"%s\", \"response\": {\"%s\": %s}}", method, responseId, status, responseKey, responseValue);
     }
     
-    return strdup(returnString.c_str());
+    char *output = NULL;
+    cocos2d::base64Encode((unsigned char *)returnString.c_str(), (unsigned int)returnString.length(), &output);
+    
+    return output;
 }
 
 std::string WebGameAPIDataManager::getPathForHighScoreFile()
@@ -124,6 +127,8 @@ void WebGameAPIDataManager::createDirectoryTree()
 void WebGameAPIDataManager::saveLocalStorageData(char* stringToBeWritten)
 {
     createDirectoryTree();
+    std::string scoreString = StringUtils::format("%s", stringToBeWritten);
+    
     FileUtils::getInstance()->writeStringToFile(stringToBeWritten, getPathForLocalStorageFile());
 }
 
@@ -133,7 +138,14 @@ char* WebGameAPIDataManager::getLocalStorageData()
     
     createDirectoryTree();
     if(!FileUtils::getInstance()->isFileExist(getPathForLocalStorageFile())) return strdup(returnString.c_str());
-    else return strdup((FileUtils::getInstance()->getStringFromFile(getPathForLocalStorageFile()).c_str()));
+    else
+    {
+        std::string returnString = FileUtils::getInstance()->getStringFromFile(getPathForLocalStorageFile()).c_str();
+        char *output = NULL;
+        cocos2d::base64Encode((unsigned char *)returnString.c_str(), (unsigned int)returnString.length(), &output);
+        
+        return output;
+    }
 }
 
 std::string WebGameAPIDataManager::getPathForLocalStorageFile()

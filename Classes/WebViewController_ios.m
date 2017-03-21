@@ -108,6 +108,7 @@
         
         NSArray *urlItems = [urlComponents.string componentsSeparatedByString:@"?"];
         NSString *localStorageData = [urlItems objectAtIndex:1];
+        localStorageData = [localStorageData stringByRemovingPercentEncoding];
         
         NSLog(@"second part of the local data is: %@", localStorageData);
         
@@ -207,8 +208,11 @@
     if(!iframeloaded)
     {
         [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
-            
-        NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%s\")", getLocalStorageForGame()];
+        
+        NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
+        
+        NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
+        NSLog(@"addDataString: %@", addDataString);
         [webView stringByEvaluatingJavaScriptFromString:addDataString];
         
         NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
