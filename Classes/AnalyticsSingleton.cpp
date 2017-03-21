@@ -518,3 +518,14 @@ void AnalyticsSingleton::iapSubscriptionErrorEvent(std::string errorDescription)
     
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
+
+void AnalyticsSingleton::iapSubscriptionFailedEvent()
+{
+    mixPanel_createOSSpecficCall("iapSubscriptionFailed");
+}
+
+void AnalyticsSingleton::iapSubscriptionDoublePurchaseEvent()
+{
+    mixPanel_createOSSpecficCall("iapSubscriptionDoublePurchase");
+}
+

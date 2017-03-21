@@ -126,16 +126,19 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
         }
     }
 
-    if(paymentFailed && requestAttempts < 4)
+    if(paymentFailed)
     {
-        removeModalLayer();
-        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
-        return;
-    }
-    else
-    {
-        requestAttempts = requestAttempts + 1;
-        amazonPaymentMade(savedRequestId, savedReceiptId, savedAmazonUserid);
+        if(requestAttempts < 4)
+        {
+            requestAttempts = requestAttempts + 1;
+            amazonPaymentMade(savedRequestId, savedReceiptId, savedAmazonUserid);
+        }
+        else
+        {
+            removeModalLayer();
+            MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+            return;
+        }
     }
 }
 
@@ -159,6 +162,7 @@ void PaymentSingleton::fulfillAmazonPayment(std::string receiptId)
 void PaymentSingleton::purchaseFailed()
 {
     CCLOG("PaymentSingleton: PURCHASE FAILED");
+    AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent();
     removeModalLayer();
 }
 
@@ -214,6 +218,7 @@ void PaymentSingleton::addListenerToBackgroundLayer()
 void showDoublePurchase()
 {
     auto funcCallAction = CallFunc::create([=](){
+        AnalyticsSingleton::getInstance()->iapSubscriptionDoublePurchaseEvent();
         PaymentSingleton::getInstance()->removeModalLayer();
         MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
     });

@@ -210,7 +210,7 @@ public class AppActivity extends Cocos2dxActivity {
 
     private void setupIAPOnCreate()
     {
-        if(android.os.Build.MANUFACTURER == "AMAZON") {
+        if(android.os.Build.MANUFACTURER.equals("Amazon")) {
             iapManager = new IapManager(this);
 
             final PurchasingListenerClass purchasingListener = new PurchasingListenerClass(iapManager);

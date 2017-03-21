@@ -96,6 +96,7 @@ public:
     void displayIAPUpsaleEvent(std::string fromLocation);
     void iapSubscriptionSuccessEvent();
     void iapSubscriptionErrorEvent(std::string errorDescription);
-    
+    void iapSubscriptionFailedEvent();
+    void iapSubscriptionDoublePurchaseEvent();
 
 };

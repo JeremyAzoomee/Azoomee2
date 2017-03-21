@@ -158,7 +158,7 @@ ElectricDreamsButton* ElectricDreamsButton::createSecondaryButton(std::string bu
     
     layer->runAction(FadeTo::create(0.5, 255));
     
-    layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
+    layer->buttonAudioFile = CANCEL_BUTTON_AUDIO_EFFECT;
     
     layer->addListener();
     
