@@ -52,9 +52,14 @@ std::string ParentDataProvider::getLoggedInParentApiSecret()
     return ParentDataStorage::getInstance()->loggedInParentApiSecret;
 }
 
-std::string ParentDataProvider::getParentBillingStatus()
+bool ParentDataProvider::isPaidUser()
 {
-    return ParentDataStorage::getInstance()->loggedInParentBillingStatus;
+    return ParentDataStorage::getInstance()->loggedInParentBillingStatus == "SUBSCRIBED";
+}
+
+bool ParentDataProvider::emailRequiresVerification()
+{
+    return (ParentDataStorage::getInstance()->loggedInParentActorStatus != "VERIFIED") && (ParentDataStorage::getInstance()->loggedInParentActorStatus != "ACTIVE");
 }
 
 //------------------------------------getting information from available children------------------------------------------

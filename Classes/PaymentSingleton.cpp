@@ -102,6 +102,7 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
     {
         if(paymentData["receiptStatus"].IsString())
         {
+            // EXPIRED, INVALID, UNCERTAIN
             if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
             {
                 paymentFailed = false;
@@ -152,7 +153,7 @@ bool PaymentSingleton::OS_is_IAP_Compatible()
 
 bool PaymentSingleton::showIAPContent()
 {
-    return (isOS_IAP_Compatible && (ParentDataProvider::getInstance()->getParentBillingStatus() != "SUBSCRIBED"));
+    return (isOS_IAP_Compatible && !ParentDataProvider::getInstance()->isPaidUser());
 }
 
 //-------------------- Modal Layer Functions----------------

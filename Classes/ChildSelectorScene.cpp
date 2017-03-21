@@ -285,14 +285,13 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
 
 void ChildSelectorScene::secondCheckForAuthorisation()
 {
-    //Check is email verified, if not refresh profile, then error
-    if((ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "VERIFIED")||(ParentDataProvider::getInstance()->getLoggedInParentActorStatus() == "ACTIVE"))
+    if(ParentDataProvider::getInstance()->emailRequiresVerification())
+        MessageBox::createWith(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED, nullptr);
+    else
     {
         AwaitingAdultPinLayer::create()->setDelegate(this);
         AnalyticsSingleton::getInstance()->childProfileStartEvent();
     }
-    else
-        MessageBox::createWith(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED, nullptr);
 }
 
 //----------------------- Delegate Functions ----------------------------

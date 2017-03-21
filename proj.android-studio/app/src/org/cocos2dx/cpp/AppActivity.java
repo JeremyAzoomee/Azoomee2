@@ -210,22 +210,24 @@ public class AppActivity extends Cocos2dxActivity {
 
     private void setupIAPOnCreate()
     {
-        iapManager = new IapManager(this);
+        if(android.os.Build.MANUFACTURER == "AMAZON") {
+            iapManager = new IapManager(this);
 
-        final PurchasingListenerClass purchasingListener = new PurchasingListenerClass(iapManager);
-        purchasingListener.setMainActivity(this);
+            final PurchasingListenerClass purchasingListener = new PurchasingListenerClass(iapManager);
+            purchasingListener.setMainActivity(this);
 
-        PurchasingService.registerListener(this.getApplicationContext(), purchasingListener);
+            PurchasingService.registerListener(this.getApplicationContext(), purchasingListener);
 
-        PurchasingService.getUserData();
-        PurchasingService.getPurchaseUpdates(false);
+            PurchasingService.getUserData();
+            PurchasingService.getPurchaseUpdates(false);
 
-        final Set<String> productSkus = new HashSet<String>();
-        for (final MySku mySku : MySku.values()) {
-            productSkus.add(mySku.getSku());
+            final Set<String> productSkus = new HashSet<String>();
+            for (final MySku mySku : MySku.values()) {
+                productSkus.add(mySku.getSku());
+            }
+
+            PurchasingService.getProductData(productSkus);
         }
-
-        PurchasingService.getProductData(productSkus);
     }
 
     public String receiptId;

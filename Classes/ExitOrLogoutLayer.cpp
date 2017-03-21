@@ -88,24 +88,43 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     cancelButton->setMixPanelButtonName("ExitorLogoutCancelButton");
     windowLayer->addChild(cancelButton);
     
-    // ------- LOG OUT BUTTON ----------
+    // ------- START IAP OR STATUS ----------
     
-    logoutButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT));
-    logoutButton->setCenterPosition(Vec2(windowLayer->getContentSize().width /2, windowLayer->getContentSize().height*.6));
-    logoutButton->setDelegate(this);
-    logoutButton->setMixPanelButtonName("Log Out");
-    windowLayer->addChild(logoutButton);
-    
-    //--------- START TRIAL BUTTON ---------
-    
-    if(PaymentSingleton::getInstance()->showIAPContent())
+    //if(PaymentSingleton::getInstance()->showIAPContent())
+    if(true)
     {
-        iapButton = ElectricDreamsButton::createButtonWithText("Start Trial");
-        iapButton->setCenterPosition(Vec2(windowLayer->getContentSize().width /2, windowLayer->getContentSize().height*.3));
+        iapButton = ElectricDreamsButton::createButtonWithWidth("Start Trial",windowLayer->getContentSize().width/2);
+        iapButton->setCenterPosition(Vec2(windowLayer->getContentSize().width /2, windowLayer->getContentSize().height*.6));
         iapButton->setDelegate(this);
         iapButton->setMixPanelButtonName("ExitorLogoutStartTrialButton");
         windowLayer->addChild(iapButton);
     }
+    else if(ParentDataProvider::getInstance()->isPaidUser())
+    {
+        Label* subTitleLabel = createLabelHeaderWhite("PREMIUM ACCOUNT");
+        subTitleLabel->setPosition(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6);
+        windowLayer->addChild(subTitleLabel);
+    }
+    else if (ParentDataProvider::getInstance()->emailRequiresVerification())
+    {
+        Label* subTitleLabel = createLabelHeaderWhite("Email address requires verification!\nCheckout parent.azoomee.com for help.");
+        subTitleLabel->setPosition(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6);
+        windowLayer->addChild(subTitleLabel);
+    }
+    else
+    {
+        Label* subTitleLabel = createLabelHeaderWhite("FREE ACCOUNT");
+        subTitleLabel->setPosition(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6);
+        windowLayer->addChild(subTitleLabel);
+    }
+    
+    // ------- LOG OUT BUTTON ----------
+    
+    logoutButton = ElectricDreamsButton::createSecondaryButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT), windowLayer->getContentSize().width/2);
+    logoutButton->setCenterPosition(Vec2(windowLayer->getContentSize().width /2, windowLayer->getContentSize().height*.3));
+    logoutButton->setDelegate(this);
+    logoutButton->setMixPanelButtonName("Log Out");
+    windowLayer->addChild(logoutButton);
 }
 
 //---------------------- Actions -----------------

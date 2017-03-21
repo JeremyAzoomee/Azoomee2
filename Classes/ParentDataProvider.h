@@ -22,5 +22,7 @@ public:
     std::string getLoggedInParentApiKey();
     std::string getLoggedInParentApiSecret();
     std::string getParentPin();
-    std::string getParentBillingStatus();
+    
+    bool isPaidUser();
+    bool emailRequiresVerification();
 };
