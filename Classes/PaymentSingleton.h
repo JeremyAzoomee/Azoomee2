@@ -13,7 +13,7 @@ public:
     
     void onAmazonPaymentMadeAnswerReceived(std::string responseDataString);
     void amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid);
-    void startAmazonPayment();
+    void startIAPPayment();
     
     void purchaseFailed();
     
@@ -31,6 +31,13 @@ private:
     cocos2d::LayerColor *modalLayer;
     void createModalLayer();
     void addListenerToBackgroundLayer();
+    
+    //For making repeat requests
+    std::string savedRequestId;
+    std::string savedReceiptId;
+    std::string savedAmazonUserid;
+    
+    int requestAttempts;
 };
 
 #endif

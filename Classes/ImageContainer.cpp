@@ -152,6 +152,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
                 if(IAPEnabled)
                 {
                     AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+                    AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("HQs");
                     IAPUpsaleLayer::createRequiresPin();
                 }
             }

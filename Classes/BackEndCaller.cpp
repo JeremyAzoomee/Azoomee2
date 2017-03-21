@@ -126,6 +126,7 @@ void BackEndCaller::updateBillingData()
 void BackEndCaller::onUpdateBillingDataAnswerReceived(std::string responseString)
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
+    AnalyticsSingleton::getInstance()->registerBillingStatus(ParentDataProvider::getInstance()->getBillingStatus());
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------

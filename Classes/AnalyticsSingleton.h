@@ -36,6 +36,7 @@ public:
     void registerNoOfChildren(int noOfChildren);
     void registerAzoomeeEmail(std::string emailAddress);
     void registerAccountStatus(std::string Status);
+    void registerBillingStatus(std::string Status);
 
     void registerChildID(std::string ChildID);
     void registerChildGenderAndAge(int childNumber);
@@ -90,5 +91,11 @@ public:
     void messageBoxShowEvent(std::string messageTitle);
     void localisedStringErrorEvent(std::string stringRequested, std::string languageUsed);
     void introVideoTimedOutError(std::string errorMessage);
+    
+    //---------------IAP ACTIONS------------------
+    void displayIAPUpsaleEvent(std::string fromLocation);
+    void iapSubscriptionSuccessEvent();
+    void iapSubscriptionErrorEvent(std::string errorDescription);
+    
 
 };

@@ -24,6 +24,7 @@ private:
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();
     void addExitOrLogoutUIObjects();
+    void addRichTextLabel(std::string BOLDText);
     
     void removeSelf();
     

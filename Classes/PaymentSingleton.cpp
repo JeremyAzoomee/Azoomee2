@@ -4,6 +4,7 @@
 #include "MessageBox.h"
 #include "BackEndCaller.h"
 #include "ParentDataProvider.h"
+#include "AnalyticsSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -56,8 +57,10 @@ void PaymentSingleton::setupisOS_IAP_Compatible()
 
 //--------------------PAYMENT FUNCTIONS------------------
 
-void PaymentSingleton::startAmazonPayment()
+void PaymentSingleton::startIAPPayment()
 {
+    requestAttempts = 0;
+    
     createModalLayer();
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
@@ -75,6 +78,10 @@ void PaymentSingleton::startAmazonPayment()
 
 void PaymentSingleton::amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid)
 {
+    savedRequestId = requestId;
+    savedReceiptId = receiptId;
+    savedAmazonUserid = amazonUserid;
+    
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
     httpRequestCreator->requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
     httpRequestCreator->requestTag = "iapAmazonPaymentMade";
@@ -83,8 +90,6 @@ void PaymentSingleton::amazonPaymentMade(std::string requestId, std::string rece
 
 void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDataString)
 {
-    removeModalLayer();
-    
     CCLOG("The response id is: %s", responseDataString.c_str());
     
     rapidjson::Document paymentData;
@@ -92,7 +97,8 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
     
     if(paymentData.HasParseError())
     {
-        //Handle parse error
+        requestAttempts = requestAttempts + 1;
+        amazonPaymentMade(savedRequestId, savedReceiptId, savedAmazonUserid);
         return;
     }
     
@@ -105,6 +111,8 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
             // EXPIRED, INVALID, UNCERTAIN
             if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
             {
+                removeModalLayer();
+                AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
                 paymentFailed = false;
                 
                 std::string receiptId = paymentData["receiptId"].GetString();
@@ -113,13 +121,21 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
                 BackEndCaller::getInstance()->newTrialJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
             }
+            else
+                AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
         }
     }
 
-    if(paymentFailed)
+    if(paymentFailed && requestAttempts < 4)
     {
+        removeModalLayer();
         MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
         return;
+    }
+    else
+    {
+        requestAttempts = requestAttempts + 1;
+        amazonPaymentMade(savedRequestId, savedReceiptId, savedAmazonUserid);
     }
 }
 

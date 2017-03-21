@@ -11,6 +11,10 @@
 #include "ElectricDreamsDecoration.h"
 #include "PaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
+#include "cocos/ui/UIRichText.h"
+
+#define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
+#define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
 
 bool ExitOrLogoutLayer::init()
 {
@@ -90,8 +94,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     
     // ------- START IAP OR STATUS ----------
     
-    //if(PaymentSingleton::getInstance()->showIAPContent())
-    if(true)
+    if(PaymentSingleton::getInstance()->showIAPContent())
     {
         iapButton = ElectricDreamsButton::createButtonWithWidth("Start Trial",windowLayer->getContentSize().width/2);
         iapButton->setCenterPosition(Vec2(windowLayer->getContentSize().width /2, windowLayer->getContentSize().height*.6));
@@ -99,24 +102,19 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
         iapButton->setMixPanelButtonName("ExitorLogoutStartTrialButton");
         windowLayer->addChild(iapButton);
     }
-    else if(ParentDataProvider::getInstance()->isPaidUser())
-    {
-        Label* subTitleLabel = createLabelHeaderWhite("PREMIUM ACCOUNT");
-        subTitleLabel->setPosition(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6);
-        windowLayer->addChild(subTitleLabel);
-    }
+    //else if(ParentDataProvider::getInstance()->isPaidUser())
+    else if (true)
+        addRichTextLabel("Premium Account");
+    
     else if (ParentDataProvider::getInstance()->emailRequiresVerification())
     {
-        Label* subTitleLabel = createLabelHeaderWhite("Email address requires verification!\nCheckout parent.azoomee.com for help.");
+        Label* subTitleLabel = createLabelHeaderWhite("We need to verify your email address.\nPlease check your email or go to parent.azoomee.com for help.");
+        subTitleLabel->setWidth(windowLayer->getContentSize().width - 50);
         subTitleLabel->setPosition(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6);
         windowLayer->addChild(subTitleLabel);
     }
     else
-    {
-        Label* subTitleLabel = createLabelHeaderWhite("FREE ACCOUNT");
-        subTitleLabel->setPosition(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6);
-        windowLayer->addChild(subTitleLabel);
-    }
+        addRichTextLabel("Free Account");
     
     // ------- LOG OUT BUTTON ----------
     
@@ -125,6 +123,17 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     logoutButton->setDelegate(this);
     logoutButton->setMixPanelButtonName("Log Out");
     windowLayer->addChild(logoutButton);
+}
+
+void ExitOrLogoutLayer::addRichTextLabel(std::string BOLDText)
+{
+    cocos2d::ui::RichText* richTextLabel = cocos2d::ui::RichText::create();
+    richTextLabel->setAnchorPoint(Vec2(0.5,0.5));
+    
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, "You have a ", FONT_REGULAR, 84));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDText, FONT_BOLD, 84));
+    richTextLabel->setPosition(Vec2(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6));
+    windowLayer->addChild(richTextLabel);
 }
 
 //---------------------- Actions -----------------
@@ -170,7 +179,10 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
         Director::getInstance()->replaceScene(loginScene);
     }
     else if(button == iapButton)
+    {
+        AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("Settings");
         IAPUpsaleLayer::create();
+    }
 }
 
 void ExitOrLogoutLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)

@@ -9,6 +9,7 @@
 #include "IAPUpsaleLayer.h"
 #include "StringFunctions.h"
 #include "PaymentSingleton.h"
+#include "AnalyticsSingleton.h"
 
 USING_NS_CC;
 
@@ -59,7 +60,10 @@ bool OnboardingSuccessScene::init()
 void OnboardingSuccessScene::onEnterTransitionDidFinish()
 {
     if(IAPEnabled && !IAPSuccess)
+    {
+        AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("OnboardingSuccess");
         IAPUpsaleLayer::create();
+    }
 }
 
 //----------------- SCENE SETUP ---------------
@@ -84,6 +88,7 @@ void OnboardingSuccessScene::addButtonsToScene()
         startTrial = ElectricDreamsButton::createButtonWithText("Start Trial!", 100);
         startTrial->setPosition(origin.x + startTrial->getContentSize().height,oomeeButton->getPositionY());
         startTrial->setDelegate(this);
+        startTrial->setMixPanelButtonName("OnboardingSuccessStartTrialButton");
         this->addChild(startTrial);
     }
 }
@@ -135,7 +140,7 @@ void OnboardingSuccessScene::buttonPressed(ElectricDreamsButton* button)
             this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
         }
         else if(button == startTrial)
-            PaymentSingleton::getInstance()->startAmazonPayment();
+            PaymentSingleton::getInstance()->startIAPPayment();
     }
 }
 

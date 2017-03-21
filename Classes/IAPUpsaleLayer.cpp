@@ -113,11 +113,13 @@ void IAPUpsaleLayer::addButtons()
     startTrialButton = ElectricDreamsButton::createButtonWithText("Start Your Free 7 Day Trial!", 300);
     startTrialButton->setPosition(UpsaleLayer->getContentSize().width - SIDE_MARGIN_SIZE - startTrialButton->getContentSize().width, GapFromOomeeImage);
     startTrialButton->setDelegate(this);
+    startTrialButton->setMixPanelButtonName("IAPUpsaleSceneStartTrialButton");
     UpsaleLayer->addChild(startTrialButton);
     
     notNowButton = ElectricDreamsButton::createOutlineButtonWithText("Not Now");
     notNowButton->setPosition(SIDE_MARGIN_SIZE, startTrialButton->getCenterPosition().y - notNowButton->getContentSize().height/2);
     notNowButton->setDelegate(this);
+    notNowButton->setMixPanelButtonName("IAPUpsaleSceneNotNowButton");
     UpsaleLayer->addChild(notNowButton);
     
     addCancelAnytimeLabel();
@@ -188,7 +190,7 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
         if(requiresPinCode)
             askForPin();
         else
-            PaymentSingleton::getInstance()->startAmazonPayment();
+            PaymentSingleton::getInstance()->startIAPPayment();
     }
     else if(button == notNowButton)
     {
@@ -210,5 +212,5 @@ void IAPUpsaleLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 
 void IAPUpsaleLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
-    PaymentSingleton::getInstance()->startAmazonPayment();
+    PaymentSingleton::getInstance()->startIAPPayment();
 }

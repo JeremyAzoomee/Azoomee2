@@ -156,6 +156,11 @@ void AnalyticsSingleton::registerAccountStatus(std::string Status)
     mixPanel_OSSpecificSuperPropertiesCall("accountStatus",Status);
 }
 
+void AnalyticsSingleton::registerBillingStatus(std::string Status)
+{
+    mixPanel_OSSpecificSuperPropertiesCall("billingStatus",Status);
+}
+
 void AnalyticsSingleton::registerChildID(std::string ChildID)
 {
     mixPanel_OSSpecificSuperPropertiesCall("childID",ChildID);
@@ -484,6 +489,32 @@ void AnalyticsSingleton::introVideoTimedOutError(std::string errorMessage)
     
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["ErrorMessage"] = errorMessage;
+    
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
+}
+
+//---------------IAP ACTIONS------------------
+void AnalyticsSingleton::displayIAPUpsaleEvent(std::string fromLocation)
+{
+    std::string eventID = "displayIAPUpsale";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["DisplayedFrom"] = fromLocation;
+    
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
+}
+
+void AnalyticsSingleton::iapSubscriptionSuccessEvent()
+{
+    mixPanel_createOSSpecficCall("iapSubscriptionSuccess");
+}
+
+void AnalyticsSingleton::iapSubscriptionErrorEvent(std::string errorDescription)
+{
+    std::string eventID = "iapSubscriptionError";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["ErrorType"] = errorDescription;
     
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }

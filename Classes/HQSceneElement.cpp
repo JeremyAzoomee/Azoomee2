@@ -136,6 +136,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
                     if(IAPEnabled)
                     {
                         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+                        AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("MainHub");
                         IAPUpsaleLayer::createRequiresPin();
                     }
                 }
