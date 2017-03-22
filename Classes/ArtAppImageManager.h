@@ -24,6 +24,7 @@ private:
     std::vector<std::string> splitCharToVector(char* inputData, std::string separator);
     std::vector<std::string> splitStringToVector(std::string inputData, std::string separator);
     std::string getFileNameFromPath(std::string filePath);
+    int getAmountOfSaveAttempts(char* inputData);
 
 };
 

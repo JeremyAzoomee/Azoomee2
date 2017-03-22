@@ -29,10 +29,13 @@ bool ArtAppImageManager::init(void)
 void ArtAppImageManager::addImageToImagesFolder(char* dataString)
 {
     if(strlen(dataString) == 0) return;
+    if(getAmountOfSaveAttempts(dataString) < 2) return;
     
     createDirectoryTreeForImagesFolder();
     std::string fileName = getFileNameFromString(dataString);
     std::string fileData = getFileDataFromString(dataString);
+    
+    if(fileData == "NEW") return;
     
     if(fileName == "NEW") fileName = StringUtils::format("%ld.imag", std::time(0));
     std::string fullWritePath = getImageStorageFolder() + fileName;
@@ -45,10 +48,10 @@ void ArtAppImageManager::moveImageToLocalStorageFolder(std::string filePath)
     std::string fullFilePath = FileUtils::getInstance()->fullPathForFilename(filePath);
     std::string content = FileUtils::getInstance()->getStringFromFile(fullFilePath);
     
-    std::string contentToWrite = "art!NEW|artname!NEW";
+    std::string contentToWrite = "save!0|art!NEW|artname!NEW";
     createDirectoryTreeForLocalStorage();
     
-    if(filePath != "NEW") contentToWrite = "art!" + content + "|artname!" + getFileNameFromPath(filePath);
+    if(filePath != "NEW") contentToWrite = "save!0|art!" + content + "|artname!" + getFileNameFromPath(filePath);
     
     FileUtils::getInstance()->writeStringToFile(contentToWrite, getLocalStorageFilePath());
 }
@@ -90,7 +93,7 @@ void ArtAppImageManager::createDirectoryTreeForLocalStorage()
 
 std::string ArtAppImageManager::getFileDataFromString(char* dataString)
 {
-    std::string artString = splitCharToVector(dataString, "|")[0];
+    std::string artString = splitCharToVector(dataString, "|")[1];
     std::string artData = splitStringToVector(artString, "!")[1];
     
     return artData;
@@ -98,7 +101,7 @@ std::string ArtAppImageManager::getFileDataFromString(char* dataString)
 
 std::string ArtAppImageManager::getFileNameFromString(char* dataString)
 {
-    std::string artString = splitCharToVector(dataString, "|")[1];
+    std::string artString = splitCharToVector(dataString, "|")[2];
     std::string artName = splitStringToVector(artString, "!")[1];
     
     return artName;
@@ -147,4 +150,14 @@ std::string ArtAppImageManager::getFileNameFromPath(std::string filePath)
     std::size_t found = filePath.find_last_of("/");
     std::string fileName = filePath.substr(found + 1);
     return fileName;
+}
+
+int ArtAppImageManager::getAmountOfSaveAttempts(char* inputData)
+{
+    if(splitCharToVector(inputData, "|").size() == 2) return 0;
+    
+    std::string saveString = splitCharToVector(inputData, "|")[0];
+    std::string saveAttempts = splitStringToVector(saveString, "!")[1];
+    
+    return atoi(saveAttempts.c_str());
 }

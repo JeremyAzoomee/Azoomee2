@@ -136,29 +136,6 @@
         return NO;
     }
     
-    if ([urlString hasPrefix:@"saveimage:"]) {
-        
-        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
-        
-        NSString *dataItem = [[urlComponents.string componentsSeparatedByString:@"?title?"] lastObject];
-        
-        NSString *title = [[[dataItem componentsSeparatedByString:@"?data?"] firstObject] stringByRemovingPercentEncoding];
-        NSString *data = [[[dataItem componentsSeparatedByString:@"?data?"] lastObject] stringByRemovingPercentEncoding];
-        
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *writePath = [NSString stringWithFormat:@"%@/artCache/%@", [paths objectAtIndex:0], useridToUse];
-        
-        if(![[NSFileManager defaultManager] fileExistsAtPath:writePath])
-        {
-            [[NSFileManager defaultManager] createDirectoryAtPath:writePath withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
-        
-        NSString *fullFilePath = [NSString stringWithFormat:@"%@/artCache/%@/%@", [paths objectAtIndex:0], useridToUse, title];
-        [data writeToFile:fullFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-        
-        return NO;
-    }
-    
     if ([urlString hasPrefix:@"videoerror"])
     {
         [webview loadHTMLString:@"" baseURL:nil];
