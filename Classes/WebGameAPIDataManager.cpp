@@ -126,10 +126,12 @@ void WebGameAPIDataManager::createDirectoryTree()
 
 void WebGameAPIDataManager::saveLocalStorageData(char* stringToBeWritten)
 {
+    CCLOG("ARTAPP - stringtobewritten : %s", stringToBeWritten);
+    
     if(runningGameId == "artApp")
     {
         ArtAppImageManager::getInstance()->addImageToImagesFolder(stringToBeWritten);
-        //return;
+        return;
     }
     
     createDirectoryTree();

@@ -25,7 +25,8 @@ private:
     std::vector<std::string> splitStringToVector(std::string inputData, std::string separator);
     std::string getFileNameFromPath(std::string filePath);
     int getAmountOfSaveAttempts(char* inputData);
-
+    
+    std::map<std::string, std::string> getMapFormatOfDataChar(char* dataInput);
 };
 
 #endif

@@ -93,18 +93,12 @@ void ArtAppImageManager::createDirectoryTreeForLocalStorage()
 
 std::string ArtAppImageManager::getFileDataFromString(char* dataString)
 {
-    std::string artString = splitCharToVector(dataString, "|")[1];
-    std::string artData = splitStringToVector(artString, "!")[1];
-    
-    return artData;
+    return getMapFormatOfDataChar(dataString)["art"];
 }
 
 std::string ArtAppImageManager::getFileNameFromString(char* dataString)
 {
-    std::string artString = splitCharToVector(dataString, "|")[2];
-    std::string artName = splitStringToVector(artString, "!")[1];
-    
-    return artName;
+    return getMapFormatOfDataChar(dataString)["artname"];
 }
 
 std::vector<std::string> ArtAppImageManager::splitCharToVector(char* inputData, std::string separator)
@@ -154,10 +148,21 @@ std::string ArtAppImageManager::getFileNameFromPath(std::string filePath)
 
 int ArtAppImageManager::getAmountOfSaveAttempts(char* inputData)
 {
-    if(splitCharToVector(inputData, "|").size() == 2) return 0;
+    return atoi(getMapFormatOfDataChar(inputData)["save"].c_str());
+}
+
+std::map<std::string, std::string> ArtAppImageManager::getMapFormatOfDataChar(char *dataInput)
+{
+    std::map<std::string, std::string> outputMap;
+    std::vector<std::string> elements = splitCharToVector(dataInput, "|");
     
-    std::string saveString = splitCharToVector(inputData, "|")[0];
-    std::string saveAttempts = splitStringToVector(saveString, "!")[1];
+    for(int i = 0; i < elements.size(); i++)
+    {
+        std::string key = splitStringToVector(elements.at(i), "!")[0];
+        std::string value = splitStringToVector(elements.at(i), "!")[1];
+        
+        outputMap[key] = value;
+    }
     
-    return atoi(saveAttempts.c_str());
+    return outputMap;
 }
