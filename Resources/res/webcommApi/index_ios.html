@@ -97,11 +97,8 @@
 						stringToSave += localStorage.key(i) + "!" + localStorage.getItem(localStorage.key(i));
 					}
 				}
-				
-				if(stringToSave.length > 0)
-				{
-					window.location.href = "savelocaldata://write?"+ stringToSave;
-				}
+
+				window.location.href = "savelocaldata://write?"+ stringToSave;
 			}
 			
 			function answerMessageReceivedFromAPI(answerString)

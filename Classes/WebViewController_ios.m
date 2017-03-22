@@ -102,15 +102,11 @@
     
     if ([urlString hasPrefix:@"savelocaldata:"]) {
         
-        NSLog(@"savelocaldatawascalled!");
-        
         NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
         
         NSArray *urlItems = [urlComponents.string componentsSeparatedByString:@"?"];
         NSString *localStorageData = [urlItems objectAtIndex:1];
         localStorageData = [localStorageData stringByRemovingPercentEncoding];
-        
-        NSLog(@"second part of the local data is: %@", localStorageData);
         
         const char* localStorageDataChar = [localStorageData cStringUsingEncoding:NSUTF8StringEncoding];
         saveLocalStorageData(localStorageDataChar);
@@ -241,7 +237,6 @@
 
 -(void) buttonClicked:(UIButton*)sender
 {
-    NSLog(@"before exit is here!");
     [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
 }
 

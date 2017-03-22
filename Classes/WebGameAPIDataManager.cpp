@@ -1,6 +1,7 @@
 #include "WebGameAPIDataManager.h"
 #include "ChildDataProvider.h"
 #include "ConfigStorage.h"
+#include "ArtAppImageManager.h"
 
 using namespace cocos2d;
 
@@ -84,7 +85,6 @@ char* WebGameAPIDataManager::createReturnStringForAPI(const char* method, const 
 std::string WebGameAPIDataManager::getPathForHighScoreFile()
 {
     std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + runningGameId + "/highscore.data";
-    CCLOG("filePath: %s", filePath.c_str());
     return filePath;
 }
 
@@ -126,10 +126,16 @@ void WebGameAPIDataManager::createDirectoryTree()
 
 void WebGameAPIDataManager::saveLocalStorageData(char* stringToBeWritten)
 {
+    if(runningGameId == "artApp")
+    {
+        ArtAppImageManager::getInstance()->addImageToImagesFolder(stringToBeWritten);
+        return;
+    }
+    
     createDirectoryTree();
     std::string scoreString = StringUtils::format("%s", stringToBeWritten);
     
-    FileUtils::getInstance()->writeStringToFile(stringToBeWritten, getPathForLocalStorageFile());
+    if(strlen(stringToBeWritten) > 0) FileUtils::getInstance()->writeStringToFile(stringToBeWritten, getPathForLocalStorageFile());
 }
 
 char* WebGameAPIDataManager::getLocalStorageData()
@@ -151,6 +157,5 @@ char* WebGameAPIDataManager::getLocalStorageData()
 std::string WebGameAPIDataManager::getPathForLocalStorageFile()
 {
     std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + runningGameId + "/localstorage.data";
-    CCLOG("filePath: %s", filePath.c_str());
     return filePath;
 }
