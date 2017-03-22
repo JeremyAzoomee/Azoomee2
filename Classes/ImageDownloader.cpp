@@ -21,7 +21,6 @@ bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     this->addPlaceHolderImage(type, size, shape);
-    //this->addLoadingAnimation();
     
     imageUrl = url;
     imageDownloaderLogic = new ImageDownloaderLogic();
@@ -31,6 +30,8 @@ bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size
 
 bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, cocos2d::Size size)
 {
+    identifier = CCRANDOM_0_1() * 1000 + 1000;
+    
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     
@@ -43,7 +44,6 @@ bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, coco
 
 void ImageDownloader::onEnter()
 {
-    CCLOG("onscreenchecker starts");
     onScreenChecker = new ImageDownloaderOnScreenChecker();
     onScreenChecker->startCheckingForOnScreenPosition(this);
     
@@ -99,11 +99,8 @@ void ImageDownloader::imageAddedToCache(Texture2D* resulting_texture)
     {
         if((identifier < 999)||(identifier > 2001))
         {
-            CCLOG("identifier value: %f", identifier);
             return;
         }
-        
-        CCLOG("identifier on creating image: %f", identifier);
         Size holderContentSize = this->getContentSize();
         
         auto finalImage = Sprite::createWithTexture( resulting_texture );
@@ -128,8 +125,6 @@ void ImageDownloader::addDownloadedImage(std::string fileName)
 
 void ImageDownloader::onExitTransitionDidStart()
 {
-    
-    CCLOG("onExitTransitionDidStart");
     aboutToExit = true;
     Node::onExitTransitionDidStart();
 }
@@ -142,10 +137,6 @@ void ImageDownloader::onExit()
         onScreenChecker->release();
     }
     
-    
-    CCLOG("identifier on exit: %f", identifier);
-    CCLOG("this contentSize height: %f", this->getContentSize().height);
-    CCLOG("onExit called");
     aboutToExit = true;
     if(imageDownloaderLogic) imageDownloaderLogic->senderDeleted = true;
     Node::onExit();
