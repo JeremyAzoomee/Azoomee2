@@ -283,6 +283,14 @@ void HttpRequestCreator::handleEventAfterError(std::string requestTag, long erro
         return;
     }
     
+    if(requestTag == "iapAmazonPaymentMade")
+    {
+        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
+        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
+        PaymentSingleton::getInstance()->backendRequestFailed();
+        return;
+    }
+    
     ChildDataParser::getInstance()->setChildLoggedIn(false);
     BackEndCaller::getInstance()->getAvailableChildren();
 }

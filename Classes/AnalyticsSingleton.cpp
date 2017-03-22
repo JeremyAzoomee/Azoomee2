@@ -539,3 +539,13 @@ void AnalyticsSingleton::iapSubscriptionDoublePurchaseEvent()
     mixPanel_createOSSpecficCall("iapSubscriptionDoublePurchase");
 }
 
+void AnalyticsSingleton::iapBackEndRequestFailedEvent(long errorCode)
+{
+    std::string eventID = "iapBackendRequestFailedError";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+    
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
+}
+

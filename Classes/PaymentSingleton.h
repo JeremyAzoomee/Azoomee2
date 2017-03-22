@@ -16,6 +16,7 @@ public:
     void startIAPPayment();
     
     void purchaseFailed();
+    void backendRequestFailed();
     
     bool OS_is_IAP_Compatible();
     bool showIAPContent();
@@ -38,6 +39,7 @@ private:
     std::string savedAmazonUserid;
     
     int requestAttempts;
+    bool iapAttemptInprogress;
 };
 
 #endif

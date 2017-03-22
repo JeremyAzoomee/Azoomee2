@@ -69,25 +69,30 @@ void PaymentSingleton::setupisOS_IAP_Compatible()
 
 void PaymentSingleton::startIAPPayment()
 {
-    requestAttempts = 0;
-    
-    createModalLayer();
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    cocos2d::JniMethodInfo methodInfo;
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startAmazonPurchase", "()V"))
+    if(!iapAttemptInprogress)
     {
-        return;
+        iapAttemptInprogress = true;
+        requestAttempts = 0;
+        
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        
+        cocos2d::JniMethodInfo methodInfo;
+        if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startAmazonPurchase", "()V"))
+        {
+            return;
+        }
+        
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+        
+    #endif
     }
-    
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
-    methodInfo.env->DeleteLocalRef(methodInfo.classID);
-    
-#endif
 }
 
 void PaymentSingleton::amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid)
 {
+    CCLOG("IAP Request made with requestid:%s receiptID:%s userID:%s", requestId.c_str(),receiptId.c_str(),amazonUserid.c_str());
+    
     savedRequestId = requestId;
     savedReceiptId = receiptId;
     savedAmazonUserid = amazonUserid;
@@ -152,6 +157,14 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
     }
 }
 
+void PaymentSingleton::backendRequestFailed()
+{
+    iapAttemptInprogress = false;
+    
+    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+    
+}
+
 void PaymentSingleton::fulfillAmazonPayment(std::string receiptId)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -205,6 +218,7 @@ void PaymentSingleton::createModalLayer()
 
 void PaymentSingleton::removeModalLayer()
 {
+    iapAttemptInprogress = false;
     if(modalLayer) //This might be called when loading is not active, so better to check first
     {
         Director::getInstance()->getRunningScene()->removeChild(modalLayer);

@@ -195,7 +195,7 @@ ui::Scale9Sprite* ElectricDreamsButton::createButtonOutline(std::string buttonTe
     if(buttonLabel->getContentSize().height >110)
         buttonHeight = buttonLabel->getContentSize().height + 80;
     
-    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/login/textarea_bg.png", spriteRect, capInsents);
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/buttons/buttonArea.png", spriteRect, capInsents);
     newButton->setContentSize(Size(buttonLabel->getContentSize().width+100, buttonHeight));
     newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
     

@@ -101,5 +101,6 @@ public:
     void iapSubscriptionFailedEvent();
     void iapUserDataFailedEvent();
     void iapSubscriptionDoublePurchaseEvent();
+    void iapBackEndRequestFailedEvent(long errorCode);
 
 };
