@@ -16,6 +16,7 @@
 #include "AnalyticsSingleton.h"
 #include "LoginScene.h"
 #include "OnboardingScene.h"
+#include "ModalMessages.h"
 
 USING_NS_CC;
 
@@ -36,6 +37,7 @@ bool NavigationLayer::init()
     {
         return false;
     }
+    ModalMessages::getInstance()->showMixpanelNotification();
     
     AudioMixer::getInstance()->playOomeeIdleSounds(true);
     
