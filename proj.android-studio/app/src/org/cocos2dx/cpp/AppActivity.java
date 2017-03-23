@@ -236,7 +236,7 @@ public class AppActivity extends Cocos2dxActivity {
 
     public static void startAmazonPurchase()
     {
-        final RequestId requestId = PurchasingService.purchase("com.tinizine.azoomee.monthly.02");
+        final RequestId requestId = PurchasingService.purchase("com.azoomee.premium.monthly");
         Log.d("IAPAPI", "Request id: " + requestId.toString());
         Log.d("IAPAPI", "purchase service started, app on pause");
     }

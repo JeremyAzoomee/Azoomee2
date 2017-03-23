@@ -2,7 +2,7 @@ package com.amazon.iap;
 
 public enum MySku {
 
-    MY_MAGAZINE_SUBS("com.tinizine.azoomee.monthly.02", "UK");
+    MY_MAGAZINE_SUBS("com.azoomee.premium.monthly", "UK");
 
     private final String sku;
     private final String availableMarkpetplace;
