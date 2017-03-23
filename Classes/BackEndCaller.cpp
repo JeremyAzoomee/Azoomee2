@@ -20,6 +20,7 @@
 #include "AnalyticsSingleton.h"
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
+#include "PaymentSingleton.h"
 
 using namespace cocos2d;
 
@@ -62,6 +63,7 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
     accountJustRegistered = false;
     newChildJustRegistered = false;
+    newTrialJustStarted = false;
     auto loginScene = LoginScene::createScene(errorCode);
     Director::getInstance()->replaceScene(loginScene);
 }
@@ -69,6 +71,15 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
 
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
 
+void BackEndCaller::autoLogin()
+{
+    UserDefault* def = UserDefault::getInstance();
+    std::string username = def->getStringForKey("username", "");
+    std::string password = def->getStringForKey("password", "");
+    def->flush();
+    
+    login(username, password);
+}
 
 void BackEndCaller::login(std::string username, std::string password)
 {
@@ -92,6 +103,7 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
+        updateBillingData();
         getAvailableChildren();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
     }
@@ -100,6 +112,21 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
         AnalyticsSingleton::getInstance()->signInFailEvent(0);
         getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
     }
+}
+
+//UPDATING BILLING DATA-------------------------------------------------------------------------------
+
+void BackEndCaller::updateBillingData()
+{
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->requestTag = "updateBilling";
+    httpRequestCreator->createEncryptedGetHttpRequest();
+}
+
+void BackEndCaller::onUpdateBillingDataAnswerReceived(std::string responseString)
+{
+    ParentDataParser::getInstance()->parseParentBillingData(responseString);
+    AnalyticsSingleton::getInstance()->registerBillingStatus(ParentDataProvider::getInstance()->getBillingStatus());
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
@@ -160,6 +187,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
 {
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     
+    
     if(newChildJustRegistered)
     {
         newChildJustRegistered = false;
@@ -168,8 +196,16 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
     }
     else if(accountJustRegistered)
     {
+        CCLOG("Just registered account : backendcaller");
         accountJustRegistered = false;
-        auto onboardingSuccessScene = OnboardingSuccessScene::createScene();
+        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(PaymentSingleton::getInstance()->OS_is_IAP_Compatible(),false);
+        Director::getInstance()->replaceScene(onboardingSuccessScene);
+    }
+    else if(newTrialJustStarted)
+    {
+        CCLOG("Just started new trial : backendcaller");
+        newTrialJustStarted = false;
+        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(PaymentSingleton::getInstance()->OS_is_IAP_Compatible(),true);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
     else

@@ -1,4 +1,5 @@
 #include "ElectricDreamsDecoration.h"
+#include <ui/UIScale9Sprite.h>
 
 void addSideWiresToScreen(Node* parentLayer, float withDelay, float withDuration)
 {
@@ -61,4 +62,35 @@ Sprite* createGlow()
     auto bgGlow = Sprite::create("res/decoration/bg_glow.png");
 
     return bgGlow;
+}
+
+void addFullScreenGlowToScreen(Node* parentLayer)
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto fullscreenGlow = Sprite::create("res/decoration/fullscreen_glow.png");
+    fullscreenGlow->setScaleX(visibleSize.width / fullscreenGlow->getContentSize().width);
+    fullscreenGlow->setScaleY(visibleSize.height / fullscreenGlow->getContentSize().height);
+    fullscreenGlow->setPosition(visibleSize.width / 2, origin.y + visibleSize.height / 2);
+    parentLayer->addChild(fullscreenGlow);
+}
+
+Layer* createWindowLayer(float height)
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    
+    Layer* newLayer = Layer::create();
+    newLayer->setContentSize(Size(visibleSize.width*.66, height));
+    
+    Rect spriteRect = Rect(0, 0, 455, 268);
+    Rect capInsents = Rect(100, 100, 255, 1);
+    
+    ui::Scale9Sprite* newWindow = ui::Scale9Sprite::create("res/decoration/windowScale9.png", spriteRect, capInsents);
+    newWindow->setContentSize(Size(newLayer->getContentSize().width, newLayer->getContentSize().height));
+    newWindow->setPosition(newLayer->getContentSize().width/2, newLayer->getContentSize().height/2);
+
+    newLayer->addChild(newWindow);
+
+    return newLayer;
 }

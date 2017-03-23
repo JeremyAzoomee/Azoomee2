@@ -100,6 +100,8 @@ void GameDataManager::getJSONGameData(std::string url, std::string itemId)
     headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
     jsonRequest->setHeaders(headers);
     
+    CCLOG("Cookies being used are: %s", headers.at(0).c_str());
+    
     jsonRequest->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetJSONGameDataAnswerReceived, this));
     jsonRequest->setTag(itemId);
     HttpClient::getInstance()->setTimeoutForConnect(2);
@@ -174,6 +176,8 @@ void GameDataManager::getGameZipFile(std::string url, std::string itemId)
     std::vector<std::string> headers;
     headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
     zipRequest->setHeaders(headers);
+    
+    CCLOG("Cookies being used are: %s", headers.at(0).c_str());
     
     zipRequest->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetGameZipFileAnswerReceived, this));
     zipRequest->setTag(itemId);

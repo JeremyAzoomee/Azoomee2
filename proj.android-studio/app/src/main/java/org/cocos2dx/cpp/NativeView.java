@@ -126,7 +126,7 @@ public class NativeView extends XWalkActivity {
 
             for(int i = 0; i < separatedCookies.length; i++)
             {
-                log.d("seaparatecookies: ", separatedCookies[i]);
+                log.d("separatecookies: ", separatedCookies[i]);
                 mCookieManager.setCookie(myCookieUrl, separatedCookies[i]);
             }
 

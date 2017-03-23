@@ -88,8 +88,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     auto scene = IntroVideoScene::createScene();
-    //auto scene = OfflineHubScene::createScene();
-    // run
     director->runWithScene(scene);
 
     return true;

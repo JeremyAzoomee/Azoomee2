@@ -13,5 +13,6 @@ public:
     bool parseParentLoginData(std::string responseData);
     bool parseAvailableChildren(std::string responseData);
     bool parseUpdateParentData(std::string responseData);
+    bool parseParentBillingData(std::string responseData);
     void logoutChild();
 };

@@ -30,21 +30,25 @@ private:
     Label* messageTitleLabel;
     Label* messageBodyLabel;
     std::vector<ElectricDreamsButton*> buttonsList;
+    ElectricDreamsButton* cancelButton;
+    Layer* windowLayer;
+    
+    float textMaxWidth;
+    float buttonSpaceWidth;
     
     void initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate);
     
-    float messageBoxWidth;
-    
-    void createAndFadeInLayer();
+    void createBackgroundLayer();
     void addListenerToBackgroundLayer();
     
     //MessageBox functions
     void createTitle();
-    void underlineTitle();
     void createBody(std::string messageBody);
     void createButtons();
-    void positionButtonsBasedOnWidth(float totalButtonsWidth);
-    void createMessageBackground();
+    void createCancelButton();
+    void positionButtonsBasedOnWidth(float yPosition);
+    void createMessageWindow();
+    void addObjectsToWindow();
     
     void removeSelf(float dt);
     

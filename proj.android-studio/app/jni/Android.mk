@@ -85,8 +85,10 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/ChildAccountSuccessScene.cpp \
                    ../../../Classes/HQSceneElementVisual.cpp \
                    ../../../Classes/HQSceneArtsApp.cpp \
+                   ../../../Classes/IAPUpsaleLayer.cpp \
                    ../../../Classes/ImageDownloaderOnScreenChecker.cpp \
-                   ../../../Classes/ImageDownloaderCacheCleanerLogic.cpp
+                   ../../../Classes/ImageDownloaderCacheCleanerLogic.cpp \
+                   ../../../Classes/PaymentSingleton.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

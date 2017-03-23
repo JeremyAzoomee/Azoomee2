@@ -14,14 +14,17 @@ private:
     Vec2 origin;
     
     LayerColor *backgroundLayer;
+    Layer* windowLayer;
     
     ElectricDreamsButton *logoutButton;
     ElectricDreamsButton *cancelButton;
+    ElectricDreamsButton *iapButton;
     
     void askForPin();
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();
     void addExitOrLogoutUIObjects();
+    void addRichTextLabel(std::string BOLDText);
     
     void removeSelf();
     

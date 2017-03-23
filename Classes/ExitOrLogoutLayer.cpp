@@ -5,7 +5,16 @@
 #include "AudioMixer.h"
 #include "AnalyticsSingleton.h"
 #include "ParentDataParser.h"
+#include "ParentDataProvider.h"
 #include "ElectricDreamsTextStyles.h"
+#include "MessageBox.h"
+#include "ElectricDreamsDecoration.h"
+#include "PaymentSingleton.h"
+#include "IAPUpsaleLayer.h"
+#include "cocos/ui/UIRichText.h"
+
+#define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
+#define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
 
 bool ExitOrLogoutLayer::init()
 {
@@ -34,7 +43,7 @@ void ExitOrLogoutLayer::askForPin()
 
 void ExitOrLogoutLayer::createAndFadeInLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(0,0,0,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
@@ -56,26 +65,75 @@ void ExitOrLogoutLayer::addListenerToBackgroundLayer()
 
 void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
 {
+    addSideWiresToScreen(this, 0, 2);
+    
+    windowLayer = createWindowLayer(1100);
+    float windowLayerBottomPadding = (visibleSize.height - windowLayer->getContentSize().height) * .66;
+    windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + windowLayerBottomPadding);
+    this->addChild(windowLayer);
+    
     //-------- VERSION NUBMER ---------
     
     auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
-    backgroundLayer->addChild(versionTitle);
+    versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 1.5);
+    windowLayer->addChild(versionTitle);
     
-    // ------- CANCEL BUTTON ----------
+    //-------- USERNAME---------------
     
-    cancelButton = ElectricDreamsButton::createCancelButton();
-    cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.3));
+    Label* usernameLabel = createUserNameLabelWithWidth(windowLayer->getContentSize().width - 50);
+    usernameLabel->setPosition(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.85);
+    windowLayer->addChild(usernameLabel);
+
+    //-------- CLOSE BUTTON ----------
+    
+    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("ExitorLogoutCancelButton");
-    backgroundLayer->addChild(cancelButton);
+    windowLayer->addChild(cancelButton);
+    
+    // ------- START IAP OR STATUS ----------
+    
+    if(PaymentSingleton::getInstance()->showIAPContent())
+    {
+        iapButton = ElectricDreamsButton::createButtonWithWidth("Start Trial",windowLayer->getContentSize().width/2);
+        iapButton->setCenterPosition(Vec2(windowLayer->getContentSize().width /2, windowLayer->getContentSize().height*.6));
+        iapButton->setDelegate(this);
+        iapButton->setMixPanelButtonName("ExitorLogoutStartTrialButton");
+        windowLayer->addChild(iapButton);
+    }
+    //else if(ParentDataProvider::getInstance()->isPaidUser())
+    else if (true)
+        addRichTextLabel("Premium Account");
+    
+    else if (ParentDataProvider::getInstance()->emailRequiresVerification())
+    {
+        Label* subTitleLabel = createLabelHeaderWhite("We need to verify your email address.\nPlease check your email or go to parent.azoomee.com for help.");
+        subTitleLabel->setWidth(windowLayer->getContentSize().width - 50);
+        subTitleLabel->setPosition(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6);
+        windowLayer->addChild(subTitleLabel);
+    }
+    else
+        addRichTextLabel("Free Account");
     
     // ------- LOG OUT BUTTON ----------
     
-    logoutButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT));
-    logoutButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2, origin.y + visibleSize.height * 0.6));
+    logoutButton = ElectricDreamsButton::createSecondaryButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT), windowLayer->getContentSize().width/2);
+    logoutButton->setCenterPosition(Vec2(windowLayer->getContentSize().width /2, windowLayer->getContentSize().height*.3));
     logoutButton->setDelegate(this);
     logoutButton->setMixPanelButtonName("Log Out");
-    backgroundLayer->addChild(logoutButton);
+    windowLayer->addChild(logoutButton);
+}
+
+void ExitOrLogoutLayer::addRichTextLabel(std::string BOLDText)
+{
+    cocos2d::ui::RichText* richTextLabel = cocos2d::ui::RichText::create();
+    richTextLabel->setAnchorPoint(Vec2(0.5,0.5));
+    
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, "You have a ", FONT_REGULAR, 84));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDText, FONT_BOLD, 84));
+    richTextLabel->setPosition(Vec2(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6));
+    windowLayer->addChild(richTextLabel);
 }
 
 //---------------------- Actions -----------------
@@ -119,6 +177,11 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
         
         auto loginScene = LoginScene::createScene(0);
         Director::getInstance()->replaceScene(loginScene);
+    }
+    else if(button == iapButton)
+    {
+        AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("Settings");
+        IAPUpsaleLayer::create();
     }
 }
 
