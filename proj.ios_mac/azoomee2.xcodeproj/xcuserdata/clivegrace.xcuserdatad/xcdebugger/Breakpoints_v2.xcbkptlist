@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "337"
             endingLineNumber = "337"
-            landmarkName = "NavigationLayer::moveMenuPointsToCircleState(float duration)"
+            landmarkName = "NavigationLayer::setButtonOn(int i)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

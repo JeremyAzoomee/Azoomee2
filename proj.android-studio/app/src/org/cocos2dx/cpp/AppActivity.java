@@ -174,7 +174,7 @@ public class AppActivity extends Cocos2dxActivity {
         mixpanel.getPeople().showNotificationIfAvailable(mActivity);
     }
 
-    public void showMixpanelNotificationWithID(int notificationID)
+    public static void showMixpanelNotificationWithID(int notificationID)
     {
         MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
         mixpanel.getPeople().showNotificationById(notificationID,mActivity);

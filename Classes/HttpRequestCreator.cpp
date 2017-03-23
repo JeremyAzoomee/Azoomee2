@@ -134,7 +134,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
         }
     }
     
-    std::string requestUrl = StringUtils::format("http://%s%s", host.c_str(), requestPath.c_str());
+    std::string requestUrl = StringUtils::format("https://%s%s", host.c_str(), requestPath.c_str());
     if(!urlParameters.empty()) requestUrl = StringUtils::format("%s?%s", requestUrl.c_str(), urlParameters.c_str());   //In URL we need to add the ?
     
     HttpRequest *request = new HttpRequest();

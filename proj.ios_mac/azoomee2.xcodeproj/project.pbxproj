@@ -1135,10 +1135,10 @@
 		43EEAE601E840EEC0012F27F /* MixPanelNotifications */ = {
 			isa = PBXGroup;
 			children = (
-				43EEAE621E840F060012F27F /* MixPanelNotifications_android.h */,
 				43EEAE631E840F060012F27F /* MixPanelNotifications_android.cpp */,
-				43EEAE641E840F060012F27F /* MixPanelNotifications_ios.h */,
+				43EEAE621E840F060012F27F /* MixPanelNotifications_android.h */,
 				43EEAE651E840F060012F27F /* MixPanelNotifications_ios.mm */,
+				43EEAE641E840F060012F27F /* MixPanelNotifications_ios.h */,
 			);
 			name = MixPanelNotifications;
 			sourceTree = "<group>";

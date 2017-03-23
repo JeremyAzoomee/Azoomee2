@@ -9,7 +9,7 @@
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "MixPanelNotifications_ios.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "Analytics_android.h"
+#include "MixPanelNotifications_android.h"
 #endif
 
 USING_NS_CC;
@@ -114,6 +114,7 @@ void ModalMessages::showMixpanelNotification()
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
+    showNotification_android();
     
 #endif
 }
@@ -126,6 +127,7 @@ void ModalMessages::showMixpanelNotificationWithID(int notificationID)
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
+    showNotificationWithID_android(notificationID);
     
 #endif
 }
