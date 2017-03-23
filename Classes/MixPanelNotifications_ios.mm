@@ -2,12 +2,12 @@
 #import "Mixpanel.h"
 #import <UIKit/UIKit.h>
 
-void showNotification()
+void showNotification_ios()
 {
     [[Mixpanel sharedInstance] showNotification];
 }
 
-void showNotificationWithID(int notificationID)
+void showNotificationWithID_ios(int notificationID)
 {
     [[Mixpanel sharedInstance] showNotificationWithID:notificationID];
 }

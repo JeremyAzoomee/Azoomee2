@@ -110,7 +110,7 @@ void ModalMessages::showMixpanelNotification()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
-    showNotification();
+    showNotification_ios();
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
@@ -122,7 +122,7 @@ void ModalMessages::showMixpanelNotificationWithID(int notificationID)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
-    showNotificationWithID(notificationID);
+    showNotificationWithID_ios(notificationID);
     
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     

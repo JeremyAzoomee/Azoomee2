@@ -161,6 +161,7 @@
 		435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDF1E55BB1600E55610 /* AdSupport.framework */; };
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
 		43EEAE5B1E83E8120012F27F /* MixPanelNotifications_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43EEAE5A1E83E8120012F27F /* MixPanelNotifications_ios.mm */; };
+		43EEAE5E1E840C1C0012F27F /* MixPanelNotifications_android.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43EEAE5D1E840C1C0012F27F /* MixPanelNotifications_android.mm */; };
 		43F067211E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */; };
 		43F2C5F51E5C4DC40016F30E /* StringMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
@@ -539,6 +540,8 @@
 		43EE53001E5DC9EA00023B4C /* ErrorCodeHashDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorCodeHashDefines.h; sourceTree = "<group>"; };
 		43EEAE591E83E8120012F27F /* MixPanelNotifications_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanelNotifications_ios.h; sourceTree = "<group>"; };
 		43EEAE5A1E83E8120012F27F /* MixPanelNotifications_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MixPanelNotifications_ios.mm; sourceTree = "<group>"; };
+		43EEAE5C1E840C1C0012F27F /* MixPanelNotifications_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanelNotifications_android.h; sourceTree = "<group>"; };
+		43EEAE5D1E840C1C0012F27F /* MixPanelNotifications_android.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MixPanelNotifications_android.mm; sourceTree = "<group>"; };
 		43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsTextStyles.cpp; sourceTree = "<group>"; };
 		43F067201E5F303700F9EA32 /* ElectricDreamsTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsTextStyles.h; sourceTree = "<group>"; };
 		43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringMgr.cpp; sourceTree = "<group>"; };
@@ -1116,6 +1119,8 @@
 			children = (
 				43EEAE591E83E8120012F27F /* MixPanelNotifications_ios.h */,
 				43EEAE5A1E83E8120012F27F /* MixPanelNotifications_ios.mm */,
+				43EEAE5C1E840C1C0012F27F /* MixPanelNotifications_android.h */,
+				43EEAE5D1E840C1C0012F27F /* MixPanelNotifications_android.mm */,
 			);
 			name = MixPanelNotifications;
 			sourceTree = "<group>";
@@ -1737,6 +1742,7 @@
 				A15B2FB21DEDD1E000D25334 /* JWTTool.cpp in Sources */,
 				43069CF81E3B5D2A00D6A631 /* SlideShowScene.cpp in Sources */,
 				430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */,
+				43EEAE5E1E840C1C0012F27F /* MixPanelNotifications_android.mm in Sources */,
 				D113134A1E337D3A00E2C033 /* IntroVideoScene.cpp in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				026BAF711E3F864A009C4ACE /* JWTToolForceParent.cpp in Sources */,
