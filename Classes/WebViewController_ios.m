@@ -214,7 +214,16 @@
 
 -(void) buttonClicked:(UIButton*)sender
 {
-    [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
+    if([iosurlExtension isEqualToString:@"html"])
+    {
+        [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+        return;
+    }
+    else
+    {
+        [self finishView];
+    }
 }
 
 -(void) finishView
