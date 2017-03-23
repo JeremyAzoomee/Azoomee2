@@ -75,12 +75,6 @@ public class AppActivity extends Cocos2dxActivity {
         mContext = this;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //setupIAPOnResume();
-    }
-
     public static void startWebView(String url, String cookieurl, String cookie, String userid) {
 
         Log.d("sent from cocos", url + " - " + cookieurl + " - " + cookie);
@@ -224,21 +218,6 @@ public class AppActivity extends Cocos2dxActivity {
 
             PurchasingService.registerListener(this.getApplicationContext(), purchasingListener);
 
-            PurchasingService.getUserData();
-            PurchasingService.getPurchaseUpdates(false);
-
-            final Set<String> productSkus = new HashSet<String>();
-            for (final MySku mySku : MySku.values()) {
-                productSkus.add(mySku.getSku());
-            }
-
-            PurchasingService.getProductData(productSkus);
-        }
-    }
-
-    private void setupIAPOnResume()
-    {
-        if(android.os.Build.MANUFACTURER.equals("Amazon")) {
             PurchasingService.getUserData();
             PurchasingService.getPurchaseUpdates(false);
 
