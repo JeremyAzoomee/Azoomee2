@@ -102,8 +102,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
         iapButton->setMixPanelButtonName("ExitorLogoutStartTrialButton");
         windowLayer->addChild(iapButton);
     }
-    //else if(ParentDataProvider::getInstance()->isPaidUser())
-    else if (true)
+    else if(ParentDataProvider::getInstance()->isPaidUser())
         addRichTextLabel("Premium Account");
     
     else if (ParentDataProvider::getInstance()->emailRequiresVerification())
