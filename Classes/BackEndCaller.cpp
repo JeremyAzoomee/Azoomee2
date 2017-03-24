@@ -187,7 +187,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
 {
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     
-    
+    PaymentSingleton::getInstance()->iapAttemptInprogress = false;
     if(newChildJustRegistered)
     {
         newChildJustRegistered = false;

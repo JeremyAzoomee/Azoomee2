@@ -126,7 +126,6 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
             // EXPIRED, INVALID, UNCERTAIN
             if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
             {
-                removeModalLayer();
                 AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
                 paymentFailed = false;
                 
