@@ -185,15 +185,14 @@ void IAPUpsaleLayer::removeSelf()
 
 void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == startTrialButton && !PaymentSingleton::getInstance()->iapAttemptInprogress)
+    if(button == startTrialButton)
     {
-        PaymentSingleton::getInstance()->iapAttemptInprogress = true;
         if(requiresPinCode)
             askForPin();
         else
             PaymentSingleton::getInstance()->startIAPPayment();
     }
-    else if(button == notNowButton && !PaymentSingleton::getInstance()->iapAttemptInprogress)
+    else if(button == notNowButton)
     {
         removeSelf();
     }
@@ -208,7 +207,6 @@ void IAPUpsaleLayer::askForPin()
 
 void IAPUpsaleLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 {
-    PaymentSingleton::getInstance()->iapAttemptInprogress = false;
 }
 
 void IAPUpsaleLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)

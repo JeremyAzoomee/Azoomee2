@@ -22,7 +22,6 @@ public:
     bool showIAPContent();
     
     void removeModalLayer();
-    bool iapAttemptInprogress;
     
 private:
     void fulfillAmazonPayment(std::string receiptId);
@@ -40,6 +39,7 @@ private:
     std::string savedAmazonUserid;
     
     int requestAttempts;
+    bool iapAttemptInprogress;
     
 };
 

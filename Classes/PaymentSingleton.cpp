@@ -132,6 +132,8 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
                 std::string receiptId = paymentData["receiptId"].GetString();
                 fulfillAmazonPayment(receiptId);
                 
+                removeModalLayer();
+                
                 BackEndCaller::getInstance()->newTrialJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
             }
