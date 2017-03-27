@@ -40,6 +40,7 @@ private:
     
     int requestAttempts;
     bool iapAttemptInprogress;
+    
 };
 
 #endif

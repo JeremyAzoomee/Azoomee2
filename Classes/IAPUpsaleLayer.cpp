@@ -207,7 +207,6 @@ void IAPUpsaleLayer::askForPin()
 
 void IAPUpsaleLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 {
-
 }
 
 void IAPUpsaleLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)

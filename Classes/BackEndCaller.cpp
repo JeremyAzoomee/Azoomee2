@@ -187,7 +187,6 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
 {
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     
-    
     if(newChildJustRegistered)
     {
         newChildJustRegistered = false;

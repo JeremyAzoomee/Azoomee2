@@ -73,20 +73,20 @@ void ChildAccountScene::addTextboxScene()
     childNameInputText->setDelegate(this);
     this->addChild(childNameInputText);
     
-    dayInputText = TextInputLayer::createWithSize(Size(250,197), INPUT_IS_DAY);
-    dayInputText->setPositionX(origin.x+visibleSize.width/2 - 400-dayInputText->getContentSize().width/2);
+    dayInputText = TextInputLayer::createWithSize(Size(400,197), INPUT_IS_DAY);
+    dayInputText->setPositionX(origin.x+visibleSize.width/2 - 325-dayInputText->getContentSize().width);
     dayInputText->setEditboxVisibility(false);
     dayInputText->setDelegate(this);
     this->addChild(dayInputText);
     
-    monthInputText = TextInputLayer::createWithSize(Size(250,197), INPUT_IS_MONTH);
-    monthInputText->setPositionX(origin.x+visibleSize.width/2 - 50-monthInputText->getContentSize().width/2);
+    monthInputText = TextInputLayer::createWithSize(Size(400,197), INPUT_IS_MONTH);
+    monthInputText->setPositionX(origin.x+visibleSize.width/2 - 275);
     monthInputText->setEditboxVisibility(false);
     monthInputText->setDelegate(this);
     this->addChild(monthInputText);
     
-    yearInputText = TextInputLayer::createWithSize(Size(350,197), INPUT_IS_YEAR);
-    yearInputText->setPositionX(origin.x+visibleSize.width/2 + 350-yearInputText->getContentSize().width/2);
+    yearInputText = TextInputLayer::createWithSize(Size(550,197), INPUT_IS_YEAR);
+    yearInputText->setPositionX(origin.x+visibleSize.width/2 + 175);
     yearInputText->setEditboxVisibility(false);
     yearInputText->setDelegate(this);
     this->addChild(yearInputText);
