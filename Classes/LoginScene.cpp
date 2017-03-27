@@ -139,12 +139,12 @@ void LoginScene::addLabelToScene()
 
 void LoginScene::addTextboxScene()
 {
-    passwordTextInput = TextInputLayer::createWithSize(Size(1500,131), INPUT_IS_PASSWORD);
+    passwordTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_PASSWORD);
     passwordTextInput->setDelegate(this);
     passwordTextInput->setEditboxVisibility(false);
     this->addChild(passwordTextInput);
     
-    emailTextInput = TextInputLayer::createWithSize(Size(1500,131), INPUT_IS_EMAIL);
+    emailTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_EMAIL);
     emailTextInput->setDelegate(this);
     emailTextInput->setText(username);
     this->addChild(emailTextInput);

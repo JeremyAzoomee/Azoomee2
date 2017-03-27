@@ -20,7 +20,9 @@ class ElectricDreamsButton : public Layer
 {
 private:
     void addListener();
-    ui::Scale9Sprite *createButtonBackground(std::string buttonText);
+    static ElectricDreamsButton* createPrimaryButton(std::string buttonText, float textPadding, float minWidth);
+    static ElectricDreamsButton* createSecondaryButton(std::string buttonText, float textPadding, float minWidth);
+    ui::Scale9Sprite *createButtonOutline(std::string buttonText);
     
     void callDelegateFunction(float dt);
     
@@ -43,13 +45,20 @@ public:
     CC_SYNTHESIZE(ElectricDreamsButtonDelegate*, _delegate, Delegate);
     
     static ElectricDreamsButton* createTextAsButton(std::string buttonText);
+    static ElectricDreamsButton* createTextAsButton(std::string buttonText, float fontSize, bool underlined);
     static ElectricDreamsButton* createButtonWithText(std::string buttonText);
+    static ElectricDreamsButton* createButtonWithWidth(std::string buttonText, float buttonWidth);
+    static ElectricDreamsButton* createSecondaryButtonWithWidth(std::string buttonText, float buttonWidth);
+    static ElectricDreamsButton* createButtonWithText(std::string buttonText, float textPadding);
+    static ElectricDreamsButton* createOutlineButtonWithText(std::string buttonText);
     static ElectricDreamsButton* createNextButton();
     static ElectricDreamsButton* createBackButton();
     static ElectricDreamsButton* createAcceptButton();
     static ElectricDreamsButton* createCancelButton();
+    static ElectricDreamsButton* createWindowCloselButton();
     static ElectricDreamsButton* createSettingsButton(float creationDelay);
     static ElectricDreamsButton* createAddButton();
+    static ElectricDreamsButton* createPlaceHolderButton();
     
     // ---------- OOMEE BUTTONS AND FUNCTIONS------------
     static ElectricDreamsButton* createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName);

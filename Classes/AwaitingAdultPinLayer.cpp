@@ -3,8 +3,8 @@
 #include "BackEndCaller.h"
 #include "ParentDataProvider.h"
 #include "AudioMixer.h"
-#include "MessageBox.h"
 #include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsDecoration.h"
 
 bool AwaitingAdultPinLayer::init()
 {
@@ -28,7 +28,7 @@ bool AwaitingAdultPinLayer::init()
 
 void AwaitingAdultPinLayer::createAndFadeInLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(0,0,0,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
@@ -50,41 +50,53 @@ void AwaitingAdultPinLayer::addListenerToBackgroundLayer()
 
 void AwaitingAdultPinLayer::addUIObjects()
 {
-    //---------- MODAL LABEL ------------
+    addSideWiresToScreen(this, 0, 2);
     
-    auto enterYourPinTitle = createLabelHeaderWhite(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL));
-    enterYourPinTitle->setPosition(origin.x+visibleSize.width /2, origin.y+visibleSize.height*0.8);
-    enterYourPinTitle->setOpacity(0);
-    backgroundLayer->addChild(enterYourPinTitle);
+    windowLayer = createWindowLayer(750);
+    windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + visibleSize.height*.72 - windowLayer->getContentSize().height/2);
+    this->addChild(windowLayer);
     
-    enterYourPinTitle->runAction(FadeTo::create(0.5, 255));
+    //-------ACCEPT PLACEHOLDER BUTTON-------
     
-    //-------- PIN EDITBOX -------------
+    auto placeHolderAcceptButton= ElectricDreamsButton::createPlaceHolderButton();
+    windowLayer->addChild(placeHolderAcceptButton);
+
     
-    editBox_pin = TextInputLayer::createWithSize(Size(400,131), INPUT_IS_PIN);
-    editBox_pin->setCenterPosition(Vec2(origin.x+visibleSize.width /2, origin.y+visibleSize.height*0.65));
-    editBox_pin->setDelegate(this);
-    backgroundLayer->addChild(editBox_pin);
-    
-    editBox_pin->focusAndShowKeyboard();
-    
-    //-------- CANCEL BUTTON ----------
-    
-    cancelButton = ElectricDreamsButton::createCancelButton();
-    cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2 - 400, origin.y + visibleSize.height * 0.65));
-    cancelButton->setDelegate(this);
-    cancelButton->setMixPanelButtonName("PinCancelButton");
-    backgroundLayer->addChild(cancelButton);
-    
-    //------- ACCEPT BUTTON -----------
+    //------- CREATE ACCEPT BUTTON -----------
     
     acceptButton = ElectricDreamsButton::createAcceptButton();
-    acceptButton->setCenterPosition(Vec2(origin.x + visibleSize.width /2 + 400, origin.y + visibleSize.height * 0.65));
     acceptButton->setDelegate(this);
     acceptButton->setVisible(false);
     acceptButton->setMixPanelButtonName("PinAcceptButton");
-    backgroundLayer->addChild(acceptButton);
+    windowLayer->addChild(acceptButton);
     
+    //-------- PIN EDITBOX -------------
+    
+    editBox_pin = TextInputLayer::createWithSize(Size(windowLayer->getContentSize().width/2,acceptButton->getContentSize().height), INPUT_IS_PIN);
+    editBox_pin->setPosition(Vec2(windowLayer->getContentSize().width/2 - editBox_pin->getContentSize().width/2 - acceptButton->getContentSize().width*.66, windowLayer->getContentSize().height*.25));
+    editBox_pin->setDelegate(this);
+    windowLayer->addChild(editBox_pin);
+    
+    editBox_pin->focusAndShowKeyboard();
+    
+    //--------- LOCATION FOR ACCEPT BUTTON---------
+    
+    placeHolderAcceptButton->setPosition(Vec2(editBox_pin->getPositionX() + editBox_pin->getContentSize().width + acceptButton->getContentSize().width/2,editBox_pin->getPositionY()));
+    acceptButton->setPosition(placeHolderAcceptButton->getPosition());
+    
+    //---------- MODAL LABEL ------------
+    
+    auto enterYourPinTitle = createLabelHeaderWhite(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL));
+    enterYourPinTitle->setPosition(editBox_pin->getPositionX() + enterYourPinTitle->getContentSize().width/2, windowLayer->getContentSize().height*.66+enterYourPinTitle->getContentSize().height/2);
+    windowLayer->addChild(enterYourPinTitle);
+    
+    //-------- CLOSE BUTTON ----------
+    
+    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75));
+    cancelButton->setDelegate(this);
+    cancelButton->setMixPanelButtonName("PinCancelButton");
+    windowLayer->addChild(cancelButton);
 }
 
 //---------------------- Actions -----------------
@@ -96,18 +108,6 @@ void AwaitingAdultPinLayer::removeSelf(float dt)
         this->removeChild(backgroundLayer);
         this->removeFromParent();
     }
-}
-
-//---------------------- public Functions After Setup -----------------------------
-
-void AwaitingAdultPinLayer::setCenterPosition(Vec2 position)
-{
-    this->setPosition(Vec2(position.x - this->getContentSize().width/2, position.y - this->getContentSize().height/2));
-}
-
-Vec2 AwaitingAdultPinLayer::getCenterPosition()
-{
-    return Vec2(this->getPositionX() + this->getContentSize().width/2, this->getPositionY() + this->getContentSize().height/2);
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -130,6 +130,11 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
         BackEndCaller::getInstance()->updateParent(this, "pin");
 }
 
+void AwaitingAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    editBox_pin->focusAndShowKeyboard();
+}
+
 void AwaitingAdultPinLayer::secondCheckForPin()
 {
     //Please implement your second check here. If first check is not okay, please call: BackEndCaller::getInstance->updateParent(this);
@@ -143,7 +148,8 @@ void AwaitingAdultPinLayer::secondCheckForPin()
     }
     else
     {
-        MessageBox::createWith(ERROR_CODE_INCORRECT_PIN, editBox_pin, nullptr);
+        editBox_pin->setText("");
+        MessageBox::createWith(ERROR_CODE_INCORRECT_PIN, editBox_pin, this);
         acceptButton->setVisible(false);
     }
     

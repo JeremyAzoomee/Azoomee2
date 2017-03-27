@@ -5,10 +5,9 @@
 #include "OnboardingScene.h"
 #include "StringMgr.h"
 #include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsDecoration.h"
 
 #define MESSAGE_BOX_PADDING 100
-#define MESSAGE_BOX_MINIMUM_WIDTH 1366
-#define MESSAGE_BOX_MAXIMUM_WIDTH 2049
 
 Layer* MessageBox::createWith(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate)
 {
@@ -54,7 +53,7 @@ Layer* MessageBox::createPreviewLoginSignupMessageBox()
     
     layer->_buttonsTitleList.push_back(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
     layer->_buttonsTitleList.push_back(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP));
-    layer->_buttonsTitleList.push_back(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL));
+    //layer->_buttonsTitleList.push_back(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL));
     layer->initMessageBoxLayer(StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL),StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_BODY_LABEL),nullptr);
     
     return layer;
@@ -69,12 +68,16 @@ void MessageBox::initMessageBoxLayer(std::string Title, std::string Body, Messag
 
     _messageBoxTitle = Title;
     
-    createAndFadeInLayer();
+    textMaxWidth = visibleSize.width*.66 - MESSAGE_BOX_PADDING*2;
+    
+    createBackgroundLayer();
+    addSideWiresToScreen(this, 0, 2);
     createTitle();
     createBody(Body);
     createButtons();
-    createMessageBackground();
-    
+    createCancelButton();
+    createMessageWindow();
+    addObjectsToWindow();
 }
 
 bool MessageBox::init()
@@ -92,9 +95,9 @@ bool MessageBox::init()
 
 //---------------------- Create Layer -----------------------------
 
-void MessageBox::createAndFadeInLayer()
+void MessageBox::createBackgroundLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(0,0,0,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
@@ -119,97 +122,83 @@ void MessageBox::addListenerToBackgroundLayer()
 void MessageBox::createTitle()
 {
     messageTitleLabel = createLabelMessageBoxTitle(_messageBoxTitle);
-    
-    if(messageTitleLabel->getContentSize().width < (MESSAGE_BOX_MINIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
-    {
-        messageBoxWidth = MESSAGE_BOX_MINIMUM_WIDTH;
-        underlineTitle();
-    }
-    else if(messageTitleLabel->getContentSize().width < (MESSAGE_BOX_MAXIMUM_WIDTH - MESSAGE_BOX_PADDING * 2))
-    {
-        messageBoxWidth = messageTitleLabel->getContentSize().width + (MESSAGE_BOX_PADDING * 2);
-        underlineTitle();
-    }
-    else
-    {
-        //Due to Title being more than 2 lines, currently not set to be underlined.
-        messageBoxWidth = MESSAGE_BOX_MAXIMUM_WIDTH;
-        messageTitleLabel->setWidth(MESSAGE_BOX_MAXIMUM_WIDTH - MESSAGE_BOX_PADDING * 2);
-    }
-    
-    messageTitleLabel->setPosition(backgroundLayer->getContentSize().width * 0.5, backgroundLayer->getContentSize().height * 0.75);
-    //messageTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    backgroundLayer->addChild(messageTitleLabel,2);
-}
-
-void MessageBox::underlineTitle()
-{
-    DrawNode* newDrawNode = DrawNode::create();
-    newDrawNode->drawRect(Vec2(0, 10), Vec2(messageTitleLabel->getContentSize().width, 14), Color4F((28 * 255), (244 * 255), (244 * 255), 1));
-    messageTitleLabel->addChild(newDrawNode);
+    messageTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    messageTitleLabel->setWidth(textMaxWidth);
 }
 
 void MessageBox::createBody(std::string messageBody)
 {
     messageBodyLabel = createLabelMessageBoxBody(messageBody);
-    messageBodyLabel->setWidth(messageBoxWidth - MESSAGE_BOX_PADDING * 2);
-    messageBodyLabel->setPosition(backgroundLayer->getContentSize().width * 0.5, messageTitleLabel->getPositionY() - (messageTitleLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (messageBodyLabel->getContentSize().height/2));
-    //messageBodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    backgroundLayer->addChild(messageBodyLabel,2);
+    messageBodyLabel->setWidth(textMaxWidth);
 }
 
 void MessageBox::createButtons()
 {
-    float buttonsTotalWidth = 0;
+    buttonSpaceWidth = (visibleSize.width*.66 / _buttonsTitleList.size());
     
-    for(int i=0;i < _buttonsTitleList.size(); i++)
+    if(_buttonsTitleList.size() == 1)
     {
-        auto _button = ElectricDreamsButton::createButtonWithText(_buttonsTitleList.at(i));
+        auto _button = ElectricDreamsButton::createButtonWithText(_buttonsTitleList.at(0));
         _button->setDelegate(this);
-        backgroundLayer->addChild(_button, 2);
-        
         buttonsList.push_back(_button);
-        
-        buttonsTotalWidth = buttonsTotalWidth + _button->getContentSize().width;
     }
-    positionButtonsBasedOnWidth(buttonsTotalWidth);
+    else
+    {
+        for(int i=0;i < _buttonsTitleList.size(); i++)
+        {
+            auto _button = ElectricDreamsButton::createButtonWithWidth(_buttonsTitleList.at(i), buttonSpaceWidth * .75);
+            _button->setDelegate(this);
+            buttonsList.push_back(_button);
+        }
+    }
 }
 
-void MessageBox::positionButtonsBasedOnWidth(float totalButtonsWidth)
+void MessageBox::createCancelButton()
 {
-    float totalWidth =totalButtonsWidth + ((_buttonsTitleList.size()+1) * MESSAGE_BOX_PADDING);
+    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton->setDelegate(this);
+}
+
+void MessageBox::createMessageWindow()
+{
+    float windowHeight = messageTitleLabel->getContentSize().height + messageBodyLabel->getContentSize().height + buttonsList.at(0)->getContentSize().height + cancelButton->getContentSize().height*4;
     
-    if(totalWidth > MESSAGE_BOX_MAXIMUM_WIDTH)
-        messageBoxWidth = MESSAGE_BOX_MAXIMUM_WIDTH;
-    else if(totalWidth > messageBoxWidth)
-        messageBoxWidth = totalWidth;
+    windowLayer = createWindowLayer(windowHeight);
+    windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + (visibleSize.height - windowLayer->getContentSize().height) * .66);
+    this->addChild(windowLayer);
+}
+
+void MessageBox::addObjectsToWindow()
+{
+    float nextItemHeight = windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75;
     
-    float MessageBoxButtonSpace = messageBoxWidth/_buttonsTitleList.size();
+    cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, nextItemHeight));
+    windowLayer->addChild(cancelButton);
     
+    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height*.25 - messageTitleLabel->getContentSize().height/2;
+    
+    messageTitleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
+    windowLayer->addChild(messageTitleLabel);
+    
+    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height - messageTitleLabel->getContentSize().height/2 - messageBodyLabel->getContentSize().height/2;
+    
+    messageBodyLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
+    windowLayer->addChild(messageBodyLabel);
+    
+    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height - messageBodyLabel->getContentSize().height/2 - buttonsList.at(0)->getContentSize().height/2;
+    
+    positionButtonsBasedOnWidth(nextItemHeight);
+}
+
+void MessageBox::positionButtonsBasedOnWidth(float nextItemHeight)
+{
     for(int i=0;i < _buttonsTitleList.size(); i++)
     {
-        float buttonXValue = (backgroundLayer->getContentSize().width * 0.5) - (messageBoxWidth/2) + (MessageBoxButtonSpace * i) + (MessageBoxButtonSpace/2);
-        
-        buttonsList.at(i)->setCenterPosition(Vec2(buttonXValue, messageBodyLabel->getPositionY() - (messageBodyLabel->getContentSize().height/2) - MESSAGE_BOX_PADDING - (buttonsList.at(i)->getContentSize().height/2)));
+        buttonsList.at(i)->setCenterPosition(Vec2(buttonSpaceWidth/2 + buttonSpaceWidth*i, nextItemHeight));
+        windowLayer->addChild(buttonsList.at(i));
     }
 }
 
-void MessageBox::createMessageBackground()
-{
-    float messageBoxHeight = messageTitleLabel->getContentSize().height + messageBodyLabel->getContentSize().height+buttonsList.at(0)->getContentSize().height + (4 * MESSAGE_BOX_PADDING);
-    
-    float messageBoxY = buttonsList.at(0)->getCenterPosition().y - (buttonsList.at(0)->getContentSize().height/2) - MESSAGE_BOX_PADDING;
-    
-    auto messageBoxLayer = LayerColor::create(Color4B::BLACK, messageBoxWidth, messageBoxHeight);
-    messageBoxLayer->setPosition((visibleSize.width - messageBoxLayer->getContentSize().width)/2, messageBoxY);
-    backgroundLayer->addChild(messageBoxLayer,1);
-    
-    DrawNode* newDrawNode = DrawNode::create();
-    messageBoxLayer->addChild(newDrawNode);
-    newDrawNode->drawRect(Vec2(0, 0), Vec2(messageBoxLayer->getContentSize().width, messageBoxLayer->getContentSize().height), Color4F((28 * 255), (244 * 255), (244 * 255), 1));
-    
-    newDrawNode->setLineWidth(4);
-}
 //---------------------- Actions -----------------
 
 void MessageBox::removeSelf(float dt)
@@ -244,21 +233,34 @@ void MessageBox::UnHideTextInput()
 
 void MessageBox::buttonPressed(ElectricDreamsButton* button)
 {
-    for(int i=0;i < buttonsList.size(); i++)
+    if(button == cancelButton)
     {
-        if(buttonsList.at(i) == button)
+        if(_messageBoxTitle == StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL))
+            AnalyticsSingleton::getInstance()->previewPopupCancelledEvent();
+        
+        this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
+        UnHideTextInput();
+        if(_delegate)
+            this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, "Cancel");
+    }
+    else
+    {
+        for(int i=0;i < buttonsList.size(); i++)
         {
-            if(_messageBoxTitle == StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL))
+            if(buttonsList.at(i) == button)
             {
-                handlePreviewLoginSignupMessageBoxSelection(i);
-            }
-            else
-            {
-                //To enable call to delegate and avoid crash, schedule remove for after delegate call.
-                this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
-                UnHideTextInput();
-                if(_delegate)
-                    this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(i));
+                if(_messageBoxTitle == StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL))
+                {
+                    handlePreviewLoginSignupMessageBoxSelection(i);
+                }
+                else
+                {
+                    //To enable call to delegate and avoid crash, schedule remove for after delegate call.
+                    this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
+                    UnHideTextInput();
+                    if(_delegate)
+                        this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(i));
+                }
             }
         }
     }
@@ -275,10 +277,5 @@ void MessageBox::handlePreviewLoginSignupMessageBoxSelection(int buttonSelect)
     {
         Scene *onboardingScene = OnboardingScene::createScene(0);
         Director::getInstance()->replaceScene(onboardingScene);
-    }
-    else if(_buttonsTitleList.at(buttonSelect) == StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL))
-    {
-        this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
-        AnalyticsSingleton::getInstance()->previewPopupCancelledEvent();
     }
 }

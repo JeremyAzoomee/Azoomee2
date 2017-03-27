@@ -24,8 +24,8 @@ android {
         applicationId "com.tinizine.azoomee"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 312001
-        versionName "3.1.2"
+        versionCode 320001
+        versionName "3.2.0"
     }
     
     splits {
@@ -99,8 +99,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.5@aar') {
         transitive = true
     }
-
     compile 'com.appsflyer:af-android-sdk:4+@aar'
+    compile files('libs/armeabi-v7a/in-app-purchasing-2.0.76.jar')
 }
 
 task cleanAssets(type: Delete) {

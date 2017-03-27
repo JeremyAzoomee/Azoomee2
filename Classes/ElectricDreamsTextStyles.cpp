@@ -37,11 +37,13 @@ Label*  createLabelButtonAdultPrimary(std::string text) {
 }
 
 Label*  createLabelButtonAdultSecondary(std::string text) {
-    return createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 84);
+    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 59);
 }
 
 Label*  createLabelHeaderWhite(std::string text) {
-    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 84);
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 84);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    return newLabel;
 }
 
 Label*  createLabelBody(std::string text){
@@ -120,6 +122,19 @@ Label*  createLabelHubContentTitle(std::string text)
 Label*  createLabelSmallLoading(std::string text)
 {
     return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 20);
+}
+
+Label*  createUserNameLabelWithWidth(float width)
+{
+    UserDefault* def = UserDefault::getInstance();
+    std::string username = def->getStringForKey("username", "");
+    def->flush();
+    
+    Label* newLabel = createLabelWith(username, FONT_REGULAR, COLOR_BRIGHT_AQUA, 84);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    newLabel->setWidth(width);
+    
+    return newLabel;
 }
 
 //----------------- Label too Long Style -------------------

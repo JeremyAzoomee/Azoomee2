@@ -156,6 +156,16 @@ void AnalyticsSingleton::registerAccountStatus(std::string Status)
     mixPanel_OSSpecificSuperPropertiesCall("accountStatus",Status);
 }
 
+void AnalyticsSingleton::registerBillingStatus(std::string Status)
+{
+    mixPanel_OSSpecificSuperPropertiesCall("billingStatus",Status);
+}
+
+void AnalyticsSingleton::registerIAPOS(std::string OS_String)
+{
+    mixPanel_OSSpecificSuperPropertiesCall("iAP_OS",OS_String);
+}
+
 void AnalyticsSingleton::registerChildID(std::string ChildID)
 {
     mixPanel_OSSpecificSuperPropertiesCall("childID",ChildID);
@@ -487,3 +497,55 @@ void AnalyticsSingleton::introVideoTimedOutError(std::string errorMessage)
     
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
+
+//---------------IAP ACTIONS------------------
+void AnalyticsSingleton::displayIAPUpsaleEvent(std::string fromLocation)
+{
+    std::string eventID = "displayIAPUpsale";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["DisplayedFrom"] = fromLocation;
+    
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
+}
+
+void AnalyticsSingleton::iapSubscriptionSuccessEvent()
+{
+    mixPanel_createOSSpecficCall("iapSubscriptionSuccess");
+}
+
+void AnalyticsSingleton::iapSubscriptionErrorEvent(std::string errorDescription)
+{
+    std::string eventID = "iapSubscriptionError";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["ErrorType"] = errorDescription;
+    
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
+}
+
+void AnalyticsSingleton::iapSubscriptionFailedEvent()
+{
+    mixPanel_createOSSpecficCall("iapSubscriptionFailed");
+}
+
+void AnalyticsSingleton::iapUserDataFailedEvent()
+{
+    mixPanel_createOSSpecficCall("iapUserDataFailed");
+}
+
+void AnalyticsSingleton::iapSubscriptionDoublePurchaseEvent()
+{
+    mixPanel_createOSSpecficCall("iapSubscriptionDoublePurchase");
+}
+
+void AnalyticsSingleton::iapBackEndRequestFailedEvent(long errorCode)
+{
+    std::string eventID = "iapBackendRequestFailedError";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+    
+    mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
+}
+

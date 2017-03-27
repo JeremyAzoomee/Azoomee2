@@ -125,7 +125,7 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
         std::map<std::string, std::string> currentChild;
         currentChild["profileName"] = ParentDataStorage::getInstance()->availableChildrenData[i]["profileName"].GetString();
         currentChild["avatar"] = ParentDataStorage::getInstance()->availableChildrenData[i]["avatar"].GetString();
-        
+
         if(ParentDataStorage::getInstance()->availableChildrenData[i].HasMember("sex"))
             if(ParentDataStorage::getInstance()->availableChildrenData[i]["sex"].IsString())
             currentChild["sex"] = ParentDataStorage::getInstance()->availableChildrenData[i]["sex"].GetString();
@@ -138,6 +138,26 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
     }
     
     return true;
+}
+
+bool ParentDataParser::parseParentBillingData(std::string responseData)
+{
+    rapidjson::Document billingData;
+    billingData.Parse(responseData.c_str());
+    
+    if(billingData.HasParseError()) return false;
+    
+    if(billingData.HasMember("billingStatus"))
+    {
+        if(billingData["billingStatus"].IsString())
+        {
+            ParentDataStorage::getInstance()->loggedInParentBillingStatus = billingData["billingStatus"].GetString();
+            
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 void ParentDataParser::logoutChild()

@@ -69,3 +69,13 @@ int ageFromDOBString(std::string dobString)
     
     return -1;
 }
+
+std::string stringReplace(std::string originalString, std::string stringToReplace, std::string withNewString)
+{
+    std::string::size_type positionInString = originalString.find(stringToReplace);
+    long lengthOfString = stringToReplace.length();
+    if ( positionInString != std::string::npos ) {
+        originalString.replace( positionInString, lengthOfString, withNewString);
+    }
+    return originalString;
+}

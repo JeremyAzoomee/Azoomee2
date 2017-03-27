@@ -21,5 +21,6 @@ Label*  createLabelContentTitle(std::string text);
 Label*  createLabelContentDescription(std::string text);
 Label*  createLabelHubContentTitle(std::string text);
 Label*  createLabelSmallLoading(std::string text);
+Label*  createUserNameLabelWithWidth(float width);
 
 void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth); 
