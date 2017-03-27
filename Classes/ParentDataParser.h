@@ -14,4 +14,9 @@ public:
     bool parseAvailableChildren(std::string responseData);
     bool parseUpdateParentData(std::string responseData);
     void logoutChild();
+    void retrieveParentLoginDataFromUserDefaults();
+    bool hasParentLoginDataInUserDefaults();
+    
+private:
+    void addParentLoginDataToUserDefaults();
 };

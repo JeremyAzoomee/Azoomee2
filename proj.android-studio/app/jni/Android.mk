@@ -89,6 +89,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/ImageDownloaderCacheCleanerLogic.cpp \
                    ../../../Classes/WebGameAPIDataManager.cpp \
                    ../../../Classes/ArtAppImageManager.cpp
+                   ../../../Classes/LoginLogicHandler.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

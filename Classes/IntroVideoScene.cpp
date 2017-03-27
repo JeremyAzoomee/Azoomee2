@@ -11,6 +11,7 @@
 #include "AnalyticsSingleton.h"
 #include "StringMgr.h"
 #include "ChildAccountSuccessScene.h"
+#include "LoginLogicHandler.h"
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
@@ -96,32 +97,8 @@ void IntroVideoScene::navigateToNextScene()
     }
     else
     {
-#ifdef forgetuserdata
-        UserDefault* def2 = UserDefault::getInstance();
-        def2->setStringForKey("username", "");
-        def2->setStringForKey("password", "");
-        def2->flush();
-#endif
-        
-        UserDefault* def = UserDefault::getInstance();
-        std::string username = def->getStringForKey("username", "");
-        std::string password = def->getStringForKey("password", "");
-        def->flush();
-        
-        if((username == "")||(password == ""))
-        {
-            CCLOG("autologin NOT called");
-            HQHistoryManager::getInstance()->emptyHistory();
-            auto baseScene = BaseScene::createScene();
-            Director::getInstance()->replaceScene(baseScene);
-        }
-        else
-        {
-            CCLOG("autologin called");
-            auto loginScene = LoginScene::createSceneWithAutoLogin();
-            Director::getInstance()->replaceScene(loginScene);
-        }
-        
+        auto loginLogicHandler = new LoginLogicHandler();
+        loginLogicHandler->doLoginLogic();
     }
 }
 
