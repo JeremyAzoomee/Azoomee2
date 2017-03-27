@@ -207,6 +207,7 @@ void LoginScene::nextButtonPressed()
         changeElementsToPasswordScreen();
     else if(currentScreen == passwordLoginScreen)
     {
+        OfflineChecker::getInstance()->setDelegate(nullptr);
         password = passwordTextInput->getText();
         login();
     }
@@ -245,6 +246,7 @@ void LoginScene::connectivityStateChanged(bool online)
 {
     if(!online)
     {
+        OfflineChecker::getInstance()->setDelegate(nullptr);
         Director::getInstance()->replaceScene(OfflineHubScene::createScene());
     }
 }

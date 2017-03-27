@@ -208,6 +208,7 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
                 addChildButtonPressed(target);
             else //Oomee child pressed
             {
+                OfflineChecker::getInstance()->setDelegate(nullptr);
                 target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
                 int childNumber = target->getTag();
                 AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
@@ -312,12 +313,14 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 {
     if(!online)
     {
+        OfflineChecker::getInstance()->setDelegate(nullptr);
         Director::getInstance()->replaceScene(OfflineHubScene::createScene());
     }
 }
 
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
+    OfflineChecker::getInstance()->setDelegate(nullptr);
     auto newChildScene = ChildAccountScene::createScene("", 0);
     Director::getInstance()->replaceScene(newChildScene);
 }
