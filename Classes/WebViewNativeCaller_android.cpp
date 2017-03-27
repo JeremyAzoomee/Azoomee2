@@ -5,6 +5,7 @@
 #include "LoginScene.h"
 #include "HQHistoryManager.h"
 #include "AnalyticsSingleton.h"
+#include "WebGameAPIDataManager.h"
 
 USING_NS_CC;
 
@@ -151,6 +152,57 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_sendMediaPlayerData(JNIE
     const char* cEventValue = env->GetStringUTFChars(eventValue, NULL);
     
     sendEventToMixPanel(cEventKey, cEventValue);
+}
+
+#endif
+
+//-----------------------------------------------------Add webapi functions----------------------------------------------------------
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISaveLocalDataStorage(JNIEnv* env, jobject thiz, jstring data);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISaveLocalDataStorage(JNIEnv* env, jobject thiz, jstring data)
+{
+    const char* cData = env->GetStringUTFChars(data, NULL);
+    WebGameAPIDataManager::getInstance()->saveLocalStorageData(strdup(cData));
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetLocalDataStorage(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetLocalDataStorage(JNIEnv* env, jobject thiz)
+{
+    jstring returnString = env->NewStringUTF(WebGameAPIDataManager::getInstance()->getLocalStorageData());
+    return returnString;
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring score);
+};
+
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring score)
+{
+    const char* cMethod = env->GetStringUTFChars(method, NULL);
+    const char* cResponseID = env->GetStringUTFChars(responseID, NULL);
+    const char* cScore = env->GetStringUTFChars(score, NULL);
+    
+    jstring returnString = env->NewStringUTF(WebGameAPIDataManager::getInstance()->handleAPIRequest(cMethod, cResponseID, cScore));
+    return returnString;
 }
 
 #endif

@@ -1,3 +1,6 @@
+#ifndef __CONFIGSTORAGE_H__
+#define __CONFIGSTORAGE_H__
+
 #include "cocos2d.h"
 #include "external/json/document.h"
 
@@ -87,3 +90,5 @@ private:
     cocos2d::Point visualOrigin;
     cocos2d::Size visualSize;
 };
+
+#endif
