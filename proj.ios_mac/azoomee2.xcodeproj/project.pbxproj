@@ -18,6 +18,7 @@
 		026BAF711E3F864A009C4ACE /* JWTToolForceParent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF6F1E3F864A009C4ACE /* JWTToolForceParent.cpp */; };
 		026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */; };
 		026BAF7B1E407A3A009C4ACE /* ImageDownloaderLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF791E407A3A009C4ACE /* ImageDownloaderLogic.cpp */; };
+		0281F5C71E89210C001FCE60 /* LoginLogicHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */; };
 		02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595841E55DE670052F395 /* OfflineHubScene.cpp */; };
 		02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */; };
 		02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958A1E55F5ED0052F395 /* OfflineGameSearch.cpp */; };
@@ -293,6 +294,8 @@
 		026BAF771E3FFD33009C4ACE /* HQHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQHistoryManager.h; sourceTree = "<group>"; };
 		026BAF791E407A3A009C4ACE /* ImageDownloaderLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderLogic.cpp; sourceTree = "<group>"; };
 		026BAF7A1E407A3A009C4ACE /* ImageDownloaderLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderLogic.h; sourceTree = "<group>"; };
+		0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginLogicHandler.cpp; sourceTree = "<group>"; };
+		0281F5C61E89210C001FCE60 /* LoginLogicHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginLogicHandler.h; sourceTree = "<group>"; };
 		02E595841E55DE670052F395 /* OfflineHubScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubScene.cpp; sourceTree = "<group>"; };
 		02E595851E55DE670052F395 /* OfflineHubScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubScene.h; sourceTree = "<group>"; };
 		02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubSceneVisuals.cpp; sourceTree = "<group>"; };
@@ -1372,6 +1375,8 @@
 				D11313491E337D3A00E2C033 /* IntroVideoScene.h */,
 				43069CF61E3B5D2A00D6A631 /* SlideShowScene.cpp */,
 				43069CF71E3B5D2A00D6A631 /* SlideShowScene.h */,
+				0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */,
+				0281F5C61E89210C001FCE60 /* LoginLogicHandler.h */,
 			);
 			name = Intro;
 			sourceTree = "<group>";
@@ -1598,6 +1603,7 @@
 				431A2A401E439BFE00DC0F3B /* MPSwizzle.m in Sources */,
 				431A2A471E439BFE00DC0F3B /* MPUIControlBinding.m in Sources */,
 				431A2A181E439BFE00DC0F3B /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
+				0281F5C71E89210C001FCE60 /* LoginLogicHandler.cpp in Sources */,
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
 				431A2A541E439BFE00DC0F3B /* UIImage+MPAverageColor.m in Sources */,
 				026BAF7B1E407A3A009C4ACE /* ImageDownloaderLogic.cpp in Sources */,

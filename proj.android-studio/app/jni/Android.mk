@@ -86,7 +86,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HQSceneElementVisual.cpp \
                    ../../../Classes/HQSceneArtsApp.cpp \
                    ../../../Classes/ImageDownloaderOnScreenChecker.cpp \
-                   ../../../Classes/ImageDownloaderCacheCleanerLogic.cpp
+                   ../../../Classes/ImageDownloaderCacheCleanerLogic.cpp \
+                   ../../../Classes/LoginLogicHandler.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
