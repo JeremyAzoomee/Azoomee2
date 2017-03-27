@@ -89,8 +89,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/ImageDownloaderOnScreenChecker.cpp \
                    ../../../Classes/ImageDownloaderCacheCleanerLogic.cpp \
                    ../../../Classes/WebGameAPIDataManager.cpp \
-                   ../../../Classes/ArtAppImageManager.cpp
-                   ../../../Classes/LoginLogicHandler.cpp
+                   ../../../Classes/ArtAppImageManager.cpp \
+                   ../../../Classes/LoginLogicHandler.cpp \
                    ../../../Classes/MixPanelNotifications_android.cpp \
                    ../../../Classes/PaymentSingleton.cpp
 
