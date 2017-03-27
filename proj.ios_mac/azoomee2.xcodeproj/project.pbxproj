@@ -165,6 +165,7 @@
 		4388A50E1E894521007687A1 /* ArtAppImageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4388A50C1E894521007687A1 /* ArtAppImageManager.cpp */; };
 		4388A5141E894665007687A1 /* MixPanelNotifications_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4388A5101E894665007687A1 /* MixPanelNotifications_android.cpp */; };
 		4388A5151E894665007687A1 /* MixPanelNotifications_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4388A5131E894665007687A1 /* MixPanelNotifications_ios.mm */; };
+		4388A5211E896C9D007687A1 /* payment_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 4388A51F1E896C9D007687A1 /* payment_ios.m */; };
 		43C6BED81E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C6BED61E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp */; };
 		43C6BEDC1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C6BEDA1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp */; };
 		43F067211E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */; };
@@ -552,6 +553,8 @@
 		4388A5111E894665007687A1 /* MixPanelNotifications_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanelNotifications_android.h; sourceTree = "<group>"; };
 		4388A5121E894665007687A1 /* MixPanelNotifications_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanelNotifications_ios.h; sourceTree = "<group>"; };
 		4388A5131E894665007687A1 /* MixPanelNotifications_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MixPanelNotifications_ios.mm; sourceTree = "<group>"; };
+		4388A51F1E896C9D007687A1 /* payment_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = payment_ios.m; sourceTree = "<group>"; };
+		4388A5201E896C9D007687A1 /* payment_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payment_ios.h; sourceTree = "<group>"; };
 		43C6BED61E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderOnScreenChecker.cpp; sourceTree = "<group>"; };
 		43C6BED71E7FF42800415E21 /* ImageDownloaderOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderOnScreenChecker.h; sourceTree = "<group>"; };
 		43C6BEDA1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderCacheCleanerLogic.cpp; sourceTree = "<group>"; };
@@ -741,6 +744,8 @@
 				433FA7F51E7AA9C400A8C27F /* IAPUpsaleLayer.h */,
 				020ACCFD1E70564B002490CE /* PaymentSingleton.cpp */,
 				020ACCFE1E70564B002490CE /* PaymentSingleton.h */,
+				4388A51F1E896C9D007687A1 /* payment_ios.m */,
+				4388A5201E896C9D007687A1 /* payment_ios.h */,
 			);
 			name = PaymentSingleton;
 			sourceTree = "<group>";
@@ -1747,6 +1752,7 @@
 				431A2A4B1E439BFE00DC0F3B /* MPUITableViewBinding.m in Sources */,
 				431A2A3A1E439BFE00DC0F3B /* MPSequenceGenerator.m in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
+				4388A5211E896C9D007687A1 /* payment_ios.m in Sources */,
 				431A2A391E439BFE00DC0F3B /* MPResources.m in Sources */,
 				A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */,
 				A1A2D3061E13B53200E86169 /* ChildDataProvider.cpp in Sources */,
