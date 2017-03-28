@@ -55,6 +55,8 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import com.appsflyer.AppsFlyerLib;
 
+import com.android.vending.billing.IInAppBillingService;
+
 
 public class AppActivity extends Cocos2dxActivity {
 
