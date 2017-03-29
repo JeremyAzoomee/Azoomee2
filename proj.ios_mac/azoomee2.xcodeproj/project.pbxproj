@@ -917,8 +917,8 @@
 			children = (
 				430C8C911E8BC18B005066FB /* PaymentSingleton_ios.mm */,
 				430C8C921E8BC18B005066FB /* PaymentSingleton_ios.h */,
-				430C8C8C1E8BB78D005066FB /* payment_ios.h */,
 				430C8C8D1E8BB78D005066FB /* payment_ios.mm */,
+				430C8C8C1E8BB78D005066FB /* payment_ios.h */,
 			);
 			name = Apple_IAP;
 			sourceTree = "<group>";

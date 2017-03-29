@@ -1,6 +1,7 @@
 #include "PaymentSingleton_ios.h"
 #include "MessageBox.h"
 #include "payment_ios.h"
+#include "ModalMessages.h"
 
 USING_NS_CC;
 
@@ -30,6 +31,8 @@ bool PaymentSingleton_ios::init(void)
 
 void PaymentSingleton_ios::makeMonthlyPayment()
 {
+    ModalMessages::getInstance()->startLoading();
+    
     payment_ios* applePaymentObject = [[payment_ios alloc] init];
     [applePaymentObject retain];
     [applePaymentObject makeOneMonthPayment];
@@ -37,5 +40,6 @@ void PaymentSingleton_ios::makeMonthlyPayment()
 
 void PaymentSingleton_ios::ErrorMessage()
 {
+    ModalMessages::getInstance()->stopLoading();
     MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
 }

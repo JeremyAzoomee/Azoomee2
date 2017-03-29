@@ -55,19 +55,25 @@
         {
             case SKPaymentTransactionStatePurchased:
             {
-                
+                NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+                NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
+                NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
                 
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 break;
             }
             case SKPaymentTransactionStateFailed:
             {
-                
+                NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
                 
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 break;
             }
             case SKPaymentTransactionStateRestored:
+            {
+                
+            }
+            case SKPaymentTransactionStatePurchasing:
             {
                 
             }
@@ -90,7 +96,7 @@
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
-    
+    NSLog(@"DidFailWithError error: %@", error.localizedDescription);
 }
 
 

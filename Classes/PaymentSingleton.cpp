@@ -87,6 +87,7 @@ void PaymentSingleton::startIAPPayment()
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        iapAttemptInprogress = false;
         PaymentSingleton_ios::getInstance()->makeMonthlyPayment();
     #endif
     }
