@@ -43,6 +43,12 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
+        <activity
+            android:name="org.cocos2dx.cpp.IabPurchaseManager"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        </activity>
 
         <meta-data
             android:name="io.fabric.ApiKey"
