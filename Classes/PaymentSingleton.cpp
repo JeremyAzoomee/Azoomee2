@@ -7,7 +7,9 @@
 #include "AnalyticsSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "platform/android/jni/JniHelper.h"
+    #include "platform/android/jni/JniHelper.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    #include "PaymentSingleton_ios.h"
 #endif
 
 USING_NS_CC;
@@ -60,7 +62,7 @@ void PaymentSingleton::setupisOS_IAP_Compatible()
         AnalyticsSingleton::getInstance()->registerIAPOS("Google");
     }
 #else
-    isOS_IAP_Compatible =  false;
+    isOS_IAP_Compatible =  true;
     AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
 #endif
 }
@@ -84,7 +86,8 @@ void PaymentSingleton::startIAPPayment()
         
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
-        
+    #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        PaymentSingleton_ios::getInstance()->makeMonthlyPayment();
     #endif
     }
 }
