@@ -204,6 +204,11 @@ bool PaymentSingleton::showIAPContent()
     return (isOS_IAP_Compatible && !ParentDataProvider::getInstance()->isPaidUser());
 }
 
+void PaymentSingleton::appleRestore()
+{
+    PaymentSingleton_ios::getInstance()->restorePayment();
+}
+
 //-------------------- Modal Layer Functions----------------
 
 void PaymentSingleton::createModalLayer()

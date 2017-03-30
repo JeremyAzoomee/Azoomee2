@@ -25,6 +25,12 @@
         [productsRequest start];
     }
 }
+-(void)restorePayment
+{
+    SKReceiptRefreshRequest* request = [[SKReceiptRefreshRequest alloc] init];
+    request.delegate = self;
+    [request start];
+}
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
     
@@ -55,25 +61,36 @@
         {
             case SKPaymentTransactionStatePurchased:
             {
+                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                
                 NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
                 NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
                 NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
                 
-                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                PaymentSingleton_ios::getInstance()->transactionStatePurchased(std::string([receiptString UTF8String]));
+                
+                [self release];
                 break;
             }
             case SKPaymentTransactionStateFailed:
             {
+                NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+                NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
+                NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
+                
+                PaymentSingleton_ios::getInstance()->ErrorMessage();
                 NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
                 
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                [self release];
                 break;
             }
             case SKPaymentTransactionStateRestored:
             {
-                
+                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                [self release];
             }
-            case SKPaymentTransactionStatePurchasing:
+            case SKPaymentTransactionStateDeferred:
             {
                 
             }
@@ -86,20 +103,38 @@
 
 - (void) paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
 {
-
+    PaymentSingleton_ios::getInstance()->DoublePurchase();
+    [self release];
 }
 
 - (void) paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
-    
+    PaymentSingleton_ios::getInstance()->ErrorMessage();
+    [self release];
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
+    PaymentSingleton_ios::getInstance()->ErrorMessage();
     NSLog(@"DidFailWithError error: %@", error.localizedDescription);
+    [self release];
 }
 
-
+-(void)requestDidFinish:(SKRequest *)request
+{
+    bool receiptExist = [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] appStoreReceiptURL] path]];
+    
+    if(receiptExist)
+    {
+        NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+        NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
+        NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
+    }
+    else
+    {
+        
+    }
+}
 /*
  
  

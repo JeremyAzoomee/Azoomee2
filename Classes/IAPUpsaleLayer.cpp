@@ -124,11 +124,11 @@ void IAPUpsaleLayer::addButtons()
     
     addCancelAnytimeLabel();
     
-    /* Not needed for amazon, left here incase for apple.
+    // Not needed for amazon, left here incase for apple.
     restoreButton = ElectricDreamsButton::createTextAsButton("Restore your account", 46, true);
     restoreButton->setPosition(SIDE_MARGIN_SIZE, cancelAnytimeLabel->getPositionY()-restoreButton->getContentSize().height/2);
     restoreButton->setDelegate(this);
-    UpsaleLayer->addChild(restoreButton);*/
+    UpsaleLayer->addChild(restoreButton);
 }
 
 void IAPUpsaleLayer::addCancelAnytimeLabel()
@@ -195,6 +195,10 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == notNowButton)
     {
         removeSelf();
+    }
+    else if(button == restoreButton)
+    {
+        PaymentSingleton::getInstance()->appleRestore();
     }
 }
 

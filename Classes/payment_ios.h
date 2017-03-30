@@ -7,4 +7,6 @@
 
 -(void)makeOneMonthPayment;
 
+-(void)restorePayment;
+
 @end
