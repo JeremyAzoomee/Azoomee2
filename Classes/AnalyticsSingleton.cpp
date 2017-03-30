@@ -4,7 +4,7 @@
 #include "ConfigStorage.h"
 #include "Analytics_android.h"
 #include "ParentDataProvider.h"
-#include "StringFunctions.h"
+#include <AzoomeeCommon/StringFunctions.h>
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

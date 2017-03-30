@@ -1,6 +1,9 @@
 #include "StringMgr.h"
-#include "StringFunctions.h"
 #include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/StringFunctions.h>
+
+using namespace Azoomee;
+
 
 static StringMgr *_sharedStringMgr = NULL;
 

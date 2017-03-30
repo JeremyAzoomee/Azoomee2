@@ -1,5 +1,8 @@
 #include "Analytics_android.h"
-#include "StringFunctions.h"
+#include <AzoomeeCommon/StringFunctions.h>
+
+using namespace Azoomee;
+
 
 //-------------MIX PANEL ----------
 

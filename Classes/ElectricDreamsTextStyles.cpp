@@ -1,5 +1,8 @@
 #include "ElectricDreamsTextStyles.h"
-#include "StringFunctions.h"
+#include <AzoomeeCommon/StringFunctions.h>
+
+using namespace Azoomee;
+
 
 #define FONT_MEDIUM "fonts/Sofia Pro Soft Medium.otf"
 #define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"

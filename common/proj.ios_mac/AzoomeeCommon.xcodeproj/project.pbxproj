@@ -6,20 +6,14 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXCopyFilesBuildPhase section */
-		3077F43F1E8D5048006DA465 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
+/* Begin PBXBuildFile section */
+		3077F45C1E8D5881006DA465 /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3077F45A1E8D5881006DA465 /* StringFunctions.cpp */; };
+/* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3077F45A1E8D5881006DA465 /* StringFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringFunctions.cpp; sourceTree = "<group>"; };
+		3077F45B1E8D5881006DA465 /* StringFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringFunctions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,9 +46,19 @@
 		3077F4581E8D5220006DA465 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3077F4591E8D5881006DA465 /* AzoomeeCommon */,
 			);
 			name = Classes;
 			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		3077F4591E8D5881006DA465 /* AzoomeeCommon */ = {
+			isa = PBXGroup;
+			children = (
+				3077F45A1E8D5881006DA465 /* StringFunctions.cpp */,
+				3077F45B1E8D5881006DA465 /* StringFunctions.h */,
+			);
+			path = AzoomeeCommon;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -66,7 +70,7 @@
 			buildPhases = (
 				3077F43D1E8D5048006DA465 /* Sources */,
 				3077F43E1E8D5048006DA465 /* Frameworks */,
-				3077F43F1E8D5048006DA465 /* CopyFiles */,
+				3077F4601E8D5DEE006DA465 /* Copy Header Files */,
 			);
 			buildRules = (
 			);
@@ -109,11 +113,30 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3077F4601E8D5DEE006DA465 /* Copy Header Files */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Header Files";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Copy all header files from Classes directory\nHEADERS_SRC=\"${SRCROOT}/../Classes/${PRODUCT_NAME}\"\n# Copy header files into the built products directory\nHEADERS_DEST=\"${BUILT_PRODUCTS_DIR}/include/${PRODUCT_NAME}\"\n\n# Ensure the dest directory exists\nmkdir -p \"${HEADERS_DEST}\"\n# Copy\nrsync -q --include \"*.h\" --filter 'hide,! */' -avm \"${HEADERS_SRC}/\" \"${HEADERS_DEST}/\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3077F43D1E8D5048006DA465 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3077F45C1E8D5881006DA465 /* StringFunctions.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
