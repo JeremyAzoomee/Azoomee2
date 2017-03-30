@@ -20,7 +20,7 @@
 #include "AnalyticsSingleton.h"
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
-#include "PaymentSingleton.h"
+#include "RoutePaymentSingleton.h"
 
 using namespace cocos2d;
 
@@ -197,14 +197,14 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
     {
         CCLOG("Just registered account : backendcaller");
         accountJustRegistered = false;
-        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(PaymentSingleton::getInstance()->OS_is_IAP_Compatible(),false);
+        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(RoutePaymentSingleton::getInstance()->OS_is_IAP_Compatible(),false);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
     else if(newTrialJustStarted)
     {
         CCLOG("Just started new trial : backendcaller");
         newTrialJustStarted = false;
-        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(PaymentSingleton::getInstance()->OS_is_IAP_Compatible(),true);
+        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(RoutePaymentSingleton::getInstance()->OS_is_IAP_Compatible(),true);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
     else

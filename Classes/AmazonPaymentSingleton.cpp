@@ -1,4 +1,4 @@
-#include "PaymentSingleton.h"
+#include "AmazonPaymentSingleton.h"
 #include "HttpRequestCreator.h"
 #include "external/json/document.h"
 #include "MessageBox.h"
@@ -14,60 +14,31 @@ USING_NS_CC;
 
 using namespace cocos2d;
 
-static PaymentSingleton *_sharedPaymentSingleton = NULL;
+static AmazonPaymentSingleton *_sharedAmazonPaymentSingleton = NULL;
 
-PaymentSingleton* PaymentSingleton::getInstance()
+AmazonPaymentSingleton* AmazonPaymentSingleton::getInstance()
 {
-    if (! _sharedPaymentSingleton)
+    if (! _sharedAmazonPaymentSingleton)
     {
-        _sharedPaymentSingleton = new PaymentSingleton();
-        _sharedPaymentSingleton->init();
-        _sharedPaymentSingleton->setupisOS_IAP_Compatible();
+        _sharedAmazonPaymentSingleton = new AmazonPaymentSingleton();
+        _sharedAmazonPaymentSingleton->init();
     }
     
-    return _sharedPaymentSingleton;
+    return _sharedAmazonPaymentSingleton;
 }
 
-PaymentSingleton::~PaymentSingleton(void)
+AmazonPaymentSingleton::~AmazonPaymentSingleton(void)
 {
 }
 
-bool PaymentSingleton::init(void)
+bool AmazonPaymentSingleton::init(void)
 {
     return true;
-}
-void PaymentSingleton::setupisOS_IAP_Compatible()
-{
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer", "()Ljava/lang/String;");
-    jstring str = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID);
-    const char *resultCStr = t.env->GetStringUTFChars(str, NULL);
-    std::string resultStr(resultCStr);
-    t.env->ReleaseStringUTFChars(str, resultCStr);
-    
-    CCLOG("DEVICE TYPE:%s",resultStr.c_str());
-    
-    if (resultStr == "Amazon")
-    {
-        isOS_IAP_Compatible = true;
-        AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
-    }
-    else
-    {
-        isOS_IAP_Compatible = false;
-        AnalyticsSingleton::getInstance()->registerIAPOS("Google");
-    }
-#else
-    isOS_IAP_Compatible =  false;
-    AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
-#endif
 }
 
 //--------------------PAYMENT FUNCTIONS------------------
 
-void PaymentSingleton::startIAPPayment()
+void AmazonPaymentSingleton::startIAPPayment()
 {
     if(!iapAttemptInprogress)
     {
@@ -89,7 +60,7 @@ void PaymentSingleton::startIAPPayment()
     }
 }
 
-void PaymentSingleton::amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid)
+void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid)
 {
     CCLOG("IAP Request made with requestid:%s receiptID:%s userID:%s", requestId.c_str(),receiptId.c_str(),amazonUserid.c_str());
     
@@ -103,7 +74,7 @@ void PaymentSingleton::amazonPaymentMade(std::string requestId, std::string rece
     httpRequestCreator->createEncryptedPostHttpRequest();
 }
 
-void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDataString)
+void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDataString)
 {
     CCLOG("The response id is: %s", responseDataString.c_str());
     
@@ -158,7 +129,7 @@ void PaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDat
     }
 }
 
-void PaymentSingleton::backendRequestFailed()
+void AmazonPaymentSingleton::backendRequestFailed()
 {
     iapAttemptInprogress = false;
     
@@ -166,7 +137,7 @@ void PaymentSingleton::backendRequestFailed()
     
 }
 
-void PaymentSingleton::fulfillAmazonPayment(std::string receiptId)
+void AmazonPaymentSingleton::fulfillAmazonPayment(std::string receiptId)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     cocos2d::JniMethodInfo methodInfo;
@@ -183,26 +154,16 @@ void PaymentSingleton::fulfillAmazonPayment(std::string receiptId)
 
 }
 
-void PaymentSingleton::purchaseFailed()
+void AmazonPaymentSingleton::purchaseFailed()
 {
     CCLOG("PaymentSingleton: PURCHASE FAILED");
     AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent();
     removeModalLayer();
 }
 
-bool PaymentSingleton::OS_is_IAP_Compatible()
-{
-    return isOS_IAP_Compatible;
-}
-
-bool PaymentSingleton::showIAPContent()
-{
-    return (isOS_IAP_Compatible && !ParentDataProvider::getInstance()->isPaidUser());
-}
-
 //-------------------- Modal Layer Functions----------------
 
-void PaymentSingleton::createModalLayer()
+void AmazonPaymentSingleton::createModalLayer()
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -217,7 +178,7 @@ void PaymentSingleton::createModalLayer()
     modalLayer->runAction(FadeTo::create(0.5, 255));
 }
 
-void PaymentSingleton::removeModalLayer()
+void AmazonPaymentSingleton::removeModalLayer()
 {
     iapAttemptInprogress = false;
     if(modalLayer) //This might be called when loading is not active, so better to check first
@@ -226,7 +187,7 @@ void PaymentSingleton::removeModalLayer()
     }
 }
 
-void PaymentSingleton::addListenerToBackgroundLayer()
+void AmazonPaymentSingleton::addListenerToBackgroundLayer()
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -244,7 +205,7 @@ void showDoublePurchase()
 {
     auto funcCallAction = CallFunc::create([=](){
         AnalyticsSingleton::getInstance()->iapSubscriptionDoublePurchaseEvent();
-        PaymentSingleton::getInstance()->removeModalLayer();
+        AmazonPaymentSingleton::getInstance()->removeModalLayer();
         MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
     });
     
@@ -266,7 +227,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv
     
     CCLOG("COCOS2DX: I have the data: requestid: %s, receiptid: %s, amazonuserid: %s", cRequestId, cReceiptId, cAmazonUserid);
     
-    PaymentSingleton::getInstance()->amazonPaymentMade(cRequestId, cReceiptId, cAmazonUserid);
+    AmazonPaymentSingleton::getInstance()->amazonPaymentMade(cRequestId, cReceiptId, cAmazonUserid);
 }
 
 extern "C"
@@ -290,7 +251,7 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseFailed(JNIEnv* env, jobject thiz)
 {
     CCLOG("COCOS2DX: PURCHASE FAILED");
-    PaymentSingleton::getInstance()->purchaseFailed();
+    AmazonPaymentSingleton::getInstance()->purchaseFailed();
 }
 
 extern "C"

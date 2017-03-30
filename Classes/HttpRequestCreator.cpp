@@ -9,7 +9,7 @@
 #include "AnalyticsSingleton.h"
 #include "ChildAccountScene.h"
 #include "ChildDataParser.h"
-#include "PaymentSingleton.h"
+#include "AmazonPaymentSingleton.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -210,7 +210,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "updateParentPin") BackEndCaller::getInstance()->onUpdateParentPinAnswerReceived(responseDataString);
         if(requestTag == "updateParentActorStatus") BackEndCaller::getInstance()->onUpdateParentActorStatusAnswerReceived(responseDataString);
         if(requestTag == "PreviewHOME") HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(responseDataString);
-        if(requestTag == "iapAmazonPaymentMade") PaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(responseDataString);
+        if(requestTag == "iapAmazonPaymentMade") AmazonPaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(responseDataString);
         if(requestTag == "updateBilling") BackEndCaller::getInstance()->onUpdateBillingDataAnswerReceived(responseDataString);
         
         for(int i = 0; i < 6; i++)
@@ -287,7 +287,7 @@ void HttpRequestCreator::handleEventAfterError(std::string requestTag, long erro
     {
         CCLOG("IAP Failed with Errorcode: %ld", errorCode);
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
-        PaymentSingleton::getInstance()->backendRequestFailed();
+        AmazonPaymentSingleton::getInstance()->backendRequestFailed();
         return;
     }
     
