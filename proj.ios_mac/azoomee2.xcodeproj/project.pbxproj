@@ -36,6 +36,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
+		3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images-2.xcassets */; };
@@ -269,6 +270,20 @@
 			remoteGlobalIDString = A07A4C241783777C0073F6A7;
 			remoteInfo = "cocos2dx iOS";
 		};
+		3077F4511E8D51D7006DA465 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3077F4411E8D5048006DA465;
+			remoteInfo = AzoomeeCommon;
+		};
+		3077F4541E8D51ED006DA465 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3077F4401E8D5048006DA465;
+			remoteInfo = AzoomeeCommon;
+		};
 		A198620F1DD3834E0090F053 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
@@ -331,6 +346,7 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
+		3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		43069CE81E3B492600D6A631 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "azoomee2-mobile/Images-2.xcassets"; sourceTree = SOURCE_ROOT; };
 		43069CF61E3B5D2A00D6A631 /* SlideShowScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SlideShowScene.cpp; sourceTree = "<group>"; };
@@ -679,6 +695,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */,
 				435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */,
 				435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */,
 				430B21551E4487E5004ACB10 /* SystemConfiguration.framework in Frameworks */,
@@ -833,6 +850,7 @@
 				46880B8319C43A87006E1F66 /* Classes */,
 				46880B7519C43A67006E1F66 /* Resources */,
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
+				3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* ios */,
 				503AE10617EB990700D1A890 /* mac */,
@@ -882,6 +900,14 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3077F44E1E8D51D7006DA465 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		430B21601E449D95004ACB10 /* Analytics */ = {
@@ -1500,6 +1526,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3077F4551E8D51ED006DA465 /* PBXTargetDependency */,
 				1AC6FB25180E99E1004C840B /* PBXTargetDependency */,
 			);
 			name = "azoomee2-mobile";
@@ -1552,6 +1579,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 3077F44E1E8D51D7006DA465 /* Products */;
+					ProjectRef = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
+				},
+				{
 					ProductGroup = 1AC6FAE6180E9839004C840B /* Products */;
 					ProjectRef = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
 				},
@@ -1577,6 +1608,13 @@
 			fileType = archive.ar;
 			path = "libcocos2d iOS.a";
 			remoteRef = 1AC6FB06180E9839004C840B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAzoomeeCommon.a;
+			remoteRef = 3077F4511E8D51D7006DA465 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A19862101DD3834E0090F053 /* libcocos2d tvOS.a */ = {
@@ -1837,6 +1875,11 @@
 			isa = PBXTargetDependency;
 			name = "cocos2dx iOS";
 			targetProxy = 1AC6FB24180E99E1004C840B /* PBXContainerItemProxy */;
+		};
+		3077F4551E8D51ED006DA465 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AzoomeeCommon;
+			targetProxy = 3077F4541E8D51ED006DA465 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
