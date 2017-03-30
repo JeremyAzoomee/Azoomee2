@@ -1,8 +1,10 @@
 package org.cocos2dx.cpp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
@@ -49,26 +51,24 @@ public class IabPurchaseManager extends Activity implements IabBroadcastReceiver
         super.onCreate(savedInstanceState);
 
         setupGoogleIABOnCreate(this);
+        alertView("Test title", "Test message");
     }
 
 //-------------------------------GOOGLE IAB----------------------------------------------
 
-    public void startInit(Context mContext)
-    {
+    public void startInit(Context mContext) {
         setupGoogleIABOnCreate(mContext);
     }
 
 //-------------------------------ALL METHODS ARE PRIVATE BEYOND THIS LINE-----------------
 
-    private void setupGoogleIABOnCreate(Context mContext)
-    {
+    private void setupGoogleIABOnCreate(Context mContext) {
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyugVV2DZkSQShZYR+Zk6N8XTqUdtgJhNLPOOXAjmiXWuMV6Vq9/3wYrWBDiFwzZMAipoQWmsCUNIaC9b7FVJ8pwSSTpfH4VfqADdHJxHSM6VeaE5ZiT/2yWwNORFiibf6tEmYD3ikA6j1OGpkGUT4E3UsSRh+mx0jRqNHXEgT0iOblPaaP4FPiuimtBWJgqSn0oO9va+hF8GzOtWnEWlBkft/Yri7mY/Z9OhmIrFGTfdzSiAHa5W3gDPpT5SoRMwz2RVcSgpQPBo4uhtSBmVT/AJfWf3U5vYmnOIbjPjFaZ4T5YHHCdoKY9DeFaQBn/w98Qc6eMujFKDkGGNOGMZMQIDAQAB";
         mHelper = new IabHelper(this, base64EncodedPublicKey);
 
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             public void onIabSetupFinished(IabResult result) {
-                if (!result.isSuccess())
-                {
+                if (!result.isSuccess()) {
                     Log.d("GOOGLEPAY", "Problem setting up In-app Billing: " + result);
                     return;
                 }
@@ -145,8 +145,7 @@ public class IabPurchaseManager extends Activity implements IabBroadcastReceiver
             // perform any handling of activity results not related to in-app
             // billing...
             super.onActivityResult(requestCode, resultCode, data);
-        }
-        else {
+        } else {
             Log.d("GOOGLEPAY", "onActivityResult handled by IABUtil.");
         }
     }
@@ -174,13 +173,34 @@ public class IabPurchaseManager extends Activity implements IabBroadcastReceiver
             if (mHelper == null) return;
 
             if (result.isFailure()) {
-                Log.d("GOOGLPAY", "Error purchasing: " + result);
+                Log.d("GOOGLEPAY", "Error purchasing: " + result);
                 return;
             }
 
             Log.d("GOOGLEPAY", "Purchase successful.");
+
+            //purchase.getDeveloperPayload();             //developer specified string - possible to check if the same at the end of the purchase - possible to use this as the user id, possibly encoded?
+            //purchase.getOrderId();                      //google payments order id, in sandbox it is 0
+            //purchase.getSignature();                    //signature of the purchase data, signed with dev private key. RSASSA-PKCS1-v1_5 scheme.
+            //purchase.getToken();                        //unique identifier based on the item and the user
+            //purchase.getPurchaseState();                //0: purchased, 1: cancelled, 2: refunded
+            //result.getResponse();                       //0: success, error otherwise
+            //result.getMessage();
+            //result.isFailure();
         }
     };
 
+    private void alertView(String title, String message) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        dialog.setTitle(title)
+                .setMessage(message)
+
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialoginterface, int i) {
+
+                    }
+                }).show();
+    }
 
 }
