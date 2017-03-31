@@ -92,7 +92,12 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/ArtAppImageManager.cpp \
                    ../../../Classes/LoginLogicHandler.cpp \
                    ../../../Classes/MixPanelNotifications_android.cpp \
-                   ../../../Classes/PaymentSingleton.cpp
+                   ../../../Classes/PaymentSingleton.cpp \
+                   ../../../Classes/AmazonPaymentSingleton.cpp \
+                   ../../../Classes/GooglePaymentSingleton.cpp \
+                   ../../../Classes/RoutePaymentSingleton.cpp
+
+>>>>>>> origin/AD-1361/GoogleInAppBilling
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

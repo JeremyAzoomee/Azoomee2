@@ -8,7 +8,7 @@
 #include "AudioMixer.h"
 #include "IAPUpsaleLayer.h"
 #include "StringFunctions.h"
-#include "PaymentSingleton.h"
+#include "RoutePaymentSingleton.h"
 #include "AnalyticsSingleton.h"
 
 USING_NS_CC;
@@ -140,7 +140,7 @@ void OnboardingSuccessScene::buttonPressed(ElectricDreamsButton* button)
             this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
         }
         else if(button == startTrial)
-            PaymentSingleton::getInstance()->startIAPPayment();
+            RoutePaymentSingleton::getInstance()->startInAppPayment();
     }
 }
 

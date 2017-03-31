@@ -1,14 +1,14 @@
-#ifndef __PAYMENT_SINGLETON_H__
-#define __PAYMENT_SINGLETON_H__
+#ifndef __AMAZON_PAYMENT_SINGLETON_H__
+#define __AMAZON_PAYMENT_SINGLETON_H__
 
 #include "cocos2d.h"
 
-class PaymentSingleton : public cocos2d::Ref
+class AmazonPaymentSingleton : public cocos2d::Ref
 {
     
 public:
-    static PaymentSingleton* getInstance(void);
-    virtual ~PaymentSingleton();
+    static AmazonPaymentSingleton* getInstance(void);
+    virtual ~AmazonPaymentSingleton();
     bool init(void);
     
     void onAmazonPaymentMadeAnswerReceived(std::string responseDataString);
@@ -18,7 +18,6 @@ public:
     void purchaseFailed();
     void backendRequestFailed();
     
-    bool OS_is_IAP_Compatible();
     bool showIAPContent();
     
     void removeModalLayer();
@@ -27,9 +26,6 @@ public:
     
 private:
     void fulfillAmazonPayment(std::string receiptId);
-    
-    bool isOS_IAP_Compatible;
-    void setupisOS_IAP_Compatible();
     
     cocos2d::LayerColor *modalLayer;
     void createModalLayer();
