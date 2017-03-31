@@ -206,7 +206,9 @@ bool PaymentSingleton::showIAPContent()
 
 void PaymentSingleton::appleRestore()
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     PaymentSingleton_ios::getInstance()->restorePayment();
+#endif
 }
 
 //-------------------- Modal Layer Functions----------------
