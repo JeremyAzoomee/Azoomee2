@@ -102,18 +102,8 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
         iapButton->setMixPanelButtonName("ExitorLogoutStartTrialButton");
         windowLayer->addChild(iapButton);
     }
-    else if(ParentDataProvider::getInstance()->isPaidUser())
-        addRichTextLabel("Premium Account");
-    
-    else if (ParentDataProvider::getInstance()->emailRequiresVerification())
-    {
-        Label* subTitleLabel = createLabelHeaderWhite("We need to verify your email address.\nPlease check your email or go to parent.azoomee.com for help.");
-        subTitleLabel->setWidth(windowLayer->getContentSize().width - 50);
-        subTitleLabel->setPosition(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6);
-        windowLayer->addChild(subTitleLabel);
-    }
     else
-        addRichTextLabel("Free Account");
+        addRichTextLabel("Premium Account");
     
     // ------- LOG OUT BUTTON ----------
     

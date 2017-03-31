@@ -1,5 +1,5 @@
 #import "payment_ios.h"
-#include "PaymentSingleton_ios.h"
+#include "ApplePaymentSingleton.h"
 
 #define ONE_MONTH_PAYMENT @"AZ_Premium_Monthly"
 
@@ -50,7 +50,7 @@
     }
     @catch (NSException * e) {
         
-        PaymentSingleton_ios::getInstance()->ErrorMessage();
+        ApplePaymentSingleton::getInstance()->ErrorMessage();
     }
 }
 
@@ -67,7 +67,7 @@
                 NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
                 NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
                 
-                PaymentSingleton_ios::getInstance()->transactionStatePurchased(std::string([receiptString UTF8String]));
+                ApplePaymentSingleton::getInstance()->transactionStatePurchased(std::string([receiptString UTF8String]));
                 
                 [self release];
                 break;
@@ -78,7 +78,7 @@
                 NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
                 NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
                 
-                PaymentSingleton_ios::getInstance()->ErrorMessage();
+                ApplePaymentSingleton::getInstance()->ErrorMessage();
                 NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
                 
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
@@ -103,19 +103,19 @@
 
 - (void) paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
 {
-    PaymentSingleton_ios::getInstance()->DoublePurchase();
+    ApplePaymentSingleton::getInstance()->DoublePurchase();
     [self release];
 }
 
 - (void) paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
-    PaymentSingleton_ios::getInstance()->ErrorMessage();
+    ApplePaymentSingleton::getInstance()->ErrorMessage();
     [self release];
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
-    PaymentSingleton_ios::getInstance()->ErrorMessage();
+    ApplePaymentSingleton::getInstance()->ErrorMessage();
     NSLog(@"DidFailWithError error: %@", error.localizedDescription);
     [self release];
 }

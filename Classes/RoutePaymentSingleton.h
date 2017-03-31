@@ -15,12 +15,13 @@ public:
     
     std::string getOSManufacturer();
     
-    bool OS_is_IAP_Compatible();
     bool showIAPContent();
     
     bool osIsIos();
     bool osIsAndroid();
     bool osIsAmazon();
+    
+    void appleRestore();
 };
 
 #endif

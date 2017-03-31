@@ -22,8 +22,6 @@ public:
     
     void removeModalLayer();
     
-    void appleRestore();
-    
 private:
     void fulfillAmazonPayment(std::string receiptId);
     

@@ -52,7 +52,7 @@
 		430B21661E449DC5004ACB10 /* AnalyticsSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430B21641E449DC5004ACB10 /* AnalyticsSingleton.cpp */; };
 		430C8C8E1E8BB78D005066FB /* payment_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 430C8C8D1E8BB78D005066FB /* payment_ios.mm */; };
 		430C8C901E8BBDD2005066FB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430C8C8F1E8BBDD2005066FB /* StoreKit.framework */; };
-		430C8C931E8BC18B005066FB /* PaymentSingleton_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 430C8C911E8BC18B005066FB /* PaymentSingleton_ios.mm */; };
+		430C8C931E8BC18B005066FB /* ApplePaymentSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 430C8C911E8BC18B005066FB /* ApplePaymentSingleton.mm */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
 		430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */; };
 		431027831E5DEDE900B5CC8E /* Crashlytics_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431027811E5DEDE900B5CC8E /* Crashlytics_android.cpp */; };
@@ -354,8 +354,8 @@
 		430C8C8C1E8BB78D005066FB /* payment_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payment_ios.h; sourceTree = "<group>"; };
 		430C8C8D1E8BB78D005066FB /* payment_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = payment_ios.mm; sourceTree = "<group>"; };
 		430C8C8F1E8BBDD2005066FB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
-		430C8C911E8BC18B005066FB /* PaymentSingleton_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PaymentSingleton_ios.mm; sourceTree = "<group>"; };
-		430C8C921E8BC18B005066FB /* PaymentSingleton_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentSingleton_ios.h; sourceTree = "<group>"; };
+		430C8C911E8BC18B005066FB /* ApplePaymentSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApplePaymentSingleton.mm; sourceTree = "<group>"; };
+		430C8C921E8BC18B005066FB /* ApplePaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplePaymentSingleton.h; sourceTree = "<group>"; };
 		430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountScene.cpp; sourceTree = "<group>"; };
 		430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountScene.h; sourceTree = "<group>"; };
 		430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
@@ -925,8 +925,8 @@
 		430C8C871E8BAC23005066FB /* Apple_IAP */ = {
 			isa = PBXGroup;
 			children = (
-				430C8C911E8BC18B005066FB /* PaymentSingleton_ios.mm */,
-				430C8C921E8BC18B005066FB /* PaymentSingleton_ios.h */,
+				430C8C911E8BC18B005066FB /* ApplePaymentSingleton.mm */,
+				430C8C921E8BC18B005066FB /* ApplePaymentSingleton.h */,
 				430C8C8D1E8BB78D005066FB /* payment_ios.mm */,
 				430C8C8C1E8BB78D005066FB /* payment_ios.h */,
 			);
@@ -1703,7 +1703,7 @@
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				431A2A201E439BFE00DC0F3B /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				430B21631E449DAA004ACB10 /* Analytics_ios.mm in Sources */,
-				430C8C931E8BC18B005066FB /* PaymentSingleton_ios.mm in Sources */,
+				430C8C931E8BC18B005066FB /* ApplePaymentSingleton.mm in Sources */,
 				431A2A291E439BFE00DC0F3B /* MPEventBinding.m in Sources */,
 				431A2A131E439BFE00DC0F3B /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				431A2A2A1E439BFE00DC0F3B /* MPNetwork.m in Sources */,

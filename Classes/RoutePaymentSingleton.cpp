@@ -59,18 +59,9 @@ void RoutePaymentSingleton::startInAppPayment()
     }
 }
 
-bool RoutePaymentSingleton::OS_is_IAP_Compatible()
-{
-    if(osIsIos()) return false; //change this to true when ios iap is implemented
-    if(osIsAndroid()) return true;
-    if(osIsAmazon()) return true;
-    
-    return false;
-}
-
 bool RoutePaymentSingleton::showIAPContent()
 {
-    return (OS_is_IAP_Compatible() && !ParentDataProvider::getInstance()->isPaidUser());
+    return !ParentDataProvider::getInstance()->isPaidUser();
 }
 
 std::string RoutePaymentSingleton::getOSManufacturer()
@@ -116,4 +107,9 @@ bool RoutePaymentSingleton::osIsAmazon()
 {
     if(getOSManufacturer() == "Amazon") return true;
     else return false;
+}
+
+void RoutePaymentSingleton::appleRestore()
+{
+    
 }

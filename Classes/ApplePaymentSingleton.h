@@ -3,12 +3,12 @@
 
 #include "cocos2d.h"
 
-class PaymentSingleton_ios : public cocos2d::Ref
+class ApplePaymentSingleton : public cocos2d::Ref
 {
     
 public:
-    static PaymentSingleton_ios* getInstance(void);
-    virtual ~PaymentSingleton_ios();
+    static ApplePaymentSingleton* getInstance(void);
+    virtual ~ApplePaymentSingleton();
     bool init(void);
     
     void makeMonthlyPayment();

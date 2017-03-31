@@ -1,7 +1,7 @@
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
 #include "ElectricDreamsDecoration.h"
-#include "AmazonPaymentSingleton.h"
+#include "RoutePaymentSingleton.h"
 #include "MessageBox.h"
 #include "AudioMixer.h"
 
@@ -124,11 +124,13 @@ void IAPUpsaleLayer::addButtons()
     
     addCancelAnytimeLabel();
     
-    // Not needed for amazon, left here incase for apple.
-    restoreButton = ElectricDreamsButton::createTextAsButton("Restore your account", 46, true);
-    restoreButton->setPosition(SIDE_MARGIN_SIZE, cancelAnytimeLabel->getPositionY()-restoreButton->getContentSize().height/2);
-    restoreButton->setDelegate(this);
-    UpsaleLayer->addChild(restoreButton);
+    if(RoutePaymentSingleton::getInstance()->osIsIos())
+    {
+        restoreButton = ElectricDreamsButton::createTextAsButton("Restore your account", 46, true);
+        restoreButton->setPosition(SIDE_MARGIN_SIZE, cancelAnytimeLabel->getPositionY()-restoreButton->getContentSize().height/2);
+        restoreButton->setDelegate(this);
+        UpsaleLayer->addChild(restoreButton);
+    }
 }
 
 void IAPUpsaleLayer::addCancelAnytimeLabel()
@@ -190,7 +192,7 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
         if(requiresPinCode)
             askForPin();
         else
-            AmazonPaymentSingleton::getInstance()->startIAPPayment();
+            RoutePaymentSingleton::getInstance()->startInAppPayment();
     }
     else if(button == notNowButton)
     {
@@ -198,7 +200,7 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == restoreButton)
     {
-        PaymentSingleton::getInstance()->appleRestore();
+        RoutePaymentSingleton::getInstance()->appleRestore();
     }
 }
 
@@ -215,5 +217,5 @@ void IAPUpsaleLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 
 void IAPUpsaleLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
-    AmazonPaymentSingleton::getInstance()->startIAPPayment();
+    RoutePaymentSingleton::getInstance()->startInAppPayment();
 }

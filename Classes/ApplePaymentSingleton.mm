@@ -1,4 +1,4 @@
-#include "PaymentSingleton_ios.h"
+#include "ApplePaymentSingleton.h"
 #include "MessageBox.h"
 #include "payment_ios.h"
 #include "ModalMessages.h"
@@ -10,29 +10,29 @@ USING_NS_CC;
 
 using namespace cocos2d;
 
-static PaymentSingleton_ios *_sharedPaymentSingleton_ios = NULL;
+static ApplePaymentSingleton *_sharedApplePaymentSingleton = NULL;
 
-PaymentSingleton_ios* PaymentSingleton_ios::getInstance()
+ApplePaymentSingleton* ApplePaymentSingleton::getInstance()
 {
-    if (! _sharedPaymentSingleton_ios)
+    if (! _sharedApplePaymentSingleton)
     {
-        _sharedPaymentSingleton_ios = new PaymentSingleton_ios();
-        _sharedPaymentSingleton_ios->init();
+        _sharedApplePaymentSingleton = new ApplePaymentSingleton();
+        _sharedApplePaymentSingleton->init();
     }
     
-    return _sharedPaymentSingleton_ios;
+    return _sharedApplePaymentSingleton;
 }
 
-PaymentSingleton_ios::~PaymentSingleton_ios(void)
+ApplePaymentSingleton::~ApplePaymentSingleton(void)
 {
 }
 
-bool PaymentSingleton_ios::init(void)
+bool ApplePaymentSingleton::init(void)
 {
     return true;
 }
 
-void PaymentSingleton_ios::makeMonthlyPayment()
+void ApplePaymentSingleton::makeMonthlyPayment()
 {
     requestAttempts = 0;
     ModalMessages::getInstance()->startLoading();
@@ -42,14 +42,14 @@ void PaymentSingleton_ios::makeMonthlyPayment()
     [applePaymentObject makeOneMonthPayment];
 }
 
-void PaymentSingleton_ios::restorePayment()
+void ApplePaymentSingleton::restorePayment()
 {
     payment_ios* applePaymentObject = [[payment_ios alloc] init];
     [applePaymentObject retain];
     [applePaymentObject restorePayment];
 }
 
-void PaymentSingleton_ios::transactionStatePurchased(std::string receiptData)
+void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
 {
     CCLOG("IAP Request made");
     
@@ -61,7 +61,7 @@ void PaymentSingleton_ios::transactionStatePurchased(std::string receiptData)
     httpRequestCreator->createEncryptedPostHttpRequest();*/
 }
 
-void PaymentSingleton_ios::onAnswerReceived(std::string responseDataString)
+void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
 {
     CCLOG("The response id is: %s", responseDataString.c_str());
     
@@ -117,13 +117,13 @@ void PaymentSingleton_ios::onAnswerReceived(std::string responseDataString)
 }
 
 
-void PaymentSingleton_ios::ErrorMessage()
+void ApplePaymentSingleton::ErrorMessage()
 {
     ModalMessages::getInstance()->stopLoading();
     MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
 }
 
-void PaymentSingleton_ios::DoublePurchase()
+void ApplePaymentSingleton::DoublePurchase()
 {
     ModalMessages::getInstance()->stopLoading();
     MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
