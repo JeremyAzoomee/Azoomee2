@@ -26,6 +26,7 @@ package org.cocos2dx.cpp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import javax.crypto.Mac;
@@ -39,7 +40,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import com.amazon.device.iap.PurchasingService;
@@ -56,6 +56,8 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import com.appsflyer.AppsFlyerLib;
 
+import org.cocos2dx.cpp.IabPurchaseManager;
+
 
 public class AppActivity extends Cocos2dxActivity {
 
@@ -67,16 +69,23 @@ public class AppActivity extends Cocos2dxActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
 
-        setupIAPOnCreate();
-        AppsFlyerLib.getInstance().startTracking(this.getApplication(),"BzPYMg8dkYsCuDn8XBUN94");
+        if (getOSBuildManufacturer() == "AMAZON") {
+            setupIAPOnCreate();
+        }
+        else
+        {
+            Intent iabPurchaseManager = new Intent(mContext, IabPurchaseManager.class);
+            mContext.startActivity(iabPurchaseManager);
+        }
 
+        AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
         mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         mContext = this;
         mActivity = this;
-
     }
 
     public static void startWebView(String url, String cookieurl, String cookie, String userid) {
@@ -95,16 +104,14 @@ public class AppActivity extends Cocos2dxActivity {
 
     }
 
-    public static String getAnswer()
-    {
+    public static String getAnswer() {
         return "AndroidAnswer";
     }
 
-    public static String getOSBuildManufacturer()
-    {
+    public static String getOSBuildManufacturer() {
         return android.os.Build.MANUFACTURER;
     }
-    
+
     public static String getHMACSHA256(String message, String secret) {
         String hash = "";
         try {
@@ -132,13 +139,12 @@ public class AppActivity extends Cocos2dxActivity {
 
     //----Mix Panel------
 
-    public static void sendMixPanelWithEventID(String eventID, String jsonPropertiesString)
-    {
+    public static void sendMixPanelWithEventID(String eventID, String jsonPropertiesString) {
         JSONObject _mixPanelProperties = null;
 
         try {
             _mixPanelProperties = new JSONObject(jsonPropertiesString);
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             _mixPanelProperties = null;
         }
 
@@ -146,13 +152,12 @@ public class AppActivity extends Cocos2dxActivity {
         mixpanel.track(eventID, _mixPanelProperties);
     }
 
-    public static void sendMixPanelSuperProperties(String jsonPropertiesString)
-    {
+    public static void sendMixPanelSuperProperties(String jsonPropertiesString) {
         JSONObject _mixPanelProperties = null;
 
         try {
             _mixPanelProperties = new JSONObject(jsonPropertiesString);
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             _mixPanelProperties = null;
         }
 
@@ -160,8 +165,7 @@ public class AppActivity extends Cocos2dxActivity {
         mixpanel.registerSuperProperties(_mixPanelProperties);
     }
 
-    public static void sendMixPanelPeopleProperties(String parentID)
-    {
+    public static void sendMixPanelPeopleProperties(String parentID) {
         MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
         mixpanel.identify(parentID);
         mixpanel.getPeople().identify(parentID);
@@ -194,11 +198,11 @@ public class AppActivity extends Cocos2dxActivity {
 
         try {
             _mixPanelProperties = new JSONObject(jsonPropertiesString);
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             _mixPanelProperties = null;
         }
 
-        if(_mixPanelProperties != null) {
+        if (_mixPanelProperties != null) {
             Map<String, Object> _appsFlyerProperties = new HashMap<String, Object>();
             java.util.Iterator<?> keys = _mixPanelProperties.keys();
 
@@ -217,16 +221,14 @@ public class AppActivity extends Cocos2dxActivity {
                 }
             }
             AppsFlyerLib.getInstance().trackEvent(mContext, eventID, _appsFlyerProperties);
-        }
-        else
+        } else
             AppsFlyerLib.getInstance().trackEvent(mContext, eventID, null);
     }
 
     //----- AMAZON IAP -------------------------------------------
 
-    private void setupIAPOnCreate()
-    {
-        if(android.os.Build.MANUFACTURER.equals("Amazon")) {
+    private void setupIAPOnCreate() {
+        if (android.os.Build.MANUFACTURER.equals("Amazon")) {
             iapManager = new IapManager(this);
 
             final PurchasingListenerClass purchasingListener = new PurchasingListenerClass(iapManager);
@@ -250,44 +252,43 @@ public class AppActivity extends Cocos2dxActivity {
     private String amazonUserid;
     private String requestId;
 
-    public static void startAmazonPurchase()
-    {
-        final RequestId requestId = PurchasingService.purchase("com.tinizine.azoomee.monthly.02");
+
+    public static void startAmazonPurchase() {
+        final RequestId requestId = PurchasingService.purchase("com.azoomee.premium.monthly");
         Log.d("IAPAPI", "Request id: " + requestId.toString());
         Log.d("IAPAPI", "purchase service started, app on pause");
     }
 
-    public static void fulfillAmazonPurchase(String receiptId)
-    {
+    public static void fulfillAmazonPurchase(String receiptId) {
         PurchasingService.notifyFulfillment(receiptId, FulfillmentResult.FULFILLED);
     }
 
-    public void setReceiptId(String sentReceiptId)
-    {
+    public void setReceiptId(String sentReceiptId) {
         receiptId = sentReceiptId;
     }
 
-    public void setRequestId(String sentRequestId)
-    {
+    public void setRequestId(String sentRequestId) {
         requestId = sentRequestId;
     }
 
-    public void setAmazonUserid(String sentAmazonUserid)
-    {
+    public void setAmazonUserid(String sentAmazonUserid) {
         amazonUserid = sentAmazonUserid;
     }
 
-    public void sendCollectedDataToCocos()
-    {
+    public void sendCollectedDataToCocos() {
         Log.d("purchase data:", "purchase happened is called. requestid: " + requestId + " receiptid: " + receiptId + " amazonUserid: " + amazonUserid);
         purchaseHappened(requestId, receiptId, amazonUserid);
     }
 
-    public void sendIAPFAILToCocos() { purchaseFailed(); }
-    public void sendUserDataFAILToCocos() { userDataFailed(); }
+    public void sendIAPFAILToCocos() {
+        purchaseFailed();
+    }
 
-    public void amazonAlreadyPurchased()
-    {
+    public void sendUserDataFAILToCocos() {
+        userDataFailed();
+    }
+
+    public void amazonAlreadyPurchased() {
         alreadyPurchased();
     }
 
