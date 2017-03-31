@@ -23,7 +23,10 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.cpp;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -32,6 +35,11 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import android.util.Base64;
 
+import org.cocos2dx.cpp.util.IabBroadcastReceiver;
+import org.cocos2dx.cpp.util.IabHelper;
+import org.cocos2dx.cpp.util.IabResult;
+import org.cocos2dx.cpp.util.Inventory;
+import org.cocos2dx.cpp.util.Purchase;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,12 +63,10 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import com.appsflyer.AppsFlyerLib;
 
-import org.cocos2dx.cpp.IabPurchaseManager;
-
-
-public class AppActivity extends Cocos2dxActivity {
+public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceiver.IabBroadcastListener {
 
     private static Context mContext;
+    private static Activity mActivity;
     private MixpanelAPI mixpanel;
     private IapManager iapManager;
 
@@ -68,14 +74,14 @@ public class AppActivity extends Cocos2dxActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        mActivity = this;
 
         if (getOSBuildManufacturer() == "AMAZON") {
             setupIAPOnCreate();
         }
         else
         {
-            Intent iabPurchaseManager = new Intent(mContext, IabPurchaseManager.class);
-            mContext.startActivity(iabPurchaseManager);
+            setupGoogleIABOnCreate(this);
         }
 
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
@@ -171,6 +177,16 @@ public class AppActivity extends Cocos2dxActivity {
     @Override
     protected void onDestroy() {
         mixpanel.flush();
+
+        if (mBroadcastReceiver != null) {
+            unregisterReceiver(mBroadcastReceiver);
+        }
+
+        if (mHelper != null) {
+            mHelper.disposeWhenFinished();
+            mHelper = null;
+        }
+
         super.onDestroy();
     }
 
@@ -282,4 +298,148 @@ public class AppActivity extends Cocos2dxActivity {
     public static native void userDataFailed();
 
     public static native void alreadyPurchased();
+
+    //------------------------GOOGLE PART------------------------------
+
+    private IabHelper mHelper;
+    private IabBroadcastReceiver mBroadcastReceiver;
+    private boolean mIsPremium;
+    String payload = "ASDFAGASDFXCYVFASDFASREWRQWER";
+
+
+//-------------------------------GOOGLE IAB----------------------------------------------
+
+    public void startInit(Context mContext) {
+        setupGoogleIABOnCreate(mContext);
+    }
+
+//-------------------------------ALL METHODS ARE PRIVATE BEYOND THIS LINE-----------------
+
+    private void setupGoogleIABOnCreate(Context mContext) {
+        String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyugVV2DZkSQShZYR+Zk6N8XTqUdtgJhNLPOOXAjmiXWuMV6Vq9/3wYrWBDiFwzZMAipoQWmsCUNIaC9b7FVJ8pwSSTpfH4VfqADdHJxHSM6VeaE5ZiT/2yWwNORFiibf6tEmYD3ikA6j1OGpkGUT4E3UsSRh+mx0jRqNHXEgT0iOblPaaP4FPiuimtBWJgqSn0oO9va+hF8GzOtWnEWlBkft/Yri7mY/Z9OhmIrFGTfdzSiAHa5W3gDPpT5SoRMwz2RVcSgpQPBo4uhtSBmVT/AJfWf3U5vYmnOIbjPjFaZ4T5YHHCdoKY9DeFaQBn/w98Qc6eMujFKDkGGNOGMZMQIDAQAB";
+        mHelper = new IabHelper(this, base64EncodedPublicKey);
+
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                if (!result.isSuccess()) {
+                    Log.d("GOOGLEPAY", "Problem setting up In-app Billing: " + result);
+                    return;
+                }
+
+                Log.d("GOOGLEPAY", "INITIALISED");
+
+                Log.d("GOOGLEPAY", "Setup successful. Querying inventory.");
+                try {
+                    mHelper.queryInventoryAsync(mGotInventoryListener);
+                } catch (IabHelper.IabAsyncInProgressException e) {
+                    Log.d("GOOGLEPAY", "Error querying inventory. Another async operation in progress.");
+                }
+            }
+        });
+
+        mBroadcastReceiver = new IabBroadcastReceiver(this);
+        IntentFilter broadcastFilter = new IntentFilter(IabBroadcastReceiver.ACTION);
+        registerReceiver(mBroadcastReceiver, broadcastFilter);
+
+    }
+
+    @Override
+    public void receivedBroadcast() {
+        // Received a broadcast notification that the inventory of items has changed
+        Log.d("GOOGLEPAY", "Received broadcast notification. Querying inventory.");
+
+        try {
+            mHelper.queryInventoryAsync(mGotInventoryListener);
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            Log.d("GOOGLEPAY", "Error querying inventory. Another async operation in progress.");
+        }
+
+    }
+
+    IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
+        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+            Log.d("GOOGLEPLAY", "Query inventory finished.");
+
+            // Have we been disposed of in the meantime? If so, quit.
+            if (mHelper == null) return;
+
+            // Is it a failure?
+            if (result.isFailure()) {
+                Log.d("GOOGLEPLAY", "Failed to query inventory: " + result);
+                return;
+            }
+
+            Log.d("GOOGLEPLAY", "Query inventory was successful.");
+
+            // Do we have the premium upgrade?
+            Purchase premiumPurchase = inventory.getPurchase("com.tinizine.azoomee.monthly");
+            mIsPremium = (premiumPurchase != null);
+            Log.d("GOOGLEPLAY", "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
+
+            //If the user is not premium, we can start the upgrade process
+
+            try {
+                mHelper.launchPurchaseFlow(mActivity, "com.tinizine.azoomee.monthly", 10001,
+                        mPurchaseFinishedListener, payload);
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                Log.d("GOOGLEPAY", "Error launching purchase flow. Another async operation in progress.");
+            }
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("GOOGLEPAY", "onActivityResult(" + requestCode + "," + resultCode + "," + data);
+        if (mHelper == null) return;
+
+        // Pass on the activity result to the helper for handling
+        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
+            // not handled, so handle it ourselves (here's where you'd
+            // perform any handling of activity results not related to in-app
+            // billing...
+            super.onActivityResult(requestCode, resultCode, data);
+        } else {
+            Log.d("GOOGLEPAY", "onActivityResult handled by IABUtil.");
+        }
+    }
+
+    // Callback for when a purchase is finished
+    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+            Log.d("GOOGLEPAY", "Purchase finished: " + result + ", purchase: " + purchase);
+
+            // if we were disposed of in the meantime, quit.
+            if (mHelper == null) return;
+
+            if (result.isFailure()) {
+                Log.d("GOOGLEPAY", "Error purchasing: " + result);
+                return;
+            }
+
+            Log.d("GOOGLEPAY", "Purchase successful.");
+
+            //purchase.getDeveloperPayload();             //developer specified string - possible to check if the same at the end of the purchase - possible to use this as the user id, possibly encoded?
+            //purchase.getOrderId();                      //google payments order id, in sandbox it is 0
+            //purchase.getSignature();                    //signature of the purchase data, signed with dev private key. RSASSA-PKCS1-v1_5 scheme.
+            //purchase.getToken();                        //unique identifier based on the item and the user
+            //purchase.getPurchaseState();                //0: purchased, 1: cancelled, 2: refunded
+            //result.getResponse();                       //0: success, error otherwise
+            //result.getMessage();
+            //result.isFailure();
+        }
+    };
+
+    private void alertView(String title, String message) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        dialog.setTitle(title)
+                .setMessage(message)
+
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialoginterface, int i) {
+
+                    }
+                }).show();
+    }
+
 }
