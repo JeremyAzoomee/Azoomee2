@@ -1,7 +1,7 @@
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
 #include "ElectricDreamsDecoration.h"
-#include "AmazonPaymentSingleton.h"
+#include "RoutePaymentSingleton.h"
 #include "MessageBox.h"
 #include "AudioMixer.h"
 
@@ -190,7 +190,7 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
         if(requiresPinCode)
             askForPin();
         else
-            AmazonPaymentSingleton::getInstance()->startIAPPayment();
+            RoutePaymentSingleton::getInstance()->startInAppPayment();
     }
     else if(button == notNowButton)
     {
@@ -211,5 +211,5 @@ void IAPUpsaleLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 
 void IAPUpsaleLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
-    AmazonPaymentSingleton::getInstance()->startIAPPayment();
+    RoutePaymentSingleton::getInstance()->startInAppPayment();
 }

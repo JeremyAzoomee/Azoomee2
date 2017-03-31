@@ -67,21 +67,26 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
 
     private static Context mContext;
     private static Activity mActivity;
+    private static AppActivity mAppActivity;
     private MixpanelAPI mixpanel;
     private IapManager iapManager;
+
+    //variables for google payment
+    private IabHelper mHelper;
+    private IabBroadcastReceiver mBroadcastReceiver;
+    private boolean mIsPremium;
+    String payload = "ASDFAGASDFXCYVFASDFASREWRQWER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
         mActivity = this;
+        mAppActivity = this;
 
-        if (getOSBuildManufacturer() == "AMAZON") {
-            setupIAPOnCreate();
-        }
-        else
+        if (getOSBuildManufacturer() == "AMAZON")
         {
-            setupGoogleIABOnCreate(this);
+            setupIAPOnCreate();
         }
 
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
@@ -299,23 +304,15 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
 
     public static native void alreadyPurchased();
 
-    //------------------------GOOGLE PART------------------------------
-
-    private IabHelper mHelper;
-    private IabBroadcastReceiver mBroadcastReceiver;
-    private boolean mIsPremium;
-    String payload = "ASDFAGASDFXCYVFASDFASREWRQWER";
-
-
 //-------------------------------GOOGLE IAB----------------------------------------------
 
-    public void startInit(Context mContext) {
-        setupGoogleIABOnCreate(mContext);
+    public static void startGooglePurchase()
+    {
+        AppActivity currentActivity = mAppActivity;
+        currentActivity.setupGoogleIAB();
     }
 
-//-------------------------------ALL METHODS ARE PRIVATE BEYOND THIS LINE-----------------
-
-    private void setupGoogleIABOnCreate(Context mContext) {
+    public void setupGoogleIAB() {
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyugVV2DZkSQShZYR+Zk6N8XTqUdtgJhNLPOOXAjmiXWuMV6Vq9/3wYrWBDiFwzZMAipoQWmsCUNIaC9b7FVJ8pwSSTpfH4VfqADdHJxHSM6VeaE5ZiT/2yWwNORFiibf6tEmYD3ikA6j1OGpkGUT4E3UsSRh+mx0jRqNHXEgT0iOblPaaP4FPiuimtBWJgqSn0oO9va+hF8GzOtWnEWlBkft/Yri7mY/Z9OhmIrFGTfdzSiAHa5W3gDPpT5SoRMwz2RVcSgpQPBo4uhtSBmVT/AJfWf3U5vYmnOIbjPjFaZ4T5YHHCdoKY9DeFaQBn/w98Qc6eMujFKDkGGNOGMZMQIDAQAB";
         mHelper = new IabHelper(this, base64EncodedPublicKey);
 
@@ -413,10 +410,12 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
 
             if (result.isFailure()) {
                 Log.d("GOOGLEPAY", "Error purchasing: " + result);
+                googlePurchaseFailed();
                 return;
             }
 
             Log.d("GOOGLEPAY", "Purchase successful.");
+            googlePurchaseHappened(purchase.getDeveloperPayload(), purchase.getOrderId(), purchase.getToken());
 
             //purchase.getDeveloperPayload();             //developer specified string - possible to check if the same at the end of the purchase - possible to use this as the user id, possibly encoded?
             //purchase.getOrderId();                      //google payments order id, in sandbox it is 0
@@ -429,17 +428,10 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         }
     };
 
-    private void alertView(String title, String message) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+    public static native void googlePurchaseHappened(String developerPayload, String orderId, String token);
 
-        dialog.setTitle(title)
-                .setMessage(message)
+    public static native void googlePurchaseFailed();
 
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialoginterface, int i) {
-
-                    }
-                }).show();
-    }
+    public static native void googleAlreadyPurchased();
 
 }
