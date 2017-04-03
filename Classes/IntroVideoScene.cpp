@@ -3,7 +3,7 @@
 //cocos2d/cocos/ui/UIVideoPlayer-ios.mm - roww 144-145 - MPMovideControlStyleNone, interactionenabled: false
 
 #include "IntroVideoScene.h"
-#include "SlideShowScene.h"
+
 #include "ConfigStorage.h"
 #include "BaseScene.h"
 #include "LoginScene.h"
@@ -12,6 +12,7 @@
 #include "StringMgr.h"
 #include "ChildAccountSuccessScene.h"
 #include "LoginLogicHandler.h"
+#include "SlideShowScene.h"
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
@@ -32,6 +33,9 @@ bool IntroVideoScene::init()
     {
         return false;
     }
+    
+    this->slideShowScene = SlideShowScene::createScene();
+    this->slideShowScene->retain();
     
     auto funcCallAction = CallFunc::create([=](){
         
@@ -92,8 +96,8 @@ void IntroVideoScene::navigateToNextScene()
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
-        auto slideShowScene = SlideShowScene::createScene();
-        Director::getInstance()->replaceScene(slideShowScene);
+        Director::getInstance()->replaceScene(this->slideShowScene);
+        this->slideShowScene->release();
     }
     else
     {

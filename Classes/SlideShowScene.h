@@ -27,16 +27,14 @@ private:
     
     void skipSlideShow();
     
+    Layout* layout1;
     Layout* layout2;
     Layout* layout3;
     Layout* layout4;
     Layout* layout5;
     Layout* layout6;
     
-    Layout* addSlide(int SlideNumber);
-    void SheduleSlideSpriteCreation(float dt);
-    
-    void fadeInObject(Node* objectToFade);
+    void imageAddedToCache(Texture2D* resulting_texture);
     
 public:
     static cocos2d::Scene* createScene();

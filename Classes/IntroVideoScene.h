@@ -15,6 +15,8 @@ private:
     void navigateToNextScene();
     std::string videoErrorText;
     
+    cocos2d::Scene* slideShowScene;
+    
 public:
     static cocos2d::Scene* createScene();
 
