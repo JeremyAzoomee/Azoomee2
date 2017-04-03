@@ -59,6 +59,8 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
     httpRequestCreator->requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
     httpRequestCreator->requestTag = "iapAmazonPaymentMade";
     httpRequestCreator->createEncryptedPostHttpRequest();*/
+    
+    ModalMessages::getInstance()->stopLoading();
 }
 
 void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
