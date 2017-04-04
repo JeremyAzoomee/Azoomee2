@@ -26,37 +26,6 @@ public class JsInterface extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-
-    }
-
-    @JavascriptInterface
-    public int getAmountOfStorageElements()
-    {
-        return NativeView.getAmountOfStorageElements();
-    }
-
-    @JavascriptInterface
-    public String getKeyForStorageElement(int fileNumber)
-    {
-        return NativeView.getKeyForStorageElement(fileNumber);
-    }
-
-    @JavascriptInterface
-    public String getValueForStorageElement(int fileNumber)
-    {
-        return NativeView.getValueForStorageElement(fileNumber);
-    }
-
-    @JavascriptInterface
-    public void saveData(String title, String data)
-    {
-        NativeView.saveLocalDataForUser(title, data);
-    }
-
-    @JavascriptInterface
-    public void saveImage(String title, String data)
-    {
-        NativeView.saveImageForUser(title, data);
     }
 
     @JavascriptInterface
@@ -72,4 +41,26 @@ public class JsInterface extends Activity {
         log.d("eventhandler", "eventhandler called!");
         NativeView.sendMediaPlayerData(key, value);
     }
+
+    @JavascriptInterface
+    public void saveLocalDataStorage(String data)
+    {
+        JNISaveLocalDataStorage(data);
+    }
+
+    @JavascriptInterface
+    public String getLocalDataStorage()
+    {
+        return JNIGetLocalDataStorage();
+    }
+
+    @JavascriptInterface
+    public String apiRequest(String method, String responseID, String score)
+    {
+        return JNISendAPIRequest(method, responseID, score);
+    }
+
+    public static native void JNISaveLocalDataStorage(String data);
+    public static native String JNIGetLocalDataStorage();
+    public static native String JNISendAPIRequest(String method, String responseID, String score);
 }

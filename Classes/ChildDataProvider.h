@@ -1,3 +1,6 @@
+#ifndef __CHILDDATAPROVIDER_H__
+#define __CHILDDATAPROVIDER_H__
+
 #include "cocos2d.h"
 #include "external/json/document.h"
 
@@ -22,3 +25,5 @@ public:
     
     bool getIsChildLoggedIn();
 };
+
+#endif

@@ -28,33 +28,31 @@
 			
 			function receiveMessage(event)
 			{
+				//Check if the game is communicating with the webapi standard
+				
 				if(event.data == "saveImage")
 				{
-					var title = localStorage.getItem("artname");
-					var data = localStorage.getItem("art");
-					
-					if(title == "NEW") 
-					{
-						title = Date.now() + ".imag";
-						localStorage["artname"] = title;
-					}
-					
-					if(data == "NEW") return;
-					
-					window.location.href = "saveimage://writeDataToFile?title?"+ title + "?data?" + data;
+					var attempts = 0;
+					if('save' in localStorage) attempts = localStorage['save'];
+					attempts++;
+					localStorage['save'] = attempts;
 					
 					return;
 				}
-				else
+				
+				if ('method' in event.data)
 				{
-					for(var i = 0; i < localStorage.length; i++)
+					if('score' in event.data)
 					{
-						var title = localStorage.key(i);
-						var data = localStorage.getItem(localStorage.key(i));
-						window.location.href = "senddata://writeDataToFile?title?"+ title + "?data?" + data;
-					}   
-    				return;
-    			}
+						window.location.href = "apirequest://apiscoreupdate?method?"+ event.data.method + "?responseID?" + event.data.responseID + "?score?" + event.data.score;
+					}
+					else
+					{
+						window.location.href = "apirequest://apirequest?method?"+ event.data.method + "?responseID?" + event.data.responseID + "?score?null";
+					}
+					
+					return;
+				}
 			}
         
             function clearLocalStorage()
@@ -62,9 +60,44 @@
             	localStorage.clear();
             }
             
-            function addDataToLocalStorage(key, data)
+            function addDataToLocalStorage(data)
 			{
-				localStorage[key] = data;
+				dataString = atob(data);
+				if(dataString == "") return;
+			
+				var allRecords = dataString.split("|");
+				
+				for(var i = 0; i < allRecords.length; i++)
+				{
+					var currentRecord = allRecords[i].split("!");
+					
+					var currentKey = currentRecord[0];
+					var currentValue = currentRecord[1];
+					
+					localStorage[currentKey] = currentValue;
+				}
+			}
+			
+			function saveLocalDataBeforeExit()
+			{
+				var stringToSave = "";
+				for(var i = 0; i < localStorage.length; i++)
+				{	
+					if((localStorage.key(i) != "")&&(localStorage.getItem(localStorage.key(i)) != ""))
+					{
+						if(stringToSave.length > 0) stringToSave += "|";
+						stringToSave += localStorage.key(i) + "!" + localStorage.getItem(localStorage.key(i));
+					}
+				}
+
+				window.location.href = "savelocaldata://write?"+ stringToSave;
+			}
+			
+			function answerMessageReceivedFromAPI(answerString)
+			{
+				answerString = atob(answerString);
+				var toSend = JSON.parse(answerString);
+				window.frames[0].postMessage(toSend, "*");
 			}
 		</script>
 	</body>

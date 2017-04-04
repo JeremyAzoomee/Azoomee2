@@ -5,6 +5,7 @@
 #include "AnalyticsSingleton.h"
 #include "OfflineHubScene.h"
 #include "BackEndCaller.h"
+#include "WebGameAPIDataManager.h"
 
 void navigateToBaseScene()
 {
@@ -63,4 +64,23 @@ void sendMixPanelData(const char* host, const char* query)
     {
         AnalyticsSingleton::getInstance()->mediaPlayerFirstFrameEvent(strQuery.c_str());
     }
+}
+
+const char* sendGameApiRequest(const char* method, const char* responseid, const char* score)
+{
+    char* returnString = WebGameAPIDataManager::getInstance()->handleAPIRequest(method, responseid, score);
+    CCLOG("returnString in callback listener: %s", returnString);
+    
+    return returnString;
+}
+
+const char* getLocalStorageForGame()
+{
+    char* returnString = WebGameAPIDataManager::getInstance()->getLocalStorageData();
+    return returnString;
+}
+
+void saveLocalStorageData(const char* stringToSave)
+{
+    WebGameAPIDataManager::getInstance()->saveLocalStorageData(strdup(stringToSave));
 }
