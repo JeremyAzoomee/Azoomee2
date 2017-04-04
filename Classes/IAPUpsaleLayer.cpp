@@ -190,7 +190,10 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
     if(button == startTrialButton)
     {
         if(requiresPinCode)
+        {
+            restoreButtonPressed = false;
             askForPin();
+        }
         else
             RoutePaymentSingleton::getInstance()->startInAppPayment();
     }
@@ -200,7 +203,13 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == restoreButton)
     {
-        RoutePaymentSingleton::getInstance()->appleRestore();
+        if(requiresPinCode)
+        {
+            restoreButtonPressed = true;
+            askForPin();
+        }
+        else
+            RoutePaymentSingleton::getInstance()->appleRestore();
     }
 }
 
@@ -217,5 +226,8 @@ void IAPUpsaleLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 
 void IAPUpsaleLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
-    RoutePaymentSingleton::getInstance()->startInAppPayment();
+    if(restoreButtonPressed)
+        RoutePaymentSingleton::getInstance()->appleRestore();
+    else
+        RoutePaymentSingleton::getInstance()->startInAppPayment();
 }

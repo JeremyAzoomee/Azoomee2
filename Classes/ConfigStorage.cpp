@@ -71,12 +71,13 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(std::string fileNa
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
-    return "api.azoomee.com";
+    //return "api.azoomee.com";
+    return "api.elb.ci.azoomee.ninja";
 }
 
 std::string ConfigStorage::getServerUrl()
 {
-    return "https://" + getServerHost();
+    return "http://" + getServerHost();
 }
 
 std::string ConfigStorage::getImagesUrl()
@@ -97,6 +98,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == "updateParentPin") return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == "updateParentActorStatus") return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == "iapAmazonPaymentMade") return StringUtils::format("/api/billing/amazon/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == "iapApplePaymentMade") return StringUtils::format("/api/billing/apple/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == "updateBilling") return StringUtils::format("/api/billing/user/%s/billingStatus", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     
     return "";

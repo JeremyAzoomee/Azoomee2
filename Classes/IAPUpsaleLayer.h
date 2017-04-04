@@ -28,6 +28,8 @@ private:
     
     void askForPin();
     
+    bool restoreButtonPressed;
+    
     void createBackGroundLayer();
     void addListenerToBackgroundLayer();
     

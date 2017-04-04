@@ -5,6 +5,8 @@
 #include "external/json/document.h"
 #include "AnalyticsSingleton.h"
 #include "BackEndCaller.h"
+#include "HttpRequestCreator.h"
+#include "ParentDataProvider.h"
 
 USING_NS_CC;
 
@@ -44,6 +46,8 @@ void ApplePaymentSingleton::makeMonthlyPayment()
 
 void ApplePaymentSingleton::restorePayment()
 {
+    requestAttempts = 0;
+    ModalMessages::getInstance()->startLoading();
     payment_ios* applePaymentObject = [[payment_ios alloc] init];
     [applePaymentObject retain];
     [applePaymentObject restorePayment];
@@ -55,12 +59,10 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
     
     savedReceipt = receiptData;
     
-   /* HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
-    httpRequestCreator->requestTag = "iapAmazonPaymentMade";
-    httpRequestCreator->createEncryptedPostHttpRequest();*/
-    
-    ModalMessages::getInstance()->stopLoading();
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->requestBody = StringUtils::format("{\"receipt-data\": \"%s\"}", receiptData.c_str());
+    httpRequestCreator->requestTag = "iapApplePaymentMade";
+    httpRequestCreator->createEncryptedPostHttpRequest();
 }
 
 void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
@@ -84,18 +86,22 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
         if(paymentData["receiptStatus"].IsString())
         {
             // EXPIRED, INVALID, UNCERTAIN
-            if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
+            if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED" && !ParentDataProvider::getInstance()->isPaidUser())
             {
                 AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
                 paymentFailed = false;
                 
-                //std::string receiptId = paymentData["receiptId"].GetString();
-                //fulfillAmazonPayment(receiptId);
-                
-                ModalMessages::getInstance()->stopLoading();
+                //ModalMessages::getInstance()->stopLoading();
                 
                 BackEndCaller::getInstance()->newTrialJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
+            }
+            else if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED" && ParentDataProvider::getInstance()->isPaidUser())
+            {
+                //AnalyticsSingleton::getInstance()->iapRESUBSCRIBEEVENT();
+                ModalMessages::getInstance()->stopLoading();
+                paymentFailed = false;
+                return;
             }
             else
                 AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
@@ -111,9 +117,17 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
         }
         else
         {
-            ModalMessages::getInstance()->stopLoading();
-            MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
-            return;
+            if(ParentDataProvider::getInstance()->isPaidUser())
+            {
+                //NEED TO LOG IN AGAIN with the NEW USER STATUS
+                
+            }
+            else
+            {
+                ModalMessages::getInstance()->stopLoading();
+                MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+                return;
+            }
         }
     }
 }
@@ -129,4 +143,10 @@ void ApplePaymentSingleton::DoublePurchase()
 {
     ModalMessages::getInstance()->stopLoading();
     MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
+}
+
+void ApplePaymentSingleton::backendRequestFailed()
+{
+    ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
 }

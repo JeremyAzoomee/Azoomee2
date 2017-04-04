@@ -24,6 +24,8 @@ public:
     void ErrorMessage();
     void DoublePurchase();
     
+    void backendRequestFailed();
+    
 private:
     //For making repeat requests
     std::string savedReceipt;
