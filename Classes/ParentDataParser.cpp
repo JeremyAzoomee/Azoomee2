@@ -63,6 +63,8 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
                 ParentDataStorage::getInstance()->loggedInParentPin = "";
             }
             
+            addParentLoginDataToUserDefaults();
+            
             HQDataStorage::getInstance()->HQListTitles.clear();
             HQDataStorage::getInstance()->HQListElements.clear();
             HQDataStorage::getInstance()->HQElementHighlights.clear();
@@ -161,4 +163,32 @@ bool ParentDataParser::parseParentBillingData(std::string responseData)
 void ParentDataParser::logoutChild()
 {
     ChildDataStorage::getInstance()->childLoggedIn = false;
+}
+
+void ParentDataParser::addParentLoginDataToUserDefaults()
+{
+    UserDefault* def = UserDefault::getInstance();
+    def->setStringForKey("loggedInParentId", ParentDataStorage::getInstance()->loggedInParentId);
+    def->setStringForKey("loggedInParentCdnSessionId", ParentDataStorage::getInstance()->loggedInParentCdnSessionId);
+    def->setStringForKey("loggedInParentApiSecret", ParentDataStorage::getInstance()->loggedInParentApiSecret);
+    def->setStringForKey("loggedInParentApiKey", ParentDataStorage::getInstance()->loggedInParentApiKey);
+    def->setStringForKey("loggedInParentActorStatus", ParentDataStorage::getInstance()->loggedInParentActorStatus);
+    def->flush();
+}
+
+void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
+{
+    UserDefault* def = UserDefault::getInstance();
+    ParentDataStorage::getInstance()->loggedInParentId = def->getStringForKey("loggedInParentId");
+    ParentDataStorage::getInstance()->loggedInParentCdnSessionId = def->getStringForKey("loggedInParentCdnSessionId");
+    ParentDataStorage::getInstance()->loggedInParentApiSecret = def->getStringForKey("loggedInParentApiSecret");
+    ParentDataStorage::getInstance()->loggedInParentApiKey = def->getStringForKey("loggedInParentApiKey");
+    ParentDataStorage::getInstance()->loggedInParentActorStatus = def->getStringForKey("loggedInParentActorStatus");
+}
+
+bool ParentDataParser::hasParentLoginDataInUserDefaults()
+{
+    UserDefault* def = UserDefault::getInstance();
+    if(def->getStringForKey("loggedInParentId") != "") return true;
+    return false;
 }
