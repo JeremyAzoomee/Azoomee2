@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */; };
+		02074B2A1E93968E009BB28C /* ArtAppImageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02074B281E93968E009BB28C /* ArtAppImageManager.cpp */; };
 		020ACCFF1E70564B002490CE /* PaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020ACCFD1E70564B002490CE /* PaymentSingleton.cpp */; };
 		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
 		025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */; };
@@ -274,6 +276,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebGameAPIDataManager.cpp; sourceTree = "<group>"; };
+		02074B261E93966D009BB28C /* WebGameAPIDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebGameAPIDataManager.h; sourceTree = "<group>"; };
+		02074B281E93968E009BB28C /* ArtAppImageManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppImageManager.cpp; sourceTree = "<group>"; };
+		02074B291E93968E009BB28C /* ArtAppImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppImageManager.h; sourceTree = "<group>"; };
 		020ACCFD1E70564B002490CE /* PaymentSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PaymentSingleton.cpp; sourceTree = "<group>"; };
 		020ACCFE1E70564B002490CE /* PaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentSingleton.h; sourceTree = "<group>"; };
 		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
@@ -719,6 +725,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02074B241E93964F009BB28C /* WebGameAPIDataManager */ = {
+			isa = PBXGroup;
+			children = (
+				02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */,
+				02074B261E93966D009BB28C /* WebGameAPIDataManager.h */,
+				02074B281E93968E009BB28C /* ArtAppImageManager.cpp */,
+				02074B291E93968E009BB28C /* ArtAppImageManager.h */,
+			);
+			name = WebGameAPIDataManager;
+			sourceTree = "<group>";
+		};
 		020ACCFB1E70561F002490CE /* PaymentSingleton */ = {
 			isa = PBXGroup;
 			children = (
@@ -1066,6 +1083,7 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				02074B241E93964F009BB28C /* WebGameAPIDataManager */,
 				020ACCFB1E70561F002490CE /* PaymentSingleton */,
 				43540FB31E6080190029E30E /* UsefulFunctions */,
 				430B21601E449D95004ACB10 /* Analytics */,
@@ -1624,6 +1642,7 @@
 				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				431A2A381E439BFE00DC0F3B /* MPPropertyDescription.m in Sources */,
 				431A2A4E1E439BFE00DC0F3B /* NSInvocation+MPHelpers.m in Sources */,
+				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				A15B2FBB1DEDD1EA00D25334 /* HMACSHA256.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				4348E4391E6576D600486661 /* ElectricDreamsDecoration.cpp in Sources */,
@@ -1718,6 +1737,7 @@
 				431A2A271E439BFE00DC0F3B /* MPDesignerTrackMessage.m in Sources */,
 				A15B2FB91DEDD1EA00D25334 /* HMACSHA256_ios.mm in Sources */,
 				431A2A161E439BFE00DC0F3B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
+				02074B2A1E93968E009BB28C /* ArtAppImageManager.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
 				D13C401C1E33A0F0002360A6 /* ExitOrLogoutLayer.cpp in Sources */,
