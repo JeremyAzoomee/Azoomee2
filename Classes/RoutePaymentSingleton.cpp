@@ -5,10 +5,11 @@
 
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
-#include "ApplePaymentSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "platform/android/jni/JniHelper.h"
+    #include "platform/android/jni/JniHelper.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+   #include "ApplePaymentSingleton.h"
 #endif
 
 USING_NS_CC;
@@ -40,9 +41,11 @@ void RoutePaymentSingleton::startInAppPayment()
 {
     if(osIsIos())
     {
-        AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
-        //start ios payment
-        ApplePaymentSingleton::getInstance()->makeMonthlyPayment();
+        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
+            //start ios payment
+            ApplePaymentSingleton::getInstance()->makeMonthlyPayment();
+        #endif
         return;
     }
     
@@ -113,5 +116,7 @@ bool RoutePaymentSingleton::osIsAmazon()
 
 void RoutePaymentSingleton::appleRestore()
 {
-    ApplePaymentSingleton::getInstance()->restorePayment();
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        ApplePaymentSingleton::getInstance()->restorePayment();
+    #endif
 }
