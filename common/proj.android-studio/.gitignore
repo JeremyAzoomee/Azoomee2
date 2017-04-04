@@ -7,6 +7,5 @@
 /captures
 *.iml
 *.apk
-/app/obj/
-/app/libs/
-/app/assets/res/
+/azoomee_common/obj/
+/azoomee_common/libs/
