@@ -78,6 +78,9 @@ void SlideShowScene::createPageView()
     _pageView->setIndicatorEnabled(true);
     _pageView->setIndicatorSelectedIndexColor(Color3B(28, 244, 244));
     
+    //FUTURE OPTION - Create a Layout object with the slideshow.jpg file
+    //the Layout calls the Async on itself, so the sprite and image is just added when ready.
+    
     //Create Pointers to Pages, to add sprites later.
     //Stopping blank screen for 8 seconds on Pixie
     //Jan 2017
