@@ -91,7 +91,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/PaymentSingleton.cpp \
                    ../../../Classes/WebGameAPIDataManager.cpp \
                    ../../../Classes/ArtAppImageManager.cpp \
-                   ../../../Classes/LoginLogicHandler.cpp
+                   ../../../Classes/LoginLogicHandler.cpp \
+                   ../../../Classes/MixPanelNotifications_android.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

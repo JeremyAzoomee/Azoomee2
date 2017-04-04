@@ -23,6 +23,7 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.cpp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,6 +60,7 @@ import com.appsflyer.AppsFlyerLib;
 public class AppActivity extends Cocos2dxActivity {
 
     private static Context mContext;
+    private static Activity mActivity;
     private MixpanelAPI mixpanel;
     private IapManager iapManager;
 
@@ -73,6 +75,8 @@ public class AppActivity extends Cocos2dxActivity {
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         mContext = this;
+        mActivity = this;
+
     }
 
     public static void startWebView(String url, String cookieurl, String cookie, String userid) {
@@ -164,6 +168,18 @@ public class AppActivity extends Cocos2dxActivity {
         mixpanel.getPeople().set("First Name", parentID);
     }
 
+    public static void showMixpanelNotification()
+    {
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
+        mixpanel.getPeople().showNotificationIfAvailable(mActivity);
+    }
+
+    public static void showMixpanelNotificationWithID(int notificationID)
+    {
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
+        mixpanel.getPeople().showNotificationById(notificationID,mActivity);
+    }
+
     @Override
     protected void onDestroy() {
         mixpanel.flush();
@@ -236,7 +252,7 @@ public class AppActivity extends Cocos2dxActivity {
 
     public static void startAmazonPurchase()
     {
-        final RequestId requestId = PurchasingService.purchase("com.azoomee.premium.monthly");
+        final RequestId requestId = PurchasingService.purchase("com.tinizine.azoomee.monthly.02");
         Log.d("IAPAPI", "Request id: " + requestId.toString());
         Log.d("IAPAPI", "purchase service started, app on pause");
     }

@@ -6,6 +6,12 @@
 #include "HQHistoryManager.h"
 #include "AnalyticsSingleton.h"
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "MixPanelNotifications_ios.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#include "MixPanelNotifications_android.h"
+#endif
+
 USING_NS_CC;
 
 #define MESSAGE_BOX_PADDING 100
@@ -97,3 +103,32 @@ void ModalMessages::stopLoading()
 {
     this->removeLayer();
 }
+
+//-----------------MIXPANEL NOTIFICATIONS--------------------------
+
+void ModalMessages::showMixpanelNotification()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+    showNotification_ios();
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    showNotification_android();
+    
+#endif
+}
+
+void ModalMessages::showMixpanelNotificationWithID(int notificationID)
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+    showNotificationWithID_ios(notificationID);
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    showNotificationWithID_android(notificationID);
+    
+#endif
+}
+

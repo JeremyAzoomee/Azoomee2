@@ -25,4 +25,6 @@ public:
     void startLoading();
     void stopLoading();
     
+    void showMixpanelNotification();
+    void showMixpanelNotificationWithID(int notificationID);
 };

@@ -165,6 +165,8 @@
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
 		43C6BED81E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C6BED61E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp */; };
 		43C6BEDC1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C6BEDA1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp */; };
+		43EEAE661E840F060012F27F /* MixPanelNotifications_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43EEAE631E840F060012F27F /* MixPanelNotifications_android.cpp */; };
+		43EEAE671E840F060012F27F /* MixPanelNotifications_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43EEAE651E840F060012F27F /* MixPanelNotifications_ios.mm */; };
 		43F067211E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */; };
 		43F2C5F51E5C4DC40016F30E /* StringMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
@@ -551,6 +553,10 @@
 		43C6BEDA1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderCacheCleanerLogic.cpp; sourceTree = "<group>"; };
 		43C6BEDB1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderCacheCleanerLogic.h; sourceTree = "<group>"; };
 		43EE53001E5DC9EA00023B4C /* ErrorCodeHashDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorCodeHashDefines.h; sourceTree = "<group>"; };
+		43EEAE621E840F060012F27F /* MixPanelNotifications_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanelNotifications_android.h; sourceTree = "<group>"; };
+		43EEAE631E840F060012F27F /* MixPanelNotifications_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MixPanelNotifications_android.cpp; sourceTree = "<group>"; };
+		43EEAE641E840F060012F27F /* MixPanelNotifications_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanelNotifications_ios.h; sourceTree = "<group>"; };
+		43EEAE651E840F060012F27F /* MixPanelNotifications_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MixPanelNotifications_ios.mm; sourceTree = "<group>"; };
 		43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsTextStyles.cpp; sourceTree = "<group>"; };
 		43F067201E5F303700F9EA32 /* ElectricDreamsTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsTextStyles.h; sourceTree = "<group>"; };
 		43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringMgr.cpp; sourceTree = "<group>"; };
@@ -1147,6 +1153,17 @@
 			name = UsefulFunctions;
 			sourceTree = "<group>";
 		};
+		43EEAE601E840EEC0012F27F /* MixPanelNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				43EEAE631E840F060012F27F /* MixPanelNotifications_android.cpp */,
+				43EEAE621E840F060012F27F /* MixPanelNotifications_android.h */,
+				43EEAE651E840F060012F27F /* MixPanelNotifications_ios.mm */,
+				43EEAE641E840F060012F27F /* MixPanelNotifications_ios.h */,
+			);
+			name = MixPanelNotifications;
+			sourceTree = "<group>";
+		};
 		43F2C5F11E5C4AF60016F30E /* StringHandler */ = {
 			isa = PBXGroup;
 			children = (
@@ -1420,6 +1437,7 @@
 		A1CC0C271E15691C008B469E /* ModalMessages */ = {
 			isa = PBXGroup;
 			children = (
+				43EEAE601E840EEC0012F27F /* MixPanelNotifications */,
 				A15B2FA71DEDAA2A00D25334 /* ModalMessages.cpp */,
 				A15B2FA81DEDAA2A00D25334 /* ModalMessages.h */,
 				D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */,
@@ -1708,6 +1726,7 @@
 				A1CC0C191E141AE0008B469E /* ParentDataStorage.cpp in Sources */,
 				43540FB71E60803B0029E30E /* StringFunctions.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				43EEAE661E840F060012F27F /* MixPanelNotifications_android.cpp in Sources */,
 				431A2A0D1E439BFE00DC0F3B /* MixpanelPeople.m in Sources */,
 				A1A2D2FE1E13B52700E86169 /* CookieDataParser.cpp in Sources */,
 				431A2A191E439BFE00DC0F3B /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
@@ -1769,6 +1788,7 @@
 				430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */,
 				43C6BEDC1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp in Sources */,
 				D113134A1E337D3A00E2C033 /* IntroVideoScene.cpp in Sources */,
+				43EEAE671E840F060012F27F /* MixPanelNotifications_ios.mm in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				026BAF711E3F864A009C4ACE /* JWTToolForceParent.cpp in Sources */,
 				431A2A311E439BFE00DC0F3B /* MPNSNumberToCGFloatValueTransformer.m in Sources */,

@@ -50,6 +50,7 @@ static AppDelegate s_sharedApplication;
     [Fabric with:@[[Crashlytics class]]];
     
     [Mixpanel sharedInstanceWithToken:@"7e94d58938714fa180917f0f3c7de4c9"];
+    [Mixpanel sharedInstance].showNotificationOnActive = NO;
 
     // Add the view controller's view to the window and display.
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
