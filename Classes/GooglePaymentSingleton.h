@@ -12,7 +12,16 @@ public:
     bool init(void);
     
     void startIABPayment();
+    void finishedIABPayment();
+    void purchaseFailed();
+    void showDoublePurchase();
     
+private:
+    bool paymentInProgress;
+    void createModalLayer();
+    void removeModalLayer();
+    cocos2d::LayerColor* modalLayer;
+    void addListenerToBackgroundLayer();
 };
 
 #endif
