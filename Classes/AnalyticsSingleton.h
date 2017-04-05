@@ -102,5 +102,6 @@ public:
     void iapUserDataFailedEvent();
     void iapSubscriptionDoublePurchaseEvent();
     void iapBackEndRequestFailedEvent(long errorCode);
+    void iapAppleAutoRenewSubscriptionEvent();
 
 };

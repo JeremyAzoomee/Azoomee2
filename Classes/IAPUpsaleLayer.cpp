@@ -209,7 +209,7 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
             askForPin();
         }
         else
-            RoutePaymentSingleton::getInstance()->appleRestore();
+            RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
     }
 }
 
@@ -227,7 +227,7 @@ void IAPUpsaleLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 void IAPUpsaleLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
     if(restoreButtonPressed)
-        RoutePaymentSingleton::getInstance()->appleRestore();
+        RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
     else
         RoutePaymentSingleton::getInstance()->startInAppPayment();
 }

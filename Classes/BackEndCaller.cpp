@@ -20,7 +20,6 @@
 #include "AnalyticsSingleton.h"
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
-#include "RoutePaymentSingleton.h"
 
 using namespace cocos2d;
 

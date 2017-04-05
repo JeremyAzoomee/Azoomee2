@@ -1,5 +1,4 @@
 #include "ApplePaymentSingleton.h"
-#include "MessageBox.h"
 #include "payment_ios.h"
 #include "ModalMessages.h"
 #include "external/json/document.h"
@@ -44,8 +43,9 @@ void ApplePaymentSingleton::makeMonthlyPayment()
     [applePaymentObject makeOneMonthPayment];
 }
 
-void ApplePaymentSingleton::restorePayment()
+void ApplePaymentSingleton::refreshReceipt(bool usingButton)
 {
+    refreshFromButton = usingButton;
     requestAttempts = 0;
     ModalMessages::getInstance()->startLoading();
     payment_ios* applePaymentObject = [[payment_ios alloc] init];
@@ -90,15 +90,13 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
             {
                 AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
                 paymentFailed = false;
-                
-                //ModalMessages::getInstance()->stopLoading();
-                
+
                 BackEndCaller::getInstance()->newTrialJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
             }
             else if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED" && ParentDataProvider::getInstance()->isPaidUser())
             {
-                //AnalyticsSingleton::getInstance()->iapRESUBSCRIBEEVENT();
+                AnalyticsSingleton::getInstance()->iapAppleAutoRenewSubscriptionEvent();
                 ModalMessages::getInstance()->stopLoading();
                 paymentFailed = false;
                 return;
@@ -120,7 +118,8 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
             if(ParentDataProvider::getInstance()->isPaidUser())
             {
                 //NEED TO LOG IN AGAIN with the NEW USER STATUS
-                
+                //Give Error Message before autologin
+                MessageBox::createWith(ERROR_CODE_APPLE_ACCOUNT_DOWNGRADED, this);
             }
             else
             {
@@ -131,7 +130,6 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
         }
     }
 }
-
 
 void ApplePaymentSingleton::ErrorMessage()
 {
@@ -148,5 +146,16 @@ void ApplePaymentSingleton::DoublePurchase()
 void ApplePaymentSingleton::backendRequestFailed(long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+    if(errorCode == 400 && refreshFromButton)
+        MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
+    else if(errorCode == 400 && !refreshFromButton)
+        MessageBox::createWith(ERROR_CODE_APPLE_ID_UNKNOWN, this);
+    else
+        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+}
+
+//---------Delegate Functions----------
+void ApplePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    BackEndCaller::getInstance()->autoLogin();
 }

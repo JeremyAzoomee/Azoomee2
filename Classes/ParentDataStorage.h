@@ -20,6 +20,8 @@ public:
     std::string loggedInParentActorStatus;
     std::string loggedInParentPin;
     std::string loggedInParentBillingStatus;
+    std::string loggedInParentBillingDate;
+    std::string loggedInParentBillingProvider;
     
     std::vector<std::map<std::string, std::string>> availableChildren;          //array of maps, where each child has profileName and avatar keys
 };

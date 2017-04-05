@@ -114,9 +114,16 @@ bool RoutePaymentSingleton::osIsAmazon()
     else return false;
 }
 
-void RoutePaymentSingleton::appleRestore()
+void RoutePaymentSingleton::refreshAppleReceiptFromButton()
 {
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        ApplePaymentSingleton::getInstance()->restorePayment();
+        ApplePaymentSingleton::getInstance()->refreshReceipt(true);
     #endif
+}
+
+void RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+#endif
 }

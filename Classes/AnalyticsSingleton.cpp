@@ -549,3 +549,8 @@ void AnalyticsSingleton::iapBackEndRequestFailedEvent(long errorCode)
     mixPanel_createOSSpecficCall(eventID, mixPanelProperties);
 }
 
+void AnalyticsSingleton::iapAppleAutoRenewSubscriptionEvent()
+{
+    mixPanel_createOSSpecficCall("iapAppleAutoRenewSubscription");
+}
+

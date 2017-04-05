@@ -111,6 +111,25 @@
         "button":"OK"
     },
     
+    "3004":
+    {
+        "title":"Unknown Apple ID",
+        "body":"The Apple subscription could not be verified. Please log in, with the Apple account that created the Azoomee subscription.\n\nContact our customer service team if you need some help.",
+        "button":"OK"
+    },
+    "3005":
+    {
+        "title":"No Purchase To Restore",
+        "body":"We could not find a previous purchase to restore.\n\nContact our customer service team if you need some help.",
+        "button":"OK"
+    },
+    "3006":
+    {
+        "title":"No Renewal Found",
+        "body":"Apple subscription renewal not found. Account has been changed to Free.\n\nContact our customer service team if you need some help.",
+        "button":"OK"
+    },
+    
     "default":
     {
         "title":"Something Went Wrong",

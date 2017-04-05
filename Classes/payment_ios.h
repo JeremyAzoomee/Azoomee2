@@ -6,7 +6,6 @@
 @property (nonatomic, retain) SKProduct * oneMonthSubscription;
 
 -(void)makeOneMonthPayment;
-
 -(void)restorePayment;
 
 @end

@@ -21,7 +21,8 @@ public:
     bool osIsAndroid();
     bool osIsAmazon();
     
-    void appleRestore();
+    void refreshAppleReceiptFromButton();
+    void checkIfAppleReceiptRefreshNeeded();
 };
 
 #endif
