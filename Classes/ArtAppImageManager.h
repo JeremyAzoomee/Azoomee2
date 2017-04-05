@@ -11,7 +11,7 @@ public:
     virtual ~ArtAppImageManager();
     bool init(void);
     
-    void addImageToImagesFolder(char* dataString);
+    void addImageToImagesFolder(std::string dataString);
     void moveImageToLocalStorageFolder(std::string filePath);
     
 private:
@@ -19,14 +19,13 @@ private:
     void createDirectoryTreeForImagesFolder();
     std::string getLocalStorageFilePath();
     std::string getImageStorageFolder();
-    std::string getFileNameFromString(char *dataString);
-    std::string getFileDataFromString(char *dataString);
-    std::vector<std::string> splitCharToVector(char* inputData, std::string separator);
+    std::string getFileNameFromString(std::string dataString);
+    std::string getFileDataFromString(std::string dataString);
     std::vector<std::string> splitStringToVector(std::string inputData, std::string separator);
     std::string getFileNameFromPath(std::string filePath);
-    int getAmountOfSaveAttempts(char* inputData);
+    int getAmountOfSaveAttempts(std::string inputData);
     
-    std::map<std::string, std::string> getMapFormatOfDataChar(char* dataInput);
+    std::map<std::string, std::string> getMapFormatOfDataChar(std::string dataInput);
 };
 
 #endif

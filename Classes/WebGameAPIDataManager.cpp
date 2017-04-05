@@ -124,10 +124,8 @@ void WebGameAPIDataManager::createDirectoryTree()
 
 //---------------------------------------------------------Local storage save / restore-----------------------------------------------------------
 
-void WebGameAPIDataManager::saveLocalStorageData(char* stringToBeWritten)
+void WebGameAPIDataManager::saveLocalStorageData(std::string stringToBeWritten)
 {
-    CCLOG("ARTAPP - stringtobewritten : %s", stringToBeWritten);
-    
     if(runningGameId == "artApp")
     {
         ArtAppImageManager::getInstance()->addImageToImagesFolder(stringToBeWritten);
@@ -135,9 +133,8 @@ void WebGameAPIDataManager::saveLocalStorageData(char* stringToBeWritten)
     }
     
     createDirectoryTree();
-    std::string scoreString = StringUtils::format("%s", stringToBeWritten);
     
-    if(strlen(stringToBeWritten) > 0) FileUtils::getInstance()->writeStringToFile(stringToBeWritten, getPathForLocalStorageFile());
+    if(stringToBeWritten.length() > 0) FileUtils::getInstance()->writeStringToFile(stringToBeWritten, getPathForLocalStorageFile());
 }
 
 char* WebGameAPIDataManager::getLocalStorageData()
