@@ -20,6 +20,7 @@
 #include "AnalyticsSingleton.h"
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
+#include "RoutePaymentSingleton.h"
 
 using namespace cocos2d;
 
@@ -124,8 +125,10 @@ void BackEndCaller::updateBillingData()
 
 void BackEndCaller::onUpdateBillingDataAnswerReceived(std::string responseString)
 {
+    CCLOG("BILLING RESPONSE STRING: %S",responseString.c_str());
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
     AnalyticsSingleton::getInstance()->registerBillingStatus(ParentDataProvider::getInstance()->getBillingStatus());
+    RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded();
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------

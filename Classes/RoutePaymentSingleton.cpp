@@ -5,6 +5,7 @@
 
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
+#include "StringFunctions.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -124,6 +125,9 @@ void RoutePaymentSingleton::refreshAppleReceiptFromButton()
 void RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    
+    if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
+    {
+        ApplePaymentSingleton::getInstance()->refreshReceipt(false);
+    }
 #endif
 }

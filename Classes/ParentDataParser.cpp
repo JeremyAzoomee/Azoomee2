@@ -140,12 +140,14 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
     return true;
 }
 
-bool ParentDataParser::parseParentBillingData(std::string responseData)
+void ParentDataParser::parseParentBillingData(std::string responseData)
 {
     rapidjson::Document billingData;
     billingData.Parse(responseData.c_str());
     
-    if(billingData.HasParseError()) return false;
+    if(billingData.HasParseError()) return;
+    
+    ParentDataStorage::getInstance()->loggedInParentBillingDate = "";
     
     if(billingData.HasMember("billingStatus"))
     {
@@ -153,11 +155,27 @@ bool ParentDataParser::parseParentBillingData(std::string responseData)
         {
             ParentDataStorage::getInstance()->loggedInParentBillingStatus = billingData["billingStatus"].GetString();
             
-            return true;
         }
     }
     
-    return false;
+    //BillDate format "2017-04-04"
+    if(billingData.HasMember("nextBillDate"))
+    {
+        if(billingData["nextBillDate"].IsString())
+        {
+            ParentDataStorage::getInstance()->loggedInParentBillingDate = billingData["nextBillDate"].GetString();
+            
+        }
+    }
+    
+    if(billingData.HasMember("paymentProvider"))
+    {
+        if(billingData["nextBillDate"].IsString())
+        {
+            ParentDataStorage::getInstance()->loggedInParentBillingProvider = billingData["paymentProvider"].GetString();
+            
+        }
+    }
 }
 
 void ParentDataParser::logoutChild()

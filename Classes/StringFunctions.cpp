@@ -79,3 +79,22 @@ std::string stringReplace(std::string originalString, std::string stringToReplac
     }
     return originalString;
 }
+
+bool isDateStringOlderThanToday(std::string dateToCheck)
+{
+    std::vector<std::string> dobSplit = splitStringToVector(dateToCheck, "-");
+    
+    if(dobSplit.size() != 3)
+        return false;
+    
+    int nextBilldate = std::stoi(dobSplit.at(0)) * 10000 + std::stoi(dobSplit.at(1)) * 100 + std::stoi(dobSplit.at(2));
+    
+    time_t now = time (0);
+    tm nowtm = *(gmtime (&now));
+    int today = nowtm.tm_year * 10000 + (nowtm.tm_mon + 1) * 100 + nowtm.tm_mday;
+    
+    if(nextBilldate <=today)
+        return true;
+    else
+        return false;
+}
