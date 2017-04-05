@@ -24,7 +24,7 @@ public:
     void ErrorMessage();
     void DoublePurchase();
     
-    void backendRequestFailed();
+    void backendRequestFailed(long errorCode);
     
 private:
     //For making repeat requests

@@ -129,6 +129,10 @@
         NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
         NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
         NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
+        
+        ApplePaymentSingleton::getInstance()->transactionStatePurchased(std::string([receiptString UTF8String]));
+        
+        [self release];
     }
     else
     {

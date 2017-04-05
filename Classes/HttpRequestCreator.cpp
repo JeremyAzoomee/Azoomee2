@@ -301,7 +301,7 @@ void HttpRequestCreator::handleEventAfterError(std::string requestTag, long erro
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
         
         #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            ApplePaymentSingleton::getInstance()->backendRequestFailed();
+            ApplePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
         #endif
         return;
     }

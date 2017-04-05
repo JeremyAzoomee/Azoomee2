@@ -145,7 +145,7 @@ void ApplePaymentSingleton::DoublePurchase()
     MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
 }
 
-void ApplePaymentSingleton::backendRequestFailed()
+void ApplePaymentSingleton::backendRequestFailed(long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();
     MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
