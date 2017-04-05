@@ -167,8 +167,8 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISaveLocalDataStorage(JNIEnv* env, jobject thiz, jstring data)
 {
-    const char* cData = env->GetStringUTFChars(data, NULL);
-    WebGameAPIDataManager::getInstance()->saveLocalStorageData(strdup(cData));
+    std::string cData(env->GetStringUTFChars(data, NULL));
+    WebGameAPIDataManager::getInstance()->saveLocalStorageData(cData);
 }
 
 #endif
