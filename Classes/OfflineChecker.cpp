@@ -72,6 +72,8 @@ void OfflineChecker::sendOfflineCheckRequest()
 
 void OfflineChecker::onOfflineCheckRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
+    if(!Director::getInstance()->getRunningScene()->getChildByName("scheduleNode")) return;
+    
     if((response->getResponseCode() == 200)&&((newScene)||(offlineStatus)))
     {
         CCLOG("Online!");
