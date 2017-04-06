@@ -2,8 +2,9 @@
 #define __ROUTE_PAYMENT_SINGLETON_H__
 
 #include "cocos2d.h"
+#include "MessageBox.h"
 
-class RoutePaymentSingleton : public cocos2d::Ref
+class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
 {
     
 public:
@@ -22,7 +23,10 @@ public:
     bool osIsAmazon();
     
     void refreshAppleReceiptFromButton();
-    void checkIfAppleReceiptRefreshNeeded();
+    bool checkIfAppleReceiptRefreshNeeded();
+    
+    //Delegate Functions
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
 };
 
 #endif

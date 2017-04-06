@@ -26,6 +26,8 @@ public:
     //Delegate Functions
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
+    bool makingMonthlyPayment;
+    
 private:
     //For making repeat requests
     std::string savedReceipt;

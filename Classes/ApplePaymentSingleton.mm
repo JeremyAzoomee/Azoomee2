@@ -38,19 +38,18 @@ void ApplePaymentSingleton::makeMonthlyPayment()
     requestAttempts = 0;
     ModalMessages::getInstance()->startLoading();
     
-    payment_ios* applePaymentObject = [[payment_ios alloc] init];
-    [applePaymentObject retain];
-    [applePaymentObject makeOneMonthPayment];
+    makingMonthlyPayment = true;
+    [[payment_ios sharedPayment_ios] makeOneMonthPayment];
 }
 
 void ApplePaymentSingleton::refreshReceipt(bool usingButton)
 {
+    makingMonthlyPayment = false;
+    
     refreshFromButton = usingButton;
     requestAttempts = 0;
     ModalMessages::getInstance()->startLoading();
-    payment_ios* applePaymentObject = [[payment_ios alloc] init];
-    [applePaymentObject retain];
-    [applePaymentObject restorePayment];
+    [[payment_ios sharedPayment_ios] restorePayment];
 }
 
 void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
@@ -145,10 +144,14 @@ void ApplePaymentSingleton::DoublePurchase()
 void ApplePaymentSingleton::backendRequestFailed(long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();
-    if(errorCode == 400 && refreshFromButton)
-        MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
-    else if(errorCode == 400 && !refreshFromButton)
-        MessageBox::createWith(ERROR_CODE_APPLE_ID_UNKNOWN, this);
+    
+    if(!makingMonthlyPayment && errorCode == 400)
+    {
+        if(refreshFromButton)
+            MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
+        else
+            MessageBox::createWith(ERROR_CODE_APPLE_ID_UNKNOWN, this);
+    }
     else
         MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
 }

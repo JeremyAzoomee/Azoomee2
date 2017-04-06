@@ -6,6 +6,8 @@
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
 #include "StringFunctions.h"
+#include "MessageBox.h"
+#include "ChildSelectorScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -25,6 +27,7 @@ RoutePaymentSingleton* RoutePaymentSingleton::getInstance()
     {
         _sharedRoutePaymentSingleton = new RoutePaymentSingleton();
         _sharedRoutePaymentSingleton->init();
+        _sharedRoutePaymentSingleton->getOSManufacturer();
     }
     
     return _sharedRoutePaymentSingleton;
@@ -43,8 +46,6 @@ void RoutePaymentSingleton::startInAppPayment()
     if(osIsIos())
     {
         #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
-            //start ios payment
             ApplePaymentSingleton::getInstance()->makeMonthlyPayment();
         #endif
         return;
@@ -52,14 +53,12 @@ void RoutePaymentSingleton::startInAppPayment()
     
     if(osIsAndroid())
     {
-        AnalyticsSingleton::getInstance()->registerIAPOS("Google");
         GooglePaymentSingleton::getInstance()->startIABPayment();
         return;
     }
     
     if(osIsAmazon())
     {
-        AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
         AmazonPaymentSingleton::getInstance()->startIAPPayment();
         return;
     }
@@ -85,13 +84,16 @@ std::string RoutePaymentSingleton::getOSManufacturer()
     
     if (resultStr == "Amazon")
     {
+        AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
         return "Amazon";
     }
     else
     {
+        AnalyticsSingleton::getInstance()->registerIAPOS("Google");
         return "Google";
     }
 #else
+    AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
     return "iOS";
 #endif
 
@@ -122,17 +124,29 @@ void RoutePaymentSingleton::refreshAppleReceiptFromButton()
     #endif
 }
 
-void RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
+bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
 {
+    CCLOG("checkIfAppleReceiptRefreshNeeded Started");
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
     {
         ApplePaymentSingleton::getInstance()->refreshReceipt(false);
+        return false;
     }
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    CCLOG("checkIfAppleReceiptRefreshNeeded");
     if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && !ParentDataProvider::getInstance()->isPaidUser())
     {
-        MessageBox::createWith(ERROR_CODE_APPLE_SUBSCRIPTION_ON_NON_APPLE, nullptr);
+        MessageBox::createWith(ERROR_CODE_APPLE_SUBSCRIPTION_ON_NON_APPLE, this);
+        return false;
     }
 #endif
+    return true;
+}
+
+//Delegate Functions
+void RoutePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    auto childSelectorScene = ChildSelectorScene::createScene(0);
+    Director::getInstance()->replaceScene(childSelectorScene);
 }

@@ -215,7 +215,11 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "updateParentActorStatus") BackEndCaller::getInstance()->onUpdateParentActorStatusAnswerReceived(responseDataString);
         if(requestTag == "PreviewHOME") HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(responseDataString);
         if(requestTag == "iapAmazonPaymentMade") AmazonPaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(responseDataString);
-        if(requestTag == "iapApplePaymentMade") ApplePaymentSingleton::getInstance()->onAnswerReceived(responseDataString);
+        
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        if(requestTag == "iapApplePaymentMade")
+            ApplePaymentSingleton::getInstance()->onAnswerReceived(responseDataString);
+#endif
         if(requestTag == "updateBilling") BackEndCaller::getInstance()->onUpdateBillingDataAnswerReceived(responseDataString);
         
         for(int i = 0; i < 6; i++)

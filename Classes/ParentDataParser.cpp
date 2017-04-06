@@ -145,7 +145,11 @@ void ParentDataParser::parseParentBillingData(std::string responseData)
     rapidjson::Document billingData;
     billingData.Parse(responseData.c_str());
     
-    if(billingData.HasParseError()) return;
+    if(billingData.HasParseError())
+    {
+        CCLOG("Billing Parse Error");
+        return;
+    }
     
     ParentDataStorage::getInstance()->loggedInParentBillingDate = "";
     
@@ -153,6 +157,7 @@ void ParentDataParser::parseParentBillingData(std::string responseData)
     {
         if(billingData["billingStatus"].IsString())
         {
+            CCLOG("Billing billingStatus OK");
             ParentDataStorage::getInstance()->loggedInParentBillingStatus = billingData["billingStatus"].GetString();
             
             AnalyticsSingleton::getInstance()->registerBillingStatus(billingData["billingStatus"].GetString());
@@ -165,6 +170,7 @@ void ParentDataParser::parseParentBillingData(std::string responseData)
     {
         if(billingData["nextBillDate"].IsString())
         {
+            CCLOG("Billing nextBillDate OK");
             ParentDataStorage::getInstance()->loggedInParentBillingDate = billingData["nextBillDate"].GetString();
             
         }
@@ -174,6 +180,7 @@ void ParentDataParser::parseParentBillingData(std::string responseData)
     {
         if(billingData["paymentProvider"].IsString())
         {
+            CCLOG("Billing paymentProvider OK");
             ParentDataStorage::getInstance()->loggedInParentBillingProvider = billingData["paymentProvider"].GetString();
             
             AnalyticsSingleton::getInstance()->registerBillingProvider(billingData["paymentProvider"].GetString());

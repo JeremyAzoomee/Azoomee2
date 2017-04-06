@@ -15,6 +15,10 @@ private:
     void navigateToNextScene();
     std::string videoErrorText;
     
+    bool isNavigatingToNextScene;
+    
+    cocos2d::experimental::ui::VideoPlayer* videoPlayer;
+    
 public:
     static cocos2d::Scene* createScene();
 

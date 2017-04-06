@@ -40,13 +40,12 @@ bool IntroVideoScene::init()
         navigateToNextScene();
     });
     
-    funcCallAction->setTag(2);
     this->runAction(Sequence::create(DelayTime::create(7), funcCallAction, NULL));
 
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 
-    auto videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
+    videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
     videoPlayer->setContentSize(_visibleRect.size);
     videoPlayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     videoPlayer->setPosition(Vec2(_visibleRect.origin.x + _visibleRect.size.width / 2,_visibleRect.origin.y + _visibleRect.size.height /2));
@@ -87,18 +86,22 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
 
 void IntroVideoScene::navigateToNextScene()
 {
-    this->stopActionByTag(2);
-    AnalyticsSingleton::getInstance()->registerAppVersion();
-    
-    if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+    if(!isNavigatingToNextScene)
     {
-        auto slideShowScene = SlideShowScene::createScene();
-        Director::getInstance()->replaceScene(slideShowScene);
-    }
-    else
-    {
-        auto loginLogicHandler = new LoginLogicHandler();
-        loginLogicHandler->doLoginLogic();
+        removeChild(videoPlayer);
+        isNavigatingToNextScene = true;
+        AnalyticsSingleton::getInstance()->registerAppVersion();
+        
+        if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+        {
+            auto slideShowScene = SlideShowScene::createScene();
+            Director::getInstance()->replaceScene(slideShowScene);
+        }
+        else
+        {
+            auto loginLogicHandler = new LoginLogicHandler();
+            loginLogicHandler->doLoginLogic();
+        }
     }
 }
 

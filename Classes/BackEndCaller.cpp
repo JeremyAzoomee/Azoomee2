@@ -126,7 +126,6 @@ void BackEndCaller::updateBillingData()
 void BackEndCaller::onUpdateBillingDataAnswerReceived(std::string responseString)
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
-    RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded();
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
@@ -207,7 +206,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene(true);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
-    else
+    else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
     {
         auto childSelectorScene = ChildSelectorScene::createScene(0);
         Director::getInstance()->replaceScene(childSelectorScene);
