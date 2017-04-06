@@ -1,5 +1,5 @@
 #include "MixPanelNotifications_ios.h"
-#import "Mixpanel.h"
+#import <Mixpanel/Mixpanel.h>
 #import <UIKit/UIKit.h>
 
 void showNotification_ios()

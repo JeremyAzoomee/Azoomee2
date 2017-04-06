@@ -1,9 +1,12 @@
 #include "StringMgr.h"
-#include "AnalyticsSingleton.h"
-#include <AzoomeeCommon/StringFunctions.h>
+#include "Analytics/AnalyticsSingleton.h"
+#include "StringFunctions.h"
+#include <cocos/cocos2d.h>
 
-using namespace Azoomee;
+using namespace cocos2d;
 
+namespace Azoomee
+{
 
 static StringMgr *_sharedStringMgr = NULL;
 
@@ -34,14 +37,14 @@ bool StringMgr::init(void)
 
 //--------------- Get Strings Functions ------------------
 
-string StringMgr::getStringForKey(string key)
+std::string StringMgr::getStringForKey(std::string key)
 {
     return getStringFromJson(splitStringToVector(key, "/"), stringsDocument);
 }
 
 std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long errorCode)
 {
-    string errorCodeString = StringUtils::format("%ld",errorCode);
+    std::string errorCodeString = StringUtils::format("%ld",errorCode);
     
     if(!errorMessagesDocument.HasMember(errorCodeString.c_str()))
         errorCodeString = "default";
@@ -70,9 +73,9 @@ void StringMgr::setLanguageIdentifier()
     };
 }
 
-Document StringMgr::parseFile(string languageID, string stringFile)
+Document StringMgr::parseFile(std::string languageID, std::string stringFile)
 {
-    string filename = StringUtils::format("res/languages/%s/%s.json",languageID.c_str(),stringFile.c_str());
+    std::string filename = StringUtils::format("res/languages/%s/%s.json",languageID.c_str(),stringFile.c_str());
     
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(filename);
     Document document;
@@ -86,9 +89,9 @@ Document StringMgr::parseFile(string languageID, string stringFile)
     return document;
 }
 
-string StringMgr::getStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary)
+std::string StringMgr::getStringFromJson(std::vector<std::string> jsonKeys, rapidjson::Value& sceneJsonDictionary)
 {
-    string stringError = "Text not found.";
+    std::string stringError = "Text not found.";
     
     if(jsonKeys.size() == 0 || !sceneJsonDictionary.IsObject())
     {
@@ -96,7 +99,7 @@ string StringMgr::getStringFromJson(std::vector<std::string> jsonKeys, rapidjson
         return stringError;
     }
     
-    string currentKey = jsonKeys.at(0);
+    std::string currentKey = jsonKeys.at(0);
     
     if(jsonKeys.size() == 1)
     {
@@ -114,4 +117,6 @@ string StringMgr::getStringFromJson(std::vector<std::string> jsonKeys, rapidjson
 
     AnalyticsSingleton::getInstance()->localisedStringErrorEvent(currentKey,languageID);
     return stringError;
+}
+  
 }

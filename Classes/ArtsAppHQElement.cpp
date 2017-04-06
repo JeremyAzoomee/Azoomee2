@@ -1,18 +1,19 @@
 #include "ArtsAppHQElement.h"
 #include "CookieDataStorage.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "WebViewSelector.h"
 #include "ChildDataProvider.h"
 #include "HQScene.h"
 #include "AppDelegate.h"
 #include "MessageBox.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "WebGameAPIDataManager.h"
 #include "ArtAppImageManager.h"
 
 
 USING_NS_CC;
 using namespace cocos2d;
+using namespace Azoomee;
 
 bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage, bool deletable, bool locked)
 {

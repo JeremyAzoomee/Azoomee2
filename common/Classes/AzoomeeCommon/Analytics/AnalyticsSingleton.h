@@ -1,21 +1,24 @@
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include <time.h>
 
 #define NUMBER_IDENTIFIER "NUMBER|"
 
+
+namespace Azoomee
+{
+  
 class AnalyticsSingleton : public cocos2d::Ref
 {
     
 private:
-    void mixPanel_createOSSpecficCall(std::string eventID);
-    void mixPanel_createOSSpecficCall(std::string eventID, std::map<std::string, std::string> map);
+    void mixPanelSendEvent(const std::string& eventID);
+    void mixPanelSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map);
+    void mixPanelRegisterSuperProperties(const std::string& key, const std::string& property);
+    void mixPanelRegisterSuperProperties(const std::map<std::string, std::string>& map);
+    void mixPanelRegisterIdentity(const std::string& parentID, const std::map<std::string, std::string>& map);
     
-    void mixPanel_OSSpecificSuperPropertiesCall(std::string Key, std::string Property);
-    
-    void mixPanel_OSSpecificPeoplePropertiesCall(std::string parentID, std::map<std::string, std::string> map);
-    
-    void appsflyer_createOSSpecficCall(std::string eventID);
-    void appsflyer_createOSSpecficCall(std::string eventID, std::map<std::string, std::string> map);
+    void appsFlyerSendEvent(const std::string& eventID);
+    void appsFlyerSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map);
     
     std::string storedTitle;
     std::string storedDescription;
@@ -104,3 +107,5 @@ public:
     void iapBackEndRequestFailedEvent(long errorCode);
 
 };
+  
+}

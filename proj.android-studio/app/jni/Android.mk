@@ -24,9 +24,7 @@ EXCLUDE_FILES := ../../../Classes/exDataStorage.cpp
 
 # Collect all source files to compile
 LOCAL_SRC_FILES := $(call find-src-files, ../../../Classes, $(EXCLUDE_FILES))
-LOCAL_SRC_FILES += hellocpp/main.cpp
-
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
+LOCAL_SRC_FILES += main.cpp
 
 LOCAL_STATIC_LIBRARIES := cocos2dx_static
 LOCAL_STATIC_LIBRARIES += azoomee_common

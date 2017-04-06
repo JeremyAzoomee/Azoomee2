@@ -3,13 +3,14 @@
 #include "BaseScene.h"
 #include "IntroVideoScene.h"
 #include "HQScene.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
 #include "LoginScene.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
 
 USING_NS_CC;
+using namespace Azoomee;
 
 //static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
 //static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);

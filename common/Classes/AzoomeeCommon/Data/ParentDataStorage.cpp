@@ -1,6 +1,8 @@
 #include "ParentDataStorage.h"
 
-using namespace cocos2d;
+
+namespace Azoomee
+{
 
 static ParentDataStorage *_sharedParentDataStorage = NULL;
 
@@ -22,4 +24,6 @@ ParentDataStorage::~ParentDataStorage(void)
 bool ParentDataStorage::init(void)
 {
     return true;
+}
+  
 }

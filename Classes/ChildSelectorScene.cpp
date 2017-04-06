@@ -1,13 +1,13 @@
 #include "ChildSelectorScene.h"
 #include "BackEndCaller.h"
-#include "ParentDataProvider.h"
+#include <AzoomeeCommon/Data/ParentDataProvider.h>
 #include "ChildAccountScene.h"
 #include <math.h>
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "AudioMixer.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "MessageBox.h"
-#include "StringMgr.h"
+#include "Locale.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
 #include "OfflineHubScene.h"
@@ -18,6 +18,7 @@
 #define OOMEE_LAYER_GAP 40
 
 USING_NS_CC;
+using namespace Azoomee;
 
 Scene* ChildSelectorScene::createScene(long errorCode)
 {

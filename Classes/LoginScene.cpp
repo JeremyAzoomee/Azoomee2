@@ -2,16 +2,18 @@
 #include "AudioMixer.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
-#include "StringMgr.h"
+#include "Locale.h"
 #include "BaseScene.h"
 #include "BackEndCaller.h"
-#include "TextInputChecker.h"
+#include <AzoomeeCommon/TextInputChecker.h>
 #include "OfflineHubScene.h"
 #include "HQHistoryManager.h"
-#include "AnalyticsSingleton.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* LoginScene::createScene(long errorCode)
 {

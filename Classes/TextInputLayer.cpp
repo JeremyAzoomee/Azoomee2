@@ -1,7 +1,10 @@
 #include "TextInputLayer.h"
-#include "TextInputChecker.h"
-#include "StringMgr.h"
+#include <AzoomeeCommon/TextInputChecker.h>
+#include "Locale.h"
 #include "ElectricDreamsTextStyles.h"
+
+using namespace Azoomee;
+
 
 TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputType)
 {

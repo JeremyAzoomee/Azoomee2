@@ -1,7 +1,9 @@
 #include "ParentDataProvider.h"
 #include "ParentDataStorage.h"
 
-using namespace cocos2d;
+
+namespace Azoomee
+{
 
 static ParentDataProvider *_sharedParentDataProvider = NULL;
 
@@ -93,4 +95,6 @@ std::string ParentDataProvider::getDOBForAnAvailableChildren(int childNumber)
 std::string ParentDataProvider::getSexForAnAvailableChildren(int childNumber)
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["sex"];
+}
+  
 }

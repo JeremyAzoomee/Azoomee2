@@ -4,7 +4,7 @@
 #include "OnboardingScene.h"
 #include "BaseScene.h"
 #include "HQHistoryManager.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "MixPanelNotifications_ios.h"
@@ -13,6 +13,8 @@
 #endif
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 #define MESSAGE_BOX_PADDING 100
 #define MESSAGE_BOX_MINIMUM_WIDTH 1366

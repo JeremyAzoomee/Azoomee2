@@ -1,11 +1,13 @@
 #include "DisplayChildNameLayer.h"
 #include "ChildDataProvider.h"
 #include "ui/UIScale9Sprite.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
 #include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* DisplayChildNameLayer::createScene()
 {

@@ -1,6 +1,10 @@
 #include "cocos2d.h"
 #include "external/json/document.h"
 
+
+namespace Azoomee
+{
+
 class ParentDataProvider : public cocos2d::Ref
 {
     
@@ -27,3 +31,5 @@ public:
     bool isPaidUser();
     bool emailRequiresVerification();
 };
+
+}

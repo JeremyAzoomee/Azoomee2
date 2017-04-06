@@ -1,21 +1,24 @@
 #include "ExitOrLogoutLayer.h"
 #include "LoginScene.h"
-#include "StringMgr.h"
+#include "Locale.h"
 #include "ChildDataProvider.h"
 #include "AudioMixer.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ParentDataParser.h"
-#include "ParentDataProvider.h"
+#include <AzoomeeCommon/Data/ParentDataProvider.h>
 #include "ElectricDreamsTextStyles.h"
 #include "MessageBox.h"
 #include "ElectricDreamsDecoration.h"
 #include "PaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
 #define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
+
+using namespace Azoomee;
+
 
 bool ExitOrLogoutLayer::init()
 {

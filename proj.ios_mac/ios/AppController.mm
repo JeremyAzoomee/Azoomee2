@@ -28,7 +28,7 @@
 #import "RootViewController.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import "Mixpanel.h"
+#import <Mixpanel/Mixpanel.h>
 #import <AppsFlyerLib/AppsFlyerTracker.h>
 
 @implementation AppController

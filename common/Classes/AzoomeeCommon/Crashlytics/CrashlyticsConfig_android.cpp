@@ -1,9 +1,13 @@
-#include "Crashlytics_android.h"
+#include "CrashlyticsConfig.h"
+#include <cocos/cocos2d.h>
 
-void createCrashlyticsExecption_android(std::string execptionDomain, int execptionCode, std::string execptionMessage)
+
+namespace Azoomee
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    std::string messageBody = cocos2d::StringUtils::format("Domain:%s; Code:%d; Message:%s", execptionDomain.c_str(), execptionCode, execptionMessage.c_str());
+  
+void createCrashlyticsException(const std::string& exceptionDomain, int exceptionCode, const std::string& exceptionMessage)
+{
+    std::string messageBody = cocos2d::StringUtils::format("Domain:%s; Code:%d; Message:%s", exceptionDomain.c_str(), exceptionCode, exceptionMessage.c_str());
     
     cocos2d::JniMethodInfo methodInfo;
     
@@ -18,13 +22,10 @@ void createCrashlyticsExecption_android(std::string execptionDomain, int execpti
     
     methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jstringMessage);
     methodInfo.env->DeleteLocalRef(methodInfo.classID);
-#endif
 }
 
-void createCrashlyticsUserInfo_android(std::string AdultIdentifier, std::string ChildIdentifier)
+void createCrashlyticsUserInfo(const std::string& adultIdentifier, const std::string& childIdentifier)
 {
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     cocos2d::JniMethodInfo methodInfo;
     
     if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "CrashlyticsLogUser", "(Ljava/lang/String;Ljava/lang/String;)V"))
@@ -32,13 +33,13 @@ void createCrashlyticsUserInfo_android(std::string AdultIdentifier, std::string 
         return;
     }
     
-    jstring jAdultIdentifier = methodInfo.env->NewStringUTF(AdultIdentifier.c_str());
-    jstring jChildIdentifier = methodInfo.env->NewStringUTF(ChildIdentifier.c_str());
+    jstring jAdultIdentifier = methodInfo.env->NewStringUTF(adultIdentifier.c_str());
+    jstring jChildIdentifier = methodInfo.env->NewStringUTF(childIdentifier.c_str());
     
-    CCLOG("To be sent to jni for Crashlytics: AdultIdentifier:%s, ChildIdentifier:%s", AdultIdentifier.c_str(), ChildIdentifier.c_str());
+    CCLOG("To be sent to jni for Crashlytics: AdultIdentifier:%s, ChildIdentifier:%s", adultIdentifier.c_str(), childIdentifier.c_str());
     
     methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jAdultIdentifier, jChildIdentifier);
     methodInfo.env->DeleteLocalRef(methodInfo.classID);
-    
-#endif
+}
+
 }

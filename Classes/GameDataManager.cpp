@@ -21,12 +21,13 @@ USING_NS_CC;
 #include "MessageBox.h"
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
-#include "StringMgr.h"
+#include "Locale.h"
 #include "WebGameAPIDataManager.h"
-
 
 using namespace network;
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 static GameDataManager *_sharedGameDataManager = NULL;
 

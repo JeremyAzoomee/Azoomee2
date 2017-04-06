@@ -1,10 +1,12 @@
 #include "ChildDataParser.h"
 #include "ChildDataStorage.h"
-#include "CrashLyticsConfig.h"
-#include "ParentDataProvider.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
+#include <AzoomeeCommon/Data/ParentDataProvider.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 static ChildDataParser *_sharedChildDataParser = NULL;
 

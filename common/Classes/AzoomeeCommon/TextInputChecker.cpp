@@ -1,15 +1,16 @@
 #include "TextInputChecker.h"
-#include "ParentDataProvider.h"
-#include <AzoomeeCommon/StringFunctions.h>
+#include "Data/ParentDataProvider.h"
+#include "StringFunctions.h"
 
-using namespace Azoomee;
-using namespace cocos2d;
 
+namespace Azoomee
+{
 
 bool isCharacter(const char Character)
 {
     return ( (Character >= 'a' && Character <= 'z') || (Character >= 'A' && Character <= 'Z'));
 }
+  
 bool isNumber(const char Character)
 {
     return ( Character >= '0' && Character <= '9');
@@ -175,4 +176,6 @@ int ageFromDOBString(std::string dobString)
   }
   
   return -1;
+}
+  
 }

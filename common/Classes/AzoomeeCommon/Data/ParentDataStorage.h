@@ -1,6 +1,10 @@
 #include "cocos2d.h"
 #include "external/json/document.h"
 
+
+namespace Azoomee
+{
+  
 class ParentDataStorage : public cocos2d::Ref
 {
     
@@ -23,3 +27,5 @@ public:
     
     std::vector<std::map<std::string, std::string>> availableChildren;          //array of maps, where each child has profileName and avatar keys
 };
+
+}

@@ -15,7 +15,7 @@
 #include "ImageDownloader.h"
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQDataParser.h"
 #include "NavigationLayer.h"
 #include "ChildDataProvider.h"
@@ -27,8 +27,9 @@
 #include "ImageDownloaderOnScreenChecker.h"
 
 USING_NS_CC;
-
+using namespace Azoomee;
 using namespace network;
+
 
 Scene* HQSceneElementVisual::createScene()
 {

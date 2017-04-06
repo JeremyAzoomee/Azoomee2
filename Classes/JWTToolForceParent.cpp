@@ -4,7 +4,7 @@
 #include "external/json/stringbuffer.h"
 #include "external/json/prettywriter.h"
 #include "BackEndCaller.h"
-#include "ParentDataProvider.h"
+#include <AzoomeeCommon/Data/ParentDataProvider.h>
 #include "ChildDataProvider.h"
 #include <iomanip>
 
@@ -14,6 +14,8 @@ USING_NS_CC;
 
 using namespace cocos2d;
 using namespace rapidjson;
+using namespace Azoomee;
+
 
 static JWTToolForceParent *_sharedJWTToolForceParent = NULL;
 

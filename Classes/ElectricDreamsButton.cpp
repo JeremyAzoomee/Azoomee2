@@ -1,10 +1,12 @@
 #include "ElectricDreamsButton.h"
 #include "ExitOrLogoutLayer.h"
 #include "AudioMixer.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
 
+
+using namespace Azoomee;
 
 bool ElectricDreamsButton::init()
 {

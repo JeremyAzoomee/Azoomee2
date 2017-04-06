@@ -1,13 +1,15 @@
 #include "ImageDownloader.h"
 #include "CookieDataStorage.h"
 #include "ElectricDreamsTextStyles.h"
-#include "StringMgr.h"
-#include "ConfigStorage.h"
+#include "Locale.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ImageDownloaderCacheCleanerLogic.h"
 
 USING_NS_CC;
 using namespace network;
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size size, Vec2 shape)
 {

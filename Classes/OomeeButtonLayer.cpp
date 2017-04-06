@@ -1,16 +1,17 @@
 #include "OomeeButtonLayer.h"
 #include "extensions/cocos-ext.h"
 #include "spine/spine.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ChildDataProvider.h"
-#include "ParentDataProvider.h"
+#include <AzoomeeCommon/Data/ParentDataProvider.h>
 #include "HQHistoryManager.h"
 #include "AudioMixer.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 USING_NS_CC;
-
+using namespace Azoomee;
 using namespace spine;
+
 
 OomeeButtonLayer* OomeeButtonLayer::createOomeeLayer(int oomeeNumber)
 {

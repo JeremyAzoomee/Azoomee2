@@ -1,8 +1,12 @@
-#ifndef __CONFIGSTORAGE_H__
-#define __CONFIGSTORAGE_H__
+#ifndef __AzoomeeCommon_ConfigStorage_h__
+#define __AzoomeeCommon_ConfigStorage_h__
 
 #include "cocos2d.h"
 #include "external/json/document.h"
+
+
+namespace Azoomee
+{
 
 class ConfigStorage : public cocos2d::Ref
 {
@@ -96,5 +100,7 @@ private:
     cocos2d::Point visualOrigin;
     cocos2d::Size visualSize;
 };
+  
+}
 
 #endif

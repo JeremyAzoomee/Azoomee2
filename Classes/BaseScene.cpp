@@ -1,18 +1,19 @@
 #include "BaseScene.h"
 #include "NavigationLayer.h"
 #include "AudioMixer.h"
-#include "simpleAudioEngine.h"
+#include "SimpleAudioEngine.h"
 
 #include "MainHubScene.h"
 #include "HQScene.h"
 
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ChildDataProvider.h"
 #include "HQDataParser.h"
 
 #include "HQHistoryManager.h"
 
 USING_NS_CC;
+using namespace Azoomee;
 
 Scene* BaseScene::createScene()
 {

@@ -2,9 +2,13 @@
 
 #include "ConfigStorage.h"
 #include "ParentDataProvider.h"
-#include "AnalyticsSingleton.h"
+#include "../Analytics/AnalyticsSingleton.h"
 
 using namespace cocos2d;
+
+
+namespace Azoomee
+{
 
 static ConfigStorage *_sharedConfigStorage = NULL;
 
@@ -345,4 +349,6 @@ std::string ConfigStorage::getVersionNumberWithPlatform()
 std::string ConfigStorage::getVersionNumberToDisplay()
 {
     return "Version Number " + getVersionNumber();
+}
+  
 }

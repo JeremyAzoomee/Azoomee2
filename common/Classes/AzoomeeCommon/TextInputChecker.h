@@ -1,4 +1,7 @@
-#include "cocos2d.h"
+#include <string>
+
+namespace Azoomee
+{
 
 bool isCharacter(const char Character);
 bool isNumber(const char Character);
@@ -10,3 +13,5 @@ bool childNameExists(std::string newChildsName);
 bool isValidChildName(const char *childName);
 bool hasAzoomeeEmailAddress(std::string emailAddress);
 int ageFromDOBString(std::string dobString);
+  
+}

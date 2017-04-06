@@ -4,20 +4,22 @@
 #include "HQDataProvider.h"
 #include "HQScene.h"
 
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ChildSelectorScene.h"
 #include "ChildDataStorage.h"
 #include "ChildDataProvider.h"
 #include "MessageBox.h"
 #include "HQHistoryManager.h"
 #include "AudioMixer.h"
-#include "StringMgr.h"
-#include "AnalyticsSingleton.h"
+#include "Locale.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginScene.h"
 #include "OnboardingScene.h"
 #include "ModalMessages.h"
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 int amountOfItems = 5;
 

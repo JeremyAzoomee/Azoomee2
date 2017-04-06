@@ -1,6 +1,6 @@
 #include "ArtAppImageManager.h"
 #include "ChildDataProvider.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 

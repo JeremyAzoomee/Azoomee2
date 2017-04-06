@@ -2,10 +2,12 @@
 #include "BackEndCaller.h"
 #include "ChildDataParser.h"
 #include "ChildDataProvider.h"
-#include "StringMgr.h"
+#include "Locale.h"
 #include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* OfflineText::createScene()
 {

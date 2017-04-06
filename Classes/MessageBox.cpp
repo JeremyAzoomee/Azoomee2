@@ -1,11 +1,12 @@
 #include "MessageBox.h"
-#include "StringMgr.h"
-#include "AnalyticsSingleton.h"
+#include "Locale.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginScene.h"
 #include "OnboardingScene.h"
-#include "StringMgr.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
+
+using namespace Azoomee;
 
 #define MESSAGE_BOX_PADDING 100
 

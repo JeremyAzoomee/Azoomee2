@@ -1,10 +1,13 @@
 #include "AwaitingAdultPinLayer.h"
-#include "StringMgr.h"
+#include "Locale.h"
 #include "BackEndCaller.h"
-#include "ParentDataProvider.h"
+#include <AzoomeeCommon/Data/ParentDataProvider.h>
 #include "AudioMixer.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
+
+using namespace Azoomee;
+
 
 bool AwaitingAdultPinLayer::init()
 {

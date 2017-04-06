@@ -1,9 +1,12 @@
 #include "SlideShowScene.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "BaseScene.h"
-#include "StringMgr.h"
+#include "Locale.h"
 #include "AudioMixer.h"
 #include "HQHistoryManager.h"
+
+using namespace Azoomee;
+
 
 Scene* SlideShowScene::createScene()
 {
