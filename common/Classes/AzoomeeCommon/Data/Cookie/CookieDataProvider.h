@@ -1,5 +1,8 @@
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "external/json/document.h"
+
+namespace Azoomee
+{
 
 class CookieDataProvider : public cocos2d::Ref
 {
@@ -18,3 +21,5 @@ private:
     std::vector<std::string> splitStringToVector(std::string inputString, std::string separator);
     bool checkIfCookieIsForUrl(std::string cookieRecord, std::string url);
 };
+
+}

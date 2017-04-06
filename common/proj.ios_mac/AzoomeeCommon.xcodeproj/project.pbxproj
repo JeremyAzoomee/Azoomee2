@@ -80,6 +80,9 @@
 		3012ED431E9691A90009027D /* UIView+MPHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3012ECF91E9691A90009027D /* UIView+MPHelpers.m */; };
 		3012ED441E9691A90009027D /* UIViewController+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3012ECFB1E9691A90009027D /* UIViewController+AutomaticEvents.m */; };
 		3012ED481E969A180009027D /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED461E969A180009027D /* AudioMixer.cpp */; };
+		3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4A1E969AE40009027D /* CookieDataParser.cpp */; };
+		3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4C1E969AE40009027D /* CookieDataProvider.cpp */; };
+		3012ED521E969AE40009027D /* CookieDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4E1E969AE40009027D /* CookieDataStorage.cpp */; };
 		3077F45C1E8D5881006DA465 /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3077F45A1E8D5881006DA465 /* StringFunctions.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
@@ -235,6 +238,12 @@
 		3012ECFB1E9691A90009027D /* UIViewController+AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AutomaticEvents.m"; sourceTree = "<group>"; };
 		3012ED461E969A180009027D /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
 		3012ED471E969A180009027D /* AudioMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMixer.h; sourceTree = "<group>"; };
+		3012ED4A1E969AE40009027D /* CookieDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CookieDataParser.cpp; sourceTree = "<group>"; };
+		3012ED4B1E969AE40009027D /* CookieDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CookieDataParser.h; sourceTree = "<group>"; };
+		3012ED4C1E969AE40009027D /* CookieDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CookieDataProvider.cpp; sourceTree = "<group>"; };
+		3012ED4D1E969AE40009027D /* CookieDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CookieDataProvider.h; sourceTree = "<group>"; };
+		3012ED4E1E969AE40009027D /* CookieDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CookieDataStorage.cpp; sourceTree = "<group>"; };
+		3012ED4F1E969AE40009027D /* CookieDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CookieDataStorage.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3077F45A1E8D5881006DA465 /* StringFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringFunctions.cpp; sourceTree = "<group>"; };
 		3077F45B1E8D5881006DA465 /* StringFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringFunctions.h; sourceTree = "<group>"; };
@@ -436,6 +445,19 @@
 			path = Audio;
 			sourceTree = "<group>";
 		};
+		3012ED491E969AE40009027D /* Cookie */ = {
+			isa = PBXGroup;
+			children = (
+				3012ED4A1E969AE40009027D /* CookieDataParser.cpp */,
+				3012ED4B1E969AE40009027D /* CookieDataParser.h */,
+				3012ED4C1E969AE40009027D /* CookieDataProvider.cpp */,
+				3012ED4D1E969AE40009027D /* CookieDataProvider.h */,
+				3012ED4E1E969AE40009027D /* CookieDataStorage.cpp */,
+				3012ED4F1E969AE40009027D /* CookieDataStorage.h */,
+			);
+			path = Cookie;
+			sourceTree = "<group>";
+		};
 		3077F4381E8D5048006DA465 = {
 			isa = PBXGroup;
 			children = (
@@ -515,6 +537,7 @@
 		30DD5EDF1E96841D0084305B /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				3012ED491E969AE40009027D /* Cookie */,
 				30DD5EEE1E96860C0084305B /* ConfigStorage.cpp */,
 				30DD5EEF1E96860C0084305B /* ConfigStorage.h */,
 				30DD5EE91E9684290084305B /* ParentData */,
@@ -609,6 +632,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30DD5EE81E96841D0084305B /* ParentDataStorage.cpp in Sources */,
+				3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */,
 				3012ED3C1E9691A90009027D /* MPWebSocket.m in Sources */,
 				3012ED371E9691A90009027D /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
 				3012ED3F1E9691A90009027D /* UIApplication+AutomaticEvents.m in Sources */,
@@ -666,9 +690,11 @@
 				3012ED1C1E9691A90009027D /* MPEventBinding.m in Sources */,
 				3012ED0F1E9691A90009027D /* MPApplicationStateSerializer.m in Sources */,
 				3012ED051E9691A90009027D /* MPABTestDesignerClearRequestMessage.m in Sources */,
+				3012ED521E969AE40009027D /* CookieDataStorage.cpp in Sources */,
 				3012ED481E969A180009027D /* AudioMixer.cpp in Sources */,
 				3012ED0B1E9691A90009027D /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				3012ED171E9691A90009027D /* MPClassDescription.m in Sources */,
+				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
 				30DD5EE71E96841D0084305B /* ParentDataProvider.cpp in Sources */,
 				3012ED021E9691A90009027D /* MPAbstractABTestDesignerMessage.m in Sources */,
 				3012ECFE1E9691A90009027D /* Mixpanel+AutomaticEvents.m in Sources */,

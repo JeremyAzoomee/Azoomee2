@@ -130,12 +130,9 @@
 		A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621D1DD3836D0090F053 /* NavigationLayer.cpp */; };
 		A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862291DD383BD0090F053 /* AppDelegate.cpp */; };
 		A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198622C1DD480A60090F053 /* BaseScene.cpp */; };
-		A1A2D2FE1E13B52700E86169 /* CookieDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1A2D2FA1E13B52700E86169 /* CookieDataParser.cpp */; };
-		A1A2D2FF1E13B52700E86169 /* CookieDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1A2D2FC1E13B52700E86169 /* CookieDataProvider.cpp */; };
 		A1A2D3051E13B53200E86169 /* ChildDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1A2D3011E13B53200E86169 /* ChildDataParser.cpp */; };
 		A1A2D3061E13B53200E86169 /* ChildDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1A2D3031E13B53200E86169 /* ChildDataProvider.cpp */; };
 		A1CC0C1C1E141AFF008B469E /* ChildDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C1A1E141AFF008B469E /* ChildDataStorage.cpp */; };
-		A1CC0C1F1E141B20008B469E /* CookieDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C1D1E141B20008B469E /* CookieDataStorage.cpp */; };
 		A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C201E141B47008B469E /* HQDataParser.cpp */; };
 		A1CC0C251E141B47008B469E /* HQDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C221E141B47008B469E /* HQDataStorage.cpp */; };
 		A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */; };
@@ -397,18 +394,12 @@
 		A198622A1DD383BD0090F053 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A198622C1DD480A60090F053 /* BaseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseScene.cpp; sourceTree = "<group>"; };
 		A198622D1DD480A60090F053 /* BaseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseScene.h; sourceTree = "<group>"; };
-		A1A2D2FA1E13B52700E86169 /* CookieDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CookieDataParser.cpp; sourceTree = "<group>"; };
-		A1A2D2FB1E13B52700E86169 /* CookieDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CookieDataParser.h; sourceTree = "<group>"; };
-		A1A2D2FC1E13B52700E86169 /* CookieDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CookieDataProvider.cpp; sourceTree = "<group>"; };
-		A1A2D2FD1E13B52700E86169 /* CookieDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CookieDataProvider.h; sourceTree = "<group>"; };
 		A1A2D3011E13B53200E86169 /* ChildDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataParser.cpp; sourceTree = "<group>"; };
 		A1A2D3021E13B53200E86169 /* ChildDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataParser.h; sourceTree = "<group>"; };
 		A1A2D3031E13B53200E86169 /* ChildDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataProvider.cpp; sourceTree = "<group>"; };
 		A1A2D3041E13B53200E86169 /* ChildDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataProvider.h; sourceTree = "<group>"; };
 		A1CC0C1A1E141AFF008B469E /* ChildDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataStorage.cpp; sourceTree = "<group>"; };
 		A1CC0C1B1E141AFF008B469E /* ChildDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataStorage.h; sourceTree = "<group>"; };
-		A1CC0C1D1E141B20008B469E /* CookieDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CookieDataStorage.cpp; sourceTree = "<group>"; };
-		A1CC0C1E1E141B20008B469E /* CookieDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CookieDataStorage.h; sourceTree = "<group>"; };
 		A1CC0C201E141B47008B469E /* HQDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataParser.cpp; sourceTree = "<group>"; };
 		A1CC0C211E141B47008B469E /* HQDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataParser.h; sourceTree = "<group>"; };
 		A1CC0C221E141B47008B469E /* HQDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataStorage.cpp; sourceTree = "<group>"; };
@@ -870,7 +861,6 @@
 				A1CC0C291E156953008B469E /* ImageDownloader */,
 				A1CC0C2A1E15695B008B469E /* GameDownloader */,
 				A1A2D3101E13B5BF00E86169 /* HQData */,
-				A1A2D30D1E13B55D00E86169 /* CookieData */,
 				30DD5EEA1E9684C60084305B /* ParentData */,
 				A1A2D30E1E13B56700E86169 /* ChildData */,
 				A15B2FAB1DEDD15F00D25334 /* JWTSigner */,
@@ -944,19 +934,6 @@
 				025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */,
 			);
 			name = HQScene;
-			sourceTree = "<group>";
-		};
-		A1A2D30D1E13B55D00E86169 /* CookieData */ = {
-			isa = PBXGroup;
-			children = (
-				A1CC0C1D1E141B20008B469E /* CookieDataStorage.cpp */,
-				A1CC0C1E1E141B20008B469E /* CookieDataStorage.h */,
-				A1A2D2FA1E13B52700E86169 /* CookieDataParser.cpp */,
-				A1A2D2FB1E13B52700E86169 /* CookieDataParser.h */,
-				A1A2D2FC1E13B52700E86169 /* CookieDataProvider.cpp */,
-				A1A2D2FD1E13B52700E86169 /* CookieDataProvider.h */,
-			);
-			name = CookieData;
 			sourceTree = "<group>";
 		};
 		A1A2D30E1E13B56700E86169 /* ChildData */ = {
@@ -1272,7 +1249,6 @@
 				A15B2FC71DFAB3FB00D25334 /* ImageDownloader.cpp in Sources */,
 				A1E5FCFB1DDDCCBA0098DD29 /* ImageContainer.cpp in Sources */,
 				A15B2FA91DEDAA2A00D25334 /* ModalMessages.cpp in Sources */,
-				A1CC0C1F1E141B20008B469E /* CookieDataStorage.cpp in Sources */,
 				A15D589B1E04099A0099CDEE /* HttpRequestCreator.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* MessageBox.cpp in Sources */,
 				025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */,

@@ -3,6 +3,9 @@
 
 using namespace cocos2d;
 
+namespace Azoomee
+{
+
 static CookieDataProvider *_sharedCookieDataProvider = NULL;
 
 CookieDataProvider* CookieDataProvider::getInstance()
@@ -90,4 +93,6 @@ std::string CookieDataProvider::getCookieMainContent(std::string cookieRecord)
     std::string cookieMainContent = splitStringToVector(cookieRecord, "; ").at(0);
     
     return cookieMainContent;
+}
+  
 }

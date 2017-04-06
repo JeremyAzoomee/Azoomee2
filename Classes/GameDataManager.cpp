@@ -14,7 +14,7 @@ USING_NS_CC;
 #include "external/unzip/unzip.h"
 
 #include "WebViewSelector.h"
-#include "CookieDataStorage.h"
+#include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include "BackEndCaller.h"
 #include "ModalMessages.h"
 #include "LoginScene.h"

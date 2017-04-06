@@ -1,10 +1,11 @@
 #include "ImageDownloaderLogic.h"
-#include "CookieDataStorage.h"
+#include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include "HQHistoryManager.h"
 #include "ImageDownloader.h"
 
 using namespace cocos2d;
 using namespace network;
+using namespace Azoomee;
 
 void ImageDownloaderLogic::startProcessingImage(cocos2d::Node *sender, std::string url)
 {

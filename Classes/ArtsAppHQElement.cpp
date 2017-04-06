@@ -1,5 +1,5 @@
 #include "ArtsAppHQElement.h"
-#include "CookieDataStorage.h"
+#include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "WebViewSelector.h"
 #include "ChildDataProvider.h"

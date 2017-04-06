@@ -1,5 +1,9 @@
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "external/json/document.h"
+
+
+namespace Azoomee
+{
 
 class CookieDataParser : public cocos2d::Ref
 {
@@ -16,3 +20,5 @@ private:
     std::string replaceAll(std::string& str, const std::string& from, const std::string& to);
     std::vector<std::string> splitStringToVector(std::string inputString, std::string separator);
 };
+  
+}

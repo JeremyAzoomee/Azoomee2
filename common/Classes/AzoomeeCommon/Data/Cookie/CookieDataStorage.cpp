@@ -2,6 +2,9 @@
 
 using namespace cocos2d;
 
+namespace Azoomee
+{
+
 static CookieDataStorage *_sharedCookieDataStorage = NULL;
 
 CookieDataStorage* CookieDataStorage::getInstance()
@@ -22,4 +25,6 @@ CookieDataStorage::~CookieDataStorage(void)
 bool CookieDataStorage::init(void)
 {
     return true;
+}
+  
 }

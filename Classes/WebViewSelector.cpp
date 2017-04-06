@@ -1,5 +1,5 @@
 #include "WebViewSelector.h"
-#include "CookieDataProvider.h"
+#include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include "ChildDataProvider.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 

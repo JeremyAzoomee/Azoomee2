@@ -5,7 +5,7 @@
 #include "ChildDataProvider.h"
 #include "ParentDataParser.h"
 #include <AzoomeeCommon/Data/ParentDataProvider.h>
-#include "CookieDataParser.h"
+#include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
 #include "HQDataParser.h"
 #include "LoginScene.h"
 #include "ChildSelectorScene.h"

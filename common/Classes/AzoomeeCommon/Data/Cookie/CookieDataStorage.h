@@ -1,5 +1,8 @@
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "external/json/document.h"
+
+namespace Azoomee
+{
 
 class CookieDataStorage : public cocos2d::Ref
 {
@@ -14,3 +17,5 @@ public:
     std::string pureCookieResponseString;
     std::string dataDownloadCookiesForCpp;
 };
+  
+}

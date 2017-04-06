@@ -3,6 +3,9 @@
 
 using namespace cocos2d;
 
+namespace Azoomee
+{
+
 static CookieDataParser *_sharedCookieDataParser = NULL;
 
 CookieDataParser* CookieDataParser::getInstance()
@@ -89,4 +92,6 @@ std::string CookieDataParser::replaceAll(std::string& str, const std::string& fr
     }
     
     return str;
+}
+
 }
