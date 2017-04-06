@@ -1,6 +1,6 @@
 #include "TextInputLayer.h"
-#include <AzoomeeCommon/TextInputChecker.h>
-#include "Locale.h"
+#include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <AzoomeeCommon/Strings.h>
 #include "ElectricDreamsTextStyles.h"
 
 using namespace Azoomee;

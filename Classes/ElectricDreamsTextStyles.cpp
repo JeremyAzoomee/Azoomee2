@@ -1,5 +1,5 @@
 #include "ElectricDreamsTextStyles.h"
-#include <AzoomeeCommon/StringFunctions.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace Azoomee;
 

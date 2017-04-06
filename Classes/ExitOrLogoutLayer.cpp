@@ -1,6 +1,6 @@
 #include "ExitOrLogoutLayer.h"
 #include "LoginScene.h"
-#include "Locale.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

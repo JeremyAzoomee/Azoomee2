@@ -1,5 +1,5 @@
 #include "OnboardingSuccessScene.h"
-#include "Locale.h"
+#include <AzoomeeCommon/Strings.h>
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>

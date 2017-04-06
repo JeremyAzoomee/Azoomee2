@@ -1,5 +1,5 @@
 #include "StringMgr.h"
-#include "Analytics/AnalyticsSingleton.h"
+#include "../Analytics/AnalyticsSingleton.h"
 #include "StringFunctions.h"
 #include <cocos/cocos2d.h>
 

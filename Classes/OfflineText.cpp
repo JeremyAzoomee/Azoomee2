@@ -2,7 +2,7 @@
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include "Locale.h"
+#include <AzoomeeCommon/Strings.h>
 #include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;

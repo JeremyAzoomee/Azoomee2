@@ -11,7 +11,7 @@
 #include "MessageBox.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include "Locale.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginScene.h"
 #include "OnboardingScene.h"

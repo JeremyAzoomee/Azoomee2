@@ -1,10 +1,10 @@
 #include "AnalyticsSingleton.h"
-#include "../StringMgr.h"
-#include "../TextInputChecker.h"
+#include "../Utils/StringMgr.h"
+#include "../Input/TextInputChecker.h"
 #include "../Data/ConfigStorage.h"
 #include "../Data/Parent/ParentDataProvider.h"
-#include "../StringFunctions.h"
-#include "../Defines.h"
+#include "../Utils/StringFunctions.h"
+#include "../Strings.h"
 
 
 namespace Azoomee

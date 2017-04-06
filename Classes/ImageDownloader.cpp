@@ -1,7 +1,7 @@
 #include "ImageDownloader.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include "ElectricDreamsTextStyles.h"
-#include "Locale.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ImageDownloaderCacheCleanerLogic.h"
 

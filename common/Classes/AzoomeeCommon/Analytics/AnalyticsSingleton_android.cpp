@@ -1,5 +1,5 @@
 #include "AnalyticsSingleton.h"
-#include <AzoomeeCommon/StringFunctions.h>
+#include "../Utils/StringFunctions.h"
 #include <cocos/cocos2d.h>
 
 

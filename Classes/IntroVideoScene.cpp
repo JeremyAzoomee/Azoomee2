@@ -9,7 +9,7 @@
 #include "LoginScene.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "Locale.h"
+#include <AzoomeeCommon/Strings.h>
 #include "ChildAccountSuccessScene.h"
 #include "LoginLogicHandler.h"
 

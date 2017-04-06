@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "ElectricDreamsButton.h"
 #include "TextInputLayer.h"
-#include "ErrorCodeHashDefines.h"
+#include <AzoomeeCommon/ErrorCodes.h>
 
 USING_NS_CC;
 

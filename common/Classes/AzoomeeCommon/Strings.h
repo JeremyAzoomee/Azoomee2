@@ -1,3 +1,14 @@
+#ifndef AzoomeeCommon_Strings_h
+#define AzoomeeCommon_Strings_h
+
+// For convenience
+#include "Utils/StringMgr.h"
+
+
+// ---------- GET VERSION -------------
+
+#define APP_VERSION_NUMBER cocos2d::FileUtils::getInstance()->getStringFromFile("res/Version.txt")
+
 // ---------- LOGIN SCENE TEXT -------------
 
 #define LOGINSCENE_SIGNUP_LOGIN_LABEL "LoginScene/signup_login_label"
@@ -68,3 +79,5 @@
 #define BUTTON_LETS_GO "GenericButtons/lets_go"
 #define BUTTON_RETRY "GenericButtons/retry"
 
+
+#endif

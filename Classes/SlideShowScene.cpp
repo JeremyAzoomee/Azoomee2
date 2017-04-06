@@ -1,7 +1,7 @@
 #include "SlideShowScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "BaseScene.h"
-#include "Locale.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
 

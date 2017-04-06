@@ -21,7 +21,7 @@ USING_NS_CC;
 #include "MessageBox.h"
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
-#include "Locale.h"
+#include <AzoomeeCommon/Strings.h>
 #include "WebGameAPIDataManager.h"
 
 using namespace network;

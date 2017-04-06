@@ -1,6 +1,6 @@
 #include "TextInputChecker.h"
-#include "Data/Parent/ParentDataProvider.h"
-#include "StringFunctions.h"
+#include "../Data/Parent/ParentDataProvider.h"
+#include "../Utils/StringFunctions.h"
 
 
 namespace Azoomee

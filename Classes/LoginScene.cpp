@@ -2,10 +2,10 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
-#include "Locale.h"
+#include <AzoomeeCommon/Strings.h>
 #include "BaseScene.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/TextInputChecker.h>
+#include <AzoomeeCommon/Input/TextInputChecker.h>
 #include "OfflineHubScene.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

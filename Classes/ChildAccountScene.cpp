@@ -1,8 +1,8 @@
 #include "ChildAccountScene.h"
 #include "BackEndCaller.h"
 #include "ChildSelectorScene.h"
-#include <AzoomeeCommon/TextInputChecker.h>
-#include "Locale.h"
+#include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

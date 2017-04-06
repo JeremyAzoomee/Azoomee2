@@ -1,5 +1,5 @@
 #include "MessageBox.h"
-#include "Locale.h"
+#include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginScene.h"
 #include "OnboardingScene.h"

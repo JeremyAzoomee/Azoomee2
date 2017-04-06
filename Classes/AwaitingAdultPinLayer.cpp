@@ -1,5 +1,5 @@
 #include "AwaitingAdultPinLayer.h"
-#include "Locale.h"
+#include <AzoomeeCommon/Strings.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
