@@ -1,6 +1,6 @@
 #include "ElectricDreamsButton.h"
 #include "ExitOrLogoutLayer.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"

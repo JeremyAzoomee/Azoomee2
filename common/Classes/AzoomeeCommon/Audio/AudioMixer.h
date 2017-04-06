@@ -1,4 +1,4 @@
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 #define OK_BUTTON_AUDIO_EFFECT "Azoomee_Button_Click_06_v1.mp3"
 #define TEXT_BUTTON_AUDIO_EFFECT "Azoomee_Button_Click_07_v1.mp3"
@@ -16,8 +16,11 @@
 #define HQ_HUB_SELECTED_AUDIO_EFFECT "Azoomee_Content_Swoosh_v1.mp3"
 #define HQ_ELEMENT_SELECTED_AUDIO_EFFECT "Azoomee_Button_Click_08_v1.mp3"
 
-
 #define HQ_BACKGROUND_MUSIC "bgmusic.mp3"
+
+
+namespace Azoomee
+{
 
 class AudioMixer : public cocos2d::Ref
 {
@@ -42,3 +45,5 @@ private:
     bool shouldPlayOomeeIdleSounds;
 
 };
+
+}

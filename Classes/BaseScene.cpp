@@ -1,6 +1,6 @@
 #include "BaseScene.h"
 #include "NavigationLayer.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "SimpleAudioEngine.h"
 
 #include "MainHubScene.h"

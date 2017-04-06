@@ -7,7 +7,7 @@
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
 #include "BackEndCaller.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 using namespace Azoomee;
 

@@ -5,7 +5,7 @@
 #include "ChildDataProvider.h"
 #include <AzoomeeCommon/Data/ParentDataProvider.h>
 #include "HQHistoryManager.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 USING_NS_CC;

@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "BaseScene.h"
 #include "Locale.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
 
 using namespace Azoomee;

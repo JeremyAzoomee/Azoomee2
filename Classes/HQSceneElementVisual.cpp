@@ -21,7 +21,7 @@
 #include "ChildDataProvider.h"
 #include "ModalMessages.h"
 #include "HQScene.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ImageDownloaderOnScreenChecker.h"

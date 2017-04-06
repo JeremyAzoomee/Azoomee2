@@ -52,7 +52,6 @@
 		430B215D1E448825004ACB10 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215C1E448825004ACB10 /* libicucore.tbd */; };
 		430B215F1E448AF6004ACB10 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215E1E448AF6004ACB10 /* AVFoundation.framework */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
-		430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */; };
 		4319D3DE1E66D66300110F92 /* OomeeButtonLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */; };
 		4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
 		431A29FD1E439BFE00DC0F3B /* MPArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A295C1E439BFD00DC0F3B /* MPArrowLeft.png */; };
@@ -281,8 +280,6 @@
 		430B215E1E448AF6004ACB10 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountScene.cpp; sourceTree = "<group>"; };
 		430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountScene.h; sourceTree = "<group>"; };
-		430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
-		430EF42E1E4097DF00BEAF54 /* AudioMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMixer.h; sourceTree = "<group>"; };
 		4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeButtonLayer.cpp; sourceTree = "<group>"; };
 		4319D3DD1E66D66300110F92 /* OomeeButtonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeButtonLayer.h; sourceTree = "<group>"; };
 		4319D3E01E67134600110F92 /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
@@ -910,8 +907,6 @@
 			isa = PBXGroup;
 			children = (
 				43F2C5F11E5C4AF60016F30E /* StringHandler */,
-				430EF42D1E4097DF00BEAF54 /* AudioMixer.cpp */,
-				430EF42E1E4097DF00BEAF54 /* AudioMixer.h */,
 				026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */,
 				026BAF771E3FFD33009C4ACE /* HQHistoryManager.h */,
 			);

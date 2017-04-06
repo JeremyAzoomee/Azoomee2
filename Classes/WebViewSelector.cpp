@@ -1,7 +1,7 @@
 #include "WebViewSelector.h"
 #include "CookieDataProvider.h"
 #include "ChildDataProvider.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "WebViewNative_ios.h"
@@ -12,6 +12,8 @@
 #endif
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 cocos2d::Scene* WebViewSelector::createScene()
 {

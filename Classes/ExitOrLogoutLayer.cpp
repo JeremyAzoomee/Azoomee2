@@ -2,7 +2,7 @@
 #include "LoginScene.h"
 #include "Locale.h"
 #include "ChildDataProvider.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ParentDataParser.h"
 #include <AzoomeeCommon/Data/ParentDataProvider.h>

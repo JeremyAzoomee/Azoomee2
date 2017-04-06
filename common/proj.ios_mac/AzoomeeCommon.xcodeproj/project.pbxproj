@@ -79,6 +79,7 @@
 		3012ED421E9691A90009027D /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 3012ECF71E9691A90009027D /* UIImage+MPImageEffects.m */; };
 		3012ED431E9691A90009027D /* UIView+MPHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3012ECF91E9691A90009027D /* UIView+MPHelpers.m */; };
 		3012ED441E9691A90009027D /* UIViewController+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3012ECFB1E9691A90009027D /* UIViewController+AutomaticEvents.m */; };
+		3012ED481E969A180009027D /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED461E969A180009027D /* AudioMixer.cpp */; };
 		3077F45C1E8D5881006DA465 /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3077F45A1E8D5881006DA465 /* StringFunctions.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
@@ -232,6 +233,8 @@
 		3012ECF91E9691A90009027D /* UIView+MPHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPHelpers.m"; sourceTree = "<group>"; };
 		3012ECFA1E9691A90009027D /* UIViewController+AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AutomaticEvents.h"; sourceTree = "<group>"; };
 		3012ECFB1E9691A90009027D /* UIViewController+AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AutomaticEvents.m"; sourceTree = "<group>"; };
+		3012ED461E969A180009027D /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
+		3012ED471E969A180009027D /* AudioMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMixer.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3077F45A1E8D5881006DA465 /* StringFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringFunctions.cpp; sourceTree = "<group>"; };
 		3077F45B1E8D5881006DA465 /* StringFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringFunctions.h; sourceTree = "<group>"; };
@@ -424,6 +427,15 @@
 			path = Mixpanel;
 			sourceTree = "<group>";
 		};
+		3012ED451E969A180009027D /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				3012ED461E969A180009027D /* AudioMixer.cpp */,
+				3012ED471E969A180009027D /* AudioMixer.h */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
 		3077F4381E8D5048006DA465 = {
 			isa = PBXGroup;
 			children = (
@@ -455,6 +467,7 @@
 			children = (
 				30DD5EDB1E9681D00084305B /* Defines.h */,
 				30DD5EBD1E96571F0084305B /* Analytics */,
+				3012ED451E969A180009027D /* Audio */,
 				30DD5EDF1E96841D0084305B /* Data */,
 				30DD5EBE1E96571F0084305B /* Crashlytics */,
 				3077F45A1E8D5881006DA465 /* StringFunctions.cpp */,
@@ -653,6 +666,7 @@
 				3012ED1C1E9691A90009027D /* MPEventBinding.m in Sources */,
 				3012ED0F1E9691A90009027D /* MPApplicationStateSerializer.m in Sources */,
 				3012ED051E9691A90009027D /* MPABTestDesignerClearRequestMessage.m in Sources */,
+				3012ED481E969A180009027D /* AudioMixer.cpp in Sources */,
 				3012ED0B1E9691A90009027D /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				3012ED171E9691A90009027D /* MPClassDescription.m in Sources */,
 				30DD5EE71E96841D0084305B /* ParentDataProvider.cpp in Sources */,

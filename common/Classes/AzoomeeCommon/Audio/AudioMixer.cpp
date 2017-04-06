@@ -1,8 +1,11 @@
-
 #include "AudioMixer.h"
 #include "SimpleAudioEngine.h"
 
 using namespace cocos2d;
+
+
+namespace Azoomee
+{
 
 static AudioMixer *_sharedConfigStorage = NULL;
 
@@ -75,4 +78,6 @@ void AudioMixer::pauseBackgroundMusic()
 void AudioMixer::resumeBackgroundMusic()
 {
     CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+}
+  
 }

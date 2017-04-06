@@ -4,7 +4,7 @@
 #include "ChildAccountScene.h"
 #include <math.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "MessageBox.h"
 #include "Locale.h"
