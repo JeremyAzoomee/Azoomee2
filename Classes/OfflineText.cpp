@@ -139,6 +139,7 @@ void OfflineText::buttonPressed(ElectricDreamsButton *button)
     OfflineChecker::getInstance()->setDelegate(nullptr);
     ChildDataParser::getInstance()->setChildLoggedIn(false);
     BackEndCaller::getInstance()->getAvailableChildren();
+    BackEndCaller::getInstance()->updateBillingData();
 }
 
 void OfflineText::addTextTitleToScreen(std::string text)

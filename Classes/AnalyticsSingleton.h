@@ -38,6 +38,7 @@ public:
     void registerAccountStatus(std::string Status);
     void registerBillingStatus(std::string Status);
     void registerIAPOS(std::string OS_String);
+    void registerBillingProvider(std::string provider);
 
 
     void registerChildID(std::string ChildID);

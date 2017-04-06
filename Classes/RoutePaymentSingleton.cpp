@@ -129,5 +129,10 @@ void RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
     {
         ApplePaymentSingleton::getInstance()->refreshReceipt(false);
     }
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && !ParentDataProvider::getInstance()->isPaidUser())
+    {
+        MessageBox::createWith(ERROR_CODE_APPLE_SUBSCRIPTION_ON_NON_APPLE, nullptr);
+    }
 #endif
 }

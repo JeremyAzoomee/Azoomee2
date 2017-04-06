@@ -166,6 +166,11 @@ void AnalyticsSingleton::registerIAPOS(std::string OS_String)
     mixPanel_OSSpecificSuperPropertiesCall("iAP_OS",OS_String);
 }
 
+void AnalyticsSingleton::registerBillingProvider(std::string provider)
+{
+    mixPanel_OSSpecificSuperPropertiesCall("billingProvider",provider);
+}
+
 void AnalyticsSingleton::registerChildID(std::string ChildID)
 {
     mixPanel_OSSpecificSuperPropertiesCall("childID",ChildID);

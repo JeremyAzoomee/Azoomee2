@@ -117,8 +117,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
         {
             if(ParentDataProvider::getInstance()->isPaidUser())
             {
-                //NEED TO LOG IN AGAIN with the NEW USER STATUS
-                //Give Error Message before autologin
+                //Error message shown, before logging in again to get new entitlements
                 MessageBox::createWith(ERROR_CODE_APPLE_ACCOUNT_DOWNGRADED, this);
             }
             else

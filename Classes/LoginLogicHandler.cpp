@@ -17,6 +17,7 @@ void LoginLogicHandler::doLoginLogic()
     {
         ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
         BackEndCaller::getInstance()->getAvailableChildren();
+        BackEndCaller::getInstance()->updateBillingData();
         return;
     }
     

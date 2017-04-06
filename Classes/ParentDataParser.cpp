@@ -155,6 +155,8 @@ void ParentDataParser::parseParentBillingData(std::string responseData)
         {
             ParentDataStorage::getInstance()->loggedInParentBillingStatus = billingData["billingStatus"].GetString();
             
+            AnalyticsSingleton::getInstance()->registerBillingStatus(billingData["billingStatus"].GetString());
+            
         }
     }
     
@@ -170,9 +172,11 @@ void ParentDataParser::parseParentBillingData(std::string responseData)
     
     if(billingData.HasMember("paymentProvider"))
     {
-        if(billingData["nextBillDate"].IsString())
+        if(billingData["paymentProvider"].IsString())
         {
             ParentDataStorage::getInstance()->loggedInParentBillingProvider = billingData["paymentProvider"].GetString();
+            
+            AnalyticsSingleton::getInstance()->registerBillingProvider(billingData["paymentProvider"].GetString());
             
         }
     }

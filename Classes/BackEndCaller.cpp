@@ -125,10 +125,8 @@ void BackEndCaller::updateBillingData()
 
 void BackEndCaller::onUpdateBillingDataAnswerReceived(std::string responseString)
 {
-    CCLOG("BILLING RESPONSE STRING: %S",responseString.c_str());
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
-    AnalyticsSingleton::getInstance()->registerBillingStatus(ParentDataProvider::getInstance()->getBillingStatus());
-    RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded();
+    RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded();
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
