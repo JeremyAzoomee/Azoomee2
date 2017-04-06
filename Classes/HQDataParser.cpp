@@ -11,8 +11,8 @@
 #include "BackEndCaller.h"
 #include "HttpRequestCreator.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "ChildDataProvider.h"
-#include "ChildDataParser.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include "BaseScene.h"
 
 using namespace cocos2d;

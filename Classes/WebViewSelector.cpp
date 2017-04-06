@@ -1,6 +1,6 @@
 #include "WebViewSelector.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

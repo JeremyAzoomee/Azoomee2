@@ -1,12 +1,14 @@
 #include "ChildDataParser.h"
 #include "ChildDataStorage.h"
-#include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
-#include <AzoomeeCommon/Data/ParentDataProvider.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "../../Crashlytics/CrashlyticsConfig.h"
+#include "../Parent/ParentDataProvider.h"
+#include "../../Analytics/AnalyticsSingleton.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
 
+namespace Azoomee
+{
 
 static ChildDataParser *_sharedChildDataParser = NULL;
 
@@ -86,4 +88,6 @@ void ChildDataParser::setLoggedInChildNumber(int childNumber)
 void ChildDataParser::setChildLoggedIn(bool loggedIn)
 {
     ChildDataStorage::getInstance()->childLoggedIn = loggedIn;
+}
+  
 }

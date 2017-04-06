@@ -1,7 +1,7 @@
 //ConfigStorage is a singleton designed to hold all necessary "burnt-in" information for all visual scenes and layers.
 
 #include "ConfigStorage.h"
-#include "ParentDataProvider.h"
+#include "Parent/ParentDataProvider.h"
 #include "../Analytics/AnalyticsSingleton.h"
 
 using namespace cocos2d;

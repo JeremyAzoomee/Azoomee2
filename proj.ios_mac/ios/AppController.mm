@@ -23,8 +23,8 @@
  ****************************************************************************/
 
 #import "AppController.h"
-#import "cocos2d.h"
-#import "AppDelegate.h"
+#import <cocos/cocos2d.h>
+#import "../../Classes/AppDelegate.h"
 #import "RootViewController.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>

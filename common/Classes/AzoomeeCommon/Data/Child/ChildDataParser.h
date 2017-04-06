@@ -1,6 +1,10 @@
 #include "cocos2d.h"
 #include "external/json/document.h"
 
+
+namespace Azoomee
+{
+
 class ChildDataParser : public cocos2d::Ref
 {
     
@@ -19,3 +23,5 @@ public:
     void setLoggedInChildAvatarId(std::string avatarId);
     void setChildLoggedIn(bool loggedIn);
 };
+
+}

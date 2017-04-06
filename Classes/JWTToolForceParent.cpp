@@ -3,9 +3,9 @@
 #include "external/json/writer.h"
 #include "external/json/stringbuffer.h"
 #include "external/json/prettywriter.h"
-#include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/ParentDataProvider.h>
-#include "ChildDataProvider.h"
+//#include "BackEndCaller.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <iomanip>
 
 #include "HMACSHA256.h"

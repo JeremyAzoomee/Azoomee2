@@ -6,8 +6,8 @@
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ChildSelectorScene.h"
-#include "ChildDataStorage.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "MessageBox.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>

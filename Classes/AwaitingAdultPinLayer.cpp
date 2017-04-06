@@ -1,7 +1,7 @@
 #include "AwaitingAdultPinLayer.h"
 #include "Locale.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "MessageBox.h"
 #include "ElectricDreamsTextStyles.h"

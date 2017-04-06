@@ -4,7 +4,7 @@
 
 #include "HQSceneArtsApp.h"
 #include "ArtsAppHQElement.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQSceneElementPositioner.h"
 #include <dirent.h>

@@ -1,6 +1,5 @@
 #include "ImageDownloaderLogic.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
-#include "HQHistoryManager.h"
 #include "ImageDownloader.h"
 
 using namespace cocos2d;
@@ -16,7 +15,6 @@ void ImageDownloaderLogic::startProcessingImage(cocos2d::Node *sender, std::stri
     imageCachePath = getImageCachePath();
     imageIdPath = getImageIdPath();
     senderNode = sender;
-    actualHQWhenLoaded = HQHistoryManager::getInstance()->getCurrentHQ();
     
     if(findFileInLocalCache(fileName))
     {

@@ -8,7 +8,7 @@
 #include "OnboardingScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ChildAccountScene.h"
-#include "ChildDataParser.h"
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include "PaymentSingleton.h"
 
 using namespace cocos2d;

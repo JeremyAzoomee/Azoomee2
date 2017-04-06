@@ -1,5 +1,5 @@
 #include "ArtsPreviewLayer.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "ArtsAppHQElement.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <dirent.h>

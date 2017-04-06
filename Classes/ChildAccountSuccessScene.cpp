@@ -4,7 +4,7 @@
 #include "ElectricDreamsDecoration.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "ChildAccountScene.h"
 #include "ModalMessages.h"

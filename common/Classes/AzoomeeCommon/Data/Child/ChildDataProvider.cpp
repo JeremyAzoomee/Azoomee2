@@ -1,10 +1,12 @@
 #include "ChildDataProvider.h"
 #include "ChildDataStorage.h"
-#include <AzoomeeCommon/Data/ParentDataStorage.h>
+#include "../Parent/ParentDataStorage.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
 
+namespace Azoomee
+{
 
 static ChildDataProvider *_sharedChildDataProvider = NULL;
 
@@ -99,4 +101,6 @@ int ChildDataProvider::getLoggedInChildNumber()
 bool ChildDataProvider::getIsChildLoggedIn()
 {
     return ChildDataStorage::getInstance()->childLoggedIn;
+}
+  
 }

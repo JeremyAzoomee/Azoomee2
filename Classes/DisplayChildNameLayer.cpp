@@ -1,5 +1,5 @@
 #include "DisplayChildNameLayer.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "ui/UIScale9Sprite.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"

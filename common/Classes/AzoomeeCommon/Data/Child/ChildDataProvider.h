@@ -1,8 +1,11 @@
-#ifndef __CHILDDATAPROVIDER_H__
-#define __CHILDDATAPROVIDER_H__
+#ifndef __AzoomeeCommon_ChildDataProvider_h__
+#define __AzoomeeCommon_ChildDataProvider_h__
 
 #include "cocos2d.h"
 #include "external/json/document.h"
+
+namespace Azoomee
+{
 
 class ChildDataProvider : public cocos2d::Ref
 {
@@ -25,5 +28,7 @@ public:
     
     bool getIsChildLoggedIn();
 };
+  
+}
 
 #endif

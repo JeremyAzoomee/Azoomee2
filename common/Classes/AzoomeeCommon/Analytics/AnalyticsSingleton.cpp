@@ -2,7 +2,7 @@
 #include "../StringMgr.h"
 #include "../TextInputChecker.h"
 #include "../Data/ConfigStorage.h"
-#include "../Data/ParentDataProvider.h"
+#include "../Data/Parent/ParentDataProvider.h"
 #include "../StringFunctions.h"
 #include "../Defines.h"
 

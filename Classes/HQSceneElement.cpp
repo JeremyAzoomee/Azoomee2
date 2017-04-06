@@ -18,7 +18,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQDataParser.h"
 #include "NavigationLayer.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "MessageBox.h"
 #include "HQScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>

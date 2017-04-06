@@ -1,6 +1,6 @@
 #include "ChildSelectorScene.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "ChildAccountScene.h"
 #include <math.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>

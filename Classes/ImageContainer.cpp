@@ -7,7 +7,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "NavigationLayer.h"
 #include "MessageBox.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQScene.h"

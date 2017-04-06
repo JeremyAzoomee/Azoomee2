@@ -1,6 +1,6 @@
 #include "WebViewNativeCaller_android.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "LoginScene.h"
 #include "HQHistoryManager.h"

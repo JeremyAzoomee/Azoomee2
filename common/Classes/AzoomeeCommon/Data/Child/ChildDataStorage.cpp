@@ -2,6 +2,9 @@
 
 using namespace cocos2d;
 
+namespace Azoomee
+{
+
 static ChildDataStorage *_sharedChildDataStorage = NULL;
 
 ChildDataStorage* ChildDataStorage::getInstance()
@@ -24,4 +27,6 @@ bool ChildDataStorage::init(void)
     childLoggedIn = false;
     
     return true;
+}
+
 }

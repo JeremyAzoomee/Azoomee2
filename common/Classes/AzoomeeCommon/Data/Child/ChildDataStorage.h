@@ -1,6 +1,9 @@
 #include "cocos2d.h"
 #include "external/json/document.h"
 
+namespace Azoomee
+{
+
 class ChildDataStorage : public cocos2d::Ref
 {
     
@@ -22,3 +25,5 @@ public:
     std::string loggedInChildApiSecret;
     std::string loggedInChildApiKey;
 };
+
+}

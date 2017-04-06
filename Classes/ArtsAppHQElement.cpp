@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "WebViewSelector.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "HQScene.h"
 #include "AppDelegate.h"
 #include "MessageBox.h"

@@ -7,7 +7,7 @@
 #include "HQScene.h"
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "HQDataParser.h"
 
 #include "HQHistoryManager.h"

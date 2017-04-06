@@ -1,7 +1,7 @@
 #include "OfflineText.h"
 #include "BackEndCaller.h"
-#include "ChildDataParser.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "Locale.h"
 #include "ElectricDreamsTextStyles.h"
 

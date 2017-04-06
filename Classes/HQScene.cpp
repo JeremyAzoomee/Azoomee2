@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQSceneElementPositioner.h"
 #include <dirent.h>
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "ImageDownloader.h"
 #include "HQHistoryManager.h"
 #include "ElectricDreamsTextStyles.h"

@@ -83,6 +83,11 @@
 		3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4A1E969AE40009027D /* CookieDataParser.cpp */; };
 		3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4C1E969AE40009027D /* CookieDataProvider.cpp */; };
 		3012ED521E969AE40009027D /* CookieDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4E1E969AE40009027D /* CookieDataStorage.cpp */; };
+		3012ED581E969BBB0009027D /* ParentDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED541E969BBB0009027D /* ParentDataProvider.cpp */; };
+		3012ED591E969BBB0009027D /* ParentDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED561E969BBB0009027D /* ParentDataStorage.cpp */; };
+		3012ED611E969BF60009027D /* ChildDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED5B1E969BF60009027D /* ChildDataParser.cpp */; };
+		3012ED621E969BF60009027D /* ChildDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED5D1E969BF60009027D /* ChildDataProvider.cpp */; };
+		3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED5F1E969BF60009027D /* ChildDataStorage.cpp */; };
 		3077F45C1E8D5881006DA465 /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3077F45A1E8D5881006DA465 /* StringFunctions.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
@@ -91,8 +96,6 @@
 		30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5ED31E965E060084305B /* AnalyticsSingleton.cpp */; };
 		30DD5EDA1E9680BF0084305B /* StringMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5ED81E9680BF0084305B /* StringMgr.cpp */; };
 		30DD5EDE1E9682610084305B /* TextInputChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EDC1E9682610084305B /* TextInputChecker.cpp */; };
-		30DD5EE71E96841D0084305B /* ParentDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EE21E96841D0084305B /* ParentDataProvider.cpp */; };
-		30DD5EE81E96841D0084305B /* ParentDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EE41E96841D0084305B /* ParentDataStorage.cpp */; };
 		30DD5EF01E96860C0084305B /* ConfigStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EEE1E96860C0084305B /* ConfigStorage.cpp */; };
 /* End PBXBuildFile section */
 
@@ -244,6 +247,16 @@
 		3012ED4D1E969AE40009027D /* CookieDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CookieDataProvider.h; sourceTree = "<group>"; };
 		3012ED4E1E969AE40009027D /* CookieDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CookieDataStorage.cpp; sourceTree = "<group>"; };
 		3012ED4F1E969AE40009027D /* CookieDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CookieDataStorage.h; sourceTree = "<group>"; };
+		3012ED541E969BBB0009027D /* ParentDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParentDataProvider.cpp; sourceTree = "<group>"; };
+		3012ED551E969BBB0009027D /* ParentDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentDataProvider.h; sourceTree = "<group>"; };
+		3012ED561E969BBB0009027D /* ParentDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParentDataStorage.cpp; sourceTree = "<group>"; };
+		3012ED571E969BBB0009027D /* ParentDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentDataStorage.h; sourceTree = "<group>"; };
+		3012ED5B1E969BF60009027D /* ChildDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataParser.cpp; sourceTree = "<group>"; };
+		3012ED5C1E969BF60009027D /* ChildDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataParser.h; sourceTree = "<group>"; };
+		3012ED5D1E969BF60009027D /* ChildDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataProvider.cpp; sourceTree = "<group>"; };
+		3012ED5E1E969BF60009027D /* ChildDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataProvider.h; sourceTree = "<group>"; };
+		3012ED5F1E969BF60009027D /* ChildDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataStorage.cpp; sourceTree = "<group>"; };
+		3012ED601E969BF60009027D /* ChildDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataStorage.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3077F45A1E8D5881006DA465 /* StringFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringFunctions.cpp; sourceTree = "<group>"; };
 		3077F45B1E8D5881006DA465 /* StringFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringFunctions.h; sourceTree = "<group>"; };
@@ -261,10 +274,6 @@
 		30DD5EDB1E9681D00084305B /* Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
 		30DD5EDC1E9682610084305B /* TextInputChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputChecker.cpp; sourceTree = "<group>"; };
 		30DD5EDD1E9682610084305B /* TextInputChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputChecker.h; sourceTree = "<group>"; };
-		30DD5EE21E96841D0084305B /* ParentDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParentDataProvider.cpp; sourceTree = "<group>"; };
-		30DD5EE31E96841D0084305B /* ParentDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentDataProvider.h; sourceTree = "<group>"; };
-		30DD5EE41E96841D0084305B /* ParentDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParentDataStorage.cpp; sourceTree = "<group>"; };
-		30DD5EE51E96841D0084305B /* ParentDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentDataStorage.h; sourceTree = "<group>"; };
 		30DD5EEE1E96860C0084305B /* ConfigStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigStorage.cpp; sourceTree = "<group>"; };
 		30DD5EEF1E96860C0084305B /* ConfigStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigStorage.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -458,6 +467,30 @@
 			path = Cookie;
 			sourceTree = "<group>";
 		};
+		3012ED531E969BBB0009027D /* Parent */ = {
+			isa = PBXGroup;
+			children = (
+				3012ED541E969BBB0009027D /* ParentDataProvider.cpp */,
+				3012ED551E969BBB0009027D /* ParentDataProvider.h */,
+				3012ED561E969BBB0009027D /* ParentDataStorage.cpp */,
+				3012ED571E969BBB0009027D /* ParentDataStorage.h */,
+			);
+			path = Parent;
+			sourceTree = "<group>";
+		};
+		3012ED5A1E969BF60009027D /* Child */ = {
+			isa = PBXGroup;
+			children = (
+				3012ED5B1E969BF60009027D /* ChildDataParser.cpp */,
+				3012ED5C1E969BF60009027D /* ChildDataParser.h */,
+				3012ED5D1E969BF60009027D /* ChildDataProvider.cpp */,
+				3012ED5E1E969BF60009027D /* ChildDataProvider.h */,
+				3012ED5F1E969BF60009027D /* ChildDataStorage.cpp */,
+				3012ED601E969BF60009027D /* ChildDataStorage.h */,
+			);
+			path = Child;
+			sourceTree = "<group>";
+		};
 		3077F4381E8D5048006DA465 = {
 			isa = PBXGroup;
 			children = (
@@ -537,23 +570,13 @@
 		30DD5EDF1E96841D0084305B /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				3012ED5A1E969BF60009027D /* Child */,
+				3012ED531E969BBB0009027D /* Parent */,
 				3012ED491E969AE40009027D /* Cookie */,
 				30DD5EEE1E96860C0084305B /* ConfigStorage.cpp */,
 				30DD5EEF1E96860C0084305B /* ConfigStorage.h */,
-				30DD5EE91E9684290084305B /* ParentData */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		30DD5EE91E9684290084305B /* ParentData */ = {
-			isa = PBXGroup;
-			children = (
-				30DD5EE21E96841D0084305B /* ParentDataProvider.cpp */,
-				30DD5EE31E96841D0084305B /* ParentDataProvider.h */,
-				30DD5EE41E96841D0084305B /* ParentDataStorage.cpp */,
-				30DD5EE51E96841D0084305B /* ParentDataStorage.h */,
-			);
-			name = ParentData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -631,7 +654,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30DD5EE81E96841D0084305B /* ParentDataStorage.cpp in Sources */,
 				3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */,
 				3012ED3C1E9691A90009027D /* MPWebSocket.m in Sources */,
 				3012ED371E9691A90009027D /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
@@ -641,6 +663,7 @@
 				3012ED411E9691A90009027D /* UIImage+MPAverageColor.m in Sources */,
 				3012ED231E9691A90009027D /* MPObjectSelector.m in Sources */,
 				3012ED271E9691A90009027D /* MPPassThroughValueTransformer.m in Sources */,
+				3012ED611E969BF60009027D /* ChildDataParser.cpp in Sources */,
 				3012ED261E9691A90009027D /* MPObjectSerializerContext.m in Sources */,
 				3012ED141E9691A90009027D /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				3012ED361E9691A90009027D /* MPUIControlBinding.m in Sources */,
@@ -652,8 +675,10 @@
 				3012ED301E9691A90009027D /* MPSwizzler.m in Sources */,
 				3012ED1D1E9691A90009027D /* MPNetwork.m in Sources */,
 				3012ED181E9691A90009027D /* MPDesignerEventBindingRequestMesssage.m in Sources */,
+				3012ED591E969BBB0009027D /* ParentDataStorage.cpp in Sources */,
 				3012ED3B1E9691A90009027D /* MPVariant.m in Sources */,
 				3012ED391E9691A90009027D /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
+				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
 				3012ED0A1E9691A90009027D /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				3012ED401E9691A90009027D /* UIColor+MPColor.m in Sources */,
 				3012ED331E9691A90009027D /* MPTweakStore.m in Sources */,
@@ -666,10 +691,12 @@
 				3012ED2E1E9691A90009027D /* MPSurveyQuestionViewController.m in Sources */,
 				30DD5EDE1E9682610084305B /* TextInputChecker.cpp in Sources */,
 				3012ED161E9691A90009027D /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
+				3012ED621E969BF60009027D /* ChildDataProvider.cpp in Sources */,
 				3012ED211E9691A90009027D /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				3012ED201E9691A90009027D /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				3012ED041E9691A90009027D /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				3012ED421E9691A90009027D /* UIImage+MPImageEffects.m in Sources */,
+				3012ED581E969BBB0009027D /* ParentDataProvider.cpp in Sources */,
 				3012ED2A1E9691A90009027D /* MPSequenceGenerator.m in Sources */,
 				3012ED3A1E9691A90009027D /* MPUITableViewBinding.m in Sources */,
 				3012ED031E9691A90009027D /* MPABTestDesignerChangeRequestMessage.m in Sources */,
@@ -695,7 +722,6 @@
 				3012ED0B1E9691A90009027D /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				3012ED171E9691A90009027D /* MPClassDescription.m in Sources */,
 				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
-				30DD5EE71E96841D0084305B /* ParentDataProvider.cpp in Sources */,
 				3012ED021E9691A90009027D /* MPAbstractABTestDesignerMessage.m in Sources */,
 				3012ECFE1E9691A90009027D /* Mixpanel+AutomaticEvents.m in Sources */,
 				3012ED1F1E9691A90009027D /* MPNotificationViewController.m in Sources */,
@@ -834,6 +860,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				USE_HEADERMAP = NO;
 			};
 			name = Debug;
 		};
@@ -859,6 +886,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				USE_HEADERMAP = NO;
 			};
 			name = Release;
 		};

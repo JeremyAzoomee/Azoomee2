@@ -14,7 +14,6 @@ public:
     std::string imageCachePath;
     std::string imageIdPath;
     cocos2d::Node *senderNode;
-    std::string actualHQWhenLoaded;
     bool groupLogo;
     bool senderDeleted;
     

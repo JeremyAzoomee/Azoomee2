@@ -130,9 +130,6 @@
 		A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621D1DD3836D0090F053 /* NavigationLayer.cpp */; };
 		A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862291DD383BD0090F053 /* AppDelegate.cpp */; };
 		A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198622C1DD480A60090F053 /* BaseScene.cpp */; };
-		A1A2D3051E13B53200E86169 /* ChildDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1A2D3011E13B53200E86169 /* ChildDataParser.cpp */; };
-		A1A2D3061E13B53200E86169 /* ChildDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1A2D3031E13B53200E86169 /* ChildDataProvider.cpp */; };
-		A1CC0C1C1E141AFF008B469E /* ChildDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C1A1E141AFF008B469E /* ChildDataStorage.cpp */; };
 		A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C201E141B47008B469E /* HQDataParser.cpp */; };
 		A1CC0C251E141B47008B469E /* HQDataStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C221E141B47008B469E /* HQDataStorage.cpp */; };
 		A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CC0C371E1E4D45008B469E /* DisplayChildNameLayer.cpp */; };
@@ -394,12 +391,6 @@
 		A198622A1DD383BD0090F053 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A198622C1DD480A60090F053 /* BaseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseScene.cpp; sourceTree = "<group>"; };
 		A198622D1DD480A60090F053 /* BaseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseScene.h; sourceTree = "<group>"; };
-		A1A2D3011E13B53200E86169 /* ChildDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataParser.cpp; sourceTree = "<group>"; };
-		A1A2D3021E13B53200E86169 /* ChildDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataParser.h; sourceTree = "<group>"; };
-		A1A2D3031E13B53200E86169 /* ChildDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataProvider.cpp; sourceTree = "<group>"; };
-		A1A2D3041E13B53200E86169 /* ChildDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataProvider.h; sourceTree = "<group>"; };
-		A1CC0C1A1E141AFF008B469E /* ChildDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildDataStorage.cpp; sourceTree = "<group>"; };
-		A1CC0C1B1E141AFF008B469E /* ChildDataStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildDataStorage.h; sourceTree = "<group>"; };
 		A1CC0C201E141B47008B469E /* HQDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataParser.cpp; sourceTree = "<group>"; };
 		A1CC0C211E141B47008B469E /* HQDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataParser.h; sourceTree = "<group>"; };
 		A1CC0C221E141B47008B469E /* HQDataStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataStorage.cpp; sourceTree = "<group>"; };
@@ -862,7 +853,6 @@
 				A1CC0C2A1E15695B008B469E /* GameDownloader */,
 				A1A2D3101E13B5BF00E86169 /* HQData */,
 				30DD5EEA1E9684C60084305B /* ParentData */,
-				A1A2D30E1E13B56700E86169 /* ChildData */,
 				A15B2FAB1DEDD15F00D25334 /* JWTSigner */,
 			);
 			name = BackEndCommunication;
@@ -934,19 +924,6 @@
 				025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */,
 			);
 			name = HQScene;
-			sourceTree = "<group>";
-		};
-		A1A2D30E1E13B56700E86169 /* ChildData */ = {
-			isa = PBXGroup;
-			children = (
-				A1CC0C1A1E141AFF008B469E /* ChildDataStorage.cpp */,
-				A1CC0C1B1E141AFF008B469E /* ChildDataStorage.h */,
-				A1A2D3011E13B53200E86169 /* ChildDataParser.cpp */,
-				A1A2D3021E13B53200E86169 /* ChildDataParser.h */,
-				A1A2D3031E13B53200E86169 /* ChildDataProvider.cpp */,
-				A1A2D3041E13B53200E86169 /* ChildDataProvider.h */,
-			);
-			name = ChildData;
 			sourceTree = "<group>";
 		};
 		A1A2D3101E13B5BF00E86169 /* HQData */ = {
@@ -1269,7 +1246,6 @@
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */,
-				A1A2D3061E13B53200E86169 /* ChildDataProvider.cpp in Sources */,
 				A15B2FB91DEDD1EA00D25334 /* HMACSHA256_ios.mm in Sources */,
 				02074B2A1E93968E009BB28C /* ArtAppImageManager.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
@@ -1279,7 +1255,6 @@
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				4319D3DE1E66D66300110F92 /* OomeeButtonLayer.cpp in Sources */,
-				A1A2D3051E13B53200E86169 /* ChildDataParser.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				432312121E1D4EFB00C8606D /* TextInputLayer.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -1369,6 +1344,7 @@
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END) $(SRCROOT)/../cocos2d/cocos/editor-support";
+				USE_HEADERMAP = NO;
 				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
@@ -1408,6 +1384,7 @@
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END) $(SRCROOT)/../cocos2d/cocos/editor-support";
+				USE_HEADERMAP = NO;
 				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;
