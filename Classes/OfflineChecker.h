@@ -31,6 +31,8 @@ private:
     
     bool offlineStatus;
     bool newScene;
+    
+    int amountOfFailures;
 };
 
 #endif
