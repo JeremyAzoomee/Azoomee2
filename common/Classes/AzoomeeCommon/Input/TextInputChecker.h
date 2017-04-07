@@ -1,4 +1,8 @@
+#ifndef AzoomeeCommon_TextInputChecker_h
+#define AzoomeeCommon_TextInputChecker_h
+
 #include <string>
+
 
 namespace Azoomee
 {
@@ -15,3 +19,5 @@ bool hasAzoomeeEmailAddress(std::string emailAddress);
 int ageFromDOBString(std::string dobString);
   
 }
+
+#endif

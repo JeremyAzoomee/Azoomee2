@@ -1,16 +1,7 @@
 #include "ModalMessages.h"
 #include "ui/UIEditBox/UIEditBox.h"
-#include "LoginScene.h"
-#include "OnboardingScene.h"
-#include "BaseScene.h"
-#include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#include "MixPanelNotifications_ios.h"
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "MixPanelNotifications_android.h"
-#endif
+#include <AzoomeeCommon/MixPanel/Notifications.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -110,27 +101,11 @@ void ModalMessages::stopLoading()
 
 void ModalMessages::showMixpanelNotification()
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    
-    showNotification_ios();
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    showNotification_android();
-    
-#endif
+    showMixPanelNotification();
 }
 
 void ModalMessages::showMixpanelNotificationWithID(int notificationID)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    
-    showNotificationWithID_ios(notificationID);
-    
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    showNotificationWithID_android(notificationID);
-    
-#endif
+    showMixPanelNotificationWithID(notificationID);
 }
 

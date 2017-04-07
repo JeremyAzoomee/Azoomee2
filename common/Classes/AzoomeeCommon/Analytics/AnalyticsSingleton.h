@@ -1,3 +1,6 @@
+#ifndef AzoomeeCommon_AnalyticsSingleton_h
+#define AzoomeeCommon_AnalyticsSingleton_h
+
 #include <cocos/cocos2d.h>
 #include <time.h>
 
@@ -109,3 +112,5 @@ public:
 };
   
 }
+
+#endif

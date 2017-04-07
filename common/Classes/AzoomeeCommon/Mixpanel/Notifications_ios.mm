@@ -1,13 +1,18 @@
-#include "MixPanelNotifications_ios.h"
+#include "Notifications.h"
 #import <Mixpanel/Mixpanel.h>
-#import <UIKit/UIKit.h>
 
-void showNotification_ios()
+
+namespace Azoomee
+{
+
+void showMixPanelNotification()
 {
     [[Mixpanel sharedInstance] showNotification];
 }
 
-void showNotificationWithID_ios(int notificationID)
+void showMixPanelNotificationWithID(int notificationID)
 {
     [[Mixpanel sharedInstance] showNotificationWithID:notificationID];
+}
+  
 }

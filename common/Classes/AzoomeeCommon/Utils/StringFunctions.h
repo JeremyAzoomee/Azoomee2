@@ -1,5 +1,5 @@
-#ifndef __AZOOMEE_COMMON_STRINGFUNCTIONS_H__
-#define __AZOOMEE_COMMON_STRINGFUNCTIONS_H__
+#ifndef AzoomeeCommon_StringFunctions_h
+#define AzoomeeCommon_StringFunctions_h
 
 #include <string>
 #include <vector>

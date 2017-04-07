@@ -1,3 +1,6 @@
+#ifndef AzoomeeCommon_ChildDataParser_h
+#define AzoomeeCommon_ChildDataParser_h
+
 #include "cocos2d.h"
 #include "external/json/document.h"
 
@@ -25,3 +28,5 @@ public:
 };
 
 }
+
+#endif

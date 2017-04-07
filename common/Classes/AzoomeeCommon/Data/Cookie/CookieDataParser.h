@@ -1,3 +1,6 @@
+#ifndef AzoomeeCommon_CookieDataParser_h
+#define AzoomeeCommon_CookieDataParser_h
+
 #include <cocos/cocos2d.h>
 #include "external/json/document.h"
 
@@ -22,3 +25,5 @@ private:
 };
   
 }
+
+#endif

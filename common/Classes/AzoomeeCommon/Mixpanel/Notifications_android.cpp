@@ -1,9 +1,11 @@
-#include "MixPanelNotifications_android.h"
+#include "Notifications.h"
 
-void showNotification_android()
+
+namespace Azoomee
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
+
+void showMixPanelNotification()
+{
     cocos2d::JniMethodInfo methodInfo;
     if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "showMixpanelNotification", "()V"))
     {
@@ -13,14 +15,10 @@ void showNotification_android()
     
     methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
     methodInfo.env->DeleteLocalRef(methodInfo.classID);
-    
-#endif
 }
 
-void showNotificationWithID_android(int notificationID)
+void showMixPanelNotificationWithID(int notificationID)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
     cocos2d::JniMethodInfo methodInfo;
     
     if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "showMixpanelNotificationWithID", "(I)V"))
@@ -31,6 +29,6 @@ void showNotificationWithID_android(int notificationID)
     methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID,notificationID);
     
     methodInfo.env->DeleteLocalRef(methodInfo.classID);
-    
-#endif
+}
+
 }

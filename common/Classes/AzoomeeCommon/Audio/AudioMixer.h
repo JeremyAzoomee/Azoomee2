@@ -1,3 +1,6 @@
+#ifndef AzoomeeCommon_AudioMixer_h
+#define AzoomeeCommon_AudioMixer_h
+
 #include <cocos/cocos2d.h>
 
 #define OK_BUTTON_AUDIO_EFFECT "Azoomee_Button_Click_06_v1.mp3"
@@ -47,3 +50,5 @@ private:
 };
 
 }
+
+#endif

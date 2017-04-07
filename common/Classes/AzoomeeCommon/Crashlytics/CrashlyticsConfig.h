@@ -1,5 +1,7 @@
-#include <string>
+#ifndef AzoomeeCommon_CrashlyticsConfig_h
+#define AzoomeeCommon_CrashlyticsConfig_h
 
+#include <string>
 
 namespace Azoomee
 {
@@ -8,3 +10,5 @@ void createCrashlyticsException(const std::string& exceptionDomain, int exceptio
 void createCrashlyticsUserInfo(const std::string& AdultIdentifier, const std::string& ChildIdentifier);
   
 }
+
+#endif

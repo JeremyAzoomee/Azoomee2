@@ -1,3 +1,6 @@
+#ifndef AzoomeeCommon_ErrorCodes_h
+#define AzoomeeCommon_ErrorCodes_h
+
 //------------- ERROR MESSAGE CODES --------------
 // For use in createWith(ErrorCode)
 #define ERROR_CODE_SOMETHING_WENT_WRONG -2
@@ -11,3 +14,5 @@
 
 #define ERROR_CODE_PURCHASE_FAILURE 3002
 #define ERROR_CODE_PURCHASE_DOUBLE 3003
+
+#endif

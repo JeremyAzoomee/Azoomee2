@@ -1,5 +1,5 @@
-#ifndef __AzoomeeCommon_ConfigStorage_h__
-#define __AzoomeeCommon_ConfigStorage_h__
+#ifndef AzoomeeCommon_ConfigStorage_h
+#define AzoomeeCommon_ConfigStorage_h
 
 #include "cocos2d.h"
 #include "external/json/document.h"

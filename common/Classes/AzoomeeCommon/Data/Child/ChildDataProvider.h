@@ -1,5 +1,5 @@
-#ifndef __AzoomeeCommon_ChildDataProvider_h__
-#define __AzoomeeCommon_ChildDataProvider_h__
+#ifndef AzoomeeCommon_ChildDataProvider_h
+#define AzoomeeCommon_ChildDataProvider_h
 
 #include "cocos2d.h"
 #include "external/json/document.h"
