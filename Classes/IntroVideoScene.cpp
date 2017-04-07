@@ -40,7 +40,10 @@ bool IntroVideoScene::init()
         navigateToNextScene();
     });
     
-    this->runAction(Sequence::create(DelayTime::create(7), funcCallAction, NULL));
+    auto action = Sequence::create(DelayTime::create(7), funcCallAction, NULL);
+    
+    action->setTag(3);
+    this->runAction(action);
 
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
@@ -86,22 +89,20 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
 
 void IntroVideoScene::navigateToNextScene()
 {
-    if(!isNavigatingToNextScene)
+    this->stopActionByTag(3);
+    
+    videoPlayer->setVisible(false);
+    AnalyticsSingleton::getInstance()->registerAppVersion();
+    
+    if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
-        removeChild(videoPlayer);
-        isNavigatingToNextScene = true;
-        AnalyticsSingleton::getInstance()->registerAppVersion();
-        
-        if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
-        {
-            auto slideShowScene = SlideShowScene::createScene();
-            Director::getInstance()->replaceScene(slideShowScene);
-        }
-        else
-        {
-            auto loginLogicHandler = new LoginLogicHandler();
-            loginLogicHandler->doLoginLogic();
-        }
+        auto slideShowScene = SlideShowScene::createScene();
+        Director::getInstance()->replaceScene(slideShowScene);
+    }
+    else
+    {
+        auto loginLogicHandler = new LoginLogicHandler();
+        loginLogicHandler->doLoginLogic();
     }
 }
 
