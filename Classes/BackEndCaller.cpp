@@ -10,7 +10,7 @@
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
 #include "HttpRequestCreator.h"
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "AwaitingAdultPinLayer.h"
 #include "HQHistoryManager.h"

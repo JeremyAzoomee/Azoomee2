@@ -1,6 +1,12 @@
 #include "ElectricDreamsDecoration.h"
 #include <ui/UIScale9Sprite.h>
 
+using namespace cocos2d;
+
+
+namespace Azoomee
+{
+
 void addSideWiresToScreen(Node* parentLayer, float withDelay, float withDuration)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -93,4 +99,6 @@ Layer* createWindowLayer(float height)
     newLayer->addChild(newWindow);
 
     return newLayer;
+}
+  
 }

@@ -1,7 +1,13 @@
+#ifndef AzoomeeCommon_ModalMessages_h
+#define AzoomeeCommon_ModalMessages_h
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
-class ModalMessages: public cocos2d::Ref
+
+namespace Azoomee
+{
+
+class ModalMessages : public cocos2d::Ref
 {
 public:
     /** Returns the shared instance of the Game Manager */
@@ -28,3 +34,7 @@ public:
     void showMixpanelNotification();
     void showMixpanelNotificationWithID(int notificationID);
 };
+  
+}
+
+#endif

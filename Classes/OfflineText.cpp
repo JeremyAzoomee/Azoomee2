@@ -3,7 +3,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Strings.h>
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
 USING_NS_CC;
 using namespace Azoomee;

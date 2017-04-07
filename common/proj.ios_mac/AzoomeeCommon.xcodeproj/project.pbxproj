@@ -92,6 +92,10 @@
 		3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6B1E96A3140009027D /* StringFunctions.cpp */; };
 		3012ED711E96A3140009027D /* StringMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED6D1E96A3140009027D /* StringMgr.cpp */; };
 		3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED831E97A8F50009027D /* Notifications_ios.mm */; };
+		3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED871E97DB450009027D /* ModalMessages.cpp */; };
+		3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */; };
+		3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */; };
+		3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
 		30DD5ECE1E965B710084305B /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC91E9658B40084305B /* Fabric.framework */; };
@@ -269,6 +273,14 @@
 		3012ED811E97A8F50009027D /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifications.h; sourceTree = "<group>"; };
 		3012ED821E97A8F50009027D /* Notifications_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Notifications_android.cpp; sourceTree = "<group>"; };
 		3012ED831E97A8F50009027D /* Notifications_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Notifications_ios.mm; sourceTree = "<group>"; };
+		3012ED871E97DB450009027D /* ModalMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalMessages.cpp; sourceTree = "<group>"; };
+		3012ED881E97DB450009027D /* ModalMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalMessages.h; sourceTree = "<group>"; };
+		3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsDecoration.cpp; sourceTree = "<group>"; };
+		3012ED8B1E97DCC00009027D /* ElectricDreamsDecoration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsDecoration.h; sourceTree = "<group>"; };
+		3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsTextStyles.cpp; sourceTree = "<group>"; };
+		3012ED8D1E97DCC00009027D /* ElectricDreamsTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsTextStyles.h; sourceTree = "<group>"; };
+		3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeButtonLayer.cpp; sourceTree = "<group>"; };
+		3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeButtonLayer.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		30DD5EBF1E96571F0084305B /* CrashlyticsConfig_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashlyticsConfig_android.cpp; sourceTree = "<group>"; };
 		30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CrashlyticsConfig_ios.mm; sourceTree = "<group>"; };
@@ -526,6 +538,21 @@
 			path = Mixpanel;
 			sourceTree = "<group>";
 		};
+		3012ED861E97DB450009027D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */,
+				3012ED8B1E97DCC00009027D /* ElectricDreamsDecoration.h */,
+				3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */,
+				3012ED8D1E97DCC00009027D /* ElectricDreamsTextStyles.h */,
+				3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */,
+				3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */,
+				3012ED871E97DB450009027D /* ModalMessages.cpp */,
+				3012ED881E97DB450009027D /* ModalMessages.h */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		3077F4381E8D5048006DA465 = {
 			isa = PBXGroup;
 			children = (
@@ -563,6 +590,7 @@
 				30DD5EDF1E96841D0084305B /* Data */,
 				3012ED651E96A3140009027D /* Input */,
 				3012ED801E97A8F50009027D /* Mixpanel */,
+				3012ED861E97DB450009027D /* UI */,
 				3012ED6A1E96A3140009027D /* Utils */,
 			);
 			path = AzoomeeCommon;
@@ -712,6 +740,8 @@
 				3012ED391E9691A90009027D /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
 				3012ED0A1E9691A90009027D /* MPABTestDesignerDisconnectMessage.m in Sources */,
+				3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */,
+				3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */,
 				3012ED401E9691A90009027D /* UIColor+MPColor.m in Sources */,
 				3012ED331E9691A90009027D /* MPTweakStore.m in Sources */,
 				3012ED291E9691A90009027D /* MPResources.m in Sources */,
@@ -721,6 +751,7 @@
 				30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */,
 				3012ED221E9691A90009027D /* MPObjectIdentityProvider.m in Sources */,
 				3012ED2E1E9691A90009027D /* MPSurveyQuestionViewController.m in Sources */,
+				3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */,
 				3012ED161E9691A90009027D /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
 				3012ED621E969BF60009027D /* ChildDataProvider.cpp in Sources */,
 				3012ED211E9691A90009027D /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
@@ -763,6 +794,7 @@
 				3012ED431E9691A90009027D /* UIView+MPHelpers.m in Sources */,
 				3012ED381E9691A90009027D /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				3012ED0D1E9691A90009027D /* MPABTestDesignerTweakRequestMessage.m in Sources */,
+				3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */,
 				3012ED0E1E9691A90009027D /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				3012ED1E1E9691A90009027D /* MPNotification.m in Sources */,
 				30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */,
@@ -884,8 +916,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../cocos2d",
-					"$(SRCROOT)/../../cocos2d/cocos/audio/include",
 					"$(SRCROOT)/../../cocos2d/cocos",
+					"$(SRCROOT)/../../cocos2d/cocos/audio/include",
+					"$(SRCROOT)/../../cocos2d/cocos/editor-support",
 					"$(SRCROOT)/../../cocos2d/extensions",
 					"$(SRCROOT)/../../cocos2d/external",
 					"$(SRCROOT)/../../cocos2d/external/chipmunk/include/chipmunk",
@@ -910,8 +943,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../../cocos2d",
-					"$(SRCROOT)/../../cocos2d/cocos/audio/include",
 					"$(SRCROOT)/../../cocos2d/cocos",
+					"$(SRCROOT)/../../cocos2d/cocos/audio/include",
+					"$(SRCROOT)/../../cocos2d/cocos/editor-support",
 					"$(SRCROOT)/../../cocos2d/extensions",
 					"$(SRCROOT)/../../cocos2d/external",
 					"$(SRCROOT)/../../cocos2d/external/chipmunk/include/chipmunk",

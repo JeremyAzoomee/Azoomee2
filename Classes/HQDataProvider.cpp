@@ -13,7 +13,7 @@ USING_NS_CC;
 #include "BackEndCaller.h"
 #include "HttpRequestCreator.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 using namespace cocos2d;
 using namespace Azoomee;

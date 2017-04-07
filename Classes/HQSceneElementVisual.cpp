@@ -19,11 +19,11 @@
 #include "HQDataParser.h"
 #include "NavigationLayer.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "HQScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "ImageDownloaderOnScreenChecker.h"
 
 USING_NS_CC;

@@ -1,6 +1,6 @@
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
-#include "ElectricDreamsDecoration.h"
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "PaymentSingleton.h"
 #include "MessageBox.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>

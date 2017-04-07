@@ -1,8 +1,12 @@
-#ifndef __OOMEE_BUTTON_LAYER_H__
-#define __OOMEE_BUTTON_LAYER_H__
+#ifndef AzoomeeCommon_OomeeButtonLayer_h
+#define AzoomeeCommon_OomeeButtonLayer_h
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include <spine/spine-cocos2dx.h>
+
+
+namespace Azoomee
+{
 
 class OomeeButtonLayer : public cocos2d::Layer
 {
@@ -26,5 +30,7 @@ private:
     
     spine::SkeletonAnimation* oomee;
 };
+  
+}
 
 #endif

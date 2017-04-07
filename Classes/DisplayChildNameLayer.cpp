@@ -3,7 +3,7 @@
 #include "ui/UIScale9Sprite.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
 USING_NS_CC;
 using namespace Azoomee;

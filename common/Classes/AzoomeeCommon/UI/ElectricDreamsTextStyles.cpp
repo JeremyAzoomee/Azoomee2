@@ -1,7 +1,7 @@
 #include "ElectricDreamsTextStyles.h"
-#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include "../Utils/StringFunctions.h"
 
-using namespace Azoomee;
+using namespace cocos2d;
 
 
 #define FONT_MEDIUM "fonts/Sofia Pro Soft Medium.otf"
@@ -11,6 +11,11 @@ using namespace Azoomee;
 #define COLOR_BRIGHT_AQUA Color3B(28, 244, 244)
 #define COLOR_WHITE Color3B::WHITE
 #define COLOR_BLACK Color3B::BLACK
+
+
+namespace Azoomee
+{
+  
 
 //----------------- Main Creation Function ------------
 Label* createLabelWith(std::string text, std::string font, Color3B color, int size)
@@ -151,4 +156,6 @@ void reduceLabelTextToFitWidth(Label* label,float maxWidth)
         
         label->setString(StringUtils::format("%s...",labelText.c_str()));
     }
+}
+  
 }

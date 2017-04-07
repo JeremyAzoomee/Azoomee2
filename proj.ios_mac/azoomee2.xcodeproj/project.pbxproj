@@ -52,7 +52,6 @@
 		430B215D1E448825004ACB10 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215C1E448825004ACB10 /* libicucore.tbd */; };
 		430B215F1E448AF6004ACB10 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215E1E448AF6004ACB10 /* AVFoundation.framework */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
-		4319D3DE1E66D66300110F92 /* OomeeButtonLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */; };
 		4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
 		431A29FD1E439BFE00DC0F3B /* MPArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A295C1E439BFD00DC0F3B /* MPArrowLeft.png */; };
 		431A29FE1E439BFE00DC0F3B /* MPArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A295D1E439BFD00DC0F3B /* MPArrowLeft@2x.png */; };
@@ -78,7 +77,6 @@
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
 		433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
 		433FA7F61E7AA9C400A8C27F /* IAPUpsaleLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 433FA7F41E7AA9C400A8C27F /* IAPUpsaleLayer.cpp */; };
-		4348E4391E6576D600486661 /* ElectricDreamsDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4348E4371E6576D600486661 /* ElectricDreamsDecoration.cpp */; };
 		4348E4431E65DD9B00486661 /* OnboardingSuccessScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */; };
 		434B8BD31E6821A4004C7C88 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */; };
 		434B8BD61E689C29004C7C88 /* ChildAccountSuccessScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B8BD41E689C29004C7C88 /* ChildAccountSuccessScene.cpp */; };
@@ -87,7 +85,6 @@
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
 		43C6BED81E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C6BED61E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp */; };
 		43C6BEDC1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C6BEDA1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp */; };
-		43F067211E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -111,7 +108,6 @@
 		A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A154CC501DFEE7440008A626 /* GameDataManager.cpp */; };
 		A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2F971DE74F6400D25334 /* WebViewSelector.cpp */; };
 		A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FA01DE7534900D25334 /* WebViewNative_ios.mm */; };
-		A15B2FA91DEDAA2A00D25334 /* ModalMessages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FA71DEDAA2A00D25334 /* ModalMessages.cpp */; };
 		A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FAD1DEDD1D500D25334 /* BackEndCaller.cpp */; };
 		A15B2FB21DEDD1E000D25334 /* JWTTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FB01DEDD1E000D25334 /* JWTTool.cpp */; };
 		A15B2FB91DEDD1EA00D25334 /* HMACSHA256_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FB41DEDD1EA00D25334 /* HMACSHA256_ios.mm */; };
@@ -271,8 +267,6 @@
 		430B215E1E448AF6004ACB10 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountScene.cpp; sourceTree = "<group>"; };
 		430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountScene.h; sourceTree = "<group>"; };
-		4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeButtonLayer.cpp; sourceTree = "<group>"; };
-		4319D3DD1E66D66300110F92 /* OomeeButtonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeButtonLayer.h; sourceTree = "<group>"; };
 		4319D3E01E67134600110F92 /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
 		4319D3E11E67134600110F92 /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		431A295C1E439BFD00DC0F3B /* MPArrowLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MPArrowLeft.png; sourceTree = "<group>"; };
@@ -302,8 +296,6 @@
 		433AD3061E252A2C003757AD /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		433FA7F41E7AA9C400A8C27F /* IAPUpsaleLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPUpsaleLayer.cpp; sourceTree = "<group>"; };
 		433FA7F51E7AA9C400A8C27F /* IAPUpsaleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPUpsaleLayer.h; sourceTree = "<group>"; };
-		4348E4371E6576D600486661 /* ElectricDreamsDecoration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsDecoration.cpp; sourceTree = "<group>"; };
-		4348E4381E6576D600486661 /* ElectricDreamsDecoration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsDecoration.h; sourceTree = "<group>"; };
 		4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingSuccessScene.cpp; sourceTree = "<group>"; };
 		4348E4421E65DD9B00486661 /* OnboardingSuccessScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingSuccessScene.h; sourceTree = "<group>"; };
 		434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingScene.cpp; sourceTree = "<group>"; };
@@ -317,8 +309,6 @@
 		43C6BED71E7FF42800415E21 /* ImageDownloaderOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderOnScreenChecker.h; sourceTree = "<group>"; };
 		43C6BEDA1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderCacheCleanerLogic.cpp; sourceTree = "<group>"; };
 		43C6BEDB1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderCacheCleanerLogic.h; sourceTree = "<group>"; };
-		43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsTextStyles.cpp; sourceTree = "<group>"; };
-		43F067201E5F303700F9EA32 /* ElectricDreamsTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsTextStyles.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -348,8 +338,6 @@
 		A15B2F981DE74F6400D25334 /* WebViewSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewSelector.h; sourceTree = "<group>"; };
 		A15B2F9E1DE752D000D25334 /* WebViewNative_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewNative_ios.h; sourceTree = "<group>"; };
 		A15B2FA01DE7534900D25334 /* WebViewNative_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WebViewNative_ios.mm; sourceTree = "<group>"; };
-		A15B2FA71DEDAA2A00D25334 /* ModalMessages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalMessages.cpp; sourceTree = "<group>"; };
-		A15B2FA81DEDAA2A00D25334 /* ModalMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalMessages.h; sourceTree = "<group>"; };
 		A15B2FAD1DEDD1D500D25334 /* BackEndCaller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BackEndCaller.cpp; sourceTree = "<group>"; };
 		A15B2FAE1DEDD1D500D25334 /* BackEndCaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackEndCaller.h; sourceTree = "<group>"; };
 		A15B2FB01DEDD1E000D25334 /* JWTTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTTool.cpp; sourceTree = "<group>"; };
@@ -716,12 +704,6 @@
 			children = (
 				4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */,
 				4327D9281E1F990700F912C5 /* ElectricDreamsButton.h */,
-				43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */,
-				43F067201E5F303700F9EA32 /* ElectricDreamsTextStyles.h */,
-				4348E4371E6576D600486661 /* ElectricDreamsDecoration.cpp */,
-				4348E4381E6576D600486661 /* ElectricDreamsDecoration.h */,
-				4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */,
-				4319D3DD1E66D66300110F92 /* OomeeButtonLayer.h */,
 			);
 			name = uiObjects;
 			sourceTree = "<group>";
@@ -942,8 +924,6 @@
 		A1CC0C271E15691C008B469E /* ModalMessages */ = {
 			isa = PBXGroup;
 			children = (
-				A15B2FA71DEDAA2A00D25334 /* ModalMessages.cpp */,
-				A15B2FA81DEDAA2A00D25334 /* ModalMessages.h */,
 				D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */,
 				D13C40181E33A0F0002360A6 /* AwaitingAdultPinLayer.h */,
 				D13C40191E33A0F0002360A6 /* ExitOrLogoutLayer.cpp */,
@@ -1175,11 +1155,9 @@
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				A15B2FBB1DEDD1EA00D25334 /* HMACSHA256.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
-				4348E4391E6576D600486661 /* ElectricDreamsDecoration.cpp in Sources */,
 				4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */,
 				434B8BD61E689C29004C7C88 /* ChildAccountSuccessScene.cpp in Sources */,
 				30DD5EED1E9684D20084305B /* ParentDataParser.cpp in Sources */,
-				43F067211E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
@@ -1193,7 +1171,6 @@
 				A19862231DD3836D0090F053 /* HQScene.cpp in Sources */,
 				A15B2FC71DFAB3FB00D25334 /* ImageDownloader.cpp in Sources */,
 				A1E5FCFB1DDDCCBA0098DD29 /* ImageContainer.cpp in Sources */,
-				A15B2FA91DEDAA2A00D25334 /* ModalMessages.cpp in Sources */,
 				A15D589B1E04099A0099CDEE /* HttpRequestCreator.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* MessageBox.cpp in Sources */,
 				025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */,
@@ -1219,7 +1196,6 @@
 				A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */,
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
-				4319D3DE1E66D66300110F92 /* OomeeButtonLayer.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				432312121E1D4EFB00C8606D /* TextInputLayer.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
@@ -1422,8 +1398,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../cocos2d",
-					"$(SRCROOT)/../cocos2d/cocos/audio/include",
 					"$(SRCROOT)/../cocos2d/cocos",
+					"$(SRCROOT)/../cocos2d/cocos/audio/include",
+					"$(SRCROOT)/../cocos2d/cocos/editor-support",
 					"$(SRCROOT)/../cocos2d/extensions",
 					"$(SRCROOT)/../cocos2d/external",
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
@@ -1446,8 +1423,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../cocos2d",
-					"$(SRCROOT)/../cocos2d/cocos/audio/include",
 					"$(SRCROOT)/../cocos2d/cocos",
+					"$(SRCROOT)/../cocos2d/cocos/audio/include",
+					"$(SRCROOT)/../cocos2d/cocos/editor-support",
 					"$(SRCROOT)/../cocos2d/extensions",
 					"$(SRCROOT)/../cocos2d/external",
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",

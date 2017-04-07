@@ -6,9 +6,9 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ParentDataParser.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "MessageBox.h"
-#include "ElectricDreamsDecoration.h"
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "PaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"

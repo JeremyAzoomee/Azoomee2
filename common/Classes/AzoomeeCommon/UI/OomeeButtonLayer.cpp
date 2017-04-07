@@ -1,16 +1,18 @@
 #include "OomeeButtonLayer.h"
-#include "extensions/cocos-ext.h"
-#include "spine/spine.h"
-#include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <extensions/cocos-ext.h>
+#include <spine/spine.h>
+#include "../Data/ConfigStorage.h"
+#include "../Data/Child/ChildDataProvider.h"
+#include "../Data/Parent/ParentDataProvider.h"
+#include "../Audio/AudioMixer.h"
+#include "../Analytics/AnalyticsSingleton.h"
 
 USING_NS_CC;
-using namespace Azoomee;
 using namespace spine;
 
+
+namespace Azoomee
+{
 
 OomeeButtonLayer* OomeeButtonLayer::createOomeeLayer(int oomeeNumber)
 {
@@ -97,4 +99,6 @@ void OomeeButtonLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBe
     };
     
     toBeAddedTo->setCompleteListener(oomeeAnimationComplete);
+}
+  
 }

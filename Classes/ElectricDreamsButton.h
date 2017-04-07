@@ -3,9 +3,10 @@
 
 #include "cocos2d.h"
 #include <ui/UIScale9Sprite.h>
-#include "OomeeButtonLayer.h"
+#include <AzoomeeCommon/UI/OomeeButtonLayer.h>
 
 USING_NS_CC;
+using namespace Azoomee;
 
 class ElectricDreamsButton;
 

@@ -15,7 +15,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginScene.h"
 #include "OnboardingScene.h"
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 USING_NS_CC;
 using namespace Azoomee;

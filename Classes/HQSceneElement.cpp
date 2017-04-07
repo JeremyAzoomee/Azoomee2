@@ -24,7 +24,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "PaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 

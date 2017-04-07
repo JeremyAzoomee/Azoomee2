@@ -1,8 +1,8 @@
 #include "OnboardingScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "ElectricDreamsDecoration.h"
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Strings.h>
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include "HQHistoryManager.h"
 #include "BaseScene.h"

@@ -1,7 +1,7 @@
 #include "ParentDataParser.h"
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataStorage.h>
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginScene.h"
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

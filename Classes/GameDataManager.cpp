@@ -16,7 +16,7 @@ USING_NS_CC;
 #include "WebViewSelector.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include "BackEndCaller.h"
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginScene.h"
 #include "MessageBox.h"
 #include "HQHistoryManager.h"

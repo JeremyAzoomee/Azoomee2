@@ -1,15 +1,16 @@
 #include "ModalMessages.h"
-#include "ui/UIEditBox/UIEditBox.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Mixpanel/Notifications.h>
+#include <ui/UIEditBox/UIEditBox.h>
+#include "../Analytics/AnalyticsSingleton.h"
+#include "../Mixpanel/Notifications.h"
 
 USING_NS_CC;
-using namespace Azoomee;
-
 
 #define MESSAGE_BOX_PADDING 100
 #define MESSAGE_BOX_MINIMUM_WIDTH 1366
 #define MESSAGE_BOX_MAXIMUM_WIDTH 2049
+
+namespace Azoomee
+{
 
 static ModalMessages *_sharedModalMessages = NULL;
 
@@ -107,5 +108,7 @@ void ModalMessages::showMixpanelNotification()
 void ModalMessages::showMixpanelNotificationWithID(int notificationID)
 {
     showMixPanelNotificationWithID(notificationID);
+}
+  
 }
 

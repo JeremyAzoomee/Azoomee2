@@ -1,7 +1,7 @@
 #include "LoginScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include "ElectricDreamsTextStyles.h"
-#include "ElectricDreamsDecoration.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Strings.h>
 #include "BaseScene.h"
 #include "BackEndCaller.h"

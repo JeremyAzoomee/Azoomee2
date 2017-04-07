@@ -1,13 +1,13 @@
 #include "ChildAccountSuccessScene.h"
 #include <AzoomeeCommon/Strings.h>
-#include "ElectricDreamsTextStyles.h"
-#include "ElectricDreamsDecoration.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "ChildAccountScene.h"
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 
 USING_NS_CC;

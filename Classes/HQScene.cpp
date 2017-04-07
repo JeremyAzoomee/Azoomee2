@@ -12,7 +12,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "ImageDownloader.h"
 #include "HQHistoryManager.h"
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "OfflineHubBackButton.h"
 #include "HQSceneArtsApp.h"
 

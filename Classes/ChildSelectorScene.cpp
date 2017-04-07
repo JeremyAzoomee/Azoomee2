@@ -8,10 +8,10 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "MessageBox.h"
 #include <AzoomeeCommon/Strings.h>
-#include "ElectricDreamsTextStyles.h"
-#include "ElectricDreamsDecoration.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "OfflineHubScene.h"
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
