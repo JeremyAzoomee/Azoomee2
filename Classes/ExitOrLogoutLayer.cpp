@@ -12,6 +12,7 @@
 #include "PaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
+#include "ConfigStorage.h"
 
 #define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
 #define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"

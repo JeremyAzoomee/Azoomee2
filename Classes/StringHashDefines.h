@@ -1,6 +1,6 @@
 //-----------------Get Version Number -----------------
 
-#define APP_VERSION_NUMBER cocos2d::FileUtils::getInstance()->getStringFromFile("res/Version.txt")
+#define APP_VERSION_NUMBER ConfigStorage::getInstance()->getVersionNumberToDisplay()
 
 // ---------- LOGIN SCENE TEXT -------------
 

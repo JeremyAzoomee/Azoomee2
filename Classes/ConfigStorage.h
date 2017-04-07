@@ -77,6 +77,11 @@ public:
     void setFirstSlideShowSeen();
     bool shouldShowFirstSlideShowScene();
     
+    //Version configuration
+    std::string getVersionNumber();
+    std::string getVersionNumberWithPlatform();
+    std::string getVersionNumberToDisplay();
+    
 private:
     rapidjson::Document parseJsonConfigurationFile(std::string fileName);
     
@@ -86,6 +91,7 @@ private:
     rapidjson::Document NavigationConfiguration;
     rapidjson::Document OomeeAnimationTypes;
     rapidjson::Document OomeeConfiguration;
+    rapidjson::Document VersionConfiguration;
     
     cocos2d::Point visualOrigin;
     cocos2d::Size visualSize;

@@ -36,6 +36,7 @@ bool ConfigStorage::init(void)
     NavigationConfiguration = parseJsonConfigurationFile("NavigationConfiguration.json");
     OomeeAnimationTypes = parseJsonConfigurationFile("OomeeAnimationTypes.json");
     OomeeConfiguration = parseJsonConfigurationFile("OomeeConfiguration.json");
+    VersionConfiguration = parseJsonConfigurationFile("Version.json");
     
     return true;
 }
@@ -323,4 +324,25 @@ void ConfigStorage::setFirstSlideShowSeen()
 bool ConfigStorage::shouldShowFirstSlideShowScene()
 {
     return !UserDefault::getInstance()->getBoolForKey(USERDEFAULTS_FIRST_SLIDE_SHOW_SEEN, false);
+}
+
+//---------------------------- Version configuration --------------------------------
+
+std::string ConfigStorage::getVersionNumber()
+{
+    return VersionConfiguration["version"].GetString();
+}
+
+std::string ConfigStorage::getVersionNumberWithPlatform()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    return "Android/" + getVersionNumber();
+#else
+    return "IOS/" + getVersionNumber();
+#endif
+}
+
+std::string ConfigStorage::getVersionNumberToDisplay()
+{
+    return "Version Number " + getVersionNumber();
 }

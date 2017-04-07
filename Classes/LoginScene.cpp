@@ -9,6 +9,7 @@
 #include "OfflineHubScene.h"
 #include "HQHistoryManager.h"
 #include "AnalyticsSingleton.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
