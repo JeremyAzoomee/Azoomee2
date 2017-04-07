@@ -1,7 +1,7 @@
 #ifndef __PAYMENT_SINGLETON_H__
 #define __PAYMENT_SINGLETON_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class PaymentSingleton : public cocos2d::Ref
 {

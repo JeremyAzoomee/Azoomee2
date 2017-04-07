@@ -1,36 +1,16 @@
-#include "HMACSHA256_javaCaller.h"
-
+#include "HMACSHA256.h"
+#include <cocos/cocos2d.h>
 
 using namespace cocos2d;
 
-static HMACSHA256_javaCaller *_sharedHMACSHA256_javaCaller = NULL;
 
-HMACSHA256_javaCaller* HMACSHA256_javaCaller::getInstance()
+namespace Azoomee
 {
-    if (! _sharedHMACSHA256_javaCaller)
-    {
-        _sharedHMACSHA256_javaCaller = new HMACSHA256_javaCaller();
-        _sharedHMACSHA256_javaCaller->init();
-    }
-    
-    return _sharedHMACSHA256_javaCaller;
-}
 
-HMACSHA256_javaCaller::~HMACSHA256_javaCaller(void)
-{
-}
-
-bool HMACSHA256_javaCaller::init(void)
-{
-    return true;
-}
-
-std::string HMACSHA256_javaCaller::getHMACSHA256Hash(std::string message, std::string secret)
+std::string HMACSHA256::getHMACSHA256Hash(const std::string& message, const std::string& secret)
 {
     std::string result = "done";
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
+  
     cocos2d::JniMethodInfo methodInfo;
     
     if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "getHMACSHA256", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"))
@@ -52,9 +32,6 @@ std::string HMACSHA256_javaCaller::getHMACSHA256Hash(std::string message, std::s
     methodInfo.env->DeleteLocalRef(methodInfo.classID);
     
     return cppResponse;
-    
-#endif
-    
-    return "invalid call, not allowed from any other than android";
-
+}
+  
 }

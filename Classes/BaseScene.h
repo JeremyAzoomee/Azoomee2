@@ -1,7 +1,7 @@
 #ifndef __BASESCENE_SCENE_H__
 #define __BASESCENE_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class BaseScene : public cocos2d::Layer
 {

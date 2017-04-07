@@ -1,13 +1,20 @@
-#include "cocos2d.h"
-#include "external/json/document.h"
+#ifndef AzoomeeCommon_JWTTool_h
+#define AzoomeeCommon_JWTTool_h
 
-class JWTToolForceParent : public cocos2d::Ref
+#include <cocos/cocos2d.h>
+#include <external/json/document.h>
+
+
+namespace Azoomee
+{
+
+class JWTTool : public cocos2d::Ref
 {
     
 public:
     /** Returns the shared instance of the Game Manager */
-    static JWTToolForceParent* getInstance(void);
-    virtual ~JWTToolForceParent();
+    static JWTTool* getInstance(void);
+    virtual ~JWTTool();
     bool init(void);
     std::string buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
     
@@ -24,3 +31,7 @@ private:
     std::string getBodyString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
     std::string getJWTSignature(std::string sHeader, std::string sBody);
 };
+  
+}
+
+#endif

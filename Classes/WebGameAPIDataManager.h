@@ -1,7 +1,7 @@
 #ifndef __WEBGAMEAPIDATAMANAGER_H__
 #define __WEBGAMEAPIDATAMANAGER_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class WebGameAPIDataManager : public cocos2d::Ref
 {

@@ -1,36 +1,16 @@
-#include "HMACSHA256_ios.h"
+#include "HMACSHA256.h"
 #import <CommonCrypto/CommonHMAC.h>
-
+#import <Foundation/NSString.h>
+#import <Foundation/NSData.h>
 
 using namespace cocos2d;
 
-static HMACSHA256_ios *_sharedHMACSHA256_ios = NULL;
 
-HMACSHA256_ios* HMACSHA256_ios::getInstance()
+namespace Azoomee
 {
-    if (! _sharedHMACSHA256_ios)
-    {
-        _sharedHMACSHA256_ios = new HMACSHA256_ios();
-        _sharedHMACSHA256_ios->init();
-    }
-    
-    return _sharedHMACSHA256_ios;
-}
 
-HMACSHA256_ios::~HMACSHA256_ios(void)
+std::string HMACSHA256::getHMACSHA256Hash(const std::string& message, const std::string& secret)
 {
-}
-
-bool HMACSHA256_ios::init(void)
-{
-    return true;
-}
-
-//This method is being used on iOS only. In HelloWorldScene it is being selected depending on platform.
-
-std::string HMACSHA256_ios::getHMACSHA256Hash(std::string message, std::string secret)
-{
-    
     NSString *nsMessage = [NSString stringWithCString:message.c_str() encoding:[NSString defaultCStringEncoding]];
     NSString *nsSecret = [NSString stringWithCString:secret.c_str() encoding:[NSString defaultCStringEncoding]];
     NSData *nsSecretData = [nsSecret dataUsingEncoding:NSUTF8StringEncoding];
@@ -42,5 +22,6 @@ std::string HMACSHA256_ios::getHMACSHA256Hash(std::string message, std::string s
     std::string result = std::string([base64Hash UTF8String]);
     
     return result;
-
+}
+  
 }

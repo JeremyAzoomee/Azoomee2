@@ -1,7 +1,7 @@
 #ifndef __ELECTRIC_DREAM_BUTTON_H__
 #define __ELECTRIC_DREAM_BUTTON_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include <ui/UIScale9Sprite.h>
 #include <AzoomeeCommon/UI/OomeeButtonLayer.h>
 

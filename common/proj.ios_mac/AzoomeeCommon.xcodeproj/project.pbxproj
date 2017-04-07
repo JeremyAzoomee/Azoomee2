@@ -101,6 +101,10 @@
 		3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */; };
 		3012EDA11E97E6A40009027D /* ImageDownloaderLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED9B1E97E6A40009027D /* ImageDownloaderLogic.cpp */; };
 		3012EDA21E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED9D1E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp */; };
+		3012EDAF1E97E8450009027D /* HMACSHA256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA51E97E8450009027D /* HMACSHA256.cpp */; };
+		3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA81E97E8450009027D /* HMACSHA256_ios.mm */; };
+		3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAB1E97E8450009027D /* JWTTool.cpp */; };
+		3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
 		30DD5ECE1E965B710084305B /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC91E9658B40084305B /* Fabric.framework */; };
@@ -296,6 +300,14 @@
 		3012ED9C1E97E6A40009027D /* ImageDownloaderLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderLogic.h; sourceTree = "<group>"; };
 		3012ED9D1E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderOnScreenChecker.cpp; sourceTree = "<group>"; };
 		3012ED9E1E97E6A40009027D /* ImageDownloaderOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderOnScreenChecker.h; sourceTree = "<group>"; };
+		3012EDA51E97E8450009027D /* HMACSHA256.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HMACSHA256.cpp; sourceTree = "<group>"; };
+		3012EDA61E97E8450009027D /* HMACSHA256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMACSHA256.h; sourceTree = "<group>"; };
+		3012EDA81E97E8450009027D /* HMACSHA256_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMACSHA256_ios.mm; sourceTree = "<group>"; };
+		3012EDA91E97E8450009027D /* HMACSHA256_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HMACSHA256_android.cpp; sourceTree = "<group>"; };
+		3012EDAB1E97E8450009027D /* JWTTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTTool.cpp; sourceTree = "<group>"; };
+		3012EDAC1E97E8450009027D /* JWTTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTTool.h; sourceTree = "<group>"; };
+		3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTToolForceParent.cpp; sourceTree = "<group>"; };
+		3012EDAE1E97E8450009027D /* JWTToolForceParent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTToolForceParent.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		30DD5EBF1E96571F0084305B /* CrashlyticsConfig_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashlyticsConfig_android.cpp; sourceTree = "<group>"; };
 		30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CrashlyticsConfig_ios.mm; sourceTree = "<group>"; };
@@ -585,6 +597,29 @@
 			path = ImageDownloader;
 			sourceTree = "<group>";
 		};
+		3012EDA31E97E8450009027D /* JWTSigner */ = {
+			isa = PBXGroup;
+			children = (
+				3012EDA41E97E8450009027D /* HMACSHA256 */,
+				3012EDAB1E97E8450009027D /* JWTTool.cpp */,
+				3012EDAC1E97E8450009027D /* JWTTool.h */,
+				3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */,
+				3012EDAE1E97E8450009027D /* JWTToolForceParent.h */,
+			);
+			path = JWTSigner;
+			sourceTree = "<group>";
+		};
+		3012EDA41E97E8450009027D /* HMACSHA256 */ = {
+			isa = PBXGroup;
+			children = (
+				3012EDA51E97E8450009027D /* HMACSHA256.cpp */,
+				3012EDA61E97E8450009027D /* HMACSHA256.h */,
+				3012EDA81E97E8450009027D /* HMACSHA256_ios.mm */,
+				3012EDA91E97E8450009027D /* HMACSHA256_android.cpp */,
+			);
+			path = HMACSHA256;
+			sourceTree = "<group>";
+		};
 		3077F4381E8D5048006DA465 = {
 			isa = PBXGroup;
 			children = (
@@ -622,6 +657,7 @@
 				30DD5EDF1E96841D0084305B /* Data */,
 				3012ED961E97E6A40009027D /* ImageDownloader */,
 				3012ED651E96A3140009027D /* Input */,
+				3012EDA31E97E8450009027D /* JWTSigner */,
 				3012ED801E97A8F50009027D /* Mixpanel */,
 				3012ED861E97DB450009027D /* UI */,
 				3012ED6A1E96A3140009027D /* Utils */,
@@ -755,6 +791,7 @@
 				3012ED281E9691A90009027D /* MPPropertyDescription.m in Sources */,
 				3012ED411E9691A90009027D /* UIImage+MPAverageColor.m in Sources */,
 				3012ED231E9691A90009027D /* MPObjectSelector.m in Sources */,
+				3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */,
 				3012ED271E9691A90009027D /* MPPassThroughValueTransformer.m in Sources */,
 				3012ED611E969BF60009027D /* ChildDataParser.cpp in Sources */,
 				3012ED261E9691A90009027D /* MPObjectSerializerContext.m in Sources */,
@@ -813,6 +850,7 @@
 				3012ED151E9691A90009027D /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				3012ECFF1E9691A90009027D /* Mixpanel.m in Sources */,
 				3012ED341E9691A90009027D /* MPTypeDescription.m in Sources */,
+				3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */,
 				3012ED1C1E9691A90009027D /* MPEventBinding.m in Sources */,
 				3012ED0F1E9691A90009027D /* MPApplicationStateSerializer.m in Sources */,
 				3012ED051E9691A90009027D /* MPABTestDesignerClearRequestMessage.m in Sources */,
@@ -823,6 +861,7 @@
 				3012ED171E9691A90009027D /* MPClassDescription.m in Sources */,
 				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
 				3012ED021E9691A90009027D /* MPAbstractABTestDesignerMessage.m in Sources */,
+				3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */,
 				3012ECFE1E9691A90009027D /* Mixpanel+AutomaticEvents.m in Sources */,
 				3012ED1F1E9691A90009027D /* MPNotificationViewController.m in Sources */,
 				3012ECFD1E9691A90009027D /* _MPTweakBindObserver.m in Sources */,
@@ -842,6 +881,7 @@
 				3012EDA21E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp in Sources */,
 				3012ED3E1E9691A90009027D /* NSNotificationCenter+AutomaticEvents.m in Sources */,
 				3012ED351E9691A90009027D /* MPUIColorToNSStringValueTransformer.m in Sources */,
+				3012EDAF1E97E8450009027D /* HMACSHA256.cpp in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloaderLogic.cpp in Sources */,
 				3012ED121E9691A90009027D /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
 				3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */,

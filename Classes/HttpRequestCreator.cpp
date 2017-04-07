@@ -1,6 +1,6 @@
 #include "HttpRequestCreator.h"
-#include "JWTTool.h"
-#include "JWTToolForceParent.h"
+#include <AzoomeeCommon/JWTSigner/JWTTool.h>
+#include <AzoomeeCommon/JWTSigner/JWTToolForceParent.h>
 #include "BackEndCaller.h"
 #include "HQDataParser.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>

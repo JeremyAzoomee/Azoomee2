@@ -1,7 +1,7 @@
 #ifndef AzoomeeCommon_ParentDataStorage_h
 #define AzoomeeCommon_ParentDataStorage_h
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "external/json/document.h"
 
 

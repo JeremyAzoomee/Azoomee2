@@ -1,7 +1,7 @@
 #ifndef __CHILDACCOUNTSCENE_SCENE_H__
 #define __CHILDACCOUNTSCENE_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include "ElectricDreamsButton.h"
 #include "MessageBox.h"

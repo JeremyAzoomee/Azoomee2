@@ -1,7 +1,7 @@
 #ifndef __ARTAPPIMAGEMANAGER_H__
 #define __ARTAPPIMAGEMANAGER_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class ArtAppImageManager : public cocos2d::Ref
 {

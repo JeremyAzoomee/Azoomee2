@@ -1,7 +1,7 @@
 #ifndef __WEBVIEWSELECTOR_SCENE_H__
 #define __WEBVIEWSELECTOR_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class WebViewSelector : public cocos2d::Layer
 {

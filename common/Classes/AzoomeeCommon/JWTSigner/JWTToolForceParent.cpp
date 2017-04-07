@@ -1,45 +1,44 @@
-#include "JWTTool.h"
-#include "external/json/document.h"
-#include "external/json/writer.h"
-#include "external/json/stringbuffer.h"
-#include "external/json/prettywriter.h"
-//#include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include "JWTToolForceParent.h"
+#include <external/json/document.h>
+#include <external/json/writer.h>
+#include <external/json/stringbuffer.h>
+#include <external/json/prettywriter.h>
+#include "../Data/Parent/ParentDataProvider.h"
+#include "../Data/Child/ChildDataProvider.h"
 #include <iomanip>
 
-#include "HMACSHA256.h"
-
-USING_NS_CC;
+#include "HMACSHA256/HMACSHA256.h"
 
 using namespace cocos2d;
 using namespace rapidjson;
-using namespace Azoomee;
 
 
-static JWTTool *_sharedJWTTool = NULL;
-
-JWTTool* JWTTool::getInstance()
+namespace Azoomee
 {
-    if (! _sharedJWTTool)
+
+static JWTToolForceParent *_sharedJWTToolForceParent = NULL;
+
+JWTToolForceParent* JWTToolForceParent::getInstance()
+{
+    if (! _sharedJWTToolForceParent)
     {
-        _sharedJWTTool = new JWTTool();
-        _sharedJWTTool->init();
+        _sharedJWTToolForceParent = new JWTToolForceParent();
+        _sharedJWTToolForceParent->init();
     }
     
-    return _sharedJWTTool;
+    return _sharedJWTToolForceParent;
 }
 
-JWTTool::~JWTTool(void)
+JWTToolForceParent::~JWTToolForceParent(void)
 {
 }
 
-bool JWTTool::init(void)
+bool JWTToolForceParent::init(void)
 {
     return true;
 }
 
-std::string JWTTool::getDateFormatString()
+std::string JWTToolForceParent::getDateFormatString()
 {
     time_t rawtime;
     struct tm * ptm;
@@ -51,7 +50,7 @@ std::string JWTTool::getDateFormatString()
     return myDateTime;
 }
 
-std::string JWTTool::addLeadingZeroToDateElement(int input)
+std::string JWTToolForceParent::addLeadingZeroToDateElement(int input)
 {
     std::string dateFormat = StringUtils::format("%d", input);
     if(dateFormat.length() == 1)
@@ -62,7 +61,7 @@ std::string JWTTool::addLeadingZeroToDateElement(int input)
     return dateFormat;
 }
 
-std::string JWTTool::stringToLower(std::string input)
+std::string JWTToolForceParent::stringToLower(std::string input)
 {
     for(int i = 0; i < input.length(); i++)
     {
@@ -72,7 +71,7 @@ std::string JWTTool::stringToLower(std::string input)
     return input;
 }
 
-std::string JWTTool::url_encode(const std::string &value) {
+std::string JWTToolForceParent::url_encode(const std::string &value) {
     std::ostringstream escaped;
     escaped.fill('0');
     escaped << std::hex;
@@ -95,7 +94,7 @@ std::string JWTTool::url_encode(const std::string &value) {
     return escaped.str();
 }
 
-std::string JWTTool::getBase64Encoded(std::string input) //This is now used only to convert the first and second part of the jwt to base64, the HMAC SHA256 is already base64 encoded.
+std::string JWTToolForceParent::getBase64Encoded(std::string input) //This is now used only to convert the first and second part of the jwt to base64, the HMAC SHA256 is already base64 encoded.
 {
     char *output = NULL;
     cocos2d::base64Encode((unsigned char *)input.c_str(), (unsigned int)input.length(), &output);
@@ -105,7 +104,7 @@ std::string JWTTool::getBase64Encoded(std::string input) //This is now used only
     return outputStr;
 }
 
-std::string JWTTool::getHeaderString(std::string kid)
+std::string JWTToolForceParent::getHeaderString(std::string kid)
 {
     rapidjson::StringBuffer s;
     rapidjson::Writer<rapidjson::StringBuffer> writer(s);
@@ -133,7 +132,7 @@ std::string JWTTool::getHeaderString(std::string kid)
     return result;
 }
 
-std::string JWTTool::getBodySignature(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody)
+std::string JWTToolForceParent::getBodySignature(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody)
 {
     std::string stringContentType = "";
     if(requestBody.length() != 0)
@@ -144,7 +143,7 @@ std::string JWTTool::getBodySignature(std::string method, std::string path, std:
     std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(host)).c_str(), url_encode(stringToLower(getDateFormatString())).c_str());
     
     std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), queryParams.c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
-    std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, ChildDataProvider::getInstance()->getParentOrChildApiSecret());
+    std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, ParentDataProvider::getInstance()->getLoggedInParentApiSecret());
     
     CCLOG("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
     
@@ -152,7 +151,7 @@ std::string JWTTool::getBodySignature(std::string method, std::string path, std:
     return bodySignature;
 }
 
-std::string JWTTool::getBodyString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody)
+std::string JWTToolForceParent::getBodyString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody)
 {
     rapidjson::StringBuffer s;
     rapidjson::Writer<rapidjson::StringBuffer> writer(s);
@@ -160,7 +159,7 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
     writer.StartObject();
     
     writer.String("iss", (int)StringUtils::format("iss").length());
-    writer.String(ChildDataProvider::getInstance()->getParentOrChildId().c_str(), (int)(StringUtils::format("%s", ChildDataProvider::getInstance()->getParentOrChildId().c_str()).length()));
+    writer.String(ParentDataProvider::getInstance()->getLoggedInParentId().c_str(), (int)(StringUtils::format("%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str()).length()));
     
     writer.String("aud", (int)StringUtils::format("aud").length());
     writer.String("", 0);
@@ -192,20 +191,20 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
     return result;
 }
 
-std::string JWTTool::getJWTSignature(std::string sHeader, std::string sBody)
+std::string JWTToolForceParent::getJWTSignature(std::string sHeader, std::string sBody)
 {
     std::string unEncodedSignature = StringUtils::format("%s.%s", sHeader.c_str(), sBody.c_str());
-    std::string encodedSignature = HMACSHA256::getInstance()->getHMACSHA256Hash(unEncodedSignature, ChildDataProvider::getInstance()->getParentOrChildApiSecret());
+    std::string encodedSignature = HMACSHA256::getInstance()->getHMACSHA256Hash(unEncodedSignature, ParentDataProvider::getInstance()->getLoggedInParentApiSecret());
     
     return encodedSignature;
 }
 
-std::string JWTTool::buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody)
+std::string JWTToolForceParent::buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody)
 {
     
     //HEADER STRING------------------------------------------------------------------------------
     
-    std::string sHeader = getHeaderString(ChildDataProvider::getInstance()->getParentOrChildApiKey());
+    std::string sHeader = getHeaderString(ParentDataProvider::getInstance()->getLoggedInParentApiKey());
     
     
     //PAYLOAD STRING------------------------------------------------------------------------------
@@ -218,7 +217,7 @@ std::string JWTTool::buildJWTString(std::string method, std::string path, std::s
     
     //DISPLAYING DEBUG INFO-----------------------------------------------------------------------
     
-    CCLOG("\n\n\n apiSecret: %s\n\n\n", ChildDataProvider::getInstance()->getParentOrChildApiSecret().c_str());
+    CCLOG("\n\n\n apiSecret: %s\n\n\n", ParentDataProvider::getInstance()->getLoggedInParentApiSecret().c_str());
     
     
     //CREATE THE FINAL JWT STRING-----------------------------------------------------------------
@@ -229,4 +228,6 @@ std::string JWTTool::buildJWTString(std::string method, std::string path, std::s
     
     
     return finalJWT;
+}
+  
 }

@@ -1,7 +1,7 @@
 #ifndef AzoomeeCommon_ParentDataProvider_h
 #define AzoomeeCommon_ParentDataProvider_h
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "external/json/document.h"
 
 

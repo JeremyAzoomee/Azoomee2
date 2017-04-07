@@ -1,7 +1,7 @@
 #ifndef __NAVIGATION_LAYER_H__
 #define __NAVIGATION_LAYER_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ElectricDreamsButton.h"
 
 class NavigationLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate

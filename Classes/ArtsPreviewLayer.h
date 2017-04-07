@@ -1,7 +1,7 @@
 #ifndef __ARTSPREVIEW_LAYER_H__
 #define __ARTSPREVIEW_LAYER_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class ArtsPreviewLayer : public cocos2d::Layer
 {
