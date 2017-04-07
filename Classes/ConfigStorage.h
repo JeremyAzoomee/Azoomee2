@@ -82,6 +82,9 @@ public:
     std::string getVersionNumberWithPlatform();
     std::string getVersionNumberToDisplay();
     
+    //IAP Configuration
+    std::string getIapSkuForProvider(std::string provider);
+    
 private:
     rapidjson::Document parseJsonConfigurationFile(std::string fileName);
     
@@ -92,6 +95,7 @@ private:
     rapidjson::Document OomeeAnimationTypes;
     rapidjson::Document OomeeConfiguration;
     rapidjson::Document VersionConfiguration;
+    rapidjson::Document IapConfiguration;
     
     cocos2d::Point visualOrigin;
     cocos2d::Size visualSize;

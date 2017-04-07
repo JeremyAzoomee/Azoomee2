@@ -252,7 +252,7 @@ public class AppActivity extends Cocos2dxActivity {
 
     public static void startAmazonPurchase()
     {
-        final RequestId requestId = PurchasingService.purchase("com.azoomee.premium.monthly");
+        final RequestId requestId = PurchasingService.purchase(getAmazonSku());
         Log.d("IAPAPI", "Request id: " + requestId.toString());
         Log.d("IAPAPI", "purchase service started, app on pause");
     }
@@ -298,4 +298,6 @@ public class AppActivity extends Cocos2dxActivity {
     public static native void userDataFailed();
 
     public static native void alreadyPurchased();
+
+    public static native String getAmazonSku();
 }

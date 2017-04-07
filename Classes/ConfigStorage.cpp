@@ -37,6 +37,7 @@ bool ConfigStorage::init(void)
     OomeeAnimationTypes = parseJsonConfigurationFile("OomeeAnimationTypes.json");
     OomeeConfiguration = parseJsonConfigurationFile("OomeeConfiguration.json");
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
+    IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
     
     return true;
 }
@@ -345,4 +346,11 @@ std::string ConfigStorage::getVersionNumberWithPlatform()
 std::string ConfigStorage::getVersionNumberToDisplay()
 {
     return "Version Number " + getVersionNumber();
+}
+
+//----------------------------- IAP Configuration -------------------------------------
+
+std::string ConfigStorage::getIapSkuForProvider(std::string provider)
+{
+    return IapConfiguration[provider.c_str()].GetString();
 }
