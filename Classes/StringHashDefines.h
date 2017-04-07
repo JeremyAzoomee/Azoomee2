@@ -1,6 +1,6 @@
 //-----------------Get Version Number -----------------
 
-#define APP_VERSION_NUMBER ConfigStorage::getInstance()->getVersionNumberToDisplay()
+#define APP_VERSION_NUMBER_DISPLAY ConfigStorage::getInstance()->getVersionNumberToDisplay()
 
 // ---------- LOGIN SCENE TEXT -------------
 
