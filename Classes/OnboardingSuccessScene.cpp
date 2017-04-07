@@ -1,5 +1,4 @@
 #include "OnboardingSuccessScene.h"
-#include <AzoomeeCommon/Strings.h>
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -9,7 +8,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "IAPUpsaleLayer.h"
 #include "PaymentSingleton.h"
-#include <AzoomeeCommon/StringFunctions.h>
+#include <AzoomeeCommon/Strings.h>
 
 USING_NS_CC;
 using namespace Azoomee;

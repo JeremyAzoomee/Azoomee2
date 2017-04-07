@@ -3,6 +3,7 @@
 
 // For convenience
 #include "Utils/StringMgr.h"
+#include "Utils/StringFunctions.h"
 
 
 // ---------- GET VERSION -------------

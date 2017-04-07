@@ -1,4 +1,5 @@
 #include "Notifications.h"
+#include <cocos/cocos2d.h>
 
 
 namespace Azoomee
