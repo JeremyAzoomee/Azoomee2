@@ -5,7 +5,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ParentDataParser.h"
-#include <AzoomeeCommon/Data/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "ElectricDreamsTextStyles.h"
 #include "MessageBox.h"
 #include "ElectricDreamsDecoration.h"

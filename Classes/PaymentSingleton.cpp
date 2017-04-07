@@ -3,7 +3,7 @@
 #include "external/json/document.h"
 #include "MessageBox.h"
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/Data/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

@@ -1,7 +1,7 @@
 #include "ModalMessages.h"
 #include "ui/UIEditBox/UIEditBox.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/MixPanel/Notifications.h>
+#include <AzoomeeCommon/Mixpanel/Notifications.h>
 
 USING_NS_CC;
 using namespace Azoomee;
