@@ -12,6 +12,7 @@
 #include "PaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
+#include "ConfigStorage.h"
 
 #define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
 #define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
@@ -74,7 +75,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     
     //-------- VERSION NUBMER ---------
     
-    auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
+    auto versionTitle = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
     versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 1.5);
     windowLayer->addChild(versionTitle);
     
