@@ -131,7 +131,7 @@ void LoginScene::getUserDefaults()
 
 void LoginScene::addLabelToScene()
 {
-    auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER_DISPLAY);
+    auto versionTitle = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
     this->addChild(versionTitle);
 
     title = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
