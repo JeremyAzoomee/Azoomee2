@@ -1,10 +1,13 @@
 #include "TextInputLayer.h"
-#include <AzoomeeCommon/Input/TextInputChecker.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include "TextInputChecker.h"
+#include "../Strings.h"
+#include "../UI/ElectricDreamsTextStyles.h"
 
-using namespace Azoomee;
+using namespace cocos2d;
 
+
+namespace Azoomee
+{
 
 TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputType)
 {
@@ -192,4 +195,6 @@ void TextInputLayer::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std
 void TextInputLayer::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
     //Required editBox Delegate Function.
+}
+  
 }

@@ -96,6 +96,7 @@
 		3012ED901E97DCC00009027D /* ElectricDreamsDecoration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */; };
 		3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */; };
 		3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */; };
+		3012ED951E97E5260009027D /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED931E97E5260009027D /* TextInputLayer.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
 		30DD5ECE1E965B710084305B /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC91E9658B40084305B /* Fabric.framework */; };
@@ -281,6 +282,8 @@
 		3012ED8D1E97DCC00009027D /* ElectricDreamsTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsTextStyles.h; sourceTree = "<group>"; };
 		3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeButtonLayer.cpp; sourceTree = "<group>"; };
 		3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeButtonLayer.h; sourceTree = "<group>"; };
+		3012ED931E97E5260009027D /* TextInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputLayer.cpp; sourceTree = "<group>"; };
+		3012ED941E97E5260009027D /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		30DD5EBF1E96571F0084305B /* CrashlyticsConfig_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashlyticsConfig_android.cpp; sourceTree = "<group>"; };
 		30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CrashlyticsConfig_ios.mm; sourceTree = "<group>"; };
@@ -511,6 +514,8 @@
 		3012ED651E96A3140009027D /* Input */ = {
 			isa = PBXGroup;
 			children = (
+				3012ED931E97E5260009027D /* TextInputLayer.cpp */,
+				3012ED941E97E5260009027D /* TextInputLayer.h */,
 				3012ED661E96A3140009027D /* TextInputChecker.cpp */,
 				3012ED671E96A3140009027D /* TextInputChecker.h */,
 			);
@@ -784,6 +789,7 @@
 				3012ED521E969AE40009027D /* CookieDataStorage.cpp in Sources */,
 				3012ED481E969A180009027D /* AudioMixer.cpp in Sources */,
 				3012ED0B1E9691A90009027D /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
+				3012ED951E97E5260009027D /* TextInputLayer.cpp in Sources */,
 				3012ED171E9691A90009027D /* MPClassDescription.m in Sources */,
 				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
 				3012ED021E9691A90009027D /* MPAbstractABTestDesignerMessage.m in Sources */,

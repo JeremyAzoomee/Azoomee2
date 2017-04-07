@@ -72,7 +72,6 @@
 		431A2A3C1E439BFE00DC0F3B /* MPSurvey.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 431A29C71E439BFE00DC0F3B /* MPSurvey.storyboard */; };
 		431A2A501E439BFE00DC0F3B /* snapshot_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 431A29EC1E439BFE00DC0F3B /* snapshot_config.json */; };
 		431A2A511E439BFE00DC0F3B /* test_variant.json in Resources */ = {isa = PBXBuildFile; fileRef = 431A29ED1E439BFE00DC0F3B /* test_variant.json */; };
-		432312121E1D4EFB00C8606D /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 432312101E1D4EFB00C8606D /* TextInputLayer.cpp */; };
 		4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
 		433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
@@ -288,8 +287,6 @@
 		431A29C71E439BFE00DC0F3B /* MPSurvey.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MPSurvey.storyboard; sourceTree = "<group>"; };
 		431A29EC1E439BFE00DC0F3B /* snapshot_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = snapshot_config.json; sourceTree = "<group>"; };
 		431A29ED1E439BFE00DC0F3B /* test_variant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_variant.json; sourceTree = "<group>"; };
-		432312101E1D4EFB00C8606D /* TextInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputLayer.cpp; sourceTree = "<group>"; };
-		432312111E1D4EFB00C8606D /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
 		4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsButton.cpp; sourceTree = "<group>"; };
 		4327D9281E1F990700F912C5 /* ElectricDreamsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsButton.h; sourceTree = "<group>"; };
 		433AD3051E252A2C003757AD /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -684,19 +681,9 @@
 				020ACCFB1E70561F002490CE /* PaymentSingleton */,
 				A15D58921E028C940099CDEE /* BurntInData */,
 				A1CC0C271E15691C008B469E /* ModalMessages */,
-				4323120F1E1D4DFF00C8606D /* TextInput */,
 				4327D9251E1F98AC00F912C5 /* uiObjects */,
 			);
 			name = Utilities;
-			sourceTree = "<group>";
-		};
-		4323120F1E1D4DFF00C8606D /* TextInput */ = {
-			isa = PBXGroup;
-			children = (
-				432312101E1D4EFB00C8606D /* TextInputLayer.cpp */,
-				432312111E1D4EFB00C8606D /* TextInputLayer.h */,
-			);
-			name = TextInput;
 			sourceTree = "<group>";
 		};
 		4327D9251E1F98AC00F912C5 /* uiObjects */ = {
@@ -1197,7 +1184,6 @@
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
-				432312121E1D4EFB00C8606D /* TextInputLayer.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
 				A15B2FB21DEDD1E000D25334 /* JWTTool.cpp in Sources */,

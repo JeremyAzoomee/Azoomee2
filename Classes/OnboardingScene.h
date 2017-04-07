@@ -2,7 +2,7 @@
 #define __ONBOARDINGSCENE_SCENE_H__
 
 #include "cocos2d.h"
-#include "TextInputLayer.h"
+#include <AzoomeeCommon/Input/TextInputLayer.h>
 #include "ElectricDreamsButton.h"
 #include "MessageBox.h"
 

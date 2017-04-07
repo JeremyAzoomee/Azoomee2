@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "ElectricDreamsButton.h"
-#include "TextInputLayer.h"
+#include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 
 USING_NS_CC;

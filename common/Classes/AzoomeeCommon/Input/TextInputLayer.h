@@ -1,10 +1,12 @@
-#ifndef __TEXT_INPUT_LAYER_H__
-#define __TEXT_INPUT_LAYER_H__
+#ifndef AzoomeeCommon_TextInputLayer_h
+#define AzoomeeCommon_TextInputLayer_h
 
-#include "cocos2d.h"
-#include "ui/UIEditBox/UIEditBox.h"
+#include <cocos/cocos2d.h>
+#include <cocos/ui/UIEditBox/UIEditBox.h>
 
-USING_NS_CC;
+
+namespace Azoomee
+{
 
 #define INPUT_IS_EMAIL 0
 #define INPUT_IS_PASSWORD 1
@@ -39,15 +41,15 @@ public:
     virtual void textInputIsValid(TextInputLayer* inputLayer, bool isValid) = 0;
 };
 
-class TextInputLayer : public Layer, public cocos2d::ui::EditBoxDelegate
+class TextInputLayer : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
 {
 private:
     void createEditBoxArea();
     void createEditBox();
     void setupEditBoxUsingType();
     
-    ui::EditBox* editBox;
-    ui::Scale9Sprite* editBoxArea;
+    cocos2d::ui::EditBox* editBox;
+    cocos2d::ui::Scale9Sprite* editBoxArea;
     
     int textInputType;
     
@@ -61,7 +63,7 @@ public:
     
     static TextInputLayer* createWithSize(cocos2d::Size inputBoxSize, int textInputType);
     
-    void setCenterPosition(Vec2 position);
+    void setCenterPosition(cocos2d::Vec2 position);
     
     void focusAndShowKeyboard();
     
@@ -77,5 +79,7 @@ public:
     void editBoxReturn(cocos2d::ui::EditBox* editBox);
     
 };
+  
+}
 
 #endif
