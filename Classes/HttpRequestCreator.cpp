@@ -10,6 +10,7 @@
 #include "ChildAccountScene.h"
 #include "ChildDataParser.h"
 #include "AmazonPaymentSingleton.h"
+#include "GooglePaymentSingleton.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -134,7 +135,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
         }
     }
     
-    std::string requestUrl = StringUtils::format("https://%s%s", host.c_str(), requestPath.c_str());
+    std::string requestUrl = StringUtils::format("http://%s%s", host.c_str(), requestPath.c_str());
     if(!urlParameters.empty()) requestUrl = StringUtils::format("%s?%s", requestUrl.c_str(), urlParameters.c_str());   //In URL we need to add the ?
     
     HttpRequest *request = new HttpRequest();
@@ -211,6 +212,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "updateParentActorStatus") BackEndCaller::getInstance()->onUpdateParentActorStatusAnswerReceived(responseDataString);
         if(requestTag == "PreviewHOME") HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(responseDataString);
         if(requestTag == "iapAmazonPaymentMade") AmazonPaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(responseDataString);
+        if(requestTag == "iabGooglePaymentMade") GooglePaymentSingleton::getInstance()->onGooglePaymentMadeAnswerReceived(responseDataString);
         if(requestTag == "updateBilling") BackEndCaller::getInstance()->onUpdateBillingDataAnswerReceived(responseDataString);
         
         for(int i = 0; i < 6; i++)
@@ -288,6 +290,14 @@ void HttpRequestCreator::handleEventAfterError(std::string requestTag, long erro
         CCLOG("IAP Failed with Errorcode: %ld", errorCode);
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
         AmazonPaymentSingleton::getInstance()->backendRequestFailed();
+        return;
+    }
+    
+    if(requestTag == "iabGooglePaymentMade")
+    {
+        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
+        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
+        GooglePaymentSingleton::getInstance()->backendRequestFailed();
         return;
     }
     

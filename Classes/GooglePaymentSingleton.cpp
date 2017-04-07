@@ -72,9 +72,76 @@ void GooglePaymentSingleton::addListenerToBackgroundLayer()
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), modalLayer);
 }
 
-void GooglePaymentSingleton::finishedIABPayment()
+void GooglePaymentSingleton::finishedIABPayment(std::string developerPayload, std::string orderId, std::string token)
 {
-    removeModalLayer();
+    savedDeveloperPayload = developerPayload;
+    savedOrderId = orderId;
+    savedToken = token;
+    
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->requestBody = StringUtils::format("{\"orderId\": \"%s\", \"subscriptionId\": \"%s\", \"purchaseToken\": \"%s\"}", orderId.c_str(), "monthly", token.c_str());
+    httpRequestCreator->requestTag = "iabGooglePaymentMade";
+    httpRequestCreator->createEncryptedPostHttpRequest();
+}
+
+void GooglePaymentSingleton::backendRequestFailed()
+{
+    iabAttemptInProgress = false;
+    
+    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+}
+
+void GooglePaymentSingleton::onGooglePaymentMadeAnswerReceived(std::string responseDataString)
+{
+    CCLOG("The response id is: %s", responseDataString.c_str());
+    
+    rapidjson::Document paymentData;
+    paymentData.Parse(responseDataString.c_str());
+    
+    if(paymentData.HasParseError())
+    {
+        requestAttempts = requestAttempts + 1;
+        finishedIABPayment(savedDeveloperPayload, savedOrderId, savedToken);
+        return;
+    }
+    
+    bool paymentFailed = true;
+    
+    if(paymentData.HasMember("receiptStatus"))
+    {
+        if(paymentData["receiptStatus"].IsString())
+        {
+            // EXPIRED, INVALID, UNCERTAIN
+            if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
+            {
+                AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
+                paymentFailed = false;
+                
+                removeModalLayer();
+                
+                BackEndCaller::getInstance()->newTrialJustStarted = true;
+                BackEndCaller::getInstance()->autoLogin();
+            }
+            else
+                AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
+        }
+    }
+    
+    if(paymentFailed)
+    {
+        if(requestAttempts < 4)
+        {
+            requestAttempts = requestAttempts + 1;
+            finishedIABPayment(savedDeveloperPayload, savedOrderId, savedToken);
+        }
+        else
+        {
+            removeModalLayer();
+            MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+            return;
+        }
+    }
+
 }
 
 void GooglePaymentSingleton::purchaseFailed()
@@ -135,7 +202,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseHappened(
     CCLOG("COCOS2DXGOOGLE: I have the data: developerPayload: %s, orderId: %s, token: %s", cDeveloperPayload, cOrderId, cToken);
     
     //call backend here to upgrade user, on success use autologin to relogin the user.
-    GooglePaymentSingleton::getInstance()->finishedIABPayment();
+    GooglePaymentSingleton::getInstance()->finishedIABPayment(std::string(cDeveloperPayload), std::string(cOrderId), std::string(cToken));
 }
 
 extern "C"

@@ -369,15 +369,15 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
             Log.d("GOOGLEPLAY", "Query inventory was successful.");
 
             // Do we have the premium upgrade?
-            Purchase premiumPurchase = inventory.getPurchase("com.tinizine.azoomee.monthly");
+            Purchase premiumPurchase = inventory.getPurchase("android.test.purchased"); //com.tinizine.azoomee.monthly
             mIsPremium = (premiumPurchase != null);
             Log.d("GOOGLEPLAY", "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
 
             //If the user is not premium, we can start the upgrade process
 
             try {
-                mHelper.launchPurchaseFlow(mActivity, "com.tinizine.azoomee.monthly", 10001,
-                        mPurchaseFinishedListener, payload);
+                mHelper.launchPurchaseFlow(mActivity, "android.test.purchased", 10001,
+                        mPurchaseFinishedListener, payload);  //com.tinizine.azoomee.monthly
             } catch (IabHelper.IabAsyncInProgressException e) {
                 Log.d("GOOGLEPAY", "Error launching purchase flow. Another async operation in progress.");
             }

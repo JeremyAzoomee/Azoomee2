@@ -12,9 +12,11 @@ public:
     bool init(void);
     
     void startIABPayment();
-    void finishedIABPayment();
+    void finishedIABPayment(std::string developerPayload, std::string orderId, std::string token);
     void purchaseFailed();
     void showDoublePurchase();
+    void onGooglePaymentMadeAnswerReceived(std::string responseDataString);
+    void backendRequestFailed();
     
 private:
     bool paymentInProgress;
@@ -22,6 +24,13 @@ private:
     void removeModalLayer();
     cocos2d::LayerColor* modalLayer;
     void addListenerToBackgroundLayer();
+    
+    std::string savedDeveloperPayload;
+    std::string savedOrderId;
+    std::string savedToken;
+    
+    bool iabAttemptInProgress;
+    int requestAttempts;
 };
 
 #endif
