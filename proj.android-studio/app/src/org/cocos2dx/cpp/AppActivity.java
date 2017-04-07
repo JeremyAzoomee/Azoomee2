@@ -253,8 +253,6 @@ public class AppActivity extends Cocos2dxActivity {
     public static void startAmazonPurchase()
     {
         final RequestId requestId = PurchasingService.purchase(getAmazonSku());
-        Log.d("IAPAPI", "Request id: " + requestId.toString());
-        Log.d("IAPAPI", "purchase service started, app on pause");
     }
 
     public static void fulfillAmazonPurchase(String receiptId)
