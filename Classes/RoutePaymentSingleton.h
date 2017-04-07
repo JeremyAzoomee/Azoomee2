@@ -6,6 +6,8 @@
 
 class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
 {
+private:
+    bool appleReceiptRefreshchecked;
     
 public:
     static RoutePaymentSingleton* getInstance(void);

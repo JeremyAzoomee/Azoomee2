@@ -113,7 +113,7 @@
     
     "3004":
     {
-        "title":"Unknown Apple ID",
+        "title":"Subscription Update Failed",
         "body":"The Apple subscription could not be verified. Please log in, with the Apple account that created the Azoomee subscription.\n\nContact our customer service team if you need some help.",
         "button":"OK"
     },

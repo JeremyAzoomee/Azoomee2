@@ -106,7 +106,6 @@
                 break;
         }
     };
-
 }
 
 - (void) paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue

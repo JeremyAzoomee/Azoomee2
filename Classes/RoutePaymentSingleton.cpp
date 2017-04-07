@@ -126,22 +126,29 @@ void RoutePaymentSingleton::refreshAppleReceiptFromButton()
 
 bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
 {
-    CCLOG("checkIfAppleReceiptRefreshNeeded Started");
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
+    if(appleReceiptRefreshchecked)
+        return true;
+    else
     {
-        ApplePaymentSingleton::getInstance()->refreshReceipt(false);
-        return false;
+        appleReceiptRefreshchecked = true;
+        
+        CCLOG("checkIfAppleReceiptRefreshNeeded Started");
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
+        {
+            ApplePaymentSingleton::getInstance()->refreshReceipt(false);
+            return false;
+        }
+    #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        CCLOG("checkIfAppleReceiptRefreshNeeded");
+        if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && !ParentDataProvider::getInstance()->isPaidUser())
+        {
+            MessageBox::createWith(ERROR_CODE_APPLE_SUBSCRIPTION_ON_NON_APPLE, this);
+            return false;
+        }
+    #endif
+        return true;
     }
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    CCLOG("checkIfAppleReceiptRefreshNeeded");
-    if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && !ParentDataProvider::getInstance()->isPaidUser())
-    {
-        MessageBox::createWith(ERROR_CODE_APPLE_SUBSCRIPTION_ON_NON_APPLE, this);
-        return false;
-    }
-#endif
-    return true;
 }
 
 //Delegate Functions
