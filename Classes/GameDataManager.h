@@ -1,19 +1,23 @@
 #include "cocos2d.h"
 #include "network/HttpClient.h"
 #include "external/json/document.h"
+#include "ElectricDreamsButton.h"
+#include "MessageBox.h"
 
-class GameDataManager : public cocos2d::Ref
+class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
     
 public:
-    /** Returns the shared instance of the Game Manager */
     static GameDataManager* getInstance(void);
-    
-public:
     virtual ~GameDataManager();
     bool init(void);
-    
     void startProcessingGame(std::string url, std::string itemId);
+    
+    //Delegate Functions
+    void buttonPressed(ElectricDreamsButton* button);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    
+private:
     std::string getFileNameFromUrl(std::string url);
     
     void getJSONGameData(std::string url, std::string itemId);
@@ -30,8 +34,19 @@ public:
     bool unzipGame(const char *zipPath,const char *dirpath,const char *passwd);
     bool removeGameZip(std::string fileNameWithPath);
     
+    void removeGameFolderOnError(std::string dirPath);
+    
     std::string getGameCachePath();
     std::string getGameIdPath(std::string gameId);
     
     void startGame(std::string fileName);
+    
+    //Loading screen
+    void displayLoadingScreen();
+    void hideLoadingScreen();
+    void showErrorMessage();
+    
+    cocos2d::network::HttpRequest* jsonRequest;
+    cocos2d::network::HttpRequest* zipRequest;
+    bool processCancelled;
 };

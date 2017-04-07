@@ -1,5 +1,6 @@
 #include "TextInputChecker.h"
 #include "ParentDataProvider.h"
+#include "StringFunctions.h"
 
 using namespace cocos2d;
 
@@ -15,7 +16,6 @@ bool isNumber(const char Character)
 bool isValidEmailAddress(const char * EmailAddress)
 {
     if(!EmailAddress) return 0;
-    if(!isCharacter(EmailAddress[0])) return 0;
     
     int AtOffset = -1;
     int DotOffset = -1;
@@ -23,8 +23,10 @@ bool isValidEmailAddress(const char * EmailAddress)
     unsigned int Length = (int)strlen(EmailAddress);
     for(unsigned int i = 0; i < Length; i++)
     {
-        if(EmailAddress[i] == '@') AtOffset = (int)i;
+        if(EmailAddress[i] == '@' && AtOffset != -1) return 0;
+        else if(EmailAddress[i] == '@') AtOffset = (int)i;
         else if(EmailAddress[i] == '.') DotOffset = (int)i;
+        else if(EmailAddress[i] == ' ') return 0;
     }
     
     if(AtOffset == -1 || DotOffset == -1) return 0;
@@ -99,7 +101,7 @@ bool childNameExists(std::string newChildsName)
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        std::string storedChildsName = ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "profileName");
+        std::string storedChildsName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(i);
         
         if(newChildsName.compare(storedChildsName) == 0)
         {
@@ -132,3 +134,12 @@ bool isValidChildName(const char * childName)
     else return 0;
 }
 
+bool hasAzoomeeEmailAddress(std::string emailAddress)
+{
+    auto atPosition = emailAddress.find("@");
+    
+    if ( atPosition != std::string::npos && stringToLower(emailAddress).find("azoomee", atPosition) != std::string::npos)
+        return true;
+    else
+        return false;
+}

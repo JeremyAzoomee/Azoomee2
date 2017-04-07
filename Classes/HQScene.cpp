@@ -4,18 +4,35 @@
 
 #include "HQScene.h"
 #include "HQSceneElement.h"
-#include "SimpleAudioEngine.h"
+#include "ArtsAppHQElement.h"
 #include "HQDataProvider.h"
 #include "ConfigStorage.h"
 #include "HQSceneElementPositioner.h"
+#include <dirent.h>
+#include "ChildDataProvider.h"
+#include "ImageDownloader.h"
+#include "HQHistoryManager.h"
+#include "ElectricDreamsTextStyles.h"
+#include "OfflineHubBackButton.h"
+#include "HQSceneArtsApp.h"
 
 USING_NS_CC;
 
-Scene* HQScene::createScene()
+Scene* HQScene::createSceneForOfflineArtsAppHQ()
 {
     auto scene = Scene::create();
     auto layer = HQScene::create();
     scene->addChild(layer);
+    
+    //if created as a scene, and not as a layer, we are in offline mode, and we are using scene only for art app, so adding initial lines:
+    layer->setName("ARTS APP");
+    
+    auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+    layer->addChild(offlineArtsAppScrollView);
+    
+    auto offlineHubBackButton = OfflineHubBackButton::create();
+    offlineHubBackButton->setPosition(Point(100, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height - 250));
+    layer->addChild(offlineHubBackButton);
 
     return scene;
 }
@@ -32,24 +49,57 @@ bool HQScene::init()
 
 void HQScene::startBuildingScrollViewBasedOnName()
 {
+    
 #ifdef forcereload
-        this->removeAllChildren();
+    this->removeAllChildren();
+    FileUtils::getInstance()->removeDirectory(FileUtils::getInstance()->getWritablePath() + "imageCache");
 #endif
     
     if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.
     {
-        createBidirectionalScrollView();
+        if(this->getName() == "GROUP HQ") addGroupHQLogo();
+        
+        if(this->getName() == "ARTS APP")
+        {
+            auto artsLayer = this->getChildByName("ARTS APP");
+            if(!artsLayer)
+            {
+                auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+                offlineArtsAppScrollView->setName("ARTS APP");
+                this->addChild(offlineArtsAppScrollView);
+            }
+        }
+        else createBidirectionalScrollView();
     }
 }
 
-//--------------------------------------------All functions below this line are used internally----------------------------------------------------
+//------------------ All functions below this line are used internally ----------------------------
+
+void HQScene::addGroupHQLogo()
+{
+    if(HQHistoryManager::getInstance()->getGroupHQSourceId() != "")
+    {
+        std::string groupHQLogoUrl = HQDataProvider::getInstance()->getImageUrlForGroupLogo(HQHistoryManager::getInstance()->getGroupHQSourceId());
+        
+        Size visibleSize = Director::getInstance()->getVisibleSize();
+        Point visibleOrigin = Director::getInstance()->getVisibleOrigin();
+        
+        this->removeChild(this->getChildByName("groupLogo"));
+        
+        auto groupLogo = ImageDownloader::create();
+        groupLogo->initWithUrlAndSizeWithoutPlaceholder(groupHQLogoUrl, ConfigStorage::getInstance()->getGroupHQLogoSize());
+        groupLogo->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height - groupLogo->getContentSize().height * 0.8);
+        groupLogo->setName("groupLogo");
+        this->addChild(groupLogo);
+    }
+}
 
 void HQScene::createMonodirectionalScrollView()
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(origin.x, origin.y + 50));
+    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2), Point(origin.x, origin.y + 50));
     horizontalScrollView->setName("scrollView");
     this->addChild(horizontalScrollView);
     
@@ -70,14 +120,21 @@ void HQScene::createBidirectionalScrollView()
     verticalScrollView->setName("scrollView");
     this->addChild(verticalScrollView);
     
-    verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * 1100));
+    if(this->getName() == "GROUP HQ")
+        verticalScrollView->cocos2d::Node::setPosition(origin.x , origin.y - 200);
+    else
+        this->addChild(createVerticalScrollGradient());
+    
+    float verticalScrollViewHeight = (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2) + (ConfigStorage::getInstance()->getScrollviewTitleTextHeight() * 2);
+    
+    verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * verticalScrollViewHeight));
     
     for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); j++)
     {
         std::vector<std::string> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), j);
         
         scrollViewSpaceAllocation.clear();
-        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, 1050), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * 1100)));
+        auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * verticalScrollViewHeight)));
         verticalScrollView->addChild(horizontalScrollView);
         
         for(int i = 0; i < elementsForRow.size(); i++)
@@ -85,8 +142,8 @@ void HQScene::createBidirectionalScrollView()
             addElementToHorizontalScrollView(horizontalScrollView, HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForRow.at(i)), j, i);
         }
         
-        Point titlePosition = horizontalScrollView->getPosition();
-        addTitleToHorizontalScrollView(HQDataProvider::getInstance()->getTitleForRow(this->getName(), j), verticalScrollView, horizontalScrollView->getPosition());
+        Point titlePosition = Point(visibleSize.width/2,horizontalScrollView->getPosition().y + ConfigStorage::getInstance()->getScrollviewTitleTextHeight()*.4 + (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2));
+        addTitleToHorizontalScrollView(HQDataProvider::getInstance()->getTitleForRow(this->getName(), j), verticalScrollView, titlePosition);
     }
 }
 
@@ -174,7 +231,7 @@ cocos2d::ui::ScrollView* HQScene::createVerticalScrollView()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height * 0.82);
+    Size vScrollFrameSize = Size(visibleSize.width, visibleSize.height - ConfigStorage::getInstance()->getHorizontalMenuItemsHeight());
     
     cocos2d::ui::ScrollView *vScrollView = cocos2d::ui::ScrollView::create();
     vScrollView->setContentSize(vScrollFrameSize);
@@ -189,6 +246,20 @@ cocos2d::ui::ScrollView* HQScene::createVerticalScrollView()
     addListenerToScrollView(vScrollView);
 
     return vScrollView;
+}
+
+Sprite* HQScene::createVerticalScrollGradient()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    Sprite* verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
+    verticalScrollGradient->setAnchorPoint(Vec2(0.5, 1.0));
+    verticalScrollGradient->setScaleX(visibleSize.width / verticalScrollGradient->getContentSize().width);
+    verticalScrollGradient->setPosition(origin.x+visibleSize.width/2,origin.y + visibleSize.height - ConfigStorage::getInstance()->getHorizontalMenuItemsHeight());
+    verticalScrollGradient->setColor(Color3B::BLACK);
+    
+    return verticalScrollGradient;
 }
 
 cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position)
@@ -211,11 +282,10 @@ cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size conte
 
 void HQScene::addTitleToHorizontalScrollView(std::string title, Node *toBeAddedTo, Point position)
 {
-    auto scrollViewTitle = Label::createWithTTF(title, "fonts/azoomee.ttf", 40);
-    scrollViewTitle->setColor(Color3B::WHITE);
+    auto scrollViewTitle = createLabelRailTitle(title);
     scrollViewTitle->setPosition(position);
     scrollViewTitle->setName("label");
-    scrollViewTitle->setAnchorPoint(Vec2(0, 0));
+    scrollViewTitle->setAnchorPoint(Vec2(0.5, 0));
     toBeAddedTo->addChild(scrollViewTitle);
 }
 
@@ -223,11 +293,13 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
 {
     Vec2 highlightDataForElement = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(this->getName(), rowNumber, itemNumber);
     
+    float delay = rowNumber * 0.5 + itemNumber * 0.1;
+    
     auto hqSceneElement = HQSceneElement::create();
-    hqSceneElement->addHQSceneElement(this->getName(), itemData, highlightDataForElement);
-    
+    hqSceneElement->addHQSceneElement(this->getName(), itemData, highlightDataForElement, delay);
+
     toBeAddedTo->addChild(hqSceneElement);
-    
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
+    
 }

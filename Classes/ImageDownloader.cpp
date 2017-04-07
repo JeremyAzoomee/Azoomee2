@@ -1,42 +1,76 @@
 #include "ImageDownloader.h"
 #include "CookieDataStorage.h"
+#include "ElectricDreamsTextStyles.h"
+#include "StringMgr.h"
+#include "ConfigStorage.h"
+#include "ImageDownloaderCacheCleanerLogic.h"
 
 USING_NS_CC;
 using namespace network;
 using namespace cocos2d;
 
-bool ImageDownloader::initWithURLAndSize(std::string url, Size size)
+bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size size, Vec2 shape)
 {
     if ( !Sprite::init() )
     {
         return false;
     }
     
+    identifier = CCRANDOM_0_1() * 1000 + 1000;
+    
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
-    this->addPlaceHolderImage();
-    this->addLoadingAnimation();
+    this->addPlaceHolderImage(type, size, shape);
     
-    fileName = getFileNameFromURL(url);
-    imageId = getIdFromUrl(url);
-    imageCachePath = getImageCachePath();
-    imageIdPath = getImageIdPath();
-    
-    if(findFileInLocalCache(fileName))
-    {
-        loadFileFromLocalCacheAsync(fileName);
-    }
-    else
-    {
-        downloadFileFromServer(url);
-    }
+    imageUrl = url;
+    imageDownloaderLogic = new ImageDownloaderLogic();
     
     return true;
 }
 
-void ImageDownloader::addPlaceHolderImage()
+bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, cocos2d::Size size)
 {
-    auto placeHolderImage = Sprite::create("res/hqscene/placeholder.png");
+    identifier = CCRANDOM_0_1() * 1000 + 1000;
+    
+    this->setCascadeOpacityEnabled(true);
+    this->setContentSize(size);
+    
+    imageUrl = url;
+    imageDownloaderLogic = new ImageDownloaderLogic();
+    imageDownloaderLogic->groupLogo = true;
+    
+    return true;
+}
+
+void ImageDownloader::onEnter()
+{
+    onScreenChecker = new ImageDownloaderOnScreenChecker();
+    onScreenChecker->startCheckingForOnScreenPosition(this);
+    
+    Node::onEnter();
+}
+
+void ImageDownloader::startLoadingImage()
+{
+    if(loadedImage) return;
+    imageDownloaderLogic->startProcessingImage(this, imageUrl);
+}
+
+void ImageDownloader::removeLoadedImage()
+{
+    if(loadedImage)
+    {
+        loadedImage->getParent()->removeChild(loadedImage);
+        loadedImage = nullptr;
+        
+        ImageDownloaderCacheCleanerLogic::getInstance()->imageRemoved();
+    }
+}
+
+void ImageDownloader::addPlaceHolderImage(std::string type, Size contentSize, Vec2 shape)
+{
+    std::string placeholderImageFile = StringUtils::format("%s%.fX%.f.png",ConfigStorage::getInstance()->getPlaceholderImageForContentItemInCategory(type).c_str(),shape.x,shape.y);
+    auto placeHolderImage = Sprite::create(placeholderImageFile);
     placeHolderImage->setPosition(this->getContentSize() / 2);
     placeHolderImage->setName("placeHolderImage");
     placeHolderImage->setScaleX(this->getContentSize().width / placeHolderImage->getContentSize().width);
@@ -51,122 +85,59 @@ void ImageDownloader::addLoadingAnimation()
     loadingAnimation->setOpacity(150);
     loadingAnimation->setName("loadingAnimation");
     loadingAnimation->setContentSize(this->getContentSize());
-    loadingAnimation->setPosition(-this->getContentSize().width / 2, -this->getContentSize().height / 2);
+    loadingAnimation->setPosition(0, 0);
     this->addChild(loadingAnimation);
     
-    auto loadingLabel = Label::createWithTTF("Loading", "fonts/azoomee.ttf", 20);
+    auto loadingLabel = createLabelSmallLoading(StringMgr::getInstance()->getStringForKey(LOADING_LABEL));
     loadingLabel->setPosition(this->getContentSize() / 2);
     loadingAnimation->addChild(loadingLabel);
 }
 
-std::string ImageDownloader::getFileNameFromURL(std::string url)
+void ImageDownloader::imageAddedToCache(Texture2D* resulting_texture)
 {
-    int startPoint = (int)url.find_last_of("/") + 1;
-    
-    int endPoint = (int)url.length();
-    if(url.find("?", 0) != url.npos) endPoint = (int)url.find("?", 0);
-    int subLength = endPoint - startPoint;
-    
-    return url.substr(startPoint, subLength);
-}
-
-std::string ImageDownloader::getIdFromUrl(std::string url)
-{
-    int endPoint = (int)url.find_last_of("/");
-    std::string cutUrl = url.substr(0, endPoint);
-    
-    int startPoint = (int)cutUrl.find_last_of("/") + 1;
-    std::string result = cutUrl.substr(startPoint);
-    
-    CCLOG("image id: %s", result.c_str());
-    
-    return result;
-}
-
-bool ImageDownloader::findFileInLocalCache(std::string fileName)
-{
-    return FileUtils::getInstance()->isFileExist(imageIdPath + fileName);
-}
-
-void ImageDownloader::downloadFileFromServer(std::string url)
-{
-    HttpRequest *request = new HttpRequest();
-    request->setRequestType(HttpRequest::Type::GET);
-    request->setUrl(url.c_str());
-    
-    std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
-    request->setHeaders(headers);
-    
-    request->setResponseCallback(CC_CALLBACK_2(ImageDownloader::downloadFileFromServerAnswerReceived, this));
-    request->setTag("image download");
-    HttpClient::getInstance()->send(request);
-}
-
-void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
-{
-    std::string responseString = "";
-    
-    if (response->getResponseCode() == 200)
+    if ( (resulting_texture) && (!aboutToExit))
     {
-        if (response && response->getResponseData())
+        if((identifier < 999)||(identifier > 2001))
         {
-            std::vector<char> myResponse = *response->getResponseData();
-            responseString = std::string(myResponse.begin(), myResponse.end());
-            
-            std::string fileName = getFileNameFromURL(response->getHttpRequest()->getUrl());
-            if(saveFileToServer(responseString, fileName))
-            {
-                loadFileFromLocalCacheAsync(fileName);
-                return;
-            }
+            return;
         }
+        Size holderContentSize = this->getContentSize();
+        
+        auto finalImage = Sprite::createWithTexture( resulting_texture );
+        finalImage->setPosition(holderContentSize / 2);
+        finalImage->setOpacity(0);
+        finalImage->setScaleX(holderContentSize.width / finalImage->getContentSize().width);
+        finalImage->setScaleY(holderContentSize.height / finalImage->getContentSize().height);
+        
+        if(!aboutToExit) this->addChild(finalImage);
+        loadedImage = finalImage;
+        
+        finalImage->runAction(FadeIn::create(0.1));
+    }
+}
+
+void ImageDownloader::addDownloadedImage(std::string fileName)
+{
+    addStarted = true;
+    this->setName(fileName);
+    Director::getInstance()->getTextureCache()->addImageAsync(fileName, CC_CALLBACK_1(ImageDownloader::imageAddedToCache, this));
+}
+
+void ImageDownloader::onExitTransitionDidStart()
+{
+    aboutToExit = true;
+    Node::onExitTransitionDidStart();
+}
+
+void ImageDownloader::onExit()
+{
+    if(onScreenChecker)
+    {
+        onScreenChecker->endCheck();
+        onScreenChecker->release();
     }
     
-    removeLoadingAnimation();
-}
-
-void ImageDownloader::removeLoadingAnimation()
-{
-    this->removeChild(this->getChildByName("loadingAnimation"), true);
-}
-
-void ImageDownloader::removePlaceHolderImage()
-{
-    this->removeChild(this->getChildByName("placeHolderImage"), true);
-}
-
-bool ImageDownloader::saveFileToServer(std::string data, std::string fileName)
-{
-    if(!FileUtils::getInstance()->isDirectoryExist(imageCachePath)) FileUtils::getInstance()->createDirectory(imageCachePath);
-    if(!FileUtils::getInstance()->isDirectoryExist(imageIdPath)) FileUtils::getInstance()->createDirectory(imageIdPath);
-    
-    
-    return FileUtils::getInstance()->writeStringToFile(data, imageIdPath + fileName);
-}
-
-void ImageDownloader::loadFileFromLocalCacheAsync(std::string fileName)
-{
-    //Sync load for the moment
-    auto finalImage = Sprite::create(imageIdPath + fileName);
-    finalImage->setPosition(this->getContentSize() / 2);
-    finalImage->setOpacity(0);
-    finalImage->setScaleX(this->getContentSize().width / finalImage->getContentSize().width);
-    finalImage->setScaleY(this->getContentSize().height / finalImage->getContentSize().height);
-    this->addChild(finalImage);
-    
-    finalImage->runAction(FadeIn::create(0.1));
-    
-    removeLoadingAnimation();
-    removePlaceHolderImage();
-}
-
-std::string ImageDownloader::getImageIdPath()
-{
-    return FileUtils::getInstance()->getWritablePath() + "imagecache/" + imageId + "/";
-}
-
-std::string ImageDownloader::getImageCachePath()
-{
-    return FileUtils::getInstance()->getWritablePath() + "imageCache/";
+    aboutToExit = true;
+    if(imageDownloaderLogic) imageDownloaderLogic->senderDeleted = true;
+    Node::onExit();
 }

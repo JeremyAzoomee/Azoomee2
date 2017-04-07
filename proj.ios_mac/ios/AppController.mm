@@ -28,6 +28,8 @@
 #import "RootViewController.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import "Mixpanel.h"
+#import <AppsFlyerLib/AppsFlyerTracker.h>
 
 @implementation AppController
 
@@ -42,7 +44,13 @@ static AppDelegate s_sharedApplication;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     // Override point for customization after application launch.
     
+    [AppsFlyerTracker sharedTracker].appsFlyerDevKey = @"BzPYMg8dkYsCuDn8XBUN94";
+    [AppsFlyerTracker sharedTracker].appleAppID = @"1068910573";
+    
     [Fabric with:@[[Crashlytics class]]];
+    
+    [Mixpanel sharedInstanceWithToken:@"7e94d58938714fa180917f0f3c7de4c9"];
+    [Mixpanel sharedInstance].showNotificationOnActive = NO;
 
     // Add the view controller's view to the window and display.
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
@@ -87,6 +95,8 @@ static AppDelegate s_sharedApplication;
      */
      //We don't need to call this method any more. It will interupt user defined game pause&resume logic
     /* cocos2d::Director::getInstance()->resume(); */
+    
+    [[AppsFlyerTracker sharedTracker] trackAppLaunch];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {

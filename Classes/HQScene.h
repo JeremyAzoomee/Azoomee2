@@ -7,9 +7,13 @@
 class HQScene : public cocos2d::Layer
 {
 public:
-    static cocos2d::Scene* createScene();
-
+    CREATE_FUNC(HQScene);
+    static cocos2d::Scene* createSceneForOfflineArtsAppHQ();
     virtual bool init();
+    void startBuildingScrollViewBasedOnName();
+
+private:
+    void addGroupHQLogo();
     
     bool directionDecided;
     cocos2d::Point startLocation;
@@ -18,11 +22,11 @@ public:
     cocos2d::Point calculatePositionForIcon(cocos2d::Point currentPosition, cocos2d::Size currentIconSize, cocos2d::Node *toBeAddedTo);
     
     cocos2d::ui::ScrollView* createVerticalScrollView();
+    cocos2d::Sprite* createVerticalScrollGradient();
     cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position);
     void addTitleToHorizontalScrollView(std::string title, Node *toBeAddedTo, cocos2d::Point position);
     void addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData, int rowNumber, int itemNumber);
-    
-    void startBuildingScrollViewBasedOnName();
+
     void createBidirectionalScrollView();
     void createMonodirectionalScrollView();
     
@@ -31,7 +35,6 @@ public:
     
     int category;
     
-    CREATE_FUNC(HQScene);
 };
 
 #endif

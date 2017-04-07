@@ -1,5 +1,13 @@
 #include "AppDelegate.h"
+#include "LoginScene.h"
+#include "BaseScene.h"
 #include "IntroVideoScene.h"
+#include "HQScene.h"
+#include "ConfigStorage.h"
+#include "HQHistoryManager.h"
+#include "LoginScene.h"
+#include "AnalyticsSingleton.h"
+#include "OfflineHubScene.h"
 
 USING_NS_CC;
 
@@ -52,7 +60,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     // turn on display FPS
-    director->setDisplayStats(true);
+    director->setDisplayStats(false);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0f / 60);
@@ -80,8 +88,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     auto scene = IntroVideoScene::createScene();
-
-    // run
     director->runWithScene(scene);
 
     return true;
@@ -101,6 +107,44 @@ void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->stopAnimation();
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
+    
+    /*
+    if(ConfigStorage::getInstance()->inArtsApp == 1)
+    {
+        ConfigStorage::getInstance()->inArtsApp = 0;
+        Scene *runningScene = Director::getInstance()->getRunningScene();
+        Node *baseLayer = runningScene->getChildByName("baseLayer");
+        Node *contentLayer = baseLayer->getChildByName("contentLayer");
+        HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("ARTS APP");
+        
+        hqLayer->removeAllChildren();
+        hqLayer->startBuildingScrollViewBasedOnName();
+    }
+     */
+    
+    if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
+    {
+        AnalyticsSingleton::getInstance()->closeContentEvent();
+        
+        if(HQHistoryManager::getInstance()->thereWasAnError)
+        {
+            HQHistoryManager::getInstance()->thereWasAnError = false;
+            auto loginScene = LoginScene::createSceneWithAutoLoginAndErrorDisplay();
+            Director::getInstance()->replaceScene(loginScene);
+            return;
+        }
+        
+        if(HQHistoryManager::getInstance()->isOffline == true)
+        {
+            Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+            return;
+        }
+        
+        HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
+        
+        auto baseScene = BaseScene::createScene();
+        cocos2d::Director::getInstance()->replaceScene(baseScene);
+    }
 
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();

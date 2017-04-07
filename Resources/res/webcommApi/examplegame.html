@@ -1,0 +1,54 @@
+<html>
+	<body>
+		<br><br><br>
+		<input type="text" id="responseid" value="responseId"><br>
+		<button id="requestName">Request username</button><br>
+		<button id="requestId">Request userid</button><br>
+		<button id="requestAvatar">Request user avatar</button><br>
+		<button id="requestScore">Request high score</button><br>
+		<input type="text" id="highscore"><button id="updateScore">Update high score</button><br>
+		<div id="messageplace" style="color: white; font-size: 20;"></div>
+		
+		<script>
+			window.addEventListener("message", receiveAPIMessage, false);
+		
+			document.getElementById('requestName').onclick = function()
+			{
+   				requestData("requestUsername", document.getElementById("responseid").value);
+   			};
+			
+			document.getElementById('requestId').onclick = function()
+			{
+   				requestData("requestUserID", document.getElementById("responseid").value);
+			};
+			
+			document.getElementById('requestAvatar').onclick = function()
+			{
+   				requestData("requestUserAvatar", document.getElementById("responseid").value);
+			};
+			
+			document.getElementById('requestScore').onclick = function()
+			{
+   				requestData("requestHighScore", document.getElementById("responseid").value);
+			};
+			
+			document.getElementById('updateScore').onclick = function()
+			{
+				var highscore = document.getElementById("highscore").value;
+   				parent.postMessage({method: "updateHighScore", responseID: document.getElementById("responseid").value, score: Number(highscore)},"*");
+   				console.log("[GAME] Highscore updated. Method: updateHighScore, score: " + Number(highscore));
+			};
+			
+			function requestData(methodName, responseId)
+			{
+				parent.postMessage({method: methodName, responseID: responseId}, "*");
+				console.log("[GAME] Postmessage was sent. Method: " + methodName + " responseId: " + responseId);
+			}
+			
+			function receiveAPIMessage(event)
+			{
+				document.getElementById("messageplace").innerHTML = "Feedback received from API: " + JSON.stringify(event.data);
+			}
+		</script>
+	</body>
+</html>

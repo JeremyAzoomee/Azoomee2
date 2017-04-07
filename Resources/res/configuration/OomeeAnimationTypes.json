@@ -1,0 +1,24 @@
+{
+  "idleAnimations": [
+    "Build_Double_Take_Point_Left",
+    "Build_Fall_Asleep",
+    "Build_Point_Bottom_Left",
+    "Build_Scratch",
+    "Build_Simple_Wave",
+    "Build_Ear_Twitch",
+    "Build_Float",
+    "Build_Float2",
+    "Build_Float3",
+    "Build_Look_Top_Left",
+    "Build_Look_Top_Right",
+    "Build_Yawn"
+  ],
+  "touchAnimations": [
+    "Build_Dance_Wave",
+    "Build_Eat",
+    "Build_Glitch",
+    "Build_Pop",
+    "Build_Shower",
+    "Build_Sneeze"
+  ]
+}

@@ -7,10 +7,17 @@ class ParentDataParser : public cocos2d::Ref
 public:
     static ParentDataParser* getInstance(void);
     
-public:
     virtual ~ParentDataParser();
     bool init(void);
     
     bool parseParentLoginData(std::string responseData);
     bool parseAvailableChildren(std::string responseData);
+    bool parseUpdateParentData(std::string responseData);
+    bool parseParentBillingData(std::string responseData);
+    void logoutChild();
+    void retrieveParentLoginDataFromUserDefaults();
+    bool hasParentLoginDataInUserDefaults();
+    
+private:
+    void addParentLoginDataToUserDefaults();
 };

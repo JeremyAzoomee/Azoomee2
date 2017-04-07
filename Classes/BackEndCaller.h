@@ -4,6 +4,11 @@
 
 class BackEndCaller : public cocos2d::Ref
 {
+private:
+    bool accountJustRegistered;
+    bool newChildJustRegistered;
+    std::string newChildName;
+    int oomeeAvatarNumber;
     
 public:
     /** Returns the shared instance of the Game Manager */
@@ -13,8 +18,16 @@ public:
     virtual ~BackEndCaller();
     bool init(void);
     
+    void autoLogin();
     void login(std::string username, std::string password);
     void onLoginAnswerReceived(std::string responseString);
+    
+    void updateBillingData();
+    void onUpdateBillingDataAnswerReceived(std::string responseString);
+    
+    void updateParent(cocos2d::Node *callBackTo, std::string target);
+    void onUpdateParentPinAnswerReceived(std::string responseString);
+    void onUpdateParentActorStatusAnswerReceived(std::string responseString);
     
     void registerParent(std::string emailAddress, std::string password, std::string pinNumber);
     void onRegisterParentAnswerReceived();
@@ -36,10 +49,17 @@ public:
     
     void displayLoadingScreen();
     void hideLoadingScreen();
-    void getBackToLoginScreen();
+    void getBackToLoginScreen(long errorCode);
     
     //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
     std::string registerParentUsername;
     std::string registerParentPassword;
+    
+    bool newTrialJustStarted;
+
+    
+    //------------------------------------------------------------------------------------------------------------------
+    
+    cocos2d::Node *callBackNode;
     
 };

@@ -1,0 +1,121 @@
+<html>
+	<head>
+		<title>Game storage API - android</title>
+	</head>
+	<body bgcolor="black">
+	<div id="loadingScreen" style="position: absolute; left: 0px; top: 0px; background-image: url(./loading_image.jpg); width: 100%; height: 100vh; background-size: contain; background-repeat: no-repeat;">
+	</div>
+		<script>
+			function createFrameWithUrl(url)
+			{
+				var iframe = document.createElement('iframe');
+				iframe.src = url;
+				iframe.style.border = "none"
+				iframe.width  = window.innerWidth - 20;
+    			iframe.height = window.innerHeight - 20;
+				document.body.appendChild(iframe);
+			
+				iframe.addEventListener("load", removeLoadingScreen);
+			}
+		
+			function removeLoadingScreen()
+			{
+				var target = document.getElementById("loadingScreen");
+				target.parentElement.removeChild(target);
+			}
+		
+			function getUrlVars() 
+			{
+				var vars = {};
+				var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) 
+				{
+					vars[key] = value;
+				});
+				return vars;
+			}
+			
+			function receiveMessage(event)
+			{
+				//Check if the game is communicating with the webapi standard
+				
+				if(event.data == "saveImage")
+				{
+					var attempts = 0;
+					if('save' in localStorage) attempts = localStorage['save'];
+					attempts++;
+					localStorage['save'] = attempts;
+					
+					return;
+				}
+				
+				if('method' in event.data)
+				{
+					if('score' in event.data)
+					{
+						var answer = NativeInterface.apiRequest(event.data.method, event.data.responseID, event.data.score.toString());
+						answer = atob(answer);
+						console.log("Answer message: " + answer);
+						var toSend = JSON.parse(answer);
+						window.frames[0].postMessage(toSend, "*");
+					}
+					else
+					{
+						var answer = NativeInterface.apiRequest(event.data.method, event.data.responseID, "");
+						answer = atob(answer);
+						console.log("Answer message: " + answer);
+						var toSend = JSON.parse(answer);
+						window.frames[0].postMessage(toSend, "*");
+					}
+					
+					return;
+				}
+  				
+    			return;
+			}
+			
+			function addDataToLocalStorage(data)
+			{
+				dataString = atob(data);
+				if(dataString == "") return;
+			
+				var allRecords = dataString.split("|");
+				
+				for(var i = 0; i < allRecords.length; i++)
+				{
+					var currentRecord = allRecords[i].split("!");
+					
+					var currentKey = currentRecord[0];
+					var currentValue = currentRecord[1];
+					
+					localStorage[currentKey] = currentValue;
+				}
+			}
+			
+			function saveLocalDataBeforeExit()
+			{
+				var stringToSave = "";
+				for(var i = 0; i < localStorage.length; i++)
+				{	
+					if((localStorage.key(i) != "")&&(localStorage.getItem(localStorage.key(i)) != ""))
+					{
+						if(stringToSave.length > 0) stringToSave += "|";
+						stringToSave += localStorage.key(i) + "!" + localStorage.getItem(localStorage.key(i));
+					}
+				}
+				
+				if(stringToSave.length > 0)
+				{
+					console.log("ARTAPP - save before exit about to happen");
+					NativeInterface.saveLocalDataStorage(stringToSave);
+				}
+			}
+			
+			
+			localStorage.clear();
+			addDataToLocalStorage(NativeInterface.getLocalDataStorage());
+			
+			createFrameWithUrl(getUrlVars()["contentUrl"]);
+			window.addEventListener("message", receiveMessage, false);
+		</script>
+	</body>
+</html>

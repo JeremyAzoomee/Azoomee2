@@ -25,22 +25,72 @@ bool ParentDataProvider::init(void)
     return true;
 }
 
-std::string ParentDataProvider::getParentLoginValue(std::string keyName)
+std::string ParentDataProvider::getLoggedInParentActorStatus()
 {
-    return ParentDataStorage::getInstance()->parentLoginData[keyName.c_str()].GetString();
+    return ParentDataStorage::getInstance()->loggedInParentActorStatus;
 }
 
-std::string ParentDataProvider::getAvailableChildrenValue(std::string keyName)
+
+std::string ParentDataProvider::getLoggedInParentId()
 {
-    return ParentDataStorage::getInstance()->availableChildrenData[keyName.c_str()].GetString();
+    return ParentDataStorage::getInstance()->loggedInParentId;
 }
+
+
+std::string ParentDataProvider::getLoggedInParentApiKey()
+{
+    return ParentDataStorage::getInstance()->loggedInParentApiKey;
+}
+
+std::string ParentDataProvider::getParentPin()
+{
+    return ParentDataStorage::getInstance()->loggedInParentPin;
+}
+
+std::string ParentDataProvider::getLoggedInParentApiSecret()
+{
+    return ParentDataStorage::getInstance()->loggedInParentApiSecret;
+}
+
+std::string ParentDataProvider::getBillingStatus()
+{
+    return ParentDataStorage::getInstance()->loggedInParentBillingStatus;
+}
+
+bool ParentDataProvider::isPaidUser()
+{
+    return ParentDataStorage::getInstance()->loggedInParentBillingStatus == "SUBSCRIBED";
+}
+
+bool ParentDataProvider::emailRequiresVerification()
+{
+    return (ParentDataStorage::getInstance()->loggedInParentActorStatus != "VERIFIED") && (ParentDataStorage::getInstance()->loggedInParentActorStatus != "ACTIVE");
+}
+
+//------------------------------------getting information from available children------------------------------------------
+
 
 int ParentDataProvider::getAmountOfAvailableChildren()
 {
     return (int)ParentDataStorage::getInstance()->availableChildrenData.Size();
 }
 
-std::string ParentDataProvider::getValueFromOneAvailableChild(int childNumber, std::string keyName)
+std::string ParentDataProvider::getProfileNameForAnAvailableChildren(int childNumber)
 {
-    return ParentDataStorage::getInstance()->availableChildrenData[childNumber][keyName.c_str()].GetString();
+    return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["profileName"];
+}
+
+std::string ParentDataProvider::getAvatarForAnAvailableChildren(int childNumber)
+{
+    return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["avatar"];
+}
+
+std::string ParentDataProvider::getDOBForAnAvailableChildren(int childNumber)
+{
+    return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["dob"];
+}
+
+std::string ParentDataProvider::getSexForAnAvailableChildren(int childNumber)
+{
+    return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["sex"];
 }

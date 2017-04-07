@@ -11,8 +11,19 @@ public:
     virtual ~ParentDataProvider();
     bool init(void);
     
-    std::string getParentLoginValue(std::string keyName);
-    std::string getAvailableChildrenValue(std::string keyName);
     int getAmountOfAvailableChildren();
-    std::string getValueFromOneAvailableChild(int childNumber, std::string keyName);
+    std::string getProfileNameForAnAvailableChildren(int childNumber);
+    std::string getAvatarForAnAvailableChildren(int childNumber);
+    std::string getDOBForAnAvailableChildren(int childNumber);
+    std::string getSexForAnAvailableChildren(int childNumber);
+    
+    std::string getLoggedInParentActorStatus();
+    std::string getLoggedInParentId();
+    std::string getLoggedInParentApiKey();
+    std::string getLoggedInParentApiSecret();
+    std::string getParentPin();
+    std::string getBillingStatus();
+    
+    bool isPaidUser();
+    bool emailRequiresVerification();
 };

@@ -1,13 +1,14 @@
 #include "LoginScene.h"
-#include "SimpleAudioEngine.h"
-#include "ModalMessages.h"
+#include "AudioMixer.h"
+#include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsDecoration.h"
+#include "StringMgr.h"
+#include "BaseScene.h"
 #include "BackEndCaller.h"
-#include "OnboardingScene.h"
-#include "ConfigStorage.h"
-#include "StringStorage.h"
 #include "TextInputChecker.h"
-
-#include "TextInputLayer.h"
+#include "OfflineHubScene.h"
+#include "HQHistoryManager.h"
+#include "AnalyticsSingleton.h"
 
 USING_NS_CC;
 
@@ -18,6 +19,32 @@ Scene* LoginScene::createScene(long errorCode)
     scene->addChild(layer);
     
     layer->_errorCode = errorCode;
+    layer->shouldDoAutoLogin = false;
+    
+    return scene;
+}
+
+Scene* LoginScene::createSceneWithAutoLogin()
+{
+    auto scene = Scene::create();
+    auto layer = LoginScene::create();
+    scene->addChild(layer);
+    
+    layer->_errorCode = 0;
+    layer->shouldDoAutoLogin = true;
+    
+    return scene;
+}
+
+Scene* LoginScene::createSceneWithAutoLoginAndErrorDisplay()
+{
+    auto scene = Scene::create();
+    auto layer = LoginScene::create();
+    scene->addChild(layer);
+    
+    layer->_errorCode = 0;
+    layer->shouldDoAutoLogin = true;
+    layer->shouldDisplayMessage = true;
     
     return scene;
 }
@@ -28,220 +55,198 @@ bool LoginScene::init()
     {
         return false;
     }
+    CCLOG("Cache folder: %s", FileUtils::getInstance()->getWritablePath().c_str());
+    
+    AudioMixer::getInstance()->stopBackgroundMusic();
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    addVisualElementsToScene();
-    addFunctionalElementsToScene();
+    getUserDefaults();
+    addTextboxScene();
+    addSideWiresToScreen(this, 0, 2);
+    addLabelToScene();
+    addButtonsScene();
     
     return true;
 }
 
 void LoginScene::onEnterTransitionDidFinish()
 {
-    if(_errorCode !=0)
+    currentScreen = emailLoginScreen;
+    
+    OfflineChecker::getInstance()->setDelegate(this);
+    
+    if(shouldDoAutoLogin)
     {
-        handleErrorCode(_errorCode);
+        CCLOG("Should do autologin!");
+        
+        if((username != "")&&(password != ""))
+        {
+            if(shouldDisplayMessage)
+            {
+                MessageBox::createWith(ERROR_CODE_LOGGED_YOU_BACK_IN, this);
+                return;
+            }
+            else
+            {
+                CCLOG("Doing autologin!");
+                login();
+                return;
+            }
+        }
+    }
+    else
+    {
+        UserDefault* def = UserDefault::getInstance();
+        def->setStringForKey("password", "");
+        def->flush();
+        password = "";
     }
     
+    if(_errorCode !=0)
+    {
+        MessageBox::createWith(_errorCode, emailTextInput, this);
+    }
+    else
+        emailTextInput->focusAndShowKeyboard();
+    
+    nextButton->setVisible(isValidEmailAddress(username.c_str()));
+    
 #ifdef autologin
-    BackEndCaller::getInstance()->login("klaas+ci@azoomee.com", "test1234");
+    BackEndCaller::getInstance()->login("tamas.bonis@azoomee.com", "B0Ta1983!");
 #endif
-}
-
-void LoginScene::handleErrorCode(long errorCode)
-{
-    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
 }
 
 //----------------- SCENE SETUP ---------------
 
-void LoginScene::addVisualElementsToScene()
+void LoginScene::getUserDefaults()
 {
-    auto bg = Sprite::create("res/mainhub/bg_glow.png");
-    bg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-    this->addChild(bg);
-    
-    auto leftBg = Sprite::create("res/login/wire_left.png");
-    leftBg->setPosition(0 + leftBg->getContentSize().width / 2,0);
-    this->addChild(leftBg);
-    
-    auto rightBg = Sprite::create("res/login/wire_right.png");
-    rightBg->setPosition(origin.x + visibleSize.width - rightBg->getContentSize().width / 2, 0);
-    this->addChild(rightBg);
+    UserDefault* def = UserDefault::getInstance();
+    username = def->getStringForKey("username", "");
+    password = def->getStringForKey("password", "");
+    def->flush();
 }
 
-void LoginScene::addFunctionalElementsToScene()
+void LoginScene::addLabelToScene()
 {
-    addContentLayerToScene();
-    addLabelsToLayer();
-    addTextBoxesToLayer();
-    addButtonsToLayer();
+    auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
+    this->addChild(versionTitle);
+
+    title = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    this->addChild(title);
 }
 
-void LoginScene::addContentLayerToScene()
+void LoginScene::addTextboxScene()
 {
-    loginContent = Layer::create();
-    loginContent->setContentSize(Size(visibleSize.width * 3, visibleSize.height));
-    loginContent->setPosition(Point(origin.x, origin.y));
-    loginContent->setName("loginContent");
-    this->addChild(loginContent);
+    passwordTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_PASSWORD);
+    passwordTextInput->setDelegate(this);
+    passwordTextInput->setEditboxVisibility(false);
+    this->addChild(passwordTextInput);
+    
+    emailTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_EMAIL);
+    emailTextInput->setDelegate(this);
+    emailTextInput->setText(username);
+    this->addChild(emailTextInput);
 }
 
-void LoginScene::addLabelsToLayer()
+void LoginScene::addButtonsScene()
 {
-    auto doYouWantToTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForLoginScene("signUpLoginLabel"), "fonts/azoomee.ttf", 90);
-    doYouWantToTitle->setPosition(origin.x+visibleSize.width * 0.5, visibleSize.height*0.65);
-    doYouWantToTitle->setColor(Color3B::WHITE);
-    loginContent->addChild(doYouWantToTitle);
+    backButton = ElectricDreamsButton::createBackButton();
+    backButton->setCenterPosition(Vec2(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7));
+    backButton->setDelegate(this);
+    this->addChild(backButton);
     
-    auto emailTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForLoginScene("emailLabel"), "fonts/azoomee.ttf", 90);
-    emailTitle->setPosition(origin.x + visibleSize.width * 1.5, origin.y + visibleSize.height * 0.7);
-    emailTitle->setColor(Color3B(28, 244, 244));
-    loginContent->addChild(emailTitle);
-    
-    auto passwordTitle = Label::createWithTTF(StringStorage::getInstance()->getStringForLoginScene("passwordLabel"), "fonts/azoomee.ttf", 90);
-    passwordTitle->setPosition(origin.x + visibleSize.width * 2.5, origin.y + visibleSize.height * 0.7);
-    passwordTitle->setColor(Color3B(28, 244, 244));
-    loginContent->addChild(passwordTitle);
+    nextButton = ElectricDreamsButton::createNextButton();
+    nextButton->setCenterPosition(Vec2(origin.x + visibleSize.width -nextButton->getContentSize().width*.7, origin.y+ visibleSize.height - nextButton->getContentSize().height*.7));
+    nextButton->setDelegate(this);
+    this->addChild(nextButton);
 }
 
-void LoginScene::addTextBoxesToLayer()
+//------------CHANGE SCREEN VISUALS ON BUTTON PRESS----------------------
+void LoginScene::changeElementsToPasswordScreen()
 {
-    _usernameTextInput = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_EMAIL);
-    _usernameTextInput->setCenterPosition(Vec2(origin.x+visibleSize.width * 1.5, origin.y+visibleSize.height*0.5));
-    _usernameTextInput->setDelegate(this);
-    loginContent->addChild(_usernameTextInput);
-    
-    _passwordTextInput = TextInputLayer::createWithSize(Size(736,131), INPUT_IS_PASSWORD);
-    _passwordTextInput->setCenterPosition(Vec2(origin.x+visibleSize.width * 2.5, origin.y+visibleSize.height*0.5));
-    _passwordTextInput->setDelegate(this);
-    loginContent->addChild(_passwordTextInput);
+    title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL));
+    username = emailTextInput->getText();
+    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
+    emailTextInput->setEditboxVisibility(false);
+    passwordTextInput->setEditboxVisibility(true);
+    CCLOG("NEXT NextButton visible false - change to password");
+    nextButton->setVisible(false);
+    currentScreen = passwordLoginScreen;
+    passwordTextInput->focusAndShowKeyboard();
 }
 
-void LoginScene::addButtonsToLayer()
+void LoginScene::changeElementsToEmailScreen()
 {
-    loginOptionButton = ElectricDreamsButton::createTextAsButton(StringStorage::getInstance()->getStringForLoginScene("loginButton"));
-    loginOptionButton->setCenterPosition(Vec2(origin.x+visibleSize.width * 0.5, visibleSize.height*0.35));
-    loginOptionButton->setDelegate(this);
-    loginContent->addChild(loginOptionButton);
-    
-    signUpOptionButton = ElectricDreamsButton::createButtonWithText(StringStorage::getInstance()->getStringForLoginScene("signupButton"));
-    signUpOptionButton->setCenterPosition(Vec2(origin.x+visibleSize.width * 0.5, visibleSize.height/2));
-    signUpOptionButton->setDelegate(this);
-    loginContent->addChild(signUpOptionButton);
-    
-    emailBackButton = ElectricDreamsButton::createBackButton();
-    emailBackButton->setCenterPosition(Vec2(origin.x + visibleSize.width * 1.2, origin.y + visibleSize.height * 0.5));
-    emailBackButton->setDelegate(this);
-    loginContent->addChild(emailBackButton);
-    
-    emailNextButton = ElectricDreamsButton::createNextButton();
-    emailNextButton->setCenterPosition(Vec2(origin.x + visibleSize.width * 1.8, origin.y + visibleSize.height * 0.5));
-    emailNextButton->setDelegate(this);
-    emailNextButton->setVisible(false);
-    loginContent->addChild(emailNextButton);
-    
-    passwordBackButton = ElectricDreamsButton::createBackButton();
-    passwordBackButton->setCenterPosition(Vec2(origin.x + visibleSize.width * 2.2, origin.y + visibleSize.height * 0.5));
-    passwordBackButton->setDelegate(this);
-    loginContent->addChild(passwordBackButton);
-    
-    loginButton = ElectricDreamsButton::createNextButton();
-    loginButton->setCenterPosition(Vec2(origin.x + visibleSize.width * 2.8, origin.y + visibleSize.height * 0.5));
-    loginButton->setDelegate(this);
-    loginButton->setVisible(false);
-    loginButton->setScale(1.2);
-    loginContent->addChild(loginButton);
+    title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    passwordTextInput->setEditboxVisibility(false);
+    passwordTextInput->setText("");
+    emailTextInput->setEditboxVisibility(true);
+    currentScreen = emailLoginScreen;
+    CCLOG("NEXT NextButton visible change to email %d",isValidEmailAddress(emailTextInput->getText().c_str()));
+    nextButton->setVisible(isValidEmailAddress(emailTextInput->getText().c_str()));
+    emailTextInput->focusAndShowKeyboard();
 }
 
-//------------------- Button Functions -----------------------
-
-void LoginScene::disableButton(Node* button)
+void LoginScene::backButtonPressed()
 {
-    Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(button);
+    if(currentScreen == emailLoginScreen)
+    {
+        HQHistoryManager::getInstance()->emptyHistory();
+        auto baseScene = BaseScene::createScene();
+        Director::getInstance()->replaceScene(baseScene);
+    }
+    else if(currentScreen == passwordLoginScreen)
+        changeElementsToEmailScreen();
 }
 
-void LoginScene::enableButton(Node* button)
+void LoginScene::nextButtonPressed()
 {
-    Director::getInstance()->getEventDispatcher()->resumeEventListenersForTarget(button);
+    if(currentScreen == emailLoginScreen)
+        changeElementsToPasswordScreen();
+    else if(currentScreen == passwordLoginScreen)
+    {
+        OfflineChecker::getInstance()->setDelegate(nullptr);
+        password = passwordTextInput->getText();
+        login();
+    }
 }
 
-void LoginScene::setTextInputFocus(TextInputLayer* textInputLayer)
-{
-    textInputLayer->focusAndShowKeyboard();
-}
+//------------PRIVATE OTHER FUNCTIONS------------
 
-void LoginScene::switchToSignupScene(ElectricDreamsButton* button)
+void LoginScene::login()
 {
-    
-    auto _OnboardingScene = OnboardingScene::createScene(0);
-    Director::getInstance()->replaceScene(_OnboardingScene);
-}
-
-void LoginScene::moveToAndSetupEmailScreen(ElectricDreamsButton* button)
-{
-    auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width + origin.x, origin.y)), 2);
-    auto enableButtonCallback = CallFunc::create(CC_CALLBACK_0(LoginScene::enableButton, this,button));
-    auto setTextInputFocusCallback = CallFunc::create(CC_CALLBACK_0(LoginScene::setTextInputFocus, this,_usernameTextInput));
-    
-    auto sequence = Sequence::create(action, setTextInputFocusCallback, enableButtonCallback, NULL);
-    loginContent->runAction(sequence);
-    
-    _passwordTextInput->setText("");
-}
-
-void LoginScene::moveToBackToSelectionScreen(ElectricDreamsButton* button)
-{
-    auto action = EaseInOut::create(MoveTo::create(1, Vec2(origin.x, origin.y)), 2);
-    auto enableButtonCallback = CallFunc::create(CC_CALLBACK_0(LoginScene::enableButton, this,button));
-    
-    auto sequence = Sequence::create(action, enableButtonCallback, NULL);
-    loginContent->runAction(sequence);
-    
-    _usernameTextInput->setText("");
-}
-
-void LoginScene::moveToAndSetupPasswordScreen(ElectricDreamsButton* button)
-{
-    auto action = EaseInOut::create(MoveTo::create(1, Vec2(-visibleSize.width*2 + origin.x, origin.y)), 2);
-    auto enableButtonCallback = CallFunc::create(CC_CALLBACK_0(LoginScene::enableButton, this,button));
-    auto setTextInputFocusCallback = CallFunc::create(CC_CALLBACK_0(LoginScene::setTextInputFocus, this,_passwordTextInput));
-    
-    auto sequence = Sequence::create(action, setTextInputFocusCallback, enableButtonCallback, NULL);
-    loginContent->runAction(sequence);
-}
-
-void LoginScene::login(ElectricDreamsButton* button)
-{
-    std::string username = _usernameTextInput->getText();
-    std::string password = _passwordTextInput->getText();
-
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->login(username, password);
 }
 
-//----------------------- Delegate Functions ----------------------------
-
+//-------------DELEGATE FUNCTIONS-------------------
 void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    if(inputLayer == _usernameTextInput)
-        emailNextButton->setVisible(isValid);
-    else if(inputLayer == _passwordTextInput)
-        loginButton->setVisible(isValid);
-
+    CCLOG("NEXT Check Input TextBox is %d", isValid);
+    nextButton->setVisible(isValid);
 }
-
 void LoginScene::buttonPressed(ElectricDreamsButton* button)
 {
-    disableButton(button);
-    
-    if(button == loginOptionButton) this->moveToAndSetupEmailScreen(button);
-    else if(button == signUpOptionButton) this->switchToSignupScene(button);
-    else if(button == emailBackButton) this->moveToBackToSelectionScreen(button);
-    else if(button == emailNextButton) this->moveToAndSetupPasswordScreen(button);
-    else if(button == passwordBackButton) this->moveToAndSetupEmailScreen(button);
-    else if(button == loginButton) this->login(button);
-    
+    if(button == nextButton)
+        nextButtonPressed();
+    else if(button == backButton)
+        backButtonPressed();
+}
+void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_LOGGED_YOU_BACK_IN)[ERROR_TITLE])
+        login();
+    else
+        emailTextInput->focusAndShowKeyboard();
+}
+
+void LoginScene::connectivityStateChanged(bool online)
+{
+    if(!online)
+    {
+        OfflineChecker::getInstance()->setDelegate(nullptr);
+        Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+    }
 }

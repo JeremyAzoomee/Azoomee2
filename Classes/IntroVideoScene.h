@@ -12,6 +12,8 @@ class IntroVideoScene: public cocos2d::Layer
 {
 private:
     void videoEventCallback(Ref* sender, VideoPlayer::EventType eventType);
+    void navigateToNextScene();
+    std::string videoErrorText;
     
 public:
     static cocos2d::Scene* createScene();

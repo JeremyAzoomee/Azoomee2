@@ -8,3 +8,4 @@ bool isValidPin(const char *pinNumber);
 bool isDate(int day, int month, int year);
 bool childNameExists(std::string newChildsName);
 bool isValidChildName(const char *childName);
+bool hasAzoomeeEmailAddress(std::string emailAddress);

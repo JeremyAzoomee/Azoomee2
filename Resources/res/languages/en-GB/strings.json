@@ -1,0 +1,83 @@
+{
+    "LoginScene":
+        {
+            "signup_login_label":"Do you want to",
+            "email_label":"Log in. Please enter your email.",
+            "password_label":"Password"
+        },
+    
+    "OnboardingScene":
+    {
+        "email_label":"Parents: enter your email address",
+        "password_label":"Create a password",
+        "pin_label":"Create a 4 digit PIN",
+        "pin_sub_label":"You will need this to access the parent area and exit the app\nShhh! Don't tell the kids..."
+    },
+    
+    "OnboardingSuccessScene":
+    {
+        "title_label":"YAY! Great Stuff!\nYou've successfully created an account",
+        "sub_label":"Tap %s to get started!",
+        "checkemail_label":"You can create your own Oomee later.\nCheck your email."
+    },
+    
+    "ChildAccountScene":
+    {
+        "request_name_label":"What's your child's name",
+        "edit_name_label":"Want to change the display name?",
+        "request_dob_label":"Please add date of birth for",
+        "request_dob_sub_label":"We need this to show content specifically for their age",
+        
+        "edit_dob_label":"Change birthday?",
+        "request_oomee_label":"Select your favourite Oomee.",
+        "request_oomee_sub_label":"Don't worry you can change it later.",
+        "edit_oomee_label":"Change your Oomee?",
+        
+        "dob_day_placeholder":"DD",
+        "dob_month_placeholder":"MM",
+        "dob_year_placeholder":"YYYY"
+    },
+    
+    "ChildAccountSuccessScene":
+    {
+        "title_label":"Good stuff, tap on your Oomee\nto explore."
+    },
+    
+    "OfflineScene":
+    {
+        "offline_title_label":"Oh No! You are offline",
+        "for_login_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again,\nor enter offline mode.",
+        "offline_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again.",
+        "hub_logged_in_body_label":"In the meantime you can still enjoy these.",
+        "online_title_label":"Great news! You are back online."
+        
+    },
+    
+    "OtherLabels":
+    {
+        "pin_request_label":"Please enter your PIN",
+        "preview_messagebox_title_label":"Sign Up or Log In",
+        "preview_messagebox_body_label":"Sign up or log in for access to the best kids’ TV shows, games and audiobooks in one safe app.",
+        "child_selectscene_title_label":"Select your kid's profile.",
+        "loading_label":"Loading"
+    },
+    
+    "GenericButtons":
+    {
+        "exit_app":"Exit App",
+        "log_out":"Log Out",
+        
+        "sign_up":"Sign up",
+        "sign_up_multiline":"Sign\nup",
+        "log_in":"Log in",
+        "log_in_multiline":"Log\nin",
+        
+        "cancel":"Cancel",
+        
+        "skip":"Skip",
+        "start_exploring":"Start Exploring",
+        "add_another":"Add Another",
+        "lets_go":"Let's go",
+        "retry":"Retry"
+    }
+}

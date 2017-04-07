@@ -13,6 +13,7 @@ USING_NS_CC;
 #include "BackEndCaller.h"
 #include "HttpRequestCreator.h"
 #include "ConfigStorage.h"
+#include "ModalMessages.h"
 
 using namespace cocos2d;
 
@@ -40,13 +41,22 @@ bool HQDataProvider::init(void)
 
 std::string HQDataProvider::getImageUrlForItem(std::string itemId, Vec2 shape)
 {
-    std::string returnString = StringUtils::format("https://media.azoomee.ninja/static/images/%s/thumb_%d_%d.jpg", itemId.c_str(), (int)shape.x, (int)shape.y);
+    std::string returnString = StringUtils::format("%s/%s/thumb_%d_%d.jpg", ConfigStorage::getInstance()->getImagesUrl().c_str(), itemId.c_str(), (int)shape.x, (int)shape.y);
     CCLOG("image for item: %s", returnString.c_str());
+    return returnString;
+}
+
+std::string HQDataProvider::getImageUrlForGroupLogo(std::string itemId)
+{
+    std::string returnString = StringUtils::format("%s/%s/logo.png", ConfigStorage::getInstance()->getImagesUrl().c_str(), itemId.c_str());
+    CCLOG("image for grouplogo: %s", returnString.c_str());
     return returnString;
 }
 
 void HQDataProvider::startBuildingHQ(std::string category)
 {
+    hideLoadingScreen();
+    
     if(category != "HOME")
     {
         Scene *runningScene = Director::getInstance()->getRunningScene();
@@ -54,12 +64,15 @@ void HQDataProvider::startBuildingHQ(std::string category)
         Node *contentLayer = baseLayer->getChildByName("contentLayer");
         HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(category.c_str());
         
+        //hqLayer->removeAllChildren();
         hqLayer->startBuildingScrollViewBasedOnName();
     }
 }
 
 void HQDataProvider::getDataForHQ(std::string category)
 {
+    displayLoadingScreen();
+    
 #ifdef forcereload
         HQDataStorage::getInstance()->HQData.erase(category.c_str());
 #endif
@@ -75,6 +88,14 @@ void HQDataProvider::getDataForHQ(std::string category)
             HQDataParser::getInstance()->getContent(HQDataStorage::getInstance()->HQGetContentUrls[category.c_str()], category.c_str());
         }
     }
+}
+
+void HQDataProvider::getDataForGroupHQ(std::string uri)
+{
+    displayLoadingScreen();
+    
+    HQDataStorage::getInstance()->HQData["GROUP HQ"].clear();
+    HQDataParser::getInstance()->getContent(uri, "GROUP HQ");
 }
 
 int HQDataProvider::getNumberOfRowsForHQ(std::string category)
@@ -113,4 +134,31 @@ std::map<std::string, std::string> HQDataProvider::getItemDataForSpecificItem(st
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber)
 {
     return HQDataStorage::getInstance()->HQElementHighlights[category].at(rowNumber).at(itemNumber);
+}
+
+std::string HQDataProvider::getTypeForSpecificItem(std::string category, std::string itemId)
+{
+    std::vector<std::map<std::string, std::string>> allItemsInCategory = HQDataStorage::getInstance()->HQData[category];
+    
+    for(int i = 0; i < allItemsInCategory.size(); i++)
+    {
+        std::map<std::string, std::string> currentItem = allItemsInCategory.at(i);
+        if(currentItem["id"] == itemId)
+        {
+            return currentItem["type"];
+        }
+    }
+    
+    return "NILTYPE";
+}
+
+//---------------------LOADING SCREEN----------------------------------
+void HQDataProvider::displayLoadingScreen()
+{
+    ModalMessages::getInstance()->startLoading();
+}
+
+void HQDataProvider::hideLoadingScreen()
+{
+    ModalMessages::getInstance()->stopLoading();
 }

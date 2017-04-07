@@ -1,10 +1,12 @@
 #include "OomeeLayer.h"
-#include "SimpleAudioEngine.h"
 #include "extensions/cocos-ext.h"
 #include "spine/spine.h"
 #include "ConfigStorage.h"
 #include "ChildDataProvider.h"
 #include "ParentDataProvider.h"
+#include "HQHistoryManager.h"
+#include "AudioMixer.h"
+#include "AnalyticsSingleton.h"
 
 USING_NS_CC;
 
@@ -26,10 +28,10 @@ bool OomeeLayer::init()
         return false;
     }
     
-    std::string oomeeUrl = ParentDataProvider::getInstance()->getValueFromOneAvailableChild(ChildDataProvider::getInstance()->getLoggedInChildNumber(), "avatar");
+    std::string oomeeUrl = ChildDataProvider::getInstance()->getLoggedInChildAvatarId();
     displayedOomeeNumber = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
     
-    auto oomee = addOomeeToScreen();
+    spine::SkeletonAnimation* oomee = addOomeeToScreen();
     addTouchListenerToOomee(oomee);
     addCompleteListenerToOomee(oomee);
     
@@ -55,12 +57,12 @@ spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
     
     SkeletonAnimation *oomee = SkeletonAnimation::createWithFile(jsonFileName, atlasFileName, 0.6f);
     oomee->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.38);
-    oomee->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
+    oomee->setAnimation(0, ConfigStorage::getInstance()->getGreetingAnimation().c_str(), false);
     oomee->setScale(2);
     oomee->setOpacity(0);
     this->addChild(oomee);
     
-    oomee->runAction(Sequence::create(DelayTime::create(8), FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+    oomee->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
     
     return oomee;
 }
@@ -69,7 +71,7 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
-    listener->onTouchBegan = [](Touch *touch, Event *event)
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
         auto target = static_cast<SkeletonAnimation*>(event->getCurrentTarget());
         
@@ -79,13 +81,23 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            target->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("touch").c_str(), false);
+            std::string animationid = ConfigStorage::getInstance()->getRandomIdForAnimationType("touch");
+            
+            target->setAnimation(0, animationid.c_str(), false);
+            AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), animationid, true);
+            
+            AnalyticsSingleton::getInstance()->hubTapOomeeEvent(displayedOomeeNumber, animationid);
             
             return true;
         }
         
         return false;
         
+    };
+    
+    listener->onTouchEnded = [](Touch *touch, Event *event)
+    {
+        return true;
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, toBeAddedTo);
@@ -95,7 +107,10 @@ void OomeeLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedT
 {
     auto oomeeAnimationComplete = [=] (int trackIdx, int loopCount)
     {
-        toBeAddedTo->addAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
+        std::string animationid = ConfigStorage::getInstance()->getRandomIdForAnimationType("idle");
+        
+        toBeAddedTo->setAnimation(0, animationid.c_str(), false);
+        AudioMixer::getInstance()->playOomeeEffect(ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber), animationid, false);
     };
     
     toBeAddedTo->setCompleteListener(oomeeAnimationComplete);

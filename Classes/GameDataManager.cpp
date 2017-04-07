@@ -1,7 +1,5 @@
 #include "GameDataManager.h"
 
-#include "network/HttpClient.h"
-
 #include "external/json/document.h"
 #include "external/json/writer.h"
 #include "external/json/stringbuffer.h"
@@ -18,6 +16,13 @@ USING_NS_CC;
 #include "WebViewSelector.h"
 #include "CookieDataStorage.h"
 #include "BackEndCaller.h"
+#include "ModalMessages.h"
+#include "LoginScene.h"
+#include "MessageBox.h"
+#include "HQHistoryManager.h"
+#include "BaseScene.h"
+#include "StringMgr.h"
+#include "WebGameAPIDataManager.h"
 
 
 using namespace network;
@@ -47,6 +52,11 @@ bool GameDataManager::init(void)
 
 void GameDataManager::startProcessingGame(std::string url, std::string itemId)
 {
+    processCancelled = false;
+    displayLoadingScreen();
+    
+    WebGameAPIDataManager::getInstance()->setGameId(itemId);
+    
     std::string basePath = getGameIdPath(itemId);
     
     std::string fileName = getFileNameFromUrl(url);
@@ -85,17 +95,21 @@ std::string GameDataManager::getFileNameFromUrl(std::string url)
 
 void GameDataManager::getJSONGameData(std::string url, std::string itemId)
 {
-    HttpRequest *request = new HttpRequest();
-    request->setRequestType(HttpRequest::Type::GET);
-    request->setUrl(url.c_str());
+    jsonRequest = new HttpRequest();
+    jsonRequest->setRequestType(HttpRequest::Type::GET);
+    jsonRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers;
     headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
-    request->setHeaders(headers);
+    jsonRequest->setHeaders(headers);
     
-    request->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetJSONGameDataAnswerReceived, this));
-    request->setTag(itemId);
-    HttpClient::getInstance()->send(request);
+    CCLOG("Cookies being used are: %s", headers.at(0).c_str());
+    
+    jsonRequest->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetJSONGameDataAnswerReceived, this));
+    jsonRequest->setTag(itemId);
+    HttpClient::getInstance()->setTimeoutForConnect(2);
+    HttpClient::getInstance()->setTimeoutForRead(2);
+    HttpClient::getInstance()->send(jsonRequest);
 }
 
 void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -127,6 +141,10 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
         }
         
     }
+    else
+    {
+        Director::getInstance()->replaceScene(LoginScene::createSceneWithAutoLoginAndErrorDisplay());
+    }
 }
 
 bool GameDataManager::checkIfFileExists(std::string fileWithPath)
@@ -154,17 +172,21 @@ std::string GameDataManager::getStartFileFromJson(std::string jsonFileName)
 
 void GameDataManager::getGameZipFile(std::string url, std::string itemId)
 {
-    HttpRequest *request = new HttpRequest();
-    request->setRequestType(HttpRequest::Type::GET);
-    request->setUrl(url.c_str());
+    zipRequest = new HttpRequest();
+    zipRequest->setRequestType(HttpRequest::Type::GET);
+    zipRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers;
     headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
-    request->setHeaders(headers);
+    zipRequest->setHeaders(headers);
     
-    request->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetGameZipFileAnswerReceived, this));
-    request->setTag(itemId);
-    HttpClient::getInstance()->send(request);
+    CCLOG("Cookies being used are: %s", headers.at(0).c_str());
+    
+    zipRequest->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetGameZipFileAnswerReceived, this));
+    zipRequest->setTag(itemId);
+    HttpClient::getInstance()->setTimeoutForConnect(2);
+    HttpClient::getInstance()->setTimeoutForRead(2);
+    HttpClient::getInstance()->send(zipRequest);
 }
 
 void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -184,6 +206,10 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
         
         unzipGame(targetPath.c_str(), basePath.c_str(), nullptr);
+    }
+    else
+    {
+        Director::getInstance()->replaceScene(LoginScene::createSceneWithAutoLoginAndErrorDisplay());
     }
 }
 
@@ -229,7 +255,12 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
             
             if(!pFile2)
             {
+                
+                unzClose(pFile);
+                removeGameFolderOnError(dirpath);
+                hideLoadingScreen(); //ERROR TO BE ADDED
                 CCLOG("unzip can not create file");
+                showErrorMessage();
                 return false;
             }
             unsigned long savedSize = 0;
@@ -260,7 +291,11 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         } while (0);
         if(nRet != UNZ_OK)
         {
-            ret = false;
+            unzClose(pFile);
+            removeGameFolderOnError(dirpath);
+            hideLoadingScreen(); //ERROR TO BE ADDED
+            showErrorMessage();
+            return false;
         }
         else
         {
@@ -271,13 +306,28 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     
     if(err != UNZ_END_OF_LIST_OF_FILE)
     {
-        ret = false;
+        unzClose(pFile);
+        removeGameFolderOnError(dirpath);
+        hideLoadingScreen(); //ERROR TO BE ADDED
+        showErrorMessage();
+        return false;
     }
     unzClose(pFile);
     
     removeGameZip(zipPath);
     std::string startFileNameWithPath = getStartFileFromJson(std::string(dirpath) + "package.json");
-    startGame(std::string(dirpath) + startFileNameWithPath);
+    
+    if(FileUtils::getInstance()->isFileExist(dirpath + startFileNameWithPath))
+    {
+       startGame(std::string(dirpath) + startFileNameWithPath);
+    }
+    else
+    {
+        removeGameFolderOnError(dirpath);
+        hideLoadingScreen();
+        showErrorMessage();
+        return false;
+    }
     
     return ret;
 
@@ -290,6 +340,16 @@ bool GameDataManager::removeGameZip(std::string fileNameWithPath)
 
 void GameDataManager::startGame(std::string fileName)
 {
+    if(processCancelled) return;
+    
+    if(!FileUtils::getInstance()->isFileExist(fileName))
+    {
+        hideLoadingScreen();
+        showErrorMessage();
+        return;
+    }
+    
+    //hideLoadingScreen();
     WebViewSelector::createSceneWithUrl(fileName);
     //We don't need to add this to the screen, because in create phase WebViewSelector will do a replaceScene.
 }
@@ -302,4 +362,60 @@ std::string GameDataManager::getGameIdPath(std::string gameId)
 std::string GameDataManager::getGameCachePath()
 {
     return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+}
+
+//---------------------LOADING SCREEN----------------------------------
+void GameDataManager::displayLoadingScreen()
+{
+    Size size = Director::getInstance()->getVisibleSize();
+    Point origin = Director::getInstance()->getVisibleOrigin();
+    
+    ModalMessages::getInstance()->startLoading();
+    
+    ElectricDreamsButton *cancelButton = ElectricDreamsButton::createButtonWithText("Cancel");
+    cancelButton->setName("cancelButton");
+    cancelButton->setCenterPosition(Vec2(origin.x + size.width / 2, origin.y + size.height * 0.25));
+    cancelButton->setDelegate(this);
+    cancelButton->setMixPanelButtonName("CancelGameLoading");
+    Director::getInstance()->getRunningScene()->addChild(cancelButton);
+}
+void GameDataManager::hideLoadingScreen()
+{
+    Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("cancelButton"));
+    ModalMessages::getInstance()->stopLoading();
+}
+
+void GameDataManager::showErrorMessage()
+{
+    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, this);
+}
+
+void GameDataManager::removeGameFolderOnError(std::string dirPath)
+{
+    FileUtils::getInstance()->removeDirectory(dirPath);
+}
+
+//--------------- DELEGATE FUNCTIONS ------------------
+
+void GameDataManager::buttonPressed(ElectricDreamsButton *button)
+{
+    processCancelled = true;
+    
+    if(zipRequest) zipRequest->setResponseCallback(nullptr);
+    if(jsonRequest) jsonRequest->setResponseCallback(nullptr);
+    
+    Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("cancelButton"));
+    ModalMessages::getInstance()->stopLoading();
+}
+
+void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    std::map<std::string, std::string> errorStringMap = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
+
+    if(messageBoxTitle == errorStringMap[ERROR_TITLE] && buttonTitle == errorStringMap[ERROR_BUTTON])
+    {
+        HQHistoryManager::getInstance()->emptyHistory();
+        auto baseScene = BaseScene::createScene();
+        Director::getInstance()->replaceScene(baseScene);
+    }
 }

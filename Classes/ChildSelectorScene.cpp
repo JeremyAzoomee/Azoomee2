@@ -3,8 +3,15 @@
 #include "ParentDataProvider.h"
 #include "ChildAccountScene.h"
 #include <math.h>
-#include "ModalMessages.h"
 #include "ConfigStorage.h"
+#include "AudioMixer.h"
+#include "AnalyticsSingleton.h"
+#include "MessageBox.h"
+#include "StringMgr.h"
+#include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsDecoration.h"
+#include "OfflineHubScene.h"
+#include "ModalMessages.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -30,49 +37,49 @@ bool ChildSelectorScene::init()
         return false;
     }
     
+    AnalyticsSingleton::getInstance()->logoutChildEvent();
+    
+    AudioMixer::getInstance()->stopBackgroundMusic();
+    
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
     addVisualsToScene();
+    createSettingsButton();
     addScrollViewForProfiles();
     addProfilesToScrollView();
+    
 
     return true;
 }
 
-//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 void ChildSelectorScene::onEnterTransitionDidFinish()
 {
+    OfflineChecker::getInstance()->setDelegate(this);
+    
     if(_errorCode !=0)
     {
-        handleErrorCode(_errorCode);
+        MessageBox::createWith(_errorCode, nullptr);
     }
 }
 
-void ChildSelectorScene::handleErrorCode(long errorCode)
-{
-    //#TODO handle modal message strings.
-    ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", StringUtils::format("Error Code:%ld",errorCode), "OK");
-}
+//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 
 void ChildSelectorScene::addVisualsToScene()
 {
-    auto bg = Sprite::create("res/mainhub/bg_glow.png");
-    bg->setPosition(visibleSize.width / 2, visibleSize.height / 2);
-    this->addChild(bg);
+    addGlowToScreen(this, 1);
+    addSideWiresToScreen(this, 0, 2);
     
-    auto bg1 = Sprite::create("res/login/wire_left.png");
-    bg1->setPosition(bg1->getContentSize().width / 2, bg1->getContentSize().height / 2);
-    this->addChild(bg1);
-    
-    auto bg2 = Sprite::create("res/login/wire_right.png");
-    bg2->setPosition(visibleSize.width - bg2->getContentSize().width / 2, bg2->getContentSize().height / 2);
-    this->addChild(bg2);
-    
-    auto selectTitle = Label::createWithTTF("Select your kid's profile", "fonts/azoomee.ttf", 90);
+    auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
     selectTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);
-    selectTitle->setColor(Color3B(28, 244, 244));
     this->addChild(selectTitle);
+}
+
+void ChildSelectorScene::createSettingsButton()
+{
+    auto settingsButton = ElectricDreamsButton::createSettingsButton(0.0f);
+    settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
+    this->addChild(settingsButton);
 }
 
 void ChildSelectorScene::addScrollViewForProfiles()
@@ -105,12 +112,14 @@ void ChildSelectorScene::addProfilesToScrollView()
 {
     //This has to be changed - not a good idea to include json handler in every classes that need it. There must be one storing class that can either give data back by request, or converts data into std::vector.
     
+    AnalyticsSingleton::getInstance()->registerNoOfChildren(ParentDataProvider::getInstance()->getAmountOfAvailableChildren());
+    
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        std::string oomeeUrl = ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "avatar");
+        std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(i);
         int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
         
-        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getValueFromOneAvailableChild(i, "profileName"), oomeeNr);
+        auto profileLayer = createChildProfileButton(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(i), oomeeNr);
         profileLayer->setTag(i);
         profileLayer->setPosition(positionElementOnScrollView(profileLayer));
         addListenerToProfileLayer(profileLayer);
@@ -139,10 +148,10 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     CCLOG("Found delay time is: %f", delayTime);
     oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     
-    auto profileLabel = Label::createWithTTF(profileName, "fonts/azoomee.ttf", 50);
-    profileLabel->setColor(Color3B::WHITE);
+    auto profileLabel = createLabelBody(profileName);
     profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
     profileLabel->setOpacity(0);
+    reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
     profileLayer->addChild(profileLabel);
     
     profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
@@ -192,13 +201,17 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
         if(!touchMovedAway)
         {
             auto target = static_cast<Node*>(event->getCurrentTarget());
+         
+            AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
             
             if(target->getName() == "addChildButton")
                 addChildButtonPressed(target);
             else //Oomee child pressed
             {
+                OfflineChecker::getInstance()->setDelegate(nullptr);
                 target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
                 int childNumber = target->getTag();
+                AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
                 BackEndCaller::getInstance()->childLogin(childNumber);
             }
             return true;
@@ -263,19 +276,50 @@ void ChildSelectorScene::addNewChildButtonToScrollView()
     scrollView->addChild(addButtonLayer);
 }
 
+//---------------------- Check Email Verified Before Adding Child ---------------
+
 void ChildSelectorScene::addChildButtonPressed(Node* target)
 {
-    //Check is email verified, if not refresh profile, then error
-    if((ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "VERIFIED")||(ParentDataProvider::getInstance()->getParentLoginValue("actorStatus") == "ACTIVE"))
-    {
-        target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-        
-        auto newChildScene = ChildAccountScene::createScene("", 0);
-        Director::getInstance()->replaceScene(newChildScene);
-    }
+    target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+    BackEndCaller::getInstance()->updateParent(this, "actorstatus");
+}
+
+void ChildSelectorScene::secondCheckForAuthorisation()
+{
+    if(ParentDataProvider::getInstance()->emailRequiresVerification())
+        MessageBox::createWith(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED, nullptr);
     else
     {
-        //#TODO handle modal message strings.
-        ModalMessages::getInstance()->createMessageWithSingleButton("ERROR", "Ensure email has been verified.", "OK");
+        AwaitingAdultPinLayer::create()->setDelegate(this);
+        AnalyticsSingleton::getInstance()->childProfileStartEvent();
     }
+}
+
+//----------------------- Delegate Functions ----------------------------
+void ChildSelectorScene::AdultPinCancelled(AwaitingAdultPinLayer* layer)
+{
+    //Do Nothing.
+}
+
+void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
+{
+    ModalMessages::getInstance()->startLoading();
+    //Delay so loading screen has time to appear, due to long loading of Spines
+    this->scheduleOnce(schedule_selector(ChildSelectorScene::callDelegateFunction), .5);
+}
+
+void ChildSelectorScene::connectivityStateChanged(bool online)
+{
+    if(!online)
+    {
+        OfflineChecker::getInstance()->setDelegate(nullptr);
+        Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+    }
+}
+
+void ChildSelectorScene::callDelegateFunction(float dt)
+{
+    OfflineChecker::getInstance()->setDelegate(nullptr);
+    auto newChildScene = ChildAccountScene::createScene("", 0);
+    Director::getInstance()->replaceScene(newChildScene);
 }

@@ -1,0 +1,127 @@
+{
+  "circlePositionsForMenuItems": {
+    "positions": [
+      {
+        "x": 1366,
+        "y": 1458
+      },
+      {
+        "x": 989,
+        "y": 1241
+      },
+      {
+        "x": 990,
+        "y": 805
+      },
+      {
+        "x": 1369,
+        "y": 589
+      },
+      {
+        "x": 1745,
+        "y": 810
+      },
+      {
+        "x": 1741,
+        "y": 1244
+      }
+    ]
+  },
+  "horizontalXPositionsForMenuItems": [
+    775,
+    1011,
+    1248,
+    1957,
+    1721,
+    1484
+  ],
+  "horizontalYPositionsForMenuItems": -150,
+  "horizontalMenuItemsHeight": 270,
+  "horizontalYPositionsForMenuItemsInGroupHQ": 300,
+  "coloursForMenuItems": [
+    {
+      "r": 28,
+      "g": 244,
+      "b": 244,
+      "a": 255
+    },
+    {
+      "r": 248,
+      "g": 71,
+      "b": 89,
+      "a": 255
+    },
+    {
+      "r": 58,
+      "g": 188,
+      "b": 152,
+      "a": 255
+    },
+    {
+      "r": 28,
+      "g": 244,
+      "b": 244,
+      "a": 255
+    },
+    {
+      "r": 246,
+      "g": 185,
+      "b": 66,
+      "a": 255
+    },
+    {
+      "r": 86,
+      "g": 177,
+      "b": 255,
+      "a": 255
+    }
+  ],
+  "namesForMenuItems": [
+    "HOME",
+    "VIDEO HQ",
+    "AUDIO HQ",
+    "MAIL APP",
+    "ARTS APP",
+    "GAME HQ",
+    "GROUP HQ"
+  ],
+  "tagNumberForMenuItems": {
+    "HOME": 0,
+    "VIDEO HQ": 1,
+    "AUDIO HQ": 2,
+    "MAIL APP": 3,
+    "ARTS APP": 4,
+    "GAME HQ": 5,
+    "GROUP HQ": 6
+  },
+  "targetPositionsForMove": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": -2732,
+      "y": 0
+    },
+    {
+      "x": 2732,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": -2048
+    },
+    {
+      "x": 0,
+      "y": 2048
+    },
+    {
+      "x": 0,
+      "y": -4096
+    }
+  ]
+}

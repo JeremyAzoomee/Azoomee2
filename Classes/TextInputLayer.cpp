@@ -1,15 +1,20 @@
 #include "TextInputLayer.h"
 #include "TextInputChecker.h"
-#include "StringStorage.h"
+#include "StringMgr.h"
+#include "ElectricDreamsTextStyles.h"
 
 TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputType)
 {
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
     auto layer = TextInputLayer::create();
     layer->setContentSize(inputBoxSize);
 
     layer->createEditBoxArea();
     layer->textInputType = textInputType;
     layer->createEditBox();
+    layer->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.70));
     
     return layer;
 }
@@ -26,13 +31,15 @@ bool TextInputLayer::init()
 
 void TextInputLayer::createEditBoxArea()
 {
-    Rect spriteRect = Rect(0, 0, 736, 131);
-    Rect capInsents = Rect(EDITBOX_CURVE_WIDTH, 65, 616, 1);
+    Rect spriteRect = Rect(0, 0, 272, 197);
+    Rect capInsents = Rect(EDITBOX_CURVE_WIDTH, 98, 1, 1);
     editBoxArea = ui::Scale9Sprite::create("res/login/textarea_bg.png", spriteRect, capInsents);
     editBoxArea->setContentSize(this->getContentSize());
     editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    
+    editBoxArea->setOpacity(0);
     this->addChild(editBoxArea);
+    
+    editBoxArea->runAction(FadeTo::create(0.5, 255));
 }
 
 void TextInputLayer::createEditBox()
@@ -41,7 +48,7 @@ void TextInputLayer::createEditBox()
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont("fonts/azoomee.ttf", 85);
+    editBox->setFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::WHITE);
     editBox->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     editBox->setDelegate(this);
@@ -86,21 +93,21 @@ void TextInputLayer::setupEditBoxUsingType()
         case INPUT_IS_DAY:
         {
             editBox->setMaxLength(2);
-            editBox->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobDay").c_str());
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_DAY_PLACEHOLDER).c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
         case INPUT_IS_MONTH:
         {
             editBox->setMaxLength(2);
-            editBox->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobMonth").c_str());
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_MONTH_PLACEHOLDER).c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
         case INPUT_IS_YEAR:
         {
             editBox->setMaxLength(4);
-            editBox->setPlaceHolder(StringStorage::getInstance()->getStringForChildAccount("phDobYear").c_str());
+            editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_YEAR_PLACEHOLDER).c_str());
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
@@ -163,6 +170,12 @@ bool TextInputLayer::inputIsValid()
     }
     
     return isValidInput;
+}
+
+void TextInputLayer::setEditboxVisibility(bool visibility)
+{
+    editBoxArea->setVisible(visibility);
+    editBox->setVisible(visibility);
 }
 
 //--------------- EditBox Delegate Fuctions --------------------------------

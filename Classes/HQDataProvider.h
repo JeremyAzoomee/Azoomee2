@@ -9,7 +9,6 @@ public:
     /** Returns the shared instance of the Game Manager */
     static HQDataProvider* getInstance(void);
     
-public:
     virtual ~HQDataProvider();
     bool init(void);
     
@@ -17,6 +16,7 @@ public:
     std::map<std::string, std::string> getItemDataForSpecificItem(std::string category, std::string itemid);
     cocos2d::Vec2 getHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber);
     void getDataForHQ(std::string category);
+    void getDataForGroupHQ(std::string uri);
     
     //HQ Area services
     int getNumberOfRowsForHQ(std::string category);
@@ -24,7 +24,14 @@ public:
     std::vector<std::string> getElementsForRow(std::string category, int index);
     std::string getTitleForRow(std::string category, int index);
     std::string getImageUrlForItem(std::string itemId, cocos2d::Vec2 shape);
+    std::string getTypeForSpecificItem(std::string category, std::string itemId);
+    
+    std::string getImageUrlForGroupLogo(std::string itemId);
     
     //Callback to start building HQ
     void startBuildingHQ(std::string category);
+    
+    //Loading screen
+    void displayLoadingScreen();
+    void hideLoadingScreen();
 };

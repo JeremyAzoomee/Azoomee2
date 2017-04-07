@@ -1,236 +1,243 @@
 
 om_Pink.png
-size: 1711,1711
+size: 1729,1729
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 Arm_L
   rotate: true
-  xy: 1183, 298
+  xy: 1183, 316
   size: 270, 240
   orig: 270, 240
   offset: 0, 0
   index: -1
 Arm_R
   rotate: false
-  xy: 785, 68
+  xy: 785, 86
   size: 270, 240
   orig: 270, 240
   offset: 0, 0
   index: -1
 Arm_Up_L
   rotate: false
-  xy: 1425, 243
+  xy: 1379, 905
   size: 190, 188
   orig: 190, 188
   offset: 0, 0
   index: -1
 Arm_Up_R
-  rotate: false
-  xy: 1322, 53
+  rotate: true
+  xy: 1319, 124
   size: 190, 188
   orig: 190, 188
   offset: 0, 0
   index: -1
 Big_Tongue
-  rotate: true
-  xy: 1379, 957
+  rotate: false
+  xy: 1379, 1499
   size: 348, 228
   orig: 348, 228
   offset: 0, 0
   index: -1
 Body
   rotate: false
-  xy: 785, 865
+  xy: 785, 883
   size: 592, 844
   orig: 592, 844
   offset: 0, 0
   index: -1
 Cupcake
-  rotate: true
-  xy: 1057, 54
+  rotate: false
+  xy: 1425, 640
   size: 242, 263
   orig: 242, 263
   offset: 0, 0
   index: -1
 Donut
   rotate: true
-  xy: 1178, 570
+  xy: 1178, 588
   size: 293, 245
   orig: 293, 245
   offset: 0, 0
   index: -1
 Ear_L
   rotate: false
-  xy: 1425, 695
+  xy: 1425, 378
   size: 252, 260
   orig: 252, 260
   offset: 0, 0
   index: -1
 Ear_R
-  rotate: false
-  xy: 1425, 433
+  rotate: true
+  xy: 1057, 62
   size: 252, 260
   orig: 252, 260
   offset: 0, 0
   index: -1
 Eye_L
   rotate: true
-  xy: 1609, 1199
+  xy: 1625, 1234
   size: 106, 98
   orig: 106, 98
   offset: 0, 0
   index: -1
 Eye_L_Closed
-  rotate: false
-  xy: 1322, 256
+  rotate: true
+  xy: 415, 85
   size: 92, 40
   orig: 92, 40
   offset: 0, 0
   index: -1
 Eye_L_Sad
   rotate: false
-  xy: 222, 48
+  xy: 1509, 265
   size: 132, 111
   orig: 132, 111
   offset: 0, 0
   index: -1
 Eye_L_Scared
-  rotate: false
-  xy: 2, 6
+  rotate: true
+  xy: 1319, 14
   size: 108, 153
   orig: 108, 153
   offset: 0, 0
   index: -1
 Eye_L_Smile
-  rotate: false
-  xy: 1609, 1019
+  rotate: true
+  xy: 1614, 56
   size: 94, 70
   orig: 94, 70
   offset: 0, 0
   index: -1
 Eye_Normal_L
   rotate: false
-  xy: 785, 763
+  xy: 785, 781
   size: 82, 100
   orig: 82, 100
   offset: 0, 0
   index: -1
 Eye_Normal_R
   rotate: false
-  xy: 1625, 1609
+  xy: 1643, 185
   size: 82, 100
   orig: 82, 100
   offset: 0, 0
   index: -1
 Eye_R
   rotate: true
-  xy: 1609, 1091
+  xy: 1625, 1126
   size: 106, 98
   orig: 106, 98
   offset: 0, 0
   index: -1
 Eye_R_Closed
   rotate: false
-  xy: 222, 6
+  xy: 2, 18
   size: 92, 40
   orig: 92, 40
   offset: 0, 0
   index: -1
 Eye_R_Sad
-  rotate: true
-  xy: 356, 27
+  rotate: false
+  xy: 1509, 152
   size: 132, 111
   orig: 132, 111
   offset: 0, 0
   index: -1
 Eye_R_Scared
   rotate: false
-  xy: 112, 6
+  xy: 1571, 940
   size: 108, 153
   orig: 108, 153
   offset: 0, 0
   index: -1
 Eye_R_Smile
-  rotate: true
-  xy: 1617, 337
+  rotate: false
+  xy: 457, 35
   size: 94, 70
   orig: 94, 70
   offset: 0, 0
   index: -1
 Eye_Sleepy
   rotate: true
-  xy: 1625, 1498
+  xy: 1474, 13
   size: 109, 64
   orig: 109, 64
   offset: 0, 0
   index: -1
 Head_Shine
   rotate: true
-  xy: 1514, 86
+  xy: 1625, 1342
   size: 155, 93
   orig: 155, 93
   offset: 0, 0
   index: -1
 Large_Pixels
   rotate: false
-  xy: 2, 748
+  xy: 2, 766
   size: 781, 961
   orig: 781, 961
   offset: 0, 0
   index: -1
 Mouth_Pursed
   rotate: false
-  xy: 1625, 1398
+  xy: 1540, 52
   size: 72, 98
   orig: 72, 98
   offset: 0, 0
   index: -1
 Mouth_Smile
   rotate: true
-  xy: 1625, 1307
+  xy: 1643, 287
   size: 89, 84
   orig: 89, 84
   offset: 0, 0
   index: -1
+Mouth_Smile_Closed
+  rotate: false
+  xy: 2, 60
+  size: 411, 117
+  orig: 411, 117
+  offset: 0, 0
+  index: -1
 Mouth_Smile_Open
   rotate: false
-  xy: 878, 563
+  xy: 878, 581
   size: 298, 300
   orig: 298, 300
   offset: 0, 0
   index: -1
 Mouth_Snore
   rotate: false
-  xy: 480, 346
+  xy: 480, 364
   size: 396, 400
   orig: 396, 400
   offset: 0, 0
   index: -1
 Mouth_Wide
   rotate: true
-  xy: 480, 89
+  xy: 480, 107
   size: 255, 303
   orig: 255, 303
   offset: 0, 0
   index: -1
 Mouth_grin
   rotate: true
-  xy: 1379, 1307
+  xy: 1379, 1095
   size: 402, 244
   orig: 402, 244
   offset: 0, 0
   index: -1
 Pizza
   rotate: false
-  xy: 878, 310
+  xy: 878, 328
   size: 303, 251
   orig: 303, 251
   offset: 0, 0
   index: -1
 Small_Pixels
   rotate: false
-  xy: 2, 161
+  xy: 2, 179
   size: 476, 585
   orig: 476, 585
   offset: 0, 0

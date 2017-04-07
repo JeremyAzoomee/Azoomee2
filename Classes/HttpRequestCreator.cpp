@@ -1,9 +1,15 @@
 #include "HttpRequestCreator.h"
 #include "JWTTool.h"
+#include "JWTToolForceParent.h"
 #include "BackEndCaller.h"
 #include "HQDataParser.h"
 #include "ConfigStorage.h"
 #include "LoginScene.h"
+#include "OnboardingScene.h"
+#include "AnalyticsSingleton.h"
+#include "ChildAccountScene.h"
+#include "ChildDataParser.h"
+#include "PaymentSingleton.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -19,6 +25,13 @@ void HttpRequestCreator::createEncryptedPostHttpRequest()
 {
     encrypted = true;
     method = "POST";
+    createHttpRequest();
+}
+
+void HttpRequestCreator::createGetHttpRequest()
+{
+    encrypted = false;
+    method = "GET";
     createHttpRequest();
 }
 
@@ -121,7 +134,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
         }
     }
     
-    std::string requestUrl = StringUtils::format("http://%s%s", host.c_str(), requestPath.c_str());
+    std::string requestUrl = StringUtils::format("https://%s%s", host.c_str(), requestPath.c_str());
     if(!urlParameters.empty()) requestUrl = StringUtils::format("%s?%s", requestUrl.c_str(), urlParameters.c_str());   //In URL we need to add the ?
     
     HttpRequest *request = new HttpRequest();
@@ -135,12 +148,27 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     
     std::vector<std::string> headers;
     
+    //Add no cache to requests, to avoid caching
+    headers.push_back("Cache-Control: no-cache");
+    
     if(!requestBody.empty()) headers.push_back("Content-Type: application/json;charset=UTF-8");    //Adding content type to header only, if there is data in the request.
     
     if(encrypted)                                                             //parentLogin (and register parent) is the only nonencrypted call. JWTTool is called unless the request is not coming from login.
     {
-        auto myJWTTool = JWTTool::getInstance();
-        std::string myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), ConfigStorage::getInstance()->getServerHost(), urlParameters, requestBody);
+        std::string myRequestString;
+        
+        if((requestTag == "updateParentPin")||(requestTag == "updateParentActorStatus")||(requestTag == "iapAmazonPaymentMade")||(requestTag == "updateBilling")
+           )
+        {
+            auto myJWTTool = JWTToolForceParent::getInstance();
+            myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
+        }
+        else
+        {
+            auto myJWTTool = JWTTool::getInstance();
+            myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
+        }
+        
         const char *reqData = myRequestString.c_str();
         
         headers.push_back(StringUtils::format("x-az-req-datetime: %s", getDateFormatString().c_str()));
@@ -166,6 +194,8 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         std::vector<char> responseData = *response->getResponseData();
         std::string responseDataString = std::string(responseData.begin(), responseData.end());
         
+        CCLOG("request tag: %s", requestTag.c_str());
+        CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
         CCLOG("response code: %ld", response->getResponseCode());
         CCLOG("response string: %s", responseDataString.c_str());
         
@@ -177,20 +207,90 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "parentLogin") BackEndCaller::getInstance()->onLoginAnswerReceived(responseDataString);
         if(requestTag == "registerChild") BackEndCaller::getInstance()->onRegisterChildAnswerReceived();
         if(requestTag == "registerParent") BackEndCaller::getInstance()->onRegisterParentAnswerReceived();
+        if(requestTag == "updateParentPin") BackEndCaller::getInstance()->onUpdateParentPinAnswerReceived(responseDataString);
+        if(requestTag == "updateParentActorStatus") BackEndCaller::getInstance()->onUpdateParentActorStatusAnswerReceived(responseDataString);
+        if(requestTag == "PreviewHOME") HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(responseDataString);
+        if(requestTag == "iapAmazonPaymentMade") PaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(responseDataString);
+        if(requestTag == "updateBilling") BackEndCaller::getInstance()->onUpdateBillingDataAnswerReceived(responseDataString);
         
         for(int i = 0; i < 6; i++)
         {
             if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i)) HQDataParser::getInstance()->onGetContentAnswerReceived(responseDataString, requestTag);
         }
+        
+        if(requestTag == "GROUP HQ") HQDataParser::getInstance()->onGetContentAnswerReceived(responseDataString, "GROUP HQ");
     }
     else
     {
-        std::vector<char> responseData = *response->getResponseData();
-        std::string responseDataString = std::string(responseData.begin(), responseData.end());
-        
-        CCLOG("response string: %s", responseDataString.c_str());
-        
-        Scene *loginScene = LoginScene::createScene(0);
-        Director::getInstance()->replaceScene(loginScene);
+        handleError(response);
     }
+}
+
+void HttpRequestCreator::handleError(network::HttpResponse *response)
+{
+    std::vector<char> responseData = *response->getResponseData();
+    std::string responseString = std::string(responseData.begin(), responseData.end());
+    std::string requestTag = response->getHttpRequest()->getTag();
+    long errorCode = response->getResponseCode();
+    
+    CCLOG("request tag: %s", requestTag.c_str());
+    CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
+    CCLOG("response string: %s", responseString.c_str());
+    CCLOG("response code: %ld", response->getResponseCode());
+    
+    //-----------------------Handle error code--------------------------
+    
+    if(amountOfFails < 2)
+    {
+        amountOfFails++;
+        createHttpRequest();
+    }
+    
+    if((errorCode == 401)&&(findPositionOfNthString(responseString, "Invalid Request Time", 1) != responseString.length())) errorCode = 2001;
+    
+    handleEventAfterError(requestTag, errorCode);
+}
+
+void HttpRequestCreator::handleEventAfterError(std::string requestTag, long errorCode)
+{
+    HttpClient::getInstance()->destroyInstance();
+    
+    std::map<std::string, Scene*> returnMap;
+    
+    if(requestTag == "registerParent")
+    {
+        AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
+        Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
+        return;
+    }
+    
+    if(requestTag == "registerChild")
+    {
+        AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
+        Director::getInstance()->replaceScene(ChildAccountScene::createScene("", errorCode));
+        return;
+    }
+    
+    if(requestTag == "parentLogin")
+    {
+        Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));
+        return;
+    }
+    
+    if(requestTag == "getChildren")
+    {
+        Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));
+        return;
+    }
+    
+    if(requestTag == "iapAmazonPaymentMade")
+    {
+        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
+        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
+        PaymentSingleton::getInstance()->backendRequestFailed();
+        return;
+    }
+    
+    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    BackEndCaller::getInstance()->getAvailableChildren();
 }

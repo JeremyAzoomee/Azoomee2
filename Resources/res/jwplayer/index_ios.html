@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+	<head>
+		<title>JW Player</title>
+	</head>
+	<body bgcolor="black">
+		<script src="./jwplayer/jwplayer.js"></script>
+		<script>jwplayer.key="wrR1ClbRkYGQx0IOIV2gMJQggtFCdWaDaza25g==";</script>
+
+		<div id="videoPlayer"></div>
+		<script type="text/javascript">
+			var contentUrl = getUrlVars()["contentUrl"];
+			var playerInstance = jwplayer("videoPlayer");
+			
+			playerInstance.setup
+			({
+    			file: contentUrl,
+    			stretching: "exactfit",
+    			mediaid: "azoomeeplayer",
+    			height: "100%",
+      			width: "100%"
+			});
+			
+			jwplayer().on('error', function(event){
+				window.location.href = "videoerror://videoerror";
+			});
+			
+			jwplayer().on('setupError', function(event){
+				window.location.href = "videoerror://videoerror";
+			});
+			
+			jwplayer().on('play', function(event){
+				if(document.getElementById("loadingScreen"))
+				{
+					var loadingScreen = document.getElementById("loadingScreen");
+					loadingScreen.parentElement.removeChild(loadingScreen);
+				}
+				
+				window.location.href = "videoevent://video.play";
+			});
+			
+			jwplayer().on('ready', function(event){
+				var loadingScreen = document.getElementById("loadingScreen");
+				loadingScreen.innerHTML = '<center><button onClick="startPlayBack()" style="margin-top: 24.5%; width: 15%; background-color: Transparent; border: none;"><img src="play.png" style="width: 50%;"></button></center>';
+			});
+			
+				jwplayer().on('pause', function(event){
+				window.location.href = "videoevent://video.pause";
+			});
+			
+			jwplayer().on('visualQuality', function(event){
+				var currentQuality = jwplayer().getVisualQuality().level;
+				window.location.href = "videoevent://video.quality?" + currentQuality["height"];
+			});
+			
+			jwplayer().on('time', function(event){
+				var totalDuration = jwplayer().getDuration();
+				var currentPosition = jwplayer().getPosition();
+				
+				var percentage = currentPosition / totalDuration * 100;
+				
+				if((percentage > 0)&&(!sent0))
+				{
+					sent0 = true;
+					window.location.href = "videoevent://video.time?0";
+				}
+				if((percentage > 25)&&(!sent25))
+				{
+					sent25 = true;
+					window.location.href = "videoevent://video.time?25";
+				}
+				if((percentage > 50)&&(!sent50))
+				{
+					sent50 = true;
+					window.location.href = "videoevent://video.time?50";
+				}
+				if((percentage > 75)&&(!sent75))
+				{
+					sent75 = true;
+					window.location.href = "videoevent://video.time?75";
+				}
+			});
+			
+			jwplayer().on('complete', function(event){
+				window.location.href = "videoevent://video.complete";
+			});
+			
+			jwplayer().on('firstFrame', function(event){
+				var loadtime = event.loadTime;
+				window.location.href = "videoevent://video.firstFrame?" + loadtime.toString();
+			});
+		
+			function getUrlVars() 
+			{
+				var vars = {};
+				var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) 
+				{
+					vars[key] = value;
+				});
+				return vars;
+			}
+			
+			function startPlayBack()
+			{
+				jwplayer().play(true);
+				var loadingScreen = document.getElementById("loadingScreen");
+				loadingScreen.innerHTML = '<center><img src="load.png" style="margin-top: 24.5%; width: 15%;"></center>';
+			}
+</script>
+<style type="text/css">
+			html,body 
+			{ 
+				height:100%; 
+				width:100%; 
+				padding:0; 
+				margin:0; 
+			}
+			
+			#videoPlayer
+			{
+				height:100%;
+				width:100%; 
+				padding:0; 
+			}
+		</style>
+		<div id="loadingScreen" style="position: absolute; left: 0px; top: 0px; background-image: url(./loading_bg.jpg); width: 100%; height: 100vh; background-size: 100%; background-repeat: no-repeat;">
+			<center><img src="load.png" style="margin-top: 24.5%; width: 15%;"></center>
+		</div>
+	</body>
+</html>

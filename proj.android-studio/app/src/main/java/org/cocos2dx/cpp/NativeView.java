@@ -1,31 +1,29 @@
 package org.cocos2dx.cpp;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.ContextWrapper;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.webkit.CookieManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.tinizine.azoomee.R;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.xwalk.core.XWalkActivity;
-import org.xwalk.core.XWalkPreferences;
 import org.xwalk.core.XWalkView;
 import org.xwalk.core.XWalkCookieManager;
 
@@ -35,7 +33,10 @@ import static com.loopj.android.http.AsyncHttpClient.log;
 public class NativeView extends XWalkActivity {
 
     private static Context mContext;
+    public static Activity activity = null;
     public XWalkView xWalkWebView;
+    public static XWalkView xWalkWebViewStatic;
+    public static String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,11 @@ public class NativeView extends XWalkActivity {
         }
 
         mContext = this;
+        activity = this;
+
+        Bundle extras = getIntent().getExtras();
+        userid = extras.getString("userid");
+        log.d("userid", userid);
 
         xWalkWebView = new XWalkView(this);
         addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -58,16 +64,17 @@ public class NativeView extends XWalkActivity {
 
 
 
-        Button extra = new Button(this);
-        extra.setText("back");
+        ImageButton extra = new ImageButton(this);
+        extra.setImageResource(R.drawable.back_new);
+        extra.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         extra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                xWalkWebView.removeAllViews();
-
                 if(xWalkWebView != null)
                 {
+                    xWalkWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
+                    xWalkWebView.removeAllViews();
                     xWalkWebView.clearCache(true);
                     xWalkWebView = null;
                 }
@@ -78,53 +85,62 @@ public class NativeView extends XWalkActivity {
 
         addContentView(extra, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        xWalkWebViewStatic = xWalkWebView;
     }
 
     @Override
     protected void onXWalkReady() {
         Bundle extras = getIntent().getExtras();
         String myUrl = "about:blank";
+        String myCookieUrl = "";
         String myCookies = "";
         if(extras != null)
         {
             myUrl = extras.getString("url");
+            myCookieUrl = extras.getString("cookieurl");
             myCookies = extras.getString("cookie");
+            userid = extras.getString("userid");
         }
 
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Cookie", myCookies);
-
-
-
-
-        // Do anything with embedding API
-
-        XWalkCookieManager mCookieManager = new XWalkCookieManager();
-        mCookieManager.setAcceptCookie(true);
-        mCookieManager.setAcceptFileSchemeCookies(true);
-
-        String[] separatedCookies = myCookies.split("; ");
-
-        for(int i = 0; i < separatedCookies.length; i++)
-        {
-            log.d("seaparatecookies: ", separatedCookies[i]);
-            mCookieManager.setCookie("https://media.azoomee.ninja", separatedCookies[i]);
-        }
-
-        log.d("cookies: ", mCookieManager.getCookie("https://media.azoomee.ninja"));
-
-        //Check if the url received url ends with html, or anything else. If html, then we have to
-        //open the html directly, otherwise we have to open the playlist with jw player.
-
-        log.d("url", myUrl);
+        log.d("urlToBeLoaded", myUrl);
 
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
-            xWalkWebView.load("file://" + myUrl, null);
+            xWalkWebView.load("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl, null);
         }
         else
         {
-            xWalkWebView.load("file:///android_asset/res/jwplayer/index.html?contentUrl=" + myUrl, null);
+            Map<String, String> headers = new HashMap<String, String>();
+            headers.put("Cookie", myCookies);
+
+            XWalkCookieManager mCookieManager = new XWalkCookieManager();
+            mCookieManager.flushCookieStore();
+            mCookieManager.setAcceptCookie(true);
+            mCookieManager.setAcceptFileSchemeCookies(true);
+
+            String[] separatedCookies = myCookies.split("; ");
+
+            for(int i = 0; i < separatedCookies.length; i++)
+            {
+                log.d("separatecookies: ", separatedCookies[i]);
+                mCookieManager.setCookie(myCookieUrl, separatedCookies[i]);
+            }
+
+            log.d("cookies: ", mCookieManager.getCookie(myCookieUrl));
+
+            xWalkWebView.load("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl, null);
         }
+
+        xWalkWebView.addJavascriptInterface(new JsInterface(), "NativeInterface");
     }
+
+    static void errorOccurred()
+    {
+        getBackToLoginScreen();
+        activity.finish();
+    }
+
+    public static native void getBackToLoginScreen();
+    public static native void sendMediaPlayerData(String eventKey, String eventValue);
 }

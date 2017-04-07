@@ -2,37 +2,26 @@
 #define __HQSCENEELEMENT_SCENE_H__
 
 #include "cocos2d.h"
+#include "network/HttpClient.h"
+#include "HQSceneElementVisual.h"
 
 class HQSceneElement : public cocos2d::Layer
 {
-public:
-    static cocos2d::Scene* createScene();
 
+public:
+    CREATE_FUNC(HQSceneElement);
+    static cocos2d::Scene* createScene();
     virtual bool init();
+    void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape, float delay);
     
-    void resizeSceneElement(cocos2d::Vec2 shape, std::string category);
-    void createColourLayer(std::string category);
-    void addImageToBaseLayer(std::string filename);
-    void addGradientToBottom(std::string category);
-    void addIconToImage(std::string category);
-    void addLabelToImage(std::string name);
-    cocos2d::Size getSizeOfLayerWithGap();
-    
-    std::map<std::string, int> category_translator;
-    
-    void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape);
-    
-    cocos2d::LayerColor *baseLayer;
-    cocos2d::LayerColor *overlayWhenTouched;
-    
-    void addTouchOverlayToElement();
-    void addListenerToElement(std::string uri);
-    void addLockToElement();
+private:
+    HQSceneElementVisual* elementVisual;
+    void addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview, std::string entitled, bool IAPEnabled);
+    void startUpElementDependingOnType(std::string uri, std::string contentId, std::string category);
     
     cocos2d::Point touchPoint;
     bool movedAway;
-    
-    CREATE_FUNC(HQSceneElement);
+    bool iamtouched;
 };
 
 #endif

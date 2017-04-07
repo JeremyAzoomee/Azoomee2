@@ -11,6 +11,9 @@
 #include "BackEndCaller.h"
 #include "HttpRequestCreator.h"
 #include "ConfigStorage.h"
+#include "ChildDataProvider.h"
+#include "ChildDataParser.h"
+#include "BaseScene.h"
 
 using namespace cocos2d;
 
@@ -60,7 +63,12 @@ bool HQDataParser::parseHQData(std::string responseString, const char *category)
             
             for(int i = 0; i < itemNames.size(); i++)
             {
-                if(!contentData["items"][key][itemNames.at(i).c_str()].IsNull())
+                if(!contentData["items"][key].HasMember(itemNames.at(i).c_str()))
+                {
+                    elementProperty[itemNames.at(i).c_str()] = "";
+
+                }
+                else if(!contentData["items"][key][itemNames.at(i).c_str()].IsNull())
                 {
                     elementProperty[itemNames.at(i).c_str()] = contentData["items"][key][itemNames.at(i).c_str()].GetString();
                 }
@@ -80,8 +88,8 @@ bool HQDataParser::parseHQData(std::string responseString, const char *category)
         }
     }
     
+    HQDataStorage::getInstance()->HQData[StringUtils::format("%s", category)].clear();
     HQDataStorage::getInstance()->HQData[StringUtils::format("%s", category)] = HQElements;
-    //HQDataStorage::getInstance()->HQElementHighlights[category] = elementHighlightWithTitle;
     
     return true;
 }
@@ -175,12 +183,37 @@ void HQDataParser::onGetContentAnswerReceived(std::string responseString, std::s
         if(category == "HOME")    //If we have a home HQ set up, we have to get urls too.
         {
             parseHQGetContentUrls(responseString);      //Parsing method returns true if there are no errors in the json string.
-            BackEndCaller::getInstance()->getGordon();                                                            //If both parsings went well, we move on to getting the cookies
+            ChildDataParser::getInstance()->parseOomeeData(responseString);
+            BackEndCaller::getInstance()->getGordon();   //If both parsings went well, we move on to getting the cookies
         }
         else
         {
             HQDataProvider::getInstance()->startBuildingHQ(category);
         }
+    }
+}
+
+void HQDataParser::getPreviewContent(std::string url, std::string category)
+{
+    CCLOG("Getting data from: %s", url.c_str());
+    
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->url = url;
+    httpRequestCreator->requestBody = "";
+    httpRequestCreator->requestTag = "PreviewHOME";
+    httpRequestCreator->createGetHttpRequest();
+}
+
+void HQDataParser::onGetPreviewContentAnswerReceived(std::string responseString)
+{
+    if(parseHQData(responseString, "HOME"))       //Parsing method returns true if there are no errors in the json string.
+    {
+        parseHQStructure(responseString, "HOME");
+        parseHQGetContentUrls(responseString);
+        ChildDataParser::getInstance()->parseOomeeData(responseString);
+        
+        BaseScene *baseScene = (BaseScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
+        baseScene->startBuildingHQs();
     }
 }
 
@@ -190,4 +223,13 @@ std::string HQDataParser::getExtensionFromUri(std::string uri)
     std::string extension = uri.substr(startPoint);
     
     return extension;
+}
+
+void HQDataParser::clearAllHQData()
+{
+    HQDataStorage::getInstance()->HQData.clear();
+    HQDataStorage::getInstance()->HQListTitles.clear();
+    HQDataStorage::getInstance()->HQListElements.clear();
+    HQDataStorage::getInstance()->HQElementHighlights.clear();
+    HQDataStorage::getInstance()->HQGetContentUrls.clear();
 }

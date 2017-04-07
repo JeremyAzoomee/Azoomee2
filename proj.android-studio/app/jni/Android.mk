@@ -38,7 +38,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/TextInputLayer.cpp \
                    ../../../Classes/TextInputChecker.cpp \
                    ../../../Classes/ElectricDreamsButton.cpp \
-                   ../../../Classes/StringStorage.cpp \
+                   ../../../Classes/StringMgr.cpp \
                    ../../../Classes/HQSceneElementPositioner.cpp \
                    ../../../Classes/ParentDataStorage.cpp \
                    ../../../Classes/ParentDataParser.cpp \
@@ -53,9 +53,46 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/HQDataParser.cpp \
                    ../../../Classes/HQDataProvider.cpp \
                    ../../../Classes/CrashlyticsConfig.cpp \
+                   ../../../Classes/Crashlytics_android.cpp \
                    ../../../Classes/IntroVideoScene.cpp \
-                   ../../../Classes/MultiButtonMessageBoxLayer.cpp \
-                   ../../../Classes/DisplayChildNameLayer.cpp
+                   ../../../Classes/MessageBox.cpp \
+                   ../../../Classes/AwaitingAdultPinLayer.cpp \
+                   ../../../Classes/ExitOrLogoutLayer.cpp \
+                   ../../../Classes/ArtsAppHQElement.cpp \
+                   ../../../Classes/DisplayChildNameLayer.cpp \
+                   ../../../Classes/SlideShowScene.cpp \
+                   ../../../Classes/ArtsPreviewLayer.cpp \
+                   ../../../Classes/WebViewNativeCaller_android.cpp \
+                   ../../../Classes/ImageDownloaderLogic.cpp \
+                   ../../../Classes/HQHistoryManager.cpp \
+                   ../../../Classes/AudioMixer.cpp \
+                   ../../../Classes/AnalyticsSingleton.cpp \
+                   ../../../Classes/Analytics_android.cpp \
+                   ../../../Classes/ElectricDreamsTextStyles.cpp \
+                   ../../../Classes/StringFunctions.cpp \
+                   ../../../Classes/ElectricDreamsDecoration.cpp \
+                   ../../../Classes/JWTToolForceParent.cpp \
+                   ../../../Classes/OfflineHubScene.cpp \
+                   ../../../Classes/OfflineHubSceneVisuals.cpp \
+                   ../../../Classes/OfflineGameSearch.cpp \
+                   ../../../Classes/OfflineHubHQ.cpp \
+                   ../../../Classes/OfflineHubHQElement.cpp \
+                   ../../../Classes/OfflineChecker.cpp \
+                   ../../../Classes/OfflineHubBackButton.cpp \
+                   ../../../Classes/OfflineText.cpp \
+                   ../../../Classes/OnboardingSuccessScene.cpp \
+                   ../../../Classes/OomeeButtonLayer.cpp \
+                   ../../../Classes/ChildAccountSuccessScene.cpp \
+                   ../../../Classes/HQSceneElementVisual.cpp \
+                   ../../../Classes/HQSceneArtsApp.cpp \
+                   ../../../Classes/IAPUpsaleLayer.cpp \
+                   ../../../Classes/ImageDownloaderOnScreenChecker.cpp \
+                   ../../../Classes/ImageDownloaderCacheCleanerLogic.cpp \
+                   ../../../Classes/PaymentSingleton.cpp \
+                   ../../../Classes/WebGameAPIDataManager.cpp \
+                   ../../../Classes/ArtAppImageManager.cpp \
+                   ../../../Classes/LoginLogicHandler.cpp \
+                   ../../../Classes/MixPanelNotifications_android.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

@@ -1,5 +1,7 @@
 #include "MainHubBgElements.h"
-#include "SimpleAudioEngine.h"
+#include "ConfigStorage.h"
+#include "HQHistoryManager.h"
+#include "ElectricDreamsDecoration.h"
 
 USING_NS_CC;
 
@@ -19,35 +21,37 @@ bool MainHubBgElements::init()
         return false;
     }
     
-    auto visibleSize = Director::getInstance()->getVisibleSize();
+    return true;
+}
+
+void MainHubBgElements::onEnter()
+{
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto bgGlow = Sprite::create("res/mainhub/bg_glow.png");
-    bgGlow->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
-    bgGlow->setOpacity(0);
-    this->addChild(bgGlow);
+    auto funcCallAction = CallFunc::create([=](){
     
-    bgGlow->runAction(FadeIn::create(1));
+        auto myParticle = ParticleMeteor::create();
+        myParticle->setSpeed(30);
+        myParticle->setGravity(Vec2(0, -20));
+        myParticle->setScale(1);
+        myParticle->setPosVar(Vec2(2732, 5192));
+        this->addChild(myParticle);
+    });
     
-    auto wireLeft = Sprite::create("res/mainhub/wire_left.png");
-    wireLeft->setPosition(wireLeft->getContentSize().width / -2, visibleSize.height / 2 + origin.y);
-    this->addChild(wireLeft);
+    this->runAction(Sequence::create(DelayTime::create(0.1), funcCallAction, NULL));
     
-    auto wireRight = Sprite::create("res/mainhub/wire_right.png");
-    wireRight->setPosition(wireRight->getContentSize().width / 2 + visibleSize.width, visibleSize.height / 2 + origin.y);
-    this->addChild(wireRight);
+    auto funcCallAction2 = CallFunc::create([=](){
+        addGlowToScreen(this, 1);
+    });
     
-    float backgroundElementsPadding = 0.7;
+    this->runAction(Sequence::create(DelayTime::create(0.2), funcCallAction2, NULL));
     
-    wireLeft->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(wireLeft->getContentSize().width / 2 * backgroundElementsPadding, visibleSize.height / 2 + origin.y)), 2), NULL));
-    wireRight->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(visibleSize.width - wireRight->getContentSize().width / 2 * backgroundElementsPadding, visibleSize.height / 2 + origin.y)), 2), NULL));
+    auto funcCallAction3 = CallFunc::create([=](){
+        if(HQHistoryManager::getInstance()->noHistory()) addSideWiresToScreen(this, 3, 2);
+        else addSideWiresToScreen(this);
+    });
     
-    auto myParticle = ParticleMeteor::create();
-    myParticle->setSpeed(30);
-    myParticle->setGravity(Vec2(0, -20));
-    myParticle->setScale(1);
-    myParticle->setPosVar(Vec2(2732, 2048));
-    this->addChild(myParticle);
+    this->runAction(Sequence::create(DelayTime::create(0.3), funcCallAction3, NULL));
     
-    return true;
+    Node::onEnter();
 }

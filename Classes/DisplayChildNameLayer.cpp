@@ -1,6 +1,9 @@
 #include "DisplayChildNameLayer.h"
 #include "ChildDataProvider.h"
 #include "ui/UIScale9Sprite.h"
+#include "ConfigStorage.h"
+#include "HQHistoryManager.h"
+#include "ElectricDreamsTextStyles.h"
 
 USING_NS_CC;
 
@@ -20,6 +23,15 @@ bool DisplayChildNameLayer::init()
         return false;
     }
     
+    delayTime = 0.4;
+    scaleTime = 0.5;
+    
+    if(HQHistoryManager::getInstance()->noHistory())
+    {
+        delayTime = 0;
+        scaleTime = 0;
+    }
+    
     addFrameToLayer();
     addChildNameToLayer();
     
@@ -33,8 +45,7 @@ void DisplayChildNameLayer::addChildNameToLayer()
     std::string childName = getLoggedInChildName();
     childName = shortenString(childName, 12);
     
-    auto childNameLabel = Label::createWithTTF(childName, "fonts/azoomee.ttf", 70);
-    childNameLabel->setColor(Color3B::WHITE);
+    auto childNameLabel = createLabelBody(childName);
     childNameLabel->setPosition(Director::getInstance()->getVisibleSize().width / 2, 350);
     childNameLabel->setOpacity(0);
     
@@ -42,7 +53,7 @@ void DisplayChildNameLayer::addChildNameToLayer()
     
     this->addChild(childNameLabel);
     
-    childNameLabel->runAction(Sequence::create(DelayTime::create(1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    childNameLabel->runAction(Sequence::create(DelayTime::create(0.1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
 }
 
 void DisplayChildNameLayer::addFrameToLayer()
@@ -53,7 +64,7 @@ void DisplayChildNameLayer::addFrameToLayer()
     displayNameFrame->setName("displayFrameName");
     this->addChild(displayNameFrame);
     
-    displayNameFrame->runAction(Sequence::create(DelayTime::create(0.4), EaseElasticOut::create(ScaleTo::create(0.5, 1.0f)), NULL));
+    displayNameFrame->runAction(Sequence::create(DelayTime::create(delayTime), EaseElasticOut::create(ScaleTo::create(scaleTime, 1.0f)), NULL));
 }
 
 std::string DisplayChildNameLayer::getLoggedInChildName()

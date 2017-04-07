@@ -3,20 +3,29 @@
 
 #include "cocos2d.h"
 #include "ui/UIScrollView.h"
+#include "AwaitingAdultPinLayer.h"
+#include "OfflineChecker.h"
 
-class ChildSelectorScene : public cocos2d::Layer
+class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate, public OfflineCheckerDelegate
 {
-private:
-    void handleErrorCode(long errorCode);
-    
-    long _errorCode;
-    
 public:
-    static cocos2d::Scene* createScene(long errorCode);
-
-    virtual bool init();
+    CREATE_FUNC(ChildSelectorScene);
     
+    virtual bool init();
     virtual void onEnterTransitionDidFinish();
+    static cocos2d::Scene* createScene(long errorCode);
+    
+    void secondCheckForAuthorisation();
+    
+    //Delegate Functions
+    void AdultPinCancelled(AwaitingAdultPinLayer* layer);
+    void AdultPinAccepted(AwaitingAdultPinLayer* layer);
+    void callDelegateFunction(float dt);
+    
+    void connectivityStateChanged(bool online);
+    
+private:
+    long _errorCode;
     
     cocos2d::Vec2 origin;
     cocos2d::Size visibleSize;
@@ -26,6 +35,7 @@ public:
     cocos2d::ui::ScrollView *scrollView;
     
     void addVisualsToScene();
+    void createSettingsButton();
     void addProfilesToScrollView();
     Layer *createChildProfileButton(std::string profileName, int oomeeNumber);
     cocos2d::Point positionElementOnScrollView(Layer *layerToBeAdded);
@@ -36,8 +46,6 @@ public:
     
     cocos2d::Point startTouchPosition;
     bool touchMovedAway;
-    
-    CREATE_FUNC(ChildSelectorScene);
 };
 
 #endif

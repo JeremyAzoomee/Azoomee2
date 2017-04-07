@@ -15,6 +15,12 @@
 #include "ChildAccountScene.h"
 #include "ModalMessages.h"
 #include "ConfigStorage.h"
+#include "AwaitingAdultPinLayer.h"
+#include "HQHistoryManager.h"
+#include "AnalyticsSingleton.h"
+#include "OnboardingSuccessScene.h"
+#include "ChildAccountSuccessScene.h"
+#include "PaymentSingleton.h"
 
 using namespace cocos2d;
 
@@ -53,15 +59,27 @@ void BackEndCaller::hideLoadingScreen()
 
 //---------------------ERROR HANDLING----------------------------------
 
-void BackEndCaller::getBackToLoginScreen()
+void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
-    auto loginScene = LoginScene::createScene(0);
+    accountJustRegistered = false;
+    newChildJustRegistered = false;
+    newTrialJustStarted = false;
+    auto loginScene = LoginScene::createScene(errorCode);
     Director::getInstance()->replaceScene(loginScene);
 }
 
 
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
 
+void BackEndCaller::autoLogin()
+{
+    UserDefault* def = UserDefault::getInstance();
+    std::string username = def->getStringForKey("username", "");
+    std::string password = def->getStringForKey("password", "");
+    def->flush();
+    
+    login(username, password);
+}
 
 void BackEndCaller::login(std::string username, std::string password)
 {
@@ -71,19 +89,94 @@ void BackEndCaller::login(std::string username, std::string password)
     httpRequestCreator->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
     httpRequestCreator->requestTag = "parentLogin";
     httpRequestCreator->createPostHttpRequest();
+    
+    UserDefault* def = UserDefault::getInstance();
+    def->setStringForKey("username", username);
+    def->setStringForKey("password", password);
+    def->flush();
+    
+    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
 }
 
 void BackEndCaller::onLoginAnswerReceived(std::string responseString)
 {
     CCLOG("Response string is: %s", responseString.c_str());
-    if(ParentDataParser::getInstance()->parseParentLoginData(responseString)) getAvailableChildren();
-    else getBackToLoginScreen();
+    if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
+    {
+        updateBillingData();
+        getAvailableChildren();
+        AnalyticsSingleton::getInstance()->signInSuccessEvent();
+    }
+    else
+    {
+        AnalyticsSingleton::getInstance()->signInFailEvent(0);
+        getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
+    }
+}
+
+//UPDATING BILLING DATA-------------------------------------------------------------------------------
+
+void BackEndCaller::updateBillingData()
+{
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->requestTag = "updateBilling";
+    httpRequestCreator->createEncryptedGetHttpRequest();
+}
+
+void BackEndCaller::onUpdateBillingDataAnswerReceived(std::string responseString)
+{
+    ParentDataParser::getInstance()->parseParentBillingData(responseString);
+    AnalyticsSingleton::getInstance()->registerBillingStatus(ParentDataProvider::getInstance()->getBillingStatus());
+}
+
+//UPDATING PARENT DATA--------------------------------------------------------------------------------
+
+void BackEndCaller::updateParent(Node *callBackTo, std::string target) //"pin" or "actorstatus"
+{
+    displayLoadingScreen();
+    
+    callBackNode = callBackTo;
+    
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    
+    httpRequestCreator->requestTag = "updateParentPin";
+    if(target == "actorstatus") httpRequestCreator->requestTag = "updateParentActorStatus";
+    
+    httpRequestCreator->createEncryptedGetHttpRequest();
+}
+
+void BackEndCaller::onUpdateParentPinAnswerReceived(std::string responseString)
+{
+    CCLOG("Update parent response string is: %s", responseString.c_str());
+    if(ParentDataParser::getInstance()->parseUpdateParentData(responseString))
+    {
+        hideLoadingScreen();
+        
+        AwaitingAdultPinLayer *checkBack = (AwaitingAdultPinLayer *)callBackNode;
+        CCLOG("Calling back awaitingsomething");
+        checkBack->secondCheckForPin();
+    }
+}
+
+void BackEndCaller::onUpdateParentActorStatusAnswerReceived(std::string responseString)
+{
+    CCLOG("Update parent response string is: %s", responseString.c_str());
+    if(ParentDataParser::getInstance()->parseUpdateParentData(responseString))
+    {
+        hideLoadingScreen();
+        
+        ChildSelectorScene *checkBack = (ChildSelectorScene *)callBackNode;
+        CCLOG("Calling back awaitingsomething");
+        checkBack->secondCheckForAuthorisation();
+    }
 }
 
 //GETTING AVAILABLE CHILDREN--------------------------------------------------------------------------
 
 void BackEndCaller::getAvailableChildren()
 {
+    ModalMessages::getInstance()->startLoading();
+    
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
     httpRequestCreator->urlParameters = "expand=true";
     httpRequestCreator->requestTag = "getChildren";
@@ -93,27 +186,56 @@ void BackEndCaller::getAvailableChildren()
 void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
 {
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
-        
-    auto childSelectorScene = ChildSelectorScene::createScene(0);
-    Director::getInstance()->replaceScene(childSelectorScene);
+    
+    if(newChildJustRegistered)
+    {
+        newChildJustRegistered = false;
+        auto childAccountSuccessScene = ChildAccountSuccessScene::createScene(newChildName, oomeeAvatarNumber);
+        Director::getInstance()->replaceScene(childAccountSuccessScene);
+    }
+    else if(accountJustRegistered)
+    {
+        CCLOG("Just registered account : backendcaller");
+        accountJustRegistered = false;
+        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(PaymentSingleton::getInstance()->OS_is_IAP_Compatible(),false);
+        Director::getInstance()->replaceScene(onboardingSuccessScene);
+    }
+    else if(newTrialJustStarted)
+    {
+        CCLOG("Just started new trial : backendcaller");
+        newTrialJustStarted = false;
+        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(PaymentSingleton::getInstance()->OS_is_IAP_Compatible(),true);
+        Director::getInstance()->replaceScene(onboardingSuccessScene);
+    }
+    else
+    {
+        auto childSelectorScene = ChildSelectorScene::createScene(0);
+        Director::getInstance()->replaceScene(childSelectorScene);
+    }
 }
 
 //CHILDREN LOGIN----------------------------------------------------------------------------------------
 
 void BackEndCaller::childLogin(int childNumber)
 {
+    HQDataParser::getInstance()->clearAllHQData();
+    
     displayLoadingScreen();
     
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", ParentDataProvider::getInstance()->getValueFromOneAvailableChild(childNumber, "profileName").c_str());
+    httpRequestCreator->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber).c_str());
     httpRequestCreator->requestTag = "childLogin";
     httpRequestCreator->createEncryptedPostHttpRequest();
+    
+    ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
+    ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 {
     ChildDataParser::getInstance()->parseChildLoginData(responseString);
-    HQDataParser::getInstance()->getContent(StringUtils::format("%s/api/electricdreams/view/categories/home/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ChildDataProvider::getInstance()->getChildLoginValue("id").c_str()), "HOME");
+    
+    HQDataParser::getInstance()->getContent(StringUtils::format("%s%s/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ConfigStorage::getInstance()->getPathForTag("HOME").c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------
@@ -121,7 +243,7 @@ void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 void BackEndCaller::getGordon()
 {
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->urlParameters = StringUtils::format("userid=%s&sessionid=%s", ChildDataProvider::getInstance()->getParentOrChildLoginValue("id").c_str(), ChildDataProvider::getInstance()->getParentOrChildLoginValue("cdn-sessionid").c_str());
+    httpRequestCreator->urlParameters = StringUtils::format("userid=%s&sessionid=%s", ChildDataProvider::getInstance()->getParentOrChildId().c_str(), ChildDataProvider::getInstance()->getParentOrChildCdnSessionId().c_str());
     httpRequestCreator->requestTag = "getGordon";
     httpRequestCreator->createEncryptedGetHttpRequest();
 }
@@ -130,6 +252,7 @@ void BackEndCaller::onGetGordonAnswerReceived(std::string responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
     {
+        HQHistoryManager::getInstance()->emptyHistory();
         auto baseScene = BaseScene::createScene();
         Director::getInstance()->replaceScene(baseScene);
     }
@@ -163,6 +286,8 @@ void BackEndCaller::registerParent(std::string emailAddress, std::string passwor
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
+    accountJustRegistered = true;
+    AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     login(this->registerParentUsername, this->registerParentPassword);
 }
 
@@ -172,13 +297,18 @@ void BackEndCaller::registerChild(std::string childProfileName, std::string chil
 {
     displayLoadingScreen();
     
+    newChildName = childProfileName;
+    oomeeAvatarNumber = oomeeNumber;
+    
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"https://media.azoomee.com/static/thumbs/oomee_%02d.png\",\"password\":\"\"}",childProfileName.c_str(),childDOB.c_str(),childGender.c_str(),oomeeNumber);
+    httpRequestCreator->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"password\":\"\"}",childProfileName.c_str(),childDOB.c_str(),childGender.c_str(),ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber).c_str());
     httpRequestCreator->requestTag = "registerChild";
     httpRequestCreator->createEncryptedPostHttpRequest();
 }
 
 void BackEndCaller::onRegisterChildAnswerReceived()
 {
+    newChildJustRegistered = true;
+    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent(oomeeAvatarNumber);
     getAvailableChildren();
 }
