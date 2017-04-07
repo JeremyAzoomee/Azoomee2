@@ -1,10 +1,14 @@
-#ifndef __IMAGEDOWNLOADER_SCENE_H__
-#define __IMAGEDOWNLOADER_SCENE_H__
+#ifndef AzoomeeCommon_ImageDownloader_h
+#define AzoomeeCommon_ImageDownloader_h
 
-#include "cocos2d.h"
-#include "network/HttpClient.h"
+#include <cocos/cocos2d.h>
+#include <cocos/network/HttpClient.h>
 #include "ImageDownloaderLogic.h"
 #include "ImageDownloaderOnScreenChecker.h"
+
+
+namespace Azoomee
+{
 
 class ImageDownloader : public cocos2d::Sprite
 {
@@ -34,5 +38,7 @@ private:
     void onEnter();
     ImageDownloaderOnScreenChecker *onScreenChecker;
 };
+  
+}
 
 #endif

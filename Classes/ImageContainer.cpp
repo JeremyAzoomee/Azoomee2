@@ -1,6 +1,6 @@
 #include "ImageContainer.h"
 #include "WebViewSelector.h"
-#include "ImageDownloader.h"
+#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include "HQDataParser.h"
 #include "HQDataProvider.h"
 #include "GameDataManager.h"

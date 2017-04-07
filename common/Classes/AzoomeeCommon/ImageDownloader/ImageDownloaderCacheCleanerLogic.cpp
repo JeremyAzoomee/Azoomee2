@@ -2,6 +2,10 @@
 
 using namespace cocos2d;
 
+
+namespace Azoomee
+{
+
 static ImageDownloaderCacheCleanerLogic *_sharedImageDownloaderCacheCleanerLogic = NULL;
 
 ImageDownloaderCacheCleanerLogic* ImageDownloaderCacheCleanerLogic::getInstance()
@@ -40,4 +44,6 @@ void ImageDownloaderCacheCleanerLogic::imageRemoved()
         ImageDownloaderCacheCleanerLogic::purgeCache();
         CCLOG("imageCache empty!");
     }
+}
+  
 }

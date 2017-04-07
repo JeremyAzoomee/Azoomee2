@@ -10,7 +10,7 @@
 #include "HQSceneElementPositioner.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include "ImageDownloader.h"
+#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "OfflineHubBackButton.h"

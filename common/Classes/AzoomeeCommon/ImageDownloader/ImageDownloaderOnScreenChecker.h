@@ -1,7 +1,11 @@
-#ifndef __IMAGEDOWNLOADER_ONSCREENCHECKER_H__
-#define __IMAGEDOWNLOADER_ONSCREENCHECKER_H__
+#ifndef AzoomeeCommon_ImageDownloaderOnScreenChecker_h
+#define AzoomeeCommon_ImageDownloaderOnScreenChecker_h
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
+
+
+namespace Azoomee
+{
 
 class ImageDownloaderOnScreenChecker : public cocos2d::Ref
 {
@@ -15,5 +19,7 @@ private:
     void elementAppeared(cocos2d::Node *sender);
     bool elementOnScreen;
 };
+  
+}
 
 #endif

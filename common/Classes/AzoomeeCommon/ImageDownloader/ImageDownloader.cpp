@@ -1,15 +1,16 @@
 #include "ImageDownloader.h"
-#include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "../Data/Cookie/CookieDataStorage.h"
+#include "../UI/ElectricDreamsTextStyles.h"
+#include "../Strings.h"
+#include "../Data/ConfigStorage.h"
 #include "ImageDownloaderCacheCleanerLogic.h"
 
-USING_NS_CC;
-using namespace network;
+using namespace cocos2d::network;
 using namespace cocos2d;
-using namespace Azoomee;
 
+
+namespace Azoomee
+{
 
 bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size size, Vec2 shape)
 {
@@ -142,4 +143,6 @@ void ImageDownloader::onExit()
     aboutToExit = true;
     if(imageDownloaderLogic) imageDownloaderLogic->senderDeleted = true;
     Node::onExit();
+}
+
 }

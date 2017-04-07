@@ -97,6 +97,10 @@
 		3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */; };
 		3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */; };
 		3012ED951E97E5260009027D /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED931E97E5260009027D /* TextInputLayer.cpp */; };
+		3012ED9F1E97E6A40009027D /* ImageDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED971E97E6A40009027D /* ImageDownloader.cpp */; };
+		3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */; };
+		3012EDA11E97E6A40009027D /* ImageDownloaderLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED9B1E97E6A40009027D /* ImageDownloaderLogic.cpp */; };
+		3012EDA21E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED9D1E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
 		30DD5ECE1E965B710084305B /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC91E9658B40084305B /* Fabric.framework */; };
@@ -284,6 +288,14 @@
 		3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeButtonLayer.h; sourceTree = "<group>"; };
 		3012ED931E97E5260009027D /* TextInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputLayer.cpp; sourceTree = "<group>"; };
 		3012ED941E97E5260009027D /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
+		3012ED971E97E6A40009027D /* ImageDownloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloader.cpp; sourceTree = "<group>"; };
+		3012ED981E97E6A40009027D /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
+		3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderCacheCleanerLogic.cpp; sourceTree = "<group>"; };
+		3012ED9A1E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderCacheCleanerLogic.h; sourceTree = "<group>"; };
+		3012ED9B1E97E6A40009027D /* ImageDownloaderLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderLogic.cpp; sourceTree = "<group>"; };
+		3012ED9C1E97E6A40009027D /* ImageDownloaderLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderLogic.h; sourceTree = "<group>"; };
+		3012ED9D1E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderOnScreenChecker.cpp; sourceTree = "<group>"; };
+		3012ED9E1E97E6A40009027D /* ImageDownloaderOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderOnScreenChecker.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		30DD5EBF1E96571F0084305B /* CrashlyticsConfig_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashlyticsConfig_android.cpp; sourceTree = "<group>"; };
 		30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CrashlyticsConfig_ios.mm; sourceTree = "<group>"; };
@@ -558,6 +570,21 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		3012ED961E97E6A40009027D /* ImageDownloader */ = {
+			isa = PBXGroup;
+			children = (
+				3012ED971E97E6A40009027D /* ImageDownloader.cpp */,
+				3012ED981E97E6A40009027D /* ImageDownloader.h */,
+				3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */,
+				3012ED9A1E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.h */,
+				3012ED9B1E97E6A40009027D /* ImageDownloaderLogic.cpp */,
+				3012ED9C1E97E6A40009027D /* ImageDownloaderLogic.h */,
+				3012ED9D1E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp */,
+				3012ED9E1E97E6A40009027D /* ImageDownloaderOnScreenChecker.h */,
+			);
+			path = ImageDownloader;
+			sourceTree = "<group>";
+		};
 		3077F4381E8D5048006DA465 = {
 			isa = PBXGroup;
 			children = (
@@ -593,6 +620,7 @@
 				3012ED451E969A180009027D /* Audio */,
 				30DD5EBE1E96571F0084305B /* Crashlytics */,
 				30DD5EDF1E96841D0084305B /* Data */,
+				3012ED961E97E6A40009027D /* ImageDownloader */,
 				3012ED651E96A3140009027D /* Input */,
 				3012ED801E97A8F50009027D /* Mixpanel */,
 				3012ED861E97DB450009027D /* UI */,
@@ -741,6 +769,7 @@
 				3012ED1D1E9691A90009027D /* MPNetwork.m in Sources */,
 				3012ED181E9691A90009027D /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				3012ED591E969BBB0009027D /* ParentDataStorage.cpp in Sources */,
+				3012ED9F1E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				3012ED3B1E9691A90009027D /* MPVariant.m in Sources */,
 				3012ED391E9691A90009027D /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
@@ -770,6 +799,7 @@
 				3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */,
 				3012ED031E9691A90009027D /* MPABTestDesignerChangeRequestMessage.m in Sources */,
 				3012ED311E9691A90009027D /* MPTweak.m in Sources */,
+				3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */,
 				3012ED241E9691A90009027D /* MPObjectSerializer.m in Sources */,
 				3012ED011E9691A90009027D /* MixpanelPeople.m in Sources */,
 				3012ED001E9691A90009027D /* MixpanelExceptionHandler.m in Sources */,
@@ -809,8 +839,10 @@
 				3012ED251E9691A90009027D /* MPObjectSerializerConfig.m in Sources */,
 				3012ED3D1E9691A90009027D /* NSInvocation+MPHelpers.m in Sources */,
 				3012ED0C1E9691A90009027D /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
+				3012EDA21E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp in Sources */,
 				3012ED3E1E9691A90009027D /* NSNotificationCenter+AutomaticEvents.m in Sources */,
 				3012ED351E9691A90009027D /* MPUIColorToNSStringValueTransformer.m in Sources */,
+				3012EDA11E97E6A40009027D /* ImageDownloaderLogic.cpp in Sources */,
 				3012ED121E9691A90009027D /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
 				3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */,
 				3012ED321E9691A90009027D /* MPTweakInline.m in Sources */,

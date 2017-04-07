@@ -3,6 +3,10 @@
 
 using namespace cocos2d;
 
+
+namespace Azoomee
+{
+  
 void ImageDownloaderOnScreenChecker::startCheckingForOnScreenPosition(Node* sender)
 {
     auto scheduler = Director::getInstance()->getScheduler();
@@ -65,4 +69,6 @@ void ImageDownloaderOnScreenChecker::elementDisappeared(Node* sender)
 void ImageDownloaderOnScreenChecker::endCheck()
 {
     Director::getInstance()->getScheduler()->unschedule("onScreenCheck", this);
+}
+  
 }

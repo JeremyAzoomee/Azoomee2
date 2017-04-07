@@ -1,4 +1,11 @@
-#include "cocos2d.h"
+#ifndef AzoomeeCommon_ImageDownloaderCacheCleanerLogic_h
+#define AzoomeeCommon_ImageDownloaderCacheCleanerLogic_h
+
+#include <cocos/cocos2d.h>
+
+
+namespace Azoomee
+{
 
 class ImageDownloaderCacheCleanerLogic : public cocos2d::Ref
 {
@@ -15,3 +22,7 @@ private:
     void purgeCache();
     int numberOfImagesRemoved;
 };
+  
+}
+
+#endif

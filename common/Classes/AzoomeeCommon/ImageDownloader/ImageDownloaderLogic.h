@@ -1,8 +1,12 @@
-#ifndef __IMAGEDOWNLOADER_LOGIC_H__
-#define __IMAGEDOWNLOADER_LOGIC_H__
+#ifndef AzoomeeCommon_ImageDownloaderLogic_h
+#define AzoomeeCommon_ImageDownloaderLogic_h
 
-#include "cocos2d.h"
-#include "network/HttpClient.h"
+#include <cocos/cocos2d.h>
+#include <cocos/network/HttpClient.h>
+
+
+namespace Azoomee
+{
 
 class ImageDownloaderLogic : public cocos2d::Ref
 {
@@ -32,5 +36,7 @@ private:
     cocos2d::network::HttpRequest *downloadRequest;
     cocos2d::FileUtils *fileUtils;
 };
+  
+}
 
 #endif

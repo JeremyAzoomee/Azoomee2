@@ -1,10 +1,13 @@
 #include "ImageDownloaderLogic.h"
-#include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
+#include "../Data/Cookie/CookieDataStorage.h"
 #include "ImageDownloader.h"
 
 using namespace cocos2d;
 using namespace network;
-using namespace Azoomee;
+
+
+namespace Azoomee
+{
 
 void ImageDownloaderLogic::startProcessingImage(cocos2d::Node *sender, std::string url)
 {
@@ -144,4 +147,6 @@ std::string ImageDownloaderLogic::getImageIdPath()
 std::string ImageDownloaderLogic::getImageCachePath()
 {
     return fileUtils->getWritablePath() + "imageCache/";
+}
+  
 }

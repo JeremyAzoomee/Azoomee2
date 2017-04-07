@@ -12,7 +12,7 @@
 
 #include "HQSceneElementVisual.h"
 #include "WebViewSelector.h"
-#include "ImageDownloader.h"
+#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -24,7 +24,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include "ImageDownloaderOnScreenChecker.h"
+#include <AzoomeeCommon/ImageDownloader/ImageDownloaderOnScreenChecker.h>
 
 USING_NS_CC;
 using namespace Azoomee;
