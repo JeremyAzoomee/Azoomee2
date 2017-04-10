@@ -14,19 +14,20 @@ USING_NS_CC;
 #include "external/unzip/unzip.h"
 
 #include "WebViewSelector.h"
-#include "CookieDataStorage.h"
+#include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include "BackEndCaller.h"
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginScene.h"
 #include "MessageBox.h"
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
-#include "StringMgr.h"
+#include <AzoomeeCommon/Strings.h>
 #include "WebGameAPIDataManager.h"
-
 
 using namespace network;
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 static GameDataManager *_sharedGameDataManager = NULL;
 

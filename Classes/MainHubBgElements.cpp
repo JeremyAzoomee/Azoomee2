@@ -1,9 +1,11 @@
 #include "MainHubBgElements.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
-#include "ElectricDreamsDecoration.h"
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* MainHubBgElements::createScene()
 {

@@ -1,4 +1,4 @@
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "network/HttpClient.h"
 #include "external/json/document.h"
 #include "ElectricDreamsButton.h"

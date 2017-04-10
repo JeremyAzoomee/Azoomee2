@@ -1,7 +1,7 @@
 #ifndef __OFFLINECHECKER_H__
 #define __OFFLINECHECKER_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "network/HttpClient.h"
 
 class OfflineChecker;

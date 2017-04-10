@@ -4,14 +4,16 @@
 
 #include "IntroVideoScene.h"
 #include "SlideShowScene.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "BaseScene.h"
 #include "LoginScene.h"
 #include "HQHistoryManager.h"
-#include "AnalyticsSingleton.h"
-#include "StringMgr.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Strings.h>
 #include "ChildAccountSuccessScene.h"
 #include "LoginLogicHandler.h"
+
+using namespace Azoomee;
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out

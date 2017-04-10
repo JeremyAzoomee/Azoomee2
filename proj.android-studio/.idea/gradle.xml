@@ -8,6 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/../cocos2d/cocos/platform/android/libcocos2dx" />
+            <option value="$PROJECT_DIR$/../common/proj.android-studio/azoomee_common" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
           </set>

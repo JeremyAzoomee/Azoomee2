@@ -84,7 +84,7 @@ crashlytics {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(include: ['*.jar'], dir: 'jars')
     compile project(':libcocos2dx')
     compile 'org.xwalk:xwalk_core_library:22.52.561.4-arm'
     compile 'com.mixpanel.android:mixpanel-android:4.+'
@@ -100,7 +100,6 @@ dependencies {
         transitive = true
     }
     compile 'com.appsflyer:af-android-sdk:4+@aar'
-    compile files('libs/armeabi-v7a/in-app-purchasing-2.0.76.jar')
 }
 
 task cleanAssets(type: Delete) {

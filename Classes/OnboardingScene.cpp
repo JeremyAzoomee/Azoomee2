@@ -1,13 +1,16 @@
 #include "OnboardingScene.h"
-#include "AnalyticsSingleton.h"
-#include "ElectricDreamsDecoration.h"
-#include "StringMgr.h"
-#include "ElectricDreamsTextStyles.h"
-#include "TextInputChecker.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/Input/TextInputChecker.h>
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
 #include "BackEndCaller.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
+
+using namespace Azoomee;
+
 
 Scene* OnboardingScene::createScene(long errorCode)
 {

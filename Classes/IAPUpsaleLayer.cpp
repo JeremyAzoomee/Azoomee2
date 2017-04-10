@@ -1,11 +1,13 @@
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
-#include "ElectricDreamsDecoration.h"
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "PaymentSingleton.h"
 #include "MessageBox.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 #define SIDE_MARGIN_SIZE 130
 

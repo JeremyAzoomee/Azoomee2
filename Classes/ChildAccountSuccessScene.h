@@ -1,7 +1,7 @@
 #ifndef ChildAccountSuccessScene_hpp
 #define ChildAccountSuccessScene_hpp
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ElectricDreamsButton.h"
 
 USING_NS_CC;

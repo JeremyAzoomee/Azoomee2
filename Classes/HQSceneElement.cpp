@@ -12,25 +12,26 @@
 
 #include "HQSceneElement.h"
 #include "WebViewSelector.h"
-#include "ImageDownloader.h"
+#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQDataParser.h"
 #include "NavigationLayer.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "MessageBox.h"
 #include "HQScene.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
-#include "AnalyticsSingleton.h"
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "PaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 
 USING_NS_CC;
-
+using namespace Azoomee;
 using namespace network;
+
 
 Scene* HQSceneElement::createScene()
 {
