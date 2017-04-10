@@ -24,10 +24,7 @@ THE SOFTWARE.
 package org.cocos2dx.cpp;
 
 import android.app.Activity;
-<<<<<<< HEAD
 import android.app.AlertDialog;
-=======
->>>>>>> origin/AD-1372/iapSkuToConfig
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -87,8 +84,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         mActivity = this;
         mAppActivity = this;
 
-        if (getOSBuildManufacturer() == "AMAZON")
-        {
+        if (getOSBuildManufacturer() == "AMAZON") {
             setupIAPOnCreate();
         }
 
@@ -184,16 +180,14 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         //mixpanel.getPeople().set("First Name", parentID);
     }
 
-    public static void showMixpanelNotification()
-    {
+    public static void showMixpanelNotification() {
         MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
         mixpanel.getPeople().showNotificationIfAvailable(mActivity);
     }
 
-    public static void showMixpanelNotificationWithID(int notificationID)
-    {
+    public static void showMixpanelNotificationWithID(int notificationID) {
         MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
-        mixpanel.getPeople().showNotificationById(notificationID,mActivity);
+        mixpanel.getPeople().showNotificationById(notificationID, mActivity);
     }
 
     @Override
@@ -274,8 +268,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
     private String amazonUserid;
     private String requestId;
 
-    public static void startAmazonPurchase()
-    {
+    public static void startAmazonPurchase() {
         final RequestId requestId = PurchasingService.purchase(getAmazonSku());
     }
 
@@ -320,10 +313,11 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
 
     public static native void alreadyPurchased();
 
+    public static native String getAmazonSku();
+
 //-------------------------------GOOGLE IAB----------------------------------------------
 
-    public static void startGooglePurchase()
-    {
+    public static void startGooglePurchase() {
         AppActivity currentActivity = mAppActivity;
         currentActivity.setupGoogleIAB();
     }
@@ -449,6 +443,6 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
     public static native void googlePurchaseFailed();
 
     public static native void googleAlreadyPurchased();
+
     
-    public static native String getAmazonSku();
 }
