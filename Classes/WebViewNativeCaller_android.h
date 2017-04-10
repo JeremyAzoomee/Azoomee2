@@ -1,7 +1,7 @@
 #ifndef __WEBVIEWNATIVECALLER_ANDROID_H__
 #define __WEBVIEWNATIVECALLER_ANDROID_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class WebViewNativeCaller_android : public cocos2d::Layer
 {

@@ -1,11 +1,12 @@
 #include "OfflineHubHQ.h"
 #include "OfflineHubHQElement.h"
 #include "HQSceneElementPositioner.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQScene.h"
 #include "HQHistoryManager.h"
 
 USING_NS_CC;
+using namespace Azoomee;
 
 Scene* OfflineHubHQ::createScene()
 {

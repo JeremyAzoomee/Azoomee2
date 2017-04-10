@@ -1,7 +1,7 @@
 #ifndef __CHILDSELECTOR_SCENE_H__
 #define __CHILDSELECTOR_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ui/UIScrollView.h"
 #include "AwaitingAdultPinLayer.h"
 #include "OfflineChecker.h"

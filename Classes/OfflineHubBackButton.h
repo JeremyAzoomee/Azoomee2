@@ -1,7 +1,7 @@
 #ifndef __OFFLINEHUB_BACKBUTTON_H__
 #define __OFFLINEHUB_BACKBUTTON_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class OfflineHubBackButton : public cocos2d::Layer
 {

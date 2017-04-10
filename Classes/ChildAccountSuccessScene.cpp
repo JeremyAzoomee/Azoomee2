@@ -1,16 +1,17 @@
 #include "ChildAccountSuccessScene.h"
-#include "StringMgr.h"
-#include "ElectricDreamsTextStyles.h"
-#include "ElectricDreamsDecoration.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "BackEndCaller.h"
-#include "ParentDataProvider.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "ChildAccountScene.h"
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 
 USING_NS_CC;
+using namespace Azoomee;
 
 Scene* ChildAccountSuccessScene::createScene(std::string newChildName, int OomeeAvatarNumber)
 {

@@ -1,4 +1,4 @@
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class LoginLogicHandler : public cocos2d::Ref
 {
