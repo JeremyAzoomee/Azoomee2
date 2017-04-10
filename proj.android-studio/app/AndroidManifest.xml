@@ -49,7 +49,10 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
-
+        <activity android:name="com.mixpanel.android.surveys.SurveyActivity"
+            android:theme="@style/com_mixpanel_android_SurveyActivityTheme"/>
+        <meta-data android:name="com.mixpanel.android.MPConfig.AutoShowMixpanelUpdates"
+            android:value="false" />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3885c5b5aa7470cf4b9263fce3dbf7d6f3c2afc8"

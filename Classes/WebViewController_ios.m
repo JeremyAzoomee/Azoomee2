@@ -100,51 +100,22 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSString *urlString = [[request URL] absoluteString];
     
-    if ([urlString hasPrefix:@"senddata:"]) {
+    if ([urlString hasPrefix:@"apirequest:"]) {
         
         NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
         
-        NSString *dataItem = [[urlComponents.string componentsSeparatedByString:@"?title?"] lastObject];
+        NSArray *urlItems = [urlComponents.string componentsSeparatedByString:@"?"];
+        NSString *method = [urlItems objectAtIndex:2];
+        NSString *responseId = [urlItems objectAtIndex:4];
+        NSString *score = @"null";
+        if([method isEqualToString:@"updateHighScore"]) score = [urlItems objectAtIndex:6];
         
-        NSString *title = [[[dataItem componentsSeparatedByString:@"?data?"] firstObject] stringByRemovingPercentEncoding];
-        NSString *data = [[[dataItem componentsSeparatedByString:@"?data?"] lastObject] stringByRemovingPercentEncoding];
+        const char* returnString = sendGameApiRequest([method cStringUsingEncoding:NSUTF8StringEncoding], [responseId cStringUsingEncoding:NSUTF8StringEncoding], [score cStringUsingEncoding:NSUTF8StringEncoding]);
+        NSLog(@"Sending string back to web: %s", returnString);
         
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *writePath = [NSString stringWithFormat:@"%@/scoreCache/%@", [paths objectAtIndex:0], useridToUse];
-        
-        if(![[NSFileManager defaultManager] fileExistsAtPath:writePath])
-        {
-            [[NSFileManager defaultManager] createDirectoryAtPath:writePath withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
-        
-        NSString *fullFilePath = [NSString stringWithFormat:@"%@/scoreCache/%@/%@.json", [paths objectAtIndex:0], useridToUse, title];
-        
-        [data writeToFile:fullFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-        
-        NSLog(@"File written :%@", fullFilePath);
-        
-        return NO;
-    }
-    
-    if ([urlString hasPrefix:@"saveimage:"]) {
-        
-        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
-        
-        NSString *dataItem = [[urlComponents.string componentsSeparatedByString:@"?title?"] lastObject];
-        
-        NSString *title = [[[dataItem componentsSeparatedByString:@"?data?"] firstObject] stringByRemovingPercentEncoding];
-        NSString *data = [[[dataItem componentsSeparatedByString:@"?data?"] lastObject] stringByRemovingPercentEncoding];
-        
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *writePath = [NSString stringWithFormat:@"%@/artCache/%@", [paths objectAtIndex:0], useridToUse];
-        
-        if(![[NSFileManager defaultManager] fileExistsAtPath:writePath])
-        {
-            [[NSFileManager defaultManager] createDirectoryAtPath:writePath withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
-        
-        NSString *fullFilePath = [NSString stringWithFormat:@"%@/artCache/%@/%@", [paths objectAtIndex:0], useridToUse, title];
-        [data writeToFile:fullFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        NSString *callString = [NSString stringWithFormat:@"answerMessageReceivedFromAPI(\"%s\")", returnString];
+        NSLog(@"callstring is: %@", callString);
+        [webView stringByEvaluatingJavaScriptFromString:callString];
         
         return NO;
     }
@@ -193,41 +164,17 @@
 {
     if(!iframeloaded)
     {
-        //Clear local storage first!
         [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
         
-        //Get and add all local data to localstorage then
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *scoreCacheDirectory = [NSString stringWithFormat:@"%@/scoreCache/%@", [paths objectAtIndex:0], useridToUse];
-        NSLog(@"scorecache directory: %@", scoreCacheDirectory);
+        NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
         
-        if(![[NSFileManager defaultManager] fileExistsAtPath:scoreCacheDirectory])
-        {
-            [[NSFileManager defaultManager] createDirectoryAtPath:scoreCacheDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
-        
-        NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:scoreCacheDirectory error:NULL];
-        NSLog(@"amount of files in directory: %d", (int)[directoryContent count]);
-        
-        for(int i = 0; i < (int)[directoryContent count]; i++)
-        {
-            NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", scoreCacheDirectory, [directoryContent objectAtIndex:i]];
-            
-            NSLog(@"Directorycontent: %@", [directoryContent objectAtIndex:i]);
-            NSString *title = [[directoryContent objectAtIndex:i] substringToIndex:[[directoryContent objectAtIndex:i] length] - 5];
-            NSString *data = [NSString stringWithContentsOfFile:fullFilePath encoding:NSUTF8StringEncoding error:nil];
-            
-            NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\'%@\', \'%@\')", title, data];
-            
-            NSLog(@"%@", addDataString);
-            
-            [webView stringByEvaluatingJavaScriptFromString:addDataString];
-        }
+        NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
+        NSLog(@"addDataString: %@", addDataString);
+        [webView stringByEvaluatingJavaScriptFromString:addDataString];
         
         NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
         [webView stringByEvaluatingJavaScriptFromString:loadString];
         
-        //set iframe to true to avoid multiple loads
         iframeloaded = true;
     };
 }
@@ -250,6 +197,23 @@
 }
 
 -(void) buttonClicked:(UIButton*)sender
+{
+    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
+    if([iosurlExtension isEqualToString:@"html"])
+    {
+        NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+        NSLog(@"ART APP FILE DATA DIRECT LENGTH: %lu", htmlData.length);
+        saveLocalStorageData(htmlData);
+        [self finishView];
+        return;
+    }
+    else
+    {
+        [self finishView];
+    }
+}
+
+-(void) finishView
 {
     [webview loadHTMLString:@"" baseURL:nil];
     [webview stopLoading];

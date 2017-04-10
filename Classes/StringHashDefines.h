@@ -1,7 +1,3 @@
-//-----------------Get Version Number -----------------
-
-#define APP_VERSION_NUMBER cocos2d::FileUtils::getInstance()->getStringFromFile("res/Version.txt")
-
 // ---------- LOGIN SCENE TEXT -------------
 
 #define LOGINSCENE_SIGNUP_LOGIN_LABEL "LoginScene/signup_login_label"

@@ -9,6 +9,7 @@
 #include "OfflineHubScene.h"
 #include "HQHistoryManager.h"
 #include "AnalyticsSingleton.h"
+#include "ConfigStorage.h"
 
 USING_NS_CC;
 
@@ -130,7 +131,7 @@ void LoginScene::getUserDefaults()
 
 void LoginScene::addLabelToScene()
 {
-    auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
+    auto versionTitle = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
     this->addChild(versionTitle);
 
     title = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
@@ -207,6 +208,7 @@ void LoginScene::nextButtonPressed()
         changeElementsToPasswordScreen();
     else if(currentScreen == passwordLoginScreen)
     {
+        OfflineChecker::getInstance()->setDelegate(nullptr);
         password = passwordTextInput->getText();
         login();
     }
@@ -245,6 +247,7 @@ void LoginScene::connectivityStateChanged(bool online)
 {
     if(!online)
     {
+        OfflineChecker::getInstance()->setDelegate(nullptr);
         Director::getInstance()->replaceScene(OfflineHubScene::createScene());
     }
 }

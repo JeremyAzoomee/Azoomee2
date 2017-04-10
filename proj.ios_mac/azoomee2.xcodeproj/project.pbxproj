@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */; };
+		02074B2A1E93968E009BB28C /* ArtAppImageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02074B281E93968E009BB28C /* ArtAppImageManager.cpp */; };
+		020ACCFF1E70564B002490CE /* PaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 020ACCFD1E70564B002490CE /* PaymentSingleton.cpp */; };
 		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
 		025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */; };
 		025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */; };
@@ -16,9 +19,7 @@
 		026BAF711E3F864A009C4ACE /* JWTToolForceParent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF6F1E3F864A009C4ACE /* JWTToolForceParent.cpp */; };
 		026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */; };
 		026BAF7B1E407A3A009C4ACE /* ImageDownloaderLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 026BAF791E407A3A009C4ACE /* ImageDownloaderLogic.cpp */; };
-		02ACED0A1E8D4F670062B96A /* AmazonPaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ACED081E8D4F670062B96A /* AmazonPaymentSingleton.cpp */; };
-		02ACED0E1E8D50920062B96A /* GooglePaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ACED0C1E8D50920062B96A /* GooglePaymentSingleton.cpp */; };
-		02ACED111E8D55B90062B96A /* RoutePaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02ACED0F1E8D55B90062B96A /* RoutePaymentSingleton.cpp */; };
+		0281F5C71E89210C001FCE60 /* LoginLogicHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */; };
 		02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595841E55DE670052F395 /* OfflineHubScene.cpp */; };
 		02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */; };
 		02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958A1E55F5ED0052F395 /* OfflineGameSearch.cpp */; };
@@ -164,6 +165,8 @@
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
 		43C6BED81E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C6BED61E7FF42800415E21 /* ImageDownloaderOnScreenChecker.cpp */; };
 		43C6BEDC1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43C6BEDA1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp */; };
+		43EEAE661E840F060012F27F /* MixPanelNotifications_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43EEAE631E840F060012F27F /* MixPanelNotifications_android.cpp */; };
+		43EEAE671E840F060012F27F /* MixPanelNotifications_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43EEAE651E840F060012F27F /* MixPanelNotifications_ios.mm */; };
 		43F067211E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */; };
 		43F2C5F51E5C4DC40016F30E /* StringMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
@@ -276,6 +279,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebGameAPIDataManager.cpp; sourceTree = "<group>"; };
+		02074B261E93966D009BB28C /* WebGameAPIDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebGameAPIDataManager.h; sourceTree = "<group>"; };
+		02074B281E93968E009BB28C /* ArtAppImageManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppImageManager.cpp; sourceTree = "<group>"; };
+		02074B291E93968E009BB28C /* ArtAppImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppImageManager.h; sourceTree = "<group>"; };
+		020ACCFD1E70564B002490CE /* PaymentSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PaymentSingleton.cpp; sourceTree = "<group>"; };
+		020ACCFE1E70564B002490CE /* PaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentSingleton.h; sourceTree = "<group>"; };
 		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
 		025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
 		025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsPreviewLayer.cpp; sourceTree = "<group>"; };
@@ -293,12 +302,8 @@
 		026BAF771E3FFD33009C4ACE /* HQHistoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQHistoryManager.h; sourceTree = "<group>"; };
 		026BAF791E407A3A009C4ACE /* ImageDownloaderLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderLogic.cpp; sourceTree = "<group>"; };
 		026BAF7A1E407A3A009C4ACE /* ImageDownloaderLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderLogic.h; sourceTree = "<group>"; };
-		02ACED081E8D4F670062B96A /* AmazonPaymentSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AmazonPaymentSingleton.cpp; sourceTree = "<group>"; };
-		02ACED091E8D4F670062B96A /* AmazonPaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmazonPaymentSingleton.h; sourceTree = "<group>"; };
-		02ACED0C1E8D50920062B96A /* GooglePaymentSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GooglePaymentSingleton.cpp; sourceTree = "<group>"; };
-		02ACED0D1E8D50920062B96A /* GooglePaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GooglePaymentSingleton.h; sourceTree = "<group>"; };
-		02ACED0F1E8D55B90062B96A /* RoutePaymentSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RoutePaymentSingleton.cpp; sourceTree = "<group>"; };
-		02ACED101E8D55B90062B96A /* RoutePaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutePaymentSingleton.h; sourceTree = "<group>"; };
+		0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginLogicHandler.cpp; sourceTree = "<group>"; };
+		0281F5C61E89210C001FCE60 /* LoginLogicHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginLogicHandler.h; sourceTree = "<group>"; };
 		02E595841E55DE670052F395 /* OfflineHubScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubScene.cpp; sourceTree = "<group>"; };
 		02E595851E55DE670052F395 /* OfflineHubScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubScene.h; sourceTree = "<group>"; };
 		02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubSceneVisuals.cpp; sourceTree = "<group>"; };
@@ -548,6 +553,10 @@
 		43C6BEDA1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderCacheCleanerLogic.cpp; sourceTree = "<group>"; };
 		43C6BEDB1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderCacheCleanerLogic.h; sourceTree = "<group>"; };
 		43EE53001E5DC9EA00023B4C /* ErrorCodeHashDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorCodeHashDefines.h; sourceTree = "<group>"; };
+		43EEAE621E840F060012F27F /* MixPanelNotifications_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanelNotifications_android.h; sourceTree = "<group>"; };
+		43EEAE631E840F060012F27F /* MixPanelNotifications_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MixPanelNotifications_android.cpp; sourceTree = "<group>"; };
+		43EEAE641E840F060012F27F /* MixPanelNotifications_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixPanelNotifications_ios.h; sourceTree = "<group>"; };
+		43EEAE651E840F060012F27F /* MixPanelNotifications_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MixPanelNotifications_ios.mm; sourceTree = "<group>"; };
 		43F0671F1E5F303700F9EA32 /* ElectricDreamsTextStyles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsTextStyles.cpp; sourceTree = "<group>"; };
 		43F067201E5F303700F9EA32 /* ElectricDreamsTextStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsTextStyles.h; sourceTree = "<group>"; };
 		43F2C5F31E5C4DC40016F30E /* StringMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringMgr.cpp; sourceTree = "<group>"; };
@@ -725,17 +734,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02074B241E93964F009BB28C /* WebGameAPIDataManager */ = {
+			isa = PBXGroup;
+			children = (
+				02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */,
+				02074B261E93966D009BB28C /* WebGameAPIDataManager.h */,
+				02074B281E93968E009BB28C /* ArtAppImageManager.cpp */,
+				02074B291E93968E009BB28C /* ArtAppImageManager.h */,
+			);
+			name = WebGameAPIDataManager;
+			sourceTree = "<group>";
+		};
 		020ACCFB1E70561F002490CE /* PaymentSingleton */ = {
 			isa = PBXGroup;
 			children = (
 				433FA7F41E7AA9C400A8C27F /* IAPUpsaleLayer.cpp */,
 				433FA7F51E7AA9C400A8C27F /* IAPUpsaleLayer.h */,
-				02ACED0F1E8D55B90062B96A /* RoutePaymentSingleton.cpp */,
-				02ACED101E8D55B90062B96A /* RoutePaymentSingleton.h */,
-				02ACED081E8D4F670062B96A /* AmazonPaymentSingleton.cpp */,
-				02ACED091E8D4F670062B96A /* AmazonPaymentSingleton.h */,
-				02ACED0C1E8D50920062B96A /* GooglePaymentSingleton.cpp */,
-				02ACED0D1E8D50920062B96A /* GooglePaymentSingleton.h */,
+				020ACCFD1E70564B002490CE /* PaymentSingleton.cpp */,
+				020ACCFE1E70564B002490CE /* PaymentSingleton.h */,
 			);
 			name = PaymentSingleton;
 			sourceTree = "<group>";
@@ -1076,6 +1092,7 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				02074B241E93964F009BB28C /* WebGameAPIDataManager */,
 				020ACCFB1E70561F002490CE /* PaymentSingleton */,
 				43540FB31E6080190029E30E /* UsefulFunctions */,
 				430B21601E449D95004ACB10 /* Analytics */,
@@ -1134,6 +1151,17 @@
 				43540FB61E60803B0029E30E /* StringFunctions.h */,
 			);
 			name = UsefulFunctions;
+			sourceTree = "<group>";
+		};
+		43EEAE601E840EEC0012F27F /* MixPanelNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				43EEAE631E840F060012F27F /* MixPanelNotifications_android.cpp */,
+				43EEAE621E840F060012F27F /* MixPanelNotifications_android.h */,
+				43EEAE651E840F060012F27F /* MixPanelNotifications_ios.mm */,
+				43EEAE641E840F060012F27F /* MixPanelNotifications_ios.h */,
+			);
+			name = MixPanelNotifications;
 			sourceTree = "<group>";
 		};
 		43F2C5F11E5C4AF60016F30E /* StringHandler */ = {
@@ -1400,6 +1428,8 @@
 				D11313491E337D3A00E2C033 /* IntroVideoScene.h */,
 				43069CF61E3B5D2A00D6A631 /* SlideShowScene.cpp */,
 				43069CF71E3B5D2A00D6A631 /* SlideShowScene.h */,
+				0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */,
+				0281F5C61E89210C001FCE60 /* LoginLogicHandler.h */,
 			);
 			name = Intro;
 			sourceTree = "<group>";
@@ -1407,6 +1437,7 @@
 		A1CC0C271E15691C008B469E /* ModalMessages */ = {
 			isa = PBXGroup;
 			children = (
+				43EEAE601E840EEC0012F27F /* MixPanelNotifications */,
 				A15B2FA71DEDAA2A00D25334 /* ModalMessages.cpp */,
 				A15B2FA81DEDAA2A00D25334 /* ModalMessages.h */,
 				D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */,
@@ -1626,15 +1657,16 @@
 				431A2A401E439BFE00DC0F3B /* MPSwizzle.m in Sources */,
 				431A2A471E439BFE00DC0F3B /* MPUIControlBinding.m in Sources */,
 				431A2A181E439BFE00DC0F3B /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
+				0281F5C71E89210C001FCE60 /* LoginLogicHandler.cpp in Sources */,
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
 				431A2A541E439BFE00DC0F3B /* UIImage+MPAverageColor.m in Sources */,
 				026BAF7B1E407A3A009C4ACE /* ImageDownloaderLogic.cpp in Sources */,
 				431A2A1C1E439BFE00DC0F3B /* MPApplicationStateSerializer.m in Sources */,
 				431027831E5DEDE900B5CC8E /* Crashlytics_android.cpp in Sources */,
 				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
-				02ACED0E1E8D50920062B96A /* GooglePaymentSingleton.cpp in Sources */,
 				431A2A381E439BFE00DC0F3B /* MPPropertyDescription.m in Sources */,
 				431A2A4E1E439BFE00DC0F3B /* NSInvocation+MPHelpers.m in Sources */,
+				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				A15B2FBB1DEDD1EA00D25334 /* HMACSHA256.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				4348E4391E6576D600486661 /* ElectricDreamsDecoration.cpp in Sources */,
@@ -1656,8 +1688,8 @@
 				431A2A231E439BFE00DC0F3B /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
 				431A2A1F1E439BFE00DC0F3B /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
-				02ACED0A1E8D4F670062B96A /* AmazonPaymentSingleton.cpp in Sources */,
 				431A2A111E439BFE00DC0F3B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
+				020ACCFF1E70564B002490CE /* PaymentSingleton.cpp in Sources */,
 				433FA7F61E7AA9C400A8C27F /* IAPUpsaleLayer.cpp in Sources */,
 				431A2A2B1E439BFE00DC0F3B /* MPNotification.m in Sources */,
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
@@ -1694,7 +1726,7 @@
 				A1CC0C191E141AE0008B469E /* ParentDataStorage.cpp in Sources */,
 				43540FB71E60803B0029E30E /* StringFunctions.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
-				02ACED111E8D55B90062B96A /* RoutePaymentSingleton.cpp in Sources */,
+				43EEAE661E840F060012F27F /* MixPanelNotifications_android.cpp in Sources */,
 				431A2A0D1E439BFE00DC0F3B /* MixpanelPeople.m in Sources */,
 				A1A2D2FE1E13B52700E86169 /* CookieDataParser.cpp in Sources */,
 				431A2A191E439BFE00DC0F3B /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
@@ -1730,6 +1762,7 @@
 				431A2A271E439BFE00DC0F3B /* MPDesignerTrackMessage.m in Sources */,
 				A15B2FB91DEDD1EA00D25334 /* HMACSHA256_ios.mm in Sources */,
 				431A2A161E439BFE00DC0F3B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
+				02074B2A1E93968E009BB28C /* ArtAppImageManager.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
 				D13C401C1E33A0F0002360A6 /* ExitOrLogoutLayer.cpp in Sources */,
@@ -1755,6 +1788,7 @@
 				430EF42F1E4097DF00BEAF54 /* AudioMixer.cpp in Sources */,
 				43C6BEDC1E7FF43400415E21 /* ImageDownloaderCacheCleanerLogic.cpp in Sources */,
 				D113134A1E337D3A00E2C033 /* IntroVideoScene.cpp in Sources */,
+				43EEAE671E840F060012F27F /* MixPanelNotifications_ios.mm in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				026BAF711E3F864A009C4ACE /* JWTToolForceParent.cpp in Sources */,
 				431A2A311E439BFE00DC0F3B /* MPNSNumberToCGFloatValueTransformer.m in Sources */,

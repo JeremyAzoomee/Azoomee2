@@ -24,7 +24,10 @@ THE SOFTWARE.
 package org.cocos2dx.cpp;
 
 import android.app.Activity;
+<<<<<<< HEAD
 import android.app.AlertDialog;
+=======
+>>>>>>> origin/AD-1372/iapSkuToConfig
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -93,6 +96,8 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
+        mContext = this;
+        mActivity = this;
     }
 
     public static void startWebView(String url, String cookieurl, String cookie, String userid) {
@@ -176,7 +181,19 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
         mixpanel.identify(parentID);
         mixpanel.getPeople().identify(parentID);
-        mixpanel.getPeople().set("First Name", parentID);
+        //mixpanel.getPeople().set("First Name", parentID);
+    }
+
+    public static void showMixpanelNotification()
+    {
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
+        mixpanel.getPeople().showNotificationIfAvailable(mActivity);
+    }
+
+    public static void showMixpanelNotificationWithID(int notificationID)
+    {
+        MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
+        mixpanel.getPeople().showNotificationById(notificationID,mActivity);
     }
 
     @Override
@@ -257,10 +274,9 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
     private String amazonUserid;
     private String requestId;
 
-    public static void startAmazonPurchase() {
-        final RequestId requestId = PurchasingService.purchase("com.azoomee.premium.monthly");
-        Log.d("IAPAPI", "Request id: " + requestId.toString());
-        Log.d("IAPAPI", "purchase service started, app on pause");
+    public static void startAmazonPurchase()
+    {
+        final RequestId requestId = PurchasingService.purchase(getAmazonSku());
     }
 
     public static void fulfillAmazonPurchase(String receiptId) {
@@ -433,5 +449,6 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
     public static native void googlePurchaseFailed();
 
     public static native void googleAlreadyPurchased();
-
+    
+    public static native String getAmazonSku();
 }

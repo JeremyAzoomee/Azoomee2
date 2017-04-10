@@ -124,7 +124,7 @@ void AnalyticsSingleton::appsflyer_createOSSpecficCall(std::string eventID, std:
 //-------------- SUPER PROPERTIES---------------------
 void AnalyticsSingleton::registerAppVersion()
 {
-    mixPanel_OSSpecificSuperPropertiesCall("appVersion",APP_VERSION_NUMBER);
+    mixPanel_OSSpecificSuperPropertiesCall("appVersion",ConfigStorage::getInstance()->getVersionNumberToDisplay());
 }
 
 void AnalyticsSingleton::registerParentID(std::string ParentID)

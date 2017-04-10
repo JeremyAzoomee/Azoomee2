@@ -22,6 +22,7 @@ USING_NS_CC;
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
 #include "StringMgr.h"
+#include "WebGameAPIDataManager.h"
 
 
 using namespace network;
@@ -53,6 +54,8 @@ void GameDataManager::startProcessingGame(std::string url, std::string itemId)
 {
     processCancelled = false;
     displayLoadingScreen();
+    
+    WebGameAPIDataManager::getInstance()->setGameId(itemId);
     
     std::string basePath = getGameIdPath(itemId);
     

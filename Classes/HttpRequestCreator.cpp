@@ -176,6 +176,8 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
         headers.push_back(StringUtils::format("x-az-auth-token: %s", reqData));
     }
     
+    headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionNumberWithPlatform().c_str()));
+    
     request->setHeaders(headers);
     
     request->setResponseCallback(CC_CALLBACK_2(::HttpRequestCreator::onHttpRequestAnswerReceived, this));
@@ -198,6 +200,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         CCLOG("request tag: %s", requestTag.c_str());
         CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
         CCLOG("response code: %ld", response->getResponseCode());
+        CCLOG("response header: %s", responseHeaderString.c_str());
         CCLOG("response string: %s", responseDataString.c_str());
         
         std::string requestTag = response->getHttpRequest()->getTag();

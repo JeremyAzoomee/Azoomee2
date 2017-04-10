@@ -136,6 +136,7 @@ void OfflineText::addExitOfflineModeButtonToScreen()
 
 void OfflineText::buttonPressed(ElectricDreamsButton *button)
 {
+    OfflineChecker::getInstance()->setDelegate(nullptr);
     ChildDataParser::getInstance()->setChildLoggedIn(false);
     BackEndCaller::getInstance()->getAvailableChildren();
 }

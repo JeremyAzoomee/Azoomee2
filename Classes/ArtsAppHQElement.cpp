@@ -7,6 +7,8 @@
 #include "AppDelegate.h"
 #include "MessageBox.h"
 #include "AnalyticsSingleton.h"
+#include "WebGameAPIDataManager.h"
+#include "ArtAppImageManager.h"
 
 
 USING_NS_CC;
@@ -279,37 +281,14 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
                 return true;
             }
             
-            std::string fullFilePath = FileUtils::getInstance()->fullPathForFilename(filePath);
-            std::string content = FileUtils::getInstance()->getStringFromFile(fullFilePath);
-                
-            std::string writeFolder = StringUtils::format("%sscoreCache/%s", FileUtils::getInstance()->getDocumentsPath().c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str());
-            std::string dataWritePath = StringUtils::format("%s/art.json", writeFolder.c_str());
-            std::string nameWritePath = StringUtils::format("%s/artname.json", writeFolder.c_str());
-            
-            if(!FileUtils::getInstance()->isDirectoryExist(writeFolder)) FileUtils::getInstance()->createDirectory(writeFolder);
-           
-            if(!notSendingFileData)
-            {
-                CCLOG("WE ARE SENDING FILE DATA!");
-                FileUtils::getInstance()->writeStringToFile(content, dataWritePath);
-                FileUtils::getInstance()->writeStringToFile(getFileNameFromPath(filePath), nameWritePath);
-            }
-            else
-            {
-                CCLOG("WE ARE NOT SENDING FILE DATA");
-                FileUtils::getInstance()->writeStringToFile("NEW", dataWritePath);
-                FileUtils::getInstance()->writeStringToFile("NEW", nameWritePath);
-            }
-            
-            CCLOG("Checking if the file is working at: %s", writeFolder.c_str());
-            if(FileUtils::getInstance()->isFileExist(nameWritePath))
-            {
-                CCLOG("Data exists: %s", nameWritePath.c_str());
-            }
+            if(!notSendingFileData) ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder(filePath);
+            else ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder("NEW");
             
             iamtouched = false;
             overlayWhenTouched->setOpacity(0);
             overlayWhenTouched->stopAllActions();
+            
+            WebGameAPIDataManager::getInstance()->setGameId("artApp");
             
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
             WebViewSelector::createSceneWithUrl(FileUtils::getInstance()->fullPathForFilename("res/artapp/index.html"));
