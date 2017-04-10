@@ -53,6 +53,14 @@ public class Security {
      * @param signature the signature for the data, signed with the private key
      */
     public static boolean verifyPurchase(String base64PublicKey, String signedData, String signature) {
+
+        //DEAR REVIEWERS! IF YOU FIND THIS LINE HERE, THAT MEANS, THAT TAMAS FORGOT TO REMOVE
+        //THE VERIFICATION BYPASS. PLEASE LET HIM KNOW AND DECLINE THE PULL REQUEST IMMEDIATELY.
+
+        return true;
+
+        /*
+
         if (TextUtils.isEmpty(signedData) || TextUtils.isEmpty(base64PublicKey) ||
                 TextUtils.isEmpty(signature)) {
             Log.e(TAG, "Purchase verification failed: missing data.");
@@ -61,6 +69,7 @@ public class Security {
 
         PublicKey key = Security.generatePublicKey(base64PublicKey);
         return Security.verify(key, signedData, signature);
+        */
     }
 
     /**
@@ -93,6 +102,7 @@ public class Security {
      * @return true if the data and signature match
      */
     public static boolean verify(PublicKey publicKey, String signedData, String signature) {
+
         byte[] signatureBytes;
         try {
             signatureBytes = Base64.decode(signature, Base64.DEFAULT);
@@ -117,5 +127,6 @@ public class Security {
             Log.e(TAG, "Signature exception.");
         }
         return false;
+
     }
 }

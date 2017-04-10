@@ -5,6 +5,7 @@
 #include "BackEndCaller.h"
 #include "ParentDataProvider.h"
 #include "AnalyticsSingleton.h"
+#include "ConfigStorage.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -229,11 +230,13 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailed(JN
     GooglePaymentSingleton::getInstance()->purchaseFailed();
 }
 
+extern "C"
+
 {
-    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getAmazonSku(JNIEnv* env, jobject thiz);
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getGoogleSku(JNIEnv* env, jobject thiz);
 };
 
-JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getAmazonSku(JNIEnv* env, jobject thiz)
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getGoogleSku(JNIEnv* env, jobject thiz)
 {
     return env->NewStringUTF(ConfigStorage::getInstance()->getIapSkuForProvider("google").c_str());
 }
