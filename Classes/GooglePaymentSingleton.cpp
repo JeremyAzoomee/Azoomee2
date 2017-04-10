@@ -229,4 +229,13 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailed(JN
     GooglePaymentSingleton::getInstance()->purchaseFailed();
 }
 
+{
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getAmazonSku(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getAmazonSku(JNIEnv* env, jobject thiz)
+{
+    return env->NewStringUTF(ConfigStorage::getInstance()->getIapSkuForProvider("google").c_str());
+}
+
 #endif

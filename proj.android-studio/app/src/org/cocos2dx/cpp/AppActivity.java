@@ -379,7 +379,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
             Log.d("GOOGLEPLAY", "Query inventory was successful.");
 
             // Do we have the premium upgrade?
-            Purchase premiumPurchase = inventory.getPurchase("android.test.purchased"); //com.tinizine.azoomee.monthly
+            Purchase premiumPurchase = inventory.getPurchase("android.test.purchased"); //getGoogleSku();
             mIsPremium = (premiumPurchase != null);
             Log.d("GOOGLEPLAY", "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
 
@@ -387,7 +387,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
 
             try {
                 mHelper.launchPurchaseFlow(mActivity, "android.test.purchased", 10001,
-                        mPurchaseFinishedListener, payload);  //com.tinizine.azoomee.monthly
+                        mPurchaseFinishedListener, payload);  //getGoogleSku();
             } catch (IabHelper.IabAsyncInProgressException e) {
                 Log.d("GOOGLEPAY", "Error launching purchase flow. Another async operation in progress.");
             }
@@ -444,5 +444,5 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
 
     public static native void googleAlreadyPurchased();
 
-    
+    public static native String getGoogleSku();
 }
