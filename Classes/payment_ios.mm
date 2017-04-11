@@ -22,23 +22,17 @@
 {
     if(self.oneMonthSubscription == nil)
     {
-        NSSet * productIdentifiers = [NSSet setWithObjects:
-                                      ONE_MONTH_PAYMENT,
-                                      nil];
+        NSSet * productIdentifiers = [NSSet setWithObjects:ONE_MONTH_PAYMENT, nil];
         
-        SKProductsRequest *productsRequest = [[SKProductsRequest alloc]
-                                              initWithProductIdentifiers:productIdentifiers];
+        SKProductsRequest *productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
+        
         productsRequest.delegate = self;
         [productsRequest start];
     }
     else
-    {
-        [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-        
-        SKPayment * payment = [SKPayment paymentWithProduct:self.oneMonthSubscription];
-        [[SKPaymentQueue defaultQueue] addPayment:payment];
-    }
+        [self startPaymentQueue];
 }
+
 -(void)restorePayment
 {
     SKReceiptRefreshRequest* request = [[SKReceiptRefreshRequest alloc] init];
@@ -55,17 +49,22 @@
             if([skProduct.productIdentifier isEqualToString:ONE_MONTH_PAYMENT] )
             {
                 self.oneMonthSubscription = skProduct;
-                [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-                
-                SKPayment * payment = [SKPayment paymentWithProduct:skProduct];
-                [[SKPaymentQueue defaultQueue] addPayment:payment];
+                [self startPaymentQueue];
             }
         }
     }
     @catch (NSException * e)
     {
-        ApplePaymentSingleton::getInstance()->ErrorMessage();
+        ApplePaymentSingleton::getInstance()->ErrorMessage(false);
     }
+}
+
+-(void) startPaymentQueue
+{
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    
+    SKPayment * payment = [SKPayment paymentWithProduct:self.oneMonthSubscription];
+    [[SKPaymentQueue defaultQueue] addPayment:payment];
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
@@ -77,18 +76,14 @@
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 
-                NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
-                NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
-                NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
-                
-                ApplePaymentSingleton::getInstance()->transactionStatePurchased(std::string([receiptString UTF8String]));
+                [self sendReceiptToBackend];
                 
                 break;
             }
             case SKPaymentTransactionStateFailed:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                ApplePaymentSingleton::getInstance()->ErrorMessage();
+                ApplePaymentSingleton::getInstance()->ErrorMessage(false);
                 NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
                 
                 break;
@@ -115,13 +110,17 @@
 
 - (void) paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
-    ApplePaymentSingleton::getInstance()->ErrorMessage();
+    ApplePaymentSingleton::getInstance()->ErrorMessage(false);
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
-    ApplePaymentSingleton::getInstance()->ErrorMessage();
     NSLog(@"DidFailWithError error: %@", error.localizedDescription);
+    
+    if(ApplePaymentSingleton::getInstance()->refreshFromButton)
+        ApplePaymentSingleton::getInstance()->ErrorMessage(false);
+    else
+        ApplePaymentSingleton::getInstance()->ErrorMessage(true);
 }
 
 -(void)requestDidFinish:(SKRequest *)request
@@ -130,12 +129,17 @@
     
     if(receiptExist && !ApplePaymentSingleton::getInstance()->makingMonthlyPayment)
     {
-        NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
-        NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
-        NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
-        
-        ApplePaymentSingleton::getInstance()->transactionStatePurchased(std::string([receiptString UTF8String]));
+        [self sendReceiptToBackend];
     }
+}
+
+-(void) sendReceiptToBackend
+{
+    NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+    NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
+    NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
+    
+    ApplePaymentSingleton::getInstance()->transactionStatePurchased(std::string([receiptString UTF8String]));
 }
 
 @end

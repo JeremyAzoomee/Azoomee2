@@ -46,7 +46,7 @@ void RoutePaymentSingleton::startInAppPayment()
     if(osIsIos())
     {
         #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            ApplePaymentSingleton::getInstance()->makeMonthlyPayment();
+            ApplePaymentSingleton::getInstance()->startIAPPayment();
         #endif
         return;
     }

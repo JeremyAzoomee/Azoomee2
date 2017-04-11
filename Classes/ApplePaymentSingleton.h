@@ -12,13 +12,16 @@ public:
     virtual ~ApplePaymentSingleton();
     bool init(void);
     
-    void makeMonthlyPayment();
+    bool makingMonthlyPayment;
+    bool refreshFromButton;
+    
+    void startIAPPayment();
     void refreshReceipt(bool usingButton);
     
     void transactionStatePurchased(std::string receiptData);
     void onAnswerReceived(std::string responseDataString);
     
-    void ErrorMessage();
+    void ErrorMessage(bool loginAfterOK);
     void DoublePurchase();
     
     void backendRequestFailed(long errorCode);
@@ -26,16 +29,10 @@ public:
     //Delegate Functions
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
-    bool makingMonthlyPayment;
-    
 private:
     //For making repeat requests
     std::string savedReceipt;
-    
     int requestAttempts;
-    
-    bool refreshFromButton;
-    
 };
 
 #endif
