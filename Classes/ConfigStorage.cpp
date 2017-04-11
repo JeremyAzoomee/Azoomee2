@@ -71,13 +71,12 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(std::string fileNa
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
-    //return "api.azoomee.com";
-    return "api.elb.ci.azoomee.ninja";
+    return "api.azoomee.com";
 }
 
 std::string ConfigStorage::getServerUrl()
 {
-    return "http://" + getServerHost();
+    return "https://" + getServerHost();
 }
 
 std::string ConfigStorage::getImagesUrl()
