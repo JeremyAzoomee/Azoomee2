@@ -22,7 +22,7 @@ private:
     ElectricDreamsButton* notNowButton;
     
     Label* titleLabel;
-    Label* cancelAnytimeLabel;
+    Label* optionalLabel;
     
     Sprite* oomeesImage;
     
@@ -36,7 +36,6 @@ private:
     void createUpSaleLayer();
     
     void addTitle();
-    void addCancelAnytimeLabel();
     void addButtons();
     void addImage();
     void addALLBulletsAndLabel();

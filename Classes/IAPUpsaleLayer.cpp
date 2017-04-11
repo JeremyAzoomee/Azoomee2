@@ -122,25 +122,15 @@ void IAPUpsaleLayer::addButtons()
     notNowButton->setMixPanelButtonName("IAPUpsaleSceneNotNowButton");
     UpsaleLayer->addChild(notNowButton);
     
-    addCancelAnytimeLabel();
+    addOptionalSubscriptionLabel();
     
     if(RoutePaymentSingleton::getInstance()->osIsIos())
     {
-        restoreButton = ElectricDreamsButton::createTextAsButton("Restore your account", 46, true);
-        restoreButton->setPosition(SIDE_MARGIN_SIZE, cancelAnytimeLabel->getPositionY()-restoreButton->getContentSize().height/2);
+        restoreButton = ElectricDreamsButton::createTextAsButton("Restore your Purchase", 46, true);
+        restoreButton->setPosition(SIDE_MARGIN_SIZE, optionalLabel->getPositionY()-restoreButton->getContentSize().height/2);
         restoreButton->setDelegate(this);
         UpsaleLayer->addChild(restoreButton);
     }
-}
-
-void IAPUpsaleLayer::addCancelAnytimeLabel()
-{
-    cancelAnytimeLabel = Label::createWithTTF("Cancel anytime", FONT_REGULAR, 46);
-    cancelAnytimeLabel->setColor(COLOR_BRIGHT_AQUA);
-    cancelAnytimeLabel->setAnchorPoint(Vec2(1,0.5));
-    cancelAnytimeLabel->setHorizontalAlignment(TextHAlignment::LEFT);
-    cancelAnytimeLabel->setPosition(UpsaleLayer->getContentSize().width - SIDE_MARGIN_SIZE,startTrialButton->getPositionY() - cancelAnytimeLabel->getContentSize().height*1.5);
-    UpsaleLayer->addChild(cancelAnytimeLabel);
 }
 
 void IAPUpsaleLayer::addALLBulletsAndLabel()
@@ -167,11 +157,11 @@ void IAPUpsaleLayer::addBulletAndLabel(std::string BOLDtext, std::string regular
 
 void IAPUpsaleLayer::addOptionalSubscriptionLabel()
 {
-    auto optionalLabel = Label::createWithTTF("Optional subscription of £4.99 after trial.", FONT_REGULAR, 46);
+    optionalLabel = Label::createWithTTF("Then £4.99/month. No commitment, cancel anytime.", FONT_REGULAR, 46);
     optionalLabel->setColor(Color3B::WHITE);
-    optionalLabel->setAnchorPoint(Vec2(0,0.5));
-    optionalLabel->setHorizontalAlignment(TextHAlignment::RIGHT);
-    optionalLabel->setPosition(startTrialButton->getPositionX(), cancelAnytimeLabel->getPositionY());
+    optionalLabel->setAnchorPoint(Vec2(0.5,0.5));
+    optionalLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    optionalLabel->setPosition(startTrialButton->getPositionX()+startTrialButton->getContentSize().width/2, startTrialButton->getPositionY() - optionalLabel->getContentSize().height*1.5);
     UpsaleLayer->addChild(optionalLabel);
 }
 
