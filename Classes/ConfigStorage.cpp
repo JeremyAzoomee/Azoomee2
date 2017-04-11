@@ -3,6 +3,7 @@
 #include "ConfigStorage.h"
 #include "ParentDataProvider.h"
 #include "AnalyticsSingleton.h"
+#include "StringFunctions.h"
 
 using namespace cocos2d;
 
@@ -73,12 +74,12 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(std::string fileNa
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
-    return "api.elb.ci.azoomee.ninja";
+    return "api.azoomee.com";
 }
 
 std::string ConfigStorage::getServerUrl()
 {
-    return "http://" + getServerHost();
+    return "https://" + getServerHost();
 }
 
 std::string ConfigStorage::getImagesUrl()
@@ -354,4 +355,16 @@ std::string ConfigStorage::getVersionNumberToDisplay()
 std::string ConfigStorage::getIapSkuForProvider(std::string provider)
 {
     return IapConfiguration[provider.c_str()].GetString();
+}
+
+std::string ConfigStorage::getDeveloperPublicKey()
+{
+    std::string devKey = "MJKBJlAODglshlkG:y0CCQFHABQCBS8BOIJDChMCBSEB{uhXV3FZlUQTjZZT+[m6O:XUsUevgKjNMROPZAkoiYYuNX6Ws905wZtWCFiGyz[OAjroRYmtEUOKaD;b8HVK:pxUSUrfI6VgsAEfHKzHTO6WgaF7ZjV/3{WxPOSHijdf7vEn[D4kkB8j2QGqmGVV4F5UtURi-my2jSsNIZEhV0jQbmRabR4GRivkmuDWKiqTp0pQ9wc+iH8H|OuYnFYlCmfu1Ysk7n[/[;OioIsHGUhd{UiBJa6Y3hFPqV5TqRNyz3TVdUgqSPCq4vjtTDmWV/BLfXh3V7vZonPKbkRjGcZ5V5ZJHDfoL[9EgFbSBo1w::Qd8eNwjGMDlIGOQGN\\MRKDBSAC";
+    
+    for(int i = 0; i < devKey.size(); i++)
+    {
+        devKey[i] -= i % 3;
+    }
+    
+    return(devKey);
 }

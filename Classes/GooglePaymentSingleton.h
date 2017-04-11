@@ -13,12 +13,14 @@ public:
     
     void startIABPayment();
     void finishedIABPayment(std::string developerPayload, std::string orderId, std::string token);
-    void purchaseFailed();
-    void showDoublePurchase();
+    void purchaseFailedBeforeFulfillment();
+    void purchaseFailedAfterFulfillment();
+    void doublePurchase();
     void onGooglePaymentMadeAnswerReceived(std::string responseDataString);
     void backendRequestFailed();
     
 private:
+    void prepareForErrorMessage();
     bool paymentInProgress;
     void createModalLayer();
     void removeModalLayer();

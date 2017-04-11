@@ -75,7 +75,6 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
     private IabHelper mHelper;
     private IabBroadcastReceiver mBroadcastReceiver;
     private boolean mIsPremium;
-    String payload = "ASDFAGASDFXCYVFASDFASREWRQWER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,10 +105,6 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         nvw.putExtra("cookie", cookie);
         nvw.putExtra("userid", userid);
         mContext.startActivity(nvw);
-
-        //Intent i = new Intent(getApplicationContext(), NativeView.class);
-        //startActivity(i);
-
     }
 
     public static String getAnswer() {
@@ -323,7 +318,10 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
     }
 
     public void setupGoogleIAB() {
-        String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyugVV2DZkSQShZYR+Zk6N8XTqUdtgJhNLPOOXAjmiXWuMV6Vq9/3wYrWBDiFwzZMAipoQWmsCUNIaC9b7FVJ8pwSSTpfH4VfqADdHJxHSM6VeaE5ZiT/2yWwNORFiibf6tEmYD3ikA6j1OGpkGUT4E3UsSRh+mx0jRqNHXEgT0iOblPaaP4FPiuimtBWJgqSn0oO9va+hF8GzOtWnEWlBkft/Yri7mY/Z9OhmIrFGTfdzSiAHa5W3gDPpT5SoRMwz2RVcSgpQPBo4uhtSBmVT/AJfWf3U5vYmnOIbjPjFaZ4T5YHHCdoKY9DeFaQBn/w98Qc6eMujFKDkGGNOGMZMQIDAQAB";
+        String base64EncodedPublicKey = getDeveloperKey();
+
+        Log.d("GOOGLEPAY", "Key: " + base64EncodedPublicKey);
+
         mHelper = new IabHelper(this, base64EncodedPublicKey);
 
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
@@ -373,23 +371,29 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
             // Is it a failure?
             if (result.isFailure()) {
                 Log.d("GOOGLEPLAY", "Failed to query inventory: " + result);
+                googlePurchaseFailed();
                 return;
             }
 
             Log.d("GOOGLEPLAY", "Query inventory was successful.");
 
             // Do we have the premium upgrade?
-            Purchase premiumPurchase = inventory.getPurchase("android.test.purchased"); //getGoogleSku();
+            Purchase premiumPurchase = inventory.getPurchase(getGoogleSku());
             mIsPremium = (premiumPurchase != null);
             Log.d("GOOGLEPLAY", "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
 
-            //If the user is not premium, we can start the upgrade process
+            if(mIsPremium)
+            {
+                googleDoublePurchase();
+                return;
+            }
 
             try {
-                mHelper.launchPurchaseFlow(mActivity, "android.test.purchased", 10001,
-                        mPurchaseFinishedListener, payload);  //getGoogleSku();
+                mHelper.launchPurchaseFlow(mActivity, getGoogleSku(), 10001,
+                        mPurchaseFinishedListener, getLoggedInParentUserId());
             } catch (IabHelper.IabAsyncInProgressException e) {
                 Log.d("GOOGLEPAY", "Error launching purchase flow. Another async operation in progress.");
+                googlePurchaseFailed();
             }
         }
     };
@@ -426,15 +430,6 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
 
             Log.d("GOOGLEPAY", "Purchase successful.");
             googlePurchaseHappened(purchase.getDeveloperPayload(), purchase.getOrderId(), purchase.getToken());
-
-            //purchase.getDeveloperPayload();             //developer specified string - possible to check if the same at the end of the purchase - possible to use this as the user id, possibly encoded?
-            //purchase.getOrderId();                      //google payments order id, in sandbox it is 0
-            //purchase.getSignature();                    //signature of the purchase data, signed with dev private key. RSASSA-PKCS1-v1_5 scheme.
-            //purchase.getToken();                        //unique identifier based on the item and the user
-            //purchase.getPurchaseState();                //0: purchased, 1: cancelled, 2: refunded
-            //result.getResponse();                       //0: success, error otherwise
-            //result.getMessage();
-            //result.isFailure();
         }
     };
 
@@ -442,7 +437,12 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
 
     public static native void googlePurchaseFailed();
 
-    public static native void googleAlreadyPurchased();
+    public static native void googleDoublePurchase();
 
     public static native String getGoogleSku();
+
+    public static native String getLoggedInParentUserId();
+
+    public static native String getDeveloperKey();
+
 }

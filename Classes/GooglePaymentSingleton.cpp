@@ -42,14 +42,14 @@ void GooglePaymentSingleton::createModalLayer()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    modalLayer = LayerColor::create(Color4B(0,0,0,150), visibleSize.width, visibleSize.height);
+    modalLayer = LayerColor::create(Color4B(0,0,0,0), visibleSize.width, visibleSize.height);
     modalLayer->setPosition(origin.x, origin.y);
     modalLayer->setOpacity(0);
     Director::getInstance()->getRunningScene()->addChild(modalLayer);
     
     addListenerToBackgroundLayer();
     
-    modalLayer->runAction(FadeTo::create(0.5, 255));
+    modalLayer->runAction(FadeTo::create(0.5, 150));
 }
 
 void GooglePaymentSingleton::removeModalLayer()
@@ -80,16 +80,14 @@ void GooglePaymentSingleton::finishedIABPayment(std::string developerPayload, st
     savedToken = token;
     
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"orderId\": \"%s\", \"subscriptionId\": \"%s\", \"purchaseToken\": \"%s\"}", orderId.c_str(), "monthly", token.c_str());
+    httpRequestCreator->requestBody = StringUtils::format("{\"orderId\": \"%s\", \"subscriptionId\": \"%s\", \"purchaseToken\": \"%s\"}", orderId.c_str(), ConfigStorage::getInstance()->getIapSkuForProvider("google").c_str(), token.c_str());
     httpRequestCreator->requestTag = "iabGooglePaymentMade";
     httpRequestCreator->createEncryptedPostHttpRequest();
 }
 
 void GooglePaymentSingleton::backendRequestFailed()
 {
-    iabAttemptInProgress = false;
-    
-    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+    purchaseFailedAfterFulfillment();
 }
 
 void GooglePaymentSingleton::onGooglePaymentMadeAnswerReceived(std::string responseDataString)
@@ -106,63 +104,67 @@ void GooglePaymentSingleton::onGooglePaymentMadeAnswerReceived(std::string respo
         return;
     }
     
-    bool paymentFailed = true;
-    
     if(paymentData.HasMember("receiptStatus"))
     {
         if(paymentData["receiptStatus"].IsString())
         {
-            // EXPIRED, INVALID, UNCERTAIN
             if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
             {
                 AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
-                paymentFailed = false;
                 
                 removeModalLayer();
                 
                 BackEndCaller::getInstance()->newTrialJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
+                
+                return;
             }
-            else
-                AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
         }
     }
     
-    if(paymentFailed)
+    CCLOG("GOOGLEPAY: REQUESTATTEMPTS: %d", requestAttempts);
+    if(requestAttempts < 4)
     {
-        if(requestAttempts < 4)
-        {
-            requestAttempts = requestAttempts + 1;
-            finishedIABPayment(savedDeveloperPayload, savedOrderId, savedToken);
-        }
-        else
-        {
-            removeModalLayer();
-            MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
-            return;
-        }
+        requestAttempts = requestAttempts + 1;
+        finishedIABPayment(savedDeveloperPayload, savedOrderId, savedToken);
+        return;
     }
 
+    purchaseFailedAfterFulfillment();
 }
 
-void GooglePaymentSingleton::purchaseFailed()
-{
-    CCLOG("PaymentSingleton: PURCHASE FAILED");
-    AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent();
-    removeModalLayer();
-}
-
-void GooglePaymentSingleton::showDoublePurchase()
+void GooglePaymentSingleton::purchaseFailedBeforeFulfillment()
 {
     auto funcCallAction = CallFunc::create([=](){
-        AnalyticsSingleton::getInstance()->iapSubscriptionDoublePurchaseEvent();
-        removeModalLayer();
+        this->prepareForErrorMessage();
+        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+    });
+    
+    Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
+}
+
+void GooglePaymentSingleton::purchaseFailedAfterFulfillment()
+{
+    prepareForErrorMessage();
+    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE_CONTACT_US, nullptr);
+}
+
+void GooglePaymentSingleton::doublePurchase()
+{
+    auto funcCallAction = CallFunc::create([=](){
+        this->prepareForErrorMessage();
         MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
     });
     
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
 }
 
+void GooglePaymentSingleton::prepareForErrorMessage()
+{
+    paymentInProgress = false;
+    AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent();
+    removeModalLayer();
+}
 
 //--------------------PAYMENT FUNCTIONS------------------
 
@@ -172,6 +174,7 @@ void GooglePaymentSingleton::startIABPayment()
     
     paymentInProgress = true;
     createModalLayer();
+    requestAttempts = 0;
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
@@ -200,22 +203,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseHappened(
     const char* cOrderId = env->GetStringUTFChars(orderId, NULL);
     const char* cToken = env->GetStringUTFChars(token, NULL);
     
-    CCLOG("COCOS2DXGOOGLE: I have the data: developerPayload: %s, orderId: %s, token: %s", cDeveloperPayload, cOrderId, cToken);
-    
-    //call backend here to upgrade user, on success use autologin to relogin the user.
     GooglePaymentSingleton::getInstance()->finishedIABPayment(std::string(cDeveloperPayload), std::string(cOrderId), std::string(cToken));
-}
-
-extern "C"
-
-{
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleAlreadyPurchased(JNIEnv* env, jobject thiz);
-};
-
-JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleAlreadyPurchased(JNIEnv* env, jobject thiz)
-{
-    CCLOG("COCOS2DXGOOGLE: alreadyPurchased CALLED!!!!!");
-    GooglePaymentSingleton::getInstance()->showDoublePurchase();
 }
 
 extern "C"
@@ -226,8 +214,18 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailed(JNIEnv* env, jobject thiz)
 {
-    CCLOG("COCOS2DXGOOGLE: PURCHASE FAILED");
-    GooglePaymentSingleton::getInstance()->purchaseFailed();
+    GooglePaymentSingleton::getInstance()->purchaseFailedBeforeFulfillment();
+}
+
+extern "C"
+
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleDoublePurchase(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleDoublePurchase(JNIEnv* env, jobject thiz)
+{
+    GooglePaymentSingleton::getInstance()->doublePurchase();
 }
 
 extern "C"
@@ -239,6 +237,28 @@ extern "C"
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getGoogleSku(JNIEnv* env, jobject thiz)
 {
     return env->NewStringUTF(ConfigStorage::getInstance()->getIapSkuForProvider("google").c_str());
+}
+
+extern "C"
+
+{
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getLoggedInParentUserId(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getLoggedInParentUserId(JNIEnv* env, jobject thiz)
+{
+    return env->NewStringUTF(ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+}
+
+extern "C"
+
+{
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getDeveloperKey(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getDeveloperKey(JNIEnv* env, jobject thiz)
+{
+    return env->NewStringUTF(ConfigStorage::getInstance()->getDeveloperPublicKey().c_str());
 }
 
 #endif
