@@ -24,7 +24,7 @@ android {
         applicationId "com.tinizine.azoomee"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 321001
+        versionCode 321999
         versionName "3.2.1"
     }
     
