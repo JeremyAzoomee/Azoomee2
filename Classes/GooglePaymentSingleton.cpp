@@ -121,8 +121,7 @@ void GooglePaymentSingleton::onGooglePaymentMadeAnswerReceived(std::string respo
             }
         }
     }
-    
-    CCLOG("GOOGLEPAY: REQUESTATTEMPTS: %d", requestAttempts);
+
     if(requestAttempts < 4)
     {
         requestAttempts = requestAttempts + 1;
