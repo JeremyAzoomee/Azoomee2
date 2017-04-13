@@ -26,5 +26,5 @@ rm -rf ./build.gradle
 
 cocos compile -p android --android-studio -m release
 
-cp -r ../bin/release/android/azoomee2-release-signed.apk ./builds/build-$BUILDNUMBER.apk
+cp -r ../bin/release/android/azoomee2-release-signed.apk ../_builds/build-$BUILDNUMBER.apk
 rm -rf ../bin/release/android/azoomee2-release-signed.apk
