@@ -75,7 +75,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     //--------Privacy and Terms-------
     
     privacyAndTerms = PrivacyAndTermsLayer::create();
-    privacyAndTerms->setPosition(windowLayer->getContentSize().width/2 - privacyAndTerms->getContentSize().width/2,privacyAndTerms->getContentSize().height/2);
+    privacyAndTerms->setPosition(windowLayer->getContentSize().width/2 - privacyAndTerms->getContentSize().width/2,privacyAndTerms->getContentSize().height*.65);
     windowLayer->addChild(privacyAndTerms);
     
     

@@ -20,6 +20,7 @@ private:
     ElectricDreamsButton* startTrialButton;
     ElectricDreamsButton* restoreButton;
     ElectricDreamsButton* notNowButton;
+    ElectricDreamsButton* learnMoreButton;
     
     Label* titleLabel;
     Label* optionalLabel;

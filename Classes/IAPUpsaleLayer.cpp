@@ -4,6 +4,7 @@
 #include "RoutePaymentSingleton.h"
 #include "MessageBox.h"
 #include "AudioMixer.h"
+#include "IAPDetailsLayer_ios.h"
 
 USING_NS_CC;
 
@@ -41,7 +42,6 @@ bool IAPUpsaleLayer::init()
     addTitle();
     addButtons();
     addALLBulletsAndLabel();
-    addOptionalSubscriptionLabel();
     
     return true;
 }
@@ -130,6 +130,13 @@ void IAPUpsaleLayer::addButtons()
         restoreButton->setPosition(SIDE_MARGIN_SIZE, optionalLabel->getPositionY()-restoreButton->getContentSize().height/2);
         restoreButton->setDelegate(this);
         UpsaleLayer->addChild(restoreButton);
+        
+        learnMoreButton = ElectricDreamsButton::createTextAsButton("Learn More", 46, true);
+        learnMoreButton->setPosition(UpsaleLayer->getContentSize().width - SIDE_MARGIN_SIZE - restoreButton->getContentSize().width/2, optionalLabel->getPositionY()-learnMoreButton->getContentSize().height/2);
+        learnMoreButton->setDelegate(this);
+        UpsaleLayer->addChild(learnMoreButton);
+        
+        optionalLabel->setPositionX(startTrialButton->getPositionX() + optionalLabel->getContentSize().width/2);
     }
 }
 
@@ -200,6 +207,10 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
         }
         else
             RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
+    }
+    else if(button == learnMoreButton)
+    {
+        IAPDetailsLayer_ios::create();
     }
 }
 

@@ -35,15 +35,15 @@ void PrivacyAndTermsLayer::setSizeAndAddItems()
 {
     float layerWidth = privacyButton->getContentSize().width + termsButton->getContentSize().width + andLabel->getContentSize().width + 40;
     
-    this->setContentSize(Size(layerWidth,privacyButton->getContentSize().height+10));
+    this->setContentSize(Size(layerWidth,privacyButton->getContentSize().height));
     
-    privacyButton->setPosition(0,10);
+    privacyButton->setPosition(0,0);
     this->addChild(privacyButton);
     
-    andLabel->setPosition(privacyButton->getContentSize().width+20+andLabel->getContentSize().width/2, 10 + andLabel->getContentSize().height/2);
+    andLabel->setPosition(privacyButton->getContentSize().width+20+andLabel->getContentSize().width/2, andLabel->getContentSize().height/2);
     this->addChild(andLabel);
     
-    termsButton->setPosition(andLabel->getPositionX()+andLabel->getContentSize().width/2+20,10);
+    termsButton->setPosition(andLabel->getPositionX()+andLabel->getContentSize().width/2+20,0);
     this->addChild(termsButton);
 }
 
