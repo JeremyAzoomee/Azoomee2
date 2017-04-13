@@ -29,11 +29,11 @@ AMAZONBUILD=$VER1$VER2$VER3$2"04"
 ARM64BUILD=$VER1$VER2$VER3$2"02"
 X86BUILD=$VER1$VER2$VER3$2"03"
 
-COMMITID=$(git log --format="%H" -n 1)
+COMMITID=$(git log --format="%H" -n 1 |cut -c1-8)
 
-echo Version number for build: $1.$COMMITID
+echo "Version number for build: $1 ($COMMITID)"
 
-echo "{\"version\": \"$1.$COMMITID\"}" > ../Resources/res/configuration/Version.json
+echo "{\"version\": \"$1 ($COMMITID)\"}" > ../Resources/res/configuration/Version.json
 
 #----------------------------------------------------------------------------------------
 #START BUILDING
