@@ -37,6 +37,7 @@
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
+		4302421E1E9F71DF00822B5D /* PrivacyAndTermsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4302421C1E9F71DF00822B5D /* PrivacyAndTermsLayer.cpp */; };
 		43069CE91E3B492600D6A631 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images-2.xcassets */; };
 		43069CF81E3B5D2A00D6A631 /* SlideShowScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43069CF61E3B5D2A00D6A631 /* SlideShowScene.cpp */; };
 		430B214E1E4485DA004ACB10 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B214D1E4485DA004ACB10 /* CFNetwork.framework */; };
@@ -335,6 +336,8 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
+		4302421C1E9F71DF00822B5D /* PrivacyAndTermsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PrivacyAndTermsLayer.cpp; sourceTree = "<group>"; };
+		4302421D1E9F71DF00822B5D /* PrivacyAndTermsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivacyAndTermsLayer.h; sourceTree = "<group>"; };
 		43069CE81E3B492600D6A631 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "azoomee2-mobile/Images-2.xcassets"; sourceTree = SOURCE_ROOT; };
 		43069CF61E3B5D2A00D6A631 /* SlideShowScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SlideShowScene.cpp; sourceTree = "<group>"; };
 		43069CF71E3B5D2A00D6A631 /* SlideShowScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideShowScene.h; sourceTree = "<group>"; };
@@ -1147,6 +1150,8 @@
 				4348E4381E6576D600486661 /* ElectricDreamsDecoration.h */,
 				4319D3DC1E66D66300110F92 /* OomeeButtonLayer.cpp */,
 				4319D3DD1E66D66300110F92 /* OomeeButtonLayer.h */,
+				4302421C1E9F71DF00822B5D /* PrivacyAndTermsLayer.cpp */,
+				4302421D1E9F71DF00822B5D /* PrivacyAndTermsLayer.h */,
 			);
 			name = uiObjects;
 			sourceTree = "<group>";
@@ -1709,6 +1714,7 @@
 				431A2A2A1E439BFE00DC0F3B /* MPNetwork.m in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				431A2A321E439BFE00DC0F3B /* MPObjectIdentityProvider.m in Sources */,
+				4302421E1E9F71DF00822B5D /* PrivacyAndTermsLayer.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				431A2A231E439BFE00DC0F3B /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,

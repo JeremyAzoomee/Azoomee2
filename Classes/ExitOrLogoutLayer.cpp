@@ -72,10 +72,17 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + windowLayerBottomPadding);
     this->addChild(windowLayer);
     
+    //--------Privacy and Terms-------
+    
+    privacyAndTerms = PrivacyAndTermsLayer::create();
+    privacyAndTerms->setPosition(windowLayer->getContentSize().width/2 - privacyAndTerms->getContentSize().width/2,privacyAndTerms->getContentSize().height/2);
+    windowLayer->addChild(privacyAndTerms);
+    
+    
     //-------- VERSION NUBMER ---------
     
     auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
-    versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 1.5);
+    versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 2.5);
     windowLayer->addChild(versionTitle);
     
     //-------- USERNAME---------------
