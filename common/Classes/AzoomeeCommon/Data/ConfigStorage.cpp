@@ -360,7 +360,6 @@ std::string ConfigStorage::getIapSkuForProvider(std::string provider)
     return IapConfiguration[provider.c_str()].GetString();
 }
 
-<<<<<<< HEAD:Classes/ConfigStorage.cpp
 std::string ConfigStorage::getDeveloperPublicKey()
 {
     std::string devKey = "MJKBJlAODglshlkG:y0CCQFHABQCBS8BOIJDChMCBSEB{uhXV3FZlUQTjZZT+[m6O:XUsUevgKjNMROPZAkoiYYuNX6Ws905wZtWCFiGyz[OAjroRYmtEUOKaD;b8HVK:pxUSUrfI6VgsAEfHKzHTO6WgaF7ZjV/3{WxPOSHijdf7vEn[D4kkB8j2QGqmGVV4F5UtURi-my2jSsNIZEhV0jQbmRabR4GRivkmuDWKiqTp0pQ9wc+iH8H|OuYnFYlCmfu1Ysk7n[/[;OioIsHGUhd{UiBJa6Y3hFPqV5TqRNyz3TVdUgqSPCq4vjtTDmWV/BLfXh3V7vZonPKbkRjGcZ5V5ZJHDfoL[9EgFbSBo1w::Qd8eNwjGMDlIGOQGN\\MRKDBSAC";
@@ -371,6 +370,6 @@ std::string ConfigStorage::getDeveloperPublicKey()
     }
     
     return(devKey);
-=======
->>>>>>> origin/master:common/Classes/AzoomeeCommon/Data/ConfigStorage.cpp
+}
+
 }

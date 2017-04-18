@@ -9,7 +9,7 @@
 #include "IAPUpsaleLayer.h"
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Strings.h>
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 USING_NS_CC;
 using namespace Azoomee;

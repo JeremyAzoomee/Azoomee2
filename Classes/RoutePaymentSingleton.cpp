@@ -1,7 +1,6 @@
 #include "RoutePaymentSingleton.h"
-#include "AnalyticsSingleton.h"
-
-#include "ParentDataProvider.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
@@ -39,21 +38,21 @@ void RoutePaymentSingleton::startInAppPayment()
 {
     if(osIsIos())
     {
-        AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
+        Azoomee::AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
         //start ios payment
         return;
     }
     
     if(osIsAndroid())
     {
-        AnalyticsSingleton::getInstance()->registerIAPOS("Google");
+        Azoomee::AnalyticsSingleton::getInstance()->registerIAPOS("Google");
         GooglePaymentSingleton::getInstance()->startIABPayment();
         return;
     }
     
     if(osIsAmazon())
     {
-        AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
+        Azoomee::AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
         AmazonPaymentSingleton::getInstance()->startIAPPayment();
         return;
     }
@@ -70,7 +69,7 @@ bool RoutePaymentSingleton::OS_is_IAP_Compatible()
 
 bool RoutePaymentSingleton::showIAPContent()
 {
-    return (OS_is_IAP_Compatible() && !ParentDataProvider::getInstance()->isPaidUser());
+    return (OS_is_IAP_Compatible() && !Azoomee::ParentDataProvider::getInstance()->isPaidUser());
 }
 
 std::string RoutePaymentSingleton::getOSManufacturer()
