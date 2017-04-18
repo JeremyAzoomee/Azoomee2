@@ -12,11 +12,11 @@ public:
     bool init(void);
     
     void startIABPayment();
-    void finishedIABPayment(std::string developerPayload, std::string orderId, std::string token);
+    void startBackEndPaymentVerification(std::string developerPayload, std::string orderId, std::string token);
     void purchaseFailedBeforeFulfillment();
     void purchaseFailedAfterFulfillment();
     void doublePurchase();
-    void onGooglePaymentMadeAnswerReceived(std::string responseDataString);
+    void onGooglePaymentVerificationAnswerReceived(std::string responseDataString);
     void backendRequestFailed();
     
 private:
