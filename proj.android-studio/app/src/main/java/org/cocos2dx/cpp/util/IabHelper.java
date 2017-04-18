@@ -360,7 +360,6 @@ public class IabHelper {
         checkNotDisposed();
         checkSetupDone("handleActivityResult");
 
-        // end of async purchase operation that started on launchPurchaseFlow
         flagEndAsync();
 
         if (data == null) {
@@ -483,31 +482,10 @@ public class IabHelper {
         }
     }
 
-    /**
-     * Listener that notifies when an inventory query operation completes.
-     */
     public interface QueryInventoryFinishedListener {
-        /**
-         * Called to notify that an inventory query operation completed.
-         *
-         * @param result The result of the operation.
-         * @param inv The inventory.
-         */
         void onQueryInventoryFinished(IabResult result, Inventory inv);
     }
 
-
-    /**
-     * Asynchronous wrapper for inventory query. This will perform an inventory
-     * query as described in {@link #queryInventory}, but will do so asynchronously
-     * and call back the specified listener upon completion. This method is safe to
-     * call from a UI thread.
-     *
-     * @param querySkuDetails as in {@link #queryInventory}
-     * @param moreItemSkus as in {@link #queryInventory}
-     * @param moreSubsSkus as in {@link #queryInventory}
-     * @param listener The listener to notify when the refresh operation completes.
-     */
     public void queryInventoryAsync(final boolean querySkuDetails, final List<String> moreItemSkus,
             final List<String> moreSubsSkus, final QueryInventoryFinishedListener listener)
         throws IabAsyncInProgressException {
@@ -546,15 +524,6 @@ public class IabHelper {
         queryInventoryAsync(false, null, null, listener);
     }
 
-    /**
-     * Consumes a given in-app product. Consuming can only be done on an item
-     * that's owned, and as a result of consumption, the user will no longer own it.
-     * This method may block or take long to return. Do not call from the UI thread.
-     * For that, see {@link #consumeAsync}.
-     *
-     * @param itemInfo The PurchaseInfo that represents the item to consume.
-     * @throws IabException if there is a problem during consumption.
-     */
     void consume(Purchase itemInfo) throws IabException {
         checkNotDisposed();
         checkSetupDone("consume");
@@ -588,41 +557,14 @@ public class IabHelper {
         }
     }
 
-    /**
-     * Callback that notifies when a consumption operation finishes.
-     */
     public interface OnConsumeFinishedListener {
-        /**
-         * Called to notify that a consumption has finished.
-         *
-         * @param purchase The purchase that was (or was to be) consumed.
-         * @param result The result of the consumption operation.
-         */
         void onConsumeFinished(Purchase purchase, IabResult result);
     }
 
-    /**
-     * Callback that notifies when a multi-item consumption operation finishes.
-     */
     public interface OnConsumeMultiFinishedListener {
-        /**
-         * Called to notify that a consumption of multiple items has finished.
-         *
-         * @param purchases The purchases that were (or were to be) consumed.
-         * @param results The results of each consumption operation, corresponding to each
-         *     sku.
-         */
         void onConsumeMultiFinished(List<Purchase> purchases, List<IabResult> results);
     }
 
-    /**
-     * Asynchronous wrapper to item consumption. Works like {@link #consume}, but
-     * performs the consumption in the background and notifies completion through
-     * the provided listener. This method is safe to call from a UI thread.
-     *
-     * @param purchase The purchase to be consumed.
-     * @param listener The listener to notify when the consumption operation finishes.
-     */
     public void consumeAsync(Purchase purchase, OnConsumeFinishedListener listener)
         throws IabAsyncInProgressException {
         checkNotDisposed();
@@ -688,7 +630,6 @@ public class IabHelper {
         }
     }
 
-    // Workaround to bug where sometimes response codes come as Long instead of Integer
     int getResponseCodeFromIntent(Intent i) {
         Object o = i.getExtras().get(RESPONSE_CODE);
         if (o == null) {
