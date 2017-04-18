@@ -1,22 +1,24 @@
 #include "ImageContainer.h"
 #include "WebViewSelector.h"
-#include "imageDownloader.h"
+#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include "HQDataParser.h"
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "NavigationLayer.h"
 #include "MessageBox.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "HQHistoryManager.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQScene.h"
-#include "AnalyticsSingleton.h"
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* ImageContainer::createScene()
 {

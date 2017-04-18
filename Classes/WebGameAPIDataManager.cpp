@@ -1,9 +1,11 @@
 #include "WebGameAPIDataManager.h"
-#include "ChildDataProvider.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ArtAppImageManager.h"
 
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 static WebGameAPIDataManager *_sharedWebGameAPIDataManager = NULL;
 

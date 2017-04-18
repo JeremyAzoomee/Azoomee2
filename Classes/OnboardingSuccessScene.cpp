@@ -1,17 +1,19 @@
 #include "OnboardingSuccessScene.h"
-#include "StringMgr.h"
-#include "ElectricDreamsTextStyles.h"
-#include "ElectricDreamsDecoration.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "BackEndCaller.h"
-#include "ParentDataProvider.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "IAPUpsaleLayer.h"
-#include "StringFunctions.h"
 #include "RoutePaymentSingleton.h"
+#include <AzoomeeCommon/Strings.h>
 #include "AnalyticsSingleton.h"
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* OnboardingSuccessScene::createScene()
 {

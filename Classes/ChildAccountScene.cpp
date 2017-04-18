@@ -1,17 +1,19 @@
 #include "ChildAccountScene.h"
 #include "BackEndCaller.h"
 #include "ChildSelectorScene.h"
-#include "TextInputChecker.h"
-#include "StringMgr.h"
-#include "ConfigStorage.h"
-#include "AudioMixer.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "MessageBox.h"
-#include "ElectricDreamsTextStyles.h"
-#include "ElectricDreamsDecoration.h"
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 #define NO_OF_OOMEES 5
 

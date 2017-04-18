@@ -3,17 +3,19 @@
 #include "external/json/document.h"
 #include "MessageBox.h"
 #include "BackEndCaller.h"
-#include "ParentDataProvider.h"
-#include "AnalyticsSingleton.h"
-#include "ConfigStorage.h"
+
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
 #endif
 
 USING_NS_CC;
-
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 static AmazonPaymentSingleton *_sharedAmazonPaymentSingleton = NULL;
 

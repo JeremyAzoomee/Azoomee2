@@ -1,19 +1,22 @@
 #include "HttpRequestCreator.h"
-#include "JWTTool.h"
-#include "JWTToolForceParent.h"
+#include <AzoomeeCommon/JWTSigner/JWTTool.h>
+#include <AzoomeeCommon/JWTSigner/JWTToolForceParent.h>
 #include "BackEndCaller.h"
 #include "HQDataParser.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "LoginScene.h"
 #include "OnboardingScene.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ChildAccountScene.h"
-#include "ChildDataParser.h"
-#include "AmazonPaymentSingleton.h"
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include "RoutePaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
+#include "AmazonPaymentSingleton.h"
 
 using namespace cocos2d;
 using namespace network;
+using namespace Azoomee;
+
 
 void HttpRequestCreator::createEncryptedGetHttpRequest()
 {

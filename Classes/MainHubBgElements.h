@@ -1,7 +1,7 @@
 #ifndef __MAINHUBBGELEMENTS_SCENE_H__
 #define __MAINHUBBGELEMENTS_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class MainHubBgElements : public cocos2d::Layer
 {
