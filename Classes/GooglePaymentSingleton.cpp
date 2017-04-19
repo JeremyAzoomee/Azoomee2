@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -35,30 +36,6 @@ GooglePaymentSingleton::~GooglePaymentSingleton(void)
 bool GooglePaymentSingleton::init(void)
 {
     return true;
-}
-
-void GooglePaymentSingleton::createModalLayer()
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    modalLayer = LayerColor::create(Color4B(0,0,0,0), visibleSize.width, visibleSize.height);
-    modalLayer->setPosition(origin.x, origin.y);
-    modalLayer->setOpacity(0);
-    Director::getInstance()->getRunningScene()->addChild(modalLayer);
-    
-    addListenerToBackgroundLayer();
-    
-    modalLayer->runAction(FadeTo::create(0.5, 150));
-}
-
-void GooglePaymentSingleton::removeModalLayer()
-{
-    paymentInProgress = false;
-    if(modalLayer) //This might be called when loading is not active, so better to check first
-    {
-        Director::getInstance()->getRunningScene()->removeChild(modalLayer);
-    }
 }
 
 void GooglePaymentSingleton::addListenerToBackgroundLayer()
@@ -114,7 +91,7 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
             {
                 AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
                 
-                removeModalLayer();
+                Azoomee::ModalMessages::getInstance()->startLoading();
                 
                 BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
@@ -164,7 +141,7 @@ void GooglePaymentSingleton::prepareForErrorMessage()
 {
     paymentInProgress = false;
     AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent();
-    removeModalLayer();
+    Azoomee::ModalMessages::getInstance()->stopLoading();
 }
 
 //--------------------PAYMENT FUNCTIONS------------------
@@ -174,7 +151,7 @@ void GooglePaymentSingleton::startIABPayment()
     if(paymentInProgress) return;
     
     paymentInProgress = true;
-    createModalLayer();
+    Azoomee::ModalMessages::getInstance()->startLoading();
     requestAttempts = 0;
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

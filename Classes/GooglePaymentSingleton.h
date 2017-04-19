@@ -22,8 +22,6 @@ public:
 private:
     void prepareForErrorMessage();
     bool paymentInProgress;
-    void createModalLayer();
-    void removeModalLayer();
     cocos2d::LayerColor* modalLayer;
     void addListenerToBackgroundLayer();
     
