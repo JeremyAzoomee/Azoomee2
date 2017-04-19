@@ -58,7 +58,7 @@
     "1003":
     {
         "title":"Email Verification Required",
-        "body":"For security reasons, we need to verify your email address before you can add more children.\n\nPlease follow the instructions in the email that we sent you and then log back in.",
+        "body":"Please follow the instructions in the email that we sent you and then log back in.",
         "button":"Log in"
     },
 
