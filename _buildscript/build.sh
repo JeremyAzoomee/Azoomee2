@@ -12,6 +12,9 @@ if [ "$2" == "" ]; then
         exit
 fi
 
+git checkout master
+git pull
+
 FILE1=$(md5 -q ./referenceiap.json)
 FILE2=$(md5 -q ../Resources/res/configuration/IapConfiguration.json)
 
