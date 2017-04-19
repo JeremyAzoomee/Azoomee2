@@ -55,7 +55,7 @@ public:
     std::string registerParentUsername;
     std::string registerParentPassword;
     
-    bool newTrialJustStarted;
+    bool newSubscriptionJustStarted;
 
     
     //------------------------------------------------------------------------------------------------------------------

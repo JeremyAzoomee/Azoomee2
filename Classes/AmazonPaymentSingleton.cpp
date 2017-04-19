@@ -108,7 +108,7 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
                 
                 removeModalLayer();
                 
-                BackEndCaller::getInstance()->newTrialJustStarted = true;
+                BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
             }
             else

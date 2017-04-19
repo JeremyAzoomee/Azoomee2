@@ -96,8 +96,6 @@ void GooglePaymentSingleton::backendRequestFailed()
 
 void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::string responseDataString)
 {
-    CCLOG("The response id is: %s", responseDataString.c_str());
-    
     rapidjson::Document paymentData;
     paymentData.Parse(responseDataString.c_str());
     
@@ -118,7 +116,7 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
                 
                 removeModalLayer();
                 
-                BackEndCaller::getInstance()->newTrialJustStarted = true;
+                BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
                 
                 return;

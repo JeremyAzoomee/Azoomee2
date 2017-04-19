@@ -62,7 +62,7 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
     accountJustRegistered = false;
     newChildJustRegistered = false;
-    newTrialJustStarted = false;
+    newSubscriptionJustStarted = false;
     auto loginScene = LoginScene::createScene(errorCode);
     Director::getInstance()->replaceScene(loginScene);
 }
@@ -199,10 +199,10 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene(RoutePaymentSingleton::getInstance()->OS_is_IAP_Compatible(),false);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
-    else if(newTrialJustStarted)
+    else if(newSubscriptionJustStarted)
     {
         CCLOG("Just started new trial : backendcaller");
-        newTrialJustStarted = false;
+        newSubscriptionJustStarted = false;
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene(RoutePaymentSingleton::getInstance()->OS_is_IAP_Compatible(),true);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
