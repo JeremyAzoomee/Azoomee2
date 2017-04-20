@@ -107,6 +107,18 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     
     return "";
 }
+    
+bool ConfigStorage::isParentSignatureRequiredForRequest(std::string requestTag)
+{
+    std::vector<std::string> parentSignedRequestTags = {"updateParentPin", "updateParentActorStatus", "iapAmazonPaymentMade", "updateBilling"};
+    
+    for(int i = 0; i < parentSignedRequestTags.size(); i++)
+    {
+        if(parentSignedRequestTags.at(i) == requestTag) return true;
+    }
+    
+    return false;
+}
 
 //-------------------------Oomee settings---------------------------
 std::string ConfigStorage::getNameForOomee(int number)
