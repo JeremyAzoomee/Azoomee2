@@ -68,7 +68,8 @@
     "AUDIO": "res/contentPlaceholders/Audio",
     "GAME": "res/contentPlaceholders/Games",
     "ARTS APP": "res/contentPlaceholders/Create",
-    "GROUP": "res/contentPlaceholders/Video"
+    "GROUP": "res/contentPlaceholders/Video",
+      "MANUAL": "res/contentPlaceholders/Games
   },
   
   "highlightSizeMultiplierForContentItem": {
