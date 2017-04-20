@@ -161,8 +161,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     {
         std::string myRequestString;
         
-        if((requestTag == "updateParentPin")||(requestTag == "updateParentActorStatus")||(requestTag == "iapAmazonPaymentMade")||(requestTag == "iabGooglePaymentMade")||(requestTag == "updateBilling")
-           )
+        if(ConfigStorage::getInstance()->isParentSignatureRequiredForRequest(requestTag))
         {
             auto myJWTTool = JWTToolForceParent::getInstance();
             myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);

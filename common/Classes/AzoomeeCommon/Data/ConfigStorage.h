@@ -14,8 +14,6 @@ class ConfigStorage : public cocos2d::Ref
 public:
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
-    
-public:
     virtual ~ConfigStorage();
     bool init(void);
     
@@ -31,6 +29,7 @@ public:
     std::string getServerUrl();
     std::string getImagesUrl();
     std::string getPathForTag(std::string httpRequestTag);
+    bool isParentSignatureRequiredForRequest(std::string requestTag);
     
     //ChildAccountScene settings
     std::string getNameForOomee(int number);
