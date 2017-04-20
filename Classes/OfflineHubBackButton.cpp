@@ -1,8 +1,10 @@
 #include "OfflineHubBackButton.h"
 #include "OfflineHubScene.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* OfflineHubBackButton::createScene()
 {

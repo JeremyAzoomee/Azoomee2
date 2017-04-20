@@ -1,7 +1,7 @@
 #ifndef __OFFLINEHUB_SCENE_H__
 #define __OFFLINEHUB_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class OfflineHubScene : public cocos2d::Layer
 {

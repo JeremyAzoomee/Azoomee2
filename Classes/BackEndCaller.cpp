@@ -1,28 +1,27 @@
 #include "BackEndCaller.h"
 
-#include "JWTTool.h"
-#include "ChildDataParser.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "ParentDataParser.h"
-#include "ParentDataProvider.h"
-#include "CookieDataParser.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
 #include "HQDataParser.h"
 #include "LoginScene.h"
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
 #include "HttpRequestCreator.h"
-#include "OnboardingScene.h"
-#include "ChildAccountScene.h"
-#include "ModalMessages.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "AwaitingAdultPinLayer.h"
 #include "HQHistoryManager.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
 #include "RoutePaymentSingleton.h"
 
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 static BackEndCaller *_sharedBackEndCaller = NULL;
 
@@ -63,7 +62,7 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
     accountJustRegistered = false;
     newChildJustRegistered = false;
-    newTrialJustStarted = false;
+    newSubscriptionJustStarted = false;
     auto loginScene = LoginScene::createScene(errorCode);
     Director::getInstance()->replaceScene(loginScene);
 }
@@ -200,10 +199,10 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene(RoutePaymentSingleton::getInstance()->OS_is_IAP_Compatible(),false);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
-    else if(newTrialJustStarted)
+    else if(newSubscriptionJustStarted)
     {
         CCLOG("Just started new trial : backendcaller");
-        newTrialJustStarted = false;
+        newSubscriptionJustStarted = false;
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene(RoutePaymentSingleton::getInstance()->OS_is_IAP_Compatible(),true);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }

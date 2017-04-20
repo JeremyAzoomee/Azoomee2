@@ -2,10 +2,13 @@
 #include "BaseScene.h"
 #include "HQHistoryManager.h"
 #include "LoginScene.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
 #include "BackEndCaller.h"
 #include "WebGameAPIDataManager.h"
+
+using namespace Azoomee;
+
 
 void navigateToBaseScene()
 {

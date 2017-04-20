@@ -3,9 +3,10 @@
 #include "external/json/document.h"
 #include "MessageBox.h"
 #include "BackEndCaller.h"
-#include "ParentDataProvider.h"
-#include "AnalyticsSingleton.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -37,30 +38,6 @@ bool GooglePaymentSingleton::init(void)
     return true;
 }
 
-void GooglePaymentSingleton::createModalLayer()
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    modalLayer = LayerColor::create(Color4B(0,0,0,0), visibleSize.width, visibleSize.height);
-    modalLayer->setPosition(origin.x, origin.y);
-    modalLayer->setOpacity(0);
-    Director::getInstance()->getRunningScene()->addChild(modalLayer);
-    
-    addListenerToBackgroundLayer();
-    
-    modalLayer->runAction(FadeTo::create(0.5, 150));
-}
-
-void GooglePaymentSingleton::removeModalLayer()
-{
-    paymentInProgress = false;
-    if(modalLayer) //This might be called when loading is not active, so better to check first
-    {
-        Director::getInstance()->getRunningScene()->removeChild(modalLayer);
-    }
-}
-
 void GooglePaymentSingleton::addListenerToBackgroundLayer()
 {
     auto listener = EventListenerTouchOneByOne::create();
@@ -73,16 +50,20 @@ void GooglePaymentSingleton::addListenerToBackgroundLayer()
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), modalLayer);
 }
 
-void GooglePaymentSingleton::finishedIABPayment(std::string developerPayload, std::string orderId, std::string token)
+void GooglePaymentSingleton::startBackEndPaymentVerification(std::string developerPayload, std::string orderId, std::string token)
 {
     savedDeveloperPayload = developerPayload;
     savedOrderId = orderId;
     savedToken = token;
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"orderId\": \"%s\", \"subscriptionId\": \"%s\", \"purchaseToken\": \"%s\"}", orderId.c_str(), ConfigStorage::getInstance()->getIapSkuForProvider("google").c_str(), token.c_str());
-    httpRequestCreator->requestTag = "iabGooglePaymentMade";
-    httpRequestCreator->createEncryptedPostHttpRequest();
+    auto funcCallAction = CallFunc::create([=](){
+        HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+        httpRequestCreator->requestBody = StringUtils::format("{\"orderId\": \"%s\", \"subscriptionId\": \"%s\", \"purchaseToken\": \"%s\"}", orderId.c_str(), ConfigStorage::getInstance()->getIapSkuForProvider("google").c_str(), token.c_str());
+        httpRequestCreator->requestTag = "iabGooglePaymentMade";
+        httpRequestCreator->createEncryptedPostHttpRequest();
+    });
+    
+    Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
 }
 
 void GooglePaymentSingleton::backendRequestFailed()
@@ -90,17 +71,15 @@ void GooglePaymentSingleton::backendRequestFailed()
     purchaseFailedAfterFulfillment();
 }
 
-void GooglePaymentSingleton::onGooglePaymentMadeAnswerReceived(std::string responseDataString)
+void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::string responseDataString)
 {
-    CCLOG("The response id is: %s", responseDataString.c_str());
-    
     rapidjson::Document paymentData;
     paymentData.Parse(responseDataString.c_str());
     
     if(paymentData.HasParseError())
     {
         requestAttempts = requestAttempts + 1;
-        finishedIABPayment(savedDeveloperPayload, savedOrderId, savedToken);
+        startBackEndPaymentVerification(savedDeveloperPayload, savedOrderId, savedToken);
         return;
     }
     
@@ -112,9 +91,9 @@ void GooglePaymentSingleton::onGooglePaymentMadeAnswerReceived(std::string respo
             {
                 AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
                 
-                removeModalLayer();
+                Azoomee::ModalMessages::getInstance()->startLoading();
                 
-                BackEndCaller::getInstance()->newTrialJustStarted = true;
+                BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
                 
                 return;
@@ -125,7 +104,7 @@ void GooglePaymentSingleton::onGooglePaymentMadeAnswerReceived(std::string respo
     if(requestAttempts < 4)
     {
         requestAttempts = requestAttempts + 1;
-        finishedIABPayment(savedDeveloperPayload, savedOrderId, savedToken);
+        startBackEndPaymentVerification(savedDeveloperPayload, savedOrderId, savedToken);
         return;
     }
 
@@ -148,7 +127,7 @@ void GooglePaymentSingleton::purchaseFailedAfterFulfillment()
     MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE_CONTACT_US, nullptr);
 }
 
-void GooglePaymentSingleton::doublePurchase()
+void GooglePaymentSingleton::purchaseFailedAlreadyPurchased()
 {
     auto funcCallAction = CallFunc::create([=](){
         this->prepareForErrorMessage();
@@ -162,7 +141,7 @@ void GooglePaymentSingleton::prepareForErrorMessage()
 {
     paymentInProgress = false;
     AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent();
-    removeModalLayer();
+    Azoomee::ModalMessages::getInstance()->stopLoading();
 }
 
 //--------------------PAYMENT FUNCTIONS------------------
@@ -172,7 +151,7 @@ void GooglePaymentSingleton::startIABPayment()
     if(paymentInProgress) return;
     
     paymentInProgress = true;
-    createModalLayer();
+    Azoomee::ModalMessages::getInstance()->startLoading();
     requestAttempts = 0;
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -202,7 +181,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseHappened(
     const char* cOrderId = env->GetStringUTFChars(orderId, NULL);
     const char* cToken = env->GetStringUTFChars(token, NULL);
     
-    GooglePaymentSingleton::getInstance()->finishedIABPayment(std::string(cDeveloperPayload), std::string(cOrderId), std::string(cToken));
+    GooglePaymentSingleton::getInstance()->startBackEndPaymentVerification(std::string(cDeveloperPayload), std::string(cOrderId), std::string(cToken));
 }
 
 extern "C"
@@ -219,12 +198,12 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailed(JN
 extern "C"
 
 {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleDoublePurchase(JNIEnv* env, jobject thiz);
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailedAlreadyPurchased(JNIEnv* env, jobject thiz);
 };
 
-JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleDoublePurchase(JNIEnv* env, jobject thiz)
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailedAlreadyPurchased(JNIEnv* env, jobject thiz)
 {
-    GooglePaymentSingleton::getInstance()->doublePurchase();
+    GooglePaymentSingleton::getInstance()->purchaseFailedAlreadyPurchased();
 }
 
 extern "C"

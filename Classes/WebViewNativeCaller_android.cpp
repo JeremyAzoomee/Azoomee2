@@ -1,13 +1,15 @@
 #include "WebViewNativeCaller_android.h"
-#include "CookieDataProvider.h"
-#include "ChildDataProvider.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "LoginScene.h"
 #include "HQHistoryManager.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "WebGameAPIDataManager.h"
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(std::string url)
 {

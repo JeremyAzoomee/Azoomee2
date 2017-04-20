@@ -12,18 +12,16 @@ public:
     bool init(void);
     
     void startIABPayment();
-    void finishedIABPayment(std::string developerPayload, std::string orderId, std::string token);
+    void startBackEndPaymentVerification(std::string developerPayload, std::string orderId, std::string token);
     void purchaseFailedBeforeFulfillment();
     void purchaseFailedAfterFulfillment();
-    void doublePurchase();
-    void onGooglePaymentMadeAnswerReceived(std::string responseDataString);
+    void purchaseFailedAlreadyPurchased();
+    void onGooglePaymentVerificationAnswerReceived(std::string responseDataString);
     void backendRequestFailed();
     
 private:
     void prepareForErrorMessage();
     bool paymentInProgress;
-    void createModalLayer();
-    void removeModalLayer();
     cocos2d::LayerColor* modalLayer;
     void addListenerToBackgroundLayer();
     

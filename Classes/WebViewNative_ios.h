@@ -1,7 +1,7 @@
 #ifndef __WEBVIEWNATIVEIOS_SCENE_H__
 #define __WEBVIEWNATIVEIOS_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class WebViewNative_ios : public cocos2d::Layer
 {

@@ -1,10 +1,12 @@
 #include "OfflineHubHQElement.h"
-#include "AudioMixer.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "GameDataManager.h"
 #include "WebViewSelector.h"
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* OfflineHubHQElement::createScene()
 {
