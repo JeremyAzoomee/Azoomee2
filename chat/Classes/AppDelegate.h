@@ -21,19 +21,26 @@ public:
     @return true    Initialize success, app continue.
     @return false   Initialize failed, app terminate.
     */
-    virtual bool applicationDidFinishLaunching();
+    virtual bool applicationDidFinishLaunching() override;
 
     /**
     @brief  Called when the application moves to the background
     @param  the pointer of the application
     */
-    virtual void applicationDidEnterBackground();
+    virtual void applicationDidEnterBackground() override;
 
     /**
     @brief  Called when the application reenters the foreground
     @param  the pointer of the application
     */
-    virtual void applicationWillEnterForeground();
+    virtual void applicationWillEnterForeground() override;
+    
+    /**
+     @brief  This function will be called when the application screen size is changed.
+     @param new width
+     @param new height
+     */
+    virtual void applicationScreenSizeChanged(int newWidth, int newHeight) override;
 };
 
 #endif

@@ -101,3 +101,27 @@ void AppDelegate::applicationWillEnterForeground() {
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
+
+void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
+{
+//    if (newWidth <= 0 || newHeight <= 0)
+//    {
+//        return;
+//    }
+//    
+//    auto director = Director::getInstance();
+//    auto glview = director->getOpenGLView();
+//    if (glview)
+//    {
+//        auto size = glview->getFrameSize();
+//        if (size.equals(Size(newWidth, newHeight)))
+//            return;
+//        
+//        glview->setFrameSize(newWidth, newHeight);
+//        
+//        ResolutionPolicy resolutionPolicy = glview->getResolutionPolicy();
+//        if (resolutionPolicy == ResolutionPolicy::UNKNOWN)
+//            resolutionPolicy = ResolutionPolicy::SHOW_ALL;
+//        glview->setDesignResolutionSize(newWidth, newHeight, resolutionPolicy);
+//    }
+}
