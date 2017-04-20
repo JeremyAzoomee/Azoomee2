@@ -101,18 +101,15 @@ std::string RoutePaymentSingleton::getOSManufacturer()
 
 bool RoutePaymentSingleton::osIsIos()
 {
-    if(getOSManufacturer() == "iOS") return true;
-    else return false;
+    return (getOSManufacturer() == "iOS");
 }
 
 bool RoutePaymentSingleton::osIsAndroid()
 {
-    if(getOSManufacturer() == "Google") return true;
-    else return false;
+    return (getOSManufacturer() == "Google");
 }
 
 bool RoutePaymentSingleton::osIsAmazon()
 {
-    if(getOSManufacturer() == "Amazon") return true;
-    else return false;
+    return (getOSManufacturer() == "Amazon");
 }

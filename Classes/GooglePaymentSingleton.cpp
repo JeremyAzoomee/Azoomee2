@@ -127,7 +127,7 @@ void GooglePaymentSingleton::purchaseFailedAfterFulfillment()
     MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE_CONTACT_US, nullptr);
 }
 
-void GooglePaymentSingleton::doublePurchase()
+void GooglePaymentSingleton::purchaseFailedAlreadyPurchased()
 {
     auto funcCallAction = CallFunc::create([=](){
         this->prepareForErrorMessage();
@@ -198,12 +198,12 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailed(JN
 extern "C"
 
 {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleDoublePurchase(JNIEnv* env, jobject thiz);
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailedAlreadyPurchased(JNIEnv* env, jobject thiz);
 };
 
-JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googleDoublePurchase(JNIEnv* env, jobject thiz)
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseFailedAlreadyPurchased(JNIEnv* env, jobject thiz)
 {
-    GooglePaymentSingleton::getInstance()->doublePurchase();
+    GooglePaymentSingleton::getInstance()->purchaseFailedAlreadyPurchased();
 }
 
 extern "C"

@@ -384,7 +384,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
 
             if(mIsPremium)
             {
-                googleDoublePurchase();
+                googlePurchaseFailedAlreadyPurchased();
                 return;
             }
 
@@ -437,7 +437,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
 
     public static native void googlePurchaseFailed();
 
-    public static native void googleDoublePurchase();
+    public static native void googlePurchaseFailedAlreadyPurchased();
 
     public static native String getGoogleSku();
 
