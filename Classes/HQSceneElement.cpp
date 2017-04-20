@@ -27,6 +27,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "PaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
+#include "ManualGameInputLayer.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -132,7 +133,7 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             }
             else if(type == "MANUAL")
             {
-                
+                ManualGameInputLayer::create();
             }
             else
             {

@@ -188,8 +188,9 @@ void TextInputLayer::setEditboxVisibility(bool visibility)
 
 void TextInputLayer::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-    //Inform Delegates if input is valid
-    this->getDelegate()->textInputIsValid(this, inputIsValid());
+    if(this->getDelegate())
+        //Inform Delegates if input is valid
+        this->getDelegate()->textInputIsValid(this, inputIsValid());
 }
 
 void TextInputLayer::editBoxReturn(cocos2d::ui::EditBox* editBox)
