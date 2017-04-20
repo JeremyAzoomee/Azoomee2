@@ -33,6 +33,7 @@
 		3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA81E97E8450009027D /* HMACSHA256_ios.mm */; };
 		3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAB1E97E8450009027D /* JWTTool.cpp */; };
 		3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */; };
+		304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC61EA8F883008CED52 /* GameController.framework */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
 		30DD5ECE1E965B710084305B /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC91E9658B40084305B /* Fabric.framework */; };
@@ -111,25 +112,6 @@
 		4349C85C1EA8ADEF00FE964B /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7FE1EA8ADEF00FE964B /* UIImage+MPImageEffects.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8001EA8ADEF00FE964B /* UIView+MPHelpers.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */; };
-		4349C90F1EA8C58000FE964B /* MPArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C9011EA8C58000FE964B /* MPArrowLeft.png */; };
-		4349C9101EA8C58000FE964B /* MPArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C9021EA8C58000FE964B /* MPArrowLeft@2x.png */; };
-		4349C9111EA8C58000FE964B /* MPArrowRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C9031EA8C58000FE964B /* MPArrowRight.png */; };
-		4349C9121EA8C58000FE964B /* MPArrowRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C9041EA8C58000FE964B /* MPArrowRight@2x.png */; };
-		4349C9131EA8C58000FE964B /* MPCheckmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C9051EA8C58000FE964B /* MPCheckmark.png */; };
-		4349C9141EA8C58000FE964B /* MPCheckmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C9061EA8C58000FE964B /* MPCheckmark@2x.png */; };
-		4349C9151EA8C58000FE964B /* MPCloseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C9071EA8C58000FE964B /* MPCloseButton.png */; };
-		4349C9161EA8C58000FE964B /* MPCloseButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C9081EA8C58000FE964B /* MPCloseButton@2x.png */; };
-		4349C9171EA8C58000FE964B /* MPCloseButton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C9091EA8C58000FE964B /* MPCloseButton@3x.png */; };
-		4349C9181EA8C58000FE964B /* MPDismissKeyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C90A1EA8C58000FE964B /* MPDismissKeyboard.png */; };
-		4349C9191EA8C58000FE964B /* MPDismissKeyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C90B1EA8C58000FE964B /* MPDismissKeyboard@2x.png */; };
-		4349C91A1EA8C58000FE964B /* MPLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C90C1EA8C58000FE964B /* MPLogo.png */; };
-		4349C91B1EA8C58000FE964B /* MPLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C90D1EA8C58000FE964B /* MPLogo@2x.png */; };
-		4349C91C1EA8C58000FE964B /* placeholder-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 4349C90E1EA8C58000FE964B /* placeholder-image.png */; };
-		4349C9221EA8C59400FE964B /* MPTakeoverNotificationViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4349C91D1EA8C59400FE964B /* MPTakeoverNotificationViewController~ipad.xib */; };
-		4349C9231EA8C59400FE964B /* MPTakeoverNotificationViewController~iphonelandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4349C91E1EA8C59400FE964B /* MPTakeoverNotificationViewController~iphonelandscape.xib */; };
-		4349C9241EA8C59400FE964B /* MPTakeoverNotificationViewController~iphoneportrait.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4349C91F1EA8C59400FE964B /* MPTakeoverNotificationViewController~iphoneportrait.xib */; };
-		4349C9251EA8C59400FE964B /* snapshot_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 4349C9201EA8C59400FE964B /* snapshot_config.json */; };
-		4349C9261EA8C59400FE964B /* test_variant.json in Resources */ = {isa = PBXBuildFile; fileRef = 4349C9211EA8C59400FE964B /* test_variant.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -188,6 +170,7 @@
 		3012EDAC1E97E8450009027D /* JWTTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTTool.h; sourceTree = "<group>"; };
 		3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTToolForceParent.cpp; sourceTree = "<group>"; };
 		3012EDAE1E97E8450009027D /* JWTToolForceParent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTToolForceParent.h; sourceTree = "<group>"; };
+		304D9EC61EA8F883008CED52 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		30DD5EBF1E96571F0084305B /* CrashlyticsConfig_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashlyticsConfig_android.cpp; sourceTree = "<group>"; };
 		30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CrashlyticsConfig_ios.mm; sourceTree = "<group>"; };
@@ -339,25 +322,6 @@
 		4349C8001EA8ADEF00FE964B /* UIView+MPHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPHelpers.m"; sourceTree = "<group>"; };
 		4349C8011EA8ADEF00FE964B /* UIViewController+AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AutomaticEvents.h"; sourceTree = "<group>"; };
 		4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AutomaticEvents.m"; sourceTree = "<group>"; };
-		4349C9011EA8C58000FE964B /* MPArrowLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MPArrowLeft.png; sourceTree = "<group>"; };
-		4349C9021EA8C58000FE964B /* MPArrowLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MPArrowLeft@2x.png"; sourceTree = "<group>"; };
-		4349C9031EA8C58000FE964B /* MPArrowRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MPArrowRight.png; sourceTree = "<group>"; };
-		4349C9041EA8C58000FE964B /* MPArrowRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MPArrowRight@2x.png"; sourceTree = "<group>"; };
-		4349C9051EA8C58000FE964B /* MPCheckmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MPCheckmark.png; sourceTree = "<group>"; };
-		4349C9061EA8C58000FE964B /* MPCheckmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MPCheckmark@2x.png"; sourceTree = "<group>"; };
-		4349C9071EA8C58000FE964B /* MPCloseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MPCloseButton.png; sourceTree = "<group>"; };
-		4349C9081EA8C58000FE964B /* MPCloseButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MPCloseButton@2x.png"; sourceTree = "<group>"; };
-		4349C9091EA8C58000FE964B /* MPCloseButton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MPCloseButton@3x.png"; sourceTree = "<group>"; };
-		4349C90A1EA8C58000FE964B /* MPDismissKeyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MPDismissKeyboard.png; sourceTree = "<group>"; };
-		4349C90B1EA8C58000FE964B /* MPDismissKeyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MPDismissKeyboard@2x.png"; sourceTree = "<group>"; };
-		4349C90C1EA8C58000FE964B /* MPLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MPLogo.png; sourceTree = "<group>"; };
-		4349C90D1EA8C58000FE964B /* MPLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MPLogo@2x.png"; sourceTree = "<group>"; };
-		4349C90E1EA8C58000FE964B /* placeholder-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-image.png"; sourceTree = "<group>"; };
-		4349C91D1EA8C59400FE964B /* MPTakeoverNotificationViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MPTakeoverNotificationViewController~ipad.xib"; sourceTree = "<group>"; };
-		4349C91E1EA8C59400FE964B /* MPTakeoverNotificationViewController~iphonelandscape.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MPTakeoverNotificationViewController~iphonelandscape.xib"; sourceTree = "<group>"; };
-		4349C91F1EA8C59400FE964B /* MPTakeoverNotificationViewController~iphoneportrait.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MPTakeoverNotificationViewController~iphoneportrait.xib"; sourceTree = "<group>"; };
-		4349C9201EA8C59400FE964B /* snapshot_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = snapshot_config.json; sourceTree = "<group>"; };
-		4349C9211EA8C59400FE964B /* test_variant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_variant.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -365,6 +329,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */,
 				30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */,
 				30DD5ECE1E965B710084305B /* Fabric.framework in Frameworks */,
 			);
@@ -582,6 +547,7 @@
 			isa = PBXGroup;
 			children = (
 				3012EC581E9691A90009027D /* libs */,
+				304D9EC61EA8F883008CED52 /* GameController.framework */,
 				30DD5EC81E9658B40084305B /* Crashlytics.framework */,
 				30DD5EC91E9658B40084305B /* Fabric.framework */,
 			);
@@ -604,12 +570,6 @@
 		4349C75F1EA8ADEE00FE964B /* Mixpanel */ = {
 			isa = PBXGroup;
 			children = (
-				4349C91D1EA8C59400FE964B /* MPTakeoverNotificationViewController~ipad.xib */,
-				4349C91E1EA8C59400FE964B /* MPTakeoverNotificationViewController~iphonelandscape.xib */,
-				4349C91F1EA8C59400FE964B /* MPTakeoverNotificationViewController~iphoneportrait.xib */,
-				4349C9201EA8C59400FE964B /* snapshot_config.json */,
-				4349C9211EA8C59400FE964B /* test_variant.json */,
-				4349C9001EA8C58000FE964B /* Images */,
 				4349C7601EA8ADEE00FE964B /* _MPTweakBindObserver.h */,
 				4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */,
 				4349C7631EA8ADEE00FE964B /* AutomaticEventsConstants.h */,
@@ -753,27 +713,6 @@
 			path = Mixpanel;
 			sourceTree = "<group>";
 		};
-		4349C9001EA8C58000FE964B /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				4349C9011EA8C58000FE964B /* MPArrowLeft.png */,
-				4349C9021EA8C58000FE964B /* MPArrowLeft@2x.png */,
-				4349C9031EA8C58000FE964B /* MPArrowRight.png */,
-				4349C9041EA8C58000FE964B /* MPArrowRight@2x.png */,
-				4349C9051EA8C58000FE964B /* MPCheckmark.png */,
-				4349C9061EA8C58000FE964B /* MPCheckmark@2x.png */,
-				4349C9071EA8C58000FE964B /* MPCloseButton.png */,
-				4349C9081EA8C58000FE964B /* MPCloseButton@2x.png */,
-				4349C9091EA8C58000FE964B /* MPCloseButton@3x.png */,
-				4349C90A1EA8C58000FE964B /* MPDismissKeyboard.png */,
-				4349C90B1EA8C58000FE964B /* MPDismissKeyboard@2x.png */,
-				4349C90C1EA8C58000FE964B /* MPLogo.png */,
-				4349C90D1EA8C58000FE964B /* MPLogo@2x.png */,
-				4349C90E1EA8C58000FE964B /* placeholder-image.png */,
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -832,25 +771,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4349C9161EA8C58000FE964B /* MPCloseButton@2x.png in Resources */,
-				4349C9221EA8C59400FE964B /* MPTakeoverNotificationViewController~ipad.xib in Resources */,
-				4349C9171EA8C58000FE964B /* MPCloseButton@3x.png in Resources */,
-				4349C9101EA8C58000FE964B /* MPArrowLeft@2x.png in Resources */,
-				4349C91C1EA8C58000FE964B /* placeholder-image.png in Resources */,
-				4349C91B1EA8C58000FE964B /* MPLogo@2x.png in Resources */,
-				4349C9241EA8C59400FE964B /* MPTakeoverNotificationViewController~iphoneportrait.xib in Resources */,
-				4349C9251EA8C59400FE964B /* snapshot_config.json in Resources */,
-				4349C91A1EA8C58000FE964B /* MPLogo.png in Resources */,
-				4349C9131EA8C58000FE964B /* MPCheckmark.png in Resources */,
-				4349C9111EA8C58000FE964B /* MPArrowRight.png in Resources */,
-				4349C9231EA8C59400FE964B /* MPTakeoverNotificationViewController~iphonelandscape.xib in Resources */,
-				4349C9151EA8C58000FE964B /* MPCloseButton.png in Resources */,
-				4349C9181EA8C58000FE964B /* MPDismissKeyboard.png in Resources */,
-				4349C9261EA8C59400FE964B /* test_variant.json in Resources */,
-				4349C9191EA8C58000FE964B /* MPDismissKeyboard@2x.png in Resources */,
-				4349C9141EA8C58000FE964B /* MPCheckmark@2x.png in Resources */,
-				4349C9121EA8C58000FE964B /* MPArrowRight@2x.png in Resources */,
-				4349C90F1EA8C58000FE964B /* MPArrowLeft.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
