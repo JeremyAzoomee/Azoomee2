@@ -1,7 +1,7 @@
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
-#include "PaymentSingleton.h"
+#include "RoutePaymentSingleton.h"
 #include "MessageBox.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 
@@ -192,7 +192,7 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
         if(requiresPinCode)
             askForPin();
         else
-            PaymentSingleton::getInstance()->startIAPPayment();
+            RoutePaymentSingleton::getInstance()->startInAppPayment();
     }
     else if(button == notNowButton)
     {
@@ -213,5 +213,5 @@ void IAPUpsaleLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 
 void IAPUpsaleLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
-    PaymentSingleton::getInstance()->startIAPPayment();
+    RoutePaymentSingleton::getInstance()->startInAppPayment();
 }

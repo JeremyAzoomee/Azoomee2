@@ -87,6 +87,7 @@ public:
     
     //IAP Configuration
     std::string getIapSkuForProvider(std::string provider);
+    std::string getDeveloperPublicKey();
     
 private:
     rapidjson::Document parseJsonConfigurationFile(std::string fileName);

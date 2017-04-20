@@ -25,7 +25,7 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include "PaymentSingleton.h"
+#include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 
 USING_NS_CC;
@@ -66,7 +66,7 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     }
     else
     {
-        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false,itemData["entitled"], PaymentSingleton::getInstance()->showIAPContent());
+        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false,itemData["entitled"], RoutePaymentSingleton::getInstance()->showIAPContent());
     }
 }
 
