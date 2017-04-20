@@ -130,6 +130,10 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
                 MessageBox::createPreviewLoginSignupMessageBox();
                 return true;
             }
+            else if(type == "MANUAL")
+            {
+                
+            }
             else
             {
                 if(entitled == "false")
