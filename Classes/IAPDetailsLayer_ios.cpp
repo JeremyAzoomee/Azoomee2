@@ -20,7 +20,7 @@ bool IAPDetailsLayer_ios::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    createBackGroundLayer();
+    createBackgroundLayer();
     createUpSaleLayer();
     addButtons();
     addTitle();
@@ -29,9 +29,9 @@ bool IAPDetailsLayer_ios::init()
     return true;
 }
 
-//---------------------- Create BackGround Layer -----------------------------
+//---------------------- Create Background Layer -----------------------------
 
-void IAPDetailsLayer_ios::createBackGroundLayer()
+void IAPDetailsLayer_ios::createBackgroundLayer()
 {
     backgroundLayer = LayerColor::create(Color4B(48,38,38,255),origin.x + visibleSize.width,origin.y + visibleSize.height);
     

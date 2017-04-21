@@ -31,7 +31,7 @@ private:
     
     bool restoreButtonPressed;
     
-    void createBackGroundLayer();
+    void createBackgroundLayer();
     void addListenerToBackgroundLayer();
     
     void createUpSaleLayer();

@@ -38,7 +38,7 @@ bool IAPUpsaleLayer::init()
     
     AudioMixer::getInstance()->pauseBackgroundMusic();
     
-    createBackGroundLayer();
+    createBackgroundLayer();
     createUpSaleLayer();
     addImage();
     addTitle();
@@ -48,9 +48,9 @@ bool IAPUpsaleLayer::init()
     return true;
 }
 
-//---------------------- Create BackGround Layer -----------------------------
+//---------------------- Create Background Layer -----------------------------
 
-void IAPUpsaleLayer::createBackGroundLayer()
+void IAPUpsaleLayer::createBackgroundLayer()
 {
     backgroundLayer = LayerColor::create(Color4B(48,38,38,255),origin.x + visibleSize.width,origin.y + visibleSize.height);
     

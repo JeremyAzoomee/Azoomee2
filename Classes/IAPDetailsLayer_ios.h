@@ -23,7 +23,7 @@ private:
     Label* titleLabel;
     Label* optionalLabel;
     
-    void createBackGroundLayer();
+    void createBackgroundLayer();
     void addListenerToBackgroundLayer();
     
     void createUpSaleLayer();
