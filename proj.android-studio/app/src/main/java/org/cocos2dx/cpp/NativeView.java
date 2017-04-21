@@ -74,9 +74,13 @@ public class NativeView extends XWalkActivity {
                 if(xWalkWebView != null)
                 {
                     xWalkWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
+                    xWalkWebView.loadUrl("about:blank");
                     xWalkWebView.removeAllViews();
                     xWalkWebView.clearCache(true);
+                    xWalkWebView.pauseTimers();
                     xWalkWebView = null;
+
+                    xWalkWebViewStatic = null;
                 }
 
                 finish();
@@ -107,7 +111,7 @@ public class NativeView extends XWalkActivity {
 
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
-            xWalkWebView.load("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl, null);
+            xWalkWebView.loadUrl("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl);
         }
         else
         {
@@ -129,7 +133,7 @@ public class NativeView extends XWalkActivity {
 
             log.d("cookies: ", mCookieManager.getCookie(myCookieUrl));
 
-            xWalkWebView.load("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl, null);
+            xWalkWebView.loadUrl("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl);
         }
 
         xWalkWebView.addJavascriptInterface(new JsInterface(), "NativeInterface");

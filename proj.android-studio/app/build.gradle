@@ -24,8 +24,8 @@ android {
         applicationId "com.tinizine.azoomee"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 321999
-        versionName "3.2.1"
+        versionCode 323101
+        versionName "3.2.3"
     }
     
     splits {
@@ -100,6 +100,7 @@ dependencies {
         transitive = true
     }
     compile 'com.appsflyer:af-android-sdk:4+@aar'
+    compile files('jars/in-app-purchasing-2.0.76.jar')
 }
 
 task cleanAssets(type: Delete) {
