@@ -10,9 +10,11 @@
 #import "MPNetworkPrivate.h"
 #import "MPLogger.h"
 #import "Mixpanel.h"
+#if !TARGET_OS_OSX
 #import <UIKit/UIKit.h>
+#endif
 
-#define MIXPANEL_NO_NETWORK_ACTIVITY_INDICATOR (defined(MIXPANEL_APP_EXTENSION) || defined(MIXPANEL_TVOS_EXTENSION) || defined(MIXPANEL_WATCH_EXTENSION))
+#define MIXPANEL_NO_NETWORK_ACTIVITY_INDICATOR (defined(MIXPANEL_APP_EXTENSION) || defined(MIXPANEL_TVOS) || defined(MIXPANEL_WATCHOS) || defined(MIXPANEL_MACOS))
 
 static const NSUInteger kBatchSize = 50;
 
@@ -58,7 +60,8 @@ static const NSUInteger kBatchSize = 50;
 
     NSMutableArray *queueCopyForFlushing;
 
-    @synchronized (self.mixpanel) {
+    Mixpanel *mixpanel = self.mixpanel;
+    @synchronized (mixpanel) {
         queueCopyForFlushing = [queue mutableCopy];
     }
     
@@ -101,7 +104,7 @@ static const NSUInteger kBatchSize = 50;
             break;
         }
 
-        @synchronized (self.mixpanel) {
+        @synchronized (mixpanel) {
             [queueCopyForFlushing removeObjectsInArray:batch];
             [queue removeObjectsInArray:batch];
         }
@@ -193,7 +196,9 @@ static const NSUInteger kBatchSize = 50;
     NSURL *urlWithEndpoint = [self.serverURL URLByAppendingPathComponent:endpoint];
     NSURLComponents *components = [NSURLComponents componentsWithURL:urlWithEndpoint
                                              resolvingAgainstBaseURL:YES];
-    components.queryItems = queryItems;
+    if (queryItems) {
+        components.queryItems = queryItems;
+    }
 
     // NSURLComponents/NSURLQueryItem doesn't encode + as %2B, and then the + is interpreted as a space on servers
     components.percentEncodedQuery = [components.percentEncodedQuery stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"];

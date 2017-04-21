@@ -111,6 +111,13 @@
         "button":"OK"
     },
     
+        "3004":
+    {
+    	"title":"Something Went Wrong",
+        "body":"Your purchase could not be completed. Please try again later. If the problem persists, please contact our customer service.",
+        "button":"OK"
+    },
+    
     "default":
     {
         "title":"Something Went Wrong",

@@ -27,7 +27,7 @@ bool ManualGameInputLayer::init()
     return true;
 }
 
-//---------------------- Create BackGround Layer -----------------------------
+//---------------------- Create Background Layer -----------------------------
 
 void ManualGameInputLayer::createBackgroundLayer()
 {
