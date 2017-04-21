@@ -5,3 +5,8 @@
 .DS_Store
 /build
 /captures
+*.iml
+*.apk
+/app/obj/
+/app/libs/
+/app/assets/res/

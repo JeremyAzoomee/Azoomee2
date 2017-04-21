@@ -1,7 +1,6 @@
 #include "RoutePaymentSingleton.h"
-#include "AnalyticsSingleton.h"
-
-#include "ParentDataProvider.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
@@ -45,6 +44,7 @@ void RoutePaymentSingleton::startInAppPayment()
 {
     if(osIsIos())
     {
+        Azoomee::AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
         #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
             ApplePaymentSingleton::getInstance()->startIAPPayment();
         #endif
@@ -53,12 +53,14 @@ void RoutePaymentSingleton::startInAppPayment()
     
     if(osIsAndroid())
     {
+        Azoomee::AnalyticsSingleton::getInstance()->registerIAPOS("Google");
         GooglePaymentSingleton::getInstance()->startIABPayment();
         return;
     }
     
     if(osIsAmazon())
     {
+        Azoomee::AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
         AmazonPaymentSingleton::getInstance()->startIAPPayment();
         return;
     }
@@ -101,20 +103,17 @@ std::string RoutePaymentSingleton::getOSManufacturer()
 
 bool RoutePaymentSingleton::osIsIos()
 {
-    if(getOSManufacturer() == "iOS") return true;
-    else return false;
+    return (getOSManufacturer() == "iOS");
 }
 
 bool RoutePaymentSingleton::osIsAndroid()
 {
-    if(getOSManufacturer() == "Google") return true;
-    else return false;
+    return (getOSManufacturer() == "Google");
 }
 
 bool RoutePaymentSingleton::osIsAmazon()
 {
-    if(getOSManufacturer() == "Amazon") return true;
-    else return false;
+    return (getOSManufacturer() == "Amazon");
 }
 
 void RoutePaymentSingleton::refreshAppleReceiptFromButton()

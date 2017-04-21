@@ -3,16 +3,19 @@
 #include "external/json/document.h"
 #include "MessageBox.h"
 #include "BackEndCaller.h"
-#include "ParentDataProvider.h"
-#include "AnalyticsSingleton.h"
+
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
 #endif
 
 USING_NS_CC;
-
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 static AmazonPaymentSingleton *_sharedAmazonPaymentSingleton = NULL;
 
@@ -105,7 +108,7 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
                 
                 removeModalLayer();
                 
-                BackEndCaller::getInstance()->newTrialJustStarted = true;
+                BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
             }
             else
@@ -264,6 +267,17 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_userDataFailed(JNIEnv* 
 {
     CCLOG("COCOS2DX: USER DATA FAILED");
     AnalyticsSingleton::getInstance()->iapUserDataFailedEvent();
+}
+
+extern "C"
+
+{
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getAmazonSku(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getAmazonSku(JNIEnv* env, jobject thiz)
+{
+    return env->NewStringUTF(ConfigStorage::getInstance()->getIapSkuForProvider("amazon").c_str());
 }
 
 #endif

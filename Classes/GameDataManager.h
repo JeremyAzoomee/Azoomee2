@@ -1,4 +1,4 @@
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "network/HttpClient.h"
 #include "external/json/document.h"
 #include "ElectricDreamsButton.h"
@@ -17,10 +17,11 @@ public:
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
+    void getJSONGameData(std::string url, std::string itemId);
+    
 private:
     std::string getFileNameFromUrl(std::string url);
     
-    void getJSONGameData(std::string url, std::string itemId);
     void onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     bool checkIfFileExists(std::string fileWithPath);

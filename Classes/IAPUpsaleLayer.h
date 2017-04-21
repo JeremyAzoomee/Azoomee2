@@ -1,7 +1,7 @@
 #ifndef __IAP_UPSALE_LAYER_H__
 #define __IAP_UPSALE_LAYER_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ElectricDreamsButton.h"
 #include "AwaitingAdultPinLayer.h"
 

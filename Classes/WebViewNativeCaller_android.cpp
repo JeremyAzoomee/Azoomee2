@@ -1,13 +1,15 @@
 #include "WebViewNativeCaller_android.h"
-#include "CookieDataProvider.h"
-#include "ChildDataProvider.h"
-#include "AudioMixer.h"
+#include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "LoginScene.h"
 #include "HQHistoryManager.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "WebGameAPIDataManager.h"
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(std::string url)
 {
@@ -167,8 +169,8 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISaveLocalDataStorage(JNIEnv* env, jobject thiz, jstring data)
 {
-    const char* cData = env->GetStringUTFChars(data, NULL);
-    WebGameAPIDataManager::getInstance()->saveLocalStorageData(strdup(cData));
+    std::string cData(env->GetStringUTFChars(data, NULL));
+    WebGameAPIDataManager::getInstance()->saveLocalStorageData(cData);
 }
 
 #endif

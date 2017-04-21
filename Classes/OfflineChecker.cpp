@@ -52,7 +52,7 @@ void OfflineChecker::startOfflineChecking()
     Director::getInstance()->getRunningScene()->addChild(nodeToSchedule);
     
     nodeToSchedule->stopActionByTag(1);
-    nodeToSchedule->runAction(RepeatForever::create(Sequence::create(funcCallAction, DelayTime::create(5), NULL)));
+    nodeToSchedule->runAction(RepeatForever::create(Sequence::create(funcCallAction, DelayTime::create(4), NULL)));
 }
 
 //ALL functions below this line are private
@@ -72,8 +72,11 @@ void OfflineChecker::sendOfflineCheckRequest()
 
 void OfflineChecker::onOfflineCheckRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
+    if(!Director::getInstance()->getRunningScene()->getChildByName("scheduleNode")) return;
+    
     if((response->getResponseCode() == 200)&&((newScene)||(offlineStatus)))
     {
+        amountOfFailures = 0;
         CCLOG("Online!");
         offlineStatus = false;
         newScene = false;
@@ -87,6 +90,9 @@ void OfflineChecker::onOfflineCheckRequestAnswerReceived(cocos2d::network::HttpC
     
     if((response->getResponseCode() != 200)&&((newScene)||(!offlineStatus)))
     {
+        amountOfFailures++;
+        if(amountOfFailures < 2) return;
+        
         CCLOG("Offline!");
         offlineStatus = true;
         newScene = false;

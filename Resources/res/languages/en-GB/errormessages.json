@@ -100,7 +100,7 @@
     "3002":
     {
     	"title":"Something Went Wrong",
-        "body":"Your purchase could not be completed. Please try again later.",
+        "body":"Your purchase could not be completed. Please try again later. If the problem persists, please contact our customer service.",
         "button":"OK"
     },
     
@@ -135,7 +135,6 @@
         "body":"Log in your Azoomee account on your Apple device to renew your subscription.\n\nContact our customer service team if you need some help.",
         "button":"OK"
     },
-
     
     "default":
     {

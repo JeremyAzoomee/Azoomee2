@@ -1,7 +1,7 @@
 #ifndef __EXIT_OR_LOGOUT_LAYER_H__
 #define __EXIT_OR_LOGOUT_LAYER_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ElectricDreamsButton.h"
 #include "AwaitingAdultPinLayer.h"
 #include "PrivacyAndTermsLayer.h"

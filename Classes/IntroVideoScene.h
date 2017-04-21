@@ -1,7 +1,7 @@
 #ifndef __INTRO_VIDEO_SCENE_H__
 #define __INTRO_VIDEO_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ui/UIVideoPlayer.h"
 
 USING_NS_CC;

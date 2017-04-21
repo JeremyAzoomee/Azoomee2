@@ -2,10 +2,13 @@
 #include "BaseScene.h"
 #include "HQHistoryManager.h"
 #include "LoginScene.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
 #include "BackEndCaller.h"
 #include "WebGameAPIDataManager.h"
+
+using namespace Azoomee;
+
 
 void navigateToBaseScene()
 {
@@ -81,7 +84,8 @@ const char* getLocalStorageForGame()
     return returnString;
 }
 
-void saveLocalStorageData(const char* stringToSave)
+void saveLocalStorageData(NSString* stringToSave)
 {
-    WebGameAPIDataManager::getInstance()->saveLocalStorageData(strdup(stringToSave));
+    std::string stringToSaveStd = [stringToSave UTF8String];
+    WebGameAPIDataManager::getInstance()->saveLocalStorageData(stringToSaveStd);
 }

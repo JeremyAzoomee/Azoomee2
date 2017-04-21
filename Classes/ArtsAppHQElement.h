@@ -1,7 +1,7 @@
 #ifndef __ARTSAPPHQELEMENT_H__
 #define __ARTSAPPHQELEMENT_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class ArtsAppHQElement : public cocos2d::Layer
 {

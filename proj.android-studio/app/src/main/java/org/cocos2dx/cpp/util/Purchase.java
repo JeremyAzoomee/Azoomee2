@@ -18,9 +18,6 @@ package org.cocos2dx.cpp.util;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Represents an in-app billing purchase.
- */
 public class Purchase {
     String mItemType;  // ITEM_TYPE_INAPP or ITEM_TYPE_SUBS
     String mOrderId;

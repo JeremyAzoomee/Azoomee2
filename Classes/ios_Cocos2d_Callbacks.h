@@ -8,7 +8,7 @@ extern "C" {
     void sendMixPanelData(const char* host, const char* query);
     const char* sendGameApiRequest(const char* method, const char* responseid, const char* score);
     const char* getLocalStorageForGame();
-    void saveLocalStorageData(const char* stringToSave);
+    void saveLocalStorageData(NSString* stringToSave);
     
 #ifdef __cplusplus
 }

@@ -1,7 +1,7 @@
 #ifndef __WEBGAMEAPIDATAMANAGER_H__
 #define __WEBGAMEAPIDATAMANAGER_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class WebGameAPIDataManager : public cocos2d::Ref
 {
@@ -12,7 +12,7 @@ public:
     bool init(void);
     char* handleAPIRequest(const char* method, const char* responseId, const char* score);
     void setGameId(std::string gameId);
-    void saveLocalStorageData(char* stringToBeWritten);
+    void saveLocalStorageData(std::string stringToBeWritten);
     char* getLocalStorageData();
     
 private:

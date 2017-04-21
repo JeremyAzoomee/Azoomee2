@@ -1,8 +1,10 @@
 package com.amazon.iap;
 
+import org.cocos2dx.cpp.AppActivity;
+
 public enum MySku {
 
-    MY_MAGAZINE_SUBS("com.tinizine.azoomee.monthly.02", "UK");
+    MY_MAGAZINE_SUBS(AppActivity.getAmazonSku(), "UK");
 
     private final String sku;
     private final String availableMarkpetplace;

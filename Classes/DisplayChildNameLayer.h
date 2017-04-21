@@ -1,7 +1,7 @@
 #ifndef __DISPLAY_CHILD_NAME_LAYER_H__
 #define __DISPLAY_CHILD_NAME_LAYER_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class DisplayChildNameLayer : public cocos2d::Layer
 {

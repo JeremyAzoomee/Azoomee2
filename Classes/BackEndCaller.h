@@ -1,4 +1,4 @@
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "network/HttpClient.h"
 #include "external/json/document.h"
 
@@ -55,7 +55,7 @@ public:
     std::string registerParentUsername;
     std::string registerParentPassword;
     
-    bool newTrialJustStarted;
+    bool newSubscriptionJustStarted;
 
     
     //------------------------------------------------------------------------------------------------------------------
