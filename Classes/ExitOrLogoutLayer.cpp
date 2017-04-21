@@ -86,7 +86,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     //-------- VERSION NUBMER ---------
     
     auto versionTitle = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
-    versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 1.5);
+    versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 2.5);
     windowLayer->addChild(versionTitle);
     
     //-------- USERNAME---------------

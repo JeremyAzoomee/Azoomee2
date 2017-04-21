@@ -1,5 +1,5 @@
 #include "IAPDetailsLayer_ios.h"
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "PrivacyAndTermsLayer.h"
 
 USING_NS_CC;

@@ -1,11 +1,11 @@
 #include "ApplePaymentSingleton.h"
 #include "payment_ios.h"
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "external/json/document.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
 #include "HttpRequestCreator.h"
-#include "ParentDataProvider.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 USING_NS_CC;
 
@@ -87,7 +87,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
                 AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
                 paymentFailed = false;
 
-                BackEndCaller::getInstance()->newTrialJustStarted = true;
+                BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
             }
             else if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")

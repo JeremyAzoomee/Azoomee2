@@ -1,5 +1,5 @@
 #include "StringFunctions.h"
-
+#include<cstdlib>
 
 namespace Azoomee
 {
@@ -50,6 +50,26 @@ std::string stringReplace(std::string originalString, std::string stringToReplac
     originalString.replace( positionInString, lengthOfString, withNewString);
   }
   return originalString;
+}
+    
+bool isDateStringOlderThanToday(std::string dateToCheck)
+{
+    std::vector<std::string> dobSplit = splitStringToVector(dateToCheck, "-");
+    
+    if(dobSplit.size() != 3)
+        return false;
+    
+    int nextBilldate = std::atoi(dobSplit.at(0).c_str()) * 10000 + std::atoi(dobSplit.at(1).c_str()) * 100 + std::atoi(dobSplit.at(2).c_str());
+    
+    time_t now = time (0);
+    tm nowtm = *(gmtime (&now));
+    
+    int today = nowtm.tm_year * 10000 +19000000 + (nowtm.tm_mon + 1) * 100 + nowtm.tm_mday;
+    
+    if(nextBilldate <=today)
+        return true;
+    else
+        return false;
 }
 
 

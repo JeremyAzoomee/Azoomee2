@@ -124,7 +124,7 @@ void GooglePaymentSingleton::purchaseFailedBeforeFulfillment()
 void GooglePaymentSingleton::purchaseFailedAfterFulfillment()
 {
     prepareForErrorMessage();
-    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE_CONTACT_US, nullptr);
+    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
 }
 
 void GooglePaymentSingleton::purchaseFailedAlreadyPurchased()

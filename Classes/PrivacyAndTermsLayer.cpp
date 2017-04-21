@@ -1,5 +1,5 @@
 #include "PrivacyAndTermsLayer.h"
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
 bool PrivacyAndTermsLayer::init()
 {

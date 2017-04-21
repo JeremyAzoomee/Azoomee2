@@ -87,7 +87,7 @@ void AnalyticsSingleton::registerIAPOS(std::string OS_String)
 
 void AnalyticsSingleton::registerBillingProvider(std::string provider)
 {
-    mixPanel_OSSpecificSuperPropertiesCall("billingProvider",provider);
+    mixPanelRegisterSuperProperties("billingProvider",provider);
 }
 
 void AnalyticsSingleton::registerChildID(std::string ChildID)
@@ -473,11 +473,11 @@ void AnalyticsSingleton::iapBackEndRequestFailedEvent(long errorCode)
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
-  
-}
 
 void AnalyticsSingleton::iapAppleAutoRenewSubscriptionEvent()
 {
-    mixPanel_createOSSpecficCall("iapAppleAutoRenewSubscription");
+    mixPanelSendEvent("iapAppleAutoRenewSubscription");
+}
+    
 }
 

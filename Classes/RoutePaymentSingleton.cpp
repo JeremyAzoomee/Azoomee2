@@ -4,7 +4,7 @@
 
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
-#include "StringFunctions.h"
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "MessageBox.h"
 #include "ChildSelectorScene.h"
 
