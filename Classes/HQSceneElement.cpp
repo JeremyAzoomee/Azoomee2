@@ -27,6 +27,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
+#include "ManualGameInputLayer.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -129,6 +130,10 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
                 AnalyticsSingleton::getInstance()->previewContentClickedEvent(title,description,type);
                 MessageBox::createPreviewLoginSignupMessageBox();
                 return true;
+            }
+            else if(type == "MANUAL")
+            {
+                ManualGameInputLayer::create();
             }
             else
             {

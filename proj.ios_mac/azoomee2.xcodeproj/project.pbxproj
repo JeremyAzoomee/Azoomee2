@@ -68,6 +68,7 @@
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
 		4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
 		4327D9291E1F990700F912C5 /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */; };
+		432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
 		433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
 		433FA7F61E7AA9C400A8C27F /* IAPUpsaleLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 433FA7F41E7AA9C400A8C27F /* IAPUpsaleLayer.cpp */; };
@@ -284,6 +285,8 @@
 		4319D3E11E67134600110F92 /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		4327D9271E1F990700F912C5 /* ElectricDreamsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsButton.cpp; sourceTree = "<group>"; };
 		4327D9281E1F990700F912C5 /* ElectricDreamsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsButton.h; sourceTree = "<group>"; };
+		432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManualGameInputLayer.cpp; sourceTree = "<group>"; };
+		432A6C0C1EA8E2A200C5842B /* ManualGameInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManualGameInputLayer.h; sourceTree = "<group>"; };
 		433AD3051E252A2C003757AD /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		433AD3061E252A2C003757AD /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		433FA7F41E7AA9C400A8C27F /* IAPUpsaleLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPUpsaleLayer.cpp; sourceTree = "<group>"; };
@@ -832,6 +835,8 @@
 				02E595B01E5B40BE0052F395 /* HQSceneElement */,
 				025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */,
 				025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */,
+				432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */,
+				432A6C0C1EA8E2A200C5842B /* ManualGameInputLayer.h */,
 			);
 			name = HQScene;
 			sourceTree = "<group>";
@@ -1112,6 +1117,7 @@
 				D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */,
 				A19862231DD3836D0090F053 /* HQScene.cpp in Sources */,
 				A1E5FCFB1DDDCCBA0098DD29 /* ImageContainer.cpp in Sources */,
+				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				A15D589B1E04099A0099CDEE /* HttpRequestCreator.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* MessageBox.cpp in Sources */,
 				025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */,
