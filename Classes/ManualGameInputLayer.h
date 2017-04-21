@@ -21,7 +21,7 @@ private:
     
     TextInputLayer *uriTextInput;
     
-    void createBackGroundLayer();
+    void createBackgroundLayer();
     void addListenerToBackgroundLayer();
     
     void createUpSaleLayer();

@@ -18,7 +18,7 @@ bool ManualGameInputLayer::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
 
-    createBackGroundLayer();
+    createBackgroundLayer();
     addSideWiresToScreen(this, 0, 2);
     addTitle();
     addButtons();
@@ -29,7 +29,7 @@ bool ManualGameInputLayer::init()
 
 //---------------------- Create BackGround Layer -----------------------------
 
-void ManualGameInputLayer::createBackGroundLayer()
+void ManualGameInputLayer::createBackgroundLayer()
 {
     backgroundLayer = LayerColor::create(Color4B::BLACK,origin.x + visibleSize.width,origin.y + visibleSize.height);
     
@@ -51,7 +51,7 @@ void ManualGameInputLayer::addListenerToBackgroundLayer()
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), backgroundLayer);
 }
 
-//--------------------- CREATE UPSALES LAYER-------------------------
+//--------------------- Add Objects To Layer -------------------------
 
 void ManualGameInputLayer::addTitle()
 {
