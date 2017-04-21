@@ -1,15 +1,8 @@
-if [ "$1" == "" ]; then
+if [ "$1" == "" ] || [ "$2" == "" ] ; then
 	echo "No version number given!"
 	echo "Usage: ./build.sh versionnumber buildnumber"
 	echo "Example: ./build.sh 3.2.2 0"
 	exit
-fi
-
-if [ "$2" == "" ]; then
-        echo "No version number given!"
-        echo "Usage: ./build.sh versionnumber buildnumber"
-        echo "Example: ./build.sh 3.2.2 0"
-        exit
 fi
 
 git checkout master
@@ -50,5 +43,3 @@ echo "{\"version\": \"$1 ($COMMITID)\"}" > ../Resources/res/configuration/Versio
 ./subbuilder.sh arm64-v8a $1 $ARM64BUILD arm64
 ./subbuilder.sh x86 $1 $X86BUILD x86
 ./subbuilder.sh armeabi-v7a $1 $AMAZONBUILD arm
-
-git reset --hard HEAD
