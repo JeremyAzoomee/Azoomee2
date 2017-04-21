@@ -1,10 +1,10 @@
 #ifndef __MULTI_BUTTON_MESSAGEBOX_LAYER_H__
 #define __MULTI_BUTTON_MESSAGEBOX_LAYER_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ElectricDreamsButton.h"
-#include "TextInputLayer.h"
-#include "ErrorCodeHashDefines.h"
+#include <AzoomeeCommon/Input/TextInputLayer.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 
 USING_NS_CC;
 

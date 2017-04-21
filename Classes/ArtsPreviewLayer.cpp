@@ -1,11 +1,13 @@
 #include "ArtsPreviewLayer.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "ArtsAppHQElement.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <dirent.h>
 #include "HQHistoryManager.h"
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* ArtsPreviewLayer::createScene()
 {

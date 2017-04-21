@@ -1,20 +1,24 @@
 #include "ExitOrLogoutLayer.h"
 #include "LoginScene.h"
-#include "StringMgr.h"
-#include "ChildDataProvider.h"
-#include "AudioMixer.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ParentDataParser.h"
-#include "ParentDataProvider.h"
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "MessageBox.h"
-#include "ElectricDreamsDecoration.h"
-#include "PaymentSingleton.h"
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
 #define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
+
+using namespace Azoomee;
+
 
 bool ExitOrLogoutLayer::init()
 {
@@ -74,7 +78,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     
     //-------- VERSION NUBMER ---------
     
-    auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
+    auto versionTitle = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
     versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 1.5);
     windowLayer->addChild(versionTitle);
     
@@ -94,7 +98,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     
     // ------- START IAP OR STATUS ----------
     
-    if(PaymentSingleton::getInstance()->showIAPContent())
+    if(RoutePaymentSingleton::getInstance()->showIAPContent())
     {
         iapButton = ElectricDreamsButton::createButtonWithWidth("Start Trial",windowLayer->getContentSize().width/2);
         iapButton->setCenterPosition(Vec2(windowLayer->getContentSize().width /2, windowLayer->getContentSize().height*.6));

@@ -4,9 +4,11 @@
 #include "OfflineText.h"
 #include "OfflineGameSearch.h"
 #include "HQHistoryManager.h"
-#include "ChildDataStorage.h"
+#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* OfflineHubScene::createScene()
 {

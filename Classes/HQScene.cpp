@@ -6,17 +6,19 @@
 #include "HQSceneElement.h"
 #include "ArtsAppHQElement.h"
 #include "HQDataProvider.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQSceneElementPositioner.h"
 #include <dirent.h>
-#include "ChildDataProvider.h"
-#include "ImageDownloader.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include "HQHistoryManager.h"
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "OfflineHubBackButton.h"
 #include "HQSceneArtsApp.h"
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* HQScene::createSceneForOfflineArtsAppHQ()
 {

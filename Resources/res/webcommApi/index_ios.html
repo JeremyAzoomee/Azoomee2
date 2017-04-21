@@ -89,8 +89,8 @@
 						stringToSave += localStorage.key(i) + "!" + localStorage.getItem(localStorage.key(i));
 					}
 				}
-
-				window.location.href = "savelocaldata://write?"+ stringToSave;
+				
+				return stringToSave;
 			}
 			
 			function answerMessageReceivedFromAPI(answerString)

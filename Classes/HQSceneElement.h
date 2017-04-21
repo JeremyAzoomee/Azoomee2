@@ -1,7 +1,7 @@
 #ifndef __HQSCENEELEMENT_SCENE_H__
 #define __HQSCENEELEMENT_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "network/HttpClient.h"
 #include "HQSceneElementVisual.h"
 
