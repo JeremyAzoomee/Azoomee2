@@ -8,6 +8,7 @@ class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
 {
 private:
     bool appleReceiptRefreshchecked;
+    std::string OSManufacturer;
     
 public:
     static RoutePaymentSingleton* getInstance(void);
@@ -16,7 +17,7 @@ public:
     
     void startInAppPayment();
     
-    std::string getOSManufacturer();
+    void setOSManufacturer();
     
     bool showIAPContent();
     

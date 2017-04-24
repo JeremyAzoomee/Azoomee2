@@ -1,11 +1,12 @@
 #include "ApplePaymentSingleton.h"
-#include "payment_ios.h"
+#include "PaymentViewController_ios.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "external/json/document.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
 #include "HttpRequestCreator.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include "OnboardingSuccessScene.h"
 
 USING_NS_CC;
 
@@ -36,22 +37,16 @@ bool ApplePaymentSingleton::init(void)
 void ApplePaymentSingleton::startIAPPayment()
 {
     requestAttempts = 0;
-    ModalMessages::getInstance()->startLoading();
-    
     makingMonthlyPayment = true;
-    
-    [[payment_ios sharedPayment_ios] makeOneMonthPayment];
+    [[PaymentViewController sharedPayment_ios] makeOneMonthPayment];
 }
 
 void ApplePaymentSingleton::refreshReceipt(bool usingButton)
 {
     requestAttempts = 0;
-    ModalMessages::getInstance()->startLoading();
-    
     makingMonthlyPayment = false;
     refreshFromButton = usingButton;
-    
-    [[payment_ios sharedPayment_ios] restorePayment];
+    [[PaymentViewController sharedPayment_ios] restorePayment];
 }
 
 void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
@@ -87,8 +82,9 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
                 AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
                 paymentFailed = false;
 
-                BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
-                BackEndCaller::getInstance()->autoLogin();
+                BackEndCaller::getInstance()->updateBillingData();
+                auto onboardingSuccessScene = OnboardingSuccessScene::createScene(true);
+                Director::getInstance()->replaceScene(onboardingSuccessScene);
             }
             else if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
             {
@@ -96,7 +92,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
                 ModalMessages::getInstance()->stopLoading();
                 
                 paymentFailed = false;
-                BackEndCaller::getInstance()->autoLogin();
+                BackEndCaller::getInstance()->updateBillingData();
                 return;
             }
             else
