@@ -119,7 +119,7 @@ void BackEndCaller::onUpdateBillingDataAnswerReceived(std::string responseString
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
 
-void BackEndCaller::updateParent(Node *callBackTo, std::string target) //"pin" or "actorstatus"
+void BackEndCaller::updateParentPin(Node *callBackTo)
 {
     displayLoadingScreen();
     
@@ -128,7 +128,6 @@ void BackEndCaller::updateParent(Node *callBackTo, std::string target) //"pin" o
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
     
     httpRequestCreator->requestTag = "updateParentPin";
-    if(target == "actorstatus") httpRequestCreator->requestTag = "updateParentActorStatus";
     
     httpRequestCreator->createEncryptedGetHttpRequest();
 }
@@ -143,19 +142,6 @@ void BackEndCaller::onUpdateParentPinAnswerReceived(std::string responseString)
         AwaitingAdultPinLayer *checkBack = (AwaitingAdultPinLayer *)callBackNode;
         CCLOG("Calling back awaitingsomething");
         checkBack->secondCheckForPin();
-    }
-}
-
-void BackEndCaller::onUpdateParentActorStatusAnswerReceived(std::string responseString)
-{
-    CCLOG("Update parent response string is: %s", responseString.c_str());
-    if(ParentDataParser::getInstance()->parseUpdateParentData(responseString))
-    {
-        hideLoadingScreen();
-        
-        ChildSelectorScene *checkBack = (ChildSelectorScene *)callBackNode;
-        CCLOG("Calling back awaitingsomething");
-        checkBack->secondCheckForAuthorisation();
     }
 }
 
