@@ -7,8 +7,9 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "IAPUpsaleLayer.h"
-#include "PaymentSingleton.h"
+#include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -141,7 +142,7 @@ void OnboardingSuccessScene::buttonPressed(ElectricDreamsButton* button)
             this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
         }
         else if(button == startTrial)
-            PaymentSingleton::getInstance()->startIAPPayment();
+            RoutePaymentSingleton::getInstance()->startInAppPayment();
     }
 }
 

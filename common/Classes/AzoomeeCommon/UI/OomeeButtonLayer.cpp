@@ -67,9 +67,9 @@ void OomeeButtonLayer::addOomeeToLayer()
     std::string jsonFileName = StringUtils::format("res/oomees/%s.json", oomeeName.c_str());
     std::string atlasFileName = StringUtils::format("res/oomees/%s.atlas", oomeeName.c_str());
     
-    oomee = SkeletonAnimation::createWithFile(jsonFileName, atlasFileName, 0.6f);
+    oomee = SkeletonAnimation::createWithJsonFile(jsonFileName, atlasFileName);
     oomee->setAnimation(0, ConfigStorage::getInstance()->getGreetingAnimation().c_str(), false);
-    oomee->setScale(2);
+    oomee->setScale(1.2);
     oomee->setOpacity(0);
     this->addChild(oomee);
     

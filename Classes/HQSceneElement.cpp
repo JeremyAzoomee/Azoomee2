@@ -25,8 +25,9 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include "PaymentSingleton.h"
+#include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
+#include "ManualGameInputLayer.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -66,7 +67,7 @@ void HQSceneElement::addHQSceneElement(std::string category, std::map<std::strin
     }
     else
     {
-        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false,itemData["entitled"], PaymentSingleton::getInstance()->showIAPContent());
+        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false,itemData["entitled"], RoutePaymentSingleton::getInstance()->showIAPContent());
     }
 }
 
@@ -129,6 +130,10 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
                 AnalyticsSingleton::getInstance()->previewContentClickedEvent(title,description,type);
                 MessageBox::createPreviewLoginSignupMessageBox();
                 return true;
+            }
+            else if(type == "MANUAL")
+            {
+                ManualGameInputLayer::create();
             }
             else
             {

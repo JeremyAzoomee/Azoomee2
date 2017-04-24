@@ -13,7 +13,7 @@
 #include "HQScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include "PaymentSingleton.h"
+#include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 
 USING_NS_CC;
@@ -78,7 +78,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
             addLockToImageContainer(startDelay);
         
         addReponseLayerToImage(elementProperties, scale);
-        addListenerToContainer(bgLayer, colour4.a, elementProperties["uri"], elementProperties["id"],elementProperties["title"],elementProperties["description"],elementProperties["type"], elementProperties["entitled"], PaymentSingleton::getInstance()->showIAPContent());
+        addListenerToContainer(bgLayer, colour4.a, elementProperties["uri"], elementProperties["id"],elementProperties["title"],elementProperties["description"],elementProperties["type"], elementProperties["entitled"], RoutePaymentSingleton::getInstance()->showIAPContent());
     }
 }
 

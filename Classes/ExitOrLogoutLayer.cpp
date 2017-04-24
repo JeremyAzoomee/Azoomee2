@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "MessageBox.h"
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
-#include "PaymentSingleton.h"
+#include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -98,7 +98,7 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     
     // ------- START IAP OR STATUS ----------
     
-    if(PaymentSingleton::getInstance()->showIAPContent())
+    if(RoutePaymentSingleton::getInstance()->showIAPContent())
     {
         iapButton = ElectricDreamsButton::createButtonWithWidth("Start Trial",windowLayer->getContentSize().width/2);
         iapButton->setCenterPosition(Vec2(windowLayer->getContentSize().width /2, windowLayer->getContentSize().height*.6));
