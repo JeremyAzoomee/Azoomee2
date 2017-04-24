@@ -7,6 +7,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include "LoginLogicHandler.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -94,7 +95,7 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
                 Azoomee::ModalMessages::getInstance()->startLoading();
                 
                 BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
-                BackEndCaller::getInstance()->autoLogin();
+                LoginLogicHandler::getInstance()->doLoginLogic();
                 
                 return;
             }

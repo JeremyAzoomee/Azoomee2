@@ -1,7 +1,3 @@
-//ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
-//cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented
-//cocos2d/cocos/ui/UIVideoPlayer-ios.mm - roww 144-145 - MPMovideControlStyleNone, interactionenabled: false
-
 #include "IntroVideoScene.h"
 #include "SlideShowScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -103,8 +99,7 @@ void IntroVideoScene::navigateToNextScene()
     }
     else
     {
-        auto loginLogicHandler = new LoginLogicHandler();
-        loginLogicHandler->doLoginLogic();
+        LoginLogicHandler::getInstance()->doLoginLogic();
     }
 }
 

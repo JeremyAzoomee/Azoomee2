@@ -2,9 +2,10 @@
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include "LoginScene.h"
+#include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 
 #include "HQDataStorage.h"
 
@@ -81,8 +82,8 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
         }
         else
         {
-            auto loginScene = LoginScene::createScene(ERROR_CODE_INVALID_CREDENTIALS);
-            Director::getInstance()->replaceScene(loginScene);
+            LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(ERROR_CODE_INVALID_CREDENTIALS);
+            LoginLogicHandler::getInstance()->forceNewLogin();
         }
     }
     
@@ -222,4 +223,15 @@ bool ParentDataParser::hasParentLoginDataInUserDefaults()
     UserDefault* def = UserDefault::getInstance();
     if(def->getStringForKey("loggedInParentId") != "") return true;
     return false;
+}
+
+void ParentDataParser::clearParentLoginDataFromUserDefaults()
+{
+    UserDefault* def = UserDefault::getInstance();
+    def->setStringForKey("loggedInParentId", "");
+    def->setStringForKey("loggedInParentCdnSessionId", "");
+    def->setStringForKey("loggedInParentApiSecret", "");
+    def->setStringForKey("loggedInParentApiKey", "");
+    def->setStringForKey("loggedInParentActorStatus", "");
+    def->flush();
 }
