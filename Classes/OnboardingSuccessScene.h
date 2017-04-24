@@ -10,7 +10,7 @@ class OnboardingSuccessScene : public Layer, public ElectricDreamsButtonDelegate
 {
 private:
     
-    Size visibleSize;
+    cocos2d::Size visibleSize;
     Vec2 origin;
     
     ElectricDreamsButton* oomeeButton;

@@ -63,7 +63,6 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
     accountJustRegistered = false;
     newChildJustRegistered = false;
-    newSubscriptionJustStarted = false;
     
     LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
     LoginLogicHandler::getInstance()->forceNewLogin();
@@ -187,13 +186,6 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
         CCLOG("Just registered account : backendcaller");
         accountJustRegistered = false;
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene(false);
-        Director::getInstance()->replaceScene(onboardingSuccessScene);
-    }
-    else if(newSubscriptionJustStarted)
-    {
-        CCLOG("Just started new trial : backendcaller");
-        newSubscriptionJustStarted = false;
-        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(true);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
     else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())

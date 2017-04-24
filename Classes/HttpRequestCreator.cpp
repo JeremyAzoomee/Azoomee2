@@ -300,29 +300,11 @@ void HttpRequestCreator::handleEventAfterError(std::string requestTag, long erro
         return;
     }
     
-    if(requestTag == "iapAmazonPaymentMade")
+    if(requestTag == "iapAmazonPaymentMade" || requestTag == "iapApplePaymentMade" || requestTag == "iabGooglePaymentMade")
     {
         CCLOG("IAP Failed with Errorcode: %ld", errorCode);
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
-        AmazonPaymentSingleton::getInstance()->backendRequestFailed();
-        return;
-    }
-    if(requestTag == "iapApplePaymentMade")
-    {
-        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
-        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
-        
-        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            ApplePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
-        #endif
-        return;
-    }
-    
-    if(requestTag == "iabGooglePaymentMade")
-    {
-        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
-        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
-        GooglePaymentSingleton::getInstance()->backendRequestFailed();
+        RoutePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
         return;
     }
     

@@ -2,12 +2,11 @@
 #include "HttpRequestCreator.h"
 #include "external/json/document.h"
 #include "MessageBox.h"
-#include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
+#include "RoutePaymentSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -39,18 +38,6 @@ bool GooglePaymentSingleton::init(void)
     return true;
 }
 
-void GooglePaymentSingleton::addListenerToBackgroundLayer()
-{
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
-    {
-        return true;
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), modalLayer);
-}
-
 void GooglePaymentSingleton::startBackEndPaymentVerification(std::string developerPayload, std::string orderId, std::string token)
 {
     savedDeveloperPayload = developerPayload;
@@ -65,11 +52,6 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
     });
     
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
-}
-
-void GooglePaymentSingleton::backendRequestFailed()
-{
-    purchaseFailedAfterFulfillment();
 }
 
 void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::string responseDataString)
@@ -90,15 +72,11 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
         {
             if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
             {
-                AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
-                
-                Azoomee::ModalMessages::getInstance()->startLoading();
-                
-                BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
-                LoginLogicHandler::getInstance()->doLoginLogic();
-                
+                RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
                 return;
             }
+            else
+                AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
         }
     }
 
@@ -109,50 +87,31 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
         return;
     }
 
-    purchaseFailedAfterFulfillment();
+    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
 }
 
 void GooglePaymentSingleton::purchaseFailedBeforeFulfillment()
 {
     auto funcCallAction = CallFunc::create([=](){
-        this->prepareForErrorMessage();
-        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
     });
     
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
-}
-
-void GooglePaymentSingleton::purchaseFailedAfterFulfillment()
-{
-    prepareForErrorMessage();
-    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
 }
 
 void GooglePaymentSingleton::purchaseFailedAlreadyPurchased()
 {
     auto funcCallAction = CallFunc::create([=](){
-        this->prepareForErrorMessage();
-        MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
+        RoutePaymentSingleton::getInstance()->doublePurchaseMessage();
     });
     
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
-}
-
-void GooglePaymentSingleton::prepareForErrorMessage()
-{
-    paymentInProgress = false;
-    AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent();
-    Azoomee::ModalMessages::getInstance()->stopLoading();
 }
 
 //--------------------PAYMENT FUNCTIONS------------------
 
 void GooglePaymentSingleton::startIABPayment()
 {
-    if(paymentInProgress) return;
-    
-    paymentInProgress = true;
-    Azoomee::ModalMessages::getInstance()->startLoading();
     requestAttempts = 0;
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

@@ -15,19 +15,8 @@ public:
     void amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid);
     void startIAPPayment();
     
-    void purchaseFailed();
-    void backendRequestFailed();
-    
-    bool showIAPContent();
-    
-    void removeModalLayer();
-    
 private:
     void fulfillAmazonPayment(std::string receiptId);
-    
-    cocos2d::LayerColor *modalLayer;
-    void createModalLayer();
-    void addListenerToBackgroundLayer();
     
     //For making repeat requests
     std::string savedRequestId;
@@ -35,7 +24,6 @@ private:
     std::string savedAmazonUserid;
     
     int requestAttempts;
-    bool iapAttemptInprogress;
     
 };
 

@@ -54,9 +54,6 @@ public:
     std::string registerParentUsername;
     std::string registerParentPassword;
     
-    bool newSubscriptionJustStarted;
-
-    
     //------------------------------------------------------------------------------------------------------------------
     
     cocos2d::Node *callBackNode;

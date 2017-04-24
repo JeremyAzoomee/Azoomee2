@@ -61,6 +61,7 @@
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images-2.xcassets */; };
 		43069CF81E3B5D2A00D6A631 /* SlideShowScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43069CF61E3B5D2A00D6A631 /* SlideShowScene.cpp */; };
+		4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4306ABA21EAE2C3E001E586A /* PaymentViewController_ios.mm */; };
 		430B214E1E4485DA004ACB10 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B214D1E4485DA004ACB10 /* CFNetwork.framework */; };
 		430B21511E4485E0004ACB10 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B21501E4485E0004ACB10 /* Security.framework */; };
 		430B21551E4487E5004ACB10 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B21541E4487E5004ACB10 /* SystemConfiguration.framework */; };
@@ -81,7 +82,6 @@
 		4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4396947C1EAA4855003C17E6 /* ApplePaymentSingleton.mm */; };
 		439694811EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4396947F1EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp */; };
 		439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439694821EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp */; };
-		439694871EAA4A51003C17E6 /* payment_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 439694861EAA4A51003C17E6 /* payment_ios.mm */; };
 		4396948A1EAA4ACD003C17E6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439694891EAA4ACD003C17E6 /* StoreKit.framework */; };
 		43A90CDB1EA755D600606099 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CDA1EA755D600606099 /* UIKit.framework */; };
 		43A90CDD1EA755E200606099 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CDC1EA755E200606099 /* Foundation.framework */; };
@@ -275,6 +275,8 @@
 		43069CE81E3B492600D6A631 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "azoomee2-mobile/Images-2.xcassets"; sourceTree = SOURCE_ROOT; };
 		43069CF61E3B5D2A00D6A631 /* SlideShowScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SlideShowScene.cpp; sourceTree = "<group>"; };
 		43069CF71E3B5D2A00D6A631 /* SlideShowScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideShowScene.h; sourceTree = "<group>"; };
+		4306ABA11EAE2C3E001E586A /* PaymentViewController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentViewController_ios.h; sourceTree = "<group>"; };
+		4306ABA21EAE2C3E001E586A /* PaymentViewController_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PaymentViewController_ios.mm; sourceTree = "<group>"; };
 		430B214D1E4485DA004ACB10 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		430B21501E4485E0004ACB10 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		430B21521E4487DD004ACB10 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
@@ -311,8 +313,6 @@
 		439694801EAA4951003C17E6 /* IAPDetailsLayer_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPDetailsLayer_ios.h; sourceTree = "<group>"; };
 		439694821EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PrivacyAndTermsLayer.cpp; sourceTree = "<group>"; };
 		439694831EAA4A08003C17E6 /* PrivacyAndTermsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivacyAndTermsLayer.h; sourceTree = "<group>"; };
-		439694851EAA4A51003C17E6 /* payment_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payment_ios.h; sourceTree = "<group>"; };
-		439694861EAA4A51003C17E6 /* payment_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = payment_ios.mm; sourceTree = "<group>"; };
 		439694891EAA4ACD003C17E6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		43A90CDA1EA755D600606099 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		43A90CDC1EA755E200606099 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -720,8 +720,8 @@
 				439694801EAA4951003C17E6 /* IAPDetailsLayer_ios.h */,
 				4396947C1EAA4855003C17E6 /* ApplePaymentSingleton.mm */,
 				4396947B1EAA4855003C17E6 /* ApplePaymentSingleton.h */,
-				439694851EAA4A51003C17E6 /* payment_ios.h */,
-				439694861EAA4A51003C17E6 /* payment_ios.mm */,
+				4306ABA11EAE2C3E001E586A /* PaymentViewController_ios.h */,
+				4306ABA21EAE2C3E001E586A /* PaymentViewController_ios.mm */,
 			);
 			name = Apple;
 			sourceTree = "<group>";
@@ -1141,8 +1141,8 @@
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
+				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
-				439694871EAA4A51003C17E6 /* payment_ios.mm in Sources */,
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
 				433FA7F61E7AA9C400A8C27F /* IAPUpsaleLayer.cpp in Sources */,
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,

@@ -15,7 +15,11 @@ public:
     virtual ~RoutePaymentSingleton();
     bool init(void);
     
+    bool makingMonthlyPayment;
+    bool refreshFromButton;
+    
     void startInAppPayment();
+    void inAppPaymentSuccess();
     
     void setOSManufacturer();
     
@@ -27,6 +31,11 @@ public:
     
     void refreshAppleReceiptFromButton();
     bool checkIfAppleReceiptRefreshNeeded();
+    
+    void backendRequestFailed(long errorCode);
+    
+    void purchaseFailureErrorMessage(bool loginAfterOK);
+    void doublePurchaseMessage();
     
     //Delegate Functions
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);

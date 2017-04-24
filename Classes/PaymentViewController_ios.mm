@@ -1,5 +1,6 @@
 #import "PaymentViewController_ios.h"
 #include "ApplePaymentSingleton.h"
+#include "RoutePaymentSingleton.h"
 
 #define ONE_MONTH_PAYMENT @"AZ_Premium_Monthly"
 
@@ -55,7 +56,7 @@
     }
     @catch (NSException * e)
     {
-        ApplePaymentSingleton::getInstance()->ErrorMessage(false);
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
     }
 }
 
@@ -83,7 +84,7 @@
             case SKPaymentTransactionStateFailed:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                ApplePaymentSingleton::getInstance()->ErrorMessage(false);
+                RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
                 NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
                 
                 break;
@@ -91,7 +92,7 @@
             case SKPaymentTransactionStateRestored:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                 ApplePaymentSingleton::getInstance()->DoublePurchase();
+                RoutePaymentSingleton::getInstance()->doublePurchaseMessage();
             }
             case SKPaymentTransactionStateDeferred:
             {
@@ -105,29 +106,29 @@
 
 - (void) paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
 {
-    ApplePaymentSingleton::getInstance()->DoublePurchase();
+    RoutePaymentSingleton::getInstance()->doublePurchaseMessage();
 }
 
 - (void) paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
-    ApplePaymentSingleton::getInstance()->ErrorMessage(false);
+    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
     NSLog(@"DidFailWithError error: %@", error.localizedDescription);
     
-    if(ApplePaymentSingleton::getInstance()->refreshFromButton)
-        ApplePaymentSingleton::getInstance()->ErrorMessage(false);
+    if(RoutePaymentSingleton::getInstance()->refreshFromButton)
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
     else
-        ApplePaymentSingleton::getInstance()->ErrorMessage(true);
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(true);
 }
 
 -(void)requestDidFinish:(SKRequest *)request
 {
     bool receiptExist = [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] appStoreReceiptURL] path]];
     
-    if(receiptExist && !ApplePaymentSingleton::getInstance()->makingMonthlyPayment)
+    if(receiptExist && !RoutePaymentSingleton::getInstance()->makingMonthlyPayment)
     {
         [self sendReceiptToBackend];
     }
