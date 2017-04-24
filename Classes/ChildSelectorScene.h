@@ -13,7 +13,7 @@ public:
     
     virtual bool init();
     virtual void onEnterTransitionDidFinish();
-    static cocos2d::Scene* createScene(long errorCode);
+    static cocos2d::Scene* createScene();
     
     void secondCheckForAuthorisation();
     
