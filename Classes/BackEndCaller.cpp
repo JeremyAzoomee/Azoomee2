@@ -176,7 +176,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
     }
     else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
     {
-        auto childSelectorScene = ChildSelectorScene::createScene(0);
+        auto childSelectorScene = ChildSelectorScene::createScene();
         Director::getInstance()->replaceScene(childSelectorScene);
     }
 }

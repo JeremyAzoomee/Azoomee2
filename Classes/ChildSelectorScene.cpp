@@ -13,6 +13,8 @@
 #include "OfflineHubScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
+#include "ParentDataParser.h"
+
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -329,7 +331,6 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
         AnalyticsSingleton::getInstance()->logoutParentEvent();
         ParentDataParser::getInstance()->logoutChild();
         
-        auto loginScene = LoginScene::createScene(0);
-        Director::getInstance()->replaceScene(loginScene);
+        LoginLogicHandler::getInstance()->forceNewLogin();
     }
 }

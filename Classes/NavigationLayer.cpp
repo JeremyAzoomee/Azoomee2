@@ -271,7 +271,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
                     //Child Selection Button Pressed.
                     //Logout Child
                     ChildDataStorage::getInstance()->childLoggedIn = false;
-                    auto childSelectorScene = ChildSelectorScene::createScene(0);
+                    auto childSelectorScene = ChildSelectorScene::createScene();
                     Director::getInstance()->replaceScene(childSelectorScene);
                 }
                 else
