@@ -195,3 +195,14 @@ bool ParentDataParser::hasParentLoginDataInUserDefaults()
     if(def->getStringForKey("loggedInParentId") != "") return true;
     return false;
 }
+
+void ParentDataParser::clearParentLoginDataFromUserDefaults()
+{
+    UserDefault* def = UserDefault::getInstance();
+    def->setStringForKey("loggedInParentId", "");
+    def->setStringForKey("loggedInParentCdnSessionId", "");
+    def->setStringForKey("loggedInParentApiSecret", "");
+    def->setStringForKey("loggedInParentApiKey", "");
+    def->setStringForKey("loggedInParentActorStatus", "");
+    def->flush();
+}

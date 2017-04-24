@@ -17,6 +17,7 @@ public:
     void logoutChild();
     void retrieveParentLoginDataFromUserDefaults();
     bool hasParentLoginDataInUserDefaults();
+    void clearParentLoginDataFromUserDefaults();
     
 private:
     void addParentLoginDataToUserDefaults();

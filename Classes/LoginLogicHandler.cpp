@@ -49,6 +49,8 @@ void LoginLogicHandler::doLoginLogic()
 
 void LoginLogicHandler::forceNewLogin()
 {
+    ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
+    
     auto loginScene = LoginScene::createScene(getErrorMessageCodeToDisplay());
     Director::getInstance()->replaceScene(loginScene);
 }
