@@ -6,7 +6,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
 #include "HQDataParser.h"
-#include "LoginScene.h"
+#include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
 #include "HttpRequestCreator.h"
@@ -63,22 +63,13 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
     accountJustRegistered = false;
     newChildJustRegistered = false;
     newSubscriptionJustStarted = false;
-    auto loginScene = LoginScene::createScene(errorCode);
-    Director::getInstance()->replaceScene(loginScene);
+    
+    LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+    LoginLogicHandler::getInstance()->forceNewLogin();
 }
 
 
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
-
-void BackEndCaller::autoLogin()
-{
-    UserDefault* def = UserDefault::getInstance();
-    std::string username = def->getStringForKey("username", "");
-    std::string password = def->getStringForKey("password", "");
-    def->flush();
-    
-    login(username, password);
-}
 
 void BackEndCaller::login(std::string username, std::string password)
 {
@@ -91,7 +82,6 @@ void BackEndCaller::login(std::string username, std::string password)
     
     UserDefault* def = UserDefault::getInstance();
     def->setStringForKey("username", username);
-    def->setStringForKey("password", password);
     def->flush();
     
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);

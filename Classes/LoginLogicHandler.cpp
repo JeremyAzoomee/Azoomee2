@@ -7,10 +7,33 @@
 
 using namespace cocos2d;
 
+static LoginLogicHandler *_sharedLoginLogicHandler = NULL;
+
+LoginLogicHandler* LoginLogicHandler::getInstance()
+{
+    if (! _sharedLoginLogicHandler)
+    {
+        _sharedLoginLogicHandler = new LoginLogicHandler();
+        _sharedLoginLogicHandler->init();
+    }
+    
+    return _sharedLoginLogicHandler;
+}
+
+LoginLogicHandler::~LoginLogicHandler(void)
+{
+}
+
+bool LoginLogicHandler::init(void)
+{
+    errorMsgCode = 0;
+    return true;
+}
+
 void LoginLogicHandler::doLoginLogic()
 {
 #ifdef forgetuserdata
-    emptyLoginData();
+    emptyUserName();
 #endif
     
     if(ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
@@ -20,45 +43,24 @@ void LoginLogicHandler::doLoginLogic()
         return;
     }
     
-    if(hasLoginData())
-    {
-        HQHistoryManager::getInstance()->emptyHistory();
-        auto baseScene = BaseScene::createScene();
-        Director::getInstance()->replaceScene(baseScene);
-    }
-    else
-    {
-        auto loginScene = LoginScene::createSceneWithAutoLogin();
-        Director::getInstance()->replaceScene(loginScene);
-    }
+    auto loginScene = LoginScene::createScene(0);
+    Director::getInstance()->replaceScene(loginScene);
 }
 
-//-----------------------------------------------------All requests below this line are used internally-------------------------------------------------------
-
-bool LoginLogicHandler::hasLoginData()
+void LoginLogicHandler::forceNewLogin()
 {
-    UserDefault* def = UserDefault::getInstance();
-    std::string username = def->getStringForKey("username", "");
-    std::string password = def->getStringForKey("password", "");
-    
-    if((username == "")||(password == "")) return false;
-    else return true;
+    auto loginScene = LoginScene::createScene(getErrorMessageCodeToDisplay());
+    Director::getInstance()->replaceScene(loginScene);
 }
 
-std::string LoginLogicHandler::getLoginName()
+void LoginLogicHandler::setErrorMessageCodeToDisplay(long errorMessageCode)
 {
-    return UserDefault::getInstance()->getStringForKey("username", "");
+    errorMsgCode = errorMessageCode;
 }
 
-std::string LoginLogicHandler::getLoginPassword()
+long LoginLogicHandler::getErrorMessageCodeToDisplay()
 {
-    return UserDefault::getInstance()->getStringForKey("password", "");
-}
-
-void LoginLogicHandler::emptyLoginData()
-{
-    UserDefault* def2 = UserDefault::getInstance();
-    def2->setStringForKey("username", "");
-    def2->setStringForKey("password", "");
-    def2->flush();
+    long rtrValue = errorMsgCode;
+    errorMsgCode = 0;
+    return rtrValue;
 }

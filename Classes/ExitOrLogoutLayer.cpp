@@ -1,5 +1,5 @@
 #include "ExitOrLogoutLayer.h"
-#include "LoginScene.h"
+#include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -173,13 +173,9 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
         AnalyticsSingleton::getInstance()->logoutParentEvent();
         ParentDataParser::getInstance()->logoutChild();
         
-        UserDefault::getInstance()->getStringForKey("password", "");
-        UserDefault::getInstance()->flush();
-        
         AudioMixer::getInstance()->stopBackgroundMusic();
         
-        auto loginScene = LoginScene::createScene(0);
-        Director::getInstance()->replaceScene(loginScene);
+        LoginLogicHandler::getInstance()->forceNewLogin();
     }
     else if(button == iapButton)
     {

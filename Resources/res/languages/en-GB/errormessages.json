@@ -79,7 +79,7 @@
     "1006":
     {
         "title":"Something Went Wrong",
-        "body":"There was a problem, however we have logged you back in.",
+        "body":"There was a problem, please restart your session.",
         "button":"OK"
     },
     

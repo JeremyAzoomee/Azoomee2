@@ -4,7 +4,7 @@
 #include "BackEndCaller.h"
 #include "HQDataParser.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "LoginScene.h"
+#include "LoginLogicHandler.h"
 #include "OnboardingScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ChildAccountScene.h"
@@ -281,13 +281,14 @@ void HttpRequestCreator::handleEventAfterError(std::string requestTag, long erro
     
     if(requestTag == "parentLogin")
     {
-        Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));
-        return;
+        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+        LoginLogicHandler::getInstance()->forceNewLogin();
     }
     
     if(requestTag == "getChildren")
     {
-        Director::getInstance()->replaceScene(LoginScene::createScene(errorCode));
+        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+        LoginLogicHandler::getInstance()->forceNewLogin();
         return;
     }
     
