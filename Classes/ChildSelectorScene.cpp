@@ -6,13 +6,13 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "MessageBox.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "OfflineHubScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include "LoginScene.h"
-#include "ParentDataParser.h"
+#include "LoginLogicHandler.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -21,13 +21,13 @@
 USING_NS_CC;
 using namespace Azoomee;
 
-Scene* ChildSelectorScene::createScene(long errorCode)
+Scene* ChildSelectorScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = ChildSelectorScene::create();
     scene->addChild(layer);
     
-    layer->_errorCode = errorCode;
+    layer->_errorCode = LoginLogicHandler::getInstance()->getErrorMessageCodeToDisplay();
 
     return scene;
 }
@@ -283,9 +283,13 @@ void ChildSelectorScene::addNewChildButtonToScrollView()
 void ChildSelectorScene::addChildButtonPressed(Node* target)
 {
     target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
-    
+    BackEndCaller::getInstance()->updateParent(this, "actorstatus");
+}
+
+void ChildSelectorScene::secondCheckForAuthorisation()
+{
     if(ParentDataProvider::getInstance()->emailRequiresVerification())
-        MessageBox::createWith(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED, this);
+        MessageBox::createWith(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED, nullptr);
     else
     {
         AwaitingAdultPinLayer::create()->setDelegate(this);
@@ -320,16 +324,4 @@ void ChildSelectorScene::callDelegateFunction(float dt)
     OfflineChecker::getInstance()->setDelegate(nullptr);
     auto newChildScene = ChildAccountScene::createScene("", 0);
     Director::getInstance()->replaceScene(newChildScene);
-}
-
-void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED)[ERROR_TITLE] && buttonTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED)[ERROR_BUTTON])
-    {
-        AnalyticsSingleton::getInstance()->logoutParentEvent();
-        ParentDataParser::getInstance()->logoutChild();
-        
-        auto loginScene = LoginScene::createScene(0);
-        Director::getInstance()->replaceScene(loginScene);
-    }
 }
