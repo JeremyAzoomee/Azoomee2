@@ -100,7 +100,6 @@ dependencies {
         transitive = true
     }
     compile 'com.appsflyer:af-android-sdk:4+@aar'
-    compile files('jars/in-app-purchasing-2.0.76.jar')
 }
 
 task cleanAssets(type: Delete) {
