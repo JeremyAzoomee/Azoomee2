@@ -12,7 +12,6 @@
 #include <AzoomeeCommon/Strings.h>
 #include "ChildAccountSuccessScene.h"
 #include "LoginLogicHandler.h"
-#include "SlideShowScene.h"
 
 using namespace Azoomee;
 
@@ -36,9 +35,11 @@ bool IntroVideoScene::init()
         return false;
     }
     
-    this->slideShowScene = SlideShowScene::createScene();
-    this->slideShowScene->retain();
-    
+    if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+    {
+        this->slideShowScene = SlideShowScene::createScene();
+        this->slideShowScene->retain();
+    }
     auto funcCallAction = CallFunc::create([=](){
         
         videoErrorText = StringUtils::format("%svideo failsafe triggered.",videoErrorText.c_str());
