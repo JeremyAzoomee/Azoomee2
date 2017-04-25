@@ -27,12 +27,7 @@ private:
     
     void skipSlideShow();
     
-    Layout* layout1;
-    Layout* layout2;
-    Layout* layout3;
-    Layout* layout4;
-    Layout* layout5;
-    Layout* layout6;
+    std::vector<Layout*> layoutVector;
     
     void imageAddedToCache(Texture2D* resulting_texture);
     

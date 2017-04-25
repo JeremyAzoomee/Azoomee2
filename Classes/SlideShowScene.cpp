@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
+#include<cstdlib>
 
 using namespace Azoomee;
 
@@ -39,30 +40,26 @@ void SlideShowScene::imageAddedToCache(Texture2D* resulting_texture)
     std::vector<std::string> pathSplit = splitStringToVector(resulting_texture->getPath(), "slide_");
     
     auto slideImage = Sprite::createWithTexture( resulting_texture );
-    slideImage->setPosition(layout2->getContentSize().width /2, layout2->getContentSize().height /2);
+    slideImage->setPosition(visibleSize.width /2, visibleSize.height /2);
     
     if(pathSplit.size() == 2)
     {
-        if(pathSplit.at(1) == "1.jpg")
-            layout1->addChild(slideImage);
-        else if(pathSplit.at(1) == "2.jpg")
-            layout2->addChild(slideImage);
-        else if(pathSplit.at(1) == "3.jpg")
-            layout3->addChild(slideImage);
-        else if(pathSplit.at(1) == "4.jpg")
-            layout4->addChild(slideImage);
-        else if(pathSplit.at(1) == "5.jpg")
-            layout5->addChild(slideImage);
-        else if(pathSplit.at(1) == "6.jpg")
+        std::vector<std::string> dotSplit = splitStringToVector(pathSplit.at(1), ".");
+        
+        if(dotSplit.size() == 2)
         {
-            layout6->addChild(slideImage);
+            int SlideNumber = std::atoi(dotSplit.at(0).c_str()) - 1;
             
-            startExporingButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_START_EXPLORING));
-            startExporingButton->setCenterPosition(Vec2(layout6->getContentSize().width/2, layout6->getContentSize().height/2));
-            startExporingButton->setDelegate(this);
-            startExporingButton->setMixPanelButtonName("SlideshowStartExploring");
-            layout6->addChild(startExporingButton);
+            layoutVector.at(SlideNumber)->addChild(slideImage);
             
+            if(SlideNumber == 5)
+            {
+                startExporingButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_START_EXPLORING));
+                startExporingButton->setCenterPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
+                startExporingButton->setDelegate(this);
+                startExporingButton->setMixPanelButtonName("SlideshowStartExploring");
+                layoutVector.at(SlideNumber)->addChild(startExporingButton);
+            }
         }
     }
 }
@@ -80,41 +77,18 @@ void SlideShowScene::createPageView()
     _pageView->setIndicatorEnabled(true);
     _pageView->setIndicatorSelectedIndexColor(Color3B(28, 244, 244));
     
-    //FUTURE OPTION - Create a Layout object with the slideshow.jpg file
-    //the Layout calls the Async on itself, so the sprite and image is just added when ready.
-    
-    //Create Pointers to Pages, to add sprites later.
-    //Stopping blank screen for 8 seconds on Pixie
-    //Jan 2017
-    layout1 = Layout::create();
-    layout1->setContentSize(visibleSize);
-    layout2 = Layout::create();
-    layout2->setContentSize(visibleSize);
-    layout3 = Layout::create();
-    layout3->setContentSize(visibleSize);
-    layout4 = Layout::create();
-    layout4->setContentSize(visibleSize);
-    layout5 = Layout::create();
-    layout5->setContentSize(visibleSize);
-    layout6 = Layout::create();
-    layout6->setContentSize(visibleSize);
-    
-    //Add first slide and dummy slides, to add sprites later.
-    _pageView->insertCustomItem(layout1,0);
-    _pageView->insertCustomItem(layout2,1);
-    _pageView->insertCustomItem(layout3,2);
-    _pageView->insertCustomItem(layout4,3);
-    _pageView->insertCustomItem(layout5,4);
-    _pageView->insertCustomItem(layout6,5);
+    for(int i=0;i<6;i++)
+    {
+        Layout* newLayout = Layout::create();
+        newLayout->setContentSize(visibleSize);
+        _pageView->insertCustomItem(newLayout,i);
+
+        Director::getInstance()->getTextureCache()->addImageAsync(StringUtils::format("res/slideshow/slide_%d.jpg",i+1), CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
+        
+        layoutVector.push_back(newLayout);
+    }
     
     _pageView->scrollToItem(0);
-    
-    Director::getInstance()->getTextureCache()->addImageAsync("res/slideshow/slide_1.jpg", CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
-    Director::getInstance()->getTextureCache()->addImageAsync("res/slideshow/slide_2.jpg", CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
-    Director::getInstance()->getTextureCache()->addImageAsync("res/slideshow/slide_3.jpg", CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
-    Director::getInstance()->getTextureCache()->addImageAsync("res/slideshow/slide_4.jpg", CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
-    Director::getInstance()->getTextureCache()->addImageAsync("res/slideshow/slide_5.jpg", CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
-    Director::getInstance()->getTextureCache()->addImageAsync("res/slideshow/slide_6.jpg", CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
     
     _pageView->addEventListener((PageView::ccPageViewCallback)CC_CALLBACK_2(SlideShowScene::pageViewEvent, this));
     
