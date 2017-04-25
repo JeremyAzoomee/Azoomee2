@@ -92,7 +92,6 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
     {
         if(paymentData["receiptStatus"].IsString())
         {
-            // EXPIRED, INVALID, UNCERTAIN
             if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
             {
                 std::string receiptId = paymentData["receiptId"].GetString();
