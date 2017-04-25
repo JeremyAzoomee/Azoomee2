@@ -1,8 +1,9 @@
 #include "ArtAppImageManager.h"
-#include "ChildDataProvider.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 static ArtAppImageManager *_sharedArtAppImageManager= NULL;
 
@@ -26,14 +27,17 @@ bool ArtAppImageManager::init(void)
     return true;
 }
 
-void ArtAppImageManager::addImageToImagesFolder(char* dataString)
+void ArtAppImageManager::addImageToImagesFolder(std::string dataString)
 {
-    if(strlen(dataString) == 0) return;
+    if(dataString.length() == 0) return;
     if(getAmountOfSaveAttempts(dataString) < 2) return;
     
     createDirectoryTreeForImagesFolder();
     std::string fileName = getFileNameFromString(dataString);
     std::string fileData = getFileDataFromString(dataString);
+    
+    CCLOG("ART APP FILENAME: %s", fileName.c_str());
+    CCLOG("ART APP FILE DATA LENGTH: %lu", fileData.length());
     
     if(fileData == "NEW") return;
     
@@ -91,34 +95,14 @@ void ArtAppImageManager::createDirectoryTreeForLocalStorage()
     if(!FileUtils::getInstance()->isDirectoryExist(gameScoreCacheFolder)) FileUtils::getInstance()->createDirectory(gameScoreCacheFolder);
 }
 
-std::string ArtAppImageManager::getFileDataFromString(char* dataString)
+std::string ArtAppImageManager::getFileDataFromString(std::string dataString)
 {
     return getMapFormatOfDataChar(dataString)["art"];
 }
 
-std::string ArtAppImageManager::getFileNameFromString(char* dataString)
+std::string ArtAppImageManager::getFileNameFromString(std::string dataString)
 {
     return getMapFormatOfDataChar(dataString)["artname"];
-}
-
-std::vector<std::string> ArtAppImageManager::splitCharToVector(char* inputData, std::string separator)
-{
-    std::string inputString = StringUtils::format("%s", inputData);
-    
-    std::vector<std::string> result;
-    std::vector<std::string> tokens;
-    size_t prev = 0, pos = 0;
-    do
-    {
-        pos = inputString.find(separator, prev);
-        if (pos == std::string::npos) pos = inputString.length();
-        std::string token = inputString.substr(prev, pos - prev);
-        if (!token.empty()) result.push_back(token);
-        prev = pos + separator.length();
-    }
-    while (pos < inputString.length() && prev < inputString.length());
-    
-    return result;
 }
 
 std::vector<std::string> ArtAppImageManager::splitStringToVector(std::string inputData, std::string separator)
@@ -146,15 +130,15 @@ std::string ArtAppImageManager::getFileNameFromPath(std::string filePath)
     return fileName;
 }
 
-int ArtAppImageManager::getAmountOfSaveAttempts(char* inputData)
+int ArtAppImageManager::getAmountOfSaveAttempts(std::string inputData)
 {
     return atoi(getMapFormatOfDataChar(inputData)["save"].c_str());
 }
 
-std::map<std::string, std::string> ArtAppImageManager::getMapFormatOfDataChar(char *dataInput)
+std::map<std::string, std::string> ArtAppImageManager::getMapFormatOfDataChar(std::string dataInput)
 {
     std::map<std::string, std::string> outputMap;
-    std::vector<std::string> elements = splitCharToVector(dataInput, "|");
+    std::vector<std::string> elements = splitStringToVector(dataInput, "|");
     
     for(int i = 0; i < elements.size(); i++)
     {

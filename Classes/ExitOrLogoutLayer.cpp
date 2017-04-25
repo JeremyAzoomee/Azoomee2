@@ -1,20 +1,24 @@
 #include "ExitOrLogoutLayer.h"
 #include "LoginScene.h"
-#include "StringMgr.h"
-#include "ChildDataProvider.h"
-#include "AudioMixer.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ParentDataParser.h"
-#include "ParentDataProvider.h"
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "MessageBox.h"
-#include "ElectricDreamsDecoration.h"
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
 #define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
+
+using namespace Azoomee;
+
 
 bool ExitOrLogoutLayer::init()
 {
@@ -72,10 +76,17 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + windowLayerBottomPadding);
     this->addChild(windowLayer);
     
+    //--------Privacy and Terms-------
+    
+    privacyAndTerms = PrivacyAndTermsLayer::create();
+    privacyAndTerms->setPosition(windowLayer->getContentSize().width/2 - privacyAndTerms->getContentSize().width/2,privacyAndTerms->getContentSize().height*.65);
+    windowLayer->addChild(privacyAndTerms);
+    
+    
     //-------- VERSION NUBMER ---------
     
-    auto versionTitle = createLabelAppVerison(APP_VERSION_NUMBER);
-    versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 1.5);
+    auto versionTitle = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
+    versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 2.5);
     windowLayer->addChild(versionTitle);
     
     //-------- USERNAME---------------

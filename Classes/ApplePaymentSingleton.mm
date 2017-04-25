@@ -1,10 +1,11 @@
 #include "ApplePaymentSingleton.h"
-#include "MessageBox.h"
 #include "payment_ios.h"
-#include "ModalMessages.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "external/json/document.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
+#include "HttpRequestCreator.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 USING_NS_CC;
 
@@ -32,39 +33,39 @@ bool ApplePaymentSingleton::init(void)
     return true;
 }
 
-void ApplePaymentSingleton::makeMonthlyPayment()
+void ApplePaymentSingleton::startIAPPayment()
 {
     requestAttempts = 0;
     ModalMessages::getInstance()->startLoading();
     
-    payment_ios* applePaymentObject = [[payment_ios alloc] init];
-    [applePaymentObject retain];
-    [applePaymentObject makeOneMonthPayment];
+    makingMonthlyPayment = true;
+    
+    [[payment_ios sharedPayment_ios] makeOneMonthPayment];
 }
 
-void ApplePaymentSingleton::restorePayment()
+void ApplePaymentSingleton::refreshReceipt(bool usingButton)
 {
-    payment_ios* applePaymentObject = [[payment_ios alloc] init];
-    [applePaymentObject retain];
-    [applePaymentObject restorePayment];
+    requestAttempts = 0;
+    ModalMessages::getInstance()->startLoading();
+    
+    makingMonthlyPayment = false;
+    refreshFromButton = usingButton;
+    
+    [[payment_ios sharedPayment_ios] restorePayment];
 }
 
 void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
 {
-    CCLOG("IAP Request made");
-    
     savedReceipt = receiptData;
     
-   /* HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
-    httpRequestCreator->requestTag = "iapAmazonPaymentMade";
-    httpRequestCreator->createEncryptedPostHttpRequest();*/
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    httpRequestCreator->requestBody = StringUtils::format("{\"receipt-data\": \"%s\"}", receiptData.c_str());
+    httpRequestCreator->requestTag = "iapApplePaymentMade";
+    httpRequestCreator->createEncryptedPostHttpRequest();
 }
 
 void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
 {
-    CCLOG("The response id is: %s", responseDataString.c_str());
-    
     rapidjson::Document paymentData;
     paymentData.Parse(responseDataString.c_str());
     
@@ -81,22 +82,30 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
     {
         if(paymentData["receiptStatus"].IsString())
         {
-            // EXPIRED, INVALID, UNCERTAIN
-            if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
+            if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED" && makingMonthlyPayment)
             {
                 AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
                 paymentFailed = false;
-                
-                //std::string receiptId = paymentData["receiptId"].GetString();
-                //fulfillAmazonPayment(receiptId);
-                
-                ModalMessages::getInstance()->stopLoading();
-                
-                BackEndCaller::getInstance()->newTrialJustStarted = true;
+
+                BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
                 BackEndCaller::getInstance()->autoLogin();
             }
+            else if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
+            {
+                AnalyticsSingleton::getInstance()->iapAppleAutoRenewSubscriptionEvent();
+                ModalMessages::getInstance()->stopLoading();
+                
+                paymentFailed = false;
+                BackEndCaller::getInstance()->autoLogin();
+                return;
+            }
             else
+            {
                 AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
+                
+                ModalMessages::getInstance()->stopLoading();
+                MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+            }
         }
     }
     
@@ -109,22 +118,58 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
         }
         else
         {
-            ModalMessages::getInstance()->stopLoading();
-            MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
-            return;
+            if(ParentDataProvider::getInstance()->isPaidUser())
+            {
+                ModalMessages::getInstance()->stopLoading();
+                MessageBox::createWith(ERROR_CODE_APPLE_ACCOUNT_DOWNGRADED, this);
+            }
+            else
+            {
+                ModalMessages::getInstance()->stopLoading();
+                MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+                return;
+            }
         }
     }
 }
 
-
-void ApplePaymentSingleton::ErrorMessage()
+void ApplePaymentSingleton::ErrorMessage(bool loginAfterOK)
 {
     ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+    if(loginAfterOK)
+        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
+    else
+        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+
 }
 
 void ApplePaymentSingleton::DoublePurchase()
 {
     ModalMessages::getInstance()->stopLoading();
     MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
+}
+
+void ApplePaymentSingleton::backendRequestFailed(long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
+    
+    if(!makingMonthlyPayment)
+    {
+        if(errorCode == 409)
+            BackEndCaller::getInstance()->autoLogin();
+        else if(refreshFromButton && errorCode == 400)
+            MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
+        else if(errorCode == 400)
+            BackEndCaller::getInstance()->autoLogin();
+        else
+            MessageBox::createWith(ERROR_CODE_APPLE_SUB_REFRESH_FAIL, this);
+    }
+    else
+        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
+}
+
+//---------Delegate Functions----------
+void ApplePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    BackEndCaller::getInstance()->autoLogin();
 }

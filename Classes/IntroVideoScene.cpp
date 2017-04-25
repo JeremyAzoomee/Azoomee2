@@ -3,16 +3,18 @@
 //cocos2d/cocos/ui/UIVideoPlayer-ios.mm - roww 144-145 - MPMovideControlStyleNone, interactionenabled: false
 
 #include "IntroVideoScene.h"
-
-#include "ConfigStorage.h"
+#include "SlideShowScene.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "BaseScene.h"
 #include "LoginScene.h"
 #include "HQHistoryManager.h"
-#include "AnalyticsSingleton.h"
-#include "StringMgr.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Strings.h>
 #include "ChildAccountSuccessScene.h"
 #include "LoginLogicHandler.h"
 #include "SlideShowScene.h"
+
+using namespace Azoomee;
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
@@ -44,13 +46,15 @@ bool IntroVideoScene::init()
         navigateToNextScene();
     });
     
-    funcCallAction->setTag(2);
-    this->runAction(Sequence::create(DelayTime::create(7), funcCallAction, NULL));
+    auto action = Sequence::create(DelayTime::create(7), funcCallAction, NULL);
+    
+    action->setTag(3);
+    this->runAction(action);
 
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 
-    auto videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
+    videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
     videoPlayer->setContentSize(_visibleRect.size);
     videoPlayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     videoPlayer->setPosition(Vec2(_visibleRect.origin.x + _visibleRect.size.width / 2,_visibleRect.origin.y + _visibleRect.size.height /2));
@@ -91,7 +95,9 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
 
 void IntroVideoScene::navigateToNextScene()
 {
-    this->stopActionByTag(2);
+    this->stopActionByTag(3);
+    
+    videoPlayer->setVisible(false);
     AnalyticsSingleton::getInstance()->registerAppVersion();
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())

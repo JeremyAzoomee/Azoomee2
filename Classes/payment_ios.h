@@ -5,8 +5,9 @@
 
 @property (nonatomic, retain) SKProduct * oneMonthSubscription;
 
--(void)makeOneMonthPayment;
++ (id)sharedPayment_ios;
 
+-(void)makeOneMonthPayment;
 -(void)restorePayment;
 
 @end

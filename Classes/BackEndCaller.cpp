@@ -1,11 +1,11 @@
 #include "BackEndCaller.h"
 
-#include "JWTTool.h"
-#include "ChildDataParser.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/JWTSigner/JWTTool.h>
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "ParentDataParser.h"
-#include "ParentDataProvider.h"
-#include "CookieDataParser.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
 #include "HQDataParser.h"
 #include "LoginScene.h"
 #include "ChildSelectorScene.h"
@@ -13,11 +13,11 @@
 #include "HttpRequestCreator.h"
 #include "OnboardingScene.h"
 #include "ChildAccountScene.h"
-#include "ModalMessages.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "AwaitingAdultPinLayer.h"
 #include "HQHistoryManager.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
 #include "RoutePaymentSingleton.h"
@@ -63,7 +63,7 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
     accountJustRegistered = false;
     newChildJustRegistered = false;
-    newTrialJustStarted = false;
+    newSubscriptionJustStarted = false;
     auto loginScene = LoginScene::createScene(errorCode);
     Director::getInstance()->replaceScene(loginScene);
 }
@@ -126,12 +126,11 @@ void BackEndCaller::updateBillingData()
 void BackEndCaller::onUpdateBillingDataAnswerReceived(std::string responseString)
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
-    AnalyticsSingleton::getInstance()->registerBillingStatus(ParentDataProvider::getInstance()->getBillingStatus());
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
 
-void BackEndCaller::updateParent(Node *callBackTo, std::string target) //"pin" or "actorstatus"
+void BackEndCaller::updateParentPin(Node *callBackTo)
 {
     displayLoadingScreen();
     
@@ -140,7 +139,6 @@ void BackEndCaller::updateParent(Node *callBackTo, std::string target) //"pin" o
     HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
     
     httpRequestCreator->requestTag = "updateParentPin";
-    if(target == "actorstatus") httpRequestCreator->requestTag = "updateParentActorStatus";
     
     httpRequestCreator->createEncryptedGetHttpRequest();
 }
@@ -155,19 +153,6 @@ void BackEndCaller::onUpdateParentPinAnswerReceived(std::string responseString)
         AwaitingAdultPinLayer *checkBack = (AwaitingAdultPinLayer *)callBackNode;
         CCLOG("Calling back awaitingsomething");
         checkBack->secondCheckForPin();
-    }
-}
-
-void BackEndCaller::onUpdateParentActorStatusAnswerReceived(std::string responseString)
-{
-    CCLOG("Update parent response string is: %s", responseString.c_str());
-    if(ParentDataParser::getInstance()->parseUpdateParentData(responseString))
-    {
-        hideLoadingScreen();
-        
-        ChildSelectorScene *checkBack = (ChildSelectorScene *)callBackNode;
-        CCLOG("Calling back awaitingsomething");
-        checkBack->secondCheckForAuthorisation();
     }
 }
 
@@ -200,14 +185,14 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene(false);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
-    else if(newTrialJustStarted)
+    else if(newSubscriptionJustStarted)
     {
         CCLOG("Just started new trial : backendcaller");
-        newTrialJustStarted = false;
+        newSubscriptionJustStarted = false;
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene(true);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
-    else
+    else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
     {
         auto childSelectorScene = ChildSelectorScene::createScene(0);
         Director::getInstance()->replaceScene(childSelectorScene);

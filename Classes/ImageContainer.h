@@ -1,7 +1,7 @@
 #ifndef __IMAGECONTAINER_SCENE_H__
 #define __IMAGECONTAINER_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class ImageContainer : public cocos2d::Layer
 {

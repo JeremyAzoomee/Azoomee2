@@ -1,14 +1,16 @@
 #include "ParentDataParser.h"
-#include "ChildDatastorage.h"
-#include "ParentDataStorage.h"
-#include "ModalMessages.h"
+#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataStorage.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginScene.h"
-#include "CrashLyticsConfig.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 #include "HQDataStorage.h"
 
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 static ParentDataParser *_sharedParentDataParser = NULL;
 
@@ -140,24 +142,53 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
     return true;
 }
 
-bool ParentDataParser::parseParentBillingData(std::string responseData)
+void ParentDataParser::parseParentBillingData(std::string responseData)
 {
     rapidjson::Document billingData;
     billingData.Parse(responseData.c_str());
     
-    if(billingData.HasParseError()) return false;
+    if(billingData.HasParseError())
+    {
+        CCLOG("Billing Parse Error");
+        return;
+    }
+    
+    ParentDataStorage::getInstance()->loggedInParentBillingDate = "";
     
     if(billingData.HasMember("billingStatus"))
     {
         if(billingData["billingStatus"].IsString())
         {
+            CCLOG("Billing billingStatus OK");
             ParentDataStorage::getInstance()->loggedInParentBillingStatus = billingData["billingStatus"].GetString();
             
-            return true;
+            AnalyticsSingleton::getInstance()->registerBillingStatus(billingData["billingStatus"].GetString());
+            
         }
     }
     
-    return false;
+    //BillDate format "2017-04-04"
+    if(billingData.HasMember("nextBillDate"))
+    {
+        if(billingData["nextBillDate"].IsString())
+        {
+            CCLOG("Billing nextBillDate OK");
+            ParentDataStorage::getInstance()->loggedInParentBillingDate = billingData["nextBillDate"].GetString();
+            
+        }
+    }
+    
+    if(billingData.HasMember("paymentProvider"))
+    {
+        if(billingData["paymentProvider"].IsString())
+        {
+            CCLOG("Billing paymentProvider OK");
+            ParentDataStorage::getInstance()->loggedInParentBillingProvider = billingData["paymentProvider"].GetString();
+            
+            AnalyticsSingleton::getInstance()->registerBillingProvider(billingData["paymentProvider"].GetString());
+            
+        }
+    }
 }
 
 void ParentDataParser::logoutChild()

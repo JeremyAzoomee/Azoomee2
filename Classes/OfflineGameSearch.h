@@ -1,7 +1,7 @@
 #ifndef __OFFLINE_GAME_SEARCH_SCENE_H__
 #define __OFFLINE_GAME_SEARCH_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 
 class OfflineGameSearch : public cocos2d::Layer
 {

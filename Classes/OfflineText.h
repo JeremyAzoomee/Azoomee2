@@ -1,7 +1,7 @@
 #ifndef __OFFLINETEXT_H__
 #define __OFFLINETEXT_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ElectricDreamsButton.h"
 #include "OfflineChecker.h"
 

@@ -1,18 +1,26 @@
 #include "HttpRequestCreator.h"
-#include "JWTTool.h"
-#include "JWTToolForceParent.h"
+#include <AzoomeeCommon/JWTSigner/JWTTool.h>
+#include <AzoomeeCommon/JWTSigner/JWTToolForceParent.h>
 #include "BackEndCaller.h"
 #include "HQDataParser.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "LoginScene.h"
 #include "OnboardingScene.h"
-#include "AnalyticsSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ChildAccountScene.h"
-#include "ChildDataParser.h"
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include "RoutePaymentSingleton.h"
+#include "GooglePaymentSingleton.h"
 #include "AmazonPaymentSingleton.h"
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+ #include "ApplePaymentSingleton.h"
+#endif
 
 using namespace cocos2d;
 using namespace network;
+using namespace Azoomee;
+
 
 void HttpRequestCreator::createEncryptedGetHttpRequest()
 {
@@ -157,8 +165,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     {
         std::string myRequestString;
         
-        if((requestTag == "updateParentPin")||(requestTag == "updateParentActorStatus")||(requestTag == "iapAmazonPaymentMade")||(requestTag == "updateBilling")
-           )
+        if(ConfigStorage::getInstance()->isParentSignatureRequiredForRequest(requestTag))
         {
             auto myJWTTool = JWTToolForceParent::getInstance();
             myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
@@ -174,6 +181,8 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
         headers.push_back(StringUtils::format("x-az-req-datetime: %s", getDateFormatString().c_str()));
         headers.push_back(StringUtils::format("x-az-auth-token: %s", reqData));
     }
+    
+    headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionNumberWithPlatform().c_str()));
     
     request->setHeaders(headers);
     
@@ -197,6 +206,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         CCLOG("request tag: %s", requestTag.c_str());
         CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
         CCLOG("response code: %ld", response->getResponseCode());
+        CCLOG("response header: %s", responseHeaderString.c_str());
         CCLOG("response string: %s", responseDataString.c_str());
         
         std::string requestTag = response->getHttpRequest()->getTag();
@@ -208,9 +218,13 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "registerChild") BackEndCaller::getInstance()->onRegisterChildAnswerReceived();
         if(requestTag == "registerParent") BackEndCaller::getInstance()->onRegisterParentAnswerReceived();
         if(requestTag == "updateParentPin") BackEndCaller::getInstance()->onUpdateParentPinAnswerReceived(responseDataString);
-        if(requestTag == "updateParentActorStatus") BackEndCaller::getInstance()->onUpdateParentActorStatusAnswerReceived(responseDataString);
         if(requestTag == "PreviewHOME") HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(responseDataString);
         if(requestTag == "iapAmazonPaymentMade") AmazonPaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(responseDataString);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        if(requestTag == "iapApplePaymentMade")
+            ApplePaymentSingleton::getInstance()->onAnswerReceived(responseDataString);
+#endif
+        if(requestTag == "iabGooglePaymentMade") GooglePaymentSingleton::getInstance()->onGooglePaymentVerificationAnswerReceived(responseDataString);
         if(requestTag == "updateBilling") BackEndCaller::getInstance()->onUpdateBillingDataAnswerReceived(responseDataString);
         
         for(int i = 0; i < 6; i++)
@@ -244,6 +258,7 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
     {
         amountOfFails++;
         createHttpRequest();
+        return;
     }
     
     if((errorCode == 401)&&(findPositionOfNthString(responseString, "Invalid Request Time", 1) != responseString.length())) errorCode = 2001;
@@ -288,6 +303,24 @@ void HttpRequestCreator::handleEventAfterError(std::string requestTag, long erro
         CCLOG("IAP Failed with Errorcode: %ld", errorCode);
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
         AmazonPaymentSingleton::getInstance()->backendRequestFailed();
+        return;
+    }
+    if(requestTag == "iapApplePaymentMade")
+    {
+        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
+        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
+        
+        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            ApplePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
+        #endif
+        return;
+    }
+    
+    if(requestTag == "iabGooglePaymentMade")
+    {
+        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
+        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
+        GooglePaymentSingleton::getInstance()->backendRequestFailed();
         return;
     }
     

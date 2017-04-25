@@ -1,11 +1,13 @@
 #include "OfflineText.h"
 #include "BackEndCaller.h"
-#include "ChildDataParser.h"
-#include "ChildDataProvider.h"
-#include "StringMgr.h"
-#include "ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 Scene* OfflineText::createScene()
 {
@@ -138,6 +140,7 @@ void OfflineText::buttonPressed(ElectricDreamsButton *button)
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
     ChildDataParser::getInstance()->setChildLoggedIn(false);
+    BackEndCaller::getInstance()->updateBillingData();
     BackEndCaller::getInstance()->getAvailableChildren();
 }
 

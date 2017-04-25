@@ -1,4 +1,4 @@
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "external/json/document.h"
 
 class ParentDataParser : public cocos2d::Ref
@@ -13,7 +13,7 @@ public:
     bool parseParentLoginData(std::string responseData);
     bool parseAvailableChildren(std::string responseData);
     bool parseUpdateParentData(std::string responseData);
-    bool parseParentBillingData(std::string responseData);
+    void parseParentBillingData(std::string responseData);
     void logoutChild();
     void retrieveParentLoginDataFromUserDefaults();
     bool hasParentLoginDataInUserDefaults();

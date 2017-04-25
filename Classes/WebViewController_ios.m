@@ -100,22 +100,6 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSString *urlString = [[request URL] absoluteString];
     
-    if ([urlString hasPrefix:@"savelocaldata:"]) {
-        
-        NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
-        
-        NSArray *urlItems = [urlComponents.string componentsSeparatedByString:@"?"];
-        NSString *localStorageData = [urlItems objectAtIndex:1];
-        localStorageData = [localStorageData stringByRemovingPercentEncoding];
-        
-        const char* localStorageDataChar = [localStorageData cStringUsingEncoding:NSUTF8StringEncoding];
-        saveLocalStorageData(localStorageDataChar);
-        
-        [self finishView];
-        
-        return NO;
-    }
-    
     if ([urlString hasPrefix:@"apirequest:"]) {
         
         NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
@@ -217,7 +201,10 @@
     NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
     if([iosurlExtension isEqualToString:@"html"])
     {
-        [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+        NSString *htmlData = [webview stringByEvaluatingJavaScriptFromString:@"saveLocalDataBeforeExit()"];
+        NSLog(@"ART APP FILE DATA DIRECT LENGTH: %lu", htmlData.length);
+        saveLocalStorageData(htmlData);
+        [self finishView];
         return;
     }
     else

@@ -1,7 +1,7 @@
 #ifndef __ONBOARDINGSUCCESSSCENE_SCENE_H__
 #define __ONBOARDINGSUCCESSSCENE_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ElectricDreamsButton.h"
 
 USING_NS_CC;

@@ -1,7 +1,7 @@
 #ifndef __IAP_UPSALE_LAYER_H__
 #define __IAP_UPSALE_LAYER_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ElectricDreamsButton.h"
 #include "AwaitingAdultPinLayer.h"
 
@@ -20,21 +20,23 @@ private:
     ElectricDreamsButton* startTrialButton;
     ElectricDreamsButton* restoreButton;
     ElectricDreamsButton* notNowButton;
+    ElectricDreamsButton* learnMoreButton;
     
     Label* titleLabel;
-    Label* cancelAnytimeLabel;
+    Label* optionalLabel;
     
     Sprite* oomeesImage;
     
     void askForPin();
     
-    void createBackGroundLayer();
+    bool restoreButtonPressed;
+    
+    void createBackgroundLayer();
     void addListenerToBackgroundLayer();
     
     void createUpSaleLayer();
     
     void addTitle();
-    void addCancelAnytimeLabel();
     void addButtons();
     void addImage();
     void addALLBulletsAndLabel();

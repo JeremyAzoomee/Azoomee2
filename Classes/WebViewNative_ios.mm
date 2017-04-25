@@ -1,9 +1,10 @@
 #include "WebViewNative_ios.h"
 #include "BaseScene.h"
 #include "WebViewController_ios.h"
-#include "ChildDataProvider.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 USING_NS_CC;
+using namespace Azoomee;
 
 
 Scene* WebViewNative_ios::createSceneWithURL(std::string url)

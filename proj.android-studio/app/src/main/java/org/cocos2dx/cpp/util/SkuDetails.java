@@ -18,9 +18,6 @@ package org.cocos2dx.cpp.util;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Represents an in-app product's listing details.
- */
 public class SkuDetails {
     private final String mItemType;
     private final String mSku;

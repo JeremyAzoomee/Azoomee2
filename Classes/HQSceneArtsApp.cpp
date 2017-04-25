@@ -4,12 +4,14 @@
 
 #include "HQSceneArtsApp.h"
 #include "ArtsAppHQElement.h"
-#include "ChildDataProvider.h"
-#include "ConfigStorage.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQSceneElementPositioner.h"
 #include <dirent.h>
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 bool HQSceneArtsApp::init()
 {

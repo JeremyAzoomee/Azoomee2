@@ -1,7 +1,7 @@
 #ifndef __OFFLINEHUB_HQELEMENT_H__
 #define __OFFLINEHUB_HQELEMENT_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "HQSceneElementVisual.h"
 
 class OfflineHubHQElement : public cocos2d::Layer

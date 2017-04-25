@@ -9,22 +9,30 @@
 
 @implementation payment_ios
 
++ (id)sharedPayment_ios {
+    static payment_ios *sharedPayment_ios = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedPayment_ios = [[self alloc] init];
+    });
+    return sharedPayment_ios;
+}
 
 -(void)makeOneMonthPayment
 {
     if(self.oneMonthSubscription == nil)
     {
-        //request the prices and titles of IAP
-        NSSet * productIdentifiers = [NSSet setWithObjects:
-                                      ONE_MONTH_PAYMENT,
-                                      nil];
+        NSSet * productIdentifiers = [NSSet setWithObjects:ONE_MONTH_PAYMENT, nil];
         
-        SKProductsRequest *productsRequest = [[SKProductsRequest alloc]
-                                              initWithProductIdentifiers:productIdentifiers];
+        SKProductsRequest *productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
+        
         productsRequest.delegate = self;
         [productsRequest start];
     }
+    else
+        [self startPaymentQueue];
 }
+
 -(void)restorePayment
 {
     SKReceiptRefreshRequest* request = [[SKReceiptRefreshRequest alloc] init];
@@ -41,17 +49,22 @@
             if([skProduct.productIdentifier isEqualToString:ONE_MONTH_PAYMENT] )
             {
                 self.oneMonthSubscription = skProduct;
-                [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-                
-                SKPayment * payment = [SKPayment paymentWithProduct:skProduct];
-                [[SKPaymentQueue defaultQueue] addPayment:payment];
+                [self startPaymentQueue];
             }
         }
     }
-    @catch (NSException * e) {
-        
-        ApplePaymentSingleton::getInstance()->ErrorMessage();
+    @catch (NSException * e)
+    {
+        ApplePaymentSingleton::getInstance()->ErrorMessage(false);
     }
+}
+
+-(void) startPaymentQueue
+{
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    
+    SKPayment * payment = [SKPayment paymentWithProduct:self.oneMonthSubscription];
+    [[SKPaymentQueue defaultQueue] addPayment:payment];
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
@@ -63,32 +76,22 @@
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 
-                NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
-                NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
-                NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
+                [self sendReceiptToBackend];
                 
-                ApplePaymentSingleton::getInstance()->transactionStatePurchased(std::string([receiptString UTF8String]));
-                
-                [self release];
                 break;
             }
             case SKPaymentTransactionStateFailed:
             {
-                NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
-                NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
-                NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
-                
-                ApplePaymentSingleton::getInstance()->ErrorMessage();
+                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                ApplePaymentSingleton::getInstance()->ErrorMessage(false);
                 NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
                 
-                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                [self release];
                 break;
             }
             case SKPaymentTransactionStateRestored:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                [self release];
+                 ApplePaymentSingleton::getInstance()->DoublePurchase();
             }
             case SKPaymentTransactionStateDeferred:
             {
@@ -98,118 +101,45 @@
                 break;
         }
     };
-
 }
 
 - (void) paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
 {
     ApplePaymentSingleton::getInstance()->DoublePurchase();
-    [self release];
 }
 
 - (void) paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
-    ApplePaymentSingleton::getInstance()->ErrorMessage();
-    [self release];
+    ApplePaymentSingleton::getInstance()->ErrorMessage(false);
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
-    ApplePaymentSingleton::getInstance()->ErrorMessage();
     NSLog(@"DidFailWithError error: %@", error.localizedDescription);
-    [self release];
+    
+    if(ApplePaymentSingleton::getInstance()->refreshFromButton)
+        ApplePaymentSingleton::getInstance()->ErrorMessage(false);
+    else
+        ApplePaymentSingleton::getInstance()->ErrorMessage(true);
 }
 
 -(void)requestDidFinish:(SKRequest *)request
 {
     bool receiptExist = [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] appStoreReceiptURL] path]];
     
-    if(receiptExist)
+    if(receiptExist && !ApplePaymentSingleton::getInstance()->makingMonthlyPayment)
     {
-        NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
-        NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
-        NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
-    }
-    else
-    {
-        
+        [self sendReceiptToBackend];
     }
 }
-/*
- 
- 
- - (void)purchase:(SKProduct *)product{
- SKPayment *payment = [SKPayment paymentWithProduct:product];
- 
- [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
- [[SKPaymentQueue defaultQueue] addPayment:payment];
- }
- 
- - (IBAction) restore{
- //this is called when the user restores purchases, you should hook this up to a button
- [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
- [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
- }
- 
- - (void) paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
- {
- NSLog(@"received restored transactions: %i", queue.transactions.count);
- for(SKPaymentTransaction *transaction in queue.transactions){
- if(transaction.transactionState == SKPaymentTransactionStateRestored){
- //called when the user successfully restores a purchase
- NSLog(@"Transaction state -> Restored");
- 
- //if you have more than one in-app purchase product,
- //you restore the correct product for the identifier.
- //For example, you could use
- //if(productID == kRemoveAdsProductIdentifier)
- //to get the product identifier for the
- //restored purchases, you can use
- //
- //NSString *productID = transaction.payment.productIdentifier;
- [self doRemoveAds];
- [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
- break;
- }
- }
- }
- 
- - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
- for(SKPaymentTransaction *transaction in transactions){
- //if you have multiple in app purchases in your app,
- //you can get the product identifier of this transaction
- //by using transaction.payment.productIdentifier
- //
- //then, check the identifier against the product IDs
- //that you have defined to check which product the user
- //just purchased
- 
- switch(transaction.transactionState){
- case SKPaymentTransactionStatePurchasing: NSLog(@"Transaction state -> Purchasing");
- //called when the user is in the process of purchasing, do not add any of your own code here.
- break;
- case SKPaymentTransactionStatePurchased:
- //this is called when the user has successfully purchased the package (Cha-Ching!)
- [self doRemoveAds]; //you can add your code for what you want to happen when the user buys the purchase here, for this tutorial we use removing ads
- [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
- NSLog(@"Transaction state -> Purchased");
- break;
- case SKPaymentTransactionStateRestored:
- NSLog(@"Transaction state -> Restored");
- //add the same code as you did from SKPaymentTransactionStatePurchased here
- [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
- break;
- case SKPaymentTransactionStateFailed:
- //called when the transaction does not finish
- if(transaction.error.code == SKErrorPaymentCancelled){
- NSLog(@"Transaction state -> Cancelled");
- //the user cancelled the payment ;(
- }
- [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
- break;
- }
- }
- }*/
 
+-(void) sendReceiptToBackend
+{
+    NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+    NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
+    NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
+    
+    ApplePaymentSingleton::getInstance()->transactionStatePurchased(std::string([receiptString UTF8String]));
+}
 
 @end

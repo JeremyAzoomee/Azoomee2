@@ -1,7 +1,7 @@
 #ifndef __SLIDESHOW_SCENE_H__
 #define __SLIDESHOW_SCENE_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ui/UIPageView.h"
 #include "ElectricDreamsButton.h"
 

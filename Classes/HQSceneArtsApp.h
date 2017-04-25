@@ -1,7 +1,7 @@
 #ifndef __HQSCENE_ARTS_APP_H__
 #define __HQSCENE_ARTS_APP_H__
 
-#include "cocos2d.h"
+#include <cocos/cocos2d.h>
 #include "ui/UIScrollView.h"
 
 class HQSceneArtsApp : public cocos2d::Layer
