@@ -44,8 +44,8 @@ bool RoutePaymentSingleton::init(void)
 }
 void RoutePaymentSingleton::startInAppPayment()
 {
-    makingMonthlyPayment = true;
-    refreshFromButton = false;
+    pressedIAPStartButton = true;
+    pressedRestorePurchaseButton = false;
     ModalMessages::getInstance()->startLoading();
     if(osIsIos())
     {
@@ -126,8 +126,8 @@ bool RoutePaymentSingleton::osIsAmazon()
 void RoutePaymentSingleton::refreshAppleReceiptFromButton()
 {
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        makingMonthlyPayment = false;
-        refreshFromButton = true;
+        pressedIAPStartButton = false;
+        pressedRestorePurchaseButton = true;
         ModalMessages::getInstance()->startLoading();
         ApplePaymentSingleton::getInstance()->refreshReceipt(true);
     #endif
@@ -145,8 +145,8 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
         {
-            makingMonthlyPayment = false;
-            refreshFromButton = false;
+            pressedIAPStartButton = false;
+            pressedRestorePurchaseButton = false;
             ApplePaymentSingleton::getInstance()->refreshReceipt(false);
             return false;
         }
@@ -166,11 +166,11 @@ void RoutePaymentSingleton::backendRequestFailed(long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();
     
-    if(makingMonthlyPayment)
+    if(pressedIAPStartButton)
         MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
     else
     {
-        if(refreshFromButton && (errorCode == 400 || errorCode == 409))
+        if(pressedRestorePurchaseButton && (errorCode == 400 || errorCode == 409))
             MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
         else if(errorCode == 409)
             LoginLogicHandler::getInstance()->doLoginLogic();

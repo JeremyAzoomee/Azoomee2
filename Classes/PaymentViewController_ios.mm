@@ -119,7 +119,7 @@
 {
     NSLog(@"DidFailWithError error: %@", error.localizedDescription);
     
-    if(RoutePaymentSingleton::getInstance()->refreshFromButton)
+    if(RoutePaymentSingleton::getInstance()->pressedRestorePurchaseButton)
         RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
     else
         LoginLogicHandler::getInstance()->doLoginLogic();
@@ -129,7 +129,7 @@
 {
     bool receiptExist = [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] appStoreReceiptURL] path]];
     
-    if(receiptExist && !RoutePaymentSingleton::getInstance()->makingMonthlyPayment)
+    if(receiptExist && !RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
     {
         [self sendReceiptToBackend];
     }

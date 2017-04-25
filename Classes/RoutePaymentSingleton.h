@@ -15,8 +15,8 @@ public:
     virtual ~RoutePaymentSingleton();
     bool init(void);
     
-    bool makingMonthlyPayment;
-    bool refreshFromButton;
+    bool pressedIAPStartButton;
+    bool pressedRestorePurchaseButton;
     
     void startInAppPayment();
     void inAppPaymentSuccess();

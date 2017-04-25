@@ -73,7 +73,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
     {
         if(paymentData["receiptStatus"].IsString())
         {
-            if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED" && RoutePaymentSingleton::getInstance()->makingMonthlyPayment)
+            if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED" && RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
             {
                 RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
                 return;
