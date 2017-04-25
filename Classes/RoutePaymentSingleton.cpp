@@ -80,7 +80,9 @@ std::string RoutePaymentSingleton::getOSManufacturer()
     jstring str = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID);
     const char *resultCStr = t.env->GetStringUTFChars(str, NULL);
     std::string resultStr(resultCStr);
-    t.env->ReleaseStringUTFChars(str, resultCStr);
+    
+    t.env->DeleteLocalRef(t.classID);
+    t.env->DeleteLocalRef(str);
     
     CCLOG("DEVICE TYPE:%s",resultStr.c_str());
     

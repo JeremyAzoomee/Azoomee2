@@ -25,9 +25,8 @@ public:
     void updateBillingData();
     void onUpdateBillingDataAnswerReceived(std::string responseString);
     
-    void updateParent(cocos2d::Node *callBackTo, std::string target);
+    void updateParentPin(cocos2d::Node *callBackTo);
     void onUpdateParentPinAnswerReceived(std::string responseString);
-    void onUpdateParentActorStatusAnswerReceived(std::string responseString);
     
     void registerParent(std::string emailAddress, std::string password, std::string pinNumber);
     void onRegisterParentAnswerReceived();
