@@ -87,13 +87,13 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
         return;
     }
 
-    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
+    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
 }
 
 void GooglePaymentSingleton::purchaseFailedBeforeFulfillment()
 {
     auto funcCallAction = CallFunc::create([=](){
-        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
     });
     
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash

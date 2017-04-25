@@ -83,9 +83,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         mActivity = this;
         mAppActivity = this;
 
-        if (getOSBuildManufacturer() == "AMAZON") {
-            setupIAPOnCreate();
-        }
+        setupIAPOnCreate();
 
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
         mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");

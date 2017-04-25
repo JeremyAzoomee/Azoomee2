@@ -34,7 +34,7 @@ public:
     
     void backendRequestFailed(long errorCode);
     
-    void purchaseFailureErrorMessage(bool loginAfterOK);
+    void purchaseFailureErrorMessage();
     void doublePurchaseMessage();
     
     //Delegate Functions

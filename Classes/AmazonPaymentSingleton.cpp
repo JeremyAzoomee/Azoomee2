@@ -113,7 +113,7 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
     }
     else
     {
-        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
         return;
     }
 }
@@ -185,7 +185,7 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseFailed(JNIEnv* env, jobject thiz)
 {
     CCLOG("COCOS2DX: PURCHASE FAILED");
-    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
+    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
 }
 
 extern "C"

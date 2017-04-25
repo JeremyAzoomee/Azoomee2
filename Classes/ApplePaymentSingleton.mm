@@ -104,7 +104,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
         }
         else
         {
-            RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
+            RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
             return;
         }
     }

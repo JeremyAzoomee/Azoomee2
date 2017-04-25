@@ -1,6 +1,7 @@
 #import "PaymentViewController_ios.h"
 #include "ApplePaymentSingleton.h"
 #include "RoutePaymentSingleton.h"
+#include "LoginLogicHandler.h"
 
 #define ONE_MONTH_PAYMENT @"AZ_Premium_Monthly"
 
@@ -56,7 +57,7 @@
     }
     @catch (NSException * e)
     {
-        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
     }
 }
 
@@ -84,7 +85,7 @@
             case SKPaymentTransactionStateFailed:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
+                RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
                 NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
                 
                 break;
@@ -111,7 +112,7 @@
 
 - (void) paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
-    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
+    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
@@ -119,9 +120,9 @@
     NSLog(@"DidFailWithError error: %@", error.localizedDescription);
     
     if(RoutePaymentSingleton::getInstance()->refreshFromButton)
-        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(false);
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
     else
-        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(true);
+        LoginLogicHandler::getInstance()->doLoginLogic();
 }
 
 -(void)requestDidFinish:(SKRequest *)request

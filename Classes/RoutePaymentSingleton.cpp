@@ -45,6 +45,7 @@ bool RoutePaymentSingleton::init(void)
 void RoutePaymentSingleton::startInAppPayment()
 {
     makingMonthlyPayment = true;
+    refreshFromButton = false;
     ModalMessages::getInstance()->startLoading();
     if(osIsIos())
     {
@@ -169,10 +170,10 @@ void RoutePaymentSingleton::backendRequestFailed(long errorCode)
         MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
     else
     {
-        if(errorCode == 409)
-            LoginLogicHandler::getInstance()->doLoginLogic();
-        else if(refreshFromButton && errorCode == 400)
+        if(refreshFromButton && (errorCode == 400 || errorCode == 409))
             MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
+        else if(errorCode == 409)
+            LoginLogicHandler::getInstance()->doLoginLogic();
         else if(errorCode == 400)
             LoginLogicHandler::getInstance()->doLoginLogic();
         else
@@ -180,14 +181,11 @@ void RoutePaymentSingleton::backendRequestFailed(long errorCode)
     }
 }
 
-void RoutePaymentSingleton::purchaseFailureErrorMessage(bool loginAfterOK)
+void RoutePaymentSingleton::purchaseFailureErrorMessage()
 {
     AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent();
     ModalMessages::getInstance()->stopLoading();
-    if(loginAfterOK)
-        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
-    else
-        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
 }
 
 void RoutePaymentSingleton::doublePurchaseMessage()
