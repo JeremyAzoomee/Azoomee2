@@ -5,8 +5,9 @@
 #include "ui/UIScrollView.h"
 #include "AwaitingAdultPinLayer.h"
 #include "OfflineChecker.h"
+#include "MessageBox.h"
 
-class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate, public OfflineCheckerDelegate
+class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate
 {
 public:
     CREATE_FUNC(ChildSelectorScene);
@@ -15,12 +16,11 @@ public:
     virtual void onEnterTransitionDidFinish();
     static cocos2d::Scene* createScene();
     
-    void secondCheckForAuthorisation();
-    
     //Delegate Functions
     void AdultPinCancelled(AwaitingAdultPinLayer* layer);
     void AdultPinAccepted(AwaitingAdultPinLayer* layer);
     void callDelegateFunction(float dt);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
     void connectivityStateChanged(bool online);
     

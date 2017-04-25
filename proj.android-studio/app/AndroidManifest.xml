@@ -9,6 +9,7 @@
     <application
         android:label="Azoomee"
         android:allowBackup="true"
+        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher">
         
         <!-- Tell Cocos2dxActivity the name of our .so -->
