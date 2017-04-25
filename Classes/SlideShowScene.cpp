@@ -4,7 +4,6 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
-#include "StringFunctions.h"
 
 using namespace Azoomee;
 
