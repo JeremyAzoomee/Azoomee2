@@ -5,6 +5,7 @@
 #include "LoginScene.h"
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Strings.h>
 
 #include "HQDataStorage.h"
 
