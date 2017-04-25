@@ -30,6 +30,7 @@ void navigateToLoginScene()
 {
     AnalyticsSingleton::getInstance()->closeContentEvent();
     
+    BackEndCaller::getInstance()->updateBillingData();
     BackEndCaller::getInstance()->getAvailableChildren();
 }
 

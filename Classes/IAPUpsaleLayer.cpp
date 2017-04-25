@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "RoutePaymentSingleton.h"
 #include "MessageBox.h"
+#include "IAPDetailsLayer_ios.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 
 USING_NS_CC;
@@ -37,20 +38,19 @@ bool IAPUpsaleLayer::init()
     
     AudioMixer::getInstance()->pauseBackgroundMusic();
     
-    createBackGroundLayer();
+    createBackgroundLayer();
     createUpSaleLayer();
     addImage();
     addTitle();
     addButtons();
     addALLBulletsAndLabel();
-    addOptionalSubscriptionLabel();
     
     return true;
 }
 
-//---------------------- Create BackGround Layer -----------------------------
+//---------------------- Create Background Layer -----------------------------
 
-void IAPUpsaleLayer::createBackGroundLayer()
+void IAPUpsaleLayer::createBackgroundLayer()
 {
     backgroundLayer = LayerColor::create(Color4B(48,38,38,255),origin.x + visibleSize.width,origin.y + visibleSize.height);
     
@@ -124,23 +124,22 @@ void IAPUpsaleLayer::addButtons()
     notNowButton->setMixPanelButtonName("IAPUpsaleSceneNotNowButton");
     UpsaleLayer->addChild(notNowButton);
     
-    addCancelAnytimeLabel();
+    addOptionalSubscriptionLabel();
     
-    /* Not needed for amazon, left here incase for apple.
-    restoreButton = ElectricDreamsButton::createTextAsButton("Restore your account", 46, true);
-    restoreButton->setPosition(SIDE_MARGIN_SIZE, cancelAnytimeLabel->getPositionY()-restoreButton->getContentSize().height/2);
-    restoreButton->setDelegate(this);
-    UpsaleLayer->addChild(restoreButton);*/
-}
-
-void IAPUpsaleLayer::addCancelAnytimeLabel()
-{
-    cancelAnytimeLabel = Label::createWithTTF("Cancel anytime", FONT_REGULAR, 46);
-    cancelAnytimeLabel->setColor(COLOR_BRIGHT_AQUA);
-    cancelAnytimeLabel->setAnchorPoint(Vec2(1,0.5));
-    cancelAnytimeLabel->setHorizontalAlignment(TextHAlignment::LEFT);
-    cancelAnytimeLabel->setPosition(UpsaleLayer->getContentSize().width - SIDE_MARGIN_SIZE,startTrialButton->getPositionY() - cancelAnytimeLabel->getContentSize().height*1.5);
-    UpsaleLayer->addChild(cancelAnytimeLabel);
+    if(RoutePaymentSingleton::getInstance()->osIsIos())
+    {
+        restoreButton = ElectricDreamsButton::createTextAsButton("Restore your Purchase", 46, true);
+        restoreButton->setPosition(SIDE_MARGIN_SIZE, optionalLabel->getPositionY()-restoreButton->getContentSize().height/2);
+        restoreButton->setDelegate(this);
+        UpsaleLayer->addChild(restoreButton);
+        
+        learnMoreButton = ElectricDreamsButton::createTextAsButton("Learn More", 46, true);
+        learnMoreButton->setPosition(UpsaleLayer->getContentSize().width - SIDE_MARGIN_SIZE - restoreButton->getContentSize().width/2, optionalLabel->getPositionY()-learnMoreButton->getContentSize().height/2);
+        learnMoreButton->setDelegate(this);
+        UpsaleLayer->addChild(learnMoreButton);
+        
+        optionalLabel->setPositionX(startTrialButton->getPositionX() + optionalLabel->getContentSize().width/2);
+    }
 }
 
 void IAPUpsaleLayer::addALLBulletsAndLabel()
@@ -167,11 +166,11 @@ void IAPUpsaleLayer::addBulletAndLabel(std::string BOLDtext, std::string regular
 
 void IAPUpsaleLayer::addOptionalSubscriptionLabel()
 {
-    auto optionalLabel = Label::createWithTTF("Optional subscription of £4.99 after trial.", FONT_REGULAR, 46);
+    optionalLabel = Label::createWithTTF("Then £4.99/month. No commitment, cancel anytime.", FONT_REGULAR, 46);
     optionalLabel->setColor(Color3B::WHITE);
-    optionalLabel->setAnchorPoint(Vec2(0,0.5));
-    optionalLabel->setHorizontalAlignment(TextHAlignment::RIGHT);
-    optionalLabel->setPosition(startTrialButton->getPositionX(), cancelAnytimeLabel->getPositionY());
+    optionalLabel->setAnchorPoint(Vec2(0.5,0.5));
+    optionalLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    optionalLabel->setPosition(startTrialButton->getPositionX()+startTrialButton->getContentSize().width/2, startTrialButton->getPositionY() - optionalLabel->getContentSize().height*1.5);
     UpsaleLayer->addChild(optionalLabel);
 }
 
@@ -190,13 +189,30 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
     if(button == startTrialButton)
     {
         if(requiresPinCode)
+        {
+            restoreButtonPressed = false;
             askForPin();
+        }
         else
             RoutePaymentSingleton::getInstance()->startInAppPayment();
     }
     else if(button == notNowButton)
     {
         removeSelf();
+    }
+    else if(button == restoreButton)
+    {
+        if(requiresPinCode)
+        {
+            restoreButtonPressed = true;
+            askForPin();
+        }
+        else
+            RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
+    }
+    else if(button == learnMoreButton)
+    {
+        IAPDetailsLayer_ios::create();
     }
 }
 
@@ -213,5 +229,8 @@ void IAPUpsaleLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 
 void IAPUpsaleLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
-    RoutePaymentSingleton::getInstance()->startInAppPayment();
+    if(restoreButtonPressed)
+        RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
+    else
+        RoutePaymentSingleton::getInstance()->startInAppPayment();
 }

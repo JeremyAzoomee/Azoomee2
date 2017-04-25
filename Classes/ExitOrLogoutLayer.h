@@ -4,6 +4,7 @@
 #include <cocos/cocos2d.h>
 #include "ElectricDreamsButton.h"
 #include "AwaitingAdultPinLayer.h"
+#include "PrivacyAndTermsLayer.h"
 
 USING_NS_CC;
 
@@ -19,6 +20,8 @@ private:
     ElectricDreamsButton *logoutButton;
     ElectricDreamsButton *cancelButton;
     ElectricDreamsButton *iapButton;
+    
+    Layer* privacyAndTerms;
     
     void askForPin();
     void createAndFadeInLayer();

@@ -1,5 +1,6 @@
 #include "BackEndCaller.h"
 
+#include <AzoomeeCommon/JWTSigner/JWTTool.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "ParentDataParser.h"
@@ -10,6 +11,8 @@
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
 #include "HttpRequestCreator.h"
+#include "OnboardingScene.h"
+#include "ChildAccountScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "AwaitingAdultPinLayer.h"
@@ -20,8 +23,6 @@
 #include "RoutePaymentSingleton.h"
 
 using namespace cocos2d;
-using namespace Azoomee;
-
 
 static BackEndCaller *_sharedBackEndCaller = NULL;
 
@@ -125,7 +126,6 @@ void BackEndCaller::updateBillingData()
 void BackEndCaller::onUpdateBillingDataAnswerReceived(std::string responseString)
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
-    AnalyticsSingleton::getInstance()->registerBillingStatus(ParentDataProvider::getInstance()->getBillingStatus());
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
@@ -182,17 +182,17 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
     {
         CCLOG("Just registered account : backendcaller");
         accountJustRegistered = false;
-        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(RoutePaymentSingleton::getInstance()->OS_is_IAP_Compatible(),false);
+        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(false);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
     else if(newSubscriptionJustStarted)
     {
         CCLOG("Just started new trial : backendcaller");
         newSubscriptionJustStarted = false;
-        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(RoutePaymentSingleton::getInstance()->OS_is_IAP_Compatible(),true);
+        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(true);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
-    else
+    else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
     {
         auto childSelectorScene = ChildSelectorScene::createScene(0);
         Director::getInstance()->replaceScene(childSelectorScene);

@@ -59,6 +59,16 @@ std::string ParentDataProvider::getBillingStatus()
     return ParentDataStorage::getInstance()->loggedInParentBillingStatus;
 }
 
+std::string ParentDataProvider::getBillingDate()
+{
+    return ParentDataStorage::getInstance()->loggedInParentBillingDate;
+}
+
+std::string ParentDataProvider::getBillingProvider()
+{
+    return ParentDataStorage::getInstance()->loggedInParentBillingProvider;
+}
+
 bool ParentDataProvider::isPaidUser()
 {
     return ParentDataStorage::getInstance()->loggedInParentBillingStatus == "SUBSCRIBED";

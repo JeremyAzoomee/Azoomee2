@@ -100,7 +100,7 @@
     "3002":
     {
     	"title":"Something Went Wrong",
-        "body":"Your purchase could not be completed. Please try again later.",
+        "body":"Your purchase could not be completed. Please try again later. If the problem persists, please contact our customer service.",
         "button":"OK"
     },
     
@@ -111,10 +111,28 @@
         "button":"OK"
     },
     
-        "3004":
+    "3004":
     {
-    	"title":"Something Went Wrong",
-        "body":"Your purchase could not be completed. Please try again later. If the problem persists, please contact our customer service.",
+        "title":"Subscription Update Failed",
+        "body":"The Apple subscription could not be verified. Please log in, with the Apple account that created the Azoomee subscription.\n\nContact our customer service team if you need some help.",
+        "button":"OK"
+    },
+    "3005":
+    {
+        "title":"No Purchase To Restore",
+        "body":"We could not find a previous purchase to restore.\n\nContact our customer service team if you need some help.",
+        "button":"OK"
+    },
+    "3006":
+    {
+        "title":"No Renewal Found",
+        "body":"Apple subscription renewal not found. Account has been changed to Free.\n\nContact our customer service team if you need some help.",
+        "button":"OK"
+    },
+    "3007":
+    {
+        "title":"Subscription Error",
+        "body":"Log in your Azoomee account on your Apple device to renew your subscription.\n\nContact our customer service team if you need some help.",
         "button":"OK"
     },
     

@@ -13,6 +13,10 @@
 #include "GooglePaymentSingleton.h"
 #include "AmazonPaymentSingleton.h"
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+ #include "ApplePaymentSingleton.h"
+#endif
+
 using namespace cocos2d;
 using namespace network;
 using namespace Azoomee;
@@ -216,6 +220,10 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         if(requestTag == "updateParentPin") BackEndCaller::getInstance()->onUpdateParentPinAnswerReceived(responseDataString);
         if(requestTag == "PreviewHOME") HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(responseDataString);
         if(requestTag == "iapAmazonPaymentMade") AmazonPaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(responseDataString);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        if(requestTag == "iapApplePaymentMade")
+            ApplePaymentSingleton::getInstance()->onAnswerReceived(responseDataString);
+#endif
         if(requestTag == "iabGooglePaymentMade") GooglePaymentSingleton::getInstance()->onGooglePaymentVerificationAnswerReceived(responseDataString);
         if(requestTag == "updateBilling") BackEndCaller::getInstance()->onUpdateBillingDataAnswerReceived(responseDataString);
         
@@ -295,6 +303,16 @@ void HttpRequestCreator::handleEventAfterError(std::string requestTag, long erro
         CCLOG("IAP Failed with Errorcode: %ld", errorCode);
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
         AmazonPaymentSingleton::getInstance()->backendRequestFailed();
+        return;
+    }
+    if(requestTag == "iapApplePaymentMade")
+    {
+        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
+        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
+        
+        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            ApplePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
+        #endif
         return;
     }
     

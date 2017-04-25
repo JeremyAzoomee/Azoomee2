@@ -42,13 +42,15 @@ bool IntroVideoScene::init()
         navigateToNextScene();
     });
     
-    funcCallAction->setTag(2);
-    this->runAction(Sequence::create(DelayTime::create(7), funcCallAction, NULL));
+    auto action = Sequence::create(DelayTime::create(7), funcCallAction, NULL);
+    
+    action->setTag(3);
+    this->runAction(action);
 
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 
-    auto videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
+    videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
     videoPlayer->setContentSize(_visibleRect.size);
     videoPlayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     videoPlayer->setPosition(Vec2(_visibleRect.origin.x + _visibleRect.size.width / 2,_visibleRect.origin.y + _visibleRect.size.height /2));
@@ -89,7 +91,9 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
 
 void IntroVideoScene::navigateToNextScene()
 {
-    this->stopActionByTag(2);
+    this->stopActionByTag(3);
+    
+    videoPlayer->setVisible(false);
     AnalyticsSingleton::getInstance()->registerAppVersion();
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())

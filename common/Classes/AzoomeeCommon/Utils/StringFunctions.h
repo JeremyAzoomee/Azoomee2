@@ -12,8 +12,10 @@ std::vector<std::string> splitStringToVector(std::string inputString, std::strin
 std::string stringToLower(std::string input);
 std::string stringToUpper(std::string input);
 std::string stringReplace(std::string originalString, std::string stringToReplace, std::string withNewString);
+bool isDateStringOlderThanToday(std::string dateToCheck);
 
   
 } // Azoomee
 
 #endif
+
