@@ -11,10 +11,13 @@ Private inheritance here hides part of interface from Director.
 class  AppDelegate : private cocos2d::Application
 {
 public:
+    /// Triggered when the window size changes (e.g on orientation changes)
+    static const char* EVENT_WINDOW_SIZE_CHANGED;
+    
     AppDelegate();
     virtual ~AppDelegate();
 
-    virtual void initGLContextAttrs();
+    virtual void initGLContextAttrs() override;
 
     /**
     @brief    Implement Director and Scene init code here.

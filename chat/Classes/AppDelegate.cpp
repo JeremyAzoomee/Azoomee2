@@ -5,10 +5,9 @@
 using namespace cocos2d;
 using namespace Azoomee::Chat;
 
-static cocos2d::Size designResolutionSize = cocos2d::Size(2732, 2048);
-static cocos2d::Size smallResolutionSize = cocos2d::Size(2732, 2048);
-static cocos2d::Size mediumResolutionSize = cocos2d::Size(2732, 2048);
-static cocos2d::Size largeResolutionSize = cocos2d::Size(2732, 2048);
+static cocos2d::Size designResolutionLandscapeSize = cocos2d::Size(2732, 2048);
+static cocos2d::Size designResolutionPortraitSize = cocos2d::Size(designResolutionLandscapeSize.height, designResolutionLandscapeSize.width);
+const char* AppDelegate::EVENT_WINDOW_SIZE_CHANGED = "appdelegate_window_size_changed";
 
 
 AppDelegate::AppDelegate()
@@ -16,7 +15,7 @@ AppDelegate::AppDelegate()
 }
 
 AppDelegate::~AppDelegate() 
-{
+{   
 }
 
 // if you want a different context, modify the value of glContextAttrs
@@ -56,23 +55,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0f / 60);
 
     // Set the design resolution
-    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+//    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
     auto frameSize = glview->getFrameSize();
-    // if the frame's height is larger than the height of medium size.
-    if (frameSize.height > mediumResolutionSize.height)
-    {        
-        director->setContentScaleFactor(MIN(largeResolutionSize.height/designResolutionSize.height, largeResolutionSize.width/designResolutionSize.width));
-    }
-    // if the frame's height is larger than the height of small size.
-    else if (frameSize.height > smallResolutionSize.height)
-    {        
-        director->setContentScaleFactor(MIN(mediumResolutionSize.height/designResolutionSize.height, mediumResolutionSize.width/designResolutionSize.width));
-    }
-    // if the frame's height is smaller than the height of medium size.
-    else
-    {        
-        director->setContentScaleFactor(MIN(smallResolutionSize.height/designResolutionSize.height, smallResolutionSize.width/designResolutionSize.width));
-    }
+    applicationScreenSizeChanged(frameSize.width, frameSize.height);
+    director->setContentScaleFactor(1.0f);
 
     register_all_packages();
 
@@ -104,24 +90,48 @@ void AppDelegate::applicationWillEnterForeground() {
 
 void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
 {
-//    if (newWidth <= 0 || newHeight <= 0)
-//    {
-//        return;
-//    }
-//    
-//    auto director = Director::getInstance();
-//    auto glview = director->getOpenGLView();
-//    if (glview)
-//    {
-//        auto size = glview->getFrameSize();
-//        if (size.equals(Size(newWidth, newHeight)))
-//            return;
-//        
-//        glview->setFrameSize(newWidth, newHeight);
-//        
-//        ResolutionPolicy resolutionPolicy = glview->getResolutionPolicy();
-//        if (resolutionPolicy == ResolutionPolicy::UNKNOWN)
-//            resolutionPolicy = ResolutionPolicy::SHOW_ALL;
-//        glview->setDesignResolutionSize(newWidth, newHeight, resolutionPolicy);
-//    }
+    cocos2d::log( "AppDelegate::applicationScreenSizeChanged: %d, %d", newWidth, newHeight );
+    
+    // First tell cocos to use this new size for the GLView
+    auto director = Director::getInstance();
+    auto glview = director->getOpenGLView();
+    glview->setFrameSize(newWidth, newHeight);
+    
+    
+    // Use the correct design resolution
+    
+    // Landscape
+    if( newWidth > newHeight )
+    {
+        glview->setDesignResolutionSize(designResolutionLandscapeSize.width, designResolutionLandscapeSize.height, ResolutionPolicy::NO_BORDER);
+    }
+    // Portrait
+    else
+    {
+        glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::NO_BORDER);
+    }
+    
+    
+    // Resize the running scene
+    Scene* scene = director->getRunningScene();
+    if(scene != nullptr)
+    {
+        // Landscape
+        if( newWidth > newHeight )
+        {
+            scene->setContentSize(designResolutionLandscapeSize);
+        }
+        // Portrait
+        else
+        {
+            scene->setContentSize(designResolutionPortraitSize);
+        }
+    }
+    
+    
+    // Notify of changes to window size. Scenes can listen for this to react to size changes
+    EventCustom event(EVENT_WINDOW_SIZE_CHANGED);
+    event.setUserData(this);
+    
+    director->getEventDispatcher()->dispatchEvent(&event);
 }
