@@ -29,8 +29,7 @@ private:
     ElectricDreamsButton *backButton;
     ElectricDreamsButton *nextButton;
 
-    std::string username;
-    std::string password;
+    std::string storedUsername;
     
     void getUserDefaults();
     
@@ -44,17 +43,14 @@ private:
     void backButtonPressed();
     void nextButtonPressed();
     
-    void login();
+    void login(std::string username, std::string password);
     
     virtual void onEnterTransitionDidFinish();
     
-    bool shouldDoAutoLogin;
     bool shouldDisplayMessage;
     
 public:
     static Scene* createScene(long errorCode);
-    static Scene* createSceneWithAutoLogin();
-    static Scene* createSceneWithAutoLoginAndErrorDisplay();
     
     virtual bool init();
     

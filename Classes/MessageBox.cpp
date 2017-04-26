@@ -1,7 +1,7 @@
 #include "MessageBox.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "LoginScene.h"
+#include "LoginLogicHandler.h"
 #include "OnboardingScene.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
@@ -271,8 +271,7 @@ void MessageBox::handlePreviewLoginSignupMessageBoxSelection(int buttonSelect)
 {
     if(_buttonsTitleList.at(buttonSelect) == StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN))
     {
-        Scene *loginScene = LoginScene::createScene(0);
-        Director::getInstance()->replaceScene(loginScene);
+        LoginLogicHandler::getInstance()->forceNewLogin();
     }
     else if(_buttonsTitleList.at(buttonSelect) == StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP))
     {

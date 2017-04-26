@@ -18,7 +18,6 @@ public:
     virtual ~BackEndCaller();
     bool init(void);
     
-    void autoLogin();
     void login(std::string username, std::string password);
     void onLoginAnswerReceived(std::string responseString);
     

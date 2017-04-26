@@ -3,6 +3,7 @@
 #include "external/json/document.h"
 #include "MessageBox.h"
 #include "BackEndCaller.h"
+#include "LoginLogicHandler.h"
 
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -109,7 +110,7 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
                 removeModalLayer();
                 
                 BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
-                BackEndCaller::getInstance()->autoLogin();
+                LoginLogicHandler::getInstance()->doLoginLogic();
             }
             else
                 AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));

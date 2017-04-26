@@ -11,7 +11,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "OfflineHubScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include "LoginScene.h"
+#include "LoginLogicHandler.h"
 #include "ParentDataParser.h"
 
 #define OOMEE_LAYER_WIDTH 300
@@ -21,13 +21,13 @@
 USING_NS_CC;
 using namespace Azoomee;
 
-Scene* ChildSelectorScene::createScene(long errorCode)
+Scene* ChildSelectorScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = ChildSelectorScene::create();
     scene->addChild(layer);
     
-    layer->_errorCode = errorCode;
+    layer->_errorCode = LoginLogicHandler::getInstance()->getErrorMessageCodeToDisplay();
 
     return scene;
 }
@@ -329,7 +329,6 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
         AnalyticsSingleton::getInstance()->logoutParentEvent();
         ParentDataParser::getInstance()->logoutChild();
         
-        auto loginScene = LoginScene::createScene(0);
-        Director::getInstance()->replaceScene(loginScene);
+        LoginLogicHandler::getInstance()->forceNewLogin();
     }
 }

@@ -22,32 +22,6 @@ Scene* LoginScene::createScene(long errorCode)
     scene->addChild(layer);
     
     layer->_errorCode = errorCode;
-    layer->shouldDoAutoLogin = false;
-    
-    return scene;
-}
-
-Scene* LoginScene::createSceneWithAutoLogin()
-{
-    auto scene = Scene::create();
-    auto layer = LoginScene::create();
-    scene->addChild(layer);
-    
-    layer->_errorCode = 0;
-    layer->shouldDoAutoLogin = true;
-    
-    return scene;
-}
-
-Scene* LoginScene::createSceneWithAutoLoginAndErrorDisplay()
-{
-    auto scene = Scene::create();
-    auto layer = LoginScene::create();
-    scene->addChild(layer);
-    
-    layer->_errorCode = 0;
-    layer->shouldDoAutoLogin = true;
-    layer->shouldDisplayMessage = true;
     
     return scene;
 }
@@ -80,33 +54,6 @@ void LoginScene::onEnterTransitionDidFinish()
     
     OfflineChecker::getInstance()->setDelegate(this);
     
-    if(shouldDoAutoLogin)
-    {
-        CCLOG("Should do autologin!");
-        
-        if((username != "")&&(password != ""))
-        {
-            if(shouldDisplayMessage)
-            {
-                MessageBox::createWith(ERROR_CODE_LOGGED_YOU_BACK_IN, this);
-                return;
-            }
-            else
-            {
-                CCLOG("Doing autologin!");
-                login();
-                return;
-            }
-        }
-    }
-    else
-    {
-        UserDefault* def = UserDefault::getInstance();
-        def->setStringForKey("password", "");
-        def->flush();
-        password = "";
-    }
-    
     if(_errorCode !=0)
     {
         MessageBox::createWith(_errorCode, emailTextInput, this);
@@ -114,11 +61,7 @@ void LoginScene::onEnterTransitionDidFinish()
     else
         emailTextInput->focusAndShowKeyboard();
     
-    nextButton->setVisible(isValidEmailAddress(username.c_str()));
-    
-#ifdef autologin
-    BackEndCaller::getInstance()->login("tamas.bonis@azoomee.com", "B0Ta1983!");
-#endif
+    nextButton->setVisible(isValidEmailAddress(storedUsername.c_str()));
 }
 
 //----------------- SCENE SETUP ---------------
@@ -126,8 +69,7 @@ void LoginScene::onEnterTransitionDidFinish()
 void LoginScene::getUserDefaults()
 {
     UserDefault* def = UserDefault::getInstance();
-    username = def->getStringForKey("username", "");
-    password = def->getStringForKey("password", "");
+    storedUsername = def->getStringForKey("username", "");
     def->flush();
 }
 
@@ -149,7 +91,7 @@ void LoginScene::addTextboxScene()
     
     emailTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_EMAIL);
     emailTextInput->setDelegate(this);
-    emailTextInput->setText(username);
+    emailTextInput->setText(storedUsername);
     this->addChild(emailTextInput);
 }
 
@@ -170,8 +112,8 @@ void LoginScene::addButtonsScene()
 void LoginScene::changeElementsToPasswordScreen()
 {
     title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL));
-    username = emailTextInput->getText();
-    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
+    storedUsername = emailTextInput->getText();
+    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(storedUsername);
     emailTextInput->setEditboxVisibility(false);
     passwordTextInput->setEditboxVisibility(true);
     CCLOG("NEXT NextButton visible false - change to password");
@@ -211,14 +153,13 @@ void LoginScene::nextButtonPressed()
     else if(currentScreen == passwordLoginScreen)
     {
         OfflineChecker::getInstance()->setDelegate(nullptr);
-        password = passwordTextInput->getText();
-        login();
+        login(storedUsername, passwordTextInput->getText());
     }
 }
 
 //------------PRIVATE OTHER FUNCTIONS------------
 
-void LoginScene::login()
+void LoginScene::login(std::string username, std::string password)
 {
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->login(username, password);
@@ -239,9 +180,6 @@ void LoginScene::buttonPressed(ElectricDreamsButton* button)
 }
 void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_LOGGED_YOU_BACK_IN)[ERROR_TITLE])
-        login();
-    else
         emailTextInput->focusAndShowKeyboard();
 }
 
