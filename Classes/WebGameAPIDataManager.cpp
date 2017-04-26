@@ -60,6 +60,11 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
     }
     
     return createReturnStringForAPI(method, responseId, "error", "error in request");
+    
+    if(strncmp(method, "getAzoomeeVersion", strlen(method)) == 0)
+    {
+        return createReturnStringForAPI(method, responseId, "version", ConfigStorage::getInstance()->getVersionNumber().c_str());
+    }
 }
 
 void WebGameAPIDataManager::setGameId(std::string gameId)
