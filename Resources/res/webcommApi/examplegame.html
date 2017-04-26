@@ -2,6 +2,7 @@
 	<body>
 		<br><br><br>
 		<input type="text" id="responseid" value="responseId"><br>
+		<button id="requestAzoomeeVersion">Request Azoomee Version</button><br>
 		<button id="requestName">Request username</button><br>
 		<button id="requestId">Request userid</button><br>
 		<button id="requestAvatar">Request user avatar</button><br>
@@ -11,7 +12,12 @@
 		
 		<script>
 			window.addEventListener("message", receiveAPIMessage, false);
-		
+			
+			document.getElementById('requestAzoomeeVersion').onclick = function()
+			{
+   				requestData("requestAzoomeeVersion", document.getElementById("responseid").value);
+   			};
+			
 			document.getElementById('requestName').onclick = function()
 			{
    				requestData("requestUsername", document.getElementById("responseid").value);
