@@ -46,8 +46,11 @@ private:
     void displayLoadingScreen();
     void hideLoadingScreen();
     void showErrorMessage();
+    void showIncompatibleMessage();
     
     cocos2d::network::HttpRequest* jsonRequest;
     cocos2d::network::HttpRequest* zipRequest;
     bool processCancelled;
+    
+    bool isGameCompatibleWithCurrentAzoomeeVersion(std::string jsonFileName);
 };

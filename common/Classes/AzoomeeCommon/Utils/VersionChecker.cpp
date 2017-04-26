@@ -1,6 +1,8 @@
 #include "VersionChecker.h"
 #include "StringFunctions.h"
+#include <cocos/cocos2d.h>
 
+using namespace cocos2d;
 
 namespace Azoomee
 {
@@ -16,7 +18,7 @@ namespace Azoomee
 
     bool isString1GreaterThanString2(std::string version1, std::string version2)
     {
-        if(isString1EqualsString2(getPureVersionNumber(version1), getPureVersionNumber(version2))) return true;
+        if(isString1EqualsString2(getPureVersionNumber(version1), getPureVersionNumber(version2))) return false;
         
         std::vector<std::string> versionNumbersVector1 = getVersionNumberElementsInVector(version1);
         std::vector<std::string> versionNumbersVector2 = getVersionNumberElementsInVector(version2);

@@ -23,6 +23,8 @@ USING_NS_CC;
 #include "BaseScene.h"
 #include <AzoomeeCommon/Strings.h>
 #include "WebGameAPIDataManager.h"
+#include <AzoomeeCommon/Utils/VersionChecker.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace network;
 using namespace cocos2d;
@@ -63,6 +65,13 @@ void GameDataManager::startProcessingGame(std::string url, std::string itemId)
     std::string fileName = getFileNameFromUrl(url);
     if(checkIfFileExists(basePath + fileName))
     {
+        if(!isGameCompatibleWithCurrentAzoomeeVersion(basePath + fileName))
+        {
+            hideLoadingScreen(); //ERROR TO BE ADDED
+            showIncompatibleMessage();
+            return;
+        }
+        
         std::string startFile = getStartFileFromJson(basePath + fileName);
         
         if(checkIfFileExists(basePath + startFile))
@@ -129,6 +138,13 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
         std::string basePath = getGameIdPath(response->getHttpRequest()->getTag());
         std::string targetPath = basePath + "package.json";
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
+        
+        if(!isGameCompatibleWithCurrentAzoomeeVersion(targetPath))
+        {
+            hideLoadingScreen(); //ERROR TO BE ADDED
+            showIncompatibleMessage();
+            return;
+        }
         
         std::string startFile = getStartFileFromJson(targetPath);
         if(checkIfFileExists(basePath + startFile))
@@ -391,9 +407,36 @@ void GameDataManager::showErrorMessage()
     MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, this);
 }
 
+void GameDataManager::showIncompatibleMessage()
+{
+    MessageBox::createWith(ERROR_CODE_GAME_INCOMPATIBLE, this);
+}
+
 void GameDataManager::removeGameFolderOnError(std::string dirPath)
 {
     FileUtils::getInstance()->removeDirectory(dirPath);
+}
+
+bool GameDataManager::isGameCompatibleWithCurrentAzoomeeVersion(std::string jsonFileName)
+{
+    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    rapidjson::Document gameData;
+    gameData.Parse(fileContent.c_str());
+    
+    if(gameData.HasMember("minAppVersion"))
+    {
+        if(gameData["minAppVersion"].IsString())
+        {
+            CCLOG("VERSIONCHECK %s, %s", gameData["minAppVersion"].GetString(), ConfigStorage::getInstance()->getVersionNumber().c_str());
+            
+            if(isString1GreaterThanString2(gameData["minAppVersion"].GetString(), ConfigStorage::getInstance()->getVersionNumber()))
+            {
+                return false;
+            }
+        }
+    }
+    
+    return true;
 }
 
 //--------------- DELEGATE FUNCTIONS ------------------
