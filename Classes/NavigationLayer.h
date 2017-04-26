@@ -2,7 +2,10 @@
 #define __NAVIGATION_LAYER_H__
 
 #include <cocos/cocos2d.h>
-#include "ElectricDreamsButton.h"
+#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
+
+using namespace Azoomee;
+
 
 class NavigationLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate
 {

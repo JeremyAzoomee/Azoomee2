@@ -1,5 +1,5 @@
 #include <cocos/cocos2d.h>
-#include "external/json/document.h"
+#include <external/json/document.h>
 
 class ParentDataParser : public cocos2d::Ref
 {

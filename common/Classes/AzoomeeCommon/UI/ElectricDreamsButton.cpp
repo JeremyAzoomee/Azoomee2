@@ -1,12 +1,15 @@
 #include "ElectricDreamsButton.h"
-#include "ExitOrLogoutLayer.h"
-#include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include "../Audio/AudioMixer.h"
+#include "../Analytics/AnalyticsSingleton.h"
+#include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsDecoration.h"
+
+using namespace cocos2d;
+using namespace cocos2d::ui;
 
 
-using namespace Azoomee;
+namespace Azoomee
+{
 
 bool ElectricDreamsButton::init()
 {
@@ -371,14 +374,7 @@ void ElectricDreamsButton::addListener()
         
         if(rect.containsPoint(locationInNode) && this->isVisible())
         {
-            AudioMixer::getInstance()->playEffect(buttonAudioFile);
-            sendMixPanelEvent();
-            
-            if(isSettingsButton)
-                ExitOrLogoutLayer::create();
-            else
-                this->scheduleOnce(schedule_selector(ElectricDreamsButton::callDelegateFunction), 0.1);
-            
+            this->scheduleOnce(CC_SCHEDULE_SELECTOR(ElectricDreamsButton::callDelegateFunction), 0.1);
             return true;
         }
         
@@ -390,7 +386,18 @@ void ElectricDreamsButton::addListener()
 
 void ElectricDreamsButton::callDelegateFunction(float dt)
 {
-    this->getDelegate()->buttonPressed(this);
+    AudioMixer::getInstance()->playEffect(buttonAudioFile);
+    sendMixPanelEvent();
+    onButtonPressed();
+}
+  
+void ElectricDreamsButton::onButtonPressed()
+{
+    auto del = this->getDelegate();
+    if(del != nullptr)
+    {
+        del->buttonPressed(this);
+    }
 }
 
 //---------------------- public Functions After Setup -----------------------------
@@ -427,4 +434,6 @@ Sprite* ElectricDreamsButton::createSpriteButton(std::string buttonImage, std::s
     buttonAudioFile = buttonAudio;
     
     return spriteButton;
+}
+  
 }

@@ -5,7 +5,7 @@
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include "ChildSelectorScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

@@ -1,12 +1,13 @@
-#ifndef __ELECTRIC_DREAM_BUTTON_H__
-#define __ELECTRIC_DREAM_BUTTON_H__
+#ifndef AzoomeeCommon_ElectricDreamsButton_h
+#define AzoomeeCommon_ElectricDreamsButton_h
 
 #include <cocos/cocos2d.h>
-#include <ui/UIScale9Sprite.h>
-#include <AzoomeeCommon/UI/OomeeButtonLayer.h>
+#include <cocos/ui/UIScale9Sprite.h>
+#include "OomeeButtonLayer.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+
+namespace Azoomee
+{
 
 class ElectricDreamsButton;
 
@@ -17,13 +18,13 @@ public:
     virtual void buttonPressed(ElectricDreamsButton* button) = 0;
 };
 
-class ElectricDreamsButton : public Layer
+class ElectricDreamsButton : public cocos2d::Layer
 {
 private:
     void addListener();
     static ElectricDreamsButton* createPrimaryButton(std::string buttonText, float textPadding, float minWidth);
     static ElectricDreamsButton* createSecondaryButton(std::string buttonText, float textPadding, float minWidth);
-    ui::Scale9Sprite *createButtonOutline(std::string buttonText);
+    cocos2d::ui::Scale9Sprite *createButtonOutline(std::string buttonText);
     
     void callDelegateFunction(float dt);
     
@@ -35,8 +36,12 @@ private:
     
     void sendMixPanelEvent();
     
-    Sprite* createSpriteButton(std::string buttonImage, std::string buttonAudio);
-    
+    cocos2d::Sprite* createSpriteButton(std::string buttonImage, std::string buttonAudio);
+  
+protected:
+  
+    virtual void onButtonPressed();
+  
 public:
     virtual bool init();
     
@@ -68,10 +73,12 @@ public:
     void playOomeeAnimationNoSound(std::string OomeeAnimation);
     void hideOomee();
     
-    void setCenterPosition(Vec2 position);
-    Vec2 getCenterPosition();
+    void setCenterPosition(cocos2d::Vec2 position);
+    cocos2d::Vec2 getCenterPosition();
     void setMixPanelButtonName(std::string buttonName);
     
 };
+  
+}
 
 #endif

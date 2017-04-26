@@ -2,7 +2,7 @@
 #include "cocos/ui/UIRichText.h"
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "RoutePaymentSingleton.h"
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include "IAPDetailsLayer_ios.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 

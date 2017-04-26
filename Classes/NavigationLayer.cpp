@@ -8,7 +8,7 @@
 #include "ChildSelectorScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include "MessageBox.h"
+#include "PreviewLoginSignupMessageBox.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Strings.h>
@@ -276,7 +276,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
                 }
                 else
                 {
-                    MessageBox::createPreviewLoginSignupMessageBox();
+                    PreviewLoginSignupMessageBox::create();
                 }
             }
             else

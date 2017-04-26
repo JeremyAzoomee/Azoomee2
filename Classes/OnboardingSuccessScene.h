@@ -2,9 +2,11 @@
 #define __ONBOARDINGSUCCESSSCENE_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include "ElectricDreamsButton.h"
+#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 class OnboardingSuccessScene : public Layer, public ElectricDreamsButtonDelegate
 {

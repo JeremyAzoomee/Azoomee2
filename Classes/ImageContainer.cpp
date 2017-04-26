@@ -6,7 +6,7 @@
 #include "GameDataManager.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "NavigationLayer.h"
-#include "MessageBox.h"
+#include "PreviewLoginSignupMessageBox.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -236,7 +236,7 @@ void ImageContainer::addPreviewListenerToContainer(cocos2d::Node *addTo, std::st
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             AnalyticsSingleton::getInstance()->previewContentClickedEvent(Title, Description, Type);
             
-            MessageBox::createPreviewLoginSignupMessageBox();
+            PreviewLoginSignupMessageBox::create();
             return true;
         }
         

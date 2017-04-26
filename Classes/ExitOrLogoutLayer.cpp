@@ -7,7 +7,7 @@
 #include "ParentDataParser.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"

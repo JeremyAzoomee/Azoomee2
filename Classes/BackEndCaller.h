@@ -1,5 +1,5 @@
-#ifndef AzoomeeCommon_BackEndCaller_h
-#define AzoomeeCommon_BackEndCaller_h
+#ifndef Azoomee_BackEndCaller_h
+#define Azoomee_BackEndCaller_h
 
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>

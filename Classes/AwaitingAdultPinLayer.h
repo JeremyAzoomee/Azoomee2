@@ -3,10 +3,11 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
-#include "ElectricDreamsButton.h"
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
 
 USING_NS_CC;
+using namespace Azoomee;
 
 class AwaitingAdultPinLayer;
 

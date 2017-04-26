@@ -2,11 +2,12 @@
 #define __MANUAL_GAME_INPUT_LAYER_H__
 
 #include <cocos/cocos2d.h>
-#include "ElectricDreamsButton.h"
+#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 
-
 USING_NS_CC;
+using namespace Azoomee;
+
 
 class ManualGameInputLayer : public Layer, public ElectricDreamsButtonDelegate
 {

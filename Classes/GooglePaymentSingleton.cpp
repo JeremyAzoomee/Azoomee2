@@ -1,6 +1,6 @@
 #include "GooglePaymentSingleton.h"
 #include "external/json/document.h"
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -12,9 +12,9 @@
 #include "platform/android/jni/JniHelper.h"
 #endif
 
-USING_NS_CC;
-
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 static GooglePaymentSingleton *_sharedGooglePaymentSingleton = NULL;
 

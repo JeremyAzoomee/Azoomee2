@@ -1,6 +1,4 @@
 #include <cocos/cocos2d.h>
-#include "network/HttpClient.h"
-#include "external/json/document.h"
 
 class HQDataParser : public cocos2d::Ref
 {

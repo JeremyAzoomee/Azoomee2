@@ -2,7 +2,10 @@
 #define __ROUTE_PAYMENT_SINGLETON_H__
 
 #include "cocos2d.h"
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
+
+using namespace Azoomee;
+
 
 class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
 {

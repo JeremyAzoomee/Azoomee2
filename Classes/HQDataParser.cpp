@@ -2,10 +2,10 @@
 #include "HQDataStorage.h"
 #include "HQDataProvider.h"
 
-#include "external/json/document.h"
-#include "external/json/writer.h"
-#include "external/json/stringbuffer.h"
-#include "external/json/prettywriter.h"
+#include <external/json/document.h>
+#include <external/json/writer.h>
+#include <external/json/stringbuffer.h>
+#include <external/json/prettywriter.h>
 
 #include "HQScene.h"
 #include "BackEndCaller.h"

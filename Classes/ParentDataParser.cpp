@@ -2,11 +2,11 @@
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Crashlytics/CrashlyticsConfig.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 
+#include "LoginLogicHandler.h"
 #include "HQDataStorage.h"
 
 using namespace cocos2d;
