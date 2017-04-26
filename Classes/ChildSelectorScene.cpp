@@ -12,7 +12,7 @@
 #include "OfflineHubScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
-#include "ParentDataParser.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400

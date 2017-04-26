@@ -1,5 +1,12 @@
+#ifndef AzoomeeCommon_ParentDataParser_h
+#define AzoomeeCommon_ParentDataParser_h
+
 #include <cocos/cocos2d.h>
 #include <external/json/document.h>
+
+
+namespace Azoomee
+{
 
 class ParentDataParser : public cocos2d::Ref
 {
@@ -22,3 +29,7 @@ public:
 private:
     void addParentLoginDataToUserDefaults();
 };
+  
+}
+
+#endif

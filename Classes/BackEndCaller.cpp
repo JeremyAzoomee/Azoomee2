@@ -8,7 +8,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "ParentDataParser.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "HQDataParser.h"
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
@@ -17,6 +17,7 @@
 #include "ChildAccountScene.h"
 #include "AwaitingAdultPinLayer.h"
 #include "HQHistoryManager.h"
+#include "HQDataStorage.h"
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
 #include "RoutePaymentSingleton.h"
@@ -99,6 +100,12 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
+        HQDataStorage::getInstance()->HQListTitles.clear();
+        HQDataStorage::getInstance()->HQListElements.clear();
+        HQDataStorage::getInstance()->HQElementHighlights.clear();
+        HQDataStorage::getInstance()->HQData.clear();
+        HQDataStorage::getInstance()->HQGetContentUrls.clear();
+        
         updateBillingData();
         getAvailableChildren();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
