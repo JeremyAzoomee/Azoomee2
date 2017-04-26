@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/API/API.h>
 #include "HQDataParser.h"
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
@@ -30,6 +31,8 @@
 #endif
 
 using namespace cocos2d;
+using namespace Azoomee;
+
 
 static BackEndCaller *_sharedBackEndCaller = NULL;
 
@@ -83,16 +86,15 @@ void BackEndCaller::login(std::string username, std::string password)
 {
     displayLoadingScreen();
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
-    httpRequestCreator->requestTag = "parentLogin";
-    httpRequestCreator->createPostHttpRequest();
+    HttpRequestCreator* request = API::LoginRequest(username, password, this);
     
     UserDefault* def = UserDefault::getInstance();
     def->setStringForKey("username", username);
     def->flush();
     
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(username);
+    
+    request->execute();
 }
 
 void BackEndCaller::onLoginAnswerReceived(std::string responseString)

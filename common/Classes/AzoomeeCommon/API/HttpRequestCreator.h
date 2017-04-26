@@ -1,12 +1,12 @@
 #ifndef AzoomeeCommon_HttpRequestCreator_h
 #define AzoomeeCommon_HttpRequestCreator_h
 
+#include "../Azoomee.h"
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>
 
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
 /**
  * A delegate to respond to success or failure responses to a HttpRequest
@@ -25,6 +25,9 @@ public:
     
     HttpRequestCreator(HttpRequestCreatorResponseDelegate* delegate);
     
+    // Execute the request
+    void execute();
+    
     void createEncryptedGetHttpRequest();
     void createEncryptedPostHttpRequest();
     void createPostHttpRequest();
@@ -33,10 +36,10 @@ public:
     std::string requestBody;
     std::string urlParameters;
     std::string requestTag;
-    std::string method;
+    std::string method = "GET";
     std::string requestPath;
     std::string url;
-    bool encrypted;
+    bool encrypted = false;
     
 private:
     // The delegate for callbacks on success/failure
@@ -60,6 +63,6 @@ private:
     void handleEventAfterError(const std::string& requestTag, long errorCode);
 };
   
-}
+NS_AZOOMEE_END
 
 #endif

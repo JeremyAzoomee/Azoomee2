@@ -8,8 +8,7 @@ using namespace cocos2d;
 using namespace cocos2d::network;
 
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
 HttpRequestCreator::HttpRequestCreator(HttpRequestCreatorResponseDelegate* delegate) :
   delegate(delegate)
@@ -43,6 +42,11 @@ void HttpRequestCreator::createPostHttpRequest()
 {
     encrypted = false;
     method = "POST";
+    createHttpRequest();
+}
+
+void HttpRequestCreator::execute()
+{
     createHttpRequest();
 }
 
@@ -254,4 +258,4 @@ void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, lo
     }
 }
   
-}
+NS_AZOOMEE_END
