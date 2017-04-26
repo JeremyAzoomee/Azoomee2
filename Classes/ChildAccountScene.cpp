@@ -169,7 +169,7 @@ void ChildAccountScene::backButtonPressed()
 {
     if(currentScreen == childNameScreen)
     {
-        auto childSelectorScene = ChildSelectorScene::createScene(0);
+        auto childSelectorScene = ChildSelectorScene::createScene();
         Director::getInstance()->replaceScene(childSelectorScene);
     }
     else if(currentScreen == childDOBScreen)

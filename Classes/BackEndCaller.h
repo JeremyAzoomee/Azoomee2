@@ -1,8 +1,13 @@
-#include <cocos/cocos2d.h>
-#include "network/HttpClient.h"
-#include "external/json/document.h"
+#ifndef AzoomeeCommon_BackEndCaller_h
+#define AzoomeeCommon_BackEndCaller_h
 
-class BackEndCaller : public cocos2d::Ref
+#include <cocos/cocos2d.h>
+#include <cocos/network/HttpClient.h>
+#include <external/json/document.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
+
+
+class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
     bool accountJustRegistered;
@@ -14,7 +19,6 @@ public:
     /** Returns the shared instance of the Game Manager */
     static BackEndCaller* getInstance(void);
     
-public:
     virtual ~BackEndCaller();
     bool init(void);
     
@@ -39,15 +43,22 @@ public:
     void registerChild(std::string childProfileName, std::string childGender, std::string childDOB, int oomeeNumber);
     void onRegisterChildAnswerReceived();
     
-    void getContent();
-    void onGetContentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+    void getHQContent(const std::string& url, const std::string& category);
     
     void getGordon();
     void onGetGordonAnswerReceived(std::string responseString);
     
+    void verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken);
+    void verifyAmazonPayment(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserid);
+    void verifyApplePayment(const std::string& receiptData);
+    
     void displayLoadingScreen();
     void hideLoadingScreen();
     void getBackToLoginScreen(long errorCode);
+    
+    //-HttpRequestCreatorResponseDelegate
+    void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+    void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
     //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
     std::string registerParentUsername;
@@ -61,3 +72,5 @@ public:
     cocos2d::Node *callBackNode;
     
 };
+
+#endif

@@ -10,7 +10,6 @@
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
-#include "HttpRequestCreator.h"
 #include "OnboardingScene.h"
 #include "ChildAccountScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -21,6 +20,13 @@
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
 #include "RoutePaymentSingleton.h"
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "ApplePaymentSingleton.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#include "GooglePaymentSingleton.h"
+#include "AmazonPaymentSingleton.h"
+#endif
 
 using namespace cocos2d;
 
@@ -76,7 +82,7 @@ void BackEndCaller::login(std::string username, std::string password)
 {
     displayLoadingScreen();
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
     httpRequestCreator->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
     httpRequestCreator->requestTag = "parentLogin";
     httpRequestCreator->createPostHttpRequest();
@@ -108,7 +114,7 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
 
 void BackEndCaller::updateBillingData()
 {
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
     httpRequestCreator->requestTag = "updateBilling";
     httpRequestCreator->createEncryptedGetHttpRequest();
 }
@@ -126,10 +132,8 @@ void BackEndCaller::updateParentPin(Node *callBackTo)
     
     callBackNode = callBackTo;
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
     httpRequestCreator->requestTag = "updateParentPin";
-    
     httpRequestCreator->createEncryptedGetHttpRequest();
 }
 
@@ -152,7 +156,7 @@ void BackEndCaller::getAvailableChildren()
 {
     ModalMessages::getInstance()->startLoading();
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
     httpRequestCreator->urlParameters = "expand=true";
     httpRequestCreator->requestTag = "getChildren";
     httpRequestCreator->createEncryptedGetHttpRequest();
@@ -184,7 +188,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
     }
     else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
     {
-        auto childSelectorScene = ChildSelectorScene::createScene(0);
+        auto childSelectorScene = ChildSelectorScene::createScene();
         Director::getInstance()->replaceScene(childSelectorScene);
     }
 }
@@ -197,7 +201,7 @@ void BackEndCaller::childLogin(int childNumber)
     
     displayLoadingScreen();
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
     httpRequestCreator->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber).c_str());
     httpRequestCreator->requestTag = "childLogin";
     httpRequestCreator->createEncryptedPostHttpRequest();
@@ -210,14 +214,14 @@ void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 {
     ChildDataParser::getInstance()->parseChildLoginData(responseString);
     
-    HQDataParser::getInstance()->getContent(StringUtils::format("%s%s/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ConfigStorage::getInstance()->getPathForTag("HOME").c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
+    getHQContent(StringUtils::format("%s%s/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ConfigStorage::getInstance()->getPathForTag("HOME").c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------
 
 void BackEndCaller::getGordon()
 {
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
     httpRequestCreator->urlParameters = StringUtils::format("userid=%s&sessionid=%s", ChildDataProvider::getInstance()->getParentOrChildId().c_str(), ChildDataProvider::getInstance()->getParentOrChildCdnSessionId().c_str());
     httpRequestCreator->requestTag = "getGordon";
     httpRequestCreator->createEncryptedGetHttpRequest();
@@ -251,7 +255,7 @@ void BackEndCaller::registerParent(std::string emailAddress, std::string passwor
     
 #endif
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
     httpRequestCreator->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\"}", emailAddress.c_str(),password.c_str(),source.c_str(),pinNumber.c_str());
     httpRequestCreator->requestTag = "registerParent";
     httpRequestCreator->createPostHttpRequest();
@@ -275,7 +279,7 @@ void BackEndCaller::registerChild(std::string childProfileName, std::string chil
     newChildName = childProfileName;
     oomeeAvatarNumber = oomeeNumber;
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
     httpRequestCreator->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"password\":\"\"}",childProfileName.c_str(),childDOB.c_str(),childGender.c_str(),ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber).c_str());
     httpRequestCreator->requestTag = "registerChild";
     httpRequestCreator->createEncryptedPostHttpRequest();
@@ -285,5 +289,139 @@ void BackEndCaller::onRegisterChildAnswerReceived()
 {
     newChildJustRegistered = true;
     AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent(oomeeAvatarNumber);
+    getAvailableChildren();
+}
+
+//GOOGLE VERIFY PAYMENT---------------------------------------------------------------------
+void BackEndCaller::verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken)
+{
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
+    httpRequestCreator->requestBody = StringUtils::format("{\"orderId\": \"%s\", \"subscriptionId\": \"%s\", \"purchaseToken\": \"%s\"}", orderId.c_str(), iapSku.c_str(), purchaseToken.c_str());
+    httpRequestCreator->requestTag = "iabGooglePaymentMade";
+    httpRequestCreator->createEncryptedPostHttpRequest();
+}
+
+//AMAZON VERIFY PAYMENT---------------------------------------------------------------------
+void BackEndCaller::verifyAmazonPayment(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserid)
+{
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
+    httpRequestCreator->requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
+    httpRequestCreator->requestTag = "iapAmazonPaymentMade";
+    httpRequestCreator->createEncryptedPostHttpRequest();
+}
+
+//APPLE VERIFY PAYMENT----------------------------------------------------------------------
+void BackEndCaller::verifyApplePayment(const std::string& receiptData)
+{
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
+    httpRequestCreator->requestBody = StringUtils::format("{\"receipt-data\": \"%s\"}", receiptData.c_str());
+    httpRequestCreator->requestTag = "iapApplePaymentMade";
+    httpRequestCreator->createEncryptedPostHttpRequest();
+}
+
+//GET CONTENT-------------------------------------------------------------------------------
+void BackEndCaller::getHQContent(const std::string& url, const std::string& category)
+{
+    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
+    httpRequestCreator->url = url;
+    httpRequestCreator->requestBody = "";
+    httpRequestCreator->requestTag = category;
+    
+    if(category == "PreviewHOME")
+    {
+        httpRequestCreator->createGetHttpRequest();
+    }
+    else
+    {
+        httpRequestCreator->createEncryptedGetHttpRequest();
+    }
+}
+
+//HttpRequestCreatorResponseDelegate--------------------------------------------------------
+void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    if(requestTag == "getGordon") onGetGordonAnswerReceived(headers);
+    if(requestTag == "childLogin") onChildLoginAnswerReceived(body);
+    if(requestTag == "getChildren") onGetChildrenAnswerReceived(body);
+    if(requestTag == "parentLogin") onLoginAnswerReceived(body);
+    if(requestTag == "registerChild") onRegisterChildAnswerReceived();
+    if(requestTag == "registerParent") onRegisterParentAnswerReceived();
+    if(requestTag == "updateParentPin") onUpdateParentPinAnswerReceived(body);
+    if(requestTag == "PreviewHOME") HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(body);
+    if(requestTag == "updateBilling") onUpdateBillingDataAnswerReceived(body);
+    if(requestTag == "GROUP HQ") HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
+    
+    for(int i = 0; i < 6; i++)
+    {
+        if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i))
+        {
+            HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
+        }
+    }
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    if(requestTag == "iapApplePaymentMade") ApplePaymentSingleton::getInstance()->onAnswerReceived(body);
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    if(requestTag == "iabGooglePaymentMade") GooglePaymentSingleton::getInstance()->onGooglePaymentVerificationAnswerReceived(body);
+    if(requestTag == "iapAmazonPaymentMade") AmazonPaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(body);
+#endif
+}
+
+void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+    if(requestTag == "registerParent")
+    {
+        AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
+        Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
+        return;
+    }
+    
+    if(requestTag == "registerChild")
+    {
+        AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
+        Director::getInstance()->replaceScene(ChildAccountScene::createScene("", errorCode));
+        return;
+    }
+    
+    if(requestTag == "parentLogin")
+    {
+        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+        LoginLogicHandler::getInstance()->forceNewLogin();
+    }
+    
+    if(requestTag == "getChildren")
+    {
+        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+        LoginLogicHandler::getInstance()->forceNewLogin();
+        return;
+    }
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    if(requestTag == "iapApplePaymentMade")
+    {
+        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
+        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
+        ApplePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
+        return;
+    }
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    if(requestTag == "iapAmazonPaymentMade")
+    {
+        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
+        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
+        AmazonPaymentSingleton::getInstance()->backendRequestFailed();
+        return;
+    }
+    
+    if(requestTag == "iabGooglePaymentMade")
+    {
+        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
+        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
+        GooglePaymentSingleton::getInstance()->backendRequestFailed();
+        return;
+    }
+#endif
+    
+    ChildDataParser::getInstance()->setChildLoggedIn(false);
     getAvailableChildren();
 }

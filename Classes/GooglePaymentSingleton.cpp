@@ -1,5 +1,4 @@
 #include "GooglePaymentSingleton.h"
-#include "HttpRequestCreator.h"
 #include "external/json/document.h"
 #include "MessageBox.h"
 #include "BackEndCaller.h"
@@ -58,10 +57,7 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
     savedToken = token;
     
     auto funcCallAction = CallFunc::create([=](){
-        HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-        httpRequestCreator->requestBody = StringUtils::format("{\"orderId\": \"%s\", \"subscriptionId\": \"%s\", \"purchaseToken\": \"%s\"}", orderId.c_str(), ConfigStorage::getInstance()->getIapSkuForProvider("google").c_str(), token.c_str());
-        httpRequestCreator->requestTag = "iabGooglePaymentMade";
-        httpRequestCreator->createEncryptedPostHttpRequest();
+        BackEndCaller::getInstance()->verifyGooglePayment(orderId, ConfigStorage::getInstance()->getIapSkuForProvider("google"), token);
     });
     
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash

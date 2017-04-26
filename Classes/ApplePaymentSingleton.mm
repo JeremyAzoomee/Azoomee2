@@ -4,8 +4,8 @@
 #include "external/json/document.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
-#include "HttpRequestCreator.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include "LoginLogicHandler.h"
 
 USING_NS_CC;
 
@@ -58,10 +58,7 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
 {
     savedReceipt = receiptData;
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"receipt-data\": \"%s\"}", receiptData.c_str());
-    httpRequestCreator->requestTag = "iapApplePaymentMade";
-    httpRequestCreator->createEncryptedPostHttpRequest();
+    BackEndCaller::getInstance()->verifyApplePayment(receiptData);
 }
 
 void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
@@ -88,7 +85,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
                 paymentFailed = false;
 
                 BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
-                BackEndCaller::getInstance()->autoLogin();
+                LoginLogicHandler::getInstance()->doLoginLogic();
             }
             else if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
             {
@@ -96,7 +93,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
                 ModalMessages::getInstance()->stopLoading();
                 
                 paymentFailed = false;
-                BackEndCaller::getInstance()->autoLogin();
+                LoginLogicHandler::getInstance()->doLoginLogic();
                 return;
             }
             else
@@ -156,11 +153,11 @@ void ApplePaymentSingleton::backendRequestFailed(long errorCode)
     if(!makingMonthlyPayment)
     {
         if(errorCode == 409)
-            BackEndCaller::getInstance()->autoLogin();
+            LoginLogicHandler::getInstance()->doLoginLogic();
         else if(refreshFromButton && errorCode == 400)
             MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
         else if(errorCode == 400)
-            BackEndCaller::getInstance()->autoLogin();
+            LoginLogicHandler::getInstance()->doLoginLogic();
         else
             MessageBox::createWith(ERROR_CODE_APPLE_SUB_REFRESH_FAIL, this);
     }
@@ -171,5 +168,5 @@ void ApplePaymentSingleton::backendRequestFailed(long errorCode)
 //---------Delegate Functions----------
 void ApplePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    BackEndCaller::getInstance()->autoLogin();
+    LoginLogicHandler::getInstance()->doLoginLogic();
 }

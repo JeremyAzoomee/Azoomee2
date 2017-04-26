@@ -1,6 +1,4 @@
 #include "LoginLogicHandler.h"
-#include "BaseScene.h"
-#include "HQHistoryManager.h"
 #include "LoginScene.h"
 #include "ParentDataParser.h"
 #include "BackEndCaller.h"
