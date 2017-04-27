@@ -61,44 +61,49 @@ void GameDataManager::startProcessingGame(std::string url, std::string itemId)
     WebGameAPIDataManager::getInstance()->setGameId(itemId);
     
     std::string basePath = getGameIdPath(itemId);
-    
     std::string fileName = getFileNameFromUrl(url);
+    
+    
     if(checkIfFileExists(basePath + fileName))
     {
-        JSONFileIsPresent(url, itemId);
+        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemId);
+        else getJSONGameData(url, itemId);
     }
     else
     {
-        if(!FileUtils::getInstance()->isDirectoryExist(this->getGameCachePath())) FileUtils::getInstance()->createDirectory(this->getGameCachePath());
-        if(!FileUtils::getInstance()->isDirectoryExist(basePath)) FileUtils::getInstance()->createDirectory(basePath);
-        getJSONGameData(url, itemId); //the callback of this method will fire up getDownloadUrlForGame, getGameZipFile, unzipGame and startGame
+        getJSONGameData(url, itemId); //the callback of this method will get back to JSONFileIsPresent
     }
 }
 
-void GameDataManager::JSONFileIsPresent(std::string url, std::string itemId)
+void GameDataManager::JSONFileIsPresent(std::string itemId)
 {
     std::string basePath = getGameIdPath(itemId);
-    std::string fileName = getFileNameFromUrl(url);
+    std::string basePathWithFileName = basePath + "package.json";
     
-    std::string startFile = getStartFileFromJson(basePath + fileName);
+    std::string startFile = getStartFileFromJSONFile(basePathWithFileName);
     
-    if(!isGameCompatibleWithCurrentAzoomeeVersion(basePath + fileName))
+    if(!isGameCompatibleWithCurrentAzoomeeVersion(basePathWithFileName))
     {
-        hideLoadingScreen(); //ERROR TO BE ADDED
+        hideLoadingScreen();
         showIncompatibleMessage();
         return;
     }
     
     if(checkIfFileExists(basePath + startFile))
     {
-        startGame(basePath + startFile);
+        startGame(basePath, startFile);
     }
     else
     {
-        std::string downloadUrl = getDownloadUrlForGame(basePath + fileName);
+        std::string downloadUrl = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
         getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
     }
+}
 
+void GameDataManager::createGamePathDirectories(std::string basePath)
+{
+    if(!FileUtils::getInstance()->isDirectoryExist(this->getGameCachePath())) FileUtils::getInstance()->createDirectory(this->getGameCachePath());
+    if(!FileUtils::getInstance()->isDirectoryExist(basePath)) FileUtils::getInstance()->createDirectory(basePath);
 }
 
 std::string GameDataManager::getFileNameFromUrl(std::string url)
@@ -146,9 +151,9 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
     {
         std::string basePath = getGameIdPath(response->getHttpRequest()->getTag());
         std::string targetPath = basePath + "package.json";
-        FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
         
-        JSONFileIsPresent(getDownloadUrlForGame(targetPath), response->getHttpRequest()->getTag());
+        removeOldGameIfUpgradeNeeded(responseString, response->getHttpRequest()->getTag());
+        JSONFileIsPresent(response->getHttpRequest()->getTag());
     }
     else
     {
@@ -156,12 +161,34 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
     }
 }
 
+void GameDataManager::removeOldGameIfUpgradeNeeded(std::string downloadedJSONString, std::string gameId)
+{
+    std::string basePath = getGameIdPath(gameId);
+    std::string targetPath = basePath + "package.json";
+    
+    if(!checkIfFileExists(targetPath))
+    {
+        createGamePathDirectories(basePath);
+        FileUtils::getInstance()->writeStringToFile(downloadedJSONString, targetPath);
+        return;
+    }
+    
+    CCLOG("UPGRADE GAME VERSIONS TO BE CHECKED");
+    
+    if(getCurrentGameVersionFromJSONFile(targetPath) >= getMinGameVersionFromJSONString(downloadedJSONString)) return;
+    
+    CCLOG("UPGRADE GAME DELETION AND REDOWNLOAD REQUIRED!");
+    FileUtils::getInstance()->removeDirectory(basePath);
+    createGamePathDirectories(basePath);
+    FileUtils::getInstance()->writeStringToFile(downloadedJSONString, targetPath);
+}
+
 bool GameDataManager::checkIfFileExists(std::string fileWithPath)
 {
     return FileUtils::getInstance()->isFileExist(fileWithPath);
 }
 
-std::string GameDataManager::getDownloadUrlForGame(std::string jsonFileName)
+std::string GameDataManager::getDownloadUrlForGameFromJSONFile(std::string jsonFileName)
 {
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
@@ -170,13 +197,46 @@ std::string GameDataManager::getDownloadUrlForGame(std::string jsonFileName)
     return gameData["uri"].GetString();
 }
 
-std::string GameDataManager::getStartFileFromJson(std::string jsonFileName)
+std::string GameDataManager::getStartFileFromJSONFile(std::string jsonFileName)
 {
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
     return gameData["pathToStartPage"].GetString();
+}
+
+int GameDataManager::getCurrentGameVersionFromJSONFile(std::string jsonFileName)
+{
+    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    rapidjson::Document gameData;
+    gameData.Parse(fileContent.c_str());
+    
+    if(gameData.HasMember("currentVersion"))
+    {
+        if(gameData["currentVersion"].IsInt())
+        {
+            return gameData["currentVersion"].GetInt();
+        }
+    }
+    
+    return 0;
+}
+
+int GameDataManager::getMinGameVersionFromJSONString(std::string jsonString)
+{
+    rapidjson::Document gameData;
+    gameData.Parse(jsonString.c_str());
+    
+    if(gameData.HasMember("minVersion"))
+    {
+        if(gameData["minVersion"].IsInt())
+        {
+            return gameData["minVersion"].GetInt();
+        }
+    }
+    
+    return 0;
 }
 
 void GameDataManager::getGameZipFile(std::string url, std::string itemId)
@@ -324,11 +384,19 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     unzClose(pFile);
     
     removeGameZip(zipPath);
-    std::string startFileNameWithPath = getStartFileFromJson(std::string(dirpath) + "package.json");
+    
+    if(!isGameCompatibleWithCurrentAzoomeeVersion(std::string(dirpath) + "package.json"))
+    {
+        hideLoadingScreen(); //ERROR TO BE ADDED
+        showIncompatibleMessage();
+        return false;
+    }
+    
+    std::string startFileNameWithPath = getStartFileFromJSONFile(std::string(dirpath) + "package.json");
     
     if(FileUtils::getInstance()->isFileExist(dirpath + startFileNameWithPath))
     {
-       startGame(std::string(dirpath) + startFileNameWithPath);
+       startGame(std::string(dirpath), startFileNameWithPath);
     }
     else
     {
@@ -347,20 +415,25 @@ bool GameDataManager::removeGameZip(std::string fileNameWithPath)
     return FileUtils::getInstance()->removeFile(fileNameWithPath);
 }
 
-void GameDataManager::startGame(std::string fileName)
+void GameDataManager::startGame(std::string basePath, std::string fileName)
 {
     if(processCancelled) return;
     
-    if(!FileUtils::getInstance()->isFileExist(fileName))
+    if(!FileUtils::getInstance()->isFileExist(basePath + fileName))
     {
         hideLoadingScreen();
         showErrorMessage();
         return;
     }
     
-    //hideLoadingScreen();
-    WebViewSelector::createSceneWithUrl(fileName);
-    //We don't need to add this to the screen, because in create phase WebViewSelector will do a replaceScene.
+    if(!isGameCompatibleWithCurrentAzoomeeVersion(basePath + "package.json"))
+    {
+        hideLoadingScreen();
+        showIncompatibleMessage();
+        return;
+    }
+    
+    WebViewSelector::createSceneWithUrl(basePath + fileName);
 }
 
 std::string GameDataManager::getGameIdPath(std::string gameId)
