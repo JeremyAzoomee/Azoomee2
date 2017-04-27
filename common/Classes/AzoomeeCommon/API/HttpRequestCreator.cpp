@@ -16,35 +16,6 @@ HttpRequestCreator::HttpRequestCreator(HttpRequestCreatorResponseDelegate* deleg
     ;
 }
 
-
-void HttpRequestCreator::createEncryptedGetHttpRequest()
-{
-    encrypted = true;
-    method = "GET";
-    createHttpRequest();
-}
-
-void HttpRequestCreator::createEncryptedPostHttpRequest()
-{
-    encrypted = true;
-    method = "POST";
-    createHttpRequest();
-}
-
-void HttpRequestCreator::createGetHttpRequest()
-{
-    encrypted = false;
-    method = "GET";
-    createHttpRequest();
-}
-
-void HttpRequestCreator::createPostHttpRequest()
-{
-    encrypted = false;
-    method = "POST";
-    createHttpRequest();
-}
-
 void HttpRequestCreator::execute()
 {
     createHttpRequest();

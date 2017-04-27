@@ -28,11 +28,6 @@ public:
     // Execute the request
     void execute();
     
-    void createEncryptedGetHttpRequest();
-    void createEncryptedPostHttpRequest();
-    void createPostHttpRequest();
-    void createGetHttpRequest();
-    
     std::string requestBody;
     std::string urlParameters;
     std::string requestTag;
