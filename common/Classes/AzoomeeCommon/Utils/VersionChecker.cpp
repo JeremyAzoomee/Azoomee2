@@ -1,36 +1,30 @@
 #include "VersionChecker.h"
 #include "StringFunctions.h"
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
 namespace Azoomee
 {
-    bool isString1EqualsString2(std::string version1, std::string version2)
+    bool azoomeeMeetsVersionRequirement(std::string reqVersion)
     {
-        std::string toCheck1 = splitStringToVector(version1, " ").at(0);
-        std::string toCheck2 = splitStringToVector(version2, " ").at(0);
+        std::string azoomeeVersion = ConfigStorage::getInstance()->getVersionNumber();
         
-        if(toCheck1 == toCheck2) return true;
+        std::vector<std::string> azoomeeVersionVector = getVersionNumberElementsInVector(azoomeeVersion);
+        std::vector<std::string> requiredVersionVector = getVersionNumberElementsInVector(reqVersion);
         
-        return false;
-    }
-
-    bool isString1GreaterThanString2(std::string version1, std::string version2)
-    {
-        if(isString1EqualsString2(getPureVersionNumber(version1), getPureVersionNumber(version2))) return false;
+        if(azoomeeVersionVector.size() != requiredVersionVector.size()) return true;      //Version numbers not comparable - different amount of elements
         
-        std::vector<std::string> versionNumbersVector1 = getVersionNumberElementsInVector(version1);
-        std::vector<std::string> versionNumbersVector2 = getVersionNumberElementsInVector(version2);
+        bool requirementMet = true;
         
-        if(versionNumbersVector1.size() != versionNumbersVector2.size()) return false;      //Version numbers not comparable - different amount of elements
-        
-        for(int i = 0; i < versionNumbersVector1.size(); i++)
+        for(int i = 0; i < azoomeeVersionVector.size(); i++)
         {
-            if(std::stoi(versionNumbersVector1.at(i)) > std::stoi(versionNumbersVector2.at(i))) return true;
+            if(std::stoi(azoomeeVersionVector.at(i)) != std::stoi(requiredVersionVector.at(i))) requirementMet = false;
+            if(std::stoi(azoomeeVersionVector.at(i)) > std::stoi(requiredVersionVector.at(i))) return true;
         }
         
-        return false;
+        return requirementMet;
     }
     
     std::string getPureVersionNumber(std::string version)
