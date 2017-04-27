@@ -5,7 +5,7 @@
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include "ChildSelectorScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -155,6 +155,6 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
 //Delegate Functions
 void RoutePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    auto childSelectorScene = ChildSelectorScene::createScene(0);
+    auto childSelectorScene = ChildSelectorScene::createScene();
     Director::getInstance()->replaceScene(childSelectorScene);
 }

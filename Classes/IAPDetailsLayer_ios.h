@@ -2,9 +2,11 @@
 #define UAP_Details_Layer_ios_H
 
 #include "cocos2d.h"
-#include "ElectricDreamsButton.h"
+#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 class IAPDetailsLayer_ios : public Layer, public ElectricDreamsButtonDelegate
 {

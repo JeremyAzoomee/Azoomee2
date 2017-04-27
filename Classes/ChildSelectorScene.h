@@ -5,7 +5,7 @@
 #include "ui/UIScrollView.h"
 #include "AwaitingAdultPinLayer.h"
 #include "OfflineChecker.h"
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 
 class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate
 {

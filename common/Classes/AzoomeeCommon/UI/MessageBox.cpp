@@ -1,16 +1,18 @@
 #include "MessageBox.h"
-#include <AzoomeeCommon/Strings.h>
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "LoginLogicHandler.h"
-#include "OnboardingScene.h"
-#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include "../Strings.h"
+#include "../Analytics/AnalyticsSingleton.h"
+#include "ElectricDreamsTextStyles.h"
+#include "ElectricDreamsDecoration.h"
 
-using namespace Azoomee;
+using namespace cocos2d;
 
 #define MESSAGE_BOX_PADDING 100
 
-Layer* MessageBox::createWith(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate)
+
+namespace Azoomee
+{
+
+MessageBox* MessageBox::createWith(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate)
 {
     auto layer = MessageBox::create();
     
@@ -20,7 +22,7 @@ Layer* MessageBox::createWith(std::string Title, std::string Body, std::vector<s
     return layer;
 }
 
-Layer* MessageBox::createWith(std::string Title, std::string Body, std::string Button, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWith(std::string Title, std::string Body, std::string Button, MessageBoxDelegate* _delegate)
 {
     auto layer = MessageBox::create();
     
@@ -30,12 +32,12 @@ Layer* MessageBox::createWith(std::string Title, std::string Body, std::string B
     return layer;
 }
 
-Layer* MessageBox::createWith(long errorCode, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWith(long errorCode, MessageBoxDelegate* _delegate)
 {
     return createWith(errorCode, nullptr , _delegate);
 }
 
-Layer* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* _delegate)
 {
     std::map<std::string, std::string> errorStringMap = StringMgr::getInstance()->getErrorMessageWithCode(errorCode);
     
@@ -44,18 +46,6 @@ Layer* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHide, M
     layer->hideTextInput(textInputToHide);
     layer->_buttonsTitleList.push_back(errorStringMap[ERROR_BUTTON]);
     layer->initMessageBoxLayer(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], _delegate);
-    
-    return layer;
-}
-
-Layer* MessageBox::createPreviewLoginSignupMessageBox()
-{
-    auto layer = MessageBox::create();
-    
-    layer->_buttonsTitleList.push_back(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
-    layer->_buttonsTitleList.push_back(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP));
-    //layer->_buttonsTitleList.push_back(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL));
-    layer->initMessageBoxLayer(StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL),StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_BODY_LABEL),nullptr);
     
     return layer;
 }
@@ -120,6 +110,11 @@ void MessageBox::addListenerToBackgroundLayer()
 
 //---------------------- Message Box Functions------------------------
 
+void MessageBox::addButtonWithTitle(const std::string& buttonTitle)
+{
+    _buttonsTitleList.push_back(buttonTitle);
+}
+  
 void MessageBox::createTitle()
 {
     messageTitleLabel = createLabelMessageBoxTitle(_messageBoxTitle);
@@ -236,13 +231,7 @@ void MessageBox::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
     {
-        if(_messageBoxTitle == StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL))
-            AnalyticsSingleton::getInstance()->previewPopupCancelledEvent();
-        
-        this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
-        UnHideTextInput();
-        if(_delegate)
-            this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, "Cancel");
+        onCancelPressed();
     }
     else
     {
@@ -250,32 +239,29 @@ void MessageBox::buttonPressed(ElectricDreamsButton* button)
         {
             if(buttonsList.at(i) == button)
             {
-                if(_messageBoxTitle == StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL))
-                {
-                    handlePreviewLoginSignupMessageBoxSelection(i);
-                }
-                else
-                {
-                    //To enable call to delegate and avoid crash, schedule remove for after delegate call.
-                    this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
-                    UnHideTextInput();
-                    if(_delegate)
-                        this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(i));
-                }
+                onButtonPressed(i);
+                // We can stop searching now
+                break;
             }
         }
     }
 }
-
-void MessageBox::handlePreviewLoginSignupMessageBoxSelection(int buttonSelect)
+  
+void MessageBox::onCancelPressed()
 {
-    if(_buttonsTitleList.at(buttonSelect) == StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN))
-    {
-        LoginLogicHandler::getInstance()->forceNewLogin();
-    }
-    else if(_buttonsTitleList.at(buttonSelect) == StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP))
-    {
-        Scene *onboardingScene = OnboardingScene::createScene(0);
-        Director::getInstance()->replaceScene(onboardingScene);
-    }
+    this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
+    UnHideTextInput();
+    if(_delegate)
+        this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, "Cancel");
+}
+
+void MessageBox::onButtonPressed(int buttonSelect)
+{
+    //To enable call to delegate and avoid crash, schedule remove for after delegate call.
+    this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
+    UnHideTextInput();
+    if(_delegate)
+        this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(buttonSelect));
+}
+  
 }

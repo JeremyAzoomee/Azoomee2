@@ -2,7 +2,7 @@
 #define __IAP_UPSALE_LAYER_H__
 
 #include <cocos/cocos2d.h>
-#include "ElectricDreamsButton.h"
+#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include "AwaitingAdultPinLayer.h"
 
 USING_NS_CC;

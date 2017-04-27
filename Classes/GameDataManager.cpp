@@ -18,7 +18,7 @@ USING_NS_CC;
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
 #include <AzoomeeCommon/Strings.h>
