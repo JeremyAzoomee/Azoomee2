@@ -21,29 +21,25 @@ public:
 class ElectricDreamsButton : public cocos2d::Layer
 {
 private:
+    void callDelegateFunction(float dt);
+    
+    std::string buttonAudioFile;
+    OomeeButtonLayer* oomeeLayer;
+  
+protected:
+    std::string mixPanelButtonName = "";
+    
+    virtual bool init();
+    virtual void onButtonPressed();
+    
     void addListener();
     static ElectricDreamsButton* createPrimaryButton(std::string buttonText, float textPadding, float minWidth);
     static ElectricDreamsButton* createSecondaryButton(std::string buttonText, float textPadding, float minWidth);
     cocos2d::ui::Scale9Sprite *createButtonOutline(std::string buttonText);
-    
-    void callDelegateFunction(float dt);
-    
-    bool isSettingsButton;
-    
-    std::string buttonAudioFile;
-    std::string mixPanelButtonName = "";
-    OomeeButtonLayer* oomeeLayer;
-    
     void sendMixPanelEvent();
-    
     cocos2d::Sprite* createSpriteButton(std::string buttonImage, std::string buttonAudio);
   
-protected:
-  
-    virtual void onButtonPressed();
-  
 public:
-    virtual bool init();
     
     // implement the "static create()" method manually
     CREATE_FUNC(ElectricDreamsButton);
@@ -62,7 +58,6 @@ public:
     static ElectricDreamsButton* createAcceptButton();
     static ElectricDreamsButton* createCancelButton();
     static ElectricDreamsButton* createWindowCloselButton();
-    static ElectricDreamsButton* createSettingsButton(float creationDelay);
     static ElectricDreamsButton* createAddButton();
     static ElectricDreamsButton* createPlaceHolderButton();
     

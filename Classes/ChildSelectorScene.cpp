@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include "SettingsButton.h"
 #include "OfflineHubScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
@@ -79,7 +80,7 @@ void ChildSelectorScene::addVisualsToScene()
 
 void ChildSelectorScene::createSettingsButton()
 {
-    auto settingsButton = ElectricDreamsButton::createSettingsButton(0.0f);
+    auto settingsButton = SettingsButton::createSettingsButton(0.0f);
     settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
     this->addChild(settingsButton);
 }

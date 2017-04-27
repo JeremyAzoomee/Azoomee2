@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginLogicHandler.h"
 #include "OnboardingScene.h"
+#include "SettingsButton.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 
 USING_NS_CC;
@@ -208,7 +209,7 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
 
 void NavigationLayer::createSettingsButton()
 {
-    settingsButton = ElectricDreamsButton::createSettingsButton(3.0f);
+    settingsButton = SettingsButton::createSettingsButton(3.0f);
     settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
     this->addChild(settingsButton);
 }
