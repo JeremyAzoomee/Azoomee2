@@ -174,11 +174,8 @@ void GameDataManager::removeOldGameIfUpgradeNeeded(std::string downloadedJSONStr
         return;
     }
     
-    CCLOG("UPGRADE GAME VERSIONS TO BE CHECKED");
-    
     if(getCurrentGameVersionFromJSONFile(targetPath) >= getMinGameVersionFromJSONString(downloadedJSONString)) return;
-    
-    CCLOG("UPGRADE GAME DELETION AND REDOWNLOAD REQUIRED!");
+
     FileUtils::getInstance()->removeDirectory(basePath);
     createGamePathDirectories(basePath);
     FileUtils::getInstance()->writeStringToFile(downloadedJSONString, targetPath);
@@ -409,7 +406,6 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     }
     
     return ret;
-
 }
 
 bool GameDataManager::removeGameZip(std::string fileNameWithPath)
