@@ -20,6 +20,7 @@ public:
     void getJSONGameData(std::string url, std::string itemId);
     
 private:
+    void JSONFileIsPresent(std::string url, std::string itemId);
     std::string getFileNameFromUrl(std::string url);
     
     void onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);

@@ -65,24 +65,7 @@ void GameDataManager::startProcessingGame(std::string url, std::string itemId)
     std::string fileName = getFileNameFromUrl(url);
     if(checkIfFileExists(basePath + fileName))
     {
-        if(!isGameCompatibleWithCurrentAzoomeeVersion(basePath + fileName))
-        {
-            hideLoadingScreen(); //ERROR TO BE ADDED
-            showIncompatibleMessage();
-            return;
-        }
-        
-        std::string startFile = getStartFileFromJson(basePath + fileName);
-        
-        if(checkIfFileExists(basePath + startFile))
-        {
-            startGame(basePath + startFile);
-        }
-        else
-        {
-            std::string downloadUrl = getDownloadUrlForGame(basePath + fileName);
-            getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
-        }
+        JSONFileIsPresent(url, itemId);
     }
     else
     {
@@ -90,6 +73,32 @@ void GameDataManager::startProcessingGame(std::string url, std::string itemId)
         if(!FileUtils::getInstance()->isDirectoryExist(basePath)) FileUtils::getInstance()->createDirectory(basePath);
         getJSONGameData(url, itemId); //the callback of this method will fire up getDownloadUrlForGame, getGameZipFile, unzipGame and startGame
     }
+}
+
+void GameDataManager::JSONFileIsPresent(std::string url, std::string itemId)
+{
+    std::string basePath = getGameIdPath(itemId);
+    std::string fileName = getFileNameFromUrl(url);
+    
+    std::string startFile = getStartFileFromJson(basePath + fileName);
+    
+    if(!isGameCompatibleWithCurrentAzoomeeVersion(basePath + fileName))
+    {
+        hideLoadingScreen(); //ERROR TO BE ADDED
+        showIncompatibleMessage();
+        return;
+    }
+    
+    if(checkIfFileExists(basePath + startFile))
+    {
+        startGame(basePath + startFile);
+    }
+    else
+    {
+        std::string downloadUrl = getDownloadUrlForGame(basePath + fileName);
+        getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
+    }
+
 }
 
 std::string GameDataManager::getFileNameFromUrl(std::string url)
@@ -139,24 +148,7 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
         std::string targetPath = basePath + "package.json";
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
         
-        if(!isGameCompatibleWithCurrentAzoomeeVersion(targetPath))
-        {
-            hideLoadingScreen(); //ERROR TO BE ADDED
-            showIncompatibleMessage();
-            return;
-        }
-        
-        std::string startFile = getStartFileFromJson(targetPath);
-        if(checkIfFileExists(basePath + startFile))
-        {
-            startGame(basePath + startFile);
-        }
-        else
-        {
-            std::string uri = getDownloadUrlForGame(targetPath);
-            getGameZipFile(uri, response->getHttpRequest()->getTag());
-        }
-        
+        JSONFileIsPresent(getDownloadUrlForGame(targetPath), response->getHttpRequest()->getTag());
     }
     else
     {
