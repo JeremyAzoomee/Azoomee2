@@ -427,8 +427,6 @@ bool GameDataManager::isGameCompatibleWithCurrentAzoomeeVersion(std::string json
     {
         if(gameData["minAppVersion"].IsString())
         {
-            CCLOG("VERSIONCHECK %s, %s", gameData["minAppVersion"].GetString(), ConfigStorage::getInstance()->getVersionNumber().c_str());
-            
             if(isString1GreaterThanString2(gameData["minAppVersion"].GetString(), ConfigStorage::getInstance()->getVersionNumber()))
             {
                 return false;
