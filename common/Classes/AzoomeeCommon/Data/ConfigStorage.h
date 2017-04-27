@@ -18,7 +18,6 @@ public:
     bool init(void);
     
     //General configuration
-//#define autologin YES;
 //#define forcereload YES;
 //#define forgetuserdata YES;
     

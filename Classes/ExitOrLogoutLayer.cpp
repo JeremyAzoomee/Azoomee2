@@ -1,13 +1,13 @@
 #include "ExitOrLogoutLayer.h"
-#include "LoginScene.h"
+#include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "ParentDataParser.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
@@ -76,10 +76,17 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
     windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + windowLayerBottomPadding);
     this->addChild(windowLayer);
     
+    //--------Privacy and Terms-------
+    
+    privacyAndTerms = PrivacyAndTermsLayer::create();
+    privacyAndTerms->setPosition(windowLayer->getContentSize().width/2 - privacyAndTerms->getContentSize().width/2,privacyAndTerms->getContentSize().height*.65);
+    windowLayer->addChild(privacyAndTerms);
+    
+    
     //-------- VERSION NUBMER ---------
     
     auto versionTitle = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
-    versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 1.5);
+    versionTitle->setPosition(windowLayer->getContentSize().width/2,versionTitle->getContentSize().height * 2.5);
     windowLayer->addChild(versionTitle);
     
     //-------- USERNAME---------------
@@ -106,18 +113,8 @@ void ExitOrLogoutLayer::addExitOrLogoutUIObjects()
         iapButton->setMixPanelButtonName("ExitorLogoutStartTrialButton");
         windowLayer->addChild(iapButton);
     }
-    else if(ParentDataProvider::getInstance()->isPaidUser())
-        addRichTextLabel("Premium Account");
-    
-    else if (ParentDataProvider::getInstance()->emailRequiresVerification())
-    {
-        Label* subTitleLabel = createLabelHeaderWhite("We need to verify your email address.\nPlease check your email or go to parent.azoomee.com for help.");
-        subTitleLabel->setWidth(windowLayer->getContentSize().width - 50);
-        subTitleLabel->setPosition(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6);
-        windowLayer->addChild(subTitleLabel);
-    }
     else
-        addRichTextLabel("Free Account");
+        addRichTextLabel("Premium Account");
     
     // ------- LOG OUT BUTTON ----------
     
@@ -173,13 +170,9 @@ void ExitOrLogoutLayer::buttonPressed(ElectricDreamsButton* button)
         AnalyticsSingleton::getInstance()->logoutParentEvent();
         ParentDataParser::getInstance()->logoutChild();
         
-        UserDefault::getInstance()->getStringForKey("password", "");
-        UserDefault::getInstance()->flush();
-        
         AudioMixer::getInstance()->stopBackgroundMusic();
         
-        auto loginScene = LoginScene::createScene(0);
-        Director::getInstance()->replaceScene(loginScene);
+        LoginLogicHandler::getInstance()->forceNewLogin();
     }
     else if(button == iapButton)
     {

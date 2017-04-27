@@ -3,10 +3,12 @@
 
 #include <cocos/cocos2d.h>
 #include "ui/UIPageView.h"
-#include "ElectricDreamsButton.h"
+#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 
 USING_NS_CC;
 using namespace cocos2d::ui;
+using namespace Azoomee;
+
 
 class SlideShowScene: public cocos2d::Layer, public ElectricDreamsButtonDelegate
 {

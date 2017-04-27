@@ -44,6 +44,7 @@ public:
     void registerAccountStatus(std::string Status);
     void registerBillingStatus(std::string Status);
     void registerIAPOS(std::string OS_String);
+    void registerBillingProvider(std::string provider);
 
 
     void registerChildID(std::string ChildID);
@@ -108,6 +109,7 @@ public:
     void iapUserDataFailedEvent();
     void iapSubscriptionDoublePurchaseEvent();
     void iapBackEndRequestFailedEvent(long errorCode);
+    void iapAppleAutoRenewSubscriptionEvent();
 
 };
   

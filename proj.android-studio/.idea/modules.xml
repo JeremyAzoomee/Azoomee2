@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/azoomee2.iml" filepath="$PROJECT_DIR$/app/azoomee2.iml" />
       <module fileurl="file://$PROJECT_DIR$/../common/proj.android-studio/azoomee_common/azoomee_common.iml" filepath="$PROJECT_DIR$/../common/proj.android-studio/azoomee_common/azoomee_common.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../common/proj.android-studio/azoomee_common/azoomee_common.iml" filepath="$PROJECT_DIR$/../common/proj.android-studio/azoomee_common/azoomee_common.iml" />
       <module fileurl="file://$PROJECT_DIR$/../cocos2d/cocos/platform/android/libcocos2dx/libcocos2dx.iml" filepath="$PROJECT_DIR$/../cocos2d/cocos/platform/android/libcocos2dx/libcocos2dx.iml" />
       <module fileurl="file://$PROJECT_DIR$/proj.android-studio.iml" filepath="$PROJECT_DIR$/proj.android-studio.iml" />
     </modules>

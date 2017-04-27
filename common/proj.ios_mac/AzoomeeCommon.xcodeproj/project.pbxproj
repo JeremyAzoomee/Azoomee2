@@ -34,7 +34,12 @@
 		3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA81E97E8450009027D /* HMACSHA256_ios.mm */; };
 		3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAB1E97E8450009027D /* JWTTool.cpp */; };
 		3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */; };
+		301CCA8D1EB13151009ADA0C /* MessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8B1EB13151009ADA0C /* MessageBox.cpp */; };
+		301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */; };
+		301CCA971EB14162009ADA0C /* ParentDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA951EB14162009ADA0C /* ParentDataParser.cpp */; };
+		301CCA9A1EB14280009ADA0C /* API.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA981EB14280009ADA0C /* API.cpp */; };
 		304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC61EA8F883008CED52 /* GameController.framework */; };
+		3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
 		30DD5ECE1E965B710084305B /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC91E9658B40084305B /* Fabric.framework */; };
@@ -173,8 +178,19 @@
 		3012EDAC1E97E8450009027D /* JWTTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTTool.h; sourceTree = "<group>"; };
 		3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTToolForceParent.cpp; sourceTree = "<group>"; };
 		3012EDAE1E97E8450009027D /* JWTToolForceParent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTToolForceParent.h; sourceTree = "<group>"; };
+		301CCA8B1EB13151009ADA0C /* MessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBox.cpp; sourceTree = "<group>"; tabWidth = 4; };
+		301CCA8C1EB13151009ADA0C /* MessageBox.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = MessageBox.h; sourceTree = "<group>"; tabWidth = 4; };
+		301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ElectricDreamsButton.cpp; sourceTree = "<group>"; tabWidth = 4; };
+		301CCA8F1EB13191009ADA0C /* ElectricDreamsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = ElectricDreamsButton.h; sourceTree = "<group>"; tabWidth = 4; };
+		301CCA951EB14162009ADA0C /* ParentDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParentDataParser.cpp; sourceTree = "<group>"; };
+		301CCA961EB14162009ADA0C /* ParentDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentDataParser.h; sourceTree = "<group>"; };
+		301CCA981EB14280009ADA0C /* API.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = API.cpp; sourceTree = "<group>"; };
+		301CCA991EB14280009ADA0C /* API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = API.h; sourceTree = "<group>"; };
+		301CCA9B1EB14473009ADA0C /* Azoomee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Azoomee.h; sourceTree = "<group>"; };
 		304D9EC61EA8F883008CED52 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpRequestCreator.cpp; sourceTree = "<group>"; };
+		3092BCEF1EB10524006D6F4C /* HttpRequestCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequestCreator.h; sourceTree = "<group>"; };
 		30DD5EBF1E96571F0084305B /* CrashlyticsConfig_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashlyticsConfig_android.cpp; sourceTree = "<group>"; };
 		30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CrashlyticsConfig_ios.mm; sourceTree = "<group>"; };
 		30DD5EC41E96571F0084305B /* CrashlyticsConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashlyticsConfig.h; sourceTree = "<group>"; };
@@ -374,6 +390,8 @@
 		3012ED531E969BBB0009027D /* Parent */ = {
 			isa = PBXGroup;
 			children = (
+				301CCA951EB14162009ADA0C /* ParentDataParser.cpp */,
+				301CCA961EB14162009ADA0C /* ParentDataParser.h */,
 				3012ED541E969BBB0009027D /* ParentDataProvider.cpp */,
 				3012ED551E969BBB0009027D /* ParentDataProvider.h */,
 				3012ED561E969BBB0009027D /* ParentDataStorage.cpp */,
@@ -432,14 +450,18 @@
 		3012ED861E97DB450009027D /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */,
+				301CCA8F1EB13191009ADA0C /* ElectricDreamsButton.h */,
 				3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */,
 				3012ED8B1E97DCC00009027D /* ElectricDreamsDecoration.h */,
 				3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */,
 				3012ED8D1E97DCC00009027D /* ElectricDreamsTextStyles.h */,
-				3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */,
-				3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */,
+				301CCA8B1EB13151009ADA0C /* MessageBox.cpp */,
+				301CCA8C1EB13151009ADA0C /* MessageBox.h */,
 				3012ED871E97DB450009027D /* ModalMessages.cpp */,
 				3012ED881E97DB450009027D /* ModalMessages.h */,
+				3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */,
+				3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -511,9 +533,11 @@
 		3077F4591E8D5881006DA465 /* AzoomeeCommon */ = {
 			isa = PBXGroup;
 			children = (
+				301CCA9B1EB14473009ADA0C /* Azoomee.h */,
 				3012ED641E96A3140009027D /* ErrorCodes.h */,
 				3012ED691E96A3140009027D /* Strings.h */,
 				30DD5EBD1E96571F0084305B /* Analytics */,
+				3092BCED1EB10524006D6F4C /* API */,
 				3012ED451E969A180009027D /* Audio */,
 				30DD5EBE1E96571F0084305B /* Crashlytics */,
 				30DD5EDF1E96841D0084305B /* Data */,
@@ -525,6 +549,17 @@
 				3012ED6A1E96A3140009027D /* Utils */,
 			);
 			path = AzoomeeCommon;
+			sourceTree = "<group>";
+		};
+		3092BCED1EB10524006D6F4C /* API */ = {
+			isa = PBXGroup;
+			children = (
+				301CCA981EB14280009ADA0C /* API.cpp */,
+				301CCA991EB14280009ADA0C /* API.h */,
+				3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */,
+				3092BCEF1EB10524006D6F4C /* HttpRequestCreator.h */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 		30DD5EBD1E96571F0084305B /* Analytics */ = {
@@ -809,6 +844,7 @@
 				4349C8371EA8ADEF00FE964B /* MPNotificationViewController.m in Sources */,
 				4349C8331EA8ADEF00FE964B /* MPMiniNotification.m in Sources */,
 				4349C8311EA8ADEF00FE964B /* MPEnumDescription.m in Sources */,
+				301CCA8D1EB13151009ADA0C /* MessageBox.cpp in Sources */,
 				4349C8501EA8ADEF00FE964B /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */,
 				4349C81A1EA8ADEF00FE964B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
@@ -851,6 +887,7 @@
 				4349C8451EA8ADEF00FE964B /* MPTakeoverNotification.m in Sources */,
 				4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */,
 				4349C8191EA8ADEF00FE964B /* MPABTestDesignerChangeRequestMessage.m in Sources */,
+				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,
 				3012ED711E96A3140009027D /* StringMgr.cpp in Sources */,
 				4349C8201EA8ADEF00FE964B /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */,
@@ -886,6 +923,7 @@
 				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
 				4349C84A1EA8ADEF00FE964B /* MPTweakInline.m in Sources */,
 				3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */,
+				3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */,
 				4349C83A1EA8ADEF00FE964B /* MPObjectIdentityProvider.m in Sources */,
 				4349C8301EA8ADEF00FE964B /* MPDesignerTrackMessage.m in Sources */,
 				4349C8141EA8ADEF00FE964B /* Mixpanel.m in Sources */,
@@ -897,6 +935,7 @@
 				4349C81D1EA8ADEF00FE964B /* MPABTestDesignerConnection.m in Sources */,
 				4349C8251EA8ADEF00FE964B /* MPApplicationStateSerializer.m in Sources */,
 				3012EDA21E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp in Sources */,
+				301CCA971EB14162009ADA0C /* ParentDataParser.cpp in Sources */,
 				4349C8231EA8ADEF00FE964B /* MPABTestDesignerTweakRequestMessage.m in Sources */,
 				3012EDAF1E97E8450009027D /* HMACSHA256.cpp in Sources */,
 				4349C84B1EA8ADEF00FE964B /* MPTweakStore.m in Sources */,
@@ -907,6 +946,7 @@
 				3012EDA11E97E6A40009027D /* ImageDownloaderLogic.cpp in Sources */,
 				3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */,
 				4349C8161EA8ADEF00FE964B /* MixpanelPeople.m in Sources */,
+				301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

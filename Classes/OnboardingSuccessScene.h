@@ -2,9 +2,11 @@
 #define __ONBOARDINGSUCCESSSCENE_SCENE_H__
 
 #include <cocos/cocos2d.h>
-#include "ElectricDreamsButton.h"
+#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 
 USING_NS_CC;
+using namespace Azoomee;
+
 
 class OnboardingSuccessScene : public Layer, public ElectricDreamsButtonDelegate
 {
@@ -27,13 +29,12 @@ private:
     
     virtual void onEnterTransitionDidFinish();
     
-    bool IAPEnabled;
     bool IAPSuccess;
     
 public:
     static cocos2d::Scene* createScene();
     
-    static cocos2d::Scene* createScene(bool IAPEnabled, bool IAPSuccess);
+    static cocos2d::Scene* createScene(bool IAPSuccess);
     
     virtual bool init();
     

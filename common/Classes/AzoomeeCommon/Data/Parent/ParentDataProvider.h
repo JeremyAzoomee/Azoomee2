@@ -30,6 +30,8 @@ public:
     std::string getLoggedInParentApiSecret();
     std::string getParentPin();
     std::string getBillingStatus();
+    std::string getBillingDate();
+    std::string getBillingProvider();
     
     bool isPaidUser();
     bool emailRequiresVerification();

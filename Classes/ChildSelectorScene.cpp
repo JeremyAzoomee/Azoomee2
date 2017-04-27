@@ -9,10 +9,11 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include "SettingsButton.h"
 #include "OfflineHubScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include "LoginScene.h"
-#include "ParentDataParser.h"
+#include "LoginLogicHandler.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -21,13 +22,13 @@
 USING_NS_CC;
 using namespace Azoomee;
 
-Scene* ChildSelectorScene::createScene(long errorCode)
+Scene* ChildSelectorScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = ChildSelectorScene::create();
     scene->addChild(layer);
     
-    layer->_errorCode = errorCode;
+    layer->_errorCode = LoginLogicHandler::getInstance()->getErrorMessageCodeToDisplay();
 
     return scene;
 }
@@ -79,7 +80,7 @@ void ChildSelectorScene::addVisualsToScene()
 
 void ChildSelectorScene::createSettingsButton()
 {
-    auto settingsButton = ElectricDreamsButton::createSettingsButton(0.0f);
+    auto settingsButton = SettingsButton::createSettingsButton(0.0f);
     settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
     this->addChild(settingsButton);
 }
@@ -329,7 +330,6 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
         AnalyticsSingleton::getInstance()->logoutParentEvent();
         ParentDataParser::getInstance()->logoutChild();
         
-        auto loginScene = LoginScene::createScene(0);
-        Director::getInstance()->replaceScene(loginScene);
+        LoginLogicHandler::getInstance()->forceNewLogin();
     }
 }

@@ -2,16 +2,13 @@
 #include "HQDataParser.h"
 #include "HQDataStorage.h"
 
-USING_NS_CC;
-
-#include "external/json/document.h"
-#include "external/json/writer.h"
-#include "external/json/stringbuffer.h"
-#include "external/json/prettywriter.h"
+#include <external/json/document.h>
+#include <external/json/writer.h>
+#include <external/json/stringbuffer.h>
+#include <external/json/prettywriter.h>
 
 #include "HQScene.h"
 #include "BackEndCaller.h"
-#include "HttpRequestCreator.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 
@@ -86,7 +83,7 @@ void HQDataProvider::getDataForHQ(std::string category)
     {
         if(HQDataStorage::getInstance()->HQGetContentUrls.find(category.c_str()) != HQDataStorage::getInstance()->HQGetContentUrls.end()) //We don't have the data locally. Now we have to check if the data has to be downloaded (we have an uri for it)
         {
-            HQDataParser::getInstance()->getContent(HQDataStorage::getInstance()->HQGetContentUrls[category.c_str()], category.c_str());
+            BackEndCaller::getInstance()->getHQContent(HQDataStorage::getInstance()->HQGetContentUrls[category.c_str()], category.c_str());
         }
     }
 }
@@ -96,7 +93,7 @@ void HQDataProvider::getDataForGroupHQ(std::string uri)
     displayLoadingScreen();
     
     HQDataStorage::getInstance()->HQData["GROUP HQ"].clear();
-    HQDataParser::getInstance()->getContent(uri, "GROUP HQ");
+    BackEndCaller::getInstance()->getHQContent(uri, "GROUP HQ");
 }
 
 int HQDataProvider::getNumberOfRowsForHQ(std::string category)

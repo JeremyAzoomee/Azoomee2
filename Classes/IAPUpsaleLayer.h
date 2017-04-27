@@ -2,7 +2,7 @@
 #define __IAP_UPSALE_LAYER_H__
 
 #include <cocos/cocos2d.h>
-#include "ElectricDreamsButton.h"
+#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include "AwaitingAdultPinLayer.h"
 
 USING_NS_CC;
@@ -20,21 +20,23 @@ private:
     ElectricDreamsButton* startTrialButton;
     ElectricDreamsButton* restoreButton;
     ElectricDreamsButton* notNowButton;
+    ElectricDreamsButton* learnMoreButton;
     
     Label* titleLabel;
-    Label* cancelAnytimeLabel;
+    Label* optionalLabel;
     
     Sprite* oomeesImage;
     
     void askForPin();
     
-    void createBackGroundLayer();
+    bool restoreButtonPressed;
+    
+    void createBackgroundLayer();
     void addListenerToBackgroundLayer();
     
     void createUpSaleLayer();
     
     void addTitle();
-    void addCancelAnytimeLabel();
     void addButtons();
     void addImage();
     void addALLBulletsAndLabel();

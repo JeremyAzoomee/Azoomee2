@@ -8,13 +8,14 @@
 #include "ChildSelectorScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include "MessageBox.h"
+#include "PreviewLoginSignupMessageBox.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "LoginScene.h"
+#include "LoginLogicHandler.h"
 #include "OnboardingScene.h"
+#include "SettingsButton.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 
 USING_NS_CC;
@@ -208,7 +209,7 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
 
 void NavigationLayer::createSettingsButton()
 {
-    settingsButton = ElectricDreamsButton::createSettingsButton(3.0f);
+    settingsButton = SettingsButton::createSettingsButton(3.0f);
     settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
     this->addChild(settingsButton);
 }
@@ -271,12 +272,12 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
                     //Child Selection Button Pressed.
                     //Logout Child
                     ChildDataStorage::getInstance()->childLoggedIn = false;
-                    auto childSelectorScene = ChildSelectorScene::createScene(0);
+                    auto childSelectorScene = ChildSelectorScene::createScene();
                     Director::getInstance()->replaceScene(childSelectorScene);
                 }
                 else
                 {
-                    MessageBox::createPreviewLoginSignupMessageBox();
+                    PreviewLoginSignupMessageBox::create();
                 }
             }
             else
@@ -465,8 +466,7 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == previewLoginButton)
     {
-        auto loginScene = LoginScene::createScene(0);
-        Director::getInstance()->replaceScene(loginScene);
+        LoginLogicHandler::getInstance()->forceNewLogin();
     }
     else if(button == previewSignUpButton)
     {

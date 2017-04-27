@@ -1,6 +1,4 @@
 #include <cocos/cocos2d.h>
-#include "network/HttpClient.h"
-#include "external/json/document.h"
 
 class HQDataParser : public cocos2d::Ref
 {
@@ -19,9 +17,6 @@ public:
     void clearAllHQData();
     
     //Communication methods
-    void getContent(std::string url, std::string category);
     void onGetContentAnswerReceived(std::string responseString, std::string category);
-    
-    void getPreviewContent(std::string url, std::string category);
     void onGetPreviewContentAnswerReceived(std::string responseString);
 };

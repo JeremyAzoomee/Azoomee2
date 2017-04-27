@@ -17,8 +17,8 @@ USING_NS_CC;
 #include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include "LoginScene.h"
-#include "MessageBox.h"
+#include "LoginLogicHandler.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
 #include <AzoomeeCommon/Strings.h>
@@ -157,7 +157,8 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
     }
     else
     {
-        Director::getInstance()->replaceScene(LoginScene::createSceneWithAutoLoginAndErrorDisplay());
+        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+        LoginLogicHandler::getInstance()->doLoginLogic();
     }
 }
 
@@ -278,7 +279,8 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     }
     else
     {
-        Director::getInstance()->replaceScene(LoginScene::createSceneWithAutoLoginAndErrorDisplay());
+        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+        LoginLogicHandler::getInstance()->doLoginLogic();
     }
 }
 
