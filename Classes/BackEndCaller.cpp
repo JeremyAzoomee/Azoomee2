@@ -1,24 +1,23 @@
 #include "BackEndCaller.h"
 
-#include <AzoomeeCommon/JWTSigner/JWTTool.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/API/API.h>
 #include "HQDataParser.h"
+#include "HQHistoryManager.h"
+#include "HQDataStorage.h"
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
 #include "OnboardingScene.h"
 #include "ChildAccountScene.h"
 #include "AwaitingAdultPinLayer.h"
-#include "HQHistoryManager.h"
-#include "HQDataStorage.h"
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
 #include "RoutePaymentSingleton.h"
@@ -47,11 +46,11 @@ BackEndCaller* BackEndCaller::getInstance()
     return _sharedBackEndCaller;
 }
 
-BackEndCaller::~BackEndCaller(void)
+BackEndCaller::~BackEndCaller()
 {
 }
 
-bool BackEndCaller::init(void)
+bool BackEndCaller::init()
 {
     return true;
 }
@@ -82,7 +81,7 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
 
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
 
-void BackEndCaller::login(std::string username, std::string password)
+void BackEndCaller::login(const std::string& username, const std::string& password)
 {
     displayLoadingScreen();
     
@@ -97,7 +96,7 @@ void BackEndCaller::login(std::string username, std::string password)
     request->execute();
 }
 
-void BackEndCaller::onLoginAnswerReceived(std::string responseString)
+void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
 {
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
@@ -123,30 +122,28 @@ void BackEndCaller::onLoginAnswerReceived(std::string responseString)
 
 void BackEndCaller::updateBillingData()
 {
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->requestTag = "updateBilling";
-    httpRequestCreator->createEncryptedGetHttpRequest();
+    HttpRequestCreator* request = API::UpdateBillingDataRequest(this);
+    request->execute();
 }
 
-void BackEndCaller::onUpdateBillingDataAnswerReceived(std::string responseString)
+void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& responseString)
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
 
-void BackEndCaller::updateParentPin(Node *callBackTo)
+void BackEndCaller::updateParentPin(AwaitingAdultPinLayer *callBackTo)
 {
     displayLoadingScreen();
     
     callBackNode = callBackTo;
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->requestTag = "updateParentPin";
-    httpRequestCreator->createEncryptedGetHttpRequest();
+    HttpRequestCreator* request = API::UpdateParentPinRequest(this);
+    request->execute();
 }
 
-void BackEndCaller::onUpdateParentPinAnswerReceived(std::string responseString)
+void BackEndCaller::onUpdateParentPinAnswerReceived(const std::string& responseString)
 {
     CCLOG("Update parent response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseUpdateParentData(responseString))
@@ -165,13 +162,11 @@ void BackEndCaller::getAvailableChildren()
 {
     ModalMessages::getInstance()->startLoading();
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->urlParameters = "expand=true";
-    httpRequestCreator->requestTag = "getChildren";
-    httpRequestCreator->createEncryptedGetHttpRequest();
+    HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
+    request->execute();
 }
 
-void BackEndCaller::onGetChildrenAnswerReceived(std::string responseString)
+void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseString)
 {
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     
@@ -210,16 +205,15 @@ void BackEndCaller::childLogin(int childNumber)
     
     displayLoadingScreen();
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber).c_str());
-    httpRequestCreator->requestTag = "childLogin";
-    httpRequestCreator->createEncryptedPostHttpRequest();
+    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber);
+    HttpRequestCreator* request = API::ChildLoginRequest(profileName, this);
+    request->execute();
     
     ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
     ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 
-void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
+void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString)
 {
     ChildDataParser::getInstance()->parseChildLoginData(responseString);
     
@@ -230,13 +224,14 @@ void BackEndCaller::onChildLoginAnswerReceived(std::string responseString)
 
 void BackEndCaller::getGordon()
 {
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->urlParameters = StringUtils::format("userid=%s&sessionid=%s", ChildDataProvider::getInstance()->getParentOrChildId().c_str(), ChildDataProvider::getInstance()->getParentOrChildCdnSessionId().c_str());
-    httpRequestCreator->requestTag = "getGordon";
-    httpRequestCreator->createEncryptedGetHttpRequest();
+    const std::string& userId = ChildDataProvider::getInstance()->getParentOrChildId();
+    const std::string& sessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
+    
+    HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
+    request->execute();
 }
 
-void BackEndCaller::onGetGordonAnswerReceived(std::string responseString)
+void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
     {
@@ -248,26 +243,21 @@ void BackEndCaller::onGetGordonAnswerReceived(std::string responseString)
 
 //REGISTER PARENT---------------------------------------------------------------------------
 
-void BackEndCaller::registerParent(std::string emailAddress, std::string password, std::string pinNumber)
+void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber)
 {
     //Save emailAddress and password, so onRegisterParentAnswerReceived can login after success
-    this->registerParentUsername = emailAddress;
-    this->registerParentPassword = password;
+    registerParentUsername = emailAddress;
+    registerParentPassword = password;
     
     std::string source = "OTHER";
-    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     source = "IOS_INAPP";
-    
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     source = "ANDROID_INAPP";
-    
 #endif
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->requestBody = StringUtils::format("{\"emailAddress\":\"%s\",\"over18\":\"true\",\"termsAccepted\":\"true\",\"password\":\"%s\",\"source\":\"%s\",\"pinNumber\":\"%s\"}", emailAddress.c_str(),password.c_str(),source.c_str(),pinNumber.c_str());
-    httpRequestCreator->requestTag = "registerParent";
-    httpRequestCreator->createPostHttpRequest();
+    HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, this);
+    request->execute();
     
     displayLoadingScreen();
 }
@@ -281,17 +271,16 @@ void BackEndCaller::onRegisterParentAnswerReceived()
 
 //REGISTER CHILD----------------------------------------------------------------------------
 
-void BackEndCaller::registerChild(std::string childProfileName, std::string childGender, std::string childDOB, int oomeeNumber)
+void BackEndCaller::registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber)
 {
     displayLoadingScreen();
     
     newChildName = childProfileName;
     oomeeAvatarNumber = oomeeNumber;
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"password\":\"\"}",childProfileName.c_str(),childDOB.c_str(),childGender.c_str(),ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber).c_str());
-    httpRequestCreator->requestTag = "registerChild";
-    httpRequestCreator->createEncryptedPostHttpRequest();
+    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
+    HttpRequestCreator* request = API::RegisterChildRequest(childProfileName, childGender, childDOB, oomeeUrl, this);
+    request->execute();
 }
 
 void BackEndCaller::onRegisterChildAnswerReceived()
@@ -304,76 +293,109 @@ void BackEndCaller::onRegisterChildAnswerReceived()
 //GOOGLE VERIFY PAYMENT---------------------------------------------------------------------
 void BackEndCaller::verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken)
 {
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->requestBody = StringUtils::format("{\"orderId\": \"%s\", \"subscriptionId\": \"%s\", \"purchaseToken\": \"%s\"}", orderId.c_str(), iapSku.c_str(), purchaseToken.c_str());
-    httpRequestCreator->requestTag = "iabGooglePaymentMade";
-    httpRequestCreator->createEncryptedPostHttpRequest();
+    HttpRequestCreator* request = API::VerifyGooglePaymentRequest(orderId, iapSku, purchaseToken, this);
+    request->execute();
 }
 
 //AMAZON VERIFY PAYMENT---------------------------------------------------------------------
 void BackEndCaller::verifyAmazonPayment(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserid)
 {
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
-    httpRequestCreator->requestTag = "iapAmazonPaymentMade";
-    httpRequestCreator->createEncryptedPostHttpRequest();
+    HttpRequestCreator* request = API::VerifyAmazonPaymentRequest(requestId, receiptId, amazonUserid, this);
+    request->execute();
 }
 
 //APPLE VERIFY PAYMENT----------------------------------------------------------------------
 void BackEndCaller::verifyApplePayment(const std::string& receiptData)
 {
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->requestBody = StringUtils::format("{\"receipt-data\": \"%s\"}", receiptData.c_str());
-    httpRequestCreator->requestTag = "iapApplePaymentMade";
-    httpRequestCreator->createEncryptedPostHttpRequest();
+    HttpRequestCreator* request = API::VerifyApplePaymentRequest(receiptData, this);
+    request->execute();
 }
 
 //GET CONTENT-------------------------------------------------------------------------------
 void BackEndCaller::getHQContent(const std::string& url, const std::string& category)
 {
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator(this);
-    httpRequestCreator->url = url;
-    httpRequestCreator->requestBody = "";
-    httpRequestCreator->requestTag = category;
-    
+    // Preview doesn't need to be encrypted
     if(category == "PreviewHOME")
     {
-        httpRequestCreator->createGetHttpRequest();
+        HttpRequestCreator* request = API::GetPublicContentRequest(url, category, this);
+        request->execute();
     }
     else
     {
-        httpRequestCreator->createEncryptedGetHttpRequest();
+        HttpRequestCreator* request = API::GetEncryptedContentRequest(url, category, this);
+        request->execute();
     }
 }
 
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    if(requestTag == "getGordon") onGetGordonAnswerReceived(headers);
-    if(requestTag == "childLogin") onChildLoginAnswerReceived(body);
-    if(requestTag == "getChildren") onGetChildrenAnswerReceived(body);
-    if(requestTag == "parentLogin") onLoginAnswerReceived(body);
-    if(requestTag == "registerChild") onRegisterChildAnswerReceived();
-    if(requestTag == "registerParent") onRegisterParentAnswerReceived();
-    if(requestTag == "updateParentPin") onUpdateParentPinAnswerReceived(body);
-    if(requestTag == "PreviewHOME") HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(body);
-    if(requestTag == "updateBilling") onUpdateBillingDataAnswerReceived(body);
-    if(requestTag == "GROUP HQ") HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
-    
-    for(int i = 0; i < 6; i++)
+    if(requestTag == "getGordon")
     {
-        if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i))
+        onGetGordonAnswerReceived(headers);
+    }
+    else if(requestTag == "childLogin")
+    {
+        onChildLoginAnswerReceived(body);
+    }
+    else if(requestTag == "getChildren")
+    {
+        onGetChildrenAnswerReceived(body);
+    }
+    else if(requestTag == "parentLogin")
+    {
+        onLoginAnswerReceived(body);
+    }
+    else if(requestTag == "registerChild")
+    {
+        onRegisterChildAnswerReceived();
+    }
+    else if(requestTag == "registerParent")
+    {
+        onRegisterParentAnswerReceived();
+    }
+    else if(requestTag == "updateParentPin")
+    {
+        onUpdateParentPinAnswerReceived(body);
+    }
+    else if(requestTag == "PreviewHOME")
+    {
+        HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(body);
+    }
+    else if(requestTag == "updateBilling")
+    {
+        onUpdateBillingDataAnswerReceived(body);
+    }
+    else if(requestTag == "GROUP HQ")
+    {
+        HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
+    }
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    else if(requestTag == "iapApplePaymentMade")
+    {
+        ApplePaymentSingleton::getInstance()->onAnswerReceived(body);
+    }
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    else if(requestTag == "iabGooglePaymentMade")
+    {
+        GooglePaymentSingleton::getInstance()->onGooglePaymentVerificationAnswerReceived(body);
+    }
+    else if(requestTag == "iapAmazonPaymentMade")
+    {
+        AmazonPaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(body);
+    }
+#endif
+    else
+    {
+        for(int i = 0; i < 6; i++)
         {
-            HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
+            if(requestTag == ConfigStorage::getInstance()->getNameForMenuItem(i))
+            {
+                HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
+                break;
+            }
         }
     }
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    if(requestTag == "iapApplePaymentMade") ApplePaymentSingleton::getInstance()->onAnswerReceived(body);
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if(requestTag == "iabGooglePaymentMade") GooglePaymentSingleton::getInstance()->onGooglePaymentVerificationAnswerReceived(body);
-    if(requestTag == "iapAmazonPaymentMade") AmazonPaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(body);
-#endif
 }
 
 void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long errorCode)
