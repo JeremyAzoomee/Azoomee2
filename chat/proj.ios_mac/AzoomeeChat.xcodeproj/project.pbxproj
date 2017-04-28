@@ -17,6 +17,9 @@
 		304410591E9D13E800B7F383 /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3044103E1E9CFF9300B7F383 /* libcocos2d iOS.a */; };
 		304410711E9D19C900B7F383 /* libAzoomeeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304410631E9D18E600B7F383 /* libAzoomeeChat.a */; };
 		304410841E9D268800B7F383 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304410821E9D268800B7F383 /* HelloWorldScene.cpp */; };
+		304E50191EB352AD00D077E3 /* ChatAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304E50151EB352AD00D077E3 /* ChatAPI.cpp */; };
+		304E501A1EB352AD00D077E3 /* ChatTestScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304E50171EB352AD00D077E3 /* ChatTestScene.cpp */; };
+		304E50241EB3637D00D077E3 /* AppsFlyerLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304E50221EB3637800D077E3 /* AppsFlyerLib.framework */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images.xcassets */; };
 		430B214E1E4485DA004ACB10 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B214D1E4485DA004ACB10 /* CFNetwork.framework */; };
@@ -41,10 +44,6 @@
 		431A2A071E439BFE00DC0F3B /* MPDismissKeyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A29661E439BFE00DC0F3B /* MPDismissKeyboard@2x.png */; };
 		431A2A081E439BFE00DC0F3B /* MPLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A29671E439BFE00DC0F3B /* MPLogo.png */; };
 		431A2A091E439BFE00DC0F3B /* MPLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 431A29681E439BFE00DC0F3B /* MPLogo@2x.png */; };
-		431A2A2D1E439BFE00DC0F3B /* MPNotification~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 431A29AE1E439BFE00DC0F3B /* MPNotification~ipad.storyboard */; };
-		431A2A2E1E439BFE00DC0F3B /* MPNotification~iphonelandscape.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 431A29AF1E439BFE00DC0F3B /* MPNotification~iphonelandscape.storyboard */; };
-		431A2A2F1E439BFE00DC0F3B /* MPNotification~iphoneportrait.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 431A29B01E439BFE00DC0F3B /* MPNotification~iphoneportrait.storyboard */; };
-		431A2A3C1E439BFE00DC0F3B /* MPSurvey.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 431A29C71E439BFE00DC0F3B /* MPSurvey.storyboard */; };
 		431A2A501E439BFE00DC0F3B /* snapshot_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 431A29EC1E439BFE00DC0F3B /* snapshot_config.json */; };
 		431A2A511E439BFE00DC0F3B /* test_variant.json in Resources */ = {isa = PBXBuildFile; fileRef = 431A29ED1E439BFE00DC0F3B /* test_variant.json */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
@@ -96,26 +95,26 @@
 			remoteGlobalIDString = 3077F4411E8D5048006DA465;
 			remoteInfo = AzoomeeCommon;
 		};
-		304410481E9CFFB600B7F383 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 3077F4401E8D5048006DA465;
-			remoteInfo = AzoomeeCommon;
-		};
-		3044104E1E9CFFBA00B7F383 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A07A4C241783777C0073F6A7;
-			remoteInfo = "libcocos2d iOS";
-		};
 		3044106F1E9D19BA00B7F383 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 304410621E9D18E600B7F383;
 			remoteInfo = AzoomeeChat;
+		};
+		304E501E1EB3612E00D077E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A07A4C241783777C0073F6A7;
+			remoteInfo = "libcocos2d iOS";
+		};
+		304E50201EB3612E00D077E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3077F4401E8D5048006DA465;
+			remoteInfo = AzoomeeCommon;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -133,6 +132,12 @@
 		304410631E9D18E600B7F383 /* libAzoomeeChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeChat.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		304410821E9D268800B7F383 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldScene.cpp; sourceTree = "<group>"; };
 		304410831E9D268800B7F383 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldScene.h; sourceTree = "<group>"; };
+		304E50151EB352AD00D077E3 /* ChatAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatAPI.cpp; sourceTree = "<group>"; };
+		304E50161EB352AD00D077E3 /* ChatAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatAPI.h; sourceTree = "<group>"; };
+		304E50171EB352AD00D077E3 /* ChatTestScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatTestScene.cpp; sourceTree = "<group>"; };
+		304E50181EB352AD00D077E3 /* ChatTestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatTestScene.h; sourceTree = "<group>"; };
+		304E501D1EB357E000D077E3 /* AzoomeeChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeChat.h; sourceTree = "<group>"; };
+		304E50221EB3637800D077E3 /* AppsFlyerLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppsFlyerLib.framework; path = ../../proj.ios_mac/AppsFlyerLib.framework; sourceTree = "<group>"; };
 		3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../../common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; name = res; path = ../../Resources/res; sourceTree = "<group>"; };
 		43069CE81E3B492600D6A631 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = SOURCE_ROOT; };
@@ -158,10 +163,6 @@
 		431A29661E439BFE00DC0F3B /* MPDismissKeyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MPDismissKeyboard@2x.png"; sourceTree = "<group>"; };
 		431A29671E439BFE00DC0F3B /* MPLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MPLogo.png; sourceTree = "<group>"; };
 		431A29681E439BFE00DC0F3B /* MPLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MPLogo@2x.png"; sourceTree = "<group>"; };
-		431A29AE1E439BFE00DC0F3B /* MPNotification~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "MPNotification~ipad.storyboard"; sourceTree = "<group>"; };
-		431A29AF1E439BFE00DC0F3B /* MPNotification~iphonelandscape.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "MPNotification~iphonelandscape.storyboard"; sourceTree = "<group>"; };
-		431A29B01E439BFE00DC0F3B /* MPNotification~iphoneportrait.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "MPNotification~iphoneportrait.storyboard"; sourceTree = "<group>"; };
-		431A29C71E439BFE00DC0F3B /* MPSurvey.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MPSurvey.storyboard; sourceTree = "<group>"; };
 		431A29EC1E439BFE00DC0F3B /* snapshot_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = snapshot_config.json; sourceTree = "<group>"; };
 		431A29ED1E439BFE00DC0F3B /* test_variant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_variant.json; sourceTree = "<group>"; };
 		433AD3051E252A2C003757AD /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -230,6 +231,7 @@
 				D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */,
 				D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */,
 				D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */,
+				304E50241EB3637D00D077E3 /* AppsFlyerLib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +289,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				304E50221EB3637800D077E3 /* AppsFlyerLib.framework */,
 				435EBBE11E55BB2300E55610 /* iAd.framework */,
 				435EBBDF1E55BB1600E55610 /* AdSupport.framework */,
 				430B215E1E448AF6004ACB10 /* AVFoundation.framework */,
@@ -347,6 +350,11 @@
 		304410811E9D268800B7F383 /* AzoomeeChat */ = {
 			isa = PBXGroup;
 			children = (
+				304E501D1EB357E000D077E3 /* AzoomeeChat.h */,
+				304E50151EB352AD00D077E3 /* ChatAPI.cpp */,
+				304E50161EB352AD00D077E3 /* ChatAPI.h */,
+				304E50171EB352AD00D077E3 /* ChatTestScene.cpp */,
+				304E50181EB352AD00D077E3 /* ChatTestScene.h */,
 				304410821E9D268800B7F383 /* HelloWorldScene.cpp */,
 				304410831E9D268800B7F383 /* HelloWorldScene.h */,
 			);
@@ -357,10 +365,6 @@
 			isa = PBXGroup;
 			children = (
 				431A295B1E439BFD00DC0F3B /* Images */,
-				431A29AE1E439BFE00DC0F3B /* MPNotification~ipad.storyboard */,
-				431A29AF1E439BFE00DC0F3B /* MPNotification~iphonelandscape.storyboard */,
-				431A29B01E439BFE00DC0F3B /* MPNotification~iphoneportrait.storyboard */,
-				431A29C71E439BFE00DC0F3B /* MPSurvey.storyboard */,
 				431A29EC1E439BFE00DC0F3B /* snapshot_config.json */,
 				431A29ED1E439BFE00DC0F3B /* test_variant.json */,
 			);
@@ -426,8 +430,6 @@
 			);
 			dependencies = (
 				304410701E9D19BA00B7F383 /* PBXTargetDependency */,
-				3044104F1E9CFFBA00B7F383 /* PBXTargetDependency */,
-				304410491E9CFFB600B7F383 /* PBXTargetDependency */,
 			);
 			name = "AzoomeeChat-App";
 			productName = iphone;
@@ -445,6 +447,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				304E501F1EB3612E00D077E3 /* PBXTargetDependency */,
+				304E50211EB3612E00D077E3 /* PBXTargetDependency */,
 			);
 			name = AzoomeeChat;
 			productName = AzoomeeChatLib;
@@ -539,15 +543,11 @@
 				431A2A011E439BFE00DC0F3B /* MPCheckmark.png in Resources */,
 				431A2A051E439BFE00DC0F3B /* MPCloseButton@3x.png in Resources */,
 				431A2A001E439BFE00DC0F3B /* MPArrowRight@2x.png in Resources */,
-				431A2A2E1E439BFE00DC0F3B /* MPNotification~iphonelandscape.storyboard in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
 				431A29FF1E439BFE00DC0F3B /* MPArrowRight.png in Resources */,
-				431A2A2D1E439BFE00DC0F3B /* MPNotification~ipad.storyboard in Resources */,
 				431A2A071E439BFE00DC0F3B /* MPDismissKeyboard@2x.png in Resources */,
-				431A2A3C1E439BFE00DC0F3B /* MPSurvey.storyboard in Resources */,
 				431A2A501E439BFE00DC0F3B /* snapshot_config.json in Resources */,
 				431A2A061E439BFE00DC0F3B /* MPDismissKeyboard.png in Resources */,
-				431A2A2F1E439BFE00DC0F3B /* MPNotification~iphoneportrait.storyboard in Resources */,
 				431A2A091E439BFE00DC0F3B /* MPLogo@2x.png in Resources */,
 				431A29FD1E439BFE00DC0F3B /* MPArrowLeft.png in Resources */,
 				431A2A041E439BFE00DC0F3B /* MPCloseButton@2x.png in Resources */,
@@ -608,6 +608,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				304E50191EB352AD00D077E3 /* ChatAPI.cpp in Sources */,
+				304E501A1EB352AD00D077E3 /* ChatTestScene.cpp in Sources */,
 				304410841E9D268800B7F383 /* HelloWorldScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -615,20 +617,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		304410491E9CFFB600B7F383 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AzoomeeCommon;
-			targetProxy = 304410481E9CFFB600B7F383 /* PBXContainerItemProxy */;
-		};
-		3044104F1E9CFFBA00B7F383 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "libcocos2d iOS";
-			targetProxy = 3044104E1E9CFFBA00B7F383 /* PBXContainerItemProxy */;
-		};
 		304410701E9D19BA00B7F383 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 304410621E9D18E600B7F383 /* AzoomeeChat */;
 			targetProxy = 3044106F1E9D19BA00B7F383 /* PBXContainerItemProxy */;
+		};
+		304E501F1EB3612E00D077E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "libcocos2d iOS";
+			targetProxy = 304E501E1EB3612E00D077E3 /* PBXContainerItemProxy */;
+		};
+		304E50211EB3612E00D077E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AzoomeeCommon;
+			targetProxy = 304E50201EB3612E00D077E3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

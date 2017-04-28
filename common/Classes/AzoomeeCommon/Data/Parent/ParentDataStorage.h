@@ -2,7 +2,8 @@
 #define AzoomeeCommon_ParentDataStorage_h
 
 #include <cocos/cocos2d.h>
-#include "external/json/document.h"
+#include <external/json/document.h>
+#include <map>
 
 
 namespace Azoomee
@@ -31,6 +32,8 @@ public:
     std::string loggedInParentBillingProvider;
     
     std::vector<std::map<std::string, std::string>> availableChildren;          //array of maps, where each child has profileName and avatar keys
+    // Index map of childId to index in availableChildren
+    std::map<std::string, int> availableChildrenById;
 };
 
 }

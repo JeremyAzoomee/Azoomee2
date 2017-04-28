@@ -91,6 +91,20 @@ std::string ParentDataProvider::getProfileNameForAnAvailableChildren(int childNu
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["profileName"];
 }
+    
+std::string ParentDataProvider::getProfileNameForAnAvailableChildrenById(const std::string& childId)
+{
+    ParentDataStorage* data = ParentDataStorage::getInstance();
+    auto it = data->availableChildrenById.find(childId);
+    if(it != data->availableChildrenById.end())
+    {
+        int index = it->second;
+        return getProfileNameForAnAvailableChildren(index);
+    }
+    // No child with childId found
+    cocos2d::log("Warning: no child found with id: %s", childId.c_str());
+    return "";
+}
 
 std::string ParentDataProvider::getAvatarForAnAvailableChildren(int childNumber)
 {

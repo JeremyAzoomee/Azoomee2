@@ -4,8 +4,7 @@
 using namespace cocos2d;
 
 
-namespace Azoomee { namespace Chat
-{
+NS_AZOOMEE_CHAT_BEGIN
     
 HelloWorldScene::~HelloWorldScene()
 {
@@ -104,4 +103,4 @@ void HelloWorldScene::onWindowChanged(cocos2d::EventCustom* event)
 }
     
 
-}}
+NS_AZOOMEE_CHAT_END

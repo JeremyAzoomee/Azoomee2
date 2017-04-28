@@ -1,6 +1,6 @@
 #include "AppDelegate.h"
-
 #include "AzoomeeChat/HelloWorldScene.h"
+#include "AzoomeeChat/ChatTestScene.h"
 
 using namespace cocos2d;
 using namespace Azoomee::Chat;
@@ -63,7 +63,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorldScene::create();
+    auto scene = ChatTestScene::create();
     director->runWithScene(scene);
 
     return true;
