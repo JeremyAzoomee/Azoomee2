@@ -20,8 +20,8 @@ namespace Azoomee
         
         for(int i = 0; i < azoomeeVersionVector.size(); i++)
         {
-            if(std::stoi(azoomeeVersionVector.at(i)) != std::stoi(requiredVersionVector.at(i))) requirementMet = false;
-            if(std::stoi(azoomeeVersionVector.at(i)) > std::stoi(requiredVersionVector.at(i))) return true;
+            if(std::atoi(azoomeeVersionVector.at(i).c_str()) != std::atoi(requiredVersionVector.at(i).c_str())) requirementMet = false;
+            if(std::atoi(azoomeeVersionVector.at(i).c_str()) > std::atoi(requiredVersionVector.at(i).c_str())) return true;
         }
         
         return requirementMet;
