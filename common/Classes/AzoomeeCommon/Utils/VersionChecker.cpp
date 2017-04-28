@@ -1,7 +1,7 @@
 #include "VersionChecker.h"
 #include "StringFunctions.h"
 #include <cocos/cocos2d.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "../Data/ConfigStorage.h"
 
 using namespace cocos2d;
 
