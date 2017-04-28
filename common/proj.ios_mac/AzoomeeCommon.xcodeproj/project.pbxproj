@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A120231EAF83E0007EDD95 /* VersionChecker.cpp */; };
 		3012ED481E969A180009027D /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED461E969A180009027D /* AudioMixer.cpp */; };
 		3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4A1E969AE40009027D /* CookieDataParser.cpp */; };
 		3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4C1E969AE40009027D /* CookieDataProvider.cpp */; };
@@ -120,6 +121,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02A120231EAF83E0007EDD95 /* VersionChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VersionChecker.cpp; sourceTree = "<group>"; };
+		02A120241EAF83E0007EDD95 /* VersionChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionChecker.h; sourceTree = "<group>"; };
 		3012ED461E969A180009027D /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
 		3012ED471E969A180009027D /* AudioMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMixer.h; sourceTree = "<group>"; };
 		3012ED4A1E969AE40009027D /* CookieDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CookieDataParser.cpp; sourceTree = "<group>"; };
@@ -428,6 +431,8 @@
 				3012ED6C1E96A3140009027D /* StringFunctions.h */,
 				3012ED6D1E96A3140009027D /* StringMgr.cpp */,
 				3012ED6E1E96A3140009027D /* StringMgr.h */,
+				02A120231EAF83E0007EDD95 /* VersionChecker.cpp */,
+				02A120241EAF83E0007EDD95 /* VersionChecker.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -906,6 +911,7 @@
 				3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */,
 				4349C82A1EA8ADEF00FE964B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				4349C81F1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
+				02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */,
 				4349C84D1EA8ADEF00FE964B /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				3012ED521E969AE40009027D /* CookieDataStorage.cpp in Sources */,
 				3012ED481E969A180009027D /* AudioMixer.cpp in Sources */,

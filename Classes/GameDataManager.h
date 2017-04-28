@@ -23,14 +23,19 @@ public:
     void getJSONGameData(std::string url, std::string itemId);
     
 private:
+    void JSONFileIsPresent(std::string itemId);
+    void createGamePathDirectories(std::string basePath);
     std::string getFileNameFromUrl(std::string url);
     
     void onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
+    void removeOldGameIfUpgradeNeeded(std::string downloadedJSONString, std::string gameId);
     bool checkIfFileExists(std::string fileWithPath);
     
-    std::string getDownloadUrlForGame(std::string jsonFileName);
-    std::string getStartFileFromJson(std::string jsonFileName);
+    std::string getDownloadUrlForGameFromJSONFile(std::string jsonFileName);
+    std::string getStartFileFromJSONFile(std::string jsonFileName);
+    int getCurrentGameVersionFromJSONFile(std::string jsonFileName);
+    int getMinGameVersionFromJSONString(std::string jsonString);
     
     void getGameZipFile(std::string url, std::string itemId);
     void onGetGameZipFileAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
@@ -43,14 +48,17 @@ private:
     std::string getGameCachePath();
     std::string getGameIdPath(std::string gameId);
     
-    void startGame(std::string fileName);
+    void startGame(std::string basePath, std::string startFileName);
     
     //Loading screen
     void displayLoadingScreen();
     void hideLoadingScreen();
     void showErrorMessage();
+    void showIncompatibleMessage();
     
     cocos2d::network::HttpRequest* jsonRequest;
     cocos2d::network::HttpRequest* zipRequest;
     bool processCancelled;
+    
+    bool isGameCompatibleWithCurrentAzoomeeVersion(std::string jsonFileName);
 };

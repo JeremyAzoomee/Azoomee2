@@ -136,6 +136,13 @@
         "button":"OK"
     },
     
+    	"4001":
+    {
+    	"title":"Game incompatible",
+    	"body":"This game requires a newer Azoomee version. Please update Azoomee app from the app store and try again.",
+    	"button":"OK"
+    },
+    
     "default":
     {
         "title":"Something Went Wrong",
