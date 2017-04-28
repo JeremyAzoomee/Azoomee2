@@ -91,8 +91,6 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
-        mContext = this;
-        mActivity = this;
     }
 
     public static void startWebView(String url, String cookieurl, String cookie, String userid) {

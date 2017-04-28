@@ -31,6 +31,11 @@ bool IntroVideoScene::init()
         return false;
     }
     
+    if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+    {
+        this->slideShowScene = SlideShowScene::createScene();
+        this->slideShowScene->retain();
+    }
     auto funcCallAction = CallFunc::create([=](){
         
         videoErrorText = StringUtils::format("%svideo failsafe triggered.",videoErrorText.c_str());
@@ -94,8 +99,8 @@ void IntroVideoScene::navigateToNextScene()
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
-        auto slideShowScene = SlideShowScene::createScene();
-        Director::getInstance()->replaceScene(slideShowScene);
+        Director::getInstance()->replaceScene(this->slideShowScene);
+        this->slideShowScene->release();
     }
     else
     {
