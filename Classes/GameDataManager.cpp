@@ -167,7 +167,7 @@ void GameDataManager::removeOldGameIfUpgradeNeeded(std::string downloadedJSONStr
     std::string basePath = getGameIdPath(gameId);
     std::string targetPath = basePath + "package.json";
     
-    if(!checkIfFileExists(targetPath) || getCurrentGameVersionFromJSONFile(targetPath) >= getMinGameVersionFromJSONString(downloadedJSONString))
+    if(!checkIfFileExists(targetPath) || getCurrentGameVersionFromJSONFile(targetPath) < getMinGameVersionFromJSONString(downloadedJSONString))
     {
         FileUtils::getInstance()->removeDirectory(basePath);
         createGamePathDirectories(basePath);
