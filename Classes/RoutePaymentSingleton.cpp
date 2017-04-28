@@ -101,9 +101,11 @@ void RoutePaymentSingleton::setOSManufacturer()
         AnalyticsSingleton::getInstance()->registerIAPOS("Google");
         OSManufacturer = "Google";
     }
-#else
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
     OSManufacturer = "iOS";
+#else
+#error Unsupported platform in RoutePaymentSingleton
 #endif
 
 }
