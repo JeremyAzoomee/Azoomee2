@@ -2,14 +2,13 @@
 #include "HQDataStorage.h"
 #include "HQDataProvider.h"
 
-#include "external/json/document.h"
-#include "external/json/writer.h"
-#include "external/json/stringbuffer.h"
-#include "external/json/prettywriter.h"
+#include <external/json/document.h>
+#include <external/json/writer.h>
+#include <external/json/stringbuffer.h>
+#include <external/json/prettywriter.h>
 
 #include "HQScene.h"
 #include "BackEndCaller.h"
-#include "HttpRequestCreator.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
@@ -167,15 +166,6 @@ bool HQDataParser::parseHQGetContentUrls(std::string responseString)
 
 //GETTING CONTENT
 
-void HQDataParser::getContent(std::string url, std::string category)
-{
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->url = url;
-    httpRequestCreator->requestBody = "";
-    httpRequestCreator->requestTag = category;
-    httpRequestCreator->createEncryptedGetHttpRequest();
-}
-
 void HQDataParser::onGetContentAnswerReceived(std::string responseString, std::string category)
 {
     if(parseHQData(responseString, category.c_str()))       //Parsing method returns true if there are no errors in the json string.
@@ -193,17 +183,6 @@ void HQDataParser::onGetContentAnswerReceived(std::string responseString, std::s
             HQDataProvider::getInstance()->startBuildingHQ(category);
         }
     }
-}
-
-void HQDataParser::getPreviewContent(std::string url, std::string category)
-{
-    CCLOG("Getting data from: %s", url.c_str());
-    
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->url = url;
-    httpRequestCreator->requestBody = "";
-    httpRequestCreator->requestTag = "PreviewHOME";
-    httpRequestCreator->createGetHttpRequest();
 }
 
 void HQDataParser::onGetPreviewContentAnswerReceived(std::string responseString)

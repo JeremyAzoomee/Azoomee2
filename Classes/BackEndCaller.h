@@ -1,60 +1,93 @@
-#include <cocos/cocos2d.h>
-#include "network/HttpClient.h"
-#include "external/json/document.h"
+#ifndef Azoomee_BackEndCaller_h
+#define Azoomee_BackEndCaller_h
 
-class BackEndCaller : public cocos2d::Ref
+#include <cocos/cocos2d.h>
+#include <cocos/network/HttpClient.h>
+#include <external/json/document.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
+
+
+// forward ref
+class AwaitingAdultPinLayer;
+
+class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
     bool accountJustRegistered;
     bool newChildJustRegistered;
     std::string newChildName;
     int oomeeAvatarNumber;
+    //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
+    std::string registerParentUsername;
+    std::string registerParentPassword;
+    
+    AwaitingAdultPinLayer* callBackNode;
     
 public:
-    /** Returns the shared instance of the Game Manager */
-    static BackEndCaller* getInstance(void);
+    bool newSubscriptionJustStarted;
     
-public:
-    virtual ~BackEndCaller();
-    bool init(void);
+private:
     
-    void login(std::string username, std::string password);
-    void onLoginAnswerReceived(std::string responseString);
-    
-    void updateBillingData();
-    void onUpdateBillingDataAnswerReceived(std::string responseString);
-    
-    void updateParentPin(cocos2d::Node *callBackTo);
-    void onUpdateParentPinAnswerReceived(std::string responseString);
-    
-    void registerParent(std::string emailAddress, std::string password, std::string pinNumber);
+    // Login API success
+    void onLoginAnswerReceived(const std::string& responseString);
+    // Update billing API success
+    void onUpdateBillingDataAnswerReceived(const std::string& responseString);
+    // Update parent PIN API success
+    void onUpdateParentPinAnswerReceived(const std::string& responseString);
+    // Register parent API success
     void onRegisterParentAnswerReceived();
-    
-    void getAvailableChildren();
-    void onGetChildrenAnswerReceived(std::string responseString);
-    
-    void childLogin(int childNumber);
-    void onChildLoginAnswerReceived(std::string responseString);
-    
-    void registerChild(std::string childProfileName, std::string childGender, std::string childDOB, int oomeeNumber);
+    // Get children API success
+    void onGetChildrenAnswerReceived(const std::string& responseString);
+    // Child login success
+    void onChildLoginAnswerReceived(const std::string& responseString);
+    // Gorden returned!
+    void onGetGordonAnswerReceived(const std::string& responseString);
+    // Register child API success
     void onRegisterChildAnswerReceived();
-    
-    void getContent();
-    void onGetContentAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
-    
-    void getGordon();
-    void onGetGordonAnswerReceived(std::string responseString);
     
     void displayLoadingScreen();
     void hideLoadingScreen();
     void getBackToLoginScreen(long errorCode);
     
-    //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
-    std::string registerParentUsername;
-    std::string registerParentPassword;
+    //-HttpRequestCreatorResponseDelegate
+    void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
+    void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
-    //------------------------------------------------------------------------------------------------------------------
     
-    cocos2d::Node *callBackNode;
+public:
+    
+    // Returns the shared instance of the BackEndCaller
+    static BackEndCaller* getInstance();
+    virtual ~BackEndCaller();
+    
+    bool init();
+    
+    // Login a user
+    void login(const std::string& username, const std::string& password);
+    // Update billing information from the server
+    void updateBillingData();
+    // Update parent PIN from the server, calling back to AwaitingAdultPinLayer as part of the flow
+    void updateParentPin(AwaitingAdultPinLayer* callBackTo);
+    // Register a new parent account
+    void registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber);
+    // Get the children linked to the current parent from the backend
+    void getAvailableChildren();
+    // Login child profile with index
+    void childLogin(int childNumber);
+    // Register a new child profile on the current parent
+    void registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
+    // Get gorden. Good gorden.
+    void getGordon();
+    // Verify a google payment
+    void verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken);
+    // Verify an Amazon payment
+    void verifyAmazonPayment(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserid);
+    // Verify an Apple payment
+    void verifyApplePayment(const std::string& receiptData);
+    // Get HQ content
+    void getHQContent(const std::string& url, const std::string& category);
+    
     
 };
+
+#endif

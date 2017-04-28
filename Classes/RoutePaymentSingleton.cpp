@@ -5,10 +5,10 @@
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include "MessageBox.h"
 #include "LoginLogicHandler.h"
 #include "OnboardingSuccessScene.h"
 #include "BackEndCaller.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"

@@ -1,7 +1,7 @@
 #include "AmazonPaymentSingleton.h"
-#include "HttpRequestCreator.h"
 #include "external/json/document.h"
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
+#include "BackEndCaller.h"
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
 
@@ -68,10 +68,7 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     savedReceiptId = receiptId;
     savedAmazonUserid = amazonUserid;
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
-    httpRequestCreator->requestTag = "iapAmazonPaymentMade";
-    httpRequestCreator->createEncryptedPostHttpRequest();
+    BackEndCaller::getInstance()->verifyAmazonPayment(requestId, receiptId, amazonUserid);
 }
 
 void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDataString)

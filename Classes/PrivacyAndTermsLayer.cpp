@@ -1,6 +1,9 @@
 #include "PrivacyAndTermsLayer.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
+using namespace Azoomee;
+
+
 bool PrivacyAndTermsLayer::init()
 {
     if ( !Layer::init() )

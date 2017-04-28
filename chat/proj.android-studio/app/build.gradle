@@ -1,0 +1,112 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenLocal()
+        maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
+    }
+    dependencies {
+        // The Fabric Gradle plugin uses an open ended version to
+        // react quickly to Android tooling updates
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '25.0.0'
+
+    defaultConfig {
+        applicationId "com.tinizine.azoomeechat"
+        minSdkVersion 19
+        targetSdkVersion 22
+        versionCode 1011
+        versionName "0.0.1"
+    }
+    
+    splits {
+    	abi {
+      		enable true
+      		reset()
+      		include 'armeabi-v7a'
+      		universalApk false
+    	}
+    }
+
+    sourceSets.main {
+        java.srcDir "src"
+        res.srcDir "res"
+        jniLibs.srcDir "libs"
+        manifest.srcFile "AndroidManifest.xml"
+        assets.srcDir "assets"
+    }
+
+    signingConfigs {
+
+       release {
+            if (project.hasProperty("RELEASE_STORE_FILE")) {
+                storeFile file(RELEASE_STORE_FILE)
+                storePassword RELEASE_STORE_PASSWORD
+                keyAlias RELEASE_KEY_ALIAS
+                keyPassword RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (project.hasProperty("RELEASE_STORE_FILE")) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+}
+
+repositories {
+	mavenLocal()
+    maven {
+        url 'https://download.01.org/crosswalk/releases/crosswalk/android/maven2'
+    }
+    maven { url 'https://maven.fabric.io/public' }
+
+}
+
+crashlytics {
+    enableNdk true
+    androidNdkOut 'obj'
+    androidNdkLibsOut 'libs'
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'jars')
+    compile project(':libcocos2dx')
+    compile 'org.xwalk:xwalk_core_library:22.52.561.4-arm'
+    compile 'com.mixpanel.android:mixpanel-android:4.+'
+    compile 'com.google.android.gms:play-services-base:10.2.0'
+    compile 'com.google.android.gms:play-services-gcm:10.2.0'
+    compile 'com.google.android.gms:play-services-ads:10.2.0'
+    // Crashlytics Kit
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
+        transitive = true
+    }
+    // NDK Kit
+    compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.5@aar') {
+        transitive = true
+    }
+}
+
+task cleanAssets(type: Delete) {
+    delete 'assets'
+}
+task copyAssets(type: Copy) {
+    from '../../Resources'
+    into 'assets'
+}
+
+clean.dependsOn cleanAssets
+preBuild.dependsOn copyAssets

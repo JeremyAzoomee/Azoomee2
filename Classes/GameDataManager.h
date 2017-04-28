@@ -1,8 +1,11 @@
 #include <cocos/cocos2d.h>
 #include "network/HttpClient.h"
 #include "external/json/document.h"
-#include "ElectricDreamsButton.h"
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
+
+using namespace Azoomee;
+
 
 class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {

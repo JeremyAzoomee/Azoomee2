@@ -1,5 +1,4 @@
 #include <cocos/cocos2d.h>
-#include "external/json/document.h"
 
 class HQDataStorage : public cocos2d::Ref
 {

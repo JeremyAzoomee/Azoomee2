@@ -1,8 +1,6 @@
 #include "LoginLogicHandler.h"
-#include "BaseScene.h"
-#include "HQHistoryManager.h"
 #include "LoginScene.h"
-#include "ParentDataParser.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "BackEndCaller.h"
 
 using namespace cocos2d;
