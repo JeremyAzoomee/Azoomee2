@@ -1,8 +1,8 @@
 #include "HttpRequestCreator.h"
 
-#include <AzoomeeCommon/JWTSigner/JWTTool.h>
-#include <AzoomeeCommon/JWTSigner/JWTToolForceParent.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "../JWTSigner/JWTTool.h"
+#include "../JWTSigner/JWTToolForceParent.h"
+#include "../Data/ConfigStorage.h"
 
 using namespace cocos2d;
 using namespace cocos2d::network;
