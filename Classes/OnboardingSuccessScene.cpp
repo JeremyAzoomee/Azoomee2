@@ -10,6 +10,7 @@
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -148,5 +149,6 @@ void OnboardingSuccessScene::callDelegateFunction(float dt)
 {
     oomeeButton->hideOomee();
     AudioMixer::getInstance()->stopOomeeEffect();
+    ParentDataParser::getInstance()->logoutChild();
     BackEndCaller::getInstance()->childLogin(0);
 }

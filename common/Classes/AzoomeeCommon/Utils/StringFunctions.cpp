@@ -1,5 +1,5 @@
 #include "StringFunctions.h"
-#include<cstdlib>
+#include <cstdlib>
 
 namespace Azoomee
 {

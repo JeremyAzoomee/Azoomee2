@@ -14,17 +14,10 @@ public:
     void startIABPayment();
     void startBackEndPaymentVerification(std::string developerPayload, std::string orderId, std::string token);
     void purchaseFailedBeforeFulfillment();
-    void purchaseFailedAfterFulfillment();
     void purchaseFailedAlreadyPurchased();
     void onGooglePaymentVerificationAnswerReceived(std::string responseDataString);
-    void backendRequestFailed();
     
 private:
-    void prepareForErrorMessage();
-    bool paymentInProgress;
-    cocos2d::LayerColor* modalLayer;
-    void addListenerToBackgroundLayer();
-    
     std::string savedDeveloperPayload;
     std::string savedOrderId;
     std::string savedToken;

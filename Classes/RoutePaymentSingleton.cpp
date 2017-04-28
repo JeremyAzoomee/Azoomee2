@@ -1,12 +1,14 @@
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "AmazonPaymentSingleton.h"
 #include "GooglePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include "LoginLogicHandler.h"
+#include "OnboardingSuccessScene.h"
+#include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
-#include "ChildSelectorScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -26,7 +28,6 @@ RoutePaymentSingleton* RoutePaymentSingleton::getInstance()
     {
         _sharedRoutePaymentSingleton = new RoutePaymentSingleton();
         _sharedRoutePaymentSingleton->init();
-        _sharedRoutePaymentSingleton->getOSManufacturer();
     }
     
     return _sharedRoutePaymentSingleton;
@@ -38,10 +39,14 @@ RoutePaymentSingleton::~RoutePaymentSingleton(void)
 
 bool RoutePaymentSingleton::init(void)
 {
+    setOSManufacturer();
     return true;
 }
 void RoutePaymentSingleton::startInAppPayment()
 {
+    pressedIAPStartButton = true;
+    pressedRestorePurchaseButton = false;
+    ModalMessages::getInstance()->startLoading();
     if(osIsIos())
     {
         Azoomee::AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
@@ -71,7 +76,7 @@ bool RoutePaymentSingleton::showIAPContent()
     return !ParentDataProvider::getInstance()->isPaidUser();
 }
 
-std::string RoutePaymentSingleton::getOSManufacturer()
+void RoutePaymentSingleton::setOSManufacturer()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
@@ -89,38 +94,43 @@ std::string RoutePaymentSingleton::getOSManufacturer()
     if (resultStr == "Amazon")
     {
         AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
-        return "Amazon";
+        OSManufacturer = "Amazon";
     }
     else
     {
         AnalyticsSingleton::getInstance()->registerIAPOS("Google");
-        return "Google";
+        OSManufacturer = "Google";
     }
-#else
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
-    return "iOS";
+    OSManufacturer = "iOS";
+#else
+#error Unsupported platform in RoutePaymentSingleton
 #endif
 
 }
 
 bool RoutePaymentSingleton::osIsIos()
 {
-    return (getOSManufacturer() == "iOS");
+    return (OSManufacturer == "iOS");
 }
 
 bool RoutePaymentSingleton::osIsAndroid()
 {
-    return (getOSManufacturer() == "Google");
+    return (OSManufacturer == "Google");
 }
 
 bool RoutePaymentSingleton::osIsAmazon()
 {
-    return (getOSManufacturer() == "Amazon");
+    return (OSManufacturer == "Amazon");
 }
 
 void RoutePaymentSingleton::refreshAppleReceiptFromButton()
 {
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        pressedIAPStartButton = false;
+        pressedRestorePurchaseButton = true;
+        ModalMessages::getInstance()->startLoading();
         ApplePaymentSingleton::getInstance()->refreshReceipt(true);
     #endif
 }
@@ -137,6 +147,8 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
         {
+            pressedIAPStartButton = false;
+            pressedRestorePurchaseButton = false;
             ApplePaymentSingleton::getInstance()->refreshReceipt(false);
             return false;
         }
@@ -152,9 +164,50 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
     }
 }
 
+void RoutePaymentSingleton::backendRequestFailed(long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
+    
+    if(pressedIAPStartButton)
+        MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
+    else
+    {
+        if(pressedRestorePurchaseButton && (errorCode == 400 || errorCode == 409))
+            MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
+        else if(errorCode == 409)
+            LoginLogicHandler::getInstance()->doLoginLogic();
+        else if(errorCode == 400)
+            LoginLogicHandler::getInstance()->doLoginLogic();
+        else
+            MessageBox::createWith(ERROR_CODE_APPLE_SUB_REFRESH_FAIL, this);
+    }
+}
+
+void RoutePaymentSingleton::purchaseFailureErrorMessage()
+{
+    AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent();
+    ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+}
+
+void RoutePaymentSingleton::doublePurchaseMessage()
+{
+    AnalyticsSingleton::getInstance()->iapSubscriptionDoublePurchaseEvent();
+    Azoomee::ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
+}
+
+void RoutePaymentSingleton::inAppPaymentSuccess()
+{
+    AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
+    
+    BackEndCaller::getInstance()->updateBillingData();
+    auto onboardingSuccessScene = OnboardingSuccessScene::createScene(true);
+    Director::getInstance()->replaceScene(onboardingSuccessScene);
+}
+
 //Delegate Functions
 void RoutePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    auto childSelectorScene = ChildSelectorScene::createScene();
-    Director::getInstance()->replaceScene(childSelectorScene);
+    LoginLogicHandler::getInstance()->doLoginLogic();
 }

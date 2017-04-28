@@ -11,15 +11,19 @@ class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
 {
 private:
     bool appleReceiptRefreshchecked;
+    std::string OSManufacturer;
+    void setOSManufacturer();
     
 public:
     static RoutePaymentSingleton* getInstance(void);
     virtual ~RoutePaymentSingleton();
     bool init(void);
     
-    void startInAppPayment();
+    bool pressedIAPStartButton;
+    bool pressedRestorePurchaseButton;
     
-    std::string getOSManufacturer();
+    void startInAppPayment();
+    void inAppPaymentSuccess();
     
     bool showIAPContent();
     
@@ -29,6 +33,11 @@ public:
     
     void refreshAppleReceiptFromButton();
     bool checkIfAppleReceiptRefreshNeeded();
+    
+    void backendRequestFailed(long errorCode);
+    
+    void purchaseFailureErrorMessage();
+    void doublePurchaseMessage();
     
     //Delegate Functions
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);

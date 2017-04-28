@@ -224,9 +224,7 @@ void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, lo
     HttpClient::getInstance()->destroyInstance();
     
     if(delegate != nullptr)
-    {
         delegate->onHttpRequestFailed(requestTag, errorCode);
-    }
 }
   
 NS_AZOOMEE_END

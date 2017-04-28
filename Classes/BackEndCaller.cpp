@@ -72,7 +72,6 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
     accountJustRegistered = false;
     newChildJustRegistered = false;
-    newSubscriptionJustStarted = false;
     
     LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
     LoginLogicHandler::getInstance()->forceNewLogin();
@@ -181,13 +180,6 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
         CCLOG("Just registered account : backendcaller");
         accountJustRegistered = false;
         auto onboardingSuccessScene = OnboardingSuccessScene::createScene(false);
-        Director::getInstance()->replaceScene(onboardingSuccessScene);
-    }
-    else if(newSubscriptionJustStarted)
-    {
-        CCLOG("Just started new trial : backendcaller");
-        newSubscriptionJustStarted = false;
-        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(true);
         Director::getInstance()->replaceScene(onboardingSuccessScene);
     }
     else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
@@ -427,31 +419,13 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         return;
     }
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    if(requestTag == "iapApplePaymentMade")
+    if(requestTag == "iapAmazonPaymentMade" || requestTag == "iapApplePaymentMade" || requestTag == "iabGooglePaymentMade")
     {
         CCLOG("IAP Failed with Errorcode: %ld", errorCode);
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
-        ApplePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
+        RoutePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
         return;
     }
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    if(requestTag == "iapAmazonPaymentMade")
-    {
-        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
-        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
-        AmazonPaymentSingleton::getInstance()->backendRequestFailed();
-        return;
-    }
-    
-    if(requestTag == "iabGooglePaymentMade")
-    {
-        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
-        AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
-        GooglePaymentSingleton::getInstance()->backendRequestFailed();
-        return;
-    }
-#endif
     
     ChildDataParser::getInstance()->setChildLoggedIn(false);
     getAvailableChildren();

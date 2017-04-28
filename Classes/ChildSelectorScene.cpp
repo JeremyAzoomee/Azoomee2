@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>

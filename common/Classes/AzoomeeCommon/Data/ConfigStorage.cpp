@@ -111,7 +111,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     
 bool ConfigStorage::isParentSignatureRequiredForRequest(std::string requestTag)
 {
-    std::vector<std::string> parentSignedRequestTags = {"updateParentPin", "iapAmazonPaymentMade", "updateBilling"};
+    std::vector<std::string> parentSignedRequestTags = {"updateParentPin", "iapAmazonPaymentMade", "iabGooglePaymentMade", "iapApplePaymentMade", "updateBilling", "getChildren"};
     
     for(int i = 0; i < parentSignedRequestTags.size(); i++)
     {
