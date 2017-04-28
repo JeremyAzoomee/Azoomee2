@@ -4,7 +4,6 @@
 #include "external/json/document.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
-#include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
@@ -51,10 +50,7 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
 {
     savedReceipt = receiptData;
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"receipt-data\": \"%s\"}", receiptData.c_str());
-    httpRequestCreator->requestTag = "iapApplePaymentMade";
-    httpRequestCreator->createEncryptedPostHttpRequest();
+    BackEndCaller::getInstance()->verifyApplePayment(receiptData);
 }
 
 void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
