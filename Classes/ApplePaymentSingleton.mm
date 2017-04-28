@@ -4,7 +4,7 @@
 #include "external/json/document.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "BackEndCaller.h"
-#include "HttpRequestCreator.h"
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"

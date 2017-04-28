@@ -10,7 +10,7 @@
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "ParentDataParser.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 
 USING_NS_CC;
 using namespace Azoomee;
