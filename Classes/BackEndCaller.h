@@ -23,9 +23,6 @@ private:
     
     AwaitingAdultPinLayer* callBackNode;
     
-public:
-    bool newSubscriptionJustStarted;
-    
 private:
     
     // Login API success

@@ -28,7 +28,6 @@ RoutePaymentSingleton* RoutePaymentSingleton::getInstance()
     {
         _sharedRoutePaymentSingleton = new RoutePaymentSingleton();
         _sharedRoutePaymentSingleton->init();
-        _sharedRoutePaymentSingleton->setOSManufacturer();
     }
     
     return _sharedRoutePaymentSingleton;
@@ -40,6 +39,7 @@ RoutePaymentSingleton::~RoutePaymentSingleton(void)
 
 bool RoutePaymentSingleton::init(void)
 {
+    setOSManufacturer();
     return true;
 }
 void RoutePaymentSingleton::startInAppPayment()
