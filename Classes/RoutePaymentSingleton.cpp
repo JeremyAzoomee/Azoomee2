@@ -172,11 +172,11 @@ void RoutePaymentSingleton::backendRequestFailed(long errorCode)
         MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, this);
     else
     {
-        if(pressedRestorePurchaseButton && (errorCode == 400 || errorCode == 409))
+        if(pressedRestorePurchaseButton && errorCode == 400)
             MessageBox::createWith(ERROR_CODE_APPLE_NO_PREVIOUS_PURCHASE, nullptr);
-        else if(errorCode == 409)
-            LoginLogicHandler::getInstance()->doLoginLogic();
-        else if(errorCode == 400)
+        else if(pressedRestorePurchaseButton && errorCode == 409)
+            doublePurchaseMessage();
+        else if(errorCode == 409 || errorCode == 400)
             LoginLogicHandler::getInstance()->doLoginLogic();
         else
             MessageBox::createWith(ERROR_CODE_APPLE_SUB_REFRESH_FAIL, this);

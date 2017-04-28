@@ -18,6 +18,7 @@ HttpRequestCreator::HttpRequestCreator(HttpRequestCreatorResponseDelegate* deleg
 
 void HttpRequestCreator::execute()
 {
+    amountOfFails = 0;
     createHttpRequest();
 }
 
