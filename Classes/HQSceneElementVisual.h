@@ -33,6 +33,8 @@ private:
     void addTouchOverlayToElement();
     void addLockToElement();
     
+    bool shouldDisplayVisualElementsOverImage(cocos2d::Vec2 shape,std::string type);
+    
     void onExitTransitionDidStart();
     void onExit();
     

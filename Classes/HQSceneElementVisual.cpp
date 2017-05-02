@@ -52,25 +52,28 @@ bool HQSceneElementVisual::init()
 
 cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay, bool createForOffline) //This method is being called by HQScene.cpp with all variables.
 {
-    isOffline = createForOffline;
-    
-    resizeSceneElement(shape, category);
-    createColourLayer(category, delay / 10);
     
     
     std::string itemid = itemData["id"];
     std::string entitled = itemData["entitled"];
     
     elementUrl = HQDataProvider::getInstance()->getImageUrlForItem(itemid, shape);
-    elementType = itemData["type"];
     elementShape = shape;
+    elementType = itemData["type"];
+    
+    bool includeVisualsOverImage = shouldDisplayVisualElementsOverImage(shape, elementType);
+    isOffline = createForOffline;
+    
+    resizeSceneElement(shape, category);
+    
+    createColourLayer(category, delay / 10);
     
     auto funcCallAction = CallFunc::create([=](){
     
         if(!aboutToExit) addImageDownloader();
-        if(!aboutToExit) addGradientToBottom(category);
+        if(!aboutToExit && includeVisualsOverImage) addGradientToBottom(category);
     
-        if(!aboutToExit)
+        if(!aboutToExit && includeVisualsOverImage)
         {
             auto iconSprite = addIconToImage(category);
             if(!isOffline)
@@ -129,8 +132,8 @@ void HQSceneElementVisual::addGradientToBottom(std::string category)
         iconScaleFactor = 1.8;
     
     auto gradient = Sprite::create(ConfigStorage::getInstance()->getGradientImageForCategory(category));
-    gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2 * iconScaleFactor);
-    gradient->setScaleX(baseLayer->getContentSize().width / gradient->getContentSize().width);
+    gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2 * iconScaleFactor +10);
+    gradient->setScaleX((baseLayer->getContentSize().width -20) / gradient->getContentSize().width);
     gradient->setScaleY(iconScaleFactor);
     gradient->setColor(gradientColour);
     baseLayer->addChild(gradient);
@@ -191,7 +194,7 @@ void HQSceneElementVisual::createColourLayer(std::string category, float delay)
     Color4B colour = configStorage->getBaseColourForContentItemInCategory(category);
     Size size = Size(this->getContentSize().width - 20, this->getContentSize().height - 20);
     
-    baseLayer = LayerColor::create(colour, size.width, size.height);
+    baseLayer = LayerColor::create(Color4B::BLACK, size.width, size.height);
     baseLayer->setPosition(10, 10);
     baseLayer->setOpacity(0);
     
@@ -210,6 +213,16 @@ void HQSceneElementVisual::reduceLabelTextToFitWidth(Label* label,float maxWidth
 
         label->setString(StringUtils::format("%s...",labelText.c_str()));
     }
+}
+
+bool HQSceneElementVisual::shouldDisplayVisualElementsOverImage(cocos2d::Vec2 shape,std::string type)
+{
+    if(shape.x == 1 && shape.y == 1)
+        return true;
+    else if(type == "VIDEO" || type =="GROUP")
+        return false;
+    else
+        return true;
 }
 
 void HQSceneElementVisual::onExitTransitionDidStart()
