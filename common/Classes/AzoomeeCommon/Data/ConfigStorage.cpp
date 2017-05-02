@@ -31,9 +31,6 @@ bool ConfigStorage::init(void)
 {
     inArtsApp = 0;
     
-    visualOrigin = Director::getInstance()->getVisibleOrigin();
-    visualSize = Director::getInstance()->getVisibleSize();
-    
     BaseSceneConfiguration = parseJsonConfigurationFile("BaseSceneConfiguration.json");
     HQSceneConfiguration = parseJsonConfigurationFile("HQSceneConfiguration.json");
     ImageContainerConfiguration = parseJsonConfigurationFile("ImageContainerConfiguration.json");
@@ -231,6 +228,9 @@ cocos2d::Point ConfigStorage::getCirclePositionForMenuItem(int itemNumber)
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(int itemNumber)
 {
+    cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
+    cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
+    
     float x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
     float y = visualOrigin.y + visualSize.height + NavigationConfiguration["horizontalYPositionsForMenuItems"].GetDouble();
     
@@ -244,6 +244,9 @@ float ConfigStorage::getHorizontalMenuItemsHeight()
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(int itemNumber)
 {
+    cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
+    cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
+    
     float x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
     float y = visualOrigin.y + visualSize.height + NavigationConfiguration["horizontalYPositionsForMenuItemsInGroupHQ"].GetDouble();
     

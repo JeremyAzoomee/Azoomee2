@@ -100,8 +100,6 @@ private:
     rapidjson::Document VersionConfiguration;
     rapidjson::Document IapConfiguration;
     
-    cocos2d::Point visualOrigin;
-    cocos2d::Size visualSize;
 };
   
 }
