@@ -52,8 +52,6 @@ bool HQSceneElementVisual::init()
 
 cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay, bool createForOffline) //This method is being called by HQScene.cpp with all variables.
 {
-    
-    
     std::string itemid = itemData["id"];
     std::string entitled = itemData["entitled"];
     
@@ -148,9 +146,16 @@ Sprite* HQSceneElementVisual::addIconToImage(std::string category)
     if(isOffline)
         iconScaleFactor = 2;
     
+    float audioHeightOffset = 15;
+    
+    if(category == "VIDEO HQ")
+        audioHeightOffset = 0;
+    
     auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category));
     icon->setAnchorPoint(Vec2(0.5, 0.5));
-    icon->setPosition(icon->getContentSize().width * iconScaleFactor,icon->getContentSize().height * iconScaleFactor);
+    
+    float heightTest = (icon->getContentSize().height * iconScaleFactor) + audioHeightOffset;
+    icon->setPosition(icon->getContentSize().width * iconScaleFactor,heightTest);
     icon->setScale(iconScaleFactor);
     baseLayer->addChild(icon);
     
