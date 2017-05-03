@@ -148,7 +148,7 @@ Sprite* HQSceneElementVisual::addIconToImage(std::string category)
     
     float audioHeightOffset = 15;
     
-    if(category == "VIDEO HQ")
+    if(category == "VIDEO HQ" || category == "GROUP HQ")
         audioHeightOffset = 0;
     
     auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category));
