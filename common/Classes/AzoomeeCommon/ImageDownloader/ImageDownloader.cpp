@@ -18,7 +18,7 @@ bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size
     {
         return false;
     }
-    
+
     identifier = CCRANDOM_0_1() * 1000 + 1000;
     
     this->setCascadeOpacityEnabled(true);
@@ -43,6 +43,11 @@ bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, coco
     imageDownloaderLogic->groupLogo = true;
     
     return true;
+}
+    
+void ImageDownloader::setNewBadgeToImage()
+{
+    shouldAddNewBadgeToImage = true;
 }
 
 void ImageDownloader::onEnter()
@@ -112,11 +117,25 @@ void ImageDownloader::imageAddedToCache(Texture2D* resulting_texture)
         finalImage->setScaleX(holderContentSize.width / finalImage->getContentSize().width);
         finalImage->setScaleY(holderContentSize.height / finalImage->getContentSize().height);
         
-        if(!aboutToExit) this->addChild(finalImage);
         loadedImage = finalImage;
+        
+        if(shouldAddNewBadgeToImage)
+            addNewBadgeToLoadedImage();
+        if(!aboutToExit) this->addChild(loadedImage);
         
         finalImage->runAction(FadeIn::create(0.1));
     }
+}
+    
+void ImageDownloader::addNewBadgeToLoadedImage()
+{
+    auto newBadge = Sprite::create("res/hqscene/newIcon2X2.png");
+    newBadge->setAnchorPoint(Vec2(0.0, 0.5));
+    newBadge->setPosition(0, loadedImage->getContentSize().height - newBadge->getContentSize().height *.75);
+    newBadge->setOpacity(0);
+    loadedImage->addChild(newBadge);
+    
+    newBadge->runAction(FadeIn::create(0.1));
 }
 
 void ImageDownloader::addDownloadedImage(std::string fileName)

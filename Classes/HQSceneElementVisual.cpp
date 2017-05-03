@@ -97,7 +97,6 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
                 addLabelsToImage(iconSprite);
         }
         
-        if(!aboutToExit) addNewBadgeToImage();
         if((elementItemDataMap["entitled"] != "true")||(!ChildDataProvider::getInstance()->getIsChildLoggedIn()))
         {
             if(!aboutToExit) addLockToElement();
@@ -116,6 +115,10 @@ void HQSceneElementVisual::addImageDownloader()
     ImageDownloader *imageDownloader = ImageDownloader::create();
     imageDownloader->initWithURLAndSize(elementUrl, elementItemDataMap["type"], Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), elementShape);
     imageDownloader->setPosition(baseLayer->getContentSize() / 2);
+    
+    if(elementItemDataMap["newFlag"] == "true")
+        imageDownloader->setNewBadgeToImage();
+    
     baseLayer->addChild(imageDownloader);
 }
 
@@ -177,17 +180,6 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
     titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
     reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
     baseLayer->addChild(titleLabel);
-}
-
-void HQSceneElementVisual::addNewBadgeToImage()
-{
-    if(elementItemDataMap["newFlag"] == "false")
-        return;
-    
-    auto newBadge = Sprite::create("res/hqscene/newIcon2X2.png");
-    newBadge->setAnchorPoint(Vec2(0.0, 0.5));
-    newBadge->setPosition(0, baseLayer->getContentSize().height - newBadge->getContentSize().height *.75);
-    baseLayer->addChild(newBadge);
 }
 
 void HQSceneElementVisual::addLockToElement()
