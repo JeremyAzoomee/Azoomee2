@@ -85,6 +85,8 @@ cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, st
             if(!aboutToExit) addLockToElement();
         }
         
+        if(!aboutToExit) addNewBadgeToImage(itemData);
+        
     });
      
     
@@ -153,9 +155,7 @@ Sprite* HQSceneElementVisual::addIconToImage(std::string category)
     
     auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(category));
     icon->setAnchorPoint(Vec2(0.5, 0.5));
-    
-    float heightTest = (icon->getContentSize().height * iconScaleFactor) + audioHeightOffset;
-    icon->setPosition(icon->getContentSize().width * iconScaleFactor,heightTest);
+    icon->setPosition(icon->getContentSize().width * iconScaleFactor,(icon->getContentSize().height * iconScaleFactor) + audioHeightOffset);
     icon->setScale(iconScaleFactor);
     baseLayer->addChild(icon);
     
@@ -177,6 +177,17 @@ void HQSceneElementVisual::addLabelsToImage(std::map<std::string, std::string>it
     titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
     reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
     baseLayer->addChild(titleLabel);
+}
+
+void HQSceneElementVisual::addNewBadgeToImage(std::map<std::string, std::string>itemData)
+{
+    if(itemData["newFlag"] == "false")
+        return;
+    
+    auto newBadge = Sprite::create("res/hqscene/newIcon2X2.png");
+    newBadge->setAnchorPoint(Vec2(0.0, 0.5));
+    newBadge->setPosition(0, baseLayer->getContentSize().height - newBadge->getContentSize().height *.75);
+    baseLayer->addChild(newBadge);
 }
 
 void HQSceneElementVisual::addTouchOverlayToElement()

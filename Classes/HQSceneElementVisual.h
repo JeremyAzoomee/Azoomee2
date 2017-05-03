@@ -25,8 +25,7 @@ private:
     void addGradientToBottom(std::string category);
     cocos2d::Sprite* addIconToImage(std::string category);
     void addLabelsToImage(std::map<std::string, std::string>itemData, cocos2d::Sprite* nextToIcon);
-    
-    cocos2d::Size getSizeOfLayerWithGap();
+    void addNewBadgeToImage(std::map<std::string, std::string>itemData);
     
     std::map<std::string, int> category_translator;
     
