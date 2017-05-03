@@ -85,13 +85,9 @@ bool HQDataParser::parseHQData(std::string responseString, const char *category)
                 else elementProperty["entitled"] = "false";
             }
             
+            elementProperty["newFlag"] = "false";
             if(!contentData["items"][key]["newFlag"].IsNull())
-            {
                 if(contentData["items"][key]["newFlag"].GetBool()) elementProperty["newFlag"] = "true";
-                else elementProperty["newFlag"] = "false";
-            }
-            
-            //newFlag
             
             HQElements.push_back(elementProperty);
         }

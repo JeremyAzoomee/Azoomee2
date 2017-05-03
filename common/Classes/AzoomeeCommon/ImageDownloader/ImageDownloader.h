@@ -23,7 +23,7 @@ public:
     void startLoadingImage();
     void removeLoadedImage();
     
-    void setNewBadgeToImage();
+    void setAttachNewBadgeToImage();
     
 private:
     void addPlaceHolderImage(std::string type, cocos2d::Size contentSize, cocos2d::Vec2 shape);

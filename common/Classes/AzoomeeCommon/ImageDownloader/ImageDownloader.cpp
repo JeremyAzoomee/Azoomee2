@@ -45,7 +45,7 @@ bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, coco
     return true;
 }
     
-void ImageDownloader::setNewBadgeToImage()
+void ImageDownloader::setAttachNewBadgeToImage()
 {
     shouldAddNewBadgeToImage = true;
 }
