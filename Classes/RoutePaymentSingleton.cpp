@@ -49,7 +49,6 @@ void RoutePaymentSingleton::startInAppPayment()
     ModalMessages::getInstance()->startLoading();
     if(osIsIos())
     {
-        Azoomee::AnalyticsSingleton::getInstance()->registerIAPOS("iOS");
         #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
             ApplePaymentSingleton::getInstance()->startIAPPayment();
         #endif
@@ -58,14 +57,12 @@ void RoutePaymentSingleton::startInAppPayment()
     
     if(osIsAndroid())
     {
-        Azoomee::AnalyticsSingleton::getInstance()->registerIAPOS("Google");
         GooglePaymentSingleton::getInstance()->startIABPayment();
         return;
     }
     
     if(osIsAmazon())
     {
-        Azoomee::AnalyticsSingleton::getInstance()->registerIAPOS("Amazon");
         AmazonPaymentSingleton::getInstance()->startIAPPayment();
         return;
     }

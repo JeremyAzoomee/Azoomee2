@@ -8,6 +8,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
 #include "LoginLogicHandler.h"
+#include "RoutePaymentSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -90,18 +91,22 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     auto scene = IntroVideoScene::createScene();
     director->runWithScene(scene);
+    
+    RoutePaymentSingleton::getInstance();
 
     return true;
 }
 
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
 void AppDelegate::applicationDidEnterBackground() {
+    AnalyticsSingleton::getInstance()->enteredBackgroundEvent();
     Director::getInstance()->stopAnimation();
     Director::getInstance()->pause();
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
+    AnalyticsSingleton::getInstance()->enteredForegroundEvent();
     Director::getInstance()->stopAnimation();
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
