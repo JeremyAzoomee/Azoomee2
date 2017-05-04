@@ -29,7 +29,7 @@ private:
     bool findFileInLocalCache(std::string fileName);
     void downloadFileFromServer(std::string url);
     void downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
-    bool saveFileToServer(std::string data, std::string fileName);
+    bool saveFileToDevice(std::string data, std::string fileName);
     void loadFileFromLocalCacheAsync(std::string fileName);
     void removeLoadingAnimation();
     bool imageUpdateRequired(std::string fileName);

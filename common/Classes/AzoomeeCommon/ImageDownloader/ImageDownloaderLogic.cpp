@@ -104,9 +104,9 @@ void ImageDownloaderLogic::downloadFileFromServerAnswerReceived(cocos2d::network
             responseString = std::string(myResponse.begin(), myResponse.end());
             
             std::string fileName = getFileNameFromURL(response->getHttpRequest()->getUrl());
-            if(saveFileToServer(responseString, fileName))
+            if(saveFileToDevice(responseString, fileName))
             {
-                saveFileToServer(StringUtils::format("%ld", time(NULL)), "time.stmp");
+                saveFileToDevice(StringUtils::format("%ld", time(NULL)), "time.stmp");
                 loadFileFromLocalCacheAsync(fileName);
                 downloadRequest->release();
                 return;
@@ -131,7 +131,7 @@ void ImageDownloaderLogic::removeLoadingAnimation()
     }
 }
 
-bool ImageDownloaderLogic::saveFileToServer(std::string data, std::string fileName)
+bool ImageDownloaderLogic::saveFileToDevice(std::string data, std::string fileName)
 {
     if(!fileUtils->isDirectoryExist(imageCachePath))
     {
