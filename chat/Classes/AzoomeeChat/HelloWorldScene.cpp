@@ -97,7 +97,7 @@ void HelloWorldScene::onExit()
 void HelloWorldScene::onWindowChanged(cocos2d::EventCustom* event)
 {
     cocos2d::Size visibleSize = getContentSize();
-    cocos2d::log( "onWindowChanged: %f, %f", visibleSize.width, visibleSize.height );
+    cocos2d::log("onWindowChanged: %f, %f", visibleSize.width, visibleSize.height);
     
     _parentLayout->setContentSize(visibleSize);
 }

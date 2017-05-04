@@ -12,6 +12,8 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
+		301849861EBB84A1005B994A /* Friend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849841EBB84A1005B994A /* Friend.cpp */; };
+		3018498B1EBB926B005B994A /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849891EBB926B005B994A /* Message.cpp */; };
 		304410571E9D001E00B7F383 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304410551E9D001E00B7F383 /* AppDelegate.cpp */; };
 		304410581E9D13E800B7F383 /* libAzoomeeCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304410451E9CFFA100B7F383 /* libAzoomeeCommon.a */; };
 		304410591E9D13E800B7F383 /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3044103E1E9CFF9300B7F383 /* libcocos2d iOS.a */; };
@@ -127,6 +129,10 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
+		301849841EBB84A1005B994A /* Friend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Friend.cpp; sourceTree = "<group>"; };
+		301849851EBB84A1005B994A /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
+		301849891EBB926B005B994A /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
+		3018498A1EBB926B005B994A /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		304410551E9D001E00B7F383 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		304410561E9D001E00B7F383 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		304410631E9D18E600B7F383 /* libAzoomeeChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeChat.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -329,6 +335,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		301849831EBB84A1005B994A /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				301849891EBB926B005B994A /* Message.cpp */,
+				3018498A1EBB926B005B994A /* Message.h */,
+				301849841EBB84A1005B994A /* Friend.cpp */,
+				301849851EBB84A1005B994A /* Friend.h */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		304410361E9CFF9300B7F383 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +367,7 @@
 		304410811E9D268800B7F383 /* AzoomeeChat */ = {
 			isa = PBXGroup;
 			children = (
+				301849831EBB84A1005B994A /* Data */,
 				304E501D1EB357E000D077E3 /* AzoomeeChat.h */,
 				304E50151EB352AD00D077E3 /* ChatAPI.cpp */,
 				304E50161EB352AD00D077E3 /* ChatAPI.h */,
@@ -610,7 +628,9 @@
 			files = (
 				304E50191EB352AD00D077E3 /* ChatAPI.cpp in Sources */,
 				304E501A1EB352AD00D077E3 /* ChatTestScene.cpp in Sources */,
+				301849861EBB84A1005B994A /* Friend.cpp in Sources */,
 				304410841E9D268800B7F383 /* HelloWorldScene.cpp in Sources */,
+				3018498B1EBB926B005B994A /* Message.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

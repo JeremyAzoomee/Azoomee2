@@ -1,5 +1,5 @@
-#ifndef AzoomeeChat_Friend_h
-#define AzoomeeChat_Friend_h
+#ifndef AzoomeeChat_Message_h
+#define AzoomeeChat_Message_h
 
 #include "../AzoomeeChat.h"
 #include <external/json/document.h>
@@ -10,31 +10,37 @@
 NS_AZOOMEE_CHAT_BEGIN
 
 // forward decleration
-class Friend;
-typedef std::shared_ptr<Friend> FriendRef;
-typedef std::vector<FriendRef> FriendList;
+class Message;
+typedef std::shared_ptr<Message> MessageRef;
+typedef std::vector<MessageRef> MessageList;
 
 /**
- * A friend is a contact in the chat list.
+ * A Message is a contact in the chat list.
  */
-class Friend
+class Message
 {
 private:
     
-    std::string _friendId;
-    std::string _friendName;
-    std::string _avatarURL;
+    std::string _messageId;
+    std::string _messageType;
+    std::string _messageText;
+    std::string _senderId;
+    std::string _recipientId;
+    uint64_t _timestamp;
     
     // no direct construction
-    Friend();
+    Message();
     
 public:
     
-    static FriendRef createFromJson(const rapidjson::Value& json);
+    static MessageRef createFromJson(const rapidjson::Value& json);
     
-    std::string friendId() const;
-    std::string friendName() const;
-    std::string avatarURL() const;
+    std::string messageId() const;
+    std::string messageType() const;
+    std::string messageText() const;
+    std::string senderId() const;
+    std::string recipientId() const;
+    uint64_t timestamp() const;
 };
 
 NS_AZOOMEE_CHAT_END

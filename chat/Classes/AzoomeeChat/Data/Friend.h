@@ -1,10 +1,18 @@
-#ifndef AzoomeeChat_FriendDataModel_h
-#define AzoomeeChat_FriendDataModel_h
+#ifndef AzoomeeChat_Friend_h
+#define AzoomeeChat_Friend_h
 
-#include "AzoomeeChat.h"
+#include "../AzoomeeChat.h"
+#include <external/json/document.h>
+#include <string>
+#include <memory>
 
 
 NS_AZOOMEE_CHAT_BEGIN
+
+// forward decleration
+class Friend;
+typedef std::shared_ptr<Friend> FriendRef;
+typedef std::vector<FriendRef> FriendList;
 
 /**
  * A friend is a contact in the chat list.
@@ -13,17 +21,20 @@ class Friend
 {
 private:
     
-    std::string friendId;
-    std::string friendName;
-    std::string avatarURL;
-    "friendId":"9d2bb8a5-ab3c-41ce-bfca-bcf2c9e4a3cb",
-    //   "friendName":"mitch",
-    //   "avatar":null,
-    //   "unreadMessages":0
+    std::string _friendId;
+    std::string _friendName;
+    std::string _avatarURL;
+    
+    // no direct construction
+    Friend();
     
 public:
     
-    ;
+    static FriendRef createFromJson(const rapidjson::Value& json);
+    
+    std::string friendId() const;
+    std::string friendName() const;
+    std::string avatarURL() const;
 };
 
 NS_AZOOMEE_CHAT_END
