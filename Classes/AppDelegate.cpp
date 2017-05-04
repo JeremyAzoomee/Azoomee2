@@ -8,6 +8,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
 #include "LoginLogicHandler.h"
+#include "RoutePaymentSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -90,6 +91,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     auto scene = IntroVideoScene::createScene();
     director->runWithScene(scene);
+    
+    RoutePaymentSingleton::getInstance();
 
     return true;
 }

@@ -8,7 +8,6 @@
 #include <AzoomeeCommon/Strings.h>
 #include "ChildAccountSuccessScene.h"
 #include "LoginLogicHandler.h"
-#include "RoutePaymentSingleton.h"
 
 using namespace Azoomee;
 
@@ -94,8 +93,6 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
 void IntroVideoScene::navigateToNextScene()
 {
     this->stopActionByTag(3);
-    
-    RoutePaymentSingleton::getInstance();
     
     videoPlayer->setVisible(false);
     AnalyticsSingleton::getInstance()->registerAppVersion();
