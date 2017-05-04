@@ -1,5 +1,7 @@
 #include "DeepLinkingSingleton.h"
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
+using namespace Azoomee;
     
 static DeepLinkingSingleton *_sharedDeepLinkingSingleton = NULL;
 
@@ -23,11 +25,58 @@ bool DeepLinkingSingleton::init(void)
     return true;
 }
 
-void DeepLinkingSingleton::setDeepLink(std::string Host, std::string Path)
+void DeepLinkingSingleton::setDeepLink(std::string UriString)
 {
-    CCLOG("HOST:%s | PATH:%s",Host.c_str(),Path.c_str());
+    CCLOG("DEEPLINK URI:%s",UriString.c_str());
+    
+    setHostandPath(UriString);
     
     
+
+}
+
+void DeepLinkingSingleton::resetDeepLink()
+{
+    Host = "";
+    Path = "";
+}
+
+void DeepLinkingSingleton::setHostandPath(std::string UriString)
+{
+    std::vector<std::string> SplitByAzoomeVector = splitStringToVector(stringToLower(UriString), "azoomee://");
+    
+    if(SplitByAzoomeVector.size() == 0 || SplitByAzoomeVector.size() > 2)
+    {
+        resetDeepLink();
+        return;
+    }
+    
+    std::string UriStringWhole = SplitByAzoomeVector.at(0);
+    
+    if(SplitByAzoomeVector.size() == 2)
+        std::string UriStringWhole = SplitByAzoomeVector.at(1);
+    
+    std::vector<std::string>  SplitByForwardSlash = splitStringToVector(UriStringWhole, "/");
+    
+    if(SplitByForwardSlash.size() != 2)
+    {
+        resetDeepLink();
+        return;
+    }
+    
+    Host = SplitByForwardSlash.at(0);
+    Path = SplitByForwardSlash.at(1);
+}
+
+void DeepLinkingSingleton::actionDeepLink()
+{
+    if(Host == "" | Path == "")
+        return;
+    
+    if(Host == "content")
+    {
+        //backendcaller to get the latest content details based on path.
+    }
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -44,7 +93,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_DeepLink_sendDeepLinkToCPP(JNIEnv* 
     
     const char* cURIString = env->GetStringUTFChars(URIString, NULL);
     
-    DeepLinkingSingleton::getInstance()->setDeepLink("",std::string(cURIString));
+    DeepLinkingSingleton::getInstance()->setDeepLink(std::string(cURIString));
     
 }
 

@@ -6,14 +6,19 @@
 class DeepLinkingSingleton : public cocos2d::Ref
 {
 private:
-
+    std::string Host;
+    std::string Path;
+    
+    void setHostandPath(std::string UriString);
+    void actionDeepLink();
     
 public:
     static DeepLinkingSingleton* getInstance(void);
     virtual ~DeepLinkingSingleton();
     bool init(void);
     
-    void setDeepLink(std::string Host, std::string Path);
+    void setDeepLink(std::string UriString);
+    void resetDeepLink();
     
 };
 
