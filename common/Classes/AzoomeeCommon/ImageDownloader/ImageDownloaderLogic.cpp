@@ -21,13 +21,31 @@ void ImageDownloaderLogic::startProcessingImage(cocos2d::Node *sender, std::stri
     
     if(findFileInLocalCache(fileName))
     {
-        loadFileFromLocalCacheAsync(fileName);
+        if(imageUpdateRequired(fileName))
+        {
+            fileUtils->removeDirectory(imageIdPath);
+            downloadFileFromServer(url);
+        }
+        else loadFileFromLocalCacheAsync(fileName);
     }
     else
     {
         downloadFileFromServer(url);
     }
 
+}
+    
+bool ImageDownloaderLogic::imageUpdateRequired(std::string fileName)
+{
+    std::string timeStampFilePath = imageIdPath + "time.stmp";
+    if(!fileUtils->isFileExist(timeStampFilePath)) return true;
+    
+    long timeStamp = std::atoi(fileUtils->getStringFromFile(timeStampFilePath).c_str());
+    long currentTimeStamp = time(NULL);
+    
+    if(currentTimeStamp - timeStamp > 604800) return true;
+    
+    return false;
 }
 
 std::string ImageDownloaderLogic::getFileNameFromURL(std::string url)
@@ -88,6 +106,7 @@ void ImageDownloaderLogic::downloadFileFromServerAnswerReceived(cocos2d::network
             std::string fileName = getFileNameFromURL(response->getHttpRequest()->getUrl());
             if(saveFileToServer(responseString, fileName))
             {
+                saveFileToServer(StringUtils::format("%ld", time(NULL)), "time.stmp");
                 loadFileFromLocalCacheAsync(fileName);
                 downloadRequest->release();
                 return;
