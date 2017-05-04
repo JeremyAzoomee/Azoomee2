@@ -421,6 +421,15 @@ void AnalyticsSingleton::introVideoTimedOutError(std::string errorMessage)
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
+    
+void AnalyticsSingleton::enteredBackgroundEvent()
+{
+    mixPanelSendEvent("enteredBackgroundEvent");
+}
+void AnalyticsSingleton::enteredForegroundEvent()
+{
+    mixPanelSendEvent("enteredForegroundEvent");
+}
 
 //---------------IAP ACTIONS------------------
   

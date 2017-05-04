@@ -96,12 +96,14 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
 void AppDelegate::applicationDidEnterBackground() {
+    AnalyticsSingleton::getInstance()->enteredBackgroundEvent();
     Director::getInstance()->stopAnimation();
     Director::getInstance()->pause();
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
+    AnalyticsSingleton::getInstance()->enteredForegroundEvent();
     Director::getInstance()->stopAnimation();
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();

@@ -100,6 +100,8 @@ public:
     void messageBoxShowEvent(std::string messageTitle);
     void localisedStringErrorEvent(std::string stringRequested, std::string languageUsed);
     void introVideoTimedOutError(std::string errorMessage);
+    void enteredBackgroundEvent();
+    void enteredForegroundEvent();
     
     //---------------IAP ACTIONS------------------
     void displayIAPUpsaleEvent(std::string fromLocation);
