@@ -30,7 +30,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import <Mixpanel/Mixpanel.h>
 #import <AppsFlyerLib/AppsFlyerTracker.h>
-#include <AzoomeeCommon/DeepLinking/DeepLinkingSingleton.h>
+#import "../../Classes/DeepLinkingSingleton.h"
 
 @implementation AppController
 
@@ -135,7 +135,7 @@ static AppDelegate s_sharedApplication;
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
 
     if([url host] && [url path])
-        Azoomee::DeepLinkingSingleton::getInstance()->setDeepLink(std::string([[url host] UTF8String]), std::string([[url path] UTF8String]));
+        DeepLinkingSingleton::getInstance()->setDeepLink(std::string([[url host] UTF8String]), std::string([[url path] UTF8String]));
     
     return YES;
 }

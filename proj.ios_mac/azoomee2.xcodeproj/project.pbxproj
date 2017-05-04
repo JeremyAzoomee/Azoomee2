@@ -72,6 +72,7 @@
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
 		433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
 		433FA7F61E7AA9C400A8C27F /* IAPUpsaleLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 433FA7F41E7AA9C400A8C27F /* IAPUpsaleLayer.cpp */; };
+		4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4343CB9A1EBB826600247549 /* DeepLinkingSingleton.cpp */; };
 		4348E4431E65DD9B00486661 /* OnboardingSuccessScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */; };
 		434B8BD31E6821A4004C7C88 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */; };
 		434B8BD61E689C29004C7C88 /* ChildAccountSuccessScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B8BD41E689C29004C7C88 /* ChildAccountSuccessScene.cpp */; };
@@ -294,6 +295,8 @@
 		433AD3061E252A2C003757AD /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		433FA7F41E7AA9C400A8C27F /* IAPUpsaleLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPUpsaleLayer.cpp; sourceTree = "<group>"; };
 		433FA7F51E7AA9C400A8C27F /* IAPUpsaleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPUpsaleLayer.h; sourceTree = "<group>"; };
+		4343CB9A1EBB826600247549 /* DeepLinkingSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeepLinkingSingleton.cpp; sourceTree = "<group>"; };
+		4343CB9B1EBB826600247549 /* DeepLinkingSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepLinkingSingleton.h; sourceTree = "<group>"; };
 		4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingSuccessScene.cpp; sourceTree = "<group>"; };
 		4348E4421E65DD9B00486661 /* OnboardingSuccessScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingSuccessScene.h; sourceTree = "<group>"; };
 		434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingScene.cpp; sourceTree = "<group>"; };
@@ -728,6 +731,8 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4343CB9A1EBB826600247549 /* DeepLinkingSingleton.cpp */,
+				4343CB9B1EBB826600247549 /* DeepLinkingSingleton.h */,
 				02E595821E55DE5E0052F395 /* Offline */,
 				4323120D1E1D4DC500C8606D /* Utilities */,
 				A1CC0C261E156882008B469E /* Intro */,
@@ -1122,6 +1127,7 @@
 				434B8BD61E689C29004C7C88 /* ChildAccountSuccessScene.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
+				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
