@@ -39,7 +39,8 @@ bool NavigationLayer::init()
     {
         return false;
     }
-    ModalMessages::getInstance()->showMixpanelNotification();
+    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        ModalMessages::getInstance()->showMixpanelNotification();
     
     AudioMixer::getInstance()->playOomeeIdleSounds(true);
     
