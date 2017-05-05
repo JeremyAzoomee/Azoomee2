@@ -21,6 +21,7 @@
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
 #include "RoutePaymentSingleton.h"
+#include "DeepLinkingSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -319,6 +320,13 @@ void BackEndCaller::getHQContent(const std::string& url, const std::string& cate
     }
 }
 
+// DEEPLINK CONTENT DETAILS REQUEST ----------------------------------------------------------------
+void BackEndCaller::getContentItemDetails(const std::string& requestId, const std::string& contentID)
+{
+    HttpRequestCreator* request = API::GetEncryptedGetContentItemDetails(requestId, contentID, this);
+    request->execute();
+}
+
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
@@ -353,6 +361,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == "PreviewHOME")
     {
         HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(body);
+    }
+    else if(requestTag == "deepLinkContentRequest")
+    {
+        DeepLinkingSingleton::getInstance()->contentDetailsResponse(body);
     }
     else if(requestTag == "updateBilling")
     {

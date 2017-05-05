@@ -61,6 +61,9 @@ public:
                                                        const std::string& category,
                                                        HttpRequestCreatorResponseDelegate* delegate);
     
+    static HttpRequestCreator* GetEncryptedGetContentItemDetails(const std::string& requestId, const std::string& contentID,
+                                                                     HttpRequestCreatorResponseDelegate* delegate);
+    
     
     
 };

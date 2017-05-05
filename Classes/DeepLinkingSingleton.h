@@ -12,6 +12,8 @@ private:
     void setHostandPath(std::string UriString);
     void actionDeepLink();
     
+    void completeContentAction(std::string type,std::string uri);
+    
 public:
     static DeepLinkingSingleton* getInstance(void);
     virtual ~DeepLinkingSingleton();
@@ -19,6 +21,8 @@ public:
     
     void setDeepLink(std::string UriString);
     void resetDeepLink();
+    
+    void contentDetailsResponse(std::string responseBody);
     
 };
 

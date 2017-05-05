@@ -133,9 +133,9 @@ static AppDelegate s_sharedApplication;
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-
-    if([url host] && [url path])
-        DeepLinkingSingleton::getInstance()->setDeepLink(std::string([[url host] UTF8String]), std::string([[url path] UTF8String]));
+    
+    if(url)
+        DeepLinkingSingleton::getInstance()->setDeepLink(std::string([[url absoluteString] UTF8String]));
     
     return YES;
 }

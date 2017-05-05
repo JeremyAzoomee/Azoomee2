@@ -83,8 +83,8 @@ public:
     void verifyApplePayment(const std::string& receiptData);
     // Get HQ content
     void getHQContent(const std::string& url, const std::string& category);
-    
-    
+    // Get Single Content Details
+    void getContentItemDetails(const std::string& requestId, const std::string& contentID);
 };
 
 #endif
