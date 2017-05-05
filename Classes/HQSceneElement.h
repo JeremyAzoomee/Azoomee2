@@ -12,12 +12,23 @@ public:
     CREATE_FUNC(HQSceneElement);
     static cocos2d::Scene* createScene();
     virtual bool init();
-    void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape, float delay);
+    
+    void setCategory(std::string category);
+    void setItemData(std::map<std::string, std::string> itemData);
+    void setElementRow(int rowNumber);
+    void setElementIndex(int index);
+    
+    void addHQSceneElement();
     
 private:
+    std::string elementCategory;
+    std::map<std::string, std::string> elementItemData;
+    int elementRowNumber;
+    int elementIndex;
+    
     HQSceneElementVisual* elementVisual;
-    void addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview, std::string entitled, bool IAPEnabled);
-    void startUpElementDependingOnType(std::string uri, std::string contentId, std::string category);
+    void addListenerToElement();
+    void startUpElementDependingOnType();
     
     cocos2d::Point touchPoint;
     bool movedAway;

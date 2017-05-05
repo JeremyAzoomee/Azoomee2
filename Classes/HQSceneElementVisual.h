@@ -11,20 +11,34 @@ public:
     CREATE_FUNC(HQSceneElementVisual);
     static cocos2d::Scene* createScene();
     virtual bool init();
-    cocos2d::Layer* addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape, float delay, bool createForOffline);
+    
+    void setCategory(std::string category);
+    void setItemData(std::map<std::string, std::string> itemData);
+    void setShape(cocos2d::Vec2 shape);
+    void setDelay(float delay);
+    void setCreatedForOffline(bool createdForOffline);
+    
+    cocos2d::Layer* createHQSceneElement();
     
     cocos2d::LayerColor *baseLayer;
     cocos2d::LayerColor *overlayWhenTouched;
     
 private:
+    std::string elementCategory;
+    std::map<std::string, std::string> elementItemData;
+    cocos2d::Vec2 elementShape;
+    float elementDelay;
+    bool elementCreatedForOffline;
+    std::string elementUrl;
+    
     cocos2d::Sprite* downloadedImage;
     void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth);
-    void resizeSceneElement(cocos2d::Vec2 shape, std::string category);
-    void createColourLayer(std::string category, float delay);
+    void resizeSceneElement();
+    void createColourLayer();
     void addImageDownloader();
-    void addGradientToBottom(std::string category);
-    cocos2d::Sprite* addIconToImage(std::string category);
-    void addLabelsToImage(std::map<std::string, std::string>itemData, cocos2d::Sprite* nextToIcon);
+    void addGradientToBottom();
+    cocos2d::Sprite* addIconToImage();
+    void addLabelsToImage(cocos2d::Sprite* nextToIcon);
     
     cocos2d::Size getSizeOfLayerWithGap();
     
@@ -38,10 +52,6 @@ private:
     
     bool aboutToExit;
     bool isOffline;
-    
-    std::string elementUrl;
-    std::string elementType;
-    cocos2d::Vec2 elementShape;
 };
 
 #endif
