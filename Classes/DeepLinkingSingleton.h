@@ -10,9 +10,9 @@ private:
     std::string Path;
     
     void setHostandPath(std::string UriString);
-    void actionDeepLink();
     
     void completeContentAction(std::string type,std::string uri);
+    void resetDeepLink();
     
 public:
     static DeepLinkingSingleton* getInstance(void);
@@ -20,8 +20,7 @@ public:
     bool init(void);
     
     void setDeepLink(std::string UriString);
-    void resetDeepLink();
-    
+    void actionDeepLink();
     void contentDetailsResponse(std::string responseBody);
     
 };

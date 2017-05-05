@@ -30,6 +30,7 @@ DeepLinkingSingleton::~DeepLinkingSingleton(void)
 
 bool DeepLinkingSingleton::init(void)
 {
+    resetDeepLink();
     return true;
 }
 
@@ -37,10 +38,9 @@ void DeepLinkingSingleton::setDeepLink(std::string UriString)
 {
     CCLOG("DEEPLINK URI:%s",UriString.c_str());
     
+    resetDeepLink();
     setHostandPath(UriString);
-    
-    
-
+    actionDeepLink();
 }
 
 void DeepLinkingSingleton::resetDeepLink()
@@ -74,8 +74,6 @@ void DeepLinkingSingleton::setHostandPath(std::string UriString)
     
     Host = SplitByForwardSlash.at(0);
     Path = SplitByForwardSlash.at(1);
-    
-    actionDeepLink();
 }
 
 void DeepLinkingSingleton::actionDeepLink()
@@ -84,55 +82,7 @@ void DeepLinkingSingleton::actionDeepLink()
         return;
     
     if(Host == "content" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
-    {
         BackEndCaller::getInstance()->getContentItemDetails("deepLinkContentRequest", Path);
-        
-        //HQSceneElement* deepLinkElement = HQSceneElement::create();
-        //deepLinkElement->startUpElementDependingOnType("https://media.azoomee.com/distribution/bea170ba-e1ff-43b3-86e4-fe73fbdac8be/video_stream.m3u8", "bea170ba-e1ff-43b3-86e4-fe73fbdac8be", "VIDEO HQ");
-        
-        //auto webViewSelector = WebViewSelector::create();
-        //webViewSelector->loadWebView("https://media.azoomee.com/distribution/bea170ba-e1ff-43b3-86e4-fe73fbdac8be/video_stream.m3u8");
-        
-        //completeContentAction("VIDEO", "https://media.azoomee.com/distribution/bea170ba-e1ff-43b3-86e4-fe73fbdac8be/video_stream.m3u8", "bea170ba-e1ff-43b3-86e4-fe73fbdac8be");
-        
-        /*
-        if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
-        {
-            
-            GameDataManager::getInstance()->startProcessingGame(uri, contentId);
-        }
-        else if((HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIO"))
-        {
-            auto webViewSelector = WebViewSelector::create();
-            webViewSelector->loadWebView(uri.c_str());
-        }
-        else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIOGROUP")
-        {
-            NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-            navigationLayer->startLoadingGroupHQ(uri);
-            
-            auto funcCallAction = CallFunc::create([=](){
-                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-                HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
-            });
-            
-            this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
-        }
-        else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GROUP")
-        {
-            NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-            navigationLayer->startLoadingGroupHQ(uri);
-            
-            auto funcCallAction2 = CallFunc::create([=](){
-                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-                HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
-            });
-            
-            this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
-        }*/
-    }
-    
-    
 }
 
 void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
@@ -152,8 +102,6 @@ void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
 
 void DeepLinkingSingleton::completeContentAction(std::string type,std::string uri)
 {
-    resetDeepLink();
-    
     if(type == "GAME")
     {
         GameDataManager::getInstance()->startProcessingGame(uri, Path);
@@ -181,6 +129,8 @@ void DeepLinkingSingleton::completeContentAction(std::string type,std::string ur
         HQHistoryManager::getInstance()->setGroupHQSourceId(Path);
 
     }
+    
+    resetDeepLink();
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
