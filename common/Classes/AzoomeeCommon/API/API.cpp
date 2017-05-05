@@ -21,6 +21,7 @@ const char* const API::TagVerifyAmazonPayment = "iapAmazonPaymentMade";
 const char* const API::TagVerifyApplePayment = "iapApplePaymentMade";
 const char* const API::TagGetChatList = "chat.getChatList";
 const char* const API::TagGetChatMessages = "chat.getChatMessages";
+const char* const API::TagSendChatMessage = "chat.sendChatMessage";
 
 #pragma mark - API Methods
 
@@ -179,6 +180,8 @@ HttpRequestCreator* API::GetElectricDreamsContent(const std::string& requestId,
     return request;
 }
 
+#pragma mark - Sharing
+
 HttpRequestCreator* API::GetChatListRequest(const std::string& childId,
                                             HttpRequestCreatorResponseDelegate* delegate)
 {
@@ -197,6 +200,27 @@ HttpRequestCreator* API::GetChatMessagesRequest(const std::string& childId,
     request->requestTag = TagGetChatMessages;
     request->requestPath = StringUtils::format("/api/share/%s/%s", childId.c_str(), friendId.c_str());
     request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::SendChatMessageRequest(const std::string& childId,
+                                                const std::string& friendId,
+                                                const JsonObjectRepresentation& jsonObject,
+                                                HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagSendChatMessage;
+    request->requestPath = StringUtils::format("/api/share/%s/%s", childId.c_str(), friendId.c_str());
+    request->method = "POST";
+    request->encrypted = true;
+    
+    // Create body from the json
+    const auto& json = jsonObject.toJson();
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    json.Accept(writer);
+    request->requestBody = buffer.GetString();
+    
     return request;
 }
 

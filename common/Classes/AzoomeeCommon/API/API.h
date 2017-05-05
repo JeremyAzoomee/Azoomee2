@@ -3,11 +3,17 @@
 
 #include "../Azoomee.h"
 #include <string>
+#include "../Data/Json.h"
 #include "HttpRequestCreator.h"
 
 
 NS_AZOOMEE_BEGIN
 
+
+/**
+ * This class contains purely the logic for building API requests to Azoomee.
+ * It is stateless and has no knowledge or state of the app.
+ */
 class API
 {
 public:
@@ -29,6 +35,7 @@ public:
     static const char* const TagGetPublicContent;
     static const char* const TagGetChatList;
     static const char* const TagGetChatMessages;
+    static const char* const TagSendChatMessage;
     
 #pragma mark - API Methods
     
@@ -86,6 +93,9 @@ public:
                                                         const std::string& childId,
                                                         const std::string& contentID,
                                                         HttpRequestCreatorResponseDelegate* delegate);
+    
+#pragma mark - Sharing
+    
     // Get the chat list for childId
     // childId must be the currently logged in child, or the request will fail
     static HttpRequestCreator* GetChatListRequest(const std::string& childId,
@@ -95,6 +105,14 @@ public:
     // childId must be the currently logged in child, or the request will fail
     static HttpRequestCreator* GetChatMessagesRequest(const std::string& childId,
                                                       const std::string& friendId,
+                                                      HttpRequestCreatorResponseDelegate* delegate);
+    
+    // Send a chat message to friendId
+    // childId must be the currently logged in child, or the request will fail
+    // params must be a Json object of type Message
+    static HttpRequestCreator* SendChatMessageRequest(const std::string& childId,
+                                                      const std::string& friendId,
+                                                      const JsonObjectRepresentation& jsonObject,
                                                       HttpRequestCreatorResponseDelegate* delegate);
     
     
