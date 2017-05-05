@@ -92,5 +92,7 @@
   "groupLogoSize": {
     "width": 920,
     "height": 372
-  }
+  },
+  
+  "ContentItemImageValidityInSeconds": 604800
 }

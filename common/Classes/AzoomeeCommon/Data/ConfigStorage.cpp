@@ -215,6 +215,11 @@ Size ConfigStorage::getGroupHQLogoSize()
     
     return Size(width, height);
 }
+    
+int ConfigStorage::getContentItemImageValidityInSeconds()
+{
+    return HQSceneConfiguration["ContentItemImageValidityInSeconds"].GetInt();
+}
 
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 

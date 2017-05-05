@@ -48,6 +48,7 @@ public:
     cocos2d::Vec2 getHighlightSizeMultiplierForContentItem(int highlightClass);
     float getScrollviewTitleTextHeight();
     cocos2d::Size getGroupHQLogoSize();
+    int getContentItemImageValidityInSeconds();
     
     //NavigationLayer configuration
     cocos2d::Point getCirclePositionForMenuItem(int itemNumber);

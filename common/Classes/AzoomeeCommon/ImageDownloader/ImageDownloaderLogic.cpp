@@ -1,6 +1,7 @@
 #include "ImageDownloaderLogic.h"
 #include "../Data/Cookie/CookieDataStorage.h"
 #include "ImageDownloader.h"
+#include "../Data/ConfigStorage.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -43,7 +44,7 @@ bool ImageDownloaderLogic::imageUpdateRequired(std::string fileName)
     long timeStamp = std::atoi(fileUtils->getStringFromFile(timeStampFilePath).c_str());
     long currentTimeStamp = time(NULL);
     
-    if(currentTimeStamp - timeStamp > 604800) return true;
+    if(currentTimeStamp - timeStamp > ConfigStorage::getInstance()->getContentItemImageValidityInSeconds()) return true;
     
     return false;
 }
