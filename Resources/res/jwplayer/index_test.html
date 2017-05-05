@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+	<head>
+		<title>JW Player</title>
+	</head>
+	<body bgcolor="black">
+		<script src="./jwplayer/jwplayer.js"></script>
+		<script>jwplayer.key="wrR1ClbRkYGQx0IOIV2gMJQggtFCdWaDaza25g==";</script>
+
+		<div id="videoPlayer"></div>
+		<script type="text/javascript">
+			var playerInstance = jwplayer("videoPlayer");
+			
+			var playList = [];
+			
+			for(var i = 0; i < 6; i++)
+			{
+				playList.push({file: "http://localhost/example.mov", mediaid: "episode", image: "http://localhost/play.png"});
+			}
+			
+			playerInstance.setup
+			({
+    			stretching: "exactfit",
+    			height: "100%",
+      			width: "100%",
+      			repeat: false,
+      			
+      			playlist: playList
+			});
+			
+			jwplayer().on('error', function(event){
+				console.log("error");
+			});
+			
+			jwplayer().on('setupError', function(event){
+				console.log("setuperror");
+			});
+			
+			jwplayer().on('play', function(event){
+				if(document.getElementById("loadingScreen"))
+				{
+					var loadingScreen = document.getElementById("loadingScreen");
+					loadingScreen.parentElement.removeChild(loadingScreen);
+				}
+				
+				console.log("playing");
+			});
+			
+			jwplayer().on('ready', function(event){
+				var loadingScreen = document.getElementById("loadingScreen");
+				loadingScreen.innerHTML = '<center><button onClick="startPlayBack()" style="margin-top: 24.5%; width: 15%; background-color: Transparent; border: none;"><img src="play.png" style="width: 50%;"></button></center>';
+			});
+			
+				jwplayer().on('pause', function(event){
+				console.log("paused");
+			});
+			
+			jwplayer().on('visualQuality', function(event){
+				var currentQuality = jwplayer().getVisualQuality().level;
+				console.log("qualitychanged");
+			});
+			
+			jwplayer().on('time', function(event){
+				var totalDuration = jwplayer().getDuration();
+				var currentPosition = jwplayer().getPosition();
+				
+				var percentage = currentPosition / totalDuration * 100;
+				
+				if((percentage > 0)&&(!sent0))
+				{
+					sent0 = true;
+					console.log("time 0");
+				}
+				if((percentage > 25)&&(!sent25))
+				{
+					sent25 = true;
+					console.log("time 25");
+				}
+				if((percentage > 50)&&(!sent50))
+				{
+					sent50 = true;
+					console.log("time 50");
+				}
+				if((percentage > 75)&&(!sent75))
+				{
+					sent75 = true;
+					console.log("time 75");
+				}
+			});
+			
+			jwplayer().on('complete', function(event){
+				console.log("time 100");
+			});
+			
+			function startPlayBack()
+			{
+				jwplayer().play(true);
+				var loadingScreen = document.getElementById("loadingScreen");
+				loadingScreen.innerHTML = '<center><img src="load.png" style="margin-top: 24.5%; width: 15%;"></center>';
+			}
+</script>
+<style type="text/css">
+			html,body 
+			{ 
+				height:100%; 
+				width:100%; 
+				padding:0; 
+				margin:0; 
+			}
+			
+			#videoPlayer
+			{
+				height:100%;
+				width:100%; 
+				padding:0; 
+			}
+		</style>
+		<div id="loadingScreen" style="position: absolute; left: 0px; top: 0px; background-image: url(./loading_bg.jpg); width: 100%; height: 100vh; background-size: 100%; background-repeat: no-repeat;">
+			<center><img src="load.png" style="margin-top: 24.5%; width: 15%;"></center>
+		</div>
+	</body>
+</html>
