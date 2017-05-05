@@ -16,7 +16,7 @@ class ChatAPIObserver;
 /**
  * Manages communication of chat APIs with the Azoomee server.
  */
-class ChatAPI : public HttpRequestCreatorResponseDelegate
+class ChatAPI : private HttpRequestCreatorResponseDelegate
 {
 private:
     
@@ -50,7 +50,12 @@ public:
     FriendList getFriendList() const;
     
     /// Get the chat messages for a contact
-    void requestMessageHistory(const std::string& friendId);
+    void requestMessageHistory(const FriendRef& friendObj);
+    
+    /// Send a message
+    void sendMessage(const FriendRef& friendObj, const MessageRef& message);
+    /// Send a message of type text
+    void sendMessage(const FriendRef& friendObj, const std::string& message);
 };
 
 /**

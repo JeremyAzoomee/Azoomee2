@@ -153,8 +153,7 @@ void ChatTestScene::createLeftSideUI(cocos2d::ui::Layout* parent)
             ChatAPI* chatAPI = ChatAPI::getInstance();
             const FriendList& friendList = chatAPI->getFriendList();
             ssize_t index = _contactListView->getCurSelectedIndex();
-            const std::string& friendId = friendList[index]->friendId();
-            chatAPI->requestMessageHistory(friendId);
+            chatAPI->requestMessageHistory(friendList[index]);
         }
     });
     
@@ -189,7 +188,9 @@ void ChatTestScene::createRightSideUI(cocos2d::ui::Layout* parent)
     _sendButton->addClickEventListener([this](Ref* sender) {
         const std::string& message = _messageEntryField->getString();
         cocos2d::log("Send Message: %s", message.c_str());
+        ChatAPI::getInstance()->sendMessage(_selectedFriend, message);
         _messageEntryField->setString("");
+        _messageEntryField->setDetachWithIME(true);
     });
     
     ui::LinearLayoutParameter* sendButtonLayout = ui::LinearLayoutParameter::create();
@@ -368,7 +369,9 @@ void ChatTestScene::onChatAPIGetFriendList(const FriendList& friendList)
         _contactListView->pushBackCustomItem(clonedItem);
     }
     
-    ModalMessages::getInstance()->stopLoading();
+    // Auto select first friend
+    _selectedFriend = friendList[0];
+    ChatAPI::getInstance()->requestMessageHistory(_selectedFriend);
 }
 
 void ChatTestScene::onChatAPIGetChatMessages(const MessageList& messageList)

@@ -40,6 +40,10 @@ private:
     cocos2d::ui::Button* _sendButton = nullptr;
     
     
+    /// Currently selected friend
+    FriendRef _selectedFriend;
+    
+    
     /// Create the left UI
     void createLeftSideUI(cocos2d::ui::Layout* parent);
     /// Create the right side UI

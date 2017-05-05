@@ -3,6 +3,7 @@
 
 using namespace cocos2d;
 
+
 NS_AZOOMEE_CHAT_BEGIN
 
 // TODO: Move these methods into AzoomeeCommon
@@ -129,6 +130,14 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     return messageData;
 }
 
+MessageRef Message::createTextMessage(const std::string& text)
+{
+    MessageRef messageData(new Message());
+    messageData->_messageType = "TEXT";
+    messageData->_messageText = text;
+    return messageData;
+}
+
 Message::Message()
 {
 }
@@ -161,6 +170,37 @@ std::string Message::recipientId() const
 uint64_t Message::timestamp() const
 {
     return _timestamp;
+}
+
+#pragma mark - JsonObjectRepresentation
+
+rapidjson::Value Message::toJson() const
+{
+    auto& allocator = JsonDefaultAllocator();
+    
+    // Create initial object with strings
+    std::map<std::string, std::string> stringValues = {
+        { "type", _messageType },
+        { "id", _messageId },
+        { "senderId", _senderId },
+        { "recipientId", _recipientId }
+    };
+    rapidjson::Value json = ToJson(stringValues);
+    
+    // Add other values
+    if(_messageType == "TEXT")
+    {
+        std::map<std::string, std::string> params = {
+            { "text", _messageText }
+        };
+        json.AddMember("params", ToJson(params), allocator);
+    }
+    if(_timestamp > 0)
+    {
+        json.AddMember("timestamp", ToJson(_timestamp), allocator);
+    }
+    
+    return json;
 }
 
 NS_AZOOMEE_CHAT_END

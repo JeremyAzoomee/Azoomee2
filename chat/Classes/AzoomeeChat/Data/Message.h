@@ -2,7 +2,7 @@
 #define AzoomeeChat_Message_h
 
 #include "../AzoomeeChat.h"
-#include <external/json/document.h>
+#include <AzoomeeCommon/Data/Json.h>
 #include <string>
 #include <memory>
 
@@ -17,7 +17,7 @@ typedef std::vector<MessageRef> MessageList;
 /**
  * A Message is a contact in the chat list.
  */
-class Message
+class Message : public JsonObjectRepresentation
 {
 private:
     
@@ -26,14 +26,17 @@ private:
     std::string _messageText;
     std::string _senderId;
     std::string _recipientId;
-    uint64_t _timestamp;
+    uint64_t _timestamp = 0;
     
     // no direct construction
     Message();
     
 public:
     
+    /// Create a Message from JSON
     static MessageRef createFromJson(const rapidjson::Value& json);
+    /// Create a Text Message
+    static MessageRef createTextMessage(const std::string& text);
     
     std::string messageId() const;
     std::string messageType() const;
@@ -41,6 +44,9 @@ public:
     std::string senderId() const;
     std::string recipientId() const;
     uint64_t timestamp() const;
+    
+    // - JsonObjectRepresentation
+    rapidjson::Value toJson() const override;
 };
 
 NS_AZOOMEE_CHAT_END

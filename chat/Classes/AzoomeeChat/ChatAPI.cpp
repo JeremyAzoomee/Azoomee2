@@ -4,10 +4,9 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <external/json/document.h>
+#include <AzoomeeCommon/Data/Json.h>
 #include <cocos/cocos2d.h>
 #include <memory>
-
 
 using namespace cocos2d;
 
@@ -70,18 +69,35 @@ FriendList ChatAPI::getFriendList() const
 
 #pragma mark - Get Messages
 
-void ChatAPI::requestMessageHistory(const std::string& friendId)
+void ChatAPI::requestMessageHistory(const FriendRef& friendObj)
 {
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getLoggedInChildId(), friendId, this);
+    HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getLoggedInChildId(), friendObj->friendId(), this);
     request->execute();
+}
+
+#pragma mark - Send Message
+
+void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
+{
+    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    const JsonObjectRepresentation& asJson = *message.get();
+    HttpRequestCreator* request = API::SendChatMessageRequest(childData->getLoggedInChildId(), friendObj->friendId(), asJson, this);
+    request->execute();
+}
+
+void ChatAPI::sendMessage(const FriendRef& friendObj, const std::string& message)
+{
+    // Create the message
+    const MessageRef& messageObj = Message::createTextMessage(message);
+    sendMessage(friendObj, messageObj);
 }
 
 #pragma mark - HttpRequestCreatorResponseDelegate
 
 void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-//    cocos2d::log("ChatAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
+    cocos2d::log("ChatAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
     ParentDataParser* parentDataParser = ParentDataParser::getInstance();
     ParentDataProvider* parentData = ParentDataProvider::getInstance();
     ChildDataParser* childDataParser = ChildDataParser::getInstance();
