@@ -10,36 +10,26 @@
 		<script type="text/javascript">			
 			function startBuildingPlayer(receivedPlaylist)
 			{
-				alert("starting");
-			
 				var contentUrl = getUrlVars()["contentUrl"];
 				var playerInstance = jwplayer("videoPlayer");
 			
 				var playListArray = [];
 				var jumpToThisElement = -1;
 				
-				alert("before building playlist");
-				
 				if(receivedPlaylist == "noPlaylist")
 				{
-					alert("noplaylist");
 					playListArray.push({file: contentUrl, mediaid: "episode"});
 					jumpToThisElement = 0;
 				}
 				else
 				{
-					alert("playlist");
 					var uriListArray = receivedPlaylist.split("|");
 					for(i = 0; i < uriListArray.length; i++)
 					{
 						playListArray.push({file: uriListArray[i], mediaid: "episode"});
 						if(uriListArray[i] == contentUrl) jumpToThisElement = i;
 					}
-					alert("elements added");
-					alert(jumpToThisElement);	
 				}
-				
-				alert("player building starts");
 			
 				playerInstance.setup({
 				
@@ -50,15 +40,11 @@
 					width: "100%"
 				});
 				
-				alert("player built");
-				
 				jwplayer().on('error', function(event){
-					alert("Error");
 					window.location.href = "videoerror://videoerror";
 				});
 			
 				jwplayer().on('setupError', function(event){
-					alert("Setup error");
 					window.location.href = "videoerror://videoerror";
 				});
 			
@@ -73,7 +59,6 @@
 				});
 			
 				jwplayer().on('ready', function(event){
-					alert("loading ready");
 					var loadingScreen = document.getElementById("loadingScreen");
 					loadingScreen.innerHTML = '<center><button onClick="startPlayBack()" style="margin-top: 24.5%; width: 15%; background-color: Transparent; border: none;"><img src="play.png" style="width: 50%;"></button></center>';
 				});

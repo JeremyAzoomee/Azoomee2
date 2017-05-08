@@ -158,11 +158,8 @@
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    NSLog(@"BEFORE CHECKING IFRAMELOADED %d", iframeloaded);
-    
     if(!iframeloaded)
     {
-        NSLog(@"BEFORE IF");
         NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
         
         if([iosurlExtension isEqualToString:@"html"])
@@ -180,7 +177,6 @@
         }
         else
         {
-            NSLog(@"ABOUT TO START BUILDING PLAYER");
             NSString *loadString = [NSString stringWithFormat:@"startBuildingPlayer(\"%@\")", getVideoPlaylist()];
             [webView stringByEvaluatingJavaScriptFromString:loadString];
         }
