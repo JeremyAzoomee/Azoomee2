@@ -28,6 +28,7 @@
 #include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 #include "ManualGameInputLayer.h"
+#include "VideoPlaylistManager.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -187,11 +188,14 @@ void HQSceneElement::startUpElementDependingOnType()
     
     if(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "GAME")
     {
-
+        VideoPlaylistManager::getInstance()->setPlaylist(HQDataProvider::getInstance()->getAllUrisInRow(elementCategory, elementRowNumber));
         GameDataManager::getInstance()->startProcessingGame(elementItemData["uri"], elementItemData["id"]);
     }
     else if((HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "AUDIO"))
     {
+        CCLOG("Amount of elements in row: %lu", HQDataProvider::getInstance()->getAllUrisInRow(elementCategory, elementRowNumber).size());
+        
+        VideoPlaylistManager::getInstance()->setPlaylist(HQDataProvider::getInstance()->getAllUrisInRow(elementCategory, elementRowNumber));
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(elementItemData["uri"].c_str());
     }

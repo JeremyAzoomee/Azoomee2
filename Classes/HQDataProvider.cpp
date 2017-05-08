@@ -150,6 +150,23 @@ std::string HQDataProvider::getTypeForSpecificItem(std::string category, std::st
     return "NILTYPE";
 }
 
+std::vector<std::string> HQDataProvider::getAllUrisInRow(std::string category, int rowNumber)
+{
+    std::vector<std::string> elementids = getElementsForRow(category, rowNumber);
+    std::vector<std::string> uris;
+    
+    for(int i = 0; i < elementids.size(); i++)
+    {
+        if(getTypeForSpecificItem(category, elementids.at(i)) == "VIDEO" || getTypeForSpecificItem(category, elementids.at(i)) == "AUDIO")
+        {
+            std::string uri = getItemDataForSpecificItem(category, elementids.at(i))["uri"];
+            uris.push_back(uri);
+        }
+    }
+    
+    return uris;
+}
+
 //---------------------LOADING SCREEN----------------------------------
 void HQDataProvider::displayLoadingScreen()
 {
