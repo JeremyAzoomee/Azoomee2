@@ -40,6 +40,8 @@
 					width: "100%"
 				});
 				
+				jwplayer().playlistItem(jumpToThisElement);
+				
 				jwplayer().on('error', function(event){
 					window.location.href = "videoerror://videoerror";
 				});
@@ -118,9 +120,6 @@
 					});
 					return vars;
 				}
-
-				
-				jwplayer().playlistItem(jumpToThisElement);
 			}
 			
 			function startPlayBack()

@@ -33,8 +33,6 @@ void VideoPlaylistManager::setPlaylist(std::vector<std::string> playlist)
 
 std::string VideoPlaylistManager::getPlaylist()
 {
-    CCLOG("STORED Playlist size: %ld", storedPlaylist.size());
-    
     if(storedPlaylist.size() == 0) return "noPlaylist";
     
     std::string returnString;
@@ -44,6 +42,8 @@ std::string VideoPlaylistManager::getPlaylist()
         if(i != 0) returnString += "|";
         returnString += storedPlaylist.at(i);
     }
+    
+    storedPlaylist.clear();
     
     return returnString;
 }

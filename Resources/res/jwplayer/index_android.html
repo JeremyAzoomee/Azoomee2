@@ -17,14 +17,39 @@
 			var contentUrl = getUrlVars()["contentUrl"];
 			var playerInstance = jwplayer("videoPlayer");
 			
+			var receivedPlaylist = NativeInterface.getVideoPlaylist();
+			
+			var contentUrl = getUrlVars()["contentUrl"];
+			var playerInstance = jwplayer("videoPlayer");
+		
+			var playListArray = [];
+			var jumpToThisElement = -1;
+			
+			if(receivedPlaylist == "noPlaylist")
+			{
+				playListArray.push({file: contentUrl, mediaid: "episode"});
+				jumpToThisElement = 0;
+			}
+			else
+			{
+				var uriListArray = receivedPlaylist.split("|");
+				for(i = 0; i < uriListArray.length; i++)
+				{
+					playListArray.push({file: uriListArray[i], mediaid: "episode"});
+					if(uriListArray[i] == contentUrl) jumpToThisElement = i;
+				}
+			}
+			
 			playerInstance.setup
 			({
-    			file: contentUrl,
+    			playlist: playListArray,
     			stretching: "exactfit",
     			mediaid: "azoomeeplayer",
     			height: "100%",
       			width: "100%"
 			});
+			
+			jwplayer().playlistItem(jumpToThisElement);
 			
 			jwplayer().on('error', function(event){
 				console.log("error");

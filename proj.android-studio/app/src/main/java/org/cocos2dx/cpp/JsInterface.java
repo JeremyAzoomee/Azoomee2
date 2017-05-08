@@ -60,7 +60,14 @@ public class JsInterface extends Activity {
         return JNISendAPIRequest(method, responseID, score);
     }
 
+    @JavascriptInterface
+    public String getVideoPlaylist()
+    {
+        return JNIGetVideoPlaylist();
+    }
+
     public static native void JNISaveLocalDataStorage(String data);
     public static native String JNIGetLocalDataStorage();
     public static native String JNISendAPIRequest(String method, String responseID, String score);
+    public static native String JNIGetVideoPlaylist();
 }
