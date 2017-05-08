@@ -1,8 +1,5 @@
 #include "ChatAPI.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
-#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <cocos/cocos2d.h>
@@ -25,6 +22,10 @@ ChatAPI* ChatAPI::getInstance()
     return sChatAPISharedInstance.get();
 }
 
+ChatAPI::ChatAPI()
+{
+}
+
 #pragma mark - Observers
 
 void ChatAPI::registerObserver(ChatAPIObserver* observer)
@@ -43,14 +44,6 @@ void ChatAPI::removeObserver(ChatAPIObserver* observer)
     {
         _observers.erase(it);
     }
-}
-
-#pragma mark - Login
-
-void ChatAPI::loginUser(const std::string& username, const std::string& password)
-{
-    HttpRequestCreator* request = API::LoginRequest(username, password, this);
-    request->execute();
 }
 
 #pragma mark - FriendList
@@ -98,69 +91,9 @@ void ChatAPI::sendMessage(const FriendRef& friendObj, const std::string& message
 void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
     cocos2d::log("ChatAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
-    ParentDataParser* parentDataParser = ParentDataParser::getInstance();
-    ParentDataProvider* parentData = ParentDataProvider::getInstance();
-    ChildDataParser* childDataParser = ChildDataParser::getInstance();
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
     
-    // Parent login success
-    if(requestTag == API::TagLogin)
-    {
-        if(parentDataParser->parseParentLoginData(body))
-        {
-            cocos2d::log("Logged in!");
-            
-            // Notify observers
-            for(auto observer : _observers)
-            {
-                observer->onChatAPILogin();
-            }
-            
-            // Request children accounts
-            HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
-            request->execute();
-        }
-    }
-    // Get children success
-    else if(requestTag == API::TagGetAvailableChildren)
-    {
-        parentDataParser->parseAvailableChildren(body);
-        
-        // Notify observers
-        for(auto observer : _observers)
-        {
-            observer->onChatAPIGetAvailableChildren();
-        }
-        
-        cocos2d::log("Child profiles:");
-        for(int i = 0; i < parentData->getAmountOfAvailableChildren(); ++i)
-        {
-            const std::string& profileName = parentData->getProfileNameForAnAvailableChildren(i);
-            cocos2d::log("profileName=%s", profileName.c_str());
-        }
-        
-        // Login as child 0 automatically for now
-        const std::string& profileName = parentData->getProfileNameForAnAvailableChildren(0);
-        HttpRequestCreator* request = API::ChildLoginRequest(profileName, this);
-        request->execute();
-    }
-    // Child login success
-    else if(requestTag == API::TagChildLogin)
-    {
-        childDataParser->parseChildLoginData(body);
-        cocos2d::log("Logged in as child: %s", childData->getLoggedInChildName().c_str());
-        
-        // Notify observers
-        for(auto observer : _observers)
-        {
-            observer->onChatAPIChildLogin();
-        }
-        
-        // Get chat list
-        requestFriendList();
-    }
     // Get chat list success
-    else if(requestTag == API::TagGetChatList)
+    if(requestTag == API::TagGetChatList)
     {
         // Parse the response
         rapidjson::Document response;

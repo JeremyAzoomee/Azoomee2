@@ -1,8 +1,8 @@
 #ifndef AzoomeeChat_ChatTestScene_h
 #define AzoomeeChat_ChatTestScene_h
 
-#include "AzoomeeChat.h"
-#include "ChatAPI.h"
+#include "AzoomeeChat/AzoomeeChat.h"
+#include "AzoomeeChat/ChatAPI.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
@@ -19,10 +19,19 @@ private:
     
     /// Root layout for all elements
     cocos2d::ui::Layout* _rootLayout = nullptr;
+    /// Layout for the content (sits below title)
+    cocos2d::ui::Layout* _contentLayout = nullptr;
     /// Layout for the left side
     cocos2d::ui::Layout* _leftLayout = nullptr;
     /// Layout for the right side
     cocos2d::ui::Layout* _rightLayout = nullptr;
+    
+    // Titlebar layout
+    cocos2d::ui::Layout* _titleLayout = nullptr;
+    /// Back button
+    cocos2d::ui::Button* _backButton = nullptr;
+    /// Title label
+    cocos2d::ui::Text* _titleLabel = nullptr;
     
     /// Contact list
     cocos2d::ui::ListView* _contactListView = nullptr;
@@ -44,6 +53,8 @@ private:
     FriendRef _selectedFriend;
     
     
+    /// Create the title UI
+    void createTitleUI(cocos2d::ui::Layout* parent);
     /// Create the left UI
     void createLeftSideUI(cocos2d::ui::Layout* parent);
     /// Create the right side UI
@@ -54,6 +65,9 @@ private:
     
     /// Called on TextField events
     void onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextField::EventType type);
+    
+    /// Select a friend from the friend list
+    void selectFriend(int index);
     
     // - ChatAPIObserver
     void onChatAPIGetFriendList(const FriendList& friendList) override;

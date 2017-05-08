@@ -1,8 +1,12 @@
 #include "AppDelegate.h"
-#include "AzoomeeChat/HelloWorldScene.h"
-#include "AzoomeeChat/ChatTestScene.h"
+#include "HelloWorldScene.h"
+#include "ChatTestScene.h"
+#include "LoginScene.h"
+#include "ChildSelectorScene.h"
+#include "Auth/AuthAPI.h"
 
 using namespace cocos2d;
+using namespace Azoomee;
 using namespace Azoomee::Chat;
 
 static cocos2d::Size designResolutionLandscapeSize = cocos2d::Size(2732, 2048);
@@ -61,10 +65,31 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setContentScaleFactor(1.0f);
 
     register_all_packages();
-
-    // create a scene. it's an autorelease object
-    auto scene = ChatTestScene::create();
-    director->runWithScene(scene);
+    
+    
+    // Create the first scene
+    cocos2d::Scene* firstScene = nullptr;
+    
+    // Are we already logged in?
+    bool loggedIn = AuthAPI::getInstance()->isLoggedIn();
+    if(!loggedIn)
+    {
+        firstScene = LoginScene::create();
+    }
+    else
+    {
+        // Logged in, do we have a child logged in?
+        bool childLoggedIn = AuthAPI::getInstance()->isChildLoggedIn();
+        if(!childLoggedIn)
+        {
+            firstScene = ChildSelectorScene::create();
+        }
+        else
+        {
+            firstScene = ChatTestScene::create();
+        }
+    }
+    director->runWithScene(firstScene);
 
     return true;
 }

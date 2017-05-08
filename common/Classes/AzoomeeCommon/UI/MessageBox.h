@@ -64,7 +64,7 @@ private:
   
 protected:
     
-    virtual bool init();
+    virtual bool init() override;
     
     void initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate);
     void addButtonWithTitle(const std::string& buttonTitle);

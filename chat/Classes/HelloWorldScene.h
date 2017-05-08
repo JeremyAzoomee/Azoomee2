@@ -1,7 +1,7 @@
 #ifndef AzoomeeChat_HelloWorldScene_h
 #define AzoomeeChat_HelloWorldScene_h
 
-#include "AzoomeeChat.h"
+#include "AzoomeeChat/AzoomeeChat.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 

@@ -27,6 +27,9 @@ private:
     /// Observers monitoring this API and it's responses
     std::vector<ChatAPIObserver*> _observers;
     
+    // Private construction - Use ::getInstance()
+    ChatAPI();
+    
     // - HttpRequestCreatorResponseDelegate
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
@@ -40,16 +43,15 @@ public:
     /// Remove a previously registered observer
     void removeObserver(ChatAPIObserver* observer);
     
-    /// Login the user.
-    /// TODO: Refactor this so the logic is common and not duplicated across here and BackEndCaller in azoomee2.
-    void loginUser(const std::string& username, const std::string& password);
     
     /// Request the friend list from the server
+    /// Response: ChatAPIObserver::onChatAPIGetFriendList
     void requestFriendList();
     /// Get the latest friend list we have on the server
     FriendList getFriendList() const;
     
     /// Get the chat messages for a contact
+    /// Response: ChatAPIObserver::onChatAPIGetChatMessages
     void requestMessageHistory(const FriendRef& friendObj);
     
     /// Send a message
@@ -63,9 +65,6 @@ public:
  */
 struct ChatAPIObserver
 {
-    virtual void onChatAPILogin() {};
-    virtual void onChatAPIGetAvailableChildren() {};
-    virtual void onChatAPIChildLogin() {};
     virtual void onChatAPIGetFriendList(const FriendList& friendList) {};
     virtual void onChatAPIGetChatMessages(const MessageList& messageList) {};
 };

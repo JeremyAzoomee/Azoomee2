@@ -84,7 +84,13 @@ bool ParentDataProvider::emailRequiresVerification()
 
 int ParentDataProvider::getAmountOfAvailableChildren()
 {
-    return (int)ParentDataStorage::getInstance()->availableChildrenData.Size();
+    ParentDataStorage* parentData = ParentDataStorage::getInstance();
+    // If this is called before any data is parsed
+    if(!parentData->availableChildrenData.IsArray())
+    {
+        return 0;
+    }
+    return (int)parentData->availableChildrenData.Size();
 }
 
 std::string ParentDataProvider::getProfileNameForAnAvailableChildren(int childNumber)

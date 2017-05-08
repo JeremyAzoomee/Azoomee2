@@ -1,5 +1,5 @@
 #include "HelloWorldScene.h"
-#include "../AppDelegate.h"
+#include "AppDelegate.h"
 
 using namespace cocos2d;
 
