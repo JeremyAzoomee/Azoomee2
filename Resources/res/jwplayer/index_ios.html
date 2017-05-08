@@ -26,8 +26,12 @@
 					var uriListArray = receivedPlaylist.split("|");
 					for(i = 0; i < uriListArray.length; i++)
 					{
-						playListArray.push({file: uriListArray[i], mediaid: "episode"});
-						if(uriListArray[i] == contentUrl) jumpToThisElement = i;
+						var uri = uriListArray[i].split("*")[0];
+						var imageuri = uriListArray[i].split("*")[1];
+						var titleText = uriListArray[i].split("*")[2];
+						
+						playListArray.push({file: uri, mediaid: "episode", image: imageuri, title: titleText});
+						if(uri == contentUrl) jumpToThisElement = i;
 					}
 				}
 			
@@ -63,6 +67,7 @@
 				jwplayer().on('ready', function(event){
 					var loadingScreen = document.getElementById("loadingScreen");
 					loadingScreen.innerHTML = '<center><button onClick="startPlayBack()" style="margin-top: 24.5%; width: 15%; background-color: Transparent; border: none;"><img src="play.png" style="width: 50%;"></button></center>';
+					playerInstance.play();
 				});
 			
 					jwplayer().on('pause', function(event){
