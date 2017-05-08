@@ -1,5 +1,6 @@
 #include "API.h"
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 
 using namespace cocos2d;
 
@@ -151,11 +152,16 @@ HttpRequestCreator* API::GetPublicContentRequest(const std::string& url,
 HttpRequestCreator* API::GetEncryptedGetContentItemDetails(const std::string& requestId, const std::string& contentID,
                                                                HttpRequestCreatorResponseDelegate* delegate)
 {
-    HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestPath = StringUtils::format("/api/electricdreams/content/%s",contentID.c_str());
-    request->requestTag = requestId;
-    request->encrypted = true;
-    return request;
+    if(ChildDataStorage::getInstance()->childLoggedIn)
+    {
+        HttpRequestCreator* request = new HttpRequestCreator(delegate);
+        request->requestPath = StringUtils::format("/api/electricdreams/%s/content/%s",ChildDataStorage::getInstance()->loggedInChildId.c_str(),contentID.c_str());
+        request->requestTag = requestId;
+        request->encrypted = true;
+        return request;
+    }
+    else
+        return nullptr;
 }
 
 NS_AZOOMEE_END

@@ -1,5 +1,4 @@
 #include "AppDelegate.h"
-#include "LoginScene.h"
 #include "BaseScene.h"
 #include "IntroVideoScene.h"
 #include "HQScene.h"

@@ -2,6 +2,7 @@
 #include "LoginScene.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "BackEndCaller.h"
+#include "DeepLinkingSingleton.h"
 
 using namespace cocos2d;
 
@@ -41,9 +42,13 @@ void LoginLogicHandler::doLoginLogic()
         BackEndCaller::getInstance()->getAvailableChildren();
         return;
     }
-    
-    auto loginScene = LoginScene::createScene(0);
-    Director::getInstance()->replaceScene(loginScene);
+    else if(DeepLinkingSingleton::getInstance()->actionDeepLink())
+        return;
+    else
+    {
+        auto loginScene = LoginScene::createScene(0);
+        Director::getInstance()->replaceScene(loginScene);
+    }
 }
 
 void LoginLogicHandler::forceNewLogin()
