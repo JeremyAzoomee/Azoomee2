@@ -150,7 +150,7 @@ std::string HQDataProvider::getTypeForSpecificItem(std::string category, std::st
     return "NILTYPE";
 }
 
-std::vector<std::string> HQDataProvider::getAllUrisInRow(std::string category, int rowNumber)
+std::vector<std::string> HQDataProvider::getAllElementDataInRow(std::string category, int rowNumber)
 {
     std::vector<std::string> elementids = getElementsForRow(category, rowNumber);
     std::vector<std::string> playlistElements;
