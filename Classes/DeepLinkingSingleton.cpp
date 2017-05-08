@@ -121,7 +121,7 @@ void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
     {
         ModalMessages::getInstance()->stopLoading();
         resetDeepLink();
-        MessageBox::createWith(ERROR_CODE_DEEPLINK_NOT_ENTITLED, nullptr);
+        MessageBox::createWith(ERROR_CODE_DEEPLINK_NOT_ENTITLED, this);
     }
 }
 
@@ -147,10 +147,10 @@ void DeepLinkingSingleton::completeContentAction(std::string type,std::string ur
     }
     else if(type == "GROUP")
     {
+        ModalMessages::getInstance()->stopLoading();
+        
         NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
         navigationLayer->startLoadingGroupHQ(uri);
-        
-        ModalMessages::getInstance()->stopLoading();
 
         HQDataProvider::getInstance()->getDataForGroupHQ(uri);
         HQHistoryManager::getInstance()->setGroupHQSourceId(Path);
