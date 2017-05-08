@@ -154,6 +154,11 @@
         return NO;
     }
     
+    if ([urlString hasPrefix:@"finishview"])
+    {
+        [self finishView];
+    }
+    
     return YES;
 }
 

@@ -38,6 +38,7 @@
 				playerInstance.setup({
 				
 					playlist: playListArray,
+					repeat: false,
 					stretching: "exactfit",
 					mediaid: "azoomeeplayer",
 					height: "100%",
@@ -109,6 +110,10 @@
 			
 				jwplayer().on('complete', function(event){
 					window.location.href = "videoevent://video.complete";
+				});
+				
+				jwplayer().on('playlistComplete', function(event){
+					window.location.href = "finishview://finishview";
 				});
 			
 				jwplayer().on('firstFrame', function(event){

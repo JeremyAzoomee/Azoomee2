@@ -37,6 +37,7 @@ public class NativeView extends XWalkActivity {
     public XWalkView xWalkWebView;
     public static XWalkView xWalkWebViewStatic;
     public static String userid;
+    public static ImageButton imageButtonStatic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +61,6 @@ public class NativeView extends XWalkActivity {
         xWalkWebView = new XWalkView(this);
         addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        //xWAlkWebView.load(myUrl, null, headers);
-
-
 
         ImageButton extra = new ImageButton(this);
         extra.setImageResource(R.drawable.back_new);
@@ -70,7 +68,6 @@ public class NativeView extends XWalkActivity {
         extra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(xWalkWebView != null)
                 {
                     xWalkWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
@@ -90,7 +87,17 @@ public class NativeView extends XWalkActivity {
         addContentView(extra, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
+        imageButtonStatic = extra;
         xWalkWebViewStatic = xWalkWebView;
+    }
+
+    public static void exitView()
+    {
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+                imageButtonStatic.callOnClick();
+            }
+        });
     }
 
     @Override
