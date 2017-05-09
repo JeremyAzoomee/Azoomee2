@@ -276,8 +276,7 @@ cocos2d::ui::ScrollView* HQScene::createHorizontalScrollView(cocos2d::Size conte
     scrollView->setSwallowTouches(false);
     scrollView->setScrollBarEnabled(false);
     scrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
-    scrollView->setBackGroundColor(Color3B::WHITE);
-    scrollView->setBackGroundColorOpacity(25);
+    scrollView->setBackGroundColor(Color3B::BLACK);
     
     return scrollView;
 }

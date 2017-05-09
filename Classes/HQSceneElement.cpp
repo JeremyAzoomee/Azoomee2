@@ -19,7 +19,7 @@
 #include "HQDataParser.h"
 #include "NavigationLayer.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include "MessageBox.h"
+#include "PreviewLoginSignupMessageBox.h"
 #include "HQScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
@@ -27,6 +27,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
+#include "ManualGameInputLayer.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -127,8 +128,12 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             {
                 CCLOG("MixPanel: %s, %s, %s", title.c_str(),description.c_str(),category.c_str());
                 AnalyticsSingleton::getInstance()->previewContentClickedEvent(title,description,type);
-                MessageBox::createPreviewLoginSignupMessageBox();
+                PreviewLoginSignupMessageBox::create();
                 return true;
+            }
+            else if(type == "MANUAL")
+            {
+                ManualGameInputLayer::create();
             }
             else
             {

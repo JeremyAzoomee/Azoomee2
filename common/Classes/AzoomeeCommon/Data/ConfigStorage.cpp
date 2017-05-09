@@ -31,9 +31,6 @@ bool ConfigStorage::init(void)
 {
     inArtsApp = 0;
     
-    visualOrigin = Director::getInstance()->getVisibleOrigin();
-    visualSize = Director::getInstance()->getVisibleSize();
-    
     BaseSceneConfiguration = parseJsonConfigurationFile("BaseSceneConfiguration.json");
     HQSceneConfiguration = parseJsonConfigurationFile("HQSceneConfiguration.json");
     ImageContainerConfiguration = parseJsonConfigurationFile("ImageContainerConfiguration.json");
@@ -101,8 +98,8 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == "HOME") return "/api/electricdreams/view/categories/home";
     if(httpRequestTag == "PreviewHOME") return "/api/electricdreams/preview/view/categories/home";
     if(httpRequestTag == "updateParentPin") return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == "updateParentActorStatus") return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == "iapAmazonPaymentMade") return StringUtils::format("/api/billing/amazon/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == "iapApplePaymentMade") return StringUtils::format("/api/billing/apple/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == "iabGooglePaymentMade") return StringUtils::format("/api/billing/google/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == "updateBilling") return StringUtils::format("/api/billing/user/%s/billingStatus", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     
@@ -111,7 +108,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     
 bool ConfigStorage::isParentSignatureRequiredForRequest(std::string requestTag)
 {
-    std::vector<std::string> parentSignedRequestTags = {"updateParentPin", "updateParentActorStatus", "iapAmazonPaymentMade", "updateBilling"};
+    std::vector<std::string> parentSignedRequestTags = {"updateParentPin", "iapAmazonPaymentMade", "iabGooglePaymentMade", "iapApplePaymentMade", "updateBilling", "getChildren"};
     
     for(int i = 0; i < parentSignedRequestTags.size(); i++)
     {
@@ -218,6 +215,11 @@ Size ConfigStorage::getGroupHQLogoSize()
     
     return Size(width, height);
 }
+    
+int ConfigStorage::getContentItemImageValidityInSeconds()
+{
+    return HQSceneConfiguration["ContentItemImageValidityInSeconds"].GetInt();
+}
 
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 
@@ -231,6 +233,9 @@ cocos2d::Point ConfigStorage::getCirclePositionForMenuItem(int itemNumber)
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItem(int itemNumber)
 {
+    cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
+    cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
+    
     float x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
     float y = visualOrigin.y + visualSize.height + NavigationConfiguration["horizontalYPositionsForMenuItems"].GetDouble();
     
@@ -244,6 +249,9 @@ float ConfigStorage::getHorizontalMenuItemsHeight()
 
 cocos2d::Point ConfigStorage::getHorizontalPositionForMenuItemInGroupHQ(int itemNumber)
 {
+    cocos2d::Point visualOrigin = Director::getInstance()->getVisibleOrigin();
+    cocos2d::Size visualSize = Director::getInstance()->getVisibleSize();
+    
     float x = NavigationConfiguration["horizontalXPositionsForMenuItems"][itemNumber].GetDouble();
     float y = visualOrigin.y + visualSize.height + NavigationConfiguration["horizontalYPositionsForMenuItemsInGroupHQ"].GetDouble();
     

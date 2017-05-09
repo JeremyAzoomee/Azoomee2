@@ -3,11 +3,12 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
-#include "ElectricDreamsButton.h"
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/ElectricDreamsButton.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include "OfflineChecker.h"
 
 USING_NS_CC;
+using namespace Azoomee;
 
 enum LoginScreenLocationEnum { emailLoginScreen, passwordLoginScreen};
 
@@ -29,8 +30,7 @@ private:
     ElectricDreamsButton *backButton;
     ElectricDreamsButton *nextButton;
 
-    std::string username;
-    std::string password;
+    std::string storedUsername;
     
     void getUserDefaults();
     
@@ -44,17 +44,14 @@ private:
     void backButtonPressed();
     void nextButtonPressed();
     
-    void login();
+    void login(std::string username, std::string password);
     
     virtual void onEnterTransitionDidFinish();
     
-    bool shouldDoAutoLogin;
     bool shouldDisplayMessage;
     
 public:
     static Scene* createScene(long errorCode);
-    static Scene* createSceneWithAutoLogin();
-    static Scene* createSceneWithAutoLoginAndErrorDisplay();
     
     virtual bool init();
     

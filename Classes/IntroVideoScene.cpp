@@ -1,7 +1,3 @@
-//ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
-//cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented
-//cocos2d/cocos/ui/UIVideoPlayer-ios.mm - roww 144-145 - MPMovideControlStyleNone, interactionenabled: false
-
 #include "IntroVideoScene.h"
 #include "SlideShowScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -35,6 +31,11 @@ bool IntroVideoScene::init()
         return false;
     }
     
+    if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
+    {
+        this->slideShowScene = SlideShowScene::createScene();
+        this->slideShowScene->retain();
+    }
     auto funcCallAction = CallFunc::create([=](){
         
         videoErrorText = StringUtils::format("%svideo failsafe triggered.",videoErrorText.c_str());
@@ -42,13 +43,15 @@ bool IntroVideoScene::init()
         navigateToNextScene();
     });
     
-    funcCallAction->setTag(2);
-    this->runAction(Sequence::create(DelayTime::create(7), funcCallAction, NULL));
+    auto action = Sequence::create(DelayTime::create(7), funcCallAction, NULL);
+    
+    action->setTag(3);
+    this->runAction(action);
 
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Rect _visibleRect = Director::getInstance()->getOpenGLView()->getVisibleRect();
 
-    auto videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
+    videoPlayer = cocos2d::experimental::ui::VideoPlayer::create();
     videoPlayer->setContentSize(_visibleRect.size);
     videoPlayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     videoPlayer->setPosition(Vec2(_visibleRect.origin.x + _visibleRect.size.width / 2,_visibleRect.origin.y + _visibleRect.size.height /2));
@@ -89,18 +92,19 @@ void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eve
 
 void IntroVideoScene::navigateToNextScene()
 {
-    this->stopActionByTag(2);
+    this->stopActionByTag(3);
+    
+    videoPlayer->setVisible(false);
     AnalyticsSingleton::getInstance()->registerAppVersion();
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
-        auto slideShowScene = SlideShowScene::createScene();
-        Director::getInstance()->replaceScene(slideShowScene);
+        Director::getInstance()->replaceScene(this->slideShowScene);
+        this->slideShowScene->release();
     }
     else
     {
-        auto loginLogicHandler = new LoginLogicHandler();
-        loginLogicHandler->doLoginLogic();
+        LoginLogicHandler::getInstance()->doLoginLogic();
     }
 }
 

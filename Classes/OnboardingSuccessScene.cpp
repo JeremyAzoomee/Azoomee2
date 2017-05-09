@@ -10,6 +10,7 @@
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -20,19 +21,17 @@ Scene* OnboardingSuccessScene::createScene()
     auto scene = Scene::create();
     auto layer = OnboardingSuccessScene::create();
     scene->addChild(layer);
-    layer->IAPEnabled = false;
     layer->IAPSuccess = false;
     layer->setupScene();
     
     return scene;
 }
 
-Scene* OnboardingSuccessScene::createScene(bool IAPEnabled, bool IAPSuccess)
+Scene* OnboardingSuccessScene::createScene(bool IAPSuccess)
 {
     auto scene = Scene::create();
     auto layer = OnboardingSuccessScene::create();
     scene->addChild(layer);
-    layer->IAPEnabled = IAPEnabled;
     layer->IAPSuccess = IAPSuccess;
     layer->setupScene();
     
@@ -61,7 +60,7 @@ bool OnboardingSuccessScene::init()
 
 void OnboardingSuccessScene::onEnterTransitionDidFinish()
 {
-    if(IAPEnabled && !IAPSuccess)
+    if(!IAPSuccess)
     {
         AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("OnboardingSuccess");
         IAPUpsaleLayer::create();
@@ -85,7 +84,7 @@ void OnboardingSuccessScene::addButtonsToScene()
     oomeeButton->setMixPanelButtonName("OnboardingSuccessOomeePressed");
     this->addChild(oomeeButton);
     
-    if(IAPEnabled && !IAPSuccess)
+    if(!IAPSuccess)
     {
         startTrial = ElectricDreamsButton::createButtonWithText("Start Trial!", 100);
         startTrial->setPosition(origin.x + startTrial->getContentSize().height,oomeeButton->getPositionY());
@@ -105,7 +104,7 @@ void OnboardingSuccessScene::addLabelsToLayer()
         TitleText = "Your Azoomee subscription is now active!\nEnjoy unlimited access to TV shows, games and audiobooks";
         SubTitleText = "You can choose your own Oomee later.";
     }
-    else if(IAPEnabled)
+    else
     {
         TitleText = "Don’t worry, you can still access lots of exciting TV shows,\ngames and audiobooks for free.";
         SubTitleText = "You can always unlock full access later.";
@@ -150,5 +149,6 @@ void OnboardingSuccessScene::callDelegateFunction(float dt)
 {
     oomeeButton->hideOomee();
     AudioMixer::getInstance()->stopOomeeEffect();
+    ParentDataParser::getInstance()->logoutChild();
     BackEndCaller::getInstance()->childLogin(0);
 }

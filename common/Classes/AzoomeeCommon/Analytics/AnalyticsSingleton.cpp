@@ -85,6 +85,11 @@ void AnalyticsSingleton::registerIAPOS(std::string OS_String)
     mixPanelRegisterSuperProperties("iAP_OS",OS_String);
 }
 
+void AnalyticsSingleton::registerBillingProvider(std::string provider)
+{
+    mixPanelRegisterSuperProperties("billingProvider",provider);
+}
+
 void AnalyticsSingleton::registerChildID(std::string ChildID)
 {
     mixPanelRegisterSuperProperties("childID",ChildID);
@@ -416,6 +421,15 @@ void AnalyticsSingleton::introVideoTimedOutError(std::string errorMessage)
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
+    
+void AnalyticsSingleton::enteredBackgroundEvent()
+{
+    mixPanelSendEvent("enteredBackgroundEvent");
+}
+void AnalyticsSingleton::enteredForegroundEvent()
+{
+    mixPanelSendEvent("enteredForegroundEvent");
+}
 
 //---------------IAP ACTIONS------------------
   
@@ -468,6 +482,11 @@ void AnalyticsSingleton::iapBackEndRequestFailedEvent(long errorCode)
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
-  
+
+void AnalyticsSingleton::iapAppleAutoRenewSubscriptionEvent()
+{
+    mixPanelSendEvent("iapAppleAutoRenewSubscription");
+}
+    
 }
 

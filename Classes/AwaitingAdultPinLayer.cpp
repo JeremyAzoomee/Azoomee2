@@ -3,7 +3,7 @@
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 
@@ -131,7 +131,7 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
         this->getDelegate()->AdultPinCancelled(this);
     }
     else if(button == acceptButton)
-        BackEndCaller::getInstance()->updateParent(this, "pin");
+        BackEndCaller::getInstance()->updateParentPin(this);
 }
 
 void AwaitingAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
@@ -141,7 +141,7 @@ void AwaitingAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,
 
 void AwaitingAdultPinLayer::secondCheckForPin()
 {
-    //Please implement your second check here. If first check is not okay, please call: BackEndCaller::getInstance->updateParent(this);
+    //Please implement your second check here. If first check is not okay, please call: BackEndCaller::getInstance->updateParentPin(this);
     CCLOG("Second check for pin callback was called");
     
     if(editBox_pin->getText() == ParentDataProvider::getInstance()->getParentPin() || ("" == ParentDataProvider::getInstance()->getParentPin() && editBox_pin->getText() == "1234"))

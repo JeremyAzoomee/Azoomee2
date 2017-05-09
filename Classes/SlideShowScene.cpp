@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
+#include <cstdlib>
 
 using namespace Azoomee;
 
@@ -32,57 +33,35 @@ bool SlideShowScene::init()
     return true;
 }
 
-// --------------------- Setup -----------------------
-
-void SlideShowScene::fadeInObject(Node* objectToFade)
-{
-    objectToFade->setOpacity(0);
-    
-    float delayTime = CCRANDOM_0_1() * 0.5;
-    objectToFade->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-}
-
 //---------------------- Create Slides -----------------
 
-Layout* SlideShowScene::addSlide(int SlideNumber)
+void SlideShowScene::imageAddedToCache(Texture2D* resulting_texture)
 {
-    Layout* slideLayer = Layout::create();
-    slideLayer->setContentSize(visibleSize);
+    std::vector<std::string> pathSplit = splitStringToVector(resulting_texture->getPath(), "slide_");
     
-    auto slideImage = Sprite::create(StringUtils::format("res/slideshow/slide_%d.jpg",SlideNumber));
-    slideImage->setPosition(slideLayer->getContentSize().width /2, slideLayer->getContentSize().height /2);
-    slideLayer->addChild(slideImage);
-
-    return slideLayer;
-}
-
-void SlideShowScene::SheduleSlideSpriteCreation(float dt)
-{
-    auto slideImage2 = Sprite::create("res/slideshow/slide_2.jpg");
-    slideImage2->setPosition(layout2->getContentSize().width /2, layout2->getContentSize().height /2);
-    layout2->addChild(slideImage2);
+    auto slideImage = Sprite::createWithTexture( resulting_texture );
+    slideImage->setPosition(visibleSize.width /2, visibleSize.height /2);
     
-    auto slideImag3 = Sprite::create("res/slideshow/slide_3.jpg");
-    slideImag3->setPosition(layout3->getContentSize().width /2, layout3->getContentSize().height /2);
-    layout3->addChild(slideImag3);
-    
-    auto slideImag4 = Sprite::create("res/slideshow/slide_4.jpg");
-    slideImag4->setPosition(layout4->getContentSize().width /2, layout4->getContentSize().height /2);
-    layout4->addChild(slideImag4);
-    
-    auto slideImag5 = Sprite::create("res/slideshow/slide_5.jpg");
-    slideImag5->setPosition(layout5->getContentSize().width /2, layout5->getContentSize().height /2);
-    layout5->addChild(slideImag5);
-    
-    auto slideImag6 = Sprite::create("res/slideshow/slide_6.jpg");
-    slideImag6->setPosition(layout6->getContentSize().width /2, layout6->getContentSize().height /2);
-    layout6->addChild(slideImag6);
-    
-    startExporingButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_START_EXPLORING));
-    startExporingButton->setCenterPosition(Vec2(layout6->getContentSize().width/2, layout6->getContentSize().height/2));
-    startExporingButton->setDelegate(this);
-    startExporingButton->setMixPanelButtonName("SlideshowStartExploring");
-    layout6->addChild(startExporingButton);
+    if(pathSplit.size() == 2)
+    {
+        std::vector<std::string> dotSplit = splitStringToVector(pathSplit.at(1), ".");
+        
+        if(dotSplit.size() == 2)
+        {
+            int SlideNumber = std::atoi(dotSplit.at(0).c_str()) - 1;
+            
+            layoutVector.at(SlideNumber)->addChild(slideImage);
+            
+            if(SlideNumber == 5)
+            {
+                startExporingButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_START_EXPLORING));
+                startExporingButton->setCenterPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
+                startExporingButton->setDelegate(this);
+                startExporingButton->setMixPanelButtonName("SlideshowStartExploring");
+                layoutVector.at(SlideNumber)->addChild(startExporingButton);
+            }
+        }
+    }
 }
 
 void SlideShowScene::createPageView()
@@ -98,31 +77,18 @@ void SlideShowScene::createPageView()
     _pageView->setIndicatorEnabled(true);
     _pageView->setIndicatorSelectedIndexColor(Color3B(28, 244, 244));
     
-    //Create Pointers to Pages, to add sprites later.
-    //Stopping blank screen for 8 seconds on Pixie
-    //Jan 2017
-    layout2 = Layout::create();
-    layout2->setContentSize(visibleSize);
-    layout3 = Layout::create();
-    layout3->setContentSize(visibleSize);
-    layout4 = Layout::create();
-    layout4->setContentSize(visibleSize);
-    layout5 = Layout::create();
-    layout5->setContentSize(visibleSize);
-    layout6 = Layout::create();
-    layout6->setContentSize(visibleSize);
-    
-    //Add first slide and dummy slides, to add sprites later.
-    _pageView->insertCustomItem(addSlide(1),0);
-    _pageView->insertCustomItem(layout2,1);
-    _pageView->insertCustomItem(layout3,2);
-    _pageView->insertCustomItem(layout4,3);
-    _pageView->insertCustomItem(layout5,4);
-    _pageView->insertCustomItem(layout6,5);
+    for(int i=0;i<6;i++)
+    {
+        Layout* newLayout = Layout::create();
+        newLayout->setContentSize(visibleSize);
+        _pageView->insertCustomItem(newLayout,i);
+
+        Director::getInstance()->getTextureCache()->addImageAsync(StringUtils::format("res/slideshow/slide_%d.jpg",i+1), CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
+        
+        layoutVector.push_back(newLayout);
+    }
     
     _pageView->scrollToItem(0);
-    
-    this->scheduleOnce(schedule_selector(SlideShowScene::SheduleSlideSpriteCreation),0.3);
     
     _pageView->addEventListener((PageView::ccPageViewCallback)CC_CALLBACK_2(SlideShowScene::pageViewEvent, this));
     

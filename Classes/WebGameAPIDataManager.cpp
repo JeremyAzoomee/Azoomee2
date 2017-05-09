@@ -59,6 +59,11 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
         return createReturnStringForAPI(method, responseId, "score", StringUtils::format("%d", updateCurrentHighScoreForGame(newScore)).c_str());
     }
     
+    if(strncmp(method, "requestAzoomeeVersion", strlen(method)) == 0)
+    {
+        return createReturnStringForAPI(method, responseId, "version", ConfigStorage::getInstance()->getVersionNumber().c_str());
+    }
+    
     return createReturnStringForAPI(method, responseId, "error", "error in request");
 }
 

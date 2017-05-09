@@ -17,9 +17,9 @@ TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputT
     auto layer = TextInputLayer::create();
     layer->setContentSize(inputBoxSize);
 
-    layer->createEditBoxArea();
     layer->textInputType = textInputType;
     layer->createEditBox();
+    layer->createEditBoxArea();
     layer->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.70));
     
     return layer;
@@ -50,7 +50,7 @@ void TextInputLayer::createEditBoxArea()
 
 void TextInputLayer::createEditBox()
 {
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height), "BLANK_STRING_NEEDED");
+    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height), "res/login/editboxBlankFor9Scale.png");
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
@@ -188,8 +188,9 @@ void TextInputLayer::setEditboxVisibility(bool visibility)
 
 void TextInputLayer::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
-    //Inform Delegates if input is valid
-    this->getDelegate()->textInputIsValid(this, inputIsValid());
+    if(this->getDelegate())
+        //Inform Delegates if input is valid
+        this->getDelegate()->textInputIsValid(this, inputIsValid());
 }
 
 void TextInputLayer::editBoxReturn(cocos2d::ui::EditBox* editBox)

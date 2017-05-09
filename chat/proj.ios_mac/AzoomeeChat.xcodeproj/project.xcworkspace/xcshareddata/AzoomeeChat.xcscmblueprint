@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "B982D2B7C2A87FCEF8A9E9E76F58093071ABD630",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "852ED3691A47A99B0D19C820A500AE9772B2A44E" : 9223372036854775807,
+    "B982D2B7C2A87FCEF8A9E9E76F58093071ABD630" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "FAADC117-F8EE-4F1C-9276-DD7F7295E2F5",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "852ED3691A47A99B0D19C820A500AE9772B2A44E" : "app\/cocos2d\/",
+    "B982D2B7C2A87FCEF8A9E9E76F58093071ABD630" : "app\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "AzoomeeChat",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "chat\/proj.ios_mac\/AzoomeeChat.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cocos2d\/cocos2d-x.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "852ED3691A47A99B0D19C820A500AE9772B2A44E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:azoomee\/app-cocos-azoomee2.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B982D2B7C2A87FCEF8A9E9E76F58093071ABD630"
+    }
+  ]
+}

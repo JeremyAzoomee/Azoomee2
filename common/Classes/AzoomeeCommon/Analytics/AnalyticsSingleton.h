@@ -44,6 +44,7 @@ public:
     void registerAccountStatus(std::string Status);
     void registerBillingStatus(std::string Status);
     void registerIAPOS(std::string OS_String);
+    void registerBillingProvider(std::string provider);
 
 
     void registerChildID(std::string ChildID);
@@ -99,6 +100,8 @@ public:
     void messageBoxShowEvent(std::string messageTitle);
     void localisedStringErrorEvent(std::string stringRequested, std::string languageUsed);
     void introVideoTimedOutError(std::string errorMessage);
+    void enteredBackgroundEvent();
+    void enteredForegroundEvent();
     
     //---------------IAP ACTIONS------------------
     void displayIAPUpsaleEvent(std::string fromLocation);
@@ -108,6 +111,7 @@ public:
     void iapUserDataFailedEvent();
     void iapSubscriptionDoublePurchaseEvent();
     void iapBackEndRequestFailedEvent(long errorCode);
+    void iapAppleAutoRenewSubscriptionEvent();
 
 };
   

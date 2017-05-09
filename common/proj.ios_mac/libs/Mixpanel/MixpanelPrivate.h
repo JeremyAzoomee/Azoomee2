@@ -9,9 +9,7 @@
 #import "Mixpanel.h"
 #import "MPNetwork.h"
 
-#if !MIXPANEL_NO_EXCEPTION_HANDLING
 #import "MixpanelExceptionHandler.h"
-#endif
 
 #if TARGET_OS_IPHONE
 #if !MIXPANEL_NO_REACHABILITY_SUPPORT
@@ -34,15 +32,17 @@
 #import "MPDesignerSessionCollection.h"
 #import "MPEventBinding.h"
 #import "MPNotification.h"
+#import "MPTakeoverNotification.h"
+#import "MPMiniNotification.h"
 #import "MPNotificationViewController.h"
-#import "MPSurveyNavigationController.h"
 #import "MPSwizzler.h"
+#import "MPTweakStore.h"
 #import "MPVariant.h"
 #import "MPWebSocket.h"
 #endif
 
 #if !MIXPANEL_NO_NOTIFICATION_AB_TEST_SUPPORT
-@interface Mixpanel () <MPSurveyNavigationControllerDelegate, MPNotificationViewControllerDelegate>
+@interface Mixpanel () <MPNotificationViewControllerDelegate>
 #else
 @interface Mixpanel ()
 #endif
@@ -67,7 +67,7 @@
 @property (nonatomic, getter=isValidationEnabled) BOOL validationEnabled;
 #endif
 
-#if !defined(MIXPANEL_WATCH_EXTENSION)
+#if !defined(MIXPANEL_WATCHOS) && !defined(MIXPANEL_MACOS)
 @property (nonatomic, assign) UIBackgroundTaskIdentifier taskId;
 @property (nonatomic, strong) UIViewController *notificationViewController;
 #endif
@@ -89,9 +89,6 @@
 @property (nonatomic, strong) NSMutableDictionary *timedEvents;
 
 @property (nonatomic) BOOL decideResponseCached;
-@property (nonatomic, strong) NSArray *surveys MIXPANEL_SURVEYS_DEPRECATED;
-@property (nonatomic, strong) id currentlyShowingSurvey MIXPANEL_SURVEYS_DEPRECATED;
-@property (nonatomic, strong) NSMutableSet *shownSurveyCollections MIXPANEL_SURVEYS_DEPRECATED;
 
 @property (nonatomic, strong) NSArray *notifications;
 @property (nonatomic, strong) id currentlyShowingNotification;
@@ -115,11 +112,10 @@
 - (NSString *)propertiesFilePath;
 
 #if !MIXPANEL_NO_NOTIFICATION_AB_TEST_SUPPORT
-- (void)presentSurveyWithRootViewController:(MPSurvey *)survey MIXPANEL_SURVEYS_DEPRECATED;
 - (void)showNotificationWithObject:(MPNotification *)notification;
 - (void)markVariantRun:(MPVariant *)variant;
-- (void)checkForDecideResponseWithCompletion:(void (^)(NSArray *surveys, NSArray *notifications, NSSet *variants, NSSet *eventBindings))completion;
-- (void)checkForDecideResponseWithCompletion:(void (^)(NSArray *surveys, NSArray *notifications, NSSet *variants, NSSet *eventBindings))completion useCache:(BOOL)useCache;
+- (void)checkForDecideResponseWithCompletion:(void (^)(NSArray *notifications, NSSet *variants, NSSet *eventBindings))completion;
+- (void)checkForDecideResponseWithCompletion:(void (^)(NSArray *notifications, NSSet *variants, NSSet *eventBindings))completion useCache:(BOOL)useCache;
 #endif
 
 @end

@@ -2,6 +2,7 @@
 	<body>
 		<br><br><br>
 		<input type="text" id="responseid" value="responseId"><br>
+		<button id="requestAzoomeeVersion">Request Azoomee Version</button><br>
 		<button id="requestName">Request username</button><br>
 		<button id="requestId">Request userid</button><br>
 		<button id="requestAvatar">Request user avatar</button><br>
@@ -11,7 +12,12 @@
 		
 		<script>
 			window.addEventListener("message", receiveAPIMessage, false);
-		
+			
+			document.getElementById('requestAzoomeeVersion').onclick = function()
+			{
+   				requestData("requestAzoomeeVersion", document.getElementById("responseid").value);
+   			};
+			
 			document.getElementById('requestName').onclick = function()
 			{
    				requestData("requestUsername", document.getElementById("responseid").value);
@@ -48,6 +54,40 @@
 			function receiveAPIMessage(event)
 			{
 				document.getElementById("messageplace").innerHTML = "Feedback received from API: " + JSON.stringify(event.data);
+				
+				if(event.data.method == "requestAzoomeeVersion")
+				{
+					if(!checkForCompatibilityWithVersion("3.2.2", event.data.response.version))
+					{
+						alert("Not compatible!");
+					}
+				}
+			}
+			
+			function checkForCompatibilityWithVersion(requestedVersion, azoomeeVersion)
+			{
+				var pureVersion1 = requestedVersion.split(" ")[0];
+				var pureVersion2 = azoomeeVersion.split(" ")[0];
+				
+				var versionElements1 = pureVersion1.split(".");
+				var versionElements2 = pureVersion2.split(".");
+				
+				if(versionElements1.length != versionElements2.length) return true;
+				
+				var versionsEqual = true;
+				for(var i = 0; i < versionElements1.length; i++)
+				{
+					if(versionElements1[i] != versionElements2[i]) versionsEqual = false;
+				}
+				
+				if(versionsEqual) return true;
+				
+				for(var i = 0;i < versionElements1.length; i++)
+				{ 
+					if(versionElements1[i] < versionElements2[i]) return true;
+				}
+				
+				return false;
 			}
 		</script>
 	</body>

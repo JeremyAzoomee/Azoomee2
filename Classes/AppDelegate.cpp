@@ -5,9 +5,10 @@
 #include "HQScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
-#include "LoginScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
+#include "LoginLogicHandler.h"
+#include "RoutePaymentSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -90,38 +91,25 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     auto scene = IntroVideoScene::createScene();
     director->runWithScene(scene);
+    
+    RoutePaymentSingleton::getInstance();
 
     return true;
 }
 
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
 void AppDelegate::applicationDidEnterBackground() {
+    AnalyticsSingleton::getInstance()->enteredBackgroundEvent();
     Director::getInstance()->stopAnimation();
     Director::getInstance()->pause();
-
-    // if you use SimpleAudioEngine, it must be paused
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
+    AnalyticsSingleton::getInstance()->enteredForegroundEvent();
     Director::getInstance()->stopAnimation();
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
-    
-    /*
-    if(ConfigStorage::getInstance()->inArtsApp == 1)
-    {
-        ConfigStorage::getInstance()->inArtsApp = 0;
-        Scene *runningScene = Director::getInstance()->getRunningScene();
-        Node *baseLayer = runningScene->getChildByName("baseLayer");
-        Node *contentLayer = baseLayer->getChildByName("contentLayer");
-        HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("ARTS APP");
-        
-        hqLayer->removeAllChildren();
-        hqLayer->startBuildingScrollViewBasedOnName();
-    }
-     */
     
     if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
     {
@@ -130,8 +118,8 @@ void AppDelegate::applicationWillEnterForeground() {
         if(HQHistoryManager::getInstance()->thereWasAnError)
         {
             HQHistoryManager::getInstance()->thereWasAnError = false;
-            auto loginScene = LoginScene::createSceneWithAutoLoginAndErrorDisplay();
-            Director::getInstance()->replaceScene(loginScene);
+            LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+            LoginLogicHandler::getInstance()->doLoginLogic();
             return;
         }
         
@@ -146,7 +134,4 @@ void AppDelegate::applicationWillEnterForeground() {
         auto baseScene = BaseScene::createScene();
         cocos2d::Director::getInstance()->replaceScene(baseScene);
     }
-
-    // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }

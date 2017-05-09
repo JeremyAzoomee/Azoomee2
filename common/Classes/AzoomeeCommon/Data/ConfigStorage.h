@@ -18,7 +18,6 @@ public:
     bool init(void);
     
     //General configuration
-//#define autologin YES;
 //#define forcereload YES;
 //#define forgetuserdata YES;
     
@@ -49,6 +48,7 @@ public:
     cocos2d::Vec2 getHighlightSizeMultiplierForContentItem(int highlightClass);
     float getScrollviewTitleTextHeight();
     cocos2d::Size getGroupHQLogoSize();
+    int getContentItemImageValidityInSeconds();
     
     //NavigationLayer configuration
     cocos2d::Point getCirclePositionForMenuItem(int itemNumber);
@@ -101,8 +101,6 @@ private:
     rapidjson::Document VersionConfiguration;
     rapidjson::Document IapConfiguration;
     
-    cocos2d::Point visualOrigin;
-    cocos2d::Size visualSize;
 };
   
 }

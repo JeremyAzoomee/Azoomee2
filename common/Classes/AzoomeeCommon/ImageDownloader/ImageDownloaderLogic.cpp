@@ -1,6 +1,7 @@
 #include "ImageDownloaderLogic.h"
 #include "../Data/Cookie/CookieDataStorage.h"
 #include "ImageDownloader.h"
+#include "../Data/ConfigStorage.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -21,13 +22,31 @@ void ImageDownloaderLogic::startProcessingImage(cocos2d::Node *sender, std::stri
     
     if(findFileInLocalCache(fileName))
     {
-        loadFileFromLocalCacheAsync(fileName);
+        if(imageUpdateRequired(fileName))
+        {
+            fileUtils->removeDirectory(imageIdPath);
+            downloadFileFromServer(url);
+        }
+        else loadFileFromLocalCacheAsync(fileName);
     }
     else
     {
         downloadFileFromServer(url);
     }
 
+}
+    
+bool ImageDownloaderLogic::imageUpdateRequired(std::string fileName)
+{
+    std::string timeStampFilePath = imageIdPath + "time.stmp";
+    if(!fileUtils->isFileExist(timeStampFilePath)) return true;
+    
+    long timeStamp = std::atoi(fileUtils->getStringFromFile(timeStampFilePath).c_str());
+    long currentTimeStamp = time(NULL);
+    
+    if(currentTimeStamp - timeStamp > ConfigStorage::getInstance()->getContentItemImageValidityInSeconds()) return true;
+    
+    return false;
 }
 
 std::string ImageDownloaderLogic::getFileNameFromURL(std::string url)
@@ -86,8 +105,9 @@ void ImageDownloaderLogic::downloadFileFromServerAnswerReceived(cocos2d::network
             responseString = std::string(myResponse.begin(), myResponse.end());
             
             std::string fileName = getFileNameFromURL(response->getHttpRequest()->getUrl());
-            if(saveFileToServer(responseString, fileName))
+            if(saveFileToDevice(responseString, fileName))
             {
+                saveFileToDevice(StringUtils::format("%ld", time(NULL)), "time.stmp");
                 loadFileFromLocalCacheAsync(fileName);
                 downloadRequest->release();
                 return;
@@ -112,7 +132,7 @@ void ImageDownloaderLogic::removeLoadingAnimation()
     }
 }
 
-bool ImageDownloaderLogic::saveFileToServer(std::string data, std::string fileName)
+bool ImageDownloaderLogic::saveFileToDevice(std::string data, std::string fileName)
 {
     if(!fileUtils->isDirectoryExist(imageCachePath))
     {

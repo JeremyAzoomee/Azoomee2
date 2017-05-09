@@ -1,0 +1,18 @@
+#!/bin/bash
+
+VERSION="23.53.589.4"
+
+mvn install:install-file -DgroupId=org.xwalk -DartifactId=xwalk_core_library \
+      -Dversion=23.53.589.4-x86 -Dpackaging=aar  \
+      -Dfile=xwalk_core_library-${VERSION}-x86.aar  \
+      -DgeneratePom=true
+
+mvn install:install-file -DgroupId=org.xwalk -DartifactId=xwalk_core_library \
+      -Dversion=23.53.589.4-arm -Dpackaging=aar  \
+      -Dfile=xwalk_core_library-${VERSION}-arm.aar  \
+      -DgeneratePom=true
+
+mvn install:install-file -DgroupId=org.xwalk -DartifactId=xwalk_core_library \
+      -Dversion=23.53.589.4-arm64 -Dpackaging=aar  \
+      -Dfile=xwalk_core_library-${VERSION}-arm64.aar  \
+      -DgeneratePom=true

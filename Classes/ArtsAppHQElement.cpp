@@ -5,7 +5,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "HQScene.h"
 #include "AppDelegate.h"
-#include "MessageBox.h"
+#include "PreviewLoginSignupMessageBox.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "WebGameAPIDataManager.h"
 #include "ArtAppImageManager.h"
@@ -278,7 +278,7 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         {
             if(preview)
             {
-                MessageBox::createPreviewLoginSignupMessageBox();
+                PreviewLoginSignupMessageBox::create();
                 return true;
             }
             

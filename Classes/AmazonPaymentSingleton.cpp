@@ -1,8 +1,9 @@
 #include "AmazonPaymentSingleton.h"
-#include "HttpRequestCreator.h"
 #include "external/json/document.h"
-#include "MessageBox.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include "BackEndCaller.h"
+#include "LoginLogicHandler.h"
+#include "RoutePaymentSingleton.h"
 
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -43,10 +44,7 @@ bool AmazonPaymentSingleton::init(void)
 
 void AmazonPaymentSingleton::startIAPPayment()
 {
-    if(!iapAttemptInprogress)
-    {
-        iapAttemptInprogress = true;
-        requestAttempts = 0;
+    requestAttempts = 0;
         
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
         
@@ -60,7 +58,6 @@ void AmazonPaymentSingleton::startIAPPayment()
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
         
     #endif
-    }
 }
 
 void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid)
@@ -71,10 +68,7 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     savedReceiptId = receiptId;
     savedAmazonUserid = amazonUserid;
     
-    HttpRequestCreator* httpRequestCreator = new HttpRequestCreator();
-    httpRequestCreator->requestBody = StringUtils::format("{\"requestId\": \"%s\", \"receiptId\": \"%s\", \"amazonUserId\": \"%s\"}", requestId.c_str(), receiptId.c_str(), amazonUserid.c_str());
-    httpRequestCreator->requestTag = "iapAmazonPaymentMade";
-    httpRequestCreator->createEncryptedPostHttpRequest();
+    BackEndCaller::getInstance()->verifyAmazonPayment(requestId, receiptId, amazonUserid);
 }
 
 void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDataString)
@@ -91,53 +85,33 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
         return;
     }
     
-    bool paymentFailed = true;
-    
     if(paymentData.HasMember("receiptStatus"))
     {
         if(paymentData["receiptStatus"].IsString())
         {
-            // EXPIRED, INVALID, UNCERTAIN
             if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
             {
-                AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
-                paymentFailed = false;
-                
                 std::string receiptId = paymentData["receiptId"].GetString();
                 fulfillAmazonPayment(receiptId);
                 
-                removeModalLayer();
-                
-                BackEndCaller::getInstance()->newSubscriptionJustStarted = true;
-                BackEndCaller::getInstance()->autoLogin();
+                RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
+                return;
             }
             else
                 AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
         }
     }
 
-    if(paymentFailed)
+    if(requestAttempts < 4)
     {
-        if(requestAttempts < 4)
-        {
-            requestAttempts = requestAttempts + 1;
-            amazonPaymentMade(savedRequestId, savedReceiptId, savedAmazonUserid);
-        }
-        else
-        {
-            removeModalLayer();
-            MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
-            return;
-        }
+        requestAttempts = requestAttempts + 1;
+        amazonPaymentMade(savedRequestId, savedReceiptId, savedAmazonUserid);
     }
-}
-
-void AmazonPaymentSingleton::backendRequestFailed()
-{
-    iapAttemptInprogress = false;
-    
-    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
-    
+    else
+    {
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
+        return;
+    }
 }
 
 void AmazonPaymentSingleton::fulfillAmazonPayment(std::string receiptId)
@@ -157,59 +131,12 @@ void AmazonPaymentSingleton::fulfillAmazonPayment(std::string receiptId)
 
 }
 
-void AmazonPaymentSingleton::purchaseFailed()
-{
-    CCLOG("PaymentSingleton: PURCHASE FAILED");
-    AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent();
-    removeModalLayer();
-}
-
-//-------------------- Modal Layer Functions----------------
-
-void AmazonPaymentSingleton::createModalLayer()
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    modalLayer = LayerColor::create(Color4B(0,0,0,150), visibleSize.width, visibleSize.height);
-    modalLayer->setPosition(origin.x, origin.y);
-    modalLayer->setOpacity(0);
-    Director::getInstance()->getRunningScene()->addChild(modalLayer);
-    
-    addListenerToBackgroundLayer();
-    
-    modalLayer->runAction(FadeTo::create(0.5, 255));
-}
-
-void AmazonPaymentSingleton::removeModalLayer()
-{
-    iapAttemptInprogress = false;
-    if(modalLayer) //This might be called when loading is not active, so better to check first
-    {
-        Director::getInstance()->getRunningScene()->removeChild(modalLayer);
-    }
-}
-
-void AmazonPaymentSingleton::addListenerToBackgroundLayer()
-{
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
-    {
-        return true;
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), modalLayer);
-}
-
 //-------------------- JAVA RETURN FUNCTIONS-----------------
 
 void showDoublePurchase()
 {
     auto funcCallAction = CallFunc::create([=](){
-        AnalyticsSingleton::getInstance()->iapSubscriptionDoublePurchaseEvent();
-        AmazonPaymentSingleton::getInstance()->removeModalLayer();
-        MessageBox::createWith(ERROR_CODE_PURCHASE_DOUBLE, nullptr);
+        RoutePaymentSingleton::getInstance()->doublePurchaseMessage();
     });
     
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from amazon window, otherwise the app will crash
@@ -254,7 +181,7 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseFailed(JNIEnv* env, jobject thiz)
 {
     CCLOG("COCOS2DX: PURCHASE FAILED");
-    AmazonPaymentSingleton::getInstance()->purchaseFailed();
+    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
 }
 
 extern "C"

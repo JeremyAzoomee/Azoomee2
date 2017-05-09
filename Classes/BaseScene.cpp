@@ -9,8 +9,8 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "HQDataParser.h"
-
 #include "HQHistoryManager.h"
+#include "BackEndCaller.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -45,7 +45,7 @@ void BaseScene::onEnterTransitionDidFinish()
  
     if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())  //if basescene is being run without a child logged in, preview mode has to be activated
     {
-        HQDataParser::getInstance()->getPreviewContent(ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag("PreviewHOME"), "HOME");
+        BackEndCaller::getInstance()->getHQContent(ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag("PreviewHOME"), "PreviewHOME");
     }
     else
     {
