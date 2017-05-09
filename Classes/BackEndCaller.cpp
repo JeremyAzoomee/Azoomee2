@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
@@ -321,10 +322,13 @@ void BackEndCaller::getHQContent(const std::string& url, const std::string& cate
 }
 
 // DEEPLINK CONTENT DETAILS REQUEST ----------------------------------------------------------------
-void BackEndCaller::getContentItemDetails(const std::string& requestId, const std::string& contentID)
+void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const std::string& contentID)
 {
-    HttpRequestCreator* request = API::GetEncryptedGetContentItemDetails(requestId, contentID, this);
-    request->execute();
+    if(ChildDataStorage::getInstance()->childLoggedIn)
+    {
+        HttpRequestCreator* request = API::GetElectricDreamsContent(requestId, ChildDataStorage::getInstance()->loggedInChildId, contentID, this);
+        request->execute();
+    }
 }
 
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------

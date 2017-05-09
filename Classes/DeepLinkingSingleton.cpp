@@ -81,14 +81,14 @@ bool DeepLinkingSingleton::setHostandPath(std::string UriString)
 
 bool DeepLinkingSingleton::actionDeepLink()
 {
-    if(Host == "" | Path == "" | !deepLinkActionWaiting)
+    if(Host == "" || Path == "" || !deepLinkActionWaiting)
         return false;
     
     if(Host == "content" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
         ModalMessages::getInstance()->startLoading();
         deepLinkActionWaiting = false;
-        BackEndCaller::getInstance()->getContentItemDetails("deepLinkContentRequest", Path);
+        BackEndCaller::getInstance()->getElectricDreamsContent("deepLinkContentRequest", Path);
         return true;
     }
     else if(Host == "moveto")
@@ -136,31 +136,29 @@ void DeepLinkingSingleton::completeContentAction(std::string type,std::string ur
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(uri.c_str());
     }
-    else if(type == "AUDIOGROUP")
-    {
-        NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-        navigationLayer->startLoadingGroupHQ(uri);
-        
-        HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-        HQHistoryManager::getInstance()->setGroupHQSourceId(Path);
-
-    }
-    else if(type == "GROUP")
+    else if(type == "AUDIOGROUP" || type == "GROUP")
     {
         ModalMessages::getInstance()->stopLoading();
         
-        NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-        navigationLayer->startLoadingGroupHQ(uri);
+        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer"))
+        {
+            NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+            
+            if(navigationLayer)
+            {
+                navigationLayer->startLoadingGroupHQ(uri);
 
-        HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-        HQHistoryManager::getInstance()->setGroupHQSourceId(Path);
-        
-        auto funcCallAction = CallFunc::create([=](){
-            HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-            HQHistoryManager::getInstance()->setGroupHQSourceId(Path);
-        });
-        
-        Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                HQHistoryManager::getInstance()->setGroupHQSourceId(Path);
+                
+                auto funcCallAction = CallFunc::create([=](){
+                    HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                    HQHistoryManager::getInstance()->setGroupHQSourceId(Path);
+                });
+                
+                Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+            }
+        }
     }
     
     resetDeepLink();
