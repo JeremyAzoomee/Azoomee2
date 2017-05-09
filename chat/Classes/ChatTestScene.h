@@ -63,6 +63,9 @@ private:
     /// Create a MenuItem entry for Message
     cocos2d::ui::Widget* createMessageMenuItem(const MessageRef& message);
     
+    /// Show update notes if needed
+    void showUpdateNotesIfNeeded();
+    
     /// Called when projection/size changes
     void onWindowChanged(cocos2d::EventCustom* event);
     

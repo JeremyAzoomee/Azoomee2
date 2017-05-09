@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include "AppDelegate.h"
 #include "ChildSelectorScene.h"
 #include <sstream>
@@ -110,6 +111,9 @@ void ChatTestScene::onEnter()
     // Get friend list
     ChatAPI::getInstance()->requestFriendList();
     ModalMessages::getInstance()->startLoading();
+    
+    // Dev messages
+    showUpdateNotesIfNeeded();
 }
 
 void ChatTestScene::onExit()
@@ -123,6 +127,20 @@ void ChatTestScene::onExit()
     
     // Unregister on chat API events
     ChatAPI::getInstance()->removeObserver(this);
+}
+
+void ChatTestScene::showUpdateNotesIfNeeded()
+{
+    // Has the user seen these update notes yet?
+    const char* const storageKey = "azoomee.chat.dev.update_notes";
+    const std::string& version = Azoomee::Chat::Version;
+    const std::string& readVersion = UserDefault::getInstance()->getStringForKey(storageKey);
+    if( version != readVersion )
+    {
+        const std::string& messageBody = StringUtils::format("This is a very early version of the Azoomee Chat app.\n\nPlease be aware that all UI is placeholder. This build is mainly to test the API communication.\n\nv%s", version.c_str());
+        UserDefault::getInstance()->setStringForKey(storageKey, version);
+        MessageBox::createWith("Welcome", messageBody, "OK", nullptr);
+    }
 }
 
 void ChatTestScene::onWindowChanged(cocos2d::EventCustom* event)
@@ -239,7 +257,7 @@ void ChatTestScene::createRightSideUI(cocos2d::ui::Layout* parent)
     float messageEntryHeight = MIN(200.0f, _sendButton->getContentSize().height) + messageEntryPadding * 2;
     
     // TextField
-    _messageEntryField = ui::TextField::create("New message...", Azoomee::FONT_REGULAR, 40.0f);
+    _messageEntryField = ui::TextField::create("New message...", Azoomee::FONT_REGULAR, 70.0f);
     _messageEntryField->setAnchorPoint(Vec2(0, 1));
     _messageEntryField->ignoreContentAdaptWithSize(false);
     _messageEntryField->setTextHorizontalAlignment(TextHAlignment::LEFT);
