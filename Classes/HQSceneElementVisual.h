@@ -9,7 +9,6 @@ class HQSceneElementVisual : public cocos2d::Layer
 
 public:
     CREATE_FUNC(HQSceneElementVisual);
-    static cocos2d::Scene* createScene();
     virtual bool init();
     cocos2d::Layer* addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape, float delay, bool createForOffline);
     
@@ -17,31 +16,35 @@ public:
     cocos2d::LayerColor *overlayWhenTouched;
     
 private:
-    cocos2d::Sprite* downloadedImage;
-    void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth);
-    void resizeSceneElement(cocos2d::Vec2 shape, std::string category);
-    void createColourLayer(std::string category, float delay);
+    
+    //-----SETUP-----
+    void resizeSceneElement();
+    void createBaseLayer();
+    void setShouldDisplayVisualElementsOverImage();
+    void createCallbackFunction(float delay);
+    
+    //-----VISUALS----
     void addImageDownloader();
-    void addGradientToBottom(std::string category);
-    cocos2d::Sprite* addIconToImage(std::string category);
-    void addLabelsToImage(std::map<std::string, std::string>itemData, cocos2d::Sprite* nextToIcon);
-    
-    cocos2d::Size getSizeOfLayerWithGap();
-    
-    std::map<std::string, int> category_translator;
-    
-    void addTouchOverlayToElement();
+    void addGradientToBottom();
+    cocos2d::Sprite* addIconToImage();
+    void addLabelsToImage(cocos2d::Sprite* nextToIcon);
     void addLockToElement();
+    void addTouchOverlayToElement();
     
+    //----OTHER-------
+    void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth);
     void onExitTransitionDidStart();
     void onExit();
     
     bool aboutToExit;
     bool isOffline;
+    bool shouldDisplayVisualElementsOverImage;
     
     std::string elementUrl;
-    std::string elementType;
+    std::string elementCategory;
     cocos2d::Vec2 elementShape;
+    
+    std::map<std::string, std::string> elementItemDataMap;
 };
 
 #endif
