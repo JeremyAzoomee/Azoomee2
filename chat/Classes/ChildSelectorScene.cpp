@@ -131,7 +131,7 @@ void ChildSelectorScene::addProfilesToScrollView()
     }
 }
 
-Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int oomeeNumber)
+Layer* ChildSelectorScene::createChildProfileButton(std::string profileName, int oomeeNumber)
 {
     auto profileLayer = Layer::create();
     profileLayer->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
@@ -266,7 +266,6 @@ void ChildSelectorScene::onAuthAPIGetAvailableChildren()
 {
     // Got children
     addProfilesToScrollView();
-    
     ModalMessages::getInstance()->stopLoading();
 }
 

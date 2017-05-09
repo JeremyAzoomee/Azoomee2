@@ -27,8 +27,14 @@ private:
     /// Observers monitoring this API and it's responses
     std::vector<ChatAPIObserver*> _observers;
     
+    /// Index profileId with name
+    std::map<std::string, std::string> _profileNames;
+    
     // Private construction - Use ::getInstance()
     ChatAPI();
+    
+    /// Update the profile names based on the current child and their friend's list
+    void updateProfileNames();
     
     // - HttpRequestCreatorResponseDelegate
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
@@ -43,6 +49,8 @@ public:
     /// Remove a previously registered observer
     void removeObserver(ChatAPIObserver* observer);
     
+    /// Returns the name for profile, if known
+    std::string getProfileName(const std::string& profileId);
     
     /// Request the friend list from the server
     /// Response: ChatAPIObserver::onChatAPIGetFriendList
@@ -67,6 +75,7 @@ struct ChatAPIObserver
 {
     virtual void onChatAPIGetFriendList(const FriendList& friendList) {};
     virtual void onChatAPIGetChatMessages(const MessageList& messageList) {};
+    virtual void onChatAPISendMessage(const MessageRef& sentMessage) {};
 };
 
 NS_AZOOMEE_CHAT_END

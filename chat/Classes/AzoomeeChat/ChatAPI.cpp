@@ -26,6 +26,35 @@ ChatAPI::ChatAPI()
 {
 }
 
+#pragma mark - Profile names
+
+void ChatAPI::updateProfileNames()
+{
+    _profileNames.clear();
+    
+    // Add the current child user
+    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    _profileNames[childData->getLoggedInChildId()] = childData->getLoggedInChildName();
+    
+    // Add names from friend list
+    for(auto friendData : _friendList)
+    {
+        _profileNames[friendData->friendId()] = friendData->friendName();
+    }
+}
+
+std::string ChatAPI::getProfileName(const std::string& profileId)
+{
+    auto it = _profileNames.find(profileId);
+    if(it != _profileNames.end())
+    {
+        return it->second;
+    }
+    
+    // Not found
+    return "";
+}
+
 #pragma mark - Observers
 
 void ChatAPI::registerObserver(ChatAPIObserver* observer)
@@ -104,7 +133,7 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         for(auto it = response.Begin(); it != response.End(); ++it)
         {
             const auto& jsonEntry = *it;
-            FriendRef friendData = Friend::createFromJson(jsonEntry);
+            const FriendRef& friendData = Friend::createFromJson(jsonEntry);
             friendList.push_back(friendData);
             
             int unreadMessages = jsonEntry["unreadMessages"].GetInt();
@@ -112,12 +141,15 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         }
         
         _friendList = friendList;
-        // Update the index
+        
+        // Update indexes
+        updateProfileNames();
         _friendIndex.clear();
         for(auto friendData : _friendList)
         {
             _friendIndex[friendData->friendId()] = friendData;
         }
+        
         
         // Notify observers
         for(auto observer : _observers)
@@ -138,7 +170,7 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         for(auto it = response.Begin(); it != response.End(); ++it)
         {
             const auto& object = *it;
-            MessageRef message = Message::createFromJson(object);
+            const MessageRef& message = Message::createFromJson(object);
             messages.push_back(message);
         }
         
@@ -146,6 +178,21 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         for(auto observer : _observers)
         {
             observer->onChatAPIGetChatMessages(messages);
+        }
+    }
+    // Get chat messages success
+    else if(requestTag == API::TagSendChatMessage)
+    {
+        // Parse the response
+        rapidjson::Document response;
+        response.Parse(body.c_str());
+        
+        const MessageRef& message = Message::createFromJson(response);
+        
+        // Notify observers
+        for(auto observer : _observers)
+        {
+            observer->onChatAPISendMessage(message);
         }
     }
 }

@@ -32,6 +32,8 @@ private:
     cocos2d::ui::Button* _backButton = nullptr;
     /// Title label
     cocos2d::ui::Text* _titleLabel = nullptr;
+    /// Refresh button
+    cocos2d::ui::Button* _refreshButton = nullptr;
     
     /// Contact list
     cocos2d::ui::ListView* _contactListView = nullptr;
@@ -40,8 +42,6 @@ private:
     
     /// Message list
     cocos2d::ui::ListView* _messageListView = nullptr;
-    /// Message list item template
-    cocos2d::ui::Button* _messageListViewItem = nullptr;
     
     /// Message entry
     cocos2d::ui::TextField* _messageEntryField = nullptr;
@@ -60,6 +60,9 @@ private:
     /// Create the right side UI
     void createRightSideUI(cocos2d::ui::Layout* parent);
     
+    /// Create a MenuItem entry for Message
+    cocos2d::ui::Widget* createMessageMenuItem(const MessageRef& message);
+    
     /// Called when projection/size changes
     void onWindowChanged(cocos2d::EventCustom* event);
     
@@ -68,10 +71,15 @@ private:
     
     /// Select a friend from the friend list
     void selectFriend(int index);
+    /// Back button pressed
+    void onBackButtonPressed();
+    /// Send a message to the current contact
+    void sendMessage(const std::string& message);
     
     // - ChatAPIObserver
     void onChatAPIGetFriendList(const FriendList& friendList) override;
     void onChatAPIGetChatMessages(const MessageList& messageList) override;
+    void onChatAPISendMessage(const MessageRef& sentMessage) override;
     
     // - IMEDelegate
     void keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info) override;
@@ -80,8 +88,6 @@ private:
     void keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info) override;
     
 public:
-    
-    virtual ~ChatTestScene();
     
     virtual bool init() override;
     virtual void onEnter() override;

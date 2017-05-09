@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <cocos/cocos2d.h>
 #include <memory>
@@ -56,7 +57,7 @@ void AuthAPI::removeObserver(AuthAPIObserver* observer)
     }
 }
 
-#pragma mark - Login
+#pragma mark - User
 
 bool AuthAPI::isLoggedIn() const
 {
@@ -71,14 +72,13 @@ void AuthAPI::loginUser(const std::string& username, const std::string& password
     request->execute();
 }
 
-#pragma mark - Logout
-
 void AuthAPI::logoutUser()
 {
+    logoutChild();
     ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
 }
 
-#pragma mark - Children
+#pragma mark - Child
 
 void AuthAPI::getAvailableChildren()
 {
@@ -97,6 +97,11 @@ void AuthAPI::loginChild(const std::string& profileName)
 {
     HttpRequestCreator* request = API::ChildLoginRequest(profileName, this);
     request->execute();
+}
+
+void AuthAPI::logoutChild()
+{
+    ChildDataParser::getInstance()->setChildLoggedIn(false);
 }
 
 #pragma mark - HttpRequestCreatorResponseDelegate

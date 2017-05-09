@@ -21,9 +21,21 @@ FriendRef Friend::createFromJson(const rapidjson::Value& json)
     //    "unreadMessages":0
     //}
     
-    const std::string& friendId = json["friendId"].GetString();
-    const std::string& friendName = json["friendName"].GetString();
-    const std::string& avatarURL = json["avatar"].GetString();
+    const auto& friendIdObj = json["friendId"];
+    const std::string& friendId = (friendIdObj.IsString()) ? friendIdObj.GetString() : "";
+    
+    const auto& friendNameObj = json["friendName"];
+    const std::string& friendName = (friendNameObj.IsString()) ? friendNameObj.GetString() : "";
+    
+    const auto& avatarURLObj = json["avatar"];
+    const std::string& avatarURL = (avatarURLObj.IsString()) ? avatarURLObj.GetString() : "";
+    
+    // Can't create a friend if name or id is null
+    // It's ok if avatar is null
+    if(friendId.empty() || friendName.empty())
+    {
+        return FriendRef();
+    }
     
     FriendRef friendData(new Friend());
     friendData->_friendId = friendId;

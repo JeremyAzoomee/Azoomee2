@@ -56,6 +56,8 @@ public:
     /// Login the user
     /// Response: AuthAPIObserver::onAuthAPIChildLogin
     void loginChild(const std::string& profileName);
+    /// Logout the child
+    void logoutChild();
 };
 
 /**

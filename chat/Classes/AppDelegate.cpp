@@ -39,7 +39,8 @@ static int register_all_packages()
     return 0; //flag for packages manager
 }
 
-bool AppDelegate::applicationDidFinishLaunching() {
+bool AppDelegate::applicationDidFinishLaunching()
+{
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
@@ -58,11 +59,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0f / 60);
 
-    // Set the design resolution
-//    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+    // Set the initial resolution
+    director->setContentScaleFactor(1.0f);
     auto frameSize = glview->getFrameSize();
     applicationScreenSizeChanged(frameSize.width, frameSize.height);
-    director->setContentScaleFactor(1.0f);
 
     register_all_packages();
     
@@ -95,7 +95,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 }
 
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
-void AppDelegate::applicationDidEnterBackground() {
+void AppDelegate::applicationDidEnterBackground()
+{
     Director::getInstance()->stopAnimation();
     Director::getInstance()->pause();
 
@@ -104,7 +105,8 @@ void AppDelegate::applicationDidEnterBackground() {
 }
 
 // this function will be called when the app is active again
-void AppDelegate::applicationWillEnterForeground() {
+void AppDelegate::applicationWillEnterForeground()
+{
     Director::getInstance()->stopAnimation();
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
@@ -126,7 +128,7 @@ void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
     // Use the correct design resolution
     
     // Landscape
-    if( newWidth > newHeight )
+    if(newWidth > newHeight)
     {
         glview->setDesignResolutionSize(designResolutionLandscapeSize.width, designResolutionLandscapeSize.height, ResolutionPolicy::NO_BORDER);
     }
@@ -142,7 +144,7 @@ void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
     if(scene != nullptr)
     {
         // Landscape
-        if( newWidth > newHeight )
+        if(newWidth > newHeight)
         {
             scene->setContentSize(designResolutionLandscapeSize);
         }
