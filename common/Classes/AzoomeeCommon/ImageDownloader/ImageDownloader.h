@@ -23,6 +23,8 @@ public:
     void startLoadingImage();
     void removeLoadedImage();
     
+    void setAttachNewBadgeToImage();
+    
 private:
     void addPlaceHolderImage(std::string type, cocos2d::Size contentSize, cocos2d::Vec2 shape);
     void addLoadingAnimation();
@@ -37,6 +39,9 @@ private:
     
     void onEnter();
     ImageDownloaderOnScreenChecker *onScreenChecker;
+    
+    void addNewBadgeToLoadedImage();
+    bool shouldAddNewBadgeToImage;
 };
   
 }
