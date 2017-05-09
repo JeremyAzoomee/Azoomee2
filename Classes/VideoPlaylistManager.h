@@ -11,11 +11,11 @@ public:
     virtual ~VideoPlaylistManager();
     bool init(void);
     
-    void setPlaylist(std::vector<std::string> playlist);
+    void setPlaylist(std::string playlist);
     std::string getPlaylist();
     
 private:
-    std::vector<std::string> storedPlaylist;
+    std::string storedPlaylist;
 };
 
 #endif

@@ -26,7 +26,7 @@ public:
     
     std::string getImageUrlForGroupLogo(std::string itemId);
     
-    std::vector<std::string> getAllElementDataInRow(std::string category, int rowNumber);
+    std::string getAllElementDataInRow(std::string category, int rowNumber);
     
     //Callback to start building HQ
     void startBuildingHQ(std::string category);

@@ -71,6 +71,34 @@ bool isDateStringOlderThanToday(std::string dateToCheck)
     else
         return false;
 }
+    
+    std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMapVector)
+{
+    std::string returnString = "{ \"Elements\" : [";
+    
+    for(int i = 0; i < inputMapVector.size(); i++)
+    {
+        if(i != 0) returnString += ", ";
+        returnString += "{";
+        
+        std::map<std::string, std::string> inputMap = inputMapVector.at(i);
+        
+        int mapCounter = 0;
+        for(auto kv : inputMap)
+        {
+            if(mapCounter != 0) returnString += ", ";
+            returnString += "\"" + kv.first + "\" : ";
+            returnString += "\"" + kv.second + "\"";
+            mapCounter++;
+        }
+        
+        returnString += "}";
+    }
+    
+    returnString += "]}";
+    
+    return returnString;
+}
 
 
 } // Azoomee

@@ -26,24 +26,17 @@ bool VideoPlaylistManager::init(void)
     return true;
 }
 
-void VideoPlaylistManager::setPlaylist(std::vector<std::string> playlist)
+void VideoPlaylistManager::setPlaylist(std::string playlist)
 {
     storedPlaylist = playlist;
 }
 
 std::string VideoPlaylistManager::getPlaylist()
 {
-    if(storedPlaylist.size() == 0) return "noPlaylist";
+    if(storedPlaylist.length() == 0) return "noPlaylist";
     
-    std::string returnString;
+    char *output;
+    cocos2d::base64Encode((unsigned char *)storedPlaylist.c_str(), (unsigned int)storedPlaylist.length(), &output);
     
-    for(int i = 0; i < storedPlaylist.size(); i++)
-    {
-        if(i != 0) returnString += "|";
-        returnString += storedPlaylist.at(i);
-    }
-    
-    storedPlaylist.clear();
-    
-    return returnString;
+    return StringUtils::format("%s", output);
 }

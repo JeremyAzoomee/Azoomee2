@@ -10,6 +10,8 @@
 		<script type="text/javascript">			
 			function startBuildingPlayer(receivedPlaylist)
 			{
+				receivedPlaylist = atob(receivedPlaylist);
+				
 				var contentUrl = getUrlVars()["contentUrl"];
 				var playerInstance = jwplayer("videoPlayer");
 			
@@ -23,12 +25,13 @@
 				}
 				else
 				{
-					var uriListArray = receivedPlaylist.split("|");
-					for(i = 0; i < uriListArray.length; i++)
-					{
-						var uri = uriListArray[i].split("*")[0];
-						var imageuri = uriListArray[i].split("*")[1];
-						var titleText = uriListArray[i].split("*")[2];
+					receivedPlaylist = JSON.parse(receivedPlaylist);
+				
+					for(i = 0; i < receivedPlaylist["Elements"].length; i++)
+					{	
+						var uri = receivedPlaylist["Elements"][i]["uri"];
+						var imageuri = receivedPlaylist["Elements"][i]["image"];
+						var titleText = receivedPlaylist["Elements"][i]["title"];
 						
 						playListArray.push({file: uri, mediaid: "episode", image: imageuri, title: titleText});
 						if(uri == contentUrl) jumpToThisElement = i;

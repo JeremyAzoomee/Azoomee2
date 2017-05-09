@@ -60,7 +60,7 @@ void HQSceneElementVisual::setCreatedForOffline(bool createdForOffline)
 cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
 {
     resizeSceneElement();
-    createColourLayer();
+    createBaseLayer();
     setShouldDisplayVisualElementsOverImage();
     createCallbackFunction(elementDelay);
     
@@ -75,6 +75,7 @@ void HQSceneElementVisual::createBaseLayer()
     
     baseLayer = LayerColor::create(Color4B::BLACK, size.width, size.height);
     baseLayer->setPosition(10, 10);
+    this->addChild(baseLayer);
 }
 
 void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
@@ -201,21 +202,6 @@ void HQSceneElementVisual::resizeSceneElement()
     Size layerSize = Size(defaultSize.width * elementShape.x, defaultSize.height * elementShape.y);
     
     this->setContentSize(layerSize);
-}
-
-void HQSceneElementVisual::createColourLayer()
-{
-    ConfigStorage* configStorage = ConfigStorage::getInstance();
-    Color4B colour = configStorage->getBaseColourForContentItemInCategory(elementCategory);
-    Size size = Size(this->getContentSize().width - 20, this->getContentSize().height - 20);
-    
-    baseLayer = LayerColor::create(colour, size.width, size.height);
-    baseLayer->setPosition(10, 10);
-    baseLayer->setOpacity(0);
-    
-    this->addChild(baseLayer);
-    
-    baseLayer->runAction(Sequence::create(DelayTime::create(elementDelay / 10), FadeTo::create(0.1, colour.a), NULL));
 }
 
 void HQSceneElementVisual::addTouchOverlayToElement()

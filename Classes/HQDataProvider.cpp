@@ -11,6 +11,7 @@
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -150,24 +151,26 @@ std::string HQDataProvider::getTypeForSpecificItem(std::string category, std::st
     return "NILTYPE";
 }
 
-std::vector<std::string> HQDataProvider::getAllElementDataInRow(std::string category, int rowNumber)
+std::string HQDataProvider::getAllElementDataInRow(std::string category, int rowNumber)
 {
     std::vector<std::string> elementids = getElementsForRow(category, rowNumber);
-    std::vector<std::string> playlistElements;
+    std::vector<std::map<std::string, std::string>> playlistElements;
     
     for(int i = 0; i < elementids.size(); i++)
     {
         if(getTypeForSpecificItem(category, elementids.at(i)) == "VIDEO" || getTypeForSpecificItem(category, elementids.at(i)) == "AUDIO")
         {
-            std::string uri = getItemDataForSpecificItem(category, elementids.at(i))["uri"];
-            std::string image = ConfigStorage::getInstance()->getImagesUrl() + "/" + elementids.at(i) + "/thumb_1_1.jpg";
-            std::string title = getItemDataForSpecificItem(category, elementids.at(i))["title"];
+            std::map<std::string, std::string> elementToBeAdded;
             
-            playlistElements.push_back(uri + "*" + image + "*" + title);
+            elementToBeAdded["uri"] = getItemDataForSpecificItem(category, elementids.at(i))["uri"];
+            elementToBeAdded["image"] = ConfigStorage::getInstance()->getImagesUrl() + "/" + elementids.at(i) + "/thumb_1_1.jpg";
+            elementToBeAdded["title"] = getItemDataForSpecificItem(category, elementids.at(i))["title"];
+            
+            playlistElements.push_back(elementToBeAdded);
         }
     }
     
-    return playlistElements;
+    return getJSONStringFromVectorOfMaps(playlistElements);
 }
 
 //---------------------LOADING SCREEN----------------------------------
