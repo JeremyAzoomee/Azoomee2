@@ -11,6 +11,8 @@ public:
     static cocos2d::Scene* createSceneWithURL(std::string url);
     virtual bool init();
     void onEnterTransitionDidFinish();
+    void removeWebViewFromScreen();
+    void reAddWebViewToScreen();
     
 private:
     void addWebViewToScreen(std::string url);
