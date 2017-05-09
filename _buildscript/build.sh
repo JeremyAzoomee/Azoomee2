@@ -43,3 +43,5 @@ echo "{\"version\": \"$1 ($COMMITID)\"}" > ../Resources/res/configuration/Versio
 ./subbuilder_android.sh arm64-v8a $1 $ARM64BUILD arm64
 ./subbuilder_android.sh x86 $1 $X86BUILD x86
 ./subbuilder_android.sh armeabi-v7a $1 $AMAZONBUILD arm
+
+./subbilder_ios.sh $1 $2

@@ -13,3 +13,7 @@ BUILDNUMBER=$((BUILDNUMBER+1))
 plutil -replace CFBundleShortVersionString -string $VERSIONNUMBER ../proj.ios_mac/ios/Info.plist
 plutil -replace CFBundleVersion -string $BUILDNUMBER ../proj.ios_mac/ios/Info.plist
 
+rm -rf ../_builds/azoomee2.xcarchive
+
+xcodebuild clean -project ../proj.ios_mac/azoomee2.xcodeproj -configuration Release -alltargets
+xcodebuild archive -project ../proj.ios_mac/azoomee2.xcodeproj -scheme azoomee2-mobile -archivePath ../_builds/azoomee2.xcarchive
