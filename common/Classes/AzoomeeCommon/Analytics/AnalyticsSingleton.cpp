@@ -49,7 +49,7 @@ void AnalyticsSingleton::registerAppVersion()
 void AnalyticsSingleton::registerParentID(std::string ParentID)
 {
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["First Name"] = ParentID;
+    mixPanelProperties["parentID"] = ParentID;
     
     mixPanelRegisterSuperProperties("parentID",ParentID);
     mixPanelRegisterIdentity(ParentID,mixPanelProperties);

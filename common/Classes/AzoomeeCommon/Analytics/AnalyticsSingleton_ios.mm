@@ -61,7 +61,7 @@ void AnalyticsSingleton::mixPanelRegisterSuperProperties(const std::map<std::str
 void AnalyticsSingleton::mixPanelRegisterIdentity(const std::string& parentID, const std::map<std::string, std::string>& name)
 {
     [[Mixpanel sharedInstance] identify:[NSString stringWithUTF8String:parentID.c_str()]];
-    // [[Mixpanel sharedInstance].people set:mapToNSDictionary(name)];
+    [[Mixpanel sharedInstance].people set:mapToNSDictionary(name)];
 }
 
 //--------------- APPSFLYER ---------------
