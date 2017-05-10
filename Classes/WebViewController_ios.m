@@ -70,6 +70,8 @@
 }
 
 - (void)addWebViewToScreen {
+    if(webview) return;
+    
     webview=[[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     
     NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
@@ -211,6 +213,24 @@
     {
         [self finishView];
     }
+}
+
+-(void) removeWebViewWhileInBackground
+{
+    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
+    if(![iosurlExtension isEqualToString:@"html"]) return;
+    
+    [webview loadHTMLString:@"" baseURL:nil];
+    [webview stopLoading];
+    [webview setDelegate:nil];
+    
+    [webview removeFromSuperview];
+    [webview release];
+    webview = nil;
+    
+    [currentButton removeFromSuperview];
+    
+    iframeloaded = NO;
 }
 
 -(void) finishView

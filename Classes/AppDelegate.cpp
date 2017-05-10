@@ -9,6 +9,7 @@
 #include "OfflineHubScene.h"
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
+#include "WebViewNative_ios.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -99,6 +100,17 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
 void AppDelegate::applicationDidEnterBackground() {
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+
+    if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
+    {
+        WebViewNative_ios *webview = (WebViewNative_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
+        webview->removeWebViewFromScreen();
+    }
+    
+#endif
+    
     AnalyticsSingleton::getInstance()->enteredBackgroundEvent();
     Director::getInstance()->stopAnimation();
     Director::getInstance()->pause();
@@ -110,6 +122,18 @@ void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->stopAnimation();
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+    if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
+    {
+        WebViewNative_ios *webview = (WebViewNative_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
+        webview->reAddWebViewToScreen();
+    }
+    
+#endif
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
     if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
     {
@@ -134,4 +158,6 @@ void AppDelegate::applicationWillEnterForeground() {
         auto baseScene = BaseScene::createScene();
         cocos2d::Director::getInstance()->replaceScene(baseScene);
     }
+
+#endif
 }

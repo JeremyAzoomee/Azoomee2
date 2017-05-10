@@ -1,11 +1,12 @@
 #include "WebViewNative_ios.h"
 #include "BaseScene.h"
-#include "WebViewController_ios.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include "WebViewController_ios.h"
 
 USING_NS_CC;
 using namespace Azoomee;
 
+WebViewController *webViewController;
 
 Scene* WebViewNative_ios::createSceneWithURL(std::string url)
 {
@@ -28,7 +29,8 @@ bool WebViewNative_ios::init()
 
 void WebViewNative_ios::onEnterTransitionDidFinish()
 {
-     Director::getInstance()->purgeCachedData();
+    Director::getInstance()->purgeCachedData();
+    this->setName("iosWebView");
 }
 
 //-------------------------------------------All methods are private after this line---------------------------------------
@@ -36,6 +38,17 @@ void WebViewNative_ios::onEnterTransitionDidFinish()
 void WebViewNative_ios::startLoadingUrl(std::string url)
 {
     addWebViewToScreen(url);
+}
+
+void WebViewNative_ios::removeWebViewFromScreen()
+{
+    [webViewController removeWebViewWhileInBackground];
+}
+
+void WebViewNative_ios::reAddWebViewToScreen()
+{
+    [webViewController addWebViewToScreen];
+    [webViewController createButton];
 }
 
 void WebViewNative_ios::addWebViewToScreen(std::string url)
@@ -61,10 +74,11 @@ void WebViewNative_ios::addWebViewToScreen(std::string url)
     
     UIView *currentView = (UIView*)Director::getInstance()->getOpenGLView()->getEAGLView();
     
-    WebViewController *webViewController = [[WebViewController alloc] init];
+    webViewController = [[WebViewController alloc] init];
     [currentView addSubview:webViewController.view];
     
     [webViewController startBuildingWebView:iosurl userid:iosuserid];
+    
     
     currentView = nil;
     cookieStorage = nil;
