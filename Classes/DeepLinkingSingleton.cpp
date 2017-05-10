@@ -140,9 +140,10 @@ void DeepLinkingSingleton::completeContentAction(std::string type,std::string ur
     {
         ModalMessages::getInstance()->stopLoading();
         
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer"))
+        auto baseLayer = Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
+        if(baseLayer)
         {
-            NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("baseLayer")->getChildByName("NavigationLayer");
+            NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
             
             if(navigationLayer)
             {
