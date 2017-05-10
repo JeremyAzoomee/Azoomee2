@@ -9,6 +9,7 @@ extern "C" {
     const char* sendGameApiRequest(const char* method, const char* responseid, const char* score);
     const char* getLocalStorageForGame();
     void saveLocalStorageData(NSString* stringToSave);
+    NSString* getVideoPlaylist();
     
 #ifdef __cplusplus
 }

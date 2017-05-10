@@ -6,6 +6,7 @@
 #include "OfflineHubScene.h"
 #include "BackEndCaller.h"
 #include "WebGameAPIDataManager.h"
+#include "VideoPlaylistManager.h"
 
 using namespace Azoomee;
 
@@ -88,4 +89,10 @@ void saveLocalStorageData(NSString* stringToSave)
 {
     std::string stringToSaveStd = [stringToSave UTF8String];
     WebGameAPIDataManager::getInstance()->saveLocalStorageData(stringToSaveStd);
+}
+
+NSString* getVideoPlaylist()
+{
+    std::string returnString = VideoPlaylistManager::getInstance()->getPlaylist();
+    return [NSString stringWithUTF8String:returnString.c_str()];
 }

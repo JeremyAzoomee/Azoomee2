@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ArtAppImageManager.h"
+#include "VideoPlaylistManager.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -62,6 +63,11 @@ char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* re
     if(strncmp(method, "requestAzoomeeVersion", strlen(method)) == 0)
     {
         return createReturnStringForAPI(method, responseId, "version", ConfigStorage::getInstance()->getVersionNumber().c_str());
+    }
+    
+    if(strncmp(method, "requestPlaylist", strlen(method)) == 0)
+    {
+        return createReturnStringForAPI(method, responseId, "playlist", VideoPlaylistManager::getInstance()->getPlaylist().c_str());
     }
     
     return createReturnStringForAPI(method, responseId, "error", "error in request");

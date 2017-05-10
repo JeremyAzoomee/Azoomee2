@@ -55,8 +55,6 @@
     }
     else
     {
-        iframeloaded = 1;
-        
         NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index_ios" ofType:@"html"];
         urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, urlToLoad];
     }
@@ -83,8 +81,6 @@
     }
     else
     {
-        iframeloaded = 1;
-        
         NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index_ios" ofType:@"html"];
         urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, urlToLoad];
     }
@@ -92,6 +88,7 @@
     NSURL *nsurl=[NSURL URLWithString:urlToCall];
     NSURLRequest *nsrequest = [NSURLRequest requestWithURL:nsurl];
     
+    [webview setMediaPlaybackRequiresUserAction:NO];
     [webview scrollView].scrollEnabled = NO;
     [webview scrollView].bounces = NO;
     [webview setDelegate:self];
@@ -159,6 +156,11 @@
         return NO;
     }
     
+    if ([urlString hasPrefix:@"finishview"])
+    {
+        [self finishView];
+    }
+    
     return YES;
 }
 
@@ -166,16 +168,26 @@
 {
     if(!iframeloaded)
     {
-        [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
+        NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
         
-        NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
-        
-        NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
-        NSLog(@"addDataString: %@", addDataString);
-        [webView stringByEvaluatingJavaScriptFromString:addDataString];
-        
-        NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
-        [webView stringByEvaluatingJavaScriptFromString:loadString];
+        if([iosurlExtension isEqualToString:@"html"])
+        {
+            [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
+            
+            NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
+            
+            NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
+            NSLog(@"addDataString: %@", addDataString);
+            [webView stringByEvaluatingJavaScriptFromString:addDataString];
+            
+            NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
+            [webView stringByEvaluatingJavaScriptFromString:loadString];
+        }
+        else
+        {
+            NSString *loadString = [NSString stringWithFormat:@"startBuildingPlayer(\"%@\")", getVideoPlaylist()];
+            [webView stringByEvaluatingJavaScriptFromString:loadString];
+        }
         
         iframeloaded = true;
     };

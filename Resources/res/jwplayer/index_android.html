@@ -17,14 +17,45 @@
 			var contentUrl = getUrlVars()["contentUrl"];
 			var playerInstance = jwplayer("videoPlayer");
 			
+			var receivedPlaylist = atob(NativeInterface.getVideoPlaylist());
+			
+			var contentUrl = getUrlVars()["contentUrl"];
+			var playerInstance = jwplayer("videoPlayer");
+		
+			var playListArray = [];
+			var jumpToThisElement = -1;
+			
+			if(receivedPlaylist == "noPlaylist")
+			{
+				playListArray.push({file: contentUrl, mediaid: "episode"});
+				jumpToThisElement = 0;
+			}
+			else
+			{
+				receivedPlaylist = JSON.parse(receivedPlaylist);
+			
+				for(i = 0; i < receivedPlaylist["Elements"].length; i++)
+				{	
+					var uri = receivedPlaylist["Elements"][i]["uri"];
+					var imageuri = receivedPlaylist["Elements"][i]["image"];
+					var titleText = receivedPlaylist["Elements"][i]["title"];
+					
+					playListArray.push({file: uri, mediaid: "episode", image: imageuri, title: titleText});
+					if(uri == contentUrl) jumpToThisElement = i;
+				}
+			}
+			
 			playerInstance.setup
 			({
-    			file: contentUrl,
+    			playlist: playListArray,
+    			repeat: false,
     			stretching: "exactfit",
     			mediaid: "azoomeeplayer",
     			height: "100%",
       			width: "100%"
 			});
+			
+			jwplayer().playlistItem(jumpToThisElement);
 			
 			jwplayer().on('error', function(event){
 				console.log("error");
@@ -99,6 +130,10 @@
 				console.log("complete");
 				NativeInterface.sendMediaPlayerData("complete", "");
 			});
+			
+			jwplayer().on('playlistComplete', function(event){
+					NativeInterface.exitView();
+				});
 			
 			jwplayer().on('firstFrame', function(event){
 				console.log("firstFrame");

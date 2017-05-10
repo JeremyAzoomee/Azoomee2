@@ -28,6 +28,7 @@
 #include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 #include "ManualGameInputLayer.h"
+#include "VideoPlaylistManager.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -53,27 +54,48 @@ bool HQSceneElement::init()
     return true;
 }
 
-void HQSceneElement::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay) //This method is being called by HQScene.cpp with all variables.
+void HQSceneElement::setCategory(std::string category)
+{
+    elementCategory = category;
+}
+
+void HQSceneElement::setItemData(std::map<std::string, std::string> itemData)
+{
+    elementItemData = itemData;
+}
+
+void HQSceneElement::setElementRow(int rowNumber)
+{
+    elementRowNumber = rowNumber;
+}
+
+void HQSceneElement::setElementIndex(int index)
+{
+    elementIndex = index;
+}
+
+void HQSceneElement::addHQSceneElement() //This method is being called by HQScene.cpp with all variables.
 {
     elementVisual = HQSceneElementVisual::create();
-    elementVisual->addHQSceneElement(category, itemData, shape, delay,false);
+    elementVisual->setCategory(elementCategory);
+    elementVisual->setItemData(elementItemData);
+    elementVisual->setShape(HQDataProvider::getInstance()->getHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
+    elementVisual->setDelay(elementRowNumber * 0.5 + elementIndex * 0.1);
+    elementVisual->setCreatedForOffline(false);
+    elementVisual->createHQSceneElement();
+    
     this->addChild(elementVisual);
     this->setContentSize(elementVisual->getContentSize());
     
-    if(itemData["entitled"] == "false" && !ChildDataProvider::getInstance()->getIsChildLoggedIn())
-    {
-        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], true, itemData["entitled"], false);
-        
-    }
-    else
-    {
-        addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false,itemData["entitled"], RoutePaymentSingleton::getInstance()->showIAPContent());
-    }
+    addListenerToElement();
 }
 
 //-------------------All elements below this are used internally-----------------
-void HQSceneElement::addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview, std::string entitled, bool IAPEnabled)
+void HQSceneElement::addListenerToElement()
 {
+    bool previewMode = true;
+    if(elementItemData["entitled"] == "true" && ChildDataProvider::getInstance()->getIsChildLoggedIn()) previewMode = false;
+    
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
     listener->onTouchBegan = [=](Touch *touch, Event *event)
@@ -122,36 +144,32 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             iamtouched = false;
-            CCLOG("Action to come: %s", uri.c_str());
+            CCLOG("Action to come: %s", elementItemData["uri"].c_str());
             
-            if(preview)
+            if(previewMode)
             {
-                CCLOG("MixPanel: %s, %s, %s", title.c_str(),description.c_str(),category.c_str());
-                AnalyticsSingleton::getInstance()->previewContentClickedEvent(title,description,type);
+                CCLOG("MixPanel: %s, %s, %s", elementItemData["title"].c_str(), elementItemData["description"].c_str(), elementCategory.c_str());
+                AnalyticsSingleton::getInstance()->previewContentClickedEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"]);
                 PreviewLoginSignupMessageBox::create();
                 return true;
             }
-            else if(type == "MANUAL")
+            
+            if(elementItemData["type"] == "MANUAL")
             {
                 ManualGameInputLayer::create();
+                return true;
             }
-            else
+            
+            if(elementItemData["entitled"] == "false")
             {
-                if(entitled == "false")
-                {
-                    if(IAPEnabled)
-                    {
-                        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-                        AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("MainHub");
-                        IAPUpsaleLayer::createRequiresPin();
-                    }
-                }
-                else
-                {
-                    AnalyticsSingleton::getInstance()->openContentEvent(title, description, type, contentId);
-                    startUpElementDependingOnType(uri, contentId, category);
-                }
+                AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+                AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("MainHub");
+                IAPUpsaleLayer::createRequiresPin();
+                return true;
             }
+                
+            AnalyticsSingleton::getInstance()->openContentEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"]);
+            startUpElementDependingOnType();
             
         }
         
@@ -161,43 +179,43 @@ void HQSceneElement::addListenerToElement(std::string uri, std::string contentId
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), elementVisual->baseLayer);
 }
 
-void HQSceneElement::startUpElementDependingOnType(std::string uri, std::string contentId, std::string category)
+void HQSceneElement::startUpElementDependingOnType()
 {
     
-    CCLOG("uri: %s, contentid: %s, category: %s", uri.c_str(), contentId.c_str(), category.c_str());
+    CCLOG("uri: %s, contentid: %s, category: %s", elementItemData["uri"].c_str(), elementItemData["id"].c_str(), elementCategory.c_str());
     
     this->getParent()->getParent()->getParent()->stopAllActions();
     
-    if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GAME")
+    if(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "GAME")
     {
-
-        GameDataManager::getInstance()->startProcessingGame(uri, contentId);
+        GameDataManager::getInstance()->startProcessingGame(elementItemData["uri"], elementItemData["id"]);
     }
-    else if((HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIO"))
+    else if((HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "AUDIO"))
     {
+        VideoPlaylistManager::getInstance()->setPlaylist(HQDataProvider::getInstance()->getAllElementDataInRow(elementCategory, elementRowNumber));
         auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(uri.c_str());
+        webViewSelector->loadWebView(elementItemData["uri"].c_str());
     }
-    else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "AUDIOGROUP")
+    else if(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "AUDIOGROUP")
     {
         NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-        navigationLayer->startLoadingGroupHQ(uri);
+        navigationLayer->startLoadingGroupHQ(elementItemData["uri"]);
         
         auto funcCallAction = CallFunc::create([=](){
-            HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-            HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
+            HQDataProvider::getInstance()->getDataForGroupHQ(elementItemData["uri"]);
+            HQHistoryManager::getInstance()->setGroupHQSourceId(elementItemData["id"]);
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
     }
-    else if(HQDataProvider::getInstance()->getTypeForSpecificItem(category, contentId) == "GROUP")
+    else if(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "GROUP")
     {
         NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-        navigationLayer->startLoadingGroupHQ(uri);
+        navigationLayer->startLoadingGroupHQ(elementItemData["uri"]);
         
         auto funcCallAction2 = CallFunc::create([=](){
-            HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-            HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
+            HQDataProvider::getInstance()->getDataForGroupHQ(elementItemData["uri"]);
+            HQHistoryManager::getInstance()->setGroupHQSourceId(elementItemData["id"]);
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));

@@ -7,55 +7,36 @@
 		<script>jwplayer.key="wrR1ClbRkYGQx0IOIV2gMJQggtFCdWaDaza25g==";</script>
 
 		<div id="videoPlayer"></div>
-		<script type="text/javascript">			
-			function startBuildingPlayer(receivedPlaylist)
+		<script type="text/javascript">
+			startBuildingPlayer();
+		
+			function startBuildingPlayer()
 			{
-				receivedPlaylist = atob(receivedPlaylist);
-				
-				var contentUrl = getUrlVars()["contentUrl"];
 				var playerInstance = jwplayer("videoPlayer");
 			
-				var playListArray = [];
-				var jumpToThisElement = -1;
-				
-				if(receivedPlaylist == "noPlaylist")
+				var playList = [];
+			
+				for(var i = 0; i < 6; i++)
 				{
-					playListArray.push({file: contentUrl, mediaid: "episode"});
-					jumpToThisElement = 0;
-				}
-				else
-				{
-					receivedPlaylist = JSON.parse(receivedPlaylist);
-				
-					for(i = 0; i < receivedPlaylist["Elements"].length; i++)
-					{	
-						var uri = receivedPlaylist["Elements"][i]["uri"];
-						var imageuri = receivedPlaylist["Elements"][i]["image"];
-						var titleText = receivedPlaylist["Elements"][i]["title"];
-						
-						playListArray.push({file: uri, mediaid: "episode", image: imageuri, title: titleText});
-						if(uri == contentUrl) jumpToThisElement = i;
-					}
+					playList.push({file: "http://localhost/example.mov", mediaid: "episode", image: "http://localhost/play.png"});
 				}
 			
-				playerInstance.setup({
-				
-					playlist: playListArray,
-					repeat: false,
+				playerInstance.setup
+				({
 					stretching: "exactfit",
-					mediaid: "azoomeeplayer",
 					height: "100%",
-					width: "100%"
+					width: "100%",
+					repeat: false,
+				
+					playlist: playList
 				});
-				
-				jwplayer().playlistItem(jumpToThisElement);
-				
+			
 				jwplayer().on('error', function(event){
-					window.location.href = "videoerror://videoerror";
+					console.log("error");
 				});
 			
 				jwplayer().on('setupError', function(event){
-					window.location.href = "videoerror://videoerror";
+					console.log("setuperror");
 				});
 			
 				jwplayer().on('play', function(event){
@@ -65,22 +46,21 @@
 						loadingScreen.parentElement.removeChild(loadingScreen);
 					}
 				
-					window.location.href = "videoevent://video.play";
+					console.log("playing");
 				});
 			
 				jwplayer().on('ready', function(event){
 					var loadingScreen = document.getElementById("loadingScreen");
 					loadingScreen.innerHTML = '<center><button onClick="startPlayBack()" style="margin-top: 24.5%; width: 15%; background-color: Transparent; border: none;"><img src="play.png" style="width: 50%;"></button></center>';
-					playerInstance.play();
 				});
 			
 					jwplayer().on('pause', function(event){
-					window.location.href = "videoevent://video.pause";
+					console.log("paused");
 				});
 			
 				jwplayer().on('visualQuality', function(event){
 					var currentQuality = jwplayer().getVisualQuality().level;
-					window.location.href = "videoevent://video.quality?" + currentQuality["height"];
+					console.log("qualitychanged");
 				});
 			
 				jwplayer().on('time', function(event){
@@ -92,48 +72,30 @@
 					if((percentage > 0)&&(!sent0))
 					{
 						sent0 = true;
-						window.location.href = "videoevent://video.time?0";
+						console.log("time 0");
 					}
 					if((percentage > 25)&&(!sent25))
 					{
 						sent25 = true;
-						window.location.href = "videoevent://video.time?25";
+						console.log("time 25");
 					}
 					if((percentage > 50)&&(!sent50))
 					{
 						sent50 = true;
-						window.location.href = "videoevent://video.time?50";
+						console.log("time 50");
 					}
 					if((percentage > 75)&&(!sent75))
 					{
 						sent75 = true;
-						window.location.href = "videoevent://video.time?75";
+						console.log("time 75");
 					}
 				});
 			
 				jwplayer().on('complete', function(event){
-					window.location.href = "videoevent://video.complete";
+					console.log("time 100");
 				});
-				
-				jwplayer().on('playlistComplete', function(event){
-					window.location.href = "finishview://finishview";
-				});
-			
-				jwplayer().on('firstFrame', function(event){
-					var loadtime = event.loadTime;
-					window.location.href = "videoevent://video.firstFrame?" + loadtime.toString();
-				});
-		
-				function getUrlVars() 
-				{
-					var vars = {};
-					var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) 
-					{
-						vars[key] = value;
-					});
-					return vars;
-				}
 			}
+			
 			
 			function startPlayBack()
 			{

@@ -3,6 +3,7 @@
 		<br><br><br>
 		<input type="text" id="responseid" value="responseId"><br>
 		<button id="requestAzoomeeVersion">Request Azoomee Version</button><br>
+		<button id="requestPlaylist">Request playlist</button><br>
 		<button id="requestName">Request username</button><br>
 		<button id="requestId">Request userid</button><br>
 		<button id="requestAvatar">Request user avatar</button><br>
@@ -44,6 +45,11 @@
    				parent.postMessage({method: "updateHighScore", responseID: document.getElementById("responseid").value, score: Number(highscore)},"*");
    				console.log("[GAME] Highscore updated. Method: updateHighScore, score: " + Number(highscore));
 			};
+			
+			document.getElementById('requestPlaylist').onclick = function()
+			{
+				requestData("requestPlaylist", document.getElementById("responseid").value);
+			}
 			
 			function requestData(methodName, responseId)
 			{
