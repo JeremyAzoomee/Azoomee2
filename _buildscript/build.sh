@@ -39,9 +39,13 @@ echo "{\"version\": \"$1 ($COMMITID)\"}" > ../Resources/res/configuration/Versio
 #$STRUCTURENAME$ - structure name (armeabi-v7a, arm64-v8a, x86)
 #$XWALKSTRUCTURENAME$ - structure name for xwalk (arm, arm64, x86)
 
-./subbuilder_android.sh armeabi-v7a $1 $ARMBUILD arm
-./subbuilder_android.sh arm64-v8a $1 $ARM64BUILD arm64
-./subbuilder_android.sh x86 $1 $X86BUILD x86
-./subbuilder_android.sh armeabi-v7a $1 $AMAZONBUILD arm
+if [ "$3" == "" ] || [ "$3" == "android" ] ; then
+	./subbuilder_android.sh armeabi-v7a $1 $ARMBUILD arm
+	./subbuilder_android.sh arm64-v8a $1 $ARM64BUILD arm64
+	./subbuilder_android.sh x86 $1 $X86BUILD x86
+	./subbuilder_android.sh armeabi-v7a $1 $AMAZONBUILD arm
+fi
 
-./subbilder_ios.sh $1 $2
+if [ "$3" == "" ] || [ "$3" == "apple" ] ; then
+	./subbuilder_ios.sh $1 $2
+fi
