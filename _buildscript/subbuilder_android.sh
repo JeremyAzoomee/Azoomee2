@@ -20,6 +20,7 @@ sed -i.bak 's/APP_ABI :=.*/APP_ABI := '$STRUCTURENAME'/g' ../_replaceTestResults
 sed -i.bak 's/APP_ABI :=.*/APP_ABI := '$STRUCTURENAME'/g' ../_replaceTestResults/build.gradle
 sed -i.bak 's/versionName .*/versionName '\'$VERSIONNUMBER\''/g' ../_replaceTestResults/build.gradle
 sed -i.bak 's/versionCode .*/versionCode '$BUILDNUMBER'/g' ../_replaceTestResults/build.gradle
+sed -i.bak 's/include .*/include '\'$STRUCTURENAME\''/g' ../_replaceTestResults/build.gradle
 
 sed -i.bak 's/org.xwalk:xwalk_core_library:\([0-9.]*\)[^'\'']*/org.xwalk:xwalk_core_library:\1-'$XWALKSTRUCTURENAME'/g'  ../_replaceTestResults/build.gradle
 sed -i.bak 's/include '\''[^'\'']'\''$/include '\'$STRUCTURENAME\''/g' ../_replaceTestResults/build.gradle
