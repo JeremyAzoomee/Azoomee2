@@ -8,6 +8,7 @@
 #include "BaseScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include "OrientationFunctions.h"
 
 using namespace Azoomee;
 
@@ -30,16 +31,18 @@ bool OnboardingScene::init()
         return false;
     }
     
+    setOrientationToPortrait();
+    
     AudioMixer::getInstance()->stopBackgroundMusic();
     AnalyticsSingleton::getInstance()->OnboardingStartEvent();
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    addSideWiresToScreen(this, 0, 2);
+    //addSideWiresToScreen(this, 0, 2);
     addLabelToScene();
-    addTextboxScene();
-    addButtonsScene();
+    //addTextboxScene();
+    //addButtonsScene();
     
     return true;
 }
@@ -52,14 +55,15 @@ void OnboardingScene::onEnterTransitionDidFinish()
     {
         MessageBox::createWith(_errorCode, emailTextInput, this);
     }
-    else
-        emailTextInput->focusAndShowKeyboard();
+    //else
+      //  emailTextInput->focusAndShowKeyboard();
 }
 
 //----------------- SCENE SETUP ---------------
 void OnboardingScene::addLabelToScene()
 {
     title = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
+    title->setPosition(visibleSize.width/2,visibleSize.height/2);
     this->addChild(title);
     
     subTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));

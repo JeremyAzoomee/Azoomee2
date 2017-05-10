@@ -67,6 +67,7 @@
 		430B21551E4487E5004ACB10 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B21541E4487E5004ACB10 /* SystemConfiguration.framework */; };
 		430B215D1E448825004ACB10 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215C1E448825004ACB10 /* libicucore.tbd */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
+		43139DB61EC31501007AC409 /* OrientationFunctions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43139DB41EC31501007AC409 /* OrientationFunctions.mm */; };
 		4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
 		432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
@@ -286,6 +287,8 @@
 		430B215E1E448AF6004ACB10 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountScene.cpp; sourceTree = "<group>"; };
 		430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountScene.h; sourceTree = "<group>"; };
+		43139DB41EC31501007AC409 /* OrientationFunctions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OrientationFunctions.mm; sourceTree = "<group>"; };
+		43139DB51EC31501007AC409 /* OrientationFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrientationFunctions.h; sourceTree = "<group>"; };
 		4319D3E01E67134600110F92 /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
 		4319D3E11E67134600110F92 /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManualGameInputLayer.cpp; sourceTree = "<group>"; };
@@ -741,6 +744,8 @@
 				A15B2FAA1DEDD13B00D25334 /* BackEndCommunication */,
 				A19862291DD383BD0090F053 /* AppDelegate.cpp */,
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
+				43139DB41EC31501007AC409 /* OrientationFunctions.mm */,
+				43139DB51EC31501007AC409 /* OrientationFunctions.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -1118,6 +1123,7 @@
 				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
+				43139DB61EC31501007AC409 /* OrientationFunctions.mm in Sources */,
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,
 				434B8BD61E689C29004C7C88 /* ChildAccountSuccessScene.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,

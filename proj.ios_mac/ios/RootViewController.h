@@ -31,4 +31,7 @@
 }
 - (BOOL) prefersStatusBarHidden;
 
+@property NSUInteger supportedInterfaceOrientation;
+- (void) setOrientationToPortrait;
+
 @end
