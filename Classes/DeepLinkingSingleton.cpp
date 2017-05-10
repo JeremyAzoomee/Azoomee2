@@ -38,12 +38,12 @@ bool DeepLinkingSingleton::init(void)
     return true;
 }
 
-void DeepLinkingSingleton::setDeepLink(std::string UriString)
+void DeepLinkingSingleton::setDeepLink(std::string uriString)
 {
-    CCLOG("DEEPLINK URI:%s",UriString.c_str());
+    CCLOG("DEEPLINK URI:%s",uriString.c_str());
     
     resetDeepLink();
-    deepLinkActionWaiting = setHostandPath(UriString);
+    deepLinkActionWaiting = setHostAndPath(uriString);
     
     if(Director::getInstance()->getRunningScene())
         actionDeepLink();
@@ -52,48 +52,48 @@ void DeepLinkingSingleton::setDeepLink(std::string UriString)
 void DeepLinkingSingleton::resetDeepLink()
 {
     deepLinkActionWaiting = false;
-    Host = "";
-    Path = "";
+    host = "";
+    path = "";
 }
 
-bool DeepLinkingSingleton::setHostandPath(std::string UriString)
+bool DeepLinkingSingleton::setHostAndPath(std::string uriString)
 {
-    std::vector<std::string> SplitByAzoomeVector = splitStringToVector(stringToLower(UriString), "azoomee://");
+    std::vector<std::string> splitByAzoomeVector = splitStringToVector(stringToLower(uriString), "azoomee://");
     
-    if(SplitByAzoomeVector.size() == 0 || SplitByAzoomeVector.size() > 2)
+    if(splitByAzoomeVector.size() == 0 || splitByAzoomeVector.size() > 2)
         return false;
     
-    std::string UriStringWhole = SplitByAzoomeVector.at(0);
+    std::string uriStringWhole = splitByAzoomeVector.at(0);
     
-    if(SplitByAzoomeVector.size() == 2)
-        std::string UriStringWhole = SplitByAzoomeVector.at(1);
+    if(splitByAzoomeVector.size() == 2)
+        uriStringWhole = splitByAzoomeVector.at(1);
     
-    std::vector<std::string>  SplitByForwardSlash = splitStringToVector(UriStringWhole, "/");
+    std::vector<std::string>  splitByForwardSlash = splitStringToVector(uriStringWhole, "/");
     
-    if(SplitByForwardSlash.size() != 2)
+    if(splitByForwardSlash.size() != 2)
         return false;
     
-    Host = SplitByForwardSlash.at(0);
-    Path = SplitByForwardSlash.at(1);
+    host = splitByForwardSlash.at(0);
+    path = splitByForwardSlash.at(1);
     
     return true;
 }
 
 bool DeepLinkingSingleton::actionDeepLink()
 {
-    if(Host == "" || Path == "" || !deepLinkActionWaiting)
+    if(host == "" || path == "" || !deepLinkActionWaiting)
         return false;
     
-    if(Host == "content" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    if(host == "content" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
         ModalMessages::getInstance()->startLoading();
         deepLinkActionWaiting = false;
-        BackEndCaller::getInstance()->getElectricDreamsContent("deepLinkContentRequest", Path);
+        BackEndCaller::getInstance()->getElectricDreamsContent("deepLinkContentRequest", path);
         return true;
     }
-    else if(Host == "moveto")
+    else if(host == "moveto")
     {
-        if(Path == "signup" && !ChildDataProvider::getInstance()->getIsChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
+        if(path == "signup" && !ChildDataProvider::getInstance()->getIsChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
         {
             auto onboardingScene = OnboardingScene::createScene(0);
             Director::getInstance()->replaceScene(onboardingScene);
@@ -129,7 +129,7 @@ void DeepLinkingSingleton::completeContentAction(std::string type,std::string ur
 {
     if(type == "GAME")
     {
-        GameDataManager::getInstance()->startProcessingGame(uri, Path);
+        GameDataManager::getInstance()->startProcessingGame(uri, path);
     }
     else if(type == "VIDEO" || type == "AUDIO")
     {
@@ -150,11 +150,11 @@ void DeepLinkingSingleton::completeContentAction(std::string type,std::string ur
                 navigationLayer->startLoadingGroupHQ(uri);
 
                 HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-                HQHistoryManager::getInstance()->setGroupHQSourceId(Path);
+                HQHistoryManager::getInstance()->setGroupHQSourceId(path);
                 
                 auto funcCallAction = CallFunc::create([=](){
                     HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-                    HQHistoryManager::getInstance()->setGroupHQSourceId(Path);
+                    HQHistoryManager::getInstance()->setGroupHQSourceId(path);
                 });
                 
                 Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));

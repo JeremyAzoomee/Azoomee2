@@ -7,13 +7,13 @@
 class DeepLinkingSingleton : public cocos2d::Ref, public Azoomee::MessageBoxDelegate
 {
 private:
-    std::string Host;
-    std::string Path;
+    std::string host;
+    std::string path;
     
     //Used to avoid loop of childLogin, if content ID is not valid.
     bool deepLinkActionWaiting;
     
-    bool setHostandPath(std::string UriString);
+    bool setHostAndPath(std::string uriString);
     
     void completeContentAction(std::string type,std::string uri);
     void resetDeepLink();
@@ -23,7 +23,7 @@ public:
     virtual ~DeepLinkingSingleton();
     bool init(void);
     
-    void setDeepLink(std::string UriString);
+    void setDeepLink(std::string uriString);
     bool actionDeepLink();
     void contentDetailsResponse(std::string responseBody);
     
