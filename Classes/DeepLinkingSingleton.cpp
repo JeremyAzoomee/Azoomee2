@@ -180,8 +180,8 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_DeepLink_sendDeepLinkToCPP(JNIEnv* env, jobject thiz, jstring URIString)
 {
-    using namespace Azoomee;
-    #include "DeepLinkingSingleton.h"
+    //using namespace Azoomee;
+    //#include "DeepLinkingSingleton.h"
     
     const char* cURIString = env->GetStringUTFChars(URIString, NULL);
     
