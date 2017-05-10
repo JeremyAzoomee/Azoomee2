@@ -5,6 +5,10 @@ if [ "$1" == "" ] || [ "$2" == "" ] ; then
 	exit
 fi
 
+echo "THIS PROCESS WILL RESET ALL UNSTAGED AND NEW FILES FROM CURRENT BRANCH! PRESS CTRL+C IN 15 SECONDS TO CANCEL!"
+sleep 15
+
+git reset --hard
 git checkout master
 git pull
 
