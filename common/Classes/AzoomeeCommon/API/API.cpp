@@ -148,4 +148,15 @@ HttpRequestCreator* API::GetPublicContentRequest(const std::string& url,
     return request;
 }
 
+HttpRequestCreator* API::GetElectricDreamsContent(const std::string& requestId, const std::string& childId,
+                                                  const std::string& contentID,
+                                                  HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = StringUtils::format("/api/electricdreams/%s/content/%s",childId.c_str(),contentID.c_str());
+    request->requestTag = requestId;
+    request->encrypted = true;
+    return request;
+}
+
 NS_AZOOMEE_END

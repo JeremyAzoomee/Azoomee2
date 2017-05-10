@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
@@ -21,6 +22,7 @@
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
 #include "RoutePaymentSingleton.h"
+#include "DeepLinkingSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -319,6 +321,16 @@ void BackEndCaller::getHQContent(const std::string& url, const std::string& cate
     }
 }
 
+// DEEPLINK CONTENT DETAILS REQUEST ----------------------------------------------------------------
+void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const std::string& contentID)
+{
+    if(ChildDataStorage::getInstance()->childLoggedIn)
+    {
+        HttpRequestCreator* request = API::GetElectricDreamsContent(requestId, ChildDataStorage::getInstance()->loggedInChildId, contentID, this);
+        request->execute();
+    }
+}
+
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
@@ -353,6 +365,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == "PreviewHOME")
     {
         HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(body);
+    }
+    else if(requestTag == "deepLinkContentRequest")
+    {
+        DeepLinkingSingleton::getInstance()->contentDetailsResponse(body);
     }
     else if(requestTag == "updateBilling")
     {

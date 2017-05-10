@@ -1,7 +1,6 @@
 #include "ios_Cocos2d_Callbacks.h"
 #include "BaseScene.h"
 #include "HQHistoryManager.h"
-#include "LoginScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
 #include "BackEndCaller.h"

@@ -30,6 +30,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import <Mixpanel/Mixpanel.h>
 #import <AppsFlyerLib/AppsFlyerTracker.h>
+#import "../../Classes/DeepLinkingSingleton.h"
 
 @implementation AppController
 
@@ -129,6 +130,14 @@ static AppDelegate s_sharedApplication;
     /*
      Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
      */
+}
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    if(url)
+        DeepLinkingSingleton::getInstance()->setDeepLink(std::string([[url absoluteString] UTF8String]));
+    
+    return YES;
 }
 
 

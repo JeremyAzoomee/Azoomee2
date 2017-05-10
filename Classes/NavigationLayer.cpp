@@ -17,6 +17,7 @@
 #include "OnboardingScene.h"
 #include "SettingsButton.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include "DeepLinkingSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -40,7 +41,10 @@ bool NavigationLayer::init()
         return false;
     }
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    {
         ModalMessages::getInstance()->showMixpanelNotification();
+        DeepLinkingSingleton::getInstance()->actionDeepLink();
+    }
     
     AudioMixer::getInstance()->playOomeeIdleSounds(true);
     
