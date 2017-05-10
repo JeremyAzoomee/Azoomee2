@@ -7,11 +7,16 @@
 		<script>jwplayer.key="wrR1ClbRkYGQx0IOIV2gMJQggtFCdWaDaza25g==";</script>
 
 		<div id="videoPlayer"></div>
-		<script type="text/javascript">			
-			function startBuildingPlayer(receivedPlaylist)
-			{
-				receivedPlaylist = atob(receivedPlaylist);
+		<script type="text/javascript">	
+			var sent0 = false;
+			var sent25 = false;
+			var sent50 = false;
+			var sent75 = false;
 				
+			function startBuildingPlayer(receivedPlaylist)
+			{	
+				receivedPlaylist = atob(receivedPlaylist);
+			
 				var contentUrl = getUrlVars()["contentUrl"];
 				var playerInstance = jwplayer("videoPlayer");
 			

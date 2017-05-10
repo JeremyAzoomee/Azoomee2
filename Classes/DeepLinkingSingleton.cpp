@@ -11,6 +11,7 @@
 #include "IAPUpsaleLayer.h"
 #include "OnboardingScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include "VideoPlaylistManager.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -133,6 +134,7 @@ void DeepLinkingSingleton::completeContentAction(std::string type,std::string ur
     }
     else if(type == "VIDEO" || type == "AUDIO")
     {
+        VideoPlaylistManager::getInstance()->setPlaylist("");
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(uri.c_str());
     }

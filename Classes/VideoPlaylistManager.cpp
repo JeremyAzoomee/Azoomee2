@@ -33,10 +33,13 @@ void VideoPlaylistManager::setPlaylist(std::string playlist)
 
 std::string VideoPlaylistManager::getPlaylist()
 {
-    if(storedPlaylist.length() == 0) return "noPlaylist";
+    std::string returnString;
     
+    if(storedPlaylist.length() == 0) returnString = "noPlaylist";
+    else returnString = storedPlaylist;
+        
     char *output;
-    cocos2d::base64Encode((unsigned char *)storedPlaylist.c_str(), (unsigned int)storedPlaylist.length(), &output);
+    cocos2d::base64Encode((unsigned char *)returnString.c_str(), (unsigned int)returnString.length(), &output);
     
     return StringUtils::format("%s", output);
 }
