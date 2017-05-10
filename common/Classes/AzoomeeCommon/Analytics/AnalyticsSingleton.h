@@ -28,6 +28,8 @@ private:
     std::string storedType;
     std::string storedContentID;
     
+    std::string OSManufacturer;
+    
     time_t timeOpenedContent;
     
 public:

@@ -209,6 +209,10 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     parentData->loggedInParentApiSecret = def->getStringForKey("loggedInParentApiSecret");
     parentData->loggedInParentApiKey = def->getStringForKey("loggedInParentApiKey");
     parentData->loggedInParentActorStatus = def->getStringForKey("loggedInParentActorStatus");
+    
+    createCrashlyticsUserInfo(parentData->loggedInParentId, "");
+    AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
+    AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
 }
 
 bool ParentDataParser::hasParentLoginDataInUserDefaults()
