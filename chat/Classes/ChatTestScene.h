@@ -74,8 +74,11 @@ private:
     
     /// Select a friend from the friend list
     void selectFriend(int index);
+    void selectFriend(const FriendRef& friendObj);
     /// Back button pressed
     void onBackButtonPressed();
+    /// Refresh button pressed
+    void onRefreshButtonPressed();
     /// Send a message to the current contact
     void sendMessage(const std::string& message);
     
@@ -89,6 +92,7 @@ private:
     void keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info) override;
     void keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info) override;
     void keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info) override;
+    
     
 public:
     

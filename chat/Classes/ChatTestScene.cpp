@@ -10,7 +10,7 @@
 using namespace cocos2d;
 
 
-const float kMessageListMargin = 10.0f;
+const float kMessageListMargin = 20.0f;
 const float kContactListMargin = 10.0f;
 
 
@@ -43,7 +43,7 @@ bool ChatTestScene::init()
     _titleLayout = ui::Layout::create();
     _titleLayout->setAnchorPoint(Vec2(0, 1));
     _titleLayout->setContentSize(Size(visibleSize.width, titleHeight));
-    _titleLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
+    _titleLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     _titleLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _titleLayout->setBackGroundColor(Color3B(120, 120, 120));
     _rootLayout->addChild(_titleLayout);
@@ -177,9 +177,8 @@ void ChatTestScene::createTitleUI(cocos2d::ui::Layout* parent)
     _backButton->addClickEventListener([this](Ref* button){
         onBackButtonPressed();
     });
-    
-    ui::LinearLayoutParameter* backButtonLayout = ui::LinearLayoutParameter::create();
-    backButtonLayout->setGravity(ui::LinearLayoutParameter::LinearGravity::LEFT);
+    ui::RelativeLayoutParameter* backButtonLayout = ui::RelativeLayoutParameter::create();
+    backButtonLayout->setAlign(ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL);
     backButtonLayout->setMargin(ui::Margin(20.0f, 0.0f, 0.0f, 0.0f));
     _backButton->setLayoutParameter(backButtonLayout);
     parent->addChild(_backButton);
@@ -190,12 +189,28 @@ void ChatTestScene::createTitleUI(cocos2d::ui::Layout* parent)
     _titleLabel->setFontSize(75.0f);
     _titleLabel->setColor(Color3B(255, 255, 255));
     _titleLabel->setString(ChildDataProvider::getInstance()->getLoggedInChildName());
-    
-    ui::LinearLayoutParameter* titleLabelLayout = ui::LinearLayoutParameter::create();
-    titleLabelLayout->setGravity(ui::LinearLayoutParameter::LinearGravity::CENTER_VERTICAL);
+    ui::RelativeLayoutParameter* titleLabelLayout = ui::RelativeLayoutParameter::create();
+    titleLabelLayout->setAlign(ui::RelativeLayoutParameter::RelativeAlign::CENTER_IN_PARENT);
     titleLabelLayout->setMargin(ui::Margin(50.0f, 0.0f, 0.0f, 0.0f));
     _titleLabel->setLayoutParameter(titleLabelLayout);
     parent->addChild(_titleLabel);
+    
+    // Refresh button
+    _refreshButton = ui::Button::create("res/buttons/buttonArea.png");
+    _refreshButton->setScale9Enabled(true);
+    _refreshButton->setCapInsets(Rect(60, 65, 60, 65));
+    _refreshButton->setTitleText("refresh");
+    _refreshButton->setTitleFontName(Azoomee::FONT_REGULAR);
+    _refreshButton->setTitleFontSize(60.0f);
+    _refreshButton->setAnchorPoint(Vec2(0, 1));
+    _refreshButton->addClickEventListener([this](Ref* button){
+        onRefreshButtonPressed();
+    });
+    ui::RelativeLayoutParameter* refreshButtonLayout = ui::RelativeLayoutParameter::create();
+    refreshButtonLayout->setAlign(ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL);
+    refreshButtonLayout->setMargin(ui::Margin(0.0f, 0.0f, 20.0f, 0.0f));
+    _refreshButton->setLayoutParameter(refreshButtonLayout);
+    parent->addChild(_refreshButton);
 }
 
 void ChatTestScene::createLeftSideUI(cocos2d::ui::Layout* parent)
@@ -259,6 +274,7 @@ void ChatTestScene::createRightSideUI(cocos2d::ui::Layout* parent)
     // TextField
     _messageEntryField = ui::TextField::create("New message...", Azoomee::FONT_REGULAR, 70.0f);
     _messageEntryField->setAnchorPoint(Vec2(0, 1));
+    _messageEntryField->setCursorEnabled(true);
     _messageEntryField->ignoreContentAdaptWithSize(false);
     _messageEntryField->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _messageEntryField->setTextVerticalAlignment(TextVAlignment::CENTER);
@@ -374,18 +390,27 @@ void ChatTestScene::selectFriend(int index)
 {
     ChatAPI* chatAPI = ChatAPI::getInstance();
     const FriendList& friendList = chatAPI->getFriendList();
-    _selectedFriend = friendList[index];
+    selectFriend(friendList[index]);
+}
+
+void ChatTestScene::selectFriend(const FriendRef& friendObj)
+{
+    // Clear list if friend has changed
+    if(_selectedFriend != friendObj)
+    {
+        _messageListView->removeAllChildren();
+    }
+    _selectedFriend = friendObj;
     
     // Update menu
-    const Vector<ui::Widget*>& items = _contactListView->getItems();;
+    const Vector<ui::Widget*>& items = _contactListView->getItems();
+    ChatAPI* chatAPI = ChatAPI::getInstance();
+    const FriendList& friendList = chatAPI->getFriendList();
     for(int i = 0; i < items.size(); ++i)
     {
         ui::Widget* btn = items.at(i);
-        btn->setOpacity((i == index) ? 255 : 150);
+        btn->setOpacity((friendList[i] == _selectedFriend) ? 255 : 150);
     }
-    
-    // Clear the message list
-    _messageListView->removeAllChildren();
     
     // Request messages for this friend
     chatAPI->requestMessageHistory(_selectedFriend);
@@ -402,10 +427,21 @@ void ChatTestScene::onBackButtonPressed()
     Director::getInstance()->replaceScene(childSelectScene);
 }
 
+void ChatTestScene::onRefreshButtonPressed()
+{
+    selectFriend(_selectedFriend);
+}
+
 void ChatTestScene::sendMessage(const std::string& message)
 {
-    cocos2d::log("Send Message: %s", message.c_str());
-    ChatAPI::getInstance()->sendMessage(_selectedFriend, message);
+    // TODO: Trim message
+    if(message.length() > 0)
+    {
+        cocos2d::log("Send Message: %s", message.c_str());
+        ChatAPI::getInstance()->sendMessage(_selectedFriend, message);
+    }
+    
+    // Clear the message field
     _messageEntryField->setString("");
     
     // Dismiss the keyboard
@@ -419,13 +455,23 @@ void ChatTestScene::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFiel
 {
     switch(type)
     {
+        case ui::TextField::EventType::DETACH_WITH_IME:
+        {
+            // Keyboard closed
+            // For now we'll assume we should send the message when keyboard dismissed
+            const std::string& message = _messageEntryField->getString();
+            if(message.length() > 0)
+            {
+                sendMessage(message);
+            }
+            break;
+        }
         case ui::TextField::EventType::INSERT_TEXT:
         {
             // TextField changed
             break;
         }
         case ui::TextField::EventType::ATTACH_WITH_IME:
-        case ui::TextField::EventType::DETACH_WITH_IME:
         case ui::TextField::EventType::DELETE_BACKWARD:
         default:
         {
