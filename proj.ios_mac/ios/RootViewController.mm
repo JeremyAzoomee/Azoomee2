@@ -70,11 +70,34 @@
     
     //run the cocos2d-x game scene
     app->run();
+    
+    
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // request notification generation
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
+    // register to rotation notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChangeNotificationReceived:) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)orientationDidChangeNotificationReceived:(NSNotification *)notification
+{
+    // find out needed compass rotation
+    //  (as a countermeasure to auto rotation)
+    float rotation = 0.0;
+    
+    if (self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        rotation = M_PI;
+    else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+        rotation = M_PI / 2.0;
+    else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
+        rotation = M_PI / (- 2.0);
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -91,11 +114,20 @@
 - (NSUInteger) supportedInterfaceOrientations{
     return self.supportedInterfaceOrientation;
 }
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    //	(iOS 6)
+    //	Force to portrait
+    return UIInterfaceOrientationPortrait;
+}
+
 #endif
 
 - (BOOL) shouldAutorotate {
     return YES;
 }
+
 
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
@@ -130,8 +162,30 @@
 - (void) setOrientationToPortrait
 {
     self.supportedInterfaceOrientation = UIInterfaceOrientationMaskPortrait;
-    [self didRotateFromInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    //[self preferredInterfaceOrientationForPresentation];
+    //[self didRotateFromInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
+    auto glview = cocos2d::Director::getInstance()->getOpenGLView();
+    
+    if (glview)
+    {
+        CCEAGLView *eaglview = (__bridge CCEAGLView *)glview->getEAGLView();
+        
+        if (eaglview)
+        {
+            CGSize s = CGSizeMake([eaglview getWidth], [eaglview getHeight]);
+            
+            if((int) s.width < (int) s.height)
+            {
+                cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) s.width, (int) s.height);
+            }
+            // Portrait
+            else
+            {
+                cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) s.height, (int) s.width);
+            }
+        }
+    }
 }
 
 @end

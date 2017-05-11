@@ -158,7 +158,7 @@ void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
 
 void AppDelegate::setOrientationToPortrait()
 {
-    float newWidth = Director::getInstance()->getVisibleSize().width;
+    /*float newWidth = Director::getInstance()->getVisibleSize().width;
     float newHeight = Director::getInstance()->getVisibleSize().height;
     
     // Landscape
@@ -170,6 +170,7 @@ void AppDelegate::setOrientationToPortrait()
     else
     {
         applicationScreenSizeChanged(newWidth, newHeight);
-    }
+    }*/
+    
 }
 
