@@ -128,7 +128,7 @@
         
         [webview removeFromSuperview];
         
-        [currentButton removeFromSuperview];
+        [backButton removeFromSuperview];
         
         [useridToUse release];
         [urlToLoad release];
@@ -201,13 +201,13 @@
 
 - (void) createButton
 {
-    currentButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [currentButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [currentButton setFrame:CGRectMake(10, 10, 40, 40)];
-    [currentButton setExclusiveTouch:YES];
-    [currentButton setImage:[UIImage imageNamed:@"res/navigation/back_new.png"] forState:UIControlStateNormal];
+    backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setFrame:CGRectMake(10, 10, 40, 40)];
+    [backButton setExclusiveTouch:YES];
+    [backButton setImage:[UIImage imageNamed:@"res/navigation/back_new.png"] forState:UIControlStateNormal];
     
-    [self.view addSubview:currentButton];
+    [self.view addSubview:backButton];
 }
 
 -(void) buttonClicked:(UIButton*)sender
@@ -229,6 +229,8 @@
 
 -(void) removeWebViewWhileInBackground
 {
+    [backButton removeFromSuperview];
+    
     NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
     if(![iosurlExtension isEqualToString:@"html"]) return;
     
@@ -239,8 +241,6 @@
     [webview removeFromSuperview];
     [webview release];
     webview = nil;
-    
-    [currentButton removeFromSuperview];
     
     iframeloaded = NO;
 }
@@ -254,7 +254,7 @@
     
     [webview removeFromSuperview];
     
-    [currentButton removeFromSuperview];
+    [backButton removeFromSuperview];
     
     [useridToUse release];
     [urlToLoad release];
