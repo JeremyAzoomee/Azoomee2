@@ -54,7 +54,10 @@
         Content Page"-->
         <activity
             android:name="org.cocos2dx.cpp.DeepLink"
-            android:label="@string/app_name" >
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Azoomee"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter android:label="inAppReceiver">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
