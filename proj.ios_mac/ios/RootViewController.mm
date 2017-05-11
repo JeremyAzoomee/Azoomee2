@@ -97,6 +97,7 @@
     return YES;
 }
 
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 
@@ -129,6 +130,8 @@
 - (void) setOrientationToPortrait
 {
     self.supportedInterfaceOrientation = UIInterfaceOrientationMaskPortrait;
+    [self didRotateFromInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    
 }
 
 @end

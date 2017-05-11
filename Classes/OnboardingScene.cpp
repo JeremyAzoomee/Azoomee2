@@ -39,9 +39,9 @@ bool OnboardingScene::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    //addSideWiresToScreen(this, 0, 2);
+    addSideWiresToScreen(this, 0, 2);
     addLabelToScene();
-    //addTextboxScene();
+    addTextboxScene();
     //addButtonsScene();
     
     return true;
@@ -55,8 +55,8 @@ void OnboardingScene::onEnterTransitionDidFinish()
     {
         MessageBox::createWith(_errorCode, emailTextInput, this);
     }
-    //else
-      //  emailTextInput->focusAndShowKeyboard();
+    else
+        emailTextInput->focusAndShowKeyboard();
 }
 
 //----------------- SCENE SETUP ---------------
