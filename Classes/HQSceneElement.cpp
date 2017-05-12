@@ -93,9 +93,6 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
 //-------------------All elements below this are used internally-----------------
 void HQSceneElement::addListenerToElement()
 {
-    bool previewMode = true;
-    if(elementItemData["entitled"] == "true" && ChildDataProvider::getInstance()->getIsChildLoggedIn()) previewMode = false;
-    
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
     listener->onTouchBegan = [=](Touch *touch, Event *event)
@@ -146,7 +143,7 @@ void HQSceneElement::addListenerToElement()
             iamtouched = false;
             CCLOG("Action to come: %s", elementItemData["uri"].c_str());
             
-            if(previewMode)
+            if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
             {
                 CCLOG("MixPanel: %s, %s, %s", elementItemData["title"].c_str(), elementItemData["description"].c_str(), elementCategory.c_str());
                 AnalyticsSingleton::getInstance()->previewContentClickedEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"]);
@@ -170,7 +167,7 @@ void HQSceneElement::addListenerToElement()
                 
             AnalyticsSingleton::getInstance()->openContentEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"]);
             startUpElementDependingOnType();
-            
+            return true;
         }
         
         return false;
