@@ -27,6 +27,7 @@
 #import "cocos2d.h"
 #import "platform/ios/CCEAGLView-ios.h"
 
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 @implementation RootViewController
 
@@ -186,6 +187,21 @@
             }
         }
     }
+    NSNumber *value = [NSNumber numberWithInt:[self preferredInterfaceOrientationForPresentation]];
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    // [UIViewController attemptRotationToDeviceOrientation];
+
+    /*self.view.translatesAutoresizingMaskIntoConstraints = YES;
+    double rads = DEGREES_TO_RADIANS(240);
+    self.view.transform = CGAffineTransformMakeRotation(-90 * M_PI/180);
+    CATransform3DMakeRotation(rads, 0, 0, 1);
+    
+    self.view.translatesAutoresizingMaskIntoConstraints = YEs;
+    auto *eaglView = self.view;
+    
+    [self.view removeFromSuperview];
+    
+    [self addSubview:eaglView];*/
 }
 
 @end

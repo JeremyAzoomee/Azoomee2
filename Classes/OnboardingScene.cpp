@@ -39,7 +39,7 @@ bool OnboardingScene::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    addSideWiresToScreen(this, 0, 2);
+    //addSideWiresToScreen(this, 0, 2);
     addLabelToScene();
     addTextboxScene();
     //addButtonsScene();
