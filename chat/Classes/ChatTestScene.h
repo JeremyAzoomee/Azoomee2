@@ -3,13 +3,14 @@
 
 #include "AzoomeeChat/AzoomeeChat.h"
 #include "AzoomeeChat/ChatAPI.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class ChatTestScene : public cocos2d::Scene, public ChatAPIObserver, public cocos2d::IMEDelegate
+class ChatTestScene : public cocos2d::Scene, public ChatAPIObserver, public cocos2d::IMEDelegate, public MessageBoxDelegate
 {
     typedef cocos2d::Scene Super;
 private:
@@ -18,6 +19,8 @@ private:
     cocos2d::EventListenerCustom* _windowChangedEvent = nullptr;
     /// Keep track of if the keyboard is visible
     bool _keyboardVisible = false;
+    /// Time for next auto get messages call
+    float _timeTillGet = -1.0f;
     
     /// Root layout for all elements
     cocos2d::ui::Layout* _rootLayout = nullptr;
@@ -98,12 +101,16 @@ private:
     void keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info) override;
     void keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info) override;
     
+    // - MessageBoxDelegate
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
+    
     
 public:
     
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void onExit() override;
+    virtual void update(float dt) override;
 
     CREATE_FUNC(ChatTestScene);
 };

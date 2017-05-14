@@ -2,7 +2,6 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include "AppDelegate.h"
 #include "ChildSelectorScene.h"
 #include "OrientationFunctions.h"
@@ -20,6 +19,15 @@ const float kContactItemHeight = 200.0f;
 const float kContactListWidthRatio = 0.3f;
 const float kMessageItemMargin = 20.0f;
 const float kMessageListWidthRatio = 1.0f - kContactListWidthRatio;
+
+// Interval to do an auto get call
+// Temp feature until Pusher is implemented
+const float kAutoGetTimeInterval = 5.0f;
+
+// For dev, some messages that display in a MessageBox
+const char* const kUpdateLastSeenStorageKey = "azoomee.chat.dev.update_notes";
+const char* const kUpdateWelcomeTitle = "Welcome";
+const char* const kUpdateWhatsNewTitle = "What's new";
 
 
 NS_AZOOMEE_CHAT_BEGIN
@@ -116,6 +124,9 @@ void ChatTestScene::onEnter()
     
     // Dev messages
     showUpdateNotesIfNeeded();
+    
+    // Get update calls
+    scheduleUpdate();
 }
 
 void ChatTestScene::onExit()
@@ -136,19 +147,39 @@ void ChatTestScene::onExit()
     _messageEntryField->didNotSelectSelf();
     ui::UICCTextField* textFieldRenderer = dynamic_cast<ui::UICCTextField*>(_messageEntryField->getVirtualRenderer());
     textFieldRenderer->closeIME();
+    
+    // Stop update calls
+    unscheduleUpdate();
+}
+
+void ChatTestScene::update(float dt)
+{
+    if(kAutoGetTimeInterval > 0 && _timeTillGet > -1 && _selectedFriend)
+    {
+        _timeTillGet -= dt;
+        if(_timeTillGet <= 0)
+        {
+            // Wait until we get results before restarting the timer
+            _timeTillGet = -1.0f;
+            
+            // Make the call
+            ChatAPI* chatAPI = ChatAPI::getInstance();
+            chatAPI->requestMessageHistory(_selectedFriend);
+        }
+    }
 }
 
 void ChatTestScene::showUpdateNotesIfNeeded()
 {
     // Has the user seen these update notes yet?
-    const char* const storageKey = "azoomee.chat.dev.update_notes";
     const std::string& version = Azoomee::Chat::Version;
-    const std::string& readVersion = UserDefault::getInstance()->getStringForKey(storageKey);
-    if( version != readVersion )
+    const std::string& readVersion = UserDefault::getInstance()->getStringForKey(kUpdateLastSeenStorageKey);
+    if(version != readVersion)
     {
-        const std::string& messageBody = StringUtils::format("This is a very early version of the Azoomee Chat app.\n\nPlease be aware that all UI is placeholder. This build is mainly to test the API communication.\n\nv%s", version.c_str());
-        UserDefault::getInstance()->setStringForKey(storageKey, version);
-        MessageBox::createWith("Welcome", messageBody, "OK", nullptr);
+        const std::string& messageBody = StringUtils::format("This is a very early version of the Azoomee Chat app."
+                                                             "\n\nPlease be aware that all UI is placeholder. This build is mainly to test the API communication."
+                                                             "\n\nv%s", version.c_str());
+        MessageBox::createWith(kUpdateWelcomeTitle, messageBody, "OK", this);
     }
 }
 
@@ -533,6 +564,33 @@ void ChatTestScene::sendMessage(const std::string& message)
     textFieldRenderer->closeIME();
 }
 
+#pragma mark - MessageBoxDelegate
+
+void ChatTestScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
+{
+    if(messageBoxTitle == kUpdateWelcomeTitle)
+    {
+        // Display what's new
+        const std::string& messageBody = StringUtils::format("v0.0.2 (scroll down for more):\n"
+                                                             " - UI fits correctly in all screen sizes, including iPhones.\n"
+                                                             " - UI is much more responsive and should generally look correct in all orientations.\n"
+                                                             " - Moderated messages no longer crash the app and now display appropriately in the message list.\n"
+                                                             " - Messages are retrieved automatically every 5 seconds as a temp feature until Pusher is integrated.\n"
+                                                             " - Various Android fixes, including ensuring the send message box slides up when entering text.\n"
+                                                             "\n"
+                                                             "Known issues:\n"
+                                                             " - Message list flickers when it's refreshed.");
+        MessageBox* messageBox = MessageBox::createWith(kUpdateWhatsNewTitle, messageBody, "OK", this);
+        messageBox->setBodyHAlignment(TextHAlignment::LEFT);
+    }
+    else
+    {
+        // Done displaying messages, don't display again for this version
+        const std::string& version = Azoomee::Chat::Version;
+        UserDefault::getInstance()->setStringForKey(kUpdateLastSeenStorageKey, version);
+    }
+}
+
 #pragma mark - TextField
 
 void ChatTestScene::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextField::EventType type)
@@ -659,6 +717,9 @@ void ChatTestScene::onChatAPIGetChatMessages(const MessageList& messageList)
     _messageListView->scrollToBottom(0, false);
     
     ModalMessages::getInstance()->stopLoading();
+    
+    // Trigger auto get again
+    _timeTillGet = kAutoGetTimeInterval;
 }
 
 void ChatTestScene::onChatAPISendMessage(const MessageRef& sentMessage)
