@@ -27,14 +27,14 @@ android {
         versionName "0.0.1"
     }
     
-    splits {
-    	abi {
-      		enable true
-      		reset()
-      		include 'armeabi-v7a'
-      		universalApk false
-    	}
-    }
+//    splits {
+//    	abi {
+//      		enable true
+//      		reset()
+//      		include 'armeabi-v7a'
+//      		universalApk false
+//    	}
+//    }
 
     sourceSets.main {
         java.srcDir "src"

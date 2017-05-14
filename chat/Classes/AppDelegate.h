@@ -8,8 +8,14 @@
 
 Private inheritance here hides part of interface from Director.
 */
-class  AppDelegate : private cocos2d::Application
+class AppDelegate : private cocos2d::Application
 {
+private:
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    /// Last keyboard notification
+    cocos2d::IMEKeyboardNotificationInfo imeNotification;
+#endif
+    
 public:
     /// Triggered when the window size changes (e.g on orientation changes)
     static const char* EVENT_WINDOW_SIZE_CHANGED;
@@ -38,6 +44,11 @@ public:
      @brief  This function will be called when the application screen size is changed.
      */
     virtual void applicationScreenSizeChanged(int newWidth, int newHeight) override;
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    /// Called when keyboard on android is shown
+    void onVirtualKeyboardShown(int height);
+#endif
 };
 
 #endif

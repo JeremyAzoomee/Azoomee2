@@ -5,6 +5,10 @@
 #include "ChildSelectorScene.h"
 #include "Auth/AuthAPI.h"
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#include <jni.h>
+#endif
+
 using namespace cocos2d;
 using namespace Azoomee;
 using namespace Azoomee::Chat;
@@ -162,3 +166,41 @@ void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
     
     director->getEventDispatcher()->dispatchEvent(&event);
 }
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+void AppDelegate::onVirtualKeyboardShown(int height)
+{
+    cocos2d::log( "AppDelegate::onVirtualKeyboardShown: %d", height );
+    
+    // Convert height into cocos view coords
+    auto director = Director::getInstance();
+    // Adjust height to take into account current view scale and origin offset
+    auto glview = director->getOpenGLView();
+    height /= glview->getScaleY();
+    
+    const cocos2d::Vec2& visibleOrigin = director->getVisibleOrigin();
+    height += visibleOrigin.y;
+    
+    imeNotification.end = cocos2d::Rect(0, 0, 0, height);
+    imeNotification.duration = 0.25f;
+    
+    cocos2d::IMEDispatcher* imeDispatch = IMEDispatcher::sharedDispatcher();
+    imeDispatch->dispatchKeyboardWillShow(imeNotification);
+}
+#endif
+
+#pragma mark - Android native methods
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_gotKeyboardHeight(JNIEnv* env, jclass, jint height)
+    {
+        AppDelegate* appDel = (AppDelegate*)cocos2d::Application::getInstance();
+        appDel->onVirtualKeyboardShown(height);
+    }
+}
+
+#endif
+

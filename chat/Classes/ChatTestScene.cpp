@@ -5,13 +5,21 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "AppDelegate.h"
 #include "ChildSelectorScene.h"
+#include "OrientationFunctions.h"
 #include <sstream>
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include <cocos/platform/android/jni/JniHelper.h>
+#endif
 
 using namespace cocos2d;
 
 
-const float kMessageListMargin = 20.0f;
-const float kContactListMargin = 10.0f;
+const float kContactItemMargin = 20.0f;
+const float kContactItemHeight = 200.0f;
+const float kContactListWidthRatio = 0.3f;
+const float kMessageItemMargin = 20.0f;
+const float kMessageListWidthRatio = 1.0f - kContactListWidthRatio;
 
 
 NS_AZOOMEE_CHAT_BEGIN
@@ -23,15 +31,9 @@ bool ChatTestScene::init()
         return false;
     }
     
-    const cocos2d::Size& visibleSize = getContentSize();
-    cocos2d::log( "visibleSize: %f, %f", visibleSize.width, visibleSize.height );
-    
-    
     // Create the root layout which fills the whole screen
     _rootLayout = ui::Layout::create();
     _rootLayout->setAnchorPoint(Vec2::ZERO);
-    _rootLayout->setContentSize(visibleSize);
-    _rootLayout->setPosition(Point::ZERO);
     _rootLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _rootLayout->setBackGroundColor(Color3B(50, 50, 50));
@@ -39,21 +41,20 @@ bool ChatTestScene::init()
     
     
     // Create title layout
-    const float titleHeight = visibleSize.height * 0.1f;
     _titleLayout = ui::Layout::create();
     _titleLayout->setAnchorPoint(Vec2(0, 1));
-    _titleLayout->setContentSize(Size(visibleSize.width, titleHeight));
+    _titleLayout->setSizePercent(Vec2(1.0f, 0.1f));
+    _titleLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _titleLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     _titleLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _titleLayout->setBackGroundColor(Color3B(120, 120, 120));
     _rootLayout->addChild(_titleLayout);
     
     // Create the content layout
-    const cocos2d::Size contentSize = Size(visibleSize.width, visibleSize.height - titleHeight);
     _contentLayout = ui::Layout::create();
     _contentLayout->setAnchorPoint(Vec2::ZERO);
-    _contentLayout->setContentSize(contentSize);
-    _contentLayout->setPosition(Point::ZERO);
+    _contentLayout->setSizePercent(Vec2(1.0f, 0.9f));
+    _contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _contentLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     _contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _contentLayout->setBackGroundColor(Color3B(0, 0, 0));
@@ -63,6 +64,8 @@ bool ChatTestScene::init()
     // Create the left and right side parent layouts to hold the elements
     _leftLayout = ui::Layout::create();
     _leftLayout->setAnchorPoint(Vec2(0, 1));
+    _leftLayout->setSizePercent(Vec2(kContactListWidthRatio, 1.0f));
+    _leftLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _leftLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     _leftLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _leftLayout->setBackGroundColor(Color3B(100, 100, 100));
@@ -73,6 +76,8 @@ bool ChatTestScene::init()
     
     _rightLayout = ui::Layout::create();
     _rightLayout->setAnchorPoint(Vec2(0, 1));
+    _rightLayout->setSizePercent(Vec2(kMessageListWidthRatio, 1.0f));
+    _rightLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _rightLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     _rightLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _rightLayout->setBackGroundColor(Color3B(75, 75, 75));
@@ -80,12 +85,6 @@ bool ChatTestScene::init()
     rightLayoutParam->setAlign(ui::RelativeLayoutParameter::RelativeAlign::PARENT_TOP_RIGHT);
     _rightLayout->setLayoutParameter(rightLayoutParam);
     _contentLayout->addChild(_rightLayout);
-    
-    // Size elements
-    float leftWidth = contentSize.width * 0.3f;
-    _leftLayout->setContentSize(Size(leftWidth, contentSize.height));
-    float rightWidth = contentSize.width - leftWidth;
-    _rightLayout->setContentSize(Size(rightWidth, contentSize.height));
     
     // Now we can create the UI
     createTitleUI(_titleLayout);
@@ -105,6 +104,9 @@ void ChatTestScene::onEnter()
                                                                                  std::bind(&ChatTestScene::onWindowChanged, this, std::placeholders::_1));
     _windowChangedEvent->retain();
     
+    // Trigger an initial event to setup the sizes correctly
+    onWindowChanged(nullptr);
+    
     // Register for API events
     ChatAPI::getInstance()->registerObserver(this);
     
@@ -120,6 +122,8 @@ void ChatTestScene::onExit()
 {
     Super::onExit();
     
+    _keyboardVisible = false;
+    
     // Unregister window changes
     auto director = cocos2d::Director::getInstance();
     director->getEventDispatcher()->removeEventListener(_windowChangedEvent);
@@ -127,6 +131,11 @@ void ChatTestScene::onExit()
     
     // Unregister on chat API events
     ChatAPI::getInstance()->removeObserver(this);
+    
+    // Make sure keyboard dismissed before we exit screen
+    _messageEntryField->didNotSelectSelf();
+    ui::UICCTextField* textFieldRenderer = dynamic_cast<ui::UICCTextField*>(_messageEntryField->getVirtualRenderer());
+    textFieldRenderer->closeIME();
 }
 
 void ChatTestScene::showUpdateNotesIfNeeded()
@@ -143,31 +152,96 @@ void ChatTestScene::showUpdateNotesIfNeeded()
     }
 }
 
+#pragma mark - Size changes
+
 void ChatTestScene::onWindowChanged(cocos2d::EventCustom* event)
 {
-    const cocos2d::Size& visibleSize = getContentSize();
+    const cocos2d::Size& visibleSize = Director::getInstance()->getVisibleSize();
+    const cocos2d::Vec2& visibleOrigin = Director::getInstance()->getVisibleOrigin();
     cocos2d::log("onWindowChanged: %f, %f", visibleSize.width, visibleSize.height);
     
-    // Size elements
+    // Resize the root element
+    _rootLayout->setPosition(visibleOrigin);
     _rootLayout->setContentSize(visibleSize);
-    _titleLayout->setContentSize(Size(visibleSize.width, visibleSize.height * 0.1f));
-    _contentLayout->setContentSize(Size(visibleSize.width, visibleSize.height - _titleLayout->getContentSize().height));
     
-    const Size& contentSize = _contentLayout->getContentSize();
-    const float leftWidth = contentSize.width * 0.3f;
-    _leftLayout->setContentSize(Size(leftWidth, contentSize.height));
-    const float rightWidth = contentSize.width - leftWidth;
-    _rightLayout->setContentSize(Size(rightWidth, contentSize.height));
     
-//    _rootLayout->forceDoLayout();
-//    _leftLayout->forceDoLayout();
-//    _rightLayout->forceDoLayout();
+    // Resize some elements which are using absolute sizing
     
-    // TODO: List/Scrollviews need to resize
-    // TODO: Animate this change?
+    // The elements for the contact and message list can't use % because they sit inside an inner
+    // layer (part of the ScrolLView) which changes size to match the content.
+    Size contactListViewItemSize(_contactListView->getContentSize().width - (kContactItemMargin * 2), kContactItemHeight);
+    _contactListViewItem->setContentSize(contactListViewItemSize);
+    const cocos2d::Vector<ui::Widget*>& contactItems = _contactListView->getItems();
+    for(ui::Widget* item : contactItems)
+    {
+        item->setContentSize(contactListViewItemSize);
+    }
+    
+    float messageListViewItemWidth = _messageListView->getContentSize().width;
+    const cocos2d::Vector<ui::Widget*>& messageItems = _messageListView->getItems();
+    for(ui::Widget* item : messageItems)
+    {
+        Size itemSize = item->getContentSize();
+        itemSize.width = messageListViewItemWidth;
+        item->setContentSize(itemSize);
+    }
+    
+    
+    // Force message list to bottom
+    // TODO: Fix this so instead we scroll so that exactly the same items are visible as they were pre re-size
+    _messageListView->jumpToBottom();
 }
 
-#pragma mark - UI
+void ChatTestScene::resizeUIForKeyboard(float keyboardHeight, float duration)
+{
+    cocos2d::log("ChatTestScene::resizeUIForKeyboard: %f", keyboardHeight);
+    _keyboardVisible = (keyboardHeight > 0);
+    
+    // Take into account screen cropping
+    if(keyboardHeight > 0)
+    {
+        keyboardHeight -= _rootLayout->getPosition().y;
+    }
+    
+    // Animate resize the MessageList so the send message TextField stays in view
+    
+    // Get normal height of the view when keyboard is not shown
+    const float messageEntryAreaHeight = _messageEntryField->getParent()->getContentSize().height;
+    const float parentHeight = _messageListView->getParent()->getContentSize().height;
+    const float normalAvailableMessageListHeight = parentHeight - messageEntryAreaHeight;
+    
+    // Calculate what height we need, as a %
+    const float wantHeight = normalAvailableMessageListHeight - keyboardHeight;
+    const float wantHeightPercent = wantHeight / parentHeight;
+    
+    const Vec2& messageListSizePercent = _messageListView->getSizePercent();
+    
+    // Animate or not?
+    if(duration > 0)
+    {
+        // Animate
+        _messageListView->runAction(ActionFloat::create(duration, messageListSizePercent.y, wantHeightPercent, [=](float y) {
+            // Resize the message list
+            _messageListView->setSizePercent(Vec2(messageListSizePercent.x, y));
+            // Re-layout to get the message box to move up with the list view
+            _rightLayout->forceDoLayout();
+            // Keep forcing to the bottom as we resize
+            _messageListView->jumpToBottom();
+        }));
+    }
+    else
+    {
+        // Immediate
+        // Resize the message list
+        _messageListView->setSizePercent(Vec2(messageListSizePercent.x, wantHeightPercent));
+        // Re-layout to get the message box to move up with the list view
+        _rightLayout->forceDoLayout();
+        // Keep forcing to the bottom as we resize
+        _messageListView->jumpToBottom();
+    }
+}
+
+#pragma mark - UI creation
 
 void ChatTestScene::createTitleUI(cocos2d::ui::Layout* parent)
 {
@@ -215,16 +289,15 @@ void ChatTestScene::createTitleUI(cocos2d::ui::Layout* parent)
 
 void ChatTestScene::createLeftSideUI(cocos2d::ui::Layout* parent)
 {
-    const cocos2d::Size& visibleSize = parent->getContentSize();
-    
     // Contact list container
     _contactListView = ui::ListView::create();
     _contactListView->setAnchorPoint(Vec2(0, 1));
+    _contactListView->setSizePercent(Vec2(1.0f, 1.0f));
+    _contactListView->setSizeType(ui::Widget::SizeType::PERCENT);
     _contactListView->setDirection(ui::ScrollView::Direction::VERTICAL);
     _contactListView->setBounceEnabled(true);
-    _contactListView->setGravity(ui::ListView::Gravity::CENTER_VERTICAL);
-    _contactListView->setContentSize(Size(visibleSize.width - (kContactListMargin * 2), visibleSize.height - (kContactListMargin * 2)));
-    _contactListView->setItemsMargin(20.0f);
+    _contactListView->setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
+    _contactListView->setItemsMargin(kContactItemMargin);
     _contactListView->addEventListener([this](Ref* sender, ui::ListView::EventType type) {
         if(type == ui::ListView::EventType::ON_SELECTED_ITEM_END)
         {
@@ -234,7 +307,6 @@ void ChatTestScene::createLeftSideUI(cocos2d::ui::Layout* parent)
     
     ui::LinearLayoutParameter* contactListLayout = ui::LinearLayoutParameter::create();
     contactListLayout->setGravity(ui::LinearLayoutParameter::LinearGravity::TOP);
-    contactListLayout->setMargin(ui::Margin(kContactListMargin, kContactListMargin, kContactListMargin, kContactListMargin));
     _contactListView->setLayoutParameter(contactListLayout);
     parent->addChild(_contactListView);
     
@@ -243,33 +315,28 @@ void ChatTestScene::createLeftSideUI(cocos2d::ui::Layout* parent)
     _contactListViewItem->setAnchorPoint(Vec2(0, 1));
     _contactListViewItem->setCapInsets(Rect(98, 98, 1, 1));
     _contactListViewItem->setScale9Enabled(true);
+    _contactListViewItem->setContentSize(Size(0, kContactItemHeight));
     _contactListViewItem->setTitleFontName(Azoomee::FONT_REGULAR);
     _contactListViewItem->setTitleFontSize(60.0f);
-    _contactListViewItem->setContentSize(Size(_contactListView->getContentSize().width - 20.0f, 200.0f));
     _contactListView->setItemModel(_contactListViewItem);
 }
 
 void ChatTestScene::createRightSideUI(cocos2d::ui::Layout* parent)
 {
-    const cocos2d::Size& visibleSize = parent->getContentSize();
-    
-    // Message entry area
-    const float messageEntryPadding = 10.0f;
-    
     // Send Button
     _sendButton = ui::Button::create("res/login/next_btn.png");
     _sendButton->setAnchorPoint(Vec2(0, 1));
+    _sendButton->setSizePercent(Vec2(1.0f, 1.0f));
+    _sendButton->setSizeType(ui::Widget::SizeType::PERCENT);
     _sendButton->addClickEventListener([this](Ref* sender) {
         const std::string& message = _messageEntryField->getString();
         sendMessage(message);
     });
     
-    ui::LinearLayoutParameter* sendButtonLayout = ui::LinearLayoutParameter::create();
-    sendButtonLayout->setGravity(ui::LinearLayoutParameter::LinearGravity::LEFT);
-    sendButtonLayout->setMargin(ui::Margin(messageEntryPadding, messageEntryPadding, messageEntryPadding, messageEntryPadding));
+    ui::RelativeLayoutParameter* sendButtonLayout = ui::RelativeLayoutParameter::create();
+    sendButtonLayout->setAlign(ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL);
+    sendButtonLayout->setMargin(ui::Margin(0, 0, 10.0f, 0));
     _sendButton->setLayoutParameter(sendButtonLayout);
-    
-    float messageEntryHeight = MIN(200.0f, _sendButton->getContentSize().height) + messageEntryPadding * 2;
     
     // TextField
     _messageEntryField = ui::TextField::create("New message...", Azoomee::FONT_REGULAR, 70.0f);
@@ -278,22 +345,22 @@ void ChatTestScene::createRightSideUI(cocos2d::ui::Layout* parent)
     _messageEntryField->ignoreContentAdaptWithSize(false);
     _messageEntryField->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _messageEntryField->setTextVerticalAlignment(TextVAlignment::CENTER);
-    _messageEntryField->setContentSize(Size(visibleSize.width - _sendButton->getContentSize().width - (messageEntryPadding * 4), messageEntryHeight));
+    _messageEntryField->setSizePercent(Vec2(0.8f, 1.0f));
+    _messageEntryField->setSizeType(ui::Widget::SizeType::PERCENT);
     _messageEntryField->addEventListener(CC_CALLBACK_2(ChatTestScene::onTextFieldEvent, this));
-    
-    ui::LinearLayoutParameter* messageEntryFieldLayout = ui::LinearLayoutParameter::create();
-    messageEntryFieldLayout->setGravity(ui::LinearLayoutParameter::LinearGravity::LEFT);
-    messageEntryFieldLayout->setMargin(ui::Margin(messageEntryPadding, messageEntryPadding, messageEntryPadding, messageEntryPadding));
+    ui::RelativeLayoutParameter* messageEntryFieldLayout = ui::RelativeLayoutParameter::create();
+    messageEntryFieldLayout->setAlign(ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL);
+    messageEntryFieldLayout->setMargin(ui::Margin(10.0f, 0, 0, 0));
     _messageEntryField->setLayoutParameter(messageEntryFieldLayout);
     
     
     ui::Layout* messageEntryParent = new ui::Layout();
     messageEntryParent->setAnchorPoint(Vec2(0, 1));
-    messageEntryParent->setLayoutType(ui::Layout::Type::HORIZONTAL);
-    messageEntryParent->setContentSize(Size(visibleSize.width, messageEntryHeight));
+    messageEntryParent->setLayoutType(ui::Layout::Type::RELATIVE);
+    messageEntryParent->setSizePercent(Vec2(1.0f, 0.1f));
+    messageEntryParent->setSizeType(ui::Widget::SizeType::PERCENT);
     messageEntryParent->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    messageEntryParent->setBackGroundColor(Color3B(85, 85, 85));
-    
+    messageEntryParent->setBackGroundColor(Color3B(75, 75, 75));
     ui::LinearLayoutParameter* messageEntryParentLayout = ui::LinearLayoutParameter::create();
     messageEntryParentLayout->setGravity(ui::LinearLayoutParameter::LinearGravity::TOP);
     messageEntryParent->setLayoutParameter(messageEntryParentLayout);
@@ -305,15 +372,15 @@ void ChatTestScene::createRightSideUI(cocos2d::ui::Layout* parent)
     // Message list container
     _messageListView = ui::ListView::create();
     _messageListView->setAnchorPoint(Vec2(0, 1));
+    _messageListView->setSizePercent(Vec2(1.0f, 0.9f));
+    _messageListView->setSizeType(ui::Widget::SizeType::PERCENT);
     _messageListView->setDirection(ui::ScrollView::Direction::VERTICAL);
     _messageListView->setBounceEnabled(true);
-    _messageListView->setGravity(ui::ListView::Gravity::CENTER_VERTICAL);
-    _messageListView->setItemsMargin(20.0f);
-    _messageListView->setContentSize(Size(visibleSize.width - (kMessageListMargin * 2), visibleSize.height - messageEntryHeight - (kMessageListMargin * 2)));
-    
+    _messageListView->setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
+    _messageListView->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _messageListView->setBackGroundColor(Color3B(85, 85, 85));
     ui::LinearLayoutParameter* messageListLayout = ui::LinearLayoutParameter::create();
     messageListLayout->setGravity(ui::LinearLayoutParameter::LinearGravity::TOP);
-    messageListLayout->setMargin(ui::Margin(kMessageListMargin, kMessageListMargin, kMessageListMargin, kMessageListMargin));
     _messageListView->setLayoutParameter(messageListLayout);
     
     parent->addChild(_messageListView);
@@ -324,17 +391,21 @@ cocos2d::ui::Widget* ChatTestScene::createMessageMenuItem(const MessageRef& mess
 {
     const std::string& senderId = message->senderId();
     bool isCurrentUser = (senderId == ChildDataProvider::getInstance()->getLoggedInChildId());
-    const float itemPadding = 30.0f;
+    const float labelPadding = 30.0f;
     
     // Create parent layout for the menu item.
-    // This fills the whole width of the list
+    // This always fills the whole width of the list
     ui::Layout* parentLayout = ui::Layout::create();
     parentLayout->setAnchorPoint(Vec2(0, 1));
     parentLayout->setLayoutType(ui::Layout::Type::RELATIVE);
+    ui::LinearLayoutParameter* parentLayoutParams = ui::LinearLayoutParameter::create();
+    parentLayoutParams->setGravity(ui::LinearLayoutParameter::LinearGravity::CENTER_HORIZONTAL);
+    parentLayout->setLayoutParameter(parentLayoutParams);
     
     // Create inner layout
     // This contains the background image and label
     ui::Layout* innerLayout = ui::Layout::create();
+    innerLayout->setName("innerLayout");
     innerLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     innerLayout->setBackGroundImage("res/buttons/secondaryButton.png");
     innerLayout->setBackGroundImageCapInsets(Rect(103, 67, 1, 1));
@@ -342,16 +413,20 @@ cocos2d::ui::Widget* ChatTestScene::createMessageMenuItem(const MessageRef& mess
     ui::RelativeLayoutParameter* innerLayoutParams = ui::RelativeLayoutParameter::create();
     ui::RelativeLayoutParameter::RelativeAlign relativeAlign = (isCurrentUser) ? ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL : ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL;
     innerLayoutParams->setAlign(relativeAlign);
+    const float leftMargin = (relativeAlign == ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL) ? kMessageItemMargin : 0;
+    const float rightMargin = (relativeAlign == ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL) ? kMessageItemMargin : 0;
+    innerLayoutParams->setMargin(ui::Margin(leftMargin, kMessageItemMargin, rightMargin, kMessageItemMargin));
     innerLayout->setLayoutParameter(innerLayoutParams);
     parentLayout->addChild(innerLayout);
     
     
     // Create label for the message
     ui::Text* label = ui::Text::create();
+    label->setName("label");
     label->setFontName(Azoomee::FONT_REGULAR);
     label->setFontSize(60.0f);
     label->setTextHorizontalAlignment(TextHAlignment::LEFT);
-    label->ignoreContentAdaptWithSize(false);
+    label->ignoreContentAdaptWithSize(false); // means fixed size (don't resize with text)
     ui::RelativeLayoutParameter* labelLayoutParams = ui::RelativeLayoutParameter::create();
     labelLayoutParams->setAlign(ui::RelativeLayoutParameter::RelativeAlign::CENTER_IN_PARENT);
     label->setLayoutParameter(labelLayoutParams);
@@ -369,17 +444,21 @@ cocos2d::ui::Widget* ChatTestScene::createMessageMenuItem(const MessageRef& mess
     label->setString(line.str());
     
     // Wordwrap the label and get the height we need for the text
-    const float itemWidth = _messageListView->getContentSize().width / 2;
-    const float itemLabelWidth = itemWidth - (itemPadding * 2.0f);
+    // Note we always use the landscape resolution width for item calculation
+    // The items will overlap slightly on portrait which is what we want
+    auto glview = Director::getInstance()->getOpenGLView();
+    const Size& designRes = glview->getDesignResolutionSize() * kMessageListWidthRatio;
+    const float itemWidth = (designRes.width > designRes.height ? designRes.width : designRes.height) / 2;
+    const float itemLabelWidth = itemWidth - (labelPadding * 2.0f);
     Label* labelRenderer = dynamic_cast<Label*>(label->getVirtualRenderer());
     labelRenderer->setDimensions(itemLabelWidth, 0);
     const float itemLabelHeight = labelRenderer->getContentSize().height;
-    float itemHeight = itemLabelHeight + (itemPadding * 2.0f);
+    float itemHeight = itemLabelHeight + (labelPadding * 2.0f);
     
     // Resize the elements
     label->setContentSize(Size(itemLabelWidth, itemLabelHeight));
     innerLayout->setContentSize(Size(itemWidth, itemHeight));
-    parentLayout->setContentSize(Size(_messageListView->getContentSize().width, itemHeight));
+    parentLayout->setContentSize(Size(_messageListView->getContentSize().width, itemHeight + (kMessageItemMargin * 2)));
     
     return parentLayout;
 }
@@ -429,6 +508,10 @@ void ChatTestScene::onBackButtonPressed()
 
 void ChatTestScene::onRefreshButtonPressed()
 {
+//    // Quick test of forcing orientation while a scene is open
+//    static bool toggle = true;
+//    setOrientationToPortrait(toggle);
+//    toggle = !toggle;
     selectFriend(_selectedFriend);
 }
 
@@ -445,6 +528,7 @@ void ChatTestScene::sendMessage(const std::string& message)
     _messageEntryField->setString("");
     
     // Dismiss the keyboard
+    _messageEntryField->didNotSelectSelf();
     ui::UICCTextField* textFieldRenderer = dynamic_cast<ui::UICCTextField*>(_messageEntryField->getVirtualRenderer());
     textFieldRenderer->closeIME();
 }
@@ -464,14 +548,29 @@ void ChatTestScene::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFiel
             {
                 sendMessage(message);
             }
+            
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+            // On Android we must deal with the faff of getting the keyboard height here, because
+            // IMEKeyboardNotificationInfo methods do not get called (sigh)
+            resizeUIForKeyboard(0, 0.25f);
+#endif
             break;
         }
+//        case ui::TextField::EventType::ATTACH_WITH_IME:
+//        {
+//#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+//            // On Android we must deal with the faff of getting the keyboard height here, because
+//            // IMEKeyboardNotificationInfo methods do not get called (sigh)
+//            int keyboardHeight = JniHelper::callStaticIntMethod("org/cocos2dx/cpp/AppActivity", "getKeyboardHeight");
+//            resizeUIForKeyboard(keyboardHeight, 0.25f);
+//#endif
+//            break;
+//        }
         case ui::TextField::EventType::INSERT_TEXT:
         {
             // TextField changed
             break;
         }
-        case ui::TextField::EventType::ATTACH_WITH_IME:
         case ui::TextField::EventType::DELETE_BACKWARD:
         default:
         {
@@ -491,18 +590,7 @@ void ChatTestScene::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
         return;
     }
     
-    // Animate resize the MessageList so the TextField stays in view
-    float keyboardHeight = info.end.size.height;
-    float fullHeight = _messageListView->getParent()->getContentSize().height;
-    Size messageListSize = _messageListView->getContentSize();
-    messageListSize.height = fullHeight - (kMessageListMargin * 2) - keyboardHeight - _messageEntryField->getContentSize().height;
-    _messageListView->runAction(ResizeTo::create(info.duration, messageListSize));
-    // Force the layout - it doesn't layout the UI correctly otherwise
-    _messageListView->runAction(ActionFloat::create(info.duration, 0.0f, 1.0f, [this](float dt){
-        _rightLayout->forceDoLayout();
-        // Keep forcing to the bottom as we resize
-        _messageListView->jumpToBottom();
-    }));
+    resizeUIForKeyboard(info.end.size.height, info.duration);
 }
 
 void ChatTestScene::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info)
@@ -513,16 +601,7 @@ void ChatTestScene::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info)
         return;
     }
     
-    // Resize the MessageList so the TextField stays in view
-    float keyboardHeight = info.end.size.height;
-    float fullHeight = _messageListView->getParent()->getContentSize().height;
-    Size messageListSize = _messageListView->getContentSize();
-    messageListSize.height = fullHeight - (kMessageListMargin * 2) - keyboardHeight - _messageEntryField->getContentSize().height;
-    _messageListView->setContentSize(messageListSize);
-    _rightLayout->forceDoLayout();
-    
-    // Make sure bottom is visible
-    _messageListView->jumpToBottom();
+    resizeUIForKeyboard(info.end.size.height, 0);
 }
 
 void ChatTestScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
@@ -533,17 +612,7 @@ void ChatTestScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
         return;
     }
     
-    // Animate resize the MessageList back to normal
-    float fullHeight = _messageListView->getParent()->getContentSize().height;
-    Size messageListSize = _messageListView->getContentSize();
-    messageListSize.height = fullHeight - (kMessageListMargin * 2) - _messageEntryField->getContentSize().height;
-    _messageListView->runAction(ResizeTo::create(info.duration, messageListSize));
-    // Force the layout - it doesn't layout the UI correctly otherwise
-    _messageListView->runAction(ActionFloat::create(info.duration, 0.0f, 1.0f, [this](float dt){
-        _rightLayout->forceDoLayout();
-        // Keep forcing to the bottom as we resize
-        _messageListView->jumpToBottom();
-    }));
+    resizeUIForKeyboard(0, info.duration);
 }
 
 void ChatTestScene::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info)
@@ -554,15 +623,7 @@ void ChatTestScene::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info)
         return;
     }
     
-    // Resize the MessageList back to normal
-    float fullHeight = _messageListView->getParent()->getContentSize().height;
-    Size messageListSize = _messageListView->getContentSize();
-    messageListSize.height = fullHeight - (kMessageListMargin * 2) - _messageEntryField->getContentSize().height;
-    _messageListView->setContentSize(messageListSize);
-    _rightLayout->forceDoLayout();
-    
-    // Make sure bottom is visible
-    _messageListView->jumpToBottom();
+    resizeUIForKeyboard(0, 0);
 }
 
 #pragma mark - ChatAPIObserver
@@ -608,6 +669,10 @@ void ChatTestScene::onChatAPISendMessage(const MessageRef& sentMessage)
     ui::Widget* menuItem = createMessageMenuItem(sentMessage);
     _messageListView->pushBackCustomItem(menuItem);
     _messageListView->scrollToBottom(0.5f, true);
+    
+    // Auto get new messages until we have a live feed from PUSHER
+    ChatAPI* chatAPI = ChatAPI::getInstance();
+    chatAPI->requestMessageHistory(_selectedFriend);
 }
 
 

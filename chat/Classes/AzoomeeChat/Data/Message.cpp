@@ -104,20 +104,35 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     const std::string& senderId = json["senderId"].GetString();
     const std::string& recipientId = json["recipientId"].GetString();
     uint64_t timestamp = json["timestamp"].GetUint64();
+    const std::string& status = json["status"].GetString();
     
-    // Check message type for other information
     std::string messageText;
-    if(messageType == "TEXT")
+    
+    // Active message
+    if(status == "ACTIVE")
     {
-        const auto& params = json["params"];
-        messageText = params["text"].GetString();
-        
-        // Decode the string
-        messageText = urldecode(messageText);
+        // Check message type for other information
+        if(messageType == "TEXT")
+        {
+            const auto& params = json["params"];
+            messageText = params["text"].GetString();
+            
+            // Decode the string
+            messageText = urldecode(messageText);
+        }
+        else
+        {
+            messageText = StringUtils::format("<unsupported message type: %s>", messageType.c_str());
+        }
+    }
+    else if(status == "MODERATED")
+    {
+        messageText = "Message deleted";
     }
     else
     {
-        messageText = StringUtils::format("<unsupported message type: %s>", messageType.c_str());
+        // Ignore this message
+        return MessageRef();
     }
     
     MessageRef messageData(new Message());

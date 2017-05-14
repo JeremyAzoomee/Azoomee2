@@ -171,7 +171,10 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         {
             const auto& object = *it;
             const MessageRef& message = Message::createFromJson(object);
-            messages.push_back(message);
+            if(message)
+            {
+                messages.push_back(message);
+            }
         }
         
         // Notify observers

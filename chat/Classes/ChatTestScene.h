@@ -16,6 +16,8 @@ private:
     
     /// Listener for window changes
     cocos2d::EventListenerCustom* _windowChangedEvent = nullptr;
+    /// Keep track of if the keyboard is visible
+    bool _keyboardVisible = false;
     
     /// Root layout for all elements
     cocos2d::ui::Layout* _rootLayout = nullptr;
@@ -68,6 +70,9 @@ private:
     
     /// Called when projection/size changes
     void onWindowChanged(cocos2d::EventCustom* event);
+    /// Called when we should resize UI elements to fit a keyboard
+    /// If a duration > 0 is provided, it will be animated
+    void resizeUIForKeyboard(float keyboardHeight, float duration);
     
     /// Called on TextField events
     void onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextField::EventType type);
