@@ -1,5 +1,4 @@
 .gradle
-/local.properties
 /.idea/workspace.xml
 /.idea/modules.xml
 /.idea/libraries
@@ -11,4 +10,5 @@
 /app/obj/
 /app/libs/
 /app/assets/res/
-/app/local.properties
+local.properties
+fabric.properties

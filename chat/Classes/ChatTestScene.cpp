@@ -576,15 +576,12 @@ void ChatTestScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::st
     if(messageBoxTitle == kUpdateWelcomeTitle)
     {
         // Display what's new
-        const std::string& messageBody = StringUtils::format("v0.0.2 (scroll down for more):\n"
+        const std::string& messageBody = StringUtils::format("v0.0.3:\n"
                                                              " - UI fits correctly in all screen sizes, including iPhones.\n"
                                                              " - UI is much more responsive and should generally look correct in all orientations.\n"
                                                              " - Moderated messages no longer crash the app and now display appropriately in the message list.\n"
                                                              " - Messages are retrieved automatically every 5 seconds as a temp feature until Pusher is integrated.\n"
-                                                             " - Various Android fixes, including ensuring the send message box slides up when entering text.\n"
-                                                             "\n"
-                                                             "Known issues:\n"
-                                                             " - Message list flickers when it's refreshed.");
+                                                             " - Various Android fixes, including ensuring the send message box slides up when entering text.");
         MessageBox* messageBox = MessageBox::createWith(kUpdateWhatsNewTitle, messageBody, "OK", this);
         messageBox->setBodyHAlignment(TextHAlignment::LEFT);
     }
