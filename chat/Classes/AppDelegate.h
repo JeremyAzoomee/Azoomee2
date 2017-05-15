@@ -47,7 +47,7 @@ public:
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     /// Called when keyboard on android is shown
-    void onVirtualKeyboardShown(int height);
+    void onVirtualKeyboardShown(bool shown, int height);
 #endif
 };
 

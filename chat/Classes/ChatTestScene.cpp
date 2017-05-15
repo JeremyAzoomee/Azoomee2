@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Utils/CocosSharedPtr.h>
 #include "AppDelegate.h"
 #include "ChildSelectorScene.h"
 #include "OrientationFunctions.h"
@@ -421,10 +422,6 @@ void ChatTestScene::createRightSideUI(cocos2d::ui::Layout* parent)
 
 cocos2d::ui::Widget* ChatTestScene::createMessageMenuItem(const MessageRef& message)
 {
-    const std::string& senderId = message->senderId();
-    bool isCurrentUser = (senderId == ChildDataProvider::getInstance()->getLoggedInChildId());
-    const float labelPadding = 30.0f;
-    
     // Create parent layout for the menu item.
     // This always fills the whole width of the list
     ui::Layout* parentLayout = ui::Layout::create();
@@ -443,11 +440,8 @@ cocos2d::ui::Widget* ChatTestScene::createMessageMenuItem(const MessageRef& mess
     innerLayout->setBackGroundImageCapInsets(Rect(103, 67, 1, 1));
     innerLayout->setBackGroundImageScale9Enabled(true);
     ui::RelativeLayoutParameter* innerLayoutParams = ui::RelativeLayoutParameter::create();
-    ui::RelativeLayoutParameter::RelativeAlign relativeAlign = (isCurrentUser) ? ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL : ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL;
-    innerLayoutParams->setAlign(relativeAlign);
-    const float leftMargin = (relativeAlign == ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL) ? kMessageItemMargin : 0;
-    const float rightMargin = (relativeAlign == ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL) ? kMessageItemMargin : 0;
-    innerLayoutParams->setMargin(ui::Margin(leftMargin, kMessageItemMargin, rightMargin, kMessageItemMargin));
+    innerLayoutParams->setAlign(ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL);
+    innerLayoutParams->setMargin(ui::Margin(0, kMessageItemMargin, 0, kMessageItemMargin));
     innerLayout->setLayoutParameter(innerLayoutParams);
     parentLayout->addChild(innerLayout);
     
@@ -465,12 +459,36 @@ cocos2d::ui::Widget* ChatTestScene::createMessageMenuItem(const MessageRef& mess
     innerLayout->addChild(label);
     
     
-    // Set the text and calculate the element heights
+    // Set the content
+    updateMessageMenuItem(parentLayout, message);
     
-    // Create the message string
-    // Get the sender's name
+    return parentLayout;
+}
+
+void ChatTestScene::updateMessageMenuItem(cocos2d::ui::Widget* item, const MessageRef& message)
+{
+    // Set message as userData on parentlayout
+    CocosSharedPtr<Message>* messageCocosPtr = new CocosSharedPtr<Message>(message);
+    item->setUserObject(messageCocosPtr);
+    
+    // Grab info from the message
+    const std::string& senderId = message->senderId();
+    const bool isCurrentUser = (senderId == ChildDataProvider::getInstance()->getLoggedInChildId());
     const std::string& senderName = ChatAPI::getInstance()->getProfileName(senderId);
     
+    // Get the inner elements
+    ui::Layout* innerLayout = (ui::Layout*) item->getChildByName("innerLayout");
+    ui::Text* label = (ui::Text*) innerLayout->getChildByName("label");
+    
+    // Set the alignment of the innerLayout
+    ui::RelativeLayoutParameter* innerLayoutParams = (ui::RelativeLayoutParameter*) innerLayout->getLayoutParameter();
+    ui::RelativeLayoutParameter::RelativeAlign relativeAlign = (isCurrentUser) ? ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL : ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL;
+    innerLayoutParams->setAlign(relativeAlign);
+    const float leftMargin = (relativeAlign == ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL) ? kMessageItemMargin : 0;
+    const float rightMargin = (relativeAlign == ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL) ? kMessageItemMargin : 0;
+    innerLayoutParams->setMargin(ui::Margin(leftMargin, kMessageItemMargin, rightMargin, kMessageItemMargin));
+    
+    // Create the message body string
     std::stringstream line;
     line << senderName << ": " << message->messageText();
     label->setString(line.str());
@@ -478,21 +496,24 @@ cocos2d::ui::Widget* ChatTestScene::createMessageMenuItem(const MessageRef& mess
     // Wordwrap the label and get the height we need for the text
     // Note we always use the landscape resolution width for item calculation
     // The items will overlap slightly on portrait which is what we want
+    const float labelPadding = 30.0f;
+    Label* labelRenderer = dynamic_cast<Label*>(label->getVirtualRenderer());
+    
+    // Calc and set max width we want
     auto glview = Director::getInstance()->getOpenGLView();
     const Size& designRes = glview->getDesignResolutionSize() * kMessageListWidthRatio;
     const float itemWidth = (designRes.width > designRes.height ? designRes.width : designRes.height) / 2;
     const float itemLabelWidth = itemWidth - (labelPadding * 2.0f);
-    Label* labelRenderer = dynamic_cast<Label*>(label->getVirtualRenderer());
     labelRenderer->setDimensions(itemLabelWidth, 0);
+    
+    // Now get the height of the label
     const float itemLabelHeight = labelRenderer->getContentSize().height;
-    float itemHeight = itemLabelHeight + (labelPadding * 2.0f);
+    const float itemHeight = itemLabelHeight + (labelPadding * 2.0f);
     
     // Resize the elements
     label->setContentSize(Size(itemLabelWidth, itemLabelHeight));
     innerLayout->setContentSize(Size(itemWidth, itemHeight));
-    parentLayout->setContentSize(Size(_messageListView->getContentSize().width, itemHeight + (kMessageItemMargin * 2)));
-    
-    return parentLayout;
+    item->setContentSize(Size(_messageListView->getContentSize().width, itemHeight + (kMessageItemMargin * 2)));
 }
 
 #pragma mark - Interactions
@@ -661,7 +682,7 @@ void ChatTestScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
         return;
     }
     
-    resizeUIForKeyboard(0, info.duration);
+    resizeUIForKeyboard(info.end.size.height, info.duration);
 }
 
 void ChatTestScene::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info)
@@ -672,7 +693,7 @@ void ChatTestScene::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info)
         return;
     }
     
-    resizeUIForKeyboard(0, 0);
+    resizeUIForKeyboard(info.end.size.height, 0);
 }
 
 #pragma mark - ChatAPIObserver
@@ -695,17 +716,71 @@ void ChatTestScene::onChatAPIGetFriendList(const FriendList& friendList)
 
 void ChatTestScene::onChatAPIGetChatMessages(const MessageList& messageList)
 {
-    // Update message list
-    _messageListView->removeAllItems();
-    
-    // The message list is in ascending timestamp order, so we can just add them in this order
-    for(auto entry : messageList)
+    // Check the messages we've recieved are for the currently selected friend
+    // It could be we navigated to a diff friend before this response
+    if(messageList.size() > 0)
     {
-        ui::Widget* menuItem = createMessageMenuItem(entry);
-        _messageListView->pushBackCustomItem(menuItem);
+        const MessageRef& firstMessage = messageList[0];
+        if(firstMessage->recipientId() != _selectedFriend->friendId() && firstMessage->senderId() != _selectedFriend->friendId())
+        {
+            // Not to or from the current friend
+            return;
+        }
     }
     
-    _messageListView->scrollToBottom(0, false);
+    // If messages are zero, we can just remove
+    if(messageList.size() == 0)
+    {
+        _messageListView->removeAllItems();
+    }
+    else
+    {
+        // Update message list
+        // Do this inline to avoid a flicker of the UI
+        // We just overwrite the content of all UI items here
+        
+        const cocos2d::Vector<ui::Widget*> items = _messageListView->getItems();
+        for(int i = 0; i < items.size() || i < messageList.size(); ++i)
+        {
+            ui::Widget* item = (i < items.size()) ? items.at(i) : nullptr;
+            const MessageRef& message = (i < messageList.size()) ? messageList[i] : nullptr;
+            
+            if(item && message)
+            {
+                updateMessageMenuItem(item, message);
+            }
+            else if(item)
+            {
+                // If we have UI elements but ran out of messages, we can stop now and delete any remaining UI elements
+                break;
+            }
+            else if(message)
+            {
+                // Ran out of UI elements, so we need to add a new one now
+                item = createMessageMenuItem(message);
+                _messageListView->pushBackCustomItem(item);
+            }
+            else
+            {
+                // We shouldn't get here, but just incase
+                break;
+            }
+        }
+        
+        // Trim message list
+        long numToDelete = _messageListView->getItems().size() - messageList.size();
+        while(numToDelete > 0)
+        {
+            _messageListView->removeLastItem();
+            --numToDelete;
+        }
+        
+        // Scroll to bottom if we have more items than before
+        if(_messageListView->getItems().size() > items.size())
+        {
+            _messageListView->scrollToBottom(0, false);
+        }
+    }
     
     ModalMessages::getInstance()->stopLoading();
     

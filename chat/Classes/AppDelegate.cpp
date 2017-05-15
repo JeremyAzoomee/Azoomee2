@@ -168,9 +168,9 @@ void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-void AppDelegate::onVirtualKeyboardShown(int height)
+void AppDelegate::onVirtualKeyboardShown(bool shown, int height)
 {
-    cocos2d::log( "AppDelegate::onVirtualKeyboardShown: %d", height );
+    cocos2d::log( "AppDelegate::onVirtualKeyboardShown: (shown=%d), %d", shown, height );
     
     // Convert height into cocos view coords
     auto director = Director::getInstance();
@@ -185,7 +185,14 @@ void AppDelegate::onVirtualKeyboardShown(int height)
     imeNotification.duration = 0.25f;
     
     cocos2d::IMEDispatcher* imeDispatch = IMEDispatcher::sharedDispatcher();
-    imeDispatch->dispatchKeyboardWillShow(imeNotification);
+    if(shown)
+    {
+        imeDispatch->dispatchKeyboardWillShow(imeNotification);
+    }
+    else
+    {
+        imeDispatch->dispatchKeyboardWillHide(imeNotification);
+    }
 }
 #endif
 
@@ -195,10 +202,16 @@ void AppDelegate::onVirtualKeyboardShown(int height)
 
 extern "C"
 {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_gotKeyboardHeight(JNIEnv* env, jclass, jint height)
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_onKeyboardShown(JNIEnv* env, jclass, jint height)
     {
         AppDelegate* appDel = (AppDelegate*)cocos2d::Application::getInstance();
-        appDel->onVirtualKeyboardShown(height);
+        appDel->onVirtualKeyboardShown(true, height);
+    }
+    
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_onKeyboardHidden(JNIEnv* env, jclass, jint height)
+    {
+        AppDelegate* appDel = (AppDelegate*)cocos2d::Application::getInstance();
+        appDel->onVirtualKeyboardShown(false, height);
     }
 }
 

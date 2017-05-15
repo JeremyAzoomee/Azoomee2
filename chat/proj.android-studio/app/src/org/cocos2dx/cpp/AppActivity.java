@@ -44,6 +44,7 @@ public class AppActivity extends Cocos2dxActivity
 
         mFrameLayout.getViewTreeObserver().addOnGlobalLayoutListener(
             new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
                 public void onGlobalLayout() {
                     Rect r = new Rect();
                     View rootView = getWindow().getDecorView();
@@ -53,16 +54,22 @@ public class AppActivity extends Cocos2dxActivity
                     int heightDifference = screenHeight - (r.bottom - r.top);
                     Log.d("Keyboard Size", "Size: " + heightDifference);
 
-                    if(heightDifference > 100) {
+                    if(heightDifference < keyboardHeight) {
                         keyboardHeight = heightDifference;
-                        gotKeyboardHeight(keyboardHeight);
+                        onKeyboardHidden(keyboardHeight);
+                    }
+                    else if(keyboardHeight < 100 && heightDifference > 100) {
+                        keyboardHeight = heightDifference;
+                        onKeyboardShown(keyboardHeight);
                     }
                 }
-            });
+            }
+        );
 
-//        // Override cocos' default soft mode
-//        Window window = this.getWindow();
-//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        // Override cocos' default soft mode
+        // This is needed so we get onGlobalLayout events when keyboard is dismissed
+        Window window = this.getWindow();
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     public static int getKeyboardHeight()
@@ -70,7 +77,8 @@ public class AppActivity extends Cocos2dxActivity
         return keyboardHeight;
     }
 
-    private native void gotKeyboardHeight( int height );
+    private native void onKeyboardShown( int height );
+    private native void onKeyboardHidden( int height );
 
     public static String getAnswer()
     {

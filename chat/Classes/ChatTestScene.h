@@ -67,6 +67,8 @@ private:
     
     /// Create a MenuItem entry for Message
     cocos2d::ui::Widget* createMessageMenuItem(const MessageRef& message);
+    /// Set the UI content for a Message MenuItem
+    void updateMessageMenuItem(cocos2d::ui::Widget* item, const MessageRef& message);
     
     /// Show update notes if needed
     void showUpdateNotesIfNeeded();
