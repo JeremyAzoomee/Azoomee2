@@ -37,8 +37,6 @@ private:
     cocos2d::ui::Button* _backButton = nullptr;
     /// Title label
     cocos2d::ui::Text* _titleLabel = nullptr;
-    /// Refresh button
-    cocos2d::ui::Button* _refreshButton = nullptr;
     
     /// Contact list
     cocos2d::ui::ListView* _contactListView = nullptr;

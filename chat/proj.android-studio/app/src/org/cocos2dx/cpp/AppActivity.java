@@ -55,10 +55,20 @@ public class AppActivity extends Cocos2dxActivity
                     Log.d("Keyboard Size", "Size: " + heightDifference);
 
                     if(heightDifference < keyboardHeight) {
+                        // If the height is getting smaller
+                        // Note it can shrink first down to the small black bar at the bottom (usually around 48px or so)
                         keyboardHeight = heightDifference;
-                        onKeyboardHidden(keyboardHeight);
+                        // So if we're not shrinking to 0, trigger this as a keyboard shown
+                        if(keyboardHeight > 0) {
+                            onKeyboardShown(keyboardHeight);
+                        }
+                        // Otherwise its fully hidden and the views can return to normal
+                        else {
+                            onKeyboardHidden(keyboardHeight);
+                        }
                     }
                     else if(keyboardHeight < 100 && heightDifference > 100) {
+                        // One shown event the first time the keyboard height is detected as over 100
                         keyboardHeight = heightDifference;
                         onKeyboardShown(keyboardHeight);
                     }

@@ -301,23 +301,6 @@ void ChatTestScene::createTitleUI(cocos2d::ui::Layout* parent)
     titleLabelLayout->setMargin(ui::Margin(50.0f, 0.0f, 0.0f, 0.0f));
     _titleLabel->setLayoutParameter(titleLabelLayout);
     parent->addChild(_titleLabel);
-    
-    // Refresh button
-    _refreshButton = ui::Button::create("res/buttons/buttonArea.png");
-    _refreshButton->setScale9Enabled(true);
-    _refreshButton->setCapInsets(Rect(60, 65, 60, 65));
-    _refreshButton->setTitleText("refresh");
-    _refreshButton->setTitleFontName(Azoomee::FONT_REGULAR);
-    _refreshButton->setTitleFontSize(60.0f);
-    _refreshButton->setAnchorPoint(Vec2(0, 1));
-    _refreshButton->addClickEventListener([this](Ref* button){
-        onRefreshButtonPressed();
-    });
-    ui::RelativeLayoutParameter* refreshButtonLayout = ui::RelativeLayoutParameter::create();
-    refreshButtonLayout->setAlign(ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL);
-    refreshButtonLayout->setMargin(ui::Margin(0.0f, 0.0f, 20.0f, 0.0f));
-    _refreshButton->setLayoutParameter(refreshButtonLayout);
-    parent->addChild(_refreshButton);
 }
 
 void ChatTestScene::createLeftSideUI(cocos2d::ui::Layout* parent)
@@ -682,7 +665,7 @@ void ChatTestScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
         return;
     }
     
-    resizeUIForKeyboard(info.end.size.height, info.duration);
+    resizeUIForKeyboard(0, info.duration);
 }
 
 void ChatTestScene::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info)
@@ -693,7 +676,7 @@ void ChatTestScene::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info)
         return;
     }
     
-    resizeUIForKeyboard(info.end.size.height, 0);
+    resizeUIForKeyboard(0, 0);
 }
 
 #pragma mark - ChatAPIObserver
