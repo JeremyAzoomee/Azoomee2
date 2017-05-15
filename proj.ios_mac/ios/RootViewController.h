@@ -27,11 +27,11 @@
 
 
 @interface RootViewController : UIViewController {
-
+    BOOL _forcePortrait;
 }
 - (BOOL) prefersStatusBarHidden;
 
-@property NSUInteger supportedInterfaceOrientation;
+//@property NSUInteger supportedInterfaceOrientation;
 - (void) setOrientationToPortrait;
 
 @end

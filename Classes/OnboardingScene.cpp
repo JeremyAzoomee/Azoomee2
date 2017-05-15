@@ -31,25 +31,21 @@ bool OnboardingScene::init()
         return false;
     }
     
-    setOrientationToPortrait();
-    
     AudioMixer::getInstance()->stopBackgroundMusic();
     AnalyticsSingleton::getInstance()->OnboardingStartEvent();
-    
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
-    
-    //addSideWiresToScreen(this, 0, 2);
-    addLabelToScene();
-    addTextboxScene();
-    //addButtonsScene();
     
     return true;
 }
 
 void OnboardingScene::onEnterTransitionDidFinish()
 {
-    currentScreen = emailOnboardinScreen;
+    setOrientationToPortrait();
+    
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
+    
+    addTextboxScene();
+    addLabelToScene();
     
     if(_errorCode !=0)
     {
@@ -63,7 +59,7 @@ void OnboardingScene::onEnterTransitionDidFinish()
 void OnboardingScene::addLabelToScene()
 {
     title = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
-    title->setPosition(visibleSize.width/2,visibleSize.height/2);
+    title->setPositionY(emailTextInput->getPositionY()+(emailTextInput->getContentSize().height) + (title->getContentSize().height/2));
     this->addChild(title);
     
     subTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));
@@ -74,17 +70,18 @@ void OnboardingScene::addLabelToScene()
 void OnboardingScene::addTextboxScene()
 {
     emailTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_EMAIL);
+    emailTextInput->setPositionY(visibleSize.height-emailTextInput->getContentSize().height*2);
     emailTextInput->setDelegate(this);
     this->addChild(emailTextInput);
     
     passwordTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_PASSWORD);
+    passwordTextInput->setPositionY(emailTextInput->getPositionY() -passwordTextInput->getContentSize().height*2 );
     passwordTextInput->setDelegate(this);
-    passwordTextInput->setEditboxVisibility(false);
     this->addChild(passwordTextInput);
     
     pinTextInput = TextInputLayer::createWithSize(Size(600,197), INPUT_IS_PIN);
+    pinTextInput->setPositionY(passwordTextInput->getPositionY() -pinTextInput->getContentSize().height*2 );
     pinTextInput->setDelegate(this);
-    pinTextInput->setEditboxVisibility(false);
     this->addChild(pinTextInput);
 }
 
@@ -189,7 +186,7 @@ void OnboardingScene::signUp()
 
 void OnboardingScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    nextButton->setVisible(isValid);
+    //nextButton->setVisible(isValid);
 }
 
 void OnboardingScene::buttonPressed(ElectricDreamsButton* button)

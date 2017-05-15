@@ -57,7 +57,6 @@ static AppDelegate s_sharedApplication;
 
     // Use RootViewController to manage CCEAGLView
     _viewController = [[RootViewController alloc]init];
-    _viewController.supportedInterfaceOrientation = UIInterfaceOrientationMaskLandscape;
     _viewController.wantsFullScreenLayout = YES;
     
 

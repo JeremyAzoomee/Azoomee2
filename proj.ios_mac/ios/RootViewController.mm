@@ -43,6 +43,8 @@
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
+    
+    _forcePortrait = false;
     cocos2d::Application *app = cocos2d::Application::getInstance();
     
     // Initialize the GLView attributes
@@ -78,26 +80,6 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // request notification generation
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    
-    // register to rotation notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChangeNotificationReceived:) name:UIDeviceOrientationDidChangeNotification object:nil];
-}
-
-- (void)orientationDidChangeNotificationReceived:(NSNotification *)notification
-{
-    // find out needed compass rotation
-    //  (as a countermeasure to auto rotation)
-    float rotation = 0.0;
-    
-    if (self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-        rotation = M_PI;
-    else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-        rotation = M_PI / 2.0;
-    else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-        rotation = M_PI / (- 2.0);
 
 }
 
@@ -113,14 +95,28 @@
 // For ios6, use supportedInterfaceOrientations & shouldAutorotate instead
 #ifdef __IPHONE_6_0
 - (NSUInteger) supportedInterfaceOrientations{
-    return self.supportedInterfaceOrientation;
+    if(_forcePortrait)
+    {
+        return UIInterfaceOrientationMaskPortrait;
+    }
+    return UIInterfaceOrientationMaskLandscape;
+}
+- (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation
+{
+    if(_forcePortrait)
+    {
+        return UIInterfaceOrientationPortrait;
+    }
+    return UIInterfaceOrientationLandscapeLeft;
 }
 
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    //	(iOS 6)
-    //	Force to portrait
-    return UIInterfaceOrientationPortrait;
+    if( _forcePortrait )
+    {
+        return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    }
+    return YES;
 }
 
 #endif
@@ -162,9 +158,7 @@
 
 - (void) setOrientationToPortrait
 {
-    self.supportedInterfaceOrientation = UIInterfaceOrientationMaskPortrait;
-    //[self preferredInterfaceOrientationForPresentation];
-    //[self didRotateFromInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    _forcePortrait = true;
     
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
     
@@ -187,21 +181,10 @@
             }
         }
     }
-    NSNumber *value = [NSNumber numberWithInt:[self preferredInterfaceOrientationForPresentation]];
-    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
-    // [UIViewController attemptRotationToDeviceOrientation];
-
-    /*self.view.translatesAutoresizingMaskIntoConstraints = YES;
-    double rads = DEGREES_TO_RADIANS(240);
-    self.view.transform = CGAffineTransformMakeRotation(-90 * M_PI/180);
-    CATransform3DMakeRotation(rads, 0, 0, 1);
-    
-    self.view.translatesAutoresizingMaskIntoConstraints = YEs;
-    auto *eaglView = self.view;
-    
-    [self.view removeFromSuperview];
-    
-    [self addSubview:eaglView];*/
+     
+     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    [UIViewController attemptRotationToDeviceOrientation];
 }
 
 @end
