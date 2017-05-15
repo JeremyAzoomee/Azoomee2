@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Strings.h>
 #include "AppDelegate.h"
 #include "ChildSelectorScene.h"
 #include "OrientationFunctions.h"
@@ -548,11 +549,11 @@ void ChatTestScene::onRefreshButtonPressed()
 
 void ChatTestScene::sendMessage(const std::string& message)
 {
-    // TODO: Trim message
-    if(message.length() > 0)
+    const std::string& trimmedMessage = Azoomee::trim(message);
+    if(trimmedMessage.length() > 0)
     {
-        cocos2d::log("Send Message: %s", message.c_str());
-        ChatAPI::getInstance()->sendMessage(_selectedFriend, message);
+        cocos2d::log("Send Message: %s", trimmedMessage.c_str());
+        ChatAPI::getInstance()->sendMessage(_selectedFriend, trimmedMessage);
     }
     
     // Clear the message field
@@ -614,16 +615,6 @@ void ChatTestScene::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFiel
 #endif
             break;
         }
-//        case ui::TextField::EventType::ATTACH_WITH_IME:
-//        {
-//#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-//            // On Android we must deal with the faff of getting the keyboard height here, because
-//            // IMEKeyboardNotificationInfo methods do not get called (sigh)
-//            int keyboardHeight = JniHelper::callStaticIntMethod("org/cocos2dx/cpp/AppActivity", "getKeyboardHeight");
-//            resizeUIForKeyboard(keyboardHeight, 0.25f);
-//#endif
-//            break;
-//        }
         case ui::TextField::EventType::INSERT_TEXT:
         {
             // TextField changed
