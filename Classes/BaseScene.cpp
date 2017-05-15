@@ -11,6 +11,7 @@
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "BackEndCaller.h"
+#include "OrientationFunctions.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -36,7 +37,9 @@ bool BaseScene::init()
 }
 
 void BaseScene::onEnterTransitionDidFinish()
-{    
+{
+    //setOrientationToLandscape();
+    
     this->setName("baseLayer");
     
     Director::getInstance()->purgeCachedData();

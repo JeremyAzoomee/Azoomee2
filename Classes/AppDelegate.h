@@ -36,7 +36,6 @@ public:
     virtual void applicationWillEnterForeground();
     
     virtual void applicationScreenSizeChanged(int newWidth, int newHeight);
-    void setOrientationToPortrait();
 };
 
 #endif // _APP_DELEGATE_H_

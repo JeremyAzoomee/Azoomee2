@@ -8,7 +8,8 @@
 #include "BaseScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include "OrientationFunctions.h"
+#include <AzoomeeCommon/UI/MessageBox.h>
+#include "OrientationChangeScene.h"
 
 using namespace Azoomee;
 
@@ -31,153 +32,97 @@ bool OnboardingScene::init()
         return false;
     }
     
+    hasBeenSet = false;
+    
     AudioMixer::getInstance()->stopBackgroundMusic();
     AnalyticsSingleton::getInstance()->OnboardingStartEvent();
     
     return true;
 }
 
-void OnboardingScene::onEnterTransitionDidFinish()
+void OnboardingScene::onEnter()
 {
-    setOrientationToPortrait();
-    
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
     addTextboxScene();
-    addLabelToScene();
+    addLabelsToScene();
+    addButtonsScene();
     
     if(_errorCode !=0)
     {
-        MessageBox::createWith(_errorCode, emailTextInput, this);
+        MessageBox::createWith(_errorCode, emailTextInput, nullptr);
     }
     else
         emailTextInput->focusAndShowKeyboard();
+    
+    Node::onEnter();
 }
 
 //----------------- SCENE SETUP ---------------
-void OnboardingScene::addLabelToScene()
+void OnboardingScene::addLabelsToScene()
 {
-    title = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
-    title->setPositionY(emailTextInput->getPositionY()+(emailTextInput->getContentSize().height) + (title->getContentSize().height/2));
-    this->addChild(title);
+    Label* emailTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
+    emailTitle->setPositionY(emailTextInput->getPositionY()+(emailTextInput->getContentSize().height) + (emailTitle->getContentSize().height*.6));
+    this->addChild(emailTitle);
     
-    subTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));
-    subTitle->setVisible(false);
-    this->addChild(subTitle);
+    Label* passwordTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
+    passwordTitle->setPositionY(passwordTextInput->getPositionY()+(passwordTextInput->getContentSize().height) + (passwordTitle->getContentSize().height*.6));
+    this->addChild(passwordTitle);
+    
+    Label* pinSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));
+    pinSubTitle->setPositionY(pinTextInput->getPositionY()+(pinTextInput->getContentSize().height) + (pinSubTitle->getContentSize().height));
+    this->addChild(pinSubTitle);
+    
+    Label* pinTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL));
+    pinTitle->setPositionY(pinSubTitle->getPositionY() + pinTitle->getContentSize().height/2);
+    this->addChild(pinTitle);
 }
 
 void OnboardingScene::addTextboxScene()
 {
-    emailTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_EMAIL);
-    emailTextInput->setPositionY(visibleSize.height-emailTextInput->getContentSize().height*2);
+    float textInputWidth = visibleSize.width*.90;
+    
+    emailTextInput = TextInputLayer::createWithSize(Size(textInputWidth,197), INPUT_IS_EMAIL);
+    emailTextInput->setPositionY(visibleSize.height-emailTextInput->getContentSize().height*1.75);
     emailTextInput->setDelegate(this);
     this->addChild(emailTextInput);
     
-    passwordTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_PASSWORD);
+    passwordTextInput = TextInputLayer::createWithSize(Size(textInputWidth,197), INPUT_IS_PASSWORD);
     passwordTextInput->setPositionY(emailTextInput->getPositionY() -passwordTextInput->getContentSize().height*2 );
     passwordTextInput->setDelegate(this);
     this->addChild(passwordTextInput);
     
     pinTextInput = TextInputLayer::createWithSize(Size(600,197), INPUT_IS_PIN);
-    pinTextInput->setPositionY(passwordTextInput->getPositionY() -pinTextInput->getContentSize().height*2 );
+    pinTextInput->setPositionY(passwordTextInput->getPositionY() -pinTextInput->getContentSize().height*2.5 );
     pinTextInput->setDelegate(this);
     this->addChild(pinTextInput);
 }
 
 void OnboardingScene::addButtonsScene()
 {
-    backButton = ElectricDreamsButton::createBackButton();
-    backButton->setCenterPosition(Vec2(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7));
-    backButton->setDelegate(this);
-    this->addChild(backButton);
+    signupButton = ElectricDreamsButton::createButtonWithText("Signup");
+    signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1.5));
+    signupButton->setDelegate(this);
+    signupButton->setMixPanelButtonName("signupSceneSignupButton");
+    signupButton->setVisible(false);
     
-    nextButton = ElectricDreamsButton::createNextButton();
-    nextButton->setCenterPosition(Vec2(origin.x + visibleSize.width -nextButton->getContentSize().width*.7, origin.y+ visibleSize.height - nextButton->getContentSize().height*.7));
-    nextButton->setDelegate(this);
-    nextButton->setVisible(false);
-    this->addChild(nextButton);
-}
-
-//------------CHANGE SCREEN VISUALS ON BUTTON PRESS----------------------
-void OnboardingScene::clearElementsOnScreen()
-{
-    emailTextInput->setEditboxVisibility(false);
-    passwordTextInput->setEditboxVisibility(false);
-    pinTextInput->setEditboxVisibility(false);
-    subTitle->setVisible(false);
-    nextButton->setVisible(false);
-}
-
-void OnboardingScene::changeElementsToPasswordScreen()
-{
-    clearElementsOnScreen();
-    passwordTextInput->setText("");
-    title->setString(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
-    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(emailTextInput->getText());
-    passwordTextInput->setEditboxVisibility(true);
-    currentScreen = passwordOnboardingScreen;
-    pinTextInput->setText("");
-    passwordTextInput->focusAndShowKeyboard();
-}
-
-void OnboardingScene::changeElementsToEmailScreen()
-{
-    clearElementsOnScreen();
-    title->setString(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
-    passwordTextInput->setText("");
-    emailTextInput->setEditboxVisibility(true);
-    currentScreen = emailOnboardinScreen;
-    nextButton->setVisible(isValidEmailAddress(emailTextInput->getText().c_str()));
-    emailTextInput->focusAndShowKeyboard();
-}
-
-void OnboardingScene::changeElementsToPinScreen()
-{
-    clearElementsOnScreen();
-    title->setString(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL));
-    subTitle->setVisible(true);
-    pinTextInput->setEditboxVisibility(true);
-    currentScreen = pinOnboardingScreen;
-    pinTextInput->focusAndShowKeyboard();
-}
-
-void OnboardingScene::backButtonPressed()
-{
-    if(currentScreen == emailOnboardinScreen)
-    {
-        HQHistoryManager::getInstance()->emptyHistory();
-        auto baseScene = BaseScene::createScene();
-        Director::getInstance()->replaceScene(baseScene);
-    }
-    else if(currentScreen == passwordOnboardingScreen)
-        changeElementsToEmailScreen();
-    else if(currentScreen == pinOnboardingScreen)
-        changeElementsToPasswordScreen();
-}
-
-void OnboardingScene::nextButtonPressed()
-{
-    if(currentScreen == emailOnboardinScreen)
-    {
-        AnalyticsSingleton::getInstance()->OnboardingEmailSubmittedEvent(emailTextInput->getText());
-        changeElementsToPasswordScreen();
-    }
-    else if(currentScreen == passwordOnboardingScreen)
-    {
-        AnalyticsSingleton::getInstance()->OnboardingPasswordSubmittedEvent();
-        changeElementsToPinScreen();
-    }
-    else if(currentScreen == pinOnboardingScreen)
-        signUp();
+    auto placeHolder = ElectricDreamsButton::createPlaceHolderButton(signupButton->getContentSize().width);
+    placeHolder->setCenterPosition(signupButton->getCenterPosition());
+    this->addChild(placeHolder);
+    this->addChild(signupButton);
+    
+    cancelButton = ElectricDreamsButton::createOutlineButtonWithText("Cancel");
+    cancelButton->setCenterPosition(Vec2(visibleSize.width*.25+origin.x, signupButton->getCenterPosition().y));
+    cancelButton->setDelegate(this);
+    cancelButton->setMixPanelButtonName("signupSceneCancelButton");
+    this->addChild(cancelButton);
 }
 
 //------------PRIVATE OTHER FUNCTIONS------------
 
 void OnboardingScene::signUp()
 {
-    AnalyticsSingleton::getInstance()->OnboardingPinSubmittedEvent();
-    
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->registerParent(emailTextInput->getText(), passwordTextInput->getText(), pinTextInput->getText());
 }
@@ -186,23 +131,22 @@ void OnboardingScene::signUp()
 
 void OnboardingScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    //nextButton->setVisible(isValid);
+    if(emailTextInput->inputIsValid() && passwordTextInput->inputIsValid() && pinTextInput->inputIsValid())
+        signupButton->setVisible(true);
+    else
+        signupButton->setVisible(false);
 }
 
 void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == nextButton)
-        nextButtonPressed();
-    else if(button == backButton)
-        backButtonPressed();
+    //setOrientationToLandscape();
+    
+    if(button == signupButton)
+        signUp();
+    else if(button == cancelButton)
+    {
+        auto orientationChangeScene = OrientationChangeScene::createScene(false, BASE_SCENE, 0);
+        Director::getInstance()->replaceScene(orientationChangeScene);
+    }
 }
 
-void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
-{
-    if(currentScreen == emailOnboardinScreen)
-        emailTextInput->focusAndShowKeyboard();
-    else if(currentScreen == passwordOnboardingScreen)
-        passwordTextInput->focusAndShowKeyboard();
-    else if(currentScreen == pinOnboardingScreen)
-        pinTextInput->focusAndShowKeyboard();
-}

@@ -1,19 +1,17 @@
 #include "OrientationFunctions.h"
 #include "../proj.ios_mac/ios/RootViewController.h"
-#include "AppDelegate.h"
 
 
 //RootViewController* test =  (RootViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
 
 void setOrientationToPortrait()
 {
-    RootViewController* test =  (RootViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
-    
-    [test setOrientationToPortrait];
-    ((AppDelegate*)cocos2d::Application::getInstance())->setOrientationToPortrait();
+    RootViewController* rootViewController =  (RootViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
+    [rootViewController setOrientationToPortrait];
 }
 
 void setOrientationToLandscape()
 {
-    
+    RootViewController* rootViewController =  (RootViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
+    [rootViewController setOrientationToLandscape];
 }

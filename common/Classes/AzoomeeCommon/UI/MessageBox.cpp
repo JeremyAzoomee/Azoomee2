@@ -88,7 +88,8 @@ bool MessageBox::init()
 
 void MessageBox::createBackgroundLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),visibleSize.width, visibleSize.height);
+    backgroundLayer->setPosition(origin);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);

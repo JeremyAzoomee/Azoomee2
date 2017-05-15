@@ -73,8 +73,6 @@
     
     //run the cocos2d-x game scene
     app->run();
-    
-    
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -125,8 +123,6 @@
     return YES;
 }
 
-
-
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 
@@ -171,19 +167,40 @@
             CGSize s = CGSizeMake([eaglview getWidth], [eaglview getHeight]);
             
             if((int) s.width < (int) s.height)
-            {
                 cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) s.width, (int) s.height);
-            }
-            // Portrait
             else
-            {
                 cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) s.height, (int) s.width);
-            }
         }
     }
      
-     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
-     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    [UIViewController attemptRotationToDeviceOrientation];
+}
+
+- (void) setOrientationToLandscape
+{
+    _forcePortrait = false;
+    
+    auto glview = cocos2d::Director::getInstance()->getOpenGLView();
+    
+    if (glview)
+    {
+        CCEAGLView *eaglview = (__bridge CCEAGLView *)glview->getEAGLView();
+        
+        if (eaglview)
+        {
+            CGSize s = CGSizeMake([eaglview getWidth], [eaglview getHeight]);
+            
+            if((int) s.width > (int) s.height)
+                cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) s.width, (int) s.height);
+            else
+                cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) s.height, (int) s.width);
+        }
+    }
+    
+    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeRight];
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     [UIViewController attemptRotationToDeviceOrientation];
 }
 

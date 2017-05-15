@@ -14,9 +14,9 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginLogicHandler.h"
-#include "OnboardingScene.h"
 #include "SettingsButton.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include "OrientationChangeScene.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -471,8 +471,8 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == previewSignUpButton)
     {
-        auto onboardingScene = OnboardingScene::createScene(0);
-        Director::getInstance()->replaceScene(onboardingScene);
+        auto orientationChangeScene = OrientationChangeScene::createScene(true, ONBOARDING_SCENE, 0);
+        Director::getInstance()->replaceScene(orientationChangeScene);
     }
 }
 

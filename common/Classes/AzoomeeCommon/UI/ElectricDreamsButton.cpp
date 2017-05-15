@@ -283,6 +283,27 @@ ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton()
     
     return layer;
 }
+    
+ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton(float withWidth)
+{
+    Rect spriteRect = Rect(0, 0, 196, 197);
+    Rect capInsents = Rect(98, 98, 1, 1);
+    
+    float buttonHeight = 197;
+    
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/modal/generic_button_slice_ready.png", spriteRect, capInsents);
+    newButton->setContentSize(Size(withWidth, buttonHeight));
+    newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
+    newButton->setCascadeOpacityEnabled(true);
+    
+    auto layer = ElectricDreamsButton::create();
+    layer->setCascadeOpacityEnabled(true);
+    layer->setContentSize(newButton->getContentSize());
+    layer->setOpacity(80);
+    layer->addChild(newButton);
+    
+    return layer;
+}
 
 //-------------OOMEE BUTTONS AND FUNCTIONS---------------------
 

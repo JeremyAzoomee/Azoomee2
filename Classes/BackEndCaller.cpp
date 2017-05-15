@@ -15,12 +15,12 @@
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
-#include "OnboardingScene.h"
 #include "ChildAccountScene.h"
 #include "AwaitingAdultPinLayer.h"
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
 #include "RoutePaymentSingleton.h"
+#include "OrientationChangeScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -179,8 +179,8 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     {
         CCLOG("Just registered account : backendcaller");
         accountJustRegistered = false;
-        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(false);
-        Director::getInstance()->replaceScene(onboardingSuccessScene);
+        auto orientationChangeScene = OrientationChangeScene::createScene(false, ONBOARDING_SUCCESS_SCENE, 0);
+        Director::getInstance()->replaceScene(orientationChangeScene);
     }
     else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
     {
@@ -395,7 +395,8 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     if(requestTag == "registerParent")
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
-        Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
+        auto orientationChangeScene = OrientationChangeScene::createScene(true, ONBOARDING_SCENE, errorCode);
+        Director::getInstance()->replaceScene(orientationChangeScene);
         return;
     }
     

@@ -31,7 +31,7 @@
 }
 - (BOOL) prefersStatusBarHidden;
 
-//@property NSUInteger supportedInterfaceOrientation;
 - (void) setOrientationToPortrait;
+- (void) setOrientationToLandscape;
 
 @end

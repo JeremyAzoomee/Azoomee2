@@ -4,14 +4,11 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 
 USING_NS_CC;
 using namespace Azoomee;
 
-enum OnboardingScreenLocationEnum { emailOnboardinScreen, passwordOnboardingScreen, pinOnboardingScreen };
-
-class OnboardingScene : public Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
+class OnboardingScene : public Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate
 {
 private:
     long _errorCode;
@@ -20,33 +17,22 @@ private:
     TextInputLayer *passwordTextInput;
     TextInputLayer *pinTextInput;
     
+    ElectricDreamsButton* signupButton;
+    ElectricDreamsButton* cancelButton;
+    
     Size visibleSize;
     Vec2 origin;
     
-    OnboardingScreenLocationEnum currentScreen;
+    bool hasBeenSet;
     
-    Label* title;
-    Label* subTitle;
-    
-    ElectricDreamsButton *backButton;
-    ElectricDreamsButton *nextButton;
-    
-    void addLabelToScene();
+    void addLabelsToScene();
     void addTextboxScene();
     void addButtonsScene();
     
-    void clearElementsOnScreen();
-    
-    void changeElementsToPasswordScreen();
-    void changeElementsToEmailScreen();
-    void changeElementsToPinScreen();
-    
-    void backButtonPressed();
-    void nextButtonPressed();
-    
     void signUp();
     
-    virtual void onEnterTransitionDidFinish();
+    //virtual void onEnterTransitionDidFinish();
+    virtual void onEnter();
 
 public:
     static cocos2d::Scene* createScene(long errorCode);
@@ -56,7 +42,6 @@ public:
     //Delegate Functions
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void buttonPressed(ElectricDreamsButton* button);
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
     // implement the "static create()" method manually
     CREATE_FUNC(OnboardingScene);
