@@ -8,7 +8,6 @@
 #include "BaseScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include <AzoomeeCommon/UI/MessageBox.h>
 #include "OrientationChangeScene.h"
 
 using namespace Azoomee;
@@ -49,14 +48,20 @@ void OnboardingScene::onEnter()
     addLabelsToScene();
     addButtonsScene();
     
+    Node::onEnter();
+}
+
+void OnboardingScene::onEnterTransitionDidFinish()
+{
     if(_errorCode !=0)
     {
-        MessageBox::createWith(_errorCode, emailTextInput, nullptr);
+        emailTextInput->setVisible(false);
+        passwordTextInput->setVisible(false);
+        pinTextInput->setVisible(false);
+        MessageBox::createWith(_errorCode, this);
     }
     else
         emailTextInput->focusAndShowKeyboard();
-    
-    Node::onEnter();
 }
 
 //----------------- SCENE SETUP ---------------
@@ -123,6 +128,7 @@ void OnboardingScene::addButtonsScene()
 
 void OnboardingScene::signUp()
 {
+    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(emailTextInput->getText());
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->registerParent(emailTextInput->getText(), passwordTextInput->getText(), pinTextInput->getText());
 }
@@ -140,7 +146,10 @@ void OnboardingScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 void OnboardingScene::textInputReturnPressed(TextInputLayer* inputLayer)
 {
     if(inputLayer == emailTextInput)
+    {
         passwordTextInput->focusAndShowKeyboard();
+        AnalyticsSingleton::getInstance()->registerAzoomeeEmail(emailTextInput->getText());
+    }
     else if(inputLayer == passwordTextInput)
         pinTextInput->focusAndShowKeyboard();
     else if(inputLayer == pinTextInput)
@@ -159,5 +168,13 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
         auto orientationChangeScene = OrientationChangeScene::createScene(false, BASE_SCENE, 0);
         Director::getInstance()->replaceScene(orientationChangeScene);
     }
+}
+
+void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    emailTextInput->setVisible(true);
+    passwordTextInput->setVisible(true);
+    pinTextInput->setVisible(true);
+    emailTextInput->focusAndShowKeyboard();
 }
 

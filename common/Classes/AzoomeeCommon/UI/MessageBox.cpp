@@ -108,6 +108,7 @@ void MessageBox::addListenerToBackgroundLayer()
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) 
     {
+        log("MESSAGEBOX TOUCHT %f x %f",touch->getPreviousLocationInView().x,touch->getPreviousLocationInView().y);
         return true;
     };
     
@@ -203,6 +204,9 @@ void MessageBox::addObjectsToWindow()
     cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, nextItemHeight));
     windowLayer->addChild(cancelButton);
     
+    log("TEST");
+    log("MESSAGEBOX CANCELBUTTON POSITION %f  x %f",cancelButton->getCenterPosition().x,cancelButton->getCenterPosition().y);
+    
     nextItemHeight = nextItemHeight-cancelButton->getContentSize().height*.25 - messageTitleLabel->getContentSize().height/2;
     
     messageTitleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
@@ -224,6 +228,8 @@ void MessageBox::positionButtonsBasedOnWidth(float nextItemHeight)
     {
         buttonsList.at(i)->setCenterPosition(Vec2(buttonSpaceWidth/2 + buttonSpaceWidth*i, nextItemHeight));
         windowLayer->addChild(buttonsList.at(i));
+        
+        log("MESSAGEBOX BUTTON POSITION %f  x %f",buttonsList.at(i)->getCenterPosition().x,buttonsList.at(i)->getCenterPosition().y);
     }
 }
 

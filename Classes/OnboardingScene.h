@@ -4,11 +4,12 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
 
 USING_NS_CC;
 using namespace Azoomee;
 
-class OnboardingScene : public Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate
+class OnboardingScene : public Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
     long _errorCode;
@@ -31,7 +32,7 @@ private:
     
     void signUp();
     
-    //virtual void onEnterTransitionDidFinish();
+    virtual void onEnterTransitionDidFinish();
     virtual void onEnter();
 
 public:
@@ -43,6 +44,7 @@ public:
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void textInputReturnPressed(TextInputLayer* inputLayer);
     void buttonPressed(ElectricDreamsButton* button);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
     // implement the "static create()" method manually
     CREATE_FUNC(OnboardingScene);
