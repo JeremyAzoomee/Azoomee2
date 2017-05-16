@@ -81,13 +81,17 @@ void addFullScreenGlowToScreen(Node* parentLayer)
     fullscreenGlow->setPosition(visibleSize.width / 2, origin.y + visibleSize.height / 2);
     parentLayer->addChild(fullscreenGlow);
 }
-
-Layer* createWindowLayer(float height)
+    
+cocos2d::Layer* createWindowLayer(float height)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    
+    return createWindowLayer(height, visibleSize.width*.66);
+}
+
+Layer* createWindowLayer(float width, float height)
+{
     Layer* newLayer = Layer::create();
-    newLayer->setContentSize(Size(visibleSize.width*.66, height));
+    newLayer->setContentSize(Size(width, height));
     
     Rect spriteRect = Rect(0, 0, 455, 268);
     Rect capInsents = Rect(100, 100, 255, 1);

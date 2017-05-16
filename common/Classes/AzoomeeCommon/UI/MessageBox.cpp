@@ -8,7 +8,6 @@ using namespace cocos2d;
 
 #define MESSAGE_BOX_PADDING 100
 
-
 namespace Azoomee
 {
 
@@ -59,10 +58,11 @@ void MessageBox::initMessageBoxLayer(std::string Title, std::string Body, Messag
 
     _messageBoxTitle = Title;
     
-    textMaxWidth = visibleSize.width*.66 - MESSAGE_BOX_PADDING*2;
+    textMaxWidth = visibleSize.width*percentageOfScreenForBox - MESSAGE_BOX_PADDING*2;
     
     createBackgroundLayer();
-    addSideWiresToScreen(this, 0, 2);
+    if(isLandscape)
+        addSideWiresToScreen(this, 0, 2);
     createTitle();
     createBody(Body);
     createButtons();
@@ -80,6 +80,15 @@ bool MessageBox::init()
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
+    
+    if(visibleSize.width < visibleSize.height)
+        percentageOfScreenForBox = 0.85;
+    else
+    {
+        percentageOfScreenForBox = 0.66;
+        isLandscape = true;
+    }
+    
     
     return true;
 }
@@ -108,7 +117,6 @@ void MessageBox::addListenerToBackgroundLayer()
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) 
     {
-        log("MESSAGEBOX TOUCHT %f x %f",touch->getPreviousLocationInView().x,touch->getPreviousLocationInView().y);
         return true;
     };
     
@@ -163,7 +171,7 @@ void MessageBox::createBody(std::string messageBody)
 
 void MessageBox::createButtons()
 {
-    buttonSpaceWidth = (visibleSize.width*.66 / _buttonsTitleList.size());
+    buttonSpaceWidth = (visibleSize.width*percentageOfScreenForBox / _buttonsTitleList.size());
     
     if(_buttonsTitleList.size() == 1)
     {
@@ -192,8 +200,8 @@ void MessageBox::createMessageWindow()
 {
     float windowHeight = messageTitleLabel->getContentSize().height + scrollView->getContentSize().height + buttonsList.at(0)->getContentSize().height + cancelButton->getContentSize().height*4;
     
-    windowLayer = createWindowLayer(windowHeight);
-    windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + (visibleSize.height - windowLayer->getContentSize().height) * .66);
+    windowLayer = createWindowLayer(visibleSize.width * percentageOfScreenForBox, windowHeight);
+    windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2 + origin.x,origin.y + (visibleSize.height - windowLayer->getContentSize().height) * 0.66);
     this->addChild(windowLayer);
 }
 
@@ -203,9 +211,6 @@ void MessageBox::addObjectsToWindow()
     
     cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, nextItemHeight));
     windowLayer->addChild(cancelButton);
-    
-    log("TEST");
-    log("MESSAGEBOX CANCELBUTTON POSITION %f  x %f",cancelButton->getCenterPosition().x,cancelButton->getCenterPosition().y);
     
     nextItemHeight = nextItemHeight-cancelButton->getContentSize().height*.25 - messageTitleLabel->getContentSize().height/2;
     
@@ -228,8 +233,6 @@ void MessageBox::positionButtonsBasedOnWidth(float nextItemHeight)
     {
         buttonsList.at(i)->setCenterPosition(Vec2(buttonSpaceWidth/2 + buttonSpaceWidth*i, nextItemHeight));
         windowLayer->addChild(buttonsList.at(i));
-        
-        log("MESSAGEBOX BUTTON POSITION %f  x %f",buttonsList.at(i)->getCenterPosition().x,buttonsList.at(i)->getCenterPosition().y);
     }
 }
 

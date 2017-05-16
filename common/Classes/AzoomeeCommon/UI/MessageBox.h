@@ -40,6 +40,8 @@ private:
     float textMaxWidth;
     float buttonSpaceWidth;
 
+    float percentageOfScreenForBox;
+    bool isLandscape;
     
     void createBackgroundLayer();
     void addListenerToBackgroundLayer();
