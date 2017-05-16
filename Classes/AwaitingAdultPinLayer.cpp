@@ -121,6 +121,11 @@ void AwaitingAdultPinLayer::textInputIsValid(TextInputLayer* inputLayer, bool is
     acceptButton->setVisible(isValid);
 }
 
+void AwaitingAdultPinLayer::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+    
+}
+
 void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)

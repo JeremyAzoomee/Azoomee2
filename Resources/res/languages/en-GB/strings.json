@@ -11,7 +11,7 @@
         "email_label":"Parents: enter your email address",
         "password_label":"Create a password",
         "pin_label":"Create a 4 digit PIN",
-        "pin_sub_label":"You will need this to access the parent area and exit the app\nShhh! Don't tell the kids..."
+        "pin_sub_label":"You will need this to access the parent area\nShhh! Don't tell the kids..."
     },
     
     "OnboardingSuccessScene":

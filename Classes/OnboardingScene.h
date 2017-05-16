@@ -41,6 +41,7 @@ public:
     
     //Delegate Functions
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
+    void textInputReturnPressed(TextInputLayer* inputLayer);
     void buttonPressed(ElectricDreamsButton* button);
     
     // implement the "static create()" method manually

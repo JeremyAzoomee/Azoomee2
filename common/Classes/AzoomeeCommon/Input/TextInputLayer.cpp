@@ -56,7 +56,7 @@ void TextInputLayer::createEditBox()
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::WHITE);
-    editBox->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::GO);
     editBox->setDelegate(this);
     
     this->setupEditBoxUsingType();
@@ -129,7 +129,14 @@ void TextInputLayer::setCenterPosition(Vec2 position)
 
 void TextInputLayer::focusAndShowKeyboard()
 {
-    editBox->touchDownAction(NULL, cocos2d::ui::Widget::TouchEventType::ENDED);
+    //Delay needed for when switching between textinputlayers.
+    auto funcCallAction = CallFunc::create([=](){
+        
+        editBox->touchDownAction(NULL, cocos2d::ui::Widget::TouchEventType::ENDED);
+    });
+    
+    auto action = Sequence::create(DelayTime::create(0.1), funcCallAction, NULL);
+    this->runAction(action);
 }
 
 std::string TextInputLayer::getText()
@@ -196,6 +203,18 @@ void TextInputLayer::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std
 void TextInputLayer::editBoxReturn(cocos2d::ui::EditBox* editBox)
 {
     //Required editBox Delegate Function.
+    
+}
+    
+void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBox, EditBoxEndAction action)
+{
+    if(action == EditBoxEndAction::RETURN)
+    {
+        CCLOG("RETURN EVENT CAPTURED");
+        if(this->getDelegate())
+            //Inform Delegates if input is valid
+            this->getDelegate()->textInputReturnPressed(this);
+    }
 }
   
 }

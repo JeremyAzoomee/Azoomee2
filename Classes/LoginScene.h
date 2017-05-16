@@ -57,6 +57,7 @@ public:
     
     //Delegate Functions
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
+    void textInputReturnPressed(TextInputLayer* inputLayer);
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     void connectivityStateChanged(bool online);

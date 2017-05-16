@@ -171,6 +171,12 @@ void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
     CCLOG("NEXT Check Input TextBox is %d", isValid);
     nextButton->setVisible(isValid);
 }
+
+void LoginScene::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+    
+}
+
 void LoginScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == nextButton)

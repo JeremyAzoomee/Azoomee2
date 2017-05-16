@@ -137,6 +137,17 @@ void OnboardingScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
         signupButton->setVisible(false);
 }
 
+void OnboardingScene::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+    if(inputLayer == emailTextInput)
+        passwordTextInput->focusAndShowKeyboard();
+    else if(inputLayer == passwordTextInput)
+        pinTextInput->focusAndShowKeyboard();
+    else if(inputLayer == pinTextInput)
+        if(emailTextInput->inputIsValid() && passwordTextInput->inputIsValid() && pinTextInput->inputIsValid())
+            signUp();
+}
+
 void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
 {
     //setOrientationToLandscape();

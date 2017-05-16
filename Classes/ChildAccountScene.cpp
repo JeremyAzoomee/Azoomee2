@@ -302,6 +302,11 @@ void ChildAccountScene::textInputIsValid(TextInputLayer* inputLayer, bool isVali
         nextButton->setVisible(isValid);
 }
 
+void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+    
+}
+
 void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
 {
     AudioMixer::getInstance()->stopOomeeEffect();
