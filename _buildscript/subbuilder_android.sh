@@ -1,7 +1,7 @@
 if [ "$1" == "" ]; then
         echo "Don't start this file as standalone!"
         echo "Use build.sh instead"
-        echo "Example: ./build.sh 3.2.2 0"
+        echo "Example: ./build.sh -v 3.2.2 -b 0 [-p ios|android] [-u]"
         exit
 fi
 
@@ -9,6 +9,7 @@ STRUCTURENAME=$1
 VERSIONNUMBER=$2
 BUILDNUMBER=$3
 XWALKSTRUCTURENAME=$4
+UPLOAD=$5
 
 rm -rf ../_replaceTestResults
 mkdir ../_replaceTestResults
@@ -29,6 +30,10 @@ cp -r ../_replaceTestResults/Application.mk ../proj.android-studio/app/jni/Appli
 cp -r ../_replaceTestResults/build.gradle ../proj.android-studio/app/build.gradle
 
 cocos compile -p android --android-studio -m release
+
+if [ "$UPLOAD" == "upload" ]; then
+	( cd ../proj.android-studio/ ; ./gradlew publishApkRelease )
+fi
 
 cp -r ../bin/release/android/app-release-signed.apk ../_builds/build-$BUILDNUMBER.apk
 rm -rf ../bin/release/android/app-release-signed.apk
