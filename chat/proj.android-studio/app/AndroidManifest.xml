@@ -28,9 +28,9 @@
         </receiver>
         <activity
             android:name="org.cocos2dx.cpp.AppActivity"
-            android:screenOrientation="sensorLandscape"
+            android:screenOrientation="sensor"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Azoomee"
+            android:label="Azoomee Chat"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

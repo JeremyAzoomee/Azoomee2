@@ -40,7 +40,6 @@ bool ChildDataParser::parseChildLoginData(std::string responseData)
     
     setLoggedInChildId(ChildDataStorage::getInstance()->childLoginData["id"].GetString());
     
-    ChildDataStorage::getInstance()->loggedInChildId = ChildDataStorage::getInstance()->childLoginData["id"].GetString();
     ChildDataStorage::getInstance()->loggedInChildCdnSessionId = ChildDataStorage::getInstance()->childLoginData["cdn-sessionid"].GetString();
     ChildDataStorage::getInstance()->loggedInChildApiSecret = ChildDataStorage::getInstance()->childLoginData["apiSecret"].GetString();
     ChildDataStorage::getInstance()->loggedInChildApiKey = ChildDataStorage::getInstance()->childLoginData["apiKey"].GetString();
@@ -77,7 +76,12 @@ void ChildDataParser::setLoggedInChildAvatarId(std::string avatarId)
 
 void ChildDataParser::setLoggedInChildId(std::string id)
 {
-    ChildDataStorage::getInstance()->loggedInChildId = id;
+    ChildDataStorage* data = ChildDataStorage::getInstance();
+    data->loggedInChildId = id;
+    if(id.empty())
+        data->loggedInChildName = "";
+    else
+        data->loggedInChildName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildrenById(data->loggedInChildId);
 }
 
 void ChildDataParser::setLoggedInChildNumber(int childNumber)

@@ -10,6 +10,10 @@ namespace Azoomee
 //----------- INPUT TEXT STYLE------------
 #define INPUT_STYLE_FONT "fonts/Sofia Pro Soft Regular.otf"
 #define INPUT_STYLE_SIZE 88
+    
+const char* const FONT_MEDIUM = "fonts/Sofia Pro Soft Medium.otf";
+const char* const FONT_REGULAR = "fonts/Sofia Pro Soft Regular.otf";
+const char* const FONT_BOLD = "fonts/Sofia Pro Soft Bold.otf";
 
 cocos2d::Label*  createLabelHeader(std::string text);
 cocos2d::Label*  createLabelButtonAdultPrimary(std::string text);

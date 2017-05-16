@@ -18,7 +18,7 @@ private:
     void addListenerToBackgroundLayer();
     void removeLayer();
     
-    cocos2d::LayerColor *loadingLayer;
+    cocos2d::LayerColor* loadingLayer = nullptr;
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;

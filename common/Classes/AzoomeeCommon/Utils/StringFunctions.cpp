@@ -1,5 +1,9 @@
 #include "StringFunctions.h"
 #include <cstdlib>
+#include <algorithm>
+#include <functional>
+#include <cctype>
+#include <locale>
 
 namespace Azoomee
 {
@@ -71,8 +75,8 @@ bool isDateStringOlderThanToday(std::string dateToCheck)
     else
         return false;
 }
-    
-    std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMapVector)
+
+std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMapVector)
 {
     std::string returnString = "{ \"Elements\" : [";
     
@@ -98,6 +102,29 @@ bool isDateStringOlderThanToday(std::string dateToCheck)
     returnString += "]}";
     
     return returnString;
+}
+
+std::string ltrim(const std::string& str)
+{
+    std::string s = str;
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
+}
+
+std::string rtrim(const std::string& str)
+{
+    std::string s = str;
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
+}
+
+std::string trim(const std::string& str)
+{
+    std::string s = str;
+    // Note we don't call ltrim and rtrim, so we can avoid an extra copy of str
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
 }
 
 

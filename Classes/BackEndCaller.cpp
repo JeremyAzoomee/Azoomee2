@@ -334,31 +334,31 @@ void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    if(requestTag == "getGordon")
+    if(requestTag == API::TagGetGorden)
     {
         onGetGordonAnswerReceived(headers);
     }
-    else if(requestTag == "childLogin")
+    else if(requestTag == API::TagChildLogin)
     {
         onChildLoginAnswerReceived(body);
     }
-    else if(requestTag == "getChildren")
+    else if(requestTag == API::TagGetAvailableChildren)
     {
         onGetChildrenAnswerReceived(body);
     }
-    else if(requestTag == "parentLogin")
+    else if(requestTag == API::TagLogin)
     {
         onLoginAnswerReceived(body);
     }
-    else if(requestTag == "registerChild")
+    else if(requestTag == API::TagRegisterChild)
     {
         onRegisterChildAnswerReceived();
     }
-    else if(requestTag == "registerParent")
+    else if(requestTag == API::TagRegisterParent)
     {
         onRegisterParentAnswerReceived();
     }
-    else if(requestTag == "updateParentPin")
+    else if(requestTag == API::TagParentPin)
     {
         onUpdateParentPinAnswerReceived(body);
     }
@@ -370,7 +370,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         DeepLinkingSingleton::getInstance()->contentDetailsResponse(body);
     }
-    else if(requestTag == "updateBilling")
+    else if(requestTag == API::TagUpdateBillingData)
     {
         onUpdateBillingDataAnswerReceived(body);
     }
@@ -379,16 +379,16 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
         HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
     }
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    else if(requestTag == "iapApplePaymentMade")
+    else if(requestTag == API::TagVerifyApplePayment)
     {
         ApplePaymentSingleton::getInstance()->onAnswerReceived(body);
     }
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    else if(requestTag == "iabGooglePaymentMade")
+    else if(requestTag == API::TagVerifyGooglePayment)
     {
         GooglePaymentSingleton::getInstance()->onGooglePaymentVerificationAnswerReceived(body);
     }
-    else if(requestTag == "iapAmazonPaymentMade")
+    else if(requestTag == API::TagVerifyAmazonPayment)
     {
         AmazonPaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(body);
     }
@@ -408,34 +408,34 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 
 void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-    if(requestTag == "registerParent")
+    if(requestTag == API::TagRegisterParent)
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
         Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
         return;
     }
     
-    if(requestTag == "registerChild")
+    if(requestTag == API::TagRegisterChild)
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
         Director::getInstance()->replaceScene(ChildAccountScene::createScene("", errorCode));
         return;
     }
     
-    if(requestTag == "parentLogin")
+    if(requestTag == API::TagLogin)
     {
         LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
         LoginLogicHandler::getInstance()->forceNewLogin();
     }
     
-    if(requestTag == "getChildren")
+    if(requestTag == API::TagGetAvailableChildren)
     {
         LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
         LoginLogicHandler::getInstance()->forceNewLogin();
         return;
     }
     
-    if(requestTag == "iapAmazonPaymentMade" || requestTag == "iapApplePaymentMade" || requestTag == "iabGooglePaymentMade")
+    if(requestTag == API::TagVerifyApplePayment || requestTag == API::TagVerifyAmazonPayment || requestTag == API::TagVerifyGooglePayment)
     {
         CCLOG("IAP Failed with Errorcode: %ld", errorCode);
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
