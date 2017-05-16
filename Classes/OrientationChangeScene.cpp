@@ -1,9 +1,14 @@
 #include "OrientationChangeScene.h"
-#include "OrientationFunctions.h"
 #include "OnboardingScene.h"
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
 #include "OnboardingSuccessScene.h"
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    #include "OrientationFunctions_ios.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    #include "OrientationFunctions_android.h"
+#endif
 
 Scene* OrientationChangeScene::createScene(bool forcePortrait,int toScene, long withErrorCode)
 {
