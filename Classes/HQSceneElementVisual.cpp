@@ -32,35 +32,41 @@ bool HQSceneElementVisual::init()
     return true;
 }
 
-//-----------------------CREATE AND SETUP ELEMENT------------------------
-
-cocos2d::Layer* HQSceneElementVisual::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay, bool createForOffline) //This method is being called by HQScene.cpp with all variables.
+void HQSceneElementVisual::setCategory(std::string category)
 {
-    elementItemDataMap = itemData;
-    
-    elementUrl = HQDataProvider::getInstance()->getImageUrlForItem(elementItemDataMap["id"], shape);
-    elementShape = shape;
     elementCategory = category;
-    
-    isOffline = createForOffline;
-    
-    resizeSceneElement();
-    
-    createBaseLayer();
-    
-    setShouldDisplayVisualElementsOverImage();
-    
-    createCallbackFunction(delay);
-    
-    return this;
 }
 
-void HQSceneElementVisual::resizeSceneElement()
+void HQSceneElementVisual::setItemData(std::map<std::string, std::string> itemData)
 {
-    Size defaultSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(elementCategory);
-    Size layerSize = Size(defaultSize.width * elementShape.x, defaultSize.height * elementShape.y);
+    elementItemData = itemData;
+}
+
+void HQSceneElementVisual::setShape(cocos2d::Vec2 shape)
+{
+    elementShape = shape;
+}
+
+void HQSceneElementVisual::setDelay(float delay)
+{
+    elementDelay = delay;
+}
+
+void HQSceneElementVisual::setCreatedForOffline(bool createdForOffline)
+{
+    elementCreatedForOffline = createdForOffline;
+}
+
+cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
+{
+    resizeSceneElement();
+    createBaseLayer();
+    setShouldDisplayVisualElementsOverImage();
+    createCallbackFunction(elementDelay);
     
-    this->setContentSize(layerSize);
+    elementUrl = HQDataProvider::getInstance()->getImageUrlForItem(elementItemData["id"], elementShape);
+    
+    return this;
 }
 
 void HQSceneElementVisual::createBaseLayer()
@@ -69,7 +75,6 @@ void HQSceneElementVisual::createBaseLayer()
     
     baseLayer = LayerColor::create(Color4B::BLACK, size.width, size.height);
     baseLayer->setPosition(10, 10);
-    
     this->addChild(baseLayer);
 }
 
@@ -80,7 +85,7 @@ void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
     
     if(elementShape.x == 1 && elementShape.y == 1)
         shouldDisplayVisualElementsOverImage = true;
-    else if(elementItemDataMap["type"] == "VIDEO" || elementItemDataMap["type"] =="GROUP")
+    else if(elementItemData["type"] == "VIDEO" || elementItemData["type"] =="GROUP")
         shouldDisplayVisualElementsOverImage = false;
     else
         shouldDisplayVisualElementsOverImage = true;
@@ -100,7 +105,7 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
                 addLabelsToImage(iconSprite);
         }
         
-        if((elementItemDataMap["entitled"] != "true")||(!ChildDataProvider::getInstance()->getIsChildLoggedIn()))
+        if((elementItemData["entitled"] != "true")||(!ChildDataProvider::getInstance()->getIsChildLoggedIn()))
         {
             if(!aboutToExit) addLockToElement();
         }
@@ -108,7 +113,7 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
         if(!aboutToExit) addTouchOverlayToElement();
     });
     
-    this->runAction(Sequence::create(DelayTime::create(delay), funcCallAction, NULL));
+    this->runAction(Sequence::create(DelayTime::create(elementDelay), funcCallAction, NULL));
 }
 
 //-------------------ADD VISUALS TO ELEMENT-----------------
@@ -116,11 +121,10 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
 void HQSceneElementVisual::addImageDownloader()
 {
     ImageDownloader *imageDownloader = ImageDownloader::create();
-    imageDownloader->initWithURLAndSize(elementUrl, elementItemDataMap["type"], Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), elementShape);
+    imageDownloader->initWithURLAndSize(elementUrl, elementItemData["type"], Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), elementShape);
     imageDownloader->setPosition(baseLayer->getContentSize() / 2);
     
-    if(elementItemDataMap["newFlag"] == "true")
-        imageDownloader->setAttachNewBadgeToImage();
+    if(elementItemData["newFlag"] == "true") imageDownloader->setAttachNewBadgeToImage();
     
     baseLayer->addChild(imageDownloader);
 }
@@ -172,13 +176,13 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
 {
     float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().height);
     
-    auto descriptionLabel = createLabelContentDescription(elementItemDataMap["description"]);
+    auto descriptionLabel = createLabelContentDescription(elementItemData["description"]);
     descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.2f));
     descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() - nextToIcon->getContentSize().height/2 * nextToIcon->getScale());
     reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
     baseLayer->addChild(descriptionLabel);
     
-    auto titleLabel = createLabelContentTitle(elementItemDataMap["title"]);
+    auto titleLabel = createLabelContentTitle(elementItemData["title"]);
     titleLabel->setAnchorPoint(Vec2(0.0f, 0.6f));
     titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
     reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
@@ -192,6 +196,14 @@ void HQSceneElementVisual::addLockToElement()
     baseLayer->addChild(lockImage);
 }
 
+void HQSceneElementVisual::resizeSceneElement()
+{
+    Size defaultSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(elementCategory);
+    Size layerSize = Size(defaultSize.width * elementShape.x, defaultSize.height * elementShape.y);
+    
+    this->setContentSize(layerSize);
+}
+
 void HQSceneElementVisual::addTouchOverlayToElement()
 {
     Color4B overlayColour = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(elementCategory);
@@ -201,7 +213,6 @@ void HQSceneElementVisual::addTouchOverlayToElement()
 }
 
 //------ OTHER FUNCTIONS----------
-
 
 void HQSceneElementVisual::reduceLabelTextToFitWidth(Label* label,float maxWidth)
 {

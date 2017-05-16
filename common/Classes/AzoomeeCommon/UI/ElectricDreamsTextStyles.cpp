@@ -4,10 +4,6 @@
 using namespace cocos2d;
 
 
-#define FONT_MEDIUM "fonts/Sofia Pro Soft Medium.otf"
-#define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
-#define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
-
 #define COLOR_BRIGHT_AQUA Color3B(28, 244, 244)
 #define COLOR_WHITE Color3B::WHITE
 #define COLOR_BLACK Color3B::BLACK

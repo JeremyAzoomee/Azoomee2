@@ -1,5 +1,4 @@
 .gradle
-/local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
@@ -10,3 +9,6 @@
 /app/obj/
 /app/libs/
 /app/assets/res/
+fabric.properties
+local.properties
+*.keystore

@@ -2,10 +2,10 @@
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include "LoginScene.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "WebGameAPIDataManager.h"
+#include "VideoPlaylistManager.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -204,6 +204,21 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISendAPIRequest(JN
     const char* cScore = env->GetStringUTFChars(score, NULL);
     
     jstring returnString = env->NewStringUTF(WebGameAPIDataManager::getInstance()->handleAPIRequest(cMethod, cResponseID, cScore));
+    return returnString;
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetVideoPlaylist(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetVideoPlaylist(JNIEnv* env, jobject thiz)
+{
+    jstring returnString = env->NewStringUTF(VideoPlaylistManager::getInstance()->getPlaylist().c_str());
     return returnString;
 }
 

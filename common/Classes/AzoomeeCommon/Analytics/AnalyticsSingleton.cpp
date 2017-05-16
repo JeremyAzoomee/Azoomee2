@@ -49,7 +49,7 @@ void AnalyticsSingleton::registerAppVersion()
 void AnalyticsSingleton::registerParentID(std::string ParentID)
 {
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["First Name"] = ParentID;
+    mixPanelProperties["parentID"] = ParentID;
     
     mixPanelRegisterSuperProperties("parentID",ParentID);
     mixPanelRegisterIdentity(ParentID,mixPanelProperties);
@@ -82,6 +82,7 @@ void AnalyticsSingleton::registerBillingStatus(std::string Status)
 
 void AnalyticsSingleton::registerIAPOS(std::string OS_String)
 {
+    OSManufacturer = OS_String;
     mixPanelRegisterSuperProperties("iAP_OS",OS_String);
 }
 
@@ -445,7 +446,16 @@ void AnalyticsSingleton::displayIAPUpsaleEvent(std::string fromLocation)
 
 void AnalyticsSingleton::iapSubscriptionSuccessEvent()
 {
-    mixPanelSendEvent("iapSubscriptionSuccess");
+    std::string eventID = "iapSubscriptionSuccess";
+    
+    mixPanelSendEvent(eventID);
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["iAP_OS"] = OSManufacturer;
+    
+    appsFlyerSendEvent(eventID, mixPanelProperties);
+    
+    
 }
 
 void AnalyticsSingleton::iapSubscriptionErrorEvent(std::string errorDescription)

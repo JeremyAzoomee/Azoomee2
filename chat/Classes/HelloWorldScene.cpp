@@ -1,11 +1,10 @@
 #include "HelloWorldScene.h"
-#include "../AppDelegate.h"
+#include "AppDelegate.h"
 
 using namespace cocos2d;
 
 
-namespace Azoomee { namespace Chat
-{
+NS_AZOOMEE_CHAT_BEGIN
     
 HelloWorldScene::~HelloWorldScene()
 {
@@ -98,10 +97,10 @@ void HelloWorldScene::onExit()
 void HelloWorldScene::onWindowChanged(cocos2d::EventCustom* event)
 {
     cocos2d::Size visibleSize = getContentSize();
-    cocos2d::log( "onWindowChanged: %f, %f", visibleSize.width, visibleSize.height );
+    cocos2d::log("onWindowChanged: %f, %f", visibleSize.width, visibleSize.height);
     
     _parentLayout->setContentSize(visibleSize);
 }
     
 
-}}
+NS_AZOOMEE_CHAT_END

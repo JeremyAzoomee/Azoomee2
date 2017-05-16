@@ -1,5 +1,9 @@
 #include "StringFunctions.h"
 #include <cstdlib>
+#include <algorithm>
+#include <functional>
+#include <cctype>
+#include <locale>
 
 namespace Azoomee
 {
@@ -70,6 +74,57 @@ bool isDateStringOlderThanToday(std::string dateToCheck)
         return true;
     else
         return false;
+}
+
+std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMapVector)
+{
+    std::string returnString = "{ \"Elements\" : [";
+    
+    for(int i = 0; i < inputMapVector.size(); i++)
+    {
+        if(i != 0) returnString += ", ";
+        returnString += "{";
+        
+        std::map<std::string, std::string> inputMap = inputMapVector.at(i);
+        
+        int mapCounter = 0;
+        for(auto kv : inputMap)
+        {
+            if(mapCounter != 0) returnString += ", ";
+            returnString += "\"" + kv.first + "\" : ";
+            returnString += "\"" + kv.second + "\"";
+            mapCounter++;
+        }
+        
+        returnString += "}";
+    }
+    
+    returnString += "]}";
+    
+    return returnString;
+}
+
+std::string ltrim(const std::string& str)
+{
+    std::string s = str;
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
+}
+
+std::string rtrim(const std::string& str)
+{
+    std::string s = str;
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
+}
+
+std::string trim(const std::string& str)
+{
+    std::string s = str;
+    // Note we don't call ltrim and rtrim, so we can avoid an extra copy of str
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
 }
 
 

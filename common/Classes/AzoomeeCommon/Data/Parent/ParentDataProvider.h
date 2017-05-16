@@ -2,7 +2,7 @@
 #define AzoomeeCommon_ParentDataProvider_h
 
 #include <cocos/cocos2d.h>
-#include "external/json/document.h"
+#include "../Json.h"
 
 
 namespace Azoomee
@@ -20,6 +20,7 @@ public:
     
     int getAmountOfAvailableChildren();
     std::string getProfileNameForAnAvailableChildren(int childNumber);
+    std::string getProfileNameForAnAvailableChildrenById(const std::string& childId);
     std::string getAvatarForAnAvailableChildren(int childNumber);
     std::string getDOBForAnAvailableChildren(int childNumber);
     std::string getSexForAnAvailableChildren(int childNumber);

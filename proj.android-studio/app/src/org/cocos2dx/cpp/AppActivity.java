@@ -168,7 +168,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         MixpanelAPI mixpanel = MixpanelAPI.getInstance(mContext, "7e94d58938714fa180917f0f3c7de4c9");
         mixpanel.identify(parentID);
         mixpanel.getPeople().identify(parentID);
-        //mixpanel.getPeople().set("First Name", parentID);
+        mixpanel.getPeople().set("parentID", parentID);
     }
 
     public static void showMixpanelNotification() {

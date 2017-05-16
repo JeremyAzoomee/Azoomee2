@@ -2,6 +2,7 @@
 #define AzoomeeCommon_MessageBox_h
 
 #include <cocos/cocos2d.h>
+#include <cocos/ui/UIScrollView.h>
 #include "ElectricDreamsButton.h"
 #include "../Input/TextInputLayer.h"
 #include "../ErrorCodes.h"
@@ -31,6 +32,7 @@ private:
     cocos2d::LayerColor *backgroundLayer;
     cocos2d::Label* messageTitleLabel;
     cocos2d::Label* messageBodyLabel;
+    cocos2d::ui::ScrollView* scrollView;
     std::vector<ElectricDreamsButton*> buttonsList;
     ElectricDreamsButton* cancelButton;
     cocos2d::Layer* windowLayer;
@@ -64,7 +66,7 @@ private:
   
 protected:
     
-    virtual bool init();
+    virtual bool init() override;
     
     void initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate);
     void addButtonWithTitle(const std::string& buttonTitle);
@@ -84,6 +86,8 @@ public:
     CREATE_FUNC(MessageBox);
     
     CC_SYNTHESIZE(MessageBoxDelegate*, _delegate, Delegate);
+    
+    void setBodyHAlignment(cocos2d::TextHAlignment align);
   
 };
   

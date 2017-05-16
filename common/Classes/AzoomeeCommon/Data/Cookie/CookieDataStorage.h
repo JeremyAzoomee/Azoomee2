@@ -2,7 +2,7 @@
 #define AzoomeeCommon_CookieDataStorage_h
 
 #include <cocos/cocos2d.h>
-#include "external/json/document.h"
+#include "../Json.h"
 
 namespace Azoomee
 {

@@ -83,6 +83,11 @@ bool MessageBox::init()
     
     return true;
 }
+    
+void MessageBox::setBodyHAlignment(TextHAlignment align)
+{
+    messageBodyLabel->setHorizontalAlignment(align);
+}
 
 //---------------------- Create Layer -----------------------------
 
@@ -127,6 +132,32 @@ void MessageBox::createBody(std::string messageBody)
 {
     messageBodyLabel = createLabelMessageBoxBody(messageBody);
     messageBodyLabel->setWidth(textMaxWidth);
+    
+    const float maxHeight = visibleSize.height * 0.5f;
+    Size size = messageBodyLabel->getContentSize();
+    size.width = textMaxWidth;
+    
+    bool needScroll = false;
+    if(size.height > maxHeight)
+    {
+        size.height = maxHeight;
+        needScroll = true;
+    }
+    
+    scrollView = ui::ScrollView::create();
+    scrollView->setContentSize(size);
+    scrollView->setAnchorPoint(Vec2(0.5f, 0.5f));
+    scrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
+    scrollView->setBounceEnabled(needScroll);
+    scrollView->setTouchEnabled(needScroll);
+    scrollView->setSwallowTouches(false);
+    scrollView->setScrollBarEnabled(needScroll);
+    scrollView->setInnerContainerSize(messageBodyLabel->getContentSize());
+    
+    scrollView->addChild(messageBodyLabel);
+    
+    messageBodyLabel->setAnchorPoint(Vec2(0, 0));
+    messageBodyLabel->setPosition(0, 0);
 }
 
 void MessageBox::createButtons()
@@ -158,7 +189,7 @@ void MessageBox::createCancelButton()
 
 void MessageBox::createMessageWindow()
 {
-    float windowHeight = messageTitleLabel->getContentSize().height + messageBodyLabel->getContentSize().height + buttonsList.at(0)->getContentSize().height + cancelButton->getContentSize().height*4;
+    float windowHeight = messageTitleLabel->getContentSize().height + scrollView->getContentSize().height + buttonsList.at(0)->getContentSize().height + cancelButton->getContentSize().height*4;
     
     windowLayer = createWindowLayer(windowHeight);
     windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + (visibleSize.height - windowLayer->getContentSize().height) * .66);
@@ -177,12 +208,12 @@ void MessageBox::addObjectsToWindow()
     messageTitleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
     windowLayer->addChild(messageTitleLabel);
     
-    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height - messageTitleLabel->getContentSize().height/2 - messageBodyLabel->getContentSize().height/2;
+    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height - messageTitleLabel->getContentSize().height/2 - scrollView->getContentSize().height/2;
     
-    messageBodyLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
-    windowLayer->addChild(messageBodyLabel);
+    scrollView->setPosition(Vec2(windowLayer->getContentSize().width/2, nextItemHeight));
+    windowLayer->addChild(scrollView);
     
-    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height - messageBodyLabel->getContentSize().height/2 - buttonsList.at(0)->getContentSize().height/2;
+    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height - scrollView->getContentSize().height/2 - buttonsList.at(0)->getContentSize().height/2;
     
     positionButtonsBasedOnWidth(nextItemHeight);
 }

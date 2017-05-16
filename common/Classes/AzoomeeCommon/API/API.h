@@ -3,14 +3,42 @@
 
 #include "../Azoomee.h"
 #include <string>
+#include "../Data/Json.h"
 #include "HttpRequestCreator.h"
 
 
 NS_AZOOMEE_BEGIN
 
+
+/**
+ * This class contains purely the logic for building API requests to Azoomee.
+ * It is stateless and has no knowledge or state of the app.
+ */
 class API
 {
 public:
+
+#pragma mark - Constants
+    
+    static const char* const TagLogin;
+    static const char* const TagUpdateBillingData;
+    static const char* const TagParentPin;
+    static const char* const TagGetAvailableChildren;
+    static const char* const TagChildLogin;
+    static const char* const TagGetGorden;
+    static const char* const TagRegisterParent;
+    static const char* const TagRegisterChild;
+    static const char* const TagVerifyGooglePayment;
+    static const char* const TagVerifyAmazonPayment;
+    static const char* const TagVerifyApplePayment;
+    static const char* const TagGetEncryptedContent;
+    static const char* const TagGetPublicContent;
+    static const char* const TagGetChatList;
+    static const char* const TagGetChatMessages;
+    static const char* const TagSendChatMessage;
+    
+#pragma mark - API Methods
+    
     static HttpRequestCreator* LoginRequest(const std::string& username,
                                             const std::string& password,
                                             HttpRequestCreatorResponseDelegate* delegate);
@@ -60,6 +88,32 @@ public:
     static HttpRequestCreator* GetPublicContentRequest(const std::string& url,
                                                        const std::string& category,
                                                        HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetElectricDreamsContent(const std::string& requestId, 
+                                                        const std::string& childId,
+                                                        const std::string& contentID,
+                                                        HttpRequestCreatorResponseDelegate* delegate);
+    
+#pragma mark - Sharing
+    
+    // Get the chat list for childId
+    // childId must be the currently logged in child, or the request will fail
+    static HttpRequestCreator* GetChatListRequest(const std::string& childId,
+                                                  HttpRequestCreatorResponseDelegate* delegate);
+    
+    // Get the chat list between childId and friendId
+    // childId must be the currently logged in child, or the request will fail
+    static HttpRequestCreator* GetChatMessagesRequest(const std::string& childId,
+                                                      const std::string& friendId,
+                                                      HttpRequestCreatorResponseDelegate* delegate);
+    
+    // Send a chat message to friendId
+    // childId must be the currently logged in child, or the request will fail
+    // params must be a Json object of type Message
+    static HttpRequestCreator* SendChatMessageRequest(const std::string& childId,
+                                                      const std::string& friendId,
+                                                      const JsonObjectRepresentation& jsonObject,
+                                                      HttpRequestCreatorResponseDelegate* delegate);
     
     
     

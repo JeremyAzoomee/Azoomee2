@@ -1,8 +1,5 @@
 #include "JWTTool.h"
-#include <external/json/document.h>
-#include <external/json/writer.h>
-#include <external/json/stringbuffer.h>
-#include <external/json/prettywriter.h>
+#include "../Data/Json.h"
 #include "../Data/Parent/ParentDataProvider.h"
 #include "../Data/Child/ChildDataProvider.h"
 #include <iomanip>

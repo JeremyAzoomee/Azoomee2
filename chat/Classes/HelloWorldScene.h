@@ -1,12 +1,12 @@
-#ifndef __AzoomeeChat_HelloWorldScene__
-#define __AzoomeeChat_HelloWorldScene__
+#ifndef AzoomeeChat_HelloWorldScene_h
+#define AzoomeeChat_HelloWorldScene_h
 
+#include "AzoomeeChat/AzoomeeChat.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
 
-namespace Azoomee { namespace Chat
-{
+NS_AZOOMEE_CHAT_BEGIN
     
 class HelloWorldScene : public cocos2d::Scene
 {
@@ -33,7 +33,6 @@ public:
     CREATE_FUNC(HelloWorldScene);
 };
 
-    
-}}
+NS_AZOOMEE_CHAT_END
 
 #endif

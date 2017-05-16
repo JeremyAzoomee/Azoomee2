@@ -1,8 +1,16 @@
 #include "AppDelegate.h"
+#include "HelloWorldScene.h"
+#include "ChatTestScene.h"
+#include "LoginScene.h"
+#include "ChildSelectorScene.h"
+#include "Auth/AuthAPI.h"
 
-#include "AzoomeeChat/HelloWorldScene.h"
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#include <jni.h>
+#endif
 
 using namespace cocos2d;
+using namespace Azoomee;
 using namespace Azoomee::Chat;
 
 static cocos2d::Size designResolutionLandscapeSize = cocos2d::Size(2732, 2048);
@@ -35,7 +43,8 @@ static int register_all_packages()
     return 0; //flag for packages manager
 }
 
-bool AppDelegate::applicationDidFinishLaunching() {
+bool AppDelegate::applicationDidFinishLaunching()
+{
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
@@ -54,23 +63,44 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0f / 60);
 
-    // Set the design resolution
-//    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+    // Set the initial resolution
+    director->setContentScaleFactor(1.0f);
     auto frameSize = glview->getFrameSize();
     applicationScreenSizeChanged(frameSize.width, frameSize.height);
-    director->setContentScaleFactor(1.0f);
 
     register_all_packages();
-
-    // create a scene. it's an autorelease object
-    auto scene = HelloWorldScene::create();
-    director->runWithScene(scene);
+    
+    
+    // Create the first scene
+    cocos2d::Scene* firstScene = nullptr;
+    
+    // Are we already logged in?
+    bool loggedIn = AuthAPI::getInstance()->isLoggedIn();
+    if(!loggedIn)
+    {
+        firstScene = LoginScene::create();
+    }
+    else
+    {
+        // Logged in, do we have a child logged in?
+        bool childLoggedIn = AuthAPI::getInstance()->isChildLoggedIn();
+        if(!childLoggedIn)
+        {
+            firstScene = ChildSelectorScene::create();
+        }
+        else
+        {
+            firstScene = ChatTestScene::create();
+        }
+    }
+    director->runWithScene(firstScene);
 
     return true;
 }
 
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
-void AppDelegate::applicationDidEnterBackground() {
+void AppDelegate::applicationDidEnterBackground()
+{
     Director::getInstance()->stopAnimation();
     Director::getInstance()->pause();
 
@@ -79,7 +109,8 @@ void AppDelegate::applicationDidEnterBackground() {
 }
 
 // this function will be called when the app is active again
-void AppDelegate::applicationWillEnterForeground() {
+void AppDelegate::applicationWillEnterForeground()
+{
     Director::getInstance()->stopAnimation();
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
@@ -101,7 +132,7 @@ void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
     // Use the correct design resolution
     
     // Landscape
-    if( newWidth > newHeight )
+    if(newWidth > newHeight)
     {
         glview->setDesignResolutionSize(designResolutionLandscapeSize.width, designResolutionLandscapeSize.height, ResolutionPolicy::NO_BORDER);
     }
@@ -117,7 +148,7 @@ void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
     if(scene != nullptr)
     {
         // Landscape
-        if( newWidth > newHeight )
+        if(newWidth > newHeight)
         {
             scene->setContentSize(designResolutionLandscapeSize);
         }
@@ -135,3 +166,54 @@ void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
     
     director->getEventDispatcher()->dispatchEvent(&event);
 }
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+void AppDelegate::onVirtualKeyboardShown(bool shown, int height)
+{
+    cocos2d::log( "AppDelegate::onVirtualKeyboardShown: (shown=%d), %d", shown, height );
+    
+    // Convert height into cocos view coords
+    auto director = Director::getInstance();
+    // Adjust height to take into account current view scale and origin offset
+    auto glview = director->getOpenGLView();
+    height /= glview->getScaleY();
+    
+    const cocos2d::Vec2& visibleOrigin = director->getVisibleOrigin();
+    height += visibleOrigin.y;
+    
+    imeNotification.end = cocos2d::Rect(0, 0, 0, height);
+    imeNotification.duration = 0.25f;
+    
+    cocos2d::IMEDispatcher* imeDispatch = IMEDispatcher::sharedDispatcher();
+    if(shown)
+    {
+        imeDispatch->dispatchKeyboardWillShow(imeNotification);
+    }
+    else
+    {
+        imeDispatch->dispatchKeyboardWillHide(imeNotification);
+    }
+}
+#endif
+
+#pragma mark - Android native methods
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_onKeyboardShown(JNIEnv* env, jclass, jint height)
+    {
+        AppDelegate* appDel = (AppDelegate*)cocos2d::Application::getInstance();
+        appDel->onVirtualKeyboardShown(true, height);
+    }
+    
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_onKeyboardHidden(JNIEnv* env, jclass, jint height)
+    {
+        AppDelegate* appDel = (AppDelegate*)cocos2d::Application::getInstance();
+        appDel->onVirtualKeyboardShown(false, height);
+    }
+}
+
+#endif
+

@@ -1,6 +1,7 @@
 #ifndef AzoomeeCommon_StringFunctions_h
 #define AzoomeeCommon_StringFunctions_h
 
+#include <cocos/cocos2d.h>
 #include <string>
 #include <vector>
 
@@ -13,6 +14,14 @@ std::string stringToLower(std::string input);
 std::string stringToUpper(std::string input);
 std::string stringReplace(std::string originalString, std::string stringToReplace, std::string withNewString);
 bool isDateStringOlderThanToday(std::string dateToCheck);
+std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMap);
+
+/// Trim whitespace from the start of string
+std::string ltrim(const std::string& s);
+/// Trim whitespace from the end of string
+std::string rtrim(const std::string& s);
+/// Trim whitespace from the start and end of string
+std::string trim(const std::string& s);
 
   
 } // Azoomee

@@ -2,7 +2,9 @@
 
 #include "ConfigStorage.h"
 #include "Parent/ParentDataProvider.h"
+#include "Child/ChildDataProvider.h"
 #include "../Analytics/AnalyticsSingleton.h"
+#include "../API/API.h"
 
 using namespace cocos2d;
 
@@ -89,19 +91,19 @@ std::string ConfigStorage::getImagesUrl()
 
 std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
 {
-    if(httpRequestTag == "parentLogin") return "/api/auth/login";
-    if(httpRequestTag == "getChildren") return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == "childLogin") return "/api/auth/switchProfile";
-    if(httpRequestTag == "getGordon") return "/api/porthole/pixel/gordon.png";
-    if(httpRequestTag == "registerParent") return "/api/user/v2/adult";
-    if(httpRequestTag == "registerChild") return "/api/user/child";
+    if(httpRequestTag == API::TagLogin) return "/api/auth/login";
+    if(httpRequestTag == API::TagGetAvailableChildren) return StringUtils::format("/api/user/adult/%s/owns", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagChildLogin) return "/api/auth/switchProfile";
+    if(httpRequestTag == API::TagGetGorden) return "/api/porthole/pixel/gordon.png";
+    if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/adult";
+    if(httpRequestTag == API::TagRegisterChild) return "/api/user/child";
     if(httpRequestTag == "HOME") return "/api/electricdreams/view/categories/home";
     if(httpRequestTag == "PreviewHOME") return "/api/electricdreams/preview/view/categories/home";
-    if(httpRequestTag == "updateParentPin") return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == "iapAmazonPaymentMade") return StringUtils::format("/api/billing/amazon/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == "iapApplePaymentMade") return StringUtils::format("/api/billing/apple/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == "iabGooglePaymentMade") return StringUtils::format("/api/billing/google/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    if(httpRequestTag == "updateBilling") return StringUtils::format("/api/billing/user/%s/billingStatus", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagParentPin) return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagVerifyAmazonPayment) return StringUtils::format("/api/billing/amazon/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagVerifyApplePayment) return StringUtils::format("/api/billing/apple/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     
     return "";
 }

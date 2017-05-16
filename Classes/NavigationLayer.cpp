@@ -8,6 +8,7 @@
 #include "ChildSelectorScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include "PreviewLoginSignupMessageBox.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -17,6 +18,7 @@
 #include "SettingsButton.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "OrientationChangeScene.h"
+#include "DeepLinkingSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -40,7 +42,10 @@ bool NavigationLayer::init()
         return false;
     }
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    {
         ModalMessages::getInstance()->showMixpanelNotification();
+        DeepLinkingSingleton::getInstance()->actionDeepLink();
+    }
     
     AudioMixer::getInstance()->playOomeeIdleSounds(true);
     
@@ -272,7 +277,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
                 {
                     //Child Selection Button Pressed.
                     //Logout Child
-                    ChildDataStorage::getInstance()->childLoggedIn = false;
+                    ChildDataParser::getInstance()->setChildLoggedIn(false);
                     auto childSelectorScene = ChildSelectorScene::createScene();
                     Director::getInstance()->replaceScene(childSelectorScene);
                 }

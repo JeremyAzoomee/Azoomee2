@@ -85,16 +85,49 @@
     [super viewDidDisappear:animated];
 }
 
+- (void) forcePortrait:(BOOL)forcePortrait
+{
+    _forcePortrait = forcePortrait;
+    
+    UIInterfaceOrientation wantOrientation = [self preferredInterfaceOrientationForPresentation];
+    
+    NSNumber *value = [NSNumber numberWithInt:wantOrientation];
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    // Not needed?
+    [UIApplication sharedApplication].statusBarOrientation = wantOrientation;
+    
+    [UIViewController attemptRotationToDeviceOrientation];
+}
+
+- (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation
+{
+    if(_forcePortrait)
+    {
+        return UIInterfaceOrientationPortrait;
+    }
+    return UIInterfaceOrientationLandscapeLeft;
+}
 
 // For ios6, use supportedInterfaceOrientations & shouldAutorotate instead
-#ifdef __IPHONE_6_0
 - (NSUInteger) supportedInterfaceOrientations{
+    if(_forcePortrait)
+    {
+        return UIInterfaceOrientationPortrait;
+    }
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
-#endif
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if( _forcePortrait )
+    {
+        return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    }
+    return YES;
+}
 
 - (BOOL) shouldAutorotate {
-    return YES;
+    return !_forcePortrait;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {

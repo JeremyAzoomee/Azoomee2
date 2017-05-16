@@ -10,12 +10,29 @@ class HQSceneElementVisual : public cocos2d::Layer
 public:
     CREATE_FUNC(HQSceneElementVisual);
     virtual bool init();
-    cocos2d::Layer* addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape, float delay, bool createForOffline);
+    
+    void setCategory(std::string category);
+    void setItemData(std::map<std::string, std::string> itemData);
+    void setShape(cocos2d::Vec2 shape);
+    void setDelay(float delay);
+    void setCreatedForOffline(bool createdForOffline);
+    
+    cocos2d::Layer* createHQSceneElement();
     
     cocos2d::LayerColor *baseLayer;
     cocos2d::LayerColor *overlayWhenTouched;
     
 private:
+    bool shouldDisplayVisualElementsOverImage;
+    std::string elementCategory;
+    std::map<std::string, std::string> elementItemData;
+    cocos2d::Vec2 elementShape;
+    float elementDelay;
+    bool elementCreatedForOffline;
+    std::string elementUrl;
+    
+    cocos2d::Sprite* downloadedImage;
+    void createColourLayer();
     
     //-----SETUP-----
     void resizeSceneElement();
@@ -38,13 +55,6 @@ private:
     
     bool aboutToExit;
     bool isOffline;
-    bool shouldDisplayVisualElementsOverImage;
-    
-    std::string elementUrl;
-    std::string elementCategory;
-    cocos2d::Vec2 elementShape;
-    
-    std::map<std::string, std::string> elementItemDataMap;
 };
 
 #endif

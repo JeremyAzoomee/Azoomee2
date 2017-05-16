@@ -83,6 +83,13 @@
         "button":"OK"
     },
     
+    "1007":
+    {
+        "title":"Content Is Locked",
+        "body":"You need to subscribe to view this content.",
+        "button":"OK"
+    },
+    
     "2001":
     {
         "title":"The time on your device is wrong",

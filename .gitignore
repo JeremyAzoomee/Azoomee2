@@ -1,4 +1,5 @@
 bin/
+_builds/
 cocos2d/
 proj.android/obj/
 proj.android/assets/res/

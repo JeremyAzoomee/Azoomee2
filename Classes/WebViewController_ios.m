@@ -55,8 +55,6 @@
     }
     else
     {
-        iframeloaded = 1;
-        
         NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index_ios" ofType:@"html"];
         urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, urlToLoad];
     }
@@ -70,6 +68,8 @@
 }
 
 - (void)addWebViewToScreen {
+    if(webview) return;
+    
     webview=[[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     
     NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
@@ -81,8 +81,6 @@
     }
     else
     {
-        iframeloaded = 1;
-        
         NSString *htmlFileAddress = [[NSBundle mainBundle] pathForResource:@"res/jwplayer/index_ios" ofType:@"html"];
         urlToCall = [NSString stringWithFormat:@"%@?contentUrl=%@", htmlFileAddress, urlToLoad];
     }
@@ -90,6 +88,7 @@
     NSURL *nsurl=[NSURL URLWithString:urlToCall];
     NSURLRequest *nsrequest = [NSURLRequest requestWithURL:nsurl];
     
+    [webview setMediaPlaybackRequiresUserAction:NO];
     [webview scrollView].scrollEnabled = NO;
     [webview scrollView].bounces = NO;
     [webview setDelegate:self];
@@ -129,7 +128,7 @@
         
         [webview removeFromSuperview];
         
-        [currentButton removeFromSuperview];
+        [backButton removeFromSuperview];
         
         [useridToUse release];
         [urlToLoad release];
@@ -157,6 +156,11 @@
         return NO;
     }
     
+    if ([urlString hasPrefix:@"finishview"])
+    {
+        [self finishView];
+    }
+    
     return YES;
 }
 
@@ -164,16 +168,26 @@
 {
     if(!iframeloaded)
     {
-        [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
+        NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
         
-        NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
-        
-        NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
-        NSLog(@"addDataString: %@", addDataString);
-        [webView stringByEvaluatingJavaScriptFromString:addDataString];
-        
-        NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
-        [webView stringByEvaluatingJavaScriptFromString:loadString];
+        if([iosurlExtension isEqualToString:@"html"])
+        {
+            [webView stringByEvaluatingJavaScriptFromString:@"clearLocalStorage()"];
+            
+            NSString *localStorageData = [NSString stringWithFormat: @"%s", getLocalStorageForGame()];
+            
+            NSString *addDataString = [NSString stringWithFormat:@"addDataToLocalStorage(\"%@\")", localStorageData];
+            NSLog(@"addDataString: %@", addDataString);
+            [webView stringByEvaluatingJavaScriptFromString:addDataString];
+            
+            NSString *loadString = [NSString stringWithFormat:@"addFrameWithUrl(\"%@\")", urlToLoad];
+            [webView stringByEvaluatingJavaScriptFromString:loadString];
+        }
+        else
+        {
+            NSString *loadString = [NSString stringWithFormat:@"startBuildingPlayer(\"%@\")", getVideoPlaylist()];
+            [webView stringByEvaluatingJavaScriptFromString:loadString];
+        }
         
         iframeloaded = true;
     };
@@ -187,13 +201,13 @@
 
 - (void) createButton
 {
-    currentButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [currentButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [currentButton setFrame:CGRectMake(10, 10, 40, 40)];
-    [currentButton setExclusiveTouch:YES];
-    [currentButton setImage:[UIImage imageNamed:@"res/navigation/back_new.png"] forState:UIControlStateNormal];
+    backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setFrame:CGRectMake(10, 10, 40, 40)];
+    [backButton setExclusiveTouch:YES];
+    [backButton setImage:[UIImage imageNamed:@"res/navigation/back_new.png"] forState:UIControlStateNormal];
     
-    [self.view addSubview:currentButton];
+    [self.view addSubview:backButton];
 }
 
 -(void) buttonClicked:(UIButton*)sender
@@ -213,6 +227,24 @@
     }
 }
 
+-(void) removeWebViewWhileInBackground
+{
+    [backButton removeFromSuperview];
+    
+    NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
+    if(![iosurlExtension isEqualToString:@"html"]) return;
+    
+    [webview loadHTMLString:@"" baseURL:nil];
+    [webview stopLoading];
+    [webview setDelegate:nil];
+    
+    [webview removeFromSuperview];
+    [webview release];
+    webview = nil;
+    
+    iframeloaded = NO;
+}
+
 -(void) finishView
 {
     [webview loadHTMLString:@"" baseURL:nil];
@@ -222,7 +254,7 @@
     
     [webview removeFromSuperview];
     
-    [currentButton removeFromSuperview];
+    [backButton removeFromSuperview];
     
     [useridToUse release];
     [urlToLoad release];

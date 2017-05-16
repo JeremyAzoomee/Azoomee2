@@ -292,15 +292,14 @@ void HQScene::addTitleToHorizontalScrollView(std::string title, Node *toBeAddedT
 
 void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData, int rowNumber, int itemNumber)
 {
-    Vec2 highlightDataForElement = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(this->getName(), rowNumber, itemNumber);
-    
-    float delay = rowNumber * 0.5 + itemNumber * 0.1;
-    
     auto hqSceneElement = HQSceneElement::create();
-    hqSceneElement->addHQSceneElement(this->getName(), itemData, highlightDataForElement, delay);
+    hqSceneElement->setCategory(this->getName());
+    hqSceneElement->setItemData(itemData);
+    hqSceneElement->setElementRow(rowNumber);
+    hqSceneElement->setElementIndex(itemNumber);
+    hqSceneElement->addHQSceneElement();
 
     toBeAddedTo->addChild(hqSceneElement);
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
-    
 }

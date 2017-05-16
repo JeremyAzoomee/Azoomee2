@@ -111,6 +111,7 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
 {
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     parentData->availableChildren.clear();
+    parentData->availableChildrenById.clear();
     
     parentData->availableChildrenData.Parse(responseData.c_str());
     
@@ -129,6 +130,9 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
                 currentChild["dob"] = parentData->availableChildrenData[i]["dob"].GetString();
         
         parentData->availableChildren.push_back(currentChild);
+        
+        const std::string& childId = parentData->availableChildrenData[i]["id"].GetString();
+        parentData->availableChildrenById[childId] = i;
     }
     
     return true;
@@ -209,6 +213,10 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     parentData->loggedInParentApiSecret = def->getStringForKey("loggedInParentApiSecret");
     parentData->loggedInParentApiKey = def->getStringForKey("loggedInParentApiKey");
     parentData->loggedInParentActorStatus = def->getStringForKey("loggedInParentActorStatus");
+    
+    createCrashlyticsUserInfo(parentData->loggedInParentId, "");
+    AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
+    AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
 }
 
 bool ParentDataParser::hasParentLoginDataInUserDefaults()
