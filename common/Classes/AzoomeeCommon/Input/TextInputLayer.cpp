@@ -6,6 +6,9 @@
 using namespace cocos2d;
 
 
+#define INPUT_STYLE_SIZE 88
+
+
 namespace Azoomee
 {
 
@@ -54,7 +57,7 @@ void TextInputLayer::createEditBox()
     
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
+    editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::WHITE);
     editBox->setReturnType(ui::EditBox::KeyboardReturnType::DONE);
     editBox->setDelegate(this);

@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "IAPDetailsLayer_ios.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/UI/Style.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -12,11 +13,6 @@ using namespace Azoomee;
 
 #define SIDE_MARGIN_SIZE 130
 
-#define FONT_MEDIUM "fonts/Sofia Pro Soft Medium.otf"
-#define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
-#define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
-
-#define COLOR_BRIGHT_AQUA Color3B(28, 244, 244)
 
 Layer* IAPUpsaleLayer::createRequiresPin()
 {
@@ -97,8 +93,8 @@ void IAPUpsaleLayer::addImage()
 
 void IAPUpsaleLayer::addTitle()
 {
-    titleLabel = Label::createWithTTF("Start a trial to unlock full access", FONT_REGULAR, 130);
-    titleLabel->setColor(COLOR_BRIGHT_AQUA);
+    titleLabel = Label::createWithTTF("Start a trial to unlock full access", Style::Font::Regular, 130);
+    titleLabel->setColor(Style::Color::brightAqua);
     titleLabel->setAnchorPoint(Vec2(0,0.5));
     titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     
@@ -158,15 +154,15 @@ void IAPUpsaleLayer::addBulletAndLabel(std::string BOLDtext, std::string regular
     cocos2d::ui::RichText* richTextLabel = cocos2d::ui::RichText::create();
     richTextLabel->setAnchorPoint(Vec2(0,0.5));
     
-    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDtext, FONT_BOLD, 80));
-    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, regularText, FONT_REGULAR, 80));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDtext, Style::Font::Bold, 80));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, regularText, Style::Font::Regular, 80));
     richTextLabel->setPosition(Vec2(bullet->getPositionX() + bullet->getContentSize().width,yPosition));
     UpsaleLayer->addChild(richTextLabel);
 }
 
 void IAPUpsaleLayer::addOptionalSubscriptionLabel()
 {
-    optionalLabel = Label::createWithTTF("Then £4.99/month. No commitment, cancel anytime.", FONT_REGULAR, 46);
+    optionalLabel = Label::createWithTTF("Then £4.99/month. No commitment, cancel anytime.", Style::Font::Regular, 46);
     optionalLabel->setColor(Color3B::WHITE);
     optionalLabel->setAnchorPoint(Vec2(0.5,0.5));
     optionalLabel->setHorizontalAlignment(TextHAlignment::CENTER);
