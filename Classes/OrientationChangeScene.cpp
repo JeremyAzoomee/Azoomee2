@@ -6,8 +6,6 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include "OrientationFunctions_ios.h"
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    #include "OrientationFunctions_android.h"
 #endif
 
 Scene* OrientationChangeScene::createScene(bool forcePortrait,int toScene, long withErrorCode)
@@ -37,9 +35,33 @@ bool OrientationChangeScene::init()
 void OrientationChangeScene::onEnter()
 {
     if(forcePortrait)
-        setOrientationToPortrait();
+    {
+        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            setOrientationToPortrait();
+        #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+            cocos2d::JniMethodInfo methodInfo;
+            if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "setOrientationPortrait", "()V"))
+            {
+                return;
+            }
+            methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+            methodInfo.env->DeleteLocalRef(methodInfo.classID);
+        #endif
+    }
     else
-        setOrientationToLandscape();
+    {
+        #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+            setOrientationToLandscape();
+        #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+            cocos2d::JniMethodInfo methodInfo;
+            if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "setOrientationLandscape", "()V"))
+            {
+                return;
+            }
+            methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+            methodInfo.env->DeleteLocalRef(methodInfo.classID);
+        #endif
+    }
     
     Node::onEnter();
 }

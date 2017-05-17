@@ -92,7 +92,6 @@
 		43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90DE41EA7603800606099 /* WatchKit.framework */; };
 		43BCD71E1EC9FD4E00A07737 /* OrientationChangeScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD71C1EC9FD4E00A07737 /* OrientationChangeScene.cpp */; };
 		43BCD7211EC9FDD300A07737 /* OrientationFunctions_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD7201EC9FDD300A07737 /* OrientationFunctions_ios.mm */; };
-		43D7B2A91ECB5B110029D4DF /* OrientationFunctions_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43D7B2A71ECB5B110029D4DF /* OrientationFunctions_android.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -329,8 +328,6 @@
 		43BCD71D1EC9FD4E00A07737 /* OrientationChangeScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrientationChangeScene.h; sourceTree = "<group>"; };
 		43BCD71F1EC9FDD300A07737 /* OrientationFunctions_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrientationFunctions_ios.h; sourceTree = "<group>"; };
 		43BCD7201EC9FDD300A07737 /* OrientationFunctions_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OrientationFunctions_ios.mm; sourceTree = "<group>"; };
-		43D7B2A71ECB5B110029D4DF /* OrientationFunctions_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OrientationFunctions_android.cpp; sourceTree = "<group>"; };
-		43D7B2A81ECB5B110029D4DF /* OrientationFunctions_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrientationFunctions_android.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -764,8 +761,6 @@
 				43BCD71D1EC9FD4E00A07737 /* OrientationChangeScene.h */,
 				43BCD7201EC9FDD300A07737 /* OrientationFunctions_ios.mm */,
 				43BCD71F1EC9FDD300A07737 /* OrientationFunctions_ios.h */,
-				43D7B2A71ECB5B110029D4DF /* OrientationFunctions_android.cpp */,
-				43D7B2A81ECB5B110029D4DF /* OrientationFunctions_android.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -1157,7 +1152,6 @@
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
-				43D7B2A91ECB5B110029D4DF /* OrientationFunctions_android.cpp in Sources */,
 				D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */,
 				A19862231DD3836D0090F053 /* HQScene.cpp in Sources */,
 				A1E5FCFB1DDDCCBA0098DD29 /* ImageContainer.cpp in Sources */,
