@@ -3,6 +3,7 @@
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
 #include "OnboardingSuccessScene.h"
+#include "ChildAccountScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include "OrientationFunctions_ios.h"
@@ -107,6 +108,12 @@ void OrientationChangeScene::onEnterTransitionDidFinish()
         {
             auto onboardingSuccessScene = OnboardingSuccessScene::createScene(false);
             Director::getInstance()->replaceScene(onboardingSuccessScene);
+            break;
+        }
+        case CHILD_ACCOUNT_SCENE:
+        {
+            auto newChildScene = ChildAccountScene::createScene("", 0);
+            Director::getInstance()->replaceScene(newChildScene);
             break;
         }
         default:

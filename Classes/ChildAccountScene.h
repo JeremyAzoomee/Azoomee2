@@ -59,6 +59,7 @@ private:
     void showOomees();
     void selectOomee(int oomeeNumber);
     
+    virtual void onEnter();
     virtual void onEnterTransitionDidFinish();
 
 public:

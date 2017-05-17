@@ -35,23 +35,30 @@ bool ChildAccountScene::init()
     {
         return false;
     }
-    
+    return true;
+}
+
+void ChildAccountScene::onEnter()
+{
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
-    addSideWiresToScreen(this, 0, 2);
-    addLabelToScene();
     addTextboxScene();
+    addLabelToScene();
     addButtonsScene();
     addOomeesToScene();
     
-    return true;
+    Node::onEnter();
 }
 
 void ChildAccountScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
     {
+        childNameInputText->setVisible(false);
+        dayInputText->setVisible(false);
+        monthInputText->setVisible(false);
+        yearInputText->setVisible(false);
         MessageBox::createWith(_errorCode, childNameInputText, this);
     }
     else
@@ -59,9 +66,37 @@ void ChildAccountScene::onEnterTransitionDidFinish()
 }
 
 //----------------- SCENE SETUP ---------------
+
+void ChildAccountScene::addTextboxScene()
+{
+    childNameInputText = TextInputLayer::createWithSize(Size(visibleSize.width*.90,197), INPUT_IS_CHILD_NAME);
+    childNameInputText->setPositionY(visibleSize.height-childNameInputText->getContentSize().height*1.75);
+    childNameInputText->setDelegate(this);
+    this->addChild(childNameInputText);
+    
+    dayInputText = TextInputLayer::createWithSize(Size(400,197), INPUT_IS_DAY);
+    dayInputText->setPositionY(childNameInputText->getPositionY() -dayInputText->getContentSize().height*2 );
+    dayInputText->setPositionX(origin.x+visibleSize.width/2 - 325-dayInputText->getContentSize().width);
+    dayInputText->setDelegate(this);
+    this->addChild(dayInputText);
+    
+    monthInputText = TextInputLayer::createWithSize(Size(400,197), INPUT_IS_MONTH);
+    monthInputText->setPositionY(dayInputText->getPositionY());
+    monthInputText->setPositionX(origin.x+visibleSize.width/2 - 275);
+    monthInputText->setDelegate(this);
+    this->addChild(monthInputText);
+    
+    yearInputText = TextInputLayer::createWithSize(Size(550,197), INPUT_IS_YEAR);
+    yearInputText->setPositionY(dayInputText->getPositionY());
+    yearInputText->setPositionX(origin.x+visibleSize.width/2 + 175);
+    yearInputText->setDelegate(this);
+    this->addChild(yearInputText);
+}
+
 void ChildAccountScene::addLabelToScene()
 {
     title = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_NAME_LABEL));
+    title->setPositionY(childNameInputText->getPositionY()+(childNameInputText->getContentSize().height) + (title->getContentSize().height*.6));
     this->addChild(title);
     
     subTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_SUB_LABEL));
@@ -69,30 +104,6 @@ void ChildAccountScene::addLabelToScene()
     this->addChild(subTitle);
 }
 
-void ChildAccountScene::addTextboxScene()
-{
-    childNameInputText = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_CHILD_NAME);
-    childNameInputText->setDelegate(this);
-    this->addChild(childNameInputText);
-    
-    dayInputText = TextInputLayer::createWithSize(Size(400,197), INPUT_IS_DAY);
-    dayInputText->setPositionX(origin.x+visibleSize.width/2 - 325-dayInputText->getContentSize().width);
-    dayInputText->setEditboxVisibility(false);
-    dayInputText->setDelegate(this);
-    this->addChild(dayInputText);
-    
-    monthInputText = TextInputLayer::createWithSize(Size(400,197), INPUT_IS_MONTH);
-    monthInputText->setPositionX(origin.x+visibleSize.width/2 - 275);
-    monthInputText->setEditboxVisibility(false);
-    monthInputText->setDelegate(this);
-    this->addChild(monthInputText);
-    
-    yearInputText = TextInputLayer::createWithSize(Size(550,197), INPUT_IS_YEAR);
-    yearInputText->setPositionX(origin.x+visibleSize.width/2 + 175);
-    yearInputText->setEditboxVisibility(false);
-    yearInputText->setDelegate(this);
-    this->addChild(yearInputText);
-}
 
 void ChildAccountScene::addButtonsScene()
 {

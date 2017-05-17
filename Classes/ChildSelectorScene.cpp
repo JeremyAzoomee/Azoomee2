@@ -1,7 +1,6 @@
 #include "ChildSelectorScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include "ChildAccountScene.h"
 #include <math.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -15,6 +14,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include "OrientationChangeScene.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -320,8 +320,10 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
-    auto newChildScene = ChildAccountScene::createScene("", 0);
-    Director::getInstance()->replaceScene(newChildScene);
+    auto orientationChangeScene = OrientationChangeScene::createScene(true, CHILD_ACCOUNT_SCENE, 0);
+    Director::getInstance()->replaceScene(orientationChangeScene);
+    //auto newChildScene = ChildAccountScene::createScene("", 0);
+    //Director::getInstance()->replaceScene(newChildScene);
 }
 
 void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
