@@ -9,9 +9,9 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "IAPUpsaleLayer.h"
-#include "OnboardingScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "VideoPlaylistManager.h"
+#include "OrientationChangeScene.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -96,8 +96,9 @@ bool DeepLinkingSingleton::actionDeepLink()
     {
         if(path == "signup" && !ChildDataProvider::getInstance()->getIsChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
         {
-            auto onboardingScene = OnboardingScene::createScene(0);
-            Director::getInstance()->replaceScene(onboardingScene);
+            auto orientationChangeScene = OrientationChangeScene::createScene(true, ONBOARDING_SCENE, 0);
+            Director::getInstance()->replaceScene(orientationChangeScene);
+            
             resetDeepLink();
             return true;
         }

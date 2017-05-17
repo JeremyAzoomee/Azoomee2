@@ -36,9 +36,28 @@ void OrientationChangeScene::onEnter()
 {
     if(forcePortrait)
     {
+        auto director = cocos2d::Director::getInstance();
+        auto glView = director->getOpenGLView();
+        auto frameSize = glView->getFrameSize();
+        
+        if((int) frameSize.width < (int) frameSize.height)
+            cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.width, (int) frameSize.height);
+        else
+            cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);
+        
         #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
             setOrientationToPortrait();
         #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        
+        /*auto director = cocos2d::Director::getInstance();
+        auto glView = director->getOpenGLView();
+        auto frameSize = glView->getFrameSize();
+        
+        if((int) frameSize.width < (int) frameSize.height)
+            cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.width, (int) frameSize.height);
+        else
+            cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);*/
+        
             cocos2d::JniMethodInfo methodInfo;
             if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "setOrientationPortrait", "()V"))
             {
@@ -46,13 +65,39 @@ void OrientationChangeScene::onEnter()
             }
             methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
             methodInfo.env->DeleteLocalRef(methodInfo.classID);
+        
+        
+        
+        
         #endif
+        
+        
+        
     }
     else
     {
+        auto director = cocos2d::Director::getInstance();
+        auto glView = director->getOpenGLView();
+        auto frameSize = glView->getFrameSize();
+        
+        if((int) frameSize.width > (int) frameSize.height)
+            cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.width, (int) frameSize.height);
+        else
+            cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);
+        
         #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
             setOrientationToLandscape();
         #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        
+        /*auto director = cocos2d::Director::getInstance();
+        auto glView = director->getOpenGLView();
+        auto frameSize = glView->getFrameSize();
+        
+        if((int) frameSize.width > (int) frameSize.height)
+            cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.width, (int) frameSize.height);
+        else
+            cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);*/
+        
             cocos2d::JniMethodInfo methodInfo;
             if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "setOrientationLandscape", "()V"))
             {
@@ -60,6 +105,7 @@ void OrientationChangeScene::onEnter()
             }
             methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
             methodInfo.env->DeleteLocalRef(methodInfo.classID);
+        
         #endif
     }
     
