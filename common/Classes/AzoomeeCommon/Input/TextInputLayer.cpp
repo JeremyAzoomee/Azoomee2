@@ -56,7 +56,7 @@ void TextInputLayer::createEditBox()
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::WHITE);
-    editBox->setReturnType(ui::EditBox::KeyboardReturnType::GO);
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::NEXT);
     editBox->setDelegate(this);
     
     this->setupEditBoxUsingType();
@@ -208,9 +208,8 @@ void TextInputLayer::editBoxReturn(cocos2d::ui::EditBox* editBox)
     
 void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBox, EditBoxEndAction action)
 {
-    if(action == EditBoxEndAction::RETURN)
+    if(action == EditBoxEndAction::TAB_TO_NEXT)
     {
-        CCLOG("RETURN EVENT CAPTURED");
         if(this->getDelegate())
             //Inform Delegates if input is valid
             this->getDelegate()->textInputReturnPressed(this);
