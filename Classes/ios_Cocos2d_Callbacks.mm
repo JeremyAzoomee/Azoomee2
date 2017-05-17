@@ -29,7 +29,7 @@ void navigateToBaseScene()
 void navigateToLoginScene()
 {
     AnalyticsSingleton::getInstance()->closeContentEvent();
-    
+    LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
 
