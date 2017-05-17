@@ -85,7 +85,7 @@ void addFullScreenGlowToScreen(Node* parentLayer)
 cocos2d::Layer* createWindowLayer(float height)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    return createWindowLayer(height, visibleSize.width*.66);
+    return createWindowLayer(visibleSize.width*.66, height);
 }
 
 Layer* createWindowLayer(float width, float height)

@@ -171,14 +171,11 @@ void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
         // Landscape
         if(newWidth > newHeight)
         {
-            
-            cocos2d::log( "AppDelegate::applicationScreenSizeChanged: Set LANDSCAPE" );
             scene->setContentSize(designResolutionLandscapeSize);
         }
         // Portrait
         else
         {
-            cocos2d::log( "AppDelegate::applicationScreenSizeChanged: Set PORTRAIT" );
             scene->setContentSize(designResolutionPortraitSize);
         }
     }
