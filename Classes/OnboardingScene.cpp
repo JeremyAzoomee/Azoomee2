@@ -65,25 +65,6 @@ void OnboardingScene::onEnterTransitionDidFinish()
 }
 
 //----------------- SCENE SETUP ---------------
-void OnboardingScene::addLabelsToScene()
-{
-    Label* emailTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
-    emailTitle->setPositionY(emailTextInput->getPositionY()+(emailTextInput->getContentSize().height) + (emailTitle->getContentSize().height*.6));
-    this->addChild(emailTitle);
-    
-    Label* passwordTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
-    passwordTitle->setPositionY(passwordTextInput->getPositionY()+(passwordTextInput->getContentSize().height) + (passwordTitle->getContentSize().height*.6));
-    this->addChild(passwordTitle);
-    
-    Label* pinSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));
-    pinSubTitle->setPositionY(pinTextInput->getPositionY()+(pinTextInput->getContentSize().height) + (pinSubTitle->getContentSize().height));
-    this->addChild(pinSubTitle);
-    
-    Label* pinTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL));
-    pinTitle->setPositionY(pinSubTitle->getPositionY() + pinTitle->getContentSize().height/2);
-    this->addChild(pinTitle);
-}
-
 void OnboardingScene::addTextboxScene()
 {
     float textInputWidth = visibleSize.width*.90;
@@ -99,15 +80,34 @@ void OnboardingScene::addTextboxScene()
     this->addChild(passwordTextInput);
     
     pinTextInput = TextInputLayer::createWithSize(Size(600,197), INPUT_IS_PIN);
-    pinTextInput->setPositionY(passwordTextInput->getPositionY() -pinTextInput->getContentSize().height*2.5 );
+    pinTextInput->setPositionY(passwordTextInput->getPositionY() -pinTextInput->getContentSize().height*2.7 );
     pinTextInput->setDelegate(this);
     this->addChild(pinTextInput);
+}
+
+void OnboardingScene::addLabelsToScene()
+{
+    Label* emailTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
+    emailTitle->setPositionY(emailTextInput->getPositionY()+(emailTextInput->getContentSize().height) + (emailTitle->getContentSize().height*.6));
+    this->addChild(emailTitle);
+    
+    Label* passwordTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
+    passwordTitle->setPositionY(passwordTextInput->getPositionY()+(passwordTextInput->getContentSize().height) + (passwordTitle->getContentSize().height*.6));
+    this->addChild(passwordTitle);
+    
+    Label* pinSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));
+    pinSubTitle->setPositionY(pinTextInput->getPositionY()+(pinTextInput->getContentSize().height) + (pinSubTitle->getContentSize().height*1.15));
+    this->addChild(pinSubTitle);
+    
+    Label* pinTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL));
+    pinTitle->setPositionY(pinSubTitle->getPositionY() + pinTitle->getContentSize().height/2);
+    this->addChild(pinTitle);
 }
 
 void OnboardingScene::addButtonsScene()
 {
     signupButton = ElectricDreamsButton::createButtonWithText("Signup");
-    signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1.5));
+    signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1.2));
     signupButton->setDelegate(this);
     signupButton->setMixPanelButtonName("signupSceneSignupButton");
     signupButton->setVisible(false);
