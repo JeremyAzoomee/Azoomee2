@@ -17,8 +17,6 @@ private:
 #endif
     
 public:
-    /// Triggered when the window size changes (e.g on orientation changes)
-    static const char* EVENT_WINDOW_SIZE_CHANGED;
     
     AppDelegate();
     virtual ~AppDelegate();

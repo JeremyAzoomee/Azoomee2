@@ -1,5 +1,4 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
 #include "ChatTestScene.h"
 #include "LoginScene.h"
 #include "ChildSelectorScene.h"
@@ -15,7 +14,6 @@ using namespace Azoomee::Chat;
 
 static cocos2d::Size designResolutionLandscapeSize = cocos2d::Size(2732, 2048);
 static cocos2d::Size designResolutionPortraitSize = cocos2d::Size(designResolutionLandscapeSize.height, designResolutionLandscapeSize.width);
-const char* AppDelegate::EVENT_WINDOW_SIZE_CHANGED = "appdelegate_window_size_changed";
 
 
 AppDelegate::AppDelegate()
@@ -142,29 +140,15 @@ void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
         glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::NO_BORDER);
     }
     
-    
-    // Resize the running scene
-    Scene* scene = director->getRunningScene();
+    // Resize the running scene if it's an Azoomee::Scene
+    Azoomee::Scene* scene = (Azoomee::Scene*)director->getRunningScene();
     if(scene != nullptr)
     {
-        // Landscape
-        if(newWidth > newHeight)
-        {
-            scene->setContentSize(designResolutionLandscapeSize);
-        }
-        // Portrait
-        else
-        {
-            scene->setContentSize(designResolutionPortraitSize);
-        }
+        const cocos2d::Size& visibleSize = Director::getInstance()->getVisibleSize();
+        const cocos2d::Vec2& visibleOrigin = Director::getInstance()->getVisibleOrigin();
+        scene->setPosition(visibleOrigin);
+        scene->setContentSize(visibleSize);
     }
-    
-    
-    // Notify of changes to window size. Scenes can listen for this to react to size changes
-    EventCustom event(EVENT_WINDOW_SIZE_CHANGED);
-    event.setUserData(this);
-    
-    director->getEventDispatcher()->dispatchEvent(&event);
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
