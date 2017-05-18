@@ -130,7 +130,10 @@ void DeepLinkingSingleton::completeContentAction(std::string type,std::string ur
 {
     if(type == "GAME")
     {
-        GameDataManager::getInstance()->startProcessingGame(uri, path);
+        std::map<std::string, std::string> elementProperties;
+        elementProperties["uri"] = uri;
+        elementProperties["id"] = path;
+        GameDataManager::getInstance()->startProcessingGame(elementProperties);
     }
     else if(type == "VIDEO" || type == "AUDIO")
     {

@@ -53,25 +53,25 @@ bool GameDataManager::init(void)
     return true;
 }
 
-void GameDataManager::startProcessingGame(std::string url, std::string itemId)
+void GameDataManager::startProcessingGame(std::map<std::string, std::string> itemData)
 {
     processCancelled = false;
     displayLoadingScreen();
     
-    WebGameAPIDataManager::getInstance()->setGameId(itemId);
+    WebGameAPIDataManager::getInstance()->setGameId(itemData["id"]);
     
-    std::string basePath = getGameIdPath(itemId);
-    std::string fileName = getFileNameFromUrl(url);
+    std::string basePath = getGameIdPath(itemData["id"]);
+    std::string fileName = getFileNameFromUrl(itemData["uri"]);
     
     
     if(checkIfFileExists(basePath + fileName))
     {
-        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemId);
-        else getJSONGameData(url, itemId);
+        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemData["id"]);
+        else getJSONGameData(itemData["uri"], itemData["id"]);
     }
     else
     {
-        getJSONGameData(url, itemId); //the callback of this method will get back to JSONFileIsPresent
+        getJSONGameData(itemData["uri"], itemData["id"]); //the callback of this method will get back to JSONFileIsPresent
     }
 }
 

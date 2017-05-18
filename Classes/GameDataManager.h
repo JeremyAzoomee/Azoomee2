@@ -14,7 +14,7 @@ public:
     static GameDataManager* getInstance(void);
     virtual ~GameDataManager();
     bool init(void);
-    void startProcessingGame(std::string url, std::string itemId);
+    void startProcessingGame(std::map<std::string, std::string> itemData);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
