@@ -81,6 +81,7 @@ void GameDataManager::startProcessingGame(std::map<std::string, std::string> ite
 void GameDataManager::saveFeedDataToFile(std::map<std::string, std::string> itemData)
 {
     if(HQHistoryManager::getInstance()->isOffline) return;
+    if(itemData.find("title") == itemData.end() || itemData.find("description") == itemData.end()) return;
     
     std::string basePath = getGameIdPath(itemData["id"]);
     std::string targetPath = basePath + "feedData.json";
