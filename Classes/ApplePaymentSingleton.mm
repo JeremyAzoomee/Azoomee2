@@ -107,7 +107,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
 }
 
 //---------Delegate Functions----------
-void ApplePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+void ApplePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber)
 {
     LoginLogicHandler::getInstance()->doLoginLogic();
 }

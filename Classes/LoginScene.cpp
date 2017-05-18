@@ -184,7 +184,7 @@ void LoginScene::buttonPressed(ElectricDreamsButton* button)
     else if(button == backButton)
         backButtonPressed();
 }
-void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber)
 {
         emailTextInput->focusAndShowKeyboard();
 }

@@ -16,7 +16,7 @@ class MessageBox;
 class MessageBoxDelegate
 {
 public:
-    virtual void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) = 0;
+    virtual void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber) = 0;
 };
 
 class MessageBox : public cocos2d::Layer, public ElectricDreamsButtonDelegate

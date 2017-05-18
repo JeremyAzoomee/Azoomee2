@@ -18,7 +18,7 @@ public:
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber);
     
     void getJSONGameData(std::string url, std::string itemId);
     

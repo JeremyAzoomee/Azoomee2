@@ -40,7 +40,7 @@ public:
     void doublePurchaseMessage();
     
     //Delegate Functions
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber);
 };
 
 #endif

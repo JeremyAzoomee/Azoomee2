@@ -44,7 +44,7 @@ public:
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void textInputReturnPressed(TextInputLayer* inputLayer);
     void buttonPressed(ElectricDreamsButton* button);
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber);
     
     // implement the "static create()" method manually
     CREATE_FUNC(OnboardingScene);

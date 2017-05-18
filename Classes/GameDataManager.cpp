@@ -507,7 +507,7 @@ void GameDataManager::buttonPressed(ElectricDreamsButton *button)
     ModalMessages::getInstance()->stopLoading();
 }
 
-void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber)
 {
     std::map<std::string, std::string> errorStringMap = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
 

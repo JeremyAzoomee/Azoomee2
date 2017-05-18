@@ -204,7 +204,7 @@ void RoutePaymentSingleton::inAppPaymentSuccess()
 }
 
 //Delegate Functions
-void RoutePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+void RoutePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber)
 {
     LoginLogicHandler::getInstance()->doLoginLogic();
 }

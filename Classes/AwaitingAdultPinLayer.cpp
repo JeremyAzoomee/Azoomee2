@@ -139,7 +139,7 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
         BackEndCaller::getInstance()->updateParentPin(this);
 }
 
-void AwaitingAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+void AwaitingAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber)
 {
     editBox_pin->focusAndShowKeyboard();
 }

@@ -43,7 +43,7 @@ MessageBox* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHi
     auto layer = MessageBox::create();
     
     layer->hideTextInput(textInputToHide);
-    layer->_buttonsTitleList.push_back(errorStringMap[ERROR_BUTTON]);
+    layer->_buttonsTitleList = splitStringToVector(errorStringMap[ERROR_BUTTON], "|");
     layer->initMessageBoxLayer(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], _delegate);
     
     return layer;
@@ -293,7 +293,7 @@ void MessageBox::onCancelPressed()
     this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
     UnHideTextInput();
     if(_delegate)
-        this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, "Cancel");
+        this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, "Cancel",-1);
 }
 
 void MessageBox::onButtonPressed(int buttonSelect)
@@ -302,7 +302,7 @@ void MessageBox::onButtonPressed(int buttonSelect)
     this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
     UnHideTextInput();
     if(_delegate)
-        this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(buttonSelect));
+        this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(buttonSelect), buttonSelect);
 }
   
 }

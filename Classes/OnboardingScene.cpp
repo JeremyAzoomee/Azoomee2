@@ -170,7 +170,7 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
     }
 }
 
-void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber)
 {
     emailTextInput->setEditboxVisibility(true);
     passwordTextInput->setEditboxVisibility(true);
