@@ -15,6 +15,7 @@ std::string stringToUpper(std::string input);
 std::string stringReplace(std::string originalString, std::string stringToReplace, std::string withNewString);
 bool isDateStringOlderThanToday(std::string dateToCheck);
 std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMap);
+std::string getJSONStringFromMap(std::map<std::string, std::string> inputMap);
 
 /// Trim whitespace from the start of string
 std::string ltrim(const std::string& s);

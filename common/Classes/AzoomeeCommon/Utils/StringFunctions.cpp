@@ -103,6 +103,23 @@ std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std:
     
     return returnString;
 }
+    
+std::string getJSONStringFromMap(std::map<std::string, std::string> inputMap)
+{
+    std::string returnString = "{";
+    
+    int mapCounter = 0;
+    for(auto kv : inputMap)
+    {
+        if(mapCounter != 0) returnString += ", ";
+        returnString += "\"" + kv.first + "\" : ";
+        returnString += "\"" + kv.second + "\"";
+        mapCounter++;
+    }
+    
+    returnString += "}";
+    return returnString;
+}
 
 std::string ltrim(const std::string& str)
 {

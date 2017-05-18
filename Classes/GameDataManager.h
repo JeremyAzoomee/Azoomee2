@@ -23,6 +23,9 @@ public:
     void getJSONGameData(std::string url, std::string itemId);
     
 private:
+    void saveFeedDataToFile(std::map<std::string, std::string> itemData);
+    std::string getFeedDataFromFolder(std::string feedPath);
+    
     void JSONFileIsPresent(std::string itemId);
     void createGamePathDirectories(std::string basePath);
     std::string getFileNameFromUrl(std::string url);
