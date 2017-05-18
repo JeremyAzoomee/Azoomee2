@@ -40,6 +40,7 @@
 		301CCA971EB14162009ADA0C /* ParentDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA951EB14162009ADA0C /* ParentDataParser.cpp */; };
 		301CCA9A1EB14280009ADA0C /* API.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA981EB14280009ADA0C /* API.cpp */; };
 		304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC61EA8F883008CED52 /* GameController.framework */; };
+		305966991ECCAF76009A7130 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966971ECCAF76009A7130 /* Scene.cpp */; };
 		3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
@@ -194,6 +195,8 @@
 		304A6EEA1EC9A96F000D52B5 /* CocosSharedPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosSharedPtr.h; sourceTree = "<group>"; };
 		304D9EC61EA8F883008CED52 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		305966801ECC6987009A7130 /* Style.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Style.h; sourceTree = "<group>"; };
+		305966971ECCAF76009A7130 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
+		305966981ECCAF76009A7130 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpRequestCreator.cpp; sourceTree = "<group>"; };
 		3092BCEF1EB10524006D6F4C /* HttpRequestCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequestCreator.h; sourceTree = "<group>"; };
@@ -459,6 +462,8 @@
 		3012ED861E97DB450009027D /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				305966971ECCAF76009A7130 /* Scene.cpp */,
+				305966981ECCAF76009A7130 /* Scene.h */,
 				301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */,
 				301CCA8F1EB13191009ADA0C /* ElectricDreamsButton.h */,
 				3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */,
@@ -905,6 +910,7 @@
 				3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */,
 				4349C8391EA8ADEF00FE964B /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				4349C83D1EA8ADEF00FE964B /* MPObjectSerializerConfig.m in Sources */,
+				305966991ECCAF76009A7130 /* Scene.cpp in Sources */,
 				4349C8171EA8ADEF00FE964B /* MixpanelWatchProperties.m in Sources */,
 				4349C83E1EA8ADEF00FE964B /* MPObjectSerializerContext.m in Sources */,
 				4349C8281EA8ADEF00FE964B /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
