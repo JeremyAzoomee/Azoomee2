@@ -444,5 +444,6 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     }
     
     ChildDataParser::getInstance()->setChildLoggedIn(false);
-    getAvailableChildren();
+    LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+    LoginLogicHandler::getInstance()->doLoginLogic();
 }
