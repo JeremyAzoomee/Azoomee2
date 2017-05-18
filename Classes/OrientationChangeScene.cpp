@@ -4,6 +4,7 @@
 #include "BaseScene.h"
 #include "OnboardingSuccessScene.h"
 #include "ChildAccountScene.h"
+#include "ChildSelectorScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include "OrientationFunctions_ios.h"
@@ -114,6 +115,12 @@ void OrientationChangeScene::onEnterTransitionDidFinish()
         {
             auto newChildScene = ChildAccountScene::createScene("", 0);
             Director::getInstance()->replaceScene(newChildScene);
+            break;
+        }
+        case CHILD_SELECTOR_SCENE:
+        {
+            auto childSelectorScene = ChildSelectorScene::createScene();
+            Director::getInstance()->replaceScene(childSelectorScene);
             break;
         }
         default:

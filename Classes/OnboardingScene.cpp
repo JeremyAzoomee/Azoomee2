@@ -55,9 +55,9 @@ void OnboardingScene::onEnterTransitionDidFinish()
 {
     if(_errorCode !=0)
     {
-        emailTextInput->setVisible(false);
-        passwordTextInput->setVisible(false);
-        pinTextInput->setVisible(false);
+        emailTextInput->setEditboxVisibility(false);
+        passwordTextInput->setEditboxVisibility(false);
+        pinTextInput->setEditboxVisibility(false);
         MessageBox::createWith(_errorCode, this);
     }
     else
@@ -172,9 +172,9 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
 
 void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    emailTextInput->setVisible(true);
-    passwordTextInput->setVisible(true);
-    pinTextInput->setVisible(true);
+    emailTextInput->setEditboxVisibility(true);
+    passwordTextInput->setEditboxVisibility(true);
+    pinTextInput->setEditboxVisibility(true);
     emailTextInput->focusAndShowKeyboard();
 }
 

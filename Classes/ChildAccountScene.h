@@ -9,9 +9,6 @@
 USING_NS_CC;
 using namespace Azoomee;
 
-
-enum ChildAccountScreenLocationEnum { childNameScreen, childDOBScreen, childSelectOomeeScreen};
-
 class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
@@ -25,13 +22,18 @@ private:
     Size visibleSize;
     Vec2 origin;
     
-    ChildAccountScreenLocationEnum currentScreen;
+    Label* profileNameTitle;
+    Label* profileDOBTitle;
+    Label* profileDOBSubTitle;
+    Label* oomeesTitle;
+    Label* oomeesSubTitle;
     
-    Label* title;
-    Label* subTitle;
-
-    ElectricDreamsButton *backButton;
+    ElectricDreamsButton *cancelButton;
     ElectricDreamsButton *nextButton;
+    ElectricDreamsButton *nextButtonPlaceholder;
+    ElectricDreamsButton *backButton;
+    ElectricDreamsButton *submitButton;
+    ElectricDreamsButton *submitButtonPlaceholder;
     
     void addLabelToScene();
     void addTextboxScene();
@@ -39,14 +41,10 @@ private:
     
     void clearElementsOnScreen();
     
-    void changeElementsToDOBScreen();
-    void changeElementsToChildNameScreen();
+    void changeElementsToTextInputScreen();
     void changeElementsToOomeeScreen();
     
-    void setDOBNextButtonVisible();
-    
-    void backButtonPressed();
-    void nextButtonPressed();
+    bool DOBisDate();
     
     void registerChildAccount();
     
