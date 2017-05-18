@@ -103,6 +103,10 @@ private:
     rapidjson::Document VersionConfiguration;
     rapidjson::Document IapConfiguration;
     
+    std::vector<std::string> requestTagsRequireImmediateSending;
+    std::vector<std::string> requestTagsRequireQueueReset;
+    std::vector<std::string> parentSignedRequestTags;
+    
 };
   
 }
