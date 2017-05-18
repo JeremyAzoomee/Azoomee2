@@ -111,13 +111,25 @@ void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
     rapidjson::Document contentData;
     contentData.Parse(responseBody.c_str());
     
+    cocos2d::log("DATA RESPONSE: %s", responseBody.c_str());
+    
     //ERROR CHECK RESPONSE
     if (contentData.HasParseError()) return;
     if(!contentData.HasMember("type") || !contentData.HasMember("uri") || !contentData.HasMember("entitled")) return;
     if(contentData["type"].IsNull() || contentData["uri"].IsNull() || contentData["entitled"].IsNull()) return;
     
     if(contentData["entitled"].GetBool())
-        completeContentAction(contentData["type"].GetString(), contentData["uri"].GetString());
+    {
+        std::vector<std::string> requiredData = {"description", "title", "type", "uri"};
+        std::map<std::string, std::string> elementProperties;
+    
+        for(int i = 0; i < requiredData.size(); i++)
+        {
+            elementProperties[requiredData.at(i)] = getDataForKeyFromJSON(responseBody, requiredData.at(i));
+        }
+        elementProperties["id"] = path;
+        completeContentAction(elementProperties);
+    }
     else
     {
         ModalMessages::getInstance()->stopLoading();
@@ -126,22 +138,32 @@ void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
     }
 }
 
-void DeepLinkingSingleton::completeContentAction(std::string type,std::string uri)
+std::string DeepLinkingSingleton::getDataForKeyFromJSON(std::string jsonString, std::string key)
 {
-    if(type == "GAME")
+    rapidjson::Document jsonData;
+    jsonData.Parse(jsonString.c_str());
+    
+    if(jsonData.HasParseError()) return "";
+    if(!jsonData.HasMember(key.c_str())) return "";
+    if(jsonData[key.c_str()].IsNull()) return "";
+    if(!jsonData[key.c_str()].IsString()) return "";
+    
+    return jsonData[key.c_str()].GetString();
+}
+
+void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::string> elementProperties)
+{
+    if(elementProperties["type"] == "GAME")
     {
-        std::map<std::string, std::string> elementProperties;
-        elementProperties["uri"] = uri;
-        elementProperties["id"] = path;
         GameDataManager::getInstance()->startProcessingGame(elementProperties);
     }
-    else if(type == "VIDEO" || type == "AUDIO")
+    else if(elementProperties["type"]  == "VIDEO" || elementProperties["type"]  == "AUDIO")
     {
         VideoPlaylistManager::getInstance()->setPlaylist("");
         auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(uri.c_str());
+        webViewSelector->loadWebView(elementProperties["uri"]);
     }
-    else if(type == "AUDIOGROUP" || type == "GROUP")
+    else if(elementProperties["type"]  == "AUDIOGROUP" || elementProperties["type"]  == "GROUP")
     {
         ModalMessages::getInstance()->stopLoading();
         
@@ -152,13 +174,13 @@ void DeepLinkingSingleton::completeContentAction(std::string type,std::string ur
             
             if(navigationLayer)
             {
-                navigationLayer->startLoadingGroupHQ(uri);
+                navigationLayer->startLoadingGroupHQ(elementProperties["uri"]);
 
-                HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties["uri"]);
                 HQHistoryManager::getInstance()->setGroupHQSourceId(path);
                 
                 auto funcCallAction = CallFunc::create([=](){
-                    HQDataProvider::getInstance()->getDataForGroupHQ(uri);
+                    HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties.at("uri"));
                     HQHistoryManager::getInstance()->setGroupHQSourceId(path);
                 });
                 
