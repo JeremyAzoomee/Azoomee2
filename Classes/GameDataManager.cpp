@@ -133,7 +133,7 @@ void GameDataManager::getJSONGameData(std::string url, std::string itemId)
     jsonRequest->setTag(itemId);
     HttpClient::getInstance()->setTimeoutForConnect(2);
     HttpClient::getInstance()->setTimeoutForRead(2);
-    HttpClient::getInstance()->send(jsonRequest);
+    HttpClient::getInstance()->sendImmediate(jsonRequest);
 }
 
 void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -247,7 +247,7 @@ void GameDataManager::getGameZipFile(std::string url, std::string itemId)
     zipRequest->setTag(itemId);
     HttpClient::getInstance()->setTimeoutForConnect(2);
     HttpClient::getInstance()->setTimeoutForRead(2);
-    HttpClient::getInstance()->send(zipRequest);
+    HttpClient::getInstance()->sendImmediate(zipRequest);
 }
 
 void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
