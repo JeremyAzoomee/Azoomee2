@@ -47,6 +47,8 @@ bool ChatTestScene::init()
     _rootLayout->setLayoutType(ui::Layout::Type::VERTICAL);
     _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _rootLayout->setBackGroundColor(Color3B(50, 50, 50));
+    _rootLayout->setSizePercent(Vec2::ONE);
+    _rootLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     addChild(_rootLayout);
     
     
@@ -108,14 +110,8 @@ void ChatTestScene::onEnter()
 {
     Super::onEnter();
     
-    // Register for window changes
-    auto director = cocos2d::Director::getInstance();
-    _windowChangedEvent = director->getEventDispatcher()->addCustomEventListener(AppDelegate::EVENT_WINDOW_SIZE_CHANGED,
-                                                                                 std::bind(&ChatTestScene::onWindowChanged, this, std::placeholders::_1));
-    _windowChangedEvent->retain();
-    
     // Trigger an initial event to setup the sizes correctly
-    onWindowChanged(nullptr);
+    onContentSizeChanged(getContentSize());
     
     // Register for API events
     ChatAPI::getInstance()->registerObserver(this);
@@ -136,11 +132,6 @@ void ChatTestScene::onExit()
     Super::onExit();
     
     _keyboardVisible = false;
-    
-    // Unregister window changes
-    auto director = cocos2d::Director::getInstance();
-    director->getEventDispatcher()->removeEventListener(_windowChangedEvent);
-    CC_SAFE_RELEASE(_windowChangedEvent);
     
     // Unregister on chat API events
     ChatAPI::getInstance()->removeObserver(this);
@@ -187,16 +178,9 @@ void ChatTestScene::showUpdateNotesIfNeeded()
 
 #pragma mark - Size changes
 
-void ChatTestScene::onWindowChanged(cocos2d::EventCustom* event)
+void ChatTestScene::onContentSizeChanged(const cocos2d::Size& contentSize)
 {
-    const cocos2d::Size& visibleSize = Director::getInstance()->getVisibleSize();
-    const cocos2d::Vec2& visibleOrigin = Director::getInstance()->getVisibleOrigin();
-    cocos2d::log("onWindowChanged: %f, %f", visibleSize.width, visibleSize.height);
-    
-    // Resize the root element
-    _rootLayout->setPosition(visibleOrigin);
-    _rootLayout->setContentSize(visibleSize);
-    
+    cocos2d::log("onContentSizeChanged: %f, %f", contentSize.width, contentSize.height);
     
     // Resize some elements which are using absolute sizing
     
@@ -292,7 +276,7 @@ void ChatTestScene::createTitleUI(cocos2d::ui::Layout* parent)
     
     // Title label
     _titleLabel = ui::Text::create();
-    _titleLabel->setFontName(Azoomee::FONT_REGULAR);
+    _titleLabel->setFontName(Style::Font::Regular);
     _titleLabel->setFontSize(75.0f);
     _titleLabel->setColor(Color3B(255, 255, 255));
     _titleLabel->setString(ChildDataProvider::getInstance()->getLoggedInChildName());
@@ -332,7 +316,7 @@ void ChatTestScene::createLeftSideUI(cocos2d::ui::Layout* parent)
     _contactListViewItem->setCapInsets(Rect(98, 98, 1, 1));
     _contactListViewItem->setScale9Enabled(true);
     _contactListViewItem->setContentSize(Size(0, kContactItemHeight));
-    _contactListViewItem->setTitleFontName(Azoomee::FONT_REGULAR);
+    _contactListViewItem->setTitleFontName(Style::Font::Regular);
     _contactListViewItem->setTitleFontSize(60.0f);
     _contactListView->setItemModel(_contactListViewItem);
 }
@@ -355,7 +339,7 @@ void ChatTestScene::createRightSideUI(cocos2d::ui::Layout* parent)
     _sendButton->setLayoutParameter(sendButtonLayout);
     
     // TextField
-    _messageEntryField = ui::TextField::create("New message...", Azoomee::FONT_REGULAR, 70.0f);
+    _messageEntryField = ui::TextField::create("New message...", Style::Font::Regular, 70.0f);
     _messageEntryField->setAnchorPoint(Vec2(0, 1));
     _messageEntryField->setCursorEnabled(true);
     _messageEntryField->ignoreContentAdaptWithSize(false);
@@ -432,7 +416,7 @@ cocos2d::ui::Widget* ChatTestScene::createMessageMenuItem(const MessageRef& mess
     // Create label for the message
     ui::Text* label = ui::Text::create();
     label->setName("label");
-    label->setFontName(Azoomee::FONT_REGULAR);
+    label->setFontName(Style::Font::Regular);
     label->setFontSize(60.0f);
     label->setTextHorizontalAlignment(TextHAlignment::LEFT);
     label->ignoreContentAdaptWithSize(false); // means fixed size (don't resize with text)

@@ -4,19 +4,18 @@
 #include "AzoomeeChat/AzoomeeChat.h"
 #include "AzoomeeChat/ChatAPI.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include <AzoomeeCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class ChatTestScene : public cocos2d::Scene, public ChatAPIObserver, public cocos2d::IMEDelegate, public MessageBoxDelegate
+class ChatTestScene : public Azoomee::Scene, public ChatAPIObserver, public cocos2d::IMEDelegate, public MessageBoxDelegate
 {
-    typedef cocos2d::Scene Super;
 private:
+    typedef Azoomee::Scene Super;
     
-    /// Listener for window changes
-    cocos2d::EventListenerCustom* _windowChangedEvent = nullptr;
     /// Keep track of if the keyboard is visible
     bool _keyboardVisible = false;
     /// Time for next auto get messages call
@@ -71,8 +70,6 @@ private:
     /// Show update notes if needed
     void showUpdateNotesIfNeeded();
     
-    /// Called when projection/size changes
-    void onWindowChanged(cocos2d::EventCustom* event);
     /// Called when we should resize UI elements to fit a keyboard
     /// If a duration > 0 is provided, it will be animated
     void resizeUIForKeyboard(float keyboardHeight, float duration);
@@ -89,6 +86,10 @@ private:
     void onRefreshButtonPressed();
     /// Send a message to the current contact
     void sendMessage(const std::string& message);
+    
+    
+    /// Called when the scene size changes
+    void onContentSizeChanged(const cocos2d::Size& contentSize) override;
     
     // - ChatAPIObserver
     void onChatAPIGetFriendList(const FriendList& friendList) override;

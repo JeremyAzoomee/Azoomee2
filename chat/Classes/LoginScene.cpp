@@ -21,9 +21,8 @@ bool LoginScene::init()
         return false;
     }
     
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
-    
+    visibleSize = getContentSize();
+    origin = Vec2::ZERO;
     AudioMixer::getInstance()->stopBackgroundMusic();
     
     getUserDefaults();

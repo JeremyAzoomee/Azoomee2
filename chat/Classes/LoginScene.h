@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include <AzoomeeCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 
 
@@ -15,10 +16,10 @@ NS_AZOOMEE_CHAT_BEGIN
  * A simple scene to login a parent user account.
  * Based off azoomee2/LoginScene.
  */
-class LoginScene : public cocos2d::Scene, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public AuthAPIObserver
+class LoginScene : public Azoomee::Scene, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public AuthAPIObserver
 {
 private:
-    typedef cocos2d::Scene Super;
+    typedef Azoomee::Scene Super;
     
     enum LoginScreenLocationEnum { emailLoginScreen, passwordLoginScreen };
     LoginScreenLocationEnum currentScreen;
@@ -63,6 +64,7 @@ private:
 public:
     
     CREATE_FUNC(LoginScene);
+    
 };
 
 NS_AZOOMEE_CHAT_END

@@ -11,6 +11,7 @@
 #include <math.h>
 #include "LoginScene.h"
 #include "ChatTestScene.h"
+#include <AzoomeeChat/UI/FriendListScene.h>
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -32,8 +33,8 @@ bool ChildSelectorScene::init()
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+    visibleSize = getContentSize();
+    origin = Vec2::ZERO;
     
     addVisualsToScene();
     addScrollViewForProfiles();
@@ -271,6 +272,7 @@ void ChildSelectorScene::onAuthAPIGetAvailableChildren()
 
 void ChildSelectorScene::onAuthAPIChildLogin()
 {
+//    auto chatScene = FriendListScene::create();
     auto chatScene = ChatTestScene::create();
     Director::getInstance()->replaceScene(chatScene);
 }
