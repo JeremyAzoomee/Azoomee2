@@ -88,6 +88,7 @@
     NSURL *nsurl=[NSURL URLWithString:urlToCall];
     NSURLRequest *nsrequest = [NSURLRequest requestWithURL:nsurl];
     
+    [webview setAllowsInlineMediaPlayback:true];
     [webview setMediaPlaybackRequiresUserAction:NO];
     [webview scrollView].scrollEnabled = NO;
     [webview scrollView].bounces = NO;
