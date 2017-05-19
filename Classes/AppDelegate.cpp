@@ -9,6 +9,7 @@
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
 #include "WebViewNative_ios.h"
+#include <AzoomeeCommon/Utils/SessionIdManager.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -93,6 +94,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->runWithScene(scene);
     
     RoutePaymentSingleton::getInstance();
+    SessionIdManager::getInstance();
 
     return true;
 }
@@ -102,6 +104,8 @@ void AppDelegate::applicationDidEnterBackground() {
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
+    SessionIdManager::getInstance()->registerAppWentBackgroundEvent();
+    
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
     {
         WebViewNative_ios *webview = (WebViewNative_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
@@ -123,6 +127,8 @@ void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+    SessionIdManager::getInstance()->registerAppCameForegroundEvent();
     
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
     {
