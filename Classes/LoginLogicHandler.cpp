@@ -36,9 +36,10 @@ void LoginLogicHandler::doLoginLogic()
     emptyUserName();
 #endif
     
+    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    
     if(ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
     {
-        ChildDataParser::getInstance()->setChildLoggedIn(false);
         ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
         BackEndCaller::getInstance()->updateBillingData();
         BackEndCaller::getInstance()->getAvailableChildren();
