@@ -87,10 +87,6 @@ private:
     /// Send a message to the current contact
     void sendMessage(const std::string& message);
     
-    
-    /// Called when the scene size changes
-    void onContentSizeChanged(const cocos2d::Size& contentSize) override;
-    
     // - ChatAPIObserver
     void onChatAPIGetFriendList(const FriendList& friendList) override;
     void onChatAPIGetChatMessages(const MessageList& messageList) override;
@@ -105,6 +101,10 @@ private:
     // - MessageBoxDelegate
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
     
+protected:
+    
+    /// Called when the content size of this scene has changed
+    virtual void onSizeChanged() override;
     
 public:
     

@@ -109,11 +109,10 @@ inline cocos2d::ui::LinearLayoutParameter* CreateCenterHorizontalLinearLayoutPar
 
 #pragma mark - % Aspect Ratio
 
-
 /// Will apply aspect ratio to the widget's current height to calculate the width in % of widget
 /// Use this if you need to use size percent on one dimension and retain the aspect ratio
 /// This must be called whenever the size of the widget's parent changes
-inline void SetSizePercentWidthAspectRatio(cocos2d::ui::Widget* widget, cocos2d::Vec2 aspect)
+inline void SetSizePercentWidthAspectRatio(cocos2d::ui::Widget* widget, const cocos2d::Vec2& aspect)
 {
     const float aspectRatio = aspect.x / aspect.y;
     const cocos2d::Size& parentSize = widget->getParent()->getContentSize();
@@ -134,7 +133,7 @@ inline void SetSizePercentWidthForSquareAspectRatio(cocos2d::ui::Widget* widget)
 /// Will apply aspect ratio to the widget's current width to calculate the height in % of widget
 /// Use this if you need to use size percent on one dimension and retain the aspect ratio
 /// This must be called whenever the size of the widget's parent changes
-inline void SetSizePercentHeightAspectRatio(cocos2d::ui::Widget* widget, cocos2d::Vec2 aspect)
+inline void SetSizePercentHeightAspectRatio(cocos2d::ui::Widget* widget, const cocos2d::Vec2& aspect)
 {
     const float aspectRatio = aspect.y / aspect.x;
     const cocos2d::Size& parentSize = widget->getParent()->getContentSize();

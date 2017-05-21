@@ -173,7 +173,15 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             const MessageRef& message = Message::createFromJson(object);
             if(message)
             {
-                messages.push_back(message);
+                // Make sure a text type message has a message, aka ignore blank messages
+                if(message->messageType() == "TEXT" && message->messageText().size() == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    messages.push_back(message);
+                }
             }
         }
         

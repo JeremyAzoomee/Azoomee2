@@ -51,6 +51,7 @@ void ChildSelectorScene::onEnter()
     AuthAPI::getInstance()->registerObserver(this);
     
     // Request profiles
+    AuthAPI::getInstance()->logoutChild();
     AuthAPI::getInstance()->getAvailableChildren();
     ModalMessages::getInstance()->startLoading();
 }
@@ -263,17 +264,26 @@ void ChildSelectorScene::buttonPressed(ElectricDreamsButton* button)
 
 #pragma mark - AuthAPIObserver
 
+//#define AZOOMEE_CHAT_AUTO_CHILD_LOGIN
+
 void ChildSelectorScene::onAuthAPIGetAvailableChildren()
 {
     // Got children
     addProfilesToScrollView();
     ModalMessages::getInstance()->stopLoading();
+    
+#ifdef AZOOMEE_CHAT_AUTO_CHILD_LOGIN
+    // Auto select first child
+    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(3);
+    AuthAPI::getInstance()->loginChild(profileName);
+    ModalMessages::getInstance()->startLoading();
+#endif
 }
 
 void ChildSelectorScene::onAuthAPIChildLogin()
 {
-//    auto chatScene = FriendListScene::create();
-    auto chatScene = ChatTestScene::create();
+    auto chatScene = FriendListScene::create();
+//    auto chatScene = ChatTestScene::create();
     Director::getInstance()->replaceScene(chatScene);
 }
 

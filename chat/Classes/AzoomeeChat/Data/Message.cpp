@@ -1,5 +1,6 @@
 #include "Message.h"
 #include <cocos/cocos2d.h>
+#include "../ChatAPI.h"
 
 using namespace cocos2d;
 
@@ -105,7 +106,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     const std::string& recipientId = json["recipientId"].GetString();
     uint64_t timestamp = json["timestamp"].GetUint64();
     const std::string& status = json["status"].GetString();
-    
+    bool moderated = (status == "MODERATED");
     std::string messageText;
     
     // Active message
@@ -125,8 +126,9 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
             messageText = StringUtils::format("<unsupported message type: %s>", messageType.c_str());
         }
     }
-    else if(status == "MODERATED")
+    else if(moderated)
     {
+        // TODO: Remove this, it should be displayed by UI logic only
         messageText = "Message deleted";
     }
     else
@@ -142,6 +144,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     messageData->_recipientId = recipientId;
     messageData->_timestamp = timestamp;
     messageData->_messageText = messageText;
+    messageData->_moderated = moderated;
     return messageData;
 }
 
@@ -177,14 +180,29 @@ std::string Message::senderId() const
     return _senderId;
 }
 
+std::string Message::senderName() const
+{
+    return ChatAPI::getInstance()->getProfileName(_senderId);
+}
+
 std::string Message::recipientId() const
 {
     return _recipientId;
 }
 
+std::string Message::recipientName() const
+{
+    return ChatAPI::getInstance()->getProfileName(_recipientId);
+}
+
 uint64_t Message::timestamp() const
 {
     return _timestamp;
+}
+
+bool Message::moderated() const
+{
+    return _moderated;
 }
 
 #pragma mark - JsonObjectRepresentation

@@ -27,6 +27,7 @@ private:
     std::string _senderId;
     std::string _recipientId;
     uint64_t _timestamp = 0;
+    bool _moderated = false;
     
     // no direct construction
     Message();
@@ -42,8 +43,11 @@ public:
     std::string messageType() const;
     std::string messageText() const;
     std::string senderId() const;
+    std::string senderName() const;
     std::string recipientId() const;
+    std::string recipientName() const;
     uint64_t timestamp() const;
+    bool moderated() const;
     
     // - JsonObjectRepresentation
     rapidjson::Value toJson() const override;

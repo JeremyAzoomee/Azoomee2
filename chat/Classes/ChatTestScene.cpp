@@ -110,9 +110,6 @@ void ChatTestScene::onEnter()
 {
     Super::onEnter();
     
-    // Trigger an initial event to setup the sizes correctly
-    onContentSizeChanged(getContentSize());
-    
     // Register for API events
     ChatAPI::getInstance()->registerObserver(this);
     
@@ -178,14 +175,17 @@ void ChatTestScene::showUpdateNotesIfNeeded()
 
 #pragma mark - Size changes
 
-void ChatTestScene::onContentSizeChanged(const cocos2d::Size& contentSize)
+void ChatTestScene::onSizeChanged()
 {
-    cocos2d::log("onContentSizeChanged: %f, %f", contentSize.width, contentSize.height);
+    Super::onSizeChanged();
+    
+    const cocos2d::Size& contentSize = getContentSize();
+    cocos2d::log("onSizeChanged: %f, %f", contentSize.width, contentSize.height);
     
     // Resize some elements which are using absolute sizing
     
     // The elements for the contact and message list can't use % because they sit inside an inner
-    // layer (part of the ScrolLView) which changes size to match the content.
+    // layer (part of the ScrollView) which changes size to match the content.
     Size contactListViewItemSize(_contactListView->getContentSize().width - (kContactItemMargin * 2), kContactItemHeight);
     _contactListViewItem->setContentSize(contactListViewItemSize);
     const cocos2d::Vector<ui::Widget*>& contactItems = _contactListView->getItems();
@@ -278,7 +278,7 @@ void ChatTestScene::createTitleUI(cocos2d::ui::Layout* parent)
     _titleLabel = ui::Text::create();
     _titleLabel->setFontName(Style::Font::Regular);
     _titleLabel->setFontSize(75.0f);
-    _titleLabel->setColor(Color3B(255, 255, 255));
+    _titleLabel->setTextColor(Color4B::WHITE);
     _titleLabel->setString(ChildDataProvider::getInstance()->getLoggedInChildName());
     ui::RelativeLayoutParameter* titleLabelLayout = ui::RelativeLayoutParameter::create();
     titleLabelLayout->setAlign(ui::RelativeLayoutParameter::RelativeAlign::CENTER_IN_PARENT);
@@ -449,7 +449,7 @@ void ChatTestScene::updateMessageMenuItem(cocos2d::ui::Widget* item, const Messa
     
     // Set the alignment of the innerLayout
     ui::RelativeLayoutParameter* innerLayoutParams = (ui::RelativeLayoutParameter*) innerLayout->getLayoutParameter();
-    ui::RelativeLayoutParameter::RelativeAlign relativeAlign = (isCurrentUser) ? ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL : ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL;
+    ui::RelativeLayoutParameter::RelativeAlign relativeAlign = (isCurrentUser) ? ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL : ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL;
     innerLayoutParams->setAlign(relativeAlign);
     const float leftMargin = (relativeAlign == ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL) ? kMessageItemMargin : 0;
     const float rightMargin = (relativeAlign == ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL) ? kMessageItemMargin : 0;
@@ -732,7 +732,7 @@ void ChatTestScene::onChatAPIGetChatMessages(const MessageList& messageList)
         }
         
         // Trim message list
-        long numToDelete = _messageListView->getItems().size() - messageList.size();
+        int64_t numToDelete = _messageListView->getItems().size() - messageList.size();
         while(numToDelete > 0)
         {
             _messageListView->removeLastItem();

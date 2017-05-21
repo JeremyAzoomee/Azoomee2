@@ -144,10 +144,8 @@ void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
     Azoomee::Scene* scene = (Azoomee::Scene*)director->getRunningScene();
     if(scene != nullptr)
     {
-        const cocos2d::Size& visibleSize = Director::getInstance()->getVisibleSize();
-        const cocos2d::Vec2& visibleOrigin = Director::getInstance()->getVisibleOrigin();
-        scene->setPosition(visibleOrigin);
-        scene->setContentSize(visibleSize);
+        scene->setPosition(director->getVisibleOrigin());
+        scene->setContentSize(director->getVisibleSize());
     }
 }
 
