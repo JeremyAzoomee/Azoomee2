@@ -11,7 +11,8 @@ namespace Style
 {
 
 /**
- * Colors by name: Based on Zeplin Styleguide. Please only use names from Zeplin.
+ * Colors by name: Based on Zeplin Styleguide. 
+ * Please only use names from Zeplin.
  */
 namespace Color
 {
@@ -32,6 +33,17 @@ namespace Color
     const cocos2d::Color3B windowsBlue(73, 180, 206);
     const cocos2d::Color3B darkBlueGrey(35, 71, 80);
     const cocos2d::Color3B heliotrope(218, 73, 241);
+    const cocos2d::Color3B heliotropeTwo(218, 73, 242);
+    
+    
+    // These colors below don't have exact names in Zeplin.
+    // So the names have been chosen to be close enough to other Zeplin colors.
+    // Periodically we should check to see if proper names have been provided in Zeplin
+    // for these colors, and update the names.
+    // https://github.com/zeplin/zeplin-palette/blob/master/colors.json
+    
+    const cocos2d::Color3B darkNeonPurple(77, 20, 88);
+    const cocos2d::Color3B darkNeonPurpleTwo(83, 23, 98);
 }
 
 /**

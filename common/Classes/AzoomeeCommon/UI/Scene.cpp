@@ -23,6 +23,15 @@ bool Scene::init()
     return true;
 }
 
+void Scene::onEnter()
+{
+    Super::onEnter();
+    
+    // Since onSizeChanged won't have been called before the scene was entered
+    // we call it here for convenience.
+    onSizeChanged();
+}
+
 void Scene::setContentSize(const cocos2d::Size& contentSize)
 {
     Super::setContentSize(contentSize);
@@ -42,11 +51,11 @@ void Scene::setContentSize(const cocos2d::Size& contentSize)
     
     if(_initialised)
     {
-        onContentSizeChanged(contentSize);
+        onSizeChanged();
     }
 }
 
-void Scene::onContentSizeChanged(const cocos2d::Size& contentSize)
+void Scene::onSizeChanged()
 {
     // Do nothing by default
 }

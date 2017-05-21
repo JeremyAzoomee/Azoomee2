@@ -2,9 +2,12 @@
 #define AzoomeeCommon_Scene_h
 
 #include "../Azoomee.h"
-#include "Style.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+
+// Quite commonly used with Scene so included here for convenience
+#include "Style.h"
+#include "LayoutParams.h"
 
 
 NS_AZOOMEE_BEGIN
@@ -22,12 +25,12 @@ private:
 protected:
     
     /// Called when the content size of this scene has changed
-    virtual void onContentSizeChanged(const cocos2d::Size& contentSize);
+    virtual void onSizeChanged();
     
 public:
     
     virtual bool init() override;
-    
+    virtual void onEnter() override;
     virtual void setContentSize(const cocos2d::Size& contentSize) override;
 };
 

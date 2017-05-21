@@ -39,6 +39,8 @@
 		301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */; };
 		301CCA971EB14162009ADA0C /* ParentDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA951EB14162009ADA0C /* ParentDataParser.cpp */; };
 		301CCA9A1EB14280009ADA0C /* API.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA981EB14280009ADA0C /* API.cpp */; };
+		302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84751ED1B992006A498C /* ObservableLayout.cpp */; };
+		302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84771ED1B992006A498C /* SplitLayout.cpp */; };
 		304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC61EA8F883008CED52 /* GameController.framework */; };
 		305966991ECCAF76009A7130 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966971ECCAF76009A7130 /* Scene.cpp */; };
 		3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */; };
@@ -192,11 +194,16 @@
 		301CCA981EB14280009ADA0C /* API.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = API.cpp; sourceTree = "<group>"; };
 		301CCA991EB14280009ADA0C /* API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = API.h; sourceTree = "<group>"; };
 		301CCA9B1EB14473009ADA0C /* Azoomee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Azoomee.h; sourceTree = "<group>"; };
+		302E84751ED1B992006A498C /* ObservableLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObservableLayout.cpp; sourceTree = "<group>"; };
+		302E84761ED1B992006A498C /* ObservableLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObservableLayout.h; sourceTree = "<group>"; };
+		302E84771ED1B992006A498C /* SplitLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SplitLayout.cpp; sourceTree = "<group>"; };
+		302E84781ED1B992006A498C /* SplitLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitLayout.h; sourceTree = "<group>"; };
 		304A6EEA1EC9A96F000D52B5 /* CocosSharedPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosSharedPtr.h; sourceTree = "<group>"; };
 		304D9EC61EA8F883008CED52 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		305966801ECC6987009A7130 /* Style.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Style.h; sourceTree = "<group>"; };
 		305966971ECCAF76009A7130 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		305966981ECCAF76009A7130 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
+		305966A01ECEF5A8009A7130 /* LayoutParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutParams.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpRequestCreator.cpp; sourceTree = "<group>"; };
 		3092BCEF1EB10524006D6F4C /* HttpRequestCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequestCreator.h; sourceTree = "<group>"; };
@@ -462,18 +469,23 @@
 		3012ED861E97DB450009027D /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				305966971ECCAF76009A7130 /* Scene.cpp */,
-				305966981ECCAF76009A7130 /* Scene.h */,
+				302E84751ED1B992006A498C /* ObservableLayout.cpp */,
+				302E84761ED1B992006A498C /* ObservableLayout.h */,
+				302E84771ED1B992006A498C /* SplitLayout.cpp */,
+				302E84781ED1B992006A498C /* SplitLayout.h */,
 				301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */,
 				301CCA8F1EB13191009ADA0C /* ElectricDreamsButton.h */,
 				3012ED8A1E97DCC00009027D /* ElectricDreamsDecoration.cpp */,
 				3012ED8B1E97DCC00009027D /* ElectricDreamsDecoration.h */,
 				3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */,
 				3012ED8D1E97DCC00009027D /* ElectricDreamsTextStyles.h */,
+				305966A01ECEF5A8009A7130 /* LayoutParams.h */,
 				301CCA8B1EB13151009ADA0C /* MessageBox.cpp */,
 				301CCA8C1EB13151009ADA0C /* MessageBox.h */,
 				3012ED871E97DB450009027D /* ModalMessages.cpp */,
 				3012ED881E97DB450009027D /* ModalMessages.h */,
+				305966971ECCAF76009A7130 /* Scene.cpp */,
+				305966981ECCAF76009A7130 /* Scene.h */,
 				305966801ECC6987009A7130 /* Style.h */,
 				3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */,
 				3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */,
@@ -880,6 +892,7 @@
 				4349C8151EA8ADEF00FE964B /* MixpanelExceptionHandler.m in Sources */,
 				3012ED9F1E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
+				302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */,
 				4349C84F1EA8ADEF00FE964B /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
 				4349C8221EA8ADEF00FE964B /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
 				4349C8411EA8ADEF00FE964B /* MPResources.m in Sources */,
@@ -962,6 +975,7 @@
 				4349C8431EA8ADEF00FE964B /* MPSwizzle.m in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloaderLogic.cpp in Sources */,
+				302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */,
 				3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */,
 				4349C8161EA8ADEF00FE964B /* MixpanelPeople.m in Sources */,
 				301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */,
