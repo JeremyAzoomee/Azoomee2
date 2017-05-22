@@ -201,9 +201,9 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
 
 void HttpRequestCreator::handleError(network::HttpResponse *response)
 {
-    std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
-    std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
-    std::string requestTag = response->getHttpRequest()->getTag();
+    const std::string& responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
+    const std::string& responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
+    const std::string& requestTag = response->getHttpRequest()->getTag();
     long errorCode = response->getResponseCode();
     
     CCLOG("request tag: %s", requestTag.c_str());

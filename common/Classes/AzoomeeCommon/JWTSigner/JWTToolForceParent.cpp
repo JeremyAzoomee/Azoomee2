@@ -198,7 +198,8 @@ std::string JWTToolForceParent::getJWTSignature(std::string sHeader, std::string
 
 std::string JWTToolForceParent::buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody)
 {
-    
+    // TODO: DEBUG LOGGING - REMOVE THIS BEFORE PR
+    cocos2d::log("buildJWTString: method=\"%s\", path=\"%s\", host=\"%s\", queryParams=\"%s\", requestBody=\"%s\",", method.c_str(), path.c_str(), host.c_str(), queryParams.c_str(), requestBody.c_str());
     //HEADER STRING------------------------------------------------------------------------------
     
     std::string sHeader = getHeaderString(ParentDataProvider::getInstance()->getLoggedInParentApiKey());
@@ -223,6 +224,10 @@ std::string JWTToolForceParent::buildJWTString(std::string method, std::string p
     
     CCLOG("\n\n\n FINAL JWT STRING: %s\n\n\n", finalJWT.c_str());
     
+    // TODO: DEBUG LOGGING - REMOVE THIS BEFORE PR
+    cocos2d::log("ParentId: %s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    cocos2d::log("ApiKey: %s", ParentDataProvider::getInstance()->getLoggedInParentApiKey().c_str());
+    cocos2d::log("ApiSecret: %s", ParentDataProvider::getInstance()->getLoggedInParentApiSecret().c_str());
     
     return finalJWT;
 }
