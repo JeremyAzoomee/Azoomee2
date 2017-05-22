@@ -40,9 +40,9 @@ void Scene::setContentSize(const cocos2d::Size& contentSize)
     // These don't get resized automatically (because cocos2d::Scene is not a ui::class)
     // So we do it here so it just works like magic
     const cocos2d::Vector<cocos2d::Node*>& children = getChildren();
-    for(auto node : children)
+    for(auto& child : children)
     {
-        ui::Widget* widget = (ui::Widget*)node;
+        ui::Widget* widget = dynamic_cast<ui::Widget*>(child);
         if(widget)
         {
             widget->updateSizeAndPosition();
