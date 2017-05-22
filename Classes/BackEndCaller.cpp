@@ -332,6 +332,13 @@ void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const
     }
 }
 
+// RESET PASSWORD REQUEST ----------------------------------------------------------------
+void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
+{
+    HttpRequestCreator* request = API::ResetPaswordRequest(emailAddress, this);
+    request->execute();
+}
+
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
@@ -394,6 +401,9 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
         AmazonPaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(body);
     }
 #endif
+    else if(requestTag == API::TagResetPasswordRequest)
+        //Dont do anything with a password Request attempt
+        return;
     else
     {
         for(int i = 0; i < 6; i++)
@@ -446,6 +456,9 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         RoutePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
         return;
     }
+    //Dont do anything with a password Request attempt
+    if(requestTag == API::TagResetPasswordRequest)
+        return;
     
     ChildDataParser::getInstance()->setChildLoggedIn(false);
     getAvailableChildren();

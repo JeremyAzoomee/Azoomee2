@@ -36,6 +36,7 @@ public:
     static const char* const TagGetChatList;
     static const char* const TagGetChatMessages;
     static const char* const TagSendChatMessage;
+    static const char* const TagResetPasswordRequest;
     
 #pragma mark - API Methods
     
@@ -93,6 +94,9 @@ public:
                                                         const std::string& childId,
                                                         const std::string& contentID,
                                                         HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* ResetPaswordRequest(const std::string& forEmailAddress,
+                                                   HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Sharing
     

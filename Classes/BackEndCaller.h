@@ -86,6 +86,8 @@ public:
     void getHQContent(const std::string& url, const std::string& category);
     // Get Single Content Details
     void getElectricDreamsContent(const std::string& requestId, const std::string& contentID);
+    // Reset Password
+    void resetPasswordRequest(const std::string& emailAddress);
 };
 
 #endif
