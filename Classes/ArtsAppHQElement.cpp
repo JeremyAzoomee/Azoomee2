@@ -102,7 +102,10 @@ void ArtsAppHQElement::addOverlay()
 
 void ArtsAppHQElement::addImage(std::string filePath)
 {
+    if(!FileUtils::getInstance()->isFileExist(filePath)) return;
     std::string imageData = FileUtils::getInstance()->getStringFromFile(filePath);
+    if(imageData.length() <= 22) return;
+    
     imageData = imageData.substr(22);
     
     int len = 0;
