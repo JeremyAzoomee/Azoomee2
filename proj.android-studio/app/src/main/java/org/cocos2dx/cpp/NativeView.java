@@ -152,6 +152,20 @@ public class NativeView extends XWalkActivity {
         activity.finish();
     }
 
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        Log.d("APP STATE", "PAUSE");
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Log.d("APP STATE", "RESUME");
+    }
+
     public static native void getBackToLoginScreen();
     public static native void sendMediaPlayerData(String eventKey, String eventValue);
 }
