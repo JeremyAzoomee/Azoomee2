@@ -21,6 +21,11 @@ private:
     /// Calculate the item size for the listview
     cocos2d::Size calculateItemSize() const;
     
+    /// Get the current scroll position
+    float getScrollPosition() const;
+    /// Set the current scroll position
+    void setScrollPosition(float pos);
+    
 protected:
     
     virtual void doLayout() override;
@@ -29,7 +34,7 @@ protected:
 public:
     
     /// Set the items to display in this list
-    void setItems(const MessageList& messageList);
+    void setData(const MessageList& messageList);
     
     virtual bool init() override;
     virtual void onEnter() override;

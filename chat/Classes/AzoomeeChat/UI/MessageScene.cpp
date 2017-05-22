@@ -174,8 +174,6 @@ void MessageScene::createContentUI(cocos2d::ui::Layout* parent)
             composerAreaSize.height = composerSize.height;
             composerAreaLayout->setContentSize(composerAreaSize);
         }
-        
-        _messageListView->jumpToBottom();
     });
     composerAreaLayout->addChild(_messageComposer);
     Size composerAreaSize = composerAreaLayout->getContentSize();
@@ -196,7 +194,7 @@ void MessageScene::onBackButtonPressed()
 
 void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 {
-    _messageListView->setItems(messageList);
+    _messageListView->setData(messageList);
     ModalMessages::getInstance()->stopLoading();
     
     // Trigger auto get again

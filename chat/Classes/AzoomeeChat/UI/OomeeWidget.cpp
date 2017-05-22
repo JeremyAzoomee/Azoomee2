@@ -15,8 +15,8 @@ bool OomeeWidget::init()
         return false;
     }
     
-    setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::kermitGreenTwo);
+//    setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+//    setBackGroundColor(Style::Color::kermitGreenTwo);
   
     return true;
 }
