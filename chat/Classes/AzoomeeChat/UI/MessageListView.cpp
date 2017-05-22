@@ -84,7 +84,7 @@ void MessageListView::setItems(const MessageList& messageList)
     forceDoLayout();
     
     // Scroll to bottom if we have more items than before
-    if(_listData.size() > prevItemCount)
+    //if(_listData.size() > prevItemCount)
     {
         jumpToBottom();
     }

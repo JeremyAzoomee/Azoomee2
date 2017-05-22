@@ -13,6 +13,10 @@ using namespace cocos2d;
 
 NS_AZOOMEE_CHAT_BEGIN
 
+// Interval to do an auto get call
+// Temp feature until Pusher is implemented
+const float kAutoGetTimeInterval = 5.0f;
+
 MessageScene* MessageScene::create(const FriendRef& friendData)
 {
     MessageScene* scene = new(std::nothrow) MessageScene(friendData);
@@ -86,6 +90,9 @@ void MessageScene::onEnter()
     // Get message list
     ChatAPI::getInstance()->requestMessageHistory(_friendData);
     ModalMessages::getInstance()->startLoading();
+    
+    // Get update calls
+    scheduleUpdate();
 }
 
 void MessageScene::onExit()
@@ -94,6 +101,25 @@ void MessageScene::onExit()
     
     // Unregister on chat API events
     ChatAPI::getInstance()->removeObserver(this);
+    
+    // Stop update calls
+    unscheduleUpdate();
+}
+
+void MessageScene::update(float dt)
+{
+    if(kAutoGetTimeInterval > 0 && _timeTillGet > -1)
+    {
+        _timeTillGet -= dt;
+        if(_timeTillGet <= 0)
+        {
+            // Wait until we get results before restarting the timer
+            _timeTillGet = -1.0f;
+            
+            // Make the call
+            ChatAPI::getInstance()->requestMessageHistory(_friendData);
+        }
+    }
 }
 
 #pragma mark - Size Changes
@@ -172,6 +198,9 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 {
     _messageListView->setItems(messageList);
     ModalMessages::getInstance()->stopLoading();
+    
+    // Trigger auto get again
+    _timeTillGet = kAutoGetTimeInterval;
 }
 
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)

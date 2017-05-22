@@ -21,6 +21,8 @@ private:
     
     /// The friend we're displaying messages for
     FriendRef _friendData;
+    /// Time for next auto get messages call
+    float _timeTillGet = -1.0f;
     
     /// Root layout for all elements
     cocos2d::ui::Layout* _rootLayout = nullptr;
@@ -61,6 +63,7 @@ public:
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void onExit() override;
+    virtual void update(float dt) override;
     
     static MessageScene* create(const FriendRef& friendData);
 };
