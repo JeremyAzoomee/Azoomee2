@@ -27,9 +27,6 @@ import org.xwalk.core.XWalkActivity;
 import org.xwalk.core.XWalkView;
 import org.xwalk.core.XWalkCookieManager;
 
-
-import static com.loopj.android.http.AsyncHttpClient.log;
-
 public class NativeView extends XWalkActivity {
 
     private static Context mContext;
@@ -56,7 +53,7 @@ public class NativeView extends XWalkActivity {
 
         Bundle extras = getIntent().getExtras();
         userid = extras.getString("userid");
-        log.d("userid", userid);
+        Log.d("userid", userid);
 
         xWalkWebView = new XWalkView(this);
         addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -114,7 +111,7 @@ public class NativeView extends XWalkActivity {
             userid = extras.getString("userid");
         }
 
-        log.d("urlToBeLoaded", myUrl);
+        Log.d("urlToBeLoaded", myUrl);
 
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
@@ -134,11 +131,11 @@ public class NativeView extends XWalkActivity {
 
             for(int i = 0; i < separatedCookies.length; i++)
             {
-                log.d("separatecookies: ", separatedCookies[i]);
+                Log.d("separatecookies: ", separatedCookies[i]);
                 mCookieManager.setCookie(myCookieUrl, separatedCookies[i]);
             }
 
-            log.d("cookies: ", mCookieManager.getCookie(myCookieUrl));
+            Log.d("cookies: ", mCookieManager.getCookie(myCookieUrl));
 
             xWalkWebView.loadUrl("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl);
         }
@@ -156,16 +153,18 @@ public class NativeView extends XWalkActivity {
     protected void onPause()
     {
         super.onPause();
-        Log.d("APP STATE", "PAUSE");
+        JNIRegisterAppWentBackgroundEvent();
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        Log.d("APP STATE", "RESUME");
+        JNIRegisterAppCameForegroundEvent();
     }
 
     public static native void getBackToLoginScreen();
     public static native void sendMediaPlayerData(String eventKey, String eventValue);
+    public static native void JNIRegisterAppWentBackgroundEvent();
+    public static native void JNIRegisterAppCameForegroundEvent();
 }

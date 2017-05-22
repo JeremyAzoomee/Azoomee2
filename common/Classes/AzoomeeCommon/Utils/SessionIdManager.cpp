@@ -69,4 +69,33 @@ namespace Azoomee
         return false;
     }
     
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    extern "C"
+    {
+        JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_JNIRegisterAppWentBackgroundEvent(JNIEnv* env, jobject thiz);
+    };
+    
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_JNIRegisterAppWentBackgroundEvent(JNIEnv* env, jobject thiz)
+    {
+        SessionIdManager::getInstance()->registerAppWentBackgroundEvent();
+    }
+    
+#endif
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    extern "C"
+    {
+        JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_JNIRegisterAppCameForegroundEvent(JNIEnv* env, jobject thiz);
+    };
+    
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_JNIRegisterAppCameForegroundEvent(JNIEnv* env, jobject thiz)
+    {
+        SessionIdManager::getInstance()->registerAppCameForegroundEvent();
+    }
+    
+#endif
+
 }
+

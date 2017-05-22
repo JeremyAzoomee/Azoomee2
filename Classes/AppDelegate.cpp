@@ -102,9 +102,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
 void AppDelegate::applicationDidEnterBackground() {
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-
     SessionIdManager::getInstance()->registerAppWentBackgroundEvent();
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
     {
@@ -126,9 +126,9 @@ void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    
     SessionIdManager::getInstance()->registerAppCameForegroundEvent();
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
     {
