@@ -62,7 +62,7 @@ namespace Azoomee
     {
         if(sessionId == "") return true;
         if(timeStampGoingBackground == 0) return true;
-        if(time(NULL) - timeStampGoingBackground > 5) return true;
+        if(time(NULL) - timeStampGoingBackground > 30) return true;
         
         cocos2d::log("SESSIONID NOT CHANGED: %s", sessionId.c_str());
         
