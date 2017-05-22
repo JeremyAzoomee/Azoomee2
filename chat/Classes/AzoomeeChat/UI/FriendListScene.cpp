@@ -14,6 +14,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_CHAT_BEGIN
 
+const char* const kUpdateLastSeenStorageKey = "azoomee.chat.tester.update_notes";
+
 bool FriendListScene::init()
 {
     if(!Super::init())
@@ -63,6 +65,8 @@ void FriendListScene::onEnter()
     // Get friend list
     ChatAPI::getInstance()->requestFriendList();
     ModalMessages::getInstance()->startLoading();
+    
+    showNextTesterMessage();
 }
 
 void FriendListScene::onExit()
@@ -71,6 +75,65 @@ void FriendListScene::onExit()
     
     // Unregister on chat API events
     ChatAPI::getInstance()->removeObserver(this);
+}
+
+#pragma mark - Update notes
+
+void FriendListScene::showNextTesterMessage()
+{
+    // Welcome message
+    bool shown = showTesterMessageIfNotSeen("Welcome");
+    if(!shown)
+    {
+        // What's new
+        showTesterMessageIfNotSeen("What's new");
+    }
+}
+
+bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
+{
+    const std::string& version = Azoomee::Chat::Version;
+    const std::string& fullTitle = StringUtils::format("%s v%s", title.c_str(), version.c_str());
+    
+    const std::string& seenItUserKey = StringUtils::format("%s|%s", kUpdateLastSeenStorageKey, fullTitle.c_str());
+    bool seenIt = UserDefault::getInstance()->getBoolForKey(seenItUserKey.c_str(), false);
+    if(seenIt)
+    {
+        return false;
+    }
+    
+    std::stringstream body;
+    
+    // TODO: If this is gona be a regular thing, stick it in a config or something, but we don't want it for end users...
+    if(title == "Welcome")
+    {
+        body << "Thanks for testing the Azoomee Chat app!\n";
+        body << "\n";
+        body << "Please post any feedback/bug reports on Slack: #chat-feedback.";
+    }
+    else if(title == "What's new")
+    {
+        body << "- New UI \"1.0\".\n";
+        body << "- Chat UI should always resize correctly, please report if it doesn't.\n";
+        body << "- No Pusher (yet).\n";
+        body << "- No Oomees yet (sorry!).\n";
+        body << "- No unread messages indicator.\n";
+        body << "- No stickers or art gallery yet.\n";
+        body << "- Portrait alt layout for stickers/art button (below the text entry) is still todo.\n";
+    }
+    
+    MessageBox::createWith(fullTitle, body.str(), "OK", this);
+    return true;
+}
+
+
+#pragma mark - MessageBoxDelegate
+
+void FriendListScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
+{
+    const std::string& seenItUserKey = StringUtils::format("%s|%s", kUpdateLastSeenStorageKey, messageBoxTitle.c_str());
+    UserDefault::getInstance()->setBoolForKey(seenItUserKey.c_str(), true);
+    showNextTesterMessage();
 }
 
 #pragma mark - Size Changes

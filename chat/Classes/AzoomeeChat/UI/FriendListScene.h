@@ -14,7 +14,7 @@
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class FriendListScene : public Azoomee::Scene, public ChatAPIObserver
+class FriendListScene : public Azoomee::Scene, public ChatAPIObserver, public MessageBoxDelegate
 {
     typedef Azoomee::Scene Super;
 private:
@@ -34,6 +34,13 @@ private:
     /// The current user's oomee
     OomeeWidget* _userOomee = nullptr;
     
+    
+    /// Show next tester message
+    void showNextTesterMessage();
+    /// Returns false if tester message has already been seen
+    /// Otherwise displays the message box
+    bool showTesterMessageIfNotSeen(const std::string& title);
+    
     /// Create the content UI
     void createContentUI(cocos2d::ui::Layout* parent);
     /// Create the user panel UI
@@ -46,6 +53,9 @@ private:
     
     // - ChatAPIObserver
     void onChatAPIGetFriendList(const FriendList& friendList) override;
+    
+    // - MessageBoxDelegate
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
     
 protected:
     
