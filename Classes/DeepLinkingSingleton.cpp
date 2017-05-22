@@ -169,7 +169,7 @@ void DeepLinkingSingleton::completeContentAction(std::string type,std::string ur
 }
 
 //Delegate Functions
-void DeepLinkingSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber)
+void DeepLinkingSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
     IAPUpsaleLayer::create();
 }

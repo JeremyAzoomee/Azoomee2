@@ -22,7 +22,7 @@ public:
     void onAnswerReceived(std::string responseDataString);
     
     //Delegate Functions
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
 private:
     //For making repeat requests

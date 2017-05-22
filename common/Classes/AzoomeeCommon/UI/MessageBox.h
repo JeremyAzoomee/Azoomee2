@@ -16,7 +16,7 @@ class MessageBox;
 class MessageBoxDelegate
 {
 public:
-    virtual void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber) = 0;
+    virtual void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) = 0;
 };
 
 class MessageBox : public cocos2d::Layer, public ElectricDreamsButtonDelegate
@@ -27,6 +27,7 @@ private:
     cocos2d::Vec2 origin;
     
     std::vector<std::string> _buttonsTitleList;
+    std::vector<std::string> _buttonsReferenceList;
     std::string _messageBoxTitle;
     
     cocos2d::LayerColor *backgroundLayer;

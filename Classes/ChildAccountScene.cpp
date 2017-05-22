@@ -365,7 +365,7 @@ void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
         selectOomee(button->getTag());
 }
 
-void ChildAccountScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle,int buttonNumber)
+void ChildAccountScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
     childNameInputText->focusAndShowKeyboard();
     childNameInputText->setVisible(true);

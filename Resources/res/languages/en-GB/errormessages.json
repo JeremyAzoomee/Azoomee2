@@ -47,7 +47,7 @@
         "title":"That Didn't Work",
         "body":"There was a problem with your email or password. Please try logging in again.",
         "button":"OK|Reset Password",
-        "optionalButtonRefNames":"OK|Reset"
+        "optionalButtonRefNames":"OK|Reset Password"
     },
     
     "1002":
