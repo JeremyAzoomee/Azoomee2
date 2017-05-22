@@ -182,11 +182,11 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
         std::string requestTag = response->getHttpRequest()->getTag();
         
-        CCLOG("request tag: %s", requestTag.c_str());
-        CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
-        CCLOG("response code: %ld", response->getResponseCode());
-        CCLOG("response header: %s", responseHeaderString.c_str());
-        CCLOG("response string: %s", responseDataString.c_str());
+        cocos2d::log("request tag: %s", requestTag.c_str());
+        cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
+        cocos2d::log("response code: %ld", response->getResponseCode());
+        cocos2d::log("response header: %s", responseHeaderString.c_str());
+        cocos2d::log("response string: %s", responseDataString.c_str());
         
         if(delegate != nullptr)
         {
@@ -206,10 +206,11 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
     const std::string& requestTag = response->getHttpRequest()->getTag();
     long errorCode = response->getResponseCode();
     
-    CCLOG("request tag: %s", requestTag.c_str());
-    CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
-    CCLOG("response string: %s", responseString.c_str());
-    CCLOG("response code: %ld", response->getResponseCode());
+    cocos2d::log("request tag: %s", requestTag.c_str());
+    cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
+    cocos2d::log("response string: %s", responseString.c_str());
+    cocos2d::log("response headers: %s", responseHeaderString.c_str());
+    cocos2d::log("response code: %ld", response->getResponseCode());
     
     //-----------------------Handle error code--------------------------
     
