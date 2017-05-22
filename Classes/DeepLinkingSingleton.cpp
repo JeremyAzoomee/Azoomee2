@@ -96,7 +96,7 @@ bool DeepLinkingSingleton::actionDeepLink()
     {
         if(path == "signup" && !ChildDataProvider::getInstance()->getIsChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
         {
-            auto orientationChangeScene = OrientationChangeScene::createScene(true, ONBOARDING_SCENE, 0);
+            auto orientationChangeScene = OrientationChangeScene::createScene(ONBOARDING_SCENE, 0);
             Director::getInstance()->replaceScene(orientationChangeScene);
             
             resetDeepLink();

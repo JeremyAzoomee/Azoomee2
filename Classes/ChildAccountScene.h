@@ -13,6 +13,7 @@ class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, 
 {
 private:
     long _errorCode;
+    int _nextSceneID;
     
     TextInputLayer *childNameInputText;
     TextInputLayer *dayInputText;
@@ -61,7 +62,7 @@ private:
     virtual void onEnterTransitionDidFinish();
 
 public:
-    static cocos2d::Scene* createScene(std::string ChildName, long errorCode);
+    static cocos2d::Scene* createScene(std::string ChildName, long errorCode,int nextSceneID);
 
     virtual bool init();
     

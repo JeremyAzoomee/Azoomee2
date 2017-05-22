@@ -165,7 +165,7 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
         signUp();
     else if(button == cancelButton)
     {
-        auto orientationChangeScene = OrientationChangeScene::createScene(false, BASE_SCENE, 0);
+        auto orientationChangeScene = OrientationChangeScene::createScene(BASE_SCENE, 0);
         Director::getInstance()->replaceScene(orientationChangeScene);
     }
 }

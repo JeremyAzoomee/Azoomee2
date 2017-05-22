@@ -35,7 +35,7 @@ void PreviewLoginSignupMessageBox::onButtonPressed(int buttonSelect)
     }
     else if( buttonSelect == 1 ) // signup
     {
-        auto orientationChangeScene = OrientationChangeScene::createScene(true, ONBOARDING_SCENE, 0);
+        auto orientationChangeScene = OrientationChangeScene::createScene(ONBOARDING_SCENE, 0);
         Director::getInstance()->replaceScene(orientationChangeScene);
     }
 }

@@ -320,7 +320,7 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
-    auto orientationChangeScene = OrientationChangeScene::createScene(true, CHILD_ACCOUNT_SCENE, 0);
+    auto orientationChangeScene = OrientationChangeScene::createScene(CHILD_ACCOUNT_SCENE_CHILD_CREATION, 0);
     Director::getInstance()->replaceScene(orientationChangeScene);
     //auto newChildScene = ChildAccountScene::createScene("", 0);
     //Director::getInstance()->replaceScene(newChildScene);

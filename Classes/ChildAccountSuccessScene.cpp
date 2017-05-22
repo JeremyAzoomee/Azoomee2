@@ -8,7 +8,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "ChildAccountScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-
+#include "OrientationChangeScene.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -129,5 +129,6 @@ void ChildAccountSuccessScene::moveToHubScene(float dt)
 
 void ChildAccountSuccessScene::moveToChildAccountScene(float dt)
 {
-    Director::getInstance()->replaceScene(ChildAccountScene::createScene("", 0));
+    auto orientationChangeScene = OrientationChangeScene::createScene(CHILD_ACCOUNT_SCENE_CHILD_CREATION, 0);
+    Director::getInstance()->replaceScene(orientationChangeScene);
 }

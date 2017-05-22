@@ -476,7 +476,7 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == previewSignUpButton)
     {
-        auto orientationChangeScene = OrientationChangeScene::createScene(true, ONBOARDING_SCENE, 0);
+        auto orientationChangeScene = OrientationChangeScene::createScene(ONBOARDING_SCENE, 0);
         Director::getInstance()->replaceScene(orientationChangeScene);
     }
 }

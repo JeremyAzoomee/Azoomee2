@@ -18,7 +18,6 @@
 #include "BaseScene.h"
 #include "ChildAccountScene.h"
 #include "AwaitingAdultPinLayer.h"
-#include "OnboardingSuccessScene.h"
 #include "ChildAccountSuccessScene.h"
 #include "RoutePaymentSingleton.h"
 #include "OrientationChangeScene.h"
@@ -174,14 +173,14 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     if(newChildJustRegistered)
     {
         newChildJustRegistered = false;
-        auto childAccountSuccessScene = ChildAccountSuccessScene::createScene(newChildName, oomeeAvatarNumber);
-        Director::getInstance()->replaceScene(childAccountSuccessScene);
+        auto orientationChangeScene = OrientationChangeScene::createSceneChildAccountNext(newChildRegisteredNextSceneID, 0,newChildName, oomeeAvatarNumber);
+        Director::getInstance()->replaceScene(orientationChangeScene);
     }
     else if(accountJustRegistered)
     {
         CCLOG("Just registered account : backendcaller");
         accountJustRegistered = false;
-        auto orientationChangeScene = OrientationChangeScene::createScene(false, ONBOARDING_SUCCESS_SCENE, 0);
+        auto orientationChangeScene = OrientationChangeScene::createScene(CHILD_ACCOUNT_SCENE_AFTERSIGNUP, 0);
         Director::getInstance()->replaceScene(orientationChangeScene);
     }
     else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
@@ -265,9 +264,11 @@ void BackEndCaller::onRegisterParentAnswerReceived()
 
 //REGISTER CHILD----------------------------------------------------------------------------
 
-void BackEndCaller::registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber)
+void BackEndCaller::registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber, int nextSceneID)
 {
     displayLoadingScreen();
+    
+    newChildRegisteredNextSceneID = nextSceneID;
     
     newChildName = childProfileName;
     oomeeAvatarNumber = oomeeNumber;
@@ -411,7 +412,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     if(requestTag == API::TagRegisterParent)
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
-        auto orientationChangeScene = OrientationChangeScene::createScene(true, ONBOARDING_SCENE, errorCode);
+        auto orientationChangeScene = OrientationChangeScene::createScene(ONBOARDING_SCENE, errorCode);
         Director::getInstance()->replaceScene(orientationChangeScene);
         return;
     }
@@ -419,7 +420,9 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     if(requestTag == API::TagRegisterChild)
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
-        Director::getInstance()->replaceScene(ChildAccountScene::createScene("", errorCode));
+
+        auto orientationChangeScene = OrientationChangeScene::createScene(CHILD_ACCOUNT_SCENE_CHILD_CREATION, errorCode);
+        Director::getInstance()->replaceScene(orientationChangeScene);
         return;
     }
     

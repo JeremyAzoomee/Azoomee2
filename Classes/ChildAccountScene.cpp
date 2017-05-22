@@ -18,7 +18,7 @@ using namespace Azoomee;
 
 #define NO_OF_OOMEES 5
 
-Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode)
+Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode,int nextSceneID)
 {
     auto scene = Scene::create();
     auto layer = ChildAccountScene::create();
@@ -26,6 +26,7 @@ Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode)
     scene->addChild(layer);
     
     layer->_errorCode = errorCode;
+    layer->_nextSceneID = nextSceneID;
     
     return scene;
 }
@@ -303,7 +304,7 @@ void ChildAccountScene::registerChildAccount()
     std::string gender = "MALE";
     
     auto backEndCaller = BackEndCaller::getInstance();
-    backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
+    backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo, _nextSceneID);
 }
 
 bool ChildAccountScene::DOBisDate()
@@ -343,7 +344,7 @@ void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
     {
-        auto orientationChangeScene = OrientationChangeScene::createScene(false, CHILD_SELECTOR_SCENE, 0);
+        auto orientationChangeScene = OrientationChangeScene::createScene(CHILD_SELECTOR_SCENE, 0);
         Director::getInstance()->replaceScene(orientationChangeScene);
     }
     else if(button == nextButton)
