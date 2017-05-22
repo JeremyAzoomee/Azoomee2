@@ -49,7 +49,7 @@ bool FriendListViewItem::init()
     _nameLabel->setFontName(Style::Font::Regular);
     _nameLabel->setFontSize(75.0f);
     _nameLabel->setTextColor(Color4B(Style::Color::white));
-    _nameLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(40.0f, 0, 0, 0)));
+    _nameLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(75.0f, 0, 0, 0)));
     _contentLayout->addChild(_nameLabel);
     
     
@@ -85,6 +85,32 @@ void FriendListViewItem::setData(const FriendRef& friendData)
 FriendRef FriendListViewItem::getData() const
 {
     return _friendData;
+}
+
+#pragma mark - Interactions
+
+void FriendListViewItem::onPressStateChangedToNormal()
+{
+    if(_nameLabel)
+    {
+        _nameLabel->setTextColor(Color4B(Style::Color::white));
+    }
+}
+
+void FriendListViewItem::onPressStateChangedToPressed()
+{
+    if(_nameLabel)
+    {
+        _nameLabel->setTextColor(Color4B(Style::Color::neonPurple));
+    }
+}
+
+void FriendListViewItem::onPressStateChangedToDisabled()
+{
+    if(_nameLabel)
+    {
+        _nameLabel->setTextColor(Color4B(Style::Color::white));
+    }
 }
 
 

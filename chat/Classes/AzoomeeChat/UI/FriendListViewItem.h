@@ -28,6 +28,9 @@ private:
 protected:
     
     virtual void doLayout() override;
+    virtual void onPressStateChangedToNormal() override;
+    virtual void onPressStateChangedToPressed() override;
+    virtual void onPressStateChangedToDisabled() override;
     
 public:
     

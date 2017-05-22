@@ -128,6 +128,7 @@ void MessageListViewItem::resizeItemContents()
 
 void MessageListViewItem::setData(const MessageRef& message)
 {
+//    MessageRef oldData = _messageData;
     _messageData = message;
     
     if(_messageData)

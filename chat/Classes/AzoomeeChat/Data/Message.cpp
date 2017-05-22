@@ -1,6 +1,7 @@
 #include "Message.h"
 #include <cocos/cocos2d.h>
 #include "../ChatAPI.h"
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
 
@@ -118,8 +119,8 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
             const auto& params = json["params"];
             messageText = params["text"].GetString();
             
-            // Decode the string
-            messageText = urldecode(messageText);
+            // Decode the string and trim whitespace
+            messageText = Azoomee::trim(urldecode(messageText));
         }
         else
         {
