@@ -1,6 +1,7 @@
 #include "MessageComposer.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/Strings.h>
 
 
 using namespace cocos2d;
@@ -37,10 +38,14 @@ bool MessageComposer::init()
         const float totalHeight = textEntryHeight + (textEntryMargin * 2.0f);
         // Width will get updated later, so just use 0 for now
         _topLayout->setContentSize(Size(0.0f, totalHeight));
+        _currentHeight = totalHeight;
     }
     
     createTopUIContent(_topLayout);
   
+    
+    // Default to Idle
+    setMode(MessageComposer::Mode::Idle);
     return true;
 }
 
@@ -52,7 +57,11 @@ void MessageComposer::onEnter()
 void MessageComposer::onExit()
 {
     Super::onExit();
+    
+    setMode(MessageComposer::Mode::Idle);
 }
+
+#pragma mark - Size changes
 
 void MessageComposer::onSizeChanged()
 {
@@ -88,13 +97,215 @@ void MessageComposer::setContentSize(const cocos2d::Size& contentSize)
     if(_topLayout)
     {
         cocos2d::Size correctedSize = contentSize;
-        correctedSize.height = _topLayout->getContentSize().height;
+        correctedSize.height = _currentHeight;
         Super::setContentSize(correctedSize);
     }
     else
     {
         Super::setContentSize(contentSize);
     }
+}
+
+void MessageComposer::resizeUIForKeyboard(float keyboardHeight, float duration)
+{
+    cocos2d::log("MessageComposer::resizeUIForKeyboard: %f, duration=%f", keyboardHeight, duration);
+    
+    // Resize the composer so the TextField stays in view
+    
+    // Calculate what height we need
+    const float wantHeight = keyboardHeight + _topLayout->getContentSize().height;
+    const Size& contentSize = getContentSize();
+    const float wantWidth = contentSize.width;
+    
+    // Animate or not?
+    if(duration > 0.0f)
+    {
+        // Animate
+        runAction(ActionFloat::create(duration, contentSize.height, wantHeight, [this, wantWidth](float height) {
+            _currentHeight = height;
+            setContentSize(Size(wantWidth, height));
+        }));
+    }
+    else
+    {
+        // Immediate
+        _currentHeight = wantHeight;
+        setContentSize(Size(wantWidth, _currentHeight));
+    }
+}
+
+#pragma mark - Public
+
+void MessageComposer::setDelegate(MessageComposer::Delegate* delegate)
+{
+    _delegate = delegate;
+}
+
+#pragma mark - Send message
+
+void MessageComposer::sendMessage(const std::string& message)
+{
+    if(_delegate)
+    {
+        const std::string& trimmedMessage = Azoomee::trim(message);
+        if(trimmedMessage.length() > 0)
+        {
+            _delegate->onMessageComposerSendMessage(trimmedMessage);
+        }
+    }
+    
+    // Clear the message field and go back to idle
+    _messageEntryField->setString("");
+    setMode(MessageComposer::Mode::Idle);
+}
+
+#pragma mark - Mode
+
+MessageComposer::Mode MessageComposer::currentMode() const
+{
+    return _currentMode;
+}
+
+void MessageComposer::setMode(MessageComposer::Mode mode)
+{
+    _currentMode = mode;
+    
+    // Update UI elements
+    _cancelButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
+    _sendButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
+    
+    if(_currentMode == MessageComposer::Mode::TextEntry)
+    {
+        _messageEntryLayout->setBackGroundImage("res/chat/ui/textfield/message_field_active.png");
+        
+        // Make sure the close buttons sits above the message entry layer in terms of Z
+        // If we don't do this, the button won't get the click event because it's intercepted
+        // by a modal layer from the text entry which fills the screen
+        // We don't have to worry about other buttons because they are added after in the hierarchy
+        _cancelButton->setGlobalZOrder(_messageEntryLayout->getGlobalZOrder() + 1);
+    }
+    else
+    {
+        _messageEntryLayout->setBackGroundImage("res/chat/ui/textfield/message_field.png");
+        
+        // Make sure keyboard dismissed
+        _messageEntryField->didNotSelectSelf();
+        ui::UICCTextField* textFieldRenderer = dynamic_cast<ui::UICCTextField*>(_messageEntryField->getVirtualRenderer());
+        textFieldRenderer->closeIME();
+    }
+    
+//    switch(_currentMode)
+//    {
+//        case Idle:
+//        {
+//            break;
+//        }
+//        case TextEntry:
+//        {
+//            break;
+//        }
+//        case StickersEntry:
+//        {
+//            break;
+//        }
+//        case ArtGalleryEntry:
+//        {
+//            break;
+//        }
+//    }
+}
+
+#pragma mark - TextField
+
+void MessageComposer::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextField::EventType type)
+{
+    switch(type)
+    {
+        case ui::TextField::EventType::DETACH_WITH_IME:
+        {
+            // Keyboard closed
+            // For now we'll assume we should send the message when keyboard dismissed
+            // because we can't catch RETURN key presses yet
+            const std::string& message = _messageEntryField->getString();
+            sendMessage(message);
+            
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+            // On Android we must deal with the faff of getting the keyboard height here, because
+            // IMEKeyboardNotificationInfo methods do not get called (sigh)
+            // TODO: Find a more generic way to fix this
+            // SendMessage will call setMode so we don't need to it here
+            // setMode(MessageComposer::Mode::Idle);
+            _imeOpen = false;
+            resizeUIForKeyboard(0, 0.25f);
+#endif
+            break;
+        }
+        case ui::TextField::EventType::INSERT_TEXT:
+        {
+            // TextField changed
+            break;
+        }
+        case ui::TextField::EventType::DELETE_BACKWARD:
+        default:
+        {
+            // Nothing to do
+            break;
+        }
+    }
+}
+
+#pragma mark - IMEDelegate
+
+void MessageComposer::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+    // We can get events even when scene is not shown
+    if(!isVisible())
+    {
+        return;
+    }
+    
+    _imeOpen = true;
+    setMode(MessageComposer::Mode::TextEntry);
+    resizeUIForKeyboard(info.end.size.height, info.duration);
+}
+
+void MessageComposer::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+    // We can get events even when scene is not shown
+    if(!isVisible())
+    {
+        return;
+    }
+    
+    _imeOpen = true;
+    setMode(MessageComposer::Mode::TextEntry);
+    resizeUIForKeyboard(info.end.size.height, 0);
+}
+
+void MessageComposer::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+    // We can get events even when scene is not shown
+    if(!isVisible())
+    {
+        return;
+    }
+    
+    _imeOpen = false;
+    setMode(MessageComposer::Mode::Idle);
+    resizeUIForKeyboard(0, info.duration);
+}
+
+void MessageComposer::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+    // We can get events even when scene is not shown
+    if(!isVisible())
+    {
+        return;
+    }
+    
+    _imeOpen = false;
+    setMode(MessageComposer::Mode::Idle);
+    resizeUIForKeyboard(0, 0);
 }
 
 #pragma mark - UI Creation
@@ -174,6 +385,9 @@ void MessageComposer::createCancelButton(cocos2d::ui::Layout* parent)
     _cancelButton->getRendererDisabled()->setStrechEnabled(true);
     _cancelButton->setContentSize(Size(buttonHeight, buttonHeight));
     _cancelButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(contentMarginX, 0, 0, 0)));
+    _cancelButton->addClickEventListener([this](Ref* button){
+        setMode(MessageComposer::Mode::Idle);
+    });
     parent->addChild(_cancelButton);
     
     // Size parent to fit the content
@@ -214,6 +428,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     _messageEntryField->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(textEntryLeftMargin, 0, 0, 0)));
     _messageEntryField->setPlaceHolderColor(Style::Color::windowsBlue);
     _messageEntryField->setTextColor(Color4B(Style::Color::darkBlueGrey));
+    _messageEntryField->addEventListener(CC_CALLBACK_2(MessageComposer::onTextFieldEvent, this));
     firstLayout->addChild(_messageEntryField);
     
     
@@ -232,6 +447,9 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     _sendButton->getRendererDisabled()->setStrechEnabled(true);
     _sendButton->setContentSize(Size(buttonHeight, buttonHeight));
     _sendButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(0, 0, sendButtonRightMargin, 0)));
+    _sendButton->addClickEventListener([this](Ref* button){
+        setMode(MessageComposer::Mode::Idle);
+    });
     secondLayout->addChild(_sendButton);
     
     // Size parent to fit the content

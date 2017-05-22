@@ -14,7 +14,7 @@
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class MessageScene : public Azoomee::Scene, public ChatAPIObserver
+class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate
 {
     typedef Azoomee::Scene Super;
 private:
@@ -47,6 +47,9 @@ private:
     // - ChatAPIObserver
     void onChatAPIGetChatMessages(const MessageList& messageList) override;
     void onChatAPISendMessage(const MessageRef& sentMessage) override;
+    
+    // - MessageComposer::Delegate
+    void onMessageComposerSendMessage(const std::string& message) override;
 
 protected:
     

@@ -117,7 +117,7 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
     // Contact list
     _friendListView = FriendListView::create();
     _friendListView->setLayoutParameter(CreateTopLeftRelativeLayoutParam());
-    _friendListView->addItemSelectedEventListener(std::bind(&FriendListScene::onFriendListItemSelected, this, std::placeholders::_1));
+    _friendListView->addItemSelectedEventListener(CC_CALLBACK_1(FriendListScene::onFriendListItemSelected, this));
     parent->addChild(_friendListView);
     
     // User panel - holds oomee etc

@@ -138,6 +138,7 @@ void MessageScene::createContentUI(cocos2d::ui::Layout* parent)
     // Note the composer controls it's own size so we don't set it here
     ui::Layout* composerAreaLayout = splitLayout->secondLayout();
     _messageComposer = MessageComposer::create();
+    _messageComposer->setDelegate(this);
     _messageComposer->addSizeChangedEventListener([this, composerAreaLayout](ui::Layout* composer){
         // Make sure the parent height matches the height of the composer
         Size composerAreaSize = composerAreaLayout->getContentSize();
@@ -148,7 +149,7 @@ void MessageScene::createContentUI(cocos2d::ui::Layout* parent)
             composerAreaLayout->setContentSize(composerAreaSize);
         }
         
-        _messageListView->scrollToBottom(0, false);
+        _messageListView->jumpToBottom();
     });
     composerAreaLayout->addChild(_messageComposer);
     Size composerAreaSize = composerAreaLayout->getContentSize();
@@ -175,7 +176,16 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 {
-    // TODO
+    // Auto get new messages until we have a live feed from PUSHER
+    ChatAPI::getInstance()->requestMessageHistory(_friendData);
+}
+
+#pragma mark - MessageComposer::Delegate
+
+void MessageScene::onMessageComposerSendMessage(const std::string& message)
+{
+    cocos2d::log("Send Message: %s", message.c_str());
+    ChatAPI::getInstance()->sendMessage(_friendData, message);
 }
 
 NS_AZOOMEE_CHAT_END

@@ -34,8 +34,8 @@ void SplitLayout::onEnter()
 {
     Super::onEnter();
     
-    _firstLayout->addSizeChangedEventListener(std::bind(&SplitLayout::onChildLayoutSizeChanged, this, std::placeholders::_1));
-    _secondLayout->addSizeChangedEventListener(std::bind(&SplitLayout::onChildLayoutSizeChanged, this, std::placeholders::_1));
+    _firstLayout->addSizeChangedEventListener(CC_CALLBACK_1(SplitLayout::onChildLayoutSizeChanged, this));
+    _secondLayout->addSizeChangedEventListener(CC_CALLBACK_1(SplitLayout::onChildLayoutSizeChanged, this));
 }
 
 void SplitLayout::onExit()
@@ -136,6 +136,9 @@ void SplitLayout::resizeLayouts()
         _firstLayout->setContentSize(firstSize);
         _secondLayout->setContentSize(secondSize);
     }
+    
+    // We must force a layout since we changed the size of the inner layouts
+    forceDoLayout();
     
     _resizingLayouts = false;
 }
