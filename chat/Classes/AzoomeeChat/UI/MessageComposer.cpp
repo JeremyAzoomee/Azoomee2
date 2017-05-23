@@ -449,7 +449,8 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     _sendButton->setContentSize(Size(buttonHeight, buttonHeight));
     _sendButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(0, 0, sendButtonRightMargin, 0)));
     _sendButton->addClickEventListener([this](Ref* button){
-        setMode(MessageComposer::Mode::Idle);
+        const std::string& message = _messageEntryField->getString();
+        sendMessage(message);
     });
     secondLayout->addChild(_sendButton);
     
