@@ -13,7 +13,6 @@ class AwaitingAdultPinLayer;
 class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
-    bool accountJustRegistered;
     bool newChildJustRegistered;
     std::string newChildName;
     int oomeeAvatarNumber;

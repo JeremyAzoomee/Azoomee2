@@ -60,7 +60,7 @@ void OrientationChangeScene::onEnterTransitionDidFinish()
         case ONBOARDING_SCENE:
         {
             ForceToPortrait();
-            auto onboardingScene = OnboardingScene::createScene(errorCode);
+            auto onboardingScene = OnboardingScene::createScene();
             Director::getInstance()->replaceScene(onboardingScene);
             break;
         }

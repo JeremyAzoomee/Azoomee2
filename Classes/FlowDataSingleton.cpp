@@ -45,12 +45,14 @@ void FlowDataSingleton::setFlowToSignup(std::string userName, std::string passwo
     flowData[DataKeyPassword] = password;
 }
 
+void FlowDataSingleton::setFlowToAddProfile(std::string childName, int oomeeColourNumber)
+{
+    
+}
+
 void FlowDataSingleton::clearData()
 {
-    for(std::map<std::string, std::string>::iterator it = flowData.begin(); it != flowData.end(); it++)
-    {
-        flowData.erase(it);
-    }
+    flowData.clear();
 }
 
 #pragma mark - Error Handling
@@ -60,12 +62,16 @@ void FlowDataSingleton::setErrorCode(long errorCode)
     flowData[DataKeyErrorCode] = StringUtils::format("%ld",errorCode);
 }
 
-long FlowDataSingleton::getErrorCode(long errorCode)
+long FlowDataSingleton::getErrorCode()
 {
+    long rtrValue = 0;
+    
     if(hasError())
-        return std::atoi(flowData.at(DataKeyErrorCode).c_str());
-    else
-        return 0;
+        rtrValue = std::atoi(flowData.at(DataKeyErrorCode).c_str());
+    
+    flowData[DataKeyErrorCode] = "";
+    
+    return rtrValue;
 }
 
 bool FlowDataSingleton::hasError()

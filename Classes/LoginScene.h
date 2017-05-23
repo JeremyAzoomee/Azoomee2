@@ -15,8 +15,7 @@ enum LoginScreenLocationEnum { emailLoginScreen, passwordLoginScreen};
 class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public OfflineCheckerDelegate
 {
 private:
-    long _errorCode;
-    
+
     TextInputLayer *emailTextInput;
     TextInputLayer *passwordTextInput;
     
@@ -51,7 +50,7 @@ private:
     bool shouldDisplayMessage;
     
 public:
-    static Scene* createScene(long errorCode);
+    static Scene* createScene();
     
     virtual bool init();
     

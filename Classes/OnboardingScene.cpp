@@ -9,17 +9,17 @@
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "OrientationChangeScene.h"
+#include "FlowDataSingleton.h"
+#include "LoginScene.h"
 
 using namespace Azoomee;
 
 
-Scene* OnboardingScene::createScene(long errorCode)
+Scene* OnboardingScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = OnboardingScene::create();
     scene->addChild(layer);
-    
-    layer->_errorCode = errorCode;
     
     return scene;
 }
@@ -53,12 +53,12 @@ void OnboardingScene::onEnter()
 
 void OnboardingScene::onEnterTransitionDidFinish()
 {
-    if(_errorCode !=0)
+    if(FlowDataSingleton::getInstance()->hasError())
     {
         emailTextInput->setEditboxVisibility(false);
         passwordTextInput->setEditboxVisibility(false);
         pinTextInput->setEditboxVisibility(false);
-        MessageBox::createWith(_errorCode, this);
+        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), this);
     }
     else
         emailTextInput->focusAndShowKeyboard();
@@ -72,6 +72,7 @@ void OnboardingScene::addTextboxScene()
     emailTextInput = TextInputLayer::createWithSize(Size(textInputWidth,197), INPUT_IS_EMAIL);
     emailTextInput->setPositionY(visibleSize.height-emailTextInput->getContentSize().height*1.75);
     emailTextInput->setDelegate(this);
+    emailTextInput->setText(FlowDataSingleton::getInstance()->getUserName());
     this->addChild(emailTextInput);
     
     passwordTextInput = TextInputLayer::createWithSize(Size(textInputWidth,197), INPUT_IS_PASSWORD);
@@ -172,9 +173,18 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
 
 void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    emailTextInput->setEditboxVisibility(true);
-    passwordTextInput->setEditboxVisibility(true);
-    pinTextInput->setEditboxVisibility(true);
-    emailTextInput->focusAndShowKeyboard();
+    if(buttonTitle == "Log in")
+    {
+        //Navigate to Log in scene
+        auto loginScene = LoginScene::createScene();
+        Director::getInstance()->replaceScene(loginScene);
+    }
+    else
+    {
+        emailTextInput->setEditboxVisibility(true);
+        passwordTextInput->setEditboxVisibility(true);
+        pinTextInput->setEditboxVisibility(true);
+        emailTextInput->focusAndShowKeyboard();
+    }
 }
 

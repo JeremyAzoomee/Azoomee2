@@ -10,18 +10,17 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "FlowDataSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
 
 
-Scene* LoginScene::createScene(long errorCode)
+Scene* LoginScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = LoginScene::create();
     scene->addChild(layer);
-    
-    layer->_errorCode = errorCode;
     
     return scene;
 }
@@ -54,9 +53,9 @@ void LoginScene::onEnterTransitionDidFinish()
     
     OfflineChecker::getInstance()->setDelegate(this);
     
-    if(_errorCode !=0)
+    if(FlowDataSingleton::getInstance()->hasError())
     {
-        MessageBox::createWith(_errorCode, emailTextInput, this);
+        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), emailTextInput, this);
     }
     else
         emailTextInput->focusAndShowKeyboard();
@@ -71,6 +70,9 @@ void LoginScene::getUserDefaults()
     UserDefault* def = UserDefault::getInstance();
     storedUsername = def->getStringForKey("username", "");
     def->flush();
+    
+    if(storedUsername == "")
+        storedUsername = FlowDataSingleton::getInstance()->getUserName();
 }
 
 void LoginScene::addLabelToScene()
@@ -92,6 +94,7 @@ void LoginScene::addTextboxScene()
     emailTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_EMAIL);
     emailTextInput->setDelegate(this);
     emailTextInput->setText(storedUsername);
+    emailTextInput->setText(FlowDataSingleton::getInstance()->getUserName());
     this->addChild(emailTextInput);
 }
 

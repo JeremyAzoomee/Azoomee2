@@ -12,8 +12,6 @@ using namespace Azoomee;
 class OnboardingScene : public Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
-    long _errorCode;
-    
     TextInputLayer *emailTextInput;
     TextInputLayer *passwordTextInput;
     TextInputLayer *pinTextInput;
@@ -36,7 +34,7 @@ private:
     virtual void onEnter();
 
 public:
-    static cocos2d::Scene* createScene(long errorCode);
+    static cocos2d::Scene* createScene();
     
     virtual bool init();
     

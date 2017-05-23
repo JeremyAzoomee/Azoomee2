@@ -46,7 +46,7 @@ void LoginLogicHandler::doLoginLogic()
         return;
     else
     {
-        auto loginScene = LoginScene::createScene(0);
+        auto loginScene = LoginScene::createScene();
         Director::getInstance()->replaceScene(loginScene);
     }
 }
@@ -55,7 +55,7 @@ void LoginLogicHandler::forceNewLogin()
 {
     ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
     
-    auto loginScene = LoginScene::createScene(getErrorMessageCodeToDisplay());
+    auto loginScene = LoginScene::createScene();
     Director::getInstance()->replaceScene(loginScene);
 }
 

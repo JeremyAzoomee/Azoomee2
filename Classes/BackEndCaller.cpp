@@ -72,7 +72,6 @@ void BackEndCaller::hideLoadingScreen()
 
 void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
-    accountJustRegistered = false;
     newChildJustRegistered = false;
     
     LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
@@ -115,6 +114,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
     else
     {
         AnalyticsSingleton::getInstance()->signInFailEvent(0);
+        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_INVALID_CREDENTIALS);
         getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
     }
 }
@@ -177,10 +177,9 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
         auto orientationChangeScene = OrientationChangeScene::createSceneChildAccountNext(newChildRegisteredNextSceneID, 0,newChildName, oomeeAvatarNumber);
         Director::getInstance()->replaceScene(orientationChangeScene);
     }
-    else if(accountJustRegistered)
+    else if(FlowDataSingleton::getInstance()->isSignupFlow())
     {
         CCLOG("Just registered account : backendcaller");
-        accountJustRegistered = false;
         auto orientationChangeScene = OrientationChangeScene::createScene(CHILD_ACCOUNT_SCENE_AFTERSIGNUP, 0);
         Director::getInstance()->replaceScene(orientationChangeScene);
     }
@@ -256,7 +255,6 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
-    accountJustRegistered = true;
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     login(FlowDataSingleton::getInstance()->getUserName(), FlowDataSingleton::getInstance()->getPassword());
 }
@@ -421,6 +419,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     if(requestTag == API::TagRegisterParent)
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
+        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         auto orientationChangeScene = OrientationChangeScene::createScene(ONBOARDING_SCENE, errorCode);
         Director::getInstance()->replaceScene(orientationChangeScene);
         return;
@@ -437,6 +436,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     
     if(requestTag == API::TagLogin)
     {
+        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
         LoginLogicHandler::getInstance()->forceNewLogin();
     }
