@@ -22,6 +22,7 @@
 #include "RoutePaymentSingleton.h"
 #include "OrientationChangeScene.h"
 #include "DeepLinkingSingleton.h"
+#include "FlowDataSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -238,9 +239,7 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 
 void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber)
 {
-    //Save emailAddress and password, so onRegisterParentAnswerReceived can login after success
-    registerParentUsername = emailAddress;
-    registerParentPassword = password;
+    FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
     
     std::string source = "OTHER";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -259,7 +258,7 @@ void BackEndCaller::onRegisterParentAnswerReceived()
 {
     accountJustRegistered = true;
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
-    login(this->registerParentUsername, this->registerParentPassword);
+    login(FlowDataSingleton::getInstance()->getUserName(), FlowDataSingleton::getInstance()->getPassword());
 }
 
 //REGISTER CHILD----------------------------------------------------------------------------

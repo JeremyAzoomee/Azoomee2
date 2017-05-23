@@ -18,9 +18,6 @@ private:
     std::string newChildName;
     int oomeeAvatarNumber;
     int newChildRegisteredNextSceneID;
-    //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
-    std::string registerParentUsername;
-    std::string registerParentPassword;
     
     AwaitingAdultPinLayer* callBackNode;
     

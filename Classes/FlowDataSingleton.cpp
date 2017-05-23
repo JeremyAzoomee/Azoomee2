@@ -4,12 +4,12 @@ USING_NS_CC;
 
 #pragma mark - Constants
 
-const char* const DataKeyUserName = "keyUserName";
-const char* const DataKeyPassword = "keyPassword";
-const char* const DataKeyErrorCode = "keyErrorCode";
-const char* const DataKeyChildName = "keyChildName";
-const char* const DataKeyOomeeColourNumber = "keyOomeeColourNumber";
-const char* const DataKeyChildRefNumber = "keyChildRefNumber";
+const char* const FlowDataSingleton::DataKeyUserName = "keyUserName";
+const char* const FlowDataSingleton::DataKeyPassword = "keyPassword";
+const char* const FlowDataSingleton::DataKeyErrorCode = "keyErrorCode";
+const char* const FlowDataSingleton::DataKeyChildName = "keyChildName";
+const char* const FlowDataSingleton::DataKeyOomeeColourNumber = "keyOomeeColourNumber";
+const char* const FlowDataSingleton::DataKeyChildRefNumber = "keyChildRefNumber";
 
 #pragma mark - SingletonSetup
 
@@ -105,3 +105,38 @@ bool FlowDataSingleton::keyValueExists(std::string keyName)
     return false;
 }
 
+std::string FlowDataSingleton::getStringValue(std::string keyName)
+{
+    if(flowData.find( keyName ) != flowData.end())
+        if(flowData.at(keyName) != "")
+            return flowData[keyName];
+    
+    return "";
+}
+
+#pragma mark - Get Functions
+
+std::string FlowDataSingleton::getUserName()
+{
+    return getStringValue(DataKeyUserName);
+}
+
+std::string FlowDataSingleton::getPassword()
+{
+    return getStringValue(DataKeyPassword);
+}
+
+std::string FlowDataSingleton::getChildName()
+{
+    return getStringValue(DataKeyChildName);
+}
+
+int FlowDataSingleton::getOomeeColourNumber()
+{
+    return std::atoi(getStringValue(DataKeyOomeeColourNumber).c_str());
+}
+
+int FlowDataSingleton::getChildRefNumber()
+{
+    return std::atoi(getStringValue(DataKeyChildRefNumber).c_str());
+}
