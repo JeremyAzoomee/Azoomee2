@@ -122,6 +122,10 @@ void MessageListViewItem::resizeItemContents()
     Size itemSize = getContentSize();
     itemSize.height = contentSize.height;
     setContentSize(itemSize);
+    
+    // Force a layout to make sure elements are aligned correctly inside
+    // This is especially needed for when an existing item has been updated
+    forceDoLayout();
 }
 
 #pragma mark - Public
@@ -139,7 +143,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         if(messageType == "TEXT" || moderated)
         {
             // TODO: Get moderated text from Strings
-            _textLabel->setString(moderated ? "Message deleted" : message->messageText());
+            _textLabel->setString((moderated ? "Message deleted" : message->messageText()));
         }
         else
         {
@@ -153,7 +157,6 @@ void MessageListViewItem::setData(const MessageRef& message)
         ui::RelativeLayoutParameter::RelativeAlign contentAlign = (isCurrentUser) ? ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL : ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL;
         ui::RelativeLayoutParameter* contentLayoutParam = (ui::RelativeLayoutParameter*) _contentLayout->getLayoutParameter();
         contentLayoutParam->setAlign(contentAlign);
-        _contentLayout->setLayoutParameter(contentLayoutParam);
         
         // Color depends also on current user
         const Color3B& fontColor = (isCurrentUser) ? Style::Color::kermitGreen : Style::Color::barney;
