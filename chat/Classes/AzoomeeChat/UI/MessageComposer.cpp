@@ -7,7 +7,6 @@
 using namespace cocos2d;
 
 
-
 NS_AZOOMEE_CHAT_BEGIN
 
 bool MessageComposer::init()
@@ -226,8 +225,8 @@ void MessageComposer::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFi
             // Keyboard closed
             // For now we'll assume we should send the message when keyboard dismissed
             // because we can't catch RETURN key presses yet
-            const std::string& message = _messageEntryField->getString();
-            sendMessage(message);
+//            const std::string& message = _messageEntryField->getString();
+//            sendMessage(message);
             
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
             // On Android we must deal with the faff of getting the keyboard height here, because
@@ -386,6 +385,8 @@ void MessageComposer::createCancelButton(cocos2d::ui::Layout* parent)
     _cancelButton->setContentSize(Size(buttonHeight, buttonHeight));
     _cancelButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(contentMarginX, 0, 0, 0)));
     _cancelButton->addClickEventListener([this](Ref* button){
+        // Clear the message before we set to idle
+        _messageEntryField->setString("");
         setMode(MessageComposer::Mode::Idle);
     });
     parent->addChild(_cancelButton);
