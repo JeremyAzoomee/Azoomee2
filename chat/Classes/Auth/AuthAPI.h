@@ -68,6 +68,7 @@ struct AuthAPIObserver
     virtual void onAuthAPILogin() {};
     virtual void onAuthAPIGetAvailableChildren() {};
     virtual void onAuthAPIChildLogin() {};
+    virtual void onAuthAPIRequestFailed(const std::string& requestTag, long errorCode) {};
 };
 
 NS_AZOOMEE_END

@@ -42,6 +42,8 @@
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
+    _forcePortrait = NO;
+    
     cocos2d::Application *app = cocos2d::Application::getInstance();
     
     // Initialize the GLView attributes

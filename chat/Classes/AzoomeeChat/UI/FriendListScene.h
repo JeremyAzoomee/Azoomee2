@@ -55,7 +55,7 @@ private:
     void onChatAPIGetFriendList(const FriendList& friendList) override;
     
     // - MessageBoxDelegate
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
+    void MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle) override;
     
 protected:
     

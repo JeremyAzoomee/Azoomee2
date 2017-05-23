@@ -126,7 +126,6 @@ bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
     return true;
 }
 
-
 #pragma mark - MessageBoxDelegate
 
 void FriendListScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)

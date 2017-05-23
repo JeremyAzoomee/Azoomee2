@@ -24,14 +24,17 @@ private:
     enum LoginScreenLocationEnum { emailLoginScreen, passwordLoginScreen };
     LoginScreenLocationEnum currentScreen;
     
-    TextInputLayer* emailTextInput;
-    TextInputLayer* passwordTextInput;
-    ElectricDreamsButton* backButton;
-    ElectricDreamsButton* nextButton;
+    cocos2d::Layer* wiresLayer = nullptr;
+    cocos2d::Layer* inputLayer = nullptr;
+    TextInputLayer* emailTextInput = nullptr;
+    TextInputLayer* passwordTextInput = nullptr;
+    ElectricDreamsButton* backButton = nullptr;
+    ElectricDreamsButton* nextButton = nullptr;
+    cocos2d::Label* versionLabel = nullptr;
+    cocos2d::Label* titleLabel = nullptr;
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
-    cocos2d::Label* title;
     std::string storedUsername;
     
     
@@ -60,6 +63,12 @@ private:
     
     // - AuthAPIObserver
     void onAuthAPILogin() override;
+    void onAuthAPIRequestFailed(const std::string& requestTag, long errorCode) override;
+    
+protected:
+    
+    /// Called when the content size of this scene has changed
+    virtual void onSizeChanged() override;
     
 public:
     

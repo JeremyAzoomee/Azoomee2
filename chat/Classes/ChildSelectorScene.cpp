@@ -30,13 +30,18 @@ bool ChildSelectorScene::init()
     }
     
     AnalyticsSingleton::getInstance()->logoutChildEvent();
-    
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    visibleSize = getContentSize();
-    origin = Vec2::ZERO;
+    wiresLayer = Layer::create();
+    wiresLayer->setPosition(Director::getInstance()->getVisibleOrigin() * -1.0f);
+    addChild(wiresLayer);
     
     addVisualsToScene();
+    
+    titleLabel = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
+    titleLabel->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);
+    this->addChild(titleLabel);
+    
     addScrollViewForProfiles();
     addButtonsScene();
     
@@ -46,6 +51,8 @@ bool ChildSelectorScene::init()
 void ChildSelectorScene::onEnter()
 {
     Super::onEnter();
+    
+    onSizeChanged();
     
     // Register for API events
     AuthAPI::getInstance()->registerObserver(this);
@@ -64,16 +71,34 @@ void ChildSelectorScene::onExit()
     AuthAPI::getInstance()->removeObserver(this);
 }
 
+#pragma mark - Size Changes
+
+void ChildSelectorScene::onSizeChanged()
+{
+    Super::onSizeChanged();
+    
+    visibleSize = getContentSize();
+    
+    // If initialised
+    if(wiresLayer)
+    {
+        wiresLayer->removeAllChildren();
+        wiresLayer->setPosition(Director::getInstance()->getVisibleOrigin() * -1.0f);
+        addVisualsToScene();
+        
+        titleLabel->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);
+        backButton->setCenterPosition(Vec2(backButton->getContentSize().width*.7, visibleSize.height - backButton->getContentSize().height*.7));
+        scrollView->setContentSize(Size(visibleSize.width * 0.6, visibleSize.height * 0.8));
+        scrollView->setPosition(Point(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.05));
+    }
+}
+
 #pragma mark - UI
 
 void ChildSelectorScene::addVisualsToScene()
 {
-    addGlowToScreen(this, 1);
-    addSideWiresToScreen(this, 0, 2);
-    
-    auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
-    selectTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);
-    this->addChild(selectTitle);
+    addGlowToScreen(wiresLayer, 1);
+    addSideWiresToScreen(wiresLayer, 0, 2);
 }
 
 void ChildSelectorScene::addButtonsScene()
@@ -262,6 +287,16 @@ void ChildSelectorScene::buttonPressed(ElectricDreamsButton* button)
     }
 }
 
+#pragma mark - MessageBoxDelegate
+
+void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
+{
+    // Messagebox only used for errors so far, so just go back to login
+    AuthAPI::getInstance()->logoutUser();
+    auto loginScene = LoginScene::create();
+    Director::getInstance()->replaceScene(loginScene);
+}
+
 #pragma mark - AuthAPIObserver
 
 //#define AZOOMEE_CHAT_AUTO_CHILD_LOGIN
@@ -285,6 +320,12 @@ void ChildSelectorScene::onAuthAPIChildLogin()
     auto chatScene = FriendListScene::create();
 //    auto chatScene = ChatTestScene::create();
     Director::getInstance()->replaceScene(chatScene);
+}
+
+void ChildSelectorScene::onAuthAPIRequestFailed(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(errorCode, this);
 }
 
 NS_AZOOMEE_CHAT_END
