@@ -274,7 +274,7 @@ void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumbe
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber)
+    void AnalyticsSingleton::openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape)
 {
     time(&timeOpenedContent);
     storedTitle = Title;
@@ -283,6 +283,7 @@ void AnalyticsSingleton::openContentEvent(std::string Title,std::string Descript
     storedContentID = contentID;
     storedRowNumber = rowNumber;
     storedElementNumber = elementNumber;
+    storedElementShape = elementShape;
     
     std::string eventID = "openContent";
     
@@ -293,6 +294,7 @@ void AnalyticsSingleton::openContentEvent(std::string Title,std::string Descript
     mixPanelProperties["ContentID"] = contentID;
     mixPanelProperties["rowNumber"] = cocos2d::StringUtils::format("%d", rowNumber);
     mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", elementNumber);
+    mixPanelProperties["elementShape"] = elementShape;
     
     
     mixPanelSendEvent(eventID, mixPanelProperties);
@@ -316,6 +318,7 @@ void AnalyticsSingleton::closeContentEvent()
     mixPanelProperties["SecondsInContent"] = cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened);
     mixPanelProperties["rowNumber"] = cocos2d::StringUtils::format("%d", storedRowNumber);
     mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", storedElementNumber);
+    mixPanelProperties["elementShape"] = storedElementShape;
     
     
     mixPanelSendEvent(eventID, mixPanelProperties);

@@ -29,6 +29,7 @@ private:
     std::string storedContentID;
     int storedRowNumber;
     int storedElementNumber;
+    std::string storedElementShape;
     
     std::string OSManufacturer;
     
@@ -87,7 +88,7 @@ public:
     //-------------HUB ACTIONS-------------------
     void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
     void navSelectionEvent(std::string hubOrTop, int buttonNumber);
-    void openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber);
+    void openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape);
     void closeContentEvent();
 
     //------------- PREVIEW ACTIONS ---------------

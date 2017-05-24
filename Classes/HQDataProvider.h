@@ -13,6 +13,7 @@ public:
     //MainHub Area services
     std::map<std::string, std::string> getItemDataForSpecificItem(std::string category, std::string itemid);
     cocos2d::Vec2 getHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber);
+    std::string getHumanReadableHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber);
     void getDataForHQ(std::string category);
     void getDataForGroupHQ(std::string uri);
     
