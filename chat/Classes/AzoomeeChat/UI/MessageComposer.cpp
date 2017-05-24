@@ -109,6 +109,12 @@ void MessageComposer::resizeUIForKeyboard(float keyboardHeight, float duration)
 {
     cocos2d::log("MessageComposer::resizeUIForKeyboard: %f, duration=%f", keyboardHeight, duration);
     
+    // Take into account screen cropping
+    if(keyboardHeight > 0)
+    {
+        keyboardHeight -= Director::getInstance()->getVisibleOrigin().y;
+    }
+    
     // Resize the composer so the TextField stays in view
     
     // Calculate what height we need
