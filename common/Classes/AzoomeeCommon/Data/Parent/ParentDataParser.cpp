@@ -217,6 +217,7 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     createCrashlyticsUserInfo(parentData->loggedInParentId, "");
     AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
     AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
+    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(def->getStringForKey("username"));
 }
 
 bool ParentDataParser::hasParentLoginDataInUserDefaults()
