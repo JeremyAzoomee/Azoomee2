@@ -27,6 +27,8 @@ private:
     std::string storedDescription;
     std::string storedType;
     std::string storedContentID;
+    int storedRowNumber;
+    int storedElementNumber;
     
     std::string OSManufacturer;
     
@@ -47,6 +49,8 @@ public:
     void registerBillingStatus(std::string Status);
     void registerIAPOS(std::string OS_String);
     void registerBillingProvider(std::string provider);
+    void registerSessionId(std::string sessionId);
+    void registerCurrentHQ(std::string currentHQ);
 
 
     void registerChildID(std::string ChildID);
@@ -83,7 +87,7 @@ public:
     //-------------HUB ACTIONS-------------------
     void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
     void navSelectionEvent(std::string hubOrTop, int buttonNumber);
-    void openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID);
+    void openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber);
     void closeContentEvent();
 
     //------------- PREVIEW ACTIONS ---------------

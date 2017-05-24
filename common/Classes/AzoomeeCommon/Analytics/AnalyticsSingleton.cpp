@@ -104,6 +104,16 @@ void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
     
     mixPanelRegisterSuperProperties("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
 }
+    
+void AnalyticsSingleton::registerSessionId(std::string sessionId)
+{
+    mixPanelRegisterSuperProperties("sessionId", sessionId);
+}
+    
+void AnalyticsSingleton::registerCurrentHQ(std::string currentHQ)
+{
+    mixPanelRegisterSuperProperties("currentHQ", currentHQ);
+}
 
 void AnalyticsSingleton::logoutChildEvent()
 {
@@ -264,13 +274,15 @@ void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumbe
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID)
+void AnalyticsSingleton::openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber)
 {
     time(&timeOpenedContent);
     storedTitle = Title;
     storedDescription = Description;
     storedType = Type;
     storedContentID = contentID;
+    storedRowNumber = rowNumber;
+    storedElementNumber = elementNumber;
     
     std::string eventID = "openContent";
     
@@ -279,6 +291,9 @@ void AnalyticsSingleton::openContentEvent(std::string Title,std::string Descript
     mixPanelProperties["Description"] = Description;
     mixPanelProperties["Type"] = Type;
     mixPanelProperties["ContentID"] = contentID;
+    mixPanelProperties["rowNumber"] = cocos2d::StringUtils::format("%d", rowNumber);
+    mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", elementNumber);
+    
     
     mixPanelSendEvent(eventID, mixPanelProperties);
     appsFlyerSendEvent(eventID, mixPanelProperties);
