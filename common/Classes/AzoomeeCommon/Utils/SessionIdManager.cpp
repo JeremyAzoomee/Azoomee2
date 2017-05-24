@@ -27,6 +27,8 @@ namespace Azoomee
     bool SessionIdManager::init(void)
     {
         timeStampGoingBackground = 0;
+        timeStampAndroidSceneChange = 0;
+        backgroundTimeInContent = 0;
         sessionId = "";
         generateSessionId();
         return true;
@@ -53,6 +55,7 @@ namespace Azoomee
         
         if(!eventHappenedDuringAndroidSceneChange())
         {
+            increaseBackgroundTimeInContent();
             AnalyticsSingleton::getInstance()->enteredForegroundEvent();
         }
     }
@@ -60,6 +63,16 @@ namespace Azoomee
     void SessionIdManager::registerAndroidSceneChangeEvent()
     {
         timeStampAndroidSceneChange = time(NULL);
+    }
+    
+    void SessionIdManager::resetBackgroundTimeInContent()
+    {
+        backgroundTimeInContent = 0;
+    }
+    
+    long SessionIdManager::getBackgroundTimeInContent()
+    {
+        return backgroundTimeInContent;
     }
     
     //---------------------------------------PRIVATE METHODS--------------------------------------
@@ -96,6 +109,14 @@ namespace Azoomee
         if(time(NULL) - timeStampAndroidSceneChange > 2) return false;
         
         return true;
+    }
+    
+    void SessionIdManager::increaseBackgroundTimeInContent()
+    {
+        if(timeStampGoingBackground == 0) return;
+        
+        long timeSpentBackground = time(NULL) - timeStampGoingBackground;
+        if(timeSpentBackground > 2) backgroundTimeInContent += timeSpentBackground;
     }
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

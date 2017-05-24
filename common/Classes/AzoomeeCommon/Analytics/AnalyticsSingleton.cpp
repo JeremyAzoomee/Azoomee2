@@ -5,6 +5,7 @@
 #include "../Data/Parent/ParentDataProvider.h"
 #include "../Utils/StringFunctions.h"
 #include "../Strings.h"
+#include "../Utils/SessionIdManager.h"
 
 
 namespace Azoomee
@@ -276,6 +277,8 @@ void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumbe
 
     void AnalyticsSingleton::openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape)
 {
+    SessionIdManager::getInstance()->resetBackgroundTimeInContent();
+    
     time(&timeOpenedContent);
     storedTitle = Title;
     storedDescription = Description;
@@ -306,6 +309,11 @@ void AnalyticsSingleton::closeContentEvent()
     time_t now;
     time(&now);
     double secondsOpened = difftime(now,timeOpenedContent);
+    
+    cocos2d::log("CLOSE EVENT CONTENT TIME: %f", secondsOpened);
+    cocos2d::log("CLOSE EVENT BACKGROUND TIME: %lu", SessionIdManager::getInstance()->getBackgroundTimeInContent());
+    
+    secondsOpened -= SessionIdManager::getInstance()->getBackgroundTimeInContent();
     
     std::string eventID = "closedContent";
     

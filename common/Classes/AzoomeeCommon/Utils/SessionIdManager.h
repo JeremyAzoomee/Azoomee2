@@ -19,15 +19,19 @@ public:
     void registerAppWentBackgroundEvent();
     void registerAppCameForegroundEvent();
     void registerAndroidSceneChangeEvent();
+    void resetBackgroundTimeInContent();
+    long getBackgroundTimeInContent();
     
 private:
     std::string sessionId;
     long timeStampGoingBackground;
     long timeStampAndroidSceneChange;
+    long backgroundTimeInContent;
     
     bool generatingNewSessionIdRequired();
     bool eventHappenedDuringAndroidSceneChange();
     void generateSessionId();
+    void increaseBackgroundTimeInContent();
 };
   
 }
