@@ -115,11 +115,10 @@ bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
     {
         body << "- New UI \"1.0\".\n";
         body << "- Chat UI should always resize correctly, please report if it doesn't.\n";
-        body << "- No Pusher (yet).\n";
-        body << "- No Oomees yet (sorry!).\n";
+        body << "- No Oomees.\n";
+        body << "- No Stickers.\n";
+        body << "- No Pusher.\n";
         body << "- No unread messages indicator.\n";
-        body << "- No stickers or art gallery yet.\n";
-        body << "- Portrait alt layout for stickers/art button (below the text entry) is still todo.\n";
     }
     
     MessageBox::createWith(fullTitle, body.str(), "OK", this);

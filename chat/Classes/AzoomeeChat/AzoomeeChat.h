@@ -9,7 +9,7 @@
 NS_AZOOMEE_CHAT_BEGIN
 
 // Burnt in version number for the AzoomeeChat static library
-const char* const Version = "0.1.0";
+const char* const Version = "0.1.1";
 
 NS_AZOOMEE_CHAT_END
 
