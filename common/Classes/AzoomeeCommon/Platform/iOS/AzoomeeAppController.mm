@@ -56,7 +56,7 @@
     }
     else
     {
-        // use this method on ios6
+        // use this method on ios6+
         [window setRootViewController:_viewController];
     }
 

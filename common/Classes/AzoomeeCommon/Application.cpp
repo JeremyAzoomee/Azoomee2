@@ -108,14 +108,39 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
 {
     cocos2d::log( "Application::applicationScreenSizeChanged: %d, %d", newWidth, newHeight );
     
+    updateResolution(newWidth, newHeight);
+    
+    // Notify the running scene if it's an Azoomee::Scene
+    auto director = Director::getInstance();
+    Azoomee::Scene* scene = (Azoomee::Scene*)director->getRunningScene();
+    if(scene != nullptr)
+    {
+        scene->screenSizeDidChange();
+    }
+}
+
+void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, float duration)
+{
+    cocos2d::log( "Application::applicationScreenSizeWillChange: %d, %d, duration=%f", newWidth, newHeight, duration );
+    updateResolution(newWidth, newHeight);
+    
+    // Notify the running scene if it's an Azoomee::Scene
+    auto director = Director::getInstance();
+    Azoomee::Scene* scene = (Azoomee::Scene*)director->getRunningScene();
+    if(scene != nullptr)
+    {
+        scene->screenSizeWillChange(duration);
+    }
+}
+
+void Application::updateResolution(int newWidth, int newHeight)
+{
     // First tell cocos to use this new size for the GLView
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     glview->setFrameSize(newWidth, newHeight);
     
-    
     // Use the correct design resolution
-    
     // Landscape
     if(newWidth > newHeight)
     {
@@ -126,18 +151,11 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
     {
         glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::NO_BORDER);
     }
-    
-    // Resize the running scene if it's an Azoomee::Scene
-    Azoomee::Scene* scene = (Azoomee::Scene*)director->getRunningScene();
-    if(scene != nullptr)
-    {
-        scene->updateSizeAndPosition();
-//        scene->setPosition(director->getVisibleOrigin());
-//        scene->setContentSize(director->getVisibleSize());
-    }
 }
 
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
 void Application::onVirtualKeyboardShown(bool shown, int height)
 {
     cocos2d::log( "Application::onVirtualKeyboardShown: (shown=%d), %d", shown, height );
@@ -164,6 +182,7 @@ void Application::onVirtualKeyboardShown(bool shown, int height)
         imeDispatch->dispatchKeyboardWillHide(imeNotification);
     }
 }
+
 #endif
 
 NS_AZOOMEE_END

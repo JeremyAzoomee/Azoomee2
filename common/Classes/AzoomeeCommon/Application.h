@@ -21,33 +21,30 @@ private:
     cocos2d::IMEKeyboardNotificationInfo imeNotification;
 #endif
     
+    void updateResolution(int newWidth, int newHeight);
+    
 public:
 
     virtual void initGLContextAttrs() override;
 
-    /**
-    @brief    Implement Director and Scene init code here.
-    */
+    /// Implement Director and Scene init code here.
     virtual bool applicationDidFinishLaunching() override;
 
-    /**
-    @brief  Called when the application moves to the background
-    */
+    /// Called when the application moves to the background
     virtual void applicationDidEnterBackground() override;
 
-    /**
-    @brief  Called when the application reenters the foreground
-    */
+    /// Called when the application reenters the foreground
     virtual void applicationWillEnterForeground() override;
     
-    /**
-     @brief  This function will be called when the application screen size is changed.
-     */
+    /// The screen size has changed
     virtual void applicationScreenSizeChanged(int newWidth, int newHeight) override;
+    
+    /// The screen size will change over duration (e.g orientation change)
+    virtual void applicationScreenSizeWillChange(int newWidth, int newHeight, float duration);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     /// Called when keyboard on android is shown
-    void onVirtualKeyboardShown(bool shown, int height);
+    virtual void onVirtualKeyboardShown(bool shown, int height);
 #endif
 };
 

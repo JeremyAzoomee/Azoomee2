@@ -1,4 +1,5 @@
 #import "AzoomeeViewController.h"
+#import "../../Application.h"
 #import <cocos/cocos2d.h>
 #import <cocos/platform/ios/CCEAGLView-ios.h>
 
@@ -72,19 +73,40 @@
     return YES;
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    auto glview = cocos2d::Director::getInstance()->getOpenGLView();
+    if(glview)
+    {
+        CCEAGLView* eaglview = (__bridge CCEAGLView*)glview->getEAGLView();
+        if(eaglview)
+        {
+            CGSize s = CGSizeMake([eaglview getWidth], [eaglview getHeight]);
+            Azoomee::Application* app = (Azoomee::Application*) cocos2d::Application::getInstance();
+            if(app)
+            {
+                app->applicationScreenSizeWillChange((int) s.width, (int) s.height, (float)duration);
+            }
+        }
+    }
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
-
-    if (glview)
+    if(glview)
     {
-        CCEAGLView *eaglview = (__bridge CCEAGLView *)glview->getEAGLView();
-
-        if (eaglview)
+        CCEAGLView* eaglview = (__bridge CCEAGLView*)glview->getEAGLView();
+        if(eaglview)
         {
             CGSize s = CGSizeMake([eaglview getWidth], [eaglview getHeight]);
-            cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) s.width, (int) s.height);
+            Azoomee::Application* app = (Azoomee::Application*) cocos2d::Application::getInstance();
+            if(app)
+            {
+                app->applicationScreenSizeChanged((int) s.width, (int) s.height);
+            }
         }
     }
 }

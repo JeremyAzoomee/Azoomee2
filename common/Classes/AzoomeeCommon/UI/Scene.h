@@ -39,8 +39,10 @@ public:
     virtual void setContentSize(const cocos2d::Size& contentSize) override;
     virtual const cocos2d::Size& getContentSize() const override;
     
-    /// Call to ensure the Scene's contents is in visible area on the screen
-    void updateSizeAndPosition();
+    /// Screen size changed
+    void screenSizeDidChange();
+    /// The screen will change soon, please look forward to it
+    void screenSizeWillChange(float duration);
     
     /// Like ui::Layout, set the layout type
     virtual void setLayoutType(cocos2d::ui::Layout::Type type);

@@ -14,11 +14,6 @@ bool Scene::init()
         return false;
     }
     
-    // Set the size of the scene to be the visible size, and move to origin
-    // This way the content inside doesn't need to care about visible size, it can just fill the scene
-//    setPosition(cocos2d::Director::getInstance()->getVisibleOrigin());
-//    setContentSize(cocos2d::Director::getInstance()->getVisibleSize());
-    
     _contentLayer = ui::Layout::create();
     _contentLayer->setLayoutType(ui::Layout::Type::ABSOLUTE);
 //    _contentLayer->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
@@ -29,6 +24,8 @@ bool Scene::init()
     _contentLayer->setAnchorPoint(Vec2(0.5f, 0.5f));
     _contentLayer->setPositionType(ui::Widget::PositionType::PERCENT);
     _contentLayer->setPositionPercent(Vec2(0.5f, 0.5f));
+    const Size& sceneSize = Director::getInstance()->getWinSize();
+    _contentLayer->setPosition(sceneSize * 0.5f);
     _contentLayer->setContentSize(cocos2d::Director::getInstance()->getVisibleSize());
   
     return true;
@@ -40,32 +37,54 @@ void Scene::onEnter()
     Super::onEnter();
     _triggeringLayout = false;
     
-    
-    // TODO: Get rid of this
+    // Trigger initial size change event to make sure elements are positioned correctly on enter
     onSizeChanged();
 }
 
 #pragma mark - Layout
 
-void Scene::updateSizeAndPosition()
+void Scene::screenSizeDidChange()
 {
     // Update scene content size to the size of the window.
     // This matches what cocos2d::Scene uses on creation, but it's not updated
     // automatically, so we do it here.
-    const Size& sceneContentSize = Director::getInstance()->getWinSize();
-    setContentSize(sceneContentSize);
+    const Size& sceneSize = Director::getInstance()->getWinSize();
+    setContentSize(sceneSize);
     
     // Update the content layer so it sits inside and fills only the visible area of the screen
-//    const Vec2& origin = cocos2d::Director::getInstance()->getVisibleOrigin();
-//    _contentLayer->setPosition(origin * -1.0f);
-    const Size& size = cocos2d::Director::getInstance()->getVisibleSize();
-    _contentLayer->setContentSize(size);
-    _contentLayer->updateSizeAndPosition(sceneContentSize);
+    const Size& contentSize = cocos2d::Director::getInstance()->getVisibleSize();
+    _contentLayer->setContentSize(contentSize);
+    _contentLayer->setPosition(sceneSize * 0.5f);
     
     if(isRunning())
     {
         onSizeChanged();
     }
+}
+
+void Scene::screenSizeWillChange(float duration)
+{
+    // For now, don't animate any change until we can get it working nicely
+    // TODO: Fix screenSizeWillChange animation
+    screenSizeDidChange();
+    return;
+    
+//    const Size& sceneSize = Director::getInstance()->getWinSize();
+//    setContentSize(sceneSize);
+//    
+//    // Animate the change to the content
+//    // Copy these values rather than keep ref - they will change in runAction
+////    const Size sceneSizeStart = Super::getContentSize();
+////    const Size sceneSizeTarget = Director::getInstance()->getWinSize();
+//    const Size contentSizeStart = _contentLayer->getContentSize();
+//    const Size contentSizeTarget = cocos2d::Director::getInstance()->getVisibleSize();
+//    
+//    runAction(ActionFloat::create(duration, 0.0f, 1.0f, [=](float dt) {
+////        Size sceneSizeNext = sceneSizeStart + ((sceneSizeTarget - sceneSizeStart) * dt);
+////        setContentSize(sceneSizeNext);
+//        _contentLayer->setContentSize(contentSizeStart + ((contentSizeTarget - contentSizeStart) * dt));
+//        _contentLayer->setPosition(sceneSize * 0.5f);
+//    }));
 }
 
 const cocos2d::Size& Scene::getContentSize() const
@@ -79,30 +98,7 @@ const cocos2d::Size& Scene::getContentSize() const
 
 void Scene::setContentSize(const cocos2d::Size& contentSize)
 {
-//    Size oldSize = getContentSize();
     Super::setContentSize(contentSize);
-    
-//    // Scene size changed, check for any Widgets
-//    // These don't get resized automatically (because cocos2d::Scene is not a ui::class)
-//    // So we do it here so it just works like magic
-//    const cocos2d::Vector<cocos2d::Node*>& children = getChildren();
-//    for(auto& child : children)
-//    {
-//        ui::Widget* widget = dynamic_cast<ui::Widget*>(child);
-//        if(widget)
-//        {
-//            widget->updateSizeAndPosition();
-//        }
-//    }
-    
-//    if(_contentLayer)
-//    {
-//        if(oldSize.width != contentSize.width || oldSize.height != contentSize.height)
-//        {
-//            updateSizeAndPosition();
-//            onSizeChanged();
-//        }
-//    }
 }
 
 void Scene::onSizeChanged()
