@@ -18,9 +18,8 @@
 #include "BaseScene.h"
 #include "ChildAccountScene.h"
 #include "AwaitingAdultPinLayer.h"
-#include "ChildAccountSuccessScene.h"
 #include "RoutePaymentSingleton.h"
-#include "OrientationChangeScene.h"
+#include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
 #include "FlowDataSingleton.h"
 
@@ -72,8 +71,6 @@ void BackEndCaller::hideLoadingScreen()
 
 void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
-    newChildJustRegistered = false;
-    
     LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
     LoginLogicHandler::getInstance()->forceNewLogin();
 }
@@ -171,17 +168,18 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 {
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     
-    if(newChildJustRegistered)
+    if(FlowDataSingleton::getInstance()->isSignupFlow() && FlowDataSingleton::getInstance()->isNewProfileFlow())
     {
-        newChildJustRegistered = false;
-        auto orientationChangeScene = OrientationChangeScene::createSceneChildAccountNext(newChildRegisteredNextSceneID, 0,newChildName, oomeeAvatarNumber);
-        Director::getInstance()->replaceScene(orientationChangeScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OnboardingSuccessScene));
+    }
+    else if(FlowDataSingleton::getInstance()->isNewProfileFlow())
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccountSuccessScene));
     }
     else if(FlowDataSingleton::getInstance()->isSignupFlow())
     {
         CCLOG("Just registered account : backendcaller");
-        auto orientationChangeScene = OrientationChangeScene::createScene(CHILD_ACCOUNT_SCENE_AFTERSIGNUP, 0);
-        Director::getInstance()->replaceScene(orientationChangeScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
     }
     else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
     {
@@ -261,14 +259,11 @@ void BackEndCaller::onRegisterParentAnswerReceived()
 
 //REGISTER CHILD----------------------------------------------------------------------------
 
-void BackEndCaller::registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber, int nextSceneID)
+void BackEndCaller::registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber)
 {
     displayLoadingScreen();
     
-    newChildRegisteredNextSceneID = nextSceneID;
-    
-    newChildName = childProfileName;
-    oomeeAvatarNumber = oomeeNumber;
+    FlowDataSingleton::getInstance()->addChildData(childProfileName, oomeeNumber);
     
     const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
     HttpRequestCreator* request = API::RegisterChildRequest(childProfileName, childGender, childDOB, oomeeUrl, this);
@@ -277,8 +272,7 @@ void BackEndCaller::registerChild(const std::string& childProfileName, const std
 
 void BackEndCaller::onRegisterChildAnswerReceived()
 {
-    newChildJustRegistered = true;
-    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent(oomeeAvatarNumber);
+    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent(FlowDataSingleton::getInstance()->getOomeeColourNumber());
     getAvailableChildren();
 }
 
@@ -420,8 +414,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        auto orientationChangeScene = OrientationChangeScene::createScene(ONBOARDING_SCENE, errorCode);
-        Director::getInstance()->replaceScene(orientationChangeScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
         return;
     }
     
@@ -429,8 +422,8 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
 
-        auto orientationChangeScene = OrientationChangeScene::createScene(CHILD_ACCOUNT_SCENE_CHILD_CREATION, errorCode);
-        Director::getInstance()->replaceScene(orientationChangeScene);
+        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
         return;
     }
     

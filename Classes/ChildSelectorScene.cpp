@@ -14,7 +14,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
-#include "OrientationChangeScene.h"
+#include "SceneManagerScene.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -286,13 +286,8 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
 {
     target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
     
-    if(ParentDataProvider::getInstance()->emailRequiresVerification())
-        MessageBox::createWith(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED, this);
-    else
-    {
-        AwaitingAdultPinLayer::create()->setDelegate(this);
-        AnalyticsSingleton::getInstance()->childProfileStartEvent();
-    }
+    AwaitingAdultPinLayer::create()->setDelegate(this);
+    AnalyticsSingleton::getInstance()->childProfileStartEvent();
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -320,10 +315,7 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
-    auto orientationChangeScene = OrientationChangeScene::createScene(CHILD_ACCOUNT_SCENE_CHILD_CREATION, 0);
-    Director::getInstance()->replaceScene(orientationChangeScene);
-    //auto newChildScene = ChildAccountScene::createScene("", 0);
-    //Director::getInstance()->replaceScene(newChildScene);
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
 }
 
 void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

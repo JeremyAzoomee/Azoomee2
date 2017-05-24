@@ -165,7 +165,13 @@
 {
     _forcePortrait = false;
     
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeRight];
+    
+    if(currentOrientation == UIInterfaceOrientationLandscapeLeft)
+        value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
+    
     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     [UIViewController attemptRotationToDeviceOrientation];
 }

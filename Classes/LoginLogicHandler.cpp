@@ -1,8 +1,8 @@
 #include "LoginLogicHandler.h"
-#include "LoginScene.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "BackEndCaller.h"
 #include "DeepLinkingSingleton.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -35,9 +35,9 @@ void LoginLogicHandler::doLoginLogic()
     emptyUserName();
 #endif
     
-    if(ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
+    if(Azoomee::ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
     {
-        ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
+        Azoomee::ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
         BackEndCaller::getInstance()->updateBillingData();
         BackEndCaller::getInstance()->getAvailableChildren();
         return;
@@ -46,17 +46,15 @@ void LoginLogicHandler::doLoginLogic()
         return;
     else
     {
-        auto loginScene = LoginScene::createScene();
-        Director::getInstance()->replaceScene(loginScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
     }
 }
 
 void LoginLogicHandler::forceNewLogin()
 {
-    ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
+    Azoomee::ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
     
-    auto loginScene = LoginScene::createScene();
-    Director::getInstance()->replaceScene(loginScene);
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
 }
 
 void LoginLogicHandler::setErrorMessageCodeToDisplay(long errorMessageCode)

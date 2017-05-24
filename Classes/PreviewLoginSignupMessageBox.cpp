@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginLogicHandler.h"
-#include "OrientationChangeScene.h"
+#include "SceneManagerScene.h"
 
 using namespace Azoomee;
 
@@ -35,7 +35,6 @@ void PreviewLoginSignupMessageBox::onButtonPressed(int buttonSelect)
     }
     else if( buttonSelect == 1 ) // signup
     {
-        auto orientationChangeScene = OrientationChangeScene::createScene(ONBOARDING_SCENE, 0);
-        Director::getInstance()->replaceScene(orientationChangeScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
     }
 }

@@ -26,6 +26,8 @@ public:
     
     void setFlowToSignup(std::string userName, std::string password);
     void setFlowToAddProfile(std::string childName, int oomeeColourNumber);
+    
+    void addChildData(std::string childName, int oomeeColourNumber);
 
     bool isSignupFlow();
     bool isNewProfileFlow();

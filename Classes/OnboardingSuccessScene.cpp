@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include "FlowDataSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -75,10 +76,7 @@ void OnboardingSuccessScene::addVisualElementsToScene()
 
 void OnboardingSuccessScene::addButtonsToScene()
 {
-    std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(0);
-    int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
-    
-    oomeeButton = ElectricDreamsButton::createOomeeButtonWithOutline(oomeeNr, ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
+    oomeeButton = ElectricDreamsButton::createOomeeButtonWithOutline(FlowDataSingleton::getInstance()->getOomeeColourNumber(), ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
     oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
     oomeeButton->setDelegate(this);
     oomeeButton->setMixPanelButtonName("OnboardingSuccessOomeePressed");

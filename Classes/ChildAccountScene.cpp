@@ -10,7 +10,8 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include "OrientationChangeScene.h"
+#include "SceneManagerScene.h"
+#include "FlowDataSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -18,7 +19,7 @@ using namespace Azoomee;
 
 #define NO_OF_OOMEES 5
 
-Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode,int nextSceneID)
+Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode)
 {
     auto scene = Scene::create();
     auto layer = ChildAccountScene::create();
@@ -26,7 +27,6 @@ Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode,int 
     scene->addChild(layer);
     
     layer->_errorCode = errorCode;
-    layer->_nextSceneID = nextSceneID;
     
     return scene;
 }
@@ -45,6 +45,7 @@ void ChildAccountScene::onEnter()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
+    AddTitleToScene();
     addTextboxScene();
     addLabelToScene();
     addButtonsScene();
@@ -69,10 +70,26 @@ void ChildAccountScene::onEnterTransitionDidFinish()
 
 //----------------- SCENE SETUP ---------------
 
+void ChildAccountScene::AddTitleToScene()
+{
+    if(FlowDataSingleton::getInstance()->isSignupFlow())
+    {
+        sceneTitle = createLabelHeader("SIGN UP");
+        sceneTitle->setPositionY(origin.y + visibleSize.height - sceneTitle->getContentSize().height * 1.5);
+        this->addChild(sceneTitle);
+    }
+    else
+    {
+        sceneTitle = createLabelHeader("New Profile");
+        sceneTitle->setPositionY(origin.y + visibleSize.height - sceneTitle->getContentSize().height * 1.5);
+        this->addChild(sceneTitle);
+    }
+}
+
 void ChildAccountScene::addTextboxScene()
 {
     childNameInputText = TextInputLayer::createWithSize(Size(visibleSize.width*.90,197), INPUT_IS_CHILD_NAME);
-    childNameInputText->setPositionY(visibleSize.height-childNameInputText->getContentSize().height*1.75);
+    childNameInputText->setPositionY(sceneTitle->getPositionY()-childNameInputText->getContentSize().height*2.25);
     childNameInputText->setDelegate(this);
     this->addChild(childNameInputText);
     
@@ -304,7 +321,7 @@ void ChildAccountScene::registerChildAccount()
     std::string gender = "MALE";
     
     auto backEndCaller = BackEndCaller::getInstance();
-    backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo, _nextSceneID);
+    backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
 }
 
 bool ChildAccountScene::DOBisDate()
@@ -344,8 +361,7 @@ void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
     {
-        auto orientationChangeScene = OrientationChangeScene::createScene(CHILD_SELECTOR_SCENE, 0);
-        Director::getInstance()->replaceScene(orientationChangeScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
     }
     else if(button == nextButton)
     {

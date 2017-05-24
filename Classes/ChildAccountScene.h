@@ -13,7 +13,6 @@ class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, 
 {
 private:
     long _errorCode;
-    int _nextSceneID;
     
     TextInputLayer *childNameInputText;
     TextInputLayer *dayInputText;
@@ -23,6 +22,7 @@ private:
     Size visibleSize;
     Vec2 origin;
     
+    Label* sceneTitle;
     Label* profileNameTitle;
     Label* profileDOBTitle;
     Label* profileDOBSubTitle;
@@ -36,6 +36,7 @@ private:
     ElectricDreamsButton *submitButton;
     ElectricDreamsButton *submitButtonPlaceholder;
     
+    void AddTitleToScene();
     void addLabelToScene();
     void addTextboxScene();
     void addButtonsScene();
@@ -62,7 +63,7 @@ private:
     virtual void onEnterTransitionDidFinish();
 
 public:
-    static cocos2d::Scene* createScene(std::string ChildName, long errorCode,int nextSceneID);
+    static cocos2d::Scene* createScene(std::string ChildName, long errorCode);
 
     virtual bool init();
     

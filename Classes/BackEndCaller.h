@@ -13,10 +13,6 @@ class AwaitingAdultPinLayer;
 class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
-    bool newChildJustRegistered;
-    std::string newChildName;
-    int oomeeAvatarNumber;
-    int newChildRegisteredNextSceneID;
     
     AwaitingAdultPinLayer* callBackNode;
     
@@ -69,7 +65,7 @@ public:
     // Login child profile with index
     void childLogin(int childNumber);
     // Register a new child profile on the current parent
-    void registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber, int nextSceneID);
+    void registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
     // Get gorden. Good gorden.
     void getGordon();
     // Verify a google payment

@@ -5,7 +5,6 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
-#include "ChildAccountSuccessScene.h"
 #include "LoginLogicHandler.h"
 
 using namespace Azoomee;

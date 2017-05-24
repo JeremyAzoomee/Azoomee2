@@ -1,5 +1,9 @@
 #include "FlowDataSingleton.h"
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "OrientationFunctions_ios.h"
+#endif
+
 USING_NS_CC;
 
 #pragma mark - Constants
@@ -50,6 +54,12 @@ void FlowDataSingleton::setFlowToAddProfile(std::string childName, int oomeeColo
     
 }
 
+void FlowDataSingleton::addChildData(std::string childName, int oomeeColourNumber)
+{
+    flowData[DataKeyChildName] = childName;
+    flowData[DataKeyOomeeColourNumber] = StringUtils::format("%d",oomeeColourNumber);
+}
+
 void FlowDataSingleton::clearData()
 {
     flowData.clear();
@@ -92,7 +102,7 @@ bool FlowDataSingleton::isSignupFlow()
 
 bool FlowDataSingleton::isNewProfileFlow()
 {
-    return !keyValueExists(DataKeyChildRefNumber);
+    return !keyValueExists(DataKeyChildRefNumber) && keyValueExists(DataKeyChildName);
 }
 
 bool FlowDataSingleton::isEditProfileFlow()

@@ -11,7 +11,7 @@
 #include "IAPUpsaleLayer.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "VideoPlaylistManager.h"
-#include "OrientationChangeScene.h"
+#include "SceneManagerScene.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -96,8 +96,7 @@ bool DeepLinkingSingleton::actionDeepLink()
     {
         if(path == "signup" && !ChildDataProvider::getInstance()->getIsChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
         {
-            auto orientationChangeScene = OrientationChangeScene::createScene(ONBOARDING_SCENE, 0);
-            Director::getInstance()->replaceScene(orientationChangeScene);
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
             
             resetDeepLink();
             return true;

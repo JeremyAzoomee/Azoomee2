@@ -8,9 +8,8 @@
 #include "BaseScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include "OrientationChangeScene.h"
+#include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
-#include "LoginScene.h"
 
 using namespace Azoomee;
 
@@ -166,8 +165,7 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
         signUp();
     else if(button == cancelButton)
     {
-        auto orientationChangeScene = OrientationChangeScene::createScene(BASE_SCENE, 0);
-        Director::getInstance()->replaceScene(orientationChangeScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
 }
 
@@ -175,9 +173,7 @@ void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
 {
     if(buttonTitle == "Log in")
     {
-        //Navigate to Log in scene
-        auto loginScene = LoginScene::createScene();
-        Director::getInstance()->replaceScene(loginScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
     }
     else
     {
