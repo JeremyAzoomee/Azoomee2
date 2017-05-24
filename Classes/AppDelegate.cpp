@@ -4,12 +4,12 @@
 #include "HQScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
 #include "WebViewNative_ios.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
+#include <AzoomeeCommon/Analytics/analyticsSingleton.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -114,14 +114,13 @@ void AppDelegate::applicationDidEnterBackground() {
     
 #endif
     
-    AnalyticsSingleton::getInstance()->enteredBackgroundEvent();
     Director::getInstance()->stopAnimation();
     Director::getInstance()->pause();
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
-    AnalyticsSingleton::getInstance()->enteredForegroundEvent();
+    
     Director::getInstance()->stopAnimation();
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();

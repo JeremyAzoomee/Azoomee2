@@ -453,13 +453,12 @@ void AnalyticsSingleton::enteredForegroundEvent()
     mixPanelSendEvent("enteredForegroundEvent");
 }
     
-void AnalyticsSingleton::sessionIdHasChanged(std::string oldSessionId, std::string newSessionId)
+void AnalyticsSingleton::sessionIdHasChanged(std::string oldSessionId)
 {
     std::string eventID = "sessionIdHasChanged";
     
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["oldSessionId"] = oldSessionId;
-    mixPanelProperties["newSessionId"] = newSessionId;
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }

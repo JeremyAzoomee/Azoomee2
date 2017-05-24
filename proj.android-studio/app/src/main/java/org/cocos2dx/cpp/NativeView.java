@@ -77,6 +77,8 @@ public class NativeView extends XWalkActivity {
                     xWalkWebViewStatic = null;
                 }
 
+                JNIRegisterAndroidSceneChangeEvent();
+
                 finish();
             }
         });
@@ -145,6 +147,7 @@ public class NativeView extends XWalkActivity {
 
     static void errorOccurred()
     {
+        JNIRegisterAndroidSceneChangeEvent();
         getBackToLoginScreen();
         activity.finish();
     }
@@ -167,4 +170,5 @@ public class NativeView extends XWalkActivity {
     public static native void sendMediaPlayerData(String eventKey, String eventValue);
     public static native void JNIRegisterAppWentBackgroundEvent();
     public static native void JNIRegisterAppCameForegroundEvent();
+    public static native void JNIRegisterAndroidSceneChangeEvent();
 }

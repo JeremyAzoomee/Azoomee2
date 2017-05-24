@@ -40,11 +40,26 @@ namespace Azoomee
     void SessionIdManager::registerAppWentBackgroundEvent()
     {
         timeStampGoingBackground = time(NULL);
+        
+        if(!eventHappenedDuringAndroidSceneChange())
+        {
+            AnalyticsSingleton::getInstance()->enteredBackgroundEvent();
+        }
     }
     
     void SessionIdManager::registerAppCameForegroundEvent()
     {
         if(generatingNewSessionIdRequired()) generateSessionId();
+        
+        if(!eventHappenedDuringAndroidSceneChange())
+        {
+            AnalyticsSingleton::getInstance()->enteredForegroundEvent();
+        }
+    }
+    
+    void SessionIdManager::registerAndroidSceneChangeEvent()
+    {
+        timeStampAndroidSceneChange = time(NULL);
     }
     
     //---------------------------------------PRIVATE METHODS--------------------------------------
@@ -59,11 +74,10 @@ namespace Azoomee
         for(int i = 0; i < 10; i++) sessionId += alphanum[rand() % (sizeof(alphanum) - 1)];
         
         AnalyticsSingleton::getInstance()->registerSessionId(sessionId);
-        cocos2d::log("NEW SESSIONID CREATED: %s", sessionId.c_str());
         
         if(oldSessionId != "")
         {
-            AnalyticsSingleton::getInstance()->sessionIdHasChanged(oldSessionId, sessionId);
+            AnalyticsSingleton::getInstance()->sessionIdHasChanged(oldSessionId);
         }
     }
     
@@ -73,9 +87,15 @@ namespace Azoomee
         if(timeStampGoingBackground == 0) return true;
         if(time(NULL) - timeStampGoingBackground > 30) return true;
         
-        cocos2d::log("SESSIONID NOT CHANGED: %s", sessionId.c_str());
-        
         return false;
+    }
+    
+    bool SessionIdManager::eventHappenedDuringAndroidSceneChange()
+    {
+        if(timeStampAndroidSceneChange == 0) return false;
+        if(time(NULL) - timeStampAndroidSceneChange > 2) return false;
+        
+        return true;
     }
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -102,6 +122,20 @@ namespace Azoomee
     JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_JNIRegisterAppCameForegroundEvent(JNIEnv* env, jobject thiz)
     {
         SessionIdManager::getInstance()->registerAppCameForegroundEvent();
+    }
+    
+#endif
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    extern "C"
+    {
+        JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_JNIRegisterAndroidSceneChangeEvent(JNIEnv* env, jobject thiz);
+    };
+    
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_JNIRegisterAndroidSceneChangeEvent(JNIEnv* env, jobject thiz)
+    {
+        SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
     }
     
 #endif

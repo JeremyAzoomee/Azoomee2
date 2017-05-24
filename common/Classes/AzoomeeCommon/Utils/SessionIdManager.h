@@ -18,12 +18,15 @@ public:
     std::string getCurrentSessionId();
     void registerAppWentBackgroundEvent();
     void registerAppCameForegroundEvent();
+    void registerAndroidSceneChangeEvent();
     
 private:
     std::string sessionId;
     long timeStampGoingBackground;
+    long timeStampAndroidSceneChange;
     
     bool generatingNewSessionIdRequired();
+    bool eventHappenedDuringAndroidSceneChange();
     void generateSessionId();
 };
   
