@@ -110,9 +110,9 @@ void AnalyticsSingleton::registerSessionId(std::string sessionId)
     mixPanelRegisterSuperProperties("sessionId", sessionId);
 }
     
-void AnalyticsSingleton::registerCurrentHQ(std::string currentHQ)
+void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
 {
-    mixPanelRegisterSuperProperties("currentHQ", currentHQ);
+    mixPanelRegisterSuperProperties("currentScene", currentScene);
 }
 
 void AnalyticsSingleton::logoutChildEvent()
@@ -314,6 +314,9 @@ void AnalyticsSingleton::closeContentEvent()
     mixPanelProperties["Type"] = storedType;
     mixPanelProperties["ContentID"] = storedContentID;
     mixPanelProperties["SecondsInContent"] = cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened);
+    mixPanelProperties["rowNumber"] = cocos2d::StringUtils::format("%d", storedRowNumber);
+    mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", storedElementNumber);
+    
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }

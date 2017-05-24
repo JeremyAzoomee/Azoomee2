@@ -29,7 +29,7 @@ void HQHistoryManager::addHQToHistoryManager(std::string hqName)
 {
     if(hqName == getCurrentHQ()) return;
     
-    Azoomee::AnalyticsSingleton::getInstance()->registerCurrentHQ(hqName);
+    Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(hqName);
     
     hqNames.push_back(hqName);
     
@@ -74,7 +74,7 @@ void HQHistoryManager::addHomeIfHistoryEmpty()
 {
     if(hqNames.size() == 0)
     {
-        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentHQ("HOME");
+        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene("HOME");
         hqNames.push_back("HOME");
     }
 }

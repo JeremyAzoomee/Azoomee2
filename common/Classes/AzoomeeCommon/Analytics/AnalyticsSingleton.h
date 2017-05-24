@@ -50,7 +50,7 @@ public:
     void registerIAPOS(std::string OS_String);
     void registerBillingProvider(std::string provider);
     void registerSessionId(std::string sessionId);
-    void registerCurrentHQ(std::string currentHQ);
+    void registerCurrentScene(std::string currentScene);
 
 
     void registerChildID(std::string ChildID);
