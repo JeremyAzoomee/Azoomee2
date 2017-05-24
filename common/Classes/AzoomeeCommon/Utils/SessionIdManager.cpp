@@ -1,4 +1,5 @@
 #include "SessionIdManager.h"
+#include "../Analytics/AnalyticsSingleton.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -50,12 +51,20 @@ namespace Azoomee
     
     void SessionIdManager::generateSessionId()
     {
+        std::string oldSessionId = sessionId;
+        
         sessionId = "";
         static const char alphanum[] = "0123456789abcdefghijklmnopqrstuvwxyz";
        
         for(int i = 0; i < 10; i++) sessionId += alphanum[rand() % (sizeof(alphanum) - 1)];
         
+        AnalyticsSingleton::getInstance()->registerSessionId(sessionId);
         cocos2d::log("NEW SESSIONID CREATED: %s", sessionId.c_str());
+        
+        if(oldSessionId != "")
+        {
+            AnalyticsSingleton::getInstance()->sessionIdHasChanged(oldSessionId, sessionId);
+        }
     }
     
     bool SessionIdManager::generatingNewSessionIdRequired()

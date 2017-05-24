@@ -108,6 +108,7 @@ public:
     void introVideoTimedOutError(std::string errorMessage);
     void enteredBackgroundEvent();
     void enteredForegroundEvent();
+    void sessionIdHasChanged(std::string oldSessionId, std::string newSessionId);
     
     //---------------IAP ACTIONS------------------
     void displayIAPUpsaleEvent(std::string fromLocation);
