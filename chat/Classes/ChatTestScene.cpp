@@ -6,7 +6,6 @@
 #include <AzoomeeCommon/Utils/CocosSharedPtr.h>
 #include "AppDelegate.h"
 #include "ChildSelectorScene.h"
-#include "OrientationFunctions.h"
 #include <sstream>
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -528,10 +527,6 @@ void ChatTestScene::onBackButtonPressed()
 
 void ChatTestScene::onRefreshButtonPressed()
 {
-//    // Quick test of forcing orientation while a scene is open
-//    static bool toggle = true;
-//    setOrientationToPortrait(toggle);
-//    toggle = !toggle;
     selectFriend(_selectedFriend);
 }
 

@@ -15,12 +15,17 @@ NS_AZOOMEE_BEGIN
 /**
  * Can be used instead of cocos2d::Scene to ensure the scene content size 
  * uses only he visible size of the screen.
+ * Azoomee Scene also acts like a ui::Layout if you call setLayoutType.
  */
 class Scene : public cocos2d::Scene
 {
 private:
     typedef cocos2d::Scene Super;
-    bool _initialised = false;
+    
+    /// Inner content layer we use to hold all the content
+    cocos2d::ui::Layout* _contentLayer;
+    /// True when triggering layout
+    bool _triggeringLayout;
     
 protected:
     
@@ -32,6 +37,25 @@ public:
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void setContentSize(const cocos2d::Size& contentSize) override;
+    virtual const cocos2d::Size& getContentSize() const override;
+    
+    /// Call to ensure the Scene's contents is in visible area on the screen
+    void updateSizeAndPosition();
+    
+    /// Like ui::Layout, set the layout type
+    virtual void setLayoutType(cocos2d::ui::Layout::Type type);
+    virtual cocos2d::ui::Layout::Type getLayoutType() const;
+    
+    using cocos2d::Node::addChild;
+    virtual void addChild(cocos2d::Node* child, int localZOrder, int tag) override;
+    virtual void addChild(cocos2d::Node* child, int localZOrder, const std::string& name) override;
+    virtual cocos2d::Node* getChildByTag(int tag) const override;
+    virtual cocos2d::Node* getChildByName(const std::string& name) const override;
+    virtual cocos2d::Vector<cocos2d::Node*>& getChildren() override;
+    virtual const cocos2d::Vector<cocos2d::Node*>& getChildren() const override;
+    virtual void removeChild(cocos2d::Node* child, bool cleanup = true) override;
+    virtual void removeAllChildrenWithCleanup(bool cleanup) override;
+    virtual void reorderChild(cocos2d::Node* child, int localZOrder) override;
 };
 
 NS_AZOOMEE_END

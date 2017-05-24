@@ -54,7 +54,6 @@ void LoginScene::onEnter()
     // Register for API events
     AuthAPI::getInstance()->registerObserver(this);
     
-    onSizeChanged();
     changeElementsToEmailScreen();
 }
 
@@ -94,14 +93,9 @@ void LoginScene::onSizeChanged()
         
         emailTextInput->setText(username);
         passwordTextInput->setText(password);
-        if(currentScreen == LoginScreenLocationEnum::emailLoginScreen)
-        {
-            changeElementsToEmailScreen();
-        }
-        else
-        {
-            changeElementsToPasswordScreen();
-        }
+        
+        emailTextInput->setEditboxVisibility(currentScreen == LoginScreenLocationEnum::emailLoginScreen);
+        passwordTextInput->setEditboxVisibility(currentScreen == LoginScreenLocationEnum::passwordLoginScreen);
     }
 }
 

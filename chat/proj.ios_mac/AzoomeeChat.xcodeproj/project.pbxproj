@@ -16,7 +16,6 @@
 		3018498B1EBB926B005B994A /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849891EBB926B005B994A /* Message.cpp */; };
 		3018499A1EC0B1F9005B994A /* ChatTestScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3018498F1EC0B161005B994A /* ChatTestScene.cpp */; };
 		301849A21EC0B747005B994A /* AuthAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3018499E1EC0B747005B994A /* AuthAPI.cpp */; };
-		301849B41EC5CDD9005B994A /* OrientationFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849B11EC5BDA2005B994A /* OrientationFunctions.cpp */; };
 		302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849A71EC0BF68005B994A /* ChildSelectorScene.cpp */; };
 		302E84741ED1A1C7006A498C /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849A41EC0B841005B994A /* LoginScene.cpp */; };
 		304410571E9D001E00B7F383 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304410551E9D001E00B7F383 /* AppDelegate.cpp */; };
@@ -67,7 +66,6 @@
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
-		503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FF17EB989F00D1A890 /* RootViewController.mm */; };
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -82,6 +80,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3000FF7C1ED5BDD900E9717C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3077F4401E8D5048006DA465;
+			remoteInfo = AzoomeeCommon;
+		};
 		3044103B1E9CFF9300B7F383 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
@@ -154,8 +159,6 @@
 		301849A51EC0B841005B994A /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		301849A71EC0BF68005B994A /* ChildSelectorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildSelectorScene.cpp; sourceTree = "<group>"; };
 		301849A81EC0BF68005B994A /* ChildSelectorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildSelectorScene.h; sourceTree = "<group>"; };
-		301849B11EC5BDA2005B994A /* OrientationFunctions.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = OrientationFunctions.cpp; sourceTree = "<group>"; };
-		301849B21EC5BDA2005B994A /* OrientationFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrientationFunctions.h; sourceTree = "<group>"; };
 		304410551E9D001E00B7F383 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		304410561E9D001E00B7F383 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		304410631E9D18E600B7F383 /* libAzoomeeChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeChat.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,8 +221,6 @@
 		503AE0FB17EB989F00D1A890 /* AppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppController.mm; path = ios/AppController.mm; sourceTree = SOURCE_ROOT; };
 		503AE0FC17EB989F00D1A890 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ios/main.m; sourceTree = SOURCE_ROOT; };
 		503AE0FD17EB989F00D1A890 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ios/Prefix.pch; sourceTree = SOURCE_ROOT; };
-		503AE0FE17EB989F00D1A890 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = ios/RootViewController.h; sourceTree = SOURCE_ROOT; };
-		503AE0FF17EB989F00D1A890 /* RootViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RootViewController.mm; path = ios/RootViewController.mm; sourceTree = SOURCE_ROOT; };
 		503AE11117EB99EE00D1A890 /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
 		503AE11A17EB9C5A00D1A890 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		5087E77C17EB970100C73F5D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = Info.plist; path = ios/Info.plist; sourceTree = "<group>"; };
@@ -299,8 +300,6 @@
 				5087E77C17EB970100C73F5D /* Info.plist */,
 				503AE0FC17EB989F00D1A890 /* main.m */,
 				503AE0FD17EB989F00D1A890 /* Prefix.pch */,
-				503AE0FE17EB989F00D1A890 /* RootViewController.h */,
-				503AE0FF17EB989F00D1A890 /* RootViewController.mm */,
 			);
 			name = ios;
 			path = Classes;
@@ -520,8 +519,6 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				301849B11EC5BDA2005B994A /* OrientationFunctions.cpp */,
-				301849B21EC5BDA2005B994A /* OrientationFunctions.h */,
 				304410551E9D001E00B7F383 /* AppDelegate.cpp */,
 				304410561E9D001E00B7F383 /* AppDelegate.h */,
 				301849A41EC0B841005B994A /* LoginScene.cpp */,
@@ -552,6 +549,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3000FF7D1ED5BDD900E9717C /* PBXTargetDependency */,
 				304410701E9D19BA00B7F383 /* PBXTargetDependency */,
 			);
 			name = "AzoomeeChat-App";
@@ -723,12 +721,10 @@
 			files = (
 				304410571E9D001E00B7F383 /* AppDelegate.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
-				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */,
 				3018499A1EC0B1F9005B994A /* ChatTestScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				302E84741ED1A1C7006A498C /* LoginScene.cpp in Sources */,
-				301849B41EC5CDD9005B994A /* OrientationFunctions.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -756,6 +752,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3000FF7D1ED5BDD900E9717C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AzoomeeCommon;
+			targetProxy = 3000FF7C1ED5BDD900E9717C /* PBXContainerItemProxy */;
+		};
 		304410701E9D19BA00B7F383 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 304410621E9D18E600B7F383 /* AzoomeeChat */;

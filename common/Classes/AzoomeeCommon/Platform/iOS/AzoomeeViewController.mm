@@ -1,34 +1,9 @@
-/****************************************************************************
- Copyright (c) 2013      cocos2d-x.org
- Copyright (c) 2013-2014 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
-
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- ****************************************************************************/
-
-#import "RootViewController.h"
-#import "cocos2d.h"
-#import "platform/ios/CCEAGLView-ios.h"
+#import "AzoomeeViewController.h"
+#import <cocos/cocos2d.h>
+#import <cocos/platform/ios/CCEAGLView-ios.h>
 
 
-@implementation RootViewController
+@implementation AzoomeeViewController
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -42,8 +17,6 @@
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
-    _forcePortrait = NO;
-    
     cocos2d::Application *app = cocos2d::Application::getInstance();
     
     // Initialize the GLView attributes
@@ -87,55 +60,16 @@
     [super viewDidDisappear:animated];
 }
 
-- (void) forcePortrait:(BOOL)forcePortrait
-{
-    _forcePortrait = forcePortrait;
-    
-    UIInterfaceOrientation wantOrientation = [self preferredInterfaceOrientationForPresentation];
-    
-    NSNumber *value = [NSNumber numberWithInt:wantOrientation];
-    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
-    // Not needed?
-    [UIApplication sharedApplication].statusBarOrientation = wantOrientation;
-    
-    [UIViewController attemptRotationToDeviceOrientation];
-}
-
-- (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation
-{
-    if(_forcePortrait)
-    {
-        return UIInterfaceOrientationPortrait;
-    }
-    return UIInterfaceOrientationLandscapeLeft;
-}
 
 // For ios6, use supportedInterfaceOrientations & shouldAutorotate instead
+#ifdef __IPHONE_6_0
 - (NSUInteger) supportedInterfaceOrientations{
-    if(_forcePortrait)
-    {
-        return UIInterfaceOrientationPortrait;
-    }
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
-
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if( _forcePortrait )
-    {
-        return UIInterfaceOrientationIsPortrait(interfaceOrientation);
-    }
-    return YES;
-}
+#endif
 
 - (BOOL) shouldAutorotate {
-    return !_forcePortrait;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
-    // TODO: Notify c++ Application we're about to rotate to [eaglview getWidth], [eaglview getHeight]
+    return YES;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {

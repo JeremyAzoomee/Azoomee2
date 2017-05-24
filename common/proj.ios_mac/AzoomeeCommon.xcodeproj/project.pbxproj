@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022218CA1ECF203000AD167F /* SessionIdManager.cpp */; };
 		02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A120231EAF83E0007EDD95 /* VersionChecker.cpp */; };
+		3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */; };
+		3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */; };
+		3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF791ED5BBB700E9717C /* Application.cpp */; };
 		3012ED481E969A180009027D /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED461E969A180009027D /* AudioMixer.cpp */; };
 		3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4A1E969AE40009027D /* CookieDataParser.cpp */; };
 		3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4C1E969AE40009027D /* CookieDataProvider.cpp */; };
@@ -129,6 +132,12 @@
 		022218CB1ECF203000AD167F /* SessionIdManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionIdManager.h; sourceTree = "<group>"; };
 		02A120231EAF83E0007EDD95 /* VersionChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VersionChecker.cpp; sourceTree = "<group>"; };
 		02A120241EAF83E0007EDD95 /* VersionChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionChecker.h; sourceTree = "<group>"; };
+		3000FF701ED5AB7000E9717C /* AzoomeeAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeAppController.h; sourceTree = "<group>"; };
+		3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AzoomeeAppController.mm; sourceTree = "<group>"; };
+		3000FF721ED5AB7000E9717C /* AzoomeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeViewController.h; sourceTree = "<group>"; };
+		3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AzoomeeViewController.mm; sourceTree = "<group>"; };
+		3000FF791ED5BBB700E9717C /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
+		3000FF7A1ED5BBB700E9717C /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		3012ED461E969A180009027D /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
 		3012ED471E969A180009027D /* AudioMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMixer.h; sourceTree = "<group>"; };
 		3012ED4A1E969AE40009027D /* CookieDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CookieDataParser.cpp; sourceTree = "<group>"; };
@@ -373,6 +382,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3000FF6D1ED5AB7000E9717C /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				3000FF6F1ED5AB7000E9717C /* iOS */,
+			);
+			path = Platform;
+			sourceTree = "<group>";
+		};
+		3000FF6F1ED5AB7000E9717C /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				3000FF701ED5AB7000E9717C /* AzoomeeAppController.h */,
+				3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */,
+				3000FF721ED5AB7000E9717C /* AzoomeeViewController.h */,
+				3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 		3012EC581E9691A90009027D /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -560,6 +588,8 @@
 		3077F4591E8D5881006DA465 /* AzoomeeCommon */ = {
 			isa = PBXGroup;
 			children = (
+				3000FF791ED5BBB700E9717C /* Application.cpp */,
+				3000FF7A1ED5BBB700E9717C /* Application.h */,
 				301CCA9B1EB14473009ADA0C /* Azoomee.h */,
 				3012ED641E96A3140009027D /* ErrorCodes.h */,
 				3012ED691E96A3140009027D /* Strings.h */,
@@ -572,6 +602,7 @@
 				3012ED651E96A3140009027D /* Input */,
 				3012EDA31E97E8450009027D /* JWTSigner */,
 				3012ED801E97A8F50009027D /* Mixpanel */,
+				3000FF6D1ED5AB7000E9717C /* Platform */,
 				3012ED861E97DB450009027D /* UI */,
 				3012ED6A1E96A3140009027D /* Utils */,
 			);
@@ -893,12 +924,15 @@
 				3012ED9F1E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
 				302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */,
+				3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */,
 				4349C84F1EA8ADEF00FE964B /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
 				4349C8221EA8ADEF00FE964B /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
+				3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */,
 				4349C8411EA8ADEF00FE964B /* MPResources.m in Sources */,
 				4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */,
 				3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */,
 				3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */,
+				3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */,
 				30DD5EF01E96860C0084305B /* ConfigStorage.cpp in Sources */,
 				4349C8271EA8ADEF00FE964B /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
