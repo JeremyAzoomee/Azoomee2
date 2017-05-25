@@ -9,10 +9,18 @@ using namespace cocos2d::network;
 using namespace cocos2d;
 
 
-namespace Azoomee
+NS_AZOOMEE_BEGIN
+    
+ImageDownloader::~ImageDownloader()
 {
+    if(imageDownloaderLogic)
+    {
+        imageDownloaderLogic->release();
+        imageDownloaderLogic = nullptr;
+    }
+}
 
-bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size size, Vec2 shape)
+bool ImageDownloader::initWithURLAndSize(const std::string& url, const std::string& type, const Size& size, const Vec2& shape)
 {
     if ( !Sprite::init() )
     {
@@ -26,12 +34,13 @@ bool ImageDownloader::initWithURLAndSize(std::string url, std::string type, Size
     this->addPlaceHolderImage(type, size, shape);
     
     imageUrl = url;
-    imageDownloaderLogic = new ImageDownloaderLogic();
+    imageDownloaderLogic = ImageDownloaderLogic::create();
+    imageDownloaderLogic->retain();
     
     return true;
 }
 
-bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, cocos2d::Size size)
+bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size)
 {
     identifier = CCRANDOM_0_1() * 1000 + 1000;
     
@@ -40,7 +49,6 @@ bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(std::string url, coco
     
     imageUrl = url;
     imageDownloaderLogic = new ImageDownloaderLogic();
-    imageDownloaderLogic->groupLogo = true;
     
     return true;
 }
@@ -61,7 +69,7 @@ void ImageDownloader::onEnter()
 void ImageDownloader::startLoadingImage()
 {
     if(loadedImage) return;
-    imageDownloaderLogic->startProcessingImage(this, imageUrl);
+    imageDownloaderLogic->downloadImage(this, imageUrl);
 }
 
 void ImageDownloader::removeLoadedImage()
@@ -101,6 +109,15 @@ void ImageDownloader::addLoadingAnimation()
     loadingAnimation->addChild(loadingLabel);
 }
 
+void ImageDownloader::removeLoadingAnimation()
+{
+    Node* loadingAnimation = this->getChildByName("loadingAnimation");
+    if(loadingAnimation)
+    {
+        this->removeChild(loadingAnimation, true);
+    }
+}
+
 void ImageDownloader::imageAddedToCache(Texture2D* resulting_texture)
 {
     if ( (resulting_texture) && (!aboutToExit))
@@ -138,13 +155,6 @@ void ImageDownloader::addNewBadgeToLoadedImage()
     newBadge->runAction(FadeIn::create(0.1));
 }
 
-void ImageDownloader::addDownloadedImage(std::string fileName)
-{
-    addStarted = true;
-    this->setName(fileName);
-    Director::getInstance()->getTextureCache()->addImageAsync(fileName, CC_CALLBACK_1(ImageDownloader::imageAddedToCache, this));
-}
-
 void ImageDownloader::onExitTransitionDidStart()
 {
     aboutToExit = true;
@@ -160,8 +170,25 @@ void ImageDownloader::onExit()
     }
     
     aboutToExit = true;
-    if(imageDownloaderLogic) imageDownloaderLogic->senderDeleted = true;
+    if(imageDownloaderLogic)
+    {
+        imageDownloaderLogic->setDelegate(nullptr);
+        imageDownloaderLogic->release();
+        imageDownloaderLogic = nullptr;
+    }
+    
     Node::onExit();
 }
 
+#pragma mark - ImageDownloaderDelegate
+
+void ImageDownloader::onImageDownloadComplete(ImageDownloaderLogic* downloader)
+{
+    
+    const std::string& filename = downloader->getLocalImagePath();
+    addStarted = true;
+    this->setName(filename);
+    Director::getInstance()->getTextureCache()->addImageAsync(filename, CC_CALLBACK_1(ImageDownloader::imageAddedToCache, this));
 }
+
+NS_AZOOMEE_END

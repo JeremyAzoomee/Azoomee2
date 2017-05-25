@@ -30,7 +30,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     // create a scene. it's an autorelease object
     auto scene = IntroVideoScene::createScene();
-    director->runWithScene(scene);
+    Director::getInstance()->runWithScene(scene);
     
     RoutePaymentSingleton::getInstance();
     SessionIdManager::getInstance();

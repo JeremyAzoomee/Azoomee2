@@ -3,22 +3,23 @@
 
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>
+#include "../Azoomee.h"
 #include "ImageDownloaderLogic.h"
 #include "ImageDownloaderOnScreenChecker.h"
 
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
-class ImageDownloader : public cocos2d::Sprite
+class ImageDownloader : public cocos2d::Sprite, public ImageDownloaderDelegate
 {
 public:
     CREATE_FUNC(ImageDownloader);
-    virtual bool initWithURLAndSize(std::string url, std::string type, cocos2d::Size size, cocos2d::Vec2 shape);
-    virtual bool initWithUrlAndSizeWithoutPlaceholder(std::string url, cocos2d::Size size);
-    void addDownloadedImage(std::string fileName);
+    virtual ~ImageDownloader();
+    
+    virtual bool initWithURLAndSize(const std::string& url, const std::string& type, const cocos2d::Size& size, const cocos2d::Vec2& shape);
+    virtual bool initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size);
     bool aboutToExit;
-    ImageDownloaderLogic *imageDownloaderLogic;
+    ImageDownloaderLogic *imageDownloaderLogic = nullptr;
     
     void startLoadingImage();
     void removeLoadedImage();
@@ -26,24 +27,28 @@ public:
     void setAttachNewBadgeToImage();
     
 private:
+    // - ImageDownloaderDelegate
+    virtual void onImageDownloadComplete(ImageDownloaderLogic* downloader) override;
+    
     void addPlaceHolderImage(std::string type, cocos2d::Size contentSize, cocos2d::Vec2 shape);
     void addLoadingAnimation();
-    void onExitTransitionDidStart();
-    void onExit();
+    void removeLoadingAnimation();
+    void onExitTransitionDidStart() override;
+    void onExit() override;
     void imageAddedToCache(cocos2d::Texture2D* resulting_texture);
     bool addStarted;
     
     float identifier;
     std::string imageUrl;
-    cocos2d::Sprite* loadedImage;
+    cocos2d::Sprite* loadedImage = nullptr;
     
     void onEnter();
-    ImageDownloaderOnScreenChecker *onScreenChecker;
+    ImageDownloaderOnScreenChecker *onScreenChecker = nullptr;
     
     void addNewBadgeToLoadedImage();
     bool shouldAddNewBadgeToImage;
 };
   
-}
+NS_AZOOMEE_END
 
 #endif

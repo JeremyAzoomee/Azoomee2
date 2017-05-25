@@ -7,49 +7,161 @@ using namespace cocos2d;
 using namespace network;
 
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
-void ImageDownloaderLogic::startProcessingImage(cocos2d::Node *sender, std::string url)
+#pragma mark - Public
+
+ImageDownloaderLogic::~ImageDownloaderLogic()
+{
+    _delegate = nullptr;
+    if(_downloadRequest)
+    {
+        _downloadRequest->setResponseCallback(nullptr);
+        _downloadRequest = nullptr;
+    }
+}
+
+bool ImageDownloaderLogic::init()
 {
     fileUtils = FileUtils::getInstance();
+    return true;
+}
+
+void ImageDownloaderLogic::downloadImage(ImageDownloaderDelegate* delegate, const std::string& url)
+{
+    _delegate = delegate;
+    _filename = getFileNameFromURL(url);
+    _imageId = getIdFromUrl(url);
     
-    fileName = getFileNameFromURL(url);
-    imageId = getIdFromUrl(url);
-    imageCachePath = getImageCachePath();
-    imageIdPath = getImageIdPath();
-    senderNode = sender;
-    
-    if(findFileInLocalCache(fileName))
+    bool localFileExists = localImageExists();
+    if(localFileExists && !hasCacheExpired())
     {
-        if(imageUpdateRequired(fileName))
-        {
-            fileUtils->removeDirectory(imageIdPath);
-            downloadFileFromServer(url);
-        }
-        else loadFileFromLocalCacheAsync(fileName);
+        loadFileFromLocalCacheAsync();
     }
     else
     {
+        if(localFileExists)
+        {
+            const std::string& imageIdPath = getImageIdPath();
+            fileUtils->removeDirectory(imageIdPath);
+        }
         downloadFileFromServer(url);
     }
-
 }
-    
-bool ImageDownloaderLogic::imageUpdateRequired(std::string fileName)
+
+std::string ImageDownloaderLogic::getLocalImagePath() const
 {
-    std::string timeStampFilePath = imageIdPath + "time.stmp";
-    if(!fileUtils->isFileExist(timeStampFilePath)) return true;
-    
-    long timeStamp = std::atoi(fileUtils->getStringFromFile(timeStampFilePath).c_str());
-    long currentTimeStamp = time(NULL);
-    
-    if(currentTimeStamp - timeStamp > ConfigStorage::getInstance()->getContentItemImageValidityInSeconds()) return true;
-    
-    return false;
+    return getImageIdPath() + _filename;
 }
 
-std::string ImageDownloaderLogic::getFileNameFromURL(std::string url)
+bool ImageDownloaderLogic::localImageExists() const
+{
+    return FileUtils::getInstance()->isFileExist(getLocalImagePath());
+}
+
+void ImageDownloaderLogic::setDelegate(ImageDownloaderDelegate* delegate)
+{
+    _delegate = delegate;
+}
+
+#pragma mark - Private
+
+bool ImageDownloaderLogic::hasCacheExpired() const
+{
+    return ImageDownloaderLogic::imageUpdateRequired(getImageIdPath());
+}
+
+void ImageDownloaderLogic::downloadFileFromServer(const std::string& url)
+{
+    _downloadRequest = new HttpRequest();
+    _downloadRequest->setRequestType(HttpRequest::Type::GET);
+    _downloadRequest->setUrl(url.c_str());
+    
+    std::vector<std::string> headers;
+    headers.push_back(StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str()));
+    _downloadRequest->setHeaders(headers);
+    
+    _downloadRequest->setResponseCallback(CC_CALLBACK_2(ImageDownloaderLogic::downloadFileFromServerAnswerReceived, this));
+    _downloadRequest->setTag("image download");
+    HttpClient::getInstance()->send(_downloadRequest);
+}
+
+void ImageDownloaderLogic::downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response)
+{
+    if(response->getResponseCode() == 200)
+    {
+        if(response && response->getResponseData())
+        {
+            std::vector<char> myResponse = *response->getResponseData();
+            const std::string& responseString = std::string(myResponse.begin(), myResponse.end());
+            
+            if(saveFileToDevice(responseString, _filename))
+            {
+                saveFileToDevice(StringUtils::format("%ld", time(NULL)), "time.stmp");
+                loadFileFromLocalCacheAsync();
+                _downloadRequest->release();
+                _downloadRequest = nullptr;
+                return;
+            }
+            else
+            {
+                // TODO: Failed callback
+                _downloadRequest->release();
+                _downloadRequest = nullptr;
+                return;
+            }
+        }
+    }
+    else
+    {
+        // TODO: Failed callback
+    }
+}
+
+bool ImageDownloaderLogic::saveFileToDevice(const std::string& data, const std::string& fileName)
+{
+    const std::string& imageCachePath = getImageCachePath();
+    if(!fileUtils->isDirectoryExist(imageCachePath))
+    {
+        fileUtils->createDirectory(imageCachePath);
+    }
+    const std::string& imageIdPath = getImageIdPath();
+    if(!fileUtils->isDirectoryExist(imageIdPath))
+    {
+        fileUtils->createDirectory(imageIdPath);
+    }
+    
+    const std::string& fullPath = imageIdPath + fileName;
+    if(fileUtils->isFileExist(fullPath))
+    {
+        fileUtils->removeFile(fullPath);
+    }
+    
+    if(fileUtils->writeStringToFile(data, fullPath)) return true;
+    else return false;
+}
+
+void ImageDownloaderLogic::loadFileFromLocalCacheAsync()
+{
+    if(_delegate)
+    {
+        _delegate->onImageDownloadComplete(this);
+    }
+}
+
+std::string ImageDownloaderLogic::getImageIdPath() const
+{
+    return getImageCachePath() + _imageId + "/";
+}
+
+std::string ImageDownloaderLogic::getImageCachePath() const
+{
+    return fileUtils->getWritablePath() + "imageCache/";
+}
+
+#pragma mark - Static
+
+std::string ImageDownloaderLogic::getFileNameFromURL(const std::string& url)
 {
     int startPoint = (int)url.find_last_of("/") + 1;
     
@@ -60,7 +172,7 @@ std::string ImageDownloaderLogic::getFileNameFromURL(std::string url)
     return url.substr(startPoint, subLength);
 }
 
-std::string ImageDownloaderLogic::getIdFromUrl(std::string url)
+std::string ImageDownloaderLogic::getIdFromUrl(const std::string& url)
 {
     int endPoint = (int)url.find_last_of("/");
     std::string cutUrl = url.substr(0, endPoint);
@@ -73,100 +185,17 @@ std::string ImageDownloaderLogic::getIdFromUrl(std::string url)
     return result;
 }
 
-bool ImageDownloaderLogic::findFileInLocalCache(std::string fileName)
+bool ImageDownloaderLogic::imageUpdateRequired(const std::string& imageIdPath)
 {
-    return fileUtils->isFileExist(imageIdPath + fileName);
-}
-
-void ImageDownloaderLogic::downloadFileFromServer(std::string url)
-{
-    downloadRequest = new HttpRequest();
-    downloadRequest->setRequestType(HttpRequest::Type::GET);
-    downloadRequest->setUrl(url.c_str());
+    std::string timeStampFilePath = imageIdPath + "time.stmp";
+    if(!FileUtils::getInstance()->isFileExist(timeStampFilePath)) return true;
     
-    std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str()));
-    downloadRequest->setHeaders(headers);
+    long timeStamp = std::atoi(FileUtils::getInstance()->getStringFromFile(timeStampFilePath).c_str());
+    long currentTimeStamp = time(NULL);
     
-    downloadRequest->setResponseCallback(CC_CALLBACK_2(ImageDownloaderLogic::downloadFileFromServerAnswerReceived, this));
-    downloadRequest->setTag("image download");
-    HttpClient::getInstance()->send(downloadRequest);
-}
-
-void ImageDownloaderLogic::downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
-{
-    std::string responseString = "";
+    if(currentTimeStamp - timeStamp > ConfigStorage::getInstance()->getContentItemImageValidityInSeconds()) return true;
     
-    if (response->getResponseCode() == 200)
-    {
-        if (response && response->getResponseData())
-        {
-            std::vector<char> myResponse = *response->getResponseData();
-            responseString = std::string(myResponse.begin(), myResponse.end());
-            
-            std::string fileName = getFileNameFromURL(response->getHttpRequest()->getUrl());
-            if(saveFileToDevice(responseString, fileName))
-            {
-                saveFileToDevice(StringUtils::format("%ld", time(NULL)), "time.stmp");
-                loadFileFromLocalCacheAsync(fileName);
-                downloadRequest->release();
-                return;
-            }
-            else
-            {
-                downloadRequest->release();
-                return;
-            }
-        }
-    }
-}
-
-void ImageDownloaderLogic::removeLoadingAnimation()
-{
-    if((!senderDeleted)&&(!groupLogo))
-    {
-        if(senderNode->getChildByName("loadingAnimation"))
-        {
-            senderNode->removeChild(senderNode->getChildByName("loadingAnimation"), true);
-        }
-    }
-}
-
-bool ImageDownloaderLogic::saveFileToDevice(std::string data, std::string fileName)
-{
-    if(!fileUtils->isDirectoryExist(imageCachePath))
-    {
-        fileUtils->createDirectory(imageCachePath);
-    }
-    
-    if(!fileUtils->isDirectoryExist(imageIdPath))
-    {
-        fileUtils->createDirectory(imageIdPath);
-    }
-    
-    if(fileUtils->writeStringToFile(data, imageIdPath + fileName)) return true;
-    else return false;
-}
-
-void ImageDownloaderLogic::loadFileFromLocalCacheAsync(std::string fileName) //ADD TO SENDER IF ISRUNNING
-{
-    removeLoadingAnimation();
-    
-    if(!senderDeleted)
-    {
-        ImageDownloader *workingFor = (ImageDownloader *)senderNode;
-        workingFor->addDownloadedImage(getImageIdPath() + fileName);
-    }
-}
-
-std::string ImageDownloaderLogic::getImageIdPath()
-{
-    return fileUtils->getWritablePath() + "imagecache/" + imageId + "/";
-}
-
-std::string ImageDownloaderLogic::getImageCachePath()
-{
-    return fileUtils->getWritablePath() + "imageCache/";
+    return false;
 }
   
-}
+NS_AZOOMEE_END
