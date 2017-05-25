@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Input/TextInputChecker.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
 #include "BackEndCaller.h"
@@ -128,6 +129,7 @@ void OnboardingScene::addButtonsScene()
 
 void OnboardingScene::signUp()
 {
+    ModalMessages::getInstance()->startLoading();
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(emailTextInput->getText());
     auto backEndCaller = BackEndCaller::getInstance();
     backEndCaller->registerParent(emailTextInput->getText(), passwordTextInput->getText(), pinTextInput->getText());

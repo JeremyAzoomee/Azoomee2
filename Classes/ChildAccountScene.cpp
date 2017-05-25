@@ -88,24 +88,24 @@ void ChildAccountScene::AddTitleToScene()
 
 void ChildAccountScene::addTextboxScene()
 {
-    childNameInputText = TextInputLayer::createWithSize(Size(visibleSize.width*.90,197), INPUT_IS_CHILD_NAME);
+    childNameInputText = TextInputLayer::createWithSize(Size(visibleSize.width*.80,197), INPUT_IS_CHILD_NAME);
     childNameInputText->setPositionY(sceneTitle->getPositionY()-childNameInputText->getContentSize().height*2.25);
     childNameInputText->setDelegate(this);
     this->addChild(childNameInputText);
     
-    dayInputText = TextInputLayer::createWithSize(Size(400,197), INPUT_IS_DAY);
+    dayInputText = TextInputLayer::createWithSize(Size(330,197), INPUT_IS_DAY);
     dayInputText->setPositionY(childNameInputText->getPositionY() -dayInputText->getContentSize().height*2.7 );
-    dayInputText->setPositionX(origin.x+visibleSize.width/2 - 325-dayInputText->getContentSize().width);
+    dayInputText->setPositionX(origin.x+visibleSize.width/2 - 255-dayInputText->getContentSize().width);
     dayInputText->setDelegate(this);
     this->addChild(dayInputText);
     
-    monthInputText = TextInputLayer::createWithSize(Size(400,197), INPUT_IS_MONTH);
+    monthInputText = TextInputLayer::createWithSize(Size(330,197), INPUT_IS_MONTH);
     monthInputText->setPositionY(dayInputText->getPositionY());
-    monthInputText->setPositionX(origin.x+visibleSize.width/2 - 275);
+    monthInputText->setPositionX(origin.x+visibleSize.width/2 - 205);
     monthInputText->setDelegate(this);
     this->addChild(monthInputText);
     
-    yearInputText = TextInputLayer::createWithSize(Size(550,197), INPUT_IS_YEAR);
+    yearInputText = TextInputLayer::createWithSize(Size(410,197), INPUT_IS_YEAR);
     yearInputText->setPositionY(dayInputText->getPositionY());
     yearInputText->setPositionX(origin.x+visibleSize.width/2 + 175);
     yearInputText->setDelegate(this);
@@ -258,11 +258,11 @@ void ChildAccountScene::addOomeesToScene()
         OomeeButtons.push_back(oomeeButton);
     }
     
-    OomeeButtons.at(0)->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
-    OomeeButtons.at(1)->setCenterPosition(Vec2(origin.x + visibleSize.width*.3, origin.y + visibleSize.height*.25));
-    OomeeButtons.at(2)->setCenterPosition(Vec2(origin.x + visibleSize.width*.7, origin.y + visibleSize.height*.25));
-    OomeeButtons.at(3)->setCenterPosition(Vec2(origin.x + visibleSize.width*.3, origin.y + visibleSize.height*.75));
-    OomeeButtons.at(4)->setCenterPosition(Vec2(origin.x + visibleSize.width*.7, origin.y + visibleSize.height*.75));
+    OomeeButtons.at(0)->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height*.45));
+    OomeeButtons.at(1)->setCenterPosition(Vec2(origin.x + visibleSize.width*.3, origin.y + visibleSize.height*.22));
+    OomeeButtons.at(2)->setCenterPosition(Vec2(origin.x + visibleSize.width*.7, origin.y + visibleSize.height*.22));
+    OomeeButtons.at(3)->setCenterPosition(Vec2(origin.x + visibleSize.width*.3, origin.y + visibleSize.height*.68));
+    OomeeButtons.at(4)->setCenterPosition(Vec2(origin.x + visibleSize.width*.7, origin.y + visibleSize.height*.68));
 }
 
 void ChildAccountScene::hideOomees()

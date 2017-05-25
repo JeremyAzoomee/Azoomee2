@@ -106,6 +106,7 @@ void TextInputLayer::setupEditBoxUsingType()
         {
             editBox->setMaxLength(2);
             editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_DAY_PLACEHOLDER).c_str());
+            editBox->setPlaceholderFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
@@ -113,6 +114,7 @@ void TextInputLayer::setupEditBoxUsingType()
         {
             editBox->setMaxLength(2);
             editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_MONTH_PLACEHOLDER).c_str());
+            editBox->setPlaceholderFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
@@ -120,6 +122,7 @@ void TextInputLayer::setupEditBoxUsingType()
         {
             editBox->setMaxLength(4);
             editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_YEAR_PLACEHOLDER).c_str());
+            editBox->setPlaceholderFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
