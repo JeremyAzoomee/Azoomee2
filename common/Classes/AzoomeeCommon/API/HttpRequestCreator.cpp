@@ -3,6 +3,7 @@
 #include "../JWTSigner/JWTTool.h"
 #include "../JWTSigner/JWTToolForceParent.h"
 #include "../Data/ConfigStorage.h"
+#include "../Analytics/AnalyticsSingleton.h"
 
 using namespace cocos2d;
 using namespace cocos2d::network;
@@ -214,6 +215,8 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
         createHttpRequest();
         return;
     }
+    
+    AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, "");
     
     if((errorCode == 401)&&(findPositionOfNthString(responseString, "Invalid Request Time", 1) != responseString.length())) errorCode = 2001;
     

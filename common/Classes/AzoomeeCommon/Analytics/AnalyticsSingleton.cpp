@@ -470,6 +470,18 @@ void AnalyticsSingleton::sessionIdHasChanged(std::string oldSessionId)
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
+    
+void AnalyticsSingleton::httpRequestFailed(std::string requestTag, int responseCode, std::string qid)
+{
+    std::string eventID = "httpRequestFailed";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["requestTag"] = requestTag;
+    mixPanelProperties["responseCode"] = cocos2d::StringUtils::format("%d", responseCode);;
+    mixPanelProperties["qid"] = qid;
+    
+    mixPanelSendEvent(eventID, mixPanelProperties);
+}
 
 //---------------IAP ACTIONS------------------
   
