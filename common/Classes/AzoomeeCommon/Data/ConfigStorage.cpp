@@ -42,6 +42,11 @@ bool ConfigStorage::init(void)
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
     IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
     
+    parentSignedRequestTags = {API::TagParentPin, API::TagVerifyAmazonPayment, API::TagVerifyGooglePayment, API::TagVerifyApplePayment, API::TagUpdateBillingData, API::TagGetAvailableChildren};
+    requestTagsRequireQueueReset = {API::TagLogin, API::TagChildLogin, API::TagParentPin, API::TagVerifyGooglePayment, API::TagVerifyAmazonPayment, API::TagVerifyApplePayment, API::TagGetAvailableChildren};
+    requestTagsRequireImmediateSending = {"GROUP HQ", "VIDEO HQ", "AUDIO HQ", "GAME HQ", "PreviewHOME", "HOME"};
+    
+    
     return true;
 }
 
@@ -110,14 +115,20 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     
 bool ConfigStorage::isParentSignatureRequiredForRequest(std::string requestTag)
 {
-    std::vector<std::string> parentSignedRequestTags = {"updateParentPin", "iapAmazonPaymentMade", "iabGooglePaymentMade", "iapApplePaymentMade", "updateBilling", "getChildren"};
+    auto itemPosition = std::find(parentSignedRequestTags.begin(), parentSignedRequestTags.end(), requestTag);
+    return itemPosition != parentSignedRequestTags.end();
+}
     
-    for(int i = 0; i < parentSignedRequestTags.size(); i++)
-    {
-        if(parentSignedRequestTags.at(i) == requestTag) return true;
-    }
+bool ConfigStorage::isClearingHttpQueueRequiredBeforeSendingRequest(std::string requestTag)
+{
+    auto itemPosition = std::find(requestTagsRequireQueueReset.begin(), requestTagsRequireQueueReset.end(), requestTag);
+    return itemPosition != requestTagsRequireQueueReset.end();
+}
     
-    return false;
+bool ConfigStorage::isImmediateRequestSendingRequired(std::string requestTag)
+{
+    auto itemPosition = std::find(requestTagsRequireImmediateSending.begin(), requestTagsRequireImmediateSending.end(), requestTag);
+    return itemPosition != requestTagsRequireImmediateSending.end();
 }
 
 //-------------------------Oomee settings---------------------------
