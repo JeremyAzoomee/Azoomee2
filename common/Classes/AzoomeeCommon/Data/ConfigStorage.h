@@ -29,6 +29,8 @@ public:
     std::string getImagesUrl();
     std::string getPathForTag(std::string httpRequestTag);
     bool isParentSignatureRequiredForRequest(std::string requestTag);
+    bool isClearingHttpQueueRequiredBeforeSendingRequest(std::string requestTag);
+    bool isImmediateRequestSendingRequired(std::string requestTag);
     
     //ChildAccountScene settings
     std::string getNameForOomee(int number);
@@ -100,6 +102,10 @@ private:
     rapidjson::Document OomeeConfiguration;
     rapidjson::Document VersionConfiguration;
     rapidjson::Document IapConfiguration;
+    
+    std::vector<std::string> requestTagsRequireImmediateSending;
+    std::vector<std::string> requestTagsRequireQueueReset;
+    std::vector<std::string> parentSignedRequestTags;
     
 };
   

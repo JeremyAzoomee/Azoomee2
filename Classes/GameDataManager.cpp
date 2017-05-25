@@ -14,7 +14,7 @@ USING_NS_CC;
 #include "external/unzip/unzip.h"
 
 #include "WebViewSelector.h"
-#include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
+#include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
@@ -27,6 +27,7 @@ USING_NS_CC;
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace network;
 using namespace cocos2d;
@@ -55,26 +56,40 @@ bool GameDataManager::init(void)
     return true;
 }
 
-void GameDataManager::startProcessingGame(std::string url, std::string itemId)
+void GameDataManager::startProcessingGame(std::map<std::string, std::string> itemData)
 {
     processCancelled = false;
     displayLoadingScreen();
     
-    WebGameAPIDataManager::getInstance()->setGameId(itemId);
+    WebGameAPIDataManager::getInstance()->setGameId(itemData["id"]);
     
-    std::string basePath = getGameIdPath(itemId);
-    std::string fileName = getFileNameFromUrl(url);
+    saveFeedDataToFile(itemData);
+    
+    std::string basePath = getGameIdPath(itemData["id"]);
+    std::string fileName = getFileNameFromUrl(itemData["uri"]);
     
     
     if(checkIfFileExists(basePath + fileName))
     {
-        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemId);
-        else getJSONGameData(url, itemId);
+        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemData["id"]);
+        else getJSONGameData(itemData["uri"], itemData["id"]);
     }
     else
     {
-        getJSONGameData(url, itemId); //the callback of this method will get back to JSONFileIsPresent
+        getJSONGameData(itemData["uri"], itemData["id"]); //the callback of this method will get back to JSONFileIsPresent
     }
+}
+
+void GameDataManager::saveFeedDataToFile(std::map<std::string, std::string> itemData)
+{
+    if(HQHistoryManager::getInstance()->isOffline) return;
+    if(itemData.find("title") == itemData.end() || itemData.find("description") == itemData.end()) return;
+    
+    std::string basePath = getGameIdPath(itemData["id"]);
+    std::string targetPath = basePath + "feedData.json";
+    
+    createGamePathDirectories(basePath);
+    FileUtils::getInstance()->writeStringToFile(getJSONStringFromMap(itemData), targetPath);
 }
 
 void GameDataManager::JSONFileIsPresent(std::string itemId)
@@ -126,7 +141,7 @@ void GameDataManager::getJSONGameData(std::string url, std::string itemId)
     jsonRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
+    headers.push_back(StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str()));
     jsonRequest->setHeaders(headers);
     
     CCLOG("Cookies being used are: %s", headers.at(0).c_str());
@@ -135,7 +150,7 @@ void GameDataManager::getJSONGameData(std::string url, std::string itemId)
     jsonRequest->setTag(itemId);
     HttpClient::getInstance()->setTimeoutForConnect(2);
     HttpClient::getInstance()->setTimeoutForRead(2);
-    HttpClient::getInstance()->send(jsonRequest);
+    HttpClient::getInstance()->sendImmediate(jsonRequest);
 }
 
 void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -168,13 +183,23 @@ void GameDataManager::removeOldGameIfUpgradeNeeded(std::string downloadedJSONStr
 {
     std::string basePath = getGameIdPath(gameId);
     std::string targetPath = basePath + "package.json";
+    std::string feedPath = basePath + "feedData.json";
     
     if(!checkIfFileExists(targetPath) || getCurrentGameVersionFromJSONFile(targetPath) < getMinGameVersionFromJSONString(downloadedJSONString))
     {
+        std::string feedDataToBeSaved = getFeedDataFromFolder(feedPath);
         FileUtils::getInstance()->removeDirectory(basePath);
         createGamePathDirectories(basePath);
+        
+        if(feedDataToBeSaved != "") FileUtils::getInstance()->writeStringToFile(feedDataToBeSaved, feedPath);
         FileUtils::getInstance()->writeStringToFile(downloadedJSONString, targetPath);
     }
+}
+
+std::string GameDataManager::getFeedDataFromFolder(std::string feedPath)
+{
+    if(!FileUtils::getInstance()->isFileExist(feedPath)) return "";
+    return FileUtils::getInstance()->getStringFromFile(feedPath);
 }
 
 bool GameDataManager::checkIfFileExists(std::string fileWithPath)
@@ -240,7 +265,7 @@ void GameDataManager::getGameZipFile(std::string url, std::string itemId)
     zipRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
+    headers.push_back(StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str()));
     zipRequest->setHeaders(headers);
     
     CCLOG("Cookies being used are: %s", headers.at(0).c_str());
@@ -249,7 +274,7 @@ void GameDataManager::getGameZipFile(std::string url, std::string itemId)
     zipRequest->setTag(itemId);
     HttpClient::getInstance()->setTimeoutForConnect(2);
     HttpClient::getInstance()->setTimeoutForRead(2);
-    HttpClient::getInstance()->send(zipRequest);
+    HttpClient::getInstance()->sendImmediate(zipRequest);
 }
 
 void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)

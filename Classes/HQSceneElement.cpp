@@ -165,7 +165,7 @@ void HQSceneElement::addListenerToElement()
                 return true;
             }
                 
-            AnalyticsSingleton::getInstance()->openContentEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"]);
+            AnalyticsSingleton::getInstance()->openContentEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"], elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
             startUpElementDependingOnType();
             return true;
         }
@@ -185,7 +185,7 @@ void HQSceneElement::startUpElementDependingOnType()
     
     if(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "GAME")
     {
-        GameDataManager::getInstance()->startProcessingGame(elementItemData["uri"], elementItemData["id"]);
+        GameDataManager::getInstance()->startProcessingGame(elementItemData);
     }
     else if((HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "AUDIO"))
     {

@@ -69,7 +69,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     if(elementProperties["entitled"] == "false" && !ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
         addLockToImageContainer(startDelay);
-        addPreviewListenerToContainer(bgLayer,elementProperties["title"],elementProperties["description"],elementProperties["type"]);
+        addPreviewListenerToContainer(bgLayer,elementProperties);
 
     }
     else
@@ -78,7 +78,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
             addLockToImageContainer(startDelay);
         
         addReponseLayerToImage(elementProperties, scale);
-        addListenerToContainer(bgLayer, colour4.a, elementProperties["uri"], elementProperties["id"],elementProperties["title"],elementProperties["description"],elementProperties["type"], elementProperties["entitled"], RoutePaymentSingleton::getInstance()->showIAPContent());
+        addListenerToContainer(bgLayer, colour4.a, elementProperties, RoutePaymentSingleton::getInstance()->showIAPContent());
     }
 }
 
@@ -132,7 +132,7 @@ void ImageContainer::addReponseLayerToImage(std::map<std::string, std::string> e
     bgLayer->addChild(responseLayer);
 }
 
-void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::string uri, std::string contentId,std::string Title,std::string Description, std::string Type, std::string Entitled, bool IAPEnabled)
+void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::map<std::string, std::string> elementProperties, bool IAPEnabled)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -149,8 +149,9 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         
         if(rect.containsPoint(locationInNode))
         {
-            if(Entitled == "false")
+            if(elementProperties.at("entitled") == "false")
             {
+            
                 if(IAPEnabled)
                 {
                     AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
@@ -161,39 +162,40 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
             else
             {
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-                AnalyticsSingleton::getInstance()->openContentEvent(Title, Description, Type, contentId);
+                
+                AnalyticsSingleton::getInstance()->openContentEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "1,1");
                 
                 target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
                 
-                if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "GAME")
+                if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "GAME")
                 {
-                    GameDataManager::getInstance()->startProcessingGame(uri, contentId);
+                    GameDataManager::getInstance()->startProcessingGame(elementProperties);
                 }
-                else if((HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "AUDIO"))
+                else if((HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "AUDIO"))
                 {
                     auto webViewSelector = WebViewSelector::create();
-                    webViewSelector->loadWebView(uri.c_str());
+                    webViewSelector->loadWebView(elementProperties.at("uri").c_str());
                 }
-                else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "GROUP")
+                else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "GROUP")
                 {
                     NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-                    navigationLayer->startLoadingGroupHQ(uri);
+                    navigationLayer->startLoadingGroupHQ(elementProperties.at("uri"));
                     
                     auto funcCallAction = CallFunc::create([=](){
-                        HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-                        HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
+                        HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties.at("uri"));
+                        HQHistoryManager::getInstance()->setGroupHQSourceId(elementProperties.at("id"));
                     });
                     
                     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
                 }
-                else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", contentId) == "AUDIOGROUP")
+                else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "AUDIOGROUP")
                 {
                     NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-                    navigationLayer->startLoadingGroupHQ(uri);
+                    navigationLayer->startLoadingGroupHQ(elementProperties.at("uri"));
                     
                     auto funcCallAction2 = CallFunc::create([=](){
-                        HQDataProvider::getInstance()->getDataForGroupHQ(uri);
-                        HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
+                        HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties.at("uri"));
+                        HQHistoryManager::getInstance()->setGroupHQSourceId(elementProperties.at("id"));
                     });
                     
                     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
@@ -218,7 +220,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), addTo);
 }
 
-void ImageContainer::addPreviewListenerToContainer(cocos2d::Node *addTo, std::string Title,std::string Description, std::string Type)
+void ImageContainer::addPreviewListenerToContainer(cocos2d::Node *addTo, std::map<std::string, std::string> elementProperties)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -234,7 +236,7 @@ void ImageContainer::addPreviewListenerToContainer(cocos2d::Node *addTo, std::st
         if(rect.containsPoint(locationInNode))
         {
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-            AnalyticsSingleton::getInstance()->previewContentClickedEvent(Title, Description, Type);
+            AnalyticsSingleton::getInstance()->previewContentClickedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"));
             
             PreviewLoginSignupMessageBox::create();
             return true;

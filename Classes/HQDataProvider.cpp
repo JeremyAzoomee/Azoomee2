@@ -135,6 +135,12 @@ Vec2 HQDataProvider::getHighlightDataForSpecificItem(std::string category, int r
     return HQDataStorage::getInstance()->HQElementHighlights[category].at(rowNumber).at(itemNumber);
 }
 
+std::string HQDataProvider::getHumanReadableHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber)
+{
+    Vec2 highlightData = HQDataStorage::getInstance()->HQElementHighlights[category].at(rowNumber).at(itemNumber);
+    return StringUtils::format("%d,%d", int(highlightData.x), int(highlightData.y));
+}
+
 std::string HQDataProvider::getTypeForSpecificItem(std::string category, std::string itemId)
 {
     std::vector<std::map<std::string, std::string>> allItemsInCategory = HQDataStorage::getInstance()->HQData[category];

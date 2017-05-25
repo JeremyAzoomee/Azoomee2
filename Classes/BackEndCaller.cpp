@@ -22,6 +22,8 @@
 #include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
 #include "FlowDataSingleton.h"
+#include "OfflineHubScene.h"
+
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -430,7 +432,15 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     
     if(requestTag == API::TagGetAvailableChildren)
     {
+
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+        if(errorCode == -1)
+        {
+            LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(0);
+            Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+            return;
+        }
+        
         LoginLogicHandler::getInstance()->forceNewLogin();
         return;
     }
@@ -446,6 +456,6 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     if(requestTag == API::TagResetPasswordRequest)
         return;
     
-    ChildDataParser::getInstance()->setChildLoggedIn(false);
-    getAvailableChildren();
+    LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+    LoginLogicHandler::getInstance()->doLoginLogic();
 }

@@ -701,7 +701,7 @@
 			children = (
 				02074B241E93964F009BB28C /* WebGameAPIDataManager */,
 				020ACCFB1E70561F002490CE /* PaymentSingleton */,
-				A15D58921E028C940099CDEE /* BurntInData */,
+				A15D58921E028C940099CDEE /* HistoryManager */,
 				A1CC0C271E15691C008B469E /* ModalMessages */,
 				4327D9251E1F98AC00F912C5 /* uiObjects */,
 			);
@@ -838,13 +838,13 @@
 			name = BackEndCommunication;
 			sourceTree = "<group>";
 		};
-		A15D58921E028C940099CDEE /* BurntInData */ = {
+		A15D58921E028C940099CDEE /* HistoryManager */ = {
 			isa = PBXGroup;
 			children = (
 				026BAF761E3FFD33009C4ACE /* HQHistoryManager.cpp */,
 				026BAF771E3FFD33009C4ACE /* HQHistoryManager.h */,
 			);
-			name = BurntInData;
+			name = HistoryManager;
 			sourceTree = "<group>";
 		};
 		A1817B481DDCB74900C2D13C /* MainHubScene */ = {
