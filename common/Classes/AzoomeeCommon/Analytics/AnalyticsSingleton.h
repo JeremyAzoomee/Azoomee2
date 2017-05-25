@@ -110,7 +110,7 @@ public:
     void enteredBackgroundEvent();
     void enteredForegroundEvent();
     void sessionIdHasChanged(std::string oldSessionId);
-    void httpRequestFailed(std::string requestTag, int responseCode, std::string qid);
+    void httpRequestFailed(std::string requestTag, long responseCode, std::string qid);
     
     //---------------IAP ACTIONS------------------
     void displayIAPUpsaleEvent(std::string fromLocation);

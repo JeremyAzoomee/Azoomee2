@@ -4,6 +4,7 @@
 #include "../JWTSigner/JWTToolForceParent.h"
 #include "../Data/ConfigStorage.h"
 #include "../Analytics/AnalyticsSingleton.h"
+#include "../Utils/StringFunctions.h"
 
 using namespace cocos2d;
 using namespace cocos2d::network;
@@ -170,19 +171,15 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
 {
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201))
     {
-        std::vector<char> responseHeader = *response->getResponseHeader();
-        std::string responseHeaderString = std::string(responseHeader.begin(), responseHeader.end());
-        
-        std::vector<char> responseData = *response->getResponseData();
-        std::string responseDataString = std::string(responseData.begin(), responseData.end());
+        std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
+        std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
+        std::string requestTag = response->getHttpRequest()->getTag();
         
         CCLOG("request tag: %s", requestTag.c_str());
         CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
         CCLOG("response code: %ld", response->getResponseCode());
         CCLOG("response header: %s", responseHeaderString.c_str());
         CCLOG("response string: %s", responseDataString.c_str());
-        
-        std::string requestTag = response->getHttpRequest()->getTag();
         
         if(delegate != nullptr)
         {
@@ -197,8 +194,8 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
 
 void HttpRequestCreator::handleError(network::HttpResponse *response)
 {
-    std::vector<char> responseData = *response->getResponseData();
-    std::string responseString = std::string(responseData.begin(), responseData.end());
+    std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
+    std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
     std::string requestTag = response->getHttpRequest()->getTag();
     long errorCode = response->getResponseCode();
     
@@ -216,10 +213,10 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
         return;
     }
     
-    AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, "");
+    if(response->getResponseCode() != -1) AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, getQidFromResponseHeader(responseHeaderString));
     
-    if((errorCode == 401)&&(findPositionOfNthString(responseString, "Invalid Request Time", 1) != responseString.length())) errorCode = 2001;
-    
+    if((errorCode == 401)&&(findPositionOfNthString(responseDataString, "Invalid Request Time", 1) != responseDataString.length())) errorCode = 2001;
+
     handleEventAfterError(requestTag, errorCode);
 }
 
@@ -229,6 +226,20 @@ void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, lo
     
     if(delegate != nullptr)
         delegate->onHttpRequestFailed(requestTag, errorCode);
+}
+
+std::string HttpRequestCreator::getQidFromResponseHeader(std::string responseHeaderString)
+{
+    std::vector<std::string> responseHeaderVector = splitStringToVector(responseHeaderString, "\n");
+    for(int i = 0; i < responseHeaderVector.size(); i++)
+    {
+        if(responseHeaderVector.at(i).compare(0, 9, "x-az-qid:") == 0)
+        {
+            return splitStringToVector(responseHeaderVector.at(i), ": ").back();
+        }
+    }
+    
+    return "null";
 }
   
 NS_AZOOMEE_END
