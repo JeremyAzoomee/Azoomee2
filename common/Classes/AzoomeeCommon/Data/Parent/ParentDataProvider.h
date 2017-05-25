@@ -22,6 +22,7 @@ public:
     std::string getProfileNameForAnAvailableChildren(int childNumber);
     std::string getProfileNameForAnAvailableChildrenById(const std::string& childId);
     std::string getAvatarForAnAvailableChildren(int childNumber);
+    std::string getAvatarForAnAvailableChildrenById(const std::string& childId);
     std::string getDOBForAnAvailableChildren(int childNumber);
     std::string getSexForAnAvailableChildren(int childNumber);
     
