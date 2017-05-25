@@ -1,5 +1,6 @@
 #include "AvatarWidget.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 
 using namespace cocos2d;
@@ -87,7 +88,7 @@ bool AvatarWidget::init()
     
     
     // Default data
-    setAvatarURL("");
+    setAvatarForFriend(nullptr);
   
     return true;
 }
@@ -135,15 +136,30 @@ void AvatarWidget::onSizeChanged()
 
 #pragma mark - Public
 
-void AvatarWidget::setAvatarURL(const std::string& avatarURL)
+void AvatarWidget::setAvatarForFriend(const FriendRef& friendData)
 {
+    const std::string& avatarURL = (friendData) ? friendData->avatarURL() : "";
     _avatarPlaceholder->setVisible(avatarURL.empty());
     _outerFrame->setVisible(!avatarURL.empty());
+    
+    // Update the frame colors based on if this is the current user or not
+    const bool isCurrentUser = (friendData && friendData->friendId() == ChildDataProvider::getInstance()->getLoggedInChildId());
+    if(isCurrentUser)
+    {
+        _background->loadTexture("res/chat/ui/avatar/avatar_background_user.png");
+        _frameFront->loadTexture("res/chat/ui/avatar/l_avatar_frame_front_user.png");
+    }
+    else
+    {
+        _background->loadTexture("res/chat/ui/avatar/avatar_background_friend.png");
+        _frameFront->loadTexture("res/chat/ui/avatar/l_avatar_frame_front_friend.png");
+    }
     
     if(_avatarDownloader)
     {
         _avatarDownloader->setDelegate(nullptr);
         _avatarDownloader->release();
+        _avatarDownloader = nullptr;
     }
     
     // Download image (will auto get from cache)
@@ -165,6 +181,7 @@ void AvatarWidget::onImageDownloadComplete(ImageDownloader* downloader)
     {
         _avatarDownloader->setDelegate(nullptr);
         _avatarDownloader->release();
+        _avatarDownloader = nullptr;
     }
 }
 

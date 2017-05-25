@@ -65,7 +65,7 @@ void FriendListScene::onEnter()
     const std::string& childName = ChildDataProvider::getInstance()->getLoggedInChildName();
     const std::string& childAvatar = ChildDataProvider::getInstance()->getLoggedInChildAvatarId();
     _currentUser = Friend::create(childId, childName, childAvatar);
-    _userOomee->setAvatarURL(_currentUser->avatarURL());
+    _userOomee->setAvatarForFriend(_currentUser);
     // TODO: Update user name label
     
     // Register for API events

@@ -5,6 +5,7 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include "../Data/Friend.h"
 
 
 NS_AZOOMEE_CHAT_BEGIN
@@ -46,8 +47,8 @@ protected:
     
 public:
     
-    /// Set the URL to use for the avatar
-    void setAvatarURL(const std::string& avatarURL);
+    /// Setup to display the avatar for friend
+    void setAvatarForFriend(const FriendRef& friendData);
     
     virtual bool init() override;
     virtual void onEnter() override;

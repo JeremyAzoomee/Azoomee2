@@ -101,13 +101,13 @@ void FriendListViewItem::setData(const FriendRef& friendData)
     
     if(_friendData)
     {
-        _avatarWidget->setAvatarURL(friendData->avatarURL());
+        _avatarWidget->setAvatarForFriend(_friendData);
         _avatarPlaceholder->setVisible(false);
         _avatarWidget->setVisible(true);
     }
     else
     {
-        _avatarWidget->setAvatarURL("");
+        _avatarWidget->setAvatarForFriend(nullptr);
         _avatarPlaceholder->setVisible(true);
         _avatarWidget->setVisible(false);
     }
