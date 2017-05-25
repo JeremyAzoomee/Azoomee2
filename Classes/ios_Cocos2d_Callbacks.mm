@@ -6,6 +6,7 @@
 #include "BackEndCaller.h"
 #include "WebGameAPIDataManager.h"
 #include "VideoPlaylistManager.h"
+#include "SceneManagerScene.h"
 
 using namespace Azoomee;
 
@@ -14,7 +15,7 @@ void navigateToBaseScene()
 {
     if(HQHistoryManager::getInstance()->isOffline)
     {
-        cocos2d::Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
         return;
     }
     
@@ -22,8 +23,7 @@ void navigateToBaseScene()
     
     AnalyticsSingleton::getInstance()->closeContentEvent();
     
-    auto baseScene = BaseScene::createScene();
-    cocos2d::Director::getInstance()->replaceScene(baseScene);
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }
 
 void navigateToLoginScene()

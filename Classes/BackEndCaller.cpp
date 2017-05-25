@@ -183,8 +183,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     }
     else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
     {
-        auto childSelectorScene = ChildSelectorScene::createScene();
-        Director::getInstance()->replaceScene(childSelectorScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
     }
 }
 
@@ -225,11 +224,7 @@ void BackEndCaller::getGordon()
 void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
-    {
-        HQHistoryManager::getInstance()->emptyHistory();
-        auto baseScene = BaseScene::createScene();
-        Director::getInstance()->replaceScene(baseScene);
-    }
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }
 
 //REGISTER PARENT---------------------------------------------------------------------------

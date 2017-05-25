@@ -34,8 +34,6 @@ private:
 public:
     static cocos2d::Scene* createScene();
     
-    static cocos2d::Scene* createScene(bool IAPSuccess);
-    
     virtual bool init();
     
     // implement the "static create()" method manually

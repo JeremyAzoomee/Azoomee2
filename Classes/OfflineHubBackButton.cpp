@@ -1,6 +1,7 @@
 #include "OfflineHubBackButton.h"
 #include "OfflineHubScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include "SceneManagerScene.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -62,7 +63,7 @@ void OfflineHubBackButton::addListenerToBackButton(Sprite* toBeAddedTo)
         if(rect.containsPoint(locationInNode))
         {
             AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
-            Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
             
             return true;
         }

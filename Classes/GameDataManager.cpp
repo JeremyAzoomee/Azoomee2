@@ -25,6 +25,7 @@ USING_NS_CC;
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "SceneManagerScene.h"
 
 using namespace network;
 using namespace cocos2d;
@@ -512,9 +513,5 @@ void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
     std::map<std::string, std::string> errorStringMap = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
 
     if(messageBoxTitle == errorStringMap[ERROR_TITLE] && buttonTitle == errorStringMap[ERROR_BUTTON])
-    {
-        HQHistoryManager::getInstance()->emptyHistory();
-        auto baseScene = BaseScene::createScene();
-        Director::getInstance()->replaceScene(baseScene);
-    }
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }

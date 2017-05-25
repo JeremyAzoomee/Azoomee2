@@ -18,6 +18,7 @@ private:
     static const char* const DataKeyChildName;
     static const char* const DataKeyOomeeColourNumber;
     static const char* const DataKeyChildRefNumber;
+    static const char* const DataKeyIAPSuccess;
     
 public:
     static FlowDataSingleton* getInstance(void);
@@ -25,9 +26,9 @@ public:
     bool init(void);
     
     void setFlowToSignup(std::string userName, std::string password);
-    void setFlowToAddProfile(std::string childName, int oomeeColourNumber);
     
     void addChildData(std::string childName, int oomeeColourNumber);
+    void addIAPSuccess(bool IAPSuccess);
 
     bool isSignupFlow();
     bool isNewProfileFlow();
@@ -44,6 +45,7 @@ public:
     std::string getChildName();
     int getOomeeColourNumber();
     int getChildRefNumber();
+    bool getIAPSuccess();
 };
 
 #endif

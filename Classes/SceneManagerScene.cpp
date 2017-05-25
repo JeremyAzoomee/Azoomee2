@@ -7,6 +7,8 @@
 #include "ChildSelectorScene.h"
 #include "LoginScene.h"
 #include "ChildAccountSuccessScene.h"
+#include "OfflineHubScene.h"
+#include "HQScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include "OrientationFunctions_ios.h"
@@ -79,6 +81,19 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             ForceToLandscape();
             goToScene = OnboardingSuccessScene::createScene();
+            break;
+        }
+        case OfflineHub:
+        {
+            ForceToLandscape();
+            OfflineChecker::getInstance()->setDelegate(nullptr);
+            goToScene = OfflineHubScene::createScene();
+            break;
+        }
+        case HQOfflineArtsAppHQ:
+        {
+            ForceToLandscape();
+            goToScene = HQScene::createSceneForOfflineArtsAppHQ();
             break;
         }
         default:

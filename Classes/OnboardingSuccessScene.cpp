@@ -22,18 +22,7 @@ Scene* OnboardingSuccessScene::createScene()
     auto scene = Scene::create();
     auto layer = OnboardingSuccessScene::create();
     scene->addChild(layer);
-    layer->IAPSuccess = false;
-    layer->setupScene();
-    
-    return scene;
-}
-
-Scene* OnboardingSuccessScene::createScene(bool IAPSuccess)
-{
-    auto scene = Scene::create();
-    auto layer = OnboardingSuccessScene::create();
-    scene->addChild(layer);
-    layer->IAPSuccess = IAPSuccess;
+    layer->IAPSuccess = FlowDataSingleton::getInstance()->getIAPSuccess();
     layer->setupScene();
     
     return scene;

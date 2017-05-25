@@ -14,6 +14,7 @@ const char* const FlowDataSingleton::DataKeyErrorCode = "keyErrorCode";
 const char* const FlowDataSingleton::DataKeyChildName = "keyChildName";
 const char* const FlowDataSingleton::DataKeyOomeeColourNumber = "keyOomeeColourNumber";
 const char* const FlowDataSingleton::DataKeyChildRefNumber = "keyChildRefNumber";
+const char* const FlowDataSingleton::DataKeyIAPSuccess = "keyIAPSuccess";
 
 #pragma mark - SingletonSetup
 
@@ -49,15 +50,18 @@ void FlowDataSingleton::setFlowToSignup(std::string userName, std::string passwo
     flowData[DataKeyPassword] = password;
 }
 
-void FlowDataSingleton::setFlowToAddProfile(std::string childName, int oomeeColourNumber)
-{
-    
-}
-
 void FlowDataSingleton::addChildData(std::string childName, int oomeeColourNumber)
 {
     flowData[DataKeyChildName] = childName;
     flowData[DataKeyOomeeColourNumber] = StringUtils::format("%d",oomeeColourNumber);
+}
+
+void FlowDataSingleton::addIAPSuccess(bool IAPSuccess)
+{
+    if(IAPSuccess)
+        flowData[DataKeyIAPSuccess] = "true";
+    else
+        flowData[DataKeyIAPSuccess] = "false";
 }
 
 void FlowDataSingleton::clearData()
@@ -155,4 +159,9 @@ int FlowDataSingleton::getOomeeColourNumber()
 int FlowDataSingleton::getChildRefNumber()
 {
     return std::atoi(getStringValue(DataKeyChildRefNumber).c_str());
+}
+
+bool FlowDataSingleton::getIAPSuccess()
+{
+    return getStringValue(DataKeyIAPSuccess) == "true";
 }

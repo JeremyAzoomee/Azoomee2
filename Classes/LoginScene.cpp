@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "FlowDataSingleton.h"
+#include "SceneManagerScene.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -141,9 +142,7 @@ void LoginScene::backButtonPressed()
 {
     if(currentScreen == emailLoginScreen)
     {
-        HQHistoryManager::getInstance()->emptyHistory();
-        auto baseScene = BaseScene::createScene();
-        Director::getInstance()->replaceScene(baseScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
     else if(currentScreen == passwordLoginScreen)
         changeElementsToEmailScreen();
@@ -201,8 +200,5 @@ void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string
 void LoginScene::connectivityStateChanged(bool online)
 {
     if(!online)
-    {
-        OfflineChecker::getInstance()->setDelegate(nullptr);
-        Director::getInstance()->replaceScene(OfflineHubScene::createScene());
-    }
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
 }

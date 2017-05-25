@@ -15,6 +15,7 @@
 #include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "SceneManagerScene.h"
+#include "FlowDataSingleton.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -306,14 +307,12 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 void ChildSelectorScene::connectivityStateChanged(bool online)
 {
     if(!online)
-    {
-        OfflineChecker::getInstance()->setDelegate(nullptr);
-        Director::getInstance()->replaceScene(OfflineHubScene::createScene());
-    }
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
 }
 
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
+    FlowDataSingleton::getInstance()->clearData();
     OfflineChecker::getInstance()->setDelegate(nullptr);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
 }

@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQScene.h"
 #include "HQHistoryManager.h"
+#include "SceneManagerScene.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -144,10 +145,7 @@ void OfflineHubHQ::addListenerToArtElement(Layer* toBeAddedTo)
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
         if(iamtouched)
-        {
-            auto hqScene = HQScene::createSceneForOfflineArtsAppHQ();
-            Director::getInstance()->replaceScene(hqScene);
-        }
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(HQOfflineArtsAppHQ));
         
         return false;
     };
