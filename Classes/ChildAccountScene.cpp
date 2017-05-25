@@ -95,19 +95,19 @@ void ChildAccountScene::addTextboxScene()
     
     dayInputText = TextInputLayer::createWithSize(Size(330,197), INPUT_IS_DAY);
     dayInputText->setPositionY(childNameInputText->getPositionY() -dayInputText->getContentSize().height*2.7 );
-    dayInputText->setPositionX(origin.x+visibleSize.width/2 - 255-dayInputText->getContentSize().width);
+    dayInputText->setPositionX(origin.x+visibleSize.width/2 - 275-dayInputText->getContentSize().width);
     dayInputText->setDelegate(this);
     this->addChild(dayInputText);
     
     monthInputText = TextInputLayer::createWithSize(Size(330,197), INPUT_IS_MONTH);
     monthInputText->setPositionY(dayInputText->getPositionY());
-    monthInputText->setPositionX(origin.x+visibleSize.width/2 - 205);
+    monthInputText->setPositionX(origin.x+visibleSize.width/2 - 225);
     monthInputText->setDelegate(this);
     this->addChild(monthInputText);
     
-    yearInputText = TextInputLayer::createWithSize(Size(410,197), INPUT_IS_YEAR);
+    yearInputText = TextInputLayer::createWithSize(Size(450,197), INPUT_IS_YEAR);
     yearInputText->setPositionY(dayInputText->getPositionY());
-    yearInputText->setPositionX(origin.x+visibleSize.width/2 + 175);
+    yearInputText->setPositionX(origin.x+visibleSize.width/2 + 155);
     yearInputText->setDelegate(this);
     this->addChild(yearInputText);
 }
