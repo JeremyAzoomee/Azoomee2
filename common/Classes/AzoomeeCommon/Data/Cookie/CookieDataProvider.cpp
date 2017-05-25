@@ -34,7 +34,7 @@ std::string CookieDataProvider::getCookiesForRequest(std::string url)
     
     for(int i = 0; i < CookieDataStorage::getInstance()->dataDownloadCookiesVector.size(); i++)
     {
-        if(checkIfCookieIsForUrl(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i), url)) cookieString = StringUtils::format("%s%s; ", cookieString.c_str(), getCookieMainContent(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i)).c_str());
+        if(checkIfCookieIsForUrl(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i), url)) cookieString += getCookieMainContent(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i)) + "; ";
     }
     
     return cookieString;
@@ -90,9 +90,7 @@ bool CookieDataProvider::checkIfCookieIsForUrl(std::string cookieRecord, std::st
 
 std::string CookieDataProvider::getCookieMainContent(std::string cookieRecord)
 {
-    std::string cookieMainContent = splitStringToVector(cookieRecord, "; ").at(0);
-    
-    return cookieMainContent;
+    return splitStringToVector(cookieRecord, "; ").at(0);
 }
   
 }
