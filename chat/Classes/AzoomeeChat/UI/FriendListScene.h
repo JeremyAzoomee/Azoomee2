@@ -4,7 +4,7 @@
 #include "../AzoomeeChat.h"
 #include "../ChatAPI.h"
 #include "FriendListView.h"
-#include "OomeeWidget.h"
+#include "AvatarWidget.h"
 #include "TitleBarWidget.h"
 #include <AzoomeeCommon/UI/Scene.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
@@ -32,7 +32,7 @@ private:
     /// Panel which holds the current user's name and Oomee
     cocos2d::ui::Layout* _userPanel = nullptr;
     /// The current user's oomee
-    OomeeWidget* _userOomee = nullptr;
+    AvatarWidget* _userOomee = nullptr;
     
     
     /// Show next tester message

@@ -27,7 +27,7 @@
 		305966751ECC59C8009A7130 /* FriendListScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966731ECC59C8009A7130 /* FriendListScene.cpp */; };
 		3059667E1ECC5F90009A7130 /* ChatConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3059667C1ECC5F90009A7130 /* ChatConfig.cpp */; };
 		305966921ECC9C21009A7130 /* FriendListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3059668C1ECC9C21009A7130 /* FriendListView.cpp */; };
-		305966931ECC9C21009A7130 /* OomeeWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3059668E1ECC9C21009A7130 /* OomeeWidget.cpp */; };
+		305966931ECC9C21009A7130 /* AvatarWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3059668E1ECC9C21009A7130 /* AvatarWidget.cpp */; };
 		305966941ECC9C21009A7130 /* TitleBarWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966901ECC9C21009A7130 /* TitleBarWidget.cpp */; };
 		3059669F1ECDE230009A7130 /* FriendListViewItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3059669D1ECDE230009A7130 /* FriendListViewItem.cpp */; };
 		305966A31ECF3558009A7130 /* MessageScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966A11ECF3558009A7130 /* MessageScene.cpp */; };
@@ -172,8 +172,8 @@
 		3059667D1ECC5F90009A7130 /* ChatConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatConfig.h; sourceTree = "<group>"; };
 		3059668C1ECC9C21009A7130 /* FriendListView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FriendListView.cpp; sourceTree = "<group>"; };
 		3059668D1ECC9C21009A7130 /* FriendListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListView.h; sourceTree = "<group>"; };
-		3059668E1ECC9C21009A7130 /* OomeeWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeWidget.cpp; sourceTree = "<group>"; };
-		3059668F1ECC9C21009A7130 /* OomeeWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeWidget.h; sourceTree = "<group>"; };
+		3059668E1ECC9C21009A7130 /* AvatarWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AvatarWidget.cpp; sourceTree = "<group>"; };
+		3059668F1ECC9C21009A7130 /* AvatarWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarWidget.h; sourceTree = "<group>"; };
 		305966901ECC9C21009A7130 /* TitleBarWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TitleBarWidget.cpp; sourceTree = "<group>"; };
 		305966911ECC9C21009A7130 /* TitleBarWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleBarWidget.h; sourceTree = "<group>"; };
 		3059669D1ECDE230009A7130 /* FriendListViewItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FriendListViewItem.cpp; sourceTree = "<group>"; };
@@ -429,8 +429,8 @@
 			children = (
 				305966A51ECF3562009A7130 /* FriendList */,
 				305966A41ECF355B009A7130 /* Message */,
-				3059668E1ECC9C21009A7130 /* OomeeWidget.cpp */,
-				3059668F1ECC9C21009A7130 /* OomeeWidget.h */,
+				3059668E1ECC9C21009A7130 /* AvatarWidget.cpp */,
+				3059668F1ECC9C21009A7130 /* AvatarWidget.h */,
 				305966901ECC9C21009A7130 /* TitleBarWidget.cpp */,
 				305966911ECC9C21009A7130 /* TitleBarWidget.h */,
 			);
@@ -732,7 +732,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				305966931ECC9C21009A7130 /* OomeeWidget.cpp in Sources */,
+				305966931ECC9C21009A7130 /* AvatarWidget.cpp in Sources */,
 				305966751ECC59C8009A7130 /* FriendListScene.cpp in Sources */,
 				301849A21EC0B747005B994A /* AuthAPI.cpp in Sources */,
 				305966AB1ECF44E0009A7130 /* MessageListViewItem.cpp in Sources */,

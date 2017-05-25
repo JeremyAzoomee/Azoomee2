@@ -161,10 +161,8 @@ void FriendListScene::onSizeChanged()
     
     // User panel
     Vec2 oomeeSize = Vec2(1.0f, (isLandscape) ? 0.458f : 0.70f);
-    // TODO: Get aspect ratio from OomeeWidget, for now assume square
-    float aspectRatio = 1.0f; // (width / height)
-    // Calc width from aspect ratio
-    float widthPt = _userPanel->getContentSize().height * oomeeSize.y * aspectRatio;
+    // Calc width % as a square
+    float widthPt = _userPanel->getContentSize().height * oomeeSize.y;
     oomeeSize.x = widthPt / _userPanel->getContentSize().width;
     _userOomee->setSizePercent(oomeeSize);
 }
@@ -196,7 +194,7 @@ void FriendListScene::createUserPanelUI(cocos2d::ui::Layout* parent)
 {
     parent->setLayoutType(ui::Layout::Type::RELATIVE);
     
-    _userOomee = OomeeWidget::create();
+    _userOomee = AvatarWidget::create();
     _userOomee->setSizeType(ui::Widget::SizeType::PERCENT);
     _userOomee->setLayoutParameter(CreateCenterRelativeLayoutParam());
     parent->addChild(_userOomee);
