@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "WebGameAPIDataManager.h"
 #include "VideoPlaylistManager.h"
+#include <AzoomeeCommon/Utils/SessionIdManager.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -94,6 +95,8 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
     this->setName("androidWebView");
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
+    
     cocos2d::JniMethodInfo methodInfo;
     
     if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startWebView", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"))

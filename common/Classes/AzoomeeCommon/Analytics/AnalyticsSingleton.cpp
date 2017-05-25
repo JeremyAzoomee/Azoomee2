@@ -5,6 +5,7 @@
 #include "../Data/Parent/ParentDataProvider.h"
 #include "../Utils/StringFunctions.h"
 #include "../Strings.h"
+#include "../Utils/SessionIdManager.h"
 
 
 namespace Azoomee
@@ -104,6 +105,28 @@ void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
     
     mixPanelRegisterSuperProperties("age",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, childAge));
 }
+    
+void AnalyticsSingleton::registerSessionId(std::string sessionId)
+{
+    mixPanelRegisterSuperProperties("sessionId", sessionId);
+}
+    
+void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
+{
+    mixPanelRegisterSuperProperties("currentScene", currentScene);
+}
+    
+void AnalyticsSingleton::setPortraitOrientation()
+{
+    mixPanelRegisterSuperProperties("orientation", "portrait");
+}
+    
+void AnalyticsSingleton::setLandscapeOrientation()
+{
+    mixPanelRegisterSuperProperties("orientation", "landscape");
+}
+
+//-------------logout events-----------------
 
 void AnalyticsSingleton::logoutChildEvent()
 {
@@ -264,13 +287,18 @@ void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumbe
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID)
+    void AnalyticsSingleton::openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape)
 {
+    SessionIdManager::getInstance()->resetBackgroundTimeInContent();
+    
     time(&timeOpenedContent);
     storedTitle = Title;
     storedDescription = Description;
     storedType = Type;
     storedContentID = contentID;
+    storedRowNumber = rowNumber;
+    storedElementNumber = elementNumber;
+    storedElementShape = elementShape;
     
     std::string eventID = "openContent";
     
@@ -279,6 +307,10 @@ void AnalyticsSingleton::openContentEvent(std::string Title,std::string Descript
     mixPanelProperties["Description"] = Description;
     mixPanelProperties["Type"] = Type;
     mixPanelProperties["ContentID"] = contentID;
+    mixPanelProperties["rowNumber"] = cocos2d::StringUtils::format("%d", rowNumber);
+    mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", elementNumber);
+    mixPanelProperties["elementShape"] = elementShape;
+    
     
     mixPanelSendEvent(eventID, mixPanelProperties);
     appsFlyerSendEvent(eventID, mixPanelProperties);
@@ -290,6 +322,11 @@ void AnalyticsSingleton::closeContentEvent()
     time(&now);
     double secondsOpened = difftime(now,timeOpenedContent);
     
+    cocos2d::log("CLOSE EVENT CONTENT TIME: %f", secondsOpened);
+    cocos2d::log("CLOSE EVENT BACKGROUND TIME: %lu", SessionIdManager::getInstance()->getBackgroundTimeInContent());
+    
+    secondsOpened -= SessionIdManager::getInstance()->getBackgroundTimeInContent();
+    
     std::string eventID = "closedContent";
     
     std::map<std::string, std::string> mixPanelProperties;
@@ -299,6 +336,10 @@ void AnalyticsSingleton::closeContentEvent()
     mixPanelProperties["Type"] = storedType;
     mixPanelProperties["ContentID"] = storedContentID;
     mixPanelProperties["SecondsInContent"] = cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened);
+    mixPanelProperties["rowNumber"] = cocos2d::StringUtils::format("%d", storedRowNumber);
+    mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", storedElementNumber);
+    mixPanelProperties["elementShape"] = storedElementShape;
+    
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
@@ -430,6 +471,28 @@ void AnalyticsSingleton::enteredBackgroundEvent()
 void AnalyticsSingleton::enteredForegroundEvent()
 {
     mixPanelSendEvent("enteredForegroundEvent");
+}
+    
+void AnalyticsSingleton::sessionIdHasChanged(std::string oldSessionId)
+{
+    std::string eventID = "sessionIdHasChanged";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["oldSessionId"] = oldSessionId;
+    
+    mixPanelSendEvent(eventID, mixPanelProperties);
+}
+    
+void AnalyticsSingleton::httpRequestFailed(std::string requestTag, long responseCode, std::string qid)
+{
+    std::string eventID = "httpRequestFailed";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["requestTag"] = requestTag;
+    mixPanelProperties["responseCode"] = cocos2d::StringUtils::format("%ld", responseCode);;
+    mixPanelProperties["qid"] = qid;
+    
+    mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
 //---------------IAP ACTIONS------------------

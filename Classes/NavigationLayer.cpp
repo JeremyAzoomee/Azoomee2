@@ -5,7 +5,6 @@
 #include "HQScene.h"
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "ChildSelectorScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
@@ -19,6 +18,7 @@
 #include "SettingsButton.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "DeepLinkingSingleton.h"
+#include "BackEndCaller.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -278,8 +278,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
                     //Child Selection Button Pressed.
                     //Logout Child
                     ChildDataParser::getInstance()->setChildLoggedIn(false);
-                    auto childSelectorScene = ChildSelectorScene::createScene();
-                    Director::getInstance()->replaceScene(childSelectorScene);
+                    BackEndCaller::getInstance()->getAvailableChildren();
                 }
                 else
                 {

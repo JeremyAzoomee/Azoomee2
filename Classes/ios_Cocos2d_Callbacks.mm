@@ -3,9 +3,9 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
-#include "BackEndCaller.h"
 #include "WebGameAPIDataManager.h"
 #include "VideoPlaylistManager.h"
+#include "LoginLogicHandler.h"
 
 using namespace Azoomee;
 
@@ -29,9 +29,8 @@ void navigateToBaseScene()
 void navigateToLoginScene()
 {
     AnalyticsSingleton::getInstance()->closeContentEvent();
-    
-    BackEndCaller::getInstance()->updateBillingData();
-    BackEndCaller::getInstance()->getAvailableChildren();
+    LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+    LoginLogicHandler::getInstance()->doLoginLogic();
 }
 
 void sendMixPanelData(const char* host, const char* query)

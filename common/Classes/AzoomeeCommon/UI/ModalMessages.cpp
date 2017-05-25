@@ -42,6 +42,7 @@ void ModalMessages::createAndFadeInLayer()
     loadingLayer = LayerColor::create(Color4B(0,0,0,150), visibleSize.width, visibleSize.height);
     loadingLayer->setPosition(origin.x, origin.y);
     loadingLayer->setOpacity(0);
+    loadingLayer->setName("loadingLayer");
     Director::getInstance()->getRunningScene()->addChild(loadingLayer);
     
     addListenerToBackgroundLayer();
@@ -63,7 +64,7 @@ void ModalMessages::addListenerToBackgroundLayer()
 
 void ModalMessages::removeLayer()
 {
-    if(loadingLayer) //This might be called when loading is not active, so better to check first
+    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer"))
     {
         Director::getInstance()->getRunningScene()->removeChild(loadingLayer);
     }
@@ -71,6 +72,8 @@ void ModalMessages::removeLayer()
 
 void ModalMessages::startLoading()
 {
+    if(Director::getInstance()->getRunningScene()->getChildByName("loadingLayer")) return;
+    
     createAndFadeInLayer();
     
     //ADDING SOME TEMPORARY CIRCLES AS LOADING, NOT FINAL YET
