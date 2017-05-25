@@ -100,6 +100,13 @@ void AvatarWidget::onEnter()
 void AvatarWidget::onExit()
 {
     Super::onExit();
+    
+    if(_avatarDownloader)
+    {
+        _avatarDownloader->setDelegate(nullptr);
+        _avatarDownloader->release();
+        _avatarDownloader = nullptr;
+    }
 }
 
 #pragma mark - Size changes
@@ -133,8 +140,32 @@ void AvatarWidget::setAvatarURL(const std::string& avatarURL)
     _avatarPlaceholder->setVisible(avatarURL.empty());
     _outerFrame->setVisible(!avatarURL.empty());
     
-    // TODO: Download or get local image
-    _avatarImage->loadTexture("res/cache_bundle/avatars/oomee_01.png");
+    if(_avatarDownloader)
+    {
+        _avatarDownloader->setDelegate(nullptr);
+        _avatarDownloader->release();
+    }
+    
+    // Download image (will auto get from cache)
+    if(!avatarURL.empty())
+    {
+        _avatarDownloader = ImageDownloader::create();
+        _avatarDownloader->retain();
+        _avatarDownloader->downloadImage(this, avatarURL);
+    }
+}
+
+#pragma mark - ImageDownloaderDelegate
+
+void AvatarWidget::onImageDownloadComplete(ImageDownloader* downloader)
+{
+    _avatarImage->loadTexture(downloader->getLocalImagePath());
+    
+    if(_avatarDownloader)
+    {
+        _avatarDownloader->setDelegate(nullptr);
+        _avatarDownloader->release();
+    }
 }
 
 NS_AZOOMEE_CHAT_END

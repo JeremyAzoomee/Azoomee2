@@ -16,6 +16,7 @@ ImageDownloader::~ImageDownloader()
     if(_downloadRequest)
     {
         _downloadRequest->setResponseCallback(nullptr);
+        _downloadRequest->release();
         _downloadRequest = nullptr;
     }
 }
@@ -98,15 +99,11 @@ void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Htt
             {
                 saveFileToDevice(StringUtils::format("%ld", time(NULL)), "time.stmp");
                 loadFileFromLocalCacheAsync();
-                _downloadRequest->release();
-                _downloadRequest = nullptr;
                 return;
             }
             else
             {
                 // TODO: Failed callback
-                _downloadRequest->release();
-                _downloadRequest = nullptr;
                 return;
             }
         }

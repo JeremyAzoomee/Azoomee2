@@ -4,11 +4,12 @@
 #include "../AzoomeeChat.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class AvatarWidget : public cocos2d::ui::Layout
+class AvatarWidget : public cocos2d::ui::Layout, public ImageDownloaderDelegate
 {
     typedef cocos2d::ui::Layout Super;
 private:
@@ -31,6 +32,13 @@ private:
     
     /// Front frame to hide any clipping aliasing
     cocos2d::ui::ImageView* _frameFront = nullptr;
+    
+    /// Image downloader for the avatar
+    ImageDownloader* _avatarDownloader = nullptr;
+    
+    
+    // - ImageDownloaderDelegate
+    void onImageDownloadComplete(ImageDownloader* downloader) override;
 
 protected:
     
