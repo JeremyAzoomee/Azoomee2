@@ -175,7 +175,10 @@ void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 
 void LoginScene::textInputReturnPressed(TextInputLayer* inputLayer)
 {
-    
+    if(currentScreen == emailLoginScreen && emailTextInput->inputIsValid())
+        nextButtonPressed();
+    else if(currentScreen == passwordLoginScreen && passwordTextInput->inputIsValid())
+        nextButtonPressed();
 }
 
 void LoginScene::buttonPressed(ElectricDreamsButton* button)

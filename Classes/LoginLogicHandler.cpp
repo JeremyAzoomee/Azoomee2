@@ -25,7 +25,6 @@ LoginLogicHandler::~LoginLogicHandler(void)
 
 bool LoginLogicHandler::init(void)
 {
-    errorMsgCode = 0;
     return true;
 }
 
@@ -57,14 +56,3 @@ void LoginLogicHandler::forceNewLogin()
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
 }
 
-void LoginLogicHandler::setErrorMessageCodeToDisplay(long errorMessageCode)
-{
-    errorMsgCode = errorMessageCode;
-}
-
-long LoginLogicHandler::getErrorMessageCodeToDisplay()
-{
-    long rtrValue = errorMsgCode;
-    errorMsgCode = 0;
-    return rtrValue;
-}

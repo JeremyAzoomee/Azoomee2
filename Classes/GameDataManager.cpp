@@ -26,6 +26,7 @@ USING_NS_CC;
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "SceneManagerScene.h"
+#include "FlowDataSingleton.h"
 
 using namespace network;
 using namespace cocos2d;
@@ -158,7 +159,7 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
     }
     else
     {
-        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+        FlowDataSingleton::getInstance()->setErrorCode(1006);
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
 }
@@ -271,7 +272,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     }
     else
     {
-        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+        FlowDataSingleton::getInstance()->setErrorCode(1006);
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
 }

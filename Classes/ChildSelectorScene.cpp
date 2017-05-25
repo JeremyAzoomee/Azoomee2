@@ -29,8 +29,6 @@ Scene* ChildSelectorScene::createScene()
     auto scene = Scene::create();
     auto layer = ChildSelectorScene::create();
     scene->addChild(layer);
-    
-    layer->_errorCode = LoginLogicHandler::getInstance()->getErrorMessageCodeToDisplay();
 
     return scene;
 }
@@ -62,9 +60,9 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
 {
     OfflineChecker::getInstance()->setDelegate(this);
     
-    if(_errorCode !=0)
+    if(FlowDataSingleton::getInstance()->hasError())
     {
-        MessageBox::createWith(_errorCode, nullptr);
+        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
     }
 }
 

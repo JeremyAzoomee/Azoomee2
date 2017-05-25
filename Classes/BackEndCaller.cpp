@@ -71,7 +71,7 @@ void BackEndCaller::hideLoadingScreen()
 
 void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
-    LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+    FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     LoginLogicHandler::getInstance()->forceNewLogin();
 }
 
@@ -425,13 +425,12 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     if(requestTag == API::TagLogin)
     {
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
         LoginLogicHandler::getInstance()->forceNewLogin();
     }
     
     if(requestTag == API::TagGetAvailableChildren)
     {
-        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         LoginLogicHandler::getInstance()->forceNewLogin();
         return;
     }
