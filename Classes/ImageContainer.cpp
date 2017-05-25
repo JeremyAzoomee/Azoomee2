@@ -137,8 +137,6 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
     
-    elementProperties["id"];
-    
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
         if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
