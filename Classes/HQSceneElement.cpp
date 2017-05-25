@@ -185,7 +185,7 @@ void HQSceneElement::startUpElementDependingOnType()
     
     if(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "GAME")
     {
-        GameDataManager::getInstance()->startProcessingGame(elementItemData["uri"], elementItemData["id"]);
+        GameDataManager::getInstance()->startProcessingGame(elementItemData);
     }
     else if((HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "AUDIO"))
     {

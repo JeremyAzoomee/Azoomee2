@@ -25,6 +25,7 @@ USING_NS_CC;
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace network;
 using namespace cocos2d;
@@ -53,26 +54,40 @@ bool GameDataManager::init(void)
     return true;
 }
 
-void GameDataManager::startProcessingGame(std::string url, std::string itemId)
+void GameDataManager::startProcessingGame(std::map<std::string, std::string> itemData)
 {
     processCancelled = false;
     displayLoadingScreen();
     
-    WebGameAPIDataManager::getInstance()->setGameId(itemId);
+    WebGameAPIDataManager::getInstance()->setGameId(itemData["id"]);
     
-    std::string basePath = getGameIdPath(itemId);
-    std::string fileName = getFileNameFromUrl(url);
+    saveFeedDataToFile(itemData);
+    
+    std::string basePath = getGameIdPath(itemData["id"]);
+    std::string fileName = getFileNameFromUrl(itemData["uri"]);
     
     
     if(checkIfFileExists(basePath + fileName))
     {
-        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemId);
-        else getJSONGameData(url, itemId);
+        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemData["id"]);
+        else getJSONGameData(itemData["uri"], itemData["id"]);
     }
     else
     {
-        getJSONGameData(url, itemId); //the callback of this method will get back to JSONFileIsPresent
+        getJSONGameData(itemData["uri"], itemData["id"]); //the callback of this method will get back to JSONFileIsPresent
     }
+}
+
+void GameDataManager::saveFeedDataToFile(std::map<std::string, std::string> itemData)
+{
+    if(HQHistoryManager::getInstance()->isOffline) return;
+    if(itemData.find("title") == itemData.end() || itemData.find("description") == itemData.end()) return;
+    
+    std::string basePath = getGameIdPath(itemData["id"]);
+    std::string targetPath = basePath + "feedData.json";
+    
+    createGamePathDirectories(basePath);
+    FileUtils::getInstance()->writeStringToFile(getJSONStringFromMap(itemData), targetPath);
 }
 
 void GameDataManager::JSONFileIsPresent(std::string itemId)
@@ -166,13 +181,23 @@ void GameDataManager::removeOldGameIfUpgradeNeeded(std::string downloadedJSONStr
 {
     std::string basePath = getGameIdPath(gameId);
     std::string targetPath = basePath + "package.json";
+    std::string feedPath = basePath + "feedData.json";
     
     if(!checkIfFileExists(targetPath) || getCurrentGameVersionFromJSONFile(targetPath) < getMinGameVersionFromJSONString(downloadedJSONString))
     {
+        std::string feedDataToBeSaved = getFeedDataFromFolder(feedPath);
         FileUtils::getInstance()->removeDirectory(basePath);
         createGamePathDirectories(basePath);
+        
+        if(feedDataToBeSaved != "") FileUtils::getInstance()->writeStringToFile(feedDataToBeSaved, feedPath);
         FileUtils::getInstance()->writeStringToFile(downloadedJSONString, targetPath);
     }
+}
+
+std::string GameDataManager::getFeedDataFromFolder(std::string feedPath)
+{
+    if(!FileUtils::getInstance()->isFileExist(feedPath)) return "";
+    return FileUtils::getInstance()->getStringFromFile(feedPath);
 }
 
 bool GameDataManager::checkIfFileExists(std::string fileWithPath)
