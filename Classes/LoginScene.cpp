@@ -95,7 +95,6 @@ void LoginScene::addTextboxScene()
     emailTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_EMAIL);
     emailTextInput->setDelegate(this);
     emailTextInput->setText(storedUsername);
-    emailTextInput->setText(FlowDataSingleton::getInstance()->getUserName());
     this->addChild(emailTextInput);
 }
 
