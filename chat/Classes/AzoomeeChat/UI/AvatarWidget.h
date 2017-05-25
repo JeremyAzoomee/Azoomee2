@@ -35,6 +35,9 @@ protected:
     
 public:
     
+    /// Set the URL to use for the avatar
+    void setAvatarURL(const std::string& avatarURL);
+    
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void onExit() override;

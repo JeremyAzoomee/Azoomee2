@@ -111,4 +111,11 @@ void AvatarWidget::onSizeChanged()
     _frameFront->setContentSize(Size(displaySize.width, displaySize.width * frameFrontAspectRatio));
 }
 
+#pragma mark - Public
+
+void AvatarWidget::setAvatarURL(const std::string& avatarURL)
+{
+    // TODO: Download or get local image
+}
+
 NS_AZOOMEE_CHAT_END

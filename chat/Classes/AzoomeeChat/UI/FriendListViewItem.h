@@ -3,6 +3,7 @@
 
 #include "../AzoomeeChat.h"
 #include "../Data/Friend.h"
+#include "AvatarWidget.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
@@ -20,14 +21,20 @@ private:
     /// Where we place the content inside the menu item
     cocos2d::ui::Layout* _contentLayout = nullptr;
     
-    /// BG for oomee if no oomee is displayed
-    cocos2d::ui::ImageView* _oomeeBackground = nullptr;
+    /// Avatar container
+    cocos2d::ui::Layout* _avatarLayout = nullptr;
+    /// Image displayed if Avatar doesn't exist
+    cocos2d::ui::ImageView* _avatarPlaceholder = nullptr;
+    /// User's avatar
+    AvatarWidget* _avatarWidget = nullptr;
+    
     /// Friend's name
     cocos2d::ui::Text* _nameLabel = nullptr;
     
 protected:
     
     virtual void doLayout() override;
+    virtual void onSizeChanged() override;
     virtual void onPressStateChangedToNormal() override;
     virtual void onPressStateChangedToPressed() override;
     virtual void onPressStateChangedToDisabled() override;

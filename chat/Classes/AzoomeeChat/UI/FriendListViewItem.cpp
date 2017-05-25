@@ -39,12 +39,30 @@ bool FriendListViewItem::init()
     addChild(bottomBorder);
     
     
-    // Add content elements
-    _oomeeBackground = ui::ImageView::create();
-    _oomeeBackground->loadTexture("res/chat/ui/avatar/avatar_empty.png");
-    _oomeeBackground->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(20.0f, 0, 0, 0)));
-    _contentLayout->addChild(_oomeeBackground);
+    // Avatar
+    _avatarLayout = ui::Layout::create();
+    _avatarLayout->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(20.0f, 0, 0, 0)));
+    _contentLayout->addChild(_avatarLayout);
     
+    _avatarPlaceholder = ui::ImageView::create();
+    _avatarPlaceholder->ignoreContentAdaptWithSize(false); // stretch the image
+    _avatarPlaceholder->setAnchorPoint(Vec2(0.5f, 0.5f));
+    _avatarPlaceholder->setSizeType(ui::Widget::SizeType::PERCENT);
+    _avatarPlaceholder->setSizePercent(Vec2(1.0f, 1.0f));
+    _avatarPlaceholder->setPositionType(ui::Widget::PositionType::PERCENT);
+    _avatarPlaceholder->setPositionPercent(Vec2(0.5f, 0.5f));
+    _avatarPlaceholder->loadTexture("res/chat/ui/avatar/avatar_empty.png");
+    _avatarLayout->addChild(_avatarPlaceholder);
+    
+    _avatarWidget = AvatarWidget::create();
+    _avatarWidget->setAnchorPoint(Vec2(0.5f, 0.5f));
+    _avatarWidget->setSizeType(ui::Widget::SizeType::PERCENT);
+    _avatarWidget->setSizePercent(Vec2(1.0f, 1.0f));
+    _avatarWidget->setPositionType(ui::Widget::PositionType::PERCENT);
+    _avatarWidget->setPositionPercent(Vec2(0.5f, 0.5f));
+    _avatarLayout->addChild(_avatarWidget);
+    
+    // Name
     _nameLabel = ui::Text::create();
     _nameLabel->setFontName(Style::Font::Regular);
     _nameLabel->setFontSize(75.0f);
@@ -80,11 +98,43 @@ void FriendListViewItem::setData(const FriendRef& friendData)
     
     // Update content elements
     _nameLabel->setString(_friendData ? _friendData->friendName() : "");
+    
+    if(_friendData)
+    {
+        _avatarWidget->setAvatarURL(friendData->avatarURL());
+        _avatarPlaceholder->setVisible(false);
+        _avatarWidget->setVisible(true);
+        // TODO: Avatar unknown/null
+//        _avatarPlaceholder->loadTexture("res/chat/ui/avatar/contact_inknown_icon.png");
+    }
+    else
+    {
+        _avatarWidget->setAvatarURL("");
+        _avatarPlaceholder->loadTexture("res/chat/ui/avatar/avatar_empty.png");
+        _avatarPlaceholder->setVisible(true);
+        _avatarWidget->setVisible(false);
+    }
 }
 
 FriendRef FriendListViewItem::getData() const
 {
     return _friendData;
+}
+
+#pragma mark - Size changes
+
+void FriendListViewItem::onSizeChanged()
+{
+    Super::onSizeChanged();
+    
+    // Resize the avatar appropriately
+    const float itemHeight = _contentLayout->getContentSize().height;
+    const float avatarHeightPct = 0.8f;
+    const float avatarSize = itemHeight * avatarHeightPct;
+    _avatarLayout->setContentSize(Size(avatarSize, avatarSize));
+    
+    // Re-position
+    doLayout();
 }
 
 #pragma mark - Interactions
