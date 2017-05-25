@@ -30,9 +30,9 @@
 		3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8C1E97DCC00009027D /* ElectricDreamsTextStyles.cpp */; };
 		3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */; };
 		3012ED951E97E5260009027D /* TextInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED931E97E5260009027D /* TextInputLayer.cpp */; };
-		3012ED9F1E97E6A40009027D /* ImageDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED971E97E6A40009027D /* ImageDownloader.cpp */; };
+		3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */; };
 		3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */; };
-		3012EDA11E97E6A40009027D /* ImageDownloaderLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED9B1E97E6A40009027D /* ImageDownloaderLogic.cpp */; };
+		3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED9B1E97E6A40009027D /* ImageDownloader.cpp */; };
 		3012EDA21E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED9D1E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp */; };
 		3012EDAF1E97E8450009027D /* HMACSHA256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA51E97E8450009027D /* HMACSHA256.cpp */; };
 		3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA81E97E8450009027D /* HMACSHA256_ios.mm */; };
@@ -177,12 +177,12 @@
 		3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeButtonLayer.h; sourceTree = "<group>"; };
 		3012ED931E97E5260009027D /* TextInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextInputLayer.cpp; sourceTree = "<group>"; };
 		3012ED941E97E5260009027D /* TextInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputLayer.h; sourceTree = "<group>"; };
-		3012ED971E97E6A40009027D /* ImageDownloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloader.cpp; sourceTree = "<group>"; };
-		3012ED981E97E6A40009027D /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
+		3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RemoteImageSprite.cpp; sourceTree = "<group>"; };
+		3012ED981E97E6A40009027D /* RemoteImageSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteImageSprite.h; sourceTree = "<group>"; };
 		3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderCacheCleanerLogic.cpp; sourceTree = "<group>"; };
 		3012ED9A1E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderCacheCleanerLogic.h; sourceTree = "<group>"; };
-		3012ED9B1E97E6A40009027D /* ImageDownloaderLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderLogic.cpp; sourceTree = "<group>"; };
-		3012ED9C1E97E6A40009027D /* ImageDownloaderLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderLogic.h; sourceTree = "<group>"; };
+		3012ED9B1E97E6A40009027D /* ImageDownloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloader.cpp; sourceTree = "<group>"; };
+		3012ED9C1E97E6A40009027D /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		3012ED9D1E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDownloaderOnScreenChecker.cpp; sourceTree = "<group>"; };
 		3012ED9E1E97E6A40009027D /* ImageDownloaderOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloaderOnScreenChecker.h; sourceTree = "<group>"; };
 		3012EDA51E97E8450009027D /* HMACSHA256.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HMACSHA256.cpp; sourceTree = "<group>"; };
@@ -524,12 +524,12 @@
 		3012ED961E97E6A40009027D /* ImageDownloader */ = {
 			isa = PBXGroup;
 			children = (
-				3012ED971E97E6A40009027D /* ImageDownloader.cpp */,
-				3012ED981E97E6A40009027D /* ImageDownloader.h */,
+				3012ED971E97E6A40009027D /* RemoteImageSprite.cpp */,
+				3012ED981E97E6A40009027D /* RemoteImageSprite.h */,
 				3012ED991E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp */,
 				3012ED9A1E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.h */,
-				3012ED9B1E97E6A40009027D /* ImageDownloaderLogic.cpp */,
-				3012ED9C1E97E6A40009027D /* ImageDownloaderLogic.h */,
+				3012ED9B1E97E6A40009027D /* ImageDownloader.cpp */,
+				3012ED9C1E97E6A40009027D /* ImageDownloader.h */,
 				3012ED9D1E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp */,
 				3012ED9E1E97E6A40009027D /* ImageDownloaderOnScreenChecker.h */,
 			);
@@ -921,7 +921,7 @@
 				4349C8561EA8ADEF00FE964B /* NSNotificationCenter+AutomaticEvents.m in Sources */,
 				4349C8041EA8ADEF00FE964B /* _MPTweakBindObserver.m in Sources */,
 				4349C8151EA8ADEF00FE964B /* MixpanelExceptionHandler.m in Sources */,
-				3012ED9F1E97E6A40009027D /* ImageDownloader.cpp in Sources */,
+				3012ED9F1E97E6A40009027D /* RemoteImageSprite.cpp in Sources */,
 				3012ED631E969BF60009027D /* ChildDataStorage.cpp in Sources */,
 				302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */,
 				3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */,
@@ -1008,7 +1008,7 @@
 				4349C8351EA8ADEF00FE964B /* MPNotification.m in Sources */,
 				4349C8431EA8ADEF00FE964B /* MPSwizzle.m in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
-				3012EDA11E97E6A40009027D /* ImageDownloaderLogic.cpp in Sources */,
+				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */,
 				3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */,
 				4349C8161EA8ADEF00FE964B /* MixpanelPeople.m in Sources */,

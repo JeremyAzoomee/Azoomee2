@@ -1,194 +1,200 @@
 #include "ImageDownloader.h"
-#include "../Data/Cookie/CookieDataStorage.h"
-#include "../UI/ElectricDreamsTextStyles.h"
-#include "../Strings.h"
+#include "../Data/Cookie/CookieDataProvider.h"
 #include "../Data/ConfigStorage.h"
-#include "ImageDownloaderCacheCleanerLogic.h"
 
-using namespace cocos2d::network;
 using namespace cocos2d;
+using namespace network;
 
 
 NS_AZOOMEE_BEGIN
-    
+
+#pragma mark - Public
+
 ImageDownloader::~ImageDownloader()
 {
-    if(imageDownloaderLogic)
+    _delegate = nullptr;
+    if(_downloadRequest)
     {
-        imageDownloaderLogic->release();
-        imageDownloaderLogic = nullptr;
+        _downloadRequest->setResponseCallback(nullptr);
+        _downloadRequest = nullptr;
     }
 }
 
-bool ImageDownloader::initWithURLAndSize(const std::string& url, const std::string& type, const Size& size, const Vec2& shape)
+bool ImageDownloader::init()
 {
-    if ( !Sprite::init() )
-    {
-        return false;
-    }
-
-    identifier = CCRANDOM_0_1() * 1000 + 1000;
-    
-    this->setCascadeOpacityEnabled(true);
-    this->setContentSize(size);
-    this->addPlaceHolderImage(type, size, shape);
-    
-    imageUrl = url;
-    imageDownloaderLogic = ImageDownloaderLogic::create();
-    imageDownloaderLogic->retain();
-    
+    fileUtils = FileUtils::getInstance();
     return true;
 }
 
-bool ImageDownloader::initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size)
+void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std::string& url)
 {
-    identifier = CCRANDOM_0_1() * 1000 + 1000;
+    _delegate = delegate;
+    _filename = getFileNameFromURL(url);
+    _imageId = getIdFromUrl(url);
     
-    this->setCascadeOpacityEnabled(true);
-    this->setContentSize(size);
-    
-    imageUrl = url;
-    imageDownloaderLogic = new ImageDownloaderLogic();
-    
-    return true;
-}
-    
-void ImageDownloader::setAttachNewBadgeToImage()
-{
-    shouldAddNewBadgeToImage = true;
-}
-
-void ImageDownloader::onEnter()
-{
-    onScreenChecker = new ImageDownloaderOnScreenChecker();
-    onScreenChecker->startCheckingForOnScreenPosition(this);
-    
-    Node::onEnter();
-}
-
-void ImageDownloader::startLoadingImage()
-{
-    if(loadedImage) return;
-    imageDownloaderLogic->downloadImage(this, imageUrl);
-}
-
-void ImageDownloader::removeLoadedImage()
-{
-    if(loadedImage)
+    bool localFileExists = localImageExists();
+    if(localFileExists && !hasCacheExpired())
     {
-        loadedImage->getParent()->removeChild(loadedImage);
-        loadedImage = nullptr;
-        
-        ImageDownloaderCacheCleanerLogic::getInstance()->imageRemoved();
+        loadFileFromLocalCacheAsync();
     }
-}
-
-void ImageDownloader::addPlaceHolderImage(std::string type, Size contentSize, Vec2 shape)
-{
-    std::string placeholderImageFile = StringUtils::format("%s%.fX%.f.png",ConfigStorage::getInstance()->getPlaceholderImageForContentItemInCategory(type).c_str(),shape.x,shape.y);
-    auto placeHolderImage = Sprite::create(placeholderImageFile);
-    placeHolderImage->setPosition(this->getContentSize() / 2);
-    placeHolderImage->setName("placeHolderImage");
-    placeHolderImage->setScaleX(this->getContentSize().width / placeHolderImage->getContentSize().width);
-    placeHolderImage->setScaleY(this->getContentSize().height / placeHolderImage->getContentSize().height);
-    this->addChild(placeHolderImage);
-}
-
-void ImageDownloader::addLoadingAnimation()
-{
-    auto loadingAnimation = LayerColor::create();
-    loadingAnimation->setColor(Color3B::BLACK);
-    loadingAnimation->setOpacity(150);
-    loadingAnimation->setName("loadingAnimation");
-    loadingAnimation->setContentSize(this->getContentSize());
-    loadingAnimation->setPosition(0, 0);
-    this->addChild(loadingAnimation);
-    
-    auto loadingLabel = createLabelSmallLoading(StringMgr::getInstance()->getStringForKey(LOADING_LABEL));
-    loadingLabel->setPosition(this->getContentSize() / 2);
-    loadingAnimation->addChild(loadingLabel);
-}
-
-void ImageDownloader::removeLoadingAnimation()
-{
-    Node* loadingAnimation = this->getChildByName("loadingAnimation");
-    if(loadingAnimation)
+    else
     {
-        this->removeChild(loadingAnimation, true);
-    }
-}
-
-void ImageDownloader::imageAddedToCache(Texture2D* resulting_texture)
-{
-    if ( (resulting_texture) && (!aboutToExit))
-    {
-        if((identifier < 999)||(identifier > 2001))
+        if(localFileExists)
         {
-            return;
+            const std::string& imageIdPath = getImageIdPath();
+            fileUtils->removeDirectory(imageIdPath);
         }
-        Size holderContentSize = this->getContentSize();
-        
-        auto finalImage = Sprite::createWithTexture( resulting_texture );
-        finalImage->setPosition(holderContentSize / 2);
-        finalImage->setOpacity(0);
-        finalImage->setScaleX(holderContentSize.width / finalImage->getContentSize().width);
-        finalImage->setScaleY(holderContentSize.height / finalImage->getContentSize().height);
-        
-        loadedImage = finalImage;
-        
-        if(shouldAddNewBadgeToImage)
-            addNewBadgeToLoadedImage();
-        if(!aboutToExit) this->addChild(loadedImage);
-        
-        finalImage->runAction(FadeIn::create(0.1));
+        downloadFileFromServer(url);
     }
 }
-    
-void ImageDownloader::addNewBadgeToLoadedImage()
+
+std::string ImageDownloader::getLocalImagePath() const
 {
-    auto newBadge = Sprite::create("res/hqscene/newIcon2X2.png");
-    newBadge->setAnchorPoint(Vec2(0.0, 0.5));
-    newBadge->setPosition(0, loadedImage->getContentSize().height - newBadge->getContentSize().height *.75);
-    newBadge->setOpacity(0);
-    loadedImage->addChild(newBadge);
-    
-    newBadge->runAction(FadeIn::create(0.1));
+    return getImageIdPath() + _filename;
 }
 
-void ImageDownloader::onExitTransitionDidStart()
+bool ImageDownloader::localImageExists() const
 {
-    aboutToExit = true;
-    Node::onExitTransitionDidStart();
+    return FileUtils::getInstance()->isFileExist(getLocalImagePath());
 }
 
-void ImageDownloader::onExit()
+void ImageDownloader::setDelegate(ImageDownloaderDelegate* delegate)
 {
-    if(onScreenChecker)
+    _delegate = delegate;
+}
+
+#pragma mark - Private
+
+bool ImageDownloader::hasCacheExpired() const
+{
+    return ImageDownloader::imageUpdateRequired(getImageIdPath());
+}
+
+void ImageDownloader::downloadFileFromServer(const std::string& url)
+{
+    _downloadRequest = new HttpRequest();
+    _downloadRequest->setRequestType(HttpRequest::Type::GET);
+    _downloadRequest->setUrl(url.c_str());
+    
+    std::vector<std::string> headers;
+    headers.push_back(StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str()));
+    _downloadRequest->setHeaders(headers);
+    
+    _downloadRequest->setResponseCallback(CC_CALLBACK_2(ImageDownloader::downloadFileFromServerAnswerReceived, this));
+    _downloadRequest->setTag("image download");
+    HttpClient::getInstance()->send(_downloadRequest);
+}
+
+void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response)
+{
+    if(response->getResponseCode() == 200)
     {
-        onScreenChecker->endCheck();
-        onScreenChecker->release();
+        if(response && response->getResponseData())
+        {
+            std::vector<char> myResponse = *response->getResponseData();
+            const std::string& responseString = std::string(myResponse.begin(), myResponse.end());
+            
+            if(saveFileToDevice(responseString, _filename))
+            {
+                saveFileToDevice(StringUtils::format("%ld", time(NULL)), "time.stmp");
+                loadFileFromLocalCacheAsync();
+                _downloadRequest->release();
+                _downloadRequest = nullptr;
+                return;
+            }
+            else
+            {
+                // TODO: Failed callback
+                _downloadRequest->release();
+                _downloadRequest = nullptr;
+                return;
+            }
+        }
     }
-    
-    aboutToExit = true;
-    if(imageDownloaderLogic)
+    else
     {
-        imageDownloaderLogic->setDelegate(nullptr);
-        imageDownloaderLogic->release();
-        imageDownloaderLogic = nullptr;
+        // TODO: Failed callback
+    }
+}
+
+bool ImageDownloader::saveFileToDevice(const std::string& data, const std::string& fileName)
+{
+    const std::string& imageCachePath = getImageCachePath();
+    if(!fileUtils->isDirectoryExist(imageCachePath))
+    {
+        fileUtils->createDirectory(imageCachePath);
+    }
+    const std::string& imageIdPath = getImageIdPath();
+    if(!fileUtils->isDirectoryExist(imageIdPath))
+    {
+        fileUtils->createDirectory(imageIdPath);
     }
     
-    Node::onExit();
-}
-
-#pragma mark - ImageDownloaderDelegate
-
-void ImageDownloader::onImageDownloadComplete(ImageDownloaderLogic* downloader)
-{
+    const std::string& fullPath = imageIdPath + fileName;
+    if(fileUtils->isFileExist(fullPath))
+    {
+        fileUtils->removeFile(fullPath);
+    }
     
-    const std::string& filename = downloader->getLocalImagePath();
-    addStarted = true;
-    this->setName(filename);
-    Director::getInstance()->getTextureCache()->addImageAsync(filename, CC_CALLBACK_1(ImageDownloader::imageAddedToCache, this));
+    if(fileUtils->writeStringToFile(data, fullPath)) return true;
+    else return false;
 }
 
+void ImageDownloader::loadFileFromLocalCacheAsync()
+{
+    if(_delegate)
+    {
+        _delegate->onImageDownloadComplete(this);
+    }
+}
+
+std::string ImageDownloader::getImageIdPath() const
+{
+    return getImageCachePath() + _imageId + "/";
+}
+
+std::string ImageDownloader::getImageCachePath() const
+{
+    return fileUtils->getWritablePath() + "imageCache/";
+}
+
+#pragma mark - Static
+
+std::string ImageDownloader::getFileNameFromURL(const std::string& url)
+{
+    int startPoint = (int)url.find_last_of("/") + 1;
+    
+    int endPoint = (int)url.length();
+    if(url.find("?", 0) != url.npos) endPoint = (int)url.find("?", 0);
+    int subLength = endPoint - startPoint;
+    
+    return url.substr(startPoint, subLength);
+}
+
+std::string ImageDownloader::getIdFromUrl(const std::string& url)
+{
+    int endPoint = (int)url.find_last_of("/");
+    std::string cutUrl = url.substr(0, endPoint);
+    
+    int startPoint = (int)cutUrl.find_last_of("/") + 1;
+    std::string result = cutUrl.substr(startPoint);
+    
+    CCLOG("image id: %s", result.c_str());
+    
+    return result;
+}
+
+bool ImageDownloader::imageUpdateRequired(const std::string& imageIdPath)
+{
+    std::string timeStampFilePath = imageIdPath + "time.stmp";
+    if(!FileUtils::getInstance()->isFileExist(timeStampFilePath)) return true;
+    
+    long timeStamp = std::atoi(FileUtils::getInstance()->getStringFromFile(timeStampFilePath).c_str());
+    long currentTimeStamp = time(NULL);
+    
+    if(currentTimeStamp - timeStamp > ConfigStorage::getInstance()->getContentItemImageValidityInSeconds()) return true;
+    
+    return false;
+}
+  
 NS_AZOOMEE_END

@@ -10,7 +10,7 @@
 #include "HQSceneElementPositioner.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "OfflineHubBackButton.h"
@@ -88,7 +88,7 @@ void HQScene::addGroupHQLogo()
         
         this->removeChild(this->getChildByName("groupLogo"));
         
-        auto groupLogo = ImageDownloader::create();
+        auto groupLogo = RemoteImageSprite::create();
         groupLogo->initWithUrlAndSizeWithoutPlaceholder(groupHQLogoUrl, ConfigStorage::getInstance()->getGroupHQLogoSize());
         groupLogo->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height - groupLogo->getContentSize().height * 0.8);
         groupLogo->setName("groupLogo");

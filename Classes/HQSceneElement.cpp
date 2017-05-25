@@ -12,7 +12,6 @@
 
 #include "HQSceneElement.h"
 #include "WebViewSelector.h"
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>

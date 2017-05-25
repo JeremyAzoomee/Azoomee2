@@ -1,52 +1,77 @@
 #ifndef AzoomeeCommon_ImageDownloader_h
 #define AzoomeeCommon_ImageDownloader_h
 
+#include "../Azoomee.h"
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>
-#include "../Azoomee.h"
-#include "ImageDownloaderLogic.h"
-#include "ImageDownloaderOnScreenChecker.h"
 
 
 NS_AZOOMEE_BEGIN
+    
+class ImageDownloader;
 
-class ImageDownloader : public cocos2d::Sprite, public ImageDownloaderDelegate
+struct ImageDownloaderDelegate
 {
+    virtual void onImageDownloadComplete(ImageDownloader* downloader) = 0;
+};
+
+class ImageDownloader : public cocos2d::Ref
+{
+private:
+    
+    /// Filename for the image
+    std::string _filename;
+    /// Image ID
+    std::string _imageId;
+    /// Delegate to recieve callbacks on download
+    ImageDownloaderDelegate* _delegate = nullptr;
+    bool groupLogo;
+    bool senderDeleted;
+    /// The request to download the image
+    cocos2d::network::HttpRequest* _downloadRequest = nullptr;
+    /// Cached FileUtils::getInstance()
+    cocos2d::FileUtils* fileUtils;
+    
+    
+    /// Get filename from URL
+    static std::string getFileNameFromURL(const std::string& url);
+    /// Get image Id from URL
+    static std::string getIdFromUrl(const std::string& url);
+    /// Returns true if imageId needs update
+    static bool imageUpdateRequired(const std::string& imageIdPath);
+    
+    /// Returns true if cached image expired
+    bool hasCacheExpired() const;
+    std::string getImageIdPath() const;
+    
+    void downloadFileFromServer(const std::string& url);
+    void downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response);
+    void loadFileFromLocalCacheAsync();
+    /// Save a file to local device
+    bool saveFileToDevice(const std::string& data, const std::string& fileName);
+    
+protected:
+    
+    virtual bool init();
+    
+    /// Return absolute path to which directory to store the cached image
+    virtual std::string getImageCachePath() const;
+    
 public:
     CREATE_FUNC(ImageDownloader);
     virtual ~ImageDownloader();
     
-    virtual bool initWithURLAndSize(const std::string& url, const std::string& type, const cocos2d::Size& size, const cocos2d::Vec2& shape);
-    virtual bool initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size);
-    bool aboutToExit;
-    ImageDownloaderLogic *imageDownloaderLogic = nullptr;
+    /// Set delegate
+    void setDelegate(ImageDownloaderDelegate* delegate);
     
-    void startLoadingImage();
-    void removeLoadedImage();
+    /// Returns the path to the local image file
+    std::string getLocalImagePath() const;
     
-    void setAttachNewBadgeToImage();
+    /// Returns true if the local image exists
+    bool localImageExists() const;
     
-private:
-    // - ImageDownloaderDelegate
-    virtual void onImageDownloadComplete(ImageDownloaderLogic* downloader) override;
-    
-    void addPlaceHolderImage(std::string type, cocos2d::Size contentSize, cocos2d::Vec2 shape);
-    void addLoadingAnimation();
-    void removeLoadingAnimation();
-    void onExitTransitionDidStart() override;
-    void onExit() override;
-    void imageAddedToCache(cocos2d::Texture2D* resulting_texture);
-    bool addStarted;
-    
-    float identifier;
-    std::string imageUrl;
-    cocos2d::Sprite* loadedImage = nullptr;
-    
-    void onEnter();
-    ImageDownloaderOnScreenChecker *onScreenChecker = nullptr;
-    
-    void addNewBadgeToLoadedImage();
-    bool shouldAddNewBadgeToImage;
+    /// Download or load the image from local cache
+    void downloadImage(ImageDownloaderDelegate* delegate, const std::string& url);
 };
   
 NS_AZOOMEE_END

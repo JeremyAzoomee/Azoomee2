@@ -11,7 +11,7 @@
 //waiting for addHQSceneElement command from HQScene after init.
 
 #include "HQSceneElementVisual.h"
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -120,7 +120,7 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
 
 void HQSceneElementVisual::addImageDownloader()
 {
-    ImageDownloader *imageDownloader = ImageDownloader::create();
+    RemoteImageSprite *imageDownloader = RemoteImageSprite::create();
     imageDownloader->initWithURLAndSize(elementUrl, elementItemData["type"], Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), elementShape);
     imageDownloader->setPosition(baseLayer->getContentSize() / 2);
     
