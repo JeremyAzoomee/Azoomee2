@@ -101,6 +101,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
         HttpClient::destroyInstance();
     }
     
+    std::string hostPrefix = ConfigStorage::getInstance()->getServerUrlPrefix();
     std::string host;
     
     if(!url.empty())
@@ -119,8 +120,8 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
         }
     }
     
-    std::string requestUrl = StringUtils::format("https://%s%s", host.c_str(), requestPath.c_str());
-    if(!urlParameters.empty()) requestUrl = StringUtils::format("%s?%s", requestUrl.c_str(), urlParameters.c_str());   //In URL we need to add the ?
+    std::string requestUrl =  hostPrefix + host + requestPath;
+    if(!urlParameters.empty()) requestUrl = requestUrl + "?" + urlParameters;
     
     HttpRequest *request = new HttpRequest();
     
@@ -153,10 +154,8 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
             myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
         }
         
-        const char *reqData = myRequestString.c_str();
-        
-        headers.push_back(StringUtils::format("x-az-req-datetime: %s", getDateFormatString().c_str()));
-        headers.push_back(StringUtils::format("x-az-auth-token: %s", reqData));
+        headers.push_back("x-az-req-datetime: " + getDateFormatString());
+        headers.push_back("x-az-auth-token: " + myRequestString);
     }
     
     headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionNumberWithPlatform().c_str()));

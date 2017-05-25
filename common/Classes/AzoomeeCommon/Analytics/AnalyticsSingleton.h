@@ -2,6 +2,7 @@
 #define AzoomeeCommon_AnalyticsSingleton_h
 
 #include <cocos/cocos2d.h>
+#include "../Data/ConfigStorage.h"
 #include <time.h>
 
 #define NUMBER_IDENTIFIER "NUMBER|"

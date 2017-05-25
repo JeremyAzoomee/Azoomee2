@@ -36,8 +36,11 @@ public:
     static const char* const TagGetChatList;
     static const char* const TagGetChatMessages;
     static const char* const TagSendChatMessage;
+    static const char* const TagOfflineCheck;
     
 #pragma mark - API Methods
+    
+    static HttpRequestCreator* OfflineCheck(HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* LoginRequest(const std::string& username,
                                             const std::string& password,

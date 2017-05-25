@@ -81,16 +81,30 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(std::string fileNa
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
+#ifdef USINGCI
+    return "api.elb.ci.azoomee.ninja";
+#endif
     return "api.azoomee.com";
+}
+    
+std::string ConfigStorage::getServerUrlPrefix()
+{
+#ifdef USINGCI
+    return "http://";
+#endif
+    return "https://";
 }
 
 std::string ConfigStorage::getServerUrl()
 {
-    return "https://" + getServerHost();
+    return getServerUrlPrefix() + getServerHost();
 }
 
 std::string ConfigStorage::getImagesUrl()
 {
+#ifdef USINGCI
+    return "https://media.azoomee.ninja/static/images";
+#endif
     return "https://media.azoomee.com/static/images";
 }
 
@@ -109,6 +123,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == API::TagVerifyApplePayment) return StringUtils::format("/api/billing/apple/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagOfflineCheck) return "/api/comms/heartbeat";
     
     return "";
 }
