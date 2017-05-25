@@ -103,7 +103,7 @@ void OfflineHubHQElement::addListenerToElement(std::string uri, std::string cont
             
             CCLOG("Action to come: %s", startUrl.c_str());
             
-            AnalyticsSingleton::getInstance()->openContentEvent(title, description, type, contentId);
+            AnalyticsSingleton::getInstance()->openContentEvent(title, description, type, contentId, -1, -1, "1,1");
             WebViewSelector::createSceneWithUrl(startUrl.c_str());
         }
         

@@ -27,6 +27,9 @@ private:
     std::string storedDescription;
     std::string storedType;
     std::string storedContentID;
+    int storedRowNumber;
+    int storedElementNumber;
+    std::string storedElementShape;
     
     std::string OSManufacturer;
     
@@ -47,6 +50,10 @@ public:
     void registerBillingStatus(std::string Status);
     void registerIAPOS(std::string OS_String);
     void registerBillingProvider(std::string provider);
+    void registerSessionId(std::string sessionId);
+    void registerCurrentScene(std::string currentScene);
+    void setLandscapeOrientation();
+    void setPortraitOrientation();
 
 
     void registerChildID(std::string ChildID);
@@ -83,7 +90,7 @@ public:
     //-------------HUB ACTIONS-------------------
     void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
     void navSelectionEvent(std::string hubOrTop, int buttonNumber);
-    void openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID);
+    void openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape);
     void closeContentEvent();
 
     //------------- PREVIEW ACTIONS ---------------
@@ -104,6 +111,8 @@ public:
     void introVideoTimedOutError(std::string errorMessage);
     void enteredBackgroundEvent();
     void enteredForegroundEvent();
+    void sessionIdHasChanged(std::string oldSessionId);
+    void httpRequestFailed(std::string requestTag, long responseCode, std::string qid);
     
     //---------------IAP ACTIONS------------------
     void displayIAPUpsaleEvent(std::string fromLocation);

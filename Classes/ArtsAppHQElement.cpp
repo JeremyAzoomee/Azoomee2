@@ -231,7 +231,8 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
             if(preview)
                 AnalyticsSingleton::getInstance()->previewContentClickedEvent("","", "ARTS APP");
             else
-                AnalyticsSingleton::getInstance()->openContentEvent("", "", "ARTS APP", "");
+                AnalyticsSingleton::getInstance()->openContentEvent("", "", "ARTS APP", "", -1, -1, "1,1");
+
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;
             movedAway = false;

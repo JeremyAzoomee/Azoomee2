@@ -4,11 +4,12 @@
 #include "HQScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "OfflineHubScene.h"
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
 #include "WebViewNative_ios.h"
+#include <AzoomeeCommon/Utils/SessionIdManager.h>
+#include <AzoomeeCommon/Analytics/analyticsSingleton.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -93,6 +94,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->runWithScene(scene);
     
     RoutePaymentSingleton::getInstance();
+    SessionIdManager::getInstance();
+    AnalyticsSingleton::getInstance()->setLandscapeOrientation();
 
     return true;
 }
@@ -100,8 +103,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
 void AppDelegate::applicationDidEnterBackground() {
 
+    SessionIdManager::getInstance()->registerAppWentBackgroundEvent();
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-
+    
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))
     {
         WebViewNative_ios *webview = (WebViewNative_ios*)Director::getInstance()->getRunningScene()->getChildByName("iosWebView");
@@ -110,17 +115,18 @@ void AppDelegate::applicationDidEnterBackground() {
     
 #endif
     
-    AnalyticsSingleton::getInstance()->enteredBackgroundEvent();
     Director::getInstance()->stopAnimation();
     Director::getInstance()->pause();
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
-    AnalyticsSingleton::getInstance()->enteredForegroundEvent();
+    
     Director::getInstance()->stopAnimation();
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
+    
+    SessionIdManager::getInstance()->registerAppCameForegroundEvent();
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     

@@ -56,8 +56,9 @@ private:
     //adding retry ability to error handling, so as two level step back - step1: kidselector, step2: main login
     int amountOfFails;
     void handleEventAfterError(const std::string& requestTag, long errorCode);
+    std::string getQidFromResponseHeader(std::string responseHeaderString);
 };
-  
+
 NS_AZOOMEE_END
 
 #endif

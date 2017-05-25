@@ -165,7 +165,7 @@ void HQSceneElement::addListenerToElement()
                 return true;
             }
                 
-            AnalyticsSingleton::getInstance()->openContentEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"]);
+            AnalyticsSingleton::getInstance()->openContentEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"], elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
             startUpElementDependingOnType();
             return true;
         }
