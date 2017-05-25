@@ -1,5 +1,5 @@
 #include "Friend.h"
-
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 
 NS_AZOOMEE_CHAT_BEGIN
@@ -27,14 +27,22 @@ FriendRef Friend::createFromJson(const rapidjson::Value& json)
     const auto& friendNameObj = json["friendName"];
     const std::string& friendName = (friendNameObj.IsString()) ? friendNameObj.GetString() : "";
     
-    const auto& avatarURLObj = json["avatar"];
-    const std::string& avatarURL = (avatarURLObj.IsString()) ? avatarURLObj.GetString() : "";
-    
     // Can't create a friend if name or id is null
     // It's ok if avatar is null
     if(friendId.empty() || friendName.empty())
     {
         return FriendRef();
+    }
+    
+    
+    // Get the avatar
+    const auto& avatarURLObj = json["avatar"];
+    std::string avatarURL = (avatarURLObj.IsString()) ? avatarURLObj.GetString() : "";
+    
+    // If the avatar is empty, see if we have one already we have use
+    if(avatarURL.empty())
+    {
+        avatarURL = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildrenById(friendId);
     }
     
     return Friend::create(friendId, friendName, avatarURL);
