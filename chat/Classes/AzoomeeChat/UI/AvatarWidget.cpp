@@ -15,10 +15,21 @@ bool AvatarWidget::init()
         return false;
     }
     
-    setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::macaroniAndCheese);
-    
     // TODO: get positions and sizes from config
+    
+    // Placeholder for when avatar is loading or not recognised
+    _avatarPlaceholder = ui::ImageView::create();
+    _avatarPlaceholder->ignoreContentAdaptWithSize(false); // stretch the image
+    _avatarPlaceholder->setAnchorPoint(Vec2(0.5f, 0.5f));
+    _avatarPlaceholder->setSizeType(ui::Widget::SizeType::PERCENT);
+    _avatarPlaceholder->setSizePercent(Vec2(0.8f, 0.8f));
+    _avatarPlaceholder->setPositionType(ui::Widget::PositionType::PERCENT);
+    _avatarPlaceholder->setPositionPercent(Vec2(0.5f, 0.5f));
+    _avatarPlaceholder->loadTexture("res/chat/ui/avatar/contact_inknown_icon.png");
+    addChild(_avatarPlaceholder);
+    
+    
+    // Main avatar roundel
     
     _outerFrame = ui::ImageView::create("res/chat/ui/avatar/r_avatar_frame_back.png");
     _outerFrame->ignoreContentAdaptWithSize(false); // stretch the image
@@ -60,7 +71,7 @@ bool AvatarWidget::init()
     _clippingNode->setStencil(_stencilMask);
     
     // The avatar image
-    _avatarImage = ui::ImageView::create("res/cache_bundle/avatars/oomee_01.png");
+    _avatarImage = ui::ImageView::create();
     _avatarImage->ignoreContentAdaptWithSize(false); // stretch the image
     _avatarImage->setAnchorPoint(Vec2(0.5f, 0.5f));
     _avatarImage->setPosition(Vec2(clipSize.width * 0.5f, clipSize.height * 0.6f));
@@ -73,6 +84,10 @@ bool AvatarWidget::init()
     _frameFront->ignoreContentAdaptWithSize(false); // stretch the image
     _frameFront->setAnchorPoint(Vec2(0.0f, 0.0f));
     _background->addChild(_frameFront);
+    
+    
+    // Default data
+    setAvatarURL("");
   
     return true;
 }
@@ -115,7 +130,11 @@ void AvatarWidget::onSizeChanged()
 
 void AvatarWidget::setAvatarURL(const std::string& avatarURL)
 {
+    _avatarPlaceholder->setVisible(avatarURL.empty());
+    _outerFrame->setVisible(!avatarURL.empty());
+    
     // TODO: Download or get local image
+    _avatarImage->loadTexture("res/cache_bundle/avatars/oomee_01.png");
 }
 
 NS_AZOOMEE_CHAT_END

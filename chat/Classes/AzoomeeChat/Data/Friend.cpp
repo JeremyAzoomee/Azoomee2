@@ -37,6 +37,11 @@ FriendRef Friend::createFromJson(const rapidjson::Value& json)
         return FriendRef();
     }
     
+    return Friend::create(friendId, friendName, avatarURL);
+}
+
+FriendRef Friend::create(const std::string& friendId, const std::string& friendName, const std::string& avatarURL)
+{
     FriendRef friendData(new Friend());
     friendData->_friendId = friendId;
     friendData->_friendName = friendName;

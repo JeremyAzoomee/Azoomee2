@@ -19,6 +19,9 @@ class FriendListScene : public Azoomee::Scene, public ChatAPIObserver, public Me
     typedef Azoomee::Scene Super;
 private:
     
+    /// A friend object which represents the current user
+    FriendRef _currentUser;
+    
     /// Root layout for all elements
     cocos2d::ui::Layout* _rootLayout = nullptr;
     

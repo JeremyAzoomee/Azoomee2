@@ -1,6 +1,7 @@
 #include "FriendListScene.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "MessageScene.h"
 
 // TODO: This needs to be a dynamic hook, so app can deal with it when we're in the main app
@@ -59,6 +60,14 @@ void FriendListScene::onEnter()
 {
     Super::onEnter();
     
+    // Create a friend object which represents the current user
+    const std::string& childId = ChildDataProvider::getInstance()->getLoggedInChildId();
+    const std::string& childName = ChildDataProvider::getInstance()->getLoggedInChildName();
+    const std::string& childAvatar = ChildDataProvider::getInstance()->getLoggedInChildAvatarId();
+    _currentUser = Friend::create(childId, childName, childAvatar);
+    _userOomee->setAvatarURL(_currentUser->avatarURL());
+    // TODO: Update user name label
+    
     // Register for API events
     ChatAPI::getInstance()->registerObserver(this);
     
@@ -82,7 +91,7 @@ void FriendListScene::onExit()
 void FriendListScene::showNextTesterMessage()
 {
     // Welcome message
-    bool shown = showTesterMessageIfNotSeen("Welcome");
+    const bool shown = showTesterMessageIfNotSeen("Welcome");
     if(!shown)
     {
         // What's new
@@ -96,7 +105,7 @@ bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
     const std::string& fullTitle = StringUtils::format("%s v%s", title.c_str(), version.c_str());
     
     const std::string& seenItUserKey = StringUtils::format("%s|%s", kUpdateLastSeenStorageKey, fullTitle.c_str());
-    bool seenIt = UserDefault::getInstance()->getBoolForKey(seenItUserKey.c_str(), false);
+    const bool seenIt = UserDefault::getInstance()->getBoolForKey(seenItUserKey.c_str(), false);
     if(seenIt)
     {
         return false;
@@ -142,7 +151,7 @@ void FriendListScene::onSizeChanged()
     
     const cocos2d::Size& contentSize = getContentSize();
     // TODO: Grab sizes from config
-    bool isLandscape = contentSize.width > contentSize.height;
+    const bool isLandscape = contentSize.width > contentSize.height;
     
     // Main layout
     const Vec2& titleBarSize = Vec2(1.0f, (isLandscape) ? 0.131f : 0.084f);
@@ -162,7 +171,7 @@ void FriendListScene::onSizeChanged()
     // User panel
     Vec2 oomeeSize = Vec2(1.0f, (isLandscape) ? 0.458f : 0.70f);
     // Calc width % as a square
-    float widthPt = _userPanel->getContentSize().height * oomeeSize.y;
+    const float widthPt = _userPanel->getContentSize().height * oomeeSize.y;
     oomeeSize.x = widthPt / _userPanel->getContentSize().width;
     _userOomee->setSizePercent(oomeeSize);
 }

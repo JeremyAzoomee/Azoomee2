@@ -13,6 +13,9 @@ class AvatarWidget : public cocos2d::ui::Layout
     typedef cocos2d::ui::Layout Super;
 private:
     
+    /// Image displayed if Avatar doesn't exist
+    cocos2d::ui::ImageView* _avatarPlaceholder = nullptr;
+    
     /// Outer frame image, sits at the very bottom
     cocos2d::ui::ImageView* _outerFrame = nullptr;
     /// Background sits on top of the frame image

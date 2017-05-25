@@ -104,13 +104,10 @@ void FriendListViewItem::setData(const FriendRef& friendData)
         _avatarWidget->setAvatarURL(friendData->avatarURL());
         _avatarPlaceholder->setVisible(false);
         _avatarWidget->setVisible(true);
-        // TODO: Avatar unknown/null
-//        _avatarPlaceholder->loadTexture("res/chat/ui/avatar/contact_inknown_icon.png");
     }
     else
     {
         _avatarWidget->setAvatarURL("");
-        _avatarPlaceholder->loadTexture("res/chat/ui/avatar/avatar_empty.png");
         _avatarPlaceholder->setVisible(true);
         _avatarWidget->setVisible(false);
     }
