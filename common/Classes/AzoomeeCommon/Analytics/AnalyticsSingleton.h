@@ -52,6 +52,8 @@ public:
     void registerBillingProvider(std::string provider);
     void registerSessionId(std::string sessionId);
     void registerCurrentScene(std::string currentScene);
+    void setLandscapeOrientation();
+    void setPortraitOrientation();
 
 
     void registerChildID(std::string ChildID);

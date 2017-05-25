@@ -95,6 +95,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     
     RoutePaymentSingleton::getInstance();
     SessionIdManager::getInstance();
+    AnalyticsSingleton::getInstance()->setLandscapeOrientation();
 
     return true;
 }

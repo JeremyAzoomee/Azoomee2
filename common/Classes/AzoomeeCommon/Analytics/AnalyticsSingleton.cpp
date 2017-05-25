@@ -115,6 +115,18 @@ void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
 {
     mixPanelRegisterSuperProperties("currentScene", currentScene);
 }
+    
+void AnalyticsSingleton::setPortraitOrientation()
+{
+    mixPanelRegisterSuperProperties("orientation", "portrait");
+}
+    
+void AnalyticsSingleton::setLandscapeOrientation()
+{
+    mixPanelRegisterSuperProperties("orientation", "landscape");
+}
+
+//-------------logout events-----------------
 
 void AnalyticsSingleton::logoutChildEvent()
 {
