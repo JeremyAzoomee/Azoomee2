@@ -19,8 +19,8 @@ class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public Messa
     typedef Azoomee::Scene Super;
 private:
     
-    /// The friend we're displaying messages for
-    FriendRef _friendData;
+    /// Participants in the conversation
+    FriendList _participants;
     /// Time for next auto get messages call
     float _timeTillGet = -1.0f;
     
@@ -38,7 +38,7 @@ private:
     MessageComposer* _messageComposer = nullptr;
     
     /// Private construction: Use ::create
-    MessageScene(const FriendRef& friendData);
+    MessageScene(const FriendList& participants);
     
     /// Create the content UI
     void createContentUI(cocos2d::ui::Layout* parent);
@@ -65,7 +65,7 @@ public:
     virtual void onExit() override;
     virtual void update(float dt) override;
     
-    static MessageScene* create(const FriendRef& friendData);
+    static MessageScene* create(const FriendList& participants);
 };
 
 NS_AZOOMEE_CHAT_END

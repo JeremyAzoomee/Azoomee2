@@ -223,7 +223,8 @@ void FriendListScene::onBackButtonPressed()
 
 void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 {
-    auto messageScene = MessageScene::create(friendData);
+    FriendList participants = { _currentUser, friendData };
+    auto messageScene = MessageScene::create(participants);
     Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, messageScene));
 }
 

@@ -45,6 +45,7 @@ bool MessageListViewItem::init()
     
     
     // By default setup content as blank
+    setAlignment(Alignment::Left);
     setData(nullptr);
   
     return true;
@@ -132,7 +133,6 @@ void MessageListViewItem::resizeItemContents()
 
 void MessageListViewItem::setData(const MessageRef& message)
 {
-//    MessageRef oldData = _messageData;
     _messageData = message;
     
     if(_messageData)
@@ -151,14 +151,9 @@ void MessageListViewItem::setData(const MessageRef& message)
             _textLabel->setString("Message type not supported");
         }
         
-        // Align the content based on if the current user is the sender
+        // Color depends also on current user
         const std::string& senderId = message->senderId();
         const bool isCurrentUser = (senderId == ChildDataProvider::getInstance()->getLoggedInChildId());
-        ui::RelativeLayoutParameter::RelativeAlign contentAlign = (isCurrentUser) ? ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL : ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL;
-        ui::RelativeLayoutParameter* contentLayoutParam = (ui::RelativeLayoutParameter*) _contentLayout->getLayoutParameter();
-        contentLayoutParam->setAlign(contentAlign);
-        
-        // Color depends also on current user
         const Color3B& fontColor = (isCurrentUser) ? Style::Color::kermitGreen : Style::Color::barney;
         _textLabel->setTextColor(Color4B(fontColor));
     }
@@ -166,8 +161,6 @@ void MessageListViewItem::setData(const MessageRef& message)
     {
         _textLabel->setString("");
         _textLabel->setTextColor(Color4B(Style::Color::black));
-        ui::RelativeLayoutParameter* contentLayoutParam = (ui::RelativeLayoutParameter*) _contentLayout->getLayoutParameter();
-        contentLayoutParam->setAlign(ui::RelativeLayoutParameter::RelativeAlign::CENTER_IN_PARENT);
     }
     
     if(getContentSize().width > 0)
@@ -181,5 +174,19 @@ MessageRef MessageListViewItem::getData() const
     return _messageData;
 }
 
+void MessageListViewItem::setAlignment(const Alignment& alignment)
+{
+    _alignment = alignment;
+    
+    ui::RelativeLayoutParameter* contentLayoutParam = (ui::RelativeLayoutParameter*) _contentLayout->getLayoutParameter();
+    if(alignment == Alignment::Right)
+    {
+        contentLayoutParam->setAlign(ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL);
+    }
+    else
+    {
+        contentLayoutParam->setAlign(ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL);
+    }
+}
 
 NS_AZOOMEE_CHAT_END

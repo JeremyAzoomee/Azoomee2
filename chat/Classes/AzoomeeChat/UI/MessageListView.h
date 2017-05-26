@@ -3,19 +3,30 @@
 
 #include "../AzoomeeChat.h"
 #include "../Data/Message.h"
+#include "../Data/Friend.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class MessageListView : public cocos2d::ui::ListView
+class MessageListView : public cocos2d::ui::Layout
 {
-    typedef cocos2d::ui::ListView Super;
+    typedef cocos2d::ui::Layout Super;
 private:
     
+    /// Participants in the conversation
+    FriendList _participants;
     /// Data being displayed
     MessageList _listData;
+    
+    /// Background layer - holds the Oomees
+    cocos2d::ui::Layout* _background = nullptr;
+    /// Bar sits at the bottom
+    cocos2d::ui::ImageView* _avatarBase = nullptr;
+    
+    /// Internal listview to display the messages
+    cocos2d::ui::ListView* _listView = nullptr;
     
     
     /// Calculate the item size for the listview
@@ -34,7 +45,7 @@ protected:
 public:
     
     /// Set the items to display in this list
-    void setData(const MessageList& messageList);
+    void setData(const FriendList& participants, const MessageList& messageList);
     
     virtual bool init() override;
     virtual void onEnter() override;

@@ -12,10 +12,19 @@ NS_AZOOMEE_CHAT_BEGIN
 class MessageListViewItem : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
+public:
+    
+    enum Alignment {
+        Left,
+        Right
+    };
+    
 private:
     
     /// The frienddata this item is displayed
     MessageRef _messageData;
+    /// Alignment to use for the message
+    Alignment _alignment = Alignment::Left;
     
     /// Where we place the content inside the menu item
     cocos2d::ui::Layout* _contentLayout = nullptr;
@@ -39,6 +48,9 @@ public:
     void setData(const MessageRef& message);
     /// Get the data this item is displaying
     MessageRef getData() const;
+    
+    /// Which side should the message align to?
+    void setAlignment(const Alignment& alignment);
     
     virtual bool init() override;
     virtual void onEnter() override;

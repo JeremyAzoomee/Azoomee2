@@ -17,9 +17,9 @@ NS_AZOOMEE_CHAT_BEGIN
 // Temp feature until Pusher is implemented
 const float kAutoGetTimeInterval = 5.0f;
 
-MessageScene* MessageScene::create(const FriendRef& friendData)
+MessageScene* MessageScene::create(const FriendList& participants)
 {
-    MessageScene* scene = new(std::nothrow) MessageScene(friendData);
+    MessageScene* scene = new(std::nothrow) MessageScene(participants);
     if(scene && scene->init())
     {
         scene->autorelease();
@@ -32,8 +32,8 @@ MessageScene* MessageScene::create(const FriendRef& friendData)
     }
 }
 
-MessageScene::MessageScene(const FriendRef& friendData) :
-    _friendData(friendData)
+MessageScene::MessageScene(const FriendList& participants) :
+    _participants(participants)
 {
 }
 
@@ -62,7 +62,7 @@ bool MessageScene::init()
     // Titlebar at the top
     // We add this last so it sits on top with a drop shadow
     _titleBar = TitleBarWidget::create();
-    _titleBar->setTitleString(_friendData->friendName());
+    _titleBar->setTitleString(_participants[1]->friendName());
     _titleBar->setTitleColor(Style::Color::heliotropeTwo);
     _titleBar->setSizeType(ui::Widget::SizeType::PERCENT);
     _titleBar->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
@@ -88,7 +88,7 @@ void MessageScene::onEnter()
     ChatAPI::getInstance()->registerObserver(this);
     
     // Get message list
-    ChatAPI::getInstance()->requestMessageHistory(_friendData);
+    ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
     ModalMessages::getInstance()->startLoading();
     
     // Get update calls
@@ -117,7 +117,7 @@ void MessageScene::update(float dt)
             _timeTillGet = -1.0f;
             
             // Make the call
-            ChatAPI::getInstance()->requestMessageHistory(_friendData);
+            ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
         }
     }
 }
@@ -130,7 +130,7 @@ void MessageScene::onSizeChanged()
     
     const cocos2d::Size& contentSize = getContentSize();
     // TODO: Grab sizes from config
-    bool isLandscape = contentSize.width > contentSize.height;
+    const bool isLandscape = contentSize.width > contentSize.height;
     
     // Main layout
     const Vec2& titleBarSize = Vec2(1.0f, (isLandscape) ? 0.131f : 0.084f);
@@ -194,7 +194,7 @@ void MessageScene::onBackButtonPressed()
 
 void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 {
-    _messageListView->setData(messageList);
+    _messageListView->setData(_participants, messageList);
     ModalMessages::getInstance()->stopLoading();
     
     // Trigger auto get again
@@ -204,7 +204,7 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 {
     // Auto get new messages until we have a live feed from PUSHER
-    ChatAPI::getInstance()->requestMessageHistory(_friendData);
+    ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
 }
 
 #pragma mark - MessageComposer::Delegate
@@ -212,7 +212,7 @@ void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 void MessageScene::onMessageComposerSendMessage(const std::string& message)
 {
     cocos2d::log("Send Message: %s", message.c_str());
-    ChatAPI::getInstance()->sendMessage(_friendData, message);
+    ChatAPI::getInstance()->sendMessage(_participants[1], message);
 }
 
 NS_AZOOMEE_CHAT_END
