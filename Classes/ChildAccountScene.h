@@ -36,6 +36,7 @@ private:
     ElectricDreamsButton *submitButton;
     ElectricDreamsButton *submitButtonPlaceholder;
     
+    void setupScene();
     void AddTitleToScene();
     void addLabelToScene();
     void addTextboxScene();

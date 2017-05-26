@@ -35,9 +35,9 @@ void LoginLogicHandler::doLoginLogic()
     emptyUserName();
 #endif
     
-    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    Azoomee::ChildDataParser::getInstance()->setChildLoggedIn(false);
     
-    if(ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
+    if(Azoomee::ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
     {
         Azoomee::ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
         BackEndCaller::getInstance()->updateBillingData();

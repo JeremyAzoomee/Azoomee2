@@ -9,7 +9,8 @@
 #include "RoutePaymentSingleton.h"
 #include "WebViewNative_ios.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
-#include <AzoomeeCommon/Analytics/analyticsSingleton.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "FlowDataSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -126,7 +127,7 @@ void AppDelegate::applicationWillEnterForeground() {
         if(HQHistoryManager::getInstance()->thereWasAnError)
         {
             HQHistoryManager::getInstance()->thereWasAnError = false;
-            LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+            FlowDataSingleton::getInstance()->setErrorCode(1006);
             LoginLogicHandler::getInstance()->doLoginLogic();
             return;
         }

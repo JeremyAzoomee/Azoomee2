@@ -7,6 +7,7 @@
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
 #include "LoginLogicHandler.h"
+#include "FlowDataSingleton.h"
 
 using namespace Azoomee;
 
@@ -29,7 +30,7 @@ void navigateToBaseScene()
 void navigateToLoginScene()
 {
     AnalyticsSingleton::getInstance()->closeContentEvent();
-    LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+    FlowDataSingleton::getInstance()->setErrorCode(1006);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
 

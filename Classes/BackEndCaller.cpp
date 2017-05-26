@@ -436,7 +436,6 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         if(errorCode == -1)
         {
-            LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(0);
             Director::getInstance()->replaceScene(OfflineHubScene::createScene());
             return;
         }
@@ -456,6 +455,6 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     if(requestTag == API::TagResetPasswordRequest)
         return;
     
-    LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+    FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
