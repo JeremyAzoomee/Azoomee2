@@ -20,21 +20,54 @@ bool MessageListView::init()
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     setBackGroundColor(Style::Color::dustyLavender);
     
-    // Setup background with the Oomee bar
-    _background = ui::Layout::create();
-    _background->setLayoutType(ui::Layout::Type::RELATIVE);
-    _background->setSizePercent(Vec2(1.0f, 1.0f));
-    _background->setSizeType(ui::Widget::SizeType::PERCENT);
-    addChild(_background);
+    // Setup foreground with the Oomee bar
+    _foreground = ui::Layout::create();
+    _foreground->setLayoutType(ui::Layout::Type::RELATIVE);
+    _foreground->setSizePercent(Vec2(1.0f, 1.0f));
+    _foreground->setSizeType(ui::Widget::SizeType::PERCENT);
+    
+    // TODO: Get config values
+    const float avatarBaseHeight = 140.0f;
     
     // Avatar bar
     _avatarBase = ui::ImageView::create("res/chat/ui/avatar/avatar_base.png");
     _avatarBase->setAnchorPoint(Vec2::ZERO);
     _avatarBase->ignoreContentAdaptWithSize(false); // stretch
-//    _avatarBase->setScale9Enabled(true);
-//    _avatarBase->setCapInsets(Rect(0, 0, _avatarBase->getVirtualRendererSize().width, 0));
+    _avatarBase->setContentSize(Size(0.0f, avatarBaseHeight));
     _avatarBase->setLayoutParameter(CreateBottomLeftRelativeLayoutParam());
-    _background->addChild(_avatarBase);
+    _foreground->addChild(_avatarBase);
+    
+    // Avatars
+    const float avatarSize = 300.0f;
+    const float avatarShadowWidth = avatarSize * 0.5f;
+    const Vec2 avatarMargin = Vec2(30.0f, 60.0f);
+    
+    // Shadows first
+    _avatarShadows[0] = ui::ImageView::create("res/chat/ui/avatar/avatar_shadow.png");
+    const Size& shadowTextureSize = _avatarShadows[0]->cocos2d::ui::Widget::getVirtualRendererSize();
+    const float widthToHeightAspectRatio = shadowTextureSize.height / shadowTextureSize.width;
+    _avatarShadows[0]->setContentSize(Size(avatarShadowWidth, avatarShadowWidth * widthToHeightAspectRatio));
+    _avatarShadows[0]->setLayoutParameter(CreateBottomRightRelativeLayoutParam(ui::Margin(0, 0, (avatarMargin.x * 0.75f) + (avatarSize * 0.5f) - (avatarShadowWidth * 0.5f), avatarMargin.y * 0.65f)));
+    _foreground->addChild(_avatarShadows[0]);
+    
+    _avatarShadows[1] = ui::ImageView::create("res/chat/ui/avatar/avatar_shadow.png");
+    _avatarShadows[1]->setContentSize(_avatarShadows[0]->getContentSize());
+    _avatarShadows[1]->setLayoutParameter(CreateBottomLeftRelativeLayoutParam(ui::Margin((avatarMargin.x * 0.75f) + (avatarSize * 0.5f) - (avatarShadowWidth * 0.5f), 0, 0, avatarMargin.y * 0.65f)));
+    _foreground->addChild(_avatarShadows[1]);
+    
+    // Now the avatars themselves
+    _avatars[0] = AvatarWidget::create();
+    // First participant (usually current user) is on the RIGHT
+    _avatars[0]->setLayoutParameter(CreateBottomRightRelativeLayoutParam(ui::Margin(0, 0, avatarMargin.x, avatarMargin.y)));
+    _avatars[0]->setContentSize(Size(avatarSize, avatarSize));
+    _foreground->addChild(_avatars[0]);
+    
+    _avatars[1] = AvatarWidget::create();
+    // Second participant is on the LEFT
+    _avatars[1]->setLayoutParameter(CreateBottomLeftRelativeLayoutParam(ui::Margin(avatarMargin.x, 0, 0, avatarMargin.y)));
+    _avatars[1]->setContentSize(Size(avatarSize, avatarSize));
+    _foreground->addChild(_avatars[1]);
+    
     
     // List view for messages
     _listView = ui::ListView::create();
@@ -42,7 +75,16 @@ bool MessageListView::init()
     _listView->setSizeType(ui::Widget::SizeType::PERCENT);
     _listView->setDirection(ui::ScrollView::Direction::VERTICAL);
     _listView->setBounceEnabled(true);
+    _listView->setScrollBarEnabled(false);
     addChild(_listView);
+    
+    // Create the special list view item to allow space for Oomees
+    _blankListItem = ui::Layout::create();
+    _blankListItem->setContentSize(Size(10, avatarSize + avatarMargin.y));
+    _listView->pushBackCustomItem(_blankListItem);
+    
+    // Add the foreground last
+    addChild(_foreground);
     
 //    addEventListener([this](Ref*, ui::ScrollView::EventType event){
 //        if(event == ui::ScrollView::EventType::SCROLLING)
@@ -79,9 +121,9 @@ void MessageListView::onSizeChanged()
 {
     Super::onSizeChanged();
     
-    // Resize all items, since they are using absolute sizing
     if(_listView)
     {
+        // Resize all items, since they are using absolute sizing
         const auto& items = _listView->getItems();
         const cocos2d::Size& contentSize = _listView->getContentSize();
         for(auto item : items)
@@ -93,9 +135,8 @@ void MessageListView::onSizeChanged()
             messageItem->setContentSize(itemSize);
         }
         
-        // TODO: Get from config
-        const float avatarBaseHeight = 140.0f;
-        _avatarBase->setContentSize(Size(contentSize.width, avatarBaseHeight));
+        // Resize avatar base to fill width
+        _avatarBase->setContentSize(Size(contentSize.width, _avatarBase->getContentSize().height));
     }
 }
 
@@ -141,11 +182,16 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
     const float prevScrollHeight = _listView->getInnerContainerSize().height;
     
     _participants = participants;
+    _avatars[0]->setAvatarForFriend(_participants[0]);
+    _avatars[1]->setAvatarForFriend(_participants[1]);
     
     // If messages are zero, we can just remove
     if(messageList.size() == 0)
     {
+        _blankListItem->retain();
         _listView->removeAllItems();
+        _listView->pushBackCustomItem(_blankListItem);
+        _blankListItem->release();
     }
     else
     {
@@ -153,8 +199,11 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         // Do this inline to avoid a flicker of the UI
         // We just overwrite the content of all UI items here
         const Size& contentSize = _listView->getContentSize();
-        const cocos2d::Vector<ui::Widget*> items = _listView->getItems();
         
+        _blankListItem->retain();
+        _listView->removeLastItem();
+        
+        const cocos2d::Vector<ui::Widget*> items = _listView->getItems();
         for(int i = 0; i < items.size() || i < messageList.size(); ++i)
         {
             MessageListViewItem* item = (i < items.size()) ? (MessageListViewItem*)items.at(i) : nullptr;
@@ -202,6 +251,10 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
             _listView->removeLastItem();
             --numToDelete;
         }
+        
+        // Re-add blank item
+        _listView->pushBackCustomItem(_blankListItem);
+        _blankListItem->release();
     }
     
     _listData = messageList;

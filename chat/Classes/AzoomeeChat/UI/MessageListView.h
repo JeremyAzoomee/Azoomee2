@@ -4,6 +4,7 @@
 #include "../AzoomeeChat.h"
 #include "../Data/Message.h"
 #include "../Data/Friend.h"
+#include "AvatarWidget.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
@@ -20,14 +21,20 @@ private:
     /// Data being displayed
     MessageList _listData;
     
-    /// Background layer - holds the Oomees
-    cocos2d::ui::Layout* _background = nullptr;
+    /// Foreground layer - holds the Oomees
+    cocos2d::ui::Layout* _foreground = nullptr;
     /// Bar sits at the bottom
     cocos2d::ui::ImageView* _avatarBase = nullptr;
+    /// Avatar shadows
+    cocos2d::ui::ImageView* _avatarShadows[2];
+    /// Avatars
+    AvatarWidget* _avatars[2];
     
     /// Internal listview to display the messages
     cocos2d::ui::ListView* _listView = nullptr;
-    
+    /// Special item we use to display at the bottom of the list view to deal
+    /// with the space for avatars
+    cocos2d::ui::Layout* _blankListItem = nullptr;
     
     /// Calculate the item size for the listview
     cocos2d::Size calculateItemSize() const;
