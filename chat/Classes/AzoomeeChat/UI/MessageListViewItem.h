@@ -25,6 +25,8 @@ private:
     MessageRef _messageData;
     /// Alignment to use for the message
     Alignment _alignment = Alignment::Left;
+    /// Margin from the edge
+    float _margin = 0.0f;
     
     /// Where we place the content inside the menu item
     cocos2d::ui::Layout* _contentLayout = nullptr;
@@ -51,6 +53,8 @@ public:
     
     /// Which side should the message align to?
     void setAlignment(const Alignment& alignment);
+    /// Set the margin from the edge
+    void setEdgeMargin(float margin);
     
     virtual bool init() override;
     virtual void onEnter() override;

@@ -179,7 +179,7 @@ void MessageListViewItem::setAlignment(const Alignment& alignment)
     _alignment = alignment;
     
     ui::RelativeLayoutParameter* contentLayoutParam = (ui::RelativeLayoutParameter*) _contentLayout->getLayoutParameter();
-    if(alignment == Alignment::Right)
+    if(_alignment == Alignment::Right)
     {
         contentLayoutParam->setAlign(ui::RelativeLayoutParameter::RelativeAlign::PARENT_RIGHT_CENTER_VERTICAL);
     }
@@ -187,6 +187,28 @@ void MessageListViewItem::setAlignment(const Alignment& alignment)
     {
         contentLayoutParam->setAlign(ui::RelativeLayoutParameter::RelativeAlign::PARENT_LEFT_CENTER_VERTICAL);
     }
+    
+    // Update margin
+    setEdgeMargin(_margin);
+}
+
+void MessageListViewItem::setEdgeMargin(float marginFloat)
+{
+    _margin = marginFloat;
+    ui::Margin margin;
+    if(_alignment == Alignment::Right)
+    {
+        margin.right = marginFloat;
+    }
+    else
+    {
+        margin.left = marginFloat;
+    }
+    
+    ui::RelativeLayoutParameter* contentLayoutParam = (ui::RelativeLayoutParameter*) _contentLayout->getLayoutParameter();
+    contentLayoutParam->setMargin(margin);
+    
+    forceDoLayout();
 }
 
 NS_AZOOMEE_CHAT_END

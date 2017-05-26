@@ -76,6 +76,7 @@ bool MessageListView::init()
     _listView->setDirection(ui::ScrollView::Direction::VERTICAL);
     _listView->setBounceEnabled(true);
     _listView->setScrollBarEnabled(false);
+    _listView->addEventListener(CC_CALLBACK_2(MessageListView::onScrollEvent, this));
     addChild(_listView);
     
     // Create the special list view item to allow space for Oomees
@@ -85,19 +86,6 @@ bool MessageListView::init()
     
     // Add the foreground last
     addChild(_foreground);
-    
-//    addEventListener([this](Ref*, ui::ScrollView::EventType event){
-//        if(event == ui::ScrollView::EventType::SCROLLING)
-//        {
-//            // Get current scroll position as %
-//            const Size& prevScrollSize = getInnerContainerSize();
-//            const Vec2& scrollPosition = getInnerContainerPosition();
-//            
-//            float scrollAreaHeight = getContentSize().height - prevScrollSize.height;
-//            float yPct = scrollPosition.y / scrollAreaHeight;
-//            cocos2d::log("MessageListView yPct=%f, scrollPosition=%f", yPct, scrollPosition.y);
-//        }
-//    });
   
     return true;
 }
@@ -172,6 +160,50 @@ void MessageListView::setScrollPosition(float pos)
     const float scrollAreaHeight = _listView->getContentSize().height - _listView->getInnerContainerSize().height;
     const float scrollY = scrollAreaHeight - (scrollAreaHeight * pos);
     _listView->setInnerContainerPosition(Vec2(0.0f, scrollY));
+}
+
+void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollView::EventType event)
+{
+    // Scroll movement
+    if(event == ui::ScrollView::EventType::CONTAINER_MOVED)
+    {
+        // Shift messages around the oomees
+        const Vec2& scrollPosition = _listView->getInnerContainerPosition();
+        const float oomeeHeight = _blankListItem->getContentSize().height;
+        float oomeeTopY = _blankListItem->getContentSize().height - scrollPosition.y;
+        // How long it takes before the item has fully transitioned
+        const float transitionHeight = oomeeHeight * 0.55f;
+        
+        // Find any items below the visible line and re-position them
+        const cocos2d::Vector<ui::Widget*> items = _listView->getItems();
+        for(ssize_t i = items.size() - 1; i >= 0; --i)
+        {
+            ui::Widget* item = items.at(i);
+            if(item == _blankListItem)
+            {
+                continue;
+            }
+            
+            MessageListViewItem* messageItem = (MessageListViewItem*)item;
+            const float distance = oomeeTopY - messageItem->getPositionY();
+            if(distance > 0.0f)
+            {
+                // Scale based on the distance
+                const float distancePercentOfHeight = distance / transitionHeight;
+                float t = MIN(distancePercentOfHeight, 1.0f);
+                // Apply curve
+                t = std::sin(t * M_PI * 0.5f);
+                t = std::sin(t * M_PI * 0.5f);
+                
+                const float maxMargin = _avatars[0]->getContentSize().width;
+                messageItem->setEdgeMargin(maxMargin * t);
+            }
+            else
+            {
+                messageItem->setEdgeMargin(0.0f);
+            }
+        }
+    }
 }
 
 #pragma mark - Public

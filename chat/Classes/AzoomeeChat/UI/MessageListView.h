@@ -44,6 +44,9 @@ private:
     /// Set the current scroll position
     void setScrollPosition(float pos);
     
+    /// List was scrolled
+    void onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollView::EventType event);
+    
 protected:
     
     virtual void doLayout() override;
