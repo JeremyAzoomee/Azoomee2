@@ -122,6 +122,9 @@ bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
     }
     else if(title == "What's new")
     {
+        body << "- The oomees are here!.\n";
+        body << "\n";
+        body << "0.1.1:";
         body << "- New UI \"1.0\".\n";
         body << "- Chat UI should always resize correctly, please report if it doesn't.\n";
         body << "- No Oomees.\n";

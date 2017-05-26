@@ -30,6 +30,7 @@ AuthAPI::AuthAPI()
 {
     // Initialise logged in information
     ParentDataParser* parentDataParser = ParentDataParser::getInstance();
+    cocos2d::log("hasParentLoginDataInUserDefaults? %d", parentDataParser->hasParentLoginDataInUserDefaults());
     if(parentDataParser->hasParentLoginDataInUserDefaults())
     {
         parentDataParser->retrieveParentLoginDataFromUserDefaults();
