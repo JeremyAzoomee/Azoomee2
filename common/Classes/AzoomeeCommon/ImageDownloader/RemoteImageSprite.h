@@ -19,7 +19,7 @@ public:
     virtual bool initWithURLAndSize(const std::string& url, const std::string& type, const cocos2d::Size& size, const cocos2d::Vec2& shape);
     virtual bool initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size);
     bool aboutToExit;
-    ImageDownloader *imageDownloaderLogic = nullptr;
+    ImageDownloaderRef imageDownloaderLogic;
     
     void startLoadingImage();
     void removeLoadedImage();
@@ -27,8 +27,10 @@ public:
     void setAttachNewBadgeToImage();
     
 private:
+    RemoteImageSprite();
+    
     // - RemoteImageSpriteDelegate
-    virtual void onImageDownloadComplete(ImageDownloader* downloader) override;
+    virtual void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
     
     void addPlaceHolderImage(std::string type, cocos2d::Size contentSize, cocos2d::Vec2 shape);
     void addLoadingAnimation();

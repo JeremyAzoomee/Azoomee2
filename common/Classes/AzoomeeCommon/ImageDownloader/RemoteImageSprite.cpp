@@ -10,19 +10,26 @@ using namespace cocos2d;
 
 
 NS_AZOOMEE_BEGIN
+
+RemoteImageSprite::RemoteImageSprite()
+{
+    // Use category cache to invalidate the images as a whole if they expire
+    // This is matches the logic that this class used in the beginning
+    // TODO: Provide a way to customise this when creating RemoteImageSprite
+    imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::Category);
+}
     
 RemoteImageSprite::~RemoteImageSprite()
 {
     if(imageDownloaderLogic)
     {
-        imageDownloaderLogic->release();
-        imageDownloaderLogic = nullptr;
+        imageDownloaderLogic->setDelegate(nullptr);
     }
 }
 
 bool RemoteImageSprite::initWithURLAndSize(const std::string& url, const std::string& type, const Size& size, const Vec2& shape)
 {
-    if ( !Sprite::init() )
+    if(!Sprite::init())
     {
         return false;
     }
@@ -34,22 +41,22 @@ bool RemoteImageSprite::initWithURLAndSize(const std::string& url, const std::st
     this->addPlaceHolderImage(type, size, shape);
     
     imageUrl = url;
-    imageDownloaderLogic = ImageDownloader::create();
-    imageDownloaderLogic->retain();
-    
     return true;
 }
 
 bool RemoteImageSprite::initWithUrlAndSizeWithoutPlaceholder(const std::string& url, const cocos2d::Size& size)
 {
+    if(!Sprite::init())
+    {
+        return false;
+    }
+    
     identifier = CCRANDOM_0_1() * 1000 + 1000;
     
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     
     imageUrl = url;
-    imageDownloaderLogic = new ImageDownloader();
-    
     return true;
 }
     
@@ -173,8 +180,7 @@ void RemoteImageSprite::onExit()
     if(imageDownloaderLogic)
     {
         imageDownloaderLogic->setDelegate(nullptr);
-        imageDownloaderLogic->release();
-        imageDownloaderLogic = nullptr;
+        imageDownloaderLogic.reset();
     }
     
     Node::onExit();
@@ -182,7 +188,7 @@ void RemoteImageSprite::onExit()
 
 #pragma mark - RemoteImageSpriteDelegate
 
-void RemoteImageSprite::onImageDownloadComplete(ImageDownloader* downloader)
+void RemoteImageSprite::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     
     const std::string& filename = downloader->getLocalImagePath();

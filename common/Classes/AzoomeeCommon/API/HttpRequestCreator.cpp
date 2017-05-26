@@ -178,9 +178,9 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
 {
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201))
     {
-        std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
-        std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
-        std::string requestTag = response->getHttpRequest()->getTag();
+        const std::string& responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
+        const std::string& responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
+        const std::string& requestTag = response->getHttpRequest()->getTag();
         
         cocos2d::log("request tag: %s", requestTag.c_str());
         cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
@@ -208,7 +208,7 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
     
     cocos2d::log("request tag: %s", requestTag.c_str());
     cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
-    cocos2d::log("response string: %s", responseString.c_str());
+    cocos2d::log("response string: %s", responseDataString.c_str());
     cocos2d::log("response headers: %s", responseHeaderString.c_str());
     cocos2d::log("response code: %ld", response->getResponseCode());
     
@@ -238,7 +238,7 @@ void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, lo
 
 std::string HttpRequestCreator::getQidFromResponseHeader(std::string responseHeaderString)
 {
-    std::vector<std::string> responseHeaderVector = splitStringToVector(responseHeaderString, "\n");
+    const std::vector<std::string>& responseHeaderVector = splitStringToVector(responseHeaderString, "\n");
     for(int i = 0; i < responseHeaderVector.size(); i++)
     {
         if(responseHeaderVector.at(i).compare(0, 9, "x-az-qid:") == 0)

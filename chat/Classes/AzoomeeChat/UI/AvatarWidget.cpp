@@ -105,8 +105,6 @@ void AvatarWidget::onExit()
     if(_avatarDownloader)
     {
         _avatarDownloader->setDelegate(nullptr);
-        _avatarDownloader->release();
-        _avatarDownloader = nullptr;
     }
 }
 
@@ -158,30 +156,27 @@ void AvatarWidget::setAvatarForFriend(const FriendRef& friendData)
     if(_avatarDownloader)
     {
         _avatarDownloader->setDelegate(nullptr);
-        _avatarDownloader->release();
-        _avatarDownloader = nullptr;
+        _avatarDownloader.reset();
     }
     
     // Download image (will auto get from cache)
     if(!avatarURL.empty())
     {
-        _avatarDownloader = ImageDownloader::create();
-        _avatarDownloader->retain();
+        _avatarDownloader = ImageDownloader::create("avatars", ImageDownloader::CacheMode::File);
         _avatarDownloader->downloadImage(this, avatarURL);
     }
 }
 
 #pragma mark - ImageDownloaderDelegate
 
-void AvatarWidget::onImageDownloadComplete(ImageDownloader* downloader)
+void AvatarWidget::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
     _avatarImage->loadTexture(downloader->getLocalImagePath());
     
     if(_avatarDownloader)
     {
         _avatarDownloader->setDelegate(nullptr);
-        _avatarDownloader->release();
-        _avatarDownloader = nullptr;
+        _avatarDownloader.reset();
     }
 }
 

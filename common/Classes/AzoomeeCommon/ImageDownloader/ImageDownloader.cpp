@@ -10,6 +10,25 @@ NS_AZOOMEE_BEGIN
 
 #pragma mark - Public
 
+ImageDownloaderRef ImageDownloader::create(const std::string& storageLocation, CacheMode mode)
+{
+    ImageDownloaderRef downloader(new(std::nothrow) ImageDownloader(storageLocation, mode));
+    return downloader;
+}
+
+ImageDownloader::ImageDownloader(const std::string& storageLocation, CacheMode mode) :
+    _cacheMode(mode)
+{
+    fileUtils = FileUtils::getInstance();
+    _storagePath = fileUtils->getWritablePath() + storageLocation;
+    
+    // Make sure storageLocation ends with a slash
+    if(_storagePath.back() != '/')
+    {
+        _storagePath += "/";
+    }
+}
+
 ImageDownloader::~ImageDownloader()
 {
     _delegate = nullptr;
@@ -21,17 +40,11 @@ ImageDownloader::~ImageDownloader()
     }
 }
 
-bool ImageDownloader::init()
-{
-    fileUtils = FileUtils::getInstance();
-    return true;
-}
-
 void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std::string& url)
 {
     _delegate = delegate;
     _filename = getFileNameFromURL(url);
-    _imageId = getIdFromUrl(url);
+    _category = getCategoryFromUrl(url);
     
     bool localFileExists = localImageExists();
     if(localFileExists && !hasCacheExpired())
@@ -40,10 +53,19 @@ void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std
     }
     else
     {
-        if(localFileExists)
+        if(_cacheMode == CacheMode::Category)
         {
-            const std::string& imageIdPath = getImageIdPath();
-            fileUtils->removeDirectory(imageIdPath);
+            if(FileUtils::getInstance()->isDirectoryExist(getCategoryPath()))
+            {
+                fileUtils->removeDirectory(getCategoryPath());
+            }
+        }
+        else
+        {
+            if(localFileExists)
+            {
+                fileUtils->removeFile(getLocalImagePath());
+            }
         }
         downloadFileFromServer(url);
     }
@@ -51,7 +73,7 @@ void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std
 
 std::string ImageDownloader::getLocalImagePath() const
 {
-    return getImageIdPath() + _filename;
+    return getCategoryPath() + _filename;
 }
 
 bool ImageDownloader::localImageExists() const
@@ -64,11 +86,16 @@ void ImageDownloader::setDelegate(ImageDownloaderDelegate* delegate)
     _delegate = delegate;
 }
 
+void ImageDownloader::setCacheMode(ImageDownloader::CacheMode mode)
+{
+    _cacheMode = mode;
+}
+
 #pragma mark - Private
 
 bool ImageDownloader::hasCacheExpired() const
 {
-    return ImageDownloader::imageUpdateRequired(getImageIdPath());
+    return !ImageDownloader::checkTimeStampValid(getTimestampFilePath());
 }
 
 void ImageDownloader::downloadFileFromServer(const std::string& url)
@@ -95,9 +122,9 @@ void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Htt
             std::vector<char> myResponse = *response->getResponseData();
             const std::string& responseString = std::string(myResponse.begin(), myResponse.end());
             
-            if(saveFileToDevice(responseString, _filename))
+            if(saveFileToDevice(responseString, getLocalImagePath()))
             {
-                saveFileToDevice(StringUtils::format("%ld", time(NULL)), "time.stmp");
+                saveFileToDevice(StringUtils::format("%ld", time(NULL)), getTimestampFilePath());
                 loadFileFromLocalCacheAsync();
                 return;
             }
@@ -114,84 +141,90 @@ void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Htt
     }
 }
 
-bool ImageDownloader::saveFileToDevice(const std::string& data, const std::string& fileName)
-{
-    const std::string& imageCachePath = getImageCachePath();
-    if(!fileUtils->isDirectoryExist(imageCachePath))
-    {
-        fileUtils->createDirectory(imageCachePath);
-    }
-    const std::string& imageIdPath = getImageIdPath();
-    if(!fileUtils->isDirectoryExist(imageIdPath))
-    {
-        fileUtils->createDirectory(imageIdPath);
-    }
-    
-    const std::string& fullPath = imageIdPath + fileName;
-    if(fileUtils->isFileExist(fullPath))
-    {
-        fileUtils->removeFile(fullPath);
-    }
-    
-    if(fileUtils->writeStringToFile(data, fullPath)) return true;
-    else return false;
-}
-
 void ImageDownloader::loadFileFromLocalCacheAsync()
 {
     if(_delegate)
     {
-        _delegate->onImageDownloadComplete(this);
+        _delegate->onImageDownloadComplete(shared_from_this());
     }
 }
 
-std::string ImageDownloader::getImageIdPath() const
+std::string ImageDownloader::getTimestampFilePath() const
 {
-    return getImageCachePath() + _imageId + "/";
+    // The timestamp path changes depending on the cache mode
+    if(_cacheMode == CacheMode::Category)
+    {
+        // One timestamp file for the category
+        return getCategoryPath() + "time.stmp";
+    }
+    else
+    {
+        // A timestamp file specific to the file
+        return getCategoryPath() + _filename + ".time.stmp";
+    }
 }
 
-std::string ImageDownloader::getImageCachePath() const
+std::string ImageDownloader::getCategoryPath() const
 {
-    return fileUtils->getWritablePath() + "imageCache/";
+    return _storagePath + _category + "/";
 }
 
 #pragma mark - Static
 
 std::string ImageDownloader::getFileNameFromURL(const std::string& url)
 {
-    int startPoint = (int)url.find_last_of("/") + 1;
+    const uint64_t startPoint = url.find_last_of("/") + 1;
     
-    int endPoint = (int)url.length();
-    if(url.find("?", 0) != url.npos) endPoint = (int)url.find("?", 0);
-    int subLength = endPoint - startPoint;
+    uint64_t endPoint = url.length();
+    if(url.find("?", 0) != url.npos) endPoint = url.find("?", 0);
+    const uint64_t subLength = endPoint - startPoint;
     
     return url.substr(startPoint, subLength);
 }
 
-std::string ImageDownloader::getIdFromUrl(const std::string& url)
+std::string ImageDownloader::getCategoryFromUrl(const std::string& url)
 {
-    int endPoint = (int)url.find_last_of("/");
-    std::string cutUrl = url.substr(0, endPoint);
+    const uint64_t endPoint = url.find_last_of("/");
+    const std::string& cutUrl = url.substr(0, endPoint);
     
-    int startPoint = (int)cutUrl.find_last_of("/") + 1;
-    std::string result = cutUrl.substr(startPoint);
-    
-    CCLOG("image id: %s", result.c_str());
+    const uint64_t startPoint = cutUrl.find_last_of("/") + 1;
+    const std::string& result = cutUrl.substr(startPoint);
     
     return result;
 }
 
-bool ImageDownloader::imageUpdateRequired(const std::string& imageIdPath)
+bool ImageDownloader::checkTimeStampValid(const std::string& timeStampFilePath)
 {
-    std::string timeStampFilePath = imageIdPath + "time.stmp";
-    if(!FileUtils::getInstance()->isFileExist(timeStampFilePath)) return true;
+    if(!FileUtils::getInstance()->isFileExist(timeStampFilePath)) return false;
     
-    long timeStamp = std::atoi(FileUtils::getInstance()->getStringFromFile(timeStampFilePath).c_str());
-    long currentTimeStamp = time(NULL);
+    const time_t timeStamp = std::atoll(FileUtils::getInstance()->getStringFromFile(timeStampFilePath).c_str());
+    const time_t currentTimeStamp = time(NULL);
     
-    if(currentTimeStamp - timeStamp > ConfigStorage::getInstance()->getContentItemImageValidityInSeconds()) return true;
+    if(currentTimeStamp - timeStamp > ConfigStorage::getInstance()->getContentItemImageValidityInSeconds()) return false;
     
-    return false;
+    return true;
+}
+
+bool ImageDownloader::saveFileToDevice(const std::string& data, const std::string& fullPath)
+{
+    cocos2d::FileUtils* fileUtils = FileUtils::getInstance();
+    
+    // Make sure directories created
+    const uint64_t lastSlashIndex = fullPath.find_last_of("/");
+    const std::string& parentDirPath = fullPath.substr(0, lastSlashIndex + 1);
+    if(!fileUtils->isDirectoryExist(parentDirPath))
+    {
+        fileUtils->createDirectory(parentDirPath);
+    }
+    
+    // Remove old file
+    if(fileUtils->isFileExist(fullPath))
+    {
+        fileUtils->removeFile(fullPath);
+    }
+    // Create new file
+    if(fileUtils->writeStringToFile(data, fullPath)) return true;
+    else return false;
 }
   
 NS_AZOOMEE_END

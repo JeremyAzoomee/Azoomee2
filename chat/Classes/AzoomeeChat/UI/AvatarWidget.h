@@ -35,11 +35,11 @@ private:
     cocos2d::ui::ImageView* _frameFront = nullptr;
     
     /// Image downloader for the avatar
-    ImageDownloader* _avatarDownloader = nullptr;
+    ImageDownloaderRef _avatarDownloader = nullptr;
     
     
     // - ImageDownloaderDelegate
-    void onImageDownloadComplete(ImageDownloader* downloader) override;
+    void onImageDownloadComplete(const ImageDownloaderRef& downloader) override;
 
 protected:
     
