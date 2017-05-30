@@ -10,7 +10,6 @@
 USING_NS_CC;
 using namespace spine;
 
-
 namespace Azoomee
 {
 
@@ -60,11 +59,10 @@ void OomeeButtonLayer::hideOomee()
 }
 
 //------------ PRIVATE FUNCTIONS---------------
-
-void OomeeButtonLayer::addOomeeToLayer()
+void OomeeButtonLayer::setupOomeeSpine()
 {
     std::string oomeeName = ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber);
-    std::string jsonFileName = StringUtils::format("res/oomees/%s.json", oomeeName.c_str());
+    std::string jsonFileName = StringUtils::format("res/oomees/%s_Button.json", oomeeName.c_str());
     std::string atlasFileName = StringUtils::format("res/oomees/%s.atlas", oomeeName.c_str());
     
     oomee = SkeletonAnimation::createWithJsonFile(jsonFileName, atlasFileName);
@@ -76,6 +74,14 @@ void OomeeButtonLayer::addOomeeToLayer()
     oomee->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
     
     addCompleteListenerToOomee(oomee);
+}
+    
+void OomeeButtonLayer::addOomeeToLayer()
+{
+    
+    auto scheduler = Director::getInstance()->getScheduler();
+    
+    scheduler-> performFunctionInCocosThread(CC_CALLBACK_0(OomeeButtonLayer::setupOomeeSpine, this));
 }
 
 void OomeeButtonLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
@@ -93,7 +99,7 @@ void OomeeButtonLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBe
         }
         else
         {
-            toBeAddedTo->addAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
+            toBeAddedTo->addAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("button").c_str(), false);
             animationsTillWave--;
         }
     };

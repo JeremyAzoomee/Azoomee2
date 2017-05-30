@@ -81,13 +81,12 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(std::string fileNa
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
-    //return "api.azoomee.com";
-    return "api.elb.ci.azoomee.ninja";
+    return "api.azoomee.com";
 }
 
 std::string ConfigStorage::getServerUrl()
 {
-    return "http://" + getServerHost();
+    return "https://" + getServerHost();
 }
 
 std::string ConfigStorage::getImagesUrl()
@@ -348,6 +347,7 @@ std::string ConfigStorage::getGreetingAnimation()
 std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType)
 {
     if(animationType == "idle") return OomeeAnimationTypes["idleAnimations"][random(0, (int)OomeeAnimationTypes["idleAnimations"].Size() - 1)].GetString();
+    else if(animationType == "button") return OomeeAnimationTypes["buttonIdleAnimations"][random(0, (int)OomeeAnimationTypes["buttonIdleAnimations"].Size() - 1)].GetString();
     else return OomeeAnimationTypes["touchAnimations"][random(0, (int)OomeeAnimationTypes["touchAnimations"].Size() - 1)].GetString();
 }
 

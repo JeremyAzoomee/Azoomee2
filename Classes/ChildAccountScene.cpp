@@ -37,9 +37,7 @@ bool ChildAccountScene::init()
     {
         return false;
     }
-    auto scheduler = Director::getInstance()->getScheduler();
     
-    scheduler-> performFunctionInCocosThread(CC_CALLBACK_0(ChildAccountScene::setupScene, this));
     return true;
 }
 
@@ -48,10 +46,14 @@ void ChildAccountScene::onEnter()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
+    ModalMessages::getInstance()->startLoading();
+    
     AddTitleToScene();
     addTextboxScene();
     addLabelToScene();
     addButtonsScene();
+    addOomeesToScene();
+
     
     Node::onEnter();
 }
@@ -68,12 +70,6 @@ void ChildAccountScene::onEnterTransitionDidFinish()
     }
     else
         childNameInputText->focusAndShowKeyboard();
-}
-
-void ChildAccountScene::setupScene()
-{
-    
-    addOomeesToScene();
 }
 
 //----------------- SCENE SETUP ---------------
@@ -272,7 +268,7 @@ void ChildAccountScene::addOomeesToScene()
     OomeeButtons.at(3)->setCenterPosition(Vec2(origin.x + visibleSize.width*.3, origin.y + visibleSize.height*.68));
     OomeeButtons.at(4)->setCenterPosition(Vec2(origin.x + visibleSize.width*.7, origin.y + visibleSize.height*.68));
     
-    //ModalMessages::getInstance()->stopLoading();
+    ModalMessages::getInstance()->stopLoading();
 }
 
 void ChildAccountScene::hideOomees()
