@@ -43,6 +43,11 @@ bool FlowDataSingleton::init(void)
 
 #pragma mark - Flow Setup
 
+void FlowDataSingleton::setLoginFlow()
+{
+    clearData();
+}
+
 void FlowDataSingleton::setFlowToSignup(std::string userName, std::string password)
 {
     clearData();

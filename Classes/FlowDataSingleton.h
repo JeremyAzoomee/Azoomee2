@@ -25,6 +25,7 @@ public:
     virtual ~FlowDataSingleton();
     bool init(void);
     
+    void setLoginFlow();
     void setFlowToSignup(std::string userName, std::string password);
     
     void addChildData(std::string childName, int oomeeColourNumber);
