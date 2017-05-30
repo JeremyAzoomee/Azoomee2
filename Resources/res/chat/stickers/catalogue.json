@@ -1,0 +1,66 @@
+{
+    "categories": [{
+        "id": "ball",
+        "image_location": "ball/category.png",
+        "stickers": [
+            "ball/s_01.png",
+            "ball/s_02.png",
+            "ball/s_03.png",
+            "ball/s_04.png",
+            "ball/s_05.png",
+            "ball/s_06.png",
+            "ball/s_07.png",
+            "ball/s_08.png",
+            "ball/s_09.png",
+            "ball/s_010.png",
+            "ball/s_011.png",
+            "ball/s_012.png",
+            "ball/s_013.png",
+            "ball/s_014.png",
+            "ball/s_015.png",
+            "ball/s_016.png"
+        ]
+    }, {
+        "id": "carrot",
+        "image_location": "carrot/category.png",
+        "stickers": [
+            "ball/s_012.png",
+            "ball/s_013.png",
+            "ball/s_014.png",
+            "ball/s_015.png",
+            "ball/s_016.png"
+        ]
+    }, {
+        "id": "doughnut",
+        "image_location": "doughnut/category.png",
+        "stickers": [
+            "ball/s_01.png",
+            "ball/s_02.png",
+            "ball/s_03.png",
+            "ball/s_04.png",
+            "ball/s_05.png"
+        ]
+    }, {
+        "id": "icecream",
+        "image_location": "icecream/category.png",
+        "stickers": [
+            "ball/s_06.png",
+            "ball/s_07.png",
+            "ball/s_08.png",
+            "ball/s_09.png",
+            "ball/s_010.png"
+        ]
+    }, {
+        "id": "lightbulb",
+        "image_location": "lightbulb/category.png",
+        "stickers": [
+            "ball/s_011.png",
+            "ball/s_012.png",
+            "ball/s_013.png"
+        ]
+    }, {
+        "id": "pizza",
+        "image_location": "pizza/category.png",
+        "stickers": []
+    }]
+}

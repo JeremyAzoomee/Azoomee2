@@ -46,6 +46,7 @@
 		302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84771ED1B992006A498C /* SplitLayout.cpp */; };
 		304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC61EA8F883008CED52 /* GameController.framework */; };
 		305966991ECCAF76009A7130 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966971ECCAF76009A7130 /* Scene.cpp */; };
+		30790D381EDDC4AC003654BC /* URI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D361EDDC4AC003654BC /* URI.cpp */; };
 		3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
@@ -214,6 +215,8 @@
 		305966981ECCAF76009A7130 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		305966A01ECEF5A8009A7130 /* LayoutParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutParams.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		30790D361EDDC4AC003654BC /* URI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = URI.cpp; sourceTree = "<group>"; };
+		30790D371EDDC4AC003654BC /* URI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URI.h; sourceTree = "<group>"; };
 		3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpRequestCreator.cpp; sourceTree = "<group>"; };
 		3092BCEF1EB10524006D6F4C /* HttpRequestCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequestCreator.h; sourceTree = "<group>"; };
 		30DD5EBF1E96571F0084305B /* CrashlyticsConfig_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashlyticsConfig_android.cpp; sourceTree = "<group>"; };
@@ -471,6 +474,8 @@
 		3012ED6A1E96A3140009027D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				30790D361EDDC4AC003654BC /* URI.cpp */,
+				30790D371EDDC4AC003654BC /* URI.h */,
 				304A6EEA1EC9A96F000D52B5 /* CocosSharedPtr.h */,
 				022218CA1ECF203000AD167F /* SessionIdManager.cpp */,
 				022218CB1ECF203000AD167F /* SessionIdManager.h */,
@@ -938,6 +943,7 @@
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
 				4349C8241EA8ADEF00FE964B /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */,
+				30790D381EDDC4AC003654BC /* URI.cpp in Sources */,
 				4349C81B1EA8ADEF00FE964B /* MPABTestDesignerClearRequestMessage.m in Sources */,
 				3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */,
 				4349C8321EA8ADEF00FE964B /* MPEventBinding.m in Sources */,

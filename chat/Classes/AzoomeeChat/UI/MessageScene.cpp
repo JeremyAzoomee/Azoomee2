@@ -15,7 +15,7 @@ NS_AZOOMEE_CHAT_BEGIN
 
 // Interval to do an auto get call
 // Temp feature until Pusher is implemented
-const float kAutoGetTimeInterval = 5.0f;
+const float kAutoGetTimeInterval = 0.0f ;//5.0f;
 
 MessageScene* MessageScene::create(const FriendList& participants)
 {
@@ -150,7 +150,7 @@ void MessageScene::createContentUI(cocos2d::ui::Layout* parent)
     splitLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     splitLayout->setMode(SplitLayout::Mode::Vertical);
     // Message list area = fill to size, composer area = FixedSize
-    splitLayout->setSplitBehaviour(0.0f, SplitLayout::FixedSize);
+    splitLayout->setSplitBehaviour(SplitLayout::FillSize, SplitLayout::FixedSize);
     parent->addChild(splitLayout);
     
     // Message list

@@ -15,6 +15,8 @@ static int register_all_packages()
     return 0; //flag for packages manager
 }
 
+#include "AzoomeeChat/Data/StickerCache.h"
+
 bool AppDelegate::applicationDidFinishLaunching()
 {
     Super::applicationDidFinishLaunching();

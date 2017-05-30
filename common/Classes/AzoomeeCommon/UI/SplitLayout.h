@@ -55,6 +55,7 @@ protected:
 public:
     
     const static float FixedSize;
+    const static float FillSize;
     
     /// Set the mode to either Vertical or Horizontal (default)
     void setMode(SplitLayout::Mode mode);

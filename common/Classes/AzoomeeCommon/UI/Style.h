@@ -34,6 +34,8 @@ namespace Color
     const cocos2d::Color3B darkBlueGrey(35, 71, 80);
     const cocos2d::Color3B heliotrope(218, 73, 241);
     const cocos2d::Color3B heliotropeTwo(218, 73, 242);
+    const cocos2d::Color3B golden(235, 178, 6);
+    const cocos2d::Color3B grapePurple(87, 19, 99);
     
     
     // These colors below don't have exact names in Zeplin.

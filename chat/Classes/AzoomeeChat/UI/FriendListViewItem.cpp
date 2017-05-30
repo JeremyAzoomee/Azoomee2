@@ -154,10 +154,7 @@ void FriendListViewItem::onPressStateChangedToPressed()
 
 void FriendListViewItem::onPressStateChangedToDisabled()
 {
-    if(_nameLabel)
-    {
-        _nameLabel->setTextColor(Color4B(Style::Color::white));
-    }
+    onPressStateChangedToNormal();
 }
 
 

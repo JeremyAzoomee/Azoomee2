@@ -8,7 +8,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float SplitLayout::FixedSize = -1;
+const float SplitLayout::FixedSize = -1.0f;
+const float SplitLayout::FillSize = 0.0f;
 
 bool SplitLayout::init()
 {
@@ -76,7 +77,7 @@ void SplitLayout::resizeLayouts()
     _resizingLayouts = true;
     
     // 0,0 is the same as 0.5,0.5
-    if(_layoutBehaviour[0] == 0.0f && _layoutBehaviour[1] == 0.0f)
+    if(_layoutBehaviour[0] == SplitLayout::FillSize && _layoutBehaviour[1] == SplitLayout::FillSize)
     {
         _layoutBehaviour[0] = 0.5f;
         _layoutBehaviour[1] = 0.5f;
@@ -88,20 +89,20 @@ void SplitLayout::resizeLayouts()
         Size secondSize = Size(contentSize.width * _layoutBehaviour[1], contentSize.height);
         
         // -1 means it's a fixed size and we use whatever the layout has set
-        if(_layoutBehaviour[0] == -1)
+        if(_layoutBehaviour[0] == SplitLayout::FixedSize)
         {
             firstSize.width = _firstLayout->getContentSize().width;
         }
-        if(_layoutBehaviour[1] == -1)
+        if(_layoutBehaviour[1] == SplitLayout::FixedSize)
         {
             secondSize.width = _secondLayout->getContentSize().width;
         }
         // 0 means we need to calculate the remainder
-        if(_layoutBehaviour[0] == 0)
+        if(_layoutBehaviour[0] == SplitLayout::FillSize)
         {
             firstSize.width = contentSize.width - secondSize.width;
         }
-        if(_layoutBehaviour[1] == 0)
+        if(_layoutBehaviour[1] == SplitLayout::FillSize)
         {
             secondSize.width = contentSize.width - firstSize.width;
         }
@@ -115,20 +116,20 @@ void SplitLayout::resizeLayouts()
         Size secondSize = Size(contentSize.width, contentSize.height * _layoutBehaviour[1]);
         
         // -1 means it's a fixed size and we use whatever the layout has set
-        if(_layoutBehaviour[0] == -1)
+        if(_layoutBehaviour[0] == SplitLayout::FixedSize)
         {
             firstSize.height = _firstLayout->getContentSize().height;
         }
-        if(_layoutBehaviour[1] == -1)
+        if(_layoutBehaviour[1] == SplitLayout::FixedSize)
         {
             secondSize.height = _secondLayout->getContentSize().height;
         }
         // 0 means we need to calculate the remainder
-        if(_layoutBehaviour[0] == 0)
+        if(_layoutBehaviour[0] == SplitLayout::FillSize)
         {
             firstSize.height = contentSize.height - secondSize.height;
         }
-        if(_layoutBehaviour[1] == 0)
+        if(_layoutBehaviour[1] == SplitLayout::FillSize)
         {
             secondSize.height = contentSize.height - firstSize.height;
         }
@@ -173,8 +174,8 @@ void SplitLayout::setSplitBehaviour(float firstLayoutSize, float secondLayoutSiz
     _layoutBehaviour[0] = firstLayoutSize;
     _layoutBehaviour[1] = secondLayoutSize;
     
-//    _firstLayout->setSizeType(_layoutBehaviour[0] == FixedSize ? ui::Widget::SizeType::ABSOLUTE : ui::Widget::SizeType::PERCENT);
-//    _secondLayout->setSizeType(_layoutBehaviour[1] == FixedSize ? ui::Widget::SizeType::ABSOLUTE : ui::Widget::SizeType::PERCENT);
+    _firstLayout->setSizeType(_layoutBehaviour[0] == FixedSize ? ui::Widget::SizeType::ABSOLUTE : ui::Widget::SizeType::PERCENT);
+    _secondLayout->setSizeType(_layoutBehaviour[1] == FixedSize ? ui::Widget::SizeType::ABSOLUTE : ui::Widget::SizeType::PERCENT);
     
     resizeLayouts();
 }

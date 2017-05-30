@@ -4,6 +4,7 @@
 #include "../AzoomeeChat.h"
 #include <AzoomeeCommon/UI/SplitLayout.h>
 #include <AzoomeeCommon/UI/ObservableLayout.h>
+#include "StickerSelector.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
@@ -40,6 +41,8 @@ private:
     float _currentHeight = 0.0f;
     /// True if the IME keyboard is currently open
     bool _imeOpen = false;
+    /// Last used keyboard height
+    float _lastKeyboardHeight = 0.0f;
     
     /// Delegate for the composer
     MessageComposer::Delegate* _delegate = nullptr;
@@ -60,6 +63,9 @@ private:
     /// Gallery tab button
     cocos2d::ui::Button* _galleryTab = nullptr;
     
+    /// The stickers selector widget
+    StickerSelector* _stickerSelector = nullptr;
+    
     
     /// Create the UI for the top
     void createTopUIContent(SplitLayout* parent);
@@ -76,6 +82,11 @@ private:
     /// Called when we should resize UI elements to fit a keyboard
     /// If a duration > 0 is provided, it will be animated
     void resizeUIForKeyboard(float keyboardHeight, float duration);
+    
+    /// Get the estimated keyboard height for the IME
+    float getEstimatedKeyboardHeight() const;
+    /// Override the estimated keyboard height with a real value
+    void setEstimatedKeyboardHeight(float height);
     
     /// Called on TextField events
     void onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextField::EventType type);

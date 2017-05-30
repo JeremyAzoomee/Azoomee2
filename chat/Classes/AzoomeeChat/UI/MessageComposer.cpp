@@ -9,6 +9,10 @@ using namespace cocos2d;
 
 NS_AZOOMEE_CHAT_BEGIN
 
+const char* const kEstimatedKeyboardHeightPortrait = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Portrait";
+const char* const kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
+const int kResizeAnimationTag = 10001;
+
 bool MessageComposer::init()
 {
     if(!Super::init())
@@ -41,7 +45,12 @@ bool MessageComposer::init()
     }
     
     createTopUIContent(_topLayout);
-  
+    
+    // Sticker selector sits under the top
+    _stickerSelector = StickerSelector::create();
+    _stickerSelector->setTabBarHeight(_topLayout->getContentSize().height);
+    _stickerSelector->setLayoutParameter(CreateTopLinearLayoutParam());
+    addChild(_stickerSelector);
     
     // Default to Idle
     setMode(MessageComposer::Mode::Idle);
@@ -68,12 +77,12 @@ void MessageComposer::onSizeChanged()
     
     // Resize absolute sized layouts
     // TODO: Can we build an Adaptor of some kind to automate this?
-    std::vector<ui::Widget*> resizeItems = {
+    std::vector<ui::Widget*> resizeItemsMatchParentWidth = {
         _topLayout,
         _messageEntryLayout
     };
     
-    for(auto widget : resizeItems)
+    for(auto widget : resizeItemsMatchParentWidth)
     {
         const Size& parentContentSize = widget->getParent()->getContentSize();
         Size itemContentSize = widget->getContentSize();
@@ -83,6 +92,11 @@ void MessageComposer::onSizeChanged()
             widget->setContentSize(itemContentSize);
         }
     }
+    
+    // Update the sticker selector to use the latest keyboard height we have
+    // At the same time, resize to fill the width of it's parent
+    const float keyboardHeight = getEstimatedKeyboardHeight();
+    _stickerSelector->setContentSize(Size(_stickerSelector->getParent()->getContentSize().width, keyboardHeight));
     
     // Size the text entry field
     const Size& textEntryMaxSize = _messageEntryField->getParent()->getContentSize();
@@ -95,6 +109,14 @@ void MessageComposer::setContentSize(const cocos2d::Size& contentSize)
 {
     if(_topLayout)
     {
+        // Check if the keyboard height will be different
+        const float keyboardHeight = getEstimatedKeyboardHeight();
+        if(_lastKeyboardHeight > 0.0f && keyboardHeight != _lastKeyboardHeight)
+        {
+            _lastKeyboardHeight = keyboardHeight;
+            _currentHeight = keyboardHeight + _topLayout->getContentSize().height - Director::getInstance()->getVisibleOrigin().y;
+        }
+        
         cocos2d::Size correctedSize = contentSize;
         correctedSize.height = _currentHeight;
         Super::setContentSize(correctedSize);
@@ -109,33 +131,171 @@ void MessageComposer::resizeUIForKeyboard(float keyboardHeight, float duration)
 {
     cocos2d::log("MessageComposer::resizeUIForKeyboard: %f, duration=%f", keyboardHeight, duration);
     
+    // Resize the composer so the TextField stays in view
+    // Stop any current action so we don't get overlap/conflicts
+    stopActionByTag(kResizeAnimationTag);
+    
+    _lastKeyboardHeight = keyboardHeight;
+    
+    // Calculate what height we need
     // Take into account screen cropping
     if(keyboardHeight > 0)
     {
         keyboardHeight -= Director::getInstance()->getVisibleOrigin().y;
     }
-    
-    // Resize the composer so the TextField stays in view
-    
-    // Calculate what height we need
     const float wantHeight = keyboardHeight + _topLayout->getContentSize().height;
     const Size& contentSize = getContentSize();
-    const float wantWidth = contentSize.width;
     
     // Animate or not?
     if(duration > 0.0f)
     {
         // Animate
-        runAction(ActionFloat::create(duration, contentSize.height, wantHeight, [this, wantWidth](float height) {
+        ActionFloat* animation = ActionFloat::create(duration, contentSize.height, wantHeight, [this](float height) {
             _currentHeight = height;
-            setContentSize(Size(wantWidth, height));
-        }));
+            // Note - getContentSize() is important, it could change during animation
+            // Don't use contentSize from outside the action
+            setContentSize(Size(getContentSize().width, height));
+        });
+        animation->setTag(kResizeAnimationTag);
+        runAction(animation);
     }
     else
     {
         // Immediate
         _currentHeight = wantHeight;
-        setContentSize(Size(wantWidth, _currentHeight));
+        setContentSize(Size(contentSize.width, _currentHeight));
+    }
+}
+
+float MessageComposer::getEstimatedKeyboardHeight() const
+{
+    const Size& nativeScreenSize = Director::getInstance()->getOpenGLView()->getFrameSize();
+    const bool currentOrientationPortrait = (nativeScreenSize.height > nativeScreenSize.width);
+    
+    // Do we have a value in user defaults?
+    float height = UserDefault::getInstance()->getFloatForKey(currentOrientationPortrait ? kEstimatedKeyboardHeightPortrait : kEstimatedKeyboardHeightLandscape);
+    if(height == 0)
+    {
+        // If no value stored, calculate a sensible default based on the native device's
+        // screen aspect ratio.
+        // It's worth noting we override these defaults later when we get an actual
+        // keyboard height from the IME, so we're just getting a value as close as we can.
+        
+        //Keyboard height based on width
+        //
+        //iPad (4:3):
+        //    width = 2732, height = 2048
+        //    keyboard height landscape = 1061.333374
+        //    - landscape = 1061.33 / 2732 = 0.388 < using this
+        //    - landscape = 1061.33 / 2048 = 0.518
+        //    width = 2048, height = 2732
+        //    keyboard height portrait = 835.333374
+        //    - portrait = 835.33 / 2048 = 0.407 < using this
+        //    - portrait = 835.33 / 2732 = 0.305
+        //    
+        //iPhone 6 (16:9):
+        //    width = 2732, height = 1792
+        //    keyboard height landscape = 1050.623657
+        //    - landscape = 1050.62 / 2732 = 0.3845 < using this
+        //    - landscape = 1050.62 / 1792 = 0.586
+        //    width = 1792, height = 2732
+        //    keyboard height portrait = 1056.755615
+        //    - portrait = 1056.75 / 1792 = 0.589 < using this
+        //    - portrait = 1056.75 / 2732 = 0.386
+
+        
+        // Make sure we have portrait for aspect ratio calc
+        Size nativeScreenSizePortait = nativeScreenSize;
+        if(nativeScreenSize.width > nativeScreenSize.height)
+        {
+            nativeScreenSizePortait.width = nativeScreenSize.height;
+            nativeScreenSizePortait.height = nativeScreenSize.width;
+        }
+        const float aspectRatio = nativeScreenSizePortait.height / nativeScreenSizePortait.width;
+        
+        // x = landscape % of width, y = portrait % of width
+        // Remember in landscape width = portrait height
+        Vec2 keyboardHeightPct;
+        keyboardHeightPct.x = 0.388; // landscape
+        
+        if(aspectRatio >= 1.32 && aspectRatio <= 1.34) // 4:3 (1.33) approx
+        {
+            // Values taken from iPad keyboard height
+            keyboardHeightPct.y = 0.407; // portrait
+        }
+        else if(aspectRatio >= 1.76 && aspectRatio <= 1.79) // 16:9 (1.77) approx
+        {
+            // Values taken from iPhone keyboard height
+            keyboardHeightPct.y = 0.589; // portrait
+        }
+        else if(aspectRatio >= 1.65 && aspectRatio <= 1.68) // 5:3 (1.6667) approx
+        {
+            // Same as 16:9
+            keyboardHeightPct.y = 0.589; // portrait
+        }
+        else if(aspectRatio >= 1.59 && aspectRatio <= 1.61) // 16:10/8:5 (1.6) approx
+        {
+            // TODO: Check some Fire devices (usually 8:5) for some good default values
+            // Same as 16:9 for now
+            keyboardHeightPct.y = 0.589; // portrait
+        }
+        else
+        {
+            // Anything else
+            // Use the 4:3 height and transform it by the aspectRatio
+            keyboardHeightPct.y = 0.407 / 1.33 * aspectRatio; // portrait
+        }
+        
+        const Vec2& visibleOrigin = Director::getInstance()->getVisibleOrigin();
+        Size portraitSize = Director::getInstance()->getVisibleSize();
+        portraitSize.width += visibleOrigin.x;
+        portraitSize.height += visibleOrigin.y;
+        // Make sure we've got portrait values
+        if(portraitSize.width > portraitSize.height)
+        {
+            const float width = portraitSize.height;
+            portraitSize.height = portraitSize.width;
+            portraitSize.width = width;
+        }
+        
+        // Save it so we don't need to calc again
+        const float heightPortrait = portraitSize.width * keyboardHeightPct.y;
+        const float heightLandscape = portraitSize.height * keyboardHeightPct.x;
+        // Check before we save, we don't overwrite any legit values
+        if(UserDefault::getInstance()->getFloatForKey(kEstimatedKeyboardHeightPortrait) == 0)
+        {
+            UserDefault::getInstance()->setFloatForKey(kEstimatedKeyboardHeightPortrait, heightPortrait);
+        }
+        if(UserDefault::getInstance()->getFloatForKey(kEstimatedKeyboardHeightLandscape) == 0)
+        {
+            UserDefault::getInstance()->setFloatForKey(kEstimatedKeyboardHeightLandscape, heightLandscape);
+        }
+        
+        return (currentOrientationPortrait) ? heightPortrait : heightLandscape;
+    }
+    return height;
+}
+
+void MessageComposer::setEstimatedKeyboardHeight(float height)
+{
+    // Ignore tiny values
+    // Sometimes device reports a 0 or small height (e.g Android devices can report the size of the
+    // black bottom bar which sometimes appears with or without the keyboard).
+    if(height < 100.0f)
+    {
+        return;
+    }
+    
+    const Size& nativeScreenSize = Director::getInstance()->getOpenGLView()->getFrameSize();
+    const bool currentOrientationPortrait = (nativeScreenSize.height > nativeScreenSize.width);
+    
+    if(currentOrientationPortrait)
+    {
+        UserDefault::getInstance()->setFloatForKey(kEstimatedKeyboardHeightPortrait, height);
+    }
+    else
+    {
+        UserDefault::getInstance()->setFloatForKey(kEstimatedKeyboardHeightLandscape, height);
     }
 }
 
@@ -173,12 +333,41 @@ MessageComposer::Mode MessageComposer::currentMode() const
 
 void MessageComposer::setMode(MessageComposer::Mode mode)
 {
+    Mode oldMode = _currentMode;
     _currentMode = mode;
     
     // Update UI elements
     _cancelButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
     _sendButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
     
+    
+    // Stickers enter/exit
+    if(_currentMode == MessageComposer::Mode::StickersEntry)
+    {
+        // Stickers button requires some resizing when selected, since the aspect ratio of the
+        // selected and normal images is different
+        _stickersTab->loadTextureNormal("res/chat/ui/buttons/stickers_active.png");
+        const Size& textureSize = _stickersTab->getRendererNormal()->getTexture()->getContentSize();
+        const float buttonWidth = _stickersTab->getContentSize().width;
+        const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
+        _stickersTab->setContentSize(Size(buttonWidth, buttonHeight));
+        
+        // Update the sticker selector to use the latest keyboard height we have
+        const float keyboardHeight = getEstimatedKeyboardHeight();
+        _stickerSelector->setContentSize(Size(_stickerSelector->getContentSize().width, keyboardHeight));
+    }
+    else
+    {
+        // Restore the stickers tab
+        _stickersTab->loadTextureNormal("res/chat/ui/buttons/stickers_btn.png");
+        const Size& textureSize = _stickersTab->getRendererNormal()->getTexture()->getContentSize();
+        const float buttonWidth = _stickersTab->getContentSize().width;
+        const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
+        _stickersTab->setContentSize(Size(buttonWidth, buttonHeight));
+    }
+    
+    
+    // TextEntry enter/exit
     if(_currentMode == MessageComposer::Mode::TextEntry)
     {
         _messageEntryLayout->setBackGroundImage("res/chat/ui/textfield/message_field_active.png");
@@ -194,30 +383,30 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
         _messageEntryLayout->setBackGroundImage("res/chat/ui/textfield/message_field.png");
         
         // Make sure keyboard dismissed
-        _messageEntryField->didNotSelectSelf();
-        ui::UICCTextField* textFieldRenderer = dynamic_cast<ui::UICCTextField*>(_messageEntryField->getVirtualRenderer());
-        textFieldRenderer->closeIME();
+        if(_imeOpen)
+        {
+            _messageEntryField->didNotSelectSelf();
+            ui::UICCTextField* textFieldRenderer = dynamic_cast<ui::UICCTextField*>(_messageEntryField->getVirtualRenderer());
+            textFieldRenderer->closeIME();
+        }
     }
     
-//    switch(_currentMode)
-//    {
-//        case Idle:
-//        {
-//            break;
-//        }
-//        case TextEntry:
-//        {
-//            break;
-//        }
-//        case StickersEntry:
-//        {
-//            break;
-//        }
-//        case ArtGalleryEntry:
-//        {
-//            break;
-//        }
-//    }
+    
+    // Resize the view appropriately
+    
+    // Stickers enter state
+    if(_currentMode == MessageComposer::Mode::StickersEntry && oldMode != MessageComposer::Mode::StickersEntry)
+    {
+        // Match the normal keyboard height or if that isn't available, an estimated height
+        const float keyboardHeight = getEstimatedKeyboardHeight();
+        resizeUIForKeyboard(keyboardHeight, 0.25f);
+    }
+    // Idle enter from Stickers or Gallery
+    // We ignore if old mode was TextEntry because the view is resized based on keyboard IME events
+    else if(_currentMode == MessageComposer::Mode::Idle && oldMode != MessageComposer::Mode::TextEntry)
+    {
+        resizeUIForKeyboard(0.0f, 0.25f);
+    }
 }
 
 #pragma mark - TextField
@@ -235,20 +424,17 @@ void MessageComposer::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFi
         }
         case ui::TextField::EventType::DETACH_WITH_IME:
         {
-            // Keyboard closed
-            // For now we'll assume we should send the message when keyboard dismissed
-            // because we can't catch RETURN key presses yet
-//            const std::string& message = _messageEntryField->getString();
-//            sendMessage(message);
-            
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-            // On Android we must deal with the faff of getting the keyboard height here, because
+            // On Android we must deal with hiding the keyboard here, because sometimes
             // IMEKeyboardNotificationInfo methods do not get called (sigh)
             // TODO: Find a more generic way to fix this
-            // SendMessage will call setMode so we don't need to it here
-            // setMode(MessageComposer::Mode::Idle);
-            _imeOpen = false;
-            resizeUIForKeyboard(0, 0.25f);
+            if(_imeOpen)
+            {
+                cocos2d::IMEKeyboardNotificationInfo imeNotification;
+                imeNotification.end = cocos2d::Rect(0, 0, 0, height);
+                imeNotification.duration = 0.25f;
+                keyboardWillHide(imeNotification);
+            }
 #endif
             break;
         }
@@ -318,6 +504,7 @@ void MessageComposer::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& inf
     
     _imeOpen = true;
     setMode(MessageComposer::Mode::TextEntry);
+    setEstimatedKeyboardHeight(info.end.size.height);
     resizeUIForKeyboard(info.end.size.height, info.duration);
 }
 
@@ -331,6 +518,7 @@ void MessageComposer::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info
     
     _imeOpen = true;
     setMode(MessageComposer::Mode::TextEntry);
+    setEstimatedKeyboardHeight(info.end.size.height);
     resizeUIForKeyboard(info.end.size.height, 0);
 }
 
@@ -343,8 +531,11 @@ void MessageComposer::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& inf
     }
     
     _imeOpen = false;
-    setMode(MessageComposer::Mode::Idle);
-    resizeUIForKeyboard(0, info.duration);
+    if(_currentMode == MessageComposer::Mode::Idle || _currentMode == MessageComposer::Mode::TextEntry)
+    {
+        setMode(MessageComposer::Mode::Idle);
+        resizeUIForKeyboard(0, info.duration);
+    }
 }
 
 void MessageComposer::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info)
@@ -356,8 +547,11 @@ void MessageComposer::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info
     }
     
     _imeOpen = false;
-    setMode(MessageComposer::Mode::Idle);
-    resizeUIForKeyboard(0, 0);
+    if(_currentMode == MessageComposer::Mode::Idle || _currentMode == MessageComposer::Mode::TextEntry)
+    {
+        setMode(MessageComposer::Mode::Idle);
+        resizeUIForKeyboard(0, 0);
+    }
 }
 
 #pragma mark - UI Creation
@@ -367,7 +561,7 @@ void MessageComposer::createTopUIContent(SplitLayout* parent)
     // Top layout has the right side fixed, the left fills the space
     // { [LEFT CONTENT----->][TABS] }
     parent->setMode(SplitLayout::Mode::Horizontal);
-    parent->setSplitBehaviour(0.0f, SplitLayout::FixedSize);
+    parent->setSplitBehaviour(SplitLayout::FillSize, SplitLayout::FixedSize);
     
     // Left side has another split, which holds the cancel button, and then the message entry
     // { [CLOSE BUTTON][<------MESSAGE ENTRY UI] }
@@ -377,7 +571,7 @@ void MessageComposer::createTopUIContent(SplitLayout* parent)
     firstLayoutContent->setSizeType(ui::Widget::SizeType::PERCENT);
     firstLayoutContent->setSizePercent(Vec2(1.0f, 1.0f));
     firstLayoutContent->setMode(SplitLayout::Mode::Horizontal);
-    firstLayoutContent->setSplitBehaviour(SplitLayout::FixedSize, 0.0f);
+    firstLayoutContent->setSplitBehaviour(SplitLayout::FixedSize, SplitLayout::FillSize);
     firstLayout->addChild(firstLayoutContent);
     createCancelButton(firstLayoutContent->firstLayout());
     createMessageEntryUI(firstLayoutContent->secondLayout());
@@ -399,20 +593,26 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     // Enable content adaption - otherwise % size doesn't work
     _stickersTab->ignoreContentAdaptWithSize(false);
     _stickersTab->getRendererNormal()->setStrechEnabled(true);
-    _stickersTab->getRendererClicked()->setStrechEnabled(true);
-    _stickersTab->getRendererDisabled()->setStrechEnabled(true);
+    _stickersTab->setAnchorPoint(Vec2(0.0f, 1.0f));
+    _stickersTab->setPressedActionEnabled(false); // Disable pressed "zooming"
     _stickersTab->setContentSize(Size(buttonHeight, buttonHeight));
-    _stickersTab->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(leftMarginX, 0, 0, 0)));
+    _stickersTab->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(leftMarginX, (_topLayout->getContentSize().height - buttonHeight) / 2, 0, 0)));
+    _stickersTab->addClickEventListener([this](Ref* button){
+        setMode(MessageComposer::Mode::StickersEntry);
+    });
     parent->addChild(_stickersTab);
     
     _galleryTab = ui::Button::create("res/chat/ui/buttons/art_btn.png");
     // Enable content adaption - otherwise % size doesn't work
     _galleryTab->ignoreContentAdaptWithSize(false);
     _galleryTab->getRendererNormal()->setStrechEnabled(true);
-    _galleryTab->getRendererClicked()->setStrechEnabled(true);
-    _galleryTab->getRendererDisabled()->setStrechEnabled(true);
+    _galleryTab->setAnchorPoint(Vec2(0.0f, 1.0f));
     _galleryTab->setContentSize(Size(buttonHeight, buttonHeight));
     _galleryTab->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(tabMarginX, 0, 0, 0)));
+    _galleryTab->addClickEventListener([this](Ref* button){
+        // Set to idle until we support gallery feature
+        setMode(MessageComposer::Mode::Idle);
+    });
     parent->addChild(_galleryTab);
     
     // Size parent to fit the content
@@ -459,7 +659,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     _messageEntryLayout = SplitLayout::create();
     _messageEntryLayout->setContentSize(textEntryTex->getContentSize());
     _messageEntryLayout->setMode(SplitLayout::Mode::Horizontal);
-    _messageEntryLayout->setSplitBehaviour(0.0f, SplitLayout::FixedSize);
+    _messageEntryLayout->setSplitBehaviour(SplitLayout::FillSize, SplitLayout::FixedSize);
     _messageEntryLayout->setBackGroundImage("res/chat/ui/textfield/message_field.png");
     _messageEntryLayout->setBackGroundImageScale9Enabled(true);
     _messageEntryLayout->setBackGroundImageCapInsets(Rect(79, 79, 1638, 2));
