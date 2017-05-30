@@ -106,8 +106,8 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
         HQDataStorage::getInstance()->HQData.clear();
         HQDataStorage::getInstance()->HQGetContentUrls.clear();
         
-        updateBillingData();
         getAvailableChildren();
+        updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
     }
     else
