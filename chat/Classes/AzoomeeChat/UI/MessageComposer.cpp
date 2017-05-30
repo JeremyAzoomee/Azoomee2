@@ -226,6 +226,13 @@ void MessageComposer::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFi
 {
     switch(type)
     {
+        case ui::TextField::EventType::ATTACH_WITH_IME:
+        {
+            // Override the textField delegate so we can capture return key
+            ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
+            textFieldRenderer->setDelegate(this);
+            break;
+        }
         case ui::TextField::EventType::DETACH_WITH_IME:
         {
             // Keyboard closed
@@ -257,6 +264,46 @@ void MessageComposer::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFi
             break;
         }
     }
+}
+
+#pragma mark - TextFieldDelegate
+
+bool MessageComposer::onTextFieldAttachWithIME(cocos2d::TextFieldTTF* sender)
+{
+    ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
+    return textFieldRenderer->onTextFieldAttachWithIME(sender);
+}
+
+bool MessageComposer::onTextFieldDetachWithIME(cocos2d::TextFieldTTF* sender)
+{
+    ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
+    return textFieldRenderer->onTextFieldDetachWithIME(sender);
+}
+
+bool MessageComposer::onTextFieldInsertText(cocos2d::TextFieldTTF* sender, const char* text, size_t nLen)
+{
+    // Capture return key
+    if(std::strcmp(text, "\n") == 0)
+    {
+        // Send the message
+        sendMessage(_messageEntryField->getString());
+        return true;
+    }
+    
+    ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
+    return textFieldRenderer->onTextFieldInsertText(sender, text, nLen);
+}
+
+bool MessageComposer::onTextFieldDeleteBackward(cocos2d::TextFieldTTF* sender, const char* delText, size_t nLen)
+{
+    ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
+    return textFieldRenderer->onTextFieldDeleteBackward(sender, delText, nLen);
+}
+
+bool MessageComposer::onVisit(cocos2d::TextFieldTTF* sender, cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags)
+{
+    ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
+    return textFieldRenderer->onVisit(sender, renderer, transform, flags);
 }
 
 #pragma mark - IMEDelegate

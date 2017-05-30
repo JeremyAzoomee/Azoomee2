@@ -124,7 +124,7 @@ bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
     {
         body << "- The oomees are here!.\n";
         body << "\n";
-        body << "0.1.1:";
+        body << "0.1.1:\n";
         body << "- New UI \"1.0\".\n";
         body << "- Chat UI should always resize correctly, please report if it doesn't.\n";
         body << "- No Oomees.\n";
@@ -133,7 +133,8 @@ bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
         body << "- No unread messages indicator.\n";
     }
     
-    MessageBox::createWith(fullTitle, body.str(), "OK", this);
+    MessageBox* messageBox = MessageBox::createWith(fullTitle, body.str(), "OK", this);
+    messageBox->setBodyHAlignment(cocos2d::TextHAlignment::LEFT);
     return true;
 }
 

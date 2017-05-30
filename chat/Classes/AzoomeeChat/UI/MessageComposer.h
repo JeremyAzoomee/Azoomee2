@@ -10,7 +10,7 @@
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class MessageComposer : public ObservableLayout, public cocos2d::IMEDelegate
+class MessageComposer : public ObservableLayout, public cocos2d::IMEDelegate, public cocos2d::TextFieldDelegate
 {
     typedef ObservableLayout Super;
 public:
@@ -85,6 +85,13 @@ private:
     void keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info) override;
     void keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info) override;
     void keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info) override;
+    
+    // - TextFieldDelegate
+    bool onTextFieldAttachWithIME(cocos2d::TextFieldTTF* sender) override;
+    bool onTextFieldDetachWithIME(cocos2d::TextFieldTTF* sender) override;
+    bool onTextFieldInsertText(cocos2d::TextFieldTTF* sender, const char* text, size_t nLen) override;
+    bool onTextFieldDeleteBackward(cocos2d::TextFieldTTF* sender, const char* delText, size_t nLen) override;
+    bool onVisit(cocos2d::TextFieldTTF* sender, cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags) override;
     
 protected:
     
