@@ -49,17 +49,15 @@ bool CookieDataParser::parseDownloadCookies(std::string responseString)
     CookieDataStorage::getInstance()->pureCookieResponseString = responseString;
     
     //Now create the array of cookies based on ", " string
+    
+    CookieDataStorage::getInstance()->dataDownloadCookiesVector.clear();
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     CookieDataStorage::getInstance()->dataDownloadCookiesVector = splitStringToVector(CookieDataStorage::getInstance()->pureCookieResponseString, ", ");
 #endif
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     CookieDataStorage::getInstance()->dataDownloadCookiesVector = splitStringToVector(CookieDataStorage::getInstance()->pureCookieResponseString, ",");
 #endif
-    
-    //dataDownloadCookiesWithCommas = responseString;
-    responseString = replaceAll(responseString, ", ", "\n");
-    CookieDataStorage::getInstance()->dataDownloadCookiesForCpp = responseString;
-    
     
     return true;
 }

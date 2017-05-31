@@ -44,12 +44,12 @@ void OfflineHubHQElement::addHQSceneElement(std::string category, std::map<std::
     
     this->setContentSize(elementVisual->getContentSize());
     
-    addListenerToElement(itemData["uri"], itemData["id"], category, itemData["title"], itemData["description"], itemData["type"], false);
+    addListenerToElement(itemData, false);
 }
 
 //-------------------All elements below this are used internally-----------------
 
-void OfflineHubHQElement::addListenerToElement(std::string uri, std::string contentId, std::string category, std::string title, std::string description, std::string type, bool preview)
+void OfflineHubHQElement::addListenerToElement(std::map<std::string, std::string> itemData, bool preview)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -99,11 +99,12 @@ void OfflineHubHQElement::addListenerToElement(std::string uri, std::string cont
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             iamtouched = false;
-            std::string startUrl = FileUtils::getInstance()->getWritablePath() + "gameCache/" + contentId + "/" +  uri.c_str();
+            std::string startUrl = FileUtils::getInstance()->getWritablePath() + "gameCache/" + itemData.at("id") + "/" +  itemData.at("uri").c_str();
             
             CCLOG("Action to come: %s", startUrl.c_str());
             
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(title, description, type, contentId, -1, -1, "1,1");
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(itemData.at("title"), itemData.at("description"), itemData.at("type"), itemData.at("id"), -1, -1, "1,1");
+            
             WebViewSelector::createSceneWithUrl(startUrl.c_str());
         }
         
@@ -113,12 +114,8 @@ void OfflineHubHQElement::addListenerToElement(std::string uri, std::string cont
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), elementVisual->baseLayer);
 }
 
-void OfflineHubHQElement::startUpElementDependingOnType(std::string uri, std::string contentId, std::string category)
+void OfflineHubHQElement::startUpElementDependingOnType(std::map<std::string, std::string> itemData)
 {
-    
-    CCLOG("uri: %s, contentid: %s, category: %s", uri.c_str(), contentId.c_str(), category.c_str());
-    
     this->getParent()->getParent()->getParent()->stopAllActions();
-    
-    GameDataManager::getInstance()->startProcessingGame(uri, contentId);
+    GameDataManager::getInstance()->startProcessingGame(itemData);
 }

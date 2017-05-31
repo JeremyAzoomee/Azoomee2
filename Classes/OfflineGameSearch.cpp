@@ -37,8 +37,7 @@ std::vector<std::map<std::string, std::string>> OfflineGameSearch::getOfflineGam
             
             if(isStarterFileExists(jsonList.at(i)))
             {
-                std::map<std::string, std::string>
-                currentGameData = getGameDetails(jsonList.at(i));
+                std::map<std::string, std::string> currentGameData = getGameDetails(jsonList.at(i));
                 gameList.push_back(currentGameData);
             }
         }
@@ -106,11 +105,12 @@ std::map<std::string, std::string> OfflineGameSearch::getGameDetails(std::string
 {
     std::map<std::string, std::string> currentGameData;
     
-    std::string jsonFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
+    std::string packageFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
+    std::string feedDataFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/feedData.json";
     
-    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    std::string packageFileContent = FileUtils::getInstance()->getStringFromFile(packageFileName);
     rapidjson::Document gameData;
-    gameData.Parse(fileContent.c_str());
+    gameData.Parse(packageFileContent.c_str());
     
     currentGameData["id"] = gameId;
     currentGameData["entitled"] = "true";
@@ -118,6 +118,16 @@ std::map<std::string, std::string> OfflineGameSearch::getGameDetails(std::string
     currentGameData["title"] = gameData["name"].GetString();
     currentGameData["description"] = "";
     currentGameData["type"] = "GAME";
+    
+    if(FileUtils::getInstance()->isFileExist(feedDataFileName))
+    {
+        std::string feedFileContent = FileUtils::getInstance()->getStringFromFile(feedDataFileName);
+        rapidjson::Document feedData;
+        feedData.Parse(feedFileContent.c_str());
+        
+        currentGameData["title"] = feedData["title"].GetString();
+        currentGameData["description"] = feedData["description"].GetString();
+    }
     
     return currentGameData;
 }

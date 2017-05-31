@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include <AzoomeeCommon/Data/Json.h>
 
 class DeepLinkingSingleton : public cocos2d::Ref, public Azoomee::MessageBoxDelegate
 {
@@ -15,8 +16,9 @@ private:
     
     bool setHostAndPath(std::string uriString);
     
-    void completeContentAction(std::string type,std::string uri);
+    void completeContentAction(std::map<std::string, std::string> elementProperties);
     void resetDeepLink();
+    std::string getDataForKeyFromJSON(std::string jsonString, std::string key);
     
 public:
     static DeepLinkingSingleton* getInstance(void);

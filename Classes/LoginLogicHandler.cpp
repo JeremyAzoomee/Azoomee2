@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "BackEndCaller.h"
 #include "DeepLinkingSingleton.h"
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 
 using namespace cocos2d;
 
@@ -35,6 +36,8 @@ void LoginLogicHandler::doLoginLogic()
     emptyUserName();
 #endif
     
+    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    
     if(ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
     {
         ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
@@ -42,13 +45,11 @@ void LoginLogicHandler::doLoginLogic()
         BackEndCaller::getInstance()->getAvailableChildren();
         return;
     }
-    else if(DeepLinkingSingleton::getInstance()->actionDeepLink())
-        return;
-    else
-    {
-        auto loginScene = LoginScene::createScene(0);
-        Director::getInstance()->replaceScene(loginScene);
-    }
+    
+    if(DeepLinkingSingleton::getInstance()->actionDeepLink()) return;
+    
+    auto loginScene = LoginScene::createScene(0);
+    Director::getInstance()->replaceScene(loginScene);
 }
 
 void LoginLogicHandler::forceNewLogin()

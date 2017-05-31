@@ -98,6 +98,11 @@ std::string HttpRequestCreator::addLeadingZeroToDateElement(int input)          
 
 void HttpRequestCreator::createHttpRequest()                            //The http request is being created from global variables. This method can't be run until setting up all variables, please see usage on top of this file.
 {
+    if(ConfigStorage::getInstance()->isClearingHttpQueueRequiredBeforeSendingRequest(requestTag))
+    {
+        HttpClient::destroyInstance();
+    }
+    
     std::string host;
     
     if(!url.empty())
@@ -164,7 +169,9 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     request->setTag(requestTag);
     HttpClient::getInstance()->setTimeoutForConnect(2);
     HttpClient::getInstance()->setTimeoutForRead(2);
-    HttpClient::getInstance()->send(request);
+    
+    if(ConfigStorage::getInstance()->isImmediateRequestSendingRequired(requestTag)) HttpClient::getInstance()->sendImmediate(request);
+    else HttpClient::getInstance()->send(request);
 }
 
 void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)

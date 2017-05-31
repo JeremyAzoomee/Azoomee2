@@ -1,5 +1,5 @@
 #include "ImageDownloaderLogic.h"
-#include "../Data/Cookie/CookieDataStorage.h"
+#include "../Data/Cookie/CookieDataProvider.h"
 #include "ImageDownloader.h"
 #include "../Data/ConfigStorage.h"
 
@@ -85,7 +85,7 @@ void ImageDownloaderLogic::downloadFileFromServer(std::string url)
     downloadRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataStorage::getInstance()->dataDownloadCookiesForCpp.c_str()));
+    headers.push_back(StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str()));
     downloadRequest->setHeaders(headers);
     
     downloadRequest->setResponseCallback(CC_CALLBACK_2(ImageDownloaderLogic::downloadFileFromServerAnswerReceived, this));

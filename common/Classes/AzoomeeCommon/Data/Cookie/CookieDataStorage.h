@@ -18,7 +18,6 @@ public:
     
     std::vector<std::string> dataDownloadCookiesVector;
     std::string pureCookieResponseString;
-    std::string dataDownloadCookiesForCpp;
 };
   
 }

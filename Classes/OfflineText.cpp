@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include "LoginLogicHandler.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -56,12 +57,14 @@ void OfflineText::createForLoginNoUser()
 
 void OfflineText::createForOfflineHub()
 {
-    
     OfflineChecker::getInstance()->setDelegate(this);
+    createForOfflineHubWhenOffline();
 }
 
 void OfflineText::createForOfflineHubWhenOffline()
 {
+    if(this->getChildByName("offlineIcon")) return;
+    
     this->removeAllChildren();
     addOfflineLogoToScreen();
     addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_OFFLINE_TITLE_LABEL));
@@ -81,6 +84,8 @@ void OfflineText::createForOfflineHubWhenOffline()
 
 void OfflineText::createForOfflineHubWhenOnline()
 {
+    if(this->getChildByName("onlineIcon")) return;
+    
     this->removeAllChildren();
     addOnlineLogoToScreen();
     addTextTitleToScreen(StringMgr::getInstance()->getStringForKey(OFFLINESCENE_ONLINE_TITLE_LABEL));
@@ -139,9 +144,7 @@ void OfflineText::addExitOfflineModeButtonToScreen()
 void OfflineText::buttonPressed(ElectricDreamsButton *button)
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
-    ChildDataParser::getInstance()->setChildLoggedIn(false);
-    BackEndCaller::getInstance()->updateBillingData();
-    BackEndCaller::getInstance()->getAvailableChildren();
+    LoginLogicHandler::getInstance()->doLoginLogic();
 }
 
 void OfflineText::addTextTitleToScreen(std::string text)
