@@ -213,6 +213,8 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     ChildDataParser::getInstance()->parseChildLoginData(responseString);
     
     getHQContent(StringUtils::format("%s%s/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ConfigStorage::getInstance()->getPathForTag("HOME").c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
+    
+    updateChild("69a1e41c-3beb-4374-ae5f-363aad741234", "Donald Trump", "MALE", "2002-02-02", 3);
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------
@@ -285,6 +287,27 @@ void BackEndCaller::onRegisterChildAnswerReceived()
     getAvailableChildren();
 }
 
+//UPDATE CHILD----------------------------------------------------------------------------
+
+void BackEndCaller::updateChild(const std::string& childId, const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber)
+{
+    displayLoadingScreen();
+    
+    newChildName = childProfileName;
+    oomeeAvatarNumber = oomeeNumber;
+    
+    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
+    const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
+    const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + childId;
+    HttpRequestCreator* request = API::UpdateChildRequest(url, childId, childProfileName, childGender, childDOB, oomeeUrl, ownerId, this);
+    request->execute();
+}
+
+void BackEndCaller::onUpdateChildAnswerReceived()
+{
+    getAvailableChildren();
+}
+
 //GOOGLE VERIFY PAYMENT---------------------------------------------------------------------
 void BackEndCaller::verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken)
 {
@@ -354,6 +377,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagRegisterChild)
     {
         onRegisterChildAnswerReceived();
+    }
+    else if(requestTag == API::TagUpdateChild)
+    {
+        onUpdateChildAnswerReceived();
     }
     else if(requestTag == API::TagRegisterParent)
     {
