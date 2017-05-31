@@ -9,6 +9,8 @@
 #include "ChildAccountSuccessScene.h"
 #include "OfflineHubScene.h"
 #include "HQScene.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "FlowDataSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include "OrientationFunctions_ios.h"
@@ -44,43 +46,52 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             ForceToLandscape();
             goToScene = LoginScene::createScene();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("LOGIN");
             break;
         }
         case Onboarding:
         {
             ForceToPortrait();
             goToScene = OnboardingScene::createScene();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("ONBOARDING");
             break;
         }
         case Base:
         {
+            FlowDataSingleton::getInstance()->clearData();
             ForceToLandscape();
             HQHistoryManager::getInstance()->emptyHistory();
             goToScene = BaseScene::createScene();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("BASE");
             break;
         }
         case ChildAccount:
         {
             ForceToPortrait();
-            goToScene = ChildAccountScene::createScene("", 0);
+            goToScene = ChildAccountScene::createScene();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_ACCOUNT");
             break;
         }
         case ChildAccountSuccessScene:
         {
             ForceToLandscape();
             goToScene = ChildAccountSuccessScene::createScene();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_ACCOUNT_SUCCESS");
             break;
         }
         case ChildSelector:
         {
+            FlowDataSingleton::getInstance()->clearData();
             ForceToLandscape();
             goToScene = ChildSelectorScene::createScene();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SELECTOR");
             break;
         }
         case OnboardingSuccessScene:
         {
             ForceToLandscape();
             goToScene = OnboardingSuccessScene::createScene();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("ONBOARDING_SUCCESS");
             break;
         }
         case OfflineHub:
@@ -88,12 +99,14 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             ForceToLandscape();
             OfflineChecker::getInstance()->setDelegate(nullptr);
             goToScene = OfflineHubScene::createScene();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE");
             break;
         }
         case HQOfflineArtsAppHQ:
         {
             ForceToLandscape();
             goToScene = HQScene::createSceneForOfflineArtsAppHQ();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE_ARTS_APP");
             break;
         }
         default:
@@ -105,6 +118,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 
 void SceneManagerScene::ForceToPortrait()
 {
+    AnalyticsSingleton::getInstance()->setPortraitOrientation();
     auto director = cocos2d::Director::getInstance();
     auto glView = director->getOpenGLView();
     auto frameSize = glView->getFrameSize();
@@ -129,6 +143,7 @@ void SceneManagerScene::ForceToPortrait()
 
 void SceneManagerScene::ForceToLandscape()
 {
+    AnalyticsSingleton::getInstance()->setLandscapeOrientation();
     auto director = cocos2d::Director::getInstance();
     auto glView = director->getOpenGLView();
     auto frameSize = glView->getFrameSize();

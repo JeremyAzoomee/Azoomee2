@@ -19,14 +19,12 @@ using namespace Azoomee;
 
 #define NO_OF_OOMEES 5
 
-Scene* ChildAccountScene::createScene(std::string ChildName, long errorCode)
+Scene* ChildAccountScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = ChildAccountScene::create();
     
     scene->addChild(layer);
-    
-    layer->_errorCode = errorCode;
     
     return scene;
 }
@@ -60,13 +58,13 @@ void ChildAccountScene::onEnter()
 
 void ChildAccountScene::onEnterTransitionDidFinish()
 {
-    if(_errorCode !=0)
+    if(FlowDataSingleton::getInstance()->hasError())
     {
         childNameInputText->setVisible(false);
         dayInputText->setVisible(false);
         monthInputText->setVisible(false);
         yearInputText->setVisible(false);
-        MessageBox::createWith(_errorCode, this);
+        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), this);
     }
     else
         childNameInputText->focusAndShowKeyboard();

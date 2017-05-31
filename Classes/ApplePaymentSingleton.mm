@@ -55,11 +55,14 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
 
 void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
 {
+    cocos2d::log("PAYMENT RESPONSESTRING %s", responseDataString.c_str());
+    
     rapidjson::Document paymentData;
     paymentData.Parse(responseDataString.c_str());
     
     if(paymentData.HasParseError())
     {
+        cocos2d::log("PAYMENT HASPARSEERRROR");
         requestAttempts = requestAttempts + 1;
         transactionStatePurchased(savedReceipt);
         return;
@@ -67,32 +70,43 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
 
     if(paymentData.HasMember("receiptStatus"))
     {
+        cocos2d::log("PAYMENT HAS MEMBER");
         if(paymentData["receiptStatus"].IsString())
         {
+            cocos2d::log("PAYMENT MEMBER IS STRING");
             if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED" && RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
             {
+                cocos2d::log("PAYMENT HAS STRING FULFILLED 1");
                 RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
                 return;
             }
             else if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
             {
+                cocos2d::log("PAYMENT HAS STRING FULFILLED 2");
                 AnalyticsSingleton::getInstance()->iapAppleAutoRenewSubscriptionEvent();
                 ModalMessages::getInstance()->stopLoading();
                 BackEndCaller::getInstance()->updateBillingData();
                 return;
             }
             else
+            {
                 AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
+                cocos2d::log("PAYMENT HAS ERROR");
+            }
+            
         }
     }
     
     if(requestAttempts < 4)
     {
         requestAttempts = requestAttempts + 1;
+        cocos2d::log("PAYMENT NEW ATTEMPT %d", requestAttempts);
         transactionStatePurchased(savedReceipt);
     }
     else
     {
+        cocos2d::log("PAYMENT DISPLAYING ERROR");
+        
         if(ParentDataProvider::getInstance()->isPaidUser())
         {
             ModalMessages::getInstance()->stopLoading();

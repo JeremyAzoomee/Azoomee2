@@ -29,6 +29,8 @@ bool IntroVideoScene::init()
         return false;
     }
     
+    AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_VIDEO");
+    
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
         this->slideShowScene = SlideShowScene::createScene();
@@ -97,6 +99,7 @@ void IntroVideoScene::navigateToNextScene()
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
+        AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_SLIDESHOW");
         Director::getInstance()->replaceScene(this->slideShowScene);
         this->slideShowScene->release();
     }

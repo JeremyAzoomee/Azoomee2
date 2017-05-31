@@ -12,8 +12,6 @@ using namespace Azoomee;
 class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
-    long _errorCode;
-    
     TextInputLayer *childNameInputText;
     TextInputLayer *dayInputText;
     TextInputLayer *monthInputText;
@@ -64,7 +62,7 @@ private:
     virtual void onEnterTransitionDidFinish();
 
 public:
-    static cocos2d::Scene* createScene(std::string ChildName, long errorCode);
+    static cocos2d::Scene* createScene();
 
     virtual bool init();
     
