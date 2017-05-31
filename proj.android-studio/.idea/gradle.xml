@@ -7,11 +7,11 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
+            <option value="$PROJECT_DIR$/../../azoomee2-frameworkmods/cocos2d/cocos/platform/android/libcocos2dx" />
             <option value="$PROJECT_DIR$/../chat/proj.android-studio/azoomee_chat" />
             <option value="$PROJECT_DIR$/../common/proj.android-studio/azoomee_common" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/../../cocos2d/cocos2d/cocos/platform/android/libcocos2dx" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
