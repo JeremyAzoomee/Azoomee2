@@ -21,6 +21,7 @@ bool StickerListView::init()
     
     setDirection(ui::ScrollView::Direction::HORIZONTAL);
     setBounceEnabled(true);
+    setScrollBarEnabled(false);
     setGravity(ui::ListView::Gravity::CENTER_VERTICAL);
   
     return true;

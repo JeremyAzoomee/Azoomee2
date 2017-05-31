@@ -48,6 +48,9 @@ bool StickerSelector::init()
     _categoryListView = StickerCategoryListView::create();
     _categoryListView->setSizeType(ui::Widget::SizeType::PERCENT);
     _categoryListView->setSizePercent(Vec2(1.0f, 1.0f));
+    _categoryListView->addItemSelectedEventListener([this](const StickerCategoryRef& category){
+        selectCategory(category);
+    });
     secondLayout->addChild(_categoryListView);
   
     return true;

@@ -21,6 +21,7 @@ bool StickerCategoryListView::init()
     
     setDirection(ui::ScrollView::Direction::HORIZONTAL);
     setBounceEnabled(true);
+    setScrollBarEnabled(false);
     setGravity(ui::ListView::Gravity::CENTER_VERTICAL);
     
     addEventListener([this](Ref* sender, ui::ListView::EventType type) {

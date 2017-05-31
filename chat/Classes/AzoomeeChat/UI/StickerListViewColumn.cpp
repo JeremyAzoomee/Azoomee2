@@ -135,8 +135,8 @@ void StickerListViewColumn::setData(const StickerList& stickers, int startIndex)
     _stickers[1] = (nextIndex < stickers.size()) ? stickers[nextIndex] : nullptr;
     
     _topRowButton->loadTextureNormal(_stickers[0]->imageLocalPath());
-    _bottomRowButton->loadTextureNormal(stickers[1] ? _stickers[1]->imageLocalPath() : "");
-    _bottomRowLayout->setVisible(stickers[1] != nullptr);
+    _bottomRowButton->loadTextureNormal(_stickers[1] ? _stickers[1]->imageLocalPath() : "");
+    _bottomRowLayout->setVisible(_stickers[1] != nullptr);
     
     // Force elements to update their sizes
     forceDoLayout();
