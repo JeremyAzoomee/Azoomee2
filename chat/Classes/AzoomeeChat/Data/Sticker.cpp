@@ -1,7 +1,6 @@
 #include "Sticker.h"
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
-#include <AzoomeeCommon/Utils/URI.h>
 #include "StickerCache.h"
 
 using namespace cocos2d;
@@ -13,7 +12,7 @@ StickerRef Sticker::create(const std::string& url, const std::string& localPath)
 {
     StickerRef sticker(new Sticker());
     sticker->_imageURL = url;
-    sticker->_imageURL = localPath;
+    sticker->_imageLocalPath = localPath;
     return sticker;
 }
 

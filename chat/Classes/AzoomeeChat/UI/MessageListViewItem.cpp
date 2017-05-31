@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include "../Data/StickerCache.h"
 
 
 using namespace cocos2d;
@@ -27,21 +28,36 @@ bool MessageListViewItem::init()
     addChild(_contentLayout);
     
     
-    // Text type
-    _textLayout = ui::Layout::create();
-    _textLayout->setLayoutType(ui::Layout::Type::RELATIVE);
-    _textLayout->setBackGroundImage("res/chat/ui/message/speach_bubble.png");
-    _textLayout->setBackGroundImageCapInsets(Rect(67, 67, 329, 2));
-    _textLayout->setBackGroundImageScale9Enabled(true);
-    _textLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
-    _contentLayout->addChild(_textLayout);
+    // Speech bubble to hold the text message
+    _bubbleLayout = ui::Layout::create();
+    _bubbleLayout->setLayoutType(ui::Layout::Type::RELATIVE);
+    _bubbleLayout->setBackGroundImage("res/chat/ui/message/speach_bubble.png");
+    _bubbleLayout->setBackGroundImageCapInsets(Rect(67, 67, 329, 2));
+    _bubbleLayout->setBackGroundImageScale9Enabled(true);
+    _bubbleLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
+    _contentLayout->addChild(_bubbleLayout);
     
+    // Text label
     _textLabel = ui::Text::create();
-    _textLabel->setFontName(Style::Font::Regular);
+    _textLabel->setFontName(Style::Font::RegularSystemName);
     _textLabel->setFontSize(65.0f);
     _textLabel->setTextHorizontalAlignment(TextHAlignment::LEFT);
     _textLabel->setLayoutParameter(CreateCenterRelativeLayoutParam());
-    _textLayout->addChild(_textLabel);
+    _bubbleLayout->addChild(_textLabel);
+    
+    
+    // Sticker layout to hold the image
+    _stickerLayout = ui::Layout::create();
+    _stickerLayout->setLayoutType(ui::Layout::Type::RELATIVE);
+    _stickerLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
+    _contentLayout->addChild(_stickerLayout);
+    
+    // Sticker image
+    _stickerImage = ui::ImageView::create();
+    _stickerImage->ignoreContentAdaptWithSize(false); // stretch the image
+    _stickerImage->setAnchorPoint(Vec2(0.5f, 0.5f));
+    _stickerImage->setLayoutParameter(CreateCenterRelativeLayoutParam());
+    _stickerLayout->addChild(_stickerImage);
     
     
     // By default setup content as blank
@@ -81,47 +97,64 @@ void MessageListViewItem::setContentSize(const cocos2d::Size& contentSize)
 
 void MessageListViewItem::resizeItemContents()
 {
-    // Ensure we always have 1 character, so the height is calculated correctly
-    if(_textLabel->getString().size() == 0)
-    {
-        _textLabel->setString(" ");
-    }
-    
-    // Wordwrap the label and get the height we need for the text
-    // Note we always use the landscape resolution width for item calculation
-    // The items will overlap slightly on portrait which is what we want
-    // TODO: Grab sizes from config
     const float maxWidth = getContentSize().width * 0.5f;
-    const float bubblePadding = 40.0f;
-    const Vec2& messageContentPadding = Vec2(50.0f, 20.0f);
-    const float bubbleMaxWidth = maxWidth - (messageContentPadding.x * 2.0f);
-    const float labelMaxWidth = bubbleMaxWidth - (bubblePadding * 2.0f);
+    const Vec2& contentPadding = Vec2(50.0f, 20.0f);
     
-    _textLabel->ignoreContentAdaptWithSize(false); // means fixed size (don't resize with text)
-    Label* labelRenderer = dynamic_cast<Label*>(_textLabel->getVirtualRenderer());
-    
-    // First see if we need to do any word wrap
-    labelRenderer->setDimensions(0, 0);
-    Size labelSize = labelRenderer->getContentSize();
-    if(labelSize.width > labelMaxWidth)
+    if(_bubbleLayout->isVisible())
     {
-        // Set fixed width on the label
-        labelRenderer->setDimensions(labelMaxWidth, 0);
+        // Wordwrap the label and get the height we need for the text
+        // Note we always use the landscape resolution width for item calculation
+        // The items will overlap slightly on portrait which is what we want
+        // TODO: Grab sizes from config
+        const float bubblePadding = 40.0f;
+        const float bubbleMaxWidth = maxWidth - (contentPadding.x * 2.0f);
+        const float labelMaxWidth = bubbleMaxWidth - (bubblePadding * 2.0f);
         
-        // Now get the height of the label
-        labelSize = labelRenderer->getContentSize();
+        _textLabel->ignoreContentAdaptWithSize(false); // means fixed size (don't resize with text)
+        Label* labelRenderer = dynamic_cast<Label*>(_textLabel->getVirtualRenderer());
+        
+        // First see if we need to do any word wrap
+        labelRenderer->setDimensions(0, 0);
+        Size labelSize = labelRenderer->getContentSize();
+        if(labelSize.width > labelMaxWidth)
+        {
+            // Set fixed width on the label
+            labelRenderer->setDimensions(labelMaxWidth, 0);
+            
+            // Now get the height of the label
+            labelSize = labelRenderer->getContentSize();
+        }
+        
+        // Resize the elements
+        _textLabel->setContentSize(labelSize);
+        const Size& bubbleSize = Size(labelSize.width + (bubblePadding * 2.0f), labelSize.height + (bubblePadding * 2.0f));
+        _bubbleLayout->setContentSize(bubbleSize);
+        const Size& contentSize = Size(bubbleSize.width + (contentPadding.x * 2), bubbleSize.height + (contentPadding.y * 2));
+        _contentLayout->setContentSize(contentSize);
     }
-    
-    // Resize the elements
-    _textLabel->setContentSize(labelSize);
-    const Size& bubbleSize = Size(labelSize.width + (bubblePadding * 2.0f), labelSize.height + (bubblePadding * 2.0f));
-    _textLayout->setContentSize(bubbleSize);
-    const Size& contentSize = Size(bubbleSize.width + (messageContentPadding.x * 2), bubbleSize.height + (messageContentPadding.y * 2));
-    _contentLayout->setContentSize(contentSize);
+    else if(_stickerLayout->isVisible())
+    {
+        // Resize the sticker, ensuring it keeps it's aspect ratio
+        const float maxHeight = 400.0f; // TODO: Get from config
+        const Size& textureSize = _stickerImage->getVirtualRendererSize();
+        Size imageSize = Size(maxWidth - (contentPadding.x * 2.0f), maxHeight - (contentPadding.y * 2.0f));
+        if(textureSize.width > textureSize.height)
+        {
+            imageSize.height = textureSize.height / textureSize.width * imageSize.width;
+        }
+        else
+        {
+            imageSize.width = textureSize.width / textureSize.height * imageSize.height;
+        }
+        _stickerImage->setContentSize(imageSize);
+        _stickerLayout->setContentSize(imageSize);
+        const Size& contentSize = Size(imageSize.width + (contentPadding.x * 2), imageSize.height + (contentPadding.y * 2));
+        _contentLayout->setContentSize(contentSize);
+    }
     
     // Ensure the item height is big enough
     Size itemSize = getContentSize();
-    itemSize.height = contentSize.height;
+    itemSize.height = _contentLayout->getContentSize().height;
     setContentSize(itemSize);
     
     // Force a layout to make sure elements are aligned correctly inside
@@ -140,15 +173,42 @@ void MessageListViewItem::setData(const MessageRef& message)
         // Update content elements
         const std::string& messageType = message->messageType();
         const bool moderated = message->moderated();
-        if(messageType == "TEXT" || moderated)
+        
+        std::string messageText = "";
+        
+        if(messageType == Message::MessageTypeText || moderated)
         {
             // TODO: Get moderated text from Strings
-            _textLabel->setString((moderated ? "Message deleted" : message->messageText()));
+            messageText = moderated ? "Message deleted" : message->messageText();
+        }
+        else if(messageType == Message::MessageTypeSticker)
+        {
+            // Get the sticker
+            const StickerRef& sticker = StickerCache::getInstance()->findStickerByURL(message->stickerURL());
+            if(sticker)
+            {
+                _stickerImage->loadTexture(sticker->imageLocalPath());
+            }
+            else
+            {
+                // If we don't recognise the sticker, display a message saying so instead
+                // TODO: Get sticker not recognised text from Strings
+                messageText = "Sticker not recognised";
+            }
         }
         else
         {
-            // Message type not supported yet
-            _textLabel->setString("Message type not supported");
+            // TODO: Get not supported text from Strings
+            messageText = "Message type not supported";
+        }
+        
+        // Update the visiblity of elements depending on the message content
+        _textLabel->setString(messageText);
+        _bubbleLayout->setVisible(messageText.size() > 0);
+        _stickerLayout->setVisible(messageText.size() == 0);
+        if(!_stickerLayout->isVisible())
+        {
+            _stickerImage->loadTexture("");
         }
         
         // Color depends also on current user
@@ -161,6 +221,8 @@ void MessageListViewItem::setData(const MessageRef& message)
     {
         _textLabel->setString("");
         _textLabel->setTextColor(Color4B(Style::Color::black));
+        _stickerLayout->setVisible(false);
+        _bubbleLayout->setVisible(false);
     }
     
     if(getContentSize().width > 0)

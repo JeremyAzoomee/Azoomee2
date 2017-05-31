@@ -10,7 +10,6 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <math.h>
 #include "LoginScene.h"
-#include "ChatTestScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
 
 #define OOMEE_LAYER_WIDTH 300
@@ -318,7 +317,6 @@ void ChildSelectorScene::onAuthAPIGetAvailableChildren()
 void ChildSelectorScene::onAuthAPIChildLogin()
 {
     auto chatScene = FriendListScene::create();
-//    auto chatScene = ChatTestScene::create();
     Director::getInstance()->replaceScene(chatScene);
 }
 

@@ -1,83 +1,21 @@
 #include "Message.h"
 #include <cocos/cocos2d.h>
 #include "../ChatAPI.h"
+#include "Sticker.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Net/Utils.h>
 
 using namespace cocos2d;
 
 
 NS_AZOOMEE_CHAT_BEGIN
 
-// TODO: Move these methods into AzoomeeCommon
-unsigned char to_hex(unsigned char x)
-{
-    return x + (x > 9 ? ('A'-10) : '0');
-}
+const char* const Message::MessageTypeText = "TEXT";
+const char* const Message::MessageTypeSticker = "STICKER";
 
-const std::string urlencode(const std::string& s)
-{
-    std::ostringstream os;
-    
-    for(std::string::const_iterator ci = s.begin(); ci != s.end(); ++ci)
-    {
-        if((*ci >= 'a' && *ci <= 'z') ||
-           (*ci >= 'A' && *ci <= 'Z') ||
-           (*ci >= '0' && *ci <= '9'))
-        { // allowed
-            os << *ci;
-        }
-        else if( *ci == ' ')
-        {
-            os << '+';
-        }
-        else
-        {
-            os << '%' << to_hex(*ci >> 4) << to_hex(*ci % 16);
-        }
-    }
-    
-    return os.str();
-}
+/// A Message object must have at least these fields to be valid
+const std::vector<std::string> kRequiredFields = { "id", "type", "status", "senderId", "recipientId", "timestamp" };
 
-unsigned char from_hex(unsigned char ch)
-{
-    if(ch <= '9' && ch >= '0')
-        ch -= '0';
-    else if(ch <= 'f' && ch >= 'a')
-        ch -= 'a' - 10;
-    else if(ch <= 'F' && ch >= 'A')
-        ch -= 'A' - 10;
-    else
-        ch = 0;
-    return ch;
-}
-
-const std::string urldecode(const std::string& str)
-{
-    using namespace std;
-    string result;
-    string::size_type i;
-    for(i = 0; i < str.size(); ++i)
-    {
-        if(str[i] == '+')
-        {
-            result += ' ';
-        }
-        else if(str[i] == '%' && str.size() > i+2)
-        {
-            const unsigned char ch1 = from_hex(str[i+1]);
-            const unsigned char ch2 = from_hex(str[i+2]);
-            const unsigned char ch = (ch1 << 4) | ch2;
-            result += ch;
-            i += 2;
-        }
-        else
-        {
-            result += str[i];
-        }
-    }
-    return result;
-}
 
 MessageRef Message::createFromJson(const rapidjson::Value& json)
 {
@@ -101,6 +39,17 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     //    "id":"21cb24ba-44b5-435e-b5f2-7d87a9c13ea3"
     //}
     
+    
+    // Check for required fields
+    for(const std::string& fieldName : kRequiredFields)
+    {
+        if(!json.HasMember(fieldName.c_str()))
+        {
+            // Invalid JSON
+            return MessageRef();
+        }
+    }
+    
     const std::string& messageId = json["id"].GetString();
     const std::string& messageType = json["type"].GetString();
     const std::string& senderId = json["senderId"].GetString();
@@ -109,18 +58,49 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     const std::string& status = json["status"].GetString();
     bool moderated = (status == "MODERATED");
     std::string messageText;
+    std::string stickerLocation;
     
     // Active message
     if(status == "ACTIVE")
     {
         // Check message type for other information
-        if(messageType == "TEXT")
+        if(messageType == Message::MessageTypeText)
         {
+            if(!json.HasMember("params"))
+            {
+                // Invalid JSON
+                return MessageRef();
+            }
+            
             const auto& params = json["params"];
+            
+            if(!params.HasMember("text"))
+            {
+                // Invalid JSON
+                return MessageRef();
+            }
             messageText = params["text"].GetString();
             
             // Decode the string and trim whitespace
-            messageText = Azoomee::trim(urldecode(messageText));
+            messageText = Azoomee::trim(Azoomee::Net::urlDecode(messageText));
+        }
+        else if(messageType == Message::MessageTypeSticker)
+        {
+            if(!json.HasMember("params"))
+            {
+                // Invalid JSON
+                return MessageRef();
+            }
+            
+            const auto& params = json["params"];
+            
+            if(!params.HasMember("sticker_location"))
+            {
+                // Invalid JSON
+                return MessageRef();
+            }
+            
+            stickerLocation = Azoomee::trim(params["sticker_location"].GetString());
         }
         else
         {
@@ -134,7 +114,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     }
     else
     {
-        // Ignore this message
+        // Ignore this message as it's a status we don't recognise
         return MessageRef();
     }
     
@@ -145,6 +125,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     messageData->_recipientId = recipientId;
     messageData->_timestamp = timestamp;
     messageData->_messageText = messageText;
+    messageData->_stickerLocation = stickerLocation;
     messageData->_moderated = moderated;
     return messageData;
 }
@@ -152,8 +133,16 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
 MessageRef Message::createTextMessage(const std::string& text)
 {
     MessageRef messageData(new Message());
-    messageData->_messageType = "TEXT";
+    messageData->_messageType = Message::MessageTypeText;
     messageData->_messageText = text;
+    return messageData;
+}
+
+MessageRef Message::createStickerMessage(const StickerRef& sticker)
+{
+    MessageRef messageData(new Message());
+    messageData->_messageType = Message::MessageTypeSticker;
+    messageData->_stickerLocation = sticker->imageURL();
     return messageData;
 }
 
@@ -174,6 +163,11 @@ std::string Message::messageType() const
 std::string Message::messageText() const
 {
     return _messageText;
+}
+
+std::string Message::stickerURL() const
+{
+    return _stickerLocation;
 }
 
 std::string Message::senderId() const
@@ -222,13 +216,21 @@ rapidjson::Value Message::toJson() const
     rapidjson::Value json = ToJson(stringValues);
     
     // Add other values
-    if(_messageType == "TEXT")
+    if(_messageType == Message::MessageTypeText)
     {
         std::map<std::string, std::string> params = {
-            { "text", _messageText }
+            { "text", Azoomee::Net::urlEncode(_messageText) }
         };
         json.AddMember("params", ToJson(params), allocator);
     }
+    else if(_messageType == Message::MessageTypeSticker)
+    {
+        std::map<std::string, std::string> params = {
+            { "sticker_location", _stickerLocation }
+        };
+        json.AddMember("params", ToJson(params), allocator);
+    }
+    
     if(_timestamp > 0)
     {
         json.AddMember("timestamp", ToJson(_timestamp), allocator);

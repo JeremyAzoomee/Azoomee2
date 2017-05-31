@@ -1,5 +1,5 @@
-#ifndef AzoomeeCommon_URI_h
-#define AzoomeeCommon_URI_h
+#ifndef AzoomeeCommon_Net_URI_h
+#define AzoomeeCommon_Net_URI_h
 /*
 	Code of this file is based on Poco library, file: URI.h.
 	Original copyright is included below.
@@ -50,6 +50,8 @@
 #include <string>
 
 NS_AZOOMEE_BEGIN
+namespace Net
+{
 
 /**
 	A Uniform Resource Identifier, as specified in RFC 3986.
@@ -416,6 +418,7 @@ inline void swap(URI& u1, URI& u2)
 	u1.swap(u2);
 }
 
+}
 NS_AZOOMEE_END
 
 #endif

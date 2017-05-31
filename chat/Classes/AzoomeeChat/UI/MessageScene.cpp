@@ -209,10 +209,13 @@ void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 
 #pragma mark - MessageComposer::Delegate
 
-void MessageScene::onMessageComposerSendMessage(const std::string& message)
+void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 {
-    cocos2d::log("Send Message: %s", message.c_str());
+//    cocos2d::log("Send Message: %s", message.c_str());
     ChatAPI::getInstance()->sendMessage(_participants[1], message);
+    _timeTillGet = -1.0f;
+    
+    // TODO: Add to message list
 }
 
 NS_AZOOMEE_CHAT_END

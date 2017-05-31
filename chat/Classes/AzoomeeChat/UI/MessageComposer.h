@@ -5,6 +5,8 @@
 #include <AzoomeeCommon/UI/SplitLayout.h>
 #include <AzoomeeCommon/UI/ObservableLayout.h>
 #include "StickerSelector.h"
+#include "../Data/Message.h"
+#include "../Data/Sticker.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
@@ -30,7 +32,7 @@ public:
     
     struct Delegate
     {
-        virtual void onMessageComposerSendMessage(const std::string& message) {};
+        virtual void onMessageComposerSendMessage(const MessageRef& message) {};
     };
     
 private:
@@ -76,8 +78,10 @@ private:
     /// Create the tab buttons
     void createTabButtonsUI(cocos2d::ui::Layout* parent);
     
-    /// Send a message via the delegate
+    /// Send a message (text type) via the delegate
     void sendMessage(const std::string& message);
+    /// Send a message (sticker type) via the delegate
+    void sendMessage(const StickerRef& sticker);
     
     /// Called when we should resize UI elements to fit a keyboard
     /// If a duration > 0 is provided, it will be animated

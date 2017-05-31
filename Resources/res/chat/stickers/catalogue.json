@@ -12,23 +12,23 @@
             "ball/s_07.png",
             "ball/s_08.png",
             "ball/s_09.png",
-            "ball/s_010.png",
-            "ball/s_011.png",
-            "ball/s_012.png",
-            "ball/s_013.png",
-            "ball/s_014.png",
-            "ball/s_015.png",
-            "ball/s_016.png"
+            "ball/s_10.png",
+            "ball/s_11.png",
+            "ball/s_12.png",
+            "ball/s_13.png",
+            "ball/s_14.png",
+            "ball/s_15.png",
+            "ball/s_16.png"
         ]
     }, {
         "id": "carrot",
         "image_location": "carrot/category.png",
         "stickers": [
-            "ball/s_012.png",
-            "ball/s_013.png",
-            "ball/s_014.png",
-            "ball/s_015.png",
-            "ball/s_016.png"
+            "ball/s_12.png",
+            "ball/s_13.png",
+            "ball/s_14.png",
+            "ball/s_15.png",
+            "ball/s_16.png"
         ]
     }, {
         "id": "doughnut",
@@ -48,15 +48,15 @@
             "ball/s_07.png",
             "ball/s_08.png",
             "ball/s_09.png",
-            "ball/s_010.png"
+            "ball/s_10.png"
         ]
     }, {
         "id": "lightbulb",
         "image_location": "lightbulb/category.png",
         "stickers": [
-            "ball/s_011.png",
-            "ball/s_012.png",
-            "ball/s_013.png"
+            "ball/s_11.png",
+            "ball/s_12.png",
+            "ball/s_13.png"
         ]
     }, {
         "id": "pizza",

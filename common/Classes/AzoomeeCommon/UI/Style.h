@@ -53,14 +53,30 @@ namespace Color
  */
 namespace Font
 {
+    // Path to the font file
     const char* const SofiaRegular = "fonts/Sofia Pro Soft Regular.otf";
+    // The system name of the font, usually inside the TTF file
+    const char* const SofiaRegularSystemName = "SofiaProSoftRegular";
+    
+    // Path to the font file
     const char* const SofiaMedium = "fonts/Sofia Pro Soft Medium.otf";
+    // The system name of the font, usually inside the TTF file
+    const char* const SofiaMediumSystemName = "SofiaProSoftRegular";
+    
+    // Path to the font file
     const char* const SofiaBold = "fonts/Sofia Pro Soft Bold.otf";
+    // The system name of the font, usually inside the TTF file
+    const char* const SofiaBoldSystemName = "SofiaProSoftRegular";
     
     const char* const Regular = SofiaRegular;
     const char* const Medium = SofiaMedium;
     const char* const Bold = SofiaBold;
     const char* const Input = SofiaRegular;
+    
+    const char* const RegularSystemName = SofiaRegularSystemName;
+    const char* const MediumSystemName = SofiaMediumSystemName;
+    const char* const BoldSystemName = SofiaBoldSystemName;
+    const char* const InputSystemName = SofiaRegularSystemName;
 }
     
 }

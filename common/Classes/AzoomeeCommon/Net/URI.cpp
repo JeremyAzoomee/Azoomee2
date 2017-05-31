@@ -44,7 +44,9 @@
 */
 
 NS_AZOOMEE_BEGIN
-
+namespace Net
+{
+    
 const std::string URI::RESERVED_PATH     = "?#";
 const std::string URI::RESERVED_QUERY    = "#";
 const std::string URI::RESERVED_FRAGMENT = "";
@@ -936,6 +938,7 @@ bool URI::isIPAddress( const std::string& str )
 	}
 	return 0;
 }
+    
 void URI::setPrintErrors( bool in )
 {
 	if(in){
@@ -944,11 +947,14 @@ void URI::setPrintErrors( bool in )
 		_flags &= ~0x1;
 	}
 }
+    
 std::string URI::intToStr( int a )
 {
 	char bfr[32];
 	sprintf(bfr,"%d",a);
 	return bfr;
+}
+    
 }
 
 NS_AZOOMEE_END

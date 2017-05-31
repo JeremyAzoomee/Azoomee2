@@ -24,24 +24,22 @@ bool StickerCategoryListView::init()
     setGravity(ui::ListView::Gravity::CENTER_VERTICAL);
     
     addEventListener([this](Ref* sender, ui::ListView::EventType type) {
-        if(type == ui::ListView::EventType::ON_SELECTED_ITEM_END)
+        if(type == ui::ListView::EventType::ON_SELECTED_ITEM_START)
         {
+            // Highlight selected tab
             const int selectedIndex = (int)getCurSelectedIndex();
-            
-            // Release the selected state of previous item
             const auto& items = getItems();
             for(int i = 0; i < items.size(); ++i)
             {
-                if(i == selectedIndex)
-                {
-                    continue;
-                }
                 StickerCategoryListViewItem* item = (StickerCategoryListViewItem*) items.at(i);
-                item->releaseSelectedState();
+                item->setSelected(i == selectedIndex);
             }
-            
+        }
+        else if(type == ui::ListView::EventType::ON_SELECTED_ITEM_END)
+        {
             if(_selectedEventCallback)
             {
+                const int selectedIndex = (int)getCurSelectedIndex();
                 _selectedEventCallback(_listData[selectedIndex]);
             }
         }
@@ -104,6 +102,26 @@ void StickerCategoryListView::setItems(const StickerCategoryList& data)
     }
     
     forceDoLayout();
+}
+
+void StickerCategoryListView::selectItem(const StickerCategoryRef& category)
+{
+    int selectedIndex = -1;
+    for(int i = 0; i < _listData.size(); ++i)
+    {
+        if(_listData[i] == category)
+        {
+            selectedIndex = i;
+            break;
+        }
+    }
+    
+    const auto& items = getItems();
+    for(int i = 0; i < items.size(); ++i)
+    {
+        StickerCategoryListViewItem* item = (StickerCategoryListViewItem*) items.at(i);
+        item->setSelected(i == selectedIndex);
+    }
 }
 
 void StickerCategoryListView::addItemSelectedEventListener(const ItemSelectedCallback& callback)

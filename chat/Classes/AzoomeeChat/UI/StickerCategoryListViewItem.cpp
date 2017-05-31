@@ -123,31 +123,11 @@ StickerCategoryRef StickerCategoryListViewItem::getData() const
     return _stickerCategory;
 }
 
-void StickerCategoryListViewItem::releaseSelectedState()
+void StickerCategoryListViewItem::setSelected(bool selected)
 {
-    setBackGroundColor(Style::Color::dark);
-    _border->setVisible(true);
-}
-
-#pragma mark - Interactions
-
-void StickerCategoryListViewItem::onPressStateChangedToNormal()
-{
-    // Do nothing, we wait for releaseSelectedState()
-}
-
-void StickerCategoryListViewItem::onPressStateChangedToPressed()
-{
-    setBackGroundColor(Style::Color::golden);
-    if(_border)
-    {
-        _border->setVisible(false);
-    }
-}
-
-void StickerCategoryListViewItem::onPressStateChangedToDisabled()
-{
-    // Do nothing
+    _selected = selected;
+    setBackGroundColor(selected ? Style::Color::golden : Style::Color::dark);
+    _border->setVisible(!selected);
 }
 
 

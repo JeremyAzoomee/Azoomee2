@@ -145,7 +145,12 @@ float MessageListView::getScrollPosition() const
         return 0.0f;
     }
     const float scrollAreaHeight = _listView->getContentSize().height - _listView->getInnerContainerSize().height;
-    return 1.0f - (_listView->getInnerContainerPosition().y / scrollAreaHeight);
+    if(scrollAreaHeight == 0)
+    {
+        return 0.0f;
+    }
+    float scrollY = _listView->getInnerContainerPosition().y;
+    return 1.0f - (scrollY / scrollAreaHeight);
 }
 
 void MessageListView::setScrollPosition(float pos)

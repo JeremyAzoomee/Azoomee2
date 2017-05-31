@@ -50,6 +50,10 @@ bool MessageComposer::init()
     _stickerSelector = StickerSelector::create();
     _stickerSelector->setTabBarHeight(_topLayout->getContentSize().height);
     _stickerSelector->setLayoutParameter(CreateTopLinearLayoutParam());
+    _stickerSelector->addStickerSelectedEventListener([this](const StickerRef& sticker) {
+        // Sticker selected
+        sendMessage(sticker);
+    });
     addChild(_stickerSelector);
     
     // Default to Idle
@@ -315,8 +319,22 @@ void MessageComposer::sendMessage(const std::string& message)
         const std::string& trimmedMessage = Azoomee::trim(message);
         if(trimmedMessage.length() > 0)
         {
-            _delegate->onMessageComposerSendMessage(trimmedMessage);
+            const MessageRef& messageObj = Message::createTextMessage(trimmedMessage);
+            _delegate->onMessageComposerSendMessage(messageObj);
         }
+    }
+    
+    // Clear the message field and go back to idle
+    _messageEntryField->setString("");
+    setMode(MessageComposer::Mode::Idle);
+}
+
+void MessageComposer::sendMessage(const StickerRef& sticker)
+{
+    if(_delegate)
+    {
+        const MessageRef& messageObj = Message::createStickerMessage(sticker);
+        _delegate->onMessageComposerSendMessage(messageObj);
     }
     
     // Clear the message field and go back to idle
@@ -674,7 +692,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     const float textEntryLeftMargin = 50.0f;
     
     // TODO: Get text from Strings
-    _messageEntryField = ui::TextField::create("Type a message here...", Style::Font::Regular, 65.0f);
+    _messageEntryField = ui::TextField::create("Type a message here...", Style::Font::RegularSystemName, 65.0f);
     _messageEntryField->setCursorEnabled(true);
     _messageEntryField->ignoreContentAdaptWithSize(false);
     _messageEntryField->setTextHorizontalAlignment(TextHAlignment::LEFT);

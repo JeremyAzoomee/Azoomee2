@@ -31,10 +31,15 @@ private:
     /// Where we place the content inside the menu item
     cocos2d::ui::Layout* _contentLayout = nullptr;
     
-    /// Text type container
-    cocos2d::ui::Layout* _textLayout = nullptr;
+    /// Bubble container
+    cocos2d::ui::Layout* _bubbleLayout = nullptr;
     /// Message text
     cocos2d::ui::Text* _textLabel = nullptr;
+    
+    /// Sticker container
+    cocos2d::ui::Layout* _stickerLayout = nullptr;
+    /// Sticker image
+    cocos2d::ui::ImageView* _stickerImage = nullptr;
     
     
     /// Resize the item height to fit the contents

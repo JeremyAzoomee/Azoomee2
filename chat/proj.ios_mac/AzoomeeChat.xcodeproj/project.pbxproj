@@ -14,7 +14,6 @@
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
 		301849861EBB84A1005B994A /* Friend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849841EBB84A1005B994A /* Friend.cpp */; };
 		3018498B1EBB926B005B994A /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849891EBB926B005B994A /* Message.cpp */; };
-		3018499A1EC0B1F9005B994A /* ChatTestScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3018498F1EC0B161005B994A /* ChatTestScene.cpp */; };
 		301849A21EC0B747005B994A /* AuthAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3018499E1EC0B747005B994A /* AuthAPI.cpp */; };
 		302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849A71EC0BF68005B994A /* ChildSelectorScene.cpp */; };
 		302E84741ED1A1C7006A498C /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849A41EC0B841005B994A /* LoginScene.cpp */; };
@@ -39,6 +38,8 @@
 		30790D3B1EDDC77E003654BC /* StickerCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D391EDDC77E003654BC /* StickerCategory.cpp */; };
 		30790D3E1EDDC88A003654BC /* StickerCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D3C1EDDC88A003654BC /* StickerCache.cpp */; };
 		30790D411EDDFD11003654BC /* StickerCategoryListViewItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D3F1EDDFD11003654BC /* StickerCategoryListViewItem.cpp */; };
+		30790D461EDE09C3003654BC /* StickerListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D421EDE09C3003654BC /* StickerListView.cpp */; };
+		30790D471EDE09C3003654BC /* StickerListViewColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D441EDE09C3003654BC /* StickerListViewColumn.cpp */; };
 		30C36E0C1ED0568800F2FA88 /* MessageComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C36E0A1ED0568800F2FA88 /* MessageComposer.cpp */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images.xcassets */; };
@@ -157,8 +158,6 @@
 		301849851EBB84A1005B994A /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		301849891EBB926B005B994A /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
 		3018498A1EBB926B005B994A /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		3018498F1EC0B161005B994A /* ChatTestScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatTestScene.cpp; sourceTree = "<group>"; };
-		301849901EC0B161005B994A /* ChatTestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatTestScene.h; sourceTree = "<group>"; };
 		3018499E1EC0B747005B994A /* AuthAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AuthAPI.cpp; sourceTree = "<group>"; };
 		3018499F1EC0B747005B994A /* AuthAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthAPI.h; sourceTree = "<group>"; };
 		301849A41EC0B841005B994A /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
@@ -203,6 +202,10 @@
 		30790D3D1EDDC88A003654BC /* StickerCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerCache.h; sourceTree = "<group>"; };
 		30790D3F1EDDFD11003654BC /* StickerCategoryListViewItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerCategoryListViewItem.cpp; sourceTree = "<group>"; };
 		30790D401EDDFD11003654BC /* StickerCategoryListViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerCategoryListViewItem.h; sourceTree = "<group>"; };
+		30790D421EDE09C3003654BC /* StickerListView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerListView.cpp; sourceTree = "<group>"; };
+		30790D431EDE09C3003654BC /* StickerListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerListView.h; sourceTree = "<group>"; };
+		30790D441EDE09C3003654BC /* StickerListViewColumn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerListViewColumn.cpp; sourceTree = "<group>"; };
+		30790D451EDE09C3003654BC /* StickerListViewColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerListViewColumn.h; sourceTree = "<group>"; };
 		30C36E0A1ED0568800F2FA88 /* MessageComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageComposer.cpp; sourceTree = "<group>"; };
 		30C36E0B1ED0568800F2FA88 /* MessageComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposer.h; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; name = res; path = ../../Resources/res; sourceTree = "<group>"; };
@@ -398,12 +401,7 @@
 				301849851EBB84A1005B994A /* Friend.h */,
 				301849891EBB926B005B994A /* Message.cpp */,
 				3018498A1EBB926B005B994A /* Message.h */,
-				30790D331EDDC0C0003654BC /* Sticker.cpp */,
-				30790D341EDDC0C0003654BC /* Sticker.h */,
-				30790D3C1EDDC88A003654BC /* StickerCache.cpp */,
-				30790D3D1EDDC88A003654BC /* StickerCache.h */,
-				30790D391EDDC77E003654BC /* StickerCategory.cpp */,
-				30790D3A1EDDC77E003654BC /* StickerCategory.h */,
+				30790D4B1EDE0A01003654BC /* Stickers */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -451,12 +449,12 @@
 		305966721ECC59C8009A7130 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				305966A51ECF3562009A7130 /* FriendList */,
-				305966A41ECF355B009A7130 /* Message */,
 				3059668E1ECC9C21009A7130 /* AvatarWidget.cpp */,
 				3059668F1ECC9C21009A7130 /* AvatarWidget.h */,
 				305966901ECC9C21009A7130 /* TitleBarWidget.cpp */,
 				305966911ECC9C21009A7130 /* TitleBarWidget.h */,
+				305966A51ECF3562009A7130 /* FriendList */,
+				305966A41ECF355B009A7130 /* Message */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -473,15 +471,12 @@
 		305966A41ECF355B009A7130 /* Message */ = {
 			isa = PBXGroup;
 			children = (
-				30790D2F1EDDBCE6003654BC /* Stickers */,
 				305966A11ECF3558009A7130 /* MessageScene.cpp */,
 				305966A21ECF3558009A7130 /* MessageScene.h */,
-				305966A61ECF44AA009A7130 /* MessageListView.cpp */,
-				305966A71ECF44AA009A7130 /* MessageListView.h */,
-				305966A91ECF44E0009A7130 /* MessageListViewItem.cpp */,
-				305966AA1ECF44E0009A7130 /* MessageListViewItem.h */,
 				30C36E0A1ED0568800F2FA88 /* MessageComposer.cpp */,
 				30C36E0B1ED0568800F2FA88 /* MessageComposer.h */,
+				30790D4A1EDE09E7003654BC /* MessageList */,
+				30790D2F1EDDBCE6003654BC /* Stickers */,
 			);
 			name = Message;
 			sourceTree = "<group>";
@@ -504,10 +499,54 @@
 			children = (
 				30790D2A1EDD7B7F003654BC /* StickerSelector.cpp */,
 				30790D2B1EDD7B7F003654BC /* StickerSelector.h */,
+				30790D481EDE09C7003654BC /* StickerList */,
+				30790D491EDE09D2003654BC /* StickerCategoryList */,
+			);
+			name = Stickers;
+			sourceTree = "<group>";
+		};
+		30790D481EDE09C7003654BC /* StickerList */ = {
+			isa = PBXGroup;
+			children = (
+				30790D421EDE09C3003654BC /* StickerListView.cpp */,
+				30790D431EDE09C3003654BC /* StickerListView.h */,
+				30790D441EDE09C3003654BC /* StickerListViewColumn.cpp */,
+				30790D451EDE09C3003654BC /* StickerListViewColumn.h */,
+			);
+			name = StickerList;
+			sourceTree = "<group>";
+		};
+		30790D491EDE09D2003654BC /* StickerCategoryList */ = {
+			isa = PBXGroup;
+			children = (
 				30790D301EDDBCF0003654BC /* StickerCategoryListView.cpp */,
 				30790D311EDDBCF0003654BC /* StickerCategoryListView.h */,
 				30790D3F1EDDFD11003654BC /* StickerCategoryListViewItem.cpp */,
 				30790D401EDDFD11003654BC /* StickerCategoryListViewItem.h */,
+			);
+			name = StickerCategoryList;
+			sourceTree = "<group>";
+		};
+		30790D4A1EDE09E7003654BC /* MessageList */ = {
+			isa = PBXGroup;
+			children = (
+				305966A61ECF44AA009A7130 /* MessageListView.cpp */,
+				305966A71ECF44AA009A7130 /* MessageListView.h */,
+				305966A91ECF44E0009A7130 /* MessageListViewItem.cpp */,
+				305966AA1ECF44E0009A7130 /* MessageListViewItem.h */,
+			);
+			name = MessageList;
+			sourceTree = "<group>";
+		};
+		30790D4B1EDE0A01003654BC /* Stickers */ = {
+			isa = PBXGroup;
+			children = (
+				30790D331EDDC0C0003654BC /* Sticker.cpp */,
+				30790D341EDDC0C0003654BC /* Sticker.h */,
+				30790D3C1EDDC88A003654BC /* StickerCache.cpp */,
+				30790D3D1EDDC88A003654BC /* StickerCache.h */,
+				30790D391EDDC77E003654BC /* StickerCategory.cpp */,
+				30790D3A1EDDC77E003654BC /* StickerCategory.h */,
 			);
 			name = Stickers;
 			sourceTree = "<group>";
@@ -563,8 +602,6 @@
 				301849A51EC0B841005B994A /* LoginScene.h */,
 				301849A71EC0BF68005B994A /* ChildSelectorScene.cpp */,
 				301849A81EC0BF68005B994A /* ChildSelectorScene.h */,
-				3018498F1EC0B161005B994A /* ChatTestScene.cpp */,
-				301849901EC0B161005B994A /* ChatTestScene.h */,
 				3018499D1EC0B747005B994A /* Auth */,
 				304410811E9D268800B7F383 /* AzoomeeChat */,
 			);
@@ -760,7 +797,6 @@
 				304410571E9D001E00B7F383 /* AppDelegate.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */,
-				3018499A1EC0B1F9005B994A /* ChatTestScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				302E84741ED1A1C7006A498C /* LoginScene.cpp in Sources */,
 			);
@@ -786,6 +822,8 @@
 				30790D411EDDFD11003654BC /* StickerCategoryListViewItem.cpp in Sources */,
 				3059667E1ECC5F90009A7130 /* ChatConfig.cpp in Sources */,
 				30C36E0C1ED0568800F2FA88 /* MessageComposer.cpp in Sources */,
+				30790D461EDE09C3003654BC /* StickerListView.cpp in Sources */,
+				30790D471EDE09C3003654BC /* StickerListViewColumn.cpp in Sources */,
 				301849861EBB84A1005B994A /* Friend.cpp in Sources */,
 				3018498B1EBB926B005B994A /* Message.cpp in Sources */,
 				305966A81ECF44AA009A7130 /* MessageListView.cpp in Sources */,

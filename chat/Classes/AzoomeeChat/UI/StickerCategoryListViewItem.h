@@ -16,6 +16,8 @@ private:
     
     /// The category this item is displaying
     StickerCategoryRef _stickerCategory;
+    /// If currently selected or not
+    bool _selected = false;
     
     /// Where we place the content inside the menu item
     cocos2d::ui::Layout* _contentLayout = nullptr;
@@ -28,9 +30,6 @@ protected:
     
     virtual void doLayout() override;
     virtual void onSizeChanged() override;
-    virtual void onPressStateChangedToNormal() override;
-    virtual void onPressStateChangedToPressed() override;
-    virtual void onPressStateChangedToDisabled() override;
     
 public:
     
@@ -39,8 +38,9 @@ public:
     /// Get the data this item is displaying
     StickerCategoryRef getData() const;
     
-    /// Release the selection
-    void releaseSelectedState();
+    /// Set if the tab is selected
+    /// We don't use highlighted because it gets reset by ListView automatically
+    void setSelected(bool selected);
     
     virtual bool init() override;
     virtual void onEnter() override;

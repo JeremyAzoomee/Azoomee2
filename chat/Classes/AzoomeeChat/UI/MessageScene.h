@@ -51,7 +51,7 @@ private:
     void onChatAPISendMessage(const MessageRef& sentMessage) override;
     
     // - MessageComposer::Delegate
-    void onMessageComposerSendMessage(const std::string& message) override;
+    void onMessageComposerSendMessage(const MessageRef& message) override;
 
 protected:
     

@@ -1,22 +1,22 @@
-#ifndef AzoomeeChat_StickerCategoryListView_h
-#define AzoomeeChat_StickerCategoryListView_h
+#ifndef AzoomeeChat_StickerListView_h
+#define AzoomeeChat_StickerListView_h
 
 #include "../AzoomeeChat.h"
-#include "../Data/StickerCategory.h"
+#include "../Data/Sticker.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class StickerCategoryListView : public cocos2d::ui::ListView
+class StickerListView : public cocos2d::ui::ListView
 {
     typedef cocos2d::ui::ListView Super;
-    typedef std::function<void(const StickerCategoryRef&)> ItemSelectedCallback;
+    typedef std::function<void(const StickerRef&)> ItemSelectedCallback;
 private:
     
     /// Data being displayed
-    StickerCategoryList _listData;
+    StickerList _listData;
     
     /// Callback for an item being selected
     ItemSelectedCallback _selectedEventCallback = nullptr;
@@ -33,9 +33,7 @@ protected:
 public:
     
     /// Set the items to display in this list
-    void setItems(const StickerCategoryList& data);
-    /// Select an item
-    void selectItem(const StickerCategoryRef& category);
+    void setItems(const StickerList& data);
     
     /// Register for item selection events
     void addItemSelectedEventListener(const ItemSelectedCallback& callback);
@@ -45,7 +43,7 @@ public:
     virtual void onExit() override;
     virtual void setContentSize(const cocos2d::Size& contentSize) override;
 
-    CREATE_FUNC(StickerCategoryListView);
+    CREATE_FUNC(StickerListView);
 };
 
 NS_AZOOMEE_CHAT_END
