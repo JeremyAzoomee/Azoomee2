@@ -197,7 +197,7 @@ bool ImageDownloader::checkTimeStampValid(const std::string& timeStampFilePath)
 {
     if(!FileUtils::getInstance()->isFileExist(timeStampFilePath)) return false;
     
-    const time_t timeStamp = std::atoll(FileUtils::getInstance()->getStringFromFile(timeStampFilePath).c_str());
+    const time_t timeStamp = atoll(FileUtils::getInstance()->getStringFromFile(timeStampFilePath).c_str());
     const time_t currentTimeStamp = time(NULL);
     
     if(currentTimeStamp - timeStamp > ConfigStorage::getInstance()->getContentItemImageValidityInSeconds()) return false;

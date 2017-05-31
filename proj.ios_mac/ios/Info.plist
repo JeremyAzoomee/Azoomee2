@@ -2,17 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>com.azoomee</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>azoomee</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
@@ -31,6 +20,17 @@
 	<string>3.2.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.azoomee</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>azoomee</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>Fabric</key>
@@ -55,7 +55,11 @@
 		<true/>
 	</dict>
 	<key>UIAppFonts</key>
-	<array/>
+	<array>
+		<string>fonts/Sofia Pro Soft Bold.otf</string>
+		<string>fonts/Sofia Pro Soft Medium.otf</string>
+		<string>fonts/Sofia Pro Soft Regular.otf</string>
+	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiresFullScreen</key>

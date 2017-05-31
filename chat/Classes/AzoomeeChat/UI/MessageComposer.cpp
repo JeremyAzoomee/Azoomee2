@@ -449,7 +449,7 @@ void MessageComposer::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFi
             if(_imeOpen)
             {
                 cocos2d::IMEKeyboardNotificationInfo imeNotification;
-                imeNotification.end = cocos2d::Rect(0, 0, 0, height);
+                imeNotification.end = cocos2d::Rect(0, 0, 0, 0);
                 imeNotification.duration = 0.25f;
                 keyboardWillHide(imeNotification);
             }
