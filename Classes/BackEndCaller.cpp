@@ -213,8 +213,6 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     ChildDataParser::getInstance()->parseChildLoginData(responseString);
     
     getHQContent(StringUtils::format("%s%s/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ConfigStorage::getInstance()->getPathForTag("HOME").c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
-    
-    updateChild("69a1e41c-3beb-4374-ae5f-363aad741234", "Donald Trump", "MALE", "2002-02-02", 3);
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------
