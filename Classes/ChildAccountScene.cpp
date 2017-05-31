@@ -160,6 +160,9 @@ void ChildAccountScene::addButtonsScene()
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("childAccountSceneCancelButton");
     this->addChild(cancelButton);
+        
+    if(FlowDataSingleton::getInstance()->isSignupFlow())
+        cancelButton->setVisible(false);
     
     submitButton = ElectricDreamsButton::createButtonWithText("Submit");
     submitButton->setCenterPosition(Vec2(nextButton->getCenterPosition().x,origin.y + submitButton->getContentSize().height));
@@ -224,7 +227,9 @@ void ChildAccountScene::changeElementsToTextInputScreen()
     profileDOBTitle->setVisible(true);
     profileDOBSubTitle->setVisible(true);
     
-    cancelButton->setVisible(true);
+    if(!FlowDataSingleton::getInstance()->isSignupFlow())
+        cancelButton->setVisible(true);
+    
     nextButton->setVisible(DOBisDate() && childNameInputText->inputIsValid());
     nextButtonPlaceholder->setVisible(true);
     
@@ -360,7 +365,10 @@ void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
     else if(inputLayer == monthInputText)
         yearInputText->focusAndShowKeyboard();
     else if(inputLayer == yearInputText)
-        changeElementsToOomeeScreen();
+    {
+        if(DOBisDate() && childNameInputText->inputIsValid())
+            changeElementsToOomeeScreen();
+    }
 }
 
 void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
