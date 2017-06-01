@@ -142,7 +142,7 @@ void AppDelegate::applicationWillEnterForeground() {
     
     if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
     {
-        AnalyticsSingleton::getInstance()->closeContentEvent();
+        AnalyticsSingleton::getInstance()->contentItemClosedEvent();
         
         if(HQHistoryManager::getInstance()->thereWasAnError)
         {

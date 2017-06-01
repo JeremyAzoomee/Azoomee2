@@ -23,8 +23,17 @@ const char* const API::TagVerifyApplePayment = "iapApplePaymentMade";
 const char* const API::TagGetChatList = "chat.getChatList";
 const char* const API::TagGetChatMessages = "chat.getChatMessages";
 const char* const API::TagSendChatMessage = "chat.sendChatMessage";
+const char* const API::TagOfflineCheck = "offlineCheck";
 
 #pragma mark - API Methods
+
+HttpRequestCreator* API::OfflineCheck(HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagOfflineCheck;
+    request->encrypted = false;
+    return request;
+}
 
 HttpRequestCreator* API::LoginRequest(const std::string& username,
                                       const std::string& password,

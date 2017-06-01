@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "WebViewNative_ios.h"
@@ -75,6 +76,8 @@ std::string WebViewSelector::getUrlWithoutPath(std::string url)
 
 void WebViewSelector::loadWebView(std::string url)
 {
+    AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEW");
+    AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
     AudioMixer::getInstance()->stopBackgroundMusic();
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

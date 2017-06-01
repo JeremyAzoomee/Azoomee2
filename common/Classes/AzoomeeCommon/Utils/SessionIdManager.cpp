@@ -81,6 +81,8 @@ namespace Azoomee
     {
         std::string oldSessionId = sessionId;
         
+        srand(time(NULL));
+        
         sessionId = "";
         static const char alphanum[] = "0123456789abcdefghijklmnopqrstuvwxyz";
        

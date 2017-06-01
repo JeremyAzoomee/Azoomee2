@@ -25,6 +25,7 @@ USING_NS_CC;
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace network;
@@ -56,6 +57,8 @@ bool GameDataManager::init(void)
 
 void GameDataManager::startProcessingGame(std::map<std::string, std::string> itemData)
 {
+    AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
+    
     processCancelled = false;
     displayLoadingScreen();
     
@@ -172,6 +175,7 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
     }
     else
     {
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
@@ -295,6 +299,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     }
     else
     {
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
@@ -307,6 +312,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     unzFile pFile = unzOpen(zipPath);
     if(!pFile)
     {
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         return false;
     }
     int err = unzGoToFirstFile(pFile);
@@ -342,9 +348,9 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
             
             if(!pFile2)
             {
-                
                 unzClose(pFile);
                 removeGameFolderOnError(dirpath);
+                AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
                 hideLoadingScreen(); //ERROR TO BE ADDED
                 CCLOG("unzip can not create file");
                 showErrorMessage();
@@ -380,6 +386,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         {
             unzClose(pFile);
             removeGameFolderOnError(dirpath);
+            AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
             hideLoadingScreen(); //ERROR TO BE ADDED
             showErrorMessage();
             return false;
@@ -395,6 +402,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     {
         unzClose(pFile);
         removeGameFolderOnError(dirpath);
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         hideLoadingScreen(); //ERROR TO BE ADDED
         showErrorMessage();
         return false;
@@ -418,6 +426,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     }
     else
     {
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         removeGameFolderOnError(dirpath);
         hideLoadingScreen();
         showErrorMessage();
@@ -438,6 +447,7 @@ void GameDataManager::startGame(std::string basePath, std::string fileName)
     
     if(!FileUtils::getInstance()->isFileExist(basePath + fileName))
     {
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         hideLoadingScreen();
         showErrorMessage();
         return;
@@ -445,6 +455,7 @@ void GameDataManager::startGame(std::string basePath, std::string fileName)
     
     if(!isGameCompatibleWithCurrentAzoomeeVersion(basePath + "package.json"))
     {
+        AnalyticsSingleton::getInstance()->contentItemIncompatibleEvent();
         hideLoadingScreen();
         showIncompatibleMessage();
         return;

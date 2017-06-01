@@ -61,6 +61,8 @@ public:
     
     bool init();
     
+    // Check for offline mode
+    void offlineCheck();
     // Login a user
     void login(const std::string& username, const std::string& password);
     // Update billing information from the server

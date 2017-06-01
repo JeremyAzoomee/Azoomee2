@@ -1,6 +1,8 @@
 #ifndef AzoomeeCommon_ConfigStorage_h
 #define AzoomeeCommon_ConfigStorage_h
 
+//#define USINGCI
+
 #include <cocos/cocos2d.h>
 #include "Json.h"
 
@@ -25,6 +27,7 @@ public:
     
     //Backend caller configuration
     std::string getServerHost();
+    std::string getServerUrlPrefix();
     std::string getServerUrl();
     std::string getImagesUrl();
     std::string getPathForTag(std::string httpRequestTag);
