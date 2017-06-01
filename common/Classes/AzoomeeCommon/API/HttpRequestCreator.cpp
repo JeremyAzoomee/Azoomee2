@@ -129,6 +129,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     
     if(method == "POST") request->setRequestType(HttpRequest::Type::POST);
     if(method == "GET") request->setRequestType(HttpRequest::Type::GET);
+    if(method == "PATCH") request->setRequestType(HttpRequest::Type::PATCH);
     request->setUrl(requestUrl.c_str());
     
     const char *postData = requestBody.c_str();
@@ -181,11 +182,11 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
         std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
         std::string requestTag = response->getHttpRequest()->getTag();
         
-        CCLOG("request tag: %s", requestTag.c_str());
-        CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
-        CCLOG("response code: %ld", response->getResponseCode());
-        CCLOG("response header: %s", responseHeaderString.c_str());
-        CCLOG("response string: %s", responseDataString.c_str());
+        cocos2d::log("request tag: %s", requestTag.c_str());
+        cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
+        cocos2d::log("response code: %ld", response->getResponseCode());
+        cocos2d::log("response header: %s", responseHeaderString.c_str());
+        cocos2d::log("response string: %s", responseDataString.c_str());
         
         if(delegate != nullptr)
         {
@@ -205,10 +206,10 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
     std::string requestTag = response->getHttpRequest()->getTag();
     long errorCode = response->getResponseCode();
     
-    CCLOG("request tag: %s", requestTag.c_str());
-    CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
-    CCLOG("response string: %s", responseDataString.c_str());
-    CCLOG("response code: %ld", response->getResponseCode());
+    cocos2d::log("request tag: %s", requestTag.c_str());
+    cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
+    cocos2d::log("response string: %s", responseDataString.c_str());
+    cocos2d::log("response code: %ld", response->getResponseCode());
     
     //-----------------------Handle error code--------------------------
     

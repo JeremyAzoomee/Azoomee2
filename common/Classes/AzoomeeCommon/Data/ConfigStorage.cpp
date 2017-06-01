@@ -42,7 +42,7 @@ bool ConfigStorage::init(void)
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
     IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
     
-    parentSignedRequestTags = {API::TagParentPin, API::TagVerifyAmazonPayment, API::TagVerifyGooglePayment, API::TagVerifyApplePayment, API::TagUpdateBillingData, API::TagGetAvailableChildren};
+    parentSignedRequestTags = {API::TagParentPin, API::TagVerifyAmazonPayment, API::TagVerifyGooglePayment, API::TagVerifyApplePayment, API::TagUpdateBillingData, API::TagGetAvailableChildren, API::TagUpdateChild};
     requestTagsRequireQueueReset = {API::TagLogin, API::TagChildLogin, API::TagParentPin, API::TagVerifyGooglePayment, API::TagVerifyAmazonPayment, API::TagVerifyApplePayment, API::TagGetAvailableChildren};
     requestTagsRequireImmediateSending = {"GROUP HQ", "VIDEO HQ", "AUDIO HQ", "GAME HQ", "PreviewHOME", "HOME"};
     
