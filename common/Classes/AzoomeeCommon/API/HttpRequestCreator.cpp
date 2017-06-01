@@ -166,8 +166,8 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     
     request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
     request->setTag(requestTag);
-    HttpClient::getInstance()->setTimeoutForConnect(2);
-    HttpClient::getInstance()->setTimeoutForRead(2);
+    HttpClient::getInstance()->setTimeoutForConnect(5);
+    HttpClient::getInstance()->setTimeoutForRead(10);
     
     if(ConfigStorage::getInstance()->isImmediateRequestSendingRequired(requestTag)) HttpClient::getInstance()->sendImmediate(request);
     else HttpClient::getInstance()->send(request);
