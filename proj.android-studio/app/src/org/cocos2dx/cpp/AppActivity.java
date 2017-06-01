@@ -182,7 +182,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mixpanel.flush();
 
         if (mBroadcastReceiver != null) {

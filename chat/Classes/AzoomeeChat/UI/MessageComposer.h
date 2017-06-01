@@ -86,6 +86,8 @@ private:
     /// Called when we should resize UI elements to fit a keyboard
     /// If a duration > 0 is provided, it will be animated
     void resizeUIForKeyboard(float keyboardHeight, float duration);
+    /// Keyboard resize ended
+    void onKeyboardResizeEnded(float keyboardHeight);
     
     /// Get the estimated keyboard height for the IME
     float getEstimatedKeyboardHeight() const;

@@ -38,7 +38,7 @@ public class AppActivity extends AzoomeeActivity
     }
 
     @Override
-    protected void onDestroy()
+    public void onDestroy()
     {
         mixpanel.flush();
         super.onDestroy();

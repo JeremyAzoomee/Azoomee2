@@ -118,7 +118,7 @@ void MessageComposer::setContentSize(const cocos2d::Size& contentSize)
         if(_lastKeyboardHeight > 0.0f && keyboardHeight != _lastKeyboardHeight)
         {
             _lastKeyboardHeight = keyboardHeight;
-            _currentHeight = keyboardHeight + _topLayout->getContentSize().height - Director::getInstance()->getVisibleOrigin().y;
+            _currentHeight = keyboardHeight + _topLayout->getContentSize().height;
         }
         
         cocos2d::Size correctedSize = contentSize;
@@ -141,12 +141,6 @@ void MessageComposer::resizeUIForKeyboard(float keyboardHeight, float duration)
     
     _lastKeyboardHeight = keyboardHeight;
     
-    // Calculate what height we need
-    // Take into account screen cropping
-    if(keyboardHeight > 0)
-    {
-        keyboardHeight -= Director::getInstance()->getVisibleOrigin().y;
-    }
     const float wantHeight = keyboardHeight + _topLayout->getContentSize().height;
     const Size& contentSize = getContentSize();
     
@@ -154,11 +148,17 @@ void MessageComposer::resizeUIForKeyboard(float keyboardHeight, float duration)
     if(duration > 0.0f)
     {
         // Animate
-        ActionFloat* animation = ActionFloat::create(duration, contentSize.height, wantHeight, [this](float height) {
+        ActionFloat* animation = ActionFloat::create(duration, contentSize.height, wantHeight, [this, keyboardHeight, wantHeight](float height) {
             _currentHeight = height;
             // Note - getContentSize() is important, it could change during animation
             // Don't use contentSize from outside the action
             setContentSize(Size(getContentSize().width, height));
+            
+            // Reached end?
+            if(height == wantHeight)
+            {
+                onKeyboardResizeEnded(keyboardHeight);
+            }
         });
         animation->setTag(kResizeAnimationTag);
         runAction(animation);
@@ -168,6 +168,17 @@ void MessageComposer::resizeUIForKeyboard(float keyboardHeight, float duration)
         // Immediate
         _currentHeight = wantHeight;
         setContentSize(Size(contentSize.width, _currentHeight));
+        onKeyboardResizeEnded(keyboardHeight);
+    }
+}
+
+void MessageComposer::onKeyboardResizeEnded(float keyboardHeight)
+{
+    // Hide the stickers selector if it shouldn't be displayed
+    // We do this when animation of the keyboard resize has finished so there is no pop in/out
+    if(_stickerSelector->isVisible() && _currentMode != MessageComposer::Mode::StickersEntry)
+    {
+        _stickerSelector->setVisible(false);
     }
 }
 
@@ -190,22 +201,18 @@ float MessageComposer::getEstimatedKeyboardHeight() const
         //iPad (4:3):
         //    width = 2732, height = 2048
         //    keyboard height landscape = 1061.333374
-        //    - landscape = 1061.33 / 2732 = 0.388 < using this
-        //    - landscape = 1061.33 / 2048 = 0.518
+        //    - landscape = 1061.33 / 2732 = 0.388
         //    width = 2048, height = 2732
         //    keyboard height portrait = 835.333374
-        //    - portrait = 835.33 / 2048 = 0.407 < using this
-        //    - portrait = 835.33 / 2732 = 0.305
+        //    - portrait = 835.33 / 2048 = 0.407
         //    
         //iPhone 6 (16:9):
         //    width = 2732, height = 1792
-        //    keyboard height landscape = 1050.623657
-        //    - landscape = 1050.62 / 2732 = 0.3845 < using this
-        //    - landscape = 1050.62 / 1792 = 0.586
+        //    keyboard height landscape = 1050.008972
+        //    - landscape = 1050.008972 / 2732 = 0.384337105417277
         //    width = 1792, height = 2732
-        //    keyboard height portrait = 1056.755615
-        //    - portrait = 1056.75 / 1792 = 0.589 < using this
-        //    - portrait = 1056.75 / 2732 = 0.386
+        //    keyboard height portrait = 1056
+        //    - portrait = 1056 / 1792 = 0.589285714285714
 
         
         // Make sure we have portrait for aspect ratio calc
@@ -220,37 +227,40 @@ float MessageComposer::getEstimatedKeyboardHeight() const
         // x = landscape % of width, y = portrait % of width
         // Remember in landscape width = portrait height
         Vec2 keyboardHeightPct;
-        keyboardHeightPct.x = 0.388; // landscape
         
         if(aspectRatio >= 1.32 && aspectRatio <= 1.34) // 4:3 (1.33) approx
         {
             // Values taken from iPad keyboard height
+            keyboardHeightPct.x = 0.388; // landscape
             keyboardHeightPct.y = 0.407; // portrait
         }
         else if(aspectRatio >= 1.76 && aspectRatio <= 1.79) // 16:9 (1.77) approx
         {
-            // Values taken from iPhone keyboard height
-            keyboardHeightPct.y = 0.589; // portrait
+            // Values taken from iPhone 6 keyboard height
+            keyboardHeightPct.x = 0.384337105417277; // landscape
+            keyboardHeightPct.y = 0.589285714285714; // portrait
         }
         else if(aspectRatio >= 1.65 && aspectRatio <= 1.68) // 5:3 (1.6667) approx
         {
-            // Same as 16:9
-            keyboardHeightPct.y = 0.589; // portrait
+            // Use the 16:9 height and transform it by the aspectRatio
+            keyboardHeightPct.x = 0.384337105417277 / 1.77 * aspectRatio; // landscape
+            keyboardHeightPct.y = 0.589285714285714 / 1.77 * aspectRatio; // portrait
         }
         else if(aspectRatio >= 1.59 && aspectRatio <= 1.61) // 16:10/8:5 (1.6) approx
         {
-            // TODO: Check some Fire devices (usually 8:5) for some good default values
-            // Same as 16:9 for now
-            keyboardHeightPct.y = 0.589; // portrait
+            // Use the 16:9 height and transform it by the aspectRatio
+            keyboardHeightPct.x = 0.384337105417277 / 1.77 * aspectRatio; // landscape
+            keyboardHeightPct.y = 0.589285714285714 / 1.77 * aspectRatio; // portrait
         }
         else
         {
             // Anything else
             // Use the 4:3 height and transform it by the aspectRatio
+            keyboardHeightPct.x = 0.388 / 1.33 * aspectRatio; // landscape
             keyboardHeightPct.y = 0.407 / 1.33 * aspectRatio; // portrait
         }
         
-        const Vec2& visibleOrigin = Director::getInstance()->getVisibleOrigin();
+        Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
         Size portraitSize = Director::getInstance()->getVisibleSize();
         portraitSize.width += visibleOrigin.x;
         portraitSize.height += visibleOrigin.y;
@@ -260,11 +270,15 @@ float MessageComposer::getEstimatedKeyboardHeight() const
             const float width = portraitSize.height;
             portraitSize.height = portraitSize.width;
             portraitSize.width = width;
+            
+            const float x = visibleOrigin.y;
+            visibleOrigin.y = visibleOrigin.x;
+            visibleOrigin.x = x;
         }
         
         // Save it so we don't need to calc again
-        const float heightPortrait = portraitSize.width * keyboardHeightPct.y;
-        const float heightLandscape = portraitSize.height * keyboardHeightPct.x;
+        const float heightPortrait = (portraitSize.width * keyboardHeightPct.y) - visibleOrigin.y;
+        const float heightLandscape = (portraitSize.height * keyboardHeightPct.x) - visibleOrigin.x;
         // Check before we save, we don't overwrite any legit values
         if(UserDefault::getInstance()->getFloatForKey(kEstimatedKeyboardHeightPortrait) == 0)
         {
@@ -351,7 +365,7 @@ MessageComposer::Mode MessageComposer::currentMode() const
 
 void MessageComposer::setMode(MessageComposer::Mode mode)
 {
-    Mode oldMode = _currentMode;
+    MessageComposer::Mode oldMode = _currentMode;
     _currentMode = mode;
     
     // Update UI elements
@@ -373,6 +387,7 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
         // Update the sticker selector to use the latest keyboard height we have
         const float keyboardHeight = getEstimatedKeyboardHeight();
         _stickerSelector->setContentSize(Size(_stickerSelector->getContentSize().width, keyboardHeight));
+        _stickerSelector->setVisible(true);
     }
     else
     {
@@ -442,18 +457,18 @@ void MessageComposer::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFi
         }
         case ui::TextField::EventType::DETACH_WITH_IME:
         {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-            // On Android we must deal with hiding the keyboard here, because sometimes
-            // IMEKeyboardNotificationInfo methods do not get called (sigh)
-            // TODO: Find a more generic way to fix this
-            if(_imeOpen)
-            {
-                cocos2d::IMEKeyboardNotificationInfo imeNotification;
-                imeNotification.end = cocos2d::Rect(0, 0, 0, 0);
-                imeNotification.duration = 0.25f;
-                keyboardWillHide(imeNotification);
-            }
-#endif
+//#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+//            // On Android we must deal with hiding the keyboard here, because sometimes
+//            // IMEKeyboardNotificationInfo methods do not get called (sigh)
+//            // TODO: Find a more generic way to fix this
+//            if(_imeOpen)
+//            {
+//                cocos2d::IMEKeyboardNotificationInfo imeNotification;
+//                imeNotification.end = cocos2d::Rect(0, 0, 0, 0);
+//                imeNotification.duration = 0.25f;
+//                keyboardWillHide(imeNotification);
+//            }
+//#endif
             break;
         }
         case ui::TextField::EventType::INSERT_TEXT:
@@ -520,10 +535,13 @@ void MessageComposer::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& inf
         return;
     }
     
+    // Take into account screen cropping
+    int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
+    
     _imeOpen = true;
     setMode(MessageComposer::Mode::TextEntry);
-    setEstimatedKeyboardHeight(info.end.size.height);
-    resizeUIForKeyboard(info.end.size.height, info.duration);
+    setEstimatedKeyboardHeight(keyboardHeight);
+    resizeUIForKeyboard(keyboardHeight, info.duration);
 }
 
 void MessageComposer::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info)
@@ -534,10 +552,13 @@ void MessageComposer::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info
         return;
     }
     
+    // Take into account screen cropping
+    int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
+    
     _imeOpen = true;
     setMode(MessageComposer::Mode::TextEntry);
-    setEstimatedKeyboardHeight(info.end.size.height);
-    resizeUIForKeyboard(info.end.size.height, 0);
+    setEstimatedKeyboardHeight(keyboardHeight);
+    resizeUIForKeyboard(keyboardHeight, 0);
 }
 
 void MessageComposer::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
