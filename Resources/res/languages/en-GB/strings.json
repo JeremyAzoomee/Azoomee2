@@ -18,7 +18,7 @@
     "OnboardingSuccessScene":
     {
         "IAP_success_title_label":"Your Azoomee subscription is now active!\nGet ready to access lots of exciting TV shows, games and audiobooks",
-        "IAP_fail_title_label":"Don’t worry, you can still access lots of exciting TV shows,\ngames and audiobooks for free",
+        "IAP_fail_title_label":"Get ready to access lots of exciting to access lots of exciting\nTV shows, games and audiobooks for free",
         "sub_label":"Tap %s to get started!",
         "IAP_success_bottom_label":"",
         "IAP_fail_bottom_label":"You can always unlock full access later"

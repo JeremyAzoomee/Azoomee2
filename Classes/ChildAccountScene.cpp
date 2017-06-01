@@ -315,7 +315,7 @@ void ChildAccountScene::registerChildAccount()
     std::string gender = "MALE";
     
     auto backEndCaller = BackEndCaller::getInstance();
-    if(FlowDataSingleton::getInstance()->isSignupFlow())
+    if(FlowDataSingleton::getInstance()->isSignupFlow() && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
         backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, this->selectedOomeeNo);
     else
         backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
