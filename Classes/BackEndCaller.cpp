@@ -24,6 +24,7 @@
 #include "RoutePaymentSingleton.h"
 #include "DeepLinkingSingleton.h"
 #include "OfflineHubScene.h"
+#include "OfflineChecker.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -80,6 +81,13 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
     LoginLogicHandler::getInstance()->forceNewLogin();
 }
 
+//OFFLINE CHECK
+
+void BackEndCaller::offlineCheck()
+{
+    HttpRequestCreator* request = API::OfflineCheck(this);
+    request->execute();
+}
 
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
 
@@ -375,6 +383,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         onUpdateBillingDataAnswerReceived(body);
     }
+    else if(requestTag == API::TagOfflineCheck)
+    {
+        OfflineChecker::getInstance()->onOfflineCheckAnswerReceived();
+    }
     else if(requestTag == "GROUP HQ")
     {
         HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
@@ -409,6 +421,12 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 
 void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
+    if(requestTag == API::TagOfflineCheck)
+    {
+        OfflineChecker::getInstance()->onOfflineCheckFailed();
+        return;
+    }
+    
     if(requestTag == API::TagRegisterParent)
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);

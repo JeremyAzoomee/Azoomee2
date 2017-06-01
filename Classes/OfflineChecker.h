@@ -25,9 +25,11 @@ public:
     
     CC_SYNTHESIZE(OfflineCheckerDelegate*, _delegate, Delegate);
     
+    void onOfflineCheckAnswerReceived();
+    void onOfflineCheckFailed();
+    
 private:
     void sendOfflineCheckRequest();
-    void onOfflineCheckRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     bool offlineStatus;
     bool newScene;
