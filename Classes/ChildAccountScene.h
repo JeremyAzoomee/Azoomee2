@@ -25,7 +25,6 @@ private:
     Label* profileDOBTitle;
     Label* profileDOBSubTitle;
     Label* oomeesTitle;
-    Label* oomeesSubTitle;
     
     ElectricDreamsButton *cancelButton;
     ElectricDreamsButton *nextButton;

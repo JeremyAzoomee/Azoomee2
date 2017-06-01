@@ -44,6 +44,7 @@ void OnboardingScene::onEnter()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
+    addMainTitleToScene();
     addTextboxScene();
     addLabelsToScene();
     addButtonsScene();
@@ -65,23 +66,31 @@ void OnboardingScene::onEnterTransitionDidFinish()
 }
 
 //----------------- SCENE SETUP ---------------
+
+void OnboardingScene::addMainTitleToScene()
+{
+    mainTitle = createLabelMessageBoxBody(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_TITLE_LABEL));
+    mainTitle->setPosition(origin.x + visibleSize.width/2,origin.y + visibleSize.height - mainTitle->getContentSize().height);
+    this->addChild(mainTitle);
+}
+
 void OnboardingScene::addTextboxScene()
 {
     float textInputWidth = visibleSize.width*.90;
     
     emailTextInput = TextInputLayer::createWithSize(Size(textInputWidth,197), INPUT_IS_EMAIL);
-    emailTextInput->setPositionY(visibleSize.height-emailTextInput->getContentSize().height*1.75);
+    emailTextInput->setPositionY(mainTitle->getPositionY()-emailTextInput->getContentSize().height*1.9);
     emailTextInput->setDelegate(this);
     emailTextInput->setText(FlowDataSingleton::getInstance()->getUserName());
     this->addChild(emailTextInput);
     
     passwordTextInput = TextInputLayer::createWithSize(Size(textInputWidth,197), INPUT_IS_PASSWORD);
-    passwordTextInput->setPositionY(emailTextInput->getPositionY() -passwordTextInput->getContentSize().height*2 );
+    passwordTextInput->setPositionY(emailTextInput->getPositionY() -passwordTextInput->getContentSize().height*1.9 );
     passwordTextInput->setDelegate(this);
     this->addChild(passwordTextInput);
     
     pinTextInput = TextInputLayer::createWithSize(Size(600,197), INPUT_IS_PIN);
-    pinTextInput->setPositionY(passwordTextInput->getPositionY() -pinTextInput->getContentSize().height*2.7 );
+    pinTextInput->setPositionY(passwordTextInput->getPositionY() -pinTextInput->getContentSize().height*2.5 );
     pinTextInput->setDelegate(this);
     this->addChild(pinTextInput);
 }
@@ -107,10 +116,10 @@ void OnboardingScene::addLabelsToScene()
 
 void OnboardingScene::addButtonsScene()
 {
-    signupButton = ElectricDreamsButton::createButtonWithText("Signup");
-    signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1.2));
+    signupButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
+    signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1));
     signupButton->setDelegate(this);
-    signupButton->setMixPanelButtonName("signupSceneSignupButton");
+    signupButton->setMixPanelButtonName("signupSceneContinueButton");
     signupButton->setVisible(false);
     
     auto placeHolder = ElectricDreamsButton::createPlaceHolderButton(signupButton->getContentSize().width);
@@ -118,7 +127,7 @@ void OnboardingScene::addButtonsScene()
     this->addChild(placeHolder);
     this->addChild(signupButton);
     
-    cancelButton = ElectricDreamsButton::createOutlineButtonWithText("Cancel");
+    cancelButton = ElectricDreamsButton::createOutlineButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL));
     cancelButton->setCenterPosition(Vec2(visibleSize.width*.25+origin.x, signupButton->getCenterPosition().y));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("signupSceneCancelButton");

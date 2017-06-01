@@ -74,18 +74,9 @@ void ChildAccountScene::onEnterTransitionDidFinish()
 
 void ChildAccountScene::AddTitleToScene()
 {
-    if(FlowDataSingleton::getInstance()->isSignupFlow())
-    {
-        sceneTitle = createLabelHeader("SIGN UP");
-        sceneTitle->setPositionY(origin.y + visibleSize.height - sceneTitle->getContentSize().height * 1.5);
-        this->addChild(sceneTitle);
-    }
-    else
-    {
-        sceneTitle = createLabelHeader("New Profile");
-        sceneTitle->setPositionY(origin.y + visibleSize.height - sceneTitle->getContentSize().height * 1.5);
-        this->addChild(sceneTitle);
-    }
+    sceneTitle = createLabelMessageBoxBody(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_TITLE_LABEL));
+    sceneTitle->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height - sceneTitle->getContentSize().height * 1.5);
+    this->addChild(sceneTitle);
 }
 
 void ChildAccountScene::addTextboxScene()
@@ -132,20 +123,15 @@ void ChildAccountScene::addLabelToScene()
     oomeesTitle->setPosition(profileNameTitle->getPosition());
     oomeesTitle->setVisible(false);
     this->addChild(oomeesTitle);
-    
-    oomeesSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_SUB_LABEL));
-    oomeesSubTitle->setPositionY(oomeesTitle->getPositionY() - oomeesSubTitle->getContentSize().height*2);
-    oomeesSubTitle->setVisible(false);
-    this->addChild(oomeesSubTitle);
 }
 
 
 void ChildAccountScene::addButtonsScene()
 {
-    nextButton = ElectricDreamsButton::createButtonWithText("Next");
+    nextButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
     nextButton->setCenterPosition(Vec2(visibleSize.width*.7+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.2));
     nextButton->setDelegate(this);
-    nextButton->setMixPanelButtonName("childAccountSceneNextButton");
+    nextButton->setMixPanelButtonName("childAccountSceneContinueButton");
     nextButton->setVisible(false);
     
     nextButtonPlaceholder = ElectricDreamsButton::createPlaceHolderButton(nextButton->getContentSize().width);
@@ -153,7 +139,7 @@ void ChildAccountScene::addButtonsScene()
     this->addChild(nextButtonPlaceholder);
     this->addChild(nextButton);
     
-    cancelButton = ElectricDreamsButton::createOutlineButtonWithText("Cancel");
+    cancelButton = ElectricDreamsButton::createOutlineButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL));
     cancelButton->setCenterPosition(Vec2(visibleSize.width*.3+origin.x, nextButton->getCenterPosition().y));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("childAccountSceneCancelButton");
@@ -162,10 +148,10 @@ void ChildAccountScene::addButtonsScene()
     if(FlowDataSingleton::getInstance()->isSignupFlow())
         cancelButton->setVisible(false);
     
-    submitButton = ElectricDreamsButton::createButtonWithText("Submit");
+    submitButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_DONE));
     submitButton->setCenterPosition(Vec2(nextButton->getCenterPosition().x,origin.y + submitButton->getContentSize().height));
     submitButton->setDelegate(this);
-    submitButton->setMixPanelButtonName("childAccountSceneSumitButton");
+    submitButton->setMixPanelButtonName("childAccountSceneDoneButton");
     submitButton->setVisible(false);
     
     submitButtonPlaceholder = ElectricDreamsButton::createPlaceHolderButton(submitButton->getContentSize().width);
@@ -199,7 +185,6 @@ void ChildAccountScene::clearElementsOnScreen()
     profileDOBTitle->setVisible(false);
     profileDOBSubTitle->setVisible(false);
     oomeesTitle->setVisible(false);
-    oomeesSubTitle->setVisible(false);
     
     //Buttons
     cancelButton->setVisible(false);
@@ -239,7 +224,6 @@ void ChildAccountScene::changeElementsToOomeeScreen()
     clearElementsOnScreen();
     
     oomeesTitle->setVisible(true);
-    oomeesSubTitle->setVisible(true);
     
     backButton->setVisible(true);
     submitButtonPlaceholder->setVisible(true);
@@ -265,11 +249,11 @@ void ChildAccountScene::addOomeesToScene()
         OomeeButtons.push_back(oomeeButton);
     }
     
-    OomeeButtons.at(0)->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height*.45));
-    OomeeButtons.at(1)->setCenterPosition(Vec2(origin.x + visibleSize.width*.3, origin.y + visibleSize.height*.22));
-    OomeeButtons.at(2)->setCenterPosition(Vec2(origin.x + visibleSize.width*.7, origin.y + visibleSize.height*.22));
-    OomeeButtons.at(3)->setCenterPosition(Vec2(origin.x + visibleSize.width*.3, origin.y + visibleSize.height*.68));
-    OomeeButtons.at(4)->setCenterPosition(Vec2(origin.x + visibleSize.width*.7, origin.y + visibleSize.height*.68));
+    OomeeButtons.at(0)->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height*.47));
+    OomeeButtons.at(1)->setCenterPosition(Vec2(origin.x + visibleSize.width*.3, origin.y + visibleSize.height*.24));
+    OomeeButtons.at(2)->setCenterPosition(Vec2(origin.x + visibleSize.width*.7, origin.y + visibleSize.height*.24));
+    OomeeButtons.at(3)->setCenterPosition(Vec2(origin.x + visibleSize.width*.3, origin.y + visibleSize.height*.70));
+    OomeeButtons.at(4)->setCenterPosition(Vec2(origin.x + visibleSize.width*.7, origin.y + visibleSize.height*.70));
     
     ModalMessages::getInstance()->stopLoading();
 }

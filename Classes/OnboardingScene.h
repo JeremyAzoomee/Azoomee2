@@ -12,6 +12,8 @@ using namespace Azoomee;
 class OnboardingScene : public Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
+    Label* mainTitle;
+    
     TextInputLayer *emailTextInput;
     TextInputLayer *passwordTextInput;
     TextInputLayer *pinTextInput;
@@ -24,8 +26,9 @@ private:
     
     bool hasBeenSet;
     
-    void addLabelsToScene();
+    void addMainTitleToScene();
     void addTextboxScene();
+    void addLabelsToScene();
     void addButtonsScene();
     
     void signUp();

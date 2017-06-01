@@ -16,7 +16,8 @@ private:
     Vec2 origin;
     
     ElectricDreamsButton* oomeeButton;
-    ElectricDreamsButton* startTrial;
+    //Removed - but left here, as they may well change their minds again.
+    //ElectricDreamsButton* startTrial;
 
     void setupScene();
     void addVisualElementsToScene();
