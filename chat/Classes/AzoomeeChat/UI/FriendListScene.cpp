@@ -122,7 +122,15 @@ bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
     }
     else if(title == "What's new")
     {
+        body << "- Stickers!.\n";
+        body << "- Emoji support.\n";
+        body << "- Improved keyboard detection on Android.\n";
+        body << "- Lots of little bug fixes.\n";
+        
+        body << "\n";
+        body << "0.1.2:\n";
         body << "- The oomees are here!.\n";
+        
         body << "\n";
         body << "0.1.1:\n";
         body << "- New UI \"1.0\".\n";
