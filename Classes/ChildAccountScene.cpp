@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -314,7 +315,10 @@ void ChildAccountScene::registerChildAccount()
     std::string gender = "MALE";
     
     auto backEndCaller = BackEndCaller::getInstance();
-    backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
+    if(FlowDataSingleton::getInstance()->isSignupFlow())
+        backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, this->selectedOomeeNo);
+    else
+        backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
 }
 
 bool ChildAccountScene::DOBisDate()

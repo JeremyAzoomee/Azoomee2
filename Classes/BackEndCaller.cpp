@@ -287,8 +287,7 @@ void BackEndCaller::updateChild(const std::string& childId, const std::string& c
 {
     displayLoadingScreen();
     
-    newChildName = childProfileName;
-    oomeeAvatarNumber = oomeeNumber;
+    FlowDataSingleton::getInstance()->addChildData(childProfileName, oomeeNumber);
     
     const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
     const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
