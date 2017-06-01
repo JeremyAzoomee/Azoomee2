@@ -16,7 +16,7 @@ static cocos2d::Size designResolutionPortraitSize = cocos2d::Size(designResoluti
 
 extern "C"
 {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_onKeyboardShown(JNIEnv* env, jclass, jint height)
+    JNIEXPORT void JNICALL Java_com_tinizine_azoomee_AzoomeeActivity_onKeyboardShown(JNIEnv* env, jclass, jint height)
     {
         if(env)
         {
@@ -25,7 +25,7 @@ extern "C"
         }
     }
     
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_onKeyboardHidden(JNIEnv* env, jclass, jint height)
+    JNIEXPORT void JNICALL Java_com_tinizine_azoomee_AzoomeeActivity_onKeyboardHidden(JNIEnv* env, jclass, jint height)
     {
         if(env)
         {
@@ -53,8 +53,8 @@ bool Application::applicationDidFinishLaunching()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     // Ensure the JNI native methods are compiled into the binary
-    Java_org_cocos2dx_cpp_AppActivity_onKeyboardShown(nullptr, nullptr, 0);
-    Java_org_cocos2dx_cpp_AppActivity_onKeyboardHidden(nullptr, nullptr, 0);
+    Java_com_tinizine_azoomee_AzoomeeActivity_onKeyboardShown(nullptr, nullptr, 0);
+    Java_com_tinizine_azoomee_AzoomeeActivity_onKeyboardHidden(nullptr, nullptr, 0);
 #endif
     
     // initialize director

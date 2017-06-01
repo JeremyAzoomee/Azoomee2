@@ -9,3 +9,4 @@
 *.apk
 /azoomee_common/obj/
 /azoomee_common/libs/
+/azoomee_common/build/

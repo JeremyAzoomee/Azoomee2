@@ -35,12 +35,9 @@ bool StickerCategoryListView::init()
                 StickerCategoryListViewItem* item = (StickerCategoryListViewItem*) items.at(i);
                 item->setSelected(i == selectedIndex);
             }
-        }
-        else if(type == ui::ListView::EventType::ON_SELECTED_ITEM_END)
-        {
+            
             if(_selectedEventCallback)
             {
-                const int selectedIndex = (int)getCurSelectedIndex();
                 _selectedEventCallback(_listData[selectedIndex]);
             }
         }
