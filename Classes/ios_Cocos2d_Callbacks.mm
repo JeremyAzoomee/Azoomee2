@@ -20,7 +20,7 @@ void navigateToBaseScene()
     
     HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
     
-    AnalyticsSingleton::getInstance()->closeContentEvent();
+    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
     auto baseScene = BaseScene::createScene();
     cocos2d::Director::getInstance()->replaceScene(baseScene);
@@ -28,7 +28,7 @@ void navigateToBaseScene()
 
 void navigateToLoginScene()
 {
-    AnalyticsSingleton::getInstance()->closeContentEvent();
+    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }

@@ -207,7 +207,7 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
     
     CCLOG("request tag: %s", requestTag.c_str());
     CCLOG("request body: %s", response->getHttpRequest()->getRequestData());
-    CCLOG("response string: %s", responseString.c_str());
+    CCLOG("response string: %s", responseDataString.c_str());
     CCLOG("response code: %ld", response->getResponseCode());
     
     //-----------------------Handle error code--------------------------

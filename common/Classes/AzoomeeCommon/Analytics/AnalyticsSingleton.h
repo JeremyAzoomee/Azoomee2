@@ -24,13 +24,7 @@ private:
     void appsFlyerSendEvent(const std::string& eventID);
     void appsFlyerSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map);
     
-    std::string storedTitle;
-    std::string storedDescription;
-    std::string storedType;
-    std::string storedContentID;
-    int storedRowNumber;
-    int storedElementNumber;
-    std::string storedElementShape;
+    std::map<std::string, std::string> storedContentItemProperties;
     
     std::string OSManufacturer;
     
@@ -91,8 +85,14 @@ public:
     //-------------HUB ACTIONS-------------------
     void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
     void navSelectionEvent(std::string hubOrTop, int buttonNumber);
-    void openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape);
-    void closeContentEvent();
+    
+    //-------------CONTENTITEM EVENTS----------
+    void contentItemSelectedEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape);
+    void contentItemProcessingStartedEvent();
+    void contentItemProcessingErrorEvent();
+    void contentItemIncompatibleEvent();
+    void contentItemWebviewStartedEvent();
+    void contentItemClosedEvent();
 
     //------------- PREVIEW ACTIONS ---------------
     void previewContentClickedEvent(std::string Title,std::string Description, std::string Type);

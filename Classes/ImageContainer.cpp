@@ -163,7 +163,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
             {
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 
-                AnalyticsSingleton::getInstance()->openContentEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "1,1");
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "1,1");
                 
                 target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
                 
