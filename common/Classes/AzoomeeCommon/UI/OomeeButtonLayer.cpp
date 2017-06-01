@@ -91,16 +91,16 @@ void OomeeButtonLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBe
     {
         if(loopAnimation != "")
         {
-            toBeAddedTo->addAnimation(0, loopAnimation, false);
+            toBeAddedTo->setAnimation(0, loopAnimation, false);
         }
         else if(animationsTillWave <=0)
         {
             animationsTillWave = 3;
-            toBeAddedTo->addAnimation(0, "Build_Simple_Wave", false);
+            toBeAddedTo->setAnimation(0, "Build_Simple_Wave", false);
         }
         else
         {
-            toBeAddedTo->addAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("button").c_str(), false);
+            toBeAddedTo->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("button").c_str(), false);
             animationsTillWave--;
         }
     };
