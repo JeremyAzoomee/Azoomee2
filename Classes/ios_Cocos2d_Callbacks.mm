@@ -22,14 +22,14 @@ void navigateToBaseScene()
     
     HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
     
-    AnalyticsSingleton::getInstance()->closeContentEvent();
+    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }
 
 void navigateToLoginScene()
 {
-    AnalyticsSingleton::getInstance()->closeContentEvent();
+    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     FlowDataSingleton::getInstance()->setErrorCode(1006);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }

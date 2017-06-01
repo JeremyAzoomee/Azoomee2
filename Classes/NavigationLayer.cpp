@@ -351,14 +351,13 @@ void NavigationLayer::moveMenuPointsToCircleState(float duration)
     {
         auto menuItemImage = (Sprite *)this->getChildByTag(i);
         Point targetPosition = ConfigStorage::getInstance()->getCirclePositionForMenuItem(i);
-        float delayTime = 0;
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
-        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(duration, targetPosition), 2), NULL);
-        sequence->setTag(1);
+        auto action = EaseInOut::create(MoveTo::create(duration, targetPosition), 2);
+        action->setTag(1);
         
-        menuItemImage->runAction(sequence);
+        menuItemImage->runAction(action);
     }
     settingsButtonOnScreen();
 }
@@ -370,14 +369,13 @@ void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
     {
         auto menuItemImage = (Sprite *)this->getChildByTag(i);
         Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(i);
-        float delayTime = 0;
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
-        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(duration, targetPosition), 2), NULL);
-        sequence->setTag(1);
+        auto action = EaseInOut::create(MoveTo::create(duration, targetPosition), 2);
+        action->setTag(1);
         
-        menuItemImage->runAction(sequence);
+        menuItemImage->runAction(action);
     }
     settingsButtonOffScreen();
 }
@@ -389,14 +387,13 @@ void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
     {
         auto menuItemImage = (Sprite *)this->getChildByTag(i);
         Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItemInGroupHQ(i);
-        float delayTime = 0;
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
-        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(duration, targetPosition), 2), NULL);
-        sequence->setTag(1);
+        auto action = EaseInOut::create(MoveTo::create(duration, targetPosition), 2);
+        action->setTag(1);
         
-        menuItemImage->runAction(sequence);
+        menuItemImage->runAction(action);
     }
     settingsButtonOffScreen();
 }

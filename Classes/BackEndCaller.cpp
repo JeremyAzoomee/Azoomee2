@@ -23,6 +23,7 @@
 #include "DeepLinkingSingleton.h"
 #include "FlowDataSingleton.h"
 #include "OfflineHubScene.h"
+#include "OfflineChecker.h"
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -77,6 +78,13 @@ void BackEndCaller::getBackToLoginScreen(long errorCode)
     LoginLogicHandler::getInstance()->forceNewLogin();
 }
 
+//OFFLINE CHECK
+
+void BackEndCaller::offlineCheck()
+{
+    HttpRequestCreator* request = API::OfflineCheck(this);
+    request->execute();
+}
 
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
 
@@ -273,6 +281,27 @@ void BackEndCaller::onRegisterChildAnswerReceived()
     getAvailableChildren();
 }
 
+//UPDATE CHILD----------------------------------------------------------------------------
+
+void BackEndCaller::updateChild(const std::string& childId, const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber)
+{
+    displayLoadingScreen();
+    
+    newChildName = childProfileName;
+    oomeeAvatarNumber = oomeeNumber;
+    
+    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
+    const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
+    const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + childId;
+    HttpRequestCreator* request = API::UpdateChildRequest(url, childId, childProfileName, childGender, childDOB, oomeeUrl, ownerId, this);
+    request->execute();
+}
+
+void BackEndCaller::onUpdateChildAnswerReceived()
+{
+    getAvailableChildren();
+}
+
 //GOOGLE VERIFY PAYMENT---------------------------------------------------------------------
 void BackEndCaller::verifyGooglePayment(const std::string& orderId, const std::string& iapSku, const std::string& purchaseToken)
 {
@@ -350,6 +379,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         onRegisterChildAnswerReceived();
     }
+    else if(requestTag == API::TagUpdateChild)
+    {
+        onUpdateChildAnswerReceived();
+    }
     else if(requestTag == API::TagRegisterParent)
     {
         onRegisterParentAnswerReceived();
@@ -369,6 +402,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagUpdateBillingData)
     {
         onUpdateBillingDataAnswerReceived(body);
+    }
+    else if(requestTag == API::TagOfflineCheck)
+    {
+        OfflineChecker::getInstance()->onOfflineCheckAnswerReceived();
     }
     else if(requestTag == "GROUP HQ")
     {
@@ -407,6 +444,12 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 
 void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
+    if(requestTag == API::TagOfflineCheck)
+    {
+        OfflineChecker::getInstance()->onOfflineCheckFailed();
+        return;
+    }
+    
     if(requestTag == API::TagRegisterParent)
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);

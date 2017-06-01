@@ -28,10 +28,10 @@ bool DisplayChildNameLayer::init()
     delayTime = 0.4;
     scaleTime = 0.5;
     
-    if(HQHistoryManager::getInstance()->noHistory())
+    if(!HQHistoryManager::getInstance()->noHistory())
     {
-        delayTime = 0;
-        scaleTime = 0;
+        delayTime = 0.01;
+        scaleTime = 0.01;
     }
     
     addFrameToLayer();

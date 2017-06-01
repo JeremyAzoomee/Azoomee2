@@ -16,6 +16,7 @@ const char* const API::TagChildLogin = "childLogin";
 const char* const API::TagGetGorden = "getGordon";
 const char* const API::TagRegisterParent = "registerParent";
 const char* const API::TagRegisterChild = "registerChild";
+const char* const API::TagUpdateChild = "updateChild";
 const char* const API::TagVerifyGooglePayment = "iabGooglePaymentMade";
 const char* const API::TagVerifyAmazonPayment = "iapAmazonPaymentMade";
 const char* const API::TagVerifyApplePayment = "iapApplePaymentMade";
@@ -23,8 +24,17 @@ const char* const API::TagGetChatList = "chat.getChatList";
 const char* const API::TagGetChatMessages = "chat.getChatMessages";
 const char* const API::TagSendChatMessage = "chat.sendChatMessage";
 const char* const API::TagResetPasswordRequest = "resetPasswordRequest";
+const char* const API::TagOfflineCheck = "offlineCheck";
 
 #pragma mark - API Methods
+
+HttpRequestCreator* API::OfflineCheck(HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagOfflineCheck;
+    request->encrypted = false;
+    return request;
+}
 
 HttpRequestCreator* API::LoginRequest(const std::string& username,
                                       const std::string& password,
@@ -107,6 +117,24 @@ HttpRequestCreator* API::RegisterChildRequest(const std::string& childProfileNam
     request->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"password\":\"\"}", childProfileName.c_str(), childDOB.c_str(), childGender.c_str(), avatar.c_str());
     request->requestTag = TagRegisterChild;
     request->method = "POST";
+    request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::UpdateChildRequest(const std::string& url,
+                                              const std::string& childId,
+                                              const std::string& childProfileName,
+                                              const std::string& childGender,
+                                              const std::string& childDOB,
+                                              const std::string& avatar,
+                                              const std::string& ownerId,
+                                              HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestBody = StringUtils::format("{\"id\":\"%s\",\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"ownerId\":\"%s\"}", childId.c_str(), childProfileName.c_str(), childDOB.c_str(), childGender.c_str(), avatar.c_str(), ownerId.c_str());
+    request->requestTag = TagUpdateChild;
+    request->url = 	url;
+    request->method = "PATCH";
     request->encrypted = true;
     return request;
 }
