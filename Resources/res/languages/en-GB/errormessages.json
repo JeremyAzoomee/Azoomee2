@@ -64,9 +64,9 @@
 
     "1004":
     {
-        "title":"PIN Error",
-        "body":"Please enter your correct 4 digit PIN to continue.",
-        "button":"OK"
+        "title":"Wrong PIN",
+        "body":"If you can't remember your PIN,\nplease visit:\n\nhttp://support.azoomee.com",
+        "button":"Try Again"
     },
     
     "1005":
