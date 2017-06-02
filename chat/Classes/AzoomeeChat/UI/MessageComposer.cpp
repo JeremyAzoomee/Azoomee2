@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 
 
 using namespace cocos2d;
@@ -354,6 +355,8 @@ void MessageComposer::setDelegate(MessageComposer::Delegate* delegate)
 
 void MessageComposer::sendMessage(const std::string& message)
 {
+    AudioMixer::getInstance()->playEffect("laser_whoosh_ripple.mp3");
+    
     if(_delegate)
     {
         const std::string& trimmedMessage = Azoomee::trim(message);
@@ -371,6 +374,8 @@ void MessageComposer::sendMessage(const std::string& message)
 
 void MessageComposer::sendMessage(const StickerRef& sticker)
 {
+    AudioMixer::getInstance()->playEffect("boing.mp3");
+    
     if(_delegate)
     {
         const MessageRef& messageObj = Message::createStickerMessage(sticker);
@@ -655,6 +660,7 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     _stickersTab->setContentSize(Size(buttonHeight, buttonHeight));
     _stickersTab->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(leftMarginX, (_topLayout->getContentSize().height - buttonHeight) / 2, 0, 0)));
     _stickersTab->addClickEventListener([this](Ref* button){
+        AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
         setMode(MessageComposer::Mode::StickersEntry);
     });
     parent->addChild(_stickersTab);
@@ -700,6 +706,7 @@ void MessageComposer::createCancelButton(cocos2d::ui::Layout* parent)
     _cancelButton->setContentSize(Size(buttonHeight, buttonHeight));
     _cancelButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(contentMarginX, 0, 0, 0)));
     _cancelButton->addClickEventListener([this](Ref* button){
+        AudioMixer::getInstance()->playEffect(CANCEL_BUTTON_AUDIO_EFFECT);
         // Clear the message before we set to idle
         _messageEntryField->setString("");
         setMode(MessageComposer::Mode::Idle);

@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "MessageScene.h"
 
 // TODO: This needs to be a dynamic hook, so app can deal with it when we're in the main app
@@ -231,6 +232,8 @@ void FriendListScene::createUserPanelUI(cocos2d::ui::Layout* parent)
 
 void FriendListScene::onBackButtonPressed()
 {
+    AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+    
     // TODO: This needs to be a dynamic hook, so app can deal with it when we're in the main app
     // Logout child
     AuthAPI::getInstance()->logoutChild();
@@ -241,6 +244,8 @@ void FriendListScene::onBackButtonPressed()
 
 void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 {
+    AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
+    
     FriendList participants = { _currentUser, friendData };
     auto messageScene = MessageScene::create(participants);
     Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, messageScene));

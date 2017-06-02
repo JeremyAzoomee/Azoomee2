@@ -1,6 +1,7 @@
 #include "StickerSelector.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
+#include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "../Data/StickerCache.h"
 
 
@@ -49,6 +50,7 @@ bool StickerSelector::init()
     _categoryListView->setSizeType(ui::Widget::SizeType::PERCENT);
     _categoryListView->setSizePercent(Vec2(1.0f, 1.0f));
     _categoryListView->addItemSelectedEventListener([this](const StickerCategoryRef& category){
+        AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
         selectCategory(category);
     });
     secondLayout->addChild(_categoryListView);
