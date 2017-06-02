@@ -141,7 +141,7 @@ void LoginScene::backButtonPressed()
 {
     if(currentScreen == emailLoginScreen)
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
     }
     else if(currentScreen == passwordLoginScreen)
         changeElementsToEmailScreen();

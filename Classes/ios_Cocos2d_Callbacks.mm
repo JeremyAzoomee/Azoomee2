@@ -20,8 +20,6 @@ void navigateToBaseScene()
         return;
     }
     
-    HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
-    
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));

@@ -60,7 +60,17 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             FlowDataSingleton::getInstance()->clearData();
             ForceToLandscape();
+            HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
+            goToScene = BaseScene::createScene();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("BASE");
+            break;
+        }
+        case BaseWithNoHistory:
+        {
+            FlowDataSingleton::getInstance()->clearData();
+            ForceToLandscape();
             HQHistoryManager::getInstance()->emptyHistory();
+            HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
             goToScene = BaseScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("BASE");
             break;

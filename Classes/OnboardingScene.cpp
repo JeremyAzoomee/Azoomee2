@@ -176,7 +176,7 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
         signUp();
     else if(button == cancelButton)
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
     }
 }
 
