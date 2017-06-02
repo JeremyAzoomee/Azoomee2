@@ -131,11 +131,13 @@ void IAPUpsaleLayer::addButtons()
         restoreButton = ElectricDreamsButton::createTextAsButton("Restore your Purchase", 46, true);
         restoreButton->setPosition(SIDE_MARGIN_SIZE, optionalLabel->getPositionY()-restoreButton->getContentSize().height/2);
         restoreButton->setDelegate(this);
+        restoreButton->setMixPanelButtonName("IAPUpsaleSceneRestoreButton");
         UpsaleLayer->addChild(restoreButton);
         
         learnMoreButton = ElectricDreamsButton::createTextAsButton("Learn More", 46, true);
         learnMoreButton->setPosition(UpsaleLayer->getContentSize().width - SIDE_MARGIN_SIZE - restoreButton->getContentSize().width/2, optionalLabel->getPositionY()-learnMoreButton->getContentSize().height/2);
         learnMoreButton->setDelegate(this);
+        learnMoreButton->setMixPanelButtonName("IAPUpsaleSceneLearnMoreButton");
         UpsaleLayer->addChild(learnMoreButton);
         
         optionalLabel->setPositionX(startTrialButton->getPositionX() + optionalLabel->getContentSize().width/2);

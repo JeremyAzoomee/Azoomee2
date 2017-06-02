@@ -107,7 +107,7 @@ public:
 
     //---------------OTHER ACTION------------------
     void genericButtonPressEvent(std::string buttonName);
-    void messageBoxShowEvent(std::string messageTitle);
+    void messageBoxShowEvent(std::string messageTitle, long errorCode);
     void localisedStringErrorEvent(std::string stringRequested, std::string languageUsed);
     void introVideoTimedOutError(std::string errorMessage);
     void enteredBackgroundEvent();

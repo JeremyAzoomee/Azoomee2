@@ -16,7 +16,7 @@ MessageBox* MessageBox::createWith(std::string Title, std::string Body, std::vec
     auto layer = MessageBox::create();
     
     layer->_buttonsTitleList = buttonTitleList;
-    layer->initMessageBoxLayer(Title, Body, _delegate);
+    layer->initMessageBoxLayer(Title, Body, _delegate, 0);
     
     return layer;
 }
@@ -26,7 +26,7 @@ MessageBox* MessageBox::createWith(std::string Title, std::string Body, std::str
     auto layer = MessageBox::create();
     
     layer->_buttonsTitleList.push_back(Button);
-    layer->initMessageBoxLayer(Title, Body, _delegate);
+    layer->initMessageBoxLayer(Title, Body, _delegate, 0);
     
     return layer;
 }
@@ -48,14 +48,14 @@ MessageBox* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHi
     if(errorStringMap.at(ERROR_BUTTON_REFERENCE) != "")
         layer->_buttonsReferenceList = splitStringToVector(errorStringMap[ERROR_BUTTON_REFERENCE], "|");
     
-    layer->initMessageBoxLayer(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], _delegate);
+    layer->initMessageBoxLayer(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], _delegate, errorCode);
     
     return layer;
 }
 
-void MessageBox::initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate)
+void MessageBox::initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate, long errorCode)
 {
-    AnalyticsSingleton::getInstance()->messageBoxShowEvent(Title);
+    AnalyticsSingleton::getInstance()->messageBoxShowEvent(Title,errorCode);
     
     if(_delegate)
         setDelegate(_delegate);
@@ -180,6 +180,7 @@ void MessageBox::createButtons()
     if(_buttonsTitleList.size() == 1)
     {
         auto _button = ElectricDreamsButton::createButtonWithText(_buttonsTitleList.at(0));
+        _button->setMixPanelButtonName(StringUtils::format("messageBoxButton-%s", _buttonsTitleList.at(0).c_str()));
         _button->setDelegate(this);
         buttonsList.push_back(_button);
     }
@@ -188,6 +189,7 @@ void MessageBox::createButtons()
         for(int i=0;i < _buttonsTitleList.size(); i++)
         {
             auto _button = ElectricDreamsButton::createButtonWithWidth(_buttonsTitleList.at(i), buttonSpaceWidth * .75);
+            _button->setMixPanelButtonName(StringUtils::format("messageBoxButton-%s", _buttonsTitleList.at(i).c_str()));
             _button->setDelegate(this);
             buttonsList.push_back(_button);
         }
@@ -197,6 +199,7 @@ void MessageBox::createButtons()
 void MessageBox::createCancelButton()
 {
     cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton->setMixPanelButtonName("messageBoxCancelButton");
     cancelButton->setDelegate(this);
 }
 

@@ -17,7 +17,7 @@ bool PreviewLoginSignupMessageBox::init()
     addButtonWithTitle(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
     addButtonWithTitle(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP));
     initMessageBoxLayer(StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL),
-                        StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_BODY_LABEL),nullptr);
+                        StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_BODY_LABEL),nullptr, 0);
     return true;
 }
 

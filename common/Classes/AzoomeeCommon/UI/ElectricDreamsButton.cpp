@@ -326,6 +326,8 @@ ElectricDreamsButton* ElectricDreamsButton::createOomeeButtonWithOutline(int oom
     oomeeNameLabel->setPosition(layer->getContentSize().width/2, layer->getContentSize().height *.15);
     layer->addChild(oomeeNameLabel);
     
+    layer->setMixPanelButtonName(StringUtils::format("oomeeButton|%d",oomeeNumber));
+    
     return layer;
 }
 
@@ -340,6 +342,8 @@ ElectricDreamsButton* ElectricDreamsButton::createOomeeAsButton(int oomeeNumber)
     layer->setTag(oomeeNumber);
     
     layer->addListener();
+    
+    layer->setMixPanelButtonName(StringUtils::format("oomeeButton|%d",oomeeNumber));
     
     return layer;
 }

@@ -5,7 +5,6 @@
 #include "../Data/Child/ChildDataProvider.h"
 #include "../Data/Parent/ParentDataProvider.h"
 #include "../Audio/AudioMixer.h"
-#include "../Analytics/AnalyticsSingleton.h"
 
 USING_NS_CC;
 using namespace spine;

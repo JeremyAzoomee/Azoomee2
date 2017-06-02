@@ -164,7 +164,7 @@ void ChildAccountScene::addButtonsScene()
     backButton = ElectricDreamsButton::createOutlineButtonWithText("Back");
     backButton->setCenterPosition(Vec2(cancelButton->getCenterPosition().x, submitButton->getCenterPosition().y));
     backButton->setDelegate(this);
-    backButton->setMixPanelButtonName("childAccountSceneBackButton");
+    backButton->setMixPanelButtonName("childAccountSceneBackFromOomeesButton");
     backButton->setVisible(false);
     this->addChild(backButton);
 }

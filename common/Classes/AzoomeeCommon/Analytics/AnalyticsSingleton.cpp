@@ -423,12 +423,13 @@ void AnalyticsSingleton::genericButtonPressEvent(std::string buttonName)
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::messageBoxShowEvent(std::string messageTitle)
+void AnalyticsSingleton::messageBoxShowEvent(std::string messageTitle, long errorCode)
 {
     std::string eventID = "messageBoxDisplayed";
     
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["MessageTitle"] = messageTitle;
+    mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }

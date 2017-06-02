@@ -74,6 +74,7 @@ void IAPDetailsLayer_ios::addButtons()
     backButton = ElectricDreamsButton::createBackButton();
     backButton->setCenterPosition(Vec2(backButton->getContentSize().width*.7, IAPDetailsLayer->getContentSize().height - backButton->getContentSize().height*.9));
     backButton->setDelegate(this);
+    backButton->setMixPanelButtonName("IAPDetailsLayerBackButton");
     IAPDetailsLayer->addChild(backButton);
     
     MarginSize = backButton->getContentSize().width * 1.4;

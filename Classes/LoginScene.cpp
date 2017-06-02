@@ -103,11 +103,13 @@ void LoginScene::addButtonsScene()
     backButton = ElectricDreamsButton::createBackButton();
     backButton->setCenterPosition(Vec2(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7));
     backButton->setDelegate(this);
+    backButton->setMixPanelButtonName("LoginSceneBackButton");
     this->addChild(backButton);
     
     nextButton = ElectricDreamsButton::createNextButton();
     nextButton->setCenterPosition(Vec2(origin.x + visibleSize.width -nextButton->getContentSize().width*.7, origin.y+ visibleSize.height - nextButton->getContentSize().height*.7));
     nextButton->setDelegate(this);
+    nextButton->setMixPanelButtonName("LoginSceneNextButton");
     this->addChild(nextButton);
 }
 
