@@ -122,6 +122,12 @@ bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
     }
     else if(title == "What's new")
     {
+        body << "- Doubled min height of stickers in message history.\n";
+        body << "- Re-enabled 5sec auto refresh.\n";
+        body << "- Hidden art gallery message type.\n";
+        
+        body << "\n";
+        body << "0.1.3:\n";
         body << "- Stickers!.\n";
         body << "- Emoji support.\n";
         body << "- Improved keyboard detection on Android.\n";
