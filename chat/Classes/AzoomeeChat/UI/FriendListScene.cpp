@@ -91,13 +91,14 @@ void FriendListScene::onExit()
 
 void FriendListScene::showNextTesterMessage()
 {
-    // Welcome message
-    const bool shown = showTesterMessageIfNotSeen("Welcome");
-    if(!shown)
-    {
-        // What's new
-        showTesterMessageIfNotSeen("What's new");
-    }
+    // @onimitch: Tester messsages disabled, to be removed entirely in later version
+//    // Welcome message
+//    const bool shown = showTesterMessageIfNotSeen("Welcome");
+//    if(!shown)
+//    {
+//        // What's new
+//        showTesterMessageIfNotSeen("What's new");
+//    }
 }
 
 bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
@@ -123,6 +124,12 @@ bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
     }
     else if(title == "What's new")
     {
+        body << "- Text entry resizes for long messages.\n";
+        body << "- New sticker packs.\n";
+        body << "- Sound effects.\n";
+        
+        body << "\n";
+        body << "0.1.4:\n";
         body << "- Doubled min height of stickers in message history.\n";
         body << "- Re-enabled 5sec auto refresh.\n";
         body << "- Hidden art gallery message type.\n";

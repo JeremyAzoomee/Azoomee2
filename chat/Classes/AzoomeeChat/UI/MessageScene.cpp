@@ -16,7 +16,7 @@ NS_AZOOMEE_CHAT_BEGIN
 
 // Interval to do an auto get call
 // Temp feature until Pusher is implemented
-const float kAutoGetTimeInterval = 0.0f; //5.0f;
+const float kAutoGetTimeInterval = 5.0f;
 
 MessageScene* MessageScene::create(const FriendList& participants)
 {
