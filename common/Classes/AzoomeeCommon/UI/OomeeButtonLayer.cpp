@@ -81,7 +81,7 @@ void OomeeButtonLayer::addOomeeToLayer()
 void OomeeButtonLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
 {
     
-    auto oomeeAnimationComplete = [=] (spTrackEntry* entry)
+    auto oomeeAnimationComplete = [=] (int trackIdx, int loopCount)
     {
         if(loopAnimation != "")
         {
