@@ -552,5 +552,26 @@ void AnalyticsSingleton::iapAppleAutoRenewSubscriptionEvent()
     mixPanelSendEvent("iapAppleAutoRenewSubscription");
 }
     
+//---------------DEEPLINKING ACTIONS------------------
+void AnalyticsSingleton::deepLinkingDetailsSetEvent()
+{
+    mixPanelSendEvent("deepLinkingDetailsSet");
 }
+    
+void AnalyticsSingleton::deepLinkingMoveToEvent(std::string moveTo)
+{
+    std::string eventID = "deepLinkingMoveToEvent";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["MoveTo"] = moveTo;
+    
+    mixPanelSendEvent(eventID, mixPanelProperties);
+}
+    
+void AnalyticsSingleton::deepLinkingContentEvent()
+{
+    mixPanelSendEvent("deepLinkingContentEvent");
+}
+    
 
+}

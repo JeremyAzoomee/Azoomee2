@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -77,6 +78,8 @@ bool DeepLinkingSingleton::setHostAndPath(std::string uriString)
     host = splitByForwardSlash.at(0);
     path = splitByForwardSlash.at(1);
     
+    AnalyticsSingleton::getInstance()->deepLinkingDetailsSetEvent();
+    
     return true;
 }
 
@@ -87,6 +90,8 @@ bool DeepLinkingSingleton::actionDeepLink()
     
     if(host == "content" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
+        AnalyticsSingleton::getInstance()->deepLinkingContentEvent();
+        
         ModalMessages::getInstance()->startLoading();
         deepLinkActionWaiting = false;
         BackEndCaller::getInstance()->getElectricDreamsContent("deepLinkContentRequest", path);
@@ -96,6 +101,8 @@ bool DeepLinkingSingleton::actionDeepLink()
     {
         if(path == "signup" && !ChildDataProvider::getInstance()->getIsChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
         {
+            AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
+            
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
             
             resetDeepLink();
@@ -128,6 +135,9 @@ void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
             elementProperties[requiredData.at(i)] = getDataForKeyFromJSON(responseBody, requiredData.at(i));
         }
         elementProperties["id"] = path;
+        
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "0,0");
+        
         completeContentAction(elementProperties);
     }
     else

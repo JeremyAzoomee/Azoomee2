@@ -124,7 +124,11 @@ public:
     void iapSubscriptionDoublePurchaseEvent();
     void iapBackEndRequestFailedEvent(long errorCode);
     void iapAppleAutoRenewSubscriptionEvent();
-
+    
+    //---------------DEEPLINKING ACTIONS------------------
+    void deepLinkingDetailsSetEvent();
+    void deepLinkingMoveToEvent(std::string moveTo);
+    void deepLinkingContentEvent();
 };
   
 }
