@@ -11,6 +11,10 @@
 #include <cocos/ui/CocosGUI.h>
 
 
+// Enable this define to display gallery art tab on composer
+//#define AZOOMEE_CHAT_GALLERY_SHARE
+
+
 NS_AZOOMEE_CHAT_BEGIN
     
 class MessageComposer : public ObservableLayout, public cocos2d::IMEDelegate, public cocos2d::TextFieldDelegate
@@ -26,8 +30,10 @@ public:
         TextEntry,
         /// Stickers is open
         StickersEntry,
+#ifdef AZOOMEE_CHAT_GALLERY_SHARE
         /// Art gallery is open
         ArtGalleryEntry
+#endif
     };
     
     struct Delegate
@@ -62,8 +68,10 @@ private:
     
     /// Stickers tab button
     cocos2d::ui::Button* _stickersTab = nullptr;
+#ifdef AZOOMEE_CHAT_GALLERY_SHARE
     /// Gallery tab button
     cocos2d::ui::Button* _galleryTab = nullptr;
+#endif
     
     /// The stickers selector widget
     StickerSelector* _stickerSelector = nullptr;

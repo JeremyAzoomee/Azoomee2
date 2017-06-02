@@ -641,6 +641,7 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     });
     parent->addChild(_stickersTab);
     
+#ifdef AZOOMEE_CHAT_GALLERY_SHARE
     _galleryTab = ui::Button::create("res/chat/ui/buttons/art_btn.png");
     // Enable content adaption - otherwise % size doesn't work
     _galleryTab->ignoreContentAdaptWithSize(false);
@@ -653,11 +654,15 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
         setMode(MessageComposer::Mode::Idle);
     });
     parent->addChild(_galleryTab);
+#endif
     
     // Size parent to fit the content
     Size contentSize = _stickersTab->getContentSize();
-    contentSize.width += _galleryTab->getContentSize().width;
-    contentSize.width += leftMarginX + (tabMarginX * 2);
+    contentSize.width +=  tabMarginX;
+#ifdef AZOOMEE_CHAT_GALLERY_SHARE
+    contentSize.width += _galleryTab->getContentSize().width + tabMarginX;
+#endif
+    contentSize.width += leftMarginX;
     parent->setContentSize(contentSize);
 }
 
