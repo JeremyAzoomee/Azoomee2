@@ -24,43 +24,43 @@
         "id": "carrot",
         "image_location": "carrot/category.png",
         "stickers": [
-            "ball/s_12.png",
-            "ball/s_13.png",
-            "ball/s_14.png",
-            "ball/s_15.png",
-            "ball/s_16.png"
+            "carrot/s_17.png",
+            "carrot/s_18.png",
+            "carrot/s_19.png",
+            "carrot/s_20.png",
+            "carrot/s_21.png",
+            "carrot/s_22.png",
+            "carrot/s_23.png",
+            "carrot/s_24.png",
+            "carrot/s_25.png",
+            "carrot/s_26.png",
+            "carrot/s_27.png",
+            "carrot/s_28.png",
+            "carrot/s_29.png",
+            "carrot/s_30.png",
+            "carrot/s_31.png",
+            "carrot/s_32.png"
         ]
     }, {
         "id": "doughnut",
         "image_location": "doughnut/category.png",
         "stickers": [
-            "ball/s_01.png",
-            "ball/s_02.png",
-            "ball/s_03.png",
-            "ball/s_04.png",
-            "ball/s_05.png"
+            "doughnut/s_33.png",
+            "doughnut/s_34.png",
+            "doughnut/s_35.png",
+            "doughnut/s_36.png",
+            "doughnut/s_37.png",
+            "doughnut/s_38.png",
+            "doughnut/s_39.png",
+            "doughnut/s_40.png",
+            "doughnut/s_41.png",
+            "doughnut/s_42.png",
+            "doughnut/s_43.png",
+            "doughnut/s_44.png",
+            "doughnut/s_45.png",
+            "doughnut/s_46.png",
+            "doughnut/s_47.png",
+            "doughnut/s_48.png"
         ]
-    }, {
-        "id": "icecream",
-        "image_location": "icecream/category.png",
-        "stickers": [
-            "ball/s_06.png",
-            "ball/s_07.png",
-            "ball/s_08.png",
-            "ball/s_09.png",
-            "ball/s_10.png"
-        ]
-    }, {
-        "id": "lightbulb",
-        "image_location": "lightbulb/category.png",
-        "stickers": [
-            "ball/s_11.png",
-            "ball/s_12.png",
-            "ball/s_13.png"
-        ]
-    }, {
-        "id": "pizza",
-        "image_location": "pizza/category.png",
-        "stickers": []
     }]
 }
