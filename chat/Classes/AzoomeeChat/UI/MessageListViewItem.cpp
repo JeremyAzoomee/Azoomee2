@@ -135,7 +135,7 @@ void MessageListViewItem::resizeItemContents()
     else if(_stickerLayout->isVisible())
     {
         // Resize the sticker, ensuring it keeps it's aspect ratio
-        const float maxHeight = 400.0f; // TODO: Get from config
+        const float maxHeight = 800.0f; // TODO: Get from config
         const Size& textureSize = _stickerImage->getVirtualRendererSize();
         Size imageSize = Size(maxWidth - (contentPadding.x * 2.0f), maxHeight - (contentPadding.y * 2.0f));
         if(textureSize.width > textureSize.height)
