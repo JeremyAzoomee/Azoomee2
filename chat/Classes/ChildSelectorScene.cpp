@@ -89,6 +89,17 @@ void ChildSelectorScene::onSizeChanged()
         backButton->setCenterPosition(Vec2(backButton->getContentSize().width*.7, visibleSize.height - backButton->getContentSize().height*.7));
         scrollView->setContentSize(Size(visibleSize.width * 0.6, visibleSize.height * 0.8));
         scrollView->setPosition(Point(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.05));
+        
+        // Update scrollable size
+        scrollView->setInnerContainerSize(getScrollviewInnerSize(scrollView->getContentSize().width));
+        
+        // Re-position scrollview elements
+        for(const auto& child : scrollView->getChildren())
+        {
+            child->setPosition(positionElementOnScrollView((Layer*)child));
+        }
+        
+        scrollView->jumpToTop();
     }
 }
 
@@ -256,17 +267,23 @@ Point ChildSelectorScene::positionElementOnScrollView(Layer *layerToBeAdded)
 {
     Vector<Node*> scrollViewChildren = scrollView->getChildren();
     
-    if(scrollViewChildren.size() == 0)
+    ssize_t index = scrollViewChildren.getIndex(layerToBeAdded);
+    if(index == -1)
     {
-        return Point(OOMEE_LAYER_GAP / 2, scrollView->getInnerContainerSize().height - OOMEE_LAYER_GAP / 2 - layerToBeAdded->getContentSize().height);
+        index = scrollViewChildren.size();
     }
     
-    Node *lastChild = scrollViewChildren.at(scrollViewChildren.size() - 1);
+    if(index == 0)
+    {
+        return Point(OOMEE_LAYER_GAP / 2, scrollView->getContentSize().height - OOMEE_LAYER_GAP / 2 - layerToBeAdded->getContentSize().height);
+    }
+    
+    Node *lastChild = scrollViewChildren.at(index - 1);
     Point lastPos = lastChild->getPosition();
     
     Point newPos = Point(lastPos.x + lastChild->getContentSize().width + OOMEE_LAYER_GAP, lastPos.y);
     
-    if(newPos.x + layerToBeAdded->getContentSize().width > scrollView->getInnerContainerSize().width)
+    if(newPos.x + layerToBeAdded->getContentSize().width > scrollView->getContentSize().width)
     {
         newPos = Point(OOMEE_LAYER_GAP / 2, newPos.y - OOMEE_LAYER_GAP - layerToBeAdded->getContentSize().height);
     }
