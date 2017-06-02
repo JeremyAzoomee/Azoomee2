@@ -51,7 +51,7 @@ void TextInputLayer::createEditBoxArea()
 void TextInputLayer::createEditBox()
 {
     editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height), "res/login/editboxBlankFor9Scale.png");
-    
+    editBox->moveOnKeyboardDisplayRequired = false;
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);

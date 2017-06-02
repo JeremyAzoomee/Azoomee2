@@ -51,7 +51,8 @@
 			
 				jwplayer().on('ready', function(event){
 					var loadingScreen = document.getElementById("loadingScreen");
-					loadingScreen.innerHTML = '<center><button onClick="startPlayBack()" style="margin-top: 24.5%; width: 15%; background-color: Transparent; border: none;"><img src="play.png" style="width: 50%;"></button></center>';
+					loadingScreen.innerHTML = '<div button onClick="startPlayBack()" id="loadingText" style="width: 100%; height: 100%; background-image: url(./play.png); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center; background-size: auto 18%;"></div>';
+					startPlayBack();
 				});
 			
 					jwplayer().on('pause', function(event){
@@ -100,8 +101,6 @@
 			function startPlayBack()
 			{
 				jwplayer().play(true);
-				var loadingScreen = document.getElementById("loadingScreen");
-				loadingScreen.innerHTML = '<center><img src="load.png" style="margin-top: 24.5%; width: 15%;"></center>';
 			}
 </script>
 <style type="text/css">
@@ -120,8 +119,8 @@
 				padding:0; 
 			}
 		</style>
-		<div id="loadingScreen" style="position: absolute; left: 0px; top: 0px; background-image: url(./loading_bg.jpg); width: 100%; height: 100vh; background-size: 100%; background-repeat: no-repeat;">
-			<center><img src="load.png" style="margin-top: 24.5%; width: 15%;"></center>
+		<div id="loadingScreen" style="text-align: center; vertical-align: middle; background-color: #000000; position: absolute; left: 0px; top: 0px; bottom: 0px; background-image: url(./loading_bg.jpg); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;  background-size: auto 50%;">
+			<div id="loadingText" style="width: 100%; height: 100%; background-image: url(./load.png); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;  background-size: auto 10%;"></div>
 		</div>
 	</body>
 </html>
