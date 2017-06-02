@@ -200,6 +200,7 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == notNowButton)
     {
+        AudioMixer::getInstance()->resumeBackgroundMusic();
         removeSelf();
     }
     else if(button == restoreButton)
