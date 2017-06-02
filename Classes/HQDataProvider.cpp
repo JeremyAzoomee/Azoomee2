@@ -164,7 +164,7 @@ std::string HQDataProvider::getAllElementDataInRow(std::string category, int row
     
     for(int i = 0; i < elementids.size(); i++)
     {
-        if(getTypeForSpecificItem(category, elementids.at(i)) == "VIDEO" || getTypeForSpecificItem(category, elementids.at(i)) == "AUDIO")
+        if((getTypeForSpecificItem(category, elementids.at(i)) == "VIDEO" || getTypeForSpecificItem(category, elementids.at(i)) == "AUDIO") && getItemDataForSpecificItem(category, elementids.at(i))["entitled"] == "true")
         {
             std::map<std::string, std::string> elementToBeAdded;
             
