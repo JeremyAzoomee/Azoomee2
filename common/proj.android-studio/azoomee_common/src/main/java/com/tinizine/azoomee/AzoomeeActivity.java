@@ -85,7 +85,7 @@ public class AzoomeeActivity extends Cocos2dxActivity implements KeyboardHeightO
             {
                 fullHeight = globalLayoutHeightDiff;
             }
-            else
+            else if(globalLayoutHeightDiff < 100)
             {
                 // Otherwise use both values combined
                 // This is because in this instance, globalLayoutHeightDiff contains the status bar height

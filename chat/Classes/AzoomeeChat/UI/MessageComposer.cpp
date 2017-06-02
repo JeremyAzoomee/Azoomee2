@@ -106,7 +106,8 @@ void MessageComposer::onSizeChanged()
     const Size& textEntryMaxSize = _messageEntryField->getParent()->getContentSize();
     const auto& textEntryMargin = _messageEntryField->getLayoutParameter()->getMargin();
     const float textEntryWidth = textEntryMaxSize.width - textEntryMargin.left - textEntryMargin.right;
-    _messageEntryField->setContentSize(Size(textEntryWidth, textEntryMaxSize.height));
+    _messageEntryField->setContentSize(Size(textEntryWidth, _messageEntryField->getContentSize().height));
+    updateTextEntryHeight();
 }
 
 void MessageComposer::setContentSize(const cocos2d::Size& contentSize)
@@ -129,6 +130,31 @@ void MessageComposer::setContentSize(const cocos2d::Size& contentSize)
     {
         Super::setContentSize(contentSize);
     }
+}
+
+void MessageComposer::updateTextEntryHeight()
+{
+    ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
+//    cocos2d::log("textFieldRenderer.getContentSize: %f, %f", textFieldRenderer->getContentSize().width, textFieldRenderer->getContentSize().height);
+//    cocos2d::log("_messageEntryField.getContentSize: %f, %f", _messageEntryField->getContentSize().width, _messageEntryField->getContentSize().height);
+    
+    _messageEntryField->setContentSize(Size(_messageEntryField->getContentSize().width, textFieldRenderer->getContentSize().height));
+    
+    // Resize the layout parent (holds the image)
+    const float textFieldMarginY = 60.0f;
+    _messageEntryLayout->setContentSize(Size(_messageEntryLayout->getContentSize().width, _messageEntryField->getContentSize().height + (textFieldMarginY * 2.0f)));
+    
+    // Resize top layout to match
+    // TODO: Get from config
+    const float textEntryHeight = _messageEntryLayout->getContentSize().height;
+    const float textEntryMargin = 40.0f;
+    const float totalHeight = textEntryHeight + (textEntryMargin * 2.0f);
+    // Width will get updated later, so just use 0 for now
+    _topLayout->setContentSize(Size(_topLayout->getContentSize().width, totalHeight));
+    _currentHeight = totalHeight;
+    
+    // Make sure current view position is adjusted
+    resizeUIForKeyboard(_lastKeyboardHeight, 0.0f);
 }
 
 void MessageComposer::resizeUIForKeyboard(float keyboardHeight, float duration)
@@ -453,30 +479,21 @@ void MessageComposer::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFi
             // Override the textField delegate so we can capture return key
             ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
             textFieldRenderer->setDelegate(this);
+            textFieldRenderer->setClipMarginEnabled(false);
+            textFieldRenderer->setOverflow(Label::Overflow::RESIZE_HEIGHT);
             break;
         }
         case ui::TextField::EventType::DETACH_WITH_IME:
         {
-//#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-//            // On Android we must deal with hiding the keyboard here, because sometimes
-//            // IMEKeyboardNotificationInfo methods do not get called (sigh)
-//            // TODO: Find a more generic way to fix this
-//            if(_imeOpen)
-//            {
-//                cocos2d::IMEKeyboardNotificationInfo imeNotification;
-//                imeNotification.end = cocos2d::Rect(0, 0, 0, 0);
-//                imeNotification.duration = 0.25f;
-//                keyboardWillHide(imeNotification);
-//            }
-//#endif
             break;
         }
         case ui::TextField::EventType::INSERT_TEXT:
+        case ui::TextField::EventType::DELETE_BACKWARD:
         {
             // TextField changed
+            updateTextEntryHeight();
             break;
         }
-        case ui::TextField::EventType::DELETE_BACKWARD:
         default:
         {
             // Nothing to do
@@ -508,6 +525,7 @@ bool MessageComposer::onTextFieldInsertText(cocos2d::TextFieldTTF* sender, const
         sendMessage(_messageEntryField->getString());
         return true;
     }
+
     
     ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
     return textFieldRenderer->onTextFieldInsertText(sender, text, nLen);
@@ -700,13 +718,18 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     
     // { [TEXT ENTRY----->][SEND BUTTON] }
     Texture2D* textEntryTex = _director->getTextureCache()->addImage("res/chat/ui/textfield/message_field.png");
+    const Size& textEntryTexSize = textEntryTex->getContentSize();
     _messageEntryLayout = SplitLayout::create();
-    _messageEntryLayout->setContentSize(textEntryTex->getContentSize());
+    _messageEntryLayout->setContentSize(textEntryTexSize);
     _messageEntryLayout->setMode(SplitLayout::Mode::Horizontal);
     _messageEntryLayout->setSplitBehaviour(SplitLayout::FillSize, SplitLayout::FixedSize);
     _messageEntryLayout->setBackGroundImage("res/chat/ui/textfield/message_field.png");
     _messageEntryLayout->setBackGroundImageScale9Enabled(true);
-    _messageEntryLayout->setBackGroundImageCapInsets(Rect(79, 79, 1638, 2));
+    // Calc correct cap insets
+    Rect bgInsets;
+    bgInsets.origin = Vec2((textEntryTexSize.height / 2) - 1, (textEntryTexSize.height / 2) - 1);
+    bgInsets.size = Size(textEntryTexSize.width - (bgInsets.origin.x * 2.0f), MIN(2.0f, textEntryTexSize.height - (bgInsets.origin.y * 2.0f)));
+    _messageEntryLayout->setBackGroundImageCapInsets(bgInsets);
     _messageEntryLayout->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
     parent->addChild(_messageEntryLayout);
     
@@ -722,20 +745,26 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     _messageEntryField->setCursorEnabled(true);
     _messageEntryField->ignoreContentAdaptWithSize(false);
     _messageEntryField->setTextHorizontalAlignment(TextHAlignment::LEFT);
-    _messageEntryField->setTextVerticalAlignment(TextVAlignment::CENTER);
+    _messageEntryField->setTextVerticalAlignment(TextVAlignment::TOP);
     _messageEntryField->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(textEntryLeftMargin, 0, 0, 0)));
     _messageEntryField->setPlaceHolderColor(Style::Color::windowsBlue);
     _messageEntryField->setTextColor(Color4B(Style::Color::darkBlueGrey));
     _messageEntryField->addEventListener(CC_CALLBACK_2(MessageComposer::onTextFieldEvent, this));
     firstLayout->addChild(_messageEntryField);
     
+    ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
+    _messageEntryField->setContentSize(Size(_messageEntryField->getContentSize().width, textFieldRenderer->getContentSize().height));
+    // Resize the layout parent (holds the image)
+    const float textFieldMarginY = 60.0f;
+    _messageEntryLayout->setContentSize(Size(_messageEntryLayout->getContentSize().width, _messageEntryField->getContentSize().height + (textFieldMarginY * 2.0f)));
+    
     
     // Send button on the right
     ui::Layout* secondLayout = _messageEntryLayout->secondLayout();
-    secondLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
+    secondLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     
-    const float buttonHeight = textEntryTex->getContentSize().height * 0.68f;
-    const float sendButtonRightMargin = (textEntryTex->getContentSize().height - buttonHeight) / 2;
+    const float buttonHeight = textEntryTexSize.height * 0.68f;
+    const float sendButtonMargin = (_messageEntryLayout->getContentSize().height - buttonHeight) / 2;
     
     _sendButton = ui::Button::create("res/chat/ui/buttons/send_btn.png");
     // Enable content adaption - otherwise % size doesn't work
@@ -744,7 +773,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     _sendButton->getRendererClicked()->setStrechEnabled(true);
     _sendButton->getRendererDisabled()->setStrechEnabled(true);
     _sendButton->setContentSize(Size(buttonHeight, buttonHeight));
-    _sendButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(0, 0, sendButtonRightMargin, 0)));
+    _sendButton->setLayoutParameter(CreateBottomLeftRelativeLayoutParam(ui::Margin(0, 0, 0, sendButtonMargin)));
     _sendButton->addClickEventListener([this](Ref* button){
         const std::string& message = _messageEntryField->getString();
         sendMessage(message);
@@ -753,7 +782,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     
     // Size parent to fit the content
     Size secondLayoutContentSize = _sendButton->getContentSize();
-    secondLayoutContentSize.width += sendButtonRightMargin;
+    secondLayoutContentSize.width += sendButtonMargin;
     secondLayout->setContentSize(secondLayoutContentSize);
 }
 

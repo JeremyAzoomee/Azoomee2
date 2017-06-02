@@ -32,7 +32,12 @@ bool MessageListViewItem::init()
     _bubbleLayout = ui::Layout::create();
     _bubbleLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     _bubbleLayout->setBackGroundImage("res/chat/ui/message/speach_bubble.png");
-    _bubbleLayout->setBackGroundImageCapInsets(Rect(67, 67, 329, 2));
+    const Size& bgImageSize = _bubbleLayout->getBackGroundImageTextureSize();
+    // Calc correct cap insets
+    Rect bgInsets;
+    bgInsets.origin = Vec2((bgImageSize.height / 2) - 2, (bgImageSize.height / 2) - 2);
+    bgInsets.size = Size(bgImageSize.width - (bgInsets.origin.x * 2.0f), MIN(2.0f, bgImageSize.height - (bgInsets.origin.y * 2.0f)));
+    _bubbleLayout->setBackGroundImageCapInsets(bgInsets);
     _bubbleLayout->setBackGroundImageScale9Enabled(true);
     _bubbleLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
     _contentLayout->addChild(_bubbleLayout);

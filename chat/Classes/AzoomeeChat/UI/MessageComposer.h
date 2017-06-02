@@ -104,6 +104,8 @@ private:
     
     /// Called on TextField events
     void onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextField::EventType type);
+    /// Update the height of the textfield based on input changes
+    void updateTextEntryHeight();
     
     // - IMEDelegate
     void keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info) override;
