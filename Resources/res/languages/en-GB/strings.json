@@ -8,7 +8,7 @@
     
     "OnboardingScene":
     {
-        "title_label":"Create Your Parent Account",
+        "title_label":"Create your Parent Account",
         "email_label":"Enter your email address",
         "password_label":"Create a password",
         "pin_label":"Create a 4 digit PIN",
@@ -18,7 +18,7 @@
     "OnboardingSuccessScene":
     {
         "IAP_success_title_label":"Your Azoomee subscription is now active!\nGet ready to access lots of exciting TV shows, games and audiobooks",
-        "IAP_fail_title_label":"Get ready to access lots of exciting to access lots of exciting\nTV shows, games and audiobooks for free",
+        "IAP_fail_title_label":"Get ready to access lots of exciting\nTV shows, games and audiobooks for free",
         "sub_label":"Tap %s to get started!",
         "IAP_success_bottom_label":"",
         "IAP_fail_bottom_label":"You can always unlock full access later"
@@ -26,7 +26,7 @@
     
     "ChildAccountScene":
     {
-        "title_label":"Create a Profile for you Child",
+        "title_label":"Create a Profile for your Child",
         "request_name_label":"What's your child's name",
         "edit_name_label":"Want to change the display name?",
         "request_dob_label":"What's their date of birth",
@@ -49,7 +49,7 @@
     
     "OfflineScene":
     {
-        "offline_title_label":"Oh No! You are offline",
+        "offline_title_label":"Oh no! You are offline",
         "for_login_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again,\nor enter offline mode.",
         "offline_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again.",
         "hub_logged_in_body_label":"In the meantime you can still enjoy these.",
@@ -68,8 +68,8 @@
     
     "GenericButtons":
     {
-        "exit_app":"Exit App",
-        "log_out":"Log Out",
+        "exit_app":"Exit app",
+        "log_out":"Log out",
         
         "sign_up":"Sign up",
         "sign_up_multiline":"Sign\nup",
@@ -82,8 +82,8 @@
         "done":"Done",
         
         "skip":"Skip",
-        "start_exploring":"Start Exploring",
-        "add_another":"Add Another",
+        "start_exploring":"Start exploring",
+        "add_another":"Add another",
         "lets_go":"Let's go",
         "retry":"Retry"
     }
