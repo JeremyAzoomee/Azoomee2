@@ -66,7 +66,6 @@ public:
 
     //-------------ONBOARDING--------------------
     void OnboardingStartEvent();
-    void OnboardingEmailSubmittedEvent(std::string emailAddress);
     void OnboardingPasswordSubmittedEvent();
     void OnboardingPinSubmittedEvent();
     void OnboardingAccountCreatedEvent();
@@ -74,7 +73,6 @@ public:
 
     //-------------CHILD PROFILE CREATION-------------
     void childProfileStartEvent();
-    void childProfileNameEvent();
     void childProdileNameErrorEvent();
     void childProfileDOBEvent();
     void childProfileDOBErrorEvent(); // NO DOB CHECKING IS COMPLETED

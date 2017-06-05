@@ -14,13 +14,13 @@ using namespace Azoomee;
 
 void navigateToBaseScene()
 {
+    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
+    
     if(HQHistoryManager::getInstance()->isOffline)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
         return;
     }
-    
-    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }

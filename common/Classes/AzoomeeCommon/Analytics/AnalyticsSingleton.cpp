@@ -140,6 +140,8 @@ void AnalyticsSingleton::logoutParentEvent()
     mixPanelRegisterSuperProperties("accountStatus","");
     mixPanelRegisterSuperProperties("parentID","");
     mixPanelRegisterSuperProperties("azoomeeEmail","");
+    mixPanelRegisterSuperProperties("billingProvider","");
+    mixPanelRegisterSuperProperties("billingStatus","");
 }
 
 //-------------Startup--------------------
@@ -165,23 +167,6 @@ void AnalyticsSingleton::signInFailEvent(int errorCode)
 void AnalyticsSingleton::OnboardingStartEvent()
 {
     mixPanelSendEvent("startCreateAccount");
-}
-
-void AnalyticsSingleton::OnboardingEmailSubmittedEvent(std::string emailAddress)
-{
-    mixPanelSendEvent("emailSubmitted");
-    
-    registerAzoomeeEmail(emailAddress);
-}
-
-void AnalyticsSingleton::OnboardingPasswordSubmittedEvent()
-{
-    mixPanelSendEvent("passwordSubmitted");
-}
-
-void AnalyticsSingleton::OnboardingPinSubmittedEvent()
-{
-    mixPanelSendEvent("pinSubmitted");
 }
 
 void AnalyticsSingleton::OnboardingAccountCreatedEvent()
@@ -211,19 +196,9 @@ void AnalyticsSingleton::childProfileStartEvent()
     mixPanelSendEvent("childProfileCreateStart");
 }
 
-void AnalyticsSingleton::childProfileNameEvent()
-{
-    mixPanelSendEvent("childProfileName");
-}
-
 void AnalyticsSingleton::childProdileNameErrorEvent()
 {
     mixPanelSendEvent("childProfileNameError");
-}
-
-void AnalyticsSingleton::childProfileDOBEvent()
-{
-    mixPanelSendEvent("childProfileDOB");
 }
 
 void AnalyticsSingleton::childProfileDOBErrorEvent()
@@ -288,7 +263,7 @@ void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumbe
 
 //---------------- CONTENT ITEM ACTIONS------------------------
     
-    void AnalyticsSingleton::contentItemSelectedEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape)
+void AnalyticsSingleton::contentItemSelectedEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape)
 {
     SessionIdManager::getInstance()->resetBackgroundTimeInContent();
     

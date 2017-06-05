@@ -281,6 +281,7 @@ void ChildAccountScene::showOomees()
 
 void ChildAccountScene::selectOomee(int oomeeNumber)
 {
+    AnalyticsSingleton::getInstance()->childProfileOomeeEvent(oomeeNumber);
     selectedOomeeNo = oomeeNumber;
     
     for(int i=0;i< OomeeButtons.size();i++)

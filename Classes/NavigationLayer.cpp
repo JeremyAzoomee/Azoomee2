@@ -432,6 +432,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("groupBackButton");
             AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
             Scene *runningScene = Director::getInstance()->getRunningScene();
             Node *baseLayer = runningScene->getChildByName("baseLayer");
