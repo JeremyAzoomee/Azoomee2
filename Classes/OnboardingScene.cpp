@@ -31,8 +31,6 @@ bool OnboardingScene::init()
         return false;
     }
     
-    hasBeenSet = false;
-    
     AudioMixer::getInstance()->stopBackgroundMusic();
     AnalyticsSingleton::getInstance()->OnboardingStartEvent();
     

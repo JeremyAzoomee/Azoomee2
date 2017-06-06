@@ -44,14 +44,14 @@ void SceneManagerScene::onEnterTransitionDidFinish()
     switch (nextScene) {
         case Login:
         {
-            ForceToLandscape();
+            forceToLandscape();
             goToScene = LoginScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("LOGIN");
             break;
         }
         case Onboarding:
         {
-            ForceToPortrait();
+            forceToPortrait();
             goToScene = OnboardingScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("ONBOARDING");
             break;
@@ -59,7 +59,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case Base:
         {
             FlowDataSingleton::getInstance()->clearData();
-            ForceToLandscape();
+            forceToLandscape();
             HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
             goToScene = BaseScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("BASE");
@@ -68,7 +68,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case BaseWithNoHistory:
         {
             FlowDataSingleton::getInstance()->clearData();
-            ForceToLandscape();
+            forceToLandscape();
             HQHistoryManager::getInstance()->emptyHistory();
             goToScene = BaseScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("BASE");
@@ -76,14 +76,14 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case ChildAccount:
         {
-            ForceToPortrait();
+            forceToPortrait();
             goToScene = ChildAccountScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_ACCOUNT");
             break;
         }
         case ChildAccountSuccessScene:
         {
-            ForceToLandscape();
+            forceToLandscape();
             goToScene = ChildAccountSuccessScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_ACCOUNT_SUCCESS");
             break;
@@ -91,29 +91,29 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case ChildSelector:
         {
             FlowDataSingleton::getInstance()->clearData();
-            ForceToLandscape();
+            forceToLandscape();
             goToScene = ChildSelectorScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SELECTOR");
             break;
         }
         case OnboardingSuccessScene:
         {
-            ForceToLandscape();
+            forceToLandscape();
             goToScene = OnboardingSuccessScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("ONBOARDING_SUCCESS");
             break;
         }
         case OfflineHub:
         {
-            ForceToLandscape();
+            forceToLandscape();
             OfflineChecker::getInstance()->setDelegate(nullptr);
             goToScene = OfflineHubScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE");
             break;
         }
-        case HQOfflineArtsAppHQ:
+        case OfflineArtsAppHQ:
         {
-            ForceToLandscape();
+            forceToLandscape();
             goToScene = HQScene::createSceneForOfflineArtsAppHQ();
             AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE_ARTS_APP");
             break;
@@ -125,7 +125,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
     Director::getInstance()->replaceScene(goToScene);
 }
 
-void SceneManagerScene::ForceToPortrait()
+void SceneManagerScene::forceToPortrait()
 {
     AnalyticsSingleton::getInstance()->setPortraitOrientation();
     auto director = cocos2d::Director::getInstance();
@@ -150,7 +150,7 @@ void SceneManagerScene::ForceToPortrait()
     #endif
 }
 
-void SceneManagerScene::ForceToLandscape()
+void SceneManagerScene::forceToLandscape()
 {
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
     auto director = cocos2d::Director::getInstance();

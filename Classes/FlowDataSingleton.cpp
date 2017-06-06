@@ -43,7 +43,7 @@ bool FlowDataSingleton::init(void)
 
 #pragma mark - Flow Setup
 
-void FlowDataSingleton::setLoginFlow()
+void FlowDataSingleton::setFlowToLogin()
 {
     clearData();
 }
@@ -53,6 +53,13 @@ void FlowDataSingleton::setFlowToSignup(std::string userName, std::string passwo
     clearData();
     flowData[DataKeyUserName] = userName;
     flowData[DataKeyPassword] = password;
+    currentFlowType = flowType_Signup;
+}
+
+void FlowDataSingleton::setFlowToNewProfile()
+{
+    clearData();
+    currentFlowType = flowType_NewProfile;
 }
 
 void FlowDataSingleton::addChildData(std::string childName, int oomeeColourNumber)
@@ -63,14 +70,12 @@ void FlowDataSingleton::addChildData(std::string childName, int oomeeColourNumbe
 
 void FlowDataSingleton::addIAPSuccess(bool IAPSuccess)
 {
-    if(IAPSuccess)
-        flowData[DataKeyIAPSuccess] = "true";
-    else
-        flowData[DataKeyIAPSuccess] = "false";
+    flowData[DataKeyIAPSuccess] = StringUtils::format("%d", IAPSuccess);
 }
 
 void FlowDataSingleton::clearData()
 {
+    currentFlowType = flowType_None;
     flowData.clear();
 }
 
@@ -88,16 +93,15 @@ long FlowDataSingleton::getErrorCode()
     if(hasError())
         rtrValue = std::atoi(flowData.at(DataKeyErrorCode).c_str());
     
-    flowData[DataKeyErrorCode] = "";
+    flowData.erase(DataKeyErrorCode);
     
     return rtrValue;
 }
 
 bool FlowDataSingleton::hasError()
 {
-    if(flowData.find( DataKeyErrorCode ) != flowData.end())
-        if(flowData.at(DataKeyErrorCode) != "")
-            return true;
+    if(flowData.find(DataKeyErrorCode) != flowData.end())
+        return true;
     
     return false;
 }
@@ -106,29 +110,15 @@ bool FlowDataSingleton::hasError()
 
 bool FlowDataSingleton::isSignupFlow()
 {
-    return keyValueExists(DataKeyUserName);
+    return currentFlowType == flowType_Signup;
 }
 
 bool FlowDataSingleton::isNewProfileFlow()
 {
-    return !keyValueExists(DataKeyChildRefNumber) && keyValueExists(DataKeyChildName);
-}
-
-bool FlowDataSingleton::isEditProfileFlow()
-{
-    return keyValueExists(DataKeyChildRefNumber);
+    return currentFlowType == flowType_NewProfile;;
 }
 
 #pragma mark - Private Functions
-
-bool FlowDataSingleton::keyValueExists(std::string keyName)
-{
-    if(flowData.find( keyName ) != flowData.end())
-        if(flowData.at(keyName) != "")
-            return true;
-    
-    return false;
-}
 
 std::string FlowDataSingleton::getStringValue(std::string keyName)
 {
@@ -168,5 +158,5 @@ int FlowDataSingleton::getChildRefNumber()
 
 bool FlowDataSingleton::getIAPSuccess()
 {
-    return getStringValue(DataKeyIAPSuccess) == "true";
+    return getStringValue(DataKeyIAPSuccess) == "1";
 }

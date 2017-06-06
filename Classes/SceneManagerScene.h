@@ -3,7 +3,7 @@
 
 #include <cocos/cocos2d.h>
 
-enum SceneNameEnum { Login, Onboarding,Base, BaseWithNoHistory, ChildAccount, ChildAccountSuccessScene, ChildSelector, OnboardingSuccessScene,OfflineHub,HQOfflineArtsAppHQ};
+enum SceneNameEnum { Login, Onboarding,Base, BaseWithNoHistory, ChildAccount, ChildAccountSuccessScene, ChildSelector, OnboardingSuccessScene,OfflineHub,OfflineArtsAppHQ};
 
 USING_NS_CC;
 
@@ -13,8 +13,8 @@ private:
     
     SceneNameEnum nextScene;
     
-    void ForceToPortrait();
-    void ForceToLandscape();
+    void forceToPortrait();
+    void forceToLandscape();
     
 public:
     static Scene* createScene(SceneNameEnum sceneName);

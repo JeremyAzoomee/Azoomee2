@@ -155,7 +155,7 @@ void LoginScene::nextButtonPressed()
         changeElementsToPasswordScreen();
     else if(currentScreen == passwordLoginScreen)
     {
-        FlowDataSingleton::getInstance()->setLoginFlow();
+        FlowDataSingleton::getInstance()->setFlowToLogin();
         OfflineChecker::getInstance()->setDelegate(nullptr);
         login(storedUsername, passwordTextInput->getText());
     }

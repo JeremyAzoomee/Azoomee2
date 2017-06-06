@@ -124,9 +124,6 @@ void OnboardingSuccessScene::buttonPressed(ElectricDreamsButton* button)
             oomeeButton->playOomeeAnimation("Build_Pop", false);
             this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
         }
-        //Removed - but left here, as they may well change their minds again.
-        //else if(button == startTrial)
-            //RoutePaymentSingleton::getInstance()->startInAppPayment();
     }
 }
 

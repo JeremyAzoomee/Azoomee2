@@ -145,7 +145,7 @@ void OfflineHubHQ::addListenerToArtElement(Layer* toBeAddedTo)
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
         if(iamtouched)
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(HQOfflineArtsAppHQ));
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineArtsAppHQ));
         
         return false;
     };

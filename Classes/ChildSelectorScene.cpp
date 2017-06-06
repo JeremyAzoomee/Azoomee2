@@ -310,7 +310,7 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
-    FlowDataSingleton::getInstance()->clearData();
+    FlowDataSingleton::getInstance()->setFlowToNewProfile();
     OfflineChecker::getInstance()->setDelegate(nullptr);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
 }
