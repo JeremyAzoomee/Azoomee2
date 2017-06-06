@@ -16,6 +16,7 @@ const char* const FONT_REGULAR = "fonts/Sofia Pro Soft Regular.otf";
 const char* const FONT_BOLD = "fonts/Sofia Pro Soft Bold.otf";
 
 cocos2d::Label*  createLabelHeader(std::string text);
+cocos2d::Label*  createLabelFlowMainTitle(std::string text);
 cocos2d::Label*  createLabelButtonAdultPrimary(std::string text);
 cocos2d::Label*  createLabelButtonAdultSecondary(std::string text);
 cocos2d::Label*  createLabelHeaderWhite(std::string text);
