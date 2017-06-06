@@ -332,6 +332,11 @@ bool ChildAccountScene::DOBisDate()
     return isDate(day, month, year);
 }
 
+bool ChildAccountScene::DOBisDateInFuture()
+{
+    return isDateInFuture(StringUtils::format("%s-%s-%s",yearInputText->getText().c_str(),monthInputText->getText().c_str(),dayInputText->getText().c_str()));
+}
+
 //----------------------- Delegate Functions ----------------------------
 
 void ChildAccountScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
@@ -371,6 +376,10 @@ void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
         {
             MessageBox::createWith(ERROR_CODE_NAME_EXISTS, childNameInputText, this);
             AnalyticsSingleton::getInstance()->childProdileNameErrorEvent();
+        }
+        else if(DOBisDateInFuture())
+        {
+            MessageBox::createWith(422, nullptr);
         }
         else
             changeElementsToOomeeScreen();

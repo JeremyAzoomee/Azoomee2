@@ -45,6 +45,7 @@ private:
     void changeElementsToOomeeScreen();
     
     bool DOBisDate();
+    bool DOBisDateInFuture();
     
     void registerChildAccount();
     

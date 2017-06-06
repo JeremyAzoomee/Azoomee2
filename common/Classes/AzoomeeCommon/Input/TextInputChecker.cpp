@@ -185,7 +185,6 @@ bool isDateInFuture(std::string dobstring)
     
     memset(&tm, 0, sizeof(struct tm));
     strptime(dobstring.c_str(), "%Y-%m-%d", &tm);
-    tm.tm_mon = tm.tm_mon - 1;
     ts = mktime(&tm);
     
     return(ts >= time(NULL));
