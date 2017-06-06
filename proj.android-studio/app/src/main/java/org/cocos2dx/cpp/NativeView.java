@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -41,6 +42,9 @@ public class NativeView extends XWalkActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_view);
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
         final View decorView = getWindow().getDecorView();
 
         if (Build.VERSION.SDK_INT >= 11) {
@@ -65,6 +69,8 @@ public class NativeView extends XWalkActivity {
         extra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 if(xWalkWebView != null)
                 {
                     xWalkWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
@@ -101,6 +107,8 @@ public class NativeView extends XWalkActivity {
 
     @Override
     protected void onXWalkReady() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
         Bundle extras = getIntent().getExtras();
         String myUrl = "about:blank";
         String myCookieUrl = "";
