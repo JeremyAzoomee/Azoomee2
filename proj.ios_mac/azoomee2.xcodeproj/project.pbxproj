@@ -80,6 +80,7 @@
 		435EBBDE1E55BA0400E55610 /* AppsFlyerLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */; };
 		435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDF1E55BB1600E55610 /* AdSupport.framework */; };
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
+		437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4373957F1ED3441F00C29DB1 /* FlowDataSingleton.cpp */; };
 		4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4396947C1EAA4855003C17E6 /* ApplePaymentSingleton.mm */; };
 		439694811EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4396947F1EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp */; };
 		439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439694821EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp */; };
@@ -91,6 +92,8 @@
 		43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CE21EA7560500606099 /* Accelerate.framework */; };
 		43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90DE41EA7603800606099 /* WatchKit.framework */; };
 		43FA20141EE6FB83003CE631 /* FTUScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FA20121EE6FB83003CE631 /* FTUScene.cpp */; };
+		43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */; };
+		43BCD7211EC9FDD300A07737 /* OrientationFunctions_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD7201EC9FDD300A07737 /* OrientationFunctions_ios.mm */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -310,6 +313,8 @@
 		435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppsFlyerLib.framework; sourceTree = "<group>"; };
 		435EBBDF1E55BB1600E55610 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
 		435EBBE11E55BB2300E55610 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/iAd.framework; sourceTree = DEVELOPER_DIR; };
+		4373957F1ED3441F00C29DB1 /* FlowDataSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FlowDataSingleton.cpp; sourceTree = "<group>"; };
+		437395801ED3441F00C29DB1 /* FlowDataSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlowDataSingleton.h; sourceTree = "<group>"; };
 		4396947B1EAA4855003C17E6 /* ApplePaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplePaymentSingleton.h; sourceTree = "<group>"; };
 		4396947C1EAA4855003C17E6 /* ApplePaymentSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApplePaymentSingleton.mm; sourceTree = "<group>"; };
 		4396947F1EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPDetailsLayer_ios.cpp; sourceTree = "<group>"; };
@@ -325,6 +330,10 @@
 		43A90DE41EA7603800606099 /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/WatchKit.framework; sourceTree = DEVELOPER_DIR; };
 		43FA20121EE6FB83003CE631 /* FTUScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FTUScene.cpp; sourceTree = "<group>"; };
 		43FA20131EE6FB83003CE631 /* FTUScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTUScene.h; sourceTree = "<group>"; };
+		43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManagerScene.cpp; sourceTree = "<group>"; };
+		43BCD71D1EC9FD4E00A07737 /* SceneManagerScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManagerScene.h; sourceTree = "<group>"; };
+		43BCD71F1EC9FDD300A07737 /* OrientationFunctions_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrientationFunctions_ios.h; sourceTree = "<group>"; };
+		43BCD7201EC9FDD300A07737 /* OrientationFunctions_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OrientationFunctions_ios.mm; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -739,6 +748,8 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4373957F1ED3441F00C29DB1 /* FlowDataSingleton.cpp */,
+				437395801ED3441F00C29DB1 /* FlowDataSingleton.h */,
 				4343CB9A1EBB826600247549 /* DeepLinkingSingleton.cpp */,
 				4343CB9B1EBB826600247549 /* DeepLinkingSingleton.h */,
 				02E595821E55DE5E0052F395 /* Offline */,
@@ -754,6 +765,10 @@
 				A15B2FAA1DEDD13B00D25334 /* BackEndCommunication */,
 				A19862291DD383BD0090F053 /* AppDelegate.cpp */,
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
+				43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */,
+				43BCD71D1EC9FD4E00A07737 /* SceneManagerScene.h */,
+				43BCD7201EC9FDD300A07737 /* OrientationFunctions_ios.mm */,
+				43BCD71F1EC9FDD300A07737 /* OrientationFunctions_ios.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -1143,6 +1158,7 @@
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
 				433FA7F61E7AA9C400A8C27F /* IAPUpsaleLayer.cpp in Sources */,
+				43BCD7211EC9FDD300A07737 /* OrientationFunctions_ios.mm in Sources */,
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
@@ -1154,6 +1170,7 @@
 				0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */,
 				025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */,
 				43FA20141EE6FB83003CE631 /* FTUScene.cpp in Sources */,
+				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,
 				02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */,
@@ -1175,6 +1192,7 @@
 				D13C401C1E33A0F0002360A6 /* ExitOrLogoutLayer.cpp in Sources */,
 				A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */,
 				02A11FF61EA6375D007EDD95 /* AmazonPaymentSingleton.cpp in Sources */,
+				43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */,
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,

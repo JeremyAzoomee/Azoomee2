@@ -1,8 +1,8 @@
 #include "LoginLogicHandler.h"
-#include "LoginScene.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "BackEndCaller.h"
 #include "DeepLinkingSingleton.h"
+#include "SceneManagerScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 
 using namespace cocos2d;
@@ -26,7 +26,6 @@ LoginLogicHandler::~LoginLogicHandler(void)
 
 bool LoginLogicHandler::init(void)
 {
-    errorMsgCode = 0;
     return true;
 }
 
@@ -36,38 +35,27 @@ void LoginLogicHandler::doLoginLogic()
     emptyUserName();
 #endif
     
-    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    Azoomee::ChildDataParser::getInstance()->setChildLoggedIn(false);
     
-    if(ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
+    if(Azoomee::ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
     {
-        ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
-        BackEndCaller::getInstance()->updateBillingData();
+        Azoomee::ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
         BackEndCaller::getInstance()->getAvailableChildren();
+        BackEndCaller::getInstance()->updateBillingData();
         return;
     }
-    
-    if(DeepLinkingSingleton::getInstance()->actionDeepLink()) return;
-    
-    auto loginScene = LoginScene::createScene(0);
-    Director::getInstance()->replaceScene(loginScene);
+    else if(DeepLinkingSingleton::getInstance()->actionDeepLink())
+        return;
+    else
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+    }
 }
 
 void LoginLogicHandler::forceNewLogin()
 {
-    ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
+    Azoomee::ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
     
-    auto loginScene = LoginScene::createScene(getErrorMessageCodeToDisplay());
-    Director::getInstance()->replaceScene(loginScene);
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
 }
 
-void LoginLogicHandler::setErrorMessageCodeToDisplay(long errorMessageCode)
-{
-    errorMsgCode = errorMessageCode;
-}
-
-long LoginLogicHandler::getErrorMessageCodeToDisplay()
-{
-    long rtrValue = errorMsgCode;
-    errorMsgCode = 0;
-    return rtrValue;
-}

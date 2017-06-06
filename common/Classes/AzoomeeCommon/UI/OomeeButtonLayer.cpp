@@ -5,11 +5,9 @@
 #include "../Data/Child/ChildDataProvider.h"
 #include "../Data/Parent/ParentDataProvider.h"
 #include "../Audio/AudioMixer.h"
-#include "../Analytics/AnalyticsSingleton.h"
 
 USING_NS_CC;
 using namespace spine;
-
 
 namespace Azoomee
 {
@@ -60,11 +58,10 @@ void OomeeButtonLayer::hideOomee()
 }
 
 //------------ PRIVATE FUNCTIONS---------------
-
-void OomeeButtonLayer::addOomeeToLayer()
+void OomeeButtonLayer::setupOomeeSpine()
 {
     std::string oomeeName = ConfigStorage::getInstance()->getNameForOomee(displayedOomeeNumber);
-    std::string jsonFileName = StringUtils::format("res/oomees/%s.json", oomeeName.c_str());
+    std::string jsonFileName = StringUtils::format("res/oomees/%s_Button.json", oomeeName.c_str());
     std::string atlasFileName = StringUtils::format("res/oomees/%s.atlas", oomeeName.c_str());
     
     oomee = SkeletonAnimation::createWithJsonFile(jsonFileName, atlasFileName);
@@ -77,24 +74,32 @@ void OomeeButtonLayer::addOomeeToLayer()
     
     addCompleteListenerToOomee(oomee);
 }
+    
+void OomeeButtonLayer::addOomeeToLayer()
+{
+    
+    auto scheduler = Director::getInstance()->getScheduler();
+    
+    scheduler-> performFunctionInCocosThread(CC_CALLBACK_0(OomeeButtonLayer::setupOomeeSpine, this));
+}
 
 void OomeeButtonLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
 {
     
-    auto oomeeAnimationComplete = [=] (spTrackEntry* entry)
+    auto oomeeAnimationComplete = [=] (int trackIdx, int loopCount)
     {
         if(loopAnimation != "")
         {
-            toBeAddedTo->addAnimation(0, loopAnimation, false);
+            toBeAddedTo->setAnimation(0, loopAnimation, false);
         }
         else if(animationsTillWave <=0)
         {
             animationsTillWave = 3;
-            toBeAddedTo->addAnimation(0, "Build_Simple_Wave", false);
+            toBeAddedTo->setAnimation(0, "Build_Simple_Wave", false);
         }
         else
         {
-            toBeAddedTo->addAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("idle").c_str(), false);
+            toBeAddedTo->setAnimation(0, ConfigStorage::getInstance()->getRandomIdForAnimationType("button").c_str(), false);
             animationsTillWave--;
         }
     };

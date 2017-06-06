@@ -31,7 +31,8 @@
     {
         "title":"Already Registered",
         "body":"The email address has already been registered. Please register with a new email address or log in using this email address.",
-        "button":"OK"
+        "button": "OK|Log in",
+        "optionalButtonRefNames":"OK|Log in"
     },
     
     "422":
@@ -45,7 +46,8 @@
     {
         "title":"That Didn't Work",
         "body":"There was a problem with your email or password. Please try logging in again.",
-        "button":"OK"
+        "button":"OK|Reset Password",
+        "optionalButtonRefNames":"OK|Reset Password"
     },
     
     "1002":

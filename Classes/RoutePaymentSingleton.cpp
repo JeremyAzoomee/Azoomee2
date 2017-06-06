@@ -9,6 +9,8 @@
 #include "OnboardingSuccessScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include "FlowDataSingleton.h"
+#include "SceneManagerScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -199,8 +201,8 @@ void RoutePaymentSingleton::inAppPaymentSuccess()
     AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
     
     BackEndCaller::getInstance()->updateBillingData();
-    auto onboardingSuccessScene = OnboardingSuccessScene::createScene(true);
-    Director::getInstance()->replaceScene(onboardingSuccessScene);
+    FlowDataSingleton::getInstance()->addIAPSuccess(true);
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(OnboardingSuccessScene));
 }
 
 //Delegate Functions

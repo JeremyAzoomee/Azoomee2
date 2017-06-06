@@ -17,6 +17,7 @@ bool childNameExists(std::string newChildsName);
 bool isValidChildName(const char *childName);
 bool hasAzoomeeEmailAddress(std::string emailAddress);
 int ageFromDOBString(std::string dobString);
+bool isDateInFuture(std::string dobString);
   
 }
 

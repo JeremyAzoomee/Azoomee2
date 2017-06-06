@@ -60,6 +60,7 @@ public:
     static ElectricDreamsButton* createWindowCloselButton();
     static ElectricDreamsButton* createAddButton();
     static ElectricDreamsButton* createPlaceHolderButton();
+    static ElectricDreamsButton* createPlaceHolderButton(float withWidth);
     
     // ---------- OOMEE BUTTONS AND FUNCTIONS------------
     static ElectricDreamsButton* createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName);

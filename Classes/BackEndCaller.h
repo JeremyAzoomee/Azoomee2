@@ -13,13 +13,6 @@ class AwaitingAdultPinLayer;
 class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
-    bool accountJustRegistered;
-    bool newChildJustRegistered;
-    std::string newChildName;
-    int oomeeAvatarNumber;
-    //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
-    std::string registerParentUsername;
-    std::string registerParentPassword;
     
     AwaitingAdultPinLayer* callBackNode;
     
@@ -91,6 +84,8 @@ public:
     void getHQContent(const std::string& url, const std::string& category);
     // Get Single Content Details
     void getElectricDreamsContent(const std::string& requestId, const std::string& contentID);
+    // Reset Password
+    void resetPasswordRequest(const std::string& emailAddress);
 };
 
 #endif

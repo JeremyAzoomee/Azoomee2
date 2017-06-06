@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginLogicHandler.h"
-#include "OnboardingScene.h"
+#include "SceneManagerScene.h"
 
 using namespace Azoomee;
 
@@ -17,7 +17,7 @@ bool PreviewLoginSignupMessageBox::init()
     addButtonWithTitle(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
     addButtonWithTitle(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP));
     initMessageBoxLayer(StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL),
-                        StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_BODY_LABEL),nullptr);
+                        StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_BODY_LABEL),nullptr, 0);
     return true;
 }
 
@@ -35,7 +35,6 @@ void PreviewLoginSignupMessageBox::onButtonPressed(int buttonSelect)
     }
     else if( buttonSelect == 1 ) // signup
     {
-        Scene *onboardingScene = OnboardingScene::createScene(0);
-        Director::getInstance()->replaceScene(onboardingScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
     }
 }

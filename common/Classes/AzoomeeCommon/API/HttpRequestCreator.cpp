@@ -98,11 +98,6 @@ std::string HttpRequestCreator::addLeadingZeroToDateElement(int input)          
 
 void HttpRequestCreator::createHttpRequest()                            //The http request is being created from global variables. This method can't be run until setting up all variables, please see usage on top of this file.
 {
-    if(ConfigStorage::getInstance()->isClearingHttpQueueRequiredBeforeSendingRequest(requestTag))
-    {
-        HttpClient::destroyInstance();
-    }
-    
     std::string hostPrefix = ConfigStorage::getInstance()->getServerUrlPrefix();
     std::string host;
     
@@ -176,18 +171,18 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
 
 void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
+    std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
+    std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
+    std::string requestTag = response->getHttpRequest()->getTag();
+    
+    cocos2d::log("request tag: %s", requestTag.c_str());
+    cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
+    cocos2d::log("response code: %ld", response->getResponseCode());
+    cocos2d::log("response header: %s", responseHeaderString.c_str());
+    cocos2d::log("response string: %s", responseDataString.c_str());
+    
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201))
     {
-        std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
-        std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
-        std::string requestTag = response->getHttpRequest()->getTag();
-        
-        cocos2d::log("request tag: %s", requestTag.c_str());
-        cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
-        cocos2d::log("response code: %ld", response->getResponseCode());
-        cocos2d::log("response header: %s", responseHeaderString.c_str());
-        cocos2d::log("response string: %s", responseDataString.c_str());
-        
         if(delegate != nullptr)
         {
             delegate->onHttpRequestSuccess(requestTag, responseHeaderString, responseDataString);
@@ -229,8 +224,6 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
 
 void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, long errorCode)
 {
-    HttpClient::getInstance()->destroyInstance();
-    
     if(delegate != nullptr)
         delegate->onHttpRequestFailed(requestTag, errorCode);
 }

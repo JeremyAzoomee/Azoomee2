@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import javax.crypto.Mac;
@@ -440,5 +441,17 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
     public static native String getLoggedInParentUserId();
 
     public static native String getDeveloperKey();
+
+    //-----------------------FORCED ORIENTATION CHANGES------------------------
+
+    public static void setOrientationPortrait() {
+
+        mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    public static void setOrientationLandscape() {
+
+        mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+    }
 
 }

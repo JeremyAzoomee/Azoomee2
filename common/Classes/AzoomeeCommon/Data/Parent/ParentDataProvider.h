@@ -24,6 +24,7 @@ public:
     std::string getAvatarForAnAvailableChildren(int childNumber);
     std::string getDOBForAnAvailableChildren(int childNumber);
     std::string getSexForAnAvailableChildren(int childNumber);
+    std::string getIDForAvailableChildren(int childNumber);
     
     std::string getLoggedInParentActorStatus();
     std::string getLoggedInParentId();

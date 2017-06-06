@@ -27,8 +27,11 @@
 
 
 @interface RootViewController : UIViewController {
-
+    BOOL _forcePortrait;
 }
 - (BOOL) prefersStatusBarHidden;
+
+- (void) setOrientationToPortrait;
+- (void) setOrientationToLandscape;
 
 @end

@@ -43,8 +43,7 @@ bool ConfigStorage::init(void)
     IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
     
     parentSignedRequestTags = {API::TagParentPin, API::TagVerifyAmazonPayment, API::TagVerifyGooglePayment, API::TagVerifyApplePayment, API::TagUpdateBillingData, API::TagGetAvailableChildren, API::TagUpdateChild};
-    requestTagsRequireQueueReset = {API::TagLogin, API::TagChildLogin, API::TagParentPin, API::TagVerifyGooglePayment, API::TagVerifyAmazonPayment, API::TagVerifyApplePayment, API::TagGetAvailableChildren};
-    requestTagsRequireImmediateSending = {"GROUP HQ", "VIDEO HQ", "AUDIO HQ", "GAME HQ", "PreviewHOME", "HOME"};
+    requestTagsRequireImmediateSending = {"GROUP HQ", "VIDEO HQ", "AUDIO HQ", "GAME HQ", "PreviewHOME", "HOME", API::TagLogin, API::TagChildLogin, API::TagParentPin, API::TagVerifyGooglePayment, API::TagVerifyAmazonPayment, API::TagVerifyApplePayment, API::TagGetAvailableChildren};
     
     
     return true;
@@ -132,12 +131,6 @@ bool ConfigStorage::isParentSignatureRequiredForRequest(std::string requestTag)
 {
     auto itemPosition = std::find(parentSignedRequestTags.begin(), parentSignedRequestTags.end(), requestTag);
     return itemPosition != parentSignedRequestTags.end();
-}
-    
-bool ConfigStorage::isClearingHttpQueueRequiredBeforeSendingRequest(std::string requestTag)
-{
-    auto itemPosition = std::find(requestTagsRequireQueueReset.begin(), requestTagsRequireQueueReset.end(), requestTag);
-    return itemPosition != requestTagsRequireQueueReset.end();
 }
     
 bool ConfigStorage::isImmediateRequestSendingRequired(std::string requestTag)
@@ -362,6 +355,7 @@ std::string ConfigStorage::getGreetingAnimation()
 std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType)
 {
     if(animationType == "idle") return OomeeAnimationTypes["idleAnimations"][random(0, (int)OomeeAnimationTypes["idleAnimations"].Size() - 1)].GetString();
+    else if(animationType == "button") return OomeeAnimationTypes["buttonIdleAnimations"][random(0, (int)OomeeAnimationTypes["buttonIdleAnimations"].Size() - 1)].GetString();
     else return OomeeAnimationTypes["touchAnimations"][random(0, (int)OomeeAnimationTypes["touchAnimations"].Size() - 1)].GetString();
 }
 

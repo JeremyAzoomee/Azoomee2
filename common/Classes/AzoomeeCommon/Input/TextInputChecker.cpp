@@ -177,5 +177,17 @@ int ageFromDOBString(std::string dobString)
   
   return -1;
 }
+    
+bool isDateInFuture(std::string dobstring)
+{
+    struct tm tm;
+    time_t ts;
+    
+    memset(&tm, 0, sizeof(struct tm));
+    strptime(dobstring.c_str(), "%Y-%m-%d", &tm);
+    ts = mktime(&tm);
+    
+    return(ts >= time(NULL) || ts==-1);
+}
   
 }

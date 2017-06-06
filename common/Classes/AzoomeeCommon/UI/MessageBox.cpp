@@ -8,7 +8,6 @@ using namespace cocos2d;
 
 #define MESSAGE_BOX_PADDING 100
 
-
 namespace Azoomee
 {
 
@@ -17,7 +16,7 @@ MessageBox* MessageBox::createWith(std::string Title, std::string Body, std::vec
     auto layer = MessageBox::create();
     
     layer->_buttonsTitleList = buttonTitleList;
-    layer->initMessageBoxLayer(Title, Body, _delegate);
+    layer->initMessageBoxLayer(Title, Body, _delegate, 0);
     
     return layer;
 }
@@ -27,7 +26,7 @@ MessageBox* MessageBox::createWith(std::string Title, std::string Body, std::str
     auto layer = MessageBox::create();
     
     layer->_buttonsTitleList.push_back(Button);
-    layer->initMessageBoxLayer(Title, Body, _delegate);
+    layer->initMessageBoxLayer(Title, Body, _delegate, 0);
     
     return layer;
 }
@@ -44,25 +43,30 @@ MessageBox* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHi
     auto layer = MessageBox::create();
     
     layer->hideTextInput(textInputToHide);
-    layer->_buttonsTitleList.push_back(errorStringMap[ERROR_BUTTON]);
-    layer->initMessageBoxLayer(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], _delegate);
+    layer->_buttonsTitleList = splitStringToVector(errorStringMap[ERROR_BUTTON], "|");
+    
+    if(errorStringMap.at(ERROR_BUTTON_REFERENCE) != "")
+        layer->_buttonsReferenceList = splitStringToVector(errorStringMap[ERROR_BUTTON_REFERENCE], "|");
+    
+    layer->initMessageBoxLayer(errorStringMap[ERROR_TITLE], errorStringMap[ERROR_BODY], _delegate, errorCode);
     
     return layer;
 }
 
-void MessageBox::initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate)
+void MessageBox::initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate, long errorCode)
 {
-    AnalyticsSingleton::getInstance()->messageBoxShowEvent(Title);
+    AnalyticsSingleton::getInstance()->messageBoxShowEvent(Title,errorCode);
     
     if(_delegate)
         setDelegate(_delegate);
 
     _messageBoxTitle = Title;
     
-    textMaxWidth = visibleSize.width*.66 - MESSAGE_BOX_PADDING*2;
+    textMaxWidth = visibleSize.width*percentageOfScreenForBox - MESSAGE_BOX_PADDING*2;
     
     createBackgroundLayer();
-    addSideWiresToScreen(this, 0, 2);
+    if(isLandscape)
+        addSideWiresToScreen(this, 0, 2);
     createTitle();
     createBody(Body);
     createButtons();
@@ -81,6 +85,15 @@ bool MessageBox::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
+    if(visibleSize.width < visibleSize.height)
+        percentageOfScreenForBox = 0.85;
+    else
+    {
+        percentageOfScreenForBox = 0.66;
+        isLandscape = true;
+    }
+    
+    
     return true;
 }
     
@@ -93,7 +106,8 @@ void MessageBox::setBodyHAlignment(TextHAlignment align)
 
 void MessageBox::createBackgroundLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),visibleSize.width, visibleSize.height);
+    backgroundLayer->setPosition(origin);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
@@ -161,11 +175,12 @@ void MessageBox::createBody(std::string messageBody)
 
 void MessageBox::createButtons()
 {
-    buttonSpaceWidth = (visibleSize.width*.66 / _buttonsTitleList.size());
+    buttonSpaceWidth = (visibleSize.width*percentageOfScreenForBox / _buttonsTitleList.size());
     
     if(_buttonsTitleList.size() == 1)
     {
         auto _button = ElectricDreamsButton::createButtonWithText(_buttonsTitleList.at(0));
+        _button->setMixPanelButtonName(StringUtils::format("messageBoxButton-%s", _buttonsTitleList.at(0).c_str()));
         _button->setDelegate(this);
         buttonsList.push_back(_button);
     }
@@ -174,6 +189,7 @@ void MessageBox::createButtons()
         for(int i=0;i < _buttonsTitleList.size(); i++)
         {
             auto _button = ElectricDreamsButton::createButtonWithWidth(_buttonsTitleList.at(i), buttonSpaceWidth * .75);
+            _button->setMixPanelButtonName(StringUtils::format("messageBoxButton-%s", _buttonsTitleList.at(i).c_str()));
             _button->setDelegate(this);
             buttonsList.push_back(_button);
         }
@@ -183,6 +199,7 @@ void MessageBox::createButtons()
 void MessageBox::createCancelButton()
 {
     cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton->setMixPanelButtonName("messageBoxCancelButton");
     cancelButton->setDelegate(this);
 }
 
@@ -190,8 +207,8 @@ void MessageBox::createMessageWindow()
 {
     float windowHeight = messageTitleLabel->getContentSize().height + scrollView->getContentSize().height + buttonsList.at(0)->getContentSize().height + cancelButton->getContentSize().height*4;
     
-    windowLayer = createWindowLayer(windowHeight);
-    windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + (visibleSize.height - windowLayer->getContentSize().height) * .66);
+    windowLayer = createWindowLayer(visibleSize.width * percentageOfScreenForBox, windowHeight);
+    windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2 + origin.x,origin.y + (visibleSize.height - windowLayer->getContentSize().height) * 0.66);
     this->addChild(windowLayer);
 }
 
@@ -292,7 +309,12 @@ void MessageBox::onButtonPressed(int buttonSelect)
     this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
     UnHideTextInput();
     if(_delegate)
-        this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(buttonSelect));
+    {
+        if(_buttonsReferenceList.size() >0)
+            this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsReferenceList.at(buttonSelect));
+        else
+            this->getDelegate()->MessageBoxButtonPressed(_messageBoxTitle, _buttonsTitleList.at(buttonSelect));
+    }
 }
   
 }

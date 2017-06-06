@@ -66,7 +66,6 @@ public:
 
     //-------------ONBOARDING--------------------
     void OnboardingStartEvent();
-    void OnboardingEmailSubmittedEvent(std::string emailAddress);
     void OnboardingPasswordSubmittedEvent();
     void OnboardingPinSubmittedEvent();
     void OnboardingAccountCreatedEvent();
@@ -74,13 +73,13 @@ public:
 
     //-------------CHILD PROFILE CREATION-------------
     void childProfileStartEvent();
-    void childProfileNameEvent();
     void childProdileNameErrorEvent();
     void childProfileDOBEvent();
     void childProfileDOBErrorEvent(); // NO DOB CHECKING IS COMPLETED
     void childProfileOomeeEvent(int oomeeNumber);
     void childProfileCreatedSuccessEvent(int oomeeNumber);
     void childProfileCreatedErrorEvent(long errorCode);
+    void childProfileUpdateErrorEvent(long errorCode);
 
     //-------------HUB ACTIONS-------------------
     void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
@@ -107,7 +106,7 @@ public:
 
     //---------------OTHER ACTION------------------
     void genericButtonPressEvent(std::string buttonName);
-    void messageBoxShowEvent(std::string messageTitle);
+    void messageBoxShowEvent(std::string messageTitle, long errorCode);
     void localisedStringErrorEvent(std::string stringRequested, std::string languageUsed);
     void introVideoTimedOutError(std::string errorMessage);
     void enteredBackgroundEvent();
@@ -124,7 +123,11 @@ public:
     void iapSubscriptionDoublePurchaseEvent();
     void iapBackEndRequestFailedEvent(long errorCode);
     void iapAppleAutoRenewSubscriptionEvent();
-
+    
+    //---------------DEEPLINKING ACTIONS------------------
+    void deepLinkingDetailsSetEvent();
+    void deepLinkingMoveToEvent(std::string moveTo);
+    void deepLinkingContentEvent();
 };
   
 }

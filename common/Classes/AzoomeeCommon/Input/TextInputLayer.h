@@ -39,6 +39,7 @@ class TextInputLayerDelegate
 public:
 
     virtual void textInputIsValid(TextInputLayer* inputLayer, bool isValid) = 0;
+    virtual void textInputReturnPressed(TextInputLayer* inputLayer) = 0;
 };
 
 class TextInputLayer : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
@@ -77,6 +78,7 @@ public:
     //Editbox Delegate Functions
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
     void editBoxReturn(cocos2d::ui::EditBox* editBox);
+    void editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBox, EditBoxEndAction action);
     
 };
   

@@ -82,7 +82,10 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
                 return;
             }
             else
+            {
                 AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
+            }
+            
         }
     }
     

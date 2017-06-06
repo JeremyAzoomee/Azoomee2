@@ -35,6 +35,18 @@ Label*  createLabelHeader(std::string text) {
     
     return newLabel;
 }
+    
+Label*  createLabelFlowMainTitle(std::string text) {
+    
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 110);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    newLabel->setPosition(origin.x + visibleSize.width/2,origin.y + visibleSize.height - newLabel->getContentSize().height);
+    
+    return newLabel;
+}
 
 Label*  createLabelButtonAdultPrimary(std::string text) {
     return createLabelWith(text, FONT_REGULAR, COLOR_BLACK, 84);
