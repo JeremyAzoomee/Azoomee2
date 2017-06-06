@@ -198,6 +198,7 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, s
         {
             if(rect.containsPoint(locationInNode))
             {
+                AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
                 FileUtils::getInstance()->removeFile(filePath);
                 HQScene *hqScene = (HQScene *)this->getParent()->getParent()->getParent();
                 CCLOG("Name where I am : %s", hqScene->getName().c_str());

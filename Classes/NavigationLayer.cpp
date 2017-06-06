@@ -14,9 +14,9 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginLogicHandler.h"
-#include "OnboardingScene.h"
 #include "SettingsButton.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
 #include "BackEndCaller.h"
 
@@ -432,6 +432,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("groupBackButton");
             AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
             Scene *runningScene = Director::getInstance()->getRunningScene();
             Node *baseLayer = runningScene->getChildByName("baseLayer");
@@ -472,8 +473,7 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == previewSignUpButton)
     {
-        auto onboardingScene = OnboardingScene::createScene(0);
-        Director::getInstance()->replaceScene(onboardingScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
     }
 }
 

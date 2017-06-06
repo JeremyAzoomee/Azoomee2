@@ -106,7 +106,7 @@ void OomeeLayer::addTouchListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
 
 void OomeeLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedTo)
 {
-    auto oomeeAnimationComplete = [=] (spTrackEntry* entry)
+    auto oomeeAnimationComplete = [=] (int trackIdx, int loopCount)
     {
         std::string animationid = ConfigStorage::getInstance()->getRandomIdForAnimationType("idle");
         

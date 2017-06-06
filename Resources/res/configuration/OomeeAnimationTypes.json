@@ -20,5 +20,18 @@
     "Build_Pop",
     "Build_Shower",
     "Build_Sneeze"
-  ]
+  ],
+"buttonIdleAnimations": [
+    "Build_Ear_Twitch",
+    "Build_Float",
+    "Build_Float2",
+    "Build_Float3",
+    "Build_Head_Tilt",
+    "Build_Look_Top_Left",
+    "Build_Look_Top_Right",
+    "Build_Scratch",
+    "Build_Simple_Wave",
+    "Build_Smile",
+    "Build_Yawn"
+ ]
 }

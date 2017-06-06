@@ -9,20 +9,14 @@
 #include "RoutePaymentSingleton.h"
 #include "WebViewNative_ios.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
-#include <AzoomeeCommon/Analytics/analyticsSingleton.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "FlowDataSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
 
-//static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
-//static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
-//static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
-//static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
-
-static cocos2d::Size designResolutionSize = cocos2d::Size(2732, 2048);
-static cocos2d::Size smallResolutionSize = cocos2d::Size(2732, 2048);
-static cocos2d::Size mediumResolutionSize = cocos2d::Size(2732, 2048);
-static cocos2d::Size largeResolutionSize = cocos2d::Size(2732, 2048);
+static cocos2d::Size designResolutionLandscapeSize = cocos2d::Size(2732, 2048);
+static cocos2d::Size designResolutionPortraitSize = cocos2d::Size(designResolutionLandscapeSize.height, designResolutionLandscapeSize.width);
 
 AppDelegate::AppDelegate()
 {
@@ -68,24 +62,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0f / 60);
 
-    // Set the design resolution
-    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+    // Set the initial resolution
+    director->setContentScaleFactor(1.0f);
     auto frameSize = glview->getFrameSize();
-    // if the frame's height is larger than the height of medium size.
-    if (frameSize.height > mediumResolutionSize.height)
-    {        
-        director->setContentScaleFactor(MIN(largeResolutionSize.height/designResolutionSize.height, largeResolutionSize.width/designResolutionSize.width));
-    }
-    // if the frame's height is larger than the height of small size.
-    else if (frameSize.height > smallResolutionSize.height)
-    {        
-        director->setContentScaleFactor(MIN(mediumResolutionSize.height/designResolutionSize.height, mediumResolutionSize.width/designResolutionSize.width));
-    }
-    // if the frame's height is smaller than the height of medium size.
-    else
-    {        
-        director->setContentScaleFactor(MIN(smallResolutionSize.height/designResolutionSize.height, smallResolutionSize.width/designResolutionSize.width));
-    }
+    applicationScreenSizeChanged(frameSize.width, frameSize.height);
 
     register_all_packages();
 
@@ -147,7 +127,7 @@ void AppDelegate::applicationWillEnterForeground() {
         if(HQHistoryManager::getInstance()->thereWasAnError)
         {
             HQHistoryManager::getInstance()->thereWasAnError = false;
-            LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+            FlowDataSingleton::getInstance()->setErrorCode(1006);
             LoginLogicHandler::getInstance()->doLoginLogic();
             return;
         }
@@ -166,3 +146,45 @@ void AppDelegate::applicationWillEnterForeground() {
 
 #endif
 }
+
+void AppDelegate::applicationScreenSizeChanged(int newWidth, int newHeight)
+{
+    cocos2d::log( "AppDelegate::applicationScreenSizeChanged: %d, %d", newWidth, newHeight );
+    
+    // First tell cocos to use this new size for the GLView
+    auto director = Director::getInstance();
+    auto glview = director->getOpenGLView();
+    glview->setFrameSize(newWidth, newHeight);
+    
+    
+    // Use the correct design resolution
+    
+    // Landscape
+    if(newWidth > newHeight)
+    {
+        glview->setDesignResolutionSize(designResolutionLandscapeSize.width, designResolutionLandscapeSize.height, ResolutionPolicy::NO_BORDER);
+    }
+    // Portrait
+    else
+    {
+        glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::NO_BORDER);
+    }
+    
+    
+    // Resize the running scene
+    Scene* scene = director->getRunningScene();
+    if(scene != nullptr)
+    {
+        // Landscape
+        if(newWidth > newHeight)
+        {
+            scene->setContentSize(designResolutionLandscapeSize);
+        }
+        // Portrait
+        else
+        {
+            scene->setContentSize(designResolutionPortraitSize);
+        }
+    }
+}
+

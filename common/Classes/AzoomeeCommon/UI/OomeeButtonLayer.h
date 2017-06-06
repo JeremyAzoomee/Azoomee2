@@ -29,6 +29,8 @@ private:
     std::string loopAnimation;
     
     spine::SkeletonAnimation* oomee;
+
+    void setupOomeeSpine();
 };
   
 }

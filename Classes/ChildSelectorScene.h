@@ -25,8 +25,6 @@ public:
     void connectivityStateChanged(bool online);
     
 private:
-    long _errorCode;
-    
     cocos2d::Vec2 origin;
     cocos2d::Size visibleSize;
     

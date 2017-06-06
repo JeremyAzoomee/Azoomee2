@@ -8,28 +8,32 @@
     
     "OnboardingScene":
     {
-        "email_label":"Parents: enter your email address",
+        "title_label":"Create your Parent Account",
+        "email_label":"Enter your email address",
         "password_label":"Create a password",
         "pin_label":"Create a 4 digit PIN",
-        "pin_sub_label":"You will need this to access the parent area and exit the app\nShhh! Don't tell the kids..."
+        "pin_sub_label":"You will need this to access the settings area\nShhh! Don't tell the kids..."
     },
     
     "OnboardingSuccessScene":
     {
-        "title_label":"YAY! Great Stuff!\nYou've successfully created an account",
+        "IAP_success_title_label":"Your Azoomee subscription is now active!\nGet ready to access lots of exciting TV shows, games and audiobooks",
+        "IAP_fail_title_label":"Get ready to access lots of exciting\nTV shows, games and audiobooks for free",
         "sub_label":"Tap %s to get started!",
-        "checkemail_label":"You can create your own Oomee later.\nCheck your email."
+        "IAP_success_bottom_label":"",
+        "IAP_fail_bottom_label":"You can always unlock full access later"
     },
     
     "ChildAccountScene":
     {
+        "title_label":"Create a Profile for your Child",
         "request_name_label":"What's your child's name",
         "edit_name_label":"Want to change the display name?",
-        "request_dob_label":"Please add date of birth for",
-        "request_dob_sub_label":"We need this to show content specifically for their age",
+        "request_dob_label":"What's their date of birth",
+        "request_dob_sub_label":"We need this to show content tailored for their age",
         
         "edit_dob_label":"Change birthday?",
-        "request_oomee_label":"Select your favourite Oomee.",
+        "request_oomee_label":"Select your favourite Oomee!",
         "request_oomee_sub_label":"Don't worry you can change it later.",
         "edit_oomee_label":"Change your Oomee?",
         
@@ -40,12 +44,12 @@
     
     "ChildAccountSuccessScene":
     {
-        "title_label":"Good stuff, tap on your Oomee\nto explore."
+        "title_label":"Great!\nTap on your Oomee to get started."
     },
     
     "OfflineScene":
     {
-        "offline_title_label":"Oh No! You are offline",
+        "offline_title_label":"Oh no! You are offline",
         "for_login_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again,\nor enter offline mode.",
         "offline_sub_title_label":"You need to be online to use this app.\nCheck your connection and try again.",
         "hub_logged_in_body_label":"In the meantime you can still enjoy these.",
@@ -64,8 +68,8 @@
     
     "GenericButtons":
     {
-        "exit_app":"Exit App",
-        "log_out":"Log Out",
+        "exit_app":"Exit app",
+        "log_out":"Log out",
         
         "sign_up":"Sign up",
         "sign_up_multiline":"Sign\nup",
@@ -74,9 +78,12 @@
         
         "cancel":"Cancel",
         
+        "continue":"Continue",
+        "done":"Done",
+        
         "skip":"Skip",
-        "start_exploring":"Start Exploring",
-        "add_another":"Add Another",
+        "start_exploring":"Start exploring",
+        "add_another":"Add another",
         "lets_go":"Let's go",
         "retry":"Retry"
     }

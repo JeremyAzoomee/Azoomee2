@@ -27,6 +27,7 @@
 #import "cocos2d.h"
 #import "platform/ios/CCEAGLView-ios.h"
 
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 @implementation RootViewController
 
@@ -42,6 +43,8 @@
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
+    
+    _forcePortrait = false;
     cocos2d::Application *app = cocos2d::Application::getInstance();
     
     // Initialize the GLView attributes
@@ -75,6 +78,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -89,8 +93,30 @@
 // For ios6, use supportedInterfaceOrientations & shouldAutorotate instead
 #ifdef __IPHONE_6_0
 - (NSUInteger) supportedInterfaceOrientations{
-    return UIInterfaceOrientationMaskAllButUpsideDown;
+    if(_forcePortrait)
+    {
+        return UIInterfaceOrientationMaskPortrait;
+    }
+    return UIInterfaceOrientationMaskLandscape;
 }
+- (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation
+{
+    if(_forcePortrait)
+    {
+        return UIInterfaceOrientationPortrait;
+    }
+    return UIInterfaceOrientationLandscapeLeft;
+}
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if( _forcePortrait )
+    {
+        return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    }
+    return YES;
+}
+
 #endif
 
 - (BOOL) shouldAutorotate {
@@ -126,5 +152,28 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+- (void) setOrientationToPortrait
+{
+    _forcePortrait = true;
+     
+    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    [UIViewController attemptRotationToDeviceOrientation];
+}
+
+- (void) setOrientationToLandscape
+{
+    _forcePortrait = false;
+    
+    UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeRight];
+    
+    if(currentOrientation == UIInterfaceOrientationLandscapeLeft)
+        value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
+    
+    [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    [UIViewController attemptRotationToDeviceOrientation];
+}
 
 @end

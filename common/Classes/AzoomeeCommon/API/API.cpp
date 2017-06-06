@@ -23,6 +23,7 @@ const char* const API::TagVerifyApplePayment = "iapApplePaymentMade";
 const char* const API::TagGetChatList = "chat.getChatList";
 const char* const API::TagGetChatMessages = "chat.getChatMessages";
 const char* const API::TagSendChatMessage = "chat.sendChatMessage";
+const char* const API::TagResetPasswordRequest = "resetPasswordRequest";
 const char* const API::TagOfflineCheck = "offlineCheck";
 
 #pragma mark - API Methods
@@ -205,6 +206,16 @@ HttpRequestCreator* API::GetElectricDreamsContent(const std::string& requestId,
     request->requestTag = requestId;
     request->requestPath = StringUtils::format("/api/electricdreams/%s/content/%s", childId.c_str(), contentID.c_str());
     request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::ResetPaswordRequest(const std::string& forEmailAddress,
+                                                  HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagResetPasswordRequest;
+    request->requestPath = StringUtils::format("/api/auth/requestPasswordReset?emailAddress=%s", forEmailAddress.c_str());
+    request->encrypted = false;
     return request;
 }
 

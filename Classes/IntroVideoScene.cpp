@@ -5,7 +5,6 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
-#include "ChildAccountSuccessScene.h"
 #include "LoginLogicHandler.h"
 
 using namespace Azoomee;
@@ -29,6 +28,8 @@ bool IntroVideoScene::init()
     {
         return false;
     }
+    
+    AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_VIDEO");
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
@@ -98,6 +99,7 @@ void IntroVideoScene::navigateToNextScene()
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
+        AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_SLIDESHOW");
         Director::getInstance()->replaceScene(this->slideShowScene);
         this->slideShowScene->release();
     }

@@ -22,6 +22,9 @@ ModalMessages* ModalMessages::getInstance()
         _sharedModalMessages->init();
     }
     
+    _sharedModalMessages->visibleSize = Director::getInstance()->getVisibleSize();
+    _sharedModalMessages->origin = Director::getInstance()->getVisibleOrigin();
+    
     return _sharedModalMessages;
 }
 
@@ -31,8 +34,6 @@ ModalMessages::~ModalMessages(void)
 
 bool ModalMessages::init(void)
 {
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
     
     return true;
 }

@@ -16,7 +16,6 @@ private:
     Vec2 origin;
     
     ElectricDreamsButton* oomeeButton;
-    ElectricDreamsButton* startTrial;
 
     void setupScene();
     void addVisualElementsToScene();
@@ -33,8 +32,6 @@ private:
     
 public:
     static cocos2d::Scene* createScene();
-    
-    static cocos2d::Scene* createScene(bool IAPSuccess);
     
     virtual bool init();
     

@@ -1,7 +1,6 @@
 #include "ChildSelectorScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
-#include "ChildAccountScene.h"
 #include <math.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -15,6 +14,8 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include "SceneManagerScene.h"
+#include "FlowDataSingleton.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -28,8 +29,6 @@ Scene* ChildSelectorScene::createScene()
     auto scene = Scene::create();
     auto layer = ChildSelectorScene::create();
     scene->addChild(layer);
-    
-    layer->_errorCode = LoginLogicHandler::getInstance()->getErrorMessageCodeToDisplay();
 
     return scene;
 }
@@ -61,9 +60,9 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
 {
     OfflineChecker::getInstance()->setDelegate(this);
     
-    if(_errorCode !=0)
+    if(FlowDataSingleton::getInstance()->hasError())
     {
-        MessageBox::createWith(_errorCode, nullptr);
+        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
     }
 }
 
@@ -286,13 +285,8 @@ void ChildSelectorScene::addChildButtonPressed(Node* target)
 {
     target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
     
-    if(ParentDataProvider::getInstance()->emailRequiresVerification())
-        MessageBox::createWith(ERROR_CODE_EMAIL_VARIFICATION_REQUIRED, this);
-    else
-    {
-        AwaitingAdultPinLayer::create()->setDelegate(this);
-        AnalyticsSingleton::getInstance()->childProfileStartEvent();
-    }
+    AwaitingAdultPinLayer::create()->setDelegate(this);
+    AnalyticsSingleton::getInstance()->childProfileStartEvent();
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -311,17 +305,14 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 void ChildSelectorScene::connectivityStateChanged(bool online)
 {
     if(!online)
-    {
-        OfflineChecker::getInstance()->setDelegate(nullptr);
-        Director::getInstance()->replaceScene(OfflineHubScene::createScene());
-    }
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
 }
 
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
+    FlowDataSingleton::getInstance()->setFlowToNewProfile();
     OfflineChecker::getInstance()->setDelegate(nullptr);
-    auto newChildScene = ChildAccountScene::createScene("", 0);
-    Director::getInstance()->replaceScene(newChildScene);
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
 }
 
 void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

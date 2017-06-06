@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include "FlowDataSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -21,18 +22,7 @@ Scene* OnboardingSuccessScene::createScene()
     auto scene = Scene::create();
     auto layer = OnboardingSuccessScene::create();
     scene->addChild(layer);
-    layer->IAPSuccess = false;
-    layer->setupScene();
-    
-    return scene;
-}
-
-Scene* OnboardingSuccessScene::createScene(bool IAPSuccess)
-{
-    auto scene = Scene::create();
-    auto layer = OnboardingSuccessScene::create();
-    scene->addChild(layer);
-    layer->IAPSuccess = IAPSuccess;
+    layer->IAPSuccess = FlowDataSingleton::getInstance()->getIAPSuccess();
     layer->setupScene();
     
     return scene;
@@ -75,39 +65,33 @@ void OnboardingSuccessScene::addVisualElementsToScene()
 
 void OnboardingSuccessScene::addButtonsToScene()
 {
-    std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(0);
-    int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
-    
-    oomeeButton = ElectricDreamsButton::createOomeeButtonWithOutline(oomeeNr, ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
+    oomeeButton = ElectricDreamsButton::createOomeeButtonWithOutline(FlowDataSingleton::getInstance()->getOomeeColourNumber(), ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
     oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
     oomeeButton->setDelegate(this);
     oomeeButton->setMixPanelButtonName("OnboardingSuccessOomeePressed");
     this->addChild(oomeeButton);
     
-    if(!IAPSuccess)
+    
+    //Removed - but left here, as they may well change their minds again.
+    /*if(!IAPSuccess)
     {
         startTrial = ElectricDreamsButton::createButtonWithText("Start Trial!", 100);
         startTrial->setPosition(origin.x + startTrial->getContentSize().height,oomeeButton->getPositionY());
         startTrial->setDelegate(this);
         startTrial->setMixPanelButtonName("OnboardingSuccessStartTrialButton");
         this->addChild(startTrial);
-    }
+    }*/
 }
 
 void OnboardingSuccessScene::addLabelsToLayer()
 {
-    std::string TitleText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_TITLE_LABEL);
-    std::string SubTitleText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_CHECKEMAIL_LABEL);
+    std::string TitleText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_TITLE_LABEL);
+    std::string BottomText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_BOTTOM_LABEL);
     
-    if(IAPSuccess)
+    if(!IAPSuccess)
     {
-        TitleText = "Your Azoomee subscription is now active!\nEnjoy unlimited access to TV shows, games and audiobooks";
-        SubTitleText = "You can choose your own Oomee later.";
-    }
-    else
-    {
-        TitleText = "Don’t worry, you can still access lots of exciting TV shows,\ngames and audiobooks for free.";
-        SubTitleText = "You can always unlock full access later.";
+        TitleText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_IAP_FAIL_TITLE_LABEL);
+        BottomText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_IAP_FAIL_BOTTOM_LABEL);
     }
     
     auto title = createLabelHeader(TitleText);
@@ -122,7 +106,7 @@ void OnboardingSuccessScene::addLabelsToLayer()
     
     if(!IAPSuccess && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 1)
     {
-        auto checkEmail = createLabelBodyCentred(SubTitleText);
+        auto checkEmail = createLabelBodyCentred(BottomText);
         checkEmail->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.2);
         this->addChild(checkEmail);
     }
@@ -140,8 +124,6 @@ void OnboardingSuccessScene::buttonPressed(ElectricDreamsButton* button)
             oomeeButton->playOomeeAnimation("Build_Pop", false);
             this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
         }
-        else if(button == startTrial)
-            RoutePaymentSingleton::getInstance()->startInAppPayment();
     }
 }
 

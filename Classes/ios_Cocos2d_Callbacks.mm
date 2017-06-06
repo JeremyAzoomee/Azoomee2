@@ -5,31 +5,30 @@
 #include "OfflineHubScene.h"
 #include "WebGameAPIDataManager.h"
 #include "VideoPlaylistManager.h"
+#include "SceneManagerScene.h"
 #include "LoginLogicHandler.h"
+#include "FlowDataSingleton.h"
 
 using namespace Azoomee;
 
 
 void navigateToBaseScene()
 {
+    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
+    
     if(HQHistoryManager::getInstance()->isOffline)
     {
-        cocos2d::Director::getInstance()->replaceScene(OfflineHubScene::createScene());
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
         return;
     }
     
-    HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
-    
-    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-    
-    auto baseScene = BaseScene::createScene();
-    cocos2d::Director::getInstance()->replaceScene(baseScene);
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }
 
 void navigateToLoginScene()
 {
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-    LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+    FlowDataSingleton::getInstance()->setErrorCode(1006);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
 

@@ -23,9 +23,11 @@ bool PrivacyAndTermsLayer::init()
 void PrivacyAndTermsLayer::createButtons()
 {
     privacyButton = ElectricDreamsButton::createTextAsButton("Privacy Policy", 50, true);
+    privacyButton->setMixPanelButtonName("PrivacyPolicyButton");
     privacyButton->setDelegate(this);
     
     termsButton = ElectricDreamsButton::createTextAsButton("Terms of Use", 50, true);
+    termsButton->setMixPanelButtonName("TermsButton");
     termsButton->setDelegate(this);
 }
 

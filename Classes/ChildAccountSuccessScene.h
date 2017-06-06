@@ -15,7 +15,6 @@ private:
     Vec2 origin;
     
     int ChildNumber;
-    int OomeeAvatarNumber;
     
     ElectricDreamsButton* oomeeButton;
     ElectricDreamsButton* addChildButton;
@@ -29,7 +28,7 @@ private:
     bool buttonHasBeenPressed;
     
 public:
-    static cocos2d::Scene* createScene(std::string newChildName, int OomeeAvatarNumber);
+    static cocos2d::Scene* createScene();
     
     virtual bool init();
     

@@ -11,11 +11,6 @@ public:
     bool init(void);
     void doLoginLogic();
     void forceNewLogin();
-    void setErrorMessageCodeToDisplay(long errorMessageCode);
-    long getErrorMessageCodeToDisplay();
-    
-private:
-    long errorMsgCode;
 };
 
 #endif

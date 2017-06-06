@@ -9,14 +9,9 @@
 USING_NS_CC;
 using namespace Azoomee;
 
-
-enum ChildAccountScreenLocationEnum { childNameScreen, childDOBScreen, childSelectOomeeScreen};
-
 class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
-    long _errorCode;
-    
     TextInputLayer *childNameInputText;
     TextInputLayer *dayInputText;
     TextInputLayer *monthInputText;
@@ -25,28 +20,31 @@ private:
     Size visibleSize;
     Vec2 origin;
     
-    ChildAccountScreenLocationEnum currentScreen;
+    Label* sceneTitle;
+    Label* profileNameTitle;
+    Label* profileDOBTitle;
+    Label* profileDOBSubTitle;
+    Label* oomeesTitle;
     
-    Label* title;
-    Label* subTitle;
-
-    ElectricDreamsButton *backButton;
+    ElectricDreamsButton *cancelButton;
     ElectricDreamsButton *nextButton;
+    ElectricDreamsButton *nextButtonPlaceholder;
+    ElectricDreamsButton *backButton;
+    ElectricDreamsButton *submitButton;
+    ElectricDreamsButton *submitButtonPlaceholder;
     
+    void setupScene();
+    void AddTitleToScene();
     void addLabelToScene();
     void addTextboxScene();
     void addButtonsScene();
     
     void clearElementsOnScreen();
     
-    void changeElementsToDOBScreen();
-    void changeElementsToChildNameScreen();
+    void changeElementsToTextInputScreen();
     void changeElementsToOomeeScreen();
     
-    void setDOBNextButtonVisible();
-    
-    void backButtonPressed();
-    void nextButtonPressed();
+    bool DOBisDate();
     
     void registerChildAccount();
     
@@ -59,10 +57,11 @@ private:
     void showOomees();
     void selectOomee(int oomeeNumber);
     
+    virtual void onEnter();
     virtual void onEnterTransitionDidFinish();
 
 public:
-    static cocos2d::Scene* createScene(std::string ChildName, long errorCode);
+    static cocos2d::Scene* createScene();
 
     virtual bool init();
     
@@ -71,6 +70,7 @@ public:
     
     //Delegate Functions
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
+    void textInputReturnPressed(TextInputLayer* inputLayer);
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
 

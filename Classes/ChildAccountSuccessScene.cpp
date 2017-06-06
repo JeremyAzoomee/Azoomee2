@@ -8,17 +8,17 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "ChildAccountScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
-
+#include "SceneManagerScene.h"
+#include "FlowDataSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
 
-Scene* ChildAccountSuccessScene::createScene(std::string newChildName, int OomeeAvatarNumber)
+Scene* ChildAccountSuccessScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = ChildAccountSuccessScene::create();
-    layer->findChildNumber(newChildName);
-    layer->OomeeAvatarNumber = OomeeAvatarNumber;
+    layer->findChildNumber(FlowDataSingleton::getInstance()->getChildName());
     layer->addButtonsToScene();
     layer->addLabelsToLayer();
     scene->addChild(layer);
@@ -59,7 +59,7 @@ void ChildAccountSuccessScene::addVisualElementsToScene()
 
 void ChildAccountSuccessScene::addButtonsToScene()
 {
-    oomeeButton = ElectricDreamsButton::createOomeeAsButton(OomeeAvatarNumber);
+    oomeeButton = ElectricDreamsButton::createOomeeAsButton(FlowDataSingleton::getInstance()->getOomeeColourNumber());
     oomeeButton->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height/2));
     oomeeButton->setDelegate(this);
     oomeeButton->setScale(1.8);
@@ -129,5 +129,5 @@ void ChildAccountSuccessScene::moveToHubScene(float dt)
 
 void ChildAccountSuccessScene::moveToChildAccountScene(float dt)
 {
-    Director::getInstance()->replaceScene(ChildAccountScene::createScene("", 0));
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
 }
