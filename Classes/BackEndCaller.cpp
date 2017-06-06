@@ -497,6 +497,9 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     if(requestTag == API::TagResetPasswordRequest)
         return;
     
+    if(requestTag == API::TagUpdateBillingData)
+        return;
+    
     FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }

@@ -98,11 +98,6 @@ std::string HttpRequestCreator::addLeadingZeroToDateElement(int input)          
 
 void HttpRequestCreator::createHttpRequest()                            //The http request is being created from global variables. This method can't be run until setting up all variables, please see usage on top of this file.
 {
-    if(ConfigStorage::getInstance()->isClearingHttpQueueRequiredBeforeSendingRequest(requestTag))
-    {
-        HttpClient::destroyInstance();
-    }
-    
     std::string hostPrefix = ConfigStorage::getInstance()->getServerUrlPrefix();
     std::string host;
     
@@ -229,8 +224,6 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
 
 void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, long errorCode)
 {
-    HttpClient::getInstance()->destroyInstance();
-    
     if(delegate != nullptr)
         delegate->onHttpRequestFailed(requestTag, errorCode);
 }
