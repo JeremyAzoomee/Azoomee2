@@ -307,7 +307,9 @@ void ChildAccountScene::selectOomee(int oomeeNumber)
 //------------PRIVATE OTHER FUNCTIONS------------
 void ChildAccountScene::shouldChangeElementsToOomeeScreen()
 {
-    if(childNameExists(childNameInputText->getText()))
+    if(!DOBisDate() || !childNameInputText->inputIsValid())
+        childNameInputText->focusAndShowKeyboard();
+    else if(childNameExists(childNameInputText->getText()))
     {
         MessageBox::createWith(ERROR_CODE_NAME_EXISTS, childNameInputText, this);
         AnalyticsSingleton::getInstance()->childProdileNameErrorEvent();
@@ -316,7 +318,7 @@ void ChildAccountScene::shouldChangeElementsToOomeeScreen()
     {
         MessageBox::createWith(422, nullptr);
     }
-    else if(DOBisDate() && childNameInputText->inputIsValid())
+    else
         changeElementsToOomeeScreen();
 }
 
