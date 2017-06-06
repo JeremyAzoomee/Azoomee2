@@ -146,7 +146,7 @@ void ChildAccountScene::addButtonsScene()
     cancelButton->setMixPanelButtonName("childAccountSceneCancelButton");
     this->addChild(cancelButton);
         
-    if(FlowDataSingleton::getInstance()->isSignupFlow())
+    if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
         cancelButton->setVisible(false);
         nextButton->setCenterPosition(Vec2(visibleSize.width/2+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.5));
@@ -215,7 +215,7 @@ void ChildAccountScene::changeElementsToTextInputScreen()
     profileDOBTitle->setVisible(true);
     profileDOBSubTitle->setVisible(true);
     
-    if(!FlowDataSingleton::getInstance()->isSignupFlow())
+    if(!(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()))
         cancelButton->setVisible(true);
     
     nextButton->setVisible(DOBisDate() && childNameInputText->inputIsValid());
@@ -305,6 +305,21 @@ void ChildAccountScene::selectOomee(int oomeeNumber)
 }
 
 //------------PRIVATE OTHER FUNCTIONS------------
+void ChildAccountScene::shouldChangeElementsToOomeeScreen()
+{
+    if(childNameExists(childNameInputText->getText()))
+    {
+        MessageBox::createWith(ERROR_CODE_NAME_EXISTS, childNameInputText, this);
+        AnalyticsSingleton::getInstance()->childProdileNameErrorEvent();
+    }
+    else if(DOBisDateInFuture())
+    {
+        MessageBox::createWith(422, nullptr);
+    }
+    else if(DOBisDate() && childNameInputText->inputIsValid())
+        changeElementsToOomeeScreen();
+}
+
 void ChildAccountScene::registerChildAccount()
 {
     std::string profileName = childNameInputText->getText();
@@ -317,7 +332,7 @@ void ChildAccountScene::registerChildAccount()
     std::string gender = "MALE";
     
     auto backEndCaller = BackEndCaller::getInstance();
-    if(FlowDataSingleton::getInstance()->isSignupFlow() && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
+    if((FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()) && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
         backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, this->selectedOomeeNo);
     else
         backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
@@ -330,6 +345,11 @@ bool ChildAccountScene::DOBisDate()
     int year = std::atoi(yearInputText->getText().c_str());
     
     return isDate(day, month, year);
+}
+
+bool ChildAccountScene::DOBisDateInFuture()
+{
+    return isDateInFuture(StringUtils::format("%s-%s-%s",yearInputText->getText().c_str(),monthInputText->getText().c_str(),dayInputText->getText().c_str()));
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -353,28 +373,15 @@ void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
     else if(inputLayer == monthInputText)
         yearInputText->focusAndShowKeyboard();
     else if(inputLayer == yearInputText)
-    {
-        if(DOBisDate() && childNameInputText->inputIsValid())
-            changeElementsToOomeeScreen();
-    }
+        shouldChangeElementsToOomeeScreen();
 }
 
 void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
-    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
-    }
     else if(button == nextButton)
-    {
-        if(childNameExists(childNameInputText->getText()))
-        {
-            MessageBox::createWith(ERROR_CODE_NAME_EXISTS, childNameInputText, this);
-            AnalyticsSingleton::getInstance()->childProdileNameErrorEvent();
-        }
-        else
-            changeElementsToOomeeScreen();
-    }
+        shouldChangeElementsToOomeeScreen();
     else if(button == backButton)
         changeElementsToTextInputScreen();
     else if(button == submitButton)

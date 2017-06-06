@@ -237,6 +237,16 @@ void AnalyticsSingleton::childProfileCreatedErrorEvent(long errorCode)
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
+    
+void AnalyticsSingleton::childProfileUpdateErrorEvent(long errorCode)
+{
+    std::string eventID = "childProfileUpdateError";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+    
+    mixPanelSendEvent(eventID, mixPanelProperties);
+}
 
 //-------------HUB ACTIONS-------------------
 void AnalyticsSingleton::hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction)

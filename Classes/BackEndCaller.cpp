@@ -178,7 +178,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 {
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     
-    if(FlowDataSingleton::getInstance()->isSignupFlow() && FlowDataSingleton::getInstance()->isNewProfileFlow())
+    if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OnboardingSuccessScene));
     }
@@ -461,6 +461,15 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
 
+        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
+        return;
+    }
+    
+    if(requestTag == API::TagUpdateChild)
+    {
+        AnalyticsSingleton::getInstance()->childProfileUpdateErrorEvent(errorCode);
+        
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
         return;

@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-enum FlowTypeEnum { flowType_None, flowType_Signup,flowType_NewProfile};
+enum FlowTypeEnum { flowType_None, flowType_Signup, flowType_SignupNewProfile,flowType_NewProfile};
 
 class FlowDataSingleton : public cocos2d::Ref
 {
@@ -36,6 +36,7 @@ public:
     void addIAPSuccess(bool IAPSuccess);
 
     bool isSignupFlow();
+    bool isSignupNewProfileFlow();
     bool isNewProfileFlow();
     void setErrorCode(long errorCode);
     

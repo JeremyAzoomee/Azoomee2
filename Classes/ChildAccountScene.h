@@ -43,8 +43,10 @@ private:
     
     void changeElementsToTextInputScreen();
     void changeElementsToOomeeScreen();
+    void shouldChangeElementsToOomeeScreen();
     
     bool DOBisDate();
+    bool DOBisDateInFuture();
     
     void registerChildAccount();
     
