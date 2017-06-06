@@ -64,6 +64,9 @@ void FlowDataSingleton::setFlowToNewProfile()
 
 void FlowDataSingleton::addChildData(std::string childName, int oomeeColourNumber)
 {
+    if(isSignupFlow())
+        currentFlowType = flowType_SignupNewProfile;
+    
     flowData[DataKeyChildName] = childName;
     flowData[DataKeyOomeeColourNumber] = StringUtils::format("%d",oomeeColourNumber);
 }
@@ -111,6 +114,11 @@ bool FlowDataSingleton::hasError()
 bool FlowDataSingleton::isSignupFlow()
 {
     return currentFlowType == flowType_Signup;
+}
+
+bool FlowDataSingleton::isSignupNewProfileFlow()
+{
+    return currentFlowType == flowType_SignupNewProfile;
 }
 
 bool FlowDataSingleton::isNewProfileFlow()

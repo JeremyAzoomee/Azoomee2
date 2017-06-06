@@ -146,7 +146,7 @@ void ChildAccountScene::addButtonsScene()
     cancelButton->setMixPanelButtonName("childAccountSceneCancelButton");
     this->addChild(cancelButton);
         
-    if(FlowDataSingleton::getInstance()->isSignupFlow())
+    if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
         cancelButton->setVisible(false);
         nextButton->setCenterPosition(Vec2(visibleSize.width/2+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.5));
@@ -215,7 +215,7 @@ void ChildAccountScene::changeElementsToTextInputScreen()
     profileDOBTitle->setVisible(true);
     profileDOBSubTitle->setVisible(true);
     
-    if(!FlowDataSingleton::getInstance()->isSignupFlow())
+    if(!(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()))
         cancelButton->setVisible(true);
     
     nextButton->setVisible(DOBisDate() && childNameInputText->inputIsValid());
@@ -317,7 +317,7 @@ void ChildAccountScene::registerChildAccount()
     std::string gender = "MALE";
     
     auto backEndCaller = BackEndCaller::getInstance();
-    if(FlowDataSingleton::getInstance()->isSignupFlow() && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
+    if((FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()) && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
         backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, this->selectedOomeeNo);
     else
         backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);

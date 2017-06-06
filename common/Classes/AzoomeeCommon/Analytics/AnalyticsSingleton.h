@@ -79,6 +79,7 @@ public:
     void childProfileOomeeEvent(int oomeeNumber);
     void childProfileCreatedSuccessEvent(int oomeeNumber);
     void childProfileCreatedErrorEvent(long errorCode);
+    void childProfileUpdateErrorEvent(long errorCode);
 
     //-------------HUB ACTIONS-------------------
     void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
