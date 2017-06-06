@@ -305,6 +305,21 @@ void ChildAccountScene::selectOomee(int oomeeNumber)
 }
 
 //------------PRIVATE OTHER FUNCTIONS------------
+void ChildAccountScene::shouldChangeElementsToOomeeScreen()
+{
+    if(childNameExists(childNameInputText->getText()))
+    {
+        MessageBox::createWith(ERROR_CODE_NAME_EXISTS, childNameInputText, this);
+        AnalyticsSingleton::getInstance()->childProdileNameErrorEvent();
+    }
+    else if(DOBisDateInFuture())
+    {
+        MessageBox::createWith(422, nullptr);
+    }
+    else if(DOBisDate() && childNameInputText->inputIsValid())
+        changeElementsToOomeeScreen();
+}
+
 void ChildAccountScene::registerChildAccount()
 {
     std::string profileName = childNameInputText->getText();
@@ -358,32 +373,15 @@ void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
     else if(inputLayer == monthInputText)
         yearInputText->focusAndShowKeyboard();
     else if(inputLayer == yearInputText)
-    {
-        if(DOBisDate() && childNameInputText->inputIsValid())
-            changeElementsToOomeeScreen();
-    }
+        shouldChangeElementsToOomeeScreen();
 }
 
 void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
-    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
-    }
     else if(button == nextButton)
-    {
-        if(childNameExists(childNameInputText->getText()))
-        {
-            MessageBox::createWith(ERROR_CODE_NAME_EXISTS, childNameInputText, this);
-            AnalyticsSingleton::getInstance()->childProdileNameErrorEvent();
-        }
-        else if(DOBisDateInFuture())
-        {
-            MessageBox::createWith(422, nullptr);
-        }
-        else
-            changeElementsToOomeeScreen();
-    }
+        shouldChangeElementsToOomeeScreen();
     else if(button == backButton)
         changeElementsToTextInputScreen();
     else if(button == submitButton)
