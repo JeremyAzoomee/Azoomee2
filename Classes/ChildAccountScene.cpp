@@ -244,21 +244,18 @@ void ChildAccountScene::addOomeesToScene()
     oomeeGlow->setScale(.6);
     this->addChild(oomeeGlow);
     
+    std::vector<cocos2d::Vec2> oomeePositions = {Vec2(0.5, 0.47), Vec2(0.3, 0.29), Vec2(0.7, 0.29), Vec2(0.3, 0.65), Vec2(0.7, 0.65)};
+    
     for(int i=0;i< NO_OF_OOMEES;i++)
     {
         auto oomeeButton = ElectricDreamsButton::createOomeeAsButton(i);
         oomeeButton->setDelegate(this);
         oomeeButton->setVisible(false);
         oomeeButton->setScale(1.3);
+        oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width * oomeePositions.at(i).x, origin.y + visibleSize.height * oomeePositions.at(i).y));
         this->addChild(oomeeButton);
         OomeeButtons.push_back(oomeeButton);
     }
-    
-    OomeeButtons.at(0)->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height*.47));
-    OomeeButtons.at(1)->setCenterPosition(Vec2(origin.x + visibleSize.width*.3, origin.y + visibleSize.height*.29));
-    OomeeButtons.at(2)->setCenterPosition(Vec2(origin.x + visibleSize.width*.7, origin.y + visibleSize.height*.29));
-    OomeeButtons.at(3)->setCenterPosition(Vec2(origin.x + visibleSize.width*.3, origin.y + visibleSize.height*.65));
-    OomeeButtons.at(4)->setCenterPosition(Vec2(origin.x + visibleSize.width*.7, origin.y + visibleSize.height*.65));
     
     ModalMessages::getInstance()->stopLoading();
 }
