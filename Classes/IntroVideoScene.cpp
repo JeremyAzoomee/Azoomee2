@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Strings.h>
 #include "LoginLogicHandler.h"
+#include "SceneManagerScene.h"
 
 using namespace Azoomee;
 
@@ -100,8 +101,9 @@ void IntroVideoScene::navigateToNextScene()
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
     {
         AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_SLIDESHOW");
-        Director::getInstance()->replaceScene(this->slideShowScene);
-        this->slideShowScene->release();
+        //Director::getInstance()->replaceScene(this->slideShowScene);
+        //this->slideShowScene->release();
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(FTUScene));
     }
     else
     {

@@ -60,14 +60,14 @@ void FTUScene::addLabels()
 {
     Label* titleLabel = Label::createWithTTF("Welcome to the world of Azoomee", FONT_REGULAR, 130);
     titleLabel->setColor(COLOR_BRIGHT_AQUA);
-    titleLabel->setAnchorPoint(Vec2(0,0.5));
+    titleLabel->setAnchorPoint(Vec2(0.5,0.5));
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    titleLabel->setPosition(ftuLayer->getContentSize().width/2,ftuLayer->getContentSize().height-titleLabel->getContentSize().height);
+    titleLabel->setPosition(ftuLayer->getContentSize().width/2,ftuLayer->getContentSize().height-titleLabel->getContentSize().height*1.2);
     ftuLayer->addChild(titleLabel);
     
-    Label* subTitleLabel = Label::createWithTTF("Create an account now to enjoy free videos, games and more", FONT_REGULAR, 100);
+    Label* subTitleLabel = Label::createWithTTF("Create an account now to enjoy free videos, games and more", FONT_REGULAR, 80);
     subTitleLabel->setColor(Color3B::WHITE);
-    subTitleLabel->setAnchorPoint(Vec2(0,0.5));
+    subTitleLabel->setAnchorPoint(Vec2(0.5,0.5));
     subTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     subTitleLabel->setPosition(ftuLayer->getContentSize().width/2,titleLabel->getPositionY()-titleLabel->getContentSize().height);
     ftuLayer->addChild(subTitleLabel);
@@ -76,8 +76,13 @@ void FTUScene::addLabels()
 void FTUScene::addImages()
 {
     Sprite* thumbsImage = Sprite::create("res/FTU_Assets/thumbs.png");
-    thumbsImage->setPosition(ftuLayer->getContentSize().width/2,ftuLayer->getContentSize().height*.33 + thumbsImage->getContentSize().height/2);
+    thumbsImage->setPosition(ftuLayer->getContentSize().width/2,(ftuLayer->getContentSize().height -thumbsImage->getContentSize().height) *.33 + thumbsImage->getContentSize().height/2);
     ftuLayer->addChild(thumbsImage);
+    
+    Sprite* gradient = Sprite::create("res/FTU_Assets/blurryMask.png");
+    gradient->setScaleX(ftuLayer->getContentSize().width / gradient->getContentSize().width);
+    gradient->setPosition(ftuLayer->getContentSize().width/2,gradient->getContentSize().height/2);
+    ftuLayer->addChild(gradient);
 }
 
 void FTUScene::addButtons()
