@@ -187,7 +187,7 @@ bool isDateInFuture(std::string dobstring)
     strptime(dobstring.c_str(), "%Y-%m-%d", &tm);
     ts = mktime(&tm);
     
-    return(ts >= time(NULL));
+    return(ts >= time(NULL) || ts==-1);
 }
   
 }
