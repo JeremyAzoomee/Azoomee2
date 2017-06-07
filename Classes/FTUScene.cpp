@@ -1,6 +1,7 @@
 #include "FTUScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include "SceneManagerScene.h"
 
 #define COLOR_BRIGHT_AQUA Color3B(28, 244, 244)
 
@@ -87,6 +88,17 @@ void FTUScene::addImages()
 
 void FTUScene::addButtons()
 {
+    getStartedButton = ElectricDreamsButton::createButtonWithText("Get Started for Free", 225);
+    getStartedButton->setPosition(ftuLayer->getContentSize().width-getStartedButton->getContentSize().width*1.5, getStartedButton->getContentSize().height*.4);
+    getStartedButton->setDelegate(this);
+    getStartedButton->setMixPanelButtonName("FTUGetStartedButton");
+    ftuLayer->addChild(getStartedButton);
+    
+    notNowButton = ElectricDreamsButton::createTextAsButtonAqua("Not Now", 60, true);
+    notNowButton->setPosition(getStartedButton->getContentSize().width/2,getStartedButton->getPositionY());
+    notNowButton->setDelegate(this);
+    notNowButton->setMixPanelButtonName("FTUNotNowButton");
+    ftuLayer->addChild(notNowButton);
     
 }
 
@@ -94,5 +106,8 @@ void FTUScene::addButtons()
 
 void FTUScene::buttonPressed(ElectricDreamsButton* button)
 {
-
+    if(button == notNowButton)
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+    else
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
 }

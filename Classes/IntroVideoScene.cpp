@@ -1,5 +1,4 @@
 #include "IntroVideoScene.h"
-#include "SlideShowScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "BaseScene.h"
 #include "HQHistoryManager.h"
@@ -31,12 +30,8 @@ bool IntroVideoScene::init()
     }
     
     AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_VIDEO");
+    AnalyticsSingleton::getInstance()->firstLaunchEvent();
     
-    if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
-    {
-        this->slideShowScene = SlideShowScene::createScene();
-        this->slideShowScene->retain();
-    }
     auto funcCallAction = CallFunc::create([=](){
         
         videoErrorText = StringUtils::format("%svideo failsafe triggered.",videoErrorText.c_str());
@@ -99,12 +94,7 @@ void IntroVideoScene::navigateToNextScene()
     AnalyticsSingleton::getInstance()->registerAppVersion();
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
-    {
-        AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_SLIDESHOW");
-        //Director::getInstance()->replaceScene(this->slideShowScene);
-        //this->slideShowScene->release();
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(FTUScene));
-    }
     else
     {
         LoginLogicHandler::getInstance()->doLoginLogic();
