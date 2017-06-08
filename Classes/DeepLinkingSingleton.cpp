@@ -191,7 +191,6 @@ void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::stri
                 
                 auto funcCallAction = CallFunc::create([=](){
                     HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties.at("uri"));
-                    HQHistoryManager::getInstance()->setGroupHQSourceId(path);
                 });
                 
                 Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
