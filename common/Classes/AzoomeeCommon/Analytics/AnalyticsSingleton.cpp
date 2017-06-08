@@ -148,8 +148,12 @@ void AnalyticsSingleton::logoutParentEvent()
 
 void AnalyticsSingleton::firstLaunchEvent()
 {
-    mixPanelSendEvent("firstLaunch");
-    appsFlyerSendEvent("firstLaunch");
+    if(!(cocos2d::UserDefault::getInstance()->getBoolForKey("firstTimeLaunchEventSent", false) || cocos2d::UserDefault::getInstance()->getBoolForKey("FirstSlideShowSeen", false)))
+    {
+        cocos2d::UserDefault::getInstance()->setBoolForKey("firstTimeLaunchEventSent", true);
+        mixPanelSendEvent("firstLaunch");
+        appsFlyerSendEvent("firstLaunch");
+    }
 }
 
 // -------------- SIGN IN FUNCTIONS -----------------

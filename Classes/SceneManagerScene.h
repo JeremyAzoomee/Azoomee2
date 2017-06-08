@@ -3,7 +3,7 @@
 
 #include <cocos/cocos2d.h>
 
-enum SceneNameEnum { Login, Onboarding,Base, BaseWithNoHistory, ChildAccount, ChildAccountSuccessScene, ChildSelector, OnboardingSuccessScene,OfflineHub,OfflineArtsAppHQ};
+enum SceneNameEnum { Login, Onboarding,Base, BaseWithNoHistory, ChildAccount, ChildAccountSuccessScene, ChildSelector, OnboardingSuccessScene,OfflineHub,OfflineArtsAppHQ,FTUScene};
 
 USING_NS_CC;
 

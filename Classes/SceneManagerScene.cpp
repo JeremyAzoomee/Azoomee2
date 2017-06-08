@@ -11,6 +11,7 @@
 #include "HQScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
+#include "FTUScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include "OrientationFunctions_ios.h"
@@ -116,6 +117,13 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             forceToLandscape();
             goToScene = HQScene::createSceneForOfflineArtsAppHQ();
             AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE_ARTS_APP");
+            break;
+        }
+        case FTUScene:
+        {
+            forceToLandscape();
+            goToScene = FTUScene::createScene();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("FTU_SCENE");
             break;
         }
         default:
