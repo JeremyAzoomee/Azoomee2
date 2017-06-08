@@ -13,6 +13,8 @@ private:
     Size visibleSize;
     Vec2 origin;
     
+    Layer* currentLayer;
+    
     LayerColor *backgroundLayer;
     float linePositionY;
     

@@ -1,5 +1,6 @@
 #include "SettingsLayer.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include "AccountDetailsLayer.h"
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50
@@ -57,6 +58,9 @@ void SettingsLayer::createSettingsController()
     createCancelButton();
     createLine();
     createTabs();
+    
+    currentLayer = AccountDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2);
+    backgroundLayer->addChild(currentLayer);
 }
 
 void SettingsLayer::createCancelButton()
@@ -82,17 +86,17 @@ void SettingsLayer::createLine()
 void SettingsLayer::createTabs()
 {
     childrenButton = ElectricDreamsButton::createTabButton("Your Kids");
-    childrenButton->setPosition(TAB_SPACING*2+childrenButton->getContentSize().width/2,linePositionY + childrenButton->getContentSize().height/2-LINE_WIDTH);
+    childrenButton->setPosition(TAB_SPACING*2,linePositionY-LINE_WIDTH/2);
     childrenButton->setDelegate(this);
     backgroundLayer->addChild(childrenButton,IDLE_TAB_Z);
     
     confirmationButton = ElectricDreamsButton::createTabButton("Confirmation");
-    confirmationButton->setPosition(childrenButton->getPositionX()+childrenButton->getContentSize().width/2+ TAB_SPACING+confirmationButton->getContentSize().width/2,linePositionY + confirmationButton->getContentSize().height/2-LINE_WIDTH);
+    confirmationButton->setPosition(childrenButton->getPositionX()+childrenButton->getContentSize().width/2+ TAB_SPACING+confirmationButton->getContentSize().width/2,linePositionY-LINE_WIDTH/2 );
     confirmationButton->setDelegate(this);
     backgroundLayer->addChild(confirmationButton,IDLE_TAB_Z);
     
     accountButton = ElectricDreamsButton::createTabButton("Account");
-    accountButton->setPosition(confirmationButton->getPositionX()+confirmationButton->getContentSize().width/2+TAB_SPACING+accountButton->getContentSize().width/2,linePositionY + accountButton->getContentSize().height/2-LINE_WIDTH);
+    accountButton->setPosition(confirmationButton->getPositionX()+confirmationButton->getContentSize().width/2+TAB_SPACING+accountButton->getContentSize().width/2,linePositionY-LINE_WIDTH/2);
     accountButton->setDelegate(this);
     backgroundLayer->addChild(accountButton,SELECTED_TAB_Z);
 }
@@ -117,21 +121,27 @@ void SettingsLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == childrenButton)
     {
+        backgroundLayer->removeChild(currentLayer);
         childrenButton->setLocalZOrder(SELECTED_TAB_Z);
         confirmationButton->setLocalZOrder(IDLE_TAB_Z);
         accountButton->setLocalZOrder(IDLE_TAB_Z);
     }
     else if(button == confirmationButton)
     {
+        backgroundLayer->removeChild(currentLayer);
         childrenButton->setLocalZOrder(IDLE_TAB_Z);
         confirmationButton->setLocalZOrder(SELECTED_TAB_Z);
         accountButton->setLocalZOrder(IDLE_TAB_Z);
     }
     else if(button == accountButton)
     {
+        backgroundLayer->removeChild(currentLayer);
         childrenButton->setLocalZOrder(IDLE_TAB_Z);
         confirmationButton->setLocalZOrder(IDLE_TAB_Z);
         accountButton->setLocalZOrder(SELECTED_TAB_Z);
+        
+        currentLayer = AccountDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2);
+        backgroundLayer->addChild(currentLayer);
     }
 }
 

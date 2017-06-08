@@ -68,6 +68,7 @@
 		430B21551E4487E5004ACB10 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B21541E4487E5004ACB10 /* SystemConfiguration.framework */; };
 		430B215D1E448825004ACB10 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215C1E448825004ACB10 /* libicucore.tbd */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
+		430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */; };
 		4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
 		432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
@@ -294,6 +295,8 @@
 		430B215E1E448AF6004ACB10 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountScene.cpp; sourceTree = "<group>"; };
 		430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountScene.h; sourceTree = "<group>"; };
+		430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AccountDetailsLayer.cpp; sourceTree = "<group>"; };
+		430EC14F1EE992B900B0103B /* AccountDetailsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountDetailsLayer.h; sourceTree = "<group>"; };
 		4319D3E01E67134600110F92 /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
 		4319D3E11E67134600110F92 /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManualGameInputLayer.cpp; sourceTree = "<group>"; };
@@ -738,6 +741,8 @@
 			children = (
 				43F42E391EE84B9500606290 /* SettingsLayer.cpp */,
 				43F42E3A1EE84B9500606290 /* SettingsLayer.h */,
+				430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */,
+				430EC14F1EE992B900B0103B /* AccountDetailsLayer.h */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1194,6 +1199,7 @@
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */,
 				02074B2A1E93968E009BB28C /* ArtAppImageManager.cpp in Sources */,
+				430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
 				D13C401C1E33A0F0002360A6 /* ExitOrLogoutLayer.cpp in Sources */,

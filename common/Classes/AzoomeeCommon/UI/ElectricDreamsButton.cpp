@@ -307,24 +307,15 @@ ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton(float withWi
     
 ElectricDreamsButton* ElectricDreamsButton::createTabButton(std::string buttonText)
 {
-    Label* buttonLabel = createLabelButtonAdultSecondary(buttonText);
-    
-    Sprite* newButton = Sprite::create("res/settings/tab.png");
-    
-    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2);
-    
-    newButton->setCascadeOpacityEnabled(true);
-    newButton->addChild(buttonLabel);
-    
     auto layer = ElectricDreamsButton::create();
-    layer->setCascadeOpacityEnabled(true);
-    layer->setContentSize(newButton->getContentSize());
-    layer->addChild(newButton);
+    layer->addChild(layer->createSpriteButton("res/settings/tab.png", OK_BUTTON_AUDIO_EFFECT ));
     
-    layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
+    Label* buttonLabel = createLabelButtonAdultSecondary(buttonText);
+    buttonLabel->setPosition(layer->getContentSize().width/2, layer->getContentSize().height/2);
+    layer->addChild(buttonLabel);
     
     layer->addListener();
-    
+
     return layer;
 }
 
