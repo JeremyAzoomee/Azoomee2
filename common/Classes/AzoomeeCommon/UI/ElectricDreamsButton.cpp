@@ -304,6 +304,29 @@ ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton(float withWi
     
     return layer;
 }
+    
+ElectricDreamsButton* ElectricDreamsButton::createTabButton(std::string buttonText)
+{
+    Label* buttonLabel = createLabelButtonAdultSecondary(buttonText);
+    
+    Sprite* newButton = Sprite::create("res/settings/tab.png");
+    
+    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2);
+    
+    newButton->setCascadeOpacityEnabled(true);
+    newButton->addChild(buttonLabel);
+    
+    auto layer = ElectricDreamsButton::create();
+    layer->setCascadeOpacityEnabled(true);
+    layer->setContentSize(newButton->getContentSize());
+    layer->addChild(newButton);
+    
+    layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
+    
+    layer->addListener();
+    
+    return layer;
+}
 
 //-------------OOMEE BUTTONS AND FUNCTIONS---------------------
 

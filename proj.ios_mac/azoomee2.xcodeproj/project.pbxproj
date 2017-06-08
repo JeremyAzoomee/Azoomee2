@@ -93,6 +93,7 @@
 		43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90DE41EA7603800606099 /* WatchKit.framework */; };
 		43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */; };
 		43BCD7211EC9FDD300A07737 /* OrientationFunctions_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD7201EC9FDD300A07737 /* OrientationFunctions_ios.mm */; };
+		43F42E3B1EE84B9500606290 /* SettingsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F42E391EE84B9500606290 /* SettingsLayer.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -331,6 +332,8 @@
 		43BCD71D1EC9FD4E00A07737 /* SceneManagerScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManagerScene.h; sourceTree = "<group>"; };
 		43BCD71F1EC9FDD300A07737 /* OrientationFunctions_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrientationFunctions_ios.h; sourceTree = "<group>"; };
 		43BCD7201EC9FDD300A07737 /* OrientationFunctions_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OrientationFunctions_ios.mm; sourceTree = "<group>"; };
+		43F42E391EE84B9500606290 /* SettingsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsLayer.cpp; sourceTree = "<group>"; };
+		43F42E3A1EE84B9500606290 /* SettingsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsLayer.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -730,6 +733,15 @@
 			name = Apple;
 			sourceTree = "<group>";
 		};
+		43F42E371EE84B7800606290 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				43F42E391EE84B9500606290 /* SettingsLayer.cpp */,
+				43F42E3A1EE84B9500606290 /* SettingsLayer.h */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -929,6 +941,7 @@
 		A1CC0C271E15691C008B469E /* ModalMessages */ = {
 			isa = PBXGroup;
 			children = (
+				43F42E371EE84B7800606290 /* Settings */,
 				439694821EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp */,
 				439694831EAA4A08003C17E6 /* PrivacyAndTermsLayer.h */,
 				D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */,
@@ -1201,6 +1214,7 @@
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
 				A1CC0C251E141B47008B469E /* HQDataStorage.cpp in Sources */,
+				43F42E3B1EE84B9500606290 /* SettingsLayer.cpp in Sources */,
 				439694811EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
 			);

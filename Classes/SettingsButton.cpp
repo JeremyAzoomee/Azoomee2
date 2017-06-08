@@ -1,6 +1,7 @@
 #include "SettingsButton.h"
 #include "ExitOrLogoutLayer.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include "SettingsLayer.h"
 
 
 SettingsButton* SettingsButton::createSettingsButton(float creationDelay)
@@ -35,6 +36,7 @@ bool SettingsButton::init()
 
 void SettingsButton::onButtonPressed()
 {
-    ExitOrLogoutLayer::create();
+    //ExitOrLogoutLayer::create();
+    SettingsLayer::create();
 }
 
