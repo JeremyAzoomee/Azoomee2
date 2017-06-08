@@ -86,7 +86,8 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButtonAqua(std::string b
     if(underlined)
     {
         DrawNode* newDrawNode = DrawNode::create();
-        newDrawNode->drawRect(Vec2(0, 1), Vec2(textButton->getContentSize().width, 3), Color4F(28/255.0f, 244/255.0f, 244/255.0f,255/255.0f));
+        newDrawNode->setLineWidth(2);
+        newDrawNode->drawLine(Vec2(0, 0), Vec2(textButton->getContentSize().width,0), Color4F(28/255.0f, 244/255.0f, 244/255.0f,255/255.0f));
         layer->addChild(newDrawNode);
     }
     

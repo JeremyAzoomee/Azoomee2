@@ -59,43 +59,45 @@ void FTUScene::addLayer()
 
 void FTUScene::addLabels()
 {
-    Label* titleLabel = Label::createWithTTF("Welcome to the world of Azoomee", FONT_REGULAR, 130);
+    titleLabel = Label::createWithTTF("Welcome to the world of Azoomee", FONT_REGULAR, 130);
     titleLabel->setColor(COLOR_BRIGHT_AQUA);
     titleLabel->setAnchorPoint(Vec2(0.5,0.5));
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     titleLabel->setPosition(ftuLayer->getContentSize().width/2,ftuLayer->getContentSize().height-titleLabel->getContentSize().height*1.2);
     ftuLayer->addChild(titleLabel);
     
-    Label* subTitleLabel = Label::createWithTTF("Create an account now to enjoy free videos, games and more", FONT_REGULAR, 80);
+    subTitleLabel = Label::createWithTTF("Create an account now to enjoy free videos, games and more", FONT_REGULAR, 80);
     subTitleLabel->setColor(Color3B::WHITE);
     subTitleLabel->setAnchorPoint(Vec2(0.5,0.5));
     subTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    subTitleLabel->setPosition(ftuLayer->getContentSize().width/2,titleLabel->getPositionY()-titleLabel->getContentSize().height);
+    subTitleLabel->setPosition(ftuLayer->getContentSize().width/2,titleLabel->getPositionY()-titleLabel->getContentSize().height/2 - subTitleLabel->getContentSize().height*.3);
     ftuLayer->addChild(subTitleLabel);
 }
 
 void FTUScene::addImages()
 {
     Sprite* thumbsImage = Sprite::create("res/FTU_Assets/thumbs.png");
-    thumbsImage->setPosition(ftuLayer->getContentSize().width/2,(ftuLayer->getContentSize().height -thumbsImage->getContentSize().height) *.33 + thumbsImage->getContentSize().height/2);
+    thumbsImage->setPosition(ftuLayer->getContentSize().width/2, subTitleLabel->getPositionY() -thumbsImage->getContentSize().height/2 - subTitleLabel->getContentSize().height*.8);
     ftuLayer->addChild(thumbsImage);
     
     Sprite* gradient = Sprite::create("res/FTU_Assets/blurryMask.png");
     gradient->setScaleX(ftuLayer->getContentSize().width / gradient->getContentSize().width);
-    gradient->setPosition(ftuLayer->getContentSize().width/2,gradient->getContentSize().height/2);
+    gradient->setScaleY(1.3);
+    gradient->setPosition(ftuLayer->getContentSize().width/2,gradient->getContentSize().height/2*1.3
+                          );
     ftuLayer->addChild(gradient);
 }
 
 void FTUScene::addButtons()
 {
     getStartedButton = ElectricDreamsButton::createButtonWithText("Get Started for Free", 225);
-    getStartedButton->setPosition(ftuLayer->getContentSize().width-getStartedButton->getContentSize().width*1.5, getStartedButton->getContentSize().height*.4);
+    getStartedButton->setPosition(ftuLayer->getContentSize().width-getStartedButton->getContentSize().width*1.35, getStartedButton->getContentSize().height*.75);
     getStartedButton->setDelegate(this);
     getStartedButton->setMixPanelButtonName("FTUGetStartedButton");
     ftuLayer->addChild(getStartedButton);
     
-    notNowButton = ElectricDreamsButton::createTextAsButtonAqua("Not Now", 60, true);
-    notNowButton->setPosition(getStartedButton->getContentSize().width/2,getStartedButton->getPositionY());
+    notNowButton = ElectricDreamsButton::createTextAsButtonAqua("Take a Tour / Log in", 60, true);
+    notNowButton->setPosition(getStartedButton->getContentSize().width*.35,getStartedButton->getPositionY());
     notNowButton->setDelegate(this);
     notNowButton->setMixPanelButtonName("FTUNotNowButton");
     ftuLayer->addChild(notNowButton);

@@ -15,6 +15,9 @@ private:
     
     LayerColor* ftuLayer;
     
+    Label* titleLabel;
+    Label* subTitleLabel;
+    
     ElectricDreamsButton *getStartedButton;
     ElectricDreamsButton *notNowButton;
     
