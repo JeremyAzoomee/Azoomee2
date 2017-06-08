@@ -58,12 +58,10 @@
 			jwplayer().playlistItem(jumpToThisElement);
 			
 			jwplayer().on('error', function(event){
-				console.log("error");
 				getBackToLoginScreen();
 			});
 			
 			jwplayer().on('setupError', function(event){
-				console.log("setupError");
 				getBackToLoginScreen();
 			});
 			
@@ -85,13 +83,11 @@
 			});
 			
 			jwplayer().on('pause', function(event){
-				console.log("Pause");
 				NativeInterface.sendMediaPlayerData("pause", "");
 			});
 			
 			jwplayer().on('visualQuality', function(event){
 				var currentQuality = jwplayer().getVisualQuality().level;
-				console.log("Visualquality: " + currentQuality["width"] + ", " + currentQuality["height"] + ", " + currentQuality["label"]);
 				NativeInterface.sendMediaPlayerData("quality", currentQuality["height"]);
 			});
 			
@@ -104,40 +100,40 @@
 				if((percentage > 0)&&(!sent0))
 				{
 					sent0 = true;
-					console.log("0%");
 					NativeInterface.sendMediaPlayerData("time", "0");
 				}
 				if((percentage > 25)&&(!sent25))
 				{
 					sent25 = true;
-					console.log("25%");
 					NativeInterface.sendMediaPlayerData("time", "25");
 				}
 				if((percentage > 50)&&(!sent50))
 				{
 					sent50 = true;
-					console.log("50%");
 					NativeInterface.sendMediaPlayerData("time", "50");
 				}
 				if((percentage > 75)&&(!sent75))
 				{
 					sent75 = true;
-					console.log("75%");
 					NativeInterface.sendMediaPlayerData("time", "75");
 				}
 			});
 			
 			jwplayer().on('complete', function(event){
-				console.log("complete");
 				NativeInterface.sendMediaPlayerData("complete", "");
 			});
 			
 			jwplayer().on('playlistComplete', function(event){
-					NativeInterface.exitView();
-				});
+				NativeInterface.sendMediaPlayerData("playlistComplete", "");	
+				NativeInterface.exitView();
+			});
+			
+			jwplayer().on('playlistItem', function(event){
+					var elementIndex = event.index;
+					NativeInterface.sendMediaPlayerData("playlistItem", elementIndex.toString());
+			});
 			
 			jwplayer().on('firstFrame', function(event){
-				console.log("firstFrame");
 				var loadtime = event.loadTime;
 				NativeInterface.sendMediaPlayerData("firstFrame", loadtime.toString());
 			});
@@ -159,7 +155,6 @@
 			
 			function getBackToLoginScreen()
 			{
-				console.log("getBackToLoginScreen found!");
 				NativeInterface.errorOccurred();
 			}
 </script>

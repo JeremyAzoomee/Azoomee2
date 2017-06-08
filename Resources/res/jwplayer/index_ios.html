@@ -121,7 +121,12 @@
 				});
 				
 				jwplayer().on('playlistComplete', function(event){
+					window.location.href = "videoevent://video.playlistComplete";
 					window.location.href = "finishview://finishview";
+				});
+				
+				jwplayer().on('playlistItem', function(event){
+					window.location.href = "videoevent://video.playlistItem?" + event.index.toString();
 				});
 			
 				jwplayer().on('firstFrame', function(event){
