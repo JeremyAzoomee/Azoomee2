@@ -77,6 +77,10 @@ void HQHistoryManager::addHomeIfHistoryEmpty()
         Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene("HOME");
         hqNames.push_back("HOME");
     }
+    else
+    {
+        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(getCurrentHQ());
+    }
 }
 
 void HQHistoryManager::getHistoryLog()
