@@ -96,7 +96,7 @@ void FTUScene::addButtons()
     getStartedButton->setMixPanelButtonName("FTUGetStartedButton");
     ftuLayer->addChild(getStartedButton);
     
-    notNowButton = ElectricDreamsButton::createTextAsButtonAqua("Take a Tour / Log in", 60, true);
+    notNowButton = ElectricDreamsButton::createTextAsButtonAqua("Take a tour or Log in", 60, true);
     notNowButton->setPosition(getStartedButton->getContentSize().width*.35,getStartedButton->getPositionY());
     notNowButton->setDelegate(this);
     notNowButton->setMixPanelButtonName("FTUNotNowButton");
