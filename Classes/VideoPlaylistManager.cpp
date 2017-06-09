@@ -69,9 +69,5 @@ std::map<std::string, std::string> VideoPlaylistManager::getContentItemDataForPl
     returnData = storedPlaylist.at(elementNumber);
     returnData["image"].clear();
     
-    //rowNumber
-    //elementNumber
-    //elementShape
-    
     return returnData;
 }
