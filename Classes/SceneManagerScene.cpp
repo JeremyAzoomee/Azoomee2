@@ -62,7 +62,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             forceToLandscape();
             HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
             goToScene = BaseScene::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("BASE");
             break;
         }
         case BaseWithNoHistory:
@@ -71,7 +70,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             forceToLandscape();
             HQHistoryManager::getInstance()->emptyHistory();
             goToScene = BaseScene::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("BASE");
             break;
         }
         case ChildAccount:
