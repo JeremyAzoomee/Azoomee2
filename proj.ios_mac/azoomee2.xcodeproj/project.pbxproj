@@ -66,6 +66,8 @@
 		430B21511E4485E0004ACB10 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B21501E4485E0004ACB10 /* Security.framework */; };
 		430B21551E4487E5004ACB10 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B21541E4487E5004ACB10 /* SystemConfiguration.framework */; };
 		430B215D1E448825004ACB10 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215C1E448825004ACB10 /* libicucore.tbd */; };
+		430C30EA1EEAA0CF00E27589 /* SettingsKidsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430C30E81EEAA0CF00E27589 /* SettingsKidsLayer.cpp */; };
+		430C30EE1EEAB6A000E27589 /* ChildOomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430C30EC1EEAB6A000E27589 /* ChildOomeeLayer.cpp */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
 		430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */; };
 		4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
@@ -291,6 +293,10 @@
 		430B215A1E4487F9004ACB10 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		430B215C1E448825004ACB10 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/usr/lib/libicucore.tbd; sourceTree = DEVELOPER_DIR; };
 		430B215E1E448AF6004ACB10 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		430C30E81EEAA0CF00E27589 /* SettingsKidsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsKidsLayer.cpp; sourceTree = "<group>"; };
+		430C30E91EEAA0CF00E27589 /* SettingsKidsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsKidsLayer.h; sourceTree = "<group>"; };
+		430C30EC1EEAB6A000E27589 /* ChildOomeeLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildOomeeLayer.cpp; sourceTree = "<group>"; };
+		430C30ED1EEAB6A000E27589 /* ChildOomeeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildOomeeLayer.h; sourceTree = "<group>"; };
 		430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountScene.cpp; sourceTree = "<group>"; };
 		430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountScene.h; sourceTree = "<group>"; };
 		430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AccountDetailsLayer.cpp; sourceTree = "<group>"; };
@@ -743,6 +749,10 @@
 				43F42E3A1EE84B9500606290 /* SettingsLayer.h */,
 				430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */,
 				430EC14F1EE992B900B0103B /* AccountDetailsLayer.h */,
+				430C30E81EEAA0CF00E27589 /* SettingsKidsLayer.cpp */,
+				430C30E91EEAA0CF00E27589 /* SettingsKidsLayer.h */,
+				430C30EC1EEAB6A000E27589 /* ChildOomeeLayer.cpp */,
+				430C30ED1EEAB6A000E27589 /* ChildOomeeLayer.h */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1198,6 +1208,7 @@
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
+				430C30EA1EEAA0CF00E27589 /* SettingsKidsLayer.cpp in Sources */,
 				A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */,
 				02074B2A1E93968E009BB28C /* ArtAppImageManager.cpp in Sources */,
 				430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */,
@@ -1218,6 +1229,7 @@
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
 				02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */,
 				4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */,
+				430C30EE1EEAB6A000E27589 /* ChildOomeeLayer.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
 				A1CC0C251E141B47008B469E /* HQDataStorage.cpp in Sources */,
 				43F42E3B1EE84B9500606290 /* SettingsLayer.cpp in Sources */,
