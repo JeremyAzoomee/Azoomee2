@@ -13,6 +13,7 @@
 			var sent25 = false;
 			var sent50 = false;
 			var sent75 = false;
+			var firstPlaylistElement = true; //android jwplayer sends 2 playlistItem events on start
 		
 			var contentUrl = getUrlVars()["contentUrl"];
 			var playerInstance = jwplayer("videoPlayer");
@@ -42,6 +43,8 @@
 					
 					playListArray.push({file: uri, mediaid: "episode", image: imageuri, title: titleText});
 					if(uri == contentUrl) jumpToThisElement = i;
+					
+					console.log("JWPLAYER - uri: " + uri + " image: " + imageuri + " title: " + titleText);
 				}
 			}
 			
@@ -133,6 +136,12 @@
 			});
 			
 			jwplayer().on('playlistItem', function(event){
+				if(firstPlaylistElement)  //android jwplayer sends 2 playlistItem events on start
+				{
+					firstPlaylistElement = false;
+					return;
+				}
+				
 				sent0 = false;
 				sent25 = false;
 				sent50 = false;
