@@ -298,6 +298,20 @@ void AnalyticsSingleton::contentItemSelectedEvent(std::string Title,std::string 
     appsFlyerSendEvent(eventID, mixPanelProperties);
 }
     
+void AnalyticsSingleton::updateContentItemDetails(std::map<std::string, std::string> contentItemDetails)
+{
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["Title"] = contentItemDetails["title"];
+    mixPanelProperties["Description"] = contentItemDetails["description"];
+    mixPanelProperties["Type"] = contentItemDetails["type"];
+    mixPanelProperties["ContentID"] = contentItemDetails["id"];
+    mixPanelProperties["rowNumber"] = storedContentItemProperties["rowNumber"];
+    mixPanelProperties["elementNumber"] = contentItemDetails["elementNumber"];
+    mixPanelProperties["elementShape"] = contentItemDetails["elementShape"];
+    
+    storedContentItemProperties = mixPanelProperties;
+}
+    
 void AnalyticsSingleton::contentItemProcessingStartedEvent()
 {
     mixPanelSendEvent("contentItemProcessingStarted", storedContentItemProperties);
@@ -354,7 +368,7 @@ void AnalyticsSingleton::previewPopupCancelledEvent()
 }
 
 //---------------MEDIA ACTIONS -----------------
-void AnalyticsSingleton::mediaQualityEvent(std::string quality)
+void AnalyticsSingleton::mediaPlayerQualityEvent(std::string quality)
 {
     std::string eventID = "mediaQuality";
     
@@ -365,7 +379,7 @@ void AnalyticsSingleton::mediaQualityEvent(std::string quality)
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mediaProgressEvent(int percentComplete)
+void AnalyticsSingleton::mediaPlayerProgressEvent(int percentComplete)
 {
     std::string eventID = "mediaProgress";
     
@@ -375,12 +389,12 @@ void AnalyticsSingleton::mediaProgressEvent(int percentComplete)
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mediaPausedEvent()
+void AnalyticsSingleton::mediaPlayerPausedEvent()
 {
-    mixPanelSendEvent("mediaPause");
+    mixPanelSendEvent("mediaPause", storedContentItemProperties);
 }
 
-void AnalyticsSingleton::mediaEndEvent(int SecondsMediaPlayed)
+void AnalyticsSingleton::mediaPlayerEndEvent(int SecondsMediaPlayed)
 {
     std::string eventID = "mediaEnd";
     
@@ -395,10 +409,37 @@ void AnalyticsSingleton::mediaPlayerFirstFrameEvent(std::string loadTimeMS)
 {
     std::string eventID = "mediaFirstFrame";
     
-    std::map<std::string, std::string> mixPanelProperties;
+    std::map<std::string, std::string> mixPanelProperties = storedContentItemProperties;
     mixPanelProperties["LoadTime"] = cocos2d::StringUtils::format("%s%s",NUMBER_IDENTIFIER, loadTimeMS.c_str());
     
     mixPanelSendEvent(eventID, mixPanelProperties);
+}
+    
+void AnalyticsSingleton::mediaPlayerNewPlaylistItemSetEvent(int itemNumber)
+{
+    std::map<std::string, std::string> mixPanelProperties = storedContentItemProperties;
+    mixPanelProperties["playlistElementNumber"] = cocos2d::StringUtils::format("%d", itemNumber);
+    
+    std::string eventID = "mediaNewPlaylistItem";
+    mixPanelSendEvent(eventID, mixPanelProperties);
+}
+    
+void AnalyticsSingleton::mediaPlayerVideoPlayEvent()
+{
+    std::string eventID = "mediaVideoPlay";
+    mixPanelSendEvent(eventID, storedContentItemProperties);
+}
+    
+void AnalyticsSingleton::mediaPlayerVideoCompletedEvent()
+{
+    std::string eventID = "mediaVideoCompleted";
+    mixPanelSendEvent(eventID, storedContentItemProperties);
+}
+    
+void AnalyticsSingleton::mediaPlayerPlaylistCompletedEvent()
+{
+    std::string eventID = "mediaPlaylistCompleted";
+    mixPanelSendEvent(eventID, storedContentItemProperties);
 }
 
 //---------------OTHER ACTION------------------

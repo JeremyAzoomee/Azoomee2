@@ -92,17 +92,22 @@ public:
     void contentItemIncompatibleEvent();
     void contentItemWebviewStartedEvent();
     void contentItemClosedEvent();
+    void updateContentItemDetails(std::map<std::string, std::string> contentItemDetails);
 
     //------------- PREVIEW ACTIONS ---------------
     void previewContentClickedEvent(std::string Title,std::string Description, std::string Type);
     void previewPopupCancelledEvent();
 
     //---------------MEDIA ACTIONS -----------------
-    void mediaQualityEvent(std::string quality);
-    void mediaProgressEvent(int percentComplete);
-    void mediaPausedEvent();
-    void mediaEndEvent(int SecondsMediaPlayed);
+    void mediaPlayerQualityEvent(std::string quality);
+    void mediaPlayerProgressEvent(int percentComplete);
+    void mediaPlayerPausedEvent();
+    void mediaPlayerEndEvent(int SecondsMediaPlayed);
     void mediaPlayerFirstFrameEvent(std::string loadTimeMS);
+    void mediaPlayerNewPlaylistItemSetEvent(int itemNumber);
+    void mediaPlayerPlaylistCompletedEvent();
+    void mediaPlayerVideoPlayEvent();
+    void mediaPlayerVideoCompletedEvent();
 
     //---------------OTHER ACTION------------------
     void genericButtonPressEvent(std::string buttonName);

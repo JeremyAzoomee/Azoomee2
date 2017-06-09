@@ -8,6 +8,11 @@
 
 		<div id="videoPlayer"></div>
 		<script type="text/javascript">
+			var sent0 = false;
+			var sent25 = false;
+			var sent50 = false;
+			var sent75 = false;
+			
 			startBuildingPlayer();
 		
 			function startBuildingPlayer()
@@ -94,6 +99,10 @@
 			
 				jwplayer().on('complete', function(event){
 					console.log("time 100");
+				});
+				
+				jwplayer().on('playlistItem', function(event){
+					console.log("new item: " + event.index);
 				});
 			}
 			
