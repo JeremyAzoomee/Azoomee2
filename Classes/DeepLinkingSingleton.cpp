@@ -169,7 +169,8 @@ void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::stri
     }
     else if(elementProperties["type"]  == "VIDEO" || elementProperties["type"]  == "AUDIO")
     {
-        VideoPlaylistManager::getInstance()->setPlaylist("");
+        std::vector<std::map<std::string, std::string>> emptyPlaylist;
+        VideoPlaylistManager::getInstance()->setPlaylist(emptyPlaylist);
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(elementProperties["uri"]);
     }

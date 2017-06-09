@@ -93,27 +93,30 @@
 					var currentPosition = jwplayer().getPosition();
 				
 					var percentage = currentPosition / totalDuration * 100;
+					var eventToCall = "";
 				
 					if((percentage > 0)&&(!sent0))
 					{
 						sent0 = true;
-						window.location.href = "videoevent://video.time?0";
+						eventToCall = "videoevent://video.time?0";
 					}
 					if((percentage > 25)&&(!sent25))
 					{
 						sent25 = true;
-						window.location.href = "videoevent://video.time?25";
+						eventToCall = "videoevent://video.time?25";
 					}
 					if((percentage > 50)&&(!sent50))
 					{
 						sent50 = true;
-						window.location.href = "videoevent://video.time?50";
+						eventToCall = "videoevent://video.time?50";
 					}
 					if((percentage > 75)&&(!sent75))
 					{
 						sent75 = true;
-						window.location.href = "videoevent://video.time?75";
+						eventToCall = "videoevent://video.time?75";
 					}
+					
+					if(eventToCall != "") window.location.href = eventToCall;
 				});
 			
 				jwplayer().on('complete', function(event){
@@ -126,10 +129,18 @@
 				});
 				
 				jwplayer().on('playlistItem', function(event){
+					sent0 = false;
+					sent25 = false;
+					sent50 = false;
+					sent75 = false;
 					window.location.href = "videoevent://video.playlistItem?" + event.index.toString();
 				});
 			
 				jwplayer().on('firstFrame', function(event){
+					sent0 = false;
+					sent25 = false;
+					sent50 = false;
+					sent75 = false;
 					var loadtime = event.loadTime;
 					window.location.href = "videoevent://video.firstFrame?" + loadtime.toString();
 				});

@@ -296,7 +296,16 @@ void AnalyticsSingleton::contentItemSelectedEvent(std::string Title,std::string 
     
 void AnalyticsSingleton::updateContentItemDetails(std::map<std::string, std::string> contentItemDetails)
 {
-    storedContentItemProperties = contentItemDetails;
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["Title"] = contentItemDetails["title"];
+    mixPanelProperties["Description"] = contentItemDetails["description"];
+    mixPanelProperties["Type"] = contentItemDetails["type"];
+    mixPanelProperties["ContentID"] = contentItemDetails["id"];
+    mixPanelProperties["rowNumber"] = storedContentItemProperties["rowNumber"];
+    mixPanelProperties["elementNumber"] = contentItemDetails["elementNumber"];
+    mixPanelProperties["elementShape"] = contentItemDetails["elementShape"];
+    
+    storedContentItemProperties = mixPanelProperties;
 }
     
 void AnalyticsSingleton::contentItemProcessingStartedEvent()
@@ -378,7 +387,7 @@ void AnalyticsSingleton::mediaPlayerProgressEvent(int percentComplete)
 
 void AnalyticsSingleton::mediaPlayerPausedEvent()
 {
-    mixPanelSendEvent("mediaPause");
+    mixPanelSendEvent("mediaPause", storedContentItemProperties);
 }
 
 void AnalyticsSingleton::mediaPlayerEndEvent(int SecondsMediaPlayed)
@@ -396,7 +405,7 @@ void AnalyticsSingleton::mediaPlayerFirstFrameEvent(std::string loadTimeMS)
 {
     std::string eventID = "mediaFirstFrame";
     
-    std::map<std::string, std::string> mixPanelProperties;
+    std::map<std::string, std::string> mixPanelProperties = storedContentItemProperties;
     mixPanelProperties["LoadTime"] = cocos2d::StringUtils::format("%s%s",NUMBER_IDENTIFIER, loadTimeMS.c_str());
     
     mixPanelSendEvent(eventID, mixPanelProperties);
@@ -404,10 +413,11 @@ void AnalyticsSingleton::mediaPlayerFirstFrameEvent(std::string loadTimeMS)
     
 void AnalyticsSingleton::mediaPlayerNewPlaylistItemSetEvent(int itemNumber)
 {
-    //TODO update contentItem properties first
+    std::map<std::string, std::string> mixPanelProperties = storedContentItemProperties;
+    mixPanelProperties["playlistElementNumber"] = cocos2d::StringUtils::format("%d", itemNumber);
     
     std::string eventID = "mediaNewPlaylistItem";
-    mixPanelSendEvent(eventID, storedContentItemProperties);
+    mixPanelSendEvent(eventID, mixPanelProperties);
 }
     
 void AnalyticsSingleton::mediaPlayerVideoPlayEvent()

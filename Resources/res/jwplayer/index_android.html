@@ -97,26 +97,30 @@
 				
 				var percentage = currentPosition / totalDuration * 100;
 				
+				var eventToCall = "";
+				
 				if((percentage > 0)&&(!sent0))
 				{
 					sent0 = true;
-					NativeInterface.sendMediaPlayerData("time", "0");
+					eventToCall = "0";
 				}
 				if((percentage > 25)&&(!sent25))
 				{
 					sent25 = true;
-					NativeInterface.sendMediaPlayerData("time", "25");
+					eventToCall = "25";
 				}
 				if((percentage > 50)&&(!sent50))
 				{
 					sent50 = true;
-					NativeInterface.sendMediaPlayerData("time", "50");
+					eventToCall = "50";
 				}
 				if((percentage > 75)&&(!sent75))
 				{
 					sent75 = true;
-					NativeInterface.sendMediaPlayerData("time", "75");
+					eventToCall = "75";
 				}
+				
+				if(eventToCall != "") NativeInterface.sendMediaPlayerData("time", eventToCall);
 			});
 			
 			jwplayer().on('complete', function(event){
@@ -129,11 +133,19 @@
 			});
 			
 			jwplayer().on('playlistItem', function(event){
-					var elementIndex = event.index;
-					NativeInterface.sendMediaPlayerData("playlistItem", elementIndex.toString());
+				sent0 = false;
+				sent25 = false;
+				sent50 = false;
+				sent75 = false;
+				var elementIndex = event.index;
+				NativeInterface.sendMediaPlayerData("playlistItem", elementIndex.toString());
 			});
 			
 			jwplayer().on('firstFrame', function(event){
+				sent0 = false;
+				sent25 = false;
+				sent50 = false;
+				sent75 = false;
 				var loadtime = event.loadTime;
 				NativeInterface.sendMediaPlayerData("firstFrame", loadtime.toString());
 			});
