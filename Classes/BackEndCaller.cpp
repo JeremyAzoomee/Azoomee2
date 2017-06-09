@@ -108,6 +108,8 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
+        ConfigStorage::getInstance()->setFirstSlideShowSeen();
+        
         HQDataStorage::getInstance()->HQListTitles.clear();
         HQDataStorage::getInstance()->HQListElements.clear();
         HQDataStorage::getInstance()->HQElementHighlights.clear();
@@ -258,6 +260,7 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
+    ConfigStorage::getInstance()->setFirstSlideShowSeen();
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     login(FlowDataSingleton::getInstance()->getUserName(), FlowDataSingleton::getInstance()->getPassword());
 }

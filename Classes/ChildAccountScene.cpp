@@ -13,6 +13,7 @@
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -309,7 +310,7 @@ void ChildAccountScene::shouldChangeElementsToOomeeScreen()
 {
     if(!DOBisDate() || !childNameInputText->inputIsValid())
         childNameInputText->focusAndShowKeyboard();
-    else if(childNameExists(childNameInputText->getText()))
+    else if(childNameExists(trim(childNameInputText->getText())))
     {
         MessageBox::createWith(ERROR_CODE_NAME_EXISTS, childNameInputText, this);
         AnalyticsSingleton::getInstance()->childProdileNameErrorEvent();
@@ -324,7 +325,7 @@ void ChildAccountScene::shouldChangeElementsToOomeeScreen()
 
 void ChildAccountScene::registerChildAccount()
 {
-    std::string profileName = childNameInputText->getText();
+    std::string profileName = trim(childNameInputText->getText());
     
     int day = std::atoi(dayInputText->getText().c_str());
     int month = std::atoi(monthInputText->getText().c_str());

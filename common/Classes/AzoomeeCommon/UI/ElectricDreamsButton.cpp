@@ -67,6 +67,32 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string butto
     
     return layer;
 }
+    
+ElectricDreamsButton* ElectricDreamsButton::createTextAsButtonAqua(std::string buttonText, float fontSize, bool underlined)
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    Label* textButton = Label::createWithTTF(buttonText, "fonts/Sofia Pro Soft Regular.otf", fontSize);
+    textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
+    textButton->setHorizontalAlignment(TextHAlignment::CENTER);
+    textButton->setColor(Color3B(28, 244, 244));
+    layer->setContentSize(textButton->getContentSize());
+    
+    layer->addChild(textButton);
+    
+    layer->buttonAudioFile = CANCEL_BUTTON_AUDIO_EFFECT;
+    layer->addListener();
+    
+    if(underlined)
+    {
+        DrawNode* newDrawNode = DrawNode::create();
+        newDrawNode->setLineWidth(2);
+        newDrawNode->drawLine(Vec2(0, 0), Vec2(textButton->getContentSize().width,0), Color4F(28/255.0f, 244/255.0f, 244/255.0f,255/255.0f));
+        layer->addChild(newDrawNode);
+    }
+    
+    return layer;
+}
 
 ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string buttonText, float textPadding)
 {

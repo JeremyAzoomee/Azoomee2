@@ -14,8 +14,6 @@ private:
     void videoEventCallback(Ref* sender, VideoPlayer::EventType eventType);
     void navigateToNextScene();
     std::string videoErrorText;
-    
-    cocos2d::Scene* slideShowScene;
 
     cocos2d::experimental::ui::VideoPlayer* videoPlayer;
     
