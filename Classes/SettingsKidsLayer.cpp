@@ -53,10 +53,21 @@ void SettingsKidsLayer::addExitOrLogoutUIObjects()
         std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(i);
         int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
         
-        auto childLayer = SettingsKidsChildLayer::createWithChildDetails(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(i),oomeeNr);
+        auto childLayer = SettingsKidsChildLayer::createWithChildDetails(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(i),oomeeNr,this);
         childLayer->setPosition(i*900,0);
         scrollView->addChild(childLayer);
     }
 
 }
 
+void SettingsKidsLayer::scrollToPosition()
+{
+    scrollView->setInnerContainerPosition(Vec2(800,0));
+    scrollView->setTouchEnabled(false);
+}
+
+void SettingsKidsLayer::scrollReset()
+{
+    scrollView->setInnerContainerPosition(Vec2(0,0));
+    scrollView->setTouchEnabled(true);
+}
