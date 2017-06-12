@@ -70,6 +70,7 @@
 		430C30EE1EEAB6A000E27589 /* ChildOomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430C30EC1EEAB6A000E27589 /* ChildOomeeLayer.cpp */; };
 		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
 		430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */; };
+		4315CD041EEEC99600B4F22C /* SettingsKidsChildLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4315CD021EEEC99600B4F22C /* SettingsKidsChildLayer.cpp */; };
 		4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
 		432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
@@ -301,6 +302,8 @@
 		430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountScene.h; sourceTree = "<group>"; };
 		430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AccountDetailsLayer.cpp; sourceTree = "<group>"; };
 		430EC14F1EE992B900B0103B /* AccountDetailsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountDetailsLayer.h; sourceTree = "<group>"; };
+		4315CD021EEEC99600B4F22C /* SettingsKidsChildLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsKidsChildLayer.cpp; sourceTree = "<group>"; };
+		4315CD031EEEC99600B4F22C /* SettingsKidsChildLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsKidsChildLayer.h; sourceTree = "<group>"; };
 		4319D3E01E67134600110F92 /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
 		4319D3E11E67134600110F92 /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManualGameInputLayer.cpp; sourceTree = "<group>"; };
@@ -708,6 +711,17 @@
 			name = Signup_AddChild;
 			sourceTree = "<group>";
 		};
+		4315CD001EEEC91600B4F22C /* SettingsSubLayers */ = {
+			isa = PBXGroup;
+			children = (
+				4315CD021EEEC99600B4F22C /* SettingsKidsChildLayer.cpp */,
+				4315CD031EEEC99600B4F22C /* SettingsKidsChildLayer.h */,
+				430C30EC1EEAB6A000E27589 /* ChildOomeeLayer.cpp */,
+				430C30ED1EEAB6A000E27589 /* ChildOomeeLayer.h */,
+			);
+			name = SettingsSubLayers;
+			sourceTree = "<group>";
+		};
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -745,14 +759,13 @@
 		43F42E371EE84B7800606290 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				4315CD001EEEC91600B4F22C /* SettingsSubLayers */,
 				43F42E391EE84B9500606290 /* SettingsLayer.cpp */,
 				43F42E3A1EE84B9500606290 /* SettingsLayer.h */,
 				430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */,
 				430EC14F1EE992B900B0103B /* AccountDetailsLayer.h */,
 				430C30E81EEAA0CF00E27589 /* SettingsKidsLayer.cpp */,
 				430C30E91EEAA0CF00E27589 /* SettingsKidsLayer.h */,
-				430C30EC1EEAB6A000E27589 /* ChildOomeeLayer.cpp */,
-				430C30ED1EEAB6A000E27589 /* ChildOomeeLayer.h */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1191,6 +1204,7 @@
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
 				0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */,
+				4315CD041EEEC99600B4F22C /* SettingsKidsChildLayer.cpp in Sources */,
 				025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */,
 				43FA20141EE6FB83003CE631 /* FTUScene.cpp in Sources */,
 				437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */,

@@ -344,6 +344,38 @@ ElectricDreamsButton* ElectricDreamsButton::createTabButton(std::string buttonTe
 
     return layer;
 }
+    
+//----------- CHAT INVITE BUTTONS -------------------
+
+ElectricDreamsButton* ElectricDreamsButton::createInviteaMainButton(std::string buttonText, float buttonWidth)
+{
+    Label* buttonLabel = createLabelChatButton(buttonText,Color3B::BLACK);
+    
+    Rect spriteRect = Rect(0, 0, 184, 107);
+    Rect capInsents = Rect(50, 92, 1, 1);
+    
+    
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/buttons/inviteMainButton.png", spriteRect, capInsents);
+    newButton->setContentSize(Size(buttonWidth, 107));
+    newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
+    
+    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);
+    
+    newButton->addChild(buttonLabel);
+    newButton->setCascadeOpacityEnabled(true);
+    
+    auto layer = ElectricDreamsButton::create();
+    layer->setCascadeOpacityEnabled(true);
+    layer->setContentSize(newButton->getContentSize());
+    layer->addChild(newButton);
+    
+    layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
+    
+    layer->addListener();
+    
+    return layer;
+
+}
 
 //-------------OOMEE BUTTONS AND FUNCTIONS---------------------
 

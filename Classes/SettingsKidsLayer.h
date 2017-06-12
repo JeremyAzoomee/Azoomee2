@@ -9,8 +9,6 @@ USING_NS_CC;
 class SettingsKidsLayer : public Layer
 {
 private:
-    Size visibleSize;
-    Vec2 origin;
     
     float layerHeight;
     

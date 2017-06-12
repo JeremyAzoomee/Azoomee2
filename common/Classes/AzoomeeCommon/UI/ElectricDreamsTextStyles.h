@@ -32,6 +32,8 @@ cocos2d::Label*  createLabelContentDescription(std::string text);
 cocos2d::Label*  createLabelHubContentTitle(std::string text);
 cocos2d::Label*  createLabelSmallLoading(std::string text);
 cocos2d::Label*  createUserNameLabelWithWidth(float width);
+cocos2d::Label*  createLabelChildNameSettings(std::string text);
+cocos2d::Label*  createLabelChatButton(std::string text,cocos2d::Color3B color);
 
 void reduceLabelTextToFitWidth(cocos2d::Label* label,float maxWidth);
   
