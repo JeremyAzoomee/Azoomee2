@@ -7,6 +7,7 @@
 #include "WebGameAPIDataManager.h"
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
+#include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -233,6 +234,21 @@ extern "C"
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetVideoPlaylist(JNIEnv* env, jobject thiz)
 {
     jstring returnString = env->NewStringUTF(VideoPlaylistManager::getInstance()->getPlaylist().c_str());
+    return returnString;
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_NativeView_JNIGetAllCookies(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_NativeView_JNIGetAllCookies(JNIEnv* env, jobject thiz)
+{
+    jstring returnString = env->NewStringUTF(CookieDataProvider::getInstance()->getAllCookiesInJson().c_str());
     return returnString;
 }
 

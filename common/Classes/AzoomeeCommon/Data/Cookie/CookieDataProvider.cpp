@@ -1,5 +1,6 @@
 #include "CookieDataProvider.h"
 #include "CookieDataStorage.h"
+#include "../../Utils/StringFunctions.h"
 
 using namespace cocos2d;
 
@@ -40,25 +41,6 @@ std::string CookieDataProvider::getCookiesForRequest(std::string url)
     return cookieString;
 }
 
-std::vector<std::string> CookieDataProvider::splitStringToVector(std::string inputString, std::string separator)
-{
-    std::vector<std::string> result;
-    
-    std::vector<std::string> tokens;
-    size_t prev = 0, pos = 0;
-    do
-    {
-        pos = inputString.find(separator, prev);
-        if (pos == std::string::npos) pos = inputString.length();
-        std::string token = inputString.substr(prev, pos - prev);
-        if (!token.empty()) result.push_back(token);
-        prev = pos + separator.length();
-    }
-    while (pos < inputString.length() && prev < inputString.length());
-    
-    return result;
-}
-
 bool CookieDataProvider::checkIfCookieIsForUrl(std::string cookieRecord, std::string url)
 {
     bool domainFound = false;
@@ -91,6 +73,42 @@ bool CookieDataProvider::checkIfCookieIsForUrl(std::string cookieRecord, std::st
 std::string CookieDataProvider::getCookieMainContent(std::string cookieRecord)
 {
     return splitStringToVector(cookieRecord, "; ").at(0);
+}
+    
+std::string CookieDataProvider::getUrlFromCookie(std::string cookieString)
+{
+    std::string domain = "";
+    std::string path = "";
+    
+    std::vector<std::string> cookieParts = splitStringToVector(cookieString, "; ");
+    for(int i = 0; i < cookieParts.size(); i++)
+    {
+        std::string currentPart = cookieParts.at(i);
+        if(currentPart.find("Domain=") != std::string::npos)
+        {
+            domain = splitStringToVector(currentPart, "=").at(1);
+        }
+        else if(currentPart.find("Path=") != std::string::npos)
+        {
+            path = splitStringToVector(currentPart, "=").at(1);
+        }
+    }
+    
+    return domain + path;
+}
+    
+std::string CookieDataProvider::getAllCookiesInJson()
+{
+    std::vector<std::map<std::string, std::string>> allCookies;
+    
+    for(int i = 0; i < CookieDataStorage::getInstance()->dataDownloadCookiesVector.size(); i++)
+    {
+        std::map<std::string, std::string> cookieRecord;
+        cookieRecord["url"] = getUrlFromCookie(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i));
+        cookieRecord["cookie"] = getCookieMainContent(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i));
+    }
+    
+    return getJSONStringFromVectorOfMaps(allCookies);
 }
   
 }

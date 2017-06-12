@@ -1,5 +1,6 @@
 #include "CookieDataParser.h"
 #include "CookieDataStorage.h"
+#include "../../Utils/StringFunctions.h"
 
 using namespace cocos2d;
 
@@ -60,36 +61,6 @@ bool CookieDataParser::parseDownloadCookies(std::string responseString)
 #endif
     
     return true;
-}
-
-std::vector<std::string> CookieDataParser::splitStringToVector(std::string inputString, std::string separator)
-{
-    std::vector<std::string> result;
-    std::vector<std::string> tokens;
-    size_t prev = 0, pos = 0;
-    do
-    {
-        pos = inputString.find(separator, prev);
-        if (pos == std::string::npos) pos = inputString.length();
-        std::string token = inputString.substr(prev, pos - prev);
-        if (!token.empty()) result.push_back(token);
-        prev = pos + separator.length();
-    }
-    while (pos < inputString.length() && prev < inputString.length());
-    
-    return result;
-}
-
-std::string CookieDataParser::replaceAll(std::string& str, const std::string& from, const std::string& to) {
-    if(from.empty())
-        return "";
-    size_t start_pos = 0;
-    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
-        str.replace(start_pos, from.length(), to);
-        start_pos += to.length();
-    }
-    
-    return str;
 }
 
 }
