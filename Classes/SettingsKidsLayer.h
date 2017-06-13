@@ -11,10 +11,17 @@ class SettingsKidsLayer : public Layer
 private:
     
     float layerHeight;
+    bool swallowTouches;
     
     ui::ScrollView *scrollView;
-    
+    LayerColor* kidsCoverLayer;
+    LayerColor* tabsCoverLayer;
+
     void addExitOrLogoutUIObjects();
+    
+    void createBlackCoverLayer();
+    void addTabsCoverLayer();
+    void addListenerToCoverLayer(Layer* listenerToLayer);
     
 public:
     static Layer* createWithHeight(float setLayerHeight);
@@ -22,7 +29,7 @@ public:
     
     CREATE_FUNC(SettingsKidsLayer);
     
-    void scrollToPosition();
+    void scrollToPosition(int ChildNumber);
     void scrollReset();
 
 };
