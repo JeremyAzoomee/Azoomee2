@@ -21,9 +21,10 @@ public:
     void createForLoginNoUser();
     void createForOfflineHub();
 
-    
     void buttonPressed(ElectricDreamsButton* button);
     void connectivityStateChanged(bool online);
+    
+    void onExit();
     
 private:
     

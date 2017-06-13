@@ -207,3 +207,9 @@ void LoginScene::connectivityStateChanged(bool online)
     if(!online)
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
 }
+
+void LoginScene::onExit()
+{
+    OfflineChecker::getInstance()->setDelegate(nullptr);
+    Node::onExit();
+}

@@ -199,3 +199,9 @@ void OfflineText::addRetryButtonToScreen()
     this->addChild(retryButton);
 
 }
+
+void OfflineText::onExit()
+{
+    OfflineChecker::getInstance()->setDelegate(nullptr);
+    Node::onExit();
+}

@@ -46,6 +46,7 @@ private:
     void login(std::string username, std::string password);
     
     virtual void onEnterTransitionDidFinish();
+    void onExit();
     
     bool shouldDisplayMessage;
     
