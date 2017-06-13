@@ -1,6 +1,7 @@
 #include "CookieDataProvider.h"
 #include "CookieDataStorage.h"
 #include "../../Utils/StringFunctions.h"
+#include "../ConfigStorage.h"
 
 using namespace cocos2d;
 
@@ -94,7 +95,7 @@ std::string CookieDataProvider::getUrlFromCookie(std::string cookieString)
         }
     }
     
-    return domain + path;
+    return ConfigStorage::getInstance()->getMediaPrefixForXwalkCookies() + domain + path;
 }
     
 std::string CookieDataProvider::getAllCookiesInJson()
@@ -106,6 +107,7 @@ std::string CookieDataProvider::getAllCookiesInJson()
         std::map<std::string, std::string> cookieRecord;
         cookieRecord["url"] = getUrlFromCookie(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i));
         cookieRecord["cookie"] = getCookieMainContent(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i));
+        allCookies.push_back(cookieRecord);
     }
     
     return getJSONStringFromVectorOfMaps(allCookies);
