@@ -137,7 +137,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         Crashlytics.setUserName(ChildIdentifier);
     }
 
-    private static void CrashlyticsKEYwithSTRING(String key, String dataString) {
+    private static void CrashlyticsKeyWithString(String key, String dataString) {
         Crashlytics.setString(key,dataString);
     }
 

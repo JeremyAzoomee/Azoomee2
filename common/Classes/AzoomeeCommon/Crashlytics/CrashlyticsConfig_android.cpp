@@ -42,11 +42,11 @@ void createCrashlyticsUserInfo(const std::string& adultIdentifier, const std::st
     methodInfo.env->DeleteLocalRef(methodInfo.classID);
 }
     
-void setCrashlyticsKEYwithSTRING(const std::string& key, const std::string& dataString)
+void setCrashlyticsKeyWithString(const std::string& key, const std::string& dataString)
 {
     cocos2d::JniMethodInfo methodInfo;
     
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "CrashlyticsKEYwithSTRING", "(Ljava/lang/String;Ljava/lang/String;)V"))
+    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "CrashlyticsKeyWithString", "(Ljava/lang/String;Ljava/lang/String;)V"))
     {
         return;
     }

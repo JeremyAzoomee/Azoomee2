@@ -68,7 +68,7 @@ void AnalyticsSingleton::registerAzoomeeEmail(std::string emailAddress)
         azoomeEmail = "YES";
     
     mixPanelRegisterSuperProperties("azoomeeEmail",azoomeEmail);
-    setCrashlyticsKEYwithSTRING("azoomeeEmail", azoomeEmail);
+    setCrashlyticsKeyWithString("azoomeeEmail", azoomeEmail);
 }
 
 void AnalyticsSingleton::registerAccountStatus(std::string Status)
@@ -109,13 +109,13 @@ void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
 void AnalyticsSingleton::registerSessionId(std::string sessionId)
 {
     mixPanelRegisterSuperProperties("sessionId", sessionId);
-    setCrashlyticsKEYwithSTRING("sessionId", sessionId);
+    setCrashlyticsKeyWithString("sessionId", sessionId);
 }
     
 void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
 {
     mixPanelRegisterSuperProperties("currentScene", currentScene);
-    setCrashlyticsKEYwithSTRING("currentScene", currentScene);
+    setCrashlyticsKeyWithString("currentScene", currentScene);
 }
     
 void AnalyticsSingleton::setPortraitOrientation()
