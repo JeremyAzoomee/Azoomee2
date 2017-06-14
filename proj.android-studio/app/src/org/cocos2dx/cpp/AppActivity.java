@@ -137,6 +137,10 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         Crashlytics.setUserName(ChildIdentifier);
     }
 
+    private static void CrashlyticsKEYwithSTRING(String key, String dataString) {
+        Crashlytics.setString(key,dataString);
+    }
+
     //----Mix Panel------
 
     public static void sendMixPanelWithEventID(String eventID, String jsonPropertiesString) {
