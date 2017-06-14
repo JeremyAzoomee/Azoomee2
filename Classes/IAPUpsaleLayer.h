@@ -40,7 +40,7 @@ private:
     void addButtons();
     void addImage();
     void addALLBulletsAndLabel();
-    void addBulletAndLabel(std::string BOLDtext, std::string regularText, float yPosition);
+    float addBulletAndLabel(std::string BOLDtext, std::string regularText, float yPosition);
     void addOptionalSubscriptionLabel();
 
     void removeSelf();

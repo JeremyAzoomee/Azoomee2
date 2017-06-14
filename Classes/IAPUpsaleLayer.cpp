@@ -97,7 +97,7 @@ void IAPUpsaleLayer::addImage()
 
 void IAPUpsaleLayer::addTitle()
 {
-    titleLabel = Label::createWithTTF("Start your free 7-day trial", FONT_REGULAR, 130);
+    titleLabel = Label::createWithTTF("Start a FREE trial. Cancel anytime.", FONT_REGULAR, 130);
     titleLabel->setColor(COLOR_BRIGHT_AQUA);
     titleLabel->setAnchorPoint(Vec2(0,0.5));
     titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
@@ -112,13 +112,13 @@ void IAPUpsaleLayer::addButtons()
 {
     float GapFromOomeeImage = (oomeesImage->getPositionY() - oomeesImage->getContentSize().height/2)/2;
     
-    startTrialButton = ElectricDreamsButton::createButtonWithText("Start a FREE trial. Cancel anytime.", 300);
+    startTrialButton = ElectricDreamsButton::createButtonWithText("Start your free 7-day trial", 300);
     startTrialButton->setPosition(UpsaleLayer->getContentSize().width - SIDE_MARGIN_SIZE - startTrialButton->getContentSize().width, GapFromOomeeImage);
     startTrialButton->setDelegate(this);
     startTrialButton->setMixPanelButtonName("IAPUpsaleSceneStartTrialButton");
     UpsaleLayer->addChild(startTrialButton);
     
-    notNowButton = ElectricDreamsButton::createOutlineButtonWithText("Not Now");
+    notNowButton = ElectricDreamsButton::createTextAsButton("Not Now", 46, true);
     notNowButton->setPosition(SIDE_MARGIN_SIZE, startTrialButton->getCenterPosition().y - notNowButton->getContentSize().height/2);
     notNowButton->setDelegate(this);
     notNowButton->setMixPanelButtonName("IAPUpsaleSceneNotNowButton");
@@ -146,24 +146,34 @@ void IAPUpsaleLayer::addButtons()
 
 void IAPUpsaleLayer::addALLBulletsAndLabel()
 {
-    addBulletAndLabel("1000+ ", "TV Shows, games & audiobooks", oomeesImage->getPositionY() + oomeesImage->getContentSize().height/4);
-    addBulletAndLabel("Safe, ", "age-appropriate & 100% ad-free", oomeesImage->getPositionY());
-    addBulletAndLabel("New ", "content every week", oomeesImage->getPositionY() - oomeesImage->getContentSize().height/4);
+    addBulletAndLabel("New ", "videos & games added every week.", oomeesImage->getPositionY() + oomeesImage->getContentSize().height/4);
+    float nextLineXPosition = addBulletAndLabel("A library ", "of the best kids’ entertainment,", oomeesImage->getPositionY());
+    
+    Label* secondLine = Label::createWithTTF("literally 1000s of things to do!", FONT_REGULAR, 80);
+    secondLine->setColor(Color3B::WHITE);
+    secondLine->setPosition(nextLineXPosition+secondLine->getContentSize().width/2, oomeesImage->getPositionY() - secondLine->getContentSize().height);
+    UpsaleLayer->addChild(secondLine);
+    
+    addBulletAndLabel("Safe, ", "age-appropriate & 100% ad-free.", oomeesImage->getPositionY() - oomeesImage->getContentSize().height/4- secondLine->getContentSize().height);
 }
 
-void IAPUpsaleLayer::addBulletAndLabel(std::string BOLDtext, std::string regularText, float yPosition)
+float IAPUpsaleLayer::addBulletAndLabel(std::string BOLDtext, std::string regularText, float yPosition)
 {
     Sprite* bullet = Sprite::create("res/startATrialScene/bulletTick.png");
     bullet->setPosition(SIDE_MARGIN_SIZE + bullet->getContentSize().width/2, yPosition);
     UpsaleLayer->addChild(bullet);
+    
+    float textXPosition = bullet->getPositionX() + bullet->getContentSize().width;
     
     cocos2d::ui::RichText* richTextLabel = cocos2d::ui::RichText::create();
     richTextLabel->setAnchorPoint(Vec2(0,0.5));
     
     richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDtext, FONT_BOLD, 80));
     richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, regularText, FONT_REGULAR, 80));
-    richTextLabel->setPosition(Vec2(bullet->getPositionX() + bullet->getContentSize().width,yPosition));
+    richTextLabel->setPosition(Vec2(textXPosition,yPosition));
     UpsaleLayer->addChild(richTextLabel);
+    
+    return textXPosition;
 }
 
 void IAPUpsaleLayer::addOptionalSubscriptionLabel()

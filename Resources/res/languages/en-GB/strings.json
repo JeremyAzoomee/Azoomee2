@@ -8,17 +8,17 @@
     
     "OnboardingScene":
     {
-        "title_label":"Create your acount",
+        "title_label":"Create your family account",
         "email_label":"Enter your email address",
         "password_label":"Create a password",
         "pin_label":"Set up a 4-digit PIN",
-        "pin_sub_label":"You’ll need this to access the settings area. Shhh! Don’t tell the kids…"
+        "pin_sub_label":"Use this to access the settings area.\nThis is just for parents."
     },
     
     "OnboardingSuccessScene":
     {
         "IAP_success_title_label":"Your Azoomee subscription is now active!\nGet ready to access lots of exciting TV shows, games and audiobooks",
-        "IAP_fail_title_label":"Continue your tour of Azoomee.",
+        "IAP_fail_title_label":"Preview Azoomee",
         "sub_success_label":"Tap %s to get started!",
         "sub_fail_label":"Tap %s to take a look around",
         "IAP_success_bottom_label":"",
@@ -27,12 +27,12 @@
     
     "ChildAccountScene":
     {
-        "main_title_label":"Give your child their own profile",
+        "main_title_label":"Personalise your child’s experience",
         "select_oomee_title_label":"Give your child their own Oomee",
         "request_name_label":"What's your child's name",
         "edit_name_label":"Want to change the display name?",
         "request_dob_label":"What's their date of birth",
-        "request_dob_sub_label":"We use this to show age-appropriate videos, games & audiobooks",
+        "request_dob_sub_label":"We need this to give them age-appropriate videos,\ngames & audiobooks",
         
         "edit_dob_label":"Change birthday?",
         "request_oomee_label":"Pick your favourite character",

@@ -131,7 +131,7 @@ void ChildAccountScene::addButtonsScene()
 {
     
     nextButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
-    nextButton->setCenterPosition(Vec2(visibleSize.width*.7+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.5));
+    nextButton->setCenterPosition(Vec2(visibleSize.width*.7+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.9));
     nextButton->setDelegate(this);
     nextButton->setMixPanelButtonName("childAccountSceneContinueButton");
     nextButton->setVisible(false);

@@ -43,6 +43,7 @@ Label*  createLabelFlowMainTitle(std::string text) {
     
     Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 110);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    newLabel->setWidth(visibleSize.width*.90);
     newLabel->setPosition(origin.x + visibleSize.width/2,origin.y + visibleSize.height - newLabel->getContentSize().height);
     
     return newLabel;

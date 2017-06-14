@@ -44,8 +44,9 @@ bool OnboardingSuccessScene::init()
  void OnboardingSuccessScene::setupScene()
 {
     addVisualElementsToScene();
+    addTitleLabelsToLayer();
     addButtonsToScene();
-    addLabelsToLayer();
+    addSubLabelsToLayer();
 }
 
 void OnboardingSuccessScene::onEnterTransitionDidFinish()
@@ -63,27 +64,7 @@ void OnboardingSuccessScene::addVisualElementsToScene()
     addSideWiresToScreen(this, 0, 2);
 }
 
-void OnboardingSuccessScene::addButtonsToScene()
-{
-    oomeeButton = ElectricDreamsButton::createOomeeButtonWithOutline(FlowDataSingleton::getInstance()->getOomeeColourNumber(), ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
-    oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
-    oomeeButton->setDelegate(this);
-    oomeeButton->setMixPanelButtonName("OnboardingSuccessOomeePressed");
-    this->addChild(oomeeButton);
-    
-    
-    //Removed - but left here, as they may well change their minds again.
-    /*if(!IAPSuccess)
-    {
-        startTrial = ElectricDreamsButton::createButtonWithText("Start Trial!", 100);
-        startTrial->setPosition(origin.x + startTrial->getContentSize().height,oomeeButton->getPositionY());
-        startTrial->setDelegate(this);
-        startTrial->setMixPanelButtonName("OnboardingSuccessStartTrialButton");
-        this->addChild(startTrial);
-    }*/
-}
-
-void OnboardingSuccessScene::addLabelsToLayer()
+void OnboardingSuccessScene::addTitleLabelsToLayer()
 {
     std::string TitleText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_TITLE_LABEL);
     std::string BottomText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_BOTTOM_LABEL);
@@ -96,19 +77,52 @@ void OnboardingSuccessScene::addLabelsToLayer()
         subTitleString = stringReplace(StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_FAIL_SUB_LABEL), "%s", ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
     }
     
-    auto title = createLabelHeader(TitleText);
-    title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
-    this->addChild(title);
+    if(IAPSuccess)
+    {
+        auto title = createLabelHeader(TitleText);
+        title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
+        this->addChild(title);
+    }
+    else
+    {
+        auto title = createLabelMessageBoxTitle(TitleText);
+        title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
+        this->addChild(title);
+    }
 
-    auto subTitle = createLabelHeaderWhite(subTitleString);
-    subTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.78);
-    this->addChild(subTitle);
-    
+    subTitleLabel = createLabelHeaderWhite(subTitleString);
+    subTitleLabel->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.78);
+    this->addChild(subTitleLabel);
+}
+
+void OnboardingSuccessScene::addButtonsToScene()
+{
+    oomeeButton = ElectricDreamsButton::createOomeeButtonWithOutline(FlowDataSingleton::getInstance()->getOomeeColourNumber(), ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
+    oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width/2, subTitleLabel->getPositionY()-oomeeButton->getContentSize().height*.75));
+    oomeeButton->setDelegate(this);
+    oomeeButton->setMixPanelButtonName("OnboardingSuccessOomeePressed");
+    this->addChild(oomeeButton);
+}
+
+void OnboardingSuccessScene::addSubLabelsToLayer()
+{
     if(!IAPSuccess && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 1)
     {
-        auto checkEmail = createLabelBodyCentred(BottomText);
-        checkEmail->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.2);
-        this->addChild(checkEmail);
+        Label* OrText = createLabelBodyCentred("Or");
+        OrText->setAnchorPoint(Vec2(0.5,0.5));
+        OrText->setPosition(origin.x + visibleSize.width/2, oomeeButton->getPositionY() - OrText->getContentSize().height * 2);
+        this->addChild(OrText);
+        
+        startTrial = ElectricDreamsButton::createTextAsButton("Start your FREE trial now.", 59, true);
+        startTrial->setDelegate(this);
+        startTrial->setMixPanelButtonName("OnboardingSuccessStartTrialButton");
+        startTrial->setCenterPosition(Vec2(origin.x + visibleSize.width/2, OrText->getPositionY() - startTrial->getContentSize().height * 2));
+        this->addChild(startTrial);
+        
+        Label* restOfBottomText = createLabelBodyCentred("And don’t forget, you can cancel anytime.");
+        restOfBottomText->setPosition(origin.x + visibleSize.width/2, startTrial->getPositionY() - restOfBottomText->getContentSize().height * 2);
+        restOfBottomText->setAnchorPoint(Vec2(0.5,0.5));
+        this->addChild(restOfBottomText);
     }
 }
 
@@ -124,6 +138,8 @@ void OnboardingSuccessScene::buttonPressed(ElectricDreamsButton* button)
             oomeeButton->playOomeeAnimation("Build_Pop", false);
             this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
         }
+        else if(button == startTrial)
+            RoutePaymentSingleton::getInstance()->startInAppPayment();
     }
 }
 
