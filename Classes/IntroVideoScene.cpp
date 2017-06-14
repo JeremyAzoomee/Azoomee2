@@ -30,7 +30,6 @@ bool IntroVideoScene::init()
     }
     
     AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_VIDEO");
-    AnalyticsSingleton::getInstance()->firstLaunchEvent();
     
     auto funcCallAction = CallFunc::create([=](){
         
