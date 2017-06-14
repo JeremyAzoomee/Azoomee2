@@ -77,28 +77,31 @@ void OnboardingSuccessScene::addTitleLabelsToLayer()
         subTitleString = stringReplace(StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_FAIL_SUB_LABEL), "%s", ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
     }
     
+    
+    Label* title;
+    
     if(IAPSuccess)
     {
-        auto title = createLabelHeader(TitleText);
+        title = createLabelHeader(TitleText);
         title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
         this->addChild(title);
     }
     else
     {
-        auto title = createLabelMessageBoxTitle(TitleText);
+        title = createLabelMessageBoxTitle(TitleText);
         title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
         this->addChild(title);
     }
 
     subTitleLabel = createLabelHeaderWhite(subTitleString);
-    subTitleLabel->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.78);
+    subTitleLabel->setPosition(origin.x + visibleSize.width * 0.5, title->getPositionY() - subTitleLabel->getContentSize().height*1.5);
     this->addChild(subTitleLabel);
 }
 
 void OnboardingSuccessScene::addButtonsToScene()
 {
     oomeeButton = ElectricDreamsButton::createOomeeButtonWithOutline(FlowDataSingleton::getInstance()->getOomeeColourNumber(), ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
-    oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width/2, subTitleLabel->getPositionY()-oomeeButton->getContentSize().height*.75));
+    oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width/2, subTitleLabel->getPositionY()-visibleSize.height*.10 -oomeeButton->getContentSize().height/2));
     oomeeButton->setDelegate(this);
     oomeeButton->setMixPanelButtonName("OnboardingSuccessOomeePressed");
     this->addChild(oomeeButton);
@@ -108,19 +111,20 @@ void OnboardingSuccessScene::addSubLabelsToLayer()
 {
     if(!IAPSuccess && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 1)
     {
-        Label* OrText = createLabelBodyCentred("Or");
+        Label* OrText = createLabelBodyCentred("- or -");
         OrText->setAnchorPoint(Vec2(0.5,0.5));
-        OrText->setPosition(origin.x + visibleSize.width/2, oomeeButton->getPositionY() - OrText->getContentSize().height * 2);
+        OrText->setPosition(origin.x + visibleSize.width/2, oomeeButton->getPositionY() - OrText->getContentSize().height * 1.5);
         this->addChild(OrText);
         
-        startTrial = ElectricDreamsButton::createTextAsButton("Start your FREE trial now.", 59, true);
+        startTrial = ElectricDreamsButton::createSecondaryButtonWithWidth("Start your FREE trial now", 10);
         startTrial->setDelegate(this);
         startTrial->setMixPanelButtonName("OnboardingSuccessStartTrialButton");
-        startTrial->setCenterPosition(Vec2(origin.x + visibleSize.width/2, OrText->getPositionY() - startTrial->getContentSize().height * 2));
+        startTrial->setCenterPosition(Vec2(origin.x + visibleSize.width/2, OrText->getPositionY() - startTrial->getContentSize().height ));
         this->addChild(startTrial);
         
-        Label* restOfBottomText = createLabelBodyCentred("And don’t forget, you can cancel anytime.");
-        restOfBottomText->setPosition(origin.x + visibleSize.width/2, startTrial->getPositionY() - restOfBottomText->getContentSize().height * 2);
+        Label* restOfBottomText = Label::createWithTTF("And don’t forget, you can cancel anytime.", "fonts/Sofia Pro Soft Regular.otf", 45);
+        restOfBottomText->setColor(Color3B(28, 244, 244));
+        restOfBottomText->setPosition(origin.x + visibleSize.width/2, startTrial->getPositionY() - restOfBottomText->getContentSize().height*1.3);
         restOfBottomText->setAnchorPoint(Vec2(0.5,0.5));
         this->addChild(restOfBottomText);
     }

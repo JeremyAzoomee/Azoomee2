@@ -66,7 +66,7 @@ void FTUScene::addLabels()
     titleLabel->setPosition(ftuLayer->getContentSize().width/2,ftuLayer->getContentSize().height-titleLabel->getContentSize().height*1.2);
     ftuLayer->addChild(titleLabel);
     
-    subTitleLabel = Label::createWithTTF("1000s of kids’ shows, games & audiobooks updated every week", FONT_REGULAR, 80);
+    subTitleLabel = Label::createWithTTF("1000s of kids’ shows, games & audiobooks updated every week", FONT_REGULAR, 76);
     subTitleLabel->setColor(Color3B::WHITE);
     subTitleLabel->setAnchorPoint(Vec2(0.5,0.5));
     subTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -77,13 +77,13 @@ void FTUScene::addLabels()
 void FTUScene::addImages()
 {
     Sprite* thumbsImage = Sprite::create("res/FTU_Assets/thumbs.png");
-    thumbsImage->setPosition(ftuLayer->getContentSize().width/2, subTitleLabel->getPositionY() -thumbsImage->getContentSize().height/2 - subTitleLabel->getContentSize().height*.8);
+    thumbsImage->setPosition(ftuLayer->getContentSize().width/2, subTitleLabel->getPositionY() -thumbsImage->getContentSize().height/2 - subTitleLabel->getContentSize().height);
     ftuLayer->addChild(thumbsImage);
     
     Sprite* gradient = Sprite::create("res/FTU_Assets/blurryMask.png");
     gradient->setScaleX(ftuLayer->getContentSize().width / gradient->getContentSize().width);
-    gradient->setScaleY(1.25);
-    gradient->setPosition(ftuLayer->getContentSize().width/2,gradient->getContentSize().height/2*1.25
+    gradient->setScaleY(1.3);
+    gradient->setPosition(ftuLayer->getContentSize().width/2,gradient->getContentSize().height/2*1.3
                           );
     ftuLayer->addChild(gradient);
 }

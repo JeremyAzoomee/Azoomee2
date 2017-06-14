@@ -108,6 +108,7 @@ void OnboardingScene::addLabelsToScene()
     
     Label* pinSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));
     pinSubTitle->setPositionY(pinTextInput->getPositionY() - (pinSubTitle->getContentSize().height*.2));
+    pinSubTitle->setLineSpacing(20);
     this->addChild(pinSubTitle);
 }
 

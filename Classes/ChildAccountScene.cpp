@@ -83,7 +83,7 @@ void ChildAccountScene::AddTitleToScene()
 void ChildAccountScene::addTextboxScene()
 {
     childNameInputText = TextInputLayer::createWithSize(Size(visibleSize.width*.80,197), INPUT_IS_CHILD_NAME);
-    childNameInputText->setPositionY(sceneTitle->getPositionY()-childNameInputText->getContentSize().height*2.25);
+    childNameInputText->setPositionY(sceneTitle->getPositionY()-childNameInputText->getContentSize().height*2.4);
     childNameInputText->setDelegate(this);
     this->addChild(childNameInputText);
     
@@ -118,6 +118,7 @@ void ChildAccountScene::addLabelToScene()
     
     profileDOBSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_SUB_LABEL));
     profileDOBSubTitle->setPositionY(dayInputText->getPositionY()- (profileDOBSubTitle->getContentSize().height*.3));
+    profileDOBSubTitle->setLineSpacing(20);
     this->addChild(profileDOBSubTitle);
     
     oomeesTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_LABEL));
@@ -150,7 +151,7 @@ void ChildAccountScene::addButtonsScene()
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
         cancelButton->setVisible(false);
-        nextButton->setCenterPosition(Vec2(visibleSize.width/2+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.5));
+        nextButton->setCenterPosition(Vec2(visibleSize.width/2+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.9));
         nextButtonPlaceholder->setCenterPosition(nextButton->getCenterPosition());
         
     }

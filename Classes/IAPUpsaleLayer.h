@@ -27,6 +27,8 @@ private:
     
     Sprite* oomeesImage;
     
+    float bulletTextXposition;
+    
     void askForPin();
     
     bool restoreButtonPressed;
@@ -40,7 +42,7 @@ private:
     void addButtons();
     void addImage();
     void addALLBulletsAndLabel();
-    float addBulletAndLabel(std::string BOLDtext, std::string regularText, float yPosition);
+    void addBulletAndLabel(std::string BOLDtext, std::string regularText, float yPosition);
     void addOptionalSubscriptionLabel();
 
     void removeSelf();
