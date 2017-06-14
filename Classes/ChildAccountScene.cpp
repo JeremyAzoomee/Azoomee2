@@ -76,7 +76,7 @@ void ChildAccountScene::onEnterTransitionDidFinish()
 
 void ChildAccountScene::AddTitleToScene()
 {
-    sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_TITLE_LABEL));
+    sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_LABEL));
     this->addChild(sceneTitle);
 }
 
@@ -154,7 +154,7 @@ void ChildAccountScene::addButtonsScene()
         nextButtonPlaceholder->setCenterPosition(nextButton->getCenterPosition());
         
     }
-    submitButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_DONE));
+    submitButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
     submitButton->setCenterPosition(Vec2(visibleSize.width*.7+origin.x,origin.y + submitButton->getContentSize().height));
     submitButton->setDelegate(this);
     submitButton->setMixPanelButtonName("childAccountSceneDoneButton");
@@ -207,6 +207,8 @@ void ChildAccountScene::changeElementsToTextInputScreen()
 {
     clearElementsOnScreen();
     
+    sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_LABEL));
+    
     childNameInputText->setEditboxVisibility(true);
     dayInputText->setEditboxVisibility(true);
     monthInputText->setEditboxVisibility(true);
@@ -228,6 +230,8 @@ void ChildAccountScene::changeElementsToTextInputScreen()
 void ChildAccountScene::changeElementsToOomeeScreen()
 {
     clearElementsOnScreen();
+    
+    sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_SELECT_OOMEE_TITLE_LABEL));
     
     oomeesTitle->setVisible(true);
     

@@ -97,7 +97,7 @@ void IAPUpsaleLayer::addImage()
 
 void IAPUpsaleLayer::addTitle()
 {
-    titleLabel = Label::createWithTTF("Start a trial to unlock full access", FONT_REGULAR, 130);
+    titleLabel = Label::createWithTTF("Start your free 7-day trial", FONT_REGULAR, 130);
     titleLabel->setColor(COLOR_BRIGHT_AQUA);
     titleLabel->setAnchorPoint(Vec2(0,0.5));
     titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
@@ -112,7 +112,7 @@ void IAPUpsaleLayer::addButtons()
 {
     float GapFromOomeeImage = (oomeesImage->getPositionY() - oomeesImage->getContentSize().height/2)/2;
     
-    startTrialButton = ElectricDreamsButton::createButtonWithText("Start Your Free 7 Day Trial!", 300);
+    startTrialButton = ElectricDreamsButton::createButtonWithText("Start a FREE trial. Cancel anytime.", 300);
     startTrialButton->setPosition(UpsaleLayer->getContentSize().width - SIDE_MARGIN_SIZE - startTrialButton->getContentSize().width, GapFromOomeeImage);
     startTrialButton->setDelegate(this);
     startTrialButton->setMixPanelButtonName("IAPUpsaleSceneStartTrialButton");
@@ -128,7 +128,7 @@ void IAPUpsaleLayer::addButtons()
     
     if(RoutePaymentSingleton::getInstance()->osIsIos())
     {
-        restoreButton = ElectricDreamsButton::createTextAsButton("Restore your Purchase", 46, true);
+        restoreButton = ElectricDreamsButton::createTextAsButton("Restore your purchase", 46, true);
         restoreButton->setPosition(SIDE_MARGIN_SIZE, optionalLabel->getPositionY()-restoreButton->getContentSize().height/2);
         restoreButton->setDelegate(this);
         restoreButton->setMixPanelButtonName("IAPUpsaleSceneRestoreButton");

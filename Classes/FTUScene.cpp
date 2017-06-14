@@ -66,7 +66,7 @@ void FTUScene::addLabels()
     titleLabel->setPosition(ftuLayer->getContentSize().width/2,ftuLayer->getContentSize().height-titleLabel->getContentSize().height*1.2);
     ftuLayer->addChild(titleLabel);
     
-    subTitleLabel = Label::createWithTTF("Create an account now to enjoy free videos, games and more", FONT_REGULAR, 80);
+    subTitleLabel = Label::createWithTTF("1000s of TV shows, games & audiobooks", FONT_REGULAR, 80);
     subTitleLabel->setColor(Color3B::WHITE);
     subTitleLabel->setAnchorPoint(Vec2(0.5,0.5));
     subTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -90,13 +90,13 @@ void FTUScene::addImages()
 
 void FTUScene::addButtons()
 {
-    getStartedButton = ElectricDreamsButton::createButtonWithText("Get Started for Free", 225);
+    getStartedButton = ElectricDreamsButton::createButtonWithText("Start a FREE trial", 225);
     getStartedButton->setPosition(ftuLayer->getContentSize().width-getStartedButton->getContentSize().width*1.35, getStartedButton->getContentSize().height*.75);
     getStartedButton->setDelegate(this);
     getStartedButton->setMixPanelButtonName("FTUGetStartedButton");
     ftuLayer->addChild(getStartedButton);
     
-    notNowButton = ElectricDreamsButton::createTextAsButtonAqua("Take a tour or Log in", 60, true);
+    notNowButton = ElectricDreamsButton::createTextAsButtonAqua("Take a tour or log in", 60, true);
     notNowButton->setPosition(getStartedButton->getContentSize().width*.35,getStartedButton->getPositionY());
     notNowButton->setDelegate(this);
     notNowButton->setMixPanelButtonName("FTUNotNowButton");

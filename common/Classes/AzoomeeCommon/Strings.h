@@ -24,13 +24,15 @@
 
 #define ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_TITLE_LABEL "OnboardingSuccessScene/IAP_success_title_label"
 #define ONBOARDINGSUCCESSSCENE_IAP_FAIL_TITLE_LABEL "OnboardingSuccessScene/IAP_fail_title_label"
-#define ONBOARDINGSUCCESSSCENE_SUB_LABEL "OnboardingSuccessScene/sub_label"
+#define ONBOARDINGSUCCESSSCENE_SUCCESS_SUB_LABEL "OnboardingSuccessScene/sub_success_label"
+#define ONBOARDINGSUCCESSSCENE_FAIL_SUB_LABEL "OnboardingSuccessScene/sub_fail_label"
 #define ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_BOTTOM_LABEL "OnboardingSuccessScene/IAP_success_bottom_label"
 #define ONBOARDINGSUCCESSSCENE_IAP_FAIL_BOTTOM_LABEL "OnboardingSuccessScene/IAP_fail_bottom_label"
 
 //----------- CHILD ACCOUNT SCENE ------------
 
-#define CHILDACCOUNTSCENE_TITLE_LABEL "ChildAccountScene/title_label"
+#define CHILDACCOUNTSCENE_MAIN_TITLE_LABEL "ChildAccountScene/main_title_label"
+#define CHILDACCOUNTSCENE_SELECT_OOMEE_TITLE_LABEL "ChildAccountScene/select_oomee_title_label"
 #define CHILDACCOUNTSCENE_REQUEST_NAME_LABEL "ChildAccountScene/request_name_label"
 #define CHILDACCOUNTSCENE_EDIT_NAME_LABEL "ChildAccountScene/edit_name_label"
 #define CHILDACCOUNTSCENE_REQUEST_DOB_LABEL "ChildAccountScene/request_dob_label"
