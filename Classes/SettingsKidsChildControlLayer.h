@@ -4,6 +4,7 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include "SettingsKidsLayer.h"
+#include "ChildOomeeLayer.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -14,12 +15,19 @@ private:
     int childNumber;
     SettingsKidsLayer* parentLayer;
     
-    Layer* childFrameLayer;
+    ChildOomeeLayer* childFrameLayer;
     
-    ElectricDreamsButton *inviteButton;
-    ElectricDreamsButton *acceptButton;
+    ElectricDreamsButton *getCodeButton;
+    ElectricDreamsButton *addFriendButton;
     ElectricDreamsButton *closeButton;
-
+    ElectricDreamsButton *shareButton;
+    ElectricDreamsButton *sendCodeButton;
+    ElectricDreamsButton *tryAgainButton;
+    ElectricDreamsButton *addAnotherButton;
+    ElectricDreamsButton *textInputButton;
+    
+    void clearAllButCloseButton();
+    
     void addChildFrame();
     void addButtons();
     

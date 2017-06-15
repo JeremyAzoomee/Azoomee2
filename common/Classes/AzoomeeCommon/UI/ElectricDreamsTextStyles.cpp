@@ -161,7 +161,7 @@ Label*  createLabelChildNameSettings(std::string text)
     return newLabel;
 }
     
-Label*  createLabelChatButton(std::string text,Color3B color)
+Label*  createLabelSettingsChat(std::string text,Color3B color)
 {
     Label* newLabel = createLabelWith(text, FONT_REGULAR, color, 48);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);

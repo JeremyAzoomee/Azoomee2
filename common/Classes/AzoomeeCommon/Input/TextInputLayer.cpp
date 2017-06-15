@@ -24,6 +24,18 @@ TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputT
     
     return layer;
 }
+    
+TextInputLayer* TextInputLayer::createSettingsChatTextInput(float width)
+{
+    auto layer = TextInputLayer::create();
+    layer->setContentSize(inputBoxSize);
+    
+    layer->textInputType = textInputType;
+    layer->createEditBox();
+    layer->createEditBoxArea();
+    
+    return layer;
+}
 
 bool TextInputLayer::init()
 {
@@ -56,6 +68,8 @@ void TextInputLayer::createEditBox()
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::WHITE);
+    
+    editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
    
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         editBox->setReturnType(ui::EditBox::KeyboardReturnType::GO);
@@ -127,6 +141,30 @@ void TextInputLayer::setupEditBoxUsingType()
             break;
         }
     }
+}
+    
+void TextInputLayer::createSettingsChatEditBox(float width)
+{
+    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height), "res/login/editboxBlankFor9Scale.png");
+    editBox->moveOnKeyboardDisplayRequired = false;
+    editBox->setColor(Color3B::WHITE);
+    editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBox->setFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
+    editBox->setFontColor(Color3B::WHITE);
+    
+    editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::GO);
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::NEXT);
+#endif
+    
+    editBox->setDelegate(this);
+    
+    this->setupEditBoxUsingType();
+    
+    this->addChild(editBox);
 }
 
 //---------------------- public Functions After Setup -----------------------------

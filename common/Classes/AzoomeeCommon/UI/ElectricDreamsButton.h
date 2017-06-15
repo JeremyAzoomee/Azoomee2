@@ -66,7 +66,8 @@ public:
     
     //----------- CHAT INVITE BUTTONS -------------------
     
-    static ElectricDreamsButton* createInviteaMainButton(std::string buttonText, float buttonWidth);
+    static ElectricDreamsButton* createInviteMainButton(std::string buttonText, float buttonWidth);
+    static ElectricDreamsButton* createTextInputAsButton(std::string buttonText, float buttonWidth);
     
     // ---------- OOMEE BUTTONS AND FUNCTIONS------------
     static ElectricDreamsButton* createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName);

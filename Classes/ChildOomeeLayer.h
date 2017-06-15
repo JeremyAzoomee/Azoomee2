@@ -11,14 +11,22 @@ private:
     std::string childName;
     int oomeeNo;
     
+    Sprite* oomeeSprite;
+    Sprite* glowSprite;
+    
     void addFrame();
     void addChildName();
     void addOomee();
     
 public:
     
-    static Layer* createWithChildDetails(std::string setChildName, int setOomeeNo);
+    static ChildOomeeLayer* createWithChildDetails(std::string setChildName, int setOomeeNo);
     virtual bool init();
+    
+    void setToShowingCode();
+    void setToAddAFriend();
+    
+    void resetToIdle();
     
     CREATE_FUNC(ChildOomeeLayer);
     

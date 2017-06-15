@@ -49,6 +49,8 @@ private:
     void createEditBox();
     void setupEditBoxUsingType();
     
+    void createSettingsChatEditBox(float width);
+    
     cocos2d::ui::EditBox* editBox;
     cocos2d::ui::Scale9Sprite* editBoxArea;
     
@@ -63,6 +65,8 @@ public:
     CC_SYNTHESIZE(TextInputLayerDelegate*, _delegate, Delegate);
     
     static TextInputLayer* createWithSize(cocos2d::Size inputBoxSize, int textInputType);
+    
+    static TextInputLayer* createSettingsChatTextInput(float width);
     
     void setCenterPosition(cocos2d::Vec2 position);
     

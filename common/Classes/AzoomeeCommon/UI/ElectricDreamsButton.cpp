@@ -347,12 +347,12 @@ ElectricDreamsButton* ElectricDreamsButton::createTabButton(std::string buttonTe
     
 //----------- CHAT INVITE BUTTONS -------------------
 
-ElectricDreamsButton* ElectricDreamsButton::createInviteaMainButton(std::string buttonText, float buttonWidth)
+ElectricDreamsButton* ElectricDreamsButton::createInviteMainButton(std::string buttonText, float buttonWidth)
 {
-    Label* buttonLabel = createLabelChatButton(buttonText,Color3B::BLACK);
+    Label* buttonLabel = createLabelSettingsChat(buttonText,Color3B::BLACK);
     
     Rect spriteRect = Rect(0, 0, 184, 107);
-    Rect capInsents = Rect(50, 92, 1, 1);
+    Rect capInsents = Rect(50, 53, 1, 1);
     
     
     ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/buttons/inviteMainButton.png", spriteRect, capInsents);
@@ -375,6 +375,36 @@ ElectricDreamsButton* ElectricDreamsButton::createInviteaMainButton(std::string 
     
     return layer;
 
+}
+    
+ElectricDreamsButton* ElectricDreamsButton::createTextInputAsButton(std::string buttonText, float buttonWidth)
+{
+    Label* buttonLabel = createLabelSettingsChat(buttonText,Color3B(28, 244, 244));
+    
+    Rect spriteRect = Rect(0, 0, 268, 107);
+    Rect capInsents = Rect(100, 53, 1, 1);
+    
+    
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/settings/textField.png", spriteRect, capInsents);
+    newButton->setContentSize(Size(buttonWidth, 107));
+    newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
+    
+    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);
+    
+    newButton->addChild(buttonLabel);
+    newButton->setCascadeOpacityEnabled(true);
+    
+    auto layer = ElectricDreamsButton::create();
+    layer->setCascadeOpacityEnabled(true);
+    layer->setContentSize(newButton->getContentSize());
+    layer->addChild(newButton);
+    
+    layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
+    
+    layer->addListener();
+    
+    return layer;
+    
 }
 
 //-------------OOMEE BUTTONS AND FUNCTIONS---------------------

@@ -1,5 +1,4 @@
 #include "SettingsKidsChildControlLayer.h"
-#include "ChildOomeeLayer.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 
@@ -41,15 +40,15 @@ void SettingsKidsChildControlLayer::addChildFrame()
 
 void SettingsKidsChildControlLayer::addButtons()
 {
-    inviteButton = ElectricDreamsButton::createInviteaMainButton("Kid Code", this->getContentSize().width*.66);
-    inviteButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height*.25));
-    inviteButton->setDelegate(this);
-    childFrameLayer->addChild(inviteButton);
+    getCodeButton = ElectricDreamsButton::createInviteMainButton("Kid Code", this->getContentSize().width*.66);
+    getCodeButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height*.25));
+    getCodeButton->setDelegate(this);
+    childFrameLayer->addChild(getCodeButton);
     
-    acceptButton = ElectricDreamsButton::createInviteaMainButton("Add A Friend", this->getContentSize().width*.66);
-    acceptButton->setCenterPosition(Vec2(this->getContentSize().width/2,inviteButton->getPositionY() - acceptButton->getContentSize().height));
-    acceptButton->setDelegate(this);
-    childFrameLayer->addChild(acceptButton);
+    addFriendButton = ElectricDreamsButton::createInviteMainButton("Add A Friend", this->getContentSize().width*.66);
+    addFriendButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - addFriendButton->getContentSize().height));
+    addFriendButton->setDelegate(this);
+    childFrameLayer->addChild(addFriendButton);
     
     closeButton = ElectricDreamsButton::createWindowCloselButton();
     closeButton->setVisible(false);
@@ -57,24 +56,82 @@ void SettingsKidsChildControlLayer::addButtons()
     closeButton->setPosition(this->getContentSize().width-closeButton->getContentSize().width,this->getContentSize().height-closeButton->getContentSize().height);
     closeButton->setDelegate(this);
     childFrameLayer->addChild(closeButton);
+    
+    shareButton = ElectricDreamsButton::createInviteMainButton("Share", this->getContentSize().width*.66);
+    shareButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - shareButton->getContentSize().height));
+    shareButton->setVisible(false);
+    shareButton->setDelegate(this);
+    childFrameLayer->addChild(shareButton);
+    
+    tryAgainButton = ElectricDreamsButton::createInviteMainButton("Share", this->getContentSize().width*.66);
+    tryAgainButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - tryAgainButton->getContentSize().height));
+    tryAgainButton->setVisible(false);
+    tryAgainButton->setDelegate(this);
+    childFrameLayer->addChild(tryAgainButton);
+    
+    addAnotherButton = ElectricDreamsButton::createInviteMainButton("Share", this->getContentSize().width*.66);
+    addAnotherButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - addAnotherButton->getContentSize().height));
+    addAnotherButton->setVisible(false);
+    addAnotherButton->setDelegate(this);
+    childFrameLayer->addChild(addAnotherButton);
+    
+    textInputButton = ElectricDreamsButton::createTextInputAsButton("Enter their Kid Code here", this->getContentSize().width*.8);
+    textInputButton->setCenterPosition(Vec2(this->getContentSize().width/2,textInputButton->getContentSize().height*2.5));
+    textInputButton->setVisible(false);
+    textInputButton->setDelegate(this);
+    childFrameLayer->addChild(textInputButton);
+}
 
+void SettingsKidsChildControlLayer::clearAllButCloseButton()
+{
+    getCodeButton->setVisible(false);
+    addFriendButton->setVisible(false);
+    shareButton->setVisible(false);
+    tryAgainButton->setVisible(false);
+    addAnotherButton->setVisible(false);
+    textInputButton->setVisible(false);
+    //sendCodeButton->setVisible(false);
 }
 
 //----------------------- Delegate Functions ----------------------------
 
 void SettingsKidsChildControlLayer::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button ==inviteButton)
+    if(button ==getCodeButton)
     {
+        childFrameLayer->setToShowingCode();
+        
         this->setLocalZOrder(220);
         parentLayer->scrollToPosition(childNumber);
         closeButton->setVisible(true);
+        
+        clearAllButCloseButton();
+        shareButton->setVisible(true);
+    }
+    else if(button == addFriendButton)
+    {
+        childFrameLayer->setToAddAFriend();
+        
+        this->setLocalZOrder(220);
+        parentLayer->scrollToPosition(childNumber);
+        closeButton->setVisible(true);
+        
+        clearAllButCloseButton();
+        textInputButton->setVisible(true);
+        
     }
     else if(button == closeButton)
     {
+        childFrameLayer->resetToIdle();
+        
+        clearAllButCloseButton();
+        getCodeButton->setVisible(true);
+        addFriendButton->setVisible(true);
+        
         this->setLocalZOrder(200);
         closeButton->setVisible(false);
         parentLayer->scrollReset();
     }
+    
 }
 
