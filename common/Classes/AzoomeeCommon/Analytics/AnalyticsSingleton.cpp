@@ -5,7 +5,7 @@
 #include "../Utils/StringFunctions.h"
 #include "../Strings.h"
 #include "../Utils/SessionIdManager.h"
-
+#include "../Crashlytics/CrashlyticsConfig.h"
 
 namespace Azoomee
 {
@@ -68,6 +68,7 @@ void AnalyticsSingleton::registerAzoomeeEmail(std::string emailAddress)
         azoomeEmail = "YES";
     
     mixPanelRegisterSuperProperties("azoomeeEmail",azoomeEmail);
+    setCrashlyticsKeyWithString("azoomeeEmail", azoomeEmail);
 }
 
 void AnalyticsSingleton::registerAccountStatus(std::string Status)
@@ -108,11 +109,13 @@ void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
 void AnalyticsSingleton::registerSessionId(std::string sessionId)
 {
     mixPanelRegisterSuperProperties("sessionId", sessionId);
+    setCrashlyticsKeyWithString("sessionId", sessionId);
 }
     
 void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
 {
     mixPanelRegisterSuperProperties("currentScene", currentScene);
+    setCrashlyticsKeyWithString("currentScene", currentScene);
 }
     
 void AnalyticsSingleton::setPortraitOrientation()
