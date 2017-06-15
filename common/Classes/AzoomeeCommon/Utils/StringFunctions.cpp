@@ -143,6 +143,18 @@ std::string trim(const std::string& str)
     s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
     return s;
 }
+    
+std::string replaceAll(std::string& str, const std::string& from, const std::string& to) {
+    if(from.empty())
+        return "";
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length();
+    }
+    
+    return str;
+}
 
 
 } // Azoomee
