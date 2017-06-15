@@ -85,14 +85,13 @@ void OnboardingSuccessScene::addTitleLabelsToLayer()
         title = createLabelHeader(TitleText);
         title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
         title->setLineSpacing(20);
-        this->addChild(title);
     }
     else
     {
         title = createLabelMessageBoxTitle(TitleText);
         title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
-        this->addChild(title);
     }
+    this->addChild(title);
 
     subTitleLabel = createLabelHeaderWhite(subTitleString);
     subTitleLabel->setPosition(origin.x + visibleSize.width * 0.5, title->getPositionY() - subTitleLabel->getContentSize().height*1.7);
