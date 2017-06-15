@@ -303,6 +303,8 @@ void AnalyticsSingleton::contentItemSelectedEvent(std::string Title,std::string 
     
 void AnalyticsSingleton::updateContentItemDetails(std::map<std::string, std::string> contentItemDetails)
 {
+    if (contentItemDetails.find("id") == contentItemDetails.end()) return;
+    
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Title"] = contentItemDetails["title"];
     mixPanelProperties["Description"] = contentItemDetails["description"];

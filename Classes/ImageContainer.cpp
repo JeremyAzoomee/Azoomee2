@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
+#include "VideoPlaylistManager.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -173,6 +174,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
                 }
                 else if((HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "AUDIO"))
                 {
+                    VideoPlaylistManager::getInstance()->clearPlaylist();
                     auto webViewSelector = WebViewSelector::create();
                     webViewSelector->loadWebView(elementProperties.at("uri").c_str());
                 }

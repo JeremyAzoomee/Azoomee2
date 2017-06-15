@@ -32,6 +32,11 @@ void VideoPlaylistManager::setPlaylist(std::vector<std::map<std::string, std::st
     storedPlaylist = playlist;
 }
 
+void VideoPlaylistManager::clearPlaylist()
+{
+    storedPlaylist.clear();
+}
+
 std::string VideoPlaylistManager::getPlaylist()
 {
     std::string returnString;
@@ -54,7 +59,7 @@ std::string VideoPlaylistManager::getPlaylist()
         returnString = Azoomee::getJSONStringFromVectorOfMaps(playlistElements);
         
     }
-        
+    
     char *output;
     cocos2d::base64Encode((unsigned char *)returnString.c_str(), (unsigned int)returnString.length(), &output);
     
@@ -64,7 +69,7 @@ std::string VideoPlaylistManager::getPlaylist()
 std::map<std::string, std::string> VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)
 {
     std::map<std::string, std::string> returnData;
-    if(elementNumber > storedPlaylist.size() || elementNumber < 0) return returnData;
+    if(elementNumber >= storedPlaylist.size() || elementNumber < 0) return returnData;
     
     returnData = storedPlaylist.at(elementNumber);
     returnData["image"].clear();
