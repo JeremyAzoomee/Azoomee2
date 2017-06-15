@@ -325,3 +325,9 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
         LoginLogicHandler::getInstance()->forceNewLogin();
     }
 }
+
+void ChildSelectorScene::onExit()
+{
+    OfflineChecker::getInstance()->setDelegate(nullptr);
+    Node::onExit();
+}

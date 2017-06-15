@@ -14,6 +14,7 @@ public:
     
     virtual bool init();
     virtual void onEnterTransitionDidFinish();
+    void onExit();
     static cocos2d::Scene* createScene();
     
     //Delegate Functions
