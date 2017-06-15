@@ -31,7 +31,8 @@
 
 //----------- CHILD ACCOUNT SCENE ------------
 
-#define CHILDACCOUNTSCENE_MAIN_TITLE_LABEL "ChildAccountScene/main_title_label"
+#define CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL "ChildAccountScene/main_title_signup_label"
+#define CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL "ChildAccountScene/main_title_add_child_label"
 #define CHILDACCOUNTSCENE_SELECT_OOMEE_TITLE_LABEL "ChildAccountScene/select_oomee_title_label"
 #define CHILDACCOUNTSCENE_REQUEST_NAME_LABEL "ChildAccountScene/request_name_label"
 #define CHILDACCOUNTSCENE_EDIT_NAME_LABEL "ChildAccountScene/edit_name_label"

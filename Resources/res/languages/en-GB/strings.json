@@ -27,7 +27,8 @@
     
     "ChildAccountScene":
     {
-        "main_title_label":"Personalise your child’s experience",
+        "main_title_signup_label":"Personalise your child’s experience",
+        "main_title_add_child_label":"Create a Profile for your Child",
         "select_oomee_title_label":"Give your child their own Oomee",
         "request_name_label":"What's your child's name",
         "edit_name_label":"Want to change the display name?",

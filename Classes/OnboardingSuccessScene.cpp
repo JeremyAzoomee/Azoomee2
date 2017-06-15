@@ -84,6 +84,7 @@ void OnboardingSuccessScene::addTitleLabelsToLayer()
     {
         title = createLabelHeader(TitleText);
         title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
+        title->setLineSpacing(20);
         this->addChild(title);
     }
     else
@@ -94,7 +95,7 @@ void OnboardingSuccessScene::addTitleLabelsToLayer()
     }
 
     subTitleLabel = createLabelHeaderWhite(subTitleString);
-    subTitleLabel->setPosition(origin.x + visibleSize.width * 0.5, title->getPositionY() - subTitleLabel->getContentSize().height*1.5);
+    subTitleLabel->setPosition(origin.x + visibleSize.width * 0.5, title->getPositionY() - subTitleLabel->getContentSize().height*1.7);
     this->addChild(subTitleLabel);
 }
 

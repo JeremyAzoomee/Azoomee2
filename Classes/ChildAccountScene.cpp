@@ -76,7 +76,10 @@ void ChildAccountScene::onEnterTransitionDidFinish()
 
 void ChildAccountScene::AddTitleToScene()
 {
-    sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_LABEL));
+    if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
+        sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
+    else
+        sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
     this->addChild(sceneTitle);
 }
 
@@ -207,8 +210,11 @@ void ChildAccountScene::clearElementsOnScreen()
 void ChildAccountScene::changeElementsToTextInputScreen()
 {
     clearElementsOnScreen();
-    
-    sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_LABEL));
+
+    if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
+        sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
+    else
+        sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
     
     childNameInputText->setEditboxVisibility(true);
     dayInputText->setEditboxVisibility(true);
