@@ -31,6 +31,20 @@ bool AnalyticsSingleton::init(void)
 {
     return true;
 }
+    
+void AnalyticsSingleton::mixPanelSendEventWithStoredProperties(const std::string& eventID)
+{
+    mixPanelSendEventNative(eventID, storedGeneralProperties);
+}
+
+void AnalyticsSingleton::mixPanelSendEventWithStoredProperties(const std::string& eventID, const std::map<std::string, std::string>& map)
+{
+    std::map<std::string, std::string> mapToBeSent;
+    mapToBeSent.insert(map.begin(), map.end());
+    mapToBeSent.insert(storedGeneralProperties.begin(), storedGeneralProperties.end());
+    
+    mixPanelSendEventNative(eventID, mapToBeSent);
+}
   
 void AnalyticsSingleton::mixPanelRegisterSuperProperties(const std::string& key, const std::string& property)
 {
@@ -543,20 +557,6 @@ void AnalyticsSingleton::deepLinkingMoveToEvent(std::string moveTo)
 void AnalyticsSingleton::deepLinkingContentEvent()
 {
     mixPanelSendEventWithStoredProperties("deepLinkingContentEvent");
-}
-    
-void AnalyticsSingleton::mixPanelSendEventWithStoredProperties(const std::string& eventID)
-{
-    mixPanelSendEventNative(eventID, storedGeneralProperties);
-}
-
-void AnalyticsSingleton::mixPanelSendEventWithStoredProperties(const std::string& eventID, const std::map<std::string, std::string>& map)
-{
-    std::map<std::string, std::string> mapToBeSent;
-    mapToBeSent.insert(map.begin(), map.end());
-    mapToBeSent.insert(storedGeneralProperties.begin(), storedGeneralProperties.end());
-    
-    mixPanelSendEventNative(eventID, mapToBeSent);
 }
 
 }
