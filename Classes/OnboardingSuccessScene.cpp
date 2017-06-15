@@ -44,8 +44,9 @@ bool OnboardingSuccessScene::init()
  void OnboardingSuccessScene::setupScene()
 {
     addVisualElementsToScene();
+    addTitleLabelsToLayer();
     addButtonsToScene();
-    addLabelsToLayer();
+    addSubLabelsToLayer();
 }
 
 void OnboardingSuccessScene::onEnterTransitionDidFinish()
@@ -63,52 +64,69 @@ void OnboardingSuccessScene::addVisualElementsToScene()
     addSideWiresToScreen(this, 0, 2);
 }
 
-void OnboardingSuccessScene::addButtonsToScene()
-{
-    oomeeButton = ElectricDreamsButton::createOomeeButtonWithOutline(FlowDataSingleton::getInstance()->getOomeeColourNumber(), ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
-    oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
-    oomeeButton->setDelegate(this);
-    oomeeButton->setMixPanelButtonName("OnboardingSuccessOomeePressed");
-    this->addChild(oomeeButton);
-    
-    
-    //Removed - but left here, as they may well change their minds again.
-    /*if(!IAPSuccess)
-    {
-        startTrial = ElectricDreamsButton::createButtonWithText("Start Trial!", 100);
-        startTrial->setPosition(origin.x + startTrial->getContentSize().height,oomeeButton->getPositionY());
-        startTrial->setDelegate(this);
-        startTrial->setMixPanelButtonName("OnboardingSuccessStartTrialButton");
-        this->addChild(startTrial);
-    }*/
-}
-
-void OnboardingSuccessScene::addLabelsToLayer()
+void OnboardingSuccessScene::addTitleLabelsToLayer()
 {
     std::string TitleText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_TITLE_LABEL);
     std::string BottomText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_BOTTOM_LABEL);
+    std::string subTitleString = stringReplace(StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_SUCCESS_SUB_LABEL), "%s", ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
     
     if(!IAPSuccess)
     {
         TitleText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_IAP_FAIL_TITLE_LABEL);
         BottomText = StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_IAP_FAIL_BOTTOM_LABEL);
+        subTitleString = stringReplace(StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_FAIL_SUB_LABEL), "%s", ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
     }
     
-    auto title = createLabelHeader(TitleText);
-    title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
+    
+    Label* title;
+    
+    if(IAPSuccess)
+    {
+        title = createLabelHeader(TitleText);
+        title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
+        title->setLineSpacing(20);
+    }
+    else
+    {
+        title = createLabelMessageBoxTitle(TitleText);
+        title->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.88);
+    }
     this->addChild(title);
-    
-    std::string subTitleString = stringReplace(StringMgr::getInstance()->getStringForKey(ONBOARDINGSUCCESSSCENE_SUB_LABEL), "%s", ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
 
-    auto subTitle = createLabelHeaderWhite(subTitleString);
-    subTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.78);
-    this->addChild(subTitle);
-    
+    subTitleLabel = createLabelHeaderWhite(subTitleString);
+    subTitleLabel->setPosition(origin.x + visibleSize.width * 0.5, title->getPositionY() - subTitleLabel->getContentSize().height*1.7);
+    this->addChild(subTitleLabel);
+}
+
+void OnboardingSuccessScene::addButtonsToScene()
+{
+    oomeeButton = ElectricDreamsButton::createOomeeButtonWithOutline(FlowDataSingleton::getInstance()->getOomeeColourNumber(), ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0));
+    oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width/2, subTitleLabel->getPositionY()-visibleSize.height*.10 -oomeeButton->getContentSize().height/2));
+    oomeeButton->setDelegate(this);
+    oomeeButton->setMixPanelButtonName("OnboardingSuccessOomeePressed");
+    this->addChild(oomeeButton);
+}
+
+void OnboardingSuccessScene::addSubLabelsToLayer()
+{
     if(!IAPSuccess && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 1)
     {
-        auto checkEmail = createLabelBodyCentred(BottomText);
-        checkEmail->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.2);
-        this->addChild(checkEmail);
+        Label* OrText = createLabelBodyCentred("- or -");
+        OrText->setAnchorPoint(Vec2(0.5,0.5));
+        OrText->setPosition(origin.x + visibleSize.width/2, oomeeButton->getPositionY() - OrText->getContentSize().height * 1.5);
+        this->addChild(OrText);
+        
+        startTrial = ElectricDreamsButton::createSecondaryButtonWithWidth("Start your FREE trial now", 10);
+        startTrial->setDelegate(this);
+        startTrial->setMixPanelButtonName("OnboardingSuccessStartTrialButton");
+        startTrial->setCenterPosition(Vec2(origin.x + visibleSize.width/2, OrText->getPositionY() - startTrial->getContentSize().height ));
+        this->addChild(startTrial);
+        
+        Label* restOfBottomText = Label::createWithTTF("And don’t forget, you can cancel anytime.", "fonts/Sofia Pro Soft Regular.otf", 45);
+        restOfBottomText->setColor(Color3B(28, 244, 244));
+        restOfBottomText->setPosition(origin.x + visibleSize.width/2, startTrial->getPositionY() - restOfBottomText->getContentSize().height*1.3);
+        restOfBottomText->setAnchorPoint(Vec2(0.5,0.5));
+        this->addChild(restOfBottomText);
     }
 }
 
@@ -124,6 +142,8 @@ void OnboardingSuccessScene::buttonPressed(ElectricDreamsButton* button)
             oomeeButton->playOomeeAnimation("Build_Pop", false);
             this->scheduleOnce(schedule_selector(OnboardingSuccessScene::callDelegateFunction), 2);
         }
+        else if(button == startTrial)
+            RoutePaymentSingleton::getInstance()->startInAppPayment();
     }
 }
 
