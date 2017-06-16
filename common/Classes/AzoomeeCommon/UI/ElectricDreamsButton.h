@@ -23,8 +23,13 @@ class ElectricDreamsButton : public cocos2d::Layer
 private:
     void callDelegateFunction(float dt);
     
+    cocos2d::Sprite* spriteButton;
     std::string buttonAudioFile;
     OomeeButtonLayer* oomeeLayer;
+    
+    bool buttonEnabled;
+    std::string buttonEnabledImage;
+    std::string buttonDisablednabledImage;
   
 protected:
     std::string mixPanelButtonName = "";
@@ -68,6 +73,7 @@ public:
     
     static ElectricDreamsButton* createInviteMainButton(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createTextInputAsButton(std::string buttonText, float buttonWidth);
+    static ElectricDreamsButton* createSendButton();
     
     // ---------- OOMEE BUTTONS AND FUNCTIONS------------
     static ElectricDreamsButton* createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName);
@@ -79,6 +85,8 @@ public:
     void setCenterPosition(cocos2d::Vec2 position);
     cocos2d::Vec2 getCenterPosition();
     void setMixPanelButtonName(std::string buttonName);
+    
+    void setEnabled(bool isEnabled);
     
 };
   

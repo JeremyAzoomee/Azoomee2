@@ -18,6 +18,8 @@ bool ElectricDreamsButton::init()
         return false;
     }
     
+    buttonEnabled = true;
+    
     return true;
 }
 
@@ -406,6 +408,18 @@ ElectricDreamsButton* ElectricDreamsButton::createTextInputAsButton(std::string 
     return layer;
     
 }
+    
+ElectricDreamsButton* ElectricDreamsButton::createSendButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    layer->buttonEnabledImage = "res/settings/sendBtn.png";
+    layer->buttonDisablednabledImage = "res/settings/sendBtnDisabled.png";
+    layer->buttonEnabled = false;
+    layer->addChild(layer->createSpriteButton(layer->buttonDisablednabledImage, NEXT_BUTTON_AUDIO_EFFECT ));
+    layer->addListener();
+    
+    return layer;
+}
 
 //-------------OOMEE BUTTONS AND FUNCTIONS---------------------
 
@@ -480,7 +494,7 @@ void ElectricDreamsButton::addListener()
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
         Rect rect = Rect(0, 0, target->getContentSize().width, target->getContentSize().height);
         
-        if(rect.containsPoint(locationInNode) && this->isVisible())
+        if(rect.containsPoint(locationInNode) && this->isVisible() && buttonEnabled)
         {
             this->scheduleOnce(CC_SCHEDULE_SELECTOR(ElectricDreamsButton::callDelegateFunction), 0.1);
             return true;
@@ -524,6 +538,16 @@ void ElectricDreamsButton::setMixPanelButtonName(std::string buttonName)
 {
     mixPanelButtonName = buttonName;
 }
+    
+void ElectricDreamsButton::setEnabled(bool isEnabled)
+{
+    buttonEnabled = isEnabled;
+    
+    if(isEnabled)
+        spriteButton->setTexture(buttonEnabledImage);
+    else
+        spriteButton->setTexture(buttonDisablednabledImage);
+}
 
 //------------------------- private functions ----------------------
 
@@ -535,7 +559,7 @@ void ElectricDreamsButton::sendMixPanelEvent()
 
 Sprite* ElectricDreamsButton::createSpriteButton(std::string buttonImage, std::string buttonAudio)
 {
-    Sprite* spriteButton = Sprite::create(buttonImage);
+    spriteButton = Sprite::create(buttonImage);
     spriteButton->setPosition(spriteButton->getContentSize().width/2, spriteButton->getContentSize().height/2);
     
     setContentSize(spriteButton->getContentSize());

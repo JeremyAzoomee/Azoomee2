@@ -71,21 +71,105 @@ void ChildOomeeLayer::addOomee()
 
 void ChildOomeeLayer::setToShowingCode()
 {
+    resetToIdle();
+    
     Label* detailsLabel = createLabelSettingsChat("Share your Kid Code\nwith all your friends",Color3B::WHITE);
     detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
     
     Label* codeLabel = createLabelHeader("49KW03B3");
-    codeLabel->setPosition(this->getContentSize().width/2,detailsLabel->getPositionY()- detailsLabel->getContentSize().height/2 -codeLabel->getContentSize().height);
+    codeLabel->setPosition(this->getContentSize().width/2,detailsLabel->getPositionY()- detailsLabel->getContentSize().height/2 -codeLabel->getContentSize().height * .8);
     codeLabel->setTag(1000);
     this->addChild(codeLabel);
 }
 
 void ChildOomeeLayer::setToAddAFriend()
 {
+    resetToIdle();
+    
     Label* detailsLabel = createLabelSettingsChat("To add a friend",Color3B::WHITE);
     detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height*2.5);
+    detailsLabel->setTag(1000);
+    this->addChild(detailsLabel);
+}
+
+void ChildOomeeLayer::setToAddAFriendTextBox()
+{
+    
+}
+
+void ChildOomeeLayer::setToCodeError(std::string code)
+{
+    resetToIdle();
+    
+    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.67);
+    
+    glowSprite->setPosition(position);
+    glowSprite->setScale(.3);
+    
+    oomeeSprite->setScale(1.1);
+    oomeeSprite->setPosition(position);
+    
+    Label* failedTextBoxLabel = createLabelHeader(code);
+    failedTextBoxLabel->setColor(Color3B(249, 74, 91));
+    
+    Rect spriteRect = Rect(0, 0, 268, 107);
+    Rect capInsents = Rect(100, 53, 1, 1);
+    
+    
+    ui::Scale9Sprite* failedTextBox = ui::Scale9Sprite::create("res/settings/textFieldFail.png", spriteRect, capInsents);
+    failedTextBox->setContentSize(Size(this->getContentSize().width*.8, 107));
+    failedTextBox->setPosition(Vec2(this->getContentSize().width/2, failedTextBox->getContentSize().height*4));
+    
+    failedTextBoxLabel->setPosition(failedTextBox->getContentSize().width/2, failedTextBox->getContentSize().height/2-5);
+    
+    failedTextBox->addChild(failedTextBoxLabel);
+    failedTextBox->setTag(1000);
+    this->addChild(failedTextBox);
+    
+    Label* detailsLabel = createLabelSettingsChat("Oh No! We don't recognise\nthis code",Color3B::WHITE);
+    detailsLabel->setPosition(this->getContentSize().width/2,failedTextBox->getPositionY() + detailsLabel->getContentSize().height*1.25);
+    detailsLabel->setTag(1000);
+    this->addChild(detailsLabel);
+    
+}
+
+void ChildOomeeLayer::setToCodeSuccess(std::string code)
+{
+    resetToIdle();
+    
+    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.67);
+    
+    glowSprite->setPosition(position);
+    glowSprite->setScale(.3);
+    
+    oomeeSprite->setScale(1.1);
+    oomeeSprite->setPosition(position);
+    
+    Label* failedTextBoxLabel = createLabelHeader(code);
+    failedTextBoxLabel->setColor(Color3B(55, 188, 152));
+    
+    Rect spriteRect = Rect(0, 0, 268, 107);
+    Rect capInsents = Rect(100, 53, 1, 1);
+    
+    ui::Scale9Sprite* failedTextBox = ui::Scale9Sprite::create("res/settings/textEntry.png", spriteRect, capInsents);
+    failedTextBox->setContentSize(Size(this->getContentSize().width*.8, 107));
+    failedTextBox->setPosition(Vec2(this->getContentSize().width/2, failedTextBox->getContentSize().height*4.5));
+    
+    failedTextBoxLabel->setPosition(failedTextBox->getContentSize().width/2, failedTextBox->getContentSize().height/2-5);
+    
+    failedTextBox->addChild(failedTextBoxLabel);
+    failedTextBox->setTag(1000);
+    this->addChild(failedTextBox);
+    
+    Label* titleLabel = createLabelSettingsChat("Kid Code accepted",Color3B::WHITE);
+    titleLabel->setPosition(this->getContentSize().width/2,failedTextBox->getPositionY() + titleLabel->getContentSize().height*2.25);
+    titleLabel->setTag(1000);
+    this->addChild(titleLabel);
+    
+    Label* detailsLabel = createLabelSettingsChat("Your friend has been added!\nTheir parents will need to\nconfirm the connection.",Color3B::WHITE);
+    detailsLabel->setPosition(this->getContentSize().width/2,failedTextBox->getPositionY() - detailsLabel->getContentSize().height);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
 }
@@ -94,5 +178,13 @@ void ChildOomeeLayer::resetToIdle()
 {
     while(this->getChildByTag(1000))
         this->removeChildByTag(1000);
+    
+    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.6);
+    
+    glowSprite->setPosition(position);
+    glowSprite->setScale(.5);
+    
+    oomeeSprite->setScale(1.8);
+    oomeeSprite->setPosition(position);
 }
 

@@ -28,11 +28,8 @@ TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputT
 TextInputLayer* TextInputLayer::createSettingsChatTextInput(float width)
 {
     auto layer = TextInputLayer::create();
-    layer->setContentSize(inputBoxSize);
-    
-    layer->textInputType = textInputType;
-    layer->createEditBox();
-    layer->createEditBoxArea();
+    layer->setContentSize(Size(width,107));
+    layer->createSettingsChatEditBox(width);
     
     return layer;
 }
@@ -145,12 +142,21 @@ void TextInputLayer::setupEditBoxUsingType()
     
 void TextInputLayer::createSettingsChatEditBox(float width)
 {
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height), "res/login/editboxBlankFor9Scale.png");
+    Rect spriteRect = Rect(0, 0, 268, 107);
+    Rect capInsents = Rect(100, 53, 1, 1);
+    editBoxArea = ui::Scale9Sprite::create("res/settings/textEntry.png", spriteRect, capInsents);
+    editBoxArea->setContentSize(Size(width,107));
+    editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    this->addChild(editBoxArea);
+    
+    editBox = ui::EditBox::create(Size(this->getContentSize().width - 100,this->getContentSize().height), "res/settings/textEntry.png");
     editBox->moveOnKeyboardDisplayRequired = false;
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
-    editBox->setFontColor(Color3B::WHITE);
+    editBox->setFont(INPUT_STYLE_FONT, 84);
+    editBox->setFontColor(Color3B::BLACK);
+    editBox->setMaxLength(12);
+    editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
     
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
     

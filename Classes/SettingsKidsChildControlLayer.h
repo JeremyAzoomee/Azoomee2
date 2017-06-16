@@ -5,17 +5,20 @@
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include "SettingsKidsLayer.h"
 #include "ChildOomeeLayer.h"
+#include <AzoomeeCommon/Input/TextInputLayer.h>
 
 USING_NS_CC;
 using namespace Azoomee;
 
-class SettingsKidsChildControlLayer : public Layer, public ElectricDreamsButtonDelegate
+class SettingsKidsChildControlLayer : public Layer, public ElectricDreamsButtonDelegate, public TextInputLayerDelegate
 {
 private:
     int childNumber;
     SettingsKidsLayer* parentLayer;
     
     ChildOomeeLayer* childFrameLayer;
+    
+    TextInputLayer *kidCodeTextInput;
     
     ElectricDreamsButton *getCodeButton;
     ElectricDreamsButton *addFriendButton;
@@ -30,6 +33,7 @@ private:
     
     void addChildFrame();
     void addButtons();
+    void createTextInput();
     
 public:
     
@@ -40,6 +44,8 @@ public:
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
+    void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
+    void textInputReturnPressed(TextInputLayer* inputLayer);
 
 };
 

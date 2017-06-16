@@ -10,6 +10,7 @@ Layer* SettingsKidsChildControlLayer::createController(SettingsKidsLayer* setPar
     layer->parentLayer = setParent;
     layer->childNumber = setChildNumber;
     layer->addChildFrame();
+    layer->createTextInput();
     layer->addButtons();
     
     return layer;
@@ -63,13 +64,13 @@ void SettingsKidsChildControlLayer::addButtons()
     shareButton->setDelegate(this);
     childFrameLayer->addChild(shareButton);
     
-    tryAgainButton = ElectricDreamsButton::createInviteMainButton("Share", this->getContentSize().width*.66);
+    tryAgainButton = ElectricDreamsButton::createInviteMainButton("Try Again", this->getContentSize().width*.66);
     tryAgainButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - tryAgainButton->getContentSize().height));
     tryAgainButton->setVisible(false);
     tryAgainButton->setDelegate(this);
     childFrameLayer->addChild(tryAgainButton);
     
-    addAnotherButton = ElectricDreamsButton::createInviteMainButton("Share", this->getContentSize().width*.66);
+    addAnotherButton = ElectricDreamsButton::createInviteMainButton("Add Another", this->getContentSize().width*.66);
     addAnotherButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - addAnotherButton->getContentSize().height));
     addAnotherButton->setVisible(false);
     addAnotherButton->setDelegate(this);
@@ -80,6 +81,28 @@ void SettingsKidsChildControlLayer::addButtons()
     textInputButton->setVisible(false);
     textInputButton->setDelegate(this);
     childFrameLayer->addChild(textInputButton);
+    
+    textInputButton = ElectricDreamsButton::createTextInputAsButton("Enter their Kid Code here", this->getContentSize().width*.8);
+    textInputButton->setPosition(kidCodeTextInput->getPosition());
+    textInputButton->setVisible(false);
+    textInputButton->setDelegate(this);
+    childFrameLayer->addChild(textInputButton);
+    
+    sendCodeButton = ElectricDreamsButton::createSendButton();
+    sendCodeButton->setCenterPosition(Vec2(textInputButton->getCenterPosition().x+textInputButton->getContentSize().width/2 - sendCodeButton->getContentSize().width*.75,textInputButton->getCenterPosition().y));
+    sendCodeButton->setVisible(false);
+    sendCodeButton->setDelegate(this);
+    childFrameLayer->addChild(sendCodeButton);
+
+}
+
+void SettingsKidsChildControlLayer::createTextInput()
+{
+    kidCodeTextInput = TextInputLayer::createSettingsChatTextInput(this->getContentSize().width*.8);
+    kidCodeTextInput->setDelegate(this);
+    kidCodeTextInput->setEditboxVisibility(false);
+    kidCodeTextInput->setCenterPosition(Vec2(this->getContentSize().width/2,kidCodeTextInput->getContentSize().height*2.5));
+    childFrameLayer->addChild(kidCodeTextInput);
 }
 
 void SettingsKidsChildControlLayer::clearAllButCloseButton()
@@ -90,7 +113,8 @@ void SettingsKidsChildControlLayer::clearAllButCloseButton()
     tryAgainButton->setVisible(false);
     addAnotherButton->setVisible(false);
     textInputButton->setVisible(false);
-    //sendCodeButton->setVisible(false);
+    sendCodeButton->setVisible(false);
+    kidCodeTextInput->setEditboxVisibility(false);
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -108,8 +132,9 @@ void SettingsKidsChildControlLayer::buttonPressed(ElectricDreamsButton* button)
         clearAllButCloseButton();
         shareButton->setVisible(true);
     }
-    else if(button == addFriendButton)
+    else if(button == addFriendButton || button == addAnotherButton)
     {
+        kidCodeTextInput->setText("");
         childFrameLayer->setToAddAFriend();
         
         this->setLocalZOrder(220);
@@ -122,6 +147,8 @@ void SettingsKidsChildControlLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == closeButton)
     {
+        sendCodeButton->setEnabled(false);
+        kidCodeTextInput->setText("");
         childFrameLayer->resetToIdle();
         
         clearAllButCloseButton();
@@ -132,6 +159,41 @@ void SettingsKidsChildControlLayer::buttonPressed(ElectricDreamsButton* button)
         closeButton->setVisible(false);
         parentLayer->scrollReset();
     }
+    else if(button == textInputButton || button == tryAgainButton)
+    {
+        childFrameLayer->setToAddAFriendTextBox();
+        
+        clearAllButCloseButton();
+        kidCodeTextInput->setEditboxVisibility(true);
+        sendCodeButton->setVisible(true);
+    }
+    else if(button == sendCodeButton)
+    {
+        clearAllButCloseButton();
+        
+        if(kidCodeTextInput->getText() == "YES")
+        {
+            childFrameLayer->setToCodeSuccess("YES");
+            addAnotherButton->setVisible(true);
+        }
+        else
+        {
+            childFrameLayer->setToCodeError("NO");
+            tryAgainButton->setVisible(true);
+        }
+    }
+}
+
+void SettingsKidsChildControlLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
+{
+    if(inputLayer->getText() == "YES" || inputLayer->getText() == "NO")
+        sendCodeButton->setEnabled(true);
+    else
+        sendCodeButton->setEnabled(false);
+}
+
+void SettingsKidsChildControlLayer::textInputReturnPressed(TextInputLayer* inputLayer)
+{
     
 }
 

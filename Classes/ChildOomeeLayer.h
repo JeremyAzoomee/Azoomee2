@@ -25,6 +25,9 @@ public:
     
     void setToShowingCode();
     void setToAddAFriend();
+    void setToAddAFriendTextBox();
+    void setToCodeError(std::string code);
+    void setToCodeSuccess(std::string code);
     
     void resetToIdle();
     

@@ -165,6 +165,7 @@ Label*  createLabelSettingsChat(std::string text,Color3B color)
 {
     Label* newLabel = createLabelWith(text, FONT_REGULAR, color, 48);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    newLabel->setLineSpacing(15);
     
     return newLabel;
 }
