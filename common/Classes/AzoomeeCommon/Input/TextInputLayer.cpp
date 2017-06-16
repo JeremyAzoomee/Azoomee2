@@ -272,5 +272,19 @@ void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBo
             this->getDelegate()->textInputReturnPressed(this);
     }
 }
+    
+void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
+{
+    if(this->getDelegate())
+        //Inform Delegates if input is valid
+        this->getDelegate()->editBoxEditingDidBegin(this);
+}
+    
+void TextInputLayer::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
+{
+    if(this->getDelegate())
+        //Inform Delegates if input is valid
+        this->getDelegate()->editBoxEditingDidEnd(this);
+}
   
 }

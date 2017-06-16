@@ -197,3 +197,19 @@ void SettingsKidsChildControlLayer::textInputReturnPressed(TextInputLayer* input
     
 }
 
+void SettingsKidsChildControlLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+    auto parent = this->getParent();
+    
+    originalYposition = parent->getParent()->getPositionY();
+    
+    parent->getParent()->setPosition(parent->getParent()->getPositionX(),Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height*0.7);
+}
+
+void SettingsKidsChildControlLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+    auto parent = this->getParent();
+    
+    parent->getParent()->setPosition(parent->getParent()->getPositionX(),originalYposition);
+}
+

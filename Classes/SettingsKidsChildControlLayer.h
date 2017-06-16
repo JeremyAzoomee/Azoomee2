@@ -13,6 +13,7 @@ using namespace Azoomee;
 class SettingsKidsChildControlLayer : public Layer, public ElectricDreamsButtonDelegate, public TextInputLayerDelegate
 {
 private:
+    float originalYposition;
     int childNumber;
     SettingsKidsLayer* parentLayer;
     
@@ -46,6 +47,8 @@ public:
     void buttonPressed(ElectricDreamsButton* button);
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void textInputReturnPressed(TextInputLayer* inputLayer);
+    void editBoxEditingDidBegin(TextInputLayer* inputLayer);
+    void editBoxEditingDidEnd(TextInputLayer* inputLayer);
 
 };
 

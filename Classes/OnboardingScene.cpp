@@ -165,6 +165,16 @@ void OnboardingScene::textInputReturnPressed(TextInputLayer* inputLayer)
             signUp();
 }
 
+void OnboardingScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+    
+}
+
+void OnboardingScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+    
+}
+
 void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
 {
     //setOrientationToLandscape();
