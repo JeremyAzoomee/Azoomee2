@@ -9,7 +9,8 @@
 #include "RoutePaymentSingleton.h"
 #include "WebViewNative_ios.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
-#include <AzoomeeCommon/Analytics/analyticsSingleton.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "FlowDataSingleton.h"
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -35,6 +36,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     RoutePaymentSingleton::getInstance();
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
+    AnalyticsSingleton::getInstance()->firstLaunchEvent();
 
     return true;
 }
@@ -77,12 +79,12 @@ void AppDelegate::applicationWillEnterForeground()
     
     if(Director::getInstance()->getRunningScene()->getChildByName("androidWebView"))
     {
-        AnalyticsSingleton::getInstance()->closeContentEvent();
+        AnalyticsSingleton::getInstance()->contentItemClosedEvent();
         
         if(HQHistoryManager::getInstance()->thereWasAnError)
         {
             HQHistoryManager::getInstance()->thereWasAnError = false;
-            LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+            FlowDataSingleton::getInstance()->setErrorCode(1006);
             LoginLogicHandler::getInstance()->doLoginLogic();
             return;
         }
@@ -101,3 +103,4 @@ void AppDelegate::applicationWillEnterForeground()
 
 #endif
 }
+

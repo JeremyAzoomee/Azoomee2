@@ -17,6 +17,7 @@ cocos2d::Sprite* createGlow();
 void addFullScreenGlowToScreen(cocos2d::Node* parentLayer);
 
 cocos2d::Layer* createWindowLayer(float height);
+cocos2d::Layer* createWindowLayer(float width, float height);
   
 }
 

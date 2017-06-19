@@ -43,6 +43,9 @@ static AppDelegate s_sharedApplication;
     // Override point for customization after application launch.
     [super application:application didFinishLaunchingWithOptions:launchOptions];
     
+    //Shake Gesture breaks Portrait text input. Switched off
+    [application setApplicationSupportsShakeToEdit:NO];
+    
     [AppsFlyerTracker sharedTracker].appsFlyerDevKey = @"BzPYMg8dkYsCuDn8XBUN94";
     [AppsFlyerTracker sharedTracker].appleAppID = @"1068910573";
     

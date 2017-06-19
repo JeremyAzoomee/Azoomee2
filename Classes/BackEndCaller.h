@@ -13,13 +13,6 @@ class AwaitingAdultPinLayer;
 class BackEndCaller : public cocos2d::Ref, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
-    bool accountJustRegistered;
-    bool newChildJustRegistered;
-    std::string newChildName;
-    int oomeeAvatarNumber;
-    //Saved here from registerParent, if onRegisterParentAnswerReceived success, then login.
-    std::string registerParentUsername;
-    std::string registerParentPassword;
     
     AwaitingAdultPinLayer* callBackNode;
     
@@ -41,6 +34,8 @@ private:
     void onGetGordonAnswerReceived(const std::string& responseString);
     // Register child API success
     void onRegisterChildAnswerReceived();
+    // Update child API success
+    void onUpdateChildAnswerReceived();
     
     void displayLoadingScreen();
     void hideLoadingScreen();
@@ -59,6 +54,8 @@ public:
     
     bool init();
     
+    // Check for offline mode
+    void offlineCheck();
     // Login a user
     void login(const std::string& username, const std::string& password);
     // Update billing information from the server
@@ -73,6 +70,8 @@ public:
     void childLogin(int childNumber);
     // Register a new child profile on the current parent
     void registerChild(const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
+    // Update a child profile
+    void updateChild(const std::string& childId, const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber);
     // Get gorden. Good gorden.
     void getGordon();
     // Verify a google payment
@@ -85,6 +84,8 @@ public:
     void getHQContent(const std::string& url, const std::string& category);
     // Get Single Content Details
     void getElectricDreamsContent(const std::string& requestId, const std::string& contentID);
+    // Reset Password
+    void resetPasswordRequest(const std::string& emailAddress);
 };
 
 #endif

@@ -9,9 +9,10 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "IAPUpsaleLayer.h"
-#include "OnboardingScene.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "VideoPlaylistManager.h"
+#include "SceneManagerScene.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -77,6 +78,8 @@ bool DeepLinkingSingleton::setHostAndPath(std::string uriString)
     host = splitByForwardSlash.at(0);
     path = splitByForwardSlash.at(1);
     
+    AnalyticsSingleton::getInstance()->deepLinkingDetailsSetEvent();
+    
     return true;
 }
 
@@ -87,6 +90,8 @@ bool DeepLinkingSingleton::actionDeepLink()
     
     if(host == "content" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
+        AnalyticsSingleton::getInstance()->deepLinkingContentEvent();
+        
         ModalMessages::getInstance()->startLoading();
         deepLinkActionWaiting = false;
         BackEndCaller::getInstance()->getElectricDreamsContent("deepLinkContentRequest", path);
@@ -96,8 +101,10 @@ bool DeepLinkingSingleton::actionDeepLink()
     {
         if(path == "signup" && !ChildDataProvider::getInstance()->getIsChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
         {
-            auto onboardingScene = OnboardingScene::createScene(0);
-            Director::getInstance()->replaceScene(onboardingScene);
+            AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
+            
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+            
             resetDeepLink();
             return true;
         }
@@ -128,6 +135,9 @@ void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
             elementProperties[requiredData.at(i)] = getDataForKeyFromJSON(responseBody, requiredData.at(i));
         }
         elementProperties["id"] = path;
+        
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "0,0");
+        
         completeContentAction(elementProperties);
     }
     else
@@ -159,7 +169,7 @@ void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::stri
     }
     else if(elementProperties["type"]  == "VIDEO" || elementProperties["type"]  == "AUDIO")
     {
-        VideoPlaylistManager::getInstance()->setPlaylist("");
+        VideoPlaylistManager::getInstance()->clearPlaylist();
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(elementProperties["uri"]);
     }
@@ -181,7 +191,6 @@ void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::stri
                 
                 auto funcCallAction = CallFunc::create([=](){
                     HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties.at("uri"));
-                    HQHistoryManager::getInstance()->setGroupHQSourceId(path);
                 });
                 
                 Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));

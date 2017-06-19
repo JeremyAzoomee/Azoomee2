@@ -14,6 +14,7 @@ public:
     
     virtual bool init();
     virtual void onEnterTransitionDidFinish();
+    void onExit();
     static cocos2d::Scene* createScene();
     
     //Delegate Functions
@@ -25,8 +26,6 @@ public:
     void connectivityStateChanged(bool online);
     
 private:
-    long _errorCode;
-    
     cocos2d::Vec2 origin;
     cocos2d::Size visibleSize;
     

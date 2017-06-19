@@ -17,5 +17,10 @@ void createCrashlyticsUserInfo(const std::string& adultIdentifier, const std::st
     [CrashlyticsKit setUserIdentifier:[NSString stringWithUTF8String:adultIdentifier.c_str()]];
     [CrashlyticsKit setUserName:[NSString stringWithUTF8String:childIdentifier.c_str()]];
 }
+    
+void setCrashlyticsKeyWithString(const std::string& key, const std::string& dataString)
+{
+    [CrashlyticsKit setObjectValue:[NSString stringWithUTF8String:dataString.c_str()] forKey:[NSString stringWithUTF8String:key.c_str()]];
+}
   
 }

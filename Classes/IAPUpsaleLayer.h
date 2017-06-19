@@ -27,6 +27,8 @@ private:
     
     Sprite* oomeesImage;
     
+    float bulletTextXposition;
+    
     void askForPin();
     
     bool restoreButtonPressed;

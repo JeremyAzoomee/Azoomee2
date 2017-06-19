@@ -3,50 +3,10 @@
     package="com.tinizine.azoomee"
     android:installLocation="auto">
 
-	<compatible-screens>
-        <!-- all small size screens -->
-        <screen android:screenSize="small" android:screenDensity="ldpi" />
-        <screen android:screenSize="small" android:screenDensity="mdpi" />
-        <screen android:screenSize="small" android:screenDensity="hdpi" />
-        <screen android:screenSize="small" android:screenDensity="xhdpi" />
-        <screen android:screenSize="small" android:screenDensity="280" />
-        <screen android:screenSize="small" android:screenDensity="360" />
-        <screen android:screenSize="small" android:screenDensity="420" />
-        <screen android:screenSize="small" android:screenDensity="480" />
-        <screen android:screenSize="small" android:screenDensity="560" />
-        <!-- all normal size screens -->
-        <screen android:screenSize="normal" android:screenDensity="ldpi" />
-        <screen android:screenSize="normal" android:screenDensity="mdpi" />
-        <screen android:screenSize="normal" android:screenDensity="hdpi" />
-        <screen android:screenSize="normal" android:screenDensity="xhdpi" />
-        <screen android:screenSize="normal" android:screenDensity="280" />
-        <screen android:screenSize="normal" android:screenDensity="360" />
-        <screen android:screenSize="normal" android:screenDensity="420" />
-        <screen android:screenSize="normal" android:screenDensity="480" />
-        <screen android:screenSize="normal" android:screenDensity="560" />
-        <!-- all normal large screens -->
-        <screen android:screenSize="large" android:screenDensity="ldpi" />
-        <screen android:screenSize="large" android:screenDensity="mdpi" />
-        <screen android:screenSize="large" android:screenDensity="hdpi" />
-        <screen android:screenSize="large" android:screenDensity="xhdpi" />
-        <screen android:screenSize="large" android:screenDensity="280" />
-        <screen android:screenSize="large" android:screenDensity="360" />
-        <screen android:screenSize="large" android:screenDensity="420" />
-        <screen android:screenSize="large" android:screenDensity="480" />
-        <screen android:screenSize="large" android:screenDensity="560" />
-        <!-- all normal xlarge screens -->
-        <screen android:screenSize="xlarge" android:screenDensity="ldpi" />
-        <screen android:screenSize="xlarge" android:screenDensity="mdpi" />
-        <screen android:screenSize="xlarge" android:screenDensity="hdpi" />
-        <screen android:screenSize="xlarge" android:screenDensity="xhdpi" />
-        <screen android:screenSize="xlarge" android:screenDensity="280" />
-        <screen android:screenSize="xlarge" android:screenDensity="360" />
-        <screen android:screenSize="xlarge" android:screenDensity="420" />
-        <screen android:screenSize="xlarge" android:screenDensity="480" />
-        <screen android:screenSize="xlarge" android:screenDensity="560" />
-    </compatible-screens>
-
     <uses-feature android:glEsVersion="0x00020000" />
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.front" android:required="false" />
     <uses-sdk android:minSdkVersion="13"/>
     
     <application
@@ -125,6 +85,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.android.vending.BILLING" />
 

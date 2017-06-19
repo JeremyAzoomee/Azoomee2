@@ -7,6 +7,7 @@
 #include "WebGameAPIDataManager.h"
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
+#include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 
 USING_NS_CC;
 using namespace Azoomee;
@@ -58,32 +59,43 @@ void sendEventToMixPanel(const char* eventKey, const char* eventValue)
     
     if(strKey == "play")
     {
-        //No play event in mixpanel singleton, TBI
+        AnalyticsSingleton::getInstance()->mediaPlayerVideoPlayEvent();
     }
     
     if(strKey == "pause")
     {
-        AnalyticsSingleton::getInstance()->mediaPausedEvent();
+        AnalyticsSingleton::getInstance()->mediaPlayerPausedEvent();
     }
     
     if(strKey == "quality")
     {
-        AnalyticsSingleton::getInstance()->mediaQualityEvent(strValue);
+        AnalyticsSingleton::getInstance()->mediaPlayerQualityEvent(strValue);
     }
     
     if(strKey == "time")
     {
-        AnalyticsSingleton::getInstance()->mediaProgressEvent(std::atoi(strValue.c_str()));
+        AnalyticsSingleton::getInstance()->mediaPlayerProgressEvent(std::atoi(strValue.c_str()));
     }
     
     if(strKey == "complete")
     {
-        //Further implementation required - need to get played time.
+        AnalyticsSingleton::getInstance()->mediaPlayerVideoCompletedEvent();
     }
     
     if(strKey == "firstFrame")
     {
         AnalyticsSingleton::getInstance()->mediaPlayerFirstFrameEvent(strValue.c_str());
+    }
+    
+    if(strKey == "playlistItem")
+    {
+        AnalyticsSingleton::getInstance()->updateContentItemDetails(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(std::atoi(strValue.c_str())));
+        AnalyticsSingleton::getInstance()->mediaPlayerNewPlaylistItemSetEvent(std::atoi(strValue.c_str()));
+    }
+    
+    if(strKey == "playlistComplete")
+    {
+        AnalyticsSingleton::getInstance()->mediaPlayerPlaylistCompletedEvent();
     }
 }
 
@@ -222,6 +234,21 @@ extern "C"
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetVideoPlaylist(JNIEnv* env, jobject thiz)
 {
     jstring returnString = env->NewStringUTF(VideoPlaylistManager::getInstance()->getPlaylist().c_str());
+    return returnString;
+}
+
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+extern "C"
+{
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_NativeView_JNIGetAllCookies(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_NativeView_JNIGetAllCookies(JNIEnv* env, jobject thiz)
+{
+    jstring returnString = env->NewStringUTF(CookieDataProvider::getInstance()->getAllCookiesInJson().c_str());
     return returnString;
 }
 

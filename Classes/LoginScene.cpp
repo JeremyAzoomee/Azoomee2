@@ -10,18 +10,18 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "FlowDataSingleton.h"
+#include "SceneManagerScene.h"
 
 USING_NS_CC;
 using namespace Azoomee;
 
 
-Scene* LoginScene::createScene(long errorCode)
+Scene* LoginScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = LoginScene::create();
     scene->addChild(layer);
-    
-    layer->_errorCode = errorCode;
     
     return scene;
 }
@@ -54,9 +54,9 @@ void LoginScene::onEnterTransitionDidFinish()
     
     OfflineChecker::getInstance()->setDelegate(this);
     
-    if(_errorCode !=0)
+    if(FlowDataSingleton::getInstance()->hasError())
     {
-        MessageBox::createWith(_errorCode, emailTextInput, this);
+        MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), emailTextInput, this);
     }
     else
         emailTextInput->focusAndShowKeyboard();
@@ -71,6 +71,9 @@ void LoginScene::getUserDefaults()
     UserDefault* def = UserDefault::getInstance();
     storedUsername = def->getStringForKey("username", "");
     def->flush();
+    
+    if(storedUsername == "")
+        storedUsername = FlowDataSingleton::getInstance()->getUserName();
 }
 
 void LoginScene::addLabelToScene()
@@ -100,11 +103,13 @@ void LoginScene::addButtonsScene()
     backButton = ElectricDreamsButton::createBackButton();
     backButton->setCenterPosition(Vec2(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7));
     backButton->setDelegate(this);
+    backButton->setMixPanelButtonName("LoginSceneBackButton");
     this->addChild(backButton);
     
     nextButton = ElectricDreamsButton::createNextButton();
     nextButton->setCenterPosition(Vec2(origin.x + visibleSize.width -nextButton->getContentSize().width*.7, origin.y+ visibleSize.height - nextButton->getContentSize().height*.7));
     nextButton->setDelegate(this);
+    nextButton->setMixPanelButtonName("LoginSceneNextButton");
     this->addChild(nextButton);
 }
 
@@ -138,9 +143,7 @@ void LoginScene::backButtonPressed()
 {
     if(currentScreen == emailLoginScreen)
     {
-        HQHistoryManager::getInstance()->emptyHistory();
-        auto baseScene = BaseScene::createScene();
-        Director::getInstance()->replaceScene(baseScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
     }
     else if(currentScreen == passwordLoginScreen)
         changeElementsToEmailScreen();
@@ -152,6 +155,7 @@ void LoginScene::nextButtonPressed()
         changeElementsToPasswordScreen();
     else if(currentScreen == passwordLoginScreen)
     {
+        FlowDataSingleton::getInstance()->setFlowToLogin();
         OfflineChecker::getInstance()->setDelegate(nullptr);
         login(storedUsername, passwordTextInput->getText());
     }
@@ -171,6 +175,15 @@ void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
     CCLOG("NEXT Check Input TextBox is %d", isValid);
     nextButton->setVisible(isValid);
 }
+
+void LoginScene::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+    if(currentScreen == emailLoginScreen && emailTextInput->inputIsValid())
+        nextButtonPressed();
+    else if(currentScreen == passwordLoginScreen && passwordTextInput->inputIsValid())
+        nextButtonPressed();
+}
+
 void LoginScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == nextButton)
@@ -180,14 +193,23 @@ void LoginScene::buttonPressed(ElectricDreamsButton* button)
 }
 void LoginScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
+    if(messageBoxTitle == StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_INVALID_CREDENTIALS)[ERROR_TITLE] && buttonTitle == "Reset Password")
+    {
+        BackEndCaller::getInstance()->resetPasswordRequest(emailTextInput->getText());
+        Azoomee::MessageBox::createWith("Request Sent", StringUtils::format("Instructions for resetting your password have been sent to:\n\n%s",emailTextInput->getText().c_str()), "OK", this);
+    }
+    else
         emailTextInput->focusAndShowKeyboard();
 }
 
 void LoginScene::connectivityStateChanged(bool online)
 {
     if(!online)
-    {
-        OfflineChecker::getInstance()->setDelegate(nullptr);
-        Director::getInstance()->replaceScene(OfflineHubScene::createScene());
-    }
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
+}
+
+void LoginScene::onExit()
+{
+    OfflineChecker::getInstance()->setDelegate(nullptr);
+    Node::onExit();
 }

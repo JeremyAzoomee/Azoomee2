@@ -198,6 +198,7 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, s
         {
             if(rect.containsPoint(locationInNode))
             {
+                AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
                 FileUtils::getInstance()->removeFile(filePath);
                 HQScene *hqScene = (HQScene *)this->getParent()->getParent()->getParent();
                 CCLOG("Name where I am : %s", hqScene->getName().c_str());
@@ -234,7 +235,7 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
             if(preview)
                 AnalyticsSingleton::getInstance()->previewContentClickedEvent("","", "ARTS APP");
             else
-                AnalyticsSingleton::getInstance()->openContentEvent("", "", "ARTS APP", "", -1, -1, "1,1");
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent("", "", "ARTS APP", "", -1, -1, "1,1");
 
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;

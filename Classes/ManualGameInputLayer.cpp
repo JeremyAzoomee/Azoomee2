@@ -64,11 +64,13 @@ void ManualGameInputLayer::addButtons()
     backButton = ElectricDreamsButton::createBackButton();
     backButton->setCenterPosition(Vec2(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7));
     backButton->setDelegate(this);
+    backButton->setMixPanelButtonName("ManualGameInputBackButton");
     backgroundLayer->addChild(backButton);
     
     startGameButton = ElectricDreamsButton::createNextButton();
     startGameButton->setCenterPosition(Vec2(origin.x + visibleSize.width -startGameButton->getContentSize().width*.7, origin.y+ visibleSize.height - startGameButton->getContentSize().height*.7));
     startGameButton->setDelegate(this);
+    startGameButton->setMixPanelButtonName("ManualGameInputStartGameButton");
     backgroundLayer->addChild(startGameButton);
 }
 

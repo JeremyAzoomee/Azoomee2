@@ -67,6 +67,32 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string butto
     
     return layer;
 }
+    
+ElectricDreamsButton* ElectricDreamsButton::createTextAsButtonAqua(std::string buttonText, float fontSize, bool underlined)
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    Label* textButton = Label::createWithTTF(buttonText, "fonts/Sofia Pro Soft Regular.otf", fontSize);
+    textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
+    textButton->setHorizontalAlignment(TextHAlignment::CENTER);
+    textButton->setColor(Color3B(28, 244, 244));
+    layer->setContentSize(textButton->getContentSize());
+    
+    layer->addChild(textButton);
+    
+    layer->buttonAudioFile = CANCEL_BUTTON_AUDIO_EFFECT;
+    layer->addListener();
+    
+    if(underlined)
+    {
+        DrawNode* newDrawNode = DrawNode::create();
+        newDrawNode->setLineWidth(2);
+        newDrawNode->drawLine(Vec2(0, 0), Vec2(textButton->getContentSize().width,0), Color4F(28/255.0f, 244/255.0f, 244/255.0f,255/255.0f));
+        layer->addChild(newDrawNode);
+    }
+    
+    return layer;
+}
 
 ElectricDreamsButton* ElectricDreamsButton::createButtonWithText(std::string buttonText, float textPadding)
 {
@@ -283,6 +309,27 @@ ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton()
     
     return layer;
 }
+    
+ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton(float withWidth)
+{
+    Rect spriteRect = Rect(0, 0, 196, 197);
+    Rect capInsents = Rect(98, 98, 1, 1);
+    
+    float buttonHeight = 197;
+    
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/modal/generic_button_slice_ready.png", spriteRect, capInsents);
+    newButton->setContentSize(Size(withWidth, buttonHeight));
+    newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
+    newButton->setCascadeOpacityEnabled(true);
+    
+    auto layer = ElectricDreamsButton::create();
+    layer->setCascadeOpacityEnabled(true);
+    layer->setContentSize(newButton->getContentSize());
+    layer->setOpacity(80);
+    layer->addChild(newButton);
+    
+    return layer;
+}
 
 //-------------OOMEE BUTTONS AND FUNCTIONS---------------------
 
@@ -305,6 +352,8 @@ ElectricDreamsButton* ElectricDreamsButton::createOomeeButtonWithOutline(int oom
     oomeeNameLabel->setPosition(layer->getContentSize().width/2, layer->getContentSize().height *.15);
     layer->addChild(oomeeNameLabel);
     
+    layer->setMixPanelButtonName(StringUtils::format("oomeeButton|%d",oomeeNumber));
+    
     return layer;
 }
 
@@ -319,6 +368,8 @@ ElectricDreamsButton* ElectricDreamsButton::createOomeeAsButton(int oomeeNumber)
     layer->setTag(oomeeNumber);
     
     layer->addListener();
+    
+    layer->setMixPanelButtonName(StringUtils::format("oomeeButton|%d",oomeeNumber));
     
     return layer;
 }

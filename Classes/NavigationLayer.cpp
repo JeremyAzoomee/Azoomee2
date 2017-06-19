@@ -14,9 +14,9 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "LoginLogicHandler.h"
-#include "OnboardingScene.h"
 #include "SettingsButton.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
 #include "BackEndCaller.h"
 
@@ -351,14 +351,13 @@ void NavigationLayer::moveMenuPointsToCircleState(float duration)
     {
         auto menuItemImage = (Sprite *)this->getChildByTag(i);
         Point targetPosition = ConfigStorage::getInstance()->getCirclePositionForMenuItem(i);
-        float delayTime = 0;
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
-        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(duration, targetPosition), 2), NULL);
-        sequence->setTag(1);
+        auto action = EaseInOut::create(MoveTo::create(duration, targetPosition), 2);
+        action->setTag(1);
         
-        menuItemImage->runAction(sequence);
+        menuItemImage->runAction(action);
     }
     settingsButtonOnScreen();
 }
@@ -370,14 +369,13 @@ void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
     {
         auto menuItemImage = (Sprite *)this->getChildByTag(i);
         Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItem(i);
-        float delayTime = 0;
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
-        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(duration, targetPosition), 2), NULL);
-        sequence->setTag(1);
+        auto action = EaseInOut::create(MoveTo::create(duration, targetPosition), 2);
+        action->setTag(1);
         
-        menuItemImage->runAction(sequence);
+        menuItemImage->runAction(action);
     }
     settingsButtonOffScreen();
 }
@@ -389,14 +387,13 @@ void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
     {
         auto menuItemImage = (Sprite *)this->getChildByTag(i);
         Point targetPosition = ConfigStorage::getInstance()->getHorizontalPositionForMenuItemInGroupHQ(i);
-        float delayTime = 0;
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
-        auto sequence = Sequence::create(DelayTime::create(delayTime), EaseInOut::create(MoveTo::create(duration, targetPosition), 2), NULL);
-        sequence->setTag(1);
+        auto action = EaseInOut::create(MoveTo::create(duration, targetPosition), 2);
+        action->setTag(1);
         
-        menuItemImage->runAction(sequence);
+        menuItemImage->runAction(action);
     }
     settingsButtonOffScreen();
 }
@@ -435,6 +432,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("groupBackButton");
             AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
             Scene *runningScene = Director::getInstance()->getRunningScene();
             Node *baseLayer = runningScene->getChildByName("baseLayer");
@@ -475,8 +473,7 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == previewSignUpButton)
     {
-        auto onboardingScene = OnboardingScene::createScene(0);
-        Director::getInstance()->replaceScene(onboardingScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
     }
 }
 

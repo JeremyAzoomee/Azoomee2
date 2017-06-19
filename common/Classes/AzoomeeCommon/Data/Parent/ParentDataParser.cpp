@@ -129,6 +129,10 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
             if(parentData->availableChildrenData[i]["dob"].IsString())
                 currentChild["dob"] = parentData->availableChildrenData[i]["dob"].GetString();
         
+        if(parentData->availableChildrenData[i].HasMember("id"))
+            if(parentData->availableChildrenData[i]["id"].IsString())
+                currentChild["id"] = parentData->availableChildrenData[i]["id"].GetString();
+        
         parentData->availableChildren.push_back(currentChild);
         
         const std::string& childId = parentData->availableChildrenData[i]["id"].GetString();

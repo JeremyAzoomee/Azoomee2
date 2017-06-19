@@ -1,4 +1,5 @@
 #include "OfflineChecker.h"
+#include "BackEndCaller.h"
 
 USING_NS_CC;
 
@@ -59,22 +60,14 @@ void OfflineChecker::startOfflineChecking()
 
 void OfflineChecker::sendOfflineCheckRequest()
 {
-    auto jsonRequest = new HttpRequest();
-    jsonRequest->setRequestType(HttpRequest::Type::GET);
-    jsonRequest->setUrl("https://api.azoomee.com/api/comms/heartbeat");
-    
-    jsonRequest->setResponseCallback(CC_CALLBACK_2(OfflineChecker::onOfflineCheckRequestAnswerReceived, this));
-    jsonRequest->setTag("offlineCheck");
-    HttpClient::getInstance()->setTimeoutForConnect(1);
-    HttpClient::getInstance()->setTimeoutForRead(1);
-    HttpClient::getInstance()->send(jsonRequest);
+    BackEndCaller::getInstance()->offlineCheck();
 }
 
-void OfflineChecker::onOfflineCheckRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
+void OfflineChecker::onOfflineCheckAnswerReceived()
 {
     if(!Director::getInstance()->getRunningScene()->getChildByName("scheduleNode")) return;
     
-    if((response->getResponseCode() == 200)&&((newScene)||(offlineStatus)))
+    if(newScene||offlineStatus)
     {
         amountOfFailures = 0;
         CCLOG("Online!");
@@ -87,8 +80,11 @@ void OfflineChecker::onOfflineCheckRequestAnswerReceived(cocos2d::network::HttpC
         }
         
     }
-    
-    if((response->getResponseCode() != 200)&&((newScene)||(!offlineStatus)))
+}
+
+void OfflineChecker::onOfflineCheckFailed()
+{
+    if(newScene||!offlineStatus)
     {
         amountOfFailures++;
         if(amountOfFailures < 2) return;
@@ -100,5 +96,6 @@ void OfflineChecker::onOfflineCheckRequestAnswerReceived(cocos2d::network::HttpC
         {
             this->getDelegate()->connectivityStateChanged(false);
         }
+
     }
 }

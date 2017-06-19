@@ -14,6 +14,7 @@
 
 //---------- ONBOARDING SCENE --------------
 
+#define ONBOARDINGSCENE_TITLE_LABEL "OnboardingScene/title_label"
 #define ONBOARDINGSCENE_EMAIL_LABEL "OnboardingScene/email_label"
 #define ONBOARDINGSCENE_PASSWORD_LABEL "OnboardingScene/password_label"
 #define ONBOARDINGSCENE_PIN_LABEL "OnboardingScene/pin_label"
@@ -21,12 +22,18 @@
 
 //---------- ONBOARDING SUCCESS SCENE --------------
 
-#define ONBOARDINGSUCCESSSCENE_TITLE_LABEL "OnboardingSuccessScene/title_label"
-#define ONBOARDINGSUCCESSSCENE_SUB_LABEL "OnboardingSuccessScene/sub_label"
-#define ONBOARDINGSUCCESSSCENE_CHECKEMAIL_LABEL "OnboardingSuccessScene/checkemail_label"
+#define ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_TITLE_LABEL "OnboardingSuccessScene/IAP_success_title_label"
+#define ONBOARDINGSUCCESSSCENE_IAP_FAIL_TITLE_LABEL "OnboardingSuccessScene/IAP_fail_title_label"
+#define ONBOARDINGSUCCESSSCENE_SUCCESS_SUB_LABEL "OnboardingSuccessScene/sub_success_label"
+#define ONBOARDINGSUCCESSSCENE_FAIL_SUB_LABEL "OnboardingSuccessScene/sub_fail_label"
+#define ONBOARDINGSUCCESSSCENE_IAP_SUCCESS_BOTTOM_LABEL "OnboardingSuccessScene/IAP_success_bottom_label"
+#define ONBOARDINGSUCCESSSCENE_IAP_FAIL_BOTTOM_LABEL "OnboardingSuccessScene/IAP_fail_bottom_label"
 
 //----------- CHILD ACCOUNT SCENE ------------
 
+#define CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL "ChildAccountScene/main_title_signup_label"
+#define CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL "ChildAccountScene/main_title_add_child_label"
+#define CHILDACCOUNTSCENE_SELECT_OOMEE_TITLE_LABEL "ChildAccountScene/select_oomee_title_label"
 #define CHILDACCOUNTSCENE_REQUEST_NAME_LABEL "ChildAccountScene/request_name_label"
 #define CHILDACCOUNTSCENE_EDIT_NAME_LABEL "ChildAccountScene/edit_name_label"
 #define CHILDACCOUNTSCENE_REQUEST_DOB_LABEL "ChildAccountScene/request_dob_label"
@@ -70,6 +77,8 @@
 #define BUTTON_LOG_IN "GenericButtons/log_in"
 #define BUTTON_LOG_IN_MULTILINE "GenericButtons/log_in_multiline"
 #define BUTTON_CANCEL "GenericButtons/cancel"
+#define BUTTON_CONTINUE "GenericButtons/continue"
+#define BUTTON_DONE "GenericButtons/done"
 #define BUTTON_SKIP "GenericButtons/skip"
 #define BUTTON_START_EXPLORING "GenericButtons/start_exploring"
 #define BUTTON_ADD_ANOTHER_LABEL "GenericButtons/add_another"

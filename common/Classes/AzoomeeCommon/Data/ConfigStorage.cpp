@@ -42,9 +42,8 @@ bool ConfigStorage::init(void)
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
     IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
     
-    parentSignedRequestTags = {API::TagParentPin, API::TagVerifyAmazonPayment, API::TagVerifyGooglePayment, API::TagVerifyApplePayment, API::TagUpdateBillingData, API::TagGetAvailableChildren};
-    requestTagsRequireQueueReset = {API::TagLogin, API::TagChildLogin, API::TagParentPin, API::TagVerifyGooglePayment, API::TagVerifyAmazonPayment, API::TagVerifyApplePayment, API::TagGetAvailableChildren};
-    requestTagsRequireImmediateSending = {"GROUP HQ", "VIDEO HQ", "AUDIO HQ", "GAME HQ", "PreviewHOME", "HOME"};
+    parentSignedRequestTags = {API::TagParentPin, API::TagVerifyAmazonPayment, API::TagVerifyGooglePayment, API::TagVerifyApplePayment, API::TagUpdateBillingData, API::TagGetAvailableChildren, API::TagUpdateChild};
+    requestTagsRequireImmediateSending = {"GROUP HQ", "VIDEO HQ", "AUDIO HQ", "GAME HQ", "PreviewHOME", "HOME", API::TagLogin, API::TagChildLogin, API::TagParentPin, API::TagVerifyGooglePayment, API::TagVerifyAmazonPayment, API::TagVerifyApplePayment, API::TagGetAvailableChildren};
     
     
     return true;
@@ -81,17 +80,36 @@ rapidjson::Document ConfigStorage::parseJsonConfigurationFile(std::string fileNa
 //-------------------------BACKEND CALLER CONFIGURATION--------------------
 std::string ConfigStorage::getServerHost()
 {
+#ifdef USINGCI
+    return "api.elb.ci.azoomee.ninja";
+#endif
     return "api.azoomee.com";
+}
+    
+std::string ConfigStorage::getServerUrlPrefix()
+{
+#ifdef USINGCI
+    return "http://";
+#endif
+    return "https://";
 }
 
 std::string ConfigStorage::getServerUrl()
 {
-    return "https://" + getServerHost();
+    return getServerUrlPrefix() + getServerHost();
 }
 
 std::string ConfigStorage::getImagesUrl()
 {
+#ifdef USINGCI
+    return "https://media.azoomee.ninja/static/images";
+#endif
     return "https://media.azoomee.com/static/images";
+}
+    
+std::string ConfigStorage::getMediaPrefixForXwalkCookies()
+{
+    return "https://media";
 }
 
 std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
@@ -109,6 +127,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == API::TagVerifyApplePayment) return StringUtils::format("/api/billing/apple/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagOfflineCheck) return "/api/comms/heartbeat";
     
     return "";
 }
@@ -117,12 +136,6 @@ bool ConfigStorage::isParentSignatureRequiredForRequest(std::string requestTag)
 {
     auto itemPosition = std::find(parentSignedRequestTags.begin(), parentSignedRequestTags.end(), requestTag);
     return itemPosition != parentSignedRequestTags.end();
-}
-    
-bool ConfigStorage::isClearingHttpQueueRequiredBeforeSendingRequest(std::string requestTag)
-{
-    auto itemPosition = std::find(requestTagsRequireQueueReset.begin(), requestTagsRequireQueueReset.end(), requestTag);
-    return itemPosition != requestTagsRequireQueueReset.end();
 }
     
 bool ConfigStorage::isImmediateRequestSendingRequired(std::string requestTag)
@@ -347,6 +360,7 @@ std::string ConfigStorage::getGreetingAnimation()
 std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType)
 {
     if(animationType == "idle") return OomeeAnimationTypes["idleAnimations"][random(0, (int)OomeeAnimationTypes["idleAnimations"].Size() - 1)].GetString();
+    else if(animationType == "button") return OomeeAnimationTypes["buttonIdleAnimations"][random(0, (int)OomeeAnimationTypes["buttonIdleAnimations"].Size() - 1)].GetString();
     else return OomeeAnimationTypes["touchAnimations"][random(0, (int)OomeeAnimationTypes["touchAnimations"].Size() - 1)].GetString();
 }
 
@@ -357,7 +371,6 @@ std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType
 void ConfigStorage::setFirstSlideShowSeen()
 {
     UserDefault::getInstance()->setBoolForKey(USERDEFAULTS_FIRST_SLIDE_SHOW_SEEN, true);
-    AnalyticsSingleton::getInstance()->firstLaunchEvent();
 }
 
 bool ConfigStorage::shouldShowFirstSlideShowScene()

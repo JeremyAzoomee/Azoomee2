@@ -140,5 +140,10 @@ std::string ParentDataProvider::getSexForAnAvailableChildren(int childNumber)
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["sex"];
 }
+    
+std::string ParentDataProvider::getIDForAvailableChildren(int childNumber)
+{
+    return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["id"];
+}
   
 }

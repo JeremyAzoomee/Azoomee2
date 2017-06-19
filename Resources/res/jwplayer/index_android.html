@@ -13,6 +13,7 @@
 			var sent25 = false;
 			var sent50 = false;
 			var sent75 = false;
+			var firstPlaylistElement = true; //android jwplayer sends 2 playlistItem events on start
 		
 			var contentUrl = getUrlVars()["contentUrl"];
 			var playerInstance = jwplayer("videoPlayer");
@@ -42,6 +43,8 @@
 					
 					playListArray.push({file: uri, mediaid: "episode", image: imageuri, title: titleText});
 					if(uri == contentUrl) jumpToThisElement = i;
+					
+					console.log("JWPLAYER - uri: " + uri + " image: " + imageuri + " title: " + titleText);
 				}
 			}
 			
@@ -58,12 +61,10 @@
 			jwplayer().playlistItem(jumpToThisElement);
 			
 			jwplayer().on('error', function(event){
-				console.log("error");
 				getBackToLoginScreen();
 			});
 			
 			jwplayer().on('setupError', function(event){
-				console.log("setupError");
 				getBackToLoginScreen();
 			});
 			
@@ -80,17 +81,16 @@
 			
 			jwplayer().on('ready', function(event){
 				var loadingScreen = document.getElementById("loadingScreen");
-				loadingScreen.innerHTML = '<center><button onClick="startPlayBack()" style="margin-top: 24.5%; width: 15%; background-color: Transparent; border: none;"><img src="play.png" style="width: 50%;"></button></center>';
+				loadingScreen.innerHTML = '<div button onClick="startPlayBack()" id="loadingText" style="width: 100%; height: 100%; background-image: url(./play.png); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center; background-size: auto 18%;"></div>';
+				startPlayBack();
 			});
 			
 			jwplayer().on('pause', function(event){
-				console.log("Pause");
 				NativeInterface.sendMediaPlayerData("pause", "");
 			});
 			
 			jwplayer().on('visualQuality', function(event){
 				var currentQuality = jwplayer().getVisualQuality().level;
-				console.log("Visualquality: " + currentQuality["width"] + ", " + currentQuality["height"] + ", " + currentQuality["label"]);
 				NativeInterface.sendMediaPlayerData("quality", currentQuality["height"]);
 			});
 			
@@ -100,43 +100,61 @@
 				
 				var percentage = currentPosition / totalDuration * 100;
 				
+				var eventToCall = "";
+				
 				if((percentage > 0)&&(!sent0))
 				{
 					sent0 = true;
-					console.log("0%");
-					NativeInterface.sendMediaPlayerData("time", "0");
+					eventToCall = "0";
 				}
 				if((percentage > 25)&&(!sent25))
 				{
 					sent25 = true;
-					console.log("25%");
-					NativeInterface.sendMediaPlayerData("time", "25");
+					eventToCall = "25";
 				}
 				if((percentage > 50)&&(!sent50))
 				{
 					sent50 = true;
-					console.log("50%");
-					NativeInterface.sendMediaPlayerData("time", "50");
+					eventToCall = "50";
 				}
 				if((percentage > 75)&&(!sent75))
 				{
 					sent75 = true;
-					console.log("75%");
-					NativeInterface.sendMediaPlayerData("time", "75");
+					eventToCall = "75";
 				}
+				
+				if(eventToCall != "") NativeInterface.sendMediaPlayerData("time", eventToCall);
 			});
 			
 			jwplayer().on('complete', function(event){
-				console.log("complete");
 				NativeInterface.sendMediaPlayerData("complete", "");
 			});
 			
 			jwplayer().on('playlistComplete', function(event){
-					NativeInterface.exitView();
-				});
+				NativeInterface.sendMediaPlayerData("playlistComplete", "");	
+				NativeInterface.exitView();
+			});
+			
+			jwplayer().on('playlistItem', function(event){
+				if(firstPlaylistElement)  //android jwplayer sends 2 playlistItem events on start
+				{
+					firstPlaylistElement = false;
+					return;
+				}
+				
+				sent0 = false;
+				sent25 = false;
+				sent50 = false;
+				sent75 = false;
+				var elementIndex = event.index;
+				NativeInterface.sendMediaPlayerData("playlistItem", elementIndex.toString());
+			});
 			
 			jwplayer().on('firstFrame', function(event){
-				console.log("firstFrame");
+				sent0 = false;
+				sent25 = false;
+				sent50 = false;
+				sent75 = false;
 				var loadtime = event.loadTime;
 				NativeInterface.sendMediaPlayerData("firstFrame", loadtime.toString());
 			});
@@ -154,13 +172,10 @@
 			function startPlayBack()
 			{
 				jwplayer().play(true);
-				var loadingScreen = document.getElementById("loadingScreen");
-				loadingScreen.innerHTML = '<center><img src="load.png" style="margin-top: 24.5%; width: 15%;"></center>';
 			}
 			
 			function getBackToLoginScreen()
 			{
-				console.log("getBackToLoginScreen found!");
 				NativeInterface.errorOccurred();
 			}
 </script>
@@ -180,8 +195,8 @@
 				padding:0; 
 			}
 		</style>
-		<div id="loadingScreen" style="position: absolute; left: 0px; top: 0px; background-image: url(./loading_bg.jpg); width: 100%; height: 100vh; background-size: 100%; background-repeat: no-repeat;">
-			<center><img src="load.png" style="margin-top: 24.5%; width: 15%;"></center>
+		<div id="loadingScreen" style="text-align: center; vertical-align: middle; background-color: #000000; position: absolute; left: 0px; top: 0px; bottom: 0px; background-image: url(./loading_bg.jpg); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;  background-size: auto 50%;">
+			<div id="loadingText" style="width: 100%; height: 100%; background-image: url(./load.png); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;  background-size: auto 10%;"></div>
 		</div>
 	</body>
 </html>

@@ -1,6 +1,8 @@
 #ifndef AzoomeeCommon_ConfigStorage_h
 #define AzoomeeCommon_ConfigStorage_h
 
+//#define USINGCI
+
 #include <cocos/cocos2d.h>
 #include "Json.h"
 
@@ -25,11 +27,12 @@ public:
     
     //Backend caller configuration
     std::string getServerHost();
+    std::string getServerUrlPrefix();
     std::string getServerUrl();
     std::string getImagesUrl();
+    std::string getMediaPrefixForXwalkCookies();
     std::string getPathForTag(std::string httpRequestTag);
     bool isParentSignatureRequiredForRequest(std::string requestTag);
-    bool isClearingHttpQueueRequiredBeforeSendingRequest(std::string requestTag);
     bool isImmediateRequestSendingRequired(std::string requestTag);
     
     //ChildAccountScene settings
@@ -104,7 +107,6 @@ private:
     rapidjson::Document IapConfiguration;
     
     std::vector<std::string> requestTagsRequireImmediateSending;
-    std::vector<std::string> requestTagsRequireQueueReset;
     std::vector<std::string> parentSignedRequestTags;
     
 };

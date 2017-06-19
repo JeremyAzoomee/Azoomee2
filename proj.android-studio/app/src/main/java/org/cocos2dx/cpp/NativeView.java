@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -23,6 +24,8 @@ import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.xwalk.core.XWalkActivity;
 import org.xwalk.core.XWalkView;
 import org.xwalk.core.XWalkCookieManager;
@@ -40,6 +43,9 @@ public class NativeView extends XWalkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_view);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         final View decorView = getWindow().getDecorView();
 
@@ -65,6 +71,8 @@ public class NativeView extends XWalkActivity {
         extra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 if(xWalkWebView != null)
                 {
                     xWalkWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
@@ -101,15 +109,14 @@ public class NativeView extends XWalkActivity {
 
     @Override
     protected void onXWalkReady() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
         Bundle extras = getIntent().getExtras();
         String myUrl = "about:blank";
-        String myCookieUrl = "";
-        String myCookies = "";
+
         if(extras != null)
         {
             myUrl = extras.getString("url");
-            myCookieUrl = extras.getString("cookieurl");
-            myCookies = extras.getString("cookie");
             userid = extras.getString("userid");
         }
 
@@ -121,23 +128,32 @@ public class NativeView extends XWalkActivity {
         }
         else
         {
-            Map<String, String> headers = new HashMap<String, String>();
-            headers.put("Cookie", myCookies);
-
             XWalkCookieManager mCookieManager = new XWalkCookieManager();
             mCookieManager.flushCookieStore();
             mCookieManager.setAcceptCookie(true);
             mCookieManager.setAcceptFileSchemeCookies(true);
 
-            String[] separatedCookies = myCookies.split("; ");
-
-            for(int i = 0; i < separatedCookies.length; i++)
+            try
             {
-                Log.d("separatecookies: ", separatedCookies[i]);
-                mCookieManager.setCookie(myCookieUrl, separatedCookies[i]);
-            }
+                JSONObject obj = new JSONObject(this.JNIGetAllCookies());
+                JSONArray array = obj.getJSONArray("Elements");
 
-            Log.d("cookies: ", mCookieManager.getCookie(myCookieUrl));
+                for(int i = 0; i < array.length(); i++)
+                {
+                    JSONObject currentObject = array.getJSONObject(i);
+                    String url = currentObject.getString("url");
+                    String cookie = currentObject.getString("cookie");
+
+                    Log.d("COOKIE URL", url);
+                    Log.d("COOKIE", cookie);
+
+                    mCookieManager.setCookie(url, cookie);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.getBackToLoginScreen();
+            }
 
             xWalkWebView.loadUrl("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl);
         }
@@ -171,4 +187,5 @@ public class NativeView extends XWalkActivity {
     public static native void JNIRegisterAppWentBackgroundEvent();
     public static native void JNIRegisterAppCameForegroundEvent();
     public static native void JNIRegisterAndroidSceneChangeEvent();
+    public static native String JNIGetAllCookies();
 }

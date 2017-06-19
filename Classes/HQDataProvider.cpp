@@ -157,26 +157,25 @@ std::string HQDataProvider::getTypeForSpecificItem(std::string category, std::st
     return "NILTYPE";
 }
 
-std::string HQDataProvider::getAllElementDataInRow(std::string category, int rowNumber)
+std::vector<std::map<std::string, std::string>> HQDataProvider::getAllElementDataInRow(std::string category, int rowNumber)
 {
     std::vector<std::string> elementids = getElementsForRow(category, rowNumber);
     std::vector<std::map<std::string, std::string>> playlistElements;
     
     for(int i = 0; i < elementids.size(); i++)
     {
-        if(getTypeForSpecificItem(category, elementids.at(i)) == "VIDEO" || getTypeForSpecificItem(category, elementids.at(i)) == "AUDIO")
+        if((getTypeForSpecificItem(category, elementids.at(i)) == "VIDEO" || getTypeForSpecificItem(category, elementids.at(i)) == "AUDIO") && getItemDataForSpecificItem(category, elementids.at(i))["entitled"] == "true")
         {
-            std::map<std::string, std::string> elementToBeAdded;
-            
-            elementToBeAdded["uri"] = getItemDataForSpecificItem(category, elementids.at(i))["uri"];
+            std::map<std::string, std::string> elementToBeAdded = getItemDataForSpecificItem(category, elementids.at(i));
             elementToBeAdded["image"] = ConfigStorage::getInstance()->getImagesUrl() + "/" + elementids.at(i) + "/thumb_1_1.jpg";
-            elementToBeAdded["title"] = getItemDataForSpecificItem(category, elementids.at(i))["title"];
+            elementToBeAdded["elementNumber"] = cocos2d::StringUtils::format("%d", i);
+            elementToBeAdded["elementShape"] = getHumanReadableHighlightDataForSpecificItem(category, rowNumber, i);
             
             playlistElements.push_back(elementToBeAdded);
         }
     }
     
-    return getJSONStringFromVectorOfMaps(playlistElements);
+    return playlistElements;
 }
 
 //---------------------LOADING SCREEN----------------------------------

@@ -1,12 +1,11 @@
 #include "AnalyticsSingleton.h"
 #include "../Utils/StringMgr.h"
 #include "../Input/TextInputChecker.h"
-#include "../Data/ConfigStorage.h"
 #include "../Data/Parent/ParentDataProvider.h"
 #include "../Utils/StringFunctions.h"
 #include "../Strings.h"
 #include "../Utils/SessionIdManager.h"
-
+#include "../Crashlytics/CrashlyticsConfig.h"
 
 namespace Azoomee
 {
@@ -69,6 +68,7 @@ void AnalyticsSingleton::registerAzoomeeEmail(std::string emailAddress)
         azoomeEmail = "YES";
     
     mixPanelRegisterSuperProperties("azoomeeEmail",azoomeEmail);
+    setCrashlyticsKeyWithString("azoomeeEmail", azoomeEmail);
 }
 
 void AnalyticsSingleton::registerAccountStatus(std::string Status)
@@ -109,11 +109,13 @@ void AnalyticsSingleton::registerChildGenderAndAge(int childNumber)
 void AnalyticsSingleton::registerSessionId(std::string sessionId)
 {
     mixPanelRegisterSuperProperties("sessionId", sessionId);
+    setCrashlyticsKeyWithString("sessionId", sessionId);
 }
     
 void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
 {
     mixPanelRegisterSuperProperties("currentScene", currentScene);
+    setCrashlyticsKeyWithString("currentScene", currentScene);
 }
     
 void AnalyticsSingleton::setPortraitOrientation()
@@ -141,14 +143,20 @@ void AnalyticsSingleton::logoutParentEvent()
     mixPanelRegisterSuperProperties("accountStatus","");
     mixPanelRegisterSuperProperties("parentID","");
     mixPanelRegisterSuperProperties("azoomeeEmail","");
+    mixPanelRegisterSuperProperties("billingProvider","");
+    mixPanelRegisterSuperProperties("billingStatus","");
 }
 
 //-------------Startup--------------------
 
 void AnalyticsSingleton::firstLaunchEvent()
 {
-    mixPanelSendEvent("firstLaunch");
-    appsFlyerSendEvent("firstLaunch");
+    if(!(cocos2d::UserDefault::getInstance()->getBoolForKey("firstTimeLaunchEventSent", false) || cocos2d::UserDefault::getInstance()->getBoolForKey("FirstSlideShowSeen", false)))
+    {
+        cocos2d::UserDefault::getInstance()->setBoolForKey("firstTimeLaunchEventSent", true);
+        mixPanelSendEvent("firstLaunch");
+        appsFlyerSendEvent("firstLaunch");
+    }
 }
 
 // -------------- SIGN IN FUNCTIONS -----------------
@@ -166,23 +174,6 @@ void AnalyticsSingleton::signInFailEvent(int errorCode)
 void AnalyticsSingleton::OnboardingStartEvent()
 {
     mixPanelSendEvent("startCreateAccount");
-}
-
-void AnalyticsSingleton::OnboardingEmailSubmittedEvent(std::string emailAddress)
-{
-    mixPanelSendEvent("emailSubmitted");
-    
-    registerAzoomeeEmail(emailAddress);
-}
-
-void AnalyticsSingleton::OnboardingPasswordSubmittedEvent()
-{
-    mixPanelSendEvent("passwordSubmitted");
-}
-
-void AnalyticsSingleton::OnboardingPinSubmittedEvent()
-{
-    mixPanelSendEvent("pinSubmitted");
 }
 
 void AnalyticsSingleton::OnboardingAccountCreatedEvent()
@@ -212,19 +203,9 @@ void AnalyticsSingleton::childProfileStartEvent()
     mixPanelSendEvent("childProfileCreateStart");
 }
 
-void AnalyticsSingleton::childProfileNameEvent()
-{
-    mixPanelSendEvent("childProfileName");
-}
-
 void AnalyticsSingleton::childProdileNameErrorEvent()
 {
     mixPanelSendEvent("childProfileNameError");
-}
-
-void AnalyticsSingleton::childProfileDOBEvent()
-{
-    mixPanelSendEvent("childProfileDOB");
 }
 
 void AnalyticsSingleton::childProfileDOBErrorEvent()
@@ -263,6 +244,16 @@ void AnalyticsSingleton::childProfileCreatedErrorEvent(long errorCode)
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
+    
+void AnalyticsSingleton::childProfileUpdateErrorEvent(long errorCode)
+{
+    std::string eventID = "childProfileUpdateError";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+    
+    mixPanelSendEvent(eventID, mixPanelProperties);
+}
 
 //-------------HUB ACTIONS-------------------
 void AnalyticsSingleton::hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction)
@@ -287,20 +278,13 @@ void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumbe
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
-    void AnalyticsSingleton::openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape)
+//---------------- CONTENT ITEM ACTIONS------------------------
+    
+void AnalyticsSingleton::contentItemSelectedEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape)
 {
     SessionIdManager::getInstance()->resetBackgroundTimeInContent();
     
-    time(&timeOpenedContent);
-    storedTitle = Title;
-    storedDescription = Description;
-    storedType = Type;
-    storedContentID = contentID;
-    storedRowNumber = rowNumber;
-    storedElementNumber = elementNumber;
-    storedElementShape = elementShape;
-    
-    std::string eventID = "openContent";
+    std::string eventID = "contentItemSelectedEvent";
     
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Title"] = Title;
@@ -311,37 +295,63 @@ void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumbe
     mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", elementNumber);
     mixPanelProperties["elementShape"] = elementShape;
     
+    storedContentItemProperties = mixPanelProperties;
     
     mixPanelSendEvent(eventID, mixPanelProperties);
     appsFlyerSendEvent(eventID, mixPanelProperties);
 }
+    
+void AnalyticsSingleton::updateContentItemDetails(std::map<std::string, std::string> contentItemDetails)
+{
+    if (contentItemDetails.find("id") == contentItemDetails.end()) return;
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["Title"] = contentItemDetails["title"];
+    mixPanelProperties["Description"] = contentItemDetails["description"];
+    mixPanelProperties["Type"] = contentItemDetails["type"];
+    mixPanelProperties["ContentID"] = contentItemDetails["id"];
+    mixPanelProperties["rowNumber"] = storedContentItemProperties["rowNumber"];
+    mixPanelProperties["elementNumber"] = contentItemDetails["elementNumber"];
+    mixPanelProperties["elementShape"] = contentItemDetails["elementShape"];
+    
+    storedContentItemProperties = mixPanelProperties;
+}
+    
+void AnalyticsSingleton::contentItemProcessingStartedEvent()
+{
+    mixPanelSendEvent("contentItemProcessingStarted", storedContentItemProperties);
+}
+    
+void AnalyticsSingleton::contentItemProcessingErrorEvent()
+{
+    mixPanelSendEvent("contentItemProcessingError", storedContentItemProperties);
+}
+    
+void AnalyticsSingleton::contentItemIncompatibleEvent()
+{
+    mixPanelSendEvent("contentItemIncompatible", storedContentItemProperties);
+}
+    
+void AnalyticsSingleton::contentItemWebviewStartedEvent()
+{
+    time(&timeOpenedContent);
+    mixPanelSendEvent("contentItemWebviewStarted", storedContentItemProperties);
+}
 
-void AnalyticsSingleton::closeContentEvent()
+void AnalyticsSingleton::contentItemClosedEvent()
 {
     time_t now;
     time(&now);
     double secondsOpened = difftime(now,timeOpenedContent);
     
-    cocos2d::log("CLOSE EVENT CONTENT TIME: %f", secondsOpened);
-    cocos2d::log("CLOSE EVENT BACKGROUND TIME: %lu", SessionIdManager::getInstance()->getBackgroundTimeInContent());
-    
     secondsOpened -= SessionIdManager::getInstance()->getBackgroundTimeInContent();
     
-    std::string eventID = "closedContent";
+    std::string eventID = "contentItemClosed";
     
-    std::map<std::string, std::string> mixPanelProperties;
+    storedContentItemProperties["SecondsInContent"] = cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened);
     
-    mixPanelProperties["Title"] = {storedTitle,0};
-    mixPanelProperties["Description"] = storedDescription;
-    mixPanelProperties["Type"] = storedType;
-    mixPanelProperties["ContentID"] = storedContentID;
-    mixPanelProperties["SecondsInContent"] = cocos2d::StringUtils::format("%s%.f",NUMBER_IDENTIFIER, secondsOpened);
-    mixPanelProperties["rowNumber"] = cocos2d::StringUtils::format("%d", storedRowNumber);
-    mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", storedElementNumber);
-    mixPanelProperties["elementShape"] = storedElementShape;
+    mixPanelSendEvent(eventID, storedContentItemProperties);
     
-    
-    mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
 //------------- PREVIEW ACTIONS ---------------
@@ -363,50 +373,38 @@ void AnalyticsSingleton::previewPopupCancelledEvent()
 }
 
 //---------------MEDIA ACTIONS -----------------
-void AnalyticsSingleton::mediaQualityEvent(std::string quality)
+void AnalyticsSingleton::mediaPlayerQualityEvent(std::string quality)
 {
     std::string eventID = "mediaQuality";
     
-    std::map<std::string, std::string> mixPanelProperties;
+    std::map<std::string, std::string> mixPanelProperties = storedContentItemProperties;
     
-    mixPanelProperties["Title"] = storedTitle;
-    mixPanelProperties["Description"] = storedDescription;
-    mixPanelProperties["Type"] = storedType;
-    mixPanelProperties["ContentID"] = storedContentID;
     mixPanelProperties["Quality"] = quality;
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mediaProgressEvent(int percentComplete)
+void AnalyticsSingleton::mediaPlayerProgressEvent(int percentComplete)
 {
     std::string eventID = "mediaProgress";
     
-    std::map<std::string, std::string> mixPanelProperties;
-    
-    mixPanelProperties["Title"] = storedTitle;
-    mixPanelProperties["Description"] = storedDescription;
-    mixPanelProperties["Type"] = storedType;
-    mixPanelProperties["ContentID"] = storedContentID;
+    std::map<std::string, std::string> mixPanelProperties = storedContentItemProperties;
     mixPanelProperties["Progress"] = cocos2d::StringUtils::format("%d", percentComplete);
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::mediaPausedEvent()
+void AnalyticsSingleton::mediaPlayerPausedEvent()
 {
-    mixPanelSendEvent("mediaPause");
+    mixPanelSendEvent("mediaPause", storedContentItemProperties);
 }
 
-void AnalyticsSingleton::mediaEndEvent(int SecondsMediaPlayed)
+void AnalyticsSingleton::mediaPlayerEndEvent(int SecondsMediaPlayed)
 {
     std::string eventID = "mediaEnd";
     
-    std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["Title"] = storedTitle;
-    mixPanelProperties["Description"] = storedDescription;
-    mixPanelProperties["Type"] = storedType;
-    mixPanelProperties["ContentID"] = storedContentID;
+    std::map<std::string, std::string> mixPanelProperties = storedContentItemProperties;
+    
     mixPanelProperties["SecondsMediaPlayed"] = cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, SecondsMediaPlayed);
 
     mixPanelSendEvent(eventID, mixPanelProperties);
@@ -416,10 +414,37 @@ void AnalyticsSingleton::mediaPlayerFirstFrameEvent(std::string loadTimeMS)
 {
     std::string eventID = "mediaFirstFrame";
     
-    std::map<std::string, std::string> mixPanelProperties;
+    std::map<std::string, std::string> mixPanelProperties = storedContentItemProperties;
     mixPanelProperties["LoadTime"] = cocos2d::StringUtils::format("%s%s",NUMBER_IDENTIFIER, loadTimeMS.c_str());
     
     mixPanelSendEvent(eventID, mixPanelProperties);
+}
+    
+void AnalyticsSingleton::mediaPlayerNewPlaylistItemSetEvent(int itemNumber)
+{
+    std::map<std::string, std::string> mixPanelProperties = storedContentItemProperties;
+    mixPanelProperties["playlistElementNumber"] = cocos2d::StringUtils::format("%d", itemNumber);
+    
+    std::string eventID = "mediaNewPlaylistItem";
+    mixPanelSendEvent(eventID, mixPanelProperties);
+}
+    
+void AnalyticsSingleton::mediaPlayerVideoPlayEvent()
+{
+    std::string eventID = "mediaVideoPlay";
+    mixPanelSendEvent(eventID, storedContentItemProperties);
+}
+    
+void AnalyticsSingleton::mediaPlayerVideoCompletedEvent()
+{
+    std::string eventID = "mediaVideoCompleted";
+    mixPanelSendEvent(eventID, storedContentItemProperties);
+}
+    
+void AnalyticsSingleton::mediaPlayerPlaylistCompletedEvent()
+{
+    std::string eventID = "mediaPlaylistCompleted";
+    mixPanelSendEvent(eventID, storedContentItemProperties);
 }
 
 //---------------OTHER ACTION------------------
@@ -433,12 +458,13 @@ void AnalyticsSingleton::genericButtonPressEvent(std::string buttonName)
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
 
-void AnalyticsSingleton::messageBoxShowEvent(std::string messageTitle)
+void AnalyticsSingleton::messageBoxShowEvent(std::string messageTitle, long errorCode)
 {
     std::string eventID = "messageBoxDisplayed";
     
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["MessageTitle"] = messageTitle;
+    mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
     
     mixPanelSendEvent(eventID, mixPanelProperties);
 }
@@ -561,5 +587,26 @@ void AnalyticsSingleton::iapAppleAutoRenewSubscriptionEvent()
     mixPanelSendEvent("iapAppleAutoRenewSubscription");
 }
     
+//---------------DEEPLINKING ACTIONS------------------
+void AnalyticsSingleton::deepLinkingDetailsSetEvent()
+{
+    mixPanelSendEvent("deepLinkingDetailsSet");
 }
+    
+void AnalyticsSingleton::deepLinkingMoveToEvent(std::string moveTo)
+{
+    std::string eventID = "deepLinkingMoveToEvent";
+    
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["MoveTo"] = moveTo;
+    
+    mixPanelSendEvent(eventID, mixPanelProperties);
+}
+    
+void AnalyticsSingleton::deepLinkingContentEvent()
+{
+    mixPanelSendEvent("deepLinkingContentEvent");
+}
+    
 
+}

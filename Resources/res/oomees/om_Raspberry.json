@@ -17630,7 +17630,7 @@
 			}
 		}
 	},
-	"Build_Point _To_Right": {
+	"Build_Point_To_Right": {
 		"slots": {
 			"Arm_Hip_L": {
 				"attachment": [

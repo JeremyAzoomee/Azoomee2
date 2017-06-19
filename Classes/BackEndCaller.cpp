@@ -16,14 +16,15 @@
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
-#include "OnboardingScene.h"
 #include "ChildAccountScene.h"
 #include "AwaitingAdultPinLayer.h"
-#include "OnboardingSuccessScene.h"
-#include "ChildAccountSuccessScene.h"
 #include "RoutePaymentSingleton.h"
+#include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
+#include "FlowDataSingleton.h"
 #include "OfflineHubScene.h"
+#include "OfflineChecker.h"
+
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -73,13 +74,17 @@ void BackEndCaller::hideLoadingScreen()
 
 void BackEndCaller::getBackToLoginScreen(long errorCode)
 {
-    accountJustRegistered = false;
-    newChildJustRegistered = false;
-    
-    LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+    FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     LoginLogicHandler::getInstance()->forceNewLogin();
 }
 
+//OFFLINE CHECK
+
+void BackEndCaller::offlineCheck()
+{
+    HttpRequestCreator* request = API::OfflineCheck(this);
+    request->execute();
+}
 
 //LOGGING IN BY PARENT-------------------------------------------------------------------------------
 
@@ -103,19 +108,22 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
+        ConfigStorage::getInstance()->setFirstSlideShowSeen();
+        
         HQDataStorage::getInstance()->HQListTitles.clear();
         HQDataStorage::getInstance()->HQListElements.clear();
         HQDataStorage::getInstance()->HQElementHighlights.clear();
         HQDataStorage::getInstance()->HQData.clear();
         HQDataStorage::getInstance()->HQGetContentUrls.clear();
         
-        updateBillingData();
         getAvailableChildren();
+        updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
     }
     else
     {
         AnalyticsSingleton::getInstance()->signInFailEvent(0);
+        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_INVALID_CREDENTIALS);
         getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
     }
 }
@@ -172,23 +180,22 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 {
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     
-    if(newChildJustRegistered)
+    if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
-        newChildJustRegistered = false;
-        auto childAccountSuccessScene = ChildAccountSuccessScene::createScene(newChildName, oomeeAvatarNumber);
-        Director::getInstance()->replaceScene(childAccountSuccessScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OnboardingSuccessScene));
     }
-    else if(accountJustRegistered)
+    else if(FlowDataSingleton::getInstance()->isNewProfileFlow())
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccountSuccessScene));
+    }
+    else if(FlowDataSingleton::getInstance()->isSignupFlow())
     {
         CCLOG("Just registered account : backendcaller");
-        accountJustRegistered = false;
-        auto onboardingSuccessScene = OnboardingSuccessScene::createScene(false);
-        Director::getInstance()->replaceScene(onboardingSuccessScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
     }
     else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
     {
-        auto childSelectorScene = ChildSelectorScene::createScene();
-        Director::getInstance()->replaceScene(childSelectorScene);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
     }
 }
 
@@ -229,20 +236,14 @@ void BackEndCaller::getGordon()
 void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
-    {
-        HQHistoryManager::getInstance()->emptyHistory();
-        auto baseScene = BaseScene::createScene();
-        Director::getInstance()->replaceScene(baseScene);
-    }
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
 }
 
 //REGISTER PARENT---------------------------------------------------------------------------
 
 void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber)
 {
-    //Save emailAddress and password, so onRegisterParentAnswerReceived can login after success
-    registerParentUsername = emailAddress;
-    registerParentPassword = password;
+    FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
     
     std::string source = "OTHER";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -259,9 +260,9 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
-    accountJustRegistered = true;
+    ConfigStorage::getInstance()->setFirstSlideShowSeen();
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
-    login(this->registerParentUsername, this->registerParentPassword);
+    login(FlowDataSingleton::getInstance()->getUserName(), FlowDataSingleton::getInstance()->getPassword());
 }
 
 //REGISTER CHILD----------------------------------------------------------------------------
@@ -270,8 +271,7 @@ void BackEndCaller::registerChild(const std::string& childProfileName, const std
 {
     displayLoadingScreen();
     
-    newChildName = childProfileName;
-    oomeeAvatarNumber = oomeeNumber;
+    FlowDataSingleton::getInstance()->addChildData(childProfileName, oomeeNumber);
     
     const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
     HttpRequestCreator* request = API::RegisterChildRequest(childProfileName, childGender, childDOB, oomeeUrl, this);
@@ -280,8 +280,27 @@ void BackEndCaller::registerChild(const std::string& childProfileName, const std
 
 void BackEndCaller::onRegisterChildAnswerReceived()
 {
-    newChildJustRegistered = true;
-    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent(oomeeAvatarNumber);
+    AnalyticsSingleton::getInstance()->childProfileCreatedSuccessEvent(FlowDataSingleton::getInstance()->getOomeeColourNumber());
+    getAvailableChildren();
+}
+
+//UPDATE CHILD----------------------------------------------------------------------------
+
+void BackEndCaller::updateChild(const std::string& childId, const std::string& childProfileName, const std::string& childGender, const std::string& childDOB, int oomeeNumber)
+{
+    displayLoadingScreen();
+    
+    FlowDataSingleton::getInstance()->addChildData(childProfileName, oomeeNumber);
+    
+    const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(oomeeNumber);
+    const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
+    const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + childId;
+    HttpRequestCreator* request = API::UpdateChildRequest(url, childId, childProfileName, childGender, childDOB, oomeeUrl, ownerId, this);
+    request->execute();
+}
+
+void BackEndCaller::onUpdateChildAnswerReceived()
+{
     getAvailableChildren();
 }
 
@@ -332,6 +351,13 @@ void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const
     }
 }
 
+// RESET PASSWORD REQUEST ----------------------------------------------------------------
+void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
+{
+    HttpRequestCreator* request = API::ResetPaswordRequest(emailAddress, this);
+    request->execute();
+}
+
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
@@ -355,6 +381,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         onRegisterChildAnswerReceived();
     }
+    else if(requestTag == API::TagUpdateChild)
+    {
+        onUpdateChildAnswerReceived();
+    }
     else if(requestTag == API::TagRegisterParent)
     {
         onRegisterParentAnswerReceived();
@@ -375,6 +405,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         onUpdateBillingDataAnswerReceived(body);
     }
+    else if(requestTag == API::TagOfflineCheck)
+    {
+        OfflineChecker::getInstance()->onOfflineCheckAnswerReceived();
+    }
     else if(requestTag == "GROUP HQ")
     {
         HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
@@ -394,6 +428,9 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
         AmazonPaymentSingleton::getInstance()->onAmazonPaymentMadeAnswerReceived(body);
     }
 #endif
+    else if(requestTag == API::TagResetPasswordRequest)
+        //Dont do anything with a password Request attempt
+        return;
     else
     {
         for(int i = 0; i < 6; i++)
@@ -409,36 +446,54 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 
 void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
+    if(requestTag == API::TagOfflineCheck)
+    {
+        OfflineChecker::getInstance()->onOfflineCheckFailed();
+        return;
+    }
+    
     if(requestTag == API::TagRegisterParent)
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
-        Director::getInstance()->replaceScene(OnboardingScene::createScene(errorCode));
+        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
         return;
     }
     
     if(requestTag == API::TagRegisterChild)
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
-        Director::getInstance()->replaceScene(ChildAccountScene::createScene("", errorCode));
+
+        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
+        return;
+    }
+    
+    if(requestTag == API::TagUpdateChild)
+    {
+        AnalyticsSingleton::getInstance()->childProfileUpdateErrorEvent(errorCode);
+        
+        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
         return;
     }
     
     if(requestTag == API::TagLogin)
     {
-        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         LoginLogicHandler::getInstance()->forceNewLogin();
     }
     
     if(requestTag == API::TagGetAvailableChildren)
     {
+
+        FlowDataSingleton::getInstance()->setErrorCode(errorCode);
         if(errorCode == -1)
         {
-            LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(0);
             Director::getInstance()->replaceScene(OfflineHubScene::createScene());
             return;
         }
         
-        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
         LoginLogicHandler::getInstance()->forceNewLogin();
         return;
     }
@@ -450,7 +505,13 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         RoutePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
         return;
     }
+    //Dont do anything with a password Request attempt
+    if(requestTag == API::TagResetPasswordRequest)
+        return;
     
-    LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(errorCode);
+    if(requestTag == API::TagUpdateBillingData)
+        return;
+    
+    FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }

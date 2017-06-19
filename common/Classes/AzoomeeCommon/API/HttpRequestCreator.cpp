@@ -98,11 +98,7 @@ std::string HttpRequestCreator::addLeadingZeroToDateElement(int input)          
 
 void HttpRequestCreator::createHttpRequest()                            //The http request is being created from global variables. This method can't be run until setting up all variables, please see usage on top of this file.
 {
-    if(ConfigStorage::getInstance()->isClearingHttpQueueRequiredBeforeSendingRequest(requestTag))
-    {
-        HttpClient::destroyInstance();
-    }
-    
+    std::string hostPrefix = ConfigStorage::getInstance()->getServerUrlPrefix();
     std::string host;
     
     if(!url.empty())
@@ -121,13 +117,14 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
         }
     }
     
-    std::string requestUrl = StringUtils::format("https://%s%s", host.c_str(), requestPath.c_str());
-    if(!urlParameters.empty()) requestUrl = StringUtils::format("%s?%s", requestUrl.c_str(), urlParameters.c_str());   //In URL we need to add the ?
+    std::string requestUrl =  hostPrefix + host + requestPath;
+    if(!urlParameters.empty()) requestUrl = requestUrl + "?" + urlParameters;
     
     HttpRequest *request = new HttpRequest();
     
     if(method == "POST") request->setRequestType(HttpRequest::Type::POST);
     if(method == "GET") request->setRequestType(HttpRequest::Type::GET);
+    if(method == "PATCH") request->setRequestType(HttpRequest::Type::PATCH);
     request->setUrl(requestUrl.c_str());
     
     const char *postData = requestBody.c_str();
@@ -155,10 +152,8 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
             myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
         }
         
-        const char *reqData = myRequestString.c_str();
-        
-        headers.push_back(StringUtils::format("x-az-req-datetime: %s", getDateFormatString().c_str()));
-        headers.push_back(StringUtils::format("x-az-auth-token: %s", reqData));
+        headers.push_back("x-az-req-datetime: " + getDateFormatString());
+        headers.push_back("x-az-auth-token: " + myRequestString);
     }
     
     headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionNumberWithPlatform().c_str()));
@@ -167,8 +162,8 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     
     request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
     request->setTag(requestTag);
-    HttpClient::getInstance()->setTimeoutForConnect(2);
-    HttpClient::getInstance()->setTimeoutForRead(2);
+    HttpClient::getInstance()->setTimeoutForConnect(5);
+    HttpClient::getInstance()->setTimeoutForRead(10);
     
     if(ConfigStorage::getInstance()->isImmediateRequestSendingRequired(requestTag)) HttpClient::getInstance()->sendImmediate(request);
     else HttpClient::getInstance()->send(request);
@@ -176,18 +171,18 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
 
 void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
 {
+    std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
+    std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
+    std::string requestTag = response->getHttpRequest()->getTag();
+    
+    cocos2d::log("request tag: %s", requestTag.c_str());
+    cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
+    cocos2d::log("response code: %ld", response->getResponseCode());
+    cocos2d::log("response header: %s", responseHeaderString.c_str());
+    cocos2d::log("response string: %s", responseDataString.c_str());
+    
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201))
     {
-        const std::string& responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
-        const std::string& responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
-        const std::string& requestTag = response->getHttpRequest()->getTag();
-        
-        cocos2d::log("request tag: %s", requestTag.c_str());
-        cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
-        cocos2d::log("response code: %ld", response->getResponseCode());
-        cocos2d::log("response header: %s", responseHeaderString.c_str());
-        cocos2d::log("response string: %s", responseDataString.c_str());
-        
         if(delegate != nullptr)
         {
             delegate->onHttpRequestSuccess(requestTag, responseHeaderString, responseDataString);
@@ -209,7 +204,6 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
     cocos2d::log("request tag: %s", requestTag.c_str());
     cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
     cocos2d::log("response string: %s", responseDataString.c_str());
-    cocos2d::log("response headers: %s", responseHeaderString.c_str());
     cocos2d::log("response code: %ld", response->getResponseCode());
     
     //-----------------------Handle error code--------------------------
@@ -230,8 +224,6 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
 
 void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, long errorCode)
 {
-    HttpClient::getInstance()->destroyInstance();
-    
     if(delegate != nullptr)
         delegate->onHttpRequestFailed(requestTag, errorCode);
 }

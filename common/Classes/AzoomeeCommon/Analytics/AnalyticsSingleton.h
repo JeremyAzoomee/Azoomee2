@@ -2,6 +2,7 @@
 #define AzoomeeCommon_AnalyticsSingleton_h
 
 #include <cocos/cocos2d.h>
+#include "../Data/ConfigStorage.h"
 #include <time.h>
 
 #define NUMBER_IDENTIFIER "NUMBER|"
@@ -23,13 +24,7 @@ private:
     void appsFlyerSendEvent(const std::string& eventID);
     void appsFlyerSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map);
     
-    std::string storedTitle;
-    std::string storedDescription;
-    std::string storedType;
-    std::string storedContentID;
-    int storedRowNumber;
-    int storedElementNumber;
-    std::string storedElementShape;
+    std::map<std::string, std::string> storedContentItemProperties;
     
     std::string OSManufacturer;
     
@@ -71,7 +66,6 @@ public:
 
     //-------------ONBOARDING--------------------
     void OnboardingStartEvent();
-    void OnboardingEmailSubmittedEvent(std::string emailAddress);
     void OnboardingPasswordSubmittedEvent();
     void OnboardingPinSubmittedEvent();
     void OnboardingAccountCreatedEvent();
@@ -79,34 +73,45 @@ public:
 
     //-------------CHILD PROFILE CREATION-------------
     void childProfileStartEvent();
-    void childProfileNameEvent();
     void childProdileNameErrorEvent();
     void childProfileDOBEvent();
     void childProfileDOBErrorEvent(); // NO DOB CHECKING IS COMPLETED
     void childProfileOomeeEvent(int oomeeNumber);
     void childProfileCreatedSuccessEvent(int oomeeNumber);
     void childProfileCreatedErrorEvent(long errorCode);
+    void childProfileUpdateErrorEvent(long errorCode);
 
     //-------------HUB ACTIONS-------------------
     void hubTapOomeeEvent(int oomeeNumber, std::string oomeeAction);
     void navSelectionEvent(std::string hubOrTop, int buttonNumber);
-    void openContentEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape);
-    void closeContentEvent();
+    
+    //-------------CONTENTITEM EVENTS----------
+    void contentItemSelectedEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape);
+    void contentItemProcessingStartedEvent();
+    void contentItemProcessingErrorEvent();
+    void contentItemIncompatibleEvent();
+    void contentItemWebviewStartedEvent();
+    void contentItemClosedEvent();
+    void updateContentItemDetails(std::map<std::string, std::string> contentItemDetails);
 
     //------------- PREVIEW ACTIONS ---------------
     void previewContentClickedEvent(std::string Title,std::string Description, std::string Type);
     void previewPopupCancelledEvent();
 
     //---------------MEDIA ACTIONS -----------------
-    void mediaQualityEvent(std::string quality);
-    void mediaProgressEvent(int percentComplete);
-    void mediaPausedEvent();
-    void mediaEndEvent(int SecondsMediaPlayed);
+    void mediaPlayerQualityEvent(std::string quality);
+    void mediaPlayerProgressEvent(int percentComplete);
+    void mediaPlayerPausedEvent();
+    void mediaPlayerEndEvent(int SecondsMediaPlayed);
     void mediaPlayerFirstFrameEvent(std::string loadTimeMS);
+    void mediaPlayerNewPlaylistItemSetEvent(int itemNumber);
+    void mediaPlayerPlaylistCompletedEvent();
+    void mediaPlayerVideoPlayEvent();
+    void mediaPlayerVideoCompletedEvent();
 
     //---------------OTHER ACTION------------------
     void genericButtonPressEvent(std::string buttonName);
-    void messageBoxShowEvent(std::string messageTitle);
+    void messageBoxShowEvent(std::string messageTitle, long errorCode);
     void localisedStringErrorEvent(std::string stringRequested, std::string languageUsed);
     void introVideoTimedOutError(std::string errorMessage);
     void enteredBackgroundEvent();
@@ -123,7 +128,11 @@ public:
     void iapSubscriptionDoublePurchaseEvent();
     void iapBackEndRequestFailedEvent(long errorCode);
     void iapAppleAutoRenewSubscriptionEvent();
-
+    
+    //---------------DEEPLINKING ACTIONS------------------
+    void deepLinkingDetailsSetEvent();
+    void deepLinkingMoveToEvent(std::string moveTo);
+    void deepLinkingContentEvent();
 };
   
 }

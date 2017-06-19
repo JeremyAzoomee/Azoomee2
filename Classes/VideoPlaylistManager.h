@@ -11,11 +11,13 @@ public:
     virtual ~VideoPlaylistManager();
     bool init(void);
     
-    void setPlaylist(std::string playlist);
+    void setPlaylist(std::vector<std::map<std::string, std::string>> playlistElements);
     std::string getPlaylist();
+    std::map<std::string, std::string> getContentItemDataForPlaylistElement(int elementNumber);
+    void clearPlaylist();
     
 private:
-    std::string storedPlaylist;
+    std::vector<std::map<std::string, std::string>> storedPlaylist;
 };
 
 #endif

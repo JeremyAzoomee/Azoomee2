@@ -213,6 +213,11 @@ void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
     nextButton->setVisible(isValid);
 }
 
+void LoginScene::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+    nextButtonPressed();
+}
+
 #pragma mark - ElectricDreamsButtonDelegate
 
 void LoginScene::buttonPressed(ElectricDreamsButton* button)

@@ -15,6 +15,7 @@ using namespace rapidjson;
 #define ERROR_TITLE "title"
 #define ERROR_BODY "body"
 #define ERROR_BUTTON "button"
+#define ERROR_BUTTON_REFERENCE "optionalButtonRefNames"
 
 
 namespace Azoomee

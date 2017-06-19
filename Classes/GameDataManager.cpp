@@ -25,6 +25,9 @@ USING_NS_CC;
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "SceneManagerScene.h"
+#include "FlowDataSingleton.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace network;
@@ -56,6 +59,8 @@ bool GameDataManager::init(void)
 
 void GameDataManager::startProcessingGame(std::map<std::string, std::string> itemData)
 {
+    AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
+    
     processCancelled = false;
     displayLoadingScreen();
     
@@ -172,7 +177,8 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
     }
     else
     {
-        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
+        FlowDataSingleton::getInstance()->setErrorCode(1006);
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
 }
@@ -295,7 +301,8 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     }
     else
     {
-        LoginLogicHandler::getInstance()->setErrorMessageCodeToDisplay(1006);
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
+        FlowDataSingleton::getInstance()->setErrorCode(1006);
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
 }
@@ -307,6 +314,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     unzFile pFile = unzOpen(zipPath);
     if(!pFile)
     {
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         return false;
     }
     int err = unzGoToFirstFile(pFile);
@@ -342,9 +350,9 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
             
             if(!pFile2)
             {
-                
                 unzClose(pFile);
                 removeGameFolderOnError(dirpath);
+                AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
                 hideLoadingScreen(); //ERROR TO BE ADDED
                 CCLOG("unzip can not create file");
                 showErrorMessage();
@@ -380,6 +388,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         {
             unzClose(pFile);
             removeGameFolderOnError(dirpath);
+            AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
             hideLoadingScreen(); //ERROR TO BE ADDED
             showErrorMessage();
             return false;
@@ -395,6 +404,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     {
         unzClose(pFile);
         removeGameFolderOnError(dirpath);
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         hideLoadingScreen(); //ERROR TO BE ADDED
         showErrorMessage();
         return false;
@@ -418,6 +428,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     }
     else
     {
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         removeGameFolderOnError(dirpath);
         hideLoadingScreen();
         showErrorMessage();
@@ -438,6 +449,7 @@ void GameDataManager::startGame(std::string basePath, std::string fileName)
     
     if(!FileUtils::getInstance()->isFileExist(basePath + fileName))
     {
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
         hideLoadingScreen();
         showErrorMessage();
         return;
@@ -445,6 +457,7 @@ void GameDataManager::startGame(std::string basePath, std::string fileName)
     
     if(!isGameCompatibleWithCurrentAzoomeeVersion(basePath + "package.json"))
     {
+        AnalyticsSingleton::getInstance()->contentItemIncompatibleEvent();
         hideLoadingScreen();
         showIncompatibleMessage();
         return;
@@ -471,9 +484,9 @@ void GameDataManager::displayLoadingScreen()
     
     ModalMessages::getInstance()->startLoading();
     
-    ElectricDreamsButton *cancelButton = ElectricDreamsButton::createButtonWithText("Cancel");
+    ElectricDreamsButton *cancelButton = ElectricDreamsButton::createWindowCloselButton();
     cancelButton->setName("cancelButton");
-    cancelButton->setCenterPosition(Vec2(origin.x + size.width / 2, origin.y + size.height * 0.25));
+    cancelButton->setCenterPosition(Vec2(origin.x + size.width - cancelButton->getContentSize().width, origin.y + size.height - cancelButton->getContentSize().height));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("CancelGameLoading");
     Director::getInstance()->getRunningScene()->addChild(cancelButton);
@@ -537,9 +550,5 @@ void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
     std::map<std::string, std::string> errorStringMap = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
 
     if(messageBoxTitle == errorStringMap[ERROR_TITLE] && buttonTitle == errorStringMap[ERROR_BUTTON])
-    {
-        HQHistoryManager::getInstance()->emptyHistory();
-        auto baseScene = BaseScene::createScene();
-        Director::getInstance()->replaceScene(baseScene);
-    }
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }

@@ -4,9 +4,12 @@
 #import <UIKit/UIKit.h>
 
 @interface AzoomeeViewController : UIViewController {
-
+    BOOL _forcePortrait;
 }
 - (BOOL) prefersStatusBarHidden;
+
+- (void) setOrientationToPortrait;
+- (void) setOrientationToLandscape;
 
 @end
 

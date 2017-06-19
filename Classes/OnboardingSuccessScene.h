@@ -15,13 +15,16 @@ private:
     cocos2d::Size visibleSize;
     Vec2 origin;
     
+    Label* subTitleLabel;
+    
     ElectricDreamsButton* oomeeButton;
     ElectricDreamsButton* startTrial;
 
     void setupScene();
     void addVisualElementsToScene();
     void addButtonsToScene();
-    void addLabelsToLayer();
+    void addTitleLabelsToLayer();
+    void addSubLabelsToLayer();
     
     void addOomeeToScreen();
     
@@ -33,8 +36,6 @@ private:
     
 public:
     static cocos2d::Scene* createScene();
-    
-    static cocos2d::Scene* createScene(bool IAPSuccess);
     
     virtual bool init();
     

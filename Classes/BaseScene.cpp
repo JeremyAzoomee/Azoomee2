@@ -36,7 +36,7 @@ bool BaseScene::init()
 }
 
 void BaseScene::onEnterTransitionDidFinish()
-{    
+{
     this->setName("baseLayer");
     
     Director::getInstance()->purgeCachedData();
@@ -111,6 +111,6 @@ void BaseScene::addNavigationLayer()
     
     if(!HQHistoryManager::getInstance()->noHistory())
     {
-        sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getCurrentHQ()), 0);
+        sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getCurrentHQ()), 0.01);
     }
 }

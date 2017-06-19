@@ -54,6 +54,8 @@ std::map<std::string, std::string> StringMgr::getErrorMessageWithCode(long error
     errorMap[ERROR_TITLE] = getStringFromJson(std::vector<std::string>{errorCodeString,ERROR_TITLE}, errorMessagesDocument);
     errorMap[ERROR_BODY] = getStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BODY}, errorMessagesDocument);
     errorMap[ERROR_BUTTON] = getStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON}, errorMessagesDocument);
+    errorMap[ERROR_BUTTON_REFERENCE] = getStringFromJson(std::vector<std::string>{errorCodeString,ERROR_BUTTON_REFERENCE}, errorMessagesDocument);
+
     
     return errorMap;
 }
@@ -115,6 +117,10 @@ std::string StringMgr::getStringFromJson(std::vector<std::string> jsonKeys, rapi
             return getStringFromJson(jsonKeys,sceneJsonDictionary[currentKey.c_str()]);
         }
 
+    //Due to Error Button Reference being optional
+    if(currentKey == ERROR_BUTTON_REFERENCE)
+        return "";
+    
     AnalyticsSingleton::getInstance()->localisedStringErrorEvent(currentKey,languageID);
     return stringError;
 }

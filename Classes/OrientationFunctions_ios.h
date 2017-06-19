@@ -1,0 +1,3 @@
+
+void setOrientationToPortrait();
+void setOrientationToLandscape();

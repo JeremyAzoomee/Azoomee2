@@ -27,6 +27,7 @@ private:
     cocos2d::Vec2 origin;
     
     std::vector<std::string> _buttonsTitleList;
+    std::vector<std::string> _buttonsReferenceList;
     std::string _messageBoxTitle;
     
     cocos2d::LayerColor *backgroundLayer;
@@ -40,6 +41,8 @@ private:
     float textMaxWidth;
     float buttonSpaceWidth;
 
+    float percentageOfScreenForBox;
+    bool isLandscape;
     
     void createBackgroundLayer();
     void addListenerToBackgroundLayer();
@@ -68,7 +71,7 @@ protected:
     
     virtual bool init() override;
     
-    void initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate);
+    void initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate, long errorCode);
     void addButtonWithTitle(const std::string& buttonTitle);
     
     // Cancel button was pressed
