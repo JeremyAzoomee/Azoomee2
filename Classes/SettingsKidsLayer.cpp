@@ -1,5 +1,5 @@
 #include "SettingsKidsLayer.h"
-#include "SettingsKidsChildControlLayer.h"
+#include "KidsControlLayer.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 using namespace Azoomee;
@@ -50,7 +50,7 @@ void SettingsKidsLayer::addExitOrLogoutUIObjects()
 
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
-        auto childLayer = SettingsKidsChildControlLayer::createController(this, i);
+        auto childLayer = KidsControlLayer::createController(this, i);
         childLayer->setPosition(i*900,0);
         scrollView->addChild(childLayer,200);
     }

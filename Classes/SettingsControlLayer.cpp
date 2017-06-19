@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "AccountDetailsLayer.h"
 #include "SettingsKidsLayer.h"
+#include "SettingsConfirmationLayer.h"
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50
@@ -140,6 +141,10 @@ void SettingsControlLayer::buttonPressed(ElectricDreamsButton* button)
         childrenButton->setLocalZOrder(IDLE_TAB_Z);
         confirmationButton->setLocalZOrder(SELECTED_TAB_Z);
         accountButton->setLocalZOrder(IDLE_TAB_Z);
+        
+        currentLayer =SettingsConfirmationLayer::createWithHeight(linePositionY-LINE_WIDTH/2);
+        currentLayer->setPosition(origin.x,origin.y);
+        this->addChild(currentLayer);
     }
     else if(button == accountButton)
     {
