@@ -23,7 +23,7 @@ private:
     typedef cocos2d::Scene Super;
     
     /// Inner content layer we use to hold all the content
-    cocos2d::ui::Layout* _contentLayer;
+    cocos2d::ui::Layout* _contentLayer = nullptr;
     /// True when triggering layout
     bool _triggeringLayout;
     

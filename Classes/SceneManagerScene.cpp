@@ -19,7 +19,7 @@
 
 Scene* SceneManagerScene::createScene(SceneNameEnum sceneName)
 {
-    auto scene = Scene::create();
+    auto scene = cocos2d::Scene::create();
     auto layer = SceneManagerScene::create();
     
     layer->nextScene = sceneName;
@@ -40,7 +40,7 @@ bool SceneManagerScene::init()
 
 void SceneManagerScene::onEnterTransitionDidFinish()
 {
-    Scene* goToScene;
+    cocos2d::Scene* goToScene;
     
     switch (nextScene) {
         case Login:

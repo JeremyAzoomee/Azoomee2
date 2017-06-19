@@ -145,7 +145,7 @@ void IAPUpsaleLayer::addALLBulletsAndLabel()
     addBulletAndLabel("New ", "videos & games added every week.", oomeesImage->getPositionY() + oomeesImage->getContentSize().height/4);
     addBulletAndLabel("A library ", "of the best kids’ entertainment,", oomeesImage->getPositionY());
     
-    Label* secondLine = Label::createWithTTF("literally 1000s of things to do!", FONT_REGULAR, 80);
+    Label* secondLine = Label::createWithTTF("literally 1000s of things to do!", Style::Font::Regular, 80);
     secondLine->setColor(Color3B::WHITE);
     secondLine->setPosition(bulletTextXposition+secondLine->getContentSize().width/2, oomeesImage->getPositionY() - secondLine->getContentSize().height);
     UpsaleLayer->addChild(secondLine);

@@ -112,7 +112,7 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
     
     // Notify the running scene if it's an Azoomee::Scene
     auto director = Director::getInstance();
-    Azoomee::Scene* scene = (Azoomee::Scene*)director->getRunningScene();
+    Azoomee::Scene* scene = dynamic_cast<Azoomee::Scene*>(director->getRunningScene());
     if(scene != nullptr)
     {
         scene->screenSizeDidChange();
@@ -126,7 +126,7 @@ void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, f
     
     // Notify the running scene if it's an Azoomee::Scene
     auto director = Director::getInstance();
-    Azoomee::Scene* scene = (Azoomee::Scene*)director->getRunningScene();
+    Azoomee::Scene* scene = dynamic_cast<Azoomee::Scene*>(director->getRunningScene());
     if(scene != nullptr)
     {
         scene->screenSizeWillChange(duration);

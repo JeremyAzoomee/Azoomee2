@@ -53,8 +53,11 @@ void Scene::screenSizeDidChange()
     
     // Update the content layer so it sits inside and fills only the visible area of the screen
     const Size& contentSize = cocos2d::Director::getInstance()->getVisibleSize();
-    _contentLayer->setContentSize(contentSize);
-    _contentLayer->setPosition(sceneSize * 0.5f);
+    if(_contentLayer)
+    {
+        _contentLayer->setContentSize(contentSize);
+        _contentLayer->setPosition(sceneSize * 0.5f);
+    }
     
     if(isRunning())
     {
