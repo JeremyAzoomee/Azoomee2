@@ -1,10 +1,13 @@
 #include "ConfirmationControlLayer.h"
 
+#define MARGIN 69
+
 Layer* ConfirmationControlLayer::createController(Size layerSize)
 {
     auto layer = ConfirmationControlLayer::create();
     layer->setContentSize(layerSize);
     layer->addConfirmationFrame();
+    layer->addButtons();
     
     return layer;
 }
@@ -32,69 +35,67 @@ void ConfirmationControlLayer::addConfirmationFrame()
 
 void ConfirmationControlLayer::addButtons()
 {
-    /*getCodeButton = ElectricDreamsButton::createInviteMainButton("Kid Code", this->getContentSize().width*.66);
-    getCodeButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height*.25));
-    getCodeButton->setDelegate(this);
-    childFrameLayer->addChild(getCodeButton);
+    confirmButton = ElectricDreamsButton::createInviteMainButton("Confirm", 400);
+    confirmButton->setCenterPosition(Vec2(this->getContentSize().width-confirmButton->getContentSize().width/2-MARGIN,this->getContentSize().height/2));
+    confirmButton->setDelegate(this);
+    confirmationFrameLayer->addChild(confirmButton);
     
-    addFriendButton = ElectricDreamsButton::createInviteMainButton("Add A Friend", this->getContentSize().width*.66);
-    addFriendButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - addFriendButton->getContentSize().height));
-    addFriendButton->setDelegate(this);
-    childFrameLayer->addChild(addFriendButton);
+    yesButton = ElectricDreamsButton::createRedFilledButton("Yes", 400);
+    yesButton->setCenterPosition(confirmButton->getCenterPosition());
+    yesButton->setDelegate(this);
+    yesButton->setVisible(false);
+    confirmationFrameLayer->addChild(yesButton);
     
-    closeButton = ElectricDreamsButton::createWindowCloselButton();
-    closeButton->setVisible(false);
-    closeButton->setScale(0.75);
-    closeButton->setPosition(this->getContentSize().width-closeButton->getContentSize().width,this->getContentSize().height-closeButton->getContentSize().height);
-    closeButton->setDelegate(this);
-    childFrameLayer->addChild(closeButton);
+    noButton = ElectricDreamsButton::createRedOutlineButton("No", 400);
+    noButton->setCenterPosition(Vec2(confirmButton->getPositionX() - noButton->getContentSize().width/2 - MARGIN,this->getContentSize().height/2));
+    noButton->setVisible(false);
+    noButton->setDelegate(this);
+    confirmationFrameLayer->addChild(noButton);
     
-    shareButton = ElectricDreamsButton::createInviteMainButton("Share", this->getContentSize().width*.66);
-    shareButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - shareButton->getContentSize().height));
-    shareButton->setVisible(false);
-    shareButton->setDelegate(this);
-    childFrameLayer->addChild(shareButton);
-    
-    tryAgainButton = ElectricDreamsButton::createInviteMainButton("Try Again", this->getContentSize().width*.66);
-    tryAgainButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - tryAgainButton->getContentSize().height));
-    tryAgainButton->setVisible(false);
-    tryAgainButton->setDelegate(this);
-    childFrameLayer->addChild(tryAgainButton);
-    
-    addAnotherButton = ElectricDreamsButton::createInviteMainButton("Add Another", this->getContentSize().width*.66);
-    addAnotherButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - addAnotherButton->getContentSize().height));
-    addAnotherButton->setVisible(false);
-    addAnotherButton->setDelegate(this);
-    childFrameLayer->addChild(addAnotherButton);
-    
-    textInputButton = ElectricDreamsButton::createTextInputAsButton("Enter their Kid Code here", this->getContentSize().width*.8);
-    textInputButton->setCenterPosition(Vec2(this->getContentSize().width/2,textInputButton->getContentSize().height*2.5));
-    textInputButton->setVisible(false);
-    textInputButton->setDelegate(this);
-    childFrameLayer->addChild(textInputButton);
-    
-    textInputButton = ElectricDreamsButton::createTextInputAsButton("Enter their Kid Code here", this->getContentSize().width*.8);
-    textInputButton->setPosition(kidCodeTextInput->getPosition());
-    textInputButton->setVisible(false);
-    textInputButton->setDelegate(this);
-    childFrameLayer->addChild(textInputButton);
-    
-    sendCodeButton = ElectricDreamsButton::createSendButton();
-    sendCodeButton->setCenterPosition(Vec2(textInputButton->getCenterPosition().x+textInputButton->getContentSize().width/2 - sendCodeButton->getContentSize().width*.75,textInputButton->getCenterPosition().y));
-    sendCodeButton->setVisible(false);
-    sendCodeButton->setDelegate(this);
-    childFrameLayer->addChild(sendCodeButton);*/
+    rejectButton = ElectricDreamsButton::createTextAsButtonAqua("Reject", 48,true);
+    rejectButton->setCenterPosition(noButton->getCenterPosition());
+    rejectButton->setDelegate(this);
+    confirmationFrameLayer->addChild(rejectButton);
 
 }
 
 void ConfirmationControlLayer::clearAllButtons()
 {
-
+    confirmButton->setVisible(false);
+    yesButton->setVisible(false);
+    noButton->setVisible(false);
+    rejectButton->setVisible(false);
 }
 
 //----------------------- Delegate Functions ----------------------------
 
 void ConfirmationControlLayer::buttonPressed(ElectricDreamsButton* button)
 {
-    
+    if(button==confirmButton)
+    {
+        clearAllButtons();
+        this->setLocalZOrder(300);
+        confirmationFrameLayer->setToConfirm();
+    }
+    else if(button==rejectButton)
+    {
+        clearAllButtons();
+        this->setLocalZOrder(400);
+        confirmationFrameLayer->setToReject();
+        yesButton->setVisible(true);
+        noButton->setVisible(true);
+    }
+    else if(button==noButton)
+    {
+        clearAllButtons();
+        this->setLocalZOrder(200);
+        confirmationFrameLayer->setIdle();
+        rejectButton->setVisible(true);
+        confirmButton->setVisible(true);
+    }
+    else if(button==yesButton)
+    {
+        clearAllButtons();
+        confirmationFrameLayer->setToRejected();
+    }
 }

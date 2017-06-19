@@ -43,6 +43,7 @@ protected:
     cocos2d::ui::Scale9Sprite *createButtonOutline(std::string buttonText);
     void sendMixPanelEvent();
     cocos2d::Sprite* createSpriteButton(std::string buttonImage, std::string buttonAudio);
+    static ElectricDreamsButton* createSmallSprite9Button(std::string buttonText, float buttonWidth,std::string sprite9, cocos2d::Color3B textColor);
   
 public:
     
@@ -74,6 +75,8 @@ public:
     static ElectricDreamsButton* createInviteMainButton(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createTextInputAsButton(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createSendButton();
+    static ElectricDreamsButton* createRedOutlineButton(std::string buttonText, float buttonWidth);
+    static ElectricDreamsButton* createRedFilledButton(std::string buttonText, float buttonWidth);
     
     // ---------- OOMEE BUTTONS AND FUNCTIONS------------
     static ElectricDreamsButton* createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName);

@@ -78,6 +78,6 @@ void SettingsConfirmationLayer::addScrollView()
     {
         auto confirmationLayer = ConfirmationControlLayer::createController(Size(contentWidth, 182));
         confirmationLayer->setPosition(0,i*182+2);
-        scrollView->addChild(confirmationLayer);
+        scrollView->addChild(confirmationLayer,200);
     }
 }

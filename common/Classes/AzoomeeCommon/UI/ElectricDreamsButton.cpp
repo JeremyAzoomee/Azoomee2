@@ -351,13 +351,34 @@ ElectricDreamsButton* ElectricDreamsButton::createTabButton(std::string buttonTe
 
 ElectricDreamsButton* ElectricDreamsButton::createInviteMainButton(std::string buttonText, float buttonWidth)
 {
-    Label* buttonLabel = createLabelSettingsChat(buttonText,Color3B::BLACK);
+    auto layer = ElectricDreamsButton::createSmallSprite9Button(buttonText, buttonWidth,"res/buttons/inviteMainButton.png", Color3B::BLACK);
+    layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
+    return layer;
+
+}
+ElectricDreamsButton* ElectricDreamsButton::createRedOutlineButton(std::string buttonText, float buttonWidth)
+{
+    auto layer = ElectricDreamsButton::createSmallSprite9Button(buttonText, buttonWidth,"res/buttons/inviteRejectionSecondaryButton.png", Color3B::WHITE);
+    layer->buttonAudioFile = CANCEL_BUTTON_AUDIO_EFFECT;
+    return layer;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createRedFilledButton(std::string buttonText, float buttonWidth)
+{
+    auto layer = ElectricDreamsButton::createSmallSprite9Button(buttonText, buttonWidth,"res/buttons/inviteRejectionMainButton.png", Color3B::BLACK);
+    layer->buttonAudioFile = ACCEPT_BUTTON_AUDIO_EFFECT;
+    return layer;
+}
+    
+ElectricDreamsButton* ElectricDreamsButton::createSmallSprite9Button(std::string buttonText, float buttonWidth,std::string sprite9, Color3B textColor)
+{
+    Label* buttonLabel = createLabelSettingsChat(buttonText,textColor);
     
     Rect spriteRect = Rect(0, 0, 184, 107);
     Rect capInsents = Rect(50, 53, 1, 1);
     
     
-    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/buttons/inviteMainButton.png", spriteRect, capInsents);
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create(sprite9, spriteRect, capInsents);
     newButton->setContentSize(Size(buttonWidth, 107));
     newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
     
@@ -376,7 +397,6 @@ ElectricDreamsButton* ElectricDreamsButton::createInviteMainButton(std::string b
     layer->addListener();
     
     return layer;
-
 }
     
 ElectricDreamsButton* ElectricDreamsButton::createTextInputAsButton(std::string buttonText, float buttonWidth)

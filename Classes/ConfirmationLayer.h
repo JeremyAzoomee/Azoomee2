@@ -14,6 +14,12 @@ private:
     std::string friendName;
     std::string friendCode;
     
+    Label* childNameLabel;
+    Label* friendNameLabel;
+    Label* friendCodeLabel;
+    
+    Sprite* connectorSprite;
+    
 public:
     
     virtual bool init();
@@ -22,6 +28,10 @@ public:
     
     void addDetailsToLayer(std::string setChildName, std::string setFriendName, std::string setFriendCode);
     
+    void setToConfirm();
+    void setToReject();
+    void setToRejected();
+    void setIdle();
 };
 
 #endif
