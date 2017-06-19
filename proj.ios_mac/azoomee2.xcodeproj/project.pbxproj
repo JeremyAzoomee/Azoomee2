@@ -99,6 +99,8 @@
 		43F42E3B1EE84B9500606290 /* SettingsControlLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43F42E391EE84B9500606290 /* SettingsControlLayer.cpp */; };
 		43FA20141EE6FB83003CE631 /* FTUScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FA20121EE6FB83003CE631 /* FTUScene.cpp */; };
 		43FDC6611EF7E3CE009B596B /* SettingsConfirmationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FDC65F1EF7E3CE009B596B /* SettingsConfirmationLayer.cpp */; };
+		43FDC6671EF7F743009B596B /* ConfirmationControlLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FDC6631EF7F743009B596B /* ConfirmationControlLayer.cpp */; };
+		43FDC6681EF7F743009B596B /* ConfirmationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FDC6651EF7F743009B596B /* ConfirmationLayer.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
@@ -349,6 +351,10 @@
 		43FA20131EE6FB83003CE631 /* FTUScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTUScene.h; sourceTree = "<group>"; };
 		43FDC65F1EF7E3CE009B596B /* SettingsConfirmationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsConfirmationLayer.cpp; sourceTree = "<group>"; };
 		43FDC6601EF7E3CE009B596B /* SettingsConfirmationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsConfirmationLayer.h; sourceTree = "<group>"; };
+		43FDC6631EF7F743009B596B /* ConfirmationControlLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConfirmationControlLayer.cpp; sourceTree = "<group>"; };
+		43FDC6641EF7F743009B596B /* ConfirmationControlLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmationControlLayer.h; sourceTree = "<group>"; };
+		43FDC6651EF7F743009B596B /* ConfirmationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConfirmationLayer.cpp; sourceTree = "<group>"; };
+		43FDC6661EF7F743009B596B /* ConfirmationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmationLayer.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -721,6 +727,10 @@
 				4315CD031EEEC99600B4F22C /* KidsControlLayer.h */,
 				430C30EC1EEAB6A000E27589 /* KidsLayer.cpp */,
 				430C30ED1EEAB6A000E27589 /* KidsLayer.h */,
+				43FDC6631EF7F743009B596B /* ConfirmationControlLayer.cpp */,
+				43FDC6641EF7F743009B596B /* ConfirmationControlLayer.h */,
+				43FDC6651EF7F743009B596B /* ConfirmationLayer.cpp */,
+				43FDC6661EF7F743009B596B /* ConfirmationLayer.h */,
 			);
 			name = SettingsSubLayers;
 			sourceTree = "<group>";
@@ -1199,6 +1209,7 @@
 				43FDC6611EF7E3CE009B596B /* SettingsConfirmationLayer.cpp in Sources */,
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
+				43FDC6681EF7F743009B596B /* ConfirmationLayer.cpp in Sources */,
 				433FA7F61E7AA9C400A8C27F /* IAPUpsaleLayer.cpp in Sources */,
 				43BCD7211EC9FDD300A07737 /* OrientationFunctions_ios.mm in Sources */,
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
@@ -1244,6 +1255,7 @@
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */,
+				43FDC6671EF7F743009B596B /* ConfirmationControlLayer.cpp in Sources */,
 				301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */,
 				D113134A1E337D3A00E2C033 /* IntroVideoScene.cpp in Sources */,
 				02E595931E55F9BB0052F395 /* OfflineHubHQElement.cpp in Sources */,
