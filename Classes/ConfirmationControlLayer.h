@@ -24,7 +24,7 @@ private:
     void addButtons();
     
 public:
-    
+    static Layer* createController(Size layerSize);
     virtual bool init();
     
     CREATE_FUNC(ConfirmationControlLayer);

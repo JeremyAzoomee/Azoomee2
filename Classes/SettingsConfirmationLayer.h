@@ -10,9 +10,14 @@ class SettingsConfirmationLayer : public Layer
 {
 private:
     float layerHeight;
+    float contentWidth;
+    
     ui::ScrollView *scrollView;
+    
+    Label* detailsLabel;
 
-    void addExitOrLogoutUIObjects();
+    void addDetailsLabel();
+    void addScrollView();
     
 public:
     static Layer* createWithHeight(float setLayerHeight);

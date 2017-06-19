@@ -1,5 +1,15 @@
 #include "ConfirmationControlLayer.h"
 
+Layer* ConfirmationControlLayer::createController(Size layerSize)
+{
+    auto layer = ConfirmationControlLayer::create();
+    layer->setContentSize(layerSize);
+    layer->addConfirmationFrame();
+    
+    return layer;
+}
+
+
 bool ConfirmationControlLayer::init()
 {
     if ( !Layer::init() )
@@ -14,7 +24,10 @@ bool ConfirmationControlLayer::init()
 
 void ConfirmationControlLayer::addConfirmationFrame()
 {
-    
+    confirmationFrameLayer = ConfirmationLayer::create();
+    confirmationFrameLayer->setContentSize(this->getContentSize());
+    confirmationFrameLayer->addDetailsToLayer("Bob", "Fred", "49KW03B3");
+    this->addChild(confirmationFrameLayer);
 }
 
 void ConfirmationControlLayer::addButtons()
