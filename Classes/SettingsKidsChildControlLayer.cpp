@@ -132,7 +132,7 @@ void SettingsKidsChildControlLayer::buttonPressed(ElectricDreamsButton* button)
         clearAllButCloseButton();
         shareButton->setVisible(true);
     }
-    else if(button == addFriendButton || button == addAnotherButton)
+    else if(button == addFriendButton)
     {
         kidCodeTextInput->setText("");
         childFrameLayer->setToAddAFriend();
@@ -159,13 +159,16 @@ void SettingsKidsChildControlLayer::buttonPressed(ElectricDreamsButton* button)
         closeButton->setVisible(false);
         parentLayer->scrollReset();
     }
-    else if(button == textInputButton || button == tryAgainButton)
+    else if(button == textInputButton || button == tryAgainButton || button == addAnotherButton)
     {
+        kidCodeTextInput->setText("");
         childFrameLayer->setToAddAFriendTextBox();
         
         clearAllButCloseButton();
         kidCodeTextInput->setEditboxVisibility(true);
+        sendCodeButton->setEnabled(false);
         sendCodeButton->setVisible(true);
+        kidCodeTextInput->focusAndShowKeyboard();
     }
     else if(button == sendCodeButton)
     {
@@ -194,7 +197,18 @@ void SettingsKidsChildControlLayer::textInputIsValid(TextInputLayer* inputLayer,
 
 void SettingsKidsChildControlLayer::textInputReturnPressed(TextInputLayer* inputLayer)
 {
-    
+    if(kidCodeTextInput->getText() == "YES")
+    {
+        clearAllButCloseButton();
+        childFrameLayer->setToCodeSuccess("YES");
+        addAnotherButton->setVisible(true);
+    }
+    else if(inputLayer->getText() == "NO")
+    {
+        clearAllButCloseButton();
+        childFrameLayer->setToCodeError("NO");
+        tryAgainButton->setVisible(true);
+    }
 }
 
 void SettingsKidsChildControlLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
@@ -203,7 +217,7 @@ void SettingsKidsChildControlLayer::editBoxEditingDidBegin(TextInputLayer* input
     
     originalYposition = parent->getParent()->getPositionY();
     
-    parent->getParent()->setPosition(parent->getParent()->getPositionX(),Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height*0.7);
+    parent->getParent()->setPosition(parent->getParent()->getPositionX(),Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height*0.75);
 }
 
 void SettingsKidsChildControlLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)

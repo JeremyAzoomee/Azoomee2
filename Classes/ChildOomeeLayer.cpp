@@ -96,7 +96,12 @@ void ChildOomeeLayer::setToAddAFriend()
 
 void ChildOomeeLayer::setToAddAFriendTextBox()
 {
+    resetToIdle();
     
+    Label* detailsLabel = createLabelSettingsChat("To add a friend",Color3B::WHITE);
+    detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height*2.5);
+    detailsLabel->setTag(1000);
+    this->addChild(detailsLabel);
 }
 
 void ChildOomeeLayer::setToCodeError(std::string code)
