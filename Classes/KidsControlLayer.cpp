@@ -188,7 +188,7 @@ void KidsControlLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button ==shareButton)
     {
-         shareKidCode();
+         shareKidCode("Bob has shared this code to you to connect via Azoomee chat, ABCD09SE");
     }
 }
 

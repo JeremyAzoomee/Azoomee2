@@ -6,7 +6,7 @@
 namespace Azoomee
 {
   
-    void shareKidCode();
+    void shareKidCode(const std::string& shareString);
 }
 
 #endif

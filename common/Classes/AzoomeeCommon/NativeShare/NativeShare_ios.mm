@@ -7,14 +7,11 @@ USING_NS_CC;
 namespace Azoomee
 {
 
-void shareKidCode()
+void shareKidCode(const std::string& shareString)
 {
     RootViewController* rootViewController =  (RootViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
     
-    NSString *textToShare = @"Look at this awesome website for aspiring iOS Developers!\n\n";
-    NSURL *myWebsite = [NSURL URLWithString:@"http://www.azoomee.com/"];
-    
-    NSArray *objectsToShare = @[textToShare, myWebsite];
+    NSArray *objectsToShare = @[[NSString stringWithUTF8String:shareString.c_str()]];
     
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
     

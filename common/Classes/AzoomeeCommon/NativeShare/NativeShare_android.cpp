@@ -5,17 +5,20 @@
 namespace Azoomee
 {
 
-void shareKidCode(std::string codeToShare)
-{
-    /*cocos2d::JniMethodInfo methodInfo;
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "showMixpanelNotification", "()V"))
+void shareKidCode(const std::string& shareString)
+{    
+    cocos2d::JniMethodInfo methodInfo;
+    
+    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "shareActionProviderWithString", "(Ljava/lang/String;)V"))
     {
-        CCLOG("showNotification_android failed");
         return;
     }
     
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
-    methodInfo.env->DeleteLocalRef(methodInfo.classID);*/
+    jstring jstringJSONProperties= methodInfo.env->NewStringUTF(shareString.c_str());
+    
+    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID,jstringJSONProperties);
+    
+    methodInfo.env->DeleteLocalRef(methodInfo.classID);
 }
 
 }
