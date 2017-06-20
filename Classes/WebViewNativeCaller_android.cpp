@@ -146,10 +146,10 @@ bool WebViewNativeCaller_android::init()
 
 extern "C"
 {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_getBackToLoginScreen(JNIEnv* env, jobject thiz);
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeViewUI_getBackToLoginScreen(JNIEnv* env, jobject thiz);
 };
 
-JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_getBackToLoginScreen(JNIEnv* env, jobject thiz)
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeViewUI_getBackToLoginScreen(JNIEnv* env, jobject thiz)
 {
     HQHistoryManager::getInstance()->thereWasAnError = true;
 }
@@ -160,10 +160,10 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_getBackToLoginScreen(JNI
 
 extern "C"
 {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_sendMediaPlayerData(JNIEnv* env, jobject thiz, jstring eventKey, jstring eventValue);
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeViewUI_sendMediaPlayerData(JNIEnv* env, jobject thiz, jstring eventKey, jstring eventValue);
 };
 
-JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_sendMediaPlayerData(JNIEnv* env, jobject thiz, jstring eventKey, jstring eventValue)
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeViewUI_sendMediaPlayerData(JNIEnv* env, jobject thiz, jstring eventKey, jstring eventValue)
 {
     const char* cEventKey = env->GetStringUTFChars(eventKey, NULL);
     const char* cEventValue = env->GetStringUTFChars(eventValue, NULL);
@@ -179,10 +179,10 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeView_sendMediaPlayerData(JNIE
 
 extern "C"
 {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISaveLocalDataStorage(JNIEnv* env, jobject thiz, jstring data);
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JsInterfaceUI_JNISaveLocalDataStorage(JNIEnv* env, jobject thiz, jstring data);
 };
 
-JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISaveLocalDataStorage(JNIEnv* env, jobject thiz, jstring data)
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JsInterfaceUI_JNISaveLocalDataStorage(JNIEnv* env, jobject thiz, jstring data)
 {
     std::string cData(env->GetStringUTFChars(data, NULL));
     WebGameAPIDataManager::getInstance()->saveLocalStorageData(cData);
@@ -194,10 +194,10 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISaveLocalDataStorage
 
 extern "C"
 {
-    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetLocalDataStorage(JNIEnv* env, jobject thiz);
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterfaceUI_JNIGetLocalDataStorage(JNIEnv* env, jobject thiz);
 };
 
-JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetLocalDataStorage(JNIEnv* env, jobject thiz)
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterfaceUI_JNIGetLocalDataStorage(JNIEnv* env, jobject thiz)
 {
     jstring returnString = env->NewStringUTF(WebGameAPIDataManager::getInstance()->getLocalStorageData());
     return returnString;
@@ -209,10 +209,10 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetLocalDataStora
 
 extern "C"
 {
-    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring score);
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterfaceUI_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring score);
 };
 
-JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring score)
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterfaceUI_JNISendAPIRequest(JNIEnv* env, jobject thiz, jstring method, jstring responseID, jstring score)
 {
     const char* cMethod = env->GetStringUTFChars(method, NULL);
     const char* cResponseID = env->GetStringUTFChars(responseID, NULL);
@@ -228,10 +228,10 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNISendAPIRequest(JN
 
 extern "C"
 {
-    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetVideoPlaylist(JNIEnv* env, jobject thiz);
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterfaceUI_JNIGetVideoPlaylist(JNIEnv* env, jobject thiz);
 };
 
-JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetVideoPlaylist(JNIEnv* env, jobject thiz)
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterfaceUI_JNIGetVideoPlaylist(JNIEnv* env, jobject thiz)
 {
     jstring returnString = env->NewStringUTF(VideoPlaylistManager::getInstance()->getPlaylist().c_str());
     return returnString;
@@ -243,10 +243,10 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_JsInterface_JNIGetVideoPlaylist(
 
 extern "C"
 {
-    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_NativeView_JNIGetAllCookies(JNIEnv* env, jobject thiz);
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_NativeViewUI_JNIGetAllCookies(JNIEnv* env, jobject thiz);
 };
 
-JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_NativeView_JNIGetAllCookies(JNIEnv* env, jobject thiz)
+JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_NativeViewUI_JNIGetAllCookies(JNIEnv* env, jobject thiz)
 {
     jstring returnString = env->NewStringUTF(CookieDataProvider::getInstance()->getAllCookiesInJson().c_str());
     return returnString;

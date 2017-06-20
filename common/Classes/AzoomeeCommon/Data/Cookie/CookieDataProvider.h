@@ -23,7 +23,8 @@ public:
     
 private:
     bool checkIfCookieIsForUrl(std::string cookieRecord, std::string url);
-    std::string getUrlFromCookie(std::string cookieString);
+    std::string getUrlWithPathFromCookie(std::string cookieString);
+    std::string getDomainFromCookie(std::string cookieString);
 };
 
 }

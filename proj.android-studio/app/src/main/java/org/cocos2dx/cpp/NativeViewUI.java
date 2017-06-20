@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 
 import com.tinizine.azoomee.R;
@@ -46,26 +48,32 @@ public class NativeViewUI extends Activity {
         userid = extras.getString("userid");
         Log.d("userid", userid);
 
-        uiWebView = new WebView(this);;
+        if(uiWebView != null) uiWebView.destroy();
+
+        uiWebView = new WebView(this);
+
+        uiWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
 
         WebSettings webSettings = uiWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
 
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        webSettings.setSupportMultipleWindows(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(false);
+        webSettings.setSupportMultipleWindows(false);
         webSettings.setSaveFormData(false);
         webSettings.setDomStorageEnabled(true);
 
         webSettings.setAllowFileAccess(true);
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setBuiltInZoomControls(true);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setBuiltInZoomControls(false);
         webSettings.setAllowUniversalAccessFromFileURLs(true);
         webSettings.setAllowFileAccessFromFileURLs(true);
         webSettings.setAllowContentAccess(true);
         webSettings.setMediaPlaybackRequiresUserGesture(false);
+        webSettings.setSupportZoom(false);
 
         addContentView(uiWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
@@ -81,13 +89,21 @@ public class NativeViewUI extends Activity {
                 if(uiWebView != null)
                 {
                     uiWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
+
                     uiWebView.loadUrl("about:blank");
                     uiWebView.removeAllViews();
                     uiWebView.clearCache(true);
                     uiWebView.pauseTimers();
-                    uiWebView = null;
+                    uiWebView.onPause();
+                    uiWebView.removeJavascriptInterface("NativeInterface");
 
-                    uiWebViewStatic = null;
+                    ViewGroup vg = (ViewGroup)(uiWebView.getParent());
+                    vg.removeView(uiWebView);
+
+                    uiWebView.destroy();
+                    //uiWebView = null;
+
+                    //uiWebViewStatic = null;
                 }
 
                 JNIRegisterAndroidSceneChangeEvent();
@@ -98,9 +114,15 @@ public class NativeViewUI extends Activity {
 
         addContentView(extra, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
+        uiWebView.resumeTimers();
+        uiWebView.loadUrl("about:blank");
+        uiWebView.clearCache(true);
+        uiWebView.clearHistory();
 
         imageButtonStatic = extra;
         uiWebViewStatic = uiWebView;
+
+        webviewAdditionalSettings();
     }
 
     public static void exitView()
@@ -124,15 +146,20 @@ public class NativeViewUI extends Activity {
         }
 
         Log.d("urlToBeLoaded", myUrl);
+        final String urlToBeLoaded;
 
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
-            uiWebView.loadUrl("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl);
+            urlToBeLoaded = "file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl;
         }
         else
         {
             CookieManager uiWebviewCookieManager = CookieManager.getInstance();
-            if (Build.VERSION.SDK_INT >= 21) uiWebviewCookieManager.flush();
+            if (Build.VERSION.SDK_INT >= 21)
+            {
+                uiWebviewCookieManager.flush();
+                uiWebviewCookieManager.setAcceptThirdPartyCookies(uiWebView, true);
+            }
             uiWebviewCookieManager.setAcceptCookie(true);
 
             try
@@ -156,11 +183,14 @@ public class NativeViewUI extends Activity {
             {
                 this.getBackToLoginScreen();
             }
-
-            uiWebView.loadUrl("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl);
+            urlToBeLoaded = "file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl;
         }
 
+        if(CookieManager.getInstance().hasCookies()) Log.d("COOKIE", "HAS COOKIES");
+        else Log.d("COOKIE", "NO COOKIES SET");
+
         uiWebView.addJavascriptInterface(new JsInterfaceUI(), "NativeInterface");
+        uiWebView.loadUrl(urlToBeLoaded);
     }
 
     static void errorOccurred()

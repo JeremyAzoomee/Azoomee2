@@ -96,7 +96,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
 
         Log.d("sent from cocos", url + " - " + cookieurl + " - " + cookie);
 
-        Intent nvw = new Intent(mContext, NativeView.class);
+        Intent nvw = new Intent(mContext, NativeViewUI.class);
         nvw.putExtra("url", url);
         nvw.putExtra("cookieurl", cookieurl);
         nvw.putExtra("cookie", cookie);

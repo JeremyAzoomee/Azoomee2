@@ -27,14 +27,14 @@ public class JsInterfaceUI extends Activity {
     public void errorOccurred()
     {
         log.d("error", "errorOccurred called!");
-        NativeView.errorOccurred();
+        NativeViewUI.errorOccurred();
     }
 
     @JavascriptInterface
     public void sendMediaPlayerData(String key, String value)
     {
         log.d("eventhandler", "eventhandler called!");
-        NativeView.sendMediaPlayerData(key, value);
+        NativeViewUI.sendMediaPlayerData(key, value);
     }
 
     @JavascriptInterface
@@ -64,7 +64,7 @@ public class JsInterfaceUI extends Activity {
     @JavascriptInterface
     public void exitView()
     {
-        NativeView.exitView();
+        NativeViewUI.exitView();
     }
 
     public static native void JNISaveLocalDataStorage(String data);
