@@ -36,8 +36,8 @@ void shareKidCode()
         
         UIPopoverPresentationController *presentationController = (UIPopoverPresentationController*)activityVC.presentationController;
         presentationController.sourceView = rootViewController.view;
-        presentationController.sourceRect = CGRectMake(CGRectGetMidX(rootViewController.view.bounds), CGRectGetMidY(rootViewController.view.bounds),0,0);
-        presentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+        presentationController.sourceRect = CGRectMake(CGRectGetMidX(rootViewController.view.bounds), rootViewController.view.bounds.size.height*.66,0,0);
+        presentationController.permittedArrowDirections = UIPopoverArrowDirectionDown;
         
         [rootViewController presentViewController:activityVC animated:YES completion:nil];
     }
