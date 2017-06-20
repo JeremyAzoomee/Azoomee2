@@ -5,7 +5,7 @@
 
 using namespace Azoomee;
 
-#define TEST_NO_OF_CONFIRMATIONS 15
+#define TEST_NO_OF_CONFIRMATIONS 3
 #define MARGIN 78
 
 Layer* SettingsConfirmationLayer::createWithHeight(float setLayerHeight)
@@ -76,7 +76,7 @@ void SettingsConfirmationLayer::addScrollView()
 
     for(int i = 0; i < TEST_NO_OF_CONFIRMATIONS; i++)
     {
-        auto confirmationLayer = ConfirmationControlLayer::createController(Size(contentWidth, 182));
+        auto confirmationLayer = ConfirmationControlLayer::createController(Size(contentWidth, 182), i);
         confirmationLayer->setPosition(0,i*182+2);
         scrollView->addChild(confirmationLayer,200);
     }

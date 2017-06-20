@@ -12,6 +12,7 @@ class ConfirmationControlLayer : public Layer, public ElectricDreamsButtonDelega
 {
 private:
     ConfirmationLayer* confirmationFrameLayer;
+    int confirmationNumber;
     
     ElectricDreamsButton *confirmButton;
     ElectricDreamsButton *rejectButton;
@@ -24,7 +25,7 @@ private:
     void addButtons();
     
 public:
-    static Layer* createController(Size layerSize);
+    static Layer* createController(Size layerSize, int setConfirmationNumber);
     virtual bool init();
     
     CREATE_FUNC(ConfirmationControlLayer);

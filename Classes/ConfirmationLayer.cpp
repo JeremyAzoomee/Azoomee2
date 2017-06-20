@@ -46,12 +46,12 @@ void ConfirmationLayer::addDetailsToLayer(std::string setChildName, std::string 
     connectorSprite->setPosition(MARGIN+385+connectorSprite->getContentSize().width/2,this->getContentSize().height/2);
     this->addChild(connectorSprite);
     
-    friendNameLabel = createLabelBody(setChildName);
+    friendNameLabel = createLabelBody(setFriendName);
     reduceLabelTextToFitWidth(childNameLabel,385);
     friendNameLabel->setPosition(connectorSprite->getPositionX()+connectorSprite->getContentSize().width/2+MARGIN+ friendNameLabel->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(friendNameLabel);
     
-    friendCodeLabel = createLabelSettingsChat(StringUtils::format("  /  %s",setChildName.c_str()), Color3B(28, 244, 244));
+    friendCodeLabel = createLabelSettingsChat(StringUtils::format("  /  %s",setFriendCode.c_str()), Color3B(28, 244, 244));
     friendCodeLabel->setPosition(friendNameLabel->getPositionX()+friendNameLabel->getContentSize().width/2+ friendCodeLabel->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(friendCodeLabel);
 }

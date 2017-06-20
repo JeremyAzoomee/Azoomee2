@@ -1,6 +1,7 @@
 #include "KidsControlLayer.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/NativeShare/NativeShare.h>
 
 using namespace Azoomee;
 
@@ -184,6 +185,10 @@ void KidsControlLayer::buttonPressed(ElectricDreamsButton* button)
             childFrameLayer->setToCodeError("NO");
             tryAgainButton->setVisible(true);
         }
+    }
+    else if(button ==shareButton)
+    {
+         shareKidCode();
     }
 }
 

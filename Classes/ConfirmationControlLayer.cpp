@@ -2,10 +2,11 @@
 
 #define MARGIN 69
 
-Layer* ConfirmationControlLayer::createController(Size layerSize)
+Layer* ConfirmationControlLayer::createController(Size layerSize, int setConfirmationNumber)
 {
     auto layer = ConfirmationControlLayer::create();
     layer->setContentSize(layerSize);
+    layer->confirmationNumber = setConfirmationNumber;
     layer->addConfirmationFrame();
     layer->addButtons();
     
@@ -29,7 +30,14 @@ void ConfirmationControlLayer::addConfirmationFrame()
 {
     confirmationFrameLayer = ConfirmationLayer::create();
     confirmationFrameLayer->setContentSize(this->getContentSize());
-    confirmationFrameLayer->addDetailsToLayer("Bob", "Fred", "49KW03B3");
+    
+    if(confirmationNumber == 0)
+        confirmationFrameLayer->addDetailsToLayer("Emmaline", "Mary", "66OG09K8");
+    else if(confirmationNumber == 1)
+        confirmationFrameLayer->addDetailsToLayer("Montgomery", "Leroy", "49KW03B3");
+    else
+        confirmationFrameLayer->addDetailsToLayer("Emmaline", "Alexandra", "59DF01L7");
+    
     this->addChild(confirmationFrameLayer);
 }
 
