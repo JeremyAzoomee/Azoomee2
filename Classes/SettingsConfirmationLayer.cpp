@@ -10,9 +10,6 @@ using namespace Azoomee;
 
 Layer* SettingsConfirmationLayer::createWithHeight(float setLayerHeight)
 {
-    //---QUESTION---- SHOULD WE GET AVAILABLE CHILDREN BEFORE BUILDING THIS - INCASE A NEW CHILD IS CREATED?
-    
-    
     auto layer = SettingsConfirmationLayer::create();
     layer->layerHeight = setLayerHeight;
     layer->setContentSize(Size(Director::getInstance()->getVisibleSize().width,Director::getInstance()->getVisibleSize().height));

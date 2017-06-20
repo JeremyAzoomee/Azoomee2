@@ -20,7 +20,7 @@ Layer* AccountDetailsLayer::createWithHeight(float setLayerHeight)
 {
     auto layer = AccountDetailsLayer::create();
     layer->layerHeight = setLayerHeight;
-    layer->addExitOrLogoutUIObjects();
+    layer->addUIObjects();
     
     return layer;
 }
@@ -33,14 +33,13 @@ bool AccountDetailsLayer::init()
     }
     
     visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
     
     return true;
 }
 
 //----------------Add UI Objects-------------
 
-void AccountDetailsLayer::addExitOrLogoutUIObjects()
+void AccountDetailsLayer::addUIObjects()
 {
     //--------Privacy and Terms-------
     

@@ -126,8 +126,8 @@ void KidsControlLayer::buttonPressed(ElectricDreamsButton* button)
     {
         childFrameLayer->setToShowingCode();
         
-        this->setLocalZOrder(220);
-        parentLayer->scrollToPosition(childNumber);
+        this->setLocalZOrder(SELECTED_KID_LAYER_Z_ORDER);
+        parentLayer->selectChild(childNumber);
         closeButton->setVisible(true);
         
         clearAllButCloseButton();
@@ -138,8 +138,8 @@ void KidsControlLayer::buttonPressed(ElectricDreamsButton* button)
         kidCodeTextInput->setText("");
         childFrameLayer->setToAddAFriend();
         
-        this->setLocalZOrder(220);
-        parentLayer->scrollToPosition(childNumber);
+        this->setLocalZOrder(SELECTED_KID_LAYER_Z_ORDER);
+        parentLayer->selectChild(childNumber);
         closeButton->setVisible(true);
         
         clearAllButCloseButton();
@@ -156,7 +156,7 @@ void KidsControlLayer::buttonPressed(ElectricDreamsButton* button)
         getCodeButton->setVisible(true);
         addFriendButton->setVisible(true);
         
-        this->setLocalZOrder(200);
+        this->setLocalZOrder(IDLE_KID_LAYER_Z_ORDER);
         closeButton->setVisible(false);
         parentLayer->scrollReset();
     }

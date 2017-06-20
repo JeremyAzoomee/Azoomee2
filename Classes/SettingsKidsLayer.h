@@ -6,6 +6,11 @@
 
 USING_NS_CC;
 
+#define IDLE_COVER_LAYER_Z_ORDER 190
+#define SELECTED_COVER_LAYER_Z_ORDER 190
+#define IDLE_KID_LAYER_Z_ORDER 200
+#define SELECTED_KID_LAYER_Z_ORDER 220
+
 class SettingsKidsLayer : public Layer
 {
 private:
@@ -17,9 +22,9 @@ private:
     LayerColor* kidsCoverLayer;
     LayerColor* tabsCoverLayer;
 
-    void addExitOrLogoutUIObjects();
+    void addUIObjects();
     
-    void createBlackCoverLayer();
+    void createBlackCoverLayer(Size innerSize);
     void addTabsCoverLayer();
     void addListenerToCoverLayer(Layer* listenerToLayer);
     
@@ -29,7 +34,7 @@ public:
     
     CREATE_FUNC(SettingsKidsLayer);
     
-    void scrollToPosition(int ChildNumber);
+    void selectChild(int ChildNumber);
     void scrollReset();
 
 };

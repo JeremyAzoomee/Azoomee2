@@ -25,8 +25,7 @@ bool SettingsControlLayer::init()
     AudioMixer::getInstance()->pauseBackgroundMusic();
     
     createSettingsLayer();
-    createSettingsController();
-    //AwaitingAdultPinLayer::create()->setDelegate(this);
+    AwaitingAdultPinLayer::create()->setDelegate(this);
     
     return true;
 }
@@ -53,7 +52,7 @@ void SettingsControlLayer::addListenerToLayer(Layer* layerToAdd)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), layerToAdd);
 }
 
-//---------------------- Create Settings Tabs -----------------------------
+//---------------------- Create Settings Tabs and Objects -----------------------------
 
 void SettingsControlLayer::createSettingsController()
 {
@@ -61,9 +60,7 @@ void SettingsControlLayer::createSettingsController()
     createLine();
     createTabs();
     
-    currentLayer = AccountDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2);
-    currentLayer->setPosition(origin.x,origin.y);
-    backgroundLayer->addChild(currentLayer);
+    selectNewTab(AccountDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), accountButton);
 }
 
 void SettingsControlLayer::createCancelButton()
@@ -83,7 +80,6 @@ void SettingsControlLayer::createLine()
     newDrawNode->setLineWidth(LINE_WIDTH);
     newDrawNode->drawLine(Vec2(0, origin.y+linePositionY), Vec2(visibleSize.width, origin.y+linePositionY), Color4F(28.0/255, 244.0/255, 244.0/255, 1.0));
     backgroundLayer->addChild(newDrawNode,110);
-    
 }
 
 void SettingsControlLayer::createTabs()
@@ -108,56 +104,38 @@ void SettingsControlLayer::createTabs()
 
 void SettingsControlLayer::removeSelf()
 {
+    AudioMixer::getInstance()->resumeBackgroundMusic();
     this->removeChild(backgroundLayer);
     this->removeFromParent();
 }
 
+void SettingsControlLayer::selectNewTab(Layer* newCurrentLayer, ElectricDreamsButton* buttonToBringForward)
+{
+    if(currentLayer)
+        currentLayer->removeFromParent();
+    childrenButton->setLocalZOrder(IDLE_TAB_Z);
+    confirmationButton->setLocalZOrder(IDLE_TAB_Z);
+    accountButton->setLocalZOrder(IDLE_TAB_Z);
+    
+    buttonToBringForward->setLocalZOrder(SELECTED_TAB_Z);
+    
+    currentLayer = newCurrentLayer;
+    currentLayer->setPosition(origin.x,origin.y);
+    backgroundLayer->addChild(currentLayer);
+}
 
 //----------------------- Delegate Functions ----------------------------
 
 void SettingsControlLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
-    {
-        AudioMixer::getInstance()->resumeBackgroundMusic();
         removeSelf();
-    }
     else if(button == childrenButton)
-    {
-        //backgroundLayer->removeChild(currentLayer);
-        currentLayer->removeFromParent();
-        childrenButton->setLocalZOrder(SELECTED_TAB_Z);
-        confirmationButton->setLocalZOrder(IDLE_TAB_Z);
-        accountButton->setLocalZOrder(IDLE_TAB_Z);
-        
-        currentLayer =SettingsKidsLayer::createWithHeight(linePositionY-LINE_WIDTH/2);
-        currentLayer->setPosition(origin.x,origin.y);
-        this->addChild(currentLayer);
-    }
+        selectNewTab(SettingsKidsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), childrenButton);
     else if(button == confirmationButton)
-    {
-        //backgroundLayer->removeChild(currentLayer);
-        currentLayer->removeFromParent();
-        childrenButton->setLocalZOrder(IDLE_TAB_Z);
-        confirmationButton->setLocalZOrder(SELECTED_TAB_Z);
-        accountButton->setLocalZOrder(IDLE_TAB_Z);
-        
-        currentLayer =SettingsConfirmationLayer::createWithHeight(linePositionY-LINE_WIDTH/2);
-        currentLayer->setPosition(origin.x,origin.y);
-        this->addChild(currentLayer);
-    }
+        selectNewTab(SettingsConfirmationLayer::createWithHeight(linePositionY-LINE_WIDTH/2), confirmationButton);
     else if(button == accountButton)
-    {
-        //backgroundLayer->removeChild(currentLayer);
-        currentLayer->removeFromParent();
-        childrenButton->setLocalZOrder(IDLE_TAB_Z);
-        confirmationButton->setLocalZOrder(IDLE_TAB_Z);
-        accountButton->setLocalZOrder(SELECTED_TAB_Z);
-        
-        currentLayer = AccountDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2);
-        currentLayer->setPosition(origin.x,origin.y);
-        backgroundLayer->addChild(currentLayer);
-    }
+        selectNewTab(AccountDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), accountButton);
 }
 
 void SettingsControlLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)

@@ -756,6 +756,19 @@
 			name = uiObjects;
 			sourceTree = "<group>";
 		};
+		434999131EF955F000EB8F88 /* SettingsTabLayers */ = {
+			isa = PBXGroup;
+			children = (
+				430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */,
+				430EC14F1EE992B900B0103B /* AccountDetailsLayer.h */,
+				43FDC65F1EF7E3CE009B596B /* SettingsConfirmationLayer.cpp */,
+				43FDC6601EF7E3CE009B596B /* SettingsConfirmationLayer.h */,
+				430C30E81EEAA0CF00E27589 /* SettingsKidsLayer.cpp */,
+				430C30E91EEAA0CF00E27589 /* SettingsKidsLayer.h */,
+			);
+			name = SettingsTabLayers;
+			sourceTree = "<group>";
+		};
 		439694881EAA4A5B003C17E6 /* Apple */ = {
 			isa = PBXGroup;
 			children = (
@@ -772,15 +785,10 @@
 		43F42E371EE84B7800606290 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				434999131EF955F000EB8F88 /* SettingsTabLayers */,
 				4315CD001EEEC91600B4F22C /* SettingsSubLayers */,
 				43F42E391EE84B9500606290 /* SettingsControlLayer.cpp */,
 				43F42E3A1EE84B9500606290 /* SettingsControlLayer.h */,
-				430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */,
-				430EC14F1EE992B900B0103B /* AccountDetailsLayer.h */,
-				43FDC65F1EF7E3CE009B596B /* SettingsConfirmationLayer.cpp */,
-				43FDC6601EF7E3CE009B596B /* SettingsConfirmationLayer.h */,
-				430C30E81EEAA0CF00E27589 /* SettingsKidsLayer.cpp */,
-				430C30E91EEAA0CF00E27589 /* SettingsKidsLayer.h */,
 			);
 			name = Settings;
 			sourceTree = "<group>";

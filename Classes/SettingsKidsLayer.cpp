@@ -8,11 +8,10 @@ Layer* SettingsKidsLayer::createWithHeight(float setLayerHeight)
 {
     //---QUESTION---- SHOULD WE GET AVAILABLE CHILDREN BEFORE BUILDING THIS - INCASE A NEW CHILD IS CREATED?
     
-    
     auto layer = SettingsKidsLayer::create();
     layer->layerHeight = setLayerHeight;
     layer->setContentSize(Size(Director::getInstance()->getVisibleSize().width,Director::getInstance()->getVisibleSize().height));
-    layer->addExitOrLogoutUIObjects();
+    layer->addUIObjects();
     
     return layer;
 }
@@ -29,7 +28,7 @@ bool SettingsKidsLayer::init()
 
 //----------------Add UI Objects-------------
 
-void SettingsKidsLayer::addExitOrLogoutUIObjects()
+void SettingsKidsLayer::addUIObjects()
 {
     Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren()*900,1200);
     
@@ -46,53 +45,20 @@ void SettingsKidsLayer::addExitOrLogoutUIObjects()
     
     this->addChild(scrollView,50);
     
-    createBlackCoverLayer();
+    createBlackCoverLayer(innerSize);
 
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
         auto childLayer = KidsControlLayer::createController(this, i);
         childLayer->setPosition(i*900,0);
-        scrollView->addChild(childLayer,200);
+        scrollView->addChild(childLayer,IDLE_KID_LAYER_Z_ORDER);
     }
 }
 
-void SettingsKidsLayer::scrollToPosition(int ChildNumber)
+void SettingsKidsLayer::createBlackCoverLayer(Size innerSize)
 {
-    addTabsCoverLayer();
-    swallowTouches = true;
-    
-    kidsCoverLayer->setLocalZOrder(210);
-    scrollView->stopAutoScroll();
-    scrollView->setTouchEnabled(false);
-    scrollView->setScrollBarEnabled(false);
-    scrollView->setInnerContainerPosition(Vec2(scrollView->getContentSize().width/2 - ChildNumber *900-400,0));
-}
-
-void SettingsKidsLayer::scrollReset()
-{
-    tabsCoverLayer->removeFromParent();
-    swallowTouches = false;
-    
-    kidsCoverLayer->setLocalZOrder(190);
-    scrollView->setTouchEnabled(true);
-    scrollView->setScrollBarEnabled(true);
-}
-
-void SettingsKidsLayer::addTabsCoverLayer()
-{
-    tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, Director::getInstance()->getVisibleSize().height-layerHeight+10);
-    tabsCoverLayer->setPosition(0,layerHeight-10);
-    this->addChild(tabsCoverLayer,40);
-    
-    addListenerToCoverLayer(tabsCoverLayer);
-}
-
-void SettingsKidsLayer::createBlackCoverLayer()
-{
-    kidsCoverLayer = LayerColor::create(Color4B::BLACK,ParentDataProvider::getInstance()->getAmountOfAvailableChildren()*900, 1200);
-
-    scrollView->addChild(kidsCoverLayer,190);
-    
+    kidsCoverLayer = LayerColor::create(Color4B::BLACK,innerSize.width, innerSize.height);
+    scrollView->addChild(kidsCoverLayer,IDLE_COVER_LAYER_Z_ORDER);
     addListenerToCoverLayer(kidsCoverLayer);
 }
 
@@ -109,3 +75,38 @@ void SettingsKidsLayer::addListenerToCoverLayer(Layer* listenerToLayer)
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), listenerToLayer);
 }
+
+//------------ACTIONS-----------------------------
+
+void SettingsKidsLayer::selectChild(int ChildNumber)
+{
+    addTabsCoverLayer();
+    swallowTouches = true;
+    
+    kidsCoverLayer->setLocalZOrder(SELECTED_COVER_LAYER_Z_ORDER);
+    scrollView->stopAutoScroll();
+    scrollView->setTouchEnabled(false);
+    scrollView->setScrollBarEnabled(false);
+    scrollView->setInnerContainerPosition(Vec2(scrollView->getContentSize().width/2 - ChildNumber *900-400,0));
+}
+
+void SettingsKidsLayer::scrollReset()
+{
+    tabsCoverLayer->removeFromParent();
+    swallowTouches = false;
+    
+    kidsCoverLayer->setLocalZOrder(IDLE_COVER_LAYER_Z_ORDER);
+    scrollView->setTouchEnabled(true);
+    scrollView->setScrollBarEnabled(true);
+}
+
+void SettingsKidsLayer::addTabsCoverLayer()
+{
+    tabsCoverLayer = LayerColor::create(Color4B(0,0,0,IDLE_KID_LAYER_Z_ORDER),this->getContentSize().width, Director::getInstance()->getVisibleSize().height-layerHeight+10);
+    tabsCoverLayer->setPosition(0,layerHeight-10);
+    this->addChild(tabsCoverLayer,40);
+    
+    addListenerToCoverLayer(tabsCoverLayer);
+}
+
+

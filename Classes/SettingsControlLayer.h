@@ -33,6 +33,9 @@ private:
     
     void removeSelf();
     
+    //Button Actions
+    void selectNewTab(Layer* newCurrentLayer, ElectricDreamsButton* buttonToBringForward);
+    
 public:
     virtual bool init();
     

@@ -11,15 +11,14 @@ class AccountDetailsLayer : public Layer, public ElectricDreamsButtonDelegate
 {
 private:
     Size visibleSize;
-    Vec2 origin;
     
     float layerHeight;
     ElectricDreamsButton *logoutButton;
-     ElectricDreamsButton *iapButton;
+    ElectricDreamsButton *iapButton;
     
     Layer* privacyAndTerms;
     
-    void addExitOrLogoutUIObjects();
+    void addUIObjects();
     void addRichTextLabel(std::string BOLDText);
     
 public:
