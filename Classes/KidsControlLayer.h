@@ -36,6 +36,14 @@ private:
     void addButtons();
     void createTextInput();
     
+    //Control Functions
+    void moveToShowCode();
+    void moveToStartAddFriend();
+    void moveToAddFriendTextBox();
+    void closeKidController();
+    void sendInviteCode();
+    void shareKidCode();
+    
 public:
     
     static Layer* createController(SettingsKidsLayer* setParent, int setChildNumber);

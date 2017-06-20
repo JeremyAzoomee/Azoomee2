@@ -7,7 +7,7 @@ USING_NS_CC;
 namespace Azoomee
 {
 
-void shareKidCode(const std::string& shareString)
+void nativeShareScreenString(const std::string& shareString)
 {
     RootViewController* rootViewController =  (RootViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
     

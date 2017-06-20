@@ -102,7 +102,7 @@ void SettingsKidsLayer::scrollReset()
 
 void SettingsKidsLayer::addTabsCoverLayer()
 {
-    tabsCoverLayer = LayerColor::create(Color4B(0,0,0,IDLE_KID_LAYER_Z_ORDER),this->getContentSize().width, Director::getInstance()->getVisibleSize().height-layerHeight+10);
+    tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, Director::getInstance()->getVisibleSize().height-layerHeight+10);
     tabsCoverLayer->setPosition(0,layerHeight-10);
     this->addChild(tabsCoverLayer,40);
     

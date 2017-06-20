@@ -27,8 +27,6 @@ bool KidsControlLayer::init()
     return true;
 }
 
-//----------------Add UI Objects-------------
-
 void KidsControlLayer::addChildFrame()
 {
     std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(childNumber);
@@ -37,7 +35,17 @@ void KidsControlLayer::addChildFrame()
     childFrameLayer = KidsLayer::createWithChildDetails(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber), oomeeNr);
     this->setContentSize(childFrameLayer->getContentSize());
     this->addChild(childFrameLayer);
-    
+}
+
+//----------------Add CONTROL Objects-------------
+
+void KidsControlLayer::createTextInput()
+{
+    kidCodeTextInput = TextInputLayer::createSettingsChatTextInput(this->getContentSize().width*.8);
+    kidCodeTextInput->setDelegate(this);
+    kidCodeTextInput->setEditboxVisibility(false);
+    kidCodeTextInput->setCenterPosition(Vec2(this->getContentSize().width/2,kidCodeTextInput->getContentSize().height*2.5));
+    childFrameLayer->addChild(kidCodeTextInput);
 }
 
 void KidsControlLayer::addButtons()
@@ -94,16 +102,81 @@ void KidsControlLayer::addButtons()
     sendCodeButton->setVisible(false);
     sendCodeButton->setDelegate(this);
     childFrameLayer->addChild(sendCodeButton);
-
 }
 
-void KidsControlLayer::createTextInput()
+//------------------CONTROL FUNCTIONS----------------------
+
+void KidsControlLayer::moveToShowCode()
 {
-    kidCodeTextInput = TextInputLayer::createSettingsChatTextInput(this->getContentSize().width*.8);
-    kidCodeTextInput->setDelegate(this);
-    kidCodeTextInput->setEditboxVisibility(false);
-    kidCodeTextInput->setCenterPosition(Vec2(this->getContentSize().width/2,kidCodeTextInput->getContentSize().height*2.5));
-    childFrameLayer->addChild(kidCodeTextInput);
+    childFrameLayer->setToShowingCode();
+    
+    this->setLocalZOrder(SELECTED_KID_LAYER_Z_ORDER);
+    parentLayer->selectChild(childNumber);
+    closeButton->setVisible(true);
+    
+    clearAllButCloseButton();
+    shareButton->setVisible(true);
+}
+
+void KidsControlLayer::moveToStartAddFriend()
+{
+    kidCodeTextInput->setText("");
+    childFrameLayer->setToAddAFriend();
+    
+    this->setLocalZOrder(SELECTED_KID_LAYER_Z_ORDER);
+    parentLayer->selectChild(childNumber);
+    closeButton->setVisible(true);
+    
+    clearAllButCloseButton();
+    textInputButton->setVisible(true);
+}
+
+void KidsControlLayer::moveToAddFriendTextBox()
+{
+    kidCodeTextInput->setText("");
+    childFrameLayer->setToAddAFriendTextBox();
+    
+    clearAllButCloseButton();
+    kidCodeTextInput->setEditboxVisibility(true);
+    sendCodeButton->setEnabled(false);
+    sendCodeButton->setVisible(true);
+    kidCodeTextInput->focusAndShowKeyboard();
+}
+
+void KidsControlLayer::closeKidController()
+{
+    sendCodeButton->setEnabled(false);
+    kidCodeTextInput->setText("");
+    childFrameLayer->resetToIdle();
+    
+    clearAllButCloseButton();
+    getCodeButton->setVisible(true);
+    addFriendButton->setVisible(true);
+    
+    this->setLocalZOrder(IDLE_KID_LAYER_Z_ORDER);
+    closeButton->setVisible(false);
+    parentLayer->scrollReset();
+}
+
+void KidsControlLayer::sendInviteCode()
+{
+    clearAllButCloseButton();
+    
+    if(kidCodeTextInput->getText() == "YES")
+    {
+        childFrameLayer->setToCodeSuccess("YES");
+        addAnotherButton->setVisible(true);
+    }
+    else
+    {
+        childFrameLayer->setToCodeError("NO");
+        tryAgainButton->setVisible(true);
+    }
+}
+
+void KidsControlLayer::shareKidCode()
+{
+    nativeShareScreenString("Bob has shared this code to you to connect via Azoomee chat, ABCD09SE");
 }
 
 void KidsControlLayer::clearAllButCloseButton()
@@ -123,73 +196,17 @@ void KidsControlLayer::clearAllButCloseButton()
 void KidsControlLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button ==getCodeButton)
-    {
-        childFrameLayer->setToShowingCode();
-        
-        this->setLocalZOrder(SELECTED_KID_LAYER_Z_ORDER);
-        parentLayer->selectChild(childNumber);
-        closeButton->setVisible(true);
-        
-        clearAllButCloseButton();
-        shareButton->setVisible(true);
-    }
+        moveToShowCode();
     else if(button == addFriendButton)
-    {
-        kidCodeTextInput->setText("");
-        childFrameLayer->setToAddAFriend();
-        
-        this->setLocalZOrder(SELECTED_KID_LAYER_Z_ORDER);
-        parentLayer->selectChild(childNumber);
-        closeButton->setVisible(true);
-        
-        clearAllButCloseButton();
-        textInputButton->setVisible(true);
-        
-    }
+        moveToStartAddFriend();
     else if(button == closeButton)
-    {
-        sendCodeButton->setEnabled(false);
-        kidCodeTextInput->setText("");
-        childFrameLayer->resetToIdle();
-        
-        clearAllButCloseButton();
-        getCodeButton->setVisible(true);
-        addFriendButton->setVisible(true);
-        
-        this->setLocalZOrder(IDLE_KID_LAYER_Z_ORDER);
-        closeButton->setVisible(false);
-        parentLayer->scrollReset();
-    }
+        closeKidController();
     else if(button == textInputButton || button == tryAgainButton || button == addAnotherButton)
-    {
-        kidCodeTextInput->setText("");
-        childFrameLayer->setToAddAFriendTextBox();
-        
-        clearAllButCloseButton();
-        kidCodeTextInput->setEditboxVisibility(true);
-        sendCodeButton->setEnabled(false);
-        sendCodeButton->setVisible(true);
-        kidCodeTextInput->focusAndShowKeyboard();
-    }
+        moveToAddFriendTextBox();
     else if(button == sendCodeButton)
-    {
-        clearAllButCloseButton();
-        
-        if(kidCodeTextInput->getText() == "YES")
-        {
-            childFrameLayer->setToCodeSuccess("YES");
-            addAnotherButton->setVisible(true);
-        }
-        else
-        {
-            childFrameLayer->setToCodeError("NO");
-            tryAgainButton->setVisible(true);
-        }
-    }
+        sendInviteCode();
     else if(button ==shareButton)
-    {
-         shareKidCode("Bob has shared this code to you to connect via Azoomee chat, ABCD09SE");
-    }
+        shareKidCode();
 }
 
 void KidsControlLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)

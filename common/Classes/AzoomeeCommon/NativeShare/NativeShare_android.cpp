@@ -5,7 +5,7 @@
 namespace Azoomee
 {
 
-void shareKidCode(const std::string& shareString)
+void nativeShareScreenString(const std::string& shareString)
 {    
     cocos2d::JniMethodInfo methodInfo;
     
