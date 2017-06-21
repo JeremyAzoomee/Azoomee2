@@ -1,14 +1,10 @@
 #include "IAPDetailsLayer_ios.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "PrivacyAndTermsLayer.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 USING_NS_CC;
 
-#define FONT_MEDIUM "fonts/Sofia Pro Soft Medium.otf"
-#define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
-#define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
-
-#define COLOR_BRIGHT_AQUA Color3B(28, 244, 244)
 
 bool IAPDetailsLayer_ios::init()
 {
@@ -82,8 +78,8 @@ void IAPDetailsLayer_ios::addButtons()
 
 void IAPDetailsLayer_ios::addTitle()
 {
-    titleLabel = Label::createWithTTF("AZOOMEE PREMIUM SUBSCRIPTION", FONT_REGULAR, 130);
-    titleLabel->setColor(COLOR_BRIGHT_AQUA);
+    titleLabel = Label::createWithTTF("AZOOMEE PREMIUM SUBSCRIPTION", Style::Font::Regular, 130);
+    titleLabel->setColor(Style::Color::brightAqua);
     titleLabel->setAnchorPoint(Vec2(0,0.5));
     titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     
@@ -102,15 +98,15 @@ void IAPDetailsLayer_ios::addALLBulletsAndLabel()
     addBulletAndLabel("You can manage your subscription and turn auto-renewal on or off by going to your App Store Account Settings after purchase", yPosition -MarginSize*1.8);
     addBulletAndLabel("Any unused portion of a free trial period, if offered, will be forfeited when you purchase a subscription, where applicable", yPosition -MarginSize*2.3);
     
-    Label* privacyTitle = Label::createWithTTF("PRIVACY & SAFETY", FONT_REGULAR, 80);
-    privacyTitle->setColor(COLOR_BRIGHT_AQUA);
+    Label* privacyTitle = Label::createWithTTF("PRIVACY & SAFETY", Style::Font::Regular, 80);
+    privacyTitle->setColor(Style::Color::brightAqua);
     privacyTitle->setHorizontalAlignment(TextHAlignment::LEFT);
     privacyTitle->setAnchorPoint(Vec2(0, 1));
     privacyTitle->setWidth(IAPDetailsLayer->getContentSize().width*.8);
     privacyTitle->setPosition(Vec2(MarginSize/2,yPosition-MarginSize*3));
     IAPDetailsLayer->addChild(privacyTitle);
     
-    Label* privacyBody = Label::createWithTTF("Azoomee values your child’s privacy and safety. We do not share or sell you or your child's personal information with 3rd parties, and we do not serve any advertising.", FONT_REGULAR, 50);
+    Label* privacyBody = Label::createWithTTF("Azoomee values your child’s privacy and safety. We do not share or sell you or your child's personal information with 3rd parties, and we do not serve any advertising.", Style::Font::Regular, 50);
     privacyBody->setColor(Color3B::WHITE);
     privacyBody->setHorizontalAlignment(TextHAlignment::LEFT);
     privacyBody->setAnchorPoint(Vec2(0, 1));
@@ -118,7 +114,7 @@ void IAPDetailsLayer_ios::addALLBulletsAndLabel()
     privacyBody->setPosition(Vec2(MarginSize/2,yPosition-MarginSize*3.3));
     IAPDetailsLayer->addChild(privacyBody);
     
-    Label* privacyLinks = Label::createWithTTF("Please visit the Azoomee website to read our", FONT_REGULAR, 50);
+    Label* privacyLinks = Label::createWithTTF("Please visit the Azoomee website to read our", Style::Font::Regular, 50);
     privacyLinks->setColor(Color3B::WHITE);
     privacyLinks->setHorizontalAlignment(TextHAlignment::LEFT);
     privacyLinks->setAnchorPoint(Vec2(0, 0));
@@ -138,7 +134,7 @@ void IAPDetailsLayer_ios::addBulletAndLabel(std::string regularText, float yPosi
     bullet->setPosition(MarginSize/2 + bullet->getContentSize().width/2, yPosition);
     IAPDetailsLayer->addChild(bullet);
     
-    Label* newLabel = Label::createWithTTF(regularText, FONT_REGULAR, 50);
+    Label* newLabel = Label::createWithTTF(regularText, Style::Font::Regular, 50);
     newLabel->setColor(Color3B::WHITE);
     newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     newLabel->setAnchorPoint(Vec2(0, 1));

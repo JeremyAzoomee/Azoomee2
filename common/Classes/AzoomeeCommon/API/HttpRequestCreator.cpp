@@ -196,9 +196,9 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
 
 void HttpRequestCreator::handleError(network::HttpResponse *response)
 {
-    std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
-    std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
-    std::string requestTag = response->getHttpRequest()->getTag();
+    const std::string& responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
+    const std::string& responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
+    const std::string& requestTag = response->getHttpRequest()->getTag();
     long errorCode = response->getResponseCode();
     
     cocos2d::log("request tag: %s", requestTag.c_str());
@@ -230,7 +230,7 @@ void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, lo
 
 std::string HttpRequestCreator::getQidFromResponseHeader(std::string responseHeaderString)
 {
-    std::vector<std::string> responseHeaderVector = splitStringToVector(responseHeaderString, "\n");
+    const std::vector<std::string>& responseHeaderVector = splitStringToVector(responseHeaderString, "\n");
     for(int i = 0; i < responseHeaderVector.size(); i++)
     {
         if(responseHeaderVector.at(i).compare(0, 9, "x-az-qid:") == 0)

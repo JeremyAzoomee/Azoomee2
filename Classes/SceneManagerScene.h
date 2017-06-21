@@ -17,7 +17,7 @@ private:
     void forceToLandscape();
     
 public:
-    static Scene* createScene(SceneNameEnum sceneName);
+    static cocos2d::Scene* createScene(SceneNameEnum sceneName);
     virtual bool init();
     
     virtual void onEnterTransitionDidFinish();

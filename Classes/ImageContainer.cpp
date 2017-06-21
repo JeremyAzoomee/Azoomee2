@@ -1,6 +1,6 @@
 #include "ImageContainer.h"
 #include "WebViewSelector.h"
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "HQDataParser.h"
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
@@ -263,7 +263,7 @@ void ImageContainer::addLockToImageContainer(float startDelay)
 
 void ImageContainer::addImageToLayer(std::string url,std::string type, float startDelay)
 {
-    ImageDownloader *imageDownloader = ImageDownloader::create();
+    RemoteImageSprite *imageDownloader = RemoteImageSprite::create();
     imageDownloader->initWithURLAndSize(url, type, Size(bgLayer->getContentSize().width - 20, bgLayer->getContentSize().height - 20), cocos2d::Vec2(1,1));
     imageDownloader->setPosition(bgLayer->getContentSize() / 2);
     imageDownloader->setOpacity(0);

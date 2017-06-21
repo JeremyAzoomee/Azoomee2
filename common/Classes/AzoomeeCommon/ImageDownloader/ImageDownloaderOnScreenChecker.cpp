@@ -1,5 +1,5 @@
 #include "ImageDownloaderOnScreenChecker.h"
-#include "ImageDownloader.h"
+#include "RemoteImageSprite.h"
 
 using namespace cocos2d;
 
@@ -56,13 +56,13 @@ bool ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen(Node* itemToCheck)
 
 void ImageDownloaderOnScreenChecker::elementAppeared(Node* sender)
 {
-    ImageDownloader* owner = (ImageDownloader*)sender;
+    RemoteImageSprite* owner = (RemoteImageSprite*)sender;
     owner->startLoadingImage();
 }
 
 void ImageDownloaderOnScreenChecker::elementDisappeared(Node* sender)
 {
-    ImageDownloader* owner = (ImageDownloader*)sender;
+    RemoteImageSprite* owner = (RemoteImageSprite*)sender;
     owner->removeLoadedImage();
 }
 

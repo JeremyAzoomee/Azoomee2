@@ -15,8 +15,7 @@ LOCAL_MODULE_FILENAME := libazoomee_chat
 define find-src-files
 	$(patsubst ./%, %, \
   		$(shell cd $(LOCAL_PATH) ; \
-        	find $(1) -name "*.cpp" -and -not -name ".*" -and -not -name "_ios.*" | \
-            grep -vF $(2) \
+        	find $(1) -name "*.cpp" -and -not -name ".*" -and -not -name "_ios.*" | grep -vF $(2) \
         ) \
  	)
 endef
@@ -36,7 +35,7 @@ LOCAL_STATIC_LIBRARIES := cocos2dx_static
 LOCAL_STATIC_LIBRARIES += azoomee_common
 
 # Export header files
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../../Classes/AzoomeeChat
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../../Classes/
 
 include $(BUILD_STATIC_LIBRARY)
 

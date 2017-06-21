@@ -108,13 +108,6 @@ void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
     request->execute();
 }
 
-void ChatAPI::sendMessage(const FriendRef& friendObj, const std::string& message)
-{
-    // Create the message
-    const MessageRef& messageObj = Message::createTextMessage(message);
-    sendMessage(friendObj, messageObj);
-}
-
 #pragma mark - HttpRequestCreatorResponseDelegate
 
 void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -134,10 +127,13 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         {
             const auto& jsonEntry = *it;
             const FriendRef& friendData = Friend::createFromJson(jsonEntry);
-            friendList.push_back(friendData);
-            
-            int unreadMessages = jsonEntry["unreadMessages"].GetInt();
-            cocos2d::log("%d unread messages from %s", unreadMessages, friendData->friendName().c_str());
+            if(friendData)
+            {
+                friendList.push_back(friendData);
+                
+                int unreadMessages = jsonEntry["unreadMessages"].GetInt();
+                cocos2d::log("%d unread messages from %s", unreadMessages, friendData->friendName().c_str());
+            }
         }
         
         _friendList = friendList;
@@ -173,7 +169,15 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             const MessageRef& message = Message::createFromJson(object);
             if(message)
             {
-                messages.push_back(message);
+                // Make sure a text type message has a message, aka ignore blank messages
+                if(message->messageType() == Message::MessageTypeText && message->messageText().size() == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    messages.push_back(message);
+                }
             }
         }
         
@@ -191,11 +195,13 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         response.Parse(body.c_str());
         
         const MessageRef& message = Message::createFromJson(response);
-        
-        // Notify observers
-        for(auto observer : _observers)
+        if(message)
         {
-            observer->onChatAPISendMessage(message);
+            // Notify observers
+            for(auto observer : _observers)
+            {
+                observer->onChatAPISendMessage(message);
+            }
         }
     }
 }

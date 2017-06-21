@@ -13,9 +13,8 @@
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/UI/Style.h>
 
-#define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
-#define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
 
 using namespace Azoomee;
 
@@ -130,8 +129,8 @@ void ExitOrLogoutLayer::addRichTextLabel(std::string BOLDText)
     cocos2d::ui::RichText* richTextLabel = cocos2d::ui::RichText::create();
     richTextLabel->setAnchorPoint(Vec2(0.5,0.5));
     
-    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, "You have a ", FONT_REGULAR, 84));
-    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDText, FONT_BOLD, 84));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, "You have a ", Style::Font::Regular, 84));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDText, Style::Font::Bold, 84));
     richTextLabel->setPosition(Vec2(windowLayer->getContentSize().width/2,windowLayer->getContentSize().height*.6));
     windowLayer->addChild(richTextLabel);
 }

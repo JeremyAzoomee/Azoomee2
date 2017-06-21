@@ -55,7 +55,11 @@
 		<true/>
 	</dict>
 	<key>UIAppFonts</key>
-	<array/>
+	<array>
+		<string>fonts/Sofia Pro Soft Bold.otf</string>
+		<string>fonts/Sofia Pro Soft Medium.otf</string>
+		<string>fonts/Sofia Pro Soft Regular.otf</string>
+	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiresFullScreen</key>

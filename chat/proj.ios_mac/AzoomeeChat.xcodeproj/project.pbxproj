@@ -14,18 +14,33 @@
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
 		301849861EBB84A1005B994A /* Friend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849841EBB84A1005B994A /* Friend.cpp */; };
 		3018498B1EBB926B005B994A /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849891EBB926B005B994A /* Message.cpp */; };
-		3018499A1EC0B1F9005B994A /* ChatTestScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3018498F1EC0B161005B994A /* ChatTestScene.cpp */; };
-		3018499B1EC0B1F9005B994A /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849911EC0B161005B994A /* HelloWorldScene.cpp */; };
 		301849A21EC0B747005B994A /* AuthAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3018499E1EC0B747005B994A /* AuthAPI.cpp */; };
-		301849A61EC0B841005B994A /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849A41EC0B841005B994A /* LoginScene.cpp */; };
-		301849A91EC0BF68005B994A /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849A71EC0BF68005B994A /* ChildSelectorScene.cpp */; };
-		301849B41EC5CDD9005B994A /* OrientationFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849B11EC5BDA2005B994A /* OrientationFunctions.cpp */; };
+		302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849A71EC0BF68005B994A /* ChildSelectorScene.cpp */; };
+		302E84741ED1A1C7006A498C /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849A41EC0B841005B994A /* LoginScene.cpp */; };
 		304410571E9D001E00B7F383 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304410551E9D001E00B7F383 /* AppDelegate.cpp */; };
 		304410581E9D13E800B7F383 /* libAzoomeeCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304410451E9CFFA100B7F383 /* libAzoomeeCommon.a */; };
 		304410591E9D13E800B7F383 /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3044103E1E9CFF9300B7F383 /* libcocos2d iOS.a */; };
 		304410711E9D19C900B7F383 /* libAzoomeeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 304410631E9D18E600B7F383 /* libAzoomeeChat.a */; };
 		304E50191EB352AD00D077E3 /* ChatAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304E50151EB352AD00D077E3 /* ChatAPI.cpp */; };
 		304E50241EB3637D00D077E3 /* AppsFlyerLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304E50221EB3637800D077E3 /* AppsFlyerLib.framework */; };
+		305966751ECC59C8009A7130 /* FriendListScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966731ECC59C8009A7130 /* FriendListScene.cpp */; };
+		3059667E1ECC5F90009A7130 /* ChatConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3059667C1ECC5F90009A7130 /* ChatConfig.cpp */; };
+		305966921ECC9C21009A7130 /* FriendListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3059668C1ECC9C21009A7130 /* FriendListView.cpp */; };
+		305966931ECC9C21009A7130 /* AvatarWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3059668E1ECC9C21009A7130 /* AvatarWidget.cpp */; };
+		305966941ECC9C21009A7130 /* TitleBarWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966901ECC9C21009A7130 /* TitleBarWidget.cpp */; };
+		3059669F1ECDE230009A7130 /* FriendListViewItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3059669D1ECDE230009A7130 /* FriendListViewItem.cpp */; };
+		305966A31ECF3558009A7130 /* MessageScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966A11ECF3558009A7130 /* MessageScene.cpp */; };
+		305966A81ECF44AA009A7130 /* MessageListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966A61ECF44AA009A7130 /* MessageListView.cpp */; };
+		305966AB1ECF44E0009A7130 /* MessageListViewItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966A91ECF44E0009A7130 /* MessageListViewItem.cpp */; };
+		30790D2C1EDD7B7F003654BC /* StickerSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D2A1EDD7B7F003654BC /* StickerSelector.cpp */; };
+		30790D321EDDBCF0003654BC /* StickerCategoryListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D301EDDBCF0003654BC /* StickerCategoryListView.cpp */; };
+		30790D351EDDC0C0003654BC /* Sticker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D331EDDC0C0003654BC /* Sticker.cpp */; };
+		30790D3B1EDDC77E003654BC /* StickerCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D391EDDC77E003654BC /* StickerCategory.cpp */; };
+		30790D3E1EDDC88A003654BC /* StickerCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D3C1EDDC88A003654BC /* StickerCache.cpp */; };
+		30790D411EDDFD11003654BC /* StickerCategoryListViewItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D3F1EDDFD11003654BC /* StickerCategoryListViewItem.cpp */; };
+		30790D461EDE09C3003654BC /* StickerListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D421EDE09C3003654BC /* StickerListView.cpp */; };
+		30790D471EDE09C3003654BC /* StickerListViewColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D441EDE09C3003654BC /* StickerListViewColumn.cpp */; };
+		30C36E0C1ED0568800F2FA88 /* MessageComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C36E0A1ED0568800F2FA88 /* MessageComposer.cpp */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images.xcassets */; };
 		430B214E1E4485DA004ACB10 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B214D1E4485DA004ACB10 /* CFNetwork.framework */; };
@@ -58,7 +73,6 @@
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
-		503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FF17EB989F00D1A890 /* RootViewController.mm */; };
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -73,6 +87,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3000FF7C1ED5BDD900E9717C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3077F4401E8D5048006DA465;
+			remoteInfo = AzoomeeCommon;
+		};
 		3044103B1E9CFF9300B7F383 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
@@ -137,18 +158,12 @@
 		301849851EBB84A1005B994A /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		301849891EBB926B005B994A /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
 		3018498A1EBB926B005B994A /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		3018498F1EC0B161005B994A /* ChatTestScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatTestScene.cpp; sourceTree = "<group>"; };
-		301849901EC0B161005B994A /* ChatTestScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatTestScene.h; sourceTree = "<group>"; };
-		301849911EC0B161005B994A /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelloWorldScene.cpp; sourceTree = "<group>"; };
-		301849921EC0B161005B994A /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldScene.h; sourceTree = "<group>"; };
 		3018499E1EC0B747005B994A /* AuthAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AuthAPI.cpp; sourceTree = "<group>"; };
 		3018499F1EC0B747005B994A /* AuthAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthAPI.h; sourceTree = "<group>"; };
 		301849A41EC0B841005B994A /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
 		301849A51EC0B841005B994A /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		301849A71EC0BF68005B994A /* ChildSelectorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildSelectorScene.cpp; sourceTree = "<group>"; };
 		301849A81EC0BF68005B994A /* ChildSelectorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildSelectorScene.h; sourceTree = "<group>"; };
-		301849B11EC5BDA2005B994A /* OrientationFunctions.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = OrientationFunctions.cpp; sourceTree = "<group>"; };
-		301849B21EC5BDA2005B994A /* OrientationFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrientationFunctions.h; sourceTree = "<group>"; };
 		304410551E9D001E00B7F383 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		304410561E9D001E00B7F383 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		304410631E9D18E600B7F383 /* libAzoomeeChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeChat.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -156,7 +171,43 @@
 		304E50161EB352AD00D077E3 /* ChatAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatAPI.h; sourceTree = "<group>"; };
 		304E501D1EB357E000D077E3 /* AzoomeeChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeChat.h; sourceTree = "<group>"; };
 		304E50221EB3637800D077E3 /* AppsFlyerLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppsFlyerLib.framework; path = ../../proj.ios_mac/AppsFlyerLib.framework; sourceTree = "<group>"; };
+		305966731ECC59C8009A7130 /* FriendListScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FriendListScene.cpp; sourceTree = "<group>"; };
+		305966741ECC59C8009A7130 /* FriendListScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListScene.h; sourceTree = "<group>"; };
+		3059667C1ECC5F90009A7130 /* ChatConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatConfig.cpp; sourceTree = "<group>"; };
+		3059667D1ECC5F90009A7130 /* ChatConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatConfig.h; sourceTree = "<group>"; };
+		3059668C1ECC9C21009A7130 /* FriendListView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FriendListView.cpp; sourceTree = "<group>"; };
+		3059668D1ECC9C21009A7130 /* FriendListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListView.h; sourceTree = "<group>"; };
+		3059668E1ECC9C21009A7130 /* AvatarWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AvatarWidget.cpp; sourceTree = "<group>"; };
+		3059668F1ECC9C21009A7130 /* AvatarWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvatarWidget.h; sourceTree = "<group>"; };
+		305966901ECC9C21009A7130 /* TitleBarWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TitleBarWidget.cpp; sourceTree = "<group>"; };
+		305966911ECC9C21009A7130 /* TitleBarWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleBarWidget.h; sourceTree = "<group>"; };
+		3059669D1ECDE230009A7130 /* FriendListViewItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FriendListViewItem.cpp; sourceTree = "<group>"; };
+		3059669E1ECDE230009A7130 /* FriendListViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListViewItem.h; sourceTree = "<group>"; };
+		305966A11ECF3558009A7130 /* MessageScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageScene.cpp; sourceTree = "<group>"; };
+		305966A21ECF3558009A7130 /* MessageScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageScene.h; sourceTree = "<group>"; };
+		305966A61ECF44AA009A7130 /* MessageListView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageListView.cpp; sourceTree = "<group>"; };
+		305966A71ECF44AA009A7130 /* MessageListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListView.h; sourceTree = "<group>"; };
+		305966A91ECF44E0009A7130 /* MessageListViewItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageListViewItem.cpp; sourceTree = "<group>"; };
+		305966AA1ECF44E0009A7130 /* MessageListViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListViewItem.h; sourceTree = "<group>"; };
 		3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../../common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
+		30790D2A1EDD7B7F003654BC /* StickerSelector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerSelector.cpp; sourceTree = "<group>"; };
+		30790D2B1EDD7B7F003654BC /* StickerSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerSelector.h; sourceTree = "<group>"; };
+		30790D301EDDBCF0003654BC /* StickerCategoryListView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerCategoryListView.cpp; sourceTree = "<group>"; };
+		30790D311EDDBCF0003654BC /* StickerCategoryListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerCategoryListView.h; sourceTree = "<group>"; };
+		30790D331EDDC0C0003654BC /* Sticker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sticker.cpp; sourceTree = "<group>"; };
+		30790D341EDDC0C0003654BC /* Sticker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sticker.h; sourceTree = "<group>"; };
+		30790D391EDDC77E003654BC /* StickerCategory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerCategory.cpp; sourceTree = "<group>"; };
+		30790D3A1EDDC77E003654BC /* StickerCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerCategory.h; sourceTree = "<group>"; };
+		30790D3C1EDDC88A003654BC /* StickerCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerCache.cpp; sourceTree = "<group>"; };
+		30790D3D1EDDC88A003654BC /* StickerCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerCache.h; sourceTree = "<group>"; };
+		30790D3F1EDDFD11003654BC /* StickerCategoryListViewItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerCategoryListViewItem.cpp; sourceTree = "<group>"; };
+		30790D401EDDFD11003654BC /* StickerCategoryListViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerCategoryListViewItem.h; sourceTree = "<group>"; };
+		30790D421EDE09C3003654BC /* StickerListView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerListView.cpp; sourceTree = "<group>"; };
+		30790D431EDE09C3003654BC /* StickerListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerListView.h; sourceTree = "<group>"; };
+		30790D441EDE09C3003654BC /* StickerListViewColumn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerListViewColumn.cpp; sourceTree = "<group>"; };
+		30790D451EDE09C3003654BC /* StickerListViewColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerListViewColumn.h; sourceTree = "<group>"; };
+		30C36E0A1ED0568800F2FA88 /* MessageComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageComposer.cpp; sourceTree = "<group>"; };
+		30C36E0B1ED0568800F2FA88 /* MessageComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposer.h; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; name = res; path = ../../Resources/res; sourceTree = "<group>"; };
 		43069CE81E3B492600D6A631 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = SOURCE_ROOT; };
 		430B214D1E4485DA004ACB10 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
@@ -191,8 +242,6 @@
 		503AE0FB17EB989F00D1A890 /* AppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppController.mm; path = ios/AppController.mm; sourceTree = SOURCE_ROOT; };
 		503AE0FC17EB989F00D1A890 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ios/main.m; sourceTree = SOURCE_ROOT; };
 		503AE0FD17EB989F00D1A890 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ios/Prefix.pch; sourceTree = SOURCE_ROOT; };
-		503AE0FE17EB989F00D1A890 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = ios/RootViewController.h; sourceTree = SOURCE_ROOT; };
-		503AE0FF17EB989F00D1A890 /* RootViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RootViewController.mm; path = ios/RootViewController.mm; sourceTree = SOURCE_ROOT; };
 		503AE11117EB99EE00D1A890 /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
 		503AE11A17EB9C5A00D1A890 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		5087E77C17EB970100C73F5D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = Info.plist; path = ios/Info.plist; sourceTree = "<group>"; };
@@ -272,8 +321,6 @@
 				5087E77C17EB970100C73F5D /* Info.plist */,
 				503AE0FC17EB989F00D1A890 /* main.m */,
 				503AE0FD17EB989F00D1A890 /* Prefix.pch */,
-				503AE0FE17EB989F00D1A890 /* RootViewController.h */,
-				503AE0FF17EB989F00D1A890 /* RootViewController.mm */,
 			);
 			name = ios;
 			path = Classes;
@@ -354,6 +401,7 @@
 				301849851EBB84A1005B994A /* Friend.h */,
 				301849891EBB926B005B994A /* Message.cpp */,
 				3018498A1EBB926B005B994A /* Message.h */,
+				30790D4B1EDE0A01003654BC /* Stickers */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -391,9 +439,116 @@
 				304E501D1EB357E000D077E3 /* AzoomeeChat.h */,
 				304E50151EB352AD00D077E3 /* ChatAPI.cpp */,
 				304E50161EB352AD00D077E3 /* ChatAPI.h */,
+				3059667B1ECC5F90009A7130 /* Config */,
 				301849831EBB84A1005B994A /* Data */,
+				305966721ECC59C8009A7130 /* UI */,
 			);
 			path = AzoomeeChat;
+			sourceTree = "<group>";
+		};
+		305966721ECC59C8009A7130 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				3059668E1ECC9C21009A7130 /* AvatarWidget.cpp */,
+				3059668F1ECC9C21009A7130 /* AvatarWidget.h */,
+				305966901ECC9C21009A7130 /* TitleBarWidget.cpp */,
+				305966911ECC9C21009A7130 /* TitleBarWidget.h */,
+				305966A51ECF3562009A7130 /* FriendList */,
+				305966A41ECF355B009A7130 /* Message */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		3059667B1ECC5F90009A7130 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				3059667C1ECC5F90009A7130 /* ChatConfig.cpp */,
+				3059667D1ECC5F90009A7130 /* ChatConfig.h */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		305966A41ECF355B009A7130 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				305966A11ECF3558009A7130 /* MessageScene.cpp */,
+				305966A21ECF3558009A7130 /* MessageScene.h */,
+				30C36E0A1ED0568800F2FA88 /* MessageComposer.cpp */,
+				30C36E0B1ED0568800F2FA88 /* MessageComposer.h */,
+				30790D4A1EDE09E7003654BC /* MessageList */,
+				30790D2F1EDDBCE6003654BC /* Stickers */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
+		305966A51ECF3562009A7130 /* FriendList */ = {
+			isa = PBXGroup;
+			children = (
+				305966731ECC59C8009A7130 /* FriendListScene.cpp */,
+				305966741ECC59C8009A7130 /* FriendListScene.h */,
+				3059668C1ECC9C21009A7130 /* FriendListView.cpp */,
+				3059668D1ECC9C21009A7130 /* FriendListView.h */,
+				3059669D1ECDE230009A7130 /* FriendListViewItem.cpp */,
+				3059669E1ECDE230009A7130 /* FriendListViewItem.h */,
+			);
+			name = FriendList;
+			sourceTree = "<group>";
+		};
+		30790D2F1EDDBCE6003654BC /* Stickers */ = {
+			isa = PBXGroup;
+			children = (
+				30790D2A1EDD7B7F003654BC /* StickerSelector.cpp */,
+				30790D2B1EDD7B7F003654BC /* StickerSelector.h */,
+				30790D481EDE09C7003654BC /* StickerList */,
+				30790D491EDE09D2003654BC /* StickerCategoryList */,
+			);
+			name = Stickers;
+			sourceTree = "<group>";
+		};
+		30790D481EDE09C7003654BC /* StickerList */ = {
+			isa = PBXGroup;
+			children = (
+				30790D421EDE09C3003654BC /* StickerListView.cpp */,
+				30790D431EDE09C3003654BC /* StickerListView.h */,
+				30790D441EDE09C3003654BC /* StickerListViewColumn.cpp */,
+				30790D451EDE09C3003654BC /* StickerListViewColumn.h */,
+			);
+			name = StickerList;
+			sourceTree = "<group>";
+		};
+		30790D491EDE09D2003654BC /* StickerCategoryList */ = {
+			isa = PBXGroup;
+			children = (
+				30790D301EDDBCF0003654BC /* StickerCategoryListView.cpp */,
+				30790D311EDDBCF0003654BC /* StickerCategoryListView.h */,
+				30790D3F1EDDFD11003654BC /* StickerCategoryListViewItem.cpp */,
+				30790D401EDDFD11003654BC /* StickerCategoryListViewItem.h */,
+			);
+			name = StickerCategoryList;
+			sourceTree = "<group>";
+		};
+		30790D4A1EDE09E7003654BC /* MessageList */ = {
+			isa = PBXGroup;
+			children = (
+				305966A61ECF44AA009A7130 /* MessageListView.cpp */,
+				305966A71ECF44AA009A7130 /* MessageListView.h */,
+				305966A91ECF44E0009A7130 /* MessageListViewItem.cpp */,
+				305966AA1ECF44E0009A7130 /* MessageListViewItem.h */,
+			);
+			name = MessageList;
+			sourceTree = "<group>";
+		};
+		30790D4B1EDE0A01003654BC /* Stickers */ = {
+			isa = PBXGroup;
+			children = (
+				30790D331EDDC0C0003654BC /* Sticker.cpp */,
+				30790D341EDDC0C0003654BC /* Sticker.h */,
+				30790D3C1EDDC88A003654BC /* StickerCache.cpp */,
+				30790D3D1EDDC88A003654BC /* StickerCache.h */,
+				30790D391EDDC77E003654BC /* StickerCategory.cpp */,
+				30790D3A1EDDC77E003654BC /* StickerCategory.h */,
+			);
+			name = Stickers;
 			sourceTree = "<group>";
 		};
 		431A29561E439BFD00DC0F3B /* Mixpanel */ = {
@@ -441,18 +596,12 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				301849B11EC5BDA2005B994A /* OrientationFunctions.cpp */,
-				301849B21EC5BDA2005B994A /* OrientationFunctions.h */,
 				304410551E9D001E00B7F383 /* AppDelegate.cpp */,
 				304410561E9D001E00B7F383 /* AppDelegate.h */,
-				301849911EC0B161005B994A /* HelloWorldScene.cpp */,
-				301849921EC0B161005B994A /* HelloWorldScene.h */,
 				301849A41EC0B841005B994A /* LoginScene.cpp */,
 				301849A51EC0B841005B994A /* LoginScene.h */,
 				301849A71EC0BF68005B994A /* ChildSelectorScene.cpp */,
 				301849A81EC0BF68005B994A /* ChildSelectorScene.h */,
-				3018498F1EC0B161005B994A /* ChatTestScene.cpp */,
-				301849901EC0B161005B994A /* ChatTestScene.h */,
 				3018499D1EC0B747005B994A /* Auth */,
 				304410811E9D268800B7F383 /* AzoomeeChat */,
 			);
@@ -475,6 +624,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3000FF7D1ED5BDD900E9717C /* PBXTargetDependency */,
 				304410701E9D19BA00B7F383 /* PBXTargetDependency */,
 			);
 			name = "AzoomeeChat-App";
@@ -646,11 +796,9 @@
 			files = (
 				304410571E9D001E00B7F383 /* AppDelegate.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
-				3018499B1EC0B1F9005B994A /* HelloWorldScene.cpp in Sources */,
-				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
-				3018499A1EC0B1F9005B994A /* ChatTestScene.cpp in Sources */,
+				302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
-				301849B41EC5CDD9005B994A /* OrientationFunctions.cpp in Sources */,
+				302E84741ED1A1C7006A498C /* LoginScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,18 +806,39 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				301849A91EC0BF68005B994A /* ChildSelectorScene.cpp in Sources */,
+				305966931ECC9C21009A7130 /* AvatarWidget.cpp in Sources */,
+				305966751ECC59C8009A7130 /* FriendListScene.cpp in Sources */,
+				30790D351EDDC0C0003654BC /* Sticker.cpp in Sources */,
 				301849A21EC0B747005B994A /* AuthAPI.cpp in Sources */,
+				30790D3E1EDDC88A003654BC /* StickerCache.cpp in Sources */,
+				305966AB1ECF44E0009A7130 /* MessageListViewItem.cpp in Sources */,
+				30790D3B1EDDC77E003654BC /* StickerCategory.cpp in Sources */,
 				304E50191EB352AD00D077E3 /* ChatAPI.cpp in Sources */,
-				301849A61EC0B841005B994A /* LoginScene.cpp in Sources */,
+				3059669F1ECDE230009A7130 /* FriendListViewItem.cpp in Sources */,
+				30790D321EDDBCF0003654BC /* StickerCategoryListView.cpp in Sources */,
+				305966921ECC9C21009A7130 /* FriendListView.cpp in Sources */,
+				30790D2C1EDD7B7F003654BC /* StickerSelector.cpp in Sources */,
+				305966941ECC9C21009A7130 /* TitleBarWidget.cpp in Sources */,
+				30790D411EDDFD11003654BC /* StickerCategoryListViewItem.cpp in Sources */,
+				3059667E1ECC5F90009A7130 /* ChatConfig.cpp in Sources */,
+				30C36E0C1ED0568800F2FA88 /* MessageComposer.cpp in Sources */,
+				30790D461EDE09C3003654BC /* StickerListView.cpp in Sources */,
+				30790D471EDE09C3003654BC /* StickerListViewColumn.cpp in Sources */,
 				301849861EBB84A1005B994A /* Friend.cpp in Sources */,
 				3018498B1EBB926B005B994A /* Message.cpp in Sources */,
+				305966A81ECF44AA009A7130 /* MessageListView.cpp in Sources */,
+				305966A31ECF3558009A7130 /* MessageScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3000FF7D1ED5BDD900E9717C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AzoomeeCommon;
+			targetProxy = 3000FF7C1ED5BDD900E9717C /* PBXContainerItemProxy */;
+		};
 		304410701E9D19BA00B7F383 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 304410621E9D18E600B7F383 /* AzoomeeChat */;
