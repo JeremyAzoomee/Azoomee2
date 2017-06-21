@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "WebGameAPIDataManager.h"
 #include "ArtAppImageManager.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -280,6 +281,9 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(iamtouched)
         {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            return true;
+            
             if(preview)
             {
                 PreviewLoginSignupMessageBox::create();
