@@ -13,6 +13,7 @@
 #endif
 
 using namespace cocos2d;
+using namespace Azoomee;
 
 NS_AZOOMEE_BEGIN
 

@@ -4,6 +4,7 @@ include $(CLEAR_VARS)
 
 $(call import-add-path, $(LOCAL_PATH)/../../../cocos2d)
 $(call import-add-path, $(LOCAL_PATH)/../../../common/proj.android-studio)
+$(call import-add-path, $(LOCAL_PATH)/../../../chat/proj.android-studio)
 
 
 LOCAL_MODULE := MyGame_shared
@@ -28,9 +29,11 @@ LOCAL_SRC_FILES += main.cpp
 
 LOCAL_STATIC_LIBRARIES := cocos2dx_static
 LOCAL_STATIC_LIBRARIES += azoomee_common
+LOCAL_STATIC_LIBRARIES += azoomee_chat
 
 include $(BUILD_SHARED_LIBRARY)
 
 
 $(call import-module, cocos)
 $(call import-module, azoomee_common/jni)
+$(call import-module, azoomee_chat/jni)

@@ -19,7 +19,7 @@ struct Delegate {
 };
 
 // Delegate instance in namespace
-Delegate* delegate = nullptr;
+extern Delegate* delegate;
 
 NS_AZOOMEE_CHAT_END
 

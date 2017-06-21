@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
+using namespace Azoomee;
 
 NS_AZOOMEE_BEGIN
     
