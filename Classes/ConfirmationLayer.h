@@ -9,16 +9,14 @@ class ConfirmationLayer : public Layer
 {
 private:
     
-    
-    std::string childName;
-    std::string friendName;
-    std::string friendCode;
-    
     Label* childNameLabel;
     Label* friendNameLabel;
     Label* friendCodeLabel;
     
     Sprite* connectorSprite;
+    
+    void clearUIItems();
+    void createRect(Color4F withColour);
     
 public:
     

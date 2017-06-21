@@ -62,7 +62,7 @@ void SettingsConfirmationLayer::addScrollView()
     scrollView->setContentSize(Size(contentWidth, scrollViewHeight));
     
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
-    scrollView->setBounceEnabled(true);
+    scrollView->setBounceEnabled(false);
     scrollView->setTouchEnabled(true);
     scrollView->setInnerContainerSize(innerSize);
     scrollView->setSwallowTouches(false);
