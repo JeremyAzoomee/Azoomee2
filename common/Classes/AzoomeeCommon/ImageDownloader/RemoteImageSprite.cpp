@@ -70,7 +70,7 @@ void RemoteImageSprite::onEnter()
     onScreenChecker = new ImageDownloaderOnScreenChecker();
     onScreenChecker->startCheckingForOnScreenPosition(this);
     
-    Node::onEnter();
+    Super::onEnter();
 }
 
 void RemoteImageSprite::startLoadingImage()
@@ -165,7 +165,7 @@ void RemoteImageSprite::addNewBadgeToLoadedImage()
 void RemoteImageSprite::onExitTransitionDidStart()
 {
     aboutToExit = true;
-    Node::onExitTransitionDidStart();
+    Super::onExitTransitionDidStart();
 }
 
 void RemoteImageSprite::onExit()
@@ -183,14 +183,13 @@ void RemoteImageSprite::onExit()
         imageDownloaderLogic.reset();
     }
     
-    Node::onExit();
+    Super::onExit();
 }
 
 #pragma mark - RemoteImageSpriteDelegate
 
 void RemoteImageSprite::onImageDownloadComplete(const ImageDownloaderRef& downloader)
 {
-    
     const std::string& filename = downloader->getLocalImagePath();
     addStarted = true;
     this->setName(filename);
