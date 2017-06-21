@@ -2,6 +2,7 @@
 #define __KIDS_LAYER_H__
 
 #include <cocos/cocos2d.h>
+#include "ui/UIScale9Sprite.h"
 
 USING_NS_CC;
 
@@ -18,6 +19,11 @@ private:
     void addChildName();
     void addOomee();
     
+    void setOomeeToLargeSize();
+    void setOomeeToSmallSize();
+    
+    ui::Scale9Sprite* createText9Sprite(std::string resource, float heightPercentage);
+    
 public:
     
     static KidsLayer* createWithChildDetails(std::string setChildName, int setOomeeNo);
@@ -29,7 +35,7 @@ public:
     void setToCodeError(std::string code);
     void setToCodeSuccess(std::string code);
     
-    void resetToIdle();
+    void removeObjects(bool oomeeToLargeSize);
     
     CREATE_FUNC(KidsLayer);
     

@@ -8,6 +8,7 @@
 #define TAB_SPACING 50
 #define SELECTED_TAB_Z 111
 #define IDLE_TAB_Z 100
+#define CURRENT_LAYER_Z 120
 
 using namespace Azoomee;
 
@@ -121,7 +122,7 @@ void SettingsControlLayer::selectNewTab(Layer* newCurrentLayer, ElectricDreamsBu
     
     currentLayer = newCurrentLayer;
     currentLayer->setPosition(origin.x,origin.y);
-    backgroundLayer->addChild(currentLayer);
+    backgroundLayer->addChild(currentLayer,CURRENT_LAYER_Z);
 }
 
 //----------------------- Delegate Functions ----------------------------

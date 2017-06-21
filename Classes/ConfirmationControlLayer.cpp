@@ -1,4 +1,5 @@
 #include "ConfirmationControlLayer.h"
+#include "SettingsConfirmationLayer.h"
 
 #define MARGIN 69
 
@@ -31,6 +32,7 @@ void ConfirmationControlLayer::addConfirmationFrame()
     confirmationFrameLayer = ConfirmationLayer::create();
     confirmationFrameLayer->setContentSize(this->getContentSize());
     
+    //REMOVE WHEN WE HAVE REAL DATA
     if(confirmationNumber == 0)
         confirmationFrameLayer->addDetailsToLayer("Emmaline", "Mary", "66OG09K8");
     else if(confirmationNumber == 1)
@@ -67,6 +69,8 @@ void ConfirmationControlLayer::addButtons()
 
 }
 
+//--------------BUTTON ACTIONS------------------
+
 void ConfirmationControlLayer::clearAllButtons()
 {
     confirmButton->setVisible(false);
@@ -75,35 +79,47 @@ void ConfirmationControlLayer::clearAllButtons()
     rejectButton->setVisible(false);
 }
 
+void ConfirmationControlLayer::setToConfirmed()
+{
+    clearAllButtons();
+    this->setLocalZOrder(CONFIRMATION_CONFIRMED_Z);
+    confirmationFrameLayer->setToConfirm();
+}
+
+void ConfirmationControlLayer::setToReject()
+{
+    clearAllButtons();
+    this->setLocalZOrder(CONFIRMATION_REJECT_Z);
+    confirmationFrameLayer->setToReject();
+    yesButton->setVisible(true);
+    noButton->setVisible(true);
+}
+
+void ConfirmationControlLayer::setToRejected()
+{
+    clearAllButtons();
+    confirmationFrameLayer->setToRejected();
+}
+
+void ConfirmationControlLayer::setToIdle()
+{
+    clearAllButtons();
+    this->setLocalZOrder(CONFIRMATION_IDLE_Z);
+    confirmationFrameLayer->setIdle();
+    rejectButton->setVisible(true);
+    confirmButton->setVisible(true);
+}
+
 //----------------------- Delegate Functions ----------------------------
 
 void ConfirmationControlLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button==confirmButton)
-    {
-        clearAllButtons();
-        this->setLocalZOrder(300);
-        confirmationFrameLayer->setToConfirm();
-    }
+        setToConfirmed();
     else if(button==rejectButton)
-    {
-        clearAllButtons();
-        this->setLocalZOrder(400);
-        confirmationFrameLayer->setToReject();
-        yesButton->setVisible(true);
-        noButton->setVisible(true);
-    }
+        setToReject();
     else if(button==noButton)
-    {
-        clearAllButtons();
-        this->setLocalZOrder(200);
-        confirmationFrameLayer->setIdle();
-        rejectButton->setVisible(true);
-        confirmButton->setVisible(true);
-    }
+        setToIdle();
     else if(button==yesButton)
-    {
-        clearAllButtons();
-        confirmationFrameLayer->setToRejected();
-    }
+        setToRejected();
 }

@@ -147,7 +147,7 @@ void KidsControlLayer::closeKidController()
 {
     sendCodeButton->setEnabled(false);
     kidCodeTextInput->setText("");
-    childFrameLayer->resetToIdle();
+    childFrameLayer->removeObjects(true);
     
     clearAllButCloseButton();
     getCodeButton->setVisible(true);
