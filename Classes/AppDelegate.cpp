@@ -62,7 +62,7 @@ void AppDelegate::applicationDidEnterBackground()
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground()
 {
-    Super::applicationDidEnterBackground();
+    Super::applicationWillEnterForeground();
     
     AnalyticsSingleton::getInstance()->enteredForegroundEvent();
     SessionIdManager::getInstance()->registerAppCameForegroundEvent();
