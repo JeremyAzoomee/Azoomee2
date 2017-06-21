@@ -41,7 +41,7 @@ import org.cocos2dx.cpp.util.IabHelper;
 import org.cocos2dx.cpp.util.IabResult;
 import org.cocos2dx.cpp.util.Inventory;
 import org.cocos2dx.cpp.util.Purchase;
-import com.tinizine.azoomee.AzoomeeActivity;
+import com.tinizine.azoomee.common.AzoomeeActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -63,6 +63,7 @@ import io.fabric.sdk.android.Fabric;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import com.appsflyer.AppsFlyerLib;
+
 
 public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
 
