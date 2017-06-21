@@ -1,4 +1,4 @@
-package com.tinizine.azoomee;
+package com.tinizine.azoomee.common;
 
 import android.content.res.Configuration;
 import android.graphics.Rect;
