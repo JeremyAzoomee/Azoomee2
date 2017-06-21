@@ -2,6 +2,9 @@
 #define __IMAGECONTAINER_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class ImageContainer : public cocos2d::Layer
 {
@@ -37,5 +40,7 @@ private:
     
     cocos2d::Sprite* icon;
 };
+
+NS_AZOOMEE_END
 
 #endif

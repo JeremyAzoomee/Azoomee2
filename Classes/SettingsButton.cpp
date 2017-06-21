@@ -2,6 +2,9 @@
 #include "ExitOrLogoutLayer.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 SettingsButton* SettingsButton::createSettingsButton(float creationDelay)
 {
@@ -37,4 +40,6 @@ void SettingsButton::onButtonPressed()
 {
     ExitOrLogoutLayer::create();
 }
+
+NS_AZOOMEE_END
 

@@ -7,12 +7,11 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/UI/Style.h>
 
-USING_NS_CC;
-using namespace Azoomee;
-
+using namespace cocos2d;
 
 #define SIDE_MARGIN_SIZE 130
 
+NS_AZOOMEE_BEGIN
 
 Layer* IAPUpsaleLayer::createRequiresPin()
 {
@@ -241,3 +240,5 @@ void IAPUpsaleLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
     else
         RoutePaymentSingleton::getInstance()->startInAppPayment();
 }
+
+NS_AZOOMEE_END

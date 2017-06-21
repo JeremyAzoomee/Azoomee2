@@ -3,6 +3,8 @@
 
 using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
+
 static HQHistoryManager *_sharedHQHistoryManager = NULL;
 
 HQHistoryManager* HQHistoryManager::getInstance()
@@ -109,3 +111,5 @@ std::string HQHistoryManager::getGroupHQSourceId()
 {
     return lastGroupHQSourceId;
 }
+
+NS_AZOOMEE_END

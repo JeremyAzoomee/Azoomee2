@@ -2,19 +2,19 @@
 #define Privacy_And_Terms_Layer_H
 
 #include "cocos2d.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
-class PrivacyAndTermsLayer : public Layer, public ElectricDreamsButtonDelegate
+class PrivacyAndTermsLayer : public cocos2d::Layer, public Azoomee::ElectricDreamsButtonDelegate
 {
 private:
     
-    ElectricDreamsButton *privacyButton;
-    ElectricDreamsButton *termsButton;
+    Azoomee::ElectricDreamsButton *privacyButton;
+    Azoomee::ElectricDreamsButton *termsButton;
     
-    Label* andLabel;
+    cocos2d::Label* andLabel;
     
     void createButtons();
     void createLabel();
@@ -25,11 +25,13 @@ public:
     
     CREATE_FUNC(PrivacyAndTermsLayer);
     
-    void setCenterPosition(Vec2 position);
-    Vec2 getCenterPosition();
+    void setCenterPosition(cocos2d::Vec2 position);
+    cocos2d::Vec2 getCenterPosition();
     
     //Delegate Functions
-    void buttonPressed(ElectricDreamsButton* button);
+    void buttonPressed(Azoomee::ElectricDreamsButton* button);
 };
+
+NS_AZOOMEE_END
 
 #endif

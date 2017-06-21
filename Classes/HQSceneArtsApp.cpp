@@ -9,9 +9,9 @@
 #include "HQSceneElementPositioner.h"
 #include <dirent.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 bool HQSceneArtsApp::init()
 {
@@ -124,3 +124,5 @@ std::vector<std::string> HQSceneArtsApp::getFilesInDirectory(std::string path)
         return fileNames;
     }
 }
+
+NS_AZOOMEE_END

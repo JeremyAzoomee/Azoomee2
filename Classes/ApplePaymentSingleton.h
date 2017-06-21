@@ -2,10 +2,10 @@
 #define __PAYMENT_SINGLETON_IOS_H__
 
 #include "cocos2d.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 
-using namespace Azoomee;
-
+NS_AZOOMEE_BEGIN
 
 class ApplePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
 {
@@ -29,5 +29,7 @@ private:
     std::string savedReceipt;
     int requestAttempts;
 };
+
+NS_AZOOMEE_END
 
 #endif

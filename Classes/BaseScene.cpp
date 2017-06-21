@@ -12,8 +12,9 @@
 #include "HQHistoryManager.h"
 #include "BackEndCaller.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 Scene* BaseScene::createScene()
 {
@@ -114,3 +115,5 @@ void BaseScene::addNavigationLayer()
         sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getCurrentHQ()), 0.01);
     }
 }
+
+NS_AZOOMEE_END

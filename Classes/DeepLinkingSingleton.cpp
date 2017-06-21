@@ -14,8 +14,9 @@
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
     
 static DeepLinkingSingleton *_sharedDeepLinkingSingleton = NULL;
 
@@ -206,6 +207,8 @@ void DeepLinkingSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,s
 {
     IAPUpsaleLayer::create();
 }
+
+NS_AZOOMEE_END
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 

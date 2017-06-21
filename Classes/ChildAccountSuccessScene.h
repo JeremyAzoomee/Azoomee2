@@ -2,22 +2,22 @@
 #define ChildAccountSuccessScene_hpp
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
-class ChildAccountSuccessScene : public Layer, public ElectricDreamsButtonDelegate
+class ChildAccountSuccessScene : public cocos2d::Layer, public Azoomee::ElectricDreamsButtonDelegate
 {
 private:
     
-    Size visibleSize;
-    Vec2 origin;
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
     
     int ChildNumber;
     
-    ElectricDreamsButton* oomeeButton;
-    ElectricDreamsButton* addChildButton;
+    Azoomee::ElectricDreamsButton* oomeeButton;
+    Azoomee::ElectricDreamsButton* addChildButton;
     
     void addVisualElementsToScene();
     void addButtonsToScene();
@@ -36,10 +36,12 @@ public:
     CREATE_FUNC(ChildAccountSuccessScene);
     
     //Delegate Functions
-    void buttonPressed(ElectricDreamsButton* button);
+    void buttonPressed(Azoomee::ElectricDreamsButton* button);
     void moveToHubScene(float dt);
     void moveToChildAccountScene(float dt);
     
 };
+
+NS_AZOOMEE_END
 
 #endif

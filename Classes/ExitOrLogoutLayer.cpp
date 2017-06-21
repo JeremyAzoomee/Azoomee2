@@ -15,8 +15,9 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/Style.h>
 
+using namespace cocos2d;
 
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
 
 bool ExitOrLogoutLayer::init()
@@ -189,3 +190,5 @@ void ExitOrLogoutLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
     addExitOrLogoutUIObjects();
 }
+
+NS_AZOOMEE_END

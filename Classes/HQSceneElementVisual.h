@@ -3,6 +3,9 @@
 
 #include <cocos/cocos2d.h>
 #include "network/HttpClient.h"
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class HQSceneElementVisual : public cocos2d::Layer
 {
@@ -56,5 +59,7 @@ private:
     bool aboutToExit;
     bool isOffline;
 };
+
+NS_AZOOMEE_END
 
 #endif

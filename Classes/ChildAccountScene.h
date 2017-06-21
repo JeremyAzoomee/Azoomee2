@@ -2,12 +2,12 @@
 #define __CHILDACCOUNTSCENE_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
 class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
@@ -17,14 +17,14 @@ private:
     TextInputLayer *monthInputText;
     TextInputLayer *yearInputText;
     
-    Size visibleSize;
-    Vec2 origin;
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
     
-    Label* sceneTitle;
-    Label* profileNameTitle;
-    Label* profileDOBTitle;
-    Label* profileDOBSubTitle;
-    Label* oomeesTitle;
+    cocos2d::Label* sceneTitle;
+    cocos2d::Label* profileNameTitle;
+    cocos2d::Label* profileDOBTitle;
+    cocos2d::Label* profileDOBSubTitle;
+    cocos2d::Label* oomeesTitle;
     
     ElectricDreamsButton *cancelButton;
     ElectricDreamsButton *nextButton;
@@ -51,7 +51,7 @@ private:
     void registerChildAccount();
     
     std::vector<ElectricDreamsButton*> OomeeButtons;
-    Sprite* oomeeGlow;
+    cocos2d::Sprite* oomeeGlow;
     
     int selectedOomeeNo;
     void addOomeesToScene();
@@ -77,5 +77,7 @@ public:
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
 
 };
+
+NS_AZOOMEE_END
 
 #endif // __ChildAccountScene_SCENE_H__

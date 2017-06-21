@@ -3,8 +3,9 @@
 #include "PrivacyAndTermsLayer.h"
 #include <AzoomeeCommon/UI/Style.h>
 
-USING_NS_CC;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 bool IAPDetailsLayer_ios::init()
 {
@@ -150,3 +151,5 @@ void IAPDetailsLayer_ios::buttonPressed(ElectricDreamsButton* button)
     this->removeChild(backgroundLayer);
     this->removeFromParent();
 }
+
+NS_AZOOMEE_END

@@ -11,6 +11,16 @@ NS_AZOOMEE_CHAT_BEGIN
 // Burnt in version number for the AzoomeeChat static library
 const char* const Version = "0.1.5";
 
+
+// Delegate is used to deal with navigating outside the chat app
+struct Delegate {
+    virtual void onChatNavigationBack() = 0;
+    // TODO: On error callbacks
+};
+
+// Delegate instance in namespace
+Delegate* delegate = nullptr;
+
 NS_AZOOMEE_CHAT_END
 
 #endif

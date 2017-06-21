@@ -2,8 +2,8 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
-//using namespace Azoomee;
 
+NS_AZOOMEE_BEGIN
 
 static VideoPlaylistManager *_sharedVideoPlaylistManager = NULL;
 
@@ -76,3 +76,5 @@ std::map<std::string, std::string> VideoPlaylistManager::getContentItemDataForPl
     
     return returnData;
 }
+
+NS_AZOOMEE_END

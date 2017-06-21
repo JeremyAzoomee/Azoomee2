@@ -2,6 +2,9 @@
 #define __WEBGAMEAPIDATAMANAGER_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class WebGameAPIDataManager : public cocos2d::Ref
 {
@@ -25,5 +28,7 @@ private:
     
     std::string getPathForLocalStorageFile();
 };
+
+NS_AZOOMEE_END
 
 #endif

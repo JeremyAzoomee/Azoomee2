@@ -2,6 +2,9 @@
 #define __ARTSAPPHQELEMENT_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class ArtsAppHQElement : public cocos2d::Layer
 {
@@ -37,5 +40,7 @@ private:
     bool iamtouched;
     cocos2d::Point touchPoint;
 };
+
+NS_AZOOMEE_END
 
 #endif

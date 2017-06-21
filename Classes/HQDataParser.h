@@ -1,4 +1,10 @@
+#ifndef Azoomee_HQDataParser_h
+#define Azoomee_HQDataParser_h
+
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class HQDataParser : public cocos2d::Ref
 {
@@ -20,3 +26,7 @@ public:
     void onGetContentAnswerReceived(std::string responseString, std::string category);
     void onGetPreviewContentAnswerReceived(std::string responseString);
 };
+
+NS_AZOOMEE_END
+
+#endif

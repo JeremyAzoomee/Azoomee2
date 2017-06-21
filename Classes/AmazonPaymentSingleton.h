@@ -2,6 +2,9 @@
 #define __AMAZON_PAYMENT_SINGLETON_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class AmazonPaymentSingleton : public cocos2d::Ref
 {
@@ -26,5 +29,7 @@ private:
     int requestAttempts;
     
 };
+
+NS_AZOOMEE_END
 
 #endif

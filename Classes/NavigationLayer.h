@@ -2,15 +2,14 @@
 #define __NAVIGATION_LAYER_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 
-using namespace Azoomee;
 
+NS_AZOOMEE_BEGIN
 
 class NavigationLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate
 {
-    
-    
 public:
     CREATE_FUNC(NavigationLayer);
     static cocos2d::Scene* createScene();
@@ -64,5 +63,7 @@ private:
     //memory management
     void cleanUpPreviousHQ();
 };
+
+NS_AZOOMEE_END
 
 #endif

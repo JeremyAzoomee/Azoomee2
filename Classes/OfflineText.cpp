@@ -6,9 +6,9 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "LoginLogicHandler.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 Scene* OfflineText::createScene()
 {
@@ -205,3 +205,5 @@ void OfflineText::onExit()
     OfflineChecker::getInstance()->setDelegate(nullptr);
     Node::onExit();
 }
+
+NS_AZOOMEE_END

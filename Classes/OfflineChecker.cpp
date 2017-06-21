@@ -1,10 +1,10 @@
 #include "OfflineChecker.h"
 #include "BackEndCaller.h"
 
-USING_NS_CC;
-
-using namespace network;
 using namespace cocos2d;
+using namespace network;
+
+NS_AZOOMEE_BEGIN
 
 static OfflineChecker *_sharedOfflineChecker = NULL;
 
@@ -99,3 +99,5 @@ void OfflineChecker::onOfflineCheckFailed()
 
     }
 }
+
+NS_AZOOMEE_END

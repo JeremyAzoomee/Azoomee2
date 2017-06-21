@@ -4,6 +4,7 @@
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "Auth/AuthAPI.h"
 #include <AzoomeeCommon/Net/Utils.h>
+#include "ChatDelegate.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -22,18 +23,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     register_all_packages();
     
-    // Test url decode/encode
-    std::string testStr = "こんにちは。...";
-    std::string encoded = Azoomee::Net::urlEncode(testStr);
-    std::string decoded = Azoomee::Net::urlDecode(encoded);
-    cocos2d::log("testStr: %s", testStr.c_str());
-    cocos2d::log("encoded: %s", encoded.c_str());
-    cocos2d::log("decoded: %s", decoded.c_str());
-    
-    std::string encoded2 = "%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%81%AF%E3%80%82...";
-    std::string decoded2 = Azoomee::Net::urlDecode(encoded2);
-    cocos2d::log("encoded2: %s", encoded.c_str());
-    cocos2d::log("decoded2: %s", decoded.c_str());
+    // Register delegate for chat
+    Azoomee::Chat::delegate = ChatDelegate::getInstance();
     
     // Create the first scene
     cocos2d::Scene* firstScene = nullptr;

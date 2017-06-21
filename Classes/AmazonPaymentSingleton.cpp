@@ -13,10 +13,9 @@
 #include "platform/android/jni/JniHelper.h"
 #endif
 
-USING_NS_CC;
 using namespace cocos2d;
-using namespace Azoomee;
 
+NS_AZOOMEE_BEGIN
 
 static AmazonPaymentSingleton *_sharedAmazonPaymentSingleton = NULL;
 
@@ -141,6 +140,8 @@ void showDoublePurchase()
     
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from amazon window, otherwise the app will crash
 }
+
+NS_AZOOMEE_END
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 

@@ -9,9 +9,7 @@
 #import "WebViewController_ios.h"
 #import "ios_Cocos2d_Callbacks.h"
 
-@interface WebViewController ()
-
-@end
+using namespace Azoomee;
 
 @implementation WebViewController
 
