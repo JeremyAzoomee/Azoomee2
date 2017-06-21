@@ -131,5 +131,10 @@ std::string ParentDataProvider::getIDForAvailableChildren(int childNumber)
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["id"];
 }
+    
+std::string ParentDataProvider::getInviteCodeForAvailableChildren(int childNumber)
+{
+    return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["inviteCode"];
+}
   
 }

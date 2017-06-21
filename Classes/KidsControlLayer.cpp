@@ -29,10 +29,7 @@ bool KidsControlLayer::init()
 
 void KidsControlLayer::addChildFrame()
 {
-    std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(childNumber);
-    int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
-    
-    childFrameLayer = KidsLayer::createWithChildDetails(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber), oomeeNr);
+    childFrameLayer = KidsLayer::createWithChildDetails(childNumber);
     this->setContentSize(childFrameLayer->getContentSize());
     this->addChild(childFrameLayer);
 }

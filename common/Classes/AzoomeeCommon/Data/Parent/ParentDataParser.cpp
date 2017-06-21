@@ -121,6 +121,10 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
         currentChild["profileName"] = parentData->availableChildrenData[i]["profileName"].GetString();
         currentChild["avatar"] = parentData->availableChildrenData[i]["avatar"].GetString();
 
+        if(parentData->availableChildrenData[i].HasMember("inviteCode"))
+            if(parentData->availableChildrenData[i]["inviteCode"].IsString())
+                currentChild["inviteCode"] = parentData->availableChildrenData[i]["inviteCode"].GetString();
+        
         if(parentData->availableChildrenData[i].HasMember("sex"))
             if(parentData->availableChildrenData[i]["sex"].IsString())
             currentChild["sex"] = parentData->availableChildrenData[i]["sex"].GetString();

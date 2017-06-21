@@ -9,8 +9,7 @@ USING_NS_CC;
 class KidsLayer : public Layer
 {
 private:
-    std::string childName;
-    int oomeeNo;
+    int childNumber;
     
     Sprite* oomeeSprite;
     Sprite* glowSprite;
@@ -26,7 +25,7 @@ private:
     
 public:
     
-    static KidsLayer* createWithChildDetails(std::string setChildName, int setOomeeNo);
+    static KidsLayer* createWithChildDetails(int setChildNumber);
     virtual bool init();
     
     void setToShowingCode();

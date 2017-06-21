@@ -2,14 +2,14 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 using namespace Azoomee;
 
-KidsLayer* KidsLayer::createWithChildDetails(std::string setChildName, int setOomeeNo)
+KidsLayer* KidsLayer::createWithChildDetails(int setChildNumber)
 {
     auto layer = KidsLayer::create();
-    layer->childName = setChildName;
-    layer->oomeeNo = setOomeeNo;
+    layer->childNumber = setChildNumber;
     layer->addFrame();
     layer->addChildName();
     layer->addOomee();
@@ -47,7 +47,7 @@ void KidsLayer::addFrame()
 
 void KidsLayer::addChildName()
 {
-    Label* childNameLabel = createLabelChildNameSettings(childName);
+    Label* childNameLabel = createLabelChildNameSettings(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
     reduceLabelTextToFitWidth(childNameLabel,this->getContentSize().width*.95);
     childNameLabel->setPosition(this->getContentSize().width/2,this->getContentSize().height-childNameLabel->getContentSize().height*1.7);
     this->addChild(childNameLabel);
@@ -58,7 +58,10 @@ void KidsLayer::addOomee()
     glowSprite = createGlow();
     this->addChild(glowSprite);
     
-    oomeeSprite = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNo).c_str()));
+    std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(childNumber);
+    int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
+    
+    oomeeSprite = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNr).c_str()));
     this->addChild(oomeeSprite);
     
     setOomeeToLargeSize();
@@ -112,7 +115,7 @@ void KidsLayer::setToShowingCode()
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
     
-    Label* codeLabel = createLabelHeader("49KW03B3");
+    Label* codeLabel = createLabelHeader(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber));
     codeLabel->setPosition(this->getContentSize().width/2,detailsLabel->getPositionY()- detailsLabel->getContentSize().height/2 -codeLabel->getContentSize().height * .8);
     codeLabel->setTag(1000);
     this->addChild(codeLabel);
