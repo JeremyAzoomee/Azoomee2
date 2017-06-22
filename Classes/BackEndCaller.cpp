@@ -213,8 +213,6 @@ void BackEndCaller::childLogin(int childNumber)
     
     ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
     ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
-    
-    getPendingFriendRequests();
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString)
