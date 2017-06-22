@@ -278,6 +278,7 @@
 		300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeChat.xcodeproj; path = ../chat/proj.ios_mac/AzoomeeChat.xcodeproj; sourceTree = "<group>"; };
 		300742F11EF93428005525AE /* ChatDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatDelegate.cpp; sourceTree = "<group>"; };
 		300742F21EF93428005525AE /* ChatDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatDelegate.h; sourceTree = "<group>"; };
+		3007433C1EFBBFDD005525AE /* Pods_AzoomeeCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_AzoomeeCommon.framework; path = "/Users/Mitch/Projects/azoomee/app/common/proj.ios_mac/Pods/../build/Debug-iphoneos/Pods_AzoomeeCommon.framework"; sourceTree = "<absolute>"; };
 		301CCA921EB139C1009ADA0C /* SettingsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsButton.cpp; sourceTree = "<group>"; };
 		301CCA931EB139C1009ADA0C /* SettingsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsButton.h; sourceTree = "<group>"; };
 		304D9E9F1EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "MPTakeoverNotificationViewController~ipad.xib"; path = "../common/proj.ios_mac/libs/Mixpanel/MPTakeoverNotificationViewController~ipad.xib"; sourceTree = "<group>"; };
@@ -613,6 +614,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3007433C1EFBBFDD005525AE /* Pods_AzoomeeCommon.framework */,
 				439694891EAA4ACD003C17E6 /* StoreKit.framework */,
 				304D9EC81EA8F89B008CED52 /* GameController.framework */,
 				43A90DE41EA7603800606099 /* WatchKit.framework */,
