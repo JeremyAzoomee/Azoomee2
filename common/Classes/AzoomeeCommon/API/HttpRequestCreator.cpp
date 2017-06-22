@@ -191,7 +191,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     cocos2d::log("response header: %s", responseHeaderString.c_str());
     cocos2d::log("response string: %s", responseDataString.c_str());
     
-    if((response->getResponseCode() == 200)||(response->getResponseCode() == 201))
+    if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
     {
         if(delegate != nullptr)
         {
