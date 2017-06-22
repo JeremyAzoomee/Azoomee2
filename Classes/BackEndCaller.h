@@ -36,6 +36,12 @@ private:
     void onRegisterChildAnswerReceived();
     // Update child API success
     void onUpdateChildAnswerReceived();
+    // Friend request success
+    void onFriendRequestAnswerReceived();
+    // Friend request reaction success
+    void onFriendRequestReactionAnswerReceived();
+    // Pending friend requests answer received
+    void onGetPendingFriendRequestsAnswerReceived(const std::string& responseString);
     
     void displayLoadingScreen();
     void hideLoadingScreen();
@@ -86,6 +92,12 @@ public:
     void getElectricDreamsContent(const std::string& requestId, const std::string& contentID);
     // Reset Password
     void resetPasswordRequest(const std::string& emailAddress);
+    // Request a friend
+    void friendRequest();
+    //Confirm or decline a friend request
+    void friendRequestReaction();
+    //Get pending friend requests
+    void getPendingFriendRequests();
 };
 
 #endif

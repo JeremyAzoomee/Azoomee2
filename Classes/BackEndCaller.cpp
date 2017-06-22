@@ -213,6 +213,8 @@ void BackEndCaller::childLogin(int childNumber)
     
     ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
     ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
+    
+    getPendingFriendRequests();
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString)
@@ -358,6 +360,38 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
     request->execute();
 }
 
+// FRIEND REQUESTS AND ACCEPTS -----------------------------------------------------------
+void BackEndCaller::friendRequest()
+{
+    
+}
+
+void BackEndCaller::onFriendRequestAnswerReceived()
+{
+    
+}
+
+void BackEndCaller::friendRequestReaction()
+{
+    
+}
+
+void BackEndCaller::onFriendRequestReactionAnswerReceived()
+{
+    
+}
+
+void BackEndCaller::getPendingFriendRequests()
+{
+    HttpRequestCreator *request = API::getPendingFriendRequests(this);
+    request->execute();
+}
+
+void BackEndCaller::onGetPendingFriendRequestsAnswerReceived(const std::string& responseString)
+{
+    //TODO: implement adding elements to the friend request carusoel
+}
+
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
@@ -412,6 +446,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == "GROUP HQ")
     {
         HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
+    }
+    else if(requestTag == API::TagGetPendingFriendRequests)
+    {
+        onGetPendingFriendRequestsAnswerReceived(body);
     }
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     else if(requestTag == API::TagVerifyApplePayment)

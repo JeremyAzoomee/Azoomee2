@@ -139,10 +139,10 @@ std::string JWTToolForceParent::getBodySignature(std::string method, std::string
     
     std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(host)).c_str(), url_encode(stringToLower(getDateFormatString())).c_str());
     
-    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), queryParams.c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
+    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), stringToLower(queryParams).c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
     std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, ParentDataProvider::getInstance()->getLoggedInParentApiSecret());
     
-    CCLOG("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
+    cocos2d::log("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
     
     
     return bodySignature;
@@ -169,7 +169,6 @@ std::string JWTToolForceParent::getBodyString(std::string method, std::string pa
     writer.String(getBodySignature(method, path, host, queryParams, requestBody).c_str(), (int)getBodySignature(method, path, host, queryParams, requestBody).length());
     
     writer.String("parentKey", (int)StringUtils::format("parentKey").length());
-    //writer.String(BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString() , (int)StringUtils::format("%s", BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString()).length());
     writer.String(ParentDataProvider::getInstance()->getLoggedInParentApiKey().c_str(), (int)ParentDataProvider::getInstance()->getLoggedInParentApiKey().length());
     
     writer.EndObject();
@@ -179,11 +178,11 @@ std::string JWTToolForceParent::getBodyString(std::string method, std::string pa
     
     const char *jsonString = s.GetString();
     
-    CCLOG("\n\n\n Body string: %s\n\n\n", jsonString);
+    cocos2d::log("\n\n\n Body string: %s\n\n\n", jsonString);
     
     std::string result = getBase64Encoded(StringUtils::format("%s", jsonString));
     
-    CCLOG("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
+    cocos2d::log("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
     
     return result;
 }
@@ -214,14 +213,14 @@ std::string JWTToolForceParent::buildJWTString(std::string method, std::string p
     
     //DISPLAYING DEBUG INFO-----------------------------------------------------------------------
     
-    CCLOG("\n\n\n apiSecret: %s\n\n\n", ParentDataProvider::getInstance()->getLoggedInParentApiSecret().c_str());
+    cocos2d::log("\n\n\n apiSecret: %s\n\n\n", ParentDataProvider::getInstance()->getLoggedInParentApiSecret().c_str());
     
     
     //CREATE THE FINAL JWT STRING-----------------------------------------------------------------
     
     std::string finalJWT = StringUtils::format("%s.%s.%s", sHeader.c_str(), sBody.c_str(), sSignature.c_str());
     
-    CCLOG("\n\n\n FINAL JWT STRING: %s\n\n\n", finalJWT.c_str());
+    cocos2d::log("\n\n\n FINAL JWT STRING: %s\n\n\n", finalJWT.c_str());
     
     
     return finalJWT;

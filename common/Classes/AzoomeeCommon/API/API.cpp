@@ -25,6 +25,9 @@ const char* const API::TagGetChatMessages = "chat.getChatMessages";
 const char* const API::TagSendChatMessage = "chat.sendChatMessage";
 const char* const API::TagResetPasswordRequest = "resetPasswordRequest";
 const char* const API::TagOfflineCheck = "offlineCheck";
+const char* const API::TagFriendRequest = "friendRequest";
+const char* const API::TagFriendRequestReaction = "friendRequestReaction";
+const char* const API::TagGetPendingFriendRequests = "getPendingFriendRequests";
 
 #pragma mark - API Methods
 
@@ -259,6 +262,16 @@ HttpRequestCreator* API::SendChatMessageRequest(const std::string& childId,
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     json.Accept(writer);
     request->requestBody = buffer.GetString();
+    
+    return request;
+}
+
+HttpRequestCreator* API::getPendingFriendRequests(HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->urlParameters = "status=CREATED";
+    request->requestTag = TagGetPendingFriendRequests;
+    request->encrypted = true;
     
     return request;
 }
