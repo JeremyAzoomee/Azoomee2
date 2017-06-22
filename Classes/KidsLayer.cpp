@@ -1,16 +1,15 @@
 #include "KidsLayer.h"
-#include "ui/UIScale9Sprite.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 using namespace Azoomee;
 
-KidsLayer* KidsLayer::createWithChildDetails(std::string setChildName, int setOomeeNo)
+KidsLayer* KidsLayer::createWithChildDetails(int setChildNumber)
 {
     auto layer = KidsLayer::create();
-    layer->childName = setChildName;
-    layer->oomeeNo = setOomeeNo;
+    layer->childNumber = setChildNumber;
     layer->addFrame();
     layer->addChildName();
     layer->addOomee();
@@ -48,7 +47,7 @@ void KidsLayer::addFrame()
 
 void KidsLayer::addChildName()
 {
-    Label* childNameLabel = createLabelChildNameSettings(childName);
+    Label* childNameLabel = createLabelChildNameSettings(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
     reduceLabelTextToFitWidth(childNameLabel,this->getContentSize().width*.95);
     childNameLabel->setPosition(this->getContentSize().width/2,this->getContentSize().height-childNameLabel->getContentSize().height*1.7);
     this->addChild(childNameLabel);
@@ -56,29 +55,67 @@ void KidsLayer::addChildName()
 
 void KidsLayer::addOomee()
 {
-    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.6);
-    
     glowSprite = createGlow();
-    glowSprite->setPosition(position);
-    glowSprite->setScale(.5);
     this->addChild(glowSprite);
     
-    oomeeSprite = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNo).c_str()));
+    std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(childNumber);
+    int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
+    
+    oomeeSprite = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNr).c_str()));
+    this->addChild(oomeeSprite);
+    
+    setOomeeToLargeSize();
+}
+
+ui::Scale9Sprite* KidsLayer::createText9Sprite(std::string resource, float heightPercentage)
+{
+    Rect spriteRect = Rect(0, 0, 268, 107);
+    Rect capInsents = Rect(100, 53, 1, 1);
+    
+    ui::Scale9Sprite* textBox9Sprite = ui::Scale9Sprite::create(resource, spriteRect, capInsents);
+    textBox9Sprite->setContentSize(Size(this->getContentSize().width*.8, 107));
+    textBox9Sprite->setPosition(Vec2(this->getContentSize().width/2, textBox9Sprite->getContentSize().height*heightPercentage));
+    textBox9Sprite->setTag(1000);
+    
+    return textBox9Sprite;
+}
+
+//------------------SET OOMEE POSITION------------
+
+void KidsLayer::setOomeeToLargeSize()
+{
+    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.6);
+    
+    glowSprite->setPosition(position);
+    glowSprite->setScale(.5);
+    
     oomeeSprite->setScale(1.8);
     oomeeSprite->setPosition(position);
-    this->addChild(oomeeSprite);
 }
+
+void KidsLayer::setOomeeToSmallSize()
+{
+    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.67);
+    
+    glowSprite->setPosition(position);
+    glowSprite->setScale(.3);
+    
+    oomeeSprite->setScale(1.1);
+    oomeeSprite->setPosition(position);
+}
+
+//------------------PUBLIC CHANGE STATE-------------
 
 void KidsLayer::setToShowingCode()
 {
-    resetToIdle();
+    removeObjects(true);
     
     Label* detailsLabel = createLabelSettingsChat("Share your Kid Code\nwith all your friends",Color3B::WHITE);
     detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
     
-    Label* codeLabel = createLabelHeader("49KW03B3");
+    Label* codeLabel = createLabelHeader(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber));
     codeLabel->setPosition(this->getContentSize().width/2,detailsLabel->getPositionY()- detailsLabel->getContentSize().height/2 -codeLabel->getContentSize().height * .8);
     codeLabel->setTag(1000);
     this->addChild(codeLabel);
@@ -86,7 +123,7 @@ void KidsLayer::setToShowingCode()
 
 void KidsLayer::setToAddAFriend()
 {
-    resetToIdle();
+    removeObjects(true);
     
     Label* detailsLabel = createLabelSettingsChat("To add a friend",Color3B::WHITE);
     detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height*2.5);
@@ -96,7 +133,7 @@ void KidsLayer::setToAddAFriend()
 
 void KidsLayer::setToAddAFriendTextBox()
 {
-    resetToIdle();
+    removeObjects(true);
     
     Label* detailsLabel = createLabelSettingsChat("To add a friend",Color3B::WHITE);
     detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height*2.5);
@@ -106,31 +143,16 @@ void KidsLayer::setToAddAFriendTextBox()
 
 void KidsLayer::setToCodeError(std::string code)
 {
-    resetToIdle();
-    
-    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.67);
-    
-    glowSprite->setPosition(position);
-    glowSprite->setScale(.3);
-    
-    oomeeSprite->setScale(1.1);
-    oomeeSprite->setPosition(position);
+    removeObjects(false);
     
     Label* failedTextBoxLabel = createLabelHeader(code);
     failedTextBoxLabel->setColor(Color3B(249, 74, 91));
     
-    Rect spriteRect = Rect(0, 0, 268, 107);
-    Rect capInsents = Rect(100, 53, 1, 1);
-    
-    
-    ui::Scale9Sprite* failedTextBox = ui::Scale9Sprite::create("res/settings/textFieldFail.png", spriteRect, capInsents);
-    failedTextBox->setContentSize(Size(this->getContentSize().width*.8, 107));
-    failedTextBox->setPosition(Vec2(this->getContentSize().width/2, failedTextBox->getContentSize().height*4));
+    ui::Scale9Sprite* failedTextBox = createText9Sprite("res/settings/textFieldFail.png",4);
     
     failedTextBoxLabel->setPosition(failedTextBox->getContentSize().width/2, failedTextBox->getContentSize().height/2-5);
     
     failedTextBox->addChild(failedTextBoxLabel);
-    failedTextBox->setTag(1000);
     this->addChild(failedTextBox);
     
     Label* detailsLabel = createLabelSettingsChat("Oh No! We don't recognise\nthis code",Color3B::WHITE);
@@ -142,54 +164,36 @@ void KidsLayer::setToCodeError(std::string code)
 
 void KidsLayer::setToCodeSuccess(std::string code)
 {
-    resetToIdle();
+    removeObjects(false);
     
-    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.67);
-    
-    glowSprite->setPosition(position);
-    glowSprite->setScale(.3);
-    
-    oomeeSprite->setScale(1.1);
-    oomeeSprite->setPosition(position);
+    ui::Scale9Sprite* displayCodeTextBox = createText9Sprite("res/settings/textEntry.png",4.5);
     
     Label* failedTextBoxLabel = createLabelHeader(code);
     failedTextBoxLabel->setColor(Color3B(55, 188, 152));
+    failedTextBoxLabel->setPosition(displayCodeTextBox->getContentSize().width/2, displayCodeTextBox->getContentSize().height/2-5);
     
-    Rect spriteRect = Rect(0, 0, 268, 107);
-    Rect capInsents = Rect(100, 53, 1, 1);
-    
-    ui::Scale9Sprite* failedTextBox = ui::Scale9Sprite::create("res/settings/textEntry.png", spriteRect, capInsents);
-    failedTextBox->setContentSize(Size(this->getContentSize().width*.8, 107));
-    failedTextBox->setPosition(Vec2(this->getContentSize().width/2, failedTextBox->getContentSize().height*4.5));
-    
-    failedTextBoxLabel->setPosition(failedTextBox->getContentSize().width/2, failedTextBox->getContentSize().height/2-5);
-    
-    failedTextBox->addChild(failedTextBoxLabel);
-    failedTextBox->setTag(1000);
-    this->addChild(failedTextBox);
+    displayCodeTextBox->addChild(failedTextBoxLabel);
+    this->addChild(displayCodeTextBox);
     
     Label* titleLabel = createLabelSettingsChat("Kid Code accepted",Color3B::WHITE);
-    titleLabel->setPosition(this->getContentSize().width/2,failedTextBox->getPositionY() + titleLabel->getContentSize().height*2.25);
+    titleLabel->setPosition(this->getContentSize().width/2,displayCodeTextBox->getPositionY() + titleLabel->getContentSize().height*2.25);
     titleLabel->setTag(1000);
     this->addChild(titleLabel);
     
     Label* detailsLabel = createLabelSettingsChat("Your friend has been added!\nTheir parents will need to\nconfirm the connection.",Color3B::WHITE);
-    detailsLabel->setPosition(this->getContentSize().width/2,failedTextBox->getPositionY() - detailsLabel->getContentSize().height);
+    detailsLabel->setPosition(this->getContentSize().width/2,displayCodeTextBox->getPositionY() - detailsLabel->getContentSize().height);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
 }
 
-void KidsLayer::resetToIdle()
+void KidsLayer::removeObjects(bool oomeeToLargeSize)
 {
     while(this->getChildByTag(1000))
         this->removeChildByTag(1000);
     
-    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.6);
-    
-    glowSprite->setPosition(position);
-    glowSprite->setScale(.5);
-    
-    oomeeSprite->setScale(1.8);
-    oomeeSprite->setPosition(position);
+    if(oomeeToLargeSize)
+        setOomeeToLargeSize();
+    else
+        setOomeeToSmallSize();
 }
 

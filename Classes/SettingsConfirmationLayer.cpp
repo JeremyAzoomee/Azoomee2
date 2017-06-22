@@ -7,6 +7,7 @@ using namespace Azoomee;
 
 #define TEST_NO_OF_CONFIRMATIONS 3
 #define MARGIN 78
+#define CONFIRMATION_HEIGHT 182
 
 Layer* SettingsConfirmationLayer::createWithHeight(float setLayerHeight)
 {
@@ -50,7 +51,7 @@ void SettingsConfirmationLayer::addDetailsLabel()
 
 void SettingsConfirmationLayer::addScrollView()
 {
-    Size innerSize = Size(contentWidth,TEST_NO_OF_CONFIRMATIONS*182 + 4);
+    Size innerSize = Size(contentWidth,TEST_NO_OF_CONFIRMATIONS*CONFIRMATION_HEIGHT + 4);
     
     float scrollViewHeight = layerHeight-MARGIN*3-detailsLabel->getContentSize().height;
     
@@ -61,7 +62,7 @@ void SettingsConfirmationLayer::addScrollView()
     scrollView->setContentSize(Size(contentWidth, scrollViewHeight));
     
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
-    scrollView->setBounceEnabled(true);
+    scrollView->setBounceEnabled(false);
     scrollView->setTouchEnabled(true);
     scrollView->setInnerContainerSize(innerSize);
     scrollView->setSwallowTouches(false);
@@ -73,8 +74,8 @@ void SettingsConfirmationLayer::addScrollView()
 
     for(int i = 0; i < TEST_NO_OF_CONFIRMATIONS; i++)
     {
-        auto confirmationLayer = ConfirmationControlLayer::createController(Size(contentWidth, 182), i);
-        confirmationLayer->setPosition(0,i*182+2);
-        scrollView->addChild(confirmationLayer,200);
+        auto confirmationLayer = ConfirmationControlLayer::createController(Size(contentWidth, CONFIRMATION_HEIGHT), i);
+        confirmationLayer->setPosition(0,i*CONFIRMATION_HEIGHT+2);
+        scrollView->addChild(confirmationLayer,CONFIRMATION_IDLE_Z);
     }
 }

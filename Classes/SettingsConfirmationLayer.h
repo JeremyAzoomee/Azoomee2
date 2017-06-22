@@ -6,6 +6,11 @@
 
 USING_NS_CC;
 
+#define CONFIRMATION_CONFIRMED_Z 300
+#define CONFIRMATION_REJECT_Z 400
+#define CONFIRMATION_IDLE_Z 200
+
+
 class SettingsConfirmationLayer : public Layer
 {
 private:

@@ -20,19 +20,13 @@ bool ConfirmationLayer::init()
 
 void ConfirmationLayer::addDetailsToLayer(std::string setChildName, std::string setFriendName, std::string setFriendCode)
 {
-    childName = setChildName;
-    friendName = setFriendName;
-    friendCode = setFriendCode;
-    
     DrawNode* topLine = DrawNode::create();
     topLine->setLineWidth(2);
-    topLine->setTag(1000);
     topLine->drawLine(Vec2(0, this->getContentSize().height), Vec2(this->getContentSize().width,this->getContentSize().height), Color4F(150.96/255.0f, 150.96/255.0f, 150.06/255.0f,255/255.0f));
     this->addChild(topLine);
     
     DrawNode* bottomLine = DrawNode::create();
     bottomLine->setLineWidth(2);
-    bottomLine->setTag(1000);
     bottomLine->drawLine(Vec2(0, 0), Vec2(this->getContentSize().width,0), Color4F(150.96/255.0f, 150.96/255.0f, 150.06/255.0f,255/255.0f));
     this->addChild(bottomLine);
     
@@ -58,18 +52,8 @@ void ConfirmationLayer::addDetailsToLayer(std::string setChildName, std::string 
 
 void ConfirmationLayer::setToConfirm()
 {
-    childNameLabel->setVisible(false);
-    friendNameLabel->setVisible(false);
-    friendCodeLabel->setVisible(false);
-    connectorSprite->setVisible(false);
-    
-    while(this->getChildByTag(1000))
-        this->removeChildByTag(1000);
-    
-    DrawNode* confirmRect = DrawNode::create();
-    confirmRect->setLineWidth(2);
-    confirmRect->drawRect(Vec2(0, 0), Vec2(this->getContentSize().width, this->getContentSize().height), Color4F(246/255.0f, 187/255.0f, 66/255.0f,255/255.0f));
-    this->addChild(confirmRect);
+    clearUIItems();
+    createRect(Color4F(246/255.0f, 187/255.0f, 66/255.0f,255/255.0f));
     
     Label* rejectRequest = createLabelBody(StringUtils::format("%s & %s are now connected",childNameLabel->getString().c_str(),friendNameLabel->getString().c_str()));
     rejectRequest->setTag(1000);
@@ -79,19 +63,13 @@ void ConfirmationLayer::setToConfirm()
 
 void ConfirmationLayer::setToReject()
 {
+    clearUIItems();
+    createRect(Color4F(249/255.0f, 74/255.0f, 91/255.0f,255/255.0f));
+    
     childNameLabel->setColor(Color3B(249,74,91));
     friendNameLabel->setColor(Color3B(249,74,91));
-    friendCodeLabel->setVisible(false);
-    connectorSprite->setVisible(false);
-    
-    while(this->getChildByTag(1000))
-        this->removeChildByTag(1000);
-    
-    DrawNode* rejectRect = DrawNode::create();
-    rejectRect->setLineWidth(2);
-    rejectRect->setTag(1000);
-    rejectRect->drawRect(Vec2(0, 0), Vec2(this->getContentSize().width, this->getContentSize().height), Color4F(249/255.0f, 74/255.0f, 91/255.0f,255/255.0f));
-    this->addChild(rejectRect);
+    childNameLabel->setVisible(true);
+    friendNameLabel->setVisible(true);
     
     Label* rejectRequest = createLabelBody("Reject this request?");
     rejectRequest->setTag(1000);
@@ -104,15 +82,6 @@ void ConfirmationLayer::setToRejected()
     childNameLabel->setVisible(false);
     friendNameLabel->setVisible(false);
     
-    while(this->getChildByTag(1000))
-        this->removeChildByTag(1000);
-    
-    DrawNode* rejectRect = DrawNode::create();
-    rejectRect->setLineWidth(2);
-    rejectRect->setTag(1000);
-    rejectRect->drawRect(Vec2(0, 0), Vec2(this->getContentSize().width, this->getContentSize().height), Color4F(249/255.0f, 74/255.0f, 91/255.0f,255/255.0f));
-    this->addChild(rejectRect);
-    
     Label* rejectRequest = createLabelBody("Rejected");
     rejectRequest->setTag(1000);
     rejectRequest->setPosition(this->getContentSize().width/2, this->getContentSize().height/2);
@@ -121,23 +90,33 @@ void ConfirmationLayer::setToRejected()
 
 void ConfirmationLayer::setIdle()
 {
+    clearUIItems();
     childNameLabel->setColor(Color3B::WHITE);
     friendNameLabel->setColor(Color3B::WHITE);
+    
+    childNameLabel->setVisible(true);
+    friendNameLabel->setVisible(true);
     friendCodeLabel->setVisible(true);
     connectorSprite->setVisible(true);
-    
+}
+
+//-----------PRIVATE FUNCTIONS-----------------
+
+void ConfirmationLayer::clearUIItems()
+{
     while(this->getChildByTag(1000))
         this->removeChildByTag(1000);
-    
-    DrawNode* topLine = DrawNode::create();
-    topLine->setLineWidth(2);
-    topLine->setTag(1000);
-    topLine->drawLine(Vec2(0, this->getContentSize().height), Vec2(this->getContentSize().width,this->getContentSize().height), Color4F(150.96/255.0f, 150.96/255.0f, 150.06/255.0f,255/255.0f));
-    this->addChild(topLine);
-    
-    DrawNode* bottomLine = DrawNode::create();
-    bottomLine->setLineWidth(2);
-    bottomLine->setTag(1000);
-    bottomLine->drawLine(Vec2(0, 0), Vec2(this->getContentSize().width,0), Color4F(150.96/255.0f, 150.96/255.0f, 150.06/255.0f,255/255.0f));
-    this->addChild(bottomLine);
+
+    childNameLabel->setVisible(false);
+    friendNameLabel->setVisible(false);
+    friendCodeLabel->setVisible(false);
+    connectorSprite->setVisible(false);
+}
+
+void ConfirmationLayer::createRect(Color4F withColour)
+{
+    DrawNode* confirmRect = DrawNode::create();
+    confirmRect->setLineWidth(2);
+    confirmRect->drawRect(Vec2(0, 0), Vec2(this->getContentSize().width, this->getContentSize().height), withColour);
+    this->addChild(confirmRect);
 }

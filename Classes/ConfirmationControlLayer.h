@@ -20,6 +20,10 @@ private:
     ElectricDreamsButton *noButton;
     
     void clearAllButtons();
+    void setToConfirmed();
+    void setToReject();
+    void setToRejected();
+    void setToIdle();
     
     void addConfirmationFrame();
     void addButtons();
