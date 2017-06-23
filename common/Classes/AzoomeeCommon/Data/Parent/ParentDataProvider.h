@@ -38,6 +38,11 @@ public:
     
     bool isPaidUser();
     bool emailRequiresVerification();
+    
+    //-----------Pending Friend Requests-------------
+    int getNoOfPendingFriendRequest();
+    std::string getPendingFriendRequestSenderName(int pendingFriendRequestNo);
+    std::string getPendingFriendRequestFriendName(int pendingFriendRequestNo);
 };
 
 }

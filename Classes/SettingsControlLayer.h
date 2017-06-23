@@ -41,8 +41,7 @@ public:
     
     CREATE_FUNC(SettingsControlLayer);
     
-    void setCenterPosition(Vec2 position);
-    Vec2 getCenterPosition();
+    Layer* getCurrentLayer();
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);

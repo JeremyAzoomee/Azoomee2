@@ -29,6 +29,8 @@ public:
     virtual bool init();
     
     CREATE_FUNC(SettingsConfirmationLayer);
+    
+    void confirmationDetailsReceived();
 
 };
 

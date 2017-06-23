@@ -1,7 +1,10 @@
 #include "ConfirmationControlLayer.h"
 #include "SettingsConfirmationLayer.h"
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 #define MARGIN 69
+
+using namespace Azoomee;
 
 Layer* ConfirmationControlLayer::createController(Size layerSize, int setConfirmationNumber)
 {
@@ -31,14 +34,8 @@ void ConfirmationControlLayer::addConfirmationFrame()
 {
     confirmationFrameLayer = ConfirmationLayer::create();
     confirmationFrameLayer->setContentSize(this->getContentSize());
-    
-    //REMOVE WHEN WE HAVE REAL DATA
-    if(confirmationNumber == 0)
-        confirmationFrameLayer->addDetailsToLayer("Emmaline", "Mary", "66OG09K8");
-    else if(confirmationNumber == 1)
-        confirmationFrameLayer->addDetailsToLayer("Montgomery", "Leroy", "49KW03B3");
-    else
-        confirmationFrameLayer->addDetailsToLayer("Emmaline", "Alexandra", "59DF01L7");
+
+    confirmationFrameLayer->addDetailsToLayer(ParentDataProvider::getInstance()->getPendingFriendRequestSenderName(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestFriendName(confirmationNumber), "66OG09K8");
     
     this->addChild(confirmationFrameLayer);
 }

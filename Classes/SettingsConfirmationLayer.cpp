@@ -2,10 +2,11 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "ConfirmationControlLayer.h"
+#include "BackEndCaller.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 using namespace Azoomee;
 
-#define TEST_NO_OF_CONFIRMATIONS 3
 #define MARGIN 78
 #define CONFIRMATION_HEIGHT 182
 
@@ -15,8 +16,10 @@ Layer* SettingsConfirmationLayer::createWithHeight(float setLayerHeight)
     layer->layerHeight = setLayerHeight;
     layer->setContentSize(Size(Director::getInstance()->getVisibleSize().width,Director::getInstance()->getVisibleSize().height));
     layer->contentWidth = Director::getInstance()->getVisibleSize().width - MARGIN*2;
-    layer->addDetailsLabel();
-    layer->addScrollView();
+    layer->setName("ConfirmationLayer");
+    
+    ModalMessages::getInstance()->startLoading();
+    BackEndCaller::getInstance()->getPendingFriendRequests();
     
     return layer;
 }
@@ -33,12 +36,20 @@ bool SettingsConfirmationLayer::init()
 
 //----------------Add UI Objects-------------
 
+void SettingsConfirmationLayer::confirmationDetailsReceived()
+{
+    ModalMessages::getInstance()->stopLoading();
+    addDetailsLabel();
+    addScrollView();
+}
+
+
 void SettingsConfirmationLayer::addDetailsLabel()
 {
     std::string labelText = "Great news, some of your childrens's friend requests have been accepted. Before we can connect them we would need you to tap confirm.";
     
     
-    if(TEST_NO_OF_CONFIRMATIONS == 0)
+    if(ParentDataProvider::getInstance()->getNoOfPendingFriendRequest() == 0)
         labelText = "You're children don't have any friend requests to confirm at the moment.";
     
     detailsLabel = createLabelSettingsChat(labelText,Color3B::WHITE);
@@ -51,7 +62,7 @@ void SettingsConfirmationLayer::addDetailsLabel()
 
 void SettingsConfirmationLayer::addScrollView()
 {
-    Size innerSize = Size(contentWidth,TEST_NO_OF_CONFIRMATIONS*CONFIRMATION_HEIGHT + 4);
+    Size innerSize = Size(contentWidth,ParentDataProvider::getInstance()->getNoOfPendingFriendRequest()*CONFIRMATION_HEIGHT + 4);
     
     float scrollViewHeight = layerHeight-MARGIN*3-detailsLabel->getContentSize().height;
     
@@ -72,7 +83,7 @@ void SettingsConfirmationLayer::addScrollView()
     
     this->addChild(scrollView);
 
-    for(int i = 0; i < TEST_NO_OF_CONFIRMATIONS; i++)
+    for(int i = 0; i < ParentDataProvider::getInstance()->getNoOfPendingFriendRequest(); i++)
     {
         auto confirmationLayer = ConfirmationControlLayer::createController(Size(contentWidth, CONFIRMATION_HEIGHT), i);
         confirmationLayer->setPosition(0,i*CONFIRMATION_HEIGHT+2);
