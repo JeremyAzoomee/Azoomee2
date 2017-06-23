@@ -217,6 +217,7 @@ void BackEndCaller::childLogin(int childNumber)
     
     //friendRequest("e1d58b97-2597-4363-a1c9-af96758081b4", "Ooubrey", "T98LRF5M");
     //getPendingFriendRequests();
+    //friendRequestReaction(true, "fb5362ce-0efb-44a9-8c57-da7f893f373e", "1428041b-c3a9-4e92-88f3-66ee43752544", "111Male");
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString)
@@ -375,14 +376,16 @@ void BackEndCaller::onFriendRequestAnswerReceived(const std::string& responseStr
     //TODO: implement messaging for the user based on feedback.
 }
 
-void BackEndCaller::friendRequestReaction()
+void BackEndCaller::friendRequestReaction(bool confirmed, const std::string& respondentChildId, const std::string& invitationId, const std::string& friendName)
 {
-    
+    HttpRequestCreator *request = API::friendRequestReaction(confirmed, respondentChildId, invitationId, friendName, this);
+    request->execute();
 }
 
 void BackEndCaller::onFriendRequestReactionAnswerReceived(const std::string& responseString)
 {
-    
+    cocos2d::log("FRIEND REQUEST REACTION RESPONSE STRING: %s", responseString.c_str());
+    //TODO: implement messaging for the user based on feedback.
 }
 
 void BackEndCaller::getPendingFriendRequests()
@@ -471,6 +474,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagFriendRequest)
     {
         onFriendRequestAnswerReceived(body);
+    }
+    else if(requestTag == API::TagFriendRequestReaction)
+    {
+        onFriendRequestReactionAnswerReceived(body);
     }
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     else if(requestTag == API::TagVerifyApplePayment)

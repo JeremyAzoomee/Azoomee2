@@ -125,6 +125,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     if(method == "POST") request->setRequestType(HttpRequest::Type::POST);
     if(method == "GET") request->setRequestType(HttpRequest::Type::GET);
     if(method == "PATCH") request->setRequestType(HttpRequest::Type::PATCH);
+    if(method == "PUT") request->setRequestType(HttpRequest::Type::PUT);
     request->setUrl(requestUrl.c_str());
     
     const char *postData = requestBody.c_str();

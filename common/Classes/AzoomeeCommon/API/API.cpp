@@ -288,18 +288,16 @@ HttpRequestCreator* API::friendRequest(const std::string& senderChildId, const s
     return request;
 }
 
-/*
-HttpRequestCreator* API::friendRequestReaction(const std::string& senderChildId, const std::string& receiverChildId, const std::string& receiverChildName, HttpRequestCreatorResponseDelegate* delegate)
+HttpRequestCreator* API::friendRequestReaction(bool confirmed, const std::string& respondentChildId, const std::string& invitationId, const std::string& friendName, HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestPath = StringUtils::format("/api/user/child/%s/invite/code", senderChildId.c_str());
-    request->requestBody = StringUtils::format("{\"status\": \"APPROVED\", \"friendName\": \"\", \"senderName\": \"%s\"}", inviteCode.c_str(), senderChildName.c_str());
-    request->method = "POST";
-    request->requestTag = TagFriendRequest;
+    request->requestPath = StringUtils::format("/api/user/child/%s/invite/code/%s", respondentChildId.c_str(), invitationId.c_str());
+    request->requestBody = StringUtils::format("{\"status\": \"APPROVED\", \"friendName\": \"%s\"}", friendName.c_str());
+    request->method = "PUT";
+    request->requestTag = TagFriendRequestReaction;
     request->encrypted = true;
     
     return request;
 }
- */
 
 NS_AZOOMEE_END

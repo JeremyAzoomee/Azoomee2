@@ -95,7 +95,7 @@ public:
     // Request a friend
     void friendRequest(const std::string& senderChildId, const std::string& senderChildName, const std::string& inviteCode);
     //Confirm or decline a friend request
-    void friendRequestReaction();
+    void friendRequestReaction(bool confirmed, const std::string& respondentChildId, const std::string& invitationId, const std::string& friendName);
     //Get pending friend requests
     void getPendingFriendRequests();
 };

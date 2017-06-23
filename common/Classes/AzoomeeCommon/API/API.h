@@ -115,7 +115,7 @@ public:
                                                    HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* friendRequest(const std::string& senderChildId, const std::string& senderChildName, const std::string& inviteCode, HttpRequestCreatorResponseDelegate* delegate);
-    static HttpRequestCreator* friendRequestReaction(const std::string& childId, HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* friendRequestReaction(bool confirmed, const std::string& respondentChildId, const std::string& invitationId, const std::string& friendName, HttpRequestCreatorResponseDelegate* delegate);
     static HttpRequestCreator* getPendingFriendRequests(HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Sharing
