@@ -4,6 +4,8 @@
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "Auth/AuthAPI.h"
 #include <AzoomeeCommon/Net/Utils.h>
+#include <AzoomeeCommon/Pusher/PusherSDK.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "ChatDelegate.h"
 
 using namespace cocos2d;
@@ -37,6 +39,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     }
     else
     {
+        ParentDataProvider* parentData = ParentDataProvider::getInstance();
+        PusherSDK::getInstance()->subscribeToChannel("private-" + parentData->getLoggedInParentId());
+        
         // Logged in, do we have a child logged in?
         bool childLoggedIn = AuthAPI::getInstance()->isChildLoggedIn();
         if(!childLoggedIn)

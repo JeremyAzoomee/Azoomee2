@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Json.h>
+#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include <cocos/cocos2d.h>
 #include <memory>
 
@@ -109,7 +110,7 @@ void AuthAPI::logoutChild()
 
 void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    cocos2d::log("AuthAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
+//    cocos2d::log("AuthAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
     ParentDataParser* parentDataParser = ParentDataParser::getInstance();
     ParentDataProvider* parentData = ParentDataProvider::getInstance();
     ChildDataParser* childDataParser = ChildDataParser::getInstance();
@@ -121,6 +122,9 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         if(parentDataParser->parseParentLoginData(body))
         {
             cocos2d::log("Logged in!");
+            
+            // Open Pusher
+            PusherSDK::getInstance()->subscribeToChannel("private-" + parentData->getLoggedInParentId());
             
             // Notify observers
             for(auto observer : _observers)
