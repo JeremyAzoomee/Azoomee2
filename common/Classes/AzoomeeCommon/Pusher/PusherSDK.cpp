@@ -1,4 +1,5 @@
 #include "PusherSDK.h"
+#include "../Data/Parent/ParentDataProvider.h"
 #include <memory>
 
 
@@ -18,6 +19,18 @@ PusherSDK* PusherSDK::getInstance()
 PusherSDK::PusherSDK()
 {
     ;
+}
+
+void PusherSDK::openParentAccountChannel()
+{
+    ParentDataProvider* parentData = ParentDataProvider::getInstance();
+    subscribeToChannel("private-" + parentData->getLoggedInParentId());
+}
+
+void PusherSDK::closeParentAccountChannel()
+{
+    ParentDataProvider* parentData = ParentDataProvider::getInstance();
+    closeChannel("private-" + parentData->getLoggedInParentId());
 }
 
 NS_AZOOMEE_END

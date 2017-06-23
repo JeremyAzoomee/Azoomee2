@@ -28,6 +28,10 @@ public:
     // void addObserver();
     // void removeObserver();
     
+    /// Open the account wide pusher channel
+    void openParentAccountChannel();
+    /// Close the account wide pusher channel
+    void closeParentAccountChannel();
     
     // - Platform independant, see Pusher_android.cpp & Pusher_ios.mm
     

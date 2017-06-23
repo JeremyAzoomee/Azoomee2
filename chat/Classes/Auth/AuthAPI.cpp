@@ -31,7 +31,6 @@ AuthAPI::AuthAPI()
 {
     // Initialise logged in information
     ParentDataParser* parentDataParser = ParentDataParser::getInstance();
-    cocos2d::log("hasParentLoginDataInUserDefaults? %d", parentDataParser->hasParentLoginDataInUserDefaults());
     if(parentDataParser->hasParentLoginDataInUserDefaults())
     {
         parentDataParser->retrieveParentLoginDataFromUserDefaults();
@@ -78,6 +77,7 @@ void AuthAPI::logoutUser()
 {
     logoutChild();
     ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
+    PusherSDK::getInstance()->closeAllChannels();
 }
 
 #pragma mark - Child
@@ -123,8 +123,8 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         {
             cocos2d::log("Logged in!");
             
-            // Open Pusher
-            PusherSDK::getInstance()->subscribeToChannel("private-" + parentData->getLoggedInParentId());
+            // Open Pusher channel
+            PusherSDK::getInstance()->openParentAccountChannel();
             
             // Notify observers
             for(auto observer : _observers)
