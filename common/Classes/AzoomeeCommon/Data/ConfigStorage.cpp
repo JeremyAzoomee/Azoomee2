@@ -123,7 +123,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagOfflineCheck) return "/api/comms/heartbeat";
-    if(httpRequestTag == API::TagGetPendingFriendRequests) return StringUtils::format("/api/user/adult/%s/invite/friend", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagGetPendingFriendRequests) return StringUtils::format("/api/user/adult/%s/invite/code/received", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     
     return "";
 }

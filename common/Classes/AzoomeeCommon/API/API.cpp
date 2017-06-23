@@ -288,4 +288,18 @@ HttpRequestCreator* API::friendRequest(const std::string& senderChildId, const s
     return request;
 }
 
+/*
+HttpRequestCreator* API::friendRequestReaction(const std::string& senderChildId, const std::string& receiverChildId, const std::string& receiverChildName, HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = StringUtils::format("/api/user/child/%s/invite/code", senderChildId.c_str());
+    request->requestBody = StringUtils::format("{\"status\": \"APPROVED\", \"friendName\": \"\", \"senderName\": \"%s\"}", inviteCode.c_str(), senderChildName.c_str());
+    request->method = "POST";
+    request->requestTag = TagFriendRequest;
+    request->encrypted = true;
+    
+    return request;
+}
+ */
+
 NS_AZOOMEE_END
