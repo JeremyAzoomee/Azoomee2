@@ -37,9 +37,9 @@ private:
     // Update child API success
     void onUpdateChildAnswerReceived();
     // Friend request success
-    void onFriendRequestAnswerReceived();
+    void onFriendRequestAnswerReceived(const std::string& responseString);
     // Friend request reaction success
-    void onFriendRequestReactionAnswerReceived();
+    void onFriendRequestReactionAnswerReceived(const std::string& responseString);
     // Pending friend requests answer received
     void onGetPendingFriendRequestsAnswerReceived(const std::string& responseString);
     
@@ -93,7 +93,7 @@ public:
     // Reset Password
     void resetPasswordRequest(const std::string& emailAddress);
     // Request a friend
-    void friendRequest();
+    void friendRequest(const std::string& senderChildId, const std::string& senderChildName, const std::string& inviteCode);
     //Confirm or decline a friend request
     void friendRequestReaction();
     //Get pending friend requests

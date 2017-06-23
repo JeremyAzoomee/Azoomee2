@@ -114,8 +114,8 @@ public:
     static HttpRequestCreator* ResetPaswordRequest(const std::string& forEmailAddress,
                                                    HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* friendRequest(const std::string& childId, const std::string& inviteCode);
-    static HttpRequestCreator* friendRequestReaction(const std::string& childId);
+    static HttpRequestCreator* friendRequest(const std::string& senderChildId, const std::string& senderChildName, const std::string& inviteCode, HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* friendRequestReaction(const std::string& childId, HttpRequestCreatorResponseDelegate* delegate);
     static HttpRequestCreator* getPendingFriendRequests(HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Sharing
