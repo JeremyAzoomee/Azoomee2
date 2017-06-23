@@ -35,7 +35,7 @@ void ConfirmationControlLayer::addConfirmationFrame()
     confirmationFrameLayer = ConfirmationLayer::create();
     confirmationFrameLayer->setContentSize(this->getContentSize());
 
-    confirmationFrameLayer->addDetailsToLayer(ParentDataProvider::getInstance()->getPendingFriendRequestSenderName(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestFriendName(confirmationNumber), "66OG09K8");
+    confirmationFrameLayer->addDetailsToLayer(ParentDataProvider::getInstance()->getPendingFriendRequestFriendName(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestSenderName(confirmationNumber), "66OG09K8");
     
     this->addChild(confirmationFrameLayer);
 }

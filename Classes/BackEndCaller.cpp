@@ -26,6 +26,7 @@
 #include "OfflineChecker.h"
 #include "SettingsConfirmationLayer.h"
 #include "SettingsControlLayer.h"
+#include "KidsControlLayer.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -371,7 +372,19 @@ void BackEndCaller::friendRequest(const std::string& senderChildId, const std::s
 void BackEndCaller::onFriendRequestAnswerReceived(const std::string& responseString)
 {
     cocos2d::log("FRIEND REQUEST RESPONSE STRING: %s", responseString.c_str());
-    //TODO: implement messaging for the user based on feedback.
+    SettingsControlLayer* settingsLayer = (SettingsControlLayer*)Director::getInstance()->getRunningScene()->getChildByName("SettingsControlLayer");
+    
+    if(settingsLayer)
+    {
+        KidsControlLayer* kidsControlLayer = (KidsControlLayer*)settingsLayer->getCurrentLayer();
+        
+        if(kidsControlLayer)
+            kidsControlLayer->inviteCodeResponse(true);
+        else
+            ModalMessages::getInstance()->stopLoading();
+    }
+    else
+        ModalMessages::getInstance()->stopLoading();
 }
 
 void BackEndCaller::friendRequestReaction()

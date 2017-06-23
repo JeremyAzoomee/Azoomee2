@@ -2,6 +2,8 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
+#include "BackEndCaller.h"
 
 using namespace Azoomee;
 
@@ -157,16 +159,23 @@ void KidsControlLayer::closeKidController()
 
 void KidsControlLayer::sendInviteCode()
 {
+    ModalMessages::getInstance()->startLoading();
+    BackEndCaller::getInstance()->friendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumber),ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber),kidCodeTextInput->getText());
+}
+
+void KidsControlLayer::inviteCodeResponse(bool codeIsOK)
+{
+    ModalMessages::getInstance()->stopLoading();
     clearAllButCloseButton();
     
-    if(kidCodeTextInput->getText() == "YES")
+    if(codeIsOK)
     {
-        childFrameLayer->setToCodeSuccess("YES");
+        childFrameLayer->setToCodeSuccess(kidCodeTextInput->getText());
         addAnotherButton->setVisible(true);
     }
     else
     {
-        childFrameLayer->setToCodeError("NO");
+        childFrameLayer->setToCodeError(kidCodeTextInput->getText());
         tryAgainButton->setVisible(true);
     }
 }
@@ -208,26 +217,12 @@ void KidsControlLayer::buttonPressed(ElectricDreamsButton* button)
 
 void KidsControlLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    if(inputLayer->getText() == "YES" || inputLayer->getText() == "NO")
-        sendCodeButton->setEnabled(true);
-    else
-        sendCodeButton->setEnabled(false);
+    sendCodeButton->setEnabled( isValid);
 }
 
 void KidsControlLayer::textInputReturnPressed(TextInputLayer* inputLayer)
 {
-    if(kidCodeTextInput->getText() == "YES")
-    {
-        clearAllButCloseButton();
-        childFrameLayer->setToCodeSuccess("YES");
-        addAnotherButton->setVisible(true);
-    }
-    else if(inputLayer->getText() == "NO")
-    {
-        clearAllButCloseButton();
-        childFrameLayer->setToCodeError("NO");
-        tryAgainButton->setVisible(true);
-    }
+    sendInviteCode();
 }
 
 void KidsControlLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)

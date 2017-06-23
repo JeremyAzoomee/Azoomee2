@@ -49,6 +49,8 @@ public:
     static Layer* createController(SettingsKidsLayer* setParent, int setChildNumber);
     virtual bool init();
     
+    void inviteCodeResponse(bool codeIsOK);
+    
     CREATE_FUNC(KidsControlLayer);
     
     //Delegate Functions

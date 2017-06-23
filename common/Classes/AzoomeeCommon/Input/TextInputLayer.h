@@ -15,6 +15,7 @@ namespace Azoomee
 #define INPUT_IS_DAY 4
 #define INPUT_IS_MONTH 5
 #define INPUT_IS_YEAR 6
+#define INPUT_IS_KIDS_CODE 7
 
 #define EDITBOX_CURVE_WIDTH 100
 

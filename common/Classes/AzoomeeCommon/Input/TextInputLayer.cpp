@@ -30,6 +30,7 @@ TextInputLayer* TextInputLayer::createSettingsChatTextInput(float width)
     auto layer = TextInputLayer::create();
     layer->setContentSize(Size(width,107));
     layer->createSettingsChatEditBox(width);
+    layer->textInputType = INPUT_IS_KIDS_CODE;
     
     return layer;
 }
@@ -137,6 +138,7 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
+        
     }
 }
     
@@ -155,7 +157,7 @@ void TextInputLayer::createSettingsChatEditBox(float width)
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(INPUT_STYLE_FONT, 84);
     editBox->setFontColor(Color3B::BLACK);
-    editBox->setMaxLength(12);
+    editBox->setMaxLength(8);
     editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
     
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -167,8 +169,6 @@ void TextInputLayer::createSettingsChatEditBox(float width)
 #endif
     
     editBox->setDelegate(this);
-    
-    this->setupEditBoxUsingType();
     
     this->addChild(editBox);
 }
@@ -231,6 +231,10 @@ bool TextInputLayer::inputIsValid()
             if(isValidChildName(editBox->getText()))
                 isValidInput = true;
             break;
+        }
+        case INPUT_IS_KIDS_CODE:
+        {
+            isValidInput = strlen(editBox->getText()) == 8;
             break;
         }
     }
