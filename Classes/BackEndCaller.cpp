@@ -24,7 +24,8 @@
 #include "FlowDataSingleton.h"
 #include "OfflineHubScene.h"
 #include "OfflineChecker.h"
-
+#include "SettingsConfirmationLayer.h"
+#include "SettingsControlLayer.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -387,7 +388,20 @@ void BackEndCaller::getPendingFriendRequests()
 
 void BackEndCaller::onGetPendingFriendRequestsAnswerReceived(const std::string& responseString)
 {
-    //TODO: implement adding elements to the friend request carusoel
+    ParentDataParser::getInstance()->parsePendingFriendRequests(responseString);
+    SettingsControlLayer* settingsLayer = (SettingsControlLayer*)Director::getInstance()->getRunningScene()->getChildByName("SettingsControlLayer");
+    
+    if(settingsLayer)
+    {
+        SettingsConfirmationLayer* confirmationLayer = (SettingsConfirmationLayer*)settingsLayer->getCurrentLayer();
+        
+        if(confirmationLayer)
+            confirmationLayer->confirmationDetailsReceived();
+        else
+            ModalMessages::getInstance()->stopLoading();
+    }
+    else
+        ModalMessages::getInstance()->stopLoading();
 }
 
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------

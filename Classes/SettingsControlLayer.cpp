@@ -35,6 +35,7 @@ void SettingsControlLayer::createSettingsLayer()
 {
     backgroundLayer = LayerColor::create(Color4B::BLACK,origin.x+ visibleSize.width, origin.y + visibleSize.height);
     
+    this->setName("SettingsControlLayer");
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
     
@@ -102,6 +103,11 @@ void SettingsControlLayer::createTabs()
 }
 
 //---------------------- Actions -----------------
+
+Layer* SettingsControlLayer::getCurrentLayer()
+{
+    return currentLayer;
+}
 
 void SettingsControlLayer::removeSelf()
 {

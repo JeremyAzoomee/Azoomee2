@@ -136,5 +136,27 @@ std::string ParentDataProvider::getInviteCodeForAvailableChildren(int childNumbe
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["inviteCode"];
 }
-  
+    
+//-----------Pending Friend Requests-------------
+int ParentDataProvider::getNoOfPendingFriendRequest()
+{
+    ParentDataStorage* parentData = ParentDataStorage::getInstance();
+    // If this is called before any data is parsed
+    if(!parentData->pendingFriendRequestData.IsArray())
+    {
+        return 0;
+    }
+    return (int)parentData->pendingFriendRequestData.Size();
+}
+    
+std::string ParentDataProvider::getPendingFriendRequestSenderName(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["senderName"];
+}
+
+std::string ParentDataProvider::getPendingFriendRequestFriendName(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["friendName"];
+}
+    
 }

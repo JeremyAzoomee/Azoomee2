@@ -245,5 +245,30 @@ void ParentDataParser::clearParentLoginDataFromUserDefaults()
     def->setStringForKey("loggedInParentActorStatus", "");
     def->flush();
 }
+    
+bool ParentDataParser::parsePendingFriendRequests(std::string responseData)
+{
+    ParentDataStorage* parentData = ParentDataStorage::getInstance();
+    parentData->pendingFriendRequests.clear();
+    
+    parentData->pendingFriendRequestData.Parse(responseData.c_str());
+    
+    for(int i = 0; i < parentData->pendingFriendRequestData.Size(); i++)
+    {
+        std::map<std::string, std::string> currentPendingFriendRequest;
+
+        if(parentData->pendingFriendRequestData[i].HasMember("senderName"))
+            if(parentData->pendingFriendRequestData[i]["senderName"].IsString())
+                currentPendingFriendRequest["senderName"] = parentData->pendingFriendRequestData[i]["senderName"].GetString();
+        
+        if(parentData->pendingFriendRequestData[i].HasMember("friendName"))
+            if(parentData->pendingFriendRequestData[i]["friendName"].IsString())
+                currentPendingFriendRequest["friendName"] = parentData->pendingFriendRequestData[i]["friendName"].GetString();
+
+        parentData->pendingFriendRequests.push_back(currentPendingFriendRequest);
+    }
+    
+    return true;
+}
   
 }

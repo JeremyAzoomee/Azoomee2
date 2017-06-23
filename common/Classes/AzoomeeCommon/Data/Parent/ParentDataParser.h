@@ -25,6 +25,7 @@ public:
     void retrieveParentLoginDataFromUserDefaults();
     bool hasParentLoginDataInUserDefaults();
     void clearParentLoginDataFromUserDefaults();
+    bool parsePendingFriendRequests(std::string responseData);
     
 private:
     void addParentLoginDataToUserDefaults();
