@@ -2,7 +2,7 @@
  * https://github.com/siebeprojects/samples-keyboardheight
  */
 
-package com.tinizine.azoomee;
+package com.tinizine.azoomee.common;
 
 /**
  * The observer that will be notified when the height of 
