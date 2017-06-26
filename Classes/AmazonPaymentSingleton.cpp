@@ -142,6 +142,15 @@ void showDoublePurchase()
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from amazon window, otherwise the app will crash
 }
 
+void purchaseFailureErrorMessageWithDelay()
+{
+    auto funcCallAction = CallFunc::create([=](){
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
+    });
+    
+    Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from amazon window, otherwise the app will crash
+}
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
 extern "C"
@@ -181,7 +190,7 @@ extern "C"
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseFailed(JNIEnv* env, jobject thiz)
 {
     CCLOG("COCOS2DX: PURCHASE FAILED");
-    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
+    purchaseFailureErrorMessageWithDelay();
 }
 
 extern "C"
