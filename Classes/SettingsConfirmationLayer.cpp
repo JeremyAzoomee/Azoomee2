@@ -1,9 +1,10 @@
 #include "SettingsConfirmationLayer.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "ConfirmationControlLayer.h"
-#include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/API/API.h>
 
 using namespace Azoomee;
 
@@ -19,7 +20,6 @@ Layer* SettingsConfirmationLayer::createWithHeight(float setLayerHeight)
     layer->setName("ConfirmationLayer");
     
     ModalMessages::getInstance()->startLoading();
-    BackEndCaller::getInstance()->getPendingFriendRequests();
     
     return layer;
 }
@@ -30,6 +30,9 @@ bool SettingsConfirmationLayer::init()
     {
         return false;
     }
+    
+    HttpRequestCreator *request = API::getPendingFriendRequests(this);
+    request->execute();
     
     return true;
 }
@@ -89,4 +92,17 @@ void SettingsConfirmationLayer::addScrollView()
         confirmationLayer->setPosition(0,i*CONFIRMATION_HEIGHT+2);
         scrollView->addChild(confirmationLayer,CONFIRMATION_IDLE_Z);
     }
+}
+
+//-----------DELETGATE FUNCTIONS-----------
+
+void SettingsConfirmationLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    ParentDataParser::getInstance()->parsePendingFriendRequests(body);
+    confirmationDetailsReceived();
+}
+
+void SettingsConfirmationLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
 }

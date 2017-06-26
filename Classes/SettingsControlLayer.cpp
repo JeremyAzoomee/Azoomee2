@@ -104,9 +104,9 @@ void SettingsControlLayer::createTabs()
 
 //---------------------- Actions -----------------
 
-Layer* SettingsControlLayer::getCurrentLayer()
+Layer* SettingsControlLayer::getCurrentTabLayer()
 {
-    return currentLayer;
+    return currentTabLayer;
 }
 
 void SettingsControlLayer::removeSelf()
@@ -118,17 +118,17 @@ void SettingsControlLayer::removeSelf()
 
 void SettingsControlLayer::selectNewTab(Layer* newCurrentLayer, ElectricDreamsButton* buttonToBringForward)
 {
-    if(currentLayer)
-        currentLayer->removeFromParent();
+    if(currentTabLayer)
+        currentTabLayer->removeFromParent();
     childrenButton->setLocalZOrder(IDLE_TAB_Z);
     confirmationButton->setLocalZOrder(IDLE_TAB_Z);
     accountButton->setLocalZOrder(IDLE_TAB_Z);
     
     buttonToBringForward->setLocalZOrder(SELECTED_TAB_Z);
     
-    currentLayer = newCurrentLayer;
-    currentLayer->setPosition(origin.x,origin.y);
-    backgroundLayer->addChild(currentLayer,CURRENT_LAYER_Z);
+    currentTabLayer = newCurrentLayer;
+    currentTabLayer->setPosition(origin.x,origin.y);
+    backgroundLayer->addChild(currentTabLayer,CURRENT_LAYER_Z);
 }
 
 //----------------------- Delegate Functions ----------------------------

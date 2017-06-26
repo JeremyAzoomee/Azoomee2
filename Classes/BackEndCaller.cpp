@@ -24,9 +24,6 @@
 #include "FlowDataSingleton.h"
 #include "OfflineHubScene.h"
 #include "OfflineChecker.h"
-#include "SettingsConfirmationLayer.h"
-#include "SettingsControlLayer.h"
-#include "KidsControlLayer.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -374,19 +371,17 @@ void BackEndCaller::friendRequest(const std::string& senderChildId, const std::s
 void BackEndCaller::onFriendRequestAnswerReceived(const std::string& responseString)
 {
     cocos2d::log("FRIEND REQUEST RESPONSE STRING: %s", responseString.c_str());
-    SettingsControlLayer* settingsLayer = (SettingsControlLayer*)Director::getInstance()->getRunningScene()->getChildByName("SettingsControlLayer");
+    //SettingsControlLayer* settingsLayer = (SettingsControlLayer*)Director::getInstance()->getRunningScene()->getChildByName("SettingsControlLayer");
     
-    if(settingsLayer)
+    /*if(settingsLayer)
     {
-        KidsControlLayer* kidsControlLayer = (KidsControlLayer*)settingsLayer->getCurrentLayer();
+        //KidsControlLayer* kidsControlLayer = (KidsControlLayer*)settingsLayer->getCurrentTabLayer();
         
         if(kidsControlLayer)
             kidsControlLayer->inviteCodeResponse(true);
-        else
-            ModalMessages::getInstance()->stopLoading();
     }
-    else
-        ModalMessages::getInstance()->stopLoading();
+
+    ModalMessages::getInstance()->stopLoading();*/
 }
 
 void BackEndCaller::friendRequestReaction(bool confirmed, const std::string& respondentChildId, const std::string& invitationId, const std::string& friendName)
@@ -399,6 +394,16 @@ void BackEndCaller::onFriendRequestReactionAnswerReceived(const std::string& res
 {
     cocos2d::log("FRIEND REQUEST REACTION RESPONSE STRING: %s", responseString.c_str());
     //TODO: implement messaging for the user based on feedback.
+    
+    
+    if(responseString.find("approval\":\"REJECTED"))
+    {
+        
+    }
+        
+    //"approval\":\"REJECTED\"
+    //"approval\":\"APPROVED\"
+    ModalMessages::getInstance()->stopLoading();
 }
 
 void BackEndCaller::getPendingFriendRequests()
@@ -410,11 +415,11 @@ void BackEndCaller::getPendingFriendRequests()
 void BackEndCaller::onGetPendingFriendRequestsAnswerReceived(const std::string& responseString)
 {
     ParentDataParser::getInstance()->parsePendingFriendRequests(responseString);
-    SettingsControlLayer* settingsLayer = (SettingsControlLayer*)Director::getInstance()->getRunningScene()->getChildByName("SettingsControlLayer");
+    //SettingsControlLayer* settingsLayer = (SettingsControlLayer*)Director::getInstance()->getRunningScene()->getChildByName("SettingsControlLayer");
     
-    if(settingsLayer)
+    /*if(settingsLayer)
     {
-        SettingsConfirmationLayer* confirmationLayer = (SettingsConfirmationLayer*)settingsLayer->getCurrentLayer();
+        SettingsConfirmationLayer* confirmationLayer = (SettingsConfirmationLayer*)settingsLayer->getCurrentTabLayer();
         
         if(confirmationLayer)
             confirmationLayer->confirmationDetailsReceived();
@@ -422,7 +427,7 @@ void BackEndCaller::onGetPendingFriendRequestsAnswerReceived(const std::string& 
             ModalMessages::getInstance()->stopLoading();
     }
     else
-        ModalMessages::getInstance()->stopLoading();
+        ModalMessages::getInstance()->stopLoading();*/
 }
 
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------

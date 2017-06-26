@@ -1,6 +1,7 @@
 #include "ConfirmationControlLayer.h"
 #include "SettingsConfirmationLayer.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/API/API.h>
 
 #define MARGIN 69
 
@@ -35,7 +36,7 @@ void ConfirmationControlLayer::addConfirmationFrame()
     confirmationFrameLayer = ConfirmationLayer::create();
     confirmationFrameLayer->setContentSize(this->getContentSize());
 
-    confirmationFrameLayer->addDetailsToLayer(ParentDataProvider::getInstance()->getPendingFriendRequestFriendName(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestSenderName(confirmationNumber), "66OG09K8");
+    confirmationFrameLayer->addDetailsToLayer(ParentDataProvider::getInstance()->getPendingFriendRequestFriendName(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestSenderName(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestInviteCode(confirmationNumber));
     
     this->addChild(confirmationFrameLayer);
 }
@@ -76,13 +77,6 @@ void ConfirmationControlLayer::clearAllButtons()
     rejectButton->setVisible(false);
 }
 
-void ConfirmationControlLayer::setToConfirmed()
-{
-    clearAllButtons();
-    this->setLocalZOrder(CONFIRMATION_CONFIRMED_Z);
-    confirmationFrameLayer->setToConfirm();
-}
-
 void ConfirmationControlLayer::setToReject()
 {
     clearAllButtons();
@@ -90,12 +84,6 @@ void ConfirmationControlLayer::setToReject()
     confirmationFrameLayer->setToReject();
     yesButton->setVisible(true);
     noButton->setVisible(true);
-}
-
-void ConfirmationControlLayer::setToRejected()
-{
-    clearAllButtons();
-    confirmationFrameLayer->setToRejected();
 }
 
 void ConfirmationControlLayer::setToIdle()
@@ -107,16 +95,58 @@ void ConfirmationControlLayer::setToIdle()
     confirmButton->setVisible(true);
 }
 
+//----------------------BACKENDCALLER RETURN FUNCTIONS-------------------
+
+void ConfirmationControlLayer::setToConfirmed()
+{
+     clearAllButtons();
+     this->setLocalZOrder(CONFIRMATION_CONFIRMED_Z);
+     confirmationFrameLayer->setToConfirm();
+}
+
+void ConfirmationControlLayer::setToRejected()
+{
+    
+    clearAllButtons();
+    confirmationFrameLayer->setToRejected();
+}
+
+//-------------------- CALL BACKEND------------------
+
+void ConfirmationControlLayer::friendRequestReaction(bool confirmed)
+{
+    HttpRequestCreator *request = API::friendRequestReaction(confirmed, ParentDataProvider::getInstance()->getPendingFriendRequestRespondentID(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestRequestID(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestFriendName(confirmationNumber), this);
+    request->execute();
+}
+
+
+
 //----------------------- Delegate Functions ----------------------------
 
 void ConfirmationControlLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button==confirmButton)
-        setToConfirmed();
+        friendRequestReaction(true);
     else if(button==rejectButton)
         setToReject();
     else if(button==noButton)
         setToIdle();
     else if(button==yesButton)
+        friendRequestReaction(false);
+}
+
+void ConfirmationControlLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    if(body.find("approval\":\"REJECTED") != std::string::npos)
+    {
         setToRejected();
+    } else if(body.find("approval\":\"APPROVED")!= std::string::npos)
+    {
+        setToConfirmed();
+    }
+}
+
+void ConfirmationControlLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+    
 }

@@ -159,4 +159,24 @@ std::string ParentDataProvider::getPendingFriendRequestFriendName(int pendingFri
     return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["friendName"];
 }
     
+std::string ParentDataProvider::getPendingFriendRequestInviteCode(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["inviteeCode"];
+}
+    
+std::string ParentDataProvider::getPendingFriendRequestRequestID(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["id"];
+}
+    
+std::string ParentDataProvider::getPendingFriendRequestSenderID(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["senderId"];
+}
+
+std::string ParentDataProvider::getPendingFriendRequestRespondentID(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["respondentId"];
+}
+    
 }

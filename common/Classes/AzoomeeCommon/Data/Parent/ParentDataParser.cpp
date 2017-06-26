@@ -265,6 +265,22 @@ bool ParentDataParser::parsePendingFriendRequests(std::string responseData)
             if(parentData->pendingFriendRequestData[i]["friendName"].IsString())
                 currentPendingFriendRequest["friendName"] = parentData->pendingFriendRequestData[i]["friendName"].GetString();
 
+        if(parentData->pendingFriendRequestData[i].HasMember("inviteeCode"))
+            if(parentData->pendingFriendRequestData[i]["inviteeCode"].IsString())
+                currentPendingFriendRequest["inviteeCode"] = parentData->pendingFriendRequestData[i]["inviteeCode"].GetString();
+        
+        if(parentData->pendingFriendRequestData[i].HasMember("id"))
+            if(parentData->pendingFriendRequestData[i]["id"].IsString())
+                currentPendingFriendRequest["id"] = parentData->pendingFriendRequestData[i]["id"].GetString();
+        
+        if(parentData->pendingFriendRequestData[i].HasMember("senderId"))
+            if(parentData->pendingFriendRequestData[i]["senderId"].IsString())
+                currentPendingFriendRequest["senderId"] = parentData->pendingFriendRequestData[i]["senderId"].GetString();
+        
+        if(parentData->pendingFriendRequestData[i].HasMember("respondentId"))
+            if(parentData->pendingFriendRequestData[i]["respondentId"].IsString())
+                currentPendingFriendRequest["respondentId"] = parentData->pendingFriendRequestData[i]["respondentId"].GetString();
+
         parentData->pendingFriendRequests.push_back(currentPendingFriendRequest);
     }
     

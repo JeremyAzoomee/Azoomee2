@@ -3,7 +3,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
-#include "BackEndCaller.h"
+#include <AzoomeeCommon/API/API.h>
 
 using namespace Azoomee;
 
@@ -160,7 +160,11 @@ void KidsControlLayer::closeKidController()
 void KidsControlLayer::sendInviteCode()
 {
     ModalMessages::getInstance()->startLoading();
-    BackEndCaller::getInstance()->friendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumber),ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber),kidCodeTextInput->getText());
+    
+    HttpRequestCreator *request = API::friendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumber),ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber),kidCodeTextInput->getText(), this);
+    request->execute();
+    
+    
 }
 
 void KidsControlLayer::inviteCodeResponse(bool codeIsOK)
@@ -222,7 +226,8 @@ void KidsControlLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid
 
 void KidsControlLayer::textInputReturnPressed(TextInputLayer* inputLayer)
 {
-    sendInviteCode();
+    if(kidCodeTextInput->inputIsValid())
+       sendInviteCode();
 }
 
 void KidsControlLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
@@ -239,5 +244,17 @@ void KidsControlLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
     auto parent = this->getParent();
     
     parent->getParent()->setPosition(parent->getParent()->getPositionX(),originalYposition);
+}
+
+void KidsControlLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    ModalMessages::getInstance()->startLoading();
+    inviteCodeResponse(true);
+}
+
+void KidsControlLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->startLoading();
+    inviteCodeResponse(false);
 }
 

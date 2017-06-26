@@ -43,6 +43,10 @@ public:
     int getNoOfPendingFriendRequest();
     std::string getPendingFriendRequestSenderName(int pendingFriendRequestNo);
     std::string getPendingFriendRequestFriendName(int pendingFriendRequestNo);
+    std::string getPendingFriendRequestInviteCode(int pendingFriendRequestNo);
+    std::string getPendingFriendRequestRequestID(int pendingFriendRequestNo);
+    std::string getPendingFriendRequestSenderID(int pendingFriendRequestNo);
+    std::string getPendingFriendRequestRespondentID(int pendingFriendRequestNo);
 };
 
 }

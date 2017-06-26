@@ -3,6 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include "ui/UIScrollView.h"
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 
 USING_NS_CC;
 
@@ -11,7 +12,7 @@ USING_NS_CC;
 #define CONFIRMATION_IDLE_Z 200
 
 
-class SettingsConfirmationLayer : public Layer
+class SettingsConfirmationLayer : public Layer, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
     float layerHeight;
@@ -31,6 +32,10 @@ public:
     CREATE_FUNC(SettingsConfirmationLayer);
     
     void confirmationDetailsReceived();
+    
+    //Delegate Functions
+    void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
+    void onHttpRequestFailed(const std::string& requestTag, long errorCode);
 
 };
 

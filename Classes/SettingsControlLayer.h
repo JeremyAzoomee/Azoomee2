@@ -13,7 +13,8 @@ private:
     Size visibleSize;
     Vec2 origin;
     
-    Layer* currentLayer;
+    Layer* currentTabLayer;
+    Layer* currentSubLayerForBackendController;
     
     LayerColor *backgroundLayer;
     float linePositionY;
@@ -41,7 +42,9 @@ public:
     
     CREATE_FUNC(SettingsControlLayer);
     
-    Layer* getCurrentLayer();
+    Layer* getCurrentTabLayer();
+    void setCurrentSubLayerForBackendController(Layer* currentSubLayer);
+    Layer* GetCurrentSubLayerForBackendController();
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);

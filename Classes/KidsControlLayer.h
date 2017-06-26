@@ -6,11 +6,12 @@
 #include "SettingsKidsLayer.h"
 #include "KidsLayer.h"
 #include <AzoomeeCommon/Input/TextInputLayer.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 
 USING_NS_CC;
 using namespace Azoomee;
 
-class KidsControlLayer : public Layer, public ElectricDreamsButtonDelegate, public TextInputLayerDelegate
+class KidsControlLayer : public Layer, public ElectricDreamsButtonDelegate, public TextInputLayerDelegate, public HttpRequestCreatorResponseDelegate
 {
 private:
     float originalYposition;
@@ -59,6 +60,8 @@ public:
     void textInputReturnPressed(TextInputLayer* inputLayer);
     void editBoxEditingDidBegin(TextInputLayer* inputLayer);
     void editBoxEditingDidEnd(TextInputLayer* inputLayer);
+    void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
+    void onHttpRequestFailed(const std::string& requestTag, long errorCode);
 
 };
 

@@ -79,6 +79,9 @@ void ConfirmationLayer::setToReject()
 
 void ConfirmationLayer::setToRejected()
 {
+    clearUIItems();
+    createRect(Color4F(249/255.0f, 74/255.0f, 91/255.0f,255/255.0f));
+    
     childNameLabel->setVisible(false);
     friendNameLabel->setVisible(false);
     
@@ -117,6 +120,7 @@ void ConfirmationLayer::createRect(Color4F withColour)
 {
     DrawNode* confirmRect = DrawNode::create();
     confirmRect->setLineWidth(2);
+    confirmRect->setTag(1000);
     confirmRect->drawRect(Vec2(0, 0), Vec2(this->getContentSize().width, this->getContentSize().height), withColour);
     this->addChild(confirmRect);
 }
