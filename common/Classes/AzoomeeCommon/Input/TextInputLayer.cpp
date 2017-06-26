@@ -157,7 +157,6 @@ void TextInputLayer::createSettingsChatEditBox(float width)
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(INPUT_STYLE_FONT, 84);
     editBox->setFontColor(Color3B::BLACK);
-    editBox->setMaxLength(8);
     editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
     
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
@@ -169,6 +168,9 @@ void TextInputLayer::createSettingsChatEditBox(float width)
 #endif
     
     editBox->setDelegate(this);
+    
+    editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+    editBox->setMaxLength(8);
     
     this->addChild(editBox);
 }

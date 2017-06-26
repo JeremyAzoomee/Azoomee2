@@ -14,7 +14,6 @@ private:
     Vec2 origin;
     
     Layer* currentTabLayer;
-    Layer* currentSubLayerForBackendController;
     
     LayerColor *backgroundLayer;
     float linePositionY;
@@ -41,10 +40,6 @@ public:
     virtual bool init();
     
     CREATE_FUNC(SettingsControlLayer);
-    
-    Layer* getCurrentTabLayer();
-    void setCurrentSubLayerForBackendController(Layer* currentSubLayer);
-    Layer* GetCurrentSubLayerForBackendController();
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);

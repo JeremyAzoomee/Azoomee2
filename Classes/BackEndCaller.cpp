@@ -361,74 +361,6 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
     request->execute();
 }
 
-// FRIEND REQUESTS AND ACCEPTS -----------------------------------------------------------
-void BackEndCaller::friendRequest(const std::string& senderChildId, const std::string& senderChildName, const std::string& inviteCode)
-{
-    HttpRequestCreator *request = API::friendRequest(senderChildId, senderChildName, inviteCode, this);
-    request->execute();
-}
-
-void BackEndCaller::onFriendRequestAnswerReceived(const std::string& responseString)
-{
-    cocos2d::log("FRIEND REQUEST RESPONSE STRING: %s", responseString.c_str());
-    //SettingsControlLayer* settingsLayer = (SettingsControlLayer*)Director::getInstance()->getRunningScene()->getChildByName("SettingsControlLayer");
-    
-    /*if(settingsLayer)
-    {
-        //KidsControlLayer* kidsControlLayer = (KidsControlLayer*)settingsLayer->getCurrentTabLayer();
-        
-        if(kidsControlLayer)
-            kidsControlLayer->inviteCodeResponse(true);
-    }
-
-    ModalMessages::getInstance()->stopLoading();*/
-}
-
-void BackEndCaller::friendRequestReaction(bool confirmed, const std::string& respondentChildId, const std::string& invitationId, const std::string& friendName)
-{
-    HttpRequestCreator *request = API::friendRequestReaction(confirmed, respondentChildId, invitationId, friendName, this);
-    request->execute();
-}
-
-void BackEndCaller::onFriendRequestReactionAnswerReceived(const std::string& responseString)
-{
-    cocos2d::log("FRIEND REQUEST REACTION RESPONSE STRING: %s", responseString.c_str());
-    //TODO: implement messaging for the user based on feedback.
-    
-    
-    if(responseString.find("approval\":\"REJECTED"))
-    {
-        
-    }
-        
-    //"approval\":\"REJECTED\"
-    //"approval\":\"APPROVED\"
-    ModalMessages::getInstance()->stopLoading();
-}
-
-void BackEndCaller::getPendingFriendRequests()
-{
-    HttpRequestCreator *request = API::getPendingFriendRequests(this);
-    request->execute();
-}
-
-void BackEndCaller::onGetPendingFriendRequestsAnswerReceived(const std::string& responseString)
-{
-    ParentDataParser::getInstance()->parsePendingFriendRequests(responseString);
-    //SettingsControlLayer* settingsLayer = (SettingsControlLayer*)Director::getInstance()->getRunningScene()->getChildByName("SettingsControlLayer");
-    
-    /*if(settingsLayer)
-    {
-        SettingsConfirmationLayer* confirmationLayer = (SettingsConfirmationLayer*)settingsLayer->getCurrentTabLayer();
-        
-        if(confirmationLayer)
-            confirmationLayer->confirmationDetailsReceived();
-        else
-            ModalMessages::getInstance()->stopLoading();
-    }
-    else
-        ModalMessages::getInstance()->stopLoading();*/
-}
 
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -484,18 +416,6 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == "GROUP HQ")
     {
         HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
-    }
-    else if(requestTag == API::TagGetPendingFriendRequests)
-    {
-        onGetPendingFriendRequestsAnswerReceived(body);
-    }
-    else if(requestTag == API::TagFriendRequest)
-    {
-        onFriendRequestAnswerReceived(body);
-    }
-    else if(requestTag == API::TagFriendRequestReaction)
-    {
-        onFriendRequestReactionAnswerReceived(body);
     }
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     else if(requestTag == API::TagVerifyApplePayment)

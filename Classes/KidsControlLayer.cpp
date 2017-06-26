@@ -254,7 +254,7 @@ void KidsControlLayer::onHttpRequestSuccess(const std::string& requestTag, const
 
 void KidsControlLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-    ModalMessages::getInstance()->startLoading();
+    ModalMessages::getInstance()->stopLoading();
     inviteCodeResponse(false);
 }
 

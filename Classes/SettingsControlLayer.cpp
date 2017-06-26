@@ -104,11 +104,6 @@ void SettingsControlLayer::createTabs()
 
 //---------------------- Actions -----------------
 
-Layer* SettingsControlLayer::getCurrentTabLayer()
-{
-    return currentTabLayer;
-}
-
 void SettingsControlLayer::removeSelf()
 {
     AudioMixer::getInstance()->resumeBackgroundMusic();
