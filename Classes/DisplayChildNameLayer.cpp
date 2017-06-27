@@ -34,7 +34,7 @@ bool DisplayChildNameLayer::init()
         scaleTime = 0.01;
     }
     
-    addFrameToLayer();
+    //addFrameToLayer();
     addChildNameToLayer();
     
     return true;
@@ -48,10 +48,8 @@ void DisplayChildNameLayer::addChildNameToLayer()
     childName = shortenString(childName, 12);
     
     auto childNameLabel = createLabelBody(childName);
-    childNameLabel->setPosition(Director::getInstance()->getVisibleSize().width / 2, 350);
+    childNameLabel->setPosition(Director::getInstance()->getVisibleOrigin().x+300, Director::getInstance()->getVisibleOrigin().y+ Director::getInstance()->getVisibleSize().height-100);
     childNameLabel->setOpacity(0);
-    
-    setMaxScaleForLabel(childNameLabel);
     
     this->addChild(childNameLabel);
     
@@ -72,16 +70,6 @@ void DisplayChildNameLayer::addFrameToLayer()
 std::string DisplayChildNameLayer::getLoggedInChildName()
 {
     return ChildDataProvider::getInstance()->getLoggedInChildName();
-}
-
-void DisplayChildNameLayer::setMaxScaleForLabel(Label* childNameLabel)
-{
-    float maxWidth = this->getChildByName("displayFrameName")->getContentSize().width - 50;
-    
-    if(childNameLabel->getContentSize().width > maxWidth)
-    {
-        childNameLabel->setScaleX(maxWidth / childNameLabel->getContentSize().width);
-    }
 }
 
 std::string DisplayChildNameLayer::shortenString(std::string text, int numberOfCharacters)

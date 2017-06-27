@@ -336,7 +336,7 @@ void NavigationLayer::turnOnMenuItem(int tagNumber)
 
 void NavigationLayer::delayedSetButtonOn(float dt)
 {
-    this->setButtonOn(0);
+    this->setButtonOn(3);
 }
 
 void NavigationLayer::setButtonOn(int i)
