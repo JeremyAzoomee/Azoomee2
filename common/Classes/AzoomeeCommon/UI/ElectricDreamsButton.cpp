@@ -330,6 +330,26 @@ ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton(float withWi
     
     return layer;
 }
+ElectricDreamsButton* ElectricDreamsButton::createChildSelectorButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    Sprite* spriteOuterButton = Sprite::create("res/navigation/outer_circle.png");
+    spriteOuterButton->setPosition(spriteOuterButton->getContentSize().width/2, spriteOuterButton->getContentSize().height/2);
+    spriteOuterButton->setColor(Color3B::WHITE);
+    layer->addChild(spriteOuterButton);
+    
+    Sprite* spriteInnerButton = Sprite::create("res/navigation/menu6.png");
+    spriteInnerButton->setPosition(spriteOuterButton->getContentSize().width/2, spriteOuterButton->getContentSize().height/2);
+    spriteOuterButton->addChild(spriteInnerButton);
+    
+    layer->setContentSize(spriteOuterButton->getContentSize());
+    layer->buttonAudioFile = BACK_BUTTON_AUDIO_EFFECT;
+    layer->addListener();
+
+    return layer;
+
+}
 
 //-------------OOMEE BUTTONS AND FUNCTIONS---------------------
 

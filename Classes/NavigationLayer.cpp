@@ -75,7 +75,7 @@ bool NavigationLayer::init()
     }
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-        createSettingsButton();
+        createTopButton();
     else
     {
         createPreviewLoginButton();
@@ -183,7 +183,6 @@ Sprite* NavigationLayer::addMenuItemImage(int itemNumber)
     auto menuItemImage = Sprite::create("res/navigation/outer_circle.png");
     menuItemImage->setTag(itemNumber);
     menuItemImage->setOpacity(0);
-    menuItemImage->setTag(itemNumber);
     menuItemImage->setColor(Color3B(colour.r, colour.g, colour.b));
     menuItemImage->setPosition(position);
     this->addChild(menuItemImage);
@@ -213,24 +212,40 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
     return menuItemInactive;
 }
 
-void NavigationLayer::createSettingsButton()
+//------------------TOP LEVEL BUTTONS-------------------
+
+void NavigationLayer::createTopButton()
 {
     settingsButton = SettingsButton::createSettingsButton(3.0f);
     settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
     this->addChild(settingsButton);
+    
+    returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
+    returnToChildSelectorButton->setCenterPosition(Vec2(origin.x + returnToChildSelectorButton->getContentSize().width*.75, origin.y + visibleSize.height - returnToChildSelectorButton->getContentSize().height*.75));
+    returnToChildSelectorButton->setDelegate(this);
+    this->addChild(returnToChildSelectorButton);
+    
 }
 
-void NavigationLayer::settingsButtonOffScreen()
+void NavigationLayer::topButtonsOffScreen()
 {
     if(settingsButton)
         settingsButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
+    
+    if(returnToChildSelectorButton)
+        returnToChildSelectorButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x - returnToChildSelectorButton->getContentSize().width, returnToChildSelectorButton->getPositionY())), 2), NULL));
 }
 
-void NavigationLayer::settingsButtonOnScreen()
+void NavigationLayer::topButtonsOnScreen()
 {
     if(settingsButton)
         settingsButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.5, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
+    
+    if(returnToChildSelectorButton)
+        returnToChildSelectorButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + returnToChildSelectorButton->getContentSize().width*.25, returnToChildSelectorButton->getPositionY())), 2), NULL));
 }
+
+//------------------PREVIEW BUTTONS-------------------
 
 void NavigationLayer::createPreviewLoginButton()
 {
@@ -254,6 +269,8 @@ void NavigationLayer::createPreviewSignUpButton()
     previewSignUpButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25)), 2), NULL));
 }
 
+//---------------LISTENERS------------------
+
 void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
 {
     auto listener = EventListenerTouchOneByOne::create();
@@ -270,11 +287,15 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            if(target->getTag() == 3)
+            if(target->getTag() == 0)
             {
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
                 {
+                    // GO TO CHAT APP
+                    
+                    
+                    
                     //Child Selection Button Pressed.
                     //Logout Child
                     ChildDataParser::getInstance()->setChildLoggedIn(false);
@@ -359,7 +380,7 @@ void NavigationLayer::moveMenuPointsToCircleState(float duration)
         
         menuItemImage->runAction(action);
     }
-    settingsButtonOnScreen();
+    topButtonsOnScreen();
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
@@ -377,7 +398,7 @@ void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
         
         menuItemImage->runAction(action);
     }
-    settingsButtonOffScreen();
+    topButtonsOffScreen();
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
@@ -395,7 +416,7 @@ void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
         
         menuItemImage->runAction(action);
     }
-    settingsButtonOffScreen();
+    topButtonsOffScreen();
 }
 
 void NavigationLayer::addBackButtonToNavigation()
@@ -463,6 +484,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
 }
 
+
 //-------------- DELEGATE FUNCTIONS ---------------
 
 void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
@@ -474,6 +496,11 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == previewSignUpButton)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+    }
+    else if(button == returnToChildSelectorButton)
+    {
+        ChildDataParser::getInstance()->setChildLoggedIn(false);
+        BackEndCaller::getInstance()->getAvailableChildren();
     }
 }
 

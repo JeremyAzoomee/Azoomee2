@@ -40,9 +40,9 @@
   "horizontalYPositionsForMenuItemsInGroupHQ": 300,
   "coloursForMenuItems": [
     {
-      "r": 28,
-      "g": 244,
-      "b": 244,
+      "r": 218,
+      "g": 18,
+      "b": 255,
       "a": 255
     },
     {
@@ -80,7 +80,7 @@
     "HOME",
     "VIDEO HQ",
     "AUDIO HQ",
-    "MAIL APP",
+    "HOME",
     "ARTS APP",
     "GAME HQ",
     "GROUP HQ"
