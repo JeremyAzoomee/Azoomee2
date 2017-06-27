@@ -3,6 +3,7 @@
 
 #include "../Azoomee.h"
 #include <string>
+#include <vector>
 
 
 NS_AZOOMEE_BEGIN
@@ -15,11 +16,19 @@ class PusherSDK
 {
 private:
     
+    /// The Pusher App Key
+    std::string _appKey;
+    /// List of subscribed channels
+    std::vector<std::string> _subscribedChannels;
+    
     /// Private construction - use getInstance()
-    PusherSDK();
+    PusherSDK(const std::string& appKey);
     
     
 public:
+    
+    /// Initialise the PusherSDK
+    static void initialise(const std::string& appKey);
     
     /// Returns the shared instance of this Pusher class
     static PusherSDK* getInstance();

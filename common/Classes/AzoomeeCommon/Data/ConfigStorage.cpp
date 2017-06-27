@@ -65,7 +65,8 @@ bool ConfigStorage::init(void)
         API::TagVerifyGooglePayment,
         API::TagVerifyAmazonPayment,
         API::TagVerifyApplePayment,
-        API::TagGetAvailableChildren
+        API::TagGetAvailableChildren,
+        API::TagPusherAuth
     };
     
     

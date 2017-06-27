@@ -14,6 +14,7 @@ public class AzoomeeActivity extends Cocos2dxActivity implements KeyboardHeightO
 {
     private final static String TAG = "AzoomeeActivity";
 
+    private static AzoomeeActivity sInstance = null;
     private KeyboardHeightProvider keyboardHeightProvider;
     private int keyboardHeight = 0;
     private int globalLayoutHeightDiff = 0;
@@ -21,6 +22,7 @@ public class AzoomeeActivity extends Cocos2dxActivity implements KeyboardHeightO
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        sInstance = this;
         super.onCreate(savedInstanceState);
 
         keyboardHeightProvider = new KeyboardHeightProvider(this);
@@ -68,6 +70,16 @@ public class AzoomeeActivity extends Cocos2dxActivity implements KeyboardHeightO
     public void onDestroy() {
         super.onDestroy();
         keyboardHeightProvider.close();
+    }
+
+    /// Run a ask on the GL thread when code needs to sync with the Cocos main thread
+    public static void RunOnGLThread(final Runnable pRunnable) {
+        sInstance.runOnGLThread(pRunnable);
+    }
+
+    /// Run a ask on the UI thread when code needs to sync with the Android main thread
+    public static void RunOnUIThread(final Runnable pRunnable) {
+        sInstance.runOnUiThread(pRunnable);
     }
 
     @Override

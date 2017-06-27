@@ -24,6 +24,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     register_all_packages();
     
+    // Initialise Pusher
+    PusherSDK::initialise("09995b8ae8cc75b36c25");
+    
     // Register delegate for chat
     Azoomee::Chat::delegate = ChatDelegate::getInstance();
     

@@ -28,6 +28,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     Super::applicationDidFinishLaunching();
     
     register_all_packages();
+    
+    // Initialise Pusher
+    PusherSDK::initialise("09995b8ae8cc75b36c25");
 
     // create a scene. it's an autorelease object
     auto scene = IntroVideoScene::createScene();

@@ -51,7 +51,7 @@ using namespace Azoomee;
 
 - (void) changedConnectionStateFrom:(enum ConnectionState)old to:(enum ConnectionState)new_
 {
-    NSLog(@"PusheriOSDelegate.subscribedToInterestWithName: old=%ld, new=%ld", (long)old, new_);
+    NSLog(@"PusheriOSDelegate.subscribedToInterestWithName: old=%ld, new=%ld", (long)old, (long)new_);
 }
 
 - (void) subscribedToChannelWithName:(NSString* _Nonnull)name
@@ -95,7 +95,7 @@ using namespace Azoomee;
     }
     for(const std::string& header : headers)
     {
-        uint64_t splitIndex = header.find_first_of(":");
+        size_t splitIndex = header.find_first_of(":");
         const std::string& key = header.substr(0, splitIndex);
         const std::string& value = header.substr(splitIndex + 1, header.length() - splitIndex);
         [request addValue:[NSString stringWithUTF8String:key.c_str()] forHTTPHeaderField:[NSString stringWithUTF8String:value.c_str()]];
@@ -106,36 +106,36 @@ using namespace Azoomee;
 
 @end
 
+static Pusher* sPusherClient = nil;
+
 @interface PusheriOS : NSObject
 
-+ (Pusher*) sharedClientInstance;
++ (Pusher*) initialise:(NSString*)apiKey;
 
 @end
 
 @implementation PusheriOS
 
-+ (Pusher*) sharedClientInstance
++ (Pusher*) initialise:(NSString*)apiKey
 {
-    static Pusher* pusherClient = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        OCAuthMethod* authMethod = [[OCAuthMethod alloc] initWithAuthRequestBuilder:[[AzoomeePusherAuthRequestBuilder alloc] init]];
-        OCPusherHost* host = [[OCPusherHost alloc] initWithCluster:@"eu"];
-        PusherClientOptions* options = [[PusherClientOptions alloc]
-                                        initWithOcAuthMethod:authMethod
-                                        attemptToReturnJSONObject:YES
-                                        autoReconnect:YES
-                                        ocHost:host
-                                        port:nil
-                                        encrypted:YES];
-        
-        pusherClient = [[Pusher alloc] initWithAppKey:@"09995b8ae8cc75b36c25" options:options];
-        pusherClient.delegate = [PusheriOSDelegate sharedInstance];
-        [pusherClient bind:^void (NSDictionary *data) {
-            NSLog(@"Pusher.client.callback: data=%@", data);
-        }];
-        [pusherClient connect];
-    });
+    OCAuthMethod* authMethod = [[OCAuthMethod alloc] initWithAuthRequestBuilder:[[AzoomeePusherAuthRequestBuilder alloc] init]];
+    OCPusherHost* host = [[OCPusherHost alloc] initWithCluster:@"eu"];
+    PusherClientOptions* options = [[PusherClientOptions alloc]
+                                    initWithOcAuthMethod:authMethod
+                                    attemptToReturnJSONObject:YES
+                                    autoReconnect:YES
+                                    ocHost:host
+                                    port:nil
+                                    encrypted:YES];
+    
+    Pusher* pusherClient = [[Pusher alloc] initWithAppKey:apiKey options:options];
+    pusherClient.delegate = [PusheriOSDelegate sharedInstance];
+    
+    [pusherClient bind:^void (NSDictionary *data) {
+        NSLog(@"Pusher.client.callback: data=%@", data);
+    }];
+    
+    [pusherClient connect];
     return pusherClient;
 }
 
@@ -147,29 +147,36 @@ using namespace Azoomee;
 
 NS_AZOOMEE_BEGIN
 
-
 void PusherSDK::subscribeToChannel(const std::string& channelName)
 {
-    Pusher* client = [PusheriOS sharedClientInstance];
-    PusherChannel* channel = [client subscribeWithChannelName:[NSString stringWithUTF8String:channelName.c_str()]];
+    if(!sPusherClient)
+    {
+        sPusherClient = [PusheriOS initialise:[NSString stringWithUTF8String:_appKey.c_str()]];
+    }
+    
+    _subscribedChannels.push_back(channelName);
+    
+    PusherChannel* channel = [sPusherClient subscribeWithChannelName:[NSString stringWithUTF8String:channelName.c_str()]];
     [channel bindWithEventName:@"message" callback:^void (NSDictionary *data) {
         NSString* message = data[@"message"];
         NSLog(@"PusherSDK.bindWithEventName.callback: message=%@", message);
     }];
 }
 
-void PusherSDK::closeAllChannels()
-{
-    Pusher* client = [PusheriOS sharedClientInstance];
-    // There is no unsubscribe all - so we just close and re-open the connection
-    [client disconnect];
-    [client connect];
-}
-
 void PusherSDK::closeChannel(const std::string& channelName)
 {
-    Pusher* client = [PusheriOS sharedClientInstance];
-    [client unsubscribe:[NSString stringWithUTF8String:channelName.c_str()]];
+    if(!sPusherClient)
+    {
+        return;
+    }
+    
+    [sPusherClient unsubscribe:[NSString stringWithUTF8String:channelName.c_str()]];
+    
+    const auto& it = std::find(_subscribedChannels.begin(), _subscribedChannels.end(), channelName);
+    if(it != _subscribedChannels.end())
+    {
+        _subscribedChannels.erase(it);
+    }
 }
 
 

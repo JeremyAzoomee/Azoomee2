@@ -7,16 +7,18 @@ NS_AZOOMEE_BEGIN
 
 static std::auto_ptr<PusherSDK> sPusherSDKSharedInstance;
 
+void PusherSDK::initialise(const std::string& appKey)
+{
+    sPusherSDKSharedInstance.reset(new PusherSDK(appKey));
+}
+
 PusherSDK* PusherSDK::getInstance()
 {
-    if(!sPusherSDKSharedInstance.get())
-    {
-        sPusherSDKSharedInstance.reset(new PusherSDK());
-    }
     return sPusherSDKSharedInstance.get();
 }
 
-PusherSDK::PusherSDK()
+PusherSDK::PusherSDK(const std::string& appKey) :
+    _appKey(appKey)
 {
     ;
 }
@@ -31,6 +33,14 @@ void PusherSDK::closeParentAccountChannel()
 {
     ParentDataProvider* parentData = ParentDataProvider::getInstance();
     closeChannel("private-" + parentData->getLoggedInParentId());
+}
+
+void PusherSDK::closeAllChannels()
+{
+    for(const std::string& channelName : _subscribedChannels)
+    {
+        closeChannel(channelName);
+    }
 }
 
 NS_AZOOMEE_END
