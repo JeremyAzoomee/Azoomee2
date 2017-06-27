@@ -3,6 +3,9 @@
 
 #include <cocos/cocos2d.h>
 #include <spine/spine-cocos2dx.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class OomeeLayer : public cocos2d::Layer
 {
@@ -19,5 +22,7 @@ private:
     
     int displayedOomeeNumber;
 };
+
+NS_AZOOMEE_END
 
 #endif

@@ -2,6 +2,9 @@
 #define __ARTSPREVIEW_LAYER_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class ArtsPreviewLayer : public cocos2d::Layer
 {
@@ -17,5 +20,7 @@ private:
     void addImagesToMainHub();
     
 };
+
+NS_AZOOMEE_END
 
 #endif

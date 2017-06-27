@@ -2,6 +2,9 @@
 #define __WEBVIEWNATIVEIOS_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class WebViewNative_ios : public cocos2d::Layer
 {
@@ -21,5 +24,7 @@ private:
     
     void removeWebViewAndBack();
 };
+
+NS_AZOOMEE_END
 
 #endif // __WEBVIEW_SCENE_H__

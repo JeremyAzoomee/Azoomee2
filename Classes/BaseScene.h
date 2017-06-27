@@ -2,6 +2,9 @@
 #define __BASESCENE_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class BaseScene : public cocos2d::Layer
 {
@@ -21,5 +24,7 @@ private:
     void addNavigationLayer();
     void onEnterTransitionDidFinish();
 };
+
+NS_AZOOMEE_END
 
 #endif

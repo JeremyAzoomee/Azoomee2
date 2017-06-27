@@ -7,8 +7,9 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 bool AwaitingAdultPinLayer::init()
 {
@@ -164,3 +165,5 @@ void AwaitingAdultPinLayer::secondCheckForPin()
     }
     
 }
+
+NS_AZOOMEE_END

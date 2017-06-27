@@ -18,9 +18,10 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 using namespace network;
+
+NS_AZOOMEE_BEGIN
 
 bool HQSceneElementVisual::init()
 {
@@ -238,3 +239,5 @@ void HQSceneElementVisual::onExit()
     
     Node::onExit();
 }
+
+NS_AZOOMEE_END

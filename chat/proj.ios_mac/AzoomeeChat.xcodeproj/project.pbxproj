@@ -12,9 +12,11 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
+		300742E31EF916DC005525AE /* AuthAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3018499E1EC0B747005B994A /* AuthAPI.cpp */; };
+		300742EB1EF93027005525AE /* ChatDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300742E61EF92FF6005525AE /* ChatDelegate.cpp */; };
+		3007431E1EFABF55005525AE /* AzoomeeChat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3007431D1EFABF55005525AE /* AzoomeeChat.cpp */; };
 		301849861EBB84A1005B994A /* Friend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849841EBB84A1005B994A /* Friend.cpp */; };
 		3018498B1EBB926B005B994A /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849891EBB926B005B994A /* Message.cpp */; };
-		301849A21EC0B747005B994A /* AuthAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3018499E1EC0B747005B994A /* AuthAPI.cpp */; };
 		302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849A71EC0BF68005B994A /* ChildSelectorScene.cpp */; };
 		302E84741ED1A1C7006A498C /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849A41EC0B841005B994A /* LoginScene.cpp */; };
 		304410571E9D001E00B7F383 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304410551E9D001E00B7F383 /* AppDelegate.cpp */; };
@@ -154,6 +156,9 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
+		300742E61EF92FF6005525AE /* ChatDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatDelegate.cpp; sourceTree = "<group>"; };
+		300742E71EF92FF6005525AE /* ChatDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatDelegate.h; sourceTree = "<group>"; };
+		3007431D1EFABF55005525AE /* AzoomeeChat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeChat.cpp; sourceTree = "<group>"; };
 		301849841EBB84A1005B994A /* Friend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Friend.cpp; sourceTree = "<group>"; };
 		301849851EBB84A1005B994A /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		301849891EBB926B005B994A /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
@@ -436,6 +441,7 @@
 		304410811E9D268800B7F383 /* AzoomeeChat */ = {
 			isa = PBXGroup;
 			children = (
+				3007431D1EFABF55005525AE /* AzoomeeChat.cpp */,
 				304E501D1EB357E000D077E3 /* AzoomeeChat.h */,
 				304E50151EB352AD00D077E3 /* ChatAPI.cpp */,
 				304E50161EB352AD00D077E3 /* ChatAPI.h */,
@@ -602,6 +608,8 @@
 				301849A51EC0B841005B994A /* LoginScene.h */,
 				301849A71EC0BF68005B994A /* ChildSelectorScene.cpp */,
 				301849A81EC0BF68005B994A /* ChildSelectorScene.h */,
+				300742E61EF92FF6005525AE /* ChatDelegate.cpp */,
+				300742E71EF92FF6005525AE /* ChatDelegate.h */,
 				3018499D1EC0B747005B994A /* Auth */,
 				304410811E9D268800B7F383 /* AzoomeeChat */,
 			);
@@ -795,9 +803,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				304410571E9D001E00B7F383 /* AppDelegate.cpp in Sources */,
+				300742EB1EF93027005525AE /* ChatDelegate.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				300742E31EF916DC005525AE /* AuthAPI.cpp in Sources */,
 				302E84741ED1A1C7006A498C /* LoginScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -809,7 +819,6 @@
 				305966931ECC9C21009A7130 /* AvatarWidget.cpp in Sources */,
 				305966751ECC59C8009A7130 /* FriendListScene.cpp in Sources */,
 				30790D351EDDC0C0003654BC /* Sticker.cpp in Sources */,
-				301849A21EC0B747005B994A /* AuthAPI.cpp in Sources */,
 				30790D3E1EDDC88A003654BC /* StickerCache.cpp in Sources */,
 				305966AB1ECF44E0009A7130 /* MessageListViewItem.cpp in Sources */,
 				30790D3B1EDDC77E003654BC /* StickerCategory.cpp in Sources */,
@@ -819,6 +828,7 @@
 				305966921ECC9C21009A7130 /* FriendListView.cpp in Sources */,
 				30790D2C1EDD7B7F003654BC /* StickerSelector.cpp in Sources */,
 				305966941ECC9C21009A7130 /* TitleBarWidget.cpp in Sources */,
+				3007431E1EFABF55005525AE /* AzoomeeChat.cpp in Sources */,
 				30790D411EDDFD11003654BC /* StickerCategoryListViewItem.cpp in Sources */,
 				3059667E1ECC5F90009A7130 /* ChatConfig.cpp in Sources */,
 				30C36E0C1ED0568800F2FA88 /* MessageComposer.cpp in Sources */,
@@ -965,7 +975,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1006,7 +1016,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -34,7 +34,8 @@
 #endif
 
 using namespace cocos2d;
-using namespace Azoomee;
+
+NS_AZOOMEE_BEGIN
 
 
 static BackEndCaller *_sharedBackEndCaller = NULL;
@@ -515,3 +516,5 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
+
+NS_AZOOMEE_END

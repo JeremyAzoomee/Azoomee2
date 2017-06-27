@@ -2,8 +2,11 @@
 #define __DEEP_LINKING_SINGLETON_H__
 
 #include "cocos2d.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Data/Json.h>
+
+NS_AZOOMEE_BEGIN
 
 class DeepLinkingSingleton : public cocos2d::Ref, public Azoomee::MessageBoxDelegate
 {
@@ -33,5 +36,7 @@ public:
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
 };
+
+NS_AZOOMEE_END
 
 #endif

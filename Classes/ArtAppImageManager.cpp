@@ -2,8 +2,8 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
-using namespace Azoomee;
 
+NS_AZOOMEE_BEGIN
 
 static ArtAppImageManager *_sharedArtAppImageManager= NULL;
 
@@ -150,3 +150,5 @@ std::map<std::string, std::string> ArtAppImageManager::getMapFormatOfDataChar(st
     
     return outputMap;
 }
+
+NS_AZOOMEE_END

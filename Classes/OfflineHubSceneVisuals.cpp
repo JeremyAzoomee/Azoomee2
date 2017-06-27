@@ -1,6 +1,8 @@
 #include "OfflineHubSceneVisuals.h"
 
-USING_NS_CC;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 Scene* OfflineHubSceneVisuals::createScene()
 {
@@ -49,3 +51,5 @@ void OfflineHubSceneVisuals::addOomeesToScreen()
     }
     
 }
+
+NS_AZOOMEE_END

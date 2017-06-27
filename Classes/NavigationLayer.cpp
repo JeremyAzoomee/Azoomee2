@@ -20,8 +20,9 @@
 #include "DeepLinkingSingleton.h"
 #include "BackEndCaller.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 
 int amountOfItems = 5;
@@ -521,3 +522,5 @@ void NavigationLayer::cleanUpPreviousHQ()
         
     }
 }
+
+NS_AZOOMEE_END

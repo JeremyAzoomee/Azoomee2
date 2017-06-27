@@ -7,6 +7,8 @@
 
 using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
+
 static LoginLogicHandler *_sharedLoginLogicHandler = NULL;
 
 LoginLogicHandler* LoginLogicHandler::getInstance()
@@ -59,3 +61,4 @@ void LoginLogicHandler::forceNewLogin()
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
 }
 
+NS_AZOOMEE_END

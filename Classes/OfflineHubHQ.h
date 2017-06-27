@@ -3,6 +3,9 @@
 
 #include <cocos/cocos2d.h>
 #include "ui/UIScrollView.h"
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class OfflineHubHQ : public cocos2d::Layer
 {
@@ -27,5 +30,7 @@ private:
     bool movedAway;
     bool iamtouched;
 };
+
+NS_AZOOMEE_END
 
 #endif
