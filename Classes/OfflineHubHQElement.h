@@ -2,7 +2,10 @@
 #define __OFFLINEHUB_HQELEMENT_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include "HQSceneElementVisual.h"
+
+NS_AZOOMEE_BEGIN
 
 class OfflineHubHQElement : public cocos2d::Layer
 {
@@ -23,5 +26,7 @@ private:
     bool iamtouched;
 
 };
+
+NS_AZOOMEE_END
 
 #endif

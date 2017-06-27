@@ -2,6 +2,9 @@
 #define __OFFLINEHUB_BACKBUTTON_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class OfflineHubBackButton : public cocos2d::Layer
 {
@@ -17,5 +20,7 @@ private:
     void addListenerToBackButton(cocos2d::Sprite* toBeAddedTo);
 
 };
+
+NS_AZOOMEE_END
 
 #endif

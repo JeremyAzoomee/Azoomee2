@@ -17,8 +17,9 @@
 #include "IAPUpsaleLayer.h"
 #include "VideoPlaylistManager.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 
 Scene* ImageContainer::createScene()
@@ -307,3 +308,5 @@ void ImageContainer::addLabelToImage(std::string name, float startDelay)
     
     label->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeIn::create(0), NULL));
 }
+
+NS_AZOOMEE_END

@@ -2,11 +2,11 @@
 #define __OFFLINETEXT_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include "OfflineChecker.h"
 
-using namespace Azoomee;
-
+NS_AZOOMEE_BEGIN
 
 class OfflineText : public cocos2d::Layer, public ElectricDreamsButtonDelegate, public OfflineCheckerDelegate
 {
@@ -42,5 +42,7 @@ private:
     cocos2d::Point visibleOrigin;
     cocos2d::Size visibleSize;
 };
+
+NS_AZOOMEE_END
 
 #endif

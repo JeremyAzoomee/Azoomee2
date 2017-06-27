@@ -5,13 +5,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "MessageScene.h"
 
-// TODO: This needs to be a dynamic hook, so app can deal with it when we're in the main app
-#include "../../ChildSelectorScene.h"
-#include "../../Auth/AuthAPI.h"
-
-
 using namespace cocos2d;
-
 
 
 NS_AZOOMEE_CHAT_BEGIN
@@ -241,12 +235,7 @@ void FriendListScene::onBackButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
     
-    // TODO: This needs to be a dynamic hook, so app can deal with it when we're in the main app
-    // Logout child
-    AuthAPI::getInstance()->logoutChild();
-    // Back to profile select
-    auto childSelectScene = ChildSelectorScene::create();
-    Director::getInstance()->replaceScene(childSelectScene);
+    Azoomee::Chat::delegate->onChatNavigationBack();
 }
 
 void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)

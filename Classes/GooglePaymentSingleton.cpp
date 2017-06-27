@@ -15,6 +15,7 @@
 using namespace cocos2d;
 using namespace Azoomee;
 
+NS_AZOOMEE_BEGIN
 
 static GooglePaymentSingleton *_sharedGooglePaymentSingleton = NULL;
 
@@ -124,6 +125,8 @@ void GooglePaymentSingleton::startIABPayment()
     
 #endif
 }
+
+NS_AZOOMEE_END
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 

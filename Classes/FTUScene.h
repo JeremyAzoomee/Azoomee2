@@ -2,21 +2,21 @@
 #define __FTU_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
-class FTUScene : public Layer, public ElectricDreamsButtonDelegate
+class FTUScene : public cocos2d::Layer, public ElectricDreamsButtonDelegate
 {
 private:
-    Size visibleSize;
-    Vec2 origin;
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
     
-    LayerColor* ftuLayer;
+    cocos2d::LayerColor* ftuLayer;
     
-    Label* titleLabel;
-    Label* subTitleLabel;
+    cocos2d::Label* titleLabel;
+    cocos2d::Label* subTitleLabel;
     
     ElectricDreamsButton *getStartedButton;
     ElectricDreamsButton *notNowButton;
@@ -39,5 +39,7 @@ public:
     CREATE_FUNC(FTUScene);
 
 };
+
+NS_AZOOMEE_END
 
 #endif

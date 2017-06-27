@@ -4,7 +4,9 @@
 #include "LoginLogicHandler.h"
 #include "SceneManagerScene.h"
 
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 
 bool PreviewLoginSignupMessageBox::init()
@@ -38,3 +40,5 @@ void PreviewLoginSignupMessageBox::onButtonPressed(int buttonSelect)
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
     }
 }
+
+NS_AZOOMEE_END

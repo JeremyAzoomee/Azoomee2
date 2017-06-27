@@ -15,8 +15,9 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 
 #define NO_OF_OOMEES 5
@@ -412,3 +413,5 @@ void ChildAccountScene::MessageBoxButtonPressed(std::string messageBoxTitle,std:
     monthInputText->setVisible(true);
     yearInputText->setVisible(true);
 }
+
+NS_AZOOMEE_END

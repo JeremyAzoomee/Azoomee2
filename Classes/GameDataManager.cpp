@@ -3,14 +3,10 @@
 #include "external/json/document.h"
 #include "external/json/writer.h"
 #include "external/json/stringbuffer.h"
-
-USING_NS_CC;
-
 #include "external/json/document.h"
 #include "external/json/writer.h"
 #include "external/json/stringbuffer.h"
 #include "external/json/prettywriter.h"
-
 #include "external/unzip/unzip.h"
 
 #include "WebViewSelector.h"
@@ -30,10 +26,10 @@ USING_NS_CC;
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
-using namespace network;
 using namespace cocos2d;
-using namespace Azoomee;
+using namespace cocos2d::network;
 
+NS_AZOOMEE_BEGIN
 
 static GameDataManager *_sharedGameDataManager = NULL;
 
@@ -552,3 +548,5 @@ void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
     if(messageBoxTitle == errorStringMap[ERROR_TITLE] && buttonTitle == errorStringMap[ERROR_BUTTON])
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }
+
+NS_AZOOMEE_END

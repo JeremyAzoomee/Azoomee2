@@ -1,4 +1,10 @@
+#ifndef Azoomee_HQDataProvider_h
+#define Azoomee_HQDataProvider_h
+
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class HQDataProvider : public cocos2d::Ref
 {
@@ -36,3 +42,7 @@ public:
     void displayLoadingScreen();
     void hideLoadingScreen();
 };
+
+NS_AZOOMEE_END
+
+#endif

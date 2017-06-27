@@ -2,13 +2,13 @@
 #define __LOGINSCENE_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "OfflineChecker.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
 enum LoginScreenLocationEnum { emailLoginScreen, passwordLoginScreen};
 
@@ -20,11 +20,11 @@ private:
     TextInputLayer *passwordTextInput;
     
     cocos2d::Size visibleSize;
-    Vec2 origin;
+    cocos2d::Vec2 origin;
     
     LoginScreenLocationEnum currentScreen;
     
-    Label* title;
+    cocos2d::Label* title;
     
     ElectricDreamsButton *backButton;
     ElectricDreamsButton *nextButton;
@@ -51,7 +51,7 @@ private:
     bool shouldDisplayMessage;
     
 public:
-    static Scene* createScene();
+    static cocos2d::Scene* createScene();
     
     virtual bool init();
     
@@ -64,5 +64,7 @@ public:
     
     CREATE_FUNC(LoginScene);
 };
+
+NS_AZOOMEE_END
 
 #endif

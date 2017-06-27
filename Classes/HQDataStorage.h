@@ -1,4 +1,10 @@
+#ifndef Azoomee_HQDataStorage_h
+#define Azoomee_HQDataStorage_h
+
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class HQDataStorage : public cocos2d::Ref
 {
@@ -16,3 +22,7 @@ public:
     
     std::map<std::string, std::string> HQGetContentUrls;                                                    //HQGetContentUrls store get content urls for the separate areas
 };
+
+NS_AZOOMEE_END
+
+#endif

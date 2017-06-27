@@ -3,6 +3,8 @@
 
 using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
+
 void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
 {
     cocos2d::ui::ScrollView *scrollView = (cocos2d::ui::ScrollView *)sender->getParent()->getParent();
@@ -45,3 +47,5 @@ void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
     
     CCLOG("New innercontainer size: %f", scrollView->getInnerContainerSize().width);
 }
+
+NS_AZOOMEE_END

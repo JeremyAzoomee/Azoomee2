@@ -14,7 +14,8 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
-using namespace Azoomee;
+
+NS_AZOOMEE_BEGIN
 
 static HQDataProvider *_sharedHQDataProvider = NULL;
 
@@ -188,3 +189,5 @@ void HQDataProvider::hideLoadingScreen()
 {
     ModalMessages::getInstance()->stopLoading();
 }
+
+NS_AZOOMEE_END

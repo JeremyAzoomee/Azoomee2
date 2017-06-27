@@ -29,10 +29,10 @@
 #include "ManualGameInputLayer.h"
 #include "VideoPlaylistManager.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 using namespace network;
 
+NS_AZOOMEE_BEGIN
 
 Scene* HQSceneElement::createScene()
 {
@@ -217,3 +217,5 @@ void HQSceneElement::startUpElementDependingOnType()
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
     }
 }
+
+NS_AZOOMEE_END

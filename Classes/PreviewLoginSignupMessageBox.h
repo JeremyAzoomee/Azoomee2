@@ -1,10 +1,10 @@
 #ifndef Azoomee_PreviewLoginSignupMessageBox_h
 #define Azoomee_PreviewLoginSignupMessageBox_h
 
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 
-
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
 /**
  * Customised version of MessageBox for Preview Login Signup.
@@ -23,5 +23,7 @@ public:
     CREATE_FUNC(PreviewLoginSignupMessageBox);
     
 };
+
+NS_AZOOMEE_END
 
 #endif

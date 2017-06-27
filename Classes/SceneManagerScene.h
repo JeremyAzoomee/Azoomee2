@@ -2,10 +2,24 @@
 #define __SCENE_MANAGER_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 
-enum SceneNameEnum { Login, Onboarding,Base, BaseWithNoHistory, ChildAccount, ChildAccountSuccessScene, ChildSelector, OnboardingSuccessScene,OfflineHub,OfflineArtsAppHQ,FTUScene};
+NS_AZOOMEE_BEGIN
 
-USING_NS_CC;
+enum SceneNameEnum {
+    Login,
+    Onboarding,
+    Base,
+    BaseWithNoHistory,
+    ChildAccount,
+    ChildAccountSuccessScene,
+    ChildSelector,
+    OnboardingSuccessScene,
+    OfflineHub,
+    OfflineArtsAppHQ,
+    FTUScene,
+    ChatEntryPointScene
+};
 
 class SceneManagerScene : public cocos2d::Layer
 {
@@ -24,5 +38,7 @@ public:
     
     CREATE_FUNC(SceneManagerScene);
 };
+
+NS_AZOOMEE_END
 
 #endif

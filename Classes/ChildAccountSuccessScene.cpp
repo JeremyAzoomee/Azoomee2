@@ -11,8 +11,9 @@
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 Scene* ChildAccountSuccessScene::createScene()
 {
@@ -131,3 +132,5 @@ void ChildAccountSuccessScene::moveToChildAccountScene(float dt)
 {
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
 }
+
+NS_AZOOMEE_END

@@ -9,9 +9,10 @@
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace Azoomee;
 
+NS_AZOOMEE_BEGIN
 
 cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(std::string url)
 {
@@ -141,6 +142,9 @@ bool WebViewNativeCaller_android::init()
     
     return true;
 }
+
+NS_AZOOMEE_END
+
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 

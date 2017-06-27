@@ -16,9 +16,9 @@
 #include "OfflineHubBackButton.h"
 #include "HQSceneArtsApp.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 Scene* HQScene::createSceneForOfflineArtsAppHQ()
 {
@@ -303,3 +303,5 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
 }
+
+NS_AZOOMEE_END

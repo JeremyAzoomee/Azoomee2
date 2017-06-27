@@ -12,7 +12,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace Azoomee;
 
 

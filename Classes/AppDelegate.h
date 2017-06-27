@@ -2,6 +2,7 @@
 #define  _APP_DELEGATE_H_
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Application.h>
 
 /**

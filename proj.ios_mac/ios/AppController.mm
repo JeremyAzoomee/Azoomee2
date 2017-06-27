@@ -29,6 +29,9 @@
 #import <AppsFlyerLib/AppsFlyerTracker.h>
 #import "../../Classes/DeepLinkingSingleton.h"
 
+using namespace Azoomee;
+
+
 @implementation AppController
 
 @synthesize window;
