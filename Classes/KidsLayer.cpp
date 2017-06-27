@@ -34,7 +34,7 @@ void KidsLayer::addFrame()
     Rect spriteRect = Rect(0, 0, 206, 218);
     Rect capInsents = Rect(50, 50, 100, 1);
     
-    ui::Scale9Sprite* childFrame = ui::Scale9Sprite::create("res/settings/child_frame.png", spriteRect, capInsents);
+    ui::Scale9Sprite* childFrame = ui::Scale9Sprite::create("res/settings/childFrame.png", spriteRect, capInsents);
     childFrame->setContentSize(Size(800,1200));
     childFrame->setAnchorPoint(Vec2(0,0));
     
@@ -87,7 +87,7 @@ void KidsLayer::setOomeeToLargeSize()
     Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.6);
     
     glowSprite->setPosition(position);
-    glowSprite->setScale(.5);
+    glowSprite->setScale(.7);
     
     oomeeSprite->setScale(1.8);
     oomeeSprite->setPosition(position);
@@ -98,7 +98,7 @@ void KidsLayer::setOomeeToSmallSize()
     Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.67);
     
     glowSprite->setPosition(position);
-    glowSprite->setScale(.3);
+    glowSprite->setScale(.5);
     
     oomeeSprite->setScale(1.1);
     oomeeSprite->setPosition(position);
@@ -115,7 +115,7 @@ void KidsLayer::setToShowingCode()
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
     
-    Label* codeLabel = createLabelHeader(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber));
+    Label* codeLabel = createLabelKidCode(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber),Color3B(28, 244, 244));
     codeLabel->setPosition(this->getContentSize().width/2,detailsLabel->getPositionY()- detailsLabel->getContentSize().height/2 -codeLabel->getContentSize().height * .8);
     codeLabel->setTag(1000);
     this->addChild(codeLabel);
@@ -145,12 +145,11 @@ void KidsLayer::setToCodeError(std::string code)
 {
     removeObjects(false);
     
-    Label* failedTextBoxLabel = createLabelHeader(code);
-    failedTextBoxLabel->setColor(Color3B(249, 74, 91));
+    Label* failedTextBoxLabel = createLabelKidCode(code,Color3B(249, 74, 91));
     
     ui::Scale9Sprite* failedTextBox = createText9Sprite("res/settings/textFieldFail.png",4);
     
-    failedTextBoxLabel->setPosition(failedTextBox->getContentSize().width/2, failedTextBox->getContentSize().height/2-5);
+    failedTextBoxLabel->setPosition(failedTextBox->getContentSize().width/2, failedTextBox->getContentSize().height/2);
     
     failedTextBox->addChild(failedTextBoxLabel);
     this->addChild(failedTextBox);

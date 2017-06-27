@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/NativeShare/NativeShare.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace Azoomee;
 
@@ -61,7 +62,7 @@ void KidsControlLayer::addButtons()
     
     closeButton = ElectricDreamsButton::createWindowCloselButton();
     closeButton->setVisible(false);
-    closeButton->setScale(0.75);
+    closeButton->setScale(0.68);
     closeButton->setPosition(this->getContentSize().width-closeButton->getContentSize().width,this->getContentSize().height-closeButton->getContentSize().height);
     closeButton->setDelegate(this);
     childFrameLayer->addChild(closeButton);
@@ -161,7 +162,7 @@ void KidsControlLayer::sendInviteCode()
 {
     ModalMessages::getInstance()->startLoading();
     
-    HttpRequestCreator *request = API::friendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumber),ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber),kidCodeTextInput->getText(), this);
+    HttpRequestCreator *request = API::friendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumber),ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber),stringToUpper(kidCodeTextInput->getText()), this);
     request->execute();
     
     

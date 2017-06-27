@@ -87,17 +87,17 @@ void SettingsControlLayer::createLine()
 void SettingsControlLayer::createTabs()
 {
     childrenButton = ElectricDreamsButton::createTabButton("Your Kids");
-    childrenButton->setPosition(TAB_SPACING*2,origin.y+linePositionY-LINE_WIDTH/2);
+    childrenButton->setPosition(TAB_SPACING*2,origin.y+linePositionY-LINE_WIDTH);
     childrenButton->setDelegate(this);
     backgroundLayer->addChild(childrenButton,IDLE_TAB_Z);
     
     confirmationButton = ElectricDreamsButton::createTabButton("Confirmation");
-    confirmationButton->setPosition(childrenButton->getPositionX()+childrenButton->getContentSize().width/2+ TAB_SPACING+confirmationButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH/2 );
+    confirmationButton->setPosition(childrenButton->getPositionX()+childrenButton->getContentSize().width/2+ TAB_SPACING+confirmationButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH);
     confirmationButton->setDelegate(this);
     backgroundLayer->addChild(confirmationButton,IDLE_TAB_Z);
     
     accountButton = ElectricDreamsButton::createTabButton("Account");
-    accountButton->setPosition(confirmationButton->getPositionX()+confirmationButton->getContentSize().width/2+TAB_SPACING+accountButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH/2);
+    accountButton->setPosition(confirmationButton->getPositionX()+confirmationButton->getContentSize().width/2+TAB_SPACING+accountButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH);
     accountButton->setDelegate(this);
     backgroundLayer->addChild(accountButton,SELECTED_TAB_Z);
 }

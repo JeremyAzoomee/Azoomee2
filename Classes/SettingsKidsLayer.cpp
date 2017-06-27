@@ -33,7 +33,7 @@ void SettingsKidsLayer::addUIObjects()
     Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren()*900,1200);
     
     scrollView = ui::ScrollView::create();
-    scrollView->setContentSize(Size(this->getContentSize().width * 0.8, 1200));
+    scrollView->setContentSize(Size(this->getContentSize().width, 1200));
     scrollView->setPosition(Vec2(this->getContentSize().width/2,layerHeight/2));
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     scrollView->setBounceEnabled(false);

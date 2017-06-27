@@ -169,6 +169,14 @@ Label*  createLabelSettingsChat(std::string text,Color3B color)
     
     return newLabel;
 }
+    
+Label*  createLabelKidCode(std::string text,cocos2d::Color3B color)
+{
+    Label* newLabel = createLabelWith(text, FONT_KIDCODE_REGULAR, color, 84);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    
+    return newLabel;
+}
 
 //----------------- Label too Long Style -------------------
 void reduceLabelTextToFitWidth(Label* label,float maxWidth)
