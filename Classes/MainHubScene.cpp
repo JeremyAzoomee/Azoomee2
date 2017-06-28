@@ -96,7 +96,7 @@ void MainHubScene::addBackgroundCircles()
     
     blueCircle->runAction(Sequence::create(DelayTime::create(1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), FadeOut::create(3), NULL));
     
-    for(int i = 0; i < 5; i++)
+    for(int i = 0; i < 4; i++)
     {
         auto circle = createCirclesForBackground(i);
         this->addChild(circle);
@@ -110,7 +110,7 @@ void MainHubScene::addBackgroundCircles()
             scaleTime = 0;
         }
         
-        circle->runAction(Sequence::create(DelayTime::create(delayTime), EaseElasticOut::create(ScaleTo::create(scaleTime, zoomFactor)), NULL));
+        circle->runAction(Sequence::create(DelayTime::create(delayTime), EaseElasticOut::create(ScaleTo::create(scaleTime, .95)), NULL));
         
         int turnDirection = 1;
         if(i % 2 == 0) turnDirection = -1;
@@ -131,7 +131,6 @@ Sprite* MainHubScene::createCirclesForBackground(int circleNumber)
     {
         circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d.png", circleNumber));
     }
-    
     circle->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
     circle->setScale(0);
     
