@@ -211,6 +211,20 @@
 			remoteGlobalIDString = 3077F4401E8D5048006DA465;
 			remoteInfo = AzoomeeCommon;
 		};
+		9246EDD51F0403A9008CD359 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
+			remoteInfo = "azoomee2_ArtApp-mobile";
+		};
+		9246EDD71F0403A9008CD359 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5087E76F17EB910900C73F5D;
+			remoteInfo = "azoomee2_ArtApp-desktop";
+		};
 		A198620F1DD3834E0090F053 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
@@ -373,6 +387,7 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
 		A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeLayer.cpp; sourceTree = "<group>"; };
 		A11E738D1DDF00F100166ECA /* OomeeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OomeeLayer.h; sourceTree = "<group>"; };
 		A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneElementPositioner.cpp; sourceTree = "<group>"; };
@@ -595,6 +610,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */,
 				46880B8319C43A87006E1F66 /* Classes */,
 				46880B7519C43A67006E1F66 /* Resources */,
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
@@ -842,6 +858,15 @@
 			path = ios;
 			sourceTree = SOURCE_ROOT;
 		};
+		9246EDD01F0403A8008CD359 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9246EDD61F0403A9008CD359 /* azoomee2_ArtApp-mobile.app */,
+				9246EDD81F0403A9008CD359 /* azoomee2_ArtApp-desktop.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		A15B2F9A1DE74F6900D25334 /* NativeWebviews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1070,6 +1095,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 9246EDD01F0403A8008CD359 /* Products */;
+					ProjectRef = 9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */;
+				},
+				{
 					ProductGroup = 300742D31EF9162E005525AE /* Products */;
 					ProjectRef = 300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */;
 				},
@@ -1124,6 +1153,20 @@
 			fileType = archive.ar;
 			path = libAzoomeeCommon.a;
 			remoteRef = 3077F4511E8D51D7006DA465 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9246EDD61F0403A9008CD359 /* azoomee2_ArtApp-mobile.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "azoomee2_ArtApp-mobile.app";
+			remoteRef = 9246EDD51F0403A9008CD359 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9246EDD81F0403A9008CD359 /* azoomee2_ArtApp-desktop.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "azoomee2_ArtApp-desktop.app";
+			remoteRef = 9246EDD71F0403A9008CD359 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A19862101DD3834E0090F053 /* libcocos2d tvOS.a */ = {
