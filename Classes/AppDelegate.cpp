@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
+#include <AzoomeeCommon/Pusher/PusherSDK.h>
 
 using namespace cocos2d;
 using namespace Azoomee;

@@ -1,5 +1,7 @@
 package com.tinizine.azoomee.common.sdk.pusher;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -22,6 +24,7 @@ import com.pusher.client.Authorizer;
  */
 public class PusherSDKAuth implements Authorizer
 {
+    private final static String TAG = "PusherSDKAuth";
     private URL _url;
     private String _method = "GET";
     private HashMap<String, String> _headers = new HashMap<String, String>();
@@ -57,8 +60,10 @@ public class PusherSDKAuth implements Authorizer
     @Override
     public String authorize(final String channelName, final String socketId) throws AuthorizationFailureException
     {
+        Log.d(TAG, "authorize: " + channelName + ", " + socketId);
         // Build the signed Azoomee req from c++ side
         buildSignedAzoomeeRequest(this, channelName, socketId);
+        Log.d(TAG, "buildSignedAzoomeeRequest done: _url=" + _url + ", _method=" + _method);
 
         try
         {
@@ -71,7 +76,7 @@ public class PusherSDKAuth implements Authorizer
             {
                 connection = (HttpURLConnection)_url.openConnection();
             }
-            connection.setDoOutput(true);
+            connection.setDoOutput(false);
             connection.setDoInput(true);
             connection.setInstanceFollowRedirects(false);
             connection.setRequestMethod(_method);
@@ -81,6 +86,7 @@ public class PusherSDKAuth implements Authorizer
             for(final String headerName : _headers.keySet())
             {
                 final String headerValue = _headers.get(headerName);
+                Log.d(TAG, "Header: " + headerName + "=" + headerValue);
                 connection.setRequestProperty(headerName, headerValue);
             }
 
@@ -94,8 +100,22 @@ public class PusherSDKAuth implements Authorizer
                 wr.close();
             }
 
+            Log.d(TAG, "authorize: Read response");
+
             // Read response
-            final InputStream is = connection.getInputStream();
+            final int responseHttpStatus = connection.getResponseCode();
+            Log.d(TAG, "authorize: responseHttpStatus=" + responseHttpStatus);
+
+            InputStream is = null;
+            if(responseHttpStatus != HttpURLConnection.HTTP_OK)
+            {
+                is = connection.getErrorStream();
+            }
+            else
+            {
+                is = connection.getInputStream();
+            }
+
             final BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             String line;
             final StringBuffer response = new StringBuffer();
@@ -105,8 +125,9 @@ public class PusherSDKAuth implements Authorizer
             }
             rd.close();
 
+            Log.d(TAG, "authorize: response=" + response.toString());
+
             // Check response code
-            final int responseHttpStatus = connection.getResponseCode();
             if(responseHttpStatus != 200 && responseHttpStatus != 201)
             {
                 throw new AuthorizationFailureException(response.toString());
@@ -116,6 +137,7 @@ public class PusherSDKAuth implements Authorizer
         }
         catch(final IOException e)
         {
+            Log.e(TAG, "Auth error: " + e.toString());
             throw new AuthorizationFailureException(e);
         }
     }

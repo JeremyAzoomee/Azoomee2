@@ -25,6 +25,7 @@ extern "C"
             const char* url = httpRequest->getUrl();
             const std::vector<std::string>& headers = httpRequest->getHeaders();
             cocos2d::network::HttpRequest::Type method = httpRequest->getRequestType();
+            const char* requestData = httpRequest->getRequestData();
             
             // Set the request params back to the Auth object
             cocos2d::JniMethodInfo t;
@@ -32,11 +33,12 @@ extern "C"
             const std::string className = kPusherAuthJavaClassName;
             const std::string methodName = "setRequestParams";
             const std::string signature = "(Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)V";
+            
             if(cocos2d::JniHelper::getMethodInfo(t, className.c_str(), methodName.c_str(), signature.c_str()))
             {
                 jstring urlJ = cocos2d::StringUtils::newStringUTFJNI(t.env, url);
                 jstring methodJ = cocos2d::StringUtils::newStringUTFJNI(t.env, method == cocos2d::network::HttpRequest::Type::POST ? "POST" : "GET");
-                jstring bodyJ = cocos2d::StringUtils::newStringUTFJNI(t.env, httpRequest->getRequestData());
+                jstring bodyJ = cocos2d::StringUtils::newStringUTFJNI(t.env, requestData ? requestData : "null");
                 
                 jobjectArray headerKeysJ = t.env->NewObjectArray(headers.size(), t.env->FindClass("java/lang/String"), 0);
                 jobjectArray headerValuesJ = t.env->NewObjectArray(headers.size(), t.env->FindClass("java/lang/String"), 0);
@@ -56,7 +58,7 @@ extern "C"
                     t.env->DeleteLocalRef(valueK);
                 }
                 
-                t.env->CallVoidMethod(auth, t.methodID);
+                t.env->CallVoidMethod(auth, t.methodID, urlJ, methodJ, headerKeysJ, headerValuesJ, bodyJ);
                 
                 // Delete local JNI refs which we are done with
                 t.env->DeleteLocalRef(t.classID);
@@ -86,12 +88,12 @@ void PusherSDK::subscribeToChannel(const std::string& channelName)
         // Ensure the JNI native methods are compiled into the binary by making a dummy ref to it
         Java_com_tinizine_azoomee_common_sdk_pusher_PusherSDKAuth_buildSignedAzoomeeRequest(nullptr, nullptr, nullptr, nullptr, nullptr);
         
-        JniHelper::callStaticVoidMethod(kPusherJavaClassName, "initialise", _appKey);
+        JniHelper::callStaticVoidMethod(kPusherJavaClassName, "Initialise", _appKey);
         sPusherInitialised = true;
     }
     
     _subscribedChannels.push_back(channelName);
-    JniHelper::callStaticVoidMethod(kPusherJavaClassName, "subscribeToChannel", channelName);
+    JniHelper::callStaticVoidMethod(kPusherJavaClassName, "SubscribeToChannel", channelName);
 }
 
 void PusherSDK::closeChannel(const std::string& channelName)
@@ -101,7 +103,7 @@ void PusherSDK::closeChannel(const std::string& channelName)
         return;
     }
     
-    JniHelper::callStaticVoidMethod(kPusherJavaClassName, "closeChannel", channelName);
+    JniHelper::callStaticVoidMethod(kPusherJavaClassName, "CloseChannel", channelName);
     const auto& it = std::find(_subscribedChannels.begin(), _subscribedChannels.end(), channelName);
     if(it != _subscribedChannels.end())
     {

@@ -9,39 +9,101 @@ import com.pusher.client.channel.PrivateChannel;
 import com.pusher.client.connection.*;
 import com.tinizine.azoomee.common.AzoomeeActivity;
 
+import java.util.Vector;
+
 
 public class PusherSDK
 {
     private final static String TAG = "PusherSDK";
 
     /// Static Instance of Pusher
-    private static Pusher sPusherClient = null;
+    private Pusher _pusherClient = null;
     /// True while we should auto reconnect Pusher
-    private static boolean sKeepAlive = true;
+    private boolean _keepAlive = true;
+    /// Current connection status
+    private ConnectionState _connectionState = ConnectionState.DISCONNECTED;
+
+
+    // - Static
+
+    private static class SingletonHolder
+    {
+        private static final PusherSDK Instance = new PusherSDK();
+    }
+
+    public static PusherSDK getInstance()
+    {
+        return SingletonHolder.Instance;
+    }
 
     /// Initialise with Pusher App Key
-    public static void initialise(final String appKey)
+    public static void Initialise(final String appKey)
+    {
+        getInstance().initialise(appKey);
+    }
+
+    /// Destroy the Pusher SDK instance - it must be initialised to be used again
+    public static void Destroy()
+    {
+        getInstance().close();
+    }
+
+    /// Subscribe to a channel
+    public static void SubscribeToChannel(final String channelName)
+    {
+        getInstance().subscribeToChannel(channelName);
+    }
+
+    /// Close a channel subscription
+    public static void CloseChannel(final String channelName)
+    {
+        getInstance().closeChannel(channelName);
+    }
+
+
+    // - Private
+
+    // No direct construction - use getInstance
+    private PusherSDK()
+    {
+    }
+
+    /// Close all connections
+    private void close()
+    {
+        _keepAlive = false;
+        if(_pusherClient != null)
+        {
+            _pusherClient.disconnect();
+            _pusherClient = null;
+        }
+    }
+
+    /// Initialise with Pusher App Key
+    private void initialise(final String appKey)
     {
         PusherOptions options = new PusherOptions();
         options.setAuthorizer(new PusherSDKAuth());
         options.setCluster("eu");
         options.setEncrypted(true);
-        sPusherClient = new Pusher(appKey, options);
+        _pusherClient = new Pusher(appKey, options);
+        _keepAlive = true;
 
         AzoomeeActivity.RunOnUIThread(new Runnable() {
             @Override
             public void run() {
-                sPusherClient.connect(new ConnectionEventListener() {
+                _pusherClient.connect(new ConnectionEventListener() {
                     @Override
                     public void onConnectionStateChange(ConnectionStateChange change) {
-                        Log.d(TAG, "State changed to " + change.getCurrentState() + " from " + change.getPreviousState());
+                        _connectionState = change.getCurrentState();
+                        Log.d(TAG, "State changed from " + change.getPreviousState() + " to " + change.getCurrentState());
 
                         // Keep connection alive
-                        if(change.getCurrentState().equals(ConnectionState.DISCONNECTED) && sKeepAlive)
+                        if(_connectionState.equals(ConnectionState.DISCONNECTED) && _keepAlive)
                         {
-                            if(sPusherClient != null)
+                            if(_pusherClient != null)
                             {
-                                sPusherClient.connect();
+                                _pusherClient.connect();
                             }
                         }
                     }
@@ -56,43 +118,46 @@ public class PusherSDK
     }
 
     /// Subscribe to a channel
-    public static void subscribeToChannel(final String channelName)
+    private void subscribeToChannel(final String channelName)
     {
-        if(sPusherClient == null)
+        if(_pusherClient == null)
         {
             Log.e(TAG, "Java PusherSDK not initialised!");
             return;
         }
 
-        Log.d(TAG, "subscribeToChannel: " + channelName);
-
         AzoomeeActivity.RunOnUIThread(new Runnable() {
             @Override
             public void run() {
-                PrivateChannel channel = sPusherClient.subscribePrivate(channelName, new PrivateChannelEventListener() {
-                    @Override
-                    public void onSubscriptionSucceeded(String channelName) {
-                        Log.d(TAG, "Subscribed to channel: " + channelName);
-                    }
+                if(_pusherClient != null)
+                {
+                    Log.d(TAG, "subscribeToChannel: " + channelName);
 
-                    @Override
-                    public void onEvent(String channelName, String eventName, String data) {
-                        Log.d(TAG, "onEvent: " + eventName + ", data=" + data);
-                    }
+                    PrivateChannel channel = _pusherClient.subscribePrivate(channelName, new PrivateChannelEventListener() {
+                        @Override
+                        public void onSubscriptionSucceeded(String channelName) {
+                            Log.d(TAG, "Subscribed to channel: " + channelName);
+                        }
 
-                    @Override
-                    public void onAuthenticationFailure(String message, Exception e) {
-                        Log.d(TAG, String.format("Authentication failure due to [%s], exception was [%s]", message, e));
-                    }
-                });
+                        @Override
+                        public void onEvent(String channelName, String eventName, String data) {
+                            Log.d(TAG, "onEvent: " + eventName + ", data=" + data);
+                        }
+
+                        @Override
+                        public void onAuthenticationFailure(String message, Exception e) {
+                            Log.d(TAG, String.format("Authentication failure due to [%s], exception was [%s]", message, e));
+                        }
+                    });
+                }
             }
         });
     }
 
     /// Close a channel subscription
-    public static void closeChannel(final String channelName)
+    private void closeChannel(final String channelName)
     {
-        if(sPusherClient == null)
+        if(_pusherClient == null)
         {
             return;
         }
@@ -100,7 +165,10 @@ public class PusherSDK
         AzoomeeActivity.RunOnUIThread(new Runnable() {
             @Override
             public void run() {
-                sPusherClient.unsubscribe(channelName);
+                if(_pusherClient != null)
+                {
+                    _pusherClient.unsubscribe(channelName);
+                }
             }
         });
     }
