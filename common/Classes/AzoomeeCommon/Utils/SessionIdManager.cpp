@@ -125,10 +125,10 @@ namespace Azoomee
     
     extern "C"
     {
-        JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeViewUI_JNIRegisterAppWentBackgroundEvent(JNIEnv* env, jobject thiz);
+        JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIRegisterAppWentBackgroundEvent(JNIEnv* env, jobject thiz);
     };
     
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeViewUI_JNIRegisterAppWentBackgroundEvent(JNIEnv* env, jobject thiz)
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIRegisterAppWentBackgroundEvent(JNIEnv* env, jobject thiz)
     {
         SessionIdManager::getInstance()->registerAppWentBackgroundEvent();
     }
@@ -139,10 +139,10 @@ namespace Azoomee
     
     extern "C"
     {
-        JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeViewUI_JNIRegisterAppCameForegroundEvent(JNIEnv* env, jobject thiz);
+        JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIRegisterAppCameForegroundEvent(JNIEnv* env, jobject thiz);
     };
     
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeViewUI_JNIRegisterAppCameForegroundEvent(JNIEnv* env, jobject thiz)
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIRegisterAppCameForegroundEvent(JNIEnv* env, jobject thiz)
     {
         SessionIdManager::getInstance()->registerAppCameForegroundEvent();
     }
@@ -153,10 +153,10 @@ namespace Azoomee
     
     extern "C"
     {
-        JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeViewUI_JNIRegisterAndroidSceneChangeEvent(JNIEnv* env, jobject thiz);
+        JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIRegisterAndroidSceneChangeEvent(JNIEnv* env, jobject thiz);
     };
     
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_NativeViewUI_JNIRegisterAndroidSceneChangeEvent(JNIEnv* env, jobject thiz)
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_JNICalls_JNIRegisterAndroidSceneChangeEvent(JNIEnv* env, jobject thiz)
     {
         SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
     }

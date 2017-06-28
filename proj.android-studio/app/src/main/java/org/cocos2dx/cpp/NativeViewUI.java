@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +105,7 @@ public class NativeViewUI extends Activity {
                     //uiWebViewStatic = null;
                 }
 
-                JNIRegisterAndroidSceneChangeEvent();
+                JNICalls.JNIRegisterAndroidSceneChangeEvent();
 
                 finish();
             }
@@ -157,6 +156,7 @@ public class NativeViewUI extends Activity {
             CookieManager uiWebviewCookieManager = CookieManager.getInstance();
             if (Build.VERSION.SDK_INT >= 21)
             {
+                uiWebviewCookieManager.removeAllCookies(null);
                 uiWebviewCookieManager.flush();
                 uiWebviewCookieManager.setAcceptThirdPartyCookies(uiWebView, true);
             }
@@ -164,7 +164,7 @@ public class NativeViewUI extends Activity {
 
             try
             {
-                JSONObject obj = new JSONObject(this.JNIGetAllCookies());
+                JSONObject obj = new JSONObject(JNICalls.JNIGetAllCookies());
                 JSONArray array = obj.getJSONArray("Elements");
 
                 for(int i = 0; i < array.length(); i++)
@@ -181,7 +181,7 @@ public class NativeViewUI extends Activity {
             }
             catch (Exception ex)
             {
-                this.getBackToLoginScreen();
+                JNICalls.getBackToLoginScreen();
             }
             urlToBeLoaded = "file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl;
         }
@@ -195,8 +195,8 @@ public class NativeViewUI extends Activity {
 
     static void errorOccurred()
     {
-        JNIRegisterAndroidSceneChangeEvent();
-        getBackToLoginScreen();
+        JNICalls.JNIRegisterAndroidSceneChangeEvent();
+        JNICalls.getBackToLoginScreen();
         activity.finish();
     }
 
@@ -204,20 +204,13 @@ public class NativeViewUI extends Activity {
     protected void onPause()
     {
         super.onPause();
-        JNIRegisterAppWentBackgroundEvent();
+        JNICalls.JNIRegisterAppWentBackgroundEvent();
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        JNIRegisterAppCameForegroundEvent();
+        JNICalls.JNIRegisterAppCameForegroundEvent();
     }
-
-    public static native void getBackToLoginScreen();
-    public static native void sendMediaPlayerData(String eventKey, String eventValue);
-    public static native void JNIRegisterAppWentBackgroundEvent();
-    public static native void JNIRegisterAppCameForegroundEvent();
-    public static native void JNIRegisterAndroidSceneChangeEvent();
-    public static native String JNIGetAllCookies();
 }
