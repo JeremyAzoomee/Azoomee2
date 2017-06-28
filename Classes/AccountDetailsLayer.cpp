@@ -14,7 +14,7 @@
 #define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
 #define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
 
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
 Layer* AccountDetailsLayer::createWithHeight(float setLayerHeight)
 {
@@ -115,3 +115,5 @@ void AccountDetailsLayer::buttonPressed(ElectricDreamsButton* button)
         IAPUpsaleLayer::create();
     }
 }
+
+NS_AZOOMEE_END

@@ -1,8 +1,11 @@
 #include "ConfirmationLayer.h"
 #include "ui/UIScale9Sprite.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/Azoomee.h>
 
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 #define MARGIN 36
 
@@ -124,3 +127,5 @@ void ConfirmationLayer::createRect(Color4F withColour)
     confirmRect->drawRect(Vec2(0, 0), Vec2(this->getContentSize().width, this->getContentSize().height), withColour);
     this->addChild(confirmRect);
 }
+
+NS_AZOOMEE_END

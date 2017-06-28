@@ -3,8 +3,9 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Azoomee.h>
 
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
 KidsLayer* KidsLayer::createWithChildDetails(int setChildNumber)
 {
@@ -195,4 +196,6 @@ void KidsLayer::removeObjects(bool oomeeToLargeSize)
     else
         setOomeeToSmallSize();
 }
+
+NS_AZOOMEE_END
 

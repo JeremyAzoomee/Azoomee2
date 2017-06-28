@@ -1,6 +1,6 @@
 #include "NativeShare.h"
 #import <UIKit/UIKit.h>
-#include "../../../proj.ios_mac/ios/RootViewController.h"
+#include "../Platform/iOS/AzoomeeViewController.h"
 
 USING_NS_CC;
 
@@ -9,7 +9,7 @@ namespace Azoomee
 
 void nativeShareScreenString(const std::string& shareString)
 {
-    RootViewController* rootViewController =  (RootViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
+    AzoomeeViewController* rootViewController =  (AzoomeeViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
     
     NSArray *objectsToShare = @[[NSString stringWithUTF8String:shareString.c_str()]];
     

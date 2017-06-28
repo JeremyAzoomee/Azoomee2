@@ -2,7 +2,9 @@
 #include "KidsControlLayer.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 Layer* SettingsKidsLayer::createWithHeight(float setLayerHeight)
 {
@@ -32,7 +34,7 @@ void SettingsKidsLayer::addUIObjects()
 {
     Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren()*900,1200);
     
-    scrollView = ui::ScrollView::create();
+    scrollView = cocos2d::ui::ScrollView::create();
     scrollView->setContentSize(Size(this->getContentSize().width, 1200));
     scrollView->setPosition(Vec2(this->getContentSize().width/2,layerHeight/2));
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
@@ -109,4 +111,5 @@ void SettingsKidsLayer::addTabsCoverLayer()
     addListenerToCoverLayer(tabsCoverLayer);
 }
 
+NS_AZOOMEE_END
 

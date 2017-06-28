@@ -5,8 +5,9 @@
 #include "ConfirmationControlLayer.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Azoomee.h>
 
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
 #define MARGIN 78
 #define CONFIRMATION_HEIGHT 182
@@ -106,3 +107,5 @@ void SettingsConfirmationLayer::onHttpRequestFailed(const std::string& requestTa
 {
     ModalMessages::getInstance()->stopLoading();
 }
+
+NS_AZOOMEE_END

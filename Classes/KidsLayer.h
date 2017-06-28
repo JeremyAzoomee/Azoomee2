@@ -3,8 +3,11 @@
 
 #include <cocos/cocos2d.h>
 #include "ui/UIScale9Sprite.h"
+#include <AzoomeeCommon/Azoomee.h>
 
-USING_NS_CC;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 class KidsLayer : public Layer
 {
@@ -39,5 +42,7 @@ public:
     CREATE_FUNC(KidsLayer);
     
 };
+
+NS_AZOOMEE_END
 
 #endif

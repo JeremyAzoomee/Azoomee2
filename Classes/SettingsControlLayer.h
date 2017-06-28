@@ -2,10 +2,12 @@
 #define __SETTINGS_CONTROL_LAYER_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include "AwaitingAdultPinLayer.h"
 
 USING_NS_CC;
+NS_AZOOMEE_BEGIN
 
 class SettingsControlLayer : public Layer, public ElectricDreamsButtonDelegate, public AwaitingAdultPinLayerDelegate
 {
@@ -46,5 +48,7 @@ public:
     void AdultPinCancelled(AwaitingAdultPinLayer* layer);
     void AdultPinAccepted(AwaitingAdultPinLayer* layer);
 };
+
+NS_AZOOMEE_END
 
 #endif

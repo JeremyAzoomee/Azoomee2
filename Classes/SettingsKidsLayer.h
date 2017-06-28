@@ -3,8 +3,11 @@
 
 #include <cocos/cocos2d.h>
 #include "ui/UIScrollView.h"
+#include <AzoomeeCommon/Azoomee.h>
 
-USING_NS_CC;
+NS_AZOOMEE_BEGIN
+
+using namespace cocos2d;
 
 #define IDLE_COVER_LAYER_Z_ORDER 190
 #define SELECTED_COVER_LAYER_Z_ORDER 210
@@ -38,5 +41,7 @@ public:
     void scrollReset();
 
 };
+
+NS_AZOOMEE_END
 
 #endif

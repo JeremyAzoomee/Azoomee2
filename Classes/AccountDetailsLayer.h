@@ -5,7 +5,9 @@
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include "PrivacyAndTermsLayer.h"
 
-USING_NS_CC;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 class AccountDetailsLayer : public Layer, public ElectricDreamsButtonDelegate
 {
@@ -30,5 +32,7 @@ public:
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
 };
+
+NS_AZOOMEE_END
 
 #endif

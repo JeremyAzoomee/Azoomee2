@@ -5,7 +5,9 @@
 #include "ui/UIScrollView.h"
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 
-USING_NS_CC;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 #define CONFIRMATION_CONFIRMED_Z 300
 #define CONFIRMATION_REJECT_Z 400
@@ -38,5 +40,7 @@ public:
     void onHttpRequestFailed(const std::string& requestTag, long errorCode);
 
 };
+
+NS_AZOOMEE_END
 
 #endif

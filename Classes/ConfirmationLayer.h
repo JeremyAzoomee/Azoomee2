@@ -2,8 +2,11 @@
 #define __CONFIRMATION_LAYER_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 
-USING_NS_CC;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 class ConfirmationLayer : public Layer
 {
@@ -31,5 +34,7 @@ public:
     void setToRejected();
     void setIdle();
 };
+
+NS_AZOOMEE_END
 
 #endif

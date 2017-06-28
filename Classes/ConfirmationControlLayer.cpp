@@ -5,7 +5,7 @@
 
 #define MARGIN 69
 
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
 Layer* ConfirmationControlLayer::createController(Size layerSize, int setConfirmationNumber)
 {
@@ -150,3 +150,5 @@ void ConfirmationControlLayer::onHttpRequestFailed(const std::string& requestTag
 {
     
 }
+
+NS_AZOOMEE_END

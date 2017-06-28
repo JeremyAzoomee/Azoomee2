@@ -7,9 +7,11 @@
 #include "KidsLayer.h"
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
+#include <AzoomeeCommon/Azoomee.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 class KidsControlLayer : public Layer, public ElectricDreamsButtonDelegate, public TextInputLayerDelegate, public HttpRequestCreatorResponseDelegate
 {
@@ -64,5 +66,7 @@ public:
     void onHttpRequestFailed(const std::string& requestTag, long errorCode);
 
 };
+
+NS_AZOOMEE_END
 
 #endif

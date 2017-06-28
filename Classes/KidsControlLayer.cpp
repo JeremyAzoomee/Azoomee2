@@ -6,7 +6,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
 Layer* KidsControlLayer::createController(SettingsKidsLayer* setParent, int setChildNumber)
 {
@@ -258,4 +258,6 @@ void KidsControlLayer::onHttpRequestFailed(const std::string& requestTag, long e
     ModalMessages::getInstance()->stopLoading();
     inviteCodeResponse(false);
 }
+
+NS_AZOOMEE_END
 

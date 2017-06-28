@@ -10,8 +10,7 @@
 #define IDLE_TAB_Z 100
 #define CURRENT_LAYER_Z 120
 
-using namespace Azoomee;
-
+NS_AZOOMEE_BEGIN
 
 bool SettingsControlLayer::init()
 {
@@ -149,3 +148,5 @@ void SettingsControlLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
     createSettingsController();
 }
+
+NS_AZOOMEE_END
