@@ -38,6 +38,12 @@ private:
     void onRegisterChildAnswerReceived();
     // Update child API success
     void onUpdateChildAnswerReceived();
+    // Friend request success
+    void onFriendRequestAnswerReceived(const std::string& responseString);
+    // Friend request reaction success
+    void onFriendRequestReactionAnswerReceived(const std::string& responseString);
+    // Pending friend requests answer received
+    void onGetPendingFriendRequestsAnswerReceived(const std::string& responseString);
     
     void displayLoadingScreen();
     void hideLoadingScreen();

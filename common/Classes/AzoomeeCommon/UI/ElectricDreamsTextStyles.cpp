@@ -157,6 +157,31 @@ Label*  createUserNameLabelWithWidth(float width)
     
     return newLabel;
 }
+    
+Label*  createLabelChildNameSettings(std::string text)
+{
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 92);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    
+    return newLabel;
+}
+    
+Label*  createLabelSettingsChat(std::string text,Color3B color)
+{
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, color, 48);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    newLabel->setLineSpacing(15);
+    
+    return newLabel;
+}
+    
+Label*  createLabelKidCode(std::string text,cocos2d::Color3B color)
+{
+    Label* newLabel = createLabelWith(text, FONT_KIDCODE_REGULAR, color, 84);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    
+    return newLabel;
+}
 
 //----------------- Label too Long Style -------------------
 void reduceLabelTextToFitWidth(Label* label,float maxWidth)

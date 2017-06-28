@@ -121,6 +121,10 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
         currentChild["profileName"] = parentData->availableChildrenData[i]["profileName"].GetString();
         currentChild["avatar"] = parentData->availableChildrenData[i]["avatar"].GetString();
 
+        if(parentData->availableChildrenData[i].HasMember("inviteCode"))
+            if(parentData->availableChildrenData[i]["inviteCode"].IsString())
+                currentChild["inviteCode"] = parentData->availableChildrenData[i]["inviteCode"].GetString();
+        
         if(parentData->availableChildrenData[i].HasMember("sex"))
             if(parentData->availableChildrenData[i]["sex"].IsString())
             currentChild["sex"] = parentData->availableChildrenData[i]["sex"].GetString();
@@ -248,6 +252,47 @@ void ParentDataParser::clearParentLoginDataFromUserDefaults()
     def->setStringForKey("loggedInParentApiKey", "");
     def->setStringForKey("loggedInParentActorStatus", "");
     def->flush();
+}
+    
+bool ParentDataParser::parsePendingFriendRequests(std::string responseData)
+{
+    ParentDataStorage* parentData = ParentDataStorage::getInstance();
+    parentData->pendingFriendRequests.clear();
+    
+    parentData->pendingFriendRequestData.Parse(responseData.c_str());
+    
+    for(int i = 0; i < parentData->pendingFriendRequestData.Size(); i++)
+    {
+        std::map<std::string, std::string> currentPendingFriendRequest;
+
+        if(parentData->pendingFriendRequestData[i].HasMember("senderName"))
+            if(parentData->pendingFriendRequestData[i]["senderName"].IsString())
+                currentPendingFriendRequest["senderName"] = parentData->pendingFriendRequestData[i]["senderName"].GetString();
+        
+        if(parentData->pendingFriendRequestData[i].HasMember("friendName"))
+            if(parentData->pendingFriendRequestData[i]["friendName"].IsString())
+                currentPendingFriendRequest["friendName"] = parentData->pendingFriendRequestData[i]["friendName"].GetString();
+
+        if(parentData->pendingFriendRequestData[i].HasMember("inviteeCode"))
+            if(parentData->pendingFriendRequestData[i]["inviteeCode"].IsString())
+                currentPendingFriendRequest["inviteeCode"] = parentData->pendingFriendRequestData[i]["inviteeCode"].GetString();
+        
+        if(parentData->pendingFriendRequestData[i].HasMember("id"))
+            if(parentData->pendingFriendRequestData[i]["id"].IsString())
+                currentPendingFriendRequest["id"] = parentData->pendingFriendRequestData[i]["id"].GetString();
+        
+        if(parentData->pendingFriendRequestData[i].HasMember("senderId"))
+            if(parentData->pendingFriendRequestData[i]["senderId"].IsString())
+                currentPendingFriendRequest["senderId"] = parentData->pendingFriendRequestData[i]["senderId"].GetString();
+        
+        if(parentData->pendingFriendRequestData[i].HasMember("respondentId"))
+            if(parentData->pendingFriendRequestData[i]["respondentId"].IsString())
+                currentPendingFriendRequest["respondentId"] = parentData->pendingFriendRequestData[i]["respondentId"].GetString();
+
+        parentData->pendingFriendRequests.push_back(currentPendingFriendRequest);
+    }
+    
+    return true;
 }
   
 }

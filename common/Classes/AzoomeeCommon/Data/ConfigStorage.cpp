@@ -42,7 +42,7 @@ bool ConfigStorage::init(void)
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
     IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
     
-    parentSignedRequestTags = {API::TagParentPin, API::TagVerifyAmazonPayment, API::TagVerifyGooglePayment, API::TagVerifyApplePayment, API::TagUpdateBillingData, API::TagGetAvailableChildren, API::TagUpdateChild};
+    parentSignedRequestTags = {API::TagParentPin, API::TagVerifyAmazonPayment, API::TagVerifyGooglePayment, API::TagVerifyApplePayment, API::TagUpdateBillingData, API::TagGetAvailableChildren, API::TagUpdateChild, API::TagGetPendingFriendRequests, API::TagFriendRequest, API::TagFriendRequestReaction};
     requestTagsRequireImmediateSending = {"GROUP HQ", "VIDEO HQ", "AUDIO HQ", "GAME HQ", "PreviewHOME", "HOME", API::TagLogin, API::TagChildLogin, API::TagParentPin, API::TagVerifyGooglePayment, API::TagVerifyAmazonPayment, API::TagVerifyApplePayment, API::TagGetAvailableChildren};
     
     
@@ -128,6 +128,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagOfflineCheck) return "/api/comms/heartbeat";
+    if(httpRequestTag == API::TagGetPendingFriendRequests) return StringUtils::format("/api/user/adult/%s/invite/code/received", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     
     return "";
 }

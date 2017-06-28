@@ -145,5 +145,52 @@ std::string ParentDataProvider::getIDForAvailableChildren(int childNumber)
 {
     return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["id"];
 }
-  
+    
+std::string ParentDataProvider::getInviteCodeForAvailableChildren(int childNumber)
+{
+    return ParentDataStorage::getInstance()->availableChildren.at(childNumber)["inviteCode"];
+}
+    
+//-----------Pending Friend Requests-------------
+int ParentDataProvider::getNoOfPendingFriendRequest()
+{
+    ParentDataStorage* parentData = ParentDataStorage::getInstance();
+    // If this is called before any data is parsed
+    if(!parentData->pendingFriendRequestData.IsArray())
+    {
+        return 0;
+    }
+    return (int)parentData->pendingFriendRequestData.Size();
+}
+    
+std::string ParentDataProvider::getPendingFriendRequestSenderName(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["senderName"];
+}
+
+std::string ParentDataProvider::getPendingFriendRequestFriendName(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["friendName"];
+}
+    
+std::string ParentDataProvider::getPendingFriendRequestInviteCode(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["inviteeCode"];
+}
+    
+std::string ParentDataProvider::getPendingFriendRequestRequestID(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["id"];
+}
+    
+std::string ParentDataProvider::getPendingFriendRequestSenderID(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["senderId"];
+}
+
+std::string ParentDataProvider::getPendingFriendRequestRespondentID(int pendingFriendRequestNo)
+{
+    return ParentDataStorage::getInstance()->pendingFriendRequests.at(pendingFriendRequestNo)["respondentId"];
+}
+    
 }

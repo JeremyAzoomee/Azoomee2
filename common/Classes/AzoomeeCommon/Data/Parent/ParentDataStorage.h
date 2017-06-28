@@ -20,6 +20,7 @@ public:
     
     rapidjson::Document parentLoginData;
     rapidjson::Document availableChildrenData;
+    rapidjson::Document pendingFriendRequestData;
     
     std::string loggedInParentId;
     std::string loggedInParentCdnSessionId;
@@ -34,6 +35,8 @@ public:
     std::vector<std::map<std::string, std::string>> availableChildren;          //array of maps, where each child has profileName and avatar keys
     // Index map of childId to index in availableChildren
     std::map<std::string, int> availableChildrenById;
+    
+    std::vector<std::map<std::string, std::string>> pendingFriendRequests;
 };
 
 }
