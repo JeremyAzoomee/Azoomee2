@@ -34,53 +34,42 @@ bool DisplayChildNameLayer::init()
         scaleTime = 0.01;
     }
     
-    //addFrameToLayer();
-    addChildNameToLayer();
+    createChildNameToLayer();
+    createLoggedInAsToLayer();
+    setLayerSizeAndAnimate();
     
     return true;
 }
 
-//---------------------------------------------------------All methods beyond this line are called internally only-----------------------------------------------
+//-----------------SETUP FUNCTIONS-----------
 
-void DisplayChildNameLayer::addChildNameToLayer()
+void DisplayChildNameLayer::createChildNameToLayer()
 {
-    std::string childName = getLoggedInChildName();
-    childName = shortenString(childName, 12);
+    std::string childName = ChildDataProvider::getInstance()->getLoggedInChildName();
     
-    auto childNameLabel = createLabelBody(childName);
-    childNameLabel->setPosition(Director::getInstance()->getVisibleOrigin().x+300, Director::getInstance()->getVisibleOrigin().y+ Director::getInstance()->getVisibleSize().height-100);
+    childNameLabel = createLabelBody(childName);
+    childNameLabel->setPosition(childNameLabel->getContentSize().width/2, childNameLabel->getContentSize().height/2);
     childNameLabel->setOpacity(0);
+}
+
+void DisplayChildNameLayer::createLoggedInAsToLayer()
+{
+    loggedInAsLabel = createLabelWith("logged in as", FONT_REGULAR, Style::Color::brightAqua, 40);
+
+    loggedInAsLabel->setPosition(loggedInAsLabel->getContentSize().width/2, childNameLabel->getContentSize().height*2);
+    loggedInAsLabel->setOpacity(0);
+}
+
+void DisplayChildNameLayer::setLayerSizeAndAnimate()
+{
+    this->setContentSize(Size(childNameLabel->getContentSize().width, childNameLabel->getContentSize().height*3));
     
     this->addChild(childNameLabel);
+    this->addChild(loggedInAsLabel);
     
     childNameLabel->runAction(Sequence::create(DelayTime::create(0.1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-}
-
-void DisplayChildNameLayer::addFrameToLayer()
-{
-    auto displayNameFrame = Sprite::create("res/mainhub/logged_in_as.png");
-    displayNameFrame->setPosition(Director::getInstance()->getVisibleSize().width / 2, 370);
-    displayNameFrame->setScale(0.0);
-    displayNameFrame->setName("displayFrameName");
-    this->addChild(displayNameFrame);
     
-    displayNameFrame->runAction(Sequence::create(DelayTime::create(delayTime), EaseElasticOut::create(ScaleTo::create(scaleTime, 1.0f)), NULL));
-}
-
-std::string DisplayChildNameLayer::getLoggedInChildName()
-{
-    return ChildDataProvider::getInstance()->getLoggedInChildName();
-}
-
-std::string DisplayChildNameLayer::shortenString(std::string text, int numberOfCharacters)
-{
-    if(text.length() > numberOfCharacters)
-    {
-        text = text.substr(0, numberOfCharacters);
-        text = text + "...";
-    }
-    
-    return text;
+    loggedInAsLabel->runAction(Sequence::create(DelayTime::create(0.1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
 }
 
 NS_AZOOMEE_END

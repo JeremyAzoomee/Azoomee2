@@ -58,6 +58,7 @@ void MainHubScene::onEnter()
         this->addChild(bgElements);
         
         auto displayChildNameLayer = DisplayChildNameLayer::create();
+        displayChildNameLayer->setPosition(origin.x+280,origin.y+visibleSize.height-200);
         this->addChild(displayChildNameLayer);
         
     });
@@ -122,7 +123,7 @@ Sprite* MainHubScene::createCirclesForBackground(int circleNumber)
 {
     Sprite *circle;
     
-    if(zoomFactor > 1.0)
+    /*if(zoomFactor > 1.0)
     {
         CCLOG("creating small ones");
         circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d_small.png", circleNumber));
@@ -130,7 +131,9 @@ Sprite* MainHubScene::createCirclesForBackground(int circleNumber)
     else
     {
         circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d.png", circleNumber));
-    }
+    }*/
+    
+    circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d.png", circleNumber));
     circle->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
     circle->setScale(0);
     

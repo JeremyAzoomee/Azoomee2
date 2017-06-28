@@ -18,6 +18,7 @@ const char* const FONT_REGULAR = "fonts/Sofia Pro Soft Regular.otf";
 const char* const FONT_BOLD = "fonts/Sofia Pro Soft Bold.otf";
 const char* const FONT_KIDCODE_REGULAR = "fonts/Inconsolata-Regular.ttf";
 
+cocos2d::Label*  createLabelWith(std::string text, std::string font, cocos2d::Color3B color, int size);
 cocos2d::Label*  createLabelHeader(std::string text);
 cocos2d::Label*  createLabelFlowMainTitle(std::string text);
 cocos2d::Label*  createLabelButtonAdultPrimary(std::string text);

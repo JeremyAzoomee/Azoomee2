@@ -4,7 +4,6 @@
 
 using namespace cocos2d;
 
-
 #define COLOR_BRIGHT_AQUA   Style::Color::brightAqua
 #define COLOR_WHITE         Style::Color::white
 #define COLOR_BLACK         Style::Color::black

@@ -14,14 +14,15 @@ public:
     CREATE_FUNC(DisplayChildNameLayer);
 
 private:
-    void addChildNameToLayer();
-    void addFrameToLayer();
-    
-    std::string shortenString(std::string text, int numberOfCharacters);
-    std::string getLoggedInChildName();
+    void createChildNameToLayer();
+    void createLoggedInAsToLayer();
+    void setLayerSizeAndAnimate();
     
     float delayTime;
     float scaleTime;
+    
+    cocos2d::Label* childNameLabel;
+    cocos2d::Label* loggedInAsLabel;
     
 };
 

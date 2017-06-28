@@ -76,7 +76,7 @@ bool NavigationLayer::init()
     }
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-        createTopButton();
+        createTopObjects();
     else
     {
         createPreviewLoginButton();
@@ -185,7 +185,7 @@ Sprite* NavigationLayer::addMenuItemImage(int itemNumber)
     menuItemImage->setTag(itemNumber);
     menuItemImage->setOpacity(0);
     menuItemImage->setColor(Color3B(colour.r, colour.g, colour.b));
-    menuItemImage->setPosition(position);
+    menuItemImage->setPosition(origin/2+visibleSize/2+position);
     this->addChild(menuItemImage);
     
     return menuItemImage;
@@ -215,20 +215,21 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
 
 //------------------TOP LEVEL BUTTONS-------------------
 
-void NavigationLayer::createTopButton()
+void NavigationLayer::createTopObjects()
 {
     settingsButton = SettingsButton::createSettingsButton(3.0f);
-    settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
+    settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5);
     this->addChild(settingsButton);
     
     returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
-    returnToChildSelectorButton->setCenterPosition(Vec2(origin.x + returnToChildSelectorButton->getContentSize().width*.75, origin.y + visibleSize.height - returnToChildSelectorButton->getContentSize().height*.75));
+    returnToChildSelectorButton->setPosition(Vec2(origin.x - returnToChildSelectorButton->getContentSize().width, origin.y + visibleSize.height - returnToChildSelectorButton->getContentSize().height*1.25));
     returnToChildSelectorButton->setDelegate(this);
     this->addChild(returnToChildSelectorButton);
     
+    topObjectsOnScreen();
 }
 
-void NavigationLayer::topButtonsOffScreen()
+void NavigationLayer::topObjectsOffScreen()
 {
     if(settingsButton)
         settingsButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
@@ -237,7 +238,7 @@ void NavigationLayer::topButtonsOffScreen()
         returnToChildSelectorButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x - returnToChildSelectorButton->getContentSize().width, returnToChildSelectorButton->getPositionY())), 2), NULL));
 }
 
-void NavigationLayer::topButtonsOnScreen()
+void NavigationLayer::topObjectsOnScreen()
 {
     if(settingsButton)
         settingsButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.5, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
@@ -339,6 +340,7 @@ void NavigationLayer::turnOffAllMenuItems()
 {
     for(int i = 0; i <= amountOfItems; i++)
     {
+        this->getChildByTag(i)->setOpacity(255);
         this->getChildByTag(i)->getChildByName("on")->stopAllActions();
         this->getChildByTag(i)->getChildByName("on")->setOpacity(0);
     }
@@ -347,6 +349,7 @@ void NavigationLayer::turnOffAllMenuItems()
 void NavigationLayer::turnOnMenuItem(int tagNumber)
 {
     this->getChildByTag(tagNumber)->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+    this->getChildByTag(tagNumber)->setOpacity(0);
 }
 
 void NavigationLayer::delayedSetButtonOn(float dt)
@@ -357,6 +360,7 @@ void NavigationLayer::delayedSetButtonOn(float dt)
 void NavigationLayer::setButtonOn(int i)
 {
     this->getChildByTag(i)->getChildByName("on")->setOpacity(255);
+    this->getChildByTag(i)->setOpacity(0);
 }
 
 void NavigationLayer::moveMenuPointsToCircleState(float duration)
@@ -369,12 +373,12 @@ void NavigationLayer::moveMenuPointsToCircleState(float duration)
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
-        auto action = EaseInOut::create(MoveTo::create(duration, targetPosition), 2);
+        auto action = EaseInOut::create(MoveTo::create(duration, origin/2+visibleSize/2+targetPosition), 2);
         action->setTag(1);
         
         menuItemImage->runAction(action);
     }
-    topButtonsOnScreen();
+    topObjectsOnScreen();
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
@@ -392,7 +396,7 @@ void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
         
         menuItemImage->runAction(action);
     }
-    topButtonsOffScreen();
+    topObjectsOffScreen();
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
@@ -410,7 +414,7 @@ void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
         
         menuItemImage->runAction(action);
     }
-    topButtonsOffScreen();
+    topObjectsOffScreen();
 }
 
 void NavigationLayer::addBackButtonToNavigation()
