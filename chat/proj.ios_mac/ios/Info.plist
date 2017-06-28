@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.0.3</string>
+	<string>0.1.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -44,7 +44,11 @@
 		<true/>
 	</dict>
 	<key>UIAppFonts</key>
-	<array/>
+	<array>
+		<string>fonts/Sofia Pro Soft Bold.otf</string>
+		<string>fonts/Sofia Pro Soft Medium.otf</string>
+		<string>fonts/Sofia Pro Soft Regular.otf</string>
+	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiresFullScreen</key>

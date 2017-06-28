@@ -12,14 +12,20 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 #include "FTUScene.h"
+#include <AzoomeeChat/UI/FriendListScene.h>
+#include "ChatDelegate.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include "OrientationFunctions_ios.h"
 #endif
 
-Scene* SceneManagerScene::createScene(SceneNameEnum sceneName)
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
+
+cocos2d::Scene* SceneManagerScene::createScene(SceneNameEnum sceneName)
 {
-    auto scene = Scene::create();
+    auto scene = cocos2d::Scene::create();
     auto layer = SceneManagerScene::create();
     
     layer->nextScene = sceneName;
@@ -40,7 +46,7 @@ bool SceneManagerScene::init()
 
 void SceneManagerScene::onEnterTransitionDidFinish()
 {
-    Scene* goToScene;
+    cocos2d::Scene* goToScene;
     
     switch (nextScene) {
         case Login:
@@ -63,7 +69,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             forceToLandscape();
             HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
             goToScene = BaseScene::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("BASE");
             break;
         }
         case BaseWithNoHistory:
@@ -72,7 +77,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             forceToLandscape();
             HQHistoryManager::getInstance()->emptyHistory();
             goToScene = BaseScene::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("BASE");
             break;
         }
         case ChildAccount:
@@ -124,6 +128,15 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             forceToLandscape();
             goToScene = FTUScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("FTU_SCENE");
+            break;
+        }
+        case ChatEntryPointScene:
+        {
+            // Make sure we set the chat delegate
+            Azoomee::Chat::delegate = ChatDelegate::getInstance();
+            
+            forceToLandscape();
+            goToScene = Azoomee::Chat::FriendListScene::create();
             break;
         }
         default:
@@ -182,3 +195,5 @@ void SceneManagerScene::forceToLandscape()
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     #endif
 }
+
+NS_AZOOMEE_END

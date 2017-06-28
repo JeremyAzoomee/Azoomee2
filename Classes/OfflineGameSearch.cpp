@@ -2,7 +2,9 @@
 #include <dirent.h>
 #include "external/json/document.h"
 
-USING_NS_CC;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 Scene* OfflineGameSearch::createScene()
 {
@@ -131,3 +133,5 @@ std::map<std::string, std::string> OfflineGameSearch::getGameDetails(std::string
     
     return currentGameData;
 }
+
+NS_AZOOMEE_END

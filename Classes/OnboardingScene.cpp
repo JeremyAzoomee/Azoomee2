@@ -12,7 +12,9 @@
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
 
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 
 Scene* OnboardingScene::createScene()
@@ -108,6 +110,7 @@ void OnboardingScene::addLabelsToScene()
     
     Label* pinSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));
     pinSubTitle->setPositionY(pinTextInput->getPositionY() - (pinSubTitle->getContentSize().height*.2));
+    pinSubTitle->setLineSpacing(20);
     this->addChild(pinSubTitle);
 }
 
@@ -202,3 +205,4 @@ void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
     }
 }
 
+NS_AZOOMEE_END

@@ -4,8 +4,10 @@
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>
 #include <external/json/document.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 
+NS_AZOOMEE_BEGIN
 
 // forward ref
 class AwaitingAdultPinLayer;
@@ -93,5 +95,7 @@ public:
     // Reset Password
     void resetPasswordRequest(const std::string& emailAddress);
 };
+
+NS_AZOOMEE_END
 
 #endif

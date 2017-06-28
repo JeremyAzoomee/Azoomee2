@@ -8,9 +8,9 @@
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
 
-USING_NS_CC;
-
 using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 static ApplePaymentSingleton *_sharedApplePaymentSingleton = NULL;
 
@@ -114,3 +114,5 @@ void ApplePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,
 {
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
+
+NS_AZOOMEE_END

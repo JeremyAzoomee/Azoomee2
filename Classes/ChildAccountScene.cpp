@@ -15,8 +15,9 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 
 #define NO_OF_OOMEES 5
@@ -76,14 +77,17 @@ void ChildAccountScene::onEnterTransitionDidFinish()
 
 void ChildAccountScene::AddTitleToScene()
 {
-    sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_TITLE_LABEL));
+    if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
+        sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
+    else
+        sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
     this->addChild(sceneTitle);
 }
 
 void ChildAccountScene::addTextboxScene()
 {
     childNameInputText = TextInputLayer::createWithSize(Size(visibleSize.width*.80,197), INPUT_IS_CHILD_NAME);
-    childNameInputText->setPositionY(sceneTitle->getPositionY()-childNameInputText->getContentSize().height*2.25);
+    childNameInputText->setPositionY(sceneTitle->getPositionY()-childNameInputText->getContentSize().height*2.4);
     childNameInputText->setDelegate(this);
     this->addChild(childNameInputText);
     
@@ -118,6 +122,7 @@ void ChildAccountScene::addLabelToScene()
     
     profileDOBSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_SUB_LABEL));
     profileDOBSubTitle->setPositionY(dayInputText->getPositionY()- (profileDOBSubTitle->getContentSize().height*.3));
+    profileDOBSubTitle->setLineSpacing(20);
     this->addChild(profileDOBSubTitle);
     
     oomeesTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_LABEL));
@@ -131,7 +136,7 @@ void ChildAccountScene::addButtonsScene()
 {
     
     nextButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
-    nextButton->setCenterPosition(Vec2(visibleSize.width*.7+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.5));
+    nextButton->setCenterPosition(Vec2(visibleSize.width*.7+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.9));
     nextButton->setDelegate(this);
     nextButton->setMixPanelButtonName("childAccountSceneContinueButton");
     nextButton->setVisible(false);
@@ -150,11 +155,11 @@ void ChildAccountScene::addButtonsScene()
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
         cancelButton->setVisible(false);
-        nextButton->setCenterPosition(Vec2(visibleSize.width/2+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.5));
+        nextButton->setCenterPosition(Vec2(visibleSize.width/2+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.9));
         nextButtonPlaceholder->setCenterPosition(nextButton->getCenterPosition());
         
     }
-    submitButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_DONE));
+    submitButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
     submitButton->setCenterPosition(Vec2(visibleSize.width*.7+origin.x,origin.y + submitButton->getContentSize().height));
     submitButton->setDelegate(this);
     submitButton->setMixPanelButtonName("childAccountSceneDoneButton");
@@ -206,6 +211,11 @@ void ChildAccountScene::clearElementsOnScreen()
 void ChildAccountScene::changeElementsToTextInputScreen()
 {
     clearElementsOnScreen();
+
+    if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
+        sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
+    else
+        sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
     
     childNameInputText->setEditboxVisibility(true);
     dayInputText->setEditboxVisibility(true);
@@ -228,6 +238,8 @@ void ChildAccountScene::changeElementsToTextInputScreen()
 void ChildAccountScene::changeElementsToOomeeScreen()
 {
     clearElementsOnScreen();
+    
+    sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_SELECT_OOMEE_TITLE_LABEL));
     
     oomeesTitle->setVisible(true);
     
@@ -411,3 +423,5 @@ void ChildAccountScene::MessageBoxButtonPressed(std::string messageBoxTitle,std:
     monthInputText->setVisible(true);
     yearInputText->setVisible(true);
 }
+
+NS_AZOOMEE_END

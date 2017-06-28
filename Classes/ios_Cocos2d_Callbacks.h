@@ -1,3 +1,9 @@
+#ifndef Azoomee_ios_Cocos2d_Callbacks_h
+#define Azoomee_ios_Cocos2d_Callbacks_h
+
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,4 +19,8 @@ extern "C" {
     
 #ifdef __cplusplus
 }
+#endif
+
+NS_AZOOMEE_END
+
 #endif

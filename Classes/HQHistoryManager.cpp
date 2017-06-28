@@ -3,6 +3,8 @@
 
 using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
+
 static HQHistoryManager *_sharedHQHistoryManager = NULL;
 
 HQHistoryManager* HQHistoryManager::getInstance()
@@ -77,6 +79,10 @@ void HQHistoryManager::addHomeIfHistoryEmpty()
         Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene("HOME");
         hqNames.push_back("HOME");
     }
+    else
+    {
+        Azoomee::AnalyticsSingleton::getInstance()->registerCurrentScene(getCurrentHQ());
+    }
 }
 
 void HQHistoryManager::getHistoryLog()
@@ -105,3 +111,5 @@ std::string HQHistoryManager::getGroupHQSourceId()
 {
     return lastGroupHQSourceId;
 }
+
+NS_AZOOMEE_END

@@ -106,6 +106,11 @@ std::string ConfigStorage::getImagesUrl()
 #endif
     return "https://media.azoomee.com/static/images";
 }
+    
+std::string ConfigStorage::getMediaPrefixForXwalkCookies()
+{
+    return "https://media";
+}
 
 std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
 {

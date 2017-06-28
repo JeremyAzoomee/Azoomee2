@@ -2,16 +2,15 @@
 #define __INTRO_VIDEO_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include "ui/UIVideoPlayer.h"
 
-USING_NS_CC;
-using namespace cocos2d::ui;
-using namespace cocos2d::experimental::ui;
+NS_AZOOMEE_BEGIN
 
 class IntroVideoScene: public cocos2d::Layer
 {
 private:
-    void videoEventCallback(Ref* sender, VideoPlayer::EventType eventType);
+    void videoEventCallback(Ref* sender, cocos2d::experimental::ui::VideoPlayer::EventType eventType);
     void navigateToNextScene();
     std::string videoErrorText;
 
@@ -24,5 +23,7 @@ public:
 
     CREATE_FUNC(IntroVideoScene);
 };
+
+NS_AZOOMEE_END
 
 #endif // __INTRO_VIDEO_SCENE_H__

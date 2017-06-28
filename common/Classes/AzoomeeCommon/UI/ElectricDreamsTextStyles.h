@@ -2,6 +2,7 @@
 #define AzoomeeCommon_ElectricDreamsTextStyles_h
 
 #include <cocos/cocos2d.h>
+#include "Style.h"
 
 
 namespace Azoomee

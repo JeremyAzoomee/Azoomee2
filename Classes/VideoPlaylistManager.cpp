@@ -1,8 +1,9 @@
 #include "VideoPlaylistManager.h"
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
-//using namespace Azoomee;
 
+NS_AZOOMEE_BEGIN
 
 static VideoPlaylistManager *_sharedVideoPlaylistManager = NULL;
 
@@ -26,20 +27,54 @@ bool VideoPlaylistManager::init(void)
     return true;
 }
 
-void VideoPlaylistManager::setPlaylist(std::string playlist)
+void VideoPlaylistManager::setPlaylist(std::vector<std::map<std::string, std::string>> playlist)
 {
     storedPlaylist = playlist;
+}
+
+void VideoPlaylistManager::clearPlaylist()
+{
+    storedPlaylist.clear();
 }
 
 std::string VideoPlaylistManager::getPlaylist()
 {
     std::string returnString;
     
-    if(storedPlaylist.length() == 0) returnString = "noPlaylist";
-    else returnString = storedPlaylist;
+    if(storedPlaylist.size() == 0) returnString = "noPlaylist";
+    else
+    {
+        std::vector<std::map<std::string, std::string>> playlistElements;
         
+        for(int i = 0; i < storedPlaylist.size(); i++)
+        {
+            std::map<std::string, std::string> elementToBeAdded;
+            elementToBeAdded["uri"] = storedPlaylist.at(i)["uri"];
+            elementToBeAdded["image"] = storedPlaylist.at(i)["image"];
+            elementToBeAdded["title"] = storedPlaylist.at(i)["title"];
+            
+            playlistElements.push_back(elementToBeAdded);
+        }
+        
+        returnString = Azoomee::getJSONStringFromVectorOfMaps(playlistElements);
+        
+    }
+    
     char *output;
     cocos2d::base64Encode((unsigned char *)returnString.c_str(), (unsigned int)returnString.length(), &output);
     
     return StringUtils::format("%s", output);
 }
+
+std::map<std::string, std::string> VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)
+{
+    std::map<std::string, std::string> returnData;
+    if(elementNumber >= storedPlaylist.size() || elementNumber < 0) return returnData;
+    
+    returnData = storedPlaylist.at(elementNumber);
+    returnData["image"].clear();
+    
+    return returnData;
+}
+
+NS_AZOOMEE_END

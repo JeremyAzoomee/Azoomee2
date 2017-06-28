@@ -2,6 +2,9 @@
 #define __DISPLAY_CHILD_NAME_LAYER_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class DisplayChildNameLayer : public cocos2d::Layer
 {
@@ -22,5 +25,7 @@ private:
     float scaleTime;
     
 };
+
+NS_AZOOMEE_END
 
 #endif

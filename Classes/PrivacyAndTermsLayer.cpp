@@ -1,8 +1,9 @@
 #include "PrivacyAndTermsLayer.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 bool PrivacyAndTermsLayer::init()
 {
@@ -79,5 +80,7 @@ void PrivacyAndTermsLayer::buttonPressed(ElectricDreamsButton* button)
     }
 
 }
+
+NS_AZOOMEE_END
 
 

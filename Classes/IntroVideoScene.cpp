@@ -7,7 +7,10 @@
 #include "LoginLogicHandler.h"
 #include "SceneManagerScene.h"
 
-using namespace Azoomee;
+using namespace cocos2d;
+using namespace cocos2d::experimental::ui;
+
+NS_AZOOMEE_BEGIN
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
 //cocos2d/cocos/platform/android/java/src/org/cocos2dx/lib/Cocos2dxVideoView.java row 204-206 if(isPlaying()) to be commented out
@@ -30,7 +33,6 @@ bool IntroVideoScene::init()
     }
     
     AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_VIDEO");
-    AnalyticsSingleton::getInstance()->firstLaunchEvent();
     
     auto funcCallAction = CallFunc::create([=](){
         
@@ -100,4 +102,6 @@ void IntroVideoScene::navigateToNextScene()
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
 }
+
+NS_AZOOMEE_END
 

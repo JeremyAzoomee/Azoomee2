@@ -79,9 +79,15 @@ void ChildDataParser::setLoggedInChildId(std::string id)
     ChildDataStorage* data = ChildDataStorage::getInstance();
     data->loggedInChildId = id;
     if(id.empty())
+    {
         data->loggedInChildName = "";
+        data->loggedInChildAvatarId = "";
+    }
     else
+    {
         data->loggedInChildName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildrenById(data->loggedInChildId);
+        data->loggedInChildAvatarId = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildrenById(data->loggedInChildId);
+    }
 }
 
 void ChildDataParser::setLoggedInChildNumber(int childNumber)

@@ -9,8 +9,8 @@
 #include "LoginLogicHandler.h"
 #include "FlowDataSingleton.h"
 
-using namespace Azoomee;
-
+using namespace cocos2d;
+NS_AZOOMEE_BEGIN
 
 void navigateToBaseScene()
 {
@@ -40,31 +40,42 @@ void sendMixPanelData(const char* host, const char* query)
     
     if(strHost == "video.play")
     {
-        //No play event in mixpanel singleton, TBI
+        AnalyticsSingleton::getInstance()->mediaPlayerVideoPlayEvent();
     }
     
     if(strHost == "video.pause")
     {
-        AnalyticsSingleton::getInstance()->mediaPausedEvent();
+        AnalyticsSingleton::getInstance()->mediaPlayerPausedEvent();
     }
     
     if(strHost == "video.quality")
     {
-        AnalyticsSingleton::getInstance()->mediaQualityEvent(strQuery);
+        AnalyticsSingleton::getInstance()->mediaPlayerQualityEvent(strQuery);
     }
     
     if(strHost == "video.time")
     {
-        AnalyticsSingleton::getInstance()->mediaProgressEvent(std::atoi(strQuery.c_str()));
+        AnalyticsSingleton::getInstance()->mediaPlayerProgressEvent(std::atoi(strQuery.c_str()));
     }
     
     if(strHost == "video.complete")
     {
-        //Further implementation required - need to get played time.
+        AnalyticsSingleton::getInstance()->mediaPlayerVideoCompletedEvent();
     }
     if(strHost == "video.firstFrame")
     {
         AnalyticsSingleton::getInstance()->mediaPlayerFirstFrameEvent(strQuery.c_str());
+    }
+    
+    if(strHost == "video.playlistComplete")
+    {
+        AnalyticsSingleton::getInstance()->mediaPlayerPlaylistCompletedEvent();
+    }
+    
+    if(strHost == "video.playlistItem")
+    {
+        AnalyticsSingleton::getInstance()->updateContentItemDetails(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(std::atoi(strQuery.c_str())));
+        AnalyticsSingleton::getInstance()->mediaPlayerNewPlaylistItemSetEvent(std::atoi(strQuery.c_str()));
     }
 }
 
@@ -93,3 +104,5 @@ NSString* getVideoPlaylist()
     std::string returnString = VideoPlaylistManager::getInstance()->getPlaylist();
     return [NSString stringWithUTF8String:returnString.c_str()];
 }
+
+NS_AZOOMEE_END

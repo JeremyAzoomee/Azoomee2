@@ -2,25 +2,28 @@
 #define __ONBOARDINGSUCCESSSCENE_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
-
-class OnboardingSuccessScene : public Layer, public ElectricDreamsButtonDelegate
+class OnboardingSuccessScene : public cocos2d::Layer, public ElectricDreamsButtonDelegate
 {
 private:
     
     cocos2d::Size visibleSize;
-    Vec2 origin;
+    cocos2d::Vec2 origin;
+    
+    cocos2d::Label* subTitleLabel;
     
     ElectricDreamsButton* oomeeButton;
+    ElectricDreamsButton* startTrial;
 
     void setupScene();
     void addVisualElementsToScene();
     void addButtonsToScene();
-    void addLabelsToLayer();
+    void addTitleLabelsToLayer();
+    void addSubLabelsToLayer();
     
     void addOomeeToScreen();
     
@@ -43,5 +46,7 @@ public:
     void callDelegateFunction(float dt);
     
 };
+
+NS_AZOOMEE_END
 
 #endif

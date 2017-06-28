@@ -1,9 +1,10 @@
 #ifndef Azoomee_SettingsButton_h
 #define Azoomee_SettingsButton_h
 
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
 class SettingsButton : public ElectricDreamsButton
 {
@@ -21,5 +22,7 @@ public:
     static SettingsButton* createSettingsButton(float creationDelay);
     
 };
+
+NS_AZOOMEE_END
 
 #endif

@@ -1,4 +1,10 @@
+#ifndef Azoomee_HQHistoryManager_h
+#define Azoomee_HQHistoryManager_h
+
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class HQHistoryManager : public cocos2d::Ref
 {
@@ -31,4 +37,8 @@ public:
     bool thereWasAnError;
     bool isOffline;
     
-   };
+};
+
+NS_AZOOMEE_END
+
+#endif

@@ -200,6 +200,7 @@ void ParentDataParser::logoutChild()
 
 void ParentDataParser::addParentLoginDataToUserDefaults()
 {
+    cocos2d::log("ParentDataParser::addParentLoginDataToUserDefaults");
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     
     UserDefault* def = UserDefault::getInstance();
@@ -213,6 +214,7 @@ void ParentDataParser::addParentLoginDataToUserDefaults()
 
 void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
 {
+    cocos2d::log("ParentDataParser::retrieveParentLoginDataFromUserDefaults");
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     
     UserDefault* def = UserDefault::getInstance();
@@ -221,6 +223,11 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     parentData->loggedInParentApiSecret = def->getStringForKey("loggedInParentApiSecret");
     parentData->loggedInParentApiKey = def->getStringForKey("loggedInParentApiKey");
     parentData->loggedInParentActorStatus = def->getStringForKey("loggedInParentActorStatus");
+    cocos2d::log("loggedInParentId = %s", parentData->loggedInParentId.c_str());
+    cocos2d::log("loggedInParentCdnSessionId = %s", parentData->loggedInParentCdnSessionId.c_str());
+    cocos2d::log("loggedInParentApiSecret = %s", parentData->loggedInParentApiSecret.c_str());
+    cocos2d::log("loggedInParentApiKey = %s", parentData->loggedInParentApiKey.c_str());
+    cocos2d::log("loggedInParentActorStatus = %s", parentData->loggedInParentActorStatus.c_str());
     
     createCrashlyticsUserInfo(parentData->loggedInParentId, "");
     AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
@@ -237,6 +244,7 @@ bool ParentDataParser::hasParentLoginDataInUserDefaults()
 
 void ParentDataParser::clearParentLoginDataFromUserDefaults()
 {
+    cocos2d::log("ParentDataParser::clearParentLoginDataFromUserDefaults");
     UserDefault* def = UserDefault::getInstance();
     def->setStringForKey("loggedInParentId", "");
     def->setStringForKey("loggedInParentCdnSessionId", "");

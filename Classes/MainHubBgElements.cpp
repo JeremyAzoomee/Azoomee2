@@ -3,9 +3,9 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 Scene* MainHubBgElements::createScene()
 {
@@ -57,3 +57,5 @@ void MainHubBgElements::onEnter()
     
     Node::onEnter();
 }
+
+NS_AZOOMEE_END

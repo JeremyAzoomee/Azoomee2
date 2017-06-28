@@ -13,8 +13,9 @@
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 
 Scene* LoginScene::createScene()
@@ -217,3 +218,11 @@ void LoginScene::connectivityStateChanged(bool online)
     if(!online)
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
 }
+
+void LoginScene::onExit()
+{
+    OfflineChecker::getInstance()->setDelegate(nullptr);
+    Node::onExit();
+}
+
+NS_AZOOMEE_END

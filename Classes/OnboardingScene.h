@@ -2,17 +2,17 @@
 #define __ONBOARDINGSCENE_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
-class OnboardingScene : public Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
+class OnboardingScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
-    Label* mainTitle;
+    cocos2d::Label* mainTitle;
     
     TextInputLayer *emailTextInput;
     TextInputLayer *passwordTextInput;
@@ -21,8 +21,8 @@ private:
     ElectricDreamsButton* signupButton;
     ElectricDreamsButton* cancelButton;
     
-    Size visibleSize;
-    Vec2 origin;
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
     
     bool hasBeenSet;
     
@@ -53,5 +53,7 @@ public:
     CREATE_FUNC(OnboardingScene);
 
 };
+
+NS_AZOOMEE_END
 
 #endif

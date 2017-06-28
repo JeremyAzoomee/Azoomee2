@@ -2,6 +2,8 @@
 
 using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
+
 static HQDataStorage *_sharedHQDataStorage = NULL;
 
 HQDataStorage* HQDataStorage::getInstance()
@@ -23,3 +25,5 @@ bool HQDataStorage::init(void)
 {
     return true;
 }
+
+NS_AZOOMEE_END

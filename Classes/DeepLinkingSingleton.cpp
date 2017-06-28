@@ -14,8 +14,10 @@
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace Azoomee;
+
+NS_AZOOMEE_BEGIN
     
 static DeepLinkingSingleton *_sharedDeepLinkingSingleton = NULL;
 
@@ -169,7 +171,7 @@ void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::stri
     }
     else if(elementProperties["type"]  == "VIDEO" || elementProperties["type"]  == "AUDIO")
     {
-        VideoPlaylistManager::getInstance()->setPlaylist("");
+        VideoPlaylistManager::getInstance()->clearPlaylist();
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(elementProperties["uri"]);
     }
@@ -206,6 +208,8 @@ void DeepLinkingSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,s
 {
     IAPUpsaleLayer::create();
 }
+
+NS_AZOOMEE_END
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 

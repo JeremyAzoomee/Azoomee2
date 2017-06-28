@@ -5,8 +5,8 @@
 #include "VideoPlaylistManager.h"
 
 using namespace cocos2d;
-using namespace Azoomee;
 
+NS_AZOOMEE_BEGIN
 
 static WebGameAPIDataManager *_sharedWebGameAPIDataManager = NULL;
 
@@ -171,3 +171,5 @@ std::string WebGameAPIDataManager::getPathForLocalStorageFile()
     std::string filePath = FileUtils::getInstance()->getDocumentsPath() + "scoreCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + runningGameId + "/localstorage.data";
     return filePath;
 }
+
+NS_AZOOMEE_END

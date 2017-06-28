@@ -1,12 +1,16 @@
 #include "ElectricDreamsTextStyles.h"
 #include "../Utils/StringFunctions.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
 
-#define COLOR_BRIGHT_AQUA Color3B(28, 244, 244)
-#define COLOR_WHITE Color3B::WHITE
-#define COLOR_BLACK Color3B::BLACK
+#define COLOR_BRIGHT_AQUA   Style::Color::brightAqua
+#define COLOR_WHITE         Style::Color::white
+#define COLOR_BLACK         Style::Color::black
+#define FONT_MEDIUM         Style::Font::Medium
+#define FONT_REGULAR        Style::Font::Regular
+#define FONT_BOLD           Style::Font::Bold
 
 
 namespace Azoomee
@@ -43,6 +47,7 @@ Label*  createLabelFlowMainTitle(std::string text) {
     
     Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 110);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    newLabel->setWidth(visibleSize.width*.90);
     newLabel->setPosition(origin.x + visibleSize.width/2,origin.y + visibleSize.height - newLabel->getContentSize().height);
     
     return newLabel;

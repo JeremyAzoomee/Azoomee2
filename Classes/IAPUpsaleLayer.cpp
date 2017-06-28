@@ -5,18 +5,13 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "IAPDetailsLayer_ios.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/UI/Style.h>
 
-USING_NS_CC;
-using namespace Azoomee;
-
+using namespace cocos2d;
 
 #define SIDE_MARGIN_SIZE 130
 
-#define FONT_MEDIUM "fonts/Sofia Pro Soft Medium.otf"
-#define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
-#define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
-
-#define COLOR_BRIGHT_AQUA Color3B(28, 244, 244)
+NS_AZOOMEE_BEGIN
 
 Layer* IAPUpsaleLayer::createRequiresPin()
 {
@@ -42,8 +37,8 @@ bool IAPUpsaleLayer::init()
     createUpSaleLayer();
     addImage();
     addTitle();
-    addButtons();
     addALLBulletsAndLabel();
+    addButtons();
     
     return true;
 }
@@ -97,8 +92,8 @@ void IAPUpsaleLayer::addImage()
 
 void IAPUpsaleLayer::addTitle()
 {
-    titleLabel = Label::createWithTTF("Start a trial to unlock full access", FONT_REGULAR, 130);
-    titleLabel->setColor(COLOR_BRIGHT_AQUA);
+    titleLabel = Label::createWithTTF("Start a FREE trial. Cancel anytime.", Style::Font::Regular, 130);
+    titleLabel->setColor(Style::Color::brightAqua);
     titleLabel->setAnchorPoint(Vec2(0,0.5));
     titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     
@@ -112,14 +107,14 @@ void IAPUpsaleLayer::addButtons()
 {
     float GapFromOomeeImage = (oomeesImage->getPositionY() - oomeesImage->getContentSize().height/2)/2;
     
-    startTrialButton = ElectricDreamsButton::createButtonWithText("Start Your Free 7 Day Trial!", 300);
+    startTrialButton = ElectricDreamsButton::createButtonWithText("Start your free 7-day trial", 300);
     startTrialButton->setPosition(UpsaleLayer->getContentSize().width - SIDE_MARGIN_SIZE - startTrialButton->getContentSize().width, GapFromOomeeImage);
     startTrialButton->setDelegate(this);
     startTrialButton->setMixPanelButtonName("IAPUpsaleSceneStartTrialButton");
     UpsaleLayer->addChild(startTrialButton);
     
-    notNowButton = ElectricDreamsButton::createOutlineButtonWithText("Not Now");
-    notNowButton->setPosition(SIDE_MARGIN_SIZE, startTrialButton->getCenterPosition().y - notNowButton->getContentSize().height/2);
+    notNowButton = ElectricDreamsButton::createTextAsButton("Not Now", 59, true);
+    notNowButton->setPosition(bulletTextXposition, startTrialButton->getCenterPosition().y - notNowButton->getContentSize().height/2);
     notNowButton->setDelegate(this);
     notNowButton->setMixPanelButtonName("IAPUpsaleSceneNotNowButton");
     UpsaleLayer->addChild(notNowButton);
@@ -128,27 +123,33 @@ void IAPUpsaleLayer::addButtons()
     
     if(RoutePaymentSingleton::getInstance()->osIsIos())
     {
-        restoreButton = ElectricDreamsButton::createTextAsButton("Restore your Purchase", 46, true);
-        restoreButton->setPosition(SIDE_MARGIN_SIZE, optionalLabel->getPositionY()-restoreButton->getContentSize().height/2);
-        restoreButton->setDelegate(this);
-        restoreButton->setMixPanelButtonName("IAPUpsaleSceneRestoreButton");
-        UpsaleLayer->addChild(restoreButton);
+        float buttonSpacing = 40;
         
-        learnMoreButton = ElectricDreamsButton::createTextAsButton("Learn More", 46, true);
-        learnMoreButton->setPosition(UpsaleLayer->getContentSize().width - SIDE_MARGIN_SIZE - restoreButton->getContentSize().width/2, optionalLabel->getPositionY()-learnMoreButton->getContentSize().height/2);
+        learnMoreButton = ElectricDreamsButton::createTextAsButtonAqua("Learn More", 40, true);
+        learnMoreButton->setPosition(UpsaleLayer->getContentSize().width - learnMoreButton->getContentSize().width - buttonSpacing, learnMoreButton->getContentSize().height*2);
         learnMoreButton->setDelegate(this);
         learnMoreButton->setMixPanelButtonName("IAPUpsaleSceneLearnMoreButton");
         UpsaleLayer->addChild(learnMoreButton);
         
-        optionalLabel->setPositionX(startTrialButton->getPositionX() + optionalLabel->getContentSize().width/2);
+        restoreButton = ElectricDreamsButton::createTextAsButtonAqua("Restore your purchase", 40, true);
+        restoreButton->setPosition(learnMoreButton->getPositionX()-restoreButton->getContentSize().width -buttonSpacing,learnMoreButton->getPositionY());
+        restoreButton->setDelegate(this);
+        restoreButton->setMixPanelButtonName("IAPUpsaleSceneRestoreButton");
+        UpsaleLayer->addChild(restoreButton);
     }
 }
 
 void IAPUpsaleLayer::addALLBulletsAndLabel()
 {
-    addBulletAndLabel("1000+ ", "TV Shows, games & audiobooks", oomeesImage->getPositionY() + oomeesImage->getContentSize().height/4);
-    addBulletAndLabel("Safe, ", "age-appropriate & 100% ad-free", oomeesImage->getPositionY());
-    addBulletAndLabel("New ", "content every week", oomeesImage->getPositionY() - oomeesImage->getContentSize().height/4);
+    addBulletAndLabel("New ", "videos & games added every week.", oomeesImage->getPositionY() + oomeesImage->getContentSize().height/4);
+    addBulletAndLabel("A library ", "of the best kids’ entertainment,", oomeesImage->getPositionY());
+    
+    Label* secondLine = Label::createWithTTF("literally 1000s of things to do!", Style::Font::Regular, 80);
+    secondLine->setColor(Color3B::WHITE);
+    secondLine->setPosition(bulletTextXposition+secondLine->getContentSize().width/2, oomeesImage->getPositionY() - secondLine->getContentSize().height);
+    UpsaleLayer->addChild(secondLine);
+    
+    addBulletAndLabel("Safe, ", "age-appropriate & 100% ad-free.", oomeesImage->getPositionY() - oomeesImage->getContentSize().height/4- secondLine->getContentSize().height);
 }
 
 void IAPUpsaleLayer::addBulletAndLabel(std::string BOLDtext, std::string regularText, float yPosition)
@@ -157,19 +158,21 @@ void IAPUpsaleLayer::addBulletAndLabel(std::string BOLDtext, std::string regular
     bullet->setPosition(SIDE_MARGIN_SIZE + bullet->getContentSize().width/2, yPosition);
     UpsaleLayer->addChild(bullet);
     
+    bulletTextXposition = bullet->getPositionX() + bullet->getContentSize().width;
+    
     cocos2d::ui::RichText* richTextLabel = cocos2d::ui::RichText::create();
     richTextLabel->setAnchorPoint(Vec2(0,0.5));
     
-    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDtext, FONT_BOLD, 80));
-    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, regularText, FONT_REGULAR, 80));
-    richTextLabel->setPosition(Vec2(bullet->getPositionX() + bullet->getContentSize().width,yPosition));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDtext, Style::Font::Bold, 80));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, regularText, Style::Font::Regular, 80));
+    richTextLabel->setPosition(Vec2(bulletTextXposition,yPosition));
     UpsaleLayer->addChild(richTextLabel);
 }
 
 void IAPUpsaleLayer::addOptionalSubscriptionLabel()
 {
-    optionalLabel = Label::createWithTTF("Then £4.99/month. No commitment, cancel anytime.", FONT_REGULAR, 46);
-    optionalLabel->setColor(Color3B::WHITE);
+    optionalLabel = Label::createWithTTF("Then £4.99/month. No commitment, cancel anytime.", Style::Font::Regular, 40);
+    optionalLabel->setColor(Color3B(28, 244, 244));
     optionalLabel->setAnchorPoint(Vec2(0.5,0.5));
     optionalLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     optionalLabel->setPosition(startTrialButton->getPositionX()+startTrialButton->getContentSize().width/2, startTrialButton->getPositionY() - optionalLabel->getContentSize().height*1.5);
@@ -237,3 +240,5 @@ void IAPUpsaleLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
     else
         RoutePaymentSingleton::getInstance()->startInAppPayment();
 }
+
+NS_AZOOMEE_END

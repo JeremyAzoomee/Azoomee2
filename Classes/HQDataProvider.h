@@ -1,4 +1,10 @@
+#ifndef Azoomee_HQDataProvider_h
+#define Azoomee_HQDataProvider_h
+
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class HQDataProvider : public cocos2d::Ref
 {
@@ -27,7 +33,7 @@ public:
     
     std::string getImageUrlForGroupLogo(std::string itemId);
     
-    std::string getAllElementDataInRow(std::string category, int rowNumber);
+    std::vector<std::map<std::string, std::string>> getAllElementDataInRow(std::string category, int rowNumber);
     
     //Callback to start building HQ
     void startBuildingHQ(std::string category);
@@ -36,3 +42,7 @@ public:
     void displayLoadingScreen();
     void hideLoadingScreen();
 };
+
+NS_AZOOMEE_END
+
+#endif
