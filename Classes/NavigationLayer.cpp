@@ -293,14 +293,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
                 {
-                    // GO TO CHAT APP
-                    
-                    
-                    
-                    //Child Selection Button Pressed.
-                    //Logout Child
-                    ChildDataParser::getInstance()->setChildLoggedIn(false);
-                    BackEndCaller::getInstance()->getAvailableChildren();
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
                 }
                 else
                 {
