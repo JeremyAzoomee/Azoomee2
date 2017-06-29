@@ -85,7 +85,7 @@ void MainHubScene::onEnter()
     Node::onEnter();
 }
 
-//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
+//----------------------------------All methods beyond this line are called internally--------------------------------------------------
 
 void MainHubScene::addBackgroundCircles()
 {
@@ -151,6 +151,8 @@ void MainHubScene::addImageContainers()
             if(j >= ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).size()) break;
             
             Point elementPosition = ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j);
+            
+            //Calculate offset for the Y position to help fill screen on 4/3 ratio.
             float yOffset= visibleSize.height/10;
             
             if(elementPosition.y < 0)

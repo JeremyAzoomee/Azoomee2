@@ -81,6 +81,7 @@ void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
     
     std::vector<Point> positions = ConfigStorage::getInstance()->getMainHubPositionForHighlightElements("ART");
     
+    //Calculate offset for the Y position to help fill screen on 4/3 ratio.
     float yOffset= visibleSize.height/10;
     
     if(positions.at(index).y < 0)
