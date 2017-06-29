@@ -71,7 +71,7 @@ bool NavigationLayer::init()
         else
         {
             runDisplayAnimationForMenuItem(menuItemImage, menuItemInactive);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
-            this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 3.5);
+            this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 6);
         }
     }
     
@@ -179,7 +179,7 @@ void NavigationLayer::startLoadingHQScene(int categoryTag)
 Sprite* NavigationLayer::addMenuItemImage(int itemNumber)
 {
     Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(itemNumber);
-    Point position = ConfigStorage::getInstance()->getCirclePositionForMenuItem(itemNumber);
+    Point position = ConfigStorage::getInstance()->getRelativeCirclePositionForMenuItem(itemNumber);
     
     auto menuItemImage = Sprite::create("res/navigation/outer_circle.png");
     menuItemImage->setTag(itemNumber);
@@ -369,7 +369,7 @@ void NavigationLayer::moveMenuPointsToCircleState(float duration)
     for(int i = 0; i <= amountOfItems; i++)
     {
         auto menuItemImage = (Sprite *)this->getChildByTag(i);
-        Point targetPosition = ConfigStorage::getInstance()->getCirclePositionForMenuItem(i);
+        Point targetPosition = ConfigStorage::getInstance()->getRelativeCirclePositionForMenuItem(i);
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         

@@ -16,6 +16,7 @@ public:
 private:
     void createChildNameToLayer();
     void createLoggedInAsToLayer();
+    void createInviteCodeLayer();
     void setLayerSizeAndAnimate();
     
     float delayTime;
@@ -23,6 +24,7 @@ private:
     
     cocos2d::Label* childNameLabel;
     cocos2d::Label* loggedInAsLabel;
+    cocos2d::Label* inviteCodeLabel;
     
 };
 

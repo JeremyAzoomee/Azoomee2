@@ -250,10 +250,11 @@ int ConfigStorage::getContentItemImageValidityInSeconds()
 
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 
-cocos2d::Point ConfigStorage::getCirclePositionForMenuItem(int itemNumber)
+cocos2d::Point ConfigStorage::getRelativeCirclePositionForMenuItem(int itemNumber)
 {
-    float x = NavigationConfiguration["circlePositionsForMenuItems"]["positions"][itemNumber]["x"].GetDouble();
-    float y = NavigationConfiguration["circlePositionsForMenuItems"]["positions"][itemNumber]["y"].GetDouble();
+    //Gets the relative position to keep the navigation buttons in a circle
+    float x = NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber]["x"].GetDouble();
+    float y = NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber]["y"].GetDouble();
     
     return Point(x, y);
 }

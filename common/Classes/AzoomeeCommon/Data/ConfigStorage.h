@@ -56,7 +56,7 @@ public:
     int getContentItemImageValidityInSeconds();
     
     //NavigationLayer configuration
-    cocos2d::Point getCirclePositionForMenuItem(int itemNumber);
+    cocos2d::Point getRelativeCirclePositionForMenuItem(int itemNumber);
     cocos2d::Point getHorizontalPositionForMenuItem(int itemNumber);
     float getHorizontalMenuItemsHeight();
     cocos2d::Point getHorizontalPositionForMenuItemInGroupHQ(int itemNumber);

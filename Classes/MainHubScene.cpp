@@ -58,7 +58,7 @@ void MainHubScene::onEnter()
         this->addChild(bgElements);
         
         auto displayChildNameLayer = DisplayChildNameLayer::create();
-        displayChildNameLayer->setPosition(origin.x+280,origin.y+visibleSize.height-200);
+        displayChildNameLayer->setPosition(origin.x+280,origin.y+visibleSize.height-225);
         this->addChild(displayChildNameLayer);
         
     });
