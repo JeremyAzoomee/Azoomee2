@@ -48,14 +48,14 @@ public:
     /// Create a Sticker Message
     static MessageRef createStickerMessage(const StickerRef& sticker);
     
-    std::string messageId() const;
-    std::string messageType() const;
-    std::string messageText() const;
-    std::string stickerURL() const;
-    std::string senderId() const;
-    std::string senderName() const;
-    std::string recipientId() const;
-    std::string recipientName() const;
+    const std::string& messageId() const;
+    const std::string& messageType() const;
+    const std::string& messageText() const;
+    const std::string& stickerURL() const;
+    const std::string& senderId() const;
+    const std::string& senderName() const;
+    const std::string& recipientId() const;
+    const std::string& recipientName() const;
     uint64_t timestamp() const;
     bool moderated() const;
     

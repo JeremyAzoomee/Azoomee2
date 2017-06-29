@@ -32,13 +32,13 @@ public:
     static StickerCache* getInstance();
     
     /// Return the path to the local bundled stickers
-    std::string localBundlePath() const;
+    const std::string& localBundlePath() const;
     
     /// Sticker categories
     const StickerCategoryList& categories() const;
     
     /// Find a Sticker by URL, if it is recognised
-    StickerRef findStickerByURL(const std::string& url) const;
+    const StickerRef& findStickerByURL(const std::string& url) const;
 };
 
 NS_AZOOMEE_CHAT_END

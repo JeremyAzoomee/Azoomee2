@@ -32,8 +32,8 @@ public:
     /// Create a Sticker
     static StickerRef create(const std::string& url, const std::string& localPath);
     
-    std::string imageURL() const;
-    std::string imageLocalPath() const;
+    const std::string& imageURL() const;
+    const std::string& imageLocalPath() const;
 };
 
 NS_AZOOMEE_CHAT_END

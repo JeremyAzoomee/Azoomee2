@@ -238,7 +238,7 @@ HttpRequestCreator* API::GetChatMessagesRequest(const std::string& childId,
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagGetChatMessages;
-    request->requestPath = StringUtils::format("/api/share/%s/%s", childId.c_str(), friendId.c_str());
+    request->requestPath = StringUtils::format("/api/share/v2/%s/%s", childId.c_str(), friendId.c_str());
     request->encrypted = true;
     return request;
 }
@@ -250,7 +250,7 @@ HttpRequestCreator* API::SendChatMessageRequest(const std::string& childId,
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagSendChatMessage;
-    request->requestPath = StringUtils::format("/api/share/%s/%s", childId.c_str(), friendId.c_str());
+    request->requestPath = StringUtils::format("/api/share/v2/%s/%s", childId.c_str(), friendId.c_str());
     request->method = "POST";
     request->encrypted = true;
     

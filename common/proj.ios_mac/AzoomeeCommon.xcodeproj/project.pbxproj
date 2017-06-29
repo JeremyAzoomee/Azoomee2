@@ -50,6 +50,7 @@
 		302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84771ED1B992006A498C /* SplitLayout.cpp */; };
 		304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC61EA8F883008CED52 /* GameController.framework */; };
 		305966991ECCAF76009A7130 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966971ECCAF76009A7130 /* Scene.cpp */; };
+		307A40491F050A51005947F3 /* PusherEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307A40471F050A51005947F3 /* PusherEvent.cpp */; };
 		3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
@@ -251,6 +252,8 @@
 		305966981ECCAF76009A7130 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		305966A01ECEF5A8009A7130 /* LayoutParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutParams.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		307A40471F050A51005947F3 /* PusherEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PusherEvent.cpp; sourceTree = "<group>"; };
+		307A40481F050A51005947F3 /* PusherEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PusherEvent.h; sourceTree = "<group>"; };
 		3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpRequestCreator.cpp; sourceTree = "<group>"; };
 		3092BCEF1EB10524006D6F4C /* HttpRequestCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequestCreator.h; sourceTree = "<group>"; };
 		30DD5EBF1E96571F0084305B /* CrashlyticsConfig_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashlyticsConfig_android.cpp; sourceTree = "<group>"; };
@@ -470,6 +473,8 @@
 		3007434B1EFC09B9005525AE /* Pusher */ = {
 			isa = PBXGroup;
 			children = (
+				307A40471F050A51005947F3 /* PusherEvent.cpp */,
+				307A40481F050A51005947F3 /* PusherEvent.h */,
 				3007434C1EFC09B9005525AE /* PusherSDK.cpp */,
 				3007434D1EFC09B9005525AE /* PusherSDK.h */,
 				3007434E1EFC09B9005525AE /* PusherSDK_android.cpp */,
@@ -1160,6 +1165,7 @@
 				4349C8351EA8ADEF00FE964B /* MPNotification.m in Sources */,
 				4349C8431EA8ADEF00FE964B /* MPSwizzle.m in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
+				307A40491F050A51005947F3 /* PusherEvent.cpp in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */,
 				3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */,

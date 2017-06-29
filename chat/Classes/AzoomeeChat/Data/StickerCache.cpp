@@ -54,7 +54,7 @@ void StickerCache::init()
 
 #pragma mark - Public
 
-std::string StickerCache::localBundlePath() const
+const std::string& StickerCache::localBundlePath() const
 {
     return kStickersLocalDirectory;
 }
@@ -64,7 +64,7 @@ const StickerCategoryList& StickerCache::categories() const
     return _categories;
 }
 
-StickerRef StickerCache::findStickerByURL(const std::string& url) const
+const StickerRef& StickerCache::findStickerByURL(const std::string& url) const
 {
     const auto& it = _stickersByURL.find(url);
     if(it != _stickersByURL.end())

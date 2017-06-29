@@ -133,6 +133,30 @@ static Pusher* sPusherClient = nil;
     
     [pusherClient bind:^void (NSDictionary *data) {
         NSLog(@"Pusher.client.callback: data=%@", data);
+        
+        // Recieved a Pusher event, so pass it on to the observers
+        // Check we have all the expected data
+        NSString* channelName = data[@"channel"];
+        NSString* eventData = data[@"data"];
+        NSString* eventName = data[@"event"];
+        if(!channelName && !eventData && !eventName)
+        {
+            NSLog(@"Error: Invalid Pusher event. channel=%@, data=%@, event=%@", channelName, eventData, eventName);
+            return;
+        }
+        
+        // Ignore empty events
+        if([eventData isEqualToString:@"{}"] || eventData.length == 0)
+        {
+            return;
+        }
+        
+        // Create the Pusher event object
+        PusherEventRef event = PusherEvent::create([channelName UTF8String], [eventName UTF8String], [eventData UTF8String]);
+        if(event)
+        {
+            PusherSDK::getInstance()->notifyObservers(event);
+        }
     }];
     
     [pusherClient connect];
@@ -156,11 +180,7 @@ void PusherSDK::subscribeToChannel(const std::string& channelName)
     
     _subscribedChannels.push_back(channelName);
     
-    PusherChannel* channel = [sPusherClient subscribeWithChannelName:[NSString stringWithUTF8String:channelName.c_str()]];
-    [channel bindWithEventName:@"message" callback:^void (NSDictionary *data) {
-        NSString* message = data[@"message"];
-        NSLog(@"PusherSDK.bindWithEventName.callback: message=%@", message);
-    }];
+    PusherChannel* channel __unused = [sPusherClient subscribeWithChannelName:[NSString stringWithUTF8String:channelName.c_str()]];
 }
 
 void PusherSDK::closeChannel(const std::string& channelName)

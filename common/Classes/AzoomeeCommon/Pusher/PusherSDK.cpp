@@ -43,4 +43,32 @@ void PusherSDK::closeAllChannels()
     }
 }
 
+#pragma mark - Observers
+
+void PusherSDK::registerObserver(PusherEventObserver* observer)
+{
+    auto it = std::find(_observers.begin(), _observers.end(), observer);
+    if(it == _observers.end())
+    {
+        _observers.push_back(observer);
+    }
+}
+
+void PusherSDK::removeObserver(PusherEventObserver* observer)
+{
+    auto it = std::find(_observers.begin(), _observers.end(), observer);
+    if(it != _observers.end())
+    {
+        _observers.erase(it);
+    }
+}
+
+void PusherSDK::notifyObservers(const PusherEventRef& event)
+{
+    for(PusherEventObserver* observer : _observers)
+    {
+        observer->onPusherEventRecieved(event);
+    }
+}
+
 NS_AZOOMEE_END

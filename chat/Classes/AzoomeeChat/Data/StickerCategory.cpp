@@ -55,17 +55,17 @@ StickerCategory::StickerCategory()
 {
 }
 
-std::string StickerCategory::imageURL() const
+const std::string& StickerCategory::imageURL() const
 {
     return _imageURL;
 }
 
-std::string StickerCategory::categoryID() const
+const std::string& StickerCategory::categoryID() const
 {
     return _categoryID;
 }
 
-std::string StickerCategory::imageLocalPath() const
+const std::string& StickerCategory::imageLocalPath() const
 {
     // For now, the imageURL is just the local path
     return _imageURL;

@@ -33,9 +33,9 @@ public:
     static FriendRef createFromJson(const rapidjson::Value& json);
     static FriendRef create(const std::string& friendId, const std::string& friendName, const std::string& avatarURL);
     
-    std::string friendId() const;
-    std::string friendName() const;
-    std::string avatarURL() const;
+    const std::string& friendId() const;
+    const std::string& friendName() const;
+    const std::string& avatarURL() const;
 };
 
 NS_AZOOMEE_CHAT_END

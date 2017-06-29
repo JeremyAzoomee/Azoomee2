@@ -61,17 +61,17 @@ Friend::Friend()
 {
 }
 
-std::string Friend::friendId() const
+const std::string& Friend::friendId() const
 {
     return _friendId;
 }
 
-std::string Friend::friendName() const
+const std::string& Friend::friendName() const
 {
     return _friendName;
 }
 
-std::string Friend::avatarURL() const
+const std::string& Friend::avatarURL() const
 {
     return _avatarURL;
 }
