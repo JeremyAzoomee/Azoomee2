@@ -149,7 +149,19 @@ void MainHubScene::addImageContainers()
             }
             
             if(j >= ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).size()) break;
-            imageIcon->createContainer(HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForHub.at(j)), 1 - (j * 0.3), delayTime, ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j));
+            
+            Point elementPosition = ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j);
+            float yOffset= visibleSize.height/10;
+            
+            if(elementPosition.y < 0)
+                yOffset = -yOffset;
+            
+            if(j ==1)
+                yOffset = yOffset*2;
+            
+            elementPosition.y = elementPosition.y + yOffset;
+            
+            imageIcon->createContainer(HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForHub.at(j)), 1.2 - (j * 0.3), delayTime, elementPosition);
         }
     }
     

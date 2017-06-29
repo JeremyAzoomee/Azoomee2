@@ -96,7 +96,7 @@ void ImageContainer::createBgLayer(std::map<std::string, std::string> elementPro
     
     bgLayer = LayerColor::create(colour, containerSize.width + 20, containerSize.height + 20);
     bgLayer->setAnchorPoint(Vec2(0.5, 0.5));
-    bgLayer->setPosition(Point(position.x + origin.x, position.y + origin.y));
+    bgLayer->setPosition(origin+position-bgLayer->getContentSize()/2*bgLayer->getScale());
     bgLayer->setScale(0.1);
     bgLayer->setOpacity(0);
     this->addChild(bgLayer);

@@ -25,6 +25,9 @@ bool ArtsPreviewLayer::init()
         return false;
     }
     
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
+    
     addImagesToMainHub();
     
     return true;
@@ -74,9 +77,19 @@ std::vector<std::string> ArtsPreviewLayer::getRandomImagesFromArtsCache()
 void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
 {
     Size baseContentSize = Size(490, 373);
-    Size containerSize = baseContentSize * (1 - (index * 0.3));
+    Size containerSize = baseContentSize * (1.2 - (index * 0.3));
     
     std::vector<Point> positions = ConfigStorage::getInstance()->getMainHubPositionForHighlightElements("ART");
+    
+    float yOffset= visibleSize.height/10;
+    
+    if(positions.at(index).y < 0)
+        yOffset = -yOffset;
+    
+    if(index ==1)
+        yOffset = yOffset*2;
+    
+    positions.at(index).y = positions.at(index).y + yOffset;
     
     bool newImage = false;
     if(path ==  FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.imag")) newImage = true;
@@ -86,7 +99,7 @@ void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
     auto hqElement = ArtsAppHQElement::create();
     hqElement->initWithURLAndSize(path, containerSize, newImage, false, locked);
     
-    hqElement->setPosition(positions.at(index));
+    hqElement->setPosition(origin+visibleSize/2+positions.at(index)-hqElement->getContentSize()/2*hqElement->getScale());
     this->addChild(hqElement);
     
     hqElement->setAnchorPoint(Point(0.5, 0.5));

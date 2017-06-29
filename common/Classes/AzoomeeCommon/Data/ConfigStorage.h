@@ -1,7 +1,7 @@
 #ifndef AzoomeeCommon_ConfigStorage_h
 #define AzoomeeCommon_ConfigStorage_h
 
-#define USINGCI
+//#define USINGCI
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
