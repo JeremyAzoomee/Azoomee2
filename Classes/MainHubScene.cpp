@@ -7,6 +7,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ArtsPreviewLayer.h"
 #include "HQHistoryManager.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -45,10 +46,6 @@ void MainHubScene::onEnter()
         imageContainerDelay = 2.0;
     }
     
-    Size frameSize = Director::getInstance()->getOpenGLView()->getFrameSize();
-    if(frameSize.width < 2732 / 2) zoomFactor = 2.0;
-    else zoomFactor = 1.0;
-    
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
@@ -57,9 +54,12 @@ void MainHubScene::onEnter()
         auto bgElements = MainHubBgElements::create();
         this->addChild(bgElements);
         
-        auto displayChildNameLayer = DisplayChildNameLayer::create();
-        displayChildNameLayer->setPosition(origin.x+280,origin.y+visibleSize.height-225);
-        this->addChild(displayChildNameLayer);
+        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            auto displayChildNameLayer = DisplayChildNameLayer::create();
+            displayChildNameLayer->setPosition(origin.x+280,origin.y+visibleSize.height-225);
+            this->addChild(displayChildNameLayer);
+        }
         
     });
     
@@ -121,19 +121,7 @@ void MainHubScene::addBackgroundCircles()
 
 Sprite* MainHubScene::createCirclesForBackground(int circleNumber)
 {
-    Sprite *circle;
-    
-    /*if(zoomFactor > 1.0)
-    {
-        CCLOG("creating small ones");
-        circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d_small.png", circleNumber));
-    }
-    else
-    {
-        circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d.png", circleNumber));
-    }*/
-    
-    circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d.png", circleNumber));
+    Sprite *circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d.png", circleNumber));
     circle->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
     circle->setScale(0);
     
