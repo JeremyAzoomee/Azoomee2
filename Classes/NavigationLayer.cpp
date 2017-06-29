@@ -220,7 +220,7 @@ void NavigationLayer::createTopObjects()
     settingsButton = SettingsButton::createSettingsButton(3.0f);
     settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5);
     this->addChild(settingsButton);
-    
+
     returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
     returnToChildSelectorButton->setPosition(Vec2(origin.x - returnToChildSelectorButton->getContentSize().width, origin.y + visibleSize.height - returnToChildSelectorButton->getContentSize().height*1.25));
     returnToChildSelectorButton->setDelegate(this);
@@ -241,10 +241,18 @@ void NavigationLayer::topObjectsOffScreen()
 void NavigationLayer::topObjectsOnScreen()
 {
     if(settingsButton)
+    {
+        settingsButton->stopAllActions();
         settingsButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.5, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
+    }
     
     if(returnToChildSelectorButton)
+    {
+        returnToChildSelectorButton->stopAllActions();
         returnToChildSelectorButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + returnToChildSelectorButton->getContentSize().width*.25, returnToChildSelectorButton->getPositionY())), 2), NULL));
+        
+        
+    }
 }
 
 //------------------PREVIEW BUTTONS-------------------
