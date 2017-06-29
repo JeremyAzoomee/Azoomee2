@@ -4,8 +4,9 @@
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 
 Scene* OfflineHubBackButton::createScene()
@@ -75,3 +76,5 @@ void OfflineHubBackButton::addListenerToBackButton(Sprite* toBeAddedTo)
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
 }
+
+NS_AZOOMEE_END

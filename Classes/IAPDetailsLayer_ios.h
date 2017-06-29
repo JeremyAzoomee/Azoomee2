@@ -2,28 +2,27 @@
 #define UAP_Details_Layer_ios_H
 
 #include "cocos2d.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
-
-class IAPDetailsLayer_ios : public Layer, public ElectricDreamsButtonDelegate
+class IAPDetailsLayer_ios : public cocos2d::Layer, public ElectricDreamsButtonDelegate
 {
 private:
-    Size visibleSize;
-    Vec2 origin;
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
     
-    LayerColor *backgroundLayer;
+    cocos2d::LayerColor *backgroundLayer;
     
-    LayerColor* IAPDetailsLayer;
+    cocos2d::LayerColor* IAPDetailsLayer;
     
     ElectricDreamsButton* backButton;
     
     float MarginSize;
     
-    Label* titleLabel;
-    Label* optionalLabel;
+    cocos2d::Label* titleLabel;
+    cocos2d::Label* optionalLabel;
     
     void createBackgroundLayer();
     void addListenerToBackgroundLayer();
@@ -43,5 +42,7 @@ public:
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
 };
+
+NS_AZOOMEE_END
 
 #endif

@@ -8,9 +8,9 @@
 #include "ArtsPreviewLayer.h"
 #include "HQHistoryManager.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 Scene* MainHubScene::createScene()
 {
@@ -166,4 +166,6 @@ void MainHubScene::addImageContainers()
     auto artsPreviewLayer = ArtsPreviewLayer::create();
     this->addChild(artsPreviewLayer);
 }
+
+NS_AZOOMEE_END
 

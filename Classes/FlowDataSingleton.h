@@ -2,6 +2,9 @@
 #define __FLOW_DATA_SINGLETON_H__
 
 #include "cocos2d.h"
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 enum FlowTypeEnum { flowType_None, flowType_Signup, flowType_SignupNewProfile,flowType_NewProfile};
 
@@ -52,5 +55,7 @@ public:
     int getChildRefNumber();
     bool getIAPSuccess();
 };
+
+NS_AZOOMEE_END
 
 #endif

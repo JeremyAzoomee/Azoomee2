@@ -2,6 +2,9 @@
 #define __ARTAPPIMAGEMANAGER_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class ArtAppImageManager : public cocos2d::Ref
 {
@@ -27,5 +30,7 @@ private:
     
     std::map<std::string, std::string> getMapFormatOfDataChar(std::string dataInput);
 };
+
+NS_AZOOMEE_END
 
 #endif

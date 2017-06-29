@@ -21,14 +21,20 @@ bool LoginScene::init()
         return false;
     }
     
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
-    
+    origin = Vec2::ZERO;
     AudioMixer::getInstance()->stopBackgroundMusic();
+    
+    visibleSize = getContentSize();
+    
+    wiresLayer = Layer::create();
+    wiresLayer->setPosition(Director::getInstance()->getVisibleOrigin() * -1.0f);
+    addChild(wiresLayer);
+    
+    inputLayer = Layer::create();
+    addChild(inputLayer);
     
     getUserDefaults();
     addTextboxScene();
-    addSideWiresToScreen(this, 0, 2);
     addLabelToScene();
     addButtonsScene();
     
@@ -47,6 +53,8 @@ void LoginScene::onEnter()
     
     // Register for API events
     AuthAPI::getInstance()->registerObserver(this);
+    
+    changeElementsToEmailScreen();
 }
 
 void LoginScene::onExit()
@@ -55,6 +63,40 @@ void LoginScene::onExit()
     
     // Unregister on chat API events
     AuthAPI::getInstance()->removeObserver(this);
+}
+
+#pragma mark - Size Changes
+
+void LoginScene::onSizeChanged()
+{
+    Super::onSizeChanged();
+    
+    visibleSize = getContentSize();
+    
+    // If initialised
+    if(emailTextInput)
+    {
+        wiresLayer->removeAllChildren();
+        wiresLayer->setPosition(Director::getInstance()->getVisibleOrigin() * -1.0f);
+        addSideWiresToScreen(wiresLayer, 0, 2);
+        
+        versionLabel->setPosition(visibleSize.width/2, versionLabel->getContentSize().height);
+        titleLabel->setPosition(visibleSize.width/2, visibleSize.height * 0.9);
+        backButton->setCenterPosition(Vec2(backButton->getContentSize().width*.7, visibleSize.height - backButton->getContentSize().height*.7));
+        nextButton->setCenterPosition(Vec2(visibleSize.width -nextButton->getContentSize().width*.7, visibleSize.height - nextButton->getContentSize().height*.7));
+        
+        // Horribly, we have to re-create the editboxes. If we don't the native OS view gets stuck offset
+        std::string username = emailTextInput->getText();
+        std::string password = passwordTextInput->getText();
+        inputLayer->removeAllChildren();
+        addTextboxScene();
+        
+        emailTextInput->setText(username);
+        passwordTextInput->setText(password);
+        
+        emailTextInput->setEditboxVisibility(currentScreen == LoginScreenLocationEnum::emailLoginScreen);
+        passwordTextInput->setEditboxVisibility(currentScreen == LoginScreenLocationEnum::passwordLoginScreen);
+    }
 }
 
 #pragma mark - UI
@@ -68,11 +110,13 @@ void LoginScene::getUserDefaults()
 
 void LoginScene::addLabelToScene()
 {
-    auto versionTitle = createLabelAppVerison(StringUtils::format("Azoomee Chat %s", Azoomee::Chat::Version));
-    this->addChild(versionTitle);
+    versionLabel = createLabelAppVerison(StringUtils::format("Azoomee Chat %s", Azoomee::Chat::Version));
+//    versionLabel->setPosition(versionLabel->getPosition() - Director::getInstance()->getVisibleOrigin());
+    this->addChild(versionLabel);
 
-    title = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
-    this->addChild(title);
+    titleLabel = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+//    titleLabel->setPosition(titleLabel->getPosition() - Director::getInstance()->getVisibleOrigin());
+    this->addChild(titleLabel);
 }
 
 void LoginScene::addTextboxScene()
@@ -80,23 +124,26 @@ void LoginScene::addTextboxScene()
     passwordTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_PASSWORD);
     passwordTextInput->setDelegate(this);
     passwordTextInput->setEditboxVisibility(false);
-    this->addChild(passwordTextInput);
+    inputLayer->addChild(passwordTextInput);
     
     emailTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_EMAIL);
     emailTextInput->setDelegate(this);
     emailTextInput->setText(storedUsername);
-    this->addChild(emailTextInput);
+    inputLayer->addChild(emailTextInput);
+    
+    emailTextInput->setCenterPosition(Vec2(visibleSize.width/2, visibleSize.height*0.70));
+    passwordTextInput->setCenterPosition(Vec2(visibleSize.width/2, visibleSize.height*0.70));
 }
 
 void LoginScene::addButtonsScene()
 {
     backButton = ElectricDreamsButton::createBackButton();
-    backButton->setCenterPosition(Vec2(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7));
+//    backButton->setCenterPosition(Vec2(origin.x +backButton->getContentSize().width*.7, origin.y + visibleSize.height - backButton->getContentSize().height*.7));
     backButton->setDelegate(this);
     this->addChild(backButton);
     
     nextButton = ElectricDreamsButton::createNextButton();
-    nextButton->setCenterPosition(Vec2(origin.x + visibleSize.width -nextButton->getContentSize().width*.7, origin.y+ visibleSize.height - nextButton->getContentSize().height*.7));
+//    nextButton->setCenterPosition(Vec2(origin.x + visibleSize.width -nextButton->getContentSize().width*.7, origin.y+ visibleSize.height - nextButton->getContentSize().height*.7));
     nextButton->setDelegate(this);
     this->addChild(nextButton);
 }
@@ -105,7 +152,7 @@ void LoginScene::addButtonsScene()
 
 void LoginScene::changeElementsToPasswordScreen()
 {
-    title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL));
+    titleLabel->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_PASSWORD_LABEL));
     storedUsername = emailTextInput->getText();
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(storedUsername);
     emailTextInput->setEditboxVisibility(false);
@@ -119,7 +166,7 @@ void LoginScene::changeElementsToPasswordScreen()
 
 void LoginScene::changeElementsToEmailScreen()
 {
-    title->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    titleLabel->setString(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
     passwordTextInput->setEditboxVisibility(false);
     passwordTextInput->setText("");
     emailTextInput->setEditboxVisibility(true);
@@ -166,6 +213,11 @@ void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
     nextButton->setVisible(isValid);
 }
 
+void LoginScene::textInputReturnPressed(TextInputLayer* inputLayer)
+{
+    nextButtonPressed();
+}
+
 #pragma mark - ElectricDreamsButtonDelegate
 
 void LoginScene::buttonPressed(ElectricDreamsButton* button)
@@ -183,6 +235,13 @@ void LoginScene::onAuthAPILogin()
     // Login success
     auto childSelectScene = ChildSelectorScene::create();
     Director::getInstance()->replaceScene(childSelectScene);
+}
+
+void LoginScene::onAuthAPIRequestFailed(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(errorCode, nullptr);
+    changeElementsToEmailScreen();
 }
 
 NS_AZOOMEE_CHAT_END

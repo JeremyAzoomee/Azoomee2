@@ -17,7 +17,7 @@
     
     "OnboardingSuccessScene":
     {
-        "IAP_success_title_label":"Your Azoomee subscription is now active!\nGet ready to access lots of exciting TV shows, games and audiobooks",
+        "IAP_success_title_label":"Your Azoomee subscription is now active!",
         "IAP_fail_title_label":"Preview Azoomee",
         "sub_success_label":"Tap %s to get started!",
         "sub_fail_label":"Tap %s to take a look around",
@@ -28,7 +28,7 @@
     "ChildAccountScene":
     {
         "main_title_signup_label":"Personalise your child’s experience",
-        "main_title_add_child_label":"Create a Profile for your Child",
+        "main_title_add_child_label":"Create a profile for your child",
         "select_oomee_title_label":"Give your child their own Oomee",
         "request_name_label":"What's your child's name",
         "edit_name_label":"Want to change the display name?",

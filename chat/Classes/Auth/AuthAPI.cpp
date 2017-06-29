@@ -30,6 +30,7 @@ AuthAPI::AuthAPI()
 {
     // Initialise logged in information
     ParentDataParser* parentDataParser = ParentDataParser::getInstance();
+    cocos2d::log("hasParentLoginDataInUserDefaults? %d", parentDataParser->hasParentLoginDataInUserDefaults());
     if(parentDataParser->hasParentLoginDataInUserDefaults())
     {
         parentDataParser->retrieveParentLoginDataFromUserDefaults();
@@ -163,7 +164,12 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
 void AuthAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
     cocos2d::log("AuthAPI::onHttpRequestFailed: %s, errorCode=%ld", requestTag.c_str(), errorCode);
-    ModalMessages::getInstance()->stopLoading();
+    
+    // Notify observers
+    for(auto observer : _observers)
+    {
+        observer->onAuthAPIRequestFailed(requestTag, errorCode);
+    }
 }
 
 NS_AZOOMEE_END

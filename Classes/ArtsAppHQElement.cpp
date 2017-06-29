@@ -9,11 +9,11 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "WebGameAPIDataManager.h"
 #include "ArtAppImageManager.h"
+#include "SceneManagerScene.h"
 
-
-USING_NS_CC;
 using namespace cocos2d;
-using namespace Azoomee;
+
+NS_AZOOMEE_BEGIN
 
 bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage, bool deletable, bool locked)
 {
@@ -281,6 +281,9 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(iamtouched)
         {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            return true;
+            
             if(preview)
             {
                 PreviewLoginSignupMessageBox::create();
@@ -311,3 +314,5 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), baseLayer);
 }
+
+NS_AZOOMEE_END

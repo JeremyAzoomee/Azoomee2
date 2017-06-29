@@ -6,9 +6,9 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 Scene* OfflineHubScene::createScene()
 {
@@ -78,3 +78,5 @@ void OfflineHubScene::addHubHQ()
     offlineHubHQ->createOfflineHQ(gameList);
     this->addChild(offlineHubHQ);
 }
+
+NS_AZOOMEE_END

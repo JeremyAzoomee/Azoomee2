@@ -9,8 +9,8 @@
 #include "LoginLogicHandler.h"
 #include "FlowDataSingleton.h"
 
-using namespace Azoomee;
-
+using namespace cocos2d;
+NS_AZOOMEE_BEGIN
 
 void navigateToBaseScene()
 {
@@ -104,3 +104,5 @@ NSString* getVideoPlaylist()
     std::string returnString = VideoPlaylistManager::getInstance()->getPlaylist();
     return [NSString stringWithUTF8String:returnString.c_str()];
 }
+
+NS_AZOOMEE_END

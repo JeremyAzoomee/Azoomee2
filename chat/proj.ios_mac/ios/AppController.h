@@ -1,12 +1,8 @@
-#import <UIKit/UIKit.h>
+#import <AzoomeeCommon/Platform/iOS/AzoomeeAppController.h>
 
-@class RootViewController;
-
-@interface AppController : NSObject <UIApplicationDelegate> {
+@interface AppController : AzoomeeAppController {
 
 }
-
-@property(nonatomic, readonly) RootViewController* viewController;
 
 @end
 

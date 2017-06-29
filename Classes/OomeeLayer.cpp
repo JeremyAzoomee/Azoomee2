@@ -8,10 +8,10 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 using namespace spine;
 
+NS_AZOOMEE_BEGIN
 
 Scene* OomeeLayer::createScene()
 {
@@ -117,3 +117,5 @@ void OomeeLayer::addCompleteListenerToOomee(spine::SkeletonAnimation* toBeAddedT
     
     toBeAddedTo->setCompleteListener(oomeeAnimationComplete);
 }
+
+NS_AZOOMEE_END

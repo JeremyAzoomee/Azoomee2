@@ -5,9 +5,9 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 Scene* DisplayChildNameLayer::createScene()
 {
@@ -94,3 +94,5 @@ std::string DisplayChildNameLayer::shortenString(std::string text, int numberOfC
     
     return text;
 }
+
+NS_AZOOMEE_END

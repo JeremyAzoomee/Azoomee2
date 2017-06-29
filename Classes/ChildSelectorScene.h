@@ -2,10 +2,13 @@
 #define __CHILDSELECTOR_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include "ui/UIScrollView.h"
 #include "AwaitingAdultPinLayer.h"
 #include "OfflineChecker.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
+
+NS_AZOOMEE_BEGIN
 
 class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate
 {
@@ -46,5 +49,7 @@ private:
     cocos2d::Point startTouchPosition;
     bool touchMovedAway;
 };
+
+NS_AZOOMEE_END
 
 #endif

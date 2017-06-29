@@ -3,6 +3,8 @@
 #include "RoutePaymentSingleton.h"
 #include "LoginLogicHandler.h"
 
+using namespace Azoomee;
+
 #define ONE_MONTH_PAYMENT @"AZ_Premium_Monthly"
 
 @interface PaymentViewController ()

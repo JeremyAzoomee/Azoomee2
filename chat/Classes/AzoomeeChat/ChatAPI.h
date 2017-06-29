@@ -64,8 +64,6 @@ public:
     
     /// Send a message
     void sendMessage(const FriendRef& friendObj, const MessageRef& message);
-    /// Send a message of type text
-    void sendMessage(const FriendRef& friendObj, const std::string& message);
 };
 
 /**

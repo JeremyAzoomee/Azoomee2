@@ -1,6 +1,6 @@
 #include "ImageContainer.h"
 #include "WebViewSelector.h"
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "HQDataParser.h"
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
@@ -17,8 +17,9 @@
 #include "IAPUpsaleLayer.h"
 #include "VideoPlaylistManager.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 
 Scene* ImageContainer::createScene()
@@ -263,7 +264,7 @@ void ImageContainer::addLockToImageContainer(float startDelay)
 
 void ImageContainer::addImageToLayer(std::string url,std::string type, float startDelay)
 {
-    ImageDownloader *imageDownloader = ImageDownloader::create();
+    RemoteImageSprite *imageDownloader = RemoteImageSprite::create();
     imageDownloader->initWithURLAndSize(url, type, Size(bgLayer->getContentSize().width - 20, bgLayer->getContentSize().height - 20), cocos2d::Vec2(1,1));
     imageDownloader->setPosition(bgLayer->getContentSize() / 2);
     imageDownloader->setOpacity(0);
@@ -307,3 +308,5 @@ void ImageContainer::addLabelToImage(std::string name, float startDelay)
     
     label->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeIn::create(0), NULL));
 }
+
+NS_AZOOMEE_END

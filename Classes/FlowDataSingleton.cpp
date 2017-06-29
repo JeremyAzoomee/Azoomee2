@@ -4,7 +4,9 @@
 #include "OrientationFunctions_ios.h"
 #endif
 
-USING_NS_CC;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 #pragma mark - Constants
 
@@ -168,3 +170,5 @@ bool FlowDataSingleton::getIAPSuccess()
 {
     return getStringValue(DataKeyIAPSuccess) == "1";
 }
+
+NS_AZOOMEE_END

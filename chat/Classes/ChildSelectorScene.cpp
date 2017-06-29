@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <math.h>
 #include "LoginScene.h"
-#include "ChatTestScene.h"
+#include <AzoomeeChat/UI/FriendListScene.h>
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 400
@@ -29,13 +29,18 @@ bool ChildSelectorScene::init()
     }
     
     AnalyticsSingleton::getInstance()->logoutChildEvent();
-    
     AudioMixer::getInstance()->stopBackgroundMusic();
     
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+    wiresLayer = Layer::create();
+    wiresLayer->setPosition(Director::getInstance()->getVisibleOrigin() * -1.0f);
+    addChild(wiresLayer);
     
     addVisualsToScene();
+    
+    titleLabel = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
+    titleLabel->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);
+    this->addChild(titleLabel);
+    
     addScrollViewForProfiles();
     addButtonsScene();
     
@@ -46,10 +51,13 @@ void ChildSelectorScene::onEnter()
 {
     Super::onEnter();
     
+    onSizeChanged();
+    
     // Register for API events
     AuthAPI::getInstance()->registerObserver(this);
     
     // Request profiles
+    AuthAPI::getInstance()->logoutChild();
     AuthAPI::getInstance()->getAvailableChildren();
     ModalMessages::getInstance()->startLoading();
 }
@@ -62,16 +70,45 @@ void ChildSelectorScene::onExit()
     AuthAPI::getInstance()->removeObserver(this);
 }
 
+#pragma mark - Size Changes
+
+void ChildSelectorScene::onSizeChanged()
+{
+    Super::onSizeChanged();
+    
+    visibleSize = getContentSize();
+    
+    // If initialised
+    if(wiresLayer)
+    {
+        wiresLayer->removeAllChildren();
+        wiresLayer->setPosition(Director::getInstance()->getVisibleOrigin() * -1.0f);
+        addVisualsToScene();
+        
+        titleLabel->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);
+        backButton->setCenterPosition(Vec2(backButton->getContentSize().width*.7, visibleSize.height - backButton->getContentSize().height*.7));
+        scrollView->setContentSize(Size(visibleSize.width * 0.6, visibleSize.height * 0.8));
+        scrollView->setPosition(Point(origin.x + visibleSize.width * 0.2, origin.y + visibleSize.height * 0.05));
+        
+        // Update scrollable size
+        scrollView->setInnerContainerSize(getScrollviewInnerSize(scrollView->getContentSize().width));
+        
+        // Re-position scrollview elements
+        for(const auto& child : scrollView->getChildren())
+        {
+            child->setPosition(positionElementOnScrollView((Layer*)child));
+        }
+        
+        scrollView->jumpToTop();
+    }
+}
+
 #pragma mark - UI
 
 void ChildSelectorScene::addVisualsToScene()
 {
-    addGlowToScreen(this, 1);
-    addSideWiresToScreen(this, 0, 2);
-    
-    auto selectTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILD_SELECTSCENE_TITLE_LABEL));
-    selectTitle->setPosition(origin.x + visibleSize.width * 0.5, origin.y + visibleSize.height * 0.9);
-    this->addChild(selectTitle);
+    addGlowToScreen(wiresLayer, 1);
+    addSideWiresToScreen(wiresLayer, 0, 2);
 }
 
 void ChildSelectorScene::addButtonsScene()
@@ -230,17 +267,23 @@ Point ChildSelectorScene::positionElementOnScrollView(Layer *layerToBeAdded)
 {
     Vector<Node*> scrollViewChildren = scrollView->getChildren();
     
-    if(scrollViewChildren.size() == 0)
+    ssize_t index = scrollViewChildren.getIndex(layerToBeAdded);
+    if(index == -1)
     {
-        return Point(OOMEE_LAYER_GAP / 2, scrollView->getInnerContainerSize().height - OOMEE_LAYER_GAP / 2 - layerToBeAdded->getContentSize().height);
+        index = scrollViewChildren.size();
     }
     
-    Node *lastChild = scrollViewChildren.at(scrollViewChildren.size() - 1);
+    if(index == 0)
+    {
+        return Point(OOMEE_LAYER_GAP / 2, scrollView->getContentSize().height - OOMEE_LAYER_GAP / 2 - layerToBeAdded->getContentSize().height);
+    }
+    
+    Node *lastChild = scrollViewChildren.at(index - 1);
     Point lastPos = lastChild->getPosition();
     
     Point newPos = Point(lastPos.x + lastChild->getContentSize().width + OOMEE_LAYER_GAP, lastPos.y);
     
-    if(newPos.x + layerToBeAdded->getContentSize().width > scrollView->getInnerContainerSize().width)
+    if(newPos.x + layerToBeAdded->getContentSize().width > scrollView->getContentSize().width)
     {
         newPos = Point(OOMEE_LAYER_GAP / 2, newPos.y - OOMEE_LAYER_GAP - layerToBeAdded->getContentSize().height);
     }
@@ -260,19 +303,44 @@ void ChildSelectorScene::buttonPressed(ElectricDreamsButton* button)
     }
 }
 
+#pragma mark - MessageBoxDelegate
+
+void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
+{
+    // Messagebox only used for errors so far, so just go back to login
+    AuthAPI::getInstance()->logoutUser();
+    auto loginScene = LoginScene::create();
+    Director::getInstance()->replaceScene(loginScene);
+}
+
 #pragma mark - AuthAPIObserver
+
+//#define AZOOMEE_CHAT_AUTO_CHILD_LOGIN
 
 void ChildSelectorScene::onAuthAPIGetAvailableChildren()
 {
     // Got children
     addProfilesToScrollView();
     ModalMessages::getInstance()->stopLoading();
+    
+#ifdef AZOOMEE_CHAT_AUTO_CHILD_LOGIN
+    // Auto select first child
+    const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(3);
+    AuthAPI::getInstance()->loginChild(profileName);
+    ModalMessages::getInstance()->startLoading();
+#endif
 }
 
 void ChildSelectorScene::onAuthAPIChildLogin()
 {
-    auto chatScene = ChatTestScene::create();
+    auto chatScene = FriendListScene::create();
     Director::getInstance()->replaceScene(chatScene);
+}
+
+void ChildSelectorScene::onAuthAPIRequestFailed(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(errorCode, this);
 }
 
 NS_AZOOMEE_CHAT_END

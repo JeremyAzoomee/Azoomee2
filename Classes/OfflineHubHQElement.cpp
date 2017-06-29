@@ -4,8 +4,9 @@
 #include "GameDataManager.h"
 #include "WebViewSelector.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 
 Scene* OfflineHubHQElement::createScene()
@@ -119,3 +120,5 @@ void OfflineHubHQElement::startUpElementDependingOnType(std::map<std::string, st
     this->getParent()->getParent()->getParent()->stopAllActions();
     GameDataManager::getInstance()->startProcessingGame(itemData);
 }
+
+NS_AZOOMEE_END

@@ -2,6 +2,9 @@
 #define __WEBVIEWNATIVECALLER_ANDROID_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class WebViewNativeCaller_android : public cocos2d::Layer
 {
@@ -18,5 +21,7 @@ private:
     void sendEventToMixPanel(const char* eventKey, const char*eventValue);
 
 };
+
+NS_AZOOMEE_END
 
 #endif // __WEBVIEWNATIVECALLER_ANDROID_H__

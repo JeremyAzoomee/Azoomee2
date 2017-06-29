@@ -10,15 +10,15 @@
 #include "HQSceneElementPositioner.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "OfflineHubBackButton.h"
 #include "HQSceneArtsApp.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 Scene* HQScene::createSceneForOfflineArtsAppHQ()
 {
@@ -88,7 +88,7 @@ void HQScene::addGroupHQLogo()
         
         this->removeChild(this->getChildByName("groupLogo"));
         
-        auto groupLogo = ImageDownloader::create();
+        auto groupLogo = RemoteImageSprite::create();
         groupLogo->initWithUrlAndSizeWithoutPlaceholder(groupHQLogoUrl, ConfigStorage::getInstance()->getGroupHQLogoSize());
         groupLogo->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height - groupLogo->getContentSize().height * 0.8);
         groupLogo->setName("groupLogo");
@@ -303,3 +303,5 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
 }
+
+NS_AZOOMEE_END

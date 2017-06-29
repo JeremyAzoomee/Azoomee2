@@ -41,7 +41,7 @@ NSDictionary* mapToNSDictionary(const std::map<std::string, std::string>& map)
   
 //--------------- MIXPANEL ---------------
 
-void AnalyticsSingleton::mixPanelSendEvent(const std::string& eventID,const std::map<std::string, std::string>& map)
+void AnalyticsSingleton::mixPanelSendEventNative(const std::string& eventID,const std::map<std::string, std::string>& map)
 {
 #ifdef USINGCI
     return;
@@ -49,25 +49,6 @@ void AnalyticsSingleton::mixPanelSendEvent(const std::string& eventID,const std:
     
     [[Mixpanel sharedInstance] track:[NSString stringWithUTF8String:eventID.c_str()]
          properties:mapToNSDictionary(map)];
-}
-
-void AnalyticsSingleton::mixPanelSendEvent(const std::string& eventID)
-{
-#ifdef USINGCI
-    return;
-#endif
-    
-    [[Mixpanel sharedInstance] track:[NSString stringWithUTF8String:eventID.c_str()]
-                          properties:NULL];
-}
-
-void AnalyticsSingleton::mixPanelRegisterSuperProperties(const std::map<std::string, std::string>& map)
-{
-#ifdef USINGCI
-    return;
-#endif
-    
-    [[Mixpanel sharedInstance] registerSuperProperties:mapToNSDictionary(map)];
 }
 
 void AnalyticsSingleton::mixPanelRegisterIdentity(const std::string& parentID, const std::map<std::string, std::string>& name)

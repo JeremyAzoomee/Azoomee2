@@ -42,7 +42,7 @@ import org.cocos2dx.cpp.util.IabHelper;
 import org.cocos2dx.cpp.util.IabResult;
 import org.cocos2dx.cpp.util.Inventory;
 import org.cocos2dx.cpp.util.Purchase;
-import org.cocos2dx.lib.Cocos2dxActivity;
+import com.tinizine.azoomee.common.AzoomeeActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -66,7 +66,8 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.appsflyer.AppsFlyerLib;
 import com.tinizine.azoomee.R;
 
-public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceiver.IabBroadcastListener {
+
+public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
 
     private static Context mContext;
     private static Activity mActivity;
@@ -194,7 +195,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mixpanel.flush();
 
         if (mBroadcastReceiver != null) {
