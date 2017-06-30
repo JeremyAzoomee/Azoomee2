@@ -5,11 +5,13 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include "AwaitingAdultPinLayer.h"
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
+
 
 USING_NS_CC;
 NS_AZOOMEE_BEGIN
 
-class SettingsControlLayer : public Layer, public ElectricDreamsButtonDelegate, public AwaitingAdultPinLayerDelegate
+class SettingsControlLayer : public Layer, public ElectricDreamsButtonDelegate, public AwaitingAdultPinLayerDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
     Size visibleSize;
@@ -19,6 +21,8 @@ private:
     
     LayerColor *backgroundLayer;
     float linePositionY;
+    
+    Sprite* confirmationNotification;
     
     ElectricDreamsButton *cancelButton;
     ElectricDreamsButton *accountButton;
@@ -32,6 +36,8 @@ private:
     void createCancelButton();
     void createLine();
     void createTabs();
+    void createConfirmationNotification();
+    void checkForConfirmationNotifications();
     
     void removeSelf();
     
@@ -47,6 +53,8 @@ public:
     void buttonPressed(ElectricDreamsButton* button);
     void AdultPinCancelled(AwaitingAdultPinLayer* layer);
     void AdultPinAccepted(AwaitingAdultPinLayer* layer);
+    void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
+    void onHttpRequestFailed(const std::string& requestTag, long errorCode);
 };
 
 NS_AZOOMEE_END

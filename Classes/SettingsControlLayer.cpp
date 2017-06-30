@@ -1,8 +1,10 @@
 #include "SettingsControlLayer.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Data/Json.h>
 #include "AccountDetailsLayer.h"
 #include "SettingsKidsLayer.h"
 #include "SettingsConfirmationLayer.h"
+#include <AzoomeeCommon/API/API.h>
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50
@@ -60,8 +62,10 @@ void SettingsControlLayer::createSettingsController()
     createCancelButton();
     createLine();
     createTabs();
+    createConfirmationNotification();
+    checkForConfirmationNotifications();
     
-    selectNewTab(AccountDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), accountButton);
+    selectNewTab(SettingsKidsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), childrenButton);
 }
 
 void SettingsControlLayer::createCancelButton()
@@ -101,6 +105,20 @@ void SettingsControlLayer::createTabs()
     backgroundLayer->addChild(accountButton,SELECTED_TAB_Z);
 }
 
+void SettingsControlLayer::createConfirmationNotification()
+{
+    confirmationNotification = Sprite::create("res/navigation/chatAlert.png");
+    confirmationNotification->setPosition(confirmationButton->getPositionX()+confirmationButton->getContentSize().width-LINE_WIDTH,confirmationButton->getPositionY()+confirmationButton->getContentSize().height-LINE_WIDTH);
+    confirmationButton->setOpacity(0);
+    backgroundLayer->addChild(confirmationNotification,SELECTED_TAB_Z);
+}
+
+void SettingsControlLayer::checkForConfirmationNotifications()
+{
+    HttpRequestCreator *request = API::getPendingFriendRequests(this);
+    request->execute();
+}
+
 //---------------------- Actions -----------------
 
 void SettingsControlLayer::removeSelf()
@@ -134,7 +152,10 @@ void SettingsControlLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == childrenButton)
         selectNewTab(SettingsKidsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), childrenButton);
     else if(button == confirmationButton)
+    {
+        confirmationNotification->setOpacity(0);
         selectNewTab(SettingsConfirmationLayer::createWithHeight(linePositionY-LINE_WIDTH/2), confirmationButton);
+    }
     else if(button == accountButton)
         selectNewTab(AccountDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), accountButton);
 }
@@ -147,6 +168,19 @@ void SettingsControlLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 void SettingsControlLayer::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
     createSettingsController();
+}
+
+void SettingsControlLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    rapidjson::Document pendingFriendRequestData;
+    pendingFriendRequestData.Parse(body.c_str());
+    
+    if(pendingFriendRequestData.Size() >0)
+        confirmationNotification->setOpacity(255);
+}
+
+void SettingsControlLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
 }
 
 NS_AZOOMEE_END
