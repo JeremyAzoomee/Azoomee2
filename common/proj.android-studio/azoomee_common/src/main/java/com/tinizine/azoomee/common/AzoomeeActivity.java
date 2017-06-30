@@ -3,6 +3,7 @@ package com.tinizine.azoomee.common;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -55,31 +56,45 @@ public class AzoomeeActivity extends Cocos2dxActivity implements KeyboardHeightO
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         keyboardHeightProvider.setKeyboardHeightObserver(null);
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         keyboardHeightProvider.setKeyboardHeightObserver(this);
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
         keyboardHeightProvider.close();
     }
 
     /// Run a ask on the GL thread when code needs to sync with the Cocos main thread
-    public static void RunOnGLThread(final Runnable pRunnable) {
+    public static void RunOnGLThread(final Runnable pRunnable)
+    {
+        Log.d(TAG, "RunOnGLThread");
         sInstance.runOnGLThread(pRunnable);
     }
 
     /// Run a ask on the UI thread when code needs to sync with the Android main thread
-    public static void RunOnUIThread(final Runnable pRunnable) {
-        sInstance.runOnUiThread(pRunnable);
+    public static void RunOnUIThread(final Runnable pRunnable)
+    {
+        Log.d(TAG, "RunOnUIThread");
+//        if(Looper.myLooper() == Looper.getMainLooper())
+        {
+            pRunnable.run();
+        }
+//        else
+//        {
+//            sInstance.runOnUiThread(pRunnable);
+//        }
     }
 
     @Override

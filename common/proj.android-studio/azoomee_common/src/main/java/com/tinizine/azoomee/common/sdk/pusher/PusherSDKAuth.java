@@ -92,6 +92,7 @@ public class PusherSDKAuth implements Authorizer
 
             if(_method == "POST")
             {
+                connection.setDoOutput(true);
                 connection.setRequestProperty("Content-Length", "" + Integer.toString(_bodyData.getBytes().length));
                 // Write body
                 final DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
