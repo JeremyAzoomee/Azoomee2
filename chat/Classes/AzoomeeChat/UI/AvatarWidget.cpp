@@ -141,7 +141,7 @@ void AvatarWidget::setAvatarForFriend(const FriendRef& friendData)
     _outerFrame->setVisible(!avatarURL.empty());
     
     // Update the frame colors based on if this is the current user or not
-    const bool isCurrentUser = (friendData && friendData->friendId() == ChildDataProvider::getInstance()->getLoggedInChildId());
+    const bool isCurrentUser = (friendData && friendData->friendId() == ChildDataProvider::getInstance()->getParentOrChildId());
     if(isCurrentUser)
     {
         _background->loadTexture("res/chat/ui/avatar/avatar_background_user.png");

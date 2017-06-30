@@ -90,7 +90,7 @@ void AuthAPI::getAvailableChildren()
 bool AuthAPI::isChildLoggedIn() const
 {
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    const std::string& childId = childData->getLoggedInChildId();
+    const std::string& childId = childData->getParentOrChildId();
     return !childId.empty();
 }
 

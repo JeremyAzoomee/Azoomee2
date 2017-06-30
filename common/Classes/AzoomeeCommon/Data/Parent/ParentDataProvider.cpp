@@ -37,6 +37,11 @@ std::string ParentDataProvider::getLoggedInParentId()
 {
     return ParentDataStorage::getInstance()->loggedInParentId;
 }
+    
+std::string ParentDataProvider::getLoggedInParentCdnSessionId()
+{
+    return ParentDataStorage::getInstance()->loggedInParentCdnSessionId;
+}
 
 
 std::string ParentDataProvider::getLoggedInParentApiKey()
@@ -52,6 +57,11 @@ std::string ParentDataProvider::getParentPin()
 std::string ParentDataProvider::getLoggedInParentApiSecret()
 {
     return ParentDataStorage::getInstance()->loggedInParentApiSecret;
+}
+    
+std::string ParentDataProvider::getLoggedInParentAvatarId()
+{
+    return ParentDataStorage::getInstance()->loggedInParentAvatarId;
 }
 
 std::string ParentDataProvider::getBillingStatus()

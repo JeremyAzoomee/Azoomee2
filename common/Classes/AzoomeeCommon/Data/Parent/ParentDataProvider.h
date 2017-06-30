@@ -29,8 +29,10 @@ public:
     
     std::string getLoggedInParentActorStatus();
     std::string getLoggedInParentId();
+    std::string getLoggedInParentCdnSessionId();
     std::string getLoggedInParentApiKey();
     std::string getLoggedInParentApiSecret();
+    std::string getLoggedInParentAvatarId();
     std::string getParentPin();
     std::string getBillingStatus();
     std::string getBillingDate();
