@@ -6,7 +6,6 @@ import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.PrivateChannelEventListener;
 import com.pusher.client.channel.PrivateChannel;
-import com.pusher.client.channel.SubscriptionEventListener;
 import com.pusher.client.connection.*;
 import com.tinizine.azoomee.common.AzoomeeActivity;
 
@@ -38,25 +37,25 @@ public class PusherSDK
     /// Initialise with Pusher App Key
     public static void Initialise(final String appKey)
     {
-//        getInstance().initialise(appKey);
+        getInstance().initialise(appKey);
     }
 
     /// Destroy the Pusher SDK instance - it must be initialised to be used again
     public static void Destroy()
     {
-//        getInstance().close();
+        getInstance().close();
     }
 
     /// Subscribe to a channel
     public static void SubscribeToChannel(final String channelName)
     {
-//        getInstance().subscribeToChannel(channelName);
+        getInstance().subscribeToChannel(channelName);
     }
 
     /// Close a channel subscription
     public static void CloseChannel(final String channelName)
     {
-//        getInstance().closeChannel(channelName);
+        getInstance().closeChannel(channelName);
     }
 
 
@@ -139,21 +138,22 @@ public class PusherSDK
                         }
 
                         @Override
-                        public void onEvent(String channelName, String eventName, String data) {
+                        public void onEvent(final String channelName, final String eventName, final String data) {
                             Log.d(TAG, "onEvent: channelName=" + channelName + ", eventName=" + eventName + ", data=" + data);
+
+                            AzoomeeActivity.RunOnGLThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    onPusherEventRecieved(channelName, eventName, data);
+                                }
+                            });
                         }
 
                         @Override
                         public void onAuthenticationFailure(String message, Exception e) {
                             Log.d(TAG, String.format("Authentication failure due to [%s], exception was [%s]", message, e));
                         }
-                    });
-                    channel.bind("SEND_MESSAGE", new SubscriptionEventListener() {
-                        @Override
-                        public void onEvent(String channelName, String eventName, String data) {
-                            Log.d(TAG, "SEND_MESSAGE.onEvent: channelName=" + channelName + ", eventName=" + eventName + ", data=" + data);
-                        }
-                    });
+                    }, "SEND_MESSAGE"); // TODO: In a future update of Pusher, see if it's possible to avoid registering for specific events
                 }
             }
         });
@@ -177,4 +177,7 @@ public class PusherSDK
             }
         });
     }
+
+    /// Recieved a Pusher event
+    private native void onPusherEventRecieved(String channelName, String eventName, String data);
 }

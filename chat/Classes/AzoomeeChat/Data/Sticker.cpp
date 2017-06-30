@@ -20,12 +20,12 @@ Sticker::Sticker()
 {
 }
 
-const std::string& Sticker::imageURL() const
+std::string Sticker::imageURL() const
 {
     return _imageURL;
 }
 
-const std::string& Sticker::imageLocalPath() const
+std::string Sticker::imageLocalPath() const
 {
     return _imageLocalPath;
 }

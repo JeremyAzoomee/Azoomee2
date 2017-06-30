@@ -33,8 +33,8 @@ public:
     /// dataJson must be a valid json string, otherwise create will fail and return a null PusherEventRef
     static PusherEventRef create(const std::string& channelName, const std::string& eventName, const std::string& dataJson);
     
-    const std::string& channelName() const;
-    const std::string& eventName() const;
+    std::string channelName() const;
+    std::string eventName() const;
     const rapidjson::Value& data() const;
 };
 

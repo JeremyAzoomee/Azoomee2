@@ -79,22 +79,13 @@ public class AzoomeeActivity extends Cocos2dxActivity implements KeyboardHeightO
     /// Run a ask on the GL thread when code needs to sync with the Cocos main thread
     public static void RunOnGLThread(final Runnable pRunnable)
     {
-        Log.d(TAG, "RunOnGLThread");
         sInstance.runOnGLThread(pRunnable);
     }
 
     /// Run a ask on the UI thread when code needs to sync with the Android main thread
     public static void RunOnUIThread(final Runnable pRunnable)
     {
-        Log.d(TAG, "RunOnUIThread");
-//        if(Looper.myLooper() == Looper.getMainLooper())
-        {
-            pRunnable.run();
-        }
-//        else
-//        {
-//            sInstance.runOnUiThread(pRunnable);
-//        }
+        sInstance.runOnUiThread(pRunnable);
     }
 
     @Override

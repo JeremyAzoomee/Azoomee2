@@ -34,10 +34,10 @@ public:
     /// Create a StickerCategory from JSON
     static StickerCategoryRef createFromJson(const rapidjson::Value& json);
     
-    const std::string& imageURL() const;
-    const std::string& categoryID() const;
-    const std::string& imageLocalPath() const;
-    const StickerList& stickers() const;
+    std::string imageURL() const;
+    std::string categoryID() const;
+    std::string imageLocalPath() const;
+    StickerList stickers() const;
 };
 
 NS_AZOOMEE_CHAT_END

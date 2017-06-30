@@ -12,7 +12,7 @@ static const std::string kPusherAuthJavaClassName = "com/tinizine/azoomee/common
 
 extern "C"
 {
-    JNIEXPORT void JNICALL Java_com_tinizine_azoomee_common_sdk_pusher_PusherSDKAuth_buildSignedAzoomeeRequest(JNIEnv* env, jclass, jobject auth, jstring channelName, jstring socketID)
+    JNIEXPORT void JNICALL Java_com_tinizine_azoomee_common_sdk_pusher_PusherSDKAuth_buildSignedAzoomeeRequest(JNIEnv* env, jobject obj, jstring channelName, jstring socketID)
     {
         if(env)
         {
@@ -58,7 +58,7 @@ extern "C"
                     t.env->DeleteLocalRef(valueK);
                 }
                 
-                t.env->CallVoidMethod(auth, t.methodID, urlJ, methodJ, headerKeysJ, headerValuesJ, bodyJ);
+                t.env->CallVoidMethod(obj, t.methodID, urlJ, methodJ, headerKeysJ, headerValuesJ, bodyJ);
                 
                 // Delete local JNI refs which we are done with
                 t.env->DeleteLocalRef(t.classID);
@@ -74,6 +74,20 @@ extern "C"
             }
         }
     }
+    
+    JNIEXPORT void JNICALL Java_com_tinizine_azoomee_common_sdk_pusher_PusherSDK_onPusherEventRecieved(JNIEnv* env, jobject obj, jstring channelName, jstring eventName, jstring data)
+    {
+        if(env)
+        {
+            // Create the Pusher event object
+            PusherEventRef event = PusherEvent::create(JniHelper::jstring2string(channelName), JniHelper::jstring2string(eventName), JniHelper::jstring2string(data));
+            if(event)
+            {
+                cocos2d::log("Pusher event: channelName=%s, eventName=%s, data=%s", event->channelName().c_str(), event->eventName().c_str(), JniHelper::jstring2string(data).c_str());
+                PusherSDK::getInstance()->notifyObservers(event);
+            }
+        }
+    }
 }
 
 
@@ -86,7 +100,8 @@ void PusherSDK::subscribeToChannel(const std::string& channelName)
     if(!sPusherInitialised)
     {
         // Ensure the JNI native methods are compiled into the binary by making a dummy ref to it
-        Java_com_tinizine_azoomee_common_sdk_pusher_PusherSDKAuth_buildSignedAzoomeeRequest(nullptr, nullptr, nullptr, nullptr, nullptr);
+        Java_com_tinizine_azoomee_common_sdk_pusher_PusherSDKAuth_buildSignedAzoomeeRequest(nullptr, nullptr, nullptr, nullptr);
+        Java_com_tinizine_azoomee_common_sdk_pusher_PusherSDK_onPusherEventRecieved(nullptr, nullptr, nullptr, nullptr, nullptr);
         
         JniHelper::callStaticVoidMethod(kPusherJavaClassName, "Initialise", _appKey);
         sPusherInitialised = true;

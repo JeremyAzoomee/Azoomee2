@@ -27,12 +27,12 @@ PusherEvent::PusherEvent()
 {
 }
 
-const std::string& PusherEvent::channelName() const
+std::string PusherEvent::channelName() const
 {
     return _channelName;
 }
 
-const std::string& PusherEvent::eventName() const
+std::string PusherEvent::eventName() const
 {
     return _eventName;
 }

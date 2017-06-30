@@ -33,7 +33,7 @@ public class PusherSDKAuth implements Authorizer
 
     /// Request the C++ create an AzoomeeRequest
     /// This will trigger a call to setRequestParams from C++ side
-    private native void buildSignedAzoomeeRequest(PusherSDKAuth authInstance, String channelName, String socketId);
+    private native void buildSignedAzoomeeRequest(String channelName, String socketId);
 
     /// Setup the next auth request
     public void setRequestParams(final String url, final String method, final String[] headerKeys, final String[] headerValues, final String bodyData)
@@ -60,10 +60,10 @@ public class PusherSDKAuth implements Authorizer
     @Override
     public String authorize(final String channelName, final String socketId) throws AuthorizationFailureException
     {
-        Log.d(TAG, "authorize: " + channelName + ", " + socketId);
+//        Log.d(TAG, "authorize: " + channelName + ", " + socketId);
         // Build the signed Azoomee req from c++ side
-        buildSignedAzoomeeRequest(this, channelName, socketId);
-        Log.d(TAG, "buildSignedAzoomeeRequest done: _url=" + _url + ", _method=" + _method);
+        buildSignedAzoomeeRequest(channelName, socketId);
+//        Log.d(TAG, "buildSignedAzoomeeRequest done: _url=" + _url + ", _method=" + _method);
 
         try
         {
@@ -86,7 +86,7 @@ public class PusherSDKAuth implements Authorizer
             for(final String headerName : _headers.keySet())
             {
                 final String headerValue = _headers.get(headerName);
-                Log.d(TAG, "Header: " + headerName + "=" + headerValue);
+//                Log.d(TAG, "Header: " + headerName + "=" + headerValue);
                 connection.setRequestProperty(headerName, headerValue);
             }
 
@@ -101,11 +101,11 @@ public class PusherSDKAuth implements Authorizer
                 wr.close();
             }
 
-            Log.d(TAG, "authorize: Read response");
+//            Log.d(TAG, "authorize: Read response");
 
             // Read response
             final int responseHttpStatus = connection.getResponseCode();
-            Log.d(TAG, "authorize: responseHttpStatus=" + responseHttpStatus);
+//            Log.d(TAG, "authorize: responseHttpStatus=" + responseHttpStatus);
 
             InputStream is = null;
             if(responseHttpStatus != HttpURLConnection.HTTP_OK)
@@ -126,7 +126,7 @@ public class PusherSDKAuth implements Authorizer
             }
             rd.close();
 
-            Log.d(TAG, "authorize: response=" + response.toString());
+//            Log.d(TAG, "authorize: response=" + response.toString());
 
             // Check response code
             if(responseHttpStatus != 200 && responseHttpStatus != 201)

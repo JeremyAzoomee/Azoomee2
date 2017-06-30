@@ -150,42 +150,42 @@ Message::Message()
 {
 }
 
-const std::string& Message::messageId() const
+std::string Message::messageId() const
 {
     return _messageId;
 }
 
-const std::string& Message::messageType() const
+std::string Message::messageType() const
 {
     return _messageType;
 }
 
-const std::string& Message::messageText() const
+std::string Message::messageText() const
 {
     return _messageText;
 }
 
-const std::string& Message::stickerURL() const
+std::string Message::stickerURL() const
 {
     return _stickerLocation;
 }
 
-const std::string& Message::senderId() const
+std::string Message::senderId() const
 {
     return _senderId;
 }
 
-const std::string& Message::senderName() const
+std::string Message::senderName() const
 {
     return ChatAPI::getInstance()->getProfileName(_senderId);
 }
 
-const std::string& Message::recipientId() const
+std::string Message::recipientId() const
 {
     return _recipientId;
 }
 
-const std::string& Message::recipientName() const
+std::string Message::recipientName() const
 {
     return ChatAPI::getInstance()->getProfileName(_recipientId);
 }
