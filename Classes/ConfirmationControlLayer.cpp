@@ -2,6 +2,8 @@
 #include "SettingsConfirmationLayer.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
 
 #define MARGIN 69
 
@@ -46,23 +48,27 @@ void ConfirmationControlLayer::addButtons()
     confirmButton = ElectricDreamsButton::createInviteMainButton("Confirm", 400);
     confirmButton->setCenterPosition(Vec2(this->getContentSize().width-confirmButton->getContentSize().width/2-MARGIN,this->getContentSize().height/2));
     confirmButton->setDelegate(this);
+    confirmButton->setMixPanelButtonName("Settings-Confirmation-Confirm");
     confirmationFrameLayer->addChild(confirmButton);
     
     yesButton = ElectricDreamsButton::createRedFilledButton("Yes", 400);
     yesButton->setCenterPosition(confirmButton->getCenterPosition());
     yesButton->setDelegate(this);
     yesButton->setVisible(false);
+    yesButton->setMixPanelButtonName("Settings-Confirmation-Reject-Yes");
     confirmationFrameLayer->addChild(yesButton);
     
     noButton = ElectricDreamsButton::createRedOutlineButton("No", 400);
     noButton->setCenterPosition(Vec2(confirmButton->getPositionX() - noButton->getContentSize().width/2 - MARGIN,this->getContentSize().height/2));
     noButton->setVisible(false);
     noButton->setDelegate(this);
+    noButton->setMixPanelButtonName("Settings-Confirmation-Reject-No");
     confirmationFrameLayer->addChild(noButton);
     
     rejectButton = ElectricDreamsButton::createTextAsButtonAqua("Reject", 48,true);
     rejectButton->setCenterPosition(noButton->getCenterPosition());
     rejectButton->setDelegate(this);
+    rejectButton->setMixPanelButtonName("Settings-Confirmation-Reject");
     confirmationFrameLayer->addChild(rejectButton);
 
 }
@@ -139,16 +145,19 @@ void ConfirmationControlLayer::onHttpRequestSuccess(const std::string& requestTa
 {
     if(body.find("approval\":\"REJECTED") != std::string::npos)
     {
+        AnalyticsSingleton::getInstance()->settingsConfirmationRejectedSuccess();
         setToRejected();
     } else if(body.find("approval\":\"APPROVED")!= std::string::npos)
     {
+        AnalyticsSingleton::getInstance()->settingsConfirmationApprovedSuccess();
         setToConfirmed();
     }
 }
 
 void ConfirmationControlLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-    
+    AnalyticsSingleton::getInstance()->settingsConfirmationError(errorCode);
+    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
 NS_AZOOMEE_END

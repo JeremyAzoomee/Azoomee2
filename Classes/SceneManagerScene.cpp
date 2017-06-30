@@ -137,6 +137,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             
             forceToLandscape();
             goToScene = Azoomee::Chat::FriendListScene::create();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("CHAT");
             break;
         }
         default:

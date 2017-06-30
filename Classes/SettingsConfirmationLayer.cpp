@@ -6,6 +6,8 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -105,7 +107,9 @@ void SettingsConfirmationLayer::onHttpRequestSuccess(const std::string& requestT
 
 void SettingsConfirmationLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
+    AnalyticsSingleton::getInstance()->settingsPendingFriendRequestsRefreshError(errorCode);
     ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
 NS_AZOOMEE_END

@@ -558,5 +558,59 @@ void AnalyticsSingleton::deepLinkingContentEvent()
 {
     mixPanelSendEventWithStoredProperties("deepLinkingContentEvent");
 }
-
+    
+    //-----------------CHAT INVITATION EVENTS------------------
+    void AnalyticsSingleton::settingsConfirmationTabNotificationShown()
+    {
+        mixPanelSendEventWithStoredProperties("settingsConfirmationTabNotificationShown");
+    }
+    
+    void AnalyticsSingleton::settingsConfirmationTabNotificationError(long errorCode)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+        
+        mixPanelSendEventWithStoredProperties("settingsConfirmationTabNotificationError", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::settingsKidInviteRequestSuccess()
+    {
+        mixPanelSendEventWithStoredProperties("settingsKidInviteRequestSuccess");
+    }
+    
+    void AnalyticsSingleton::settingsKidInviteRequestError(long errorCode)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+        
+        mixPanelSendEventWithStoredProperties("settingsKidInviteRequestError", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::settingsPendingFriendRequestsRefreshError(long errorCode)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+        
+        mixPanelSendEventWithStoredProperties("settingsPendingFriendRequestsRefreshError", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::settingsConfirmationRejectedSuccess()
+    {
+        mixPanelSendEventWithStoredProperties("settingsConfirmationRejectedSuccess");
+    }
+    
+    void AnalyticsSingleton::settingsConfirmationApprovedSuccess()
+    {
+        mixPanelSendEventWithStoredProperties("settingsConfirmationApprovedSuccess");
+    }
+    
+    void AnalyticsSingleton::settingsConfirmationError(long errorCode)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+        
+        mixPanelSendEventWithStoredProperties("settingsConfirmationError", mixPanelProperties);
+    }
+    
+    
 }

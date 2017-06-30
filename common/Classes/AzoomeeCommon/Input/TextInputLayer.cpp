@@ -2,6 +2,7 @@
 #include "TextInputChecker.h"
 #include "../Strings.h"
 #include "../UI/ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -277,8 +278,11 @@ void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBo
     #endif
     {
         if(this->getDelegate())
+        {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("Keyboard-GO");
             //Inform Delegates if input is valid
             this->getDelegate()->textInputReturnPressed(this);
+        }
     }
 }
     

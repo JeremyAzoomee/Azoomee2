@@ -302,6 +302,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
                 {
+                    AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
                     Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
                 }
                 else

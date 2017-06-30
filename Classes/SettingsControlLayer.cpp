@@ -5,6 +5,7 @@
 #include "SettingsKidsLayer.h"
 #include "SettingsConfirmationLayer.h"
 #include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50
@@ -92,16 +93,19 @@ void SettingsControlLayer::createTabs()
     childrenButton = ElectricDreamsButton::createTabButton("Your Kids");
     childrenButton->setPosition(TAB_SPACING*2,origin.y+linePositionY-LINE_WIDTH);
     childrenButton->setDelegate(this);
+    childrenButton->setMixPanelButtonName("SettingsTab-YourKids");
     backgroundLayer->addChild(childrenButton,IDLE_TAB_Z);
     
     confirmationButton = ElectricDreamsButton::createTabButton("Confirmation");
     confirmationButton->setPosition(childrenButton->getPositionX()+childrenButton->getContentSize().width/2+ TAB_SPACING+confirmationButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH);
     confirmationButton->setDelegate(this);
+    confirmationButton->setMixPanelButtonName("SettingsTab-Confirmation");
     backgroundLayer->addChild(confirmationButton,IDLE_TAB_Z);
     
     accountButton = ElectricDreamsButton::createTabButton("Account");
     accountButton->setPosition(confirmationButton->getPositionX()+confirmationButton->getContentSize().width/2+TAB_SPACING+accountButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH);
     accountButton->setDelegate(this);
+    confirmationButton->setMixPanelButtonName("SettingsTab-Account");
     backgroundLayer->addChild(accountButton,SELECTED_TAB_Z);
 }
 
@@ -176,11 +180,15 @@ void SettingsControlLayer::onHttpRequestSuccess(const std::string& requestTag, c
     pendingFriendRequestData.Parse(body.c_str());
     
     if(pendingFriendRequestData.Size() >0)
+    {
+        AnalyticsSingleton::getInstance()->settingsConfirmationTabNotificationShown();
         confirmationNotification->setOpacity(255);
+    }
 }
 
 void SettingsControlLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
+    AnalyticsSingleton::getInstance()->settingsConfirmationTabNotificationError(errorCode);
 }
 
 NS_AZOOMEE_END
