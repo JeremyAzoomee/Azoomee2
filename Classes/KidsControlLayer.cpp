@@ -187,7 +187,9 @@ void KidsControlLayer::inviteCodeResponse(bool codeIsOK)
 
 void KidsControlLayer::shareKidCode()
 {
-    nativeShareScreenString("Bob has shared this code to you to connect via Azoomee chat, ABCD09SE");
+    std::string childsName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber);
+    
+    nativeShareScreenString(StringUtils::format("%s  is using Azoomee to safely chat with friends! Enter %s's Kid Code %s in Azoomee.\nDownload Azoomee here: http://bit.ly/azoomeekids",childsName.c_str(),childsName.c_str(),ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber).c_str()));
 }
 
 void KidsControlLayer::clearAllButCloseButton()

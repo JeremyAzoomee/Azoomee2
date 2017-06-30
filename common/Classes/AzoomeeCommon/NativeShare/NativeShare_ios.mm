@@ -10,7 +10,7 @@ namespace Azoomee
 void nativeShareScreenString(const std::string& shareString)
 {
     AzoomeeViewController* rootViewController =  (AzoomeeViewController*)[UIApplication sharedApplication].keyWindow.rootViewController;
-    
+
     NSArray *objectsToShare = @[[NSString stringWithUTF8String:shareString.c_str()]];
     
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
