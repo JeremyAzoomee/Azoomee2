@@ -155,7 +155,7 @@ void KidsLayer::setToCodeError(std::string code)
     failedTextBox->addChild(failedTextBoxLabel);
     this->addChild(failedTextBox);
     
-    Label* detailsLabel = createLabelSettingsChat("Oh No! We don't recognise\nthis code",Color3B::WHITE);
+    Label* detailsLabel = createLabelSettingsChat("Oh No! We didn't recognise\nthat Kid Code.",Color3B::WHITE);
     detailsLabel->setPosition(this->getContentSize().width/2,failedTextBox->getPositionY() + detailsLabel->getContentSize().height*1.25);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
@@ -180,7 +180,7 @@ void KidsLayer::setToCodeSuccess(std::string code)
     titleLabel->setTag(1000);
     this->addChild(titleLabel);
     
-    Label* detailsLabel = createLabelSettingsChat("Your friend has been added!\nTheir parents will need to\nconfirm the connection.",Color3B::WHITE);
+    Label* detailsLabel = createLabelSettingsChat("Your friend has been added!\nTheir parents will need to\nconfirm the friendship.",Color3B::WHITE);
     detailsLabel->setPosition(this->getContentSize().width/2,displayCodeTextBox->getPositionY() - detailsLabel->getContentSize().height);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);

@@ -52,11 +52,11 @@ void SettingsConfirmationLayer::confirmationDetailsReceived()
 
 void SettingsConfirmationLayer::addDetailsLabel()
 {
-    std::string labelText = "Great news, some of your childrens's friend requests have been accepted. Before we can connect them we would need you to tap confirm.";
+    std::string labelText = "You have new friendships to approve!";
     
     
     if(ParentDataProvider::getInstance()->getNoOfPendingFriendRequest() == 0)
-        labelText = "You're children don't have any friend requests to confirm at the moment.";
+        labelText = "There are no new friendships to approve right now.";
     
     detailsLabel = createLabelSettingsChat(labelText,Color3B::WHITE);
     detailsLabel->setHorizontalAlignment(TextHAlignment::LEFT);

@@ -58,7 +58,7 @@ void ConfirmationLayer::setToConfirm()
     clearUIItems();
     createRect(Color4F(246/255.0f, 187/255.0f, 66/255.0f,255/255.0f));
     
-    Label* rejectRequest = createLabelBody(StringUtils::format("%s & %s are now connected",childNameLabel->getString().c_str(),friendNameLabel->getString().c_str()));
+    Label* rejectRequest = createLabelBody(StringUtils::format("%s & %s are now friends and can chat!",childNameLabel->getString().c_str(),friendNameLabel->getString().c_str()));
     rejectRequest->setTag(1000);
     rejectRequest->setPosition(this->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(rejectRequest);
@@ -74,7 +74,7 @@ void ConfirmationLayer::setToReject()
     childNameLabel->setVisible(true);
     friendNameLabel->setVisible(true);
     
-    Label* rejectRequest = createLabelBody("Reject this request?");
+    Label* rejectRequest = createLabelBody("Reject this friendship?");
     rejectRequest->setTag(1000);
     rejectRequest->setPosition(this->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(rejectRequest);
