@@ -109,7 +109,7 @@ void SettingsControlLayer::createConfirmationNotification()
 {
     confirmationNotification = Sprite::create("res/navigation/chatAlert.png");
     confirmationNotification->setPosition(confirmationButton->getPositionX()+confirmationButton->getContentSize().width-LINE_WIDTH,confirmationButton->getPositionY()+confirmationButton->getContentSize().height-LINE_WIDTH);
-    confirmationButton->setOpacity(0);
+    confirmationNotification->setOpacity(0);
     backgroundLayer->addChild(confirmationNotification,SELECTED_TAB_Z);
 }
 
