@@ -60,6 +60,7 @@ bool NavigationLayer::init()
     for(int i = 0; i <= amountOfItems; i++)
     {
         auto menuItemImage = addMenuItemImage(i);
+        if(i == 0) addNotificationBadgeToChatIcon(menuItemImage);
         auto menuItemInactive = addMenuItemInactive(i, menuItemImage);          //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
         addMenuItemActive(i, menuItemImage);                                    //Active menuItem is visible, when we are in the given menu
         addListenerToMenuItem(menuItemImage);
@@ -211,6 +212,30 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
     toBeAddedTo->addChild(menuItemInactive);
     
     return menuItemInactive;
+}
+
+void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
+{
+    auto notificationBadge = Sprite::create("res/navigation/chatAlert.png");
+    notificationBadge->setName("notification");
+    notificationBadge->setPosition(chatIcon->getContentSize().width * 0.85, chatIcon->getContentSize().height * 0.85);
+    notificationBadge->setScale(0.0);
+    chatIcon->addChild(notificationBadge, 9);
+}
+
+void NavigationLayer::showNotificationBadge()
+{
+    if(!this->getChildByTag(0)->getChildByName("notification")) return;
+    
+    this->getChildByTag(0)->getChildByName("notification")->stopAllActions();
+    this->getChildByTag(0)->getChildByName("notification")->setScale(0.0);
+    this->getChildByTag(0)->getChildByName("notification")->runAction(EaseElasticOut::create(ScaleTo::create(1.0, 1.0)));
+}
+
+void NavigationLayer::hideNotificationBadge()
+{
+    this->getChildByTag(0)->getChildByName("notification")->stopAllActions();
+    this->getChildByTag(0)->getChildByName("notification")->setScale(0.0);
 }
 
 //------------------TOP LEVEL BUTTONS-------------------

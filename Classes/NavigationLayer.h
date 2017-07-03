@@ -68,6 +68,11 @@ private:
     
     //memory management
     void cleanUpPreviousHQ();
+    
+    //chat notifications
+    void addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon);
+    void showNotificationBadge();
+    void hideNotificationBadge();
 };
 
 NS_AZOOMEE_END
