@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "HQDataStorage.h"
@@ -120,6 +121,9 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
         getAvailableChildren();
         updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
+        
+        // Open Pusher channel
+        PusherSDK::getInstance()->openParentAccountChannel();
     }
     else
     {

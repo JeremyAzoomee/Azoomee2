@@ -28,6 +28,7 @@ const char* const API::TagOfflineCheck = "offlineCheck";
 const char* const API::TagFriendRequest = "friendRequest";
 const char* const API::TagFriendRequestReaction = "friendRequestReaction";
 const char* const API::TagGetPendingFriendRequests = "getPendingFriendRequests";
+const char* const API::TagPusherAuth = "chat.pusher.auth";
 
 #pragma mark - API Methods
 
@@ -240,7 +241,7 @@ HttpRequestCreator* API::GetChatMessagesRequest(const std::string& childId,
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagGetChatMessages;
-    request->requestPath = StringUtils::format("/api/share/%s/%s", childId.c_str(), friendId.c_str());
+    request->requestPath = StringUtils::format("/api/share/v2/%s/%s", childId.c_str(), friendId.c_str());
     request->encrypted = true;
     return request;
 }
@@ -252,7 +253,7 @@ HttpRequestCreator* API::SendChatMessageRequest(const std::string& childId,
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagSendChatMessage;
-    request->requestPath = StringUtils::format("/api/share/%s/%s", childId.c_str(), friendId.c_str());
+    request->requestPath = StringUtils::format("/api/share/v2/%s/%s", childId.c_str(), friendId.c_str());
     request->method = "POST";
     request->encrypted = true;
     
@@ -299,8 +300,21 @@ HttpRequestCreator* API::friendRequestReaction(bool confirmed, const std::string
     request->method = "POST";
     request->requestTag = TagFriendRequestReaction;
     request->encrypted = true;
-    
     return request;
 }
+
+HttpRequestCreator* API::PusherAuthRequest(const std::string& parentId,
+                                           const std::string& channelName,
+                                           const std::string& socketId,
+                                           HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagPusherAuth;
+    request->requestPath = StringUtils::format("/api/share/%s/pusher/auth", parentId.c_str());
+    request->urlParameters = StringUtils::format("channelName=%s&socketId=%s", channelName.c_str(), socketId.c_str());
+    request->encrypted = true;
+    return request;
+}
+
 
 NS_AZOOMEE_END

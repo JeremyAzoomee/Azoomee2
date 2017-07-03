@@ -16,7 +16,7 @@ NS_AZOOMEE_CHAT_BEGIN
 
 // Interval to do an auto get call
 // Temp feature until Pusher is implemented
-const float kAutoGetTimeInterval = 5.0f;
+const float kAutoGetTimeInterval = 0.0f; //5.0f;
 
 MessageScene* MessageScene::create(const FriendList& participants)
 {
@@ -208,6 +208,11 @@ void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 {
     // Auto get new messages until we have a live feed from PUSHER
     ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
+}
+
+void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
+{
+    _messageListView->addMessage(message);
 }
 
 #pragma mark - MessageComposer::Delegate
