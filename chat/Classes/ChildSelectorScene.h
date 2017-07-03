@@ -32,7 +32,7 @@ private:
     cocos2d::Label* titleLabel = nullptr;
     
     cocos2d::Point startTouchPosition;
-    bool touchMovedAway;
+    bool touchMovedAway = false;
     
     
     virtual bool init() override;

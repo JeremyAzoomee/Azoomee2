@@ -47,7 +47,7 @@ private:
     void addChildButtonPressed(Node* target);
     
     cocos2d::Point startTouchPosition;
-    bool touchMovedAway;
+    bool touchMovedAway = false;
 };
 
 NS_AZOOMEE_END

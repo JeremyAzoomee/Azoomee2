@@ -64,7 +64,7 @@ private:
     
     cocos2d::network::HttpRequest* jsonRequest;
     cocos2d::network::HttpRequest* zipRequest;
-    bool processCancelled;
+    bool processCancelled = false;
     
     bool isGameCompatibleWithCurrentAzoomeeVersion(std::string jsonFileName);
 };

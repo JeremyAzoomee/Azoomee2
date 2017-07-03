@@ -33,7 +33,7 @@ private:
     
     void askForPin();
     
-    bool restoreButtonPressed;
+    bool restoreButtonPressed = false;
     
     void createBackgroundLayer();
     void addListenerToBackgroundLayer();
@@ -50,7 +50,7 @@ private:
     void removeSelf();
     
 public:
-    bool requiresPinCode;
+    bool requiresPinCode = false;
     
     static cocos2d::Layer* createRequiresPin();
     

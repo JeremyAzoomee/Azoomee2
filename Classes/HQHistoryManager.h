@@ -34,8 +34,8 @@ public:
     std::string getGroupHQSourceId();
     std::string lastGroupHQSourceId;
     
-    bool thereWasAnError;
-    bool isOffline;
+    bool thereWasAnError = false;
+    bool isOffline = false;
     
 };
 
