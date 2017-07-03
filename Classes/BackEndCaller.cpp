@@ -213,10 +213,6 @@ void BackEndCaller::childLogin(int childNumber)
     
     ChildDataParser::getInstance()->setLoggedInChildName(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
     ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
-    
-    //friendRequest("e1d58b97-2597-4363-a1c9-af96758081b4", "Ooubrey", "T98LRF5M");
-    //getPendingFriendRequests();
-    //friendRequestReaction(true, "fb5362ce-0efb-44a9-8c57-da7f893f373e", "1428041b-c3a9-4e92-88f3-66ee43752544", "Ooubrey");
 }
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString)

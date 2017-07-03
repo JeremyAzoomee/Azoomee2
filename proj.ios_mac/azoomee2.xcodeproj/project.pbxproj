@@ -146,7 +146,6 @@
 		D113134C1E337D7C00E2C033 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D113134B1E337D7C00E2C033 /* MediaPlayer.framework */; };
 		D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */ = {isa = PBXBuildFile; fileRef = D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */; };
 		D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */; };
-		D13C401C1E33A0F0002360A6 /* ExitOrLogoutLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D13C40191E33A0F0002360A6 /* ExitOrLogoutLayer.cpp */; };
 		D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620B132DFF330009C878 /* OpenAL.framework */; };
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
@@ -445,8 +444,6 @@
 		D13C40141E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ios_Cocos2d_Callbacks.mm; sourceTree = "<group>"; };
 		D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AwaitingAdultPinLayer.cpp; sourceTree = "<group>"; };
 		D13C40181E33A0F0002360A6 /* AwaitingAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwaitingAdultPinLayer.h; sourceTree = "<group>"; };
-		D13C40191E33A0F0002360A6 /* ExitOrLogoutLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExitOrLogoutLayer.cpp; sourceTree = "<group>"; };
-		D13C401A1E33A0F0002360A6 /* ExitOrLogoutLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExitOrLogoutLayer.h; sourceTree = "<group>"; };
 		D44C620B132DFF330009C878 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -1039,8 +1036,6 @@
 				439694831EAA4A08003C17E6 /* PrivacyAndTermsLayer.h */,
 				D13C40171E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp */,
 				D13C40181E33A0F0002360A6 /* AwaitingAdultPinLayer.h */,
-				D13C40191E33A0F0002360A6 /* ExitOrLogoutLayer.cpp */,
-				D13C401A1E33A0F0002360A6 /* ExitOrLogoutLayer.h */,
 				025BE9551E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp */,
 				025BE9561E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.h */,
 			);
@@ -1314,7 +1309,6 @@
 				430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
-				D13C401C1E33A0F0002360A6 /* ExitOrLogoutLayer.cpp in Sources */,
 				A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */,
 				02A11FF61EA6375D007EDD95 /* AmazonPaymentSingleton.cpp in Sources */,
 				43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */,

@@ -1,5 +1,4 @@
 #include "SettingsButton.h"
-#include "ExitOrLogoutLayer.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "SettingsControlLayer.h"
 
@@ -39,7 +38,6 @@ bool SettingsButton::init()
 
 void SettingsButton::onButtonPressed()
 {
-    //ExitOrLogoutLayer::create();
     SettingsControlLayer::create();
 }
 

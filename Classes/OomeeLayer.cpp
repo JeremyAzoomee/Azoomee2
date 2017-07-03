@@ -57,7 +57,7 @@ spine::SkeletonAnimation* OomeeLayer::addOomeeToScreen()
     std::string atlasFileName = StringUtils::format("res/oomees/%s.atlas", oomeeName.c_str());
     
     SkeletonAnimation *oomee = SkeletonAnimation::createWithJsonFile(jsonFileName, atlasFileName);
-    oomee->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 0.42);
+    oomee->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height*.4);
     oomee->setAnimation(0, ConfigStorage::getInstance()->getGreetingAnimation().c_str(), false);
     oomee->setScale(1.2);
     oomee->setOpacity(0);
