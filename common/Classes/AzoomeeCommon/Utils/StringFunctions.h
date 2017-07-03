@@ -17,7 +17,8 @@ bool isDateStringOlderThanToday(std::string dateToCheck);
 std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMap);
 std::string getJSONStringFromMap(std::map<std::string, std::string> inputMap);
 std::string replaceAll(std::string& str, const std::string& from, const std::string& to);
-
+std::string url_encode(const std::string &value);
+    
 /// Trim whitespace from the start of string
 std::string ltrim(const std::string& s);
 /// Trim whitespace from the end of string
