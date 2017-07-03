@@ -8,6 +8,8 @@
 
 using namespace cocos2d;
 
+//#define USINGCI
+
 
 namespace Azoomee
 {
@@ -42,8 +44,32 @@ bool ConfigStorage::init(void)
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
     IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
     
-    parentSignedRequestTags = {API::TagParentPin, API::TagVerifyAmazonPayment, API::TagVerifyGooglePayment, API::TagVerifyApplePayment, API::TagUpdateBillingData, API::TagGetAvailableChildren, API::TagUpdateChild, API::TagGetPendingFriendRequests, API::TagFriendRequest, API::TagFriendRequestReaction};
-    requestTagsRequireImmediateSending = {"GROUP HQ", "VIDEO HQ", "AUDIO HQ", "GAME HQ", "PreviewHOME", "HOME", API::TagLogin, API::TagChildLogin, API::TagParentPin, API::TagVerifyGooglePayment, API::TagVerifyAmazonPayment, API::TagVerifyApplePayment, API::TagGetAvailableChildren};
+    parentSignedRequestTags = {
+        API::TagParentPin,
+        API::TagVerifyAmazonPayment,
+        API::TagVerifyGooglePayment,
+        API::TagVerifyApplePayment,
+        API::TagUpdateBillingData,
+        API::TagGetAvailableChildren,
+        API::TagUpdateChild,
+        API::TagPusherAuth
+    };
+    requestTagsRequireImmediateSending = {
+        "GROUP HQ",
+        "VIDEO HQ",
+        "AUDIO HQ",
+        "GAME HQ",
+        "PreviewHOME",
+        "HOME",
+        API::TagLogin,
+        API::TagChildLogin,
+        API::TagParentPin,
+        API::TagVerifyGooglePayment,
+        API::TagVerifyAmazonPayment,
+        API::TagVerifyApplePayment,
+        API::TagGetAvailableChildren,
+        API::TagPusherAuth
+    };
     
     
     return true;

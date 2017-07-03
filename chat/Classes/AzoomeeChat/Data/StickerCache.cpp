@@ -59,7 +59,7 @@ std::string StickerCache::localBundlePath() const
     return kStickersLocalDirectory;
 }
 
-const StickerCategoryList& StickerCache::categories() const
+StickerCategoryList StickerCache::categories() const
 {
     return _categories;
 }

@@ -25,8 +25,13 @@ public:
     
     HttpRequestCreator(HttpRequestCreatorResponseDelegate* delegate);
     
-    // Execute the request
+    // Build and execute the request
     void execute();
+    // Build and return the request only, without sending it
+    cocos2d::network::HttpRequest* buildHttpRequest();
+    // Send the specified request
+    void sendRequest(cocos2d::network::HttpRequest* request);
+    
     
     std::string requestBody;
     std::string urlParameters;
@@ -43,7 +48,6 @@ private:
     std::string getDateFormatString();
     std::string addLeadingZeroToDateElement(int input);
     
-    void createHttpRequest();
     void onHttpRequestAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);
