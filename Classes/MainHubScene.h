@@ -22,7 +22,6 @@ private:
     
     cocos2d::Size visibleSize;
     cocos2d::Point origin;
-    float zoomFactor;
 };
 
 NS_AZOOMEE_END

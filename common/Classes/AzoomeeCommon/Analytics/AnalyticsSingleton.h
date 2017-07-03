@@ -136,6 +136,18 @@ public:
     void deepLinkingDetailsSetEvent();
     void deepLinkingMoveToEvent(std::string moveTo);
     void deepLinkingContentEvent();
+    
+    //-----------------CHAT INVITATION EVENTS------------------
+    void settingsConfirmationTabNotificationShown();
+    void settingsConfirmationTabNotificationError(long errorCode);
+    void settingsKidInviteRequestSuccess();
+    void settingsKidInviteRequestError(long errorCode);
+    void settingsPendingFriendRequestsRefreshError(long errorCode);
+    void settingsConfirmationRejectedSuccess();
+    void settingsConfirmationApprovedSuccess();
+    void settingsConfirmationError(long errorCode);
+
+    
 };
   
 }

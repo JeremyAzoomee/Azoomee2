@@ -125,6 +125,7 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     if(method == "POST") request->setRequestType(HttpRequest::Type::POST);
     if(method == "GET") request->setRequestType(HttpRequest::Type::GET);
     if(method == "PATCH") request->setRequestType(HttpRequest::Type::PATCH);
+    if(method == "PUT") request->setRequestType(HttpRequest::Type::PUT);
     request->setUrl(requestUrl.c_str());
     
     const char *postData = requestBody.c_str();
@@ -143,11 +144,13 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
         
         if(ConfigStorage::getInstance()->isParentSignatureRequiredForRequest(requestTag))
         {
+            cocos2d::log("Request signed by mother: %s", requestTag.c_str());
             auto myJWTTool = JWTToolForceParent::getInstance();
             myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
         }
         else
         {
+            cocos2d::log("Request signed by child: %s", requestTag.c_str());
             auto myJWTTool = JWTTool::getInstance();
             myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
         }
@@ -159,6 +162,14 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionNumberWithPlatform().c_str()));
     
     request->setHeaders(headers);
+    
+    cocos2d::log("LISTING HEADERS FOR TAG: %s", requestTag.c_str());
+    for(int i = 0; i < request->getHeaders().size(); i++)
+    {
+        cocos2d::log("%s", request->getHeaders().at(i).c_str());
+    }
+        
+    cocos2d::log("END OF LISTING HEADERS");
     
     request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
     request->setTag(requestTag);
@@ -181,7 +192,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     cocos2d::log("response header: %s", responseHeaderString.c_str());
     cocos2d::log("response string: %s", responseDataString.c_str());
     
-    if((response->getResponseCode() == 200)||(response->getResponseCode() == 201))
+    if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
     {
         if(delegate != nullptr)
         {

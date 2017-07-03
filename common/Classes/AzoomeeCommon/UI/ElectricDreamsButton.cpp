@@ -18,6 +18,8 @@ bool ElectricDreamsButton::init()
         return false;
     }
     
+    buttonEnabled = true;
+    
     return true;
 }
 
@@ -331,6 +333,135 @@ ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton(float withWi
     return layer;
 }
 
+ElectricDreamsButton* ElectricDreamsButton::createChildSelectorButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    Sprite* spriteOuterButton = Sprite::create("res/navigation/outer_circle.png");
+    spriteOuterButton->setPosition(spriteOuterButton->getContentSize().width/2, spriteOuterButton->getContentSize().height/2);
+    spriteOuterButton->setColor(Color3B::WHITE);
+    layer->addChild(spriteOuterButton);
+    
+    Sprite* spriteInnerButton = Sprite::create("res/navigation/menu6.png");
+    spriteInnerButton->setPosition(spriteOuterButton->getContentSize().width/2, spriteOuterButton->getContentSize().height/2);
+    spriteOuterButton->addChild(spriteInnerButton);
+    
+    layer->setContentSize(spriteOuterButton->getContentSize());
+    layer->buttonAudioFile = BACK_BUTTON_AUDIO_EFFECT;
+    layer->addListener();
+
+    return layer;
+
+}
+    
+ElectricDreamsButton* ElectricDreamsButton::createTabButton(std::string buttonText)
+{
+    auto layer = ElectricDreamsButton::create();
+    layer->addChild(layer->createSpriteButton("res/settings/tab.png", OK_BUTTON_AUDIO_EFFECT ));
+    
+    Label* buttonLabel = createLabelButtonAdultSecondary(buttonText);
+    buttonLabel->setPosition(layer->getContentSize().width/2, layer->getContentSize().height/2);
+    layer->addChild(buttonLabel);
+    
+    layer->addListener();
+
+    return layer;
+}
+    
+//----------- CHAT INVITE BUTTONS -------------------
+
+ElectricDreamsButton* ElectricDreamsButton::createInviteMainButton(std::string buttonText, float buttonWidth)
+{
+    auto layer = ElectricDreamsButton::createSmallSprite9Button(buttonText, buttonWidth,"res/buttons/inviteMainButton.png", Color3B::BLACK);
+    layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
+    return layer;
+
+}
+ElectricDreamsButton* ElectricDreamsButton::createRedOutlineButton(std::string buttonText, float buttonWidth)
+{
+    auto layer = ElectricDreamsButton::createSmallSprite9Button(buttonText, buttonWidth,"res/buttons/inviteRejectionSecondaryButton.png", Color3B::WHITE);
+    layer->buttonAudioFile = CANCEL_BUTTON_AUDIO_EFFECT;
+    return layer;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createRedFilledButton(std::string buttonText, float buttonWidth)
+{
+    auto layer = ElectricDreamsButton::createSmallSprite9Button(buttonText, buttonWidth,"res/buttons/inviteRejectionMainButton.png", Color3B::BLACK);
+    layer->buttonAudioFile = ACCEPT_BUTTON_AUDIO_EFFECT;
+    return layer;
+}
+    
+ElectricDreamsButton* ElectricDreamsButton::createSmallSprite9Button(std::string buttonText, float buttonWidth,std::string sprite9, Color3B textColor)
+{
+    Label* buttonLabel = createLabelSettingsChat(buttonText,textColor);
+    
+    Rect spriteRect = Rect(0, 0, 184, 107);
+    Rect capInsents = Rect(50, 53, 1, 1);
+    
+    
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create(sprite9, spriteRect, capInsents);
+    newButton->setContentSize(Size(buttonWidth, 107));
+    newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
+    
+    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);
+    
+    newButton->addChild(buttonLabel);
+    newButton->setCascadeOpacityEnabled(true);
+    
+    auto layer = ElectricDreamsButton::create();
+    layer->setCascadeOpacityEnabled(true);
+    layer->setContentSize(newButton->getContentSize());
+    layer->addChild(newButton);
+    
+    layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
+    
+    layer->addListener();
+    
+    return layer;
+}
+    
+ElectricDreamsButton* ElectricDreamsButton::createTextInputAsButton(std::string buttonText, float buttonWidth)
+{
+    Label* buttonLabel = createLabelSettingsChat(buttonText,Color3B(28, 244, 244));
+    
+    Rect spriteRect = Rect(0, 0, 268, 107);
+    Rect capInsents = Rect(100, 53, 1, 1);
+    
+    
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/settings/textField.png", spriteRect, capInsents);
+    newButton->setContentSize(Size(buttonWidth, 107));
+    newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
+    
+    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);
+    
+    newButton->addChild(buttonLabel);
+    newButton->setCascadeOpacityEnabled(true);
+    
+    auto layer = ElectricDreamsButton::create();
+    layer->setCascadeOpacityEnabled(true);
+    layer->setContentSize(newButton->getContentSize());
+    layer->addChild(newButton);
+    
+    layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
+    
+    layer->addListener();
+    
+    return layer;
+    
+}
+    
+ElectricDreamsButton* ElectricDreamsButton::createSendButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    layer->buttonEnabledImage = "res/settings/sendBtn.png";
+    layer->buttonDisablednabledImage = "res/settings/sendBtnDisabled.png";
+    layer->buttonEnabled = false;
+    layer->addChild(layer->createSpriteButton(layer->buttonDisablednabledImage, NEXT_BUTTON_AUDIO_EFFECT ));
+    layer->addListener();
+    
+    return layer;
+}
+
 //-------------OOMEE BUTTONS AND FUNCTIONS---------------------
 
 ElectricDreamsButton* ElectricDreamsButton::createOomeeButtonWithOutline(int oomeeNumber, std::string oomeeName)
@@ -404,7 +535,7 @@ void ElectricDreamsButton::addListener()
         Point locationInNode = target->convertToNodeSpace(touch->getLocation());
         Rect rect = Rect(0, 0, target->getContentSize().width, target->getContentSize().height);
         
-        if(rect.containsPoint(locationInNode) && this->isVisible())
+        if(rect.containsPoint(locationInNode) && this->isVisible() && buttonEnabled)
         {
             this->scheduleOnce(CC_SCHEDULE_SELECTOR(ElectricDreamsButton::callDelegateFunction), 0.1);
             return true;
@@ -448,6 +579,16 @@ void ElectricDreamsButton::setMixPanelButtonName(std::string buttonName)
 {
     mixPanelButtonName = buttonName;
 }
+    
+void ElectricDreamsButton::setEnabled(bool isEnabled)
+{
+    buttonEnabled = isEnabled;
+    
+    if(isEnabled)
+        spriteButton->setTexture(buttonEnabledImage);
+    else
+        spriteButton->setTexture(buttonDisablednabledImage);
+}
 
 //------------------------- private functions ----------------------
 
@@ -459,7 +600,7 @@ void ElectricDreamsButton::sendMixPanelEvent()
 
 Sprite* ElectricDreamsButton::createSpriteButton(std::string buttonImage, std::string buttonAudio)
 {
-    Sprite* spriteButton = Sprite::create(buttonImage);
+    spriteButton = Sprite::create(buttonImage);
     spriteButton->setPosition(spriteButton->getContentSize().width/2, spriteButton->getContentSize().height/2);
     
     setContentSize(spriteButton->getContentSize());

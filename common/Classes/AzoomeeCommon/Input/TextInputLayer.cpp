@@ -2,6 +2,7 @@
 #include "TextInputChecker.h"
 #include "../Strings.h"
 #include "../UI/ElectricDreamsTextStyles.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -24,6 +25,16 @@ TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputT
     layer->createEditBox();
     layer->createEditBoxArea();
     layer->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.70));
+    
+    return layer;
+}
+    
+TextInputLayer* TextInputLayer::createSettingsChatTextInput(float width)
+{
+    auto layer = TextInputLayer::create();
+    layer->setContentSize(Size(width,107));
+    layer->createSettingsChatEditBox(width);
+    layer->textInputType = INPUT_IS_KIDS_CODE;
     
     return layer;
 }
@@ -59,6 +70,8 @@ void TextInputLayer::createEditBox()
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::WHITE);
+    
+    editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
    
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         editBox->setReturnType(ui::EditBox::KeyboardReturnType::GO);
@@ -129,7 +142,41 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
+        
     }
+}
+    
+void TextInputLayer::createSettingsChatEditBox(float width)
+{
+    Rect spriteRect = Rect(0, 0, 268, 107);
+    Rect capInsents = Rect(100, 53, 1, 1);
+    editBoxArea = ui::Scale9Sprite::create("res/settings/textEntry.png", spriteRect, capInsents);
+    editBoxArea->setContentSize(Size(width,107));
+    editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    this->addChild(editBoxArea);
+    
+    editBox = ui::EditBox::create(Size(this->getContentSize().width - 100,this->getContentSize().height), "res/settings/textEntry.png");
+    editBox->moveOnKeyboardDisplayRequired = false;
+    editBox->setColor(Color3B::WHITE);
+    editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBox->setFont(SETTINGS_CHAT_STYLE_FONT, 84);
+    editBox->setFontColor(Color3B::BLACK);
+    editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS);
+    
+    editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::GO);
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    editBox->setReturnType(ui::EditBox::KeyboardReturnType::NEXT);
+#endif
+    
+    editBox->setDelegate(this);
+    
+    editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+    editBox->setMaxLength(8);
+    
+    this->addChild(editBox);
 }
 
 //---------------------- public Functions After Setup -----------------------------
@@ -190,6 +237,10 @@ bool TextInputLayer::inputIsValid()
             if(isValidChildName(editBox->getText()))
                 isValidInput = true;
             break;
+        }
+        case INPUT_IS_KIDS_CODE:
+        {
+            isValidInput = strlen(editBox->getText()) == 8;
             break;
         }
     }
@@ -227,9 +278,26 @@ void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBo
     #endif
     {
         if(this->getDelegate())
+        {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("Keyboard-GO");
             //Inform Delegates if input is valid
             this->getDelegate()->textInputReturnPressed(this);
+        }
     }
+}
+    
+void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
+{
+    if(this->getDelegate())
+        //Inform Delegates if input is valid
+        this->getDelegate()->editBoxEditingDidBegin(this);
+}
+    
+void TextInputLayer::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
+{
+    if(this->getDelegate())
+        //Inform Delegates if input is valid
+        this->getDelegate()->editBoxEditingDidEnd(this);
 }
   
 }

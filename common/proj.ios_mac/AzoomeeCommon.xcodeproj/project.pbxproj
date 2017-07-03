@@ -55,6 +55,7 @@
 		30DD5EF01E96860C0084305B /* ConfigStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EEE1E96860C0084305B /* ConfigStorage.cpp */; };
 		30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E094BB1EDF0F2B00555891 /* URI.cpp */; };
 		30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E094BD1EDF0F2B00555891 /* Utils.cpp */; };
+		43087FD91F03AC4C00E199EA /* NativeShare_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */; };
 		4349C8041EA8ADEF00FE964B /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C8131EA8ADEF00FE964B /* Mixpanel+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7751EA8ADEE00FE964B /* Mixpanel+AutomaticEvents.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C8141EA8ADEF00FE964B /* Mixpanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7771EA8ADEE00FE964B /* Mixpanel.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -233,6 +234,9 @@
 		30E094BC1EDF0F2B00555891 /* URI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URI.h; sourceTree = "<group>"; };
 		30E094BD1EDF0F2B00555891 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
 		30E094BE1EDF0F2B00555891 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		43087FD51F03AC4C00E199EA /* NativeShare_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeShare_android.cpp; path = AzoomeeCommon/NativeShare/NativeShare_android.cpp; sourceTree = "<group>"; };
+		43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = NativeShare_ios.mm; path = AzoomeeCommon/NativeShare/NativeShare_ios.mm; sourceTree = "<group>"; };
+		43087FD71F03AC4C00E199EA /* NativeShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeShare.h; path = AzoomeeCommon/NativeShare/NativeShare.h; sourceTree = "<group>"; };
 		4349C7601EA8ADEE00FE964B /* _MPTweakBindObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MPTweakBindObserver.h; sourceTree = "<group>"; };
 		4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MPTweakBindObserver.m; sourceTree = "<group>"; };
 		4349C7631EA8ADEE00FE964B /* AutomaticEventsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutomaticEventsConstants.h; sourceTree = "<group>"; };
@@ -608,6 +612,7 @@
 				3012ED651E96A3140009027D /* Input */,
 				3012EDA31E97E8450009027D /* JWTSigner */,
 				3012ED801E97A8F50009027D /* Mixpanel */,
+				43087FD41F03AC0C00E199EA /* NativeShare */,
 				30E094BA1EDF0F2B00555891 /* Net */,
 				3000FF6D1ED5AB7000E9717C /* Platform */,
 				3012ED861E97DB450009027D /* UI */,
@@ -682,6 +687,17 @@
 				30E094BE1EDF0F2B00555891 /* Utils.h */,
 			);
 			path = Net;
+			sourceTree = "<group>";
+		};
+		43087FD41F03AC0C00E199EA /* NativeShare */ = {
+			isa = PBXGroup;
+			children = (
+				43087FD51F03AC4C00E199EA /* NativeShare_android.cpp */,
+				43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */,
+				43087FD71F03AC4C00E199EA /* NativeShare.h */,
+			);
+			name = NativeShare;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		4349C75F1EA8ADEE00FE964B /* Mixpanel */ = {
@@ -981,6 +997,7 @@
 				4349C8171EA8ADEF00FE964B /* MixpanelWatchProperties.m in Sources */,
 				4349C83E1EA8ADEF00FE964B /* MPObjectSerializerContext.m in Sources */,
 				4349C8281EA8ADEF00FE964B /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
+				43087FD91F03AC4C00E199EA /* NativeShare_ios.mm in Sources */,
 				4349C84E1EA8ADEF00FE964B /* MPUIControlBinding.m in Sources */,
 				3012EDA01E97E6A40009027D /* ImageDownloaderCacheCleanerLogic.cpp in Sources */,
 				4349C83C1EA8ADEF00FE964B /* MPObjectSerializer.m in Sources */,

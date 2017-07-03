@@ -14,6 +14,7 @@
 #include "cocos/ui/UIRichText.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Azoomee.h>
 
 using namespace cocos2d;
 

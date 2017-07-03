@@ -25,6 +25,9 @@ const char* const API::TagGetChatMessages = "chat.getChatMessages";
 const char* const API::TagSendChatMessage = "chat.sendChatMessage";
 const char* const API::TagResetPasswordRequest = "resetPasswordRequest";
 const char* const API::TagOfflineCheck = "offlineCheck";
+const char* const API::TagFriendRequest = "friendRequest";
+const char* const API::TagFriendRequestReaction = "friendRequestReaction";
+const char* const API::TagGetPendingFriendRequests = "getPendingFriendRequests";
 
 #pragma mark - API Methods
 
@@ -259,6 +262,43 @@ HttpRequestCreator* API::SendChatMessageRequest(const std::string& childId,
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     json.Accept(writer);
     request->requestBody = buffer.GetString();
+    
+    return request;
+}
+
+HttpRequestCreator* API::getPendingFriendRequests(HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->urlParameters = "status=CREATED";
+    request->requestTag = TagGetPendingFriendRequests;
+    request->encrypted = true;
+    
+    return request;
+}
+
+HttpRequestCreator* API::friendRequest(const std::string& senderChildId, const std::string& senderChildName, const std::string& inviteCode, HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = StringUtils::format("/api/user/child/%s/invite/code", senderChildId.c_str());
+    request->requestBody = StringUtils::format("{\"inviteeCode\": \"%s\", \"friendName\": \"\", \"senderName\": \"%s\"}", inviteCode.c_str(), senderChildName.c_str());
+    request->method = "POST";
+    request->requestTag = TagFriendRequest;
+    request->encrypted = true;
+    
+    return request;
+}
+
+HttpRequestCreator* API::friendRequestReaction(bool confirmed, const std::string& respondentChildId, const std::string& invitationId, const std::string& senderName, HttpRequestCreatorResponseDelegate* delegate)
+{
+    std::string status = "APPROVED";
+    if(!confirmed) status = "REJECTED";
+    
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestPath = StringUtils::format("/api/user/child/%s/invite/code/%s", respondentChildId.c_str(), invitationId.c_str());
+    request->requestBody = StringUtils::format("{\"status\": \"%s\", \"friendName\": \"%s\"}", status.c_str(), senderName.c_str());
+    request->method = "POST";
+    request->requestTag = TagFriendRequestReaction;
+    request->encrypted = true;
     
     return request;
 }

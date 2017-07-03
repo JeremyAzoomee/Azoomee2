@@ -281,9 +281,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(iamtouched)
         {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
-            return true;
-            
             if(preview)
             {
                 PreviewLoginSignupMessageBox::create();

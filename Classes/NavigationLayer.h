@@ -4,6 +4,7 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
+#include "DisplayChildNameLayer.h"
 
 
 NS_AZOOMEE_BEGIN
@@ -27,6 +28,7 @@ private:
     ElectricDreamsButton *previewLoginButton;
     ElectricDreamsButton *previewSignUpButton;
     ElectricDreamsButton *settingsButton;
+    ElectricDreamsButton *returnToChildSelectorButton;
 
     //MenuItem creation phase
     cocos2d::Sprite* addMenuItemImage(int itemNumber);
@@ -40,9 +42,13 @@ private:
     void moveMenuPointsToHorizontalState(float duration);
     void moveMenuPointsToHorizontalStateInGroupHQ(float duration);
     void moveMenuPointsToCircleState(float duration);
-    void createSettingsButton();
-    void settingsButtonOffScreen();
-    void settingsButtonOnScreen();
+    
+    //---------TOP OBJECTS, SETTINGS/BACK TO CHILD SELECTOR----------
+    void createTopObjects();
+    void topObjectsOffScreen();
+    void topObjectsOnScreen();
+    
+    //--------PREVIEW BUTTONS--------
     void createPreviewLoginButton();
     void createPreviewSignUpButton();
     

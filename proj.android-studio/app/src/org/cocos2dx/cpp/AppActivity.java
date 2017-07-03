@@ -459,4 +459,14 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
     }
 
+    //--------------------- SHARE ACTION PROVIDER --------------------
+
+    public static void shareActionProviderWithString(String textToShare) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
+
+        mActivity.startActivity(shareIntent);
+    }
+
 }
