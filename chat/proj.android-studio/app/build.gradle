@@ -23,8 +23,8 @@ android {
         applicationId "com.tinizine.azoomeechat"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 1000105
-        versionName "0.1.5"
+        versionCode 1000106
+        versionName "0.1.6"
     }
     
 //    splits {

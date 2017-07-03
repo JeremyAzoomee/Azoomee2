@@ -35,7 +35,7 @@ public:
     std::string localBundlePath() const;
     
     /// Sticker categories
-    const StickerCategoryList& categories() const;
+    StickerCategoryList categories() const;
     
     /// Find a Sticker by URL, if it is recognised
     StickerRef findStickerByURL(const std::string& url) const;

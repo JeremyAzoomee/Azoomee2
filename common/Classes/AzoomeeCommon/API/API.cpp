@@ -25,6 +25,7 @@ const char* const API::TagGetChatMessages = "chat.getChatMessages";
 const char* const API::TagSendChatMessage = "chat.sendChatMessage";
 const char* const API::TagResetPasswordRequest = "resetPasswordRequest";
 const char* const API::TagOfflineCheck = "offlineCheck";
+const char* const API::TagPusherAuth = "chat.pusher.auth";
 
 #pragma mark - API Methods
 
@@ -237,7 +238,7 @@ HttpRequestCreator* API::GetChatMessagesRequest(const std::string& childId,
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagGetChatMessages;
-    request->requestPath = StringUtils::format("/api/share/%s/%s", childId.c_str(), friendId.c_str());
+    request->requestPath = StringUtils::format("/api/share/v2/%s/%s", childId.c_str(), friendId.c_str());
     request->encrypted = true;
     return request;
 }
@@ -249,7 +250,7 @@ HttpRequestCreator* API::SendChatMessageRequest(const std::string& childId,
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagSendChatMessage;
-    request->requestPath = StringUtils::format("/api/share/%s/%s", childId.c_str(), friendId.c_str());
+    request->requestPath = StringUtils::format("/api/share/v2/%s/%s", childId.c_str(), friendId.c_str());
     request->method = "POST";
     request->encrypted = true;
     
@@ -260,6 +261,19 @@ HttpRequestCreator* API::SendChatMessageRequest(const std::string& childId,
     json.Accept(writer);
     request->requestBody = buffer.GetString();
     
+    return request;
+}
+
+HttpRequestCreator* API::PusherAuthRequest(const std::string& parentId,
+                                           const std::string& channelName,
+                                           const std::string& socketId,
+                                           HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagPusherAuth;
+    request->requestPath = StringUtils::format("/api/share/%s/pusher/auth", parentId.c_str());
+    request->urlParameters = StringUtils::format("channelName=%s&socketId=%s", channelName.c_str(), socketId.c_str());
+    request->encrypted = true;
     return request;
 }
 

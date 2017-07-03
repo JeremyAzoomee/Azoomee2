@@ -49,6 +49,7 @@ private:
     // - ChatAPIObserver
     void onChatAPIGetChatMessages(const MessageList& messageList) override;
     void onChatAPISendMessage(const MessageRef& sentMessage) override;
+    void onChatAPIMessageRecieved(const MessageRef& message) override;
     
     // - MessageComposer::Delegate
     void onMessageComposerSendMessage(const MessageRef& message) override;

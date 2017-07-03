@@ -71,7 +71,7 @@ std::string StickerCategory::imageLocalPath() const
     return _imageURL;
 }
 
-const StickerList& StickerCategory::stickers() const
+StickerList StickerCategory::stickers() const
 {
     return _stickers;
 }
