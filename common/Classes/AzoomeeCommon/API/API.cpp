@@ -300,7 +300,9 @@ HttpRequestCreator* API::friendRequestReaction(bool confirmed, const std::string
     request->method = "POST";
     request->requestTag = TagFriendRequestReaction;
     request->encrypted = true;
-    
+    return request;
+}
+
 HttpRequestCreator* API::PusherAuthRequest(const std::string& parentId,
                                            const std::string& channelName,
                                            const std::string& socketId,
