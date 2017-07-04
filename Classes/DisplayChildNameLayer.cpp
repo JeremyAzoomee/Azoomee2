@@ -57,7 +57,6 @@ void DisplayChildNameLayer::createChildNameToLayer()
 void DisplayChildNameLayer::createLoggedInAsToLayer()
 {
     loggedInAsLabel = createLabelWith("logged in as", FONT_REGULAR, Style::Color::brightAqua, 40);
-
     loggedInAsLabel->setPosition(loggedInAsLabel->getContentSize().width/2, childNameLabel->getContentSize().height*2.5);
     loggedInAsLabel->setOpacity(0);
 }

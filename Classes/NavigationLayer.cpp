@@ -186,7 +186,7 @@ Sprite* NavigationLayer::addMenuItemImage(int itemNumber)
     menuItemImage->setTag(itemNumber);
     menuItemImage->setOpacity(0);
     menuItemImage->setColor(Color3B(colour.r, colour.g, colour.b));
-    menuItemImage->setPosition(origin+visibleSize/2+position);
+    menuItemImage->setPosition(origin.x+visibleSize.width/2+position.x,origin.y+visibleSize.height/2+position.y);
     this->addChild(menuItemImage);
     
     return menuItemImage;
@@ -410,7 +410,7 @@ void NavigationLayer::moveMenuPointsToCircleState(float duration)
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
-        auto action = EaseInOut::create(MoveTo::create(duration, origin+visibleSize/2+targetPosition), 2);
+        auto action = EaseInOut::create(MoveTo::create(duration, Vec2(origin.x+visibleSize.width/2+targetPosition.x,origin.y+visibleSize.height/2+targetPosition.y)), 2);
         action->setTag(1);
         
         menuItemImage->runAction(action);
