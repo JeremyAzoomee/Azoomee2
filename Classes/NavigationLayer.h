@@ -5,11 +5,12 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include "DisplayChildNameLayer.h"
+#include <AzoomeeChat/ChatAPI.h>
 
 
 NS_AZOOMEE_BEGIN
 
-class NavigationLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate
+class NavigationLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate, public Chat::ChatAPIObserver
 {
 public:
     CREATE_FUNC(NavigationLayer);
@@ -20,7 +21,9 @@ public:
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
+    void onChatAPIMessageRecieved(Chat::Message);
     
+    void onExit();
 private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;

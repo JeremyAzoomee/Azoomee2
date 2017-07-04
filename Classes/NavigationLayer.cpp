@@ -221,6 +221,8 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
     notificationBadge->setPosition(chatIcon->getContentSize().width * 0.85, chatIcon->getContentSize().height * 0.85);
     notificationBadge->setScale(0.0);
     chatIcon->addChild(notificationBadge, 9);
+    
+    Chat::ChatAPI::getInstance()->registerObserver(this);
 }
 
 void NavigationLayer::showNotificationBadge()
@@ -552,6 +554,18 @@ void NavigationLayer::cleanUpPreviousHQ()
         this->runAction(Sequence::create(DelayTime::create(0.0), funcCallAction, NULL));
         
     }
+}
+
+void NavigationLayer::onChatAPIMessageRecieved(Chat::Message)
+{
+    AudioMixer::getInstance()->playEffect("res/audio/message.mp3");
+    showNotificationBadge();
+}
+
+void NavigationLayer::onExit()
+{
+    Chat::ChatAPI::getInstance()->removeObserver(this);
+    Node::onExit();
 }
 
 NS_AZOOMEE_END
