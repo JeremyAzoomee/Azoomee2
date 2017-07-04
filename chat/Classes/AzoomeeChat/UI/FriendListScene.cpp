@@ -2,8 +2,10 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "MessageScene.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -235,12 +237,24 @@ void FriendListScene::createUserPanelUI(cocos2d::ui::Layout* parent)
 void FriendListScene::onBackButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - BackButton");
     
     Azoomee::Chat::delegate->onChatNavigationBack();
 }
 
 void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 {
+    if(friendData->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId())
+    {
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - SelectedParent");
+        AnalyticsSingleton::getInstance()->setChatFriendIsParent(true);
+    }
+    else
+    {
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - SelectedFriend");
+        AnalyticsSingleton::getInstance()->setChatFriendIsParent(false);
+    }
+    
     AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
     
     FriendList participants = { _currentUser, friendData };

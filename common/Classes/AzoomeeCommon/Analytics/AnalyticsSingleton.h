@@ -52,9 +52,10 @@ public:
     void registerCurrentScene(std::string currentScene);
     void setLandscapeOrientation();
     void setPortraitOrientation();
+    void setNumberOfChatFriends(int noOfChildren);
+    void setChatFriendIsParent(bool chatFriendIsParent);
 
-
-    void registerChildID(std::string ChildID);
+    void registerChildID(std::string noOfChatFriends);
     void registerChildGenderAndAge(int childNumber);
 
     void logoutChildEvent();

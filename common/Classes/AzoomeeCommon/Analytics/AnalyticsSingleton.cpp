@@ -136,6 +136,21 @@ void AnalyticsSingleton::setLandscapeOrientation()
 {
     mixPanelRegisterSuperProperties("orientation", "landscape");
 }
+    
+void AnalyticsSingleton::setNumberOfChatFriends(int noOfChatFriends)
+{
+    mixPanelRegisterSuperProperties("noOfChatFriends",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, noOfChatFriends));
+}
+
+void AnalyticsSingleton::setChatFriendIsParent(bool chatFriendIsParent)
+{
+    std::string friendIsParentString = "NO";
+    
+    if (chatFriendIsParent)
+        friendIsParentString = "YES";
+    
+    mixPanelRegisterSuperProperties("chatFriendIsParent",friendIsParentString);
+}
 
 //-------------logout events-----------------
 

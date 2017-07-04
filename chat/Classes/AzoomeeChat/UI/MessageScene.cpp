@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/SplitLayout.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 // TODO: This needs to be a dynamic hook, so app can deal with it when we're in the main app
 #include "FriendListScene.h"
@@ -187,6 +188,7 @@ void MessageScene::createContentUI(cocos2d::ui::Layout* parent)
 void MessageScene::onBackButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - BackButton");
     
     // Back to friend list
     auto friendListScene = FriendListScene::create();

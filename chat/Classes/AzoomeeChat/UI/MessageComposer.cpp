@@ -3,7 +3,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -356,6 +356,7 @@ void MessageComposer::setDelegate(MessageComposer::Delegate* delegate)
 void MessageComposer::sendMessage(const std::string& message)
 {
     AudioMixer::getInstance()->playEffect("laser_whoosh_ripple.mp3");
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - SendText");
     
     if(_delegate)
     {
@@ -375,6 +376,7 @@ void MessageComposer::sendMessage(const std::string& message)
 void MessageComposer::sendMessage(const StickerRef& sticker)
 {
     AudioMixer::getInstance()->playEffect("boing.mp3");
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - SendSticker");
     
     if(_delegate)
     {
