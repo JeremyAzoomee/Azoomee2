@@ -4,7 +4,6 @@
 #include <functional>
 #include <cctype>
 #include <locale>
-#include <iomanip>
 
 namespace Azoomee
 {
