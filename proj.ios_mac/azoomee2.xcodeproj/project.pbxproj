@@ -112,6 +112,7 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
+		92A9A06E1F068A97008A19EB /* libArtApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libArtApp.a */; };
 		A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */; };
 		A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */; };
 		A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A154CC501DFEE7440008A626 /* GameDataManager.cpp */; };
@@ -224,6 +225,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 5087E76F17EB910900C73F5D;
 			remoteInfo = "azoomee2_ArtApp-desktop";
+		};
+		92A9A0651F068A7B008A19EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 92A9A0431F068916008A19EB;
+			remoteInfo = ArtApp;
+		};
+		92A9A06A1F068A7B008A19EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 92A9A0441F068916008A19EB;
+			remoteInfo = ArtApp;
 		};
 		A198620F1DD3834E0090F053 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -451,6 +466,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92A9A06E1F068A97008A19EB /* libArtApp.a in Frameworks */,
 				300742E01EF91667005525AE /* libAzoomeeChat.a in Frameworks */,
 				4396948A1EAA4ACD003C17E6 /* StoreKit.framework in Frameworks */,
 				304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */,
@@ -863,6 +879,7 @@
 			children = (
 				9246EDD61F0403A9008CD359 /* azoomee2_ArtApp-mobile.app */,
 				9246EDD81F0403A9008CD359 /* azoomee2_ArtApp-desktop.app */,
+				92A9A06B1F068A7B008A19EB /* libArtApp.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1041,6 +1058,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				92A9A0661F068A7B008A19EB /* PBXTargetDependency */,
 				300742DF1EF9163F005525AE /* PBXTargetDependency */,
 				3077F4551E8D51ED006DA465 /* PBXTargetDependency */,
 				1AC6FB25180E99E1004C840B /* PBXTargetDependency */,
@@ -1167,6 +1185,13 @@
 			fileType = wrapper.application;
 			path = "azoomee2_ArtApp-desktop.app";
 			remoteRef = 9246EDD71F0403A9008CD359 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		92A9A06B1F068A7B008A19EB /* libArtApp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libArtApp.a;
+			remoteRef = 92A9A06A1F068A7B008A19EB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A19862101DD3834E0090F053 /* libcocos2d tvOS.a */ = {
@@ -1340,6 +1365,11 @@
 			isa = PBXTargetDependency;
 			name = AzoomeeCommon;
 			targetProxy = 3077F4541E8D51ED006DA465 /* PBXContainerItemProxy */;
+		};
+		92A9A0661F068A7B008A19EB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ArtApp;
+			targetProxy = 92A9A0651F068A7B008A19EB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -77,6 +77,28 @@
 		922D32301EDDB6BE0012C9C7 /* BrushHighlighter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922D322E1EDDB6BE0012C9C7 /* BrushHighlighter.cpp */; };
 		92939FAF1EE554C500B3258E /* StickerPlacementNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92939FAE1EE554C500B3258E /* StickerPlacementNode.cpp */; };
 		92939FB01EE554C500B3258E /* StickerPlacementNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92939FAE1EE554C500B3258E /* StickerPlacementNode.cpp */; };
+		92A9A04E1F06896C008A19EB /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
+		92A9A04F1F06896C008A19EB /* AppDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8519C43A87006E1F66 /* AppDelegate.h */; };
+		92A9A0501F06896C008A19EB /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */; };
+		92A9A0511F06896C008A19EB /* HelloWorldScene.h in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8719C43A87006E1F66 /* HelloWorldScene.h */; };
+		92A9A0521F06896C008A19EB /* DrawingCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92139E201ED59E2F006B0B6E /* DrawingCanvas.cpp */; };
+		92A9A0531F06896C008A19EB /* DrawingCanvas.h in Sources */ = {isa = PBXBuildFile; fileRef = 92139E211ED59E2F006B0B6E /* DrawingCanvas.h */; };
+		92A9A0541F06896C008A19EB /* Constants.h in Sources */ = {isa = PBXBuildFile; fileRef = 92FF6B741ED70CB400C353FD /* Constants.h */; };
+		92A9A0551F06896C008A19EB /* Brush.h in Sources */ = {isa = PBXBuildFile; fileRef = 922D32201EDD72440012C9C7 /* Brush.h */; };
+		92A9A0561F06896C008A19EB /* BrushPen.h in Sources */ = {isa = PBXBuildFile; fileRef = 922D32221EDD82BB0012C9C7 /* BrushPen.h */; };
+		92A9A0571F06896C008A19EB /* BrushPen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922D32231EDD865E0012C9C7 /* BrushPen.cpp */; };
+		92A9A0581F06896C008A19EB /* Brush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922D32261EDD95D90012C9C7 /* Brush.cpp */; };
+		92A9A0591F06896C008A19EB /* BrushPaintBrush.h in Sources */ = {isa = PBXBuildFile; fileRef = 922D32291EDDA8560012C9C7 /* BrushPaintBrush.h */; };
+		92A9A05A1F06896C008A19EB /* BrushPaintBrush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922D322A1EDDA9A60012C9C7 /* BrushPaintBrush.cpp */; };
+		92A9A05B1F06896C008A19EB /* BrushHighlighter.h in Sources */ = {isa = PBXBuildFile; fileRef = 922D322D1EDDB4C30012C9C7 /* BrushHighlighter.h */; };
+		92A9A05C1F06896C008A19EB /* BrushHighlighter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922D322E1EDDB6BE0012C9C7 /* BrushHighlighter.cpp */; };
+		92A9A05D1F06896C008A19EB /* BrushSprayCan.h in Sources */ = {isa = PBXBuildFile; fileRef = 9217D7321EDF0388000624B6 /* BrushSprayCan.h */; };
+		92A9A05E1F06896C008A19EB /* BrushSprayCan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9217D7341EDF0506000624B6 /* BrushSprayCan.cpp */; };
+		92A9A05F1F06896C008A19EB /* BrushEraser.h in Sources */ = {isa = PBXBuildFile; fileRef = 921B8BEB1EE17B9F00C82E47 /* BrushEraser.h */; };
+		92A9A0601F06896C008A19EB /* BrushEraser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921B8BED1EE1811000C82E47 /* BrushEraser.cpp */; };
+		92A9A0611F06896C008A19EB /* StickerPlacementNode.h in Sources */ = {isa = PBXBuildFile; fileRef = 92939FAC1EE5511100B3258E /* StickerPlacementNode.h */; };
+		92A9A0621F06896C008A19EB /* StickerPlacementNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92939FAE1EE554C500B3258E /* StickerPlacementNode.cpp */; };
+		92A9A0751F068E5E008A19EB /* libArtApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A0441F068916008A19EB /* libArtApp.a */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -124,7 +146,26 @@
 			remoteGlobalIDString = 507B40FD1C31BDD30067B53E;
 			remoteInfo = "libcocos2d tvOS";
 		};
+		92A9A0631F068A6F008A19EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A07A4C241783777C0073F6A7;
+			remoteInfo = "libcocos2d iOS";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		92A9A0421F068916008A19EB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
@@ -195,6 +236,9 @@
 		922D322E1EDDB6BE0012C9C7 /* BrushHighlighter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BrushHighlighter.cpp; sourceTree = "<group>"; };
 		92939FAC1EE5511100B3258E /* StickerPlacementNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerPlacementNode.h; sourceTree = "<group>"; };
 		92939FAE1EE554C500B3258E /* StickerPlacementNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerPlacementNode.cpp; sourceTree = "<group>"; };
+		92A9A0441F068916008A19EB /* libArtApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libArtApp.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		92A9A0461F068916008A19EB /* ArtApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtApp.h; sourceTree = "<group>"; };
+		92A9A0471F068916008A19EB /* ArtApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArtApp.m; sourceTree = "<group>"; };
 		92FF6B741ED70CB400C353FD /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -213,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */,
+				92A9A0751F068E5E008A19EB /* libArtApp.a in Frameworks */,
 				ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */,
 				52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */,
 				1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */,
@@ -248,6 +293,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		92A9A0411F068916008A19EB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -271,6 +323,7 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* azoomee2_ArtApp-mobile.app */,
 				5087E76F17EB910900C73F5D /* azoomee2_ArtApp-desktop.app */,
+				92A9A0441F068916008A19EB /* libArtApp.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -291,6 +344,7 @@
 				46880B8319C43A87006E1F66 /* Classes */,
 				46880B7519C43A67006E1F66 /* Resources */,
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
+				92A9A0451F068916008A19EB /* ArtApp */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* ios */,
 				503AE10617EB990700D1A890 /* mac */,
@@ -415,6 +469,15 @@
 			path = ios;
 			sourceTree = SOURCE_ROOT;
 		};
+		92A9A0451F068916008A19EB /* ArtApp */ = {
+			isa = PBXGroup;
+			children = (
+				92A9A0461F068916008A19EB /* ArtApp.h */,
+				92A9A0471F068916008A19EB /* ArtApp.m */,
+			);
+			path = ArtApp;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -454,6 +517,24 @@
 			productReference = 5087E76F17EB910900C73F5D /* azoomee2_ArtApp-desktop.app */;
 			productType = "com.apple.product-type.application";
 		};
+		92A9A0431F068916008A19EB /* ArtApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 92A9A04D1F068916008A19EB /* Build configuration list for PBXNativeTarget "ArtApp" */;
+			buildPhases = (
+				92A9A0401F068916008A19EB /* Sources */,
+				92A9A0411F068916008A19EB /* Frameworks */,
+				92A9A0421F068916008A19EB /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				92A9A0641F068A6F008A19EB /* PBXTargetDependency */,
+			);
+			name = ArtApp;
+			productName = ArtApp;
+			productReference = 92A9A0441F068916008A19EB /* libArtApp.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -464,6 +545,11 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = Q986XSP3A8;
+					};
+					92A9A0431F068916008A19EB = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = Q986XSP3A8;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -489,6 +575,7 @@
 			targets = (
 				1D6058900D05DD3D006BFB54 /* azoomee2_ArtApp-mobile */,
 				5087E73D17EB910900C73F5D /* azoomee2_ArtApp-desktop */,
+				92A9A0431F068916008A19EB /* ArtApp */,
 			);
 		};
 /* End PBXProject section */
@@ -602,6 +689,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		92A9A0401F068916008A19EB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92A9A04E1F06896C008A19EB /* AppDelegate.cpp in Sources */,
+				92A9A04F1F06896C008A19EB /* AppDelegate.h in Sources */,
+				92A9A0501F06896C008A19EB /* HelloWorldScene.cpp in Sources */,
+				92A9A0511F06896C008A19EB /* HelloWorldScene.h in Sources */,
+				92A9A0521F06896C008A19EB /* DrawingCanvas.cpp in Sources */,
+				92A9A0531F06896C008A19EB /* DrawingCanvas.h in Sources */,
+				92A9A0541F06896C008A19EB /* Constants.h in Sources */,
+				92A9A0551F06896C008A19EB /* Brush.h in Sources */,
+				92A9A0561F06896C008A19EB /* BrushPen.h in Sources */,
+				92A9A0571F06896C008A19EB /* BrushPen.cpp in Sources */,
+				92A9A0581F06896C008A19EB /* Brush.cpp in Sources */,
+				92A9A0591F06896C008A19EB /* BrushPaintBrush.h in Sources */,
+				92A9A05A1F06896C008A19EB /* BrushPaintBrush.cpp in Sources */,
+				92A9A05B1F06896C008A19EB /* BrushHighlighter.h in Sources */,
+				92A9A05C1F06896C008A19EB /* BrushHighlighter.cpp in Sources */,
+				92A9A05D1F06896C008A19EB /* BrushSprayCan.h in Sources */,
+				92A9A05E1F06896C008A19EB /* BrushSprayCan.cpp in Sources */,
+				92A9A05F1F06896C008A19EB /* BrushEraser.h in Sources */,
+				92A9A0601F06896C008A19EB /* BrushEraser.cpp in Sources */,
+				92A9A0611F06896C008A19EB /* StickerPlacementNode.h in Sources */,
+				92A9A0621F06896C008A19EB /* StickerPlacementNode.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -614,6 +729,11 @@
 			isa = PBXTargetDependency;
 			name = "cocos2dx iOS";
 			targetProxy = 1AC6FB24180E99E1004C840B /* PBXContainerItemProxy */;
+		};
+		92A9A0641F068A6F008A19EB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "libcocos2d iOS";
+			targetProxy = 92A9A0631F068A6F008A19EB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -746,6 +866,96 @@
 			};
 			name = Release;
 		};
+		92A9A04A1F068916008A19EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = Q986XSP3A8;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		92A9A04B1F068916008A19EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Q986XSP3A8;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -815,6 +1025,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
+		};
+		92A9A04D1F068916008A19EB /* Build configuration list for PBXNativeTarget "ArtApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92A9A04A1F068916008A19EB /* Debug */,
+				92A9A04B1F068916008A19EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "azoomee2_ArtApp" */ = {
 			isa = XCConfigurationList;

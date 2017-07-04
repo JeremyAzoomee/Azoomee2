@@ -9,6 +9,8 @@
 #ifndef DrawingCanvas_h
 #define DrawingCanvas_h
 
+#define ARTAPP_RES_LOC "../ArtApp/Resources/res/articons"
+
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "Constants.h"

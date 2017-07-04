@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>ArtApp.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
+		<key>Azoomee2_ArtApp.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
+		</dict>
 		<key>azoomee2_ArtApp-desktop.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -23,6 +33,11 @@
 			<true/>
 		</dict>
 		<key>5087E73D17EB910900C73F5D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>92A9A0431F068916008A19EB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -21,13 +21,14 @@ bool StickerPlacementNode::init()
 
 void StickerPlacementNode::onEnter()
 {
+    
     Node::onEnter();
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     
     this->setContentSize(visibleSize);
     
-    sticker = Sprite::create("HelloWorld.png");
+    sticker = Sprite::create("res/artapp/style/images/articons/art_button_sticker.png");
     
     sticker->setAnchorPoint(Vec2(0.5,0.5));
     sticker->setPosition(visibleSize/2);

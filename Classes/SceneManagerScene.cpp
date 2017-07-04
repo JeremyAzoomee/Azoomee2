@@ -14,6 +14,7 @@
 #include "FTUScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "ChatDelegate.h"
+#include "../ArtApp/Classes/HelloWorldScene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include "OrientationFunctions_ios.h"
@@ -133,10 +134,11 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case ChatEntryPointScene:
         {
             // Make sure we set the chat delegate
-            Azoomee::Chat::delegate = ChatDelegate::getInstance();
+            //Azoomee::Chat::delegate = ChatDelegate::getInstance();
             
             forceToLandscape();
-            goToScene = Azoomee::Chat::FriendListScene::create();
+            //goToScene = Azoomee::Chat::FriendListScene::create();
+            goToScene = HelloWorld::createScene();
             break;
         }
         default:
