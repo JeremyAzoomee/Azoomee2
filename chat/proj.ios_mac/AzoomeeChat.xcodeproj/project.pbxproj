@@ -15,10 +15,9 @@
 		300742E31EF916DC005525AE /* AuthAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3018499E1EC0B747005B994A /* AuthAPI.cpp */; };
 		300742EB1EF93027005525AE /* ChatDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300742E61EF92FF6005525AE /* ChatDelegate.cpp */; };
 		3007431E1EFABF55005525AE /* AzoomeeChat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3007431D1EFABF55005525AE /* AzoomeeChat.cpp */; };
-		300743621EFD2871005525AE /* Pods_AzoomeeCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300743601EFD2871005525AE /* Pods_AzoomeeCommon.framework */; };
-		300743631EFD2871005525AE /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300743611EFD2871005525AE /* PusherSwift.framework */; };
-		300CD91D1EFD30AC00FB182F /* Pods_AzoomeeCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 300743601EFD2871005525AE /* Pods_AzoomeeCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		300CD91F1EFD30AC00FB182F /* PusherSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 300743611EFD2871005525AE /* PusherSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		300AD6961F0B9B4A0049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6951F0B9B4A0049A24F /* PusherSwift.framework */; };
+		300AD69B1F0B9CF50049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6951F0B9B4A0049A24F /* PusherSwift.framework */; };
+		300AD69C1F0B9CF50049A24F /* PusherSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6951F0B9B4A0049A24F /* PusherSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		301849861EBB84A1005B994A /* Friend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849841EBB84A1005B994A /* Friend.cpp */; };
 		3018498B1EBB926B005B994A /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849891EBB926B005B994A /* Message.cpp */; };
 		302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301849A71EC0BF68005B994A /* ChildSelectorScene.cpp */; };
@@ -158,8 +157,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				300CD91D1EFD30AC00FB182F /* Pods_AzoomeeCommon.framework in Embed Frameworks */,
-				300CD91F1EFD30AC00FB182F /* PusherSwift.framework in Embed Frameworks */,
+				300AD69C1F0B9CF50049A24F /* PusherSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -178,8 +176,7 @@
 		300742E61EF92FF6005525AE /* ChatDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatDelegate.cpp; sourceTree = "<group>"; };
 		300742E71EF92FF6005525AE /* ChatDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatDelegate.h; sourceTree = "<group>"; };
 		3007431D1EFABF55005525AE /* AzoomeeChat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AzoomeeChat.cpp; sourceTree = "<group>"; };
-		300743601EFD2871005525AE /* Pods_AzoomeeCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_AzoomeeCommon.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/azoomee2-dfkgtczanfocewbxpzyvrurrvwiq/Build/Products/Debug-iphoneos/Pods_AzoomeeCommon.framework"; sourceTree = "<group>"; };
-		300743611EFD2871005525AE /* PusherSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PusherSwift.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/azoomee2-dfkgtczanfocewbxpzyvrurrvwiq/Build/Products/Debug-iphoneos/PusherSwift/PusherSwift.framework"; sourceTree = "<group>"; };
+		300AD6951F0B9B4A0049A24F /* PusherSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PusherSwift.framework; path = ../../common/proj.ios_mac/Carthage/Build/iOS/PusherSwift.framework; sourceTree = "<group>"; };
 		301849841EBB84A1005B994A /* Friend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Friend.cpp; sourceTree = "<group>"; };
 		301849851EBB84A1005B994A /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		301849891EBB926B005B994A /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
@@ -293,8 +290,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				300743621EFD2871005525AE /* Pods_AzoomeeCommon.framework in Frameworks */,
-				300743631EFD2871005525AE /* PusherSwift.framework in Frameworks */,
 				304410711E9D19C900B7F383 /* libAzoomeeChat.a in Frameworks */,
 				304410581E9D13E800B7F383 /* libAzoomeeCommon.a in Frameworks */,
 				304410591E9D13E800B7F383 /* libcocos2d iOS.a in Frameworks */,
@@ -306,6 +301,7 @@
 				430B215B1E4487F9004ACB10 /* UIKit.framework in Frameworks */,
 				430B21591E4487F0004ACB10 /* Accelerate.framework in Frameworks */,
 				430B21571E4487EC004ACB10 /* Foundation.framework in Frameworks */,
+				300AD69B1F0B9CF50049A24F /* PusherSwift.framework in Frameworks */,
 				430B21531E4487DD004ACB10 /* CoreTelephony.framework in Frameworks */,
 				430B21511E4485E0004ACB10 /* Security.framework in Frameworks */,
 				430B214E1E4485DA004ACB10 /* CFNetwork.framework in Frameworks */,
@@ -313,6 +309,7 @@
 				D113134C1E337D7C00E2C033 /* MediaPlayer.framework in Frameworks */,
 				294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */,
 				433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */,
+				300AD6961F0B9B4A0049A24F /* PusherSwift.framework in Frameworks */,
 				ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */,
 				433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */,
 				52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */,
@@ -382,8 +379,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				300743601EFD2871005525AE /* Pods_AzoomeeCommon.framework */,
-				300743611EFD2871005525AE /* PusherSwift.framework */,
+				300AD6951F0B9B4A0049A24F /* PusherSwift.framework */,
 				304E50221EB3637800D077E3 /* AppsFlyerLib.framework */,
 				435EBBE11E55BB2300E55610 /* iAd.framework */,
 				435EBBDF1E55BB1600E55610 /* AdSupport.framework */,
@@ -907,7 +903,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(CONFIGURATION_BUILD_DIR)/PusherSwift/",
+					"$(PROJECT_DIR)/../common/proj.ios_mac/Carthage/Build/iOS/",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -950,7 +946,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(CONFIGURATION_BUILD_DIR)/PusherSwift/",
+					"$(PROJECT_DIR)/../common/proj.ios_mac/Carthage/Build/iOS/",
 				);
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
