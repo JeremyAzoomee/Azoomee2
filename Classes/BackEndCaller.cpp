@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Net/Utils.h>
 #include <AzoomeeCommon/API/API.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
@@ -356,7 +357,7 @@ void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const
 // RESET PASSWORD REQUEST ----------------------------------------------------------------
 void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
 {
-    HttpRequestCreator* request = API::ResetPaswordRequest(url_encode(stringToLower(emailAddress)), this);
+    HttpRequestCreator* request = API::ResetPaswordRequest(Net::urlEncode(stringToLower(emailAddress)), this);
     request->execute();
 }
 
