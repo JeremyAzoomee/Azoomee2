@@ -30,7 +30,7 @@ bool CookieDataProvider::init(void)
     return true;
 }
 
-std::string CookieDataProvider::getCookiesForRequest(std::string url)
+std::string CookieDataProvider::getCookiesForRequest(const std::string& url)
 {
     std::string cookieString = "";
     
@@ -42,7 +42,7 @@ std::string CookieDataProvider::getCookiesForRequest(std::string url)
     return cookieString;
 }
 
-bool CookieDataProvider::checkIfCookieIsForUrl(std::string cookieRecord, std::string url)
+bool CookieDataProvider::checkIfCookieIsForUrl(const std::string& cookieRecord, const std::string& url)
 {
     bool domainFound = false;
     bool pathFound = false;
@@ -71,12 +71,12 @@ bool CookieDataProvider::checkIfCookieIsForUrl(std::string cookieRecord, std::st
     return false;
 }
 
-std::string CookieDataProvider::getCookieMainContent(std::string cookieRecord)
+std::string CookieDataProvider::getCookieMainContent(const std::string& cookieRecord)
 {
     return splitStringToVector(cookieRecord, "; ").at(0);
 }
     
-std::string CookieDataProvider::getUrlWithPathFromCookie(std::string cookieString)
+std::string CookieDataProvider::getUrlWithPathFromCookie(const std::string& cookieString)
 {
     std::string domain = "";
     std::string path = "";
@@ -98,7 +98,7 @@ std::string CookieDataProvider::getUrlWithPathFromCookie(std::string cookieStrin
     return ConfigStorage::getInstance()->getMediaPrefixForXwalkCookies() + domain + path;
 }
     
-std::string CookieDataProvider::getDomainFromCookie(std::string cookieString)
+std::string CookieDataProvider::getDomainFromCookie(const std::string& cookieString)
 {
     std::string domain = "";
     
