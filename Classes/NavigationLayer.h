@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include "DisplayChildNameLayer.h"
 #include <AzoomeeChat/ChatAPI.h>
+#include <AzoomeeChat/Data/Message.h>
 
 
 NS_AZOOMEE_BEGIN
@@ -21,7 +22,6 @@ public:
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
-    void onChatAPIMessageRecieved(Chat::Message);
     
     void onExit();
 private:
@@ -76,6 +76,8 @@ private:
     void addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon);
     void showNotificationBadge();
     void hideNotificationBadge();
+    
+    void onChatAPIMessageRecieved(const Chat::MessageRef& message) override;
 };
 
 NS_AZOOMEE_END

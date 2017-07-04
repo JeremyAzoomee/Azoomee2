@@ -326,6 +326,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         {
             if(target->getTag() == 0)
             {
+                this->hideNotificationBadge();
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
                 {
@@ -556,9 +557,9 @@ void NavigationLayer::cleanUpPreviousHQ()
     }
 }
 
-void NavigationLayer::onChatAPIMessageRecieved(Chat::Message)
+void NavigationLayer::onChatAPIMessageRecieved(const Chat::MessageRef& message)
 {
-    AudioMixer::getInstance()->playEffect("res/audio/message.mp3");
+    AudioMixer::getInstance()->playEffect("message.mp3");
     showNotificationBadge();
 }
 
