@@ -1,6 +1,0 @@
-framework module Pods_AzoomeeCommon {
-  umbrella header "Pods-AzoomeeCommon-umbrella.h"
-
-  export *
-  module * { export * }
-}
