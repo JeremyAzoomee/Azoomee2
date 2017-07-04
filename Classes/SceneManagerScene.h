@@ -18,7 +18,8 @@ enum SceneNameEnum {
     OfflineHub,
     OfflineArtsAppHQ,
     FTUScene,
-    ChatEntryPointScene
+    ChatEntryPointScene,
+    ArtAppEntryPointScene
 };
 
 class SceneManagerScene : public cocos2d::Layer

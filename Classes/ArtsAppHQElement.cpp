@@ -281,8 +281,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(iamtouched)
         {
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
-            return true;
             
             if(preview)
             {
@@ -290,12 +288,15 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
                 return true;
             }
             
-            if(!notSendingFileData) ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder(filePath);
-            else ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder("NEW");
+            //if(!notSendingFileData) ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder(filePath);
+            //else ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder("NEW");
             
             iamtouched = false;
             overlayWhenTouched->setOpacity(0);
             overlayWhenTouched->stopAllActions();
+            
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+            return true;
             
             WebGameAPIDataManager::getInstance()->setGameId("artApp");
             

@@ -96,7 +96,7 @@ void DrawingCanvas::setupTouchHandling()
         activeBrush->onTouchEnded(touch, event);
         
         touchProcessed = false;
-
+        
         if(drawingStack.size() == 0)
             clearButton->loadTextures("res/artapp/style/images/articons/art_button_undo.png", "res/artapp/style/images/articons/undo.png");
         drawingStack.push_back(activeBrush->getDrawNode());
