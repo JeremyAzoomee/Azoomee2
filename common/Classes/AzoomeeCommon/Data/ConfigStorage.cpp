@@ -52,7 +52,10 @@ bool ConfigStorage::init(void)
         API::TagUpdateBillingData,
         API::TagGetAvailableChildren,
         API::TagUpdateChild,
-        API::TagPusherAuth
+        API::TagPusherAuth,
+        API::TagGetPendingFriendRequests,
+        API::TagFriendRequest,
+        API::TagFriendRequestReaction
     };
     requestTagsRequireImmediateSending = {
         "GROUP HQ",
