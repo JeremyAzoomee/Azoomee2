@@ -2,7 +2,7 @@
 #include "TextInputChecker.h"
 #include "../Strings.h"
 #include "../UI/ElectricDreamsTextStyles.h"
-#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "../Analytics/AnalyticsSingleton.h"
 
 using namespace cocos2d;
 
