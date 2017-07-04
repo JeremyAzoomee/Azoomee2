@@ -66,6 +66,20 @@ void DrawingCanvas::onExit()
     Node::onExit();
 }
 
+void DrawingCanvas::saveImage(std::string filePath)
+{
+    
+    drawing->begin();
+    for(int i = 0; i < drawingStack.size(); i++)
+    {
+        drawingStack[i]->visit();
+    }
+    drawing->end();
+    drawing->saveToFile(filePath, Image::Format::PNG);
+    Director::getInstance()->getRenderer()->render();
+    
+}
+
 void DrawingCanvas::setupTouchHandling()
 {
     static bool touchProcessed = false;

@@ -9,8 +9,6 @@
 #ifndef DrawingCanvas_h
 #define DrawingCanvas_h
 
-#define ARTAPP_RES_LOC "../ArtApp/Resources/res/articons"
-
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "Constants.h"
@@ -27,7 +25,7 @@
 class DrawingCanvas : public cocos2d::Node{
 public:
     CREATE_FUNC(DrawingCanvas);
-    
+    void saveImage(std::string filePath);
 protected:
     static const int numberOfUndos = 3;
     

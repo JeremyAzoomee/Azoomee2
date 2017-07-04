@@ -1,6 +1,12 @@
 #include "ArtAppBaseScene.h"
 #include "SimpleAudioEngine.h"
 #include "../../Classes/SceneManagerScene.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+
+#include <iostream>
+#include <iomanip>
+#include <ctime>
+#include <sstream>
 
 USING_NS_CC;
 
@@ -29,7 +35,7 @@ bool ArtAppBase::init()
         return false;
     }
     
-    DrawingCanvas* drawingCanvas = DrawingCanvas::create();
+    drawingCanvas = DrawingCanvas::create();
     this->addChild(drawingCanvas);
     
     return true;
@@ -47,6 +53,15 @@ void ArtAppBase::addBackButton()
 
 void ArtAppBase::backButtonCallBack()
 {
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);
+    
+    std::ostringstream oss;
+    oss << std::put_time(&tm, "%d%m%Y%H%M%S");
+    auto fileNameStr = oss.str();
+    
+    std::string fileName = "artCache/" + Azoomee::ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + fileNameStr + ".png";
+    drawingCanvas->saveImage(fileName);
     Director::getInstance()->replaceScene(Azoomee::SceneManagerScene::createScene(Azoomee::Base));
 }
 

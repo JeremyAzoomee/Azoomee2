@@ -103,23 +103,39 @@ void ArtsAppHQElement::addOverlay()
 void ArtsAppHQElement::addImage(std::string filePath)
 {
     if(!FileUtils::getInstance()->isFileExist(filePath)) return;
-    std::string imageData = FileUtils::getInstance()->getStringFromFile(filePath);
-    if(imageData.length() <= 22) return;
-    
-    imageData = imageData.substr(22);
-    
-    int len = 0;
-    unsigned char *buffer;
-    len = base64Decode((const unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &buffer);
-    
-    Image *img = new Image();
-    img->initWithImageData(buffer, len);
-    
-    Texture2D *texture = new Texture2D();
-    texture->initWithImage(img);
     
     auto sprite = Sprite::create();
-    sprite->initWithTexture(texture);
+    if(filePath.substr(filePath.length() - 4) == "imag")
+    {
+        Image *img = new Image();
+        std::string imageData = FileUtils::getInstance()->getStringFromFile(filePath);
+        if(imageData.length() <= 22) return;
+    
+        imageData = imageData.substr(22);
+    
+        int len = 0;
+        unsigned char *buffer;
+        len = base64Decode((const unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &buffer);
+    
+        img->initWithImageData(buffer, len);
+        Texture2D *texture = new Texture2D();
+        texture->initWithImage(img);
+        
+        sprite->initWithTexture(texture);
+        
+        delete img;
+    }
+    else
+    {
+        sprite->initWithFile(filePath);
+    }
+    
+    //Texture2D *texture = new Texture2D();
+    //texture->initWithImage(img);
+    
+    
+    //sprite->initWithTexture(texture);
+    
     
     float scale = (this->getContentSize().width - 40) / sprite->getContentSize().width;
     

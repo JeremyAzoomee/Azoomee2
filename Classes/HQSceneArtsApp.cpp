@@ -72,7 +72,10 @@ void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView
 
 void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    if(!FileUtils::getInstance()->isDirectoryExist(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId()))
+        FileUtils::getInstance()->createDirectory(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId());
+    //std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    std::string path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
     std::vector<std::string> fileList = getFilesInDirectory(path);
     
     CCLOG("imagepath: %s", path.c_str());
@@ -81,7 +84,7 @@ void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollV
     {
         if(fileList.at(i).size() > 4)
         {
-            if(fileList.at(i).substr(fileList.at(i).size() -4, 4) == "imag")
+            if(fileList.at(i).substr(fileList.at(i).size() -3, 3) == "png")
             {
                 bool locked = true;
                 if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) locked = false;

@@ -7,7 +7,7 @@ class ArtAppBase : public cocos2d::Layer
 {
 private:
     cocos2d::ui::Button* backButton;
-    
+    DrawingCanvas* drawingCanvas;
 public:
     static cocos2d::Scene* createScene();
 
