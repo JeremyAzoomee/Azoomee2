@@ -231,7 +231,7 @@ void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
         {
             // Make sure this message is for the current user
             ChildDataProvider* childData = ChildDataProvider::getInstance();
-            if(message->recipientId() == childData->getLoggedInChildId())
+            if(message->recipientId() == childData->getParentOrChildId())
             {
                 // Notify observers
                 for(auto observer : _observers)
