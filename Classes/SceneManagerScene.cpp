@@ -95,7 +95,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case ChildSelector:
         {
-            FlowDataSingleton::getInstance()->clearData();
             forceToLandscape();
             goToScene = ChildSelectorScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SELECTOR");
