@@ -12,6 +12,10 @@
 		3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */; };
 		3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */; };
 		3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF791ED5BBB700E9717C /* Application.cpp */; };
+		300743501EFC09B9005525AE /* PusherSDK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3007434C1EFC09B9005525AE /* PusherSDK.cpp */; };
+		300743521EFC09B9005525AE /* PusherSDK_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3007434F1EFC09B9005525AE /* PusherSDK_ios.mm */; };
+		300743551EFC13B7005525AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300743541EFC13B7005525AE /* Foundation.framework */; };
+		300AD62D1F0B96310049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD5B21F0B96310049A24F /* PusherSwift.framework */; };
 		3012ED481E969A180009027D /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED461E969A180009027D /* AudioMixer.cpp */; };
 		3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4A1E969AE40009027D /* CookieDataParser.cpp */; };
 		3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4C1E969AE40009027D /* CookieDataProvider.cpp */; };
@@ -46,6 +50,7 @@
 		302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84771ED1B992006A498C /* SplitLayout.cpp */; };
 		304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC61EA8F883008CED52 /* GameController.framework */; };
 		305966991ECCAF76009A7130 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966971ECCAF76009A7130 /* Scene.cpp */; };
+		307A40491F050A51005947F3 /* PusherEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307A40471F050A51005947F3 /* PusherEvent.cpp */; };
 		3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
@@ -140,6 +145,15 @@
 		3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AzoomeeViewController.mm; sourceTree = "<group>"; };
 		3000FF791ED5BBB700E9717C /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		3000FF7A1ED5BBB700E9717C /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		3007434C1EFC09B9005525AE /* PusherSDK.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PusherSDK.cpp; sourceTree = "<group>"; };
+		3007434D1EFC09B9005525AE /* PusherSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PusherSDK.h; sourceTree = "<group>"; };
+		3007434E1EFC09B9005525AE /* PusherSDK_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PusherSDK_android.cpp; sourceTree = "<group>"; };
+		3007434F1EFC09B9005525AE /* PusherSDK_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PusherSDK_ios.mm; sourceTree = "<group>"; };
+		300743541EFC13B7005525AE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		300AD5B01F0B96310049A24F /* 37AC06B0-9318-301A-8C99-C6730DD89152.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "37AC06B0-9318-301A-8C99-C6730DD89152.bcsymbolmap"; sourceTree = "<group>"; };
+		300AD5B11F0B96310049A24F /* 5CA1B21D-FB96-3675-9651-7D94826701AB.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "5CA1B21D-FB96-3675-9651-7D94826701AB.bcsymbolmap"; sourceTree = "<group>"; };
+		300AD5B21F0B96310049A24F /* PusherSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PusherSwift.framework; sourceTree = "<group>"; };
+		300AD5B31F0B96310049A24F /* PusherSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = PusherSwift.framework.dSYM; sourceTree = "<group>"; };
 		3012ED461E969A180009027D /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
 		3012ED471E969A180009027D /* AudioMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMixer.h; sourceTree = "<group>"; };
 		3012ED4A1E969AE40009027D /* CookieDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CookieDataParser.cpp; sourceTree = "<group>"; };
@@ -216,6 +230,8 @@
 		305966981ECCAF76009A7130 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		305966A01ECEF5A8009A7130 /* LayoutParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutParams.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		307A40471F050A51005947F3 /* PusherEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PusherEvent.cpp; sourceTree = "<group>"; };
+		307A40481F050A51005947F3 /* PusherEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PusherEvent.h; sourceTree = "<group>"; };
 		3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpRequestCreator.cpp; sourceTree = "<group>"; };
 		3092BCEF1EB10524006D6F4C /* HttpRequestCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequestCreator.h; sourceTree = "<group>"; };
 		30DD5EBF1E96571F0084305B /* CrashlyticsConfig_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashlyticsConfig_android.cpp; sourceTree = "<group>"; };
@@ -379,8 +395,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				300743551EFC13B7005525AE /* Foundation.framework in Frameworks */,
 				304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */,
 				30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */,
+				300AD62D1F0B96310049A24F /* PusherSwift.framework in Frameworks */,
 				30DD5ECE1E965B710084305B /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -403,6 +421,46 @@
 				3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */,
 				3000FF721ED5AB7000E9717C /* AzoomeeViewController.h */,
 				3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		3007434B1EFC09B9005525AE /* Pusher */ = {
+			isa = PBXGroup;
+			children = (
+				307A40471F050A51005947F3 /* PusherEvent.cpp */,
+				307A40481F050A51005947F3 /* PusherEvent.h */,
+				3007434C1EFC09B9005525AE /* PusherSDK.cpp */,
+				3007434D1EFC09B9005525AE /* PusherSDK.h */,
+				3007434E1EFC09B9005525AE /* PusherSDK_android.cpp */,
+				3007434F1EFC09B9005525AE /* PusherSDK_ios.mm */,
+			);
+			path = Pusher;
+			sourceTree = "<group>";
+		};
+		300AD5AC1F0B96310049A24F /* Carthage */ = {
+			isa = PBXGroup;
+			children = (
+				300AD5AD1F0B96310049A24F /* Build */,
+			);
+			path = Carthage;
+			sourceTree = SOURCE_ROOT;
+		};
+		300AD5AD1F0B96310049A24F /* Build */ = {
+			isa = PBXGroup;
+			children = (
+				300AD5AF1F0B96310049A24F /* iOS */,
+			);
+			path = Build;
+			sourceTree = "<group>";
+		};
+		300AD5AF1F0B96310049A24F /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				300AD5B01F0B96310049A24F /* 37AC06B0-9318-301A-8C99-C6730DD89152.bcsymbolmap */,
+				300AD5B11F0B96310049A24F /* 5CA1B21D-FB96-3675-9651-7D94826701AB.bcsymbolmap */,
+				300AD5B21F0B96310049A24F /* PusherSwift.framework */,
+				300AD5B31F0B96310049A24F /* PusherSwift.framework.dSYM */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -610,6 +668,7 @@
 				3012ED801E97A8F50009027D /* Mixpanel */,
 				30E094BA1EDF0F2B00555891 /* Net */,
 				3000FF6D1ED5AB7000E9717C /* Platform */,
+				3007434B1EFC09B9005525AE /* Pusher */,
 				3012ED861E97DB450009027D /* UI */,
 				3012ED6A1E96A3140009027D /* Utils */,
 			);
@@ -651,6 +710,8 @@
 		30DD5ECC1E9658BC0084305B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				300AD5AC1F0B96310049A24F /* Carthage */,
+				300743541EFC13B7005525AE /* Foundation.framework */,
 				3012EC581E9691A90009027D /* libs */,
 				304D9EC61EA8F883008CED52 /* GameController.framework */,
 				30DD5EC81E9658B40084305B /* Crashlytics.framework */,
@@ -872,6 +933,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 3077F4381E8D5048006DA465;
 			productRefGroup = 3077F4421E8D5048006DA465 /* Products */;
@@ -988,6 +1050,7 @@
 				4349C82C1EA8ADEF00FE964B /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
 				4349C8261EA8ADEF00FE964B /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				4349C8521EA8ADEF00FE964B /* MPUITableViewBinding.m in Sources */,
+				300743501EFC09B9005525AE /* PusherSDK.cpp in Sources */,
 				4349C84C1EA8ADEF00FE964B /* MPTypeDescription.m in Sources */,
 				3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */,
 				4349C82B1EA8ADEF00FE964B /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
@@ -1028,10 +1091,12 @@
 				4349C8351EA8ADEF00FE964B /* MPNotification.m in Sources */,
 				4349C8431EA8ADEF00FE964B /* MPSwizzle.m in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
+				307A40491F050A51005947F3 /* PusherEvent.cpp in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */,
 				3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */,
 				4349C8161EA8ADEF00FE964B /* MixpanelPeople.m in Sources */,
+				300743521EFC09B9005525AE /* PusherSDK_ios.mm in Sources */,
 				301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1137,6 +1202,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/../../proj.ios_mac/",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1150,7 +1216,10 @@
 					"$(SRCROOT)/libs",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				USE_HEADERMAP = NO;
@@ -1165,6 +1234,7 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(SRCROOT)/../../proj.ios_mac/",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1178,7 +1248,10 @@
 					"$(SRCROOT)/libs",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				USE_HEADERMAP = NO;

@@ -10,7 +10,7 @@ NS_AZOOMEE_BEGIN
 class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
 {
 private:
-    bool appleReceiptRefreshchecked;
+    bool appleReceiptRefreshchecked = false;
     std::string OSManufacturer;
     void setOSManufacturer();
     
@@ -19,8 +19,8 @@ public:
     virtual ~RoutePaymentSingleton();
     bool init(void);
     
-    bool pressedIAPStartButton;
-    bool pressedRestorePurchaseButton;
+    bool pressedIAPStartButton = false;
+    bool pressedRestorePurchaseButton = false;
     
     void startInAppPayment();
     void inAppPaymentSuccess();

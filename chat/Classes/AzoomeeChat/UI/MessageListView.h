@@ -56,6 +56,8 @@ public:
     
     /// Set the items to display in this list
     void setData(const FriendList& participants, const MessageList& messageList);
+    /// Add a new message to the list
+    void addMessage(const MessageRef& message);
     
     virtual bool init() override;
     virtual void onEnter() override;

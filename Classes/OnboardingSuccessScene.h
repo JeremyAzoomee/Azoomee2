@@ -27,11 +27,11 @@ private:
     
     void addOomeeToScreen();
     
-    bool buttonHasBeenPressed;
+    bool buttonHasBeenPressed = false;
     
     virtual void onEnterTransitionDidFinish();
     
-    bool IAPSuccess;
+    bool IAPSuccess = false;
     
 public:
     static cocos2d::Scene* createScene();

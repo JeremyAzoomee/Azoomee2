@@ -25,7 +25,7 @@ private:
     std::string savedOrderId;
     std::string savedToken;
     
-    bool iabAttemptInProgress;
+    bool iabAttemptInProgress = false;
     int requestAttempts;
 };
 

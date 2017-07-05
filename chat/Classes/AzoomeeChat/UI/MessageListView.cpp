@@ -229,9 +229,27 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         _listView->removeAllItems();
         _listView->pushBackCustomItem(_blankListItem);
         _blankListItem->release();
+        
+        _listData.clear();
     }
     else
     {
+        // Make a copy of the messageList and sort it in order of timestamp
+        MessageList messagesByTime;
+        for(const MessageRef& message : messageList)
+        {
+            // Find first item where this message is newer
+            MessageList::const_reverse_iterator it = messagesByTime.rbegin();
+            for(; it != messagesByTime.rend(); ++it)
+            {
+                if(message->timestamp() > (*it)->timestamp())
+                {
+                    break;
+                }
+            }
+            messagesByTime.insert(it.base(), message);
+        }
+        
         // Update message list
         // Do this inline to avoid a flicker of the UI
         // We just overwrite the content of all UI items here
@@ -241,10 +259,10 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         _listView->removeLastItem();
         
         const cocos2d::Vector<ui::Widget*> items = _listView->getItems();
-        for(int i = 0; i < items.size() || i < messageList.size(); ++i)
+        for(int i = 0; i < items.size() || i < messagesByTime.size(); ++i)
         {
             MessageListViewItem* item = (i < items.size()) ? (MessageListViewItem*)items.at(i) : nullptr;
-            const MessageRef& message = (i < messageList.size()) ? messageList[i] : nullptr;
+            const MessageRef& message = (i < messagesByTime.size()) ? messagesByTime[i] : nullptr;
             
             if(item && message)
             {
@@ -282,7 +300,7 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         }
         
         // Trim message list
-        int64_t numToDelete = _listView->getItems().size() - messageList.size();
+        int64_t numToDelete = _listView->getItems().size() - messagesByTime.size();
         while(numToDelete > 0)
         {
             _listView->removeLastItem();
@@ -292,9 +310,10 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         // Re-add blank item
         _listView->pushBackCustomItem(_blankListItem);
         _blankListItem->release();
+        
+        _listData = messagesByTime;
     }
     
-    _listData = messageList;
     _listView->doLayout();
     
     // Scroll to bottom if we have different item size to before
@@ -307,6 +326,36 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         // Otherwise restore scroll position
         setScrollPosition(scrollPos);
     }
+}
+
+void MessageListView::addMessage(const MessageRef& message)
+{
+    // Find first item where this message is newer
+    MessageList::const_reverse_iterator it = _listData.rbegin();
+    size_t insertIndex = _listData.size();
+    for(; it != _listData.rend(); ++it)
+    {
+        if(message->timestamp() > (*it)->timestamp())
+        {
+            break;
+        }
+        --insertIndex;
+    }
+    _listData.insert(it.base(), message);
+    
+    // Update UI
+    MessageListViewItem* item = MessageListViewItem::create();
+    const Size& contentSize = _listView->getContentSize();
+    
+    // Must width before setting data since we pass in 0 height
+    item->setContentSize(Size(contentSize.width, 0.0f));
+    item->setData(message);
+    _listView->insertCustomItem(item, insertIndex);
+    _listView->doLayout();
+    
+    // Scroll to bottom
+    // TODO: Only scroll to bottom if the message is new
+    setScrollPosition(1.0f);
 }
 
 NS_AZOOMEE_CHAT_END

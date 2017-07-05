@@ -54,8 +54,7 @@ private:
     void addParentButtonToScene();
     
     cocos2d::Point startTouchPosition;
-    bool touchMovedAway;
-    
+    bool touchMovedAway = false;
     bool parentIconSelected = false;
 };
 

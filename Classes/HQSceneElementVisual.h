@@ -26,12 +26,12 @@ public:
     cocos2d::LayerColor *overlayWhenTouched;
     
 private:
-    bool shouldDisplayVisualElementsOverImage;
+    bool shouldDisplayVisualElementsOverImage = false;
     std::string elementCategory;
     std::map<std::string, std::string> elementItemData;
     cocos2d::Vec2 elementShape;
     float elementDelay;
-    bool elementCreatedForOffline;
+    bool elementCreatedForOffline = false;
     std::string elementUrl;
     
     cocos2d::Sprite* downloadedImage;
@@ -56,8 +56,8 @@ private:
     void onExitTransitionDidStart();
     void onExit();
     
-    bool aboutToExit;
-    bool isOffline;
+    bool aboutToExit = false;
+    bool isOffline = false;
 };
 
 NS_AZOOMEE_END

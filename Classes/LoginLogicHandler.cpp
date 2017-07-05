@@ -1,9 +1,10 @@
 #include "LoginLogicHandler.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include "BackEndCaller.h"
 #include "DeepLinkingSingleton.h"
 #include "SceneManagerScene.h"
-#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 
 using namespace cocos2d;
 
@@ -44,6 +45,8 @@ void LoginLogicHandler::doLoginLogic()
         Azoomee::ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
         BackEndCaller::getInstance()->getAvailableChildren();
         BackEndCaller::getInstance()->updateBillingData();
+        // Open Pusher channel
+        PusherSDK::getInstance()->openParentAccountChannel();
         return;
     }
     else if(DeepLinkingSingleton::getInstance()->actionDeepLink())
@@ -56,6 +59,7 @@ void LoginLogicHandler::doLoginLogic()
 
 void LoginLogicHandler::forceNewLogin()
 {
+    PusherSDK::getInstance()->closeAllChannels();
     Azoomee::ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
     
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));

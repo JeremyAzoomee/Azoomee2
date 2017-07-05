@@ -5,6 +5,7 @@
 #include "Data/Friend.h"
 #include "Data/Message.h"
 #include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include <map>
 
 
@@ -16,7 +17,7 @@ class ChatAPIObserver;
 /**
  * Manages communication of chat APIs with the Azoomee server.
  */
-class ChatAPI : private HttpRequestCreatorResponseDelegate
+class ChatAPI : private HttpRequestCreatorResponseDelegate, public PusherEventObserver
 {
 private:
     
@@ -40,9 +41,13 @@ private:
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
+    // - PusherEventObserver
+    void onPusherEventRecieved(const PusherEventRef& event) override;
+    
 public:
     
     static ChatAPI* getInstance();
+    virtual ~ChatAPI();
     
     /// Register an observer
     void registerObserver(ChatAPIObserver* observer);
@@ -74,6 +79,7 @@ struct ChatAPIObserver
     virtual void onChatAPIGetFriendList(const FriendList& friendList) {};
     virtual void onChatAPIGetChatMessages(const MessageList& messageList) {};
     virtual void onChatAPISendMessage(const MessageRef& sentMessage) {};
+    virtual void onChatAPIMessageRecieved(const MessageRef& message) {};
 };
 
 NS_AZOOMEE_CHAT_END

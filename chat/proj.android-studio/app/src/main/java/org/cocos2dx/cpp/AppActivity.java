@@ -5,7 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Base64;
 
-import com.tinizine.azoomee.AzoomeeActivity;
+import com.tinizine.azoomee.common.AzoomeeActivity;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
