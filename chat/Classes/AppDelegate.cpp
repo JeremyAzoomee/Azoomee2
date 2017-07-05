@@ -30,6 +30,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     // Register delegate for chat
     Azoomee::Chat::delegate = ChatDelegate::getInstance();
     
+    // Chat can have any orientation
+    Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Any);
+    
     // Create the first scene
     cocos2d::Scene* firstScene = nullptr;
     

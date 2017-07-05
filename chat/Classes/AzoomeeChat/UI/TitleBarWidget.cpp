@@ -39,6 +39,12 @@ bool TitleBarWidget::init()
     _titleLabel->setLayoutParameter(CreateCenterRelativeLayoutParam());
     addChild(_titleLabel);
     
+    // Image
+    _titleImage = ui::ImageView::create();
+    _titleImage->setLayoutParameter(CreateCenterRelativeLayoutParam());
+    _titleImage->setVisible(false);
+    addChild(_titleImage);
+    
     // Alert
     _alertButton = ui::Button::create("res/chat/ui/buttons/alert.png");
     // Enable content adaption - otherwise % size doesn't work
@@ -52,9 +58,6 @@ bool TitleBarWidget::init()
     addChild(_alertButton);
     // Hidden by default
     _alertButton->setVisible(false);
-    
-    // Add a drop shadpw
-    createDropShadow(0.04f);
   
     return true;
 }
@@ -89,6 +92,12 @@ void TitleBarWidget::setTitleString(const std::string& title)
 void TitleBarWidget::setTitleColor(const cocos2d::Color3B& color)
 {
     _titleLabel->setTextColor(Color4B(color));
+}
+
+void TitleBarWidget::setTitleImage(const std::string& imagePath)
+{
+    _titleImage->loadTexture(imagePath);
+    _titleImage->setVisible(true);
 }
 
 void TitleBarWidget::showAlertButton(bool enable)

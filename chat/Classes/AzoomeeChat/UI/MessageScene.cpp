@@ -70,10 +70,6 @@ bool MessageScene::init()
     _titleBar->addBackButtonEventListener([this](Ref* button){
         onBackButtonPressed();
     });
-    _titleBar->showAlertButton(true);
-//    _titleBar->addAlertButtonEventListener([this](Ref* button){
-//        onAlertButtonPressed();
-//    });
     _rootLayout->addChild(_titleBar);
     
     createContentUI(_contentLayout);

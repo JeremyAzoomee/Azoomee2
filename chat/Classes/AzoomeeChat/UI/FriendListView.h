@@ -17,6 +17,8 @@ private:
     
     /// Data being displayed
     FriendList _listData;
+    /// Number of columns to display the data
+    int _columns = 1;
     
     /// Callback for an item being selected
     ItemSelectedCallback _selectedEventCallback = nullptr;
@@ -31,6 +33,9 @@ protected:
     virtual void onSizeChanged() override;
     
 public:
+    
+    /// Set the number of columns
+    void setColumns(int columns);
     
     /// Set the items to display in this list
     void setItems(const FriendList& friendList);

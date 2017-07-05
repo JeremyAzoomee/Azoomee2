@@ -17,6 +17,8 @@ private:
     cocos2d::ui::Button* _backButton = nullptr;
     /// Title label
     cocos2d::ui::Text* _titleLabel = nullptr;
+    /// Title image
+    cocos2d::ui::ImageView* _titleImage = nullptr;
     /// The alert button
     cocos2d::ui::Button* _alertButton = nullptr;
     
@@ -34,6 +36,9 @@ public:
     void setTitleString(const std::string& title);
     /// Set the title font color
     void setTitleColor(const cocos2d::Color3B& color);
+    
+    /// Set the title image
+    void setTitleImage(const std::string& imagePath);
     
     /// Show or hide the alert button
     void showAlertButton(bool enable);
