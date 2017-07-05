@@ -10,6 +10,8 @@
 using namespace cocos2d;
 using namespace cocos2d::experimental::ui;
 
+//#define novideo
+
 NS_AZOOMEE_BEGIN
 
 //ATTENTION! FRAMEWORK MODIFICATION REQUIRED IN ORDER TO HAVE THE VIDEO PLAYED WITHOUT CONTROL BAR!
@@ -58,9 +60,20 @@ bool IntroVideoScene::init()
     videoPlayer->addEventListener(CC_CALLBACK_2(IntroVideoScene::videoEventCallback, this));
     
     addChild(videoPlayer);
+    
+#ifndef novideo
     videoPlayer->play();
+#endif
     
     return true;
+}
+
+void IntroVideoScene::onEnter()
+{
+    Node::onEnter();
+#ifdef novideo
+    navigateToNextScene();
+#endif
 }
 
 void IntroVideoScene::videoEventCallback(Ref* sender, VideoPlayer::EventType eventType)
