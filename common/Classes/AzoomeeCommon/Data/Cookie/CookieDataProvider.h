@@ -17,13 +17,14 @@ public:
     virtual ~CookieDataProvider();
     bool init(void);
     
-    std::string getCookiesForRequest(std::string url);
-    std::string getCookieMainContent(std::string cookieRecord);
+    std::string getCookiesForRequest(const std::string& url);
+    std::string getCookieMainContent(const std::string& cookieRecord);
     std::string getAllCookiesInJson();
     
 private:
-    bool checkIfCookieIsForUrl(std::string cookieRecord, std::string url);
-    std::string getUrlFromCookie(std::string cookieString);
+    bool checkIfCookieIsForUrl(const std::string& cookieRecord, const std::string& url);
+    std::string getUrlWithPathFromCookie(const std::string& cookieString);
+    std::string getDomainFromCookie(const std::string& cookieString);
 };
 
 }
