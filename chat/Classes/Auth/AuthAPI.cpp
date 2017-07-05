@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Json.h>
+#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include <cocos/cocos2d.h>
 #include <memory>
 
@@ -76,6 +77,7 @@ void AuthAPI::logoutUser()
 {
     logoutChild();
     ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
+    PusherSDK::getInstance()->closeAllChannels();
 }
 
 #pragma mark - Child
@@ -89,7 +91,7 @@ void AuthAPI::getAvailableChildren()
 bool AuthAPI::isChildLoggedIn() const
 {
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    const std::string& childId = childData->getLoggedInChildId();
+    const std::string& childId = childData->getParentOrChildId();
     return !childId.empty();
 }
 
@@ -108,7 +110,7 @@ void AuthAPI::logoutChild()
 
 void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
-    cocos2d::log("AuthAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
+//    cocos2d::log("AuthAPI::onHttpRequestSuccess: %s, body=%s", requestTag.c_str(), body.c_str());
     ParentDataParser* parentDataParser = ParentDataParser::getInstance();
     ParentDataProvider* parentData = ParentDataProvider::getInstance();
     ChildDataParser* childDataParser = ChildDataParser::getInstance();
@@ -120,6 +122,9 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         if(parentDataParser->parseParentLoginData(body))
         {
             cocos2d::log("Logged in!");
+            
+            // Open Pusher channel
+            PusherSDK::getInstance()->openParentAccountChannel();
             
             // Notify observers
             for(auto observer : _observers)
@@ -163,7 +168,12 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
 void AuthAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
     cocos2d::log("AuthAPI::onHttpRequestFailed: %s, errorCode=%ld", requestTag.c_str(), errorCode);
-    ModalMessages::getInstance()->stopLoading();
+    
+    // Notify observers
+    for(auto observer : _observers)
+    {
+        observer->onAuthAPIRequestFailed(requestTag, errorCode);
+    }
 }
 
 NS_AZOOMEE_END

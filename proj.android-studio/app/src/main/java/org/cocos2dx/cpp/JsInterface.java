@@ -39,31 +39,31 @@ public class JsInterface extends Activity {
     public void sendMediaPlayerData(String key, String value)
     {
         log.d("eventhandler", "eventhandler called!");
-        NativeView.sendMediaPlayerData(key, value);
+        JNICalls.sendMediaPlayerData(key, value);
     }
 
     @JavascriptInterface
     public void saveLocalDataStorage(String data)
     {
-        JNISaveLocalDataStorage(data);
+        JNICalls.JNISaveLocalDataStorage(data);
     }
 
     @JavascriptInterface
     public String getLocalDataStorage()
     {
-        return JNIGetLocalDataStorage();
+        return JNICalls.JNIGetLocalDataStorage();
     }
 
     @JavascriptInterface
     public String apiRequest(String method, String responseID, String score)
     {
-        return JNISendAPIRequest(method, responseID, score);
+        return JNICalls.JNISendAPIRequest(method, responseID, score);
     }
 
     @JavascriptInterface
     public String getVideoPlaylist()
     {
-        return JNIGetVideoPlaylist();
+        return JNICalls.JNIGetVideoPlaylist();
     }
 
     @JavascriptInterface
@@ -71,9 +71,4 @@ public class JsInterface extends Activity {
     {
         NativeView.exitView();
     }
-
-    public static native void JNISaveLocalDataStorage(String data);
-    public static native String JNIGetLocalDataStorage();
-    public static native String JNISendAPIRequest(String method, String responseID, String score);
-    public static native String JNIGetVideoPlaylist();
 }

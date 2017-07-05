@@ -36,7 +36,16 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
+		300742E01EF91667005525AE /* libAzoomeeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 300742DA1EF9162E005525AE /* libAzoomeeChat.a */; };
+		300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300742F11EF93428005525AE /* ChatDelegate.cpp */; };
+		300AD6921F0B9ACB0049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; };
+		300AD6991F0B9CD40049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; };
+		300AD69A1F0B9CD40049A24F /* PusherSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA921EB139C1009ADA0C /* SettingsButton.cpp */; };
+		302679A11F0A41770047BC7C /* Pods_AzoomeeCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3007435B1EFD265D005525AE /* Pods_AzoomeeCommon.framework */; };
+		302679A21F0A41770047BC7C /* Pods_AzoomeeCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3007435B1EFD265D005525AE /* Pods_AzoomeeCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		302679A31F0A41770047BC7C /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300743571EFD25A0005525AE /* PusherSwift.framework */; };
+		302679A41F0A41770047BC7C /* PusherSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 300743571EFD25A0005525AE /* PusherSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		304D9EB31EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9E9F1EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib */; };
 		304D9EB41EA8F849008CED52 /* MPTakeoverNotificationViewController~iphonelandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA01EA8F849008CED52 /* MPTakeoverNotificationViewController~iphonelandscape.xib */; };
 		304D9EB51EA8F849008CED52 /* MPTakeoverNotificationViewController~iphoneportrait.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA11EA8F849008CED52 /* MPTakeoverNotificationViewController~iphoneportrait.xib */; };
@@ -58,6 +67,8 @@
 		304D9EC51EA8F849008CED52 /* placeholder-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EB11EA8F849008CED52 /* placeholder-image.png */; };
 		304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC81EA8F89B008CED52 /* GameController.framework */; };
 		3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */; };
+		307A40401F02AA2C005947F3 /* Pods_AzoomeeCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3007435B1EFD265D005525AE /* Pods_AzoomeeCommon.framework */; };
+		307A40411F02AA2C005947F3 /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300743571EFD25A0005525AE /* PusherSwift.framework */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images-2.xcassets */; };
@@ -96,7 +107,6 @@
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
-		503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FF17EB989F00D1A890 /* RootViewController.mm */; };
 		503AE10517EB98FF00D1A890 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 503AE10317EB98FF00D1A890 /* main.cpp */; };
 		503AE11B17EB9C5A00D1A890 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503AE11A17EB9C5A00D1A890 /* IOKit.framework */; };
 		5087E76317EB910900C73F5D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -175,6 +185,27 @@
 			remoteGlobalIDString = A07A4C241783777C0073F6A7;
 			remoteInfo = "cocos2dx iOS";
 		};
+		300742D91EF9162E005525AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 304410631E9D18E600B7F383;
+			remoteInfo = AzoomeeChat;
+		};
+		300742DB1EF9162E005525AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
+			remoteInfo = "AzoomeeChat-App";
+		};
+		300742DE1EF9163F005525AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 304410621E9D18E600B7F383;
+			remoteInfo = AzoomeeChat;
+		};
 		3077F4511E8D51D7006DA465 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
@@ -198,6 +229,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		302679A51F0A41780047BC7C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				300AD69A1F0B9CD40049A24F /* PusherSwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebGameAPIDataManager.cpp; sourceTree = "<group>"; };
 		02074B261E93966D009BB28C /* WebGameAPIDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebGameAPIDataManager.h; sourceTree = "<group>"; };
@@ -210,7 +255,7 @@
 		025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsPreviewLayer.cpp; sourceTree = "<group>"; };
 		025BE94C1E3A1E2D00EF76D1 /* ArtsPreviewLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsPreviewLayer.h; sourceTree = "<group>"; };
 		025BE94E1E3A1E9200EF76D1 /* WebViewController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController_ios.h; sourceTree = "<group>"; };
-		025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController_ios.m; sourceTree = "<group>"; };
+		025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = WebViewController_ios.m; sourceTree = "<group>"; };
 		025BE9551E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PreviewLoginSignupMessageBox.cpp; sourceTree = "<group>"; };
 		025BE9561E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewLoginSignupMessageBox.h; sourceTree = "<group>"; };
 		025BE95B1E3B980600EF76D1 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -253,6 +298,10 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
+		300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeChat.xcodeproj; path = ../chat/proj.ios_mac/AzoomeeChat.xcodeproj; sourceTree = "<group>"; };
+		300742F11EF93428005525AE /* ChatDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatDelegate.cpp; sourceTree = "<group>"; };
+		300742F21EF93428005525AE /* ChatDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatDelegate.h; sourceTree = "<group>"; };
+		300AD6911F0B9ACB0049A24F /* PusherSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PusherSwift.framework; path = ../common/proj.ios_mac/Carthage/Build/iOS/PusherSwift.framework; sourceTree = "<group>"; };
 		301CCA921EB139C1009ADA0C /* SettingsButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SettingsButton.cpp; sourceTree = "<group>"; };
 		301CCA931EB139C1009ADA0C /* SettingsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsButton.h; sourceTree = "<group>"; };
 		304D9E9F1EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "MPTakeoverNotificationViewController~ipad.xib"; path = "../common/proj.ios_mac/libs/Mixpanel/MPTakeoverNotificationViewController~ipad.xib"; sourceTree = "<group>"; };
@@ -337,8 +386,6 @@
 		503AE0FB17EB989F00D1A890 /* AppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppController.mm; path = ios/AppController.mm; sourceTree = SOURCE_ROOT; };
 		503AE0FC17EB989F00D1A890 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ios/main.m; sourceTree = SOURCE_ROOT; };
 		503AE0FD17EB989F00D1A890 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ios/Prefix.pch; sourceTree = SOURCE_ROOT; };
-		503AE0FE17EB989F00D1A890 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = ios/RootViewController.h; sourceTree = SOURCE_ROOT; };
-		503AE0FF17EB989F00D1A890 /* RootViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RootViewController.mm; path = ios/RootViewController.mm; sourceTree = SOURCE_ROOT; };
 		503AE10317EB98FF00D1A890 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = mac/main.cpp; sourceTree = "<group>"; };
 		503AE10417EB98FF00D1A890 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = mac/Prefix.pch; sourceTree = "<group>"; };
 		503AE11117EB99EE00D1A890 /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
@@ -413,14 +460,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				300742E01EF91667005525AE /* libAzoomeeChat.a in Frameworks */,
 				4396948A1EAA4ACD003C17E6 /* StoreKit.framework in Frameworks */,
 				304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */,
 				43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */,
 				43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */,
+				302679A31F0A41770047BC7C /* PusherSwift.framework in Frameworks */,
 				43A90CE11EA755FF00606099 /* CoreTelephony.framework in Frameworks */,
 				43A90CDF1EA755F000606099 /* SystemConfiguration.framework in Frameworks */,
 				43A90CDD1EA755E200606099 /* Foundation.framework in Frameworks */,
+				302679A11F0A41770047BC7C /* Pods_AzoomeeCommon.framework in Frameworks */,
 				43A90CDB1EA755D600606099 /* UIKit.framework in Frameworks */,
+				300AD6991F0B9CD40049A24F /* PusherSwift.framework in Frameworks */,
 				3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */,
 				435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */,
 				435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */,
@@ -430,6 +481,7 @@
 				430B21511E4485E0004ACB10 /* Security.framework in Frameworks */,
 				430B214E1E4485DA004ACB10 /* CFNetwork.framework in Frameworks */,
 				025BE95C1E3B980600EF76D1 /* WebKit.framework in Frameworks */,
+				300AD6921F0B9ACB0049A24F /* PusherSwift.framework in Frameworks */,
 				D113134C1E337D7C00E2C033 /* MediaPlayer.framework in Frameworks */,
 				294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */,
 				433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */,
@@ -544,8 +596,6 @@
 				503AE0FB17EB989F00D1A890 /* AppController.mm */,
 				503AE0FC17EB989F00D1A890 /* main.m */,
 				503AE0FD17EB989F00D1A890 /* Prefix.pch */,
-				503AE0FE17EB989F00D1A890 /* RootViewController.h */,
-				503AE0FF17EB989F00D1A890 /* RootViewController.mm */,
 			);
 			name = ios;
 			path = Classes;
@@ -577,6 +627,7 @@
 				46880B7519C43A67006E1F66 /* Resources */,
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
 				3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */,
+				300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* ios */,
 				503AE10617EB990700D1A890 /* mac */,
@@ -590,6 +641,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				300AD6911F0B9ACB0049A24F /* PusherSwift.framework */,
 				439694891EAA4ACD003C17E6 /* StoreKit.framework */,
 				304D9EC81EA8F89B008CED52 /* GameController.framework */,
 				43A90DE41EA7603800606099 /* WatchKit.framework */,
@@ -636,6 +688,24 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		300742D31EF9162E005525AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				300742DA1EF9162E005525AE /* libAzoomeeChat.a */,
+				300742DC1EF9162E005525AE /* AzoomeeChat-App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		300742F61EF93433005525AE /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				300742F11EF93428005525AE /* ChatDelegate.cpp */,
+				300742F21EF93428005525AE /* ChatDelegate.h */,
+			);
+			name = Chat;
 			sourceTree = "<group>";
 		};
 		304D9E9D1EA8F833008CED52 /* Mixpanel */ = {
@@ -755,6 +825,7 @@
 				430B3B021DF832A8003A3AA7 /* Signup_AddChild */,
 				A15B2FA41DEC73B800D25334 /* Login */,
 				A1CC0C141E1407B2008B469E /* BaseScene */,
+				300742F61EF93433005525AE /* Chat */,
 				A1CC0C161E1407BF008B469E /* Navigation */,
 				A1817B481DDCB74900C2D13C /* MainHubScene */,
 				A19759861DE4931600FEB03C /* HQScene */,
@@ -970,10 +1041,12 @@
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				43BAE6511E26568700EB8DB0 /* ShellScript */,
+				302679A51F0A41780047BC7C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				300742DF1EF9163F005525AE /* PBXTargetDependency */,
 				3077F4551E8D51ED006DA465 /* PBXTargetDependency */,
 				1AC6FB25180E99E1004C840B /* PBXTargetDependency */,
 			);
@@ -1027,6 +1100,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 300742D31EF9162E005525AE /* Products */;
+					ProjectRef = 300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */;
+				},
+				{
 					ProductGroup = 3077F44E1E8D51D7006DA465 /* Products */;
 					ProjectRef = 3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */;
 				},
@@ -1056,6 +1133,20 @@
 			fileType = archive.ar;
 			path = "libcocos2d iOS.a";
 			remoteRef = 1AC6FB06180E9839004C840B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		300742DA1EF9162E005525AE /* libAzoomeeChat.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAzoomeeChat.a;
+			remoteRef = 300742D91EF9162E005525AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		300742DC1EF9162E005525AE /* AzoomeeChat-App.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "AzoomeeChat-App.app";
+			remoteRef = 300742DB1EF9162E005525AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */ = {
@@ -1159,6 +1250,7 @@
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
 				D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */,
 				A19862231DD3836D0090F053 /* HQScene.cpp in Sources */,
+				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
 				A1E5FCFB1DDDCCBA0098DD29 /* ImageContainer.cpp in Sources */,
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
@@ -1171,7 +1263,6 @@
 				A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */,
 				025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
-				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */,
 				4348E4431E65DD9B00486661 /* OnboardingSuccessScene.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
@@ -1227,6 +1318,11 @@
 			name = "cocos2dx iOS";
 			targetProxy = 1AC6FB24180E99E1004C840B /* PBXContainerItemProxy */;
 		};
+		300742DF1EF9163F005525AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AzoomeeChat;
+			targetProxy = 300742DE1EF9163F005525AE /* PBXContainerItemProxy */;
+		};
 		3077F4551E8D51ED006DA465 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AzoomeeCommon;
@@ -1238,6 +1334,7 @@
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1248,6 +1345,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../common/proj.ios_mac/Carthage/Build/iOS/",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -1265,6 +1363,7 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/AppsFlyer",
 					"$(PROJECT_DIR)/../common/Users/proj.ios_mac/libs/Mixpanel",
@@ -1287,6 +1386,7 @@
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1297,6 +1397,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../common/proj.ios_mac/Carthage/Build/iOS/",
 				);
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1312,6 +1413,7 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/AppsFlyer",
 					"$(PROJECT_DIR)/../common/Users/proj.ios_mac/libs/Mixpanel",

@@ -2,6 +2,9 @@
 #define __MAINHUB_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class MainHubScene : public cocos2d::Layer
 {
@@ -21,5 +24,7 @@ private:
     cocos2d::Point origin;
     float zoomFactor;
 };
+
+NS_AZOOMEE_END
 
 #endif

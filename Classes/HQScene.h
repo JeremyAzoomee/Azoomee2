@@ -3,6 +3,9 @@
 
 #include <cocos/cocos2d.h>
 #include "ui/UIScrollView.h"
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class HQScene : public cocos2d::Layer
 {
@@ -15,7 +18,7 @@ public:
 private:
     void addGroupHQLogo();
     
-    bool directionDecided;
+    bool directionDecided = false;
     cocos2d::Point startLocation;
     void addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView);
     
@@ -36,5 +39,7 @@ private:
     int category;
     
 };
+
+NS_AZOOMEE_END
 
 #endif

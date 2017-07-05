@@ -2,15 +2,15 @@
 #define __ROUTE_PAYMENT_SINGLETON_H__
 
 #include "cocos2d.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 
-using namespace Azoomee;
-
+NS_AZOOMEE_BEGIN
 
 class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
 {
 private:
-    bool appleReceiptRefreshchecked;
+    bool appleReceiptRefreshchecked = false;
     std::string OSManufacturer;
     void setOSManufacturer();
     
@@ -19,8 +19,8 @@ public:
     virtual ~RoutePaymentSingleton();
     bool init(void);
     
-    bool pressedIAPStartButton;
-    bool pressedRestorePurchaseButton;
+    bool pressedIAPStartButton = false;
+    bool pressedRestorePurchaseButton = false;
     
     void startInAppPayment();
     void inAppPaymentSuccess();
@@ -42,5 +42,7 @@ public:
     //Delegate Functions
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
 };
+
+NS_AZOOMEE_END
 
 #endif

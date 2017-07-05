@@ -6,6 +6,9 @@
 using namespace cocos2d;
 
 
+#define INPUT_STYLE_SIZE 88
+
+
 namespace Azoomee
 {
 
@@ -54,7 +57,7 @@ void TextInputLayer::createEditBox()
     editBox->moveOnKeyboardDisplayRequired = false;
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
-    editBox->setFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
+    editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::WHITE);
    
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -106,7 +109,7 @@ void TextInputLayer::setupEditBoxUsingType()
         {
             editBox->setMaxLength(2);
             editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_DAY_PLACEHOLDER).c_str());
-            editBox->setPlaceholderFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
+            editBox->setPlaceholderFont(Style::Font::Input, INPUT_STYLE_SIZE);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
@@ -114,7 +117,7 @@ void TextInputLayer::setupEditBoxUsingType()
         {
             editBox->setMaxLength(2);
             editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_MONTH_PLACEHOLDER).c_str());
-            editBox->setPlaceholderFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
+            editBox->setPlaceholderFont(Style::Font::Input, INPUT_STYLE_SIZE);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
@@ -122,7 +125,7 @@ void TextInputLayer::setupEditBoxUsingType()
         {
             editBox->setMaxLength(4);
             editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_YEAR_PLACEHOLDER).c_str());
-            editBox->setPlaceholderFont(INPUT_STYLE_FONT, INPUT_STYLE_SIZE);
+            editBox->setPlaceholderFont(Style::Font::Input, INPUT_STYLE_SIZE);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }

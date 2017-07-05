@@ -15,8 +15,8 @@
 #include "BaseScene.h"
 
 using namespace cocos2d;
-using namespace Azoomee;
 
+NS_AZOOMEE_BEGIN
 
 static HQDataParser *_sharedHQDataParser = NULL;
 
@@ -218,3 +218,5 @@ void HQDataParser::clearAllHQData()
     HQDataStorage::getInstance()->HQElementHighlights.clear();
     HQDataStorage::getInstance()->HQGetContentUrls.clear();
 }
+
+NS_AZOOMEE_END

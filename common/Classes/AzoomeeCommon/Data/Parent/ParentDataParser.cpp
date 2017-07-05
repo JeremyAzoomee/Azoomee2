@@ -49,6 +49,10 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
             parentData->loggedInParentApiKey = parentData->parentLoginData["apiKey"].GetString();
             parentData->loggedInParentActorStatus = parentData->parentLoginData["actorStatus"].GetString();
             
+            if(parentData->parentLoginData.HasMember("avatar"))
+                if(parentData->parentLoginData["avatar"].IsString())
+                    parentData->loggedInParentAvatarId = parentData->parentLoginData["avatar"].GetString();
+            
             if(parentData->parentLoginData.HasMember("pinNumber"))
             {
                 if(parentData->parentLoginData["pinNumber"].IsString())
@@ -196,6 +200,7 @@ void ParentDataParser::logoutChild()
 
 void ParentDataParser::addParentLoginDataToUserDefaults()
 {
+    cocos2d::log("ParentDataParser::addParentLoginDataToUserDefaults");
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     
     UserDefault* def = UserDefault::getInstance();
@@ -204,11 +209,13 @@ void ParentDataParser::addParentLoginDataToUserDefaults()
     def->setStringForKey("loggedInParentApiSecret", parentData->loggedInParentApiSecret);
     def->setStringForKey("loggedInParentApiKey", parentData->loggedInParentApiKey);
     def->setStringForKey("loggedInParentActorStatus", parentData->loggedInParentActorStatus);
+    def->setStringForKey("loggedInParentAvatarId", parentData->loggedInParentAvatarId);
     def->flush();
 }
 
 void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
 {
+    cocos2d::log("ParentDataParser::retrieveParentLoginDataFromUserDefaults");
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     
     UserDefault* def = UserDefault::getInstance();
@@ -217,6 +224,13 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     parentData->loggedInParentApiSecret = def->getStringForKey("loggedInParentApiSecret");
     parentData->loggedInParentApiKey = def->getStringForKey("loggedInParentApiKey");
     parentData->loggedInParentActorStatus = def->getStringForKey("loggedInParentActorStatus");
+    parentData->loggedInParentAvatarId = def->getStringForKey("loggedInParentAvatarId");
+    cocos2d::log("loggedInParentId = %s", parentData->loggedInParentId.c_str());
+    cocos2d::log("loggedInParentCdnSessionId = %s", parentData->loggedInParentCdnSessionId.c_str());
+    cocos2d::log("loggedInParentApiSecret = %s", parentData->loggedInParentApiSecret.c_str());
+    cocos2d::log("loggedInParentApiKey = %s", parentData->loggedInParentApiKey.c_str());
+    cocos2d::log("loggedInParentActorStatus = %s", parentData->loggedInParentActorStatus.c_str());
+    cocos2d::log("loggedInParentAvatarId = %s", parentData->loggedInParentAvatarId.c_str());
     
     createCrashlyticsUserInfo(parentData->loggedInParentId, "");
     AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
@@ -233,6 +247,7 @@ bool ParentDataParser::hasParentLoginDataInUserDefaults()
 
 void ParentDataParser::clearParentLoginDataFromUserDefaults()
 {
+    cocos2d::log("ParentDataParser::clearParentLoginDataFromUserDefaults");
     UserDefault* def = UserDefault::getInstance();
     def->setStringForKey("loggedInParentId", "");
     def->setStringForKey("loggedInParentCdnSessionId", "");

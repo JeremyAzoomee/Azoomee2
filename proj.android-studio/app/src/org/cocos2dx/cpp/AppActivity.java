@@ -24,24 +24,25 @@ THE SOFTWARE.
 package org.cocos2dx.cpp;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import android.util.Base64;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import org.cocos2dx.cpp.util.IabBroadcastReceiver;
 import org.cocos2dx.cpp.util.IabHelper;
 import org.cocos2dx.cpp.util.IabResult;
 import org.cocos2dx.cpp.util.Inventory;
 import org.cocos2dx.cpp.util.Purchase;
-import org.cocos2dx.lib.Cocos2dxActivity;
+import com.tinizine.azoomee.common.AzoomeeActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -63,8 +64,10 @@ import io.fabric.sdk.android.Fabric;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import com.appsflyer.AppsFlyerLib;
+import com.tinizine.azoomee.R;
 
-public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceiver.IabBroadcastListener {
+
+public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
 
     private static Context mContext;
     private static Activity mActivity;
@@ -92,20 +95,25 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
     }
 
-    public static void startWebView(String url, String cookieurl, String cookie, String userid) {
+    public static void startWebView(String url, String userid) {
+        Intent nvw;
 
-        Log.d("sent from cocos", url + " - " + cookieurl + " - " + cookie);
+        int androidVersion = Build.VERSION.SDK_INT;
+        Log.d("WEBVIEW SDK LEVEL", "" + androidVersion);
+        if((androidVersion > 13)&&(androidVersion < 21))
+        {
+            Log.d("WEBVIEW", "CROSSWALK");
+            nvw = new Intent(mContext, NativeView.class);
+        }
+        else
+        {
+            Log.d("WEBVIEW", "NATIVE");
+            nvw = new Intent(mContext, NativeViewUI.class);
+        }
 
-        Intent nvw = new Intent(mContext, NativeView.class);
         nvw.putExtra("url", url);
-        nvw.putExtra("cookieurl", cookieurl);
-        nvw.putExtra("cookie", cookie);
         nvw.putExtra("userid", userid);
         mContext.startActivity(nvw);
-    }
-
-    public static String getAnswer() {
-        return "AndroidAnswer";
     }
 
     public static String getOSBuildManufacturer() {
@@ -187,7 +195,7 @@ public class AppActivity extends Cocos2dxActivity implements IabBroadcastReceive
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mixpanel.flush();
 
         if (mBroadcastReceiver != null) {

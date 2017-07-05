@@ -1,11 +1,14 @@
+#ifndef Azoomee_GameDataManager_h
+#define Azoomee_GameDataManager_h
+
 #include <cocos/cocos2d.h>
 #include "network/HttpClient.h"
 #include "external/json/document.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 
-using namespace Azoomee;
-
+NS_AZOOMEE_BEGIN
 
 class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
@@ -61,7 +64,11 @@ private:
     
     cocos2d::network::HttpRequest* jsonRequest;
     cocos2d::network::HttpRequest* zipRequest;
-    bool processCancelled;
+    bool processCancelled = false;
     
     bool isGameCompatibleWithCurrentAzoomeeVersion(std::string jsonFileName);
 };
+
+NS_AZOOMEE_END
+
+#endif

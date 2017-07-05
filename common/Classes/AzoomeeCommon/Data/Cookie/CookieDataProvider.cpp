@@ -30,7 +30,7 @@ bool CookieDataProvider::init(void)
     return true;
 }
 
-std::string CookieDataProvider::getCookiesForRequest(std::string url)
+std::string CookieDataProvider::getCookiesForRequest(const std::string& url)
 {
     std::string cookieString = "";
     
@@ -42,7 +42,7 @@ std::string CookieDataProvider::getCookiesForRequest(std::string url)
     return cookieString;
 }
 
-bool CookieDataProvider::checkIfCookieIsForUrl(std::string cookieRecord, std::string url)
+bool CookieDataProvider::checkIfCookieIsForUrl(const std::string& cookieRecord, const std::string& url)
 {
     bool domainFound = false;
     bool pathFound = false;
@@ -71,12 +71,12 @@ bool CookieDataProvider::checkIfCookieIsForUrl(std::string cookieRecord, std::st
     return false;
 }
 
-std::string CookieDataProvider::getCookieMainContent(std::string cookieRecord)
+std::string CookieDataProvider::getCookieMainContent(const std::string& cookieRecord)
 {
     return splitStringToVector(cookieRecord, "; ").at(0);
 }
     
-std::string CookieDataProvider::getUrlFromCookie(std::string cookieString)
+std::string CookieDataProvider::getUrlWithPathFromCookie(const std::string& cookieString)
 {
     std::string domain = "";
     std::string path = "";
@@ -98,6 +98,23 @@ std::string CookieDataProvider::getUrlFromCookie(std::string cookieString)
     return ConfigStorage::getInstance()->getMediaPrefixForXwalkCookies() + domain + path;
 }
     
+std::string CookieDataProvider::getDomainFromCookie(const std::string& cookieString)
+{
+    std::string domain = "";
+    
+    std::vector<std::string> cookieParts = splitStringToVector(cookieString, "; ");
+    for(int i = 0; i < cookieParts.size(); i++)
+    {
+        std::string currentPart = cookieParts.at(i);
+        if(currentPart.find("Domain=") != std::string::npos)
+        {
+            domain = splitStringToVector(currentPart, "=").at(1);
+        }
+    }
+    
+    return ConfigStorage::getInstance()->getMediaPrefixForXwalkCookies() + domain;
+}
+    
 std::string CookieDataProvider::getAllCookiesInJson()
 {
     std::vector<std::map<std::string, std::string>> allCookies;
@@ -105,8 +122,8 @@ std::string CookieDataProvider::getAllCookiesInJson()
     for(int i = 0; i < CookieDataStorage::getInstance()->dataDownloadCookiesVector.size(); i++)
     {
         std::map<std::string, std::string> cookieRecord;
-        cookieRecord["url"] = getUrlFromCookie(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i));
-        cookieRecord["cookie"] = getCookieMainContent(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i));
+        cookieRecord["url"] = getUrlWithPathFromCookie(CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i));
+        cookieRecord["cookie"] = CookieDataStorage::getInstance()->dataDownloadCookiesVector.at(i);
         allCookies.push_back(cookieRecord);
     }
     

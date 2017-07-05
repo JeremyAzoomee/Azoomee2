@@ -6,8 +6,9 @@
 #include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 Scene* OfflineHubHQ::createScene()
 {
@@ -152,3 +153,5 @@ void OfflineHubHQ::addListenerToArtElement(Layer* toBeAddedTo)
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
 }
+
+NS_AZOOMEE_END

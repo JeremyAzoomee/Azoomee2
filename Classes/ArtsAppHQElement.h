@@ -2,6 +2,9 @@
 #define __ARTSAPPHQELEMENT_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class ArtsAppHQElement : public cocos2d::Layer
 {
@@ -29,13 +32,15 @@ private:
     std::string getBase64Encoded(std::string input);
     std::string getFileNameFromPath(std::string path);
     
-    bool notSendingFileData;
+    bool notSendingFileData = false;
     
     cocos2d::LayerColor *baseLayer;
     cocos2d::LayerColor *overlayWhenTouched;
-    bool movedAway;
-    bool iamtouched;
+    bool movedAway = false;
+    bool iamtouched = false;
     cocos2d::Point touchPoint;
 };
+
+NS_AZOOMEE_END
 
 #endif

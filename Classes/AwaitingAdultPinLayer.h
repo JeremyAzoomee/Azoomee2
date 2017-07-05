@@ -2,12 +2,12 @@
 #define __AWAITING_ADULT_PIN_LAYER_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+NS_AZOOMEE_BEGIN
 
 class AwaitingAdultPinLayer;
 
@@ -18,16 +18,16 @@ public:
     virtual void AdultPinAccepted(AwaitingAdultPinLayer* layer) = 0;
 };
 
-class AwaitingAdultPinLayer : public Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
+class AwaitingAdultPinLayer : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
 
-    Size visibleSize;
-    Vec2 origin;
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
     
-    LayerColor *backgroundLayer;
+    cocos2d::LayerColor *backgroundLayer;
     
-    Layer* windowLayer;
+    cocos2d::Layer* windowLayer;
     
     TextInputLayer* editBox_pin;
     
@@ -56,5 +56,7 @@ public:
     void secondCheckForPin();
     
 };
+
+NS_AZOOMEE_END
 
 #endif

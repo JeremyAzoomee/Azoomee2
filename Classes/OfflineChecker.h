@@ -2,7 +2,10 @@
 #define __OFFLINECHECKER_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include "network/HttpClient.h"
+
+NS_AZOOMEE_BEGIN
 
 class OfflineChecker;
 
@@ -31,10 +34,12 @@ public:
 private:
     void sendOfflineCheckRequest();
     
-    bool offlineStatus;
-    bool newScene;
+    bool offlineStatus = false;
+    bool newScene = false;
     
     int amountOfFailures;
 };
+
+NS_AZOOMEE_END
 
 #endif

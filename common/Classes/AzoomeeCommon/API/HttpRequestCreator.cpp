@@ -21,7 +21,8 @@ HttpRequestCreator::HttpRequestCreator(HttpRequestCreatorResponseDelegate* deleg
 void HttpRequestCreator::execute()
 {
     amountOfFails = 0;
-    createHttpRequest();
+    HttpRequest* request = buildHttpRequest();
+    sendRequest(request);
 }
 
 //-----------------------------------------------------All requests below this line are used internally-------------------------------------------------------
@@ -96,7 +97,7 @@ std::string HttpRequestCreator::addLeadingZeroToDateElement(int input)          
     return dateFormat;
 }
 
-void HttpRequestCreator::createHttpRequest()                            //The http request is being created from global variables. This method can't be run until setting up all variables, please see usage on top of this file.
+cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()                            //The http request is being created from global variables. This method can't be run until setting up all variables, please see usage on top of this file.
 {
     std::string hostPrefix = ConfigStorage::getInstance()->getServerUrlPrefix();
     std::string host;
@@ -120,14 +121,14 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     std::string requestUrl =  hostPrefix + host + requestPath;
     if(!urlParameters.empty()) requestUrl = requestUrl + "?" + urlParameters;
     
-    HttpRequest *request = new HttpRequest();
+    HttpRequest* request = new HttpRequest();
     
     if(method == "POST") request->setRequestType(HttpRequest::Type::POST);
     if(method == "GET") request->setRequestType(HttpRequest::Type::GET);
     if(method == "PATCH") request->setRequestType(HttpRequest::Type::PATCH);
     request->setUrl(requestUrl.c_str());
     
-    const char *postData = requestBody.c_str();
+    const char* postData = requestBody.c_str();
     request->setRequestData(postData, strlen(postData));
     
     std::vector<std::string> headers;
@@ -162,6 +163,12 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     
     request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
     request->setTag(requestTag);
+    
+    return request;
+}
+
+void HttpRequestCreator::sendRequest(cocos2d::network::HttpRequest* request)
+{
     HttpClient::getInstance()->setTimeoutForConnect(5);
     HttpClient::getInstance()->setTimeoutForRead(10);
     
@@ -196,9 +203,9 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
 
 void HttpRequestCreator::handleError(network::HttpResponse *response)
 {
-    std::string responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
-    std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
-    std::string requestTag = response->getHttpRequest()->getTag();
+    const std::string& responseHeaderString  = std::string(response->getResponseHeader()->begin(), response->getResponseHeader()->end());
+    const std::string& responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
+    const std::string& requestTag = response->getHttpRequest()->getTag();
     long errorCode = response->getResponseCode();
     
     cocos2d::log("request tag: %s", requestTag.c_str());
@@ -211,7 +218,8 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
     if(amountOfFails < 2)
     {
         amountOfFails++;
-        createHttpRequest();
+        HttpRequest* request = buildHttpRequest();
+        sendRequest(request);
         return;
     }
     
@@ -230,7 +238,7 @@ void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, lo
 
 std::string HttpRequestCreator::getQidFromResponseHeader(std::string responseHeaderString)
 {
-    std::vector<std::string> responseHeaderVector = splitStringToVector(responseHeaderString, "\n");
+    const std::vector<std::string>& responseHeaderVector = splitStringToVector(responseHeaderString, "\n");
     for(int i = 0; i < responseHeaderVector.size(); i++)
     {
         if(responseHeaderVector.at(i).compare(0, 9, "x-az-qid:") == 0)

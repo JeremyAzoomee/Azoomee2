@@ -5,8 +5,9 @@
 #include "GameDataManager.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 bool ManualGameInputLayer::init()
 {
@@ -118,3 +119,5 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
         GameDataManager::getInstance()->getJSONGameData(uriTextInput->getText().c_str(), "MANUAL_GAME");
     }
 }
+
+NS_AZOOMEE_END

@@ -12,9 +12,9 @@
 #include "WebViewNativeCaller_android.h"
 #endif
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 cocos2d::Scene* WebViewSelector::createScene()
 {
@@ -104,3 +104,5 @@ bool WebViewSelector::init()
     
     return true;
 }
+
+NS_AZOOMEE_END

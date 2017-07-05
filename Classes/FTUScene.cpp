@@ -5,8 +5,9 @@
 
 #define COLOR_BRIGHT_AQUA Color3B(28, 244, 244)
 
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 Scene* FTUScene::createScene()
 {
@@ -59,14 +60,14 @@ void FTUScene::addLayer()
 
 void FTUScene::addLabels()
 {
-    titleLabel = Label::createWithTTF("Welcome to the world of Azoomee", FONT_REGULAR, 130);
+    titleLabel = Label::createWithTTF("Welcome to the world of Azoomee", Style::Font::Regular, 130);
     titleLabel->setColor(COLOR_BRIGHT_AQUA);
     titleLabel->setAnchorPoint(Vec2(0.5,0.5));
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     titleLabel->setPosition(ftuLayer->getContentSize().width/2,ftuLayer->getContentSize().height-titleLabel->getContentSize().height*1.2);
     ftuLayer->addChild(titleLabel);
     
-    subTitleLabel = Label::createWithTTF("1000s of kids’ shows, games & audiobooks updated every week", FONT_REGULAR, 76);
+    subTitleLabel = Label::createWithTTF("1000s of kids’ shows, games & audiobooks updated every week", Style::Font::Regular, 76);
     subTitleLabel->setColor(Color3B::WHITE);
     subTitleLabel->setAnchorPoint(Vec2(0.5,0.5));
     subTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
@@ -113,3 +114,5 @@ void FTUScene::buttonPressed(ElectricDreamsButton* button)
     else
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
 }
+
+NS_AZOOMEE_END

@@ -24,6 +24,12 @@ ChatAPI* ChatAPI::getInstance()
 
 ChatAPI::ChatAPI()
 {
+    PusherSDK::getInstance()->registerObserver(this);
+}
+
+ChatAPI::~ChatAPI()
+{
+    PusherSDK::getInstance()->removeObserver(this);
 }
 
 #pragma mark - Profile names
@@ -34,7 +40,7 @@ void ChatAPI::updateProfileNames()
     
     // Add the current child user
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    _profileNames[childData->getLoggedInChildId()] = childData->getLoggedInChildName();
+    _profileNames[childData->getParentOrChildId()] = childData->getLoggedInChildName();
     
     // Add names from friend list
     for(auto friendData : _friendList)
@@ -80,7 +86,7 @@ void ChatAPI::removeObserver(ChatAPIObserver* observer)
 void ChatAPI::requestFriendList()
 {
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    HttpRequestCreator* request = API::GetChatListRequest(childData->getLoggedInChildId(), this);
+    HttpRequestCreator* request = API::GetChatListRequest(childData->getParentOrChildId(), this);
     request->execute();
 }
 
@@ -94,7 +100,7 @@ FriendList ChatAPI::getFriendList() const
 void ChatAPI::requestMessageHistory(const FriendRef& friendObj)
 {
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getLoggedInChildId(), friendObj->friendId(), this);
+    HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getParentOrChildId(), friendObj->friendId(), this);
     request->execute();
 }
 
@@ -104,15 +110,8 @@ void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
 {
     ChildDataProvider* childData = ChildDataProvider::getInstance();
     const JsonObjectRepresentation& asJson = *message.get();
-    HttpRequestCreator* request = API::SendChatMessageRequest(childData->getLoggedInChildId(), friendObj->friendId(), asJson, this);
+    HttpRequestCreator* request = API::SendChatMessageRequest(childData->getParentOrChildId(), friendObj->friendId(), asJson, this);
     request->execute();
-}
-
-void ChatAPI::sendMessage(const FriendRef& friendObj, const std::string& message)
-{
-    // Create the message
-    const MessageRef& messageObj = Message::createTextMessage(message);
-    sendMessage(friendObj, messageObj);
 }
 
 #pragma mark - HttpRequestCreatorResponseDelegate
@@ -134,10 +133,13 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         {
             const auto& jsonEntry = *it;
             const FriendRef& friendData = Friend::createFromJson(jsonEntry);
-            friendList.push_back(friendData);
-            
-            int unreadMessages = jsonEntry["unreadMessages"].GetInt();
-            cocos2d::log("%d unread messages from %s", unreadMessages, friendData->friendName().c_str());
+            if(friendData)
+            {
+                friendList.push_back(friendData);
+                
+                int unreadMessages = jsonEntry["unreadMessages"].GetInt();
+                cocos2d::log("%d unread messages from %s", unreadMessages, friendData->friendName().c_str());
+            }
         }
         
         _friendList = friendList;
@@ -173,7 +175,15 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             const MessageRef& message = Message::createFromJson(object);
             if(message)
             {
-                messages.push_back(message);
+                // Make sure a text type message has a message, aka ignore blank messages
+                if(message->messageType() == Message::MessageTypeText && message->messageText().size() == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    messages.push_back(message);
+                }
             }
         }
         
@@ -183,7 +193,7 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             observer->onChatAPIGetChatMessages(messages);
         }
     }
-    // Get chat messages success
+    // Send message success
     else if(requestTag == API::TagSendChatMessage)
     {
         // Parse the response
@@ -191,11 +201,13 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         response.Parse(body.c_str());
         
         const MessageRef& message = Message::createFromJson(response);
-        
-        // Notify observers
-        for(auto observer : _observers)
+        if(message)
         {
-            observer->onChatAPISendMessage(message);
+            // Notify observers
+            for(auto observer : _observers)
+            {
+                observer->onChatAPISendMessage(message);
+            }
         }
     }
 }
@@ -204,6 +216,31 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
     cocos2d::log("ChatAPI::onHttpRequestFailed: %s, errorCode=%ld", requestTag.c_str(), errorCode);
     ModalMessages::getInstance()->stopLoading();
+}
+
+#pragma - PusherEventObserver
+
+void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
+{
+    // Check if this is a chat event
+    if(event->eventName() == "SEND_MESSAGE")
+    {
+        // Create the Chat message from the event data
+        const MessageRef& message = Message::createFromJson(event->data());
+        if(message)
+        {
+            // Make sure this message is for the current user
+            ChildDataProvider* childData = ChildDataProvider::getInstance();
+            if(message->recipientId() == childData->getLoggedInChildId())
+            {
+                // Notify observers
+                for(auto observer : _observers)
+                {
+                    observer->onChatAPIMessageRecieved(message);
+                }
+            }
+        }
+    }
 }
 
 NS_AZOOMEE_CHAT_END

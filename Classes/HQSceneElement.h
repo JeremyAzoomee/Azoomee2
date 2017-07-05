@@ -3,7 +3,10 @@
 
 #include <cocos/cocos2d.h>
 #include "network/HttpClient.h"
+#include <AzoomeeCommon/Azoomee.h>
 #include "HQSceneElementVisual.h"
+
+NS_AZOOMEE_BEGIN
 
 class HQSceneElement : public cocos2d::Layer
 {
@@ -31,8 +34,10 @@ private:
     void startUpElementDependingOnType();
     
     cocos2d::Point touchPoint;
-    bool movedAway;
-    bool iamtouched;
+    bool movedAway = false;
+    bool iamtouched = false;
 };
+
+NS_AZOOMEE_END
 
 #endif

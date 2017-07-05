@@ -22,14 +22,17 @@ public:
     std::string getProfileNameForAnAvailableChildren(int childNumber);
     std::string getProfileNameForAnAvailableChildrenById(const std::string& childId);
     std::string getAvatarForAnAvailableChildren(int childNumber);
+    std::string getAvatarForAnAvailableChildrenById(const std::string& childId);
     std::string getDOBForAnAvailableChildren(int childNumber);
     std::string getSexForAnAvailableChildren(int childNumber);
     std::string getIDForAvailableChildren(int childNumber);
     
     std::string getLoggedInParentActorStatus();
     std::string getLoggedInParentId();
+    std::string getLoggedInParentCdnSessionId();
     std::string getLoggedInParentApiKey();
     std::string getLoggedInParentApiSecret();
+    std::string getLoggedInParentAvatarId();
     std::string getParentPin();
     std::string getBillingStatus();
     std::string getBillingDate();

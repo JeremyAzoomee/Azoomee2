@@ -18,9 +18,10 @@
    #include "ApplePaymentSingleton.h"
 #endif
 
-USING_NS_CC;
 
 using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 static RoutePaymentSingleton *_sharedRoutePaymentSingleton = NULL;
 
@@ -210,3 +211,5 @@ void RoutePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,
 {
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
+
+NS_AZOOMEE_END

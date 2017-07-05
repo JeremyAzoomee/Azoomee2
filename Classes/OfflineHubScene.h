@@ -2,6 +2,9 @@
 #define __OFFLINEHUB_SCENE_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
+
+NS_AZOOMEE_BEGIN
 
 class OfflineHubScene : public cocos2d::Layer
 {
@@ -20,5 +23,7 @@ private:
     void addOfflineText();
 
 };
+
+NS_AZOOMEE_END
 
 #endif

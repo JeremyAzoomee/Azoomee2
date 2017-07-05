@@ -15,16 +15,19 @@ class AnalyticsSingleton : public cocos2d::Ref
 {
     
 private:
-    void mixPanelSendEvent(const std::string& eventID);
-    void mixPanelSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map);
+    void mixPanelSendEventNative(const std::string& eventID, const std::map<std::string, std::string>& map);
+    
+    void mixPanelSendEventWithStoredProperties(const std::string& eventID);
+    void mixPanelSendEventWithStoredProperties(const std::string& eventID, const std::map<std::string, std::string>& map);
+    
     void mixPanelRegisterSuperProperties(const std::string& key, const std::string& property);
-    void mixPanelRegisterSuperProperties(const std::map<std::string, std::string>& map);
     void mixPanelRegisterIdentity(const std::string& parentID, const std::map<std::string, std::string>& map);
     
     void appsFlyerSendEvent(const std::string& eventID);
     void appsFlyerSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map);
     
     std::map<std::string, std::string> storedContentItemProperties;
+    std::map<std::string, std::string> storedGeneralProperties;
     
     std::string OSManufacturer;
     

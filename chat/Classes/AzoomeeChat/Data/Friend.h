@@ -31,6 +31,7 @@ private:
 public:
     
     static FriendRef createFromJson(const rapidjson::Value& json);
+    static FriendRef create(const std::string& friendId, const std::string& friendName, const std::string& avatarURL);
     
     std::string friendId() const;
     std::string friendName() const;

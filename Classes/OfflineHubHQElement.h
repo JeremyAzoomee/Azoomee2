@@ -2,7 +2,10 @@
 #define __OFFLINEHUB_HQELEMENT_H__
 
 #include <cocos/cocos2d.h>
+#include <AzoomeeCommon/Azoomee.h>
 #include "HQSceneElementVisual.h"
+
+NS_AZOOMEE_BEGIN
 
 class OfflineHubHQElement : public cocos2d::Layer
 {
@@ -19,9 +22,11 @@ private:
     void startUpElementDependingOnType(std::map<std::string, std::string> itemData);
     
     cocos2d::Point touchPoint;
-    bool movedAway;
-    bool iamtouched;
+    bool movedAway = false;
+    bool iamtouched = false;
 
 };
+
+NS_AZOOMEE_END
 
 #endif

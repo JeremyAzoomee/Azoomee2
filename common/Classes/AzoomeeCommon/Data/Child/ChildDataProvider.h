@@ -25,6 +25,7 @@ public:
     std::string getParentOrChildCdnSessionId();
     std::string getParentOrChildApiSecret();
     std::string getParentOrChildApiKey();
+    std::string getParentOrChildAvatarId();
     
     bool getIsChildLoggedIn();
 };

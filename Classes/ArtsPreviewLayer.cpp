@@ -5,9 +5,9 @@
 #include <dirent.h>
 #include "HQHistoryManager.h"
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
 
+NS_AZOOMEE_BEGIN
 
 Scene* ArtsPreviewLayer::createScene()
 {
@@ -128,3 +128,5 @@ std::vector<std::string> ArtsPreviewLayer::getImagesInDirectory(std::string path
         return fileNames;
     }
 }
+
+NS_AZOOMEE_END

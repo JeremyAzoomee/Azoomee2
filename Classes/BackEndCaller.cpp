@@ -9,7 +9,10 @@
 #include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Net/Utils.h>
 #include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "HQDataStorage.h"
@@ -34,7 +37,8 @@
 #endif
 
 using namespace cocos2d;
-using namespace Azoomee;
+
+NS_AZOOMEE_BEGIN
 
 
 static BackEndCaller *_sharedBackEndCaller = NULL;
@@ -119,6 +123,9 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
         getAvailableChildren();
         updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
+        
+        // Open Pusher channel
+        PusherSDK::getInstance()->openParentAccountChannel();
     }
     else
     {
@@ -354,7 +361,7 @@ void BackEndCaller::getElectricDreamsContent(const std::string& requestId, const
 // RESET PASSWORD REQUEST ----------------------------------------------------------------
 void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
 {
-    HttpRequestCreator* request = API::ResetPaswordRequest(emailAddress, this);
+    HttpRequestCreator* request = API::ResetPaswordRequest(Net::urlEncode(stringToLower(emailAddress)), this);
     request->execute();
 }
 
@@ -515,3 +522,5 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     FlowDataSingleton::getInstance()->setErrorCode(errorCode);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
+
+NS_AZOOMEE_END

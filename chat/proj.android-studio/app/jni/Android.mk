@@ -15,14 +15,13 @@ LOCAL_MODULE_FILENAME := libAzoomeeChatApp
 define find-src-files
 	$(patsubst ./%, %, \
   		$(shell cd $(LOCAL_PATH) ; \
-        	find $(1) -name "*.cpp" -and -not -name ".*" -and -not -name "_ios.*"  -and -not -path "../../../Classes//AzoomeeChat/*" | \
-            grep -vF $(2) \
+        	find $(1) -name "*.cpp" -and -not -name ".*" -and -not -name "_ios.*" | grep -vF $(2) \
         ) \
  	)
 endef
 
 # Which files to exclude from compile?
-EXCLUDE_FILES := -
+EXCLUDE_FILES := ../../../Classes/AzoomeeChat/
 
 # Collect all source files to compile
 LOCAL_SRC_FILES := $(call find-src-files, ../../../Classes, $(EXCLUDE_FILES))

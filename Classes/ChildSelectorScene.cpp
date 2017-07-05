@@ -1,6 +1,8 @@
 #include "ChildSelectorScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/Cookie/CookieDataParser.h>
 #include <math.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
@@ -21,8 +23,9 @@
 #define OOMEE_LAYER_HEIGHT 400
 #define OOMEE_LAYER_GAP 40
 
-USING_NS_CC;
-using namespace Azoomee;
+using namespace cocos2d;
+
+NS_AZOOMEE_BEGIN
 
 Scene* ChildSelectorScene::createScene()
 {
@@ -51,6 +54,8 @@ bool ChildSelectorScene::init()
     createSettingsButton();
     addScrollViewForProfiles();
     addProfilesToScrollView();
+    
+    addParentButtonToScene();
     
 
     return true;
@@ -148,7 +153,6 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
     profileLayer->addChild(oomee);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
-    CCLOG("Found delay time is: %f", delayTime);
     oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     
     auto profileLabel = createLabelBody(profileName);
@@ -165,8 +169,7 @@ Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int
 void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
 {
     auto listener = EventListenerTouchOneByOne::create();
-    //listener->setSwallowTouches(false);
-    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
         touchMovedAway = false;
         auto target = static_cast<Node*>(event->getCurrentTarget());
@@ -211,6 +214,7 @@ void ChildSelectorScene::addListenerToProfileLayer(Node *profileLayer)
                 addChildButtonPressed(target);
             else //Oomee child pressed
             {
+                parentIconSelected = false;
                 OfflineChecker::getInstance()->setDelegate(nullptr);
                 target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
                 int childNumber = target->getTag();
@@ -279,6 +283,59 @@ void ChildSelectorScene::addNewChildButtonToScrollView()
     scrollView->addChild(addButtonLayer);
 }
 
+void ChildSelectorScene::addParentButtonToScene()
+{
+    auto profileLayer = Layer::create();
+    profileLayer->setContentSize(Size(OOMEE_LAYER_WIDTH,OOMEE_LAYER_HEIGHT));
+    profileLayer->setPosition(Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width - profileLayer->getContentSize().width, profileLayer->getContentSize().height * 0.75);
+    
+    auto selectionSprite = Sprite::create("res/childSelection/selection.png");
+    selectionSprite->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height / 2);
+    selectionSprite->setOpacity(0);
+    profileLayer->addChild(selectionSprite);
+    
+    auto oomee = Sprite::create("res/childSelection/om_Pink.png");
+    oomee->setPosition(profileLayer->getContentSize().width / 2, profileLayer->getContentSize().height /2);
+    oomee->setOpacity(0);
+    profileLayer->addChild(oomee);
+    
+    float delayTime = CCRANDOM_0_1() * 0.5;
+    oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    
+    auto profileLabel = createLabelBody("Parent");
+    profileLabel->setPosition(profileLayer->getContentSize().width / 2, profileLabel->getContentSize().height / 2);
+    profileLabel->setOpacity(0);
+    reduceLabelTextToFitWidth(profileLabel,OOMEE_LAYER_WIDTH);
+    profileLayer->addChild(profileLabel);
+    
+    profileLayer->setScale(0.9);
+    profileLabel->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
+    
+    this->addChild(profileLayer);
+    
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
+    {
+        auto target = static_cast<Node*>(event->getCurrentTarget());
+        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+        Size s = target->getContentSize();
+        Rect rect = Rect(0,0,s.width, s.height);
+        
+        if(rect.containsPoint(locationInNode))
+        {
+            parentIconSelected = true;
+            target->stopAllActions();
+            target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+            AwaitingAdultPinLayer::create()->setDelegate(this);
+            return true;
+        }
+        
+        return false;
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), profileLayer);
+}
+
 //---------------------- Check Email Verified Before Adding Child ---------------
 
 void ChildSelectorScene::addChildButtonPressed(Node* target)
@@ -297,9 +354,31 @@ void ChildSelectorScene::AdultPinCancelled(AwaitingAdultPinLayer* layer)
 
 void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
+    if(parentIconSelected)
+    {
+        const std::string& userId = ParentDataProvider::getInstance()->getLoggedInParentId();
+        const std::string& sessionId = ParentDataProvider::getInstance()->getLoggedInParentCdnSessionId();
+        
+        HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
+        request->execute();
+        
+        return;
+    }
+    
     ModalMessages::getInstance()->startLoading();
     //Delay so loading screen has time to appear, due to long loading of Spines
     this->scheduleOnce(schedule_selector(ChildSelectorScene::callDelegateFunction), .5);
+}
+
+void ChildSelectorScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    if(CookieDataParser::getInstance()->parseDownloadCookies(headers))
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+}
+
+void ChildSelectorScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+    //do nothing
 }
 
 void ChildSelectorScene::connectivityStateChanged(bool online)
@@ -331,3 +410,5 @@ void ChildSelectorScene::onExit()
     OfflineChecker::getInstance()->setDelegate(nullptr);
     Node::onExit();
 }
+
+NS_AZOOMEE_END
