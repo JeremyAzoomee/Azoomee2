@@ -149,6 +149,10 @@ public:
     void settingsConfirmationApprovedSuccess();
     void settingsConfirmationError(long errorCode);
     void chatKeyboardEvent(bool isOnScreen);
+    void chatSelectedSticker(std::string stickerURL);
+    void chatSelectedStickerTab(std::string categoryID);
+    void chatIncomingMessageEvent(std::string messageType);
+    void chatOutgoingMessageEvent(std::string messageType);
 
 };
   

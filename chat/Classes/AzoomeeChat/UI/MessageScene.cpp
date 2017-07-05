@@ -214,6 +214,7 @@ void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 
 void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
 {
+    AnalyticsSingleton::getInstance()->chatIncomingMessageEvent(message->messageType());
     _messageListView->addMessage(message);
 }
 

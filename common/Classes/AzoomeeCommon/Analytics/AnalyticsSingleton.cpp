@@ -650,5 +650,29 @@ void AnalyticsSingleton::deepLinkingContentEvent()
         mixPanelSendEventWithStoredProperties("chatKeyboardOnScreenEvent", mixPanelProperties);
     }
     
+    void AnalyticsSingleton::chatSelectedSticker(std::string stickerURL)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["stickerURL"] = stickerURL;
+        
+        mixPanelSendEventWithStoredProperties("chatSelectedSticker", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::chatSelectedStickerTab(std::string categoryID)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["stickerCategoryID"] = categoryID;
+        
+        mixPanelSendEventWithStoredProperties("chatSelectedStickerTab", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::chatOutgoingMessageEvent(std::string messageType)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["messageType"] = messageType;
+        
+        mixPanelSendEventWithStoredProperties("chatOutgoingMessageEvent", mixPanelProperties);
+    }
+    
     
 }
