@@ -110,6 +110,8 @@ std::string CookieDataProvider::getAllCookiesInJson()
         allCookies.push_back(cookieRecord);
     }
     
+    cocos2d::log("COOKIE JSON: %s", getJSONStringFromVectorOfMaps(allCookies).c_str());
+    
     return getJSONStringFromVectorOfMaps(allCookies);
 }
   
