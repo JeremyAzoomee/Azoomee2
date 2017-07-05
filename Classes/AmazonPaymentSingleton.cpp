@@ -153,6 +153,7 @@ void purchaseFailureErrorMessageWithDelay()
 
 NS_AZOOMEE_END
 
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
 extern "C"

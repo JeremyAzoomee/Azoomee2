@@ -47,7 +47,6 @@ public class NativeView extends XWalkActivity {
 
         Bundle extras = getIntent().getExtras();
         userid = extras.getString("userid");
-        Log.d("userid", userid);
 
         xWalkWebView = new XWalkView(this);
         addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -108,8 +107,6 @@ public class NativeView extends XWalkActivity {
             userid = extras.getString("userid");
         }
 
-        Log.d("urlToBeLoaded", myUrl);
-
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
             xWalkWebView.loadUrl("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl);
@@ -117,6 +114,9 @@ public class NativeView extends XWalkActivity {
         else
         {
             XWalkCookieManager mCookieManager = new XWalkCookieManager();
+            mCookieManager.removeSessionCookie();
+            mCookieManager.removeExpiredCookie();
+            mCookieManager.removeAllCookie();
             mCookieManager.flushCookieStore();
             mCookieManager.setAcceptCookie(true);
             mCookieManager.setAcceptFileSchemeCookies(true);
@@ -131,9 +131,6 @@ public class NativeView extends XWalkActivity {
                     JSONObject currentObject = array.getJSONObject(i);
                     String url = currentObject.getString("url");
                     String cookie = currentObject.getString("cookie");
-
-                    Log.d("COOKIE URL", url);
-                    Log.d("COOKIE", cookie);
 
                     mCookieManager.setCookie(url, cookie);
                 }
