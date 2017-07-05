@@ -266,6 +266,8 @@ void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 
 void FriendListScene::onChatAPIGetFriendList(const FriendList& friendList)
 {
+    AnalyticsSingleton::getInstance()->setNumberOfChatFriends(friendList.size());
+    
     _friendListView->setItems(friendList);
     
     ModalMessages::getInstance()->stopLoading();

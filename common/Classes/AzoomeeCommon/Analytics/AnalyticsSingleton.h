@@ -122,6 +122,7 @@ public:
     void enteredForegroundEvent();
     void sessionIdHasChanged(std::string oldSessionId);
     void httpRequestFailed(std::string requestTag, long responseCode, std::string qid);
+    void moveToSceneEvent(std::string newScene);
     
     //---------------IAP ACTIONS------------------
     void displayIAPUpsaleEvent(std::string fromLocation);
@@ -147,8 +148,8 @@ public:
     void settingsConfirmationRejectedSuccess();
     void settingsConfirmationApprovedSuccess();
     void settingsConfirmationError(long errorCode);
+    void chatKeyboardEvent(bool isOnScreen);
 
-    
 };
   
 }

@@ -125,6 +125,8 @@ void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
 {
     mixPanelRegisterSuperProperties("currentScene", currentScene);
     setCrashlyticsKeyWithString("currentScene", currentScene);
+    
+    moveToSceneEvent(currentScene);
 }
     
 void AnalyticsSingleton::setPortraitOrientation()
@@ -498,6 +500,14 @@ void AnalyticsSingleton::httpRequestFailed(std::string requestTag, long response
     
     mixPanelSendEventWithStoredProperties("httpRequestFailed", mixPanelProperties);
 }
+    
+void AnalyticsSingleton::moveToSceneEvent(std::string newScene)
+{
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["newScene"] = newScene;
+    
+    mixPanelSendEventWithStoredProperties("moveToSceneEvent", mixPanelProperties);
+}
 
 //---------------IAP ACTIONS------------------
   
@@ -625,6 +635,19 @@ void AnalyticsSingleton::deepLinkingContentEvent()
         mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
         
         mixPanelSendEventWithStoredProperties("settingsConfirmationError", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::chatKeyboardEvent(bool isOnScreen)
+    {
+        std::string isOnScreenString = "NO";
+        
+        if (isOnScreen)
+            isOnScreenString = "YES";
+
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["keyboardOnScreen"] = isOnScreenString;
+        
+        mixPanelSendEventWithStoredProperties("chatKeyboardOnScreenEvent", mixPanelProperties);
     }
     
     

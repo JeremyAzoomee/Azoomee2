@@ -356,7 +356,6 @@ void MessageComposer::setDelegate(MessageComposer::Delegate* delegate)
 void MessageComposer::sendMessage(const std::string& message)
 {
     AudioMixer::getInstance()->playEffect("laser_whoosh_ripple.mp3");
-    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - SendText");
     
     if(_delegate)
     {
@@ -376,7 +375,6 @@ void MessageComposer::sendMessage(const std::string& message)
 void MessageComposer::sendMessage(const StickerRef& sticker)
 {
     AudioMixer::getInstance()->playEffect("boing.mp3");
-    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - SendSticker");
     
     if(_delegate)
     {
@@ -513,12 +511,14 @@ void MessageComposer::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFi
 
 bool MessageComposer::onTextFieldAttachWithIME(cocos2d::TextFieldTTF* sender)
 {
+    AnalyticsSingleton::getInstance()->chatKeyboardEvent(true);
     ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
     return textFieldRenderer->onTextFieldAttachWithIME(sender);
 }
 
 bool MessageComposer::onTextFieldDetachWithIME(cocos2d::TextFieldTTF* sender)
 {
+    AnalyticsSingleton::getInstance()->chatKeyboardEvent(false);
     ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
     return textFieldRenderer->onTextFieldDetachWithIME(sender);
 }
@@ -663,6 +663,8 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     _stickersTab->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(leftMarginX, (_topLayout->getContentSize().height - buttonHeight) / 2, 0, 0)));
     _stickersTab->addClickEventListener([this](Ref* button){
         AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - OpenStickers");
+        
         setMode(MessageComposer::Mode::StickersEntry);
     });
     parent->addChild(_stickersTab);
@@ -709,6 +711,7 @@ void MessageComposer::createCancelButton(cocos2d::ui::Layout* parent)
     _cancelButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(contentMarginX, 0, 0, 0)));
     _cancelButton->addClickEventListener([this](Ref* button){
         AudioMixer::getInstance()->playEffect(CANCEL_BUTTON_AUDIO_EFFECT);
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - CancelInput");
         // Clear the message before we set to idle
         _messageEntryField->setString("");
         setMode(MessageComposer::Mode::Idle);
@@ -784,6 +787,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     _sendButton->setContentSize(Size(buttonHeight, buttonHeight));
     _sendButton->setLayoutParameter(CreateBottomLeftRelativeLayoutParam(ui::Margin(0, 0, 0, sendButtonMargin)));
     _sendButton->addClickEventListener([this](Ref* button){
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - sendButton");
         const std::string& message = _messageEntryField->getString();
         sendMessage(message);
     });
