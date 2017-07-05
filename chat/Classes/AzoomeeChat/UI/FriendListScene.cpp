@@ -56,9 +56,10 @@ void FriendListScene::onEnter()
     Super::onEnter();
     
     // Create a friend object which represents the current user
-    const std::string& childId = ChildDataProvider::getInstance()->getLoggedInChildId();
+    const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
     const std::string& childName = ChildDataProvider::getInstance()->getLoggedInChildName();
-    const std::string& childAvatar = ChildDataProvider::getInstance()->getLoggedInChildAvatarId();
+    const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
+    cocos2d::log("my avatar id: %s", ChildDataProvider::getInstance()->getParentOrChildAvatarId().c_str());
     _currentUser = Friend::create(childId, childName, childAvatar);
     _userOomee->setAvatarForFriend(_currentUser);
     // TODO: Update user name label

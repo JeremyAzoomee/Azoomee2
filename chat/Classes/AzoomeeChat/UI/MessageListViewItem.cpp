@@ -218,7 +218,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         
         // Color depends also on current user
         const std::string& senderId = message->senderId();
-        const bool isCurrentUser = (senderId == ChildDataProvider::getInstance()->getLoggedInChildId());
+        const bool isCurrentUser = (senderId == ChildDataProvider::getInstance()->getParentOrChildId());
         const Color3B& fontColor = (isCurrentUser) ? Style::Color::kermitGreen : Style::Color::barney;
         _textLabel->setTextColor(Color4B(fontColor));
     }

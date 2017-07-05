@@ -40,7 +40,7 @@ void ChatAPI::updateProfileNames()
     
     // Add the current child user
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    _profileNames[childData->getLoggedInChildId()] = childData->getLoggedInChildName();
+    _profileNames[childData->getParentOrChildId()] = childData->getLoggedInChildName();
     
     // Add names from friend list
     for(auto friendData : _friendList)
@@ -86,7 +86,7 @@ void ChatAPI::removeObserver(ChatAPIObserver* observer)
 void ChatAPI::requestFriendList()
 {
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    HttpRequestCreator* request = API::GetChatListRequest(childData->getLoggedInChildId(), this);
+    HttpRequestCreator* request = API::GetChatListRequest(childData->getParentOrChildId(), this);
     request->execute();
 }
 
@@ -100,7 +100,7 @@ FriendList ChatAPI::getFriendList() const
 void ChatAPI::requestMessageHistory(const FriendRef& friendObj)
 {
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getLoggedInChildId(), friendObj->friendId(), this);
+    HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getParentOrChildId(), friendObj->friendId(), this);
     request->execute();
 }
 
@@ -110,7 +110,7 @@ void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
 {
     ChildDataProvider* childData = ChildDataProvider::getInstance();
     const JsonObjectRepresentation& asJson = *message.get();
-    HttpRequestCreator* request = API::SendChatMessageRequest(childData->getLoggedInChildId(), friendObj->friendId(), asJson, this);
+    HttpRequestCreator* request = API::SendChatMessageRequest(childData->getParentOrChildId(), friendObj->friendId(), asJson, this);
     request->execute();
 }
 

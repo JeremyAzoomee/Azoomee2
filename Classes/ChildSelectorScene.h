@@ -7,10 +7,11 @@
 #include "AwaitingAdultPinLayer.h"
 #include "OfflineChecker.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 
 NS_AZOOMEE_BEGIN
 
-class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate
+class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 public:
     CREATE_FUNC(ChildSelectorScene);
@@ -27,6 +28,10 @@ public:
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
     void connectivityStateChanged(bool online);
+    
+    //Delegate functions
+    void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
+    void onHttpRequestFailed(const std::string& requestTag, long errorCode);
     
 private:
     cocos2d::Vec2 origin;
@@ -46,8 +51,11 @@ private:
     void addNewChildButtonToScrollView();
     void addChildButtonPressed(Node* target);
     
+    void addParentButtonToScene();
+    
     cocos2d::Point startTouchPosition;
     bool touchMovedAway = false;
+    bool parentIconSelected = false;
 };
 
 NS_AZOOMEE_END
