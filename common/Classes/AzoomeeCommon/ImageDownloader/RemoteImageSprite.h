@@ -40,7 +40,7 @@ private:
     void onExitTransitionDidStart() override;
     void onExit() override;
     void imageAddedToCache(cocos2d::Texture2D* resulting_texture);
-    bool addStarted;
+    bool addStarted = false;
     
     float identifier;
     std::string imageUrl;
@@ -50,7 +50,7 @@ private:
     ImageDownloaderOnScreenChecker *onScreenChecker = nullptr;
     
     void addNewBadgeToLoadedImage();
-    bool shouldAddNewBadgeToImage;
+    bool shouldAddNewBadgeToImage = false;
 };
   
 NS_AZOOMEE_END

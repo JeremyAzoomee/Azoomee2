@@ -2,23 +2,18 @@ package org.cocos2dx.cpp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
-import android.util.Log;
+import android.webkit.JavascriptInterface;
 
-import org.xwalk.core.JavascriptInterface;
-
-import java.io.File;
-import java.io.FileOutputStream;
 
 import static com.loopj.android.http.AsyncHttpClient.log;
 
-public class JsInterface extends Activity {
+public class JsInterfaceUI extends Activity {
 
     private static Context mContext;
 
-    public JsInterface() {
+    public JsInterfaceUI()
+    {
         mContext = this;
     }
 
@@ -32,7 +27,7 @@ public class JsInterface extends Activity {
     public void errorOccurred()
     {
         log.d("error", "errorOccurred called!");
-        NativeView.errorOccurred();
+        NativeViewUI.errorOccurred();
     }
 
     @JavascriptInterface
@@ -69,6 +64,6 @@ public class JsInterface extends Activity {
     @JavascriptInterface
     public void exitView()
     {
-        NativeView.exitView();
+        NativeViewUI.exitView();
     }
 }

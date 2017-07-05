@@ -48,7 +48,7 @@ private:
     virtual void onEnterTransitionDidFinish();
     void onExit();
     
-    bool shouldDisplayMessage;
+    bool shouldDisplayMessage = false;
     
 public:
     static cocos2d::Scene* createScene();
