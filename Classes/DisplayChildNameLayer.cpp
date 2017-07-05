@@ -50,20 +50,20 @@ void DisplayChildNameLayer::createChildNameToLayer()
     std::string childName = ChildDataProvider::getInstance()->getLoggedInChildName();
     
     childNameLabel = createLabelBody(childName);
-    childNameLabel->setPosition(childNameLabel->getContentSize().width/2, childNameLabel->getContentSize().height*1.5);
+    childNameLabel->setPosition(childNameLabel->getContentSize().width/2, childNameLabel->getContentSize().height*2);
     childNameLabel->setOpacity(0);
 }
 
 void DisplayChildNameLayer::createLoggedInAsToLayer()
 {
-    loggedInAsLabel = createLabelWith("logged in as", FONT_REGULAR, Style::Color::brightAqua, 40);
-    loggedInAsLabel->setPosition(loggedInAsLabel->getContentSize().width/2, childNameLabel->getContentSize().height*2.5);
+    loggedInAsLabel = createLabelWith("Kid Code", FONT_REGULAR, Style::Color::brightAqua, 40);
+    loggedInAsLabel->setPosition(loggedInAsLabel->getContentSize().width/2, childNameLabel->getContentSize().height*1.1);
     loggedInAsLabel->setOpacity(0);
 }
 
 void DisplayChildNameLayer::createInviteCodeLayer()
 {
-    inviteCodeLabel = createLabelWith(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(ChildDataProvider::getInstance()->getLoggedInChildNumber()), FONT_KIDCODE_REGULAR, Style::Color::brightAqua, 48);
+    inviteCodeLabel = createLabelWith(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(ChildDataProvider::getInstance()->getLoggedInChildNumber()), FONT_KIDCODE_REGULAR, Style::Color::white, 48);
     inviteCodeLabel->setPosition(inviteCodeLabel->getContentSize().width/2, inviteCodeLabel->getContentSize().height/2);
     inviteCodeLabel->setOpacity(0);
 
