@@ -46,6 +46,16 @@ public:
     /// Called when keyboard on android is shown
     virtual void onVirtualKeyboardShown(bool shown, int height);
 #endif
+    
+    
+    /// Orientation mode
+    enum Orientation {
+        Portrait,
+        Landscape,
+        Any
+    };
+    /// Set the orientation of the device
+    static void setOrientation(Orientation orientation);
 };
 
 NS_AZOOMEE_END

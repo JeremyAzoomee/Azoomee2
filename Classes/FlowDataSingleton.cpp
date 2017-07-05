@@ -1,9 +1,5 @@
 #include "FlowDataSingleton.h"
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#include "OrientationFunctions_ios.h"
-#endif
-
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN

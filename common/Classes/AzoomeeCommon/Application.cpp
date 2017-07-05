@@ -3,6 +3,12 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include <jni.h>
+
+static const std::string kPusherAuthJavaClassName = "com/tinizine/azoomee/common/AzoomeeActivity";
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#import "Platform/iOS/AzoomeeViewController.h"
 #endif
 
 using namespace cocos2d;
@@ -151,6 +157,52 @@ void Application::updateResolution(int newWidth, int newHeight)
     {
         glview->setDesignResolutionSize(designResolutionPortraitSize.width, designResolutionPortraitSize.height, ResolutionPolicy::NO_BORDER);
     }
+}
+
+void Application::setOrientation(Orientation orientation)
+{
+    auto director = cocos2d::Director::getInstance();
+    auto glView = director->getOpenGLView();
+    const auto& frameSize = glView->getFrameSize();
+    
+    // Immediate frame change
+    if(orientation == Orientation::Portrait && (int)frameSize.width < (int)frameSize.height)
+        cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.width, (int) frameSize.height);
+    else if(orientation == Orientation::Landscape && (int)frameSize.height > (int)frameSize.width)
+        cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+    AzoomeeViewController* rootViewController = [AzoomeeViewController sharedInstance];
+    switch(orientation)
+    {
+        case Orientation::Portrait:
+            [rootViewController setOrientationToPortrait];
+            break;
+        case Orientation::Landscape:
+            [rootViewController setOrientationToLandscape];
+            break;
+        case Orientation::Any:
+            [rootViewController setOrientationToAny];
+            break;
+    }
+    
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    switch(orientation)
+    {
+        case Orientation::Portrait:
+            JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "setOrientationPortrait");
+            break;
+        case Orientation::Landscape:
+            JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "setOrientationLandscape");
+            break;
+        case Orientation::Any:
+            JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "setOrientationAny");
+            break;
+    }
+    
+#endif
 }
 
 
