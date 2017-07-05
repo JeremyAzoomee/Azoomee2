@@ -10,6 +10,7 @@
 #include "WebGameAPIDataManager.h"
 #include "ArtAppImageManager.h"
 #include "SceneManagerScene.h"
+#include "ArtAppDelegate.h"
 
 using namespace cocos2d;
 
@@ -310,6 +311,12 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
             iamtouched = false;
             overlayWhenTouched->setOpacity(0);
             overlayWhenTouched->stopAllActions();
+            
+            //hack for old image format
+            if(filePath.substr(filePath.length() - 4) == "imag")
+                ArtAppDelegate::getInstance()->setFileName("");
+            else
+                ArtAppDelegate::getInstance()->setFileName(filePath);
             
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
             return true;

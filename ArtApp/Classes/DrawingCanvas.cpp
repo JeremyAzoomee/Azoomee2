@@ -7,6 +7,7 @@
 //
 
 #include "DrawingCanvas.h"
+#include <dirent.h>
 
 using namespace cocos2d;
 
@@ -64,6 +65,17 @@ void DrawingCanvas::onEnter()
 void DrawingCanvas::onExit()
 {
     Node::onExit();
+}
+
+void DrawingCanvas::setBaseImage(std::string fileName)
+{
+    Sprite* baseImage = Sprite::create(fileName);
+    baseImage->setAnchorPoint(Vec2(0.5,0.5));
+    baseImage->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
+    drawing->begin();
+    baseImage->visit();
+    drawing->end();
+    Director::getInstance()->getRenderer()->render();
 }
 
 void DrawingCanvas::saveImage(std::string filePath)
@@ -381,18 +393,51 @@ void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigi
     
     //load stickers
     
-    for(int i = 0; i < 15; ++i)
+    std::vector<std::string> stickerDirs = getStickerDirs();
+    std::vector<std::vector<std::string>> allFileNames;
+    int numStickers = 0;
+    for(int i = 0; i < stickerDirs.size(); i++)
     {
-        for(int j = -1; j <= 1; j+=2)
-        {
-            ui::Button* temp = ui::Button::create();
-            temp->setAnchorPoint(Vec2(0.5,0.5));
-            temp->loadTextures("res/artapp/style/images/articons/art_button_sticker.png","res/artapp/style/images/articons/art_button_sticker.png");
-            temp->setPosition(Vec2(visibleSize.width*((i+0.5)/7.5f),visibleSize.height/3 + j*temp->getContentSize().height));
-            temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
-            stickerScrollView->addChild(temp);
-        }
+        std::vector<std::string> fileNames = getStickerFileNamesInDir(FileUtils::getInstance()->fullPathForFilename("res/chat/stickers/" + stickerDirs[i]));
+        allFileNames.push_back(fileNames);
+        numStickers += fileNames.size();
     }
+    
+    stickerScrollView->setInnerContainerSize(Size(visibleSize.width/7.0f * (allFileNames[0].size()+1)/2.0f, visibleSize.height/2));
+    
+    for(int i = 0; i < allFileNames[0].size(); i+=2)
+    {
+        ui::Button* temp = ui::Button::create();
+        temp->setAnchorPoint(Vec2(0.5,0.5));
+        temp->loadTextures("res/chat/stickers/" + stickerDirs[0] + "/" + allFileNames[0][i],"res/chat/stickers/" + stickerDirs[0] + "/" + allFileNames[0][i]);
+        temp->setPosition(Vec2(stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(allFileNames[0].size()+1)),visibleSize.height/3 + temp->getContentSize().height));
+        temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
+        stickerScrollView->addChild(temp);
+        
+        if(i+1 < allFileNames[0].size())
+        {
+            ui::Button* temp2 = ui::Button::create();
+            temp2->setAnchorPoint(Vec2(0.5,0.5));
+            temp2->loadTextures("res/chat/stickers/" + stickerDirs[0] + "/" + allFileNames[0][i+1],"res/chat/stickers/" + stickerDirs[0] + "/" + allFileNames[0][i+1]);
+            temp2->setPosition(Vec2(stickerScrollView->getInnerContainerSize().width*((i+1.0f)/allFileNames[0].size()),visibleSize.height/3 - temp2->getContentSize().height));
+            temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
+            stickerScrollView->addChild(temp2);
+        }
+        
+    }
+    
+    //for(int i = 0; i < 15; ++i)
+    //{
+    //   for(int j = -1; j <= 1; j+=2)
+    //    {
+    //        ui::Button* temp = ui::Button::create();
+    //        temp->setAnchorPoint(Vec2(0.5,0.5));
+    //        temp->loadTextures("res/artapp/style/images/articons/art_button_sticker.png","res/artapp/style/images/articons/art_button_sticker.png");
+    //        temp->setPosition(Vec2(visibleSize.width*((i+0.5)/7.5f),visibleSize.height/3 + j*temp->getContentSize().height));
+    //        temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
+    //        stickerScrollView->addChild(temp);
+    //    }
+    //}
     
     stickerScrollView->setVisible(false);
     
@@ -795,4 +840,57 @@ void DrawingCanvas::onRadiusSliderInteract(Ref *pSender, ui::Slider::EventType e
     {
         brushRadius = INITIAL_RADIUS + slider->getPercent()/2;
     }
+}
+
+//---------------------Sticker file collection methods ----------------------------------------//
+
+std::vector<std::string> DrawingCanvas::getStickerDirs()
+{
+    std::string stickerDir = FileUtils::getInstance()->fullPathForFilename("res/chat/stickers");
+    std::vector<std::string> dirNames;
+    
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir (stickerDir.c_str())) != NULL)
+    {
+        while ((ent = readdir (dir)) != NULL)
+        {
+            if(ent->d_type == DT_DIR)
+                dirNames.push_back(ent->d_name);
+        }
+        closedir (dir);
+        dirNames.erase(dirNames.begin(), dirNames.begin() + 2);
+        return dirNames;
+    }
+    else
+    {
+        perror ("");
+        return dirNames;
+    }
+    
+}
+
+std::vector<std::string> DrawingCanvas::getStickerFileNamesInDir(std::string stickerDir)
+{
+    std::vector<std::string> fileNames;
+    
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir (stickerDir.c_str())) != NULL)
+    {
+        while ((ent = readdir (dir)) != NULL)
+        {
+            if(ent->d_type == DT_REG)
+                fileNames.push_back(ent->d_name);
+        }
+        closedir (dir);
+
+        return fileNames;
+    }
+    else
+    {
+        perror ("");
+        return fileNames;
+    }
+    
 }

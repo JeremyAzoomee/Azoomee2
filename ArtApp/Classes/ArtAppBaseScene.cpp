@@ -18,9 +18,26 @@ Scene* ArtAppBase::createScene()
     // 'layer' is an autorelease object
     auto layer = ArtAppBase::create();
     layer->addBackButton();
+    layer->fileName = "";
     // add layer as a child to scene
     scene->addChild(layer);
+    // return the scene
+    return scene;
+}
 
+Scene* ArtAppBase::createSceneWithDrawing(std::string fileName)
+{
+    // 'scene' is an autorelease object
+    auto scene = Scene::create();
+    
+    // 'layer' is an autorelease object
+    auto layer = ArtAppBase::create();
+    layer->addBackButton();
+    layer->fileName = fileName;
+    layer->drawingCanvas->setBaseImage(fileName);
+    // add layer as a child to scene
+    scene->addChild(layer);
+    
     // return the scene
     return scene;
 }
@@ -34,8 +51,9 @@ bool ArtAppBase::init()
     {
         return false;
     }
-    
+
     drawingCanvas = DrawingCanvas::create();
+
     this->addChild(drawingCanvas);
     
     return true;
@@ -53,15 +71,26 @@ void ArtAppBase::addBackButton()
 
 void ArtAppBase::backButtonCallBack()
 {
-    auto t = std::time(nullptr);
-    auto tm = *std::localtime(&t);
+    std::string saveFileName;
+    if(this->fileName == "")
+    {
+        auto t = std::time(nullptr);
+        auto tm = *std::localtime(&t);
     
-    std::ostringstream oss;
-    oss << std::put_time(&tm, "%d%m%Y%H%M%S");
-    auto fileNameStr = oss.str();
+        std::ostringstream oss;
+        oss << std::put_time(&tm, "%d%m%Y%H%M%S");
+        auto fileNameStr = oss.str();
     
-    std::string fileName = "artCache/" + Azoomee::ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + fileNameStr + ".png";
-    drawingCanvas->saveImage(fileName);
+        saveFileName = "artCache/" + Azoomee::ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + fileNameStr + ".png";
+    }
+    else
+    {
+        std::string truncatedPath = this->fileName.substr(this->fileName.find("artCache/"));
+        saveFileName = truncatedPath;
+        
+    }
+    
+    drawingCanvas->saveImage(saveFileName);
     Director::getInstance()->replaceScene(Azoomee::SceneManagerScene::createScene(Azoomee::Base));
 }
 

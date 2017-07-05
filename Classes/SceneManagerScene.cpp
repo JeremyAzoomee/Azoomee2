@@ -15,6 +15,7 @@
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "ChatDelegate.h"
 #include "../ArtApp/Classes/ArtAppBaseScene.h"
+#include "ArtAppDelegate.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     #include "OrientationFunctions_ios.h"
@@ -142,8 +143,13 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case ArtAppEntryPointScene:
         {
+            std::string fileName = ArtAppDelegate::getInstance()->getFileName();
             forceToLandscape();
-            goToScene = ArtAppBase::createScene();
+            if(FileUtils::getInstance()->isFileExist(fileName))
+                goToScene = ArtAppBase::createSceneWithDrawing(fileName);
+            else
+                goToScene = ArtAppBase::createScene();
+            
             break;
         }
         default:

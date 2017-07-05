@@ -8,9 +8,10 @@ class ArtAppBase : public cocos2d::Layer
 private:
     cocos2d::ui::Button* backButton;
     DrawingCanvas* drawingCanvas;
+    std::string fileName;
 public:
     static cocos2d::Scene* createScene();
-
+    static cocos2d::Scene* createSceneWithDrawing(std::string fileName);
     virtual bool init();
     
     void addBackButton();

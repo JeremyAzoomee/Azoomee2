@@ -25,6 +25,7 @@
 class DrawingCanvas : public cocos2d::Node{
 public:
     CREATE_FUNC(DrawingCanvas);
+    void setBaseImage(std::string fileName);
     void saveImage(std::string filePath);
 protected:
     static const int numberOfUndos = 3;
@@ -98,6 +99,10 @@ protected:
     
     void onRadiusSliderInteract(cocos2d::Ref* pSender, cocos2d::ui::Slider::EventType eEventType);
     
+private:
+    
+    std::vector<std::string> getStickerDirs();
+    std::vector<std::string> getStickerFileNamesInDir(std::string stickerDir);
 };
 
 #endif /* DrawingCanvas_h */
