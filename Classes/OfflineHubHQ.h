@@ -24,11 +24,11 @@ private:
     void addListenerToArtElement(cocos2d::Layer* toBeAddedTo);
     
     cocos2d::Point startLocation;
-    bool directionDecided;
+    bool directionDecided = false;
     
     cocos2d::Point touchPoint;
-    bool movedAway;
-    bool iamtouched;
+    bool movedAway = false;
+    bool iamtouched = false;
 };
 
 NS_AZOOMEE_END

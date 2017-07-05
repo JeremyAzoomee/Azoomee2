@@ -22,8 +22,8 @@ private:
     void startUpElementDependingOnType(std::map<std::string, std::string> itemData);
     
     cocos2d::Point touchPoint;
-    bool movedAway;
-    bool iamtouched;
+    bool movedAway = false;
+    bool iamtouched = false;
 
 };
 
