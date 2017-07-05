@@ -132,11 +132,7 @@ public class NativeView extends XWalkActivity {
                     String url = currentObject.getString("url");
                     String cookie = currentObject.getString("cookie");
 
-                    Log.d("COOKIE URL: ", url);
-
                     mCookieManager.setCookie(url, cookie);
-
-                    Log.d("COOKIE FOR URL AFTER", mCookieManager.getCookie(url));
                 }
             }
             catch (Exception ex)
