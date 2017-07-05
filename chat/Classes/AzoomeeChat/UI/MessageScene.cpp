@@ -222,6 +222,7 @@ void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
 
 void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 {
+    AnalyticsSingleton::getInstance()->chatOutgoingMessageEvent(message->messageType());
 //    cocos2d::log("Send Message: %s", message.c_str());
     ChatAPI::getInstance()->sendMessage(_participants[1], message);
     _timeTillGet = -1.0f;

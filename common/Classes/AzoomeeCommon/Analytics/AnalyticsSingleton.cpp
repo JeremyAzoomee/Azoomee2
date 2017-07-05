@@ -666,12 +666,25 @@ void AnalyticsSingleton::deepLinkingContentEvent()
         mixPanelSendEventWithStoredProperties("chatSelectedStickerTab", mixPanelProperties);
     }
     
+    void AnalyticsSingleton::chatIncomingMessageEvent(std::string messageType)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["messageType"] = messageType;
+        
+        mixPanelSendEventWithStoredProperties("chatIncomingMessageEvent", mixPanelProperties);
+    }
+    
     void AnalyticsSingleton::chatOutgoingMessageEvent(std::string messageType)
     {
         std::map<std::string, std::string> mixPanelProperties;
         mixPanelProperties["messageType"] = messageType;
         
         mixPanelSendEventWithStoredProperties("chatOutgoingMessageEvent", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::unreadMessagesNotificationReceived()
+    {
+        mixPanelSendEventWithStoredProperties("unreadMessagesNotificationReceived");
     }
     
     

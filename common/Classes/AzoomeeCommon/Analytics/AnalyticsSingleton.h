@@ -153,6 +153,7 @@ public:
     void chatSelectedStickerTab(std::string categoryID);
     void chatIncomingMessageEvent(std::string messageType);
     void chatOutgoingMessageEvent(std::string messageType);
+    void unreadMessagesNotificationReceived();
 
 };
   
