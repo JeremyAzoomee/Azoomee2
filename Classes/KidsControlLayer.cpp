@@ -51,18 +51,6 @@ void KidsControlLayer::createTextInput()
 
 void KidsControlLayer::addButtons()
 {
-    getCodeButton = ElectricDreamsButton::createInviteMainButton("Kid Code", this->getContentSize().width*.66);
-    getCodeButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height*.25));
-    getCodeButton->setDelegate(this);
-    getCodeButton->setMixPanelButtonName("Settings-YourKids-getKidCode");
-    childFrameLayer->addChild(getCodeButton);
-    
-    addFriendButton = ElectricDreamsButton::createInviteMainButton("Add A Friend", this->getContentSize().width*.66);
-    addFriendButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - addFriendButton->getContentSize().height));
-    addFriendButton->setDelegate(this);
-    addFriendButton->setMixPanelButtonName("Settings-YourKids-AddAFriend");
-    childFrameLayer->addChild(addFriendButton);
-    
     closeButton = ElectricDreamsButton::createWindowCloselButton();
     closeButton->setVisible(false);
     closeButton->setScale(0.68);
@@ -72,35 +60,33 @@ void KidsControlLayer::addButtons()
     childFrameLayer->addChild(closeButton);
     
     shareButton = ElectricDreamsButton::createInviteMainButton("Share", this->getContentSize().width*.66);
-    shareButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - shareButton->getContentSize().height));
-    shareButton->setVisible(false);
+    shareButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height - shareButton->getContentSize().height*2.5));
     shareButton->setDelegate(this);
     shareButton->setMixPanelButtonName("Settings-YourKids-ShareCode");
     childFrameLayer->addChild(shareButton);
     
     tryAgainButton = ElectricDreamsButton::createInviteMainButton("Try Again", this->getContentSize().width*.66);
-    tryAgainButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - tryAgainButton->getContentSize().height));
+    tryAgainButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height*.25 - tryAgainButton->getContentSize().height));
     tryAgainButton->setVisible(false);
     tryAgainButton->setDelegate(this);
     tryAgainButton->setMixPanelButtonName("Settings-YourKids-TryCodeAgain");
     childFrameLayer->addChild(tryAgainButton);
     
     addAnotherButton = ElectricDreamsButton::createInviteMainButton("Add Another", this->getContentSize().width*.66);
-    addAnotherButton->setCenterPosition(Vec2(this->getContentSize().width/2,getCodeButton->getPositionY() - addAnotherButton->getContentSize().height));
+    addAnotherButton->setCenterPosition(Vec2(this->getContentSize().width/2,tryAgainButton->getPositionY() - addAnotherButton->getContentSize().height));
     addAnotherButton->setVisible(false);
     addAnotherButton->setDelegate(this);
     addAnotherButton->setMixPanelButtonName("Settings-YourKids-AddAnotherCode");
     childFrameLayer->addChild(addAnotherButton);
 
     textInputButton = ElectricDreamsButton::createTextInputAsButton("Enter their Kid Code here", this->getContentSize().width*.8);
-    textInputButton->setPosition(kidCodeTextInput->getPosition());
-    textInputButton->setVisible(false);
+    textInputButton->setCenterPosition(Vec2(this->getContentSize().width/2,textInputButton->getContentSize().height*1.3));
     textInputButton->setDelegate(this);
     textInputButton->setMixPanelButtonName("Settings-YourKids-EnterKidCodeHere");
     childFrameLayer->addChild(textInputButton);
     
     sendCodeButton = ElectricDreamsButton::createSendButton();
-    sendCodeButton->setCenterPosition(Vec2(textInputButton->getCenterPosition().x+textInputButton->getContentSize().width/2 - sendCodeButton->getContentSize().width*.75,textInputButton->getCenterPosition().y));
+    sendCodeButton->setCenterPosition(Vec2(kidCodeTextInput->getPositionX()+kidCodeTextInput->getContentSize().width - sendCodeButton->getContentSize().width*.75,kidCodeTextInput->getPositionY()+kidCodeTextInput->getContentSize().height/2));
     sendCodeButton->setVisible(false);
     sendCodeButton->setDelegate(this);
     sendCodeButton->setMixPanelButtonName("Settings-YourKids-SendKidCodeInviteRequest");
@@ -109,35 +95,14 @@ void KidsControlLayer::addButtons()
 
 //------------------CONTROL FUNCTIONS----------------------
 
-void KidsControlLayer::moveToShowCode()
-{
-    childFrameLayer->setToShowingCode();
-    
-    this->setLocalZOrder(SELECTED_KID_LAYER_Z_ORDER);
-    parentLayer->selectChild(childNumber);
-    closeButton->setVisible(true);
-    
-    clearAllButCloseButton();
-    shareButton->setVisible(true);
-}
-
-void KidsControlLayer::moveToStartAddFriend()
-{
-    kidCodeTextInput->setText("");
-    childFrameLayer->setToAddAFriend();
-    
-    this->setLocalZOrder(SELECTED_KID_LAYER_Z_ORDER);
-    parentLayer->selectChild(childNumber);
-    closeButton->setVisible(true);
-    
-    clearAllButCloseButton();
-    textInputButton->setVisible(true);
-}
-
 void KidsControlLayer::moveToAddFriendTextBox()
 {
     kidCodeTextInput->setText("");
     childFrameLayer->setToAddAFriendTextBox();
+    
+    this->setLocalZOrder(SELECTED_KID_LAYER_Z_ORDER);
+    parentLayer->selectChild(childNumber);
+    closeButton->setVisible(true);
     
     clearAllButCloseButton();
     kidCodeTextInput->setEditboxVisibility(true);
@@ -150,15 +115,15 @@ void KidsControlLayer::closeKidController()
 {
     sendCodeButton->setEnabled(false);
     kidCodeTextInput->setText("");
-    childFrameLayer->removeObjects(true);
+    childFrameLayer->setToStartLayout();
     
     clearAllButCloseButton();
-    getCodeButton->setVisible(true);
-    addFriendButton->setVisible(true);
     
     this->setLocalZOrder(IDLE_KID_LAYER_Z_ORDER);
     closeButton->setVisible(false);
     parentLayer->scrollReset();
+    shareButton->setVisible(true);
+    textInputButton->setVisible(true);
 }
 
 void KidsControlLayer::sendInviteCode()
@@ -190,6 +155,10 @@ void KidsControlLayer::inviteCodeResponse(bool codeIsOK)
 
 void KidsControlLayer::shareKidCode()
 {
+    this->setLocalZOrder(SELECTED_KID_LAYER_Z_ORDER);
+    parentLayer->selectChild(childNumber);
+    closeButton->setVisible(true);
+    
     std::string childsName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber);
     
     nativeShareScreenString(StringUtils::format("%s  is using Azoomee to safely chat with friends! Enter %s's Kid Code %s in Azoomee.\nDownload Azoomee here: http://bit.ly/azoomeekids",childsName.c_str(),childsName.c_str(),ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber).c_str()));
@@ -197,8 +166,6 @@ void KidsControlLayer::shareKidCode()
 
 void KidsControlLayer::clearAllButCloseButton()
 {
-    getCodeButton->setVisible(false);
-    addFriendButton->setVisible(false);
     shareButton->setVisible(false);
     tryAgainButton->setVisible(false);
     addAnotherButton->setVisible(false);
@@ -211,11 +178,7 @@ void KidsControlLayer::clearAllButCloseButton()
 
 void KidsControlLayer::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button ==getCodeButton)
-        moveToShowCode();
-    else if(button == addFriendButton)
-        moveToStartAddFriend();
-    else if(button == closeButton)
+    if(button == closeButton)
         closeKidController();
     else if(button == textInputButton || button == tryAgainButton || button == addAnotherButton)
         moveToAddFriendTextBox();

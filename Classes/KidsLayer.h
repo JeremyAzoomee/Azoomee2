@@ -21,7 +21,8 @@ private:
     void addChildName();
     void addOomee();
     
-    void setOomeeToLargeSize();
+    void setOomeeToStartSizeAndPosition();
+    void setOomeeToTextInputPosition();
     void setOomeeToSmallSize();
     
     ui::Scale9Sprite* createText9Sprite(std::string resource, float heightPercentage);
@@ -31,6 +32,7 @@ public:
     static KidsLayer* createWithChildDetails(int setChildNumber);
     virtual bool init();
     
+    void setToStartLayout();
     void setToShowingCode();
     void setToAddAFriend();
     void setToAddAFriendTextBox();

@@ -24,8 +24,6 @@ private:
     
     TextInputLayer *kidCodeTextInput;
     
-    ElectricDreamsButton *getCodeButton;
-    ElectricDreamsButton *addFriendButton;
     ElectricDreamsButton *closeButton;
     ElectricDreamsButton *shareButton;
     ElectricDreamsButton *sendCodeButton;
@@ -40,8 +38,6 @@ private:
     void createTextInput();
     
     //Control Functions
-    void moveToShowCode();
-    void moveToStartAddFriend();
     void moveToAddFriendTextBox();
     void closeKidController();
     void sendInviteCode();
