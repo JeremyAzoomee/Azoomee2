@@ -349,6 +349,7 @@ Layer* ChildSelectorScene::createParentProfileButton()
         
         if(rect.containsPoint(locationInNode))
         {
+            AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChildSelector - ParentOomee");
             parentIconSelected = true;
             target->stopAllActions();
             target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
@@ -368,6 +369,8 @@ Layer* ChildSelectorScene::createParentProfileButton()
 
 void ChildSelectorScene::addChildButtonPressed(Node* target)
 {
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChildSelector - AddChild");
+    
     target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
     
     AwaitingAdultPinLayer::create()->setDelegate(this);
