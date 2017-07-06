@@ -562,6 +562,7 @@ void NavigationLayer::cleanUpPreviousHQ()
 void NavigationLayer::onChatAPIMessageRecieved(const Chat::MessageRef& message)
 {
     AudioMixer::getInstance()->playEffect("message.mp3");
+    AnalyticsSingleton::getInstance()->unreadMessagesNotificationReceived();
     showNotificationBadge();
 }
 

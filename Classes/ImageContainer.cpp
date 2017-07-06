@@ -153,6 +153,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         {
             if(elementProperties.at("entitled") == "false")
             {
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "1,1");
             
                 if(IAPEnabled)
                 {
