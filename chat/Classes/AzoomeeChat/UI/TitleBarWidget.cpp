@@ -7,6 +7,11 @@ using namespace cocos2d;
 
 
 
+// TODO: From config
+const float kTitleButtonsEdgePadding = 55.0f;
+
+
+
 NS_AZOOMEE_CHAT_BEGIN
 
 bool TitleBarWidget::init()
@@ -29,21 +34,32 @@ bool TitleBarWidget::init()
     _backButton->getRendererNormal()->setStrechEnabled(true);
     _backButton->getRendererClicked()->setStrechEnabled(true);
     _backButton->getRendererDisabled()->setStrechEnabled(true);
-    _backButton->setLayoutParameter(CreateLeftCenterRelativeLayoutParam(ui::Margin(55.0f, 0.0f, 0.0f, 0.0f)));
+    _backButton->setLayoutParameter(CreateLeftCenterRelativeLayoutParam(ui::Margin(kTitleButtonsEdgePadding, 0.0f, 0.0f, 0.0f)));
     addChild(_backButton);
+    
+    
+    _titleLayout = ui::Layout::create();
+    _titleLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
+    _titleLayout->setSizePercent(Vec2(0.5f, 1.0f));
+    _titleLayout->setSizeType(ui::Widget::SizeType::PERCENT);
+    addChild(_titleLayout);
+    
+    // Avatar
+    _avatarWidget = AvatarWidget::create();
+    _avatarWidget->setAnchorPoint(Vec2(0.5f, 0.5f));
+    _avatarWidget->setVisible(false);
+    _titleLayout->addChild(_avatarWidget);
     
     // Title
     _titleLabel = ui::Text::create();
     _titleLabel->setFontName(Style::Font::Regular);
-    _titleLabel->setFontSize(126.0f);
-    _titleLabel->setLayoutParameter(CreateCenterRelativeLayoutParam());
-    addChild(_titleLabel);
+    _titleLayout->addChild(_titleLabel);
     
     // Image
     _titleImage = ui::ImageView::create();
-    _titleImage->setLayoutParameter(CreateCenterRelativeLayoutParam());
     _titleImage->setVisible(false);
-    addChild(_titleImage);
+    _titleLayout->addChild(_titleImage);
+    
     
     // Alert
     _alertButton = ui::Button::create("res/chat/ui/buttons/alert.png");
@@ -54,7 +70,7 @@ bool TitleBarWidget::init()
     _alertButton->getRendererNormal()->setStrechEnabled(true);
     _alertButton->getRendererClicked()->setStrechEnabled(true);
     _alertButton->getRendererDisabled()->setStrechEnabled(true);
-    _alertButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, 55.0f, 0.0f)));
+    _alertButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
     addChild(_alertButton);
     // Hidden by default
     _alertButton->setVisible(false);
@@ -79,7 +95,36 @@ void TitleBarWidget::onSizeChanged()
     SetSizePercentWidthForSquareAspectRatio(_backButton);
     SetSizePercentWidthForSquareAspectRatio(_alertButton);
     
+    const Size& contentSize = getContentSize();
+    
+    // Size the title layout to fill the remaining space
+    _titleLayout->setContentSize(Size(contentSize.width - (_backButton->getContentSize().width * 2) - (kTitleButtonsEdgePadding * 2), contentSize.height));
+    
+    // Resize the avatar appropriately
+    const float avatarHeightPct = 0.6f;
+    const float avatarSize = contentSize.height * avatarHeightPct;
+    _avatarWidget->setContentSize(Size(avatarSize, avatarSize));
+    _titleLayout->forceDoLayout();
+    
     Super::onSizeChanged();
+}
+
+void TitleBarWidget::updateTitleLayout()
+{
+    if(_avatarWidget->isVisible())
+    {
+        _titleLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
+        
+        _avatarWidget->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(85.0f, 0.0f, 0.0f, 0.0f)));
+        _titleLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(30.0f, 0.0f, 0.0f, 0.0f)));
+    }
+    else
+    {
+        _titleLayout->setLayoutType(ui::Layout::Type::RELATIVE);
+        
+        _titleLabel->setLayoutParameter(CreateCenterRelativeLayoutParam());
+        _titleImage->setLayoutParameter(CreateCenterRelativeLayoutParam());
+    }
 }
 
 #pragma mark - Public
@@ -87,6 +132,13 @@ void TitleBarWidget::onSizeChanged()
 void TitleBarWidget::setTitleString(const std::string& title)
 {
     _titleLabel->setString(title);
+    _titleLabel->setFontSize(126.0f);
+    
+    _titleLabel->setVisible(true);
+    _titleImage->setVisible(false);
+    _avatarWidget->setVisible(false);
+    
+    updateTitleLayout();
 }
 
 void TitleBarWidget::setTitleColor(const cocos2d::Color3B& color)
@@ -97,7 +149,26 @@ void TitleBarWidget::setTitleColor(const cocos2d::Color3B& color)
 void TitleBarWidget::setTitleImage(const std::string& imagePath)
 {
     _titleImage->loadTexture(imagePath);
+    
+    _titleLabel->setVisible(false);
     _titleImage->setVisible(true);
+    _avatarWidget->setVisible(false);
+    
+    updateTitleLayout();
+}
+
+void TitleBarWidget::setTitleAvatar(const FriendRef& friendData)
+{
+    _titleLabel->setString(friendData->friendName());
+    setTitleColor(Style::Color::brightAqua);
+    _titleLabel->setFontSize(80.0f);
+    _avatarWidget->setAvatarForFriend(friendData);
+    
+    _titleLabel->setVisible(true);
+    _titleImage->setVisible(false);
+    _avatarWidget->setVisible(true);
+    
+    updateTitleLayout();
 }
 
 void TitleBarWidget::showAlertButton(bool enable)
