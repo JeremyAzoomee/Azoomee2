@@ -126,7 +126,7 @@ StickerCategoryRef StickerCategoryListViewItem::getData() const
 void StickerCategoryListViewItem::setSelected(bool selected)
 {
     _selected = selected;
-    setBackGroundColor(selected ? Style::Color::golden : Style::Color::dark);
+    setBackGroundColor(selected ? Style::Color::grapePurpleTwo : Style::Color::dark);
     _border->setVisible(!selected);
 }
 

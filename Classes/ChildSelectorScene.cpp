@@ -69,6 +69,8 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
     {
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
     }
+    
+    FlowDataSingleton::getInstance()->clearData();
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------

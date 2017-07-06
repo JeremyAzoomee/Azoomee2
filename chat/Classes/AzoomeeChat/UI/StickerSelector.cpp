@@ -27,7 +27,7 @@ bool StickerSelector::init()
     
     ui::Layout* firstLayout = _splitLayout->firstLayout();
     firstLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    firstLayout->setBackGroundColor(Style::Color::golden);
+    firstLayout->setBackGroundColor(Style::Color::grapePurpleTwo);
     firstLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     
     _stickerListView = StickerListView::create();
