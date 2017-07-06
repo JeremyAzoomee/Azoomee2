@@ -199,7 +199,7 @@ void KidsControlLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
     
     originalYposition = parent->getParent()->getPositionY();
     
-    parent->getParent()->setPosition(parent->getParent()->getPositionX(),Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height*0.75);
+    parent->getParent()->setPosition(parent->getParent()->getPositionX(),Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height*0.85);
 }
 
 void KidsControlLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
