@@ -139,7 +139,7 @@ std::string JWTTool::getBodySignature(std::string method, std::string path, std:
     
     std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(host)).c_str(), url_encode(stringToLower(getDateFormatString())).c_str());
     
-    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), queryParams.c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
+    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), stringToLower(queryParams).c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
     std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, ChildDataProvider::getInstance()->getParentOrChildApiSecret());
     
     CCLOG("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
@@ -169,7 +169,6 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
     writer.String(getBodySignature(method, path, host, queryParams, requestBody).c_str(), (int)getBodySignature(method, path, host, queryParams, requestBody).length());
     
     writer.String("parentKey", (int)StringUtils::format("parentKey").length());
-    //writer.String(BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString() , (int)StringUtils::format("%s", BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString()).length());
     writer.String(ParentDataProvider::getInstance()->getLoggedInParentApiKey().c_str(), (int)ParentDataProvider::getInstance()->getLoggedInParentApiKey().length());
     
     writer.EndObject();

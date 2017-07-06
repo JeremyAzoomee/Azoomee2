@@ -391,6 +391,16 @@ void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
         shouldChangeElementsToOomeeScreen();
 }
 
+void ChildAccountScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+    
+}
+
+void ChildAccountScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+    
+}
+
 void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)

@@ -14,6 +14,9 @@ public:
     virtual bool init();
     
 private:
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
+    
     std::vector<std::string> getRandomImagesFromArtsCache();
     void addImageToLayer(std::string path, int index, bool locked);
     std::vector<std::string> getImagesInDirectory(std::string path);

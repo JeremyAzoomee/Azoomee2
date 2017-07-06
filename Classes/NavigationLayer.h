@@ -4,11 +4,14 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
+#include "DisplayChildNameLayer.h"
+#include <AzoomeeChat/ChatAPI.h>
+#include <AzoomeeChat/Data/Message.h>
 
 
 NS_AZOOMEE_BEGIN
 
-class NavigationLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate
+class NavigationLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate, public Chat::ChatAPIObserver
 {
 public:
     CREATE_FUNC(NavigationLayer);
@@ -20,6 +23,7 @@ public:
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
     
+    void onExit();
 private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
@@ -27,6 +31,7 @@ private:
     ElectricDreamsButton *previewLoginButton;
     ElectricDreamsButton *previewSignUpButton;
     ElectricDreamsButton *settingsButton;
+    ElectricDreamsButton *returnToChildSelectorButton;
 
     //MenuItem creation phase
     cocos2d::Sprite* addMenuItemImage(int itemNumber);
@@ -40,9 +45,13 @@ private:
     void moveMenuPointsToHorizontalState(float duration);
     void moveMenuPointsToHorizontalStateInGroupHQ(float duration);
     void moveMenuPointsToCircleState(float duration);
-    void createSettingsButton();
-    void settingsButtonOffScreen();
-    void settingsButtonOnScreen();
+    
+    //---------TOP OBJECTS, SETTINGS/BACK TO CHILD SELECTOR----------
+    void createTopObjects();
+    void topObjectsOffScreen();
+    void topObjectsOnScreen();
+    
+    //--------PREVIEW BUTTONS--------
     void createPreviewLoginButton();
     void createPreviewSignUpButton();
     
@@ -62,6 +71,13 @@ private:
     
     //memory management
     void cleanUpPreviousHQ();
+    
+    //chat notifications
+    void addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon);
+    void showNotificationBadge();
+    void hideNotificationBadge();
+    
+    void onChatAPIMessageRecieved(const Chat::MessageRef& message) override;
 };
 
 NS_AZOOMEE_END
