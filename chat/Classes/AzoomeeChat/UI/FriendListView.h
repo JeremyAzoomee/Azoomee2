@@ -31,6 +31,7 @@ protected:
     
     virtual void doLayout() override;
     virtual void onSizeChanged() override;
+    virtual void interceptTouchEvent(cocos2d::ui::Widget::TouchEventType event, cocos2d::ui::Widget *sender, cocos2d::Touch* touch) override;
     
 public:
     

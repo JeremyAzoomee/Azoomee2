@@ -89,6 +89,49 @@ cocos2d::Size FriendListView::calculateItemSize() const
     return cocos2d::Size(itemWidth, itemHeight);
 }
 
+void FriendListView::interceptTouchEvent(cocos2d::ui::Widget::TouchEventType event, cocos2d::ui::Widget *sender, cocos2d::Touch* touch)
+{
+    // Override ListView logic so we can deal with items from other columns
+    
+    // Passing to ScrollView and not Super/ListView is intentional
+    ScrollView::interceptTouchEvent(event, sender, touch);
+    if(!_touchEnabled)
+    {
+        return;
+    }
+    
+    if(event != TouchEventType::MOVED)
+    {
+        // Find the index of the selected item
+        Widget* parent = sender;
+        FriendListViewItem* item = nullptr;
+        while(parent)
+        {
+            item = dynamic_cast<FriendListViewItem*>(parent);
+            if(item)
+            {
+                const FriendRef& friendData = item->getData();
+                for(int i = 0; i < _listData.size(); ++i)
+                {
+                    if(_listData[i] == friendData)
+                    {
+                        _curSelectedIndex = i;
+                        break;
+                    }
+                }
+                break;
+            }
+            
+            parent = dynamic_cast<Widget*>(parent->getParent());
+        }
+        
+        if(sender->isHighlighted() && item)
+        {
+            selectedItemEvent(event);
+        }
+    }
+}
+
 #pragma mark - Public
 
 void FriendListView::setColumns(int columns)
