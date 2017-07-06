@@ -66,7 +66,7 @@ void KidsLayer::addOomee()
     oomeeSprite = Sprite::create(StringUtils::format("res/childSelection/%s.png", ConfigStorage::getInstance()->getNameForOomee(oomeeNr).c_str()));
     this->addChild(oomeeSprite);
     
-    setOomeeToStartSizeAndPosition();
+    setOomeeToLargeSize();
 }
 
 ui::Scale9Sprite* KidsLayer::createText9Sprite(std::string resource, float heightPercentage)
@@ -84,20 +84,9 @@ ui::Scale9Sprite* KidsLayer::createText9Sprite(std::string resource, float heigh
 
 //------------------SET OOMEE POSITION------------
 
-void KidsLayer::setOomeeToStartSizeAndPosition()
+void KidsLayer::setOomeeToLargeSize()
 {
     Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.45);
-    
-    glowSprite->setPosition(position);
-    glowSprite->setScale(.7);
-    
-    oomeeSprite->setScale(1.8);
-    oomeeSprite->setPosition(position);
-}
-
-void KidsLayer::setOomeeToTextInputPosition()
-{
-    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.6);
     
     glowSprite->setPosition(position);
     glowSprite->setScale(.7);
@@ -122,8 +111,6 @@ void KidsLayer::setOomeeToSmallSize()
 void KidsLayer::setToStartLayout()
 {
     removeObjects(true);
-    
-    setOomeeToStartSizeAndPosition();
     
     Label* ShareWithFriendLabel = createLabelWith("Share with friends", FONT_REGULAR, Style::Color::brightAqua, 40);
     ShareWithFriendLabel->setTag(1000);
@@ -154,23 +141,18 @@ void KidsLayer::setToShowingCode()
 void KidsLayer::setToAddAFriend()
 {
     removeObjects(true);
-    setOomeeToTextInputPosition();
     
     Label* detailsLabel = createLabelSettingsChat("To add a friend",Color3B::WHITE);
     detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height*2.5);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
-    
-    
 }
 
 void KidsLayer::setToAddAFriendTextBox()
 {
     removeObjects(true);
-    setOomeeToTextInputPosition();
-    
     Label* detailsLabel = createLabelSettingsChat("To add a friend",Color3B::WHITE);
-    detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height*2.5);
+    detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height*1.5);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
 }
@@ -225,7 +207,7 @@ void KidsLayer::removeObjects(bool oomeeToLargeSize)
         this->removeChildByTag(1000);
     
     if(oomeeToLargeSize)
-        setOomeeToStartSizeAndPosition();
+        setOomeeToLargeSize();
     else
         setOomeeToSmallSize();
 }

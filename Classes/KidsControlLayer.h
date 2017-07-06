@@ -34,8 +34,7 @@ private:
     void clearAllButCloseButton();
     
     void addChildFrame();
-    void addButtons();
-    void createTextInput();
+    void addButtonsAndInput();
     
     //Control Functions
     void moveToAddFriendTextBox();

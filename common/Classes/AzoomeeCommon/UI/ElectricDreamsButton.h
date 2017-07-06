@@ -73,6 +73,7 @@ public:
     
     //----------- CHAT INVITE BUTTONS -------------------
     
+    static ElectricDreamsButton* createKidCodeShareButton(std::string kidCode, float buttonWidth);
     static ElectricDreamsButton* createInviteMainButton(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createTextInputAsButton(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createSendButton();

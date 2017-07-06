@@ -80,7 +80,7 @@ void SettingsKidsLayer::addListenerToCoverLayer(Layer* listenerToLayer)
 
 //------------ACTIONS-----------------------------
 
-void SettingsKidsLayer::selectChild(int ChildNumber)
+void SettingsKidsLayer::selectChildForTextInput(int ChildNumber)
 {
     addTabsCoverLayer();
     swallowTouches = true;
@@ -89,6 +89,12 @@ void SettingsKidsLayer::selectChild(int ChildNumber)
     scrollView->stopAutoScroll();
     scrollView->setTouchEnabled(false);
     scrollView->setScrollBarEnabled(false);
+    scrollView->setInnerContainerPosition(Vec2(scrollView->getContentSize().width/2 - ChildNumber *900-400,0));
+}
+
+void SettingsKidsLayer::selectChildForSharing(int ChildNumber)
+{
+    scrollView->stopAutoScroll();
     scrollView->setInnerContainerPosition(Vec2(scrollView->getContentSize().width/2 - ChildNumber *900-400,0));
 }
 
@@ -104,11 +110,15 @@ void SettingsKidsLayer::scrollReset()
 
 void SettingsKidsLayer::addTabsCoverLayer()
 {
-    tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, Director::getInstance()->getVisibleSize().height-layerHeight+10);
-    tabsCoverLayer->setPosition(0,layerHeight-10);
-    this->addChild(tabsCoverLayer,40);
-    
-    addListenerToCoverLayer(tabsCoverLayer);
+    if(!tabsCoverLayer)
+    {
+        tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, Director::getInstance()->getVisibleSize().height-layerHeight+10);
+        tabsCoverLayer->setPosition(0,layerHeight-10);
+        
+        this->addChild(tabsCoverLayer,40);
+        
+        addListenerToCoverLayer(tabsCoverLayer);
+    }
 }
 
 NS_AZOOMEE_END

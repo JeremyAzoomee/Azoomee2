@@ -21,8 +21,7 @@ private:
     void addChildName();
     void addOomee();
     
-    void setOomeeToStartSizeAndPosition();
-    void setOomeeToTextInputPosition();
+    void setOomeeToLargeSize();
     void setOomeeToSmallSize();
     
     ui::Scale9Sprite* createText9Sprite(std::string resource, float heightPercentage);

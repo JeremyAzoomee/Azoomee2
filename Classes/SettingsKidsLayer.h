@@ -37,7 +37,8 @@ public:
     
     CREATE_FUNC(SettingsKidsLayer);
     
-    void selectChild(int ChildNumber);
+    void selectChildForTextInput(int ChildNumber);
+    void selectChildForSharing(int ChildNumber);
     void scrollReset();
 
 };
