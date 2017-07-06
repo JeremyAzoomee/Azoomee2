@@ -313,7 +313,7 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
             overlayWhenTouched->stopAllActions();
             
             //hack for old image format
-            if(filePath.substr(filePath.length() - 4) == "imag")
+            if(filePath.substr(filePath.length() - 7) == "new.png")
                 ArtAppDelegate::getInstance()->setFileName("");
             else
                 ArtAppDelegate::getInstance()->setFileName(filePath);

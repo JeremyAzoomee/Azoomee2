@@ -297,8 +297,8 @@ void DrawingCanvas::addColourSelectButtons(Size visibleSize, Point visibleOrigin
 void DrawingCanvas::addToolSelectButtons(Size visibleSize, Point visibleOrigin)
 {
     toolSelectButton = ui::Button::create();
-    toolSelectButton->setAnchorPoint(Vec2(0,0.5));
-    toolSelectButton->setPosition(Vec2(0, visibleOrigin.y + visibleSize.height - (1.5*colourSelectButton->getContentSize().height)));
+    toolSelectButton->setAnchorPoint(Vec2(0,1));
+    toolSelectButton->setPosition(Vec2(0, colourSelectButton->getPosition().y - colourSelectButton->getContentSize().height));
     toolSelectButton->loadTextures("res/artapp/style/images/articons/004-pen.png", "res/artapp/style/images/articons/004-pen.png");
     toolSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolSelectPressed,this));
     
@@ -350,8 +350,8 @@ void DrawingCanvas::addToolSelectButtons(Size visibleSize, Point visibleOrigin)
 void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigin)
 {
     addStickerButton = ui::Button::create();
-    addStickerButton->setAnchorPoint(Vec2(0,0.5));
-    addStickerButton->setPosition(Vec2(0, visibleOrigin.y + visibleSize.height - (2.5*colourSelectButton->getContentSize().height)));
+    addStickerButton->setAnchorPoint(Vec2(0,1));
+    addStickerButton->setPosition(Vec2(0, toolSelectButton->getPosition().y - toolSelectButton->getContentSize().height));
     addStickerButton->loadTextures("res/artapp/style/images/articons/art_button_sticker.png", "res/artapp/style/images/articons/art_button_sticker.png");
     addStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerButtonPressed,this));
     
@@ -388,58 +388,29 @@ void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigi
     stickerScrollView->setBackGroundColorOpacity(0);
     stickerScrollView->setBackGroundImageScale9Enabled(true);
     stickerScrollView->setBackGroundImage("res/artapp/style/images/articons/gallery/art_painting_placeholder.png");
-    
+    stickerScrollView->setVisible(false);
     this->addChild(stickerScrollView,12);
     
     //load stickers
     
-    std::vector<std::string> stickerDirs = getStickerDirs();
-    std::vector<std::vector<std::string>> allFileNames;
-    int numStickers = 0;
-    for(int i = 0; i < stickerDirs.size(); i++)
+    StickerCategoryLayout = Node::create();
+    StickerCategoryLayout->setAnchorPoint(Vec2(0.5,0));
+    StickerCategoryLayout->setContentSize(Size(visibleSize.width*2/3, visibleSize.height/5));
+    StickerCategoryLayout->setPosition(Vec2(stickerScrollView->getPosition().x,stickerScrollView->getPosition().y + stickerScrollView->getContentSize().height/2));
+    StickerCategoryLayout->setVisible(false);
+    this->addChild(StickerCategoryLayout,13);
+    
+    stickerCats = getStickerDirs();
+    
+    for(int i = 0; i < stickerCats.size(); i++)
     {
-        std::vector<std::string> fileNames = getStickerFileNamesInDir(FileUtils::getInstance()->fullPathForFilename("res/chat/stickers/" + stickerDirs[i]));
-        allFileNames.push_back(fileNames);
-        numStickers += fileNames.size();
+        ui::Button* stickerCatButton = ui::Button::create();
+        stickerCatButton->loadTextures("res/chat/stickers/" + stickerCats[i] + "/category.png", "res/chat/stickers/" + stickerCats[i] + "/category.png");
+        stickerCatButton->setAnchorPoint(Vec2(0,0.5));
+        stickerCatButton->setNormalizedPosition(Vec2(i/(float)stickerCats.size(),0.5));
+        stickerCatButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onStickerCategoryChangePressed, this,i));
+        StickerCategoryLayout->addChild(stickerCatButton);
     }
-    
-    stickerScrollView->setInnerContainerSize(Size(visibleSize.width/7.0f * (allFileNames[0].size()+1)/2.0f, visibleSize.height/2));
-    
-    for(int i = 0; i < allFileNames[0].size(); i+=2)
-    {
-        ui::Button* temp = ui::Button::create();
-        temp->setAnchorPoint(Vec2(0.5,0.5));
-        temp->loadTextures("res/chat/stickers/" + stickerDirs[0] + "/" + allFileNames[0][i],"res/chat/stickers/" + stickerDirs[0] + "/" + allFileNames[0][i]);
-        temp->setPosition(Vec2(stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(allFileNames[0].size()+1)),visibleSize.height/3 + temp->getContentSize().height));
-        temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
-        stickerScrollView->addChild(temp);
-        
-        if(i+1 < allFileNames[0].size())
-        {
-            ui::Button* temp2 = ui::Button::create();
-            temp2->setAnchorPoint(Vec2(0.5,0.5));
-            temp2->loadTextures("res/chat/stickers/" + stickerDirs[0] + "/" + allFileNames[0][i+1],"res/chat/stickers/" + stickerDirs[0] + "/" + allFileNames[0][i+1]);
-            temp2->setPosition(Vec2(stickerScrollView->getInnerContainerSize().width*((i+1.0f)/allFileNames[0].size()),visibleSize.height/3 - temp2->getContentSize().height));
-            temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
-            stickerScrollView->addChild(temp2);
-        }
-        
-    }
-    
-    //for(int i = 0; i < 15; ++i)
-    //{
-    //   for(int j = -1; j <= 1; j+=2)
-    //    {
-    //        ui::Button* temp = ui::Button::create();
-    //        temp->setAnchorPoint(Vec2(0.5,0.5));
-    //        temp->loadTextures("res/artapp/style/images/articons/art_button_sticker.png","res/artapp/style/images/articons/art_button_sticker.png");
-    //        temp->setPosition(Vec2(visibleSize.width*((i+0.5)/7.5f),visibleSize.height/3 + j*temp->getContentSize().height));
-    //        temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
-    //        stickerScrollView->addChild(temp);
-    //    }
-    //}
-    
-    stickerScrollView->setVisible(false);
     
     closeStickerSelectButton = ui::Button::create();
     closeStickerSelectButton->setAnchorPoint(Vec2(1,1));
@@ -587,6 +558,7 @@ void DrawingCanvas::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEventType
     {
         pressedButton->setScale(baseScale / 0.85f);
         stickerScrollView->setVisible(false);
+        StickerCategoryLayout->setVisible(false);
         closeStickerSelectButton->setVisible(false);
         stickerNode->setVisible(true);
         confirmStickerButton->setVisible(true);
@@ -623,6 +595,7 @@ void DrawingCanvas::onAddStickerButtonPressed(Ref *pSender, ui::Widget::TouchEve
         addStickerButton->setVisible(false);
         brushSizeSlider->setVisible(false);
         stickerScrollView->setVisible(true);
+        StickerCategoryLayout->setVisible(true);
         closeStickerSelectButton->setVisible(true);
         drawCanvasTouchListener->setEnabled(false);
         
@@ -652,6 +625,7 @@ void DrawingCanvas::onCloseStickerSelectPressed(Ref *pSender, ui::Widget::TouchE
         addStickerButton->setVisible(true);
         brushSizeSlider->setVisible(true);
         stickerScrollView->setVisible(false);
+        StickerCategoryLayout->setVisible(false);
         closeStickerSelectButton->setVisible(false);
         drawCanvasTouchListener->setEnabled(true);
         
@@ -842,6 +816,66 @@ void DrawingCanvas::onRadiusSliderInteract(Ref *pSender, ui::Slider::EventType e
     }
 }
 
+void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::TouchEventType eEventType, int index)
+{
+    ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
+    float baseScale = pressedButton->getScale();
+    
+    if(eEventType == ui::Widget::TouchEventType::BEGAN)
+    {
+        pressedButton->setScale(baseScale * 1.15f);
+    }
+    
+    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    {
+        //pressedButton->setScale(baseScale / 1.15f);
+        
+        auto catButtons = StickerCategoryLayout->getChildren();
+        
+        for(int i = 0; i < catButtons.size(); i++)
+        {
+            catButtons.at(i)->setScale(1);
+        }
+        
+        pressedButton->setScale(baseScale * 1.15);
+        
+        Size visibleSize = Director::getInstance()->getVisibleSize();
+        
+        std::vector<std::string> fileNames = getStickerFileNamesInDir(FileUtils::getInstance()->fullPathForFilename("res/chat/stickers/" + stickerCats[index]));
+        int numStickers = (int)fileNames.size();
+        
+        stickerScrollView->removeAllChildren();
+        stickerScrollView->setInnerContainerSize(Size(visibleSize.width/7.0f * numStickers/2.0f, visibleSize.height/2));
+        
+        for(int i = 0; i < numStickers; i+=2)
+        {
+            ui::Button* temp = ui::Button::create();
+            temp->setAnchorPoint(Vec2(0.5,0.5));
+            temp->loadTextures("res/chat/stickers/" + stickerCats[index] + "/" + fileNames[i],"res/chat/stickers/" + stickerCats[index] + "/" + fileNames[i]);
+            temp->setPosition(Vec2(stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),visibleSize.height/3 + temp->getContentSize().height));
+            temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
+            stickerScrollView->addChild(temp);
+            
+            if(i+1 < numStickers)
+            {
+                ui::Button* temp2 = ui::Button::create();
+                temp2->setAnchorPoint(Vec2(0.5,0.5));
+                temp2->loadTextures("res/chat/stickers/" + stickerCats[index] + "/" + fileNames[i+1],"res/chat/stickers/" + stickerCats[index] + "/" + fileNames[i+1]);
+                temp2->setPosition(Vec2(stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),visibleSize.height/3 - temp2->getContentSize().height));
+                temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
+                stickerScrollView->addChild(temp2);
+            }
+            
+        }
+        
+    }
+    
+    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    {
+        pressedButton->setScale(baseScale / 1.15f);
+    }
+}
+
 //---------------------Sticker file collection methods ----------------------------------------//
 
 std::vector<std::string> DrawingCanvas::getStickerDirs()
@@ -880,7 +914,7 @@ std::vector<std::string> DrawingCanvas::getStickerFileNamesInDir(std::string sti
     {
         while ((ent = readdir (dir)) != NULL)
         {
-            if(ent->d_type == DT_REG)
+            if(ent->d_type == DT_REG && (std::string)ent->d_name != "category.png")
                 fileNames.push_back(ent->d_name);
         }
         closedir (dir);

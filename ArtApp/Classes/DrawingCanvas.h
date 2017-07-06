@@ -56,6 +56,8 @@ protected:
     cocos2d::ui::Button* cancelStickerButton;
     
     cocos2d::ui::ScrollView* stickerScrollView;
+    cocos2d::Node* StickerCategoryLayout;
+    std::vector<std::string> stickerCats;
     
     StickerPlacementNode* stickerNode;
     
@@ -98,6 +100,8 @@ protected:
     void onToolChanged(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType, int index);
     
     void onRadiusSliderInteract(cocos2d::Ref* pSender, cocos2d::ui::Slider::EventType eEventType);
+    
+    void onStickerCategoryChangePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType, int index);
     
 private:
     
