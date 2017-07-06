@@ -25,7 +25,7 @@ private:
     
     void findChildNumber(std::string ChildNameToFind);
     
-    bool buttonHasBeenPressed;
+    bool buttonHasBeenPressed = false;
     
 public:
     static cocos2d::Scene* createScene();

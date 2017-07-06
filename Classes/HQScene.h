@@ -18,7 +18,7 @@ public:
 private:
     void addGroupHQLogo();
     
-    bool directionDecided;
+    bool directionDecided = false;
     cocos2d::Point startLocation;
     void addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView);
     

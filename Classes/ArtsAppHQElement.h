@@ -32,12 +32,12 @@ private:
     std::string getBase64Encoded(std::string input);
     std::string getFileNameFromPath(std::string path);
     
-    bool notSendingFileData;
+    bool notSendingFileData = false;
     
     cocos2d::LayerColor *baseLayer;
     cocos2d::LayerColor *overlayWhenTouched;
-    bool movedAway;
-    bool iamtouched;
+    bool movedAway = false;
+    bool iamtouched = false;
     cocos2d::Point touchPoint;
 };
 

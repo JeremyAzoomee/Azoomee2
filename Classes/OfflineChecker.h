@@ -34,8 +34,8 @@ public:
 private:
     void sendOfflineCheckRequest();
     
-    bool offlineStatus;
-    bool newScene;
+    bool offlineStatus = false;
+    bool newScene = false;
     
     int amountOfFailures;
 };

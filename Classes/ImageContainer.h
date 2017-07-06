@@ -31,7 +31,7 @@ private:
     
     void startAudio(std::string audioName);
     
-    bool iamtouched;
+    bool iamtouched = false;
     
     float appearPause;
     float interTime;

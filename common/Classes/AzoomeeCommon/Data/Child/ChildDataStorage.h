@@ -18,7 +18,7 @@ public:
     bool init(void);
     
     rapidjson::Document childLoginData;
-    bool childLoggedIn;
+    bool childLoggedIn = false;
     
     std::string loggedInChildName;
     std::string loggedInChildAvatarId;

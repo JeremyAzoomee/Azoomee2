@@ -35,6 +35,7 @@ bool OomeeLayer::init()
     spine::SkeletonAnimation* oomee = addOomeeToScreen();
     addTouchListenerToOomee(oomee);
     addCompleteListenerToOomee(oomee);
+    Director::getInstance()->purgeCachedData();
     
     return true;
 }

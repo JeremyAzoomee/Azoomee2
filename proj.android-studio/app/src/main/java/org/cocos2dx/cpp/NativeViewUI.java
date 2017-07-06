@@ -8,22 +8,23 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.CookieManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 
 import com.tinizine.azoomee.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.xwalk.core.XWalkActivity;
-import org.xwalk.core.XWalkView;
-import org.xwalk.core.XWalkCookieManager;
 
-public class NativeView extends XWalkActivity {
+public class NativeViewUI extends Activity {
 
     private static Context mContext;
     public static Activity activity = null;
-    public XWalkView xWalkWebView;
-    public static XWalkView xWalkWebViewStatic;
+    public WebView uiWebView;
+    public static WebView uiWebViewStatic;
     public static String userid;
     public static ImageButton imageButtonStatic;
 
@@ -31,9 +32,6 @@ public class NativeView extends XWalkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_native_view);
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         final View decorView = getWindow().getDecorView();
 
@@ -47,9 +45,36 @@ public class NativeView extends XWalkActivity {
 
         Bundle extras = getIntent().getExtras();
         userid = extras.getString("userid");
+        Log.d("userid", userid);
 
-        xWalkWebView = new XWalkView(this);
-        addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        if(uiWebView != null) uiWebView.destroy();
+
+        uiWebView = new WebView(this);
+
+        uiWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
+
+        WebSettings webSettings = uiWebView.getSettings();
+
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(false);
+        webSettings.setSupportMultipleWindows(false);
+        webSettings.setSaveFormData(false);
+        webSettings.setDomStorageEnabled(true);
+
+        webSettings.setAllowFileAccess(true);
+        webSettings.setBuiltInZoomControls(false);
+        webSettings.setAllowUniversalAccessFromFileURLs(true);
+        webSettings.setAllowFileAccessFromFileURLs(true);
+        webSettings.setAllowContentAccess(true);
+        webSettings.setMediaPlaybackRequiresUserGesture(false);
+        webSettings.setSupportZoom(false);
+
+        addContentView(uiWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
         ImageButton extra = new ImageButton(this);
@@ -60,16 +85,24 @@ public class NativeView extends XWalkActivity {
             public void onClick(View v) {
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                if(xWalkWebView != null)
+                if(uiWebView != null)
                 {
-                    xWalkWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
-                    xWalkWebView.loadUrl("about:blank");
-                    xWalkWebView.removeAllViews();
-                    xWalkWebView.clearCache(true);
-                    xWalkWebView.pauseTimers();
-                    xWalkWebView = null;
+                    uiWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
 
-                    xWalkWebViewStatic = null;
+                    uiWebView.loadUrl("about:blank");
+                    uiWebView.removeAllViews();
+                    uiWebView.clearCache(true);
+                    uiWebView.pauseTimers();
+                    uiWebView.onPause();
+                    uiWebView.removeJavascriptInterface("NativeInterface");
+
+                    ViewGroup vg = (ViewGroup)(uiWebView.getParent());
+                    vg.removeView(uiWebView);
+
+                    uiWebView.destroy();
+                    //uiWebView = null;
+
+                    //uiWebViewStatic = null;
                 }
 
                 JNICalls.JNIRegisterAndroidSceneChangeEvent();
@@ -80,9 +113,15 @@ public class NativeView extends XWalkActivity {
 
         addContentView(extra, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
+        uiWebView.resumeTimers();
+        uiWebView.loadUrl("about:blank");
+        uiWebView.clearCache(true);
+        uiWebView.clearHistory();
 
         imageButtonStatic = extra;
-        xWalkWebViewStatic = xWalkWebView;
+        uiWebViewStatic = uiWebView;
+
+        webviewAdditionalSettings();
     }
 
     public static void exitView()
@@ -94,9 +133,7 @@ public class NativeView extends XWalkActivity {
         });
     }
 
-    @Override
-    protected void onXWalkReady() {
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    protected void webviewAdditionalSettings() {
 
         Bundle extras = getIntent().getExtras();
         String myUrl = "about:blank";
@@ -107,19 +144,23 @@ public class NativeView extends XWalkActivity {
             userid = extras.getString("userid");
         }
 
+        Log.d("urlToBeLoaded", myUrl);
+        final String urlToBeLoaded;
+
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
-            xWalkWebView.loadUrl("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl);
+            urlToBeLoaded = "file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl;
         }
         else
         {
-            XWalkCookieManager mCookieManager = new XWalkCookieManager();
-            mCookieManager.removeSessionCookie();
-            mCookieManager.removeExpiredCookie();
-            mCookieManager.removeAllCookie();
-            mCookieManager.flushCookieStore();
-            mCookieManager.setAcceptCookie(true);
-            mCookieManager.setAcceptFileSchemeCookies(true);
+            CookieManager uiWebviewCookieManager = CookieManager.getInstance();
+            if (Build.VERSION.SDK_INT >= 21)
+            {
+                uiWebviewCookieManager.removeAllCookies(null);
+                uiWebviewCookieManager.flush();
+                uiWebviewCookieManager.setAcceptThirdPartyCookies(uiWebView, true);
+            }
+            uiWebviewCookieManager.setAcceptCookie(true);
 
             try
             {
@@ -132,18 +173,24 @@ public class NativeView extends XWalkActivity {
                     String url = currentObject.getString("url");
                     String cookie = currentObject.getString("cookie");
 
-                    mCookieManager.setCookie(url, cookie);
+                    Log.d("COOKIE URL", url);
+                    Log.d("COOKIE", cookie);
+
+                    uiWebviewCookieManager.setCookie(url, cookie);
                 }
             }
             catch (Exception ex)
             {
                 JNICalls.getBackToLoginScreen();
             }
-
-            xWalkWebView.loadUrl("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl);
+            urlToBeLoaded = "file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl;
         }
 
-        xWalkWebView.addJavascriptInterface(new JsInterface(), "NativeInterface");
+        if(CookieManager.getInstance().hasCookies()) Log.d("COOKIE", "HAS COOKIES");
+        else Log.d("COOKIE", "NO COOKIES SET");
+
+        uiWebView.addJavascriptInterface(new JsInterfaceUI(), "NativeInterface");
+        uiWebView.loadUrl(urlToBeLoaded);
     }
 
     static void errorOccurred()

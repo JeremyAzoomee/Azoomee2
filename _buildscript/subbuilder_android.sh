@@ -23,7 +23,6 @@ sed -i.bak 's/versionName .*/versionName '\'$VERSIONNUMBER\''/g' ../_replaceTest
 sed -i.bak 's/versionCode .*/versionCode '$BUILDNUMBER'/g' ../_replaceTestResults/build.gradle
 sed -i.bak 's/include .*/include '\'$STRUCTURENAME\''/g' ../_replaceTestResults/build.gradle
 
-sed -i.bak 's/org.xwalk:xwalk_core_library:\([0-9.]*\)[^'\'']*/org.xwalk:xwalk_core_library:\1-'$XWALKSTRUCTURENAME'/g'  ../_replaceTestResults/build.gradle
 sed -i.bak 's/include '\''[^'\'']'\''$/include '\'$STRUCTURENAME\''/g' ../_replaceTestResults/build.gradle
 
 cp -r ../_replaceTestResults/Application.mk ../proj.android-studio/app/jni/Application.mk
