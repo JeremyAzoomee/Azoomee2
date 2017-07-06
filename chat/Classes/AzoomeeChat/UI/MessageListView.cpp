@@ -7,6 +7,10 @@
 using namespace cocos2d;
 
 
+// Enable this to show avatars at the bottom of the list
+//#define AVATARS_IN_LISTVIEW
+
+
 
 NS_AZOOMEE_CHAT_BEGIN
 
@@ -18,7 +22,7 @@ bool MessageListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::dustyLavender);
+    setBackGroundColor(Style::Color::darkTwo);
     
     // Setup foreground with the Oomee bar
     _foreground = ui::Layout::create();
@@ -27,6 +31,7 @@ bool MessageListView::init()
     _foreground->setSizeType(ui::Widget::SizeType::PERCENT);
     
     // TODO: Get config values
+#ifdef AVATARS_IN_LISTVIEW
     const float avatarBaseHeight = 140.0f;
     
     // Avatar bar
@@ -67,6 +72,7 @@ bool MessageListView::init()
     _avatars[1]->setLayoutParameter(CreateBottomLeftRelativeLayoutParam(ui::Margin(avatarMargin.x, 0, 0, avatarMargin.y)));
     _avatars[1]->setContentSize(Size(avatarSize, avatarSize));
     _foreground->addChild(_avatars[1]);
+#endif
     
     
     // List view for messages
@@ -79,10 +85,12 @@ bool MessageListView::init()
     _listView->addEventListener(CC_CALLBACK_2(MessageListView::onScrollEvent, this));
     addChild(_listView);
     
+#ifdef AVATARS_IN_LISTVIEW
     // Create the special list view item to allow space for Oomees
     _blankListItem = ui::Layout::create();
     _blankListItem->setContentSize(Size(10, avatarSize + avatarMargin.y));
     _listView->pushBackCustomItem(_blankListItem);
+#endif
     
     // Add the foreground last
     addChild(_foreground);
@@ -123,8 +131,10 @@ void MessageListView::onSizeChanged()
             messageItem->setContentSize(itemSize);
         }
         
+#ifdef AVATARS_IN_LISTVIEW
         // Resize avatar base to fill width
         _avatarBase->setContentSize(Size(contentSize.width, _avatarBase->getContentSize().height));
+#endif
     }
 }
 
@@ -169,6 +179,7 @@ void MessageListView::setScrollPosition(float pos)
 
 void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollView::EventType event)
 {
+#ifdef AVATARS_IN_LISTVIEW
     // Scroll movement
     if(event == ui::ScrollView::EventType::CONTAINER_MOVED)
     {
@@ -209,6 +220,7 @@ void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollVie
             }
         }
     }
+#endif
 }
 
 #pragma mark - Public
@@ -219,8 +231,10 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
     const float prevScrollHeight = _listView->getInnerContainerSize().height;
     
     _participants = participants;
+#ifdef AVATARS_IN_LISTVIEW
     _avatars[0]->setAvatarForFriend(_participants[0]);
     _avatars[1]->setAvatarForFriend(_participants[1]);
+#endif
     
     // If messages are zero, we can just remove
     if(messageList.size() == 0)
@@ -255,8 +269,10 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         // We just overwrite the content of all UI items here
         const Size& contentSize = _listView->getContentSize();
         
+#ifdef AVATARS_IN_LISTVIEW
         _blankListItem->retain();
         _listView->removeLastItem();
+#endif
         
         const cocos2d::Vector<ui::Widget*> items = _listView->getItems();
         for(int i = 0; i < items.size() || i < messagesByTime.size(); ++i)
@@ -307,9 +323,11 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
             --numToDelete;
         }
         
+#ifdef AVATARS_IN_LISTVIEW
         // Re-add blank item
         _listView->pushBackCustomItem(_blankListItem);
         _blankListItem->release();
+#endif
         
         _listData = messagesByTime;
     }

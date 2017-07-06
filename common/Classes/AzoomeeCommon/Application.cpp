@@ -4,7 +4,7 @@
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include <jni.h>
 
-static const std::string kPusherAuthJavaClassName = "com/tinizine/azoomee/common/AzoomeeActivity";
+static const std::string kAzoomeeActivityJavaClassName = "com/tinizine/azoomee/common/AzoomeeActivity";
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
