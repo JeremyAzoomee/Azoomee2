@@ -32,8 +32,6 @@ public:
     virtual bool init();
     
     void setToStartLayout();
-    void setToShowingCode();
-    void setToAddAFriend();
     void setToAddAFriendTextBox();
     void setToCodeError(std::string code);
     void setToCodeSuccess(std::string code);

@@ -123,31 +123,6 @@ void KidsLayer::setToStartLayout()
     this->addChild(AddAFriendLabel);
 }
 
-void KidsLayer::setToShowingCode()
-{
-    removeObjects(true);
-    
-    Label* detailsLabel = createLabelSettingsChat("Share your Kid Code\nwith all your friends",Color3B::WHITE);
-    detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height);
-    detailsLabel->setTag(1000);
-    this->addChild(detailsLabel);
-    
-    Label* codeLabel = createLabelKidCode(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber),Color3B(28, 244, 244));
-    codeLabel->setPosition(this->getContentSize().width/2,detailsLabel->getPositionY()- detailsLabel->getContentSize().height/2 -codeLabel->getContentSize().height * .8);
-    codeLabel->setTag(1000);
-    this->addChild(codeLabel);
-}
-
-void KidsLayer::setToAddAFriend()
-{
-    removeObjects(true);
-    
-    Label* detailsLabel = createLabelSettingsChat("To add a friend",Color3B::WHITE);
-    detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height*2.5);
-    detailsLabel->setTag(1000);
-    this->addChild(detailsLabel);
-}
-
 void KidsLayer::setToAddAFriendTextBox()
 {
     removeObjects(true);
