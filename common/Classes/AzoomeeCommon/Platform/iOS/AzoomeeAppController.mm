@@ -44,7 +44,7 @@
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
 
     // Use RootViewController to manage CCEAGLView
-    _viewController = [[AzoomeeViewController alloc]init];
+    _viewController = [AzoomeeViewController sharedInstance];
     _viewController.wantsFullScreenLayout = YES;
     
 

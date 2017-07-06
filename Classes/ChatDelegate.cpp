@@ -35,4 +35,9 @@ void ChatDelegate::onChatNavigationBack()
     
 }
 
+void ChatDelegate::onChatAddFriend()
+{
+    // TODO: Show parent pin etc.
+}
+
 NS_AZOOMEE_END

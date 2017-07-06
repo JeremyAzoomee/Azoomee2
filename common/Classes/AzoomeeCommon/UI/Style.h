@@ -26,6 +26,7 @@ namespace Color
     const cocos2d::Color3B kermitGreen(90, 174, 0);
     const cocos2d::Color3B dustyLavender(195, 184, 198);
     const cocos2d::Color3B dark(22, 14, 25);
+    const cocos2d::Color3B darkTwo(39, 23, 43);
     const cocos2d::Color3B kermitGreenTwo(91, 173, 0);
     const cocos2d::Color3B white(255, 255, 255);
     const cocos2d::Color3B black(0, 0, 0);
@@ -36,6 +37,9 @@ namespace Color
     const cocos2d::Color3B heliotropeTwo(218, 73, 242);
     const cocos2d::Color3B golden(235, 178, 6);
     const cocos2d::Color3B grapePurple(87, 19, 99);
+    const cocos2d::Color3B grapePurpleTwo(80, 17, 94);
+    const cocos2d::Color3B lightTealTwo(108, 224, 215);
+    const cocos2d::Color3B blueGreen(16, 117, 114);
     
     
     // These colors below don't have exact names in Zeplin.
