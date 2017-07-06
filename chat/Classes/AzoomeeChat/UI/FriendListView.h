@@ -17,6 +17,8 @@ private:
     
     /// Data being displayed
     FriendList _listData;
+    /// Number of columns to display the data
+    int _columns = 1;
     
     /// Callback for an item being selected
     ItemSelectedCallback _selectedEventCallback = nullptr;
@@ -29,8 +31,12 @@ protected:
     
     virtual void doLayout() override;
     virtual void onSizeChanged() override;
+    virtual void interceptTouchEvent(cocos2d::ui::Widget::TouchEventType event, cocos2d::ui::Widget *sender, cocos2d::Touch* touch) override;
     
 public:
+    
+    /// Set the number of columns
+    void setColumns(int columns);
     
     /// Set the items to display in this list
     void setItems(const FriendList& friendList);

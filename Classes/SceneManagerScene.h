@@ -29,6 +29,7 @@ private:
     
     void forceToPortrait();
     void forceToLandscape();
+    void acceptAnyOrientation();
     
 public:
     static cocos2d::Scene* createScene(SceneNameEnum sceneName);

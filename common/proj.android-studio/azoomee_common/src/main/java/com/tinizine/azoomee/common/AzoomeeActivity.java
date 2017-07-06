@@ -1,5 +1,6 @@
 package com.tinizine.azoomee.common;
 
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -165,5 +166,23 @@ public class AzoomeeActivity extends Cocos2dxActivity implements KeyboardHeightO
     private native void onKeyboardShown(int height);
     /// Called when the keyboard is hidden
     private native void onKeyboardHidden(int height);
+
+
+    //-----------------------FORCED ORIENTATION CHANGES------------------------
+
+    public static void setOrientationPortrait()
+    {
+        sInstance.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    public static void setOrientationLandscape()
+    {
+        sInstance.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+    }
+
+    public static void setOrientationAny()
+    {
+        sInstance.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    }
 
 }

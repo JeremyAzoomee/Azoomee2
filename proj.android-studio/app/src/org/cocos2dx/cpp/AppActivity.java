@@ -454,16 +454,4 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static native String getDeveloperKey();
 
-    //-----------------------FORCED ORIENTATION CHANGES------------------------
-
-    public static void setOrientationPortrait() {
-
-        mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-    }
-
-    public static void setOrientationLandscape() {
-
-        mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-    }
-
 }

@@ -139,7 +139,14 @@ static Pusher* sPusherClient = nil;
         NSString* channelName = data[@"channel"];
         NSString* eventData = data[@"data"];
         NSString* eventName = data[@"event"];
-        if(!channelName && !eventData && !eventName)
+        
+        // Check for errors
+        if([eventName isEqualToString:@"pusher:error"])
+        {
+            NSLog(@"Pusher error: %@", eventData);
+            return;
+        }
+        else if(channelName == nil || eventData == nil)
         {
             NSLog(@"Error: Invalid Pusher event. channel=%@, data=%@, event=%@", channelName, eventData, eventName);
             return;

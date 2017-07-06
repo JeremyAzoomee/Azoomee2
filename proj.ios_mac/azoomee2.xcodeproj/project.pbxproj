@@ -42,10 +42,8 @@
 		300AD6991F0B9CD40049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; };
 		300AD69A1F0B9CD40049A24F /* PusherSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA921EB139C1009ADA0C /* SettingsButton.cpp */; };
-		302679A11F0A41770047BC7C /* Pods_AzoomeeCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3007435B1EFD265D005525AE /* Pods_AzoomeeCommon.framework */; };
-		302679A21F0A41770047BC7C /* Pods_AzoomeeCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3007435B1EFD265D005525AE /* Pods_AzoomeeCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		302679A31F0A41770047BC7C /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300743571EFD25A0005525AE /* PusherSwift.framework */; };
-		302679A41F0A41770047BC7C /* PusherSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 300743571EFD25A0005525AE /* PusherSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		302679A11F0A41770047BC7C /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		302679A31F0A41770047BC7C /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		304D9EB31EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9E9F1EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib */; };
 		304D9EB41EA8F849008CED52 /* MPTakeoverNotificationViewController~iphonelandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA01EA8F849008CED52 /* MPTakeoverNotificationViewController~iphonelandscape.xib */; };
 		304D9EB51EA8F849008CED52 /* MPTakeoverNotificationViewController~iphoneportrait.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA11EA8F849008CED52 /* MPTakeoverNotificationViewController~iphoneportrait.xib */; };
@@ -67,8 +65,6 @@
 		304D9EC51EA8F849008CED52 /* placeholder-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EB11EA8F849008CED52 /* placeholder-image.png */; };
 		304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC81EA8F89B008CED52 /* GameController.framework */; };
 		3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */; };
-		307A40401F02AA2C005947F3 /* Pods_AzoomeeCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3007435B1EFD265D005525AE /* Pods_AzoomeeCommon.framework */; };
-		307A40411F02AA2C005947F3 /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300743571EFD25A0005525AE /* PusherSwift.framework */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images-2.xcassets */; };
@@ -102,7 +98,6 @@
 		43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CE21EA7560500606099 /* Accelerate.framework */; };
 		43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90DE41EA7603800606099 /* WatchKit.framework */; };
 		43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */; };
-		43BCD7211EC9FDD300A07737 /* OrientationFunctions_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43BCD7201EC9FDD300A07737 /* OrientationFunctions_ios.mm */; };
 		43FA20141EE6FB83003CE631 /* FTUScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43FA20121EE6FB83003CE631 /* FTUScene.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
@@ -376,8 +371,6 @@
 		43A90DE41EA7603800606099 /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/WatchKit.framework; sourceTree = DEVELOPER_DIR; };
 		43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneManagerScene.cpp; sourceTree = "<group>"; };
 		43BCD71D1EC9FD4E00A07737 /* SceneManagerScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManagerScene.h; sourceTree = "<group>"; };
-		43BCD71F1EC9FDD300A07737 /* OrientationFunctions_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrientationFunctions_ios.h; sourceTree = "<group>"; };
-		43BCD7201EC9FDD300A07737 /* OrientationFunctions_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OrientationFunctions_ios.mm; sourceTree = "<group>"; };
 		43FA20121EE6FB83003CE631 /* FTUScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FTUScene.cpp; sourceTree = "<group>"; };
 		43FA20131EE6FB83003CE631 /* FTUScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTUScene.h; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
@@ -465,11 +458,11 @@
 				304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */,
 				43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */,
 				43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */,
-				302679A31F0A41770047BC7C /* PusherSwift.framework in Frameworks */,
+				302679A31F0A41770047BC7C /* (null) in Frameworks */,
 				43A90CE11EA755FF00606099 /* CoreTelephony.framework in Frameworks */,
 				43A90CDF1EA755F000606099 /* SystemConfiguration.framework in Frameworks */,
 				43A90CDD1EA755E200606099 /* Foundation.framework in Frameworks */,
-				302679A11F0A41770047BC7C /* Pods_AzoomeeCommon.framework in Frameworks */,
+				302679A11F0A41770047BC7C /* (null) in Frameworks */,
 				43A90CDB1EA755D600606099 /* UIKit.framework in Frameworks */,
 				300AD6991F0B9CD40049A24F /* PusherSwift.framework in Frameworks */,
 				3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */,
@@ -835,8 +828,6 @@
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
 				43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */,
 				43BCD71D1EC9FD4E00A07737 /* SceneManagerScene.h */,
-				43BCD7201EC9FDD300A07737 /* OrientationFunctions_ios.mm */,
-				43BCD71F1EC9FDD300A07737 /* OrientationFunctions_ios.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -1244,7 +1235,6 @@
 				026BAF781E3FFD33009C4ACE /* HQHistoryManager.cpp in Sources */,
 				02E595B31E5B495B0052F395 /* HQSceneElementVisual.cpp in Sources */,
 				433FA7F61E7AA9C400A8C27F /* IAPUpsaleLayer.cpp in Sources */,
-				43BCD7211EC9FDD300A07737 /* OrientationFunctions_ios.mm in Sources */,
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,

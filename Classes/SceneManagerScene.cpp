@@ -9,15 +9,12 @@
 #include "ChildAccountSuccessScene.h"
 #include "OfflineHubScene.h"
 #include "HQScene.h"
+#include <AzoomeeCommon/Application.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 #include "FTUScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "ChatDelegate.h"
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    #include "OrientationFunctions_ios.h"
-#endif
 
 using namespace cocos2d;
 
@@ -134,7 +131,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             // Make sure we set the chat delegate
             Azoomee::Chat::delegate = ChatDelegate::getInstance();
             
-            forceToLandscape();
+            acceptAnyOrientation();
             goToScene = Azoomee::Chat::FriendListScene::create();
             break;
         }
@@ -148,51 +145,18 @@ void SceneManagerScene::onEnterTransitionDidFinish()
 void SceneManagerScene::forceToPortrait()
 {
     AnalyticsSingleton::getInstance()->setPortraitOrientation();
-    auto director = cocos2d::Director::getInstance();
-    auto glView = director->getOpenGLView();
-    auto frameSize = glView->getFrameSize();
-    
-    if((int) frameSize.width < (int) frameSize.height)
-        cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.width, (int) frameSize.height);
-    else
-        cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);
-    
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        setOrientationToPortrait();
-    #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        cocos2d::JniMethodInfo methodInfo;
-        if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "setOrientationPortrait", "()V"))
-        {
-            return;
-        }
-        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
-        methodInfo.env->DeleteLocalRef(methodInfo.classID);
-    #endif
+    Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Portrait);
 }
 
 void SceneManagerScene::forceToLandscape()
 {
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
-    auto director = cocos2d::Director::getInstance();
-    auto glView = director->getOpenGLView();
-    auto frameSize = glView->getFrameSize();
-    
-    if((int) frameSize.width > (int) frameSize.height)
-        cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.width, (int) frameSize.height);
-    else
-        cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) frameSize.height, (int) frameSize.width);
-    
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        setOrientationToLandscape();
-    #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        cocos2d::JniMethodInfo methodInfo;
-        if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "setOrientationLandscape", "()V"))
-        {
-            return;
-        }
-        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
-        methodInfo.env->DeleteLocalRef(methodInfo.classID);
-    #endif
+    Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Landscape);
+}
+
+void SceneManagerScene::acceptAnyOrientation()
+{
+    Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Any);
 }
 
 NS_AZOOMEE_END

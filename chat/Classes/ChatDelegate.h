@@ -18,6 +18,7 @@ public:
     
     
     virtual void onChatNavigationBack() override;
+    virtual void onChatAddFriend() override;
 };
 
 NS_AZOOMEE_CHAT_END

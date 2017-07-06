@@ -63,17 +63,12 @@ bool MessageScene::init()
     // Titlebar at the top
     // We add this last so it sits on top with a drop shadow
     _titleBar = TitleBarWidget::create();
-    _titleBar->setTitleString(_participants[1]->friendName());
-    _titleBar->setTitleColor(Style::Color::heliotropeTwo);
+    _titleBar->setTitleAvatar(_participants[1]);
     _titleBar->setSizeType(ui::Widget::SizeType::PERCENT);
     _titleBar->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _titleBar->addBackButtonEventListener([this](Ref* button){
         onBackButtonPressed();
     });
-    _titleBar->showAlertButton(true);
-//    _titleBar->addAlertButtonEventListener([this](Ref* button){
-//        onAlertButtonPressed();
-//    });
     _rootLayout->addChild(_titleBar);
     
     createContentUI(_contentLayout);

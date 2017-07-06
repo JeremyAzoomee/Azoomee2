@@ -400,7 +400,10 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     _currentMode = mode;
     
     // Update UI elements
-    _cancelButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
+    if(_cancelButton)
+    {
+        _cancelButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
+    }
     _sendButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
     
     
@@ -436,11 +439,14 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     {
         _messageEntryLayout->setBackGroundImage("res/chat/ui/textfield/message_field_active.png");
         
-        // Make sure the close buttons sits above the message entry layer in terms of Z
-        // If we don't do this, the button won't get the click event because it's intercepted
-        // by a modal layer from the text entry which fills the screen
-        // We don't have to worry about other buttons because they are added after in the hierarchy
-        _cancelButton->setGlobalZOrder(_messageEntryLayout->getGlobalZOrder() + 1);
+        if(_cancelButton)
+        {
+            // Make sure the close buttons sits above the message entry layer in terms of Z
+            // If we don't do this, the button won't get the click event because it's intercepted
+            // by a modal layer from the text entry which fills the screen
+            // We don't have to worry about other buttons because they are added after in the hierarchy
+            _cancelButton->setGlobalZOrder(_messageEntryLayout->getGlobalZOrder() + 1);
+        }
     }
     else
     {
@@ -620,27 +626,14 @@ void MessageComposer::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info
 
 void MessageComposer::createTopUIContent(SplitLayout* parent)
 {
-    // Top layout has the right side fixed, the left fills the space
-    // { [LEFT CONTENT----->][TABS] }
+    // Top layout has the left side fixed, the right fills the space
+    // { [TABS][<------MESSAGE ENTRY UI] }
     parent->setMode(SplitLayout::Mode::Horizontal);
-    parent->setSplitBehaviour(SplitLayout::FillSize, SplitLayout::FixedSize);
+    parent->setSplitBehaviour(SplitLayout::FixedSize, SplitLayout::FillSize);
     
-    // Left side has another split, which holds the cancel button, and then the message entry
-    // { [CLOSE BUTTON][<------MESSAGE ENTRY UI] }
-    ui::Layout* firstLayout = parent->firstLayout();
-    SplitLayout* firstLayoutContent = SplitLayout::create();
-    // Fill the size of the first column
-    firstLayoutContent->setSizeType(ui::Widget::SizeType::PERCENT);
-    firstLayoutContent->setSizePercent(Vec2(1.0f, 1.0f));
-    firstLayoutContent->setMode(SplitLayout::Mode::Horizontal);
-    firstLayoutContent->setSplitBehaviour(SplitLayout::FixedSize, SplitLayout::FillSize);
-    firstLayout->addChild(firstLayoutContent);
-    createCancelButton(firstLayoutContent->firstLayout());
-    createMessageEntryUI(firstLayoutContent->secondLayout());
-    
-    
-    // Right side is a fixed size and holds the tabs for other message entry modes
-    createTabButtonsUI(parent->secondLayout());
+    createMessageEntryUI(parent->secondLayout());
+    // Left side is a fixed size and holds the tabs for other message entry modes
+    createTabButtonsUI(parent->firstLayout());
 }
 
 void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
@@ -657,6 +650,7 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     _stickersTab->getRendererNormal()->setStrechEnabled(true);
     _stickersTab->setAnchorPoint(Vec2(0.0f, 1.0f));
     _stickersTab->setPressedActionEnabled(false); // Disable pressed "zooming"
+    _stickersTab->setZoomScale(0.0f);
     _stickersTab->setContentSize(Size(buttonHeight, buttonHeight));
     _stickersTab->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(leftMarginX, (_topLayout->getContentSize().height - buttonHeight) / 2, 0, 0)));
     _stickersTab->addClickEventListener([this](Ref* button){
