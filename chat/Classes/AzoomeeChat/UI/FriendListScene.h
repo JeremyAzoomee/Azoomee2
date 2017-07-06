@@ -30,6 +30,8 @@ private:
     cocos2d::ui::Layout* _contentLayout = nullptr;
     /// Sub title bar at the top of the content layout
     cocos2d::ui::Layout* _subTitleBar = nullptr;
+    /// Sub title bar border
+    cocos2d::ui::Layout* _subTitleBarBorder = nullptr;
     /// List of friends
     FriendListView* _friendListView = nullptr;
     

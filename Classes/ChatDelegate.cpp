@@ -26,4 +26,9 @@ void ChatDelegate::onChatNavigationBack()
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
 }
 
+void ChatDelegate::onChatAddFriend()
+{
+    // TODO: Show parent pin etc.
+}
+
 NS_AZOOMEE_END

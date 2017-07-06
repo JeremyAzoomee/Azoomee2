@@ -95,6 +95,7 @@ void FriendListScene::onSizeChanged()
     // Subtitle bar uses same height as title bar
     const Vec2& subTitleBarSize = Vec2(1.0f, titleBarSize.y / contentLayoutSize.y);
     _subTitleBar->setSizePercent(subTitleBarSize);
+    _subTitleBarBorder->setContentSize(Size(_subTitleBar->getContentSize().width * 0.9f, 4.0f));
     
     _friendListView->setSizePercent(Vec2(0.9f, 1.0f - subTitleBarSize.y));
     // 2 column on landscape, 1 column portrait
@@ -110,8 +111,8 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
     // Subtitle bar
     _subTitleBar = ui::Layout::create();
     _subTitleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    _subTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBar->setBackGroundColor(Style::Color::brightAqua);
+//    _subTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+//    _subTitleBar->setBackGroundColor(Style::Color::brightAqua);
     parent->addChild(_subTitleBar);
     createSubTitleBarUI(_subTitleBar);
     
@@ -124,7 +125,60 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
 
 void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
 {
-    ;
+    parent->setLayoutType(ui::Layout::Type::RELATIVE);
+    
+    // Content of the sub title bar
+    ui::Layout* contentLayout = ui::Layout::create();
+    contentLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
+    contentLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
+//    contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
+//    contentLayout->setSizePercent(Vec2(1.0f, 1.0f));
+    contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    contentLayout->setBackGroundColor(Style::Color::blueGreen);
+    parent->addChild(contentLayout);
+    
+    // Title
+    ui::Text* titleLabel = ui::Text::create();
+    titleLabel->setFontName(Style::Font::Regular);
+    titleLabel->setFontSize(95.0f);
+    titleLabel->setTextColor(Color4B(Style::Color::brightAqua));
+    // TODO: Get from Strings
+    titleLabel->setString("My Friends");
+    titleLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
+    contentLayout->addChild(titleLabel);
+    
+    // Add friend button
+    ui::Button* addFriendButton = ui::Button::create("res/chat/ui/buttons/outline_button.png");
+    addFriendButton->setTitleText("Add a friend");
+    addFriendButton->setTitleColor(Style::Color::brightAqua);
+    addFriendButton->setTitleFontName(Style::Font::Regular);
+    addFriendButton->setTitleFontSize(45.0f);
+    addFriendButton->setScale9Enabled(true);
+    addFriendButton->setTitleAlignment(TextHAlignment::LEFT, TextVAlignment::CENTER);
+//    addFriendButton->getRendererNormal()->setStrechEnabled(true);
+//    addFriendButton->getRendererClicked()->setStrechEnabled(true);
+//    addFriendButton->getRendererDisabled()->setStrechEnabled(true);
+    const float buttonLeftMargin = 50.0f;
+    addFriendButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(buttonLeftMargin, 0.0f, 0.0f, 0.0f)));
+    addFriendButton->addClickEventListener([this](Ref* button){
+        Azoomee::Chat::delegate->onChatAddFriend();
+    });
+    contentLayout->addChild(addFriendButton);
+    
+    // Size the content layer to fit, so everything is centered
+    const Size& titleSize = titleLabel->getContentSize();
+    const Size& buttonSize = addFriendButton->getContentSize();
+    const float totalWidth = titleSize.width + buttonLeftMargin + buttonSize.width;
+    contentLayout->setContentSize(Size(totalWidth, 0.0f));
+    
+    
+    // Border at bottom
+    _subTitleBarBorder = ui::Layout::create();
+    _subTitleBarBorder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
+    _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
+    _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _subTitleBarBorder->setBackGroundColor(Style::Color::barney);
+    parent->addChild(_subTitleBarBorder);
 }
 
 #pragma mark - Interaction

@@ -30,4 +30,9 @@ void ChatDelegate::onChatNavigationBack()
     Director::getInstance()->replaceScene(childSelectScene);
 }
 
+void ChatDelegate::onChatAddFriend()
+{
+    // Nothing in standalone
+}
+
 NS_AZOOMEE_CHAT_END
