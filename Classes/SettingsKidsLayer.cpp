@@ -100,7 +100,7 @@ void SettingsKidsLayer::selectChildForSharing(int ChildNumber)
 
 void SettingsKidsLayer::scrollReset()
 {
-    tabsCoverLayer->removeFromParent();
+    removeTabsCoverLayer();
     swallowTouches = false;
     
     kidsCoverLayer->setLocalZOrder(IDLE_COVER_LAYER_Z_ORDER);
@@ -110,15 +110,22 @@ void SettingsKidsLayer::scrollReset()
 
 void SettingsKidsLayer::addTabsCoverLayer()
 {
-    if(!tabsCoverLayer)
-    {
-        tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, Director::getInstance()->getVisibleSize().height-layerHeight+10);
-        tabsCoverLayer->setPosition(0,layerHeight-10);
-        
-        this->addChild(tabsCoverLayer,40);
-        
-        addListenerToCoverLayer(tabsCoverLayer);
-    }
+    removeTabsCoverLayer();
+    
+    tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, Director::getInstance()->getVisibleSize().height-layerHeight+10);
+    tabsCoverLayer->setPosition(0,layerHeight-10);
+    tabsCoverLayer->setName("tabsCoverLayer");
+    
+    this->addChild(tabsCoverLayer,40);
+    
+    addListenerToCoverLayer(tabsCoverLayer);
+
+}
+
+void SettingsKidsLayer::removeTabsCoverLayer()
+{
+    if(this->getChildByName("tabsCoverLayer"))
+        this->removeChildByName("tabsCoverLayer");
 }
 
 NS_AZOOMEE_END

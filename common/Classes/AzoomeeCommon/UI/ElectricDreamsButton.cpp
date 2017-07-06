@@ -375,15 +375,19 @@ ElectricDreamsButton* ElectricDreamsButton::createKidCodeShareButton(std::string
     auto layer = ElectricDreamsButton::createSmallSprite9Button("", buttonWidth,"res/buttons/inviteMainButton.png", Color3B::BLACK);
     
     Label* kidCodeLabel = createLabelWith(kidCode, FONT_KIDCODE_REGULAR, Color3B::BLACK, 64);
-    Sprite* shareButton = Sprite::create("res/buttons/shareIconIOs.png");
     
-    float widthOfItems = kidCodeLabel->getContentSize().width + shareButton->getContentSize().width + 10;
+    float labelGap = 30;
     
-    kidCodeLabel->setPosition(layer->getContentSize().width/2 - kidCodeLabel->getContentSize().width + (widthOfItems/2),layer->getContentSize().height/2 );
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        Sprite* shareButton = Sprite::create("res/buttons/shareIconIOs.png");
+    #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        Sprite* shareButton = Sprite::create("res/buttons/shareIconAndroid.png");
+    #endif
     
-    shareButton->setPosition(kidCodeLabel->getPositionX()+kidCodeLabel->getContentSize().width/2+10+shareButton->getContentSize().width/2,kidCodeLabel->getPositionY());
+    float widthOfItems = kidCodeLabel->getContentSize().width + shareButton->getContentSize().width + labelGap;
     
-    //kidCodeLabel->setPosition(layer->getContentSize().width/2,layer->getContentSize().height/2);
+    kidCodeLabel->setPosition(layer->getContentSize().width/2 + kidCodeLabel->getContentSize().width/2 - (widthOfItems/2),layer->getContentSize().height/2 );
+    shareButton->setPosition(kidCodeLabel->getPositionX()+kidCodeLabel->getContentSize().width/2+labelGap+shareButton->getContentSize().width/2,kidCodeLabel->getPositionY());
     
     layer->addChild(kidCodeLabel);
     layer->addChild(shareButton);
@@ -446,7 +450,7 @@ ElectricDreamsButton* ElectricDreamsButton::createSmallSprite9Button(std::string
     
 ElectricDreamsButton* ElectricDreamsButton::createTextInputAsButton(std::string buttonText, float buttonWidth)
 {
-    Label* buttonLabel = createLabelSettingsChat(buttonText,Color3B(28, 244, 244));
+    Label* buttonLabel = createLabelSettingsChat(buttonText,Color3B(135, 135, 135));
     
     Rect spriteRect = Rect(0, 0, 268, 107);
     Rect capInsents = Rect(100, 53, 1, 1);

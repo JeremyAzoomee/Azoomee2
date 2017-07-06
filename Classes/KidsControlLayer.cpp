@@ -49,7 +49,7 @@ void KidsControlLayer::addButtonsAndInput()
     closeButton->setMixPanelButtonName("Settings-YourKids-Close");
     childFrameLayer->addChild(closeButton);
     
-    shareButton = ElectricDreamsButton::createKidCodeShareButton("Share", this->getContentSize().width*.66);
+    shareButton = ElectricDreamsButton::createKidCodeShareButton(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber), this->getContentSize().width*.66);
     shareButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height - shareButton->getContentSize().height*2.5));
     shareButton->setDelegate(this);
     shareButton->setMixPanelButtonName("Settings-YourKids-ShareCode");
@@ -63,7 +63,7 @@ void KidsControlLayer::addButtonsAndInput()
     childFrameLayer->addChild(tryAgainButton);
     
     addAnotherButton = ElectricDreamsButton::createInviteMainButton("Add Another", this->getContentSize().width*.66);
-    addAnotherButton->setCenterPosition(Vec2(this->getContentSize().width/2,tryAgainButton->getPositionY() - addAnotherButton->getContentSize().height));
+    addAnotherButton->setCenterPosition(Vec2(this->getContentSize().width/2,tryAgainButton->getPositionY()));
     addAnotherButton->setVisible(false);
     addAnotherButton->setDelegate(this);
     addAnotherButton->setMixPanelButtonName("Settings-YourKids-AddAnotherCode");

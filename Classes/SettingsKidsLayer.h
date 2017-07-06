@@ -29,6 +29,7 @@ private:
     
     void createBlackCoverLayer(Size innerSize);
     void addTabsCoverLayer();
+    void removeTabsCoverLayer();
     void addListenerToCoverLayer(Layer* listenerToLayer);
     
 public:
