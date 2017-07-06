@@ -145,13 +145,11 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
         
         if(ConfigStorage::getInstance()->isParentSignatureRequiredForRequest(requestTag))
         {
-            cocos2d::log("Request signed by mother: %s", requestTag.c_str());
             auto myJWTTool = JWTToolForceParent::getInstance();
             myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
         }
         else
         {
-            cocos2d::log("Request signed by child: %s", requestTag.c_str());
             auto myJWTTool = JWTTool::getInstance();
             myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
         }
@@ -164,13 +162,10 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     
     request->setHeaders(headers);
     
-    cocos2d::log("LISTING HEADERS FOR TAG: %s", requestTag.c_str());
     for(int i = 0; i < request->getHeaders().size(); i++)
     {
         cocos2d::log("%s", request->getHeaders().at(i).c_str());
     }
-        
-    cocos2d::log("END OF LISTING HEADERS");
     
     request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
     request->setTag(requestTag);
