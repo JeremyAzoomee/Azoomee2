@@ -37,6 +37,7 @@ namespace Color
     const cocos2d::Color3B heliotropeTwo(218, 73, 242);
     const cocos2d::Color3B golden(235, 178, 6);
     const cocos2d::Color3B grapePurple(87, 19, 99);
+    const cocos2d::Color3B grapePurpleTwo(80, 17, 94);
     const cocos2d::Color3B lightTealTwo(108, 224, 215);
     const cocos2d::Color3B blueGreen(16, 117, 114);
     
