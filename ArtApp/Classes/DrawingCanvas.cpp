@@ -124,7 +124,7 @@ void DrawingCanvas::setupTouchHandling()
         touchProcessed = false;
         
         if(drawingStack.size() == 0)
-            clearButton->loadTextures("res/artapp/style/images/articons/art_button_undo.png", "res/artapp/style/images/articons/undo.png");
+            clearButton->loadTextures("res/artapp/style/images/artIcons/art_button_undo.png", "res/artapp/style/images/artIcons/undo.png");
         drawingStack.push_back(activeBrush->getDrawNode());
         this->addChild(activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
         
@@ -198,13 +198,13 @@ void DrawingCanvas::addClearButton(Size visibleSize, Point visibleOrigin)
     clearButton = ui::Button::create();
     clearButton->setAnchorPoint(Vec2(1,1));
     clearButton->setPosition(Vec2(visibleOrigin.x + visibleSize.width,visibleOrigin.y + visibleSize.height));
-    clearButton->loadTextures("res/artapp/style/images/articons/art_button_bin.png", "res/artapp/style/images/articons/bin.png");
+    clearButton->loadTextures("res/artapp/style/images/artIcons/bin.png", "res/artapp/style/images/artIcons/bin.png");
     clearButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onClearButtonPressed, this));
     this->addChild(clearButton,1);
     
     confirmDeleteImagePopup = Node::create();
     confirmDeleteImagePopup->setContentSize(Size(visibleSize.width/2, visibleSize.height/2));
-    ui::Scale9Sprite* background = ui::Scale9Sprite::create("res/artapp/style/images/articons/gallery/art_painting_placeholder.png");
+    ui::Scale9Sprite* background = ui::Scale9Sprite::create("res/artapp/style/images/artIcons/gallery/art_painting_placeholder.png");
     background->setContentSize(Size(visibleSize.width/2, visibleSize.height/2));
     background->setAnchorPoint(Vec2(0.5,0.5));
     background->setPosition(visibleOrigin + visibleSize/2);
@@ -218,7 +218,7 @@ void DrawingCanvas::addClearButton(Size visibleSize, Point visibleOrigin)
     confirmDeleteImagePopup->addChild(text);
     
     confrimDeleteButton = ui::Button::create();
-    confrimDeleteButton->loadTextures("res/artapp/style/images/articons/stickerConfirm.png", "res/artapp/style/images/articons/stickerConfirm.png");
+    confrimDeleteButton->loadTextures("res/artapp/style/images/artIcons/stickerConfirm.png", "res/artapp/style/images/artIcons/stickerConfirm.png");
     confrimDeleteButton->setAnchorPoint(Vec2(1,0));
     confrimDeleteButton->setPosition(background->getPosition() + Vec2(background->getContentSize().width/3, -background->getContentSize().height/3));
     confrimDeleteButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onConfirmDeletePressed, this));
@@ -226,7 +226,7 @@ void DrawingCanvas::addClearButton(Size visibleSize, Point visibleOrigin)
     confirmDeleteImagePopup->addChild(confrimDeleteButton);
     
     cancelDeleteButton = ui::Button::create();
-    cancelDeleteButton->loadTextures("res/artapp/style/images/articons/close.png", "res/artapp/style/images/articons/close.png");
+    cancelDeleteButton->loadTextures("res/artapp/style/images/artIcons/close.png", "res/artapp/style/images/artIcons/close.png");
     cancelDeleteButton->setAnchorPoint(Vec2(0,0));
     cancelDeleteButton->setPosition(background->getPosition() - Vec2(background->getContentSize().width/3, background->getContentSize().height/3));
     cancelDeleteButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onCancelDeletePressed, this));
@@ -242,7 +242,7 @@ void DrawingCanvas::addClearButton(Size visibleSize, Point visibleOrigin)
 
 void DrawingCanvas::addColourSelectButtons(Size visibleSize, Point visibleOrigin)
 {
-    selected = Sprite::create("res/artapp/style/images/articons/checkMark.png");
+    selected = Sprite::create("res/artapp/style/images/artIcons/checkMark.png");
     selected->setAnchorPoint(Vec2(0.5,0.5));
     selected->setNormalizedPosition(Vec2(0.5,0.5));
     
@@ -275,7 +275,7 @@ void DrawingCanvas::addColourSelectButtons(Size visibleSize, Point visibleOrigin
             ui::Button* button = ui::Button::create();
             button->setAnchorPoint(Vec2(0,0.5));
             button->setNormalizedPosition(Vec2((j*0.4),(i*(1/7.0f))-(1/14.0f)));
-            button->loadTextures("res/artapp/style/images/articons/colorSwatch.png", "res/artapp/style/images/articons/colorSwatch.png");
+            button->loadTextures("res/artapp/style/images/artIcons/colorSwatch.png", "res/artapp/style/images/artIcons/colorSwatch.png");
             button->setColor(colours[(j*7)+i-1]);
             if((j*7+i) == 1)
                 button->addChild(selected);
@@ -287,7 +287,7 @@ void DrawingCanvas::addColourSelectButtons(Size visibleSize, Point visibleOrigin
     colourSelectButton = ui::Button::create();
     colourSelectButton->setAnchorPoint(Vec2(0,1));
     colourSelectButton->setPosition(Vec2(0, visibleOrigin.y + visibleSize.height));
-    colourSelectButton->loadTextures("res/artapp/style/images/articons/colorSwatch.png", "res/artapp/style/images/articons/colorSwatch.png");
+    colourSelectButton->loadTextures("res/artapp/style/images/artIcons/colorSwatch.png", "res/artapp/style/images/artIcons/colorSwatch.png");
     colourSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onColourSelectPressed,this));
     colourSelectButton->setColor(Color3B(selectedColour));
     
@@ -299,7 +299,7 @@ void DrawingCanvas::addToolSelectButtons(Size visibleSize, Point visibleOrigin)
     toolSelectButton = ui::Button::create();
     toolSelectButton->setAnchorPoint(Vec2(0,1));
     toolSelectButton->setPosition(Vec2(0, colourSelectButton->getPosition().y - colourSelectButton->getContentSize().height));
-    toolSelectButton->loadTextures("res/artapp/style/images/articons/004-pen.png", "res/artapp/style/images/articons/004-pen.png");
+    toolSelectButton->loadTextures("res/artapp/style/images/artIcons/004-pen.png", "res/artapp/style/images/artIcons/004-pen.png");
     toolSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolSelectPressed,this));
     
     this->addChild(toolSelectButton,1);
@@ -314,35 +314,35 @@ void DrawingCanvas::addToolSelectButtons(Size visibleSize, Point visibleOrigin)
     ui::Button* brushButton = ui::Button::create();
     brushButton->setAnchorPoint(Vec2(0,0.5));
     brushButton->setNormalizedPosition(Vec2(0,0.9));
-    brushButton->loadTextures("res/artapp/style/images/articons/004-pen.png", "res/artapp/style/images/articons/004-pen.png");
+    brushButton->loadTextures("res/artapp/style/images/artIcons/004-pen.png", "res/artapp/style/images/artIcons/004-pen.png");
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,0));
     toolButtonLayout->addChild(brushButton,1);
     
     brushButton = ui::Button::create();
     brushButton->setAnchorPoint(Vec2(0,0.5));
     brushButton->setNormalizedPosition(Vec2(0,0.7));
-    brushButton->loadTextures("res/artapp/style/images/articons/002-paintbrush.png", "res/artapp/style/images/articons/002-paintbrush.png");
+    brushButton->loadTextures("res/artapp/style/images/artIcons/002-paintbrush.png", "res/artapp/style/images/artIcons/002-paintbrush.png");
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,1));
     toolButtonLayout->addChild(brushButton,1);
     
     brushButton = ui::Button::create();
     brushButton->setAnchorPoint(Vec2(0,0.5));
     brushButton->setNormalizedPosition(Vec2(0,0.5));
-    brushButton->loadTextures("res/artapp/style/images/articons/003-highlighter.png", "res/artapp/style/images/articons/003-highlighter.png");
+    brushButton->loadTextures("res/artapp/style/images/artIcons/003-highlighter.png", "res/artapp/style/images/artIcons/003-highlighter.png");
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,2));
     toolButtonLayout->addChild(brushButton,1);
     
     brushButton = ui::Button::create();
     brushButton->setAnchorPoint(Vec2(0,0.5));
     brushButton->setNormalizedPosition(Vec2(0,0.3));
-    brushButton->loadTextures("res/artapp/style/images/articons/005-spray-paint.png", "res/artapp/style/images/articons/005-spray-paint.png");
+    brushButton->loadTextures("res/artapp/style/images/artIcons/005-spray-paint.png", "res/artapp/style/images/artIcons/005-spray-paint.png");
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,3));
     toolButtonLayout->addChild(brushButton,1);
     
     brushButton = ui::Button::create();
     brushButton->setAnchorPoint(Vec2(0,0.5));
     brushButton->setNormalizedPosition(Vec2(0,0.1));
-    brushButton->loadTextures("res/artapp/style/images/articons/eraser.png", "res/artapp/style/images/articons/eraser.png");
+    brushButton->loadTextures("res/artapp/style/images/artIcons/eraser.png", "res/artapp/style/images/artIcons/eraser.png");
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,4));
     toolButtonLayout->addChild(brushButton,1);
 }
@@ -352,7 +352,7 @@ void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigi
     addStickerButton = ui::Button::create();
     addStickerButton->setAnchorPoint(Vec2(0,1));
     addStickerButton->setPosition(Vec2(0, toolSelectButton->getPosition().y - toolSelectButton->getContentSize().height));
-    addStickerButton->loadTextures("res/artapp/style/images/articons/art_button_sticker.png", "res/artapp/style/images/articons/art_button_sticker.png");
+    addStickerButton->loadTextures("res/artapp/style/images/artIcons/art_button_sticker.png", "res/artapp/style/images/artIcons/art_button_sticker.png");
     addStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerButtonPressed,this));
     
     this->addChild(addStickerButton,1);
@@ -360,7 +360,7 @@ void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigi
     cancelStickerButton = ui::Button::create();
     cancelStickerButton->setAnchorPoint(Vec2(0,0));
     cancelStickerButton->setPosition(Vec2(visibleOrigin.x, visibleOrigin.y));
-    cancelStickerButton->loadTextures("res/artapp/style/images/articons/stickerBin.png", "res/artapp/style/images/articons/stickerBin.png");
+    cancelStickerButton->loadTextures("res/artapp/style/images/artIcons/stickerBin.png", "res/artapp/style/images/artIcons/stickerBin.png");
     cancelStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onCancelStickerPressed,this));
     cancelStickerButton->setVisible(false);
     this->addChild(cancelStickerButton,11);
@@ -368,7 +368,7 @@ void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigi
     confirmStickerButton = ui::Button::create();
     confirmStickerButton->setAnchorPoint(Vec2(1,0));
     confirmStickerButton->setPosition(Vec2(visibleOrigin.x + visibleSize.width, visibleOrigin.y));
-    confirmStickerButton->loadTextures("res/artapp/style/images/articons/stickerConfirm.png", "res/artapp/style/images/articons/stickerConfirm.png");
+    confirmStickerButton->loadTextures("res/artapp/style/images/artIcons/stickerConfirm.png", "res/artapp/style/images/artIcons/stickerConfirm.png");
     confirmStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onConfirmStickerPressed,this));
     confirmStickerButton->setVisible(false);
     this->addChild(confirmStickerButton,11);
@@ -387,7 +387,7 @@ void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigi
     stickerScrollView->setBackGroundColor(Color3B::WHITE);
     stickerScrollView->setBackGroundColorOpacity(0);
     stickerScrollView->setBackGroundImageScale9Enabled(true);
-    stickerScrollView->setBackGroundImage("res/artapp/style/images/articons/gallery/art_painting_placeholder.png");
+    stickerScrollView->setBackGroundImage("res/artapp/style/images/artIcons/gallery/art_painting_placeholder.png");
     stickerScrollView->setVisible(false);
     this->addChild(stickerScrollView,12);
     
@@ -415,7 +415,7 @@ void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigi
     closeStickerSelectButton = ui::Button::create();
     closeStickerSelectButton->setAnchorPoint(Vec2(1,1));
     closeStickerSelectButton->setPosition(stickerScrollView->getPosition() + stickerScrollView->getContentSize()/2);
-    closeStickerSelectButton->loadTextures("res/artapp/style/images/articons/close.png", "res/artapp/style/images/articons/close.png");
+    closeStickerSelectButton->loadTextures("res/artapp/style/images/artIcons/close.png", "res/artapp/style/images/artIcons/close.png");
     closeStickerSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onCloseStickerSelectPressed, this));
     closeStickerSelectButton->setVisible(false);
     
@@ -426,8 +426,8 @@ void DrawingCanvas::addBrushRadiusSlider(Size visibleSize, Point visibleOrigin)
 {
     brushSizeSlider = ui::Slider::create();
     brushSizeSlider->setTouchEnabled(true);
-    brushSizeSlider->loadBarTexture("res/artapp/style/images/articons/slideBack.png");
-    brushSizeSlider->loadSlidBallTextures("res/artapp/style/images/articons/sliderIcon.png","res/artapp/style/images/articons/sliderIcon.png","");
+    brushSizeSlider->loadBarTexture("res/artapp/style/images/artIcons/slideBack.png");
+    brushSizeSlider->loadSlidBallTextures("res/artapp/style/images/artIcons/sliderIcon.png","res/artapp/style/images/artIcons/sliderIcon.png","");
     brushSizeSlider->setPercent(50);
     brushRadius = INITIAL_RADIUS + brushSizeSlider->getPercent()/2;
     brushSizeSlider->setAnchorPoint(Vec2(0.5,0.5));
@@ -456,7 +456,7 @@ void DrawingCanvas::onClearButtonPressed(Ref *pSender, ui::Widget::TouchEventTyp
             this->removeChild(drawingStack.back());
             drawingStack.pop_back();
             if(drawingStack.size() == 0)
-                clearButton->loadTextures("res/artapp/style/images/articons/art_button_bin.png", "res/artapp/style/images/articons/bin.png");
+                clearButton->loadTextures("res/artapp/style/images/artIcons/art_button_bin.png", "res/artapp/style/images/artIcons/bin.png");
         }
     }
 }
@@ -663,11 +663,11 @@ void DrawingCanvas::onConfirmStickerPressed(Ref *pSender, ui::Widget::TouchEvent
         //add sticker as node in drawing scene on undo stack
         
         if(drawingStack.size() == 0)
-            clearButton->loadTextures("res/artapp/style/images/articons/art_button_undo.png", "res/artapp/style/images/articons/undo.png");
+            clearButton->loadTextures("res/artapp/style/images/artIcons/art_button_undo.png", "res/artapp/style/images/artIcons/undo.png");
         drawingStack.push_back(stickerNode->getSticker());
         Sprite* temp = stickerNode->getSticker();
         temp->retain();
-        Sprite* newSticker = Sprite::create("res/artapp/style/images/articons/art_button_sticker.png");
+        Sprite* newSticker = Sprite::create("res/artapp/style/images/artIcons/art_button_sticker.png");
         newSticker->setAnchorPoint(Vec2(0.5,0.5));
         newSticker->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
         stickerNode->setSticker(newSticker);

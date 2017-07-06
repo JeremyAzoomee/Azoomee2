@@ -28,7 +28,7 @@ void StickerPlacementNode::onEnter()
     
     this->setContentSize(visibleSize);
     
-    sticker = Sprite::create("res/artapp/style/images/articons/art_button_sticker.png");
+    sticker = Sprite::create("res/artapp/style/images/artIcons/art_button_sticker.png");
     
     sticker->setAnchorPoint(Vec2(0.5,0.5));
     sticker->setPosition(visibleSize/2);
