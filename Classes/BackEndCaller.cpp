@@ -28,7 +28,6 @@
 #include "OfflineHubScene.h"
 #include "OfflineChecker.h"
 
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -364,6 +363,7 @@ void BackEndCaller::resetPasswordRequest(const std::string& emailAddress)
     HttpRequestCreator* request = API::ResetPaswordRequest(Net::urlEncode(stringToLower(emailAddress)), this);
     request->execute();
 }
+
 
 //HttpRequestCreatorResponseDelegate--------------------------------------------------------
 void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)

@@ -454,4 +454,15 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static native String getDeveloperKey();
 
+
+    //--------------------- SHARE ACTION PROVIDER --------------------
+
+    public static void shareActionProviderWithString(String textToShare) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
+
+        mActivity.startActivity(shareIntent);
+    }
+
 }

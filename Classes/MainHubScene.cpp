@@ -7,6 +7,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ArtsPreviewLayer.h"
 #include "HQHistoryManager.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -45,10 +46,6 @@ void MainHubScene::onEnter()
         imageContainerDelay = 2.0;
     }
     
-    Size frameSize = Director::getInstance()->getOpenGLView()->getFrameSize();
-    if(frameSize.width < 2732 / 2) zoomFactor = 2.0;
-    else zoomFactor = 1.0;
-    
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
@@ -57,8 +54,12 @@ void MainHubScene::onEnter()
         auto bgElements = MainHubBgElements::create();
         this->addChild(bgElements);
         
-        auto displayChildNameLayer = DisplayChildNameLayer::create();
-        this->addChild(displayChildNameLayer);
+        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            auto displayChildNameLayer = DisplayChildNameLayer::create();
+            displayChildNameLayer->setPosition(origin.x+280,origin.y+visibleSize.height-225);
+            this->addChild(displayChildNameLayer);
+        }
         
     });
     
@@ -84,7 +85,7 @@ void MainHubScene::onEnter()
     Node::onEnter();
 }
 
-//-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
+//----------------------------------All methods beyond this line are called internally--------------------------------------------------
 
 void MainHubScene::addBackgroundCircles()
 {
@@ -96,7 +97,7 @@ void MainHubScene::addBackgroundCircles()
     
     blueCircle->runAction(Sequence::create(DelayTime::create(1), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), FadeOut::create(3), NULL));
     
-    for(int i = 0; i < 5; i++)
+    for(int i = 0; i < 4; i++)
     {
         auto circle = createCirclesForBackground(i);
         this->addChild(circle);
@@ -110,7 +111,7 @@ void MainHubScene::addBackgroundCircles()
             scaleTime = 0;
         }
         
-        circle->runAction(Sequence::create(DelayTime::create(delayTime), EaseElasticOut::create(ScaleTo::create(scaleTime, zoomFactor)), NULL));
+        circle->runAction(Sequence::create(DelayTime::create(delayTime), EaseElasticOut::create(ScaleTo::create(scaleTime, .95)), NULL));
         
         int turnDirection = 1;
         if(i % 2 == 0) turnDirection = -1;
@@ -120,18 +121,7 @@ void MainHubScene::addBackgroundCircles()
 
 Sprite* MainHubScene::createCirclesForBackground(int circleNumber)
 {
-    Sprite *circle;
-    
-    if(zoomFactor > 1.0)
-    {
-        CCLOG("creating small ones");
-        circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d_small.png", circleNumber));
-    }
-    else
-    {
-        circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d.png", circleNumber));
-    }
-    
+    Sprite *circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d.png", circleNumber));
     circle->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
     circle->setScale(0);
     
@@ -159,7 +149,21 @@ void MainHubScene::addImageContainers()
             }
             
             if(j >= ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).size()) break;
-            imageIcon->createContainer(HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForHub.at(j)), 1 - (j * 0.3), delayTime, ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j));
+            
+            Point elementPosition = ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j);
+            
+            //Calculate offset for the Y position to help fill screen on 4/3 ratio.
+            float yOffset= visibleSize.height/10;
+            
+            if(elementPosition.y < 0)
+                yOffset = -yOffset;
+            
+            if(j ==1)
+                yOffset = yOffset*2;
+            
+            elementPosition.y = elementPosition.y + yOffset;
+            
+            imageIcon->createContainer(HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForHub.at(j)), 1.2 - (j * 0.3), delayTime, elementPosition);
         }
     }
     

@@ -15,6 +15,7 @@ namespace Azoomee
 #define INPUT_IS_DAY 4
 #define INPUT_IS_MONTH 5
 #define INPUT_IS_YEAR 6
+#define INPUT_IS_KIDS_CODE 7
 
 #define EDITBOX_CURVE_WIDTH 100
 
@@ -40,6 +41,9 @@ public:
 
     virtual void textInputIsValid(TextInputLayer* inputLayer, bool isValid) = 0;
     virtual void textInputReturnPressed(TextInputLayer* inputLayer) = 0;
+    virtual void editBoxEditingDidBegin(TextInputLayer* inputLayer) = 0;
+    virtual void editBoxEditingDidEnd(TextInputLayer* inputLayer) = 0;
+
 };
 
 class TextInputLayer : public cocos2d::Layer, public cocos2d::ui::EditBoxDelegate
@@ -48,6 +52,8 @@ private:
     void createEditBoxArea();
     void createEditBox();
     void setupEditBoxUsingType();
+    
+    void createSettingsChatEditBox(float width);
     
     cocos2d::ui::EditBox* editBox;
     cocos2d::ui::Scale9Sprite* editBoxArea;
@@ -64,6 +70,8 @@ public:
     
     static TextInputLayer* createWithSize(cocos2d::Size inputBoxSize, int textInputType);
     
+    static TextInputLayer* createSettingsChatTextInput(float width);
+    
     void setCenterPosition(cocos2d::Vec2 position);
     
     void focusAndShowKeyboard();
@@ -79,6 +87,8 @@ public:
     void editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text);
     void editBoxReturn(cocos2d::ui::EditBox* editBox);
     void editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBox, EditBoxEndAction action);
+    void editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox);
+    void editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox);
     
 };
   

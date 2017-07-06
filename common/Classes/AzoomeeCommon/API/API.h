@@ -39,6 +39,9 @@ public:
     static const char* const TagSendChatMessage;
     static const char* const TagResetPasswordRequest;
     static const char* const TagOfflineCheck;
+    static const char* const TagFriendRequest;
+    static const char* const TagFriendRequestReaction;
+    static const char* const TagGetPendingFriendRequests;
     static const char* const TagPusherAuth;
     
 #pragma mark - API Methods
@@ -111,6 +114,10 @@ public:
     
     static HttpRequestCreator* ResetPaswordRequest(const std::string& forEmailAddress,
                                                    HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* friendRequest(const std::string& senderChildId, const std::string& senderChildName, const std::string& inviteCode, HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* friendRequestReaction(bool confirmed, const std::string& respondentChildId, const std::string& invitationId, const std::string& senderName, HttpRequestCreatorResponseDelegate* delegate);
+    static HttpRequestCreator* getPendingFriendRequests(HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Sharing
     

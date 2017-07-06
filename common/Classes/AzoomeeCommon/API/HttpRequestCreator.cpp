@@ -126,6 +126,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     if(method == "POST") request->setRequestType(HttpRequest::Type::POST);
     if(method == "GET") request->setRequestType(HttpRequest::Type::GET);
     if(method == "PATCH") request->setRequestType(HttpRequest::Type::PATCH);
+    if(method == "PUT") request->setRequestType(HttpRequest::Type::PUT);
     request->setUrl(requestUrl.c_str());
     
     const char* postData = requestBody.c_str();
@@ -161,6 +162,11 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     
     request->setHeaders(headers);
     
+    for(int i = 0; i < request->getHeaders().size(); i++)
+    {
+        cocos2d::log("%s", request->getHeaders().at(i).c_str());
+    }
+    
     request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
     request->setTag(requestTag);
     
@@ -188,7 +194,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     cocos2d::log("response header: %s", responseHeaderString.c_str());
     cocos2d::log("response string: %s", responseDataString.c_str());
     
-    if((response->getResponseCode() == 200)||(response->getResponseCode() == 201))
+    if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
     {
         if(delegate != nullptr)
         {

@@ -52,9 +52,10 @@ public:
     void registerCurrentScene(std::string currentScene);
     void setLandscapeOrientation();
     void setPortraitOrientation();
+    void setNumberOfChatFriends(int noOfChildren);
+    void setChatFriendIsParent(bool chatFriendIsParent);
 
-
-    void registerChildID(std::string ChildID);
+    void registerChildID(std::string noOfChatFriends);
     void registerChildGenderAndAge(int childNumber);
 
     void logoutChildEvent();
@@ -121,6 +122,7 @@ public:
     void enteredForegroundEvent();
     void sessionIdHasChanged(std::string oldSessionId);
     void httpRequestFailed(std::string requestTag, long responseCode, std::string qid);
+    void moveToSceneEvent(std::string newScene);
     
     //---------------IAP ACTIONS------------------
     void displayIAPUpsaleEvent(std::string fromLocation);
@@ -136,6 +138,23 @@ public:
     void deepLinkingDetailsSetEvent();
     void deepLinkingMoveToEvent(std::string moveTo);
     void deepLinkingContentEvent();
+    
+    //-----------------CHAT INVITATION EVENTS------------------
+    void settingsConfirmationTabNotificationShown();
+    void settingsConfirmationTabNotificationError(long errorCode);
+    void settingsKidInviteRequestSuccess();
+    void settingsKidInviteRequestError(long errorCode);
+    void settingsPendingFriendRequestsRefreshError(long errorCode);
+    void settingsConfirmationRejectedSuccess();
+    void settingsConfirmationApprovedSuccess();
+    void settingsConfirmationError(long errorCode);
+    void chatKeyboardEvent(bool isOnScreen);
+    void chatSelectedSticker(std::string stickerURL);
+    void chatSelectedStickerTab(std::string categoryID);
+    void chatIncomingMessageEvent(std::string messageType);
+    void chatOutgoingMessageEvent(std::string messageType);
+    void unreadMessagesNotificationReceived();
+
 };
   
 }

@@ -14,15 +14,17 @@ public:
     CREATE_FUNC(DisplayChildNameLayer);
 
 private:
-    void addChildNameToLayer();
-    void addFrameToLayer();
-    
-    void setMaxScaleForLabel(cocos2d::Label* childNameLabel);
-    std::string shortenString(std::string text, int numberOfCharacters);
-    std::string getLoggedInChildName();
+    void createChildNameToLayer();
+    void createLoggedInAsToLayer();
+    void createInviteCodeLayer();
+    void setLayerSizeAndAnimate();
     
     float delayTime;
     float scaleTime;
+    
+    cocos2d::Label* childNameLabel;
+    cocos2d::Label* loggedInAsLabel;
+    cocos2d::Label* inviteCodeLabel;
     
 };
 
