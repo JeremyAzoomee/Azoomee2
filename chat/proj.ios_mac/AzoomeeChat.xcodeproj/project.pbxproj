@@ -45,6 +45,7 @@
 		30790D411EDDFD11003654BC /* StickerCategoryListViewItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D3F1EDDFD11003654BC /* StickerCategoryListViewItem.cpp */; };
 		30790D461EDE09C3003654BC /* StickerListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D421EDE09C3003654BC /* StickerListView.cpp */; };
 		30790D471EDE09C3003654BC /* StickerListViewColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30790D441EDE09C3003654BC /* StickerListViewColumn.cpp */; };
+		30A2178F1F0E65B100DFB30E /* ChatTextField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30A2178D1F0E65B100DFB30E /* ChatTextField.cpp */; };
 		30C36E0C1ED0568800F2FA88 /* MessageComposer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30C36E0A1ED0568800F2FA88 /* MessageComposer.cpp */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images.xcassets */; };
@@ -229,6 +230,8 @@
 		30790D431EDE09C3003654BC /* StickerListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerListView.h; sourceTree = "<group>"; };
 		30790D441EDE09C3003654BC /* StickerListViewColumn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StickerListViewColumn.cpp; sourceTree = "<group>"; };
 		30790D451EDE09C3003654BC /* StickerListViewColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickerListViewColumn.h; sourceTree = "<group>"; };
+		30A2178D1F0E65B100DFB30E /* ChatTextField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatTextField.cpp; sourceTree = "<group>"; };
+		30A2178E1F0E65B100DFB30E /* ChatTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatTextField.h; sourceTree = "<group>"; };
 		30C36E0A1ED0568800F2FA88 /* MessageComposer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageComposer.cpp; sourceTree = "<group>"; };
 		30C36E0B1ED0568800F2FA88 /* MessageComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposer.h; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; name = res; path = ../../Resources/res; sourceTree = "<group>"; };
@@ -502,6 +505,8 @@
 				305966A21ECF3558009A7130 /* MessageScene.h */,
 				30C36E0A1ED0568800F2FA88 /* MessageComposer.cpp */,
 				30C36E0B1ED0568800F2FA88 /* MessageComposer.h */,
+				30A2178D1F0E65B100DFB30E /* ChatTextField.cpp */,
+				30A2178E1F0E65B100DFB30E /* ChatTextField.h */,
 				30790D4A1EDE09E7003654BC /* MessageList */,
 				30790D2F1EDDBCE6003654BC /* Stickers */,
 			);
@@ -852,6 +857,7 @@
 				305966941ECC9C21009A7130 /* TitleBarWidget.cpp in Sources */,
 				3007431E1EFABF55005525AE /* AzoomeeChat.cpp in Sources */,
 				30790D411EDDFD11003654BC /* StickerCategoryListViewItem.cpp in Sources */,
+				30A2178F1F0E65B100DFB30E /* ChatTextField.cpp in Sources */,
 				3059667E1ECC5F90009A7130 /* ChatConfig.cpp in Sources */,
 				30C36E0C1ED0568800F2FA88 /* MessageComposer.cpp in Sources */,
 				30790D461EDE09C3003654BC /* StickerListView.cpp in Sources */,

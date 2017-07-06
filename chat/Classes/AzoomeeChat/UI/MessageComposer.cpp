@@ -65,11 +65,25 @@ bool MessageComposer::init()
 void MessageComposer::onEnter()
 {
     Super::onEnter();
+    
+    _touchListener = EventListenerTouchOneByOne::create();
+    CC_SAFE_RETAIN(_touchListener);
+    _touchListener->setSwallowTouches(false);
+    _touchListener->onTouchBegan = CC_CALLBACK_2(MessageComposer::onTouchBegan, this);
+    _touchListener->onTouchMoved = CC_CALLBACK_2(MessageComposer::onTouchMoved, this);
+    _touchListener->onTouchEnded = CC_CALLBACK_2(MessageComposer::onTouchEnded, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
 }
 
 void MessageComposer::onExit()
 {
     Super::onExit();
+    
+    if(_touchListener)
+    {
+        _eventDispatcher->removeEventListener(_touchListener);
+        CC_SAFE_RELEASE_NULL(_touchListener);
+    }
     
     setMode(MessageComposer::Mode::Idle);
 }
@@ -622,6 +636,45 @@ void MessageComposer::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info
     }
 }
 
+#pragma mark - Touches
+
+bool MessageComposer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
+{
+//    cocos2d::log("MessageComposer::onTouchBegan");
+    Super::onTouchBegan(touch, unusedEvent);
+    
+    // If we are not idle, then we should dismiss on next touch end event
+    _dismissOnTouchEnd = (_currentMode != MessageComposer::Mode::Idle);
+    
+    return true;
+}
+
+void MessageComposer::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
+{
+    Super::onTouchMoved(touch, unusedEvent);
+    
+    // If the touch moved more than the sensitivity, cancel the dismiss
+    const float dismissSensitivity = 1.0f;
+    const Vec2& delta = touch->getDelta();
+//    cocos2d::log("MessageComposer::onTouchMoved: %f, %f", delta.x, delta.y);
+    if(fabs(delta.x) > dismissSensitivity || fabs(delta.y) > dismissSensitivity)
+    {
+        _dismissOnTouchEnd = false;
+    }
+}
+
+void MessageComposer::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
+{
+//    cocos2d::log("MessageComposer::onTouchEnded");
+    Super::onTouchEnded(touch, unusedEvent);
+    
+    if(_dismissOnTouchEnd)
+    {
+        _dismissOnTouchEnd = false;
+        setMode(MessageComposer::Mode::Idle);
+    }
+}
+
 #pragma mark - UI Creation
 
 void MessageComposer::createTopUIContent(SplitLayout* parent)
@@ -742,7 +795,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     const float textEntryLeftMargin = 50.0f;
     
     // TODO: Get text from Strings
-    _messageEntryField = ui::TextField::create("Type a message here...", Style::Font::RegularSystemName, 65.0f);
+    _messageEntryField = ChatTextField::create("Type a message here...", Style::Font::RegularSystemName, 65.0f);
     _messageEntryField->setCursorEnabled(true);
     _messageEntryField->ignoreContentAdaptWithSize(false);
     _messageEntryField->setTextHorizontalAlignment(TextHAlignment::LEFT);
