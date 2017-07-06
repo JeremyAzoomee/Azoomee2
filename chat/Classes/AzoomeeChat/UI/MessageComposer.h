@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/UI/SplitLayout.h>
 #include <AzoomeeCommon/UI/ObservableLayout.h>
 #include "StickerSelector.h"
+#include "ChatTextField.h"
 #include "../Data/Message.h"
 #include "../Data/Sticker.h"
 #include <cocos/cocos2d.h>
@@ -62,7 +63,7 @@ private:
     /// Message entry layout
     SplitLayout* _messageEntryLayout = nullptr;
     /// Message entry
-    cocos2d::ui::TextField* _messageEntryField = nullptr;
+    ChatTextField* _messageEntryField = nullptr;
     /// Send button
     cocos2d::ui::Button* _sendButton = nullptr;
     
@@ -75,6 +76,11 @@ private:
     
     /// The stickers selector widget
     StickerSelector* _stickerSelector = nullptr;
+    
+    /// Touch event listener
+    cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
+    /// Dismiss composer on touch end?
+    bool _dismissOnTouchEnd = false;
     
     
     /// Create the UI for the top
@@ -138,6 +144,10 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual void setContentSize(const cocos2d::Size& contentSize) override;
+    
+    virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent) override;
+    virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* unusedEvent) override;
+    virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent) override;
 
     CREATE_FUNC(MessageComposer);
 };
