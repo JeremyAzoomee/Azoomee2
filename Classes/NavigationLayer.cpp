@@ -259,9 +259,11 @@ void NavigationLayer::createTopObjects()
 void NavigationLayer::topObjectsOffScreen()
 {
     if(settingsButton)
+        settingsButton->stopAllActions();
         settingsButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
     
     if(returnToChildSelectorButton)
+        returnToChildSelectorButton->stopAllActions();
         returnToChildSelectorButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x - returnToChildSelectorButton->getContentSize().width, returnToChildSelectorButton->getPositionY())), 2), NULL));
 }
 
