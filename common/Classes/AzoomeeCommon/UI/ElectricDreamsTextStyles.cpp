@@ -69,6 +69,11 @@ Label*  createLabelHeaderWhite(std::string text) {
 Label*  createLabelBody(std::string text){
     return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 59);
 }
+    
+Label*  createLabelChildName(std::string text)
+{
+    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 47);
+}
 
 Label*  createLabelBodyCentred(std::string text){
     

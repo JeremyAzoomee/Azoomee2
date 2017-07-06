@@ -48,14 +48,16 @@ private:
     cocos2d::Point positionElementOnScrollView(Layer *layerToBeAdded);
     void addListenerToProfileLayer(Node *profileLayer);
     
-    void addNewChildButtonToScrollView();
+    Layer* createNewProfileButton();
     void addChildButtonPressed(Node* target);
     
-    void addParentButtonToScene();
+    Layer* createParentProfileButton();
     
     cocos2d::Point startTouchPosition;
     bool touchMovedAway = false;
     bool parentIconSelected = false;
+    
+    void addBackgroundToScreen();
 };
 
 NS_AZOOMEE_END

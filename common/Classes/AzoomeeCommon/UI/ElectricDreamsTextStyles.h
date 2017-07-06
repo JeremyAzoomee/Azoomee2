@@ -25,6 +25,7 @@ cocos2d::Label*  createLabelButtonAdultPrimary(std::string text);
 cocos2d::Label*  createLabelButtonAdultSecondary(std::string text);
 cocos2d::Label*  createLabelHeaderWhite(std::string text);
 cocos2d::Label*  createLabelBody(std::string text);
+cocos2d::Label*  createLabelChildName(std::string text);
 cocos2d::Label*  createLabelBodyCentred(std::string text);
 cocos2d::Label*  createLabelButtonChildFriendly(std::string text);
 cocos2d::Label*  createLabelRailTitle(std::string text);
