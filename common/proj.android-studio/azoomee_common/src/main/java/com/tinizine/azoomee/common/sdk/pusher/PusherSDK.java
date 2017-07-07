@@ -131,29 +131,36 @@ public class PusherSDK
                 {
                     Log.d(TAG, "subscribeToChannel: " + channelName);
 
-                    PrivateChannel channel = _pusherClient.subscribePrivate(channelName, new PrivateChannelEventListener() {
-                        @Override
-                        public void onSubscriptionSucceeded(String channelName) {
-                            Log.d(TAG, "Subscribed to channel: " + channelName);
-                        }
+                    try
+                    {
+                        PrivateChannel channel = _pusherClient.subscribePrivate(channelName, new PrivateChannelEventListener() {
+                            @Override
+                            public void onSubscriptionSucceeded(String channelName) {
+                                Log.d(TAG, "Subscribed to channel: " + channelName);
+                            }
 
-                        @Override
-                        public void onEvent(final String channelName, final String eventName, final String data) {
-                            Log.d(TAG, "onEvent: channelName=" + channelName + ", eventName=" + eventName + ", data=" + data);
+                            @Override
+                            public void onEvent(final String channelName, final String eventName, final String data) {
+                                Log.d(TAG, "onEvent: channelName=" + channelName + ", eventName=" + eventName + ", data=" + data);
 
-                            AzoomeeActivity.RunOnGLThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    onPusherEventRecieved(channelName, eventName, data);
-                                }
-                            });
-                        }
+                                AzoomeeActivity.RunOnGLThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        onPusherEventRecieved(channelName, eventName, data);
+                                    }
+                                });
+                            }
 
-                        @Override
-                        public void onAuthenticationFailure(String message, Exception e) {
-                            Log.d(TAG, String.format("Authentication failure due to [%s], exception was [%s]", message, e));
-                        }
-                    }, "SEND_MESSAGE"); // TODO: In a future update of Pusher, see if it's possible to avoid registering for specific events
+                            @Override
+                            public void onAuthenticationFailure(String message, Exception e) {
+                                Log.d(TAG, String.format("Authentication failure due to [%s], exception was [%s]", message, e));
+                            }
+                        }, "SEND_MESSAGE"); // TODO: In a future update of Pusher, see if it's possible to avoid registering for specific events
+                    }
+                    catch(IllegalArgumentException e)
+                    {
+                        // Channel is already subscribed, we can silently continue
+                    }
                 }
             }
         });
