@@ -96,7 +96,7 @@ void SettingsControlLayer::createTabs()
     childrenButton->setMixPanelButtonName("SettingsTab-YourKids");
     backgroundLayer->addChild(childrenButton,IDLE_TAB_Z);
     
-    confirmationButton = ElectricDreamsButton::createTabButton("Their Friends");
+    confirmationButton = ElectricDreamsButton::createTabButton("Friendships");
     confirmationButton->setPosition(childrenButton->getPositionX()+childrenButton->getContentSize().width/2+ TAB_SPACING+confirmationButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH);
     confirmationButton->setDelegate(this);
     confirmationButton->setMixPanelButtonName("SettingsTab-TheirFriends");
