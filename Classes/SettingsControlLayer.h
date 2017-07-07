@@ -17,6 +17,8 @@ private:
     Size visibleSize;
     Vec2 origin;
     
+    bool returnToChatScene = false;
+    
     Layer* currentTabLayer;
     
     LayerColor *backgroundLayer;
@@ -46,6 +48,8 @@ private:
     
 public:
     virtual bool init();
+    
+    static Layer* createFromChat();
     
     CREATE_FUNC(SettingsControlLayer);
     
