@@ -39,7 +39,7 @@ void ChatDelegate::onChatNavigationBack()
 
 void ChatDelegate::onChatAddFriend()
 {
-    // TODO: Show parent pin etc.
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SettingsFromChat));
 }
 
 NS_AZOOMEE_END

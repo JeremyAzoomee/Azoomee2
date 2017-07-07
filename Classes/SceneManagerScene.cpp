@@ -15,6 +15,7 @@
 #include "FTUScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "ChatDelegate.h"
+#include "EmptySceneForSettings.h"
 
 using namespace cocos2d;
 
@@ -162,6 +163,13 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHAT");
             Director::getInstance()->replaceScene(goToScene);
             break;
+        }
+        case SettingsFromChat:
+        {
+            forceToLandscape();
+            cocos2d::Scene* goToScene = EmptySceneForSettings::createScene();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
+            Director::getInstance()->replaceScene(goToScene);
         }
         default:
             break;
