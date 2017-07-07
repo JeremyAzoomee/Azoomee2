@@ -6,6 +6,7 @@
 #include "SettingsConfirmationLayer.h"
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "SceneManagerScene.h"
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50
@@ -14,6 +15,14 @@
 #define CURRENT_LAYER_Z 120
 
 NS_AZOOMEE_BEGIN
+
+Layer* SettingsControlLayer::createFromChat()
+{
+    auto layer = SettingsControlLayer::create();
+    layer->returnToChatScene = true;
+    
+    return layer;
+}
 
 bool SettingsControlLayer::init()
 {
@@ -127,9 +136,16 @@ void SettingsControlLayer::checkForConfirmationNotifications()
 
 void SettingsControlLayer::removeSelf()
 {
-    AudioMixer::getInstance()->resumeBackgroundMusic();
-    this->removeChild(backgroundLayer);
-    this->removeFromParent();
+    if(returnToChatScene)
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+    }
+    else
+    {
+        AudioMixer::getInstance()->resumeBackgroundMusic();
+        this->removeChild(backgroundLayer);
+        this->removeFromParent();
+    }
 }
 
 void SettingsControlLayer::selectNewTab(Layer* newCurrentLayer, ElectricDreamsButton* buttonToBringForward)
