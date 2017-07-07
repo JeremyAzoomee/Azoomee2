@@ -331,6 +331,9 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
     }
     
     _listView->doLayout();
+    // Force a second layout, to fix issues with overlapping items
+    // This probably happens because some list items resize during layout
+    _listView->forceDoLayout();
     
     // Scroll to bottom if we have different item size to before
     if(prevScrollHeight != _listView->getInnerContainerSize().height)
@@ -367,7 +370,11 @@ void MessageListView::addMessage(const MessageRef& message)
     item->setContentSize(Size(contentSize.width, 0.0f));
     item->setData(message);
     _listView->insertCustomItem(item, insertIndex);
+    
     _listView->doLayout();
+    // Force a second layout, to fix issues with overlapping items
+    // This probably happens because some list items resize during layout
+    _listView->forceDoLayout();
     
     // Scroll to bottom
     // TODO: Only scroll to bottom if the message is new
