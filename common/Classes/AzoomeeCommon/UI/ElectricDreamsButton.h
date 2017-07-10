@@ -55,6 +55,7 @@ public:
     static ElectricDreamsButton* createTextAsButton(std::string buttonText);
     static ElectricDreamsButton* createTextAsButton(std::string buttonText, float fontSize, bool underlined);
     static ElectricDreamsButton* createTextAsButtonAqua(std::string buttonText, float fontSize, bool underlined);
+    static ElectricDreamsButton* createTextAsButtonWithColor(std::string buttonText, float fontSize, bool underlined, cocos2d::Color3B color);
     static ElectricDreamsButton* createButtonWithText(std::string buttonText);
     static ElectricDreamsButton* createButtonWithWidth(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createSecondaryButtonWithWidth(std::string buttonText, float buttonWidth);

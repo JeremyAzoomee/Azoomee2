@@ -24,6 +24,8 @@ private:
     Label* mainTextLabel;
     
     ElectricDreamsButton *watchSearchItUpButton;
+    ElectricDreamsButton *chevronLeftButton;
+    ElectricDreamsButton *chevronRightButton;
     
     Sprite* mainImage;
     Sprite* leftButton;

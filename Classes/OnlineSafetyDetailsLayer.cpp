@@ -69,7 +69,18 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     mainTextLabel->setPosition(MARGIN_TO_CHEVRON*2,slideTitleLabel->getPositionY()-slideTitleLabel->getContentSize().height*2);
     backgroundLayer->addChild(mainTextLabel);
     
+    chevronLeftButton = ElectricDreamsButton::createChevronLeftButton();
+    chevronLeftButton->setCenterPosition(Vec2(MARGIN_TO_CHEVRON,mainImage->getPositionY()));
+    backgroundLayer->addChild(chevronLeftButton);
     
+    chevronRightButton = ElectricDreamsButton::createChevronRightButton();
+    chevronRightButton->setCenterPosition(Vec2(visibleSize.width - MARGIN_TO_CHEVRON,mainImage->getPositionY()));
+    backgroundLayer->addChild(chevronRightButton);
+    
+    watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor("Watch Search It Up", 59, true, Color3B(63,170,170));
+    watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
+    backgroundLayer->addChild(watchSearchItUpButton);
+
     
 }
 
