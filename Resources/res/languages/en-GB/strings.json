@@ -89,5 +89,20 @@
         "add_another":"Add another",
         "lets_go":"Let's go",
         "retry":"Retry"
-    }
+    },
+    
+    "OnlineSafetySlides":
+    {
+        "title1":"1/5  Who are your kids talking to?",
+        "mainText1":"All connections on Azoomee must be approved by parent/guardians before children can send or receive any messages.\n\nYou should always be careful when adding friends for your child or confirming friendships.\n\nIf in doubt, check and don't connect!",
+        "title2":"2/5  What are they talking about?",
+        "mainText2":"You can see and moderate all chat conversations.\n\nYou should regularly keep an eye on what your children are talking about and sharing.\n\nIf you see anything inappropriate, or if your kids alert you to a problem, talk about it with them, so they understand your concerns and think about being smart, safe and kind online.",
+        "title3":"3/5  Be careful with personal information",
+        "mainText3":"It's important for you to talk to your children about personal information and what is and isn't ok to share online.\n\nChildren should not share personal information that is private on Azoomee. This includes passwords, full name, address, phone number, email and school name.\n\nChildren should also be reminded to 'share with care' and pause to think before sending something.",
+        "title4":"4/5  Treat others as you would like to be treated",
+        "mainText4":"It's the golden rule!\n\nChildren should never say or do anything in Azoomee Chat that might hurt someone's feelings.\n\nTell your kids that if they wouldn't like a certain thing said to them, then they should think before saying it to someone else.","title4":"4/5  Treat others as you would like to be treated",
+        "title5":"5/5  Talk About It",
+        "mainText5":"Remind your children that if they read or experience anything upsetting on Azoomee Chat - such as mean messages or consistent negativity - they need to talk about it with you or a trusted adult.\n\nThis is cyber bullying, and it's as harmful as bullying in the real world."
+        
+    },
 }
