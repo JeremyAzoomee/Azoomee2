@@ -48,6 +48,7 @@ void OnboardingScene::onEnter()
     addTextboxScene();
     addLabelsToScene();
     addButtonsScene();
+    addTandCsToScene();
     
     Node::onEnter();
 }
@@ -117,7 +118,7 @@ void OnboardingScene::addLabelsToScene()
 void OnboardingScene::addButtonsScene()
 {
     signupButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
-    signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1.5));
+    signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1.1));
     signupButton->setDelegate(this);
     signupButton->setMixPanelButtonName("signupSceneContinueButton");
     signupButton->setVisible(false);
@@ -132,6 +133,14 @@ void OnboardingScene::addButtonsScene()
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("signupSceneCancelButton");
     this->addChild(cancelButton);
+}
+
+void OnboardingScene::addTandCsToScene()
+{
+    Label* TermsAndConditions =createLabelWith(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_TERMS_CONDITIONS),
+                                               Style::Font::Regular, Style::Color::white, 48);
+    TermsAndConditions->setPosition(origin.x + visibleSize.width/2,signupButton->getPositionY() - (TermsAndConditions->getContentSize().height*1.2));
+    this->addChild(TermsAndConditions);
 }
 
 //------------PRIVATE OTHER FUNCTIONS------------

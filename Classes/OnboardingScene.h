@@ -30,6 +30,7 @@ private:
     void addTextboxScene();
     void addLabelsToScene();
     void addButtonsScene();
+    void addTandCsToScene();
     
     void signUp();
     
