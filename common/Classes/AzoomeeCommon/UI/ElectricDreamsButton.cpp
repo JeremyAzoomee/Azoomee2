@@ -368,6 +368,9 @@ ElectricDreamsButton* ElectricDreamsButton::createTabButton(std::string buttonTe
     return layer;
 }
     
+//ElectricDreamsButton* createChevronLeftButton();
+//    static ElectricDreamsButton* createChevronRightButton();
+    
 //----------- CHAT INVITE BUTTONS -------------------
 
 ElectricDreamsButton* ElectricDreamsButton::createKidCodeShareButton(std::string kidCode, float buttonWidth)

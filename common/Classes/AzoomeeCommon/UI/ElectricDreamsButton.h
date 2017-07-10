@@ -70,6 +70,8 @@ public:
     static ElectricDreamsButton* createPlaceHolderButton(float withWidth);
     static ElectricDreamsButton* createChildSelectorButton();
     static ElectricDreamsButton* createTabButton(std::string buttonText);
+    static ElectricDreamsButton* createChevronLeftButton();
+    static ElectricDreamsButton* createChevronRightButton();
     
     //----------- CHAT INVITE BUTTONS -------------------
     
