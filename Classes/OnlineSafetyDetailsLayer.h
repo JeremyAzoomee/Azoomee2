@@ -19,6 +19,7 @@ private:
     int currentSlideNumber;
     
     LayerColor* backgroundLayer;
+    LayerColor* videoLayer;
     
     Label* titleLabel;
     Label* slideTitleLabel;
@@ -27,6 +28,7 @@ private:
     ElectricDreamsButton *watchSearchItUpButton;
     ElectricDreamsButton *chevronLeftButton;
     ElectricDreamsButton *chevronRightButton;
+    ElectricDreamsButton *closeVideoButton;
     
     Sprite* mainImage;
     Sprite* leftButton;
@@ -36,6 +38,8 @@ private:
     void addUIObjects();
     void setToCurrentSlideNumber();
     void moveSlideNumberBy(int moveBy);
+    
+    void addListenerToVideoLayer(Layer* listenerToLayer);
     
 public:
     static Layer* createWithHeight(float setLayerHeight);

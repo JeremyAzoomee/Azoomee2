@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include "ui/UIWebView.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -33,19 +34,24 @@ bool OnlineSafetyDetailsLayer::init()
     return true;
 }
 
+void OnlineSafetyDetailsLayer::addListenerToVideoLayer(Layer* listenerToLayer)
+{
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
+    {
+        return true;
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), listenerToLayer);
+}
+
 //----------------Add UI Objects-------------
 
 void OnlineSafetyDetailsLayer::createBackground()
 {
-    backgroundLayer = LayerColor::create(Color4B(216,216,216,255),visibleSize.width, layerHeight);
+    backgroundLayer = LayerColor::create(Color4B(255,255,255,255),visibleSize.width, layerHeight);
     this->addChild(backgroundLayer);
-    
-    /*Sprite* topGradient = Sprite::create("res/onlineSafetySlides/topGradient.png");
-    topGradient->setAnchorPoint(Vec2(0, 1.0));
-    topGradient->setScaleX(visibleSize.width / topGradient->getContentSize().width);
-    topGradient->setPosition(0,backgroundLayer->getContentSize().height);
-    //topGradient->setColor(Color3B::BLACK);
-    backgroundLayer->addChild(topGradient);*/
 }
 
 void OnlineSafetyDetailsLayer::addUIObjects()
@@ -83,6 +89,7 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     
     watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor("Watch Search It Up", 59, true, Color3B(9,154,154));
     watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
+    watchSearchItUpButton->setDelegate(this);
     backgroundLayer->addChild(watchSearchItUpButton);
 }
 
@@ -112,7 +119,24 @@ void OnlineSafetyDetailsLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == watchSearchItUpButton)
     {
+        videoLayer = LayerColor::create(Color4B(255,255,255,255),visibleSize.width, visibleSize.height);
+        this->addChild(videoLayer);
+        
+        addListenerToVideoLayer(videoLayer);
+        
+        closeVideoButton = ElectricDreamsButton::createWindowCloselButton();
+        closeVideoButton->setCenterPosition(Vec2(visibleSize.width - closeVideoButton->getContentSize().width, visibleSize.height - closeVideoButton->getContentSize().height));
+        closeVideoButton->setDelegate(this);
+        videoLayer->addChild(closeVideoButton);
+        
+        auto newHTML = "<iframe src=\"https://player.vimeo.com/video/180891858?autoplay=1&color=ffffff&title=0&byline=0&portrait=0\" width=\"320\" height=\"180\" frameborder=\"0\"></iframe>";
 
+        auto view = experimental::ui::WebView::create();
+        view->setContentSize(Size(1600,900));
+        view->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        view->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
+        view->loadHTMLString(newHTML);
+        videoLayer->addChild(view);
     }
     else if(button == chevronLeftButton)
     {
@@ -121,6 +145,10 @@ void OnlineSafetyDetailsLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == chevronRightButton)
     {
         moveSlideNumberBy(1);
+    }
+    else if(button == closeVideoButton)
+    {
+        videoLayer->removeFromParent();
     }
 }
 
