@@ -85,5 +85,9 @@
 #define BUTTON_LETS_GO "GenericButtons/lets_go"
 #define BUTTON_RETRY "GenericButtons/retry"
 
+//--------------ONLINE SAFETY SLIDES------------------
+
+#define ONLINE_SAFETY_SLIDE_TITLE "OnlineSafetySlides/title"
+#define ONLINE_SAFETY_SLIDE_MAIN_TEXT "OnlineSafetySlides/mainText"
 
 #endif

@@ -16,6 +16,7 @@ private:
     Vec2 origin;
     
     float layerHeight;
+    int currentSlideNumber;
     
     LayerColor* backgroundLayer;
     
@@ -33,6 +34,8 @@ private:
     
     void createBackground();
     void addUIObjects();
+    void setToCurrentSlideNumber();
+    void moveSlideNumberBy(int moveBy);
     
 public:
     static Layer* createWithHeight(float setLayerHeight);
