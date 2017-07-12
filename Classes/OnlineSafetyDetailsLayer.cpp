@@ -56,19 +56,29 @@ void OnlineSafetyDetailsLayer::createBackground()
 
 void OnlineSafetyDetailsLayer::addUIObjects()
 {
-    titleLabel = createLabelWith("Keeping your family safe online", Style::Font::Regular, Style::Color::black, 70);
+    //-------------MAIN TITLE DOES NOT CHANGE--------------
+    titleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_MAIN_TITLE,currentSlideNumber)), Style::Font::Regular, Style::Color::black, 70);
     titleLabel->setAnchorPoint(Vec2(0.0,1));
     titleLabel->setPosition(MARGIN_TO_CHEVRON*2,layerHeight - titleLabel->getContentSize().height);
     backgroundLayer->addChild(titleLabel);
+    
+    //------------SLIDE TITLE--------------------
+    // Location in relation to the Main Title Location
     
     slideTitleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)), Style::Font::Bold, Color3B(9,154,154), 70);
     slideTitleLabel->setAnchorPoint(Vec2(0.0,1));
     slideTitleLabel->setPosition(MARGIN_TO_CHEVRON*2,titleLabel->getPositionY() - slideTitleLabel->getContentSize().height*1.5);
     backgroundLayer->addChild(slideTitleLabel);
     
+    //-----------SLIDE IMAGE--------------------
+    // Location in relation to the Main Title Location
+    
     mainImage = Sprite::create(StringUtils::format("res/onlineSafetySlides/safetyIll0%d.png",currentSlideNumber));
     mainImage->setPosition(visibleSize.width-MARGIN_TO_CHEVRON*1.5-mainImage->getContentSize().width/2,slideTitleLabel->getPositionY()-slideTitleLabel->getContentSize().height*1.5- mainImage->getContentSize().height/2);
     backgroundLayer->addChild(mainImage);
+    
+    //-----------SLIDE MAIN TEXT--------------------
+    // Location in relation to the Slide Title Location
     
     mainTextLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)), Style::Font::Regular, Style::Color::black, 59);
     mainTextLabel->setLineSpacing(15);
@@ -76,6 +86,9 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     mainTextLabel->setWidth(mainImage->getPositionX()-mainImage->getContentSize().width/2-MARGIN_TO_CHEVRON*2);
     mainTextLabel->setPosition(MARGIN_TO_CHEVRON*2,slideTitleLabel->getPositionY()-slideTitleLabel->getContentSize().height*2);
     backgroundLayer->addChild(mainTextLabel);
+    
+    //-----------SLIDE NATVIATION--------------------
+    // Location in relation to the Image Location
     
     chevronLeftButton = ElectricDreamsButton::createChevronLeftButton();
     chevronLeftButton->setCenterPosition(Vec2(MARGIN_TO_CHEVRON,mainImage->getPositionY()));
@@ -87,7 +100,7 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     chevronRightButton->setDelegate(this);
     backgroundLayer->addChild(chevronRightButton);
     
-    watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor("Watch Search It Up", 59, true, Color3B(9,154,154));
+    watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_BUTTON_TEXT,currentSlideNumber)), 59, true, Color3B(9,154,154));
     watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
     watchSearchItUpButton->setDelegate(this);
     backgroundLayer->addChild(watchSearchItUpButton);
@@ -119,6 +132,7 @@ void OnlineSafetyDetailsLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == watchSearchItUpButton)
     {
+        //TODO using UI::Webview to open a youtube video.
         videoLayer = LayerColor::create(Color4B(255,255,255,255),visibleSize.width, visibleSize.height);
         this->addChild(videoLayer);
         

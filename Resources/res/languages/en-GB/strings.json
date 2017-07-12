@@ -93,6 +93,7 @@
     
     "OnlineSafetySlides":
     {
+        "mainTitle":"Keeping your family safe online",
         "title1":"1/5  Who are your kids talking to?",
         "mainText1":"All connections on Azoomee must be approved by parent/guardians before children can send or receive any messages.\n\nYou should always be careful when adding friends for your child or confirming friendships.\n\nIf in doubt, check and don't connect!",
         "title2":"2/5  What are they talking about?",
@@ -102,7 +103,8 @@
         "title4":"4/5  Treat others as you would like to be treated",
         "mainText4":"It's the golden rule!\n\nChildren should never say or do anything in Azoomee Chat that might hurt someone's feelings.\n\nTell your kids that if they wouldn't like a certain thing said to them, then they should think before saying it to someone else.","title4":"4/5  Treat others as you would like to be treated",
         "title5":"5/5  Talk About It",
-        "mainText5":"Remind your children that if they read or experience anything upsetting on Azoomee Chat - such as mean messages or consistent negativity - they need to talk about it with you or a trusted adult.\n\nThis is cyber bullying, and it's as harmful as bullying in the real world."
+        "mainText5":"Remind your children that if they read or experience anything upsetting on Azoomee Chat - such as mean messages or consistent negativity - they need to talk about it with you or a trusted adult.\n\nThis is cyber bullying, and it's as harmful as bullying in the real world.",
+        "buttonTitle":"Watch Search It Up"
         
     }
 }
