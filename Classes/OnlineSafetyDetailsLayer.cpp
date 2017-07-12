@@ -57,7 +57,7 @@ void OnlineSafetyDetailsLayer::createBackground()
 void OnlineSafetyDetailsLayer::addUIObjects()
 {
     //-------------MAIN TITLE DOES NOT CHANGE--------------
-    titleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_MAIN_TITLE,currentSlideNumber)), Style::Font::Regular, Style::Color::black, 70);
+    titleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_MAIN_TITLE), Style::Font::Regular, Style::Color::black, 70);
     titleLabel->setAnchorPoint(Vec2(0.0,1));
     titleLabel->setPosition(MARGIN_TO_CHEVRON*2,layerHeight - titleLabel->getContentSize().height);
     backgroundLayer->addChild(titleLabel);
@@ -100,7 +100,7 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     chevronRightButton->setDelegate(this);
     backgroundLayer->addChild(chevronRightButton);
     
-    watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_BUTTON_TEXT,currentSlideNumber)), 59, true, Color3B(9,154,154));
+    watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Color3B(9,154,154));
     watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
     watchSearchItUpButton->setDelegate(this);
     backgroundLayer->addChild(watchSearchItUpButton);
@@ -143,7 +143,7 @@ void OnlineSafetyDetailsLayer::buttonPressed(ElectricDreamsButton* button)
         closeVideoButton->setDelegate(this);
         videoLayer->addChild(closeVideoButton);
         
-        auto newHTML = "<iframe src=\"https://player.vimeo.com/video/180891858?autoplay=1&color=ffffff&title=0&byline=0&portrait=0\" width=\"320\" height=\"180\" frameborder=\"0\"></iframe>";
+        auto newHTML = "<div style=\"position:relative;height:0;padding-bottom:56.25%\"><iframe src=\"https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1\" width=\"640\" height=\"360\" frameborder=\"0\" style=\"position:absolute;width:100%;height:100%;left:0\" allowfullscreen></iframe></div>";
 
         auto view = experimental::ui::WebView::create();
         view->setContentSize(Size(1600,900));
