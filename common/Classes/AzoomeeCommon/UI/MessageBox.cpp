@@ -3,6 +3,7 @@
 #include "../Analytics/AnalyticsSingleton.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
+#include "Style.h"
 
 using namespace cocos2d;
 
@@ -106,7 +107,7 @@ void MessageBox::setBodyHAlignment(TextHAlignment align)
 
 void MessageBox::createBackgroundLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),visibleSize.width, visibleSize.height);
+    backgroundLayer = LayerColor::create(Style::Color_4B::awaitingPinLayer,visibleSize.width, visibleSize.height);
     backgroundLayer->setPosition(origin);
     
     this->addChild(backgroundLayer);

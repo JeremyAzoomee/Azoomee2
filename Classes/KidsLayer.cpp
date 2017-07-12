@@ -136,7 +136,7 @@ void KidsLayer::setToCodeError(std::string code)
 {
     removeObjects(false);
     
-    Label* failedTextBoxLabel = createLabelKidCode(code,Color3B(249, 74, 91));
+    Label* failedTextBoxLabel = createLabelKidCode(code,Style::Color::watermelon);
     
     ui::Scale9Sprite* failedTextBox = createText9Sprite("res/settings/textFieldFail.png",4);
     
@@ -159,7 +159,7 @@ void KidsLayer::setToCodeSuccess(std::string code)
     ui::Scale9Sprite* displayCodeTextBox = createText9Sprite("res/settings/textEntry.png",4.5);
     
     Label* failedTextBoxLabel = createLabelHeader(code);
-    failedTextBoxLabel->setColor(Color3B(55, 188, 152));
+    failedTextBoxLabel->setColor(Style::Color::greenishTeal);
     failedTextBoxLabel->setPosition(displayCodeTextBox->getContentSize().width/2, displayCodeTextBox->getContentSize().height/2-5);
     
     displayCodeTextBox->addChild(failedTextBoxLabel);

@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -63,7 +64,7 @@ void DisplayChildNameLayer::createLoggedInAsToLayer()
 
 void DisplayChildNameLayer::createInviteCodeLayer()
 {
-    inviteCodeLabel = createLabelWith(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(ChildDataProvider::getInstance()->getLoggedInChildNumber()), FONT_KIDCODE_REGULAR, Style::Color::white, 48);
+    inviteCodeLabel = createLabelWith(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::kidCodeRegular, Style::Color::white, 48);
     inviteCodeLabel->setPosition(inviteCodeLabel->getContentSize().width/2, inviteCodeLabel->getContentSize().height/2);
     inviteCodeLabel->setOpacity(0);
 
