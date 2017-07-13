@@ -78,14 +78,7 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
     rapidjson::Document paymentData;
     paymentData.Parse(responseDataString.c_str());
     
-    if(paymentData.HasParseError())
-    {
-        requestAttempts = requestAttempts + 1;
-        amazonPaymentMade(savedRequestId, savedReceiptId, savedAmazonUserid);
-        return;
-    }
-    
-    if(paymentData.HasMember("receiptStatus"))
+    if(!paymentData.HasParseError() && paymentData.HasMember("receiptStatus"))
     {
         if(paymentData["receiptStatus"].IsString())
         {
@@ -104,12 +97,14 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
 
     if(requestAttempts < 4)
     {
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage("AnswerRecieved-RequestAttempts<4");
         requestAttempts = requestAttempts + 1;
         amazonPaymentMade(savedRequestId, savedReceiptId, savedAmazonUserid);
+        return;
     }
     else
     {
-        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage("AnswerRecieved-RequestAttempts>4");
         return;
     }
 }
@@ -145,7 +140,7 @@ void showDoublePurchase()
 void purchaseFailureErrorMessageWithDelay()
 {
     auto funcCallAction = CallFunc::create([=](){
-        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage("PurchaseFailed-From Native");
     });
     
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from amazon window, otherwise the app will crash

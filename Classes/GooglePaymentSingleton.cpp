@@ -64,34 +64,35 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
         return;
     }
     
-    if(paymentData.HasMember("receiptStatus"))
+    if(!paymentData.HasParseError() && paymentData.HasMember("receiptStatus"))
     {
-        if(paymentData["receiptStatus"].IsString())
+        if(paymentData["receiptStatus"].IsString() && StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
         {
-            if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
-            {
-                RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
-                return;
-            }
-            else
-                AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
+            RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
+            return;
         }
+        else
+            AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
     }
-
+    
     if(requestAttempts < 4)
     {
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage("AnswerRecieved-RequestAttempts<4");
         requestAttempts = requestAttempts + 1;
         startBackEndPaymentVerification(savedDeveloperPayload, savedOrderId, savedToken);
         return;
     }
-
-    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
+    else
+    {
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage("AnswerRecieved-RequestAttempts>4");
+        return;
+    }
 }
 
 void GooglePaymentSingleton::purchaseFailedBeforeFulfillment()
 {
     auto funcCallAction = CallFunc::create([=](){
-        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage();
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage("PurchaseFailed-From Native");
     });
     
     Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
