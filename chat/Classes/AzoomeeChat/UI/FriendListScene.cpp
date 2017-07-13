@@ -218,7 +218,7 @@ void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 
 void FriendListScene::onChatAPIGetFriendList(const FriendList& friendList)
 {
-    AnalyticsSingleton::getInstance()->setNumberOfChatFriends(friendList.size());
+    AnalyticsSingleton::getInstance()->setNumberOfChatFriends((int)friendList.size());
     
     _friendListView->setItems(friendList);
     
