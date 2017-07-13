@@ -80,19 +80,16 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
     
     if(!paymentData.HasParseError() && paymentData.HasMember("receiptStatus"))
     {
-        if(paymentData["receiptStatus"].IsString())
+        if(paymentData["receiptStatus"].IsString() && StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
         {
-            if(StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
-            {
-                std::string receiptId = paymentData["receiptId"].GetString();
-                fulfillAmazonPayment(receiptId);
-                
-                RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
-                return;
-            }
-            else
-                AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
+            std::string receiptId = paymentData["receiptId"].GetString();
+            fulfillAmazonPayment(receiptId);
+            
+            RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
+            return;
         }
+        else
+            AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
     }
 
     if(requestAttempts < 4)
