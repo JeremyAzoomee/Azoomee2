@@ -32,12 +32,9 @@ bool FriendListScene::init()
     _contentLayout = ui::Layout::create();
     _contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _contentLayout->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
-    _contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _contentLayout->setBackGroundColor(Style::Color::darkTwo);
     _rootLayout->addChild(_contentLayout);
     
     // Titlebar at the top
-    // We add this last so it sits on top with a drop shadow
     _titleBar = TitleBarWidget::create();
     _titleBar->setTitleImage("res/chat/ui/azoomee_chat_logo.png");
     _titleBar->setSizeType(ui::Widget::SizeType::PERCENT);
@@ -114,8 +111,6 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
     // Subtitle bar
     _subTitleBar = ui::Layout::create();
     _subTitleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-//    _subTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-//    _subTitleBar->setBackGroundColor(Style::Color::brightAqua);
     parent->addChild(_subTitleBar);
     createSubTitleBarUI(_subTitleBar);
     
@@ -134,8 +129,6 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     ui::Layout* contentLayout = ui::Layout::create();
     contentLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
     contentLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
-//    contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
-//    contentLayout->setSizePercent(Vec2(1.0f, 1.0f));
     contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     contentLayout->setBackGroundColor(Style::Color::blueGreen);
     parent->addChild(contentLayout);
@@ -180,7 +173,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     _subTitleBarBorder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
     _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBarBorder->setBackGroundColor(Style::Color::barney);
+    _subTitleBarBorder->setBackGroundColor(Style::Color::brightAqua);
     parent->addChild(_subTitleBarBorder);
 }
 
