@@ -151,6 +151,19 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     addFriendButton->setTitleFontSize(45.0f);
     addFriendButton->setScale9Enabled(true);
     addFriendButton->setTitleAlignment(TextHAlignment::LEFT, TextVAlignment::CENTER);
+    
+    ui::ImageView* plusIcon = ui::ImageView::create("res/chat/ui/buttons/add_icon.png");
+    addFriendButton->addChild(plusIcon);
+    plusIcon->setAnchorPoint(Vec2(0.5f, 0.5f));
+    // Position icon and title
+    const auto& addFriendButtonSize = addFriendButton->getContentSize();
+    plusIcon->setPosition(Vec2(addFriendButtonSize.height * 0.5f, addFriendButtonSize.height * 0.5f));
+    addFriendButton->getTitleRenderer()->setAnchorPoint(Vec2(0.0f, 0.5f));
+    // We need some offset because the title doesn't get centered vertically correctly
+    // Likely due to font renderering via TTF
+    const float lineHeightOffset = -3.0f;
+    addFriendButton->getTitleRenderer()->setPosition(Vec2(plusIcon->getPositionX() + (plusIcon->getContentSize().width * 0.5f) + 15.0f, (addFriendButtonSize.height * 0.5f) + lineHeightOffset));
+    
 //    addFriendButton->getRendererNormal()->setStrechEnabled(true);
 //    addFriendButton->getRendererClicked()->setStrechEnabled(true);
 //    addFriendButton->getRendererDisabled()->setStrechEnabled(true);
