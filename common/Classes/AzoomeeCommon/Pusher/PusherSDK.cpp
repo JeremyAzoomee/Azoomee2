@@ -25,14 +25,21 @@ PusherSDK::PusherSDK(const std::string& appKey) :
 
 void PusherSDK::openParentAccountChannel()
 {
+    // Unsubscribe from the previous account channel
+    closeParentAccountChannel();
+    
     ParentDataProvider* parentData = ParentDataProvider::getInstance();
-    subscribeToChannel("private-" + parentData->getLoggedInParentId());
+    _subscribedAccountChannel = "private-" + parentData->getLoggedInParentId();
+    subscribeToChannel(_subscribedAccountChannel);
 }
 
 void PusherSDK::closeParentAccountChannel()
 {
-    ParentDataProvider* parentData = ParentDataProvider::getInstance();
-    closeChannel("private-" + parentData->getLoggedInParentId());
+    if(!_subscribedAccountChannel.empty())
+    {
+        closeChannel(_subscribedAccountChannel);
+        _subscribedAccountChannel = "";
+    }
 }
 
 void PusherSDK::closeAllChannels()

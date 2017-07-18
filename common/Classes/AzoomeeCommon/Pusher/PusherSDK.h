@@ -24,6 +24,8 @@ private:
     std::string _appKey;
     /// List of subscribed channels
     std::vector<std::string> _subscribedChannels;
+    /// Currently subscribed account channel
+    std::string _subscribedAccountChannel;
     
     /// Event observers
     std::vector<PusherEventObserver*> _observers;

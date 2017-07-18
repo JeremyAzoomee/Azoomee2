@@ -656,7 +656,7 @@ void MessageComposer::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* unused
     Super::onTouchMoved(touch, unusedEvent);
     
     // If the touch moved more than the sensitivity, cancel the dismiss
-    const float dismissSensitivity = 1.0f;
+    const float dismissSensitivity = 5.0f;
     const Vec2& delta = touch->getDelta();
 //    cocos2d::log("MessageComposer::onTouchMoved: %f, %f", delta.x, delta.y);
     if(fabs(delta.x) > dismissSensitivity || fabs(delta.y) > dismissSensitivity)

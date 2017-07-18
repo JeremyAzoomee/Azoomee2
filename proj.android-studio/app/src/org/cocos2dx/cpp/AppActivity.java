@@ -98,17 +98,13 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static void startWebView(String url, String userid) {
         Intent nvw;
 
-        int androidVersion = Build.VERSION.SDK_INT;
-        Log.d("WEBVIEW SDK LEVEL", "" + androidVersion);
-        if((androidVersion > 13)&&(androidVersion < 21))
+        if ((android.os.Build.MANUFACTURER.equals("Amazon")) && (url.substring(url.length() - 4).equals("html")))
         {
-            Log.d("WEBVIEW", "CROSSWALK");
-            nvw = new Intent(mContext, NativeView.class);
+            nvw = new Intent(mContext, NativeViewUI.class);
         }
         else
         {
-            Log.d("WEBVIEW", "NATIVE");
-            nvw = new Intent(mContext, NativeViewUI.class);
+            nvw = new Intent(mContext, NativeView.class);
         }
 
         nvw.putExtra("url", url);
