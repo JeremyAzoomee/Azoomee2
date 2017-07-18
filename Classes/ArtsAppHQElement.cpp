@@ -298,7 +298,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(iamtouched)
         {
-            
             if(preview)
             {
                 PreviewLoginSignupMessageBox::create();

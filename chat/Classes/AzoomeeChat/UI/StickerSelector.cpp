@@ -3,7 +3,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "../Data/StickerCache.h"
-
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -27,7 +27,7 @@ bool StickerSelector::init()
     
     ui::Layout* firstLayout = _splitLayout->firstLayout();
     firstLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    firstLayout->setBackGroundColor(Style::Color::golden);
+    firstLayout->setBackGroundColor(Style::Color::grapePurpleTwo);
     firstLayout->setLayoutType(ui::Layout::Type::RELATIVE);
     
     _stickerListView = StickerListView::create();
@@ -37,6 +37,7 @@ bool StickerSelector::init()
     _stickerListView->addItemSelectedEventListener([this](const StickerRef& sticker) {
         if(_selectedEventCallback)
         {
+            AnalyticsSingleton::getInstance()->chatSelectedSticker(sticker->imageURL());
             _selectedEventCallback(sticker);
         }
     });
@@ -51,6 +52,7 @@ bool StickerSelector::init()
     _categoryListView->setSizePercent(Vec2(1.0f, 1.0f));
     _categoryListView->addItemSelectedEventListener([this](const StickerCategoryRef& category){
         AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
+        AnalyticsSingleton::getInstance()->chatSelectedStickerTab(category->categoryID());
         selectCategory(category);
     });
     secondLayout->addChild(_categoryListView);

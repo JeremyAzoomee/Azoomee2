@@ -48,7 +48,7 @@ private:
     virtual void onEnterTransitionDidFinish();
     void onExit();
     
-    bool shouldDisplayMessage;
+    bool shouldDisplayMessage = false;
     
 public:
     static cocos2d::Scene* createScene();
@@ -58,6 +58,8 @@ public:
     //Delegate Functions
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void textInputReturnPressed(TextInputLayer* inputLayer);
+    void editBoxEditingDidBegin(TextInputLayer* inputLayer);
+    void editBoxEditingDidEnd(TextInputLayer* inputLayer);
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     void connectivityStateChanged(bool online);

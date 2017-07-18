@@ -7,7 +7,6 @@
 using namespace cocos2d;
 
 
-
 NS_AZOOMEE_CHAT_BEGIN
 
 bool MessageListView::init()
@@ -18,15 +17,15 @@ bool MessageListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::dustyLavender);
+    setBackGroundColor(Style::Color::darkTwo);
     
+#ifdef AVATARS_IN_LISTVIEW
     // Setup foreground with the Oomee bar
     _foreground = ui::Layout::create();
     _foreground->setLayoutType(ui::Layout::Type::RELATIVE);
     _foreground->setSizePercent(Vec2(1.0f, 1.0f));
     _foreground->setSizeType(ui::Widget::SizeType::PERCENT);
     
-    // TODO: Get config values
     const float avatarBaseHeight = 140.0f;
     
     // Avatar bar
@@ -67,6 +66,7 @@ bool MessageListView::init()
     _avatars[1]->setLayoutParameter(CreateBottomLeftRelativeLayoutParam(ui::Margin(avatarMargin.x, 0, 0, avatarMargin.y)));
     _avatars[1]->setContentSize(Size(avatarSize, avatarSize));
     _foreground->addChild(_avatars[1]);
+#endif
     
     
     // List view for messages
@@ -79,6 +79,7 @@ bool MessageListView::init()
     _listView->addEventListener(CC_CALLBACK_2(MessageListView::onScrollEvent, this));
     addChild(_listView);
     
+#ifdef AVATARS_IN_LISTVIEW
     // Create the special list view item to allow space for Oomees
     _blankListItem = ui::Layout::create();
     _blankListItem->setContentSize(Size(10, avatarSize + avatarMargin.y));
@@ -86,6 +87,7 @@ bool MessageListView::init()
     
     // Add the foreground last
     addChild(_foreground);
+#endif
   
     return true;
 }
@@ -123,8 +125,10 @@ void MessageListView::onSizeChanged()
             messageItem->setContentSize(itemSize);
         }
         
+#ifdef AVATARS_IN_LISTVIEW
         // Resize avatar base to fill width
         _avatarBase->setContentSize(Size(contentSize.width, _avatarBase->getContentSize().height));
+#endif
     }
 }
 
@@ -169,6 +173,7 @@ void MessageListView::setScrollPosition(float pos)
 
 void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollView::EventType event)
 {
+#ifdef AVATARS_IN_LISTVIEW
     // Scroll movement
     if(event == ui::ScrollView::EventType::CONTAINER_MOVED)
     {
@@ -209,6 +214,7 @@ void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollVie
             }
         }
     }
+#endif
 }
 
 #pragma mark - Public
@@ -219,32 +225,58 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
     const float prevScrollHeight = _listView->getInnerContainerSize().height;
     
     _participants = participants;
+#ifdef AVATARS_IN_LISTVIEW
     _avatars[0]->setAvatarForFriend(_participants[0]);
     _avatars[1]->setAvatarForFriend(_participants[1]);
+#endif
     
     // If messages are zero, we can just remove
     if(messageList.size() == 0)
     {
+#ifdef AVATARS_IN_LISTVIEW
         _blankListItem->retain();
         _listView->removeAllItems();
         _listView->pushBackCustomItem(_blankListItem);
         _blankListItem->release();
+#else
+        _listView->removeAllItems();
+#endif
+        
+        _listData.clear();
     }
     else
     {
+        // Make a copy of the messageList and sort it in order of timestamp
+        MessageList messagesByTime;
+        for(const MessageRef& message : messageList)
+        {
+            // Find first item where this message is newer
+            MessageList::const_reverse_iterator it = messagesByTime.rbegin();
+            for(; it != messagesByTime.rend(); ++it)
+            {
+                if(message->timestamp() > (*it)->timestamp())
+                {
+                    break;
+                }
+            }
+            messagesByTime.insert(it.base(), message);
+        }
+        
         // Update message list
         // Do this inline to avoid a flicker of the UI
         // We just overwrite the content of all UI items here
         const Size& contentSize = _listView->getContentSize();
         
+#ifdef AVATARS_IN_LISTVIEW
         _blankListItem->retain();
         _listView->removeLastItem();
+#endif
         
         const cocos2d::Vector<ui::Widget*> items = _listView->getItems();
-        for(int i = 0; i < items.size() || i < messageList.size(); ++i)
+        for(int i = 0; i < items.size() || i < messagesByTime.size(); ++i)
         {
             MessageListViewItem* item = (i < items.size()) ? (MessageListViewItem*)items.at(i) : nullptr;
-            const MessageRef& message = (i < messageList.size()) ? messageList[i] : nullptr;
+            const MessageRef& message = (i < messagesByTime.size()) ? messagesByTime[i] : nullptr;
             
             if(item && message)
             {
@@ -282,20 +314,26 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         }
         
         // Trim message list
-        int64_t numToDelete = _listView->getItems().size() - messageList.size();
+        int64_t numToDelete = _listView->getItems().size() - messagesByTime.size();
         while(numToDelete > 0)
         {
             _listView->removeLastItem();
             --numToDelete;
         }
         
+#ifdef AVATARS_IN_LISTVIEW
         // Re-add blank item
         _listView->pushBackCustomItem(_blankListItem);
         _blankListItem->release();
+#endif
+        
+        _listData = messagesByTime;
     }
     
-    _listData = messageList;
     _listView->doLayout();
+    // Force a second layout, to fix issues with overlapping items
+    // This probably happens because some list items resize during layout
+    _listView->forceDoLayout();
     
     // Scroll to bottom if we have different item size to before
     if(prevScrollHeight != _listView->getInnerContainerSize().height)
@@ -307,6 +345,40 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         // Otherwise restore scroll position
         setScrollPosition(scrollPos);
     }
+}
+
+void MessageListView::addMessage(const MessageRef& message)
+{
+    // Find first item where this message is newer
+    MessageList::const_reverse_iterator it = _listData.rbegin();
+    size_t insertIndex = _listData.size();
+    for(; it != _listData.rend(); ++it)
+    {
+        if(message->timestamp() > (*it)->timestamp())
+        {
+            break;
+        }
+        --insertIndex;
+    }
+    _listData.insert(it.base(), message);
+    
+    // Update UI
+    MessageListViewItem* item = MessageListViewItem::create();
+    const Size& contentSize = _listView->getContentSize();
+    
+    // Must width before setting data since we pass in 0 height
+    item->setContentSize(Size(contentSize.width, 0.0f));
+    item->setData(message);
+    _listView->insertCustomItem(item, insertIndex);
+    
+    _listView->doLayout();
+    // Force a second layout, to fix issues with overlapping items
+    // This probably happens because some list items resize during layout
+    _listView->forceDoLayout();
+    
+    // Scroll to bottom
+    // TODO: Only scroll to bottom if the message is new
+    setScrollPosition(1.0f);
 }
 
 NS_AZOOMEE_CHAT_END

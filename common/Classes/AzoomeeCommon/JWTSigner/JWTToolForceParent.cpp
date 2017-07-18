@@ -120,11 +120,7 @@ std::string JWTToolForceParent::getHeaderString(std::string kid)
     
     const char *jsonString = s.GetString();
     
-    cocos2d::log("\n\n\n Body string: %s\n\n\n", jsonString);
-    
     std::string result = getBase64Encoded(StringUtils::format("%s", jsonString));
-    
-    cocos2d::log("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
 
     return result;
 }
@@ -139,11 +135,8 @@ std::string JWTToolForceParent::getBodySignature(std::string method, std::string
     
     std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(host)).c_str(), url_encode(stringToLower(getDateFormatString())).c_str());
     
-    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), queryParams.c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
+    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), stringToLower(queryParams).c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
     std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, ParentDataProvider::getInstance()->getLoggedInParentApiSecret());
-    
-    cocos2d::log("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
-    
     
     return bodySignature;
 }
@@ -169,7 +162,6 @@ std::string JWTToolForceParent::getBodyString(std::string method, std::string pa
     writer.String(getBodySignature(method, path, host, queryParams, requestBody).c_str(), (int)getBodySignature(method, path, host, queryParams, requestBody).length());
     
     writer.String("parentKey", (int)StringUtils::format("parentKey").length());
-    //writer.String(BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString() , (int)StringUtils::format("%s", BackEndCaller::getInstance()->parentLoginData["apiKey"].GetString()).length());
     writer.String(ParentDataProvider::getInstance()->getLoggedInParentApiKey().c_str(), (int)ParentDataProvider::getInstance()->getLoggedInParentApiKey().length());
     
     writer.EndObject();
@@ -179,11 +171,7 @@ std::string JWTToolForceParent::getBodyString(std::string method, std::string pa
     
     const char *jsonString = s.GetString();
     
-    cocos2d::log("\n\n\n Body string: %s\n\n\n", jsonString);
-    
     std::string result = getBase64Encoded(StringUtils::format("%s", jsonString));
-    
-    cocos2d::log("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
     
     return result;
 }
@@ -198,8 +186,6 @@ std::string JWTToolForceParent::getJWTSignature(std::string sHeader, std::string
 
 std::string JWTToolForceParent::buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody)
 {
-    // TODO: DEBUG LOGGING - REMOVE THIS BEFORE PR
-    cocos2d::log("buildJWTString: method=\"%s\", path=\"%s\", host=\"%s\", queryParams=\"%s\", requestBody=\"%s\",", method.c_str(), path.c_str(), host.c_str(), queryParams.c_str(), requestBody.c_str());
     //HEADER STRING------------------------------------------------------------------------------
     
     std::string sHeader = getHeaderString(ParentDataProvider::getInstance()->getLoggedInParentApiKey());
@@ -216,13 +202,6 @@ std::string JWTToolForceParent::buildJWTString(std::string method, std::string p
     //CREATE THE FINAL JWT STRING-----------------------------------------------------------------
     
     std::string finalJWT = StringUtils::format("%s.%s.%s", sHeader.c_str(), sBody.c_str(), sSignature.c_str());
-    
-    cocos2d::log("\n\n\n FINAL JWT STRING: %s\n\n\n", finalJWT.c_str());
-    
-    // TODO: DEBUG LOGGING - REMOVE THIS BEFORE PR
-    cocos2d::log("ParentId: %s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
-    cocos2d::log("ApiKey: %s", ParentDataProvider::getInstance()->getLoggedInParentApiKey().c_str());
-    cocos2d::log("ApiSecret: %s", ParentDataProvider::getInstance()->getLoggedInParentApiSecret().c_str());
     
     return finalJWT;
 }

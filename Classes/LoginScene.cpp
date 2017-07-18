@@ -185,6 +185,16 @@ void LoginScene::textInputReturnPressed(TextInputLayer* inputLayer)
         nextButtonPressed();
 }
 
+void LoginScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+    
+}
+
+void LoginScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+    
+}
+
 void LoginScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == nextButton)

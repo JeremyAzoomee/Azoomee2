@@ -26,11 +26,14 @@ public:
     std::string getDOBForAnAvailableChildren(int childNumber);
     std::string getSexForAnAvailableChildren(int childNumber);
     std::string getIDForAvailableChildren(int childNumber);
+    std::string getInviteCodeForAvailableChildren(int childNumber);
     
     std::string getLoggedInParentActorStatus();
     std::string getLoggedInParentId();
+    std::string getLoggedInParentCdnSessionId();
     std::string getLoggedInParentApiKey();
     std::string getLoggedInParentApiSecret();
+    std::string getLoggedInParentAvatarId();
     std::string getParentPin();
     std::string getBillingStatus();
     std::string getBillingDate();
@@ -38,6 +41,15 @@ public:
     
     bool isPaidUser();
     bool emailRequiresVerification();
+    
+    //-----------Pending Friend Requests-------------
+    int getNoOfPendingFriendRequest();
+    std::string getPendingFriendRequestSenderName(int pendingFriendRequestNo);
+    std::string getPendingFriendRequestFriendName(int pendingFriendRequestNo);
+    std::string getPendingFriendRequestInviteCode(int pendingFriendRequestNo);
+    std::string getPendingFriendRequestRequestID(int pendingFriendRequestNo);
+    std::string getPendingFriendRequestSenderID(int pendingFriendRequestNo);
+    std::string getPendingFriendRequestRespondentID(int pendingFriendRequestNo);
 };
 
 }

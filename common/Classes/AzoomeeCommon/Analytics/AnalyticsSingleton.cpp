@@ -125,6 +125,8 @@ void AnalyticsSingleton::registerCurrentScene(std::string currentScene)
 {
     mixPanelRegisterSuperProperties("currentScene", currentScene);
     setCrashlyticsKeyWithString("currentScene", currentScene);
+    
+    moveToSceneEvent(currentScene);
 }
     
 void AnalyticsSingleton::setPortraitOrientation()
@@ -135,6 +137,21 @@ void AnalyticsSingleton::setPortraitOrientation()
 void AnalyticsSingleton::setLandscapeOrientation()
 {
     mixPanelRegisterSuperProperties("orientation", "landscape");
+}
+    
+void AnalyticsSingleton::setNumberOfChatFriends(int noOfChatFriends)
+{
+    mixPanelRegisterSuperProperties("noOfChatFriends",cocos2d::StringUtils::format("%s%d",NUMBER_IDENTIFIER, noOfChatFriends));
+}
+
+void AnalyticsSingleton::setChatFriendIsParent(bool chatFriendIsParent)
+{
+    std::string friendIsParentString = "NO";
+    
+    if (chatFriendIsParent)
+        friendIsParentString = "YES";
+    
+    mixPanelRegisterSuperProperties("chatFriendIsParent",friendIsParentString);
 }
 
 //-------------logout events-----------------
@@ -483,6 +500,14 @@ void AnalyticsSingleton::httpRequestFailed(std::string requestTag, long response
     
     mixPanelSendEventWithStoredProperties("httpRequestFailed", mixPanelProperties);
 }
+    
+void AnalyticsSingleton::moveToSceneEvent(std::string newScene)
+{
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["newScene"] = newScene;
+    
+    mixPanelSendEventWithStoredProperties("moveToSceneEvent", mixPanelProperties);
+}
 
 //---------------IAP ACTIONS------------------
   
@@ -512,9 +537,10 @@ void AnalyticsSingleton::iapSubscriptionErrorEvent(std::string errorDescription)
     mixPanelSendEventWithStoredProperties("iapSubscriptionError", mixPanelProperties);
 }
 
-void AnalyticsSingleton::iapSubscriptionFailedEvent()
+void AnalyticsSingleton::iapSubscriptionFailedEvent(const std::string& failureDetails)
 {
-    mixPanelSendEventWithStoredProperties("iapSubscriptionFailed");
+    std::map<std::string, std::string> mixPanelProperties = { {"FailureDetails", failureDetails} };
+    mixPanelSendEventWithStoredProperties("iapSubscriptionFailed", mixPanelProperties);
 }
 
 void AnalyticsSingleton::iapUserDataFailedEvent()
@@ -558,5 +584,109 @@ void AnalyticsSingleton::deepLinkingContentEvent()
 {
     mixPanelSendEventWithStoredProperties("deepLinkingContentEvent");
 }
+    
+    //-----------------CHAT INVITATION EVENTS------------------
+    void AnalyticsSingleton::settingsConfirmationTabNotificationShown()
+    {
+        mixPanelSendEventWithStoredProperties("settingsConfirmationTabNotificationShown");
+    }
+    
+    void AnalyticsSingleton::settingsConfirmationTabNotificationError(long errorCode)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+        
+        mixPanelSendEventWithStoredProperties("settingsConfirmationTabNotificationError", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::settingsKidInviteRequestSuccess()
+    {
+        mixPanelSendEventWithStoredProperties("settingsKidInviteRequestSuccess");
+    }
+    
+    void AnalyticsSingleton::settingsKidInviteRequestError(long errorCode)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+        
+        mixPanelSendEventWithStoredProperties("settingsKidInviteRequestError", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::settingsPendingFriendRequestsRefreshError(long errorCode)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+        
+        mixPanelSendEventWithStoredProperties("settingsPendingFriendRequestsRefreshError", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::settingsConfirmationRejectedSuccess()
+    {
+        mixPanelSendEventWithStoredProperties("settingsConfirmationRejectedSuccess");
+    }
+    
+    void AnalyticsSingleton::settingsConfirmationApprovedSuccess()
+    {
+        mixPanelSendEventWithStoredProperties("settingsConfirmationApprovedSuccess");
+    }
+    
+    void AnalyticsSingleton::settingsConfirmationError(long errorCode)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["ErrorCode"] = cocos2d::StringUtils::format("%ld", errorCode);
+        
+        mixPanelSendEventWithStoredProperties("settingsConfirmationError", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::chatKeyboardEvent(bool isOnScreen)
+    {
+        std::string isOnScreenString = "NO";
+        
+        if (isOnScreen)
+            isOnScreenString = "YES";
 
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["keyboardOnScreen"] = isOnScreenString;
+        
+        mixPanelSendEventWithStoredProperties("chatKeyboardOnScreenEvent", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::chatSelectedSticker(std::string stickerURL)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["stickerURL"] = stickerURL;
+        
+        mixPanelSendEventWithStoredProperties("chatSelectedSticker", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::chatSelectedStickerTab(std::string categoryID)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["stickerCategoryID"] = categoryID;
+        
+        mixPanelSendEventWithStoredProperties("chatSelectedStickerTab", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::chatIncomingMessageEvent(std::string messageType)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["messageType"] = messageType;
+        
+        mixPanelSendEventWithStoredProperties("chatIncomingMessageEvent", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::chatOutgoingMessageEvent(std::string messageType)
+    {
+        std::map<std::string, std::string> mixPanelProperties;
+        mixPanelProperties["messageType"] = messageType;
+        
+        mixPanelSendEventWithStoredProperties("chatOutgoingMessageEvent", mixPanelProperties);
+    }
+    
+    void AnalyticsSingleton::unreadMessagesNotificationReceived()
+    {
+        mixPanelSendEventWithStoredProperties("unreadMessagesNotificationReceived");
+    }
+    
+    
 }

@@ -2,27 +2,15 @@ package org.cocos2dx.cpp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.tinizine.azoomee.R;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -59,7 +47,6 @@ public class NativeView extends XWalkActivity {
 
         Bundle extras = getIntent().getExtras();
         userid = extras.getString("userid");
-        Log.d("userid", userid);
 
         xWalkWebView = new XWalkView(this);
         addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -85,7 +72,7 @@ public class NativeView extends XWalkActivity {
                     xWalkWebViewStatic = null;
                 }
 
-                JNIRegisterAndroidSceneChangeEvent();
+                JNICalls.JNIRegisterAndroidSceneChangeEvent();
 
                 finish();
             }
@@ -120,8 +107,6 @@ public class NativeView extends XWalkActivity {
             userid = extras.getString("userid");
         }
 
-        Log.d("urlToBeLoaded", myUrl);
-
         if(myUrl.substring(myUrl.length() - 4).equals("html"))
         {
             xWalkWebView.loadUrl("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl);
@@ -129,13 +114,16 @@ public class NativeView extends XWalkActivity {
         else
         {
             XWalkCookieManager mCookieManager = new XWalkCookieManager();
+            mCookieManager.removeSessionCookie();
+            mCookieManager.removeExpiredCookie();
+            mCookieManager.removeAllCookie();
             mCookieManager.flushCookieStore();
             mCookieManager.setAcceptCookie(true);
             mCookieManager.setAcceptFileSchemeCookies(true);
 
             try
             {
-                JSONObject obj = new JSONObject(this.JNIGetAllCookies());
+                JSONObject obj = new JSONObject(JNICalls.JNIGetAllCookies());
                 JSONArray array = obj.getJSONArray("Elements");
 
                 for(int i = 0; i < array.length(); i++)
@@ -144,15 +132,12 @@ public class NativeView extends XWalkActivity {
                     String url = currentObject.getString("url");
                     String cookie = currentObject.getString("cookie");
 
-                    Log.d("COOKIE URL", url);
-                    Log.d("COOKIE", cookie);
-
                     mCookieManager.setCookie(url, cookie);
                 }
             }
             catch (Exception ex)
             {
-                this.getBackToLoginScreen();
+                JNICalls.getBackToLoginScreen();
             }
 
             xWalkWebView.loadUrl("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl);
@@ -163,8 +148,8 @@ public class NativeView extends XWalkActivity {
 
     static void errorOccurred()
     {
-        JNIRegisterAndroidSceneChangeEvent();
-        getBackToLoginScreen();
+        JNICalls.JNIRegisterAndroidSceneChangeEvent();
+        JNICalls.getBackToLoginScreen();
         activity.finish();
     }
 
@@ -172,20 +157,13 @@ public class NativeView extends XWalkActivity {
     protected void onPause()
     {
         super.onPause();
-        JNIRegisterAppWentBackgroundEvent();
+        JNICalls.JNIRegisterAppWentBackgroundEvent();
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        JNIRegisterAppCameForegroundEvent();
+        JNICalls.JNIRegisterAppCameForegroundEvent();
     }
-
-    public static native void getBackToLoginScreen();
-    public static native void sendMediaPlayerData(String eventKey, String eventValue);
-    public static native void JNIRegisterAppWentBackgroundEvent();
-    public static native void JNIRegisterAppCameForegroundEvent();
-    public static native void JNIRegisterAndroidSceneChangeEvent();
-    public static native String JNIGetAllCookies();
 }

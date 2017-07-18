@@ -8,6 +8,8 @@
 
 using namespace cocos2d;
 
+//#define USINGCI
+
 
 namespace Azoomee
 {
@@ -41,9 +43,36 @@ bool ConfigStorage::init(void)
     OomeeConfiguration = parseJsonConfigurationFile("OomeeConfiguration.json");
     VersionConfiguration = parseJsonConfigurationFile("Version.json");
     IapConfiguration = parseJsonConfigurationFile("IapConfiguration.json");
-    
-    parentSignedRequestTags = {API::TagParentPin, API::TagVerifyAmazonPayment, API::TagVerifyGooglePayment, API::TagVerifyApplePayment, API::TagUpdateBillingData, API::TagGetAvailableChildren, API::TagUpdateChild};
-    requestTagsRequireImmediateSending = {"GROUP HQ", "VIDEO HQ", "AUDIO HQ", "GAME HQ", "PreviewHOME", "HOME", API::TagLogin, API::TagChildLogin, API::TagParentPin, API::TagVerifyGooglePayment, API::TagVerifyAmazonPayment, API::TagVerifyApplePayment, API::TagGetAvailableChildren};
+
+    parentSignedRequestTags = {
+        API::TagParentPin,
+        API::TagVerifyAmazonPayment,
+        API::TagVerifyGooglePayment,
+        API::TagVerifyApplePayment,
+        API::TagUpdateBillingData,
+        API::TagGetAvailableChildren,
+        API::TagUpdateChild,
+        API::TagPusherAuth,
+        API::TagGetPendingFriendRequests,
+        API::TagFriendRequest,
+        API::TagFriendRequestReaction
+    };
+    requestTagsRequireImmediateSending = {
+        "GROUP HQ",
+        "VIDEO HQ",
+        "AUDIO HQ",
+        "GAME HQ",
+        "PreviewHOME",
+        "HOME",
+        API::TagLogin,
+        API::TagChildLogin,
+        API::TagParentPin,
+        API::TagVerifyGooglePayment,
+        API::TagVerifyAmazonPayment,
+        API::TagVerifyApplePayment,
+        API::TagGetAvailableChildren,
+        API::TagPusherAuth
+    };
     
     
     return true;
@@ -128,6 +157,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagOfflineCheck) return "/api/comms/heartbeat";
+    if(httpRequestTag == API::TagGetPendingFriendRequests) return StringUtils::format("/api/user/adult/%s/invite/code/received", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     
     return "";
 }
@@ -249,10 +279,11 @@ int ConfigStorage::getContentItemImageValidityInSeconds()
 
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 
-cocos2d::Point ConfigStorage::getCirclePositionForMenuItem(int itemNumber)
+cocos2d::Point ConfigStorage::getRelativeCirclePositionForMenuItem(int itemNumber)
 {
-    float x = NavigationConfiguration["circlePositionsForMenuItems"]["positions"][itemNumber]["x"].GetDouble();
-    float y = NavigationConfiguration["circlePositionsForMenuItems"]["positions"][itemNumber]["y"].GetDouble();
+    //Gets the relative position to keep the navigation buttons in a circle
+    float x = NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber]["x"].GetDouble();
+    float y = NavigationConfiguration["relativeCirclePositionsForMenuItems"]["positions"][itemNumber]["y"].GetDouble();
     
     return Point(x, y);
 }

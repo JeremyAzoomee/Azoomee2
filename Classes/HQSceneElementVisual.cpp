@@ -125,7 +125,8 @@ void HQSceneElementVisual::addImageDownloader()
     imageDownloader->initWithURLAndSize(elementUrl, elementItemData["type"], Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), elementShape);
     imageDownloader->setPosition(baseLayer->getContentSize() / 2);
     
-    if(elementItemData["newFlag"] == "true") imageDownloader->setAttachNewBadgeToImage();
+    if(elementItemData["newFlag"] == "true")
+        imageDownloader->setAttachNewBadgeToImage();
     
     baseLayer->addChild(imageDownloader);
 }

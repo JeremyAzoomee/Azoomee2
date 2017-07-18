@@ -2,15 +2,15 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "MessageScene.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
 
 NS_AZOOMEE_CHAT_BEGIN
-
-const char* const kUpdateLastSeenStorageKey = "azoomee.chat.tester.update_notes";
 
 bool FriendListScene::init()
 {
@@ -32,13 +32,14 @@ bool FriendListScene::init()
     _contentLayout = ui::Layout::create();
     _contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _contentLayout->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
+    _contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _contentLayout->setBackGroundColor(Style::Color::darkTwo);
     _rootLayout->addChild(_contentLayout);
     
     // Titlebar at the top
     // We add this last so it sits on top with a drop shadow
     _titleBar = TitleBarWidget::create();
-    _titleBar->setTitleString("Chat"); // @TODO: Get from Strings
-    _titleBar->setTitleColor(Style::Color::kermitGreenTwo);
+    _titleBar->setTitleImage("res/chat/ui/azoomee_chat_logo.png");
     _titleBar->setSizeType(ui::Widget::SizeType::PERCENT);
     _titleBar->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _titleBar->addBackButtonEventListener([this](Ref* button){
@@ -56,12 +57,11 @@ void FriendListScene::onEnter()
     Super::onEnter();
     
     // Create a friend object which represents the current user
-    const std::string& childId = ChildDataProvider::getInstance()->getLoggedInChildId();
+    const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
     const std::string& childName = ChildDataProvider::getInstance()->getLoggedInChildName();
-    const std::string& childAvatar = ChildDataProvider::getInstance()->getLoggedInChildAvatarId();
+    const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
+    cocos2d::log("my avatar id: %s", ChildDataProvider::getInstance()->getParentOrChildAvatarId().c_str());
     _currentUser = Friend::create(childId, childName, childAvatar);
-    _userOomee->setAvatarForFriend(_currentUser);
-    // TODO: Update user name label
     
     // Register for API events
     ChatAPI::getInstance()->registerObserver(this);
@@ -69,8 +69,6 @@ void FriendListScene::onEnter()
     // Get friend list
     ChatAPI::getInstance()->requestFriendList();
     ModalMessages::getInstance()->startLoading();
-    
-    showNextTesterMessage();
 }
 
 void FriendListScene::onExit()
@@ -81,88 +79,6 @@ void FriendListScene::onExit()
     ChatAPI::getInstance()->removeObserver(this);
 }
 
-#pragma mark - Update notes
-
-void FriendListScene::showNextTesterMessage()
-{
-    // @onimitch: Tester messsages disabled, to be removed entirely in later version
-//    // Welcome message
-//    const bool shown = showTesterMessageIfNotSeen("Welcome");
-//    if(!shown)
-//    {
-//        // What's new
-//        showTesterMessageIfNotSeen("What's new");
-//    }
-}
-
-bool FriendListScene::showTesterMessageIfNotSeen(const std::string& title)
-{
-    const std::string& version = Azoomee::Chat::Version;
-    const std::string& fullTitle = StringUtils::format("%s v%s", title.c_str(), version.c_str());
-    
-    const std::string& seenItUserKey = StringUtils::format("%s|%s", kUpdateLastSeenStorageKey, fullTitle.c_str());
-    const bool seenIt = UserDefault::getInstance()->getBoolForKey(seenItUserKey.c_str(), false);
-    if(seenIt)
-    {
-        return false;
-    }
-    
-    std::stringstream body;
-    
-    // TODO: If this is gona be a regular thing, stick it in a config or something, but we don't want it for end users...
-    if(title == "Welcome")
-    {
-        body << "Thanks for testing the Azoomee Chat app!\n";
-        body << "\n";
-        body << "Please post any feedback/bug reports on Slack: #chat-feedback.";
-    }
-    else if(title == "What's new")
-    {
-        body << "- Text entry resizes for long messages.\n";
-        body << "- New sticker packs.\n";
-        body << "- Sound effects.\n";
-        
-        body << "\n";
-        body << "0.1.4:\n";
-        body << "- Doubled min height of stickers in message history.\n";
-        body << "- Re-enabled 5sec auto refresh.\n";
-        body << "- Hidden art gallery message type.\n";
-        
-        body << "\n";
-        body << "0.1.3:\n";
-        body << "- Stickers!.\n";
-        body << "- Emoji support.\n";
-        body << "- Improved keyboard detection on Android.\n";
-        body << "- Lots of little bug fixes.\n";
-        
-        body << "\n";
-        body << "0.1.2:\n";
-        body << "- The oomees are here!.\n";
-        
-        body << "\n";
-        body << "0.1.1:\n";
-        body << "- New UI \"1.0\".\n";
-        body << "- Chat UI should always resize correctly, please report if it doesn't.\n";
-        body << "- No Oomees.\n";
-        body << "- No Stickers.\n";
-        body << "- No Pusher.\n";
-        body << "- No unread messages indicator.\n";
-    }
-    
-    MessageBox* messageBox = MessageBox::createWith(fullTitle, body.str(), "OK", this);
-    messageBox->setBodyHAlignment(cocos2d::TextHAlignment::LEFT);
-    return true;
-}
-
-#pragma mark - MessageBoxDelegate
-
-void FriendListScene::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
-{
-    const std::string& seenItUserKey = StringUtils::format("%s|%s", kUpdateLastSeenStorageKey, messageBoxTitle.c_str());
-    UserDefault::getInstance()->setBoolForKey(seenItUserKey.c_str(), true);
-    showNextTesterMessage();
-}
-
 #pragma mark - Size Changes
 
 void FriendListScene::onSizeChanged()
@@ -170,63 +86,102 @@ void FriendListScene::onSizeChanged()
     Super::onSizeChanged();
     
     const cocos2d::Size& contentSize = getContentSize();
-    // TODO: Grab sizes from config
     const bool isLandscape = contentSize.width > contentSize.height;
+    
+    // TODO: Grab sizes from config
     
     // Main layout
     const Vec2& titleBarSize = Vec2(1.0f, (isLandscape) ? 0.131f : 0.084f);
     _titleBar->setSizePercent(titleBarSize);
-    _contentLayout->setSizePercent(Vec2(1.0f, 1.0f - titleBarSize.y));
+    const Vec2& contentLayoutSize = Vec2(1.0f, 1.0f - titleBarSize.y);
+    _contentLayout->setSizePercent(contentLayoutSize);
+    // Subtitle bar uses same height as title bar
+    const Vec2& subTitleBarSize = Vec2(1.0f, titleBarSize.y / contentLayoutSize.y);
+    _subTitleBar->setSizePercent(subTitleBarSize);
+    _subTitleBarBorder->setContentSize(Size(_subTitleBar->getContentSize().width * 0.9f, 4.0f));
     
-    // Layout of content changes depending on orientation
-    const Vec2& userPanelSize = Vec2((isLandscape) ? 0.5f : 1.0f, (isLandscape) ? 1.0f : 0.35f);
-    _userPanel->setSizePercent(userPanelSize);
-    _friendListView->setSizePercent(Vec2((isLandscape) ? 0.5f : 1.0f, (isLandscape) ? 1.0f : 1.0f - userPanelSize.y));
-    ui::RelativeLayoutParameter* contactListLayout = (ui::RelativeLayoutParameter*) _friendListView->getLayoutParameter();
-    contactListLayout->setAlign(isLandscape ? ui::RelativeLayoutParameter::RelativeAlign::PARENT_TOP_LEFT : ui::RelativeLayoutParameter::RelativeAlign::PARENT_BOTTOM_CENTER_HORIZONTAL);
-    ui::RelativeLayoutParameter* userPanelLayout = (ui::RelativeLayoutParameter*) _userPanel->getLayoutParameter();
-    userPanelLayout->setAlign(isLandscape ? ui::RelativeLayoutParameter::RelativeAlign::PARENT_TOP_RIGHT : ui::RelativeLayoutParameter::RelativeAlign::PARENT_TOP_CENTER_HORIZONTAL);
-    
-    
-    // User panel
-    Vec2 oomeeSize = Vec2(1.0f, (isLandscape) ? 0.458f : 0.70f);
-    // Calc width % as a square
-    const float widthPt = _userPanel->getContentSize().height * oomeeSize.y;
-    oomeeSize.x = widthPt / _userPanel->getContentSize().width;
-    _userOomee->setSizePercent(oomeeSize);
+    _friendListView->setSizePercent(Vec2(0.9f, 1.0f - subTitleBarSize.y));
+    // 2 column on landscape, 1 column portrait
+    _friendListView->setColumns((isLandscape) ? 2 : 1);
 }
 
 #pragma mark - UI creation
 
 void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
 {
-    parent->setLayoutType(ui::Layout::Type::RELATIVE);
+    parent->setLayoutType(ui::Layout::Type::VERTICAL);
+    
+    // Subtitle bar
+    _subTitleBar = ui::Layout::create();
+    _subTitleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+//    _subTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+//    _subTitleBar->setBackGroundColor(Style::Color::brightAqua);
+    parent->addChild(_subTitleBar);
+    createSubTitleBarUI(_subTitleBar);
     
     // Contact list
     _friendListView = FriendListView::create();
-    _friendListView->setLayoutParameter(CreateTopLeftRelativeLayoutParam());
+    _friendListView->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _friendListView->addItemSelectedEventListener(CC_CALLBACK_1(FriendListScene::onFriendListItemSelected, this));
     parent->addChild(_friendListView);
-    
-    // User panel - holds oomee etc
-    _userPanel = ui::Layout::create();
-    _userPanel->setSizeType(ui::Widget::SizeType::PERCENT);
-    _userPanel->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _userPanel->setBackGroundColor(Style::Color::dustyLavender);
-    _userPanel->setLayoutParameter(CreateTopRightRelativeLayoutParam());
-    parent->addChild(_userPanel);
-    
-    createUserPanelUI(_userPanel);
 }
 
-void FriendListScene::createUserPanelUI(cocos2d::ui::Layout* parent)
+void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
 {
     parent->setLayoutType(ui::Layout::Type::RELATIVE);
     
-    _userOomee = AvatarWidget::create();
-    _userOomee->setSizeType(ui::Widget::SizeType::PERCENT);
-    _userOomee->setLayoutParameter(CreateCenterRelativeLayoutParam());
-    parent->addChild(_userOomee);
+    // Content of the sub title bar
+    ui::Layout* contentLayout = ui::Layout::create();
+    contentLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
+    contentLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
+//    contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
+//    contentLayout->setSizePercent(Vec2(1.0f, 1.0f));
+    contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    contentLayout->setBackGroundColor(Style::Color::blueGreen);
+    parent->addChild(contentLayout);
+    
+    // Title
+    ui::Text* titleLabel = ui::Text::create();
+    titleLabel->setFontName(Style::Font::Regular);
+    titleLabel->setFontSize(95.0f);
+    titleLabel->setTextColor(Color4B(Style::Color::brightAqua));
+    // TODO: Get from Strings
+    titleLabel->setString("My Friends");
+    titleLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
+    contentLayout->addChild(titleLabel);
+    
+    // Add friend button
+    ui::Button* addFriendButton = ui::Button::create("res/chat/ui/buttons/outline_button.png");
+    addFriendButton->setTitleText("Add a friend");
+    addFriendButton->setTitleColor(Style::Color::brightAqua);
+    addFriendButton->setTitleFontName(Style::Font::Regular);
+    addFriendButton->setTitleFontSize(45.0f);
+    addFriendButton->setScale9Enabled(true);
+    addFriendButton->setTitleAlignment(TextHAlignment::LEFT, TextVAlignment::CENTER);
+//    addFriendButton->getRendererNormal()->setStrechEnabled(true);
+//    addFriendButton->getRendererClicked()->setStrechEnabled(true);
+//    addFriendButton->getRendererDisabled()->setStrechEnabled(true);
+    const float buttonLeftMargin = 50.0f;
+    addFriendButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(buttonLeftMargin, 0.0f, 0.0f, 0.0f)));
+    addFriendButton->addClickEventListener([this](Ref* button){
+        Azoomee::Chat::delegate->onChatAddFriend();
+    });
+    contentLayout->addChild(addFriendButton);
+    
+    // Size the content layer to fit, so everything is centered
+    const Size& titleSize = titleLabel->getContentSize();
+    const Size& buttonSize = addFriendButton->getContentSize();
+    const float totalWidth = titleSize.width + buttonLeftMargin + buttonSize.width;
+    contentLayout->setContentSize(Size(totalWidth, 0.0f));
+    
+    
+    // Border at bottom
+    _subTitleBarBorder = ui::Layout::create();
+    _subTitleBarBorder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
+    _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
+    _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _subTitleBarBorder->setBackGroundColor(Style::Color::barney);
+    parent->addChild(_subTitleBarBorder);
 }
 
 #pragma mark - Interaction
@@ -234,12 +189,24 @@ void FriendListScene::createUserPanelUI(cocos2d::ui::Layout* parent)
 void FriendListScene::onBackButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - BackButton");
     
     Azoomee::Chat::delegate->onChatNavigationBack();
 }
 
 void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 {
+    if(friendData->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId())
+    {
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - SelectedParent");
+        AnalyticsSingleton::getInstance()->setChatFriendIsParent(true);
+    }
+    else
+    {
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - SelectedFriend");
+        AnalyticsSingleton::getInstance()->setChatFriendIsParent(false);
+    }
+    
     AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
     
     FriendList participants = { _currentUser, friendData };
@@ -251,6 +218,8 @@ void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 
 void FriendListScene::onChatAPIGetFriendList(const FriendList& friendList)
 {
+    AnalyticsSingleton::getInstance()->setNumberOfChatFriends(friendList.size());
+    
     _friendListView->setItems(friendList);
     
     ModalMessages::getInstance()->stopLoading();

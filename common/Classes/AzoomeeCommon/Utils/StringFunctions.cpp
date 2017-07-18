@@ -156,5 +156,4 @@ std::string replaceAll(std::string& str, const std::string& from, const std::str
     return str;
 }
 
-
 } // Azoomee

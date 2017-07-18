@@ -77,6 +77,18 @@ std::string ChildDataProvider::getParentOrChildApiKey()
         return ParentDataStorage::getInstance()->loggedInParentApiKey;
     }
 }
+    
+std::string ChildDataProvider::getParentOrChildAvatarId()
+{
+    if(ChildDataStorage::getInstance()->childLoggedIn)
+    {
+        return ChildDataStorage::getInstance()->loggedInChildAvatarId;
+    }
+    else
+    {
+        return ParentDataStorage::getInstance()->loggedInParentAvatarId;
+    }
+}
 
 std::string ChildDataProvider::getLoggedInChildName()
 {

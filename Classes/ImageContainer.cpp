@@ -96,7 +96,7 @@ void ImageContainer::createBgLayer(std::map<std::string, std::string> elementPro
     
     bgLayer = LayerColor::create(colour, containerSize.width + 20, containerSize.height + 20);
     bgLayer->setAnchorPoint(Vec2(0.5, 0.5));
-    bgLayer->setPosition(Point(position.x + origin.x, position.y + origin.y));
+    bgLayer->setPosition(origin.x+position.x-bgLayer->getContentSize().width/2*bgLayer->getScale(),origin.y+position.y-bgLayer->getContentSize().height/2*bgLayer->getScale());
     bgLayer->setScale(0.1);
     bgLayer->setOpacity(0);
     this->addChild(bgLayer);
@@ -153,6 +153,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         {
             if(elementProperties.at("entitled") == "false")
             {
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "1,1");
             
                 if(IAPEnabled)
                 {

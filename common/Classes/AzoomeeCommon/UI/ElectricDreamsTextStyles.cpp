@@ -4,7 +4,6 @@
 
 using namespace cocos2d;
 
-
 #define COLOR_BRIGHT_AQUA   Style::Color::brightAqua
 #define COLOR_WHITE         Style::Color::white
 #define COLOR_BLACK         Style::Color::black
@@ -69,6 +68,11 @@ Label*  createLabelHeaderWhite(std::string text) {
 
 Label*  createLabelBody(std::string text){
     return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 59);
+}
+    
+Label*  createLabelChildName(std::string text)
+{
+    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 47);
 }
 
 Label*  createLabelBodyCentred(std::string text){
@@ -154,6 +158,31 @@ Label*  createUserNameLabelWithWidth(float width)
     Label* newLabel = createLabelWith(username, FONT_REGULAR, COLOR_BRIGHT_AQUA, 84);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     newLabel->setWidth(width);
+    
+    return newLabel;
+}
+    
+Label*  createLabelChildNameSettings(std::string text)
+{
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 92);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    
+    return newLabel;
+}
+    
+Label*  createLabelSettingsChat(std::string text,Color3B color)
+{
+    Label* newLabel = createLabelWith(text, FONT_REGULAR, color, 48);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    newLabel->setLineSpacing(15);
+    
+    return newLabel;
+}
+    
+Label*  createLabelKidCode(std::string text,cocos2d::Color3B color)
+{
+    Label* newLabel = createLabelWith(text, FONT_KIDCODE_REGULAR, color, 84);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     
     return newLabel;
 }

@@ -2,6 +2,8 @@
 
 #include <cocos/cocos2d.h>
 #include "SceneManagerScene.h"
+#include "HQHistoryManager.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -23,7 +25,21 @@ ChatDelegate* ChatDelegate::getInstance()
 void ChatDelegate::onChatNavigationBack()
 {
     // Go back to the hub
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    {
+        HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+    }
+    else
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+    }
+    
+}
+
+void ChatDelegate::onChatAddFriend()
+{
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(SettingsFromChat));
 }
 
 NS_AZOOMEE_END

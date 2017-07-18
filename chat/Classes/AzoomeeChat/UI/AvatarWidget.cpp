@@ -23,7 +23,7 @@ bool AvatarWidget::init()
     _avatarPlaceholder->ignoreContentAdaptWithSize(false); // stretch the image
     _avatarPlaceholder->setAnchorPoint(Vec2(0.5f, 0.5f));
     _avatarPlaceholder->setSizeType(ui::Widget::SizeType::PERCENT);
-    _avatarPlaceholder->setSizePercent(Vec2(0.8f, 0.8f));
+    _avatarPlaceholder->setSizePercent(Vec2(1.0f, 1.0f));
     _avatarPlaceholder->setPositionType(ui::Widget::PositionType::PERCENT);
     _avatarPlaceholder->setPositionPercent(Vec2(0.5f, 0.5f));
     _avatarPlaceholder->loadTexture("res/chat/ui/avatar/contact_inknown_icon.png");
@@ -32,7 +32,7 @@ bool AvatarWidget::init()
     
     // Main avatar roundel
     
-    _outerFrame = ui::ImageView::create("res/chat/ui/avatar/r_avatar_frame_back.png");
+    _outerFrame = ui::ImageView::create();
     _outerFrame->ignoreContentAdaptWithSize(false); // stretch the image
     _outerFrame->setAnchorPoint(Vec2(0.5f, 0.5f));
     _outerFrame->setSizeType(ui::Widget::SizeType::PERCENT);
@@ -41,18 +41,18 @@ bool AvatarWidget::init()
     _outerFrame->setPositionPercent(Vec2(0.5f, 0.5f));
     addChild(_outerFrame);
     
-    _background = ui::ImageView::create("res/chat/ui/avatar/avatar_background_user.png");
+    _background = ui::ImageView::create("res/chat/ui/avatar/avatar_background.png");
     _background->ignoreContentAdaptWithSize(false); // stretch the image
     _background->setAnchorPoint(Vec2(0.5f, 0.5f));
     _background->setSizeType(ui::Widget::SizeType::PERCENT);
-    _background->setSizePercent(Vec2(0.86f, 0.86f));
+    _background->setSizePercent(Vec2(1.0f, 1.0f)); //0.86f, 0.86f));
     _background->setPositionType(ui::Widget::PositionType::PERCENT);
     _background->setPositionPercent(Vec2(0.5f, 0.5f));
     _outerFrame->addChild(_background);
     
     // Setup the clipping mask
     _clippingNode = ClippingNode::create();
-    const Size& clipSize = _background->getVirtualRendererSize();// * 0.923f;
+    const Size& clipSize = _background->getVirtualRendererSize();
     _clippingNode->setContentSize(clipSize);
     _clippingNode->setAnchorPoint(Vec2(0.5f, 0.5f));
     _background->addChild(_clippingNode);
@@ -76,12 +76,12 @@ bool AvatarWidget::init()
     _avatarImage->ignoreContentAdaptWithSize(false); // stretch the image
     _avatarImage->setAnchorPoint(Vec2(0.5f, 0.5f));
     _avatarImage->setPosition(Vec2(clipSize.width * 0.5f, clipSize.height * 0.6f));
-    _avatarImage->setScale(0.865f);
+    _avatarImage->setScale(0.55f); //0.865f);
     _clippingNode->addChild(_avatarImage);
     
     
     // Front frame to cover aliasing on the clipping circle
-    _frameFront = ui::ImageView::create("res/chat/ui/avatar/l_avatar_frame_front_user.png");
+    _frameFront = ui::ImageView::create("res/chat/ui/avatar/l_avatar_frame_front.png");
     _frameFront->ignoreContentAdaptWithSize(false); // stretch the image
     _frameFront->setAnchorPoint(Vec2(0.0f, 0.0f));
     _background->addChild(_frameFront);
@@ -139,19 +139,6 @@ void AvatarWidget::setAvatarForFriend(const FriendRef& friendData)
     const std::string& avatarURL = (friendData) ? friendData->avatarURL() : "";
     _avatarPlaceholder->setVisible(avatarURL.empty());
     _outerFrame->setVisible(!avatarURL.empty());
-    
-    // Update the frame colors based on if this is the current user or not
-    const bool isCurrentUser = (friendData && friendData->friendId() == ChildDataProvider::getInstance()->getLoggedInChildId());
-    if(isCurrentUser)
-    {
-        _background->loadTexture("res/chat/ui/avatar/avatar_background_user.png");
-        _frameFront->loadTexture("res/chat/ui/avatar/l_avatar_frame_front_user.png");
-    }
-    else
-    {
-        _background->loadTexture("res/chat/ui/avatar/avatar_background_friend.png");
-        _frameFront->loadTexture("res/chat/ui/avatar/l_avatar_frame_front_friend.png");
-    }
     
     if(_avatarDownloader)
     {

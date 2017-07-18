@@ -37,7 +37,7 @@ public:
     std::string imageURL() const;
     std::string categoryID() const;
     std::string imageLocalPath() const;
-    const StickerList& stickers() const;
+    StickerList stickers() const;
 };
 
 NS_AZOOMEE_CHAT_END

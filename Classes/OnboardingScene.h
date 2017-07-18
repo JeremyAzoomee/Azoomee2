@@ -24,7 +24,7 @@ private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     
-    bool hasBeenSet;
+    bool hasBeenSet = false;
     
     void addMainTitleToScene();
     void addTextboxScene();
@@ -44,6 +44,8 @@ public:
     //Delegate Functions
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid);
     void textInputReturnPressed(TextInputLayer* inputLayer);
+    void editBoxEditingDidBegin(TextInputLayer* inputLayer);
+    void editBoxEditingDidEnd(TextInputLayer* inputLayer);
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     

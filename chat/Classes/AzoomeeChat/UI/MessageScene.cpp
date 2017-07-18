@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/UI/SplitLayout.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 // TODO: This needs to be a dynamic hook, so app can deal with it when we're in the main app
 #include "FriendListScene.h"
@@ -16,7 +17,7 @@ NS_AZOOMEE_CHAT_BEGIN
 
 // Interval to do an auto get call
 // Temp feature until Pusher is implemented
-const float kAutoGetTimeInterval = 5.0f;
+const float kAutoGetTimeInterval = 0.0f; //5.0f;
 
 MessageScene* MessageScene::create(const FriendList& participants)
 {
@@ -63,17 +64,12 @@ bool MessageScene::init()
     // Titlebar at the top
     // We add this last so it sits on top with a drop shadow
     _titleBar = TitleBarWidget::create();
-    _titleBar->setTitleString(_participants[1]->friendName());
-    _titleBar->setTitleColor(Style::Color::heliotropeTwo);
+    _titleBar->setTitleAvatar(_participants[1]);
     _titleBar->setSizeType(ui::Widget::SizeType::PERCENT);
     _titleBar->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _titleBar->addBackButtonEventListener([this](Ref* button){
         onBackButtonPressed();
     });
-    _titleBar->showAlertButton(true);
-//    _titleBar->addAlertButtonEventListener([this](Ref* button){
-//        onAlertButtonPressed();
-//    });
     _rootLayout->addChild(_titleBar);
     
     createContentUI(_contentLayout);
@@ -187,6 +183,7 @@ void MessageScene::createContentUI(cocos2d::ui::Layout* parent)
 void MessageScene::onBackButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - BackButton");
     
     // Back to friend list
     auto friendListScene = FriendListScene::create();
@@ -210,10 +207,17 @@ void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
     ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
 }
 
+void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
+{
+    AnalyticsSingleton::getInstance()->chatIncomingMessageEvent(message->messageType());
+    _messageListView->addMessage(message);
+}
+
 #pragma mark - MessageComposer::Delegate
 
 void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 {
+    AnalyticsSingleton::getInstance()->chatOutgoingMessageEvent(message->messageType());
 //    cocos2d::log("Send Message: %s", message.c_str());
     ChatAPI::getInstance()->sendMessage(_participants[1], message);
     _timeTillGet = -1.0f;

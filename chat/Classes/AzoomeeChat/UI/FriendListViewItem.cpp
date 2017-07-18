@@ -16,28 +16,23 @@ bool FriendListViewItem::init()
         return false;
     }
     
-    setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::dark);
-    setLayoutType(ui::Layout::Type::VERTICAL);
+    setLayoutType(ui::Layout::Type::HORIZONTAL);
     // Friend items are selectable in the ListView
     setTouchEnabled(true);
     
-    // Content first
-    const float borderHeightPct = 0.03f;
+    // Content
     _contentLayout = ui::Layout::create();
     _contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
-    _contentLayout->setSizePercent(Vec2(1.0f, 1.0f - borderHeightPct));
+    _contentLayout->setSizePercent(Vec2(1.0f, 1.0f));
     _contentLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
     addChild(_contentLayout);
-             
-    // Border at the bottom
-    ui::Layout* bottomBorder = ui::Layout::create();
-    bottomBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    bottomBorder->setBackGroundColor(Style::Color::darkNeonPurple);
-    bottomBorder->setSizeType(ui::Widget::SizeType::PERCENT);
-    bottomBorder->setSizePercent(Vec2(1.0f, borderHeightPct));
-    addChild(bottomBorder);
     
+    // Unread indicator TODO
+    ui::Layout* indicatorLayout = ui::Layout::create();
+    indicatorLayout->setSizeType(ui::Widget::SizeType::ABSOLUTE);
+    indicatorLayout->setContentSize(Size(150.0f, 5.0f));
+    indicatorLayout->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(20.0f, 0, 0, 0)));
+    _contentLayout->addChild(indicatorLayout);
     
     // Avatar
     _avatarLayout = ui::Layout::create();
@@ -65,7 +60,7 @@ bool FriendListViewItem::init()
     // Name
     _nameLabel = ui::Text::create();
     _nameLabel->setFontName(Style::Font::Regular);
-    _nameLabel->setFontSize(75.0f);
+    _nameLabel->setFontSize(70.0f);
     _nameLabel->setTextColor(Color4B(Style::Color::white));
     _nameLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(75.0f, 0, 0, 0)));
     _contentLayout->addChild(_nameLabel);
@@ -126,7 +121,7 @@ void FriendListViewItem::onSizeChanged()
     
     // Resize the avatar appropriately
     const float itemHeight = _contentLayout->getContentSize().height;
-    const float avatarHeightPct = 0.8f;
+    const float avatarHeightPct = 0.6f;
     const float avatarSize = itemHeight * avatarHeightPct;
     _avatarLayout->setContentSize(Size(avatarSize, avatarSize));
     

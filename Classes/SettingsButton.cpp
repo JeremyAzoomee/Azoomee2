@@ -1,6 +1,6 @@
 #include "SettingsButton.h"
-#include "ExitOrLogoutLayer.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include "SettingsControlLayer.h"
 
 using namespace cocos2d;
 
@@ -38,7 +38,7 @@ bool SettingsButton::init()
 
 void SettingsButton::onButtonPressed()
 {
-    ExitOrLogoutLayer::create();
+    SettingsControlLayer::create();
 }
 
 NS_AZOOMEE_END

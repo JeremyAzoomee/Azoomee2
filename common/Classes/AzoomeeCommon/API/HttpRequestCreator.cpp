@@ -21,7 +21,8 @@ HttpRequestCreator::HttpRequestCreator(HttpRequestCreatorResponseDelegate* deleg
 void HttpRequestCreator::execute()
 {
     amountOfFails = 0;
-    createHttpRequest();
+    HttpRequest* request = buildHttpRequest();
+    sendRequest(request);
 }
 
 //-----------------------------------------------------All requests below this line are used internally-------------------------------------------------------
@@ -96,7 +97,7 @@ std::string HttpRequestCreator::addLeadingZeroToDateElement(int input)          
     return dateFormat;
 }
 
-void HttpRequestCreator::createHttpRequest()                            //The http request is being created from global variables. This method can't be run until setting up all variables, please see usage on top of this file.
+cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()                            //The http request is being created from global variables. This method can't be run until setting up all variables, please see usage on top of this file.
 {
     std::string hostPrefix = ConfigStorage::getInstance()->getServerUrlPrefix();
     std::string host;
@@ -120,14 +121,15 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     std::string requestUrl =  hostPrefix + host + requestPath;
     if(!urlParameters.empty()) requestUrl = requestUrl + "?" + urlParameters;
     
-    HttpRequest *request = new HttpRequest();
+    HttpRequest* request = new HttpRequest();
     
     if(method == "POST") request->setRequestType(HttpRequest::Type::POST);
     if(method == "GET") request->setRequestType(HttpRequest::Type::GET);
     if(method == "PATCH") request->setRequestType(HttpRequest::Type::PATCH);
+    if(method == "PUT") request->setRequestType(HttpRequest::Type::PUT);
     request->setUrl(requestUrl.c_str());
     
-    const char *postData = requestBody.c_str();
+    const char* postData = requestBody.c_str();
     request->setRequestData(postData, strlen(postData));
     
     std::vector<std::string> headers;
@@ -160,8 +162,19 @@ void HttpRequestCreator::createHttpRequest()                            //The ht
     
     request->setHeaders(headers);
     
+    for(int i = 0; i < request->getHeaders().size(); i++)
+    {
+        cocos2d::log("%s", request->getHeaders().at(i).c_str());
+    }
+    
     request->setResponseCallback(CC_CALLBACK_2(HttpRequestCreator::onHttpRequestAnswerReceived, this));
     request->setTag(requestTag);
+    
+    return request;
+}
+
+void HttpRequestCreator::sendRequest(cocos2d::network::HttpRequest* request)
+{
     HttpClient::getInstance()->setTimeoutForConnect(5);
     HttpClient::getInstance()->setTimeoutForRead(10);
     
@@ -181,7 +194,7 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     cocos2d::log("response header: %s", responseHeaderString.c_str());
     cocos2d::log("response string: %s", responseDataString.c_str());
     
-    if((response->getResponseCode() == 200)||(response->getResponseCode() == 201))
+    if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
     {
         if(delegate != nullptr)
         {
@@ -211,7 +224,8 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
     if(amountOfFails < 2)
     {
         amountOfFails++;
-        createHttpRequest();
+        HttpRequest* request = buildHttpRequest();
+        sendRequest(request);
         return;
     }
     

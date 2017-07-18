@@ -15,6 +15,8 @@ const char* const Version = "0.1.5";
 // Delegate is used to deal with navigating outside the chat app
 struct Delegate {
     virtual void onChatNavigationBack() = 0;
+    virtual void onChatAddFriend() = 0;
+    
     // TODO: On error callbacks
 };
 

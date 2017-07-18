@@ -7,10 +7,11 @@
 #include "AwaitingAdultPinLayer.h"
 #include "OfflineChecker.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include <AzoomeeCommon/API/HttpRequestCreator.h>
 
 NS_AZOOMEE_BEGIN
 
-class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate
+class ChildSelectorScene : public cocos2d::Layer, public AwaitingAdultPinLayerDelegate, public OfflineCheckerDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 public:
     CREATE_FUNC(ChildSelectorScene);
@@ -28,6 +29,10 @@ public:
     
     void connectivityStateChanged(bool online);
     
+    //Delegate functions
+    void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
+    void onHttpRequestFailed(const std::string& requestTag, long errorCode);
+    
 private:
     cocos2d::Vec2 origin;
     cocos2d::Size visibleSize;
@@ -43,11 +48,16 @@ private:
     cocos2d::Point positionElementOnScrollView(Layer *layerToBeAdded);
     void addListenerToProfileLayer(Node *profileLayer);
     
-    void addNewChildButtonToScrollView();
+    Layer* createNewProfileButton();
     void addChildButtonPressed(Node* target);
     
+    Layer* createParentProfileButton();
+    
     cocos2d::Point startTouchPosition;
-    bool touchMovedAway;
+    bool touchMovedAway = false;
+    bool parentIconSelected = false;
+    
+    void addBackgroundToScreen();
 };
 
 NS_AZOOMEE_END

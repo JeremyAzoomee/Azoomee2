@@ -60,6 +60,7 @@ bool NavigationLayer::init()
     for(int i = 0; i <= amountOfItems; i++)
     {
         auto menuItemImage = addMenuItemImage(i);
+        if(i == 0) addNotificationBadgeToChatIcon(menuItemImage);
         auto menuItemInactive = addMenuItemInactive(i, menuItemImage);          //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
         addMenuItemActive(i, menuItemImage);                                    //Active menuItem is visible, when we are in the given menu
         addListenerToMenuItem(menuItemImage);
@@ -71,12 +72,12 @@ bool NavigationLayer::init()
         else
         {
             runDisplayAnimationForMenuItem(menuItemImage, menuItemInactive);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
-            this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 3.5);
+            this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 4);
         }
     }
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-        createSettingsButton();
+        createTopObjects();
     else
     {
         createPreviewLoginButton();
@@ -179,14 +180,13 @@ void NavigationLayer::startLoadingHQScene(int categoryTag)
 Sprite* NavigationLayer::addMenuItemImage(int itemNumber)
 {
     Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(itemNumber);
-    Point position = ConfigStorage::getInstance()->getCirclePositionForMenuItem(itemNumber);
+    Point position = ConfigStorage::getInstance()->getRelativeCirclePositionForMenuItem(itemNumber);
     
     auto menuItemImage = Sprite::create("res/navigation/outer_circle.png");
     menuItemImage->setTag(itemNumber);
     menuItemImage->setOpacity(0);
-    menuItemImage->setTag(itemNumber);
     menuItemImage->setColor(Color3B(colour.r, colour.g, colour.b));
-    menuItemImage->setPosition(position);
+    menuItemImage->setPosition(origin.x+visibleSize.width/2+position.x,origin.y+visibleSize.height/2+position.y);
     this->addChild(menuItemImage);
     
     return menuItemImage;
@@ -214,24 +214,81 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
     return menuItemInactive;
 }
 
-void NavigationLayer::createSettingsButton()
+void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
+{
+    auto notificationBadge = Sprite::create("res/navigation/chatAlert.png");
+    notificationBadge->setName("notification");
+    notificationBadge->setPosition(chatIcon->getContentSize().width * 0.85, chatIcon->getContentSize().height * 0.85);
+    notificationBadge->setScale(0.0);
+    chatIcon->addChild(notificationBadge, 9);
+    
+    Chat::ChatAPI::getInstance()->registerObserver(this);
+}
+
+void NavigationLayer::showNotificationBadge()
+{
+    if(!this->getChildByTag(0)->getChildByName("notification")) return;
+    
+    this->getChildByTag(0)->getChildByName("notification")->stopAllActions();
+    this->getChildByTag(0)->getChildByName("notification")->setScale(0.0);
+    this->getChildByTag(0)->getChildByName("notification")->runAction(EaseElasticOut::create(ScaleTo::create(1.0, 1.0)));
+}
+
+void NavigationLayer::hideNotificationBadge()
+{
+    this->getChildByTag(0)->getChildByName("notification")->stopAllActions();
+    this->getChildByTag(0)->getChildByName("notification")->setScale(0.0);
+}
+
+//------------------TOP LEVEL BUTTONS-------------------
+
+void NavigationLayer::createTopObjects()
 {
     settingsButton = SettingsButton::createSettingsButton(3.0f);
-    settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
+    settingsButton->setPosition(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5);
     this->addChild(settingsButton);
+
+    returnToChildSelectorButton = ElectricDreamsButton::createChildSelectorButton();
+    returnToChildSelectorButton->setPosition(Vec2(origin.x - returnToChildSelectorButton->getContentSize().width, origin.y + visibleSize.height - returnToChildSelectorButton->getContentSize().height*1.25));
+    returnToChildSelectorButton->setDelegate(this);
+    this->addChild(returnToChildSelectorButton);
+    
+    topObjectsOnScreen();
 }
 
-void NavigationLayer::settingsButtonOffScreen()
+void NavigationLayer::topObjectsOffScreen()
 {
     if(settingsButton)
+    {
+        settingsButton->stopAllActions();
         settingsButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
+    }
+    
+    if(returnToChildSelectorButton)
+    {
+        returnToChildSelectorButton->stopAllActions();
+        returnToChildSelectorButton->runAction(Sequence::create(EaseOut::create(MoveTo::create(1,Vec2(origin.x - returnToChildSelectorButton->getContentSize().width, returnToChildSelectorButton->getPositionY())), 2), NULL));
+    }
 }
 
-void NavigationLayer::settingsButtonOnScreen()
+void NavigationLayer::topObjectsOnScreen()
 {
     if(settingsButton)
+    {
+        settingsButton->stopAllActions();
         settingsButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width*1.5, origin.y + visibleSize.height - settingsButton->getContentSize().height * 1.5)), 2), NULL));
+    }
+    
+    if(returnToChildSelectorButton)
+    {
+        returnToChildSelectorButton->stopAllActions();
+        returnToChildSelectorButton->runAction(Sequence::create(EaseIn::create(MoveTo::create(1,Vec2(origin.x + returnToChildSelectorButton->getContentSize().width*.25, returnToChildSelectorButton->getPositionY())), 2), NULL));
+        
+        
+    }
 }
+
+//------------------PREVIEW BUTTONS-------------------
 
 void NavigationLayer::createPreviewLoginButton()
 {
@@ -255,6 +312,8 @@ void NavigationLayer::createPreviewSignUpButton()
     previewSignUpButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25)), 2), NULL));
 }
 
+//---------------LISTENERS------------------
+
 void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
 {
     auto listener = EventListenerTouchOneByOne::create();
@@ -271,15 +330,14 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            if(target->getTag() == 3)
+            if(target->getTag() == 0)
             {
+                this->hideNotificationBadge();
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
                 {
-                    //Child Selection Button Pressed.
-                    //Logout Child
-                    ChildDataParser::getInstance()->setChildLoggedIn(false);
-                    BackEndCaller::getInstance()->getAvailableChildren();
+                    AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
+                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
                 }
                 else
                 {
@@ -325,6 +383,7 @@ void NavigationLayer::turnOffAllMenuItems()
 {
     for(int i = 0; i <= amountOfItems; i++)
     {
+        this->getChildByTag(i)->setOpacity(255);
         this->getChildByTag(i)->getChildByName("on")->stopAllActions();
         this->getChildByTag(i)->getChildByName("on")->setOpacity(0);
     }
@@ -333,16 +392,18 @@ void NavigationLayer::turnOffAllMenuItems()
 void NavigationLayer::turnOnMenuItem(int tagNumber)
 {
     this->getChildByTag(tagNumber)->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
+    this->getChildByTag(tagNumber)->setOpacity(0);
 }
 
 void NavigationLayer::delayedSetButtonOn(float dt)
 {
-    this->setButtonOn(0);
+    this->setButtonOn(3);
 }
 
 void NavigationLayer::setButtonOn(int i)
 {
     this->getChildByTag(i)->getChildByName("on")->setOpacity(255);
+    this->getChildByTag(i)->setOpacity(0);
 }
 
 void NavigationLayer::moveMenuPointsToCircleState(float duration)
@@ -351,16 +412,16 @@ void NavigationLayer::moveMenuPointsToCircleState(float duration)
     for(int i = 0; i <= amountOfItems; i++)
     {
         auto menuItemImage = (Sprite *)this->getChildByTag(i);
-        Point targetPosition = ConfigStorage::getInstance()->getCirclePositionForMenuItem(i);
+        Point targetPosition = ConfigStorage::getInstance()->getRelativeCirclePositionForMenuItem(i);
         
         menuItemImage->stopAction(menuItemImage->getActionByTag(1));
         
-        auto action = EaseInOut::create(MoveTo::create(duration, targetPosition), 2);
+        auto action = EaseInOut::create(MoveTo::create(duration, Vec2(origin.x+visibleSize.width/2+targetPosition.x,origin.y+visibleSize.height/2+targetPosition.y)), 2);
         action->setTag(1);
         
         menuItemImage->runAction(action);
     }
-    settingsButtonOnScreen();
+    topObjectsOnScreen();
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
@@ -378,7 +439,7 @@ void NavigationLayer::moveMenuPointsToHorizontalState(float duration)
         
         menuItemImage->runAction(action);
     }
-    settingsButtonOffScreen();
+    topObjectsOffScreen();
 }
 
 void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
@@ -396,7 +457,7 @@ void NavigationLayer::moveMenuPointsToHorizontalStateInGroupHQ(float duration)
         
         menuItemImage->runAction(action);
     }
-    settingsButtonOffScreen();
+    topObjectsOffScreen();
 }
 
 void NavigationLayer::addBackButtonToNavigation()
@@ -464,6 +525,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
 }
 
+
 //-------------- DELEGATE FUNCTIONS ---------------
 
 void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
@@ -475,6 +537,11 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == previewSignUpButton)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+    }
+    else if(button == returnToChildSelectorButton)
+    {
+        ChildDataParser::getInstance()->setChildLoggedIn(false);
+        BackEndCaller::getInstance()->getAvailableChildren();
     }
 }
 
@@ -494,6 +561,19 @@ void NavigationLayer::cleanUpPreviousHQ()
         this->runAction(Sequence::create(DelayTime::create(0.0), funcCallAction, NULL));
         
     }
+}
+
+void NavigationLayer::onChatAPIMessageRecieved(const Chat::MessageRef& message)
+{
+    AudioMixer::getInstance()->playEffect("message.mp3");
+    AnalyticsSingleton::getInstance()->unreadMessagesNotificationReceived();
+    showNotificationBadge();
+}
+
+void NavigationLayer::onExit()
+{
+    Chat::ChatAPI::getInstance()->removeObserver(this);
+    Node::onExit();
 }
 
 NS_AZOOMEE_END

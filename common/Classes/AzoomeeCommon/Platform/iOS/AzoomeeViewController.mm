@@ -8,20 +8,21 @@
 
 @implementation AzoomeeViewController
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
++ (AzoomeeViewController*) sharedInstance
+{
+    static AzoomeeViewController* instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[AzoomeeViewController alloc] init];
+    });
+    return instance;
 }
-*/
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
     
     _forcePortrait = false;
+    _anyOrientation = false;
     cocos2d::Application *app = cocos2d::Application::getInstance();
     
     // Initialize the GLView attributes
@@ -67,15 +68,19 @@
 }
 
 
-// For ios6, use supportedInterfaceOrientations & shouldAutorotate instead
-#ifdef __IPHONE_6_0
-- (NSUInteger) supportedInterfaceOrientations{
+- (NSUInteger) supportedInterfaceOrientations
+{
     if(_forcePortrait)
     {
         return UIInterfaceOrientationMaskPortrait;
     }
+    else if(_anyOrientation)
+    {
+        return UIInterfaceOrientationMaskAll;
+    }
     return UIInterfaceOrientationMaskLandscape;
 }
+
 - (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation
 {
     if(_forcePortrait)
@@ -94,9 +99,8 @@
     return YES;
 }
 
-#endif
-
-- (BOOL) shouldAutorotate {
+- (BOOL) shouldAutorotate
+{
     return YES;
 }
 
@@ -153,6 +157,7 @@
 - (void) setOrientationToPortrait
 {
     _forcePortrait = true;
+    _anyOrientation = false;
      
     NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
@@ -162,6 +167,7 @@
 - (void) setOrientationToLandscape
 {
     _forcePortrait = false;
+    _anyOrientation = false;
     
     UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     
@@ -172,6 +178,12 @@
     
     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     [UIViewController attemptRotationToDeviceOrientation];
+}
+
+- (void) setOrientationToAny
+{
+    _forcePortrait = false;
+    _anyOrientation = true;
 }
 
 @end

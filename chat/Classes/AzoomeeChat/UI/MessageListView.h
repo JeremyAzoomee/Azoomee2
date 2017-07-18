@@ -9,6 +9,10 @@
 #include <cocos/ui/CocosGUI.h>
 
 
+// Enable this to show avatars at the bottom of the list
+//#define AVATARS_IN_LISTVIEW
+
+
 NS_AZOOMEE_CHAT_BEGIN
     
 class MessageListView : public cocos2d::ui::Layout
@@ -21,6 +25,7 @@ private:
     /// Data being displayed
     MessageList _listData;
     
+#ifdef AVATARS_IN_LISTVIEW
     /// Foreground layer - holds the Oomees
     cocos2d::ui::Layout* _foreground = nullptr;
     /// Bar sits at the bottom
@@ -29,12 +34,15 @@ private:
     cocos2d::ui::ImageView* _avatarShadows[2];
     /// Avatars
     AvatarWidget* _avatars[2];
+#endif
     
     /// Internal listview to display the messages
     cocos2d::ui::ListView* _listView = nullptr;
+#ifdef AVATARS_IN_LISTVIEW
     /// Special item we use to display at the bottom of the list view to deal
     /// with the space for avatars
     cocos2d::ui::Layout* _blankListItem = nullptr;
+#endif
     
     /// Calculate the item size for the listview
     cocos2d::Size calculateItemSize() const;
@@ -56,6 +64,8 @@ public:
     
     /// Set the items to display in this list
     void setData(const FriendList& participants, const MessageList& messageList);
+    /// Add a new message to the list
+    void addMessage(const MessageRef& message);
     
     virtual bool init() override;
     virtual void onEnter() override;

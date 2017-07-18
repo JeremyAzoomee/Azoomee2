@@ -18,6 +18,7 @@ private:
     
 public:
     static cocos2d::Scene* createScene();
+    void onEnter();
 
     virtual bool init();
 

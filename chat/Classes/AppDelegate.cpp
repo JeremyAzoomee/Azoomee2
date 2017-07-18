@@ -4,6 +4,7 @@
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "Auth/AuthAPI.h"
 #include <AzoomeeCommon/Net/Utils.h>
+#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include "ChatDelegate.h"
 
 using namespace cocos2d;
@@ -23,8 +24,14 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     register_all_packages();
     
+    // Initialise Pusher
+    PusherSDK::initialise("09995b8ae8cc75b36c25");
+    
     // Register delegate for chat
     Azoomee::Chat::delegate = ChatDelegate::getInstance();
+    
+    // Chat can have any orientation
+    Azoomee::Application::setOrientation(Azoomee::Application::Orientation::Any);
     
     // Create the first scene
     cocos2d::Scene* firstScene = nullptr;
@@ -37,6 +44,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     }
     else
     {
+        PusherSDK::getInstance()->openParentAccountChannel();
+        
         // Logged in, do we have a child logged in?
         bool childLoggedIn = AuthAPI::getInstance()->isChildLoggedIn();
         if(!childLoggedIn)

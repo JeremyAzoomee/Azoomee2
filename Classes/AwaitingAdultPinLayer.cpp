@@ -128,6 +128,16 @@ void AwaitingAdultPinLayer::textInputReturnPressed(TextInputLayer* inputLayer)
         BackEndCaller::getInstance()->updateParentPin(this);
 }
 
+void AwaitingAdultPinLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+    
+}
+
+void AwaitingAdultPinLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+    
+}
+
 void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)

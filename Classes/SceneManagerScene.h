@@ -19,7 +19,8 @@ enum SceneNameEnum {
     OfflineArtsAppHQ,
     FTUScene,
     ChatEntryPointScene,
-    ArtAppEntryPointScene
+    ArtAppEntryPointScene,
+    SettingsFromChat
 };
 
 class SceneManagerScene : public cocos2d::Layer
@@ -30,6 +31,7 @@ private:
     
     void forceToPortrait();
     void forceToLandscape();
+    void acceptAnyOrientation();
     
 public:
     static cocos2d::Scene* createScene(SceneNameEnum sceneName);

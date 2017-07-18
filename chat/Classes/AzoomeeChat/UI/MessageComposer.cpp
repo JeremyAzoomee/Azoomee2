@@ -3,7 +3,7 @@
 #include <AzoomeeCommon/UI/LayoutParams.h>
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -65,11 +65,25 @@ bool MessageComposer::init()
 void MessageComposer::onEnter()
 {
     Super::onEnter();
+    
+    _touchListener = EventListenerTouchOneByOne::create();
+    CC_SAFE_RETAIN(_touchListener);
+    _touchListener->setSwallowTouches(false);
+    _touchListener->onTouchBegan = CC_CALLBACK_2(MessageComposer::onTouchBegan, this);
+    _touchListener->onTouchMoved = CC_CALLBACK_2(MessageComposer::onTouchMoved, this);
+    _touchListener->onTouchEnded = CC_CALLBACK_2(MessageComposer::onTouchEnded, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
 }
 
 void MessageComposer::onExit()
 {
     Super::onExit();
+    
+    if(_touchListener)
+    {
+        _eventDispatcher->removeEventListener(_touchListener);
+        CC_SAFE_RELEASE_NULL(_touchListener);
+    }
     
     setMode(MessageComposer::Mode::Idle);
 }
@@ -400,7 +414,10 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     _currentMode = mode;
     
     // Update UI elements
-    _cancelButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
+    if(_cancelButton)
+    {
+        _cancelButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
+    }
     _sendButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
     
     
@@ -436,11 +453,14 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     {
         _messageEntryLayout->setBackGroundImage("res/chat/ui/textfield/message_field_active.png");
         
-        // Make sure the close buttons sits above the message entry layer in terms of Z
-        // If we don't do this, the button won't get the click event because it's intercepted
-        // by a modal layer from the text entry which fills the screen
-        // We don't have to worry about other buttons because they are added after in the hierarchy
-        _cancelButton->setGlobalZOrder(_messageEntryLayout->getGlobalZOrder() + 1);
+        if(_cancelButton)
+        {
+            // Make sure the close buttons sits above the message entry layer in terms of Z
+            // If we don't do this, the button won't get the click event because it's intercepted
+            // by a modal layer from the text entry which fills the screen
+            // We don't have to worry about other buttons because they are added after in the hierarchy
+            _cancelButton->setGlobalZOrder(_messageEntryLayout->getGlobalZOrder() + 1);
+        }
     }
     else
     {
@@ -511,12 +531,14 @@ void MessageComposer::onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextFi
 
 bool MessageComposer::onTextFieldAttachWithIME(cocos2d::TextFieldTTF* sender)
 {
+    AnalyticsSingleton::getInstance()->chatKeyboardEvent(true);
     ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
     return textFieldRenderer->onTextFieldAttachWithIME(sender);
 }
 
 bool MessageComposer::onTextFieldDetachWithIME(cocos2d::TextFieldTTF* sender)
 {
+    AnalyticsSingleton::getInstance()->chatKeyboardEvent(false);
     ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
     return textFieldRenderer->onTextFieldDetachWithIME(sender);
 }
@@ -616,31 +638,57 @@ void MessageComposer::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info
     }
 }
 
+#pragma mark - Touches
+
+bool MessageComposer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
+{
+//    cocos2d::log("MessageComposer::onTouchBegan");
+    Super::onTouchBegan(touch, unusedEvent);
+    
+    // If we are not idle, then we should dismiss on next touch end event
+    _dismissOnTouchEnd = (_currentMode != MessageComposer::Mode::Idle);
+    
+    return true;
+}
+
+void MessageComposer::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
+{
+    Super::onTouchMoved(touch, unusedEvent);
+    
+    // If the touch moved more than the sensitivity, cancel the dismiss
+    const float dismissSensitivity = 5.0f;
+    const Vec2& delta = touch->getDelta();
+//    cocos2d::log("MessageComposer::onTouchMoved: %f, %f", delta.x, delta.y);
+    if(fabs(delta.x) > dismissSensitivity || fabs(delta.y) > dismissSensitivity)
+    {
+        _dismissOnTouchEnd = false;
+    }
+}
+
+void MessageComposer::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
+{
+//    cocos2d::log("MessageComposer::onTouchEnded");
+    Super::onTouchEnded(touch, unusedEvent);
+    
+    if(_dismissOnTouchEnd)
+    {
+        _dismissOnTouchEnd = false;
+        setMode(MessageComposer::Mode::Idle);
+    }
+}
+
 #pragma mark - UI Creation
 
 void MessageComposer::createTopUIContent(SplitLayout* parent)
 {
-    // Top layout has the right side fixed, the left fills the space
-    // { [LEFT CONTENT----->][TABS] }
+    // Top layout has the left side fixed, the right fills the space
+    // { [TABS][<------MESSAGE ENTRY UI] }
     parent->setMode(SplitLayout::Mode::Horizontal);
-    parent->setSplitBehaviour(SplitLayout::FillSize, SplitLayout::FixedSize);
+    parent->setSplitBehaviour(SplitLayout::FixedSize, SplitLayout::FillSize);
     
-    // Left side has another split, which holds the cancel button, and then the message entry
-    // { [CLOSE BUTTON][<------MESSAGE ENTRY UI] }
-    ui::Layout* firstLayout = parent->firstLayout();
-    SplitLayout* firstLayoutContent = SplitLayout::create();
-    // Fill the size of the first column
-    firstLayoutContent->setSizeType(ui::Widget::SizeType::PERCENT);
-    firstLayoutContent->setSizePercent(Vec2(1.0f, 1.0f));
-    firstLayoutContent->setMode(SplitLayout::Mode::Horizontal);
-    firstLayoutContent->setSplitBehaviour(SplitLayout::FixedSize, SplitLayout::FillSize);
-    firstLayout->addChild(firstLayoutContent);
-    createCancelButton(firstLayoutContent->firstLayout());
-    createMessageEntryUI(firstLayoutContent->secondLayout());
-    
-    
-    // Right side is a fixed size and holds the tabs for other message entry modes
-    createTabButtonsUI(parent->secondLayout());
+    createMessageEntryUI(parent->secondLayout());
+    // Left side is a fixed size and holds the tabs for other message entry modes
+    createTabButtonsUI(parent->firstLayout());
 }
 
 void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
@@ -657,10 +705,13 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     _stickersTab->getRendererNormal()->setStrechEnabled(true);
     _stickersTab->setAnchorPoint(Vec2(0.0f, 1.0f));
     _stickersTab->setPressedActionEnabled(false); // Disable pressed "zooming"
+    _stickersTab->setZoomScale(0.0f);
     _stickersTab->setContentSize(Size(buttonHeight, buttonHeight));
     _stickersTab->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(leftMarginX, (_topLayout->getContentSize().height - buttonHeight) / 2, 0, 0)));
     _stickersTab->addClickEventListener([this](Ref* button){
         AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - OpenStickers");
+        
         setMode(MessageComposer::Mode::StickersEntry);
     });
     parent->addChild(_stickersTab);
@@ -707,6 +758,7 @@ void MessageComposer::createCancelButton(cocos2d::ui::Layout* parent)
     _cancelButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(contentMarginX, 0, 0, 0)));
     _cancelButton->addClickEventListener([this](Ref* button){
         AudioMixer::getInstance()->playEffect(CANCEL_BUTTON_AUDIO_EFFECT);
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - CancelInput");
         // Clear the message before we set to idle
         _messageEntryField->setString("");
         setMode(MessageComposer::Mode::Idle);
@@ -748,7 +800,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     const float textEntryLeftMargin = 50.0f;
     
     // TODO: Get text from Strings
-    _messageEntryField = ui::TextField::create("Type a message here...", Style::Font::RegularSystemName, 65.0f);
+    _messageEntryField = ChatTextField::create("Type a message here...", Style::Font::RegularSystemName, 65.0f);
     _messageEntryField->setCursorEnabled(true);
     _messageEntryField->ignoreContentAdaptWithSize(false);
     _messageEntryField->setTextHorizontalAlignment(TextHAlignment::LEFT);
@@ -782,6 +834,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     _sendButton->setContentSize(Size(buttonHeight, buttonHeight));
     _sendButton->setLayoutParameter(CreateBottomLeftRelativeLayoutParam(ui::Margin(0, 0, 0, sendButtonMargin)));
     _sendButton->addClickEventListener([this](Ref* button){
+        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - sendButton");
         const std::string& message = _messageEntryField->getString();
         sendMessage(message);
     });
