@@ -128,7 +128,7 @@ public:
     void displayIAPUpsaleEvent(std::string fromLocation);
     void iapSubscriptionSuccessEvent();
     void iapSubscriptionErrorEvent(std::string errorDescription);
-    void iapSubscriptionFailedEvent(std::string failureDetails);
+    void iapSubscriptionFailedEvent(const std::string& failureDetails);
     void iapUserDataFailedEvent();
     void iapSubscriptionDoublePurchaseEvent();
     void iapBackEndRequestFailedEvent(long errorCode);

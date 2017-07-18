@@ -183,7 +183,7 @@ void RoutePaymentSingleton::backendRequestFailed(long errorCode)
     }
 }
 
-void RoutePaymentSingleton::purchaseFailureErrorMessage(std::string failureDetails)
+void RoutePaymentSingleton::purchaseFailureErrorMessage(const std::string& failureDetails)
 {
     AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent(failureDetails);
     ModalMessages::getInstance()->stopLoading();

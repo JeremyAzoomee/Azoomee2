@@ -80,7 +80,7 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
     
     if(!paymentData.HasParseError() && paymentData.HasMember("receiptStatus"))
     {
-        if(paymentData["receiptStatus"].IsString() && StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
+        if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED")
         {
             std::string receiptId = paymentData["receiptId"].GetString();
             fulfillAmazonPayment(receiptId);

@@ -59,7 +59,7 @@ using namespace Azoomee;
     }
     @catch (NSException * e)
     {
-        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(std::string([[NSString stringWithFormat:@"%@: %@", e.name, e.userInfo] UTF8String]));
+        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"%@: %@", e.name, e.userInfo] UTF8String]);
     }
 }
 
@@ -87,7 +87,7 @@ using namespace Azoomee;
             case SKPaymentTransactionStateFailed:
             {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(std::string([[NSString stringWithFormat:@"SKPaymentTransactionStateFailed: %@",transaction.error.localizedDescription] UTF8String]));
+                RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"SKPaymentTransactionStateFailed: %@",transaction.error.localizedDescription] UTF8String]);
                 NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
                 
                 break;
@@ -114,7 +114,7 @@ using namespace Azoomee;
 
 - (void) paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
-    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage(std::string([[NSString stringWithFormat:@"restoreCompletedTransactionsFailedWithError: %@",error.localizedDescription] UTF8String]));
+    RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"restoreCompletedTransactionsFailedWithError: %@",error.localizedDescription] UTF8String]);
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
@@ -143,7 +143,7 @@ using namespace Azoomee;
     NSData *receipt = [NSData dataWithContentsOfURL:receiptURL];
     NSString* receiptString = [receipt base64EncodedStringWithOptions:0];
     
-    ApplePaymentSingleton::getInstance()->transactionStatePurchased(std::string([receiptString UTF8String]));
+    ApplePaymentSingleton::getInstance()->transactionStatePurchased([receiptString UTF8String]);
 }
 
 @end

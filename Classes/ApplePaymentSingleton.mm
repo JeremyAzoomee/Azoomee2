@@ -60,25 +60,21 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
 
     if(!paymentData.HasParseError() && paymentData.HasMember("receiptStatus"))
     {
-        if(paymentData["receiptStatus"].IsString() && StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
+        if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED" && RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
         {
-            if(RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
-            {
-                RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
-                return;
-            }
-            else
-            {
-                AnalyticsSingleton::getInstance()->iapAppleAutoRenewSubscriptionEvent();
-                ModalMessages::getInstance()->stopLoading();
-                BackEndCaller::getInstance()->updateBillingData();
-                return;
-            }
+            RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
+            return;
+        }
+        else if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED")
+        {
+            AnalyticsSingleton::getInstance()->iapAppleAutoRenewSubscriptionEvent();
+            ModalMessages::getInstance()->stopLoading();
+            BackEndCaller::getInstance()->updateBillingData();
+            return;
         }
         else
-        {
             AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
-        }
+
     }
     
     if(requestAttempts < 4)

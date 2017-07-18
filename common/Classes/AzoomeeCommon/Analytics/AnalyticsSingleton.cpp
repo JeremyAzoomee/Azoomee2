@@ -537,13 +537,9 @@ void AnalyticsSingleton::iapSubscriptionErrorEvent(std::string errorDescription)
     mixPanelSendEventWithStoredProperties("iapSubscriptionError", mixPanelProperties);
 }
 
-void AnalyticsSingleton::iapSubscriptionFailedEvent(std::string failureDetails)
+void AnalyticsSingleton::iapSubscriptionFailedEvent(const std::string& failureDetails)
 {
-    mixPanelSendEventWithStoredProperties("iapSubscriptionFailed");
-    
-    std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["FailureDetails"] = failureDetails;
-    
+    std::map<std::string, std::string> mixPanelProperties = { {"FailureDetails", failureDetails} };
     mixPanelSendEventWithStoredProperties("iapSubscriptionFailed", mixPanelProperties);
 }
 

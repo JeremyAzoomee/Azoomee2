@@ -66,7 +66,7 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
     
     if(!paymentData.HasParseError() && paymentData.HasMember("receiptStatus"))
     {
-        if(paymentData["receiptStatus"].IsString() && StringUtils::format("%s", paymentData["receiptStatus"].GetString()) == "FULFILLED")
+        if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED")
         {
             RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
             return;

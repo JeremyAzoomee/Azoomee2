@@ -36,7 +36,7 @@ public:
     
     void backendRequestFailed(long errorCode);
     
-    void purchaseFailureErrorMessage(std::string failureDetails);
+    void purchaseFailureErrorMessage(const std::string& failureDetails);
     void doublePurchaseMessage();
     
     //Delegate Functions
