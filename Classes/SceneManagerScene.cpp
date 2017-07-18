@@ -175,7 +175,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
                 goToScene = ArtAppBase::createSceneWithDrawing(fileName);
             else
                 goToScene = ArtAppBase::createScene();
-            
+            Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case SettingsFromChat:
