@@ -3,9 +3,9 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <cstdlib>
 #include "SceneManagerScene.h"
+#include "IAPUpsaleLayer.h"
 
 using namespace Azoomee;
-
 
 Scene* SlideShowScene::createScene()
 {
@@ -47,8 +47,14 @@ void SlideShowScene::imageAddedToCache(Texture2D* resulting_texture)
         if(dotSplit.size() == 2)
         {
             int SlideNumber = std::atoi(dotSplit.at(0).c_str()) - 1;
-            
             layoutVector.at(SlideNumber)->addChild(slideImage);
+            
+            startTrialButton = ElectricDreamsButton::createButtonWithText("Start your free 7-day trial", 300);
+            startTrialButton->setCenterPosition(Vec2(layoutVector.at(SlideNumber)->getContentSize().width/2, layoutVector.at(SlideNumber)->getContentSize().height*.2));
+            startTrialButton->setDelegate(this);
+            startTrialButton->setMixPanelButtonName("SlideShow-StartTrial");
+            startTrialButton->setName("startTrialButton");
+            layoutVector.at(SlideNumber)->addChild(startTrialButton);
             
             if(SlideNumber == 5)
             {
@@ -75,7 +81,7 @@ void SlideShowScene::createPageView()
     _pageView->setIndicatorEnabled(true);
     _pageView->setIndicatorSelectedIndexColor(Color3B(28, 244, 244));
     
-    for(int i=0;i<6;i++)
+    for(int i=0;i<3;i++)
     {
         Layout* newLayout = Layout::create();
         newLayout->setContentSize(visibleSize);
@@ -83,14 +89,36 @@ void SlideShowScene::createPageView()
 
         Director::getInstance()->getTextureCache()->addImageAsync(StringUtils::format("res/slideshow/slide_%d.jpg",i+1), CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
         
+        
+        
         layoutVector.push_back(newLayout);
     }
     
+    //create IAP - UPSALE LAYER
+    Layout* newLayout = Layout::create();
+    newLayout->setContentSize(visibleSize);
+
+    newLayout->addChild(IAPUpsaleLayer::createForSlideshow());
+    
+    _pageView->insertCustomItem(newLayout,3);
+    
+    //setup the slideshow
     _pageView->scrollToItem(0);
     
     _pageView->addEventListener((PageView::ccPageViewCallback)CC_CALLBACK_2(SlideShowScene::pageViewEvent, this));
     
     this->addChild(_pageView);
+    
+    loginButton = ElectricDreamsButton::createTextAsButtonAqua("Log in", 80, true);
+    
+    float buttonBoarded = loginButton->getContentSize().height;
+    
+    loginButton->setPosition(origin.x + visibleSize.width - loginButton->getContentSize().width-buttonBoarded, origin.y+visibleSize.height-loginButton->getContentSize().height - buttonBoarded);
+    loginButton->setDelegate(this);
+    loginButton->setMixPanelButtonName("SlideShow-Login");
+    this->addChild(loginButton);
+    
+    
 }
 
 //----------------------- Actions ---------------------
@@ -128,20 +156,18 @@ void SlideShowScene::pageViewScrollToNextPage()
 {
     auto vectorOfSlides = _pageView->getItems();
     
-    if(vectorOfSlides.size() == _pageView->getCurrentPageIndex()+1)
-        skipSlideShow();
-    else
+    if(vectorOfSlides.size() != _pageView->getCurrentPageIndex()+1)
         _pageView->scrollToItem(_pageView->getCurrentPageIndex()+1);
-}
-
-void SlideShowScene::skipSlideShow()
-{
-    _pageView->stopAllActions();
-
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
 }
 
 void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
 {
-    skipSlideShow();
+    if(button == startExporingButton)
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+    else if(button == loginButton)
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+    else if (button->getName() == "startTrialButton")
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+    }
 }

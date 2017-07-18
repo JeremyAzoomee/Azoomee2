@@ -52,7 +52,9 @@ private:
 public:
     bool requiresPinCode = false;
     
+    static cocos2d::Layer* createNoPin();
     static cocos2d::Layer* createRequiresPin();
+    static cocos2d::Layer* createForSlideshow();
     
     virtual bool init();
     

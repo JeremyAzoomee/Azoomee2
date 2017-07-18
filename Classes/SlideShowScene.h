@@ -17,6 +17,8 @@ private:
     Vec2 origin;
     
     ElectricDreamsButton *startExporingButton;
+    ElectricDreamsButton *loginButton;
+    ElectricDreamsButton *startTrialButton;
     
     long currentSlideIndex;
     bool slideShowStarted;
@@ -26,8 +28,6 @@ private:
     void pageViewScrollToNextPage();
     
     void pageViewEvent(Ref *pSender, PageView::EventType type);
-    
-    void skipSlideShow();
     
     std::vector<Layout*> layoutVector;
     

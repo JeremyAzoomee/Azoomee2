@@ -206,7 +206,7 @@ void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::stri
 //Delegate Functions
 void DeepLinkingSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    IAPUpsaleLayer::create();
+    IAPUpsaleLayer::createRequiresPin();
 }
 
 NS_AZOOMEE_END

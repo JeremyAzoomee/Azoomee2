@@ -112,7 +112,7 @@ void AccountDetailsLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == iapButton)
     {
         AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("Settings");
-        IAPUpsaleLayer::create();
+        IAPUpsaleLayer::createNoPin();
     }
 }
 
