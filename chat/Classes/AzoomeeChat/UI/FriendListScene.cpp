@@ -226,9 +226,25 @@ void FriendListScene::onChatAPIGetFriendList(const FriendList& friendList)
 {
     AnalyticsSingleton::getInstance()->setNumberOfChatFriends((int)friendList.size());
     
+    _friendListData = friendList;
     _friendListView->setItems(friendList);
     
     ModalMessages::getInstance()->stopLoading();
+}
+
+void FriendListScene::onChatAPIMessageRecieved(const MessageRef& message)
+{
+    // Find the friend this message is from, and if necessary mark them as having unread messages
+    for(const FriendRef& frnd : _friendListData)
+    {
+        if(frnd->friendId() == message->senderId())
+        {
+            frnd->markMessagesLocalUnread();
+            // Force list to re-render
+            _friendListView->setItems(_friendListData);
+            break;
+        }
+    }
 }
 
 

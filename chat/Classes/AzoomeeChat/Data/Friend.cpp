@@ -86,4 +86,9 @@ int Friend::unreadMessages() const
     return _unreadMessages;
 }
 
+void Friend::markMessagesLocalUnread()
+{
+    _unreadMessages = 1;
+}
+
 NS_AZOOMEE_CHAT_END
