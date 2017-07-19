@@ -39,21 +39,26 @@ FriendRef Friend::createFromJson(const rapidjson::Value& json)
     const auto& avatarURLObj = json["avatar"];
     std::string avatarURL = (avatarURLObj.IsString()) ? avatarURLObj.GetString() : "";
     
+    // Unread messages
+    const auto& unreadMessagesObj = json["unreadMessages"];
+    int unreadMessages = (unreadMessagesObj.IsNumber()) ? unreadMessagesObj.GetInt() : 0;
+    
     // If the avatar is empty, see if we have one already we have use
     if(avatarURL.empty())
     {
         avatarURL = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildrenById(friendId);
     }
     
-    return Friend::create(friendId, friendName, avatarURL);
+    return Friend::create(friendId, friendName, avatarURL, unreadMessages);
 }
 
-FriendRef Friend::create(const std::string& friendId, const std::string& friendName, const std::string& avatarURL)
+FriendRef Friend::create(const std::string& friendId, const std::string& friendName, const std::string& avatarURL, int unreadMessages)
 {
     FriendRef friendData(new Friend());
     friendData->_friendId = friendId;
     friendData->_friendName = friendName;
     friendData->_avatarURL = avatarURL;
+    friendData->_unreadMessages = unreadMessages;
     return friendData;
 }
 
@@ -74,6 +79,11 @@ std::string Friend::friendName() const
 std::string Friend::avatarURL() const
 {
     return _avatarURL;
+}
+
+int Friend::unreadMessages() const
+{
+    return _unreadMessages;
 }
 
 NS_AZOOMEE_CHAT_END
