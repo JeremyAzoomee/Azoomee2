@@ -28,6 +28,9 @@ private:
     /// User's avatar
     AvatarWidget* _avatarWidget = nullptr;
     
+    /// Unread message indicator
+    cocos2d::ui::ImageView* _unreadIndicator = nullptr;
+    
     /// Friend's name
     cocos2d::ui::Text* _nameLabel = nullptr;
     

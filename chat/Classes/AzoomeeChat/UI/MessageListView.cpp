@@ -7,11 +7,6 @@
 using namespace cocos2d;
 
 
-// Enable this to show avatars at the bottom of the list
-//#define AVATARS_IN_LISTVIEW
-
-
-
 NS_AZOOMEE_CHAT_BEGIN
 
 bool MessageListView::init()
@@ -24,14 +19,13 @@ bool MessageListView::init()
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     setBackGroundColor(Style::Color::darkTwo);
     
+#ifdef AVATARS_IN_LISTVIEW
     // Setup foreground with the Oomee bar
     _foreground = ui::Layout::create();
     _foreground->setLayoutType(ui::Layout::Type::RELATIVE);
     _foreground->setSizePercent(Vec2(1.0f, 1.0f));
     _foreground->setSizeType(ui::Widget::SizeType::PERCENT);
     
-    // TODO: Get config values
-#ifdef AVATARS_IN_LISTVIEW
     const float avatarBaseHeight = 140.0f;
     
     // Avatar bar
@@ -90,10 +84,10 @@ bool MessageListView::init()
     _blankListItem = ui::Layout::create();
     _blankListItem->setContentSize(Size(10, avatarSize + avatarMargin.y));
     _listView->pushBackCustomItem(_blankListItem);
-#endif
     
     // Add the foreground last
     addChild(_foreground);
+#endif
   
     return true;
 }
@@ -239,10 +233,14 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
     // If messages are zero, we can just remove
     if(messageList.size() == 0)
     {
+#ifdef AVATARS_IN_LISTVIEW
         _blankListItem->retain();
         _listView->removeAllItems();
         _listView->pushBackCustomItem(_blankListItem);
         _blankListItem->release();
+#else
+        _listView->removeAllItems();
+#endif
         
         _listData.clear();
     }
@@ -333,6 +331,9 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
     }
     
     _listView->doLayout();
+    // Force a second layout, to fix issues with overlapping items
+    // This probably happens because some list items resize during layout
+    _listView->forceDoLayout();
     
     // Scroll to bottom if we have different item size to before
     if(prevScrollHeight != _listView->getInnerContainerSize().height)
@@ -369,7 +370,11 @@ void MessageListView::addMessage(const MessageRef& message)
     item->setContentSize(Size(contentSize.width, 0.0f));
     item->setData(message);
     _listView->insertCustomItem(item, insertIndex);
+    
     _listView->doLayout();
+    // Force a second layout, to fix issues with overlapping items
+    // This probably happens because some list items resize during layout
+    _listView->forceDoLayout();
     
     // Scroll to bottom
     // TODO: Only scroll to bottom if the message is new

@@ -69,6 +69,9 @@ public:
     
     /// Send a message
     void sendMessage(const FriendRef& friendObj, const MessageRef& message);
+    
+    /// Mark messages with friend as read
+    void markMessagesAsRead(const FriendRef& friendObj);
 };
 
 /**
