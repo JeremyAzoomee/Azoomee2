@@ -4,6 +4,7 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include "ui/UIWebView.h"
 
 using namespace cocos2d;
 
@@ -25,6 +26,8 @@ private:
     Label* slideTitleLabel;
     Label* mainTextLabel;
     
+    experimental::ui::WebView* videoWebview;
+    
     ElectricDreamsButton *watchSearchItUpButton;
     ElectricDreamsButton *chevronLeftButton;
     ElectricDreamsButton *chevronRightButton;
@@ -38,6 +41,8 @@ private:
     void addUIObjects();
     void setToCurrentSlideNumber();
     void moveSlideNumberBy(int moveBy);
+    
+    void playVideo();
     
     void addListenerToVideoLayer(Layer* listenerToLayer);
     

@@ -106,6 +106,63 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     backgroundLayer->addChild(watchSearchItUpButton);
 }
 
+void OnlineSafetyDetailsLayer::playVideo()
+{
+    videoLayer = LayerColor::create(Color4B(255,255,255,255),visibleSize.width, visibleSize.height);
+    this->addChild(videoLayer);
+    
+    addListenerToVideoLayer(videoLayer);
+    
+    closeVideoButton = ElectricDreamsButton::createWindowCloselButton();
+    closeVideoButton->setCenterPosition(Vec2(visibleSize.width - closeVideoButton->getContentSize().width, visibleSize.height - closeVideoButton->getContentSize().height));
+    closeVideoButton->setDelegate(this);
+    videoLayer->addChild(closeVideoButton);
+    
+    //auto newHTML = "<div style=\"position:relative;height:0;padding-bottom:56.25%\"><iframe src=\"https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1\" width=\"640\" height=\"360\" frameborder=\"0\" style=\"position:absolute;width:100%;height:100%;left:0\" allowfullscreen></iframe></div>";
+    
+    //auto newHTML = "<html><head><title>Test</title></head><body><div style=\"position:relative;height:0;padding-bottom:56.25%\"><iframe src=\"https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1\" width=\"640\" height=\"360\" frameborder=\"0\" style=\"position:absolute;width:100%;height:100%;left:0\" allowfullscreen></iframe></div></body></html>";
+    
+    std::string videoEmbeddedURL = "";
+    
+    switch (currentSlideNumber) {
+        case 1:
+        {
+            videoEmbeddedURL = "https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1";
+            break;
+        }
+        case 2:
+        {
+            videoEmbeddedURL = "https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1";
+            break;
+        }
+        case 3:
+        {
+            videoEmbeddedURL = "https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1";
+            break;
+        }
+        case 4:
+        {
+            videoEmbeddedURL = "https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1";
+            break;
+        }
+        case 5:
+        {
+            videoEmbeddedURL = "https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1";
+            break;
+        }
+        default:
+            break;
+    }
+    
+    videoWebview = experimental::ui::WebView::create();
+    videoWebview->setContentSize(Size(1920,1080));
+    videoWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    videoWebview->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
+    //videoWebview->loadHTMLString(newHTML);
+    videoWebview->loadURL(videoEmbeddedURL);
+    videoLayer->addChild(videoWebview);
+}
+
 void OnlineSafetyDetailsLayer::setToCurrentSlideNumber()
 {
     slideTitleLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)));
@@ -131,37 +188,14 @@ void OnlineSafetyDetailsLayer::moveSlideNumberBy(int moveBy)
 void OnlineSafetyDetailsLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == watchSearchItUpButton)
-    {
-        //TODO using UI::Webview to open a youtube video.
-        videoLayer = LayerColor::create(Color4B(255,255,255,255),visibleSize.width, visibleSize.height);
-        this->addChild(videoLayer);
-        
-        addListenerToVideoLayer(videoLayer);
-        
-        closeVideoButton = ElectricDreamsButton::createWindowCloselButton();
-        closeVideoButton->setCenterPosition(Vec2(visibleSize.width - closeVideoButton->getContentSize().width, visibleSize.height - closeVideoButton->getContentSize().height));
-        closeVideoButton->setDelegate(this);
-        videoLayer->addChild(closeVideoButton);
-        
-        auto newHTML = "<div style=\"position:relative;height:0;padding-bottom:56.25%\"><iframe src=\"https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1\" width=\"640\" height=\"360\" frameborder=\"0\" style=\"position:absolute;width:100%;height:100%;left:0\" allowfullscreen></iframe></div>";
-
-        auto view = experimental::ui::WebView::create();
-        view->setContentSize(Size(1600,900));
-        view->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        view->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
-        view->loadHTMLString(newHTML);
-        videoLayer->addChild(view);
-    }
+        playVideo();
     else if(button == chevronLeftButton)
-    {
         moveSlideNumberBy(-1);
-    }
     else if(button == chevronRightButton)
-    {
         moveSlideNumberBy(1);
-    }
     else if(button == closeVideoButton)
     {
+        videoWebview->loadURL("about:blank");
         videoLayer->removeFromParent();
     }
 }
