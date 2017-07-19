@@ -16,15 +16,14 @@ private:
     Size visibleSize;
     Vec2 origin;
     
-    ElectricDreamsButton *startExporingButton;
     ElectricDreamsButton *loginButton;
-    ElectricDreamsButton *startTrialButton;
     
     long currentSlideIndex;
     bool slideShowStarted;
     PageView* _pageView;
     
     void createPageView();
+    void addLoginButton();
     void pageViewScrollToNextPage();
     
     void pageViewEvent(Ref *pSender, PageView::EventType type);

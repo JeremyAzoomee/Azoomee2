@@ -27,6 +27,7 @@ bool SlideShowScene::init()
     origin = Director::getInstance()->getVisibleOrigin();
     
     createPageView();
+    addLoginButton();
     
     return true;
 }
@@ -49,27 +50,20 @@ void SlideShowScene::imageAddedToCache(Texture2D* resulting_texture)
             int SlideNumber = std::atoi(dotSplit.at(0).c_str()) - 1;
             layoutVector.at(SlideNumber)->addChild(slideImage);
             
-            startTrialButton = ElectricDreamsButton::createButtonWithText("Start your free 7-day trial", 300);
-            startTrialButton->setCenterPosition(Vec2(layoutVector.at(SlideNumber)->getContentSize().width/2, visibleSize.height/8));
+            ElectricDreamsButton *startTrialButton = ElectricDreamsButton::createInviteMainButton("Start your free 7-day trial", 1000);
+            startTrialButton->setCenterPosition(Vec2(layoutVector.at(SlideNumber)->getContentSize().width/2, visibleSize.height/10));
             startTrialButton->setDelegate(this);
-            startTrialButton->setMixPanelButtonName("SlideShow-StartTrial");
+            startTrialButton->setMixPanelButtonName(StringUtils::format("SlideShow-StartTrial-%d",SlideNumber));
             startTrialButton->setName("startTrialButton");
             layoutVector.at(SlideNumber)->addChild(startTrialButton);
-            
-            if(SlideNumber == 5)
-            {
-                startExporingButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_START_EXPLORING));
-                startExporingButton->setCenterPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
-                startExporingButton->setDelegate(this);
-                startExporingButton->setMixPanelButtonName("SlideshowStartExploring");
-                layoutVector.at(SlideNumber)->addChild(startExporingButton);
-            }
         }
     }
 }
 
 void SlideShowScene::createPageView()
 {
+    //-----------Setup Slideshow------------
+    
     currentSlideIndex = 0;
     slideShowStarted = false;
     
@@ -82,6 +76,8 @@ void SlideShowScene::createPageView()
     _pageView->setIndicatorSelectedIndexColor(Color3B(28, 244, 244));
     _pageView->setIndicatorPosition(Vec2(visibleSize.width/2,visibleSize.height/50));
     
+    //-------------Load Slideshow Images in Background--------------------
+    
     for(int i=0;i<4;i++)
     {
         Layout* newLayout = Layout::create();
@@ -93,23 +89,23 @@ void SlideShowScene::createPageView()
         layoutVector.push_back(newLayout);
     }
     
-    //setup the slideshow
+    //--------------Initialise Slideshow--------------
+    
     _pageView->scrollToItem(0);
-    
     _pageView->addEventListener((PageView::ccPageViewCallback)CC_CALLBACK_2(SlideShowScene::pageViewEvent, this));
-    
     this->addChild(_pageView);
+}
+
+void SlideShowScene::addLoginButton()
+{
+    loginButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN_MULTILINE), 60, true);
     
-    loginButton = ElectricDreamsButton::createTextAsButtonAqua("Log in", 80, true);
-    
-    float buttonBoarded = loginButton->getContentSize().height;
+    float buttonBoarded = loginButton->getContentSize().height/2;
     
     loginButton->setPosition(origin.x + visibleSize.width - loginButton->getContentSize().width-buttonBoarded, origin.y+visibleSize.height-loginButton->getContentSize().height - buttonBoarded);
     loginButton->setDelegate(this);
     loginButton->setMixPanelButtonName("SlideShow-Login");
     this->addChild(loginButton);
-    
-    
 }
 
 //----------------------- Actions ---------------------
@@ -153,9 +149,7 @@ void SlideShowScene::pageViewScrollToNextPage()
 
 void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == startExporingButton)
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
-    else if(button == loginButton)
+    if(button == loginButton)
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
     else if (button->getName() == "startTrialButton")
     {
