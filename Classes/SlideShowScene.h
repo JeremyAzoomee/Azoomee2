@@ -17,6 +17,7 @@ private:
     Vec2 origin;
     
     ElectricDreamsButton *loginButton;
+    ElectricDreamsButton *skipButton;
     
     long currentSlideIndex;
     bool slideShowStarted;

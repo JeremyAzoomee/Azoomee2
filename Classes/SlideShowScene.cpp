@@ -56,6 +56,18 @@ void SlideShowScene::imageAddedToCache(Texture2D* resulting_texture)
             startTrialButton->setMixPanelButtonName(StringUtils::format("SlideShow-StartTrial-%d",SlideNumber));
             startTrialButton->setName("startTrialButton");
             layoutVector.at(SlideNumber)->addChild(startTrialButton);
+            
+            if(SlideNumber == 4)
+            {
+                skipButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(BUTTON_SKIP), 60, true);
+                
+                float buttonBoarder = skipButton->getContentSize().height/2;
+                
+                skipButton->setPosition(buttonBoarder, buttonBoarder);
+                skipButton->setDelegate(this);
+                skipButton->setMixPanelButtonName("SlideShow-Skip");
+                layoutVector.at(SlideNumber)->addChild(skipButton);
+            }
         }
     }
 }
@@ -78,7 +90,7 @@ void SlideShowScene::createPageView()
     
     //-------------Load Slideshow Images in Background--------------------
     
-    for(int i=0;i<4;i++)
+    for(int i=0;i<5;i++)
     {
         Layout* newLayout = Layout::create();
         newLayout->setContentSize(visibleSize);
@@ -98,11 +110,11 @@ void SlideShowScene::createPageView()
 
 void SlideShowScene::addLoginButton()
 {
-    loginButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN_MULTILINE), 60, true);
+    loginButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN), 60, true);
     
-    float buttonBoarded = loginButton->getContentSize().height/2;
+    float buttonBoarder = loginButton->getContentSize().height/2;
     
-    loginButton->setPosition(origin.x + visibleSize.width - loginButton->getContentSize().width-buttonBoarded, origin.y+visibleSize.height-loginButton->getContentSize().height - buttonBoarded);
+    loginButton->setPosition(origin.x + visibleSize.width - loginButton->getContentSize().width-buttonBoarder, origin.y+visibleSize.height-loginButton->getContentSize().height - buttonBoarder);
     loginButton->setDelegate(this);
     loginButton->setMixPanelButtonName("SlideShow-Login");
     this->addChild(loginButton);
@@ -152,7 +164,7 @@ void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
     if(button == loginButton)
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
     else if (button->getName() == "startTrialButton")
-    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
-    }
+    else if (button == skipButton)
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
 }
