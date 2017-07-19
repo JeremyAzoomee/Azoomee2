@@ -81,7 +81,7 @@ void SlideShowScene::createPageView()
     _pageView->setIndicatorEnabled(true);
     _pageView->setIndicatorSelectedIndexColor(Color3B(28, 244, 244));
     
-    for(int i=0;i<3;i++)
+    for(int i=0;i<4;i++)
     {
         Layout* newLayout = Layout::create();
         newLayout->setContentSize(visibleSize);
@@ -100,7 +100,7 @@ void SlideShowScene::createPageView()
 
     newLayout->addChild(IAPUpsaleLayer::createForSlideshow());
     
-    _pageView->insertCustomItem(newLayout,3);
+    _pageView->insertCustomItem(newLayout,4);
     
     //setup the slideshow
     _pageView->scrollToItem(0);
