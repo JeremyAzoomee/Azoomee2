@@ -137,13 +137,12 @@ void OnboardingScene::addButtonsScene()
 
 void OnboardingScene::addTandCsToScene()
 {
+    //---------- CREATE AND ADD LABELS AND BUTTONS
     Label* TermsAndConditions =createLabelWith(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_TERMS_CONDITIONS),
                                                Style::Font::Regular, Style::Color::white, 40);
-    //TermsAndConditions->setPosition(origin.x + visibleSize.width/2,signupButton->getPositionY() - (TermsAndConditions->getContentSize().height*1.2));
     this->addChild(TermsAndConditions);
     
     Label* andLabel =createLabelWith("and",Style::Font::Regular, Style::Color::white, 40);
-    andLabel->setPosition(origin.x + visibleSize.width/2,signupButton->getPositionY() - (TermsAndConditions->getContentSize().height*1.2));
     this->addChild(andLabel);
     
     privacyButton = ElectricDreamsButton::createTextAsButton(" Privacy Policy ", 40, true);
@@ -156,15 +155,14 @@ void OnboardingScene::addTandCsToScene()
     termsButton->setDelegate(this);
     this->addChild(termsButton);
     
+    //------- CALCULATE AND SET LOCATION OF ITEMS SO THEY ARE CENTERED
     float totalWidth = TermsAndConditions->getContentSize().width + andLabel->getContentSize().width + privacyButton->getContentSize().width + termsButton->getContentSize().width;
-    
     float yPosition = signupButton->getPositionY() - (TermsAndConditions->getContentSize().height*1.2);
     
     TermsAndConditions->setPosition(origin.x+visibleSize.width/2-totalWidth/2+TermsAndConditions->getContentSize().width/2,yPosition);
     privacyButton->setCenterPosition(Vec2(TermsAndConditions->getPositionX()+TermsAndConditions->getContentSize().width/2+privacyButton->getContentSize().width/2,yPosition));
     andLabel->setPosition(privacyButton->getPositionX()+privacyButton->getContentSize().width+andLabel->getContentSize().width/2,yPosition);
     termsButton->setCenterPosition(Vec2(andLabel->getPositionX()+andLabel->getContentSize().width/2+termsButton->getContentSize().width/2,yPosition));
-                                    
 }
 
 //------------PRIVATE OTHER FUNCTIONS------------
