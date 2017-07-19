@@ -225,6 +225,13 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
     cocos2d::log("ChatAPI::onHttpRequestFailed: %s, errorCode=%ld", requestTag.c_str(), errorCode);
     ModalMessages::getInstance()->stopLoading();
+    
+    // Pass 401 unauthorized errors on, so they can show a login screen or otherwise take
+    // appropriate action.
+    if(errorCode == 401)
+    {
+        Azoomee::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
+    }
 }
 
 #pragma - PusherEventObserver
