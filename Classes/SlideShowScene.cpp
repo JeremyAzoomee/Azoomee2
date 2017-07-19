@@ -50,7 +50,7 @@ void SlideShowScene::imageAddedToCache(Texture2D* resulting_texture)
             layoutVector.at(SlideNumber)->addChild(slideImage);
             
             startTrialButton = ElectricDreamsButton::createButtonWithText("Start your free 7-day trial", 300);
-            startTrialButton->setCenterPosition(Vec2(layoutVector.at(SlideNumber)->getContentSize().width/2, layoutVector.at(SlideNumber)->getContentSize().height*.2));
+            startTrialButton->setCenterPosition(Vec2(layoutVector.at(SlideNumber)->getContentSize().width/2, visibleSize.height/8));
             startTrialButton->setDelegate(this);
             startTrialButton->setMixPanelButtonName("SlideShow-StartTrial");
             startTrialButton->setName("startTrialButton");
@@ -80,6 +80,7 @@ void SlideShowScene::createPageView()
     _pageView->removeAllItems();
     _pageView->setIndicatorEnabled(true);
     _pageView->setIndicatorSelectedIndexColor(Color3B(28, 244, 244));
+    _pageView->setIndicatorPosition(Vec2(visibleSize.width/2,visibleSize.height/50));
     
     for(int i=0;i<4;i++)
     {
@@ -88,19 +89,9 @@ void SlideShowScene::createPageView()
         _pageView->insertCustomItem(newLayout,i);
 
         Director::getInstance()->getTextureCache()->addImageAsync(StringUtils::format("res/slideshow/slide_%d.jpg",i+1), CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
-        
-        
-        
+
         layoutVector.push_back(newLayout);
     }
-    
-    //create IAP - UPSALE LAYER
-    Layout* newLayout = Layout::create();
-    newLayout->setContentSize(visibleSize);
-
-    newLayout->addChild(IAPUpsaleLayer::createForSlideshow());
-    
-    _pageView->insertCustomItem(newLayout,4);
     
     //setup the slideshow
     _pageView->scrollToItem(0);
