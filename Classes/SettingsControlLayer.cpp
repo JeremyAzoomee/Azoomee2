@@ -128,7 +128,7 @@ void SettingsControlLayer::createConfirmationNotification()
 
 void SettingsControlLayer::checkForConfirmationNotifications()
 {
-    HttpRequestCreator *request = API::getPendingFriendRequests(this);
+    HttpRequestCreator *request = API::GetPendingFriendRequests(this);
     request->execute();
 }
 

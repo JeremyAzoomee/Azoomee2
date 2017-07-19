@@ -41,7 +41,6 @@
 		300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300742F11EF93428005525AE /* ChatDelegate.cpp */; };
 		300AD6921F0B9ACB0049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; };
 		300AD6991F0B9CD40049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; };
-		300AD69A1F0B9CD40049A24F /* PusherSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA921EB139C1009ADA0C /* SettingsButton.cpp */; };
 		302679A11F0A41770047BC7C /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		302679A31F0A41770047BC7C /* (null) in Frameworks */ = {isa = PBXBuildFile; };
@@ -232,20 +231,6 @@
 			remoteInfo = "libcocos2d tvOS";
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		302679A51F0A41780047BC7C /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				300AD69A1F0B9CD40049A24F /* PusherSwift.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebGameAPIDataManager.cpp; sourceTree = "<group>"; };
@@ -1108,8 +1093,8 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				43BAE6511E26568700EB8DB0 /* ShellScript */,
-				302679A51F0A41780047BC7C /* Embed Frameworks */,
+				43BAE6511E26568700EB8DB0 /* Fabric */,
+				30647A941F13B53600A935C9 /* Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1276,13 +1261,30 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		43BAE6511E26568700EB8DB0 /* ShellScript */ = {
+		30647A941F13B53600A935C9 /* Carthage Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/PusherSwift.framework",
+			);
+			name = "Carthage Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Check carthage command exists\ncommand -v carthage >/dev/null 2>&1 || { echo >&2 \"Error! carthage not found! Tip - Install using: 'brew install carthage'\"; exit 1; }\n\ncarthage copy-frameworks";
+			showEnvVarsInLog = 0;
+		};
+		43BAE6511E26568700EB8DB0 /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = Fabric;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

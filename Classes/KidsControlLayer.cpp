@@ -126,7 +126,7 @@ void KidsControlLayer::sendInviteCode()
 {
     ModalMessages::getInstance()->startLoading();
     
-    HttpRequestCreator *request = API::friendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumber),ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber),stringToUpper(kidCodeTextInput->getText()), this);
+    HttpRequestCreator *request = API::FriendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumber),ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber),stringToUpper(kidCodeTextInput->getText()), this);
     request->execute();
     
     
