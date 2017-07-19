@@ -139,8 +139,32 @@ void OnboardingScene::addTandCsToScene()
 {
     Label* TermsAndConditions =createLabelWith(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_TERMS_CONDITIONS),
                                                Style::Font::Regular, Style::Color::white, 40);
-    TermsAndConditions->setPosition(origin.x + visibleSize.width/2,signupButton->getPositionY() - (TermsAndConditions->getContentSize().height*1.2));
+    //TermsAndConditions->setPosition(origin.x + visibleSize.width/2,signupButton->getPositionY() - (TermsAndConditions->getContentSize().height*1.2));
     this->addChild(TermsAndConditions);
+    
+    Label* andLabel =createLabelWith("and",Style::Font::Regular, Style::Color::white, 40);
+    andLabel->setPosition(origin.x + visibleSize.width/2,signupButton->getPositionY() - (TermsAndConditions->getContentSize().height*1.2));
+    this->addChild(andLabel);
+    
+    privacyButton = ElectricDreamsButton::createTextAsButton(" Privacy Policy ", 40, true);
+    privacyButton->setMixPanelButtonName("signupScenePrivacyPolicyButton");
+    privacyButton->setDelegate(this);
+    this->addChild(privacyButton);
+    
+    termsButton = ElectricDreamsButton::createTextAsButton(" Terms of Use.", 40, true);
+    termsButton->setMixPanelButtonName("signupSceneermsButton");
+    termsButton->setDelegate(this);
+    this->addChild(termsButton);
+    
+    float totalWidth = TermsAndConditions->getContentSize().width + andLabel->getContentSize().width + privacyButton->getContentSize().width + termsButton->getContentSize().width;
+    
+    float yPosition = signupButton->getPositionY() - (TermsAndConditions->getContentSize().height*1.2);
+    
+    TermsAndConditions->setPosition(origin.x+visibleSize.width/2-totalWidth/2+TermsAndConditions->getContentSize().width/2,yPosition);
+    privacyButton->setCenterPosition(Vec2(TermsAndConditions->getPositionX()+TermsAndConditions->getContentSize().width/2+privacyButton->getContentSize().width/2,yPosition));
+    andLabel->setPosition(privacyButton->getPositionX()+privacyButton->getContentSize().width+andLabel->getContentSize().width/2,yPosition);
+    termsButton->setCenterPosition(Vec2(andLabel->getPositionX()+andLabel->getContentSize().width/2+termsButton->getContentSize().width/2,yPosition));
+                                    
 }
 
 //------------PRIVATE OTHER FUNCTIONS------------
@@ -194,9 +218,11 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
     if(button == signupButton)
         signUp();
     else if(button == cancelButton)
-    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
-    }
+    else if(button == privacyButton)
+        Application::getInstance()->openURL("http://azoomee.com/index.php/privacy-policy-2/");
+    else if(button == termsButton)
+        Application::getInstance()->openURL("http://azoomee.com/index.php/terms-and-conditions/");
 }
 
 void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

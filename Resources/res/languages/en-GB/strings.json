@@ -13,7 +13,7 @@
         "password_label":"Create a password",
         "pin_label":"Set up a 4-digit PIN",
         "pin_sub_label":"Use this to protect the parents/settings area.",
-        "TandCs":"By creating an account, you agree to our Privacy Policy and Terms of Use."
+        "TandCs":"By creating an account, you agree to our"
     },
     
     "OnboardingSuccessScene":
