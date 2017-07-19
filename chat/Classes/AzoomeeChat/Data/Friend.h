@@ -24,6 +24,7 @@ private:
     std::string _friendId;
     std::string _friendName;
     std::string _avatarURL;
+    int _unreadMessages = 0;
     
     // no direct construction
     Friend();
@@ -31,11 +32,12 @@ private:
 public:
     
     static FriendRef createFromJson(const rapidjson::Value& json);
-    static FriendRef create(const std::string& friendId, const std::string& friendName, const std::string& avatarURL);
+    static FriendRef create(const std::string& friendId, const std::string& friendName, const std::string& avatarURL, int unreadMessages = 0);
     
     std::string friendId() const;
     std::string friendName() const;
     std::string avatarURL() const;
+    int unreadMessages() const;
 };
 
 NS_AZOOMEE_CHAT_END

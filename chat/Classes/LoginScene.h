@@ -59,6 +59,8 @@ private:
     // - TextInputLayerDelegate
     void textInputIsValid(TextInputLayer* inputLayer, bool isValid) override;
     void textInputReturnPressed(TextInputLayer* inputLayer) override;
+    void editBoxEditingDidBegin(TextInputLayer* inputLayer) override;
+    void editBoxEditingDidEnd(TextInputLayer* inputLayer) override;
     // - ElectricDreamsButtonDelegate
     void buttonPressed(ElectricDreamsButton* button) override;
     

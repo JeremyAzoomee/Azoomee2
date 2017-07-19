@@ -121,7 +121,7 @@ void ConfirmationControlLayer::setToRejected()
 
 void ConfirmationControlLayer::friendRequestReaction(bool confirmed)
 {
-    HttpRequestCreator *request = API::friendRequestReaction(confirmed, ParentDataProvider::getInstance()->getPendingFriendRequestRespondentID(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestRequestID(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestSenderName(confirmationNumber), this);
+    HttpRequestCreator *request = API::FriendRequestReaction(confirmed, ParentDataProvider::getInstance()->getPendingFriendRequestRespondentID(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestRequestID(confirmationNumber), ParentDataProvider::getInstance()->getPendingFriendRequestSenderName(confirmationNumber), this);
     request->execute();
 }
 
