@@ -93,16 +93,19 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     chevronLeftButton = ElectricDreamsButton::createChevronLeftButton();
     chevronLeftButton->setCenterPosition(Vec2(MARGIN_TO_CHEVRON,mainImage->getPositionY()));
     chevronLeftButton->setDelegate(this);
+    chevronLeftButton->setMixPanelButtonName("Settings-OnlineSafety-LeftChevron");
     backgroundLayer->addChild(chevronLeftButton);
     
     chevronRightButton = ElectricDreamsButton::createChevronRightButton();
     chevronRightButton->setCenterPosition(Vec2(visibleSize.width - MARGIN_TO_CHEVRON,mainImage->getPositionY()));
     chevronRightButton->setDelegate(this);
+    chevronRightButton->setMixPanelButtonName("Settings-OnlineSafety-RighChevron");
     backgroundLayer->addChild(chevronRightButton);
     
     watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Color3B(9,154,154));
     watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
     watchSearchItUpButton->setDelegate(this);
+    watchSearchItUpButton->setMixPanelButtonName("Settings-OnlineSafety-watchSearchItUp");
     backgroundLayer->addChild(watchSearchItUpButton);
 }
 
@@ -116,38 +119,35 @@ void OnlineSafetyDetailsLayer::playVideo()
     closeVideoButton = ElectricDreamsButton::createWindowCloselButton();
     closeVideoButton->setCenterPosition(Vec2(visibleSize.width - closeVideoButton->getContentSize().width, visibleSize.height - closeVideoButton->getContentSize().height));
     closeVideoButton->setDelegate(this);
+    closeVideoButton->setMixPanelButtonName("Settings-OnlineSafety-CloseVideo");
     videoLayer->addChild(closeVideoButton);
-    
-    //auto newHTML = "<div style=\"position:relative;height:0;padding-bottom:56.25%\"><iframe src=\"https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1\" width=\"640\" height=\"360\" frameborder=\"0\" style=\"position:absolute;width:100%;height:100%;left:0\" allowfullscreen></iframe></div>";
-    
-    //auto newHTML = "<html><head><title>Test</title></head><body><div style=\"position:relative;height:0;padding-bottom:56.25%\"><iframe src=\"https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1\" width=\"640\" height=\"360\" frameborder=\"0\" style=\"position:absolute;width:100%;height:100%;left:0\" allowfullscreen></iframe></div></body></html>";
     
     std::string videoEmbeddedURL = "";
     
     switch (currentSlideNumber) {
         case 1:
         {
-            videoEmbeddedURL = "https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1";
+            videoEmbeddedURL = "https://www.youtube.com/embed/OxqWjHD8nMU?rel=0?ecver=2&autoplay=1";
             break;
         }
         case 2:
         {
-            videoEmbeddedURL = "https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1";
+            videoEmbeddedURL = "https://www.youtube.com/embed/riCzbUj_ow8?rel=0?ecver=2&autoplay=1";
             break;
         }
         case 3:
         {
-            videoEmbeddedURL = "https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1";
+            videoEmbeddedURL = "https://www.youtube.com/embed/vGl0xCHPD58?rel=0?ecver=2&autoplay=1";
             break;
         }
         case 4:
         {
-            videoEmbeddedURL = "https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1";
+            videoEmbeddedURL = "https://www.youtube.com/embed/zg9AgR8I7QI?rel=0?ecver=2&autoplay=1";
             break;
         }
         case 5:
         {
-            videoEmbeddedURL = "https://www.youtube.com/embed/lpFV3e6SPwE?rel=0?ecver=2&autoplay=1";
+            videoEmbeddedURL = "https://www.youtube.com/embed/_e6idatqS28?rel=0?ecver=2&autoplay=1";
             break;
         }
         default:
@@ -158,7 +158,6 @@ void OnlineSafetyDetailsLayer::playVideo()
     videoWebview->setContentSize(Size(1920,1080));
     videoWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     videoWebview->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
-    //videoWebview->loadHTMLString(newHTML);
     videoWebview->loadURL(videoEmbeddedURL);
     videoLayer->addChild(videoWebview);
 }
