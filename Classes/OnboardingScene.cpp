@@ -138,7 +138,7 @@ void OnboardingScene::addButtonsScene()
 void OnboardingScene::addTandCsToScene()
 {
     Label* TermsAndConditions =createLabelWith(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_TERMS_CONDITIONS),
-                                               Style::Font::Regular, Style::Color::white, 48);
+                                               Style::Font::Regular, Style::Color::white, 40);
     TermsAndConditions->setPosition(origin.x + visibleSize.width/2,signupButton->getPositionY() - (TermsAndConditions->getContentSize().height*1.2));
     this->addChild(TermsAndConditions);
 }
