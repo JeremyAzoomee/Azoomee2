@@ -27,6 +27,7 @@ private:
     std::map<std::string, bool> notificationsForUsers;
     int lastUpdateTimeStamp = 0;
     void notifyNavigationLayer();
+    void removeBadgeFromNavigationLayer();
     cocos2d::Layer* navigationLayer;
     bool loggedInUserHasNotifications = false;
     void scheduleUpdateOfPollingUnreadMessages();

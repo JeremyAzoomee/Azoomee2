@@ -68,6 +68,7 @@ void ChatNotificationsSingleton::onHttpRequestSuccess(const std::string& request
     }
     
     loggedInUserHasNotifications = false;
+    notifyNavigationLayer();
 }
 
 void ChatNotificationsSingleton::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -80,6 +81,7 @@ void ChatNotificationsSingleton::onChatAPIMessageRecieved(const Chat::MessageRef
     loggedInUserHasNotifications = true;
     AnalyticsSingleton::getInstance()->unreadMessagesNotificationReceived();
     AudioMixer::getInstance()->playEffect("message.mp3");
+    removeBadgeFromNavigationLayer();
     notifyNavigationLayer();
 }
 
@@ -111,7 +113,14 @@ void ChatNotificationsSingleton::notifyNavigationLayer()
 {
     if(!navigationLayer) return;
     
-    ((NavigationLayer *)navigationLayer)->showNotificationBadge();
+    if(loggedInUserHasNotifications) ((NavigationLayer *)navigationLayer)->showNotificationBadge();
+    else ((NavigationLayer *)navigationLayer)->hideNotificationBadge();
+}
+
+void ChatNotificationsSingleton::removeBadgeFromNavigationLayer()
+{
+    if(!navigationLayer) return;
+    ((NavigationLayer *)navigationLayer)->hideNotificationBadge();
 }
 
 NS_AZOOMEE_END
