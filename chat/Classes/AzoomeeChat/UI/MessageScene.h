@@ -23,6 +23,8 @@ private:
     FriendList _participants;
     /// Time for next auto get messages call
     float _timeTillGet = -1.0f;
+    /// Recent messages sorted by timestamp
+    MessageList _messagesByTime;
     
     /// Root layout for all elements
     cocos2d::ui::Layout* _rootLayout = nullptr;

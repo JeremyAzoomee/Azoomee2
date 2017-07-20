@@ -37,7 +37,11 @@ public:
     std::string friendId() const;
     std::string friendName() const;
     std::string avatarURL() const;
+    
     int unreadMessages() const;
+    /// Set the friend as having unread messages
+    /// Local only, this makes no change on the server
+    void markMessagesLocalUnread();
 };
 
 NS_AZOOMEE_CHAT_END

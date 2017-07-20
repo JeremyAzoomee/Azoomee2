@@ -116,12 +116,10 @@ void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
 
 #pragma mark - Mark messages
 
-void ChatAPI::markMessagesAsRead(const FriendRef& friendObj)
+void ChatAPI::markMessagesAsRead(const FriendRef& friendObj, const MessageRef& message)
 {
-    // Get time now
-    auto msSinceEpochNow = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    HttpRequestCreator* request = API::MarkReadMessageRequest(childData->getParentOrChildId(), friendObj->friendId(), msSinceEpochNow, this);
+    HttpRequestCreator* request = API::MarkReadMessageRequest(childData->getParentOrChildId(), friendObj->friendId(), message->timestamp(), this);
     request->execute();
 }
 
