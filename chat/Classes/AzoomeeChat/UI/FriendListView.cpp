@@ -111,6 +111,13 @@ void FriendListView::interceptTouchEvent(cocos2d::ui::Widget::TouchEventType eve
             if(item)
             {
                 const FriendRef& friendData = item->getData();
+                if(friendData == nullptr)
+                {
+                    // If data is null, it's an empty cell and we don't need to continue
+                    item = nullptr;
+                    break;
+                }
+                
                 for(int i = 0; i < _listData.size(); ++i)
                 {
                     if(_listData[i] == friendData)
@@ -125,7 +132,7 @@ void FriendListView::interceptTouchEvent(cocos2d::ui::Widget::TouchEventType eve
             parent = dynamic_cast<Widget*>(parent->getParent());
         }
         
-        if(sender->isHighlighted() && item)
+        if(item != nullptr && item->isHighlighted())
         {
             selectedItemEvent(event);
         }
