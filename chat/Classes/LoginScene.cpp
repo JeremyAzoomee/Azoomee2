@@ -218,6 +218,16 @@ void LoginScene::textInputReturnPressed(TextInputLayer* inputLayer)
     nextButtonPressed();
 }
 
+void LoginScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
+{
+    // Nothing
+}
+
+void LoginScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
+{
+    // Nothing
+}
+
 #pragma mark - ElectricDreamsButtonDelegate
 
 void LoginScene::buttonPressed(ElectricDreamsButton* button)

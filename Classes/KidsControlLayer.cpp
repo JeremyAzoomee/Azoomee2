@@ -126,7 +126,7 @@ void KidsControlLayer::sendInviteCode()
 {
     ModalMessages::getInstance()->startLoading();
     
-    HttpRequestCreator *request = API::friendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumber),ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber),stringToUpper(kidCodeTextInput->getText()), this);
+    HttpRequestCreator *request = API::FriendRequest(ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumber),ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber),stringToUpper(kidCodeTextInput->getText()), this);
     request->execute();
     
     
@@ -155,7 +155,7 @@ void KidsControlLayer::shareKidCode()
     
     std::string childsName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber);
     
-    nativeShareScreenString(StringUtils::format("%s  is using Azoomee to safely chat with friends! Enter %s's Kid Code %s in Azoomee.\nDownload Azoomee here: http://bit.ly/azoomeekids",childsName.c_str(),childsName.c_str(),ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber).c_str()));
+    nativeShareScreenString(StringUtils::format("%s uses Azoomee to chat safely with family & friends. Enter %s's Kid Code %s in Azoomee to start chatting with your child.\nDownload Azoomee here: http://bit.ly/azoomeekids",childsName.c_str(),childsName.c_str(),ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber).c_str()));
 }
 
 void KidsControlLayer::clearAllButCloseButton()

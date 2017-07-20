@@ -1,11 +1,13 @@
 #include "FriendListScene.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include "MessageScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "MessageScene.h"
+
 
 using namespace cocos2d;
 
@@ -32,12 +34,9 @@ bool FriendListScene::init()
     _contentLayout = ui::Layout::create();
     _contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _contentLayout->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
-    _contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _contentLayout->setBackGroundColor(Style::Color::darkTwo);
     _rootLayout->addChild(_contentLayout);
     
     // Titlebar at the top
-    // We add this last so it sits on top with a drop shadow
     _titleBar = TitleBarWidget::create();
     _titleBar->setTitleImage("res/chat/ui/azoomee_chat_logo.png");
     _titleBar->setSizeType(ui::Widget::SizeType::PERCENT);
@@ -114,8 +113,6 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
     // Subtitle bar
     _subTitleBar = ui::Layout::create();
     _subTitleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-//    _subTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-//    _subTitleBar->setBackGroundColor(Style::Color::brightAqua);
     parent->addChild(_subTitleBar);
     createSubTitleBarUI(_subTitleBar);
     
@@ -134,8 +131,6 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     ui::Layout* contentLayout = ui::Layout::create();
     contentLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
     contentLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
-//    contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
-//    contentLayout->setSizePercent(Vec2(1.0f, 1.0f));
     contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     contentLayout->setBackGroundColor(Style::Color::blueGreen);
     parent->addChild(contentLayout);
@@ -158,6 +153,19 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     addFriendButton->setTitleFontSize(45.0f);
     addFriendButton->setScale9Enabled(true);
     addFriendButton->setTitleAlignment(TextHAlignment::LEFT, TextVAlignment::CENTER);
+    
+    ui::ImageView* plusIcon = ui::ImageView::create("res/chat/ui/buttons/add_icon.png");
+    addFriendButton->addChild(plusIcon);
+    plusIcon->setAnchorPoint(Vec2(0.5f, 0.5f));
+    // Position icon and title
+    const auto& addFriendButtonSize = addFriendButton->getContentSize();
+    plusIcon->setPosition(Vec2(addFriendButtonSize.height * 0.5f, addFriendButtonSize.height * 0.5f));
+    addFriendButton->getTitleRenderer()->setAnchorPoint(Vec2(0.0f, 0.5f));
+    // We need some offset because the title doesn't get centered vertically correctly
+    // Likely due to font renderering via TTF
+    const float lineHeightOffset = -3.0f;
+    addFriendButton->getTitleRenderer()->setPosition(Vec2(plusIcon->getPositionX() + (plusIcon->getContentSize().width * 0.5f) + 15.0f, (addFriendButtonSize.height * 0.5f) + lineHeightOffset));
+    
 //    addFriendButton->getRendererNormal()->setStrechEnabled(true);
 //    addFriendButton->getRendererClicked()->setStrechEnabled(true);
 //    addFriendButton->getRendererDisabled()->setStrechEnabled(true);
@@ -180,7 +188,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     _subTitleBarBorder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
     _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBarBorder->setBackGroundColor(Style::Color::barney);
+    _subTitleBarBorder->setBackGroundColor(Style::Color::brightAqua);
     parent->addChild(_subTitleBarBorder);
 }
 
@@ -218,11 +226,33 @@ void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 
 void FriendListScene::onChatAPIGetFriendList(const FriendList& friendList)
 {
-    AnalyticsSingleton::getInstance()->setNumberOfChatFriends(friendList.size());
+    AnalyticsSingleton::getInstance()->setNumberOfChatFriends((int)friendList.size());
     
+    _friendListData = friendList;
     _friendListView->setItems(friendList);
     
     ModalMessages::getInstance()->stopLoading();
+}
+
+void FriendListScene::onChatAPIMessageRecieved(const MessageRef& message)
+{
+    // Find the friend this message is from, and if necessary mark them as having unread messages
+    for(const FriendRef& frnd : _friendListData)
+    {
+        if(frnd->friendId() == message->senderId())
+        {
+            frnd->markMessagesLocalUnread();
+            // Force list to re-render
+            _friendListView->setItems(_friendListData);
+            break;
+        }
+    }
+}
+
+void FriendListScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
 

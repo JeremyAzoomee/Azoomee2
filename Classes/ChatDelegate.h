@@ -20,6 +20,7 @@ public:
     
     virtual void onChatNavigationBack() override;
     virtual void onChatAddFriend() override;
+    virtual void onChatAuthorizationError(const std::string& requestTag, long errorCode) override;
 };
 
 NS_AZOOMEE_END

@@ -123,6 +123,7 @@ public:
     void sessionIdHasChanged(std::string oldSessionId);
     void httpRequestFailed(std::string requestTag, long responseCode, std::string qid);
     void moveToSceneEvent(std::string newScene);
+    void settingsOnlineSafetySlideChangeEvent(int NewSlideNumber);
     
     //---------------IAP ACTIONS------------------
     void displayIAPUpsaleEvent(std::string fromLocation);

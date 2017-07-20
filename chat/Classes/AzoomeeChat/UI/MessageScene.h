@@ -23,6 +23,8 @@ private:
     FriendList _participants;
     /// Time for next auto get messages call
     float _timeTillGet = -1.0f;
+    /// Recent messages sorted by timestamp
+    MessageList _messagesByTime;
     
     /// Root layout for all elements
     cocos2d::ui::Layout* _rootLayout = nullptr;
@@ -50,6 +52,7 @@ private:
     void onChatAPIGetChatMessages(const MessageList& messageList) override;
     void onChatAPISendMessage(const MessageRef& sentMessage) override;
     void onChatAPIMessageRecieved(const MessageRef& message) override;
+    void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) override;
     
     // - MessageComposer::Delegate
     void onMessageComposerSendMessage(const MessageRef& message) override;

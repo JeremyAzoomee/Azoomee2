@@ -114,6 +114,15 @@ void ChatAPI::sendMessage(const FriendRef& friendObj, const MessageRef& message)
     request->execute();
 }
 
+#pragma mark - Mark messages
+
+void ChatAPI::markMessagesAsRead(const FriendRef& friendObj, const MessageRef& message)
+{
+    ChildDataProvider* childData = ChildDataProvider::getInstance();
+    HttpRequestCreator* request = API::MarkReadMessageRequest(childData->getParentOrChildId(), friendObj->friendId(), message->timestamp(), this);
+    request->execute();
+}
+
 #pragma mark - HttpRequestCreatorResponseDelegate
 
 void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -216,6 +225,21 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
     cocos2d::log("ChatAPI::onHttpRequestFailed: %s, errorCode=%ld", requestTag.c_str(), errorCode);
     ModalMessages::getInstance()->stopLoading();
+    
+    // Pass 401 unauthorized errors on, so they can show a login screen or otherwise take
+    // appropriate action.
+    if(errorCode == 401)
+    {
+        Azoomee::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
+    }
+    else
+    {
+        // Otherwise pass all other errors to the observers
+        for(auto observer : _observers)
+        {
+            observer->onChatAPIErrorRecieved(requestTag, errorCode);
+        }
+    }
 }
 
 #pragma - PusherEventObserver

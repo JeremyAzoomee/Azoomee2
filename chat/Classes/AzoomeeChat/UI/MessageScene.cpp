@@ -5,19 +5,23 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
-// TODO: This needs to be a dynamic hook, so app can deal with it when we're in the main app
 #include "FriendListScene.h"
 
 
 using namespace cocos2d;
 
 
+// Enable this to use polling
+// For launch, we don't use this at all
+//#define CHAT_MESSAGES_POLL
+
 
 NS_AZOOMEE_CHAT_BEGIN
 
+#ifdef CHAT_MESSAGES_POLL
 // Interval to do an auto get call
-// Temp feature until Pusher is implemented
-const float kAutoGetTimeInterval = 0.0f; //5.0f;
+const float kAutoGetTimeInterval = 5.0f;
+#endif
 
 MessageScene* MessageScene::create(const FriendList& participants)
 {
@@ -105,6 +109,7 @@ void MessageScene::onExit()
 
 void MessageScene::update(float dt)
 {
+#ifdef CHAT_MESSAGES_POLL
     if(kAutoGetTimeInterval > 0 && _timeTillGet > -1)
     {
         _timeTillGet -= dt;
@@ -117,6 +122,7 @@ void MessageScene::update(float dt)
             ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
         }
     }
+#endif
 }
 
 #pragma mark - Size Changes
@@ -194,11 +200,36 @@ void MessageScene::onBackButtonPressed()
 
 void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 {
-    _messageListView->setData(_participants, messageList);
+    // Make a copy of the messageList and sort it in order of timestamp
+    MessageList messagesByTime;
+    for(const MessageRef& message : messageList)
+    {
+        // Find first item where this message is newer
+        MessageList::const_reverse_iterator it = messagesByTime.rbegin();
+        for(; it != messagesByTime.rend(); ++it)
+        {
+            if(message->timestamp() > (*it)->timestamp())
+            {
+                break;
+            }
+        }
+        messagesByTime.insert(it.base(), message);
+    }
+    _messagesByTime = messagesByTime;
+    
+    _messageListView->setData(_participants, _messagesByTime);
     ModalMessages::getInstance()->stopLoading();
     
+    if(messageList.size() > 0)
+    {
+        // Mark messages as read
+        ChatAPI::getInstance()->markMessagesAsRead(_participants[1], _messagesByTime.back());
+    }
+    
+#ifdef CHAT_MESSAGES_POLL
     // Trigger auto get again
     _timeTillGet = kAutoGetTimeInterval;
+#endif
 }
 
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
@@ -211,6 +242,15 @@ void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
 {
     AnalyticsSingleton::getInstance()->chatIncomingMessageEvent(message->messageType());
     _messageListView->addMessage(message);
+    
+    // Mark messages as read
+    ChatAPI::getInstance()->markMessagesAsRead(_participants[1], message);
+}
+
+void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
 #pragma mark - MessageComposer::Delegate
@@ -218,11 +258,11 @@ void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
 void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 {
     AnalyticsSingleton::getInstance()->chatOutgoingMessageEvent(message->messageType());
-//    cocos2d::log("Send Message: %s", message.c_str());
     ChatAPI::getInstance()->sendMessage(_participants[1], message);
-    _timeTillGet = -1.0f;
     
-    // TODO: Add to message list
+#ifdef CHAT_MESSAGES_POLL
+    _timeTillGet = -1.0f;
+#endif
 }
 
 NS_AZOOMEE_CHAT_END
