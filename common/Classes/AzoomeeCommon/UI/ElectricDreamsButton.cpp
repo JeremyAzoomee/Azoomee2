@@ -100,7 +100,7 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButtonWithColor(std::str
 {
     auto layer = ElectricDreamsButton::create();
     
-    Label* textButton = Label::createWithTTF(buttonText, "fonts/Sofia Pro Soft Regular.otf", fontSize);
+    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular, fontSize);
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
     textButton->setHorizontalAlignment(TextHAlignment::CENTER);
     textButton->setColor(color);
