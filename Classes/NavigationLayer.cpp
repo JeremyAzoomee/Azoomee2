@@ -19,6 +19,7 @@
 #include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
 #include "BackEndCaller.h"
+#include "ChatNotificationsSingleton.h"
 
 using namespace cocos2d;
 
@@ -222,7 +223,9 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
     notificationBadge->setScale(0.0);
     chatIcon->addChild(notificationBadge, 9);
     
-    Chat::ChatAPI::getInstance()->registerObserver(this);
+    ChatNotificationsSingleton::getInstance()->setNavigationLayer(this);
+    if(ChatNotificationsSingleton::getInstance()->userHasNotifications()) showNotificationBadge();
+    ChatNotificationsSingleton::getInstance()->getNotificationsForLoggedInUser();
 }
 
 void NavigationLayer::showNotificationBadge()
@@ -563,16 +566,9 @@ void NavigationLayer::cleanUpPreviousHQ()
     }
 }
 
-void NavigationLayer::onChatAPIMessageRecieved(const Chat::MessageRef& message)
-{
-    AudioMixer::getInstance()->playEffect("message.mp3");
-    AnalyticsSingleton::getInstance()->unreadMessagesNotificationReceived();
-    showNotificationBadge();
-}
-
 void NavigationLayer::onExit()
 {
-    Chat::ChatAPI::getInstance()->removeObserver(this);
+    ChatNotificationsSingleton::getInstance()->setNavigationLayer(NULL);
     Node::onExit();
 }
 
