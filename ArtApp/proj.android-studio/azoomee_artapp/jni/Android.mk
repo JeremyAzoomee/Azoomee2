@@ -5,7 +5,7 @@ include $(CLEAR_VARS)
 $(call import-add-path, $(LOCAL_PATH)/../../../cocos2d)
 $(call import-add-path, $(LOCAL_PATH)/../../../common/proj.android-studio)
 
-LOCAL_MODULE := azoomee_artApp
+LOCAL_MODULE := azoomee_artapp
 
 LOCAL_MODULE_FILENAME := libAzoomeeArtApp
 

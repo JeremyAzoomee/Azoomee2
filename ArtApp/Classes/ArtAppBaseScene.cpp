@@ -79,8 +79,10 @@ void ArtAppBase::backButtonCallBack()
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);
     
+        
         std::ostringstream oss;
-        oss << std::put_time(&tm, "%d%m%Y%H%M%S");
+        //oss << std::put_time(&tm, "%d%m%Y%H%M%S");
+        oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
         auto fileNameStr = oss.str();
     
         saveFileName = "artCache/" + Azoomee::ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + fileNameStr + ".png";
