@@ -37,13 +37,13 @@ private:
     ElectricDreamsButton *returnToChildSelectorButton;
 
     //MenuItem creation phase
-    cocos2d::Sprite* addMenuItemImage(int itemNumber);
+    cocos2d::Sprite* addMenuItemHolder(int itemNumber);
+    cocos2d::Sprite* addMenuItemCircle(int itemNumber, cocos2d::Node *toBeAddedTo);
     cocos2d::Sprite* addMenuItemInactive(int itemNumber, cocos2d::Node *toBeAddedTo);
     cocos2d::Sprite* addMenuItemActive(int itemNumber, cocos2d::Node *toBeAddedTo);
     void addListenerToMenuItem(Node *toBeAddedTo);
     
-    void runDisplayAnimationForMenuItem(cocos2d::Node* node1, cocos2d::Node* node2);
-    void runDisplayAnimationForMenuItemQuick(cocos2d::Node* node1, cocos2d::Node* node2);
+    void runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool quick);
     
     void moveMenuPointsToHorizontalState(float duration);
     void moveMenuPointsToHorizontalStateInGroupHQ(float duration);

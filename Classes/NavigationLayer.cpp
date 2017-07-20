@@ -60,19 +60,20 @@ bool NavigationLayer::init()
     
     for(int i = 0; i <= amountOfItems; i++)
     {
-        auto menuItemImage = addMenuItemImage(i);
-        if(i == 0) addNotificationBadgeToChatIcon(menuItemImage);
-        auto menuItemInactive = addMenuItemInactive(i, menuItemImage);          //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
-        addMenuItemActive(i, menuItemImage);                                    //Active menuItem is visible, when we are in the given menu
-        addListenerToMenuItem(menuItemImage);
+        auto menuItemHolder = addMenuItemHolder(i);
+        addMenuItemCircle(i, menuItemHolder);
+        if(i == 0) addNotificationBadgeToChatIcon(menuItemHolder);
+        addMenuItemInactive(i, menuItemHolder);                                  //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
+        addMenuItemActive(i, menuItemHolder);                                    //Active menuItem is visible, when we are in the given menu
+        addListenerToMenuItem(menuItemHolder);
         
         if(!HQHistoryManager::getInstance()->noHistory())
         {
-            runDisplayAnimationForMenuItemQuick(menuItemImage, menuItemInactive);
+            runDisplayAnimationForMenuItem(menuItemHolder, true);
         }
         else
         {
-            runDisplayAnimationForMenuItem(menuItemImage, menuItemInactive);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
+            runDisplayAnimationForMenuItem(menuItemHolder, false);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
             this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 4);
         }
     }
@@ -178,19 +179,33 @@ void NavigationLayer::startLoadingHQScene(int categoryTag)
     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
 }
 
-Sprite* NavigationLayer::addMenuItemImage(int itemNumber)
+Sprite* NavigationLayer::addMenuItemHolder(int itemNumber)
 {
-    Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(itemNumber);
     Point position = ConfigStorage::getInstance()->getRelativeCirclePositionForMenuItem(itemNumber);
     
-    auto menuItemImage = Sprite::create("res/navigation/outer_circle.png");
-    menuItemImage->setTag(itemNumber);
-    menuItemImage->setOpacity(0);
-    menuItemImage->setColor(Color3B(colour.r, colour.g, colour.b));
-    menuItemImage->setPosition(origin.x+visibleSize.width/2+position.x,origin.y+visibleSize.height/2+position.y);
-    this->addChild(menuItemImage);
+    auto menuItemHolder = Sprite::create();
+    menuItemHolder->setTag(itemNumber);
+    menuItemHolder->setCascadeOpacityEnabled(true);
+    menuItemHolder->setOpacity(0);
+    menuItemHolder->setPosition(origin.x+visibleSize.width/2+position.x,origin.y+visibleSize.height/2+position.y);
+    this->addChild(menuItemHolder);
     
-    return menuItemImage;
+    return menuItemHolder;
+}
+
+Sprite* NavigationLayer::addMenuItemCircle(int itemNumber, Node* toBeAddedTo)
+{
+    Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(itemNumber);
+    
+    auto menuItemCircle = Sprite::create("res/navigation/outer_circle.png");
+    toBeAddedTo->setContentSize(menuItemCircle->getContentSize());
+    menuItemCircle->setName("circle");
+    menuItemCircle->setOpacity(255);
+    menuItemCircle->setColor(Color3B(colour.r, colour.g, colour.b));
+    menuItemCircle->setPosition(toBeAddedTo->getContentSize() / 2);
+    toBeAddedTo->addChild(menuItemCircle);
+    
+    return menuItemCircle;
 }
 
 Sprite* NavigationLayer::addMenuItemActive(int itemNumber, Node* toBeAddedTo)
@@ -209,7 +224,7 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
     auto menuItemInactive = Sprite::create(StringUtils::format("res/navigation/menu%d.png", itemNumber).c_str());
     menuItemInactive->setName("off");
     menuItemInactive->setPosition(toBeAddedTo->getContentSize() / 2);
-    menuItemInactive->setOpacity(0);
+    menuItemInactive->setOpacity(255);
     toBeAddedTo->addChild(menuItemInactive);
     
     return menuItemInactive;
@@ -224,7 +239,6 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
     chatIcon->addChild(notificationBadge, 9);
     
     ChatNotificationsSingleton::getInstance()->setNavigationLayer(this);
-    if(ChatNotificationsSingleton::getInstance()->userHasNotifications()) showNotificationBadge();
     ChatNotificationsSingleton::getInstance()->getNotificationsForLoggedInUser();
 }
 
@@ -233,7 +247,6 @@ void NavigationLayer::showNotificationBadge()
     if(!this->getChildByTag(0)->getChildByName("notification")) return;
     
     this->getChildByTag(0)->getChildByName("notification")->stopAllActions();
-    this->getChildByTag(0)->getChildByName("notification")->setScale(0.0);
     this->getChildByTag(0)->getChildByName("notification")->runAction(EaseElasticOut::create(ScaleTo::create(1.0, 1.0)));
 }
 
@@ -364,21 +377,20 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), toBeAddedTo);
 }
 
-void NavigationLayer::runDisplayAnimationForMenuItem(cocos2d::Node* node1, cocos2d::Node* node2)
+void NavigationLayer::runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool quick)
 {
     Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(node1->getTag());
     
-    float randomDelay = RandomHelper::random_real(0.2, 0.7);
-    node1->runAction(Sequence::create(DelayTime::create(3.0f + randomDelay), FadeTo::create(0, colour.a), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, colour.a), NULL));
-    node2->runAction(Sequence::create(DelayTime::create(3.0f + randomDelay), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
-}
-
-void NavigationLayer::runDisplayAnimationForMenuItemQuick(cocos2d::Node* node1, cocos2d::Node* node2)
-{
-    Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(node1->getTag());
+    float randomDelay = 0;
+    float blinkDelay = 0.1;
     
-    node1->runAction(Sequence::create(DelayTime::create(0), FadeTo::create(0, colour.a), DelayTime::create(0), FadeTo::create(0, 0), DelayTime::create(0), FadeTo::create(0, colour.a), NULL));
-    node2->runAction(Sequence::create(DelayTime::create(0), FadeIn::create(0), DelayTime::create(0), FadeOut::create(0), DelayTime::create(0), FadeIn::create(0), NULL));
+    if(!quick)
+    {
+        randomDelay = RandomHelper::random_real(0.2, 0.7) + 3;
+        blinkDelay = 0;
+    }
+    
+    node1->runAction(Sequence::create(DelayTime::create(randomDelay), FadeTo::create(0, colour.a), DelayTime::create(blinkDelay), FadeTo::create(0, 0), DelayTime::create(blinkDelay), FadeTo::create(0, colour.a), NULL));
 }
 
 
@@ -386,7 +398,7 @@ void NavigationLayer::turnOffAllMenuItems()
 {
     for(int i = 0; i <= amountOfItems; i++)
     {
-        this->getChildByTag(i)->setOpacity(255);
+        this->getChildByTag(i)->getChildByName("circle")->setOpacity(255);
         this->getChildByTag(i)->getChildByName("on")->stopAllActions();
         this->getChildByTag(i)->getChildByName("on")->setOpacity(0);
     }
@@ -395,7 +407,7 @@ void NavigationLayer::turnOffAllMenuItems()
 void NavigationLayer::turnOnMenuItem(int tagNumber)
 {
     this->getChildByTag(tagNumber)->getChildByName("on")->runAction(Sequence::create(FadeTo::create(0, 255), DelayTime::create(0.1), FadeTo::create(0,0), DelayTime::create(0.1), FadeTo::create(0, 255), NULL));
-    this->getChildByTag(tagNumber)->setOpacity(0);
+    this->getChildByTag(tagNumber)->getChildByName("circle")->setOpacity(0);
 }
 
 void NavigationLayer::delayedSetButtonOn(float dt)
@@ -406,7 +418,7 @@ void NavigationLayer::delayedSetButtonOn(float dt)
 void NavigationLayer::setButtonOn(int i)
 {
     this->getChildByTag(i)->getChildByName("on")->setOpacity(255);
-    this->getChildByTag(i)->setOpacity(0);
+    this->getChildByTag(i)->getChildByName("circle")->setOpacity(0);
 }
 
 void NavigationLayer::moveMenuPointsToCircleState(float duration)
