@@ -122,37 +122,9 @@ void OnlineSafetyDetailsLayer::playVideo()
     closeVideoButton->setMixPanelButtonName("Settings-OnlineSafety-CloseVideo");
     videoLayer->addChild(closeVideoButton);
     
-    std::string videoEmbeddedURL = "";
-    
-    switch (currentSlideNumber) {
-        case 1:
-        {
-            videoEmbeddedURL = "https://www.youtube.com/embed/OxqWjHD8nMU?rel=0?ecver=2&autoplay=1";
-            break;
-        }
-        case 2:
-        {
-            videoEmbeddedURL = "https://www.youtube.com/embed/riCzbUj_ow8?rel=0?ecver=2&autoplay=1";
-            break;
-        }
-        case 3:
-        {
-            videoEmbeddedURL = "https://www.youtube.com/embed/vGl0xCHPD58?rel=0?ecver=2&autoplay=1";
-            break;
-        }
-        case 4:
-        {
-            videoEmbeddedURL = "https://www.youtube.com/embed/zg9AgR8I7QI?rel=0?ecver=2&autoplay=1";
-            break;
-        }
-        case 5:
-        {
-            videoEmbeddedURL = "https://www.youtube.com/embed/_e6idatqS28?rel=0?ecver=2&autoplay=1";
-            break;
-        }
-        default:
-            break;
-    }
+    //One YouTube video per slide, just list the ID. starting at slide 1.
+    std::vector<std::string> youtubeVideoId = {"OxqWjHD8nMU","riCzbUj_ow8","vGl0xCHPD58","zg9AgR8I7QI","_e6idatqS28"};
+    std::string videoEmbeddedURL = "https://www.youtube.com/embed/" + youtubeVideoId.at(currentSlideNumber-1) + "?rel=0?ecver=2&autoplay=1";
     
     videoWebview = experimental::ui::WebView::create();
     videoWebview->setContentSize(Size(1920,1080));
