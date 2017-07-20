@@ -232,6 +232,14 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
     {
         Azoomee::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
     }
+    else
+    {
+        // Otherwise pass all other errors to the observers
+        for(auto observer : _observers)
+        {
+            observer->onChatAPIErrorRecieved(requestTag, errorCode);
+        }
+    }
 }
 
 #pragma - PusherEventObserver

@@ -51,6 +51,7 @@ private:
     // - ChatAPIObserver
     void onChatAPIGetFriendList(const FriendList& friendList) override;
     void onChatAPIMessageRecieved(const MessageRef& message) override;
+    void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) override;
     
 protected:
     
