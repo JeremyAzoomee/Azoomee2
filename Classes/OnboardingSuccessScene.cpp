@@ -55,7 +55,7 @@ void OnboardingSuccessScene::onEnterTransitionDidFinish()
     if(!IAPSuccess)
     {
         AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("OnboardingSuccess");
-        IAPUpsaleLayer::createNoPin();
+        IAPUpsaleLayer::create();
     }
 }
 

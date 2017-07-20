@@ -13,26 +13,10 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-Layer* IAPUpsaleLayer::createNoPin()
-{
-    auto layer = IAPUpsaleLayer::create();
-    Director::getInstance()->getRunningScene()->addChild(layer);
-    return layer;
-}
-
 Layer* IAPUpsaleLayer::createRequiresPin()
 {
     auto layer = IAPUpsaleLayer::create();
     layer->requiresPinCode = true;
-    
-    Director::getInstance()->getRunningScene()->addChild(layer);
-    
-    return layer;
-}
-
-Layer* IAPUpsaleLayer::createForSlideshow()
-{
-    auto layer = IAPUpsaleLayer::create();
     
     return layer;
 }
@@ -64,7 +48,9 @@ bool IAPUpsaleLayer::init()
 void IAPUpsaleLayer::createBackgroundLayer()
 {
     backgroundLayer = LayerColor::create(Color4B(48,38,38,255),origin.x + visibleSize.width,origin.y + visibleSize.height);
+    
     this->addChild(backgroundLayer);
+    Director::getInstance()->getRunningScene()->addChild(this);
     
     addListenerToBackgroundLayer();
 }
