@@ -71,7 +71,7 @@ public:
     void sendMessage(const FriendRef& friendObj, const MessageRef& message);
     
     /// Mark messages with friend as read
-    void markMessagesAsRead(const FriendRef& friendObj);
+    void markMessagesAsRead(const FriendRef& friendObj, const MessageRef& message);
 };
 
 /**
@@ -79,9 +79,15 @@ public:
  */
 struct ChatAPIObserver
 {
+    /// Friend List success response
     virtual void onChatAPIGetFriendList(const FriendList& friendList) {};
+    /// Get message list success response
     virtual void onChatAPIGetChatMessages(const MessageList& messageList) {};
+    /// Send message success response
     virtual void onChatAPISendMessage(const MessageRef& sentMessage) {};
+    /// API error from Chat request
+    virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) {};
+    /// A chat message was recieved
     virtual void onChatAPIMessageRecieved(const MessageRef& message) {};
 };
 

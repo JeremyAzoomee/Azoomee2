@@ -200,11 +200,31 @@ void MessageScene::onBackButtonPressed()
 
 void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 {
-    _messageListView->setData(_participants, messageList);
+    // Make a copy of the messageList and sort it in order of timestamp
+    MessageList messagesByTime;
+    for(const MessageRef& message : messageList)
+    {
+        // Find first item where this message is newer
+        MessageList::const_reverse_iterator it = messagesByTime.rbegin();
+        for(; it != messagesByTime.rend(); ++it)
+        {
+            if(message->timestamp() > (*it)->timestamp())
+            {
+                break;
+            }
+        }
+        messagesByTime.insert(it.base(), message);
+    }
+    _messagesByTime = messagesByTime;
+    
+    _messageListView->setData(_participants, _messagesByTime);
     ModalMessages::getInstance()->stopLoading();
     
-    // Mark messages as read
-    ChatAPI::getInstance()->markMessagesAsRead(_participants[1]);
+    if(messageList.size() > 0)
+    {
+        // Mark messages as read
+        ChatAPI::getInstance()->markMessagesAsRead(_participants[1], _messagesByTime.back());
+    }
     
 #ifdef CHAT_MESSAGES_POLL
     // Trigger auto get again
@@ -224,7 +244,13 @@ void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
     _messageListView->addMessage(message);
     
     // Mark messages as read
-    ChatAPI::getInstance()->markMessagesAsRead(_participants[1]);
+    ChatAPI::getInstance()->markMessagesAsRead(_participants[1], message);
+}
+
+void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
 #pragma mark - MessageComposer::Delegate

@@ -1,11 +1,13 @@
 #include "FriendListScene.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include "MessageScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "MessageScene.h"
+
 
 using namespace cocos2d;
 
@@ -226,9 +228,31 @@ void FriendListScene::onChatAPIGetFriendList(const FriendList& friendList)
 {
     AnalyticsSingleton::getInstance()->setNumberOfChatFriends((int)friendList.size());
     
+    _friendListData = friendList;
     _friendListView->setItems(friendList);
     
     ModalMessages::getInstance()->stopLoading();
+}
+
+void FriendListScene::onChatAPIMessageRecieved(const MessageRef& message)
+{
+    // Find the friend this message is from, and if necessary mark them as having unread messages
+    for(const FriendRef& frnd : _friendListData)
+    {
+        if(frnd->friendId() == message->senderId())
+        {
+            frnd->markMessagesLocalUnread();
+            // Force list to re-render
+            _friendListView->setItems(_friendListData);
+            break;
+        }
+    }
+}
+
+void FriendListScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
 

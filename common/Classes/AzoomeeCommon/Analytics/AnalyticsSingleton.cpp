@@ -508,6 +508,14 @@ void AnalyticsSingleton::moveToSceneEvent(std::string newScene)
     
     mixPanelSendEventWithStoredProperties("moveToSceneEvent", mixPanelProperties);
 }
+    
+void AnalyticsSingleton::settingsOnlineSafetySlideChangeEvent(int NewSlideNumber)
+{
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["NewSlideNumber"] = cocos2d::StringUtils::format("%d", NewSlideNumber);
+    
+    mixPanelSendEventWithStoredProperties("settingsOnlineSafetySlideChange", mixPanelProperties);
+}
 
 //---------------IAP ACTIONS------------------
   
