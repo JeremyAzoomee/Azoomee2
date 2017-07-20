@@ -19,6 +19,7 @@
 #define ONBOARDINGSCENE_PASSWORD_LABEL "OnboardingScene/password_label"
 #define ONBOARDINGSCENE_PIN_LABEL "OnboardingScene/pin_label"
 #define ONBOARDINGSCENE_PIN_SUB_LABEL "OnboardingScene/pin_sub_label"
+#define ONBOARDINGSCENE_TERMS_CONDITIONS "OnboardingScene/TandCs"
 
 //---------- ONBOARDING SUCCESS SCENE --------------
 

@@ -20,6 +20,8 @@ private:
     
     ElectricDreamsButton* signupButton;
     ElectricDreamsButton* cancelButton;
+    ElectricDreamsButton* privacyButton;
+    ElectricDreamsButton* termsButton;
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
@@ -30,6 +32,7 @@ private:
     void addTextboxScene();
     void addLabelsToScene();
     void addButtonsScene();
+    void addTermsAndConditionsToScene();
     
     void signUp();
     
