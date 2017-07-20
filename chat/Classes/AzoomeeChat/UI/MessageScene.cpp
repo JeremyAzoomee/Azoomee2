@@ -247,6 +247,12 @@ void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
     ChatAPI::getInstance()->markMessagesAsRead(_participants[1], message);
 }
 
+void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
+{
+    ModalMessages::getInstance()->stopLoading();
+    MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
+}
+
 #pragma mark - MessageComposer::Delegate
 
 void MessageScene::onMessageComposerSendMessage(const MessageRef& message)

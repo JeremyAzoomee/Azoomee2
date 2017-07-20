@@ -7,6 +7,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Pusher/PusherSDK.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 #include <cocos/cocos2d.h>
 #include <memory>
 
@@ -131,6 +132,10 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             {
                 observer->onAuthAPILogin();
             }
+        }
+        else
+        {
+            onHttpRequestFailed(requestTag, ERROR_CODE_INVALID_CREDENTIALS);
         }
     }
     // Get children success
