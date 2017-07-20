@@ -32,7 +32,7 @@ private:
     void addTextboxScene();
     void addLabelsToScene();
     void addButtonsScene();
-    void addTandCsToScene();
+    void addTermsAndConditionsToScene();
     
     void signUp();
     

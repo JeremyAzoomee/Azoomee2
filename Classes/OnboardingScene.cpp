@@ -48,7 +48,7 @@ void OnboardingScene::onEnter()
     addTextboxScene();
     addLabelsToScene();
     addButtonsScene();
-    addTandCsToScene();
+    addTermsAndConditionsToScene();
     
     Node::onEnter();
 }
@@ -135,12 +135,11 @@ void OnboardingScene::addButtonsScene()
     this->addChild(cancelButton);
 }
 
-void OnboardingScene::addTandCsToScene()
+void OnboardingScene::addTermsAndConditionsToScene()
 {
     //---------- CREATE AND ADD LABELS AND BUTTONS
-    Label* TermsAndConditions =createLabelWith(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_TERMS_CONDITIONS),
-                                               Style::Font::Regular, Style::Color::white, 40);
-    this->addChild(TermsAndConditions);
+    Label* TermsAndConditionsStartLabel =createLabelWith(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_TERMS_CONDITIONS),Style::Font::Regular, Style::Color::white, 40);
+    this->addChild(TermsAndConditionsStartLabel);
     
     Label* andLabel =createLabelWith("and",Style::Font::Regular, Style::Color::white, 40);
     this->addChild(andLabel);
@@ -156,13 +155,19 @@ void OnboardingScene::addTandCsToScene()
     this->addChild(termsButton);
     
     //------- CALCULATE AND SET LOCATION OF ITEMS SO THEY ARE CENTERED
-    float totalWidth = TermsAndConditions->getContentSize().width + andLabel->getContentSize().width + privacyButton->getContentSize().width + termsButton->getContentSize().width;
-    float yPosition = signupButton->getPositionY() - (TermsAndConditions->getContentSize().height*1.2);
+    float TermsAndConditionsStartLabelWidth = TermsAndConditionsStartLabel->getContentSize().width;
+    float privacyButtonWidth = privacyButton->getContentSize().width;
+    float andLabelWidth = andLabel->getContentSize().width;
+    float termsButtonWidth = termsButton->getContentSize().width;
     
-    TermsAndConditions->setPosition(origin.x+visibleSize.width/2-totalWidth/2+TermsAndConditions->getContentSize().width/2,yPosition);
-    privacyButton->setCenterPosition(Vec2(TermsAndConditions->getPositionX()+TermsAndConditions->getContentSize().width/2+privacyButton->getContentSize().width/2,yPosition));
-    andLabel->setPosition(privacyButton->getPositionX()+privacyButton->getContentSize().width+andLabel->getContentSize().width/2,yPosition);
-    termsButton->setCenterPosition(Vec2(andLabel->getPositionX()+andLabel->getContentSize().width/2+termsButton->getContentSize().width/2,yPosition));
+    float totalWidth = TermsAndConditionsStartLabelWidth + andLabelWidth + privacyButtonWidth + termsButtonWidth;
+    float yPosition = signupButton->getPositionY() - (TermsAndConditionsStartLabel->getContentSize().height*1.2);
+    
+    //NOTE: Buttons are Layers and the anchor point is (0,0)
+    TermsAndConditionsStartLabel->setPosition(origin.x+visibleSize.width/2-totalWidth/2+TermsAndConditionsStartLabelWidth/2,yPosition);
+    privacyButton->setCenterPosition(Vec2(TermsAndConditionsStartLabel->getPositionX()+TermsAndConditionsStartLabelWidth/2+privacyButtonWidth/2,yPosition));
+    andLabel->setPosition(privacyButton->getPositionX() + privacyButtonWidth + andLabelWidth/2,yPosition);
+    termsButton->setCenterPosition(Vec2(andLabel->getPositionX()+andLabelWidth/2+termsButtonWidth/2,yPosition));
 }
 
 //------------PRIVATE OTHER FUNCTIONS------------
