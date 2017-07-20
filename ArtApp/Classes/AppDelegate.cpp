@@ -2,6 +2,7 @@
 #include "ArtAppBaseScene.h"
 
 USING_NS_CC;
+using namespace Azoomee::ArtApp;
 
 //static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
 //static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);

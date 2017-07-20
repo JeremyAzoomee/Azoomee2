@@ -10,6 +10,9 @@
 #define BrushHighlighter_h
 
 #include "Brush.h"
+#include "AzoomeeArtApp.h"
+
+NS_AZOOMEE_AA_BEGIN
 
 class BrushHighlighter : public Brush
 {
@@ -24,5 +27,7 @@ public:
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 };
+
+NS_AZOOMEE_AA_END
 
 #endif /* BrushHighlighter_h */

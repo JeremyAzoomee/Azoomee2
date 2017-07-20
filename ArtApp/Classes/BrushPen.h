@@ -10,6 +10,9 @@
 #define BrushPen_h
 
 #include "Brush.h"
+#include "AzoomeeArtApp.h"
+
+NS_AZOOMEE_AA_BEGIN
 
 class BrushPen : public Brush
 {
@@ -24,5 +27,7 @@ public:
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
     
 };
+
+NS_AZOOMEE_AA_END
 
 #endif /* BrushPen_h */

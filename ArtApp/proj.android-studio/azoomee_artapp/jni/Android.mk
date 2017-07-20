@@ -2,14 +2,8 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d)
-$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/external)
-$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/cocos)
-$(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/cocos/audio/include)
-
-#LOCAL_MODULE := MyGame_shared
-
-#LOCAL_MODULE_FILENAME := libMyGame
+$(call import-add-path, $(LOCAL_PATH)/../../../cocos2d)
+$(call import-add-path, $(LOCAL_PATH)/../../../common/proj.android-studio)
 
 LOCAL_MODULE := azoomee_artApp
 
@@ -32,21 +26,12 @@ LOCAL_SRC_FILES := $(call find-src-files, ../../../Classes, $(EXCLUDE_FILES))
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
-# _COCOS_HEADER_ANDROID_BEGIN
-# _COCOS_HEADER_ANDROID_END
-
-
 LOCAL_STATIC_LIBRARIES := cocos2dx_static
-
-# _COCOS_LIB_ANDROID_BEGIN
-# _COCOS_LIB_ANDROID_END
+LOCAL_STATIC_LIBRARIES += azoomee_common
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../../Classes/
 
 include $(BUILD_STATIC_LIBRARY)
-#include $(BUILD_SHARED_LIBRARY)
 
-$(call import-module,.)
-
-# _COCOS_LIB_IMPORT_ANDROID_BEGIN
-# _COCOS_LIB_IMPORT_ANDROID_END
+$(call import-module, cocos)
+$(call import-module, azoomee_common/jni)

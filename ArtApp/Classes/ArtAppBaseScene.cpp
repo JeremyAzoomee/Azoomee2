@@ -1,6 +1,6 @@
 #include "ArtAppBaseScene.h"
 #include "SimpleAudioEngine.h"
-#include "../../Classes/SceneManagerScene.h"
+#include "AzoomeeArtApp.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 #include <iostream>
@@ -9,6 +9,8 @@
 #include <sstream>
 
 USING_NS_CC;
+
+NS_AZOOMEE_AA_BEGIN
 
 Scene* ArtAppBase::createScene()
 {
@@ -91,6 +93,7 @@ void ArtAppBase::backButtonCallBack()
     }
     
     drawingCanvas->saveImage(saveFileName);
-    Director::getInstance()->replaceScene(Azoomee::SceneManagerScene::createScene(Azoomee::Base));
+    delegate->onArtAppNavigationBack();
 }
 
+NS_AZOOMEE_AA_END

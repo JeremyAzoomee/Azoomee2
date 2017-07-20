@@ -13,6 +13,10 @@
 #include "Constants.h"
 #include <vector>
 
+#include "AzoomeeArtApp.h"
+
+NS_AZOOMEE_AA_BEGIN
+
 enum BrushType{PEN,PAINTBRUSH,HIGHLIGHTER,SPRAYCAN,ROLLER,ERASER,NUM_BRUSHES};
 
 class Brush
@@ -42,5 +46,7 @@ public:
     virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
     
 };
+
+NS_AZOOMEE_AA_END
 
 #endif /* Brush_h */

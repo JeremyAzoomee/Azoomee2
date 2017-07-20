@@ -11,6 +11,10 @@
 
 #include "cocos2d.h"
 
+#include "AzoomeeArtApp.h"
+
+NS_AZOOMEE_AA_BEGIN
+
 static const float INITIAL_RADIUS = 1.0f;
 
 static const cocos2d::Color4F COLOUR_WHITE = cocos2d::Color4F(245/255.0f,244/255.0f,240/255.0f, 1.0f);
@@ -29,5 +33,7 @@ static const cocos2d::Color4F COLOUR_11 = cocos2d::Color4F(242/255.0f,242/255.0f
 static const cocos2d::Color4F COLOUR_12 = cocos2d::Color4F(212/255.0f,164/255.0f,164/255.0f, 1.0f);
 static const cocos2d::Color4F COLOUR_13 = cocos2d::Color4F(136/255.0f,81/255.0f,30/255.0f, 1.0f);
 static const cocos2d::Color4F COLOUR_14 = cocos2d::Color4F(86/255.0f,28/255.0f,0/255.0f, 1.0f);
+
+NS_AZOOMEE_AA_END
 
 #endif /* Constants_h */

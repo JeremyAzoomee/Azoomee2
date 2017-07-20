@@ -11,6 +11,9 @@
 
 #include "cocos2d.h"
 #include <vector>
+#include "AzoomeeArtApp.h"
+
+NS_AZOOMEE_AA_BEGIN
 
 class StickerPlacementNode : public cocos2d::Node
 {
@@ -30,5 +33,7 @@ public:
     void setSticker(cocos2d::Sprite* sticker);
     cocos2d::Sprite* getSticker();
 };
+
+NS_AZOOMEE_AA_END
 
 #endif /* StickerPlacementNode_h */

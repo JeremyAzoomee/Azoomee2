@@ -1525,6 +1525,10 @@
 					"$(PROJECT_DIR)/AppsFlyer",
 					"$(PROJECT_DIR)/../common/Users/proj.ios_mac/libs/Mixpanel",
 				);
+				"LIBRARY_SEARCH_PATHS[arch=*]" = (
+					"$(PROJECT_DIR)/AppsFlyer",
+					"$(PROJECT_DIR)/../common/Users/proj.ios_mac/libs/Mixpanel",
+				);
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
@@ -1535,6 +1539,7 @@
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END) $(SRCROOT)/../cocos2d/cocos/editor-support $(PROJECT_DIR)/../common/Users/proj.ios_mac/libs/Mixpanel";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END) $(SRCROOT)/../cocos2d/cocos/editor-support $(PROJECT_DIR)/../common/Users/proj.ios_mac/libs/Mixpanel";
 				USE_HEADERMAP = NO;
 				VALID_ARCHS = "arm64 armv7";
 			};

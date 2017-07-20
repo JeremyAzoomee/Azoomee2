@@ -10,6 +10,8 @@
 
 using namespace cocos2d;
 
+NS_AZOOMEE_AA_BEGIN
+
 bool StickerPlacementNode::init()
 {
     
@@ -131,3 +133,4 @@ Sprite* StickerPlacementNode::getSticker()
     return sticker;
 }
 
+NS_AZOOMEE_AA_END

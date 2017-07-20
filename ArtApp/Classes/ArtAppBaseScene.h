@@ -3,6 +3,10 @@
 
 #include "cocos2d.h"
 #include "DrawingCanvas.h"
+#include "AzoomeeArtApp.h"
+
+NS_AZOOMEE_AA_BEGIN
+
 class ArtAppBase : public cocos2d::Layer
 {
 private:
@@ -21,5 +25,7 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(ArtAppBase);
 };
+
+NS_AZOOMEE_AA_END
 
 #endif // __ARTAPP_BASE_SCENE_H__

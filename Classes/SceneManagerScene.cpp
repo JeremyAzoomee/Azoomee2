@@ -16,6 +16,7 @@
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "ChatDelegate.h"
 #include "../ArtApp/Classes/ArtAppBaseScene.h"
+#include "../ArtApp/Classes/AzoomeeArtApp.h"
 #include "ArtAppDelegate.h"
 #include "EmptySceneForSettings.h"
 
@@ -168,13 +169,15 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case ArtAppEntryPointScene:
         {
+            Azoomee::ArtApp::delegate = ArtAppDelegate::getInstance();
+            
             std::string fileName = ArtAppDelegate::getInstance()->getFileName();
             cocos2d::Scene* goToScene;
             forceToLandscape();
             if(FileUtils::getInstance()->isFileExist(fileName))
-                goToScene = ArtAppBase::createSceneWithDrawing(fileName);
+                goToScene = Azoomee::ArtApp::ArtAppBase::createSceneWithDrawing(fileName);
             else
-                goToScene = ArtAppBase::createScene();
+                goToScene = Azoomee::ArtApp::ArtAppBase::createScene();
             Director::getInstance()->replaceScene(goToScene);
             break;
         }

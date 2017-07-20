@@ -11,6 +11,8 @@
 
 using namespace cocos2d;
 
+NS_AZOOMEE_AA_BEGIN
+
 bool DrawingCanvas::init()
 {
     
@@ -928,3 +930,5 @@ std::vector<std::string> DrawingCanvas::getStickerFileNamesInDir(std::string sti
     }
     
 }
+
+NS_AZOOMEE_AA_END

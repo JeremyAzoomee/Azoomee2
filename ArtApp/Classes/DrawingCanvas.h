@@ -20,7 +20,9 @@
 #include "BrushEraser.h"
 #include "StickerPlacementNode.h"
 #include <vector>
+#include "AzoomeeArtApp.h"
 
+NS_AZOOMEE_AA_BEGIN
 
 class DrawingCanvas : public cocos2d::Node{
 public:
@@ -108,5 +110,7 @@ private:
     std::vector<std::string> getStickerDirs();
     std::vector<std::string> getStickerFileNamesInDir(std::string stickerDir);
 };
+
+NS_AZOOMEE_AA_END
 
 #endif /* DrawingCanvas_h */

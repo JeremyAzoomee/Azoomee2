@@ -10,6 +10,8 @@
 
 using namespace cocos2d;
 
+NS_AZOOMEE_AA_BEGIN
+
 Node* BrushSprayCan::addDrawNode(Size visibleSize)
 {
     DrawNode* node = DrawNode::create();
@@ -78,3 +80,4 @@ void BrushSprayCan::onTouchEnded(Touch *touch, Event *event)
     
 }
 
+NS_AZOOMEE_AA_END

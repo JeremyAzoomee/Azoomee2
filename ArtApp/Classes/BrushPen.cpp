@@ -10,6 +10,8 @@
 
 using namespace cocos2d;
 
+NS_AZOOMEE_AA_BEGIN
+
 BrushPen::BrushPen()
 {
     
@@ -34,3 +36,5 @@ void BrushPen::onTouchEnded(Touch *touch, Event *event)
 {
     
 }
+
+NS_AZOOMEE_AA_END

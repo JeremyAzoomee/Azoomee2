@@ -10,6 +10,8 @@
 
 using namespace cocos2d;
 
+NS_AZOOMEE_AA_BEGIN
+
 float BrushPaintBrush::startingAlpha = 0.1f;
 
 BrushPaintBrush::BrushPaintBrush():Brush()
@@ -44,3 +46,5 @@ void BrushPaintBrush::onTouchEnded(Touch *touch, Event *event)
 {
     
 }
+
+NS_AZOOMEE_AA_END
