@@ -64,37 +64,33 @@ bool HQDataParser::parseHQData(std::string responseString, const char *category)
             
             for(int i = 0; i < itemNames.size(); i++)
             {
-                if(!contentData["items"][key].HasMember(itemNames.at(i).c_str()))
-                {
-                    elementProperty[itemNames.at(i).c_str()] = "";
-
-                }
-                else if(!contentData["items"][key][itemNames.at(i).c_str()].IsNull())
-                {
-                    elementProperty[itemNames.at(i).c_str()] = contentData["items"][key][itemNames.at(i).c_str()].GetString();
-                }
-                else
-                {
-                    elementProperty[itemNames.at(i).c_str()] = "";
-                }
+                elementProperty[itemNames.at(i).c_str()] = "";
+                
+                if(contentData["items"][key].HasMember(itemNames.at(i).c_str()))
+                    if(!contentData["items"][key][itemNames.at(i).c_str()].IsNull())
+                        if(contentData["items"][key][itemNames.at(i).c_str()].IsString())
+                            elementProperty[itemNames.at(i).c_str()] = contentData["items"][key][itemNames.at(i).c_str()].GetString();
             }
             
-            if(!contentData["items"][key]["entitled"].IsNull())
-            {
-                if(contentData["items"][key]["entitled"].GetBool()) elementProperty["entitled"] = "true";
-                else elementProperty["entitled"] = "false";
-            }
+            std::vector<std::string> itemProperties = {"entitled", "newFlag"};
+            
+            elementProperty["entitled"] = "true";
+            
+            if(contentData["items"][key].HasMember("entitled"))
+                if(!contentData["items"][key]["entitled"].IsNull())
+                    if(contentData["items"][key]["entitled"].IsBool())
+                        if(!contentData["items"][key]["entitled"].GetBool())
+                            elementProperty["entitled"] = "false";
             
             elementProperty["newFlag"] = "false";
             
             if(contentData["items"][key].HasMember("newFlag"))
-            {
                 if(!contentData["items"][key]["newFlag"].IsNull())
-                    if(contentData["items"][key]["newFlag"].GetBool())
-                        elementProperty["newFlag"] = "true";
+                    if(contentData["items"][key]["newFlag"].IsBool())
+                        if(contentData["items"][key]["newFlag"].GetBool())
+                            elementProperty["newFlag"] = "true";
             
-                HQElements.push_back(elementProperty);
-            }
+            HQElements.push_back(elementProperty);
         }
     }
     
