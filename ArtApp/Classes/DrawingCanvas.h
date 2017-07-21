@@ -21,8 +21,11 @@
 #include "StickerPlacementNode.h"
 #include <vector>
 #include "AzoomeeArtApp.h"
+#include <AzoomeeCommon/Data/Json.h>
 
 NS_AZOOMEE_AA_BEGIN
+typedef std::pair<std::string,std::vector<std::string>> StickerSet;
+typedef std::vector<StickerSet> StickerFileStore;
 
 class DrawingCanvas : public cocos2d::Node{
 public:
@@ -59,7 +62,7 @@ protected:
     
     cocos2d::ui::ScrollView* stickerScrollView;
     cocos2d::Node* StickerCategoryLayout;
-    std::vector<std::string> stickerCats;
+    StickerFileStore stickerCats;
     
     StickerPlacementNode* stickerNode;
     
@@ -106,6 +109,8 @@ protected:
     void onStickerCategoryChangePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType, int index);
     
 private:
+    
+    StickerFileStore getStickerFilesFromJSON();
     
     std::vector<std::string> getStickerDirs();
     std::vector<std::string> getStickerFileNamesInDir(std::string stickerDir);

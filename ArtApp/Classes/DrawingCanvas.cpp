@@ -402,12 +402,12 @@ void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigi
     StickerCategoryLayout->setVisible(false);
     this->addChild(StickerCategoryLayout,13);
     
-    stickerCats = getStickerDirs();
+    stickerCats = getStickerFilesFromJSON();
     
     for(int i = 0; i < stickerCats.size(); i++)
     {
         ui::Button* stickerCatButton = ui::Button::create();
-        stickerCatButton->loadTextures("res/chat/stickers/" + stickerCats[i] + "/category.png", "res/chat/stickers/" + stickerCats[i] + "/category.png");
+        stickerCatButton->loadTextures("res/chat/stickers/" + stickerCats[i].first, "res/chat/stickers/" + stickerCats[i].first);
         stickerCatButton->setAnchorPoint(Vec2(0,0.5));
         stickerCatButton->setNormalizedPosition(Vec2(i/(float)stickerCats.size(),0.5));
         stickerCatButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onStickerCategoryChangePressed, this,i));
@@ -843,8 +843,10 @@ void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::Tou
         
         Size visibleSize = Director::getInstance()->getVisibleSize();
         
-        std::vector<std::string> fileNames = getStickerFileNamesInDir(FileUtils::getInstance()->fullPathForFilename("res/chat/stickers/" + stickerCats[index]));
-        int numStickers = (int)fileNames.size();
+        //std::vector<std::string> fileNames = getStickerFileNamesInDir(FileUtils::getInstance()->fullPathForFilename("res/chat/stickers/" + stickerCats[index]));
+        //int numStickers = (int)fileNames.size();
+        
+        int numStickers = (int)stickerCats[index].second.size();
         
         stickerScrollView->removeAllChildren();
         stickerScrollView->setInnerContainerSize(Size(visibleSize.width/7.0f * numStickers/2.0f, visibleSize.height/2));
@@ -853,7 +855,7 @@ void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::Tou
         {
             ui::Button* temp = ui::Button::create();
             temp->setAnchorPoint(Vec2(0.5,0.5));
-            temp->loadTextures("res/chat/stickers/" + stickerCats[index] + "/" + fileNames[i],"res/chat/stickers/" + stickerCats[index] + "/" + fileNames[i]);
+            temp->loadTextures("res/chat/stickers/" + stickerCats[index].second[i],"res/chat/stickers/" + stickerCats[index].second[i]);
             temp->setPosition(Vec2(stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),visibleSize.height/3 + temp->getContentSize().height));
             temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
             stickerScrollView->addChild(temp);
@@ -862,7 +864,7 @@ void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::Tou
             {
                 ui::Button* temp2 = ui::Button::create();
                 temp2->setAnchorPoint(Vec2(0.5,0.5));
-                temp2->loadTextures("res/chat/stickers/" + stickerCats[index] + "/" + fileNames[i+1],"res/chat/stickers/" + stickerCats[index] + "/" + fileNames[i+1]);
+                temp2->loadTextures("res/chat/stickers/" + stickerCats[index].second[i+1],"res/chat/stickers/" + stickerCats[index].second[i+1]);
                 temp2->setPosition(Vec2(stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),visibleSize.height/3 - temp2->getContentSize().height));
                 temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
                 stickerScrollView->addChild(temp2);
@@ -880,9 +882,49 @@ void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::Tou
 
 //---------------------Sticker file collection methods ----------------------------------------//
 
+StickerFileStore DrawingCanvas::getStickerFilesFromJSON()
+{
+    StickerFileStore fileStore = StickerFileStore();
+    
+    std::string fullFileText = FileUtils::getInstance()->getStringFromFile("res/chat/stickers/catalogue.json");
+    
+    rapidjson::Document json;
+    json.Parse(fullFileText.c_str());
+    
+    const rapidjson::Value& categories = json["categories"];
+    for(auto it = categories.Begin(); it != categories.End(); ++it)
+    {
+        std::string catName;
+        std::vector<std::string> catStickers;
+        const auto& jsonCatEntry = *it;
+        catName = jsonCatEntry["image_location"].GetString();
+        
+        const rapidjson::Value& stickersJson = jsonCatEntry["stickers"];
+        for(auto it = stickersJson.Begin(); it != stickersJson.End(); ++it)
+        {
+            const auto& jsonStickEntry = *it;
+            const std::string& sticker = jsonStickEntry.GetString();
+            catStickers.push_back(sticker);
+        }
+        
+        StickerSet categorySet = StickerSet();
+        categorySet.first = catName;
+        categorySet.second = catStickers;
+        
+        fileStore.push_back(categorySet);
+        
+    }
+
+    
+    return fileStore;
+}
+
+
 std::vector<std::string> DrawingCanvas::getStickerDirs()
 {
-    std::string stickerDir = FileUtils::getInstance()->fullPathForFilename("res/chat/stickers");
+    std::string stickerDir = FileUtils::getInstance()->fullPathForFilename("res/chat/stickers/catalogue.json");
+    stickerDir = stickerDir.substr(0,stickerDir.length() - 15);
+    
     std::vector<std::string> dirNames;
     
     DIR *dir;
@@ -900,6 +942,7 @@ std::vector<std::string> DrawingCanvas::getStickerDirs()
     }
     else
     {
+        CCLOG("dir doesnt exist");
         perror ("");
         return dirNames;
     }
@@ -920,11 +963,11 @@ std::vector<std::string> DrawingCanvas::getStickerFileNamesInDir(std::string sti
                 fileNames.push_back(ent->d_name);
         }
         closedir (dir);
-
         return fileNames;
     }
     else
     {
+        CCLOG("file dir doesnt exist");
         perror ("");
         return fileNames;
     }
