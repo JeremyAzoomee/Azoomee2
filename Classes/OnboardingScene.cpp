@@ -11,6 +11,8 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
+#include <AzoomeeCommon/Data/Urls.h>
+#include <AzoomeeCommon/UI/ModalWebview.h>
 
 using namespace cocos2d;
 
@@ -223,9 +225,9 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
     else if(button == cancelButton)
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
     else if(button == privacyButton)
-        Application::getInstance()->openURL("http://azoomee.com/index.php/privacy-policy-2/");
+        ModalWebview::createWithURL(Url::PrivacyPolicy);
     else if(button == termsButton)
-        Application::getInstance()->openURL("http://azoomee.com/index.php/terms-and-conditions/");
+        ModalWebview::createWithURL(Url::TermsOfUse);
 }
 
 void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

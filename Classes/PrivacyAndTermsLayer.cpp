@@ -1,6 +1,8 @@
 #include "PrivacyAndTermsLayer.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/UI/ModalWebview.h>
+#include <AzoomeeCommon/Data/Urls.h>
 
 using namespace cocos2d;
 
@@ -72,14 +74,9 @@ Vec2 PrivacyAndTermsLayer::getCenterPosition()
 void PrivacyAndTermsLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == privacyButton)
-    {
-        Application::getInstance()->openURL("http://azoomee.com/index.php/privacy-policy-2/");
-    }
+        ModalWebview::createWithURL(Url::PrivacyPolicy);
     else if(button == termsButton)
-    {
-        Application::getInstance()->openURL("http://azoomee.com/index.php/terms-and-conditions/");
-    }
-
+        ModalWebview::createWithURL(Url::TermsOfUse);
 }
 
 NS_AZOOMEE_END
