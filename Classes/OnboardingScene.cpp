@@ -138,18 +138,18 @@ void OnboardingScene::addButtonsScene()
 void OnboardingScene::addTermsAndConditionsToScene()
 {
     //---------- CREATE AND ADD LABELS AND BUTTONS
-    Label* TermsAndConditionsStartLabel =createLabelWith(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_TERMS_CONDITIONS),Style::Font::Regular, Style::Color::white, 40);
+    Label* TermsAndConditionsStartLabel =createLabelWith(StringMgr::getInstance()->getStringForKey(T_and_C_Start_Text),Style::Font::Regular, Style::Color::white, 40);
     this->addChild(TermsAndConditionsStartLabel);
     
-    Label* andLabel =createLabelWith("and",Style::Font::Regular, Style::Color::white, 40);
+    Label* andLabel =createLabelWith(StringMgr::getInstance()->getStringForKey(T_and_C_And),Style::Font::Regular, Style::Color::white, 40);
     this->addChild(andLabel);
     
-    privacyButton = ElectricDreamsButton::createTextAsButton(" Privacy Policy ", 40, true);
+    privacyButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 40, true);
     privacyButton->setMixPanelButtonName("signupScenePrivacyPolicyButton");
     privacyButton->setDelegate(this);
     this->addChild(privacyButton);
     
-    termsButton = ElectricDreamsButton::createTextAsButton(" Terms of Use.", 40, true);
+    termsButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(T_and_C_Terms_Button), 40, true);
     termsButton->setMixPanelButtonName("signupSceneermsButton");
     termsButton->setDelegate(this);
     this->addChild(termsButton);

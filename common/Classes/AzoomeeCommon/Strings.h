@@ -19,7 +19,6 @@
 #define ONBOARDINGSCENE_PASSWORD_LABEL "OnboardingScene/password_label"
 #define ONBOARDINGSCENE_PIN_LABEL "OnboardingScene/pin_label"
 #define ONBOARDINGSCENE_PIN_SUB_LABEL "OnboardingScene/pin_sub_label"
-#define ONBOARDINGSCENE_TERMS_CONDITIONS "OnboardingScene/TandCs"
 
 //---------- ONBOARDING SUCCESS SCENE --------------
 
@@ -92,5 +91,12 @@
 #define ONLINE_SAFETY_SLIDE_TITLE "OnlineSafetySlides/title"
 #define ONLINE_SAFETY_SLIDE_MAIN_TEXT "OnlineSafetySlides/mainText"
 #define ONLINE_SAFETY_BUTTON_TEXT "OnlineSafetySlides/buttonTitle"
+
+//------------TERMS AND PRIVACY-------------------
+
+#define T_and_C_Start_Text "TandC/startText"
+#define T_and_C_Privacy_Button "TandC/privacyButton"
+#define T_and_C_And "TandC/and"
+#define T_and_C_Terms_Button "TandC/termsButton"
 
 #endif
