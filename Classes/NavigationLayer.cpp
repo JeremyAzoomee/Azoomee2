@@ -382,12 +382,12 @@ void NavigationLayer::runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool 
     Color4B colour = ConfigStorage::getInstance()->getColourForMenuItem(node1->getTag());
     
     float randomDelay = 0;
-    float blinkDelay = 0.1;
+    float blinkDelay = 0.0;
     
     if(!quick)
     {
         randomDelay = RandomHelper::random_real(0.2, 0.7) + 3;
-        blinkDelay = 0;
+        blinkDelay = 0.1;
     }
     
     node1->runAction(Sequence::create(DelayTime::create(randomDelay), FadeTo::create(0, colour.a), DelayTime::create(blinkDelay), FadeTo::create(0, 0), DelayTime::create(blinkDelay), FadeTo::create(0, colour.a), NULL));
