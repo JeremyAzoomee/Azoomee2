@@ -1,5 +1,5 @@
-#ifndef __VIDEOPLAYLISTMANAGER_H__
-#define __VIDEOPLAYLISTMANAGER_H__
+#ifndef __CHATNOTIFICATIONSSINGLETON_H__
+#define __CHATNOTIFICATIONSSINGLETON_H__
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
