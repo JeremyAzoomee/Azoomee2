@@ -17,6 +17,13 @@ using namespace Azoomee;
 {
     self = [super init];
     iframeloaded = false;
+    
+    NSLog(@"name: %@", [[UIDevice currentDevice] name]);
+    NSLog(@"systemname: %@", [[UIDevice currentDevice] systemName]);
+    NSLog(@"systemversion: %@", [[UIDevice currentDevice] systemVersion]);
+    NSLog(@"model: %@", [[UIDevice currentDevice] model]);
+    NSLog(@"localizedModel: %@", [[UIDevice currentDevice] localizedModel]);
+    
     return self;
 }
 
