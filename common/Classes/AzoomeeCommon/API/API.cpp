@@ -30,6 +30,7 @@ const char* const API::TagFriendRequest = "friendRequest";
 const char* const API::TagFriendRequestReaction = "friendRequestReaction";
 const char* const API::TagGetPendingFriendRequests = "getPendingFriendRequests";
 const char* const API::TagPusherAuth = "pusher.auth";
+const char* const API::TagReportChat = "chat.report";
 
 #pragma mark - API Methods
 
@@ -292,6 +293,16 @@ HttpRequestCreator* API::PusherAuthRequest(const std::string& parentId,
     request->requestPath = StringUtils::format("/api/share/%s/pusher/auth", parentId.c_str());
     request->urlParameters = StringUtils::format("channelName=%s&socketId=%s", channelName.c_str(), socketId.c_str());
     request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::SendChatReportRequest(const std::string &userId, const std::string &friendId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagReportChat;
+    request->requestPath = StringUtils::format("SOMEPATHFROMJASON");
+    request->encrypted = true;
+    
     return request;
 }
 

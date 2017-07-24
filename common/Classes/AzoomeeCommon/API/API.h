@@ -44,6 +44,7 @@ public:
     static const char* const TagFriendRequestReaction;
     static const char* const TagGetPendingFriendRequests;
     static const char* const TagPusherAuth;
+    static const char* const TagReportChat;
     
 #pragma mark - API Methods
     
@@ -164,6 +165,10 @@ public:
                                                  const std::string& channelName,
                                                  const std::string& socketId,
                                                  HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* SendChatReportRequest(const std::string& userId,
+                                                     const std::string& friendId,
+                                                     HttpRequestCreatorResponseDelegate* delegate);
     
     
     

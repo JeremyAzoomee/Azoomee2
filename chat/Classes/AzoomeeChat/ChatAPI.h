@@ -72,6 +72,9 @@ public:
     
     /// Mark messages with friend as read
     void markMessagesAsRead(const FriendRef& friendObj, const MessageRef& message);
+    
+    //Report a problematic chat to parents
+    void reportChat(const FriendRef& friendObj);
 };
 
 /**

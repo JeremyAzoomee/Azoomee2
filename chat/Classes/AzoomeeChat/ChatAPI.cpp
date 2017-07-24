@@ -95,6 +95,12 @@ FriendList ChatAPI::getFriendList() const
     return _friendList;
 }
 
+void ChatAPI::reportChat(const FriendRef &friendObj)
+{
+    HttpRequestCreator *request = API::SendChatReportRequest(ChildDataProvider::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
+    request->execute();
+}
+
 #pragma mark - Get Messages
 
 void ChatAPI::requestMessageHistory(const FriendRef& friendObj)
@@ -219,10 +225,20 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             }
         }
     }
+    else if(requestTag == API::TagReportChat)
+    {
+        //TODO: show a modal message that reporting of chat was successful
+    }
 }
 
 void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
+    if(requestTag == API::TagReportChat)
+    {
+        //TODO: show a modal message that there was a problem reporting the chat
+        return;
+    }
+    
     cocos2d::log("ChatAPI::onHttpRequestFailed: %s, errorCode=%ld", requestTag.c_str(), errorCode);
     ModalMessages::getInstance()->stopLoading();
     
