@@ -152,6 +152,15 @@
     	"button":"OK"
     },
     
+    "5001":
+    {
+        "title":"Report This Chat?",
+        "body":"Do you really want to report this chat?",
+        "button": "Report|Cancel",
+        "optionalButtonRefNames":"Report|Cancel"
+    },
+
+    
     "default":
     {
         "title":"Something Went Wrong",

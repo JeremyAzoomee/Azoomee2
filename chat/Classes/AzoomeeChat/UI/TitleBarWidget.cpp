@@ -71,6 +71,7 @@ bool TitleBarWidget::init()
     _alertButton->getRendererClicked()->setStrechEnabled(true);
     _alertButton->getRendererDisabled()->setStrechEnabled(true);
     _alertButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
+    _alertButton->setVisible(false);
     addChild(_alertButton);
     // Hidden by default
     
@@ -183,6 +184,11 @@ void TitleBarWidget::showAlertButton(bool enable)
 void TitleBarWidget::addBackButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback)
 {
     _backButton->addClickEventListener(callback);
+}
+
+void TitleBarWidget::addAlertButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback)
+{
+    _alertButton->addClickEventListener(callback);
 }
 
 #pragma mark - UI Creation

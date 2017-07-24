@@ -61,18 +61,10 @@ void MessageBox::initMessageBoxLayer(std::string Title, std::string Body, Messag
         setDelegate(_delegate);
 
     _messageBoxTitle = Title;
-    
-    textMaxWidth = visibleSize.width*percentageOfScreenForBox - MESSAGE_BOX_PADDING*2;
+    _messageBoxBody = Body;
     
     createBackgroundLayer();
-    if(isLandscape)
-        addSideWiresToScreen(this, 0, 2);
-    createTitle();
-    createBody(Body);
-    createButtons();
-    createCancelButton();
-    createMessageWindow();
-    addObjectsToWindow();
+    onSizeChanged();
 }
 
 bool MessageBox::init()
@@ -82,18 +74,7 @@ bool MessageBox::init()
         return false;
     }
     
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
-    
-    if(visibleSize.width < visibleSize.height)
-        percentageOfScreenForBox = 0.85;
-    else
-    {
-        percentageOfScreenForBox = 0.66;
-        isLandscape = true;
-    }
-    
-    
+    this->setName("MessageBoxLayer");
     return true;
 }
     
@@ -106,13 +87,12 @@ void MessageBox::setBodyHAlignment(TextHAlignment align)
 
 void MessageBox::createBackgroundLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),visibleSize.width, visibleSize.height);
-    backgroundLayer->setPosition(origin);
+    auto currentRunningScene = Director::getInstance()->getRunningScene();
     
+    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
     this->addChild(backgroundLayer);
-    Director::getInstance()->getRunningScene()->addChild(this);
     
-    addListenerToBackgroundLayer();
+    Director::getInstance()->getRunningScene()->addChild(this);
 }
 
 void MessageBox::addListenerToBackgroundLayer()
@@ -141,9 +121,9 @@ void MessageBox::createTitle()
     messageTitleLabel->setWidth(textMaxWidth);
 }
 
-void MessageBox::createBody(std::string messageBody)
+void MessageBox::createBody()
 {
-    messageBodyLabel = createLabelMessageBoxBody(messageBody);
+    messageBodyLabel = createLabelMessageBoxBody(_messageBoxBody);
     messageBodyLabel->setWidth(textMaxWidth);
     
     const float maxHeight = visibleSize.height * 0.5f;
@@ -205,10 +185,13 @@ void MessageBox::createCancelButton()
 
 void MessageBox::createMessageWindow()
 {
+    auto currentRunningScene = Director::getInstance()->getRunningScene();
+    
+    
     float windowHeight = messageTitleLabel->getContentSize().height + scrollView->getContentSize().height + buttonsList.at(0)->getContentSize().height + cancelButton->getContentSize().height*4;
     
     windowLayer = createWindowLayer(visibleSize.width * percentageOfScreenForBox, windowHeight);
-    windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2 + origin.x,origin.y + (visibleSize.height - windowLayer->getContentSize().height) * 0.66);
+    windowLayer->setPosition(currentRunningScene->getContentSize().width/2- windowLayer->getContentSize().width/2,(currentRunningScene->getContentSize().height - windowLayer->getContentSize().height) * 0.66);
     this->addChild(windowLayer);
 }
 
@@ -252,6 +235,42 @@ void MessageBox::removeSelf(float dt)
         this->removeChild(backgroundLayer);
         this->removeFromParent();
     }
+}
+    
+void MessageBox::onSizeChanged()
+{
+    auto currentRunningScene = Director::getInstance()->getRunningScene();
+    backgroundLayer->setContentSize(currentRunningScene->getContentSize());
+    backgroundLayer->removeAllChildren();
+    
+    if(windowLayer)
+        windowLayer->removeAllChildren();
+    
+    buttonsList.clear();
+    
+    visibleSize = Director::getInstance()->getVisibleSize();
+    
+    if(currentRunningScene->getContentSize().width < currentRunningScene->getContentSize().height)
+    {
+        percentageOfScreenForBox = 0.85;
+        isLandscape = false;
+    }
+    else
+    {
+        percentageOfScreenForBox = 0.66;
+        isLandscape = true;
+    }
+    
+    textMaxWidth = visibleSize.width*percentageOfScreenForBox - MESSAGE_BOX_PADDING*2;
+
+    if(isLandscape)
+        addSideWiresToScreen(backgroundLayer, 0, 2);
+    createTitle();
+    createBody();
+    createButtons();
+    createCancelButton();
+    createMessageWindow();
+    addObjectsToWindow();
 }
 
 //-------------------- Object To Hide Functions ----------------------

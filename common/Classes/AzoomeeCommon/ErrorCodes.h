@@ -22,4 +22,7 @@
 
 #define ERROR_CODE_GAME_INCOMPATIBLE 4001
 
+//---------CHAT ERROR CODES---------------
+#define ERROR_CODE_REPORT_MESSAGES 5001
+
 #endif

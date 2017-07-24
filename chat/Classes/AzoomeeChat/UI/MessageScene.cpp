@@ -74,6 +74,10 @@ bool MessageScene::init()
     _titleBar->addBackButtonEventListener([this](Ref* button){
         onBackButtonPressed();
     });
+    _titleBar->showAlertButton(true);
+    _titleBar->addAlertButtonEventListener([this](Ref* button){
+        onAlertButtonPressed();
+    });
     _rootLayout->addChild(_titleBar);
     
     createContentUI(_contentLayout);
@@ -196,6 +200,14 @@ void MessageScene::onBackButtonPressed()
     Director::getInstance()->replaceScene(TransitionSlideInL::create(0.25f, friendListScene));
 }
 
+void MessageScene::onAlertButtonPressed()
+{
+    AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - AlertButton");
+    
+    MessageBox::createWith(ERROR_CODE_REPORT_MESSAGES, this);
+}
+
 #pragma mark - ChatAPIObserver
 
 void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
@@ -263,6 +275,13 @@ void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 #ifdef CHAT_MESSAGES_POLL
     _timeTillGet = -1.0f;
 #endif
+}
+
+#pragma mark - MessageBoxDelegate
+
+void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    
 }
 
 NS_AZOOMEE_CHAT_END

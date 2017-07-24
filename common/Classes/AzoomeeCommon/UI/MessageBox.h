@@ -22,15 +22,16 @@ public:
 class MessageBox : public cocos2d::Layer, public ElectricDreamsButtonDelegate
 {
 private:
+    
+    cocos2d::LayerColor *backgroundLayer;
 
     cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
     
     std::vector<std::string> _buttonsTitleList;
     std::vector<std::string> _buttonsReferenceList;
     std::string _messageBoxTitle;
+    std::string _messageBoxBody;
     
-    cocos2d::LayerColor *backgroundLayer;
     cocos2d::Label* messageTitleLabel;
     cocos2d::Label* messageBodyLabel;
     cocos2d::ui::ScrollView* scrollView;
@@ -49,7 +50,7 @@ private:
     
     //MessageBox functions
     void createTitle();
-    void createBody(std::string messageBody);
+    void createBody();
     void createButtons();
     void createCancelButton();
     void positionButtonsBasedOnWidth(float yPosition);
@@ -92,6 +93,8 @@ public:
     
     void setBodyHAlignment(cocos2d::TextHAlignment align);
   
+    /// Called when the content size of the scene has changed
+    void onSizeChanged();
 };
   
 }

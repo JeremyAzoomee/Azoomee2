@@ -61,6 +61,9 @@ public:
     /// Register for backbutton click events
     void addBackButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);
     
+    /// Register for alertbutton click events
+    void addAlertButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);
+    
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void onExit() override;

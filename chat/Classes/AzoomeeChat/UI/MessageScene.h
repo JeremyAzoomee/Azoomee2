@@ -14,7 +14,7 @@
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate
+class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate, public MessageBoxDelegate
 {
     typedef Azoomee::Scene Super;
 private:
@@ -48,6 +48,9 @@ private:
     /// Back button was pressed
     void onBackButtonPressed();
     
+    /// Alert button was pressed
+    void onAlertButtonPressed();
+    
     // - ChatAPIObserver
     void onChatAPIGetChatMessages(const MessageList& messageList) override;
     void onChatAPISendMessage(const MessageRef& sentMessage) override;
@@ -56,6 +59,9 @@ private:
     
     // - MessageComposer::Delegate
     void onMessageComposerSendMessage(const MessageRef& message) override;
+    
+    // - MessageBoxDelegate
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
 
 protected:
     
