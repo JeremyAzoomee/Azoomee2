@@ -73,7 +73,11 @@ bool TitleBarWidget::init()
     _alertButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
     addChild(_alertButton);
     // Hidden by default
-    _alertButton->setVisible(false);
+    
+    //TODO start reporting action from the callback of this button
+    //Modal view for: "Do you really want to report etc etc"
+    //If yes: start reporting on chatApi
+    //If no: do nothing, but dismiss the view
   
     return true;
 }
