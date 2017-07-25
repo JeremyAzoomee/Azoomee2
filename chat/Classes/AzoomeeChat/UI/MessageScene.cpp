@@ -74,7 +74,6 @@ bool MessageScene::init()
     _titleBar->addBackButtonEventListener([this](Ref* button){
         onBackButtonPressed();
     });
-    _titleBar->showAlertButton(true);
     _titleBar->addAlertButtonEventListener([this](Ref* button){
         onAlertButtonPressed();
     });
@@ -97,8 +96,7 @@ void MessageScene::onEnter()
     ModalMessages::getInstance()->startLoading();
     
     // Show if message list is inModeration
-    //CLIVE-TODO
-    if(_participants[1]->inModeration()) cocos2d::log("MESSAGE WINDOW SHOULD SHOW RED FLAG");
+    if(_participants[1]->inModeration()) _titleBar->setChatToReported();
     
     // Get update calls
     scheduleUpdate();

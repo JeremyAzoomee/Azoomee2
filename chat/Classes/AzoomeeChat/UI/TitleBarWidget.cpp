@@ -37,7 +37,6 @@ bool TitleBarWidget::init()
     _backButton->setLayoutParameter(CreateLeftCenterRelativeLayoutParam(ui::Margin(kTitleButtonsEdgePadding, 0.0f, 0.0f, 0.0f)));
     addChild(_backButton);
     
-    
     _titleLayout = ui::Layout::create();
     _titleLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
     _titleLayout->setSizePercent(Vec2(0.5f, 1.0f));
@@ -101,6 +100,8 @@ bool TitleBarWidget::init()
     _warningLabel = createLabelWith("This conversation has been flagged! Get a grown up to reset it", Style::Font::Regular, Style::Color::black, 64);
     _warningLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     _reportedChatTitleBar->addChild(_warningLabel);
+    
+    // Reset Reported Chat Button
   
     return true;
 }
@@ -223,11 +224,6 @@ void TitleBarWidget::setTitleAvatar(const FriendRef& friendData)
     updateTitleLayout();
 }
 
-void TitleBarWidget::showAlertButton(bool enable)
-{
-    _alertButton->setVisible(enable);
-}
-
 void TitleBarWidget::addBackButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback)
 {
     _backButton->addClickEventListener(callback);
@@ -236,6 +232,25 @@ void TitleBarWidget::addBackButtonEventListener(const cocos2d::ui::Widget::ccWid
 void TitleBarWidget::addAlertButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback)
 {
     _alertButton->addClickEventListener(callback);
+}
+
+#pragma mark - Chat Reporting Functions
+
+void TitleBarWidget::setChatToReported()
+{
+    _alertButton->setVisible(false);
+    _reportedChatTitleBar->setVisible(true);
+}
+
+void TitleBarWidget::setChatReadyToReport()
+{
+    _alertButton->setVisible(true);
+    _reportedChatTitleBar->setVisible(false);
+}
+
+void TitleBarWidget::onChatActivitySetToReported()
+{
+    if(!_reportedChatTitleBar->isVisible()) setChatReadyToReport();
 }
 
 #pragma mark - UI Creation

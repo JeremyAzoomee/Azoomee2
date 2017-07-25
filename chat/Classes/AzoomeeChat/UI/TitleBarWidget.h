@@ -68,8 +68,10 @@ public:
     /// Set the title avatar
     void setTitleAvatar(const FriendRef& friendData);
     
-    /// Show or hide the alert button
-    void showAlertButton(bool enable);
+    //Report Chat Functions
+    void setChatToReported();
+    void setChatReadyToReport();
+    void onChatActivitySetToReported();
     
     /// Register for backbutton click events
     void addBackButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);
