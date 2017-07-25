@@ -96,6 +96,10 @@ void MessageScene::onEnter()
     ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
     ModalMessages::getInstance()->startLoading();
     
+    // Show if message list is inModeration
+    //CLIVE-TODO
+    if(_participants[1]->inModeration()) cocos2d::log("MESSAGE WINDOW SHOULD SHOW RED FLAG");
+    
     // Get update calls
     scheduleUpdate();
 }
@@ -265,6 +269,16 @@ void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long er
     MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
+void MessageScene::onChatAPIReportChatSuccessful(const std::string& requestTag)
+{
+    ModalMessages::getInstance()->stopLoading();
+    
+    if(requestTag == API::TagReportChat)
+        MessageBox::createWith("Thank you for reporting", "This chat has been reported", std::vector<std::string> {"OK"}, nullptr);
+    else if(requestTag == API::TagResetReportedChat)
+        MessageBox::createWith("Reset", "This chat has been reset", std::vector<std::string> {"OK"}, nullptr);
+}
+
 #pragma mark - MessageComposer::Delegate
 
 void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
@@ -283,7 +297,9 @@ void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::stri
 {
     if(buttonTitle == "Report")
     {
-        //TODO-TAMAS - this is where we call to the backend to report this chat
+        //TODO-CLIVE Please decide which call to be used here depending on the current flow.
+        //ChatAPI::getInstance()->reportChat(_participants[1]);
+        ChatAPI::getInstance()->resetReportedChat(_participants[1]);
     }
 }
 
