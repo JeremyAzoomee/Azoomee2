@@ -34,6 +34,16 @@ private:
     //Chat is reported message bar
     cocos2d::ui::Layout* _reportedChatTitleBar = nullptr;
     
+    //Chat Report warning images
+    cocos2d::ui::ImageView* _warningImageLeft = nullptr;
+    cocos2d::ui::ImageView* _warningImageRight = nullptr;
+    
+    //Chat Report warning Label
+    cocos2d::Label* _warningLabel = nullptr;
+    
+    //Change Reported Chat Bar with size change
+    void onSizeChangedReportedBar(const cocos2d::Size& contentSize);
+    
     /// Create a drop shadow which overhangs underneath the bounds of this bar
     /// heightPercent: height of the drop shadow as a % of it's parent
     void createDropShadow(float heightPercent);
