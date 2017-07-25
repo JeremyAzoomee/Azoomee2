@@ -261,6 +261,14 @@ void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
     ChatAPI::getInstance()->markMessagesAsRead(_participants[1], message);
 }
 
+void MessageScene::onChatAPICustomMessageReceived(const std::string& messageType, std::map<std::string, std::string> messageProperties)
+{
+    if(messageType != "IN_MODERATION") return;
+    if(messageProperties["otherChildId"] != _participants[1]->friendId()) return;
+    
+    _titleBar->setChatToReported();
+}
+
 void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();

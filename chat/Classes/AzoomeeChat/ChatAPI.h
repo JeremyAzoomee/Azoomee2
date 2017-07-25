@@ -96,7 +96,7 @@ struct ChatAPIObserver
     /// A chat message was recieved
     virtual void onChatAPIMessageRecieved(const MessageRef& message) {};
     /// A custom (command) message was received
-    virtual void onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string>& messageProperties) {};
+    virtual void onChatAPICustomMessageReceived(const std::string& messageType, std::map<std::string, std::string> messageProperties) {};
     /// Response on reporting a chat received
     virtual void onChatAPIReportChatSuccessful(const std::string& requestTag) {};
 };

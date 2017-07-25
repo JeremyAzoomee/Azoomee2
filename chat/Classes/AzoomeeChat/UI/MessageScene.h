@@ -57,6 +57,7 @@ private:
     void onChatAPIMessageRecieved(const MessageRef& message) override;
     void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) override;
     void onChatAPIReportChatSuccessful(const std::string& requestTag) override;
+    void onChatAPICustomMessageReceived(const std::string& messageType, std::map<std::string, std::string> messageProperties) override;
     
     // - MessageComposer::Delegate
     void onMessageComposerSendMessage(const MessageRef& message) override;

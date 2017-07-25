@@ -100,4 +100,9 @@ void Friend::markMessagesLocalUnread()
     _unreadMessages = 1;
 }
 
+void Friend::markFriendInModeration()
+{
+    _inModeration = true;
+}
+
 NS_AZOOMEE_CHAT_END

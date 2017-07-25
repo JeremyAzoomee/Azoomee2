@@ -250,6 +250,22 @@ void FriendListScene::onChatAPIMessageRecieved(const MessageRef& message)
     }
 }
 
+void FriendListScene::onChatAPICustomMessageReceived(const std::string &messageType, std::map<std::string, std::string> messageProperties)
+{
+    if(messageType == "IN_MODERATION")
+    {
+        for(const FriendRef& frnd : _friendListData)
+        {
+            if(frnd->friendId() == messageProperties["otherChildId"])
+            {
+                frnd->markFriendInModeration();
+                _friendListView->setItems(_friendListData);
+                break;
+            }
+        }
+    }
+}
+
 void FriendListScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
 {
     ModalMessages::getInstance()->stopLoading();
