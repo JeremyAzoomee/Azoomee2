@@ -147,6 +147,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     
     // Add friend button
     ui::Button* addFriendButton = ui::Button::create("res/chat/ui/buttons/outline_button.png");
+    // TODO: Get from Strings
     addFriendButton->setTitleText("Add a friend");
     addFriendButton->setTitleColor(Style::Color::brightAqua);
     addFriendButton->setTitleFontName(Style::Font::Regular);

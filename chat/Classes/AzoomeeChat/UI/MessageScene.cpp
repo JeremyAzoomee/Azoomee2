@@ -281,7 +281,10 @@ void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 
 void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    
+    if(buttonTitle == "Report")
+    {
+        //TODO-TAMAS - this is where we call to the backend to report this chat
+    }
 }
 
 NS_AZOOMEE_CHAT_END

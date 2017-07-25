@@ -79,6 +79,12 @@ bool TitleBarWidget::init()
     //Modal view for: "Do you really want to report etc etc"
     //If yes: start reporting on chatApi
     //If no: do nothing, but dismiss the view
+    
+    // Message Is Reported Title Bar
+    _reportedChatTitleBar = ui::Layout::create();
+    _reportedChatTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _reportedChatTitleBar->setBackGroundColor(Style::Color::watermelon);
+    
   
     return true;
 }

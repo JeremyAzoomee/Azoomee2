@@ -31,6 +31,9 @@ private:
     /// The alert button
     cocos2d::ui::Button* _alertButton = nullptr;
     
+    //Chat is reported message bar
+    cocos2d::ui::Layout* _reportedChatTitleBar = nullptr;
+    
     /// Create a drop shadow which overhangs underneath the bounds of this bar
     /// heightPercent: height of the drop shadow as a % of it's parent
     void createDropShadow(float heightPercent);
