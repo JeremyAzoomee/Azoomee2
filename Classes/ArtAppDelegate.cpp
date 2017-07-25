@@ -7,6 +7,7 @@
 //
 
 #include "ArtAppDelegate.h"
+#include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
 
 USING_NS_CC;
@@ -36,7 +37,10 @@ void ArtAppDelegate::setFileName(std::string filename)
 
 void ArtAppDelegate::onArtAppNavigationBack()
 {
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+    if(HQHistoryManager::getInstance()->isOffline)
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineArtsAppHQ));
+    else
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }
 
 
