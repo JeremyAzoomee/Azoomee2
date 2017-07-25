@@ -298,8 +298,8 @@ void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::stri
     if(buttonTitle == "Report")
     {
         //TODO-CLIVE Please decide which call to be used here depending on the current flow.
-        //ChatAPI::getInstance()->reportChat(_participants[1]);
-        ChatAPI::getInstance()->resetReportedChat(_participants[1]);
+        ChatAPI::getInstance()->reportChat(_participants[1]);
+        //ChatAPI::getInstance()->resetReportedChat(_participants[1]);
     }
 }
 

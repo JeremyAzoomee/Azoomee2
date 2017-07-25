@@ -265,11 +265,36 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 
 void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
 {
+    cocos2d::log("PUSHER EVENT: %s", event->eventName().c_str());
+    
+    // Check if this is an in_moderation event
+    if(event->eventName() == "IN_MODERATION")
+    {
+        std::string userIdA = (event->data()["userIdA"].IsString() ? event->data()["userIdA"].GetString() : "");
+        std::string userIdB = (event->data()["userIdB"].IsString() ? event->data()["userIdB"].GetString() : "");
+        
+        if((userIdA == ChildDataProvider::getInstance()->getLoggedInChildId())||(userIdB == ChildDataProvider::getInstance()->getLoggedInChildId()))
+        {
+            std::string otherChildId = userIdA;
+            if(otherChildId == ChildDataProvider::getInstance()->getLoggedInChildId()) otherChildId = userIdB;
+            
+            std::map<std::string, std::string> messageProperties;
+            messageProperties["otherChildId"] = otherChildId;
+            messageProperties["status"] = "IN_MODERATION";
+            
+            for(auto observer : _observers)
+            {
+                observer->onChatAPICustomMessageReceived(event->eventName(), messageProperties);
+            }
+        }
+    }
+    
     // Check if this is a chat event
-    if(event->eventName() == "SEND_MESSAGE")
+    else if(event->eventName() == "SEND_MESSAGE")
     {
         // Create the Chat message from the event data
         const MessageRef& message = Message::createFromJson(event->data());
+        
         if(message)
         {
             // Make sure this message is for the current user
