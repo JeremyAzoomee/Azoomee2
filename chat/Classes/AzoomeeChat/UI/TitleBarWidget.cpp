@@ -1,7 +1,7 @@
 #include "TitleBarWidget.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
-
+#include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 
 using namespace cocos2d;
 
@@ -36,7 +36,6 @@ bool TitleBarWidget::init()
     _backButton->getRendererDisabled()->setStrechEnabled(true);
     _backButton->setLayoutParameter(CreateLeftCenterRelativeLayoutParam(ui::Margin(kTitleButtonsEdgePadding, 0.0f, 0.0f, 0.0f)));
     addChild(_backButton);
-    
     
     _titleLayout = ui::Layout::create();
     _titleLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
@@ -73,18 +72,36 @@ bool TitleBarWidget::init()
     _alertButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
     _alertButton->setVisible(false);
     addChild(_alertButton);
+
+    // Message Is Reported Title Bar Including images and text
     // Hidden by default
+    ui::Layout* reportChatTitleBarHolder = ui::Layout::create();
+    reportChatTitleBarHolder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
+    reportChatTitleBarHolder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
+    reportChatTitleBarHolder->setContentSize(Size(getContentSize().width,100));
+    addChild(reportChatTitleBarHolder);
     
-    //TODO start reporting action from the callback of this button
-    //Modal view for: "Do you really want to report etc etc"
-    //If yes: start reporting on chatApi
-    //If no: do nothing, but dismiss the view
-    
-    // Message Is Reported Title Bar
     _reportedChatTitleBar = ui::Layout::create();
+    _reportedChatTitleBar->setAnchorPoint(Vec2(0.5f, 1.0f));
+    _reportedChatTitleBar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _reportedChatTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _reportedChatTitleBar->setBackGroundColor(Style::Color::watermelon);
+    _reportedChatTitleBar->setVisible(false);
+    reportChatTitleBarHolder->addChild(_reportedChatTitleBar);
     
+    _warningImageLeft = ui::ImageView::create("res/chat/ui/message/flagged.png");
+    _warningImageLeft->setAnchorPoint(Vec2(0.5f, 0.5f));
+    _reportedChatTitleBar->addChild(_warningImageLeft);
+    
+    _warningImageRight = ui::ImageView::create("res/chat/ui/message/flagged.png");
+    _warningImageRight->setAnchorPoint(Vec2(0.5f, 0.5f));
+    _reportedChatTitleBar->addChild(_warningImageRight);
+    
+    _warningLabel = createLabelWith("This conversation has been flagged! Get a grown up to reset it", Style::Font::Regular, Style::Color::black, 64);
+    _warningLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    _reportedChatTitleBar->addChild(_warningLabel);
+    
+    // Reset Reported Chat Button
   
     return true;
 }
@@ -117,7 +134,32 @@ void TitleBarWidget::onSizeChanged()
     _avatarWidget->setContentSize(Size(avatarSize, avatarSize));
     _titleLayout->forceDoLayout();
     
+    //Set correct sizes for Reported Chat Bar
+    onSizeChangedReportedBar(contentSize);
+    
     Super::onSizeChanged();
+}
+
+void TitleBarWidget::onSizeChangedReportedBar(const Size& contentSize)
+{
+    // Get max width, to analyse if changes needed.
+    float maxReportLabelWidth = contentSize.width - _warningImageRight->getContentSize().width*2 + kTitleButtonsEdgePadding*4;
+    
+    _warningLabel->setString("This conversation has been flagged! Get a grown up to reset it");
+    _warningLabel->setBMFontSize(64);
+    
+    if(_warningLabel->getContentSize().width > maxReportLabelWidth)
+    {
+        //Add Label over 2 lines
+        _warningLabel->setBMFontSize(54);
+        _warningLabel->setString("This conversation has been flagged!\nGet a grown up to reset it");
+    }
+
+    float reportedBarHeight = _warningLabel->getContentSize().height + kTitleButtonsEdgePadding;
+    _reportedChatTitleBar->setContentSize(Size(contentSize.width,reportedBarHeight));
+    _warningImageLeft->setPosition(Vec2(kTitleButtonsEdgePadding+_warningImageLeft->getContentSize().width/2,reportedBarHeight/2));
+    _warningImageRight->setPosition(Vec2(contentSize.width-kTitleButtonsEdgePadding - _warningImageRight->getContentSize().width/2,reportedBarHeight/2));
+    _warningLabel->setPosition(Vec2(contentSize.width/2,reportedBarHeight/2));
 }
 
 void TitleBarWidget::updateTitleLayout()
@@ -182,11 +224,6 @@ void TitleBarWidget::setTitleAvatar(const FriendRef& friendData)
     updateTitleLayout();
 }
 
-void TitleBarWidget::showAlertButton(bool enable)
-{
-    _alertButton->setVisible(enable);
-}
-
 void TitleBarWidget::addBackButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback)
 {
     _backButton->addClickEventListener(callback);
@@ -195,6 +232,25 @@ void TitleBarWidget::addBackButtonEventListener(const cocos2d::ui::Widget::ccWid
 void TitleBarWidget::addAlertButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback)
 {
     _alertButton->addClickEventListener(callback);
+}
+
+#pragma mark - Chat Reporting Functions
+
+void TitleBarWidget::setChatToReported()
+{
+    _alertButton->setVisible(false);
+    _reportedChatTitleBar->setVisible(true);
+}
+
+void TitleBarWidget::setChatReadyToReport()
+{
+    _alertButton->setVisible(true);
+    _reportedChatTitleBar->setVisible(false);
+}
+
+void TitleBarWidget::onChatActivitySetToReported()
+{
+    if(!_reportedChatTitleBar->isVisible()) setChatReadyToReport();
 }
 
 #pragma mark - UI Creation

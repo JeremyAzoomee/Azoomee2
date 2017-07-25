@@ -62,7 +62,7 @@ private:
     void onMessageComposerSendMessage(const MessageRef& message) override;
     
     // - MessageBoxDelegate
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
 
 protected:
     
