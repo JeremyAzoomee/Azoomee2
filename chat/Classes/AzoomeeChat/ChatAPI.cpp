@@ -97,7 +97,13 @@ FriendList ChatAPI::getFriendList() const
 
 void ChatAPI::reportChat(const FriendRef &friendObj)
 {
-    HttpRequestCreator *request = API::SendChatReportRequest(ChildDataProvider::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
+    HttpRequestCreator *request = API::SendChatReportRequest(ChildDataProvider::getInstance()->getLoggedInChildId(), friendObj->friendId(), this);
+    request->execute();
+}
+
+void ChatAPI::resetReportedChat(const FriendRef &friendObj)
+{
+    HttpRequestCreator *request = API::ResetReportedChatRequest(ChildDataProvider::getInstance()->getLoggedInChildId(), friendObj->friendId(), this);
     request->execute();
 }
 
@@ -225,20 +231,17 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             }
         }
     }
-    else if(requestTag == API::TagReportChat)
+    else if((requestTag == API::TagReportChat)||(requestTag == API::TagResetReportedChat))
     {
-        //TODO: show a modal message that reporting of chat was successful
+        for(auto observer : _observers)
+        {
+            observer->onChatAPIReportChatSuccessful(requestTag);
+        }
     }
 }
 
 void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-    if(requestTag == API::TagReportChat)
-    {
-        //TODO: show a modal message that there was a problem reporting the chat
-        return;
-    }
-    
     cocos2d::log("ChatAPI::onHttpRequestFailed: %s, errorCode=%ld", requestTag.c_str(), errorCode);
     ModalMessages::getInstance()->stopLoading();
     
