@@ -27,6 +27,13 @@ bool FriendListViewItem::init()
     _contentLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
     addChild(_contentLayout);
     
+    // InModeration indicator
+    _inModerationIndicator = ui::ImageView::create();
+    _inModerationIndicator->loadTexture("res/chat/ui/avatar/avatar_moderation.png");
+    _inModerationIndicator->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(5.0f, 0, 0, 0)));
+    _inModerationIndicator->setVisible(false);
+    _contentLayout->addChild(_inModerationIndicator);
+    
     // Unread indicator
     _unreadIndicator = ui::ImageView::create();
     _unreadIndicator->loadTexture("res/chat/ui/avatar/avatar_alert.png");
@@ -100,6 +107,7 @@ void FriendListViewItem::setData(const FriendRef& friendData)
         _avatarPlaceholder->setVisible(false);
         _avatarWidget->setVisible(true);
         _unreadIndicator->setVisible(_friendData->unreadMessages() > 0);
+        _inModerationIndicator->setVisible(_friendData->inModeration());
     }
     else
     {
@@ -107,6 +115,7 @@ void FriendListViewItem::setData(const FriendRef& friendData)
         _avatarPlaceholder->setVisible(true);
         _avatarWidget->setVisible(false);
         _unreadIndicator->setVisible(false);
+        _inModerationIndicator->setVisible(false);
     }
 }
 

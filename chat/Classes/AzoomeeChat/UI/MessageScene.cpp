@@ -96,6 +96,10 @@ void MessageScene::onEnter()
     ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
     ModalMessages::getInstance()->startLoading();
     
+    // Show if message list is inModeration
+    //CLIVE-TODO
+    if(_participants[1]->inModeration()) cocos2d::log("MESSAGE WINDOW SHOULD SHOW RED FLAG");
+    
     // Get update calls
     scheduleUpdate();
 }
