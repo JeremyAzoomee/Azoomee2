@@ -1,5 +1,6 @@
 #include "MessageListView.h"
 #include "MessageListViewItem.h"
+#include "MessageScene.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 
@@ -173,6 +174,16 @@ void MessageListView::setScrollPosition(float pos)
 
 void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollView::EventType event)
 {
+    cocos2d::log("Current scroll postiion: %f", getScrollPosition());
+    cocos2d::log("Scroll children amount: %zd", _listView->getChildren().size());
+    if((getScrollPosition() < 0.01)&&(!historyUpdateInProgress)&&(_listView->getChildren().size() > 0))
+    {
+        cocos2d::log("UPDATE IN PROGRESS");
+        historyUpdateInProgress = true;
+        historyPageNumber++;
+        ((MessageScene *)this->getParent()->getParent())->getMessageHistory(historyPageNumber);
+    }
+    
 #ifdef AVATARS_IN_LISTVIEW
     // Scroll movement
     if(event == ui::ScrollView::EventType::CONTAINER_MOVED)
@@ -221,6 +232,7 @@ void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollVie
 
 void MessageListView::setData(const FriendList& participants, const MessageList& messageList)
 {
+    //historyUpdateInProgress = false;
     const float scrollPos = getScrollPosition();
     const float prevScrollHeight = _listView->getInnerContainerSize().height;
     
@@ -329,6 +341,8 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         // Otherwise restore scroll position
         setScrollPosition(scrollPos);
     }
+    
+    historyUpdateInProgress = false;
 }
 
 void MessageListView::addMessage(const MessageRef& message)

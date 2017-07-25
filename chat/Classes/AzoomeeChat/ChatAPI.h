@@ -65,7 +65,7 @@ public:
     
     /// Get the chat messages for a contact
     /// Response: ChatAPIObserver::onChatAPIGetChatMessages
-    void requestMessageHistory(const FriendRef& friendObj);
+    void requestMessageHistory(const FriendRef& friendObj, int pageNumber);
     
     /// Send a message
     void sendMessage(const FriendRef& friendObj, const MessageRef& message);

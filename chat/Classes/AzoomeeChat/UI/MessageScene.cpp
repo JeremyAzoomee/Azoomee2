@@ -89,7 +89,7 @@ void MessageScene::onEnter()
     ChatAPI::getInstance()->registerObserver(this);
     
     // Get message list
-    ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
+    getMessageHistory(0);
     ModalMessages::getInstance()->startLoading();
     
     // Get update calls
@@ -119,10 +119,15 @@ void MessageScene::update(float dt)
             _timeTillGet = -1.0f;
             
             // Make the call
-            ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
+            getMessageHistory(0);
         }
     }
 #endif
+}
+
+void MessageScene::getMessageHistory(int pageNumber)
+{
+    ChatAPI::getInstance()->requestMessageHistory(_participants[1], 0);
 }
 
 #pragma mark - Size Changes
@@ -235,7 +240,7 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 {
     // Auto get new messages until we have a live feed from PUSHER
-    ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
+    getMessageHistory(0);
 }
 
 void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)

@@ -55,6 +55,9 @@ private:
     /// List was scrolled
     void onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollView::EventType event);
     
+    bool historyUpdateInProgress = true;;
+    int historyPageNumber = 0;
+    
 protected:
     
     virtual void doLayout() override;

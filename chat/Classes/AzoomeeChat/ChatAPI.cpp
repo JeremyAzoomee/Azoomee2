@@ -97,10 +97,10 @@ FriendList ChatAPI::getFriendList() const
 
 #pragma mark - Get Messages
 
-void ChatAPI::requestMessageHistory(const FriendRef& friendObj)
+void ChatAPI::requestMessageHistory(const FriendRef& friendObj, int pageNumber)
 {
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getParentOrChildId(), friendObj->friendId(), this);
+    HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getParentOrChildId(), friendObj->friendId(), pageNumber, this);
     request->execute();
 }
 

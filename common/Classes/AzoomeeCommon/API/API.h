@@ -142,6 +142,7 @@ public:
     // userId must be the currently logged in child or parent, or the request will fail
     static HttpRequestCreator* GetChatMessagesRequest(const std::string& userId,
                                                       const std::string& friendId,
+                                                      int pageNumber,
                                                       HttpRequestCreatorResponseDelegate* delegate);
     
     // Send a chat message to friendId

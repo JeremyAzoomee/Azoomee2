@@ -70,6 +70,8 @@ public:
     virtual void update(float dt) override;
     
     static MessageScene* create(const FriendList& participants);
+    
+    void getMessageHistory(int pageNumber);
 };
 
 NS_AZOOMEE_CHAT_END
