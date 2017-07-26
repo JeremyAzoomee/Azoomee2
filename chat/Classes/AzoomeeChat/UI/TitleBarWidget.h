@@ -31,6 +31,9 @@ private:
     /// The alert button
     cocos2d::ui::Button* _alertButton = nullptr;
     
+    /// Report Reset button
+    cocos2d::ui::Button* _reportResetButton = nullptr;
+    
     //Chat is reported message bar
     cocos2d::ui::Layout* _reportedChatTitleBar = nullptr;
     
@@ -69,15 +72,18 @@ public:
     void setTitleAvatar(const FriendRef& friendData);
     
     //Report Chat Functions
-    void setChatToReported();
-    void setChatReadyToReport();
-    void onChatActivitySetToReported();
+    void setChatToInModeration();
+    void setChatToActive();
+    void onChatActivityHappened();
     
     /// Register for backbutton click events
     void addBackButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);
     
     /// Register for alertbutton click events
     void addAlertButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);
+    
+    /// Register for reportResetbutton click events
+    void addReportResetButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);
     
     virtual bool init() override;
     virtual void onEnter() override;

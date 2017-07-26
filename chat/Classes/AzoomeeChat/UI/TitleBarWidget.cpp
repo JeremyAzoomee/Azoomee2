@@ -102,7 +102,18 @@ bool TitleBarWidget::init()
     _reportedChatTitleBar->addChild(_warningLabel);
     
     // Reset Reported Chat Button
-  
+    ui::Button* _reportResetButton = ui::Button::create("res/buttons/inviteMainButton.png");
+    // TODO: Get from Strings
+    _reportResetButton->setTitleText("Reset");
+    _reportResetButton->setTitleColor(Style::Color::black);
+    _reportResetButton->setTitleFontName(Style::Font::Regular);
+    _reportResetButton->setTitleFontSize(45.0f);
+    _reportResetButton->setScale9Enabled(true);
+    _reportResetButton->setTitleAlignment(TextHAlignment::LEFT, TextVAlignment::CENTER);
+    _reportResetButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
+    _reportResetButton->setVisible(false);
+    addChild(_reportResetButton);
+    
     return true;
 }
 
@@ -234,23 +245,33 @@ void TitleBarWidget::addAlertButtonEventListener(const cocos2d::ui::Widget::ccWi
     _alertButton->addClickEventListener(callback);
 }
 
+void TitleBarWidget::addReportResetButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback)
+{
+    _reportResetButton->addClickEventListener(callback);
+}
+
 #pragma mark - Chat Reporting Functions
 
-void TitleBarWidget::setChatToReported()
+void TitleBarWidget::setChatToInModeration()
 {
+    //Set Report Bar and Reset to Visible
     _alertButton->setVisible(false);
+    _reportResetButton->setVisible(true);
     _reportedChatTitleBar->setVisible(true);
 }
 
-void TitleBarWidget::setChatReadyToReport()
+void TitleBarWidget::setChatToActive()
 {
+    //Hide Report Bar, and sent Report Button to visible
     _alertButton->setVisible(true);
+    _reportResetButton->setVisible(false);
     _reportedChatTitleBar->setVisible(false);
 }
 
-void TitleBarWidget::onChatActivitySetToReported()
+void TitleBarWidget::onChatActivityHappened()
 {
-    if(!_reportedChatTitleBar->isVisible()) setChatReadyToReport();
+    //If the chat is reported (_reportedChatTitleBar->isVisible()) Do NOTHING.
+    if(!_reportedChatTitleBar->isVisible()) setChatToActive();
 }
 
 #pragma mark - UI Creation

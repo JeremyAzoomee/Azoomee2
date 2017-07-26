@@ -96,7 +96,7 @@ void MessageScene::onEnter()
     ModalMessages::getInstance()->startLoading();
     
     // Show if message list is inModeration
-    if(_participants[1]->inModeration()) _titleBar->setChatToReported();
+    if(_participants[1]->inModeration()) _titleBar->setChatToInModeration();
     
     // Get update calls
     scheduleUpdate();
@@ -238,7 +238,7 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
     if(messageList.size() > 0)
     {
         // Mark messages as read and enable reporting
-        _titleBar->setChatReadyToReport();
+        _titleBar->setChatToActive();
         ChatAPI::getInstance()->markMessagesAsRead(_participants[1], _messagesByTime.back());
     }
     
@@ -258,7 +258,7 @@ void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
 {
     AnalyticsSingleton::getInstance()->chatIncomingMessageEvent(message->messageType());
     _messageListView->addMessage(message);
-    _titleBar->setChatReadyToReport();
+    _titleBar->onChatActivityHappened();
     
     // Mark messages as read
     ChatAPI::getInstance()->markMessagesAsRead(_participants[1], message);
@@ -269,7 +269,7 @@ void MessageScene::onChatAPICustomMessageReceived(const std::string& messageType
     if(messageType != "IN_MODERATION") return;
     if(messageProperties["otherChildId"] != _participants[1]->friendId()) return;
     
-    _titleBar->setChatToReported();
+    _titleBar->onChatActivityHappened();
 }
 
 void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
@@ -294,7 +294,7 @@ void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 {
     AnalyticsSingleton::getInstance()->chatOutgoingMessageEvent(message->messageType());
     ChatAPI::getInstance()->sendMessage(_participants[1], message);
-    _titleBar->setChatReadyToReport();
+    _titleBar->setChatToActive();
     
 #ifdef CHAT_MESSAGES_POLL
     _timeTillGet = -1.0f;
