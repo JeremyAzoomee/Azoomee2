@@ -77,7 +77,7 @@ public:
     void reportChat(const FriendRef& friendObj);
     
     //Reset a reported chat by the parent
-    void resetReportedChat(const FriendRef& friendObj);
+    void resetReportedChat(const FriendRef& friendObj);
 };
 
 /**
