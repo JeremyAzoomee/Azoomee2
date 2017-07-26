@@ -22,13 +22,10 @@ public:
 class RequestAdultPinLayer : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
-
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
     
     cocos2d::LayerColor *backgroundLayer;
     
-    cocos2d::Layer* windowLayer;
+    cocos2d::ui::Scale9Sprite* windowLayer;
     
     float percentageOfScreenForBox;
     std::string currentTypedPinNo = "";
@@ -37,15 +34,21 @@ private:
     
     ElectricDreamsButton *acceptButton;
     ElectricDreamsButton *cancelButton;
+    ElectricDreamsButton *placeHolderAcceptButton;
+    
+    cocos2d::Label* enterYourPinTitle;
     
     void createBackgroundLayer();
     void addListenerToBackgroundLayer();
+    void setPercentageofScreenForBox();
     void addUIObjects();
     
     void removeSelf(float dt);
     
     void requestUpdatedPin();
     void checkPinAgainstStoredPin();
+    
+    void resizeWindowAndObjects();
     
     //Delegate functions
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);

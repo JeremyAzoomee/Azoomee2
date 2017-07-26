@@ -21,14 +21,12 @@ bool RequestAdultPinLayer::init()
     
     this->setName("RequestPinLayer");
     
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
-    
     AudioMixer::getInstance()->pauseBackgroundMusic();
     
     createBackgroundLayer();
     addListenerToBackgroundLayer();
-    onSizeChanged();
+    setPercentageofScreenForBox();
+    addUIObjects();
     
     return true;
 }
@@ -57,20 +55,34 @@ void RequestAdultPinLayer::addListenerToBackgroundLayer()
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), backgroundLayer);
 }
 
+void RequestAdultPinLayer::setPercentageofScreenForBox()
+{
+    auto currentRunningScene = Director::getInstance()->getRunningScene();
+    
+    if(currentRunningScene->getContentSize().width < currentRunningScene->getContentSize().height)
+        percentageOfScreenForBox = 0.85;
+    else
+        percentageOfScreenForBox = 0.66;
+}
+
 void RequestAdultPinLayer::addUIObjects()
 {
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     
-    windowLayer = createWindowLayer(visibleSize.width * percentageOfScreenForBox, 750);
-    windowLayer->setPosition(currentRunningScene->getContentSize().width/2- windowLayer->getContentSize().width/2,currentRunningScene->getContentSize().height*.72 - windowLayer->getContentSize().height/2);
+    //-----------CREATE WINDOW LAYER-----------
+    Rect spriteRect = Rect(0, 0, 455, 268);
+    Rect capInsents = Rect(100, 100, 255, 1);
+    
+    windowLayer = ui::Scale9Sprite::create("res/decoration/windowScale9.png", spriteRect, capInsents);
+    windowLayer->setContentSize(Size(currentRunningScene->getContentSize().width * percentageOfScreenForBox, 750));
+    windowLayer->setPosition(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height*.72);
     this->addChild(windowLayer);
     
     //-------ACCEPT PLACEHOLDER BUTTON-------
     
-    auto placeHolderAcceptButton= ElectricDreamsButton::createPlaceHolderButton();
+    placeHolderAcceptButton= ElectricDreamsButton::createPlaceHolderButton();
     windowLayer->addChild(placeHolderAcceptButton);
 
-    
     //------- CREATE ACCEPT BUTTON -----------
     
     acceptButton = ElectricDreamsButton::createAcceptButton();
@@ -95,7 +107,7 @@ void RequestAdultPinLayer::addUIObjects()
     
     //---------- MODAL LABEL ------------
     
-    auto enterYourPinTitle = createLabelHeaderWhite(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL));
+    enterYourPinTitle = createLabelHeaderWhite(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL));
     enterYourPinTitle->setPosition(editBox_pin->getPositionX() + enterYourPinTitle->getContentSize().width/2, windowLayer->getContentSize().height*.66+enterYourPinTitle->getContentSize().height/2);
     windowLayer->addChild(enterYourPinTitle);
     
@@ -108,11 +120,37 @@ void RequestAdultPinLayer::addUIObjects()
     windowLayer->addChild(cancelButton);
 }
 
+void RequestAdultPinLayer::resizeWindowAndObjects()
+{
+    setPercentageofScreenForBox();
+    
+    auto currentRunningScene = Director::getInstance()->getRunningScene();
+    
+    windowLayer->setContentSize(Size(currentRunningScene->getContentSize().width * percentageOfScreenForBox, 750));
+    windowLayer->setPosition(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height*.72);
+    
+    editBox_pin->setNewWidth(windowLayer->getContentSize().width/2);
+    editBox_pin->setPosition(Vec2(windowLayer->getContentSize().width/2 - editBox_pin->getContentSize().width/2 - acceptButton->getContentSize().width*.66, windowLayer->getContentSize().height*.25));
+
+    placeHolderAcceptButton->setPosition(Vec2(editBox_pin->getPositionX() + editBox_pin->getContentSize().width + acceptButton->getContentSize().width/2,editBox_pin->getPositionY()));
+    
+    acceptButton->setPosition(placeHolderAcceptButton->getPosition());
+    
+    enterYourPinTitle->setPosition(editBox_pin->getPositionX() + enterYourPinTitle->getContentSize().width/2, windowLayer->getContentSize().height*.66+enterYourPinTitle->getContentSize().height/2);
+    
+    cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75));
+}
+
 void RequestAdultPinLayer::onSizeChanged()
 {
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     backgroundLayer->setContentSize(currentRunningScene->getContentSize());
-    backgroundLayer->removeAllChildren();
+    
+    resizeWindowAndObjects();
+
+    
+    
+    /*backgroundLayer->removeAllChildren();
     
     if(windowLayer)
     {
@@ -133,7 +171,7 @@ void RequestAdultPinLayer::onSizeChanged()
     }
     
     addUIObjects();
-    editBox_pin->setText(currentTypedPinNo);
+    editBox_pin->setText(currentTypedPinNo);*/
 }
 
 
