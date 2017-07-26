@@ -232,11 +232,13 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
     _messagesByTime = messagesByTime;
     
     _messageListView->setData(_participants, _messagesByTime);
+    
     ModalMessages::getInstance()->stopLoading();
     
     if(messageList.size() > 0)
     {
-        // Mark messages as read
+        // Mark messages as read and enable reporting
+        _titleBar->setChatReadyToReport();
         ChatAPI::getInstance()->markMessagesAsRead(_participants[1], _messagesByTime.back());
     }
     
@@ -256,6 +258,7 @@ void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
 {
     AnalyticsSingleton::getInstance()->chatIncomingMessageEvent(message->messageType());
     _messageListView->addMessage(message);
+    _titleBar->setChatReadyToReport();
     
     // Mark messages as read
     ChatAPI::getInstance()->markMessagesAsRead(_participants[1], message);
@@ -291,6 +294,7 @@ void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 {
     AnalyticsSingleton::getInstance()->chatOutgoingMessageEvent(message->messageType());
     ChatAPI::getInstance()->sendMessage(_participants[1], message);
+    _titleBar->setChatReadyToReport();
     
 #ifdef CHAT_MESSAGES_POLL
     _timeTillGet = -1.0f;
