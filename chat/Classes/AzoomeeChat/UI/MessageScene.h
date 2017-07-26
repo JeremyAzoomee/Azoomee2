@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
 
 NS_AZOOMEE_CHAT_BEGIN
     

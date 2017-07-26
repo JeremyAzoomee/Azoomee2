@@ -7,7 +7,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
-#include "OnlineSafetyDetailsLayer.h";
+#include "OnlineSafetyDetailsLayer.h"
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50

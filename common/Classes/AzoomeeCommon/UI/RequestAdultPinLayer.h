@@ -30,6 +30,9 @@ private:
     
     cocos2d::Layer* windowLayer;
     
+    float percentageOfScreenForBox;
+    std::string currentTypedPinNo = "";
+    
     TextInputLayer* editBox_pin;
     
     ElectricDreamsButton *acceptButton;
@@ -40,6 +43,9 @@ private:
     void addUIObjects();
     
     void removeSelf(float dt);
+    
+    void requestUpdatedPin();
+    void checkPinAgainstStoredPin();
     
     //Delegate functions
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
@@ -60,7 +66,6 @@ public:
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
-    void secondCheckForPin();
     void onSizeChanged();
     
 };

@@ -5,6 +5,8 @@
 #include "../UI/ElectricDreamsTextStyles.h"
 #include "../UI/ElectricDreamsDecoration.h"
 #include "../API/API.h"
+#include "../Data/Parent/ParentDataParser.h"
+#include "ModalMessages.h"
 
 using namespace cocos2d;
 
@@ -57,10 +59,10 @@ void RequestAdultPinLayer::addListenerToBackgroundLayer()
 
 void RequestAdultPinLayer::addUIObjects()
 {
-    addSideWiresToScreen(this, 0, 2);
+    auto currentRunningScene = Director::getInstance()->getRunningScene();
     
-    windowLayer = createWindowLayer(750);
-    windowLayer->setPosition(visibleSize.width/2- windowLayer->getContentSize().width/2,origin.y + visibleSize.height*.72 - windowLayer->getContentSize().height/2);
+    windowLayer = createWindowLayer(visibleSize.width * percentageOfScreenForBox, 750);
+    windowLayer->setPosition(currentRunningScene->getContentSize().width/2- windowLayer->getContentSize().width/2,currentRunningScene->getContentSize().height*.72 - windowLayer->getContentSize().height/2);
     this->addChild(windowLayer);
     
     //-------ACCEPT PLACEHOLDER BUTTON-------
@@ -113,21 +115,25 @@ void RequestAdultPinLayer::onSizeChanged()
     backgroundLayer->removeAllChildren();
     
     if(windowLayer)
+    {
+        currentTypedPinNo =editBox_pin->getText();
         windowLayer->removeAllChildren();
+    }
     
     visibleSize = Director::getInstance()->getVisibleSize();
     
     if(currentRunningScene->getContentSize().width < currentRunningScene->getContentSize().height)
     {
-        //percentageOfScreenForBox = 0.85;
+        percentageOfScreenForBox = 0.85;
     }
     else
     {
-        //percentageOfScreenForBox = 0.66;
+        percentageOfScreenForBox = 0.66;
         addSideWiresToScreen(backgroundLayer, 0, 2);
     }
     
     addUIObjects();
+    editBox_pin->setText(currentTypedPinNo);
 }
 
 
@@ -142,6 +148,34 @@ void RequestAdultPinLayer::removeSelf(float dt)
     }
 }
 
+void RequestAdultPinLayer::requestUpdatedPin()
+{
+    ModalMessages::getInstance()->startLoading();
+    HttpRequestCreator* request = API::UpdateParentPinRequest(this);
+    request->execute();
+}
+
+void RequestAdultPinLayer::checkPinAgainstStoredPin()
+{
+    ModalMessages::getInstance()->stopLoading();
+    
+    if(editBox_pin->getText() == ParentDataProvider::getInstance()->getParentPin() || ("" == ParentDataProvider::getInstance()->getParentPin() && editBox_pin->getText() == "1234"))
+    {
+        //Schedule so it calls delegate before removing self. Avoiding crash
+        this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
+        
+        if(this->getDelegate())
+        this->getDelegate()->AdultPinAccepted(this);
+    }
+    else
+    {
+        editBox_pin->setText("");
+        editBox_pin->setEditboxVisibility(false);
+        MessageBox::createWith(ERROR_CODE_INCORRECT_PIN, this);
+        acceptButton->setVisible(false);
+    }
+}
+
 //----------------------- Delegate Functions ----------------------------
 
 void RequestAdultPinLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
@@ -152,10 +186,7 @@ void RequestAdultPinLayer::textInputIsValid(TextInputLayer* inputLayer, bool isV
 void RequestAdultPinLayer::textInputReturnPressed(TextInputLayer* inputLayer)
 {
     if(editBox_pin->inputIsValid())
-    {
-        HttpRequestCreator* request = API::UpdateParentPinRequest(this);
-        request->execute();
-    }
+        requestUpdatedPin();
 }
 
 void RequestAdultPinLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
@@ -175,47 +206,31 @@ void RequestAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
         AudioMixer::getInstance()->resumeBackgroundMusic();
         //Schedule so it calls delegate before removing self. Avoiding crash
         this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
-        this->getDelegate()->AdultPinCancelled(this);
+        if(this->getDelegate())
+            this->getDelegate()->AdultPinCancelled(this);
     }
     else if(button == acceptButton)
-    {
-        HttpRequestCreator* request = API::UpdateParentPinRequest(this);
-        request->execute();
-    }
+        requestUpdatedPin();
 }
 
 void RequestAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
+    editBox_pin->setEditboxVisibility(true);
     editBox_pin->focusAndShowKeyboard();
-}
-
-void RequestAdultPinLayer::secondCheckForPin()
-{
-    //Please implement your second check here. If first check is not okay, please call: BackEndCaller::getInstance->updateParentPin(this);
-    CCLOG("Second check for pin callback was called");
     
-    if(editBox_pin->getText() == ParentDataProvider::getInstance()->getParentPin() || ("" == ParentDataProvider::getInstance()->getParentPin() && editBox_pin->getText() == "1234"))
-    {
-        //Schedule so it calls delegate before removing self. Avoiding crash
-        this->scheduleOnce(schedule_selector(RequestAdultPinLayer::removeSelf), 0.1);
-        this->getDelegate()->AdultPinAccepted(this);
-    }
-    else
-    {
-        editBox_pin->setText("");
-        MessageBox::createWith(ERROR_CODE_INCORRECT_PIN, editBox_pin, this);
-        acceptButton->setVisible(false);
-    }
 }
 
 void RequestAdultPinLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
 
+    ParentDataParser::getInstance()->parseUpdateParentData(body);
+
+    checkPinAgainstStoredPin();
 }
 
 void RequestAdultPinLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-    //do nothing
+    checkPinAgainstStoredPin();
 }
 
 NS_AZOOMEE_END
