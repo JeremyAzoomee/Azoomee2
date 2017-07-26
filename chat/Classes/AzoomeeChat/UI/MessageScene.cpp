@@ -218,7 +218,8 @@ void MessageScene::onReportResetButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
     
-    MessageBox::createWith(ERROR_CODE_RESET_REPORTED_CHAT, this);
+    RequestAdultPinLayer::create();
+    //MessageBox::createWith(ERROR_CODE_RESET_REPORTED_CHAT, this);
 }
 
 #pragma mark - ChatAPIObserver
