@@ -77,6 +77,10 @@ bool MessageScene::init()
     _titleBar->addAlertButtonEventListener([this](Ref* button){
         onAlertButtonPressed();
     });
+    _titleBar->addReportResetButtonEventListener([this](Ref* button){
+        onReportResetButtonPressed();
+    });
+
     _rootLayout->addChild(_titleBar);
     
     createContentUI(_contentLayout);
@@ -210,6 +214,13 @@ void MessageScene::onAlertButtonPressed()
     MessageBox::createWith(ERROR_CODE_REPORT_MESSAGES, this);
 }
 
+void MessageScene::onReportResetButtonPressed()
+{
+    AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
+    
+    MessageBox::createWith(ERROR_CODE_RESET_REPORTED_CHAT, this);
+}
+
 #pragma mark - ChatAPIObserver
 
 void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
@@ -307,9 +318,12 @@ void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::stri
 {
     if(buttonTitle == "Report")
     {
-        //TODO-CLIVE Please decide which call to be used here depending on the current flow.
         ChatAPI::getInstance()->reportChat(_participants[1]);
-        //ChatAPI::getInstance()->resetReportedChat(_participants[1]);
+    }
+    
+    if(buttonTitle == "Reset")
+    {
+        ChatAPI::getInstance()->resetReportedChat(_participants[1]);
     }
 }
 

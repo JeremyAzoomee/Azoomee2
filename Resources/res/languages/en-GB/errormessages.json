@@ -159,6 +159,14 @@
         "button": "Report|Cancel",
         "optionalButtonRefNames":"Report|Cancel"
     },
+    
+    "5002":
+    {
+        "title":"Reset This Chat?",
+        "body":"Do you really want to reset this chat?",
+        "button": "Reset|Cancel",
+        "optionalButtonRefNames":"Reset|Cancel"
+    },
 
     
     "default":
