@@ -14,7 +14,7 @@
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate, public MessageBoxDelegate
+class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate, public MessageBoxDelegate, public RequestAdultPinLayerDelegate
 {
     typedef Azoomee::Scene Super;
 private:
@@ -67,6 +67,8 @@ private:
     
     // - MessageBoxDelegate
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
+    void AdultPinCancelled(RequestAdultPinLayer* layer) override;
+    void AdultPinAccepted(RequestAdultPinLayer* layer) override;
 
 protected:
     

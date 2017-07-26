@@ -218,7 +218,7 @@ void MessageScene::onReportResetButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
     
-    RequestAdultPinLayer::create();
+    RequestAdultPinLayer::create()->setDelegate(this);
     //MessageBox::createWith(ERROR_CODE_RESET_REPORTED_CHAT, this);
 }
 
@@ -327,6 +327,18 @@ void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::stri
     {
         ChatAPI::getInstance()->resetReportedChat(_participants[1]);
     }
+}
+
+#pragma mark - RequestAdultPinDelegate
+
+void MessageScene::AdultPinCancelled(RequestAdultPinLayer* layer)
+{
+    
+}
+
+void MessageScene::AdultPinAccepted(RequestAdultPinLayer* layer)
+{
+    MessageBox::createWith(ERROR_CODE_RESET_REPORTED_CHAT, this);
 }
 
 NS_AZOOMEE_CHAT_END
