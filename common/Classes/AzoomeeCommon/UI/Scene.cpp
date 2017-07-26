@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "MessageBox.h"
+#include "RequestAdultPinLayer.h"
 
 using namespace cocos2d;
 
@@ -113,6 +114,10 @@ void Scene::onSizeChanged()
     MessageBox* messageBoxLayer = dynamic_cast<MessageBox*>(this->getChildByName("MessageBoxLayer"));
     if(messageBoxLayer)
         messageBoxLayer->onSizeChanged();
+    
+    RequestAdultPinLayer* adultPinLayer = dynamic_cast<RequestAdultPinLayer*>(this->getChildByName("RequestPinLayer"));
+    if(adultPinLayer)
+        adultPinLayer->onSizeChanged();
     
 }
 

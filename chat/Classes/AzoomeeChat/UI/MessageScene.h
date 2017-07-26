@@ -11,7 +11,6 @@
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
-
 NS_AZOOMEE_CHAT_BEGIN
     
 class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate, public MessageBoxDelegate

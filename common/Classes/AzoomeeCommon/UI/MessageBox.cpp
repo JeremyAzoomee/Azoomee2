@@ -64,6 +64,7 @@ void MessageBox::initMessageBoxLayer(std::string Title, std::string Body, Messag
     _messageBoxBody = Body;
     
     createBackgroundLayer();
+    addListenerToBackgroundLayer();
     onSizeChanged();
 }
 
