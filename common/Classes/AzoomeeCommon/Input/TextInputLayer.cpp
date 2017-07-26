@@ -257,7 +257,7 @@ void TextInputLayer::setEditboxVisibility(bool visibility)
 void TextInputLayer::setNewWidth(float newWidth)
 {
     this->setContentSize(cocos2d::Size(newWidth,this->getContentSize().height));
-    editBox->setContentSize(cocos2d::Size(newWidth,this->getContentSize().height));
+    editBox->setContentSize(cocos2d::Size(newWidth - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height));
     editBox->setPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height/2));
     editBoxArea->setContentSize(cocos2d::Size(newWidth,this->getContentSize().height));
     editBoxArea->setPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height/2));

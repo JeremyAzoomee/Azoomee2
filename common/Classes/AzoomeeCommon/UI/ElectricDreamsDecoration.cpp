@@ -84,7 +84,7 @@ void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer)
 void removeWiresFromScreen(cocos2d::Node* parentLayer)
 {
     while(parentLayer->getChildByName("Wire"))
-        parentLayer->getChildByName("Wire");
+        parentLayer->removeChildByName("Wire");
 }
 
 void addGlowToScreen(Node* parentLayer, float withDelay)

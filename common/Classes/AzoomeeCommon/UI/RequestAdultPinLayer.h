@@ -49,6 +49,7 @@ private:
     void checkPinAgainstStoredPin();
     
     void resizeWindowAndObjects();
+    void addOrRemoveWires();
     
     //Delegate functions
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);

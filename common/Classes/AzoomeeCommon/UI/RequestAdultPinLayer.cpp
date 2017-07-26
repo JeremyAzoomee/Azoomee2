@@ -27,6 +27,7 @@ bool RequestAdultPinLayer::init()
     addListenerToBackgroundLayer();
     setPercentageofScreenForBox();
     addUIObjects();
+    addOrRemoveWires();
     
     return true;
 }
@@ -141,37 +142,23 @@ void RequestAdultPinLayer::resizeWindowAndObjects()
     cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75));
 }
 
+void RequestAdultPinLayer::addOrRemoveWires()
+{
+    removeWiresFromScreen(backgroundLayer);
+    
+    auto currentRunningScene = Director::getInstance()->getRunningScene();
+    
+    if(currentRunningScene->getContentSize().width > currentRunningScene->getContentSize().height)
+        addSideWiresToScreen(backgroundLayer);
+}
+
 void RequestAdultPinLayer::onSizeChanged()
 {
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     backgroundLayer->setContentSize(currentRunningScene->getContentSize());
     
     resizeWindowAndObjects();
-
-    
-    
-    /*backgroundLayer->removeAllChildren();
-    
-    if(windowLayer)
-    {
-        currentTypedPinNo =editBox_pin->getText();
-        windowLayer->removeAllChildren();
-    }
-    
-    visibleSize = Director::getInstance()->getVisibleSize();
-    
-    if(currentRunningScene->getContentSize().width < currentRunningScene->getContentSize().height)
-    {
-        percentageOfScreenForBox = 0.85;
-    }
-    else
-    {
-        percentageOfScreenForBox = 0.66;
-        addSideWiresToScreen(backgroundLayer, 0, 2);
-    }
-    
-    addUIObjects();
-    editBox_pin->setText(currentTypedPinNo);*/
+    addOrRemoveWires();
 }
 
 
