@@ -100,9 +100,9 @@ void Friend::markMessagesLocalUnread()
     _unreadMessages = 1;
 }
 
-void Friend::markFriendInModeration()
+void Friend::markFriendInModeration(bool status)
 {
-    _inModeration = true;
+    _inModeration = status;
 }
 
 NS_AZOOMEE_CHAT_END

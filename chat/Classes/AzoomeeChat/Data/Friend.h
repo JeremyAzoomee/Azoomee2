@@ -44,7 +44,7 @@ public:
     /// Set the friend as having unread messages
     /// Local only, this makes no change on the server
     void markMessagesLocalUnread();
-    void markFriendInModeration();
+    void markFriendInModeration(bool status);
 };
 
 NS_AZOOMEE_CHAT_END

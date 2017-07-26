@@ -268,7 +268,7 @@ void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
     cocos2d::log("PUSHER EVENT: %s", event->eventName().c_str());
     
     // Check if this is an in_moderation event
-    if(event->eventName() == "IN_MODERATION")
+    if(event->eventName() == "MODERATION")
     {
         std::string userIdA = (event->data()["userIdA"].IsString() ? event->data()["userIdA"].GetString() : "");
         std::string userIdB = (event->data()["userIdB"].IsString() ? event->data()["userIdB"].GetString() : "");
@@ -280,7 +280,7 @@ void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
             
             std::map<std::string, std::string> messageProperties;
             messageProperties["otherChildId"] = otherChildId;
-            messageProperties["status"] = "IN_MODERATION";
+            messageProperties["status"] = event->data()["status"].GetString();
             
             for(auto observer : _observers)
             {
