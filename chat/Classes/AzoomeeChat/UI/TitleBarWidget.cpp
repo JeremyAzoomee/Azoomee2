@@ -102,7 +102,7 @@ bool TitleBarWidget::init()
     _reportedChatTitleBar->addChild(_warningLabel);
     
     // Reset Reported Chat Button
-    ui::Button* _reportResetButton = ui::Button::create("res/buttons/inviteMainButton.png");
+    _reportResetButton = ui::Button::create("res/buttons/inviteMainButton.png");
     // TODO: Get from Strings
     _reportResetButton->setTitleText("Reset");
     _reportResetButton->setTitleColor(Style::Color::black);

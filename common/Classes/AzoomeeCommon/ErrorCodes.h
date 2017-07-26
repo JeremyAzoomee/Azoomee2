@@ -24,5 +24,6 @@
 
 //---------CHAT ERROR CODES---------------
 #define ERROR_CODE_REPORT_MESSAGES 5001
+#define ERROR_CODE_RESET_REPORTED_CHAT 5002
 
 #endif

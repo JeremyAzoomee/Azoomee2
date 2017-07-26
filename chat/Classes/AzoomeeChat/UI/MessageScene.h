@@ -51,6 +51,9 @@ private:
     /// Alert button was pressed
     void onAlertButtonPressed();
     
+    /// Report reset button was pressed
+    void onReportResetButtonPressed();
+    
     // - ChatAPIObserver
     void onChatAPIGetChatMessages(const MessageList& messageList) override;
     void onChatAPISendMessage(const MessageRef& sentMessage) override;
