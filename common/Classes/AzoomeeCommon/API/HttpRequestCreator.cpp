@@ -130,7 +130,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     request->setUrl(requestUrl.c_str());
     
     const char* postData = requestBody.c_str();
-    request->setRequestData(postData, strlen(postData));
+    request->setRequestData(postData, strlen(postData) + 1);
     
     std::vector<std::string> headers;
     
