@@ -136,6 +136,8 @@
 		4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8001EA8ADEF00FE964B /* UIView+MPHelpers.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */; };
 		434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */; };
+		434A55E71F2A336400740601 /* MessageBoxSignLoginLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E51F2A336400740601 /* MessageBoxSignLoginLayer.cpp */; };
+		434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -401,6 +403,10 @@
 		4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AutomaticEvents.m"; sourceTree = "<group>"; };
 		434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxLayer.cpp; path = MessageBoxLayers/MessageBoxLayer.cpp; sourceTree = "<group>"; };
 		434A55E31F29F9C800740601 /* MessageBoxLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxLayer.h; path = MessageBoxLayers/MessageBoxLayer.h; sourceTree = "<group>"; };
+		434A55E51F2A336400740601 /* MessageBoxSignLoginLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxSignLoginLayer.cpp; path = MessageBoxLayers/MessageBoxSignLoginLayer.cpp; sourceTree = "<group>"; };
+		434A55E61F2A336400740601 /* MessageBoxSignLoginLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxSignLoginLayer.h; path = MessageBoxLayers/MessageBoxSignLoginLayer.h; sourceTree = "<group>"; };
+		434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxChatResetModerationLayer.cpp; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.cpp; sourceTree = "<group>"; };
+		434A55EA1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxChatResetModerationLayer.h; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -776,10 +782,13 @@
 		4318E13B1F28E39B00778E9A /* MessageBoxLayers */ = {
 			isa = PBXGroup;
 			children = (
+				434A55E81F2A3FD600740601 /* ChatMessageLayers */,
 				434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */,
 				434A55E31F29F9C800740601 /* MessageBoxLayer.h */,
 				4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */,
 				4318E13D1F28E65400778E9A /* MessageBoxTextLayer.h */,
+				434A55E51F2A336400740601 /* MessageBoxSignLoginLayer.cpp */,
+				434A55E61F2A336400740601 /* MessageBoxSignLoginLayer.h */,
 			);
 			name = MessageBoxLayers;
 			sourceTree = "<group>";
@@ -930,6 +939,15 @@
 			path = Mixpanel;
 			sourceTree = "<group>";
 		};
+		434A55E81F2A3FD600740601 /* ChatMessageLayers */ = {
+			isa = PBXGroup;
+			children = (
+				434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */,
+				434A55EA1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.h */,
+			);
+			name = ChatMessageLayers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1054,6 +1072,7 @@
 				3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */,
 				3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */,
 				3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */,
+				434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */,
 				30DD5EF01E96860C0084305B /* ConfigStorage.cpp in Sources */,
 				4349C8271EA8ADEF00FE964B /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
@@ -1111,6 +1130,7 @@
 				4349C85B1EA8ADEF00FE964B /* UIImage+MPAverageColor.m in Sources */,
 				4349C8511EA8ADEF00FE964B /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				4349C83F1EA8ADEF00FE964B /* MPPassThroughValueTransformer.m in Sources */,
+				434A55E71F2A336400740601 /* MessageBoxSignLoginLayer.cpp in Sources */,
 				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
 				4349C84A1EA8ADEF00FE964B /* MPTweakInline.m in Sources */,
 				3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */,

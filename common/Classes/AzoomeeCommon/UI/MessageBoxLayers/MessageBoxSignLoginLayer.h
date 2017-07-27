@@ -1,5 +1,5 @@
-#ifndef AzoomeeCommon_MessageBox_TextLayer_h
-#define AzoomeeCommon_MessageBox_TextLayer_h
+#ifndef AzoomeeCommon_MessageBox_SignLoginLayer_h
+#define AzoomeeCommon_MessageBox_SignLoginLayer_h
 
 #include <cocos/cocos2d.h>
 #include <cocos/ui/UIScrollView.h>
@@ -10,7 +10,7 @@
 namespace Azoomee
 {
 
-class MessageBoxTextLayer : public MessageBoxLayer, public ElectricDreamsButtonDelegate
+class MessageBoxSignLoginLayer : public MessageBoxLayer, public ElectricDreamsButtonDelegate
 {
 private:
     
@@ -60,10 +60,9 @@ protected:
     virtual void onButtonPressed(int buttonSelect);
   
 public:
-    static Layer* createMessageBoxTextLayer(std::string Title, std::string Body, std::vector<std::string> buttonTitleList,Layer* parentLayer);
-    static Layer* createMessageBoxTextLayer(long errorCode,Layer* parentLayer);
+    static Layer* createSignLoginLayer(Layer* parentLayer);
     
-    CREATE_FUNC(MessageBoxTextLayer);
+    CREATE_FUNC(MessageBoxSignLoginLayer);
   
     /// Called when the content size of the scene has changed
     void onSizeChanged() override;

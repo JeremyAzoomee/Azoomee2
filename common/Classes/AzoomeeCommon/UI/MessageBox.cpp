@@ -161,7 +161,6 @@ void MessageBox::sendDelegateMessageBoxButtonPressed(std::string messageBoxTitle
     UnHideTextInput();
     if(_delegate)
         this->getDelegate()->MessageBoxButtonPressed(messageBoxTitle, buttonTitle);
-    //this->removeSelf(0);
 }
                     
 }
