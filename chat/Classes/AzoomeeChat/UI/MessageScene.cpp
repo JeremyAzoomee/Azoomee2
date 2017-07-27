@@ -89,11 +89,14 @@ void MessageScene::onEnter()
     ChatAPI::getInstance()->registerObserver(this);
     
     // Get message list
-    getMessageHistory(0);
+    getMessageHistory();
     ModalMessages::getInstance()->startLoading();
     
     // Get update calls
     scheduleUpdate();
+    
+    //Get scrollview on top notifications
+    this->createEventListenerForRetrievingHistory();
 }
 
 void MessageScene::onExit()
@@ -105,6 +108,9 @@ void MessageScene::onExit()
     
     // Stop update calls
     unscheduleUpdate();
+    
+    //Unregister history retrieving listener calls
+    Director::getInstance()->getEventDispatcher()->removeEventListener(_listener);
 }
 
 void MessageScene::update(float dt)
@@ -125,9 +131,27 @@ void MessageScene::update(float dt)
 #endif
 }
 
-void MessageScene::getMessageHistory(int pageNumber)
+void MessageScene::getMessageHistory()
 {
-    ChatAPI::getInstance()->requestMessageHistory(_participants[1], 0);
+    int calculatedPageNumber = int(_messagesByTime.size() / 20);
+    historyUpdateInProgress = true;
+    ChatAPI::getInstance()->requestMessageHistory(_participants[1], calculatedPageNumber);
+}
+
+void MessageScene::createEventListenerForRetrievingHistory()
+{
+    _listener = EventListenerCustom::create("MessageListView_reached_top", [=](EventCustom* event){
+        if(!historyUpdateInProgress)
+        {
+            this->getMessageHistory();
+        }
+        else
+        {
+            cocos2d::log("CHATHISTORY IN UPDATE");
+        }
+    });
+    
+    _eventDispatcher->addEventListenerWithFixedPriority(_listener, 1);
 }
 
 #pragma mark - Size Changes
@@ -207,6 +231,8 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 {
     // Make a copy of the messageList and sort it in order of timestamp
     MessageList messagesByTime;
+    if(!_messagesByTime.empty()) messagesByTime = _messagesByTime;
+    
     for(const MessageRef& message : messageList)
     {
         // Find first item where this message is newer
@@ -220,6 +246,7 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
         }
         messagesByTime.insert(it.base(), message);
     }
+    
     _messagesByTime = messagesByTime;
     
     _messageListView->setData(_participants, _messagesByTime);
@@ -235,12 +262,14 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
     // Trigger auto get again
     _timeTillGet = kAutoGetTimeInterval;
 #endif
+    
+    if(messageList.size() > 19) historyUpdateInProgress = false; //if downloaded messages are less than 20 in length, then we got to the beginning of the conversation, no further retrievals are required.
 }
 
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 {
-    // Auto get new messages until we have a live feed from PUSHER
-    getMessageHistory(0);
+    _messagesByTime.push_back(sentMessage);
+    _messageListView->setData(_participants, _messagesByTime);
 }
 
 void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)

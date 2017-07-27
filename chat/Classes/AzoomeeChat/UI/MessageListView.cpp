@@ -174,14 +174,10 @@ void MessageListView::setScrollPosition(float pos)
 
 void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollView::EventType event)
 {
-    cocos2d::log("Current scroll postiion: %f", getScrollPosition());
-    cocos2d::log("Scroll children amount: %zd", _listView->getChildren().size());
-    if((getScrollPosition() < 0.01)&&(!historyUpdateInProgress)&&(_listView->getChildren().size() > 0))
+    if((getScrollPosition() < 0.01)&&(_listView->getChildren().size() > 19))
     {
-        cocos2d::log("UPDATE IN PROGRESS");
-        historyUpdateInProgress = true;
-        historyPageNumber++;
-        ((MessageScene *)this->getParent()->getParent())->getMessageHistory(historyPageNumber);
+        EventCustom event("MessageListView_reached_top");
+        Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
     }
     
 #ifdef AVATARS_IN_LISTVIEW
@@ -341,8 +337,6 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
         // Otherwise restore scroll position
         setScrollPosition(scrollPos);
     }
-    
-    historyUpdateInProgress = false;
 }
 
 void MessageListView::addMessage(const MessageRef& message)
