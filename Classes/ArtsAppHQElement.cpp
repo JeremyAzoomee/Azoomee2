@@ -16,7 +16,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage, bool deletable, bool locked)
+bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage, bool deletable, bool locked, bool preload)
 {
     if ( !Layer::init() )
     {
@@ -35,7 +35,12 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     createImageBorder();
     if(!newImage) createWhiteBackground();
     
-    addImage(filePath);
+    imageURL = filePath;
+    
+    if(!preload)
+        addPlaceHolder();
+    else
+        loadImageTex();
     addOverlay();
     
     if(locked == true)
@@ -55,6 +60,58 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     }
     
     return true;
+}
+
+void ArtsAppHQElement::loadImageTex()
+{
+    Director::getInstance()->getTextureCache()->addImageAsync(imageURL, [&](Texture2D* tex){this->addImage(tex);});
+}
+
+void ArtsAppHQElement::enableOnScreenChecker()
+{
+    onScreenChecker = new ArtImageOnScreenChecker();
+    onScreenChecker->startCheckingForOnScreenPosition(this);
+}
+
+void ArtsAppHQElement::addImage(Texture2D* tex)
+{
+    if(artImage)
+        artImage->removeFromParent();
+    
+    artImage = Sprite::create();
+    
+    artImage->initWithTexture(tex);
+    
+    float scale = (this->getContentSize().width - 40) / artImage->getContentSize().width;
+    
+    if(artImage->getContentSize().height * scale > this->getContentSize().height - 40)
+        scale = (this->getContentSize().height - 40) / artImage->getContentSize().height;
+    
+    artImage->setScale(scale);
+    
+    artImage->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+    this->addChild(artImage);
+    artImage->runAction(FadeIn::create(0.1));
+}
+
+void ArtsAppHQElement::addPlaceHolder()
+{
+    if(artImage)
+        artImage->removeFromParent();
+    
+    artImage = Sprite::create();
+    
+    artImage->initWithFile("res/contentPlaceholders/Create1X1.png");
+    
+    float scale = (this->getContentSize().width - 40) / artImage->getContentSize().width;
+    
+    if(artImage->getContentSize().height * scale > this->getContentSize().height - 40)
+        scale = (this->getContentSize().height - 40) / artImage->getContentSize().height;
+    
+    artImage->setScale(scale);
+    
+    artImage->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+    this->addChild(artImage);
 }
 
 std::string ArtsAppHQElement::getBase64Encoded(std::string input)
@@ -197,6 +254,17 @@ bool ArtsAppHQElement::deleteButtonIsShown()
     
     if(deleteButton->getOpacity() > 0) return true;
     else return false;
+}
+
+void ArtsAppHQElement::onExit()
+{
+    
+    if(onScreenChecker)
+    {
+        onScreenChecker->endCheck();
+        onScreenChecker->release();
+    }
+    Layer::onExit();
 }
 
 void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, std::string filePath)

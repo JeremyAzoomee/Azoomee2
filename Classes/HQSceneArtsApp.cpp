@@ -55,7 +55,7 @@ void HQSceneArtsApp::createArtsAppScrollView()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height * 2), Point(0, 300));
+    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height), Point(0, 300));
     this->addChild(horizontalScrollView);
     
     addEmptyImageToHorizontalScrollView(horizontalScrollView);
@@ -99,11 +99,12 @@ void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollV
 void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable, bool locked)
 {
     auto artImage = ArtsAppHQElement::create();
-    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable, locked);
+    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable, locked,false);
     toBeAddedTo->addChild(artImage);
     
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)artImage);
+    artImage->enableOnScreenChecker();
 }
 
 std::vector<std::string> HQSceneArtsApp::getFilesInDirectory(std::string path)

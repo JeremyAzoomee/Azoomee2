@@ -53,6 +53,8 @@ bool ArtAppBase::init()
     {
         return false;
     }
+    
+    Director::getInstance()->purgeCachedData();
 
     drawingCanvas = DrawingCanvas::create();
 

@@ -133,6 +133,7 @@
 		4349C85C1EA8ADEF00FE964B /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7FE1EA8ADEF00FE964B /* UIImage+MPImageEffects.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8001EA8ADEF00FE964B /* UIView+MPHelpers.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */; };
+		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -392,6 +393,8 @@
 		4349C8001EA8ADEF00FE964B /* UIView+MPHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPHelpers.m"; sourceTree = "<group>"; };
 		4349C8011EA8ADEF00FE964B /* UIViewController+AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AutomaticEvents.h"; sourceTree = "<group>"; };
 		4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AutomaticEvents.m"; sourceTree = "<group>"; };
+		9261739D1F2A3D34008E3F9D /* OnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnScreenChecker.h; sourceTree = "<group>"; };
+		9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnScreenChecker.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -600,6 +603,8 @@
 				3012ED9C1E97E6A40009027D /* ImageDownloader.h */,
 				3012ED9D1E97E6A40009027D /* ImageDownloaderOnScreenChecker.cpp */,
 				3012ED9E1E97E6A40009027D /* ImageDownloaderOnScreenChecker.h */,
+				9261739D1F2A3D34008E3F9D /* OnScreenChecker.h */,
+				9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */,
 			);
 			path = ImageDownloader;
 			sourceTree = "<group>";
@@ -1066,6 +1071,7 @@
 				4349C8181EA8ADEF00FE964B /* MPAbstractABTestDesignerMessage.m in Sources */,
 				4349C82C1EA8ADEF00FE964B /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
 				4349C8261EA8ADEF00FE964B /* MPBOOLToNSNumberValueTransformer.m in Sources */,
+				9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */,
 				4349C8521EA8ADEF00FE964B /* MPUITableViewBinding.m in Sources */,
 				300743501EFC09B9005525AE /* PusherSDK.cpp in Sources */,
 				4349C84C1EA8ADEF00FE964B /* MPTypeDescription.m in Sources */,
