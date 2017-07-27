@@ -11,22 +11,22 @@ NS_AZOOMEE_BEGIN
 
 bool PreviewLoginSignupMessageBox::init()
 {
-    if( !Super::init() )
+    if( !Layer::init() )
     {
         return false;
     }
     
-    addButtonWithTitle(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
-    addButtonWithTitle(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP));
-    initMessageBoxLayer(StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL),
-                        StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_BODY_LABEL),nullptr, 0);
+    //addButtonWithTitle(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
+    //addButtonWithTitle(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP));
+    //initMessageBoxLayer(StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL),
+     //                   StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_BODY_LABEL),nullptr, 0);
     return true;
 }
 
 void PreviewLoginSignupMessageBox::onCancelPressed()
 {
     AnalyticsSingleton::getInstance()->previewPopupCancelledEvent();
-    Super::onCancelPressed();
+    //Super::onCancelPressed();
 }
 
 void PreviewLoginSignupMessageBox::onButtonPressed(int buttonSelect)

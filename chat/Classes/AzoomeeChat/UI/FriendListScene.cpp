@@ -8,7 +8,6 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "MessageScene.h"
 
-
 using namespace cocos2d;
 
 

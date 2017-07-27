@@ -7,6 +7,7 @@
 #include "../API/API.h"
 #include "../Data/Parent/ParentDataParser.h"
 #include "ModalMessages.h"
+#include "../ErrorCodes.h"
 
 using namespace cocos2d;
 

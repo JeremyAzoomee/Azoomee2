@@ -11,13 +11,13 @@ NS_AZOOMEE_BEGIN
  */
 class PreviewLoginSignupMessageBox : public MessageBox
 {
-    typedef MessageBox Super;
+    //typedef MessageBox Super;
 protected:
     
     virtual bool init() override;
     
-    virtual void onCancelPressed() override;
-    virtual void onButtonPressed(int buttonSelect) override;
+    virtual void onCancelPressed() ;
+    virtual void onButtonPressed(int buttonSelect) ;
     
 public:
     CREATE_FUNC(PreviewLoginSignupMessageBox);
