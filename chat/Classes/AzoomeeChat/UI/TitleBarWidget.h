@@ -54,6 +54,9 @@ private:
     /// Update the layout of the title depending on what is being shown
     void updateTitleLayout();
     
+    /// Boolean variable to deny displaying reporting button
+    bool chatReportingIsForbidden = false;
+    
 protected:
     
     virtual void onSizeChanged() override;
@@ -75,6 +78,7 @@ public:
     void setChatToInModeration();
     void setChatToActive();
     void onChatActivityHappened();
+    void setChatReportingToForbidden();
     
     /// Register for backbutton click events
     void addBackButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);
