@@ -14,6 +14,8 @@ class MessageBoxChatResetModerationLayer : public MessageBoxLayer, public Electr
 {
 private:
     
+    std::map<std::string, std::string> _propertiesMap;
+    
     std::string _messageBoxTitle;
     std::string _messageBoxBody;
     
@@ -56,12 +58,9 @@ protected:
     void initMessageBoxTextLayer(std::string Title, std::string Body, long errorCode);
     
     void addButtonWithTitle(const std::string& buttonTitle);
-    
-    // Cancel button was pressed
-    virtual void onCancelPressed();
   
 public:
-    static Layer* create(Layer* parentLayer);
+    static Layer* create(const std::map<std::string, std::string>& propertiesMap,Layer* parentLayer);
     
     CREATE_FUNC(MessageBoxChatResetModerationLayer);
   

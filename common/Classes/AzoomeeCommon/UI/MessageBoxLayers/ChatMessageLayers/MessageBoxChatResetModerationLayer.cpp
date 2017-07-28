@@ -11,11 +11,15 @@ using namespace cocos2d;
 namespace Azoomee
 {
     
-Layer* MessageBoxChatResetModerationLayer::create(Layer* parentLayer)
+Layer* MessageBoxChatResetModerationLayer::create(const std::map<std::string, std::string>& propertiesMap,Layer* parentLayer)
 {
     auto layer = MessageBoxChatResetModerationLayer::create();
     
     layer->_parentLayer = parentLayer;
+    layer->_propertiesMap =propertiesMap;
+    layer->_messageBoxTitle = "Reset Child A & Child B's Conversation?";
+    layer->_messageBoxBody = "If you're not sure why not read the";
+    layer->onSizeChanged();
     
     return layer;
 }
@@ -58,9 +62,9 @@ void MessageBoxChatResetModerationLayer::createTitle()
 
 void MessageBoxChatResetModerationLayer::createBody()
 {
-    messageBodyLabel = createLabelMessageBoxBody(_messageBoxBody);
+    messageBodyLabel = createLabelWith(_messageBoxBody, Style::Font::Regular, Style::Color::white, 64);
+    messageBodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     messageBodyLabel->setWidth(textMaxWidth);
-    
 }
     
 void MessageBoxChatResetModerationLayer::createSprite()
@@ -72,8 +76,11 @@ void MessageBoxChatResetModerationLayer::createButtons()
 {
     onlineSafetyTipsButton = ElectricDreamsButton::createTextAsButtonAqua("online safety tips", 64, true);
     onlineSafetyTipsButton->setMixPanelButtonName("MessageBox-OnlineSafetyTips");
+    onlineSafetyTipsButton->setDelegate(this);
+    
     resetButton = ElectricDreamsButton::createButtonWithWidth("Reset", onlineSafetyTipsButton->getContentSize().width);
     resetButton->setMixPanelButtonName("MessageBox-Reset");
+    resetButton->setDelegate(this);
 }
 
 void MessageBoxChatResetModerationLayer::createCancelButton()
@@ -87,7 +94,7 @@ void MessageBoxChatResetModerationLayer::createCancelButton()
 
 void MessageBoxChatResetModerationLayer::createMessageWindowLandscape()
 {
-    float windowHeight = cancelButton->getContentSize().height + messageTitleLabel->getContentSize().height *3 + oomeeSprite->getContentSize().height;
+    float windowHeight = cancelButton->getContentSize().height + messageTitleLabel->getContentSize().height + oomeeSprite->getContentSize().height + (4*MESSAGE_BOX_PADDING);
     
     windowLayer = createWindowLayer(currentRunningSceneSize.width * percentageOfScreenForBox, windowHeight);
     windowLayer->setPosition(currentRunningSceneSize.width/2- windowLayer->getContentSize().width/2,(currentRunningSceneSize.height - windowLayer->getContentSize().height) * 0.66);
@@ -101,26 +108,38 @@ void MessageBoxChatResetModerationLayer::addObjectsToWindowLandscape()
     cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, nextItemHeight));
     windowLayer->addChild(cancelButton);
     
-    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height*.25 - messageTitleLabel->getContentSize().height/2;
-    
-    /*messageTitleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
+    // Add Title
+    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height/2 - messageTitleLabel->getContentSize().height/2;
+    messageTitleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
     windowLayer->addChild(messageTitleLabel);
+
+    // Add OomeeSprite
+    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING-messageTitleLabel->getContentSize().height/2 - oomeeSprite->getContentSize().height/2;
+    oomeeSprite->setPosition(windowLayer->getContentSize().width/4,nextItemHeight);
+    windowLayer->addChild(oomeeSprite);
     
-    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height - messageTitleLabel->getContentSize().height/2 - scrollView->getContentSize().height/2;
+    // Add Body
+    messageBodyLabel->setWidth(textMaxWidth/2);
+    nextItemHeight = oomeeSprite->getPositionY()+oomeeSprite->getContentSize().height/2-messageBodyLabel->getContentSize().height/2;
+    messageBodyLabel->setPosition(windowLayer->getContentSize().width*.75, nextItemHeight);
+    windowLayer->addChild(messageBodyLabel);
     
-    scrollView->setPosition(Vec2(windowLayer->getContentSize().width/2, nextItemHeight));
-    windowLayer->addChild(scrollView);
+    // Add online Safety Tips Button
+    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING/4- messageBodyLabel->getContentSize().height/2 - onlineSafetyTipsButton->getContentSize().height/2;
+    onlineSafetyTipsButton->setCenterPosition(Vec2(windowLayer->getContentSize().width*.75, nextItemHeight));
+    windowLayer->addChild(onlineSafetyTipsButton);
     
-    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height - scrollView->getContentSize().height/2 - buttonsList.at(0)->getContentSize().height/2;
-    
-    positionButtonsBasedOnWidth(nextItemHeight);*/
+    // Add Reset Button
+    nextItemHeight = oomeeSprite->getPositionY()-oomeeSprite->getContentSize().height/2;
+    resetButton->setCenterPosition(Vec2(windowLayer->getContentSize().width*.75, nextItemHeight));
+    windowLayer->addChild(resetButton);
 }
     
 //------------- PORTRAIT SPECIFIC CREATION-------------
     
 void MessageBoxChatResetModerationLayer::createMessageWindowPortrait()
 {
-    float windowHeight = cancelButton->getContentSize().height + messageTitleLabel->getContentSize().height +  + messageBodyLabel->getContentSize().height + onlineSafetyTipsButton->getContentSize().height + resetButton->getContentSize().height;
+    float windowHeight = cancelButton->getContentSize().height + messageTitleLabel->getContentSize().height  + messageBodyLabel->getContentSize().height + onlineSafetyTipsButton->getContentSize().height + resetButton->getContentSize().height+oomeeSprite->getContentSize().height + (5*MESSAGE_BOX_PADDING);
     
     windowLayer = createWindowLayer(currentRunningSceneSize.width * percentageOfScreenForBox, windowHeight);
     windowLayer->setPosition(currentRunningSceneSize.width/2- windowLayer->getContentSize().width/2,(currentRunningSceneSize.height - windowLayer->getContentSize().height) * 0.66);
@@ -134,19 +153,30 @@ void MessageBoxChatResetModerationLayer::addObjectsToWindowPortrait()
     cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, nextItemHeight));
     windowLayer->addChild(cancelButton);
     
-    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height*.25 - messageTitleLabel->getContentSize().height/2;
+    // Add OomeeSprite
+    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height/2 - oomeeSprite->getContentSize().height/2;
+    oomeeSprite->setPosition(windowLayer->getContentSize().width/2,nextItemHeight);
+    windowLayer->addChild(oomeeSprite);
     
+    // Add Title
+    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING-oomeeSprite->getContentSize().height/2 - messageTitleLabel->getContentSize().height/2;
     messageTitleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
     windowLayer->addChild(messageTitleLabel);
     
-    /*nextItemHeight = nextItemHeight-cancelButton->getContentSize().height - messageTitleLabel->getContentSize().height/2 - scrollView->getContentSize().height/2;
+    // Add Body
+    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING-messageTitleLabel->getContentSize().height/2 - messageBodyLabel->getContentSize().height/2;
+    messageBodyLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
+    windowLayer->addChild(messageBodyLabel);
     
-    scrollView->setPosition(Vec2(windowLayer->getContentSize().width/2, nextItemHeight));
-    windowLayer->addChild(scrollView);
+    // Add online Safety Tips Button
+    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING/4- messageBodyLabel->getContentSize().height/2 - onlineSafetyTipsButton->getContentSize().height/2;
+    onlineSafetyTipsButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2, nextItemHeight));
+    windowLayer->addChild(onlineSafetyTipsButton);
     
-    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height - scrollView->getContentSize().height/2 - buttonsList.at(0)->getContentSize().height/2;
-    
-    positionButtonsBasedOnWidth(nextItemHeight);*/
+    // Add Reset Button
+    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING - onlineSafetyTipsButton->getContentSize().height/2 - resetButton->getContentSize().height/2;
+    resetButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2, nextItemHeight));
+    windowLayer->addChild(resetButton);
 }
 
 //---------------------- Actions -----------------
@@ -165,6 +195,7 @@ void MessageBoxChatResetModerationLayer::onSizeChanged()
     createBody();
     createButtons();
     createCancelButton();
+    createSprite();
     
     if(isLandscape)
     {
@@ -184,22 +215,13 @@ void MessageBoxChatResetModerationLayer::onSizeChanged()
 void MessageBoxChatResetModerationLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
-    {
-        onCancelPressed();
-    }
+        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Cancel");
     else if(button == onlineSafetyTipsButton)
     {
         
     }
     else if(button == resetButton)
-    {
-        
-    }
-}
-  
-void MessageBoxChatResetModerationLayer::onCancelPressed()
-{
-     dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Cancel");
+        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Reset");
 }
     
 }

@@ -4,6 +4,7 @@
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
 #include "MessageBoxLayers/MessageBoxTextLayer.h"
+#include "MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.h"
 
 using namespace cocos2d;
 
@@ -69,11 +70,51 @@ MessageBox* MessageBox::createWith(long errorCode, TextInputLayer* textInputToHi
     return layer;
 }
     
-MessageBox* createWithLayer(MessageBoxLayerEnum messageBoxLayer, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWithLayer(MessageBoxLayerEnum messageBoxLayer, MessageBoxDelegate* _delegate)
 {
     auto layer = MessageBox::create();
     
+    if(_delegate)
+        layer->setDelegate(_delegate);
+    
+    layer->windowLayer = layer->initLayer(messageBoxLayer,{},layer);
+    
+    layer->addChild(layer->windowLayer);
+    
     return layer;
+}
+    
+MessageBox* MessageBox::createWithLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, MessageBoxDelegate* _delegate)
+{
+    auto layer = MessageBox::create();
+    
+    if(_delegate)
+        layer->setDelegate(_delegate);
+    
+    layer->windowLayer = layer->initLayer(messageBoxLayer,propertiesMap,layer);
+    
+    layer->addChild(layer->windowLayer);
+    
+    return layer;
+}
+    
+Layer* MessageBox::initLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, Layer* newLayer)
+{
+    switch (messageBoxLayer) {
+        case ChatReportForModeration:
+            
+            break;
+        case OnlineSafetySlides:
+            
+            break;
+        case ChatResetModeration:
+            return MessageBoxChatResetModerationLayer::create(propertiesMap,newLayer);
+            break;
+            
+        default:
+            break;
+    }
+    return nullptr;
 }
 
 bool MessageBox::init()

@@ -27,6 +27,8 @@ class MessageBox : public cocos2d::Layer
 {
 private:
     
+    Layer* initLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, Layer* newLayer);
+    
     cocos2d::LayerColor *backgroundLayer = nullptr;
 
     cocos2d::Size currentRunningSceneSize;
@@ -55,6 +57,7 @@ public:
     static MessageBox* createWith(long errorCode, MessageBoxDelegate* _delegate);
     static MessageBox* createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* _delegate);
     static MessageBox* createWithLayer(MessageBoxLayerEnum messageBoxLayer, MessageBoxDelegate* _delegate);
+    static MessageBox* createWithLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, MessageBoxDelegate* _delegate);
     
     void sendDelegateMessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
