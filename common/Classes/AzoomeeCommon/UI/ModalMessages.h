@@ -2,10 +2,9 @@
 #define AzoomeeCommon_ModalMessages_h
 
 #include <cocos/cocos2d.h>
+#include "../Azoomee.h"
 
-
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
 class ModalMessages : public cocos2d::Ref
 {
@@ -35,6 +34,6 @@ public:
     void showMixpanelNotificationWithID(int notificationID);
 };
   
-}
+NS_AZOOMEE_END
 
 #endif
