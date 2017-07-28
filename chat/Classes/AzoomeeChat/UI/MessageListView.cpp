@@ -330,7 +330,23 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
     // Scroll to bottom if we have different item size to before
     if(prevScrollHeight != _listView->getInnerContainerSize().height)
     {
-        setScrollPosition(1.0f);
+        if(scrollPos > 0.9) //inner containerview size is bigger than scrollview size, and already scrolled at the bottom(ish), so new action requires being scrolled to the bottom
+        {
+            setScrollPosition(1.0f);
+        }
+        else if((prevScrollHeight <= _listView->getContentSize().height)&&(_listView->getInnerContainerSize().height > _listView->getContentSize().height)) //getting the message that increases inner container view size bigger than scrollview content size (will have 1.0 as scrollpos after this).
+        {
+            setScrollPosition(1.0f);
+        }
+        else
+        {
+            float scrollPositionInPixel = prevScrollHeight * scrollPos;
+            float heightDifference = _listView->getInnerContainerSize().height - prevScrollHeight;
+            float newScrollPositionInPixel = scrollPositionInPixel + heightDifference;
+            float newScrollPositionInPercentage = newScrollPositionInPixel / _listView->getInnerContainerSize().height;
+            
+            setScrollPosition(newScrollPositionInPercentage); //restore same scroll position with the new size
+        }
     }
     else
     {
