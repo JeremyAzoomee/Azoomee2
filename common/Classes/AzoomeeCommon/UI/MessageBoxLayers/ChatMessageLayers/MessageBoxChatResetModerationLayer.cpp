@@ -17,8 +17,12 @@ Layer* MessageBoxChatResetModerationLayer::create(const std::map<std::string, st
     
     layer->_parentLayer = parentLayer;
     layer->_propertiesMap =propertiesMap;
-    layer->_messageBoxTitle = "Reset Child A & Child B's Conversation?";
-    layer->_messageBoxBody = "If you're not sure why not read the";
+    
+    std::string replaceChild1 = stringReplace(StringMgr::getInstance()->getStringForKey(CHAT_MESSAGE_BOXES_RESET_CHAT_TITLE), "%s1", layer->_propertiesMap["Child1"]);
+    
+    layer->_messageBoxTitle = stringReplace(replaceChild1, "%s2", layer->_propertiesMap["Child2"]);
+    layer->_messageBoxBody = StringMgr::getInstance()->getStringForKey(CHAT_MESSAGE_BOXES_RESET_CHAT_BODY);
+    
     layer->onSizeChanged();
     
     return layer;
@@ -74,11 +78,11 @@ void MessageBoxChatResetModerationLayer::createSprite()
 
 void MessageBoxChatResetModerationLayer::createButtons()
 {
-    onlineSafetyTipsButton = ElectricDreamsButton::createTextAsButtonAqua("online safety tips", 64, true);
+    onlineSafetyTipsButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(BUTTON_ONLINE_SAFETY_TIPS), 64, true);
     onlineSafetyTipsButton->setMixPanelButtonName("MessageBox-OnlineSafetyTips");
     onlineSafetyTipsButton->setDelegate(this);
     
-    resetButton = ElectricDreamsButton::createButtonWithWidth("Reset", onlineSafetyTipsButton->getContentSize().width);
+    resetButton = ElectricDreamsButton::createButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_RESET), onlineSafetyTipsButton->getContentSize().width);
     resetButton->setMixPanelButtonName("MessageBox-Reset");
     resetButton->setDelegate(this);
 }

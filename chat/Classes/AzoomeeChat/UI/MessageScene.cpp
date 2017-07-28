@@ -338,9 +338,7 @@ void MessageScene::AdultPinCancelled(RequestAdultPinLayer* layer)
 
 void MessageScene::AdultPinAccepted(RequestAdultPinLayer* layer)
 {
-    //MessageBox::createWith(ERROR_CODE_RESET_REPORTED_CHAT, this);
-    MessageBox::createWithLayer(ChatResetModeration,{ {"Child1", "BOB"},{"Child2", "FRED"} },this);
-    //MessageBox::createWithLayer(ChatResetModeration,this);
+    MessageBox::createWithLayer(ChatResetModeration,{ {"Child1", _participants[0]->friendName()},{"Child2",  _participants[1]->friendName()} },this);
 }
 
 NS_AZOOMEE_CHAT_END

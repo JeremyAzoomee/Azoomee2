@@ -89,7 +89,9 @@
         "start_exploring":"Start exploring",
         "add_another":"Add another",
         "lets_go":"Let's go",
-        "retry":"Retry"
+        "retry":"Retry",
+        "reset":"Reset",
+        "onlineSafetyTips":"online safety tips"
     },
     
     "OnlineSafetySlides":
@@ -107,5 +109,11 @@
         "mainText5":"Remind your children that if they read or experience anything upsetting on Azoomee Chat - such as mean messages or consistent negativity - they need to talk about it with you or a trusted adult.\n\nThis is cyber bullying, and it's as harmful as bullying in the real world.",
         "buttonTitle":"Watch Search It Up"
         
+    },
+    
+    "ChatMessageBoxes":
+    {
+        "resetChatTitle":"Reset %s1 & %s2's Conversation?",
+        "resetChatBody":"If you're not sure why not read the"
     }
 }

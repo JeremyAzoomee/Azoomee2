@@ -85,6 +85,8 @@
 #define BUTTON_ADD_ANOTHER_LABEL "GenericButtons/add_another"
 #define BUTTON_LETS_GO "GenericButtons/lets_go"
 #define BUTTON_RETRY "GenericButtons/retry"
+#define BUTTON_RESET"GenericButtons/reset"
+#define BUTTON_ONLINE_SAFETY_TIPS "GenericButtons/onlineSafetyTips"
 
 //--------------ONLINE SAFETY SLIDES------------------
 
@@ -92,5 +94,11 @@
 #define ONLINE_SAFETY_SLIDE_TITLE "OnlineSafetySlides/title"
 #define ONLINE_SAFETY_SLIDE_MAIN_TEXT "OnlineSafetySlides/mainText"
 #define ONLINE_SAFETY_BUTTON_TEXT "OnlineSafetySlides/buttonTitle"
+
+//-------------CHAT MESSAGE BOXES-------------------
+
+#define CHAT_MESSAGE_BOXES_RESET_CHAT_TITLE "ChatMessageBoxes/resetChatTitle"
+#define CHAT_MESSAGE_BOXES_RESET_CHAT_BODY "ChatMessageBoxes/resetChatBody"
+
 
 #endif
