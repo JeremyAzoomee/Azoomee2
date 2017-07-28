@@ -125,7 +125,7 @@ void MessageScene::update(float dt)
             _timeTillGet = -1.0f;
             
             // Make the call
-            getMessageHistory(0);
+            getMessageHistory();
         }
     }
 #endif
@@ -134,7 +134,6 @@ void MessageScene::update(float dt)
 void MessageScene::getMessageHistory()
 {
     int calculatedPageNumber = int(_messagesByTime.size() / 20);
-    cocos2d::log("CHATHISTORY Current page: %d", calculatedPageNumber);
     historyUpdateInProgress = true;
     ChatAPI::getInstance()->requestMessageHistory(_participants[1], calculatedPageNumber);
 }
@@ -156,7 +155,6 @@ void MessageScene::createEventListenerForRetrievingHistory()
     _listener = EventListenerCustom::create("MessageListView_reached_top", [=](EventCustom* event){
         if(!historyUpdateInProgress)
         {
-            cocos2d::log("CHATHISTORY Update triggered");
             this->getMessageHistory();
         }
     });
@@ -255,7 +253,6 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
             }
         }
         if(!isMessageInHistory(message)) messagesByTime.insert(it.base(), message);
-        else cocos2d::log("CHATHISTORY message not inserted, message: %s", message->messageText().c_str());
     }
     
     _messagesByTime = messagesByTime;

@@ -228,7 +228,6 @@ void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollVie
 
 void MessageListView::setData(const FriendList& participants, const MessageList& messageList)
 {
-    //historyUpdateInProgress = false;
     const float scrollPos = getScrollPosition();
     const float prevScrollHeight = _listView->getInnerContainerSize().height;
     
