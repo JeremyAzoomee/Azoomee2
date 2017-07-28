@@ -66,8 +66,8 @@ bool ArtAppBase::init()
 void ArtAppBase::addBackButton()
 {
     backButton = ui::Button::create();
-    backButton->setPosition(Director::getInstance()->getVisibleOrigin());
-    backButton->setAnchorPoint(Vec2(0,0));
+    backButton->setPosition(Vec2(0,Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height));
+    backButton->setAnchorPoint(Vec2(0,1));
     backButton->loadTextures("res/navigation/back_new.png", "res/navigation/back_new.png");
     backButton->addClickEventListener([this](Ref* but){backButtonCallBack();});
     this->addChild(backButton,1);

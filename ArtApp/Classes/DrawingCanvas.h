@@ -46,7 +46,7 @@ protected:
     cocos2d::Color4F selectedColour;
     cocos2d::Node* colourButtonLayout;
     cocos2d::ui::Button* colourSelectButton;
-    cocos2d::ui::Button* toolSelectButton;
+    cocos2d::ui::Button* SelectedToolButton;
     cocos2d::Node* toolButtonLayout;
     cocos2d::ui::Button* clearButton;
     cocos2d::ui::Slider* brushSizeSlider;

@@ -18,6 +18,7 @@ NS_AZOOMEE_AA_BEGIN
 static const float INITIAL_RADIUS = 1.0f;
 
 static const cocos2d::Color4F COLOUR_WHITE = cocos2d::Color4F(245/255.0f,244/255.0f,240/255.0f, 1.0f);
+static const cocos2d::Color4F COLOUR_DEFAULT = cocos2d::Color4F(54/255.0f,108/255.0f,135/255.0f,1.0f);
 
 static const cocos2d::Color4F COLOUR_1 = cocos2d::Color4F(228/255.0f,0/255.0f,131/255.0f, 1.0f);
 static const cocos2d::Color4F COLOUR_2 = cocos2d::Color4F(222/255.0f,0/255.0f,0/255.0f, 1.0f);

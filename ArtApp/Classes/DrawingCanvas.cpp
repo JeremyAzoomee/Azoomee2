@@ -198,8 +198,8 @@ void DrawingCanvas::addBrushes()
 void DrawingCanvas::addClearButton(Size visibleSize, Point visibleOrigin)
 {
     clearButton = ui::Button::create();
-    clearButton->setAnchorPoint(Vec2(1,1));
-    clearButton->setPosition(Vec2(visibleOrigin.x + visibleSize.width,visibleOrigin.y + visibleSize.height));
+    clearButton->setAnchorPoint(Vec2(1,0));
+    clearButton->setPosition(Vec2(visibleOrigin.x + visibleSize.width,visibleOrigin.y));
     clearButton->loadTextures("res/artapp/style/images/artIcons/bin.png", "res/artapp/style/images/artIcons/bin.png");
     clearButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onClearButtonPressed, this));
     this->addChild(clearButton,1);
@@ -249,9 +249,9 @@ void DrawingCanvas::addColourSelectButtons(Size visibleSize, Point visibleOrigin
     selected->setNormalizedPosition(Vec2(0.5,0.5));
     
     colourButtonLayout = Node::create();
-    colourButtonLayout->setContentSize(Size(visibleSize.width*0.2,visibleSize.height));
-    colourButtonLayout->setAnchorPoint(Vec2(0,0.5));
-    colourButtonLayout->setPosition(Vec2(0,visibleOrigin.y + visibleSize.height/2));
+    colourButtonLayout->setContentSize(Size(visibleSize.width*0.8,visibleSize.height*0.4));
+    colourButtonLayout->setAnchorPoint(Vec2(0.5,0.5));
+    colourButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y + visibleSize.height/2));
     colourButtonLayout->setVisible(false);
     this->addChild(colourButtonLayout,1);
     
@@ -276,7 +276,7 @@ void DrawingCanvas::addColourSelectButtons(Size visibleSize, Point visibleOrigin
         {
             ui::Button* button = ui::Button::create();
             button->setAnchorPoint(Vec2(0,0.5));
-            button->setNormalizedPosition(Vec2((j*0.4),(i*(1/7.0f))-(1/14.0f)));
+            button->setNormalizedPosition(Vec2(((i-1)*(1/7.0f)),(j*0.4)));
             button->loadTextures("res/artapp/style/images/artIcons/colorSwatch.png", "res/artapp/style/images/artIcons/colorSwatch.png");
             button->setColor(colours[(j*7)+i-1]);
             if((j*7+i) == 1)
@@ -287,9 +287,9 @@ void DrawingCanvas::addColourSelectButtons(Size visibleSize, Point visibleOrigin
     }
     
     colourSelectButton = ui::Button::create();
-    colourSelectButton->setAnchorPoint(Vec2(0,1));
-    colourSelectButton->setPosition(Vec2(0, visibleOrigin.y + visibleSize.height));
-    colourSelectButton->loadTextures("res/artapp/style/images/artIcons/colorSwatch.png", "res/artapp/style/images/artIcons/colorSwatch.png");
+    colourSelectButton->setAnchorPoint(Vec2(0,0));
+    colourSelectButton->setPosition(Vec2(0, visibleOrigin.y));
+    colourSelectButton->loadTextures("res/artapp/style/images/artIcons/art_button_colour.png", "res/artapp/style/images/artIcons/art_button_colour.png");
     colourSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onColourSelectPressed,this));
     colourSelectButton->setColor(Color3B(selectedColour));
     
@@ -298,53 +298,70 @@ void DrawingCanvas::addColourSelectButtons(Size visibleSize, Point visibleOrigin
 
 void DrawingCanvas::addToolSelectButtons(Size visibleSize, Point visibleOrigin)
 {
-    toolSelectButton = ui::Button::create();
-    toolSelectButton->setAnchorPoint(Vec2(0,1));
-    toolSelectButton->setPosition(Vec2(0, colourSelectButton->getPosition().y - colourSelectButton->getContentSize().height));
-    toolSelectButton->loadTextures("res/artapp/style/images/artIcons/004-pen.png", "res/artapp/style/images/artIcons/004-pen.png");
-    toolSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolSelectPressed,this));
+    //toolSelectButton = ui::Button::create();
+    //toolSelectButton->setAnchorPoint(Vec2(0,1));
+    //toolSelectButton->setPosition(Vec2(0, colourSelectButton->getPosition().y - colourSelectButton->getContentSize().height));
+    //toolSelectButton->loadTextures("res/artapp/style/images/artIcons/brushes/pencil.png", "res/artapp/style/images/artIcons/brushes/pencil.png");
+    //toolSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolSelectPressed,this));
     
-    this->addChild(toolSelectButton,1);
+    //this->addChild(toolSelectButton,1);
+    Sprite* toolBG = Sprite::create("res/artapp/style/images/artIcons/art_back_middle.png");
+    toolBG->setAnchorPoint(Vec2(0.5,0));
+    toolBG->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y - 50));
+    
+    this->addChild(toolBG,1);
     
     toolButtonLayout = Node::create();
-    toolButtonLayout->setContentSize(Size(visibleSize.width*0.1,visibleSize.height));
-    toolButtonLayout->setAnchorPoint(Vec2(0,0.5));
-    toolButtonLayout->setPosition(Vec2(0,visibleOrigin.y + visibleSize.height/2));
-    toolButtonLayout->setVisible(false);
+    toolButtonLayout->setContentSize(toolBG->getContentSize());
+    toolButtonLayout->setAnchorPoint(Vec2(0.5,0));
+    toolButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y - 50));
+    //toolButtonLayout->setVisible(true);
+    
     this->addChild(toolButtonLayout,1);
     
     ui::Button* brushButton = ui::Button::create();
-    brushButton->setAnchorPoint(Vec2(0,0.5));
-    brushButton->setNormalizedPosition(Vec2(0,0.9));
-    brushButton->loadTextures("res/artapp/style/images/artIcons/004-pen.png", "res/artapp/style/images/artIcons/004-pen.png");
+    brushButton->setAnchorPoint(Vec2(0.5,0));
+    brushButton->setNormalizedPosition(Vec2(0.1,0));
+    brushButton->loadTextures("res/artapp/style/images/artIcons/brushes/pencil.png", "res/artapp/style/images/artIcons/brushes/pencil.png");
+    brushButton->setColor(Color3B(selectedColour));
+    brushButton->setScale(((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height) * 1.15);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,0));
+    SelectedToolButton = brushButton;
     toolButtonLayout->addChild(brushButton,1);
     
     brushButton = ui::Button::create();
-    brushButton->setAnchorPoint(Vec2(0,0.5));
-    brushButton->setNormalizedPosition(Vec2(0,0.7));
-    brushButton->loadTextures("res/artapp/style/images/artIcons/002-paintbrush.png", "res/artapp/style/images/artIcons/002-paintbrush.png");
+    brushButton->setAnchorPoint(Vec2(0.5,0));
+    brushButton->setNormalizedPosition(Vec2(0.3,0));
+    brushButton->loadTextures("res/artapp/style/images/artIcons/brushes/brush.png", "res/artapp/style/images/artIcons/brushes/brush.png");
+    brushButton->setColor(Color3B(COLOUR_DEFAULT));
+    brushButton->setScale((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,1));
     toolButtonLayout->addChild(brushButton,1);
     
     brushButton = ui::Button::create();
-    brushButton->setAnchorPoint(Vec2(0,0.5));
-    brushButton->setNormalizedPosition(Vec2(0,0.5));
-    brushButton->loadTextures("res/artapp/style/images/artIcons/003-highlighter.png", "res/artapp/style/images/artIcons/003-highlighter.png");
+    brushButton->setAnchorPoint(Vec2(0.5,0));
+    brushButton->setNormalizedPosition(Vec2(0.5,0));
+    brushButton->loadTextures("res/artapp/style/images/artIcons/brushes/highlighter.png", "res/artapp/style/images/artIcons/brushes/highlighter.png");
+    brushButton->setColor(Color3B(COLOUR_DEFAULT));
+    brushButton->setScale((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,2));
     toolButtonLayout->addChild(brushButton,1);
     
     brushButton = ui::Button::create();
-    brushButton->setAnchorPoint(Vec2(0,0.5));
-    brushButton->setNormalizedPosition(Vec2(0,0.3));
-    brushButton->loadTextures("res/artapp/style/images/artIcons/005-spray-paint.png", "res/artapp/style/images/artIcons/005-spray-paint.png");
+    brushButton->setAnchorPoint(Vec2(0.5,0));
+    brushButton->setNormalizedPosition(Vec2(0.7,0));
+    brushButton->loadTextures("res/artapp/style/images/artIcons/brushes/spray.png", "res/artapp/style/images/artIcons/brushes/spray.png");
+    brushButton->setColor(Color3B(COLOUR_DEFAULT));
+    brushButton->setScale((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,3));
     toolButtonLayout->addChild(brushButton,1);
     
     brushButton = ui::Button::create();
-    brushButton->setAnchorPoint(Vec2(0,0.5));
-    brushButton->setNormalizedPosition(Vec2(0,0.1));
-    brushButton->loadTextures("res/artapp/style/images/artIcons/eraser.png", "res/artapp/style/images/artIcons/eraser.png");
+    brushButton->setAnchorPoint(Vec2(0.5,0));
+    brushButton->setNormalizedPosition(Vec2(0.9,0));
+    brushButton->loadTextures("res/artapp/style/images/artIcons/brushes/eraser.png", "res/artapp/style/images/artIcons/brushes/eraser.png");
+    brushButton->setScale((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
+    brushButton->setName("eraser");
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,4));
     toolButtonLayout->addChild(brushButton,1);
 }
@@ -352,8 +369,8 @@ void DrawingCanvas::addToolSelectButtons(Size visibleSize, Point visibleOrigin)
 void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigin)
 {
     addStickerButton = ui::Button::create();
-    addStickerButton->setAnchorPoint(Vec2(0,1));
-    addStickerButton->setPosition(Vec2(0, toolSelectButton->getPosition().y - toolSelectButton->getContentSize().height));
+    addStickerButton->setAnchorPoint(Vec2(0,0));
+    addStickerButton->setPosition(Vec2(colourSelectButton->getPosition().x + colourSelectButton->getContentSize().width, colourSelectButton->getPosition().y));
     addStickerButton->loadTextures("res/artapp/style/images/artIcons/art_button_sticker.png", "res/artapp/style/images/artIcons/art_button_sticker.png");
     addStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerButtonPressed,this));
     
@@ -412,6 +429,9 @@ void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigi
         stickerCatButton->setNormalizedPosition(Vec2(i/(float)stickerCats.size(),0.5));
         stickerCatButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onStickerCategoryChangePressed, this,i));
         StickerCategoryLayout->addChild(stickerCatButton);
+        if(i == 0)
+            onStickerCategoryChangePressed(stickerCatButton, cocos2d::ui::Widget::TouchEventType::ENDED, i);
+        
     }
     
     closeStickerSelectButton = ui::Button::create();
@@ -434,7 +454,7 @@ void DrawingCanvas::addBrushRadiusSlider(Size visibleSize, Point visibleOrigin)
     brushRadius = INITIAL_RADIUS + brushSizeSlider->getPercent()/2;
     brushSizeSlider->setAnchorPoint(Vec2(0.5,0.5));
     brushSizeSlider->setRotation(-90);
-    brushSizeSlider->setPosition(Vec2(visibleOrigin.x + visibleSize.width - brushSizeSlider->getContentSize().height,visibleOrigin.y + visibleSize.height/2));
+    brushSizeSlider->setPosition(Vec2(visibleOrigin.x + brushSizeSlider->getContentSize().height,visibleOrigin.y + visibleSize.height/2));
     brushSizeSlider->addEventListener(CC_CALLBACK_2(DrawingCanvas::onRadiusSliderInteract, this));
     
     this->addChild(brushSizeSlider,1);
@@ -485,8 +505,9 @@ void DrawingCanvas::onColourChangePressed(Ref *pSender, ui::Widget::TouchEventTy
         colourButtonLayout->setVisible(false);
         colourSelectButton->setColor(Color3B(selectedColour));
         colourSelectButton->setVisible(true);
-        toolSelectButton->setVisible(true);
+        //toolSelectButton->setVisible(true);
         addStickerButton->setVisible(true);
+        SelectedToolButton->setColor(Color3B(selectedColour));
     }
     
     if(eEventType == ui::Widget::TouchEventType::CANCELED)
@@ -509,7 +530,7 @@ void DrawingCanvas::onColourSelectPressed(Ref *pSender, ui::Widget::TouchEventTy
     {
         pressedButton->setScale(baseScale / 0.85f);
         colourSelectButton->setVisible(false);
-        toolSelectButton->setVisible(false);
+        //toolSelectButton->setVisible(false);
         addStickerButton->setVisible(false);
         colourButtonLayout->setVisible(true);
         
@@ -534,7 +555,7 @@ void DrawingCanvas::onToolSelectPressed(Ref *pSender, ui::Widget::TouchEventType
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
-        toolSelectButton->setVisible(false);
+        //toolSelectButton->setVisible(false);
         colourSelectButton->setVisible(false);
         addStickerButton->setVisible(false);
         toolButtonLayout->setVisible(true);
@@ -566,7 +587,6 @@ void DrawingCanvas::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEventType
         confirmStickerButton->setVisible(true);
         cancelStickerButton->setVisible(true);
         stickerNode->setTouchListenerEnabled(true);
-        CCLOG("%s",pressedButton->getNormalFile().file.c_str());
         Sprite* newSticker = Sprite::create(pressedButton->getNormalFile().file);
         newSticker->setAnchorPoint(Vec2(0.5,0.5));
         newSticker->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
@@ -592,7 +612,7 @@ void DrawingCanvas::onAddStickerButtonPressed(Ref *pSender, ui::Widget::TouchEve
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
-        toolSelectButton->setVisible(false);
+        //toolSelectButton->setVisible(false);
         colourSelectButton->setVisible(false);
         addStickerButton->setVisible(false);
         brushSizeSlider->setVisible(false);
@@ -622,7 +642,7 @@ void DrawingCanvas::onCloseStickerSelectPressed(Ref *pSender, ui::Widget::TouchE
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
-        toolSelectButton->setVisible(true);
+        //toolSelectButton->setVisible(true);
         colourSelectButton->setVisible(true);
         addStickerButton->setVisible(true);
         brushSizeSlider->setVisible(true);
@@ -653,7 +673,7 @@ void DrawingCanvas::onConfirmStickerPressed(Ref *pSender, ui::Widget::TouchEvent
     {
         pressedButton->setScale(baseScale / 0.85f);
         stickerNode->setVisible(false);
-        toolSelectButton->setVisible(true);
+        //toolSelectButton->setVisible(true);
         colourSelectButton->setVisible(true);
         addStickerButton->setVisible(true);
         brushSizeSlider->setVisible(true);
@@ -710,7 +730,7 @@ void DrawingCanvas::onCancelStickerPressed(Ref *pSender, ui::Widget::TouchEventT
     {
         pressedButton->setScale(baseScale / 0.85f);
         stickerNode->setVisible(false);
-        toolSelectButton->setVisible(true);
+        //toolSelectButton->setVisible(true);
         colourSelectButton->setVisible(true);
         addStickerButton->setVisible(true);
         brushSizeSlider->setVisible(true);
@@ -785,26 +805,40 @@ void DrawingCanvas::onToolChanged(Ref *pSender, ui::Widget::TouchEventType eEven
     
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
-        pressedButton->setScale(baseScale * 0.85f);
+        if(pressedButton != SelectedToolButton)
+            pressedButton->setScale(baseScale * 1.15f);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         activeBrush->getDrawNode()->removeFromParent();
         activeBrush = brushes[index];
-        pressedButton->setScale(baseScale / 0.85f);
-        toolButtonLayout->setVisible(false);
-        toolSelectButton->setVisible(true);
+        this->addChild(activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
+        
+        if(pressedButton != SelectedToolButton)
+        {
+            SelectedToolButton->setScale((toolButtonLayout->getContentSize().height*0.8)/SelectedToolButton->getContentSize().height);
+            if(SelectedToolButton->getName() != "eraser")
+                SelectedToolButton->setColor(Color3B(COLOUR_DEFAULT));
+            if(pressedButton->getName() != "eraser")
+                pressedButton->setColor(Color3B(selectedColour));
+            SelectedToolButton = pressedButton;
+            
+        }
+        
+        //toolButtonLayout->setVisible(false);
+        //toolSelectButton->setVisible(true);
         colourSelectButton->setVisible(true);
         addStickerButton->setVisible(true);
-        toolSelectButton->loadTextures(pressedButton->getNormalFile().file, pressedButton->getPressedFile().file);
-        this->addChild(activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
+        //toolSelectButton->loadTextures(pressedButton->getNormalFile().file, pressedButton->getPressedFile().file);
+        
         
     }
     
     if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
-        pressedButton->setScale(baseScale / 0.85f);
+        if(pressedButton != SelectedToolButton)
+            pressedButton->setScale(baseScale / 1.15f);
     }
 }
 
@@ -821,11 +855,10 @@ void DrawingCanvas::onRadiusSliderInteract(Ref *pSender, ui::Slider::EventType e
 void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::TouchEventType eEventType, int index)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
-    float baseScale = pressedButton->getScale();
     
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
-        pressedButton->setScale(baseScale * 1.15f);
+        pressedButton->setScale(1.15f);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -839,7 +872,7 @@ void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::Tou
             catButtons.at(i)->setScale(1);
         }
         
-        pressedButton->setScale(baseScale * 1.15);
+        pressedButton->setScale(1.15);
         
         Size visibleSize = Director::getInstance()->getVisibleSize();
         
@@ -876,7 +909,7 @@ void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::Tou
     
     if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
-        pressedButton->setScale(baseScale / 1.15f);
+        pressedButton->setScale(1.15f);
     }
 }
 
