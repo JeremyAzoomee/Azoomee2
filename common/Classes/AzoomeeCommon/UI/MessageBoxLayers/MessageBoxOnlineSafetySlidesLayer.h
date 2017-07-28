@@ -2,14 +2,14 @@
 #define AzoomeeCommon_MessageBox_Chat_ResetModeration_Layer_h
 
 #include <cocos/cocos2d.h>
-#include "../../ElectricDreamsButton.h"
-#include "../../../ErrorCodes.h"
-#include "../MessageBoxLayer.h"
+#include "../ElectricDreamsButton.h"
+#include "../../ErrorCodes.h"
+#include "MessageBoxLayer.h"
 
 namespace Azoomee
 {
 
-class MessageBoxChatResetModerationLayer : public MessageBoxLayer, public ElectricDreamsButtonDelegate
+class MessageBoxOnlineSafetySlidesLayer : public MessageBoxLayer, public ElectricDreamsButtonDelegate
 {
 private:
     
@@ -61,7 +61,7 @@ protected:
 public:
     static Layer* create(const std::map<std::string, std::string>& propertiesMap,Layer* parentLayer);
     
-    CREATE_FUNC(MessageBoxChatResetModerationLayer);
+    CREATE_FUNC(MessageBoxOnlineSafetySlidesLayer);
   
     /// Called when the content size of the scene has changed
     void onSizeChanged() override;

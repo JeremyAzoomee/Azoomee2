@@ -1,9 +1,8 @@
-#include "MessageBoxChatResetModerationLayer.h"
-#include "../../../Strings.h"
-#include "../../../Analytics/AnalyticsSingleton.h"
-#include "../../ElectricDreamsTextStyles.h"
-#include "../../ElectricDreamsDecoration.h"
-#include "../../YouTubeVideoLayer.h"
+#include "MessageBoxOnlineSafetySlidesLayer.h"
+#include "../../Strings.h"
+#include "../../Analytics/AnalyticsSingleton.h"
+#include "../ElectricDreamsTextStyles.h"
+#include "../ElectricDreamsDecoration.h"
 
 using namespace cocos2d;
 
@@ -12,9 +11,9 @@ using namespace cocos2d;
 namespace Azoomee
 {
     
-Layer* MessageBoxChatResetModerationLayer::create(const std::map<std::string, std::string>& propertiesMap,Layer* parentLayer)
+Layer* MessageBoxOnlineSafetySlidesLayer::create(const std::map<std::string, std::string>& propertiesMap,Layer* parentLayer)
 {
-    auto layer = MessageBoxChatResetModerationLayer::create();
+    auto layer = MessageBoxOnlineSafetySlidesLayer::create();
     
     layer->_parentLayer = parentLayer;
     layer->_propertiesMap =propertiesMap;
@@ -29,7 +28,7 @@ Layer* MessageBoxChatResetModerationLayer::create(const std::map<std::string, st
     return layer;
 }
 
-bool MessageBoxChatResetModerationLayer::init()
+bool MessageBoxOnlineSafetySlidesLayer::init()
 {
     if ( !Layer::init() )
     {
@@ -42,7 +41,7 @@ bool MessageBoxChatResetModerationLayer::init()
     return true;
 }
     
-void MessageBoxChatResetModerationLayer::setOrientation()
+void MessageBoxOnlineSafetySlidesLayer::setOrientation()
 {
     if(currentRunningSceneSize.width < currentRunningSceneSize.height)
     {
@@ -58,26 +57,26 @@ void MessageBoxChatResetModerationLayer::setOrientation()
 
 //---------------------- Message Box Functions------------------------
   
-void MessageBoxChatResetModerationLayer::createTitle()
+void MessageBoxOnlineSafetySlidesLayer::createTitle()
 {
     messageTitleLabel = createLabelMessageBoxTitle(_messageBoxTitle);
     messageTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     messageTitleLabel->setWidth(textMaxWidth);
 }
 
-void MessageBoxChatResetModerationLayer::createBody()
+void MessageBoxOnlineSafetySlidesLayer::createBody()
 {
     messageBodyLabel = createLabelWith(_messageBoxBody, Style::Font::Regular, Style::Color::white, 64);
     messageBodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     messageBodyLabel->setWidth(textMaxWidth);
 }
     
-void MessageBoxChatResetModerationLayer::createSprite()
+void MessageBoxOnlineSafetySlidesLayer::createSprite()
 {
     oomeeSprite = Sprite::create("res/chat/ui/messageBoxes/thoughtfullOomee.png");
 }
 
-void MessageBoxChatResetModerationLayer::createButtons()
+void MessageBoxOnlineSafetySlidesLayer::createButtons()
 {
     onlineSafetyTipsButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(BUTTON_ONLINE_SAFETY_TIPS), 64, true);
     onlineSafetyTipsButton->setMixPanelButtonName("MessageBox-OnlineSafetyTips");
@@ -88,7 +87,7 @@ void MessageBoxChatResetModerationLayer::createButtons()
     resetButton->setDelegate(this);
 }
 
-void MessageBoxChatResetModerationLayer::createCancelButton()
+void MessageBoxOnlineSafetySlidesLayer::createCancelButton()
 {
     cancelButton = ElectricDreamsButton::createWindowCloselButton();
     cancelButton->setMixPanelButtonName("messageBoxCancelButton");
@@ -97,7 +96,7 @@ void MessageBoxChatResetModerationLayer::createCancelButton()
     
 //------------- LANDSCAPE SPECIFIC CREATION-------------
 
-void MessageBoxChatResetModerationLayer::createMessageWindowLandscape()
+void MessageBoxOnlineSafetySlidesLayer::createMessageWindowLandscape()
 {
     float windowHeight = cancelButton->getContentSize().height + messageTitleLabel->getContentSize().height + oomeeSprite->getContentSize().height + (4*MESSAGE_BOX_PADDING);
     
@@ -106,7 +105,7 @@ void MessageBoxChatResetModerationLayer::createMessageWindowLandscape()
     this->addChild(windowLayer);
 }
 
-void MessageBoxChatResetModerationLayer::addObjectsToWindowLandscape()
+void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowLandscape()
 {
     float nextItemHeight = windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75;
     
@@ -142,7 +141,7 @@ void MessageBoxChatResetModerationLayer::addObjectsToWindowLandscape()
     
 //------------- PORTRAIT SPECIFIC CREATION-------------
     
-void MessageBoxChatResetModerationLayer::createMessageWindowPortrait()
+void MessageBoxOnlineSafetySlidesLayer::createMessageWindowPortrait()
 {
     float windowHeight = cancelButton->getContentSize().height + messageTitleLabel->getContentSize().height  + messageBodyLabel->getContentSize().height + onlineSafetyTipsButton->getContentSize().height + resetButton->getContentSize().height+oomeeSprite->getContentSize().height + (5*MESSAGE_BOX_PADDING);
     
@@ -151,7 +150,7 @@ void MessageBoxChatResetModerationLayer::createMessageWindowPortrait()
     this->addChild(windowLayer);
 }
     
-void MessageBoxChatResetModerationLayer::addObjectsToWindowPortrait()
+void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowPortrait()
 {
     float nextItemHeight = windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75;
     
@@ -186,7 +185,7 @@ void MessageBoxChatResetModerationLayer::addObjectsToWindowPortrait()
 
 //---------------------- Actions -----------------
     
-void MessageBoxChatResetModerationLayer::onSizeChanged()
+void MessageBoxOnlineSafetySlidesLayer::onSizeChanged()
 {
     setCurrentRunningSceneSize();
     setOrientation();
@@ -217,14 +216,13 @@ void MessageBoxChatResetModerationLayer::onSizeChanged()
 
 //----------------------- Delegate Functions ----------------------------
 
-void MessageBoxChatResetModerationLayer::buttonPressed(ElectricDreamsButton* button)
+void MessageBoxOnlineSafetySlidesLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Cancel");
     else if(button == onlineSafetyTipsButton)
     {
-        YouTubeVideoLayer::createWith("OxqWjHD8nMU");
-
+        
     }
     else if(button == resetButton)
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Reset");

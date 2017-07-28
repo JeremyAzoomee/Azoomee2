@@ -4,6 +4,7 @@
 #include "../../ElectricDreamsTextStyles.h"
 #include "../../ElectricDreamsDecoration.h"
 
+
 using namespace cocos2d;
 
 #define MESSAGE_BOX_PADDING 100
@@ -193,6 +194,9 @@ void MessageBoxChatReportChatLayer::onSizeChanged()
         createMessageWindowPortrait();
         addObjectsToWindowPortrait();
     }
+    
+    //if(youTubeVideoLayer)
+    //    youTubeVideoLayer->onSizeChanged();
 
 }
 
@@ -204,7 +208,8 @@ void MessageBoxChatReportChatLayer::buttonPressed(ElectricDreamsButton* button)
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Cancel");
     else if(button == onlineSafetyTipsButton)
     {
-        
+        youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
+
     }
     else if(button == reportButton)
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Report");

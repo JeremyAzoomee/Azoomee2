@@ -151,5 +151,21 @@ Layer* createWindowLayer(float width, float height)
 
     return newLayer;
 }
+cocos2d::Layer* createWhiteWindowLayer(float width, float height)
+{
+    Layer* newLayer = Layer::create();
+    newLayer->setContentSize(Size(width, height));
+    
+    Rect spriteRect = Rect(0, 0, 467, 230);
+    Rect capInsents = Rect(100, 100, 255, 1);
+    
+    ui::Scale9Sprite* newWindow = ui::Scale9Sprite::create("res/decoration/whiteWindowScale9.png", spriteRect, capInsents);
+    newWindow->setContentSize(Size(newLayer->getContentSize().width, newLayer->getContentSize().height));
+    newWindow->setPosition(newLayer->getContentSize().width/2, newLayer->getContentSize().height/2);
+    
+    newLayer->addChild(newWindow);
+    
+    return newLayer;
+}
   
 }

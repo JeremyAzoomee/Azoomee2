@@ -34,8 +34,6 @@ private:
     ElectricDreamsButton *closeVideoButton;
     
     Sprite* mainImage;
-    Sprite* leftButton;
-    Sprite* rightButton;
     
     void createBackground();
     void addUIObjects();

@@ -2,10 +2,10 @@
 #define AzoomeeCommon_MessageBox_Chat_ReportChat_Layer_h
 
 #include <cocos/cocos2d.h>
-#include <cocos/ui/UIScrollView.h>
 #include "../../ElectricDreamsButton.h"
 #include "../../../ErrorCodes.h"
 #include "../MessageBoxLayer.h"
+#include "../../YouTubeVideoLayer.h"
 
 namespace Azoomee
 {
@@ -20,6 +20,8 @@ private:
     ElectricDreamsButton* reportButton;
     ElectricDreamsButton* onlineSafetyTipsButton;
     ElectricDreamsButton* cancelButton;
+    
+    YouTubeVideoLayer* youTubeVideoLayer;
     
     cocos2d::Label* messageTitleLabel;
 
