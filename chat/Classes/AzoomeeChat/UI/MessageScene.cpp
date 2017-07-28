@@ -134,8 +134,21 @@ void MessageScene::update(float dt)
 void MessageScene::getMessageHistory()
 {
     int calculatedPageNumber = int(_messagesByTime.size() / 20);
+    cocos2d::log("CHATHISTORY Current page: %d", calculatedPageNumber);
     historyUpdateInProgress = true;
     ChatAPI::getInstance()->requestMessageHistory(_participants[1], calculatedPageNumber);
+}
+
+bool MessageScene::isMessageInHistory(const MessageRef &message)
+{
+    if(_messagesByTime.empty()) return false;
+    
+    for(int i = 0; i < _messagesByTime.size(); i++)
+    {
+        if(_messagesByTime.at(i)->messageId() == message->messageId()) return true;
+    }
+    
+    return false;
 }
 
 void MessageScene::createEventListenerForRetrievingHistory()
@@ -143,11 +156,8 @@ void MessageScene::createEventListenerForRetrievingHistory()
     _listener = EventListenerCustom::create("MessageListView_reached_top", [=](EventCustom* event){
         if(!historyUpdateInProgress)
         {
+            cocos2d::log("CHATHISTORY Update triggered");
             this->getMessageHistory();
-        }
-        else
-        {
-            cocos2d::log("CHATHISTORY IN UPDATE");
         }
     });
     
@@ -244,7 +254,8 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
                 break;
             }
         }
-        messagesByTime.insert(it.base(), message);
+        if(!isMessageInHistory(message)) messagesByTime.insert(it.base(), message);
+        else cocos2d::log("CHATHISTORY message not inserted, message: %s", message->messageText().c_str());
     }
     
     _messagesByTime = messagesByTime;
@@ -268,8 +279,10 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 {
+    historyUpdateInProgress = true;
     _messagesByTime.push_back(sentMessage);
     _messageListView->setData(_participants, _messagesByTime);
+    historyUpdateInProgress = false;
 }
 
 void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)

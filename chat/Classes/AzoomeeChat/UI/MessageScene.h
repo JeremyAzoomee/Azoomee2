@@ -63,6 +63,8 @@ private:
     //variables required for retrieving history
     cocos2d::EventListenerCustom* _listener;
     bool historyUpdateInProgress = false;
+    
+    bool isMessageInHistory(const MessageRef& message);
 
 protected:
     
