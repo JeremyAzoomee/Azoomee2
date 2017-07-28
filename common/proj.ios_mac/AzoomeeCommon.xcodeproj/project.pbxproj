@@ -61,6 +61,7 @@
 		30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E094BB1EDF0F2B00555891 /* URI.cpp */; };
 		30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E094BD1EDF0F2B00555891 /* Utils.cpp */; };
 		43087FD91F03AC4C00E199EA /* NativeShare_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */; };
+		431369781F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431369761F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp */; };
 		4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */; };
 		4318E13E1F28E65400778E9A /* MessageBoxTextLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */; };
 		4349C8041EA8ADEF00FE964B /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -258,6 +259,8 @@
 		43087FD51F03AC4C00E199EA /* NativeShare_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeShare_android.cpp; path = AzoomeeCommon/NativeShare/NativeShare_android.cpp; sourceTree = "<group>"; };
 		43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = NativeShare_ios.mm; path = AzoomeeCommon/NativeShare/NativeShare_ios.mm; sourceTree = "<group>"; };
 		43087FD71F03AC4C00E199EA /* NativeShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeShare.h; path = AzoomeeCommon/NativeShare/NativeShare.h; sourceTree = "<group>"; };
+		431369761F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxChatReportChatLayer.cpp; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatReportChatLayer.cpp; sourceTree = "<group>"; };
+		431369771F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxChatReportChatLayer.h; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatReportChatLayer.h; sourceTree = "<group>"; };
 		4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RequestAdultPinLayer.cpp; sourceTree = "<group>"; };
 		4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestAdultPinLayer.h; sourceTree = "<group>"; };
 		4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxTextLayer.cpp; path = MessageBoxLayers/MessageBoxTextLayer.cpp; sourceTree = "<group>"; };
@@ -942,6 +945,8 @@
 		434A55E81F2A3FD600740601 /* ChatMessageLayers */ = {
 			isa = PBXGroup;
 			children = (
+				431369761F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp */,
+				431369771F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.h */,
 				434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */,
 				434A55EA1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.h */,
 			);
@@ -1084,6 +1089,7 @@
 				4349C8321EA8ADEF00FE964B /* MPEventBinding.m in Sources */,
 				4349C8291EA8ADEF00FE964B /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				3012ED621E969BF60009027D /* ChildDataProvider.cpp in Sources */,
+				431369781F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp in Sources */,
 				4349C85C1EA8ADEF00FE964B /* UIImage+MPImageEffects.m in Sources */,
 				3012ED581E969BBB0009027D /* ParentDataProvider.cpp in Sources */,
 				4349C8381EA8ADEF00FE964B /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,

@@ -91,6 +91,7 @@
         "lets_go":"Let's go",
         "retry":"Retry",
         "reset":"Reset",
+        "report":"Report",
         "onlineSafetyTips":"online safety tips"
     },
     
@@ -114,6 +115,7 @@
     "ChatMessageBoxes":
     {
         "resetChatTitle":"Reset %s1 & %s2's Conversation?",
-        "resetChatBody":"If you're not sure why not read the"
+        "resetChatBody":"If you're not sure why not read the",
+        "reportChatTitle":"Do you really want to report this chat to your parents?"
     }
 }

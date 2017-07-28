@@ -211,7 +211,7 @@ void MessageScene::onAlertButtonPressed()
     AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - AlertButton");
     
-    MessageBox::createWith(ERROR_CODE_REPORT_MESSAGES, this);
+    MessageBox::createWithLayer(ChatReportForModeration, this);
 }
 
 void MessageScene::onReportResetButtonPressed()

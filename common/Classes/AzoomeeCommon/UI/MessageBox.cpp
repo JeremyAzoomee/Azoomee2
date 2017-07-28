@@ -5,6 +5,7 @@
 #include "ElectricDreamsDecoration.h"
 #include "MessageBoxLayers/MessageBoxTextLayer.h"
 #include "MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.h"
+#include "MessageBoxLayers/ChatMessageLayers/MessageBoxChatReportChatLayer.h"
 
 using namespace cocos2d;
 
@@ -102,7 +103,7 @@ Layer* MessageBox::initLayer(MessageBoxLayerEnum messageBoxLayer, const std::map
 {
     switch (messageBoxLayer) {
         case ChatReportForModeration:
-            
+            return MessageBoxChatReportChatLayer::create(newLayer);
             break;
         case OnlineSafetySlides:
             
