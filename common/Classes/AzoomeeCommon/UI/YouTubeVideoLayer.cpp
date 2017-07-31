@@ -87,31 +87,62 @@ void YouTubeVideoLayer::removeSelf(float dt)
     
 void YouTubeVideoLayer::onSizeChanged()
 {
-    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
-    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     backgroundLayer->setContentSize(currentRunningScene->getContentSize());
     
-    auto currentRunningSceneContentSize = currentRunningScene->getContentSize();
+    if(currentRunningScene->getContentSize().height < currentRunningScene->getContentSize().width)
+        setToLandscape();
+    else
+        setToPortrait();
 
+}
+    
+void YouTubeVideoLayer::setToLandscape()
+{
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto currentRunningScene = Director::getInstance()->getRunningScene();
+    auto currentRunningSceneContentSize = currentRunningScene->getContentSize();
+    
     closeVideoButton->setCenterPosition(Vec2(origin.x + visibleSize.width - closeVideoButton->getContentSize().width, origin.y + visibleSize.height - closeVideoButton->getContentSize().height));
     
     float videoViewWidth = currentRunningScene->getContentSize().width *.8;
-    float videoViewHeigth = videoViewWidth * (315.0f/560.0f);
+    float videoViewHeight = videoViewWidth * (315.0f/560.0f);
     
-    if(videoViewHeigth > currentRunningScene->getContentSize().height *.8)
+    if(videoViewHeight > currentRunningScene->getContentSize().height *.8)
     {
-        videoViewHeigth = currentRunningScene->getContentSize().height *.8;
-        videoViewWidth = videoViewHeigth * (560.0f/315.0f);
+        videoViewHeight = currentRunningScene->getContentSize().height *.8;
+        videoViewWidth = videoViewHeight * (560.0f/315.0f);
     }
     
-    videoWebview->setContentSize(Size(videoViewWidth,videoViewHeigth));
+    videoWebview->setRotation(0);
+    videoWebview->setContentSize(Size(videoViewWidth,videoViewHeight));
     videoWebview->setPosition(Vec2(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height/2));
+}
+
+void YouTubeVideoLayer::setToPortrait()
+{
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
+    auto currentRunningScene = Director::getInstance()->getRunningScene();
+    auto currentRunningSceneContentSize = currentRunningScene->getContentSize();
     
+    closeVideoButton->setCenterPosition(Vec2(origin.x + visibleSize.width - closeVideoButton->getContentSize().width, origin.y + closeVideoButton->getContentSize().height));
     
+    float videoViewWidth = currentRunningScene->getContentSize().height *.8;
+    float videoViewHeight = videoViewWidth * (315.0f/560.0f);
+    
+    if(videoViewHeight > currentRunningScene->getContentSize().width *.8)
+    {
+        videoViewHeight = currentRunningScene->getContentSize().width *.8;
+        videoViewWidth = videoViewHeight * (560.0f/315.0f);
+    }
+    
+    videoWebview->setRotation(90);
+    videoWebview->setContentSize(Size(videoViewWidth,videoViewHeight));
+    videoWebview->setPosition(Vec2(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height/2));
 }
     
 //----------------------- Delegate Functions ----------------------------

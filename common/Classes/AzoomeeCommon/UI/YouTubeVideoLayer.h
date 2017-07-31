@@ -24,6 +24,9 @@ private:
     void createCloseButton();
     void createVideoWebview();
     
+    void setToPortrait();
+    void setToLandscape();
+    
     void removeSelf(float dt);
     
     //Delegate Functions

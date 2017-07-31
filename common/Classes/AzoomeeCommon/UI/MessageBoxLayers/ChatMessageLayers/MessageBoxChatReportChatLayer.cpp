@@ -195,8 +195,8 @@ void MessageBoxChatReportChatLayer::onSizeChanged()
         addObjectsToWindowPortrait();
     }
     
-    //if(youTubeVideoLayer)
-    //    youTubeVideoLayer->onSizeChanged();
+    if(youTubeVideoLayer)
+        youTubeVideoLayer->onSizeChanged();
 
 }
 
