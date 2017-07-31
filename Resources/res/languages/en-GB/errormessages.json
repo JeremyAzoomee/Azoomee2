@@ -167,6 +167,14 @@
         "button": "Reset|Cancel",
         "optionalButtonRefNames":"Reset|Cancel"
     },
+    
+    "6001":
+    {
+        "title":"Sign Up or Log In",
+        "body":"Sign up or log in for access to the best kids’ TV shows, games and audiobooks in one safe app.",
+        "button": "Log in|Sign up",
+        "optionalButtonRefNames":"Log in|Sign up"
+    },
 
     
     "default":

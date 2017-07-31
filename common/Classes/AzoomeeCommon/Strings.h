@@ -64,8 +64,6 @@
 //------------ OTHER LABELS ------------------
 
 #define PIN_REQUEST_LABEL "OtherLabels/pin_request_label"
-#define PREVIEW_MESSAGEBOX_TITLE_LABEL "OtherLabels/preview_messagebox_title_label"
-#define PREVIEW_MESSAGEBOX_BODY_LABEL "OtherLabels/preview_messagebox_body_label"
 #define CHILD_SELECTSCENE_TITLE_LABEL "OtherLabels/child_selectscene_title_label"
 #define LOADING_LABEL "OtherLabels/loading_label"
 
