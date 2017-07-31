@@ -25,11 +25,17 @@ ChatAPI* ChatAPI::getInstance()
 ChatAPI::ChatAPI()
 {
     PusherSDK::getInstance()->registerObserver(this);
+    
+    this->requestFriendList();
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        this->requestFriendList();
+    }, this, friendListPollIntervalForNotificationCheck, false, "requestFriendList_schedule");
 }
 
 ChatAPI::~ChatAPI()
 {
     PusherSDK::getInstance()->removeObserver(this);
+    Director::getInstance()->getScheduler()->unschedule("requestFriendList_schedule", this);
 }
 
 #pragma mark - Profile names
@@ -132,6 +138,8 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
     // Get chat list success
     if(requestTag == API::TagGetChatList)
     {
+        int sumOfUnreadMessages = 0;
+        
         // Parse the response
         rapidjson::Document response;
         response.Parse(body.c_str());
@@ -147,6 +155,8 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
                 friendList.push_back(friendData);
                 
                 int unreadMessages = jsonEntry["unreadMessages"].GetInt();
+                sumOfUnreadMessages += unreadMessages;
+                
                 cocos2d::log("%d unread messages from %s", unreadMessages, friendData->friendName().c_str());
             }
         }
@@ -166,6 +176,7 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         for(auto observer : _observers)
         {
             observer->onChatAPIGetFriendList(_friendList);
+            observer->onChatAPINewMessageNotificationReceived(sumOfUnreadMessages);
         }
     }
     // Get chat messages success
@@ -246,6 +257,13 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 
 void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
 {
+    //reschedule polling of message list, as we have connection to the server
+    Director::getInstance()->getScheduler()->unschedule("requestFriendList_schedule", this);
+    
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        this->requestFriendList();
+    }, this, friendListPollIntervalForNotificationCheck, false, "requestFriendList_schedule");
+    
     // Check if this is a chat event
     if(event->eventName() == "SEND_MESSAGE")
     {

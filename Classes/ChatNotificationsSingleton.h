@@ -9,35 +9,28 @@
 
 NS_AZOOMEE_BEGIN
 
-class ChatNotificationsSingleton : public cocos2d::Ref, private HttpRequestCreatorResponseDelegate, public Chat::ChatAPIObserver
+class ChatNotificationsSingleton : public cocos2d::Ref, public Chat::ChatAPIObserver
 {
     
 public:
     static ChatNotificationsSingleton* getInstance(void);
     virtual ~ChatNotificationsSingleton();
     bool init(void);
-    
-    void getNotificationsForLoggedInUser();
     bool userHasNotifications();
     
     void setNavigationLayer(cocos2d::Layer* navLayer);
+    void forceNotificationsUpdate();
     cocos2d::Layer* getNavigationLayer();
     
 private:
-    std::map<std::string, bool> notificationsForUsers;
-    int lastUpdateTimeStamp = 0;
     void notifyNavigationLayer();
     void removeBadgeFromNavigationLayer();
     cocos2d::Layer* navigationLayer;
     bool loggedInUserHasNotifications = false;
-    void scheduleUpdateOfPollingUnreadMessages();
-    
-    // - HttpRequestCreatorResponseDelegate
-    void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
-    void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
     // - Chat API event observer
     void onChatAPIMessageRecieved(const Chat::MessageRef& message) override;
+    void onChatAPINewMessageNotificationReceived(int sumOfUnreadMessages) override;
 };
 
 NS_AZOOMEE_END

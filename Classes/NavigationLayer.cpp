@@ -239,7 +239,7 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
     chatIcon->addChild(notificationBadge, 9);
     
     ChatNotificationsSingleton::getInstance()->setNavigationLayer(this);
-    ChatNotificationsSingleton::getInstance()->getNotificationsForLoggedInUser();
+    ChatNotificationsSingleton::getInstance()->forceNotificationsUpdate();
 }
 
 void NavigationLayer::showNotificationBadge()

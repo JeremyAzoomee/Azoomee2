@@ -21,6 +21,8 @@ class ChatAPI : private HttpRequestCreatorResponseDelegate, public PusherEventOb
 {
 private:
     
+    float friendListPollIntervalForNotificationCheck = 60.0f;
+    
     /// Most recent friend list
     FriendList _friendList;
     /// Index Friends by Id
@@ -89,6 +91,8 @@ struct ChatAPIObserver
     virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) {};
     /// A chat message was recieved
     virtual void onChatAPIMessageRecieved(const MessageRef& message) {};
+    /// Notification about new messages
+    virtual void onChatAPINewMessageNotificationReceived(int amountOfNewMessages) {};
 };
 
 NS_AZOOMEE_CHAT_END

@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/API/HttpRequestCreator.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
+#include <AzoomeeChat/ChatAPI.h>
 #include <external/json/document.h>
 #include "NavigationLayer.h"
 
@@ -35,45 +36,10 @@ bool ChatNotificationsSingleton::init(void)
     return true;
 }
 
-void ChatNotificationsSingleton::getNotificationsForLoggedInUser()
+void ChatNotificationsSingleton::onChatAPINewMessageNotificationReceived(int sumOfUnreadMessages)
 {
-    ChildDataProvider* childData = ChildDataProvider::getInstance();
-    HttpRequestCreator* request = API::GetChatListRequest(childData->getParentOrChildId(), this);
-    request->execute();
-}
-
-void ChatNotificationsSingleton::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
-{
-    scheduleUpdateOfPollingUnreadMessages();
-    
-    rapidjson::Document contentData;
-    contentData.Parse(body.c_str());
-    
-    if(contentData.HasParseError()) return;
-    
-    for(int i = 0; i < contentData.Size(); i++)
-    {
-        if(contentData[i].HasMember("unreadMessages"))
-        {
-            if(!contentData[i]["unreadMessages"].IsNull())
-            {
-                if(contentData[i]["unreadMessages"].GetInt() > 0)
-                {
-                    loggedInUserHasNotifications = true;
-                    notifyNavigationLayer();
-                    return;
-                }
-            }
-        }
-    }
-    
-    loggedInUserHasNotifications = false;
+    loggedInUserHasNotifications = (sumOfUnreadMessages != 0);
     notifyNavigationLayer();
-}
-
-void ChatNotificationsSingleton::onHttpRequestFailed(const std::string& requestTag, long errorCode)
-{
-    cocos2d::log("NOTIFICATIONS ERROR: %ld", errorCode);
 }
 
 void ChatNotificationsSingleton::onChatAPIMessageRecieved(const Chat::MessageRef &sentMessage)
@@ -85,13 +51,9 @@ void ChatNotificationsSingleton::onChatAPIMessageRecieved(const Chat::MessageRef
     notifyNavigationLayer();
 }
 
-void ChatNotificationsSingleton::scheduleUpdateOfPollingUnreadMessages()
+void ChatNotificationsSingleton::forceNotificationsUpdate()
 {
-    Director::getInstance()->getScheduler()->unschedule("schedulerKey", this);
-    
-    Director::getInstance()->getScheduler()->schedule([&](float dt){
-        this->getNotificationsForLoggedInUser();
-    }, this, 30.0f, false, "schedulerKey");
+    Chat::ChatAPI::getInstance()->requestFriendList();
 }
 
 bool ChatNotificationsSingleton::userHasNotifications()
