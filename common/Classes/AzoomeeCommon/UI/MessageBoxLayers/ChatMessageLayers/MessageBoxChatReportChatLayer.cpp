@@ -3,7 +3,6 @@
 #include "../../../Analytics/AnalyticsSingleton.h"
 #include "../../ElectricDreamsTextStyles.h"
 #include "../../ElectricDreamsDecoration.h"
-#include "../../MessageBox.h"
 
 
 using namespace cocos2d;
@@ -198,6 +197,9 @@ void MessageBoxChatReportChatLayer::onSizeChanged()
     
     if(youTubeVideoLayer)
         youTubeVideoLayer->onSizeChanged();
+    
+    if(onlineSafetySlides)
+        onlineSafetySlides->onSizeChanged();
 
 }
 
@@ -210,7 +212,7 @@ void MessageBoxChatReportChatLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == onlineSafetyTipsButton)
     {
         //youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
-        MessageBox::createWithLayer(OnlineSafetySlides, nullptr);
+        onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlides, nullptr);
     }
     else if(button == reportButton)
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Report");

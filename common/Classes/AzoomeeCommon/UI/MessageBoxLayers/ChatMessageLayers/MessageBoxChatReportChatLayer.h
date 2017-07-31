@@ -6,6 +6,7 @@
 #include "../../../ErrorCodes.h"
 #include "../MessageBoxLayer.h"
 #include "../../YouTubeVideoLayer.h"
+#include "../../MessageBox.h"
 
 namespace Azoomee
 {
@@ -28,6 +29,8 @@ private:
     cocos2d::Sprite* oomeeSprite;
 
     cocos2d::Layer* windowLayer;
+    
+    MessageBox* onlineSafetySlides;
     
     float textMaxWidth;
     float buttonSpaceWidth;

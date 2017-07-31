@@ -116,6 +116,7 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowLandscape()
     titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     titleLabel->setAnchorPoint(Vec2(0.0,0.0));
     titleLabel->setPosition(MESSAGE_BOX_PADDING*2, nextItemHeight);
+    titleLabel->setWidth(windowLayer->getContentSize().width);
     windowLayer->addChild(titleLabel);
 
     // Add Slide Title
@@ -123,6 +124,7 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowLandscape()
     slideTitleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     slideTitleLabel->setAnchorPoint(Vec2(0.0,0.0));
     slideTitleLabel->setPosition(MESSAGE_BOX_PADDING*2, nextItemHeight);
+    slideTitleLabel->setWidth(windowLayer->getContentSize().width);
     windowLayer->addChild(slideTitleLabel);
     
     // Add Slide Title
@@ -155,6 +157,51 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowLandscape()
     
 void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowPortrait()
 {
+    float nextItemHeight = windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75;
+    
+    cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, nextItemHeight));
+    windowLayer->addChild(cancelButton);
+    
+    // Add Title
+    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height/2;
+    titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    titleLabel->setAnchorPoint(Vec2(0.5,1.0));
+    titleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
+    titleLabel->setWidth(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING*2);
+    windowLayer->addChild(titleLabel);
+    
+    // Add Slide Title
+    nextItemHeight = nextItemHeight-titleLabel->getContentSize().height - MESSAGE_BOX_PADDING/2;
+    slideTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    slideTitleLabel->setAnchorPoint(Vec2(0.5,1.0));
+    slideTitleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
+    slideTitleLabel->setWidth(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING*2);
+    windowLayer->addChild(slideTitleLabel);
+    
+    // Add OomeeImage
+    nextItemHeight = nextItemHeight- slideTitleLabel->getContentSize().height - MESSAGE_BOX_PADDING/2 - mainImage->getContentSize().height/2;
+    mainImage->setPosition(windowLayer->getContentSize().width/2 ,nextItemHeight);
+    windowLayer->addChild(mainImage);
+    
+    // Add Slide Title
+    nextItemHeight = nextItemHeight-mainImage->getContentSize().height/2 - MESSAGE_BOX_PADDING;
+    mainTextLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    mainTextLabel->setAnchorPoint(Vec2(0.5,1.0));
+    mainTextLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
+    mainTextLabel->setWidth(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING*2);
+    windowLayer->addChild(mainTextLabel);
+    
+    // Add Search it Up button
+    watchSearchItUpButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2,MESSAGE_BOX_PADDING*2));
+    windowLayer->addChild(watchSearchItUpButton);
+    
+    // Add Left chevron
+    chevronLeftButton->setCenterPosition(Vec2(MESSAGE_BOX_PADDING,mainImage->getPositionY()));
+    windowLayer->addChild(chevronLeftButton);
+    
+    // Add right chevron
+    chevronRightButton->setCenterPosition(Vec2(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING,mainImage->getPositionY()));
+    windowLayer->addChild(chevronRightButton);
 }
 
 //---------------------- Actions -----------------
