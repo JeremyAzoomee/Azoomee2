@@ -106,4 +106,9 @@
 #define T_and_C_And "TandC/and"
 #define T_and_C_Terms_Button "TandC/termsButton"
 
+//------------ CHAT ---------------------------
+
+#define CHAT_CHAT_REPORTED "Chat/chatReported"
+#define CHAT_CHAT_REPORTED_MULTILINE "Chat/chatReportedMultiline"
+
 #endif

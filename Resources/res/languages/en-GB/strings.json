@@ -120,5 +120,10 @@
         "privacyButton":" Privacy Policy ",
         "and":"and",
         "termsButton":" Terms of Use "
+    },
+    "Chat":
+    {
+        "chatReported":"This chat has been reported. Get your parent to reset it.",
+        "chatReportedMultiline":"This chat has been reported.\nGet your parent to reset it."
     }
 }
