@@ -43,9 +43,11 @@ private:
     /// - PusherEventObserver
     void onPusherEventRecieved(const PusherEventRef& event) override;
     
-    /// - Schedule Poll *** unschedule is public!
+    /// - Schedule Poll
     void scheduleFriendListPoll();
     void rescheduleFriendListPoll();
+    void unscheduleFriendListPoll();
+    bool friendListPollScheduled();
     
 public:
     
@@ -78,9 +80,6 @@ public:
     
     /// For azoomee2 notifications we start and schedule polling of friendlist
     void startFriendListManualPoll();
-    
-    /// - Schedule Poll *** schedule and reschedule are private methods
-    void unscheduleFriendListPoll();
 };
 
 /**

@@ -34,6 +34,7 @@ ChatAPI::ChatAPI()
 
 ChatAPI::~ChatAPI()
 {
+    unscheduleFriendListPoll();
     PusherSDK::getInstance()->removeObserver(this);
 }
 
@@ -55,6 +56,11 @@ void ChatAPI::rescheduleFriendListPoll()
 {
     unscheduleFriendListPoll();
     scheduleFriendListPoll();
+}
+
+bool ChatAPI::friendListPollScheduled()
+{
+    return Director::getInstance()->getScheduler()->isScheduled(kPollScheduleKey, this);
 }
 
 void ChatAPI::startFriendListManualPoll()
@@ -282,7 +288,7 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 
 void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
 {
-    rescheduleFriendListPoll();
+    if(friendListPollScheduled()) rescheduleFriendListPoll(); //Poll is only a double check to avoid missing any pusher events. If we receive one, we reschedule (unschedule and schedule again), to avoid having too frequent poll updates.
     
     // Check if this is a chat event
     if(event->eventName() == "SEND_MESSAGE")
