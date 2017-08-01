@@ -34,7 +34,7 @@ void YouTubeVideoLayer::createBackgroundLayer()
 {
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     
-    backgroundLayer = LayerColor::create(Color4B(255,255,255,255),currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
+    backgroundLayer = LayerColor::create(Color4B(255,0,0,255),currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
     this->addChild(backgroundLayer);
     
     Director::getInstance()->getRunningScene()->addChild(this);
@@ -62,15 +62,10 @@ void YouTubeVideoLayer::createCloseButton()
     
 void YouTubeVideoLayer::createVideoWebview()
 {
-    //560 x 315
-    std::string videoHTML = "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed///riCzbUj_ow8?rel=0&amp?ecver=2&autoplay=1;showinfo=0\" frameborder=\"0\" allowfullscreen></iframe>";
-    
-    /*std::string videoHTML = "<iframe width=\"140\" height=\"78.75\" src=\"https://www.youtube.com/embed/riCzbUj_ow8?rel=0&amp?ecver=2&autoplay=1;showinfo=0\" frameborder=\"0\" allowfullscreen></iframe>";*/
-    
     videoWebview = experimental::ui::WebView::create();
     videoWebview->setContentSize(Size(2240,1260));
     videoWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    videoWebview->loadHTMLString(videoHTML);
+    videoWebview->loadFile("res/videoScreen/index.html");
     backgroundLayer->addChild(videoWebview);
 }
 //---------------------- Actions -----------------
@@ -94,6 +89,8 @@ void YouTubeVideoLayer::onSizeChanged()
         setToLandscape();
     else
         setToPortrait();
+    
+    videoWebview->reload();
 
 }
     
