@@ -62,7 +62,7 @@ private:
     
     //variables required for retrieving history
     cocos2d::EventListenerCustom* _listener;
-    bool historyUpdateInProgress = false;
+    bool _historyUpdateInProgress = false;
     
     bool isMessageInHistory(const MessageRef& message);
 
@@ -81,6 +81,8 @@ public:
     static MessageScene* create(const FriendList& participants);
     
     void getMessageHistory();
+    
+    static const char* const kEventListenerFlag;
 };
 
 NS_AZOOMEE_CHAT_END

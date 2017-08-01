@@ -23,6 +23,13 @@ NS_AZOOMEE_CHAT_BEGIN
 const float kAutoGetTimeInterval = 5.0f;
 #endif
 
+#pragma mark - Constants
+
+const int kMessagesOnPage = 20; //20 messages / page are burnt in on server-side code
+const char* const MessageScene::kEventListenerFlag = "MessageListView_reached_top";
+
+#pragma mark - Methods
+
 MessageScene* MessageScene::create(const FriendList& participants)
 {
     MessageScene* scene = new(std::nothrow) MessageScene(participants);
@@ -133,8 +140,8 @@ void MessageScene::update(float dt)
 
 void MessageScene::getMessageHistory()
 {
-    int calculatedPageNumber = int(_messagesByTime.size() / 20);
-    historyUpdateInProgress = true;
+    int calculatedPageNumber = int(_messagesByTime.size() / kMessagesOnPage);
+    _historyUpdateInProgress = true;
     ChatAPI::getInstance()->requestMessageHistory(_participants[1], calculatedPageNumber);
 }
 
@@ -142,9 +149,9 @@ bool MessageScene::isMessageInHistory(const MessageRef &message)
 {
     if(_messagesByTime.empty()) return false;
     
-    for(int i = 0; i < _messagesByTime.size(); i++)
+    for(auto listItem : _messagesByTime)
     {
-        if(_messagesByTime.at(i)->messageId() == message->messageId()) return true;
+        if(listItem->messageId() == message->messageId()) return true;
     }
     
     return false;
@@ -152,8 +159,8 @@ bool MessageScene::isMessageInHistory(const MessageRef &message)
 
 void MessageScene::createEventListenerForRetrievingHistory()
 {
-    _listener = EventListenerCustom::create("MessageListView_reached_top", [=](EventCustom* event){
-        if(!historyUpdateInProgress)
+    _listener = EventListenerCustom::create(kEventListenerFlag, [=](EventCustom* event){
+        if(!_historyUpdateInProgress)
         {
             this->getMessageHistory();
         }
@@ -271,15 +278,15 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
     _timeTillGet = kAutoGetTimeInterval;
 #endif
     
-    if(messageList.size() > 19) historyUpdateInProgress = false; //if downloaded messages are less than 20 in length, then we got to the beginning of the conversation, no further retrievals are required.
+    if(messageList.size() >= kMessagesOnPage) _historyUpdateInProgress = false; //if downloaded messages are less than kMessagesOnPage (20 on server) in length, then we got to the beginning of the conversation, no further retrievals are required.
 }
 
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 {
-    historyUpdateInProgress = true;
+    _historyUpdateInProgress = true;
     _messagesByTime.push_back(sentMessage);
     _messageListView->setData(_participants, _messagesByTime);
-    historyUpdateInProgress = false;
+    _historyUpdateInProgress = false;
 }
 
 void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
