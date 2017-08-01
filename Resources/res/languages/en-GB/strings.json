@@ -113,7 +113,7 @@
     "ChatMessageBoxes":
     {
         "resetChatTitle":"Reset %s1 & %s2's Conversation?",
-        "resetChatBody":"If you're not sure why not read the",
+        "resetChatBody":"If you need some guidence, read the",
         "reportChatTitle":"Do you really want to report this chat to your parents?"
     }
 }

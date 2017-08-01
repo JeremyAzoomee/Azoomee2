@@ -97,7 +97,7 @@ bool TitleBarWidget::init()
     _warningImageRight->setAnchorPoint(Vec2(0.5f, 0.5f));
     _reportedChatTitleBar->addChild(_warningImageRight);
     
-    _warningLabel = createLabelWith("This conversation has been flagged! Get a grown up to reset it", Style::Font::Regular, Style::Color::black, 64);
+    _warningLabel = createLabelWith("This chat has been reported. Get your parent to reset it.", Style::Font::Regular, Style::Color::black, 64);
     _warningLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     _reportedChatTitleBar->addChild(_warningLabel);
     
@@ -156,14 +156,14 @@ void TitleBarWidget::onSizeChangedReportedBar(const Size& contentSize)
     // Get max width, to analyse if changes needed.
     float maxReportLabelWidth = contentSize.width - _warningImageRight->getContentSize().width*2 + kTitleButtonsEdgePadding*4;
     
-    _warningLabel->setString("This conversation has been flagged! Get a grown up to reset it");
+    _warningLabel->setString("This chat has been reported. Get your parent to reset it.");
     _warningLabel->setBMFontSize(64);
     
     if(_warningLabel->getContentSize().width > maxReportLabelWidth)
     {
         //Add Label over 2 lines
         _warningLabel->setBMFontSize(54);
-        _warningLabel->setString("This conversation has been flagged!\nGet a grown up to reset it");
+        _warningLabel->setString("This chat has been reported.\Get your parent to reset it.");
     }
 
     float reportedBarHeight = _warningLabel->getContentSize().height + kTitleButtonsEdgePadding;
