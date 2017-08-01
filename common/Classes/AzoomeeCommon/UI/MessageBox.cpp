@@ -164,7 +164,6 @@ void MessageBox::removeSelf(float dt)
     
     if(this)
     {
-        this->windowLayer->removeFromParent();
         this->removeChild(backgroundLayer);
         this->removeFromParent();
     }

@@ -75,7 +75,7 @@ bool MessageScene::init()
     _titleBar->addBackButtonEventListener([this](Ref* button){
         onBackButtonPressed();
     });
-    _titleBar->addAlertButtonEventListener([this](Ref* button){
+    _titleBar->addReportButtonEventListener([this](Ref* button){
         onAlertButtonPressed();
     });
     _titleBar->addReportResetButtonEventListener([this](Ref* button){

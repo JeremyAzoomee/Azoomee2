@@ -83,8 +83,8 @@ public:
     /// Register for backbutton click events
     void addBackButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);
     
-    /// Register for alertbutton click events
-    void addAlertButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);
+    /// Register for reportbutton click events
+    void addReportButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);
     
     /// Register for reportResetbutton click events
     void addReportResetButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);

@@ -252,7 +252,7 @@ void TitleBarWidget::addBackButtonEventListener(const cocos2d::ui::Widget::ccWid
     _backButton->addClickEventListener(callback);
 }
 
-void TitleBarWidget::addAlertButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback)
+void TitleBarWidget::addReportButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback)
 {
     _reportButton->addClickEventListener(callback);
 }
