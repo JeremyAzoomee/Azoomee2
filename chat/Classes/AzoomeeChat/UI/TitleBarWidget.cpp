@@ -58,20 +58,6 @@ bool TitleBarWidget::init()
     _titleImage = ui::ImageView::create();
     _titleImage->setVisible(false);
     _titleLayout->addChild(_titleImage);
-    
-    
-    // Alert
-    _alertButton = ui::Button::create("res/chat/ui/buttons/alert.png");
-    // Enable content adaption - otherwise % size doesn't work
-    _alertButton->ignoreContentAdaptWithSize(false);
-    _alertButton->setSizePercent(_backButton->getSizePercent());
-    _alertButton->setSizeType(ui::Widget::SizeType::PERCENT);
-    _alertButton->getRendererNormal()->setStrechEnabled(true);
-    _alertButton->getRendererClicked()->setStrechEnabled(true);
-    _alertButton->getRendererDisabled()->setStrechEnabled(true);
-    _alertButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
-    _alertButton->setVisible(false);
-    addChild(_alertButton);
 
     // Message Is Reported Title Bar Including images and text
     // Hidden by default
@@ -102,7 +88,7 @@ bool TitleBarWidget::init()
     _reportedChatTitleBar->addChild(_warningLabel);
     
     // Reset Reported Chat Button
-    _reportResetButton = ui::Button::create("res/buttons/inviteMainButton.png");
+    _reportResetButton = ui::Button::create("res/chat/ui/buttons/reset_button.png");
     // TODO: Get from Strings
     _reportResetButton->setTitleText("Reset");
     _reportResetButton->setTitleColor(Style::Color::black);
@@ -113,6 +99,32 @@ bool TitleBarWidget::init()
     _reportResetButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
     _reportResetButton->setVisible(false);
     addChild(_reportResetButton);
+    
+    // Add friend button
+    _reportButton = ui::Button::create("res/chat/ui/buttons/report_button_outline.png");
+    // TODO: Get from Strings
+    _reportButton->setTitleText("Report");
+    _reportButton->setTitleColor(Style::Color::brightAqua);
+    _reportButton->setTitleFontName(Style::Font::Regular);
+    _reportButton->setTitleFontSize(45.0f);
+    _reportButton->setScale9Enabled(true);
+    
+    _reportButton->setTitleAlignment(TextHAlignment::LEFT, TextVAlignment::CENTER);
+    
+    ui::ImageView* plusIcon = ui::ImageView::create("res/chat/ui/buttons/report_icon.png");
+    _reportButton->addChild(plusIcon);
+    plusIcon->setAnchorPoint(Vec2(0.5f, 0.5f));
+    // Position icon and title
+    const auto& addFriendButtonSize = _reportButton->getContentSize();
+    plusIcon->setPosition(Vec2(addFriendButtonSize.height * 0.5f, addFriendButtonSize.height * 0.5f));
+    _reportButton->getTitleRenderer()->setAnchorPoint(Vec2(0.0f, 0.5f));
+    // We need some offset because the title doesn't get centered vertically correctly
+    // Likely due to font renderering via TTF
+    const float lineHeightOffset = -3.0f;
+   _reportButton->getTitleRenderer()->setPosition(Vec2(plusIcon->getPositionX() + (plusIcon->getContentSize().width * 0.5f) + 15.0f, (addFriendButtonSize.height * 0.5f) + lineHeightOffset));
+    _reportButton->setLayoutParameter(CreateRightCenterRelativeLayoutParam(ui::Margin(0.0f, 0.0f, kTitleButtonsEdgePadding, 0.0f)));
+    _reportButton->setVisible(false);
+    addChild(_reportButton);
     
     return true;
 }
@@ -132,7 +144,6 @@ void TitleBarWidget::onSizeChanged()
     // Ensure % size buttons keeps their aspect ratio
     // TODO: Find a way to make this automatic
     SetSizePercentWidthForSquareAspectRatio(_backButton);
-    SetSizePercentWidthForSquareAspectRatio(_alertButton);
     
     const Size& contentSize = getContentSize();
     
@@ -163,7 +174,7 @@ void TitleBarWidget::onSizeChangedReportedBar(const Size& contentSize)
     {
         //Add Label over 2 lines
         _warningLabel->setBMFontSize(54);
-        _warningLabel->setString("This chat has been reported.\Get your parent to reset it.");
+        _warningLabel->setString("This chat has been reported.\nGet your parent to reset it.");
     }
 
     float reportedBarHeight = _warningLabel->getContentSize().height + kTitleButtonsEdgePadding;
@@ -242,7 +253,7 @@ void TitleBarWidget::addBackButtonEventListener(const cocos2d::ui::Widget::ccWid
 
 void TitleBarWidget::addAlertButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback)
 {
-    _alertButton->addClickEventListener(callback);
+    _reportButton->addClickEventListener(callback);
 }
 
 void TitleBarWidget::addReportResetButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback)
@@ -257,7 +268,7 @@ void TitleBarWidget::setChatToInModeration()
     if(chatReportingIsForbidden) return;
     
     //Set Report Bar and Reset to Visible
-    _alertButton->setVisible(false);
+    _reportButton->setVisible(false);
     _reportResetButton->setVisible(true);
     _reportedChatTitleBar->setVisible(true);
 }
@@ -267,7 +278,7 @@ void TitleBarWidget::setChatToActive()
     if(chatReportingIsForbidden) return;
     
     //Hide Report Bar, and sent Report Button to visible
-    _alertButton->setVisible(true);
+    _reportButton->setVisible(true);
     _reportResetButton->setVisible(false);
     _reportedChatTitleBar->setVisible(false);
 }
@@ -275,7 +286,7 @@ void TitleBarWidget::setChatToActive()
 void TitleBarWidget::setChatReportingToForbidden()
 {
     setChatToActive();
-    _alertButton->setVisible(false);
+    _reportButton->setVisible(false);
     chatReportingIsForbidden = true;
 }
 

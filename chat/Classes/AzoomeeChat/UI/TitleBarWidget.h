@@ -29,7 +29,7 @@ private:
     AvatarWidget* _avatarWidget = nullptr;
     
     /// The alert button
-    cocos2d::ui::Button* _alertButton = nullptr;
+    cocos2d::ui::Button* _reportButton = nullptr;
     
     /// Report Reset button
     cocos2d::ui::Button* _reportResetButton = nullptr;
