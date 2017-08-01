@@ -63,14 +63,15 @@ void YouTubeVideoLayer::createCloseButton()
 void YouTubeVideoLayer::createVideoWebview()
 {
     //560 x 315
-    std::string videoHTML = "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed///riCzbUj_ow8?rel=0&amp?ecver=2&autoplay=1;showinfo=0\" frameborder=\"0\" allowfullscreen></iframe>";
+    std::string videoHTML = "<iframe width=\"80%\" height=\"80%\" src=\"https://www.youtube.com/embed///riCzbUj_ow8?rel=0&amp?ecver=2&autoplay=1;showinfo=0\" frameborder=\"0\" allowfullscreen></iframe>";
     
     /*std::string videoHTML = "<iframe width=\"140\" height=\"78.75\" src=\"https://www.youtube.com/embed/riCzbUj_ow8?rel=0&amp?ecver=2&autoplay=1;showinfo=0\" frameborder=\"0\" allowfullscreen></iframe>";*/
     
     videoWebview = experimental::ui::WebView::create();
-    videoWebview->setContentSize(Size(2240,1260));
+    videoWebview->setContentSize(Size(560,315));
     videoWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     videoWebview->loadHTMLString(videoHTML);
+    videoWebview->setScalesPageToFit(true);
     backgroundLayer->addChild(videoWebview);
 }
 //---------------------- Actions -----------------
@@ -116,8 +117,9 @@ void YouTubeVideoLayer::setToLandscape()
         videoViewWidth = videoViewHeight * (560.0f/315.0f);
     }
     
-    videoWebview->setRotation(0);
-    videoWebview->setContentSize(Size(videoViewWidth,videoViewHeight));
+    //videoWebview->setContentSize(Size(videoViewWidth,videoViewHeight));
+    videoWebview->setContentSize(Size(1120,630));
+    videoWebview->setScalesPageToFit(true);
     videoWebview->setPosition(Vec2(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height/2));
 }
 
@@ -139,9 +141,11 @@ void YouTubeVideoLayer::setToPortrait()
         videoViewHeight = currentRunningScene->getContentSize().width *.8;
         videoViewWidth = videoViewHeight * (560.0f/315.0f);
     }
+
+    //videoWebview->setContentSize(Size(videoViewWidth,videoViewHeight));
     
-    videoWebview->setRotation(90);
-    videoWebview->setContentSize(Size(videoViewWidth,videoViewHeight));
+    videoWebview->setContentSize(Size(560,315));
+    videoWebview->setScalesPageToFit(true);
     videoWebview->setPosition(Vec2(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height/2));
 }
     

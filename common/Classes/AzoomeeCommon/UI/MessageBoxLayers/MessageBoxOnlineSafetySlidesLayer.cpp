@@ -227,6 +227,8 @@ void MessageBoxOnlineSafetySlidesLayer::onSizeChanged()
         addObjectsToWindowPortrait();
     }
 
+    if(youTubeVideoLayer)
+        youTubeVideoLayer->onSizeChanged();
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -236,6 +238,7 @@ void MessageBoxOnlineSafetySlidesLayer::buttonPressed(ElectricDreamsButton* butt
     if(button == watchSearchItUpButton)
     {
         //playVideo();
+        youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
     }
     else if(button == chevronLeftButton)
         moveSlideNumberBy(-1);

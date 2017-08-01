@@ -5,6 +5,7 @@
 #include "../ElectricDreamsButton.h"
 #include "../../ErrorCodes.h"
 #include "MessageBoxLayer.h"
+#include "../YouTubeVideoLayer.h"
 
 namespace Azoomee
 {
@@ -27,6 +28,8 @@ private:
     cocos2d::Sprite* mainImage;
 
     cocos2d::Layer* windowLayer;
+    
+    YouTubeVideoLayer* youTubeVideoLayer;
     
     void createBackground();
     void addUIObjects();
