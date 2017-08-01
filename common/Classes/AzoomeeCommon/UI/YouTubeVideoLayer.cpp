@@ -54,7 +54,7 @@ void YouTubeVideoLayer::addListenerToBackgroundLayer()
     
 void YouTubeVideoLayer::createCloseButton()
 {
-    closeVideoButton = ElectricDreamsButton::createWindowCloselButton();
+    closeVideoButton = ElectricDreamsButton::createWhiteWindowCloselButton();
     closeVideoButton->setDelegate(this);
     closeVideoButton->setMixPanelButtonName("CloseVideo");
     backgroundLayer->addChild(closeVideoButton);

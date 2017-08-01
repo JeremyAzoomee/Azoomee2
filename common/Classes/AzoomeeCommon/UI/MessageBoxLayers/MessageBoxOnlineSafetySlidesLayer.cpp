@@ -69,7 +69,7 @@ void MessageBoxOnlineSafetySlidesLayer::addUIObjects()
 
 void MessageBoxOnlineSafetySlidesLayer::createCancelButton()
 {
-    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton = ElectricDreamsButton::createWhiteWindowCloselButton();
     cancelButton->setMixPanelButtonName("messageBoxCancelButton");
     cancelButton->setDelegate(this);
 }
