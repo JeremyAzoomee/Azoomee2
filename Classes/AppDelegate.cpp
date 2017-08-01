@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Pusher/PusherSDK.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -88,7 +89,7 @@ void AppDelegate::applicationWillEnterForeground()
         if(HQHistoryManager::getInstance()->thereWasAnError)
         {
             HQHistoryManager::getInstance()->thereWasAnError = false;
-            FlowDataSingleton::getInstance()->setErrorCode(1006);
+            FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
             LoginLogicHandler::getInstance()->doLoginLogic();
             return;
         }

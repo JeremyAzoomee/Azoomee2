@@ -8,6 +8,7 @@
 #include "SceneManagerScene.h"
 #include "LoginLogicHandler.h"
 #include "FlowDataSingleton.h"
+#include <AzoomeeCommon/ErrorCodes.h>
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -28,7 +29,7 @@ void navigateToBaseScene()
 void navigateToLoginScene()
 {
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-    FlowDataSingleton::getInstance()->setErrorCode(1006);
+    FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
 
