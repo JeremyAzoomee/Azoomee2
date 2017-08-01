@@ -83,6 +83,7 @@ public:
     void getMessageHistory();
     
     static const char* const kEventListenerFlag;
+    static const int kMessagesOnPage = 20;
 };
 
 NS_AZOOMEE_CHAT_END

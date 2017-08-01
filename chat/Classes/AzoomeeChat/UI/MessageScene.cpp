@@ -25,7 +25,6 @@ const float kAutoGetTimeInterval = 5.0f;
 
 #pragma mark - Constants
 
-const int kMessagesOnPage = 20; //20 messages / page are burnt in on server-side code
 const char* const MessageScene::kEventListenerFlag = "MessageListView_reached_top";
 
 #pragma mark - Methods
