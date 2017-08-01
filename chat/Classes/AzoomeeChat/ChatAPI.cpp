@@ -9,6 +9,11 @@ using namespace cocos2d;
 
 NS_AZOOMEE_CHAT_BEGIN
 
+#pragma mark - constants
+
+const char* const kPollScheduleKey = "requestFriendList_schedule";
+const float kPollScheduleInterval = 60.0f;
+
 #pragma mark - Init
 
 static std::auto_ptr<ChatAPI> sChatAPISharedInstance;
@@ -25,17 +30,37 @@ ChatAPI* ChatAPI::getInstance()
 ChatAPI::ChatAPI()
 {
     PusherSDK::getInstance()->registerObserver(this);
-    
-    this->requestFriendList();
-    Director::getInstance()->getScheduler()->schedule([&](float dt){
-        this->requestFriendList();
-    }, this, friendListPollIntervalForNotificationCheck, false, "requestFriendList_schedule");
 }
 
 ChatAPI::~ChatAPI()
 {
     PusherSDK::getInstance()->removeObserver(this);
-    Director::getInstance()->getScheduler()->unschedule("requestFriendList_schedule", this);
+}
+
+#pragma mark - Schedule Polling of Friendlist
+
+void ChatAPI::scheduleFriendListPoll()
+{
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        this->requestFriendList();
+    }, this, kPollScheduleInterval, false, kPollScheduleKey);
+}
+
+void ChatAPI::unscheduleFriendListPoll()
+{
+    Director::getInstance()->getScheduler()->unschedule(kPollScheduleKey, this);
+}
+
+void ChatAPI::rescheduleFriendListPoll()
+{
+    unscheduleFriendListPoll();
+    scheduleFriendListPoll();
+}
+
+void ChatAPI::startFriendListManualPoll()
+{
+    requestFriendList();
+    rescheduleFriendListPoll();
 }
 
 #pragma mark - Profile names
@@ -257,12 +282,7 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 
 void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
 {
-    //reschedule polling of message list, as we have connection to the server
-    Director::getInstance()->getScheduler()->unschedule("requestFriendList_schedule", this);
-    
-    Director::getInstance()->getScheduler()->schedule([&](float dt){
-        this->requestFriendList();
-    }, this, friendListPollIntervalForNotificationCheck, false, "requestFriendList_schedule");
+    rescheduleFriendListPoll();
     
     // Check if this is a chat event
     if(event->eventName() == "SEND_MESSAGE")

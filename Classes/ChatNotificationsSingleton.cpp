@@ -28,6 +28,7 @@ ChatNotificationsSingleton* ChatNotificationsSingleton::getInstance()
 ChatNotificationsSingleton::~ChatNotificationsSingleton(void)
 {
     Chat::ChatAPI::getInstance()->removeObserver(this);
+    Chat::ChatAPI::getInstance()->unscheduleFriendListPoll();
 }
 
 bool ChatNotificationsSingleton::init(void)
@@ -53,7 +54,7 @@ void ChatNotificationsSingleton::onChatAPIMessageRecieved(const Chat::MessageRef
 
 void ChatNotificationsSingleton::forceNotificationsUpdate()
 {
-    Chat::ChatAPI::getInstance()->requestFriendList();
+    Chat::ChatAPI::getInstance()->startFriendListManualPoll();
 }
 
 bool ChatNotificationsSingleton::userHasNotifications()

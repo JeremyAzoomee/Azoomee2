@@ -20,9 +20,6 @@ class ChatAPIObserver;
 class ChatAPI : private HttpRequestCreatorResponseDelegate, public PusherEventObserver
 {
 private:
-    
-    float friendListPollIntervalForNotificationCheck = 60.0f;
-    
     /// Most recent friend list
     FriendList _friendList;
     /// Index Friends by Id
@@ -39,12 +36,16 @@ private:
     /// Update the profile names based on the current child and their friend's list
     void updateProfileNames();
     
-    // - HttpRequestCreatorResponseDelegate
+    /// - HttpRequestCreatorResponseDelegate
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
-    // - PusherEventObserver
+    /// - PusherEventObserver
     void onPusherEventRecieved(const PusherEventRef& event) override;
+    
+    /// - Schedule Poll *** unschedule is public!
+    void scheduleFriendListPoll();
+    void rescheduleFriendListPoll();
     
 public:
     
@@ -74,6 +75,12 @@ public:
     
     /// Mark messages with friend as read
     void markMessagesAsRead(const FriendRef& friendObj, const MessageRef& message);
+    
+    /// For azoomee2 notifications we start and schedule polling of friendlist
+    void startFriendListManualPoll();
+    
+    /// - Schedule Poll *** schedule and reschedule are private methods
+    void unscheduleFriendListPoll();
 };
 
 /**
