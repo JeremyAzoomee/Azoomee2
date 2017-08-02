@@ -8,8 +8,8 @@
     
     "401":
     {
-        "title":"Login Required",
-        "body":"Your session has timed out. Please login again.",
+        "title":"Welcome back!",
+        "body":"Please select a child to continue.",
         "button":"OK"
     },
     
@@ -75,13 +75,6 @@
     {
         "title":"Name Already Exists",
         "body":"You already have a child with this name. Please enter a unique name.",
-        "button":"OK"
-    },
-    
-    "1006":
-    {
-        "title":"Something Went Wrong",
-        "body":"There was a problem, please restart your session.",
         "button":"OK"
     },
     
@@ -155,7 +148,7 @@
     "default":
     {
         "title":"Something Went Wrong",
-        "body":"No worries, a bunch of well trained Oomees are already working on this issue.",
+        "body":"No worries, a bunch of well trained Oomees are already working on this issue. Please log back in to start again.",
         "button":"OK"
     }
 }
