@@ -66,5 +66,9 @@ static AppDelegate s_sharedApplication;
     return YES;
 }
 
+-(void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+}
 
 @end
