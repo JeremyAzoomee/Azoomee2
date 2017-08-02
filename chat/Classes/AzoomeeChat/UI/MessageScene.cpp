@@ -84,12 +84,6 @@ bool MessageScene::init()
 
     _rootLayout->addChild(_titleBar);
     
-    if((_participants[0]->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId())||(_participants[1]->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId()))
-    {
-        _titleBar->setChatReportingToForbidden();
-    }
-    
-    
     createContentUI(_contentLayout);
     
     return true;

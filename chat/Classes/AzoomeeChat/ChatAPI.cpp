@@ -134,13 +134,13 @@ FriendList ChatAPI::getFriendList() const
 
 void ChatAPI::reportChat(const FriendRef &friendObj)
 {
-    HttpRequestCreator *request = API::SendChatReportRequest(ChildDataProvider::getInstance()->getLoggedInChildId(), friendObj->friendId(), this);
+    HttpRequestCreator *request = API::SendChatReportRequest(ChildDataProvider::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
     request->execute();
 }
 
 void ChatAPI::resetReportedChat(const FriendRef &friendObj)
 {
-    HttpRequestCreator *request = API::ResetReportedChatRequest(ChildDataProvider::getInstance()->getLoggedInChildId(), friendObj->friendId(), this);
+    HttpRequestCreator *request = API::ResetReportedChatRequest(ChildDataProvider::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
     request->execute();
 }
 
@@ -317,7 +317,7 @@ void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
         std::string userIdA = (event->data()["userIdA"].IsString() ? event->data()["userIdA"].GetString() : "");
         std::string userIdB = (event->data()["userIdB"].IsString() ? event->data()["userIdB"].GetString() : "");
         
-        if((userIdA == ChildDataProvider::getInstance()->getLoggedInChildId())||(userIdB == ChildDataProvider::getInstance()->getLoggedInChildId()))
+        if((userIdA == ChildDataProvider::getInstance()->getParentOrChildId())||(userIdB == ChildDataProvider::getInstance()->getParentOrChildId()))
         {
             std::string otherChildId = userIdA;
             if(otherChildId == ChildDataProvider::getInstance()->getLoggedInChildId()) otherChildId = userIdB;
