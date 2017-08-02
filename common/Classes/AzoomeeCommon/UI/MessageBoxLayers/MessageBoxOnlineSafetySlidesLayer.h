@@ -5,7 +5,7 @@
 #include "../ElectricDreamsButton.h"
 #include "../../ErrorCodes.h"
 #include "MessageBoxLayer.h"
-#include "../YouTubeVideoLayer.h"
+//#include "../YouTubeVideoLayer.h"
 
 namespace Azoomee
 {
@@ -16,7 +16,7 @@ private:
 
     int currentSlideNumber;
     
-    ElectricDreamsButton *watchSearchItUpButton;
+    //ElectricDreamsButton *watchSearchItUpButton;
     ElectricDreamsButton *chevronLeftButton;
     ElectricDreamsButton *chevronRightButton;
     ElectricDreamsButton *cancelButton;
@@ -29,7 +29,7 @@ private:
 
     cocos2d::Layer* windowLayer;
     
-    YouTubeVideoLayer* youTubeVideoLayer;
+    //YouTubeVideoLayer* youTubeVideoLayer;
     
     void createBackground();
     void addUIObjects();

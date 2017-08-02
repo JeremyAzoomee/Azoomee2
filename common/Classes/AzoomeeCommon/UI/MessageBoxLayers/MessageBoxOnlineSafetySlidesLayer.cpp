@@ -61,10 +61,10 @@ void MessageBoxOnlineSafetySlidesLayer::addUIObjects()
     chevronRightButton->setDelegate(this);
     chevronRightButton->setMixPanelButtonName("MessageBox-OnlineSafety-RighChevron");
     
-    watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Color3B(9,154,154));
+    /*watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Color3B(9,154,154));
     watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
     watchSearchItUpButton->setDelegate(this);
-    watchSearchItUpButton->setMixPanelButtonName("MessageBox-OnlineSafety-watchSearchItUp");
+    watchSearchItUpButton->setMixPanelButtonName("MessageBox-OnlineSafety-watchSearchItUp");*/
 }
 
 void MessageBoxOnlineSafetySlidesLayer::createCancelButton()
@@ -140,8 +140,8 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowLandscape()
     windowLayer->addChild(mainImage);
     
     // Add Search it Up button
-    watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),windowLayer->getContentSize().height/2-mainImage->getContentSize().height/2-MESSAGE_BOX_PADDING));
-    windowLayer->addChild(watchSearchItUpButton);
+    /*watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),windowLayer->getContentSize().height/2-mainImage->getContentSize().height/2-MESSAGE_BOX_PADDING));
+    windowLayer->addChild(watchSearchItUpButton);*/
     
     // Add Left chevron
     chevronLeftButton->setCenterPosition(Vec2(MESSAGE_BOX_PADDING,windowLayer->getContentSize().height/2));
@@ -192,8 +192,8 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowPortrait()
     windowLayer->addChild(mainTextLabel);
     
     // Add Search it Up button
-    watchSearchItUpButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2,MESSAGE_BOX_PADDING*2));
-    windowLayer->addChild(watchSearchItUpButton);
+    //watchSearchItUpButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2,MESSAGE_BOX_PADDING*2));
+    //windowLayer->addChild(watchSearchItUpButton);
     
     // Add Left chevron
     chevronLeftButton->setCenterPosition(Vec2(MESSAGE_BOX_PADDING,mainImage->getPositionY()));
@@ -227,20 +227,20 @@ void MessageBoxOnlineSafetySlidesLayer::onSizeChanged()
         addObjectsToWindowPortrait();
     }
 
-    if(youTubeVideoLayer)
-        youTubeVideoLayer->onSizeChanged();
+    //if(youTubeVideoLayer)
+        //youTubeVideoLayer->onSizeChanged();
 }
 
 //----------------------- Delegate Functions ----------------------------
 
 void MessageBoxOnlineSafetySlidesLayer::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == watchSearchItUpButton)
+    /*if(button == watchSearchItUpButton)
     {
         //playVideo();
         youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
     }
-    else if(button == chevronLeftButton)
+    else*/ if(button == chevronLeftButton)
         moveSlideNumberBy(-1);
     else if(button == chevronRightButton)
         moveSlideNumberBy(1);
