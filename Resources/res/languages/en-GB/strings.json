@@ -111,7 +111,7 @@
     "ChatMessageBoxes":
     {
         "resetChatTitle":"Reset %s1 & %s2's Conversation?",
-        "resetChatBody":"If you need some guidence, read the",
+        "resetChatBody":"If you need some guidance, read the",
         "reportChatTitle":"Do you really want to report this chat to your parents?"
     },
     "TandC":
