@@ -197,6 +197,9 @@ void MessageBoxChatReportChatLayer::onSizeChanged()
     
     if(youTubeVideoLayer)
         youTubeVideoLayer->onSizeChanged();
+    
+    if(onlineSafetySlides)
+        onlineSafetySlides->onSizeChanged();
 
 }
 
@@ -208,8 +211,8 @@ void MessageBoxChatReportChatLayer::buttonPressed(ElectricDreamsButton* button)
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Cancel");
     else if(button == onlineSafetyTipsButton)
     {
-        youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
-
+        //youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
+        onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlides, nullptr);
     }
     else if(button == reportButton)
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Report");

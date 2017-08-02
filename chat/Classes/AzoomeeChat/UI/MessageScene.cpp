@@ -75,7 +75,7 @@ bool MessageScene::init()
     _titleBar->addBackButtonEventListener([this](Ref* button){
         onBackButtonPressed();
     });
-    _titleBar->addAlertButtonEventListener([this](Ref* button){
+    _titleBar->addReportButtonEventListener([this](Ref* button){
         onAlertButtonPressed();
     });
     _titleBar->addReportResetButtonEventListener([this](Ref* button){
@@ -224,9 +224,7 @@ void MessageScene::onAlertButtonPressed()
 void MessageScene::onReportResetButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
-    
     RequestAdultPinLayer::create()->setDelegate(this);
-    //MessageBox::createWith(ERROR_CODE_RESET_REPORTED_CHAT, this);
 }
 
 #pragma mark - ChatAPIObserver
@@ -301,11 +299,6 @@ void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long er
 void MessageScene::onChatAPIReportChatSuccessful(const std::string& requestTag)
 {
     ModalMessages::getInstance()->stopLoading();
-    
-    if(requestTag == API::TagReportChat)
-        MessageBox::createWith("Thank you for reporting", "This chat has been reported", std::vector<std::string> {"OK"}, nullptr);
-    else if(requestTag == API::TagResetReportedChat)
-        MessageBox::createWith("Reset", "This chat has been reset", std::vector<std::string> {"OK"}, nullptr);
 }
 
 #pragma mark - MessageComposer::Delegate

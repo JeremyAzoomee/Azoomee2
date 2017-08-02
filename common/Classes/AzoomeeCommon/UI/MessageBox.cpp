@@ -6,6 +6,7 @@
 #include "MessageBoxLayers/MessageBoxTextLayer.h"
 #include "MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.h"
 #include "MessageBoxLayers/ChatMessageLayers/MessageBoxChatReportChatLayer.h"
+#include "MessageBoxLayers/MessageBoxOnlineSafetySlidesLayer.h"
 
 using namespace cocos2d;
 
@@ -106,7 +107,7 @@ Layer* MessageBox::initLayer(MessageBoxLayerEnum messageBoxLayer, const std::map
             return MessageBoxChatReportChatLayer::create(newLayer);
             break;
         case OnlineSafetySlides:
-            
+            return MessageBoxOnlineSafetySlidesLayer::create(newLayer);
             break;
         case ChatResetModeration:
             return MessageBoxChatResetModerationLayer::create(propertiesMap,newLayer);
@@ -163,7 +164,6 @@ void MessageBox::removeSelf(float dt)
     
     if(this)
     {
-        this->windowLayer->removeFromParent();
         this->removeChild(backgroundLayer);
         this->removeFromParent();
     }

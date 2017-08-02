@@ -7,22 +7,17 @@
 using namespace cocos2d;
 
 #define MESSAGE_BOX_PADDING 100
+#define TOTAL_SLIDES 5
 
 namespace Azoomee
 {
     
-Layer* MessageBoxOnlineSafetySlidesLayer::create(const std::map<std::string, std::string>& propertiesMap,Layer* parentLayer)
+Layer* MessageBoxOnlineSafetySlidesLayer::create(Layer* parentLayer)
 {
     auto layer = MessageBoxOnlineSafetySlidesLayer::create();
     
     layer->_parentLayer = parentLayer;
-    layer->_propertiesMap =propertiesMap;
-    
-    std::string replaceChild1 = stringReplace(StringMgr::getInstance()->getStringForKey(CHAT_MESSAGE_BOXES_RESET_CHAT_TITLE), "%s1", layer->_propertiesMap["Child1"]);
-    
-    layer->_messageBoxTitle = stringReplace(replaceChild1, "%s2", layer->_propertiesMap["Child2"]);
-    layer->_messageBoxBody = StringMgr::getInstance()->getStringForKey(CHAT_MESSAGE_BOXES_RESET_CHAT_BODY);
-    
+    layer->currentSlideNumber = 1;
     layer->onSizeChanged();
     
     return layer;
@@ -34,76 +29,80 @@ bool MessageBoxOnlineSafetySlidesLayer::init()
     {
         return false;
     }
-    
-    setCurrentRunningSceneSize();
-    setOrientation();
-    
+
     return true;
-}
-    
-void MessageBoxOnlineSafetySlidesLayer::setOrientation()
-{
-    if(currentRunningSceneSize.width < currentRunningSceneSize.height)
-    {
-        isLandscape = false;
-        percentageOfScreenForBox = 0.9;
-    }
-    else
-    {
-        isLandscape = true;
-        percentageOfScreenForBox = 0.7;
-    }
 }
 
 //---------------------- Message Box Functions------------------------
   
-void MessageBoxOnlineSafetySlidesLayer::createTitle()
+void MessageBoxOnlineSafetySlidesLayer::addUIObjects()
 {
-    messageTitleLabel = createLabelMessageBoxTitle(_messageBoxTitle);
-    messageTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    messageTitleLabel->setWidth(textMaxWidth);
-}
-
-void MessageBoxOnlineSafetySlidesLayer::createBody()
-{
-    messageBodyLabel = createLabelWith(_messageBoxBody, Style::Font::Regular, Style::Color::white, 64);
-    messageBodyLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    messageBodyLabel->setWidth(textMaxWidth);
-}
+    //-------------MAIN TITLE --------------
+    titleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_MAIN_TITLE), Style::Font::Regular, Style::Color::black, 70);
     
-void MessageBoxOnlineSafetySlidesLayer::createSprite()
-{
-    oomeeSprite = Sprite::create("res/chat/ui/messageBoxes/thoughtfullOomee.png");
-}
-
-void MessageBoxOnlineSafetySlidesLayer::createButtons()
-{
-    onlineSafetyTipsButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(BUTTON_ONLINE_SAFETY_TIPS), 64, true);
-    onlineSafetyTipsButton->setMixPanelButtonName("MessageBox-OnlineSafetyTips");
-    onlineSafetyTipsButton->setDelegate(this);
+    //------------SLIDE TITLE--------------------
+    slideTitleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)), Style::Font::Bold, Color3B(9,154,154), 70);
     
-    resetButton = ElectricDreamsButton::createButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_RESET), onlineSafetyTipsButton->getContentSize().width);
-    resetButton->setMixPanelButtonName("MessageBox-Reset");
-    resetButton->setDelegate(this);
+    //-----------SLIDE IMAGE--------------------
+    mainImage = Sprite::create(StringUtils::format("res/onlineSafetySlides/safetyIll0%d.png",currentSlideNumber));
+    
+    //-----------SLIDE MAIN TEXT--------------------
+    mainTextLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)), Style::Font::Regular, Style::Color::black, 59);
+    mainTextLabel->setLineSpacing(15);
+    
+    //-----------SLIDE NATVIATION--------------------
+    // Location in relation to the Image Location
+    
+    chevronLeftButton = ElectricDreamsButton::createChevronLeftButton();
+    chevronLeftButton->setDelegate(this);
+    chevronLeftButton->setMixPanelButtonName("MessageBox-OnlineSafety-LeftChevron");
+    
+    chevronRightButton = ElectricDreamsButton::createChevronRightButton();
+    chevronRightButton->setDelegate(this);
+    chevronRightButton->setMixPanelButtonName("MessageBox-OnlineSafety-RighChevron");
+    
+    watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Color3B(9,154,154));
+    watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
+    watchSearchItUpButton->setDelegate(this);
+    watchSearchItUpButton->setMixPanelButtonName("MessageBox-OnlineSafety-watchSearchItUp");
 }
 
 void MessageBoxOnlineSafetySlidesLayer::createCancelButton()
 {
-    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton = ElectricDreamsButton::createWhiteWindowCloselButton();
     cancelButton->setMixPanelButtonName("messageBoxCancelButton");
     cancelButton->setDelegate(this);
 }
     
-//------------- LANDSCAPE SPECIFIC CREATION-------------
-
-void MessageBoxOnlineSafetySlidesLayer::createMessageWindowLandscape()
+void MessageBoxOnlineSafetySlidesLayer::setToCurrentSlideNumber()
 {
-    float windowHeight = cancelButton->getContentSize().height + messageTitleLabel->getContentSize().height + oomeeSprite->getContentSize().height + (4*MESSAGE_BOX_PADDING);
+    AnalyticsSingleton::getInstance()->settingsOnlineSafetySlideChangeEvent(currentSlideNumber);
+    slideTitleLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)));
+    mainTextLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)));
     
-    windowLayer = createWindowLayer(currentRunningSceneSize.width * percentageOfScreenForBox, windowHeight);
-    windowLayer->setPosition(currentRunningSceneSize.width/2- windowLayer->getContentSize().width/2,(currentRunningSceneSize.height - windowLayer->getContentSize().height) * 0.66);
+    mainImage->setTexture(StringUtils::format("res/onlineSafetySlides/safetyIll0%d.png",currentSlideNumber));
+}
+
+void MessageBoxOnlineSafetySlidesLayer::moveSlideNumberBy(int moveBy)
+{
+    currentSlideNumber = currentSlideNumber + moveBy;
+    
+    if(currentSlideNumber > TOTAL_SLIDES)
+        currentSlideNumber = 1;
+    else if(currentSlideNumber < 1)
+        currentSlideNumber = 5;
+    
+    setToCurrentSlideNumber();
+}
+    
+void MessageBoxOnlineSafetySlidesLayer::createMessageWindow()
+{
+    windowLayer = createWhiteWindowLayer(currentRunningSceneSize.width - MESSAGE_BOX_PADDING*2, currentRunningSceneSize.height -MESSAGE_BOX_PADDING*2);
+    windowLayer->setPosition(currentRunningSceneSize.width/2- windowLayer->getContentSize().width/2,currentRunningSceneSize.height/2-windowLayer->getContentSize().height/2);
     this->addChild(windowLayer);
 }
+    
+//------------- LANDSCAPE SPECIFIC CREATION-------------
 
 void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowLandscape()
 {
@@ -113,42 +112,48 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowLandscape()
     windowLayer->addChild(cancelButton);
     
     // Add Title
-    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height/2 - messageTitleLabel->getContentSize().height/2;
-    messageTitleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
-    windowLayer->addChild(messageTitleLabel);
+    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height/2 - titleLabel->getContentSize().height;
+    titleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    titleLabel->setAnchorPoint(Vec2(0.0,0.0));
+    titleLabel->setPosition(MESSAGE_BOX_PADDING*2, nextItemHeight);
+    titleLabel->setWidth(windowLayer->getContentSize().width);
+    windowLayer->addChild(titleLabel);
 
-    // Add OomeeSprite
-    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING-messageTitleLabel->getContentSize().height/2 - oomeeSprite->getContentSize().height/2;
-    oomeeSprite->setPosition(windowLayer->getContentSize().width/4,nextItemHeight);
-    windowLayer->addChild(oomeeSprite);
+    // Add Slide Title
+    nextItemHeight = nextItemHeight-titleLabel->getContentSize().height/2 - slideTitleLabel->getContentSize().height;
+    slideTitleLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    slideTitleLabel->setAnchorPoint(Vec2(0.0,0.0));
+    slideTitleLabel->setPosition(MESSAGE_BOX_PADDING*2, nextItemHeight);
+    slideTitleLabel->setWidth(windowLayer->getContentSize().width);
+    windowLayer->addChild(slideTitleLabel);
     
-    // Add Body
-    messageBodyLabel->setWidth(textMaxWidth/2);
-    nextItemHeight = oomeeSprite->getPositionY()+oomeeSprite->getContentSize().height/2-messageBodyLabel->getContentSize().height/2;
-    messageBodyLabel->setPosition(windowLayer->getContentSize().width*.75, nextItemHeight);
-    windowLayer->addChild(messageBodyLabel);
+    // Add Slide Title
+    nextItemHeight = nextItemHeight-slideTitleLabel->getContentSize().height/2;
+    mainTextLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    mainTextLabel->setAnchorPoint(Vec2(0.0,1.0));
+    mainTextLabel->setPosition(MESSAGE_BOX_PADDING*2, nextItemHeight);
+    mainTextLabel->setWidth(windowLayer->getContentSize().width/2);
+    windowLayer->addChild(mainTextLabel);
     
-    // Add online Safety Tips Button
-    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING/4- messageBodyLabel->getContentSize().height/2 - onlineSafetyTipsButton->getContentSize().height/2;
-    onlineSafetyTipsButton->setCenterPosition(Vec2(windowLayer->getContentSize().width*.75, nextItemHeight));
-    windowLayer->addChild(onlineSafetyTipsButton);
+    // Add OomeeImage
+    mainImage->setPosition(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING - mainImage->getContentSize().width/2,windowLayer->getContentSize().height/2);
+    windowLayer->addChild(mainImage);
     
-    // Add Reset Button
-    nextItemHeight = oomeeSprite->getPositionY()-oomeeSprite->getContentSize().height/2;
-    resetButton->setCenterPosition(Vec2(windowLayer->getContentSize().width*.75, nextItemHeight));
-    windowLayer->addChild(resetButton);
+    // Add Search it Up button
+    watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),windowLayer->getContentSize().height/2-mainImage->getContentSize().height/2-MESSAGE_BOX_PADDING));
+    windowLayer->addChild(watchSearchItUpButton);
+    
+    // Add Left chevron
+    chevronLeftButton->setCenterPosition(Vec2(MESSAGE_BOX_PADDING,windowLayer->getContentSize().height/2));
+    windowLayer->addChild(chevronLeftButton);
+    
+    // Add right chevron
+    chevronRightButton->setCenterPosition(Vec2(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING,windowLayer->getContentSize().height/2));
+    windowLayer->addChild(chevronRightButton);
+    
 }
     
 //------------- PORTRAIT SPECIFIC CREATION-------------
-    
-void MessageBoxOnlineSafetySlidesLayer::createMessageWindowPortrait()
-{
-    float windowHeight = cancelButton->getContentSize().height + messageTitleLabel->getContentSize().height  + messageBodyLabel->getContentSize().height + onlineSafetyTipsButton->getContentSize().height + resetButton->getContentSize().height+oomeeSprite->getContentSize().height + (5*MESSAGE_BOX_PADDING);
-    
-    windowLayer = createWindowLayer(currentRunningSceneSize.width * percentageOfScreenForBox, windowHeight);
-    windowLayer->setPosition(currentRunningSceneSize.width/2- windowLayer->getContentSize().width/2,(currentRunningSceneSize.height - windowLayer->getContentSize().height) * 0.66);
-    this->addChild(windowLayer);
-}
     
 void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowPortrait()
 {
@@ -157,30 +162,46 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowPortrait()
     cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, nextItemHeight));
     windowLayer->addChild(cancelButton);
     
-    // Add OomeeSprite
-    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height/2 - oomeeSprite->getContentSize().height/2;
-    oomeeSprite->setPosition(windowLayer->getContentSize().width/2,nextItemHeight);
-    windowLayer->addChild(oomeeSprite);
-    
     // Add Title
-    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING-oomeeSprite->getContentSize().height/2 - messageTitleLabel->getContentSize().height/2;
-    messageTitleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
-    windowLayer->addChild(messageTitleLabel);
+    nextItemHeight = nextItemHeight-cancelButton->getContentSize().height/2;
+    titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    titleLabel->setAnchorPoint(Vec2(0.5,1.0));
+    titleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
+    titleLabel->setWidth(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING*2);
+    windowLayer->addChild(titleLabel);
     
-    // Add Body
-    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING-messageTitleLabel->getContentSize().height/2 - messageBodyLabel->getContentSize().height/2;
-    messageBodyLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
-    windowLayer->addChild(messageBodyLabel);
+    // Add Slide Title
+    nextItemHeight = nextItemHeight-titleLabel->getContentSize().height - MESSAGE_BOX_PADDING/2;
+    slideTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    slideTitleLabel->setAnchorPoint(Vec2(0.5,1.0));
+    slideTitleLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
+    slideTitleLabel->setWidth(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING*2);
+    windowLayer->addChild(slideTitleLabel);
     
-    // Add online Safety Tips Button
-    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING/4- messageBodyLabel->getContentSize().height/2 - onlineSafetyTipsButton->getContentSize().height/2;
-    onlineSafetyTipsButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2, nextItemHeight));
-    windowLayer->addChild(onlineSafetyTipsButton);
+    // Add OomeeImage
+    nextItemHeight = nextItemHeight- slideTitleLabel->getContentSize().height - MESSAGE_BOX_PADDING/2 - mainImage->getContentSize().height/2;
+    mainImage->setPosition(windowLayer->getContentSize().width/2 ,nextItemHeight);
+    windowLayer->addChild(mainImage);
     
-    // Add Reset Button
-    nextItemHeight = nextItemHeight- MESSAGE_BOX_PADDING - onlineSafetyTipsButton->getContentSize().height/2 - resetButton->getContentSize().height/2;
-    resetButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2, nextItemHeight));
-    windowLayer->addChild(resetButton);
+    // Add Slide Title
+    nextItemHeight = nextItemHeight-mainImage->getContentSize().height/2 - MESSAGE_BOX_PADDING;
+    mainTextLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    mainTextLabel->setAnchorPoint(Vec2(0.5,1.0));
+    mainTextLabel->setPosition(windowLayer->getContentSize().width/2, nextItemHeight);
+    mainTextLabel->setWidth(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING*2);
+    windowLayer->addChild(mainTextLabel);
+    
+    // Add Search it Up button
+    watchSearchItUpButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2,MESSAGE_BOX_PADDING*2));
+    windowLayer->addChild(watchSearchItUpButton);
+    
+    // Add Left chevron
+    chevronLeftButton->setCenterPosition(Vec2(MESSAGE_BOX_PADDING,mainImage->getPositionY()));
+    windowLayer->addChild(chevronLeftButton);
+    
+    // Add right chevron
+    chevronRightButton->setCenterPosition(Vec2(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING,mainImage->getPositionY()));
+    windowLayer->addChild(chevronRightButton);
 }
 
 //---------------------- Actions -----------------
@@ -188,44 +209,43 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowPortrait()
 void MessageBoxOnlineSafetySlidesLayer::onSizeChanged()
 {
     setCurrentRunningSceneSize();
-    setOrientation();
     
     if(windowLayer)
         windowLayer->removeAllChildren();
     
-    textMaxWidth = currentRunningSceneSize.width*percentageOfScreenForBox - MESSAGE_BOX_PADDING*2;
-
-    createTitle();
-    createBody();
-    createButtons();
     createCancelButton();
-    createSprite();
+    addUIObjects();
     
-    if(isLandscape)
+    createMessageWindow();
+    
+    if(currentRunningSceneSize.width>currentRunningSceneSize.height)
     {
-        createMessageWindowLandscape();
         addObjectsToWindowLandscape();
     }
     else
     {
-        createMessageWindowPortrait();
         addObjectsToWindowPortrait();
     }
 
+    if(youTubeVideoLayer)
+        youTubeVideoLayer->onSizeChanged();
 }
 
 //----------------------- Delegate Functions ----------------------------
 
 void MessageBoxOnlineSafetySlidesLayer::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == cancelButton)
-        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Cancel");
-    else if(button == onlineSafetyTipsButton)
+    if(button == watchSearchItUpButton)
     {
-        
+        //playVideo();
+        youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
     }
-    else if(button == resetButton)
-        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Reset");
+    else if(button == chevronLeftButton)
+        moveSlideNumberBy(-1);
+    else if(button == chevronRightButton)
+        moveSlideNumberBy(1);
+    else if(button == cancelButton)
+        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed("OnlineSafetySlideLayer", "Cancel");
 }
     
 }

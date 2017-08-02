@@ -139,8 +139,8 @@
 		4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8001EA8ADEF00FE964B /* UIView+MPHelpers.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */; };
 		434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */; };
-		434A55E71F2A336400740601 /* MessageBoxSignLoginLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E51F2A336400740601 /* MessageBoxSignLoginLayer.cpp */; };
 		434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */; };
+		436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -412,10 +412,11 @@
 		4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AutomaticEvents.m"; sourceTree = "<group>"; };
 		434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxLayer.cpp; path = MessageBoxLayers/MessageBoxLayer.cpp; sourceTree = "<group>"; };
 		434A55E31F29F9C800740601 /* MessageBoxLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxLayer.h; path = MessageBoxLayers/MessageBoxLayer.h; sourceTree = "<group>"; };
-		434A55E51F2A336400740601 /* MessageBoxSignLoginLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxSignLoginLayer.cpp; path = MessageBoxLayers/MessageBoxSignLoginLayer.cpp; sourceTree = "<group>"; };
-		434A55E61F2A336400740601 /* MessageBoxSignLoginLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxSignLoginLayer.h; path = MessageBoxLayers/MessageBoxSignLoginLayer.h; sourceTree = "<group>"; };
 		434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxChatResetModerationLayer.cpp; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.cpp; sourceTree = "<group>"; };
 		434A55EA1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxChatResetModerationLayer.h; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.h; sourceTree = "<group>"; };
+		436007871F22120C000ECBA4 /* ModalWebview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalWebview.cpp; sourceTree = "<group>"; };
+		436007881F22120C000ECBA4 /* ModalWebview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalWebview.h; sourceTree = "<group>"; };
+		4360078A1F2232CC000ECBA4 /* Urls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Urls.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -607,6 +608,8 @@
 				3012ED881E97DB450009027D /* ModalMessages.h */,
 				4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */,
 				4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */,
+				436007871F22120C000ECBA4 /* ModalWebview.cpp */,
+				436007881F22120C000ECBA4 /* ModalWebview.h */,
 				305966971ECCAF76009A7130 /* Scene.cpp */,
 				305966981ECCAF76009A7130 /* Scene.h */,
 				305966801ECC6987009A7130 /* Style.h */,
@@ -764,6 +767,7 @@
 				30DD5EEE1E96860C0084305B /* ConfigStorage.cpp */,
 				30DD5EEF1E96860C0084305B /* ConfigStorage.h */,
 				3018498C1EBCC100005B994A /* Json.h */,
+				4360078A1F2232CC000ECBA4 /* Urls.h */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -798,8 +802,6 @@
 				434A55E31F29F9C800740601 /* MessageBoxLayer.h */,
 				4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */,
 				4318E13D1F28E65400778E9A /* MessageBoxTextLayer.h */,
-				434A55E51F2A336400740601 /* MessageBoxSignLoginLayer.cpp */,
-				434A55E61F2A336400740601 /* MessageBoxSignLoginLayer.h */,
 				4313697C1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp */,
 				4313697D1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.h */,
 			);
@@ -1066,6 +1068,7 @@
 				4349C8361EA8ADEF00FE964B /* MPNotificationButton.m in Sources */,
 				4349C8591EA8ADEF00FE964B /* UIApplication+AutomaticEvents.m in Sources */,
 				3012ED591E969BBB0009027D /* ParentDataStorage.cpp in Sources */,
+				436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */,
 				4349C8211EA8ADEF00FE964B /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				4349C81C1EA8ADEF00FE964B /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				4349C82E1EA8ADEF00FE964B /* MPDesignerEventBindingRequestMesssage.m in Sources */,
@@ -1147,7 +1150,6 @@
 				4349C85B1EA8ADEF00FE964B /* UIImage+MPAverageColor.m in Sources */,
 				4349C8511EA8ADEF00FE964B /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				4349C83F1EA8ADEF00FE964B /* MPPassThroughValueTransformer.m in Sources */,
-				434A55E71F2A336400740601 /* MessageBoxSignLoginLayer.cpp in Sources */,
 				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
 				4349C84A1EA8ADEF00FE964B /* MPTweakInline.m in Sources */,
 				3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */,

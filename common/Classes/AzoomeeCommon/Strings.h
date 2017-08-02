@@ -19,7 +19,6 @@
 #define ONBOARDINGSCENE_PASSWORD_LABEL "OnboardingScene/password_label"
 #define ONBOARDINGSCENE_PIN_LABEL "OnboardingScene/pin_label"
 #define ONBOARDINGSCENE_PIN_SUB_LABEL "OnboardingScene/pin_sub_label"
-#define ONBOARDINGSCENE_TERMS_CONDITIONS "OnboardingScene/TandCs"
 
 //---------- ONBOARDING SUCCESS SCENE --------------
 
@@ -64,8 +63,6 @@
 //------------ OTHER LABELS ------------------
 
 #define PIN_REQUEST_LABEL "OtherLabels/pin_request_label"
-#define PREVIEW_MESSAGEBOX_TITLE_LABEL "OtherLabels/preview_messagebox_title_label"
-#define PREVIEW_MESSAGEBOX_BODY_LABEL "OtherLabels/preview_messagebox_body_label"
 #define CHILD_SELECTSCENE_TITLE_LABEL "OtherLabels/child_selectscene_title_label"
 #define LOADING_LABEL "OtherLabels/loading_label"
 
@@ -101,5 +98,17 @@
 #define CHAT_MESSAGE_BOXES_RESET_CHAT_TITLE "ChatMessageBoxes/resetChatTitle"
 #define CHAT_MESSAGE_BOXES_RESET_CHAT_BODY "ChatMessageBoxes/resetChatBody"
 #define CHAT_MESSAGE_BOXES_REPORT_CHAT_TITLE "ChatMessageBoxes/reportChatTitle"
+
+//------------TERMS AND PRIVACY-------------------
+
+#define T_and_C_Start_Text "TandC/startText"
+#define T_and_C_Privacy_Button "TandC/privacyButton"
+#define T_and_C_And "TandC/and"
+#define T_and_C_Terms_Button "TandC/termsButton"
+
+//------------ CHAT ---------------------------
+
+#define CHAT_CHAT_REPORTED "Chat/chatReported"
+#define CHAT_CHAT_REPORTED_MULTILINE "Chat/chatReportedMultiline"
 
 #endif

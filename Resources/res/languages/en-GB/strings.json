@@ -12,8 +12,7 @@
         "email_label":"Enter your email address",
         "password_label":"Create a password",
         "pin_label":"Set up a 4-digit PIN",
-        "pin_sub_label":"Use this to protect the parents/settings area.",
-        "TandCs":"By creating an account, you agree to our"
+        "pin_sub_label":"Use this to protect the parents/settings area."
     },
     
     "OnboardingSuccessScene":
@@ -64,8 +63,6 @@
     "OtherLabels":
     {
         "pin_request_label":"Please enter your PIN",
-        "preview_messagebox_title_label":"Sign Up or Log In",
-        "preview_messagebox_body_label":"Sign up or log in for access to the best kids’ TV shows, games and audiobooks in one safe app.",
         "child_selectscene_title_label":"Select your profile",
         "loading_label":"Loading"
     },
@@ -111,11 +108,22 @@
         "buttonTitle":"Watch Search It Up"
         
     },
-    
     "ChatMessageBoxes":
     {
         "resetChatTitle":"Reset %s1 & %s2's Conversation?",
-        "resetChatBody":"If you're not sure why not read the",
+        "resetChatBody":"If you need some guidence, read the",
         "reportChatTitle":"Do you really want to report this chat to your parents?"
+    },
+    "TandC":
+    {
+        "startText":"By creating an account, you agree to our",
+        "privacyButton":" Privacy Policy ",
+        "and":"and",
+        "termsButton":" Terms of Use "
+    },
+    "Chat":
+    {
+        "chatReported":"This chat has been reported. Get your parent to reset it.",
+        "chatReportedMultiline":"This chat has been reported.\nGet your parent to reset it."
     }
 }
