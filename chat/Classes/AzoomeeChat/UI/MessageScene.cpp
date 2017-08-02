@@ -76,7 +76,7 @@ bool MessageScene::init()
         onBackButtonPressed();
     });
     _titleBar->addReportButtonEventListener([this](Ref* button){
-        onAlertButtonPressed();
+        onReportButtonPressed();
     });
     _titleBar->addReportResetButtonEventListener([this](Ref* button){
         onReportResetButtonPressed();
@@ -213,7 +213,7 @@ void MessageScene::onBackButtonPressed()
     Director::getInstance()->replaceScene(TransitionSlideInL::create(0.25f, friendListScene));
 }
 
-void MessageScene::onAlertButtonPressed()
+void MessageScene::onReportButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - AlertButton");

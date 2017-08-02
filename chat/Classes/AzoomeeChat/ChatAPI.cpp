@@ -9,6 +9,11 @@ using namespace cocos2d;
 
 NS_AZOOMEE_CHAT_BEGIN
 
+#pragma mark - constants
+
+const char* const kPollScheduleKey = "requestFriendList_schedule";
+const float kPollScheduleInterval = 60.0f;
+
 #pragma mark - Init
 
 static std::auto_ptr<ChatAPI> sChatAPISharedInstance;
@@ -29,7 +34,39 @@ ChatAPI::ChatAPI()
 
 ChatAPI::~ChatAPI()
 {
+    unscheduleFriendListPoll();
     PusherSDK::getInstance()->removeObserver(this);
+}
+
+#pragma mark - Schedule Polling of Friendlist
+
+void ChatAPI::scheduleFriendListPoll()
+{
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        this->requestFriendList();
+    }, this, kPollScheduleInterval, false, kPollScheduleKey);
+}
+
+void ChatAPI::unscheduleFriendListPoll()
+{
+    Director::getInstance()->getScheduler()->unschedule(kPollScheduleKey, this);
+}
+
+void ChatAPI::rescheduleFriendListPoll()
+{
+    unscheduleFriendListPoll();
+    scheduleFriendListPoll();
+}
+
+bool ChatAPI::friendListPollScheduled()
+{
+    return Director::getInstance()->getScheduler()->isScheduled(kPollScheduleKey, this);
+}
+
+void ChatAPI::startFriendListManualPoll()
+{
+    requestFriendList();
+    rescheduleFriendListPoll();
 }
 
 #pragma mark - Profile names
@@ -144,6 +181,8 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
     // Get chat list success
     if(requestTag == API::TagGetChatList)
     {
+        int sumOfUnreadMessages = 0;
+        
         // Parse the response
         rapidjson::Document response;
         response.Parse(body.c_str());
@@ -159,6 +198,8 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
                 friendList.push_back(friendData);
                 
                 int unreadMessages = jsonEntry["unreadMessages"].GetInt();
+                sumOfUnreadMessages += unreadMessages;
+                
                 cocos2d::log("%d unread messages from %s", unreadMessages, friendData->friendName().c_str());
             }
         }
@@ -178,6 +219,7 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         for(auto observer : _observers)
         {
             observer->onChatAPIGetFriendList(_friendList);
+            observer->onChatAPINewMessageNotificationReceived(sumOfUnreadMessages);
         }
     }
     // Get chat messages success
@@ -265,6 +307,8 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 
 void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
 {
+    if(friendListPollScheduled()) rescheduleFriendListPoll(); //Poll is only a double check to avoid missing any pusher events. If we receive one, we reschedule (unschedule and schedule again), to avoid having too frequent poll updates.
+    
     cocos2d::log("PUSHER EVENT: %s", event->eventName().c_str());
     
     // Check if this is an in_moderation event

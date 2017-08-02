@@ -4,7 +4,6 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "ui/UIWebView.h"
-#include <AzoomeeCommon/UI/YouTubeVideoLayer.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -112,13 +111,12 @@ void OnlineSafetyDetailsLayer::addUIObjects()
 
 void OnlineSafetyDetailsLayer::playVideo()
 {
-    YouTubeVideoLayer::createWith("OxqWjHD8nMU");
-    /*videoLayer = LayerColor::create(Color4B(255,255,255,255),visibleSize.width, visibleSize.height);
+    videoLayer = LayerColor::create(Color4B(255,255,255,255),visibleSize.width, visibleSize.height);
     this->addChild(videoLayer);
     
     addListenerToVideoLayer(videoLayer);
     
-    closeVideoButton = ElectricDreamsButton::createWindowCloselButton();
+    closeVideoButton = ElectricDreamsButton::createWhiteWindowCloselButton();
     closeVideoButton->setCenterPosition(Vec2(visibleSize.width - closeVideoButton->getContentSize().width, visibleSize.height - closeVideoButton->getContentSize().height));
     closeVideoButton->setDelegate(this);
     closeVideoButton->setMixPanelButtonName("Settings-OnlineSafety-CloseVideo");
@@ -133,7 +131,7 @@ void OnlineSafetyDetailsLayer::playVideo()
     videoWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     videoWebview->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
     videoWebview->loadURL(videoEmbeddedURL);
-    videoLayer->addChild(videoWebview);*/
+    videoLayer->addChild(videoWebview);
 }
 
 void OnlineSafetyDetailsLayer::setToCurrentSlideNumber()
