@@ -56,6 +56,15 @@ private:
     
     // - MessageComposer::Delegate
     void onMessageComposerSendMessage(const MessageRef& message) override;
+    
+    // - Retrieve history when message list view reached top
+    void createEventListenerForRetrievingHistory();
+    
+    //variables required for retrieving history
+    cocos2d::EventListenerCustom* _listener;
+    bool _historyUpdateInProgress = false;
+    
+    bool isMessageInHistory(const MessageRef& message);
 
 protected:
     
@@ -70,6 +79,8 @@ public:
     virtual void update(float dt) override;
     
     static MessageScene* create(const FriendList& participants);
+    
+    void getMessageHistory();
 };
 
 NS_AZOOMEE_CHAT_END

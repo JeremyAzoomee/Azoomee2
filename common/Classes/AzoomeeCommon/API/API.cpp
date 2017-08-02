@@ -238,11 +238,13 @@ HttpRequestCreator* API::GetChatListRequest(const std::string& userId,
 
 HttpRequestCreator* API::GetChatMessagesRequest(const std::string& userId,
                                                 const std::string& friendId,
+                                                int pageNumber,
                                                 HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagGetChatMessages;
     request->requestPath = StringUtils::format("/api/share/v2/%s/%s", userId.c_str(), friendId.c_str());
+    request->urlParameters = StringUtils::format("page=%d", pageNumber);
     request->encrypted = true;
     return request;
 }
