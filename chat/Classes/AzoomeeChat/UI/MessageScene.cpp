@@ -23,12 +23,6 @@ NS_AZOOMEE_CHAT_BEGIN
 const float kAutoGetTimeInterval = 5.0f;
 #endif
 
-#pragma mark - Constants
-
-const char* const MessageScene::kEventListenerFlag = "MessageListView_reached_top";
-
-#pragma mark - Methods
-
 MessageScene* MessageScene::create(const FriendList& participants)
 {
     MessageScene* scene = new(std::nothrow) MessageScene(participants);
@@ -139,7 +133,7 @@ void MessageScene::update(float dt)
 
 void MessageScene::getMessageHistory()
 {
-    int calculatedPageNumber = int(_messagesByTime.size() / kMessagesOnPage);
+    int calculatedPageNumber = int(_messagesByTime.size() / MessageListView::kMessagesOnPage);
     _historyUpdateInProgress = true;
     ChatAPI::getInstance()->requestMessageHistory(_participants[1], calculatedPageNumber);
 }
@@ -158,7 +152,7 @@ bool MessageScene::isMessageInHistory(const MessageRef &message)
 
 void MessageScene::createEventListenerForRetrievingHistory()
 {
-    _listener = EventListenerCustom::create(kEventListenerFlag, [=](EventCustom* event){
+    _listener = EventListenerCustom::create(MessageListView::kEventListenerFlag, [=](EventCustom* event){
         if(!_historyUpdateInProgress)
         {
             this->getMessageHistory();
@@ -277,7 +271,7 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
     _timeTillGet = kAutoGetTimeInterval;
 #endif
     
-    if(messageList.size() >= kMessagesOnPage) _historyUpdateInProgress = false; //if downloaded messages are less than kMessagesOnPage (20 on server) in length, then we got to the beginning of the conversation, no further retrievals are required.
+    if(messageList.size() >= MessageListView::kMessagesOnPage) _historyUpdateInProgress = false; //if downloaded messages are less than kMessagesOnPage (20 on server) in length, then we got to the beginning of the conversation, no further retrievals are required.
 }
 
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)

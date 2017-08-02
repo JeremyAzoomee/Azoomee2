@@ -1,6 +1,5 @@
 #include "MessageListView.h"
 #include "MessageListViewItem.h"
-#include "MessageScene.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <AzoomeeCommon/UI/LayoutParams.h>
 
@@ -9,6 +8,12 @@ using namespace cocos2d;
 
 
 NS_AZOOMEE_CHAT_BEGIN
+
+#pragma mark - Constants
+
+const char* const MessageListView::kEventListenerFlag = "MessageListView_reached_top";
+
+#pragma mark - Methods
 
 bool MessageListView::init()
 {
@@ -174,9 +179,9 @@ void MessageListView::setScrollPosition(float pos)
 
 void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollView::EventType event)
 {
-    if((getScrollPosition() < 0.01)&&(_listView->getChildren().size() >= MessageScene::kMessagesOnPage)) //We don't start getting history, if there are less than 20 messages in the container -> the chat has just started, and the user scrolls to the top, or on the top anyways because of not having enough messages to scroll at all.
+    if((getScrollPosition() < 0.01)&&(_listView->getChildren().size() >= MessageListView::kMessagesOnPage)) //We don't start getting history, if there are less than 20 messages in the container -> the chat has just started, and the user scrolls to the top, or on the top anyways because of not having enough messages to scroll at all.
     {
-        EventCustom event(MessageScene::kEventListenerFlag);
+        EventCustom event(MessageListView::kEventListenerFlag);
         Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
     }
     
