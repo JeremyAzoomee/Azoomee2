@@ -49,7 +49,7 @@ private:
     void onBackButtonPressed();
     
     /// Alert button was pressed
-    void onAlertButtonPressed();
+    void onReportButtonPressed();
     
     /// Report reset button was pressed
     void onReportResetButtonPressed();
