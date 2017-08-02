@@ -104,15 +104,12 @@ struct ChatAPIObserver
     virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) {};
     /// A chat message was recieved
     virtual void onChatAPIMessageRecieved(const MessageRef& message) {};
-<<<<<<< HEAD
     /// A custom (command) message was received
     virtual void onChatAPICustomMessageReceived(const std::string& messageType, std::map<std::string, std::string> messageProperties) {};
     /// Response on reporting a chat received
     virtual void onChatAPIReportChatSuccessful(const std::string& requestTag) {};
-=======
     /// Notification about new messages
     virtual void onChatAPINewMessageNotificationReceived(int amountOfNewMessages) {};
->>>>>>> origin/master
 };
 
 NS_AZOOMEE_CHAT_END
