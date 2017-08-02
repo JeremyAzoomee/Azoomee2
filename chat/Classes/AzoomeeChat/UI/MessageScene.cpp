@@ -97,7 +97,7 @@ void MessageScene::onEnter()
     ChatAPI::getInstance()->registerObserver(this);
     
     // Get message list
-    ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
+    getMessageHistory();
     ModalMessages::getInstance()->startLoading();
     
     // Show if message list is inModeration
@@ -105,6 +105,9 @@ void MessageScene::onEnter()
     
     // Get update calls
     scheduleUpdate();
+    
+    //Get scrollview on top notifications
+    this->createEventListenerForRetrievingHistory();
 }
 
 void MessageScene::onExit()
@@ -116,6 +119,9 @@ void MessageScene::onExit()
     
     // Stop update calls
     unscheduleUpdate();
+    
+    //Unregister history retrieving listener calls
+    Director::getInstance()->getEventDispatcher()->removeEventListener(_listener);
 }
 
 void MessageScene::update(float dt)
@@ -130,10 +136,41 @@ void MessageScene::update(float dt)
             _timeTillGet = -1.0f;
             
             // Make the call
-            ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
+            getMessageHistory();
         }
     }
 #endif
+}
+
+void MessageScene::getMessageHistory()
+{
+    int calculatedPageNumber = int(_messagesByTime.size() / MessageListView::kMessagesOnPage);
+    _historyUpdateInProgress = true;
+    ChatAPI::getInstance()->requestMessageHistory(_participants[1], calculatedPageNumber);
+}
+
+bool MessageScene::isMessageInHistory(const MessageRef &message)
+{
+    if(_messagesByTime.empty()) return false;
+    
+    for(auto listItem : _messagesByTime)
+    {
+        if(listItem->messageId() == message->messageId()) return true;
+    }
+    
+    return false;
+}
+
+void MessageScene::createEventListenerForRetrievingHistory()
+{
+    _listener = EventListenerCustom::create(MessageListView::kEventListenerFlag, [=](EventCustom* event){
+        if(!_historyUpdateInProgress)
+        {
+            this->getMessageHistory();
+        }
+    });
+    
+    _eventDispatcher->addEventListenerWithFixedPriority(_listener, 1);
 }
 
 #pragma mark - Size Changes
@@ -227,6 +264,8 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 {
     // Make a copy of the messageList and sort it in order of timestamp
     MessageList messagesByTime;
+    if(!_messagesByTime.empty()) messagesByTime = _messagesByTime;
+    
     for(const MessageRef& message : messageList)
     {
         // Find first item where this message is newer
@@ -238,8 +277,9 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
                 break;
             }
         }
-        messagesByTime.insert(it.base(), message);
+        if(!isMessageInHistory(message)) messagesByTime.insert(it.base(), message);
     }
+    
     _messagesByTime = messagesByTime;
     
     _messageListView->setData(_participants, _messagesByTime);
@@ -257,12 +297,16 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
     // Trigger auto get again
     _timeTillGet = kAutoGetTimeInterval;
 #endif
+    
+    if(messageList.size() >= MessageListView::kMessagesOnPage) _historyUpdateInProgress = false; //if downloaded messages are less than kMessagesOnPage (20 on server) in length, then we got to the beginning of the conversation, no further retrievals are required.
 }
 
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 {
-    // Auto get new messages until we have a live feed from PUSHER
-    ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
+    _historyUpdateInProgress = true;
+    _messagesByTime.push_back(sentMessage);
+    _messageListView->setData(_participants, _messagesByTime);
+    _historyUpdateInProgress = false;
 }
 
 void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)

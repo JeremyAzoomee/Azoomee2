@@ -9,6 +9,12 @@ using namespace cocos2d;
 
 NS_AZOOMEE_CHAT_BEGIN
 
+#pragma mark - Constants
+
+const char* const MessageListView::kEventListenerFlag = "MessageListView_reached_top";
+
+#pragma mark - Methods
+
 bool MessageListView::init()
 {
     if(!Super::init())
@@ -173,6 +179,12 @@ void MessageListView::setScrollPosition(float pos)
 
 void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollView::EventType event)
 {
+    if((getScrollPosition() < 0.01)&&(_listView->getChildren().size() >= MessageListView::kMessagesOnPage)) //We don't start getting history, if there are less than 20 messages in the container -> the chat has just started, and the user scrolls to the top, or on the top anyways because of not having enough messages to scroll at all.
+    {
+        EventCustom event(MessageListView::kEventListenerFlag);
+        Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    }
+    
 #ifdef AVATARS_IN_LISTVIEW
     // Scroll movement
     if(event == ui::ScrollView::EventType::CONTAINER_MOVED)
@@ -322,7 +334,23 @@ void MessageListView::setData(const FriendList& participants, const MessageList&
     // Scroll to bottom if we have different item size to before
     if(prevScrollHeight != _listView->getInnerContainerSize().height)
     {
-        setScrollPosition(1.0f);
+        if(scrollPos > 0.9) //inner containerview size is bigger than scrollview size, and already scrolled at the bottom(ish), so new action requires being scrolled to the bottom
+        {
+            setScrollPosition(1.0f);
+        }
+        else if((prevScrollHeight <= _listView->getContentSize().height)&&(_listView->getInnerContainerSize().height > _listView->getContentSize().height)) //getting the message that increases inner container view size bigger than scrollview content size (will have 1.0 as scrollpos after this).
+        {
+            setScrollPosition(1.0f);
+        }
+        else
+        {
+            float scrollPositionInPixel = prevScrollHeight * scrollPos;
+            float heightDifference = _listView->getInnerContainerSize().height - prevScrollHeight;
+            float newScrollPositionInPixel = scrollPositionInPixel + heightDifference;
+            float newScrollPositionInPercentage = newScrollPositionInPixel / _listView->getInnerContainerSize().height;
+            
+            setScrollPosition(newScrollPositionInPercentage); //restore same scroll position with the new size
+        }
     }
     else
     {
