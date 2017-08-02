@@ -266,11 +266,9 @@ void TitleBarWidget::addReportResetButtonEventListener(const cocos2d::ui::Widget
 
 void TitleBarWidget::setChatToInModeration()
 {
-    if(chatReportingIsForbidden) return;
-    
     //Set Report Bar and Reset to Visible
     _reportButton->setVisible(false);
-    _reportResetButton->setVisible(true);
+    _reportResetButton->setVisible(!chatReportingIsForbidden);
     _reportedChatTitleBar->setVisible(true);
 }
 
@@ -279,15 +277,15 @@ void TitleBarWidget::setChatToActive()
     if(chatReportingIsForbidden) return;
     
     //Hide Report Bar, and sent Report Button to visible
-    _reportButton->setVisible(true);
+    _reportButton->setVisible(!chatReportingIsForbidden);
     _reportResetButton->setVisible(false);
     _reportedChatTitleBar->setVisible(false);
 }
 
 void TitleBarWidget::setChatReportingToForbidden()
 {
-    setChatToActive();
     _reportButton->setVisible(false);
+    _reportResetButton->setVisible(false);
     chatReportingIsForbidden = true;
 }
 
