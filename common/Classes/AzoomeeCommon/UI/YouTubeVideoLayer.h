@@ -14,6 +14,7 @@ private:
     
     cocos2d::LayerColor* backgroundLayer;
     cocos2d::experimental::ui::WebView* videoWebview;
+    cocos2d::LayerColor* _loadingLayer;
     
     ElectricDreamsButton *closeVideoButton;
     
@@ -23,11 +24,16 @@ private:
     void addListenerToBackgroundLayer();
     void createCloseButton();
     void createVideoWebview();
+    void createLoadingLayer();
+    void addLoadingLayerOnTopOfWebView();
     
     void setToPortrait();
     void setToLandscape();
     
     void removeSelf(float dt);
+    void webViewDidFinishLoading();
+    
+    bool _webViewStartedLoading;
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button) override;

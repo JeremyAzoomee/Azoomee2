@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>Youtube video</title>
+	</head>
+	<body bgcolor="black">
+		<div id="loadingScreen" style="background-color: #000000; position: absolute; left: 0px; top: 0px; bottom: 0px; background-image: url(./loading_image.jpg); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;">
+
+		<script>
+			function addFrameToScreen(videoid)
+			{
+				var iframe = document.createElement('iframe');
+				iframe.src = "https://www.youtube.com/embed/"+videoid+"?rel=0&amp;controls=0&amp;showinfo=0";
+				iframe.width  = window.innerWidth - 15;
+    			iframe.height = window.innerHeight - 15;
+    			iframe.scrolling = "no";
+    			iframe.style.border = "none";
+				document.body.appendChild(iframe);
+				
+				iframe.addEventListener("load", removeLoadingScreen);
+			}
+			
+			function removeLoadingScreen()
+			{
+				var target = document.getElementById("loadingScreen");
+				target.parentElement.removeChild(target);
+			}
+		</script>
+	</body>
+</html>

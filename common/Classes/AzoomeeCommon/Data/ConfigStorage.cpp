@@ -8,7 +8,7 @@
 
 using namespace cocos2d;
 
-#define USINGCI
+//#define USINGCI
 
 
 namespace Azoomee

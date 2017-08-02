@@ -1,4 +1,5 @@
 #include "YouTubeVideoLayer.h"
+#include "ElectricDreamsDecoration.h"
 
 using namespace cocos2d;
 
@@ -34,8 +35,12 @@ void YouTubeVideoLayer::createBackgroundLayer()
 {
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     
-    backgroundLayer = LayerColor::create(Color4B(255,255,255,255),currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
+    backgroundLayer = LayerColor::create(Color4B(0,0,0,255),currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
+    addSideWiresToScreen(backgroundLayer);
+    
     this->addChild(backgroundLayer);
+    
+    
     
     Director::getInstance()->getRunningScene()->addChild(this);
 }
@@ -62,28 +67,65 @@ void YouTubeVideoLayer::createCloseButton()
     
 void YouTubeVideoLayer::createVideoWebview()
 {
-    //560 x 315
-    std::string videoHTML = "<iframe width=\"80%\" height=\"80%\" src=\"https://www.youtube.com/embed///riCzbUj_ow8?rel=0&amp?ecver=2&autoplay=1;showinfo=0\" frameborder=\"0\" allowfullscreen></iframe>";
-    
-    /*std::string videoHTML = "<iframe width=\"140\" height=\"78.75\" src=\"https://www.youtube.com/embed/riCzbUj_ow8?rel=0&amp?ecver=2&autoplay=1;showinfo=0\" frameborder=\"0\" allowfullscreen></iframe>";*/
-    
+    _webViewStartedLoading = true;
     videoWebview = experimental::ui::WebView::create();
     videoWebview->setContentSize(Size(560,315));
     videoWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    videoWebview->loadHTMLString(videoHTML);
-    videoWebview->setScalesPageToFit(true);
+    videoWebview->loadFile("res/videoScreen/index.html");
     backgroundLayer->addChild(videoWebview);
+    videoWebview->setVisible(true);
+    
+    videoWebview->setOnDidFinishLoading(CC_CALLBACK_0(YouTubeVideoLayer::webViewDidFinishLoading, this));
+    
+    addLoadingLayerOnTopOfWebView();
+}
+    
+void YouTubeVideoLayer::webViewDidFinishLoading()
+{
+    if(!_webViewStartedLoading) return;
+    
+    _webViewStartedLoading = false;
+    videoWebview->evaluateJS("addFrameToScreen(\"riCzbUj_ow8\")");
+    this->removeChild(_loadingLayer);
+    videoWebview->setVisible(true);
+}
+    
+void YouTubeVideoLayer::addLoadingLayerOnTopOfWebView()
+{
+    if(this->getChildByName("loadingLayer")) return;
+    
+    _loadingLayer = LayerColor::create(Color4B(0,0,0,150), videoWebview->getContentSize().width, videoWebview->getContentSize().height);
+    _loadingLayer->setPosition(this->getContentSize().width / 2 - _loadingLayer->getContentSize().width / 2, this->getContentSize().height / 2 - _loadingLayer->getContentSize().height / 2);
+    _loadingLayer->setName("loadingLayer");
+    
+    _loadingLayer->setOpacity(0);
+    this->addChild(_loadingLayer);
+    
+    _loadingLayer->runAction(FadeTo::create(0.5, 200));
+    
+    for(int i = 0; i < 3; i++)
+    {
+        auto loadingCircle = Sprite::create("res/modal/loading.png");
+        loadingCircle->setPosition(_loadingLayer->getContentSize().width / 2, _loadingLayer->getContentSize().height / 2);
+        loadingCircle->setOpacity(0);
+        loadingCircle->setRotation(RandomHelper::random_int(0, 360));
+        loadingCircle->setScale(0.6 + i * 0.2);
+        
+        _loadingLayer->addChild(loadingCircle);
+        
+        int direction = 1;
+        if(CCRANDOM_0_1() < 0.5) direction = -1;
+        
+        loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
+        loadingCircle->runAction(FadeTo::create(0.5, 255));
+    }
 }
 //---------------------- Actions -----------------
 
 void YouTubeVideoLayer::removeSelf(float dt)
 {
-    
-    if(this)
-    {
-        this->removeChild(backgroundLayer);
-        this->removeFromParent();
-    }
+    this->removeChild(backgroundLayer);
+    this->removeFromParent();
 }
     
 void YouTubeVideoLayer::onSizeChanged()
@@ -95,6 +137,10 @@ void YouTubeVideoLayer::onSizeChanged()
         setToLandscape();
     else
         setToPortrait();
+    
+    addLoadingLayerOnTopOfWebView();
+    videoWebview->reload();
+    _webViewStartedLoading = true;
 
 }
     
@@ -121,6 +167,7 @@ void YouTubeVideoLayer::setToLandscape()
     videoWebview->setContentSize(Size(1120,630));
     videoWebview->setScalesPageToFit(true);
     videoWebview->setPosition(Vec2(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height/2));
+    videoWebview->setVisible(true);
 }
 
 void YouTubeVideoLayer::setToPortrait()
@@ -141,12 +188,11 @@ void YouTubeVideoLayer::setToPortrait()
         videoViewHeight = currentRunningScene->getContentSize().width *.8;
         videoViewWidth = videoViewHeight * (560.0f/315.0f);
     }
-
-    //videoWebview->setContentSize(Size(videoViewWidth,videoViewHeight));
     
     videoWebview->setContentSize(Size(560,315));
     videoWebview->setScalesPageToFit(true);
     videoWebview->setPosition(Vec2(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height/2));
+    videoWebview->setVisible(true);
 }
     
 //----------------------- Delegate Functions ----------------------------
