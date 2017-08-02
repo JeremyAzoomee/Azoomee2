@@ -70,6 +70,15 @@ private:
     void AdultPinCancelled(RequestAdultPinLayer* layer) override;
     void AdultPinAccepted(RequestAdultPinLayer* layer) override;
 
+    // - Retrieve history when message list view reached top
+    void createEventListenerForRetrievingHistory();
+    
+    //variables required for retrieving history
+    cocos2d::EventListenerCustom* _listener;
+    bool _historyUpdateInProgress = false;
+    
+    bool isMessageInHistory(const MessageRef& message);
+
 protected:
     
     /// Called when the content size of this scene has changed
@@ -83,6 +92,8 @@ public:
     virtual void update(float dt) override;
     
     static MessageScene* create(const FriendList& participants);
+    
+    void getMessageHistory();
 };
 
 NS_AZOOMEE_CHAT_END

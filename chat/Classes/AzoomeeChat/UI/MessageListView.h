@@ -71,6 +71,9 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual void setContentSize(const cocos2d::Size& contentSize) override;
+    
+    static const char* const kEventListenerFlag;
+    static const int kMessagesOnPage = 20;
 
     CREATE_FUNC(MessageListView);
 };
