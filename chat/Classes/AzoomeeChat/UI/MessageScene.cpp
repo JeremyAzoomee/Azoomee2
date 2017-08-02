@@ -210,7 +210,7 @@ void MessageScene::onBackButtonPressed()
 void MessageScene::onReportButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
-    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - AlertButton");
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - ReportButton");
     
     MessageBox::createWithLayer(ChatReportForModeration, this);
 }
@@ -292,6 +292,11 @@ void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long er
 
 void MessageScene::onChatAPIReportChatSuccessful(const std::string& requestTag)
 {
+    if(requestTag == API::TagReportChat)
+        AnalyticsSingleton::getInstance()->chatReportedEvent();
+    else if(requestTag == API::TagResetReportedChat)
+        AnalyticsSingleton::getInstance()->chatResetReportedEvent();
+    
     ModalMessages::getInstance()->stopLoading();
 }
 

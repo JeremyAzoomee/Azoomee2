@@ -696,5 +696,15 @@ void AnalyticsSingleton::deepLinkingContentEvent()
         mixPanelSendEventWithStoredProperties("unreadMessagesNotificationReceived");
     }
     
+    void AnalyticsSingleton::chatReportedEvent()
+    {
+        mixPanelSendEventWithStoredProperties("chatReportedEvent");
+    }
+    
+    void AnalyticsSingleton::chatResetReportedEvent()
+    {
+        mixPanelSendEventWithStoredProperties("chatResetReportedEvent");
+    }
+    
     
 }

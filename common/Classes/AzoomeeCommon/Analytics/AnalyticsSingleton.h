@@ -155,6 +155,8 @@ public:
     void chatIncomingMessageEvent(std::string messageType);
     void chatOutgoingMessageEvent(std::string messageType);
     void unreadMessagesNotificationReceived();
+    void chatReportedEvent();
+    void chatResetReportedEvent();
 
 };
   
