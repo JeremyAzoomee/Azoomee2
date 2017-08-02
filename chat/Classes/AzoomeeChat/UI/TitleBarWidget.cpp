@@ -166,7 +166,7 @@ void TitleBarWidget::onSizeChanged()
 void TitleBarWidget::onSizeChangedReportedBar(const Size& contentSize)
 {
     // Get max width, to analyse if changes needed.
-    float maxReportLabelWidth = contentSize.width - _warningImageRight->getContentSize().width*2 + kTitleButtonsEdgePadding*4;
+    float maxReportLabelWidth = contentSize.width - _warningImageRight->getContentSize().width*2 - kTitleButtonsEdgePadding*4;
     
     _warningLabel->setString(StringMgr::getInstance()->getStringForKey(CHAT_CHAT_REPORTED));
     _warningLabel->setBMFontSize(64);
