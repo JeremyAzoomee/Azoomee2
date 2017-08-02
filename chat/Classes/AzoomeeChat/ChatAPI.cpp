@@ -320,7 +320,7 @@ void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
         if((userIdA == ChildDataProvider::getInstance()->getParentOrChildId())||(userIdB == ChildDataProvider::getInstance()->getParentOrChildId()))
         {
             std::string otherChildId = userIdA;
-            if(otherChildId == ChildDataProvider::getInstance()->getLoggedInChildId()) otherChildId = userIdB;
+            if(otherChildId == ChildDataProvider::getInstance()->getParentOrChildId()) otherChildId = userIdB;
             
             std::map<std::string, std::string> messageProperties;
             messageProperties["otherChildId"] = otherChildId;

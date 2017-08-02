@@ -274,8 +274,6 @@ void TitleBarWidget::setChatToInModeration()
 
 void TitleBarWidget::setChatToActive()
 {
-    if(chatReportingIsForbidden) return;
-    
     //Hide Report Bar, and sent Report Button to visible
     _reportButton->setVisible(!chatReportingIsForbidden);
     _reportResetButton->setVisible(false);
