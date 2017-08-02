@@ -20,7 +20,6 @@ class ChatAPIObserver;
 class ChatAPI : private HttpRequestCreatorResponseDelegate, public PusherEventObserver
 {
 private:
-    
     /// Most recent friend list
     FriendList _friendList;
     /// Index Friends by Id
@@ -37,12 +36,18 @@ private:
     /// Update the profile names based on the current child and their friend's list
     void updateProfileNames();
     
-    // - HttpRequestCreatorResponseDelegate
+    /// - HttpRequestCreatorResponseDelegate
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
-    // - PusherEventObserver
+    /// - PusherEventObserver
     void onPusherEventRecieved(const PusherEventRef& event) override;
+    
+    /// - Schedule Poll
+    void scheduleFriendListPoll();
+    void rescheduleFriendListPoll();
+    void unscheduleFriendListPoll();
+    bool friendListPollScheduled();
     
 public:
     
@@ -78,6 +83,10 @@ public:
     
     //Reset a reported chat by the parent
     void resetReportedChat(const FriendRef& friendObj);
+    
+    /// For azoomee2 notifications we start and schedule polling of friendlist
+    void startFriendListManualPoll();
+
 };
 
 /**
@@ -95,10 +104,15 @@ struct ChatAPIObserver
     virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) {};
     /// A chat message was recieved
     virtual void onChatAPIMessageRecieved(const MessageRef& message) {};
+<<<<<<< HEAD
     /// A custom (command) message was received
     virtual void onChatAPICustomMessageReceived(const std::string& messageType, std::map<std::string, std::string> messageProperties) {};
     /// Response on reporting a chat received
     virtual void onChatAPIReportChatSuccessful(const std::string& requestTag) {};
+=======
+    /// Notification about new messages
+    virtual void onChatAPINewMessageNotificationReceived(int amountOfNewMessages) {};
+>>>>>>> origin/master
 };
 
 NS_AZOOMEE_CHAT_END
