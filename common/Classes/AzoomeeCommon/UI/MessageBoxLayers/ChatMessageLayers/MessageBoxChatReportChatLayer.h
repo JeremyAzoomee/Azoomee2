@@ -6,7 +6,7 @@
 #include "../../../ErrorCodes.h"
 #include "../MessageBoxLayer.h"
 #include "../../YouTubeVideoLayer.h"
-#include "../../MessageBox.h"
+//#include "../../MessageBox.h"
 
 namespace Azoomee
 {
@@ -18,19 +18,19 @@ private:
     std::string _messageBoxTitle;
     std::string _messageBoxBody;
     
-    ElectricDreamsButton* reportButton;
-    ElectricDreamsButton* onlineSafetyTipsButton;
-    ElectricDreamsButton* cancelButton;
+    ElectricDreamsButton* reportButton = nullptr;
+    ElectricDreamsButton* onlineSafetyTipsButton = nullptr;
+    ElectricDreamsButton* cancelButton = nullptr;
     
-    YouTubeVideoLayer* youTubeVideoLayer;
+    //YouTubeVideoLayer* youTubeVideoLayer;
     
-    cocos2d::Label* messageTitleLabel;
+    cocos2d::Label* messageTitleLabel = nullptr;
 
-    cocos2d::Sprite* oomeeSprite;
+    cocos2d::Sprite* oomeeSprite = nullptr;
 
-    cocos2d::Layer* windowLayer;
+    cocos2d::Layer* windowLayer = nullptr;
     
-    MessageBox* onlineSafetySlides;
+    MessageBox* onlineSafetySlides = nullptr;
     
     float textMaxWidth;
     float buttonSpaceWidth;
