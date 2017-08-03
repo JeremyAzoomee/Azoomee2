@@ -329,13 +329,13 @@ void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
     _historyUpdateInProgress = false;
 }
 
-void MessageScene::onChatAPICustomMessageReceived(const std::string& messageType, std::map<std::string, std::string> messageProperties)
+void MessageScene::onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string> &messageProperties)
 {
     if(messageType != "MODERATION") return;
-    if(messageProperties["otherChildId"] != _participants[1]->friendId()) return;
+    if(messageProperties.at("otherChildId") != _participants[1]->friendId()) return;
     
-    if(messageProperties["status"] == "IN_MODERATION") _titleBar->setChatToInModeration();
-    if(messageProperties["status"] == "ACTIVE") _titleBar->setChatToActive();
+    if(messageProperties.at("status") == "IN_MODERATION") _titleBar->setChatToInModeration();
+    if(messageProperties.at("status") == "ACTIVE") _titleBar->setChatToActive();
 }
 
 void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
