@@ -52,14 +52,14 @@ protected:
   
 public:
     //Main function for creating a MessageBox
-    static MessageBox* createWith(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate);
-    static MessageBox* createWith(std::string Title, std::string Body, std::string Button, MessageBoxDelegate* _delegate);
+    static MessageBox* createWith(const std::string& Title, const std::string& Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate);
+    static MessageBox* createWith(const std::string& Title, const std::string& Body, const std::string& Button, MessageBoxDelegate* _delegate);
     static MessageBox* createWith(long errorCode, MessageBoxDelegate* _delegate);
     static MessageBox* createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* _delegate);
     static MessageBox* createWithLayer(MessageBoxLayerEnum messageBoxLayer, MessageBoxDelegate* _delegate);
     static MessageBox* createWithLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, MessageBoxDelegate* _delegate);
     
-    void sendDelegateMessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void sendDelegateMessageBoxButtonPressed(const std::string& messageBoxTitle,const std::string& buttonTitle);
     
     CREATE_FUNC(MessageBox);
     
