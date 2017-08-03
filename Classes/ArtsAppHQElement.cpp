@@ -219,7 +219,7 @@ Sprite* ArtsAppHQElement::addDeleteButton()
     auto delButton = Sprite::create("res/arthqscene/delete.png");
     delButton->setPosition(this->getContentSize().width - 80, this->getContentSize().height - 80);
     delButton->setOpacity(0);
-    this->addChild(delButton);
+    this->addChild(delButton,1);
     
     return delButton;
 }

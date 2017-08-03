@@ -6,7 +6,9 @@
 #include "ArtsAppHQElement.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "HQSceneElementPositioner.h"
+#include "ArtAppImageConverter.h"
 #include <dirent.h>
 
 using namespace cocos2d;
@@ -58,6 +60,11 @@ void HQSceneArtsApp::createArtsAppScrollView()
     auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height), Point(0, 300));
     this->addChild(horizontalScrollView);
     
+    if(!FileUtils::getInstance()->isDirectoryExist(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId()))
+        FileUtils::getInstance()->createDirectory(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId());
+    
+    convertOldArtImages();
+    
     addEmptyImageToHorizontalScrollView(horizontalScrollView);
     addCreatedImagesToHorizontalScrollView(horizontalScrollView);
 }
@@ -72,8 +79,7 @@ void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView
 
 void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    if(!FileUtils::getInstance()->isDirectoryExist(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId()))
-        FileUtils::getInstance()->createDirectory(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId());
+    
     //std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
     std::string path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
     std::vector<std::string> fileList = getFilesInDirectory(path);
@@ -105,6 +111,45 @@ void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toB
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)artImage);
     artImage->enableOnScreenChecker();
+}
+
+void HQSceneArtsApp::convertOldArtImages()
+{
+    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    std::vector<std::string> fileList = getFilesInDirectory(path);
+    for(int i = 0; i < fileList.size(); i++)
+    {
+        if(fileList.at(i).size() > 4)
+        {
+            if(fileList.at(i).substr(fileList.at(i).size() -4, 4) == "imag")
+            {
+                std::string imagePath = StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str());
+                ArtAppImageConverter imageConverter = ArtAppImageConverter(imagePath);
+                imageConverter.convertImage();
+            }
+        }
+    }
+    
+    ModalMessages::getInstance()->stopLoading();
+}
+
+std::vector<std::string> HQSceneArtsApp::getOldArtImages()
+{
+    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    std::vector<std::string> fileList = getFilesInDirectory(path);
+    std::vector<std::string> imagList;
+    for(int i = 0; i < fileList.size(); i++)
+    {
+        if(fileList.at(i).size() > 4)
+        {
+            if(fileList.at(i).substr(fileList.at(i).size() -4, 4) == "imag")
+            {
+                imagList.push_back(StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str()));
+            }
+        }
+    }
+    
+    return imagList;
 }
 
 std::vector<std::string> HQSceneArtsApp::getFilesInDirectory(std::string path)

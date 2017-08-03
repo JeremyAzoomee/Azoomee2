@@ -16,6 +16,10 @@
 #include "OfflineHubBackButton.h"
 #include "HQSceneArtsApp.h"
 
+#include "ImageConverterLoadingLayer.h"
+
+#include <AzoomeeCommon/UI/ModalMessages.h>
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -66,9 +70,21 @@ void HQScene::startBuildingScrollViewBasedOnName()
             auto artsLayer = this->getChildByName("ARTS APP");
             if(!artsLayer)
             {
-                auto offlineArtsAppScrollView = HQSceneArtsApp::create();
-                offlineArtsAppScrollView->setName("ARTS APP");
-                this->addChild(offlineArtsAppScrollView);
+                auto oldImages = HQSceneArtsApp::getOldArtImages();
+                if(HQSceneArtsApp::getOldArtImages().size() > 0)
+                {
+                    auto converterLayer = ImageConverterLoadingLayer::create();
+                    converterLayer->setFileNames(oldImages);
+                    this->addChild(converterLayer);
+                    //Director::getInstance()->getRunningScene()->addChild(converterLayer);
+                    
+                }
+                else
+                {
+                    auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+                    offlineArtsAppScrollView->setName("ARTS APP");
+                    this->addChild(offlineArtsAppScrollView);
+                }
             }
         }
         else createBidirectionalScrollView();

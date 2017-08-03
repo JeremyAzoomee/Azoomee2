@@ -126,6 +126,8 @@
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
+		926173BF1F3334E6008E3F9D /* ArtAppImageConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173BE1F3334E6008E3F9D /* ArtAppImageConverter.cpp */; };
+		926173C21F33850F008E3F9D /* ImageConverterLoadingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */; };
 		92A9A06E1F068A97008A19EB /* libArtApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libArtApp.a */; };
 		92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */; };
 		A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */; };
@@ -450,6 +452,10 @@
 		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
 		926173A11F2A4CC5008E3F9D /* ArtImageOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtImageOnScreenChecker.h; sourceTree = "<group>"; };
 		926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtImageOnScreenChecker.cpp; sourceTree = "<group>"; };
+		926173BD1F3333BE008E3F9D /* ArtAppImageConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppImageConverter.h; sourceTree = "<group>"; };
+		926173BE1F3334E6008E3F9D /* ArtAppImageConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppImageConverter.cpp; sourceTree = "<group>"; };
+		926173C01F338363008E3F9D /* ImageConverterLoadingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageConverterLoadingLayer.h; sourceTree = "<group>"; };
+		926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageConverterLoadingLayer.cpp; sourceTree = "<group>"; };
 		92A9A0A21F0D172F008A19EB /* ArtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppDelegate.h; sourceTree = "<group>"; };
 		92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppDelegate.cpp; sourceTree = "<group>"; };
 		A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeLayer.cpp; sourceTree = "<group>"; };
@@ -848,6 +854,7 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				926173B81F333376008E3F9D /* ArtAppImageConverter */,
 				0243B8C91F0F836A005D3734 /* EmptySceneForSettings */,
 				02074B241E93964F009BB28C /* WebGameAPIDataManager */,
 				020ACCFB1E70561F002490CE /* PaymentSingleton */,
@@ -982,6 +989,17 @@
 				92A9A06B1F068A7B008A19EB /* libArtApp.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		926173B81F333376008E3F9D /* ArtAppImageConverter */ = {
+			isa = PBXGroup;
+			children = (
+				926173BD1F3333BE008E3F9D /* ArtAppImageConverter.h */,
+				926173BE1F3334E6008E3F9D /* ArtAppImageConverter.cpp */,
+				926173C01F338363008E3F9D /* ImageConverterLoadingLayer.h */,
+				926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */,
+			);
+			name = ArtAppImageConverter;
 			sourceTree = "<group>";
 		};
 		92A9A0A71F0D1740008A19EB /* ArtApp */ = {
@@ -1397,11 +1415,13 @@
 				433FA7F61E7AA9C400A8C27F /* IAPUpsaleLayer.cpp in Sources */,
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
+				926173BF1F3334E6008E3F9D /* ArtAppImageConverter.cpp in Sources */,
 				926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
 				D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */,
 				A19862231DD3836D0090F053 /* HQScene.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
+				926173C21F33850F008E3F9D /* ImageConverterLoadingLayer.cpp in Sources */,
 				A1E5FCFB1DDDCCBA0098DD29 /* ImageContainer.cpp in Sources */,
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
