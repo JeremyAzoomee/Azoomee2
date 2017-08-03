@@ -55,7 +55,7 @@ private:
     void updateTitleLayout();
     
     /// Boolean variable to deny displaying reporting button
-    bool chatReportingIsForbidden = false;
+    bool _chatReportingIsForbidden = false;
     
 protected:
     

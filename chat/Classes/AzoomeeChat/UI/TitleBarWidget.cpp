@@ -268,14 +268,14 @@ void TitleBarWidget::setChatToInModeration()
 {
     //Set Report Bar and Reset to Visible
     _reportButton->setVisible(false);
-    _reportResetButton->setVisible(!chatReportingIsForbidden);
+    _reportResetButton->setVisible(!_chatReportingIsForbidden);
     _reportedChatTitleBar->setVisible(true);
 }
 
 void TitleBarWidget::setChatToActive()
 {
     //Hide Report Bar, and sent Report Button to visible
-    _reportButton->setVisible(!chatReportingIsForbidden);
+    _reportButton->setVisible(!_chatReportingIsForbidden);
     _reportResetButton->setVisible(false);
     _reportedChatTitleBar->setVisible(false);
 }
@@ -284,58 +284,15 @@ void TitleBarWidget::setChatReportingToForbidden()
 {
     _reportButton->setVisible(false);
     _reportResetButton->setVisible(false);
-    chatReportingIsForbidden = true;
+    _chatReportingIsForbidden = true;
 }
 
 void TitleBarWidget::onChatActivityHappened()
 {
-    if(chatReportingIsForbidden) return;
+    if(_chatReportingIsForbidden) return;
     
     //If the chat is reported (_reportedChatTitleBar->isVisible()) Do NOTHING.
     if(!_reportedChatTitleBar->isVisible()) setChatToActive();
-}
-
-#pragma mark - UI Creation
-
-//Color3B GetOpaqueColorFromNormalBlend(const Color4F& source, const Color4F& bgColor = Color4F::WHITE)
-//{
-//    Color4F targetColorNormalised;
-//    targetColorNormalised.r = ((1.0f - source.a) * bgColor.r) + (source.a * source.r);
-//    targetColorNormalised.g = ((1.0f - source.a) * bgColor.g) + (source.a * source.g);
-//    targetColorNormalised.b = ((1.0f - source.a) * bgColor.b) + (source.a * source.b);
-//    return Color3B(targetColorNormalised);
-//}
-
-void TitleBarWidget::createDropShadow(float heightPercent)
-{
-//    // Calculate drop shadow color until we use an image
-//    Color4B dropShadowColor = Color4B(48, 30, 52, 35);
-//    Color3B dropShadowOpaqueColor = GetOpaqueColorFromNormalBlend(Color4F(dropShadowColor), Color4F::WHITE);
-//    cocos2d::log("Color: %d, %d, %d", dropShadowOpaqueColor.r, dropShadowOpaqueColor.g, dropShadowOpaqueColor.b);
-    
-    const Color3B& dropShadowOpaqueColor = Color3B(76, 73, 77);
-    const GLubyte dropShadowOpacity = 255 * 0.5f;
-    
-    // Add a drop shadow that sits outside the titlebar below it
-    // Because cocos doesn't have % margins, we use an "adapator" to position the shadow by a % margin
-    // This saves us from having to adjust the margins on every layout call.
-    ui::Layout* dropShadowMargin = ui::Layout::create();
-    dropShadowMargin->setSizeType(ui::Widget::SizeType::PERCENT);
-    dropShadowMargin->setSizePercent(Vec2(1.0f, heightPercent));
-    dropShadowMargin->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
-    addChild(dropShadowMargin);
-    
-    ui::Layout* dropShadow = ui::Layout::create();
-    dropShadow->setAnchorPoint(Vec2(0.0f, 1.0f));
-    dropShadow->setSizeType(ui::Widget::SizeType::PERCENT);
-    dropShadow->setSizePercent(Vec2(1.0f, 1.0f));
-    // Note position % only works when the parent is not using a layoutType
-    dropShadow->setPositionType(ui::Widget::PositionType::PERCENT);
-    dropShadow->setPositionPercent(Vec2(0.0f, 0.0f));
-    dropShadow->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    dropShadow->setBackGroundColor(dropShadowOpaqueColor);
-    dropShadow->setBackGroundColorOpacity(dropShadowOpacity);
-    dropShadowMargin->addChild(dropShadow);
 }
 
 NS_AZOOMEE_CHAT_END
