@@ -15,7 +15,7 @@ using namespace cocos2d;
 namespace Azoomee
 {
 
-MessageBox* MessageBox::createWith(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWith(const std::string& Title, const std::string& Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate)
 {
     auto layer = MessageBox::create();
     
@@ -28,7 +28,7 @@ MessageBox* MessageBox::createWith(std::string Title, std::string Body, std::vec
     return layer;
 }
 
-MessageBox* MessageBox::createWith(std::string Title, std::string Body, std::string Button, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWith(const std::string& Title, const std::string& Body, const std::string& Button, MessageBoxDelegate* _delegate)
 {
     auto layer = MessageBox::create();
     
@@ -197,7 +197,7 @@ void MessageBox::UnHideTextInput()
         savedTextInputToHide->setEditboxVisibility(true);
 }
     
-void MessageBox::sendDelegateMessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+void MessageBox::sendDelegateMessageBoxButtonPressed(const std::string& messageBoxTitle,const std::string& buttonTitle)
 {
     this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
     UnHideTextInput();

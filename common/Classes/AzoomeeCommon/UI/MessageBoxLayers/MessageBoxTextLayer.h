@@ -19,13 +19,13 @@ private:
     std::string _messageBoxTitle;
     std::string _messageBoxBody;
     
-    cocos2d::Label* messageTitleLabel;
-    cocos2d::Label* messageBodyLabel;
+    cocos2d::Label* messageTitleLabel = nullptr;
+    cocos2d::Label* messageBodyLabel = nullptr;
     cocos2d::ui::ScrollView* scrollView;
     std::vector<ElectricDreamsButton*> buttonsList;
     ElectricDreamsButton* cancelButton;
     
-    cocos2d::Layer* windowLayer;
+    cocos2d::Layer* windowLayer = nullptr;
     
     float textMaxWidth;
     float buttonSpaceWidth;

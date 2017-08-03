@@ -59,11 +59,6 @@ void MessageBoxChatReportChatLayer::createTitle()
     messageTitleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     messageTitleLabel->setWidth(textMaxWidth);
 }
-
-void MessageBoxChatReportChatLayer::createBody()
-{
-
-}
     
 void MessageBoxChatReportChatLayer::createSprite()
 {
@@ -178,9 +173,7 @@ void MessageBoxChatReportChatLayer::onSizeChanged()
     
     textMaxWidth = currentRunningSceneSize.width*percentageOfScreenForBox - MESSAGE_BOX_PADDING*2;
 
-    createTitle();
-    createBody();
-    createButtons();
+    createTitle();    createButtons();
     createCancelButton();
     createSprite();
     
@@ -195,8 +188,8 @@ void MessageBoxChatReportChatLayer::onSizeChanged()
         addObjectsToWindowPortrait();
     }
     
-    if(youTubeVideoLayer)
-        youTubeVideoLayer->onSizeChanged();
+    //if(youTubeVideoLayer)
+        //youTubeVideoLayer->onSizeChanged();
     
     if(onlineSafetySlides)
         onlineSafetySlides->onSizeChanged();

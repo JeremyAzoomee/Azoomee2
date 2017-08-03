@@ -17,17 +17,17 @@ private:
     int currentSlideNumber;
     
     //ElectricDreamsButton *watchSearchItUpButton;
-    ElectricDreamsButton *chevronLeftButton;
-    ElectricDreamsButton *chevronRightButton;
-    ElectricDreamsButton *cancelButton;
+    ElectricDreamsButton *chevronLeftButton = nullptr;
+    ElectricDreamsButton *chevronRightButton = nullptr;
+    ElectricDreamsButton *cancelButton = nullptr;
     
-    cocos2d::Label* titleLabel;
-    cocos2d::Label* slideTitleLabel;
-    cocos2d::Label* mainTextLabel;
+    cocos2d::Label* titleLabel = nullptr;
+    cocos2d::Label* slideTitleLabel = nullptr;
+    cocos2d::Label* mainTextLabel = nullptr;
     
-    cocos2d::Sprite* mainImage;
+    cocos2d::Sprite* mainImage = nullptr;
 
-    cocos2d::Layer* windowLayer;
+    cocos2d::Layer* windowLayer = nullptr;
     
     //YouTubeVideoLayer* youTubeVideoLayer;
     

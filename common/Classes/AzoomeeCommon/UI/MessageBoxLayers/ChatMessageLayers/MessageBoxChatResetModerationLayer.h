@@ -19,18 +19,18 @@ private:
     std::string _messageBoxTitle;
     std::string _messageBoxBody;
     
-    ElectricDreamsButton* resetButton;
-    ElectricDreamsButton* onlineSafetyTipsButton;
-    ElectricDreamsButton* cancelButton;
+    ElectricDreamsButton* resetButton = nullptr;
+    ElectricDreamsButton* onlineSafetyTipsButton = nullptr;
+    ElectricDreamsButton* cancelButton = nullptr;
     
-    cocos2d::Label* messageTitleLabel;
-    cocos2d::Label* messageBodyLabel;
+    cocos2d::Label* messageTitleLabel = nullptr;
+    cocos2d::Label* messageBodyLabel = nullptr;
 
-    cocos2d::Sprite* oomeeSprite;
+    cocos2d::Sprite* oomeeSprite = nullptr;
 
-    cocos2d::Layer* windowLayer;
+    cocos2d::Layer* windowLayer = nullptr;
     
-    MessageBox* onlineSafetySlides;
+    MessageBox* onlineSafetySlides = nullptr;
     
     float textMaxWidth;
     float buttonSpaceWidth;
