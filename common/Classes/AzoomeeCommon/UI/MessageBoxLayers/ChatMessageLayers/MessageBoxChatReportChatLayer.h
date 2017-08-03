@@ -41,7 +41,6 @@ private:
     
     //MessageBox functions
     void createTitle();
-    void createBody();
     void createSprite();
     void createButtons();
     void createCancelButton();
