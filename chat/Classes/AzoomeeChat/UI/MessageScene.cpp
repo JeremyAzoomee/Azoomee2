@@ -317,12 +317,16 @@ void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 
 void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
 {
+    _historyUpdateInProgress = true;
     AnalyticsSingleton::getInstance()->chatIncomingMessageEvent(message->messageType());
-    _messageListView->addMessage(message);
+    _messagesByTime.push_back(message);
+    _messageListView->setData(_participants, _messagesByTime);
     _titleBar->onChatActivityHappened();
     
     // Mark messages as read
     ChatAPI::getInstance()->markMessagesAsRead(_participants[1], message);
+    
+    _historyUpdateInProgress = false;
 }
 
 void MessageScene::onChatAPICustomMessageReceived(const std::string& messageType, std::map<std::string, std::string> messageProperties)
