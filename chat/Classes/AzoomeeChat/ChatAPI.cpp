@@ -274,13 +274,14 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             }
         }
     }
-    else if((requestTag == API::TagReportChat)||(requestTag == API::TagResetReportedChat))
+    else if(requestTag == API::TagReportChat)
     {
-        if(requestTag == API::TagReportChat)
-            AnalyticsSingleton::getInstance()->chatReportedEvent();
-        else if(requestTag == API::TagResetReportedChat)
-            AnalyticsSingleton::getInstance()->chatResetReportedEvent();
-        
+        AnalyticsSingleton::getInstance()->chatReportedEvent();
+        ModalMessages::getInstance()->stopLoading();
+    }
+    else if(requestTag == API::TagResetReportedChat)
+    {
+        AnalyticsSingleton::getInstance()->chatResetReportedEvent();
         ModalMessages::getInstance()->stopLoading();
     }
 }
