@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Json.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <cocos/cocos2d.h>
 #include <memory>
 
@@ -275,10 +276,12 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
     }
     else if((requestTag == API::TagReportChat)||(requestTag == API::TagResetReportedChat))
     {
-        for(auto observer : _observers)
-        {
-            observer->onChatAPIReportChatSuccessful(requestTag);
-        }
+        if(requestTag == API::TagReportChat)
+            AnalyticsSingleton::getInstance()->chatReportedEvent();
+        else if(requestTag == API::TagResetReportedChat)
+            AnalyticsSingleton::getInstance()->chatResetReportedEvent();
+        
+        ModalMessages::getInstance()->stopLoading();
     }
 }
 
@@ -309,18 +312,18 @@ void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
 {
     if(friendListPollScheduled()) rescheduleFriendListPoll(); //Poll is only a double check to avoid missing any pusher events. If we receive one, we reschedule (unschedule and schedule again), to avoid having too frequent poll updates.
     
-    cocos2d::log("PUSHER EVENT: %s", event->eventName().c_str());
-    
     // Check if this is an in_moderation event
     if(event->eventName() == "MODERATION")
     {
         std::string userIdA = (event->data()["userIdA"].IsString() ? event->data()["userIdA"].GetString() : "");
         std::string userIdB = (event->data()["userIdB"].IsString() ? event->data()["userIdB"].GetString() : "");
         
-        if((userIdA == ChildDataProvider::getInstance()->getParentOrChildId())||(userIdB == ChildDataProvider::getInstance()->getParentOrChildId()))
+        std::string loggedInParentOrChildId = ChildDataProvider::getInstance()->getParentOrChildId();
+        
+        if((userIdA == loggedInParentOrChildId)||(userIdB == loggedInParentOrChildId))
         {
             std::string otherChildId = userIdA;
-            if(otherChildId == ChildDataProvider::getInstance()->getParentOrChildId()) otherChildId = userIdB;
+            if(otherChildId == loggedInParentOrChildId) otherChildId = userIdB;
             
             std::map<std::string, std::string> messageProperties;
             messageProperties["otherChildId"] = otherChildId;

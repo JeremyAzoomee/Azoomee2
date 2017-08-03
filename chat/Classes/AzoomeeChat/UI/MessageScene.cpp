@@ -344,16 +344,6 @@ void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long er
     MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
-void MessageScene::onChatAPIReportChatSuccessful(const std::string& requestTag)
-{
-    if(requestTag == API::TagReportChat)
-        AnalyticsSingleton::getInstance()->chatReportedEvent();
-    else if(requestTag == API::TagResetReportedChat)
-        AnalyticsSingleton::getInstance()->chatResetReportedEvent();
-    
-    ModalMessages::getInstance()->stopLoading();
-}
-
 #pragma mark - MessageComposer::Delegate
 
 void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
