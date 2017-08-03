@@ -15,7 +15,7 @@ using namespace cocos2d;
 namespace Azoomee
 {
 
-MessageBox* MessageBox::createWith(const std::string& Title, const std::string& Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate)
+MessageBox* MessageBox::createWith(const std::string& Title, const std::string& Body, const std::vector<std::string>& buttonTitleList, MessageBoxDelegate* _delegate)
 {
     auto layer = MessageBox::create();
     
