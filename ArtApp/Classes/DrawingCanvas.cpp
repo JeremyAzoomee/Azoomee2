@@ -421,7 +421,7 @@ void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigi
     
     cancelStickerButton = ui::Button::create();
     cancelStickerButton->setAnchorPoint(Vec2(0,0));
-    cancelStickerButton->setPosition(Vec2(visibleOrigin.x + 100, visibleOrigin.y + 100));
+    cancelStickerButton->setPosition(Vec2(visibleOrigin.x + 300, visibleOrigin.y + 100));
     cancelStickerButton->loadTextures("res/artapp/style/images/artIcons/stickerBin.png", "res/artapp/style/images/artIcons/stickerBin.png");
     cancelStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onCancelStickerPressed,this));
     cancelStickerButton->setVisible(false);
@@ -429,7 +429,7 @@ void DrawingCanvas::addStickerSelectButtons(Size visibleSize, Point visibleOrigi
     
     confirmStickerButton = ui::Button::create();
     confirmStickerButton->setAnchorPoint(Vec2(1,0));
-    confirmStickerButton->setPosition(Vec2(visibleOrigin.x + visibleSize.width - 100, visibleOrigin.y + 100));
+    confirmStickerButton->setPosition(Vec2(visibleOrigin.x + visibleSize.width - 300, visibleOrigin.y + 100));
     confirmStickerButton->loadTextures("res/artapp/style/images/artIcons/stickerConfirm.png", "res/artapp/style/images/artIcons/stickerConfirm.png");
     confirmStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onConfirmStickerPressed,this));
     confirmStickerButton->setVisible(false);

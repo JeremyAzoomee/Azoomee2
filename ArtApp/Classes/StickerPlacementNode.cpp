@@ -27,6 +27,7 @@ void StickerPlacementNode::onEnter()
     Node::onEnter();
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
     
     this->setContentSize(visibleSize);
     
@@ -35,6 +36,31 @@ void StickerPlacementNode::onEnter()
     sticker->setAnchorPoint(Vec2(0.5,0.5));
     sticker->setPosition(visibleSize/2);
     this->addChild(sticker);
+    
+    scaleSlider = ui::Slider::create();
+    scaleSlider->setTouchEnabled(true);
+    scaleSlider->loadBarTexture("res/artapp/style/images/artIcons/slideBack.png");
+    scaleSlider->loadSlidBallTextures("res/artapp/style/images/artIcons/sizeSlider.png","res/artapp/style/images/artIcons/sizeSlider.png","");
+    scaleSlider->setPercent(20);
+    scaleFactor = 1.1;
+    scaleSlider->setAnchorPoint(Vec2(0.5,0.5));
+    scaleSlider->setRotation(-90);
+    scaleSlider->setPosition(Vec2(visibleOrigin.x + scaleSlider->getContentSize().height,visibleOrigin.y + visibleSize.height/2));
+    scaleSlider->addEventListener(CC_CALLBACK_2(StickerPlacementNode::onScaleSliderInteract, this));
+    this->addChild(scaleSlider,1);
+    
+    
+    rotationSlider = ui::Slider::create();
+    rotationSlider->setTouchEnabled(true);
+    rotationSlider->loadBarTexture("res/artapp/style/images/artIcons/slideBack.png");
+    rotationSlider->loadSlidBallTextures("res/artapp/style/images/artIcons/rotateSlider.png","res/artapp/style/images/artIcons/rotateSlider.png","");
+    rotationSlider->setPercent(0);
+    rotationAngle = 0;
+    rotationSlider->setAnchorPoint(Vec2(0.5,0.5));
+    rotationSlider->setRotation(-90);
+    rotationSlider->setPosition(Vec2(visibleOrigin.x + visibleSize.width - rotationSlider->getContentSize().height,visibleOrigin.y + visibleSize.height/2));
+    rotationSlider->addEventListener(CC_CALLBACK_2(StickerPlacementNode::onRotationSliderInteract, this));
+    this->addChild(rotationSlider,1);
     
     setupTouchHandling();
 }
@@ -47,30 +73,39 @@ void StickerPlacementNode::onExit()
 void StickerPlacementNode::setupTouchHandling()
 {
     
-    static int touchNumber = 0;
-    static std::vector<Touch*> touches;
-    static float lastDistance;
-    static bool pinchDetected = false;
+    //static int touchNumber = 0;
+    //static std::vector<Touch*> touches;
+    //static float lastDistance;
+    //static bool pinchDetected = false;
+    
+    static bool touchDetected = false;
     
     touchListener = EventListenerTouchOneByOne::create();
     
     touchListener->onTouchBegan = [=](Touch* touch, Event* event)
     {
-        if(pinchDetected)
+        //if(pinchDetected)
+        //    return false;
+        
+        //touchNumber++;
+        //touches.push_back(touch);
+        
+        //if(touches.size() == 2)
+        //    pinchDetected = true;
+        
+        if(touchDetected)
             return false;
         
-        touchNumber++;
-        touches.push_back(touch);
+        sticker->setPosition(touch->getLocation());
         
-        if(touches.size() == 2)
-            pinchDetected = true;
+        touchDetected = true;
         
         return true;
     };
     
     touchListener->onTouchMoved = [=](Touch* touch, Event* event)
     {
-        if(pinchDetected)
+        /*if(pinchDetected)
         {
             Touch* touch1 = touches[0];
             Touch* touch2 = touches[1];
@@ -98,17 +133,21 @@ void StickerPlacementNode::setupTouchHandling()
         float currAngle = CC_RADIANS_TO_DEGREES(-curVector.getAngle());
         
         sticker->setRotation(sticker->getRotation() + (currAngle - prevAngle));
-        }
+        }*/
+        
+        sticker->setPosition(touch->getLocation());
         
     };
     
     touchListener->onTouchEnded = [=](Touch* touch, Event* event)
     {
-        pinchDetected = false;
-        lastDistance = 0;
-        touchNumber--;
+        //pinchDetected = false;
+        //lastDistance = 0;
+        //touchNumber--;
         
-        touches.erase(std::remove_if(touches.begin(), touches.end(), [=](Touch* t){return t == touch ? true: false;}),touches.end());
+        //touches.erase(std::remove_if(touches.begin(), touches.end(), [=](Touch* t){return t == touch ? true: false;}),touches.end());
+        
+        touchDetected = false;
         
     };
     
@@ -131,6 +170,28 @@ void StickerPlacementNode::setSticker(Sprite *sticker)
 Sprite* StickerPlacementNode::getSticker()
 {
     return sticker;
+}
+
+void StickerPlacementNode::onScaleSliderInteract(Ref *pSender, ui::Slider::EventType eEventType)
+{
+    ui::Slider* slider = static_cast<ui::Slider*>(pSender);
+    
+    if(eEventType == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
+    {
+        scaleFactor = 0.1 + slider->getPercent()/20.0f;
+        sticker->setScale(scaleFactor);
+    }
+}
+
+void StickerPlacementNode::onRotationSliderInteract(Ref *pSender, ui::Slider::EventType eEventType)
+{
+    ui::Slider* slider = static_cast<ui::Slider*>(pSender);
+    
+    if(eEventType == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
+    {
+        rotationAngle = slider->getPercent()*3.6f;
+        sticker->setRotation(rotationAngle);
+    }
 }
 
 NS_AZOOMEE_AA_END
