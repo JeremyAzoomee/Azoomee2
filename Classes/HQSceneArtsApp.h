@@ -24,7 +24,6 @@ private:
     
     static std::vector<std::string>getFilesInDirectory(std::string path);
 
-    void convertOldArtImages();
 };
 
 NS_AZOOMEE_END

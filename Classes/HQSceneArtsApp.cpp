@@ -10,6 +10,7 @@
 #include "HQSceneElementPositioner.h"
 #include "ArtAppImageConverter.h"
 #include <dirent.h>
+#include <algorithm>
 
 using namespace cocos2d;
 
@@ -63,8 +64,6 @@ void HQSceneArtsApp::createArtsAppScrollView()
     if(!FileUtils::getInstance()->isDirectoryExist(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId()))
         FileUtils::getInstance()->createDirectory(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId());
     
-    convertOldArtImages();
-    
     addEmptyImageToHorizontalScrollView(horizontalScrollView);
     addCreatedImagesToHorizontalScrollView(horizontalScrollView);
 }
@@ -83,6 +82,8 @@ void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollV
     //std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
     std::string path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
     std::vector<std::string> fileList = getFilesInDirectory(path);
+    
+    std::reverse(fileList.begin(), fileList.end());
     
     CCLOG("imagepath: %s", path.c_str());
     
@@ -111,26 +112,6 @@ void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toB
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)artImage);
     artImage->enableOnScreenChecker();
-}
-
-void HQSceneArtsApp::convertOldArtImages()
-{
-    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
-    std::vector<std::string> fileList = getFilesInDirectory(path);
-    for(int i = 0; i < fileList.size(); i++)
-    {
-        if(fileList.at(i).size() > 4)
-        {
-            if(fileList.at(i).substr(fileList.at(i).size() -4, 4) == "imag")
-            {
-                std::string imagePath = StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str());
-                ArtAppImageConverter imageConverter = ArtAppImageConverter(imagePath);
-                imageConverter.convertImage();
-            }
-        }
-    }
-    
-    ModalMessages::getInstance()->stopLoading();
 }
 
 std::vector<std::string> HQSceneArtsApp::getOldArtImages()

@@ -34,6 +34,8 @@ bool DrawingCanvas::init()
     
     this->addChild(drawing, -1);
     
+    actionCounter = 0;
+    
     //addBrushes();
     
     return true;
@@ -141,6 +143,8 @@ void DrawingCanvas::setupTouchHandling()
             this->removeChild(mergingLayer);
         }
         this->getEventDispatcher()->setEnabled(true);
+        
+        actionCounter++;
         
     };
     drawCanvasTouchListener->onTouchCancelled = [&](Touch* touch, Event* event)
@@ -521,6 +525,8 @@ void DrawingCanvas::onClearButtonPressed(Ref *pSender, ui::Widget::TouchEventTyp
             drawingStack.pop_back();
             if(drawingStack.size() == 0)
                 clearButton->loadTextures("res/artapp/style/images/artIcons/art_button_bin.png", "res/artapp/style/images/artIcons/bin.png");
+            
+            actionCounter--;
         }
     }
 }
@@ -830,6 +836,8 @@ void DrawingCanvas::onConfirmDeletePressed(Ref *pSender, ui::Widget::TouchEventT
         drawing->end();
         Director::getInstance()->getRenderer()->render();
         drawCanvasTouchListener->setEnabled(true);
+        
+        actionCounter++;
         
     }
     

@@ -75,20 +75,33 @@ void ArtAppBase::addBackButton()
 
 void ArtAppBase::backButtonCallBack()
 {
-    auto overlay = LayerColor::create(Color4B(0,0,0,200), Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
-    overlay->setPosition(Director::getInstance()->getVisibleOrigin());
-    this->addChild(overlay,2);
-    
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    if(drawingCanvas->actionCounter > 0)
     {
-        return true;
-    };
+        auto savingLabel = Label::createWithTTF("Saving...", "fonts/azoomee.ttf", 128);
+        savingLabel->setColor(Color3B(255,255,255));
+        savingLabel->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
+        savingLabel->setAnchorPoint(Vec2(0.5,0.5));
+        this->addChild(savingLabel,3);
+        
+        auto overlay = LayerColor::create(Color4B(0,0,0,200), Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
+        overlay->setPosition(Director::getInstance()->getVisibleOrigin());
+        this->addChild(overlay,2);
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
+        auto listener = EventListenerTouchOneByOne::create();
+        listener->setSwallowTouches(true);
+        listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+        {
+            return true;
+        };
     
-    Director::getInstance()->getScheduler()->schedule([&](float dt){this->saveFileAndExit();}, this, 0.5, 0, 0, false, "saveAndExit");
+        Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
+    
+        Director::getInstance()->getScheduler()->schedule([&](float dt){this->saveFileAndExit();}, this, 0.5, 0, 0, false, "saveAndExit");
+    }
+    else
+    {
+        delegate->onArtAppNavigationBack();
+    }
 }
 
 void ArtAppBase::saveFileAndExit()

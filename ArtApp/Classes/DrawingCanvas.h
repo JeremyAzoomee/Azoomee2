@@ -32,8 +32,13 @@ public:
     CREATE_FUNC(DrawingCanvas);
     void setBaseImage(std::string fileName);
     void saveImage(std::string filePath);
+    
+    int actionCounter;
+    
 protected:
     static const int numberOfUndos = 3;
+    
+    
     
     cocos2d::LayerColor* background;
     cocos2d::Sprite* currentDrawing;
