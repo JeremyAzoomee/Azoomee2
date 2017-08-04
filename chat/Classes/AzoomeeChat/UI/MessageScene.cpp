@@ -332,6 +332,9 @@ void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
 void MessageScene::onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string> &messageProperties)
 {
     if(messageType != "MODERATION") return;
+    if(messageProperties.find("otherChildId") == messageProperties.end()) return;
+    if(messageProperties.find("status") == messageProperties.end()) return;
+    
     if(messageProperties.at("otherChildId") != _participants[1]->friendId()) return;
     
     if(messageProperties.at("status") == "IN_MODERATION") _titleBar->setChatToInModeration();

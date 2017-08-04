@@ -255,13 +255,20 @@ void FriendListScene::onChatAPICustomMessageReceived(const std::string &messageT
     {
         for(const FriendRef& frnd : _friendListData)
         {
-            if(frnd->friendId() == messageProperties.at("otherChildId"))
+            if(messageProperties.find("otherChildId") != messageProperties.end())
             {
-                if(messageProperties.at("status") == "IN_MODERATION") frnd->markFriendInModeration(true);
-                if(messageProperties.at("status") == "ACTIVE") frnd->markFriendInModeration(false);
-                
-                _friendListView->setItems(_friendListData);
-                break;
+                if(frnd->friendId() == messageProperties.at("otherChildId"))
+                {
+                    if(messageProperties.find("status") != messageProperties.end())
+                    {
+                        if(messageProperties.at("status") == "IN_MODERATION") frnd->markFriendInModeration(true);
+                        if(messageProperties.at("status") == "ACTIVE") frnd->markFriendInModeration(false);
+                        
+                        _friendListView->setItems(_friendListData);
+                    }
+
+                    break;
+                }
             }
         }
     }
