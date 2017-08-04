@@ -238,6 +238,8 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
     notificationBadge->setScale(0.0);
     chatIcon->addChild(notificationBadge, 9);
     
+    if(!ChildDataProvider::getInstance()->getIsChildLoggedIn()) return; //not adding notifications in preview mode
+    
     ChatNotificationsSingleton::getInstance()->setNavigationLayer(this);
     ChatNotificationsSingleton::getInstance()->forceNotificationsUpdate();
 }
