@@ -58,7 +58,7 @@ void HQSceneArtsApp::createArtsAppScrollView()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height), Point(0, 300));
+    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height*2), Point(0, 300));
     this->addChild(horizontalScrollView);
     
     if(!FileUtils::getInstance()->isDirectoryExist(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId()))

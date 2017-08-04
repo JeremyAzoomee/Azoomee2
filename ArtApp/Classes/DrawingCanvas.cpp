@@ -76,6 +76,7 @@ void DrawingCanvas::setBaseImage(std::string fileName)
     Sprite* baseImage = Sprite::create(fileName);
     baseImage->setAnchorPoint(Vec2(0.5,0.5));
     baseImage->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
+    baseImage->setScale(Director::getInstance()->getWinSize().width/baseImage->getContentSize().width);
     drawing->begin();
     baseImage->visit();
     drawing->end();
@@ -91,7 +92,20 @@ void DrawingCanvas::saveImage(std::string filePath)
         drawingStack[i]->visit();
     }
     drawing->end();
-    drawing->saveToFile(filePath, Image::Format::PNG);
+    //drawing->saveToFile(filePath, Image::Format::PNG);
+    Director::getInstance()->getRenderer()->render();
+    
+    Sprite* drawingSprite = Sprite::createWithTexture(drawing->getSprite()->getTexture());
+    drawingSprite->setScale(0.5);
+    drawingSprite->setAnchorPoint(Vec2(0,0));
+    drawingSprite->setPosition(Vec2(0,0));
+    drawingSprite->setFlippedY(true);
+    
+    RenderTexture* outputTexture = RenderTexture::create(drawingSprite->getContentSize().width/2, drawingSprite->getContentSize().height/2);
+    outputTexture->begin();
+    drawingSprite->visit();
+    outputTexture->end();
+    outputTexture->saveToFile(filePath,Image::Format::PNG);
     Director::getInstance()->getRenderer()->render();
     
 }
@@ -779,6 +793,8 @@ void DrawingCanvas::onConfirmStickerPressed(Ref *pSender, ui::Widget::TouchEvent
         }
         this->removeChild(activeBrush->getDrawNode());
         this->addChild(activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
+        
+        actionCounter++;
         
     }
     

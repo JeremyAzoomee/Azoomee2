@@ -38,18 +38,18 @@ bool ArtAppImageConverter::convertImage()
     
     delete img;
     
-    Size imageSize = imageSprite->getContentSize();
-    Size windowSize = Director::getInstance()->getWinSize();
+    //Size imageSize = imageSprite->getContentSize();
+    //Size windowSize = Director::getInstance()->getWinSize();
     
-    imageSprite->setScale(windowSize.width/imageSize.width);
+    //imageSprite->setScale(windowSize.width/imageSize.width);
     imageSprite->setAnchorPoint(Vec2(0.5,0.5));
-    imageSprite->setPosition(windowSize/2);
+    imageSprite->setPosition(imageSprite->getContentSize()/2);
     
     std::string saveFile = filename.substr(0,filename.length()-4);
     saveFile = saveFile.substr(saveFile.find("artCache/"));
     saveFile = saveFile.append("png");
     
-    RenderTexture* renderTex = RenderTexture::create(windowSize.width, windowSize.height);
+    RenderTexture* renderTex = RenderTexture::create(imageSprite->getContentSize().width, imageSprite->getContentSize().height);
     //renderTex->setAnchorPoint(Vec2(0.5,0.5));
     //renderTex->setPosition(Vec2(0,0));
     renderTex->beginWithClear(1, 1, 1, 1);

@@ -155,7 +155,7 @@ void ArtsAppHQElement::addOverlay()
     overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getBaseColourForContentItemInCategory("ARTS APP"), this->getContentSize().width - 20, this->getContentSize().height - 20);
     overlayWhenTouched->setPosition(10,10);
     overlayWhenTouched->setOpacity(0);
-    this->addChild(overlayWhenTouched);
+    this->addChild(overlayWhenTouched,1);
 }
 
 void ArtsAppHQElement::addImage(std::string filePath)
@@ -211,7 +211,7 @@ void ArtsAppHQElement::addLockToElement()
     auto lockImage = Sprite::create("res/hqscene/locked.png");
     lockImage->setPosition(baseLayer->getContentSize() / 2);
     //lockImage->setScale(baseLayer->getContentSize().width / 445);
-    this->addChild(lockImage);
+    this->addChild(lockImage,1);
 }
 
 Sprite* ArtsAppHQElement::addDeleteButton()
