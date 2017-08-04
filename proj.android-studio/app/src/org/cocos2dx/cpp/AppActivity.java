@@ -86,7 +86,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mContext = this;
         mActivity = this;
         mAppActivity = this;
-
+        
         setupIAPOnCreate();
 
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");

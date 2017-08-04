@@ -10,11 +10,11 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-
+#include <AzoomeeCommon/UI/RequestAdultPinLayer.h>
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate
+class MessageScene : public Azoomee::Scene, public ChatAPIObserver, public MessageComposer::Delegate, public MessageBoxDelegate, public RequestAdultPinLayerDelegate
 {
     typedef Azoomee::Scene Super;
 private:
@@ -48,15 +48,27 @@ private:
     /// Back button was pressed
     void onBackButtonPressed();
     
+    /// Alert button was pressed
+    void onReportButtonPressed();
+    
+    /// Report reset button was pressed
+    void onReportResetButtonPressed();
+    
     // - ChatAPIObserver
     void onChatAPIGetChatMessages(const MessageList& messageList) override;
     void onChatAPISendMessage(const MessageRef& sentMessage) override;
     void onChatAPIMessageRecieved(const MessageRef& message) override;
     void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) override;
+    void onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string> &messageProperties) override;
     
     // - MessageComposer::Delegate
     void onMessageComposerSendMessage(const MessageRef& message) override;
     
+    // - MessageBoxDelegate
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
+    void AdultPinCancelled(RequestAdultPinLayer* layer) override;
+    void AdultPinAccepted(RequestAdultPinLayer* layer) override;
+
     // - Retrieve history when message list view reached top
     void createEventListenerForRetrievingHistory();
     

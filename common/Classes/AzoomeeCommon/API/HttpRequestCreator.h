@@ -33,12 +33,12 @@ public:
     void sendRequest(cocos2d::network::HttpRequest* request);
     
     
-    std::string requestBody;
-    std::string urlParameters;
-    std::string requestTag;
+    std::string requestBody = "";
+    std::string urlParameters = "";
+    std::string requestTag = "";
     std::string method = "GET";
-    std::string requestPath;
-    std::string url;
+    std::string requestPath = "";
+    std::string url = "";
     bool encrypted = false;
     
 private:

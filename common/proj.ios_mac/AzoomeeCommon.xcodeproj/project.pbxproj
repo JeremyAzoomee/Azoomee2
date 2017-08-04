@@ -61,6 +61,11 @@
 		30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E094BB1EDF0F2B00555891 /* URI.cpp */; };
 		30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30E094BD1EDF0F2B00555891 /* Utils.cpp */; };
 		43087FD91F03AC4C00E199EA /* NativeShare_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */; };
+		431369781F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431369761F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp */; };
+		4313697E1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4313697C1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp */; };
+		431369811F2B7200002BEA8C /* YouTubeVideoLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4313697F1F2B7200002BEA8C /* YouTubeVideoLayer.cpp */; };
+		4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */; };
+		4318E13E1F28E65400778E9A /* MessageBoxTextLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */; };
 		4349C8041EA8ADEF00FE964B /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C8131EA8ADEF00FE964B /* Mixpanel+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7751EA8ADEE00FE964B /* Mixpanel+AutomaticEvents.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C8141EA8ADEF00FE964B /* Mixpanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7771EA8ADEE00FE964B /* Mixpanel.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -133,6 +138,8 @@
 		4349C85C1EA8ADEF00FE964B /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7FE1EA8ADEF00FE964B /* UIImage+MPImageEffects.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8001EA8ADEF00FE964B /* UIView+MPHelpers.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */; };
+		434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */; };
+		434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */; };
 		436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
 /* End PBXBuildFile section */
 
@@ -254,6 +261,16 @@
 		43087FD51F03AC4C00E199EA /* NativeShare_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NativeShare_android.cpp; path = AzoomeeCommon/NativeShare/NativeShare_android.cpp; sourceTree = "<group>"; };
 		43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = NativeShare_ios.mm; path = AzoomeeCommon/NativeShare/NativeShare_ios.mm; sourceTree = "<group>"; };
 		43087FD71F03AC4C00E199EA /* NativeShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeShare.h; path = AzoomeeCommon/NativeShare/NativeShare.h; sourceTree = "<group>"; };
+		431369761F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxChatReportChatLayer.cpp; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatReportChatLayer.cpp; sourceTree = "<group>"; };
+		431369771F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxChatReportChatLayer.h; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatReportChatLayer.h; sourceTree = "<group>"; };
+		4313697C1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxOnlineSafetySlidesLayer.cpp; path = MessageBoxLayers/MessageBoxOnlineSafetySlidesLayer.cpp; sourceTree = "<group>"; };
+		4313697D1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxOnlineSafetySlidesLayer.h; path = MessageBoxLayers/MessageBoxOnlineSafetySlidesLayer.h; sourceTree = "<group>"; };
+		4313697F1F2B7200002BEA8C /* YouTubeVideoLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = YouTubeVideoLayer.cpp; sourceTree = "<group>"; };
+		431369801F2B7200002BEA8C /* YouTubeVideoLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YouTubeVideoLayer.h; sourceTree = "<group>"; };
+		4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RequestAdultPinLayer.cpp; sourceTree = "<group>"; };
+		4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestAdultPinLayer.h; sourceTree = "<group>"; };
+		4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxTextLayer.cpp; path = MessageBoxLayers/MessageBoxTextLayer.cpp; sourceTree = "<group>"; };
+		4318E13D1F28E65400778E9A /* MessageBoxTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxTextLayer.h; path = MessageBoxLayers/MessageBoxTextLayer.h; sourceTree = "<group>"; };
 		4349C7601EA8ADEE00FE964B /* _MPTweakBindObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MPTweakBindObserver.h; sourceTree = "<group>"; };
 		4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MPTweakBindObserver.m; sourceTree = "<group>"; };
 		4349C7631EA8ADEE00FE964B /* AutomaticEventsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutomaticEventsConstants.h; sourceTree = "<group>"; };
@@ -393,6 +410,10 @@
 		4349C8001EA8ADEF00FE964B /* UIView+MPHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPHelpers.m"; sourceTree = "<group>"; };
 		4349C8011EA8ADEF00FE964B /* UIViewController+AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AutomaticEvents.h"; sourceTree = "<group>"; };
 		4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AutomaticEvents.m"; sourceTree = "<group>"; };
+		434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxLayer.cpp; path = MessageBoxLayers/MessageBoxLayer.cpp; sourceTree = "<group>"; };
+		434A55E31F29F9C800740601 /* MessageBoxLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxLayer.h; path = MessageBoxLayers/MessageBoxLayer.h; sourceTree = "<group>"; };
+		434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxChatResetModerationLayer.cpp; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.cpp; sourceTree = "<group>"; };
+		434A55EA1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxChatResetModerationLayer.h; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.h; sourceTree = "<group>"; };
 		436007871F22120C000ECBA4 /* ModalWebview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalWebview.cpp; sourceTree = "<group>"; };
 		436007881F22120C000ECBA4 /* ModalWebview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalWebview.h; sourceTree = "<group>"; };
 		4360078A1F2232CC000ECBA4 /* Urls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Urls.h; sourceTree = "<group>"; };
@@ -569,6 +590,7 @@
 		3012ED861E97DB450009027D /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				4318E13B1F28E39B00778E9A /* MessageBoxLayers */,
 				302E84751ED1B992006A498C /* ObservableLayout.cpp */,
 				302E84761ED1B992006A498C /* ObservableLayout.h */,
 				302E84771ED1B992006A498C /* SplitLayout.cpp */,
@@ -584,6 +606,8 @@
 				301CCA8C1EB13151009ADA0C /* MessageBox.h */,
 				3012ED871E97DB450009027D /* ModalMessages.cpp */,
 				3012ED881E97DB450009027D /* ModalMessages.h */,
+				4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */,
+				4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */,
 				436007871F22120C000ECBA4 /* ModalWebview.cpp */,
 				436007881F22120C000ECBA4 /* ModalWebview.h */,
 				305966971ECCAF76009A7130 /* Scene.cpp */,
@@ -591,6 +615,8 @@
 				305966801ECC6987009A7130 /* Style.h */,
 				3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */,
 				3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */,
+				4313697F1F2B7200002BEA8C /* YouTubeVideoLayer.cpp */,
+				431369801F2B7200002BEA8C /* YouTubeVideoLayer.h */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -768,6 +794,20 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		4318E13B1F28E39B00778E9A /* MessageBoxLayers */ = {
+			isa = PBXGroup;
+			children = (
+				434A55E81F2A3FD600740601 /* ChatMessageLayers */,
+				434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */,
+				434A55E31F29F9C800740601 /* MessageBoxLayer.h */,
+				4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */,
+				4318E13D1F28E65400778E9A /* MessageBoxTextLayer.h */,
+				4313697C1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp */,
+				4313697D1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.h */,
+			);
+			name = MessageBoxLayers;
+			sourceTree = "<group>";
+		};
 		4349C75F1EA8ADEE00FE964B /* Mixpanel */ = {
 			isa = PBXGroup;
 			children = (
@@ -914,6 +954,17 @@
 			path = Mixpanel;
 			sourceTree = "<group>";
 		};
+		434A55E81F2A3FD600740601 /* ChatMessageLayers */ = {
+			isa = PBXGroup;
+			children = (
+				431369761F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp */,
+				431369771F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.h */,
+				434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */,
+				434A55EA1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.h */,
+			);
+			name = ChatMessageLayers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1010,6 +1061,7 @@
 				4349C8501EA8ADEF00FE964B /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */,
 				4349C81A1EA8ADEF00FE964B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
+				431369811F2B7200002BEA8C /* YouTubeVideoLayer.cpp in Sources */,
 				3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */,
 				3012ED611E969BF60009027D /* ChildDataParser.cpp in Sources */,
 				30DD5ED61E965E060084305B /* AnalyticsSingleton_ios.mm in Sources */,
@@ -1022,6 +1074,7 @@
 				4349C82E1EA8ADEF00FE964B /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				4349C8401EA8ADEF00FE964B /* MPPropertyDescription.m in Sources */,
 				4349C8341EA8ADEF00FE964B /* MPNetwork.m in Sources */,
+				4318E13E1F28E65400778E9A /* MessageBoxTextLayer.cpp in Sources */,
 				4349C8561EA8ADEF00FE964B /* NSNotificationCenter+AutomaticEvents.m in Sources */,
 				4349C8041EA8ADEF00FE964B /* _MPTweakBindObserver.m in Sources */,
 				30E094C01EDF0F2B00555891 /* Utils.cpp in Sources */,
@@ -1038,6 +1091,7 @@
 				3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */,
 				3012ED891E97DB450009027D /* ModalMessages.cpp in Sources */,
 				3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */,
+				434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */,
 				30DD5EF01E96860C0084305B /* ConfigStorage.cpp in Sources */,
 				4349C8271EA8ADEF00FE964B /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
@@ -1049,6 +1103,7 @@
 				4349C8321EA8ADEF00FE964B /* MPEventBinding.m in Sources */,
 				4349C8291EA8ADEF00FE964B /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				3012ED621E969BF60009027D /* ChildDataProvider.cpp in Sources */,
+				431369781F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp in Sources */,
 				4349C85C1EA8ADEF00FE964B /* UIImage+MPImageEffects.m in Sources */,
 				3012ED581E969BBB0009027D /* ParentDataProvider.cpp in Sources */,
 				4349C8381EA8ADEF00FE964B /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
@@ -1080,10 +1135,12 @@
 				3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */,
 				4349C82B1EA8ADEF00FE964B /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				4349C8531EA8ADEF00FE964B /* MPVariant.m in Sources */,
+				434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */,
 				4349C8551EA8ADEF00FE964B /* NSInvocation+MPHelpers.m in Sources */,
 				3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */,
 				4349C82A1EA8ADEF00FE964B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				4349C81F1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
+				4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */,
 				02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */,
 				4349C84D1EA8ADEF00FE964B /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				3012ED521E969AE40009027D /* CookieDataStorage.cpp in Sources */,
@@ -1114,6 +1171,7 @@
 				4349C84B1EA8ADEF00FE964B /* MPTweakStore.m in Sources */,
 				4349C8491EA8ADEF00FE964B /* MPTweak.m in Sources */,
 				4349C8351EA8ADEF00FE964B /* MPNotification.m in Sources */,
+				4313697E1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp in Sources */,
 				4349C8431EA8ADEF00FE964B /* MPSwizzle.m in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
 				307A40491F050A51005947F3 /* PusherEvent.cpp in Sources */,

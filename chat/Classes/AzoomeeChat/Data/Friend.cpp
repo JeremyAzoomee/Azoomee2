@@ -43,22 +43,26 @@ FriendRef Friend::createFromJson(const rapidjson::Value& json)
     const auto& unreadMessagesObj = json["unreadMessages"];
     int unreadMessages = (unreadMessagesObj.IsNumber()) ? unreadMessagesObj.GetInt() : 0;
     
+    const auto& inModerationObj = json["inModeration"];
+    bool inModeration = (inModerationObj.IsBool()) ? inModerationObj.GetBool() : false;
+    
     // If the avatar is empty, see if we have one already we have use
     if(avatarURL.empty())
     {
         avatarURL = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildrenById(friendId);
     }
     
-    return Friend::create(friendId, friendName, avatarURL, unreadMessages);
+    return Friend::create(friendId, friendName, avatarURL, unreadMessages, inModeration);
 }
 
-FriendRef Friend::create(const std::string& friendId, const std::string& friendName, const std::string& avatarURL, int unreadMessages)
+FriendRef Friend::create(const std::string& friendId, const std::string& friendName, const std::string& avatarURL, int unreadMessages, bool inModeration)
 {
     FriendRef friendData(new Friend());
     friendData->_friendId = friendId;
     friendData->_friendName = friendName;
     friendData->_avatarURL = avatarURL;
     friendData->_unreadMessages = unreadMessages;
+    friendData->_inModeration = inModeration;
     return friendData;
 }
 
@@ -86,9 +90,19 @@ int Friend::unreadMessages() const
     return _unreadMessages;
 }
 
+bool Friend::inModeration() const
+{
+    return _inModeration;
+}
+
 void Friend::markMessagesLocalUnread()
 {
     _unreadMessages = 1;
+}
+
+void Friend::markFriendInModeration(bool status)
+{
+    _inModeration = status;
 }
 
 NS_AZOOMEE_CHAT_END

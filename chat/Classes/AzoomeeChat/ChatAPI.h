@@ -78,8 +78,15 @@ public:
     /// Mark messages with friend as read
     void markMessagesAsRead(const FriendRef& friendObj, const MessageRef& message);
     
+    //Report a problematic chat to parents
+    void reportChat(const FriendRef& friendObj);
+    
+    //Reset a reported chat by the parent
+    void resetReportedChat(const FriendRef& friendObj);
+    
     /// For azoomee2 notifications we start and schedule polling of friendlist
     void startFriendListManualPoll();
+
 };
 
 /**
@@ -97,6 +104,8 @@ struct ChatAPIObserver
     virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) {};
     /// A chat message was recieved
     virtual void onChatAPIMessageRecieved(const MessageRef& message) {};
+    /// A custom (command) message was received
+    virtual void onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string> &messageProperties) {};
     /// Notification about new messages
     virtual void onChatAPINewMessageNotificationReceived(int amountOfNewMessages) {};
 };

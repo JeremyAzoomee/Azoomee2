@@ -1,5 +1,6 @@
 #include "Scene.h"
-
+#include "MessageBox.h"
+#include "RequestAdultPinLayer.h"
 
 using namespace cocos2d;
 
@@ -106,7 +107,18 @@ void Scene::setContentSize(const cocos2d::Size& contentSize)
 
 void Scene::onSizeChanged()
 {
-    // Do nothing by default
+    // Do nothing for the in herited scene by default
+    // However, incase the scene has a MessageBox overlay, then trigger the
+    // MessageBox onSizeChanged, if the orientation has changed.
+    
+    MessageBox* messageBoxLayer = dynamic_cast<MessageBox*>(this->getChildByName("MessageBoxLayer"));
+    if(messageBoxLayer)
+        messageBoxLayer->onSizeChanged();
+    
+    RequestAdultPinLayer* adultPinLayer = dynamic_cast<RequestAdultPinLayer*>(this->getChildByName("RequestPinLayer"));
+    if(adultPinLayer)
+        adultPinLayer->onSizeChanged();
+    
 }
 
 void Scene::setLayoutType(cocos2d::ui::Layout::Type type)

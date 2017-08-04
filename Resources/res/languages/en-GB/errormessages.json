@@ -145,6 +145,31 @@
     	"button":"OK"
     },
     
+    "5001":
+    {
+        "title":"Report This Chat?",
+        "body":"Do you really want to report this chat?",
+        "button": "Report|Cancel",
+        "optionalButtonRefNames":"Report|Cancel"
+    },
+    
+    "5002":
+    {
+        "title":"Reset This Chat?",
+        "body":"Do you really want to reset this chat?",
+        "button": "Reset|Cancel",
+        "optionalButtonRefNames":"Reset|Cancel"
+    },
+    
+    "6001":
+    {
+        "title":"Sign Up or Log In",
+        "body":"Sign up or log in for access to the best kids’ TV shows, games and audiobooks in one safe app.",
+        "button": "Log in|Sign up",
+        "optionalButtonRefNames":"Log in|Sign up"
+    },
+
+    
     "default":
     {
         "title":"Something Went Wrong",

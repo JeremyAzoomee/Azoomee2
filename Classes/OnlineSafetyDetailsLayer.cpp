@@ -116,7 +116,7 @@ void OnlineSafetyDetailsLayer::playVideo()
     
     addListenerToVideoLayer(videoLayer);
     
-    closeVideoButton = ElectricDreamsButton::createWindowCloselButton();
+    closeVideoButton = ElectricDreamsButton::createWhiteWindowCloselButton();
     closeVideoButton->setCenterPosition(Vec2(visibleSize.width - closeVideoButton->getContentSize().width, visibleSize.height - closeVideoButton->getContentSize().height));
     closeVideoButton->setDelegate(this);
     closeVideoButton->setMixPanelButtonName("Settings-OnlineSafety-CloseVideo");

@@ -63,8 +63,6 @@
     "OtherLabels":
     {
         "pin_request_label":"Please enter your PIN",
-        "preview_messagebox_title_label":"Sign Up or Log In",
-        "preview_messagebox_body_label":"Sign up or log in for access to the best kids’ TV shows, games and audiobooks in one safe app.",
         "child_selectscene_title_label":"Select your profile",
         "loading_label":"Loading"
     },
@@ -88,7 +86,10 @@
         "start_exploring":"Start exploring",
         "add_another":"Add another",
         "lets_go":"Let's go",
-        "retry":"Retry"
+        "retry":"Retry",
+        "reset":"Reset",
+        "report":"Report",
+        "onlineSafetyTips":"online safety tips"
     },
     
     "OnlineSafetySlides":
@@ -107,11 +108,22 @@
         "buttonTitle":"Watch Search It Up"
         
     },
+    "ChatMessageBoxes":
+    {
+        "resetChatTitle":"Reset %s1 & %s2's Conversation?",
+        "resetChatBody":"If you need some guidance, read the",
+        "reportChatTitle":"Do you really want to report this chat to your parents?"
+    },
     "TandC":
     {
         "startText":"By creating an account, you agree to our",
         "privacyButton":" Privacy Policy ",
         "and":"and",
         "termsButton":" Terms of Use "
+    },
+    "Chat":
+    {
+        "chatReported":"This chat has been reported. Get your parent to reset it.",
+        "chatReportedMultiline":"This chat has been reported.\nGet your parent to reset it."
     }
 }

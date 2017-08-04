@@ -6,21 +6,17 @@
 
 NS_AZOOMEE_BEGIN
 
-/**
- * Customised version of MessageBox for Preview Login Signup.
- */
-class PreviewLoginSignupMessageBox : public MessageBox
+class PreviewLoginSignupMessageBox : public cocos2d::Layer, public MessageBoxDelegate
 {
-    typedef MessageBox Super;
 protected:
     
     virtual bool init() override;
     
-    virtual void onCancelPressed() override;
-    virtual void onButtonPressed(int buttonSelect) override;
-    
 public:
     CREATE_FUNC(PreviewLoginSignupMessageBox);
+    
+    //-------DELEGATE FUNCTION--------
+    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) override;
     
 };
 

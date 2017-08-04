@@ -63,8 +63,6 @@
 //------------ OTHER LABELS ------------------
 
 #define PIN_REQUEST_LABEL "OtherLabels/pin_request_label"
-#define PREVIEW_MESSAGEBOX_TITLE_LABEL "OtherLabels/preview_messagebox_title_label"
-#define PREVIEW_MESSAGEBOX_BODY_LABEL "OtherLabels/preview_messagebox_body_label"
 #define CHILD_SELECTSCENE_TITLE_LABEL "OtherLabels/child_selectscene_title_label"
 #define LOADING_LABEL "OtherLabels/loading_label"
 
@@ -84,6 +82,9 @@
 #define BUTTON_ADD_ANOTHER_LABEL "GenericButtons/add_another"
 #define BUTTON_LETS_GO "GenericButtons/lets_go"
 #define BUTTON_RETRY "GenericButtons/retry"
+#define BUTTON_RESET "GenericButtons/reset"
+#define BUTTON_REPORT "GenericButtons/report"
+#define BUTTON_ONLINE_SAFETY_TIPS "GenericButtons/onlineSafetyTips"
 
 //--------------ONLINE SAFETY SLIDES------------------
 
@@ -92,11 +93,22 @@
 #define ONLINE_SAFETY_SLIDE_MAIN_TEXT "OnlineSafetySlides/mainText"
 #define ONLINE_SAFETY_BUTTON_TEXT "OnlineSafetySlides/buttonTitle"
 
+//-------------CHAT MESSAGE BOXES-------------------
+
+#define CHAT_MESSAGE_BOXES_RESET_CHAT_TITLE "ChatMessageBoxes/resetChatTitle"
+#define CHAT_MESSAGE_BOXES_RESET_CHAT_BODY "ChatMessageBoxes/resetChatBody"
+#define CHAT_MESSAGE_BOXES_REPORT_CHAT_TITLE "ChatMessageBoxes/reportChatTitle"
+
 //------------TERMS AND PRIVACY-------------------
 
 #define T_and_C_Start_Text "TandC/startText"
 #define T_and_C_Privacy_Button "TandC/privacyButton"
 #define T_and_C_And "TandC/and"
 #define T_and_C_Terms_Button "TandC/termsButton"
+
+//------------ CHAT ---------------------------
+
+#define CHAT_CHAT_REPORTED "Chat/chatReported"
+#define CHAT_CHAT_REPORTED_MULTILINE "Chat/chatReportedMultiline"
 
 #endif
