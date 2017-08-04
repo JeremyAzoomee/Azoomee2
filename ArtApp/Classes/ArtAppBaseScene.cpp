@@ -75,18 +75,36 @@ void ArtAppBase::addBackButton()
 
 void ArtAppBase::backButtonCallBack()
 {
+    auto overlay = LayerColor::create(Color4B(0,0,0,200), Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
+    overlay->setPosition(Director::getInstance()->getVisibleOrigin());
+    this->addChild(overlay,2);
+    
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    {
+        return true;
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
+    
+    Director::getInstance()->getScheduler()->schedule([&](float dt){this->saveFileAndExit();}, this, 0.5, 0, 0, false, "saveAndExit");
+}
+
+void ArtAppBase::saveFileAndExit()
+{
     std::string saveFileName;
     if(this->fileName == "")
     {
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);
-    
+        
         
         std::ostringstream oss;
         //oss << std::put_time(&tm, "%d%m%Y%H%M%S");
         oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
         auto fileNameStr = oss.str();
-    
+        
         saveFileName = "artCache/" + Azoomee::ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + fileNameStr + ".png";
     }
     else

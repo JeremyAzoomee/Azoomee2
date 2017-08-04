@@ -22,6 +22,8 @@ public:
     
     void backButtonCallBack();
     
+    void saveFileAndExit();
+    
     // implement the "static create()" method manually
     CREATE_FUNC(ArtAppBase);
 };
