@@ -572,6 +572,13 @@
 			name = EmptySceneForSettings;
 			sourceTree = "<group>";
 		};
+		0243B9B01F387C43005D3734 /* ForceUpdate */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ForceUpdate;
+			sourceTree = "<group>";
+		};
 		02E595821E55DE5E0052F395 /* Offline */ = {
 			isa = PBXGroup;
 			children = (
@@ -887,6 +894,7 @@
 				4323120D1E1D4DC500C8606D /* Utilities */,
 				A1CC0C261E156882008B469E /* Intro */,
 				430B3B021DF832A8003A3AA7 /* Signup_AddChild */,
+				0243B9B01F387C43005D3734 /* ForceUpdate */,
 				A15B2FA41DEC73B800D25334 /* Login */,
 				A1CC0C141E1407B2008B469E /* BaseScene */,
 				300742F61EF93433005525AE /* Chat */,

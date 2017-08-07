@@ -38,6 +38,8 @@ private:
     void onRegisterChildAnswerReceived();
     // Update child API success
     void onUpdateChildAnswerReceived();
+    // Get Force Update Data success
+    void onGetForceUpdateDataAnswerReceived();
     
     void displayLoadingScreen();
     void hideLoadingScreen();
@@ -88,6 +90,8 @@ public:
     void getElectricDreamsContent(const std::string& requestId, const std::string& contentID);
     // Reset Password
     void resetPasswordRequest(const std::string& emailAddress);
+    // Get force update data
+    void getForceUpdateData();
 };
 
 NS_AZOOMEE_END

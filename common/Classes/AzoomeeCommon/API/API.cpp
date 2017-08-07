@@ -32,6 +32,7 @@ const char* const API::TagGetPendingFriendRequests = "getPendingFriendRequests";
 const char* const API::TagPusherAuth = "pusher.auth";
 const char* const API::TagReportChat = "chat.report";
 const char* const API::TagResetReportedChat = "chat.resetReported";
+const char* const API::TagGetForceUpdateInformation = "forceUpdate";
 
 #pragma mark - API Methods
 
@@ -59,6 +60,15 @@ HttpRequestCreator* API::UpdateBillingDataRequest(HttpRequestCreatorResponseDele
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagUpdateBillingData;
     request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::GetForceUpdateInformationRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetForceUpdateInformation;
+    //TODOTAMAS set path for the request once got it back from Steven
+    request->encrypted = false;
     return request;
 }
 
