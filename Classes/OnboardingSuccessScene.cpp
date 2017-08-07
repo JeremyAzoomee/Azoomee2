@@ -12,7 +12,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/UI/Style.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 

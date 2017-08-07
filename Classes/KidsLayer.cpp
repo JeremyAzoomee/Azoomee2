@@ -112,12 +112,12 @@ void KidsLayer::setToStartLayout()
 {
     removeObjects(true);
     
-    Label* ShareWithFriendLabel = createLabelWith("Share with friends", FONT_REGULAR, Style::Color::brightAqua, 40);
+    Label* ShareWithFriendLabel = createLabelWith("Share with friends", Style::Font::Regular, Style::Color::brightAqua, 40);
     ShareWithFriendLabel->setTag(1000);
     ShareWithFriendLabel->setPosition(this->getContentSize().width/2,this->getContentSize().height - ShareWithFriendLabel->getContentSize().height*9.1);
     this->addChild(ShareWithFriendLabel);
     
-    Label* AddAFriendLabel = createLabelWith("To add a friend", FONT_REGULAR, Style::Color::brightAqua, 40);
+    Label* AddAFriendLabel = createLabelWith("To add a friend", Style::Font::Regular, Style::Color::brightAqua, 40);
     AddAFriendLabel->setTag(1000);
     AddAFriendLabel->setPosition(this->getContentSize().width/2,AddAFriendLabel->getContentSize().height*5.8);
     this->addChild(AddAFriendLabel);
