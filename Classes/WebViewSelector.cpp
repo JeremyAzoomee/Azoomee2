@@ -61,7 +61,6 @@ std::string WebViewSelector::getUrlWithoutPath(std::string url)
 
 void WebViewSelector::loadWebView(std::string url)
 {
-    AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEW");
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
     AudioMixer::getInstance()->stopBackgroundMusic();
     

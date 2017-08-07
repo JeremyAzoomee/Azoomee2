@@ -9,6 +9,7 @@
 #include "WebGameAPIDataManager.h"
 #include "ArtAppImageManager.h"
 #include "SceneManagerScene.h"
+#include "WebViewSelector.h"
 
 using namespace cocos2d;
 

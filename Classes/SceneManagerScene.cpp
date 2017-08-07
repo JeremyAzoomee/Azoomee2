@@ -191,16 +191,14 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case WebviewPortrait:
         {
             forceToPortrait();
-            cocos2d::Scene* goToScene = WebViewSelector::createSceneWithUrl(webviewURL);
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWPORTRAIT");
-            Director::getInstance()->replaceScene(goToScene);
+            WebViewSelector::createSceneWithUrl(webviewURL);
         }
         case WebviewLandscape:
         {
             forceToLandscape();
-            cocos2d::Scene* goToScene = WebViewSelector::createSceneWithUrl(webviewURL);
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
-            Director::getInstance()->replaceScene(goToScene);
+            WebViewSelector::createSceneWithUrl(webviewURL);
         }
         default:
             break;

@@ -25,6 +25,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/ErrorCodes.h>
+#include "WebViewSelector.h"
 
 using namespace cocos2d;
 using namespace cocos2d::network;
