@@ -27,16 +27,23 @@ bool FriendListViewItem::init()
     _contentLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
     addChild(_contentLayout);
     
-    // Unread indicator TODO
-    ui::Layout* indicatorLayout = ui::Layout::create();
-    indicatorLayout->setSizeType(ui::Widget::SizeType::ABSOLUTE);
-    indicatorLayout->setContentSize(Size(150.0f, 5.0f));
-    indicatorLayout->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(20.0f, 0, 0, 0)));
-    _contentLayout->addChild(indicatorLayout);
+    // InModeration indicator
+    _inModerationIndicator = ui::ImageView::create();
+    _inModerationIndicator->loadTexture("res/chat/ui/avatar/avatar_moderation.png");
+    _inModerationIndicator->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(5.0f, 0, 0, 0)));
+    _inModerationIndicator->setVisible(false);
+    _contentLayout->addChild(_inModerationIndicator);
+    
+    // Unread indicator
+    _unreadIndicator = ui::ImageView::create();
+    _unreadIndicator->loadTexture("res/chat/ui/avatar/avatar_alert.png");
+    _unreadIndicator->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(20.0f, 0, 0, 0)));
+    _unreadIndicator->setVisible(false);
+    _contentLayout->addChild(_unreadIndicator);
     
     // Avatar
     _avatarLayout = ui::Layout::create();
-    _avatarLayout->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(20.0f, 0, 0, 0)));
+    _avatarLayout->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(75.0f, 0, 0, 0)));
     _contentLayout->addChild(_avatarLayout);
     
     _avatarPlaceholder = ui::ImageView::create();
@@ -99,12 +106,16 @@ void FriendListViewItem::setData(const FriendRef& friendData)
         _avatarWidget->setAvatarForFriend(_friendData);
         _avatarPlaceholder->setVisible(false);
         _avatarWidget->setVisible(true);
+        _unreadIndicator->setVisible(_friendData->unreadMessages() > 0);
+        _inModerationIndicator->setVisible(_friendData->inModeration());
     }
     else
     {
         _avatarWidget->setAvatarForFriend(nullptr);
         _avatarPlaceholder->setVisible(true);
         _avatarWidget->setVisible(false);
+        _unreadIndicator->setVisible(false);
+        _inModerationIndicator->setVisible(false);
     }
 }
 

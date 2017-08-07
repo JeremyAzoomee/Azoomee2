@@ -32,8 +32,10 @@ private:
     cocos2d::ui::Layout* _subTitleBar = nullptr;
     /// Sub title bar border
     cocos2d::ui::Layout* _subTitleBarBorder = nullptr;
-    /// List of friends
+    /// List of friends displayed to the user
     FriendListView* _friendListView = nullptr;
+    /// List of friends we last recieved from server
+    FriendList _friendListData;
     
     
     /// Create the content UI
@@ -48,6 +50,9 @@ private:
     
     // - ChatAPIObserver
     void onChatAPIGetFriendList(const FriendList& friendList) override;
+    void onChatAPIMessageRecieved(const MessageRef& message) override;
+    void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) override;
+    void onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string> &messageProperties) override;
     
 protected:
     

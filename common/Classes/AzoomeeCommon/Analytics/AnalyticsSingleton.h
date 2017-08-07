@@ -123,12 +123,13 @@ public:
     void sessionIdHasChanged(std::string oldSessionId);
     void httpRequestFailed(std::string requestTag, long responseCode, std::string qid);
     void moveToSceneEvent(std::string newScene);
+    void settingsOnlineSafetySlideChangeEvent(int NewSlideNumber);
     
     //---------------IAP ACTIONS------------------
     void displayIAPUpsaleEvent(std::string fromLocation);
     void iapSubscriptionSuccessEvent();
     void iapSubscriptionErrorEvent(std::string errorDescription);
-    void iapSubscriptionFailedEvent();
+    void iapSubscriptionFailedEvent(const std::string& failureDetails);
     void iapUserDataFailedEvent();
     void iapSubscriptionDoublePurchaseEvent();
     void iapBackEndRequestFailedEvent(long errorCode);
@@ -154,6 +155,8 @@ public:
     void chatIncomingMessageEvent(std::string messageType);
     void chatOutgoingMessageEvent(std::string messageType);
     void unreadMessagesNotificationReceived();
+    void chatReportedEvent();
+    void chatResetReportedEvent();
 
 };
   

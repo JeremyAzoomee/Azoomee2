@@ -8,6 +8,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include "OnlineSafetyDetailsLayer.h"
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50
@@ -115,8 +116,14 @@ void SettingsControlLayer::createTabs()
     accountButton = ElectricDreamsButton::createTabButton("Your Account");
     accountButton->setPosition(confirmationButton->getPositionX()+confirmationButton->getContentSize().width/2+TAB_SPACING+accountButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH);
     accountButton->setDelegate(this);
-    confirmationButton->setMixPanelButtonName("SettingsTab-Account");
+    accountButton->setMixPanelButtonName("SettingsTab-Account");
     backgroundLayer->addChild(accountButton,SELECTED_TAB_Z);
+
+    onlineSafetyButton = ElectricDreamsButton::createTabButton("Online Safety");
+    onlineSafetyButton->setPosition(accountButton->getPositionX()+accountButton->getContentSize().width/2+TAB_SPACING+onlineSafetyButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH);
+    onlineSafetyButton->setDelegate(this);
+    onlineSafetyButton->setMixPanelButtonName("SettingsTab-OnlineSafety");
+    backgroundLayer->addChild(onlineSafetyButton,IDLE_TAB_Z);
 }
 
 void SettingsControlLayer::createConfirmationNotification()
@@ -129,7 +136,7 @@ void SettingsControlLayer::createConfirmationNotification()
 
 void SettingsControlLayer::checkForConfirmationNotifications()
 {
-    HttpRequestCreator *request = API::getPendingFriendRequests(this);
+    HttpRequestCreator *request = API::GetPendingFriendRequests(this);
     request->execute();
 }
 
@@ -156,6 +163,7 @@ void SettingsControlLayer::selectNewTab(Layer* newCurrentLayer, ElectricDreamsBu
     childrenButton->setLocalZOrder(IDLE_TAB_Z);
     confirmationButton->setLocalZOrder(IDLE_TAB_Z);
     accountButton->setLocalZOrder(IDLE_TAB_Z);
+    onlineSafetyButton->setLocalZOrder(IDLE_TAB_Z);
     
     buttonToBringForward->setLocalZOrder(SELECTED_TAB_Z);
     
@@ -179,6 +187,8 @@ void SettingsControlLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == accountButton)
         selectNewTab(AccountDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), accountButton);
+    else if(button == onlineSafetyButton)
+        selectNewTab(OnlineSafetyDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), onlineSafetyButton);
 }
 
 void SettingsControlLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)

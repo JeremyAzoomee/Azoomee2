@@ -9,8 +9,7 @@ USING_NS_CC;
 #define MESSAGE_BOX_MINIMUM_WIDTH 1366
 #define MESSAGE_BOX_MAXIMUM_WIDTH 2049
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
 
 static ModalMessages *_sharedModalMessages = NULL;
 
@@ -114,5 +113,5 @@ void ModalMessages::showMixpanelNotificationWithID(int notificationID)
     showMixPanelNotificationWithID(notificationID);
 }
   
-}
+NS_AZOOMEE_END
 

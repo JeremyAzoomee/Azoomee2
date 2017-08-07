@@ -2,6 +2,7 @@
 
 #include <cocos/cocos2d.h>
 #include "ChildSelectorScene.h"
+#include "LoginScene.h"
 #include "Auth/AuthAPI.h"
 
 using namespace cocos2d;
@@ -33,6 +34,15 @@ void ChatDelegate::onChatNavigationBack()
 void ChatDelegate::onChatAddFriend()
 {
     // Nothing in standalone
+}
+
+void ChatDelegate::onChatAuthorizationError(const std::string& requestTag, long errorCode)
+{
+    AuthAPI::getInstance()->logoutUser();
+    
+    // Back to login screen
+    auto loginScene = LoginScene::create();
+    Director::getInstance()->replaceScene(loginScene);
 }
 
 NS_AZOOMEE_CHAT_END

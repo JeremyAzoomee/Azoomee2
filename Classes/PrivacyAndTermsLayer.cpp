@@ -1,5 +1,8 @@
 #include "PrivacyAndTermsLayer.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/Strings.h>
+#include <AzoomeeCommon/UI/ModalWebview.h>
+#include <AzoomeeCommon/Data/Urls.h>
 
 using namespace cocos2d;
 
@@ -23,18 +26,18 @@ bool PrivacyAndTermsLayer::init()
 
 void PrivacyAndTermsLayer::createButtons()
 {
-    privacyButton = ElectricDreamsButton::createTextAsButton("Privacy Policy", 50, true);
+    privacyButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 50, true);
     privacyButton->setMixPanelButtonName("PrivacyPolicyButton");
     privacyButton->setDelegate(this);
     
-    termsButton = ElectricDreamsButton::createTextAsButton("Terms of Use", 50, true);
+    termsButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(T_and_C_Terms_Button), 50, true);
     termsButton->setMixPanelButtonName("TermsButton");
     termsButton->setDelegate(this);
 }
 
 void PrivacyAndTermsLayer::createLabel()
 {
-    andLabel = createLabelContentDescription("and");
+    andLabel = createLabelContentDescription(StringMgr::getInstance()->getStringForKey(T_and_C_And));
 }
 
 void PrivacyAndTermsLayer::setSizeAndAddItems()
@@ -71,14 +74,9 @@ Vec2 PrivacyAndTermsLayer::getCenterPosition()
 void PrivacyAndTermsLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == privacyButton)
-    {
-        Application::getInstance()->openURL("http://azoomee.com/index.php/privacy-policy-2/");
-    }
+        ModalWebview::createWithURL(Url::PrivacyPolicy);
     else if(button == termsButton)
-    {
-        Application::getInstance()->openURL("http://azoomee.com/index.php/terms-and-conditions/");
-    }
-
+        ModalWebview::createWithURL(Url::TermsOfUse);
 }
 
 NS_AZOOMEE_END
