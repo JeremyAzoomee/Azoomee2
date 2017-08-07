@@ -16,6 +16,7 @@
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "ChatDelegate.h"
 #include "EmptySceneForSettings.h"
+#include "WebViewSelector.h"
 
 using namespace cocos2d;
 
@@ -27,6 +28,22 @@ cocos2d::Scene* SceneManagerScene::createScene(SceneNameEnum sceneName)
     auto layer = SceneManagerScene::create();
     
     layer->nextScene = sceneName;
+    scene->addChild(layer);
+    
+    return scene;
+}
+
+cocos2d::Scene* SceneManagerScene::createWebview(std::string isPortrait, std::string URL)
+{
+    auto scene = cocos2d::Scene::create();
+    auto layer = SceneManagerScene::create();
+    
+    if(isPortrait == "true")
+        layer->nextScene = WebviewPortrait;
+    else
+        layer->nextScene = WebviewLandscape;
+    
+    layer->webviewURL = URL;
     scene->addChild(layer);
     
     return scene;
@@ -169,6 +186,20 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             forceToLandscape();
             cocos2d::Scene* goToScene = EmptySceneForSettings::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
+            Director::getInstance()->replaceScene(goToScene);
+        }
+        case WebviewPortrait:
+        {
+            forceToPortrait();
+            cocos2d::Scene* goToScene = WebViewSelector::createSceneWithUrl(webviewURL);
+            AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWPORTRAIT");
+            Director::getInstance()->replaceScene(goToScene);
+        }
+        case WebviewLandscape:
+        {
+            forceToLandscape();
+            cocos2d::Scene* goToScene = WebViewSelector::createSceneWithUrl(webviewURL);
+            AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
             Director::getInstance()->replaceScene(goToScene);
         }
         default:

@@ -1,7 +1,6 @@
 #include "ArtsAppHQElement.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "WebViewSelector.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "HQScene.h"
 #include "AppDelegate.h"
@@ -297,12 +296,12 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
             WebGameAPIDataManager::getInstance()->setGameId("artApp");
             
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            WebViewSelector::createSceneWithUrl(FileUtils::getInstance()->fullPathForFilename("res/artapp/index.html"));
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview("false", FileUtils::getInstance()->fullPathForFilename("res/artapp/index.html")));
 #endif
             
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
             ConfigStorage::getInstance()->inArtsApp = 1;
-            WebViewSelector::createSceneWithUrl("file:///android_asset/res/artapp/index.html");
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview("false", "file:///android_asset/res/artapp/index.html"));
 #endif
         }
         

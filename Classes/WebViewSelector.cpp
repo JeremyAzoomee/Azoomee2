@@ -16,21 +16,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-cocos2d::Scene* WebViewSelector::createScene()
-{
-    // 'scene' is an autorelease object
-    auto scene = cocos2d::Scene::create();
-    
-    // 'layer' is an autorelease object
-    auto layer = WebViewSelector::create();
-
-    // add layer as a child to scene
-    scene->addChild(layer);
-
-    // return the scene
-    return scene;
-}
-
 cocos2d::Scene* WebViewSelector::createSceneWithUrl(std::string url)
 {
     // 'scene' is an autorelease object

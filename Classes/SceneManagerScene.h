@@ -19,7 +19,9 @@ enum SceneNameEnum {
     OfflineArtsAppHQ,
     FTUScene,
     ChatEntryPointScene,
-    SettingsFromChat
+    SettingsFromChat,
+    WebviewPortrait,
+    WebviewLandscape
 };
 
 class SceneManagerScene : public cocos2d::Layer
@@ -28,12 +30,16 @@ private:
     
     SceneNameEnum nextScene;
     
+    std::string webviewURL;
+    
     void forceToPortrait();
     void forceToLandscape();
     void acceptAnyOrientation();
     
 public:
     static cocos2d::Scene* createScene(SceneNameEnum sceneName);
+    static cocos2d::Scene* createWebview(std::string isPortrait, std::string URL);
+    
     virtual bool init();
     
     virtual void onEnterTransitionDidFinish();

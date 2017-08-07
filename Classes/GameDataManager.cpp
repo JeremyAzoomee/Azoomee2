@@ -9,7 +9,6 @@
 #include "external/json/prettywriter.h"
 #include "external/unzip/unzip.h"
 
-#include "WebViewSelector.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -460,7 +459,7 @@ void GameDataManager::startGame(std::string basePath, std::string fileName)
         return;
     }
     
-    WebViewSelector::createSceneWithUrl(basePath + fileName);
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview("false", basePath + fileName));
 }
 
 std::string GameDataManager::getGameIdPath(std::string gameId)

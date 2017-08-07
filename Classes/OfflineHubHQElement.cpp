@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "GameDataManager.h"
-#include "WebViewSelector.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -106,7 +106,8 @@ void OfflineHubHQElement::addListenerToElement(std::map<std::string, std::string
             
             AnalyticsSingleton::getInstance()->contentItemSelectedEvent(itemData.at("title"), itemData.at("description"), itemData.at("type"), itemData.at("id"), -1, -1, "1,1");
             
-            WebViewSelector::createSceneWithUrl(startUrl.c_str());
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview("false", startUrl.c_str()));
+            
         }
         
         return false;
