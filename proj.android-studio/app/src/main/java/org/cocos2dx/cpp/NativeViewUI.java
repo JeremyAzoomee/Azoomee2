@@ -2,6 +2,7 @@ package org.cocos2dx.cpp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +45,15 @@ public class NativeViewUI extends Activity {
         activity = this;
 
         Bundle extras = getIntent().getExtras();
+
+        //---------Set Orientation-----------
+        String newOrientation = extras.getString("orientation");
+
+        if(newOrientation.equals("portrait"))
+        {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         userid = extras.getString("userid");
         Log.d("userid", userid);
 

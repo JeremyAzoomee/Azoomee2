@@ -109,7 +109,9 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
         nvw.putExtra("url", url);
         nvw.putExtra("userid", userid);
+        nvw.putExtra("orientation", "portrait");
         mContext.startActivity(nvw);
+
     }
 
     public static String getOSBuildManufacturer() {
