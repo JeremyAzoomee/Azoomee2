@@ -460,7 +460,7 @@ void GameDataManager::startGame(std::string basePath, std::string fileName)
         return;
     }
     
-    Director::getInstance()->replaceScene(SceneManagerScene::createWebview("false", basePath + fileName));
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(gameIsPortrait(basePath + "package.json"), basePath + fileName));
 }
 
 std::string GameDataManager::getGameIdPath(std::string gameId)
@@ -471,6 +471,19 @@ std::string GameDataManager::getGameIdPath(std::string gameId)
 std::string GameDataManager::getGameCachePath()
 {
     return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+}
+
+bool GameDataManager::gameIsPortrait(const std::string& jsonFileName)
+{
+    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    rapidjson::Document gameData;
+    gameData.Parse(fileContent.c_str());
+    
+    if(gameData.HasMember("isPortrait"))
+        if(gameData["isPortrait"].IsBool())
+            return gameData["isPortrait"].GetBool();
+    
+    return false;
 }
 
 //---------------------LOADING SCREEN----------------------------------

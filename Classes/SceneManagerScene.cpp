@@ -33,12 +33,12 @@ cocos2d::Scene* SceneManagerScene::createScene(SceneNameEnum sceneName)
     return scene;
 }
 
-cocos2d::Scene* SceneManagerScene::createWebview(const std::string& isPortrait, const std::string& URL)
+cocos2d::Scene* SceneManagerScene::createWebview(bool isPortrait, const std::string& URL)
 {
     auto scene = cocos2d::Scene::create();
     auto layer = SceneManagerScene::create();
     
-    if(isPortrait == "true")
+    if(isPortrait)
         layer->nextScene = WebviewPortrait;
     else
         layer->nextScene = WebviewLandscape;
@@ -201,7 +201,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             forceToLandscape();
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
-            WebViewSelector::createSceneWithUrl(webviewURL, "true");
+            WebViewSelector::createSceneWithUrl(webviewURL, "false");
         }
         default:
             break;

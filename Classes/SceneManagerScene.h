@@ -38,7 +38,7 @@ private:
     
 public:
     static cocos2d::Scene* createScene(SceneNameEnum sceneName);
-    static cocos2d::Scene* createWebview(const std::string& isPortrait, const std::string& URL);
+    static cocos2d::Scene* createWebview(bool isPortrait, const std::string& URL);
     
     virtual bool init();
     
