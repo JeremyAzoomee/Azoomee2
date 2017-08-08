@@ -26,18 +26,25 @@ Node* BrushSprayCan::addDrawNode(Size visibleSize)
 Node* BrushSprayCan::getDrawNode()
 {
     
-    RenderTexture* sprayCanResult = RenderTexture::create(Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
-    sprayCanResult->setAnchorPoint(Vec2(0.5,0.5));
-    sprayCanResult->setPosition(Director::getInstance()->getVisibleOrigin() + (Director::getInstance()->getVisibleSize()/2));
-    sprayCanResult->beginWithClear(0, 0, 0, 0);
-    drawNode->setPosition((Vec2)(Director::getInstance()->getVisibleSize()/2) - Director::getInstance()->getVisibleOrigin());
-    drawNode->visit();
-    sprayCanResult->end();
-    Director::getInstance()->getRenderer()->render();
+    if(drawnElementsCount > 10000)
+    {
+        RenderTexture* sprayCanResult = RenderTexture::create(Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
+        sprayCanResult->setAnchorPoint(Vec2(0.5,0.5));
+        sprayCanResult->setPosition(Director::getInstance()->getVisibleOrigin() + (Director::getInstance()->getVisibleSize()/2));
+        sprayCanResult->beginWithClear(0, 0, 0, 0);
+        drawNode->setPosition((Vec2)(Director::getInstance()->getVisibleSize()/2) - Director::getInstance()->getVisibleOrigin());
+        drawNode->visit();
+        sprayCanResult->end();
+        Director::getInstance()->getRenderer()->render();
     
-    drawNode->getParent()->addChild(sprayCanResult);
-    drawNode->removeFromParent();
-    return sprayCanResult;
+        drawNode->getParent()->addChild(sprayCanResult);
+        drawNode->removeFromParent();
+        return sprayCanResult;
+    }
+    else
+    {
+        return drawNode;
+    }
 }
 
 BrushSprayCan::BrushSprayCan():Brush()
@@ -49,6 +56,9 @@ void BrushSprayCan::onTouchBegin(Touch *touch, Event *event)
 {
     lastTouchPos = drawNode->convertTouchToNodeSpace(touch);
     srand((int)time(NULL));
+    
+    drawnElementsCount = 0;
+    
 }
 
 void BrushSprayCan::onTouchMoved(Touch *touch, Event *event)
@@ -71,6 +81,8 @@ void BrushSprayCan::onTouchMoved(Touch *touch, Event *event)
         
         drawNode->drawDot(position, rand()%6 + 1, colour);
     }
+    
+    drawnElementsCount += sprayPoints;
     
     lastTouchPos = touchPos;
 }

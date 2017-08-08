@@ -18,7 +18,7 @@ NS_AZOOMEE_AA_BEGIN
 class BrushSprayCan : public Brush
 {
 private:
-    
+    int drawnElementsCount;
 public:
     BrushSprayCan();
     
