@@ -10,13 +10,13 @@ class WebViewSelector : public cocos2d::Layer
 {
 public:
     CREATE_FUNC(WebViewSelector);
-    static cocos2d::Scene* createSceneWithUrl(std::string url);
+    static cocos2d::Scene* createSceneWithUrl(std::string url, std::string isPortrait);
     virtual bool init();
     
     std::string getUrlWithoutPath(std::string);
     int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);
     
-    void loadWebView(std::string url);
+    void loadWebView(std::string url, std::string isPortrait);
 };
 
 NS_AZOOMEE_END

@@ -178,7 +178,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
                 {
                     VideoPlaylistManager::getInstance()->clearPlaylist();
                     auto webViewSelector = WebViewSelector::create();
-                    webViewSelector->loadWebView(elementProperties.at("uri").c_str());
+                    webViewSelector->loadWebView(elementProperties.at("uri").c_str(),"false");
                 }
                 else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "GROUP")
                 {

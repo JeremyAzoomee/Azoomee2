@@ -2,6 +2,7 @@ package org.cocos2dx.cpp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +47,11 @@ public class NativeView extends XWalkActivity {
         activity = this;
 
         Bundle extras = getIntent().getExtras();
+
+        //---------Set Orientation-----------
+        if(extras.getString("isPortrait").equals("true"))
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         userid = extras.getString("userid");
 
         xWalkWebView = new XWalkView(this);

@@ -190,15 +190,18 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case WebviewPortrait:
         {
-            forceToPortrait();
+            #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+                forceToPortrait();
+            #endif
+            
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWPORTRAIT");
-            WebViewSelector::createSceneWithUrl(webviewURL);
+            WebViewSelector::createSceneWithUrl(webviewURL, "true");
         }
         case WebviewLandscape:
         {
             forceToLandscape();
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
-            WebViewSelector::createSceneWithUrl(webviewURL);
+            WebViewSelector::createSceneWithUrl(webviewURL, "true");
         }
         default:
             break;
