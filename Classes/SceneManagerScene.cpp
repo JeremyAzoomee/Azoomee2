@@ -33,7 +33,7 @@ cocos2d::Scene* SceneManagerScene::createScene(SceneNameEnum sceneName)
     return scene;
 }
 
-cocos2d::Scene* SceneManagerScene::createWebview(std::string isPortrait, std::string URL)
+cocos2d::Scene* SceneManagerScene::createWebview(const std::string& isPortrait, const std::string& URL)
 {
     auto scene = cocos2d::Scene::create();
     auto layer = SceneManagerScene::create();
