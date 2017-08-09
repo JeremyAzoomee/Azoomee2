@@ -3,10 +3,11 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/UI/MessageBox.h>
 
 NS_AZOOMEE_BEGIN
 
-class ForceUpdateSingleton : public cocos2d::Ref
+class ForceUpdateSingleton : public cocos2d::Ref, public MessageBoxDelegate
 {
     
 public:
@@ -18,6 +19,9 @@ public:
     
     //Communication methods
     void onForceUpdateDataReceived(const std::string &responseString);
+    
+    std::string getUpdateUrlFromFile();
+    void MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle);
     
 private:
     void onForceUpdateLogicHasLocalFile();

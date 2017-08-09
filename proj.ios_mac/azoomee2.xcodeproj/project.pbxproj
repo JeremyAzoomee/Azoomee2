@@ -13,6 +13,7 @@
 		0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0243B8D91F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp */; };
 		0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0253C9851EC053B4005037EB /* VideoPlaylistManager.cpp */; };
 		025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */; };
+		025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */; };
 		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
 		025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */; };
 		025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */; };
@@ -248,6 +249,8 @@
 		0253C9861EC053B5005037EB /* VideoPlaylistManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlaylistManager.h; sourceTree = "<group>"; };
 		025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ForceUpdateSingleton.cpp; sourceTree = "<group>"; };
 		025633731F39AB5D0053FF26 /* ForceUpdateSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceUpdateSingleton.h; sourceTree = "<group>"; };
+		025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ForceUpdateAppLockScene.cpp; sourceTree = "<group>"; };
+		025633781F3B0F5C0053FF26 /* ForceUpdateAppLockScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceUpdateAppLockScene.h; sourceTree = "<group>"; };
 		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
 		025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
 		025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsPreviewLayer.cpp; sourceTree = "<group>"; };
@@ -580,6 +583,8 @@
 			children = (
 				025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */,
 				025633731F39AB5D0053FF26 /* ForceUpdateSingleton.h */,
+				025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */,
+				025633781F3B0F5C0053FF26 /* ForceUpdateAppLockScene.h */,
 			);
 			name = ForceUpdate;
 			sourceTree = "<group>";
@@ -1325,6 +1330,7 @@
 				0281F5C71E89210C001FCE60 /* LoginLogicHandler.cpp in Sources */,
 				A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */,
 				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
+				025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,

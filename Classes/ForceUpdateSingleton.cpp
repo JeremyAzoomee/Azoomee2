@@ -4,6 +4,7 @@
 #include <external/json/document.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include "ForceUpdateAppLockScene.h"
 
 using namespace cocos2d;
 
@@ -47,11 +48,12 @@ void ForceUpdateSingleton::onForceUpdateLogicHasLocalFile()
     {
         if(isAppCloseRequired())
         {
-            //TODOTAMAS close the app
+            Director::getInstance()->replaceScene(ForceUpdateAppLockScene::createScene());
         }
         else
         {
-            //TODOTAMAS notify the user
+            std::vector<std::string> buttonNames = {"OK", "Update"};
+            MessageBox::createWith("Update recommended", "You should update to the\nlatest version of Azoomee.\nAsk a grown-up to help you.", buttonNames, this);
         }
     }
 }
@@ -150,6 +152,39 @@ std::map<std::string, std::string> ForceUpdateSingleton::getMapFromForceUpdateJs
     }
     
     return returnData;
+}
+
+std::string ForceUpdateSingleton::getUpdateUrlFromFile()
+{
+    std::map<std::string, std::string> forceUpdateData = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer", "()Ljava/lang/String;");
+    jstring str = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID);
+    const char *resultCStr = t.env->GetStringUTFChars(str, NULL);
+    std::string resultStr(resultCStr);
+    
+    t.env->DeleteLocalRef(t.classID);
+    t.env->DeleteLocalRef(str);
+    
+    if (resultStr == "Amazon")
+    {
+        return forceUpdateData["amazonUpdateURL"];
+    }
+    else
+    {
+        return forceUpdateData["androidUpdateURL"];
+    }
+#else
+    return forceUpdateData["iosUpdateURL"];
+#endif
+}
+
+void ForceUpdateSingleton::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
+{
+    if(buttonTitle == "Update") Application::getInstance()->openURL(getUpdateUrlFromFile());
 }
 
 
