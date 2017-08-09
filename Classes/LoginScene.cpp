@@ -12,7 +12,6 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
-#include "ForceUpdateSingleton.h"
 
 using namespace cocos2d;
 
@@ -52,10 +51,8 @@ bool LoginScene::init()
 
 void LoginScene::onEnterTransitionDidFinish()
 {
-    ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
-    
     currentScreen = emailLoginScreen;
-    
+
     OfflineChecker::getInstance()->setDelegate(this);
     
     if(FlowDataSingleton::getInstance()->hasError())
