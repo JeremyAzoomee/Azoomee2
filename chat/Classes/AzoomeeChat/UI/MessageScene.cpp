@@ -364,12 +364,12 @@ void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 
 void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    if(buttonTitle == "Report")
+    if(buttonTitle == MessageBox::messageBoxConst_Report)
     {
         ChatAPI::getInstance()->reportChat(_participants[1]);
     }
     
-    if(buttonTitle == "Reset")
+    if(buttonTitle == MessageBox::messageBoxConst_Reset)
     {
         ChatAPI::getInstance()->resetReportedChat(_participants[1]);
     }

@@ -51,6 +51,15 @@ protected:
     virtual bool init() override;
   
 public:
+    
+    static const char* const messageBoxConst_OK;
+    static const char* const messageBoxConst_Cancel;
+    static const char* const messageBoxConst_Login;
+    static const char* const messageBoxConst_SignUp;
+    static const char* const messageBoxConst_ResetPassword;
+    static const char* const messageBoxConst_Report;
+    static const char* const messageBoxConst_Reset;
+    
     //Main function for creating a MessageBox
     static MessageBox* createWith(const std::string& Title, const std::string& Body, const std::vector<std::string>& buttonTitleList, MessageBoxDelegate* _delegate);
     static MessageBox* createWith(const std::string& Title, const std::string& Body, const std::string& Button, MessageBoxDelegate* _delegate);

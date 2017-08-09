@@ -14,6 +14,14 @@ using namespace cocos2d;
 
 namespace Azoomee
 {
+    
+const char* const MessageBox::messageBoxConst_OK = "OK";
+const char* const MessageBox::messageBoxConst_Cancel = "Cancel";
+const char* const MessageBox::messageBoxConst_Login = "Log in";
+const char* const MessageBox::messageBoxConst_SignUp = "Sign up";
+const char* const MessageBox::messageBoxConst_ResetPassword = "Reset Password";
+const char* const MessageBox::messageBoxConst_Report ="Report";
+const char* const MessageBox::messageBoxConst_Reset ="Reset";
 
 MessageBox* MessageBox::createWith(const std::string& Title, const std::string& Body, const std::vector<std::string>& buttonTitleList, MessageBoxDelegate* _delegate)
 {

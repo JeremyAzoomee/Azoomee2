@@ -244,7 +244,7 @@ void MessageBoxTextLayer::buttonPressed(ElectricDreamsButton* button)
   
 void MessageBoxTextLayer::onCancelPressed()
 {
-     dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Cancel");
+     dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, MessageBox::messageBoxConst_Cancel);
 }
 
 void MessageBoxTextLayer::onButtonPressed(int buttonSelect)

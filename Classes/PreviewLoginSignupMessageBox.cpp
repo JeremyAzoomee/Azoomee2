@@ -23,15 +23,15 @@ bool PreviewLoginSignupMessageBox::init()
 
 void PreviewLoginSignupMessageBox::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    if(buttonTitle == "Log in")
+    if(buttonTitle == MessageBox::messageBoxConst_Login)
     {
         LoginLogicHandler::getInstance()->forceNewLogin();
     }
-    else if(buttonTitle == "Cancel")
+    else if(buttonTitle == MessageBox::messageBoxConst_Cancel)
     {
         AnalyticsSingleton::getInstance()->previewPopupCancelledEvent();
     }
-    else if(buttonTitle == "Sign up")
+    else if(buttonTitle == MessageBox::messageBoxConst_SignUp)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
     }
