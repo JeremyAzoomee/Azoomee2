@@ -293,6 +293,10 @@ void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumbe
 void AnalyticsSingleton::contentItemSelectedEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape)
 {
     SessionIdManager::getInstance()->resetBackgroundTimeInContent();
+    
+    //Set here for Chat to count how long in a conversation
+    //for other content this is reset when contentItemWebviewStartedEvent() is called
+    time(&timeOpenedContent);
 
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Title"] = Title;
