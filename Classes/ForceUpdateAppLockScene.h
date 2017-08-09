@@ -1,5 +1,5 @@
-#ifndef __FTU_SCENE_H__
-#define __FTU_SCENE_H__
+#ifndef __Azoomee_ForceUpdateAppLockScene_H__
+#define __Azoomee_ForceUpdateAppLockScene_H__
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
