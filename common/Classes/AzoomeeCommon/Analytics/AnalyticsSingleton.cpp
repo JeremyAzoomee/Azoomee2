@@ -706,5 +706,10 @@ void AnalyticsSingleton::deepLinkingContentEvent()
         mixPanelSendEventWithStoredProperties("chatResetReportedEvent");
     }
     
+    void AnalyticsSingleton::pusherDisconnectedEvent()
+    {
+        mixPanelSendEventWithStoredProperties("pusherDisconnectedEvent");
+    }
+    
     
 }
