@@ -187,21 +187,24 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             cocos2d::Scene* goToScene = EmptySceneForSettings::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
             Director::getInstance()->replaceScene(goToScene);
+            break;
         }
         case WebviewPortrait:
         {
-            #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+            #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
                 forceToPortrait();
             #endif
             
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWPORTRAIT");
             WebViewSelector::createSceneWithUrl(webviewURL, "true");
+            break;
         }
         case WebviewLandscape:
         {
             forceToLandscape();
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
             WebViewSelector::createSceneWithUrl(webviewURL, "false");
+            break;
         }
         default:
             break;
