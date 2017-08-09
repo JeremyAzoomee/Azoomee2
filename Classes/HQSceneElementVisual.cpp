@@ -86,7 +86,7 @@ void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
     
     if(elementShape.x == 1 && elementShape.y == 1)
         shouldDisplayVisualElementsOverImage = true;
-    else if(elementItemData["type"] == "VIDEO" || elementItemData["type"] =="GROUP")
+    else if(elementItemData["type"] == "VIDEO" || elementItemData["type"] =="GROUP" || elementItemData["type"] =="GAME")
         shouldDisplayVisualElementsOverImage = false;
     else
         shouldDisplayVisualElementsOverImage = true;
