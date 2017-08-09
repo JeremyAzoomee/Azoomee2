@@ -5,6 +5,7 @@
 #include "BackEndCaller.h"
 #include "DeepLinkingSingleton.h"
 #include "SceneManagerScene.h"
+#include "ForceUpdateSingleton.h"
 
 using namespace cocos2d;
 
@@ -45,6 +46,8 @@ void LoginLogicHandler::doLoginLogic()
         Azoomee::ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
         BackEndCaller::getInstance()->getAvailableChildren();
         BackEndCaller::getInstance()->updateBillingData();
+        ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
+        
         // Open Pusher channel
         PusherSDK::getInstance()->openParentAccountChannel();
         return;
@@ -54,6 +57,7 @@ void LoginLogicHandler::doLoginLogic()
     else
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+        ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
     }
 }
 
@@ -63,6 +67,7 @@ void LoginLogicHandler::forceNewLogin()
     Azoomee::ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
     
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+    ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
 }
 
 NS_AZOOMEE_END

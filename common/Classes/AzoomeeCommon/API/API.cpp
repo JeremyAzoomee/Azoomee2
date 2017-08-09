@@ -1,5 +1,6 @@
 #include "API.h"
 #include <cocos/cocos2d.h>
+#include "../Data/ConfigStorage.h"
 
 using namespace cocos2d;
 
@@ -67,7 +68,12 @@ HttpRequestCreator* API::GetForceUpdateInformationRequest(Azoomee::HttpRequestCr
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagGetForceUpdateInformation;
-    //TODOTAMAS set path for the request once got it back from Steven
+    request->url = "https://versions.azoomee.com";
+    
+#ifdef USINGCI
+    request->url = "http://versions.azoomee.ninja";
+#endif
+    
     request->encrypted = false;
     return request;
 }

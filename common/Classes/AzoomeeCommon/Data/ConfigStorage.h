@@ -1,7 +1,10 @@
 #ifndef AzoomeeCommon_ConfigStorage_h
 #define AzoomeeCommon_ConfigStorage_h
 
-//#define USINGCI
+//General configuration
+//#define forcereload YES;
+//#define forgetuserdata YES;
+#define USINGCI YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
@@ -18,10 +21,6 @@ public:
     static ConfigStorage* getInstance(void);
     virtual ~ConfigStorage();
     bool init(void);
-    
-    //General configuration
-//#define forcereload YES;
-//#define forgetuserdata YES;
     
     std::string getFileNameFromUrl(std::string url);
     

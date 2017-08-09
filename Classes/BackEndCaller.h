@@ -39,7 +39,7 @@ private:
     // Update child API success
     void onUpdateChildAnswerReceived();
     // Get Force Update Data success
-    void onGetForceUpdateDataAnswerReceived();
+    void onGetForceUpdateDataAnswerReceived(const std::string& responseString);
     
     void displayLoadingScreen();
     void hideLoadingScreen();
