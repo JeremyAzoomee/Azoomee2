@@ -67,7 +67,7 @@ private:
     bool processCancelled = false;
     
     bool isGameCompatibleWithCurrentAzoomeeVersion(std::string jsonFileName);
-    bool gameIsPortrait(const std::string&);
+    bool gameIsPortrait(const std::string& jsonFileName);
 };
 
 NS_AZOOMEE_END
