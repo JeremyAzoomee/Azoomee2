@@ -13,7 +13,6 @@ class ForceUpdateSingleton : public cocos2d::Ref, public MessageBoxDelegate
 public:
     static ForceUpdateSingleton* getInstance(void);
     virtual ~ForceUpdateSingleton();
-    bool init(void);
 
     void doForceUpdateLogic();
     
@@ -24,6 +23,7 @@ public:
     void MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle);
     
 private:
+    ForceUpdateSingleton();
     void onForceUpdateLogicHasLocalFile();
     
     bool remoteForceUpdateDataDownloadRequired();

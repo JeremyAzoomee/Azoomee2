@@ -20,7 +20,7 @@ ForceUpdateSingleton* ForceUpdateSingleton::getInstance()
     if (! _sharedForceUpdateSingleton)
     {
         _sharedForceUpdateSingleton = new ForceUpdateSingleton();
-        _sharedForceUpdateSingleton->init();
+
     }
     
     return _sharedForceUpdateSingleton;
@@ -30,10 +30,9 @@ ForceUpdateSingleton::~ForceUpdateSingleton(void)
 {
 }
 
-bool ForceUpdateSingleton::init(void)
+ForceUpdateSingleton::ForceUpdateSingleton()
 {
     writablePath = FileUtils::getInstance()->getWritablePath();
-    return true;
 }
 
 void ForceUpdateSingleton::doForceUpdateLogic() //part 1, we check if we have local file. If we have, we go to part 2 (onForceUpdateLogicHasLocalFile(), otherwise we start downloading the file, writing it to disk and getting back to the same method)
@@ -99,7 +98,7 @@ bool ForceUpdateSingleton::parseAndSaveForceUpdateData(const std::string &jsonSt
 {
     std::map<std::string, std::string> forceUpdateData = getMapFromForceUpdateJsonData(jsonString);
     forceUpdateData["timeStamp"] = StringUtils::format("%ld", time(NULL));
-    std::string jsonStringToBeWritten = getJSONStringFromMap(forceUpdateData);
+    const std::string &jsonStringToBeWritten = getJSONStringFromMap(forceUpdateData);
     
     FileUtils::getInstance()->writeStringToFile(jsonStringToBeWritten, writablePath + forceUpdateFileSubPath);
     
@@ -136,17 +135,14 @@ std::map<std::string, std::string> ForceUpdateSingleton::getMapFromForceUpdateJs
     if(forceUpdateDataObject.HasParseError()) return returnData;
     
     rapidjson::Value::MemberIterator M;
-    const char *key;
     
     for (M=forceUpdateDataObject.MemberBegin(); M!=forceUpdateDataObject.MemberEnd(); M++)
     {
-        key   = M->name.GetString();
-        
-        if(!forceUpdateDataObject[key].IsNull())
+        if(!M->value.IsNull())
         {
-            if(forceUpdateDataObject[key].IsString())
+            if(M->value.IsString())
             {
-                returnData[key] = std::string(forceUpdateDataObject[key].GetString());
+                returnData[M->name.GetString()] = std::string(M->value.GetString());
             }
         }
     }
@@ -156,7 +152,7 @@ std::map<std::string, std::string> ForceUpdateSingleton::getMapFromForceUpdateJs
 
 std::string ForceUpdateSingleton::getUpdateUrlFromFile()
 {
-    std::map<std::string, std::string> forceUpdateData = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
+    const std::map<std::string, std::string> &forceUpdateData = getMapFromForceUpdateJsonData(FileUtils::getInstance()->getStringFromFile(writablePath + forceUpdateFileSubPath));
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
@@ -171,14 +167,14 @@ std::string ForceUpdateSingleton::getUpdateUrlFromFile()
     
     if (resultStr == "Amazon")
     {
-        return forceUpdateData["amazonUpdateURL"];
+        return forceUpdateData.at("amazonUpdateURL");
     }
     else
     {
-        return forceUpdateData["androidUpdateURL"];
+        return forceUpdateData.at("androidUpdateURL");
     }
 #else
-    return forceUpdateData["iosUpdateURL"];
+    return forceUpdateData.at("iosUpdateURL");
 #endif
 }
 

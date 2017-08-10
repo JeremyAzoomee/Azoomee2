@@ -3,8 +3,6 @@
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 #include "ForceUpdateSingleton.h"
 
-#define COLOR_BRIGHT_AQUA Color3B(28, 244, 244)
-
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -39,7 +37,7 @@ void ForceUpdateAppLockScene::addVisualComponentsToScene()
     addSideWiresToScreen(this, 0, 2);
     
     auto titleLabel = Label::createWithTTF("Azoomee needs to be updated!", Style::Font::Regular, 130);
-    titleLabel->setColor(COLOR_BRIGHT_AQUA);
+    titleLabel->setColor(Style::Color::brightAqua);
     titleLabel->setAnchorPoint(Vec2(0.5,0.5));
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     titleLabel->setPosition(visibleSize.width/2 + origin.x, visibleSize.height + origin.y -titleLabel->getContentSize().height * 1.2f);

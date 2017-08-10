@@ -13,7 +13,7 @@ private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     
-    ElectricDreamsButton *updateButton;
+    ElectricDreamsButton *updateButton = nullptr;
     
     void addVisualComponentsToScene();
     void addUpdateButtonToScene();
