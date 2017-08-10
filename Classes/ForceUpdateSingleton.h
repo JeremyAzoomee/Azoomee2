@@ -36,6 +36,8 @@ private:
     std::string getNotifiedMinAzoomeeVersion();
     std::map<std::string, std::string> getMapFromForceUpdateJsonData(const std::string &forceUpdateJsonData);
     void createUpdateDirectory();
+    
+    std::string writablePath;
 };
 
 NS_AZOOMEE_END

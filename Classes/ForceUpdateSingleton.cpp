@@ -11,7 +11,6 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 static ForceUpdateSingleton *_sharedForceUpdateSingleton = NULL;
-const std::string writablePath = FileUtils::getInstance()->getWritablePath();
 const std::string forceUpdateDirectory = "updateData/";
 const std::string forceUpdateFileSubPath = forceUpdateDirectory + "updateData.json";
 const int timeIntervalForRemoteFileDownloadInSeconds = 259200; //we check for new remote file every 3rd day
@@ -33,6 +32,7 @@ ForceUpdateSingleton::~ForceUpdateSingleton(void)
 
 bool ForceUpdateSingleton::init(void)
 {
+    writablePath = FileUtils::getInstance()->getWritablePath();
     return true;
 }
 
