@@ -50,6 +50,7 @@ namespace Color
     
     const cocos2d::Color3B darkNeonPurple(77, 20, 88);
     const cocos2d::Color3B darkNeonPurpleTwo(83, 23, 98);
+    const cocos2d::Color3B safetySlideTitleColor(9, 154, 154);
 }
 
 /**

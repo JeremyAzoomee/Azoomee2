@@ -14,7 +14,15 @@ class MessageBoxOnlineSafetySlidesLayer : public MessageBoxLayer, public Electri
 {
 private:
 
+    int totalSlides;
     int currentSlideNumber;
+    int titleFontSize;
+    int mainTextFontSize;
+    int textLineSpacing;
+    
+    bool isParent = false;
+    std::string slideTitle;
+    std::string slideMainText;
     
     //ElectricDreamsButton *watchSearchItUpButton;
     ElectricDreamsButton *chevronLeftButton = nullptr;
@@ -53,7 +61,8 @@ protected:
     void addButtonWithTitle(const std::string& buttonTitle);*/
   
 public:
-    static Layer* create(Layer* parentLayer);
+    static Layer* createForParent(Layer* parentLayer);
+    static Layer* createForChild(Layer* parentLayer);
     
     CREATE_FUNC(MessageBoxOnlineSafetySlidesLayer);
   

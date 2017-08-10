@@ -226,7 +226,7 @@ void MessageBoxChatResetModerationLayer::buttonPressed(ElectricDreamsButton* but
     else if(button == onlineSafetyTipsButton)
     {
         //YouTubeVideoLayer::createWith("OxqWjHD8nMU");
-        onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlides, nullptr);
+        onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlidesAdult, nullptr);
 
     }
     else if(button == resetButton)

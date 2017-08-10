@@ -106,8 +106,11 @@ Layer* MessageBox::initLayer(MessageBoxLayerEnum messageBoxLayer, const std::map
         case ChatReportForModeration:
             return MessageBoxChatReportChatLayer::create(newLayer);
             break;
-        case OnlineSafetySlides:
-            return MessageBoxOnlineSafetySlidesLayer::create(newLayer);
+        case OnlineSafetySlidesAdult:
+            return MessageBoxOnlineSafetySlidesLayer::createForParent(newLayer);
+            break;
+        case OnlineSafetySlidesChild:
+            return MessageBoxOnlineSafetySlidesLayer::createForChild(newLayer);
             break;
         case ChatResetModeration:
             return MessageBoxChatResetModerationLayer::create(propertiesMap,newLayer);

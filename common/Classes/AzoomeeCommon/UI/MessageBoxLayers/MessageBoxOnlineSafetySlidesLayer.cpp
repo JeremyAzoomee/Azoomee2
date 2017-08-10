@@ -7,15 +7,38 @@
 using namespace cocos2d;
 
 #define MESSAGE_BOX_PADDING 100
-#define TOTAL_SLIDES 5
 
 namespace Azoomee
 {
     
-Layer* MessageBoxOnlineSafetySlidesLayer::create(Layer* parentLayer)
+Layer* MessageBoxOnlineSafetySlidesLayer::createForParent(Layer* parentLayer)
 {
     auto layer = MessageBoxOnlineSafetySlidesLayer::create();
     
+    layer->isParent=true;
+    layer->slideTitle = StringUtils::format("%sAdult", ONLINE_SAFETY_SLIDE_TITLE);
+    layer->slideMainText = StringUtils::format("%sAdult", ONLINE_SAFETY_SLIDE_MAIN_TEXT);
+    layer->titleFontSize = 70;
+    layer->mainTextFontSize = 59;
+    layer->textLineSpacing =20;
+    layer->totalSlides = 5;
+    layer->_parentLayer = parentLayer;
+    layer->currentSlideNumber = 1;
+    layer->onSizeChanged();
+    
+    return layer;
+}
+    
+Layer* MessageBoxOnlineSafetySlidesLayer::createForChild(Layer* parentLayer)
+{
+    auto layer = MessageBoxOnlineSafetySlidesLayer::create();
+    
+    layer->totalSlides = 4;
+    layer->slideTitle = StringUtils::format("%sChild", ONLINE_SAFETY_SLIDE_TITLE);
+    layer->slideMainText = StringUtils::format("%sChild", ONLINE_SAFETY_SLIDE_MAIN_TEXT);
+    layer->titleFontSize = 90;
+    layer->mainTextFontSize = 70;
+    layer->textLineSpacing =30;
     layer->_parentLayer = parentLayer;
     layer->currentSlideNumber = 1;
     layer->onSizeChanged();
@@ -38,17 +61,20 @@ bool MessageBoxOnlineSafetySlidesLayer::init()
 void MessageBoxOnlineSafetySlidesLayer::addUIObjects()
 {
     //-------------MAIN TITLE --------------
-    titleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_MAIN_TITLE), Style::Font::Regular, Style::Color::black, 70);
+    if(isParent)
+        titleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_MAIN_TITLE), Style::Font::Regular, Style::Color::black, 70);
+    else
+        titleLabel = createLabelWith("", Style::Font::Regular, Style::Color::black, 5);
     
     //------------SLIDE TITLE--------------------
-    slideTitleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)), Style::Font::Bold, Color3B(9,154,154), 70);
+    slideTitleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideTitle.c_str(),currentSlideNumber)), Style::Font::Bold, Style::Color::safetySlideTitleColor, titleFontSize);
     
     //-----------SLIDE IMAGE--------------------
     mainImage = Sprite::create(StringUtils::format("res/onlineSafetySlides/safetyIll0%d.png",currentSlideNumber));
     
     //-----------SLIDE MAIN TEXT--------------------
-    mainTextLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)), Style::Font::Regular, Style::Color::black, 59);
-    mainTextLabel->setLineSpacing(15);
+    mainTextLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideMainText.c_str(),currentSlideNumber)), Style::Font::Regular, Style::Color::black, mainTextFontSize);
+    mainTextLabel->setLineSpacing(textLineSpacing);
     
     //-----------SLIDE NATVIATION--------------------
     // Location in relation to the Image Location
@@ -61,7 +87,7 @@ void MessageBoxOnlineSafetySlidesLayer::addUIObjects()
     chevronRightButton->setDelegate(this);
     chevronRightButton->setMixPanelButtonName("MessageBox-OnlineSafety-RighChevron");
     
-    /*watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Color3B(9,154,154));
+    /*watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Style::Color::safetySlideTitleColor);
     watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
     watchSearchItUpButton->setDelegate(this);
     watchSearchItUpButton->setMixPanelButtonName("MessageBox-OnlineSafety-watchSearchItUp");*/
@@ -77,8 +103,8 @@ void MessageBoxOnlineSafetySlidesLayer::createCancelButton()
 void MessageBoxOnlineSafetySlidesLayer::setToCurrentSlideNumber()
 {
     AnalyticsSingleton::getInstance()->settingsOnlineSafetySlideChangeEvent(currentSlideNumber);
-    slideTitleLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)));
-    mainTextLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)));
+    slideTitleLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideTitle.c_str(),currentSlideNumber)));
+    mainTextLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", slideMainText.c_str(),currentSlideNumber)));
     
     mainImage->setTexture(StringUtils::format("res/onlineSafetySlides/safetyIll0%d.png",currentSlideNumber));
 }
@@ -87,10 +113,10 @@ void MessageBoxOnlineSafetySlidesLayer::moveSlideNumberBy(int moveBy)
 {
     currentSlideNumber = currentSlideNumber + moveBy;
     
-    if(currentSlideNumber > TOTAL_SLIDES)
+    if(currentSlideNumber > totalSlides)
         currentSlideNumber = 1;
     else if(currentSlideNumber < 1)
-        currentSlideNumber = 5;
+        currentSlideNumber = totalSlides;
     
     setToCurrentSlideNumber();
 }

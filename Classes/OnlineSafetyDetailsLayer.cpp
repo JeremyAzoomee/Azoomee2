@@ -65,7 +65,7 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     //------------SLIDE TITLE--------------------
     // Location in relation to the Main Title Location
     
-    slideTitleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)), Style::Font::Bold, Color3B(9,154,154), 70);
+    slideTitleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)), Style::Font::Bold, Style::Color::safetySlideTitleColor, 70);
     slideTitleLabel->setAnchorPoint(Vec2(0.0,1));
     slideTitleLabel->setPosition(MARGIN_TO_CHEVRON*2,titleLabel->getPositionY() - slideTitleLabel->getContentSize().height*1.5);
     backgroundLayer->addChild(slideTitleLabel);
@@ -102,7 +102,7 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     chevronRightButton->setMixPanelButtonName("Settings-OnlineSafety-RighChevron");
     backgroundLayer->addChild(chevronRightButton);
     
-    watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Color3B(9,154,154));
+    watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Style::Color::safetySlideTitleColor);
     watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
     watchSearchItUpButton->setDelegate(this);
     watchSearchItUpButton->setMixPanelButtonName("Settings-OnlineSafety-watchSearchItUp");
