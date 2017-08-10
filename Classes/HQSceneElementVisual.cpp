@@ -81,12 +81,16 @@ void HQSceneElementVisual::createBaseLayer()
 
 void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
 {
-    //DO NOT add visuals (Icon and text) over the element, if size is 1x2 or 2x2 AND
-    //element is Video or Video Group
+    //DO NOT add visuals (Icon and text) over the element,
+    // if the element is any sized Game element
+    // OR
+    // if size is 1x2 or 2x2 AND element is Video or Video Group
     
-    if(elementShape.x == 1 && elementShape.y == 1)
+    if(elementItemData["type"] =="GAME")
+        shouldDisplayVisualElementsOverImage = false;
+    else if(elementShape.x == 1 && elementShape.y == 1)
         shouldDisplayVisualElementsOverImage = true;
-    else if(elementItemData["type"] == "VIDEO" || elementItemData["type"] =="GROUP" || elementItemData["type"] =="GAME")
+    else if(elementItemData["type"] == "VIDEO" || elementItemData["type"] =="GROUP")
         shouldDisplayVisualElementsOverImage = false;
     else
         shouldDisplayVisualElementsOverImage = true;
