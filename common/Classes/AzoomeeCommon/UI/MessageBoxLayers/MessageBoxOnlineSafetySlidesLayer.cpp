@@ -18,6 +18,7 @@ Layer* MessageBoxOnlineSafetySlidesLayer::createForParent(Layer* parentLayer)
     layer->isParent=true;
     layer->slideTitle = StringUtils::format("%sAdult", ONLINE_SAFETY_SLIDE_TITLE);
     layer->slideMainText = StringUtils::format("%sAdult", ONLINE_SAFETY_SLIDE_MAIN_TEXT);
+    layer->videoIDs = {"OxqWjHD8nMU","riCzbUj_ow8","vGl0xCHPD58","zg9AgR8I7QI","_e6idatqS28"};
     layer->titleFontSize = 70;
     layer->mainTextFontSize = 59;
     layer->textLineSpacing =20;
@@ -36,6 +37,7 @@ Layer* MessageBoxOnlineSafetySlidesLayer::createForChild(Layer* parentLayer)
     layer->totalSlides = 4;
     layer->slideTitle = StringUtils::format("%sChild", ONLINE_SAFETY_SLIDE_TITLE);
     layer->slideMainText = StringUtils::format("%sChild", ONLINE_SAFETY_SLIDE_MAIN_TEXT);
+    layer->videoIDs = {"14eaf3c0-c36c-4df5-a857-05f40c00884c","50957646-27d2-4723-921d-52c84e3396df","4ebd6de5-a75d-4d38-b28f-811900174b81","ed23035d-fea4-440e-a8d2-f5a33da4e794"};
     layer->titleFontSize = 90;
     layer->mainTextFontSize = 70;
     layer->textLineSpacing =30;
@@ -87,10 +89,10 @@ void MessageBoxOnlineSafetySlidesLayer::addUIObjects()
     chevronRightButton->setDelegate(this);
     chevronRightButton->setMixPanelButtonName("MessageBox-OnlineSafety-RighChevron");
     
-    /*watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Style::Color::safetySlideTitleColor);
+    watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Style::Color::safetySlideTitleColor);
     watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
     watchSearchItUpButton->setDelegate(this);
-    watchSearchItUpButton->setMixPanelButtonName("MessageBox-OnlineSafety-watchSearchItUp");*/
+    watchSearchItUpButton->setMixPanelButtonName("MessageBox-OnlineSafety-watchSearchItUp");
 }
 
 void MessageBoxOnlineSafetySlidesLayer::createCancelButton()
@@ -166,8 +168,11 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowLandscape()
     windowLayer->addChild(mainImage);
     
     // Add Search it Up button
-    /*watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),windowLayer->getContentSize().height/2-mainImage->getContentSize().height/2-MESSAGE_BOX_PADDING));
-    windowLayer->addChild(watchSearchItUpButton);*/
+    watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),windowLayer->getContentSize().height/2-mainImage->getContentSize().height/2-MESSAGE_BOX_PADDING));
+    
+    //TODO-TAMAS - REMOVE Parent check, when youTube VideoLayer working
+    if(!isParent)
+        windowLayer->addChild(watchSearchItUpButton);
     
     // Add Left chevron
     chevronLeftButton->setCenterPosition(Vec2(MESSAGE_BOX_PADDING,windowLayer->getContentSize().height/2));
@@ -218,8 +223,11 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowPortrait()
     windowLayer->addChild(mainTextLabel);
     
     // Add Search it Up button
-    //watchSearchItUpButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2,MESSAGE_BOX_PADDING*2));
-    //windowLayer->addChild(watchSearchItUpButton);
+    watchSearchItUpButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2,MESSAGE_BOX_PADDING*2));
+    
+    //TODO-TAMAS - REMOVE Parent check, when youTube VideoLayer working
+    if(!isParent)
+        windowLayer->addChild(watchSearchItUpButton);
     
     // Add Left chevron
     chevronLeftButton->setCenterPosition(Vec2(MESSAGE_BOX_PADDING,mainImage->getPositionY()));
@@ -256,17 +264,28 @@ void MessageBoxOnlineSafetySlidesLayer::onSizeChanged()
     //if(youTubeVideoLayer)
         //youTubeVideoLayer->onSizeChanged();
 }
+    
+void MessageBoxOnlineSafetySlidesLayer::playVideo()
+{
+    if(isParent)
+    {
+        //TODO-TAMAS - will be completed when multi orientation youtube layer working
+        //youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
+    }
+    else
+    {
+        //youtubeVideoId.at(currentSlideNumber-1)
+        //"azoomee://content/176a8cf3-e08c-43ba-a13d-554089c59e8c"
+    }
+}
 
 //----------------------- Delegate Functions ----------------------------
 
 void MessageBoxOnlineSafetySlidesLayer::buttonPressed(ElectricDreamsButton* button)
 {
-    /*if(button == watchSearchItUpButton)
-    {
-        //playVideo();
-        youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
-    }
-    else*/ if(button == chevronLeftButton)
+    if(button == watchSearchItUpButton)
+        playVideo();
+    else if(button == chevronLeftButton)
         moveSlideNumberBy(-1);
     else if(button == chevronRightButton)
         moveSlideNumberBy(1);

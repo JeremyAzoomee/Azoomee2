@@ -24,7 +24,9 @@ private:
     std::string slideTitle;
     std::string slideMainText;
     
-    //ElectricDreamsButton *watchSearchItUpButton;
+    std::vector<std::string> videoIDs;
+    
+    ElectricDreamsButton *watchSearchItUpButton;
     ElectricDreamsButton *chevronLeftButton = nullptr;
     ElectricDreamsButton *chevronRightButton = nullptr;
     ElectricDreamsButton *cancelButton = nullptr;
@@ -48,6 +50,8 @@ private:
     void addObjectsToWindowLandscape();
     void addObjectsToWindowPortrait();
     void createCancelButton();
+    
+    void playVideo();
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button) override;
