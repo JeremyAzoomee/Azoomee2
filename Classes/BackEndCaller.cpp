@@ -471,6 +471,11 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 
 void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
+    if(requestTag == API::TagGetForceUpdateInformation)
+    {
+        return; //if the file cannot be found, we do nothing, update won't be forced.
+    }
+    
     if(requestTag == API::TagOfflineCheck)
     {
         OfflineChecker::getInstance()->onOfflineCheckFailed();
