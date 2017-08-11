@@ -95,7 +95,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
     }
 
-    public static void startWebView(String url, String userid, String isPortrait) {
+    public static void startWebView(String url, String userid, boolean isPortrait) {
         Intent nvw;
 
         if ((android.os.Build.MANUFACTURER.equals("Amazon")) && (url.substring(url.length() - 4).equals("html")))

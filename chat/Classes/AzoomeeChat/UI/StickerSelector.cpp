@@ -19,7 +19,7 @@ bool StickerSelector::init()
     }
     
     _splitLayout = SplitLayout::create();
-    _splitLayout->setMode(SplitLayout::Mode::Vertical);
+    _splitLayout->setOrientation(Orientation::Portrait);
     _splitLayout->setSplitBehaviour(SplitLayout::FillSize, SplitLayout::FixedSize);
     _splitLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _splitLayout->setSizePercent(Vec2(1.0f, 1.0f));

@@ -173,7 +173,7 @@ void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::stri
     {
         VideoPlaylistManager::getInstance()->clearPlaylist();
         auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(elementProperties["uri"],"false");
+        webViewSelector->loadWebView(elementProperties["uri"],false);
     }
     else if(elementProperties["type"]  == "AUDIOGROUP" || elementProperties["type"]  == "GROUP")
     {

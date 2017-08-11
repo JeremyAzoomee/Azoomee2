@@ -20,7 +20,6 @@
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
@@ -460,7 +459,7 @@ void GameDataManager::startGame(std::string basePath, std::string fileName)
         return;
     }
     
-    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(gameIsPortrait(basePath + "package.json"), basePath + fileName));
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePath + "package.json"), basePath + fileName));
 }
 
 std::string GameDataManager::getGameIdPath(std::string gameId)
@@ -473,17 +472,17 @@ std::string GameDataManager::getGameCachePath()
     return FileUtils::getInstance()->getWritablePath() + "gameCache/";
 }
 
-bool GameDataManager::gameIsPortrait(const std::string& jsonFileName)
+Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
 {
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
     if(gameData.HasMember("isPortrait"))
-        if(gameData["isPortrait"].IsBool())
-            return gameData["isPortrait"].GetBool();
+        if(gameData["isPortrait"].IsBool() && gameData["isPortrait"].GetBool())
+            return Orientation::Portrait;
     
-    return false;
+    return Orientation::Landscape;
 }
 
 //---------------------LOADING SCREEN----------------------------------

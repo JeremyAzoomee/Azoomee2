@@ -3,6 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/UI/Orientation.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -38,7 +39,7 @@ private:
     
 public:
     static cocos2d::Scene* createScene(SceneNameEnum sceneName);
-    static cocos2d::Scene* createWebview(bool isPortrait, const std::string& URL);
+    static cocos2d::Scene* createWebview(Orientation _orientation, const std::string& URL);
     
     virtual bool init();
     

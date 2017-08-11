@@ -106,7 +106,8 @@ void OfflineHubHQElement::addListenerToElement(std::map<std::string, std::string
             
             AnalyticsSingleton::getInstance()->contentItemSelectedEvent(itemData.at("title"), itemData.at("description"), itemData.at("type"), itemData.at("id"), -1, -1, "1,1");
             
-            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(false, startUrl.c_str()));
+            //TODO-CLIVE - WHAT HAPPENS IF OFFLINE IS PORTRAIT GAME
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, startUrl.c_str()));
             
         }
         
