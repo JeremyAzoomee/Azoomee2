@@ -52,7 +52,7 @@ bool LoginScene::init()
 void LoginScene::onEnterTransitionDidFinish()
 {
     currentScreen = emailLoginScreen;
-    
+
     OfflineChecker::getInstance()->setDelegate(this);
     
     if(FlowDataSingleton::getInstance()->hasError())

@@ -1,5 +1,6 @@
 #include "API.h"
 #include <cocos/cocos2d.h>
+#include "../Data/ConfigStorage.h"
 
 using namespace cocos2d;
 
@@ -32,6 +33,7 @@ const char* const API::TagGetPendingFriendRequests = "getPendingFriendRequests";
 const char* const API::TagPusherAuth = "pusher.auth";
 const char* const API::TagReportChat = "chat.report";
 const char* const API::TagResetReportedChat = "chat.resetReported";
+const char* const API::TagGetForceUpdateInformation = "forceUpdate";
 
 #pragma mark - API Methods
 
@@ -59,6 +61,20 @@ HttpRequestCreator* API::UpdateBillingDataRequest(HttpRequestCreatorResponseDele
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagUpdateBillingData;
     request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::GetForceUpdateInformationRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetForceUpdateInformation;
+    request->url = "https://versions.azoomee.com";
+    
+#ifdef USINGCI
+    request->url = "http://versions.azoomee.ninja";
+#endif
+    
+    request->encrypted = false;
     return request;
 }
 
