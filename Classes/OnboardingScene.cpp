@@ -232,7 +232,7 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
 
 void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    if(buttonTitle == MessageBox::messageBoxConst_Login)
+    if(buttonTitle == MessageBox::kLogin)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
     }

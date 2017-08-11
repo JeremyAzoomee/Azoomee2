@@ -52,13 +52,13 @@ protected:
   
 public:
     
-    static const char* const messageBoxConst_OK;
-    static const char* const messageBoxConst_Cancel;
-    static const char* const messageBoxConst_Login;
-    static const char* const messageBoxConst_SignUp;
-    static const char* const messageBoxConst_ResetPassword;
-    static const char* const messageBoxConst_Report;
-    static const char* const messageBoxConst_Reset;
+    static const char* const kOK;
+    static const char* const kCancel;
+    static const char* const kLogin;
+    static const char* const kSignUp;
+    static const char* const kResetPassword;
+    static const char* const kReport;
+    static const char* const kReset;
     
     //Main function for creating a MessageBox
     static MessageBox* createWith(const std::string& Title, const std::string& Body, const std::vector<std::string>& buttonTitleList, MessageBoxDelegate* _delegate);
