@@ -343,6 +343,9 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
                 continue;
             }
             
+            if (newName.find("package.json") != newName.npos) continue;
+            if (newName.find("feedData.json") != newName.npos) continue;
+            
             FILE* pFile2 = fopen(newName.c_str(), "w");
             
             if(!pFile2)
