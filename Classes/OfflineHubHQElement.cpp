@@ -106,15 +106,23 @@ void OfflineHubHQElement::addListenerToElement(std::map<std::string, std::string
             
             AnalyticsSingleton::getInstance()->contentItemSelectedEvent(itemData.at("title"), itemData.at("description"), itemData.at("type"), itemData.at("id"), -1, -1, "1,1");
             
-            //TODO-CLIVE - WHAT HAPPENS IF OFFLINE IS PORTRAIT GAME
-            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, startUrl.c_str()));
-            
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(itemData), startUrl.c_str()));
         }
         
         return false;
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), elementVisual->baseLayer);
+}
+
+Orientation OfflineHubHQElement::getGameOrientation(const std::map<std::string, std::string>& itemData)
+{
+    //TODO-CLIVE - CHECK how isPortrait is assigned.
+    if(itemData.find("isPortrait") != itemData.end())
+        if(itemData.at("isPortrait") == "true")
+            return Orientation::Portrait;
+    
+    return Orientation::Landscape;
 }
 
 void OfflineHubHQElement::startUpElementDependingOnType(std::map<std::string, std::string> itemData)

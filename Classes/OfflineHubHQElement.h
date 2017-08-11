@@ -4,6 +4,7 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 #include "HQSceneElementVisual.h"
+#include <AzoomeeCommon/UI/Orientation.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -19,6 +20,9 @@ public:
 private:
     HQSceneElementVisual* elementVisual;
     void addListenerToElement(std::map<std::string, std::string> itemData, bool preview);
+    
+    Orientation getGameOrientation(const std::map<std::string, std::string>& itemData);
+    
     void startUpElementDependingOnType(std::map<std::string, std::string> itemData);
     
     cocos2d::Point touchPoint;
