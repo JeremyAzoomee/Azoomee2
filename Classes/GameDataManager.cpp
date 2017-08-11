@@ -25,6 +25,7 @@
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/ErrorCodes.h>
 
 using namespace cocos2d;
 using namespace cocos2d::network;
@@ -174,7 +175,7 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
     else
     {
         AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        FlowDataSingleton::getInstance()->setErrorCode(1006);
+        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
 }
@@ -298,7 +299,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     else
     {
         AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        FlowDataSingleton::getInstance()->setErrorCode(1006);
+        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
 }

@@ -34,7 +34,7 @@ bool SettingsConfirmationLayer::init()
         return false;
     }
     
-    HttpRequestCreator *request = API::getPendingFriendRequests(this);
+    HttpRequestCreator *request = API::GetPendingFriendRequests(this);
     request->execute();
     
     return true;

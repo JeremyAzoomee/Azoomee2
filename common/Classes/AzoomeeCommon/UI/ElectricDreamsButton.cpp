@@ -3,6 +3,7 @@
 #include "../Analytics/AnalyticsSingleton.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 using namespace cocos2d::ui;
@@ -50,7 +51,7 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButton(std::string butto
 {    
     auto layer = ElectricDreamsButton::create();
     
-    Label* textButton = Label::createWithTTF(buttonText, "fonts/Sofia Pro Soft Regular.otf", fontSize);
+    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular, fontSize);
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
     textButton->setHorizontalAlignment(TextHAlignment::CENTER);
     layer->setContentSize(textButton->getContentSize());
@@ -74,10 +75,10 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButtonAqua(std::string b
 {
     auto layer = ElectricDreamsButton::create();
     
-    Label* textButton = Label::createWithTTF(buttonText, "fonts/Sofia Pro Soft Regular.otf", fontSize);
+    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular, fontSize);
     textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
     textButton->setHorizontalAlignment(TextHAlignment::CENTER);
-    textButton->setColor(Color3B(28, 244, 244));
+    textButton->setColor(Style::Color::brightAqua);
     layer->setContentSize(textButton->getContentSize());
     
     layer->addChild(textButton);
@@ -89,7 +90,33 @@ ElectricDreamsButton* ElectricDreamsButton::createTextAsButtonAqua(std::string b
     {
         DrawNode* newDrawNode = DrawNode::create();
         newDrawNode->setLineWidth(2);
-        newDrawNode->drawLine(Vec2(0, 0), Vec2(textButton->getContentSize().width,0), Color4F(28/255.0f, 244/255.0f, 244/255.0f,255/255.0f));
+        newDrawNode->drawLine(Vec2(0, 0), Vec2(textButton->getContentSize().width,0), Style::Color_4F::brightAqua);
+        layer->addChild(newDrawNode);
+    }
+    
+    return layer;
+}
+    
+ElectricDreamsButton* ElectricDreamsButton::createTextAsButtonWithColor(std::string buttonText, float fontSize, bool underlined, Color3B color)
+{
+    auto layer = ElectricDreamsButton::create();
+    
+    Label* textButton = Label::createWithTTF(buttonText, Style::Font::Regular, fontSize);
+    textButton->setPosition(Vec2(textButton->getContentSize().width/2, textButton->getContentSize().height/2));
+    textButton->setHorizontalAlignment(TextHAlignment::CENTER);
+    textButton->setColor(color);
+    layer->setContentSize(textButton->getContentSize());
+    
+    layer->addChild(textButton);
+    
+    layer->buttonAudioFile = CANCEL_BUTTON_AUDIO_EFFECT;
+    layer->addListener();
+    
+    if(underlined)
+    {
+        DrawNode* newDrawNode = DrawNode::create();
+        newDrawNode->setLineWidth(2);
+        newDrawNode->drawLine(Vec2(0, 0), Vec2(textButton->getContentSize().width,0), Color4F(color.r/255.0f,color.g/255.0f, color.b/255.0f,255/255.0f));
         layer->addChild(newDrawNode);
     }
     
@@ -292,6 +319,16 @@ ElectricDreamsButton* ElectricDreamsButton::createWindowCloselButton()
     
     return layer;
 }
+    
+ElectricDreamsButton* ElectricDreamsButton::createWhiteWindowCloselButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    Sprite* cancelButton = layer->createSpriteButton("res/buttons/whiteWindowCloseButton.png", CANCEL_BUTTON_AUDIO_EFFECT );
+    layer->addChild(cancelButton);
+    layer->addListener();
+    
+    return layer;
+}
 
 ElectricDreamsButton* ElectricDreamsButton::createAddButton()
 {
@@ -368,13 +405,31 @@ ElectricDreamsButton* ElectricDreamsButton::createTabButton(std::string buttonTe
     return layer;
 }
     
+ElectricDreamsButton* ElectricDreamsButton::createChevronLeftButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    layer->addChild(layer->createSpriteButton("res/buttons/chevronLeft.png", BACK_BUTTON_AUDIO_EFFECT ));
+    layer->addListener();
+    
+    return layer;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createChevronRightButton()
+{
+    auto layer = ElectricDreamsButton::create();
+    layer->addChild(layer->createSpriteButton("res/buttons/chevronRight.png", NEXT_BUTTON_AUDIO_EFFECT));
+    layer->addListener();
+    
+    return layer;
+}
+
 //----------- CHAT INVITE BUTTONS -------------------
 
 ElectricDreamsButton* ElectricDreamsButton::createKidCodeShareButton(std::string kidCode, float buttonWidth)
 {
     auto layer = ElectricDreamsButton::createSmallSprite9Button("", buttonWidth,"res/buttons/inviteMainButton.png", Color3B::BLACK);
     
-    Label* kidCodeLabel = createLabelWith(kidCode, FONT_KIDCODE_REGULAR, Color3B::BLACK, 64);
+    Label* kidCodeLabel = createLabelWith(kidCode, Style::Font::kidCodeRegular, Color3B::BLACK, 64);
     
     float labelGap = 30;
     
@@ -450,7 +505,7 @@ ElectricDreamsButton* ElectricDreamsButton::createSmallSprite9Button(std::string
     
 ElectricDreamsButton* ElectricDreamsButton::createTextInputAsButton(std::string buttonText, float buttonWidth)
 {
-    Label* buttonLabel = createLabelSettingsChat(buttonText,Color3B(135, 135, 135));
+    Label* buttonLabel = createLabelSettingsChat(buttonText,Style::Color::chatEnterTextColor);
     
     Rect spriteRect = Rect(0, 0, 268, 107);
     Rect capInsents = Rect(100, 53, 1, 1);

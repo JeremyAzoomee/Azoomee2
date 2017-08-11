@@ -37,12 +37,16 @@ public:
     static const char* const TagGetChatList;
     static const char* const TagGetChatMessages;
     static const char* const TagSendChatMessage;
+    static const char* const TagMarkReadMessage;
     static const char* const TagResetPasswordRequest;
     static const char* const TagOfflineCheck;
     static const char* const TagFriendRequest;
     static const char* const TagFriendRequestReaction;
     static const char* const TagGetPendingFriendRequests;
     static const char* const TagPusherAuth;
+    static const char* const TagReportChat;
+    static const char* const TagResetReportedChat;
+    static const char* const TagGetForceUpdateInformation;
     
 #pragma mark - API Methods
     
@@ -53,6 +57,8 @@ public:
                                             HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* UpdateBillingDataRequest(HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetForceUpdateInformationRequest(HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* UpdateParentPinRequest(HttpRequestCreatorResponseDelegate* delegate);
     
@@ -115,29 +121,48 @@ public:
     static HttpRequestCreator* ResetPaswordRequest(const std::string& forEmailAddress,
                                                    HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* friendRequest(const std::string& senderChildId, const std::string& senderChildName, const std::string& inviteCode, HttpRequestCreatorResponseDelegate* delegate);
-    static HttpRequestCreator* friendRequestReaction(bool confirmed, const std::string& respondentChildId, const std::string& invitationId, const std::string& senderName, HttpRequestCreatorResponseDelegate* delegate);
-    static HttpRequestCreator* getPendingFriendRequests(HttpRequestCreatorResponseDelegate* delegate);
+#pragma mark - Friend Requests
+    
+    static HttpRequestCreator* FriendRequest(const std::string& senderChildId,
+                                             const std::string& senderChildName,
+                                             const std::string& inviteCode,
+                                             HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* FriendRequestReaction(bool confirmed,
+                                                     const std::string& respondentChildId,
+                                                     const std::string& invitationId,
+                                                     const std::string& senderName,
+                                                     HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetPendingFriendRequests(HttpRequestCreatorResponseDelegate* delegate);
     
 #pragma mark - Sharing
     
     // Get the chat list for childId
-    // childId must be the currently logged in child, or the request will fail
-    static HttpRequestCreator* GetChatListRequest(const std::string& childId,
+    // userId must be the currently logged in child or parent, or the request will fail
+    static HttpRequestCreator* GetChatListRequest(const std::string& userId,
                                                   HttpRequestCreatorResponseDelegate* delegate);
     
     // Get the chat list between childId and friendId
-    // childId must be the currently logged in child, or the request will fail
-    static HttpRequestCreator* GetChatMessagesRequest(const std::string& childId,
+    // userId must be the currently logged in child or parent, or the request will fail
+    static HttpRequestCreator* GetChatMessagesRequest(const std::string& userId,
                                                       const std::string& friendId,
+                                                      int pageNumber,
                                                       HttpRequestCreatorResponseDelegate* delegate);
     
     // Send a chat message to friendId
-    // childId must be the currently logged in child, or the request will fail
+    // userId must be the currently logged in child or parent, or the request will fail
     // params must be a Json object of type Message
-    static HttpRequestCreator* SendChatMessageRequest(const std::string& childId,
+    static HttpRequestCreator* SendChatMessageRequest(const std::string& userId,
                                                       const std::string& friendId,
                                                       const JsonObjectRepresentation& jsonObject,
+                                                      HttpRequestCreatorResponseDelegate* delegate);
+    
+    // Mark messages between user and friend as read
+    // userId must be the currently logged in child or parent, or the request will fail
+    static HttpRequestCreator* MarkReadMessageRequest(const std::string& userId,
+                                                      const std::string& friendId,
+                                                      const uint64_t& readAt,
                                                       HttpRequestCreatorResponseDelegate* delegate);
     
     // Authenticate an open channel request with Pusher
@@ -145,6 +170,14 @@ public:
                                                  const std::string& channelName,
                                                  const std::string& socketId,
                                                  HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* SendChatReportRequest(const std::string& userId,
+                                                     const std::string& friendId,
+                                                     HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* ResetReportedChatRequest(const std::string& userId,
+                                                     const std::string& friendId,
+                                                     HttpRequestCreatorResponseDelegate* delegate);
     
     
     

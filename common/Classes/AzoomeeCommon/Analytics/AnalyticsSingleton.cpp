@@ -508,6 +508,14 @@ void AnalyticsSingleton::moveToSceneEvent(std::string newScene)
     
     mixPanelSendEventWithStoredProperties("moveToSceneEvent", mixPanelProperties);
 }
+    
+void AnalyticsSingleton::settingsOnlineSafetySlideChangeEvent(int NewSlideNumber)
+{
+    std::map<std::string, std::string> mixPanelProperties;
+    mixPanelProperties["NewSlideNumber"] = cocos2d::StringUtils::format("%d", NewSlideNumber);
+    
+    mixPanelSendEventWithStoredProperties("settingsOnlineSafetySlideChange", mixPanelProperties);
+}
 
 //---------------IAP ACTIONS------------------
   
@@ -686,6 +694,16 @@ void AnalyticsSingleton::deepLinkingContentEvent()
     void AnalyticsSingleton::unreadMessagesNotificationReceived()
     {
         mixPanelSendEventWithStoredProperties("unreadMessagesNotificationReceived");
+    }
+    
+    void AnalyticsSingleton::chatReportedEvent()
+    {
+        mixPanelSendEventWithStoredProperties("chatReportedEvent");
+    }
+    
+    void AnalyticsSingleton::chatResetReportedEvent()
+    {
+        mixPanelSendEventWithStoredProperties("chatResetReportedEvent");
     }
     
     

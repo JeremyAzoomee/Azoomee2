@@ -8,12 +8,8 @@
 
 using namespace cocos2d;
 
-//#define USINGCI
-
-
 namespace Azoomee
 {
-
 static ConfigStorage *_sharedConfigStorage = NULL;
 
 ConfigStorage* ConfigStorage::getInstance()
@@ -55,7 +51,8 @@ bool ConfigStorage::init(void)
         API::TagPusherAuth,
         API::TagGetPendingFriendRequests,
         API::TagFriendRequest,
-        API::TagFriendRequestReaction
+        API::TagFriendRequestReaction,
+        API::TagResetReportedChat
     };
     requestTagsRequireImmediateSending = {
         "GROUP HQ",

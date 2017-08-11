@@ -130,7 +130,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     request->setUrl(requestUrl.c_str());
     
     const char* postData = requestBody.c_str();
-    request->setRequestData(postData, strlen(postData));
+    request->setRequestData(postData, strlen(postData) + 1); //+1 is required to get the termination string. Otherwise random memory garbage can be added to the string by accident.
     
     std::vector<std::string> headers;
     
@@ -175,7 +175,7 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
 
 void HttpRequestCreator::sendRequest(cocos2d::network::HttpRequest* request)
 {
-    HttpClient::getInstance()->setTimeoutForConnect(5);
+    HttpClient::getInstance()->setTimeoutForConnect(10);
     HttpClient::getInstance()->setTimeoutForRead(10);
     
     if(ConfigStorage::getInstance()->isImmediateRequestSendingRequired(requestTag)) HttpClient::getInstance()->sendImmediate(request);

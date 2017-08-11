@@ -30,6 +30,7 @@ private:
     ElectricDreamsButton *accountButton;
     ElectricDreamsButton *confirmationButton;
     ElectricDreamsButton *childrenButton;
+    ElectricDreamsButton *onlineSafetyButton;
     
     void createSettingsLayer();
     void addListenerToLayer(Layer* layerToAdd);

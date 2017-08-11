@@ -20,7 +20,6 @@ class ChatAPIObserver;
 class ChatAPI : private HttpRequestCreatorResponseDelegate, public PusherEventObserver
 {
 private:
-    
     /// Most recent friend list
     FriendList _friendList;
     /// Index Friends by Id
@@ -37,12 +36,18 @@ private:
     /// Update the profile names based on the current child and their friend's list
     void updateProfileNames();
     
-    // - HttpRequestCreatorResponseDelegate
+    /// - HttpRequestCreatorResponseDelegate
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
-    // - PusherEventObserver
+    /// - PusherEventObserver
     void onPusherEventRecieved(const PusherEventRef& event) override;
+    
+    /// - Schedule Poll
+    void scheduleFriendListPoll();
+    void rescheduleFriendListPoll();
+    void unscheduleFriendListPoll();
+    bool friendListPollScheduled();
     
 public:
     
@@ -65,10 +70,23 @@ public:
     
     /// Get the chat messages for a contact
     /// Response: ChatAPIObserver::onChatAPIGetChatMessages
-    void requestMessageHistory(const FriendRef& friendObj);
+    void requestMessageHistory(const FriendRef& friendObj, int pageNumber);
     
     /// Send a message
     void sendMessage(const FriendRef& friendObj, const MessageRef& message);
+    
+    /// Mark messages with friend as read
+    void markMessagesAsRead(const FriendRef& friendObj, const MessageRef& message);
+    
+    //Report a problematic chat to parents
+    void reportChat(const FriendRef& friendObj);
+    
+    //Reset a reported chat by the parent
+    void resetReportedChat(const FriendRef& friendObj);
+    
+    /// For azoomee2 notifications we start and schedule polling of friendlist
+    void startFriendListManualPoll();
+
 };
 
 /**
@@ -76,10 +94,20 @@ public:
  */
 struct ChatAPIObserver
 {
+    /// Friend List success response
     virtual void onChatAPIGetFriendList(const FriendList& friendList) {};
+    /// Get message list success response
     virtual void onChatAPIGetChatMessages(const MessageList& messageList) {};
+    /// Send message success response
     virtual void onChatAPISendMessage(const MessageRef& sentMessage) {};
+    /// API error from Chat request
+    virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) {};
+    /// A chat message was recieved
     virtual void onChatAPIMessageRecieved(const MessageRef& message) {};
+    /// A custom (command) message was received
+    virtual void onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string> &messageProperties) {};
+    /// Notification about new messages
+    virtual void onChatAPINewMessageNotificationReceived(int amountOfNewMessages) {};
 };
 
 NS_AZOOMEE_CHAT_END

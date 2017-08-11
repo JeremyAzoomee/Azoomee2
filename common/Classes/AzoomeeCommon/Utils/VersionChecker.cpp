@@ -16,15 +16,13 @@ namespace Azoomee
         
         if(azoomeeVersionVector.size() != requiredVersionVector.size()) return true;      //Version numbers not comparable - different amount of elements
         
-        bool requirementMet = true;
-        
         for(int i = 0; i < azoomeeVersionVector.size(); i++)
         {
-            if(std::atoi(azoomeeVersionVector.at(i).c_str()) != std::atoi(requiredVersionVector.at(i).c_str())) requirementMet = false;
+            if(std::atoi(azoomeeVersionVector.at(i).c_str()) < std::atoi(requiredVersionVector.at(i).c_str())) return false;
             if(std::atoi(azoomeeVersionVector.at(i).c_str()) > std::atoi(requiredVersionVector.at(i).c_str())) return true;
         }
         
-        return requirementMet;
+        return true;
     }
     
     std::string getPureVersionNumber(std::string version)
