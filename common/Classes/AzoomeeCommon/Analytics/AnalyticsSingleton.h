@@ -157,9 +157,6 @@ public:
     void unreadMessagesNotificationReceived();
     void chatReportedEvent();
     void chatResetReportedEvent();
-    
-    // TODO-TAMAS
-    void pusherDisconnectedEvent();
 
 };
   
