@@ -30,7 +30,7 @@ bool IAPDetailsLayer_ios::init()
 
 void IAPDetailsLayer_ios::createBackgroundLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(48,38,38,255),origin.x + visibleSize.width,origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Style::Color_4B::letterBoxSlideBackground,origin.x + visibleSize.width,origin.y + visibleSize.height);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);

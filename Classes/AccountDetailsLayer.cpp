@@ -11,9 +11,6 @@
 #include "cocos/ui/UIRichText.h"
 #include "RoutePaymentSingleton.h"
 
-#define FONT_REGULAR "fonts/Sofia Pro Soft Regular.otf"
-#define FONT_BOLD "fonts/Sofia Pro Soft Bold.otf"
-
 NS_AZOOMEE_BEGIN
 
 Layer* AccountDetailsLayer::createWithHeight(float setLayerHeight)
@@ -89,8 +86,8 @@ void AccountDetailsLayer::addRichTextLabel(std::string BOLDText)
     cocos2d::ui::RichText* richTextLabel = cocos2d::ui::RichText::create();
     richTextLabel->setAnchorPoint(Vec2(0.5,0.5));
     
-    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, "You have a ", FONT_REGULAR, 84));
-    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDText, FONT_BOLD, 84));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, "You have a ", Style::Font::Regular, 84));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDText, Style::Font::Bold, 84));
     richTextLabel->setPosition(Vec2(visibleSize.width/2,layerHeight*.6));
     this->addChild(richTextLabel);
 }

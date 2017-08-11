@@ -3,6 +3,8 @@
 #include "../Analytics/AnalyticsSingleton.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
+#include "Style.h"
+
 #include "MessageBoxLayers/MessageBoxTextLayer.h"
 #include "MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.h"
 #include "MessageBoxLayers/ChatMessageLayers/MessageBoxChatReportChatLayer.h"
@@ -139,7 +141,7 @@ void MessageBox::createBackgroundLayer()
 {
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     
-    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
+    backgroundLayer = LayerColor::create(Style::Color_4B::awaitingPinLayer,currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
     this->addChild(backgroundLayer);
     
     Director::getInstance()->getRunningScene()->addChild(this);
