@@ -87,26 +87,26 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mActivity = this;
         mAppActivity = this;
 
-        Log.d("Manufacturer:", android.os.Build.MANUFACTURER);
-        Log.d("Radio version: ", android.os.Build.getRadioVersion());
-        Log.d("Board", android.os.Build.BOARD);
-        Log.d("Bootloader", android.os.Build.BOOTLOADER);
-        Log.d("Brand", android.os.Build.BRAND);
-        Log.d("Device", android.os.Build.DEVICE);
-        Log.d("Display", android.os.Build.DISPLAY);
-        Log.d("Fingerprint", android.os.Build.FINGERPRINT);
-        Log.d("getRadioVersion", android.os.Build.getRadioVersion());
-        Log.d("Hardware", android.os.Build.HARDWARE);
-        Log.d("Host", android.os.Build.HOST);
-        Log.d("Id", android.os.Build.ID);
-        Log.d("Manufacturer", android.os.Build.MANUFACTURER);
-        Log.d("Model", android.os.Build.MODEL);
-        Log.d("Product", android.os.Build.PRODUCT);
-        Log.d("Serial", android.os.Build.SERIAL);
-        Log.d("Tags", android.os.Build.TAGS);
-        Log.d("Type", android.os.Build.TYPE);
-        Log.d("Unknown", android.os.Build.UNKNOWN);
-        Log.d("User", android.os.Build.USER);
+        Log.d("DEVINFO Manufacturer:", android.os.Build.MANUFACTURER);
+        Log.d("DEVINFO Radio version: ", android.os.Build.getRadioVersion());
+        Log.d("DEVINFO Board", android.os.Build.BOARD);
+        Log.d("DEVINFO Bootloader", android.os.Build.BOOTLOADER);
+        Log.d("DEVINFO Brand", android.os.Build.BRAND);
+        Log.d("DEVINFO Device", android.os.Build.DEVICE);
+        Log.d("DEVINFO Display", android.os.Build.DISPLAY);
+        Log.d("DEVINFO Fingerprint", android.os.Build.FINGERPRINT);
+        Log.d("DEVINFO getRadioVersion", android.os.Build.getRadioVersion());
+        Log.d("DEVINFO Hardware", android.os.Build.HARDWARE);
+        Log.d("DEVINFO Host", android.os.Build.HOST);
+        Log.d("DEVINFO Id", android.os.Build.ID);
+        Log.d("DEVINFO Manufacturer", android.os.Build.MANUFACTURER);
+        Log.d("DEVINFO Model", android.os.Build.MODEL);
+        Log.d("DEVINFO Product", android.os.Build.PRODUCT);
+        Log.d("DEVINFO Serial", android.os.Build.SERIAL);
+        Log.d("DEVINFO Tags", android.os.Build.TAGS);
+        Log.d("DEVINFO Type", android.os.Build.TYPE);
+        Log.d("DEVINFO Unknown", android.os.Build.UNKNOWN);
+        Log.d("DEVINFO User", android.os.Build.USER);
 
         setupIAPOnCreate();
 
