@@ -201,14 +201,14 @@ void MessageBoxChatReportChatLayer::onSizeChanged()
 void MessageBoxChatReportChatLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
-        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Cancel");
+        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, MessageBox::kCancel);
     else if(button == onlineSafetyTipsButton)
     {
         //youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
         onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlidesChild, nullptr);
     }
     else if(button == reportButton)
-        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Report");
+        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, MessageBox::kReport);
 }
     
 }

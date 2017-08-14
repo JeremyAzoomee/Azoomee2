@@ -51,6 +51,35 @@ namespace Color
     const cocos2d::Color3B darkNeonPurple(77, 20, 88);
     const cocos2d::Color3B darkNeonPurpleTwo(83, 23, 98);
     const cocos2d::Color3B safetySlideTitleColor(9, 154, 154);
+    const cocos2d::Color3B chatEnterTextColor(135, 135, 135);
+}
+   
+/**
+ * Colors by name: Based on Zeplin Styleguide.
+ * Please only use names from Zeplin.
+ */
+namespace Color_4B
+{
+
+    
+    // These colors below don't have exact names in Zeplin.
+    // Names Chosen based on where used
+    
+    const cocos2d::Color4B letterBoxSlideBackground(48,38,38,255);
+    const cocos2d::Color4B awaitingPinLayer(15,14,7,255);
+}
+    
+namespace Color_4F
+{
+    const cocos2d::Color4F watermelon(0.976, 0.29, 0.357,1);
+    const cocos2d::Color4F brightAqua(0.11, 0.957,  0.957, 1.0);
+    const cocos2d::Color4F macaroniAndCheese(0.964, 0.733, 0.259,1);
+    
+    // These colors below don't have exact names in Zeplin.
+    // Names Chosen based on where used
+    
+    const cocos2d::Color4F settingsTopBottomLines(0.592f, 0.592f, 0.592f,1.0);
+    
 }
 
 /**
@@ -72,6 +101,9 @@ namespace Font
     const char* const SofiaBold = "fonts/Sofia Pro Soft Bold.otf";
     // The system name of the font, usually inside the TTF file
     const char* const SofiaBoldSystemName = "SofiaProSoftRegular";
+    
+    // Font for the Kid Code to be More readable
+    const char* const kidCodeRegular = "fonts/Inconsolata-Regular.ttf";
     
     const char* const Regular = SofiaRegular;
     const char* const Medium = SofiaMedium;

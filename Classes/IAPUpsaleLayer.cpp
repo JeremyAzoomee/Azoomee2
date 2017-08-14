@@ -47,7 +47,7 @@ bool IAPUpsaleLayer::init()
 
 void IAPUpsaleLayer::createBackgroundLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(48,38,38,255),origin.x + visibleSize.width,origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Style::Color_4B::letterBoxSlideBackground,origin.x + visibleSize.width,origin.y + visibleSize.height);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
@@ -172,7 +172,7 @@ void IAPUpsaleLayer::addBulletAndLabel(std::string BOLDtext, std::string regular
 void IAPUpsaleLayer::addOptionalSubscriptionLabel()
 {
     optionalLabel = Label::createWithTTF("Then £4.99/month. No commitment, cancel anytime.", Style::Font::Regular, 40);
-    optionalLabel->setColor(Color3B(28, 244, 244));
+    optionalLabel->setColor(Style::Color::brightAqua);
     optionalLabel->setAnchorPoint(Vec2(0.5,0.5));
     optionalLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     optionalLabel->setPosition(startTrialButton->getPositionX()+startTrialButton->getContentSize().width/2, startTrialButton->getPositionY() - optionalLabel->getContentSize().height*1.5);

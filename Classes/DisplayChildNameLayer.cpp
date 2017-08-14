@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -56,14 +57,14 @@ void DisplayChildNameLayer::createChildNameToLayer()
 
 void DisplayChildNameLayer::createLoggedInAsToLayer()
 {
-    loggedInAsLabel = createLabelWith("Kid Code", FONT_REGULAR, Style::Color::brightAqua, 40);
+    loggedInAsLabel = createLabelWith("Kid Code", Style::Font::Regular, Style::Color::brightAqua, 40);
     loggedInAsLabel->setPosition(loggedInAsLabel->getContentSize().width/2, childNameLabel->getContentSize().height*1.1);
     loggedInAsLabel->setOpacity(0);
 }
 
 void DisplayChildNameLayer::createInviteCodeLayer()
 {
-    inviteCodeLabel = createLabelWith(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(ChildDataProvider::getInstance()->getLoggedInChildNumber()), FONT_KIDCODE_REGULAR, Style::Color::white, 48);
+    inviteCodeLabel = createLabelWith(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(ChildDataProvider::getInstance()->getLoggedInChildNumber()), Style::Font::kidCodeRegular, Style::Color::white, 48);
     inviteCodeLabel->setPosition(inviteCodeLabel->getContentSize().width/2, inviteCodeLabel->getContentSize().height/2);
     inviteCodeLabel->setOpacity(0);
 

@@ -290,7 +290,7 @@ void MessageBoxOnlineSafetySlidesLayer::buttonPressed(ElectricDreamsButton* butt
     else if(button == chevronRightButton)
         moveSlideNumberBy(1);
     else if(button == cancelButton)
-        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed("OnlineSafetySlideLayer", "Cancel");
+        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed("OnlineSafetySlideLayer", MessageBox::kCancel);
 }
     
 }

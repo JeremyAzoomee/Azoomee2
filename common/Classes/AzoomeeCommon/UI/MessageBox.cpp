@@ -3,6 +3,8 @@
 #include "../Analytics/AnalyticsSingleton.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
+#include "Style.h"
+
 #include "MessageBoxLayers/MessageBoxTextLayer.h"
 #include "MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.h"
 #include "MessageBoxLayers/ChatMessageLayers/MessageBoxChatReportChatLayer.h"
@@ -14,6 +16,14 @@ using namespace cocos2d;
 
 namespace Azoomee
 {
+    
+const char* const MessageBox::kOK = "OK";
+const char* const MessageBox::kCancel = "Cancel";
+const char* const MessageBox::kLogin = "Log in";
+const char* const MessageBox::kSignUp = "Sign up";
+const char* const MessageBox::kResetPassword = "Reset Password";
+const char* const MessageBox::kReport ="Report";
+const char* const MessageBox::kReset ="Reset";
 
 MessageBox* MessageBox::createWith(const std::string& Title, const std::string& Body, const std::vector<std::string>& buttonTitleList, MessageBoxDelegate* _delegate)
 {
@@ -142,7 +152,7 @@ void MessageBox::createBackgroundLayer()
 {
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     
-    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
+    backgroundLayer = LayerColor::create(Style::Color_4B::awaitingPinLayer,currentRunningScene->getContentSize().width, currentRunningScene->getContentSize().height);
     this->addChild(backgroundLayer);
     
     Director::getInstance()->getRunningScene()->addChild(this);
