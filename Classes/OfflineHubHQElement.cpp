@@ -29,7 +29,7 @@ bool OfflineHubHQElement::init()
     return true;
 }
 
-void OfflineHubHQElement::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay)
+void OfflineHubHQElement::addHQSceneElement(const std::string &category, const std::map<std::string, std::string> &itemData, Vec2 shape, float delay)
 {
     //category = "GAME HQ";
     
@@ -50,7 +50,7 @@ void OfflineHubHQElement::addHQSceneElement(std::string category, std::map<std::
 
 //-------------------All elements below this are used internally-----------------
 
-void OfflineHubHQElement::addListenerToElement(std::map<std::string, std::string> itemData, bool preview)
+void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::string> &itemData, bool preview)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -125,7 +125,7 @@ Orientation OfflineHubHQElement::getGameOrientation(const std::map<std::string, 
     return Orientation::Landscape;
 }
 
-void OfflineHubHQElement::startUpElementDependingOnType(std::map<std::string, std::string> itemData)
+void OfflineHubHQElement::startUpElementDependingOnType(const std::map<std::string, std::string> &itemData)
 {
     this->getParent()->getParent()->getParent()->stopAllActions();
     GameDataManager::getInstance()->startProcessingGame(itemData);

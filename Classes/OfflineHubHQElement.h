@@ -15,15 +15,15 @@ public:
     
     CREATE_FUNC(OfflineHubHQElement);
     virtual bool init();
-    void addHQSceneElement(std::string category, std::map<std::string, std::string>itemData, cocos2d::Vec2 shape, float delay);
+    void addHQSceneElement(const std::string &category, const std::map<std::string, std::string> &itemData, cocos2d::Vec2 shape, float delay);
     
 private:
     HQSceneElementVisual* elementVisual;
-    void addListenerToElement(std::map<std::string, std::string> itemData, bool preview);
+    void addListenerToElement(const std::map<std::string, std::string> &itemData, bool preview);
     
     Orientation getGameOrientation(const std::map<std::string, std::string>& itemData);
     
-    void startUpElementDependingOnType(std::map<std::string, std::string> itemData);
+    void startUpElementDependingOnType(const std::map<std::string, std::string> &itemData);
     
     cocos2d::Point touchPoint;
     bool movedAway = false;
