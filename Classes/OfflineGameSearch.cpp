@@ -79,7 +79,7 @@ std::vector<std::string> OfflineGameSearch::getJsonFileListFromDir()
     }
 }
 
-bool OfflineGameSearch::isStarterFileExists(std::string gameId)
+bool OfflineGameSearch::isStarterFileExists(const std::string &gameId)
 {
     CCLOG("file exists: %s", getStartFileFromJson(gameId).c_str());
     if(getStartFileFromJson(gameId) == "ERROR") return false;
@@ -88,7 +88,7 @@ bool OfflineGameSearch::isStarterFileExists(std::string gameId)
     return FileUtils::getInstance()->isFileExist(path);
 }
 
-std::string OfflineGameSearch::getStartFileFromJson(std::string gameId)
+std::string OfflineGameSearch::getStartFileFromJson(const std::string &gameId)
 {
     std::string jsonFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
     
@@ -103,7 +103,7 @@ std::string OfflineGameSearch::getStartFileFromJson(std::string gameId)
     else return "ERROR";
 }
 
-std::map<std::string, std::string> OfflineGameSearch::getGameDetails(std::string gameId)
+std::map<std::string, std::string> OfflineGameSearch::getGameDetails(const std::string &gameId)
 {
     std::map<std::string, std::string> currentGameData;
     

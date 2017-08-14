@@ -18,9 +18,9 @@ public:
     
 private:
     std::vector<std::string> getJsonFileListFromDir();
-    bool isStarterFileExists(std::string gameId);
-    std::string getStartFileFromJson(std::string gameId);
-    std::map<std::string, std::string> getGameDetails(std::string gameId);
+    bool isStarterFileExists(const std::string &gameId);
+    std::string getStartFileFromJson(const std::string &gameId);
+    std::map<std::string, std::string> getGameDetails(const std::string &gameId);
 };
 
 NS_AZOOMEE_END
