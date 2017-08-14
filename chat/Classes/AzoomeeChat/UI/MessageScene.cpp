@@ -244,6 +244,7 @@ void MessageScene::onBackButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - BackButton");
+    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
     // Back to friend list
     auto friendListScene = FriendListScene::create();
