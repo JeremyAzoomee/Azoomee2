@@ -10,7 +10,7 @@
 #define ArtAppDelegate_h
 
 #include <AzoomeeCommon/Azoomee.h>
-#include "../ArtApp/Classes/AzoomeeArtApp.h"
+#include "../artapp/Classes/AzoomeeArt/AzoomeeArtApp.h"
 #include <string>
 #include <memory>
 

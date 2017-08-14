@@ -15,8 +15,8 @@
 #include "FTUScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "ChatDelegate.h"
-#include "../ArtApp/Classes/ArtAppBaseScene.h"
-#include "../ArtApp/Classes/AzoomeeArtApp.h"
+#include "../artapp/Classes/AzoomeeArt/MainScene.h"
+#include "../artapp/Classes/AzoomeeArt/AzoomeeArtApp.h"
 #include "ArtAppDelegate.h"
 #include "EmptySceneForSettings.h"
 
@@ -175,9 +175,9 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             cocos2d::Scene* goToScene;
             forceToLandscape();
             if(FileUtils::getInstance()->isFileExist(fileName))
-                goToScene = Azoomee::ArtApp::ArtAppBase::createSceneWithDrawing(fileName);
+                goToScene = Azoomee::ArtApp::MainScene::createSceneWithDrawing(fileName);
             else
-                goToScene = Azoomee::ArtApp::ArtAppBase::createScene();
+                goToScene = Azoomee::ArtApp::MainScene::createScene();
             Director::getInstance()->replaceScene(goToScene);
             break;
         }

@@ -11,7 +11,7 @@ $(call import-add-path,$(LOCAL_PATH)/../../../cocos2d/cocos/audio/include)
 
 #LOCAL_MODULE_FILENAME := libMyGame
 
-LOCAL_MODULE := azoomee_artApp
+LOCAL_MODULE := azoomeeartapp_shared
 
 LOCAL_MODULE_FILENAME := libAzoomeeArtApp
 

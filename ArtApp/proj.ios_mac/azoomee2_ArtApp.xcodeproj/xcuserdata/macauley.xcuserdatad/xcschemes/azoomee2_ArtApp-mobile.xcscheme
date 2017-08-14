@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "azoomee2_ArtApp-mobile.app"
-               BlueprintName = "azoomee2_ArtApp-mobile"
+               BuildableName = "AzoomeeArt-app.app"
+               BlueprintName = "AzoomeeArt-app"
                ReferencedContainer = "container:azoomee2_ArtApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "azoomee2_ArtApp-mobile.app"
-            BlueprintName = "azoomee2_ArtApp-mobile"
+            BuildableName = "AzoomeeArt-app.app"
+            BlueprintName = "AzoomeeArt-app"
             ReferencedContainer = "container:azoomee2_ArtApp.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -56,8 +56,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "azoomee2_ArtApp-mobile.app"
-            BlueprintName = "azoomee2_ArtApp-mobile"
+            BuildableName = "AzoomeeArt-app.app"
+            BlueprintName = "AzoomeeArt-app"
             ReferencedContainer = "container:azoomee2_ArtApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -75,8 +75,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "azoomee2_ArtApp-mobile.app"
-            BlueprintName = "azoomee2_ArtApp-mobile"
+            BuildableName = "AzoomeeArt-app.app"
+            BlueprintName = "AzoomeeArt-app"
             ReferencedContainer = "container:azoomee2_ArtApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

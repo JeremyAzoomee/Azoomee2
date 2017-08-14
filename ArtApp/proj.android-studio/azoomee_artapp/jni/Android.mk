@@ -5,9 +5,9 @@ include $(CLEAR_VARS)
 $(call import-add-path, $(LOCAL_PATH)/../../../cocos2d)
 $(call import-add-path, $(LOCAL_PATH)/../../../common/proj.android-studio)
 
-LOCAL_MODULE := azoomee_artapp
+LOCAL_MODULE := azoomee_art
 
-LOCAL_MODULE_FILENAME := libAzoomeeArtApp
+LOCAL_MODULE_FILENAME := libazoomee_art
 
 # Find all files of type cpp which are not named _ios.*
 define find-src-files
@@ -22,9 +22,9 @@ endef
 EXCLUDE_FILES := -
 
 # Collect all source files to compile
-LOCAL_SRC_FILES := $(call find-src-files, ../../../Classes, $(EXCLUDE_FILES))
+LOCAL_SRC_FILES := $(call find-src-files, ../../../Classes/AzoomeeArt, $(EXCLUDE_FILES))
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes/AzoomeeArt
 
 LOCAL_STATIC_LIBRARIES := cocos2dx_static
 LOCAL_STATIC_LIBRARIES += azoomee_common

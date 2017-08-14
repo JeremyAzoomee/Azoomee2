@@ -2,13 +2,14 @@
 #define  _APP_DELEGATE_H_
 
 #include "cocos2d.h"
+#include <AzoomeeCommon/Application.h>
 
 /**
 @brief    The cocos2d Application.
 
 Private inheritance here hides part of interface from Director.
 */
-class  AppDelegate : private cocos2d::Application
+class  AppDelegate : private Azoomee::Application
 {
 public:
     AppDelegate();

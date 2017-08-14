@@ -79,6 +79,26 @@ namespace Color_4F
     
     const cocos2d::Color4F settingsTopBottomLines(0.592f, 0.592f, 0.592f,1.0);
     
+    //colours for Art app - not from Zeplin
+    
+    const cocos2d::Color4F pureWhite = cocos2d::Color4F(1,1,1, 1.0f);
+    const cocos2d::Color4F paperWhite = cocos2d::Color4F(54/255.0f,108/255.0f,135/255.0f,1.0f);
+    
+    const cocos2d::Color4F pink = cocos2d::Color4F(228/255.0f,0/255.0f,131/255.0f, 1.0f);
+    const cocos2d::Color4F red = cocos2d::Color4F(222/255.0f,0/255.0f,0/255.0f, 1.0f);
+    const cocos2d::Color4F orange = cocos2d::Color4F(228/255.0f,137/255.0f,0/255.0f, 1.0f);
+    const cocos2d::Color4F yellow = cocos2d::Color4F(232/255.0f,202/255.0f,0/255.0f, 1.0f);
+    const cocos2d::Color4F green = cocos2d::Color4F(29/255.0f,158/255.0f,68/255.0f, 1.0f);
+    const cocos2d::Color4F blue = cocos2d::Color4F(27/255.0f,160/255.0f,163/255.0f, 1.0f);
+    const cocos2d::Color4F purple = cocos2d::Color4F(141/255.0f,23/255.0f,137/255.0f, 1.0f);
+    const cocos2d::Color4F black = cocos2d::Color4F(52/255.0f,52/255.0f,54/255.0f, 1.0f);
+    const cocos2d::Color4F grey = cocos2d::Color4F(95/255.0f,97/255.0f,97/255.0f, 1.0f);
+    const cocos2d::Color4F lightGrey = cocos2d::Color4F(205/255.0f,209/255.0f,205/255.0f, 1.0f);
+    const cocos2d::Color4F white = cocos2d::Color4F(242/255.0f,242/255.0f,242/255.0f, 1.0f);
+    const cocos2d::Color4F skinPink = cocos2d::Color4F(212/255.0f,164/255.0f,164/255.0f, 1.0f);
+    const cocos2d::Color4F brown = cocos2d::Color4F(136/255.0f,81/255.0f,30/255.0f, 1.0f);
+    const cocos2d::Color4F darkBrown = cocos2d::Color4F(86/255.0f,28/255.0f,0/255.0f, 1.0f);
+    
 }
 
 /**

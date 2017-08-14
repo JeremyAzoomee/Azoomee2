@@ -8,6 +8,7 @@
 
 #include "ImageConverterLoadingLayer.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/UI/Style.h>
 #include "HQSceneArtsApp.h"
 
 USING_NS_CC;
@@ -27,8 +28,8 @@ void ImageConverterLoadingLayer::onEnter()
     finished = false;
     ModalMessages::getInstance()->startLoading();
     std::string str = StringUtils::format("Converting Image %i of %i",currentImage,totalImages);
-    text = Label::createWithTTF(str, "fonts/azoomee.ttf", 128);
-    text->setColor(Color3B(255,255,255));
+    text = Label::createWithTTF(str, Style::Font::Regular, 128);
+    text->setColor(Style::Color::white);
     text->setPosition(Director::getInstance()->getVisibleSize()/2);
     text->setAnchorPoint(Vec2(0.5,0.5));
     this->addChild(text,10);
