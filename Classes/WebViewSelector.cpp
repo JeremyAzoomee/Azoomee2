@@ -16,7 +16,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, bool isPortrait)
+cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, Orientation orientation)
 {
     // 'scene' is an autorelease object
     auto scene = cocos2d::Scene::create();
@@ -27,7 +27,7 @@ cocos2d::Scene* WebViewSelector::createSceneWithUrl(const std::string& url, bool
     // add layer as a child to scene
     scene->addChild(layer);
     
-    layer->loadWebView(url, isPortrait);
+    layer->loadWebView(url, orientation);
     
     // return the scene
     return scene;
@@ -59,7 +59,7 @@ std::string WebViewSelector::getUrlWithoutPath(std::string url)
     return(url.substr(0, until)); //returning string before the 3rd slash.
 }
 
-void WebViewSelector::loadWebView(const std::string& url, bool isPortrait)
+void WebViewSelector::loadWebView(const std::string& url, Orientation orientation)
 {
     AnalyticsSingleton::getInstance()->contentItemWebviewStartedEvent();
     AudioMixer::getInstance()->stopBackgroundMusic();
@@ -70,7 +70,7 @@ void WebViewSelector::loadWebView(const std::string& url, bool isPortrait)
 #endif
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(url, isPortrait);
+    auto androidWebViewCaller = WebViewNativeCaller_android::createSceneWithUrl(url, orientation);
     Director::getInstance()->replaceScene(androidWebViewCaller);
 #endif
 }

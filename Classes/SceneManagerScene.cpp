@@ -191,16 +191,18 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         }
         case WebviewPortrait:
         {
-            forceToPortrait();
+            #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+                forceToPortrait();
+            #endif
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWPORTRAIT");
-            WebViewSelector::createSceneWithUrl(webviewURL, true);
+            WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Portrait);
             break;
         }
         case WebviewLandscape:
         {
             forceToLandscape();
             AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
-            WebViewSelector::createSceneWithUrl(webviewURL, false);
+            WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape);
             break;
         }
         default:

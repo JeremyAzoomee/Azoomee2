@@ -47,7 +47,8 @@ public class NativeViewUI extends Activity {
         Bundle extras = getIntent().getExtras();
 
         //---------Set Orientation-----------
-        if(extras.getBoolean("isPortrait"))
+        // orientation - 1 = Portrait
+        if(extras.getInt("orientation") == 1)
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         userid = extras.getString("userid");

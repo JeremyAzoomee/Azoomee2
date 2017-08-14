@@ -117,7 +117,6 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
 
 Orientation OfflineHubHQElement::getGameOrientation(const std::map<std::string, std::string>& itemData)
 {
-    //TODO-CLIVE - CHECK how isPortrait is assigned.
     if(itemData.find("isPortrait") != itemData.end())
         if(itemData.at("isPortrait") == "true")
             return Orientation::Portrait;
