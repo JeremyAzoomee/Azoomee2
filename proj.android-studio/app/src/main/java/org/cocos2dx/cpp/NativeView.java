@@ -27,6 +27,8 @@ public class NativeView extends XWalkActivity {
     public static XWalkView xWalkWebViewStatic;
     public static String userid;
     public static ImageButton imageButtonStatic;
+    private static final int _portrait = 1;
+    private static final int _horizonal = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class NativeView extends XWalkActivity {
 
         //---------Set Orientation-----------
         // orientation - 1 = Portrait
-        if(extras.getInt("orientation") == 1)
+        if(extras.getInt("orientation") == _portrait)
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         userid = extras.getString("userid");

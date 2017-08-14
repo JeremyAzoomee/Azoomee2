@@ -28,6 +28,8 @@ public class NativeViewUI extends Activity {
     public static WebView uiWebViewStatic;
     public static String userid;
     public static ImageButton imageButtonStatic;
+    private static final int _portrait = 1;
+    private static final int _horizonal = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class NativeViewUI extends Activity {
 
         //---------Set Orientation-----------
         // orientation - 1 = Portrait
-        if(extras.getInt("orientation") == 1)
+        if(extras.getInt("orientation") == _portrait)
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         userid = extras.getString("userid");
