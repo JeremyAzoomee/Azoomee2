@@ -64,6 +64,7 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
 
 void ArtsAppHQElement::loadImageTex()
 {
+    classStartedImageLoading = true;
     Director::getInstance()->getTextureCache()->addImageAsync(imageURL, [&](Texture2D* tex){this->addImage(tex);});
 }
 
@@ -75,6 +76,8 @@ void ArtsAppHQElement::enableOnScreenChecker()
 
 void ArtsAppHQElement::addImage(Texture2D* tex)
 {
+    if(!classStartedImageLoading) return;
+    
     if(artImage)
         artImage->removeFromParent();
     
@@ -92,6 +95,8 @@ void ArtsAppHQElement::addImage(Texture2D* tex)
     artImage->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
     this->addChild(artImage);
     artImage->runAction(FadeIn::create(0.1));
+    
+    classStartedImageLoading = false;
 }
 
 void ArtsAppHQElement::addPlaceHolder()

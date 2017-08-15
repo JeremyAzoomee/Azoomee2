@@ -52,6 +52,8 @@ private:
     std::string imageURL;
     
     ArtImageOnScreenChecker* onScreenChecker = nullptr;
+    
+    bool classStartedImageLoading = false;
 };
 
 NS_AZOOMEE_END
