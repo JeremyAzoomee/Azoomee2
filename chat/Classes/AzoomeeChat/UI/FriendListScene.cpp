@@ -215,6 +215,8 @@ void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
         AnalyticsSingleton::getInstance()->setChatFriendIsParent(false);
     }
     
+    AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
+    
     AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
     
     FriendList participants = { _currentUser, friendData };
