@@ -244,6 +244,7 @@ void MessageScene::onBackButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - BackButton");
+    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
     // Back to friend list
     auto friendListScene = FriendListScene::create();
@@ -364,12 +365,12 @@ void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 
 void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    if(buttonTitle == "Report")
+    if(buttonTitle == MessageBox::kReport)
     {
         ChatAPI::getInstance()->reportChat(_participants[1]);
     }
     
-    if(buttonTitle == "Reset")
+    if(buttonTitle == MessageBox::kReset)
     {
         ChatAPI::getInstance()->resetReportedChat(_participants[1]);
     }
