@@ -24,6 +24,7 @@ const char* const Version = "1.0";
 struct Delegate {
     virtual void onArtAppNavigationBack() = 0;
     
+    bool ArtAppRunning = false;
     // TODO: On error callbacks
 };
 

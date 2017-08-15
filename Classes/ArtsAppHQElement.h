@@ -48,12 +48,12 @@ private:
     bool movedAway = false;
     bool iamtouched = false;
     cocos2d::Point touchPoint;
-    cocos2d::Sprite* artImage;
+    cocos2d::Sprite* artImage = nullptr;
     std::string imageURL;
     
     ArtImageOnScreenChecker* onScreenChecker = nullptr;
     
-    bool classStartedImageLoading = false;
+    //bool classStartedImageLoading = false;
 };
 
 NS_AZOOMEE_END

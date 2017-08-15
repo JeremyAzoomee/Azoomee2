@@ -170,6 +170,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         case ArtAppEntryPointScene:
         {
             Azoomee::ArtApp::delegate = ArtAppDelegate::getInstance();
+            ArtAppDelegate::getInstance()->ArtAppRunning = true;
             
             std::string fileName = ArtAppDelegate::getInstance()->getFileName();
             cocos2d::Scene* goToScene;

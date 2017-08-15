@@ -27,8 +27,8 @@ void StickerPlacementNode::onEnter()
     
     Super::onEnter();
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 visibleOrigin = Director::getInstance()->getVisibleOrigin();
+    const Size& visibleSize = Director::getInstance()->getVisibleSize();
+    const Vec2& visibleOrigin = Director::getInstance()->getVisibleOrigin();
     
     this->setContentSize(visibleSize);
     

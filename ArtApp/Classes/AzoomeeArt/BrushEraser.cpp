@@ -7,6 +7,7 @@
 //
 
 #include "BrushEraser.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -26,7 +27,7 @@ void BrushEraser::onTouchMoved(Touch *touch, Event *event)
 {
     Vec2 touchPos = drawNode->convertTouchToNodeSpace(touch);
     
-    drawNode->drawSegment(lastTouchPos, touchPos, *brushRadius, COLOUR_WHITE);
+    drawNode->drawSegment(lastTouchPos, touchPos, *brushRadius, Style::Color_4F::white);
     
     lastTouchPos = touchPos;
 }

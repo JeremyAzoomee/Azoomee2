@@ -87,7 +87,7 @@ void MainScene::backButtonCallBack()
         savingLabel->setAnchorPoint(Vec2(0.5,0.5));
         this->addChild(savingLabel,3);
         
-        auto overlay = LayerColor::create(Color4B(0,0,0,200), Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
+        auto overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
         overlay->setPosition(Director::getInstance()->getVisibleOrigin());
         this->addChild(overlay,2);
     

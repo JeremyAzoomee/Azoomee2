@@ -214,7 +214,7 @@ void DrawingCanvas::addBrushes()
     activeBrush = brushes[0];
     this->addChild(activeBrush->getDrawNode());
     
-    selectedColour = COLOUR_1;
+    selectedColour = Style::Color_4F::pink;
 }
 
 //UI LOADING
@@ -383,7 +383,7 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->setAnchorPoint(Vec2(0.5,0));
     brushButton->setNormalizedPosition(Vec2(0.3,0));
     brushButton->loadTextures(ArtAppAssetLoc + "brushes/brush.png", ArtAppAssetLoc + "brushes/brush.png");
-    brushButton->setColor(Color3B(COLOUR_DEFAULT));
+    brushButton->setColor(Color3B(Style::Color_4F::defaultBrush));
     brushButton->setScale((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,PAINTBRUSH));
     toolButtonLayout->addChild(brushButton);
@@ -392,7 +392,7 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->setAnchorPoint(Vec2(0.5,0));
     brushButton->setNormalizedPosition(Vec2(0.5,0));
     brushButton->loadTextures(ArtAppAssetLoc + "brushes/highlighter.png", ArtAppAssetLoc + "brushes/highlighter.png");
-    brushButton->setColor(Color3B(COLOUR_DEFAULT));
+    brushButton->setColor(Color3B(Style::Color_4F::defaultBrush));
     brushButton->setScale((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,HIGHLIGHTER));
     toolButtonLayout->addChild(brushButton);
@@ -401,7 +401,7 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->setAnchorPoint(Vec2(0.5,0));
     brushButton->setNormalizedPosition(Vec2(0.7,0));
     brushButton->loadTextures(ArtAppAssetLoc + "brushes/spray.png", ArtAppAssetLoc + "brushes/spray.png");
-    brushButton->setColor(Color3B(COLOUR_DEFAULT));
+    brushButton->setColor(Color3B(Style::Color_4F::defaultBrush));
     brushButton->setScale((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,SPRAYCAN));
     toolButtonLayout->addChild(brushButton);
@@ -782,7 +782,10 @@ void DrawingCanvas::onConfirmStickerPressed(Ref *pSender, ui::Widget::TouchEvent
             clearButton->loadTextures(ArtAppAssetLoc + "art_button_undo.png", ArtAppAssetLoc + "undo.png");
         drawingStack.push_back(stickerNode->getSticker());
         Sprite* temp = stickerNode->getSticker();
+        temp->retain(); //move sticker from sticker node to drawing canvas
+        temp->removeFromParent();
         this->addChild(temp);
+        temp->release();
         if(drawingStack.size()>numberOfUndos)
         {
             Node* mergingLayer = drawingStack[0];
@@ -911,7 +914,7 @@ void DrawingCanvas::onToolChanged(Ref *pSender, ui::Widget::TouchEventType eEven
         {
             SelectedToolButton->setScale((toolButtonLayout->getContentSize().height*0.8)/SelectedToolButton->getContentSize().height);
             if(SelectedToolButton->getName() != "eraser")
-                SelectedToolButton->setColor(Color3B(COLOUR_DEFAULT));
+                SelectedToolButton->setColor(Color3B(Style::Color_4F::defaultBrush));
             if(pressedButton->getName() != "eraser")
                 pressedButton->setColor(Color3B(selectedColour));
             SelectedToolButton = pressedButton;
@@ -957,9 +960,8 @@ void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::Tou
         
         pressedButton->setScale(1.15);
         
-        //selectionIndicator->setPosition(Vec2(StickerCategoryLayout->convertToWorldSpace(pressedButton->getPosition()).x, stickerScrollView->getPosition().y + stickerScrollView->getContentSize().height/2));
         selectionIndicator->setNormalizedPosition(Vec2((index + 0.5f)/catButtons.size(),0));
-        Size visibleSize = Director::getInstance()->getVisibleSize();
+        const Size& visibleSize = Director::getInstance()->getVisibleSize();
         
         int numStickers = (int)stickerCats[index].second.size();
         

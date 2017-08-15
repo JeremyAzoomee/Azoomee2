@@ -64,8 +64,11 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
 
 void ArtsAppHQElement::loadImageTex()
 {
-    classStartedImageLoading = true;
-    Director::getInstance()->getTextureCache()->addImageAsync(imageURL, [&](Texture2D* tex){this->addImage(tex);});
+    //classStartedImageLoading = true;
+    Director::getInstance()->getTextureCache()->addImageAsync(imageURL, [&](Texture2D* tex){
+        if(!ArtAppDelegate::getInstance()->ArtAppRunning)
+            this->addImage(tex);
+    });
 }
 
 void ArtsAppHQElement::enableOnScreenChecker()
@@ -76,7 +79,7 @@ void ArtsAppHQElement::enableOnScreenChecker()
 
 void ArtsAppHQElement::addImage(Texture2D* tex)
 {
-    if(!classStartedImageLoading) return;
+    //if(!classStartedImageLoading) return;
     
     if(artImage)
         artImage->removeFromParent();
@@ -96,7 +99,7 @@ void ArtsAppHQElement::addImage(Texture2D* tex)
     this->addChild(artImage);
     artImage->runAction(FadeIn::create(0.1));
     
-    classStartedImageLoading = false;
+    //classStartedImageLoading = false;
 }
 
 void ArtsAppHQElement::addPlaceHolder()
@@ -322,10 +325,10 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(rect.containsPoint(locationInNode))
         {
-            if(preview)
-                AnalyticsSingleton::getInstance()->previewContentClickedEvent("","", "ARTS APP");
-            else
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent("ARTS APP", "1,1");
+            //if(preview)
+            //    AnalyticsSingleton::getInstance()->previewContentClickedEvent("","", "ARTS APP");
+            //else
+            //    AnalyticsSingleton::getInstance()->contentItemSelectedEvent("ARTS APP", "1,1");
 
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;

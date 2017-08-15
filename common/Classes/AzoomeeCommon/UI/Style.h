@@ -66,6 +66,8 @@ namespace Color_4B
     
     const cocos2d::Color4B letterBoxSlideBackground(48,38,38,255);
     const cocos2d::Color4B awaitingPinLayer(15,14,7,255);
+    
+    const cocos2d::Color4B semiTransparentOverlay(0,0,0,200);
 }
     
 namespace Color_4F
@@ -82,7 +84,7 @@ namespace Color_4F
     //colours for Art app - not from Zeplin
     
     const cocos2d::Color4F pureWhite = cocos2d::Color4F(1,1,1, 1.0f);
-    const cocos2d::Color4F paperWhite = cocos2d::Color4F(54/255.0f,108/255.0f,135/255.0f,1.0f);
+    const cocos2d::Color4F defaultBrush = cocos2d::Color4F(54/255.0f,108/255.0f,135/255.0f,1.0f);
     
     const cocos2d::Color4F pink = cocos2d::Color4F(228/255.0f,0/255.0f,131/255.0f, 1.0f);
     const cocos2d::Color4F red = cocos2d::Color4F(222/255.0f,0/255.0f,0/255.0f, 1.0f);

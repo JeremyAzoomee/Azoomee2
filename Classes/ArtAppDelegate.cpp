@@ -37,10 +37,14 @@ void ArtAppDelegate::setFileName(std::string filename)
 
 void ArtAppDelegate::onArtAppNavigationBack()
 {
+    ArtAppRunning = false;
+    
     if(HQHistoryManager::getInstance()->isOffline)
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineArtsAppHQ));
     else
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+    
+    
 }
 
 
