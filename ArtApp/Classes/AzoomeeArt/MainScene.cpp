@@ -3,6 +3,7 @@
 #include "AzoomeeArtApp.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 #include <iostream>
 #include <iomanip>
@@ -76,6 +77,8 @@ void MainScene::addBackButton()
 
 void MainScene::backButtonCallBack()
 {
+    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
+    
     if(drawingCanvas->actionCounter > 0)
     {
         auto savingLabel = Label::createWithTTF("Saving...", Style::Font::Regular, 128);
