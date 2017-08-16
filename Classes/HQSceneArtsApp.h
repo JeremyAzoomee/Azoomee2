@@ -13,7 +13,7 @@ public:
     CREATE_FUNC(HQSceneArtsApp);
     virtual bool init();
     void onEnter();
-
+    static std::vector<std::string> getOldArtImages();
 private:
     cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position);
     void createArtsAppScrollView();
@@ -22,8 +22,7 @@ private:
     
     void addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable, bool locked);
     
-    std::vector<std::string>getFilesInDirectory(std::string path);
-
+    static std::vector<std::string>getFilesInDirectory(std::string path);
 
 };
 

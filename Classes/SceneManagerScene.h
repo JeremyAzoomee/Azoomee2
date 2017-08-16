@@ -19,6 +19,7 @@ enum SceneNameEnum {
     OfflineArtsAppHQ,
     FTUScene,
     ChatEntryPointScene,
+    ArtAppEntryPointScene,
     SettingsFromChat
 };
 

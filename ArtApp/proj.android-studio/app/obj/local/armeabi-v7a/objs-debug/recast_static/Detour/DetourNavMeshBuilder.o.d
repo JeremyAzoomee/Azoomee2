@@ -1,0 +1,23 @@
+obj/local/armeabi-v7a/objs-debug/recast_static/Detour/DetourNavMeshBuilder.o: \
+ /Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourNavMeshBuilder.cpp \
+ /Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourNavMesh.h \
+ /Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourAlloc.h \
+ /Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourStatus.h \
+ /Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourCommon.h \
+ /Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourMath.h \
+ /Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourNavMeshBuilder.h \
+ /Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourAssert.h
+
+/Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourNavMesh.h:
+
+/Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourAlloc.h:
+
+/Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourStatus.h:
+
+/Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourCommon.h:
+
+/Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourMath.h:
+
+/Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourNavMeshBuilder.h:
+
+/Users/macauley/Documents/cocos2d-x/app-cocos-artapp/azoomee2_ArtApp/cocos2d/external/recast/Detour/DetourAssert.h:

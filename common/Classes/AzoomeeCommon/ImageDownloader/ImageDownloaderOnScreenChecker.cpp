@@ -7,13 +7,13 @@ using namespace cocos2d;
 namespace Azoomee
 {
   
-void ImageDownloaderOnScreenChecker::startCheckingForOnScreenPosition(Node* sender)
+/*void ImageDownloaderOnScreenChecker::startCheckingForOnScreenPosition(Node* sender)
 {
     auto scheduler = Director::getInstance()->getScheduler();
     scheduler->schedule([=](float dt)
                         {
                             bool isVisible = ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen(sender);
-                            
+
                             if((isVisible)&&(!elementOnScreen))
                             {
                                 elementOnScreen = true;
@@ -50,7 +50,7 @@ bool ImageDownloaderOnScreenChecker::checkIfElementIsOnScreen(Node* itemToCheck)
     {
         return false;
     }
-}
+}*/
 
 //------------------------------------All methods are private below this line------------------
 
@@ -66,9 +66,9 @@ void ImageDownloaderOnScreenChecker::elementDisappeared(Node* sender)
     owner->removeLoadedImage();
 }
 
-void ImageDownloaderOnScreenChecker::endCheck()
-{
-    Director::getInstance()->getScheduler()->unschedule("onScreenCheck", this);
-}
+//void ImageDownloaderOnScreenChecker::endCheck()
+//{
+//    Director::getInstance()->getScheduler()->unschedule("onScreenCheck", this);
+//}
   
 }
