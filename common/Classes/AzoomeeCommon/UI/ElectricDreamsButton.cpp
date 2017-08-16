@@ -3,7 +3,7 @@
 #include "../Analytics/AnalyticsSingleton.h"
 #include "ElectricDreamsTextStyles.h"
 #include "ElectricDreamsDecoration.h"
-#include <AzoomeeCommon/UI/Style.h>
+#include "Style.h"
 
 using namespace cocos2d;
 using namespace cocos2d::ui;
