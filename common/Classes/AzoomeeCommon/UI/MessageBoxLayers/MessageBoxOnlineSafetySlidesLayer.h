@@ -14,9 +14,19 @@ class MessageBoxOnlineSafetySlidesLayer : public MessageBoxLayer, public Electri
 {
 private:
 
+    int totalSlides;
     int currentSlideNumber;
+    int titleFontSize;
+    int mainTextFontSize;
+    int textLineSpacing;
     
-    //ElectricDreamsButton *watchSearchItUpButton;
+    bool isParent = false;
+    std::string slideTitle;
+    std::string slideMainText;
+    
+    std::vector<std::string> videoIDs;
+    
+    ElectricDreamsButton *watchSearchItUpButton;
     ElectricDreamsButton *chevronLeftButton = nullptr;
     ElectricDreamsButton *chevronRightButton = nullptr;
     ElectricDreamsButton *cancelButton = nullptr;
@@ -41,6 +51,8 @@ private:
     void addObjectsToWindowPortrait();
     void createCancelButton();
     
+    void playVideo();
+    
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button) override;
   
@@ -53,7 +65,8 @@ protected:
     void addButtonWithTitle(const std::string& buttonTitle);*/
   
 public:
-    static Layer* create(Layer* parentLayer);
+    static Layer* createForParent(Layer* parentLayer);
+    static Layer* createForChild(Layer* parentLayer);
     
     CREATE_FUNC(MessageBoxOnlineSafetySlidesLayer);
   

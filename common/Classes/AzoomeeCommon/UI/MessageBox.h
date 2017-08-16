@@ -8,7 +8,8 @@
 
 enum MessageBoxLayerEnum {
     ChatReportForModeration,
-    OnlineSafetySlides,
+    OnlineSafetySlidesAdult,
+    OnlineSafetySlidesChild,
     ChatResetModeration
 };
 

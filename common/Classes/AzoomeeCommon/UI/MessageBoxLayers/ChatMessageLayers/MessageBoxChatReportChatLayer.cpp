@@ -205,7 +205,7 @@ void MessageBoxChatReportChatLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == onlineSafetyTipsButton)
     {
         //youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
-        onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlides, nullptr);
+        onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlidesChild, nullptr);
     }
     else if(button == reportButton)
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, MessageBox::kReport);
