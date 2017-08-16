@@ -5,7 +5,7 @@
 #include "ObservableLayout.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-
+#include "Orientation.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -20,11 +20,6 @@ NS_AZOOMEE_BEGIN
 class SplitLayout : public cocos2d::ui::Layout
 {
     typedef cocos2d::ui::Layout Super;
-public:
-    enum Mode {
-        Horizontal = 0,
-        Vertical
-    };
     
 private:
     
@@ -36,7 +31,7 @@ private:
     /// Behaviour of split
     float _layoutBehaviour[2] = { 0.5f, 0.5f };
     /// Current layout mode
-    SplitLayout::Mode _mode = SplitLayout::Mode::Horizontal;
+    Orientation _orientation = Orientation::Landscape;
     
     /// True if we're currently resizing the layouts
     bool _resizingLayouts = false;
@@ -58,9 +53,9 @@ public:
     const static float FillSize;
     
     /// Set the mode to either Vertical or Horizontal (default)
-    void setMode(SplitLayout::Mode mode);
+    void setOrientation(Orientation orientation);
     /// Get the current mode
-    SplitLayout::Mode mode() const;
+    Orientation orientation() const;
     
     /// Set the split behaviour, value is between 0 and 1, and represents the % of size to use.
     /// 0 indicates the layout will size to fill the remaining space.

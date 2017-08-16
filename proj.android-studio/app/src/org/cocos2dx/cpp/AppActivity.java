@@ -95,7 +95,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
     }
 
-    public static void startWebView(String url, String userid) {
+    public static void startWebView(String url, String userid, int orientation) {
         Intent nvw;
 
         if ((android.os.Build.MANUFACTURER.equals("Amazon")) && (url.substring(url.length() - 4).equals("html")))
@@ -109,7 +109,9 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
         nvw.putExtra("url", url);
         nvw.putExtra("userid", userid);
+        nvw.putExtra("orientation", orientation);
         mContext.startActivity(nvw);
+
     }
 
     public static String getOSBuildManufacturer() {

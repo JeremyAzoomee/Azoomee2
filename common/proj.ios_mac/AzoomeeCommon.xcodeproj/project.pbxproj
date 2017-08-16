@@ -272,6 +272,7 @@
 		4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestAdultPinLayer.h; sourceTree = "<group>"; };
 		4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxTextLayer.cpp; path = MessageBoxLayers/MessageBoxTextLayer.cpp; sourceTree = "<group>"; };
 		4318E13D1F28E65400778E9A /* MessageBoxTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxTextLayer.h; path = MessageBoxLayers/MessageBoxTextLayer.h; sourceTree = "<group>"; };
+		434858821F3DAE6400C22670 /* Orientation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Orientation.h; sourceTree = "<group>"; };
 		4349C7601EA8ADEE00FE964B /* _MPTweakBindObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MPTweakBindObserver.h; sourceTree = "<group>"; };
 		4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MPTweakBindObserver.m; sourceTree = "<group>"; };
 		4349C7631EA8ADEE00FE964B /* AutomaticEventsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutomaticEventsConstants.h; sourceTree = "<group>"; };
@@ -609,6 +610,7 @@
 				301CCA8C1EB13151009ADA0C /* MessageBox.h */,
 				3012ED871E97DB450009027D /* ModalMessages.cpp */,
 				3012ED881E97DB450009027D /* ModalMessages.h */,
+				434858821F3DAE6400C22670 /* Orientation.h */,
 				4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */,
 				4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */,
 				436007871F22120C000ECBA4 /* ModalWebview.cpp */,

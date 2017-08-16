@@ -205,7 +205,7 @@ void MessageScene::createContentUI(cocos2d::ui::Layout* parent)
     SplitLayout* splitLayout = SplitLayout::create();
     splitLayout->setSizePercent(Vec2(1.0f, 1.0f));
     splitLayout->setSizeType(ui::Widget::SizeType::PERCENT);
-    splitLayout->setMode(SplitLayout::Mode::Vertical);
+    splitLayout->setOrientation(Orientation::Portrait);
     // Message list area = fill to size, composer area = FixedSize
     splitLayout->setSplitBehaviour(SplitLayout::FillSize, SplitLayout::FixedSize);
     parent->addChild(splitLayout);

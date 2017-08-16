@@ -9,7 +9,6 @@
 #include "external/json/prettywriter.h"
 #include "external/unzip/unzip.h"
 
-#include "WebViewSelector.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -21,11 +20,11 @@
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/ErrorCodes.h>
+#include "WebViewSelector.h"
 
 using namespace cocos2d;
 using namespace cocos2d::network;
@@ -462,7 +461,7 @@ void GameDataManager::startGame(std::string basePath, std::string fileName)
         return;
     }
     
-    WebViewSelector::createSceneWithUrl(basePath + fileName);
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePath + "package.json"), basePath + fileName));
 }
 
 std::string GameDataManager::getGameIdPath(std::string gameId)
@@ -473,6 +472,19 @@ std::string GameDataManager::getGameIdPath(std::string gameId)
 std::string GameDataManager::getGameCachePath()
 {
     return FileUtils::getInstance()->getWritablePath() + "gameCache/";
+}
+
+Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
+{
+    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    rapidjson::Document gameData;
+    gameData.Parse(fileContent.c_str());
+    
+    if(gameData.HasMember("isPortrait"))
+        if(gameData["isPortrait"].IsBool() && gameData["isPortrait"].GetBool())
+            return Orientation::Portrait;
+    
+    return Orientation::Landscape;
 }
 
 //---------------------LOADING SCREEN----------------------------------

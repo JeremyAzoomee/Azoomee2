@@ -19,6 +19,7 @@
 #include "../artapp/Classes/AzoomeeArt/AzoomeeArtApp.h"
 #include "ArtAppDelegate.h"
 #include "EmptySceneForSettings.h"
+#include "WebViewSelector.h"
 
 using namespace cocos2d;
 
@@ -30,6 +31,22 @@ cocos2d::Scene* SceneManagerScene::createScene(SceneNameEnum sceneName)
     auto layer = SceneManagerScene::create();
     
     layer->nextScene = sceneName;
+    scene->addChild(layer);
+    
+    return scene;
+}
+
+cocos2d::Scene* SceneManagerScene::createWebview(Orientation _orientation, const std::string& URL)
+{
+    auto scene = cocos2d::Scene::create();
+    auto layer = SceneManagerScene::create();
+    
+    if(_orientation == Orientation::Portrait)
+        layer->nextScene = WebviewPortrait;
+    else
+        layer->nextScene = WebviewLandscape;
+    
+    layer->webviewURL = URL;
     scene->addChild(layer);
     
     return scene;
@@ -188,6 +205,23 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             cocos2d::Scene* goToScene = EmptySceneForSettings::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("SETTINGS");
             Director::getInstance()->replaceScene(goToScene);
+            break;
+        }
+        case WebviewPortrait:
+        {
+            #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+                forceToPortrait();
+            #endif
+            AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWPORTRAIT");
+            WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Portrait);
+            break;
+        }
+        case WebviewLandscape:
+        {
+            forceToLandscape();
+            AnalyticsSingleton::getInstance()->registerCurrentScene("WEBVIEWLANDSCAPE");
+            WebViewSelector::createSceneWithUrl(webviewURL, Orientation::Landscape);
+            break;
         }
         default:
             break;
