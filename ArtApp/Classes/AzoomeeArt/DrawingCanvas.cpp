@@ -328,7 +328,7 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
             button->setNormalizedPosition(Vec2(xPos,yPos));
             button->loadTextures(ArtAppAssetLoc + "colorSwatch.png", ArtAppAssetLoc + "colorSwatch.png");
             button->setColor(colours[colourCount]);
-            if(colourCount == 1)
+            if(colourCount == 0)
                 button->addChild(selected);
             button->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onColourChangePressed,this));
             colourButtonLayout->addChild(button);
