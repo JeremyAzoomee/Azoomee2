@@ -27,7 +27,7 @@ void BrushEraser::onTouchMoved(Touch *touch, Event *event)
 {
     Vec2 touchPos = drawNode->convertTouchToNodeSpace(touch);
     
-    drawNode->drawSegment(lastTouchPos, touchPos, *brushRadius, Style::Color_4F::white);
+    drawNode->drawSegment(lastTouchPos, touchPos, *brushRadius, Style::Color_4F::pureWhite);
     
     lastTouchPos = touchPos;
 }

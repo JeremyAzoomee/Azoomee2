@@ -39,7 +39,7 @@
                                      numberOfSamples: 0 ];
     
     // Enable or disable multiple touches
-    [eaglView setMultipleTouchEnabled:YES];
+    [eaglView setMultipleTouchEnabled:NO];
     
     // Set EAGLView as view of RootViewController
     self.view = eaglView;

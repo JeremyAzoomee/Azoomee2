@@ -20,7 +20,7 @@ bool DrawingCanvas::init()
     if(!Super::init())
         return false;
     
-    background = LayerColor::create(Color4B(Style::Color::white));
+    background = LayerColor::create(Color4B(Style::Color_4F::pureWhite));
     
     this->addChild(background,BACKGROUND_LAYER);
     
@@ -29,7 +29,7 @@ bool DrawingCanvas::init()
     drawing = RenderTexture::create(visibleSize.width, visibleSize.height);
     drawing->setAnchorPoint(Vec2(0.5,0.5));
     drawing->setPosition(visibleSize/2);
-    drawing->beginWithClear(0, 0, 0, 0);
+    drawing->beginWithClear(Style::Color_4F::pureWhite.r, Style::Color_4F::pureWhite.g, Style::Color_4F::pureWhite.b, Style::Color_4F::pureWhite.a);
     drawing->end();
     
     this->addChild(drawing);
@@ -119,17 +119,17 @@ void DrawingCanvas::saveImage(const std::string& filePath)
 
 void DrawingCanvas::setupTouchHandling()
 {
-    static bool touchProcessed = false;
+    //static bool touchProcessed = false;
 
     drawCanvasTouchListener = EventListenerTouchOneByOne::create();
     
     drawCanvasTouchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
-        if(touchProcessed)
-            return false;
+        //if(touchProcessed)
+        //    return false;
             
         activeBrush->onTouchBegin(touch, event);
-        touchProcessed = true;
+        //touchProcessed = true;
 
         return true;
     };
@@ -146,7 +146,7 @@ void DrawingCanvas::setupTouchHandling()
         
         activeBrush->onTouchEnded(touch, event);
         
-        touchProcessed = false;
+        //touchProcessed = false;
         
         if(drawingStack.size() == 0)
             clearButton->loadTextures(ArtAppAssetLoc + "art_button_undo.png", ArtAppAssetLoc + "undo.png");
@@ -170,7 +170,7 @@ void DrawingCanvas::setupTouchHandling()
     };
     drawCanvasTouchListener->onTouchCancelled = [&](Touch* touch, Event* event)
     {
-        touchProcessed = false;
+        //touchProcessed = false;
     };
     
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(drawCanvasTouchListener, this);
@@ -853,7 +853,7 @@ void DrawingCanvas::onConfirmDeletePressed(Ref *pSender, ui::Widget::TouchEventT
         pressedButton->setScale(baseScale / 0.85f);
         confirmDeleteImagePopup->setVisible(false);
         setUIEnabled(true);
-        drawing->beginWithClear(0,0,0,0);
+        drawing->beginWithClear(Style::Color_4F::pureWhite.r,Style::Color_4F::pureWhite.g,Style::Color_4F::pureWhite.b,Style::Color_4F::pureWhite.a);
         drawing->end();
         Director::getInstance()->getRenderer()->render();
         drawCanvasTouchListener->setEnabled(true);
