@@ -65,7 +65,7 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     //------------SLIDE TITLE--------------------
     // Location in relation to the Main Title Location
     
-    slideTitleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)), Style::Font::Bold, Style::Color::safetySlideTitleColor, 70);
+    slideTitleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%sAdult%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)), Style::Font::Bold, Style::Color::safetySlideTitleColor, 70);
     slideTitleLabel->setAnchorPoint(Vec2(0.0,1));
     slideTitleLabel->setPosition(MARGIN_TO_CHEVRON*2,titleLabel->getPositionY() - slideTitleLabel->getContentSize().height*1.5);
     backgroundLayer->addChild(slideTitleLabel);
@@ -80,7 +80,7 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     //-----------SLIDE MAIN TEXT--------------------
     // Location in relation to the Slide Title Location
     
-    mainTextLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)), Style::Font::Regular, Style::Color::black, 59);
+    mainTextLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%sAdult%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)), Style::Font::Regular, Style::Color::black, 59);
     mainTextLabel->setLineSpacing(15);
     mainTextLabel->setAnchorPoint(Vec2(0.0,1));
     mainTextLabel->setWidth(mainImage->getPositionX()-mainImage->getContentSize().width/2-MARGIN_TO_CHEVRON*2);
@@ -137,8 +137,8 @@ void OnlineSafetyDetailsLayer::playVideo()
 void OnlineSafetyDetailsLayer::setToCurrentSlideNumber()
 {
     AnalyticsSingleton::getInstance()->settingsOnlineSafetySlideChangeEvent(currentSlideNumber);
-    slideTitleLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)));
-    mainTextLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%s%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)));
+    slideTitleLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%sAdult%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)));
+    mainTextLabel->setString(StringMgr::getInstance()->getStringForKey(StringUtils::format("%sAdult%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)));
     
     mainImage->setTexture(StringUtils::format("res/onlineSafetySlides/safetyIll0%d.png",currentSlideNumber));
 }
