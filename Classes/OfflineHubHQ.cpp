@@ -71,9 +71,9 @@ void OfflineHubHQ::addElementsToScrollView(std::vector<std::map<std::string, std
         std::map<std::string, std::string> itemData = gameDataList.at(i);
         
         auto hqSceneElement = OfflineHubHQElement::create();
-        hqSceneElement->addHQSceneElement("GAME HQ", itemData, Vec2(2,2), delay);
+        hqSceneElement->addHQSceneElement("GAME HQ", itemData, Vec2(1,1), delay);
         hqSceneElement->setAnchorPoint(Vec2(0,0));
-        hqSceneElement->setScale(0.375);
+        hqSceneElement->setScale(0.75);
         toBeAddedTo->addChild(hqSceneElement);
         
         auto sceneElementPositioner = new HQSceneElementPositioner();
