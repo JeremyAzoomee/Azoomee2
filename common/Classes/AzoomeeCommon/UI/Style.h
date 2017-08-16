@@ -50,6 +50,58 @@ namespace Color
     
     const cocos2d::Color3B darkNeonPurple(77, 20, 88);
     const cocos2d::Color3B darkNeonPurpleTwo(83, 23, 98);
+    const cocos2d::Color3B safetySlideTitleColor(9, 154, 154);
+    const cocos2d::Color3B chatEnterTextColor(135, 135, 135);
+}
+   
+/**
+ * Colors by name: Based on Zeplin Styleguide.
+ * Please only use names from Zeplin.
+ */
+namespace Color_4B
+{
+
+    
+    // These colors below don't have exact names in Zeplin.
+    // Names Chosen based on where used
+    
+    const cocos2d::Color4B letterBoxSlideBackground(48,38,38,255);
+    const cocos2d::Color4B awaitingPinLayer(15,14,7,255);
+    
+    const cocos2d::Color4B semiTransparentOverlay(0,0,0,200);
+}
+    
+namespace Color_4F
+{
+    const cocos2d::Color4F watermelon(0.976, 0.29, 0.357,1);
+    const cocos2d::Color4F brightAqua(0.11, 0.957,  0.957, 1.0);
+    const cocos2d::Color4F macaroniAndCheese(0.964, 0.733, 0.259,1);
+    
+    // These colors below don't have exact names in Zeplin.
+    // Names Chosen based on where used
+    
+    const cocos2d::Color4F settingsTopBottomLines(0.592f, 0.592f, 0.592f,1.0);
+    
+    //colours for Art app - not from Zeplin
+    
+    const cocos2d::Color4F pureWhite = cocos2d::Color4F(1,1,1, 1.0f);
+    const cocos2d::Color4F defaultBrush = cocos2d::Color4F(54/255.0f,108/255.0f,135/255.0f,1.0f);
+    
+    const cocos2d::Color4F pink = cocos2d::Color4F(228/255.0f,0/255.0f,131/255.0f, 1.0f);
+    const cocos2d::Color4F red = cocos2d::Color4F(222/255.0f,0/255.0f,0/255.0f, 1.0f);
+    const cocos2d::Color4F orange = cocos2d::Color4F(228/255.0f,137/255.0f,0/255.0f, 1.0f);
+    const cocos2d::Color4F yellow = cocos2d::Color4F(232/255.0f,202/255.0f,0/255.0f, 1.0f);
+    const cocos2d::Color4F green = cocos2d::Color4F(29/255.0f,158/255.0f,68/255.0f, 1.0f);
+    const cocos2d::Color4F blue = cocos2d::Color4F(27/255.0f,160/255.0f,163/255.0f, 1.0f);
+    const cocos2d::Color4F purple = cocos2d::Color4F(141/255.0f,23/255.0f,137/255.0f, 1.0f);
+    const cocos2d::Color4F black = cocos2d::Color4F(52/255.0f,52/255.0f,54/255.0f, 1.0f);
+    const cocos2d::Color4F grey = cocos2d::Color4F(95/255.0f,97/255.0f,97/255.0f, 1.0f);
+    const cocos2d::Color4F lightGrey = cocos2d::Color4F(205/255.0f,209/255.0f,205/255.0f, 1.0f);
+    const cocos2d::Color4F white = cocos2d::Color4F(242/255.0f,242/255.0f,242/255.0f, 1.0f);
+    const cocos2d::Color4F skinPink = cocos2d::Color4F(212/255.0f,164/255.0f,164/255.0f, 1.0f);
+    const cocos2d::Color4F brown = cocos2d::Color4F(136/255.0f,81/255.0f,30/255.0f, 1.0f);
+    const cocos2d::Color4F darkBrown = cocos2d::Color4F(86/255.0f,28/255.0f,0/255.0f, 1.0f);
+    
 }
 
 /**
@@ -71,6 +123,9 @@ namespace Font
     const char* const SofiaBold = "fonts/Sofia Pro Soft Bold.otf";
     // The system name of the font, usually inside the TTF file
     const char* const SofiaBoldSystemName = "SofiaProSoftRegular";
+    
+    // Font for the Kid Code to be More readable
+    const char* const kidCodeRegular = "fonts/Inconsolata-Regular.ttf";
     
     const char* const Regular = SofiaRegular;
     const char* const Medium = SofiaMedium;

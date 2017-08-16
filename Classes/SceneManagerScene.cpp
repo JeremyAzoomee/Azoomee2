@@ -15,6 +15,9 @@
 #include "FTUScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "ChatDelegate.h"
+#include "../artapp/Classes/AzoomeeArt/MainScene.h"
+#include "../artapp/Classes/AzoomeeArt/AzoomeeArtApp.h"
+#include "ArtAppDelegate.h"
 #include "EmptySceneForSettings.h"
 #include "WebViewSelector.h"
 
@@ -178,6 +181,21 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             acceptAnyOrientation();
             cocos2d::Scene* goToScene = Azoomee::Chat::FriendListScene::create();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHAT");
+            Director::getInstance()->replaceScene(goToScene);
+            break;
+        }
+        case ArtAppEntryPointScene:
+        {
+            Azoomee::ArtApp::delegate = ArtAppDelegate::getInstance();
+            ArtAppDelegate::getInstance()->ArtAppRunning = true;
+            
+            std::string fileName = ArtAppDelegate::getInstance()->getFileName();
+            cocos2d::Scene* goToScene;
+            forceToLandscape();
+            if(FileUtils::getInstance()->isFileExist(fileName))
+                goToScene = Azoomee::ArtApp::MainScene::createSceneWithDrawing(fileName);
+            else
+                goToScene = Azoomee::ArtApp::MainScene::createScene();
             Director::getInstance()->replaceScene(goToScene);
             break;
         }

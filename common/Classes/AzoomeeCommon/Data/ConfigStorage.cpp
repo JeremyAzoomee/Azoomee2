@@ -8,12 +8,8 @@
 
 using namespace cocos2d;
 
-//#define USINGCI
-
-
 namespace Azoomee
 {
-
 static ConfigStorage *_sharedConfigStorage = NULL;
 
 ConfigStorage* ConfigStorage::getInstance()

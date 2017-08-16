@@ -222,15 +222,15 @@ void MessageBoxChatResetModerationLayer::onSizeChanged()
 void MessageBoxChatResetModerationLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == cancelButton)
-        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Cancel");
+        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, MessageBox::kCancel);
     else if(button == onlineSafetyTipsButton)
     {
         //YouTubeVideoLayer::createWith("OxqWjHD8nMU");
-        onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlides, nullptr);
+        onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlidesAdult, nullptr);
 
     }
     else if(button == resetButton)
-        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, "Reset");
+        dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, MessageBox::kReset);
 }
     
 }

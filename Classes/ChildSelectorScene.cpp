@@ -18,6 +18,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
+#include "ForceUpdateSingleton.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 450
@@ -64,6 +65,7 @@ bool ChildSelectorScene::init()
 
 void ChildSelectorScene::onEnterTransitionDidFinish()
 {
+    ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
     OfflineChecker::getInstance()->setDelegate(this);
     
     if(FlowDataSingleton::getInstance()->hasError())

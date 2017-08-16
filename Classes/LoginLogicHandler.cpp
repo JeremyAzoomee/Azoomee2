@@ -45,6 +45,7 @@ void LoginLogicHandler::doLoginLogic()
         Azoomee::ParentDataParser::getInstance()->retrieveParentLoginDataFromUserDefaults();
         BackEndCaller::getInstance()->getAvailableChildren();
         BackEndCaller::getInstance()->updateBillingData();
+        
         // Open Pusher channel
         PusherSDK::getInstance()->openParentAccountChannel();
         return;

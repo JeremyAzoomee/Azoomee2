@@ -46,6 +46,7 @@ public:
     static const char* const TagPusherAuth;
     static const char* const TagReportChat;
     static const char* const TagResetReportedChat;
+    static const char* const TagGetForceUpdateInformation;
     
 #pragma mark - API Methods
     
@@ -56,6 +57,8 @@ public:
                                             HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* UpdateBillingDataRequest(HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetForceUpdateInformationRequest(HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* UpdateParentPinRequest(HttpRequestCreatorResponseDelegate* delegate);
     

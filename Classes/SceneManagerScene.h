@@ -20,9 +20,10 @@ enum SceneNameEnum {
     OfflineArtsAppHQ,
     FTUScene,
     ChatEntryPointScene,
-    SettingsFromChat,
     WebviewPortrait,
-    WebviewLandscape
+    WebviewLandscape,
+    ArtAppEntryPointScene,
+    SettingsFromChat
 };
 
 class SceneManagerScene : public cocos2d::Layer
