@@ -27,7 +27,7 @@ NS_AZOOMEE_AA_BEGIN
 typedef std::pair<std::string,std::vector<std::string>> StickerSet;
 typedef std::vector<StickerSet> StickerFileStore;
 
-static const std::string ArtAppAssetLoc = "res/artapp/style/images/artIcons/";
+static const std::string ArtAppAssetLoc = "res/artapp/";
 static const std::string stickerLoc = "res/chat/stickers/";
 
 class DrawingCanvas : public cocos2d::Node{
