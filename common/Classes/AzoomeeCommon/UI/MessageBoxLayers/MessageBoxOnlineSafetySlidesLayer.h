@@ -26,7 +26,7 @@ private:
     
     std::vector<std::string> videoIDs;
     
-    ElectricDreamsButton *watchSearchItUpButton;
+    //ElectricDreamsButton *watchSearchItUpButton;
     ElectricDreamsButton *chevronLeftButton = nullptr;
     ElectricDreamsButton *chevronRightButton = nullptr;
     ElectricDreamsButton *cancelButton = nullptr;

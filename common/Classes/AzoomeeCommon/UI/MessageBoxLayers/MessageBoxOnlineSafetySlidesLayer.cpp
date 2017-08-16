@@ -89,10 +89,10 @@ void MessageBoxOnlineSafetySlidesLayer::addUIObjects()
     chevronRightButton->setDelegate(this);
     chevronRightButton->setMixPanelButtonName("MessageBox-OnlineSafety-RighChevron");
     
-    watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Style::Color::safetySlideTitleColor);
+    /*watchSearchItUpButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_BUTTON_TEXT), 59, true, Style::Color::safetySlideTitleColor);
     watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),mainImage->getPositionY()-mainImage->getContentSize().height/2-watchSearchItUpButton->getContentSize().height*2));
     watchSearchItUpButton->setDelegate(this);
-    watchSearchItUpButton->setMixPanelButtonName("MessageBox-OnlineSafety-watchSearchItUp");
+    watchSearchItUpButton->setMixPanelButtonName("MessageBox-OnlineSafety-watchSearchItUp");*/
 }
 
 void MessageBoxOnlineSafetySlidesLayer::createCancelButton()
@@ -168,11 +168,11 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowLandscape()
     windowLayer->addChild(mainImage);
     
     // Add Search it Up button
-    watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),windowLayer->getContentSize().height/2-mainImage->getContentSize().height/2-MESSAGE_BOX_PADDING));
+    //watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),windowLayer->getContentSize().height/2-mainImage->getContentSize().height/2-MESSAGE_BOX_PADDING));
     
     //TODO-TAMAS - REMOVE Parent check, when youTube VideoLayer working
-    if(!isParent)
-        windowLayer->addChild(watchSearchItUpButton);
+    //if(!isParent)
+        //windowLayer->addChild(watchSearchItUpButton);
     
     // Add Left chevron
     chevronLeftButton->setCenterPosition(Vec2(MESSAGE_BOX_PADDING,windowLayer->getContentSize().height/2));
@@ -223,11 +223,11 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowPortrait()
     windowLayer->addChild(mainTextLabel);
     
     // Add Search it Up button
-    watchSearchItUpButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2,MESSAGE_BOX_PADDING*2));
+    //watchSearchItUpButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2,MESSAGE_BOX_PADDING*2));
     
     //TODO-TAMAS - REMOVE Parent check, when youTube VideoLayer working
-    if(!isParent)
-        windowLayer->addChild(watchSearchItUpButton);
+    //if(!isParent)
+        //windowLayer->addChild(watchSearchItUpButton);
     
     // Add Left chevron
     chevronLeftButton->setCenterPosition(Vec2(MESSAGE_BOX_PADDING,mainImage->getPositionY()));
@@ -283,9 +283,9 @@ void MessageBoxOnlineSafetySlidesLayer::playVideo()
 
 void MessageBoxOnlineSafetySlidesLayer::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == watchSearchItUpButton)
+    /*if(button == watchSearchItUpButton)
         playVideo();
-    else if(button == chevronLeftButton)
+    else*/ if(button == chevronLeftButton)
         moveSlideNumberBy(-1);
     else if(button == chevronRightButton)
         moveSlideNumberBy(1);
