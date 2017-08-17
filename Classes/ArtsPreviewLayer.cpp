@@ -51,8 +51,12 @@ void ArtsPreviewLayer::addImagesToMainHub()
 
 std::vector<std::string> ArtsPreviewLayer::getRandomImagesFromArtsCache()
 {
-    std::string path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
-    std::vector<std::string> fileList = getImagesInDirectory(path);
+    const std::string &artCacheFolderPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    
+    if(!FileUtils::getInstance()->isDirectoryExist(artCacheFolderPath))
+        FileUtils::getInstance()->createDirectory(artCacheFolderPath);
+    
+    std::vector<std::string> fileList = getImagesInDirectory(artCacheFolderPath);
     
     std::vector<std::string> imagesToDisplay;
     
@@ -61,7 +65,7 @@ std::vector<std::string> ArtsPreviewLayer::getRandomImagesFromArtsCache()
         if(fileList.size() > 0)
         {
             int randomNumber = (int)(CCRANDOM_0_1() * fileList.size());
-            imagesToDisplay.push_back(path + "/" + fileList.at(randomNumber));
+            imagesToDisplay.push_back(artCacheFolderPath + "/" + fileList.at(randomNumber));
             fileList.erase(fileList.begin() + randomNumber);
         }
     }
