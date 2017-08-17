@@ -87,27 +87,6 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mActivity = this;
         mAppActivity = this;
 
-        Log.d("DEVINFO Manufacturer:", android.os.Build.MANUFACTURER);
-        Log.d("DEVINFO Radio version: ", android.os.Build.getRadioVersion());
-        Log.d("DEVINFO Board", android.os.Build.BOARD);
-        Log.d("DEVINFO Bootloader", android.os.Build.BOOTLOADER);
-        Log.d("DEVINFO Brand", android.os.Build.BRAND);
-        Log.d("DEVINFO Device", android.os.Build.DEVICE);
-        Log.d("DEVINFO Display", android.os.Build.DISPLAY);
-        Log.d("DEVINFO Fingerprint", android.os.Build.FINGERPRINT);
-        Log.d("DEVINFO getRadioVersion", android.os.Build.getRadioVersion());
-        Log.d("DEVINFO Hardware", android.os.Build.HARDWARE);
-        Log.d("DEVINFO Host", android.os.Build.HOST);
-        Log.d("DEVINFO Id", android.os.Build.ID);
-        Log.d("DEVINFO Manufacturer", android.os.Build.MANUFACTURER);
-        Log.d("DEVINFO Model", android.os.Build.MODEL);
-        Log.d("DEVINFO Product", android.os.Build.PRODUCT);
-        Log.d("DEVINFO Serial", android.os.Build.SERIAL);
-        Log.d("DEVINFO Tags", android.os.Build.TAGS);
-        Log.d("DEVINFO Type", android.os.Build.TYPE);
-        Log.d("DEVINFO Unknown", android.os.Build.UNKNOWN);
-        Log.d("DEVINFO User", android.os.Build.USER);
-
         setupIAPOnCreate();
 
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
@@ -135,6 +114,10 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static String getOSBuildManufacturer() {
         return android.os.Build.MANUFACTURER;
+    }
+
+    public static String getAndroidDeviceData() {
+        return android.os.Build.DEVICE + "|" + getOSBuildManufacturer();
     }
 
     public static String getHMACSHA256(String message, String secret) {

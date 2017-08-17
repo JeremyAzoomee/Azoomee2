@@ -252,13 +252,15 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
     FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
     
     std::string source = "OTHER";
+    std::string sourceDevice = "";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     source = "IOS_INAPP";
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    sourceDevice = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceData");
     source = "ANDROID_INAPP";
 #endif
     
-    HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, this);
+    HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, this);
     request->execute();
     
     displayLoadingScreen();
