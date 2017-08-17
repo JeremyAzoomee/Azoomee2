@@ -99,6 +99,12 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
     }
 }
 
+const char* ApplePaymentSingleton::getIosDeviceData()
+{
+    NSString *returnString = [NSString stringWithFormat:@"%@%@:%@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion], [[UIDevice currentDevice] model]];
+    return [returnString cStringUsingEncoding:NSUTF8StringEncoding];
+}
+
 //---------Delegate Functions----------
 void ApplePaymentSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {

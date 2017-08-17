@@ -255,9 +255,10 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
     std::string sourceDevice = "";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     source = "IOS_INAPP";
+    sourceDevice = ApplePaymentSingleton::getInstance()->getIosDeviceData();
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    sourceDevice = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceData");
     source = "ANDROID_INAPP";
+    sourceDevice = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceData");
 #endif
     
     HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, this);
