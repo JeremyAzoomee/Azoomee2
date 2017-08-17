@@ -46,7 +46,6 @@ bool NavigationLayer::init()
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
         ModalMessages::getInstance()->showMixpanelNotification();
-        DeepLinkingSingleton::getInstance()->actionDeepLink();
     }
     
     AudioMixer::getInstance()->playOomeeIdleSounds(true);
@@ -145,6 +144,21 @@ void NavigationLayer::changeToScene(int target, float duration)
             moveMenuPointsToHorizontalState(duration);
             break;
     }
+}
+
+void NavigationLayer::onEnter()
+{
+    DeepLinkingSingleton::getInstance()->actionDeepLink();
+    
+    Node::onEnter();
+}
+
+void NavigationLayer::moveToHub(int hubID)
+{
+    this->startLoadingHQScene(hubID);
+    this->turnOffAllMenuItems();
+    this->turnOnMenuItem(hubID);
+    this->changeToScene(hubID, 0.5);
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------

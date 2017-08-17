@@ -110,6 +110,52 @@ bool DeepLinkingSingleton::actionDeepLink()
             resetDeepLink();
             return true;
         }
+        else if(path == "chat" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
+            
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            
+            resetDeepLink();
+            return true;
+        }
+        else if(path == "artstudio" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
+            
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+            
+            resetDeepLink();
+            return true;
+        }
+        
+        else if(path == "games" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
+            
+            auto baseLayer = Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
+            if(baseLayer)
+            {
+                NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
+                
+                if(navigationLayer)
+                    navigationLayer->moveToHub(5);
+            }
+            /*
+
+             "CHAT",
+             "VIDEO HQ",
+             "AUDIO HQ",
+             "HOME",
+             "ARTS APP",
+             "GAME HQ",
+             "GROUP HQ"
+             */
+            
+            resetDeepLink();
+            return true;
+        }
+        
     }
     
     return false;

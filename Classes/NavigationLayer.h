@@ -8,7 +8,6 @@
 #include <AzoomeeChat/ChatAPI.h>
 #include <AzoomeeChat/Data/Message.h>
 
-
 NS_AZOOMEE_BEGIN
 
 class NavigationLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate
@@ -27,6 +26,9 @@ public:
     
     void showNotificationBadge();
     void hideNotificationBadge();
+    
+    void moveToHub(int hubID);
+    
 private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
@@ -77,6 +79,8 @@ private:
     
     //chat notifications
     void addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon);
+    
+    void onEnter();
 };
 
 NS_AZOOMEE_END
