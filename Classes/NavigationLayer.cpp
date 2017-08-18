@@ -102,10 +102,26 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
 
 void NavigationLayer::changeToScene(int target, float duration)
 {
+    if(target == 0)
+    {
+        this->hideNotificationBadge();
+        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            AnalyticsSingleton::getInstance()->navSelectionEvent("",target);
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+        }
+        else
+        {
+            PreviewLoginSignupMessageBox::create();
+        }
+        return;
+    }
+    
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::getInstance()->getNameForMenuItem(target));
     
     cleanUpPreviousHQ();
-    
+
+    this->startLoadingHQScene(target);
     this->turnOffAllMenuItems();
     
     if(HQHistoryManager::getInstance()->getCurrentHQ() != "GROUP HQ")
@@ -151,14 +167,6 @@ void NavigationLayer::onEnter()
     DeepLinkingSingleton::getInstance()->actionDeepLink();
     
     Node::onEnter();
-}
-
-void NavigationLayer::moveToHub(int hubID)
-{
-    this->startLoadingHQScene(hubID);
-    this->turnOffAllMenuItems();
-    this->turnOnMenuItem(hubID);
-    this->changeToScene(hubID, 0.5);
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
@@ -362,29 +370,10 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            if(target->getTag() == 0)
-            {
-                this->hideNotificationBadge();
-                AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-                if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-                {
-                    AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
-                }
-                else
-                {
-                    PreviewLoginSignupMessageBox::create();
-                }
-            }
-            else
-            {
-                AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
-                AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
-                this->startLoadingHQScene(target->getTag());
-                this->turnOffAllMenuItems();
-                this->turnOnMenuItem(target->getTag());
-                this->changeToScene(target->getTag(), 0.5);
-            }
+            AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+            AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
+            this->changeToScene(target->getTag(), 0.5);
+            
             return true;
         }
         return false;

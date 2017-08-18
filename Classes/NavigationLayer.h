@@ -27,8 +27,6 @@ public:
     void showNotificationBadge();
     void hideNotificationBadge();
     
-    void moveToHub(int hubID);
-    
 private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
