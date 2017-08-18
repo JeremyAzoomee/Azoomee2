@@ -44,10 +44,13 @@ import org.cocos2dx.cpp.util.Inventory;
 import org.cocos2dx.cpp.util.Purchase;
 
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.tinizine.azoomee.common.AzoomeeActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -76,6 +79,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private static AppActivity mAppActivity;
     private MixpanelAPI mixpanel;
     private IapManager iapManager;
+    private static String advertisingId;
 
     //variables for google payment
     private IabHelper mHelper;
@@ -95,6 +99,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
+
+        readAdvertisingIdFromDevice();
     }
 
     public static void startWebView(String url, String userid, int orientation) {
@@ -116,6 +122,24 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     }
 
+    private void readAdvertisingIdFromDevice()
+    {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(getApplicationContext());
+                    advertisingId = adInfo != null ? adInfo.getId() : null;
+                } catch (IOException | GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        };
+
+        // call thread start for background process
+        thread.start();
+    }
+
     public static String getOSBuildManufacturer() {
         return android.os.Build.MANUFACTURER;
     }
@@ -124,14 +148,9 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         return android.os.Build.MODEL + "|" + getOSBuildManufacturer();
     }
 
-    public static String getAndroidDeviceIDFA() {
-        try {
-            AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(mContext);
-            return adInfo.getId();
-        } catch (Exception e) {
-            Log.d("AdvertisingIdClient", e.getMessage());
-            return e.getMessage();
-        }
+    public static String getAndroidDeviceAdvertisingId() { //AAID must not be read on the main thread, so it's being read during onCreate, and now the result is being returned.
+        if(advertisingId == "" || advertisingId == null) return "NA";
+        else return advertisingId;
     }
 
     public static String getHMACSHA256(String message, String secret) {
