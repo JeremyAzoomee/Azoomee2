@@ -133,6 +133,10 @@ public class NativeViewUI extends Activity {
         webviewAdditionalSettings();
     }
 
+    public void onBackPressed(){
+        exitView();
+    }
+
     public static void exitView()
     {
         activity.runOnUiThread(new Runnable() {
