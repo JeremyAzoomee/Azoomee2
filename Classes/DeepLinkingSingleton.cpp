@@ -139,18 +139,8 @@ bool DeepLinkingSingleton::actionDeepLink()
                 NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
                 
                 if(navigationLayer)
-                    navigationLayer->moveToHub(5);
+                    navigationLayer->changeToScene(hubTagetTagNumber::GAME_HQ, 0.1);
             }
-            /*
-
-             "CHAT",
-             "VIDEO HQ",
-             "AUDIO HQ",
-             "HOME",
-             "ARTS APP",
-             "GAME HQ",
-             "GROUP HQ"
-             */
             
             resetDeepLink();
             return true;

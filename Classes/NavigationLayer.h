@@ -10,6 +10,16 @@
 
 NS_AZOOMEE_BEGIN
 
+enum hubTagetTagNumber {
+    CHAT = 0,
+    VIDEO_HQ,
+    AUDIO_HQ,
+    HOME,
+    ARTS_APP,
+    GAME_HQ,
+    GROUP_HQ
+};
+
 class NavigationLayer : public cocos2d::Layer, public ElectricDreamsButtonDelegate
 {
 public:
@@ -17,7 +27,7 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     void startLoadingGroupHQ(std::string uri);
-    void changeToScene(int target, float duration);
+    void changeToScene(hubTagetTagNumber target, float duration);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);

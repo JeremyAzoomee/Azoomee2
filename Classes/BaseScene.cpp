@@ -112,7 +112,7 @@ void BaseScene::addNavigationLayer()
     
     if(!HQHistoryManager::getInstance()->noHistory())
     {
-        sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getCurrentHQ()), 0.01);
+        sNavigationLayer->changeToScene((hubTagetTagNumber)ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getCurrentHQ()), 0.01);
     }
 }
 
