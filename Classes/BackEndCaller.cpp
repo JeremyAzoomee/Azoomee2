@@ -136,6 +136,43 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
     }
 }
 
+//LOGGING IN BY DEVICE IDENTIFIER
+void BackEndCaller::anonymousDeviceLogin()
+{
+    std::string deviceId = "";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    deviceId = IosNativeFunctionsSingleton::getInstance()->getIosDeviceIDFA();
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    deviceId = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceAdvertisingId");
+#endif
+    
+    HttpRequestCreator* request = API::AnonymousDeviceLoginRequest(deviceId, this);
+    request->execute();
+}
+
+void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString)
+{
+    CCLOG("Response string is: %s", responseString.c_str());
+    if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
+    {
+        HQDataStorage::getInstance()->HQListTitles.clear();
+        HQDataStorage::getInstance()->HQListElements.clear();
+        HQDataStorage::getInstance()->HQElementHighlights.clear();
+        HQDataStorage::getInstance()->HQData.clear();
+        HQDataStorage::getInstance()->HQGetContentUrls.clear();
+        
+        getAvailableChildren();
+        updateBillingData();
+    }
+    else
+    {
+        AnalyticsSingleton::getInstance()->signInFailEvent(0);
+        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_INVALID_CREDENTIALS);
+        getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
+    }
+}
+
 //UPDATING BILLING DATA-------------------------------------------------------------------------------
 
 void BackEndCaller::updateBillingData()
@@ -401,6 +438,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagLogin)
     {
         onLoginAnswerReceived(body);
+    }
+    else if(requestTag == API::TagAnonymousDeviceLogin)
+    {
+        onAnonymousDeviceLoginAnswerReceived(body);
     }
     else if(requestTag == API::TagRegisterChild)
     {

@@ -39,6 +39,8 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     parentData->parentLoginData.Parse(responseData.c_str());
     
+    if(parentData->parentLoginData.HasParseError()) return false;
+    
     if(parentData->parentLoginData.HasMember("code"))
     {
         if(parentData->parentLoginData["code"] != "INVALID_CREDENTIALS")
@@ -80,6 +82,38 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
     }
     
     return false;
+}
+    
+bool ParentDataParser::parseParentLoginDataFromAnonymousDeviceLogin(const std::string &responseData)
+{
+    logoutChild();
+    ParentDataStorage* parentData = ParentDataStorage::getInstance();
+    parentData->parentLoginData.Parse(responseData.c_str());
+    
+    if(parentData->parentLoginData.HasParseError()) return false;
+    
+    if(parentData->parentLoginData.HasMember("userType"))
+    {
+        if(parentData->parentLoginData["userType"] == "ANONYMOUS")
+        {
+            parentData->loggedInParentId = parentData->parentLoginData["id"].GetString();
+            parentData->loggedInParentCdnSessionId = parentData->parentLoginData["cdn-sessionid"].GetString();
+            parentData->loggedInParentApiSecret = parentData->parentLoginData["apiSecret"].GetString();
+            parentData->loggedInParentApiKey = parentData->parentLoginData["apiKey"].GetString();
+            parentData->loggedInParentActorStatus = parentData->parentLoginData["actorStatus"].GetString();
+
+            parentData->loggedInParentPin = "";
+            
+            createCrashlyticsUserInfo(parentData->loggedInParentId, "");
+            AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
+            AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
+            
+            return true;
+        }
+    }
+    
+    return false;
+
 }
 
 bool ParentDataParser::parseUpdateParentData(std::string responseData)

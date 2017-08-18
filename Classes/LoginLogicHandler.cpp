@@ -34,6 +34,10 @@ bool LoginLogicHandler::init(void)
 
 void LoginLogicHandler::doLoginLogic()
 {
+    
+    BackEndCaller::getInstance()->anonymousDeviceLogin();
+    
+    return;
 #ifdef forgetuserdata
     emptyUserName();
 #endif

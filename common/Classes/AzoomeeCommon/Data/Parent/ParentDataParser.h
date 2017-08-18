@@ -18,6 +18,7 @@ public:
     bool init(void);
     
     bool parseParentLoginData(std::string responseData);
+    bool parseParentLoginDataFromAnonymousDeviceLogin(const std::string &responseData);
     bool parseAvailableChildren(std::string responseData);
     bool parseUpdateParentData(std::string responseData);
     void parseParentBillingData(std::string responseData);
