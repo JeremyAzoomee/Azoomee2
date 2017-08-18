@@ -51,7 +51,7 @@ bool LoginScene::init()
     addButtonsScene();
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    std::string aid = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidIDFA");
+    std::string aid = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceIDFA");
     cocos2d::log("DEVID: %s", aid.c_str());
 #endif
     
