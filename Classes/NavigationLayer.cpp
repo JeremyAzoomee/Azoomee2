@@ -103,6 +103,12 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
 
 void NavigationLayer::changeToScene(int target, float duration)
 {
+    AnalyticsSingleton::getInstance()->navSelectionEvent("",target);
+    AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
+    this->startLoadingHQScene(target);
+    this->turnOffAllMenuItems();
+    this->turnOnMenuItem(target);
+    
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::getInstance()->getNameForMenuItem(target));
     
     cleanUpPreviousHQ();
@@ -364,11 +370,6 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
             }
             else
             {
-                AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
-                AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
-                this->startLoadingHQScene(target->getTag());
-                this->turnOffAllMenuItems();
-                this->turnOnMenuItem(target->getTag());
                 this->changeToScene(target->getTag(), 0.5);
             }
             return true;
