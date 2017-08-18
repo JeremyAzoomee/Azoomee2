@@ -21,8 +21,6 @@ public:
     void transactionStatePurchased(std::string receiptData);
     void onAnswerReceived(std::string responseDataString);
     
-    const char* getIosDeviceData();
-    
     //Delegate Functions
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     

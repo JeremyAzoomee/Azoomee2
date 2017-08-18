@@ -12,7 +12,6 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
-#include "ApplePaymentSingleton.h"
 
 using namespace cocos2d;
 
@@ -35,7 +34,6 @@ bool LoginScene::init()
         return false;
     }
     cocos2d::log("Cache folder: %s", FileUtils::getInstance()->getWritablePath().c_str());
-    cocos2d::log("DEVICEDATA: %s", ApplePaymentSingleton::getInstance()->getIosDeviceData());
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     

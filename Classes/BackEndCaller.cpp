@@ -30,6 +30,7 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
+#include "IosNativeFunctionsSingleton.h"
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "GooglePaymentSingleton.h"
 #include "AmazonPaymentSingleton.h"
@@ -255,7 +256,7 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
     std::string sourceDevice = "";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     source = "IOS_INAPP";
-    sourceDevice = ApplePaymentSingleton::getInstance()->getIosDeviceData();
+    sourceDevice = IosNativeFunctionsSingleton::getInstance()->getIosDeviceData();
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     source = "ANDROID_INAPP";
     sourceDevice = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceData");
