@@ -13,6 +13,10 @@
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "IosNativeFunctionsSingleton.h"
+#endif
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -45,6 +49,17 @@ bool LoginScene::init()
     addSideWiresToScreen(this, 0, 2);
     addLabelToScene();
     addButtonsScene();
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    std::string aid = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidIDFA");
+    cocos2d::log("DEVID: %s", aid.c_str());
+#endif
+    
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    cocos2d::log("DEVID: %s", IosNativeFunctionsSingleton::getInstance()->getIosDeviceIDFA());
+#endif
+    
+
     
     return true;
 }

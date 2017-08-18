@@ -14,7 +14,7 @@
 		0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0253C9851EC053B4005037EB /* VideoPlaylistManager.cpp */; };
 		025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */; };
 		025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */; };
-		025634331F46EE7A0053FF26 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 025634321F46EE7A0053FF26 /* IosNativeFunctionsSingleton.mm */; };
+		025634441F4722A80053FF26 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 025634431F4722A80053FF26 /* IosNativeFunctionsSingleton.mm */; };
 		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
 		025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */; };
 		025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */; };
@@ -278,8 +278,8 @@
 		025633731F39AB5D0053FF26 /* ForceUpdateSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceUpdateSingleton.h; sourceTree = "<group>"; };
 		025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ForceUpdateAppLockScene.cpp; sourceTree = "<group>"; };
 		025633781F3B0F5C0053FF26 /* ForceUpdateAppLockScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceUpdateAppLockScene.h; sourceTree = "<group>"; };
-		025634311F46EE7A0053FF26 /* IosNativeFunctionsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosNativeFunctionsSingleton.h; sourceTree = "<group>"; };
-		025634321F46EE7A0053FF26 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
+		025634421F4722A80053FF26 /* IosNativeFunctionsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosNativeFunctionsSingleton.h; sourceTree = "<group>"; };
+		025634431F4722A80053FF26 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
 		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
 		025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
 		025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsPreviewLayer.cpp; sourceTree = "<group>"; };
@@ -631,8 +631,8 @@
 		025634301F46EE6C0053FF26 /* IosNativeFunctions */ = {
 			isa = PBXGroup;
 			children = (
-				025634311F46EE7A0053FF26 /* IosNativeFunctionsSingleton.h */,
-				025634321F46EE7A0053FF26 /* IosNativeFunctionsSingleton.mm */,
+				025634421F4722A80053FF26 /* IosNativeFunctionsSingleton.h */,
+				025634431F4722A80053FF26 /* IosNativeFunctionsSingleton.mm */,
 			);
 			name = IosNativeFunctions;
 			sourceTree = "<group>";
@@ -1493,7 +1493,7 @@
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
-				025634331F46EE7A0053FF26 /* IosNativeFunctionsSingleton.mm in Sources */,
+				025634441F4722A80053FF26 /* IosNativeFunctionsSingleton.mm in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,

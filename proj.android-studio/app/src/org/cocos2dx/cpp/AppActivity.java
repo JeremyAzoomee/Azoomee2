@@ -42,6 +42,8 @@ import org.cocos2dx.cpp.util.IabHelper;
 import org.cocos2dx.cpp.util.IabResult;
 import org.cocos2dx.cpp.util.Inventory;
 import org.cocos2dx.cpp.util.Purchase;
+
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.tinizine.azoomee.common.AzoomeeActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -120,6 +122,16 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static String getAndroidDeviceData() {
         return android.os.Build.MODEL + "|" + getOSBuildManufacturer();
+    }
+
+    public static String getAndroidDeviceIDFA() {
+        try {
+            AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(mContext);
+            return adInfo.getId();
+        } catch (Exception e) {
+            Log.d("AdvertisingIdClient", e.getMessage());
+            return e.getMessage();
+        }
     }
 
     public static String getHMACSHA256(String message, String secret) {
