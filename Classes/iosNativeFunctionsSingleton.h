@@ -15,6 +15,7 @@ public:
     virtual ~IosNativeFunctionsSingleton();
     
     const char* getIosDeviceData();
+    const char* getIosDeviceIDFA();
     
 private:
     IosNativeFunctionsSingleton();

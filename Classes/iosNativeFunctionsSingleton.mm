@@ -1,4 +1,5 @@
 #include "IosNativeFunctionsSingleton.h"
+#import <AdSupport/ASIdentifierManager.h>
 
 using namespace cocos2d;
 
@@ -28,6 +29,11 @@ const char* IosNativeFunctionsSingleton::getIosDeviceData()
 {
     NSString *returnString = [NSString stringWithFormat:@"%@%@|%@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion], [[UIDevice currentDevice] model]];
     return [returnString cStringUsingEncoding:NSUTF8StringEncoding];
+}
+
+const char* IosNativeFunctionsSingleton::getIosDeviceIDFA()
+{
+    return [[[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString] cStringUsingEncoding:NSUTF8StringEncoding];
 }
 
 NS_AZOOMEE_END
