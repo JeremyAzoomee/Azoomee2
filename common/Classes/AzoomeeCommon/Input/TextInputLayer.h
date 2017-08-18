@@ -80,6 +80,8 @@ public:
     
     bool inputIsValid();
     
+    void setNewWidth(float newWidth);
+    
     std::string getText();
     void setText(std::string newText);
     

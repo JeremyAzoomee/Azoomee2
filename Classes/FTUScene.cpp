@@ -2,8 +2,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "SceneManagerScene.h"
-
-#define COLOR_BRIGHT_AQUA Color3B(28, 244, 244)
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -40,7 +39,7 @@ bool FTUScene::init()
 //----------------- SCENE SETUP ---------------
 void FTUScene::addBackground()
 {
-    LayerColor* backgroundLayer = LayerColor::create(Color4B(48,38,38,255),origin.x + visibleSize.width,origin.y + visibleSize.height);
+    LayerColor* backgroundLayer = LayerColor::create(Style::Color_4B::letterBoxSlideBackground,origin.x + visibleSize.width,origin.y + visibleSize.height);
     this->addChild(backgroundLayer);
 }
 
@@ -61,7 +60,7 @@ void FTUScene::addLayer()
 void FTUScene::addLabels()
 {
     titleLabel = Label::createWithTTF("Welcome to the world of Azoomee", Style::Font::Regular, 130);
-    titleLabel->setColor(COLOR_BRIGHT_AQUA);
+    titleLabel->setColor(Style::Color::brightAqua);
     titleLabel->setAnchorPoint(Vec2(0.5,0.5));
     titleLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     titleLabel->setPosition(ftuLayer->getContentSize().width/2,ftuLayer->getContentSize().height-titleLabel->getContentSize().height*1.2);

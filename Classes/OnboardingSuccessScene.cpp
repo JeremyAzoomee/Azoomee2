@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "FlowDataSingleton.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -112,8 +113,8 @@ void OnboardingSuccessScene::addSubLabelsToLayer()
         startTrial->setCenterPosition(Vec2(origin.x + visibleSize.width/2, OrText->getPositionY() - startTrial->getContentSize().height ));
         this->addChild(startTrial);
         
-        Label* restOfBottomText = Label::createWithTTF("And don’t forget, you can cancel anytime.", "fonts/Sofia Pro Soft Regular.otf", 45);
-        restOfBottomText->setColor(Color3B(28, 244, 244));
+        Label* restOfBottomText = Label::createWithTTF("And don’t forget, you can cancel anytime.", Style::Font::Regular, 45);
+        restOfBottomText->setColor(Style::Color::brightAqua);
         restOfBottomText->setPosition(origin.x + visibleSize.width/2, startTrial->getPositionY() - restOfBottomText->getContentSize().height*1.3);
         restOfBottomText->setAnchorPoint(Vec2(0.5,0.5));
         this->addChild(restOfBottomText);

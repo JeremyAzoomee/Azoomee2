@@ -11,31 +11,27 @@ NS_AZOOMEE_BEGIN
 
 bool PreviewLoginSignupMessageBox::init()
 {
-    if( !Super::init() )
+    if( !Layer::init() )
     {
         return false;
     }
     
-    addButtonWithTitle(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_IN));
-    addButtonWithTitle(StringMgr::getInstance()->getStringForKey(BUTTON_SIGN_UP));
-    initMessageBoxLayer(StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_TITLE_LABEL),
-                        StringMgr::getInstance()->getStringForKey(PREVIEW_MESSAGEBOX_BODY_LABEL),nullptr, 0);
+    MessageBox::createWith(PREVIEW_SIGNIN_LOGIN, this);
+    Director::getInstance()->getRunningScene()->addChild(this);
     return true;
 }
 
-void PreviewLoginSignupMessageBox::onCancelPressed()
+void PreviewLoginSignupMessageBox::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    AnalyticsSingleton::getInstance()->previewPopupCancelledEvent();
-    Super::onCancelPressed();
-}
-
-void PreviewLoginSignupMessageBox::onButtonPressed(int buttonSelect)
-{
-    if( buttonSelect == 0 ) // log-in
+    if(buttonTitle == MessageBox::kLogin)
     {
         LoginLogicHandler::getInstance()->forceNewLogin();
     }
-    else if( buttonSelect == 1 ) // signup
+    else if(buttonTitle == MessageBox::kCancel)
+    {
+        AnalyticsSingleton::getInstance()->previewPopupCancelledEvent();
+    }
+    else if(buttonTitle == MessageBox::kSignUp)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
     }

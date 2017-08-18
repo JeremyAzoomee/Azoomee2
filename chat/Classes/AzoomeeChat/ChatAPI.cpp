@@ -2,12 +2,18 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Json.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <cocos/cocos2d.h>
 #include <memory>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_CHAT_BEGIN
+
+#pragma mark - constants
+
+const char* const kPollScheduleKey = "requestFriendList_schedule";
+const float kPollScheduleInterval = 60.0f;
 
 #pragma mark - Init
 
@@ -29,7 +35,39 @@ ChatAPI::ChatAPI()
 
 ChatAPI::~ChatAPI()
 {
+    unscheduleFriendListPoll();
     PusherSDK::getInstance()->removeObserver(this);
+}
+
+#pragma mark - Schedule Polling of Friendlist
+
+void ChatAPI::scheduleFriendListPoll()
+{
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        this->requestFriendList();
+    }, this, kPollScheduleInterval, false, kPollScheduleKey);
+}
+
+void ChatAPI::unscheduleFriendListPoll()
+{
+    Director::getInstance()->getScheduler()->unschedule(kPollScheduleKey, this);
+}
+
+void ChatAPI::rescheduleFriendListPoll()
+{
+    unscheduleFriendListPoll();
+    scheduleFriendListPoll();
+}
+
+bool ChatAPI::friendListPollScheduled()
+{
+    return Director::getInstance()->getScheduler()->isScheduled(kPollScheduleKey, this);
+}
+
+void ChatAPI::startFriendListManualPoll()
+{
+    requestFriendList();
+    rescheduleFriendListPoll();
 }
 
 #pragma mark - Profile names
@@ -95,12 +133,24 @@ FriendList ChatAPI::getFriendList() const
     return _friendList;
 }
 
+void ChatAPI::reportChat(const FriendRef &friendObj)
+{
+    HttpRequestCreator *request = API::SendChatReportRequest(ChildDataProvider::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
+    request->execute();
+}
+
+void ChatAPI::resetReportedChat(const FriendRef &friendObj)
+{
+    HttpRequestCreator *request = API::ResetReportedChatRequest(ChildDataProvider::getInstance()->getParentOrChildId(), friendObj->friendId(), this);
+    request->execute();
+}
+
 #pragma mark - Get Messages
 
-void ChatAPI::requestMessageHistory(const FriendRef& friendObj)
+void ChatAPI::requestMessageHistory(const FriendRef& friendObj, int pageNumber)
 {
     ChildDataProvider* childData = ChildDataProvider::getInstance();
-    HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getParentOrChildId(), friendObj->friendId(), this);
+    HttpRequestCreator* request = API::GetChatMessagesRequest(childData->getParentOrChildId(), friendObj->friendId(), pageNumber, this);
     request->execute();
 }
 
@@ -132,6 +182,8 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
     // Get chat list success
     if(requestTag == API::TagGetChatList)
     {
+        int sumOfUnreadMessages = 0;
+        
         // Parse the response
         rapidjson::Document response;
         response.Parse(body.c_str());
@@ -147,6 +199,8 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
                 friendList.push_back(friendData);
                 
                 int unreadMessages = jsonEntry["unreadMessages"].GetInt();
+                sumOfUnreadMessages += unreadMessages;
+                
                 cocos2d::log("%d unread messages from %s", unreadMessages, friendData->friendName().c_str());
             }
         }
@@ -166,6 +220,7 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         for(auto observer : _observers)
         {
             observer->onChatAPIGetFriendList(_friendList);
+            observer->onChatAPINewMessageNotificationReceived(sumOfUnreadMessages);
         }
     }
     // Get chat messages success
@@ -219,6 +274,16 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             }
         }
     }
+    else if(requestTag == API::TagReportChat)
+    {
+        AnalyticsSingleton::getInstance()->chatReportedEvent();
+        ModalMessages::getInstance()->stopLoading();
+    }
+    else if(requestTag == API::TagResetReportedChat)
+    {
+        AnalyticsSingleton::getInstance()->chatResetReportedEvent();
+        ModalMessages::getInstance()->stopLoading();
+    }
 }
 
 void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -246,11 +311,38 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 
 void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
 {
+    if(friendListPollScheduled()) rescheduleFriendListPoll(); //Poll is only a double check to avoid missing any pusher events. If we receive one, we reschedule (unschedule and schedule again), to avoid having too frequent poll updates.
+    
+    // Check if this is an in_moderation event
+    if(event->eventName() == "MODERATION")
+    {
+        std::string userIdA = (event->data()["userIdA"].IsString() ? event->data()["userIdA"].GetString() : "");
+        std::string userIdB = (event->data()["userIdB"].IsString() ? event->data()["userIdB"].GetString() : "");
+        
+        std::string loggedInParentOrChildId = ChildDataProvider::getInstance()->getParentOrChildId();
+        
+        if((userIdA == loggedInParentOrChildId)||(userIdB == loggedInParentOrChildId))
+        {
+            std::string otherChildId = userIdA;
+            if(otherChildId == loggedInParentOrChildId) otherChildId = userIdB;
+            
+            std::map<std::string, std::string> messageProperties;
+            messageProperties["otherChildId"] = otherChildId;
+            messageProperties["status"] = event->data()["status"].GetString();
+            
+            for(auto observer : _observers)
+            {
+                observer->onChatAPICustomMessageReceived(event->eventName(), messageProperties);
+            }
+        }
+    }
+    
     // Check if this is a chat event
-    if(event->eventName() == "SEND_MESSAGE")
+    else if(event->eventName() == "SEND_MESSAGE")
     {
         // Create the Chat message from the event data
         const MessageRef& message = Message::createFromJson(event->data());
+        
         if(message)
         {
             // Make sure this message is for the current user

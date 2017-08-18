@@ -7,7 +7,8 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "SceneManagerScene.h"
-#include "OnlineSafetyDetailsLayer.h";
+#include <AzoomeeCommon/UI/Style.h>
+#include "OnlineSafetyDetailsLayer.h"
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50
@@ -94,7 +95,7 @@ void SettingsControlLayer::createLine()
     
     DrawNode* newDrawNode = DrawNode::create();
     newDrawNode->setLineWidth(LINE_WIDTH);
-    newDrawNode->drawLine(Vec2(0, origin.y+linePositionY), Vec2(visibleSize.width, origin.y+linePositionY), Color4F(28.0/255, 244.0/255, 244.0/255, 1.0));
+    newDrawNode->drawLine(Vec2(0, origin.y+linePositionY), Vec2(visibleSize.width, origin.y+linePositionY), Style::Color_4F::brightAqua);
     backgroundLayer->addChild(newDrawNode,110);
 }
 

@@ -4,13 +4,6 @@
 
 using namespace cocos2d;
 
-#define COLOR_BRIGHT_AQUA   Style::Color::brightAqua
-#define COLOR_WHITE         Style::Color::white
-#define COLOR_BLACK         Style::Color::black
-#define FONT_MEDIUM         Style::Font::Medium
-#define FONT_REGULAR        Style::Font::Regular
-#define FONT_BOLD           Style::Font::Bold
-
 
 namespace Azoomee
 {
@@ -32,7 +25,7 @@ Label*  createLabelHeader(std::string text) {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 84);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::brightAqua, 84);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     newLabel->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.9);
     
@@ -44,7 +37,7 @@ Label*  createLabelFlowMainTitle(std::string text) {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 110);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::white, 110);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     newLabel->setWidth(visibleSize.width*.90);
     newLabel->setPosition(origin.x + visibleSize.width/2,origin.y + visibleSize.height - newLabel->getContentSize().height);
@@ -53,26 +46,26 @@ Label*  createLabelFlowMainTitle(std::string text) {
 }
 
 Label*  createLabelButtonAdultPrimary(std::string text) {
-    return createLabelWith(text, FONT_REGULAR, COLOR_BLACK, 84);
+    return createLabelWith(text, Style::Font::Regular, Style::Color::black, 84);
 }
 
 Label*  createLabelButtonAdultSecondary(std::string text) {
-    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 59);
+    return createLabelWith(text, Style::Font::Regular, Style::Color::white, 59);
 }
 
 Label*  createLabelHeaderWhite(std::string text) {
-    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 84);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::white, 84);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     return newLabel;
 }
 
 Label*  createLabelBody(std::string text){
-    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 59);
+    return createLabelWith(text, Style::Font::Regular, Style::Color::white, 59);
 }
     
 Label*  createLabelChildName(std::string text)
 {
-    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 47);
+    return createLabelWith(text, Style::Font::Regular, Style::Color::white, 47);
 }
 
 Label*  createLabelBodyCentred(std::string text){
@@ -80,7 +73,7 @@ Label*  createLabelBodyCentred(std::string text){
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 59);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::white, 59);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     newLabel->setAnchorPoint(Vec2(0.5f, 1.0f));
     newLabel->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.85);
@@ -89,11 +82,11 @@ Label*  createLabelBodyCentred(std::string text){
 }
 
 Label*  createLabelButtonChildFriendly(std::string text){
-    return createLabelWith(text, FONT_BOLD, COLOR_WHITE, 58);
+    return createLabelWith(text, Style::Font::Bold, Style::Color::white, 58);
 }
 
 Label*  createLabelRailTitle(std::string text){
-    return createLabelWith(text, FONT_MEDIUM, COLOR_WHITE, 57.1);
+    return createLabelWith(text, Style::Font::Medium, Style::Color::white, 57.1);
 }
 
 Label*  createLabelAppVerison(std::string text)
@@ -101,19 +94,19 @@ Label*  createLabelAppVerison(std::string text)
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 50);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::brightAqua, 50);
     newLabel->setPosition(origin.x + visibleSize.width/2,origin.y+newLabel->getContentSize().height);
     return newLabel;
 }
 
 Label*  createLabelMessageBoxTitle(std::string text)
 {
-    return createLabelWith(text, FONT_REGULAR, COLOR_BRIGHT_AQUA, 120);
+    return createLabelWith(text, Style::Font::Regular, Style::Color::brightAqua, 120);
 }
 
 Label*  createLabelMessageBoxBody(std::string text)
 {
-    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 90);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::white, 90);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     
     return newLabel;
@@ -121,7 +114,7 @@ Label*  createLabelMessageBoxBody(std::string text)
 
 Label*  createLabelContentTitle(std::string text)
 {
-    Label* newLabel = createLabelWith(stringToUpper(text), FONT_BOLD, COLOR_WHITE, 36);
+    Label* newLabel = createLabelWith(stringToUpper(text), Style::Font::Bold, Style::Color::white, 36);
     newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     
     return newLabel;
@@ -129,7 +122,7 @@ Label*  createLabelContentTitle(std::string text)
 
 Label*  createLabelContentDescription(std::string text)
 {
-    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 42);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::white, 42);
     newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     newLabel->setOpacity(220);
     
@@ -138,7 +131,7 @@ Label*  createLabelContentDescription(std::string text)
 
 Label*  createLabelHubContentTitle(std::string text)
 {
-    Label* newLabel = createLabelWith(text, FONT_MEDIUM, COLOR_WHITE, 38);
+    Label* newLabel = createLabelWith(text, Style::Font::Medium, Style::Color::white, 38);
     newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     
     return newLabel;
@@ -146,7 +139,7 @@ Label*  createLabelHubContentTitle(std::string text)
 
 Label*  createLabelSmallLoading(std::string text)
 {
-    return createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 20);
+    return createLabelWith(text, Style::Font::Regular, Style::Color::white, 20);
 }
 
 Label*  createUserNameLabelWithWidth(float width)
@@ -155,7 +148,7 @@ Label*  createUserNameLabelWithWidth(float width)
     std::string username = def->getStringForKey("username", "");
     def->flush();
     
-    Label* newLabel = createLabelWith(username, FONT_REGULAR, COLOR_BRIGHT_AQUA, 84);
+    Label* newLabel = createLabelWith(username, Style::Font::Regular, Style::Color::brightAqua, 84);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     newLabel->setWidth(width);
     
@@ -164,7 +157,7 @@ Label*  createUserNameLabelWithWidth(float width)
     
 Label*  createLabelChildNameSettings(std::string text)
 {
-    Label* newLabel = createLabelWith(text, FONT_REGULAR, COLOR_WHITE, 92);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::white, 92);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     
     return newLabel;
@@ -172,7 +165,7 @@ Label*  createLabelChildNameSettings(std::string text)
     
 Label*  createLabelSettingsChat(std::string text,Color3B color)
 {
-    Label* newLabel = createLabelWith(text, FONT_REGULAR, color, 48);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, color, 48);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     newLabel->setLineSpacing(15);
     
@@ -181,7 +174,7 @@ Label*  createLabelSettingsChat(std::string text,Color3B color)
     
 Label*  createLabelKidCode(std::string text,cocos2d::Color3B color)
 {
-    Label* newLabel = createLabelWith(text, FONT_KIDCODE_REGULAR, color, 84);
+    Label* newLabel = createLabelWith(text, Style::Font::kidCodeRegular, color, 84);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     
     return newLabel;

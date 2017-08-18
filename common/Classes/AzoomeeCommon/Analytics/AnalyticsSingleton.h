@@ -90,7 +90,9 @@ public:
     void navSelectionEvent(std::string hubOrTop, int buttonNumber);
     
     //-------------CONTENTITEM EVENTS----------
-    void contentItemSelectedEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape);
+    void contentItemSelectedEvent(const std::string& Type);
+    void contentItemSelectedEvent(const std::string& Type, const std::string& elementShape);
+    void contentItemSelectedEvent(const std::string& Title,const std::string& Description, const std::string& Type, const std::string& contentID, int rowNumber, int elementNumber, const std::string& elementShape);
     void contentItemProcessingStartedEvent();
     void contentItemProcessingErrorEvent();
     void contentItemIncompatibleEvent();
@@ -155,6 +157,8 @@ public:
     void chatIncomingMessageEvent(std::string messageType);
     void chatOutgoingMessageEvent(std::string messageType);
     void unreadMessagesNotificationReceived();
+    void chatReportedEvent();
+    void chatResetReportedEvent();
 
 };
   

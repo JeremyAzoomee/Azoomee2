@@ -27,6 +27,7 @@
 #include "FlowDataSingleton.h"
 #include "OfflineHubScene.h"
 #include "OfflineChecker.h"
+#include "ForceUpdateSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
@@ -146,6 +147,19 @@ void BackEndCaller::updateBillingData()
 void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& responseString)
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
+}
+
+//GETTING FORCE UPDATE INFORMATION
+
+void BackEndCaller::getForceUpdateData()
+{
+    HttpRequestCreator* request = API::GetForceUpdateInformationRequest(this);
+    request->execute();
+}
+
+void BackEndCaller::onGetForceUpdateDataAnswerReceived(const std::string& responseString)
+{
+    ForceUpdateSingleton::getInstance()->onForceUpdateDataReceived(responseString);
 }
 
 //UPDATING PARENT DATA--------------------------------------------------------------------------------
@@ -442,6 +456,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagResetPasswordRequest)
         //Dont do anything with a password Request attempt
         return;
+    else if(requestTag == API::TagGetForceUpdateInformation)
+    {
+        onGetForceUpdateDataAnswerReceived(body);
+    }
     else
     {
         for(int i = 0; i < 6; i++)
@@ -457,6 +475,11 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
 
 void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
+    if(requestTag == API::TagGetForceUpdateInformation)
+    {
+        return; //if the file cannot be found, we do nothing, update won't be forced.
+    }
+    
     if(requestTag == API::TagOfflineCheck)
     {
         OfflineChecker::getInstance()->onOfflineCheckFailed();

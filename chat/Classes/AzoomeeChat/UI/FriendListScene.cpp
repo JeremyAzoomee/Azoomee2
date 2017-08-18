@@ -8,7 +8,6 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "MessageScene.h"
 
-
 using namespace cocos2d;
 
 
@@ -147,6 +146,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     
     // Add friend button
     ui::Button* addFriendButton = ui::Button::create("res/chat/ui/buttons/outline_button.png");
+    // TODO: Get from Strings
     addFriendButton->setTitleText("Add a friend");
     addFriendButton->setTitleColor(Style::Color::brightAqua);
     addFriendButton->setTitleFontName(Style::Font::Regular);
@@ -215,6 +215,8 @@ void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
         AnalyticsSingleton::getInstance()->setChatFriendIsParent(false);
     }
     
+    AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
+    
     AudioMixer::getInstance()->playEffect(OK_BUTTON_AUDIO_EFFECT);
     
     FriendList participants = { _currentUser, friendData };
@@ -245,6 +247,31 @@ void FriendListScene::onChatAPIMessageRecieved(const MessageRef& message)
             // Force list to re-render
             _friendListView->setItems(_friendListData);
             break;
+        }
+    }
+}
+
+void FriendListScene::onChatAPICustomMessageReceived(const std::string &messageType, const std::map<std::string, std::string> &messageProperties)
+{
+    if(messageType == "MODERATION")
+    {
+        for(const FriendRef& frnd : _friendListData)
+        {
+            if(messageProperties.find("otherChildId") != messageProperties.end())
+            {
+                if(frnd->friendId() == messageProperties.at("otherChildId"))
+                {
+                    if(messageProperties.find("status") != messageProperties.end())
+                    {
+                        if(messageProperties.at("status") == "IN_MODERATION") frnd->markFriendInModeration(true);
+                        if(messageProperties.at("status") == "ACTIVE") frnd->markFriendInModeration(false);
+                        
+                        _friendListView->setItems(_friendListData);
+                    }
+
+                    break;
+                }
+            }
         }
     }
 }

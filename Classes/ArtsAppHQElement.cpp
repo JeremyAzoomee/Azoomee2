@@ -1,7 +1,6 @@
 #include "ArtsAppHQElement.h"
 #include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "WebViewSelector.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "HQScene.h"
 #include "AppDelegate.h"
@@ -10,12 +9,13 @@
 #include "WebGameAPIDataManager.h"
 #include "ArtAppImageManager.h"
 #include "SceneManagerScene.h"
+#include "ArtAppDelegate.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage, bool deletable, bool locked)
+bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage, bool deletable, bool locked, bool preload)
 {
     if ( !Layer::init() )
     {
@@ -34,7 +34,12 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     createImageBorder();
     if(!newImage) createWhiteBackground();
     
-    addImage(filePath);
+    imageURL = filePath;
+    
+    if(!preload)
+        addPlaceHolder();
+    else
+        loadImageTex();
     addOverlay();
     
     if(locked == true)
@@ -54,6 +59,66 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     }
     
     return true;
+}
+
+void ArtsAppHQElement::loadImageTex()
+{
+    //classStartedImageLoading = true;
+    Director::getInstance()->getTextureCache()->addImageAsync(imageURL, [&](Texture2D* tex){
+        if(!ArtAppDelegate::getInstance()->ArtAppRunning)
+            this->addImage(tex);
+    });
+}
+
+void ArtsAppHQElement::enableOnScreenChecker()
+{
+    onScreenChecker = new ArtImageOnScreenChecker();
+    onScreenChecker->startCheckingForOnScreenPosition(this);
+}
+
+void ArtsAppHQElement::addImage(Texture2D* tex)
+{
+    //if(!classStartedImageLoading) return;
+    
+    if(artImage)
+        artImage->removeFromParent();
+    
+    artImage = Sprite::create();
+    
+    artImage->initWithTexture(tex);
+    
+    float scale = (this->getContentSize().width - 40) / artImage->getContentSize().width;
+    
+    if(artImage->getContentSize().height * scale > this->getContentSize().height - 40)
+        scale = (this->getContentSize().height - 40) / artImage->getContentSize().height;
+    
+    artImage->setScale(scale);
+    
+    artImage->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+    this->addChild(artImage);
+    artImage->runAction(FadeIn::create(0.1));
+    
+    //classStartedImageLoading = false;
+}
+
+void ArtsAppHQElement::addPlaceHolder()
+{
+    if(artImage)
+        artImage->removeFromParent();
+    
+    artImage = Sprite::create();
+    
+    artImage->initWithFile("res/contentPlaceholders/Create1X1.png");
+    
+    float scale = (this->getContentSize().width - 40) / artImage->getContentSize().width;
+    
+    if(artImage->getContentSize().height * scale > this->getContentSize().height - 40)
+        scale = (this->getContentSize().height - 40) / artImage->getContentSize().height;
+    
+    artImage->setScale(scale);
+    
+    artImage->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+    this->addChild(artImage);
 }
 
 std::string ArtsAppHQElement::getBase64Encoded(std::string input)
@@ -97,29 +162,45 @@ void ArtsAppHQElement::addOverlay()
     overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getBaseColourForContentItemInCategory("ARTS APP"), this->getContentSize().width - 20, this->getContentSize().height - 20);
     overlayWhenTouched->setPosition(10,10);
     overlayWhenTouched->setOpacity(0);
-    this->addChild(overlayWhenTouched);
+    this->addChild(overlayWhenTouched,1);
 }
 
 void ArtsAppHQElement::addImage(std::string filePath)
 {
     if(!FileUtils::getInstance()->isFileExist(filePath)) return;
-    std::string imageData = FileUtils::getInstance()->getStringFromFile(filePath);
-    if(imageData.length() <= 22) return;
-    
-    imageData = imageData.substr(22);
-    
-    int len = 0;
-    unsigned char *buffer;
-    len = base64Decode((const unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &buffer);
-    
-    Image *img = new Image();
-    img->initWithImageData(buffer, len);
-    
-    Texture2D *texture = new Texture2D();
-    texture->initWithImage(img);
     
     auto sprite = Sprite::create();
-    sprite->initWithTexture(texture);
+    if(filePath.substr(filePath.length() - 4) == "imag")
+    {
+        Image *img = new Image();
+        std::string imageData = FileUtils::getInstance()->getStringFromFile(filePath);
+        if(imageData.length() <= 22) return;
+    
+        imageData = imageData.substr(22);
+    
+        int len = 0;
+        unsigned char *buffer;
+        len = base64Decode((const unsigned char*)imageData.c_str(), (unsigned int)imageData.length(), &buffer);
+    
+        img->initWithImageData(buffer, len);
+        Texture2D *texture = new Texture2D();
+        texture->initWithImage(img);
+        
+        sprite->initWithTexture(texture);
+        
+        delete img;
+    }
+    else
+    {
+        sprite->initWithFile(filePath);
+    }
+    
+    //Texture2D *texture = new Texture2D();
+    //texture->initWithImage(img);
+    
+    
+    //sprite->initWithTexture(texture);
+    
     
     float scale = (this->getContentSize().width - 40) / sprite->getContentSize().width;
     
@@ -137,7 +218,7 @@ void ArtsAppHQElement::addLockToElement()
     auto lockImage = Sprite::create("res/hqscene/locked.png");
     lockImage->setPosition(baseLayer->getContentSize() / 2);
     //lockImage->setScale(baseLayer->getContentSize().width / 445);
-    this->addChild(lockImage);
+    this->addChild(lockImage,1);
 }
 
 Sprite* ArtsAppHQElement::addDeleteButton()
@@ -145,7 +226,7 @@ Sprite* ArtsAppHQElement::addDeleteButton()
     auto delButton = Sprite::create("res/arthqscene/delete.png");
     delButton->setPosition(this->getContentSize().width - 80, this->getContentSize().height - 80);
     delButton->setOpacity(0);
-    this->addChild(delButton);
+    this->addChild(delButton,1);
     
     return delButton;
 }
@@ -180,6 +261,17 @@ bool ArtsAppHQElement::deleteButtonIsShown()
     
     if(deleteButton->getOpacity() > 0) return true;
     else return false;
+}
+
+void ArtsAppHQElement::onExit()
+{
+    
+    if(onScreenChecker)
+    {
+        onScreenChecker->endCheck();
+        onScreenChecker->release();
+    }
+    Layer::onExit();
 }
 
 void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, std::string filePath)
@@ -232,10 +324,10 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(rect.containsPoint(locationInNode))
         {
-            if(preview)
-                AnalyticsSingleton::getInstance()->previewContentClickedEvent("","", "ARTS APP");
-            else
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent("", "", "ARTS APP", "", -1, -1, "1,1");
+            //if(preview)
+            //    AnalyticsSingleton::getInstance()->previewContentClickedEvent("","", "ARTS APP");
+            //else
+            //    AnalyticsSingleton::getInstance()->contentItemSelectedEvent("ARTS APP", "1,1");
 
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;
@@ -287,22 +379,31 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
                 return true;
             }
             
-            if(!notSendingFileData) ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder(filePath);
-            else ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder("NEW");
+            //if(!notSendingFileData) ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder(filePath);
+            //else ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder("NEW");
             
             iamtouched = false;
             overlayWhenTouched->setOpacity(0);
             overlayWhenTouched->stopAllActions();
             
+            //hack for old image format
+            if(filePath.substr(filePath.length() - 7) == "new.png")
+                ArtAppDelegate::getInstance()->setFileName("");
+            else
+                ArtAppDelegate::getInstance()->setFileName(filePath);
+            
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+            return true;
+            
             WebGameAPIDataManager::getInstance()->setGameId("artApp");
             
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            WebViewSelector::createSceneWithUrl(FileUtils::getInstance()->fullPathForFilename("res/artapp/index.html"));
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, FileUtils::getInstance()->fullPathForFilename("res/artapp/index.html")));
 #endif
             
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
             ConfigStorage::getInstance()->inArtsApp = 1;
-            WebViewSelector::createSceneWithUrl("file:///android_asset/res/artapp/index.html");
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, "file:///android_asset/res/artapp/index.html"));
 #endif
         }
         

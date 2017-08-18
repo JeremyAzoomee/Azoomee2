@@ -3,6 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/UI/Orientation.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -10,14 +11,13 @@ class WebViewSelector : public cocos2d::Layer
 {
 public:
     CREATE_FUNC(WebViewSelector);
-    static cocos2d::Scene* createScene();
-    static cocos2d::Scene* createSceneWithUrl(std::string url);
+    static cocos2d::Scene* createSceneWithUrl(const std::string& url, Orientation orientation);
     virtual bool init();
     
     std::string getUrlWithoutPath(std::string);
     int findPositionOfNthString(std::string string, std::string whatToFind, int whichOne);
     
-    void loadWebView(std::string url);
+    void loadWebView(const std::string& url, Orientation orientation);
 };
 
 NS_AZOOMEE_END

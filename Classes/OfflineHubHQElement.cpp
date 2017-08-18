@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "GameDataManager.h"
-#include "WebViewSelector.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -29,7 +29,7 @@ bool OfflineHubHQElement::init()
     return true;
 }
 
-void OfflineHubHQElement::addHQSceneElement(std::string category, std::map<std::string, std::string> itemData, Vec2 shape, float delay)
+void OfflineHubHQElement::addHQSceneElement(const std::string &category, const std::map<std::string, std::string> &itemData, Vec2 shape, float delay)
 {
     //category = "GAME HQ";
     
@@ -50,7 +50,7 @@ void OfflineHubHQElement::addHQSceneElement(std::string category, std::map<std::
 
 //-------------------All elements below this are used internally-----------------
 
-void OfflineHubHQElement::addListenerToElement(std::map<std::string, std::string> itemData, bool preview)
+void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::string> &itemData, bool preview)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
@@ -106,7 +106,7 @@ void OfflineHubHQElement::addListenerToElement(std::map<std::string, std::string
             
             AnalyticsSingleton::getInstance()->contentItemSelectedEvent(itemData.at("title"), itemData.at("description"), itemData.at("type"), itemData.at("id"), -1, -1, "1,1");
             
-            WebViewSelector::createSceneWithUrl(startUrl.c_str());
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(itemData), startUrl.c_str()));
         }
         
         return false;
@@ -115,7 +115,16 @@ void OfflineHubHQElement::addListenerToElement(std::map<std::string, std::string
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), elementVisual->baseLayer);
 }
 
-void OfflineHubHQElement::startUpElementDependingOnType(std::map<std::string, std::string> itemData)
+Orientation OfflineHubHQElement::getGameOrientation(const std::map<std::string, std::string>& itemData)
+{
+    if(itemData.find("isPortrait") != itemData.end())
+        if(itemData.at("isPortrait") == "true")
+            return Orientation::Portrait;
+    
+    return Orientation::Landscape;
+}
+
+void OfflineHubHQElement::startUpElementDependingOnType(const std::map<std::string, std::string> &itemData)
 {
     this->getParent()->getParent()->getParent()->stopAllActions();
     GameDataManager::getInstance()->startProcessingGame(itemData);

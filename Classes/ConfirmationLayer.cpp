@@ -2,6 +2,7 @@
 #include "ui/UIScale9Sprite.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -25,12 +26,12 @@ void ConfirmationLayer::addDetailsToLayer(std::string setChildName, std::string 
 {
     DrawNode* topLine = DrawNode::create();
     topLine->setLineWidth(2);
-    topLine->drawLine(Vec2(0, this->getContentSize().height), Vec2(this->getContentSize().width,this->getContentSize().height), Color4F(150.96/255.0f, 150.96/255.0f, 150.06/255.0f,255/255.0f));
+    topLine->drawLine(Vec2(0, this->getContentSize().height), Vec2(this->getContentSize().width,this->getContentSize().height), Style::Color_4F::settingsTopBottomLines);
     this->addChild(topLine);
     
     DrawNode* bottomLine = DrawNode::create();
     bottomLine->setLineWidth(2);
-    bottomLine->drawLine(Vec2(0, 0), Vec2(this->getContentSize().width,0), Color4F(150.96/255.0f, 150.96/255.0f, 150.06/255.0f,255/255.0f));
+    bottomLine->drawLine(Vec2(0, 0), Vec2(this->getContentSize().width,0), Style::Color_4F::settingsTopBottomLines);
     this->addChild(bottomLine);
     
     childNameLabel = createLabelBody(setChildName);
@@ -48,7 +49,7 @@ void ConfirmationLayer::addDetailsToLayer(std::string setChildName, std::string 
     friendNameLabel->setPosition(connectorSprite->getPositionX()+connectorSprite->getContentSize().width/2+MARGIN+ friendNameLabel->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(friendNameLabel);
     
-    friendCodeLabel = createLabelSettingsChat(StringUtils::format("  /  %s",setFriendCode.c_str()), Color3B(28, 244, 244));
+    friendCodeLabel = createLabelSettingsChat(StringUtils::format("  /  %s",setFriendCode.c_str()), Style::Color::brightAqua);
     friendCodeLabel->setPosition(friendNameLabel->getPositionX()+friendNameLabel->getContentSize().width/2+ friendCodeLabel->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(friendCodeLabel);
 }
@@ -56,7 +57,7 @@ void ConfirmationLayer::addDetailsToLayer(std::string setChildName, std::string 
 void ConfirmationLayer::setToConfirm()
 {
     clearUIItems();
-    createRect(Color4F(246/255.0f, 187/255.0f, 66/255.0f,255/255.0f));
+    createRect(Style::Color_4F::macaroniAndCheese);
     
     Label* rejectRequest = createLabelBody(StringUtils::format("%s & %s are now friends and can chat!",childNameLabel->getString().c_str(),friendNameLabel->getString().c_str()));
     rejectRequest->setTag(1000);
@@ -67,10 +68,10 @@ void ConfirmationLayer::setToConfirm()
 void ConfirmationLayer::setToReject()
 {
     clearUIItems();
-    createRect(Color4F(249/255.0f, 74/255.0f, 91/255.0f,255/255.0f));
+    createRect(Style::Color_4F::watermelon);
     
-    childNameLabel->setColor(Color3B(249,74,91));
-    friendNameLabel->setColor(Color3B(249,74,91));
+    childNameLabel->setColor(Style::Color::watermelon);
+    friendNameLabel->setColor(Style::Color::watermelon);
     childNameLabel->setVisible(true);
     friendNameLabel->setVisible(true);
     
@@ -83,7 +84,7 @@ void ConfirmationLayer::setToReject()
 void ConfirmationLayer::setToRejected()
 {
     clearUIItems();
-    createRect(Color4F(249/255.0f, 74/255.0f, 91/255.0f,255/255.0f));
+    createRect(Style::Color_4F::watermelon);
     
     childNameLabel->setVisible(false);
     friendNameLabel->setVisible(false);

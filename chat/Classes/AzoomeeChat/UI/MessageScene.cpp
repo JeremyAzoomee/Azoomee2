@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/UI/SplitLayout.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 
 #include "FriendListScene.h"
 
@@ -74,7 +75,20 @@ bool MessageScene::init()
     _titleBar->addBackButtonEventListener([this](Ref* button){
         onBackButtonPressed();
     });
+    _titleBar->addReportButtonEventListener([this](Ref* button){
+        onReportButtonPressed();
+    });
+    _titleBar->addReportResetButtonEventListener([this](Ref* button){
+        onReportResetButtonPressed();
+    });
+
     _rootLayout->addChild(_titleBar);
+    
+    if(_participants[0]->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId())
+    {
+        _titleBar->setChatReportingToForbidden();
+    }
+
     
     createContentUI(_contentLayout);
     
@@ -89,11 +103,17 @@ void MessageScene::onEnter()
     ChatAPI::getInstance()->registerObserver(this);
     
     // Get message list
-    ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
+    getMessageHistory();
     ModalMessages::getInstance()->startLoading();
+    
+    // Show if message list is inModeration
+    if(_participants[1]->inModeration()) _titleBar->setChatToInModeration();
     
     // Get update calls
     scheduleUpdate();
+    
+    //Get scrollview on top notifications
+    this->createEventListenerForRetrievingHistory();
 }
 
 void MessageScene::onExit()
@@ -105,6 +125,9 @@ void MessageScene::onExit()
     
     // Stop update calls
     unscheduleUpdate();
+    
+    //Unregister history retrieving listener calls
+    Director::getInstance()->getEventDispatcher()->removeEventListener(_listener);
 }
 
 void MessageScene::update(float dt)
@@ -119,10 +142,41 @@ void MessageScene::update(float dt)
             _timeTillGet = -1.0f;
             
             // Make the call
-            ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
+            getMessageHistory();
         }
     }
 #endif
+}
+
+void MessageScene::getMessageHistory()
+{
+    int calculatedPageNumber = int(_messagesByTime.size() / MessageListView::kMessagesOnPage);
+    _historyUpdateInProgress = true;
+    ChatAPI::getInstance()->requestMessageHistory(_participants[1], calculatedPageNumber);
+}
+
+bool MessageScene::isMessageInHistory(const MessageRef &message)
+{
+    if(_messagesByTime.empty()) return false;
+    
+    for(auto listItem : _messagesByTime)
+    {
+        if(listItem->messageId() == message->messageId()) return true;
+    }
+    
+    return false;
+}
+
+void MessageScene::createEventListenerForRetrievingHistory()
+{
+    _listener = EventListenerCustom::create(MessageListView::kEventListenerFlag, [=](EventCustom* event){
+        if(!_historyUpdateInProgress)
+        {
+            this->getMessageHistory();
+        }
+    });
+    
+    _eventDispatcher->addEventListenerWithFixedPriority(_listener, 1);
 }
 
 #pragma mark - Size Changes
@@ -151,7 +205,7 @@ void MessageScene::createContentUI(cocos2d::ui::Layout* parent)
     SplitLayout* splitLayout = SplitLayout::create();
     splitLayout->setSizePercent(Vec2(1.0f, 1.0f));
     splitLayout->setSizeType(ui::Widget::SizeType::PERCENT);
-    splitLayout->setMode(SplitLayout::Mode::Vertical);
+    splitLayout->setOrientation(Orientation::Portrait);
     // Message list area = fill to size, composer area = FixedSize
     splitLayout->setSplitBehaviour(SplitLayout::FillSize, SplitLayout::FixedSize);
     parent->addChild(splitLayout);
@@ -190,10 +244,25 @@ void MessageScene::onBackButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - BackButton");
+    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
     // Back to friend list
     auto friendListScene = FriendListScene::create();
     Director::getInstance()->replaceScene(TransitionSlideInL::create(0.25f, friendListScene));
+}
+
+void MessageScene::onReportButtonPressed()
+{
+    AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatWindow - ReportButton");
+    
+    MessageBox::createWithLayer(ChatReportForModeration, this);
+}
+
+void MessageScene::onReportResetButtonPressed()
+{
+    AudioMixer::getInstance()->playEffect(SETTINGS_BUTTON_AUDIO_EFFECT);
+    RequestAdultPinLayer::create()->setDelegate(this);
 }
 
 #pragma mark - ChatAPIObserver
@@ -202,6 +271,8 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 {
     // Make a copy of the messageList and sort it in order of timestamp
     MessageList messagesByTime;
+    if(!_messagesByTime.empty()) messagesByTime = _messagesByTime;
+    
     for(const MessageRef& message : messageList)
     {
         // Find first item where this message is newer
@@ -213,16 +284,19 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
                 break;
             }
         }
-        messagesByTime.insert(it.base(), message);
+        if(!isMessageInHistory(message)) messagesByTime.insert(it.base(), message);
     }
+    
     _messagesByTime = messagesByTime;
     
     _messageListView->setData(_participants, _messagesByTime);
+    
     ModalMessages::getInstance()->stopLoading();
     
     if(messageList.size() > 0)
     {
-        // Mark messages as read
+        // Mark messages as read and enable reporting
+        _titleBar->onChatActivityHappened();
         ChatAPI::getInstance()->markMessagesAsRead(_participants[1], _messagesByTime.back());
     }
     
@@ -230,21 +304,42 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
     // Trigger auto get again
     _timeTillGet = kAutoGetTimeInterval;
 #endif
+    
+    if(messageList.size() >= MessageListView::kMessagesOnPage) _historyUpdateInProgress = false; //if downloaded messages are less than kMessagesOnPage (20 on server) in length, then we got to the beginning of the conversation, no further retrievals are required.
 }
 
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 {
-    // Auto get new messages until we have a live feed from PUSHER
-    ChatAPI::getInstance()->requestMessageHistory(_participants[1]);
+    _historyUpdateInProgress = true;
+    _messagesByTime.push_back(sentMessage);
+    _messageListView->setData(_participants, _messagesByTime);
+    _historyUpdateInProgress = false;
 }
 
 void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
 {
+    _historyUpdateInProgress = true;
     AnalyticsSingleton::getInstance()->chatIncomingMessageEvent(message->messageType());
-    _messageListView->addMessage(message);
+    _messagesByTime.push_back(message);
+    _messageListView->setData(_participants, _messagesByTime);
+    _titleBar->onChatActivityHappened();
     
     // Mark messages as read
     ChatAPI::getInstance()->markMessagesAsRead(_participants[1], message);
+    
+    _historyUpdateInProgress = false;
+}
+
+void MessageScene::onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string> &messageProperties)
+{
+    if(messageType != "MODERATION") return;
+    if(messageProperties.find("otherChildId") == messageProperties.end()) return;
+    if(messageProperties.find("status") == messageProperties.end()) return;
+    
+    if(messageProperties.at("otherChildId") != _participants[1]->friendId()) return;
+    
+    if(messageProperties.at("status") == "IN_MODERATION") _titleBar->setChatToInModeration();
+    if(messageProperties.at("status") == "ACTIVE") _titleBar->setChatToActive();
 }
 
 void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
@@ -259,10 +354,38 @@ void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 {
     AnalyticsSingleton::getInstance()->chatOutgoingMessageEvent(message->messageType());
     ChatAPI::getInstance()->sendMessage(_participants[1], message);
+    _titleBar->onChatActivityHappened();
     
 #ifdef CHAT_MESSAGES_POLL
     _timeTillGet = -1.0f;
 #endif
+}
+
+#pragma mark - MessageBoxDelegate
+
+void MessageScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+{
+    if(buttonTitle == MessageBox::kReport)
+    {
+        ChatAPI::getInstance()->reportChat(_participants[1]);
+    }
+    
+    if(buttonTitle == MessageBox::kReset)
+    {
+        ChatAPI::getInstance()->resetReportedChat(_participants[1]);
+    }
+}
+
+#pragma mark - RequestAdultPinDelegate
+
+void MessageScene::AdultPinCancelled(RequestAdultPinLayer* layer)
+{
+    
+}
+
+void MessageScene::AdultPinAccepted(RequestAdultPinLayer* layer)
+{
+    MessageBox::createWithLayer(ChatResetModeration,{ {"Child1", _participants[0]->friendName()},{"Child2",  _participants[1]->friendName()} },this);
 }
 
 NS_AZOOMEE_CHAT_END

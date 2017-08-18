@@ -1,5 +1,6 @@
 #include "API.h"
 #include <cocos/cocos2d.h>
+#include "../Data/ConfigStorage.h"
 
 using namespace cocos2d;
 
@@ -30,6 +31,9 @@ const char* const API::TagFriendRequest = "friendRequest";
 const char* const API::TagFriendRequestReaction = "friendRequestReaction";
 const char* const API::TagGetPendingFriendRequests = "getPendingFriendRequests";
 const char* const API::TagPusherAuth = "pusher.auth";
+const char* const API::TagReportChat = "chat.report";
+const char* const API::TagResetReportedChat = "chat.resetReported";
+const char* const API::TagGetForceUpdateInformation = "forceUpdate";
 
 #pragma mark - API Methods
 
@@ -57,6 +61,20 @@ HttpRequestCreator* API::UpdateBillingDataRequest(HttpRequestCreatorResponseDele
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagUpdateBillingData;
     request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::GetForceUpdateInformationRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagGetForceUpdateInformation;
+    request->url = "https://versions.azoomee.com";
+    
+#ifdef USINGCI
+    request->url = "http://versions.azoomee.ninja";
+#endif
+    
+    request->encrypted = false;
     return request;
 }
 
@@ -239,11 +257,13 @@ HttpRequestCreator* API::GetChatListRequest(const std::string& userId,
 
 HttpRequestCreator* API::GetChatMessagesRequest(const std::string& userId,
                                                 const std::string& friendId,
+                                                int pageNumber,
                                                 HttpRequestCreatorResponseDelegate* delegate)
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagGetChatMessages;
     request->requestPath = StringUtils::format("/api/share/v2/%s/%s", userId.c_str(), friendId.c_str());
+    request->urlParameters = StringUtils::format("page=%d", pageNumber);
     request->encrypted = true;
     return request;
 }
@@ -293,6 +313,30 @@ HttpRequestCreator* API::PusherAuthRequest(const std::string& parentId,
     request->requestPath = StringUtils::format("/api/share/%s/pusher/auth", parentId.c_str());
     request->urlParameters = StringUtils::format("channelName=%s&socketId=%s", channelName.c_str(), socketId.c_str());
     request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::SendChatReportRequest(const std::string &userId, const std::string &friendId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagReportChat;
+    request->requestPath = StringUtils::format("/api/share/v2/%s/%s/conversationstatus", userId.c_str(), friendId.c_str());
+    request->requestBody = "{\"status\": \"IN_MODERATION\"}";
+    request->method = "PUT";
+    request->encrypted = true;
+    
+    return request;
+}
+
+HttpRequestCreator* API::ResetReportedChatRequest(const std::string &userId, const std::string &friendId, Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagResetReportedChat;
+    request->requestPath = StringUtils::format("/api/share/v2/%s/%s/conversationstatus", userId.c_str(), friendId.c_str());
+    request->requestBody = "{\"status\": \"ACTIVE\"}";
+    request->method = "PATCH";
+    request->encrypted = true;
+    
     return request;
 }
 

@@ -2,11 +2,16 @@
 #define AzoomeeCommon_MessageBox_h
 
 #include <cocos/cocos2d.h>
-#include <cocos/ui/UIScrollView.h>
-#include "ElectricDreamsButton.h"
 #include "../Input/TextInputLayer.h"
+#include "MessageBoxLayers/MessageBoxLayer.h"
 #include "../ErrorCodes.h"
 
+enum MessageBoxLayerEnum {
+    ChatReportForModeration,
+    OnlineSafetySlidesAdult,
+    OnlineSafetySlidesChild,
+    ChatResetModeration
+};
 
 namespace Azoomee
 {
@@ -19,79 +24,59 @@ public:
     virtual void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle) = 0;
 };
 
-class MessageBox : public cocos2d::Layer, public ElectricDreamsButtonDelegate
+class MessageBox : public cocos2d::Layer
 {
 private:
+    
+    Layer* initLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, Layer* newLayer);
+    
+    cocos2d::LayerColor *backgroundLayer = nullptr;
 
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
+    cocos2d::Size currentRunningSceneSize;
     
-    std::vector<std::string> _buttonsTitleList;
-    std::vector<std::string> _buttonsReferenceList;
-    std::string _messageBoxTitle;
-    
-    cocos2d::LayerColor *backgroundLayer;
-    cocos2d::Label* messageTitleLabel;
-    cocos2d::Label* messageBodyLabel;
-    cocos2d::ui::ScrollView* scrollView;
-    std::vector<ElectricDreamsButton*> buttonsList;
-    ElectricDreamsButton* cancelButton;
-    cocos2d::Layer* windowLayer;
-    
-    float textMaxWidth;
-    float buttonSpaceWidth;
-
-    float percentageOfScreenForBox;
-    bool isLandscape;
+    Layer* windowLayer = nullptr;
     
     void createBackgroundLayer();
     void addListenerToBackgroundLayer();
-    
-    //MessageBox functions
-    void createTitle();
-    void createBody(std::string messageBody);
-    void createButtons();
-    void createCancelButton();
-    void positionButtonsBasedOnWidth(float yPosition);
-    void createMessageWindow();
-    void addObjectsToWindow();
     
     void removeSelf(float dt);
     
     //-------Object To Hide -------
     // Due to UIEditbox always being on top
-    TextInputLayer* savedTextInputToHide;
+    TextInputLayer* savedTextInputToHide = nullptr;
     void hideTextInput(TextInputLayer* textInputToHide);
     void UnHideTextInput();
-    
-    //Delegate Functions
-    void buttonPressed(ElectricDreamsButton* button) override;
   
 protected:
     
     virtual bool init() override;
-    
-    void initMessageBoxLayer(std::string Title, std::string Body, MessageBoxDelegate* _delegate, long errorCode);
-    void addButtonWithTitle(const std::string& buttonTitle);
-    
-    // Cancel button was pressed
-    virtual void onCancelPressed();
-    // A button other than Cancel was pressed
-    virtual void onButtonPressed(int buttonSelect);
   
 public:
+    
+    static const char* const kOK;
+    static const char* const kCancel;
+    static const char* const kLogin;
+    static const char* const kSignUp;
+    static const char* const kResetPassword;
+    static const char* const kReport;
+    static const char* const kReset;
+    
     //Main function for creating a MessageBox
-    static MessageBox* createWith(std::string Title, std::string Body, std::vector<std::string> buttonTitleList, MessageBoxDelegate* _delegate);
-    static MessageBox* createWith(std::string Title, std::string Body, std::string Button, MessageBoxDelegate* _delegate);
+    static MessageBox* createWith(const std::string& Title, const std::string& Body, const std::vector<std::string>& buttonTitleList, MessageBoxDelegate* _delegate);
+    static MessageBox* createWith(const std::string& Title, const std::string& Body, const std::string& Button, MessageBoxDelegate* _delegate);
     static MessageBox* createWith(long errorCode, MessageBoxDelegate* _delegate);
     static MessageBox* createWith(long errorCode, TextInputLayer* textInputToHide, MessageBoxDelegate* _delegate);
+    static MessageBox* createWithLayer(MessageBoxLayerEnum messageBoxLayer, MessageBoxDelegate* _delegate);
+    static MessageBox* createWithLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, MessageBoxDelegate* _delegate);
+    
+    void sendDelegateMessageBoxButtonPressed(const std::string& messageBoxTitle,const std::string& buttonTitle);
     
     CREATE_FUNC(MessageBox);
     
     CC_SYNTHESIZE(MessageBoxDelegate*, _delegate, Delegate);
-    
-    void setBodyHAlignment(cocos2d::TextHAlignment align);
   
+    /// Called when the content size of the scene has changed
+    void onSizeChanged();
 };
   
 }

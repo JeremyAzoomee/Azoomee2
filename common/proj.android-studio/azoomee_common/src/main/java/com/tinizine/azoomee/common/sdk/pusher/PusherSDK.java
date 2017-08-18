@@ -155,7 +155,7 @@ public class PusherSDK
                             public void onAuthenticationFailure(String message, Exception e) {
                                 Log.d(TAG, String.format("Authentication failure due to [%s], exception was [%s]", message, e));
                             }
-                        }, "SEND_MESSAGE"); // TODO: In a future update of Pusher, see if it's possible to avoid registering for specific events
+                        }, "SEND_MESSAGE", "MODERATION"); // TODO: In a future update of Pusher, see if it's possible to avoid registering for specific events
                     }
                     catch(IllegalArgumentException e)
                     {

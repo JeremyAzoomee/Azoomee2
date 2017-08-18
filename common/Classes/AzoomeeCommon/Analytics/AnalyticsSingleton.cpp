@@ -290,9 +290,23 @@ void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumbe
 
 //---------------- CONTENT ITEM ACTIONS------------------------
     
-void AnalyticsSingleton::contentItemSelectedEvent(std::string Title,std::string Description, std::string Type, std::string contentID, int rowNumber, int elementNumber, std::string elementShape)
+void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type)
+{
+    contentItemSelectedEvent("", "", Type, "", -1, -1, "");
+}
+    
+void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type, const std::string& elementShape)
+{
+    contentItemSelectedEvent("", "", Type, "", -1, -1, elementShape);
+}
+    
+void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Title,const std::string& Description, const std::string& Type, const std::string& contentID, int rowNumber, int elementNumber, const std::string& elementShape)
 {
     SessionIdManager::getInstance()->resetBackgroundTimeInContent();
+    
+    //Set here for Chat to count how long in a conversation
+    //for other content this is reset when contentItemWebviewStartedEvent() is called
+    time(&timeOpenedContent);
 
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Title"] = Title;
@@ -696,5 +710,14 @@ void AnalyticsSingleton::deepLinkingContentEvent()
         mixPanelSendEventWithStoredProperties("unreadMessagesNotificationReceived");
     }
     
+    void AnalyticsSingleton::chatReportedEvent()
+    {
+        mixPanelSendEventWithStoredProperties("chatReportedEvent");
+    }
+    
+    void AnalyticsSingleton::chatResetReportedEvent()
+    {
+        mixPanelSendEventWithStoredProperties("chatResetReportedEvent");
+    }
     
 }

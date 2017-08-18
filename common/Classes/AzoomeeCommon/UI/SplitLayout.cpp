@@ -24,8 +24,8 @@ bool SplitLayout::init()
     _secondLayout = ObservableLayout::create();
     addChild(_secondLayout);
     
-    // Default to horizontal mode 50/50 split
-    setMode(SplitLayout::Mode::Horizontal);
+    // Default to Landscape Orientation 50/50 split
+    setOrientation(Orientation::Landscape);
     setSplitBehaviour(0.5f, 0.5f);
   
     return true;
@@ -83,7 +83,7 @@ void SplitLayout::resizeLayouts()
         _layoutBehaviour[1] = 0.5f;
     }
     
-    if(_mode == SplitLayout::Mode::Horizontal)
+    if(_orientation == Orientation::Landscape)
     {
         Size firstSize = Size(contentSize.width * _layoutBehaviour[0], contentSize.height);
         Size secondSize = Size(contentSize.width * _layoutBehaviour[1], contentSize.height);
@@ -156,17 +156,17 @@ cocos2d::ui::Layout* SplitLayout::secondLayout() const
     return _secondLayout;
 }
 
-void SplitLayout::setMode(SplitLayout::Mode mode)
+void SplitLayout::setOrientation(Orientation orientation)
 {
-    _mode = mode;
-    setLayoutType((mode == SplitLayout::Mode::Horizontal) ? ui::Layout::Type::HORIZONTAL : ui::Layout::Type::VERTICAL);
+    _orientation = orientation;
+    setLayoutType((orientation == Orientation::Landscape) ? ui::Layout::Type::HORIZONTAL : ui::Layout::Type::VERTICAL);
     
     resizeLayouts();
 }
 
-SplitLayout::Mode SplitLayout::mode() const
+Orientation SplitLayout::orientation() const
 {
-    return _mode;
+    return _orientation;
 }
 
 void SplitLayout::setSplitBehaviour(float firstLayoutSize, float secondLayoutSize)

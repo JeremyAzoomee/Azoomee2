@@ -13,10 +13,12 @@ void addSideWiresToScreen(Node* parentLayer, float withDelay, float withDuration
     auto origin = Director::getInstance()->getVisibleOrigin();
     
     auto wireLeft = Sprite::create("res/decoration/wireLeft.png");
+    wireLeft->setName("Wire");
     wireLeft->setPosition(wireLeft->getContentSize().width / -2 + origin.x, visibleSize.height / 2 + origin.y);
     parentLayer->addChild(wireLeft);
     
     auto wireRight = Sprite::create("res/decoration/wireRight.png");
+    wireRight->setName("Wire");
     wireRight->setPosition(wireRight->getContentSize().width / 2 + visibleSize.width + origin.x, visibleSize.height / 2 + origin.y);
     parentLayer->addChild(wireRight);
     
@@ -32,10 +34,12 @@ void addSideWiresToScreen(Node* parentLayer)
     auto origin = Director::getInstance()->getVisibleOrigin();
     
     auto wireLeft = Sprite::create("res/decoration/wireLeft.png");
+    wireLeft->setName("Wire");
     wireLeft->setPosition(wireLeft->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
     parentLayer->addChild(wireLeft);
     
     auto wireRight = Sprite::create("res/decoration/wireRight.png");
+    wireRight->setName("Wire");
     wireRight->setPosition(visibleSize.width - wireRight->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
     parentLayer->addChild(wireRight);
 }
@@ -46,10 +50,12 @@ void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer, float withDelay, fl
     auto origin = Director::getInstance()->getVisibleOrigin();
     
     auto wireLeft = Sprite::create("res/decoration/wireLeft_MainHub.png");
+    wireLeft->setName("Wire");
     wireLeft->setPosition(wireLeft->getContentSize().width / -2 + origin.x, visibleSize.height / 2 + origin.y);
     parentLayer->addChild(wireLeft);
     
     auto wireRight = Sprite::create("res/decoration/wireRight_MainHub.png");
+    wireRight->setName("Wire");
     wireRight->setPosition(wireRight->getContentSize().width / 2 + visibleSize.width + origin.x, visibleSize.height / 2 + origin.y);
     parentLayer->addChild(wireRight);
     
@@ -64,13 +70,21 @@ void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer)
     auto origin = Director::getInstance()->getVisibleOrigin();
     
     auto wireLeft = Sprite::create("res/decoration/wireLeft_MainHub.png");
+    wireLeft->setName("Wire");
     wireLeft->setPosition(wireLeft->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
     parentLayer->addChild(wireLeft);
     
     auto wireRight = Sprite::create("res/decoration/wireRight_MainHub.png");
+    wireRight->setName("Wire");
     wireRight->setPosition(visibleSize.width - wireRight->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
     parentLayer->addChild(wireRight);
 
+}
+    
+void removeWiresFromScreen(cocos2d::Node* parentLayer)
+{
+    while(parentLayer->getChildByName("Wire"))
+        parentLayer->removeChildByName("Wire");
 }
 
 void addGlowToScreen(Node* parentLayer, float withDelay)
@@ -135,6 +149,22 @@ Layer* createWindowLayer(float width, float height)
 
     newLayer->addChild(newWindow);
 
+    return newLayer;
+}
+cocos2d::Layer* createWhiteWindowLayer(float width, float height)
+{
+    Layer* newLayer = Layer::create();
+    newLayer->setContentSize(Size(width, height));
+    
+    Rect spriteRect = Rect(0, 0, 467, 230);
+    Rect capInsents = Rect(100, 100, 255, 1);
+    
+    ui::Scale9Sprite* newWindow = ui::Scale9Sprite::create("res/decoration/whiteWindowScale9.png", spriteRect, capInsents);
+    newWindow->setContentSize(Size(newLayer->getContentSize().width, newLayer->getContentSize().height));
+    newWindow->setPosition(newLayer->getContentSize().width/2, newLayer->getContentSize().height/2);
+    
+    newLayer->addChild(newWindow);
+    
     return newLayer;
 }
   

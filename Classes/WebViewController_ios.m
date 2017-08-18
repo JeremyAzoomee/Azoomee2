@@ -17,7 +17,6 @@ using namespace Azoomee;
 {
     self = [super init];
     iframeloaded = false;
-    
     return self;
 }
 

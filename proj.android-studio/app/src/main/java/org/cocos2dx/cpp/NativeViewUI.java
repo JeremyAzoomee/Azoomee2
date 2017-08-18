@@ -2,6 +2,7 @@ package org.cocos2dx.cpp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,8 @@ public class NativeViewUI extends Activity {
     public static WebView uiWebViewStatic;
     public static String userid;
     public static ImageButton imageButtonStatic;
+    private static final int _portrait = 1;
+    private static final int _horizonal = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,12 @@ public class NativeViewUI extends Activity {
         activity = this;
 
         Bundle extras = getIntent().getExtras();
+
+        //---------Set Orientation-----------
+        // orientation - 1 = Portrait
+        if(extras.getInt("orientation") == _portrait)
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         userid = extras.getString("userid");
         Log.d("userid", userid);
 

@@ -683,7 +683,7 @@ void MessageComposer::createTopUIContent(SplitLayout* parent)
 {
     // Top layout has the left side fixed, the right fills the space
     // { [TABS][<------MESSAGE ENTRY UI] }
-    parent->setMode(SplitLayout::Mode::Horizontal);
+    parent->setOrientation(Orientation::Landscape);
     parent->setSplitBehaviour(SplitLayout::FixedSize, SplitLayout::FillSize);
     
     createMessageEntryUI(parent->secondLayout());
@@ -780,7 +780,7 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     const Size& textEntryTexSize = textEntryTex->getContentSize();
     _messageEntryLayout = SplitLayout::create();
     _messageEntryLayout->setContentSize(textEntryTexSize);
-    _messageEntryLayout->setMode(SplitLayout::Mode::Horizontal);
+    _messageEntryLayout->setOrientation(Orientation::Landscape);
     _messageEntryLayout->setSplitBehaviour(SplitLayout::FillSize, SplitLayout::FixedSize);
     _messageEntryLayout->setBackGroundImage("res/chat/ui/textfield/message_field.png");
     _messageEntryLayout->setBackGroundImageScale9Enabled(true);

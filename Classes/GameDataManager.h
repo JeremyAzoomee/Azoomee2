@@ -7,6 +7,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include "SceneManagerScene.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -67,6 +68,7 @@ private:
     bool processCancelled = false;
     
     bool isGameCompatibleWithCurrentAzoomeeVersion(std::string jsonFileName);
+    Orientation getGameOrientation(const std::string& jsonFileName);
 };
 
 NS_AZOOMEE_END

@@ -44,6 +44,9 @@ public:
     static const char* const TagFriendRequestReaction;
     static const char* const TagGetPendingFriendRequests;
     static const char* const TagPusherAuth;
+    static const char* const TagReportChat;
+    static const char* const TagResetReportedChat;
+    static const char* const TagGetForceUpdateInformation;
     
 #pragma mark - API Methods
     
@@ -54,6 +57,8 @@ public:
                                             HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* UpdateBillingDataRequest(HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* GetForceUpdateInformationRequest(HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* UpdateParentPinRequest(HttpRequestCreatorResponseDelegate* delegate);
     
@@ -143,6 +148,7 @@ public:
     // userId must be the currently logged in child or parent, or the request will fail
     static HttpRequestCreator* GetChatMessagesRequest(const std::string& userId,
                                                       const std::string& friendId,
+                                                      int pageNumber,
                                                       HttpRequestCreatorResponseDelegate* delegate);
     
     // Send a chat message to friendId
@@ -165,6 +171,14 @@ public:
                                                  const std::string& channelName,
                                                  const std::string& socketId,
                                                  HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* SendChatReportRequest(const std::string& userId,
+                                                     const std::string& friendId,
+                                                     HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* ResetReportedChatRequest(const std::string& userId,
+                                                     const std::string& friendId,
+                                                     HttpRequestCreatorResponseDelegate* delegate);
     
     
     

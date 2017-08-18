@@ -6,8 +6,11 @@
 #include "ArtsAppHQElement.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include "HQSceneElementPositioner.h"
+#include "ArtAppImageConverter.h"
 #include <dirent.h>
+#include <algorithm>
 
 using namespace cocos2d;
 
@@ -55,8 +58,11 @@ void HQSceneArtsApp::createArtsAppScrollView()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height * 2), Point(0, 300));
+    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height*2), Point(0, 300));
     this->addChild(horizontalScrollView);
+    
+    if(!FileUtils::getInstance()->isDirectoryExist(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId()))
+        FileUtils::getInstance()->createDirectory(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId());
     
     addEmptyImageToHorizontalScrollView(horizontalScrollView);
     addCreatedImagesToHorizontalScrollView(horizontalScrollView);
@@ -67,13 +73,17 @@ void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView
     bool locked = true;
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) locked = false;
     
-    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.imag"), true, false, locked);
+    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), true, false, locked);
 }
 
 void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    
+    //std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    std::string path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
     std::vector<std::string> fileList = getFilesInDirectory(path);
+    
+    std::reverse(fileList.begin(), fileList.end());
     
     CCLOG("imagepath: %s", path.c_str());
     
@@ -81,7 +91,7 @@ void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollV
     {
         if(fileList.at(i).size() > 4)
         {
-            if(fileList.at(i).substr(fileList.at(i).size() -4, 4) == "imag")
+            if(fileList.at(i).substr(fileList.at(i).size() -3, 3) == "png")
             {
                 bool locked = true;
                 if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) locked = false;
@@ -96,11 +106,31 @@ void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollV
 void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable, bool locked)
 {
     auto artImage = ArtsAppHQElement::create();
-    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable, locked);
+    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable, locked,false);
     toBeAddedTo->addChild(artImage);
     
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)artImage);
+    artImage->enableOnScreenChecker();
+}
+
+std::vector<std::string> HQSceneArtsApp::getOldArtImages()
+{
+    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    std::vector<std::string> fileList = getFilesInDirectory(path);
+    std::vector<std::string> imagList;
+    for(int i = 0; i < fileList.size(); i++)
+    {
+        if(fileList.at(i).size() > 4)
+        {
+            if(fileList.at(i).substr(fileList.at(i).size() -4, 4) == "imag")
+            {
+                imagList.push_back(StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str()));
+            }
+        }
+    }
+    
+    return imagList;
 }
 
 std::vector<std::string> HQSceneArtsApp::getFilesInDirectory(std::string path)

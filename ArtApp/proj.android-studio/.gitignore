@@ -1,0 +1,14 @@
+.gradle
+/.idea/workspace.xml
+/.idea/modules.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+*.iml
+*.apk
+/app/obj/
+/app/libs/
+/app/assets/res/
+local.properties
+fabric.properties

@@ -33,7 +33,7 @@ bool AwaitingAdultPinLayer::init()
 
 void AwaitingAdultPinLayer::createAndFadeInLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(15,14,7,255),origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Style::Color_4B::awaitingPinLayer,origin.x+ visibleSize.width, origin.y + visibleSize.height);
     
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);

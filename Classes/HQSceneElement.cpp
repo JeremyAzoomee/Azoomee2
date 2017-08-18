@@ -191,7 +191,7 @@ void HQSceneElement::startUpElementDependingOnType()
     {
         VideoPlaylistManager::getInstance()->setPlaylist(HQDataProvider::getInstance()->getAllElementDataInRow(elementCategory, elementRowNumber));
         auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(elementItemData["uri"].c_str());
+        webViewSelector->loadWebView(elementItemData["uri"].c_str(),Orientation::Landscape);
     }
     else if(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "AUDIOGROUP")
     {

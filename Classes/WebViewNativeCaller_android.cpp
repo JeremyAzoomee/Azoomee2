@@ -14,13 +14,14 @@ using namespace Azoomee;
 
 NS_AZOOMEE_BEGIN
 
-cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(std::string url)
+cocos2d::Scene* WebViewNativeCaller_android::createSceneWithUrl(const std::string& url, Orientation orientation)
 {
     auto scene = cocos2d::Scene::create();
     auto layer = WebViewNativeCaller_android::create();
     scene->addChild(layer);
     
     layer->loadUrl = url;
+    layer->_orientation = orientation;
 
     return scene;
 }
@@ -112,7 +113,7 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
     
     cocos2d::JniMethodInfo methodInfo;
     
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startWebView", "(Ljava/lang/String;Ljava/lang/String;)V"))
+    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startWebView", "(Ljava/lang/String;Ljava/lang/String;I)V"))
     {
         return;
     }
@@ -120,7 +121,7 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
     jstring jurl = methodInfo.env->NewStringUTF(loadUrl.c_str());
     jstring juserid = methodInfo.env->NewStringUTF(ChildDataProvider::getInstance()->getLoggedInChildId().c_str());
     
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jurl, juserid);
+    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jurl, juserid,_orientation);
 
     methodInfo.env->DeleteLocalRef(methodInfo.classID);
         

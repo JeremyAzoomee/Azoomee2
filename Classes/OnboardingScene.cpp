@@ -11,6 +11,8 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
+#include <AzoomeeCommon/Data/Urls.h>
+#include <AzoomeeCommon/UI/ModalWebview.h>
 
 using namespace cocos2d;
 
@@ -138,18 +140,18 @@ void OnboardingScene::addButtonsScene()
 void OnboardingScene::addTermsAndConditionsToScene()
 {
     //---------- CREATE AND ADD LABELS AND BUTTONS
-    Label* TermsAndConditionsStartLabel =createLabelWith(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_TERMS_CONDITIONS),Style::Font::Regular, Style::Color::white, 40);
+    Label* TermsAndConditionsStartLabel =createLabelWith(StringMgr::getInstance()->getStringForKey(T_and_C_Start_Text),Style::Font::Regular, Style::Color::white, 40);
     this->addChild(TermsAndConditionsStartLabel);
     
-    Label* andLabel =createLabelWith("and",Style::Font::Regular, Style::Color::white, 40);
+    Label* andLabel =createLabelWith(StringMgr::getInstance()->getStringForKey(T_and_C_And),Style::Font::Regular, Style::Color::white, 40);
     this->addChild(andLabel);
     
-    privacyButton = ElectricDreamsButton::createTextAsButton(" Privacy Policy ", 40, true);
+    privacyButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 40, true);
     privacyButton->setMixPanelButtonName("signupScenePrivacyPolicyButton");
     privacyButton->setDelegate(this);
     this->addChild(privacyButton);
     
-    termsButton = ElectricDreamsButton::createTextAsButton(" Terms of Use.", 40, true);
+    termsButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(T_and_C_Terms_Button), 40, true);
     termsButton->setMixPanelButtonName("signupSceneermsButton");
     termsButton->setDelegate(this);
     this->addChild(termsButton);
@@ -223,14 +225,14 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
     else if(button == cancelButton)
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
     else if(button == privacyButton)
-        Application::getInstance()->openURL("http://azoomee.com/index.php/privacy-policy-2/");
+        ModalWebview::createWithURL(Url::PrivacyPolicy);
     else if(button == termsButton)
-        Application::getInstance()->openURL("http://azoomee.com/index.php/terms-and-conditions/");
+        ModalWebview::createWithURL(Url::TermsOfUse);
 }
 
 void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    if(buttonTitle == "Log in")
+    if(buttonTitle == MessageBox::kLogin)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
     }

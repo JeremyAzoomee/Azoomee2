@@ -79,7 +79,7 @@ std::vector<std::string> OfflineGameSearch::getJsonFileListFromDir()
     }
 }
 
-bool OfflineGameSearch::isStarterFileExists(std::string gameId)
+bool OfflineGameSearch::isStarterFileExists(const std::string &gameId)
 {
     CCLOG("file exists: %s", getStartFileFromJson(gameId).c_str());
     if(getStartFileFromJson(gameId) == "ERROR") return false;
@@ -88,7 +88,7 @@ bool OfflineGameSearch::isStarterFileExists(std::string gameId)
     return FileUtils::getInstance()->isFileExist(path);
 }
 
-std::string OfflineGameSearch::getStartFileFromJson(std::string gameId)
+std::string OfflineGameSearch::getStartFileFromJson(const std::string &gameId)
 {
     std::string jsonFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
     
@@ -103,32 +103,60 @@ std::string OfflineGameSearch::getStartFileFromJson(std::string gameId)
     else return "ERROR";
 }
 
-std::map<std::string, std::string> OfflineGameSearch::getGameDetails(std::string gameId)
+std::map<std::string, std::string> OfflineGameSearch::getGameDetails(const std::string &gameId)
 {
     std::map<std::string, std::string> currentGameData;
     
     std::string packageFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/package.json";
     std::string feedDataFileName = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/feedData.json";
     
+    currentGameData["id"] = gameId;
+    currentGameData["entitled"] = "true";
+    currentGameData["description"] = "";
+    currentGameData["type"] = "GAME";
+    currentGameData["isPortrait"] = "false";
+    
     std::string packageFileContent = FileUtils::getInstance()->getStringFromFile(packageFileName);
     rapidjson::Document gameData;
     gameData.Parse(packageFileContent.c_str());
     
-    currentGameData["id"] = gameId;
-    currentGameData["entitled"] = "true";
-    currentGameData["uri"] = gameData["pathToStartPage"].GetString();
-    currentGameData["title"] = gameData["name"].GetString();
-    currentGameData["description"] = "";
-    currentGameData["type"] = "GAME";
+    if(!gameData.HasParseError())
+    {
+        if(gameData.HasMember("pathToStartPage"))
+            if(!gameData["pathToStartPage"].IsNull())
+                if(gameData["pathToStartPage"].IsString())
+                    currentGameData["uri"] = gameData["pathToStartPage"].GetString();
+        
+        if(gameData.HasMember("name"))
+            if(!gameData["name"].IsNull())
+                if(gameData["name"].IsString())
+                    currentGameData["title"] = gameData["name"].GetString();
+        
+        if(gameData.HasMember("isPortrait"))
+            if(!gameData["isPortrait"].IsNull())
+                if(gameData["isPortrait"].IsBool())
+                    if(gameData["isPortrait"].GetBool())
+                        currentGameData["isPortrait"] = "true";
+    }
     
-    if(FileUtils::getInstance()->isFileExist(feedDataFileName))
+    if(FileUtils::getInstance()->isFileExist(feedDataFileName)) //if we have feed data downloaded, we overwite the values for the contentItem to be shown, as package.json file display data is not accurate.
     {
         std::string feedFileContent = FileUtils::getInstance()->getStringFromFile(feedDataFileName);
         rapidjson::Document feedData;
         feedData.Parse(feedFileContent.c_str());
         
-        currentGameData["title"] = feedData["title"].GetString();
-        currentGameData["description"] = feedData["description"].GetString();
+        if(!feedData.HasParseError())
+        {
+            if(feedData.HasMember("title"))
+                if(!feedData["title"].IsNull())
+                    if(feedData["title"].IsString())
+                        currentGameData["title"] = feedData["title"].GetString();
+            
+            if(feedData.HasMember("description"))
+                if(!feedData["description"].IsNull())
+                    if(feedData["description"].IsString())
+                        currentGameData["description"] = feedData["description"].GetString();
+        }
     }
     
     return currentGameData;

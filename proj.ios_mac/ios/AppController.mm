@@ -54,7 +54,7 @@ static AppDelegate s_sharedApplication;
     
     [Mixpanel sharedInstanceWithToken:@"7e94d58938714fa180917f0f3c7de4c9"];
     [Mixpanel sharedInstance].showNotificationOnActive = NO;
-
+    
     return YES;
 }
 
@@ -66,5 +66,9 @@ static AppDelegate s_sharedApplication;
     return YES;
 }
 
+-(void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+}
 
 @end
