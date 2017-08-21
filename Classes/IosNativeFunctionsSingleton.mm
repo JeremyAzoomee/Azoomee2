@@ -36,4 +36,13 @@ const char* IosNativeFunctionsSingleton::getIosDeviceIDFA()
     return [[[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString] cStringUsingEncoding:NSUTF8StringEncoding];
 }
 
+void IosNativeFunctionsSingleton::deleteHttpCookies()
+{
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *each in cookieStorage.cookies)
+    {
+        [cookieStorage deleteCookie:each];
+    }
+}
+
 NS_AZOOMEE_END

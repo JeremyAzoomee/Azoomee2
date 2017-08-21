@@ -283,6 +283,8 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
 
 void BackEndCaller::getGordon()
 {
+    IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies();
+    
     const std::string& userId = ChildDataProvider::getInstance()->getParentOrChildId();
     const std::string& sessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
     
