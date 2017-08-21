@@ -105,7 +105,7 @@ void NavigationLayer::changeToScene(int target, float duration)
     AnalyticsSingleton::getInstance()->navSelectionEvent("",target);
     this->startLoadingHQScene(target);
     this->turnOffAllMenuItems();
-    this->turnOnMenuItem(target);
+    if(target < 6) this->turnOnMenuItem(target);
     
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::getInstance()->getNameForMenuItem(target));
     
