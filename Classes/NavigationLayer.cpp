@@ -74,7 +74,6 @@ bool NavigationLayer::init()
         else
         {
             runDisplayAnimationForMenuItem(menuItemHolder, false);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
-            this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 4);
         }
     }
     
@@ -104,7 +103,6 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
 void NavigationLayer::changeToScene(int target, float duration)
 {
     AnalyticsSingleton::getInstance()->navSelectionEvent("",target);
-    AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
     this->startLoadingHQScene(target);
     this->turnOffAllMenuItems();
     this->turnOnMenuItem(target);
@@ -371,6 +369,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
             else
             {
                 this->changeToScene(target->getTag(), 0.5);
+                AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
             }
             return true;
         }
@@ -533,6 +532,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
             }
             
             this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
+            AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
 
             return true;
         }
