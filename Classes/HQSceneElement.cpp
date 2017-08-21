@@ -142,14 +142,6 @@ void HQSceneElement::addListenerToElement()
             iamtouched = false;
             CCLOG("Action to come: %s", elementItemData["uri"].c_str());
             
-            if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
-            {
-                CCLOG("MixPanel: %s, %s, %s", elementItemData["title"].c_str(), elementItemData["description"].c_str(), elementCategory.c_str());
-                AnalyticsSingleton::getInstance()->previewContentClickedEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"]);
-                PreviewLoginSignupMessageBox::create();
-                return true;
-            }
-            
             if(elementItemData["type"] == "MANUAL")
             {
                 ManualGameInputLayer::create();

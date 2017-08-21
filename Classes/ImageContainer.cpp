@@ -68,20 +68,12 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     addIconToImage(elementProperties["type"], startDelay);
     addLabelToImage(elementProperties["title"], startDelay);
     
-    if(elementProperties["entitled"] == "false" && !ChildDataProvider::getInstance()->getIsChildLoggedIn())
-    {
-        addLockToImageContainer(startDelay);
-        addPreviewListenerToContainer(bgLayer,elementProperties);
 
-    }
-    else
-    {
-        if(elementProperties["entitled"] == "false")
-            addLockToImageContainer(startDelay);
+    if(elementProperties["entitled"] == "false")
+        addLockToImageContainer(startDelay);
         
-        addReponseLayerToImage(elementProperties, scale);
-        addListenerToContainer(bgLayer, colour4.a, elementProperties, RoutePaymentSingleton::getInstance()->showIAPContent());
-    }
+    addReponseLayerToImage(elementProperties, scale);
+    addListenerToContainer(bgLayer, colour4.a, elementProperties, RoutePaymentSingleton::getInstance()->showIAPContent());
 }
 
 //-----------------------------------------------------All methods below are called internally.---------------------------------------------------

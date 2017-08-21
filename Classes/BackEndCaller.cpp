@@ -162,8 +162,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
         HQDataStorage::getInstance()->HQData.clear();
         HQDataStorage::getInstance()->HQGetContentUrls.clear();
         
-        getAvailableChildren();
-        updateBillingData();
+        getGordon();
     }
     else
     {
@@ -389,17 +388,8 @@ void BackEndCaller::verifyApplePayment(const std::string& receiptData)
 //GET CONTENT-------------------------------------------------------------------------------
 void BackEndCaller::getHQContent(const std::string& url, const std::string& category)
 {
-    // Preview doesn't need to be encrypted
-    if(category == "PreviewHOME")
-    {
-        HttpRequestCreator* request = API::GetPublicContentRequest(url, category, this);
-        request->execute();
-    }
-    else
-    {
         HttpRequestCreator* request = API::GetEncryptedContentRequest(url, category, this);
         request->execute();
-    }
 }
 
 // DEEPLINK CONTENT DETAILS REQUEST ----------------------------------------------------------------
