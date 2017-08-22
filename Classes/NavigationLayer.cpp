@@ -73,7 +73,6 @@ bool NavigationLayer::init()
         else
         {
             runDisplayAnimationForMenuItem(menuItemHolder, false);        //Animation for two items has to be handled separately, because opacity must not be in a parent-child relationship.
-            this->scheduleOnce(schedule_selector(NavigationLayer::delayedSetButtonOn), 4);
         }
     }
     
@@ -116,8 +115,6 @@ void NavigationLayer::changeToScene(hubTagetTagNumber target, float duration)
         }
         return;
     }
-
-    //this->turnOnMenuItem(target);
     
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::getInstance()->getNameForMenuItem(target));
     
@@ -125,6 +122,7 @@ void NavigationLayer::changeToScene(hubTagetTagNumber target, float duration)
 
     this->startLoadingHQScene(target);
     this->turnOffAllMenuItems();
+    if(target < 6) this->turnOnMenuItem(target);
     
     if(HQHistoryManager::getInstance()->getCurrentHQ() != "GROUP HQ")
     {
@@ -536,7 +534,12 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
                 this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
             
+<<<<<<< HEAD
             this->changeToScene((hubTagetTagNumber)ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
+=======
+            this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
+            AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
+>>>>>>> origin/master
 
             return true;
         }
