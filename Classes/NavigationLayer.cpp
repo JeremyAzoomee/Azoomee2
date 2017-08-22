@@ -533,13 +533,8 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
                 
                 this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
-            
-<<<<<<< HEAD
+
             this->changeToScene((hubTagetTagNumber)ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
-=======
-            this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
-            AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
->>>>>>> origin/master
 
             return true;
         }
