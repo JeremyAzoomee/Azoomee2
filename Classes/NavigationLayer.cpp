@@ -116,6 +116,8 @@ void NavigationLayer::changeToScene(hubTagetTagNumber target, float duration)
         }
         return;
     }
+
+    //this->turnOnMenuItem(target);
     
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::getInstance()->getNameForMenuItem(target));
     

@@ -14,6 +14,7 @@
 		0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0253C9851EC053B4005037EB /* VideoPlaylistManager.cpp */; };
 		025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633721F39AB5D0053FF26 /* ForceUpdateSingleton.cpp */; };
 		025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */; };
+		025634331F46EE7A0053FF26 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 025634321F46EE7A0053FF26 /* IosNativeFunctionsSingleton.mm */; };
 		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
 		025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */; };
 		025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */; };
@@ -132,7 +133,7 @@
 		926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
 		926173BF1F3334E6008E3F9D /* ArtAppImageConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173BE1F3334E6008E3F9D /* ArtAppImageConverter.cpp */; };
 		926173C21F33850F008E3F9D /* ImageConverterLoadingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */; };
-		92A9A06E1F068A97008A19EB /* libArtApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libArtApp.a */; };
+		92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */; };
 		92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */; };
 		A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */; };
 		A134ADCE1E0C0F420030BE98 /* HQSceneElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A134ADCC1E0C0F420030BE98 /* HQSceneElementPositioner.cpp */; };
@@ -239,13 +240,6 @@
 			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
 			remoteInfo = "azoomee2_ArtApp-mobile";
 		};
-		9246EDD71F0403A9008CD359 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5087E76F17EB910900C73F5D;
-			remoteInfo = "azoomee2_ArtApp-desktop";
-		};
 		92A9A0651F068A7B008A19EB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */;
@@ -284,6 +278,8 @@
 		025633731F39AB5D0053FF26 /* ForceUpdateSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceUpdateSingleton.h; sourceTree = "<group>"; };
 		025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ForceUpdateAppLockScene.cpp; sourceTree = "<group>"; };
 		025633781F3B0F5C0053FF26 /* ForceUpdateAppLockScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceUpdateAppLockScene.h; sourceTree = "<group>"; };
+		025634311F46EE7A0053FF26 /* IosNativeFunctionsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosNativeFunctionsSingleton.h; sourceTree = "<group>"; };
+		025634321F46EE7A0053FF26 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
 		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
 		025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
 		025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsPreviewLayer.cpp; sourceTree = "<group>"; };
@@ -519,7 +515,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92A9A06E1F068A97008A19EB /* libArtApp.a in Frameworks */,
+				92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */,
 				300742E01EF91667005525AE /* libAzoomeeChat.a in Frameworks */,
 				4396948A1EAA4ACD003C17E6 /* StoreKit.framework in Frameworks */,
 				304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */,
@@ -632,6 +628,15 @@
 			name = ForceUpdate;
 			sourceTree = "<group>";
 		};
+		025634301F46EE6C0053FF26 /* IosNativeFunctions */ = {
+			isa = PBXGroup;
+			children = (
+				025634311F46EE7A0053FF26 /* IosNativeFunctionsSingleton.h */,
+				025634321F46EE7A0053FF26 /* IosNativeFunctionsSingleton.mm */,
+			);
+			name = IosNativeFunctions;
+			sourceTree = "<group>";
+		};
 		02E595821E55DE5E0052F395 /* Offline */ = {
 			isa = PBXGroup;
 			children = (
@@ -703,12 +708,12 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */,
 				46880B8319C43A87006E1F66 /* Classes */,
 				46880B7519C43A67006E1F66 /* Resources */,
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
 				3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */,
 				300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */,
+				9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* ios */,
 				503AE10617EB990700D1A890 /* mac */,
@@ -867,6 +872,7 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				025634301F46EE6C0053FF26 /* IosNativeFunctions */,
 				926173B81F333376008E3F9D /* ArtAppImageConverter */,
 				0243B8C91F0F836A005D3734 /* EmptySceneForSettings */,
 				02074B241E93964F009BB28C /* WebGameAPIDataManager */,
@@ -1000,9 +1006,8 @@
 		9246EDD01F0403A8008CD359 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9246EDD61F0403A9008CD359 /* azoomee2_ArtApp-mobile.app */,
-				9246EDD81F0403A9008CD359 /* azoomee2_ArtApp-desktop.app */,
-				92A9A06B1F068A7B008A19EB /* libArtApp.a */,
+				9246EDD61F0403A9008CD359 /* AzoomeeArt-app.app */,
+				92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1320,24 +1325,17 @@
 			remoteRef = 3077F4511E8D51D7006DA465 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9246EDD61F0403A9008CD359 /* azoomee2_ArtApp-mobile.app */ = {
+		9246EDD61F0403A9008CD359 /* AzoomeeArt-app.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = "azoomee2_ArtApp-mobile.app";
+			path = "AzoomeeArt-app.app";
 			remoteRef = 9246EDD51F0403A9008CD359 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9246EDD81F0403A9008CD359 /* azoomee2_ArtApp-desktop.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "azoomee2_ArtApp-desktop.app";
-			remoteRef = 9246EDD71F0403A9008CD359 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		92A9A06B1F068A7B008A19EB /* libArtApp.a */ = {
+		92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libArtApp.a;
+			path = libAzoomeeArt.a;
 			remoteRef = 92A9A06A1F068A7B008A19EB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1495,6 +1493,7 @@
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
+				025634331F46EE7A0053FF26 /* IosNativeFunctionsSingleton.mm in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,

@@ -33,7 +33,7 @@ bool LoginScene::init()
     {
         return false;
     }
-    CCLOG("Cache folder: %s", FileUtils::getInstance()->getWritablePath().c_str());
+    cocos2d::log("Cache folder: %s", FileUtils::getInstance()->getWritablePath().c_str());
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     
