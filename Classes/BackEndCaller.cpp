@@ -276,6 +276,13 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
     sourceDevice = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceData");
 #endif
     
+    const std::vector<std::string> &deviceArray = splitStringToVector(sourceDevice, "|");
+    
+    if(deviceArray.size() == 2)
+    {
+        sourceDevice = Azoomee::Net::urlEncode(deviceArray.at(0)) + "|" + Azoomee::Net::urlEncode(deviceArray.at(1));
+    }
+    
     HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, this);
     request->execute();
     
