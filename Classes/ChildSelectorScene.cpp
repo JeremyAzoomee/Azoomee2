@@ -19,6 +19,7 @@
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
 #include "ForceUpdateSingleton.h"
+#include "ChatNotificationsSingleton.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 450
@@ -47,6 +48,7 @@ bool ChildSelectorScene::init()
     AnalyticsSingleton::getInstance()->logoutChildEvent();
     
     AudioMixer::getInstance()->stopBackgroundMusic();
+    ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
