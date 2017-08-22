@@ -70,7 +70,7 @@ std::string HttpRequestCreator::getUrlParametersFromUrl(std::string url)
     int until = (int)url.length();
     
     if(from == until) return ""; //this means there is no question mark found in url.
-    return(url.substr(from + 1));
+    return(url.substr(from + 1)); //from is the position of the question mark, we get substring starting at from + 1 to exclude it from the final result.
 }
 
 
