@@ -94,6 +94,10 @@ public class NativeView extends XWalkActivity {
         xWalkWebViewStatic = xWalkWebView;
     }
 
+    public void onBackPressed(){
+        exitView();
+    }
+
     public static void exitView()
     {
         activity.runOnUiThread(new Runnable() {

@@ -114,6 +114,10 @@ void BaseScene::addNavigationLayer()
     {
         sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getCurrentHQ()), 0.01);
     }
+    else
+    {
+        sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName("GAME HQ"), 0.01);
+    }
 }
 
 NS_AZOOMEE_END
