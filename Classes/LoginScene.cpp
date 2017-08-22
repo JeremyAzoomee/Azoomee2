@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
+#include "ChatNotificationsSingleton.h"
 
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "IosNativeFunctionsSingleton.h"
@@ -38,6 +39,8 @@ bool LoginScene::init()
         return false;
     }
     cocos2d::log("Cache folder: %s", FileUtils::getInstance()->getWritablePath().c_str());
+    
+    ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     
