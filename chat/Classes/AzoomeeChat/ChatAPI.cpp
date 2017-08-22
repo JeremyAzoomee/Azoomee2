@@ -295,7 +295,7 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
     // appropriate action.
     if(errorCode == 401)
     {
-        Azoomee::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
+        if(Azoomee::Chat::delegate) Azoomee::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
     }
     else
     {
