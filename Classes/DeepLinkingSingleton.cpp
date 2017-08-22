@@ -109,7 +109,11 @@ bool DeepLinkingSingleton::actionDeepLink()
             resetDeepLink();
             return true;
         }
-        else if(path == "chat" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        
+        if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+            return false;
+        
+        if(path == "chat")
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
@@ -118,7 +122,7 @@ bool DeepLinkingSingleton::actionDeepLink()
             resetDeepLink();
             return true;
         }
-        else if(path == "artstudio" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(path == "artstudio")
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
@@ -127,17 +131,17 @@ bool DeepLinkingSingleton::actionDeepLink()
             resetDeepLink();
             return true;
         }
-        else if(path == "games" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(path == "games")
         {
             moveToHQ(hubTagetTagNumber::GAME_HQ);
             return true;
         }
-        else if(path == "audio" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(path == "audio")
         {
             moveToHQ(hubTagetTagNumber::AUDIO_HQ);
             return true;
         }
-        else if(path == "videos" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        if(path == "videos")
         {
             moveToHQ(hubTagetTagNumber::VIDEO_HQ);
             return true;
