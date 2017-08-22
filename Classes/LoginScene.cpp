@@ -159,7 +159,7 @@ void LoginScene::backButtonPressed()
 {
     if(currentScreen == emailLoginScreen)
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+        BackEndCaller::getInstance()->anonymousDeviceLogin();
     }
     else if(currentScreen == passwordLoginScreen)
         changeElementsToEmailScreen();

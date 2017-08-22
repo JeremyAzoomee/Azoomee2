@@ -162,7 +162,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
         HQDataStorage::getInstance()->HQData.clear();
         HQDataStorage::getInstance()->HQGetContentUrls.clear();
         
-        getGordon();
+        getGordon(); //we are skipping to getGordon (no child login), that will get the required free/user cookies and switch to the main scene.
     }
     else
     {
@@ -283,7 +283,9 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
 
 void BackEndCaller::getGordon()
 {
-    IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies();
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
+#endif
     
     const std::string& userId = ChildDataProvider::getInstance()->getParentOrChildId();
     const std::string& sessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();

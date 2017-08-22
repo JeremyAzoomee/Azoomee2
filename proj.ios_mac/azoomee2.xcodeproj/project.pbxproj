@@ -1054,6 +1054,8 @@
 		A15B2FA41DEC73B800D25334 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */,
+				0281F5C61E89210C001FCE60 /* LoginLogicHandler.h */,
 				4319D3E01E67134600110F92 /* LoginScene.cpp */,
 				4319D3E11E67134600110F92 /* LoginScene.h */,
 				A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */,
@@ -1156,8 +1158,6 @@
 				43FA20131EE6FB83003CE631 /* FTUScene.h */,
 				43F384491F1E394500ECA339 /* SlideShowScene.cpp */,
 				43F3844A1F1E394500ECA339 /* SlideShowScene.h */,
-				0281F5C51E89210C001FCE60 /* LoginLogicHandler.cpp */,
-				0281F5C61E89210C001FCE60 /* LoginLogicHandler.h */,
 			);
 			name = Intro;
 			sourceTree = "<group>";
