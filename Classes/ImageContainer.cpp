@@ -146,12 +146,19 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
             if(elementProperties.at("entitled") == "false")
             {
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "1,1");
-            
-                if(IAPEnabled)
+                AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+                
+                if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
                 {
-                    AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-                    AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("HQs");
-                    IAPUpsaleLayer::createRequiresPin();
+                    if(IAPEnabled)
+                    {
+                        AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("HQs");
+                        IAPUpsaleLayer::createRequiresPin();
+                    }
+                }
+                else
+                {
+                    PreviewLoginSignupMessageBox::create();
                 }
             }
             else
@@ -209,34 +216,6 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         auto target = static_cast<Node*>(event->getCurrentTarget());
         target->getChildByName("responseLayer")->stopAllActions();
         target->getChildByName("responseLayer")->setOpacity(0);
-        
-        return false;
-    };
-    
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), addTo);
-}
-
-void ImageContainer::addPreviewListenerToContainer(cocos2d::Node *addTo, std::map<std::string, std::string> elementProperties)
-{
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    
-    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
-    {
-        auto target = static_cast<Node*>(event->getCurrentTarget());
-        
-        Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-        Size s = target->getContentSize();
-        Rect rect = Rect(0,0,s.width, s.height);
-        
-        if(rect.containsPoint(locationInNode))
-        {
-            AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-            AnalyticsSingleton::getInstance()->previewContentClickedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"));
-            
-            PreviewLoginSignupMessageBox::create();
-            return true;
-        }
         
         return false;
     };

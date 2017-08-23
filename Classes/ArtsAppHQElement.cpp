@@ -195,13 +195,6 @@ void ArtsAppHQElement::addImage(std::string filePath)
         sprite->initWithFile(filePath);
     }
     
-    //Texture2D *texture = new Texture2D();
-    //texture->initWithImage(img);
-    
-    
-    //sprite->initWithTexture(texture);
-    
-    
     float scale = (this->getContentSize().width - 40) / sprite->getContentSize().width;
     
     if(sprite->getContentSize().height * scale > this->getContentSize().height - 40)
@@ -217,7 +210,6 @@ void ArtsAppHQElement::addLockToElement()
 {
     auto lockImage = Sprite::create("res/hqscene/locked.png");
     lockImage->setPosition(baseLayer->getContentSize() / 2);
-    //lockImage->setScale(baseLayer->getContentSize().width / 445);
     this->addChild(lockImage,1);
 }
 
@@ -324,11 +316,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(rect.containsPoint(locationInNode))
         {
-            //if(preview)
-            //    AnalyticsSingleton::getInstance()->previewContentClickedEvent("","", "ARTS APP");
-            //else
-            //    AnalyticsSingleton::getInstance()->contentItemSelectedEvent("ARTS APP", "1,1");
-
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;
             movedAway = false;
@@ -379,9 +366,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
                 return true;
             }
             
-            //if(!notSendingFileData) ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder(filePath);
-            //else ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder("NEW");
-            
             iamtouched = false;
             overlayWhenTouched->setOpacity(0);
             overlayWhenTouched->stopAllActions();
@@ -394,17 +378,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
             
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
             return true;
-            
-            WebGameAPIDataManager::getInstance()->setGameId("artApp");
-            
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, FileUtils::getInstance()->fullPathForFilename("res/artapp/index.html")));
-#endif
-            
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-            ConfigStorage::getInstance()->inArtsApp = 1;
-            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Orientation::Landscape, "file:///android_asset/res/artapp/index.html"));
-#endif
         }
         
         return true;
