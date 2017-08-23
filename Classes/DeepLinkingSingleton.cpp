@@ -133,17 +133,17 @@ bool DeepLinkingSingleton::actionDeepLink()
         }
         if(path == "games")
         {
-            moveToHQ(hubTagetTagNumber::GAME_HQ);
+            moveToHQ(HubTagetTagNumber::GAME_HQ);
             return true;
         }
         if(path == "audio")
         {
-            moveToHQ(hubTagetTagNumber::AUDIO_HQ);
+            moveToHQ(HubTagetTagNumber::AUDIO_HQ);
             return true;
         }
         if(path == "videos")
         {
-            moveToHQ(hubTagetTagNumber::VIDEO_HQ);
+            moveToHQ(HubTagetTagNumber::VIDEO_HQ);
             return true;
         }
     }
@@ -151,7 +151,7 @@ bool DeepLinkingSingleton::actionDeepLink()
     return false;
 }
 
-void DeepLinkingSingleton::moveToHQ(hubTagetTagNumber hqName)
+void DeepLinkingSingleton::moveToHQ(HubTagetTagNumber hqName)
 {
     AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
     

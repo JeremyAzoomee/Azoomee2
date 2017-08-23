@@ -112,11 +112,11 @@ void BaseScene::addNavigationLayer()
     
     if(!HQHistoryManager::getInstance()->noHistory())
     {
-        sNavigationLayer->changeToScene((hubTagetTagNumber)ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getCurrentHQ()), 0.01);
+        sNavigationLayer->changeToScene((HubTagetTagNumber)ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getCurrentHQ()), 0.01);
     }
     else
     {
-        sNavigationLayer->changeToScene(hubTagetTagNumber::GAME_HQ, 0.01);
+        sNavigationLayer->changeToScene(HubTagetTagNumber::GAME_HQ, 0.01);
     }
 }
 

@@ -99,7 +99,7 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     addBackButtonToNavigation();
 }
 
-void NavigationLayer::changeToScene(hubTagetTagNumber target, float duration)
+void NavigationLayer::changeToScene(HubTagetTagNumber target, float duration)
 {
     if(target == 0)
     {
@@ -372,7 +372,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         {
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
-            this->changeToScene((hubTagetTagNumber)target->getTag(), 0.5);
+            this->changeToScene((HubTagetTagNumber)target->getTag(), 0.5);
             
             return true;
         }
@@ -534,7 +534,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
                 this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
 
-            this->changeToScene((hubTagetTagNumber)ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
+            this->changeToScene((HubTagetTagNumber)ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
 
             return true;
         }

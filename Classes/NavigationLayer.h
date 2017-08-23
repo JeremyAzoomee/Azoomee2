@@ -10,7 +10,7 @@
 
 NS_AZOOMEE_BEGIN
 
-enum hubTagetTagNumber {
+enum HubTagetTagNumber {
     CHAT = 0,
     VIDEO_HQ,
     AUDIO_HQ,
@@ -27,7 +27,7 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     void startLoadingGroupHQ(std::string uri);
-    void changeToScene(hubTagetTagNumber target, float duration);
+    void changeToScene(HubTagetTagNumber target, float duration);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
