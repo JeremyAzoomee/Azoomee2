@@ -118,8 +118,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         return android.os.Build.MANUFACTURER;
     }
 
-    public static String getAndroidDeviceData() {
-        return android.os.Build.DEVICE + "|" + getOSBuildManufacturer();
+    public static String getAndroidDeviceModel() {
+        return android.os.Build.DEVICE;
     }
 
     public static String getHMACSHA256(String message, String secret) {

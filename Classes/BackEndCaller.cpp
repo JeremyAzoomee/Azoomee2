@@ -267,21 +267,20 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
     FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
     
     std::string source = "OTHER";
-    std::string sourceDevice = "";
+    std::string sourceDeviceString1 = "";
+    std::string sourceDeviceString2 = "";
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     source = "IOS_INAPP";
-    sourceDevice = IosNativeFunctionsSingleton::getInstance()->getIosDeviceData();
+    sourceDeviceString1 = IosNativeFunctionsSingleton::getInstance()->getIosSystemVersion();
+    sourceDeviceString2 = IosNativeFunctionsSingleton::getInstance()->getIosDeviceType();
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     source = "ANDROID_INAPP";
-    sourceDevice = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceData");
+    sourceDeviceString1 = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceModel");
+    sourceDeviceString2 = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer");
 #endif
     
-    const std::vector<std::string> &deviceArray = splitStringToVector(sourceDevice, "|");
-    
-    if(deviceArray.size() == 2)
-    {
-        sourceDevice = Azoomee::Net::urlEncode(deviceArray.at(0)) + "|" + Azoomee::Net::urlEncode(deviceArray.at(1));
-    }
+    std::string sourceDevice = Net::urlEncode(sourceDeviceString1) + "|" + Net::urlEncode(sourceDeviceString2);
     
     HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, this);
     request->execute();
