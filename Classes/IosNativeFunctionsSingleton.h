@@ -14,7 +14,8 @@ public:
     static IosNativeFunctionsSingleton* getInstance();
     virtual ~IosNativeFunctionsSingleton();
     
-    const char* getIosDeviceData();
+    const char* getIosSystemVersion();
+    const char* getIosDeviceType();
     
 private:
     IosNativeFunctionsSingleton();
