@@ -15,8 +15,8 @@
 #include "FTUScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "ChatDelegate.h"
-#include "../artapp/Classes/AzoomeeArt/MainScene.h"
-#include "../artapp/Classes/AzoomeeArt/AzoomeeArtApp.h"
+#include "../ArtApp/Classes/AzoomeeArt/MainScene.h"
+#include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"
 #include "ArtAppDelegate.h"
 #include "EmptySceneForSettings.h"
 #include "WebViewSelector.h"
@@ -162,7 +162,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             forceToLandscape();
             cocos2d::Scene* goToScene = HQScene::createSceneForOfflineArtsAppHQ();
             AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE_ARTS_APP");
-            Director::getInstance()->replaceScene(goToScene);
+            Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
         }
         case FTUScene:
@@ -181,7 +181,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             acceptAnyOrientation();
             cocos2d::Scene* goToScene = Azoomee::Chat::FriendListScene::create();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHAT");
-            Director::getInstance()->replaceScene(goToScene);
+            Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
         }
         case ArtAppEntryPointScene:
@@ -196,7 +196,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
                 goToScene = Azoomee::ArtApp::MainScene::createSceneWithDrawing(fileName);
             else
                 goToScene = Azoomee::ArtApp::MainScene::createScene();
-            Director::getInstance()->replaceScene(goToScene);
+            Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;
         }
         case SettingsFromChat:
