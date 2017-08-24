@@ -56,6 +56,11 @@ void ChatNotificationsSingleton::forceNotificationsUpdate()
     Chat::ChatAPI::getInstance()->startFriendListManualPoll();
 }
 
+void ChatNotificationsSingleton::stopNotificationsUpdate()
+{
+    Chat::ChatAPI::getInstance()->unscheduleFriendListPoll();
+}
+
 bool ChatNotificationsSingleton::userHasNotifications()
 {
     return loggedInUserHasNotifications;

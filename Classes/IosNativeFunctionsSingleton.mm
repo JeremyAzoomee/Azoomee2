@@ -24,10 +24,14 @@ IosNativeFunctionsSingleton::IosNativeFunctionsSingleton()
 {
 }
 
-const char* IosNativeFunctionsSingleton::getIosDeviceData()
+const char* IosNativeFunctionsSingleton::getIosSystemVersion()
 {
-    NSString *returnString = [NSString stringWithFormat:@"%@%@|%@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion], [[UIDevice currentDevice] model]];
-    return [returnString cStringUsingEncoding:NSUTF8StringEncoding];
+    return [[NSString stringWithFormat:@"%@%@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]] cStringUsingEncoding:NSUTF8StringEncoding];
+}
+
+const char* IosNativeFunctionsSingleton::getIosDeviceType()
+{
+    return [[[UIDevice currentDevice] model] cStringUsingEncoding:NSUTF8StringEncoding];
 }
 
 NS_AZOOMEE_END

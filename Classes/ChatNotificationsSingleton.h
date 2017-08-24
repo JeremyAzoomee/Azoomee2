@@ -22,6 +22,8 @@ public:
     void forceNotificationsUpdate();
     cocos2d::Layer* getNavigationLayer();
     
+    void stopNotificationsUpdate();
+    
 private:
     void notifyNavigationLayer();
     void removeBadgeFromNavigationLayer();

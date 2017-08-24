@@ -46,7 +46,6 @@ private:
     /// - Schedule Poll
     void scheduleFriendListPoll();
     void rescheduleFriendListPoll();
-    void unscheduleFriendListPoll();
     bool friendListPollScheduled();
     
 public:
@@ -86,6 +85,7 @@ public:
     
     /// For azoomee2 notifications we start and schedule polling of friendlist
     void startFriendListManualPoll();
+    void unscheduleFriendListPoll();
 
 };
 
