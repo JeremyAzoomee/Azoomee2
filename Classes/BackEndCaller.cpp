@@ -139,6 +139,8 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
 //LOGGING IN BY DEVICE IDENTIFIER
 void BackEndCaller::anonymousDeviceLogin()
 {
+    displayLoadingScreen();
+    
     std::string deviceId = "";
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
