@@ -33,48 +33,56 @@ bool ChildDataParser::init(void)
     return true;
 }
 
-bool ChildDataParser::parseChildLoginData(std::string responseData)
+bool ChildDataParser::parseChildLoginData(const std::string &responseData)
 {
-    ChildDataStorage::getInstance()->childLoggedIn = true;
-    ChildDataStorage::getInstance()->childLoginData.Parse(responseData.c_str());
+    auto childDataStorage = ChildDataStorage::getInstance();
     
-    setLoggedInChildId(ChildDataStorage::getInstance()->childLoginData["id"].GetString());
+    childDataStorage->childLoginData.Parse(responseData.c_str());
+    if(childDataStorage->childLoginData.HasParseError()) return false;
     
-    ChildDataStorage::getInstance()->loggedInChildCdnSessionId = ChildDataStorage::getInstance()->childLoginData["cdn-sessionid"].GetString();
-    ChildDataStorage::getInstance()->loggedInChildApiSecret = ChildDataStorage::getInstance()->childLoginData["apiSecret"].GetString();
-    ChildDataStorage::getInstance()->loggedInChildApiKey = ChildDataStorage::getInstance()->childLoginData["apiKey"].GetString();
+    childDataStorage->loggedInChildCdnSessionId = readStringValueFromJson("cdn-sessionid", childDataStorage->childLoginData);
+    childDataStorage->loggedInChildApiSecret = readStringValueFromJson("apiSecret", childDataStorage->childLoginData);
+    childDataStorage->loggedInChildApiKey = readStringValueFromJson("apiKey", childDataStorage->childLoginData);
+    
+    setLoggedInChildId(readStringValueFromJson("id", childDataStorage->childLoginData));
     
     UserDefault* def = UserDefault::getInstance();
-    def->setStringForKey("lastLoggedInChildId", ChildDataStorage::getInstance()->loggedInChildId);
+    def->setStringForKey("lastLoggedInChildId", childDataStorage->loggedInChildId);
     def->flush();
     
-    createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), ChildDataStorage::getInstance()->loggedInChildId);
+    createCrashlyticsUserInfo(ParentDataProvider::getInstance()->getLoggedInParentId(), childDataStorage->loggedInChildId);
     
-    AnalyticsSingleton::getInstance()->registerChildID(ChildDataStorage::getInstance()->loggedInChildId);
+    AnalyticsSingleton::getInstance()->registerChildID(childDataStorage->loggedInChildId);
     
+    childDataStorage->childLoggedIn = true;
     return true;
 }
 
-void ChildDataParser::parseOomeeData(std::string responseData)
+void ChildDataParser::parseOomeeData(const std::string &responseData)
 {
     rapidjson::Document hqData;
     hqData.Parse(responseData.c_str());
     
-    setLoggedInChildName(hqData["oomee"]["name"].GetString());
-    setLoggedInChildAvatarId(hqData["oomee"]["avatar"].GetString());
+    if(hqData.HasParseError()) return;
+    if(!hqData.HasMember("oomee")) return;
+    
+    rapidjson::Value &oomeeData = hqData["oomee"];
+    
+    setLoggedInChildName(readStringValueFromJsonValue("name", oomeeData));
+    setLoggedInChildAvatarId(readStringValueFromJsonValue("avatar", oomeeData));
 }
 
-void ChildDataParser::setLoggedInChildName(std::string childName)
+void ChildDataParser::setLoggedInChildName(const std::string &childName)
 {
     ChildDataStorage::getInstance()->loggedInChildName = childName;
 }
 
-void ChildDataParser::setLoggedInChildAvatarId(std::string avatarId)
+void ChildDataParser::setLoggedInChildAvatarId(const std::string &avatarId)
 {
     ChildDataStorage::getInstance()->loggedInChildAvatarId = avatarId;
 }
 
-void ChildDataParser::setLoggedInChildId(std::string id)
+void ChildDataParser::setLoggedInChildId(const std::string &id)
 {
     ChildDataStorage* data = ChildDataStorage::getInstance();
     data->loggedInChildId = id;

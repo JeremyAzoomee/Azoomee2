@@ -33,41 +33,24 @@ bool ParentDataParser::init(void)
     return true;
 }
 
-bool ParentDataParser::parseParentLoginData(std::string responseData)
+bool ParentDataParser::parseParentLoginData(const std::string &responseData)
 {
     logoutChild();
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     parentData->parentLoginData.Parse(responseData.c_str());
+    if(parentData->parentLoginData.HasParseError()) return false;
     
     if(parentData->parentLoginData.HasMember("code"))
     {
         if(parentData->parentLoginData["code"] != "INVALID_CREDENTIALS")
         {
-            parentData->loggedInParentId = parentData->parentLoginData["id"].GetString();
-            parentData->loggedInParentCdnSessionId = parentData->parentLoginData["cdn-sessionid"].GetString();
-            parentData->loggedInParentApiSecret = parentData->parentLoginData["apiSecret"].GetString();
-            parentData->loggedInParentApiKey = parentData->parentLoginData["apiKey"].GetString();
-            parentData->loggedInParentActorStatus = parentData->parentLoginData["actorStatus"].GetString();
-            
-            if(parentData->parentLoginData.HasMember("avatar"))
-                if(parentData->parentLoginData["avatar"].IsString())
-                    parentData->loggedInParentAvatarId = parentData->parentLoginData["avatar"].GetString();
-            
-            if(parentData->parentLoginData.HasMember("pinNumber"))
-            {
-                if(parentData->parentLoginData["pinNumber"].IsString())
-                {
-                    parentData->loggedInParentPin = parentData->parentLoginData["pinNumber"].GetString();
-                }
-                else
-                {
-                    parentData->loggedInParentPin = "";
-                }
-            }
-            else
-            {
-                parentData->loggedInParentPin = "";
-            }
+            parentData->loggedInParentId = readStringValueFromJson("id", parentData->parentLoginData);
+            parentData->loggedInParentCdnSessionId = readStringValueFromJson("cdn-sessionid", parentData->parentLoginData);
+            parentData->loggedInParentApiSecret = readStringValueFromJson("apiSecret", parentData->parentLoginData);
+            parentData->loggedInParentApiKey = readStringValueFromJson("apiKey", parentData->parentLoginData);
+            parentData->loggedInParentActorStatus = readStringValueFromJson("actorStatus", parentData->parentLoginData);
+            parentData->loggedInParentAvatarId = readStringValueFromJson("avatar", parentData->parentLoginData);
+            parentData->loggedInParentPin = readStringValueFromJson("pinNumber", parentData->parentLoginData);
             
             addParentLoginDataToUserDefaults();
             
@@ -82,36 +65,23 @@ bool ParentDataParser::parseParentLoginData(std::string responseData)
     return false;
 }
 
-bool ParentDataParser::parseUpdateParentData(std::string responseData)
+bool ParentDataParser::parseUpdateParentData(const std::string &responseData)
 {
     rapidjson::Document updateData;
     updateData.Parse(responseData.c_str());
+    if(updateData.HasParseError()) return false;
     
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     
-    if(updateData.HasMember("pinNumber"))
-    {
-        if(updateData["pinNumber"].IsString())
-        {
-            parentData->loggedInParentPin = updateData["pinNumber"].GetString();
-        }
-        else
-        {
-            parentData->loggedInParentPin = "";
-        }
-    }
-    else
-    {
-        parentData->loggedInParentPin = "";
-    }
+    parentData->loggedInParentPin = readStringValueFromJson("pinNumber", updateData);
     
-    if(updateData.HasMember("actorStatus")) parentData->loggedInParentActorStatus = updateData["actorStatus"].GetString();
+    if(updateData.HasMember("actorStatus")) parentData->loggedInParentActorStatus = readStringValueFromJson("actorStatus", updateData);
     else return false;
     
     return true;
 }
 
-bool ParentDataParser::parseAvailableChildren(std::string responseData)
+bool ParentDataParser::parseAvailableChildren(const std::string &responseData)
 {
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     parentData->availableChildren.clear();
@@ -121,36 +91,27 @@ bool ParentDataParser::parseAvailableChildren(std::string responseData)
     
     for(int i = 0; i < parentData->availableChildrenData.Size(); i++)
     {
+        rapidjson::Value &currentKidObj = parentData->availableChildrenData[i];
+        
         std::map<std::string, std::string> currentChild;
-        currentChild["profileName"] = parentData->availableChildrenData[i]["profileName"].GetString();
-        currentChild["avatar"] = parentData->availableChildrenData[i]["avatar"].GetString();
-
-        if(parentData->availableChildrenData[i].HasMember("inviteCode"))
-            if(parentData->availableChildrenData[i]["inviteCode"].IsString())
-                currentChild["inviteCode"] = parentData->availableChildrenData[i]["inviteCode"].GetString();
         
-        if(parentData->availableChildrenData[i].HasMember("sex"))
-            if(parentData->availableChildrenData[i]["sex"].IsString())
-            currentChild["sex"] = parentData->availableChildrenData[i]["sex"].GetString();
-        
-        if(parentData->availableChildrenData[i].HasMember("dob"))
-            if(parentData->availableChildrenData[i]["dob"].IsString())
-                currentChild["dob"] = parentData->availableChildrenData[i]["dob"].GetString();
-        
-        if(parentData->availableChildrenData[i].HasMember("id"))
-            if(parentData->availableChildrenData[i]["id"].IsString())
-                currentChild["id"] = parentData->availableChildrenData[i]["id"].GetString();
+        currentChild["profileName"] = readStringValueFromJsonValue("profileName", currentKidObj);
+        currentChild["avatar"] = readStringValueFromJsonValue("avatar", currentKidObj);
+        currentChild["inviteCode"] = readStringValueFromJsonValue("inviteCode", currentKidObj);
+        currentChild["sex"] = readStringValueFromJsonValue("sex", currentKidObj);
+        currentChild["dob"] = readStringValueFromJsonValue("dob", currentKidObj);
+        currentChild["id"] = readStringValueFromJsonValue("id", currentKidObj);
         
         parentData->availableChildren.push_back(currentChild);
         
-        const std::string& childId = parentData->availableChildrenData[i]["id"].GetString();
+        const std::string& childId = currentChild["id"];
         parentData->availableChildrenById[childId] = i;
     }
     
     return true;
 }
 
-void ParentDataParser::parseParentBillingData(std::string responseData)
+void ParentDataParser::parseParentBillingData(const std::string &responseData)
 {
     rapidjson::Document billingData;
     billingData.Parse(responseData.c_str());
@@ -261,40 +222,26 @@ void ParentDataParser::clearParentLoginDataFromUserDefaults()
     def->flush();
 }
     
-bool ParentDataParser::parsePendingFriendRequests(std::string responseData)
+bool ParentDataParser::parsePendingFriendRequests(const std::string &responseData)
 {
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     parentData->pendingFriendRequests.clear();
     
     parentData->pendingFriendRequestData.Parse(responseData.c_str());
+    if(parentData->pendingFriendRequestData.HasParseError()) return false;
     
     for(int i = 0; i < parentData->pendingFriendRequestData.Size(); i++)
     {
+        rapidjson::Value &currentFriendRequestObj = parentData->pendingFriendRequestData[i];
+        
         std::map<std::string, std::string> currentPendingFriendRequest;
-
-        if(parentData->pendingFriendRequestData[i].HasMember("senderName"))
-            if(parentData->pendingFriendRequestData[i]["senderName"].IsString())
-                currentPendingFriendRequest["senderName"] = parentData->pendingFriendRequestData[i]["senderName"].GetString();
         
-        if(parentData->pendingFriendRequestData[i].HasMember("friendName"))
-            if(parentData->pendingFriendRequestData[i]["friendName"].IsString())
-                currentPendingFriendRequest["friendName"] = parentData->pendingFriendRequestData[i]["friendName"].GetString();
-
-        if(parentData->pendingFriendRequestData[i].HasMember("inviteeCode"))
-            if(parentData->pendingFriendRequestData[i]["inviteeCode"].IsString())
-                currentPendingFriendRequest["inviteeCode"] = parentData->pendingFriendRequestData[i]["inviteeCode"].GetString();
-        
-        if(parentData->pendingFriendRequestData[i].HasMember("id"))
-            if(parentData->pendingFriendRequestData[i]["id"].IsString())
-                currentPendingFriendRequest["id"] = parentData->pendingFriendRequestData[i]["id"].GetString();
-        
-        if(parentData->pendingFriendRequestData[i].HasMember("senderId"))
-            if(parentData->pendingFriendRequestData[i]["senderId"].IsString())
-                currentPendingFriendRequest["senderId"] = parentData->pendingFriendRequestData[i]["senderId"].GetString();
-        
-        if(parentData->pendingFriendRequestData[i].HasMember("respondentId"))
-            if(parentData->pendingFriendRequestData[i]["respondentId"].IsString())
-                currentPendingFriendRequest["respondentId"] = parentData->pendingFriendRequestData[i]["respondentId"].GetString();
+        currentPendingFriendRequest["senderName"] = readStringValueFromJsonValue("senderName", currentFriendRequestObj);
+        currentPendingFriendRequest["friendName"] = readStringValueFromJsonValue("friendName", currentFriendRequestObj);
+        currentPendingFriendRequest["inviteeCode"] = readStringValueFromJsonValue("inviteeCode", currentFriendRequestObj);
+        currentPendingFriendRequest["id"] = readStringValueFromJsonValue("id", currentFriendRequestObj);
+        currentPendingFriendRequest["senderId"] = readStringValueFromJsonValue("senderId", currentFriendRequestObj);
+        currentPendingFriendRequest["respondentId"] = readStringValueFromJsonValue("respondentId", currentFriendRequestObj);
 
         parentData->pendingFriendRequests.push_back(currentPendingFriendRequest);
     }
