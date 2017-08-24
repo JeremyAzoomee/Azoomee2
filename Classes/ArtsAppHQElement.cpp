@@ -83,22 +83,21 @@ void ArtsAppHQElement::addImage(Texture2D* tex)
     if(artImage)
         artImage->removeFromParent();
     
-    artImage = Sprite::create();
+    auto tempArtImage = Sprite::create();
+    tempArtImage->initWithTexture(tex);
     
-    artImage->initWithTexture(tex);
+    float scale = (this->getContentSize().width - 40) / tempArtImage->getContentSize().width;
     
-    float scale = (this->getContentSize().width - 40) / artImage->getContentSize().width;
+    if(tempArtImage->getContentSize().height * scale > this->getContentSize().height - 40)
+        scale = (this->getContentSize().height - 40) / tempArtImage->getContentSize().height;
     
-    if(artImage->getContentSize().height * scale > this->getContentSize().height - 40)
-        scale = (this->getContentSize().height - 40) / artImage->getContentSize().height;
+    tempArtImage->setScale(scale);
     
-    artImage->setScale(scale);
+    tempArtImage->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+    this->addChild(tempArtImage);
+    tempArtImage->runAction(FadeIn::create(0.1));
     
-    artImage->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
-    this->addChild(artImage);
-    artImage->runAction(FadeIn::create(0.1));
-    
-    //classStartedImageLoading = false;
+    artImage = tempArtImage; //associating artImage only at the end of the process to avoid crash on possible removal
 }
 
 void ArtsAppHQElement::addPlaceHolder()
@@ -106,19 +105,21 @@ void ArtsAppHQElement::addPlaceHolder()
     if(artImage)
         artImage->removeFromParent();
     
-    artImage = Sprite::create();
+    auto tempArtImage = Sprite::create();
     
-    artImage->initWithFile("res/contentPlaceholders/Create1X1.png");
+    tempArtImage->initWithFile("res/contentPlaceholders/Create1X1.png");
     
-    float scale = (this->getContentSize().width - 40) / artImage->getContentSize().width;
+    float scale = (this->getContentSize().width - 40) / tempArtImage->getContentSize().width;
     
-    if(artImage->getContentSize().height * scale > this->getContentSize().height - 40)
-        scale = (this->getContentSize().height - 40) / artImage->getContentSize().height;
+    if(tempArtImage->getContentSize().height * scale > this->getContentSize().height - 40)
+        scale = (this->getContentSize().height - 40) / tempArtImage->getContentSize().height;
     
-    artImage->setScale(scale);
+    tempArtImage->setScale(scale);
     
-    artImage->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
-    this->addChild(artImage);
+    tempArtImage->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
+    this->addChild(tempArtImage);
+    
+    artImage = tempArtImage; //associating artImage only at the end of the process to avoid crash on possible removal
 }
 
 std::string ArtsAppHQElement::getBase64Encoded(std::string input)
