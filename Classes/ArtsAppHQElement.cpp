@@ -22,6 +22,8 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
         return false;
     }
     
+    elementActive = true;
+    
     this->setCascadeOpacityEnabled(true);
     this->setContentSize(size);
     
@@ -63,10 +65,12 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
 
 void ArtsAppHQElement::loadImageTex()
 {
-    //classStartedImageLoading = true;
     Director::getInstance()->getTextureCache()->addImageAsync(imageURL, [&](Texture2D* tex){
-        if(!ArtAppDelegate::getInstance()->ArtAppRunning)
-            this->addImage(tex);
+        
+        if(!elementActive) return;
+        if(ArtAppDelegate::getInstance()->ArtAppRunning) return;
+        
+        this->addImage(tex);
     });
 }
 
@@ -78,10 +82,11 @@ void ArtsAppHQElement::enableOnScreenChecker()
 
 void ArtsAppHQElement::addImage(Texture2D* tex)
 {
-    //if(!classStartedImageLoading) return;
-    
-    if(artImage)
+    if(artImage != nullptr)
+    {
         artImage->removeFromParent();
+        artImage = nullptr;
+    }
     
     auto tempArtImage = Sprite::create();
     tempArtImage->initWithTexture(tex);
@@ -102,8 +107,11 @@ void ArtsAppHQElement::addImage(Texture2D* tex)
 
 void ArtsAppHQElement::addPlaceHolder()
 {
-    if(artImage)
+    if(artImage != nullptr)
+    {
         artImage->removeFromParent();
+        artImage = nullptr;
+    }
     
     auto tempArtImage = Sprite::create();
     
@@ -196,13 +204,6 @@ void ArtsAppHQElement::addImage(std::string filePath)
         sprite->initWithFile(filePath);
     }
     
-    //Texture2D *texture = new Texture2D();
-    //texture->initWithImage(img);
-    
-    
-    //sprite->initWithTexture(texture);
-    
-    
     float scale = (this->getContentSize().width - 40) / sprite->getContentSize().width;
     
     if(sprite->getContentSize().height * scale > this->getContentSize().height - 40)
@@ -218,7 +219,6 @@ void ArtsAppHQElement::addLockToElement()
 {
     auto lockImage = Sprite::create("res/hqscene/locked.png");
     lockImage->setPosition(baseLayer->getContentSize() / 2);
-    //lockImage->setScale(baseLayer->getContentSize().width / 445);
     this->addChild(lockImage,1);
 }
 
@@ -266,6 +266,13 @@ bool ArtsAppHQElement::deleteButtonIsShown()
 
 void ArtsAppHQElement::onExit()
 {
+    elementActive = false;
+    
+    if(artImage)
+    {
+        artImage->removeFromParent();
+        artImage = nullptr;
+    }
     
     if(onScreenChecker)
     {
@@ -325,11 +332,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(rect.containsPoint(locationInNode))
         {
-            //if(preview)
-            //    AnalyticsSingleton::getInstance()->previewContentClickedEvent("","", "ARTS APP");
-            //else
-            //    AnalyticsSingleton::getInstance()->contentItemSelectedEvent("ARTS APP", "1,1");
-
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;
             movedAway = false;
@@ -379,9 +381,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
                 PreviewLoginSignupMessageBox::create();
                 return true;
             }
-            
-            //if(!notSendingFileData) ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder(filePath);
-            //else ArtAppImageManager::getInstance()->moveImageToLocalStorageFolder("NEW");
             
             iamtouched = false;
             overlayWhenTouched->setOpacity(0);
