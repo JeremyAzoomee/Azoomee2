@@ -4,7 +4,6 @@
 #include "HQDataProvider.h"
 #include "HQScene.h"
 
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
@@ -99,7 +98,7 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     addBackButtonToNavigation();
 }
 
-void NavigationLayer::changeToScene(HubTagetTagNumber target, float duration)
+void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
 {
     if(target == 0)
     {
@@ -372,7 +371,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         {
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
-            this->changeToScene((HubTagetTagNumber)target->getTag(), 0.5);
+            this->changeToScene((HubTargetTagNumber)target->getTag(), 0.5);
             
             return true;
         }
@@ -534,7 +533,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
                 this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
 
-            this->changeToScene((HubTagetTagNumber)ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
+            this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
 
             return true;
         }
