@@ -44,13 +44,13 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
     {
         if(parentData->parentLoginData["code"] != "INVALID_CREDENTIALS")
         {
-            parentData->loggedInParentId = readStringValueFromJson("id", parentData->parentLoginData);
-            parentData->loggedInParentCdnSessionId = readStringValueFromJson("cdn-sessionid", parentData->parentLoginData);
-            parentData->loggedInParentApiSecret = readStringValueFromJson("apiSecret", parentData->parentLoginData);
-            parentData->loggedInParentApiKey = readStringValueFromJson("apiKey", parentData->parentLoginData);
-            parentData->loggedInParentActorStatus = readStringValueFromJson("actorStatus", parentData->parentLoginData);
-            parentData->loggedInParentAvatarId = readStringValueFromJson("avatar", parentData->parentLoginData);
-            parentData->loggedInParentPin = readStringValueFromJson("pinNumber", parentData->parentLoginData);
+            parentData->loggedInParentId = getStringFromJson("id", parentData->parentLoginData);
+            parentData->loggedInParentCdnSessionId = getStringFromJson("cdn-sessionid", parentData->parentLoginData);
+            parentData->loggedInParentApiSecret = getStringFromJson("apiSecret", parentData->parentLoginData);
+            parentData->loggedInParentApiKey = getStringFromJson("apiKey", parentData->parentLoginData);
+            parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", parentData->parentLoginData);
+            parentData->loggedInParentAvatarId = getStringFromJson("avatar", parentData->parentLoginData);
+            parentData->loggedInParentPin = getStringFromJson("pinNumber", parentData->parentLoginData);
             
             addParentLoginDataToUserDefaults();
             
@@ -73,9 +73,9 @@ bool ParentDataParser::parseUpdateParentData(const std::string &responseData)
     
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     
-    parentData->loggedInParentPin = readStringValueFromJson("pinNumber", updateData);
+    parentData->loggedInParentPin = getStringFromJson("pinNumber", updateData);
     
-    if(updateData.HasMember("actorStatus")) parentData->loggedInParentActorStatus = readStringValueFromJson("actorStatus", updateData);
+    if(updateData.HasMember("actorStatus")) parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", updateData);
     else return false;
     
     return true;
@@ -91,16 +91,16 @@ bool ParentDataParser::parseAvailableChildren(const std::string &responseData)
     
     for(int i = 0; i < parentData->availableChildrenData.Size(); i++)
     {
-        rapidjson::Value &currentKidObj = parentData->availableChildrenData[i];
+        const rapidjson::Value &currentKidObj = parentData->availableChildrenData[i];
         
         std::map<std::string, std::string> currentChild;
         
-        currentChild["profileName"] = readStringValueFromJsonValue("profileName", currentKidObj);
-        currentChild["avatar"] = readStringValueFromJsonValue("avatar", currentKidObj);
-        currentChild["inviteCode"] = readStringValueFromJsonValue("inviteCode", currentKidObj);
-        currentChild["sex"] = readStringValueFromJsonValue("sex", currentKidObj);
-        currentChild["dob"] = readStringValueFromJsonValue("dob", currentKidObj);
-        currentChild["id"] = readStringValueFromJsonValue("id", currentKidObj);
+        currentChild["profileName"] = getStringFromJson("profileName", currentKidObj);
+        currentChild["avatar"] = getStringFromJson("avatar", currentKidObj);
+        currentChild["inviteCode"] = getStringFromJson("inviteCode", currentKidObj);
+        currentChild["sex"] = getStringFromJson("sex", currentKidObj);
+        currentChild["dob"] = getStringFromJson("dob", currentKidObj);
+        currentChild["id"] = getStringFromJson("id", currentKidObj);
         
         parentData->availableChildren.push_back(currentChild);
         
@@ -232,16 +232,16 @@ bool ParentDataParser::parsePendingFriendRequests(const std::string &responseDat
     
     for(int i = 0; i < parentData->pendingFriendRequestData.Size(); i++)
     {
-        rapidjson::Value &currentFriendRequestObj = parentData->pendingFriendRequestData[i];
+        const rapidjson::Value &currentFriendRequestObj = parentData->pendingFriendRequestData[i];
         
         std::map<std::string, std::string> currentPendingFriendRequest;
         
-        currentPendingFriendRequest["senderName"] = readStringValueFromJsonValue("senderName", currentFriendRequestObj);
-        currentPendingFriendRequest["friendName"] = readStringValueFromJsonValue("friendName", currentFriendRequestObj);
-        currentPendingFriendRequest["inviteeCode"] = readStringValueFromJsonValue("inviteeCode", currentFriendRequestObj);
-        currentPendingFriendRequest["id"] = readStringValueFromJsonValue("id", currentFriendRequestObj);
-        currentPendingFriendRequest["senderId"] = readStringValueFromJsonValue("senderId", currentFriendRequestObj);
-        currentPendingFriendRequest["respondentId"] = readStringValueFromJsonValue("respondentId", currentFriendRequestObj);
+        currentPendingFriendRequest["senderName"] = getStringFromJson("senderName", currentFriendRequestObj);
+        currentPendingFriendRequest["friendName"] = getStringFromJson("friendName", currentFriendRequestObj);
+        currentPendingFriendRequest["inviteeCode"] = getStringFromJson("inviteeCode", currentFriendRequestObj);
+        currentPendingFriendRequest["id"] = getStringFromJson("id", currentFriendRequestObj);
+        currentPendingFriendRequest["senderId"] = getStringFromJson("senderId", currentFriendRequestObj);
+        currentPendingFriendRequest["respondentId"] = getStringFromJson("respondentId", currentFriendRequestObj);
 
         parentData->pendingFriendRequests.push_back(currentPendingFriendRequest);
     }

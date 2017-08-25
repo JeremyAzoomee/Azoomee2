@@ -40,11 +40,11 @@ bool ChildDataParser::parseChildLoginData(const std::string &responseData)
     childDataStorage->childLoginData.Parse(responseData.c_str());
     if(childDataStorage->childLoginData.HasParseError()) return false;
     
-    childDataStorage->loggedInChildCdnSessionId = readStringValueFromJson("cdn-sessionid", childDataStorage->childLoginData);
-    childDataStorage->loggedInChildApiSecret = readStringValueFromJson("apiSecret", childDataStorage->childLoginData);
-    childDataStorage->loggedInChildApiKey = readStringValueFromJson("apiKey", childDataStorage->childLoginData);
+    childDataStorage->loggedInChildCdnSessionId = getStringFromJson("cdn-sessionid", childDataStorage->childLoginData);
+    childDataStorage->loggedInChildApiSecret = getStringFromJson("apiSecret", childDataStorage->childLoginData);
+    childDataStorage->loggedInChildApiKey = getStringFromJson("apiKey", childDataStorage->childLoginData);
     
-    setLoggedInChildId(readStringValueFromJson("id", childDataStorage->childLoginData));
+    setLoggedInChildId(getStringFromJson("id", childDataStorage->childLoginData));
     
     UserDefault* def = UserDefault::getInstance();
     def->setStringForKey("lastLoggedInChildId", childDataStorage->loggedInChildId);
@@ -66,10 +66,10 @@ void ChildDataParser::parseOomeeData(const std::string &responseData)
     if(hqData.HasParseError()) return;
     if(!hqData.HasMember("oomee")) return;
     
-    rapidjson::Value &oomeeData = hqData["oomee"];
+    const rapidjson::Value &oomeeData = hqData["oomee"];
     
-    setLoggedInChildName(readStringValueFromJsonValue("name", oomeeData));
-    setLoggedInChildAvatarId(readStringValueFromJsonValue("avatar", oomeeData));
+    setLoggedInChildName(getStringFromJson("name", oomeeData));
+    setLoggedInChildAvatarId(getStringFromJson("avatar", oomeeData));
 }
 
 void ChildDataParser::setLoggedInChildName(const std::string &childName)

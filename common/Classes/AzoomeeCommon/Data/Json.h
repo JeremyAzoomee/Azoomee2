@@ -106,7 +106,7 @@ inline rapidjson::Value ToJson(const std::vector<value_type>& value)
     return valueObj;
 }
 
-inline std::string readStringValueFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument)
+inline std::string getStringFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument)
 {
     if(jsonDocument.HasParseError()) return "";
     
@@ -118,7 +118,7 @@ inline std::string readStringValueFromJson(const std::string &keyName, const rap
     return "";
 }
 
-inline std::string readStringValueFromJsonValue(const std::string &keyName, const rapidjson::Value &jsonValue)
+inline std::string getStringFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
 {
     if(jsonValue.HasMember(keyName.c_str()))
         if(!jsonValue[keyName.c_str()].IsNull())
