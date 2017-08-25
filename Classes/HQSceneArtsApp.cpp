@@ -107,6 +107,7 @@ void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toB
 {
     auto artImage = ArtsAppHQElement::create();
     artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable, locked,false);
+    
     toBeAddedTo->addChild(artImage);
     
     auto sceneElementPositioner = new HQSceneElementPositioner();
