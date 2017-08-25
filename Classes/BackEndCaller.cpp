@@ -238,7 +238,7 @@ void BackEndCaller::childLogin(int childNumber)
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString)
 {
-    ChildDataParser::getInstance()->parseChildLoginData(responseString);
+    if(!ChildDataParser::getInstance()->parseChildLoginData(responseString)) LoginLogicHandler::getInstance()->doLoginLogic();
     
     getHQContent(StringUtils::format("%s%s/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ConfigStorage::getInstance()->getPathForTag("HOME").c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
 }

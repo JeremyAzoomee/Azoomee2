@@ -106,6 +106,27 @@ inline rapidjson::Value ToJson(const std::vector<value_type>& value)
     return valueObj;
 }
 
+inline std::string getStringFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument)
+{
+    if(jsonDocument.HasParseError()) return "";
+    
+    if(jsonDocument.HasMember(keyName.c_str()))
+        if(!jsonDocument[keyName.c_str()].IsNull())
+            if(jsonDocument[keyName.c_str()].IsString())
+                return jsonDocument[keyName.c_str()].GetString();
+    
+    return "";
+}
+
+inline std::string getStringFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+{
+    if(jsonValue.HasMember(keyName.c_str()))
+        if(!jsonValue[keyName.c_str()].IsNull())
+            if(jsonValue[keyName.c_str()].IsString())
+                return jsonValue[keyName.c_str()].GetString();
+                
+    return "";
+}
 NS_AZOOMEE_END
 
 #endif

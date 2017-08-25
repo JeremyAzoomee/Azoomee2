@@ -17,13 +17,13 @@ public:
     virtual ~ChildDataParser();
     bool init(void);
     
-    bool parseChildLoginData(std::string responseData);
-    void parseOomeeData(std::string responseData);
+    bool parseChildLoginData(const std::string &responseData);
+    void parseOomeeData(const std::string &responseData);
     
-    void setLoggedInChildName(std::string childName);
-    void setLoggedInChildId(std::string id);
+    void setLoggedInChildName(const std::string &childName);
+    void setLoggedInChildId(const std::string &id);
     void setLoggedInChildNumber(int childNumber);
-    void setLoggedInChildAvatarId(std::string avatarId);
+    void setLoggedInChildAvatarId(const std::string &avatarId);
     void setChildLoggedIn(bool loggedIn);
 };
 
