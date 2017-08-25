@@ -3,7 +3,6 @@
 #include "BackEndCaller.h"
 #include "WebViewSelector.h"
 #include "GameDataManager.h"
-#include "NavigationLayer.h"
 #include "HQDataProvider.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -110,9 +109,62 @@ bool DeepLinkingSingleton::actionDeepLink()
             resetDeepLink();
             return true;
         }
+        
+        if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+            return false;
+        
+        if(path == "chat")
+        {
+            AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
+            
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+            
+            resetDeepLink();
+            return true;
+        }
+        if(path == "artstudio")
+        {
+            AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
+            
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
+            
+            resetDeepLink();
+            return true;
+        }
+        if(path == "games")
+        {
+            moveToHQ(HubTargetTagNumber::GAME_HQ);
+            return true;
+        }
+        if(path == "audio")
+        {
+            moveToHQ(HubTargetTagNumber::AUDIO_HQ);
+            return true;
+        }
+        if(path == "videos")
+        {
+            moveToHQ(HubTargetTagNumber::VIDEO_HQ);
+            return true;
+        }
     }
     
     return false;
+}
+
+void DeepLinkingSingleton::moveToHQ(HubTargetTagNumber hqName)
+{
+    AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
+    
+    auto baseLayer = Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
+    if(baseLayer)
+    {
+        NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
+        
+        if(navigationLayer)
+            navigationLayer->changeToScene(hqName, 0.1);
+    }
+    
+    resetDeepLink();
 }
 
 void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)

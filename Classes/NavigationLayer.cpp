@@ -4,7 +4,6 @@
 #include "HQDataProvider.h"
 #include "HQScene.h"
 
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
@@ -46,7 +45,6 @@ bool NavigationLayer::init()
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
         ModalMessages::getInstance()->showMixpanelNotification();
-        DeepLinkingSingleton::getInstance()->actionDeepLink();
     }
     
     AudioMixer::getInstance()->playOomeeIdleSounds(true);
@@ -100,18 +98,30 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     addBackButtonToNavigation();
 }
 
-void NavigationLayer::changeToScene(int target, float duration)
+void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
 {
-    AnalyticsSingleton::getInstance()->navSelectionEvent("",target);
-    this->startLoadingHQScene(target);
-    this->turnOffAllMenuItems();
-    if(target < 6) this->turnOnMenuItem(target);
+    if(target == HubTargetTagNumber::CHAT)
+    {
+        this->hideNotificationBadge();
+        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            AnalyticsSingleton::getInstance()->navSelectionEvent("",target);
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+        }
+        else
+        {
+            PreviewLoginSignupMessageBox::create();
+        }
+        return;
+    }
     
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::getInstance()->getNameForMenuItem(target));
     
     cleanUpPreviousHQ();
-    
+
+    this->startLoadingHQScene(target);
     this->turnOffAllMenuItems();
+    if(target < HubTargetTagNumber::GROUP_HQ) this->turnOnMenuItem(target);
     
     if(HQHistoryManager::getInstance()->getCurrentHQ() != "GROUP HQ")
     {
@@ -135,13 +145,13 @@ void NavigationLayer::changeToScene(int target, float duration)
     
     
     switch (target) {
-        case 0:
+        case HubTargetTagNumber::CHAT:
             moveMenuPointsToCircleState(duration);
             break;
-        case 3:
+        case HubTargetTagNumber::HOME:
             moveMenuPointsToCircleState(duration);
             break;
-        case 6:
+        case HubTargetTagNumber::GROUP_HQ:
             moveMenuPointsToHorizontalStateInGroupHQ(duration);
             break;
             
@@ -149,6 +159,13 @@ void NavigationLayer::changeToScene(int target, float duration)
             moveMenuPointsToHorizontalState(duration);
             break;
     }
+}
+
+void NavigationLayer::onEnter()
+{
+    DeepLinkingSingleton::getInstance()->actionDeepLink();
+    
+    Node::onEnter();
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
@@ -164,9 +181,9 @@ void NavigationLayer::loadArtsAppHQ()
     hqLayer->startBuildingScrollViewBasedOnName();
 }
 
-void NavigationLayer::startLoadingHQScene(int categoryTag)
+void NavigationLayer::startLoadingHQScene(HubTargetTagNumber target)
 {
-    if(categoryTag == 4)
+    if(target == HubTargetTagNumber::ARTS_APP)
     {
         auto funcCallAction = CallFunc::create([=](){
             this->loadArtsAppHQ();
@@ -178,7 +195,7 @@ void NavigationLayer::startLoadingHQScene(int categoryTag)
     }
     
     auto funcCallAction2 = CallFunc::create([=](){
-        HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(categoryTag));
+        HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(target));
     });
     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
 }
@@ -352,25 +369,10 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         
         if(rect.containsPoint(locationInNode))
         {
-            if(target->getTag() == 0)
-            {
-                this->hideNotificationBadge();
-                AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-                if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-                {
-                    AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
-                    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
-                }
-                else
-                {
-                    PreviewLoginSignupMessageBox::create();
-                }
-            }
-            else
-            {
-                this->changeToScene(target->getTag(), 0.5);
-                AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
-            }
+            AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+            AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
+            this->changeToScene((HubTargetTagNumber)target->getTag(), 0.5);
+            
             return true;
         }
         return false;
@@ -530,9 +532,8 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
                 
                 this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
-            
+
             this->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(HQHistoryManager::getInstance()->getPreviousHQ()), 0.5);
-            AudioMixer::getInstance()->playEffect(HQ_HUB_SELECTED_AUDIO_EFFECT);
 
             return true;
         }

@@ -9,6 +9,15 @@
 #include <cocos/cocos2d.h>
 #include "Json.h"
 
+enum HubTargetTagNumber {
+    CHAT = 0,
+    VIDEO_HQ,
+    AUDIO_HQ,
+    HOME,
+    ARTS_APP,
+    GAME_HQ,
+    GROUP_HQ
+};
 
 namespace Azoomee
 {
@@ -61,7 +70,7 @@ public:
     cocos2d::Point getHorizontalPositionForMenuItemInGroupHQ(int itemNumber);
     cocos2d::Color4B getColourForMenuItem(int itemNumber);
     std::string getNameForMenuItem(int itemNumber);
-    int getTagNumberForMenuName(std::string name);
+    HubTargetTagNumber getTagNumberForMenuName(std::string name);
     cocos2d::Point getTargetPositionForMove(int itemNumber);
     
     //MainHubScene configuration
