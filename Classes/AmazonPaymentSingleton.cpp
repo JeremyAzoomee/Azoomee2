@@ -11,6 +11,11 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
+
+#include <jni.h>
+
+static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
+
 #endif
 
 using namespace cocos2d;
@@ -47,15 +52,8 @@ void AmazonPaymentSingleton::startIAPPayment()
     requestAttempts = 0;
         
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        
-        cocos2d::JniMethodInfo methodInfo;
-        if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startAmazonPurchase", "()V"))
-        {
-            return;
-        }
-        
-        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
-        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    
+        JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startAmazonPurchase");
         
     #endif
 }
@@ -109,16 +107,8 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
 void AmazonPaymentSingleton::fulfillAmazonPayment(std::string receiptId)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    cocos2d::JniMethodInfo methodInfo;
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "fulfillAmazonPurchase", receiptId);
     
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "fulfillAmazonPurchase", "(Ljava/lang/String;)V"))
-    {
-        return;
-    }
-    jstring jReceiptId = methodInfo.env->NewStringUTF(receiptId.c_str());
-    
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jReceiptId);
-    methodInfo.env->DeleteLocalRef(methodInfo.classID);
 #endif
 
 }
