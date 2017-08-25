@@ -9,6 +9,9 @@
 #include <cocos/cocos2d.h>
 #include "Json.h"
 
+namespace Azoomee
+{
+
 enum HubTargetTagNumber {
     CHAT = 0,
     VIDEO_HQ,
@@ -18,9 +21,6 @@ enum HubTargetTagNumber {
     GAME_HQ,
     GROUP_HQ
 };
-
-namespace Azoomee
-{
 
 class ConfigStorage : public cocos2d::Ref
 {
