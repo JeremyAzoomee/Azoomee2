@@ -84,7 +84,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
                 Director::getInstance()->replaceScene(goToScene);
             });
             
-            auto action = Sequence::create(DelayTime::create(0.3f), funcCallAction, NULL);
+            auto action = Sequence::create(DelayTime::create(0.6f), funcCallAction, NULL);
             this->runAction(action);
             
             break;
@@ -119,7 +119,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
                 Director::getInstance()->replaceScene(goToScene);
             });
             
-            auto action = Sequence::create(DelayTime::create(0.2f), funcCallAction, NULL);
+            auto action = Sequence::create(DelayTime::create(0.6f), funcCallAction, NULL);
             this->runAction(action);
             
             break;
