@@ -2,7 +2,7 @@
 #include "../Data/Json.h"
 #include "../Data/Parent/ParentDataProvider.h"
 #include "../Data/Child/ChildDataProvider.h"
-#include "../Utils/StringFunctions.h"
+#include "../Net/Utils.h"
 #include <iomanip>
 
 #include "HMACSHA256/HMACSHA256.h"
@@ -67,23 +67,6 @@ std::string JWTTool::stringToLower(std::string input)
     }
     
     return input;
-}
-    
-std::string JWTTool::getUrlParamsInAlphabeticalOrder(const std::string &originalParamString)
-{
-    if(splitStringToVector(originalParamString, "&").size() <= 1) return originalParamString;
-    
-    std::vector<std::string> paramsVector = splitStringToVector(originalParamString, "&");
-    
-    std::sort(paramsVector.begin(), paramsVector.end());
-    std::string returnString = paramsVector.at(0);
-    
-    for(int i = 1; i < paramsVector.size(); i++)
-    {
-        returnString += "&" + paramsVector.at(i);
-    }
-    
-    return returnString;
 }
 
 std::string JWTTool::url_encode(const std::string &value) {
@@ -157,7 +140,7 @@ std::string JWTTool::getBodySignature(std::string method, std::string path, std:
     
     std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(host)).c_str(), url_encode(stringToLower(getDateFormatString())).c_str());
     
-    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), getUrlParamsInAlphabeticalOrder(stringToLower(queryParams)).c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
+    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), Net::getUrlParamsInAlphabeticalOrder(stringToLower(queryParams)).c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
     std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, ChildDataProvider::getInstance()->getParentOrChildApiSecret());
     
     cocos2d::log("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
