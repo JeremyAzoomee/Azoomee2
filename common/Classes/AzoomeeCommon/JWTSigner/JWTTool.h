@@ -25,6 +25,7 @@ private:
     std::string stringToLower(std::string input);
     
     std::string url_encode(const std::string &value);
+    std::string getUrlParamsInAlphabeticalOrder(const std::string &originalParams);
     
     std::string getHeaderString(std::string kid);
     std::string getBodySignature(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);

@@ -2,6 +2,7 @@
 #include "../Data/Json.h"
 #include "../Data/Parent/ParentDataProvider.h"
 #include "../Data/Child/ChildDataProvider.h"
+#include "../Utils/StringFunctions.h"
 #include <iomanip>
 
 #include "HMACSHA256/HMACSHA256.h"
@@ -67,6 +68,23 @@ std::string JWTTool::stringToLower(std::string input)
     
     return input;
 }
+    
+std::string JWTTool::getUrlParamsInAlphabeticalOrder(const std::string &originalParamString)
+{
+    if(splitStringToVector(originalParamString, "&").size() <= 1) return originalParamString;
+    
+    std::vector<std::string> paramsVector = splitStringToVector(originalParamString, "&");
+    
+    std::sort(paramsVector.begin(), paramsVector.end());
+    std::string returnString = paramsVector.at(0);
+    
+    for(int i = 1; i < paramsVector.size(); i++)
+    {
+        returnString += "&" + paramsVector.at(i);
+    }
+    
+    return returnString;
+}
 
 std::string JWTTool::url_encode(const std::string &value) {
     std::ostringstream escaped;
@@ -120,11 +138,11 @@ std::string JWTTool::getHeaderString(std::string kid)
     
     const char *jsonString = s.GetString();
     
-    CCLOG("\n\n\n Body string: %s\n\n\n", jsonString);
+    cocos2d::log("\n\n\n Body string: %s\n\n\n", jsonString);
     
     std::string result = getBase64Encoded(StringUtils::format("%s", jsonString));
     
-    CCLOG("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
+    cocos2d::log("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
 
     return result;
 }
@@ -139,10 +157,10 @@ std::string JWTTool::getBodySignature(std::string method, std::string path, std:
     
     std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(host)).c_str(), url_encode(stringToLower(getDateFormatString())).c_str());
     
-    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), stringToLower(queryParams).c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
+    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), getUrlParamsInAlphabeticalOrder(stringToLower(queryParams)).c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
     std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, ChildDataProvider::getInstance()->getParentOrChildApiSecret());
     
-    CCLOG("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
+    cocos2d::log("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
     
     
     return bodySignature;
@@ -178,11 +196,11 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
     
     const char *jsonString = s.GetString();
     
-    CCLOG("\n\n\n Body string: %s\n\n\n", jsonString);
+    cocos2d::log("\n\n\n Body string: %s\n\n\n", jsonString);
     
     std::string result = getBase64Encoded(StringUtils::format("%s", jsonString));
     
-    CCLOG("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
+    cocos2d::log("\n\n\n base64 encoded body: %s\n\n\n", result.c_str());
     
     return result;
 }
@@ -213,14 +231,14 @@ std::string JWTTool::buildJWTString(std::string method, std::string path, std::s
     
     //DISPLAYING DEBUG INFO-----------------------------------------------------------------------
     
-    CCLOG("\n\n\n apiSecret: %s\n\n\n", ChildDataProvider::getInstance()->getParentOrChildApiSecret().c_str());
+    cocos2d::log("\n\n\n apiSecret: %s\n\n\n", ChildDataProvider::getInstance()->getParentOrChildApiSecret().c_str());
     
     
     //CREATE THE FINAL JWT STRING-----------------------------------------------------------------
     
     std::string finalJWT = StringUtils::format("%s.%s.%s", sHeader.c_str(), sBody.c_str(), sSignature.c_str());
     
-    CCLOG("\n\n\n FINAL JWT STRING: %s\n\n\n", finalJWT.c_str());
+    cocos2d::log("\n\n\n FINAL JWT STRING: %s\n\n\n", finalJWT.c_str());
     
     
     return finalJWT;
