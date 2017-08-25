@@ -65,7 +65,7 @@ private:
     
     void setButtonOn(int i);
     void delayedSetButtonOn(float dt);
-    void startLoadingHQScene(int categoryTag);
+    void startLoadingHQScene(HubTargetTagNumber target);
     void addBackButtonToNavigation();
     void removeBackButtonFromNavigation();
     void addListenerToBackButton(cocos2d::Node* toBeAddedTo);

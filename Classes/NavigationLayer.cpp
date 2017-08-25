@@ -100,7 +100,7 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
 
 void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
 {
-    if(target == 0)
+    if(target == HubTargetTagNumber::CHAT)
     {
         this->hideNotificationBadge();
         if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
@@ -121,7 +121,7 @@ void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
 
     this->startLoadingHQScene(target);
     this->turnOffAllMenuItems();
-    if(target < 6) this->turnOnMenuItem(target);
+    if(target < HubTargetTagNumber::GROUP_HQ) this->turnOnMenuItem(target);
     
     if(HQHistoryManager::getInstance()->getCurrentHQ() != "GROUP HQ")
     {
@@ -145,13 +145,13 @@ void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
     
     
     switch (target) {
-        case 0:
+        case HubTargetTagNumber::CHAT:
             moveMenuPointsToCircleState(duration);
             break;
-        case 3:
+        case HubTargetTagNumber::HOME:
             moveMenuPointsToCircleState(duration);
             break;
-        case 6:
+        case HubTargetTagNumber::GROUP_HQ:
             moveMenuPointsToHorizontalStateInGroupHQ(duration);
             break;
             
@@ -181,9 +181,9 @@ void NavigationLayer::loadArtsAppHQ()
     hqLayer->startBuildingScrollViewBasedOnName();
 }
 
-void NavigationLayer::startLoadingHQScene(int categoryTag)
+void NavigationLayer::startLoadingHQScene(HubTargetTagNumber target)
 {
-    if(categoryTag == 4)
+    if(target == HubTargetTagNumber::ARTS_APP)
     {
         auto funcCallAction = CallFunc::create([=](){
             this->loadArtsAppHQ();
@@ -195,7 +195,7 @@ void NavigationLayer::startLoadingHQScene(int categoryTag)
     }
     
     auto funcCallAction2 = CallFunc::create([=](){
-        HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(categoryTag));
+        HQDataProvider::getInstance()->getDataForHQ(ConfigStorage::getInstance()->getNameForMenuItem(target));
     });
     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
 }
