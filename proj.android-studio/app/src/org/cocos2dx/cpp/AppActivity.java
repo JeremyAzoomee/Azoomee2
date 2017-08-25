@@ -144,8 +144,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         return android.os.Build.MANUFACTURER;
     }
 
-    public static String getAndroidDeviceData() {
-        return android.os.Build.MODEL + "|" + getOSBuildManufacturer();
+    public static String getAndroidDeviceModel() {
+        return android.os.Build.DEVICE;
     }
 
     public static String getAndroidDeviceAdvertisingId() { //AAID must not be read on the main thread, so it's being read during onCreate, and now the result is being returned.

@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "LoginLogicHandler.h"
+#include "FlowDataSingleton.h"
 
 using namespace cocos2d;
 
@@ -144,6 +145,7 @@ void OfflineText::addExitOfflineModeButtonToScreen()
 void OfflineText::buttonPressed(ElectricDreamsButton *button)
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
+    FlowDataSingleton::getInstance()->clearData();
     LoginLogicHandler::getInstance()->doLoginLogic();
 }
 

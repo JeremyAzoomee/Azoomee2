@@ -330,9 +330,9 @@ std::string ConfigStorage::getNameForMenuItem(int itemNumber)
     return NavigationConfiguration["namesForMenuItems"][itemNumber].GetString();
 }
 
-int ConfigStorage::getTagNumberForMenuName(std::string name)
+HubTargetTagNumber ConfigStorage::getTagNumberForMenuName(std::string name)
 {
-    return NavigationConfiguration["tagNumberForMenuItems"][name.c_str()].GetInt();
+    return (HubTargetTagNumber)NavigationConfiguration["tagNumberForMenuItems"][name.c_str()].GetInt();
 }
 
 Point ConfigStorage::getTargetPositionForMove(int itemNumber)

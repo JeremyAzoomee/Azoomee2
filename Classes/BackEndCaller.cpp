@@ -276,7 +276,7 @@ void BackEndCaller::childLogin(int childNumber)
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString)
 {
-    ChildDataParser::getInstance()->parseChildLoginData(responseString);
+    if(!ChildDataParser::getInstance()->parseChildLoginData(responseString)) LoginLogicHandler::getInstance()->doLoginLogic();
     
     getHQContent(StringUtils::format("%s%s/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ConfigStorage::getInstance()->getPathForTag("HOME").c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
 }
@@ -309,14 +309,20 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
     FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
     
     std::string source = "OTHER";
-    std::string sourceDevice = "";
+    std::string sourceDeviceString1 = "";
+    std::string sourceDeviceString2 = "";
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     source = "IOS_INAPP";
-    sourceDevice = IosNativeFunctionsSingleton::getInstance()->getIosDeviceData();
+    sourceDeviceString1 = IosNativeFunctionsSingleton::getInstance()->getIosSystemVersion();
+    sourceDeviceString2 = IosNativeFunctionsSingleton::getInstance()->getIosDeviceType();
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     source = "ANDROID_INAPP";
-    sourceDevice = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceData");
+    sourceDeviceString1 = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceModel");
+    sourceDeviceString2 = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer");
 #endif
+    
+    std::string sourceDevice = Net::urlEncode(sourceDeviceString1) + "|" + Net::urlEncode(sourceDeviceString2);
     
     HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, this);
     request->execute();

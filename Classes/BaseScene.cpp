@@ -116,7 +116,7 @@ void BaseScene::addNavigationLayer()
     }
     else
     {
-        sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName("GAME HQ"), 0.01);
+        sNavigationLayer->changeToScene(HubTargetTagNumber::GAME_HQ, 0.01);
     }
 }
 

@@ -7,7 +7,7 @@
 #include "DisplayChildNameLayer.h"
 #include <AzoomeeChat/ChatAPI.h>
 #include <AzoomeeChat/Data/Message.h>
-
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -18,7 +18,7 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     void startLoadingGroupHQ(std::string uri);
-    void changeToScene(int target, float duration);
+    void changeToScene(HubTargetTagNumber target, float duration);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
@@ -27,6 +27,7 @@ public:
     
     void showNotificationBadge();
     void hideNotificationBadge();
+    
 private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
@@ -64,7 +65,7 @@ private:
     
     void setButtonOn(int i);
     void delayedSetButtonOn(float dt);
-    void startLoadingHQScene(int categoryTag);
+    void startLoadingHQScene(HubTargetTagNumber target);
     void addBackButtonToNavigation();
     void removeBackButtonFromNavigation();
     void addListenerToBackButton(cocos2d::Node* toBeAddedTo);
@@ -77,6 +78,8 @@ private:
     
     //chat notifications
     void addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon);
+    
+    void onEnter();
 };
 
 NS_AZOOMEE_END

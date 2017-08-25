@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Data/Json.h>
+#include "NavigationLayer.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -20,6 +21,8 @@ private:
     bool setHostAndPath(std::string uriString);
     
     void completeContentAction(std::map<std::string, std::string> elementProperties);
+    
+    void moveToHQ(HubTargetTagNumber hqName);
     void resetDeepLink();
     std::string getDataForKeyFromJSON(std::string jsonString, std::string key);
     

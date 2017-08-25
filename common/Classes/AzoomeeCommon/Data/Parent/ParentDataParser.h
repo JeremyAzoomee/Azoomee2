@@ -17,16 +17,16 @@ public:
     virtual ~ParentDataParser();
     bool init(void);
     
-    bool parseParentLoginData(std::string responseData);
+    bool parseParentLoginData(const std::string &responseData);
     bool parseParentLoginDataFromAnonymousDeviceLogin(const std::string &responseData);
-    bool parseAvailableChildren(std::string responseData);
-    bool parseUpdateParentData(std::string responseData);
-    void parseParentBillingData(std::string responseData);
+    bool parseAvailableChildren(const std::string &responseData);
+    bool parseUpdateParentData(const std::string &responseData);
+    void parseParentBillingData(const std::string &responseData);
     void logoutChild();
     void retrieveParentLoginDataFromUserDefaults();
     bool hasParentLoginDataInUserDefaults();
     void clearParentLoginDataFromUserDefaults();
-    bool parsePendingFriendRequests(std::string responseData);
+    bool parsePendingFriendRequests(const std::string &responseData);
     
 private:
     void addParentLoginDataToUserDefaults();
