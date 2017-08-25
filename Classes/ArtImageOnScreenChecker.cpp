@@ -18,7 +18,6 @@ int ArtImageOnScreenChecker::imageRemovedCount = 0;
 void ArtImageOnScreenChecker::elementAppeared(Node* sender)
 {
     ArtsAppHQElement* element = (ArtsAppHQElement*)sender;
-    
     element->loadImageTex();
 }
 

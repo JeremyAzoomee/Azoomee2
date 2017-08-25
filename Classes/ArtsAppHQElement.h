@@ -24,8 +24,7 @@ private:
     void addOverlay();
     void addListenerToElement(std::string filePath, bool preview);
     void addLockToElement();
-    
-    
+    bool elementActive = false;
     
     cocos2d::Sprite *addDeleteButton();
     cocos2d::Sprite *deleteButton;
@@ -52,8 +51,6 @@ private:
     std::string imageURL;
     
     ArtImageOnScreenChecker* onScreenChecker = nullptr;
-    
-    //bool classStartedImageLoading = false;
 };
 
 NS_AZOOMEE_END

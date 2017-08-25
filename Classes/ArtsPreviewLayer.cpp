@@ -118,6 +118,8 @@ void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
     {
         hqElement->setScale(1);
     }
+    
+    hqElement->enableOnScreenChecker();
 }
 
 std::vector<std::string> ArtsPreviewLayer::getImagesInDirectory(std::string path)
