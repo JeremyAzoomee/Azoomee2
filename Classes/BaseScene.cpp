@@ -116,7 +116,7 @@ void BaseScene::addNavigationLayer()
     }
     else
     {
-        sNavigationLayer->changeToScene(HubTargetTagNumber::GAME_HQ, 0.01);
+        sNavigationLayer->changeToScene(ConfigStorage::HubTargetTagNumber::GAME_HQ, 0.01);
     }
 }
 
