@@ -22,7 +22,7 @@ private:
     
     void completeContentAction(std::map<std::string, std::string> elementProperties);
     
-    void moveToHQ(HubTargetTagNumber hqName);
+    void moveToHQ(ConfigStorage::HubTargetTagNumber hqName);
     void resetDeepLink();
     std::string getDataForKeyFromJSON(std::string jsonString, std::string key);
     

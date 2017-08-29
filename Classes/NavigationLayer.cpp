@@ -98,9 +98,9 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     addBackButtonToNavigation();
 }
 
-void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
+void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, float duration)
 {
-    if(target == HubTargetTagNumber::CHAT)
+    if(target == ConfigStorage::HubTargetTagNumber::CHAT)
     {
         this->hideNotificationBadge();
         if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
@@ -121,7 +121,7 @@ void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
 
     this->startLoadingHQScene(target);
     this->turnOffAllMenuItems();
-    if(target < HubTargetTagNumber::GROUP_HQ) this->turnOnMenuItem(target);
+    if(target < ConfigStorage::HubTargetTagNumber::GROUP_HQ) this->turnOnMenuItem(target);
     
     if(HQHistoryManager::getInstance()->getCurrentHQ() != "GROUP HQ")
     {
@@ -145,13 +145,13 @@ void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
     
     
     switch (target) {
-        case HubTargetTagNumber::CHAT:
+        case ConfigStorage::HubTargetTagNumber::CHAT:
             moveMenuPointsToCircleState(duration);
             break;
-        case HubTargetTagNumber::HOME:
+        case ConfigStorage::HubTargetTagNumber::HOME:
             moveMenuPointsToCircleState(duration);
             break;
-        case HubTargetTagNumber::GROUP_HQ:
+        case ConfigStorage::HubTargetTagNumber::GROUP_HQ:
             moveMenuPointsToHorizontalStateInGroupHQ(duration);
             break;
             
@@ -181,9 +181,9 @@ void NavigationLayer::loadArtsAppHQ()
     hqLayer->startBuildingScrollViewBasedOnName();
 }
 
-void NavigationLayer::startLoadingHQScene(HubTargetTagNumber target)
+void NavigationLayer::startLoadingHQScene(ConfigStorage::HubTargetTagNumber target)
 {
-    if(target == HubTargetTagNumber::ARTS_APP)
+    if(target == ConfigStorage::HubTargetTagNumber::ARTS_APP)
     {
         auto funcCallAction = CallFunc::create([=](){
             this->loadArtsAppHQ();
@@ -371,7 +371,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         {
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
-            this->changeToScene((HubTargetTagNumber)target->getTag(), 0.5);
+            this->changeToScene((ConfigStorage::HubTargetTagNumber)target->getTag(), 0.5);
             
             return true;
         }

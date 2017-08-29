@@ -15,8 +15,8 @@
 #include "FTUScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include "ChatDelegate.h"
-#include "../artapp/Classes/AzoomeeArt/MainScene.h"
-#include "../artapp/Classes/AzoomeeArt/AzoomeeArtApp.h"
+#include "../ArtApp/Classes/AzoomeeArt/MainScene.h"
+#include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"
 #include "ArtAppDelegate.h"
 #include "EmptySceneForSettings.h"
 #include "WebViewSelector.h"
