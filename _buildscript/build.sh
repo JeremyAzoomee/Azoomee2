@@ -58,9 +58,9 @@ echo "{\"version\": \"$VERSION ($COMMITID)\"}" > ../Resources/res/configuration/
 
 if [ "$PLATFORM" == "" ] || [ "$PLATFORM" == "android" ] ; then
 	./subbuilder_android.sh armeabi-v7a $VERSION $ARMBUILD arm $UPLOAD
-	./subbuilder_android.sh armeabi-v7a $VERSION $AMAZONBUILD arm
 	./subbuilder_android.sh arm64-v8a $VERSION $ARM64BUILD arm64 $UPLOAD
 	./subbuilder_android.sh x86 $VERSION $X86BUILD x86 $UPLOAD
+	./subbuilder_android.sh armeabi-v7a $VERSION $AMAZONBUILD arm
 fi
 
 if [ "$PLATFORM" == "" ] || [ "$PLATFORM" == "ios" ] ; then
