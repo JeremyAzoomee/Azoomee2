@@ -77,13 +77,13 @@ bool ParentDataParser::parseParentLoginDataFromAnonymousDeviceLogin(const std::s
     
     if(parentData->parentLoginData.HasMember("userType"))
     {
-        if(parentData->parentLoginData["userType"] == "ANONYMOUS")
+        if(getStringFromJson("userType", parentData->parentLoginData) == "ANONYMOUS")
         {
-            parentData->loggedInParentId = parentData->parentLoginData["id"].GetString();
-            parentData->loggedInParentCdnSessionId = parentData->parentLoginData["cdn-sessionid"].GetString();
-            parentData->loggedInParentApiSecret = parentData->parentLoginData["apiSecret"].GetString();
-            parentData->loggedInParentApiKey = parentData->parentLoginData["apiKey"].GetString();
-            parentData->loggedInParentActorStatus = parentData->parentLoginData["actorStatus"].GetString();
+            parentData->loggedInParentId =  getStringFromJson("id", parentData->parentLoginData);
+            parentData->loggedInParentCdnSessionId = getStringFromJson("cdn-sessionid", parentData->parentLoginData);
+            parentData->loggedInParentApiSecret = getStringFromJson("apiSecret", parentData->parentLoginData);
+            parentData->loggedInParentApiKey = getStringFromJson("apiKey", parentData->parentLoginData);
+            parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", parentData->parentLoginData);
 
             parentData->loggedInParentPin = "";
             

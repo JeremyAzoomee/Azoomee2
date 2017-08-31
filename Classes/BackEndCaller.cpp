@@ -115,11 +115,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
     {
         ConfigStorage::getInstance()->setFirstSlideShowSeen();
         
-        HQDataStorage::getInstance()->HQListTitles.clear();
-        HQDataStorage::getInstance()->HQListElements.clear();
-        HQDataStorage::getInstance()->HQElementHighlights.clear();
-        HQDataStorage::getInstance()->HQData.clear();
-        HQDataStorage::getInstance()->HQGetContentUrls.clear();
+        HQDataParser::getInstance()->clearAllHQData();
         
         getAvailableChildren();
         updateBillingData();
@@ -158,11 +154,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
     {
-        HQDataStorage::getInstance()->HQListTitles.clear();
-        HQDataStorage::getInstance()->HQListElements.clear();
-        HQDataStorage::getInstance()->HQElementHighlights.clear();
-        HQDataStorage::getInstance()->HQData.clear();
-        HQDataStorage::getInstance()->HQGetContentUrls.clear();
+        HQDataParser::getInstance()->clearAllHQData();
         
         getGordon(); //we are skipping to getGordon (no child login), that will get the required free/user cookies and switch to the main scene.
     }
