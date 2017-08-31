@@ -11,21 +11,22 @@
 
 namespace Azoomee
 {
-    
-enum HubTargetTagNumber {
-    CHAT = 0,
-    VIDEO_HQ,
-    AUDIO_HQ,
-    HOME,
-    ARTS_APP,
-    GAME_HQ,
-    GROUP_HQ
-};
 
 class ConfigStorage : public cocos2d::Ref
 {
     
 public:
+    
+    enum HubTargetTagNumber {
+        CHAT = 0,
+        VIDEO_HQ,
+        AUDIO_HQ,
+        HOME,
+        ARTS_APP,
+        GAME_HQ,
+        GROUP_HQ
+    };
+    
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
     virtual ~ConfigStorage();

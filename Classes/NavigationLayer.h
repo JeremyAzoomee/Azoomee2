@@ -18,7 +18,7 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     void startLoadingGroupHQ(std::string uri);
-    void changeToScene(HubTargetTagNumber target, float duration);
+    void changeToScene(ConfigStorage::HubTargetTagNumber target, float duration);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
@@ -65,7 +65,7 @@ private:
     
     void setButtonOn(int i);
     void delayedSetButtonOn(float dt);
-    void startLoadingHQScene(HubTargetTagNumber target);
+    void startLoadingHQScene(ConfigStorage::HubTargetTagNumber target);
     void addBackButtonToNavigation();
     void removeBackButtonFromNavigation();
     void addListenerToBackButton(cocos2d::Node* toBeAddedTo);
