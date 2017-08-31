@@ -14,6 +14,9 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
+    #include <jni.h>
+
+    static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
    #include "ApplePaymentSingleton.h"
 #endif
@@ -80,16 +83,7 @@ void RoutePaymentSingleton::setOSManufacturer()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     
-    JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer", "()Ljava/lang/String;");
-    jstring str = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID);
-    const char *resultCStr = t.env->GetStringUTFChars(str, NULL);
-    std::string resultStr(resultCStr);
-    
-    t.env->DeleteLocalRef(t.classID);
-    t.env->DeleteLocalRef(str);
-    
-    CCLOG("DEVICE TYPE:%s",resultStr.c_str());
+    std::string resultStr = JniHelper::callStaticStringMethod(kAzoomeeActivityJavaClassName, "getOSBuildManufacturer");
     
     if (resultStr == "Amazon")
     {
