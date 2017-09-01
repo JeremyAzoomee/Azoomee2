@@ -11,7 +11,6 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
-#include <jni.h>
 
 static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
 

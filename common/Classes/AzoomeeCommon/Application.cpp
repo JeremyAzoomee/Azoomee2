@@ -2,7 +2,6 @@
 #include "UI/Scene.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include <jni.h>
 
 static const std::string kAzoomeeActivityJavaClassName = "com/tinizine/azoomee/common/AzoomeeActivity";
 #endif
