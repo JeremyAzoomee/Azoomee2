@@ -142,14 +142,6 @@ void HQSceneElement::addListenerToElement()
             iamtouched = false;
             CCLOG("Action to come: %s", elementItemData["uri"].c_str());
             
-            if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
-            {
-                CCLOG("MixPanel: %s, %s, %s", elementItemData["title"].c_str(), elementItemData["description"].c_str(), elementCategory.c_str());
-                AnalyticsSingleton::getInstance()->previewContentClickedEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"]);
-                PreviewLoginSignupMessageBox::create();
-                return true;
-            }
-            
             if(elementItemData["type"] == "MANUAL")
             {
                 ManualGameInputLayer::create();
@@ -159,9 +151,16 @@ void HQSceneElement::addListenerToElement()
             if(elementItemData["entitled"] == "false")
             {
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-                AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("MainHub");
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"], elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
-                IAPUpsaleLayer::createRequiresPin();
+                
+                if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+                {
+                    AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("MainHub");
+                    IAPUpsaleLayer::createRequiresPin();
+                }
+                else
+                    PreviewLoginSignupMessageBox::create();
+                
                 return true;
             }
                 

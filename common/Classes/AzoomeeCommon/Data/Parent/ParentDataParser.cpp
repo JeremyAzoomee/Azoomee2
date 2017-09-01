@@ -40,6 +40,8 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
     parentData->parentLoginData.Parse(responseData.c_str());
     if(parentData->parentLoginData.HasParseError()) return false;
     
+    if(parentData->parentLoginData.HasParseError()) return false;
+    
     if(parentData->parentLoginData.HasMember("code"))
     {
         if(parentData->parentLoginData["code"] != "INVALID_CREDENTIALS")
@@ -63,6 +65,38 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
     }
     
     return false;
+}
+    
+bool ParentDataParser::parseParentLoginDataFromAnonymousDeviceLogin(const std::string &responseData)
+{
+    logoutChild();
+    ParentDataStorage* parentData = ParentDataStorage::getInstance();
+    parentData->parentLoginData.Parse(responseData.c_str());
+    
+    if(parentData->parentLoginData.HasParseError()) return false;
+    
+    if(parentData->parentLoginData.HasMember("userType"))
+    {
+        if(getStringFromJson("userType", parentData->parentLoginData) == "ANONYMOUS")
+        {
+            parentData->loggedInParentId =  getStringFromJson("id", parentData->parentLoginData);
+            parentData->loggedInParentCdnSessionId = getStringFromJson("cdn-sessionid", parentData->parentLoginData);
+            parentData->loggedInParentApiSecret = getStringFromJson("apiSecret", parentData->parentLoginData);
+            parentData->loggedInParentApiKey = getStringFromJson("apiKey", parentData->parentLoginData);
+            parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", parentData->parentLoginData);
+
+            parentData->loggedInParentPin = "";
+            
+            createCrashlyticsUserInfo(parentData->loggedInParentId, "");
+            AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
+            AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
+            
+            return true;
+        }
+    }
+    
+    return false;
+
 }
 
 bool ParentDataParser::parseUpdateParentData(const std::string &responseData)

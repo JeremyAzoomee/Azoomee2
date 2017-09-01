@@ -81,6 +81,7 @@ bool NavigationLayer::init()
     {
         createPreviewLoginButton();
         createPreviewSignUpButton();
+        showPreviewLoginSignupButtonsAfterDelay(3);
     }
     
     return true;
@@ -96,6 +97,7 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     moveMenuPointsToHorizontalStateInGroupHQ(0.5);
     turnOffAllMenuItems();
     addBackButtonToNavigation();
+    hidePreviewLoginSignupButtons();
 }
 
 void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, float duration)
@@ -134,10 +136,12 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
         HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("GROUP HQ");
         
         hqLayer->removeAllChildren();
+        showPreviewLoginSignupButtonsAfterDelay(0);
     }
     else
     {
         addBackButtonToNavigation();
+        hidePreviewLoginSignupButtons();
     }
     
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
@@ -336,8 +340,6 @@ void NavigationLayer::createPreviewLoginButton()
     previewLoginButton->setDelegate(this);
     previewLoginButton->setMixPanelButtonName("PreviewLogin");
     this->addChild(previewLoginButton);
-    
-    previewLoginButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.25)), 2), NULL));
 }
 
 void NavigationLayer::createPreviewSignUpButton()
@@ -347,8 +349,36 @@ void NavigationLayer::createPreviewSignUpButton()
     previewSignUpButton->setDelegate(this);
     previewSignUpButton->setMixPanelButtonName("PreviewSignUp");
     this->addChild(previewSignUpButton);
+}
+
+void NavigationLayer::showPreviewLoginSignupButtonsAfterDelay(float delay)
+{
+    if(previewSignUpButton)
+    {
+        previewSignUpButton->stopAllActions();
+         previewSignUpButton->runAction(Sequence::create(DelayTime::create(delay), EaseInOut::create(MoveTo::create(1, Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25)), 2), NULL));
+    }
     
-    previewSignUpButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25)), 2), NULL));
+    if(previewLoginButton)
+    {
+        previewLoginButton->stopAllActions();
+            previewLoginButton->runAction(Sequence::create(DelayTime::create(delay), EaseInOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.25)), 2), NULL));
+    }
+}
+
+void NavigationLayer::hidePreviewLoginSignupButtons()
+{
+    if(previewSignUpButton)
+    {
+        previewSignUpButton->stopAllActions();
+        previewSignUpButton->runAction(Sequence::create(EaseInOut::create(MoveTo::create(1, Vec2(origin.x - previewSignUpButton->getContentSize().width - previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25)), 2), NULL));
+    }
+    
+    if(previewLoginButton)
+    {
+            previewLoginButton->stopAllActions();
+            previewLoginButton->runAction(Sequence::create(EaseInOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width + previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25)), 2), NULL));
+    }
 }
 
 //---------------LISTENERS------------------

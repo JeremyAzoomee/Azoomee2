@@ -58,6 +58,8 @@ private:
     //--------PREVIEW BUTTONS--------
     void createPreviewLoginButton();
     void createPreviewSignUpButton();
+    void showPreviewLoginSignupButtonsAfterDelay(float delay);
+    void hidePreviewLoginSignupButtons();
     
     //Handling created menuitems or all menuitems
     void turnOffAllMenuItems();

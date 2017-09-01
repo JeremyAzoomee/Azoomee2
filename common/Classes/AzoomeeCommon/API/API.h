@@ -21,6 +21,7 @@ public:
 #pragma mark - Constants
     
     static const char* const TagLogin;
+    static const char* const TagAnonymousDeviceLogin;
     static const char* const TagUpdateBillingData;
     static const char* const TagParentPin;
     static const char* const TagGetAvailableChildren;
@@ -55,6 +56,9 @@ public:
     static HttpRequestCreator* LoginRequest(const std::string& username,
                                             const std::string& password,
                                             HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* AnonymousDeviceLoginRequest(const std::string& deviceId,
+                                                           HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* UpdateBillingDataRequest(HttpRequestCreatorResponseDelegate* delegate);
     

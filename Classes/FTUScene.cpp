@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include "BackEndCaller.h"
 
 using namespace cocos2d;
 
@@ -109,7 +110,7 @@ void FTUScene::addButtons()
 void FTUScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == notNowButton)
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+        BackEndCaller::getInstance()->anonymousDeviceLogin();
     else
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
 }

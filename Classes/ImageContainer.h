@@ -17,7 +17,6 @@ public:
 private:
 
     void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::map<std::string, std::string> elementProperties, bool IAPEnabled);
-    void addPreviewListenerToContainer(cocos2d::Node *addTo, std::map<std::string, std::string> elementProperties);
     
     cocos2d::LayerColor *bgLayer;
     void createBgLayer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, cocos2d::Point position);

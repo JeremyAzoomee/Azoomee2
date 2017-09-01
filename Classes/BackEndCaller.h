@@ -22,6 +22,8 @@ private:
     
     // Login API success
     void onLoginAnswerReceived(const std::string& responseString);
+    // Anonymous device login
+    void onAnonymousDeviceLoginAnswerReceived(const std::string& responseString);
     // Update billing API success
     void onUpdateBillingDataAnswerReceived(const std::string& responseString);
     // Update parent PIN API success
@@ -62,6 +64,8 @@ public:
     void offlineCheck();
     // Login a user
     void login(const std::string& username, const std::string& password);
+    // Login a device ID
+    void anonymousDeviceLogin();
     // Update billing information from the server
     void updateBillingData();
     // Update parent PIN from the server, calling back to AwaitingAdultPinLayer as part of the flow

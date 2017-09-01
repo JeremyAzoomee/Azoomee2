@@ -10,6 +10,7 @@ NS_AZOOMEE_BEGIN
 #pragma mark - Constants
 
 const char* const API::TagLogin = "parentLogin";
+const char* const API::TagAnonymousDeviceLogin = "anonymousDeviceLogin";
 const char* const API::TagUpdateBillingData = "updateBilling";
 const char* const API::TagParentPin = "updateParentPin";
 const char* const API::TagGetAvailableChildren = "getChildren";
@@ -52,6 +53,16 @@ HttpRequestCreator* API::LoginRequest(const std::string& username,
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
     request->requestTag = TagLogin;
+    request->method = "POST";
+    return request;
+}
+
+HttpRequestCreator* API::AnonymousDeviceLoginRequest(const std::string &deviceId,
+                                                     HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestBody = StringUtils::format("{\"deviceId\": \"%s\"}", deviceId.c_str());
+    request->requestTag = TagAnonymousDeviceLogin;
     request->method = "POST";
     return request;
 }

@@ -192,7 +192,7 @@ void HQDataParser::onGetContentAnswerReceived(std::string responseString, std::s
 
 void HQDataParser::onGetPreviewContentAnswerReceived(std::string responseString)
 {
-    if(parseHQData(responseString, "HOME"))       //Parsing method returns true if there are no errors in the json string.
+    if(parseHQData(responseString, "HOME"))
     {
         parseHQStructure(responseString, "HOME");
         parseHQGetContentUrls(responseString);
