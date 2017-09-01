@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Net/Utils.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Pusher/PusherSDK.h>
+#include <Azoomeecommon/Utils/SessionIdManager.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "HQDataStorage.h"
@@ -144,6 +145,8 @@ void BackEndCaller::anonymousDeviceLogin()
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     deviceId = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceAdvertisingId");
 #endif
+    
+    if(deviceId == "") deviceId = "SESSID:" + SessionIdManager::getInstance()->getCurrentSessionId();
     
     HttpRequestCreator* request = API::AnonymousDeviceLoginRequest(deviceId, this);
     request->execute();

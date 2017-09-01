@@ -81,7 +81,7 @@ bool NavigationLayer::init()
     {
         createPreviewLoginButton();
         createPreviewSignUpButton();
-        showPreviewLoginSignupButtons(3);
+        showPreviewLoginSignupButtonsAfterDelay(3);
     }
     
     return true;
@@ -136,7 +136,7 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
         HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("GROUP HQ");
         
         hqLayer->removeAllChildren();
-        showPreviewLoginSignupButtons(0);
+        showPreviewLoginSignupButtonsAfterDelay(0);
     }
     else
     {
@@ -351,7 +351,7 @@ void NavigationLayer::createPreviewSignUpButton()
     this->addChild(previewSignUpButton);
 }
 
-void NavigationLayer::showPreviewLoginSignupButtons(float delay)
+void NavigationLayer::showPreviewLoginSignupButtonsAfterDelay(float delay)
 {
     if(previewSignUpButton)
     {
