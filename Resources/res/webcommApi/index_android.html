@@ -7,15 +7,19 @@
 	</div>
 		<script>
 			function createFrameWithUrl(url)
-			{
-				var iframe = document.createElement('iframe');
-				iframe.src = url;
-				iframe.style.border = "none"
-				iframe.width  = window.innerWidth - 20;
-    			iframe.height = window.innerHeight - 20;
-				document.body.appendChild(iframe);
+			{	
+				setTimeout(function ()
+				{
+					var iframe = document.createElement('iframe');
+					iframe.src = url;
+					iframe.style.border = "none"
+					iframe.width  = window.innerWidth - 20;
+					iframe.height = window.innerHeight - 20;
+					document.body.appendChild(iframe);
 			
-				iframe.addEventListener("load", removeLoadingScreen);
+					iframe.addEventListener("load", removeLoadingScreen);
+
+				}, 1500); //adding a 1.5 second delay to make sure the webview is getting it's size properly
 			}
 		
 			function removeLoadingScreen()
