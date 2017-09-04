@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,17 +58,6 @@ public class NativeViewUI extends Activity {
 
         if(uiWebView != null) uiWebView.destroy();
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                createWebView();
-            }
-        }, 500); //adding 0.5s delay before adding webview - this helps the games to get correct window size.
-    }
-
-    public void createWebView()
-    {
         uiWebView = new WebView(this);
 
         uiWebView.setWebViewClient(new WebViewClient() {
