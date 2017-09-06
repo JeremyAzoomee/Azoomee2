@@ -110,7 +110,7 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
                 addLabelsToImage(iconSprite);
         }
         
-        if((elementItemData["entitled"] != "true")||(!ChildDataProvider::getInstance()->getIsChildLoggedIn()))
+        if(elementItemData["entitled"] != "true")
         {
             if(!aboutToExit) addLockToElement();
         }

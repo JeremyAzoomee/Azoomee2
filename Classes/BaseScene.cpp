@@ -44,7 +44,7 @@ void BaseScene::onEnterTransitionDidFinish()
     
     AudioMixer::getInstance()->playBackgroundMusic(HQ_BACKGROUND_MUSIC);
  
-    if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())  //if basescene is being run without a child logged in, preview mode has to be activated
+    if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())  //if basescene is being run without a child logged in, anonymous login mode has to be activated. (Deep free experience)
     {
         BackEndCaller::getInstance()->getHQContent(ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag("PreviewHOME"), "PreviewHOME");
     }
@@ -116,7 +116,7 @@ void BaseScene::addNavigationLayer()
     }
     else
     {
-        sNavigationLayer->changeToScene(HubTargetTagNumber::GAME_HQ, 0.01);
+        sNavigationLayer->changeToScene(ConfigStorage::HubTargetTagNumber::GAME_HQ, 0.01);
     }
 }
 

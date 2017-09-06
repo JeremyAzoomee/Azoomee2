@@ -9,16 +9,6 @@
 #include <cocos/cocos2d.h>
 #include "Json.h"
 
-enum HubTargetTagNumber {
-    CHAT = 0,
-    VIDEO_HQ,
-    AUDIO_HQ,
-    HOME,
-    ARTS_APP,
-    GAME_HQ,
-    GROUP_HQ
-};
-
 namespace Azoomee
 {
 
@@ -26,6 +16,17 @@ class ConfigStorage : public cocos2d::Ref
 {
     
 public:
+    
+    enum HubTargetTagNumber {
+        CHAT = 0,
+        VIDEO_HQ,
+        AUDIO_HQ,
+        HOME,
+        ARTS_APP,
+        GAME_HQ,
+        GROUP_HQ
+    };
+    
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
     virtual ~ConfigStorage();

@@ -16,6 +16,9 @@ public:
     
     const char* getIosSystemVersion();
     const char* getIosDeviceType();
+    const char* getIosDeviceIDFA();
+    
+    void deleteHttpCookies();
     
 private:
     IosNativeFunctionsSingleton();

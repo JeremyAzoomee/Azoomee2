@@ -223,7 +223,7 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
     if(button == signupButton)
         signUp();
     else if(button == cancelButton)
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+        BackEndCaller::getInstance()->anonymousDeviceLogin();
     else if(button == privacyButton)
         ModalWebview::createWithURL(Url::PrivacyPolicy);
     else if(button == termsButton)

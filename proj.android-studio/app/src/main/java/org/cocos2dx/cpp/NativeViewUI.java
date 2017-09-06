@@ -109,9 +109,6 @@ public class NativeViewUI extends Activity {
                     vg.removeView(uiWebView);
 
                     uiWebView.destroy();
-                    //uiWebView = null;
-
-                    //uiWebViewStatic = null;
                 }
 
                 JNICalls.JNIRegisterAndroidSceneChangeEvent();

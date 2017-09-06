@@ -81,6 +81,7 @@ bool NavigationLayer::init()
     {
         createPreviewLoginButton();
         createPreviewSignUpButton();
+        showPreviewLoginSignupButtonsAfterDelay(3);
     }
     
     return true;
@@ -96,11 +97,12 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
     moveMenuPointsToHorizontalStateInGroupHQ(0.5);
     turnOffAllMenuItems();
     addBackButtonToNavigation();
+    hidePreviewLoginSignupButtons();
 }
 
-void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
+void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, float duration)
 {
-    if(target == HubTargetTagNumber::CHAT)
+    if(target == ConfigStorage::HubTargetTagNumber::CHAT)
     {
         this->hideNotificationBadge();
         if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
@@ -121,7 +123,7 @@ void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
 
     this->startLoadingHQScene(target);
     this->turnOffAllMenuItems();
-    if(target < HubTargetTagNumber::GROUP_HQ) this->turnOnMenuItem(target);
+    if(target < ConfigStorage::HubTargetTagNumber::GROUP_HQ) this->turnOnMenuItem(target);
     
     if(HQHistoryManager::getInstance()->getCurrentHQ() != "GROUP HQ")
     {
@@ -134,10 +136,12 @@ void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
         HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("GROUP HQ");
         
         hqLayer->removeAllChildren();
+        showPreviewLoginSignupButtonsAfterDelay(0);
     }
     else
     {
         addBackButtonToNavigation();
+        hidePreviewLoginSignupButtons();
     }
     
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
@@ -145,13 +149,13 @@ void NavigationLayer::changeToScene(HubTargetTagNumber target, float duration)
     
     
     switch (target) {
-        case HubTargetTagNumber::CHAT:
+        case ConfigStorage::HubTargetTagNumber::CHAT:
             moveMenuPointsToCircleState(duration);
             break;
-        case HubTargetTagNumber::HOME:
+        case ConfigStorage::HubTargetTagNumber::HOME:
             moveMenuPointsToCircleState(duration);
             break;
-        case HubTargetTagNumber::GROUP_HQ:
+        case ConfigStorage::HubTargetTagNumber::GROUP_HQ:
             moveMenuPointsToHorizontalStateInGroupHQ(duration);
             break;
             
@@ -181,9 +185,9 @@ void NavigationLayer::loadArtsAppHQ()
     hqLayer->startBuildingScrollViewBasedOnName();
 }
 
-void NavigationLayer::startLoadingHQScene(HubTargetTagNumber target)
+void NavigationLayer::startLoadingHQScene(ConfigStorage::HubTargetTagNumber target)
 {
-    if(target == HubTargetTagNumber::ARTS_APP)
+    if(target == ConfigStorage::HubTargetTagNumber::ARTS_APP)
     {
         auto funcCallAction = CallFunc::create([=](){
             this->loadArtsAppHQ();
@@ -336,8 +340,6 @@ void NavigationLayer::createPreviewLoginButton()
     previewLoginButton->setDelegate(this);
     previewLoginButton->setMixPanelButtonName("PreviewLogin");
     this->addChild(previewLoginButton);
-    
-    previewLoginButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.25)), 2), NULL));
 }
 
 void NavigationLayer::createPreviewSignUpButton()
@@ -347,8 +349,36 @@ void NavigationLayer::createPreviewSignUpButton()
     previewSignUpButton->setDelegate(this);
     previewSignUpButton->setMixPanelButtonName("PreviewSignUp");
     this->addChild(previewSignUpButton);
+}
+
+void NavigationLayer::showPreviewLoginSignupButtonsAfterDelay(float delay)
+{
+    if(previewSignUpButton)
+    {
+        previewSignUpButton->stopAllActions();
+         previewSignUpButton->runAction(Sequence::create(DelayTime::create(delay), EaseInOut::create(MoveTo::create(1, Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25)), 2), NULL));
+    }
     
-    previewSignUpButton->runAction(Sequence::create(DelayTime::create(3), EaseOut::create(MoveTo::create(1, Vec2(origin.x + previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25)), 2), NULL));
+    if(previewLoginButton)
+    {
+        previewLoginButton->stopAllActions();
+            previewLoginButton->runAction(Sequence::create(DelayTime::create(delay), EaseInOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width - previewLoginButton->getContentSize().width - previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height * 1.25)), 2), NULL));
+    }
+}
+
+void NavigationLayer::hidePreviewLoginSignupButtons()
+{
+    if(previewSignUpButton)
+    {
+        previewSignUpButton->stopAllActions();
+        previewSignUpButton->runAction(Sequence::create(EaseInOut::create(MoveTo::create(1, Vec2(origin.x - previewSignUpButton->getContentSize().width - previewSignUpButton->getContentSize().height/4, origin.y + visibleSize.height- previewSignUpButton->getContentSize().height * 1.25)), 2), NULL));
+    }
+    
+    if(previewLoginButton)
+    {
+            previewLoginButton->stopAllActions();
+            previewLoginButton->runAction(Sequence::create(EaseInOut::create(MoveTo::create(1, Vec2(origin.x+visibleSize.width + previewLoginButton->getContentSize().width + previewLoginButton->getContentSize().height/4, origin.y + visibleSize.height- previewLoginButton->getContentSize().height* 1.25)), 2), NULL));
+    }
 }
 
 //---------------LISTENERS------------------
@@ -371,7 +401,7 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
         {
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             AnalyticsSingleton::getInstance()->navSelectionEvent("",target->getTag());
-            this->changeToScene((HubTargetTagNumber)target->getTag(), 0.5);
+            this->changeToScene((ConfigStorage::HubTargetTagNumber)target->getTag(), 0.5);
             
             return true;
         }

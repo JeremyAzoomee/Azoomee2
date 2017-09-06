@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Net/Utils.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Pusher/PusherSDK.h>
+#include <Azoomeecommon/Utils/SessionIdManager.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "HQDataStorage.h"
@@ -115,11 +116,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
     {
         ConfigStorage::getInstance()->setFirstSlideShowSeen();
         
-        HQDataStorage::getInstance()->HQListTitles.clear();
-        HQDataStorage::getInstance()->HQListElements.clear();
-        HQDataStorage::getInstance()->HQElementHighlights.clear();
-        HQDataStorage::getInstance()->HQData.clear();
-        HQDataStorage::getInstance()->HQGetContentUrls.clear();
+        HQDataParser::getInstance()->clearAllHQData();
         
         getAvailableChildren();
         updateBillingData();
@@ -127,6 +124,42 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
         
         // Open Pusher channel
         PusherSDK::getInstance()->openParentAccountChannel();
+    }
+    else
+    {
+        AnalyticsSingleton::getInstance()->signInFailEvent(0);
+        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_INVALID_CREDENTIALS);
+        getBackToLoginScreen(ERROR_CODE_INVALID_CREDENTIALS);
+    }
+}
+
+//LOGGING IN BY DEVICE IDENTIFIER
+void BackEndCaller::anonymousDeviceLogin()
+{
+    displayLoadingScreen();
+    
+    std::string deviceId = "";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    deviceId = IosNativeFunctionsSingleton::getInstance()->getIosDeviceIDFA();
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    deviceId = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceAdvertisingId");
+#endif
+    
+    if(deviceId == "") deviceId = "SESSID:" + SessionIdManager::getInstance()->getCurrentSessionId();
+    
+    HttpRequestCreator* request = API::AnonymousDeviceLoginRequest(deviceId, this);
+    request->execute();
+}
+
+void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString)
+{
+    CCLOG("Response string is: %s", responseString.c_str());
+    if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
+    {
+        HQDataParser::getInstance()->clearAllHQData();
+        
+        getGordon(); //we are skipping to getGordon (no child login), that will get the required free/user cookies and switch to the main scene.
     }
     else
     {
@@ -247,6 +280,10 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
 
 void BackEndCaller::getGordon()
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
+#endif
+    
     const std::string& userId = ChildDataProvider::getInstance()->getParentOrChildId();
     const std::string& sessionId = ChildDataProvider::getInstance()->getParentOrChildCdnSessionId();
     
@@ -358,17 +395,8 @@ void BackEndCaller::verifyApplePayment(const std::string& receiptData)
 //GET CONTENT-------------------------------------------------------------------------------
 void BackEndCaller::getHQContent(const std::string& url, const std::string& category)
 {
-    // Preview doesn't need to be encrypted
-    if(category == "PreviewHOME")
-    {
-        HttpRequestCreator* request = API::GetPublicContentRequest(url, category, this);
-        request->execute();
-    }
-    else
-    {
         HttpRequestCreator* request = API::GetEncryptedContentRequest(url, category, this);
         request->execute();
-    }
 }
 
 // DEEPLINK CONTENT DETAILS REQUEST ----------------------------------------------------------------
@@ -407,6 +435,10 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagLogin)
     {
         onLoginAnswerReceived(body);
+    }
+    else if(requestTag == API::TagAnonymousDeviceLogin)
+    {
+        onAnonymousDeviceLoginAnswerReceived(body);
     }
     else if(requestTag == API::TagRegisterChild)
     {

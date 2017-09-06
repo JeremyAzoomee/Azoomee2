@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include "SceneManagerScene.h"
 #include "IAPUpsaleLayer.h"
+#include "BackEndCaller.h"
 
 using namespace Azoomee;
 
@@ -166,5 +167,5 @@ void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
     else if (button->getName() == "startTrialButton")
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
     else if (button == skipButton)
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
+        BackEndCaller::getInstance()->anonymousDeviceLogin();
 }

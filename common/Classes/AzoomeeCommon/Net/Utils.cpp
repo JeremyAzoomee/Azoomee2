@@ -3,6 +3,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <iomanip>
+#include "../Utils/StringFunctions.h"
 
 // UrlEncode/Decode credit: http://bogomip.net/blog/cpp-url-encoding-and-decoding/
 
@@ -63,6 +64,23 @@ std::string urlDecode(const std::string &toDecode)
     }
     
     return out.str();
+}
+    
+std::string getUrlParamsInAlphabeticalOrder(const std::string &originalParamString)
+{
+    if(splitStringToVector(originalParamString, "&").size() <= 1) return originalParamString;
+    
+    std::vector<std::string> paramsVector = splitStringToVector(originalParamString, "&");
+    
+    std::sort(paramsVector.begin(), paramsVector.end());
+    std::string returnString = paramsVector.at(0);
+    
+    for(int i = 1; i < paramsVector.size(); i++)
+    {
+        returnString += "&" + paramsVector.at(i);
+    }
+    
+    return returnString;
 }
 
 std::string charToHex(unsigned char c)

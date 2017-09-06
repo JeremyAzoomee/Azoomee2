@@ -399,9 +399,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
             
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
             return true;
-            
-            WebGameAPIDataManager::getInstance()->setGameId("artApp");
-            
         }
         
         return true;
