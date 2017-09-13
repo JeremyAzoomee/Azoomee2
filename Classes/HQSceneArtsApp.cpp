@@ -61,8 +61,8 @@ void HQSceneArtsApp::createArtsAppScrollView()
     auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height*2), Point(0, 300));
     this->addChild(horizontalScrollView);
     
-    if(!FileUtils::getInstance()->isDirectoryExist(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId()))
-        FileUtils::getInstance()->createDirectory(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId());
+    if(!FileUtils::getInstance()->isDirectoryExist(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId()))
+        FileUtils::getInstance()->createDirectory(FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId());
     
     addEmptyImageToHorizontalScrollView(horizontalScrollView);
     addCreatedImagesToHorizontalScrollView(horizontalScrollView);
@@ -80,7 +80,7 @@ void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollV
 {
     
     //std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
-    std::string path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    std::string path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
     std::vector<std::string> fileList = getFilesInDirectory(path);
     
     std::reverse(fileList.begin(), fileList.end());
@@ -117,7 +117,7 @@ void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toB
 
 std::vector<std::string> HQSceneArtsApp::getOldArtImages()
 {
-    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
     std::vector<std::string> fileList = getFilesInDirectory(path);
     std::vector<std::string> imagList;
     for(int i = 0; i < fileList.size(); i++)

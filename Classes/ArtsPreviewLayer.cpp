@@ -51,7 +51,7 @@ void ArtsPreviewLayer::addImagesToMainHub()
 
 std::vector<std::string> ArtsPreviewLayer::getRandomImagesFromArtsCache()
 {
-    const std::string &artCacheFolderPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    const std::string &artCacheFolderPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
     
     if(!FileUtils::getInstance()->isDirectoryExist(artCacheFolderPath))
         FileUtils::getInstance()->createDirectory(artCacheFolderPath);

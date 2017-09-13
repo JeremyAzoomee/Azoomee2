@@ -158,6 +158,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
     if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
     {
         HQDataParser::getInstance()->clearAllHQData();
+        ChildDataParser::getInstance()->setChildLoggedIn(false);
         
         getGordon(); //we are skipping to getGordon (no child login), that will get the required free/user cookies and switch to the main scene.
     }
