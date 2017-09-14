@@ -81,7 +81,7 @@ std::string ParentDataProvider::getBillingProvider()
 
 bool ParentDataProvider::isPaidUser()
 {
-    return ParentDataStorage::getInstance()->loggedInParentBillingStatus == "SUBSCRIBED";
+    return (ParentDataStorage::getInstance()->loggedInParentBillingStatus == "SUBSCRIBED") || (ParentDataStorage::getInstance()->loggedInParentBillingStatus == "FREE_TRIAL");
 }
 
 bool ParentDataProvider::emailRequiresVerification()
