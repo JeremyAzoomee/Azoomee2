@@ -56,24 +56,30 @@ std::string stringReplace(std::string originalString, std::string stringToReplac
   return originalString;
 }
     
-bool isDateStringOlderThanToday(std::string dateToCheck)
+bool isDateStringOlderThanToday(const std::string &dateToCheck)
 {
-    std::vector<std::string> dobSplit = splitStringToVector(dateToCheck, "-");
+    time_t epochTimeForNow = std::time(NULL);
+    struct tm currentTimeStruct = *gmtime(&epochTimeForNow);
     
-    if(dobSplit.size() != 3)
-        return false;
+    currentTimeStruct.tm_hour = 0;
+    currentTimeStruct.tm_min = 0;
+    currentTimeStruct.tm_sec = 0;
+    currentTimeStruct.tm_isdst = -1;    //setting time to midnight, and turning off daylight saving, as we are curious about the day only
     
-    int nextBilldate = std::atoi(dobSplit.at(0).c_str()) * 10000 + std::atoi(dobSplit.at(1).c_str()) * 100 + std::atoi(dobSplit.at(2).c_str());
+    long epochTimeForToday = mktime(&currentTimeStruct);
     
-    time_t now = time (0);
-    tm nowtm = *(gmtime (&now));
-    
-    int today = nowtm.tm_year * 10000 +19000000 + (nowtm.tm_mon + 1) * 100 + nowtm.tm_mday;
-    
-    if(nextBilldate <=today)
+    struct tm inputTimeStruct = {0};
+    if(!strptime(dateToCheck.c_str(), "%Y-%m-%d", &inputTimeStruct))
+    {
         return true;
+    }
     else
-        return false;
+    {
+        inputTimeStruct.tm_isdst = -1;
+        long epochTimeForInputDate = mktime(&inputTimeStruct);
+        
+        return (epochTimeForInputDate < epochTimeForToday);
+    }
 }
 
 std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMapVector)

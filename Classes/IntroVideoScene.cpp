@@ -35,17 +35,6 @@ bool IntroVideoScene::init()
         return false;
     }
     
-    long timeStamp = std::time(NULL);
-    
-    struct tm tm;
-    std::string inputTimeStamp = "1970-01-01";
-    strptime(inputTimeStamp.c_str(), "%Y-%m-%d", &tm);
-    
-    time_t myTime = mktime(&tm);
-    long timeStamp2 = std::time(&myTime);
-    
-    cocos2d::log("TIMESTAMP NOW: %ld , TIMESTAMP 1970: %ld", timeStamp, timeStamp2);
-    
     AnalyticsSingleton::getInstance()->registerCurrentScene("INTRO_VIDEO");
     
     if(ConfigStorage::getInstance()->shouldShowFirstSlideShowScene())
