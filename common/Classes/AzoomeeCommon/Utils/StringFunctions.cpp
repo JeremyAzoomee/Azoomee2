@@ -55,7 +55,13 @@ std::string stringReplace(std::string originalString, std::string stringToReplac
   }
   return originalString;
 }
-    
+
+bool isDateStringFormatCorrectForComparison(const std::string &dateToCheck)
+{
+    struct tm inputTimeStruct = {0};
+    return strptime(dateToCheck.c_str(), "%Y-%m-%d", &inputTimeStruct);
+}
+
 bool isDateStringOlderThanToday(const std::string &dateToCheck)
 {
     time_t epochTimeForNow = std::time(NULL);
@@ -71,7 +77,7 @@ bool isDateStringOlderThanToday(const std::string &dateToCheck)
     struct tm inputTimeStruct = {0};
     if(!strptime(dateToCheck.c_str(), "%Y-%m-%d", &inputTimeStruct))
     {
-        return true;
+        return true;                    //if input string cannot be converted, we return true.
     }
     else
     {

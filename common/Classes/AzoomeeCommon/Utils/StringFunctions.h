@@ -14,6 +14,7 @@ std::string stringToLower(std::string input);
 std::string stringToUpper(std::string input);
 std::string stringReplace(std::string originalString, std::string stringToReplace, std::string withNewString);
 bool isDateStringOlderThanToday(const std::string &dateToCheck);
+bool isDateStringFormatCorrectForComparison(const std::string &dateToCheck);
 std::string getJSONStringFromVectorOfMaps(std::vector<std::map<std::string, std::string>> inputMap);
 std::string getJSONStringFromMap(std::map<std::string, std::string> inputMap);
 std::string replaceAll(std::string& str, const std::string& from, const std::string& to);
