@@ -210,8 +210,6 @@ void DrawingCanvas::addBrushes()
     }
     activeBrush = brushes[0];
     this->addChild(activeBrush->getDrawNode());
-    
-    selectedColour = Style::Color_4F::pink;
 }
 
 //UI LOADING
@@ -281,35 +279,37 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
     this->addChild(leftBG,MAIN_UI_LAYER);
     
     std::vector<Color3B> colours;
-    colours.push_back(Color3B(Style::Color_4F::pink));
-    colours.push_back(Color3B(Style::Color_4F::red));
-    colours.push_back(Color3B(Style::Color_4F::orange));
-    colours.push_back(Color3B(Style::Color_4F::yellow));
-    colours.push_back(Color3B(Style::Color_4F::green));
-    colours.push_back(Color3B(Style::Color_4F::blue));
-    colours.push_back(Color3B(Style::Color_4F::purple));
-    colours.push_back(Color3B(Style::Color_4F::black));
-    colours.push_back(Color3B(Style::Color_4F::grey));
-    colours.push_back(Color3B(Style::Color_4F::lightGrey));
-    colours.push_back(Color3B(Style::Color_4F::white));
-    colours.push_back(Color3B(Style::Color_4F::skinPink));
-    colours.push_back(Color3B(Style::Color_4F::brown));
     colours.push_back(Color3B(Style::Color_4F::darkBrown));
+    colours.push_back(Color3B(Style::Color_4F::brown));
+    colours.push_back(Color3B(Style::Color_4F::lightBrown));
+    colours.push_back(Color3B(Style::Color_4F::orangeBrown));
+    colours.push_back(Color3B(Style::Color_4F::orange));
+    colours.push_back(Color3B(Style::Color_4F::darkYellow));
+    colours.push_back(Color3B(Style::Color_4F::yellow));
     
-    colours.push_back(Color3B(Style::Color_4F::pink));
-    colours.push_back(Color3B(Style::Color_4F::red));
-    colours.push_back(Color3B(Style::Color_4F::orange));
-    colours.push_back(Color3B(Style::Color_4F::yellow));
-    colours.push_back(Color3B(Style::Color_4F::green));
+    colours.push_back(Color3B(Style::Color_4F::darkBlue));
     colours.push_back(Color3B(Style::Color_4F::blue));
+    colours.push_back(Color3B(Style::Color_4F::lightBlue));
+    colours.push_back(Color3B(Style::Color_4F::greenBlue));
+    colours.push_back(Color3B(Style::Color_4F::green));
+    colours.push_back(Color3B(Style::Color_4F::grassGreen));
+    colours.push_back(Color3B(Style::Color_4F::neonGreen));
+    
+    colours.push_back(Color3B(Style::Color_4F::darkPurple));
     colours.push_back(Color3B(Style::Color_4F::purple));
-    colours.push_back(Color3B(Style::Color_4F::black));
-    colours.push_back(Color3B(Style::Color_4F::grey));
+    colours.push_back(Color3B(Style::Color_4F::neonPink));
+    colours.push_back(Color3B(Style::Color_4F::palePink));
+    colours.push_back(Color3B(Style::Color_4F::pink));
+    colours.push_back(Color3B(Style::Color_4F::darkPink));
+    colours.push_back(Color3B(Style::Color_4F::red));
+    
+    colours.push_back(Color3B(Style::Color_4F::neonBlue));
+    colours.push_back(Color3B(Style::Color_4F::paleGreen));
+    colours.push_back(Color3B(Style::Color_4F::paleYellow));
     colours.push_back(Color3B(Style::Color_4F::lightGrey));
-    colours.push_back(Color3B(Style::Color_4F::white));
-    colours.push_back(Color3B(Style::Color_4F::skinPink));
-    colours.push_back(Color3B(Style::Color_4F::brown));
-    colours.push_back(Color3B(Style::Color_4F::darkBrown));
+    colours.push_back(Color3B(Style::Color_4F::grey));
+    colours.push_back(Color3B(Style::Color_4F::darkGrey));
+    colours.push_back(Color3B(Style::Color_4F::black));
     
     const int rows = ceilf(colours.size()/7.0f);
     const int columns = 7;
@@ -341,7 +341,10 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
             button->loadTextures(ArtAppAssetLoc + "colorSwatch.png", ArtAppAssetLoc + "colorSwatch.png");
             button->setColor(colours[colourCount]);
             if(colourCount == 0)
+            {
+                selectedColour = Color4F(colours[colourCount]);
                 button->addChild(selected);
+            }
             button->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onColourChangePressed,this));
             colourButtonLayout->addChild(button);
             
