@@ -9,6 +9,7 @@
 #include "DrawingCanvas.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <dirent.h>
+#include <math.h>
 
 using namespace cocos2d;
 
@@ -119,17 +120,13 @@ void DrawingCanvas::saveImage(const std::string& filePath)
 
 void DrawingCanvas::setupTouchHandling()
 {
-    //static bool touchProcessed = false;
 
     drawCanvasTouchListener = EventListenerTouchOneByOne::create();
     
     drawCanvasTouchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
-        //if(touchProcessed)
-        //    return false;
             
         activeBrush->onTouchBegin(touch, event);
-        //touchProcessed = true;
 
         return true;
     };
@@ -146,10 +143,10 @@ void DrawingCanvas::setupTouchHandling()
         
         activeBrush->onTouchEnded(touch, event);
         
-        //touchProcessed = false;
-        
         if(drawingStack.size() == 0)
+        {
             clearButton->loadTextures(ArtAppAssetLoc + "art_button_undo.png", ArtAppAssetLoc + "undo.png");
+        }
         drawingStack.push_back(activeBrush->getDrawNode());
         this->addChild(activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
         
@@ -170,7 +167,7 @@ void DrawingCanvas::setupTouchHandling()
     };
     drawCanvasTouchListener->onTouchCancelled = [&](Touch* touch, Event* event)
     {
-        //touchProcessed = false;
+        
     };
     
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(drawCanvasTouchListener, this);
@@ -283,19 +280,6 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
     leftBG->setPosition(Vec2(visibleOrigin.x, visibleOrigin.y - BOTTOM_UI_Y_OFFSET));
     this->addChild(leftBG,MAIN_UI_LAYER);
     
-    colourButtonLayout = Node::create();
-    colourButtonLayout->setContentSize(Size(visibleSize.width*0.7,visibleSize.height*0.4));
-    colourButtonLayout->setAnchorPoint(Vec2(0.5,0.5));
-    colourButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y + visibleSize.height/2));
-    colourButtonLayout->setVisible(false);
-    this->addChild(colourButtonLayout,POPUP_UI_LAYER);
-    
-    ui::Scale9Sprite* colourBG = ui::Scale9Sprite::create(ArtAppAssetLoc + "gallery/art_painting_placeholder.png");
-    colourBG->setContentSize(colourButtonLayout->getContentSize());
-    colourBG->setAnchorPoint(Vec2(0.5,0.5));
-    colourBG->setNormalizedPosition(Vec2(0.5,0.2));
-    colourButtonLayout->addChild(colourBG);
-    
     std::vector<Color3B> colours;
     colours.push_back(Color3B(Style::Color_4F::pink));
     colours.push_back(Color3B(Style::Color_4F::red));
@@ -312,19 +296,47 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
     colours.push_back(Color3B(Style::Color_4F::brown));
     colours.push_back(Color3B(Style::Color_4F::darkBrown));
     
-    int colourCount = 0;
+    colours.push_back(Color3B(Style::Color_4F::pink));
+    colours.push_back(Color3B(Style::Color_4F::red));
+    colours.push_back(Color3B(Style::Color_4F::orange));
+    colours.push_back(Color3B(Style::Color_4F::yellow));
+    colours.push_back(Color3B(Style::Color_4F::green));
+    colours.push_back(Color3B(Style::Color_4F::blue));
+    colours.push_back(Color3B(Style::Color_4F::purple));
+    colours.push_back(Color3B(Style::Color_4F::black));
+    colours.push_back(Color3B(Style::Color_4F::grey));
+    colours.push_back(Color3B(Style::Color_4F::lightGrey));
+    colours.push_back(Color3B(Style::Color_4F::white));
+    colours.push_back(Color3B(Style::Color_4F::skinPink));
+    colours.push_back(Color3B(Style::Color_4F::brown));
+    colours.push_back(Color3B(Style::Color_4F::darkBrown));
     
-    const int rows = 2;
+    const int rows = ceilf(colours.size()/7.0f);
     const int columns = 7;
     
-    for (int j = 0; j<rows; ++j)
+    colourButtonLayout = Node::create();
+    colourButtonLayout->setContentSize(Size(visibleSize.width*0.7,visibleSize.height*(0.2*rows)));
+    colourButtonLayout->setAnchorPoint(Vec2(0.5,0.5));
+    colourButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y + visibleSize.height/2 + 100));
+    colourButtonLayout->setVisible(false);
+    this->addChild(colourButtonLayout,POPUP_UI_LAYER);
+    
+    ui::Scale9Sprite* colourBG = ui::Scale9Sprite::create(ArtAppAssetLoc + "gallery/art_painting_placeholder.png");
+    colourBG->setContentSize(colourButtonLayout->getContentSize());
+    colourBG->setAnchorPoint(Vec2(0.5,0.5));
+    colourBG->setNormalizedPosition(Vec2(0.5,0.5));
+    colourButtonLayout->addChild(colourBG);
+    
+    int colourCount = 0;
+    
+    for (int j = 1; j<=rows; j++)
     {
-        for (int i = 1; i<=columns; ++i)
+        for (int i = 0; i<columns; i++)
         {
             ui::Button* button = ui::Button::create();
             button->setAnchorPoint(Vec2(0,0.5));
-            float xPos = ( i - 1 ) * ( 1.0f / columns );
-            float yPos = j * 0.4f;
+            float xPos = i / (float)columns;
+            float yPos = (j-0.5) / (float)rows;
             button->setNormalizedPosition(Vec2(xPos,yPos));
             button->loadTextures(ArtAppAssetLoc + "colorSwatch.png", ArtAppAssetLoc + "colorSwatch.png");
             button->setColor(colours[colourCount]);
@@ -518,7 +530,7 @@ void DrawingCanvas::addBrushRadiusSlider(const Size& visibleSize, const Point& v
     brushSizeSlider->loadBarTexture(ArtAppAssetLoc + "slideBack.png");
     brushSizeSlider->loadSlidBallTextures(ArtAppAssetLoc + "sliderIcon.png",ArtAppAssetLoc + "sliderIcon.png","");
     brushSizeSlider->setPercent(50);
-    brushRadius = INITIAL_RADIUS + brushSizeSlider->getPercent()/2;
+    brushRadius = INITIAL_RADIUS + brushSizeSlider->getPercent();
     brushSizeSlider->setAnchorPoint(Vec2(0.5,0.5));
     brushSizeSlider->setRotation(-90);
     brushSizeSlider->setPosition(Vec2(visibleOrigin.x + brushSizeSlider->getContentSize().height,visibleOrigin.y + visibleSize.height/2));
@@ -936,7 +948,7 @@ void DrawingCanvas::onRadiusSliderInteract(Ref *pSender, ui::Slider::EventType e
     
     if(eEventType == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
     {
-        brushRadius = INITIAL_RADIUS + slider->getPercent()/2;
+        brushRadius = INITIAL_RADIUS + slider->getPercent();
     }
 }
 
