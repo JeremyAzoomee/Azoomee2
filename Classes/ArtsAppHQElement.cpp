@@ -29,15 +29,6 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     
     notSendingFileData = newImage;
     
-    if(notSendingFileData)
-    {
-        CCLOG("NOT SENDING FILE DATA IS TRUE!");
-    }
-    else
-    {
-        CCLOG("NOT SENDING FILE DATA IS FALSE!");
-    }
-    
     createImageBorder();
     if(!newImage)
     {
@@ -79,14 +70,11 @@ void ArtsAppHQElement::loadImageTex()
 {
     Director::getInstance()->getTextureCache()->addImageAsync(imageURL, [&](Texture2D* tex){
         
-        if(!elementActive)
+        if(!elementActive || ArtAppDelegate::getInstance()->ArtAppRunning)
         {
             return;
         }
-        if(ArtAppDelegate::getInstance()->ArtAppRunning)
-        {
-            return;
-        }
+
         this->addImage(tex);
     });
 }
@@ -295,19 +283,7 @@ void ArtsAppHQElement::unscheduleShowingDeleteButton()
 
 bool ArtsAppHQElement::deleteButtonIsShown()
 {
-    if(!deleteButton)
-    {
-        return false;
-    }
-    
-    if(deleteButton->getOpacity() > 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (deleteButton && deleteButton->getOpacity() > 0);
 }
 
 void ArtsAppHQElement::onExit()
