@@ -145,7 +145,9 @@ void HQSceneElementVisual::addGradientToBottom()
     float iconScaleFactor = 1;
     
     if(isOffline)
+    {
         iconScaleFactor = 1.8;
+    }
     
     auto gradient = Sprite::create(ConfigStorage::getInstance()->getGradientImageForCategory(elementCategory));
     gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2 * iconScaleFactor +10);
@@ -162,7 +164,9 @@ Sprite* HQSceneElementVisual::addIconToImage()
     float iconScaleFactor = 1;
     
     if(isOffline)
+    {
         iconScaleFactor = 2;
+    }
     
     float audioHeightOffset = 15;
     
@@ -197,9 +201,30 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
 
 void HQSceneElementVisual::addLockToElement()
 {
-    auto lockImage = Sprite::create("res/hqscene/locked.png");
-    lockImage->setPosition(baseLayer->getContentSize() / 2);
+    
+    Color4B overlayColour = Style::Color_4B::semiTransparentOverlay;
+    Layer* lockedOverlay = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, overlayColour.a), baseLayer->getContentSize().width, baseLayer->getContentSize().height);
+    lockedOverlay->setPosition(0,0);
+    baseLayer->addChild(lockedOverlay);
+    
+    std::string lockFile ="res/hqscene/locked.png";
+    if(elementItemData["type"] == "VIDEO")
+    {
+        lockFile = "res/hqscene/locked_video.png";
+    }
+    else if(elementItemData["type"] == "AUDIO")
+    {
+        lockFile = "res/hqscene/locked_audio_books.png";
+    }
+    else if(elementItemData["type"] == "GAME")
+    {
+        lockFile = "res/hqscene/locked_games.png";
+    }
+    auto lockImage = Sprite::create(lockFile);
+    lockImage->setPosition(baseLayer->getContentSize().width, 0);
+    lockImage->setAnchorPoint(Vec2(1,0));
     baseLayer->addChild(lockImage);
+    
 }
 
 void HQSceneElementVisual::resizeSceneElement()

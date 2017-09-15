@@ -70,7 +70,7 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
     
 
     if(elementProperties["entitled"] == "false")
-        addLockToImageContainer(startDelay);
+        addLockToImageContainer(elementProperties["type"], startDelay);
         
     addReponseLayerToImage(elementProperties, scale);
     addListenerToContainer(bgLayer, colour4.a, elementProperties, RoutePaymentSingleton::getInstance()->showIAPContent());
@@ -133,7 +133,10 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
     
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        {
+            return false;
+        }
         
         auto target = static_cast<Node*>(event->getCurrentTarget());
         
@@ -223,12 +226,29 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), addTo);
 }
 
-void ImageContainer::addLockToImageContainer(float startDelay)
+void ImageContainer::addLockToImageContainer(std::string elementType, float startDelay)
 {
-    auto lockImage = Sprite::create("res/hqscene/locked.png");
-    lockImage->setPosition(bgLayer->getContentSize() / 2);
-    lockImage->setScale(scaleFactor);
-    lockImage->setOpacity(0);
+    Color4B overlayColour = Style::Color_4B::semiTransparentOverlay;
+    Layer* lockedOverlay = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, overlayColour.a), bgLayer->getContentSize().width, bgLayer->getContentSize().height + 10);
+    lockedOverlay->setPosition(0,-10);
+    bgLayer->addChild(lockedOverlay);
+    
+    std::string lockFile ="res/hqscene/locked.png";
+    if(elementType == "VIDEO")
+    {
+        lockFile = "res/hqscene/locked_video.png";
+    }
+    else if(elementType == "AUDIO")
+    {
+        lockFile = "res/hqscene/locked_audio_books.png";
+    }
+    else if(elementType == "GAME")
+    {
+        lockFile = "res/hqscene/locked_games.png";
+    }
+    auto lockImage = Sprite::create(lockFile);
+    lockImage->setPosition(bgLayer->getContentSize().width, 0);
+    lockImage->setAnchorPoint(Vec2(1,0));
     bgLayer->addChild(lockImage);
     
     lockImage->runAction(Sequence::create(DelayTime::create(startDelay), FadeIn::create(0), DelayTime::create(appearPause), FadeOut::create(0), DelayTime::create(appearPause), FadeIn::create(0), NULL));
