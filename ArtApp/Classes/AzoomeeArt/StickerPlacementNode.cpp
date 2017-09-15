@@ -38,6 +38,18 @@ void StickerPlacementNode::onEnter()
     sticker->setPosition(visibleSize/2);
     this->addChild(sticker);
     
+    stickerButton_rotate = ui::Button::create();
+    stickerButton_rotate->loadTextures(ArtAppAssetLoc + "rotateSlider.png", ArtAppAssetLoc + "rotateSlider.png");
+    stickerButton_rotate->setAnchorPoint(Vec2(0.5,0.5));
+    stickerButton_rotate->setPosition(sticker->getPosition() - sticker->getContentSize()/2 - stickerButton_rotate->getContentSize()/2);
+    this->addChild(stickerButton_rotate);
+    
+    stickerButton_scale= ui::Button::create();
+    stickerButton_scale->loadTextures(ArtAppAssetLoc + "sizeSlider.png", ArtAppAssetLoc + "sizeSlider.png");
+    stickerButton_scale->setAnchorPoint(Vec2(0.5,0.5));
+    stickerButton_scale->setPosition(sticker->getPosition() + sticker->getContentSize()/2 + stickerButton_scale->getContentSize()/2);
+    this->addChild(stickerButton_scale);
+    
     scaleSlider = ui::Slider::create();
     scaleSlider->setTouchEnabled(true);
     scaleSlider->loadBarTexture(ArtAppAssetLoc + "slideBack.png");
@@ -84,6 +96,14 @@ void StickerPlacementNode::setupTouchHandling()
         
         sticker->setPosition(touch->getLocation());
         
+        Vec2 offset_rotate = -Vec2((sticker->getContentSize()/2) * sticker->getScale()) - stickerButton_rotate->getContentSize()/2;
+        offset_rotate.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-rotationAngle));
+        stickerButton_rotate->setPosition(sticker->getPosition() + offset_rotate);
+        
+        Vec2 offset_scale = ((sticker->getContentSize()/2) * sticker->getScale()) + stickerButton_scale->getContentSize()/2;
+        offset_scale.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-rotationAngle));
+        stickerButton_scale->setPosition(sticker->getPosition() + offset_scale);
+        
         touchDetected = true;
         
         return true;
@@ -93,6 +113,13 @@ void StickerPlacementNode::setupTouchHandling()
     {
         sticker->setPosition(touch->getLocation());
         
+        Vec2 offset_rotate = -Vec2((sticker->getContentSize()/2) * sticker->getScale()) - stickerButton_rotate->getContentSize()/2;
+        offset_rotate.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-rotationAngle));
+        stickerButton_rotate->setPosition(sticker->getPosition() + offset_rotate);
+        
+        Vec2 offset_scale = ((sticker->getContentSize()/2) * sticker->getScale()) + stickerButton_scale->getContentSize()/2;
+        offset_scale.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-rotationAngle));
+        stickerButton_scale->setPosition(sticker->getPosition() + offset_scale);
     };
     
     touchListener->onTouchEnded = [=](Touch* touch, Event* event)
@@ -117,6 +144,14 @@ void StickerPlacementNode::setSticker(Sprite *sticker)
         this->removeChild(this->sticker);
     this->sticker = sticker;
     this->addChild(sticker);
+    
+    Vec2 offset_rotate = -Vec2((sticker->getContentSize()/2) * sticker->getScale()) - stickerButton_rotate->getContentSize()/2;
+    offset_rotate.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-rotationAngle));
+    stickerButton_rotate->setPosition(sticker->getPosition() + offset_rotate);
+    
+    Vec2 offset_scale = ((sticker->getContentSize()/2) * sticker->getScale()) + stickerButton_scale->getContentSize()/2;
+    offset_scale.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-rotationAngle));
+    stickerButton_scale->setPosition(sticker->getPosition() + offset_scale);
 }
 
 Sprite* StickerPlacementNode::getSticker()
@@ -132,6 +167,14 @@ void StickerPlacementNode::onScaleSliderInteract(Ref *pSender, ui::Slider::Event
     {
         scaleFactor = 0.1 + slider->getPercent()/20.0f;
         sticker->setScale(scaleFactor);
+        
+        Vec2 offset_rotate = -Vec2((sticker->getContentSize()/2) * sticker->getScale()) - stickerButton_rotate->getContentSize()/2;
+        offset_rotate.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-rotationAngle));
+        stickerButton_rotate->setPosition(sticker->getPosition() + offset_rotate);
+        
+        Vec2 offset_scale = ((sticker->getContentSize()/2) * sticker->getScale()) + stickerButton_scale->getContentSize()/2;
+        offset_scale.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-rotationAngle));
+        stickerButton_scale->setPosition(sticker->getPosition() + offset_scale);
     }
 }
 
@@ -143,6 +186,18 @@ void StickerPlacementNode::onRotationSliderInteract(Ref *pSender, ui::Slider::Ev
     {
         rotationAngle = slider->getPercent()*3.6f;
         sticker->setRotation(rotationAngle);
+        stickerButton_rotate->setRotation(rotationAngle);
+        stickerButton_scale->setRotation(rotationAngle);
+        
+        Vec2 offset_rotate = -Vec2((sticker->getContentSize()/2) * sticker->getScale()) - stickerButton_rotate->getContentSize()/2;
+        offset_rotate.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-rotationAngle));
+        stickerButton_rotate->setPosition(sticker->getPosition() + offset_rotate);
+        
+        Vec2 offset_scale = ((sticker->getContentSize()/2) * sticker->getScale()) + stickerButton_scale->getContentSize()/2;
+        offset_scale.rotate(Vec2(0,0), CC_DEGREES_TO_RADIANS(-rotationAngle));
+        stickerButton_scale->setPosition(sticker->getPosition() + offset_scale);
+        
+        
     }
 }
 
@@ -152,7 +207,8 @@ void StickerPlacementNode::resetSliders()
     rotationAngle = 0;
     scaleSlider->setPercent(20);
     scaleFactor = 1.1;
-    
+    stickerButton_rotate->setRotation(rotationAngle);
+    stickerButton_scale->setRotation(rotationAngle);
 }
 
 NS_AZOOMEE_AA_END

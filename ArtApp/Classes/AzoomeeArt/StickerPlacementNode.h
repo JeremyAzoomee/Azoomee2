@@ -29,6 +29,9 @@ private:
     cocos2d::ui::Slider* rotationSlider = nullptr;
     float rotationAngle;
     
+    cocos2d::ui::Button* stickerButton_rotate;
+    cocos2d::ui::Button* stickerButton_scale;
+    
     void onScaleSliderInteract(cocos2d::Ref* pSender, cocos2d::ui::Slider::EventType eEventType);
     void onRotationSliderInteract(cocos2d::Ref* pSender, cocos2d::ui::Slider::EventType eEventType);
     
