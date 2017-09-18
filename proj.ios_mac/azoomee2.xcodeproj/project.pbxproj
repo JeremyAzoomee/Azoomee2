@@ -321,6 +321,8 @@
 		02E595C21E5D9EE70052F395 /* OfflineText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineText.h; sourceTree = "<group>"; };
 		02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneArtsApp.cpp; sourceTree = "<group>"; };
 		02E595C91E66E2160052F395 /* HQSceneArtsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneArtsApp.h; sourceTree = "<group>"; };
+		02FFB24D1F6FD9E000751A90 /* HQDataObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQDataObject.h; sourceTree = "<group>"; };
+		02FFB24E1F6FD9E100751A90 /* HQDataObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataObject.cpp; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -671,6 +673,15 @@
 				A134ADCD1E0C0F420030BE98 /* HQSceneElementPositioner.h */,
 			);
 			name = HQSceneElement;
+			sourceTree = "<group>";
+		};
+		02FFB2491F6FD5CA00751A90 /* HQDataObjects */ = {
+			isa = PBXGroup;
+			children = (
+				02FFB24E1F6FD9E100751A90 /* HQDataObject.cpp */,
+				02FFB24D1F6FD9E000751A90 /* HQDataObject.h */,
+			);
+			name = HQDataObjects;
 			sourceTree = "<group>";
 		};
 		080E96DDFE201D6D7F000001 /* ios */ = {
@@ -1121,6 +1132,7 @@
 		A1A2D3101E13B5BF00E86169 /* HQData */ = {
 			isa = PBXGroup;
 			children = (
+				02FFB2491F6FD5CA00751A90 /* HQDataObjects */,
 				A1CC0C221E141B47008B469E /* HQDataStorage.cpp */,
 				A1CC0C231E141B47008B469E /* HQDataStorage.h */,
 				A1CC0C201E141B47008B469E /* HQDataParser.cpp */,

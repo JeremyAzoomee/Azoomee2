@@ -21,6 +21,21 @@ public:
     std::map<std::string, std::vector<std::vector<cocos2d::Vec2>>> HQElementHighlights;                     //MAP: VIDEO, AUDIO, GAME etc - Inside a vector for lists, inside a vector with Vec2-s of horizontal and vertical multipliers
     
     std::map<std::string, std::string> HQGetContentUrls;                                                    //HQGetContentUrls store get content urls for the separate areas
+    
+    
+    //HQ object, that can parse the following:
+    //type for the
+    //URL for the given HQ
+    //permission for the given HQ
+    //Carusoels as an array
+    
+    //Carusoel object contains:
+    //title, array of elements
+    
+    //Element object contains
+    //contentid, shape
+    
+    
 };
 
 NS_AZOOMEE_END
