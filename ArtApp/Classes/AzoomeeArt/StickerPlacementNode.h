@@ -20,20 +20,16 @@ class StickerPlacementNode : public cocos2d::Node
 {
     typedef cocos2d::Node Super;
 private:
-    cocos2d::Sprite* sticker = nullptr;
-    cocos2d::EventListenerTouchOneByOne* touchListener;
+    enum ControlMode {NONE = -1, MOVE = 0, ROTATE = 1, SCALE = 2};
+    cocos2d::Sprite* _sticker = nullptr;
+    cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
     
-    cocos2d::ui::Slider* scaleSlider = nullptr;
-    float scaleFactor;
-
-    cocos2d::ui::Slider* rotationSlider = nullptr;
-    float rotationAngle;
+    float _scaleFactor;
+    float _rotationAngle;
     
-    cocos2d::ui::Button* stickerButton_rotate;
-    cocos2d::ui::Button* stickerButton_scale;
-    
-    void onScaleSliderInteract(cocos2d::Ref* pSender, cocos2d::ui::Slider::EventType eEventType);
-    void onRotationSliderInteract(cocos2d::Ref* pSender, cocos2d::ui::Slider::EventType eEventType);
+    cocos2d::Sprite* _stickerButton_rotate = nullptr;
+    cocos2d::Sprite* _stickerButton_scale = nullptr;
+    cocos2d::ui::Scale9Sprite* _stickerFrame = nullptr;
     
 public:
     CREATE_FUNC(StickerPlacementNode);
@@ -47,7 +43,8 @@ public:
     void setupTouchHandling();
     void setSticker(cocos2d::Sprite* sticker);
     cocos2d::Sprite* getSticker();
-    void resetSliders();
+    void reset();
+    void updateStickerControls();
 };
 
 NS_AZOOMEE_AA_END

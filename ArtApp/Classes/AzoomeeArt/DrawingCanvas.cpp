@@ -702,7 +702,7 @@ void DrawingCanvas::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEventType
         newSticker->setAnchorPoint(Vec2(0.5,0.5));
         newSticker->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
         stickerNode->setSticker(newSticker);
-        stickerNode->resetSliders();
+        stickerNode->reset();
     }
     
     if(eEventType == ui::Widget::TouchEventType::CANCELED)
