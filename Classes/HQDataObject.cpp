@@ -2,7 +2,7 @@
 
 NS_AZOOMEE_BEGIN
 
-HQData HQDataObject::create()
+HQDataObject HQDataObject::create()
 {
     return this;
 }
@@ -11,26 +11,44 @@ HQDataObject::HQDataObject()
 {
 }
 
-void setHqType(const std::string &inputHqType)
+void HQDataObject::setHqType(const std::string &inputHqType)
 {
     hqType = inputHqType;
 }
 
-void setHqUrl(const std::string &inputHqUrl)
+void HQDataObject::setHqUrl(const std::string &inputHqUrl)
 {
     hqUrl = inputHqUrl;
 }
 
-void setHqEntitlement(const bool inputHqEntitlement)
+void HQDataObject::setHqEntitlement(const bool inputHqEntitlement)
 {
     hqEntitlement = inputHqEntitlement;
 }
 
-void addCarusoelToHq(const std::string &inputCarusoelData); //to be replaced with carusoelDataObject
+void HQDataObject::addCarusoelToHq(HQCarouselObject inputCarouselData)
+{
+    carousels.push_back(inputCarouselData);
+}
 
-std::string getHqType();
-std::string getHqUrl();
-bool getHqEntitlement();
-std::vector<std::string> getHqCarusoels(); //to be replaced with carusoelDataObject
+std::string HQDataObject::getHqType()
+{
+    return hqType;
+}
 
-NS_AZOOMEE_CHAT_END
+std::string HQDataObject::getHqUrl()
+{
+    return hqUrl;
+}
+
+bool HQDataObject::getHqEntitlement()
+{
+    return hqEntitlemen;
+}
+
+std::vector<HQCarouselObject> HQDataObject::getHqCarousels()
+{
+    return hqCarousels;
+}
+
+NS_AZOOMEE_END

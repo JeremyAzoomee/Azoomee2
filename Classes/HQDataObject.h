@@ -3,34 +3,33 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include <cocos/cocos2d.h>
+#include "HQCarouselObject.h"
 
 NS_AZOOMEE_BEGIN
 
-class HQData
+class HQDataObject
 {
 private:
     
     std::string hqType;
     std::string hqUrl;
     bool hqEntitlement = false;
-    std::vector<std::string> carusoels; //to be replaced with carusoelDataObject
-    
-    // no direct construction
+    std::vector<HQCarouselObject> carousels;
     HQDataObject();
     
 public:
     
-    static HQData create();
+    static HQDataObject create();
     
     void setHqType(const std::string &inputHqType);
     void setHqUrl(const std::string &inputHqUrl);
     void setHqEntitlement(const bool inputHqEntitlement);
-    void addCarusoelToHq(const std::string &inputCarusoelData); //to be replaced with carusoelDataObject
+    void addCarusoelToHq(HQCarouselObject inputCarouselData);
     
     std::string getHqType();
     std::string getHqUrl();
     bool getHqEntitlement();
-    std::vector<std::string> getHqCarusoels(); //to be replaced with carusoelDataObject
+    std::vector<HQCarouselObject> getHqCarousels();
     
 };
 
