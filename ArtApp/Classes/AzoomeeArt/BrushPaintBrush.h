@@ -19,8 +19,12 @@ class BrushPaintBrush: public Brush
 private:
     static float startingAlpha;
     float lastAlpha;
+    cocos2d::Node* brushLayer = nullptr;
 public:
     BrushPaintBrush();
+    
+    cocos2d::Node* addDrawNode(const cocos2d::Size& visibleSize) override;
+    cocos2d::Node* getDrawNode() override;
     
     void onTouchBegin(cocos2d::Touch* touch, cocos2d::Event* event) override;
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) override;
