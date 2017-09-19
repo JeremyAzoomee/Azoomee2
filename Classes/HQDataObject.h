@@ -16,9 +16,9 @@ private:
     bool hqEntitlement = false;
     std::vector<HQCarouselObject> carousels;
     std::map<std::string, HQContentItemObject> rawContentItems;
-    HQDataObject();
     
 public:
+    HQDataObject();
     static HQDataObject create();
     
     void setHqType(const std::string &inputHqType);

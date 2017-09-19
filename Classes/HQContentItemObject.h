@@ -15,10 +15,9 @@ private:
     std::string uri;
     bool entitled;
     bool newFlag;
-    HQContentItemObject();
     
 public:
-    
+    HQContentItemObject();
     static HQContentItemObject create();
     
     void setTitle(const std::string &inputTitle);

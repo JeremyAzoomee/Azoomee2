@@ -63,4 +63,9 @@ HQContentItemObject* HQDataObject::getContentItemForId(const std::string &conten
     return &rawContentItems[contentItemId];
 }
 
+void HQDataObject::clearContentItemRawStorage()
+{
+    rawContentItems.clear();
+}
+
 NS_AZOOMEE_END

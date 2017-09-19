@@ -36,6 +36,11 @@ void HQContentItemObject::setEntitled(const bool inputEntitled)
     entitled = inputEntitled;
 }
 
+void HQContentItemObject::setNewFlag(const bool inputNewFlag)
+{
+    newFlag = inputNewFlag;
+}
+
 std::string HQContentItemObject::getTitle()
 {
     return title;

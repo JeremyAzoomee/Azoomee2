@@ -14,10 +14,9 @@ private:
     std::string title;
     std::vector<HQContentItemObject *> contentItems;
     std::vector<cocos2d::Vec2> contentItemHighlights;
-    HQCarouselObject();
     
 public:
-    
+    HQCarouselObject();
     static HQCarouselObject create();
     
     void setTitle(const std::string &inputTitle);

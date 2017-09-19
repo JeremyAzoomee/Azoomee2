@@ -13,7 +13,7 @@
 #include <AzoomeeCommon/Net/Utils.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Pusher/PusherSDK.h>
-#include <Azoomeecommon/Utils/SessionIdManager.h>
+#include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "HQDataStorage.h"
