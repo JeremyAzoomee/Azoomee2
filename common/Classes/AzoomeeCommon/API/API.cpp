@@ -53,6 +53,7 @@ HttpRequestCreator* API::LoginRequest(const std::string& username,
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
     request->requestTag = TagLogin;
+    request->urlParameters = "hqs=true";
     request->method = "POST";
     return request;
 }
@@ -63,6 +64,7 @@ HttpRequestCreator* API::AnonymousDeviceLoginRequest(const std::string &deviceId
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestBody = StringUtils::format("{\"deviceId\": \"%s\"}", deviceId.c_str());
     request->requestTag = TagAnonymousDeviceLogin;
+    request->urlParameters = "hqs=true";
     request->method = "POST";
     return request;
 }
