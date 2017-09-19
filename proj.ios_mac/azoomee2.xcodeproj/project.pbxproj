@@ -16,7 +16,9 @@
 		025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025633771F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp */; };
 		025634441F4722A80053FF26 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 025634431F4722A80053FF26 /* IosNativeFunctionsSingleton.mm */; };
 		025BC9F71F6FF31B00F54406 /* HQCarouselObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BC9F51F6FF31B00F54406 /* HQCarouselObject.cpp */; };
-		025BC9FA1F6FFB5800F54406 /* HQContentItemObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BC9F81F6FFB5800F54406 /* HQContentItemObject.cpp */; };
+		025BCA031F7014CC00F54406 /* HQDataObjectStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BCA021F7014CC00F54406 /* HQDataObjectStorage.cpp */; };
+		025BCA051F702E5E00F54406 /* HQDataObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BCA041F702E5E00F54406 /* HQDataObject.cpp */; };
+		025BCA071F702F9600F54406 /* HQContentItemObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BCA061F702F9600F54406 /* HQContentItemObject.cpp */; };
 		025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */; };
 		025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */; };
 		025BE9501E3A1E9200EF76D1 /* WebViewController_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 025BE94F1E3A1E9200EF76D1 /* WebViewController_ios.m */; };
@@ -284,8 +286,11 @@
 		025634431F4722A80053FF26 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
 		025BC9F51F6FF31B00F54406 /* HQCarouselObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQCarouselObject.cpp; sourceTree = "<group>"; };
 		025BC9F61F6FF31B00F54406 /* HQCarouselObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQCarouselObject.h; sourceTree = "<group>"; };
-		025BC9F81F6FFB5800F54406 /* HQContentItemObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQContentItemObject.cpp; sourceTree = "<group>"; };
 		025BC9F91F6FFB5800F54406 /* HQContentItemObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQContentItemObject.h; sourceTree = "<group>"; };
+		025BCA011F7014CC00F54406 /* HQDataObjectStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataObjectStorage.h; sourceTree = "<group>"; };
+		025BCA021F7014CC00F54406 /* HQDataObjectStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataObjectStorage.cpp; sourceTree = "<group>"; };
+		025BCA041F702E5E00F54406 /* HQDataObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataObject.cpp; sourceTree = "<group>"; };
+		025BCA061F702F9600F54406 /* HQContentItemObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQContentItemObject.cpp; sourceTree = "<group>"; };
 		025BE9471E3A1E0000EF76D1 /* ArtsAppHQElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsAppHQElement.cpp; sourceTree = "<group>"; };
 		025BE9481E3A1E0000EF76D1 /* ArtsAppHQElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtsAppHQElement.h; sourceTree = "<group>"; };
 		025BE94B1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtsPreviewLayer.cpp; sourceTree = "<group>"; };
@@ -328,7 +333,6 @@
 		02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneArtsApp.cpp; sourceTree = "<group>"; };
 		02E595C91E66E2160052F395 /* HQSceneArtsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneArtsApp.h; sourceTree = "<group>"; };
 		02FFB24D1F6FD9E000751A90 /* HQDataObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HQDataObject.h; sourceTree = "<group>"; };
-		02FFB24E1F6FD9E100751A90 /* HQDataObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataObject.cpp; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -684,11 +688,13 @@
 		02FFB2491F6FD5CA00751A90 /* HQDataObjects */ = {
 			isa = PBXGroup;
 			children = (
-				02FFB24E1F6FD9E100751A90 /* HQDataObject.cpp */,
+				025BCA021F7014CC00F54406 /* HQDataObjectStorage.cpp */,
+				025BCA011F7014CC00F54406 /* HQDataObjectStorage.h */,
 				02FFB24D1F6FD9E000751A90 /* HQDataObject.h */,
+				025BCA041F702E5E00F54406 /* HQDataObject.cpp */,
 				025BC9F51F6FF31B00F54406 /* HQCarouselObject.cpp */,
 				025BC9F61F6FF31B00F54406 /* HQCarouselObject.h */,
-				025BC9F81F6FFB5800F54406 /* HQContentItemObject.cpp */,
+				025BCA061F702F9600F54406 /* HQContentItemObject.cpp */,
 				025BC9F91F6FFB5800F54406 /* HQContentItemObject.h */,
 			);
 			name = HQDataObjects;
@@ -1462,8 +1468,9 @@
 				434B8BD61E689C29004C7C88 /* ChildAccountSuccessScene.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
-				025BC9FA1F6FFB5800F54406 /* HQContentItemObject.cpp in Sources */,
+				025BCA031F7014CC00F54406 /* HQDataObjectStorage.cpp in Sources */,
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
+				025BCA051F702E5E00F54406 /* HQDataObject.cpp in Sources */,
 				025633741F39AB5D0053FF26 /* ForceUpdateSingleton.cpp in Sources */,
 				A15B2F991DE74F6400D25334 /* WebViewSelector.cpp in Sources */,
 				4306ABA31EAE2C3E001E586A /* PaymentViewController_ios.mm in Sources */,
@@ -1498,6 +1505,7 @@
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */,
 				4348E4431E65DD9B00486661 /* OnboardingSuccessScene.cpp in Sources */,
+				025BCA071F702F9600F54406 /* HQContentItemObject.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				434B8BD31E6821A4004C7C88 /* OnboardingScene.cpp in Sources */,
 				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,

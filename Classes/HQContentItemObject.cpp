@@ -2,13 +2,13 @@
 
 NS_AZOOMEE_BEGIN
 
-HQContentItemObject HQContentItemObject::create()
-{
-    return this;
-}
-
 HQContentItemObject::HQContentItemObject()
 {
+}
+
+HQContentItemObject HQContentItemObject::create()
+{
+    return HQContentItemObject();
 }
 
 void HQContentItemObject::setTitle(const std::string &inputTitle)

@@ -9,7 +9,6 @@ NS_AZOOMEE_BEGIN
 class HQContentItemObject
 {
 private:
-    
     std::string title;
     std::string description;
     std::string type;

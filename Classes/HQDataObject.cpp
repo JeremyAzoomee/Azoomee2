@@ -4,7 +4,7 @@ NS_AZOOMEE_BEGIN
 
 HQDataObject HQDataObject::create()
 {
-    return this;
+    return HQDataObject();
 }
 
 HQDataObject::HQDataObject()
@@ -43,12 +43,24 @@ std::string HQDataObject::getHqUrl()
 
 bool HQDataObject::getHqEntitlement()
 {
-    return hqEntitlemen;
+    return hqEntitlement;
 }
 
 std::vector<HQCarouselObject> HQDataObject::getHqCarousels()
 {
-    return hqCarousels;
+    return carousels;
+}
+
+void HQDataObject::addContentItemToRawStorage(std::string contentItemId, HQContentItemObject inputContentItemObject)
+{
+    rawContentItems[contentItemId] = inputContentItemObject;
+}
+
+HQContentItemObject* HQDataObject::getContentItemForId(const std::string &contentItemId)
+{
+    if(contentItemId == "") HQContentItemObject::create();
+    
+    return &rawContentItems[contentItemId];
 }
 
 NS_AZOOMEE_END
