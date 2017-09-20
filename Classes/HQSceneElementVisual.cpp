@@ -201,26 +201,10 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
 
 void HQSceneElementVisual::addLockToElement()
 {
-    
-    Color4B overlayColour = Style::Color_4B::semiTransparentOverlay;
-    Layer* lockedOverlay = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, overlayColour.a), baseLayer->getContentSize().width, baseLayer->getContentSize().height);
+    Layer* lockedOverlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, baseLayer->getContentSize().width, baseLayer->getContentSize().height);
     lockedOverlay->setPosition(0,0);
     baseLayer->addChild(lockedOverlay);
-    
-    std::string lockFile ="res/hqscene/locked.png";
-    if(elementItemData["type"] == "VIDEO")
-    {
-        lockFile = "res/hqscene/locked_video.png";
-    }
-    else if(elementItemData["type"] == "AUDIO")
-    {
-        lockFile = "res/hqscene/locked_audio_books.png";
-    }
-    else if(elementItemData["type"] == "GAME")
-    {
-        lockFile = "res/hqscene/locked_games.png";
-    }
-    auto lockImage = Sprite::create(lockFile);
+    auto lockImage = Sprite::create(HQDataProvider::kLockFiles.at(elementItemData["type"]));
     lockImage->setPosition(baseLayer->getContentSize().width, 0);
     lockImage->setAnchorPoint(Vec2(1,0));
     baseLayer->addChild(lockImage);

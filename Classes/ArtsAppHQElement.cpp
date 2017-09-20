@@ -219,8 +219,7 @@ void ArtsAppHQElement::addImage(std::string filePath)
 void ArtsAppHQElement::addLockToElement()
 {
     
-    Color4B overlayColour = Style::Color_4B::semiTransparentOverlay;
-    Layer* lockedOverlay = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, overlayColour.a), this->getContentSize().width, this->getContentSize().height);
+    Layer* lockedOverlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, this->getContentSize().width, this->getContentSize().height);
     lockedOverlay->setPosition(0,0);
     this->addChild(lockedOverlay,1);
     

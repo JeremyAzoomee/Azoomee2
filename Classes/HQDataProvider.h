@@ -41,6 +41,9 @@ public:
     //Loading screen
     void displayLoadingScreen();
     void hideLoadingScreen();
+    
+    static const std::map<std::string, std::string> kLockFiles;
+
 };
 
 NS_AZOOMEE_END

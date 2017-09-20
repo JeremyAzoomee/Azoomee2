@@ -133,7 +133,9 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
     
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        auto runningScene = Director::getInstance()->getRunningScene();
+        
+        if(runningScene->getChildByName("baseLayer") == NULL || runningScene->getChildByName("baseLayer")->getChildByName("contentLayer") == NULL || runningScene->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
         {
             return false;
         }
@@ -226,27 +228,14 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), addTo);
 }
 
-void ImageContainer::addLockToImageContainer(std::string elementType, float startDelay)
+void ImageContainer::addLockToImageContainer(const std::string& elementType, float startDelay)
 {
     Color4B overlayColour = Style::Color_4B::semiTransparentOverlay;
     Layer* lockedOverlay = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, overlayColour.a), bgLayer->getContentSize().width, bgLayer->getContentSize().height + 10);
     lockedOverlay->setPosition(0,-10);
     bgLayer->addChild(lockedOverlay);
     
-    std::string lockFile ="res/hqscene/locked.png";
-    if(elementType == "VIDEO")
-    {
-        lockFile = "res/hqscene/locked_video.png";
-    }
-    else if(elementType == "AUDIO")
-    {
-        lockFile = "res/hqscene/locked_audio_books.png";
-    }
-    else if(elementType == "GAME")
-    {
-        lockFile = "res/hqscene/locked_games.png";
-    }
-    auto lockImage = Sprite::create(lockFile);
+    auto lockImage = Sprite::create(HQDataProvider::kLockFiles.at(elementType));
     lockImage->setPosition(bgLayer->getContentSize().width, 0);
     lockImage->setAnchorPoint(Vec2(1,0));
     bgLayer->addChild(lockImage);
