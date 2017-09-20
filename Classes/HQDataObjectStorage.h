@@ -14,7 +14,7 @@ public:
     static HQDataObjectStorage* getInstance();
     virtual ~HQDataObjectStorage();
     
-    HQDataObject getHQDataObjectForKey(std::string key);
+    HQDataObject* getHQDataObjectForKey(std::string key);
     void setHQDataObjectForKey(std::string key, HQDataObject inputHQDataObject);
     void clearAllHQData();
     

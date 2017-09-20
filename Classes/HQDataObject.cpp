@@ -46,9 +46,9 @@ bool HQDataObject::getHqEntitlement()
     return hqEntitlement;
 }
 
-std::vector<HQCarouselObject> HQDataObject::getHqCarousels()
+std::vector<HQCarouselObject> *HQDataObject::getHqCarousels()
 {
-    return carousels;
+    return &carousels;
 }
 
 void HQDataObject::addContentItemToRawStorage(std::string contentItemId, HQContentItemObject inputContentItemObject)

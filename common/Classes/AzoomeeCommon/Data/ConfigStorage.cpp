@@ -277,6 +277,11 @@ int ConfigStorage::getContentItemImageValidityInSeconds()
 
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 
+std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(std::string inputHqSceneName)
+{
+    return NavigationConfiguration["hqNamesReplacementForPermissionFeed"][inputHqSceneName.c_str()].GetString();
+}
+
 cocos2d::Point ConfigStorage::getRelativeCirclePositionForMenuItem(int itemNumber)
 {
     //Gets the relative position to keep the navigation buttons in a circle

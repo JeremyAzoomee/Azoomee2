@@ -65,7 +65,7 @@ cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
     setShouldDisplayVisualElementsOverImage();
     createCallbackFunction(elementDelay);
     
-    elementUrl = HQDataProvider::getInstance()->getImageUrlForItem(elementItemData->getUri(), elementShape);
+    elementUrl = HQDataProvider::getInstance()->getImageUrlForItem(elementItemData->getContentItemId(), elementShape);
     
     return this;
 }

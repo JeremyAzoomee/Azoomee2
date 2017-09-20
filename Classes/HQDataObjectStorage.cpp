@@ -24,14 +24,14 @@ HQDataObjectStorage::HQDataObjectStorage()
 {
 }
 
-HQDataObject HQDataObjectStorage::getHQDataObjectForKey(std::string key)
+HQDataObject* HQDataObjectStorage::getHQDataObjectForKey(std::string key)
 {
     if(hqDataObjects.find(key) == hqDataObjects.end())
     {
         hqDataObjects[key] = HQDataObject::create();
     }
     
-    return hqDataObjects[key];
+    return &hqDataObjects[key];
 }
 
 void HQDataObjectStorage::clearAllHQData()

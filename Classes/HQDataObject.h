@@ -16,6 +16,7 @@ private:
     bool hqEntitlement = false;
     std::vector<HQCarouselObject> carousels;
     std::map<std::string, HQContentItemObject> rawContentItems;
+    bool isDownloaded = false;
     
 public:
     HQDataObject();
@@ -30,7 +31,7 @@ public:
     std::string getHqType();
     std::string getHqUrl();
     bool getHqEntitlement();
-    std::vector<HQCarouselObject> getHqCarousels();
+    std::vector<HQCarouselObject> *getHqCarousels();
     HQContentItemObject* getContentItemForId(const std::string &contentItemId);
     
     void clearContentItemRawStorage();
