@@ -27,31 +27,31 @@ bool VideoPlaylistManager::init(void)
     return true;
 }
 
-void VideoPlaylistManager::setPlaylist(std::vector<std::map<std::string, std::string>> playlist)
+void VideoPlaylistManager::setPlaylist(HQCarouselObject playlist)
 {
     storedPlaylist = playlist;
 }
 
 void VideoPlaylistManager::clearPlaylist()
 {
-    storedPlaylist.clear();
+    //HQTODO - clear playlist
 }
 
 std::string VideoPlaylistManager::getPlaylist()
 {
     std::string returnString;
     
-    if(storedPlaylist.size() == 0) returnString = "noPlaylist";
+    if(storedPlaylist.getContentItems().size() == 0) returnString = "noPlaylist";
     else
     {
         std::vector<std::map<std::string, std::string>> playlistElements;
         
-        for(int i = 0; i < storedPlaylist.size(); i++)
+        for(int i = 0; i < storedPlaylist.getContentItems().size(); i++)
         {
             std::map<std::string, std::string> elementToBeAdded;
-            elementToBeAdded["uri"] = storedPlaylist.at(i)["uri"];
-            elementToBeAdded["image"] = storedPlaylist.at(i)["image"];
-            elementToBeAdded["title"] = storedPlaylist.at(i)["title"];
+            elementToBeAdded["uri"] = storedPlaylist.getContentItems().at(i)->getUri();
+            elementToBeAdded["image"] = storedPlaylist.getContentItems().at(i)->getImagePath();
+            elementToBeAdded["title"] = storedPlaylist.getContentItems().at(i)->getTitle();
             
             playlistElements.push_back(elementToBeAdded);
         }
@@ -66,13 +66,13 @@ std::string VideoPlaylistManager::getPlaylist()
     return StringUtils::format("%s", output);
 }
 
-std::map<std::string, std::string> VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)
+HQContentItemObject VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)
 {
-    std::map<std::string, std::string> returnData;
-    if(elementNumber >= storedPlaylist.size() || elementNumber < 0) return returnData;
+    HQContentItemObject returnData = HQContentItemObject::create();
+    if(elementNumber >= storedPlaylist.getContentItems().size() || elementNumber < 0) return returnData;
     
-    returnData = storedPlaylist.at(elementNumber);
-    returnData["image"].clear();
+    returnData = *storedPlaylist.getContentItems().at(elementNumber);
+    returnData.setImagePath("");
     
     return returnData;
 }

@@ -53,42 +53,41 @@ bool GameDataManager::init(void)
     return true;
 }
 
-void GameDataManager::startProcessingGame(std::map<std::string, std::string> itemData)
+void GameDataManager::startProcessingGame(HQContentItemObject* itemData)
 {
     AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
     
     processCancelled = false;
     displayLoadingScreen();
     
-    WebGameAPIDataManager::getInstance()->setGameId(itemData["id"]);
+    WebGameAPIDataManager::getInstance()->setGameId(itemData->getContentItemId());
     
     saveFeedDataToFile(itemData);
     
-    std::string basePath = getGameIdPath(itemData["id"]);
-    std::string fileName = getFileNameFromUrl(itemData["uri"]);
+    std::string basePath = getGameIdPath(itemData->getContentItemId());
+    std::string fileName = getFileNameFromUrl(itemData->getUri());
     
     
     if(checkIfFileExists(basePath + fileName))
     {
-        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemData["id"]);
-        else getJSONGameData(itemData["uri"], itemData["id"]);
+        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemData->getContentItemId());
+        else getJSONGameData(itemData->getUri(), itemData->getContentItemId());
     }
     else
     {
-        getJSONGameData(itemData["uri"], itemData["id"]); //the callback of this method will get back to JSONFileIsPresent
+        getJSONGameData(itemData->getUri(), itemData->getContentItemId()); //the callback of this method will get back to JSONFileIsPresent
     }
 }
 
-void GameDataManager::saveFeedDataToFile(std::map<std::string, std::string> itemData)
+void GameDataManager::saveFeedDataToFile(HQContentItemObject* itemData)
 {
     if(HQHistoryManager::getInstance()->isOffline) return;
-    if(itemData.find("title") == itemData.end() || itemData.find("description") == itemData.end()) return;
     
-    std::string basePath = getGameIdPath(itemData["id"]);
+    std::string basePath = getGameIdPath(itemData->getContentItemId());
     std::string targetPath = basePath + "feedData.json";
     
     createGamePathDirectories(basePath);
-    FileUtils::getInstance()->writeStringToFile(getJSONStringFromMap(itemData), targetPath);
+    FileUtils::getInstance()->writeStringToFile(itemData->getJSONRepresentationOfStructure(), targetPath);
 }
 
 void GameDataManager::JSONFileIsPresent(std::string itemId)

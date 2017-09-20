@@ -53,7 +53,6 @@ HttpRequestCreator* API::LoginRequest(const std::string& username,
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestBody = StringUtils::format("{\"password\": \"%s\",\"userName\": \"%s\",\"appType\": \"CHILD_APP\"}", password.c_str(), username.c_str());
     request->requestTag = TagLogin;
-    request->urlParameters = "hqs=true";
     request->method = "POST";
     return request;
 }
@@ -115,6 +114,7 @@ HttpRequestCreator* API::ChildLoginRequest(const std::string& profileName,
     request->requestBody = StringUtils::format("{\"userName\": \"%s\", \"password\": \"\"}", profileName.c_str());
     request->requestTag = TagChildLogin;
     request->method = "POST";
+    request->urlParameters = "hqs=true";
     request->encrypted = true;
     return request;
 }

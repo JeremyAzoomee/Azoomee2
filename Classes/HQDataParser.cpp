@@ -21,6 +21,8 @@
 #include "HQCarouselObject.h"
 #include "HQContentItemObject.h"
 
+#include <AzoomeeCommon/UI/ModalMessages.h>
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -70,6 +72,7 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
 
             const rapidjson::Value &itemData = contentData["items"][key];
             
+            contentObject.setContentItemId(key);
             contentObject.setTitle(getStringFromJson("title", itemData));
             contentObject.setDescription(getStringFromJson("description", itemData));
             contentObject.setType(getStringFromJson("type", itemData));
@@ -119,27 +122,25 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
 
 bool HQDataParser::parseHQGetContentUrls(const std::string &responseString)
 {
+    HQDataObjectStorage::getInstance()->clearAllHQData();
+    
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
     
     if(contentData.HasParseError()) return false;
+    if(!contentData.HasMember("hqs")) return false;
     
     rapidjson::Value::MemberIterator M;
     
-    for (M=contentData["categories"].MemberBegin(); M!=contentData["categories"].MemberEnd(); M++)
+    for (M=contentData["hqs"].MemberBegin(); M!=contentData["hqs"].MemberEnd(); M++)
     {
-        if(!contentData["categories"][M->name.GetString()].HasMember("uri")) return false;
-        {
-            
-            
-            if(!contentData["categories"][M->name.GetString()]["uri"].IsNull())
-            {
-                HQDataStorage::getInstance()->HQGetContentUrls[M->name.GetString()] = contentData["categories"][M->name.GetString()]["uri"].GetString();
-            }
-        }
+        const char *key = M->name.GetString();
+        rapidjson::Value &currentItem = contentData["hqs"][key];
+        
+        HQDataObject dataObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(key);
+        dataObject.setHqEntitlement(getBoolFromJson("available", currentItem));
+        dataObject.setHqUrl(getStringFromJson("uri", currentItem));
     }
-    
-    HQDataStorage::getInstance()->HQGetContentUrls.erase("HOME"); //On front-end home is being handled separately from all other HQ-s.
     
     return true;
 }
@@ -152,16 +153,13 @@ void HQDataParser::onGetContentAnswerReceived(const std::string &responseString,
     {
         parseHQStructure(responseString, category.c_str());
             
-        if(category == "HOME")    //If we have a home HQ set up, we have to get urls too.
+        if(category == "HOME")
         {
-            parseHQGetContentUrls(responseString);      //Parsing method returns true if there are no errors in the json string.
             ChildDataParser::getInstance()->parseOomeeData(responseString);
-            BackEndCaller::getInstance()->getGordon();   //If both parsings went well, we move on to getting the cookies
         }
-        else
-        {
-            HQDataProvider::getInstance()->startBuildingHQ(category);
-        }
+        
+        ModalMessages::getInstance()->stopLoading();
+        HQDataProvider::getInstance()->startBuildingHQ(category);
     }
 }
 
@@ -184,11 +182,6 @@ std::string HQDataParser::getExtensionFromUri(const std::string &uri)
     std::string extension = uri.substr(startPoint);
     
     return extension;
-}
-
-void HQDataParser::clearAllHQData()
-{
-    HQDataObjectStorage::getInstance()->clearAllHQData();
 }
 
 NS_AZOOMEE_END

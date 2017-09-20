@@ -91,7 +91,7 @@ void sendEventToMixPanel(const char* eventKey, const char* eventValue)
     
     if(strKey == "playlistItem")
     {
-        AnalyticsSingleton::getInstance()->updateContentItemDetails(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(std::atoi(strValue.c_str())));
+        //AnalyticsSingleton::getInstance()->updateContentItemDetails(VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(std::atoi(strValue.c_str())));
         AnalyticsSingleton::getInstance()->mediaPlayerNewPlaylistItemSetEvent(std::atoi(strValue.c_str()));
     }
     

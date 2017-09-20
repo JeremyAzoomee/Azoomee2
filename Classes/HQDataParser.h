@@ -20,8 +20,6 @@ public:
     bool parseHQGetContentUrls(const std::string &responseString);
     std::string getExtensionFromUri(const std::string &uri);
     
-    void clearAllHQData();
-    
     //Communication methods
     void onGetContentAnswerReceived(const std::string &responseString, const std::string &category);
     void onGetPreviewContentAnswerReceived(const std::string &responseString);

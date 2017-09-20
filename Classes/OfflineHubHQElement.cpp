@@ -3,6 +3,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "GameDataManager.h"
 #include "SceneManagerScene.h"
+#include "HQContentItemObject.h"
 
 using namespace cocos2d;
 
@@ -35,7 +36,8 @@ void OfflineHubHQElement::addHQSceneElement(const std::string &category, const s
     
     elementVisual = HQSceneElementVisual::create();
     elementVisual->setCategory(category);
-    elementVisual->setItemData(itemData);
+    HQContentItemObject objectToStart = HQContentItemObject::createFromMap(itemData);
+    elementVisual->setItemData(&objectToStart);
     elementVisual->setShape(shape);
     elementVisual->setDelay(delay);
     elementVisual->setCreatedForOffline(true);
@@ -127,7 +129,8 @@ Orientation OfflineHubHQElement::getGameOrientation(const std::map<std::string, 
 void OfflineHubHQElement::startUpElementDependingOnType(const std::map<std::string, std::string> &itemData)
 {
     this->getParent()->getParent()->getParent()->stopAllActions();
-    GameDataManager::getInstance()->startProcessingGame(itemData);
+    HQContentItemObject objectToStart = HQContentItemObject::createFromMap(itemData);
+    GameDataManager::getInstance()->startProcessingGame(&objectToStart);
 }
 
 NS_AZOOMEE_END

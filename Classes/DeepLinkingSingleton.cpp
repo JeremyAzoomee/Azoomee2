@@ -12,6 +12,7 @@
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "HQContentItemObject.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -219,7 +220,8 @@ void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::stri
 {
     if(elementProperties["type"] == "GAME")
     {
-        GameDataManager::getInstance()->startProcessingGame(elementProperties);
+        HQContentItemObject gameContentObject = HQContentItemObject::createFromMap(elementProperties);
+        GameDataManager::getInstance()->startProcessingGame(&gameContentObject);
     }
     else if(elementProperties["type"]  == "VIDEO" || elementProperties["type"]  == "AUDIO")
     {

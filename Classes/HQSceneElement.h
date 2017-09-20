@@ -5,6 +5,7 @@
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Azoomee.h>
 #include "HQSceneElementVisual.h"
+#include "HQContentItemObject.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -17,7 +18,7 @@ public:
     virtual bool init();
     
     void setCategory(std::string category);
-    void setItemData(std::map<std::string, std::string> itemData);
+    void setItemData(HQContentItemObject* itemData);
     void setElementRow(int rowNumber);
     void setElementIndex(int index);
     
@@ -25,7 +26,7 @@ public:
     
 private:
     std::string elementCategory;
-    std::map<std::string, std::string> elementItemData;
+    HQContentItemObject* elementItemData;
     int elementRowNumber;
     int elementIndex;
     

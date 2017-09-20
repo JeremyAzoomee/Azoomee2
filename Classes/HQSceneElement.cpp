@@ -28,6 +28,7 @@
 #include "IAPUpsaleLayer.h"
 #include "ManualGameInputLayer.h"
 #include "VideoPlaylistManager.h"
+#include "HQDataObjectStorage.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -58,7 +59,7 @@ void HQSceneElement::setCategory(std::string category)
     elementCategory = category;
 }
 
-void HQSceneElement::setItemData(std::map<std::string, std::string> itemData)
+void HQSceneElement::setItemData(HQContentItemObject* itemData)
 {
     elementItemData = itemData;
 }
@@ -140,18 +141,18 @@ void HQSceneElement::addListenerToElement()
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             iamtouched = false;
-            CCLOG("Action to come: %s", elementItemData["uri"].c_str());
+            CCLOG("Action to come: %s", elementItemData->getUri().c_str());
             
-            if(elementItemData["type"] == "MANUAL")
+            if(elementItemData->getType() == "MANUAL")
             {
                 ManualGameInputLayer::create();
                 return true;
             }
             
-            if(elementItemData["entitled"] == "false")
+            if(!elementItemData->getEntitled())
             {
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"], elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData->getTitle(), elementItemData->getDescription(), elementItemData->getType(), elementItemData->getContentItemId(), elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
                 
                 if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
                 {
@@ -164,7 +165,7 @@ void HQSceneElement::addListenerToElement()
                 return true;
             }
                 
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"], elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData->getTitle(), elementItemData->getDescription(), elementItemData->getType(), elementItemData->getContentItemId(), elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
             startUpElementDependingOnType();
             return true;
         }
@@ -178,40 +179,41 @@ void HQSceneElement::addListenerToElement()
 void HQSceneElement::startUpElementDependingOnType()
 {
     
-    CCLOG("uri: %s, contentid: %s, category: %s", elementItemData["uri"].c_str(), elementItemData["id"].c_str(), elementCategory.c_str());
+    CCLOG("uri: %s, contentid: %s, category: %s", elementItemData->getUri().c_str(), elementItemData->getContentItemId().c_str(), elementCategory.c_str());
     
     this->getParent()->getParent()->getParent()->stopAllActions();
     
-    if(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "GAME")
+    if(elementItemData->getType() == "GAME")
     {
         GameDataManager::getInstance()->startProcessingGame(elementItemData);
     }
-    else if((HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "AUDIO"))
+    else if((elementItemData->getType() == "VIDEO") || (elementItemData->getType() == "AUDIO"))
     {
-        VideoPlaylistManager::getInstance()->setPlaylist(HQDataProvider::getInstance()->getAllElementDataInRow(elementCategory, elementRowNumber));
+        VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(elementCategory).getHqCarousels()[elementRowNumber]);
+        
         auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(elementItemData["uri"].c_str(),Orientation::Landscape);
+        webViewSelector->loadWebView(elementItemData->getContentItemId().c_str(),Orientation::Landscape);
     }
-    else if(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "AUDIOGROUP")
+    else if(elementItemData->getType() == "AUDIOGROUP")
     {
         NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-        navigationLayer->startLoadingGroupHQ(elementItemData["uri"]);
+        navigationLayer->startLoadingGroupHQ(elementItemData->getUri());
         
         auto funcCallAction = CallFunc::create([=](){
-            HQDataProvider::getInstance()->getDataForGroupHQ(elementItemData["uri"]);
-            HQHistoryManager::getInstance()->setGroupHQSourceId(elementItemData["id"]);
+            HQDataProvider::getInstance()->getDataForGroupHQ(elementItemData->getUri());
+            HQHistoryManager::getInstance()->setGroupHQSourceId(elementItemData->getUri());
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
     }
-    else if(HQDataProvider::getInstance()->getTypeForSpecificItem(elementCategory, elementItemData["id"]) == "GROUP")
+    else if(elementItemData->getType() == "GROUP")
     {
         NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-        navigationLayer->startLoadingGroupHQ(elementItemData["uri"]);
+        navigationLayer->startLoadingGroupHQ(elementItemData->getUri());
         
         auto funcCallAction2 = CallFunc::create([=](){
-            HQDataProvider::getInstance()->getDataForGroupHQ(elementItemData["uri"]);
-            HQHistoryManager::getInstance()->setGroupHQSourceId(elementItemData["id"]);
+            HQDataProvider::getInstance()->getDataForGroupHQ(elementItemData->getUri());
+            HQHistoryManager::getInstance()->setGroupHQSourceId(elementItemData->getContentItemId());
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));

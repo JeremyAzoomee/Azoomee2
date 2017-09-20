@@ -116,8 +116,6 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
     {
         ConfigStorage::getInstance()->setFirstSlideShowSeen();
         
-        HQDataParser::getInstance()->clearAllHQData();
-        
         getAvailableChildren();
         updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
@@ -157,9 +155,8 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
     {
-        HQDataParser::getInstance()->clearAllHQData();
-        
-        getGordon(); //we are skipping to getGordon (no child login), that will get the required free/user cookies and switch to the main scene.
+        HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
+        getGordon();
     }
     else
     {
@@ -257,8 +254,6 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 
 void BackEndCaller::childLogin(int childNumber)
 {
-    HQDataParser::getInstance()->clearAllHQData();
-    
     displayLoadingScreen();
     
     const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber);
@@ -271,9 +266,13 @@ void BackEndCaller::childLogin(int childNumber)
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString)
 {
-    if(!ChildDataParser::getInstance()->parseChildLoginData(responseString)) LoginLogicHandler::getInstance()->doLoginLogic();
+    if((!ChildDataParser::getInstance()->parseChildLoginData(responseString)) || (!HQDataParser::getInstance()->parseHQGetContentUrls(responseString)))
+    {
+        LoginLogicHandler::getInstance()->doLoginLogic();
+    }
     
-    getHQContent(StringUtils::format("%s%s/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ConfigStorage::getInstance()->getPathForTag("HOME").c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
+    HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
+    getGordon();
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------

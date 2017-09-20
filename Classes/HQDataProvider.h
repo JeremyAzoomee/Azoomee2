@@ -4,6 +4,11 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 
+#include "HQDataObjectStorage.h"
+#include "HQDataObject.h"
+#include "HQCarouselObject.h"
+#include "HQContentItemObject.h"
+
 NS_AZOOMEE_BEGIN
 
 class HQDataProvider : public cocos2d::Ref
@@ -17,7 +22,7 @@ public:
     bool init(void);
     
     //MainHub Area services
-    std::map<std::string, std::string> getItemDataForSpecificItem(std::string category, std::string itemid);
+    HQContentItemObject getItemDataForSpecificItem(std::string category, std::string itemid);
     cocos2d::Vec2 getHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber);
     std::string getHumanReadableHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber);
     void getDataForHQ(std::string category);
@@ -26,14 +31,14 @@ public:
     //HQ Area services
     int getNumberOfRowsForHQ(std::string category);
     int getNumberOfElementsForRow(std::string category, int index);
-    std::vector<std::string> getElementsForRow(std::string category, int index);
+    std::vector<HQContentItemObject *> getElementsForRow(std::string category, int index);
     std::string getTitleForRow(std::string category, int index);
     std::string getImageUrlForItem(std::string itemId, cocos2d::Vec2 shape);
     std::string getTypeForSpecificItem(std::string category, std::string itemId);
     
     std::string getImageUrlForGroupLogo(std::string itemId);
     
-    std::vector<std::map<std::string, std::string>> getAllElementDataInRow(std::string category, int rowNumber);
+    std::vector<HQContentItemObject> getAllContentItemsInRow(std::string category, int rowNumber);
     
     //Callback to start building HQ
     void startBuildingHQ(std::string category);

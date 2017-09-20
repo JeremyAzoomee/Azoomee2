@@ -8,6 +8,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "SceneManagerScene.h"
+#include "HQContentItemObject.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -18,7 +19,7 @@ public:
     static GameDataManager* getInstance(void);
     virtual ~GameDataManager();
     bool init(void);
-    void startProcessingGame(std::map<std::string, std::string> itemData);
+    void startProcessingGame(HQContentItemObject* itemData);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
@@ -27,7 +28,7 @@ public:
     void getJSONGameData(std::string url, std::string itemId);
     
 private:
-    void saveFeedDataToFile(std::map<std::string, std::string> itemData);
+    void saveFeedDataToFile(HQContentItemObject* itemData);
     std::string getFeedDataFromFolder(std::string feedPath);
     
     void JSONFileIsPresent(std::string itemId);
