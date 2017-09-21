@@ -7,8 +7,6 @@
 //
 
 #include "DynamicNodeCreator.h"
-#include "ui/CocosGUI.h"
-#include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
@@ -38,14 +36,19 @@ bool DynamicNodeCreator::init(void)
 
 Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
 {
-    
+    //Init CTA objects
     const Size& windowSize = Director::getInstance()->getWinSize();
     
-    Node* CTANode = Node::create();
+    if(_CTANode)
+    {
+        _CTANode->removeFromParent();
+    }
+    
+    _CTANode = Node::create();
     
     LayerColor* overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, windowSize.width, windowSize.height);
     overlay->setName("overlay");
-    CTANode->addChild(overlay);
+    _CTANode->addChild(overlay);
     
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -71,26 +74,26 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
     
     clippingNode->setAlphaThreshold(0.5f);
     clippingNode->setPosition(windowSize/2);
-    CTANode->addChild(clippingNode);
+    _CTANode->addChild(clippingNode);
     
     auto popupButtonsLayer = Node::create();
     popupButtonsLayer->setContentSize(stencil->getContentSize());
     popupButtonsLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     popupButtonsLayer->setPosition(windowSize/2);
-    CTANode->addChild(popupButtonsLayer);
+    _CTANode->addChild(popupButtonsLayer);
     
     auto popupFrame = ui::Scale9Sprite::create("res/CTA_Assets/deep_free_pop_over_trans.png");
     popupFrame->setPosition(windowSize/2);
     popupFrame->setAnchorPoint(Vec2(0.5,0.5));
     popupFrame->setContentSize(Size(windowSize.width*0.75,windowSize.height*0.67));
-    CTANode->addChild(popupFrame);
+    _CTANode->addChild(popupFrame);
     
     auto closeButton = ui::Button::create();
     closeButton->loadTextures("res/CTA_Assets/close.png", "res/CTA_Assets/close.png");
     closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
     closeButton->setPosition(popupFrame->getPosition() + popupFrame->getContentSize() * 0.48);
-    closeButton->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType type){CTANode->removeFromParent();});
-    CTANode->addChild(closeButton);
+    closeButton->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType type){_CTANode->removeFromParent();});
+    _CTANode->addChild(closeButton);
 
     const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(filepath);
     
@@ -99,15 +102,17 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
     
     if(configFile.HasParseError())
     {
-        return CTANode;
+        return _CTANode;
     }
+    
+    
     
     /*
      values not used:
      nodeId, groupId
      these are specific for asset gathering and storing purposes, not needed in theis viewer
      */
-    
+    //config node size
     if(configFile.HasMember("nodeSize"))
     {
         rapidjson::Value& sizePercentages = configFile["nodeSize"];
@@ -127,6 +132,7 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
         }
     }
     
+    //config close button
     if(configFile.HasMember("closeButton"))
     {
         rapidjson::Value& closeButtonToggle = configFile["closeButton"];
@@ -139,6 +145,7 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
         }
     }
     
+    //config background colour
     if(configFile.HasMember("backgroundColour"))
     {
         rapidjson::Value& backgroundColour = configFile["backgroundColour"];
@@ -150,6 +157,7 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
         }
     }
     
+    //config background image
     if(configFile.HasMember("backgroundImage"))
     {
         rapidjson::Value& backgroundImageData = configFile["backgroundImage"];
@@ -202,6 +210,7 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
         }
     }
     
+    //config buttons
     popupButtonsLayer->removeAllChildren();
     
     if(configFile.HasMember("buttons"))
@@ -261,7 +270,11 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
         }
     }
     
-    return CTANode;
+    //config extra images
+    //not in json yet
+    
+    //return resultant CTA node
+    return _CTANode;
     
 }
 

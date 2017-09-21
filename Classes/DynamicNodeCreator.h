@@ -11,12 +11,37 @@
 
 #include "cocos2d.h"
 #include <AzoomeeCommon/Azoomee.h>
+#include "ui/CocosGUI.h"
+#include <AzoomeeCommon/Data/Json.h>
 
 NS_AZOOMEE_BEGIN
 
 class DynamicNodeCreator : public cocos2d::Ref
 {
 private:
+    cocos2d::Node* _CTANode = nullptr;
+    
+    //CTA components
+    cocos2d::ui::Scale9Sprite* _popupFrame = nullptr;
+    cocos2d::Sprite* _popupContentImage = nullptr;
+    cocos2d::Node* _popupButtonsLayer = nullptr;
+    cocos2d::Node* _popupImages = nullptr;
+    cocos2d::ui::Button* _closeButton = nullptr;
+    cocos2d::LayerColor* _bgColour = nullptr;
+    
+    //masking node, stencil and background image
+    cocos2d::ClippingNode* _clippingNode = nullptr;
+    cocos2d::ui::Scale9Sprite* _stencil = nullptr;
+    cocos2d::Sprite* _maskedBGImage = nullptr;
+    
+    
+    void initCTANode();
+    void configNodeSize(const rapidjson::Value& sizePercentages);
+    void configCloseButton(const rapidjson::Value& closeButtonToggle);
+    void configBackgroundColour(const rapidjson::Value& backgroundColour);
+    void configBackgroundImage(const rapidjson::Value& backgroundImageData);
+    void configButtons(const rapidjson::Value& buttonList);
+    void configExtraImages(const rapidjson::Value& imageList);
     
 public:
     static DynamicNodeCreator* getInstance(void);
