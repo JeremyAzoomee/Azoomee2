@@ -94,20 +94,27 @@ void Application::applicationDidEnterBackground()
 {
     Director::getInstance()->stopAnimation();
     Director::getInstance()->pause();
-
-    // if you use SimpleAudioEngine, it must be paused
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
 void Application::applicationWillEnterForeground()
 {
-    Director::getInstance()->stopAnimation();
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
-
-    // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    // When animations are stopped, CCEAGLView does not update to get the correct size
+    // This is because in CCEAGLView.layoutSubViews it returns if !cocos2d::Director::getInstance()->isValid()
+    // isValid is false after stopAnimation is called.
+    // This is a problem if an orientation change is triggered while the app is in the background
+    // To fix this, we simply force the view to re-update on foreground, ensuring the correct size
+    // is then captured. This is safer than changing the core code of cocos2d for now.
+    UIView* currentView = (__bridge UIView*) Director::getInstance()->getOpenGLView()->getEAGLView();
+    if(currentView)
+    {
+        [currentView layoutSubviews];
+    }
+#endif
 }
 
 void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
@@ -128,6 +135,7 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
 void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, float duration)
 {
     cocos2d::log( "Application::applicationScreenSizeWillChange: %d, %d, duration=%f", newWidth, newHeight, duration );
+    
     updateResolution(newWidth, newHeight);
     
     // Notify the running scene if it's an Azoomee::Scene
