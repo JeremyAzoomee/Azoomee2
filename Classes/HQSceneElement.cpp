@@ -29,6 +29,8 @@
 #include "ManualGameInputLayer.h"
 #include "VideoPlaylistManager.h"
 
+#include "DynamicNodeCreator.h"
+
 using namespace cocos2d;
 using namespace network;
 
@@ -159,7 +161,11 @@ void HQSceneElement::addListenerToElement()
                     IAPUpsaleLayer::createRequiresPin();
                 }
                 else
-                    PreviewLoginSignupMessageBox::create();
+                {
+                    Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile("res/CTA_Assets/templateJson.json");
+                    Director::getInstance()->getRunningScene()->addChild(CTA);
+                    //PreviewLoginSignupMessageBox::create();
+                }
                 
                 return true;
             }

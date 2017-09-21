@@ -133,6 +133,7 @@
 		926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
 		926173BF1F3334E6008E3F9D /* ArtAppImageConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173BE1F3334E6008E3F9D /* ArtAppImageConverter.cpp */; };
 		926173C21F33850F008E3F9D /* ImageConverterLoadingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */; };
+		929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */; };
 		92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */; };
 		92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */; };
 		A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */; };
@@ -452,6 +453,8 @@
 		926173BE1F3334E6008E3F9D /* ArtAppImageConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppImageConverter.cpp; sourceTree = "<group>"; };
 		926173C01F338363008E3F9D /* ImageConverterLoadingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageConverterLoadingLayer.h; sourceTree = "<group>"; };
 		926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageConverterLoadingLayer.cpp; sourceTree = "<group>"; };
+		929D46651F73EC3B006E40CE /* DynamicNodeCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeCreator.h; sourceTree = "<group>"; };
+		929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeCreator.cpp; sourceTree = "<group>"; };
 		92A9A0A21F0D172F008A19EB /* ArtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppDelegate.h; sourceTree = "<group>"; };
 		92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppDelegate.cpp; sourceTree = "<group>"; };
 		A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OomeeLayer.cpp; sourceTree = "<group>"; };
@@ -947,6 +950,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				929D46611F73EBDE006E40CE /* CallToAction */,
 				92A9A0A71F0D1740008A19EB /* ArtApp */,
 				4373957F1ED3441F00C29DB1 /* FlowDataSingleton.cpp */,
 				437395801ED3441F00C29DB1 /* FlowDataSingleton.h */,
@@ -1021,6 +1025,15 @@
 				926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */,
 			);
 			name = ArtAppImageConverter;
+			sourceTree = "<group>";
+		};
+		929D46611F73EBDE006E40CE /* CallToAction */ = {
+			isa = PBXGroup;
+			children = (
+				929D46651F73EC3B006E40CE /* DynamicNodeCreator.h */,
+				929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */,
+			);
+			name = CallToAction;
 			sourceTree = "<group>";
 		};
 		92A9A0A71F0D1740008A19EB /* ArtApp */ = {
@@ -1494,6 +1507,7 @@
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
 				025634441F4722A80053FF26 /* IosNativeFunctionsSingleton.mm in Sources */,
+				929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
