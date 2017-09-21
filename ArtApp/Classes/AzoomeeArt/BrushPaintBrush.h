@@ -20,6 +20,8 @@ private:
     static float startingAlpha;
     float lastAlpha;
     cocos2d::Node* brushLayer = nullptr;
+    cocos2d::RenderTexture* _paintLayer = nullptr;
+    int _spriteCount = 0;
 public:
     BrushPaintBrush();
     
