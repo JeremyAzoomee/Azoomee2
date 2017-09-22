@@ -22,7 +22,7 @@ bool MessageComposer::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::dark);
+    setBackGroundColor(Style::Color::black);
     setLayoutType(ui::Layout::Type::VERTICAL);
     
     setSizeType(ui::Widget::SizeType::PERCENT);
