@@ -121,11 +121,11 @@ void HQScene::createMonodirectionalScrollView()
     horizontalScrollView->setName("scrollView");
     this->addChild(horizontalScrollView);
     
-    std::vector<HQContentItemObject *> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), 0);
+    std::vector<HQContentItemObject *> *elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), 0);
 
     for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfElementsForRow(this->getName(), 0); i++)
     {
-        addElementToHorizontalScrollView(horizontalScrollView, elementsForRow.at(i), 0, i);
+        addElementToHorizontalScrollView(horizontalScrollView, elementsForRow->at(i), 0, i);
     }
 }
 
@@ -149,15 +149,15 @@ void HQScene::createBidirectionalScrollView()
     
     for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); j++)
     {
-        std::vector<HQContentItemObject *> elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), j);
+        std::vector<HQContentItemObject *> *elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), j);
         
         scrollViewSpaceAllocation.clear();
         auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * verticalScrollViewHeight)));
         verticalScrollView->addChild(horizontalScrollView);
         
-        for(int i = 0; i < elementsForRow.size(); i++)
+        for(int i = 0; i < elementsForRow->size(); i++)
         {
-            addElementToHorizontalScrollView(horizontalScrollView, elementsForRow.at(i), j, i);
+            addElementToHorizontalScrollView(horizontalScrollView, elementsForRow->at(i), j, i);
         }
         
         Point titlePosition = Point(visibleSize.width/2,horizontalScrollView->getPosition().y + ConfigStorage::getInstance()->getScrollviewTitleTextHeight()*.4 + (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2));

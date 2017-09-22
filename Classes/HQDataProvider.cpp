@@ -105,12 +105,12 @@ int HQDataProvider::getNumberOfRowsForHQ(std::string category)
 
 int HQDataProvider::getNumberOfElementsForRow(std::string category, int index)
 {
-    return (int)HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(index).getContentItems().size();
+    return (int)HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(index).getContentItems()->size();
 }
 
-std::vector<HQContentItemObject *> HQDataProvider::getElementsForRow(std::string category, int index)
+std::vector<HQContentItemObject *> *HQDataProvider::getElementsForRow(std::string category, int index)
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(index).getContentItems();
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(index).getContentItems();;
 }
 
 std::string HQDataProvider::getTitleForRow(std::string category, int index)
@@ -125,12 +125,12 @@ HQContentItemObject HQDataProvider::getItemDataForSpecificItem(std::string categ
 
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber)
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(rowNumber).getContentItemHighlights()[itemNumber];
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(rowNumber).getContentItemHighlights()->at(itemNumber);
 }
 
 std::string HQDataProvider::getHumanReadableHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber)
 {
-    Vec2 highlightData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(rowNumber).getContentItemHighlights()[itemNumber];
+    Vec2 highlightData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(rowNumber).getContentItemHighlights()->at(itemNumber);
     return StringUtils::format("%d,%d", int(highlightData.x), int(highlightData.y));
 }
 
@@ -143,13 +143,13 @@ std::string HQDataProvider::getTypeForSpecificItem(std::string category, std::st
 std::vector<HQContentItemObject> HQDataProvider::getAllContentItemsInRow(std::string category, int rowNumber)                               //this method is being used for creating playlist data when playing video
 {
     HQCarouselObject requiredObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(rowNumber);
-    std::vector<HQContentItemObject *> contentItemObjects = requiredObject.getContentItems();
+    std::vector<HQContentItemObject *> *contentItemObjects = requiredObject.getContentItems();
     
     std::vector<HQContentItemObject> returnArray;
     
-    for(int i = 0; i < contentItemObjects.size(); i++)
+    for(int i = 0; i < contentItemObjects->size(); i++)
     {
-        HQContentItemObject extendedObj = *contentItemObjects.at(i);
+        HQContentItemObject extendedObj = *contentItemObjects->at(i);
         
         if(((extendedObj.getType() == "VIDEO" || extendedObj.getType() == "AUDIO")) && extendedObj.getEntitled())
         {

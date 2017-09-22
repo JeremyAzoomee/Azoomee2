@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include "BaseScene.h"
+#include "MainHubScene.h"
 
 #include "HQDataObjectStorage.h"
 #include "HQDataObject.h"
@@ -115,6 +116,7 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
         }
         
         HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addCarusoelToHq(carouselObject);
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setHqType(category);
     }
     
     return true;
@@ -153,15 +155,23 @@ void HQDataParser::onGetContentAnswerReceived(const std::string &responseString,
 {
     if(parseHQData(responseString, category.c_str()))       //Parsing method returns true if there are no errors in the json string.
     {
+        ModalMessages::getInstance()->stopLoading();
         parseHQStructure(responseString, category.c_str());
             
         if(category == "HOME")
         {
             ChildDataParser::getInstance()->parseOomeeData(responseString);
+            Scene *runningScene = Director::getInstance()->getRunningScene();
+            Node *baseLayer = runningScene->getChildByName("baseLayer");
+            Node *contentLayer = baseLayer->getChildByName("contentLayer");
+            MainHubScene *homeLayer = (MainHubScene *)contentLayer->getChildByName("HOME");
+
+            homeLayer->buildMainHubScene();
         }
-        
-        ModalMessages::getInstance()->stopLoading();
-        HQDataProvider::getInstance()->startBuildingHQ(category);
+        else
+        {
+            HQDataProvider::getInstance()->startBuildingHQ(category);
+        }
     }
 }
 

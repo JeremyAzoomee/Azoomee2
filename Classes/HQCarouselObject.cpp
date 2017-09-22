@@ -31,14 +31,14 @@ std::string HQCarouselObject::getTitle()
     return title;
 }
 
-std::vector<HQContentItemObject *> HQCarouselObject::getContentItems()
+std::vector<HQContentItemObject *> *HQCarouselObject::getContentItems()
 {
-    return contentItems;
+    return &contentItems;
 }
 
-std::vector<cocos2d::Vec2> HQCarouselObject::getContentItemHighlights()
+std::vector<cocos2d::Vec2> *HQCarouselObject::getContentItemHighlights()
 {
-    return contentItemHighlights;
+    return &contentItemHighlights;
 }
 
 NS_AZOOMEE_END

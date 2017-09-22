@@ -24,8 +24,8 @@ public:
     void addContentItemHighlight(cocos2d::Vec2 contentItemHighlight);
     
     std::string getTitle();
-    std::vector<HQContentItemObject *> getContentItems();
-    std::vector<cocos2d::Vec2> getContentItemHighlights();
+    std::vector<HQContentItemObject *> *getContentItems();
+    std::vector<cocos2d::Vec2> *getContentItemHighlights();
     
 };
 

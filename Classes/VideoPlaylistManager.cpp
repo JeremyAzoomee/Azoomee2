@@ -41,17 +41,17 @@ std::string VideoPlaylistManager::getPlaylist()
 {
     std::string returnString;
     
-    if(storedPlaylist.getContentItems().size() == 0) returnString = "noPlaylist";
+    if(storedPlaylist.getContentItems()->size() == 0) returnString = "noPlaylist";
     else
     {
         std::vector<std::map<std::string, std::string>> playlistElements;
         
-        for(int i = 0; i < storedPlaylist.getContentItems().size(); i++)
+        for(int i = 0; i < storedPlaylist.getContentItems()->size(); i++)
         {
             std::map<std::string, std::string> elementToBeAdded;
-            elementToBeAdded["uri"] = storedPlaylist.getContentItems().at(i)->getUri();
-            elementToBeAdded["image"] = storedPlaylist.getContentItems().at(i)->getImagePath();
-            elementToBeAdded["title"] = storedPlaylist.getContentItems().at(i)->getTitle();
+            elementToBeAdded["uri"] = storedPlaylist.getContentItems()->at(i)->getUri();
+            elementToBeAdded["image"] = storedPlaylist.getContentItems()->at(i)->getImagePath();
+            elementToBeAdded["title"] = storedPlaylist.getContentItems()->at(i)->getTitle();
             
             playlistElements.push_back(elementToBeAdded);
         }
@@ -69,9 +69,9 @@ std::string VideoPlaylistManager::getPlaylist()
 HQContentItemObject VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)
 {
     HQContentItemObject returnData = HQContentItemObject::create();
-    if(elementNumber >= storedPlaylist.getContentItems().size() || elementNumber < 0) return returnData;
+    if(elementNumber >= storedPlaylist.getContentItems()->size() || elementNumber < 0) return returnData;
     
-    returnData = *storedPlaylist.getContentItems().at(elementNumber);
+    returnData = *storedPlaylist.getContentItems()->at(elementNumber);
     returnData.setImagePath("");
     
     return returnData;

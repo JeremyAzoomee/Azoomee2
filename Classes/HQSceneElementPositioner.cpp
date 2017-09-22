@@ -45,7 +45,7 @@ void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
     
     scrollView->setInnerContainerSize(Size(possibleNewPosition.x + senderSize.width, scrollViewSize.height));
     
-    CCLOG("New innercontainer size: %f", scrollView->getInnerContainerSize().width);
+    cocos2d::log("New innercontainer size: %f", scrollView->getInnerContainerSize().width);
 }
 
 NS_AZOOMEE_END

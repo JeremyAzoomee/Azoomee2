@@ -31,7 +31,7 @@ public:
     //HQ Area services
     int getNumberOfRowsForHQ(std::string category);
     int getNumberOfElementsForRow(std::string category, int index);
-    std::vector<HQContentItemObject *> getElementsForRow(std::string category, int index);
+    std::vector<HQContentItemObject *> *getElementsForRow(std::string category, int index);
     std::string getTitleForRow(std::string category, int index);
     std::string getImageUrlForItem(std::string itemId, cocos2d::Vec2 shape);
     std::string getTypeForSpecificItem(std::string category, std::string itemId);

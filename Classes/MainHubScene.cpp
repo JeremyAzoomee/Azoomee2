@@ -39,6 +39,11 @@ bool MainHubScene::init()
 
 void MainHubScene::onEnter()
 {
+    Node::onEnter();
+}
+
+void MainHubScene::buildMainHubScene()
+{
     float oomeeDelay = 2.0;
     float imageContainerDelay = 0.5;
     
@@ -83,8 +88,6 @@ void MainHubScene::onEnter()
     });
     
     this->runAction(Sequence::create(DelayTime::create(imageContainerDelay), funcCallAction2, NULL));
-    
-    Node::onEnter();
 }
 
 //----------------------------------All methods beyond this line are called internally--------------------------------------------------
@@ -138,11 +141,11 @@ void MainHubScene::addImageContainers()
     
     for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); i++)
     {
-        std::vector<HQContentItemObject *> elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), i);
+        std::vector<HQContentItemObject *> *elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), i);
         
         std::string fieldTitle = HQDataProvider::getInstance()->getTitleForRow(this->getName(), i);
         
-        for(int j = 0; j < elementsForHub.size(); j++)
+        for(int j = 0; j < elementsForHub->size(); j++)
         {
             float delayTime = 2 + CCRANDOM_0_1();
             
@@ -166,7 +169,7 @@ void MainHubScene::addImageContainers()
             
             elementPosition.y = elementPosition.y + yOffset;
             
-            imageIcon->createContainer(elementsForHub[j], 1.2 - (j * 0.3), delayTime, elementPosition);
+            imageIcon->createContainer(elementsForHub->at(j), 1.2 - (j * 0.3), delayTime, elementPosition);
         }
     }
     
