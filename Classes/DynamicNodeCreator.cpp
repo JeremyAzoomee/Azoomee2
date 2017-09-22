@@ -95,7 +95,7 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
     //config extra images
     if(configFile.HasMember("images"))
     {
-        rapidjson::Value& imageList = configFile["buttons"];
+        rapidjson::Value& imageList = configFile["images"];
         configExtraImages(imageList);
     }
     //not in json yet
@@ -153,6 +153,12 @@ void DynamicNodeCreator::initCTANode()
     _popupButtonsLayer->setPosition(_windowSize/2);
     _CTANode->addChild(_popupButtonsLayer);
     
+    _popupImages = Node::create();
+    _popupImages->setContentSize(_stencil->getContentSize());
+    _popupImages->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _popupImages->setPosition(_windowSize/2);
+    _CTANode->addChild(_popupImages);
+    
     _popupFrame = ui::Scale9Sprite::create("res/CTA_Assets/deep_free_pop_over_trans.png");
     _popupFrame->setPosition(_windowSize/2);
     _popupFrame->setAnchorPoint(Vec2(0.5,0.5));
@@ -184,6 +190,7 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
             _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
             _popupFrame->setContentSize(Size(_windowSize.width*width,_windowSize.height*height));
             _popupButtonsLayer->setContentSize(Size(_windowSize.width*width,_windowSize.height*height));
+            _popupImages->setContentSize(Size(_windowSize.width*width,_windowSize.height*height));
             _closeButton->setScale(width);
         }
     }
@@ -304,6 +311,63 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
 
 void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
 {
+    if(imageList.IsArray())
+    {
+        for (int i = 0; i < imageList.Size(); i++)
+        {
+            Vec2 pos;
+            Vec2 size;
+            int opacity;
+            
+            if(imageList[i].HasMember("position") && imageList[i]["position"].Size() == 2 && imageList[i]["position"][0].IsInt() && imageList[i]["position"][1].IsInt())
+            {
+                pos = Vec2(imageList[i]["position"][0].GetInt()/100.0f,imageList[i]["position"][1].GetInt()/100.0f);
+            }
+            else
+            {
+                continue;
+            }
+            
+            if(imageList[i].HasMember("size") && imageList[i]["size"].Size() == 2 && imageList[i]["size"][0].IsInt() && imageList[i]["size"][1].IsInt())
+            {
+                size = Vec2(imageList[i]["size"][0].GetInt()/100.0f, imageList[i]["size"][1].GetInt()/100.0f);
+            }
+            else
+            {
+                continue;
+            }
+            
+            if(imageList[i].HasMember("opacity") && imageList[i]["opacity"].IsInt())
+            {
+                opacity = imageList[i]["opacity"].GetInt();
+            }
+            else
+            {
+                opacity = 255;;
+            }
+            
+            if(imageList[i].HasMember("data"))
+            {
+                const rapidjson::Value& imageData = imageList[i]["data"];
+                
+                if(imageData.IsString())
+                {
+                    std::string dataStr = imageData.GetString();
+                    std::string imageName = "popupImage" + std::to_string(i);
+                    Texture2D* texture = getTextureFromBase64imageData(dataStr,imageName);
+                    if(texture)
+                    {
+                        Sprite* image = Sprite::createWithTexture(texture);
+                        image->setScale((_windowSize.width*size.x)/image->getContentSize().width, (_windowSize.height*size.y)/image->getContentSize().height);
+                        image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+                        image->setNormalizedPosition(pos);
+                        _popupImages->addChild(image);
+                    }
+                }
+            }
+
+        }
+    }
     //not yet implemented
 }
 
