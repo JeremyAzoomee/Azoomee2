@@ -361,6 +361,7 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
                         image->setScale((_windowSize.width*size.x)/image->getContentSize().width, (_windowSize.height*size.y)/image->getContentSize().height);
                         image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
                         image->setNormalizedPosition(pos);
+                        image->setOpacity(opacity/255.0f);
                         _popupImages->addChild(image);
                     }
                 }
