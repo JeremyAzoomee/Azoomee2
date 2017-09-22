@@ -20,6 +20,7 @@ class DynamicNodeCreator : public cocos2d::Ref
 {
 private:
     cocos2d::Node* _CTANode = nullptr;
+    cocos2d::Size _windowSize;
     
     //CTA components
     cocos2d::ui::Scale9Sprite* _popupFrame = nullptr;
@@ -40,8 +41,10 @@ private:
     void configCloseButton(const rapidjson::Value& closeButtonToggle);
     void configBackgroundColour(const rapidjson::Value& backgroundColour);
     void configBackgroundImage(const rapidjson::Value& backgroundImageData);
-    void configButtons(const rapidjson::Value& buttonList);
+    void configButtons(const rapidjson::Value& buttonsList);
     void configExtraImages(const rapidjson::Value& imageList);
+    
+    cocos2d::Texture2D* getTextureFromBase64imageData(std::string data, const std::string& imageName);
     
 public:
     static DynamicNodeCreator* getInstance(void);
