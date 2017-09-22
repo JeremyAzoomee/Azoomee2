@@ -62,7 +62,10 @@ public class NativeView extends XWalkActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
         ImageButton extra = new ImageButton(this);
-        extra.setImageResource(R.drawable.back_new);
+        if(loadingGame())
+            extra.setImageResource(R.drawable.close_button);
+        else
+            extra.setImageResource(R.drawable.back_button);
         extra.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         extra.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +95,24 @@ public class NativeView extends XWalkActivity {
 
         imageButtonStatic = extra;
         xWalkWebViewStatic = xWalkWebView;
+    }
+
+    private  boolean loadingGame()
+    {
+        Bundle extras = getIntent().getExtras();
+        String myUrl = "about:blank";
+
+        if(extras != null)
+        {
+            myUrl = extras.getString("url");
+
+            if(myUrl.toLowerCase().contains("html"))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void onBackPressed(){
