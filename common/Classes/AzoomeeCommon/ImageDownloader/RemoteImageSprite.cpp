@@ -153,9 +153,9 @@ void RemoteImageSprite::imageAddedToCache(Texture2D* resulting_texture)
     
 void RemoteImageSprite::addNewBadgeToLoadedImage()
 {
-    auto newBadge = Sprite::create("res/hqscene/newIcon2X2.png");
-    newBadge->setAnchorPoint(Vec2(0.0, 0.5));
-    newBadge->setPosition(0, loadedImage->getContentSize().height - newBadge->getContentSize().height *.75);
+    auto newBadge = Sprite::create("res/hqscene/newIcon.png");
+    newBadge->setAnchorPoint(Vec2(0.0f, 1.0f));
+    newBadge->setPosition(0, loadedImage->getContentSize().height+1); //1 added due to pixel line at top
     newBadge->setOpacity(0);
     loadedImage->addChild(newBadge);
     
