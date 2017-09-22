@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022218CA1ECF203000AD167F /* SessionIdManager.cpp */; };
+		025BCA2A1F7522CA00F54406 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 025BCA291F7522CA00F54406 /* IosNativeFunctionsSingleton.mm */; };
 		02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A120231EAF83E0007EDD95 /* VersionChecker.cpp */; };
 		3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */; };
 		3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */; };
@@ -138,15 +139,17 @@
 		4349C85C1EA8ADEF00FE964B /* UIImage+MPImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C7FE1EA8ADEF00FE964B /* UIImage+MPImageEffects.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8001EA8ADEF00FE964B /* UIView+MPHelpers.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */; };
-		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
 		434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */; };
 		434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */; };
 		436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
+		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		022218CA1ECF203000AD167F /* SessionIdManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SessionIdManager.cpp; sourceTree = "<group>"; };
 		022218CB1ECF203000AD167F /* SessionIdManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionIdManager.h; sourceTree = "<group>"; };
+		025BCA281F7522CA00F54406 /* IosNativeFunctionsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosNativeFunctionsSingleton.h; sourceTree = "<group>"; };
+		025BCA291F7522CA00F54406 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
 		02A120231EAF83E0007EDD95 /* VersionChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VersionChecker.cpp; sourceTree = "<group>"; };
 		02A120241EAF83E0007EDD95 /* VersionChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionChecker.h; sourceTree = "<group>"; };
 		3000FF701ED5AB7000E9717C /* AzoomeeAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeAppController.h; sourceTree = "<group>"; };
@@ -412,8 +415,6 @@
 		4349C8001EA8ADEF00FE964B /* UIView+MPHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MPHelpers.m"; sourceTree = "<group>"; };
 		4349C8011EA8ADEF00FE964B /* UIViewController+AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AutomaticEvents.h"; sourceTree = "<group>"; };
 		4349C8021EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AutomaticEvents.m"; sourceTree = "<group>"; };
-		9261739D1F2A3D34008E3F9D /* OnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnScreenChecker.h; sourceTree = "<group>"; };
-		9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnScreenChecker.cpp; sourceTree = "<group>"; };
 		434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxLayer.cpp; path = MessageBoxLayers/MessageBoxLayer.cpp; sourceTree = "<group>"; };
 		434A55E31F29F9C800740601 /* MessageBoxLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxLayer.h; path = MessageBoxLayers/MessageBoxLayer.h; sourceTree = "<group>"; };
 		434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxChatResetModerationLayer.cpp; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatResetModerationLayer.cpp; sourceTree = "<group>"; };
@@ -421,6 +422,8 @@
 		436007871F22120C000ECBA4 /* ModalWebview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalWebview.cpp; sourceTree = "<group>"; };
 		436007881F22120C000ECBA4 /* ModalWebview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalWebview.h; sourceTree = "<group>"; };
 		4360078A1F2232CC000ECBA4 /* Urls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Urls.h; sourceTree = "<group>"; };
+		9261739D1F2A3D34008E3F9D /* OnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnScreenChecker.h; sourceTree = "<group>"; };
+		9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnScreenChecker.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -577,6 +580,8 @@
 				3012ED6E1E96A3140009027D /* StringMgr.h */,
 				02A120231EAF83E0007EDD95 /* VersionChecker.cpp */,
 				02A120241EAF83E0007EDD95 /* VersionChecker.h */,
+				025BCA281F7522CA00F54406 /* IosNativeFunctionsSingleton.h */,
+				025BCA291F7522CA00F54406 /* IosNativeFunctionsSingleton.mm */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1182,6 +1187,7 @@
 				4313697E1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp in Sources */,
 				4349C8431EA8ADEF00FE964B /* MPSwizzle.m in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
+				025BCA2A1F7522CA00F54406 /* IosNativeFunctionsSingleton.mm in Sources */,
 				307A40491F050A51005947F3 /* PusherEvent.cpp in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */,

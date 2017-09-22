@@ -1,5 +1,6 @@
 #include "SessionIdManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
+#include <chrono>
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -86,7 +87,8 @@ namespace Azoomee
         //get timestamp in microseconds
         
         std::chrono::microseconds ms = std::chrono::duration_cast< std::chrono::microseconds >(std::chrono::system_clock::now().time_since_epoch());
-        unsigned long epochTimeInMicroSeconds = ms.count();
+        
+        long epochTimeInMicroSeconds = ms.count();
         
         //get some device specific identifiers to decrease overlap chance further
         
@@ -96,6 +98,7 @@ namespace Azoomee
         
         std::hash<std::string> hasher;
         long hashedDeviceString = hasher(deviceString);
+
         if(hashedDeviceString < 0) hashedDeviceString *= -1;
         
         //summarise two values and make it fit in an int type
