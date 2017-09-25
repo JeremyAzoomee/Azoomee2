@@ -17,7 +17,12 @@
  "buttons": [
    {
      "buttonId": "upgrade",
-     "actionId": "showUpgrade",
+     "action": {
+        "type":"internal",
+        "params": {
+            "location":"showUpgrade"
+        }
+     },
      "position": [
        50,
        16

@@ -52,7 +52,7 @@ public:
     bool init(void);
     
     cocos2d::Node* createCTAFromFile(const std::string& filepath);
-    
+    void resetCTAPopup();
 };
 
 NS_AZOOMEE_END

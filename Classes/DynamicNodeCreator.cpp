@@ -8,6 +8,8 @@
 
 #include "DynamicNodeCreator.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include "DynamicNodeButtonListener.h"
+#include "ButtonActionData.h"
 
 using namespace cocos2d;
 
@@ -296,6 +298,13 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
             button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
             button->setNormalizedPosition(pos);
             button->setScale9Enabled(true);
+            button->setSwallowTouches(true);
+            if(buttonsList[i].HasMember("action"))
+            {
+                const rapidjson::Value& actionParams = buttonsList[i]["action"];
+                button->addTouchEventListener(CC_CALLBACK_2(DynamicNodeButtonListener::onButtonPressedCallFunc, DynamicNodeButtonListener::getInstance(),ButtonActionData::createWithJson(actionParams)));
+            }
+            
             //add button callback based on action tag here
             
             Label* label = Label::createWithTTF(btnString, "fonts/azoomee.ttf", button->getContentSize().height*0.4);
@@ -369,7 +378,7 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
 
         }
     }
-    //not yet implemented
+
 }
 
 Texture2D* DynamicNodeCreator::getTextureFromBase64imageData(std::string data, const std::string& imageName)
@@ -390,6 +399,16 @@ Texture2D* DynamicNodeCreator::getTextureFromBase64imageData(std::string data, c
         return texture;
     }
     return nullptr;
+}
+
+void DynamicNodeCreator::resetCTAPopup()
+{
+    if(_CTANode)
+    {
+        _CTANode->removeFromParent();
+        _CTANode = nullptr;
+    }
+    
 }
 
 NS_AZOOMEE_END
