@@ -61,13 +61,14 @@ public class NativeView extends XWalkActivity {
         addContentView(xWalkWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
-        ImageButton extra = new ImageButton(this);
+        ImageButton closeButton = new ImageButton(this);
         if(loadingGame())
-            extra.setImageResource(R.drawable.close_button);
+            closeButton.setImageResource(R.drawable.close_button);
         else
-            extra.setImageResource(R.drawable.back_button);
-        extra.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        extra.setOnClickListener(new View.OnClickListener() {
+            closeButton.setImageResource(R.drawable.back_button);
+
+        closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -90,10 +91,30 @@ public class NativeView extends XWalkActivity {
             }
         });
 
-        addContentView(extra, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        //SET Button Size and position
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        android.view.Display display = wm.getDefaultDisplay();
+        android.util.DisplayMetrics metrics = new android.util.DisplayMetrics();
+        display.getMetrics(metrics);
+        int buttonWidth = metrics.widthPixels/12;
 
-        imageButtonStatic = extra;
+        android.widget.RelativeLayout.LayoutParams buttonLayoutParams = new android.widget.RelativeLayout.LayoutParams(
+                android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        buttonLayoutParams.leftMargin = 0;
+        buttonLayoutParams.topMargin = 0;
+        buttonLayoutParams.width = buttonWidth;
+        buttonLayoutParams.height = buttonWidth;
+
+        closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+
+        closeButton.setX(buttonWidth/8);
+        closeButton.setY(buttonWidth/8);
+
+        // Add button to screen, with Size and Position
+        addContentView(closeButton, buttonLayoutParams);
+
+        imageButtonStatic = closeButton;
         xWalkWebViewStatic = xWalkWebView;
     }
 
