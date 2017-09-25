@@ -153,6 +153,13 @@ void AnalyticsSingleton::setChatFriendIsParent(bool chatFriendIsParent)
     
     mixPanelRegisterSuperProperties("chatFriendIsParent",friendIsParentString);
 }
+    
+void AnalyticsSingleton::setIsUserAnonymous(bool isUserAnonymous)
+{
+    std::string isUserAnonymousString;
+    isUserAnonymous ? isUserAnonymousString = "YES" : isUserAnonymousString = "NO";
+    mixPanelRegisterSuperProperties("isUserAnonymous", isUserAnonymousString);
+}
 
 //-------------logout events-----------------
 

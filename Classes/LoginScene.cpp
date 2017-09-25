@@ -37,7 +37,7 @@ bool LoginScene::init()
     cocos2d::log("Cache folder: %s", FileUtils::getInstance()->getWritablePath().c_str());
     
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
-    
+    AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
     AudioMixer::getInstance()->stopBackgroundMusic();
     
     visibleSize = Director::getInstance()->getVisibleSize();

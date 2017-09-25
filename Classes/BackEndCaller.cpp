@@ -13,7 +13,7 @@
 #include <AzoomeeCommon/Net/Utils.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Pusher/PusherSDK.h>
-#include <Azoomeecommon/Utils/SessionIdManager.h>
+#include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "HQDataStorage.h"
@@ -121,6 +121,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
         getAvailableChildren();
         updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
+        AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
         
         // Open Pusher channel
         PusherSDK::getInstance()->openParentAccountChannel();
@@ -159,6 +160,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
     {
         HQDataParser::getInstance()->clearAllHQData();
         ChildDataParser::getInstance()->setChildLoggedIn(false);
+        AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
         
         getGordon(); //we are skipping to getGordon (no child login), that will get the required free/user cookies and switch to the main scene.
     }
