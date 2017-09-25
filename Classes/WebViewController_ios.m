@@ -204,13 +204,12 @@ using namespace Azoomee;
 
 - (void) createButton:(NSString*)buttonImage
 {
-    CGFloat buttonWidth = [[UIScreen mainScreen] bounds].size.height/8;
+    CGFloat buttonWidth = [[UIScreen mainScreen] bounds].size.width/15;
     
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4, buttonWidth, buttonWidth)];
     [backButton setExclusiveTouch:YES];
-    //[backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
     [backButton setImage:[UIImage imageNamed:buttonImage] forState:UIControlStateNormal];
     
     [self.view addSubview:backButton];
