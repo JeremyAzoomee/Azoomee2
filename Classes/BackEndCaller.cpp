@@ -14,7 +14,6 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
-#include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "HQDataStorage.h"
@@ -33,6 +32,7 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
+#include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "GooglePaymentSingleton.h"
 #include "AmazonPaymentSingleton.h"
