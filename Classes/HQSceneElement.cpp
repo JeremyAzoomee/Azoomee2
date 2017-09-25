@@ -29,7 +29,7 @@
 #include "ManualGameInputLayer.h"
 #include "VideoPlaylistManager.h"
 
-#include "DynamicNodeCreator.h"
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -155,6 +155,9 @@ void HQSceneElement::addListenerToElement()
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"], elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
                 
+                DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId("upgrade");
+                
+                /*
                 std::vector<std::string> popupFiles;
                 popupFiles.push_back("res/CTA_Assets/boysGames1.json");popupFiles.push_back("res/CTA_Assets/boysGames2.json");popupFiles.push_back("res/CTA_Assets/boysGames3.json");
                 popupFiles.push_back("res/CTA_Assets/girlsVideo1.json");popupFiles.push_back("res/CTA_Assets/girlsVideo2.json");popupFiles.push_back("res/CTA_Assets/girlsVideo3.json");
@@ -162,7 +165,7 @@ void HQSceneElement::addListenerToElement()
                 Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile(popupFiles[rand()%popupFiles.size()]);
                 Director::getInstance()->getRunningScene()->addChild(CTA,100);
                 
-                /*if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+                if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
                 {
                     AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("MainHub");
                     IAPUpsaleLayer::createRequiresPin();

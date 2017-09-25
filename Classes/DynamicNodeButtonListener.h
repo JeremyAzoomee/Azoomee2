@@ -20,7 +20,7 @@ NS_AZOOMEE_BEGIN
 class DynamicNodeButtonListener : public cocos2d::Ref
 {
 private:
-    void closeCTAPopup();
+    void closeCTAPopup(float dt);
     void upgradeButtonPressed();
     
 public:

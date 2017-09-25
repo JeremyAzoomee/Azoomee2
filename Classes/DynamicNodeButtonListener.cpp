@@ -48,7 +48,7 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
         }
         else
         {
-            closeCTAPopup();
+            Director::getInstance()->getScheduler()->schedule(schedule_selector(DynamicNodeButtonListener::closeCTAPopup), this, 0, 0, 0.2, false);
         }
     }
     
@@ -65,14 +65,12 @@ void DynamicNodeButtonListener::upgradeButtonPressed()
     {
         PreviewLoginSignupMessageBox::create();
     }
-    //delay closing of popup to prevent touch following through tp layers bellow
-    Director::getInstance()->getScheduler()->schedule([&](float dt){this->closeCTAPopup();}, this, 0.2f, false, "closePopup");
+    Director::getInstance()->getScheduler()->schedule(schedule_selector(DynamicNodeButtonListener::closeCTAPopup), this, 0, 0, 0.2, false);
 }
 
-void DynamicNodeButtonListener::closeCTAPopup()
+void DynamicNodeButtonListener::closeCTAPopup(float dt)
 {
     DynamicNodeCreator::getInstance()->resetCTAPopup();
-    Director::getInstance()->getScheduler()->unschedule("closePopup", this);
 }
 
 
