@@ -81,12 +81,41 @@ namespace Azoomee
     {
         std::string oldSessionId = sessionId;
         
-        srand(time(NULL));
+        //generate new sessionid and narrow down overlapping
+        
+        //get timestamp in microseconds
+        
+        std::chrono::microseconds ms = std::chrono::duration_cast< std::chrono::microseconds >(std::chrono::system_clock::now().time_since_epoch());
+        unsigned long epochTimeInMicroSeconds = ms.count();
+        
+        //get some device specific identifiers to decrease overlap chance further
+        
+        std::string deviceData = ConfigStorage::getInstance()->getDeviceInformation();
+        std::string deviceIDFA = ConfigStorage::getInstance()->getDeviceAdvertisingId();
+        std::string deviceString = deviceData + deviceIDFA;
+        
+        std::hash<std::string> hasher;
+        long hashedDeviceString = hasher(deviceString);
+        if(hashedDeviceString < 0) hashedDeviceString *= -1;
+        
+        //summarise two values and make it fit in an int type
+        
+        unsigned long randomResetLong = epochTimeInMicroSeconds + hashedDeviceString;
+        
+        while (randomResetLong >= INT_MAX)
+        {
+            randomResetLong = atol(StringUtils::format("%ld", randomResetLong).substr(1).c_str()); //removing first digit until value is smaller than INT_MAX
+        }
+        
+        int randomResetInt = (int)randomResetLong;
+        
+        //reset random generator
+        srand(randomResetInt);
         
         sessionId = "";
-        static const char alphanum[] = "0123456789abcdefghijklmnopqrstuvwxyz";
+        static const char alphanum[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
        
-        for(int i = 0; i < 10; i++) sessionId += alphanum[rand() % (sizeof(alphanum) - 1)];
+        for(int i = 0; i < 20; i++) sessionId += alphanum[rand() % (sizeof(alphanum) - 1)];
         
         AnalyticsSingleton::getInstance()->registerSessionId(sessionId);
         
