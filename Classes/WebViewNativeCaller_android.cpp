@@ -9,6 +9,13 @@
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#include "platform/android/jni/JniHelper.h"
+
+static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
+
+#endif
+
 using namespace cocos2d;
 using namespace Azoomee;
 
@@ -111,19 +118,7 @@ void WebViewNativeCaller_android::onEnterTransitionDidFinish()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     SessionIdManager::getInstance()->registerAndroidSceneChangeEvent();
     
-    cocos2d::JniMethodInfo methodInfo;
-    
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startWebView", "(Ljava/lang/String;Ljava/lang/String;I)V"))
-    {
-        return;
-    }
-    
-    jstring jurl = methodInfo.env->NewStringUTF(loadUrl.c_str());
-    jstring juserid = methodInfo.env->NewStringUTF(ChildDataProvider::getInstance()->getLoggedInChildId().c_str());
-    
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jurl, juserid,_orientation);
-
-    methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startWebView", loadUrl,ChildDataProvider::getInstance()->getLoggedInChildId(),(int)_orientation);
         
 #endif
 }
