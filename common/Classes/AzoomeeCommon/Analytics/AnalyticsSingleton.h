@@ -54,6 +54,7 @@ public:
     void setPortraitOrientation();
     void setNumberOfChatFriends(int noOfChildren);
     void setChatFriendIsParent(bool chatFriendIsParent);
+    void setIsUserAnonymous(bool isUserAnonymous);
 
     void registerChildID(std::string noOfChatFriends);
     void registerChildGenderAndAge(int childNumber);

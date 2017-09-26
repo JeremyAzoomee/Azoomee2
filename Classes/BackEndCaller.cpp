@@ -13,7 +13,7 @@
 #include <AzoomeeCommon/Net/Utils.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Pusher/PusherSDK.h>
-#include <Azoomeecommon/Utils/SessionIdManager.h>
+#include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "HQDataStorage.h"
@@ -32,7 +32,7 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
-#include "IosNativeFunctionsSingleton.h"
+#include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "GooglePaymentSingleton.h"
 #include "AmazonPaymentSingleton.h"
@@ -121,6 +121,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
         getAvailableChildren();
         updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
+        AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
         
         // Open Pusher channel
         PusherSDK::getInstance()->openParentAccountChannel();
@@ -138,13 +139,7 @@ void BackEndCaller::anonymousDeviceLogin()
 {
     displayLoadingScreen();
     
-    std::string deviceId = "";
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    deviceId = IosNativeFunctionsSingleton::getInstance()->getIosDeviceIDFA();
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    deviceId = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceAdvertisingId");
-#endif
+    std::string deviceId = ConfigStorage::getInstance()->getDeviceAdvertisingId();
     
     if(deviceId == "") deviceId = "SESSID:" + SessionIdManager::getInstance()->getCurrentSessionId();
     
@@ -159,6 +154,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
     {
         HQDataParser::getInstance()->clearAllHQData();
         ChildDataParser::getInstance()->setChildLoggedIn(false);
+        AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
         
         getGordon(); //we are skipping to getGordon (no child login), that will get the required free/user cookies and switch to the main scene.
     }
@@ -303,22 +299,14 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber)
 {
     FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
+    const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
     
     std::string source = "OTHER";
-    std::string sourceDeviceString1 = "";
-    std::string sourceDeviceString2 = "";
-    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     source = "IOS_INAPP";
-    sourceDeviceString1 = IosNativeFunctionsSingleton::getInstance()->getIosSystemVersion();
-    sourceDeviceString2 = IosNativeFunctionsSingleton::getInstance()->getIosDeviceType();
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     source = "ANDROID_INAPP";
-    sourceDeviceString1 = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceModel");
-    sourceDeviceString2 = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer");
 #endif
-    
-    std::string sourceDevice = Net::urlEncode(sourceDeviceString1) + "|" + Net::urlEncode(sourceDeviceString2);
     
     HttpRequestCreator* request = API::RegisterParentRequest(emailAddress, password, pinNumber, source, sourceDevice, this);
     request->execute();
