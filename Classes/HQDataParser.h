@@ -22,7 +22,6 @@ public:
     
     //Communication methods
     void onGetContentAnswerReceived(const std::string &responseString, const std::string &category);
-    void onGetPreviewContentAnswerReceived(const std::string &responseString);
 };
 
 NS_AZOOMEE_END

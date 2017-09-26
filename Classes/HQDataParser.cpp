@@ -144,6 +144,7 @@ bool HQDataParser::parseHQGetContentUrls(const std::string &responseString)
         HQDataObject *dataObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(replacedKey);
         dataObject->setHqEntitlement(getBoolFromJson("available", currentItem));
         dataObject->setHqUrl(getStringFromJson("uri", currentItem));
+        dataObject->setHqEntitlement(getBoolFromJson("available", currentItem));
     }
     
     return true;
@@ -172,19 +173,6 @@ void HQDataParser::onGetContentAnswerReceived(const std::string &responseString,
         {
             HQDataProvider::getInstance()->startBuildingHQ(category);
         }
-    }
-}
-
-void HQDataParser::onGetPreviewContentAnswerReceived(const std::string &responseString)
-{
-    if(parseHQData(responseString, "HOME"))
-    {
-        parseHQStructure(responseString, "HOME");
-        parseHQGetContentUrls(responseString);
-        ChildDataParser::getInstance()->parseOomeeData(responseString);
-        
-        BaseScene *baseScene = (BaseScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
-        baseScene->startBuildingHQs();
     }
 }
 

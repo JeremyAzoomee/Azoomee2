@@ -455,10 +455,6 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         onUpdateParentPinAnswerReceived(body);
     }
-    else if(requestTag == "PreviewHOME")
-    {
-        HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(body);
-    }
     else if(requestTag == "deepLinkContentRequest")
     {
         DeepLinkingSingleton::getInstance()->contentDetailsResponse(body);

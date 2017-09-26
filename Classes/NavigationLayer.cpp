@@ -19,6 +19,7 @@
 #include "DeepLinkingSingleton.h"
 #include "BackEndCaller.h"
 #include "ChatNotificationsSingleton.h"
+#include "IAPUpsaleLayer.h"
 
 using namespace cocos2d;
 
@@ -102,6 +103,28 @@ void NavigationLayer::startLoadingGroupHQ(std::string uri)
 
 void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, float duration)
 {
+    //CHECK IF THE ENTITLEMENT FOR THAT SPECIFIC HQ IS ENABLED
+    
+    std::string HQName = ConfigStorage::getInstance()->getNameForMenuItem(target);
+    HQDataObject* currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(HQName);
+    bool isMenuItemEntitled = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(HQName)->getHqEntitlement();
+    
+    if(!isMenuItemEntitled)
+    {
+        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            IAPUpsaleLayer::createRequiresPin();
+        }
+        else
+        {
+            PreviewLoginSignupMessageBox::create();
+        }
+        
+        return;
+    }
+    
+    //IF THE BUTTON IS CHAT, START IT
+    
     if(target == ConfigStorage::HubTargetTagNumber::CHAT)
     {
         this->hideNotificationBadge();
@@ -110,15 +133,10 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
             AnalyticsSingleton::getInstance()->navSelectionEvent("",target);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
         }
-        else
-        {
-            PreviewLoginSignupMessageBox::create();
-        }
         return;
     }
     
     HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::getInstance()->getNameForMenuItem(target));
-    
     cleanUpPreviousHQ();
 
     this->startLoadingHQScene(target);
