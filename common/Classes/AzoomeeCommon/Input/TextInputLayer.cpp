@@ -98,6 +98,7 @@ void TextInputLayer::setupEditBoxUsingType()
             break;
         }
         case INPUT_IS_PASSWORD:
+        case INPUT_IS_NEW_PASSWORD:
         {
             editBox->setMaxLength(50);
             editBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
@@ -142,7 +143,6 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
-        
     }
 }
     
@@ -222,7 +222,7 @@ bool TextInputLayer::inputIsValid()
         }
         case INPUT_IS_PASSWORD:
         {
-            if(isValidPassword(editBox->getText()))
+            if(isValidPassword(editBox->getText(),2))
                 isValidInput = true;
             break;
         }
@@ -243,6 +243,13 @@ bool TextInputLayer::inputIsValid()
             isValidInput = strlen(editBox->getText()) == 8;
             break;
         }
+        case INPUT_IS_NEW_PASSWORD:
+        {
+            if(isValidPassword(editBox->getText(), 6))
+                isValidInput = true;
+            break;
+        }
+            
     }
     
     return isValidInput;

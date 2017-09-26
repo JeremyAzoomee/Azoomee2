@@ -86,7 +86,7 @@ void OnboardingScene::addTextboxScene()
     emailTextInput->setText(FlowDataSingleton::getInstance()->getUserName());
     this->addChild(emailTextInput);
     
-    passwordTextInput = TextInputLayer::createWithSize(Size(textInputWidth,197), INPUT_IS_PASSWORD);
+    passwordTextInput = TextInputLayer::createWithSize(Size(textInputWidth,197), INPUT_IS_NEW_PASSWORD);
     passwordTextInput->setPositionY(emailTextInput->getPositionY() -passwordTextInput->getContentSize().height*1.9 );
     passwordTextInput->setDelegate(this);
     this->addChild(passwordTextInput);
