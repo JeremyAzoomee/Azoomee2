@@ -124,7 +124,7 @@ void MainScene::saveFileAndExit()
         oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
         auto fileNameStr = oss.str();
         
-        saveFileName = artCacheFolder + Azoomee::ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + fileNameStr + ".png";
+        saveFileName = artCacheFolder + Azoomee::ChildDataProvider::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
     }
     else
     {

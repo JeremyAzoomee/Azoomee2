@@ -50,10 +50,12 @@ void ArtsPreviewLayer::addImagesToMainHub()
 
 std::vector<std::string> ArtsPreviewLayer::getRandomImagesFromArtsCache()
 {
-    const std::string &artCacheFolderPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
+    const std::string &artCacheFolderPath = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
     
     if(!FileUtils::getInstance()->isDirectoryExist(artCacheFolderPath))
+    {
         FileUtils::getInstance()->createDirectory(artCacheFolderPath);
+    }
     
     std::vector<std::string> fileList = getImagesInDirectory(artCacheFolderPath);
     
@@ -88,15 +90,22 @@ void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
     float yOffset= visibleSize.height/10;
     
     if(positions.at(index).y < 0)
+    {
         yOffset = -yOffset;
+    }
     
     if(index ==1)
+    {
         yOffset = yOffset*2;
+    }
     
     positions.at(index).y = positions.at(index).y + yOffset;
     
     bool newImage = false;
-    if(path ==  FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png")) newImage = true;
+    if(path ==  FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"))
+    {
+        newImage = true;
+    }
     
     CCLOG("PATH: %s", path.c_str());
     
@@ -135,7 +144,10 @@ std::vector<std::string> ArtsPreviewLayer::getImagesInDirectory(std::string path
             
             if(fileName.size() > 4)
             {
-                if(fileName.substr(fileName.size() -3, 3) == "png") fileNames.push_back(fileName);
+                if(fileName.substr(fileName.size() -3, 3) == "png")
+                {
+                    fileNames.push_back(fileName);
+                }
             }
         }
         closedir (dir);
