@@ -92,18 +92,16 @@ namespace Azoomee
         
         //get some device specific identifiers to decrease overlap chance further
         
-        std::string deviceData = ConfigStorage::getInstance()->getDeviceInformation();
-        std::string deviceIDFA = ConfigStorage::getInstance()->getDeviceAdvertisingId();
+        const std::string &deviceData = ConfigStorage::getInstance()->getDeviceInformation();
+        const std::string &deviceIDFA = ConfigStorage::getInstance()->getDeviceAdvertisingId();
         std::string deviceString = deviceData + deviceIDFA;
         
         std::hash<std::string> hasher;
-        long hashedDeviceString = hasher(deviceString);
-
-        if(hashedDeviceString < 0) hashedDeviceString *= -1;
+        std::size_t hashedDeviceString = hasher(deviceString);
         
         //summarise two values and make it fit in an int type
         
-        unsigned long randomResetLong = epochTimeInMicroSeconds + hashedDeviceString;
+        std::size_t randomResetLong = epochTimeInMicroSeconds + hashedDeviceString;
         
         while (randomResetLong >= INT_MAX)
         {
@@ -118,7 +116,10 @@ namespace Azoomee
         sessionId = "";
         static const char alphanum[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
        
-        for(int i = 0; i < 20; i++) sessionId += alphanum[rand() % (sizeof(alphanum) - 1)];
+        for(int i = 0; i < 20; i++)
+        {
+           sessionId += alphanum[rand() % (sizeof(alphanum) - 1)]; 
+        }
         
         AnalyticsSingleton::getInstance()->registerSessionId(sessionId);
         

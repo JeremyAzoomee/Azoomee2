@@ -156,8 +156,7 @@ void AnalyticsSingleton::setChatFriendIsParent(bool chatFriendIsParent)
     
 void AnalyticsSingleton::setIsUserAnonymous(bool isUserAnonymous)
 {
-    std::string isUserAnonymousString;
-    isUserAnonymous ? isUserAnonymousString = "YES" : isUserAnonymousString = "NO";
+    const std::string& isUserAnonymousString = isUserAnonymous ? "YES" : "NO";
     mixPanelRegisterSuperProperties("isUserAnonymous", isUserAnonymousString);
 }
 
