@@ -299,7 +299,7 @@ void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 void BackEndCaller::registerParent(const std::string& emailAddress, const std::string& password, const std::string& pinNumber)
 {
     FlowDataSingleton::getInstance()->setFlowToSignup(emailAddress, password);
-    std::string sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
+    const std::string &sourceDevice = ConfigStorage::getInstance()->getDeviceInformation();
     
     std::string source = "OTHER";
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

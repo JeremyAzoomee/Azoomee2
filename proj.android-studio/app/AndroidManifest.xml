@@ -74,8 +74,8 @@
                 <data android:scheme="azoomee"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.mixpanel.android.surveys.SurveyActivity"
-            android:theme="@style/com_mixpanel_android_SurveyActivityTheme"/>
+        <activity android:name="com.mixpanel.android.takeoverinapp.TakeoverInAppActivity"
+            android:theme="@style/com_mixpanel_android_TakeoverInAppActivityTheme"/>
         <meta-data android:name="com.mixpanel.android.MPConfig.AutoShowMixpanelUpdates"
             android:value="false" />
         <meta-data
