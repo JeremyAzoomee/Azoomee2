@@ -9,6 +9,7 @@ namespace Azoomee
 {
 
     static SessionIdManager *_sharedSessionIdManager = NULL;
+    static int lengthOfGeneratedId = 20;
 
     SessionIdManager* SessionIdManager::getInstance()
     {
@@ -105,7 +106,7 @@ namespace Azoomee
         
         while (randomResetLong >= INT_MAX)
         {
-            randomResetLong = atol(StringUtils::format("%ld", randomResetLong).substr(1).c_str()); //removing first digit until value is smaller than INT_MAX
+            randomResetLong = atol(StringUtils::format("%lu", randomResetLong).substr(1).c_str()); //removing first digit until value is smaller than INT_MAX
         }
         
         int randomResetInt = (int)randomResetLong;
@@ -116,7 +117,7 @@ namespace Azoomee
         sessionId = "";
         static const char alphanum[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
        
-        for(int i = 0; i < 20; i++)
+        for(int i = 0; i < lengthOfGeneratedId; i++)
         {
            sessionId += alphanum[rand() % (sizeof(alphanum) - 1)]; 
         }
