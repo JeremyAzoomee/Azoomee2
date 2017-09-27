@@ -124,9 +124,10 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
 
 void DynamicNodeHandler::getCTAFiles()
 {
-    //getCTAPackageJSON("CTAServerURL");
-    removeCTAFiles();
-    unzipCTAFiles((FileUtils::getInstance()->getWritablePath() + "DCDECache/CTAFiles.zip").c_str(), (FileUtils::getInstance()->getWritablePath() + "DCDECache/").c_str(), nullptr);
+    //getCTAPackageJSON("https://s3-eu-west-1.amazonaws.com/develop4test/package.json");
+    //removeCTAFiles();
+    //unzipCTAFiles((FileUtils::getInstance()->getWritablePath() + "DCDECache/CTAFiles.zip").c_str(), (FileUtils::getInstance()->getWritablePath() + "DCDECache/").c_str(), nullptr);
+    getCTAPackageZip("https://s3-eu-west-1.amazonaws.com/develop4test/CTAFiles.zip");
 }
 
 rapidjson::Document DynamicNodeHandler::getLocalCTAPackageJSON()
@@ -234,7 +235,7 @@ void DynamicNodeHandler::onGetCTAPackageZipAnswerReceived(cocos2d::network::Http
         std::string basePath = FileUtils::getInstance()->getWritablePath() + "DCDECache/";
         std::string targetPath = basePath + "CTAFiles.zip";
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
-        
+        removeCTAFiles();
         unzipCTAFiles(targetPath.c_str(), basePath.c_str(), nullptr);
     }
 }
