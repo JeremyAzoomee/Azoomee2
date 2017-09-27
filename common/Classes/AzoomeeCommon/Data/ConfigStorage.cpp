@@ -53,6 +53,7 @@ bool ConfigStorage::init(void)
         API::TagUpdateBillingData,
         API::TagGetAvailableChildren,
         API::TagUpdateChild,
+        API::TagDeleteChild,
         API::TagPusherAuth,
         API::TagGetPendingFriendRequests,
         API::TagFriendRequest,

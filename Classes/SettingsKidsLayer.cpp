@@ -1,6 +1,9 @@
 #include "SettingsKidsLayer.h"
 #include "KidsControlLayer.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/API/API.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -98,6 +101,15 @@ void SettingsKidsLayer::selectChildForSharing(int ChildNumber)
     scrollView->setInnerContainerPosition(Vec2(scrollView->getContentSize().width/2 - ChildNumber *900-400,0));
 }
 
+void SettingsKidsLayer::deleteChild(int ChildNumber)
+{
+    std::vector<std::string> buttonsVector;
+    buttonsVector.push_back("Delete");
+    buttonsVector.push_back("Cancel");
+    
+    MessageBox::createWith("Delete", "Are you sure you want to delete ADAM?", buttonsVector, this);
+}
+
 void SettingsKidsLayer::scrollReset()
 {
     removeTabsCoverLayer();
@@ -126,6 +138,42 @@ void SettingsKidsLayer::removeTabsCoverLayer()
 {
     if(this->getChildByName("tabsCoverLayer"))
         this->removeChildByName("tabsCoverLayer");
+}
+
+//--------------- DELEGATE FUNCTIONS-------------------
+
+void SettingsKidsLayer::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
+{
+    if(buttonTitle == "Delete")
+    {
+
+        const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(0);
+        const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
+        const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + ParentDataProvider::getInstance()->getIDForAvailableChildren(0);
+        
+        HttpRequestCreator* request = API::DeleteChild(url,
+                            ParentDataProvider::getInstance()->getIDForAvailableChildren(0),
+                           ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0),
+                           ParentDataProvider::getInstance()->getSexForAnAvailableChildren(0),
+                           ParentDataProvider::getInstance()->getDOBForAnAvailableChildren(0),
+                           oomeeUrl, ownerId, this);
+        request->execute();
+        
+        request->execute();
+    }
+}
+
+void SettingsKidsLayer::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
+{
+    if(requestTag == API::TagDeleteChild)
+    {
+        
+    }
+}
+
+void SettingsKidsLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
+{
+
 }
 
 NS_AZOOMEE_END

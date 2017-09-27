@@ -49,6 +49,13 @@ void KidsControlLayer::addButtonsAndInput()
     closeButton->setMixPanelButtonName("Settings-YourKids-Close");
     childFrameLayer->addChild(closeButton);
     
+    deleteButton = ElectricDreamsButton::createWindowCloselButton();
+    deleteButton->setScale(0.68);
+    deleteButton->setPosition(this->getContentSize().width-closeButton->getContentSize().width,this->getContentSize().height-closeButton->getContentSize().height);
+    deleteButton->setDelegate(this);
+    deleteButton->setMixPanelButtonName("Settings-YourKids-Delete");
+    childFrameLayer->addChild(deleteButton);
+    
     shareButton = ElectricDreamsButton::createKidCodeShareButton(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber), this->getContentSize().width*.66);
     shareButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height - shareButton->getContentSize().height*2.5));
     shareButton->setDelegate(this);
@@ -180,6 +187,8 @@ void KidsControlLayer::buttonPressed(ElectricDreamsButton* button)
         sendInviteCode();
     else if(button ==shareButton)
         shareKidCode();
+    else if(button == deleteButton)
+        parentLayer->deleteChild(childNumber);
 }
 
 void KidsControlLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)

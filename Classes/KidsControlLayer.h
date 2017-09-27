@@ -30,6 +30,7 @@ private:
     ElectricDreamsButton *tryAgainButton;
     ElectricDreamsButton *addAnotherButton;
     ElectricDreamsButton *textInputButton;
+    ElectricDreamsButton *deleteButton;
     
     void clearAllButCloseButton();
     
