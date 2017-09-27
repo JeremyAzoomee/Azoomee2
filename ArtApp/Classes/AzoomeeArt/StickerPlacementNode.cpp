@@ -40,14 +40,16 @@ void StickerPlacementNode::onEnter()
     _sticker->setPosition(visibleSize/2);
     this->addChild(_sticker);
     
-    _stickerButton_rotate = Sprite::create(ArtAppAssetLoc + "rotateSlider.png");
+    _stickerButton_rotate = Sprite::create(ArtAppAssetLoc + "rotate.png");
     _stickerButton_rotate->setAnchorPoint(Vec2(0.5,0.5));
     _stickerButton_rotate->setPosition(_sticker->getPosition() - _sticker->getContentSize()/2 - _stickerButton_rotate->getContentSize()/2);
+    _stickerButton_rotate->setScale(1.5);
     this->addChild(_stickerButton_rotate);
     
-    _stickerButton_scale= Sprite::create(ArtAppAssetLoc + "sizeSlider.png");
+    _stickerButton_scale= Sprite::create(ArtAppAssetLoc + "scale.png");
     _stickerButton_scale->setAnchorPoint(Vec2(0.5,0.5));
     _stickerButton_scale->setPosition(_sticker->getPosition() + _sticker->getContentSize()/2 + _stickerButton_scale->getContentSize()/2);
+    _stickerButton_scale->setScale(1.5);
     this->addChild(_stickerButton_scale);
     
     _stickerFrame->setContentSize(_sticker->getContentSize() + _stickerButton_rotate->getContentSize());

@@ -338,9 +338,9 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
             float xPos = i / (float)columns;
             float yPos = (j-0.5) / (float)rows;
             button->setNormalizedPosition(Vec2(xPos,yPos));
-            button->loadTextures(ArtAppAssetLoc + "colorSwatch.png", ArtAppAssetLoc + "colorSwatch.png");
+            button->loadTextures(ArtAppAssetLoc + "art_app_pallete_circle.png", ArtAppAssetLoc + "art_app_pallete_circle.png");
             button->setColor(colours[colourCount]);
-            if(colourCount == 0)
+            if(colourCount == 21)
             {
                 selectedColour = Color4F(colours[colourCount]);
                 button->addChild(selected);
