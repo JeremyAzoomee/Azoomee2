@@ -30,6 +30,8 @@
 #include "OfflineChecker.h"
 #include "ForceUpdateSingleton.h"
 
+#include "DynamicNodeHandler.h"
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
 #include "IosNativeFunctionsSingleton.h"
@@ -275,6 +277,8 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
     if(!ChildDataParser::getInstance()->parseChildLoginData(responseString)) LoginLogicHandler::getInstance()->doLoginLogic();
     
     getHQContent(StringUtils::format("%s%s/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ConfigStorage::getInstance()->getPathForTag("HOME").c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
+    
+    DynamicNodeHandler::getInstance()->getCTAFiles();
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------

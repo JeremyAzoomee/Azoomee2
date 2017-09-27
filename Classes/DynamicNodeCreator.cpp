@@ -169,8 +169,8 @@ void DynamicNodeCreator::initCTANode()
     
     _closeButton = ui::Button::create();
     _closeButton->loadTextures("res/CTA_Assets/close.png", "res/CTA_Assets/close.png");
-    _closeButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-    _closeButton->setPosition(_popupFrame->getPosition() + _popupFrame->getContentSize() * 0.48);
+    _closeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _closeButton->setPosition(_popupFrame->getPosition() + _popupFrame->getContentSize()/2 - _closeButton->getContentSize()*0.75);
     _closeButton->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType type){
         _CTANode->removeFromParent();
         _CTANode = nullptr;
@@ -193,7 +193,6 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
             _popupFrame->setContentSize(Size(_windowSize.width*width,_windowSize.height*height));
             _popupButtonsLayer->setContentSize(Size(_windowSize.width*width,_windowSize.height*height));
             _popupImages->setContentSize(Size(_windowSize.width*width,_windowSize.height*height));
-            _closeButton->setScale(width);
         }
     }
 }
@@ -205,7 +204,7 @@ void DynamicNodeCreator::configCloseButton(const rapidjson::Value &closeButtonTo
         bool showCloseButton = closeButtonToggle.GetBool();
         
         _closeButton->setVisible(showCloseButton);
-        _closeButton->setPosition(_popupFrame->getPosition() + _popupFrame->getContentSize()/2 - (_closeButton->getContentSize() * _closeButton->getScale())/2);
+        _closeButton->setPosition(_popupFrame->getPosition() + _popupFrame->getContentSize()/2 - _closeButton->getContentSize()*0.75);
     }
 }
 
