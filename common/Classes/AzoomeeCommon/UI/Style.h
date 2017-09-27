@@ -68,7 +68,7 @@ namespace Color_4B
     const cocos2d::Color4B letterBoxSlideBackground(48,38,38,255);
     const cocos2d::Color4B awaitingPinLayer(15,14,7,255);
     
-    const cocos2d::Color4B semiTransparentOverlay(0,0,0,200);
+    const cocos2d::Color4B semiTransparentOverlay(0,0,0,153);
 }
     
 namespace Color_4F

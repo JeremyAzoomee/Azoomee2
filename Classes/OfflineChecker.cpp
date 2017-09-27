@@ -1,5 +1,6 @@
 #include "OfflineChecker.h"
 #include "BackEndCaller.h"
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 
 using namespace cocos2d;
 using namespace network;
@@ -73,6 +74,8 @@ void OfflineChecker::onOfflineCheckAnswerReceived()
         CCLOG("Online!");
         offlineStatus = false;
         newScene = false;
+        
+        ChildDataParser::getInstance()->setChildLoggedIn(false);
         
         if(this->getDelegate())
         {

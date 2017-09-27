@@ -46,6 +46,7 @@ bool ChildSelectorScene::init()
     }
     
     AnalyticsSingleton::getInstance()->logoutChildEvent();
+    AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
     
     AudioMixer::getInstance()->stopBackgroundMusic();
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();

@@ -1,7 +1,9 @@
 #include "AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
 #include <cocos/cocos2d.h>
+#include <cocos/platform/android/jni/JniHelper.h>
 
+static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
 
 namespace Azoomee
 {
@@ -41,35 +43,12 @@ std::string convertMapToJSONString(const std::map<std::string, std::string>& map
 
 void androidJNIHelper(const std::string& eventID, const std::string& propertiesJSONString, const std::string& JNIFunction)
 {
-  cocos2d::JniMethodInfo methodInfo;
-  
-  if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", JNIFunction.c_str(), "(Ljava/lang/String;Ljava/lang/String;)V"))
-  {
-    return;
-  }
-  
-  jstring jstringEventID= methodInfo.env->NewStringUTF(eventID.c_str());
-  jstring jstringJSONProperties= methodInfo.env->NewStringUTF(propertiesJSONString.c_str());
-  
-  methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jstringEventID,jstringJSONProperties);
-  
-  methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    cocos2d::JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, JNIFunction, eventID, propertiesJSONString);
 }
 
 void androidJNIHelper(const std::string& propertiesJSONString, const std::string& JNIFunction)
 {
-  cocos2d::JniMethodInfo methodInfo;
-  
-  if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", JNIFunction.c_str(), "(Ljava/lang/String;)V"))
-  {
-    return;
-  }
-  
-  jstring jstringJSONProperties= methodInfo.env->NewStringUTF(propertiesJSONString.c_str());
-  
-  methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID,jstringJSONProperties);
-  
-  methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    cocos2d::JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, JNIFunction, propertiesJSONString);
 }
 
 //-------------MIX PANEL ----------
