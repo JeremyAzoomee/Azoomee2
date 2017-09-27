@@ -124,10 +124,7 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
 
 void DynamicNodeHandler::getCTAFiles()
 {
-    //getCTAPackageJSON("https://s3-eu-west-1.amazonaws.com/develop4test/package.json");
-    //removeCTAFiles();
-    //unzipCTAFiles((FileUtils::getInstance()->getWritablePath() + "DCDECache/CTAFiles.zip").c_str(), (FileUtils::getInstance()->getWritablePath() + "DCDECache/").c_str(), nullptr);
-    getCTAPackageZip("https://s3-eu-west-1.amazonaws.com/develop4test/CTAFiles.zip");
+    getCTAPackageJSON("https://media.azoomee.com/static/popups/package.json");
 }
 
 rapidjson::Document DynamicNodeHandler::getLocalCTAPackageJSON()
