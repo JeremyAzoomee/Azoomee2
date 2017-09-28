@@ -10,6 +10,7 @@
 #include "ArtAppImageManager.h"
 #include "SceneManagerScene.h"
 #include "ArtAppDelegate.h"
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
@@ -409,7 +410,7 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         {
             if(preview)
             {
-                PreviewLoginSignupMessageBox::create();
+                DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId("upgrade");
                 return true;
             }
             

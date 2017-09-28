@@ -157,30 +157,6 @@ void HQSceneElement::addListenerToElement()
                 
                 DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId("upgrade");
                 
-                /*
-                std::vector<std::string> popupFiles;
-                popupFiles.push_back("res/CTA_Assets/boysGames1.json");popupFiles.push_back("res/CTA_Assets/boysGames2.json");popupFiles.push_back("res/CTA_Assets/boysGames3.json");
-                popupFiles.push_back("res/CTA_Assets/girlsVideo1.json");popupFiles.push_back("res/CTA_Assets/girlsVideo2.json");popupFiles.push_back("res/CTA_Assets/girlsVideo3.json");
-                popupFiles.push_back("res/CTA_Assets/mix1.json");popupFiles.push_back("res/CTA_Assets/mix2.json");popupFiles.push_back("res/CTA_Assets/mix3.json");
-                Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile(popupFiles[rand()%popupFiles.size()]);
-                Director::getInstance()->getRunningScene()->addChild(CTA,100);
-                
-                if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-                {
-                    AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("MainHub");
-                    IAPUpsaleLayer::createRequiresPin();
-                }
-                else
-                {
-                    std::vector<std::string> popupFiles;
-                    popupFiles.push_back("res/CTA_Assets/boysGames1.json");popupFiles.push_back("res/CTA_Assets/boysGames2.json");popupFiles.push_back("res/CTA_Assets/boysGames3.json");
-                    popupFiles.push_back("res/CTA_Assets/girlsVideo1.json");popupFiles.push_back("res/CTA_Assets/girlsVideo2.json");popupFiles.push_back("res/CTA_Assets/girlsVideo3.json");
-                    popupFiles.push_back("res/CTA_Assets/mix1.json");popupFiles.push_back("res/CTA_Assets/mix2.json");popupFiles.push_back("res/CTA_Assets/mix3.json");
-                    Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile(popupFiles[rand()%popupFiles.size()]);
-                    Director::getInstance()->getRunningScene()->addChild(CTA,100);
-                    //PreviewLoginSignupMessageBox::create();
-                }*/
-                
                 return true;
             }
                 
