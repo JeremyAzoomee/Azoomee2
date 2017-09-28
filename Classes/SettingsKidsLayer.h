@@ -22,6 +22,7 @@ private:
     
     float layerHeight;
     bool swallowTouches;
+    int childNumberToDelete;
     
     ui::ScrollView *scrollView;
     LayerColor* kidsCoverLayer;

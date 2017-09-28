@@ -103,6 +103,8 @@ void SettingsKidsLayer::selectChildForSharing(int ChildNumber)
 
 void SettingsKidsLayer::deleteChild(int ChildNumber)
 {
+    childNumberToDelete = ChildNumber;
+    
     std::vector<std::string> buttonsVector;
     buttonsVector.push_back("Delete");
     buttonsVector.push_back("Cancel");
@@ -149,13 +151,13 @@ void SettingsKidsLayer::MessageBoxButtonPressed(std::string messageBoxTitle, std
         ModalMessages::getInstance()->startLoading();
         const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(0);
         const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
-        const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + ParentDataProvider::getInstance()->getIDForAvailableChildren(0);
+        const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumberToDelete);
         
         HttpRequestCreator* request = API::DeleteChild(url,
-                            ParentDataProvider::getInstance()->getIDForAvailableChildren(0),
-                           ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0),
-                           ParentDataProvider::getInstance()->getSexForAnAvailableChildren(0),
-                           ParentDataProvider::getInstance()->getDOBForAnAvailableChildren(0),
+                            ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumberToDelete),
+                           ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumberToDelete),
+                           ParentDataProvider::getInstance()->getSexForAnAvailableChildren(childNumberToDelete),
+                           ParentDataProvider::getInstance()->getDOBForAnAvailableChildren(childNumberToDelete),
                            oomeeUrl, ownerId, this);
         request->execute();
     }
