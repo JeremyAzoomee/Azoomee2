@@ -20,8 +20,7 @@ NS_AZOOMEE_BEGIN
 class DynamicNodeHandler : cocos2d::Ref
 {
 private:
-    std::vector<std::string> getFilesInDirectory(const std::string& path);
-    std::vector<std::string> getFoldersInDirectory(const std::string& path);
+    const std::string _kCTAPackageJSONURL = "https://media.azoomee.com/static/popups/package.json";
     
     bool isCTAPackageJSONExist();
     
@@ -37,6 +36,7 @@ private:
     bool removeCTAFiles();
     
     std::string getPackageJsonLocation();
+    std::string getCTADirectoryPath();
     
 public:
     static DynamicNodeHandler* getInstance(void);

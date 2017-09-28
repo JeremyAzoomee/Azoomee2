@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
+#include <AzoomeeCommon/Utils/DirectorySearcher.h>
 
 
 using namespace cocos2d;
@@ -35,7 +36,7 @@ DynamicNodeHandler::~DynamicNodeHandler(void)
 
 bool DynamicNodeHandler::init(void)
 {
-    const std::string CTAPath = FileUtils::getInstance()->getWritablePath() + "DCDECache/";
+    const std::string CTAPath = getCTADirectoryPath();
     if(!FileUtils::getInstance()->isDirectoryExist(CTAPath))
     {
         FileUtils::getInstance()->createDirectory(CTAPath);
@@ -46,12 +47,12 @@ bool DynamicNodeHandler::init(void)
 void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
 {
     //local device folder
-    std::string CTAPath = FileUtils::getInstance()->getWritablePath() + "DCDECache/";
-    std::vector<std::string> folders = getFoldersInDirectory(CTAPath);
+    std::string CTAPath = getCTADirectoryPath();
+    std::vector<std::string> folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
     
     for(const std::string& folder : folders)
     {
-        std::vector<std::string> fileNames = getFilesInDirectory(CTAPath + folder);
+        std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
         for(const std::string& file : fileNames)
         {
             if(file == uniqueId)
@@ -66,11 +67,11 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
     //res folder fallback
     CTAPath = FileUtils::getInstance()->fullPathForFilename("res/CTA_Assets/close.png");//android needs a file in the dir to locate it
     CTAPath.substr(0,CTAPath.size() - 9);
-    folders = getFoldersInDirectory(CTAPath);
+    folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
     
     for(const std::string& folder : folders)
     {
-        std::vector<std::string> fileNames = getFilesInDirectory(CTAPath + folder);
+        std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
         for(const std::string& file : fileNames)
         {
             if(file == uniqueId)
@@ -87,14 +88,14 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
 void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
 {
     //local device folder
-    std::string CTAPath = FileUtils::getInstance()->getWritablePath() + "DCDECache/";
-    std::vector<std::string> folders = getFoldersInDirectory(CTAPath);
+    std::string CTAPath = getCTADirectoryPath();
+    std::vector<std::string> folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
     
     for(const std::string& folder : folders)
     {
         if(folder == groupId)
         {
-            std::vector<std::string> fileNames = getFilesInDirectory(CTAPath + folder);
+            std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
             
             Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile(CTAPath + folder + "/" + fileNames[rand()%fileNames.size()]);
             Director::getInstance()->getRunningScene()->addChild(CTA);
@@ -106,13 +107,13 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
     //res folder fallback
     CTAPath = FileUtils::getInstance()->fullPathForFilename("res/CTA_Assets/close.png");//android needs a file in the dir to locate it
     CTAPath.substr(0,CTAPath.size() - 9);
-    folders = getFoldersInDirectory(CTAPath);
+    folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
     
     for(const std::string& folder : folders)
     {
         if(folder == groupId)
         {
-            std::vector<std::string> fileNames = getFilesInDirectory(CTAPath + folder);
+            std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
 
             Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile(CTAPath + folder + "/" + fileNames[rand()%fileNames.size()]);
             Director::getInstance()->getRunningScene()->addChild(CTA);
@@ -125,7 +126,7 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
 
 void DynamicNodeHandler::getCTAFiles()
 {
-    getCTAPackageJSON("https://media.azoomee.com/static/popups/package.json");
+    getCTAPackageJSON(_kCTAPackageJSONURL);
 }
 
 rapidjson::Document DynamicNodeHandler::getLocalCTAPackageJSON()
@@ -230,7 +231,7 @@ void DynamicNodeHandler::onGetCTAPackageZipAnswerReceived(cocos2d::network::Http
     
     if(response->getResponseCode() == 200)          //Get content success
     {
-        std::string basePath = FileUtils::getInstance()->getWritablePath() + "DCDECache/";
+        std::string basePath = getCTADirectoryPath();
         std::string targetPath = basePath + "CTAFiles.zip";
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
         removeCTAFiles();
@@ -240,14 +241,19 @@ void DynamicNodeHandler::onGetCTAPackageZipAnswerReceived(cocos2d::network::Http
 
 std::string DynamicNodeHandler::getPackageJsonLocation()
 {
-    return FileUtils::getInstance()->getWritablePath() + "DCDECache/package.json";
+    return getCTADirectoryPath() + "package.json";
+}
+
+std::string DynamicNodeHandler::getCTADirectoryPath()
+{
+    return FileUtils::getInstance()->getWritablePath() + "DCDECache/";
 }
 
 bool DynamicNodeHandler::unzipCTAFiles(const char *zipPath, const char *dirpath, const char *passwd)
 {
     if(FileZipUtil::getInstance()->unzip(zipPath,dirpath,passwd))
     {
-        FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "DCDECache/CTAFiles.zip");
+        FileUtils::getInstance()->removeFile(getCTADirectoryPath() + "CTAFiles.zip");
         return true;
     }
     else
@@ -261,8 +267,8 @@ bool DynamicNodeHandler::unzipCTAFiles(const char *zipPath, const char *dirpath,
 
 bool DynamicNodeHandler::removeCTAFiles()
 {
-    std::string baseLocation = FileUtils::getInstance()->getWritablePath() + "DCDECache/";
-    std::vector<std::string> CTAFolders = getFoldersInDirectory(baseLocation);
+    std::string baseLocation = getCTADirectoryPath();
+    std::vector<std::string> CTAFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(baseLocation);
     for(const std::string& folder : CTAFolders)
     {
         if(folder.size() > 2)
@@ -272,56 +278,6 @@ bool DynamicNodeHandler::removeCTAFiles()
     }
     
     return false;
-}
-
-std::vector<std::string> DynamicNodeHandler::getFilesInDirectory(const std::string& path)
-{
-    std::vector<std::string> fileNames;
-    
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir (path.c_str())) != NULL)
-    {
-        while ((ent = readdir (dir)) != NULL)
-        {
-            if(ent->d_type == DT_REG)
-            {
-                fileNames.push_back(ent->d_name);
-            }
-        }
-        closedir (dir);
-        return fileNames;
-    }
-    else
-    {
-        perror ("");
-        return fileNames;
-    }
-}
-
-std::vector<std::string> DynamicNodeHandler::getFoldersInDirectory(const std::string& path)
-{
-    std::vector<std::string> dirNames;
-    
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir (path.c_str())) != NULL)
-    {
-        while ((ent = readdir (dir)) != NULL)
-        {
-            if(ent->d_type == DT_DIR)
-            {
-                dirNames.push_back(ent->d_name);
-            }
-        }
-        closedir (dir);
-        return dirNames;
-    }
-    else
-    {
-        perror ("");
-        return dirNames;
-    }
 }
 
 

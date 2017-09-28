@@ -9,8 +9,9 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "HQSceneElementPositioner.h"
 #include "ArtAppImageConverter.h"
-#include <dirent.h>
+#include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <algorithm>
+
 
 using namespace cocos2d;
 
@@ -84,7 +85,7 @@ void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollV
     
     //std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
     std::string path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
-    std::vector<std::string> fileList = getFilesInDirectory(path);
+    std::vector<std::string> fileList = DirectorySearcher::getInstance()->getFilesInDirectory(path);
     
     std::reverse(fileList.begin(), fileList.end());
     
@@ -120,7 +121,7 @@ void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toB
 std::vector<std::string> HQSceneArtsApp::getOldArtImages()
 {
     std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::vector<std::string>& fileList = getFilesInDirectory(path);
+    const std::vector<std::string>& fileList = DirectorySearcher::getInstance()->getFilesInDirectory(path);
     std::vector<std::string> imagList;
     for(int i = 0; i < fileList.size(); i++)
     {
@@ -136,26 +137,5 @@ std::vector<std::string> HQSceneArtsApp::getOldArtImages()
     return imagList;
 }
 
-std::vector<std::string> HQSceneArtsApp::getFilesInDirectory(std::string path)
-{
-    std::vector<std::string> fileNames;
-    
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir (path.c_str())) != NULL)
-    {
-        while ((ent = readdir (dir)) != NULL)
-        {
-            fileNames.push_back(ent->d_name);
-        }
-        closedir (dir);
-        return fileNames;
-    }
-    else
-    {
-        perror ("");
-        return fileNames;
-    }
-}
 
 NS_AZOOMEE_END
