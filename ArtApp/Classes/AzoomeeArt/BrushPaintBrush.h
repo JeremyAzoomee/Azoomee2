@@ -17,8 +17,8 @@ NS_AZOOMEE_AA_BEGIN
 class BrushPaintBrush: public Brush
 {
 private:
-    static float startingAlpha;
-    float lastAlpha;
+    const int _kSpriteCountLimit = 1000;
+
     cocos2d::Node* brushLayer = nullptr;
     cocos2d::RenderTexture* _paintLayer = nullptr;
     int _spriteCount = 0;

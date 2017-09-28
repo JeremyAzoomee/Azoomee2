@@ -1045,7 +1045,7 @@ StickerFileStore DrawingCanvas::getStickerFilesFromJSON()
 {
     StickerFileStore fileStore = StickerFileStore();
     
-    std::string fullFileText = FileUtils::getInstance()->getStringFromFile("res/chat/stickers/catalogue.json");
+    std::string fullFileText = FileUtils::getInstance()->getStringFromFile(stickerLoc + "catalogue.json");
     
     rapidjson::Document json;
     json.Parse(fullFileText.c_str());

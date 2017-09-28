@@ -12,7 +12,6 @@ using namespace cocos2d;
 
 NS_AZOOMEE_AA_BEGIN
 
-float BrushPaintBrush::startingAlpha = 0.1f;
 
 BrushPaintBrush::BrushPaintBrush():Brush()
 {
@@ -21,13 +20,6 @@ BrushPaintBrush::BrushPaintBrush():Brush()
 
 Node* BrushPaintBrush::addDrawNode(const Size& visibleSize)
 {
-    //const Size& winSize =  Director::getInstance()->getWinSize();
-    //_paintLayer = RenderTexture::create(winSize.width, winSize.height);
-    //_paintLayer->setAnchorPoint(Vec2(0.5,0.5));
-    //_paintLayer->setPosition(winSize/2);
-    //_paintLayer->clear(0, 0, 0, 0);
-    
-    //return _paintLayer;
     brushLayer = Node::create();
     brushLayer->setContentSize(visibleSize);
     
@@ -36,7 +28,7 @@ Node* BrushPaintBrush::addDrawNode(const Size& visibleSize)
 
 Node* BrushPaintBrush::getDrawNode()
 {
-    if(_spriteCount < 1000)
+    if(_spriteCount < _kSpriteCountLimit) //If less than sprite limit, just return node holding the sprites, else bake into RenderTexture object
     {
         return brushLayer;
     }
@@ -58,7 +50,6 @@ Node* BrushPaintBrush::getDrawNode()
 void BrushPaintBrush::onTouchBegin(Touch *touch, Event *event)
 {
     lastTouchPos = brushLayer->convertTouchToNodeSpace(touch);
-    lastAlpha = startingAlpha;
     _spriteCount = 0;
 }
 
@@ -68,31 +59,20 @@ void BrushPaintBrush::onTouchMoved(Touch *touch, Event *event)
     float distance = lastTouchPos.distance(touchPos);
     
     int numSprites = distance/(*brushRadius*0.15);
-    //_paintLayer->begin();
+    
     for(int i = 0; i < numSprites; i++)
     {
-        Sprite* s = Sprite::create("res/artapp/paintbrush_effect.png");
+        Sprite* s = Sprite::create(ArtAppAssetLoc + "paintbrush_effect.png");
         float scale = *brushRadius/(s->getContentSize().width/2);
         s->setScale(scale);
         s->setAnchorPoint(Vec2(0.5,0.5));
         s->setPosition(lastTouchPos + i * ((touchPos - lastTouchPos)/numSprites));
         s->setColor(Color3B(*selectedColour));
         brushLayer->addChild(s);
-        //s->visit();
     }
     _spriteCount += numSprites;
-    //_paintLayer->end();
-    //distance /= 4096.0f;
-    //float alpha = lastAlpha + distance;
-    //if(alpha > 1)
-    //    alpha = 1;
-    
-    //Color4F colour = Color4F(selectedColour->r, selectedColour->g, selectedColour->b,alpha);
-    
-    //drawNode->drawSegment(lastTouchPos, touchPos, *brushRadius, colour);
     
     lastTouchPos = touchPos;
-    //lastAlpha = alpha;
 }
 
 void BrushPaintBrush::onTouchEnded(Touch *touch, Event *event)
