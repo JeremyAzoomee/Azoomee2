@@ -47,12 +47,12 @@ bool DynamicNodeHandler::init(void)
 void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
 {
     //local device folder
-    std::string CTAPath = getCTADirectoryPath();
-    std::vector<std::string> folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
+    const std::string& CTAPath = getCTADirectoryPath();
+    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
     
     for(const std::string& folder : folders)
     {
-        std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
+        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
         for(const std::string& file : fileNames)
         {
             if(file == uniqueId)
@@ -65,13 +65,13 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
     }
     
     //res folder fallback
-    CTAPath = FileUtils::getInstance()->fullPathForFilename("res/CTA_Assets/close.png");//android needs a file in the dir to locate it
-    CTAPath.substr(0,CTAPath.size() - 9);
-    folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
+    std::string CTAPathFallBack = FileUtils::getInstance()->fullPathForFilename("res/CTA_Assets/close.png");//android needs a file in the dir to locate it
+    CTAPathFallBack.substr(0,CTAPathFallBack.size() - 9);
+    const std::vector<std::string>& foldersFallBack = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
     
-    for(const std::string& folder : folders)
+    for(const std::string& folder : foldersFallBack)
     {
-        std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
+        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
         for(const std::string& file : fileNames)
         {
             if(file == uniqueId)
@@ -88,14 +88,14 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
 void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
 {
     //local device folder
-    std::string CTAPath = getCTADirectoryPath();
-    std::vector<std::string> folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
+    const std::string& CTAPath = getCTADirectoryPath();
+    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
     
     for(const std::string& folder : folders)
     {
         if(folder == groupId)
         {
-            std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
+            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
             
             Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile(CTAPath + folder + "/" + fileNames[rand()%fileNames.size()]);
             Director::getInstance()->getRunningScene()->addChild(CTA);
@@ -105,15 +105,15 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
     }
     
     //res folder fallback
-    CTAPath = FileUtils::getInstance()->fullPathForFilename("res/CTA_Assets/close.png");//android needs a file in the dir to locate it
-    CTAPath.substr(0,CTAPath.size() - 9);
-    folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
+    const std::string& CTAPathFallBack = FileUtils::getInstance()->fullPathForFilename("res/CTA_Assets/close.png");//android needs a file in the dir to locate it
+    CTAPathFallBack.substr(0,CTAPath.size() - 9);
+    const std::vector<std::string>& foldersFallBack = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
     
-    for(const std::string& folder : folders)
+    for(const std::string& folder : foldersFallBack)
     {
         if(folder == groupId)
         {
-            std::vector<std::string> fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
+            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
 
             Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile(CTAPath + folder + "/" + fileNames[rand()%fileNames.size()]);
             Director::getInstance()->getRunningScene()->addChild(CTA);
@@ -133,7 +133,7 @@ rapidjson::Document DynamicNodeHandler::getLocalCTAPackageJSON()
 {
     rapidjson::Document packageJson;
     if(isCTAPackageJSONExist()){
-        std::string currentJsonPackage = FileUtils::getInstance()->getStringFromFile(getPackageJsonLocation());
+        const std::string& currentJsonPackage = FileUtils::getInstance()->getStringFromFile(getPackageJsonLocation());
         packageJson.Parse(currentJsonPackage.c_str());
     }
     return packageJson;
@@ -168,13 +168,13 @@ void DynamicNodeHandler::onGetCTAPackageJSONAnswerReceived(cocos2d::network::Htt
     
     if (response && response->getResponseData())
     {
-        std::vector<char> myResponse = *response->getResponseData();
+        const std::vector<char>& myResponse = *response->getResponseData();
         responseString = std::string(myResponse.begin(), myResponse.end());
     }
     
     if(response->getResponseCode() == 200)          //Get content success
     {
-        std::string targetPath = getPackageJsonLocation();
+        const std::string& targetPath = getPackageJsonLocation();
         rapidjson::Document newPackageJSON;
         newPackageJSON.Parse(responseString.c_str());
         
@@ -225,14 +225,14 @@ void DynamicNodeHandler::onGetCTAPackageZipAnswerReceived(cocos2d::network::Http
     
     if (response && response->getResponseData())
     {
-        std::vector<char> myResponse = *response->getResponseData();
+        const std::vector<char>& myResponse = *response->getResponseData();
         responseString = std::string(myResponse.begin(), myResponse.end());
     }
     
     if(response->getResponseCode() == 200)          //Get content success
     {
-        std::string basePath = getCTADirectoryPath();
-        std::string targetPath = basePath + "CTAFiles.zip";
+        const std::string& basePath = getCTADirectoryPath();
+        const std::string& targetPath = basePath + "CTAFiles.zip";
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
         removeCTAFiles();
         unzipCTAFiles(targetPath.c_str(), basePath.c_str(), nullptr);
@@ -267,8 +267,8 @@ bool DynamicNodeHandler::unzipCTAFiles(const char *zipPath, const char *dirpath,
 
 bool DynamicNodeHandler::removeCTAFiles()
 {
-    std::string baseLocation = getCTADirectoryPath();
-    std::vector<std::string> CTAFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(baseLocation);
+    const std::string& baseLocation = getCTADirectoryPath();
+    const std::vector<std::string>& CTAFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(baseLocation);
     for(const std::string& folder : CTAFolders)
     {
         if(folder.size() > 2)

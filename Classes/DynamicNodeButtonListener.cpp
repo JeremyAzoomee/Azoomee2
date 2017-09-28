@@ -41,7 +41,7 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
 {
     if(buttonAction->getType() == "internal")
     {
-        std::string location = buttonAction->getParamForKey("location");
+        const std::string& location = buttonAction->getParamForKey("location");
         if(location == "showUpgrade")
         {
             upgradeButtonPressed();

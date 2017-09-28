@@ -19,6 +19,8 @@ NS_AZOOMEE_BEGIN
 class DynamicNodeCreator : public cocos2d::Ref
 {
 private:
+    const std::string _kCTAAssetLoc = "res/CTA_Assets/";
+    
     cocos2d::Node* _CTANode = nullptr;
     cocos2d::Size _windowSize;
     

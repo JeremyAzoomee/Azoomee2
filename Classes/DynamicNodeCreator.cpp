@@ -100,7 +100,6 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
         rapidjson::Value& imageList = configFile["images"];
         configExtraImages(imageList);
     }
-    //not in json yet
     
     //return resultant CTA node
     return _CTANode;
@@ -132,7 +131,7 @@ void DynamicNodeCreator::initCTANode()
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
     
-    _stencil = ui::Scale9Sprite::create("res/CTA_Assets/deep_free_pop_over.png");
+    _stencil = ui::Scale9Sprite::create(_kCTAAssetLoc + "deep_free_pop_over.png");
     _stencil->setContentSize(Size(_windowSize.width*0.75,_windowSize.height*0.67));
     
     _clippingNode = ClippingNode::create(_stencil);
@@ -141,7 +140,7 @@ void DynamicNodeCreator::initCTANode()
     _bgColour->setPosition(-Vec2(_windowSize/2));
     _clippingNode->addChild(_bgColour);
     
-    _maskedBGImage = Sprite::create("res/CTA_Assets/deep_free_pop_over_trans.png");
+    _maskedBGImage = Sprite::create(_kCTAAssetLoc + "deep_free_pop_over_trans.png");
     _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
     _clippingNode->addChild(_maskedBGImage);
     
@@ -161,14 +160,14 @@ void DynamicNodeCreator::initCTANode()
     _popupImages->setPosition(_windowSize/2);
     _CTANode->addChild(_popupImages);
     
-    _popupFrame = ui::Scale9Sprite::create("res/CTA_Assets/deep_free_pop_over_trans.png");
+    _popupFrame = ui::Scale9Sprite::create(_kCTAAssetLoc + "deep_free_pop_over_trans.png");
     _popupFrame->setPosition(_windowSize/2);
     _popupFrame->setAnchorPoint(Vec2(0.5,0.5));
     _popupFrame->setContentSize(Size(_windowSize.width*0.75,_windowSize.height*0.67));
     _CTANode->addChild(_popupFrame);
     
     _closeButton = ui::Button::create();
-    _closeButton->loadTextures("res/CTA_Assets/close.png", "res/CTA_Assets/close.png");
+    _closeButton->loadTextures(_kCTAAssetLoc + "close.png", _kCTAAssetLoc + "close.png");
     _closeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _closeButton->setPosition(_popupFrame->getPosition() + _popupFrame->getContentSize()/2 - _closeButton->getContentSize()*0.75);
     _closeButton->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType type){
@@ -225,7 +224,7 @@ void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroun
         
         if(imageData.IsString())
         {
-            std::string dataStr = imageData.GetString();
+            const std::string& dataStr = imageData.GetString();
             
             Texture2D* texture = getTextureFromBase64imageData(dataStr,"popupBGImage");
             if(texture){
@@ -235,7 +234,7 @@ void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroun
                 {
                     if(backgroundImageData["displayMode"].IsString())
                     {
-                        std::string displaymode = backgroundImageData["displayMode"].GetString();
+                        const std::string& displaymode = backgroundImageData["displayMode"].GetString();
                         if(displaymode == "fill")
                         {
                             _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
@@ -292,7 +291,7 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
             }
             
             ui::Button* button = ui::Button::create();
-            button->loadTextures("res/CTA_Assets/rectangle_copy_3.png", "res/CTA_Assets/rectangle_copy_3.png"); //dependent on style tag
+            button->loadTextures(_kCTAAssetLoc + "rectangle_copy_3.png", _kCTAAssetLoc + "rectangle_copy_3.png"); //will be dependent on style tag
             button->setContentSize(Size(_popupButtonsLayer->getContentSize().width * size.x,_popupButtonsLayer->getContentSize().height * size.y));
             button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
             button->setNormalizedPosition(pos);
@@ -304,9 +303,7 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
                 button->addTouchEventListener(CC_CALLBACK_2(DynamicNodeButtonListener::onButtonPressedCallFunc, DynamicNodeButtonListener::getInstance(),ButtonActionData::createWithJson(actionParams)));
             }
             
-            //add button callback based on action tag here
-            
-            Label* label = Label::createWithTTF(btnString, "fonts/azoomee.ttf", button->getContentSize().height*0.4);
+            Label* label = Label::createWithTTF(btnString, Style::Font::Regular, button->getContentSize().height*0.4);
             label->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
             label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
             label->setTextColor(Color4B::BLACK);
@@ -360,8 +357,8 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
                 
                 if(imageData.IsString())
                 {
-                    std::string dataStr = imageData.GetString();
-                    std::string imageName = "popupImage" + std::to_string(i);
+                    const std::string& dataStr = imageData.GetString();
+                    const std::string& imageName = "popupImage" + std::to_string(i);
                     Texture2D* texture = getTextureFromBase64imageData(dataStr,imageName);
                     if(texture)
                     {

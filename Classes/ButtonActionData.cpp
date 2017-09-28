@@ -19,7 +19,7 @@ ButtonActionDataRef ButtonActionData::createWithJson(const rapidjson::Value &act
         return ButtonActionDataRef();
     }
     
-    std::string type = actionData["type"].GetString();
+    const std::string& type = actionData["type"].GetString();
     
     if(!actionData.HasMember("params") || !actionData["params"].IsObject())
     {
