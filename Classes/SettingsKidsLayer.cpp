@@ -143,7 +143,7 @@ void SettingsKidsLayer::removeTabsCoverLayer()
 
 void SettingsKidsLayer::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
 {
-    if(buttonTitle == "Delete")
+    if(buttonTitle == MessageBox::kDelete)
     {
         ModalMessages::getInstance()->startLoading();
         
