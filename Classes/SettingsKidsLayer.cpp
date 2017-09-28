@@ -106,11 +106,7 @@ void SettingsKidsLayer::deleteChild(int ChildNumber)
 {
     childNumberToDelete = ChildNumber;
     
-    std::vector<std::string> buttonsVector;
-    buttonsVector.push_back("Delete");
-    buttonsVector.push_back("Cancel");
-    
-    MessageBox::createWith("Delete", "Are you sure you want to delete ADAM?", buttonsVector, this);
+    MessageBox::createWith(ERROR_CODE_DELETE_PROFILE, this);
 }
 
 void SettingsKidsLayer::scrollReset()
@@ -179,7 +175,17 @@ void SettingsKidsLayer::onHttpRequestSuccess(const std::string& requestTag, cons
 
 void SettingsKidsLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
-
+    ModalMessages::getInstance()->stopLoading();
+    
+    if(requestTag == API::TagDeleteChild)
+    {
+        MessageBox::createWith(ERROR_CODE_CANNOT_DELETE_PROFILE, nullptr);
+    }
+    else if(requestTag == API::TagGetAvailableChildren)
+    {
+        scrollView->removeFromParent();
+        MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
+    }
 }
 
 NS_AZOOMEE_END
