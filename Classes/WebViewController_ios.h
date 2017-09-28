@@ -21,6 +21,6 @@
 - (void)startBuildingWebView:(NSString*)url userid:(NSString *)userid;
 - (void)removeWebViewWhileInBackground;
 - (void)addWebViewToScreen;
-- (void)createButton;
+- (void)createButton:(NSString*)buttonImage;
 
 @end
