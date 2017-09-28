@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Utils/VersionChecker.h>
 
 
 using namespace cocos2d;
@@ -182,7 +183,7 @@ void DynamicNodeHandler::onGetCTAPackageJSONAnswerReceived(cocos2d::network::Htt
         {
             rapidjson::Document oldPackageJSON = getLocalCTAPackageJSON();
             
-            if(oldPackageJSON["currentVersion"].GetInt() < newPackageJSON["currentVersion"].GetInt() && oldPackageJSON["minVersion"].GetInt() >= newPackageJSON["minVersion"].GetInt())
+            if(oldPackageJSON["currentVersion"].GetInt() < newPackageJSON["currentVersion"].GetInt() && azoomeeMeetsVersionRequirement(newPackageJSON["minAzoomeeVersion"].GetString()))
             {
                 FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
                 getCTAPackageZip(newPackageJSON["uri"].GetString());

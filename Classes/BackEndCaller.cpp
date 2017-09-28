@@ -157,7 +157,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
         HQDataParser::getInstance()->clearAllHQData();
         ChildDataParser::getInstance()->setChildLoggedIn(false);
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
-        
+        DynamicNodeHandler::getInstance()->getCTAFiles();
         getGordon(); //we are skipping to getGordon (no child login), that will get the required free/user cookies and switch to the main scene.
     }
     else
@@ -272,9 +272,11 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
 {
     if(!ChildDataParser::getInstance()->parseChildLoginData(responseString)) LoginLogicHandler::getInstance()->doLoginLogic();
     
+    DynamicNodeHandler::getInstance()->getCTAFiles();
+    
     getHQContent(StringUtils::format("%s%s/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ConfigStorage::getInstance()->getPathForTag("HOME").c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
     
-    DynamicNodeHandler::getInstance()->getCTAFiles();
+    
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------
