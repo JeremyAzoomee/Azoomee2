@@ -49,9 +49,8 @@ void KidsControlLayer::addButtonsAndInput()
     closeButton->setMixPanelButtonName("Settings-YourKids-Close");
     childFrameLayer->addChild(closeButton);
     
-    deleteButton = ElectricDreamsButton::createWindowCloselButton();
-    deleteButton->setScale(0.68);
-    deleteButton->setPosition(this->getContentSize().width-closeButton->getContentSize().width,this->getContentSize().height-closeButton->getContentSize().height);
+    deleteButton = ElectricDreamsButton::createTextAsButtonAqua("Delete Profile", 46, true);
+    deleteButton->setCenterPosition(Vec2(this->getContentSize().width/2,-deleteButton->getContentSize().height*.9));
     deleteButton->setDelegate(this);
     deleteButton->setMixPanelButtonName("Settings-YourKids-Delete");
     childFrameLayer->addChild(deleteButton);

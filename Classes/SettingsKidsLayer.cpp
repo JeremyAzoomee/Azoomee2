@@ -1,9 +1,11 @@
 #include "SettingsKidsLayer.h"
 #include "KidsControlLayer.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 using namespace cocos2d;
 
@@ -11,8 +13,6 @@ NS_AZOOMEE_BEGIN
 
 Layer* SettingsKidsLayer::createWithHeight(float setLayerHeight)
 {
-    //---QUESTION---- SHOULD WE GET AVAILABLE CHILDREN BEFORE BUILDING THIS - INCASE A NEW CHILD IS CREATED?
-    
     auto layer = SettingsKidsLayer::create();
     layer->layerHeight = setLayerHeight;
     layer->setContentSize(Size(Director::getInstance()->getVisibleSize().width,Director::getInstance()->getVisibleSize().height));
@@ -38,7 +38,7 @@ void SettingsKidsLayer::addUIObjects()
     Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren()*900,1200);
     
     scrollView = cocos2d::ui::ScrollView::create();
-    scrollView->setContentSize(Size(this->getContentSize().width, 1200));
+    scrollView->setContentSize(Size(this->getContentSize().width, 1275));
     scrollView->setPosition(Vec2(this->getContentSize().width/2,layerHeight/2));
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     scrollView->setBounceEnabled(false);
@@ -55,7 +55,7 @@ void SettingsKidsLayer::addUIObjects()
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
         auto childLayer = KidsControlLayer::createController(this, i);
-        childLayer->setPosition(i*900,0);
+        childLayer->setPosition(i*900,70);
         scrollView->addChild(childLayer,IDLE_KID_LAYER_Z_ORDER);
     }
 }
@@ -146,7 +146,7 @@ void SettingsKidsLayer::MessageBoxButtonPressed(std::string messageBoxTitle, std
 {
     if(buttonTitle == "Delete")
     {
-
+        ModalMessages::getInstance()->startLoading();
         const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(0);
         const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
         const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + ParentDataProvider::getInstance()->getIDForAvailableChildren(0);
@@ -158,8 +158,6 @@ void SettingsKidsLayer::MessageBoxButtonPressed(std::string messageBoxTitle, std
                            ParentDataProvider::getInstance()->getDOBForAnAvailableChildren(0),
                            oomeeUrl, ownerId, this);
         request->execute();
-        
-        request->execute();
     }
 }
 
@@ -167,7 +165,16 @@ void SettingsKidsLayer::onHttpRequestSuccess(const std::string& requestTag, cons
 {
     if(requestTag == API::TagDeleteChild)
     {
+        HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
+        request->execute();
         
+    }
+    else if(requestTag == API::TagGetAvailableChildren)
+    {
+        ParentDataParser::getInstance()->parseAvailableChildren(body);
+        scrollView->removeFromParent();
+        addUIObjects();
+        ModalMessages::getInstance()->stopLoading();
     }
 }
 
