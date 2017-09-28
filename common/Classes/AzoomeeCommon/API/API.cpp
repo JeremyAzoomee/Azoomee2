@@ -1,6 +1,7 @@
 #include "API.h"
 #include <cocos/cocos2d.h>
 #include "../Data/ConfigStorage.h"
+#include "../Utils/SessionIdManager.h"
 
 using namespace cocos2d;
 
@@ -175,19 +176,17 @@ HttpRequestCreator* API::UpdateChildRequest(const std::string& url,
     return request;
 }
 
-HttpRequestCreator* API::DeleteChild(const std::string& url,
-                                     const std::string& childId,
+HttpRequestCreator* API::DeleteChild(const std::string& childId,
                                      const std::string& childProfileName,
                                      const std::string& childGender,
-                                     const std::string& childDOB,
-                                     const std::string& avatar,
-                                     const std::string& ownerId,
                                      HttpRequestCreatorResponseDelegate* delegate)
 {
+    std::string newProfileName = childProfileName + SessionIdManager::getInstance()->getCurrentSessionId();
+    
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"id\":\"%s\",\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"ownerId\":\"%s\",\"status\":\"DELETED\"}", childId.c_str(), childProfileName.c_str(), childDOB.c_str(), childGender.c_str(), avatar.c_str(), ownerId.c_str());
+    request->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"sex\":\"%s\",\"status\":\"DELETED\"}", newProfileName.c_str(), childGender.c_str());
     request->requestTag = TagDeleteChild;
-    request->url = url;
+    request->url = ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag(TagDeleteChild) + childId;
     request->method = "PATCH";
     request->encrypted = true;
     return request;

@@ -153,6 +153,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == API::TagGetGorden) return "/api/porthole/pixel/gordon.png";
     if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/adult";
     if(httpRequestTag == API::TagRegisterChild) return "/api/user/child";
+    if(httpRequestTag == API::TagDeleteChild) return "/api/user/child/";
     if(httpRequestTag == "HOME") return "/api/electricdreams/view/categories/home";
     if(httpRequestTag == "PreviewHOME") return "/api/electricdreams/anonymous/view/categories/home";
     if(httpRequestTag == API::TagParentPin) return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());

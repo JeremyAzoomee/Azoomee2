@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include "FlowDataSingleton.h"
 
 using namespace cocos2d;
 
@@ -149,16 +150,11 @@ void SettingsKidsLayer::MessageBoxButtonPressed(std::string messageBoxTitle, std
     if(buttonTitle == "Delete")
     {
         ModalMessages::getInstance()->startLoading();
-        const std::string& oomeeUrl = ConfigStorage::getInstance()->getUrlForOomee(0);
-        const std::string& ownerId = ParentDataProvider::getInstance()->getLoggedInParentId();
-        const std::string& url = ConfigStorage::getInstance()->getServerUrl() + "/api/user/child/" + ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumberToDelete);
         
-        HttpRequestCreator* request = API::DeleteChild(url,
-                            ParentDataProvider::getInstance()->getIDForAvailableChildren(childNumberToDelete),
-                           ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumberToDelete),
-                           ParentDataProvider::getInstance()->getSexForAnAvailableChildren(childNumberToDelete),
-                           ParentDataProvider::getInstance()->getDOBForAnAvailableChildren(childNumberToDelete),
-                           oomeeUrl, ownerId, this);
+        HttpRequestCreator* request = API::DeleteChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0),
+                                                       ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(0),
+                                                       ParentDataProvider::getInstance()->getSexForAnAvailableChildren(0),
+                                                       this);
         request->execute();
     }
 }
@@ -167,6 +163,7 @@ void SettingsKidsLayer::onHttpRequestSuccess(const std::string& requestTag, cons
 {
     if(requestTag == API::TagDeleteChild)
     {
+        FlowDataSingleton::getInstance()->setChildDeletedFlag();
         HttpRequestCreator* request = API::GetAvailableChildrenRequest(this);
         request->execute();
         

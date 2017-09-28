@@ -98,13 +98,9 @@ public:
                                                     const std::string& ownerId,
                                                     HttpRequestCreatorResponseDelegate* delegate);
     
-    static HttpRequestCreator* DeleteChild(const std::string& url,
-                                           const std::string& childId,
+    static HttpRequestCreator* DeleteChild(const std::string& childId,
                                            const std::string& childProfileName,
                                            const std::string& childGender,
-                                           const std::string& childDOB,
-                                           const std::string& avatar,
-                                           const std::string& ownerId,
                                            HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* VerifyGooglePaymentRequest(const std::string& orderId,
