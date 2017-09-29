@@ -66,6 +66,8 @@ private:
     ChatTextField* _messageEntryField = nullptr;
     /// Send button
     cocos2d::ui::Button* _sendButton = nullptr;
+    /// Text Bar border
+    cocos2d::DrawNode* _topLine = nullptr;
     
     /// Stickers tab button
     cocos2d::ui::Button* _stickersTab = nullptr;

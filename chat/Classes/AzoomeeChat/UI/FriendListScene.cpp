@@ -96,7 +96,7 @@ void FriendListScene::onSizeChanged()
     // Subtitle bar uses same height as title bar
     const Vec2& subTitleBarSize = Vec2(1.0f, titleBarSize.y / contentLayoutSize.y);
     _subTitleBar->setSizePercent(subTitleBarSize);
-    _subTitleBarBorder->setContentSize(Size(_subTitleBar->getContentSize().width * 0.9f, 4.0f));
+    _subTitleBarBorder->setContentSize(Size(_subTitleBar->getContentSize().width, 2.0f));
     
     _friendListView->setSizePercent(Vec2(0.9f, 1.0f - subTitleBarSize.y));
     // 2 column on landscape, 1 column portrait
@@ -188,7 +188,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     _subTitleBarBorder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
     _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBarBorder->setBackGroundColor(Style::Color::brightAqua);
+    _subTitleBarBorder->setBackGroundColor(Style::Color::greenishTeal);
     parent->addChild(_subTitleBarBorder);
 }
 

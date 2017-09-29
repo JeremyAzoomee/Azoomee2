@@ -23,7 +23,7 @@ bool TitleBarWidget::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::black);
+    setBackGroundColor(Style::Color::darkTwo);
     setLayoutType(ui::Layout::Type::RELATIVE);
     
     // Back button
@@ -158,7 +158,7 @@ void TitleBarWidget::onSizeChanged()
     _titleLayout->forceDoLayout();
     
     if(_subTitleBarBorder)
-        _subTitleBarBorder->setContentSize(Size(contentSize.width, 4.0f));
+        _subTitleBarBorder->setContentSize(Size(contentSize.width, 2.0f));
     
     //Set correct sizes for Reported Chat Bar
     onSizeChangedReportedBar(contentSize);
@@ -257,7 +257,7 @@ void TitleBarWidget::underlineTitleBar()
     _subTitleBarBorder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
     _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBarBorder->setBackGroundColor(Style::Color::telish);
+    _subTitleBarBorder->setBackGroundColor(Style::Color::greenishTeal);
     addChild(_subTitleBarBorder);
 }
 
