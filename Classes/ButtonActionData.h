@@ -30,7 +30,7 @@ public:
     
     std::string getType();
     std::map<std::string,std::string> getParams();
-    std::string getParamForKey(std::string key);
+    std::string getParamForKey(const std::string& key);
     
 };
 

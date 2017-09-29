@@ -17,6 +17,10 @@
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
+//-----start Popup group names
+const std::string DynamicNodeHandler::kUpgradeGroup = "upgrade";
+
+//-----end popup group names
 
 static std::auto_ptr<DynamicNodeHandler> sDynamicNodeHandlerSharedInstance;
 
@@ -48,37 +52,37 @@ bool DynamicNodeHandler::init(void)
 void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
 {
     //local device folder
-    const std::string& CTAPath = getCTADirectoryPath();
-    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
+    const std::string& ctaPath = getCTADirectoryPath();
+    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPath);
     
     for(const std::string& folder : folders)
     {
-        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
+        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPath + folder);
         for(const std::string& file : fileNames)
         {
             if(file == uniqueId)
             {
-                Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile(CTAPath + folder + "/" + file);
-                Director::getInstance()->getRunningScene()->addChild(CTA);
+                Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(ctaPath + folder + "/" + file);
+                Director::getInstance()->getRunningScene()->addChild(cta);
                 return;
             }
         }
     }
     
     //res folder fallback
-    std::string CTAPathFallBack = FileUtils::getInstance()->fullPathForFilename("res/CTA_Assets/close.png");//android needs a file in the dir to locate it
-    CTAPathFallBack.substr(0,CTAPathFallBack.size() - 9);
-    const std::vector<std::string>& foldersFallBack = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
+    std::string ctaPathFallBack = FileUtils::getInstance()->fullPathForFilename("res/cta_assets/close.png");//android needs a file in the dir to locate it
+    ctaPathFallBack = ctaPathFallBack.substr(0,ctaPathFallBack.size() - 9);
+    const std::vector<std::string>& foldersFallBack = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPathFallBack);
     
     for(const std::string& folder : foldersFallBack)
     {
-        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
+        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPathFallBack + folder);
         for(const std::string& file : fileNames)
         {
             if(file == uniqueId)
             {
-                Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile(CTAPath + folder + "/" + file);
-                Director::getInstance()->getRunningScene()->addChild(CTA);
+                Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(ctaPathFallBack + folder + "/" + file);
+                Director::getInstance()->getRunningScene()->addChild(cta);
                 return;
             }
         }
@@ -89,35 +93,35 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
 void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
 {
     //local device folder
-    const std::string& CTAPath = getCTADirectoryPath();
-    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
+    const std::string& ctaPath = getCTADirectoryPath();
+    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPath);
     
     for(const std::string& folder : folders)
     {
         if(folder == groupId)
         {
-            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
+            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPath + folder);
             
-            Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile(CTAPath + folder + "/" + fileNames[rand()%fileNames.size()]);
-            Director::getInstance()->getRunningScene()->addChild(CTA);
+            Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(ctaPath + folder + "/" + fileNames[rand()%fileNames.size()]);
+            Director::getInstance()->getRunningScene()->addChild(cta);
             return;
                 
         }
     }
     
     //res folder fallback
-    const std::string& CTAPathFallBack = FileUtils::getInstance()->fullPathForFilename("res/CTA_Assets/close.png");//android needs a file in the dir to locate it
-    CTAPathFallBack.substr(0,CTAPath.size() - 9);
-    const std::vector<std::string>& foldersFallBack = DirectorySearcher::getInstance()->getFoldersInDirectory(CTAPath);
+    std::string ctaPathFallBack = FileUtils::getInstance()->fullPathForFilename("res/cta_assets/close.png");//android needs a file in the dir to locate it
+    ctaPathFallBack = ctaPathFallBack.substr(0,ctaPathFallBack.size() - 9);
+    const std::vector<std::string>& foldersFallBack = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPathFallBack);
     
     for(const std::string& folder : foldersFallBack)
     {
         if(folder == groupId)
         {
-            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(CTAPath + folder);
+            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPathFallBack + folder);
 
-            Node* CTA = DynamicNodeCreator::getInstance()->createCTAFromFile(CTAPath + folder + "/" + fileNames[rand()%fileNames.size()]);
-            Director::getInstance()->getRunningScene()->addChild(CTA);
+            Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(ctaPathFallBack + folder + "/" + fileNames[rand()%fileNames.size()]);
+            Director::getInstance()->getRunningScene()->addChild(cta);
             return;
         
         }
@@ -145,7 +149,7 @@ bool DynamicNodeHandler::isCTAPackageJSONExist()
     return FileUtils::getInstance()->isFileExist(getPackageJsonLocation());
 }
 
-void DynamicNodeHandler::getCTAPackageJSON(std::string url)
+void DynamicNodeHandler::getCTAPackageJSON(const std::string& url)
 {
     auto jsonRequest = new network::HttpRequest();
     jsonRequest->setRequestType(network::HttpRequest::Type::GET);
@@ -202,7 +206,7 @@ void DynamicNodeHandler::onGetCTAPackageJSONAnswerReceived(cocos2d::network::Htt
     }
 }
 
-void DynamicNodeHandler::getCTAPackageZip(std::string url)
+void DynamicNodeHandler::getCTAPackageZip(const std::string& url)
 {
     auto zipRequest = new network::HttpRequest();
     zipRequest->setRequestType(network::HttpRequest::Type::GET);

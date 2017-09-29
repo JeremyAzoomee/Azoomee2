@@ -17,9 +17,17 @@
 
 NS_AZOOMEE_BEGIN
 
+
+
 class DynamicNodeButtonListener : public cocos2d::Ref
 {
 private:
+    //constants for button type
+    const std::string _kButtonTypeInternal = "internal";
+    const std::string _kButtonTypeWeb = "web";
+    //constants for button locations
+    const std::string _kButtonLocationUpgrade = "showUpgrade";
+    
     void closeCTAPopup(float dt);
     void upgradeButtonPressed();
     

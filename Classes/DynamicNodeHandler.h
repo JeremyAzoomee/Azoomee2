@@ -26,10 +26,10 @@ private:
     
     rapidjson::Document getLocalCTAPackageJSON();
     
-    void getCTAPackageJSON(std::string url);
+    void getCTAPackageJSON(const std::string& url);
     void onGetCTAPackageJSONAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
-    void getCTAPackageZip(std::string url);
+    void getCTAPackageZip(const std::string& url);
     void onGetCTAPackageZipAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     bool unzipCTAFiles(const char *zipPath,const char *dirpath,const char *passwd);
@@ -39,6 +39,11 @@ private:
     std::string getCTADirectoryPath();
     
 public:
+    //-----start popup group names here
+    static const std::string kUpgradeGroup;
+    
+    //-----end popup group names
+    
     static DynamicNodeHandler* getInstance(void);
     virtual ~DynamicNodeHandler();
     bool init(void);

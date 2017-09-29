@@ -61,28 +61,28 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
     //config node size
     if(configFile.HasMember("nodeSize"))
     {
-        rapidjson::Value& sizePercentages = configFile["nodeSize"];
+        const rapidjson::Value& sizePercentages = configFile["nodeSize"];
         configNodeSize(sizePercentages);
     }
     
     //config close button
     if(configFile.HasMember("closeButton"))
     {
-        rapidjson::Value& closeButtonToggle = configFile["closeButton"];
+        const rapidjson::Value& closeButtonToggle = configFile["closeButton"];
         configCloseButton(closeButtonToggle);
     }
     
     //config background colour
     if(configFile.HasMember("backgroundColour"))
     {
-        rapidjson::Value& backgroundColour = configFile["backgroundColour"];
+        const rapidjson::Value& backgroundColour = configFile["backgroundColour"];
         configBackgroundColour(backgroundColour);
     }
     
     //config background image
     if(configFile.HasMember("backgroundImage"))
     {
-        rapidjson::Value& backgroundImageData = configFile["backgroundImage"];
+        const rapidjson::Value& backgroundImageData = configFile["backgroundImage"];
         configBackgroundImage(backgroundImageData);
     }
     
@@ -90,14 +90,14 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
     
     if(configFile.HasMember("buttons"))
     {
-        rapidjson::Value& buttonsList = configFile["buttons"];
+        const rapidjson::Value& buttonsList = configFile["buttons"];
         configButtons(buttonsList);
     }
     
     //config extra images
     if(configFile.HasMember("images"))
     {
-        rapidjson::Value& imageList = configFile["images"];
+        const rapidjson::Value& imageList = configFile["images"];
         configExtraImages(imageList);
     }
     
@@ -124,9 +124,9 @@ void DynamicNodeCreator::initCTANode()
     
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
-        return true;
+        return true; //block touches
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
@@ -137,7 +137,7 @@ void DynamicNodeCreator::initCTANode()
     _clippingNode = ClippingNode::create(_stencil);
     
     _bgColour = LayerColor::create(Color4B::WHITE, _windowSize.width, _windowSize.height);
-    _bgColour->setPosition(-Vec2(_windowSize/2));
+    _bgColour->setPosition(Vec2(_windowSize*-0.5f));
     _clippingNode->addChild(_bgColour);
     
     _maskedBGImage = Sprite::create(_kCTAAssetLoc + "deep_free_pop_over_trans.png");
@@ -186,12 +186,13 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
         {
             float width = sizePercentages[0].GetInt()/100.0f;
             float height = sizePercentages[1].GetInt()/100.0f;
+            const Size& newSize = Size(_windowSize.width*width,_windowSize.height*height);
             
-            _stencil->setContentSize(Size(_windowSize.width*width,_windowSize.height*height));
+            _stencil->setContentSize(newSize);
             _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
-            _popupFrame->setContentSize(Size(_windowSize.width*width,_windowSize.height*height));
-            _popupButtonsLayer->setContentSize(Size(_windowSize.width*width,_windowSize.height*height));
-            _popupImages->setContentSize(Size(_windowSize.width*width,_windowSize.height*height));
+            _popupFrame->setContentSize(newSize);
+            _popupButtonsLayer->setContentSize(newSize);
+            _popupImages->setContentSize(newSize);
         }
     }
 }
@@ -218,39 +219,26 @@ void DynamicNodeCreator::configBackgroundColour(const rapidjson::Value &backgrou
 
 void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroundImageData)
 {
-    if(backgroundImageData.HasMember("data"))
-    {
-        const rapidjson::Value& imageData = backgroundImageData["data"];
+    std::string dataStr = getStringFromJson("data", backgroundImageData);
         
-        if(imageData.IsString())
+    Texture2D* texture = getTextureFromBase64imageData(dataStr,"popupBGImage");
+    if(texture)
+    {
+        _maskedBGImage->initWithTexture(texture);
+        
+        const std::string& displaymode = getStringFromJson("displayMode", backgroundImageData);
+        if(displaymode == "fill")
         {
-            const std::string& dataStr = imageData.GetString();
-            
-            Texture2D* texture = getTextureFromBase64imageData(dataStr,"popupBGImage");
-            if(texture){
-                _maskedBGImage->initWithTexture(texture);
-                
-                if(backgroundImageData.HasMember("displayMode"))
-                {
-                    if(backgroundImageData["displayMode"].IsString())
-                    {
-                        const std::string& displaymode = backgroundImageData["displayMode"].GetString();
-                        if(displaymode == "fill")
-                        {
-                            _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
-                        }
-                        else if(displaymode == "fit")
-                        {
-                            float widthScale = _stencil->getContentSize().width/_maskedBGImage->getContentSize().width;
-                            float heightScale =   _stencil->getContentSize().height/_maskedBGImage->getContentSize().height;
-                            _maskedBGImage->setScale(MIN(widthScale, heightScale));
-                        }
-                    }
-                }
-                
-            }
+            _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
+        }
+        else if(displaymode == "fit")
+        {
+            float widthScale = _stencil->getContentSize().width/_maskedBGImage->getContentSize().width;
+            float heightScale =   _stencil->getContentSize().height/_maskedBGImage->getContentSize().height;
+            _maskedBGImage->setScale(MIN(widthScale, heightScale));
         }
     }
+    
 }
 
 void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
@@ -267,48 +255,39 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
             Vec2 pos;
             Vec2 size;
             std::string btnString;
+            ButtonActionDataRef actionData;
             
-            if(buttonsList[i].HasMember("position") && buttonsList[i]["position"].Size() == 2 && buttonsList[i]["position"][0].IsInt() && buttonsList[i]["position"][1].IsInt())
+            pos = getVec2FromJson("position",buttonsList[i]);
+            
+            if(pos.x != 0 && pos.y != 0)
             {
-                pos = Vec2(buttonsList[i]["position"][0].GetInt()/100.0f,buttonsList[i]["position"][1].GetInt()/100.0f);
+                pos = pos/100.0f;
             }
             else
             {
                 continue;
             }
             
-            if(buttonsList[i].HasMember("size") && buttonsList[i]["size"].Size() == 2 && buttonsList[i]["size"][0].IsInt() && buttonsList[i]["size"][1].IsInt())
+            size = getVec2FromJson("size",buttonsList[i]);
+            
+            if(size.x != 0 && size.y != 0)
             {
-                size = Vec2(buttonsList[i]["size"][0].GetInt()/100.0f, buttonsList[i]["size"][1].GetInt()/100.0f);
+                size = size/100.0f;
             }
             else
             {
                 continue;
             }
-            if(buttonsList[i].HasMember("text") && buttonsList[i]["text"].IsString())
-            {
-                btnString = buttonsList[i]["text"].GetString();
-            }
             
-            ui::Button* button = ui::Button::create();
-            button->loadTextures(_kCTAAssetLoc + "rectangle_copy_3.png", _kCTAAssetLoc + "rectangle_copy_3.png"); //will be dependent on style tag
-            button->setContentSize(Size(_popupButtonsLayer->getContentSize().width * size.x,_popupButtonsLayer->getContentSize().height * size.y));
-            button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-            button->setNormalizedPosition(pos);
-            button->setScale9Enabled(true);
-            button->setSwallowTouches(true);
+            btnString = getStringFromJson("text", buttonsList[i]);
+            
             if(buttonsList[i].HasMember("action"))
             {
                 const rapidjson::Value& actionParams = buttonsList[i]["action"];
-                button->addTouchEventListener(CC_CALLBACK_2(DynamicNodeButtonListener::onButtonPressedCallFunc, DynamicNodeButtonListener::getInstance(),ButtonActionData::createWithJson(actionParams)));
+                actionData = ButtonActionData::createWithJson(actionParams);
             }
             
-            Label* label = Label::createWithTTF(btnString, Style::Font::Regular, button->getContentSize().height*0.4);
-            label->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-            label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-            label->setTextColor(Color4B::BLACK);
-            button->addChild(label);
-            _popupButtonsLayer->addChild(button);
+            addButtonWithParams(size, pos, btnString, actionData);
             
         }
     }
@@ -324,18 +303,22 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
             Vec2 size;
             int opacity;
             
-            if(imageList[i].HasMember("position") && imageList[i]["position"].Size() == 2 && imageList[i]["position"][0].IsInt() && imageList[i]["position"][1].IsInt())
+            pos = getVec2FromJson("position",imageList[i]);
+            
+            if(pos.x != 0 && pos.y != 0)
             {
-                pos = Vec2(imageList[i]["position"][0].GetInt()/100.0f,imageList[i]["position"][1].GetInt()/100.0f);
+                pos = pos/100.0f;
             }
             else
             {
                 continue;
             }
             
-            if(imageList[i].HasMember("size") && imageList[i]["size"].Size() == 2 && imageList[i]["size"][0].IsInt() && imageList[i]["size"][1].IsInt())
+            size = getVec2FromJson("size",imageList[i]);
+            
+            if(size.x != 0 && size.y != 0)
             {
-                size = Vec2(imageList[i]["size"][0].GetInt()/100.0f, imageList[i]["size"][1].GetInt()/100.0f);
+                size = size/100.0f;
             }
             else
             {
@@ -348,28 +331,15 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
             }
             else
             {
-                opacity = 255;;
+                opacity = 255;
             }
             
-            if(imageList[i].HasMember("data"))
+            std::string dataStr = getStringFromJson("data", imageList[i]);
+            const std::string& imageName = "popupImage" + std::to_string(i);
+            Texture2D* texture = getTextureFromBase64imageData(dataStr,imageName);
+            if(texture)
             {
-                const rapidjson::Value& imageData = imageList[i]["data"];
-                
-                if(imageData.IsString())
-                {
-                    const std::string& dataStr = imageData.GetString();
-                    const std::string& imageName = "popupImage" + std::to_string(i);
-                    Texture2D* texture = getTextureFromBase64imageData(dataStr,imageName);
-                    if(texture)
-                    {
-                        Sprite* image = Sprite::createWithTexture(texture);
-                        image->setScale((_windowSize.width*size.x)/image->getContentSize().width, (_windowSize.height*size.y)/image->getContentSize().height);
-                        image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-                        image->setNormalizedPosition(pos);
-                        image->setOpacity(opacity/255.0f);
-                        _popupImages->addChild(image);
-                    }
-                }
+                addImageWithParams(size, pos, opacity, texture);
             }
 
         }
@@ -377,7 +347,37 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
 
 }
 
-Texture2D* DynamicNodeCreator::getTextureFromBase64imageData(std::string data, const std::string& imageName)
+void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, const std::string &buttonText, ButtonActionDataRef buttonActionData)
+{
+    ui::Button* button = ui::Button::create();
+    button->loadTextures(_kCTAAssetLoc + "rectangle_copy_3.png", _kCTAAssetLoc + "rectangle_copy_3.png"); //will be dependent on style tag
+    button->setContentSize(Size(_popupButtonsLayer->getContentSize().width * size.x,_popupButtonsLayer->getContentSize().height * size.y));
+    button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    button->setNormalizedPosition(pos);
+    button->setScale9Enabled(true);
+    button->setSwallowTouches(true);
+    button->addTouchEventListener(CC_CALLBACK_2(DynamicNodeButtonListener::onButtonPressedCallFunc, DynamicNodeButtonListener::getInstance(),buttonActionData));
+    
+    Label* label = Label::createWithTTF(buttonText, Style::Font::Regular, button->getContentSize().height*0.4);
+    label->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    label->setTextColor(Color4B::BLACK);
+    button->addChild(label);
+    _popupButtonsLayer->addChild(button);
+}
+
+void DynamicNodeCreator::addImageWithParams(const Vec2 &size, const Vec2 &pos, int opacity, Texture2D *texture)
+{
+    Sprite* image = Sprite::createWithTexture(texture);
+    image->setScale((_windowSize.width*size.x)/image->getContentSize().width, (_windowSize.height*size.y)/image->getContentSize().height);
+    image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    image->setNormalizedPosition(pos);
+    image->setOpacity(opacity/255.0f);
+    _popupImages->addChild(image);
+
+}
+
+Texture2D* DynamicNodeCreator::getTextureFromBase64imageData(std::string& data, const std::string& imageName)
 {
     if(data.length() > 22){
         data = data.substr(22);

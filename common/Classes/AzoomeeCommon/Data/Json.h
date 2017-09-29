@@ -11,6 +11,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <cocos2d.h>
 
 
 NS_AZOOMEE_BEGIN
@@ -126,6 +127,15 @@ inline std::string getStringFromJson(const std::string &keyName, const rapidjson
                 return jsonValue[keyName.c_str()].GetString();
                 
     return "";
+}
+
+inline cocos2d::Vec2 getVec2FromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+{
+    if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].Size() == 2 && jsonValue[keyName.c_str()][0].IsInt() && jsonValue[keyName.c_str()][1].IsInt())
+    {
+        return cocos2d::Vec2(jsonValue[keyName.c_str()][0].GetInt(), jsonValue[keyName.c_str()][1].GetInt());
+    }
+    return cocos2d::Vec2(0,0);
 }
 NS_AZOOMEE_END
 

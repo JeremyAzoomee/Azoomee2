@@ -13,13 +13,14 @@
 #include <AzoomeeCommon/Azoomee.h>
 #include "ui/CocosGUI.h"
 #include <AzoomeeCommon/Data/Json.h>
+#include "ButtonActionData.h"
 
 NS_AZOOMEE_BEGIN
 
 class DynamicNodeCreator : public cocos2d::Ref
 {
 private:
-    const std::string _kCTAAssetLoc = "res/CTA_Assets/";
+    const std::string _kCTAAssetLoc = "res/cta_assets/";
     
     cocos2d::Node* _CTANode = nullptr;
     cocos2d::Size _windowSize;
@@ -46,7 +47,9 @@ private:
     void configButtons(const rapidjson::Value& buttonsList);
     void configExtraImages(const rapidjson::Value& imageList);
     
-    cocos2d::Texture2D* getTextureFromBase64imageData(std::string data, const std::string& imageName);
+    void addButtonWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData);
+    void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, cocos2d::Texture2D* texture);
+    cocos2d::Texture2D* getTextureFromBase64imageData(std::string& data, const std::string& imageName);
     
 public:
     static DynamicNodeCreator* getInstance(void);

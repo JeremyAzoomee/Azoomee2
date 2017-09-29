@@ -37,12 +37,12 @@ bool DynamicNodeButtonListener::init(void)
     return true;
 }
 
-void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget::TouchEventType evenType, ButtonActionDataRef buttonAction)
+void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget::TouchEventType eventType, ButtonActionDataRef buttonAction)
 {
-    if(buttonAction->getType() == "internal")
+    if(buttonAction->getType() == _kButtonTypeInternal)
     {
         const std::string& location = buttonAction->getParamForKey("location");
-        if(location == "showUpgrade")
+        if(location == _kButtonLocationUpgrade)
         {
             upgradeButtonPressed();
         }

@@ -303,7 +303,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     }
 }
 
- bool GameDataManager::unzipGame(const char *zipPath,const char *dirpath,const char *passwd)
+ bool GameDataManager::unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd)
 {
     if(!FileUtils::getInstance()->isFileExist(zipPath))
     {
@@ -313,23 +313,23 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         return false;
     }
     
-    if(FileZipUtil::getInstance()->unzip(zipPath, dirpath, passwd))
+    if(FileZipUtil::getInstance()->unzip(zipPath.c_str(), dirpath.c_str(), passwd.c_str()))
     {
     
         removeGameZip(zipPath);
     
-        if(!isGameCompatibleWithCurrentAzoomeeVersion(std::string(dirpath) + "package.json"))
+        if(!isGameCompatibleWithCurrentAzoomeeVersion(dirpath + "package.json"))
         {
             hideLoadingScreen(); //ERROR TO BE ADDED
             showIncompatibleMessage();
             return false;
         }
     
-        std::string startFileNameWithPath = getStartFileFromJSONFile(std::string(dirpath) + "package.json");
+        std::string startFileNameWithPath = getStartFileFromJSONFile(dirpath + "package.json");
     
         if(FileUtils::getInstance()->isFileExist(dirpath + startFileNameWithPath))
         {
-            startGame(std::string(dirpath), startFileNameWithPath);
+            startGame(dirpath, startFileNameWithPath);
         }
         else
         {
