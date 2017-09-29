@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "OfflineHubBackButton.h"
 #include "HQSceneArtsApp.h"
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
 
 #include "ImageConverterLoadingLayer.h"
 
@@ -138,6 +139,8 @@ void HQScene::createBidirectionalScrollView()
     verticalScrollView->setName("scrollView");
     this->addChild(verticalScrollView);
     
+    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    
     if(this->getName() == "GROUP HQ")
         verticalScrollView->cocos2d::Node::setPosition(origin.x , origin.y - 200);
     else
@@ -145,7 +148,7 @@ void HQScene::createBidirectionalScrollView()
     
     float verticalScrollViewHeight = (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2) + (ConfigStorage::getInstance()->getScrollviewTitleTextHeight() * 2);
     
-    verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * verticalScrollViewHeight));
+    verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * verticalScrollViewHeight +privacyLayer->getContentSize().height*2));
     
     for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); j++)
     {
@@ -163,6 +166,9 @@ void HQScene::createBidirectionalScrollView()
         Point titlePosition = Point(visibleSize.width/2,horizontalScrollView->getPosition().y + ConfigStorage::getInstance()->getScrollviewTitleTextHeight()*.4 + (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2));
         addTitleToHorizontalScrollView(HQDataProvider::getInstance()->getTitleForRow(this->getName(), j), verticalScrollView, titlePosition);
     }
+
+    privacyLayer->setCenterPosition(Vec2(verticalScrollView->getContentSize().width/2, privacyLayer->getContentSize().height));
+    verticalScrollView->addChild(privacyLayer);
 }
 
 void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)

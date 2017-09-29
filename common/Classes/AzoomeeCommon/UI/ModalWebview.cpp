@@ -24,8 +24,9 @@ bool ModalWebview::init()
         return false;
     }
     
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+    this->setName("ModalWebview");
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    _origin = Director::getInstance()->getVisibleOrigin();
     
     return true;
 }
@@ -34,9 +35,9 @@ bool ModalWebview::init()
 
 void ModalWebview::createBackgroundLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B(255,255,255,255),visibleSize.width, visibleSize.height);
-    backgroundLayer->setPosition(origin.x,origin.y);
-    this->addChild(backgroundLayer);
+    _backgroundLayer = LayerColor::create(Color4B(255,255,255,255),_visibleSize.width, _visibleSize.height);
+    _backgroundLayer->setPosition(_origin.x,_origin.y);
+    this->addChild(_backgroundLayer);
 }
 
 void ModalWebview::addListenerToBackgroundLayer()
@@ -48,29 +49,29 @@ void ModalWebview::addListenerToBackgroundLayer()
         return true;
     };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), backgroundLayer);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), _backgroundLayer);
 }
 
 void ModalWebview::createCloseButton()
 {
-    closeButton = ElectricDreamsButton::createWindowCloselButton();
-    closeButton->setCenterPosition(Vec2(visibleSize.width - closeButton->getContentSize().width, visibleSize.height - closeButton->getContentSize().height));
-    closeButton->setDelegate(this);
-    closeButton->setMixPanelButtonName("ModalWebview-CloseButton");
-    backgroundLayer->addChild(closeButton);
+    _closeButton = ElectricDreamsButton::createWindowCloselButton();
+    _closeButton->setCenterPosition(Vec2(_visibleSize.width - _closeButton->getContentSize().width, _visibleSize.height - _closeButton->getContentSize().height));
+    _closeButton->setDelegate(this);
+    _closeButton->setMixPanelButtonName("ModalWebview-CloseButton");
+    _backgroundLayer->addChild(_closeButton);
 }
 
 void ModalWebview::createWebView(std::string url)
 {
-    modalWebview = experimental::ui::WebView::create();
-    modalWebview->setContentSize(Size(visibleSize.width*.8,visibleSize.height*.8));
-    modalWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    modalWebview->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
-    modalWebview->setJavascriptInterfaceScheme("");
-    modalWebview->loadURL(url);
-    modalWebview->setOnDidFinishLoading(CC_CALLBACK_2(ModalWebview::callbackFromJS, this));
-    modalWebview->setVisible(false);
-    backgroundLayer->addChild(modalWebview);
+    _modalWebview = experimental::ui::WebView::create();
+    _modalWebview->setContentSize(Size(_visibleSize.width*.8,_visibleSize.height*.8));
+    _modalWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _modalWebview->setPosition(Vec2(_visibleSize.width/2,_visibleSize.height/2));
+    _modalWebview->setJavascriptInterfaceScheme("");
+    _modalWebview->loadURL(url);
+    _modalWebview->setOnDidFinishLoading(CC_CALLBACK_2(ModalWebview::callbackFromJS, this));
+    _modalWebview->setVisible(false);
+    _backgroundLayer->addChild(_modalWebview);
 }
 
 void ModalWebview::addLoadingCircles()
@@ -78,12 +79,12 @@ void ModalWebview::addLoadingCircles()
     for(int i = 0; i < 3; i++)
     {
         auto loadingCircle = Sprite::create("res/modal/loading.png");
-        loadingCircle->setPosition(visibleSize.width / 2, visibleSize.height / 2);
+        loadingCircle->setPosition(_visibleSize.width / 2, _visibleSize.height / 2);
         loadingCircle->setRotation(RandomHelper::random_int(0, 360));
         loadingCircle->setScale(0.6 + i * 0.2);
         loadingCircle->setTag(1000);
         
-        backgroundLayer->addChild(loadingCircle);
+        _backgroundLayer->addChild(loadingCircle);
         
         int direction = 1;
         if(CCRANDOM_0_1() < 0.5) direction = -1;
@@ -94,25 +95,39 @@ void ModalWebview::addLoadingCircles()
     
 void ModalWebview::callbackFromJS(cocos2d::experimental::ui::WebView* webview, const std::string &answer)
 {
-    while(backgroundLayer->getChildByTag(1000))
-        backgroundLayer->removeChildByTag(1000);
+    while(_backgroundLayer->getChildByTag(1000))
+        _backgroundLayer->removeChildByTag(1000);
     
-    modalWebview->setVisible(true);
+    _modalWebview->setVisible(true);
 }
 
 //---------------------- Actions -----------------
 
 void ModalWebview::removeSelf()
 {
-    this->removeChild(backgroundLayer);
+    this->removeChild(_backgroundLayer);
     this->removeFromParent();
+}
+
+void ModalWebview::onSizeChanged()
+{
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    _origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto currentRunningScene = Director::getInstance()->getRunningScene();
+    _backgroundLayer->setContentSize(currentRunningScene->getContentSize());
+    
+    _closeButton->setCenterPosition(Vec2(_visibleSize.width - _closeButton->getContentSize().width, _visibleSize.height - _closeButton->getContentSize().height));
+    
+    _modalWebview->setContentSize(Size(_visibleSize.width*.8,_visibleSize.height*.8));
+    _modalWebview->setPosition(Vec2(_visibleSize.width/2,_visibleSize.height/2));
 }
 
 //----------------------- Delegate Functions ----------------------------
 
 void ModalWebview::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == closeButton)
+    if(button == _closeButton)
         removeSelf();
 }
 }

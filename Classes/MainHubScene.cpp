@@ -8,6 +8,7 @@
 #include "ArtsPreviewLayer.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
 
 using namespace cocos2d;
 
@@ -77,6 +78,7 @@ void MainHubScene::onEnter()
         
         addBackgroundCircles();
         addImageContainers();
+        AddPrivacyButton();
         
     });
     
@@ -169,6 +171,13 @@ void MainHubScene::addImageContainers()
     
     auto artsPreviewLayer = ArtsPreviewLayer::create();
     this->addChild(artsPreviewLayer);
+}
+
+void MainHubScene::AddPrivacyButton()
+{
+    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    privacyLayer->setCenterPosition(Vec2(origin.x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,origin.y + privacyLayer->getContentSize().height));
+    this->addChild(privacyLayer);
 }
 
 NS_AZOOMEE_END
