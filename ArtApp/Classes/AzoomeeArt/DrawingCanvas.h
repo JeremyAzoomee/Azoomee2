@@ -38,6 +38,7 @@ public:
     
 protected:
     static const int numberOfUndos = 3;
+    static const std::vector<cocos2d::Color3B> kColours;
     
     cocos2d::LayerColor* background = nullptr;
     cocos2d::Sprite* currentDrawing = nullptr;

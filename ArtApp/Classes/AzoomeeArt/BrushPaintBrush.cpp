@@ -32,11 +32,11 @@ Node* BrushPaintBrush::getDrawNode()
     {
         return brushLayer;
     }
-    
+    const Vec2& visibleOrigin = Director::getInstance()->getVisibleOrigin();
     _paintLayer = RenderTexture::create(brushLayer->getContentSize().width, brushLayer->getContentSize().height);
-    _paintLayer->setPosition(Director::getInstance()->getVisibleOrigin() + (Director::getInstance()->getVisibleSize()/2));
+    _paintLayer->setPosition(visibleOrigin + (Director::getInstance()->getVisibleSize()/2));
     _paintLayer->beginWithClear(0, 0, 0, 0);
-    brushLayer->setPosition(brushLayer->getPosition() - Director::getInstance()->getVisibleOrigin());
+    brushLayer->setPosition(brushLayer->getPosition() - visibleOrigin);
     brushLayer->visit();
     _paintLayer->end();
     Director::getInstance()->getRenderer()->render();
