@@ -36,7 +36,7 @@ bool SettingsKidsLayer::init()
 
 void SettingsKidsLayer::addUIObjects()
 {
-    Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren()*900,1200);
+    Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren()*900,1275);
     
     scrollView = cocos2d::ui::ScrollView::create();
     scrollView->setContentSize(Size(this->getContentSize().width, 1275));
