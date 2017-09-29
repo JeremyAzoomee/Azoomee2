@@ -11,7 +11,7 @@ class PrivacyLayer : public cocos2d::Layer, public Azoomee::ElectricDreamsButton
 {
 private:
     
-    Azoomee::ElectricDreamsButton *privacyButton;
+    Azoomee::ElectricDreamsButton *_privacyButton = nullptr;
     
     void createButtons();
     void setSizeAndAddItems();

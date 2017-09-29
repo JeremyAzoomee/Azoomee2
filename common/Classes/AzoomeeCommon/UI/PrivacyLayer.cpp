@@ -25,17 +25,17 @@ bool PrivacyLayer::init()
 
 void PrivacyLayer::createButtons()
 {
-    privacyButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 40, true);
-    privacyButton->setMixPanelButtonName("PrivacyPolicyButton");
-    privacyButton->setDelegate(this);
+    _privacyButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 40, true);
+    _privacyButton->setMixPanelButtonName("PrivacyPolicyNoLinksButton");
+    _privacyButton->setDelegate(this);
 }
 
 void PrivacyLayer::setSizeAndAddItems()
 {
-    this->setContentSize(privacyButton->getContentSize());
+    this->setContentSize(_privacyButton->getContentSize());
     
-    privacyButton->setPosition(0,0);
-    this->addChild(privacyButton);
+    _privacyButton->setPosition(0,0);
+    this->addChild(_privacyButton);
 }
 
 
@@ -55,8 +55,10 @@ Vec2 PrivacyLayer::getCenterPosition()
 
 void PrivacyLayer::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == privacyButton)
+    if(button == _privacyButton)
+    {
         ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
+    }
 }
 
 NS_AZOOMEE_END
