@@ -80,9 +80,13 @@ void ChildAccountScene::onEnterTransitionDidFinish()
 void ChildAccountScene::addTitleToScene()
 {
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
+    {
         _sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
+    }
     else
+    {
         _sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
+    }
     this->addChild(_sceneTitle);
 }
 
@@ -222,9 +226,13 @@ void ChildAccountScene::changeElementsToTextInputScreen()
     clearElementsOnScreen();
 
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
+    {
         _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
+    }
     else
+    {
         _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
+    }
     
     _childNameInputText->setEditboxVisibility(true);
     _dayInputText->setEditboxVisibility(true);
@@ -236,7 +244,9 @@ void ChildAccountScene::changeElementsToTextInputScreen()
     _profileDOBSubTitle->setVisible(true);
     
     if(!(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()))
+    {
         _cancelButton->setVisible(true);
+    }
     
     _nextButton->setVisible(DOBisDate() && _childNameInputText->inputIsValid());
     _nextButtonPlaceholder->setVisible(true);
@@ -331,7 +341,9 @@ void ChildAccountScene::selectOomee(int oomeeNumber)
 void ChildAccountScene::shouldChangeElementsToOomeeScreen()
 {
     if(!DOBisDate() || !_childNameInputText->inputIsValid())
+    {
         _childNameInputText->focusAndShowKeyboard();
+    }
     else if(childNameExists(trim(_childNameInputText->getText())))
     {
         MessageBox::createWith(ERROR_CODE_NAME_EXISTS, _childNameInputText, this);
@@ -358,9 +370,13 @@ void ChildAccountScene::registerChildAccount()
     
     auto backEndCaller = BackEndCaller::getInstance();
     if((FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()) && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
+    {
         backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, _selectedOomeeNo);
+    }
     else
+    {
         backEndCaller->registerChild(profileName, gender, DOB, _selectedOomeeNo);
+    }
 }
 
 bool ChildAccountScene::DOBisDate()
@@ -384,21 +400,33 @@ void ChildAccountScene::textInputIsValid(TextInputLayer* inputLayer, bool isVali
     _nextButton->setVisible(DOBisDate() && _childNameInputText->inputIsValid());
     
     if(inputLayer==_dayInputText && _dayInputText->getText().length() == 2)
+    {
         _monthInputText->focusAndShowKeyboard();
+    }
     else if(inputLayer==_monthInputText && (_monthInputText->getText().length()==2 || std::atoi(_monthInputText->getText().c_str()) >2))
+    {
         _yearInputText->focusAndShowKeyboard();
+    }
 }
 
 void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
 {
     if(inputLayer==_childNameInputText)
+    {
         _dayInputText->focusAndShowKeyboard();
+    }
     else if(inputLayer == _dayInputText)
+    {
         _monthInputText->focusAndShowKeyboard();
+    }
     else if(inputLayer == _monthInputText)
+    {
         _yearInputText->focusAndShowKeyboard();
+    }
     else if(inputLayer == _yearInputText)
+    {
         shouldChangeElementsToOomeeScreen();
+    }
 }
 
 void ChildAccountScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
@@ -414,15 +442,25 @@ void ChildAccountScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == _cancelButton)
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+    }
     else if(button == _nextButton)
+    {
         shouldChangeElementsToOomeeScreen();
+    }
     else if(button == _backButton)
+    {
         changeElementsToTextInputScreen();
+    }
     else if(button == _submitButton)
+    {
         registerChildAccount();
+    }
     else
+    {
         selectOomee(button->getTag());
+    }
 }
 
 void ChildAccountScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
