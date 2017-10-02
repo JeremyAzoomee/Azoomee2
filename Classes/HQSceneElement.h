@@ -17,7 +17,7 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     
-    void setCategory(std::string category);
+    void setCategory(const std::string &category);
     void setItemData(HQContentItemObject* itemData);
     void setElementRow(int rowNumber);
     void setElementIndex(int index);

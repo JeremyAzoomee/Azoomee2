@@ -22,26 +22,26 @@ public:
     bool init(void);
     
     //MainHub Area services
-    HQContentItemObject getItemDataForSpecificItem(std::string category, std::string itemid);
-    cocos2d::Vec2 getHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber);
-    std::string getHumanReadableHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber);
-    void getDataForHQ(std::string category);
-    void getDataForGroupHQ(std::string uri);
+    HQContentItemObject getItemDataForSpecificItem(const std::string &category, const std::string &itemid);
+    cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber);
+    std::string getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber);
+    void getDataForHQ(const std::string &category);
+    void getDataForGroupHQ(const std::string &uri);
     
     //HQ Area services
-    int getNumberOfRowsForHQ(std::string category);
-    int getNumberOfElementsForRow(std::string category, int index);
-    std::vector<HQContentItemObject *> *getElementsForRow(std::string category, int index);
-    std::string getTitleForRow(std::string category, int index);
-    std::string getImageUrlForItem(std::string itemId, cocos2d::Vec2 shape);
-    std::string getTypeForSpecificItem(std::string category, std::string itemId);
+    int getNumberOfRowsForHQ(const std::string &category);
+    int getNumberOfElementsForRow(const std::string &category, int index);
+    std::vector<HQContentItemObject *> *getElementsForRow(const std::string &category, int index);
+    std::string getTitleForRow(const std::string &category, int index);
+    std::string getImageUrlForItem(const std::string &itemId, cocos2d::Vec2 shape);
+    std::string getTypeForSpecificItem(const std::string &category, const std::string &itemId);
     
-    std::string getImageUrlForGroupLogo(std::string itemId);
+    std::string getImageUrlForGroupLogo(const std::string &itemId);
     
-    std::vector<HQContentItemObject> getAllContentItemsInRow(std::string category, int rowNumber);
+    std::vector<HQContentItemObject> getAllContentItemsInRow(const std::string &category, int rowNumber);
     
     //Callback to start building HQ
-    void startBuildingHQ(std::string category);
+    void startBuildingHQ(const std::string &category);
     
     //Loading screen
     void displayLoadingScreen();

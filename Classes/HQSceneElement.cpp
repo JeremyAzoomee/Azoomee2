@@ -54,7 +54,7 @@ bool HQSceneElement::init()
     return true;
 }
 
-void HQSceneElement::setCategory(std::string category)
+void HQSceneElement::setCategory(const std::string &category)
 {
     elementCategory = category;
 }
@@ -141,7 +141,6 @@ void HQSceneElement::addListenerToElement()
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
             iamtouched = false;
-            CCLOG("Action to come: %s", elementItemData->getUri().c_str());
             
             if(elementItemData->getType() == "MANUAL")
             {
@@ -178,9 +177,6 @@ void HQSceneElement::addListenerToElement()
 
 void HQSceneElement::startUpElementDependingOnType()
 {
-    
-    CCLOG("uri: %s, contentid: %s, category: %s", elementItemData->getUri().c_str(), elementItemData->getContentItemId().c_str(), elementCategory.c_str());
-    
     this->getParent()->getParent()->getParent()->stopAllActions();
     
     if(elementItemData->getType() == "GAME")

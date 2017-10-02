@@ -143,7 +143,6 @@ bool HQDataParser::parseHQGetContentUrls(const std::string &responseString)
         HQDataObject *dataObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(replacedKey);
         dataObject->setHqEntitlement(getBoolFromJson("available", currentItem));
         dataObject->setHqUrl(getStringFromJson("uri", currentItem));
-        dataObject->setHqEntitlement(getBoolFromJson("available", currentItem));
     }
     
     return true;
