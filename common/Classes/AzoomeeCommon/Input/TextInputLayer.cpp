@@ -225,25 +225,33 @@ bool TextInputLayer::inputIsValid()
         case INPUT_IS_EMAIL:
         {
             if(isValidEmailAddress(editBox->getText()))
+            {
                 isValidInput = true;
+            }
             break;
         }
         case INPUT_IS_PASSWORD:
         {
             if(isValidPassword(editBox->getText(),2))
+            {
                 isValidInput = true;
+            }
             break;
         }
         case INPUT_IS_PIN:
         {
             if(isValidPin(editBox->getText()))
+            {
                 isValidInput = true;
+            }
             break;
         }
         case INPUT_IS_CHILD_NAME:
         {
             if(isValidChildName(editBox->getText()))
+            {
                 isValidInput = true;
+            }
             break;
         }
         case INPUT_IS_KIDS_CODE:
@@ -254,7 +262,9 @@ bool TextInputLayer::inputIsValid()
         case INPUT_IS_NEW_PASSWORD:
         {
             if(isValidPassword(editBox->getText(), 6))
+            {
                 isValidInput = true;
+            }
             break;
         }
             
@@ -284,8 +294,10 @@ void TextInputLayer::setNewWidth(float newWidth)
 void TextInputLayer::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
     if(this->getDelegate())
+    {
         //Inform Delegates if input is valid
         this->getDelegate()->textInputIsValid(this, inputIsValid());
+    }
 }
 
 void TextInputLayer::editBoxReturn(cocos2d::ui::EditBox* editBox)
@@ -314,15 +326,19 @@ void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBo
 void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 {
     if(this->getDelegate())
+    {
         //Inform Delegates if input is valid
         this->getDelegate()->editBoxEditingDidBegin(this);
+    }
 }
     
 void TextInputLayer::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
     if(this->getDelegate())
+    {
         //Inform Delegates if input is valid
         this->getDelegate()->editBoxEditingDidEnd(this);
+    }
 }
   
 }
