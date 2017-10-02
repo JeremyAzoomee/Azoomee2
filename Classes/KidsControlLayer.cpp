@@ -126,6 +126,8 @@ void KidsControlLayer::closeKidController()
     parentLayer->scrollReset();
     shareButton->setVisible(true);
     textInputButton->setVisible(true);
+    deleteButton->setVisible(true);
+
 }
 
 void KidsControlLayer::sendInviteCode()
@@ -172,6 +174,7 @@ void KidsControlLayer::clearAllButCloseButton()
     textInputButton->setVisible(false);
     sendCodeButton->setVisible(false);
     kidCodeTextInput->setEditboxVisibility(false);
+    deleteButton->setVisible(false);
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -179,15 +182,25 @@ void KidsControlLayer::clearAllButCloseButton()
 void KidsControlLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == closeButton)
+    {
         closeKidController();
+    }
     else if(button == textInputButton || button == tryAgainButton || button == addAnotherButton)
+    {
         moveToAddFriendTextBox();
+    }
     else if(button == sendCodeButton)
+    {
         sendInviteCode();
+    }
     else if(button ==shareButton)
+    {
         shareKidCode();
+    }
     else if(button == deleteButton)
+    {
         parentLayer->deleteChild(childNumber);
+    }
 }
 
 void KidsControlLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)

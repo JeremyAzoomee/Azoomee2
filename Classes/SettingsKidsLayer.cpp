@@ -36,10 +36,11 @@ bool SettingsKidsLayer::init()
 
 void SettingsKidsLayer::addUIObjects()
 {
-    Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren()*900,1275);
+    float scrollViewHeight = 1275;
+    Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren()*900,scrollViewHeight);
     
     scrollView = cocos2d::ui::ScrollView::create();
-    scrollView->setContentSize(Size(this->getContentSize().width, 1275));
+    scrollView->setContentSize(Size(this->getContentSize().width, scrollViewHeight));
     scrollView->setPosition(Vec2(this->getContentSize().width/2,layerHeight/2));
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     scrollView->setBounceEnabled(false);

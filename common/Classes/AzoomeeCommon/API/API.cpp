@@ -181,10 +181,8 @@ HttpRequestCreator* API::DeleteChild(const std::string& childId,
                                      const std::string& childGender,
                                      HttpRequestCreatorResponseDelegate* delegate)
 {
-    std::string newProfileName = childProfileName + SessionIdManager::getInstance()->getCurrentSessionId();
-    
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestBody = StringUtils::format("{\"profileName\":\"%s\",\"sex\":\"%s\",\"status\":\"DELETED\"}", newProfileName.c_str(), childGender.c_str());
+    request->requestBody = StringUtils::format("{\"profileName\":\"%s%s\",\"sex\":\"%s\",\"status\":\"DELETED\"}", childProfileName.c_str(),SessionIdManager::getInstance()->getCurrentSessionId().c_str(), childGender.c_str());
     request->requestTag = TagDeleteChild;
     request->url = ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag(TagDeleteChild) + childId;
     request->method = "PATCH";
