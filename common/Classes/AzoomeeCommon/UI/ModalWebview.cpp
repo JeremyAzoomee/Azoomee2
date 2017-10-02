@@ -38,7 +38,7 @@ bool ModalWebview::init()
 
 void ModalWebview::createBackgroundLayer()
 {
-    _backgroundLayer = LayerColor::create(Color4B(255,255,255,255),_runningSceneSize.width, _runningSceneSize.height);
+    _backgroundLayer = LayerColor::create(Color4B::WHITE,_runningSceneSize.width, _runningSceneSize.height);
     this->addChild(_backgroundLayer);
 }
 
@@ -78,15 +78,18 @@ void ModalWebview::addLoadingCircles()
     for(int i = 0; i < 3; i++)
     {
         auto loadingCircle = Sprite::create("res/modal/loading.png");
-        loadingCircle->setPosition(_runningSceneSize.width / 2, _runningSceneSize.height / 2);
+        loadingCircle->setPosition(_runningSceneSize.width / 2.0f, _runningSceneSize.height / 2);
         loadingCircle->setRotation(RandomHelper::random_int(0, 360));
-        loadingCircle->setScale(0.6 + i * 0.2);
+        loadingCircle->setScale(0.6f + i * 0.2f);
         loadingCircle->setTag(CIRCLE_TAG);
         
         _backgroundLayer->addChild(loadingCircle);
         
         int direction = 1;
-        if(CCRANDOM_0_1() < 0.5) direction = -1;
+        if(CCRANDOM_0_1() < 0.5f)
+        {
+            direction = -1;
+        }
         
         loadingCircle->runAction(RepeatForever::create(RotateBy::create(CCRANDOM_0_1() + 1, 360 * direction)));
     }
@@ -95,7 +98,9 @@ void ModalWebview::addLoadingCircles()
 void ModalWebview::callbackFromJS(cocos2d::experimental::ui::WebView* webview, const std::string &answer)
 {
     while(_backgroundLayer->getChildByTag(CIRCLE_TAG))
+    {
         _backgroundLayer->removeChildByTag(CIRCLE_TAG);
+    }
     
     _modalWebview->setVisible(true);
 }
@@ -116,10 +121,10 @@ void ModalWebview::onSizeChanged()
 
     _backgroundLayer->setContentSize(_runningSceneSize);
     
-    _closeButton->setCenterPosition(Vec2(_runningSceneSize.width/2 + _visibleSize.width/2 - _closeButton->getContentSize().width,_runningSceneSize.height/2 + _visibleSize.height/2 - _closeButton->getContentSize().height));
+    _closeButton->setCenterPosition(Vec2(_runningSceneSize.width/2.0f + _visibleSize.width/2.0f - _closeButton->getContentSize().width,_runningSceneSize.height/2.0f + _visibleSize.height/2.0f - _closeButton->getContentSize().height));
     
-    _modalWebview->setContentSize(Size(_visibleSize.width*.8,_visibleSize.height*.8));
-    _modalWebview->setPosition(Vec2(_runningSceneSize.width/2,_runningSceneSize.height/2));
+    _modalWebview->setContentSize(Size(_visibleSize.width*0.8f,_visibleSize.height*0.8f));
+    _modalWebview->setPosition(Vec2(_runningSceneSize.width/2.0f,_runningSceneSize.height/2.0f));
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -127,6 +132,8 @@ void ModalWebview::onSizeChanged()
 void ModalWebview::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == _closeButton)
+    {
         removeSelf();
+    }
 }
 }

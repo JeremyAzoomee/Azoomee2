@@ -19,7 +19,7 @@ private:
     void createArtsAppScrollView();
     void addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo);
     void addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo);
-    void AddPrivacyButton();
+    void addPrivacyButton();
     
     void addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable, bool locked);
     

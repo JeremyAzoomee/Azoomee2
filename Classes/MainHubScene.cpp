@@ -78,7 +78,7 @@ void MainHubScene::onEnter()
         
         addBackgroundCircles();
         addImageContainers();
-        AddPrivacyButton();
+        addPrivacyButton();
         
     });
     
@@ -173,7 +173,7 @@ void MainHubScene::addImageContainers()
     this->addChild(artsPreviewLayer);
 }
 
-void MainHubScene::AddPrivacyButton()
+void MainHubScene::addPrivacyButton()
 {
     PrivacyLayer* privacyLayer = PrivacyLayer::create();
     privacyLayer->setCenterPosition(Vec2(origin.x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,origin.y + privacyLayer->getContentSize().height));

@@ -17,7 +17,7 @@ public:
 private:
     void addBackgroundCircles();
     void addImageContainers();
-    void AddPrivacyButton();
+    void addPrivacyButton();
     
     cocos2d::Sprite* createCirclesForBackground(int circleNumber);
     

@@ -30,7 +30,7 @@ bool HQSceneArtsApp::init()
 void HQSceneArtsApp::onEnter()
 {
     createArtsAppScrollView();
-    AddPrivacyButton();
+    addPrivacyButton();
     
     Node::onEnter();
 }
@@ -74,7 +74,7 @@ void HQSceneArtsApp::createArtsAppScrollView()
     addCreatedImagesToHorizontalScrollView(horizontalScrollView);
 }
 
-void HQSceneArtsApp::AddPrivacyButton()
+void HQSceneArtsApp::addPrivacyButton()
 {
     PrivacyLayer* privacyLayer = PrivacyLayer::create();
     privacyLayer->setCenterPosition(Vec2(Director::getInstance()->getVisibleOrigin().x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,Director::getInstance()->getVisibleOrigin().y + privacyLayer->getContentSize().height));

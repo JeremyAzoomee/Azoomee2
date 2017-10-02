@@ -92,26 +92,26 @@ void ChildAccountScene::addTitleToScene()
 
 void ChildAccountScene::addTextboxScene()
 {
-    _childNameInputText = TextInputLayer::createWithSize(Size(_visibleSize.width*.80,197), INPUT_IS_CHILD_NAME);
-    _childNameInputText->setPositionY(_sceneTitle->getPositionY()-_childNameInputText->getContentSize().height*2.4);
+    _childNameInputText = TextInputLayer::createWithSize(Size(_visibleSize.width*0.8f,197.0f), INPUT_IS_CHILD_NAME);
+    _childNameInputText->setPositionY(_sceneTitle->getPositionY()-_childNameInputText->getContentSize().height*2.4f);
     _childNameInputText->setDelegate(this);
     this->addChild(_childNameInputText);
     
-    _dayInputText = TextInputLayer::createWithSize(Size(330,197), INPUT_IS_DAY);
+    _dayInputText = TextInputLayer::createWithSize(Size(330.0f,197.0f), INPUT_IS_DAY);
     _dayInputText->setPositionY(_childNameInputText->getPositionY() -_dayInputText->getContentSize().height*2.0f );
-    _dayInputText->setPositionX(_origin.x+_visibleSize.width/2 - 275-_dayInputText->getContentSize().width);
+    _dayInputText->setPositionX(_origin.x+_visibleSize.width/2.0f - 275.0f -_dayInputText->getContentSize().width);
     _dayInputText->setDelegate(this);
     this->addChild(_dayInputText);
     
-    _monthInputText = TextInputLayer::createWithSize(Size(330,197), INPUT_IS_MONTH);
+    _monthInputText = TextInputLayer::createWithSize(Size(330.0f,197.0f), INPUT_IS_MONTH);
     _monthInputText->setPositionY(_dayInputText->getPositionY());
-    _monthInputText->setPositionX(_origin.x+_visibleSize.width/2 - 225);
+    _monthInputText->setPositionX(_origin.x+_visibleSize.width/2.0f - 225.0f);
     _monthInputText->setDelegate(this);
     this->addChild(_monthInputText);
     
-    _yearInputText = TextInputLayer::createWithSize(Size(450,197), INPUT_IS_YEAR);
+    _yearInputText = TextInputLayer::createWithSize(Size(450.0f,197.0f), INPUT_IS_YEAR);
     _yearInputText->setPositionY(_dayInputText->getPositionY());
-    _yearInputText->setPositionX(_origin.x+_visibleSize.width/2 + 155);
+    _yearInputText->setPositionX(_origin.x+_visibleSize.width/2.0f + 155.0f);
     _yearInputText->setDelegate(this);
     this->addChild(_yearInputText);
 }
@@ -119,16 +119,16 @@ void ChildAccountScene::addTextboxScene()
 void ChildAccountScene::addLabelToScene()
 {
     _profileNameTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_NAME_LABEL));
-    _profileNameTitle->setPositionY(_childNameInputText->getPositionY()+(_childNameInputText->getContentSize().height) + (_profileNameTitle->getContentSize().height*.6));
+    _profileNameTitle->setPositionY(_childNameInputText->getPositionY()+(_childNameInputText->getContentSize().height) + (_profileNameTitle->getContentSize().height*0.6f));
     this->addChild(_profileNameTitle);
     
     _profileDOBTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_LABEL));
-    _profileDOBTitle->setPositionY(_dayInputText->getPositionY()+(_dayInputText->getContentSize().height) + (_profileDOBTitle->getContentSize().height*.6));
+    _profileDOBTitle->setPositionY(_dayInputText->getPositionY()+(_dayInputText->getContentSize().height) + (_profileDOBTitle->getContentSize().height*0.6f));
     this->addChild(_profileDOBTitle);
     
     _profileDOBSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_SUB_LABEL));
     _profileDOBSubTitle->setPositionY(_dayInputText->getPositionY()- (_profileDOBSubTitle->getContentSize().height*.3));
-    _profileDOBSubTitle->setLineSpacing(20);
+    _profileDOBSubTitle->setLineSpacing(20.0f);
     this->addChild(_profileDOBSubTitle);
     
     _oomeesTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_LABEL));
@@ -141,7 +141,7 @@ void ChildAccountScene::addButtonsScene()
 {
     
     _nextButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
-    _nextButton->setCenterPosition(Vec2(_visibleSize.width*.7+_origin.x, _dayInputText->getPositionY()-_nextButton->getContentSize().height*1.7));
+    _nextButton->setCenterPosition(Vec2(_visibleSize.width*0.7f +_origin.x, _dayInputText->getPositionY()-_nextButton->getContentSize().height* 1.7f));
     _nextButton->setDelegate(this);
     _nextButton->setMixPanelButtonName("childAccountSceneContinueButton");
     _nextButton->setVisible(false);
@@ -152,7 +152,7 @@ void ChildAccountScene::addButtonsScene()
     this->addChild(_nextButton);
     
     _cancelButton = ElectricDreamsButton::createOutlineButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL));
-    _cancelButton->setCenterPosition(Vec2(_visibleSize.width*.3+_origin.x, _nextButton->getCenterPosition().y));
+    _cancelButton->setCenterPosition(Vec2(_visibleSize.width*0.3f +_origin.x, _nextButton->getCenterPosition().y));
     _cancelButton->setDelegate(this);
     _cancelButton->setMixPanelButtonName("childAccountSceneCancelButton");
     this->addChild(_cancelButton);
@@ -160,12 +160,12 @@ void ChildAccountScene::addButtonsScene()
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
         _cancelButton->setVisible(false);
-        _nextButton->setCenterPosition(Vec2(_visibleSize.width/2+_origin.x, _dayInputText->getPositionY()-_nextButton->getContentSize().height*1.9));
+        _nextButton->setCenterPosition(Vec2(_visibleSize.width/2.0f+_origin.x, _dayInputText->getPositionY()-_nextButton->getContentSize().height* 1.9f));
         _nextButtonPlaceholder->setCenterPosition(_nextButton->getCenterPosition());
         
     }
     _submitButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
-    _submitButton->setCenterPosition(Vec2(_visibleSize.width*.7+_origin.x,_origin.y + _submitButton->getContentSize().height));
+    _submitButton->setCenterPosition(Vec2(_visibleSize.width*0.7f+_origin.x,_origin.y + _submitButton->getContentSize().height));
     _submitButton->setDelegate(this);
     _submitButton->setMixPanelButtonName("childAccountSceneDoneButton");
     _submitButton->setVisible(false);
@@ -187,7 +187,7 @@ void ChildAccountScene::addButtonsScene()
 void ChildAccountScene::addPrivacyButton()
 {
     _privacyLayer = PrivacyLayer::create();
-    _privacyLayer->setCenterPosition(Vec2(_origin.x + _privacyLayer->getContentSize().height + _privacyLayer->getContentSize().width/2,_nextButtonPlaceholder->getPositionY() - _privacyLayer->getContentSize().height*2.0f));
+    _privacyLayer->setCenterPosition(Vec2(_origin.x + _privacyLayer->getContentSize().height + _privacyLayer->getContentSize().width/2.0f,_nextButtonPlaceholder->getPositionY() - _privacyLayer->getContentSize().height*2.0f));
     this->addChild(_privacyLayer);
 }
 
@@ -277,14 +277,14 @@ void ChildAccountScene::addOomeesToScene()
     _oomeeGlow->setScale(.6);
     this->addChild(_oomeeGlow);
     
-    std::vector<cocos2d::Vec2> oomeePositions = {Vec2(0.5, 0.47), Vec2(0.3, 0.29), Vec2(0.7, 0.29), Vec2(0.3, 0.65), Vec2(0.7, 0.65)};
+    std::vector<cocos2d::Vec2> oomeePositions = {Vec2(0.5f, 0.47f), Vec2(0.3f, 0.29f), Vec2(0.7f, 0.29f), Vec2(0.3f, 0.65f), Vec2(0.7f, 0.65f)};
     
     for(int i=0;i< NO_OF_OOMEES;i++)
     {
         auto oomeeButton = ElectricDreamsButton::createOomeeAsButton(i);
         oomeeButton->setDelegate(this);
         oomeeButton->setVisible(false);
-        oomeeButton->setScale(1.3);
+        oomeeButton->setScale(1.3f);
         oomeeButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width * oomeePositions.at(i).x, _origin.y + _visibleSize.height * oomeePositions.at(i).y));
         this->addChild(oomeeButton);
         _oomeeButtons.push_back(oomeeButton);
@@ -298,7 +298,7 @@ void ChildAccountScene::hideOomees()
     for(int i=0;i< _oomeeButtons.size();i++)
     {
         _oomeeButtons.at(i)->setVisible(false);
-        _oomeeButtons.at(i)->setScale(1.3);
+        _oomeeButtons.at(i)->setScale(1.3f);
     }
     
     _oomeeGlow->setVisible(false);
@@ -325,14 +325,14 @@ void ChildAccountScene::selectOomee(int oomeeNumber)
             _submitButton->setVisible(true);
             _selectedOomeeNo = oomeeNumber;
             _oomeeButtons.at(i)->playOomeeAnimation("Build_Dance_Wave", true);
-            _oomeeButtons.at(i)->setScale(1.7);
+            _oomeeButtons.at(i)->setScale(1.7f);
             _oomeeGlow->setPosition(_oomeeButtons.at(i)->getCenterPosition());
             _oomeeGlow->setVisible(true);
         }
         else
         {
             _oomeeButtons.at(i)->playOomeeAnimationNoSound("Build_Fall_Asleep");
-            _oomeeButtons.at(i)->setScale(1);
+            _oomeeButtons.at(i)->setScale(1.0f);
         }
     }
 }
