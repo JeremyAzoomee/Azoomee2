@@ -145,6 +145,21 @@
     	"button":"OK"
     },
     
+    "4002":
+    {
+        "title":"Delete?",
+        "body":"Are you sure you want to delete this profile?",
+        "button":"Delete|Cancel",
+        "optionalButtonRefNames":"Delete|Cancel"
+    },
+    
+    "4003":
+    {
+        "title":"Unable To Delete",
+        "body":"There was a problem deleting this profile. Please try again later.",
+        "button":"OK"
+    },
+    
     "5001":
     {
         "title":"Report This Chat?",
