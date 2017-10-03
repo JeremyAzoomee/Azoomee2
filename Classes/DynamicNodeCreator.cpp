@@ -86,6 +86,13 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
         configBackgroundImage(backgroundImageData);
     }
     
+    //config text
+    if(configFile.HasMember("nodeText"))
+    {
+        const rapidjson::Value& textData = configFile["nodeText"];
+        configText(textData);
+    }
+    
     //config buttons
     
     if(configFile.HasMember("buttons"))
@@ -148,6 +155,12 @@ void DynamicNodeCreator::initCTANode()
     _clippingNode->setPosition(_windowSize/2);
     _CTANode->addChild(_clippingNode);
     
+    _textLayer = Node::create();
+    _textLayer->setContentSize(_windowSize);
+    _textLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _textLayer->setPosition(_windowSize/2);
+    _CTANode->addChild(_textLayer);
+    
     _popupButtonsLayer = Node::create();
     _popupButtonsLayer->setContentSize(_stencil->getContentSize());
     _popupButtonsLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -192,6 +205,7 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
             _popupFrame->setContentSize(newSize);
             _popupButtonsLayer->setContentSize(newSize);
             _popupImages->setContentSize(newSize);
+            _textLayer->setContentSize(newSize);
         }
     }
 }
@@ -218,14 +232,39 @@ void DynamicNodeCreator::configBackgroundColour(const rapidjson::Value &backgrou
 
 void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroundImageData)
 {
-    std::string dataStr = getStringFromJson("data", backgroundImageData);
-        
-    Texture2D* texture = getTextureFromBase64imageData(dataStr,"popupBGImage");
-    if(texture)
+    const std::string filename = getStringFromJson("file", backgroundImageData);
+    bool imagefound = false;
+    
+    if(filename != "")
     {
-        _maskedBGImage->initWithTexture(texture);
+        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename))
+        {
+            _maskedBGImage->initWithFile(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename);
+            imagefound = true;
+        }
+        else
+        {
+            if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + "images/" + filename))
+            {
+                _maskedBGImage->initWithFile(_kCTAAssetLoc + "images/" + filename);
+                imagefound = true;
+            }
+        }
+    }
+    else
+    {
+        std::string dataStr = getStringFromJson("data", backgroundImageData);
         
-        const std::string& displaymode = getStringFromJson("displayMode", backgroundImageData);
+        Texture2D* texture = getTextureFromBase64imageData(dataStr,"popupBGImage");
+        if(texture){
+            _maskedBGImage->initWithTexture(texture);
+            imagefound = true;
+        }
+    }
+    
+    if(imagefound)
+    {
+        std::string displaymode = getStringFromJson("displayMode", backgroundImageData);
         if(displaymode == "fill")
         {
             _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
@@ -235,6 +274,11 @@ void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroun
             float widthScale = _stencil->getContentSize().width/_maskedBGImage->getContentSize().width;
             float heightScale =   _stencil->getContentSize().height/_maskedBGImage->getContentSize().height;
             _maskedBGImage->setScale(MIN(widthScale, heightScale));
+            if(backgroundImageData.HasMember("position"))
+            {
+                _maskedBGImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+                _maskedBGImage->setPosition(Vec2(_windowSize.width/2, _windowSize.height * (backgroundImageData["position"].GetInt()/100.0f))-_windowSize/2);
+            }
         }
     }
     
@@ -332,17 +376,63 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
                 opacity = 255;
             }
             
-            std::string dataStr = getStringFromJson("data", imageList[i]);
-            const std::string& imageName = "popupImage" + std::to_string(i);
-            Texture2D* texture = getTextureFromBase64imageData(dataStr,imageName);
-            if(texture)
+            
+            const std::string filename = getStringFromJson("file", imageList[i]);
+            
+            if(filename != "")
             {
-                addImageWithParams(size, pos, opacity, texture);
+                if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename))
+                {
+                    addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename);
+                }
+                else
+                {
+                    if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + "images/" + filename))
+                    {
+                        addImageWithParams(size, pos, opacity,_kCTAAssetLoc +  "images/" + filename);
+                    }
+                }
             }
-
+            else
+            {
+                std::string dataStr = getStringFromJson("data", imageList[i]);
+                const std::string& imageName = "popupImage" + std::to_string(i);
+                
+                Texture2D* texture = getTextureFromBase64imageData(dataStr,imageName);
+                if(texture)
+                {
+                    addImageWithParams(size, pos, opacity, texture);
+                }
+            }
+            
         }
     }
 
+
+}
+
+void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
+{
+    if(textConfig.HasMember("titleText"))
+    {
+        const rapidjson::Value& titleText = textConfig["titleText"];
+        addTextWithParams(100, Style::Color_4B::ctaNodeText, titleText);
+    }
+    
+    if(textConfig.HasMember("bodyText"))
+    {
+        for(int i = 0; i < textConfig["bodyText"].Size(); i++)
+        {
+            const rapidjson::Value& bodyText = textConfig["bodyText"][i];
+            addTextWithParams(60, Color4B(Style::Color::black), bodyText);
+        }
+    }
+    
+    if(textConfig.HasMember("footerText"))
+    {
+        const rapidjson::Value& footerText = textConfig["footerText"];
+        addTextWithParams(44, Style::Color_4B::ctaNodeText, footerText);
+    }
 }
 
 void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, const std::string &buttonText, ButtonActionDataRef buttonActionData)
@@ -374,6 +464,45 @@ void DynamicNodeCreator::addImageWithParams(const Vec2 &size, const Vec2 &pos, i
     _popupImages->addChild(image);
 
 }
+
+void DynamicNodeCreator::addImageWithParams(const Vec2& size, const Vec2& pos, int opacity, const std::string& filename)
+{
+    Sprite* image = Sprite::create(filename);
+    image->setScale((_windowSize.width*size.x)/image->getContentSize().width, (_windowSize.height*size.y)/image->getContentSize().height);
+    image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    image->setNormalizedPosition(pos);
+    image->setOpacity(opacity/255.0f);
+    _popupImages->addChild(image);
+}
+
+void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, const rapidjson::Value& params)
+{
+    Vec2 pos = getVec2FromJson("position", params)/100.0f;
+    const std::string text = getStringFromJson("text", params);
+    const std::string alignment = getStringFromJson("alignment", params);
+    Label* label = Label::createWithTTF(text, "fonts/azoomee.ttf", fontSize);
+    label->setNormalizedPosition(pos);
+    label->setTextColor(fontColour);
+    
+    if(alignment == "left")
+    {
+        label->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+        label->setHorizontalAlignment(TextHAlignment::LEFT);
+    }
+    else if(alignment == "right")
+    {
+        label->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
+        label->setHorizontalAlignment(TextHAlignment::RIGHT);
+    }
+    else
+    {
+        label->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+        label->setHorizontalAlignment(TextHAlignment::CENTER);
+    }
+    
+    _textLayer->addChild(label);
+}
+
 
 Texture2D* DynamicNodeCreator::getTextureFromBase64imageData(std::string& data, const std::string& imageName)
 {

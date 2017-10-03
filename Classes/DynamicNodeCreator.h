@@ -29,6 +29,7 @@ private:
     cocos2d::ui::Scale9Sprite* _popupFrame = nullptr;
     cocos2d::Node* _popupButtonsLayer = nullptr;
     cocos2d::Node* _popupImages = nullptr;
+    cocos2d::Node* _textLayer = nullptr;
     cocos2d::ui::Button* _closeButton = nullptr;
     cocos2d::LayerColor* _bgColour = nullptr;
     
@@ -45,9 +46,14 @@ private:
     void configBackgroundImage(const rapidjson::Value& backgroundImageData);
     void configButtons(const rapidjson::Value& buttonsList);
     void configExtraImages(const rapidjson::Value& imageList);
+    void configText(const rapidjson::Value& textConfig);
+
     
     void addButtonWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData);
     void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, cocos2d::Texture2D* texture);
+    void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& filename);
+    void addTextWithParams(int fontSize, cocos2d::Color4B fontColour, const rapidjson::Value& params);
+    
     cocos2d::Texture2D* getTextureFromBase64imageData(std::string& data, const std::string& imageName);
     
 public:
