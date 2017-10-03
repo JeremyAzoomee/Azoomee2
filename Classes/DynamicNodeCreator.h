@@ -27,7 +27,6 @@ private:
     
     //CTA components
     cocos2d::ui::Scale9Sprite* _popupFrame = nullptr;
-    cocos2d::Sprite* _popupContentImage = nullptr;
     cocos2d::Node* _popupButtonsLayer = nullptr;
     cocos2d::Node* _popupImages = nullptr;
     cocos2d::ui::Button* _closeButton = nullptr;

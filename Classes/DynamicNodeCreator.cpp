@@ -171,8 +171,7 @@ void DynamicNodeCreator::initCTANode()
     _closeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _closeButton->setPosition(_popupFrame->getPosition() + _popupFrame->getContentSize()/2 - _closeButton->getContentSize()*0.75);
     _closeButton->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType type){
-        _CTANode->removeFromParent();
-        _CTANode = nullptr;
+        this->resetCTAPopup();
     });
     _CTANode->addChild(_closeButton);
     
@@ -212,7 +211,7 @@ void DynamicNodeCreator::configBackgroundColour(const rapidjson::Value &backgrou
 {
     if(backgroundColour.Size() == 3 && backgroundColour[0].IsInt() && backgroundColour[1].IsInt() && backgroundColour[2].IsInt())
     {
-        Color3B newColour = Color3B(backgroundColour[0].GetInt(), backgroundColour[1].GetInt(), backgroundColour[2].GetInt());
+        const Color3B& newColour = Color3B(backgroundColour[0].GetInt(), backgroundColour[1].GetInt(), backgroundColour[2].GetInt());
         _bgColour->setColor(newColour);
     }
 }
@@ -254,7 +253,6 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
              */
             Vec2 pos;
             Vec2 size;
-            std::string btnString;
             ButtonActionDataRef actionData;
             
             pos = getVec2FromJson("position",buttonsList[i]);
@@ -279,7 +277,7 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
                 continue;
             }
             
-            btnString = getStringFromJson("text", buttonsList[i]);
+            const std::string& btnString = getStringFromJson("text", buttonsList[i]);
             
             if(buttonsList[i].HasMember("action"))
             {
