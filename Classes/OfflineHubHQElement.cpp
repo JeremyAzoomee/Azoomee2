@@ -43,6 +43,7 @@ void OfflineHubHQElement::addHQSceneElement(const std::string &category, const s
     elementVisual->setCreatedForOffline(true);
     elementVisual->createHQSceneElement();
     
+    
     this->addChild(elementVisual);
     
     this->setContentSize(elementVisual->getContentSize());
@@ -106,7 +107,13 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
             
             CCLOG("Action to come: %s", startUrl.c_str());
             
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(itemData.at("title"), itemData.at("description"), itemData.at("type"), itemData.at("id"), -1, -1, "1,1");
+            HQContentItemObject contentItem = HQContentItemObject::create();
+            contentItem.setTitle(itemData.at("title"));
+            contentItem.setDescription(itemData.at("description"));
+            contentItem.setType(itemData.at("type"));
+            contentItem.setContentItemId(itemData.at("id"));
+            
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(&contentItem, -1, -1, "1,1");
             
             Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(itemData), startUrl.c_str()));
         }

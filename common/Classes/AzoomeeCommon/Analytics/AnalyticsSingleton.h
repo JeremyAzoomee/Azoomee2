@@ -4,6 +4,7 @@
 #include <cocos/cocos2d.h>
 #include "../Data/ConfigStorage.h"
 #include <time.h>
+#include "../Data/HQDataObject/HQContentItemObject.h"
 
 #define NUMBER_IDENTIFIER "NUMBER|"
 
@@ -92,13 +93,14 @@ public:
     //-------------CONTENTITEM EVENTS----------
     void contentItemSelectedEvent(const std::string& Type);
     void contentItemSelectedEvent(const std::string& Type, const std::string& elementShape);
-    void contentItemSelectedEvent(const std::string& Title,const std::string& Description, const std::string& Type, const std::string& contentID, int rowNumber, int elementNumber, const std::string& elementShape);
+    //void contentItemSelectedEvent(const std::string& Title,const std::string& Description, const std::string& Type, const std::string& contentID, int rowNumber, int elementNumber, const std::string& elementShape);
+    void contentItemSelectedEvent(HQContentItemObject *contentItem, int rowNumber, int elementNumber, const std::string& elementShape);
     void contentItemProcessingStartedEvent();
     void contentItemProcessingErrorEvent();
     void contentItemIncompatibleEvent();
     void contentItemWebviewStartedEvent();
     void contentItemClosedEvent();
-    void updateContentItemDetails(std::map<std::string, std::string> contentItemDetails);
+    void updateContentItemDetails(HQContentItemObject *contentItem);
 
     //------------- PREVIEW ACTIONS ---------------
     void previewContentClickedEvent(std::string Title,std::string Description, std::string Type);

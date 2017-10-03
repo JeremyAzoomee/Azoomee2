@@ -72,6 +72,7 @@ HQContentItemObject VideoPlaylistManager::getContentItemDataForPlaylistElement(i
     if(elementNumber >= storedPlaylist.getContentItems()->size() || elementNumber < 0) return returnData;
     
     returnData = *storedPlaylist.getContentItems()->at(elementNumber);
+    returnData.setElementNumber(elementNumber);
     returnData.setImagePath("");
     
     return returnData;

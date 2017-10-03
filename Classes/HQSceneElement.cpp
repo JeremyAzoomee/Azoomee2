@@ -151,7 +151,7 @@ void HQSceneElement::addListenerToElement()
             if(!elementItemData->getEntitled())
             {
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData->getTitle(), elementItemData->getDescription(), elementItemData->getType(), elementItemData->getContentItemId(), elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData, elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
                 
                 if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
                 {
@@ -164,7 +164,7 @@ void HQSceneElement::addListenerToElement()
                 return true;
             }
                 
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData->getTitle(), elementItemData->getDescription(), elementItemData->getType(), elementItemData->getContentItemId(), elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData, elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
             startUpElementDependingOnType();
             return true;
         }

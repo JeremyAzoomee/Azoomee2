@@ -11,8 +11,8 @@ NS_AZOOMEE_BEGIN
 class HQDataObject
 {
 private:
-    std::string hqType;
-    std::string hqUrl;
+    std::string hqType = "";
+    std::string hqUrl = "";
     bool hqEntitlement = false;
     std::vector<HQCarouselObject> carousels;
     std::map<std::string, HQContentItemObject> rawContentItems;

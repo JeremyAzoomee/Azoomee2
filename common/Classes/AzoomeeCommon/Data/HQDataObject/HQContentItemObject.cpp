@@ -133,11 +133,30 @@ std::string HQContentItemObject::getJSONRepresentationOfStructure()
 HQContentItemObject HQContentItemObject::createFromMap(const std::map<std::string, std::string> &inputMap)
 {
     HQContentItemObject returnObject = HQContentItemObject::create();
-    if(inputMap.find("id") != inputMap.end()) returnObject.setContentItemId(inputMap.at("id"));
-    if(inputMap.find("title") != inputMap.end()) returnObject.setTitle(inputMap.at("title"));
-    if(inputMap.find("description") != inputMap.end()) returnObject.setDescription(inputMap.at("description"));
-    if(inputMap.find("type") != inputMap.end()) returnObject.setType(inputMap.at("type"));
-    if(inputMap.find("uri") != inputMap.end()) returnObject.setUri(inputMap.at("uri"));
+    if(inputMap.find("id") != inputMap.end())
+    {
+        returnObject.setContentItemId(inputMap.at("id"));
+    }
+    
+    if(inputMap.find("title") != inputMap.end())
+    {
+        returnObject.setTitle(inputMap.at("title"));
+    }
+    
+    if(inputMap.find("description") != inputMap.end())
+    {
+        returnObject.setDescription(inputMap.at("description"));
+    }
+    
+    if(inputMap.find("type") != inputMap.end())
+    {
+        returnObject.setType(inputMap.at("type"));
+    }
+    
+    if(inputMap.find("uri") != inputMap.end())
+    {
+        returnObject.setUri(inputMap.at("uri"));
+    }
     
     if(inputMap.find("entitled") != inputMap.end())
     {
@@ -147,7 +166,6 @@ HQContentItemObject HQContentItemObject::createFromMap(const std::map<std::strin
     if(inputMap.find("newFlag") != inputMap.end())
     {
         inputMap.at("newFlag") == "true" ? returnObject.setNewFlag(true) : returnObject.setNewFlag(false);
-
     }
     
     return returnObject;

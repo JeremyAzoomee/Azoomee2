@@ -145,7 +145,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         {
             if(!elementProperties->getEntitled())
             {
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties->getTitle(), elementProperties->getDescription(), elementProperties->getType(), elementProperties->getContentItemId(), -1, -1, "1,1");
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties, -1, -1, "1,1");
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 
                 if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
@@ -165,7 +165,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
             {
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties->getTitle(), elementProperties->getDescription(), elementProperties->getType(), elementProperties->getContentItemId(), -1, -1, "1,1");
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties, -1, -1, "1,1");
                 
                 target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
                 

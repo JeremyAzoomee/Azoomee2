@@ -12,7 +12,6 @@
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -182,18 +181,16 @@ void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
     
     if(contentData["entitled"].GetBool())
     {
-        std::vector<std::string> requiredData = {"description", "title", "type", "uri"};
-        std::map<std::string, std::string> elementProperties;
-    
-        for(int i = 0; i < requiredData.size(); i++)
-        {
-            elementProperties[requiredData.at(i)] = getDataForKeyFromJSON(responseBody, requiredData.at(i));
-        }
-        elementProperties["id"] = path;
+        HQContentItemObject contentItem = HQContentItemObject::create();
+        contentItem.setTitle(getDataForKeyFromJSON(responseBody, "title"));
+        contentItem.setDescription(getDataForKeyFromJSON(responseBody, "description"));
+        contentItem.setType(getDataForKeyFromJSON(responseBody, "type"));
+        contentItem.setUri(getDataForKeyFromJSON(responseBody, "uri"));
+        contentItem.setContentItemId(path);
         
-        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "0,0");
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(&contentItem, -1, -1, "0,0");
         
-        completeContentAction(elementProperties);
+        completeContentAction(&contentItem);
     }
     else
     {
@@ -216,20 +213,19 @@ std::string DeepLinkingSingleton::getDataForKeyFromJSON(std::string jsonString, 
     return jsonData[key.c_str()].GetString();
 }
 
-void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::string> elementProperties)
+void DeepLinkingSingleton::completeContentAction(HQContentItemObject *contentItem)
 {
-    if(elementProperties["type"] == "GAME")
+    if(contentItem->getType() == "GAME")
     {
-        HQContentItemObject gameContentObject = HQContentItemObject::createFromMap(elementProperties);
-        GameDataManager::getInstance()->startProcessingGame(&gameContentObject);
+        GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
-    else if(elementProperties["type"]  == "VIDEO" || elementProperties["type"]  == "AUDIO")
+    else if(contentItem->getType()  == "VIDEO" || contentItem->getType()  == "AUDIO")
     {
         VideoPlaylistManager::getInstance()->clearPlaylist();
         auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(elementProperties["uri"],Orientation::Landscape);
+        webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);
     }
-    else if(elementProperties["type"]  == "AUDIOGROUP" || elementProperties["type"]  == "GROUP")
+    else if(contentItem->getType()  == "AUDIOGROUP" || contentItem->getType()  == "GROUP")
     {
         ModalMessages::getInstance()->stopLoading();
         
@@ -240,13 +236,13 @@ void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::stri
             
             if(navigationLayer)
             {
-                navigationLayer->startLoadingGroupHQ(elementProperties["uri"]);
+                navigationLayer->startLoadingGroupHQ(contentItem->getUri());
 
-                HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties["uri"]);
+                HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
                 HQHistoryManager::getInstance()->setGroupHQSourceId(path);
                 
                 auto funcCallAction = CallFunc::create([=](){
-                    HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties.at("uri"));
+                    HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
                 });
                 
                 Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));

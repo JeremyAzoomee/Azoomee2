@@ -9,18 +9,18 @@ NS_AZOOMEE_BEGIN
 class HQContentItemObject
 {
 private:
-    std::string contentItemId;
-    std::string title;
-    std::string description;
-    std::string type;
-    std::string uri;
-    bool entitled;
-    bool newFlag;
+    std::string contentItemId = "";
+    std::string title = "";
+    std::string description = "";
+    std::string type = "";
+    std::string uri = "";
+    bool entitled = true;
+    bool newFlag = false;
     
     //variables that are just added when read (not storing)
-    std::string imagePath;
-    int elementNumber;
-    cocos2d::Vec2 elementShape;
+    std::string imagePath = "";
+    int elementNumber = 0;
+    cocos2d::Vec2 elementShape = cocos2d::Vec2(0,0);
     
 public:
     HQContentItemObject();
