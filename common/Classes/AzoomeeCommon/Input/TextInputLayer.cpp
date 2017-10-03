@@ -70,7 +70,8 @@ void TextInputLayer::createEditBox()
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::WHITE);
-    
+    editBox->setPlaceholderFontColor(Style::Color::brightAqua);
+    editBox->setPlaceholderFont(Style::Font::Input, INPUT_STYLE_SIZE);
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
    
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
@@ -116,13 +117,14 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setMaxLength(12);
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+            //PLACEHOLDER TEXT WILL CHANGE/REMOVE WITH NEXT RELEASE AND CHANGE TO SIGNUP
+            editBox->setPlaceHolder("First name or nickname only!");
             break;
         }
         case INPUT_IS_DAY:
         {
             editBox->setMaxLength(2);
             editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_DAY_PLACEHOLDER).c_str());
-            editBox->setPlaceholderFont(Style::Font::Input, INPUT_STYLE_SIZE);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
@@ -130,7 +132,6 @@ void TextInputLayer::setupEditBoxUsingType()
         {
             editBox->setMaxLength(2);
             editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_MONTH_PLACEHOLDER).c_str());
-            editBox->setPlaceholderFont(Style::Font::Input, INPUT_STYLE_SIZE);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
@@ -138,11 +139,18 @@ void TextInputLayer::setupEditBoxUsingType()
         {
             editBox->setMaxLength(4);
             editBox->setPlaceHolder(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_DOB_YEAR_PLACEHOLDER).c_str());
-            editBox->setPlaceholderFont(Style::Font::Input, INPUT_STYLE_SIZE);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
             break;
         }
-        
+        case INPUT_IS_NEW_PASSWORD:
+        {
+            editBox->setMaxLength(50);
+            editBox->setInputFlag(ui::EditBox::InputFlag::PASSWORD);
+            editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
+            //PLACEHOLDER TEXT WILL CHANGE/REMOVE WITH NEXT RELEASE AND CHANGE TO SIGNUP
+            editBox->setPlaceHolder("Minimum 6 characters");
+            break;
+        }
     }
 }
     
@@ -217,25 +225,33 @@ bool TextInputLayer::inputIsValid()
         case INPUT_IS_EMAIL:
         {
             if(isValidEmailAddress(editBox->getText()))
+            {
                 isValidInput = true;
+            }
             break;
         }
         case INPUT_IS_PASSWORD:
         {
-            if(isValidPassword(editBox->getText()))
+            if(isValidPassword(editBox->getText(),2))
+            {
                 isValidInput = true;
+            }
             break;
         }
         case INPUT_IS_PIN:
         {
             if(isValidPin(editBox->getText()))
+            {
                 isValidInput = true;
+            }
             break;
         }
         case INPUT_IS_CHILD_NAME:
         {
             if(isValidChildName(editBox->getText()))
+            {
                 isValidInput = true;
+            }
             break;
         }
         case INPUT_IS_KIDS_CODE:
@@ -243,6 +259,15 @@ bool TextInputLayer::inputIsValid()
             isValidInput = strlen(editBox->getText()) == 8;
             break;
         }
+        case INPUT_IS_NEW_PASSWORD:
+        {
+            if(isValidPassword(editBox->getText(), 6))
+            {
+                isValidInput = true;
+            }
+            break;
+        }
+            
     }
     
     return isValidInput;
@@ -269,8 +294,10 @@ void TextInputLayer::setNewWidth(float newWidth)
 void TextInputLayer::editBoxTextChanged(cocos2d::ui::EditBox* editBox, const std::string& text)
 {
     if(this->getDelegate())
+    {
         //Inform Delegates if input is valid
         this->getDelegate()->textInputIsValid(this, inputIsValid());
+    }
 }
 
 void TextInputLayer::editBoxReturn(cocos2d::ui::EditBox* editBox)
@@ -299,15 +326,19 @@ void TextInputLayer::editBoxEditingDidEndWithAction(cocos2d::ui::EditBox* editBo
 void TextInputLayer::editBoxEditingDidBegin(cocos2d::ui::EditBox* editBox)
 {
     if(this->getDelegate())
+    {
         //Inform Delegates if input is valid
         this->getDelegate()->editBoxEditingDidBegin(this);
+    }
 }
     
 void TextInputLayer::editBoxEditingDidEnd(cocos2d::ui::EditBox* editBox)
 {
     if(this->getDelegate())
+    {
         //Inform Delegates if input is valid
         this->getDelegate()->editBoxEditingDidEnd(this);
+    }
 }
   
 }

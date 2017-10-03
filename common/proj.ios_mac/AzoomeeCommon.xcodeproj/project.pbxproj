@@ -13,6 +13,8 @@
 		021B1FCC1F838A0A0044DCF7 /* HQDataObjectStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC71F838A0A0044DCF7 /* HQDataObjectStorage.cpp */; };
 		022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022218CA1ECF203000AD167F /* SessionIdManager.cpp */; };
 		02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A120231EAF83E0007EDD95 /* VersionChecker.cpp */; };
+		02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */; };
+		02AE88E31F83CBC3005C0FC8 /* AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */; };
 		3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */; };
 		3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */; };
 		3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF791ED5BBB700E9717C /* Application.cpp */; };
@@ -161,6 +163,10 @@
 		022218CB1ECF203000AD167F /* SessionIdManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionIdManager.h; sourceTree = "<group>"; };
 		02A120231EAF83E0007EDD95 /* VersionChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VersionChecker.cpp; sourceTree = "<group>"; };
 		02A120241EAF83E0007EDD95 /* VersionChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionChecker.h; sourceTree = "<group>"; };
+		02AE88DE1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosNativeFunctionsSingleton.h; sourceTree = "<group>"; };
+		02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
+		02AE88E11F83CBC3005C0FC8 /* AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutomaticEvents.h; sourceTree = "<group>"; };
+		02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutomaticEvents.m; sourceTree = "<group>"; };
 		3000FF701ED5AB7000E9717C /* AzoomeeAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeAppController.h; sourceTree = "<group>"; };
 		3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AzoomeeAppController.mm; sourceTree = "<group>"; };
 		3000FF721ED5AB7000E9717C /* AzoomeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeViewController.h; sourceTree = "<group>"; };
@@ -596,6 +602,8 @@
 			isa = PBXGroup;
 			children = (
 				304A6EEA1EC9A96F000D52B5 /* CocosSharedPtr.h */,
+				02AE88DE1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.h */,
+				02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */,
 				022218CA1ECF203000AD167F /* SessionIdManager.cpp */,
 				022218CB1ECF203000AD167F /* SessionIdManager.h */,
 				3012ED6B1E96A3140009027D /* StringFunctions.cpp */,
@@ -849,6 +857,8 @@
 				4349C7601EA8ADEE00FE964B /* _MPTweakBindObserver.h */,
 				4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */,
 				4349C7631EA8ADEE00FE964B /* AutomaticEventsConstants.h */,
+				02AE88E11F83CBC3005C0FC8 /* AutomaticEvents.h */,
+				02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */,
 				4349C7741EA8ADEE00FE964B /* Mixpanel+AutomaticEvents.h */,
 				4349C7751EA8ADEE00FE964B /* Mixpanel+AutomaticEvents.m */,
 				4349C7761EA8ADEE00FE964B /* Mixpanel.h */,
@@ -1103,6 +1113,7 @@
 				30DD5ED61E965E060084305B /* AnalyticsSingleton_ios.mm in Sources */,
 				4349C8361EA8ADEF00FE964B /* MPNotificationButton.m in Sources */,
 				4349C8591EA8ADEF00FE964B /* UIApplication+AutomaticEvents.m in Sources */,
+				02AE88E31F83CBC3005C0FC8 /* AutomaticEvents.m in Sources */,
 				3012ED591E969BBB0009027D /* ParentDataStorage.cpp in Sources */,
 				436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */,
 				4349C8211EA8ADEF00FE964B /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
@@ -1154,6 +1165,7 @@
 				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,
 				3012ED711E96A3140009027D /* StringMgr.cpp in Sources */,
 				4349C8201EA8ADEF00FE964B /* MPABTestDesignerDisconnectMessage.m in Sources */,
+				02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */,
 				3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */,
 				4349C8391EA8ADEF00FE964B /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				4349C83D1EA8ADEF00FE964B /* MPObjectSerializerConfig.m in Sources */,

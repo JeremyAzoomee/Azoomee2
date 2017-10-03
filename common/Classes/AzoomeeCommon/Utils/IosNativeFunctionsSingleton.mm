@@ -1,5 +1,6 @@
 #include "IosNativeFunctionsSingleton.h"
 #import <AdSupport/ASIdentifierManager.h>
+#import <UIKit/UIKit.h>
 
 using namespace cocos2d;
 

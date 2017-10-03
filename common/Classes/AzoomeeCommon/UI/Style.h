@@ -68,7 +68,7 @@ namespace Color_4B
     const cocos2d::Color4B letterBoxSlideBackground(48,38,38,255);
     const cocos2d::Color4B awaitingPinLayer(15,14,7,255);
     
-    const cocos2d::Color4B semiTransparentOverlay(0,0,0,200);
+    const cocos2d::Color4B semiTransparentOverlay(0,0,0,153);
 }
     
 namespace Color_4F
@@ -86,21 +86,38 @@ namespace Color_4F
     
     const cocos2d::Color4F pureWhite = cocos2d::Color4F(1,1,1, 1.0f);
     const cocos2d::Color4F defaultBrush = cocos2d::Color4F(54/255.0f,108/255.0f,135/255.0f,1.0f);
+
+    const cocos2d::Color4F neonBlue = cocos2d::Color4F(2/255.0f,245/255.0f,246/255.0f, 1.0f);
+    const cocos2d::Color4F paleGreen = cocos2d::Color4F(143/255.0f,255/255.0f,177/255.0f, 1.0f);
+    const cocos2d::Color4F paleYellow = cocos2d::Color4F(255/255.0f,246/255.0f,185/255.0f, 1.0f);
+    const cocos2d::Color4F lightGrey = cocos2d::Color4F(242/255.0f,242/255.0f,242/255.0f, 1.0f);
+    const cocos2d::Color4F grey = cocos2d::Color4F(205/255.0f,209/255.0f,205/255.0f, 1.0f);
+    const cocos2d::Color4F darkGrey = cocos2d::Color4F(141/255.0f,146/255.0f,146/255.0f, 1.0f);
+    const cocos2d::Color4F black = cocos2d::Color4F(0/255.0f,0/255.0f,0/255.0f, 1.0f);
     
-    const cocos2d::Color4F pink = cocos2d::Color4F(228/255.0f,0/255.0f,131/255.0f, 1.0f);
-    const cocos2d::Color4F red = cocos2d::Color4F(222/255.0f,0/255.0f,0/255.0f, 1.0f);
-    const cocos2d::Color4F orange = cocos2d::Color4F(228/255.0f,137/255.0f,0/255.0f, 1.0f);
-    const cocos2d::Color4F yellow = cocos2d::Color4F(232/255.0f,202/255.0f,0/255.0f, 1.0f);
+    const cocos2d::Color4F darkPurple = cocos2d::Color4F(142/255.0f,25/255.0f,167/255.0f, 1.0f);
+    const cocos2d::Color4F purple = cocos2d::Color4F(192/255.0f,25/255.0f,194/255.0f, 1.0f);
+    const cocos2d::Color4F neonPink = cocos2d::Color4F(239/255.0f,30/255.0f,239/255.0f, 1.0f);
+    const cocos2d::Color4F palePink = cocos2d::Color4F(255/255.0f,196/255.0f,242/255.0f, 1.0f);
+    const cocos2d::Color4F pink = cocos2d::Color4F(255/255.0f,85/255.0f,183/255.0f, 1.0f);
+    const cocos2d::Color4F darkPink = cocos2d::Color4F(228/255.0f,0/255.0f,131/255.0f, 1.0f);
+    const cocos2d::Color4F red = cocos2d::Color4F(234/255.0f,0/255.0f,51/255.0f, 1.0f);
+    
+    const cocos2d::Color4F darkBlue = cocos2d::Color4F(25/255.0f,11/255.0f,172/255.0f, 1.0f);
+    const cocos2d::Color4F blue = cocos2d::Color4F(0/255.0f,79/255.0f,203/255.0f, 1.0f);
+    const cocos2d::Color4F lightBlue = cocos2d::Color4F(17/255.0f,134/255.0f,196/255.0f, 1.0f);
+    const cocos2d::Color4F greenBlue = cocos2d::Color4F(27/255.0f,160/255.0f,163/255.0f, 1.0f);
     const cocos2d::Color4F green = cocos2d::Color4F(29/255.0f,158/255.0f,68/255.0f, 1.0f);
-    const cocos2d::Color4F blue = cocos2d::Color4F(27/255.0f,160/255.0f,163/255.0f, 1.0f);
-    const cocos2d::Color4F purple = cocos2d::Color4F(141/255.0f,23/255.0f,137/255.0f, 1.0f);
-    const cocos2d::Color4F black = cocos2d::Color4F(52/255.0f,52/255.0f,54/255.0f, 1.0f);
-    const cocos2d::Color4F grey = cocos2d::Color4F(95/255.0f,97/255.0f,97/255.0f, 1.0f);
-    const cocos2d::Color4F lightGrey = cocos2d::Color4F(205/255.0f,209/255.0f,205/255.0f, 1.0f);
-    const cocos2d::Color4F white = cocos2d::Color4F(242/255.0f,242/255.0f,242/255.0f, 1.0f);
-    const cocos2d::Color4F skinPink = cocos2d::Color4F(212/255.0f,164/255.0f,164/255.0f, 1.0f);
-    const cocos2d::Color4F brown = cocos2d::Color4F(136/255.0f,81/255.0f,30/255.0f, 1.0f);
+    const cocos2d::Color4F grassGreen = cocos2d::Color4F(140/255.0f,206/255.0f,16/255.0f, 1.0f);
+    const cocos2d::Color4F neonGreen = cocos2d::Color4F(144/255.0f,255/255.0f,0/255.0f, 1.0f);
+    
     const cocos2d::Color4F darkBrown = cocos2d::Color4F(86/255.0f,28/255.0f,0/255.0f, 1.0f);
+    const cocos2d::Color4F brown = cocos2d::Color4F(111/255.0f,59/255.0f,10/255.0f, 1.0f);
+    const cocos2d::Color4F lightBrown = cocos2d::Color4F(146/255.0f,77/255.0f,13/255.0f, 1.0f);
+    const cocos2d::Color4F orangeBrown = cocos2d::Color4F(177/255.0f,102/255.0f,32/255.0f, 1.0f);
+    const cocos2d::Color4F orange = cocos2d::Color4F(255/255.0f,125/255.0f,6/255.0f, 1.0f);
+    const cocos2d::Color4F darkYellow = cocos2d::Color4F(255/255.0f,211/255.0f,0/255.0f, 1.0f);
+    const cocos2d::Color4F yellow = cocos2d::Color4F(255/255.0f,236/255.0f,107/255.0f, 1.0f);
     
 }
 

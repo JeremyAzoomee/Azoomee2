@@ -145,7 +145,9 @@ void HQSceneElementVisual::addGradientToBottom()
     float iconScaleFactor = 1;
     
     if(isOffline)
+    {
         iconScaleFactor = 1.8;
+    }
     
     auto gradient = Sprite::create(ConfigStorage::getInstance()->getGradientImageForCategory(elementCategory));
     gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2 * iconScaleFactor +10);
@@ -162,7 +164,9 @@ Sprite* HQSceneElementVisual::addIconToImage()
     float iconScaleFactor = 1;
     
     if(isOffline)
+    {
         iconScaleFactor = 2;
+    }
     
     float audioHeightOffset = 15;
     
@@ -197,9 +201,14 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
 
 void HQSceneElementVisual::addLockToElement()
 {
-    auto lockImage = Sprite::create("res/hqscene/locked.png");
-    lockImage->setPosition(baseLayer->getContentSize() / 2);
+    Layer* lockedOverlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, baseLayer->getContentSize().width, baseLayer->getContentSize().height);
+    lockedOverlay->setPosition(0,0);
+    baseLayer->addChild(lockedOverlay);
+    auto lockImage = Sprite::create(HQDataProvider::kLockFiles.at(elementItemData.getType()));
+    lockImage->setPosition(baseLayer->getContentSize().width, 0);
+    lockImage->setAnchorPoint(Vec2(1,0));
     baseLayer->addChild(lockImage);
+    
 }
 
 void HQSceneElementVisual::resizeSceneElement()

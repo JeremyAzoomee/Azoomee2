@@ -10,6 +10,9 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
+
+static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
+
 #endif
 
 using namespace cocos2d;
@@ -114,15 +117,8 @@ void GooglePaymentSingleton::startIABPayment()
     requestAttempts = 0;
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    
-    cocos2d::JniMethodInfo methodInfo;
-    if (! cocos2d::JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/cpp/AppActivity", "startGooglePurchase", "()V"))
-    {
-        return;
-    }
-    
-    methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
-    methodInfo.env->DeleteLocalRef(methodInfo.classID);
+
+    JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "startGooglePurchase");
     
 #endif
 }

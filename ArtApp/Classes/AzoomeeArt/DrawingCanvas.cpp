@@ -9,10 +9,42 @@
 #include "DrawingCanvas.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include <dirent.h>
+#include <math.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_AA_BEGIN
+
+const std::vector<Color3B> DrawingCanvas::kColours = {
+    Color3B(Style::Color_4F::darkBrown),
+    Color3B(Style::Color_4F::brown),
+    Color3B(Style::Color_4F::lightBrown),
+    Color3B(Style::Color_4F::orangeBrown),
+    Color3B(Style::Color_4F::orange),
+    Color3B(Style::Color_4F::darkYellow),
+    Color3B(Style::Color_4F::yellow),
+    Color3B(Style::Color_4F::darkBlue),
+    Color3B(Style::Color_4F::blue),
+    Color3B(Style::Color_4F::lightBlue),
+    Color3B(Style::Color_4F::greenBlue),
+    Color3B(Style::Color_4F::green),
+    Color3B(Style::Color_4F::grassGreen),
+    Color3B(Style::Color_4F::neonGreen),
+    Color3B(Style::Color_4F::darkPurple),
+    Color3B(Style::Color_4F::purple),
+    Color3B(Style::Color_4F::neonPink),
+    Color3B(Style::Color_4F::palePink),
+    Color3B(Style::Color_4F::pink),
+    Color3B(Style::Color_4F::darkPink),
+    Color3B(Style::Color_4F::red),
+    Color3B(Style::Color_4F::neonBlue),
+    Color3B(Style::Color_4F::paleGreen),
+    Color3B(Style::Color_4F::paleYellow),
+    Color3B(Style::Color_4F::lightGrey),
+    Color3B(Style::Color_4F::grey),
+    Color3B(Style::Color_4F::darkGrey),
+    Color3B(Style::Color_4F::black)
+};
 
 bool DrawingCanvas::init()
 {
@@ -119,17 +151,13 @@ void DrawingCanvas::saveImage(const std::string& filePath)
 
 void DrawingCanvas::setupTouchHandling()
 {
-    //static bool touchProcessed = false;
 
     drawCanvasTouchListener = EventListenerTouchOneByOne::create();
     
     drawCanvasTouchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
-        //if(touchProcessed)
-        //    return false;
             
         activeBrush->onTouchBegin(touch, event);
-        //touchProcessed = true;
 
         return true;
     };
@@ -146,10 +174,10 @@ void DrawingCanvas::setupTouchHandling()
         
         activeBrush->onTouchEnded(touch, event);
         
-        //touchProcessed = false;
-        
         if(drawingStack.size() == 0)
+        {
             clearButton->loadTextures(ArtAppAssetLoc + "art_button_undo.png", ArtAppAssetLoc + "undo.png");
+        }
         drawingStack.push_back(activeBrush->getDrawNode());
         this->addChild(activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
         
@@ -167,10 +195,6 @@ void DrawingCanvas::setupTouchHandling()
         
         actionCounter++;
         
-    };
-    drawCanvasTouchListener->onTouchCancelled = [&](Touch* touch, Event* event)
-    {
-        //touchProcessed = false;
     };
     
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(drawCanvasTouchListener, this);
@@ -213,8 +237,6 @@ void DrawingCanvas::addBrushes()
     }
     activeBrush = brushes[0];
     this->addChild(activeBrush->getDrawNode());
-    
-    selectedColour = Style::Color_4F::pink;
 }
 
 //UI LOADING
@@ -283,53 +305,39 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
     leftBG->setPosition(Vec2(visibleOrigin.x, visibleOrigin.y - BOTTOM_UI_Y_OFFSET));
     this->addChild(leftBG,MAIN_UI_LAYER);
     
+    const Vec2& tableDimensions =  Vec2(7,ceilf(kColours.size()/7.0f));
+    
     colourButtonLayout = Node::create();
-    colourButtonLayout->setContentSize(Size(visibleSize.width*0.7,visibleSize.height*0.4));
+    colourButtonLayout->setContentSize(Size(visibleSize.width*0.7,visibleSize.height*(0.2*tableDimensions.y)));
     colourButtonLayout->setAnchorPoint(Vec2(0.5,0.5));
-    colourButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y + visibleSize.height/2));
+    colourButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y + visibleSize.height/2 + 100));
     colourButtonLayout->setVisible(false);
     this->addChild(colourButtonLayout,POPUP_UI_LAYER);
     
     ui::Scale9Sprite* colourBG = ui::Scale9Sprite::create(ArtAppAssetLoc + "gallery/art_painting_placeholder.png");
     colourBG->setContentSize(colourButtonLayout->getContentSize());
     colourBG->setAnchorPoint(Vec2(0.5,0.5));
-    colourBG->setNormalizedPosition(Vec2(0.5,0.2));
+    colourBG->setNormalizedPosition(Vec2(0.5,0.5));
     colourButtonLayout->addChild(colourBG);
-    
-    std::vector<Color3B> colours;
-    colours.push_back(Color3B(Style::Color_4F::pink));
-    colours.push_back(Color3B(Style::Color_4F::red));
-    colours.push_back(Color3B(Style::Color_4F::orange));
-    colours.push_back(Color3B(Style::Color_4F::yellow));
-    colours.push_back(Color3B(Style::Color_4F::green));
-    colours.push_back(Color3B(Style::Color_4F::blue));
-    colours.push_back(Color3B(Style::Color_4F::purple));
-    colours.push_back(Color3B(Style::Color_4F::black));
-    colours.push_back(Color3B(Style::Color_4F::grey));
-    colours.push_back(Color3B(Style::Color_4F::lightGrey));
-    colours.push_back(Color3B(Style::Color_4F::white));
-    colours.push_back(Color3B(Style::Color_4F::skinPink));
-    colours.push_back(Color3B(Style::Color_4F::brown));
-    colours.push_back(Color3B(Style::Color_4F::darkBrown));
     
     int colourCount = 0;
     
-    const int rows = 2;
-    const int columns = 7;
-    
-    for (int j = 0; j<rows; ++j)
+    for (int j = 1; j<=tableDimensions.y; j++)
     {
-        for (int i = 1; i<=columns; ++i)
+        for (int i = 0; i<tableDimensions.x; i++)
         {
             ui::Button* button = ui::Button::create();
             button->setAnchorPoint(Vec2(0,0.5));
-            float xPos = ( i - 1 ) * ( 1.0f / columns );
-            float yPos = j * 0.4f;
+            float xPos = i / tableDimensions.x;
+            float yPos = (j-0.5) / tableDimensions.y;
             button->setNormalizedPosition(Vec2(xPos,yPos));
-            button->loadTextures(ArtAppAssetLoc + "colorSwatch.png", ArtAppAssetLoc + "colorSwatch.png");
-            button->setColor(colours[colourCount]);
-            if(colourCount == 0)
+            button->loadTextures(ArtAppAssetLoc + "art_app_pallete_circle.png", ArtAppAssetLoc + "art_app_pallete_circle.png");
+            button->setColor(kColours[colourCount]);
+            if(colourCount == 21)
+            {
+                selectedColour = Color4F(kColours[colourCount]);
                 button->addChild(selected);
+            }
             button->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onColourChangePressed,this));
             colourButtonLayout->addChild(button);
             
@@ -518,7 +526,7 @@ void DrawingCanvas::addBrushRadiusSlider(const Size& visibleSize, const Point& v
     brushSizeSlider->loadBarTexture(ArtAppAssetLoc + "slideBack.png");
     brushSizeSlider->loadSlidBallTextures(ArtAppAssetLoc + "sliderIcon.png",ArtAppAssetLoc + "sliderIcon.png","");
     brushSizeSlider->setPercent(50);
-    brushRadius = INITIAL_RADIUS + brushSizeSlider->getPercent()/2;
+    brushRadius = INITIAL_RADIUS + brushSizeSlider->getPercent();
     brushSizeSlider->setAnchorPoint(Vec2(0.5,0.5));
     brushSizeSlider->setRotation(-90);
     brushSizeSlider->setPosition(Vec2(visibleOrigin.x + brushSizeSlider->getContentSize().height,visibleOrigin.y + visibleSize.height/2));
@@ -687,7 +695,7 @@ void DrawingCanvas::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEventType
         newSticker->setAnchorPoint(Vec2(0.5,0.5));
         newSticker->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
         stickerNode->setSticker(newSticker);
-        stickerNode->resetSliders();
+        stickerNode->reset();
     }
     
     if(eEventType == ui::Widget::TouchEventType::CANCELED)
@@ -936,7 +944,7 @@ void DrawingCanvas::onRadiusSliderInteract(Ref *pSender, ui::Slider::EventType e
     
     if(eEventType == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
     {
-        brushRadius = INITIAL_RADIUS + slider->getPercent()/2;
+        brushRadius = INITIAL_RADIUS + slider->getPercent();
     }
 }
 
@@ -1030,7 +1038,7 @@ StickerFileStore DrawingCanvas::getStickerFilesFromJSON()
 {
     StickerFileStore fileStore = StickerFileStore();
     
-    std::string fullFileText = FileUtils::getInstance()->getStringFromFile("res/chat/stickers/catalogue.json");
+    std::string fullFileText = FileUtils::getInstance()->getStringFromFile(stickerLoc + "catalogue.json");
     
     rapidjson::Document json;
     json.Parse(fullFileText.c_str());

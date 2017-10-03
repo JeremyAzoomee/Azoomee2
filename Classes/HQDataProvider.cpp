@@ -172,4 +172,11 @@ void HQDataProvider::hideLoadingScreen()
     ModalMessages::getInstance()->stopLoading();
 }
 
+const std::map<std::string, std::string> HQDataProvider::kLockFiles = {
+    { "VIDEO", "res/hqscene/locked_video.png" },
+    { "AUDIO", "res/hqscene/locked_audio_books.png" },
+    { "GAME", "res/hqscene/locked_games.png" },
+    { "", "res/hqscene/locked.png" }
+};
+
 NS_AZOOMEE_END

@@ -10,6 +10,7 @@
 #include "ArtAppImageManager.h"
 #include "SceneManagerScene.h"
 #include "ArtAppDelegate.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -29,19 +30,22 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     
     notSendingFileData = newImage;
     
-    if(notSendingFileData)
-    CCLOG("NOT SENDING FILE DATA IS TRUE!");
-    else CCLOG("NOT SENDING FILE DATA IS FALSE!");
-    
     createImageBorder();
-    if(!newImage) createWhiteBackground();
+    if(!newImage)
+    {
+        createWhiteBackground();
+    }
     
     imageURL = filePath;
     
     if(!preload)
+    {
         addPlaceHolder();
+    }
     else
+    {
         loadImageTex();
+    }
     addOverlay();
     
     if(locked == true)
@@ -67,9 +71,11 @@ void ArtsAppHQElement::loadImageTex()
 {
     Director::getInstance()->getTextureCache()->addImageAsync(imageURL, [&](Texture2D* tex){
         
-        if(!elementActive) return;
-        if(ArtAppDelegate::getInstance()->ArtAppRunning) return;
-        
+        if(!elementActive || ArtAppDelegate::getInstance()->ArtAppRunning)
+        {
+            return;
+        }
+
         this->addImage(tex);
     });
 }
@@ -94,7 +100,9 @@ void ArtsAppHQElement::addImage(Texture2D* tex)
     float scale = (this->getContentSize().width - 40) / tempArtImage->getContentSize().width;
     
     if(tempArtImage->getContentSize().height * scale > this->getContentSize().height - 40)
+    {
         scale = (this->getContentSize().height - 40) / tempArtImage->getContentSize().height;
+    }
     
     tempArtImage->setScale(scale);
     
@@ -120,7 +128,9 @@ void ArtsAppHQElement::addPlaceHolder()
     float scale = (this->getContentSize().width - 40) / tempArtImage->getContentSize().width;
     
     if(tempArtImage->getContentSize().height * scale > this->getContentSize().height - 40)
+    {
         scale = (this->getContentSize().height - 40) / tempArtImage->getContentSize().height;
+    }
     
     tempArtImage->setScale(scale);
     
@@ -176,15 +186,20 @@ void ArtsAppHQElement::addOverlay()
 
 void ArtsAppHQElement::addImage(std::string filePath)
 {
-    if(!FileUtils::getInstance()->isFileExist(filePath)) return;
+    if(!FileUtils::getInstance()->isFileExist(filePath))
+    {
+        return;
+    }
     
     auto sprite = Sprite::create();
     if(filePath.substr(filePath.length() - 4) == "imag")
     {
         Image *img = new Image();
         std::string imageData = FileUtils::getInstance()->getStringFromFile(filePath);
-        if(imageData.length() <= 22) return;
-    
+        if(imageData.length() <= 22)
+        {
+            return;
+        }
         imageData = imageData.substr(22);
     
         int len = 0;
@@ -207,7 +222,9 @@ void ArtsAppHQElement::addImage(std::string filePath)
     float scale = (this->getContentSize().width - 40) / sprite->getContentSize().width;
     
     if(sprite->getContentSize().height * scale > this->getContentSize().height - 40)
+    {
         scale = (this->getContentSize().height - 40) / sprite->getContentSize().height;
+    }
     
     sprite->setScale(scale);
     
@@ -217,8 +234,14 @@ void ArtsAppHQElement::addImage(std::string filePath)
 
 void ArtsAppHQElement::addLockToElement()
 {
-    auto lockImage = Sprite::create("res/hqscene/locked.png");
-    lockImage->setPosition(baseLayer->getContentSize() / 2);
+    
+    Layer* lockedOverlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, this->getContentSize().width, this->getContentSize().height);
+    lockedOverlay->setPosition(0,0);
+    this->addChild(lockedOverlay,1);
+    
+    auto lockImage = Sprite::create("res/hqscene/locked_audio_books.png");
+    lockImage->setPosition(baseLayer->getContentSize().width,0);
+    lockImage->setAnchorPoint(Vec2(1,0));
     this->addChild(lockImage,1);
 }
 
@@ -234,7 +257,10 @@ Sprite* ArtsAppHQElement::addDeleteButton()
 
 void ArtsAppHQElement::showDeleteButton(float dt)
 {
-    if(deleteButton) deleteButton->setOpacity(255);
+    if(deleteButton)
+    {
+        deleteButton->setOpacity(255);
+    }
 }
 
 void ArtsAppHQElement::hideDeleteButton()
@@ -248,20 +274,23 @@ void ArtsAppHQElement::hideDeleteButton()
 
 void ArtsAppHQElement::scheduleShowingDeleteButton()
 {
-    if(deleteButton) this->scheduleOnce(schedule_selector(ArtsAppHQElement::showDeleteButton), 1);
+    if(deleteButton)
+    {
+        this->scheduleOnce(schedule_selector(ArtsAppHQElement::showDeleteButton), 1);
+    }
 }
 
 void ArtsAppHQElement::unscheduleShowingDeleteButton()
 {
-    if(deleteButton) this->unschedule(schedule_selector(ArtsAppHQElement::showDeleteButton));
+    if(deleteButton)
+    {
+        this->unschedule(schedule_selector(ArtsAppHQElement::showDeleteButton));
+    }
 }
 
 bool ArtsAppHQElement::deleteButtonIsShown()
 {
-    if(!deleteButton) return false;
-    
-    if(deleteButton->getOpacity() > 0) return true;
-    else return false;
+    return (deleteButton && deleteButton->getOpacity() > 0);
 }
 
 void ArtsAppHQElement::onExit()
@@ -333,9 +362,13 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         if(rect.containsPoint(locationInNode))
         {
             if(preview)
+            {
                 AnalyticsSingleton::getInstance()->previewContentClickedEvent("","", "ARTS APP");
+            }
             else
+            {
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent("ARTS APP", "1,1");
+            }
 
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;
@@ -381,6 +414,10 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(iamtouched)
         {
+            iamtouched = false;
+            overlayWhenTouched->setOpacity(0);
+            overlayWhenTouched->stopAllActions();
+            
             if(preview)
             {
                 PreviewLoginSignupMessageBox::create();
@@ -391,11 +428,14 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
             overlayWhenTouched->setOpacity(0);
             overlayWhenTouched->stopAllActions();
             
-            //hack for old image format
             if(filePath.substr(filePath.length() - 7) == "new.png")
+            {
                 ArtAppDelegate::getInstance()->setFileName("");
+            }
             else
+            {
                 ArtAppDelegate::getInstance()->setFileName(filePath);
+            }
             
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ArtAppEntryPointScene));
             return true;

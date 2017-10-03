@@ -49,6 +49,12 @@ void KidsControlLayer::addButtonsAndInput()
     closeButton->setMixPanelButtonName("Settings-YourKids-Close");
     childFrameLayer->addChild(closeButton);
     
+    deleteButton = ElectricDreamsButton::createTextAsButtonAqua("Delete Profile", 46, true);
+    deleteButton->setCenterPosition(Vec2(this->getContentSize().width/2,-deleteButton->getContentSize().height*.9));
+    deleteButton->setDelegate(this);
+    deleteButton->setMixPanelButtonName("Settings-YourKids-Delete");
+    childFrameLayer->addChild(deleteButton);
+    
     shareButton = ElectricDreamsButton::createKidCodeShareButton(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber), this->getContentSize().width*.66);
     shareButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height - shareButton->getContentSize().height*2.5));
     shareButton->setDelegate(this);
@@ -120,6 +126,8 @@ void KidsControlLayer::closeKidController()
     parentLayer->scrollReset();
     shareButton->setVisible(true);
     textInputButton->setVisible(true);
+    deleteButton->setVisible(true);
+
 }
 
 void KidsControlLayer::sendInviteCode()
@@ -166,6 +174,7 @@ void KidsControlLayer::clearAllButCloseButton()
     textInputButton->setVisible(false);
     sendCodeButton->setVisible(false);
     kidCodeTextInput->setEditboxVisibility(false);
+    deleteButton->setVisible(false);
 }
 
 //----------------------- Delegate Functions ----------------------------
@@ -173,13 +182,25 @@ void KidsControlLayer::clearAllButCloseButton()
 void KidsControlLayer::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == closeButton)
+    {
         closeKidController();
+    }
     else if(button == textInputButton || button == tryAgainButton || button == addAnotherButton)
+    {
         moveToAddFriendTextBox();
+    }
     else if(button == sendCodeButton)
+    {
         sendInviteCode();
+    }
     else if(button ==shareButton)
+    {
         shareKidCode();
+    }
+    else if(button == deleteButton)
+    {
+        parentLayer->deleteChild(childNumber);
+    }
 }
 
 void KidsControlLayer::textInputIsValid(TextInputLayer* inputLayer, bool isValid)

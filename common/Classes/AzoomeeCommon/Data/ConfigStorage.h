@@ -104,6 +104,10 @@ public:
     std::string getIapSkuForProvider(std::string provider);
     std::string getDeveloperPublicKey();
     
+    //Device-specific information
+    std::string getDeviceInformation();
+    std::string getDeviceAdvertisingId();
+    
 private:
     rapidjson::Document parseJsonConfigurationFile(std::string fileName);
     

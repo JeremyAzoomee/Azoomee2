@@ -95,7 +95,7 @@ dependencies {
     compile project(':libcocos2dx')
     compile project(':azoomee_common')
     compile 'org.xwalk:xwalk_core_library:23.53.589.4-arm'
-    compile 'com.mixpanel.android:mixpanel-android:4.+'
+    compile 'com.mixpanel.android:mixpanel-android:5.+'
     compile 'com.google.android.gms:play-services-base:10.2.0'
     compile 'com.google.android.gms:play-services-gcm:10.2.0'
     compile 'com.google.android.gms:play-services-ads:10.2.0'

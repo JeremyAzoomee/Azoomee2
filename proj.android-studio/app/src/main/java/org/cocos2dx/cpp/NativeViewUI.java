@@ -86,10 +86,14 @@ public class NativeViewUI extends Activity {
         addContentView(uiWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
-        ImageButton extra = new ImageButton(this);
-        extra.setImageResource(R.drawable.back_new);
-        extra.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-        extra.setOnClickListener(new View.OnClickListener() {
+        ImageButton closeButton = new ImageButton(this);
+        if(loadingGame())
+            closeButton.setImageResource(R.drawable.close_button);
+        else
+            closeButton.setImageResource(R.drawable.back_button);
+
+        closeButton.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -117,17 +121,56 @@ public class NativeViewUI extends Activity {
             }
         });
 
-        addContentView(extra, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        //SET Button Size and position
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        android.view.Display display = wm.getDefaultDisplay();
+        android.util.DisplayMetrics metrics = new android.util.DisplayMetrics();
+        display.getMetrics(metrics);
+        int buttonWidth = metrics.widthPixels/12;
+
+        android.widget.RelativeLayout.LayoutParams buttonLayoutParams = new android.widget.RelativeLayout.LayoutParams(
+                android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        buttonLayoutParams.leftMargin = 0;
+        buttonLayoutParams.topMargin = 0;
+        buttonLayoutParams.width = buttonWidth;
+        buttonLayoutParams.height = buttonWidth;
+
+        closeButton.setScaleType(android.widget.ImageView.ScaleType.FIT_START);
+
+        closeButton.setX(buttonWidth/8);
+        closeButton.setY(buttonWidth/8);
+
+        // Add button to screen, with Size and Position
+        addContentView(closeButton, buttonLayoutParams);
+
         uiWebView.resumeTimers();
         uiWebView.loadUrl("about:blank");
         uiWebView.clearCache(true);
         uiWebView.clearHistory();
 
-        imageButtonStatic = extra;
+        imageButtonStatic = closeButton;
         uiWebViewStatic = uiWebView;
 
         webviewAdditionalSettings();
+    }
+
+    private  boolean loadingGame()
+    {
+        Bundle extras = getIntent().getExtras();
+        String myUrl = "about:blank";
+
+        if(extras != null)
+        {
+            myUrl = extras.getString("url");
+
+            if(myUrl.toLowerCase().contains("html"))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void onBackPressed(){

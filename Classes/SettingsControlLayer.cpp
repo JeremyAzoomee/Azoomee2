@@ -9,6 +9,8 @@
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include "OnlineSafetyDetailsLayer.h"
+#include "FlowDataSingleton.h"
+
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50
@@ -147,6 +149,11 @@ void SettingsControlLayer::removeSelf()
     if(returnToChatScene)
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+    }
+    else if(FlowDataSingleton::getInstance()->getChildDeletedFlag())
+    {
+        FlowDataSingleton::getInstance()->resetChildDeletedFlag();
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
     }
     else
     {
