@@ -15,7 +15,7 @@
 
 NS_AZOOMEE_AA_BEGIN
 
-static const float INITIAL_RADIUS = 1.0f;
+static const float INITIAL_RADIUS = 10.0f;
 
 static const float BOTTOM_UI_Y_OFFSET = 50.0f;
 static const cocos2d::Vec2 BUTTON_OFFSET = cocos2d::Vec2(300,100);

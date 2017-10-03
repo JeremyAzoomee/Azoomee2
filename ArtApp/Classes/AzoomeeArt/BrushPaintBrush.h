@@ -17,10 +17,16 @@ NS_AZOOMEE_AA_BEGIN
 class BrushPaintBrush: public Brush
 {
 private:
-    static float startingAlpha;
-    float lastAlpha;
+    const int _kSpriteCountLimit = 1000;
+
+    cocos2d::Node* brushLayer = nullptr;
+    cocos2d::RenderTexture* _paintLayer = nullptr;
+    int _spriteCount = 0;
 public:
     BrushPaintBrush();
+    
+    cocos2d::Node* addDrawNode(const cocos2d::Size& visibleSize) override;
+    cocos2d::Node* getDrawNode() override;
     
     void onTouchBegin(cocos2d::Touch* touch, cocos2d::Event* event) override;
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) override;
