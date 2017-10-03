@@ -12,7 +12,7 @@
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "HQContentItemObject.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 using namespace cocos2d;
 using namespace Azoomee;

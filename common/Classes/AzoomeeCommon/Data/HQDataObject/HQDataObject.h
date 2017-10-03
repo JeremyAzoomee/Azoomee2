@@ -1,7 +1,7 @@
 #ifndef Azoomee_HQDataObject_h
 #define Azoomee_HQDataObject_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include "../../Azoomee.h"
 #include <cocos/cocos2d.h>
 #include "HQCarouselObject.h"
 #include "HQContentItemObject.h"

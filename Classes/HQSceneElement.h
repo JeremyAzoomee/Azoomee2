@@ -5,7 +5,7 @@
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Azoomee.h>
 #include "HQSceneElementVisual.h"
-#include "HQContentItemObject.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 NS_AZOOMEE_BEGIN
 

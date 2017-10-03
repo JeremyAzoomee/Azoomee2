@@ -3,7 +3,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "GameDataManager.h"
 #include "SceneManagerScene.h"
-#include "HQContentItemObject.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 using namespace cocos2d;
 

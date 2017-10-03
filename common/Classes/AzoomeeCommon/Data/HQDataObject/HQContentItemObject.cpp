@@ -1,5 +1,5 @@
 #include "HQContentItemObject.h"
-#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include "../../Utils/StringFunctions.h"
 
 NS_AZOOMEE_BEGIN
 

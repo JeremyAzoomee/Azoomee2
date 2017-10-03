@@ -16,10 +16,10 @@
 #include "BaseScene.h"
 #include "MainHubScene.h"
 
-#include "HQDataObjectStorage.h"
-#include "HQDataObject.h"
-#include "HQCarouselObject.h"
-#include "HQContentItemObject.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 #include <AzoomeeCommon/UI/ModalMessages.h>
 

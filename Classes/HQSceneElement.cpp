@@ -28,7 +28,7 @@
 #include "IAPUpsaleLayer.h"
 #include "ManualGameInputLayer.h"
 #include "VideoPlaylistManager.h"
-#include "HQDataObjectStorage.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 
 using namespace cocos2d;
 using namespace network;

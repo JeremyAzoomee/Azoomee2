@@ -1,7 +1,7 @@
 #ifndef Azoomee_HQContentItemObject_h
 #define Azoomee_HQContentItemObject_h
 
-#include <AzoomeeCommon/Azoomee.h>
+#include "../../Azoomee.h"
 #include <cocos/cocos2d.h>
 
 NS_AZOOMEE_BEGIN

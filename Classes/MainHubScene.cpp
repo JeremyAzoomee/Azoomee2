@@ -8,8 +8,8 @@
 #include "ArtsPreviewLayer.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include "HQContentItemObject.h"
-#include "HQCarouselObject.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
 
 using namespace cocos2d;
 
