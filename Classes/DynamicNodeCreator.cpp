@@ -396,7 +396,8 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
             else
             {
                 std::string dataStr = getStringFromJson("data", imageList[i]);
-                const std::string& imageName = "popupImage" + std::to_string(i);
+                
+                const std::string& imageName = StringUtils::format("popupImage%i",i);
                 
                 Texture2D* texture = getTextureFromBase64imageData(dataStr,imageName);
                 if(texture)
