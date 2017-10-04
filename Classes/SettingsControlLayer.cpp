@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include "OnlineSafetyDetailsLayer.h"
 #include "FlowDataSingleton.h"
-
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50
@@ -53,6 +53,10 @@ void SettingsControlLayer::createSettingsLayer()
     this->setName("SettingsControlLayer");
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
+    
+    Layer* test = createPixelsPatternAndGradient();
+    test->setPosition(origin.x,origin.y);
+    backgroundLayer->addChild(test);
     
     addListenerToLayer(backgroundLayer);
 }

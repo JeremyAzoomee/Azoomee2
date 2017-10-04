@@ -167,5 +167,27 @@ cocos2d::Layer* createWhiteWindowLayer(float width, float height)
     
     return newLayer;
 }
+    
+cocos2d::Layer* createPixelsPatternAndGradient()
+{
+    Layer* newLayer = Layer::create();
+    
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    
+    Sprite* bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
+    bottomGradient->setAnchorPoint(Vec2(0.0f, 0.0f));
+    bottomGradient->setScaleX(visibleSize.width / bottomGradient->getContentSize().width);
+    bottomGradient->setColor(Color3B::BLACK);
+    newLayer->addChild(bottomGradient);
+    
+    newLayer->setContentSize(bottomGradient->getContentSize());
+    
+    Sprite* pixelPattern = Sprite::create("res/decoration/pixelsPattern.png");
+    pixelPattern->setAnchorPoint(Vec2(0.5f, 0.0f));
+    pixelPattern->setPosition(visibleSize.width/2,0);
+    newLayer->addChild(pixelPattern);
+    
+    return newLayer;
+}
   
 }
