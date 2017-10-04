@@ -48,7 +48,7 @@ bool SettingsControlLayer::init()
 
 void SettingsControlLayer::createSettingsLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B::BLACK,origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B::WHITE,origin.x+ visibleSize.width, origin.y + visibleSize.height);
     
     this->setName("SettingsControlLayer");
     this->addChild(backgroundLayer);
@@ -84,7 +84,7 @@ void SettingsControlLayer::createSettingsController()
 
 void SettingsControlLayer::createCancelButton()
 {
-    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton = ElectricDreamsButton::createWindowCloselButtonGreen();
     cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width - cancelButton->getContentSize().width, origin.y + visibleSize.height - cancelButton->getContentSize().height));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("CancelSettingsButton");
@@ -97,7 +97,7 @@ void SettingsControlLayer::createLine()
     
     DrawNode* newDrawNode = DrawNode::create();
     newDrawNode->setLineWidth(LINE_WIDTH);
-    newDrawNode->drawLine(Vec2(0, origin.y+linePositionY), Vec2(visibleSize.width, origin.y+linePositionY), Style::Color_4F::brightAqua);
+    newDrawNode->drawLine(Vec2(0, origin.y+linePositionY), Vec2(visibleSize.width, origin.y+linePositionY), Style::Color_4F::greenish);
     backgroundLayer->addChild(newDrawNode,110);
 }
 

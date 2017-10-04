@@ -102,7 +102,6 @@ void KidsControlLayer::moveToAddFriendTextBox()
     kidCodeTextInput->setText("");
     childFrameLayer->setToAddAFriendTextBox();
     
-    this->setLocalZOrder(SELECTED_KID_LAYER_Z_ORDER);
     parentLayer->selectChildForTextInput(childNumber);
     closeButton->setVisible(true);
     
@@ -121,7 +120,6 @@ void KidsControlLayer::closeKidController()
     
     clearAllButCloseButton();
     
-    this->setLocalZOrder(IDLE_KID_LAYER_Z_ORDER);
     closeButton->setVisible(false);
     parentLayer->scrollReset();
     shareButton->setVisible(true);

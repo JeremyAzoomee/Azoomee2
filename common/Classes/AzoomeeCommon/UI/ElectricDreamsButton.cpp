@@ -320,6 +320,16 @@ ElectricDreamsButton* ElectricDreamsButton::createWindowCloselButton()
     return layer;
 }
     
+ElectricDreamsButton* ElectricDreamsButton::createWindowCloselButtonGreen()
+{
+    auto layer = ElectricDreamsButton::create();
+    Sprite* cancelButton = layer->createSpriteButton("res/buttons/windowCloseButtonGreen.png", CANCEL_BUTTON_AUDIO_EFFECT );
+    layer->addChild(cancelButton);
+    layer->addListener();
+    
+    return layer;
+}
+    
 ElectricDreamsButton* ElectricDreamsButton::createWhiteWindowCloselButton()
 {
     auto layer = ElectricDreamsButton::create();
@@ -397,6 +407,7 @@ ElectricDreamsButton* ElectricDreamsButton::createTabButton(std::string buttonTe
     layer->addChild(layer->createSpriteButton("res/settings/tab.png", OK_BUTTON_AUDIO_EFFECT ));
     
     Label* buttonLabel = createLabelButtonAdultSecondary(buttonText);
+    buttonLabel->setColor(Style::Color::black);
     buttonLabel->setPosition(layer->getContentSize().width/2, layer->getContentSize().height/2);
     layer->addChild(buttonLabel);
     
