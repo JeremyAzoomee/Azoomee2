@@ -127,6 +127,28 @@ inline std::string getStringFromJson(const std::string &keyName, const rapidjson
                 
     return "";
 }
+
+inline bool getBoolFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument)
+{
+    if(jsonDocument.HasParseError()) return "";
+    
+    if(jsonDocument.HasMember(keyName.c_str()))
+        if(!jsonDocument[keyName.c_str()].IsNull())
+            if(jsonDocument[keyName.c_str()].IsBool())
+                return jsonDocument[keyName.c_str()].GetBool();
+    
+    return false;
+}
+
+inline bool getBoolFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+{
+    if(jsonValue.HasMember(keyName.c_str()))
+        if(!jsonValue[keyName.c_str()].IsNull())
+            if(jsonValue[keyName.c_str()].IsBool())
+                return jsonValue[keyName.c_str()].GetBool();
+    
+    return false;
+}
 NS_AZOOMEE_END
 
 #endif
