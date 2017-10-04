@@ -167,4 +167,20 @@ bool FlowDataSingleton::getIAPSuccess()
     return getStringValue(DataKeyIAPSuccess) == "1";
 }
 
+//Settings Deleted Child Flow
+void FlowDataSingleton::setChildDeletedFlag()
+{
+    childDeletedFlag = true;
+}
+
+void FlowDataSingleton::resetChildDeletedFlag()
+{
+    childDeletedFlag = false;
+}
+
+bool FlowDataSingleton::getChildDeletedFlag()
+{
+    return childDeletedFlag;
+}
+
 NS_AZOOMEE_END

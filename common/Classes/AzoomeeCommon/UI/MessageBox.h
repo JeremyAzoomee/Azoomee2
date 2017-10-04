@@ -60,6 +60,7 @@ public:
     static const char* const kResetPassword;
     static const char* const kReport;
     static const char* const kReset;
+    static const char* const kDelete;
     
     //Main function for creating a MessageBox
     static MessageBox* createWith(const std::string& Title, const std::string& Body, const std::vector<std::string>& buttonTitleList, MessageBoxDelegate* _delegate);

@@ -24,6 +24,7 @@ const char* const MessageBox::kSignUp = "Sign up";
 const char* const MessageBox::kResetPassword = "Reset Password";
 const char* const MessageBox::kReport ="Report";
 const char* const MessageBox::kReset ="Reset";
+const char* const MessageBox::kDelete ="Delete";
 
 MessageBox* MessageBox::createWith(const std::string& Title, const std::string& Body, const std::vector<std::string>& buttonTitleList, MessageBoxDelegate* _delegate)
 {

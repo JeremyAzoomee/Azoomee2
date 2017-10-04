@@ -30,7 +30,7 @@ void BrushHighlighter::onTouchMoved(Touch *touch, Event *event)
     Vec2 touchPos = drawNode->convertTouchToNodeSpace(touch);
     
     float distance = lastTouchPos.distance(touchPos);
-    float brushWidth = *brushRadius * 2;
+    float brushWidth = *brushRadius;
     if(distance > brushWidth)
     {
         Vec2 directionVector = touchPos - lastTouchPos;
