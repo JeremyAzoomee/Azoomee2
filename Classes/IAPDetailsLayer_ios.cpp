@@ -122,7 +122,7 @@ void IAPDetailsLayer_ios::addALLBulletsAndLabel()
     privacyLinks->setPosition(Vec2(MarginSize/2,yPosition-MarginSize*4));
     IAPDetailsLayer->addChild(privacyLinks);
     
-    Layer* privacyAndTerms = PrivacyAndTermsLayer::create();
+    Layer* privacyAndTerms = PrivacyAndTermsLayer::createWhite();
     privacyAndTerms->setPosition(privacyLinks->getPositionX() + privacyLinks->getContentSize().width + 15,privacyLinks->getPositionY());
     IAPDetailsLayer->addChild(privacyAndTerms);
     

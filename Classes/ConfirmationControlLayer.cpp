@@ -46,7 +46,7 @@ void ConfirmationControlLayer::addConfirmationFrame()
 
 void ConfirmationControlLayer::addButtons()
 {
-    confirmButton = ElectricDreamsButton::createInviteMainButton("Confirm", 400);
+    confirmButton = ElectricDreamsButton::createGreenButton("Confirm", 400);
     confirmButton->setCenterPosition(Vec2(this->getContentSize().width-confirmButton->getContentSize().width/2-MARGIN,this->getContentSize().height/2));
     confirmButton->setDelegate(this);
     confirmButton->setMixPanelButtonName("Settings-Confirmation-Confirm");

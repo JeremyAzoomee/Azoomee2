@@ -4,23 +4,29 @@
 #include "cocos2d.h"
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
+#include <AzoomeeCommon/UI/Style.h>
 
 NS_AZOOMEE_BEGIN
 
 class PrivacyAndTermsLayer : public cocos2d::Layer, public Azoomee::ElectricDreamsButtonDelegate
 {
 private:
+    cocos2d::Color3B textColor = Style::Color::white;
     
-    Azoomee::ElectricDreamsButton *privacyButton;
-    Azoomee::ElectricDreamsButton *termsButton;
+    Azoomee::ElectricDreamsButton *privacyButton = nullptr;
+    Azoomee::ElectricDreamsButton *termsButton = nullptr;
     
-    cocos2d::Label* andLabel;
+    cocos2d::Label* andLabel = nullptr;
     
     void createButtons();
     void createLabel();
     void setSizeAndAddItems();
 
 public:
+    
+    static Layer* createGreenish();
+    static Layer* createWhite();
+    
     virtual bool init();
     
     CREATE_FUNC(PrivacyAndTermsLayer);

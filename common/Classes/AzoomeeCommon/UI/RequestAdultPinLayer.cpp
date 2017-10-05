@@ -115,7 +115,7 @@ void RequestAdultPinLayer::addUIObjects()
     
     //-------- CLOSE BUTTON ----------
     
-    cancelButton = ElectricDreamsButton::createWindowCloselButtonGreen();
+    cancelButton = ElectricDreamsButton::createWindowCloseButtonGreen();
     cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("PinCancelButton");

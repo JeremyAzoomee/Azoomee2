@@ -310,7 +310,7 @@ ElectricDreamsButton* ElectricDreamsButton::createCancelButton()
     return layer;
 }
 
-ElectricDreamsButton* ElectricDreamsButton::createWindowCloselButton()
+ElectricDreamsButton* ElectricDreamsButton::createWindowCloseButton()
 {
     auto layer = ElectricDreamsButton::create();
     Sprite* cancelButton = layer->createSpriteButton("res/buttons/windowCloseButton.png", CANCEL_BUTTON_AUDIO_EFFECT );
@@ -320,7 +320,7 @@ ElectricDreamsButton* ElectricDreamsButton::createWindowCloselButton()
     return layer;
 }
     
-ElectricDreamsButton* ElectricDreamsButton::createWindowCloselButtonGreen()
+ElectricDreamsButton* ElectricDreamsButton::createWindowCloseButtonGreen()
 {
     auto layer = ElectricDreamsButton::create();
     Sprite* cancelButton = layer->createSpriteButton("res/buttons/windowCloseButtonGreen.png", CANCEL_BUTTON_AUDIO_EFFECT );
@@ -352,7 +352,7 @@ ElectricDreamsButton* ElectricDreamsButton::createAddButton()
 ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton()
 {
     auto layer = ElectricDreamsButton::create();
-    layer->addChild(layer->createSpriteButton("res/modal/generic_button_slice_ready.png", NEXT_BUTTON_AUDIO_EFFECT ));
+    layer->addChild(layer->createSpriteButton("res/modal/blankGreen.png", NEXT_BUTTON_AUDIO_EFFECT ));
     layer->setCascadeOpacityEnabled(true);
     layer->setOpacity(80);
     
@@ -438,7 +438,7 @@ ElectricDreamsButton* ElectricDreamsButton::createChevronRightButton()
 
 ElectricDreamsButton* ElectricDreamsButton::createKidCodeShareButton(std::string kidCode, float buttonWidth)
 {
-    auto layer = ElectricDreamsButton::createSmallSprite9Button("", buttonWidth,"res/buttons/inviteMainButton.png", Color3B::BLACK);
+    auto layer = ElectricDreamsButton::createSmallSprite9Button("", buttonWidth,"res/buttons/greenButton.png", Color3B::BLACK);
     
     Label* kidCodeLabel = createLabelWith(kidCode, Style::Font::kidCodeRegular, Color3B::BLACK, 64);
     
@@ -464,16 +464,16 @@ ElectricDreamsButton* ElectricDreamsButton::createKidCodeShareButton(std::string
     
 }
     
-ElectricDreamsButton* ElectricDreamsButton::createInviteMainButton(std::string buttonText, float buttonWidth)
+ElectricDreamsButton* ElectricDreamsButton::createGreenButton(std::string buttonText, float buttonWidth)
 {
-    auto layer = ElectricDreamsButton::createSmallSprite9Button(buttonText, buttonWidth,"res/buttons/inviteMainButton.png", Color3B::BLACK);
+    auto layer = ElectricDreamsButton::createSmallSprite9Button(buttonText, buttonWidth,"res/buttons/greenButton.png", Color3B::BLACK);
     layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
     return layer;
 
 }
 ElectricDreamsButton* ElectricDreamsButton::createRedOutlineButton(std::string buttonText, float buttonWidth)
 {
-    auto layer = ElectricDreamsButton::createSmallSprite9Button(buttonText, buttonWidth,"res/buttons/inviteRejectionSecondaryButton.png", Color3B::WHITE);
+    auto layer = ElectricDreamsButton::createSmallSprite9Button(buttonText, buttonWidth,"res/buttons/inviteRejectionSecondaryButton.png", Color3B::BLACK);
     layer->buttonAudioFile = CANCEL_BUTTON_AUDIO_EFFECT;
     return layer;
 }
@@ -516,7 +516,7 @@ ElectricDreamsButton* ElectricDreamsButton::createSmallSprite9Button(std::string
     
 ElectricDreamsButton* ElectricDreamsButton::createTextInputAsButton(std::string buttonText, float buttonWidth)
 {
-    Label* buttonLabel = createLabelSettingsChat(buttonText,Style::Color::chatEnterTextColor);
+    Label* buttonLabel = createLabelSettingsChat(buttonText,Style::Color::black);
     
     Rect spriteRect = Rect(0, 0, 268, 107);
     Rect capInsents = Rect(100, 53, 1, 1);

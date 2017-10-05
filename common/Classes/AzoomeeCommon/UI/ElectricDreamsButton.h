@@ -65,8 +65,8 @@ public:
     static ElectricDreamsButton* createBackButton();
     static ElectricDreamsButton* createAcceptButton();
     static ElectricDreamsButton* createCancelButton();
-    static ElectricDreamsButton* createWindowCloselButton();
-    static ElectricDreamsButton* createWindowCloselButtonGreen();
+    static ElectricDreamsButton* createWindowCloseButton();
+    static ElectricDreamsButton* createWindowCloseButtonGreen();
     static ElectricDreamsButton* createWhiteWindowCloselButton();
     static ElectricDreamsButton* createAddButton();
     static ElectricDreamsButton* createPlaceHolderButton();
@@ -79,7 +79,7 @@ public:
     //----------- CHAT INVITE BUTTONS -------------------
     
     static ElectricDreamsButton* createKidCodeShareButton(std::string kidCode, float buttonWidth);
-    static ElectricDreamsButton* createInviteMainButton(std::string buttonText, float buttonWidth);
+    static ElectricDreamsButton* createGreenButton(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createTextInputAsButton(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createSendButton();
     static ElectricDreamsButton* createRedOutlineButton(std::string buttonText, float buttonWidth);

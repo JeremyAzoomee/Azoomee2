@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/UI/Style.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -41,7 +42,7 @@ void KidsControlLayer::addChildFrame()
 
 void KidsControlLayer::addButtonsAndInput()
 {
-    closeButton = ElectricDreamsButton::createWindowCloselButton();
+    closeButton = ElectricDreamsButton::createWindowCloseButton();
     closeButton->setVisible(false);
     closeButton->setScale(0.68);
     closeButton->setPosition(this->getContentSize().width-closeButton->getContentSize().width,this->getContentSize().height-closeButton->getContentSize().height);
@@ -49,7 +50,7 @@ void KidsControlLayer::addButtonsAndInput()
     closeButton->setMixPanelButtonName("Settings-YourKids-Close");
     childFrameLayer->addChild(closeButton);
     
-    deleteButton = ElectricDreamsButton::createTextAsButtonAqua("Delete Profile", 46, true);
+    deleteButton = ElectricDreamsButton::createTextAsButtonWithColor("Delete Profile", 46, true,Style::Color::greenish);
     deleteButton->setCenterPosition(Vec2(this->getContentSize().width/2,-deleteButton->getContentSize().height*.9));
     deleteButton->setDelegate(this);
     deleteButton->setMixPanelButtonName("Settings-YourKids-Delete");
@@ -61,14 +62,14 @@ void KidsControlLayer::addButtonsAndInput()
     shareButton->setMixPanelButtonName("Settings-YourKids-ShareCode");
     childFrameLayer->addChild(shareButton);
     
-    tryAgainButton = ElectricDreamsButton::createInviteMainButton("Try Again", this->getContentSize().width*.66);
+    tryAgainButton = ElectricDreamsButton::createGreenButton("Try Again", this->getContentSize().width*.66);
     tryAgainButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height*.25 - tryAgainButton->getContentSize().height));
     tryAgainButton->setVisible(false);
     tryAgainButton->setDelegate(this);
     tryAgainButton->setMixPanelButtonName("Settings-YourKids-TryCodeAgain");
     childFrameLayer->addChild(tryAgainButton);
     
-    addAnotherButton = ElectricDreamsButton::createInviteMainButton("Add Another", this->getContentSize().width*.66);
+    addAnotherButton = ElectricDreamsButton::createGreenButton("Add Another", this->getContentSize().width*.66);
     addAnotherButton->setCenterPosition(Vec2(this->getContentSize().width/2,tryAgainButton->getPositionY()));
     addAnotherButton->setVisible(false);
     addAnotherButton->setDelegate(this);

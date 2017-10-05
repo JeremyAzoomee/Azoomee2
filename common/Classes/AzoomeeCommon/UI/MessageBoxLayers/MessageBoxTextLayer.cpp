@@ -142,7 +142,7 @@ void MessageBoxTextLayer::createButtons()
 
 void MessageBoxTextLayer::createCancelButton()
 {
-    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton = ElectricDreamsButton::createWindowCloseButton();
     cancelButton->setMixPanelButtonName("messageBoxCancelButton");
     cancelButton->setDelegate(this);
 }

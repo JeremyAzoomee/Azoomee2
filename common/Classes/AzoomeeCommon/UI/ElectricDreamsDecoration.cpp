@@ -180,10 +180,9 @@ cocos2d::Layer* createPixelsPatternAndGradient()
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     
-    Sprite* bottomGradient = Sprite::create("res/decoration/TopNavGrad.png");
+    Sprite* bottomGradient = Sprite::create("res/decoration/bottomGradient.png");
     bottomGradient->setAnchorPoint(Vec2(0.0f, 0.0f));
     bottomGradient->setScaleX(visibleSize.width / bottomGradient->getContentSize().width);
-    bottomGradient->setColor(Color3B::BLACK);
     newLayer->addChild(bottomGradient);
     
     newLayer->setContentSize(bottomGradient->getContentSize());

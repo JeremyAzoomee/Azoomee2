@@ -40,7 +40,7 @@ void AccountDetailsLayer::addUIObjects()
 {
     //--------Privacy and Terms-------
     
-    privacyAndTerms = PrivacyAndTermsLayer::create();
+    privacyAndTerms = PrivacyAndTermsLayer::createGreenish();
     privacyAndTerms->setPosition(privacyAndTerms->getContentSize().height,privacyAndTerms->getContentSize().height);
     this->addChild(privacyAndTerms);
     
@@ -74,7 +74,7 @@ void AccountDetailsLayer::addUIObjects()
     
     // ------- LOG OUT BUTTON ----------
     
-    logoutButton = ElectricDreamsButton::createSecondaryButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT), visibleSize.width/3);
+    logoutButton = ElectricDreamsButton::createGreenButton(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT), visibleSize.width/3);
     logoutButton->setCenterPosition(Vec2(visibleSize.width /2, layerHeight*.4));
     logoutButton->setDelegate(this);
     logoutButton->setMixPanelButtonName("Log Out");

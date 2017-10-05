@@ -88,7 +88,7 @@ void SettingsControlLayer::createSettingsController()
 
 void SettingsControlLayer::createCancelButton()
 {
-    cancelButton = ElectricDreamsButton::createWindowCloselButtonGreen();
+    cancelButton = ElectricDreamsButton::createWindowCloseButtonGreen();
     cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width - cancelButton->getContentSize().width, origin.y + visibleSize.height - cancelButton->getContentSize().height));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("CancelSettingsButton");
