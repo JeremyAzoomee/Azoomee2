@@ -52,6 +52,7 @@ namespace Color
     const cocos2d::Color3B darkNeonPurpleTwo(83, 23, 98);
     const cocos2d::Color3B safetySlideTitleColor(9, 154, 154);
     const cocos2d::Color3B chatEnterTextColor(135, 135, 135);
+    const cocos2d::Color3B greenish(38,192,180);
 }
    
 /**
