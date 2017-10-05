@@ -107,7 +107,8 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
     
     std::string HQName = ConfigStorage::getInstance()->getNameForMenuItem(target);
     HQDataObject* currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(HQName);
-    bool isMenuItemEntitled = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(HQName)->getHqEntitlement();
+    
+    bool isMenuItemEntitled = currentObject->getHqEntitlement();
     
     if(!isMenuItemEntitled)
     {

@@ -55,8 +55,10 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
     contentData.Parse(responseString.c_str());
     std::vector<std::map<std::string, std::string>> HQElements;
     
-    if (contentData.HasParseError()) return false;
-    if (!contentData.HasMember("items")) return false;
+    if ((contentData.HasParseError())||(!contentData.HasMember("items")))
+    {
+        return false;
+    }
     
     HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->clearContentItemRawStorage();
     

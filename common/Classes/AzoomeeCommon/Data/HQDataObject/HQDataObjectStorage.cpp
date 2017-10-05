@@ -26,17 +26,17 @@ HQDataObjectStorage::HQDataObjectStorage()
 
 HQDataObject* HQDataObjectStorage::getHQDataObjectForKey(std::string key)
 {
-    if(hqDataObjects.find(key) == hqDataObjects.end())
+    if(_hqDataObjects.find(key) == _hqDataObjects.end())
     {
-        hqDataObjects[key] = HQDataObject::create();
+        _hqDataObjects[key] = HQDataObject::create();
     }
     
-    return &hqDataObjects[key];
+    return &_hqDataObjects[key];
 }
 
 void HQDataObjectStorage::clearAllHQData()
 {
-    hqDataObjects.clear();
+    _hqDataObjects.clear();
 }
 
 NS_AZOOMEE_END

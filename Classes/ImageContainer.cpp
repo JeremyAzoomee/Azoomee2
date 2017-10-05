@@ -185,7 +185,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
                     auto webViewSelector = WebViewSelector::create();
                     webViewSelector->loadWebView(elementProperties->getUri().c_str(),Orientation::Landscape);
                 }
-                else if(elementProperties->getType() == "GROUP")
+                else if((elementProperties->getType() == "GROUP")||(elementProperties->getType() == "AUDIOGROUP"))
                 {
                     NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
                     navigationLayer->startLoadingGroupHQ(elementProperties->getUri());
@@ -196,18 +196,6 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
                     });
                     
                     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
-                }
-                else if(elementProperties->getType() == "AUDIOGROUP")
-                {
-                    NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-                    navigationLayer->startLoadingGroupHQ(elementProperties->getUri());
-                    
-                    auto funcCallAction2 = CallFunc::create([=](){
-                        HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties->getUri());
-                        HQHistoryManager::getInstance()->setGroupHQSourceId(elementProperties->getContentItemId());
-                    });
-                    
-                    this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
                 }
             }
             

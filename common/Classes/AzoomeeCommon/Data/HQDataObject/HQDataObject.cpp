@@ -13,59 +13,62 @@ HQDataObject::HQDataObject()
 
 void HQDataObject::setHqType(const std::string &inputHqType)
 {
-    hqType = inputHqType;
+    _hqType = inputHqType;
 }
 
 void HQDataObject::setHqUrl(const std::string &inputHqUrl)
 {
-    hqUrl = inputHqUrl;
+    _hqUrl = inputHqUrl;
 }
 
 void HQDataObject::setHqEntitlement(const bool inputHqEntitlement)
 {
-    hqEntitlement = inputHqEntitlement;
+    _hqEntitlement = inputHqEntitlement;
 }
 
 void HQDataObject::addCarusoelToHq(HQCarouselObject inputCarouselData)
 {
-    carousels.push_back(inputCarouselData);
+    _carousels.push_back(inputCarouselData);
 }
 
 std::string HQDataObject::getHqType()
 {
-    return hqType;
+    return _hqType;
 }
 
 std::string HQDataObject::getHqUrl()
 {
-    return hqUrl;
+    return _hqUrl;
 }
 
 bool HQDataObject::getHqEntitlement()
 {
-    return hqEntitlement;
+    return _hqEntitlement;
 }
 
 std::vector<HQCarouselObject> *HQDataObject::getHqCarousels()
 {
-    return &carousels;
+    return &_carousels;
 }
 
 void HQDataObject::addContentItemToRawStorage(std::string contentItemId, HQContentItemObject inputContentItemObject)
 {
-    rawContentItems[contentItemId] = inputContentItemObject;
+    _rawContentItems[contentItemId] = inputContentItemObject;
 }
 
 HQContentItemObject* HQDataObject::getContentItemForId(const std::string &contentItemId)
 {
-    if(contentItemId == "") HQContentItemObject::create();
+    if(contentItemId == "")
+    {
+        return nullptr;
+    }
     
-    return &rawContentItems[contentItemId];
+    return &_rawContentItems[contentItemId];
 }
 
 void HQDataObject::clearContentItemRawStorage()
 {
-    rawContentItems.clear();
+    _rawContentItems.clear();
 }
 
 NS_AZOOMEE_END

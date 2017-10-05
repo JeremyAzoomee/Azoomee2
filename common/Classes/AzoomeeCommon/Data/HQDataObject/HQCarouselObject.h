@@ -11,9 +11,9 @@ class HQCarouselObject
 {
 private:
     
-    std::string title = "";
-    std::vector<HQContentItemObject *> contentItems;
-    std::vector<cocos2d::Vec2> contentItemHighlights;
+    std::string _title = "";
+    std::vector<HQContentItemObject *> _contentItems;
+    std::vector<cocos2d::Vec2> _contentItemHighlights;
     
 public:
     HQCarouselObject();

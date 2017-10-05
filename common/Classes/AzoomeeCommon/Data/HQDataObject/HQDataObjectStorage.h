@@ -20,7 +20,7 @@ public:
     
 private:
     HQDataObjectStorage();
-    std::map<std::string, HQDataObject> hqDataObjects;
+    std::map<std::string, HQDataObject> _hqDataObjects;
 };
 
 NS_AZOOMEE_END

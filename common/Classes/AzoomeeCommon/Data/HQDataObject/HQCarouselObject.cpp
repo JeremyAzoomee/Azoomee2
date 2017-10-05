@@ -13,32 +13,32 @@ HQCarouselObject::HQCarouselObject()
 
 void HQCarouselObject::setTitle(const std::string &inputTitle)
 {
-    title = inputTitle;
+    _title = inputTitle;
 }
 
 void HQCarouselObject::addContentItemToCarousel(HQContentItemObject* contentItem)
 {
-    contentItems.push_back(contentItem);
+    _contentItems.push_back(contentItem);
 }
 
 void HQCarouselObject::addContentItemHighlight(cocos2d::Vec2 contentItemHighlight)
 {
-    contentItemHighlights.push_back(contentItemHighlight);
+    _contentItemHighlights.push_back(contentItemHighlight);
 }
 
 std::string HQCarouselObject::getTitle()
 {
-    return title;
+    return _title;
 }
 
 std::vector<HQContentItemObject *> *HQCarouselObject::getContentItems()
 {
-    return &contentItems;
+    return &_contentItems;
 }
 
 std::vector<cocos2d::Vec2> *HQCarouselObject::getContentItemHighlights()
 {
-    return &contentItemHighlights;
+    return &_contentItemHighlights;
 }
 
 NS_AZOOMEE_END

@@ -190,29 +190,17 @@ void HQSceneElement::startUpElementDependingOnType()
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(elementItemData->getContentItemId().c_str(),Orientation::Landscape);
     }
-    else if(elementItemData->getType() == "AUDIOGROUP")
+    else if((elementItemData->getType() == "AUDIOGROUP")||(elementItemData->getType() == "GROUP"))
     {
         NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
         navigationLayer->startLoadingGroupHQ(elementItemData->getUri());
         
         auto funcCallAction = CallFunc::create([=](){
             HQDataProvider::getInstance()->getDataForGroupHQ(elementItemData->getUri());
-            HQHistoryManager::getInstance()->setGroupHQSourceId(elementItemData->getUri());
-        });
-        
-        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
-    }
-    else if(elementItemData->getType() == "GROUP")
-    {
-        NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-        navigationLayer->startLoadingGroupHQ(elementItemData->getUri());
-        
-        auto funcCallAction2 = CallFunc::create([=](){
-            HQDataProvider::getInstance()->getDataForGroupHQ(elementItemData->getUri());
             HQHistoryManager::getInstance()->setGroupHQSourceId(elementItemData->getContentItemId());
         });
         
-        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
     }
 }
 

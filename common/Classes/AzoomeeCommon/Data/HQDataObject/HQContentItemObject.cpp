@@ -14,104 +14,104 @@ HQContentItemObject HQContentItemObject::create()
 
 void HQContentItemObject::setContentItemId(const std::string &inputId)
 {
-    contentItemId = inputId;
+    _contentItemId = inputId;
 }
 
 std::string HQContentItemObject::getContentItemId()
 {
-    return contentItemId;
+    return _contentItemId;
 }
 
 void HQContentItemObject::setTitle(const std::string &inputTitle)
 {
-    title = inputTitle;
+    _title = inputTitle;
 }
 
 void HQContentItemObject::setDescription(const std::string &inputDescription)
 {
-    description = inputDescription;
+    _description = inputDescription;
 }
 
 void HQContentItemObject::setType(const std::string &inputType)
 {
-    type = inputType;
+    _type = inputType;
 }
 
 void HQContentItemObject::setUri(const std::string &inputUri)
 {
-    uri = inputUri;
+    _uri = inputUri;
 }
 
 void HQContentItemObject::setEntitled(const bool inputEntitled)
 {
-    entitled = inputEntitled;
+    _entitled = inputEntitled;
 }
 
 void HQContentItemObject::setNewFlag(const bool inputNewFlag)
 {
-    newFlag = inputNewFlag;
+    _newFlag = inputNewFlag;
 }
 
 std::string HQContentItemObject::getTitle()
 {
-    return title;
+    return _title;
 }
 
 std::string HQContentItemObject::getDescription()
 {
-    return description;
+    return _description;
 }
 
 std::string HQContentItemObject::getType()
 {
-    return type;
+    return _type;
 }
 
 std::string HQContentItemObject::getUri()
 {
-    return uri;
+    return _uri;
 }
 
 bool HQContentItemObject::getEntitled()
 {
-    return entitled;
+    return _entitled;
 }
 
 bool HQContentItemObject::getNewFlag()
 {
-    return newFlag;
+    return _newFlag;
 }
 
 //All functions that are being used only upon reading out
 
 void HQContentItemObject::setImagePath(const std::string &inputImagePath)
 {
-    imagePath = inputImagePath;
+    _imagePath = inputImagePath;
 }
 
 void HQContentItemObject::setElementNumber(int inputElementNumber)
 {
-    elementNumber = inputElementNumber;
+    _elementNumber = inputElementNumber;
 }
 
 void HQContentItemObject::setElementShape(const cocos2d::Vec2 &inputElementShape)
 {
-    elementShape = inputElementShape;
+    _elementShape = inputElementShape;
 }
 
 std::string HQContentItemObject::getImagePath()
 {
-    return imagePath;
+    return _imagePath;
 }
 
 int HQContentItemObject::getElementNumber()
 {
-    return elementNumber;
+    return _elementNumber;
 }
 
 cocos2d::Vec2 HQContentItemObject::getElementShape()
 {
-    return elementShape;
+    return _elementShape;
 }
 
 //Other helper methods
@@ -119,13 +119,13 @@ cocos2d::Vec2 HQContentItemObject::getElementShape()
 std::string HQContentItemObject::getJSONRepresentationOfStructure()
 {
     std::map<std::string, std::string> objectMap;
-    objectMap["id"] = contentItemId;
-    objectMap["title"] = title;
-    objectMap["description"] = description;
-    objectMap["type"] = type;
-    objectMap["uri"] = uri;
-    entitled ? objectMap["entitled"] = true : objectMap["entitled"] = false;
-    newFlag ? objectMap["newFlag"] = true : objectMap["newFlag"] = false;
+    objectMap["id"] = _contentItemId;
+    objectMap["title"] = _title;
+    objectMap["description"] = _description;
+    objectMap["type"] = _type;
+    objectMap["uri"] = _uri;
+    _entitled ? objectMap["entitled"] = "true" : objectMap["entitled"] = "false";
+    _newFlag ? objectMap["newFlag"] = "true" : objectMap["newFlag"] = "false";
     
     return getJSONStringFromMap(objectMap);
 }

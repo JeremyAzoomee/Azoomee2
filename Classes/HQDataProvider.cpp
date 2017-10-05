@@ -148,6 +148,8 @@ std::vector<HQContentItemObject> HQDataProvider::getAllContentItemsInRow(const s
     {
         HQContentItemObject extendedObj = *contentItemObjects->at(i);
         
+        //TODO objectTypes should be pre-configured.
+        
         if(((extendedObj.getType() == "VIDEO" || extendedObj.getType() == "AUDIO")) && extendedObj.getEntitled())
         {
             extendedObj.setElementNumber(i);

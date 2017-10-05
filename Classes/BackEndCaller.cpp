@@ -266,7 +266,6 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
     
-    HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
     getGordon();
 }
 

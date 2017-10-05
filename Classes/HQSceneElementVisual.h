@@ -29,7 +29,7 @@ public:
 private:
     bool shouldDisplayVisualElementsOverImage = false;
     std::string elementCategory;
-    HQContentItemObject elementItemData;
+    HQContentItemObject* elementItemData;
     cocos2d::Vec2 elementShape;
     float elementDelay;
     bool elementCreatedForOffline = false;
