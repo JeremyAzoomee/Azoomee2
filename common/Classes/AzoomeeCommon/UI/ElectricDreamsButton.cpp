@@ -288,7 +288,7 @@ ElectricDreamsButton* ElectricDreamsButton::createBackButton()
 ElectricDreamsButton* ElectricDreamsButton::createAcceptButton()
 {
     auto layer = ElectricDreamsButton::create();
-    Sprite* acceptButton =layer->createSpriteButton("res/modal/accept.png", ACCEPT_BUTTON_AUDIO_EFFECT );
+    Sprite* acceptButton =layer->createSpriteButton("res/modal/acceptGreen.png", ACCEPT_BUTTON_AUDIO_EFFECT );
     acceptButton->setOpacity(0);
     layer->addChild(acceptButton);
     layer->setCascadeOpacityEnabled(true);

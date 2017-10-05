@@ -72,10 +72,10 @@ void RequestAdultPinLayer::addUIObjects()
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     
     //-----------CREATE WINDOW LAYER-----------
-    Rect spriteRect = Rect(0, 0, 455, 268);
+    Rect spriteRect = Rect(0, 0, 467, 230);
     Rect capInsents = Rect(100, 100, 255, 1);
     
-    windowLayer = ui::Scale9Sprite::create("res/decoration/windowScale9.png", spriteRect, capInsents);
+    windowLayer = ui::Scale9Sprite::create("res/decoration/whiteWindowScale9.png", spriteRect, capInsents);
     windowLayer->setContentSize(Size(currentRunningScene->getContentSize().width * percentageOfScreenForBox, 750));
     windowLayer->setPosition(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height*.72);
     this->addChild(windowLayer);
@@ -95,7 +95,7 @@ void RequestAdultPinLayer::addUIObjects()
     
     //-------- PIN EDITBOX -------------
     
-    editBox_pin = TextInputLayer::createWithSize(Size(windowLayer->getContentSize().width/2,acceptButton->getContentSize().height), INPUT_IS_PIN);
+    editBox_pin = TextInputLayer::createWithSize(Size(windowLayer->getContentSize().width/2,160), INPUT_IS_PIN);
     editBox_pin->setPosition(Vec2(windowLayer->getContentSize().width/2 - editBox_pin->getContentSize().width/2 - acceptButton->getContentSize().width*.66, windowLayer->getContentSize().height*.25));
     editBox_pin->setDelegate(this);
     windowLayer->addChild(editBox_pin);
@@ -104,18 +104,18 @@ void RequestAdultPinLayer::addUIObjects()
     
     //--------- LOCATION FOR ACCEPT BUTTON---------
     
-    placeHolderAcceptButton->setPosition(Vec2(editBox_pin->getPositionX() + editBox_pin->getContentSize().width + acceptButton->getContentSize().width/2,editBox_pin->getPositionY()));
+    placeHolderAcceptButton->setPosition(Vec2(editBox_pin->getPositionX() + editBox_pin->getContentSize().width + acceptButton->getContentSize().width/2,editBox_pin->getPositionY()+editBox_pin->getContentSize().height/2 - placeHolderAcceptButton->getContentSize().height/2));
     acceptButton->setPosition(placeHolderAcceptButton->getPosition());
     
     //---------- MODAL LABEL ------------
     
-    enterYourPinTitle = createLabelHeaderWhite(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL));
+    enterYourPinTitle = createLabelButtonAdultPrimary(StringMgr::getInstance()->getStringForKey(PIN_REQUEST_LABEL));
     enterYourPinTitle->setPosition(editBox_pin->getPositionX() + enterYourPinTitle->getContentSize().width/2, windowLayer->getContentSize().height*.66+enterYourPinTitle->getContentSize().height/2);
     windowLayer->addChild(enterYourPinTitle);
     
     //-------- CLOSE BUTTON ----------
     
-    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton = ElectricDreamsButton::createWindowCloselButtonGreen();
     cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("PinCancelButton");

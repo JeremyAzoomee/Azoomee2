@@ -51,9 +51,9 @@ bool TextInputLayer::init()
 
 void TextInputLayer::createEditBoxArea()
 {
-    Rect spriteRect = Rect(0, 0, 272, 197);
-    Rect capInsents = Rect(EDITBOX_CURVE_WIDTH, 98, 1, 1);
-    editBoxArea = ui::Scale9Sprite::create("res/login/textarea_bg.png", spriteRect, capInsents);
+    Rect spriteRect = Rect(0, 0, 331, 160);
+    Rect capInsents = Rect(EDITBOX_CURVE_WIDTH, 80, 1, 1);
+    editBoxArea = ui::Scale9Sprite::create("res/login/textField.png", spriteRect, capInsents);
     editBoxArea->setContentSize(this->getContentSize());
     editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBoxArea->setOpacity(0);
@@ -69,7 +69,7 @@ void TextInputLayer::createEditBox()
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
-    editBox->setFontColor(Color3B::WHITE);
+    editBox->setFontColor(Color3B::BLACK);
     editBox->setPlaceholderFontColor(Style::Color::brightAqua);
     editBox->setPlaceholderFont(Style::Font::Input, INPUT_STYLE_SIZE);
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
