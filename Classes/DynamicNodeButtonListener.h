@@ -28,7 +28,7 @@ private:
     //constants for button locations
     const std::string _kButtonLocationUpgrade = "showUpgrade";
     
-    void closeCTAPopup(float dt);
+    void closeCTAPopup();
     void upgradeButtonPressed();
     
 public:

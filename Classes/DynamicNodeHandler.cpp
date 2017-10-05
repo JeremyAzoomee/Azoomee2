@@ -41,10 +41,10 @@ DynamicNodeHandler::~DynamicNodeHandler(void)
 
 bool DynamicNodeHandler::init(void)
 {
-    const std::string CTAPath = getCTADirectoryPath();
-    if(!FileUtils::getInstance()->isDirectoryExist(CTAPath))
+    const std::string& ctaPath = getCTADirectoryPath();
+    if(!FileUtils::getInstance()->isDirectoryExist(ctaPath))
     {
-        FileUtils::getInstance()->createDirectory(CTAPath);
+        FileUtils::getInstance()->createDirectory(ctaPath);
     }
     return true;
 }
@@ -62,16 +62,14 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
         {
             if(file == uniqueId)
             {
-                Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(ctaPath + folder + "/" + file);
-                Director::getInstance()->getRunningScene()->addChild(cta);
+                createDynamicNodeFromFile(ctaPath + folder + "/" + file);
                 return;
             }
         }
     }
     
     //res folder fallback
-    std::string ctaPathFallBack = FileUtils::getInstance()->fullPathForFilename("res/cta_assets/close.png");//android needs a file in the dir to locate it
-    ctaPathFallBack = ctaPathFallBack.substr(0,ctaPathFallBack.size() - 9);
+    const std::string& ctaPathFallBack = getResCTADirectoryPath();
     const std::vector<std::string>& foldersFallBack = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPathFallBack);
     
     for(const std::string& folder : foldersFallBack)
@@ -81,8 +79,7 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
         {
             if(file == uniqueId)
             {
-                Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(ctaPathFallBack + folder + "/" + file);
-                Director::getInstance()->getRunningScene()->addChild(cta);
+                createDynamicNodeFromFile(ctaPathFallBack + folder + "/" + file);
                 return;
             }
         }
@@ -102,16 +99,14 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
         {
             const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPath + folder);
             
-            Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(ctaPath + folder + "/" + fileNames[rand()%fileNames.size()]);
-            Director::getInstance()->getRunningScene()->addChild(cta);
+            createDynamicNodeFromFile(ctaPath + folder + "/" + fileNames[rand()%fileNames.size()]);
             return;
                 
         }
     }
     
     //res folder fallback
-    std::string ctaPathFallBack = FileUtils::getInstance()->fullPathForFilename("res/cta_assets/close.png");//android needs a file in the dir to locate it
-    ctaPathFallBack = ctaPathFallBack.substr(0,ctaPathFallBack.size() - 9);
+    const std::string& ctaPathFallBack = getResCTADirectoryPath();
     const std::vector<std::string>& foldersFallBack = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPathFallBack);
     
     for(const std::string& folder : foldersFallBack)
@@ -119,9 +114,8 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
         if(folder == groupId)
         {
             const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPathFallBack + folder);
-
-            Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(ctaPathFallBack + folder + "/" + fileNames[rand()%fileNames.size()]);
-            Director::getInstance()->getRunningScene()->addChild(cta);
+            
+            createDynamicNodeFromFile(ctaPathFallBack + folder + "/" + fileNames[rand()%fileNames.size()]);
             return;
         
         }
@@ -137,7 +131,8 @@ void DynamicNodeHandler::getCTAFiles()
 rapidjson::Document DynamicNodeHandler::getLocalCTAPackageJSON()
 {
     rapidjson::Document packageJson;
-    if(isCTAPackageJSONExist()){
+    if(isCTAPackageJSONExist())
+    {
         const std::string& currentJsonPackage = FileUtils::getInstance()->getStringFromFile(getPackageJsonLocation());
         packageJson.Parse(currentJsonPackage.c_str());
     }
@@ -155,11 +150,11 @@ void DynamicNodeHandler::getCTAPackageJSON(const std::string& url)
     jsonRequest->setRequestType(network::HttpRequest::Type::GET);
     jsonRequest->setUrl(url.c_str());
     
-    std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str()));
+    std::vector<std::string> headers
+    {
+        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+    };
     jsonRequest->setHeaders(headers);
-    
-    CCLOG("Cookies being used are: %s", headers.at(0).c_str());
     
     jsonRequest->setResponseCallback(CC_CALLBACK_2(DynamicNodeHandler::onGetCTAPackageJSONAnswerReceived , this));
     network::HttpClient::getInstance()->setTimeoutForConnect(2);
@@ -171,38 +166,35 @@ void DynamicNodeHandler::onGetCTAPackageJSONAnswerReceived(cocos2d::network::Htt
 {
     std::string responseString = "";
     
-    if (response && response->getResponseData())
+    if (response && response->getResponseData() && response->getResponseCode() == 200)
     {
         const std::vector<char>& myResponse = *response->getResponseData();
         responseString = std::string(myResponse.begin(), myResponse.end());
-    }
-    
-    if(response->getResponseCode() == 200)          //Get content success
-    {
         const std::string& targetPath = getPackageJsonLocation();
         rapidjson::Document newPackageJSON;
         newPackageJSON.Parse(responseString.c_str());
         
-        if(isCTAPackageJSONExist())
+        if(!newPackageJSON.HasParseError())
         {
-            rapidjson::Document oldPackageJSON = getLocalCTAPackageJSON();
-            
-            if(oldPackageJSON["currentVersion"].GetInt() < newPackageJSON["currentVersion"].GetInt() && azoomeeMeetsVersionRequirement(newPackageJSON["minAzoomeeVersion"].GetString()))
+            if(isCTAPackageJSONExist())
             {
-                FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
-                getCTAPackageZip(newPackageJSON["uri"].GetString());
+                rapidjson::Document oldPackageJSON = getLocalCTAPackageJSON(); //dont need to error check as wont make it on to device if invalid
+                
+                if(oldPackageJSON["currentVersion"].GetInt() < newPackageJSON["currentVersion"].GetInt() && azoomeeMeetsVersionRequirement(newPackageJSON["minAzoomeeVersion"].GetString()))
+                {
+                    FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
+                    getCTAPackageZip(getStringFromJson("uri", newPackageJSON));
+                }
+            }
+            else
+            {
+                if(azoomeeMeetsVersionRequirement(newPackageJSON["minAzoomeeVersion"].GetString()))
+                {
+                    FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
+                    getCTAPackageZip(getStringFromJson("uri", newPackageJSON));
+                }
             }
         }
-        else
-        {
-            FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
-            getCTAPackageZip(newPackageJSON["uri"].GetString());
-        }
-        
-    }
-    else
-    {
-        
     }
 }
 
@@ -212,11 +204,12 @@ void DynamicNodeHandler::getCTAPackageZip(const std::string& url)
     zipRequest->setRequestType(network::HttpRequest::Type::GET);
     zipRequest->setUrl(url.c_str());
     
-    std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str()));
+    std::vector<std::string> headers
+    {
+        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+    };
+
     zipRequest->setHeaders(headers);
-    
-    CCLOG("Cookies being used are: %s", headers.at(0).c_str());
     
     zipRequest->setResponseCallback(CC_CALLBACK_2(DynamicNodeHandler::onGetCTAPackageZipAnswerReceived, this));
     network::HttpClient::getInstance()->setTimeoutForConnect(2);
@@ -228,14 +221,10 @@ void DynamicNodeHandler::onGetCTAPackageZipAnswerReceived(cocos2d::network::Http
 {
     std::string responseString = "";
     
-    if (response && response->getResponseData())
+    if (response && response->getResponseData() && response->getResponseCode() == 200)
     {
         const std::vector<char>& myResponse = *response->getResponseData();
         responseString = std::string(myResponse.begin(), myResponse.end());
-    }
-    
-    if(response->getResponseCode() == 200)          //Get content success
-    {
         const std::string& basePath = getCTADirectoryPath();
         const std::string& targetPath = basePath + "CTAFiles.zip";
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
@@ -244,14 +233,22 @@ void DynamicNodeHandler::onGetCTAPackageZipAnswerReceived(cocos2d::network::Http
     }
 }
 
-std::string DynamicNodeHandler::getPackageJsonLocation()
+std::string DynamicNodeHandler::getPackageJsonLocation() const
 {
     return getCTADirectoryPath() + "package.json";
 }
 
-std::string DynamicNodeHandler::getCTADirectoryPath()
+std::string DynamicNodeHandler::getCTADirectoryPath() const
 {
     return FileUtils::getInstance()->getWritablePath() + "DCDECache/";
+}
+
+std::string DynamicNodeHandler::getResCTADirectoryPath() const
+{
+    const std::string& localFile = "close.png";
+    std::string resDirPath = FileUtils::getInstance()->fullPathForFilename("res/cta_assets/" + localFile);//android needs a file in the dir to locate it
+    resDirPath = resDirPath.substr(0,resDirPath.size() - localFile.length());
+    return resDirPath;
 }
 
 bool DynamicNodeHandler::unzipCTAFiles(const char *zipPath, const char *dirpath, const char *passwd)
@@ -270,7 +267,7 @@ bool DynamicNodeHandler::unzipCTAFiles(const char *zipPath, const char *dirpath,
     
 }
 
-bool DynamicNodeHandler::removeCTAFiles()
+void DynamicNodeHandler::removeCTAFiles()
 {
     const std::string& baseLocation = getCTADirectoryPath();
     const std::vector<std::string>& CTAFolders = DirectorySearcher::getInstance()->getFoldersInDirectory(baseLocation);
@@ -278,11 +275,16 @@ bool DynamicNodeHandler::removeCTAFiles()
     {
         if(folder.size() > 2)
         {
-            return FileUtils::getInstance()->removeDirectory(baseLocation + folder);
+            FileUtils::getInstance()->removeDirectory(baseLocation + folder);
         }
     }
     
-    return false;
+}
+
+void DynamicNodeHandler::createDynamicNodeFromFile(const std::string &file)
+{
+    Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(file);
+    Director::getInstance()->getRunningScene()->addChild(cta);
 }
 
 

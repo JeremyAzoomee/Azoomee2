@@ -50,11 +50,8 @@ private:
 
     
     void addButtonWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData);
-    void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, cocos2d::Texture2D* texture);
     void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& filename);
     void addTextWithParams(int fontSize, cocos2d::Color4B fontColour, const rapidjson::Value& params);
-    
-    cocos2d::Texture2D* getTextureFromBase64imageData(std::string& data, const std::string& imageName);
     
 public:
     static DynamicNodeCreator* getInstance(void);

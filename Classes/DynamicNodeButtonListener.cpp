@@ -39,19 +39,21 @@ bool DynamicNodeButtonListener::init(void)
 
 void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget::TouchEventType eventType, ButtonActionDataRef buttonAction)
 {
-    if(buttonAction->getType() == _kButtonTypeInternal)
+    if(eventType == ui::Widget::TouchEventType::ENDED)
     {
-        const std::string& location = buttonAction->getParamForKey("location");
-        if(location == _kButtonLocationUpgrade)
+        if(buttonAction->getType() == _kButtonTypeInternal)
         {
-            upgradeButtonPressed();
-        }
-        else
-        {
-            Director::getInstance()->getScheduler()->schedule(schedule_selector(DynamicNodeButtonListener::closeCTAPopup), this, 0, 0, 0.2, false);
-        }
+            const std::string& location = buttonAction->getParamForKey("location");
+            if(location == _kButtonLocationUpgrade)
+            {
+                upgradeButtonPressed();
+            }
+            else
+            {
+                closeCTAPopup();
+            }
     }
-    
+    }
 }
 
 void DynamicNodeButtonListener::upgradeButtonPressed()
@@ -65,10 +67,10 @@ void DynamicNodeButtonListener::upgradeButtonPressed()
     {
         PreviewLoginSignupMessageBox::create();
     }
-    Director::getInstance()->getScheduler()->schedule(schedule_selector(DynamicNodeButtonListener::closeCTAPopup), this, 0, 0, 0.2, false);
+    closeCTAPopup();
 }
 
-void DynamicNodeButtonListener::closeCTAPopup(float dt)
+void DynamicNodeButtonListener::closeCTAPopup()
 {
     DynamicNodeCreator::getInstance()->resetCTAPopup();
 }

@@ -33,10 +33,13 @@ private:
     void onGetCTAPackageZipAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     bool unzipCTAFiles(const char *zipPath,const char *dirpath,const char *passwd);
-    bool removeCTAFiles();
+    void removeCTAFiles();
     
-    std::string getPackageJsonLocation();
-    std::string getCTADirectoryPath();
+    std::string getPackageJsonLocation() const;
+    std::string getCTADirectoryPath() const;
+    std::string getResCTADirectoryPath() const;
+    
+    void createDynamicNodeFromFile(const std::string& file);
     
 public:
     //-----start popup group names here

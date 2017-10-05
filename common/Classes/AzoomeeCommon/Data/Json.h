@@ -137,6 +137,15 @@ inline cocos2d::Vec2 getVec2FromJson(const std::string &keyName, const rapidjson
     }
     return cocos2d::Vec2(0,0);
 }
+
+inline int getIntFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+{
+    if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].IsInt())
+    {
+        return jsonValue[keyName.c_str()].GetInt();
+    }
+    return INT_MAX;
+}
 NS_AZOOMEE_END
 
 #endif

@@ -115,7 +115,7 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
 
 void DynamicNodeCreator::initCTANode()
 {
-    Director::getInstance()->getTextureCache()->removeUnusedTextures();
+    
     _windowSize = Director::getInstance()->getWinSize();
     
     if(_CTANode)
@@ -184,7 +184,10 @@ void DynamicNodeCreator::initCTANode()
     _closeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _closeButton->setPosition(_popupFrame->getPosition() + _popupFrame->getContentSize()/2 - _closeButton->getContentSize()*0.75);
     _closeButton->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType type){
-        this->resetCTAPopup();
+        if(type == ui::Widget::TouchEventType::ENDED)
+        {
+            this->resetCTAPopup();
+        }
     });
     _CTANode->addChild(_closeButton);
     
@@ -251,16 +254,6 @@ void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroun
             }
         }
     }
-    else
-    {
-        std::string dataStr = getStringFromJson("data", backgroundImageData);
-        
-        Texture2D* texture = getTextureFromBase64imageData(dataStr,"popupBGImage");
-        if(texture){
-            _maskedBGImage->initWithTexture(texture);
-            imagefound = true;
-        }
-    }
     
     if(imagefound)
     {
@@ -274,10 +267,11 @@ void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroun
             float widthScale = _stencil->getContentSize().width/_maskedBGImage->getContentSize().width;
             float heightScale =   _stencil->getContentSize().height/_maskedBGImage->getContentSize().height;
             _maskedBGImage->setScale(MIN(widthScale, heightScale));
-            if(backgroundImageData.HasMember("position"))
+            int yPos = getIntFromJson("position",backgroundImageData);
+            if(yPos != INT_MAX)
             {
                 _maskedBGImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-                _maskedBGImage->setPosition(Vec2(_windowSize.width/2, _windowSize.height * (backgroundImageData["position"].GetInt()/100.0f))-_windowSize/2);
+                _maskedBGImage->setPosition(Vec2(0, _stencil->getContentSize().height * ((yPos-50)/100.0f)));
             }
         }
     }
@@ -367,11 +361,9 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
                 continue;
             }
             
-            if(imageList[i].HasMember("opacity") && imageList[i]["opacity"].IsInt())
-            {
-                opacity = imageList[i]["opacity"].GetInt();
-            }
-            else
+            opacity = getIntFromJson("opacity", imageList[i]);
+            
+            if(opacity == INT_MAX)
             {
                 opacity = 255;
             }
@@ -393,23 +385,11 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
                     }
                 }
             }
-            else
-            {
-                std::string dataStr = getStringFromJson("data", imageList[i]);
-                
-                const std::string& imageName = StringUtils::format("popupImage%i",i);
-                
-                Texture2D* texture = getTextureFromBase64imageData(dataStr,imageName);
-                if(texture)
-                {
-                    addImageWithParams(size, pos, opacity, texture);
-                }
-            }
             
         }
     }
 
-
+    
 }
 
 void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
@@ -417,7 +397,7 @@ void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
     if(textConfig.HasMember("titleText"))
     {
         const rapidjson::Value& titleText = textConfig["titleText"];
-        addTextWithParams(100, Style::Color_4B::ctaNodeText, titleText);
+        addTextWithParams(94, Style::Color_4B::ctaNodeText, titleText);
     }
     
     if(textConfig.HasMember("bodyText"))
@@ -425,14 +405,14 @@ void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
         for(int i = 0; i < textConfig["bodyText"].Size(); i++)
         {
             const rapidjson::Value& bodyText = textConfig["bodyText"][i];
-            addTextWithParams(60, Color4B(Style::Color::black), bodyText);
+            addTextWithParams(63, Color4B(Style::Color::black), bodyText);
         }
     }
     
     if(textConfig.HasMember("footerText"))
     {
         const rapidjson::Value& footerText = textConfig["footerText"];
-        addTextWithParams(44, Style::Color_4B::ctaNodeText, footerText);
+        addTextWithParams(42, Style::Color_4B::ctaNodeText, footerText);
     }
 }
 
@@ -455,24 +435,13 @@ void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, 
     _popupButtonsLayer->addChild(button);
 }
 
-void DynamicNodeCreator::addImageWithParams(const Vec2 &size, const Vec2 &pos, int opacity, Texture2D *texture)
-{
-    Sprite* image = Sprite::createWithTexture(texture);
-    image->setScale((_windowSize.width*size.x)/image->getContentSize().width, (_windowSize.height*size.y)/image->getContentSize().height);
-    image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    image->setNormalizedPosition(pos);
-    image->setOpacity(opacity/255.0f);
-    _popupImages->addChild(image);
-
-}
-
 void DynamicNodeCreator::addImageWithParams(const Vec2& size, const Vec2& pos, int opacity, const std::string& filename)
 {
     Sprite* image = Sprite::create(filename);
     image->setScale((_windowSize.width*size.x)/image->getContentSize().width, (_windowSize.height*size.y)/image->getContentSize().height);
     image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     image->setNormalizedPosition(pos);
-    image->setOpacity(opacity/255.0f);
+    image->setOpacity(opacity);
     _popupImages->addChild(image);
 }
 
@@ -481,6 +450,17 @@ void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, con
     Vec2 pos = getVec2FromJson("position", params)/100.0f;
     const std::string text = getStringFromJson("text", params);
     const std::string alignment = getStringFromJson("alignment", params);
+    int newFontSize = getIntFromJson("fontSize", params);
+    if(newFontSize != INT_MAX)
+    {
+        fontSize = newFontSize;
+    }
+    
+    if(params.HasMember("colour") && params["colour"].Size() == 4 && params["colour"][0].IsInt() && params["colour"][1].IsInt() && params["colour"][2].IsInt() && params["colour"][3].IsInt())
+    {
+        fontColour.set(params["colour"][0].GetInt(), params["colour"][1].GetInt(), params["colour"][2].GetInt(), params["colour"][3].GetInt());
+    }
+    
     Label* label = Label::createWithTTF(text, "fonts/azoomee.ttf", fontSize);
     label->setNormalizedPosition(pos);
     label->setTextColor(fontColour);
@@ -504,27 +484,6 @@ void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, con
     _textLayer->addChild(label);
 }
 
-
-Texture2D* DynamicNodeCreator::getTextureFromBase64imageData(std::string& data, const std::string& imageName)
-{
-    if(data.length() > 22){
-        data = data.substr(22);
-        
-        int len = 0;
-        unsigned char *buffer;
-        len = base64Decode((const unsigned char*)data.c_str(), (unsigned int)data.length(), &buffer);
-        
-        Image *img = new Image();
-        img->initWithImageData(buffer, len);
-        
-        Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(img, imageName); // make sure cocos has the new texture in its cache
-        
-        delete img;
-        return texture;
-    }
-    return nullptr;
-}
-
 void DynamicNodeCreator::resetCTAPopup()
 {
     if(_CTANode)
@@ -532,7 +491,6 @@ void DynamicNodeCreator::resetCTAPopup()
         _CTANode->removeFromParent();
         _CTANode = nullptr;
     }
-    
 }
 
 NS_AZOOMEE_END
