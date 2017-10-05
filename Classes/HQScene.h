@@ -16,6 +16,10 @@ public:
     void startBuildingScrollViewBasedOnName();
 
 private:
+    
+    cocos2d::Vec2 _origin;
+    cocos2d::Size _visibleSize;
+    
     void addGroupHQLogo();
     
     bool directionDecided = false;
