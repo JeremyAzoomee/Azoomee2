@@ -146,6 +146,15 @@ inline int getIntFromJson(const std::string &keyName, const rapidjson::Value &js
     }
     return INT_MAX;
 }
+
+inline cocos2d::Color4B getColor4BFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+{
+    if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].Size() == 4 && jsonValue[keyName.c_str()][0].IsInt() && jsonValue[keyName.c_str()][1].IsInt() && jsonValue[keyName.c_str()][2].IsInt() && jsonValue[keyName.c_str()][3].IsInt())
+    {
+        return cocos2d::Color4B(jsonValue[keyName.c_str()][0].GetInt(), jsonValue[keyName.c_str()][1].GetInt(), jsonValue[keyName.c_str()][2].GetInt(), jsonValue[keyName.c_str()][3].GetInt());
+    }
+    return cocos2d::Color4B();
+}
 NS_AZOOMEE_END
 
 #endif

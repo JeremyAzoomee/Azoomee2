@@ -456,12 +456,9 @@ void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, con
         fontSize = newFontSize;
     }
     
-    if(params.HasMember("colour") && params["colour"].Size() == 4 && params["colour"][0].IsInt() && params["colour"][1].IsInt() && params["colour"][2].IsInt() && params["colour"][3].IsInt())
-    {
-        fontColour.set(params["colour"][0].GetInt(), params["colour"][1].GetInt(), params["colour"][2].GetInt(), params["colour"][3].GetInt());
-    }
+    fontColour = getColor4BFromJson("colour", params);
     
-    Label* label = Label::createWithTTF(text, "fonts/azoomee.ttf", fontSize);
+    Label* label = Label::createWithTTF(text, Style::Font::Regular, fontSize);
     label->setNormalizedPosition(pos);
     label->setTextColor(fontColour);
     

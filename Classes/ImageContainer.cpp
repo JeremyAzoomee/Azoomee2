@@ -154,7 +154,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "1,1");
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 
-                DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId("upgrade");
+                DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
             }
             else
             {
