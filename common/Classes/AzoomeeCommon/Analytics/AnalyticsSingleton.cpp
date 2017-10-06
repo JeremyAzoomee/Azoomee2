@@ -298,19 +298,19 @@ void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumbe
     
 void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type)
 {
-    HQContentItemObject contentItem = HQContentItemObject::create();
-    contentItem.setType(Type);
-    contentItemSelectedEvent(&contentItem, -1, -1, "");
+    HQContentItemObjectRef contentItem = HQContentItemObject::create();
+    contentItem->setType(Type);
+    contentItemSelectedEvent(contentItem, -1, -1, "");
 }
     
 void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type, const std::string& elementShape)
 {
-    HQContentItemObject contentItem = HQContentItemObject::create();
-    contentItem.setType(Type);
-    contentItemSelectedEvent(&contentItem, -1, -1, elementShape);
+    HQContentItemObjectRef contentItem = HQContentItemObject::create();
+    contentItem->setType(Type);
+    contentItemSelectedEvent(contentItem, -1, -1, elementShape);
 }
     
-void AnalyticsSingleton::contentItemSelectedEvent(HQContentItemObject *contentItem, int rowNumber, int elementNumber, const std::string& elementShape)
+void AnalyticsSingleton::contentItemSelectedEvent(HQContentItemObjectRef contentItem, int rowNumber, int elementNumber, const std::string& elementShape)
 {
     SessionIdManager::getInstance()->resetBackgroundTimeInContent();
     
@@ -333,7 +333,7 @@ void AnalyticsSingleton::contentItemSelectedEvent(HQContentItemObject *contentIt
     appsFlyerSendEvent("contentItemSelectedEvent", mixPanelProperties);
 }
     
-void AnalyticsSingleton::updateContentItemDetails(HQContentItemObject *contentItem)
+void AnalyticsSingleton::updateContentItemDetails(HQContentItemObjectRef contentItem)
 {
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Title"] = contentItem->getTitle();

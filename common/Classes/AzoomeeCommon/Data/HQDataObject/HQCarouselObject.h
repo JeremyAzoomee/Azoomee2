@@ -7,25 +7,28 @@
 
 NS_AZOOMEE_BEGIN
 
+class HQCarouselObject;
+typedef std::shared_ptr<HQCarouselObject> HQCarouselObjectRef;
+
 class HQCarouselObject
 {
 private:
     
     std::string _title = "";
-    std::vector<HQContentItemObject *> _contentItems;
+    std::vector<HQContentItemObjectRef> _contentItems;
     std::vector<cocos2d::Vec2> _contentItemHighlights;
     
 public:
     HQCarouselObject();
-    static HQCarouselObject create();
+    static HQCarouselObjectRef create();
     
     void setTitle(const std::string &inputTitle);
-    void addContentItemToCarousel(HQContentItemObject* contentItem); //also: contentItemData should contain size
+    void addContentItemToCarousel(HQContentItemObjectRef contentItem); //also: contentItemData should contain size
     void addContentItemHighlight(cocos2d::Vec2 contentItemHighlight);
     
-    std::string getTitle();
-    std::vector<HQContentItemObject *> *getContentItems();
-    std::vector<cocos2d::Vec2> *getContentItemHighlights();
+    std::string getTitle() const;
+    std::vector<HQContentItemObjectRef> getContentItems();
+    std::vector<cocos2d::Vec2> getContentItemHighlights();
     
 };
 

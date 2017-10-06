@@ -8,31 +8,34 @@
 
 NS_AZOOMEE_BEGIN
 
+class HQDataObject;
+typedef std::shared_ptr<HQDataObject> HQDataObjectRef;
+
 class HQDataObject
 {
 private:
     std::string _hqType = "";
     std::string _hqUrl = "";
     bool _hqEntitlement = false;
-    std::vector<HQCarouselObject> _carousels;
-    std::map<std::string, HQContentItemObject> _rawContentItems;
+    std::vector<HQCarouselObjectRef> _carousels;
+    std::map<std::string, HQContentItemObjectRef> _rawContentItems;
     bool _isDownloaded = false;
     
 public:
     HQDataObject();
-    static HQDataObject create();
+    static HQDataObjectRef create();
     
     void setHqType(const std::string &inputHqType);
     void setHqUrl(const std::string &inputHqUrl);
-    void setHqEntitlement(const bool inputHqEntitlement);
-    void addCarusoelToHq(HQCarouselObject inputCarouselData);
-    void addContentItemToRawStorage(std::string contentItemId, HQContentItemObject inputContentItemObject);
+    void setHqEntitlement(bool inputHqEntitlement);
+    void addCarusoelToHq(HQCarouselObjectRef inputCarouselData);
+    void addContentItemToRawStorage(const std::string &contentItemId, const HQContentItemObjectRef &inputContentItemObject);
     
-    std::string getHqType();
-    std::string getHqUrl();
-    bool getHqEntitlement();
-    std::vector<HQCarouselObject> *getHqCarousels();
-    HQContentItemObject* getContentItemForId(const std::string &contentItemId);
+    std::string getHqType() const;
+    std::string getHqUrl() const;
+    bool getHqEntitlement() const;
+    std::vector<HQCarouselObjectRef> getHqCarousels();
+    HQContentItemObjectRef getContentItemForId(const std::string &contentItemId) const;
     
     void clearContentItemRawStorage();
 };

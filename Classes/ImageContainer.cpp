@@ -41,7 +41,7 @@ bool ImageContainer::init()
     return true;
 }
 
-void ImageContainer::createContainer(HQContentItemObject* elementProperties, float scale, float startDelay, Point position)
+void ImageContainer::createContainer(HQContentItemObjectRef elementProperties, float scale, float startDelay, Point position)
 {
     if(HQHistoryManager::getInstance()->noHistory())
     {
@@ -79,7 +79,7 @@ void ImageContainer::createContainer(HQContentItemObject* elementProperties, flo
 
 //-----------------------------------------------------All methods below are called internally.---------------------------------------------------
 
-void ImageContainer::createBgLayer(HQContentItemObject* elementProperties, float scale, float startDelay, Point position)
+void ImageContainer::createBgLayer(HQContentItemObjectRef elementProperties, float scale, float startDelay, Point position)
 {
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Size baseContentSize = Size(445, 339);
@@ -112,7 +112,7 @@ void ImageContainer::startAudio(std::string audioName)
     AudioMixer::getInstance()->playEffect(audioName);
 }
 
-void ImageContainer::addReponseLayerToImage(HQContentItemObject* elementProperties, float scale)
+void ImageContainer::addReponseLayerToImage(HQContentItemObjectRef elementProperties, float scale)
 {
     Size baseContentSize = Size(445, 339);
     Size containerSize = baseContentSize * scale;
@@ -127,7 +127,7 @@ void ImageContainer::addReponseLayerToImage(HQContentItemObject* elementProperti
     bgLayer->addChild(responseLayer);
 }
 
-void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, HQContentItemObject* elementProperties, bool IAPEnabled)
+void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, HQContentItemObjectRef elementProperties, bool IAPEnabled)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);

@@ -21,7 +21,7 @@ private:
     
     bool setHostAndPath(std::string uriString);
     
-    void completeContentAction(HQContentItemObject *contentItem);
+    void completeContentAction(HQContentItemObjectRef contentItem);
     
     void moveToHQ(ConfigStorage::HubTargetTagNumber hqName);
     void resetDeepLink();

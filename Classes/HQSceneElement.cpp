@@ -59,7 +59,7 @@ void HQSceneElement::setCategory(const std::string &category)
     elementCategory = category;
 }
 
-void HQSceneElement::setItemData(HQContentItemObject* itemData)
+void HQSceneElement::setItemData(HQContentItemObjectRef itemData)
 {
     elementItemData = itemData;
 }
@@ -185,7 +185,7 @@ void HQSceneElement::startUpElementDependingOnType()
     }
     else if((elementItemData->getType() == "VIDEO") || (elementItemData->getType() == "AUDIO"))
     {
-        VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(elementCategory)->getHqCarousels()->at(elementRowNumber));
+        VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(elementCategory)->getHqCarousels().at(elementRowNumber));
         
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(elementItemData->getContentItemId().c_str(),Orientation::Landscape);

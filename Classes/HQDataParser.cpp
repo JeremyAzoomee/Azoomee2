@@ -70,17 +70,17 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
         
         if (key!=NULL)
         {
-            HQContentItemObject contentObject = HQContentItemObject::create();
+            HQContentItemObjectRef contentObject = HQContentItemObject::create();
 
             const rapidjson::Value &itemData = contentData["items"][key];
             
-            contentObject.setContentItemId(key);
-            contentObject.setTitle(getStringFromJson("title", itemData));
-            contentObject.setDescription(getStringFromJson("description", itemData));
-            contentObject.setType(getStringFromJson("type", itemData));
-            contentObject.setUri(getStringFromJson("uri", itemData));
-            contentObject.setEntitled(getBoolFromJson("entitled", itemData));
-            contentObject.setNewFlag(getBoolFromJson("newFlag", itemData));
+            contentObject->setContentItemId(key);
+            contentObject->setTitle(getStringFromJson("title", itemData));
+            contentObject->setDescription(getStringFromJson("description", itemData));
+            contentObject->setType(getStringFromJson("type", itemData));
+            contentObject->setUri(getStringFromJson("uri", itemData));
+            contentObject->setEntitled(getBoolFromJson("entitled", itemData));
+            contentObject->setNewFlag(getBoolFromJson("newFlag", itemData));
             
             HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addContentItemToRawStorage(key, contentObject);
         }
@@ -98,9 +98,9 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
     
     for (int i = 0; i < contentData["rows"].Size(); i++)
     {
-        HQCarouselObject carouselObject = HQCarouselObject::create();
+        HQCarouselObjectRef carouselObject = HQCarouselObject::create();
         
-        carouselObject.setTitle(getStringFromJson("title", contentData["rows"][i]));
+        carouselObject->setTitle(getStringFromJson("title", contentData["rows"][i]));
         
         if(contentData["rows"][i]["contentIds"].Size() != 0)
         {
@@ -108,11 +108,11 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
             {
                 std::string contentId = contentData["rows"][i]["contentIds"][j].GetString();
                 
-                HQContentItemObject *pointerToContentItem = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(contentId);
+                HQContentItemObjectRef pointerToContentItem = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(contentId);
                 Vec2 contentItemHighlight = Vec2(contentData["rows"][i]["shapes"][j][0].GetInt(), contentData["rows"][i]["shapes"][j][1].GetInt());
                 
-                carouselObject.addContentItemToCarousel(pointerToContentItem);
-                carouselObject.addContentItemHighlight(contentItemHighlight);
+                carouselObject->addContentItemToCarousel(pointerToContentItem);
+                carouselObject->addContentItemHighlight(contentItemHighlight);
             }
         }
         
@@ -142,7 +142,7 @@ bool HQDataParser::parseHQGetContentUrls(const std::string &responseString)
         
         rapidjson::Value &currentItem = contentData["hqs"][key];
         
-        HQDataObject *dataObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(replacedKey);
+        HQDataObjectRef dataObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(replacedKey);
         dataObject->setHqEntitlement(getBoolFromJson("available", currentItem));
         dataObject->setHqUrl(getStringFromJson("uri", currentItem));
     }

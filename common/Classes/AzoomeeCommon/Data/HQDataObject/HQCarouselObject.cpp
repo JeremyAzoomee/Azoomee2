@@ -2,9 +2,9 @@
 
 NS_AZOOMEE_BEGIN
 
-HQCarouselObject HQCarouselObject::create()
+HQCarouselObjectRef HQCarouselObject::create()
 {
-    return HQCarouselObject();
+    return HQCarouselObjectRef();
 }
 
 HQCarouselObject::HQCarouselObject()
@@ -16,7 +16,7 @@ void HQCarouselObject::setTitle(const std::string &inputTitle)
     _title = inputTitle;
 }
 
-void HQCarouselObject::addContentItemToCarousel(HQContentItemObject* contentItem)
+void HQCarouselObject::addContentItemToCarousel(HQContentItemObjectRef contentItem)
 {
     _contentItems.push_back(contentItem);
 }
@@ -26,19 +26,19 @@ void HQCarouselObject::addContentItemHighlight(cocos2d::Vec2 contentItemHighligh
     _contentItemHighlights.push_back(contentItemHighlight);
 }
 
-std::string HQCarouselObject::getTitle()
+std::string HQCarouselObject::getTitle() const
 {
     return _title;
 }
 
-std::vector<HQContentItemObject *> *HQCarouselObject::getContentItems()
+std::vector<HQContentItemObjectRef> HQCarouselObject::getContentItems()
 {
-    return &_contentItems;
+    return _contentItems;
 }
 
-std::vector<cocos2d::Vec2> *HQCarouselObject::getContentItemHighlights()
+std::vector<cocos2d::Vec2> HQCarouselObject::getContentItemHighlights()
 {
-    return &_contentItemHighlights;
+    return _contentItemHighlights;
 }
 
 NS_AZOOMEE_END

@@ -6,6 +6,9 @@
 
 NS_AZOOMEE_BEGIN
 
+class HQContentItemObject;
+typedef std::shared_ptr<HQContentItemObject> HQContentItemObjectRef;
+
 class HQContentItemObject
 {
 private:
@@ -24,7 +27,7 @@ private:
     
 public:
     HQContentItemObject();
-    static HQContentItemObject create();
+    static HQContentItemObjectRef create();
     
     void setContentItemId(const std::string &inputId);
     void setTitle(const std::string &inputTitle);
@@ -34,26 +37,26 @@ public:
     void setEntitled(const bool inputEntitled);
     void setNewFlag(const bool inputNewFlag);
     
-    std::string getContentItemId();
-    std::string getTitle();
-    std::string getDescription();
-    std::string getType();
-    std::string getUri();
-    bool getEntitled();
-    bool getNewFlag();
+    std::string getContentItemId() const;
+    std::string getTitle() const;
+    std::string getDescription() const;
+    std::string getType() const;
+    std::string getUri() const;
+    bool getEntitled() const;
+    bool getNewFlag() const;
     
     //getters and setters for variables only handled upon read (not storing)
     void setImagePath(const std::string &inputImagePath);
     void setElementNumber(int inputElementNumber);
     void setElementShape(const cocos2d::Vec2 &inputElementShape);
     
-    std::string getImagePath();
-    int getElementNumber();
+    std::string getImagePath() const;
+    int getElementNumber() const;
     cocos2d::Vec2 getElementShape();
     
     //other helper methods
-    std::string getJSONRepresentationOfStructure();
-    static HQContentItemObject createFromMap(const std::map<std::string, std::string> &inputMap);
+    std::string getJSONRepresentationOfStructure() const;
+    static HQContentItemObjectRef createFromMap(const std::map<std::string, std::string> &inputMap);
     
 };
 

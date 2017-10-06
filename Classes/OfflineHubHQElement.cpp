@@ -36,8 +36,8 @@ void OfflineHubHQElement::addHQSceneElement(const std::string &category, const s
     
     elementVisual = HQSceneElementVisual::create();
     elementVisual->setCategory(category);
-    HQContentItemObject objectToStart = HQContentItemObject::createFromMap(itemData);
-    elementVisual->setItemData(&objectToStart);
+    HQContentItemObjectRef objectToStart = HQContentItemObject::createFromMap(itemData);
+    elementVisual->setItemData(objectToStart);
     elementVisual->setShape(shape);
     elementVisual->setDelay(delay);
     elementVisual->setCreatedForOffline(true);
@@ -107,13 +107,13 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
             
             CCLOG("Action to come: %s", startUrl.c_str());
             
-            HQContentItemObject contentItem = HQContentItemObject::create();
-            contentItem.setTitle(itemData.at("title"));
-            contentItem.setDescription(itemData.at("description"));
-            contentItem.setType(itemData.at("type"));
-            contentItem.setContentItemId(itemData.at("id"));
+            HQContentItemObjectRef contentItem = HQContentItemObject::create();
+            contentItem->setTitle(itemData.at("title"));
+            contentItem->setDescription(itemData.at("description"));
+            contentItem->setType(itemData.at("type"));
+            contentItem->setContentItemId(itemData.at("id"));
             
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(&contentItem, -1, -1, "1,1");
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, -1, -1, "1,1");
             
             Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(itemData), startUrl.c_str()));
         }
@@ -136,8 +136,8 @@ Orientation OfflineHubHQElement::getGameOrientation(const std::map<std::string, 
 void OfflineHubHQElement::startUpElementDependingOnType(const std::map<std::string, std::string> &itemData)
 {
     this->getParent()->getParent()->getParent()->stopAllActions();
-    HQContentItemObject objectToStart = HQContentItemObject::createFromMap(itemData);
-    GameDataManager::getInstance()->startProcessingGame(&objectToStart);
+    HQContentItemObjectRef objectToStart = HQContentItemObject::createFromMap(itemData);
+    GameDataManager::getInstance()->startProcessingGame(objectToStart);
 }
 
 NS_AZOOMEE_END

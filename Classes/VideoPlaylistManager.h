@@ -16,13 +16,13 @@ public:
     virtual ~VideoPlaylistManager();
     bool init(void);
     
-    void setPlaylist(HQCarouselObject hqCarouselObject);
+    void setPlaylist(HQCarouselObjectRef hqCarouselObject);
     std::string getPlaylist();
-    HQContentItemObject getContentItemDataForPlaylistElement(int elementNumber);
+    HQContentItemObjectRef getContentItemDataForPlaylistElement(int elementNumber);
     void clearPlaylist();
     
 private:
-    HQCarouselObject storedPlaylist;
+    HQCarouselObjectRef storedPlaylist;
 };
 
 NS_AZOOMEE_END

@@ -16,7 +16,7 @@ public:
     virtual bool init();
     
     void setCategory(std::string category);
-    void setItemData(HQContentItemObject* itemData);
+    void setItemData(HQContentItemObjectRef itemData);
     void setShape(cocos2d::Vec2 shape);
     void setDelay(float delay);
     void setCreatedForOffline(bool createdForOffline);
@@ -29,7 +29,7 @@ public:
 private:
     bool shouldDisplayVisualElementsOverImage = false;
     std::string elementCategory;
-    HQContentItemObject elementItemData;
+    HQContentItemObjectRef elementItemData;
     cocos2d::Vec2 elementShape;
     float elementDelay;
     bool elementCreatedForOffline = false;

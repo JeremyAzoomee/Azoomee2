@@ -38,13 +38,13 @@ bool HQDataProvider::init(void)
     return true;
 }
 
-std::string HQDataProvider::getImageUrlForItem(const std::string &itemId, Vec2 shape)
+std::string HQDataProvider::getImageUrlForItem(const std::string &itemId, Vec2 shape) const
 {
     std::string returnString = StringUtils::format("%s/%s/thumb_%d_%d.jpg", ConfigStorage::getInstance()->getImagesUrl().c_str(), itemId.c_str(), (int)shape.x, (int)shape.y);
     return returnString;
 }
 
-std::string HQDataProvider::getImageUrlForGroupLogo(const std::string &itemId)
+std::string HQDataProvider::getImageUrlForGroupLogo(const std::string &itemId) const
 {
     std::string returnString = StringUtils::format("%s/%s/logo.png", ConfigStorage::getInstance()->getImagesUrl().c_str(), itemId.c_str());
     return returnString;
@@ -74,7 +74,7 @@ void HQDataProvider::getDataForHQ(const std::string &category)
         HQDataStorage::getInstance()->HQData.erase(category.c_str());
 #endif
     
-    HQDataObject *objectToBeLoaded = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category);
+    HQDataObjectRef objectToBeLoaded = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category);
         
     if(objectToBeLoaded->getHqType() != "")
     {
@@ -97,64 +97,64 @@ void HQDataProvider::getDataForGroupHQ(const std::string &uri)
 
 int HQDataProvider::getNumberOfRowsForHQ(const std::string &category)
 {
-    return (int)HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->size();
+    return (int)HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().size();
 }
 
-int HQDataProvider::getNumberOfElementsForRow(const std::string &category, int index)
+int HQDataProvider::getNumberOfElementsForRow(const std::string &category, int index) const
 {
-    return (int)HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(index).getContentItems()->size();
+    return (int)HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(index)->getContentItems().size();
 }
 
-std::vector<HQContentItemObject *> *HQDataProvider::getElementsForRow(const std::string &category, int index)
+std::vector<HQContentItemObjectRef> HQDataProvider::getElementsForRow(const std::string &category, int index)
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(index).getContentItems();;
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(index)->getContentItems();
 }
 
-std::string HQDataProvider::getTitleForRow(const std::string &category, int index)
+std::string HQDataProvider::getTitleForRow(const std::string &category, int index) const
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(index).getTitle();
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(index)->getTitle();
 }
 
-HQContentItemObject HQDataProvider::getItemDataForSpecificItem(const std::string &category,  const std::string &itemid)
+HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::string &category,  const std::string &itemid)
 {
-    return *HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(itemid);
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(itemid);
 }
 
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber)
 {
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(rowNumber).getContentItemHighlights()->at(itemNumber);
+    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
 }
 
-std::string HQDataProvider::getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber)
+std::string HQDataProvider::getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const
 {
-    Vec2 highlightData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(rowNumber).getContentItemHighlights()->at(itemNumber);
+    Vec2 highlightData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
     return StringUtils::format("%d,%d", int(highlightData.x), int(highlightData.y));
 }
 
-std::string HQDataProvider::getTypeForSpecificItem(const std::string &category, const std::string &itemId)
+std::string HQDataProvider::getTypeForSpecificItem(const std::string &category, const std::string &itemId) const
 {
-    HQContentItemObject *targetObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(itemId);
+    HQContentItemObjectRef targetObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(itemId);
     return targetObject->getType();
 }
 
-std::vector<HQContentItemObject> HQDataProvider::getAllContentItemsInRow(const std::string &category, int rowNumber)                               //this method is being used for creating playlist data when playing video
+std::vector<HQContentItemObjectRef> HQDataProvider::getAllContentItemsInRow(const std::string &category, int rowNumber)                               //this method is being used for creating playlist data when playing video
 {
-    HQCarouselObject requiredObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()->at(rowNumber);
-    std::vector<HQContentItemObject *> *contentItemObjects = requiredObject.getContentItems();
+    HQCarouselObjectRef requiredObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber);
+    std::vector<HQContentItemObjectRef> contentItemObjects = requiredObject->getContentItems();
     
-    std::vector<HQContentItemObject> returnArray;
+    std::vector<HQContentItemObjectRef> returnArray;
     
-    for(int i = 0; i < contentItemObjects->size(); i++)
+    for(int i = 0; i < contentItemObjects.size(); i++)
     {
-        HQContentItemObject extendedObj = *contentItemObjects->at(i);
+        HQContentItemObjectRef extendedObj = contentItemObjects.at(i);
         
         //TODO objectTypes should be pre-configured.
         
-        if(((extendedObj.getType() == "VIDEO" || extendedObj.getType() == "AUDIO")) && extendedObj.getEntitled())
+        if(((extendedObj->getType() == "VIDEO" || extendedObj->getType() == "AUDIO")) && extendedObj->getEntitled())
         {
-            extendedObj.setElementNumber(i);
-            extendedObj.setElementShape(getHighlightDataForSpecificItem(category, rowNumber, i));
-            extendedObj.setImagePath(getImageUrlForItem(extendedObj.getContentItemId(), Vec2(1,1)));
+            extendedObj->setElementNumber(i);
+            extendedObj->setElementShape(getHighlightDataForSpecificItem(category, rowNumber, i));
+            extendedObj->setImagePath(getImageUrlForItem(extendedObj->getContentItemId(), Vec2(1,1)));
         }
         
         returnArray.push_back(extendedObj);

@@ -75,8 +75,8 @@ void sendMixPanelData(const char* host, const char* query)
     
     if(strHost == "video.playlistItem")
     {
-        HQContentItemObject contentItem = VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(std::atoi(strQuery.c_str()));
-        AnalyticsSingleton::getInstance()->updateContentItemDetails(&contentItem);
+        HQContentItemObjectRef contentItem = VideoPlaylistManager::getInstance()->getContentItemDataForPlaylistElement(std::atoi(strQuery.c_str()));
+        AnalyticsSingleton::getInstance()->updateContentItemDetails(contentItem);
         AnalyticsSingleton::getInstance()->mediaPlayerNewPlaylistItemSetEvent(std::atoi(strQuery.c_str()));
     }
 }

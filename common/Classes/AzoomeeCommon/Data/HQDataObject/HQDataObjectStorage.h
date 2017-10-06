@@ -14,13 +14,12 @@ public:
     static HQDataObjectStorage* getInstance();
     virtual ~HQDataObjectStorage();
     
-    HQDataObject* getHQDataObjectForKey(std::string key);
-    void setHQDataObjectForKey(std::string key, HQDataObject inputHQDataObject);
+    HQDataObjectRef getHQDataObjectForKey(const std::string &key);
     void clearAllHQData();
     
 private:
     HQDataObjectStorage();
-    std::map<std::string, HQDataObject> _hqDataObjects;
+    std::map<std::string, HQDataObjectRef> _hqDataObjects;
 };
 
 NS_AZOOMEE_END
