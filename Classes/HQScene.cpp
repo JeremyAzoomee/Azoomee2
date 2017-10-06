@@ -142,7 +142,7 @@ void HQScene::createBidirectionalScrollView()
     
     float verticalScrollViewHeight = (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2) + (ConfigStorage::getInstance()->getScrollviewTitleTextHeight() * 2);
     
-    verticalScrollView->setInnerContainerSize(Size(visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * verticalScrollViewHeight +privacyLayer->getContentSize().height*2));
+    verticalScrollView->setInnerContainerSize(Size(_visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * verticalScrollViewHeight +privacyLayer->getContentSize().height*2));
     
     for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); j++)
     {

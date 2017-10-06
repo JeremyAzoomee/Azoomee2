@@ -59,6 +59,15 @@ bool MessageComposer::init()
 
     // Default to Idle
     setMode(MessageComposer::Mode::Idle);
+    
+    // Border at bottom
+    _subTitleBarBorder = ui::Layout::create();
+    _subTitleBarBorder->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
+    _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _subTitleBarBorder->setBackGroundColor(Style::Color::greenishTeal);
+    addChild(_subTitleBarBorder);
+    
     return true;
 }
 
@@ -125,15 +134,16 @@ void MessageComposer::onSizeChanged()
     updateTextEntryHeight();
     
     //Redraw top line
-    if(_topLine)
+    /*if(_topLine)
     {
         _topLine->removeFromParent();
     }
     _topLine = DrawNode::create();
     _topLine->setLineWidth(2);
     _topLine->drawLine(Vec2(0, getContentSize().height), Vec2(getContentSize().width,getContentSize().height), Style::Color_4F::greenishTeal);
-    addChild(_topLine);
-
+    addChild(_topLine);*/
+    
+    _subTitleBarBorder->setContentSize(Size(getContentSize().width, 2.0f));
 }
 
 void MessageComposer::setContentSize(const cocos2d::Size& contentSize)

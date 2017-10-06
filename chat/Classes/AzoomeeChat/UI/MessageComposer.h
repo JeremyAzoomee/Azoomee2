@@ -68,6 +68,8 @@ private:
     cocos2d::ui::Button* _sendButton = nullptr;
     /// Text Bar border
     cocos2d::DrawNode* _topLine = nullptr;
+    /// Sub title bar border
+    cocos2d::ui::Layout* _subTitleBarBorder = nullptr;
     
     /// Stickers tab button
     cocos2d::ui::Button* _stickersTab = nullptr;
