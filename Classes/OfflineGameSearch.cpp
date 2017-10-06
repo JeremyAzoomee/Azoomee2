@@ -134,7 +134,7 @@ std::map<std::string, std::string> OfflineGameSearch::getGameDetails(const std::
     {
         currentGameData["uri"] = getStringFromJson("pathToStartPage", gameData);
         currentGameData["title"] = getStringFromJson("name", gameData);
-        (getBoolFromJson("isPortrait", gameData)) ? currentGameData["isPortrait"] = "true" : currentGameData["isPortrait"] = "false";
+        currentGameData["isPortrait"] = getBoolFromJson("isPortrait", gameData) ? "true" : "false";
     }
     
     if(FileUtils::getInstance()->isFileExist(feedDataFileName)) //if we have feed data downloaded, we overwite the values for the contentItem to be shown, as package.json file display data is not accurate.
