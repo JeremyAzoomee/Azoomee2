@@ -61,22 +61,23 @@ void GameDataManager::startProcessingGame(const std::map<std::string, std::strin
     processCancelled = false;
     displayLoadingScreen();
     
-    WebGameAPIDataManager::getInstance()->setGameId(itemData.at("id"));
+    const std::string &itemId = itemData.at("id");
+    const std::string &itemUri = itemData.at("uri");
+    const std::string &basePath = getGameIdPath(itemId);
+    const std::string &fileName = getFileNameFromUrl(itemUri);
+    
+    WebGameAPIDataManager::getInstance()->setGameId(itemId);
     
     saveFeedDataToFile(itemData);
     
-    std::string basePath = getGameIdPath(itemData.at("id"));
-    std::string fileName = getFileNameFromUrl(itemData.at("uri"));
-    
-    
     if(checkIfFileExists(basePath + fileName))
     {
-        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemData.at("id"));
-        else getJSONGameData(itemData.at("uri"), itemData.at("id"));
+        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemId);
+        else getJSONGameData(itemUri, itemId);
     }
     else
     {
-        getJSONGameData(itemData.at("uri"), itemData.at("id")); //the callback of this method will get back to JSONFileIsPresent
+        getJSONGameData(itemUri, itemId); //the callback of this method will get back to JSONFileIsPresent
     }
 }
 
@@ -96,10 +97,9 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
 {
     getContentItemImageForOfflineUsage(itemId);
     
-    std::string basePath = getGameIdPath(itemId);
-    std::string basePathWithFileName = basePath + "package.json";
-    
-    std::string startFile = getStartFileFromJSONFile(basePathWithFileName);
+    const std::string &basePath = getGameIdPath(itemId);
+    const std::string &basePathWithFileName = basePath + "package.json";
+    const std::string &startFile = getStartFileFromJSONFile(basePathWithFileName);
     
     if(!isGameCompatibleWithCurrentAzoomeeVersion(basePathWithFileName))
     {
@@ -114,7 +114,7 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     }
     else
     {
-        std::string downloadUrl = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
+        const std::string &downloadUrl = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
         getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
     }
 }

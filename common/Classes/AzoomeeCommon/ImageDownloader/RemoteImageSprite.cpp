@@ -13,9 +13,6 @@ NS_AZOOMEE_BEGIN
 
 RemoteImageSprite::RemoteImageSprite()
 {
-    // Use category cache to invalidate the images as a whole if they expire
-    // This is matches the logic that this class used in the beginning
-    // TODO: Provide a way to customise this when creating RemoteImageSprite
     imageDownloaderLogic = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
 }
     
