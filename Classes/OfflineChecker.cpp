@@ -16,10 +16,8 @@ OfflineChecker* OfflineChecker::getInstance()
         _sharedOfflineChecker = new OfflineChecker();
         _sharedOfflineChecker->init();
     }
-    
-    
-    CCLOG("Newscene set to true");
-    _sharedOfflineChecker->newScene = true;
+
+    _sharedOfflineChecker->_newScene = true;
     _sharedOfflineChecker->startOfflineChecking();
     
     return _sharedOfflineChecker;
@@ -31,13 +29,13 @@ OfflineChecker::~OfflineChecker(void)
 
 bool OfflineChecker::init(void)
 {
-    offlineStatus = false;
+    _offlineStatus = false;
     return true;
 }
 
 bool OfflineChecker::getOfflineStatus()
 {
-    return offlineStatus;
+    return _offlineStatus;
 }
 
 void OfflineChecker::startOfflineChecking()
@@ -68,14 +66,12 @@ void OfflineChecker::onOfflineCheckAnswerReceived()
 {
     if(!Director::getInstance()->getRunningScene()->getChildByName("scheduleNode")) return;
     
-    if(newScene||offlineStatus)
+    if(_newScene||_offlineStatus)
     {
-        amountOfFailures = 0;
-        CCLOG("Online!");
-        offlineStatus = false;
-        newScene = false;
-        
-        ChildDataParser::getInstance()->setChildLoggedIn(false);
+        _amountOfFailures = 0;
+
+        _offlineStatus = false;
+        _newScene = false;
         
         if(this->getDelegate())
         {
@@ -87,14 +83,13 @@ void OfflineChecker::onOfflineCheckAnswerReceived()
 
 void OfflineChecker::onOfflineCheckFailed()
 {
-    if(newScene||!offlineStatus)
+    if(_newScene||!_offlineStatus)
     {
-        amountOfFailures++;
-        if(amountOfFailures < 2) return;
+        _amountOfFailures++;
+        if(_amountOfFailures < 2) return;
         
-        CCLOG("Offline!");
-        offlineStatus = true;
-        newScene = false;
+        _offlineStatus = true;
+        _newScene = false;
         if(this->getDelegate())
         {
             this->getDelegate()->connectivityStateChanged(false);
