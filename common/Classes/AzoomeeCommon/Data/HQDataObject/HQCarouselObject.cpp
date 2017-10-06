@@ -4,7 +4,7 @@ NS_AZOOMEE_BEGIN
 
 HQCarouselObjectRef HQCarouselObject::create()
 {
-    return HQCarouselObjectRef();
+    return std::make_shared<HQCarouselObject>();
 }
 
 HQCarouselObject::HQCarouselObject()

@@ -92,6 +92,7 @@ void HQDataProvider::getDataForHQ(const std::string &category)
 void HQDataProvider::getDataForGroupHQ(const std::string &uri)
 {
     displayLoadingScreen();
+    HQDataObjectStorage::getInstance()->getHQDataObjectForKey("GROUP HQ")->setHqEntitlement(true); //group hq entitlement is not in the initial login feed, so we have to make it enabled manually.
     BackEndCaller::getInstance()->getHQContent(uri, "GROUP HQ");
 }
 

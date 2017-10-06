@@ -9,7 +9,7 @@ HQContentItemObject::HQContentItemObject()
 
 HQContentItemObjectRef HQContentItemObject::create()
 {
-    return HQContentItemObjectRef();
+    return std::make_shared<HQContentItemObject>();
 }
 
 void HQContentItemObject::setContentItemId(const std::string &inputId)

@@ -4,7 +4,7 @@ NS_AZOOMEE_BEGIN
 
 HQDataObjectRef HQDataObject::create()
 {
-    return HQDataObjectRef();
+    return std::make_shared<HQDataObject>();
 }
 
 HQDataObject::HQDataObject()
