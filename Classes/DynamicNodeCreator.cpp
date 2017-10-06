@@ -461,6 +461,7 @@ void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, con
     Label* label = Label::createWithTTF(text, Style::Font::Regular, fontSize);
     label->setNormalizedPosition(pos);
     label->setTextColor(fontColour);
+    label->setLineSpacing(20);
     
     if(alignment == "left")
     {
