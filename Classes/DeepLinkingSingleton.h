@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include "NavigationLayer.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -20,7 +21,7 @@ private:
     
     bool setHostAndPath(std::string uriString);
     
-    void completeContentAction(std::map<std::string, std::string> elementProperties);
+    void completeContentAction(const HQContentItemObjectRef &contentItem);
     
     void moveToHQ(ConfigStorage::HubTargetTagNumber hqName);
     void resetDeepLink();

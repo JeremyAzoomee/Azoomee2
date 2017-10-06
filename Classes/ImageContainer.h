@@ -3,6 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -12,21 +13,21 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     CREATE_FUNC(ImageContainer);
-    void createContainer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, cocos2d::Point position);
+    void createContainer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay, cocos2d::Point position);
 
 private:
 
-    void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::map<std::string, std::string> elementProperties, bool IAPEnabled);
+    void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, const HQContentItemObjectRef &elementProperties, bool IAPEnabled);
     
     cocos2d::LayerColor *bgLayer;
-    void createBgLayer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, cocos2d::Point position);
+    void createBgLayer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay, cocos2d::Point position);
     
     void addImageToLayer(std::string url,std::string type, float startDelay);
     void addGradientToBottom(cocos2d::Color3B colour, float startDelay);
     void addIconToImage(std::string type, float startDelay);
     void addLabelToImage(std::string name, float startDelay);
     void addLockToImageContainer(const std::string& elementType, float startDelay);
-    void addReponseLayerToImage(std::map<std::string, std::string> elementProperties, float scale);
+    void addReponseLayerToImage(const HQContentItemObjectRef &elementProperties, float scale);
     
     void startAudio(std::string audioName);
     

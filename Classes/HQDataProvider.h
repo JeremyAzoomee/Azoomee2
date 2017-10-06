@@ -4,6 +4,11 @@
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
 
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+
 NS_AZOOMEE_BEGIN
 
 class HQDataProvider : public cocos2d::Ref
@@ -17,26 +22,26 @@ public:
     bool init(void);
     
     //MainHub Area services
-    std::map<std::string, std::string> getItemDataForSpecificItem(std::string category, std::string itemid);
-    cocos2d::Vec2 getHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber);
-    std::string getHumanReadableHighlightDataForSpecificItem(std::string category, int rowNumber, int itemNumber);
-    void getDataForHQ(std::string category);
-    void getDataForGroupHQ(std::string uri);
+    HQContentItemObjectRef getItemDataForSpecificItem(const std::string &category, const std::string &itemid);
+    cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber);
+    std::string getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
+    void getDataForHQ(const std::string &category);
+    void getDataForGroupHQ(const std::string &uri);
     
     //HQ Area services
-    int getNumberOfRowsForHQ(std::string category);
-    int getNumberOfElementsForRow(std::string category, int index);
-    std::vector<std::string> getElementsForRow(std::string category, int index);
-    std::string getTitleForRow(std::string category, int index);
-    std::string getImageUrlForItem(std::string itemId, cocos2d::Vec2 shape);
-    std::string getTypeForSpecificItem(std::string category, std::string itemId);
+    int getNumberOfRowsForHQ(const std::string &category);
+    int getNumberOfElementsForRow(const std::string &category, int index) const;
+    std::vector<HQContentItemObjectRef> getElementsForRow(const std::string &category, int index);
+    std::string getTitleForRow(const std::string &category, int index) const;
+    std::string getImageUrlForItem(const std::string &itemId, cocos2d::Vec2 shape) const;
+    std::string getTypeForSpecificItem(const std::string &category, const std::string &itemId) const;
     
-    std::string getImageUrlForGroupLogo(std::string itemId);
+    std::string getImageUrlForGroupLogo(const std::string &itemId) const;
     
-    std::vector<std::map<std::string, std::string>> getAllElementDataInRow(std::string category, int rowNumber);
+    std::vector<HQContentItemObjectRef> getAllContentItemsInRow(const std::string &category, int rowNumber);
     
     //Callback to start building HQ
-    void startBuildingHQ(std::string category);
+    void startBuildingHQ(const std::string &category);
     
     //Loading screen
     void displayLoadingScreen();

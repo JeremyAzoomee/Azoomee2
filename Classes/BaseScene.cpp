@@ -44,15 +44,7 @@ void BaseScene::onEnterTransitionDidFinish()
     
     AudioMixer::getInstance()->playBackgroundMusic(HQ_BACKGROUND_MUSIC);
  
-    if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())  //if basescene is being run without a child logged in, anonymous login mode has to be activated. (Deep free experience)
-    {
-        BackEndCaller::getInstance()->getHQContent(ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag("PreviewHOME"), "PreviewHOME");
-    }
-    else
-    {
-        startBuildingHQs();
-    }
-
+    startBuildingHQs();
 }
 
 void BaseScene::startBuildingHQs()

@@ -54,19 +54,21 @@ bool GameDataManager::init(void)
     return true;
 }
 
-void GameDataManager::startProcessingGame(const std::map<std::string, std::string> &itemData)
+void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData)
 {
     AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
     
     processCancelled = false;
     displayLoadingScreen();
     
-    const std::string &itemId = itemData.at("id");
-    const std::string &itemUri = itemData.at("uri");
-    const std::string &basePath = getGameIdPath(itemId);
-    const std::string &fileName = getFileNameFromUrl(itemUri);
+    saveFeedDataToFile(itemData);
+    const std::string &itemId = itemData->getContentItemId();
+    const std::string &itemUri = getFileNameFromUrl(itemData->getUri());
+    const std::string &basePath = getGameIdPath(itemData->getContentItemId());
+    const std::string &fileName = getFileNameFromUrl(itemData->getUri());
     
     WebGameAPIDataManager::getInstance()->setGameId(itemId);
+
     
     saveFeedDataToFile(itemData);
     
@@ -87,17 +89,18 @@ void GameDataManager::startProcessingGame(const std::map<std::string, std::strin
     }
 }
 
-void GameDataManager::saveFeedDataToFile(const std::map<std::string, std::string> &itemData)
+void GameDataManager::saveFeedDataToFile(const HQContentItemObjectRef &itemData)
 {
-    if(HQHistoryManager::getInstance()->isOffline || itemData.find("title") == itemData.end() || itemData.find("description") == itemData.end())
+    if(HQHistoryManager::getInstance()->isOffline)
     {
         return;
     }
-    const std::string& basePath = getGameIdPath(itemData.at("id"));
-    const std::string& targetPath = basePath + "feedData.json";
+    
+    const std::string &basePath = getGameIdPath(itemData->getContentItemId());
+    const std::string &targetPath = basePath + "feedData.json";
     
     createGamePathDirectories(basePath);
-    FileUtils::getInstance()->writeStringToFile(getJSONStringFromMap(itemData), targetPath);
+    FileUtils::getInstance()->writeStringToFile(itemData->getJSONRepresentationOfStructure(), targetPath);
 }
 
 void GameDataManager::JSONFileIsPresent(const std::string &itemId)

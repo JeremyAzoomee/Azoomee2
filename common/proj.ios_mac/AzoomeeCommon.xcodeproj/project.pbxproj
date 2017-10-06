@@ -7,9 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		021B1FC91F838A0A0044DCF7 /* HQCarouselObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */; };
+		021B1FCA1F838A0A0044DCF7 /* HQContentItemObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC31F838A0A0044DCF7 /* HQContentItemObject.cpp */; };
+		021B1FCB1F838A0A0044DCF7 /* HQDataObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC51F838A0A0044DCF7 /* HQDataObject.cpp */; };
+		021B1FCC1F838A0A0044DCF7 /* HQDataObjectStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC71F838A0A0044DCF7 /* HQDataObjectStorage.cpp */; };
 		022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 022218CA1ECF203000AD167F /* SessionIdManager.cpp */; };
-		025BCA631F7A571C00F54406 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 025BCA621F7A571C00F54406 /* IosNativeFunctionsSingleton.mm */; };
 		02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A120231EAF83E0007EDD95 /* VersionChecker.cpp */; };
+		02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */; };
+		02AE88E31F83CBC3005C0FC8 /* AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */; };
 		3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */; };
 		3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */; };
 		3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF791ED5BBB700E9717C /* Application.cpp */; };
@@ -150,12 +155,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HQCarouselObject.cpp; path = HQDataObject/HQCarouselObject.cpp; sourceTree = "<group>"; };
+		021B1FC21F838A0A0044DCF7 /* HQCarouselObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQCarouselObject.h; path = HQDataObject/HQCarouselObject.h; sourceTree = "<group>"; };
+		021B1FC31F838A0A0044DCF7 /* HQContentItemObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HQContentItemObject.cpp; path = HQDataObject/HQContentItemObject.cpp; sourceTree = "<group>"; };
+		021B1FC41F838A0A0044DCF7 /* HQContentItemObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQContentItemObject.h; path = HQDataObject/HQContentItemObject.h; sourceTree = "<group>"; };
+		021B1FC51F838A0A0044DCF7 /* HQDataObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HQDataObject.cpp; path = HQDataObject/HQDataObject.cpp; sourceTree = "<group>"; };
+		021B1FC61F838A0A0044DCF7 /* HQDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQDataObject.h; path = HQDataObject/HQDataObject.h; sourceTree = "<group>"; };
+		021B1FC71F838A0A0044DCF7 /* HQDataObjectStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HQDataObjectStorage.cpp; path = HQDataObject/HQDataObjectStorage.cpp; sourceTree = "<group>"; };
+		021B1FC81F838A0A0044DCF7 /* HQDataObjectStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQDataObjectStorage.h; path = HQDataObject/HQDataObjectStorage.h; sourceTree = "<group>"; };
 		022218CA1ECF203000AD167F /* SessionIdManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SessionIdManager.cpp; sourceTree = "<group>"; };
 		022218CB1ECF203000AD167F /* SessionIdManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionIdManager.h; sourceTree = "<group>"; };
-		025BCA611F7A571C00F54406 /* IosNativeFunctionsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosNativeFunctionsSingleton.h; sourceTree = "<group>"; };
-		025BCA621F7A571C00F54406 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
 		02A120231EAF83E0007EDD95 /* VersionChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VersionChecker.cpp; sourceTree = "<group>"; };
 		02A120241EAF83E0007EDD95 /* VersionChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionChecker.h; sourceTree = "<group>"; };
+		02AE88DE1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IosNativeFunctionsSingleton.h; sourceTree = "<group>"; };
+		02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
+		02AE88E11F83CBC3005C0FC8 /* AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutomaticEvents.h; sourceTree = "<group>"; };
+		02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutomaticEvents.m; sourceTree = "<group>"; };
 		3000FF701ED5AB7000E9717C /* AzoomeeAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeAppController.h; sourceTree = "<group>"; };
 		3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AzoomeeAppController.mm; sourceTree = "<group>"; };
 		3000FF721ED5AB7000E9717C /* AzoomeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeViewController.h; sourceTree = "<group>"; };
@@ -455,6 +470,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		021B1FC01F8389FC0044DCF7 /* HQDataObject */ = {
+			isa = PBXGroup;
+			children = (
+				021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */,
+				021B1FC21F838A0A0044DCF7 /* HQCarouselObject.h */,
+				021B1FC31F838A0A0044DCF7 /* HQContentItemObject.cpp */,
+				021B1FC41F838A0A0044DCF7 /* HQContentItemObject.h */,
+				021B1FC51F838A0A0044DCF7 /* HQDataObject.cpp */,
+				021B1FC61F838A0A0044DCF7 /* HQDataObject.h */,
+				021B1FC71F838A0A0044DCF7 /* HQDataObjectStorage.cpp */,
+				021B1FC81F838A0A0044DCF7 /* HQDataObjectStorage.h */,
+			);
+			name = HQDataObject;
+			sourceTree = "<group>";
+		};
 		3000FF6D1ED5AB7000E9717C /* Platform */ = {
 			isa = PBXGroup;
 			children = (
@@ -585,8 +615,8 @@
 			isa = PBXGroup;
 			children = (
 				304A6EEA1EC9A96F000D52B5 /* CocosSharedPtr.h */,
-				025BCA611F7A571C00F54406 /* IosNativeFunctionsSingleton.h */,
-				025BCA621F7A571C00F54406 /* IosNativeFunctionsSingleton.mm */,
+				02AE88DE1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.h */,
+				02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */,
 				022218CA1ECF203000AD167F /* SessionIdManager.cpp */,
 				022218CB1ECF203000AD167F /* SessionIdManager.h */,
 				3012ED6B1E96A3140009027D /* StringFunctions.cpp */,
@@ -792,6 +822,7 @@
 		30DD5EDF1E96841D0084305B /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				021B1FC01F8389FC0044DCF7 /* HQDataObject */,
 				3012ED5A1E969BF60009027D /* Child */,
 				3012ED531E969BBB0009027D /* Parent */,
 				3012ED491E969AE40009027D /* Cookie */,
@@ -842,12 +873,11 @@
 		4349C75F1EA8ADEE00FE964B /* Mixpanel */ = {
 			isa = PBXGroup;
 			children = (
-				437D9F3E1F61B0E80025810E /* AutomaticEvents.h */,
-				437D9F3F1F61B0E80025810E /* AutomaticEvents.m */,
-				437D9F401F61B0E80025810E /* AutomaticEventsConstants.h */,
 				4349C7601EA8ADEE00FE964B /* _MPTweakBindObserver.h */,
 				4349C7611EA8ADEE00FE964B /* _MPTweakBindObserver.m */,
 				4349C7631EA8ADEE00FE964B /* AutomaticEventsConstants.h */,
+				02AE88E11F83CBC3005C0FC8 /* AutomaticEvents.h */,
+				02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */,
 				4349C7741EA8ADEE00FE964B /* Mixpanel+AutomaticEvents.h */,
 				4349C7751EA8ADEE00FE964B /* Mixpanel+AutomaticEvents.m */,
 				4349C7761EA8ADEE00FE964B /* Mixpanel.h */,
@@ -1097,11 +1127,13 @@
 				3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */,
 				4349C81A1EA8ADEF00FE964B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				431369811F2B7200002BEA8C /* YouTubeVideoLayer.cpp in Sources */,
+				021B1FC91F838A0A0044DCF7 /* HQCarouselObject.cpp in Sources */,
 				3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */,
 				3012ED611E969BF60009027D /* ChildDataParser.cpp in Sources */,
 				30DD5ED61E965E060084305B /* AnalyticsSingleton_ios.mm in Sources */,
 				4349C8361EA8ADEF00FE964B /* MPNotificationButton.m in Sources */,
 				4349C8591EA8ADEF00FE964B /* UIApplication+AutomaticEvents.m in Sources */,
+				02AE88E31F83CBC3005C0FC8 /* AutomaticEvents.m in Sources */,
 				3012ED591E969BBB0009027D /* ParentDataStorage.cpp in Sources */,
 				436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */,
 				4349C8211EA8ADEF00FE964B /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
@@ -1121,6 +1153,7 @@
 				4349C84F1EA8ADEF00FE964B /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
 				4349C8221EA8ADEF00FE964B /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
 				3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */,
+				021B1FCB1F838A0A0044DCF7 /* HQDataObject.cpp in Sources */,
 				4349C8411EA8ADEF00FE964B /* MPResources.m in Sources */,
 				4349C85D1EA8ADEF00FE964B /* UIView+MPHelpers.m in Sources */,
 				3012ED911E97DCC00009027D /* ElectricDreamsTextStyles.cpp in Sources */,
@@ -1132,6 +1165,7 @@
 				4349C8441EA8ADEF00FE964B /* MPSwizzler.m in Sources */,
 				4349C8241EA8ADEF00FE964B /* MPABTestDesignerTweakResponseMessage.m in Sources */,
 				30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */,
+				021B1FCA1F838A0A0044DCF7 /* HQContentItemObject.cpp in Sources */,
 				30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */,
 				4349C81B1EA8ADEF00FE964B /* MPABTestDesignerClearRequestMessage.m in Sources */,
 				3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */,
@@ -1140,10 +1174,10 @@
 				4349C8291EA8ADEF00FE964B /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				3012ED621E969BF60009027D /* ChildDataProvider.cpp in Sources */,
 				431369781F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp in Sources */,
+				021B1FCC1F838A0A0044DCF7 /* HQDataObjectStorage.cpp in Sources */,
 				4349C85C1EA8ADEF00FE964B /* UIImage+MPImageEffects.m in Sources */,
 				3012ED581E969BBB0009027D /* ParentDataProvider.cpp in Sources */,
 				4349C8381EA8ADEF00FE964B /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
-				437D9F411F61B0E80025810E /* AutomaticEvents.m in Sources */,
 				4349C8421EA8ADEF00FE964B /* MPSequenceGenerator.m in Sources */,
 				4349C8451EA8ADEF00FE964B /* MPTakeoverNotification.m in Sources */,
 				4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */,
@@ -1152,6 +1186,7 @@
 				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,
 				3012ED711E96A3140009027D /* StringMgr.cpp in Sources */,
 				4349C8201EA8ADEF00FE964B /* MPABTestDesignerDisconnectMessage.m in Sources */,
+				02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */,
 				3012ED6F1E96A3140009027D /* TextInputChecker.cpp in Sources */,
 				4349C8391EA8ADEF00FE964B /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				4349C83D1EA8ADEF00FE964B /* MPObjectSerializerConfig.m in Sources */,
@@ -1189,7 +1224,6 @@
 				4349C85B1EA8ADEF00FE964B /* UIImage+MPAverageColor.m in Sources */,
 				4349C8511EA8ADEF00FE964B /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				4349C83F1EA8ADEF00FE964B /* MPPassThroughValueTransformer.m in Sources */,
-				025BCA631F7A571C00F54406 /* IosNativeFunctionsSingleton.mm in Sources */,
 				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
 				4349C84A1EA8ADEF00FE964B /* MPTweakInline.m in Sources */,
 				3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */,

@@ -4,6 +4,7 @@
 #include <cocos/cocos2d.h>
 #include "ui/UIScrollView.h"
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -32,7 +33,7 @@ private:
     cocos2d::Sprite* createVerticalScrollGradient();
     cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position);
     void addTitleToHorizontalScrollView(std::string title, Node *toBeAddedTo, cocos2d::Point position);
-    void addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::map<std::string, std::string> itemData, int rowNumber, int itemNumber);
+    void addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int itemNumber);
 
     void createBidirectionalScrollView();
     void createMonodirectionalScrollView();

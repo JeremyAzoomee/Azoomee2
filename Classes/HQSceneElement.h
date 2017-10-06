@@ -5,6 +5,7 @@
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Azoomee.h>
 #include "HQSceneElementVisual.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -16,8 +17,8 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     
-    void setCategory(std::string category);
-    void setItemData(std::map<std::string, std::string> itemData);
+    void setCategory(const std::string &category);
+    void setItemData(const HQContentItemObjectRef &itemData);
     void setElementRow(int rowNumber);
     void setElementIndex(int index);
     
@@ -25,7 +26,7 @@ public:
     
 private:
     std::string elementCategory;
-    std::map<std::string, std::string> elementItemData;
+    HQContentItemObjectRef elementItemData;
     int elementRowNumber;
     int elementIndex;
     

@@ -16,7 +16,6 @@
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
-#include "HQDataStorage.h"
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
@@ -118,8 +117,6 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
     {
         ConfigStorage::getInstance()->setFirstSlideShowSeen();
         
-        HQDataParser::getInstance()->clearAllHQData();
-        
         getAvailableChildren();
         updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
@@ -154,11 +151,10 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
     {
-        HQDataParser::getInstance()->clearAllHQData();
-        ChildDataParser::getInstance()->setChildLoggedIn(false);
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
+        HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
         DynamicNodeHandler::getInstance()->getCTAFiles();
-        getGordon(); //we are skipping to getGordon (no child login), that will get the required free/user cookies and switch to the main scene.
+        getGordon();
     }
     else
     {
@@ -256,8 +252,6 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
 
 void BackEndCaller::childLogin(int childNumber)
 {
-    HQDataParser::getInstance()->clearAllHQData();
-    
     displayLoadingScreen();
     
     const std::string& profileName = ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber);
@@ -270,13 +264,13 @@ void BackEndCaller::childLogin(int childNumber)
 
 void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString)
 {
-    if(!ChildDataParser::getInstance()->parseChildLoginData(responseString)) LoginLogicHandler::getInstance()->doLoginLogic();
+    if((!ChildDataParser::getInstance()->parseChildLoginData(responseString)) || (!HQDataParser::getInstance()->parseHQGetContentUrls(responseString)))
+    {
+        LoginLogicHandler::getInstance()->doLoginLogic();
+    }
     
     DynamicNodeHandler::getInstance()->getCTAFiles();
-    
-    getHQContent(StringUtils::format("%s%s/%s", ConfigStorage::getInstance()->getServerUrl().c_str(), ConfigStorage::getInstance()->getPathForTag("HOME").c_str(), ChildDataProvider::getInstance()->getLoggedInChildId().c_str()), "HOME");
-    
-    
+    getGordon();
 }
 
 //GETTING GORDON.PNG-------------------------------------------------------------------------------------
@@ -450,10 +444,6 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     else if(requestTag == API::TagParentPin)
     {
         onUpdateParentPinAnswerReceived(body);
-    }
-    else if(requestTag == "PreviewHOME")
-    {
-        HQDataParser::getInstance()->onGetPreviewContentAnswerReceived(body);
     }
     else if(requestTag == "deepLinkContentRequest")
     {
