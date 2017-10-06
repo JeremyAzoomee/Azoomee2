@@ -1,6 +1,7 @@
 #include "API.h"
 #include <cocos/cocos2d.h>
 #include "../Data/ConfigStorage.h"
+#include "../Utils/SessionIdManager.h"
 
 using namespace cocos2d;
 
@@ -19,6 +20,7 @@ const char* const API::TagGetGorden = "getGordon";
 const char* const API::TagRegisterParent = "registerParent";
 const char* const API::TagRegisterChild = "registerChild";
 const char* const API::TagUpdateChild = "updateChild";
+const char* const API::TagDeleteChild = "deleteChild";
 const char* const API::TagVerifyGooglePayment = "iabGooglePaymentMade";
 const char* const API::TagVerifyAmazonPayment = "iapAmazonPaymentMade";
 const char* const API::TagVerifyApplePayment = "iapApplePaymentMade";
@@ -169,6 +171,20 @@ HttpRequestCreator* API::UpdateChildRequest(const std::string& url,
     request->requestBody = StringUtils::format("{\"id\":\"%s\",\"profileName\":\"%s\",\"dob\":\"%s\",\"sex\":\"%s\",\"avatar\":\"%s\",\"ownerId\":\"%s\"}", childId.c_str(), childProfileName.c_str(), childDOB.c_str(), childGender.c_str(), avatar.c_str(), ownerId.c_str());
     request->requestTag = TagUpdateChild;
     request->url = 	url;
+    request->method = "PATCH";
+    request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::DeleteChild(const std::string& childId,
+                                     const std::string& childProfileName,
+                                     const std::string& childGender,
+                                     HttpRequestCreatorResponseDelegate* delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestBody = StringUtils::format("{\"profileName\":\"%s%s\",\"sex\":\"%s\",\"status\":\"DELETED\"}", childProfileName.c_str(),SessionIdManager::getInstance()->getCurrentSessionId().c_str(), childGender.c_str());
+    request->requestTag = TagDeleteChild;
+    request->url = ConfigStorage::getInstance()->getServerUrl() + ConfigStorage::getInstance()->getPathForTag(TagDeleteChild) + childId;
     request->method = "PATCH";
     request->encrypted = true;
     return request;

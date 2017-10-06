@@ -9,7 +9,7 @@
     "OnboardingScene":
     {
         "title_label":"Create your family account",
-        "email_label":"Enter your email address",
+        "email_label":"Enter parent's email address",
         "password_label":"Create a password",
         "pin_label":"Set up a 4-digit PIN",
         "pin_sub_label":"Use this to protect the parents/settings area."

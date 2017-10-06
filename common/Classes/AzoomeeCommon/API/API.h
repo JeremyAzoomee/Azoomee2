@@ -30,6 +30,7 @@ public:
     static const char* const TagRegisterParent;
     static const char* const TagRegisterChild;
     static const char* const TagUpdateChild;
+    static const char* const TagDeleteChild;
     static const char* const TagVerifyGooglePayment;
     static const char* const TagVerifyAmazonPayment;
     static const char* const TagVerifyApplePayment;
@@ -96,6 +97,11 @@ public:
                                                     const std::string& avatar,
                                                     const std::string& ownerId,
                                                     HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* DeleteChild(const std::string& childId,
+                                           const std::string& childProfileName,
+                                           const std::string& childGender,
+                                           HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* VerifyGooglePaymentRequest(const std::string& orderId,
                                                           const std::string& iapSku,

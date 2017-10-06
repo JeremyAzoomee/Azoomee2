@@ -18,18 +18,19 @@ class KidsControlLayer : public Layer, public ElectricDreamsButtonDelegate, publ
 private:
     float originalYposition;
     int childNumber;
-    SettingsKidsLayer* parentLayer;
+    SettingsKidsLayer* parentLayer = nullptr;
     
-    KidsLayer* childFrameLayer;
+    KidsLayer* childFrameLayer = nullptr;
     
-    TextInputLayer *kidCodeTextInput;
+    TextInputLayer *kidCodeTextInput = nullptr;
     
-    ElectricDreamsButton *closeButton;
-    ElectricDreamsButton *shareButton;
-    ElectricDreamsButton *sendCodeButton;
-    ElectricDreamsButton *tryAgainButton;
-    ElectricDreamsButton *addAnotherButton;
-    ElectricDreamsButton *textInputButton;
+    ElectricDreamsButton *closeButton = nullptr;
+    ElectricDreamsButton *shareButton = nullptr;
+    ElectricDreamsButton *sendCodeButton = nullptr;
+    ElectricDreamsButton *tryAgainButton = nullptr;
+    ElectricDreamsButton *addAnotherButton = nullptr;
+    ElectricDreamsButton *textInputButton = nullptr;
+    ElectricDreamsButton *deleteButton = nullptr;
     
     void clearAllButCloseButton();
     
