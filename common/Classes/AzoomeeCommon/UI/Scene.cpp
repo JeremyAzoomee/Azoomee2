@@ -122,7 +122,9 @@ void Scene::onSizeChanged()
     
     ModalWebview* modalWebview = dynamic_cast<ModalWebview*>(this->getChildByName("ModalWebview"));
     if(modalWebview)
+    {
         modalWebview->onSizeChanged();
+    }
     
 }
 

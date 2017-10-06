@@ -277,7 +277,13 @@ void ChildAccountScene::addOomeesToScene()
     _oomeeGlow->setScale(.6);
     this->addChild(_oomeeGlow);
     
-    std::vector<cocos2d::Vec2> oomeePositions = {Vec2(0.5f, 0.47f), Vec2(0.3f, 0.29f), Vec2(0.7f, 0.29f), Vec2(0.3f, 0.65f), Vec2(0.7f, 0.65f)};
+    std::vector<cocos2d::Vec2> oomeePositions = {
+        Vec2(0.5f, 0.47f),
+        Vec2(0.3f, 0.29f),
+        Vec2(0.7f, 0.29f),
+        Vec2(0.3f, 0.65f),
+        Vec2(0.7f, 0.65f)
+    };
     
     for(int i=0;i< NO_OF_OOMEES;i++)
     {
@@ -411,7 +417,7 @@ void ChildAccountScene::textInputIsValid(TextInputLayer* inputLayer, bool isVali
 
 void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
 {
-    if(inputLayer==_childNameInputText)
+    if(inputLayer == _childNameInputText)
     {
         _dayInputText->focusAndShowKeyboard();
     }

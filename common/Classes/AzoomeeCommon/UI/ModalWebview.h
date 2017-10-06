@@ -15,10 +15,10 @@ private:
     cocos2d::Size _visibleSize;
     cocos2d::Size _runningSceneSize;
     
-    cocos2d::LayerColor *_backgroundLayer;
-    cocos2d::experimental::ui::WebView* _modalWebview;
+    cocos2d::LayerColor *_backgroundLayer = nullptr;
+    cocos2d::experimental::ui::WebView *_modalWebview = nullptr;
     
-    ElectricDreamsButton* _closeButton;
+    ElectricDreamsButton *_closeButton = nullptr;
     
     void createBackgroundLayer();
     void addListenerToBackgroundLayer();
