@@ -105,12 +105,10 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
 {
     //CHECK IF THE ENTITLEMENT FOR THAT SPECIFIC HQ IS ENABLED
     
-    std::string HQName = ConfigStorage::getInstance()->getNameForMenuItem(target);
-    HQDataObjectRef currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(HQName);
+    const std::string &hqName = ConfigStorage::getInstance()->getNameForMenuItem(target);
+    const HQDataObjectRef &currentObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(hqName);
     
-    bool isMenuItemEntitled = currentObject->getHqEntitlement();
-    
-    if(!isMenuItemEntitled)
+    if(!currentObject->getHqEntitlement())
     {
         if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {

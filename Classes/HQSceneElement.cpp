@@ -59,7 +59,7 @@ void HQSceneElement::setCategory(const std::string &category)
     elementCategory = category;
 }
 
-void HQSceneElement::setItemData(HQContentItemObjectRef itemData)
+void HQSceneElement::setItemData(const HQContentItemObjectRef &itemData)
 {
     elementItemData = itemData;
 }
@@ -148,7 +148,7 @@ void HQSceneElement::addListenerToElement()
                 return true;
             }
             
-            if(!elementItemData->getEntitled())
+            if(!elementItemData->isEntitled())
             {
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData, elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));

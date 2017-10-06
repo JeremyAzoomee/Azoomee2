@@ -23,8 +23,8 @@ public:
     static HQCarouselObjectRef create();
     
     void setTitle(const std::string &inputTitle);
-    void addContentItemToCarousel(HQContentItemObjectRef contentItem); //also: contentItemData should contain size
-    void addContentItemHighlight(cocos2d::Vec2 contentItemHighlight);
+    void addContentItemToCarousel(const HQContentItemObjectRef &contentItem); //also: contentItemData should contain size
+    void addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight);
     
     std::string getTitle() const;
     std::vector<HQContentItemObjectRef> getContentItems();

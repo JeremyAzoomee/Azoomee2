@@ -106,9 +106,9 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
         {
             for(int j = 0; j < contentData["rows"][i]["contentIds"].Size(); j++)
             {
-                std::string contentId = contentData["rows"][i]["contentIds"][j].GetString();
+                const std::string &contentId = contentData["rows"][i]["contentIds"][j].GetString();
                 
-                HQContentItemObjectRef pointerToContentItem = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(contentId);
+                const HQContentItemObjectRef &pointerToContentItem = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(contentId);
                 Vec2 contentItemHighlight = Vec2(contentData["rows"][i]["shapes"][j][0].GetInt(), contentData["rows"][i]["shapes"][j][1].GetInt());
                 
                 carouselObject->addContentItemToCarousel(pointerToContentItem);
@@ -130,17 +130,19 @@ bool HQDataParser::parseHQGetContentUrls(const std::string &responseString)
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
     
-    if(contentData.HasParseError()) return false;
-    if(!contentData.HasMember("hqs")) return false;
+    if( contentData.HasParseError() || !contentData.HasMember("hqs") )
+    {
+        return false;
+    }
     
     rapidjson::Value::MemberIterator M;
     
     for (M=contentData["hqs"].MemberBegin(); M!=contentData["hqs"].MemberEnd(); M++)
     {
         const char *key = M->name.GetString();
-        std::string replacedKey = ConfigStorage::getInstance()->getHQSceneNameReplacementForPermissionFeed(key);
+        const std::string &replacedKey = ConfigStorage::getInstance()->getHQSceneNameReplacementForPermissionFeed(key);
         
-        rapidjson::Value &currentItem = contentData["hqs"][key];
+        const rapidjson::Value &currentItem = contentData["hqs"][key];
         
         HQDataObjectRef dataObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(replacedKey);
         dataObject->setHqEntitlement(getBoolFromJson("available", currentItem));
@@ -158,11 +160,12 @@ void HQDataParser::onGetContentAnswerReceived(const std::string &responseString,
     {
         ModalMessages::getInstance()->stopLoading();
         parseHQStructure(responseString, category.c_str());
-            
-        if(category == "HOME")
+        
+        Scene *runningScene = Director::getInstance()->getRunningScene();
+        if((category == "HOME")&&(runningScene->getChildByName("baseLayer")))
         {
             ChildDataParser::getInstance()->parseOomeeData(responseString);
-            Scene *runningScene = Director::getInstance()->getRunningScene();
+
             Node *baseLayer = runningScene->getChildByName("baseLayer");
             Node *contentLayer = baseLayer->getChildByName("contentLayer");
             MainHubScene *homeLayer = (MainHubScene *)contentLayer->getChildByName("HOME");
@@ -176,7 +179,7 @@ void HQDataParser::onGetContentAnswerReceived(const std::string &responseString,
     }
 }
 
-std::string HQDataParser::getExtensionFromUri(const std::string &uri)
+std::string HQDataParser::getExtensionFromUri(const std::string &uri) const
 {
     int startPoint = (int)uri.find_last_of(".") + 1;
     std::string extension = uri.substr(startPoint);

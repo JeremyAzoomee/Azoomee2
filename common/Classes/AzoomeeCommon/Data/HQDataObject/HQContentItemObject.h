@@ -42,8 +42,8 @@ public:
     std::string getDescription() const;
     std::string getType() const;
     std::string getUri() const;
-    bool getEntitled() const;
-    bool getNewFlag() const;
+    bool isEntitled() const;
+    bool isNew() const;
     
     //getters and setters for variables only handled upon read (not storing)
     void setImagePath(const std::string &inputImagePath);

@@ -281,7 +281,7 @@ int ConfigStorage::getContentItemImageValidityInSeconds()
 
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 
-std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(std::string inputHqSceneName)
+std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName)
 {
     return NavigationConfiguration["hqNamesReplacementForPermissionFeed"][inputHqSceneName.c_str()].GetString();
 }

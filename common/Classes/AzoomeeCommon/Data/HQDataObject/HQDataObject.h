@@ -28,7 +28,7 @@ public:
     void setHqType(const std::string &inputHqType);
     void setHqUrl(const std::string &inputHqUrl);
     void setHqEntitlement(bool inputHqEntitlement);
-    void addCarusoelToHq(HQCarouselObjectRef inputCarouselData);
+    void addCarusoelToHq(const HQCarouselObjectRef &inputCarouselData);
     void addContentItemToRawStorage(const std::string &contentItemId, const HQContentItemObjectRef &inputContentItemObject);
     
     std::string getHqType() const;

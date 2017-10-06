@@ -72,12 +72,12 @@ std::string HQContentItemObject::getUri() const
     return _uri;
 }
 
-bool HQContentItemObject::getEntitled() const
+bool HQContentItemObject::isEntitled() const
 {
     return _entitled;
 }
 
-bool HQContentItemObject::getNewFlag() const
+bool HQContentItemObject::isNew() const
 {
     return _newFlag;
 }
@@ -118,12 +118,14 @@ cocos2d::Vec2 HQContentItemObject::getElementShape()
 
 std::string HQContentItemObject::getJSONRepresentationOfStructure() const
 {
-    std::map<std::string, std::string> objectMap;
-    objectMap["id"] = _contentItemId;
-    objectMap["title"] = _title;
-    objectMap["description"] = _description;
-    objectMap["type"] = _type;
-    objectMap["uri"] = _uri;
+    std::map<std::string, std::string> objectMap {
+        {"id", _contentItemId},
+        {"title", _title},
+        {"description", _description},
+        {"type", _type},
+        {"uri", _uri}
+    };
+    
     _entitled ? objectMap["entitled"] = "true" : objectMap["entitled"] = "false";
     _newFlag ? objectMap["newFlag"] = "true" : objectMap["newFlag"] = "false";
     
@@ -160,12 +162,12 @@ HQContentItemObjectRef HQContentItemObject::createFromMap(const std::map<std::st
     
     if(inputMap.find("entitled") != inputMap.end())
     {
-        inputMap.at("entitled") == "false" ? returnObject->setEntitled(false) : returnObject->setEntitled(true);
+        returnObject->setEntitled(inputMap.at("entitled") == "true");
     }
     
     if(inputMap.find("newFlag") != inputMap.end())
     {
-        inputMap.at("newFlag") == "true" ? returnObject->setNewFlag(true) : returnObject->setNewFlag(false);
+        returnObject->setNewFlag( inputMap.at("newFlag") == "true" );
     }
     
     return returnObject;

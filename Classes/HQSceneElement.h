@@ -18,7 +18,7 @@ public:
     virtual bool init();
     
     void setCategory(const std::string &category);
-    void setItemData(HQContentItemObjectRef itemData);
+    void setItemData(const HQContentItemObjectRef &itemData);
     void setElementRow(int rowNumber);
     void setElementIndex(int index);
     

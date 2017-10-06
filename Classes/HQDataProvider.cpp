@@ -74,7 +74,7 @@ void HQDataProvider::getDataForHQ(const std::string &category)
         HQDataStorage::getInstance()->HQData.erase(category.c_str());
 #endif
     
-    HQDataObjectRef objectToBeLoaded = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category);
+    const HQDataObjectRef &objectToBeLoaded = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category);
         
     if(objectToBeLoaded->getHqType() != "")
     {
@@ -128,7 +128,7 @@ Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &category
 
 std::string HQDataProvider::getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const
 {
-    Vec2 highlightData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
+    const Vec2 &highlightData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
     return StringUtils::format("%d,%d", int(highlightData.x), int(highlightData.y));
 }
 
@@ -151,7 +151,7 @@ std::vector<HQContentItemObjectRef> HQDataProvider::getAllContentItemsInRow(cons
         
         //TODO objectTypes should be pre-configured.
         
-        if(((extendedObj->getType() == "VIDEO" || extendedObj->getType() == "AUDIO")) && extendedObj->getEntitled())
+        if(((extendedObj->getType() == "VIDEO" || extendedObj->getType() == "AUDIO")) && extendedObj->isEntitled())
         {
             extendedObj->setElementNumber(i);
             extendedObj->setElementShape(getHighlightDataForSpecificItem(category, rowNumber, i));

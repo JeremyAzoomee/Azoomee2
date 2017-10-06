@@ -176,16 +176,14 @@ void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
     
     //ERROR CHECK RESPONSE
     if (contentData.HasParseError()) return;
-    if(!contentData.HasMember("type") || !contentData.HasMember("uri") || !contentData.HasMember("entitled")) return;
-    if(contentData["type"].IsNull() || contentData["uri"].IsNull() || contentData["entitled"].IsNull()) return;
     
     if(contentData["entitled"].GetBool())
     {
         HQContentItemObjectRef contentItem = HQContentItemObject::create();
-        contentItem->setTitle(getDataForKeyFromJSON(responseBody, "title"));
-        contentItem->setDescription(getDataForKeyFromJSON(responseBody, "description"));
-        contentItem->setType(getDataForKeyFromJSON(responseBody, "type"));
-        contentItem->setUri(getDataForKeyFromJSON(responseBody, "uri"));
+        contentItem->setTitle(getStringFromJson("title", contentData));
+        contentItem->setDescription(getStringFromJson("description", contentData));
+        contentItem->setType(getStringFromJson("type", contentData));
+        contentItem->setUri(getStringFromJson("uri", contentData));
         contentItem->setContentItemId(path);
         
         AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, -1, -1, "0,0");
@@ -213,7 +211,7 @@ std::string DeepLinkingSingleton::getDataForKeyFromJSON(std::string jsonString, 
     return jsonData[key.c_str()].GetString();
 }
 
-void DeepLinkingSingleton::completeContentAction(HQContentItemObjectRef contentItem)
+void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &contentItem)
 {
     if(contentItem->getType() == "GAME")
     {

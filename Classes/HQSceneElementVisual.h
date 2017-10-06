@@ -16,7 +16,7 @@ public:
     virtual bool init();
     
     void setCategory(std::string category);
-    void setItemData(HQContentItemObjectRef itemData);
+    void setItemData(const HQContentItemObjectRef &itemData);
     void setShape(cocos2d::Vec2 shape);
     void setDelay(float delay);
     void setCreatedForOffline(bool createdForOffline);

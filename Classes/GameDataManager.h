@@ -19,7 +19,7 @@ public:
     static GameDataManager* getInstance(void);
     virtual ~GameDataManager();
     bool init(void);
-    void startProcessingGame(HQContentItemObjectRef itemData);
+    void startProcessingGame(const HQContentItemObjectRef &itemData);
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
@@ -28,7 +28,7 @@ public:
     void getJSONGameData(std::string url, std::string itemId);
     
 private:
-    void saveFeedDataToFile(HQContentItemObjectRef itemData);
+    void saveFeedDataToFile(const HQContentItemObjectRef &itemData);
     std::string getFeedDataFromFolder(std::string feedPath);
     
     void JSONFileIsPresent(std::string itemId);

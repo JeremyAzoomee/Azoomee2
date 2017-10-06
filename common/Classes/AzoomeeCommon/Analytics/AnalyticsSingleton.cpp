@@ -310,7 +310,7 @@ void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type, const
     contentItemSelectedEvent(contentItem, -1, -1, elementShape);
 }
     
-void AnalyticsSingleton::contentItemSelectedEvent(HQContentItemObjectRef contentItem, int rowNumber, int elementNumber, const std::string& elementShape)
+void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& elementShape)
 {
     SessionIdManager::getInstance()->resetBackgroundTimeInContent();
     
@@ -333,7 +333,7 @@ void AnalyticsSingleton::contentItemSelectedEvent(HQContentItemObjectRef content
     appsFlyerSendEvent("contentItemSelectedEvent", mixPanelProperties);
 }
     
-void AnalyticsSingleton::updateContentItemDetails(HQContentItemObjectRef contentItem)
+void AnalyticsSingleton::updateContentItemDetails(const HQContentItemObjectRef &contentItem)
 {
     std::map<std::string, std::string> mixPanelProperties;
     mixPanelProperties["Title"] = contentItem->getTitle();

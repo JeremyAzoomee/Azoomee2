@@ -27,31 +27,31 @@ bool VideoPlaylistManager::init(void)
     return true;
 }
 
-void VideoPlaylistManager::setPlaylist(HQCarouselObjectRef playlist)
+void VideoPlaylistManager::setPlaylist(const HQCarouselObjectRef &playlist)
 {
-    storedPlaylist = playlist;
+    _storedPlaylist = playlist;
 }
 
 void VideoPlaylistManager::clearPlaylist()
 {
-    //HQTODO - clear playlist
+    _storedPlaylist.reset();
 }
 
 std::string VideoPlaylistManager::getPlaylist()
 {
     std::string returnString;
     
-    if(storedPlaylist->getContentItems().size() == 0) returnString = "noPlaylist";
+    if(_storedPlaylist->getContentItems().size() == 0) returnString = "noPlaylist";
     else
     {
         std::vector<std::map<std::string, std::string>> playlistElements;
         
-        for(int i = 0; i < storedPlaylist->getContentItems().size(); i++)
+        for(auto item : _storedPlaylist->getContentItems())
         {
             std::map<std::string, std::string> elementToBeAdded;
-            elementToBeAdded["uri"] = storedPlaylist->getContentItems().at(i)->getUri();
-            elementToBeAdded["image"] = storedPlaylist->getContentItems().at(i)->getImagePath();
-            elementToBeAdded["title"] = storedPlaylist->getContentItems().at(i)->getTitle();
+            elementToBeAdded["uri"] = item->getUri();
+            elementToBeAdded["image"] = item->getImagePath();
+            elementToBeAdded["title"] = item->getTitle();
             
             playlistElements.push_back(elementToBeAdded);
         }
@@ -69,9 +69,9 @@ std::string VideoPlaylistManager::getPlaylist()
 HQContentItemObjectRef VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)
 {
     HQContentItemObjectRef returnData = HQContentItemObject::create();
-    if(elementNumber >= storedPlaylist->getContentItems().size() || elementNumber < 0) return returnData;
+    if(elementNumber >= _storedPlaylist->getContentItems().size() || elementNumber < 0) return returnData;
     
-    returnData = storedPlaylist->getContentItems().at(elementNumber);
+    returnData = _storedPlaylist->getContentItems().at(elementNumber);
     returnData->setElementNumber(elementNumber);
     returnData->setImagePath("");
     

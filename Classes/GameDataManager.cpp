@@ -53,7 +53,7 @@ bool GameDataManager::init(void)
     return true;
 }
 
-void GameDataManager::startProcessingGame(HQContentItemObjectRef itemData)
+void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData)
 {
     AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
     
@@ -79,7 +79,7 @@ void GameDataManager::startProcessingGame(HQContentItemObjectRef itemData)
     }
 }
 
-void GameDataManager::saveFeedDataToFile(HQContentItemObjectRef itemData)
+void GameDataManager::saveFeedDataToFile(const HQContentItemObjectRef &itemData)
 {
     if(HQHistoryManager::getInstance()->isOffline) return;
     

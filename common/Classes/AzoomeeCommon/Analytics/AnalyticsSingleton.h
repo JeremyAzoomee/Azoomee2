@@ -94,13 +94,13 @@ public:
     //-------------CONTENTITEM EVENTS----------
     void contentItemSelectedEvent(const std::string& Type);
     void contentItemSelectedEvent(const std::string& Type, const std::string& elementShape);
-    void contentItemSelectedEvent(HQContentItemObjectRef contentItem, int rowNumber, int elementNumber, const std::string& elementShape);
+    void contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& elementShape);
     void contentItemProcessingStartedEvent();
     void contentItemProcessingErrorEvent();
     void contentItemIncompatibleEvent();
     void contentItemWebviewStartedEvent();
     void contentItemClosedEvent();
-    void updateContentItemDetails(HQContentItemObjectRef contentItem);
+    void updateContentItemDetails(const HQContentItemObjectRef &contentItem);
 
     //------------- PREVIEW ACTIONS ---------------
     void previewContentClickedEvent(std::string Title,std::string Description, std::string Type);

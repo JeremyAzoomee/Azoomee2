@@ -38,7 +38,7 @@ void HQSceneElementVisual::setCategory(std::string category)
     elementCategory = category;
 }
 
-void HQSceneElementVisual::setItemData(HQContentItemObjectRef itemData)
+void HQSceneElementVisual::setItemData(const HQContentItemObjectRef &itemData)
 {
     elementItemData = itemData;
 }
@@ -87,35 +87,59 @@ void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
     // if size is 1x2 or 2x2 AND element is Video or Video Group
     
     if(elementItemData->getType() =="GAME")
+    {
         shouldDisplayVisualElementsOverImage = false;
+    }
     else if(elementShape.x == 1 && elementShape.y == 1)
+    {
         shouldDisplayVisualElementsOverImage = true;
+    }
     else if(elementItemData->getType() == "VIDEO" || elementItemData->getType() =="GROUP")
+    {
         shouldDisplayVisualElementsOverImage = false;
+    }
     else
+    {
         shouldDisplayVisualElementsOverImage = true;
+    }
+    
 }
 
 void HQSceneElementVisual::createCallbackFunction(float delay)
 {
     auto funcCallAction = CallFunc::create([=](){
         
-        if(!aboutToExit) addImageDownloader();
-        if(!aboutToExit && shouldDisplayVisualElementsOverImage) addGradientToBottom();
+        if(!aboutToExit)
+        {
+            addImageDownloader();
+        }
+        
+        if(!aboutToExit && shouldDisplayVisualElementsOverImage)
+        {
+            addGradientToBottom();
+        }
         
         if(!aboutToExit && shouldDisplayVisualElementsOverImage)
         {
             auto iconSprite = addIconToImage();
             if(!isOffline)
+            {
                 addLabelsToImage(iconSprite);
+            }
         }
         
-        if(!elementItemData->getEntitled())
+        if(!elementItemData->isEntitled())
         {
-            if(!aboutToExit) addLockToElement();
+            if(!aboutToExit)
+            {
+                addLockToElement();
+            }
         }
         
-        if(!aboutToExit) addTouchOverlayToElement();
+        if(!aboutToExit)
+        {
+            addTouchOverlayToElement();
+        }
     });
     
     this->runAction(Sequence::create(DelayTime::create(elementDelay), funcCallAction, NULL));
@@ -129,7 +153,7 @@ void HQSceneElementVisual::addImageDownloader()
     imageDownloader->initWithURLAndSize(elementUrl, elementItemData->getType(), Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), elementShape);
     imageDownloader->setPosition(baseLayer->getContentSize() / 2);
     
-    if(elementItemData->getNewFlag())
+    if(elementItemData->isNew())
         imageDownloader->setAttachNewBadgeToImage();
     
     baseLayer->addChild(imageDownloader);

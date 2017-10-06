@@ -16,12 +16,12 @@ void HQCarouselObject::setTitle(const std::string &inputTitle)
     _title = inputTitle;
 }
 
-void HQCarouselObject::addContentItemToCarousel(HQContentItemObjectRef contentItem)
+void HQCarouselObject::addContentItemToCarousel(const HQContentItemObjectRef &contentItem)
 {
     _contentItems.push_back(contentItem);
 }
 
-void HQCarouselObject::addContentItemHighlight(cocos2d::Vec2 contentItemHighlight)
+void HQCarouselObject::addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight)
 {
     _contentItemHighlights.push_back(contentItemHighlight);
 }

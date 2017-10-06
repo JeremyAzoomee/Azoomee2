@@ -18,7 +18,7 @@ public:
     bool parseHQData(const std::string &responseString, const char *category);
     bool parseHQStructure(const std::string &responseString, const char *category);
     bool parseHQGetContentUrls(const std::string &responseString);
-    std::string getExtensionFromUri(const std::string &uri);
+    std::string getExtensionFromUri(const std::string &uri) const;
     
     //Communication methods
     void onGetContentAnswerReceived(const std::string &responseString, const std::string &category);

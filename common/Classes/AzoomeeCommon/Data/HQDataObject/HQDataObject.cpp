@@ -26,7 +26,7 @@ void HQDataObject::setHqEntitlement(bool inputHqEntitlement)
     _hqEntitlement = inputHqEntitlement;
 }
 
-void HQDataObject::addCarusoelToHq(HQCarouselObjectRef inputCarouselData)
+void HQDataObject::addCarusoelToHq(const HQCarouselObjectRef &inputCarouselData)
 {
     _carousels.push_back(inputCarouselData);
 }

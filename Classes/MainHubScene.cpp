@@ -141,7 +141,7 @@ void MainHubScene::addImageContainers()
     
     for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); i++)
     {
-        std::vector<HQContentItemObjectRef> elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), i);
+        const std::vector<HQContentItemObjectRef> &elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), i);
         
         std::string fieldTitle = HQDataProvider::getInstance()->getTitleForRow(this->getName(), i);
         

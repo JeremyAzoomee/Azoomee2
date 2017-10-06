@@ -41,7 +41,7 @@ bool ImageContainer::init()
     return true;
 }
 
-void ImageContainer::createContainer(HQContentItemObjectRef elementProperties, float scale, float startDelay, Point position)
+void ImageContainer::createContainer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay, Point position)
 {
     if(HQHistoryManager::getInstance()->noHistory())
     {
@@ -56,7 +56,7 @@ void ImageContainer::createContainer(HQContentItemObjectRef elementProperties, f
         scaleTime = 0;
     }
     
-    std::string type = elementProperties->getType();
+    const std::string &type = elementProperties->getType();
     
     Color4B colour4 = ConfigStorage::getInstance()->getColourForElementType(type);
     Color3B colour3 = Color3B(colour4.r, colour4.g, colour4.b);
@@ -68,7 +68,7 @@ void ImageContainer::createContainer(HQContentItemObjectRef elementProperties, f
     addIconToImage(elementProperties->getType(), startDelay);
     addLabelToImage(elementProperties->getTitle(), startDelay);
     
-    if(!elementProperties->getEntitled())
+    if(!elementProperties->isEntitled())
     {
         addLockToImageContainer(elementProperties->getType(), startDelay);
     }
@@ -79,7 +79,7 @@ void ImageContainer::createContainer(HQContentItemObjectRef elementProperties, f
 
 //-----------------------------------------------------All methods below are called internally.---------------------------------------------------
 
-void ImageContainer::createBgLayer(HQContentItemObjectRef elementProperties, float scale, float startDelay, Point position)
+void ImageContainer::createBgLayer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay, Point position)
 {
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Size baseContentSize = Size(445, 339);
@@ -112,7 +112,7 @@ void ImageContainer::startAudio(std::string audioName)
     AudioMixer::getInstance()->playEffect(audioName);
 }
 
-void ImageContainer::addReponseLayerToImage(HQContentItemObjectRef elementProperties, float scale)
+void ImageContainer::addReponseLayerToImage(const HQContentItemObjectRef &elementProperties, float scale)
 {
     Size baseContentSize = Size(445, 339);
     Size containerSize = baseContentSize * scale;
@@ -127,7 +127,7 @@ void ImageContainer::addReponseLayerToImage(HQContentItemObjectRef elementProper
     bgLayer->addChild(responseLayer);
 }
 
-void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, HQContentItemObjectRef elementProperties, bool IAPEnabled)
+void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, const HQContentItemObjectRef &elementProperties, bool IAPEnabled)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -149,7 +149,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         
         if(rect.containsPoint(locationInNode))
         {
-            if(!elementProperties->getEntitled())
+            if(!elementProperties->isEntitled())
             {
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties, -1, -1, "1,1");
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
