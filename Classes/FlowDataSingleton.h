@@ -26,6 +26,9 @@ private:
     
     FlowTypeEnum currentFlowType;
     
+    //Settings Deleted Child Flow
+    bool childDeletedFlag = false;
+    
 public:
     static FlowDataSingleton* getInstance(void);
     virtual ~FlowDataSingleton();
@@ -54,6 +57,11 @@ public:
     int getOomeeColourNumber();
     int getChildRefNumber();
     bool getIAPSuccess();
+    
+    //Settings Deleted Child Flow
+    void setChildDeletedFlag();
+    void resetChildDeletedFlag();
+    bool getChildDeletedFlag();
 };
 
 NS_AZOOMEE_END

@@ -9,7 +9,7 @@
     "OnboardingScene":
     {
         "title_label":"Create your family account",
-        "email_label":"Enter your email address",
+        "email_label":"Enter parent's email address",
         "password_label":"Create a password",
         "pin_label":"Set up a 4-digit PIN",
         "pin_sub_label":"Use this to protect the parents/settings area."
@@ -30,7 +30,7 @@
         "main_title_signup_label":"Personalise your child’s experience",
         "main_title_add_child_label":"Create a profile for your child",
         "select_oomee_title_label":"Give your child their own Oomee",
-        "request_name_label":"What's your child's name",
+        "request_name_label":"What's your child's first name",
         "edit_name_label":"Want to change the display name?",
         "request_dob_label":"What's their date of birth",
         "request_dob_sub_label":"We need this to give them age-appropriate\nvideos, games & audiobooks",

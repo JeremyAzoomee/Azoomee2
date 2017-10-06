@@ -38,10 +38,10 @@ bool isValidEmailAddress(const char * EmailAddress)
     return !(DotOffset >= ((int)Length-1));
 }
 
-bool isValidPassword(const char * password)
+bool isValidPassword(const char * password, int minNoOfChars)
 {
     if(!password) return 0;
-    if(strlen(password) < 2) return 0;
+    if(strlen(password) < minNoOfChars) return 0;
     
     bool passwordOK = true;
     

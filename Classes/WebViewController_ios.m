@@ -29,7 +29,6 @@ using namespace Azoomee;
     [useridToUse retain];
     
     [self addWebViewToScreen];
-    //[self addWKWebViewToScreen];
     [self createButton];
 }
 
@@ -200,11 +199,22 @@ using namespace Azoomee;
 
 - (void) createButton
 {
+    CGFloat buttonWidth = [[UIScreen mainScreen] bounds].size.width/15;
+    
     backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setFrame:CGRectMake(10, 10, 40, 40)];
+    [backButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4, buttonWidth, buttonWidth)];
     [backButton setExclusiveTouch:YES];
-    [backButton setImage:[UIImage imageNamed:@"res/navigation/back_new.png"] forState:UIControlStateNormal];
+
+    //Check if has html, then opening game.
+    if([urlToLoad containsString:@"html"])
+    {
+        [backButton setImage:[UIImage imageNamed:@"res/navigation/close_button.png"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
+    }
     
     [self.view addSubview:backButton];
 }

@@ -10,6 +10,7 @@
 #include "ArtAppImageManager.h"
 #include "SceneManagerScene.h"
 #include "ArtAppDelegate.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
@@ -233,8 +234,14 @@ void ArtsAppHQElement::addImage(std::string filePath)
 
 void ArtsAppHQElement::addLockToElement()
 {
-    auto lockImage = Sprite::create("res/hqscene/locked.png");
-    lockImage->setPosition(baseLayer->getContentSize() / 2);
+    
+    Layer* lockedOverlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, this->getContentSize().width, this->getContentSize().height);
+    lockedOverlay->setPosition(0,0);
+    this->addChild(lockedOverlay,1);
+    
+    auto lockImage = Sprite::create("res/hqscene/locked_audio_books.png");
+    lockImage->setPosition(baseLayer->getContentSize().width,0);
+    lockImage->setAnchorPoint(Vec2(1,0));
     this->addChild(lockImage,1);
 }
 
@@ -407,6 +414,10 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(iamtouched)
         {
+            iamtouched = false;
+            overlayWhenTouched->setOpacity(0);
+            overlayWhenTouched->stopAllActions();
+            
             if(preview)
             {
                 PreviewLoginSignupMessageBox::create();

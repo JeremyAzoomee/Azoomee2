@@ -5,6 +5,11 @@
 #include "Child/ChildDataProvider.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../API/API.h"
+#include "../Net/Utils.h"
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include "../Utils/IosNativeFunctionsSingleton.h"
+#endif
 
 using namespace cocos2d;
 
@@ -48,6 +53,7 @@ bool ConfigStorage::init(void)
         API::TagUpdateBillingData,
         API::TagGetAvailableChildren,
         API::TagUpdateChild,
+        API::TagDeleteChild,
         API::TagPusherAuth,
         API::TagGetPendingFriendRequests,
         API::TagFriendRequest,
@@ -147,6 +153,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == API::TagGetGorden) return "/api/porthole/pixel/gordon.png";
     if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/adult";
     if(httpRequestTag == API::TagRegisterChild) return "/api/user/child";
+    if(httpRequestTag == API::TagDeleteChild) return "/api/user/child/";
     if(httpRequestTag == "HOME") return "/api/electricdreams/view/categories/home";
     if(httpRequestTag == "PreviewHOME") return "/api/electricdreams/anonymous/view/categories/home";
     if(httpRequestTag == API::TagParentPin) return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
@@ -445,6 +452,39 @@ std::string ConfigStorage::getDeveloperPublicKey()
     }
     
     return(devKey);
+}
+    
+//----------------------------- Device specific information -----------------------------
+
+std::string ConfigStorage::getDeviceInformation()
+{
+    std::string sourceDeviceString1 = "NA";
+    std::string sourceDeviceString2 = "NA";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    sourceDeviceString1 = IosNativeFunctionsSingleton::getInstance()->getIosSystemVersion();
+    sourceDeviceString2 = IosNativeFunctionsSingleton::getInstance()->getIosDeviceType();
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    sourceDeviceString1 = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceModel");
+    sourceDeviceString2 = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getOSBuildManufacturer");
+#endif
+    
+    std::string sourceDevice = Net::urlEncode(sourceDeviceString1) + "|" + Net::urlEncode(sourceDeviceString2);
+    
+    return sourceDevice;
+}
+
+std::string ConfigStorage::getDeviceAdvertisingId()
+{
+    std::string deviceId = "";
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    deviceId = IosNativeFunctionsSingleton::getInstance()->getIosDeviceIDFA();
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    deviceId = JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "getAndroidDeviceAdvertisingId");
+#endif
+    
+    return deviceId;
 }
 
 }

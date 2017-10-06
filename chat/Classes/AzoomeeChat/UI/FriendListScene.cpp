@@ -45,6 +45,10 @@ bool FriendListScene::init()
     });
     _rootLayout->addChild(_titleBar);
     
+    //create Privacy Button, set location in OnSizeChanged.
+    _privacyButton = PrivacyLayer::create();
+    _titleBar->addChild(_privacyButton);
+    
     createContentUI(_contentLayout);
     
     return true;
@@ -101,6 +105,9 @@ void FriendListScene::onSizeChanged()
     _friendListView->setSizePercent(Vec2(0.9f, 1.0f - subTitleBarSize.y));
     // 2 column on landscape, 1 column portrait
     _friendListView->setColumns((isLandscape) ? 2 : 1);
+
+    //Set location according the the titlebar
+    _privacyButton->setCenterPosition(Vec2(_titleBar->getContentSize().width - _privacyButton->getContentSize().height/2 -_privacyButton->getContentSize().width/2,_titleBar->getContentSize().height - _privacyButton->getContentSize().height));
 }
 
 #pragma mark - UI creation

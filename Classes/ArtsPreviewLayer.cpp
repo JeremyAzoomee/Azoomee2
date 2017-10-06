@@ -42,11 +42,7 @@ void ArtsPreviewLayer::addImagesToMainHub()
     
     for(int i = 0; i < imagePaths.size(); i++)
     {
-        bool locked = true;
-        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-        {
-            locked = false;
-        }
+        bool locked = !ChildDataProvider::getInstance()->getIsChildLoggedIn();
         
         addImageToLayer(imagePaths.at(i), i, locked);
     }

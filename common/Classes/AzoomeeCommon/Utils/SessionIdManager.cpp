@@ -1,5 +1,6 @@
 #include "SessionIdManager.h"
 #include "../Analytics/AnalyticsSingleton.h"
+#include <chrono>
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -8,6 +9,7 @@ namespace Azoomee
 {
 
     static SessionIdManager *_sharedSessionIdManager = NULL;
+    static int lengthOfGeneratedId = 20;
 
     SessionIdManager* SessionIdManager::getInstance()
     {
@@ -81,12 +83,44 @@ namespace Azoomee
     {
         std::string oldSessionId = sessionId;
         
-        srand(time(NULL));
+        //generate new sessionid and narrow down overlapping
+        
+        //get timestamp in microseconds
+        
+        std::chrono::microseconds ms = std::chrono::duration_cast< std::chrono::microseconds >(std::chrono::system_clock::now().time_since_epoch());
+        
+        long epochTimeInMicroSeconds = ms.count();
+        
+        //get some device specific identifiers to decrease overlap chance further
+        
+        const std::string &deviceData = ConfigStorage::getInstance()->getDeviceInformation();
+        const std::string &deviceIDFA = ConfigStorage::getInstance()->getDeviceAdvertisingId();
+        std::string deviceString = deviceData + deviceIDFA;
+        
+        std::hash<std::string> hasher;
+        std::size_t hashedDeviceString = hasher(deviceString);
+        
+        //summarise two values and make it fit in an int type
+        
+        std::size_t randomResetLong = epochTimeInMicroSeconds + hashedDeviceString;
+        
+        while (randomResetLong >= INT_MAX)
+        {
+            randomResetLong = atol(StringUtils::format("%lu", randomResetLong).substr(1).c_str()); //removing first digit until value is smaller than INT_MAX
+        }
+        
+        int randomResetInt = (int)randomResetLong;
+        
+        //reset random generator
+        srand(randomResetInt);
         
         sessionId = "";
-        static const char alphanum[] = "0123456789abcdefghijklmnopqrstuvwxyz";
+        static const char alphanum[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
        
-        for(int i = 0; i < 10; i++) sessionId += alphanum[rand() % (sizeof(alphanum) - 1)];
+        for(int i = 0; i < lengthOfGeneratedId; i++)
+        {
+           sessionId += alphanum[rand() % (sizeof(alphanum) - 1)]; 
+        }
         
         AnalyticsSingleton::getInstance()->registerSessionId(sessionId);
         
