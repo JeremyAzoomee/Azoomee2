@@ -23,7 +23,6 @@ private:
     
     void addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable, bool locked);
     
-    static std::vector<std::string>getFilesInDirectory(std::string path);
 };
 
 NS_AZOOMEE_END

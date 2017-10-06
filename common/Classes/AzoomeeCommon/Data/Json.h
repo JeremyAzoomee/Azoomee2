@@ -11,6 +11,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <cocos2d.h>
 
 
 NS_AZOOMEE_BEGIN
@@ -126,6 +127,33 @@ inline std::string getStringFromJson(const std::string &keyName, const rapidjson
                 return jsonValue[keyName.c_str()].GetString();
                 
     return "";
+}
+
+inline cocos2d::Vec2 getVec2FromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+{
+    if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].Size() == 2 && jsonValue[keyName.c_str()][0].IsInt() && jsonValue[keyName.c_str()][1].IsInt())
+    {
+        return cocos2d::Vec2(jsonValue[keyName.c_str()][0].GetInt(), jsonValue[keyName.c_str()][1].GetInt());
+    }
+    return cocos2d::Vec2(0,0);
+}
+
+inline int getIntFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+{
+    if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].IsInt())
+    {
+        return jsonValue[keyName.c_str()].GetInt();
+    }
+    return INT_MAX;
+}
+
+inline cocos2d::Color4B getColor4BFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+{
+    if(jsonValue.HasMember(keyName.c_str()) && jsonValue[keyName.c_str()].Size() == 4 && jsonValue[keyName.c_str()][0].IsInt() && jsonValue[keyName.c_str()][1].IsInt() && jsonValue[keyName.c_str()][2].IsInt() && jsonValue[keyName.c_str()][3].IsInt())
+    {
+        return cocos2d::Color4B(jsonValue[keyName.c_str()][0].GetInt(), jsonValue[keyName.c_str()][1].GetInt(), jsonValue[keyName.c_str()][2].GetInt(), jsonValue[keyName.c_str()][3].GetInt());
+    }
+    return cocos2d::Color4B();
 }
 NS_AZOOMEE_END
 

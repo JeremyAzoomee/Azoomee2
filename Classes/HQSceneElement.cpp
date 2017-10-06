@@ -29,6 +29,8 @@
 #include "ManualGameInputLayer.h"
 #include "VideoPlaylistManager.h"
 
+#include "DynamicNodeHandler.h"
+
 using namespace cocos2d;
 using namespace network;
 
@@ -153,13 +155,7 @@ void HQSceneElement::addListenerToElement()
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"], elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
                 
-                if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-                {
-                    AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("MainHub");
-                    IAPUpsaleLayer::createRequiresPin();
-                }
-                else
-                    PreviewLoginSignupMessageBox::create();
+                DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
                 
                 return true;
             }

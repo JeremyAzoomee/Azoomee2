@@ -7,7 +7,7 @@
 #include "external/json/writer.h"
 #include "external/json/stringbuffer.h"
 #include "external/json/prettywriter.h"
-#include "external/unzip/unzip.h"
+#include <AzoomeeCommon/Utils/FileZipUtil.h>
 
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
 #include "BackEndCaller.h"
@@ -64,14 +64,20 @@ void GameDataManager::startProcessingGame(std::map<std::string, std::string> ite
     
     saveFeedDataToFile(itemData);
     
-    std::string basePath = getGameIdPath(itemData["id"]);
-    std::string fileName = getFileNameFromUrl(itemData["uri"]);
+    const std::string& basePath = getGameIdPath(itemData["id"]);
+    const std::string& fileName = getFileNameFromUrl(itemData["uri"]);
     
     
     if(checkIfFileExists(basePath + fileName))
     {
-        if(HQHistoryManager::getInstance()->isOffline) JSONFileIsPresent(itemData["id"]);
-        else getJSONGameData(itemData["uri"], itemData["id"]);
+        if(HQHistoryManager::getInstance()->isOffline)
+        {
+            JSONFileIsPresent(itemData["id"]);
+        }
+        else
+        {
+            getJSONGameData(itemData["uri"], itemData["id"]);
+        }
     }
     else
     {
@@ -81,11 +87,12 @@ void GameDataManager::startProcessingGame(std::map<std::string, std::string> ite
 
 void GameDataManager::saveFeedDataToFile(std::map<std::string, std::string> itemData)
 {
-    if(HQHistoryManager::getInstance()->isOffline) return;
-    if(itemData.find("title") == itemData.end() || itemData.find("description") == itemData.end()) return;
-    
-    std::string basePath = getGameIdPath(itemData["id"]);
-    std::string targetPath = basePath + "feedData.json";
+    if(HQHistoryManager::getInstance()->isOffline || itemData.find("title") == itemData.end() || itemData.find("description") == itemData.end())
+    {
+        return;
+    }
+    const std::string& basePath = getGameIdPath(itemData["id"]);
+    const std::string& targetPath = basePath + "feedData.json";
     
     createGamePathDirectories(basePath);
     FileUtils::getInstance()->writeStringToFile(getJSONStringFromMap(itemData), targetPath);
@@ -93,10 +100,10 @@ void GameDataManager::saveFeedDataToFile(std::map<std::string, std::string> item
 
 void GameDataManager::JSONFileIsPresent(std::string itemId)
 {
-    std::string basePath = getGameIdPath(itemId);
-    std::string basePathWithFileName = basePath + "package.json";
+    const std::string& basePath = getGameIdPath(itemId);
+    const std::string& basePathWithFileName = basePath + "package.json";
     
-    std::string startFile = getStartFileFromJSONFile(basePathWithFileName);
+    const std::string& startFile = getStartFileFromJSONFile(basePathWithFileName);
     
     if(!isGameCompatibleWithCurrentAzoomeeVersion(basePathWithFileName))
     {
@@ -111,15 +118,21 @@ void GameDataManager::JSONFileIsPresent(std::string itemId)
     }
     else
     {
-        std::string downloadUrl = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
+        const std::string& downloadUrl = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
         getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
     }
 }
 
 void GameDataManager::createGamePathDirectories(std::string basePath)
 {
-    if(!FileUtils::getInstance()->isDirectoryExist(this->getGameCachePath())) FileUtils::getInstance()->createDirectory(this->getGameCachePath());
-    if(!FileUtils::getInstance()->isDirectoryExist(basePath)) FileUtils::getInstance()->createDirectory(basePath);
+    if(!FileUtils::getInstance()->isDirectoryExist(this->getGameCachePath()))
+    {
+        FileUtils::getInstance()->createDirectory(this->getGameCachePath());
+    }
+    if(!FileUtils::getInstance()->isDirectoryExist(basePath))
+    {
+        FileUtils::getInstance()->createDirectory(basePath);
+    }
 }
 
 std::string GameDataManager::getFileNameFromUrl(std::string url)
@@ -127,7 +140,10 @@ std::string GameDataManager::getFileNameFromUrl(std::string url)
     int startPoint = (int)url.find_last_of("/") + 1;
     
     int endPoint = (int)url.length();
-    if(url.find("?", 0) != url.npos) endPoint = (int)url.find("?", 0);
+    if(url.find("?", 0) != url.npos)
+    {
+        endPoint = (int)url.find("?", 0);
+    }
     int subLength = endPoint - startPoint;
     
     return url.substr(startPoint, subLength);
@@ -139,12 +155,11 @@ void GameDataManager::getJSONGameData(std::string url, std::string itemId)
     jsonRequest->setRequestType(HttpRequest::Type::GET);
     jsonRequest->setUrl(url.c_str());
     
-    std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str()));
+    std::vector<std::string> headers{
+        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+    };
     jsonRequest->setHeaders(headers);
-    
-    CCLOG("Cookies being used are: %s", headers.at(0).c_str());
-    
+
     jsonRequest->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetJSONGameDataAnswerReceived, this));
     jsonRequest->setTag(itemId);
     HttpClient::getInstance()->setTimeoutForConnect(2);
@@ -160,14 +175,10 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
     {
         std::vector<char> myResponse = *response->getResponseData();
         responseString = std::string(myResponse.begin(), myResponse.end());
-        CCLOG("get game json data: %s", responseString.c_str());
     }
     
     if(response->getResponseCode() == 200)          //Get content success
     {
-        std::string basePath = getGameIdPath(response->getHttpRequest()->getTag());
-        std::string targetPath = basePath + "package.json";
-        
         removeOldGameIfUpgradeNeeded(responseString, response->getHttpRequest()->getTag());
         JSONFileIsPresent(response->getHttpRequest()->getTag());
     }
@@ -181,24 +192,30 @@ void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClie
 
 void GameDataManager::removeOldGameIfUpgradeNeeded(std::string downloadedJSONString, std::string gameId)
 {
-    std::string basePath = getGameIdPath(gameId);
-    std::string targetPath = basePath + "package.json";
-    std::string feedPath = basePath + "feedData.json";
+    const std::string& basePath = getGameIdPath(gameId);
+    const std::string& targetPath = basePath + "package.json";
+    const std::string& feedPath = basePath + "feedData.json";
     
     if(!checkIfFileExists(targetPath) || getCurrentGameVersionFromJSONFile(targetPath) < getMinGameVersionFromJSONString(downloadedJSONString))
     {
-        std::string feedDataToBeSaved = getFeedDataFromFolder(feedPath);
+        const std::string& feedDataToBeSaved = getFeedDataFromFolder(feedPath);
         FileUtils::getInstance()->removeDirectory(basePath);
         createGamePathDirectories(basePath);
         
-        if(feedDataToBeSaved != "") FileUtils::getInstance()->writeStringToFile(feedDataToBeSaved, feedPath);
+        if(feedDataToBeSaved != "")
+        {
+            FileUtils::getInstance()->writeStringToFile(feedDataToBeSaved, feedPath);
+        }
         FileUtils::getInstance()->writeStringToFile(downloadedJSONString, targetPath);
     }
 }
 
 std::string GameDataManager::getFeedDataFromFolder(std::string feedPath)
 {
-    if(!FileUtils::getInstance()->isFileExist(feedPath)) return "";
+    if(!FileUtils::getInstance()->isFileExist(feedPath))
+    {
+        return "";
+    }
     return FileUtils::getInstance()->getStringFromFile(feedPath);
 }
 
@@ -209,7 +226,7 @@ bool GameDataManager::checkIfFileExists(std::string fileWithPath)
 
 std::string GameDataManager::getDownloadUrlForGameFromJSONFile(std::string jsonFileName)
 {
-    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
@@ -218,7 +235,7 @@ std::string GameDataManager::getDownloadUrlForGameFromJSONFile(std::string jsonF
 
 std::string GameDataManager::getStartFileFromJSONFile(std::string jsonFileName)
 {
-    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
@@ -227,7 +244,7 @@ std::string GameDataManager::getStartFileFromJSONFile(std::string jsonFileName)
 
 int GameDataManager::getCurrentGameVersionFromJSONFile(std::string jsonFileName)
 {
-    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
@@ -264,11 +281,10 @@ void GameDataManager::getGameZipFile(std::string url, std::string itemId)
     zipRequest->setRequestType(HttpRequest::Type::GET);
     zipRequest->setUrl(url.c_str());
     
-    std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str()));
+    std::vector<std::string> headers{
+        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+    };
     zipRequest->setHeaders(headers);
-    
-    CCLOG("Cookies being used are: %s", headers.at(0).c_str());
     
     zipRequest->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetGameZipFileAnswerReceived, this));
     zipRequest->setTag(itemId);
@@ -289,11 +305,11 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     
     if(response->getResponseCode() == 200)          //Get content success
     {
-        std::string basePath = getGameIdPath(response->getHttpRequest()->getTag());
-        std::string targetPath = basePath + "game.zip";
+        const std::string& basePath = getGameIdPath(response->getHttpRequest()->getTag());
+        const std::string& targetPath = basePath + "game.zip";
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
         
-        unzipGame(targetPath.c_str(), basePath.c_str(), nullptr);
+        unzipGame(targetPath, basePath, "");
     }
     else
     {
@@ -303,126 +319,42 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     }
 }
 
- bool GameDataManager::unzipGame(const char *zipPath,const char *dirpath,const char *passwd)
+ bool GameDataManager::unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd)
 {
-    static unsigned long  _maxUnzipBufSize = 0x500000;
-    CCLOG("unzip fullpath =%s",zipPath);
-    unzFile pFile = unzOpen(zipPath);
-    if(!pFile)
+    if(!FileUtils::getInstance()->isFileExist(zipPath))
     {
         AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        return false;
-    }
-    int err = unzGoToFirstFile(pFile);
-    bool ret = true;
-    while (err == UNZ_OK)
-    {
-        int nRet = 0;
-        int openRet = 0;
-        do
-        {
-            if(passwd)
-            {
-                openRet = unzOpenCurrentFilePassword( pFile,passwd);
-                CCLOG("openRet %d",openRet);
-            }
-            else
-            {
-                openRet = unzOpenCurrentFile(pFile);
-            }
-            CC_BREAK_IF(UNZ_OK != openRet);
-            unz_file_info FileInfo;
-            char szFilePathA[260];
-            nRet = unzGetCurrentFileInfo(pFile, &FileInfo, szFilePathA, sizeof(szFilePathA), NULL, 0, NULL, 0);
-            CC_BREAK_IF(UNZ_OK != nRet);
-            std::string newName = std::string(dirpath)+"/"+szFilePathA;
-            if (newName[newName.length()-1]=='/')
-            {
-                FileUtils::getInstance()->createDirectory(newName.c_str());
-                continue;
-            }
-            
-            if (newName.find("package.json") != newName.npos || newName.find("feedData.json") != newName.npos) continue;
-            
-            FILE* pFile2 = fopen(newName.c_str(), "w");
-            
-            if(!pFile2)
-            {
-                unzClose(pFile);
-                removeGameFolderOnError(dirpath);
-                AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-                hideLoadingScreen(); //ERROR TO BE ADDED
-                CCLOG("unzip can not create file");
-                showErrorMessage();
-                return false;
-            }
-            unsigned long savedSize = 0;
-            while(pFile2 != NULL && FileInfo.uncompressed_size > savedSize)
-            {
-                unsigned char *pBuffer = NULL;
-                unsigned long once = FileInfo.uncompressed_size - savedSize;
-                if(once > _maxUnzipBufSize)
-                {
-                    once = _maxUnzipBufSize;
-                    pBuffer = new unsigned char[once];
-                }
-                else
-                {
-                    pBuffer = new unsigned char[once];
-                }
-                int nSize = unzReadCurrentFile(pFile, pBuffer, (int)once);
-                fwrite(pBuffer, once, 1, pFile2);
-                
-                savedSize += nSize;
-                delete []pBuffer;
-            }
-            if (pFile2)
-            {
-                fclose(pFile2);
-            }
-            
-        } while (0);
-        if(nRet != UNZ_OK)
-        {
-            unzClose(pFile);
-            removeGameFolderOnError(dirpath);
-            AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-            hideLoadingScreen(); //ERROR TO BE ADDED
-            showErrorMessage();
-            return false;
-        }
-        else
-        {
-            unzCloseCurrentFile(pFile);
-        }
-        err = unzGoToNextFile(pFile);
-    }
-    
-    if(err != UNZ_END_OF_LIST_OF_FILE)
-    {
-        unzClose(pFile);
-        removeGameFolderOnError(dirpath);
-        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        hideLoadingScreen(); //ERROR TO BE ADDED
+        hideLoadingScreen();
         showErrorMessage();
         return false;
     }
-    unzClose(pFile);
     
-    removeGameZip(zipPath);
-    
-    if(!isGameCompatibleWithCurrentAzoomeeVersion(std::string(dirpath) + "package.json"))
+    if(FileZipUtil::getInstance()->unzip(zipPath.c_str(), dirpath.c_str(),nullptr))
     {
-        hideLoadingScreen(); //ERROR TO BE ADDED
-        showIncompatibleMessage();
-        return false;
-    }
     
-    std::string startFileNameWithPath = getStartFileFromJSONFile(std::string(dirpath) + "package.json");
+        removeGameZip(zipPath);
     
-    if(FileUtils::getInstance()->isFileExist(dirpath + startFileNameWithPath))
-    {
-       startGame(std::string(dirpath), startFileNameWithPath);
+        if(!isGameCompatibleWithCurrentAzoomeeVersion(dirpath + "package.json"))
+        {
+            hideLoadingScreen(); //ERROR TO BE ADDED
+            showIncompatibleMessage();
+            return false;
+        }
+    
+        std::string startFileNameWithPath = getStartFileFromJSONFile(dirpath + "package.json");
+    
+        if(FileUtils::getInstance()->isFileExist(dirpath + startFileNameWithPath))
+        {
+            startGame(dirpath, startFileNameWithPath);
+        }
+        else
+        {
+            AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
+            removeGameFolderOnError(dirpath);
+            hideLoadingScreen();
+            showErrorMessage();
+            return false;
+        }
     }
     else
     {
@@ -433,7 +365,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         return false;
     }
     
-    return ret;
+    return true;
 }
 
 bool GameDataManager::removeGameZip(std::string fileNameWithPath)
@@ -476,7 +408,7 @@ std::string GameDataManager::getGameCachePath()
 
 Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
 {
-    std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
@@ -490,8 +422,8 @@ Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
 //---------------------LOADING SCREEN----------------------------------
 void GameDataManager::displayLoadingScreen()
 {
-    Size size = Director::getInstance()->getVisibleSize();
-    Point origin = Director::getInstance()->getVisibleOrigin();
+    const Size& size = Director::getInstance()->getVisibleSize();
+    const Point& origin = Director::getInstance()->getVisibleOrigin();
     
     ModalMessages::getInstance()->startLoading();
     
@@ -549,8 +481,14 @@ void GameDataManager::buttonPressed(ElectricDreamsButton *button)
 {
     processCancelled = true;
     
-    if(zipRequest) zipRequest->setResponseCallback(nullptr);
-    if(jsonRequest) jsonRequest->setResponseCallback(nullptr);
+    if(zipRequest)
+    {
+        zipRequest->setResponseCallback(nullptr);
+    }
+    if(jsonRequest)
+    {
+        jsonRequest->setResponseCallback(nullptr);
+    }
     
     Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("cancelButton"));
     ModalMessages::getInstance()->stopLoading();
@@ -561,7 +499,9 @@ void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
     std::map<std::string, std::string> errorStringMap = StringMgr::getInstance()->getErrorMessageWithCode(ERROR_CODE_SOMETHING_WENT_WRONG);
 
     if(messageBoxTitle == errorStringMap[ERROR_TITLE] && buttonTitle == errorStringMap[ERROR_BUTTON])
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+    }
 }
 
 NS_AZOOMEE_END
