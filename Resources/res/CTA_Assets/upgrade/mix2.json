@@ -1,0 +1,67 @@
+{
+ "nodeId": "mix2",
+ "groupId": [
+   "upgrade",
+   "closedContent"
+ ],
+ "nodeSize": [
+   70,
+   67
+ ],
+ "nodeText": {
+    "titleText": {
+        "position": [50,96],
+        "text": "Its all here, Its all good.",
+        "alignment": "centre",
+        "fontSize": 94,
+        "colour": [63,170,170,255]
+    },
+    "bodyText": [
+        {
+            "position": [50,34],
+            "text": "They can do it all on Azoomee: watch videos, play games, send\nmessages, draw pictures and listen to stories. In one safe space.",
+            "alignment": "centre",
+            "fontSize": 63,
+            "colour": [0,0,0,255]
+        }
+    ],
+    "footerText": {
+        "position": [50,6],
+        "text": "new stuff added every week!",
+        "alignment": "centre",
+        "fontSize": 42,
+        "colour": [9,155,155,255]
+    }
+ },
+ "closeButton": true,
+ "backgroundColour": [
+   255,
+   255,
+   255
+ ],
+ "buttons": [
+   {
+     "buttonId": "upgrade",
+     "action": {
+        "type":"internal",
+        "params": {
+            "location":"showUpgrade"
+        }
+    },
+     "position": [
+       50,
+       16
+     ],
+     "size": [
+       25,
+       12
+     ],
+     "text": "Upgrade"
+   }
+ ],
+ "backgroundImage": {
+   "displayMode": "fit",
+   "position": 85,
+   "file": "upgrade/bubbles_mix.jpg"
+ }
+}

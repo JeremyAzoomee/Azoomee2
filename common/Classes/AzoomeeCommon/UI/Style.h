@@ -69,6 +69,7 @@ namespace Color_4B
     const cocos2d::Color4B awaitingPinLayer(15,14,7,255);
     
     const cocos2d::Color4B semiTransparentOverlay(0,0,0,153);
+    const cocos2d::Color4B ctaNodeText(63,170,170,255);
 }
     
 namespace Color_4F

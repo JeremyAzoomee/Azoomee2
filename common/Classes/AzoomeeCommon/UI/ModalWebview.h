@@ -12,13 +12,13 @@ NS_AZOOMEE_BEGIN
 class ModalWebview : public cocos2d::Layer, public ElectricDreamsButtonDelegate
 {
 private:
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
+    cocos2d::Size _visibleSize;
+    cocos2d::Size _runningSceneSize;
     
-    cocos2d::LayerColor *backgroundLayer;
-    cocos2d::experimental::ui::WebView* modalWebview;
+    cocos2d::LayerColor *_backgroundLayer = nullptr;
+    cocos2d::experimental::ui::WebView *_modalWebview = nullptr;
     
-    ElectricDreamsButton* closeButton;
+    ElectricDreamsButton *_closeButton = nullptr;
     
     void createBackgroundLayer();
     void addListenerToBackgroundLayer();
@@ -38,6 +38,10 @@ public:
 
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
+    
+    /// Called when the content size of the scene has changed
+    void onSizeChanged();
+
 };
 
 NS_AZOOMEE_END
