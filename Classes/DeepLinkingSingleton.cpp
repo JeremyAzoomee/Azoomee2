@@ -176,23 +176,19 @@ void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
     
     //ERROR CHECK RESPONSE
     if (contentData.HasParseError()) return;
-    if(!contentData.HasMember("type") || !contentData.HasMember("uri") || !contentData.HasMember("entitled")) return;
-    if(contentData["type"].IsNull() || contentData["uri"].IsNull() || contentData["entitled"].IsNull()) return;
     
     if(contentData["entitled"].GetBool())
     {
-        std::vector<std::string> requiredData = {"description", "title", "type", "uri"};
-        std::map<std::string, std::string> elementProperties;
-    
-        for(int i = 0; i < requiredData.size(); i++)
-        {
-            elementProperties[requiredData.at(i)] = getDataForKeyFromJSON(responseBody, requiredData.at(i));
-        }
-        elementProperties["id"] = path;
+        HQContentItemObjectRef contentItem = HQContentItemObject::create();
+        contentItem->setTitle(getStringFromJson("title", contentData));
+        contentItem->setDescription(getStringFromJson("description", contentData));
+        contentItem->setType(getStringFromJson("type", contentData));
+        contentItem->setUri(getStringFromJson("uri", contentData));
+        contentItem->setContentItemId(path);
         
-        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "0,0");
+        AnalyticsSingleton::getInstance()->contentItemSelectedEvent(contentItem, -1, -1, "0,0");
         
-        completeContentAction(elementProperties);
+        completeContentAction(contentItem);
     }
     else
     {
@@ -215,19 +211,19 @@ std::string DeepLinkingSingleton::getDataForKeyFromJSON(std::string jsonString, 
     return jsonData[key.c_str()].GetString();
 }
 
-void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::string> elementProperties)
+void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &contentItem)
 {
-    if(elementProperties["type"] == "GAME")
+    if(contentItem->getType() == "GAME")
     {
-        GameDataManager::getInstance()->startProcessingGame(elementProperties);
+        GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
-    else if(elementProperties["type"]  == "VIDEO" || elementProperties["type"]  == "AUDIO")
+    else if(contentItem->getType()  == "VIDEO" || contentItem->getType()  == "AUDIO")
     {
         VideoPlaylistManager::getInstance()->clearPlaylist();
         auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(elementProperties["uri"],Orientation::Landscape);
+        webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);
     }
-    else if(elementProperties["type"]  == "AUDIOGROUP" || elementProperties["type"]  == "GROUP")
+    else if(contentItem->getType()  == "AUDIOGROUP" || contentItem->getType()  == "GROUP")
     {
         ModalMessages::getInstance()->stopLoading();
         
@@ -238,13 +234,13 @@ void DeepLinkingSingleton::completeContentAction(std::map<std::string, std::stri
             
             if(navigationLayer)
             {
-                navigationLayer->startLoadingGroupHQ(elementProperties["uri"]);
+                navigationLayer->startLoadingGroupHQ(contentItem->getUri());
 
-                HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties["uri"]);
+                HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
                 HQHistoryManager::getInstance()->setGroupHQSourceId(path);
                 
                 auto funcCallAction = CallFunc::create([=](){
-                    HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties.at("uri"));
+                    HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
                 });
                 
                 Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));

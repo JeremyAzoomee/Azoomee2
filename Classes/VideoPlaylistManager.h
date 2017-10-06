@@ -3,6 +3,8 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -14,13 +16,13 @@ public:
     virtual ~VideoPlaylistManager();
     bool init(void);
     
-    void setPlaylist(std::vector<std::map<std::string, std::string>> playlistElements);
+    void setPlaylist(const HQCarouselObjectRef &hqCarouselObject);
     std::string getPlaylist();
-    std::map<std::string, std::string> getContentItemDataForPlaylistElement(int elementNumber);
+    HQContentItemObjectRef getContentItemDataForPlaylistElement(int elementNumber);
     void clearPlaylist();
     
 private:
-    std::vector<std::map<std::string, std::string>> storedPlaylist;
+    HQCarouselObjectRef _storedPlaylist;
 };
 
 NS_AZOOMEE_END

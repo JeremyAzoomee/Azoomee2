@@ -1,6 +1,7 @@
 #include "OfflineGameSearch.h"
 #include <dirent.h>
 #include "external/json/document.h"
+#include <AzoomeeCommon/Data/Json.h>
 
 using namespace cocos2d;
 
@@ -97,10 +98,19 @@ std::string OfflineGameSearch::getStartFileFromJson(const std::string &gameId)
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
-    if(gameData.HasParseError()) return "ERROR";
+    if(gameData.HasParseError())
+    {
+        return "ERROR";
+    }
     
-    if(gameData.HasMember("pathToStartPage")) return gameData["pathToStartPage"].GetString();
-    else return "ERROR";
+    if(gameData.HasMember("pathToStartPage"))
+    {
+        return getStringFromJson("pathToStartPage", gameData);
+    }
+    else
+    {
+        return "ERROR";
+    }
 }
 
 std::map<std::string, std::string> OfflineGameSearch::getGameDetails(const std::string &gameId)
@@ -122,21 +132,9 @@ std::map<std::string, std::string> OfflineGameSearch::getGameDetails(const std::
     
     if(!gameData.HasParseError())
     {
-        if(gameData.HasMember("pathToStartPage"))
-            if(!gameData["pathToStartPage"].IsNull())
-                if(gameData["pathToStartPage"].IsString())
-                    currentGameData["uri"] = gameData["pathToStartPage"].GetString();
-        
-        if(gameData.HasMember("name"))
-            if(!gameData["name"].IsNull())
-                if(gameData["name"].IsString())
-                    currentGameData["title"] = gameData["name"].GetString();
-        
-        if(gameData.HasMember("isPortrait"))
-            if(!gameData["isPortrait"].IsNull())
-                if(gameData["isPortrait"].IsBool())
-                    if(gameData["isPortrait"].GetBool())
-                        currentGameData["isPortrait"] = "true";
+        currentGameData["uri"] = getStringFromJson("pathToStartPage", gameData);
+        currentGameData["title"] = getStringFromJson("name", gameData);
+        currentGameData["isPortrait"] = getBoolFromJson("isPortrait", gameData) ? "true" : "false";
     }
     
     if(FileUtils::getInstance()->isFileExist(feedDataFileName)) //if we have feed data downloaded, we overwite the values for the contentItem to be shown, as package.json file display data is not accurate.
@@ -147,15 +145,8 @@ std::map<std::string, std::string> OfflineGameSearch::getGameDetails(const std::
         
         if(!feedData.HasParseError())
         {
-            if(feedData.HasMember("title"))
-                if(!feedData["title"].IsNull())
-                    if(feedData["title"].IsString())
-                        currentGameData["title"] = feedData["title"].GetString();
-            
-            if(feedData.HasMember("description"))
-                if(!feedData["description"].IsNull())
-                    if(feedData["description"].IsString())
-                        currentGameData["description"] = feedData["description"].GetString();
+            currentGameData["title"] = getStringFromJson("title", feedData);
+            currentGameData["description"] = getStringFromJson("description", feedData);
         }
     }
     

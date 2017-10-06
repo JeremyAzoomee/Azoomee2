@@ -85,6 +85,14 @@
     "GAME HQ",
     "GROUP HQ"
   ],
+  "hqNamesReplacementForPermissionFeed": {
+  	"CHAT": "CHAT",
+  	"VIDEO": "VIDEO HQ",
+  	"AUDIO": "AUDIO HQ",
+  	"HOME": "HOME",
+  	"ART": "ARTS APP",
+  	"GAME": "GAME HQ"
+  },
   "tagNumberForMenuItems": {
     "CHAT": 0,
     "VIDEO HQ": 1,

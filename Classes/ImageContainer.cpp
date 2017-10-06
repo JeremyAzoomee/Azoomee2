@@ -42,7 +42,7 @@ bool ImageContainer::init()
     return true;
 }
 
-void ImageContainer::createContainer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, Point position)
+void ImageContainer::createContainer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay, Point position)
 {
     if(HQHistoryManager::getInstance()->noHistory())
     {
@@ -57,21 +57,22 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
         scaleTime = 0;
     }
     
-    std::string type = elementProperties["type"];
+    const std::string &type = elementProperties->getType();
     
     Color4B colour4 = ConfigStorage::getInstance()->getColourForElementType(type);
     Color3B colour3 = Color3B(colour4.r, colour4.g, colour4.b);
     
     createBgLayer(elementProperties, scale, startDelay, position);
     
-    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties["id"], Vec2(1,1)), type, startDelay);
+    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties->getContentItemId(), Vec2(1,1)), type, startDelay);
     addGradientToBottom(colour3, startDelay);
-    addIconToImage(elementProperties["type"], startDelay);
-    addLabelToImage(elementProperties["title"], startDelay);
+    addIconToImage(elementProperties->getType(), startDelay);
+    addLabelToImage(elementProperties->getTitle(), startDelay);
     
-
-    if(elementProperties["entitled"] == "false")
-        addLockToImageContainer(elementProperties["type"], startDelay);
+    if(!elementProperties->isEntitled())
+    {
+        addLockToImageContainer(elementProperties->getType(), startDelay);
+    }
         
     addReponseLayerToImage(elementProperties, scale);
     addListenerToContainer(bgLayer, colour4.a, elementProperties, RoutePaymentSingleton::getInstance()->showIAPContent());
@@ -79,13 +80,13 @@ void ImageContainer::createContainer(std::map<std::string, std::string> elementP
 
 //-----------------------------------------------------All methods below are called internally.---------------------------------------------------
 
-void ImageContainer::createBgLayer(std::map<std::string, std::string> elementProperties, float scale, float startDelay, Point position)
+void ImageContainer::createBgLayer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay, Point position)
 {
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Size baseContentSize = Size(445, 339);
     Size containerSize = baseContentSize * scale;
     
-    Color4B colour = ConfigStorage::getInstance()->getColourForElementType(elementProperties["type"]);
+    Color4B colour = ConfigStorage::getInstance()->getColourForElementType(elementProperties->getType());
     
     bgLayer = LayerColor::create(colour, containerSize.width + 20, containerSize.height + 20);
     bgLayer->setAnchorPoint(Vec2(0.5, 0.5));
@@ -112,12 +113,12 @@ void ImageContainer::startAudio(std::string audioName)
     AudioMixer::getInstance()->playEffect(audioName);
 }
 
-void ImageContainer::addReponseLayerToImage(std::map<std::string, std::string> elementProperties, float scale)
+void ImageContainer::addReponseLayerToImage(const HQContentItemObjectRef &elementProperties, float scale)
 {
     Size baseContentSize = Size(445, 339);
     Size containerSize = baseContentSize * scale;
     
-    Color4B colour = ConfigStorage::getInstance()->getColourForElementType(elementProperties["type"]);
+    Color4B colour = ConfigStorage::getInstance()->getColourForElementType(elementProperties->getType());
     
     auto responseLayer = LayerColor::create(colour, containerSize.width, containerSize.height);
     responseLayer->setAnchorPoint(Point(0.5, 0.5));
@@ -127,7 +128,7 @@ void ImageContainer::addReponseLayerToImage(std::map<std::string, std::string> e
     bgLayer->addChild(responseLayer);
 }
 
-void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, std::map<std::string, std::string> elementProperties, bool IAPEnabled)
+void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, const HQContentItemObjectRef &elementProperties, bool IAPEnabled)
 {
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -149,9 +150,9 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
         
         if(rect.containsPoint(locationInNode))
         {
-            if(elementProperties.at("entitled") == "false")
+            if(!elementProperties->isEntitled())
             {
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "1,1");
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties, -1, -1, "1,1");
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 
                 DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
@@ -160,43 +161,31 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
             {
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties.at("title"), elementProperties.at("description"), elementProperties.at("type"), elementProperties.at("id"), -1, -1, "1,1");
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties, -1, -1, "1,1");
                 
                 target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
                 
-                if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "GAME")
+                if(elementProperties->getType() == "GAME")
                 {
                     GameDataManager::getInstance()->startProcessingGame(elementProperties);
                 }
-                else if((HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "VIDEO")||(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "AUDIO"))
+                else if((elementProperties->getType() == "VIDEO")||(elementProperties->getType() == "AUDIO"))
                 {
                     VideoPlaylistManager::getInstance()->clearPlaylist();
                     auto webViewSelector = WebViewSelector::create();
-                    webViewSelector->loadWebView(elementProperties.at("uri").c_str(),Orientation::Landscape);
+                    webViewSelector->loadWebView(elementProperties->getUri().c_str(),Orientation::Landscape);
                 }
-                else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "GROUP")
+                else if((elementProperties->getType() == "GROUP")||(elementProperties->getType() == "AUDIOGROUP"))
                 {
                     NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-                    navigationLayer->startLoadingGroupHQ(elementProperties.at("uri"));
+                    navigationLayer->startLoadingGroupHQ(elementProperties->getUri());
                     
                     auto funcCallAction = CallFunc::create([=](){
-                        HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties.at("uri"));
-                        HQHistoryManager::getInstance()->setGroupHQSourceId(elementProperties.at("id"));
+                        HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties->getUri());
+                        HQHistoryManager::getInstance()->setGroupHQSourceId(elementProperties->getContentItemId());
                     });
                     
                     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
-                }
-                else if(HQDataProvider::getInstance()->getTypeForSpecificItem("HOME", elementProperties.at("id")) == "AUDIOGROUP")
-                {
-                    NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-                    navigationLayer->startLoadingGroupHQ(elementProperties.at("uri"));
-                    
-                    auto funcCallAction2 = CallFunc::create([=](){
-                        HQDataProvider::getInstance()->getDataForGroupHQ(elementProperties.at("uri"));
-                        HQHistoryManager::getInstance()->setGroupHQSourceId(elementProperties.at("id"));
-                    });
-                    
-                    this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction2, NULL));
                 }
             }
             
