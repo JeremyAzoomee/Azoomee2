@@ -232,9 +232,12 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
         {
             if(allHorizontals.at(i)->getName() != "label")
             {
-                auto currentSv = (cocos2d::ui::ScrollView *)allHorizontals.at(i);
-                currentSv->setTouchEnabled(true);
-                currentSv->setSwallowTouches(false);
+                cocos2d::ui::ScrollView* scrollView = dynamic_cast<cocos2d::ui::ScrollView*>(allHorizontals.at(i));
+                if(scrollView != nullptr)
+                {
+                    scrollView->setTouchEnabled(true);
+                    scrollView->setSwallowTouches(false);
+                }
             }
         }
         
