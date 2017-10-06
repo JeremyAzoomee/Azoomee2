@@ -155,7 +155,7 @@ void HQSceneElement::addListenerToElement()
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData["title"], elementItemData["description"], elementItemData["type"], elementItemData["id"], elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
                 
-                DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId("upgrade");
+                DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
                 
                 return true;
             }
