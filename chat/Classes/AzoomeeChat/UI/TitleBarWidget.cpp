@@ -158,7 +158,9 @@ void TitleBarWidget::onSizeChanged()
     _titleLayout->forceDoLayout();
     
     if(_subTitleBarBorder)
+    {
         _subTitleBarBorder->setContentSize(Size(contentSize.width, 2.0f));
+    }
     
     //Set correct sizes for Reported Chat Bar
     onSizeChangedReportedBar(contentSize);
