@@ -11,6 +11,7 @@
 #include "ArtAppImageConverter.h"
 #include <dirent.h>
 #include <algorithm>
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
 
 using namespace cocos2d;
 
@@ -29,6 +30,7 @@ bool HQSceneArtsApp::init()
 void HQSceneArtsApp::onEnter()
 {
     createArtsAppScrollView();
+    addPrivacyButton();
     
     Node::onEnter();
 }
@@ -70,6 +72,13 @@ void HQSceneArtsApp::createArtsAppScrollView()
     
     addEmptyImageToHorizontalScrollView(horizontalScrollView);
     addCreatedImagesToHorizontalScrollView(horizontalScrollView);
+}
+
+void HQSceneArtsApp::addPrivacyButton()
+{
+    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    privacyLayer->setCenterPosition(Vec2(Director::getInstance()->getVisibleOrigin().x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,Director::getInstance()->getVisibleOrigin().y + privacyLayer->getContentSize().height));
+    this->addChild(privacyLayer);
 }
 
 void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
