@@ -63,9 +63,9 @@ void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData
     
     saveFeedDataToFile(itemData);
     const std::string &itemId = itemData->getContentItemId();
-    const std::string &itemUri = getFileNameFromUrl(itemData->getUri());
-    const std::string &basePath = getGameIdPath(itemData->getContentItemId());
-    const std::string &fileName = getFileNameFromUrl(itemData->getUri());
+    const std::string &itemUri = itemData->getUri();
+    const std::string &basePath = getGameIdPath(itemId);
+    const std::string &fileName = getFileNameFromUrl(itemUri);
     
     WebGameAPIDataManager::getInstance()->setGameId(itemId);
 
