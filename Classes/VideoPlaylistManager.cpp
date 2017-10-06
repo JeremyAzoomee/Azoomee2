@@ -34,7 +34,7 @@ void VideoPlaylistManager::setPlaylist(const HQCarouselObjectRef &playlist)
 
 void VideoPlaylistManager::clearPlaylist()
 {
-    _storedPlaylist.reset();
+    _storedPlaylist->removeAllItemsFromCarousel();
 }
 
 std::string VideoPlaylistManager::getPlaylist()
@@ -69,7 +69,10 @@ std::string VideoPlaylistManager::getPlaylist()
 HQContentItemObjectRef VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)
 {
     HQContentItemObjectRef returnData = HQContentItemObject::create();
-    if(elementNumber >= _storedPlaylist->getContentItems().size() || elementNumber < 0) return returnData;
+    if(elementNumber >= _storedPlaylist->getContentItems().size() || elementNumber < 0)
+    {
+        return returnData;
+    }
     
     returnData = _storedPlaylist->getContentItems().at(elementNumber);
     returnData->setElementNumber(elementNumber);

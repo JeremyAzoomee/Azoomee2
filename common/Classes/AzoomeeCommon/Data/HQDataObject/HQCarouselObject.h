@@ -25,6 +25,7 @@ public:
     void setTitle(const std::string &inputTitle);
     void addContentItemToCarousel(const HQContentItemObjectRef &contentItem); //also: contentItemData should contain size
     void addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight);
+    void removeAllItemsFromCarousel();
     
     std::string getTitle() const;
     std::vector<HQContentItemObjectRef> getContentItems();

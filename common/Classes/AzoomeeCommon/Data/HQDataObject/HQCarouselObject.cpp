@@ -26,6 +26,12 @@ void HQCarouselObject::addContentItemHighlight(const cocos2d::Vec2 &contentItemH
     _contentItemHighlights.push_back(contentItemHighlight);
 }
 
+void HQCarouselObject::removeAllItemsFromCarousel()
+{
+    _contentItems.clear();
+    _contentItemHighlights.clear();
+}
+
 std::string HQCarouselObject::getTitle() const
 {
     return _title;

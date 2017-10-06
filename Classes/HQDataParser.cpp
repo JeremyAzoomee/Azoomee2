@@ -161,11 +161,13 @@ void HQDataParser::onGetContentAnswerReceived(const std::string &responseString,
         ModalMessages::getInstance()->stopLoading();
         parseHQStructure(responseString, category.c_str());
         
-        Scene *runningScene = Director::getInstance()->getRunningScene();
-        if((category == "HOME")&&(runningScene->getChildByName("baseLayer")))
+        if(category == "HOME")
         {
             ChildDataParser::getInstance()->parseOomeeData(responseString);
-
+            
+            Scene *runningScene = Director::getInstance()->getRunningScene();
+            if(!runningScene->getChildByName("baseLayer")) return;
+            
             Node *baseLayer = runningScene->getChildByName("baseLayer");
             Node *contentLayer = baseLayer->getChildByName("contentLayer");
             MainHubScene *homeLayer = (MainHubScene *)contentLayer->getChildByName("HOME");
