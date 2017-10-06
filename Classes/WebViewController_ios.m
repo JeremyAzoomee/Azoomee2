@@ -29,12 +29,7 @@ using namespace Azoomee;
     [useridToUse retain];
     
     [self addWebViewToScreen];
-    
-    //Check if has html, then opening game.
-    if([url containsString:@"html"])
-        [self createButton:@"res/navigation/close_button.png"];
-    else
-        [self createButton:@"res/navigation/back_button.png"];
+    [self createButton];
 }
 
 - (void)viewDidLoad {
@@ -202,7 +197,7 @@ using namespace Azoomee;
     // Dispose of any resources that can be recreated.
 }
 
-- (void) createButton:(NSString*)buttonImage
+- (void) createButton
 {
     CGFloat buttonWidth = [[UIScreen mainScreen] bounds].size.width/15;
     
@@ -210,7 +205,16 @@ using namespace Azoomee;
     [backButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setFrame:CGRectMake(buttonWidth/4, buttonWidth/4, buttonWidth, buttonWidth)];
     [backButton setExclusiveTouch:YES];
-    [backButton setImage:[UIImage imageNamed:buttonImage] forState:UIControlStateNormal];
+
+    //Check if has html, then opening game.
+    if([urlToLoad containsString:@"html"])
+    {
+        [backButton setImage:[UIImage imageNamed:@"res/navigation/close_button.png"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [backButton setImage:[UIImage imageNamed:@"res/navigation/back_button.png"] forState:UIControlStateNormal];
+    }
     
     [self.view addSubview:backButton];
 }
