@@ -30,6 +30,8 @@
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 
+#include "DynamicNodeHandler.h"
+
 using namespace cocos2d;
 using namespace network;
 
@@ -153,13 +155,7 @@ void HQSceneElement::addListenerToElement()
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData, elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
                 
-                if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-                {
-                    AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("MainHub");
-                    IAPUpsaleLayer::createRequiresPin();
-                }
-                else
-                    PreviewLoginSignupMessageBox::create();
+                DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
                 
                 return true;
             }

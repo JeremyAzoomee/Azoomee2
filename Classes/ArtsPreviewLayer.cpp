@@ -2,7 +2,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "ArtsAppHQElement.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <dirent.h>
+#include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include "HQHistoryManager.h"
 
 using namespace cocos2d;
@@ -57,7 +57,7 @@ std::vector<std::string> ArtsPreviewLayer::getRandomImagesFromArtsCache()
         FileUtils::getInstance()->createDirectory(artCacheFolderPath);
     }
     
-    std::vector<std::string> fileList = getImagesInDirectory(artCacheFolderPath);
+    std::vector<std::string> fileList = DirectorySearcher::getInstance()->getImagesInDirectory(artCacheFolderPath);
     
     std::vector<std::string> imagesToDisplay;
     
@@ -128,36 +128,6 @@ void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
     }
     
     hqElement->enableOnScreenChecker();
-}
-
-std::vector<std::string> ArtsPreviewLayer::getImagesInDirectory(std::string path)
-{
-    std::vector<std::string> fileNames;
-    
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir (path.c_str())) != NULL)
-    {
-        while ((ent = readdir (dir)) != NULL)
-        {
-            std::string fileName = StringUtils::format("%s", ent->d_name);
-            
-            if(fileName.size() > 4)
-            {
-                if(fileName.substr(fileName.size() -3, 3) == "png")
-                {
-                    fileNames.push_back(fileName);
-                }
-            }
-        }
-        closedir (dir);
-        return fileNames;
-    }
-    else
-    {
-        perror ("");
-        return fileNames;
-    }
 }
 
 NS_AZOOMEE_END

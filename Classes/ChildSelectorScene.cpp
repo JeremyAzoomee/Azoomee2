@@ -20,6 +20,7 @@
 #include "FlowDataSingleton.h"
 #include "ForceUpdateSingleton.h"
 #include "ChatNotificationsSingleton.h"
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 450
@@ -58,6 +59,7 @@ bool ChildSelectorScene::init()
     createSettingsButton();
     addScrollViewForProfiles();
     addProfilesToScrollView();
+    addPrivacyButton();
     
     auto newProfileButton = createNewProfileButton();
     newProfileButton->setPosition(origin.x + newProfileButton->getContentSize().width / 2, origin.y + visibleSize.height - newProfileButton->getContentSize().height * 0.8);
@@ -109,6 +111,13 @@ void ChildSelectorScene::createSettingsButton()
     auto settingsButton = SettingsButton::createSettingsButton(0.0f);
     settingsButton->setCenterPosition(Vec2(origin.x + visibleSize.width - settingsButton->getContentSize().width, origin.y + visibleSize.height - settingsButton->getContentSize().height));
     this->addChild(settingsButton);
+}
+
+void ChildSelectorScene::addPrivacyButton()
+{
+    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    privacyLayer->setCenterPosition(Vec2(origin.x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,origin.y + privacyLayer->getContentSize().height));
+    this->addChild(privacyLayer);
 }
 
 void ChildSelectorScene::addScrollViewForProfiles()

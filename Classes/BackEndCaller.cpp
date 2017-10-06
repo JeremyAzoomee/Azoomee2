@@ -29,6 +29,8 @@
 #include "OfflineChecker.h"
 #include "ForceUpdateSingleton.h"
 
+#include "DynamicNodeHandler.h"
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #include "ApplePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
@@ -151,6 +153,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
     {
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
         HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
+        DynamicNodeHandler::getInstance()->getCTAFiles();
         getGordon();
     }
     else
@@ -266,6 +269,7 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
     
+    DynamicNodeHandler::getInstance()->getCTAFiles();
     getGordon();
 }
 

@@ -16,6 +16,7 @@
 #include "RoutePaymentSingleton.h"
 #include "IAPUpsaleLayer.h"
 #include "VideoPlaylistManager.h"
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
@@ -154,18 +155,7 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementProperties, -1, -1, "1,1");
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 
-                if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-                {
-                    if(IAPEnabled)
-                    {
-                        AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("HQs");
-                        IAPUpsaleLayer::createRequiresPin();
-                    }
-                }
-                else
-                {
-                    PreviewLoginSignupMessageBox::create();
-                }
+                DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
             }
             else
             {

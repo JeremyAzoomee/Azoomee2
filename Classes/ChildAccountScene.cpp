@@ -14,6 +14,7 @@
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
 
 using namespace cocos2d;
 
@@ -44,15 +45,16 @@ bool ChildAccountScene::init()
 
 void ChildAccountScene::onEnter()
 {
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    _origin = Director::getInstance()->getVisibleOrigin();
     
     ModalMessages::getInstance()->startLoading();
     
-    AddTitleToScene();
+    addTitleToScene();
     addTextboxScene();
     addLabelToScene();
     addButtonsScene();
+    addPrivacyButton();
     addOomeesToScene();
 
     
@@ -63,120 +65,130 @@ void ChildAccountScene::onEnterTransitionDidFinish()
 {
     if(FlowDataSingleton::getInstance()->hasError())
     {
-        childNameInputText->setVisible(false);
-        dayInputText->setVisible(false);
-        monthInputText->setVisible(false);
-        yearInputText->setVisible(false);
+        _childNameInputText->setVisible(false);
+        _dayInputText->setVisible(false);
+        _monthInputText->setVisible(false);
+        _yearInputText->setVisible(false);
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), this);
     }
     else
-        childNameInputText->focusAndShowKeyboard();
+        _childNameInputText->focusAndShowKeyboard();
 }
 
 //----------------- SCENE SETUP ---------------
 
-void ChildAccountScene::AddTitleToScene()
+void ChildAccountScene::addTitleToScene()
 {
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
-        sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
+    {
+        _sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
+    }
     else
-        sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
-    this->addChild(sceneTitle);
+    {
+        _sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
+    }
+    this->addChild(_sceneTitle);
 }
 
 void ChildAccountScene::addTextboxScene()
 {
-    childNameInputText = TextInputLayer::createWithSize(Size(visibleSize.width*.80,197), INPUT_IS_CHILD_NAME);
-    childNameInputText->setPositionY(sceneTitle->getPositionY()-childNameInputText->getContentSize().height*2.4);
-    childNameInputText->setDelegate(this);
-    this->addChild(childNameInputText);
+    _childNameInputText = TextInputLayer::createWithSize(Size(_visibleSize.width*0.8f,197.0f), INPUT_IS_CHILD_NAME);
+    _childNameInputText->setPositionY(_sceneTitle->getPositionY()-_childNameInputText->getContentSize().height*2.4f);
+    _childNameInputText->setDelegate(this);
+    this->addChild(_childNameInputText);
     
-    dayInputText = TextInputLayer::createWithSize(Size(330,197), INPUT_IS_DAY);
-    dayInputText->setPositionY(childNameInputText->getPositionY() -dayInputText->getContentSize().height*2.1 );
-    dayInputText->setPositionX(origin.x+visibleSize.width/2 - 275-dayInputText->getContentSize().width);
-    dayInputText->setDelegate(this);
-    this->addChild(dayInputText);
+    _dayInputText = TextInputLayer::createWithSize(Size(330.0f,197.0f), INPUT_IS_DAY);
+    _dayInputText->setPositionY(_childNameInputText->getPositionY() -_dayInputText->getContentSize().height*2.0f );
+    _dayInputText->setPositionX(_origin.x+_visibleSize.width/2.0f - 275.0f -_dayInputText->getContentSize().width);
+    _dayInputText->setDelegate(this);
+    this->addChild(_dayInputText);
     
-    monthInputText = TextInputLayer::createWithSize(Size(330,197), INPUT_IS_MONTH);
-    monthInputText->setPositionY(dayInputText->getPositionY());
-    monthInputText->setPositionX(origin.x+visibleSize.width/2 - 225);
-    monthInputText->setDelegate(this);
-    this->addChild(monthInputText);
+    _monthInputText = TextInputLayer::createWithSize(Size(330.0f,197.0f), INPUT_IS_MONTH);
+    _monthInputText->setPositionY(_dayInputText->getPositionY());
+    _monthInputText->setPositionX(_origin.x+_visibleSize.width/2.0f - 225.0f);
+    _monthInputText->setDelegate(this);
+    this->addChild(_monthInputText);
     
-    yearInputText = TextInputLayer::createWithSize(Size(450,197), INPUT_IS_YEAR);
-    yearInputText->setPositionY(dayInputText->getPositionY());
-    yearInputText->setPositionX(origin.x+visibleSize.width/2 + 155);
-    yearInputText->setDelegate(this);
-    this->addChild(yearInputText);
+    _yearInputText = TextInputLayer::createWithSize(Size(450.0f,197.0f), INPUT_IS_YEAR);
+    _yearInputText->setPositionY(_dayInputText->getPositionY());
+    _yearInputText->setPositionX(_origin.x+_visibleSize.width/2.0f + 155.0f);
+    _yearInputText->setDelegate(this);
+    this->addChild(_yearInputText);
 }
 
 void ChildAccountScene::addLabelToScene()
 {
-    profileNameTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_NAME_LABEL));
-    profileNameTitle->setPositionY(childNameInputText->getPositionY()+(childNameInputText->getContentSize().height) + (profileNameTitle->getContentSize().height*.6));
-    this->addChild(profileNameTitle);
+    _profileNameTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_NAME_LABEL));
+    _profileNameTitle->setPositionY(_childNameInputText->getPositionY()+(_childNameInputText->getContentSize().height) + (_profileNameTitle->getContentSize().height*0.6f));
+    this->addChild(_profileNameTitle);
     
-    profileDOBTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_LABEL));
-    profileDOBTitle->setPositionY(dayInputText->getPositionY()+(dayInputText->getContentSize().height) + (profileDOBTitle->getContentSize().height*.6));
-    this->addChild(profileDOBTitle);
+    _profileDOBTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_LABEL));
+    _profileDOBTitle->setPositionY(_dayInputText->getPositionY()+(_dayInputText->getContentSize().height) + (_profileDOBTitle->getContentSize().height*0.6f));
+    this->addChild(_profileDOBTitle);
     
-    profileDOBSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_SUB_LABEL));
-    profileDOBSubTitle->setPositionY(dayInputText->getPositionY()- (profileDOBSubTitle->getContentSize().height*.3));
-    profileDOBSubTitle->setLineSpacing(20);
-    this->addChild(profileDOBSubTitle);
+    _profileDOBSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_SUB_LABEL));
+    _profileDOBSubTitle->setPositionY(_dayInputText->getPositionY()- (_profileDOBSubTitle->getContentSize().height*.3));
+    _profileDOBSubTitle->setLineSpacing(20.0f);
+    this->addChild(_profileDOBSubTitle);
     
-    oomeesTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_LABEL));
-    oomeesTitle->setPosition(profileNameTitle->getPosition());
-    oomeesTitle->setVisible(false);
-    this->addChild(oomeesTitle);
+    _oomeesTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_LABEL));
+    _oomeesTitle->setPosition(_profileNameTitle->getPosition());
+    _oomeesTitle->setVisible(false);
+    this->addChild(_oomeesTitle);
 }
-
 
 void ChildAccountScene::addButtonsScene()
 {
     
-    nextButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
-    nextButton->setCenterPosition(Vec2(visibleSize.width*.7+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.9));
-    nextButton->setDelegate(this);
-    nextButton->setMixPanelButtonName("childAccountSceneContinueButton");
-    nextButton->setVisible(false);
+    _nextButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
+    _nextButton->setCenterPosition(Vec2(_visibleSize.width*0.7f +_origin.x, _dayInputText->getPositionY()-_nextButton->getContentSize().height* 1.7f));
+    _nextButton->setDelegate(this);
+    _nextButton->setMixPanelButtonName("childAccountSceneContinueButton");
+    _nextButton->setVisible(false);
     
-    nextButtonPlaceholder = ElectricDreamsButton::createPlaceHolderButton(nextButton->getContentSize().width);
-    nextButtonPlaceholder->setCenterPosition(nextButton->getCenterPosition());
-    this->addChild(nextButtonPlaceholder);
-    this->addChild(nextButton);
+    _nextButtonPlaceholder = ElectricDreamsButton::createPlaceHolderButton(_nextButton->getContentSize().width);
+    _nextButtonPlaceholder->setCenterPosition(_nextButton->getCenterPosition());
+    this->addChild(_nextButtonPlaceholder);
+    this->addChild(_nextButton);
     
-    cancelButton = ElectricDreamsButton::createOutlineButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL));
-    cancelButton->setCenterPosition(Vec2(visibleSize.width*.3+origin.x, nextButton->getCenterPosition().y));
-    cancelButton->setDelegate(this);
-    cancelButton->setMixPanelButtonName("childAccountSceneCancelButton");
-    this->addChild(cancelButton);
+    _cancelButton = ElectricDreamsButton::createOutlineButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL));
+    _cancelButton->setCenterPosition(Vec2(_visibleSize.width*0.3f +_origin.x, _nextButton->getCenterPosition().y));
+    _cancelButton->setDelegate(this);
+    _cancelButton->setMixPanelButtonName("childAccountSceneCancelButton");
+    this->addChild(_cancelButton);
         
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
-        cancelButton->setVisible(false);
-        nextButton->setCenterPosition(Vec2(visibleSize.width/2+origin.x, dayInputText->getPositionY()-nextButton->getContentSize().height*1.9));
-        nextButtonPlaceholder->setCenterPosition(nextButton->getCenterPosition());
+        _cancelButton->setVisible(false);
+        _nextButton->setCenterPosition(Vec2(_visibleSize.width/2.0f+_origin.x, _dayInputText->getPositionY()-_nextButton->getContentSize().height* 1.9f));
+        _nextButtonPlaceholder->setCenterPosition(_nextButton->getCenterPosition());
         
     }
-    submitButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
-    submitButton->setCenterPosition(Vec2(visibleSize.width*.7+origin.x,origin.y + submitButton->getContentSize().height));
-    submitButton->setDelegate(this);
-    submitButton->setMixPanelButtonName("childAccountSceneDoneButton");
-    submitButton->setVisible(false);
+    _submitButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
+    _submitButton->setCenterPosition(Vec2(_visibleSize.width*0.7f+_origin.x,_origin.y + _submitButton->getContentSize().height));
+    _submitButton->setDelegate(this);
+    _submitButton->setMixPanelButtonName("childAccountSceneDoneButton");
+    _submitButton->setVisible(false);
     
-    submitButtonPlaceholder = ElectricDreamsButton::createPlaceHolderButton(submitButton->getContentSize().width);
-    submitButtonPlaceholder->setCenterPosition(submitButton->getCenterPosition());
-    submitButtonPlaceholder->setVisible(false);
-    this->addChild(submitButtonPlaceholder);
-    this->addChild(submitButton);
+    _submitButtonPlaceholder = ElectricDreamsButton::createPlaceHolderButton(_submitButton->getContentSize().width);
+    _submitButtonPlaceholder->setCenterPosition(_submitButton->getCenterPosition());
+    _submitButtonPlaceholder->setVisible(false);
+    this->addChild(_submitButtonPlaceholder);
+    this->addChild(_submitButton);
     
-    backButton = ElectricDreamsButton::createOutlineButtonWithText("Back");
-    backButton->setCenterPosition(Vec2(cancelButton->getCenterPosition().x, submitButton->getCenterPosition().y));
-    backButton->setDelegate(this);
-    backButton->setMixPanelButtonName("childAccountSceneBackFromOomeesButton");
-    backButton->setVisible(false);
-    this->addChild(backButton);
+    _backButton = ElectricDreamsButton::createOutlineButtonWithText("Back");
+    _backButton->setCenterPosition(Vec2(_cancelButton->getCenterPosition().x, _submitButton->getCenterPosition().y));
+    _backButton->setDelegate(this);
+    _backButton->setMixPanelButtonName("childAccountSceneBackFromOomeesButton");
+    _backButton->setVisible(false);
+    this->addChild(_backButton);
+}
+
+void ChildAccountScene::addPrivacyButton()
+{
+    _privacyLayer = PrivacyLayer::create();
+    _privacyLayer->setCenterPosition(Vec2(_origin.x + _privacyLayer->getContentSize().height + _privacyLayer->getContentSize().width/2.0f,_nextButtonPlaceholder->getPositionY() - _privacyLayer->getContentSize().height*2.0f));
+    this->addChild(_privacyLayer);
 }
 
 //------------CHANGE SCREEN VISUALS ON BUTTON PRESS----------------------
@@ -186,24 +198,25 @@ void ChildAccountScene::clearElementsOnScreen()
     AudioMixer::getInstance()->stopOomeeEffect();
     
     //TextBoxes
-    childNameInputText->setEditboxVisibility(false);
-    dayInputText->setEditboxVisibility(false);
-    monthInputText->setEditboxVisibility(false);
-    yearInputText->setEditboxVisibility(false);
+    _childNameInputText->setEditboxVisibility(false);
+    _dayInputText->setEditboxVisibility(false);
+    _monthInputText->setEditboxVisibility(false);
+    _yearInputText->setEditboxVisibility(false);
     
     //Labels
-    profileNameTitle->setVisible(false);
-    profileDOBTitle->setVisible(false);
-    profileDOBSubTitle->setVisible(false);
-    oomeesTitle->setVisible(false);
+    _profileNameTitle->setVisible(false);
+    _profileDOBTitle->setVisible(false);
+    _profileDOBSubTitle->setVisible(false);
+    _oomeesTitle->setVisible(false);
     
     //Buttons
-    cancelButton->setVisible(false);
-    nextButton->setVisible(false);
-    nextButtonPlaceholder->setVisible(false);
-    backButton->setVisible(false);
-    submitButton->setVisible(false);
-    submitButtonPlaceholder->setVisible(false);
+    _cancelButton->setVisible(false);
+    _nextButton->setVisible(false);
+    _nextButtonPlaceholder->setVisible(false);
+    _backButton->setVisible(false);
+    _submitButton->setVisible(false);
+    _submitButtonPlaceholder->setVisible(false);
+    _privacyLayer->setVisible(false);
     
     hideOomees();
 }
@@ -213,38 +226,45 @@ void ChildAccountScene::changeElementsToTextInputScreen()
     clearElementsOnScreen();
 
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
-        sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
+    {
+        _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
+    }
     else
-        sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
+    {
+        _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
+    }
     
-    childNameInputText->setEditboxVisibility(true);
-    dayInputText->setEditboxVisibility(true);
-    monthInputText->setEditboxVisibility(true);
-    yearInputText->setEditboxVisibility(true);
+    _childNameInputText->setEditboxVisibility(true);
+    _dayInputText->setEditboxVisibility(true);
+    _monthInputText->setEditboxVisibility(true);
+    _yearInputText->setEditboxVisibility(true);
     
-    profileNameTitle->setVisible(true);
-    profileDOBTitle->setVisible(true);
-    profileDOBSubTitle->setVisible(true);
+    _profileNameTitle->setVisible(true);
+    _profileDOBTitle->setVisible(true);
+    _profileDOBSubTitle->setVisible(true);
     
     if(!(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()))
-        cancelButton->setVisible(true);
+    {
+        _cancelButton->setVisible(true);
+    }
     
-    nextButton->setVisible(DOBisDate() && childNameInputText->inputIsValid());
-    nextButtonPlaceholder->setVisible(true);
+    _nextButton->setVisible(DOBisDate() && _childNameInputText->inputIsValid());
+    _nextButtonPlaceholder->setVisible(true);
+    _privacyLayer->setVisible(true);
     
-    childNameInputText->focusAndShowKeyboard();
+    _childNameInputText->focusAndShowKeyboard();
 }
 
 void ChildAccountScene::changeElementsToOomeeScreen()
 {
     clearElementsOnScreen();
     
-    sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_SELECT_OOMEE_TITLE_LABEL));
+    _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_SELECT_OOMEE_TITLE_LABEL));
     
-    oomeesTitle->setVisible(true);
+    _oomeesTitle->setVisible(true);
     
-    backButton->setVisible(true);
-    submitButtonPlaceholder->setVisible(true);
+    _backButton->setVisible(true);
+    _submitButtonPlaceholder->setVisible(true);
     
     showOomees();
 }
@@ -252,22 +272,28 @@ void ChildAccountScene::changeElementsToOomeeScreen()
 //----------------OOMEE SCREEN FUNCTIONS---------------
 void ChildAccountScene::addOomeesToScene()
 {
-    oomeeGlow = createGlow();
-    oomeeGlow->setVisible(false);
-    oomeeGlow->setScale(.6);
-    this->addChild(oomeeGlow);
+    _oomeeGlow = createGlow();
+    _oomeeGlow->setVisible(false);
+    _oomeeGlow->setScale(.6);
+    this->addChild(_oomeeGlow);
     
-    std::vector<cocos2d::Vec2> oomeePositions = {Vec2(0.5, 0.47), Vec2(0.3, 0.29), Vec2(0.7, 0.29), Vec2(0.3, 0.65), Vec2(0.7, 0.65)};
+    std::vector<cocos2d::Vec2> oomeePositions = {
+        Vec2(0.5f, 0.47f),
+        Vec2(0.3f, 0.29f),
+        Vec2(0.7f, 0.29f),
+        Vec2(0.3f, 0.65f),
+        Vec2(0.7f, 0.65f)
+    };
     
     for(int i=0;i< NO_OF_OOMEES;i++)
     {
         auto oomeeButton = ElectricDreamsButton::createOomeeAsButton(i);
         oomeeButton->setDelegate(this);
         oomeeButton->setVisible(false);
-        oomeeButton->setScale(1.3);
-        oomeeButton->setCenterPosition(Vec2(origin.x + visibleSize.width * oomeePositions.at(i).x, origin.y + visibleSize.height * oomeePositions.at(i).y));
+        oomeeButton->setScale(1.3f);
+        oomeeButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width * oomeePositions.at(i).x, _origin.y + _visibleSize.height * oomeePositions.at(i).y));
         this->addChild(oomeeButton);
-        OomeeButtons.push_back(oomeeButton);
+        _oomeeButtons.push_back(oomeeButton);
     }
     
     ModalMessages::getInstance()->stopLoading();
@@ -275,44 +301,44 @@ void ChildAccountScene::addOomeesToScene()
 
 void ChildAccountScene::hideOomees()
 {
-    for(int i=0;i< OomeeButtons.size();i++)
+    for(int i=0;i< _oomeeButtons.size();i++)
     {
-        OomeeButtons.at(i)->setVisible(false);
-        OomeeButtons.at(i)->setScale(1.3);
+        _oomeeButtons.at(i)->setVisible(false);
+        _oomeeButtons.at(i)->setScale(1.3f);
     }
     
-    oomeeGlow->setVisible(false);
+    _oomeeGlow->setVisible(false);
 }
 
 void ChildAccountScene::showOomees()
 {
-    for(int i=0;i< OomeeButtons.size();i++)
+    for(int i=0;i< _oomeeButtons.size();i++)
     {
-        OomeeButtons.at(i)->setVisible(true);
-        OomeeButtons.at(i)->playOomeeAnimationNoSound("Build_Simple_Wave");
+        _oomeeButtons.at(i)->setVisible(true);
+        _oomeeButtons.at(i)->playOomeeAnimationNoSound("Build_Simple_Wave");
     }
 }
 
 void ChildAccountScene::selectOomee(int oomeeNumber)
 {
     AnalyticsSingleton::getInstance()->childProfileOomeeEvent(oomeeNumber);
-    selectedOomeeNo = oomeeNumber;
+    _selectedOomeeNo = oomeeNumber;
     
-    for(int i=0;i< OomeeButtons.size();i++)
+    for(int i=0;i< _oomeeButtons.size();i++)
     {
-        if(OomeeButtons.at(i)->getTag() == oomeeNumber)
+        if(_oomeeButtons.at(i)->getTag() == oomeeNumber)
         {
-            submitButton->setVisible(true);
-            selectedOomeeNo = oomeeNumber;
-            OomeeButtons.at(i)->playOomeeAnimation("Build_Dance_Wave", true);
-            OomeeButtons.at(i)->setScale(1.7);
-            oomeeGlow->setPosition(OomeeButtons.at(i)->getCenterPosition());
-            oomeeGlow->setVisible(true);
+            _submitButton->setVisible(true);
+            _selectedOomeeNo = oomeeNumber;
+            _oomeeButtons.at(i)->playOomeeAnimation("Build_Dance_Wave", true);
+            _oomeeButtons.at(i)->setScale(1.7f);
+            _oomeeGlow->setPosition(_oomeeButtons.at(i)->getCenterPosition());
+            _oomeeGlow->setVisible(true);
         }
         else
         {
-            OomeeButtons.at(i)->playOomeeAnimationNoSound("Build_Fall_Asleep");
-            OomeeButtons.at(i)->setScale(1);
+            _oomeeButtons.at(i)->playOomeeAnimationNoSound("Build_Fall_Asleep");
+            _oomeeButtons.at(i)->setScale(1.0f);
         }
     }
 }
@@ -320,11 +346,13 @@ void ChildAccountScene::selectOomee(int oomeeNumber)
 //------------PRIVATE OTHER FUNCTIONS------------
 void ChildAccountScene::shouldChangeElementsToOomeeScreen()
 {
-    if(!DOBisDate() || !childNameInputText->inputIsValid())
-        childNameInputText->focusAndShowKeyboard();
-    else if(childNameExists(trim(childNameInputText->getText())))
+    if(!DOBisDate() || !_childNameInputText->inputIsValid())
     {
-        MessageBox::createWith(ERROR_CODE_NAME_EXISTS, childNameInputText, this);
+        _childNameInputText->focusAndShowKeyboard();
+    }
+    else if(childNameExists(trim(_childNameInputText->getText())))
+    {
+        MessageBox::createWith(ERROR_CODE_NAME_EXISTS, _childNameInputText, this);
         AnalyticsSingleton::getInstance()->childProdileNameErrorEvent();
     }
     else if(DOBisDateInFuture())
@@ -337,58 +365,74 @@ void ChildAccountScene::shouldChangeElementsToOomeeScreen()
 
 void ChildAccountScene::registerChildAccount()
 {
-    std::string profileName = trim(childNameInputText->getText());
+    std::string profileName = trim(_childNameInputText->getText());
     
-    int day = std::atoi(dayInputText->getText().c_str());
-    int month = std::atoi(monthInputText->getText().c_str());
-    int year = std::atoi(yearInputText->getText().c_str());
+    int day = std::atoi(_dayInputText->getText().c_str());
+    int month = std::atoi(_monthInputText->getText().c_str());
+    int year = std::atoi(_yearInputText->getText().c_str());
     
     std::string DOB = StringUtils::format("%04d-%02d-%02d",year,month,day);
     std::string gender = "MALE";
     
     auto backEndCaller = BackEndCaller::getInstance();
     if((FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()) && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
-        backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, this->selectedOomeeNo);
+    {
+        backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, _selectedOomeeNo);
+    }
     else
-        backEndCaller->registerChild(profileName, gender, DOB, this->selectedOomeeNo);
+    {
+        backEndCaller->registerChild(profileName, gender, DOB, _selectedOomeeNo);
+    }
 }
 
 bool ChildAccountScene::DOBisDate()
 {
-    int day = std::atoi(dayInputText->getText().c_str());
-    int month = std::atoi(monthInputText->getText().c_str());
-    int year = std::atoi(yearInputText->getText().c_str());
+    int day = std::atoi(_dayInputText->getText().c_str());
+    int month = std::atoi(_monthInputText->getText().c_str());
+    int year = std::atoi(_yearInputText->getText().c_str());
     
     return isDate(day, month, year);
 }
 
 bool ChildAccountScene::DOBisDateInFuture()
 {
-    return isDateInFuture(StringUtils::format("%s-%s-%s",yearInputText->getText().c_str(),monthInputText->getText().c_str(),dayInputText->getText().c_str()));
+    return isDateInFuture(StringUtils::format("%s-%s-%s",_yearInputText->getText().c_str(),_monthInputText->getText().c_str(),_dayInputText->getText().c_str()));
 }
 
 //----------------------- Delegate Functions ----------------------------
 
 void ChildAccountScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    nextButton->setVisible(DOBisDate() && childNameInputText->inputIsValid());
+    _nextButton->setVisible(DOBisDate() && _childNameInputText->inputIsValid());
     
-    if(inputLayer==dayInputText && dayInputText->getText().length() == 2)
-        monthInputText->focusAndShowKeyboard();
-    else if(inputLayer==monthInputText && (monthInputText->getText().length()==2 || std::atoi(monthInputText->getText().c_str()) >2))
-        yearInputText->focusAndShowKeyboard();
+    if(inputLayer==_dayInputText && _dayInputText->getText().length() == 2)
+    {
+        _monthInputText->focusAndShowKeyboard();
+    }
+    else if(inputLayer==_monthInputText && (_monthInputText->getText().length()==2 || std::atoi(_monthInputText->getText().c_str()) >2))
+    {
+        _yearInputText->focusAndShowKeyboard();
+    }
 }
 
 void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
 {
-    if(inputLayer==childNameInputText)
-        dayInputText->focusAndShowKeyboard();
-    else if(inputLayer == dayInputText)
-        monthInputText->focusAndShowKeyboard();
-    else if(inputLayer == monthInputText)
-        yearInputText->focusAndShowKeyboard();
-    else if(inputLayer == yearInputText)
+    if(inputLayer == _childNameInputText)
+    {
+        _dayInputText->focusAndShowKeyboard();
+    }
+    else if(inputLayer == _dayInputText)
+    {
+        _monthInputText->focusAndShowKeyboard();
+    }
+    else if(inputLayer == _monthInputText)
+    {
+        _yearInputText->focusAndShowKeyboard();
+    }
+    else if(inputLayer == _yearInputText)
+    {
         shouldChangeElementsToOomeeScreen();
+    }
 }
 
 void ChildAccountScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
@@ -403,25 +447,35 @@ void ChildAccountScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 
 void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)
 {
-    if(button == cancelButton)
+    if(button == _cancelButton)
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
-    else if(button == nextButton)
+    }
+    else if(button == _nextButton)
+    {
         shouldChangeElementsToOomeeScreen();
-    else if(button == backButton)
+    }
+    else if(button == _backButton)
+    {
         changeElementsToTextInputScreen();
-    else if(button == submitButton)
+    }
+    else if(button == _submitButton)
+    {
         registerChildAccount();
+    }
     else
+    {
         selectOomee(button->getTag());
+    }
 }
 
 void ChildAccountScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    childNameInputText->focusAndShowKeyboard();
-    childNameInputText->setVisible(true);
-    dayInputText->setVisible(true);
-    monthInputText->setVisible(true);
-    yearInputText->setVisible(true);
+    _childNameInputText->focusAndShowKeyboard();
+    _childNameInputText->setVisible(true);
+    _dayInputText->setVisible(true);
+    _monthInputText->setVisible(true);
+    _yearInputText->setVisible(true);
 }
 
 NS_AZOOMEE_END

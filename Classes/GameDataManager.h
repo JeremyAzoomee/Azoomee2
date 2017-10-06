@@ -48,7 +48,7 @@ private:
     void getGameZipFile(std::string url, std::string itemId);
     void onGetGameZipFileAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
-    bool unzipGame(const char *zipPath,const char *dirpath,const char *passwd);
+    bool unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd);
     bool removeGameZip(std::string fileNameWithPath);
     
     void removeGameFolderOnError(std::string dirPath);

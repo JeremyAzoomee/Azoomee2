@@ -6,38 +6,42 @@
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
 
 NS_AZOOMEE_BEGIN
 
 class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
-    TextInputLayer *childNameInputText;
-    TextInputLayer *dayInputText;
-    TextInputLayer *monthInputText;
-    TextInputLayer *yearInputText;
+    TextInputLayer *_childNameInputText = nullptr;
+    TextInputLayer *_dayInputText = nullptr;
+    TextInputLayer *_monthInputText = nullptr;
+    TextInputLayer *_yearInputText = nullptr;
     
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
+    cocos2d::Size _visibleSize;
+    cocos2d::Vec2 _origin;
     
-    cocos2d::Label* sceneTitle;
-    cocos2d::Label* profileNameTitle;
-    cocos2d::Label* profileDOBTitle;
-    cocos2d::Label* profileDOBSubTitle;
-    cocos2d::Label* oomeesTitle;
+    cocos2d::Label* _sceneTitle = nullptr;
+    cocos2d::Label* _profileNameTitle = nullptr;
+    cocos2d::Label* _profileDOBTitle = nullptr;
+    cocos2d::Label* _profileDOBSubTitle = nullptr;
+    cocos2d::Label* _oomeesTitle = nullptr;
     
-    ElectricDreamsButton *cancelButton;
-    ElectricDreamsButton *nextButton;
-    ElectricDreamsButton *nextButtonPlaceholder;
-    ElectricDreamsButton *backButton;
-    ElectricDreamsButton *submitButton;
-    ElectricDreamsButton *submitButtonPlaceholder;
+    ElectricDreamsButton *_cancelButton = nullptr;
+    ElectricDreamsButton *_nextButton = nullptr;
+    ElectricDreamsButton *_nextButtonPlaceholder = nullptr;
+    ElectricDreamsButton *_backButton = nullptr;
+    ElectricDreamsButton *_submitButton = nullptr;
+    ElectricDreamsButton *_submitButtonPlaceholder = nullptr;
+    
+    PrivacyLayer* _privacyLayer = nullptr;
     
     void setupScene();
-    void AddTitleToScene();
+    void addTitleToScene();
     void addLabelToScene();
     void addTextboxScene();
     void addButtonsScene();
+    void addPrivacyButton();
     
     void clearElementsOnScreen();
     
@@ -50,10 +54,10 @@ private:
     
     void registerChildAccount();
     
-    std::vector<ElectricDreamsButton*> OomeeButtons;
-    cocos2d::Sprite* oomeeGlow;
+    std::vector<ElectricDreamsButton*> _oomeeButtons;
+    cocos2d::Sprite* _oomeeGlow = nullptr;
+    int _selectedOomeeNo;
     
-    int selectedOomeeNo;
     void addOomeesToScene();
     void hideOomees();
     void showOomees();
