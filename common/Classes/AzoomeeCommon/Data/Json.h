@@ -111,22 +111,44 @@ inline std::string getStringFromJson(const std::string &keyName, const rapidjson
 {
     if(jsonDocument.HasParseError()) return "";
     
-    if(jsonDocument.HasMember(keyName.c_str()))
-        if(!jsonDocument[keyName.c_str()].IsNull())
-            if(jsonDocument[keyName.c_str()].IsString())
-                return jsonDocument[keyName.c_str()].GetString();
+    if((jsonDocument.HasMember(keyName.c_str()))&&(!jsonDocument[keyName.c_str()].IsNull())&&(jsonDocument[keyName.c_str()].IsString()))
+    {
+        return jsonDocument[keyName.c_str()].GetString();
+    }
     
     return "";
 }
 
 inline std::string getStringFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
 {
-    if(jsonValue.HasMember(keyName.c_str()))
-        if(!jsonValue[keyName.c_str()].IsNull())
-            if(jsonValue[keyName.c_str()].IsString())
-                return jsonValue[keyName.c_str()].GetString();
+    if((jsonValue.HasMember(keyName.c_str()))&&(!jsonValue[keyName.c_str()].IsNull())&&(jsonValue[keyName.c_str()].IsString()))
+    {
+        return jsonValue[keyName.c_str()].GetString();
+    }
                 
     return "";
+}
+
+inline bool getBoolFromJson(const std::string &keyName, const rapidjson::Document &jsonDocument)
+{
+    if(jsonDocument.HasParseError()) return "";
+    
+    if((jsonDocument.HasMember(keyName.c_str()))&&(!jsonDocument[keyName.c_str()].IsNull())&&(jsonDocument[keyName.c_str()].IsBool()))
+    {
+        return jsonDocument[keyName.c_str()].GetBool();
+    }
+    
+    return false;
+}
+
+inline bool getBoolFromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
+{
+    if((jsonValue.HasMember(keyName.c_str()))&&(!jsonValue[keyName.c_str()].IsNull())&&(jsonValue[keyName.c_str()].IsBool()))
+    {
+        return jsonValue[keyName.c_str()].GetBool();
+    }
+    
+    return false;
 }
 
 inline cocos2d::Vec2 getVec2FromJson(const std::string &keyName, const rapidjson::Value &jsonValue)
