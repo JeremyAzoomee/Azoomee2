@@ -49,12 +49,15 @@ std::string VideoPlaylistManager::getPlaylist()
         
         for(auto item : _storedPlaylist->getContentItems())
         {
-            std::map<std::string, std::string> elementToBeAdded;
-            elementToBeAdded["uri"] = item->getUri();
-            elementToBeAdded["image"] = item->getImagePath();
-            elementToBeAdded["title"] = item->getTitle();
-            
-            playlistElements.push_back(elementToBeAdded);
+            if(item->isEntitled())
+            {
+                std::map<std::string, std::string> elementToBeAdded;
+                elementToBeAdded["uri"] = item->getUri();
+                elementToBeAdded["image"] = item->getImagePath();
+                elementToBeAdded["title"] = item->getTitle();
+                
+                playlistElements.push_back(elementToBeAdded);
+            }
         }
         
         returnString = Azoomee::getJSONStringFromVectorOfMaps(playlistElements);
