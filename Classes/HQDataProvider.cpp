@@ -7,6 +7,7 @@
 #include <external/json/prettywriter.h>
 
 #include "HQScene.h"
+#include "MainHubScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -54,15 +55,21 @@ void HQDataProvider::startBuildingHQ(const std::string &category)
 {
     hideLoadingScreen();
     
+    Scene *runningScene = Director::getInstance()->getRunningScene();
+    Node *baseLayer = runningScene->getChildByName("baseLayer");
+    Node *contentLayer = baseLayer->getChildByName("contentLayer");
     if(category != "HOME")
     {
-        Scene *runningScene = Director::getInstance()->getRunningScene();
-        Node *baseLayer = runningScene->getChildByName("baseLayer");
-        Node *contentLayer = baseLayer->getChildByName("contentLayer");
         HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(category.c_str());
-        
-        //hqLayer->removeAllChildren();
         hqLayer->startBuildingScrollViewBasedOnName();
+    }
+    else
+    {
+        MainHubScene *homeLayer = (MainHubScene *)contentLayer->getChildByName(category.c_str());
+        if(homeLayer->getChildrenCount() == 0)
+        {
+            homeLayer->buildMainHubScene();
+        }
     }
 }
 
