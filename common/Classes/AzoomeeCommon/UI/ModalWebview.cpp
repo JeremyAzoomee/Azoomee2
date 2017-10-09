@@ -68,8 +68,17 @@ void ModalWebview::createWebView(std::string url)
     _modalWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _modalWebview->setJavascriptInterfaceScheme("");
     _modalWebview->loadURL(url);
-    _modalWebview->setOnDidFinishLoading(CC_CALLBACK_2(ModalWebview::callbackFromJS, this));
-    _modalWebview->setVisible(false);
+    
+    // WebView does not have callback on Amazon
+    // Due to Android having different webviews, we choose to be safe
+    // and make all non iOS just load directly.
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        _modalWebview->setOnDidFinishLoading(CC_CALLBACK_2(ModalWebview::callbackFromJS, this));
+        _modalWebview->setVisible(false);
+    #else
+        _modalWebview->setVisible(true);
+    #endif
+    
     _backgroundLayer->addChild(_modalWebview);
 }
 

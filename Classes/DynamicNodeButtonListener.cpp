@@ -12,6 +12,7 @@
 #include "IAPUpsaleLayer.h"
 #include "PreviewLoginSignupMessageBox.h"
 #include "DynamicNodeCreator.h"
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -67,7 +68,7 @@ void DynamicNodeButtonListener::upgradeButtonPressed()
     }
     else
     {
-        PreviewLoginSignupMessageBox::create();
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
     }
     closeCTAPopup();
 }
