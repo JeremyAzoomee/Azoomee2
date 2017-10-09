@@ -161,7 +161,10 @@ public:
     void unreadMessagesNotificationReceived();
     void chatReportedEvent();
     void chatResetReportedEvent();
-
+    
+    //---------------CTA EVENTS----------------------------------
+    void ctaButtonPressed(const std::string &buttonId);
+    void ctaWindowAppeared(const std::string &groupId, const std::string &nodeId);
 };
   
 }

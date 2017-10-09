@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 
 using namespace cocos2d;
@@ -62,6 +63,7 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
         {
             if(file == uniqueId)
             {
+                AnalyticsSingleton::getInstance()->ctaWindowAppeared("N/A", uniqueId);
                 createDynamicNodeFromFile(ctaPath + folder + "/" + file);
                 return;
             }
@@ -79,6 +81,7 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
         {
             if(file == uniqueId)
             {
+                AnalyticsSingleton::getInstance()->ctaWindowAppeared("N/A", uniqueId);
                 createDynamicNodeFromFile(ctaPathFallBack + folder + "/" + file);
                 return;
             }
@@ -99,7 +102,10 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
         {
             const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPath + folder);
             
-            createDynamicNodeFromFile(ctaPath + folder + "/" + fileNames[rand()%fileNames.size()]);
+            int randomFileNameIndex = rand()%fileNames.size();
+            AnalyticsSingleton::getInstance()->ctaWindowAppeared(groupId, fileNames[randomFileNameIndex]);
+            
+            createDynamicNodeFromFile(ctaPath + folder + "/" + fileNames[randomFileNameIndex]);
             return;
                 
         }
@@ -115,7 +121,10 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
         {
             const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPathFallBack + folder);
             
-            createDynamicNodeFromFile(ctaPathFallBack + folder + "/" + fileNames[rand()%fileNames.size()]);
+            int randomFileNameIndex = rand()%fileNames.size();
+            AnalyticsSingleton::getInstance()->ctaWindowAppeared(groupId, fileNames[randomFileNameIndex]);
+            
+            createDynamicNodeFromFile(ctaPathFallBack + folder + "/" + fileNames[randomFileNameIndex]);
             return;
         
         }

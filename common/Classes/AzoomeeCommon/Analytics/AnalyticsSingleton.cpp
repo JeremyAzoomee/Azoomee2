@@ -649,7 +649,7 @@ void AnalyticsSingleton::deepLinkingContentEvent()
         
         mixPanelSendEventWithStoredProperties("settingsPendingFriendRequestsRefreshError", mixPanelProperties);
     }
-    
+
     void AnalyticsSingleton::settingsConfirmationRejectedSuccess()
     {
         mixPanelSendEventWithStoredProperties("settingsConfirmationRejectedSuccess");
@@ -727,5 +727,20 @@ void AnalyticsSingleton::deepLinkingContentEvent()
     {
         mixPanelSendEventWithStoredProperties("chatResetReportedEvent");
     }
+
+//-------------------------------------CTA ACTIONS-----------------------------
+void AnalyticsSingleton::ctaButtonPressed(const std::string &buttonId)
+{
+    const std::map<std::string, std::string> &mixPanelProperties = {{ "buttonId", buttonId }};
     
+    mixPanelSendEventWithStoredProperties("ctaButtonPressed", mixPanelProperties);
+}
+
+void AnalyticsSingleton::ctaWindowAppeared(const std::string &groupId, const std::string &nodeId)
+{
+    const std::map<std::string, std::string> &mixPanelProperties = {{ "groupId", groupId }, {"nodeId", nodeId}};
+    
+    mixPanelSendEventWithStoredProperties("ctaWindowAppeared", mixPanelProperties);
+}
+
 }

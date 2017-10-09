@@ -8,6 +8,7 @@
 
 #include "DynamicNodeButtonListener.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "IAPUpsaleLayer.h"
 #include "PreviewLoginSignupMessageBox.h"
 #include "DynamicNodeCreator.h"
@@ -46,10 +47,12 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             const std::string& location = buttonAction->getParamForKey("location");
             if(location == _kButtonLocationUpgrade)
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("upgrade");
                 upgradeButtonPressed();
             }
             else
             {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("close");
                 closeCTAPopup();
             }
     }
@@ -60,7 +63,6 @@ void DynamicNodeButtonListener::upgradeButtonPressed()
 {
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
-        
         IAPUpsaleLayer::createRequiresPin();
     }
     else
