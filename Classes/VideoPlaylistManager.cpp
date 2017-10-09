@@ -24,6 +24,7 @@ VideoPlaylistManager::~VideoPlaylistManager(void)
 
 bool VideoPlaylistManager::init(void)
 {
+    _storedPlaylist = HQCarouselObject::create();
     return true;
 }
 
