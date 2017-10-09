@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include "DynamicNodeButtonListener.h"
 #include "ButtonActionData.h"
+#include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
 using namespace cocos2d;
 
@@ -186,6 +187,7 @@ void DynamicNodeCreator::initCTANode()
     _closeButton->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType type){
         if(type == ui::Widget::TouchEventType::ENDED)
         {
+            AnalyticsSingleton::getInstance()->ctaButtonPressed("close");
             this->resetCTAPopup();
         }
     });
