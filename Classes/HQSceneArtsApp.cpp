@@ -38,20 +38,18 @@ void HQSceneArtsApp::onEnter()
 
 //------------------ All functions below this line are used internally ----------------------------
 
-cocos2d::ui::ScrollView* HQSceneArtsApp::createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position)
+cocos2d::ui::ScrollView* HQSceneArtsApp::createHorizontalScrollView(cocos2d::Size contentSize)
 {
     auto scrollView = cocos2d::ui::ScrollView::create();
     scrollView->setContentSize(contentSize);
     scrollView->setInnerContainerSize(contentSize);
-    scrollView->setPosition(position);
+    scrollView->setAnchorPoint(Vec2(0.0f, 0.5f));
+    scrollView->setPosition(Vec2(0,Director::getInstance()->getVisibleOrigin().y+Director::getInstance()->getVisibleSize().height*.4));
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     scrollView->setBounceEnabled(true);
     scrollView->setTouchEnabled(true);
     scrollView->setSwallowTouches(false);
     scrollView->setScrollBarEnabled(false);
-    scrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
-    scrollView->setBackGroundColor(Color3B::WHITE);
-    scrollView->setBackGroundColorOpacity(25);
     
     return scrollView;
 }
@@ -61,7 +59,7 @@ void HQSceneArtsApp::createArtsAppScrollView()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height*2), Point(0, 300));
+    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height*2));
     this->addChild(horizontalScrollView);
     
     const std::string& parentOrChildId = ChildDataProvider::getInstance()->getParentOrChildId();
@@ -91,8 +89,6 @@ void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView
 
 void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    
-    //std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
     std::string path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
     std::vector<std::string> fileList = DirectorySearcher::getInstance()->getFilesInDirectory(path);
     

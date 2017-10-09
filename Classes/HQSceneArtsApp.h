@@ -15,7 +15,7 @@ public:
     void onEnter();
     static std::vector<std::string> getOldArtImages();
 private:
-    cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position);
+    cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize);
     void createArtsAppScrollView();
     void addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo);
     void addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo);
