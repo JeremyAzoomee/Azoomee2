@@ -20,6 +20,7 @@
 #include "BackEndCaller.h"
 #include "ChatNotificationsSingleton.h"
 #include "IAPUpsaleLayer.h"
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
@@ -110,15 +111,7 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
     
     if(!currentObject->getHqEntitlement())
     {
-        if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-        {
-            IAPUpsaleLayer::createRequiresPin();
-        }
-        else
-        {
-            PreviewLoginSignupMessageBox::create();
-        }
-        
+        DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
         return;
     }
     
