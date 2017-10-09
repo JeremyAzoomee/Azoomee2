@@ -17,6 +17,7 @@ public:
     
 private:
     void addBackgroundCircles();
+    void addBackgroundWires();
     void addImageContainers();
     void addPrivacyButton();
     

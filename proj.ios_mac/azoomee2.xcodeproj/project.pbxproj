@@ -145,7 +145,6 @@
 		A15B2FA11DE7534900D25334 /* WebViewNative_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FA01DE7534900D25334 /* WebViewNative_ios.mm */; };
 		A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FAD1DEDD1D500D25334 /* BackEndCaller.cpp */; };
 		A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */; };
-		A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1817B491DDCCA5200C2D13C /* MainHubBgElements.cpp */; };
 		A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19759821DE4931200FEB03C /* HQSceneElement.cpp */; };
 		A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
 		A19862231DD3836D0090F053 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862151DD3836D0090F053 /* HQScene.cpp */; };
@@ -476,8 +475,6 @@
 		A15B2FAE1DEDD1D500D25334 /* BackEndCaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackEndCaller.h; sourceTree = "<group>"; };
 		A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQDataProvider.cpp; sourceTree = "<group>"; };
 		A15B2FC91DFACF3800D25334 /* HQDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQDataProvider.h; sourceTree = "<group>"; };
-		A1817B491DDCCA5200C2D13C /* MainHubBgElements.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainHubBgElements.cpp; sourceTree = "<group>"; };
-		A1817B4A1DDCCA5200C2D13C /* MainHubBgElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainHubBgElements.h; sourceTree = "<group>"; };
 		A19759821DE4931200FEB03C /* HQSceneElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneElement.cpp; sourceTree = "<group>"; };
 		A19759831DE4931200FEB03C /* HQSceneElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneElement.h; sourceTree = "<group>"; };
 		A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildSelectorScene.cpp; sourceTree = "<group>"; };
@@ -1100,8 +1097,6 @@
 			children = (
 				A198621B1DD3836D0090F053 /* MainHubScene.cpp */,
 				A198621C1DD3836D0090F053 /* MainHubScene.h */,
-				A1817B491DDCCA5200C2D13C /* MainHubBgElements.cpp */,
-				A1817B4A1DDCCA5200C2D13C /* MainHubBgElements.h */,
 				A1E5FCF91DDDCCBA0098DD29 /* ImageContainer.cpp */,
 				A1E5FCFA1DDDCCBA0098DD29 /* ImageContainer.h */,
 				A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */,
@@ -1486,7 +1481,6 @@
 				025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */,
 				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
-				A1817B4B1DDCCA5200C2D13C /* MainHubBgElements.cpp in Sources */,
 				4348E4431E65DD9B00486661 /* OnboardingSuccessScene.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				434B8BD31E6821A4004C7C88 /* OnboardingScene.cpp in Sources */,
@@ -1506,7 +1500,6 @@
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
-				025634441F4722A80053FF26 /* IosNativeFunctionsSingleton.mm in Sources */,
 				929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,

@@ -1,5 +1,4 @@
 #include "MainHubScene.h"
-#include "MainHubBgElements.h"
 #include "ImageContainer.h"
 #include "OomeeLayer.h"
 #include "DisplayChildNameLayer.h"
@@ -11,6 +10,7 @@
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 
 using namespace cocos2d;
 
@@ -58,10 +58,7 @@ void MainHubScene::buildMainHubScene()
     origin = Director::getInstance()->getVisibleOrigin();
     
     auto funcCallAction = CallFunc::create([=](){
-        
-        auto bgElements = MainHubBgElements::create();
-        this->addChild(bgElements);
-        
+                
         if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
             auto displayChildNameLayer = DisplayChildNameLayer::create();
@@ -83,6 +80,7 @@ void MainHubScene::buildMainHubScene()
     
     auto funcCallAction2 = CallFunc::create([=](){
         
+        addBackgroundWires();
         addBackgroundCircles();
         addImageContainers();
         addPrivacyButton();
@@ -123,6 +121,18 @@ void MainHubScene::addBackgroundCircles()
         int turnDirection = 1;
         if(i % 2 == 0) turnDirection = -1;
         circle->runAction(RepeatForever::create(RotateBy::create(30 + CCRANDOM_0_1() * 30, 360 * turnDirection)));
+    }
+}
+
+void MainHubScene::addBackgroundWires()
+{
+    if(HQHistoryManager::getInstance()->noHistory())
+    {
+        addMainHubSideWiresToScreen(this, 3, 2);
+    }
+    else
+    {
+        addMainHubSideWiresToScreen(this);
     }
 }
 

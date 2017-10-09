@@ -23,6 +23,7 @@ private:
     cocos2d::Layer* createContentLayer();
     void addNavigationLayer();
     void onEnterTransitionDidFinish();
+    void addParticleElementsToBackground();
 };
 
 NS_AZOOMEE_END

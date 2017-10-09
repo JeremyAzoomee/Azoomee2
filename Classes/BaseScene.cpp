@@ -8,6 +8,7 @@
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "BackEndCaller.h"
@@ -44,6 +45,7 @@ void BaseScene::onEnterTransitionDidFinish()
     
     AudioMixer::getInstance()->playBackgroundMusic(HQ_BACKGROUND_MUSIC);
  
+    addParticleElementsToBackground();
     startBuildingHQs();
 }
 
@@ -110,6 +112,18 @@ void BaseScene::addNavigationLayer()
     {
         sNavigationLayer->changeToScene(ConfigStorage::HubTargetTagNumber::GAME_HQ, 0.01);
     }
+}
+
+void BaseScene::addParticleElementsToBackground()
+{
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+        auto myParticle = ParticleMeteor::create();
+        myParticle->setSpeed(30);
+        myParticle->setGravity(Vec2(0, -20));
+        myParticle->setScale(1);
+        myParticle->setPosVar(Vec2(2732, 5192));
+        this->addChild(myParticle, 0);
 }
 
 NS_AZOOMEE_END
