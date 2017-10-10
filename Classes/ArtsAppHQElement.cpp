@@ -10,14 +10,13 @@
 #include "ArtAppImageManager.h"
 #include "SceneManagerScene.h"
 #include "ArtAppDelegate.h"
-#include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage, bool deletable, bool locked, bool preload)
+bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool newImage, bool deletable, bool preload)
 {
     if ( !Layer::init() )
     {
@@ -47,23 +46,16 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
     {
         loadImageTex();
     }
+    
     addOverlay();
     
-    if(locked == true)
+    if(deletable == true)
     {
-        addLockToElement();
-        addListenerToElement(filePath, true);
+        deleteButton = addDeleteButton();
+        addListenerToDeleteButton(deleteButton, filePath);
     }
-    else
-    {
-        if(deletable == true)
-        {
-            deleteButton = addDeleteButton();
-            addListenerToDeleteButton(deleteButton, filePath);
-        }
         
-        addListenerToElement(filePath, false);
-    }
+    addListenerToElement(filePath, false);
     
     return true;
 }
@@ -362,14 +354,7 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(rect.containsPoint(locationInNode))
         {
-            if(preview)
-            {
-                AnalyticsSingleton::getInstance()->previewContentClickedEvent("","", "ARTS APP");
-            }
-            else
-            {
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent("ARTS APP", "1,1");
-            }
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent("ARTS APP", "1,1");
 
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;
@@ -390,7 +375,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         {
             movedAway = true;
             iamtouched = false;
-            CCLOG("I am touched set");
             overlayWhenTouched->stopAllActions();
             overlayWhenTouched->setOpacity(0);
             
@@ -405,7 +389,10 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
     {
         if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer"))
         {
-            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+            if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+            {
+                return false;
+            }
         }
         
         if(deleteButtonIsShown())
@@ -418,12 +405,6 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
             iamtouched = false;
             overlayWhenTouched->setOpacity(0);
             overlayWhenTouched->stopAllActions();
-            
-            if(preview)
-            {
-                DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId("upgrade");
-                return true;
-            }
             
             iamtouched = false;
             overlayWhenTouched->setOpacity(0);

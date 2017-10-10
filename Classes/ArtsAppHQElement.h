@@ -11,7 +11,7 @@ class ArtsAppHQElement : public cocos2d::Layer
 {
 public:
     CREATE_FUNC(ArtsAppHQElement);
-    virtual bool initWithURLAndSize(std::string filePath, cocos2d::Size size, bool newImage, bool deletable, bool locked, bool preload = true);
+    virtual bool initWithURLAndSize(std::string filePath, cocos2d::Size size, bool newImage, bool deletable, bool preload = true);
     void enableOnScreenChecker();
     void addImage(cocos2d::Texture2D* tex);
     void addPlaceHolder();

@@ -82,9 +82,7 @@ void HQSceneArtsApp::addPrivacyButton()
 
 void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    bool locked = !ChildDataProvider::getInstance()->getIsChildLoggedIn();
-    
-    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), true, false, locked);
+    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), true, false);
 }
 
 void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
@@ -94,27 +92,23 @@ void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollV
     
     std::reverse(fileList.begin(), fileList.end());
     
-    CCLOG("imagepath: %s", path.c_str());
-    
     for(int i = 0; i < fileList.size(); i++)
     {
         if(fileList.at(i).size() > 4)
         {
             if(fileList.at(i).substr(fileList.at(i).size() -3, 3) == "png")
             {
-                bool locked = !ChildDataProvider::getInstance()->getIsChildLoggedIn();
-                
                 std::string imagePath = StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str());
-                addImageToHorizontalScrollView(toBeAddedTo, imagePath, false, true, locked);
+                addImageToHorizontalScrollView(toBeAddedTo, imagePath, false, true);
             }
         }
     }
 }
 
-void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable, bool locked)
+void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable)
 {
     auto artImage = ArtsAppHQElement::create();
-    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable, locked,false);
+    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable,false);
     
     toBeAddedTo->addChild(artImage);
     
