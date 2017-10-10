@@ -155,7 +155,7 @@ void MainHubScene::addImageContainers()
     {
         const std::vector<HQContentItemObjectRef> &elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), i);
         
-        std::string fieldTitle = HQDataProvider::getInstance()->getTitleForRow(this->getName(), i);
+        const std::string &fieldTitle = HQDataProvider::getInstance()->getTitleForRow(this->getName(), i);
         
         for(int j = 0; j < elementsForHub.size(); j++)
         {
@@ -185,8 +185,11 @@ void MainHubScene::addImageContainers()
         }
     }
     
-    auto artsPreviewLayer = ArtsPreviewLayer::create();
-    this->addChild(artsPreviewLayer);
+    if(HQDataObjectStorage::getInstance()->getHQDataObjectForKey("ARTS APP")->getHqEntitlement())
+    {
+        auto artsPreviewLayer = ArtsPreviewLayer::create();
+        this->addChild(artsPreviewLayer);
+    }
 }
 
 void MainHubScene::addPrivacyButton()
