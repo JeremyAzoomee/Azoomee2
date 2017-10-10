@@ -11,7 +11,7 @@
  "nodeText": {
     "titleText": {
         "position": [50,96],
-        "text": "Its all here, Its all good.",
+        "text": "It's all here. It's all good.",
         "alignment": "centre",
         "fontSize": 94,
         "colour": [63,170,170,255]
@@ -27,7 +27,7 @@
     ],
     "footerText": {
         "position": [50,6],
-        "text": "new stuff added every week!",
+        "text": "New stuff added every week!",
         "alignment": "centre",
         "fontSize": 42,
         "colour": [9,155,155,255]
