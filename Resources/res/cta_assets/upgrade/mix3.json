@@ -19,7 +19,7 @@
     "bodyText": [
         {
             "position": [50,37],
-            "text": "learning and fun through the shows and games they love.\nAzoomee much more than just screen time",
+            "text": "Learning and fun through the shows and games they love.\nAzoomee is much more than just screen time",
             "alignment": "centre",
             "fontSize": 63,
             "colour": [0,0,0,255]
@@ -27,7 +27,7 @@
     ],
     "footerText": {
         "position": [50,6],
-        "text": "It's everything my kids want and need in one safe place! Love it            Claire, Mum of two",
+        "text": "\"It's everything my kids want and need in one safe place! Love it\"            Claire, Mum of two",
         "alignment": "centre",
         "fontSize": 42,
         "colour": [9,155,155,255]
