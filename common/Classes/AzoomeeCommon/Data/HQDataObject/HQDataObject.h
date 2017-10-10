@@ -37,7 +37,7 @@ public:
     std::vector<HQCarouselObjectRef> getHqCarousels();
     HQContentItemObjectRef getContentItemForId(const std::string &contentItemId) const;
     
-    void clearContentItemRawStorage();
+    void clearData();
 };
 
 NS_AZOOMEE_END

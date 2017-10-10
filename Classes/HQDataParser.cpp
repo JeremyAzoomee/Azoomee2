@@ -60,7 +60,7 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
         return false;
     }
     
-    HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->clearContentItemRawStorage();
+    HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->clearData();
     
     rapidjson::Value::MemberIterator M;
     

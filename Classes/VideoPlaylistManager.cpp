@@ -1,4 +1,5 @@
 #include "VideoPlaylistManager.h"
+#include "HQDataProvider.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
@@ -53,7 +54,7 @@ std::string VideoPlaylistManager::getPlaylist()
             {
                 std::map<std::string, std::string> elementToBeAdded;
                 elementToBeAdded["uri"] = item->getUri();
-                elementToBeAdded["image"] = item->getImagePath();
+                elementToBeAdded["image"] = HQDataProvider::getInstance()->getImageUrlForItem(item->getContentItemId(), Vec2(1,1));
                 elementToBeAdded["title"] = item->getTitle();
                 
                 playlistElements.push_back(elementToBeAdded);
