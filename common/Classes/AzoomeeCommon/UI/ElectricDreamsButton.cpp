@@ -137,6 +137,11 @@ ElectricDreamsButton* ElectricDreamsButton::createButtonWithWidth(std::string bu
 {
     return createPrimaryButton(buttonText, 0, buttonWidth);
 }
+    
+ElectricDreamsButton* ElectricDreamsButton::createGreenButtonWithWidth(std::string buttonText, float buttonWidth)
+{
+    return createPrimaryGreenButton(buttonText, 0, buttonWidth);
+}
 
 ElectricDreamsButton* ElectricDreamsButton::createPrimaryButton(std::string buttonText, float textPadding, float minWidth)
 {
@@ -156,6 +161,47 @@ ElectricDreamsButton* ElectricDreamsButton::createPrimaryButton(std::string butt
         buttonWidth = minWidth;
     
     ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/modal/generic_button_slice_ready.png", spriteRect, capInsents);
+    newButton->setContentSize(Size(buttonWidth, buttonHeight));
+    newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
+    
+    buttonLabel->setPosition(newButton->getContentSize().width/2, newButton->getContentSize().height/2-5);
+    
+    newButton->addChild(buttonLabel);
+    newButton->setCascadeOpacityEnabled(true);
+    
+    auto layer = ElectricDreamsButton::create();
+    layer->setCascadeOpacityEnabled(true);
+    layer->setContentSize(newButton->getContentSize());
+    layer->setOpacity(0);
+    layer->addChild(newButton);
+    
+    layer->runAction(FadeTo::create(0.5, 255));
+    
+    layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
+    
+    layer->addListener();
+    
+    return layer;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createPrimaryGreenButton(std::string buttonText, float textPadding, float minWidth)
+{
+    Label* buttonLabel = createLabelButtonAdultPrimary(buttonText);
+    
+    Rect spriteRect = Rect(0, 0, 572, 213);
+    Rect capInsents = Rect(100, 106, 300, 1);
+    
+    float buttonHeight = 213;
+    
+    if(buttonLabel->getContentSize().height >179)
+        buttonHeight = buttonLabel->getContentSize().height + 100;
+    
+    float buttonWidth = buttonLabel->getContentSize().width+150+textPadding;
+    
+    if(buttonWidth < minWidth)
+        buttonWidth = minWidth;
+    
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/buttons/greenMainButton.png", spriteRect, capInsents);
     newButton->setContentSize(Size(buttonWidth, buttonHeight));
     newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
     

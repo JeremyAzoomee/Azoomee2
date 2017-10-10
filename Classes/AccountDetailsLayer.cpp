@@ -63,7 +63,7 @@ void AccountDetailsLayer::addUIObjects()
     
     if(RoutePaymentSingleton::getInstance()->showIAPContent())
     {
-        iapButton = ElectricDreamsButton::createButtonWithWidth("Start Trial",visibleSize.width/3);
+        iapButton = ElectricDreamsButton::createGreenButtonWithWidth("Start Trial",visibleSize.width/3);
         iapButton->setCenterPosition(Vec2(visibleSize.width /2, layerHeight*.6));
         iapButton->setDelegate(this);
         iapButton->setMixPanelButtonName("ExitorLogoutStartTrialButton");
