@@ -2,7 +2,7 @@
 #define __IOSNATIVEFUNCTIONS_SINGLETON_IOS_H__
 
 #include "cocos2d.h"
-#include <AzoomeeCommon/Azoomee.h>
+#include "../Azoomee.h"
 
 NS_AZOOMEE_BEGIN
 
