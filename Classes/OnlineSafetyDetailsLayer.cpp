@@ -50,7 +50,8 @@ void OnlineSafetyDetailsLayer::addListenerToVideoLayer(Layer* listenerToLayer)
 
 void OnlineSafetyDetailsLayer::createBackground()
 {
-    backgroundLayer = LayerColor::create(Color4B(255,255,255,255),visibleSize.width, layerHeight);
+    backgroundLayer = Layer::create();
+    backgroundLayer->setContentSize(Size(visibleSize.width, layerHeight));
     this->addChild(backgroundLayer);
 }
 
