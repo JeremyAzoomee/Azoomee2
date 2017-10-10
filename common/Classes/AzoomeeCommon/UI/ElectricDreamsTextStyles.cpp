@@ -37,10 +37,23 @@ Label*  createLabelFlowMainTitle(std::string text) {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::white, 110);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::black, 110);
+    newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    newLabel->setWidth(visibleSize.width*.9);
+    newLabel->setPosition(origin.x + visibleSize.width/2,origin.y + visibleSize.height - newLabel->getContentSize().height);
+    
+    return newLabel;
+}
+    
+Label*  createLabelFlowSubTitle(std::string text) {
+    
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::bluegreenish, 80);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     newLabel->setWidth(visibleSize.width*.90);
-    newLabel->setPosition(origin.x + visibleSize.width/2,origin.y + visibleSize.height - newLabel->getContentSize().height);
+    newLabel->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.9);
     
     return newLabel;
 }

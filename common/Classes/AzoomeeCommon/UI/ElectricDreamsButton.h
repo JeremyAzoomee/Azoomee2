@@ -41,6 +41,7 @@ protected:
     static ElectricDreamsButton* createPrimaryButton(std::string buttonText, float textPadding, float minWidth);
     static ElectricDreamsButton* createPrimaryGreenButton(std::string buttonText, float textPadding, float minWidth);
     static ElectricDreamsButton* createSecondaryButton(std::string buttonText, float textPadding, float minWidth);
+    static ElectricDreamsButton* createSecondaryGreenButton(std::string buttonText, float textPadding, float minWidth);
     cocos2d::ui::Scale9Sprite *createButtonOutline(std::string buttonText);
     void sendMixPanelEvent();
     cocos2d::Sprite* createSpriteButton(std::string buttonImage, std::string buttonAudio);
@@ -61,6 +62,7 @@ public:
     static ElectricDreamsButton* createButtonWithWidth(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createGreenButtonWithWidth(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createSecondaryButtonWithWidth(std::string buttonText, float buttonWidth);
+    static ElectricDreamsButton* createSecondaryGreenButtonWithWidth(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createButtonWithText(std::string buttonText, float textPadding);
     static ElectricDreamsButton* createOutlineButtonWithText(std::string buttonText);
     static ElectricDreamsButton* createNextButton();

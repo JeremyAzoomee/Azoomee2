@@ -12,22 +12,26 @@ NS_AZOOMEE_BEGIN
 class OnboardingScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
-    cocos2d::Label* mainTitle;
     
-    TextInputLayer *emailTextInput;
-    TextInputLayer *passwordTextInput;
-    TextInputLayer *pinTextInput;
+    cocos2d::Sprite* _progressIndicatior = nullptr;
+    cocos2d::Label* mainTitle = nullptr;
     
-    ElectricDreamsButton* signupButton;
-    ElectricDreamsButton* cancelButton;
-    ElectricDreamsButton* privacyButton;
-    ElectricDreamsButton* termsButton;
+    TextInputLayer *emailTextInput = nullptr;
+    TextInputLayer *passwordTextInput = nullptr;
+    TextInputLayer *pinTextInput = nullptr;
+    
+    ElectricDreamsButton* signupButton = nullptr;
+    ElectricDreamsButton* cancelButton = nullptr;
+    ElectricDreamsButton* privacyButton = nullptr;
+    ElectricDreamsButton* termsButton = nullptr;
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     
     bool hasBeenSet = false;
     
+    void addBackgroundandDecoration();
+    void addProgressIndicator();
     void addMainTitleToScene();
     void addTextboxScene();
     void addLabelsToScene();

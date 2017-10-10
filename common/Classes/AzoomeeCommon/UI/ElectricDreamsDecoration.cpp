@@ -189,7 +189,27 @@ cocos2d::Layer* createPixelsPatternAndGradient()
     
     Sprite* pixelPattern = Sprite::create("res/decoration/pixelsPattern.png");
     pixelPattern->setAnchorPoint(Vec2(0.5f, 0.0f));
-    pixelPattern->setPosition(visibleSize.width/2,0);
+    pixelPattern->setPosition(visibleSize.width/2,0.0f);
+    newLayer->addChild(pixelPattern);
+    
+    return newLayer;
+}
+    
+cocos2d::Layer* createTopGradientAndParticles()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    
+    auto newLayer = LayerColor::create(Color4B::WHITE, visibleSize.width,  visibleSize.height);
+    
+    Sprite* topGradient = Sprite::create("res/decoration/topSignupGrad.png");
+    topGradient->setAnchorPoint(Vec2(0.0f, 1.0f));
+    topGradient->setPosition(0.0f, visibleSize.height);
+    topGradient->setScaleX(visibleSize.width / topGradient->getContentSize().width);
+    newLayer->addChild(topGradient);
+    
+    Sprite* pixelPattern = Sprite::create("res/decoration/particlesBottom.png");
+    pixelPattern->setAnchorPoint(Vec2(0.5f, 0.0f));
+    pixelPattern->setPosition(visibleSize.width/2,0.0f);
     newLayer->addChild(pixelPattern);
     
     return newLayer;

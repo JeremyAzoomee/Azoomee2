@@ -27,6 +27,7 @@ cocos2d::Layer* createWhiteWindowLayer(float height);
 cocos2d::Layer* createWhiteWindowLayer(float width, float height);
     
 cocos2d::Layer* createPixelsPatternAndGradient();
+    cocos2d::Layer* createTopGradientAndParticles();
   
 }
 

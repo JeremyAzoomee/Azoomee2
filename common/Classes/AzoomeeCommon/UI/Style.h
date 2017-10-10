@@ -41,7 +41,6 @@ namespace Color
     const cocos2d::Color3B lightTealTwo(108, 224, 215);
     const cocos2d::Color3B blueGreen(16, 117, 114);
     
-    
     // These colors below don't have exact names in Zeplin.
     // So the names have been chosen to be close enough to other Zeplin colors.
     // Periodically we should check to see if proper names have been provided in Zeplin
@@ -53,6 +52,7 @@ namespace Color
     const cocos2d::Color3B safetySlideTitleColor(9, 154, 154);
     const cocos2d::Color3B chatEnterTextColor(135, 135, 135);
     const cocos2d::Color3B greenish(38,192,180);
+    const cocos2d::Color3B bluegreenish(0,132,132);
 }
    
 /**

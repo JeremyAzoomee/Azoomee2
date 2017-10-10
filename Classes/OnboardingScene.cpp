@@ -46,6 +46,8 @@ void OnboardingScene::onEnter()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
+    addBackgroundandDecoration();
+    addProgressIndicator();
     addMainTitleToScene();
     addTextboxScene();
     addLabelsToScene();
@@ -70,9 +72,24 @@ void OnboardingScene::onEnterTransitionDidFinish()
 
 //----------------- SCENE SETUP ---------------
 
+void OnboardingScene::addBackgroundandDecoration()
+{
+    Layer* background = createTopGradientAndParticles();
+    background->setPosition(origin.x,origin.y);
+    this->addChild(background);
+}
+
+void OnboardingScene::addProgressIndicator()
+{
+    _progressIndicatior = Sprite::create("res/decoration/progress1.png");
+    _progressIndicatior->setPosition(origin.x+visibleSize.width/2,origin.y+visibleSize.height - _progressIndicatior->getContentSize().height*1.5);
+    this->addChild(_progressIndicatior);
+}
+
 void OnboardingScene::addMainTitleToScene()
 {
     mainTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_TITLE_LABEL));
+    mainTitle->setPositionY(_progressIndicatior->getPositionY()-_progressIndicatior->getContentSize().height-mainTitle->getContentSize().height/2);
     this->addChild(mainTitle);
 }
 
@@ -80,18 +97,18 @@ void OnboardingScene::addTextboxScene()
 {
     float textInputWidth = visibleSize.width*.80;
     
-    emailTextInput = TextInputLayer::createWithSize(Size(textInputWidth,197), INPUT_IS_EMAIL);
+    emailTextInput = TextInputLayer::createWithSize(Size(textInputWidth,160), INPUT_IS_EMAIL);
     emailTextInput->setPositionY(mainTitle->getPositionY()-emailTextInput->getContentSize().height*2.1);
     emailTextInput->setDelegate(this);
     emailTextInput->setText(FlowDataSingleton::getInstance()->getUserName());
     this->addChild(emailTextInput);
     
-    passwordTextInput = TextInputLayer::createWithSize(Size(textInputWidth,197), INPUT_IS_NEW_PASSWORD);
+    passwordTextInput = TextInputLayer::createWithSize(Size(textInputWidth,160), INPUT_IS_NEW_PASSWORD);
     passwordTextInput->setPositionY(emailTextInput->getPositionY() -passwordTextInput->getContentSize().height*1.9 );
     passwordTextInput->setDelegate(this);
     this->addChild(passwordTextInput);
     
-    pinTextInput = TextInputLayer::createWithSize(Size(600,197), INPUT_IS_PIN);
+    pinTextInput = TextInputLayer::createWithSize(Size(600,160), INPUT_IS_PIN);
     pinTextInput->setPositionY(passwordTextInput->getPositionY() -pinTextInput->getContentSize().height*1.9 );
     pinTextInput->setDelegate(this);
     this->addChild(pinTextInput);
@@ -99,15 +116,15 @@ void OnboardingScene::addTextboxScene()
 
 void OnboardingScene::addLabelsToScene()
 {
-    Label* emailTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
+    Label* emailTitle =  createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
     emailTitle->setPositionY(emailTextInput->getPositionY()+(emailTextInput->getContentSize().height) + (emailTitle->getContentSize().height*.6));
     this->addChild(emailTitle);
     
-    Label* passwordTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
+    Label* passwordTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
     passwordTitle->setPositionY(passwordTextInput->getPositionY()+(passwordTextInput->getContentSize().height) + (passwordTitle->getContentSize().height*.6));
     this->addChild(passwordTitle);
     
-    Label* pinTitle = createLabelHeader(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL));
+    Label* pinTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL));
     pinTitle->setPositionY(pinTextInput->getPositionY()+(pinTextInput->getContentSize().height) + (pinTitle->getContentSize().height*.6));
     this->addChild(pinTitle);
     
