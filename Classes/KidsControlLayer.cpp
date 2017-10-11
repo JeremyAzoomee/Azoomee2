@@ -42,7 +42,7 @@ void KidsControlLayer::addChildFrame()
 
 void KidsControlLayer::addButtonsAndInput()
 {
-    closeButton = ElectricDreamsButton::createWindowCloseButton();
+    closeButton = ElectricDreamsButton::createWindowCloseButtonGreen();
     closeButton->setVisible(false);
     closeButton->setScale(0.68);
     closeButton->setPosition(this->getContentSize().width-closeButton->getContentSize().width,this->getContentSize().height-closeButton->getContentSize().height);

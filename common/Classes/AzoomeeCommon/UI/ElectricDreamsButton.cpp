@@ -186,7 +186,7 @@ ElectricDreamsButton* ElectricDreamsButton::createPrimaryButton(std::string butt
 
 ElectricDreamsButton* ElectricDreamsButton::createPrimaryGreenButton(std::string buttonText, float textPadding, float minWidth)
 {
-    Label* buttonLabel = createLabelButtonAdultPrimary(buttonText);
+    Label* buttonLabel = createLabelWith(buttonText, Style::Font::Regular, Style::Color::black, 75);
     
     Rect spriteRect = Rect(0, 0, 572, 213);
     Rect capInsents = Rect(100, 106, 300, 1);
@@ -278,7 +278,7 @@ ElectricDreamsButton* ElectricDreamsButton::createSecondaryButton(std::string bu
     
 ElectricDreamsButton* ElectricDreamsButton::createSecondaryGreenButton(std::string buttonText, float textPadding, float minWidth)
 {
-    Label* buttonLabel = createLabelButtonAdultSecondary(buttonText);
+    Label* buttonLabel = createLabelWith(buttonText, Style::Font::Regular, Style::Color::black, 75);
     
     Rect spriteRect = Rect(0, 0, 572, 213);
     Rect capInsents = Rect(100, 106, 300, 1);
@@ -635,7 +635,7 @@ ElectricDreamsButton* ElectricDreamsButton::createTextInputAsButton(std::string 
     Rect capInsents = Rect(100, 53, 1, 1);
     
     
-    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/settings/textField.png", spriteRect, capInsents);
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/settings/textEntry.png", spriteRect, capInsents);
     newButton->setContentSize(Size(buttonWidth, 107));
     newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
     

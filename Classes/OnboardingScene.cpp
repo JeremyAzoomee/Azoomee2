@@ -136,18 +136,18 @@ void OnboardingScene::addLabelsToScene()
 
 void OnboardingScene::addButtonsScene()
 {
-    signupButton = ElectricDreamsButton::createButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE));
+    signupButton = ElectricDreamsButton::createGreenButton(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE), visibleSize.width/3);
     signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1.1));
     signupButton->setDelegate(this);
     signupButton->setMixPanelButtonName("signupSceneContinueButton");
     signupButton->setVisible(false);
     
-    auto placeHolder = ElectricDreamsButton::createPlaceHolderButton(signupButton->getContentSize().width);
+    auto placeHolder = ElectricDreamsButton::createPlaceHolderGreenButton(visibleSize.width/3);
     placeHolder->setCenterPosition(signupButton->getCenterPosition());
     this->addChild(placeHolder);
     this->addChild(signupButton);
     
-    cancelButton = ElectricDreamsButton::createOutlineButtonWithText(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL));
+    cancelButton = ElectricDreamsButton::createSecondaryGreenButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL),visibleSize.width/3);
     cancelButton->setCenterPosition(Vec2(visibleSize.width*.25+origin.x, signupButton->getCenterPosition().y));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("signupSceneCancelButton");
