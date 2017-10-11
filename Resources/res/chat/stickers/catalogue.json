@@ -164,5 +164,26 @@
             "set8/s_127@3x.png",
             "set8/s_128@3x.png"
         ]
+    }, {
+        "id": "set9",
+        "image_location": "set9/category.png",
+        "stickers": [
+            "set9/s_129@3x.png",
+            "set9/s_130@3x.png",
+            "set9/s_131@3x.png",
+            "set9/s_132@3x.png",
+            "set9/s_133@3x.png",
+            "set9/s_134@3x.png",
+            "set9/s_135@3x.png",
+            "set9/s_136@3x.png",
+            "set9/s_137@3x.png",
+            "set9/s_138@3x.png",
+            "set9/s_139@3x.png",
+            "set9/s_140@3x.png",
+            "set9/s_141@3x.png",
+            "set9/s_142@3x.png",
+            "set9/s_143@3x.png",
+            "set9/s_144@3x.png"
+        ]
     }]
 }

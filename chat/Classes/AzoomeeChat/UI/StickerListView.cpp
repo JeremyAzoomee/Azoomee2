@@ -17,7 +17,7 @@ bool StickerListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::dustyLavender);
+    setBackGroundColor(Style::Color::black);
     
     setDirection(ui::ScrollView::Direction::HORIZONTAL);
     setBounceEnabled(true);
