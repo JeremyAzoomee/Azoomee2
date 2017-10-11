@@ -540,8 +540,7 @@ void GameDataManager::setupTimestampFilesForExistingGames()
 bool GameDataManager::gameCleanupDue(const std::string& filenameWithPath, const int cleanupInterval)
 {
     const std::string& fileTimeStr = FileUtils::getInstance()->getStringFromFile(filenameWithPath);
-    char* end;
-    const long fileTime = std::strtol(fileTimeStr.c_str(),&end,10);
+    const long fileTime = std::strtol(fileTimeStr.c_str(),nullptr,10);
     const std::time_t currentTime = std::time(nullptr);
     if(cleanupInterval < (currentTime - fileTime))
     {
