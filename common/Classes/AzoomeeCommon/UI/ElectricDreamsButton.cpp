@@ -471,6 +471,27 @@ ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderButton(float withWi
     
     return layer;
 }
+    
+ElectricDreamsButton* ElectricDreamsButton::createPlaceHolderGreenButton(float withWidth)
+{
+    Rect spriteRect = Rect(0, 0, 572, 213);
+    Rect capInsents = Rect(100, 106, 300, 1);
+    
+    float buttonHeight = 213;
+    
+    ui::Scale9Sprite* newButton = ui::Scale9Sprite::create("res/buttons/greenMainButton.png", spriteRect, capInsents);
+    newButton->setContentSize(Size(withWidth, buttonHeight));
+    newButton->setPosition(Vec2(newButton->getContentSize().width/2, newButton->getContentSize().height/2));
+    newButton->setCascadeOpacityEnabled(true);
+    
+    auto layer = ElectricDreamsButton::create();
+    layer->setCascadeOpacityEnabled(true);
+    layer->setContentSize(newButton->getContentSize());
+    layer->setOpacity(80);
+    layer->addChild(newButton);
+    
+    return layer;
+}
 
 ElectricDreamsButton* ElectricDreamsButton::createChildSelectorButton()
 {
