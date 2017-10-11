@@ -62,7 +62,7 @@ namespace Azoomee{
         {
             while ((ent = readdir (dir)) != NULL)
             {
-                if(ent->d_type == DT_DIR)
+                if(ent->d_type == DT_DIR && std::strcmp(ent->d_name,".") != 0 && std::strcmp(ent->d_name, "..") != 0)
                 {
                     dirNames.push_back(ent->d_name);
                 }

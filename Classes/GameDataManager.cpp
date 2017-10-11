@@ -512,13 +512,10 @@ void GameDataManager::performGameCleanup()
         const std::vector<std::string>& gameDirs = DirectorySearcher::getInstance()->getFoldersInDirectory(basePath);
         for(const std::string& dir : gameDirs)
         {
-            if(dir.length() > 2)
+            const std::string& gameLastUsedFile = basePath + dir + "/lastUsedTimestamp.txt";
+            if(gameCleanupDue(gameLastUsedFile, _kGameCleanupUnusedTime))
             {
-                const std::string& gameLastUsedFile = basePath + dir + "/lastUsedTimestamp.txt";
-                if(gameCleanupDue(gameLastUsedFile, _kGameCleanupUnusedTime))
-                {
-                    removeGameFolderOnError(basePath + dir);
-                }
+                removeGameFolderOnError(basePath + dir);
             }
         }
         
@@ -536,10 +533,7 @@ void GameDataManager::setupTimestampFilesForExistingGames()
     const std::vector<std::string>& gameDirs = DirectorySearcher::getInstance()->getFoldersInDirectory(basePath);
     for(const std::string& dir : gameDirs)
     {
-        if(dir.length() > 2)
-        {
-            addTimestampFile(basePath + dir + "/lastUsedTimestamp.txt");
-        }
+        addTimestampFile(basePath + dir + "/lastUsedTimestamp.txt");
     }
 }
 
@@ -547,8 +541,8 @@ bool GameDataManager::gameCleanupDue(const std::string& filenameWithPath, const 
 {
     const std::string& fileTimeStr = FileUtils::getInstance()->getStringFromFile(filenameWithPath);
     char* end;
-    long fileTime = std::strtol(fileTimeStr.c_str(),&end,10);
-    std::time_t currentTime = std::time(nullptr);
+    const long fileTime = std::strtol(fileTimeStr.c_str(),&end,10);
+    const std::time_t currentTime = std::time(nullptr);
     if(cleanupInterval < (currentTime - fileTime))
     {
         return true;
