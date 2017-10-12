@@ -88,6 +88,22 @@ void DrawingCanvas::onEnter()
         b->setupDrawNode(visibleSize);
     }
     
+    overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, visibleSize.width, visibleSize.height);
+    overlay->setPosition(Director::getInstance()->getVisibleOrigin());
+    overlay->setName("overlay");
+    this->addChild(overlay,POPUP_UI_LAYER);
+    
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
+    {
+        return true; //block touches
+    };
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
+    overlay->setVisible(false);
+    Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(overlay);
+    
     setupTouchHandling();
     setupMenus();
     
@@ -248,6 +264,7 @@ void DrawingCanvas::addClearButton(const Size& visibleSize, const Point& visible
     rightBG = Sprite::create(ArtAppAssetLoc + "art_back_right.png");
     rightBG->setAnchorPoint(Vec2(1,0));
     rightBG->setPosition(visibleOrigin.x + visibleSize.width,visibleOrigin.y - BOTTOM_UI_Y_OFFSET);
+    rightBG->setColor(Color3B::BLACK);
     this->addChild(rightBG,MAIN_UI_LAYER);
     
     clearButton = ui::Button::create();
@@ -304,12 +321,13 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
     leftBG = Sprite::create(ArtAppAssetLoc + "art_back_left.png");
     leftBG->setAnchorPoint(Vec2(0,0));
     leftBG->setPosition(Vec2(visibleOrigin.x, visibleOrigin.y - BOTTOM_UI_Y_OFFSET));
+    leftBG->setColor(Color3B::BLACK);
     this->addChild(leftBG,MAIN_UI_LAYER);
     
     const Vec2& tableDimensions =  Vec2(7,ceilf(kColours.size()/7.0f));
     
     colourButtonLayout = Node::create();
-    colourButtonLayout->setContentSize(Size(visibleSize.width*0.7,visibleSize.height*(0.2*tableDimensions.y)));
+    colourButtonLayout->setContentSize(Size(visibleSize.width*0.75,visibleSize.height*(0.18*tableDimensions.y)));
     colourButtonLayout->setAnchorPoint(Vec2(0.5,0.5));
     colourButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y + visibleSize.height/2 + 100));
     colourButtonLayout->setVisible(false);
@@ -328,8 +346,8 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
         for (int i = 0; i<tableDimensions.x; i++)
         {
             ui::Button* button = ui::Button::create();
-            button->setAnchorPoint(Vec2(0,0.5));
-            float xPos = i / tableDimensions.x;
+            button->setAnchorPoint(Vec2(0.5,0.5));
+            float xPos = (i+0.5) / tableDimensions.x;
             float yPos = (j-0.5) / tableDimensions.y;
             button->setNormalizedPosition(Vec2(xPos,yPos));
             button->loadTextures(ArtAppAssetLoc + "art_app_pallete_circle.png", ArtAppAssetLoc + "art_app_pallete_circle.png");
@@ -1045,6 +1063,15 @@ void DrawingCanvas::setUIEnabled(bool isEnabled)
     addStickerButton->setEnabled(isEnabled);
     clearButton->setEnabled(isEnabled);
     brushSizeSlider->setEnabled(isEnabled);
+    overlay->setVisible(!isEnabled);
+    if(isEnabled)
+    {
+        Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(overlay);
+    }
+    else
+    {
+        Director::getInstance()->getEventDispatcher()->resumeEventListenersForTarget(overlay);
+    }
 }
 
 //---------------------Sticker file collection methods ----------------------------------------//

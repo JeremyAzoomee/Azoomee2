@@ -83,6 +83,8 @@ protected:
     
     std::string bgImageFilename;
     
+    cocos2d::LayerColor* overlay = nullptr;
+    
     bool init() override;
     void onEnter() override;
     void onExit() override;
