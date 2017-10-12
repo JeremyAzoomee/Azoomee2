@@ -22,6 +22,7 @@ enum BrushType{PEN,PAINTBRUSH,HIGHLIGHTER,SPRAYCAN,ERASER,NUM_BRUSHES};
 class Brush
 {
 protected:
+    
     cocos2d::DrawNode* drawNode = nullptr;
     cocos2d::Vec2 lastTouchPos;
     cocos2d::Color4F* selectedColour = nullptr;
@@ -45,6 +46,7 @@ public:
     virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
     
+    BrushType type;
 };
 
 NS_AZOOMEE_AA_END

@@ -81,6 +81,8 @@ protected:
     
     float brushRadius;
     
+    std::string bgImageFilename;
+    
     bool init() override;
     void onEnter() override;
     void onExit() override;

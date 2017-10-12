@@ -49,7 +49,7 @@ Node* BrushSprayCan::getDrawNode()
 
 BrushSprayCan::BrushSprayCan():Brush()
 {
-    
+    type = SPRAYCAN;
 }
 
 void BrushSprayCan::onTouchBegin(Touch *touch, Event *event)

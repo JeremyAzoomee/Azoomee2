@@ -14,7 +14,7 @@ NS_AZOOMEE_AA_BEGIN
 
 BrushPen::BrushPen()
 {
-    
+    type = PEN;
 }
 
 void BrushPen::onTouchBegin(Touch *touch, Event *event)

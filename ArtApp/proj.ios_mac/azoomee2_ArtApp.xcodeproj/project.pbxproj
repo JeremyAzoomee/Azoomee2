@@ -390,6 +390,7 @@
 			isa = PBXGroup;
 			children = (
 				9261740F1F420085008E3F9D /* BrushEraser.h */,
+				9261740A1F42006E008E3F9D /* BrushEraser.cpp */,
 				926174101F420085008E3F9D /* BrushHighlighter.cpp */,
 				926174111F420085008E3F9D /* BrushHighlighter.h */,
 				926174121F420085008E3F9D /* BrushPaintBrush.cpp */,
@@ -409,7 +410,6 @@
 				926174071F42006E008E3F9D /* AzoomeeArtApp.h */,
 				926174081F42006E008E3F9D /* Brush.cpp */,
 				926174091F42006E008E3F9D /* Brush.h */,
-				9261740A1F42006E008E3F9D /* BrushEraser.cpp */,
 			);
 			name = AzoomeeArt;
 			sourceTree = "<group>";

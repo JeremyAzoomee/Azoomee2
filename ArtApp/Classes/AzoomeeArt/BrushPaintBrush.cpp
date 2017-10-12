@@ -15,7 +15,7 @@ NS_AZOOMEE_AA_BEGIN
 
 BrushPaintBrush::BrushPaintBrush():Brush()
 {
-    
+    type = PAINTBRUSH;
 }
 
 Node* BrushPaintBrush::addDrawNode(const Size& visibleSize)

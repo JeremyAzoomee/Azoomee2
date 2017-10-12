@@ -53,12 +53,13 @@ bool DrawingCanvas::init()
         return false;
     
     background = LayerColor::create(Color4B(Style::Color_4F::pureWhite));
+    bgImageFilename = ArtAppAssetLoc + "white_bg.png";
     
     this->addChild(background,BACKGROUND_LAYER);
     
     const Size& visibleSize = Director::getInstance()->getWinSize();
     
-    drawing = RenderTexture::create(visibleSize.width, visibleSize.height);
+    drawing = RenderTexture::create(visibleSize.width, visibleSize.height, Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
     drawing->setAnchorPoint(Vec2(0.5,0.5));
     drawing->setPosition(visibleSize/2);
     drawing->beginWithClear(Style::Color_4F::pureWhite.r, Style::Color_4F::pureWhite.g, Style::Color_4F::pureWhite.b, Style::Color_4F::pureWhite.a);
@@ -176,7 +177,7 @@ void DrawingCanvas::setupTouchHandling()
         
         if(drawingStack.size() == 0)
         {
-            clearButton->loadTextures(ArtAppAssetLoc + "art_button_undo.png", ArtAppAssetLoc + "undo.png");
+            clearButton->loadTextures(ArtAppAssetLoc + "redo.png", ArtAppAssetLoc + "redo.png");
         }
         drawingStack.push_back(activeBrush->getDrawNode());
         this->addChild(activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
@@ -252,7 +253,7 @@ void DrawingCanvas::addClearButton(const Size& visibleSize, const Point& visible
     clearButton = ui::Button::create();
     clearButton->setAnchorPoint(Vec2(0.5,0));
     clearButton->setPosition(Vec2(rightBG->getPosition().x - rightBG->getContentSize().width/2, visibleOrigin.y));
-    clearButton->loadTextures(ArtAppAssetLoc + "bin.png", ArtAppAssetLoc + "bin.png");
+    clearButton->loadTextures(ArtAppAssetLoc + "delete.png", ArtAppAssetLoc + "delete.png");
     clearButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onClearButtonPressed, this));
     this->addChild(clearButton,MAIN_UI_LAYER);
     
@@ -346,9 +347,9 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
     }
     
     ui::Button* closeButton = ui::Button::create();
-    closeButton->setAnchorPoint(Vec2(0,1));
+    closeButton->setAnchorPoint(Vec2(0.5,0.5));
     closeButton->setPosition(colourButtonLayout->getContentSize());
-    closeButton->loadTextures(ArtAppAssetLoc + "close.png", ArtAppAssetLoc + "close.png");
+    closeButton->loadTextures(ArtAppAssetLoc + "close_button.png", ArtAppAssetLoc + "close_buton.png");
     closeButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onCloseColourSelectPressed, this));
     colourButtonLayout->addChild(closeButton);
     
@@ -367,6 +368,7 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     toolBG = Sprite::create(ArtAppAssetLoc + "art_back_middle.png");
     toolBG->setAnchorPoint(Vec2(0.5,0));
     toolBG->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y - BOTTOM_UI_Y_OFFSET));
+    toolBG->setColor(Color3B::BLACK);
     
     this->addChild(toolBG,MAIN_UI_LAYER);
     
@@ -380,7 +382,7 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     ui::Button* brushButton = ui::Button::create();
     brushButton->setAnchorPoint(Vec2(0.5,0));
     brushButton->setNormalizedPosition(Vec2(0.1,0));
-    brushButton->loadTextures(ArtAppAssetLoc + "brushes/pencil.png", ArtAppAssetLoc + "brushes/pencil.png");
+    brushButton->loadTextures(ArtAppAssetLoc + "pencil.png", ArtAppAssetLoc + "pencil.png");
     brushButton->setColor(Color3B(selectedColour));
     brushButton->setScale(((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height) * 1.15);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,PEN));
@@ -390,8 +392,8 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton = ui::Button::create();
     brushButton->setAnchorPoint(Vec2(0.5,0));
     brushButton->setNormalizedPosition(Vec2(0.3,0));
-    brushButton->loadTextures(ArtAppAssetLoc + "brushes/brush.png", ArtAppAssetLoc + "brushes/brush.png");
-    brushButton->setColor(Color3B(Style::Color_4F::defaultBrush));
+    brushButton->loadTextures(ArtAppAssetLoc + "brush.png", ArtAppAssetLoc + "brush.png");
+    //brushButton->setColor(Color3B(Style::Color_4F::defaultBrush));
     brushButton->setScale((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,PAINTBRUSH));
     toolButtonLayout->addChild(brushButton);
@@ -399,8 +401,8 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton = ui::Button::create();
     brushButton->setAnchorPoint(Vec2(0.5,0));
     brushButton->setNormalizedPosition(Vec2(0.5,0));
-    brushButton->loadTextures(ArtAppAssetLoc + "brushes/highlighter.png", ArtAppAssetLoc + "brushes/highlighter.png");
-    brushButton->setColor(Color3B(Style::Color_4F::defaultBrush));
+    brushButton->loadTextures(ArtAppAssetLoc + "felt_tip.png", ArtAppAssetLoc + "felt_tip.png");
+    //brushButton->setColor(Color3B(Style::Color_4F::defaultBrush));
     brushButton->setScale((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,HIGHLIGHTER));
     toolButtonLayout->addChild(brushButton);
@@ -408,8 +410,8 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton = ui::Button::create();
     brushButton->setAnchorPoint(Vec2(0.5,0));
     brushButton->setNormalizedPosition(Vec2(0.7,0));
-    brushButton->loadTextures(ArtAppAssetLoc + "brushes/spray.png", ArtAppAssetLoc + "brushes/spray.png");
-    brushButton->setColor(Color3B(Style::Color_4F::defaultBrush));
+    brushButton->loadTextures(ArtAppAssetLoc + "can.png", ArtAppAssetLoc + "can.png");
+    //brushButton->setColor(Color3B(Style::Color_4F::defaultBrush));
     brushButton->setScale((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,SPRAYCAN));
     toolButtonLayout->addChild(brushButton);
@@ -417,7 +419,7 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton = ui::Button::create();
     brushButton->setAnchorPoint(Vec2(0.5,0));
     brushButton->setNormalizedPosition(Vec2(0.9,0));
-    brushButton->loadTextures(ArtAppAssetLoc + "brushes/eraser.png", ArtAppAssetLoc + "brushes/eraser.png");
+    brushButton->loadTextures(ArtAppAssetLoc + "eraser.png", ArtAppAssetLoc + "eraser.png");
     brushButton->setScale((toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->setName("eraser");
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,ERASER));
@@ -437,7 +439,7 @@ void DrawingCanvas::addStickerSelectButtons(const Size& visibleSize, const Point
     cancelStickerButton = ui::Button::create();
     cancelStickerButton->setAnchorPoint(Vec2(0,0));
     cancelStickerButton->setPosition(Vec2(visibleOrigin.x + BUTTON_OFFSET.x, visibleOrigin.y + BUTTON_OFFSET.y));
-    cancelStickerButton->loadTextures(ArtAppAssetLoc + "stickerBin.png", ArtAppAssetLoc + "stickerBin.png");
+    cancelStickerButton->loadTextures(ArtAppAssetLoc + "delete.png", ArtAppAssetLoc + "delete.png");
     cancelStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onCancelStickerPressed,this));
     cancelStickerButton->setVisible(false);
     this->addChild(cancelStickerButton,STICKER_UI_LAYER);
@@ -445,7 +447,7 @@ void DrawingCanvas::addStickerSelectButtons(const Size& visibleSize, const Point
     confirmStickerButton = ui::Button::create();
     confirmStickerButton->setAnchorPoint(Vec2(1,0));
     confirmStickerButton->setPosition(Vec2(visibleOrigin.x + visibleSize.width - BUTTON_OFFSET.x, visibleOrigin.y + BUTTON_OFFSET.y));
-    confirmStickerButton->loadTextures(ArtAppAssetLoc + "stickerConfirm.png", ArtAppAssetLoc + "stickerConfirm.png");
+    confirmStickerButton->loadTextures(ArtAppAssetLoc + "confirm.png", ArtAppAssetLoc + "confirm.png");
     confirmStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onConfirmStickerPressed,this));
     confirmStickerButton->setVisible(false);
     this->addChild(confirmStickerButton,STICKER_UI_LAYER);
@@ -554,7 +556,9 @@ void DrawingCanvas::onClearButtonPressed(Ref *pSender, ui::Widget::TouchEventTyp
             this->removeChild(drawingStack.back());
             drawingStack.pop_back();
             if(drawingStack.size() == 0)
-                clearButton->loadTextures(ArtAppAssetLoc + "art_button_bin.png", ArtAppAssetLoc + "bin.png");
+            {
+                clearButton->loadTextures(ArtAppAssetLoc + "delete.png", ArtAppAssetLoc + "delete.png");
+            }
             
             actionCounter--;
         }
@@ -918,15 +922,24 @@ void DrawingCanvas::onToolChanged(Ref *pSender, ui::Widget::TouchEventType eEven
     {
         activeBrush->getDrawNode()->removeFromParent();
         activeBrush = brushes[index];
+        if(activeBrush->type == ERASER)
+        {
+            BrushEraser* eraser = (BrushEraser*)activeBrush;
+            eraser->setBgImageFile(bgImageFilename);
+        }
         this->addChild(activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
         
         if(pressedButton != SelectedToolButton)
         {
             SelectedToolButton->setScale((toolButtonLayout->getContentSize().height*0.8)/SelectedToolButton->getContentSize().height);
             if(SelectedToolButton->getName() != "eraser")
-                SelectedToolButton->setColor(Color3B(Style::Color_4F::defaultBrush));
+            {
+                SelectedToolButton->setColor(Color3B::WHITE);
+            }
             if(pressedButton->getName() != "eraser")
+            {
                 pressedButton->setColor(Color3B(selectedColour));
+            }
             SelectedToolButton = pressedButton;
             
         }

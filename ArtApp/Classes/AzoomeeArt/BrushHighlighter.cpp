@@ -16,7 +16,7 @@ float BrushHighlighter::alphaLevel = 0.25f;
 
 BrushHighlighter::BrushHighlighter():Brush()
 {
-    
+    type = HIGHLIGHTER;
 }
 
 void BrushHighlighter::onTouchBegin(Touch *touch, Event *event)
