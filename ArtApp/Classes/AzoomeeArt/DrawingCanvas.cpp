@@ -193,7 +193,7 @@ void DrawingCanvas::setupTouchHandling()
         
         if(_drawingStack.size() == 0)
         {
-            _clearButton->loadTextures(kArtAppAssetLoc + "redo.png", kArtAppAssetLoc + "redo.png");
+            _undoButton->setEnabled(true);
         }
         _drawingStack.push_back(_activeBrush->getDrawNode());
         this->addChild(_activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
@@ -261,7 +261,7 @@ void DrawingCanvas::addBrushes()
 void DrawingCanvas::addClearButton(const Size& visibleSize, const Point& visibleOrigin)
 {
     
-    _rightBG = Sprite::create(kArtAppAssetLoc + "art_back_right.png");
+    _rightBG = Sprite::create(kArtAppAssetLoc + "art_back_left.png");
     _rightBG->setAnchorPoint(Vec2(1,0));
     _rightBG->setPosition(visibleOrigin.x + visibleSize.width,visibleOrigin.y - BOTTOM_UI_Y_OFFSET);
     _rightBG->setColor(Color3B::BLACK);
@@ -269,10 +269,18 @@ void DrawingCanvas::addClearButton(const Size& visibleSize, const Point& visible
     
     _clearButton = ui::Button::create();
     _clearButton->setAnchorPoint(Vec2(0.5,0));
-    _clearButton->setPosition(Vec2(_rightBG->getPosition().x - _rightBG->getContentSize().width/2, visibleOrigin.y));
+    _clearButton->setPosition(Vec2(_rightBG->getPosition().x - 2*_rightBG->getContentSize().width/3, visibleOrigin.y));
     _clearButton->loadTextures(kArtAppAssetLoc + "delete.png", kArtAppAssetLoc + "delete.png");
     _clearButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onClearButtonPressed, this));
     this->addChild(_clearButton,MAIN_UI_LAYER);
+    
+    _undoButton = ui::Button::create();
+    _undoButton->setAnchorPoint(Vec2(0.5,0));
+    _undoButton->setPosition(Vec2(_rightBG->getPosition().x - _rightBG->getContentSize().width/3, visibleOrigin.y));
+    _undoButton->loadTextures(kArtAppAssetLoc + "redo.png", kArtAppAssetLoc + "redo.png");
+    _undoButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onUndoButtonPressed, this));
+    _undoButton->setEnabled(false);
+    this->addChild(_undoButton,MAIN_UI_LAYER);
     
     _confirmDeleteImagePopup = Node::create();
     _confirmDeleteImagePopup->setContentSize(Size(visibleSize.width/2, visibleSize.height/2));
@@ -560,23 +568,24 @@ void DrawingCanvas::onClearButtonPressed(Ref *pSender, ui::Widget::TouchEventTyp
 {
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
+        _drawCanvasTouchListener->setEnabled(false);
+        _confirmDeleteImagePopup->setVisible(true);
+        setUIEnabled(false);
+    }
+}
+
+void DrawingCanvas::onUndoButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+{
+    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    {
+        this->removeChild(_drawingStack.back());
+        _drawingStack.pop_back();
         if(_drawingStack.size() == 0)
         {
-            _drawCanvasTouchListener->setEnabled(false);
-            _confirmDeleteImagePopup->setVisible(true);
-            setUIEnabled(false);
+            _undoButton->setEnabled(false);
         }
-        else
-        {
-            this->removeChild(_drawingStack.back());
-            _drawingStack.pop_back();
-            if(_drawingStack.size() == 0)
-            {
-                _clearButton->loadTextures(kArtAppAssetLoc + "delete.png", kArtAppAssetLoc + "delete.png");
-            }
-            
-            _actionCounter--;
-        }
+        
+        _actionCounter--;
     }
 }
 
@@ -706,6 +715,8 @@ void DrawingCanvas::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEventType
         _stickerCatBG->setVisible(false);
         _selectionIndicator->setVisible(false);
         setUIVisible(false);
+        _overlay->setVisible(false);
+        Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(_overlay);
         _stickerNode->setVisible(true);
         _confirmStickerButton->setVisible(true);
         _cancelStickerButton->setVisible(true);
@@ -807,7 +818,7 @@ void DrawingCanvas::onConfirmStickerPressed(Ref *pSender, ui::Widget::TouchEvent
         
         if(_drawingStack.size() == 0)
         {
-            _clearButton->loadTextures(kArtAppAssetLoc + "art_button_undo.png", kArtAppAssetLoc + "undo.png");
+            _undoButton->setEnabled(true);
         }
         _drawingStack.push_back(_stickerNode->getSticker());
         Sprite* temp = _stickerNode->getSticker();
@@ -886,7 +897,7 @@ void DrawingCanvas::onConfirmDeletePressed(Ref *pSender, ui::Widget::TouchEventT
         _drawing->end();
         Director::getInstance()->getRenderer()->render();
         _drawCanvasTouchListener->setEnabled(true);
-        
+        _undoButton->setEnabled(false);
         _actionCounter++;
         
     }
@@ -1048,6 +1059,7 @@ void DrawingCanvas::setUIVisible(bool isVisible)
     _colourSelectButton->setVisible(isVisible);
     _addStickerButton->setVisible(isVisible);
     _clearButton->setVisible(isVisible);
+    _undoButton->setVisible(isVisible);
     _brushSizeSlider->setVisible(isVisible);
 }
 

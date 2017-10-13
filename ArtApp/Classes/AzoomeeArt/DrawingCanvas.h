@@ -54,6 +54,7 @@ protected:
     cocos2d::ui::Button* _selectedToolButton = nullptr;
     cocos2d::Node* _toolButtonLayout = nullptr;
     cocos2d::ui::Button* _clearButton = nullptr;
+    cocos2d::ui::Button* _undoButton = nullptr;
     cocos2d::ui::Slider* _brushSizeSlider = nullptr;
     cocos2d::Sprite* _leftBG = nullptr;
     cocos2d::Sprite* _rightBG = nullptr;
@@ -103,6 +104,7 @@ protected:
     void addBrushRadiusSlider(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     
     void onClearButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
+    void onUndoButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onColourChangePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onColourSelectPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onToolSelectPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
