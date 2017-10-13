@@ -23,11 +23,7 @@ Node* BrushEraser::addDrawNode(const Size& visibleSize)
     _drawNode = DrawNode::create();
     _drawNode->setContentSize(visibleSize);
     _maskingNode = ClippingNode::create(_drawNode);
-    Sprite* background = Sprite::create(_bgImageFile);
-    background->setPosition(Director::getInstance()->getVisibleOrigin() + visibleSize/2);
-    background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    background->setScale(visibleSize.width/background->getContentSize().width);
-    _maskingNode->addChild(background);
+    
     return _maskingNode;
 }
 
@@ -44,6 +40,12 @@ void BrushEraser::setBgImageFile(const std::string& filename)
 void BrushEraser::onTouchBegin(Touch *touch, Event *event)
 {
     _lastTouchPos = _drawNode->convertTouchToNodeSpace(touch);
+    Sprite* background = Sprite::create(_bgImageFile);
+    background->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
+    background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    background->setScale(Director::getInstance()->getVisibleSize().width/background->getContentSize().width);
+    background->setColor(Color3B(*_selectedColour));
+    _maskingNode->addChild(background);
 }
 
 void BrushEraser::onTouchMoved(Touch *touch, Event *event)

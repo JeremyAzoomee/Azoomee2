@@ -53,7 +53,7 @@ bool DrawingCanvas::init()
         return false;
     
     _background = LayerColor::create(Color4B(Style::Color_4F::pureWhite));
-    _bgImageFilename = kArtAppAssetLoc + "white_bg.png";
+    _bgImageFilename = kArtAppAssetLoc + "patterns/Glitter_2.jpg";
     
     this->addChild(_background,BACKGROUND_LAYER);
     
@@ -412,6 +412,10 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->setColor(Color3B(_selectedColour));
     brushButton->setScale(((_toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height) * 1.15);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,PEN));
+    Sprite* buttonFrame = Sprite::create(kArtAppAssetLoc + "pencil_frame.png");
+    buttonFrame->setAnchorPoint(Vec2(0.5,0));
+    buttonFrame->setNormalizedPosition(Vec2(0.5,0));
+    brushButton->addChild(buttonFrame);
     _selectedToolButton = brushButton;
     _toolButtonLayout->addChild(brushButton);
     
@@ -421,6 +425,10 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->loadTextures(kArtAppAssetLoc + "brush.png", kArtAppAssetLoc + "brush.png");
     brushButton->setScale((_toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,PAINTBRUSH));
+    buttonFrame = Sprite::create(kArtAppAssetLoc + "brush_frame.png");
+    buttonFrame->setAnchorPoint(Vec2(0.5,0));
+    buttonFrame->setNormalizedPosition(Vec2(0.5,0));
+    brushButton->addChild(buttonFrame);
     _toolButtonLayout->addChild(brushButton);
     
     brushButton = ui::Button::create();
@@ -429,6 +437,10 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->loadTextures(kArtAppAssetLoc + "felt_tip.png", kArtAppAssetLoc + "felt_tip.png");
     brushButton->setScale((_toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,HIGHLIGHTER));
+    buttonFrame = Sprite::create(kArtAppAssetLoc + "felt_tip_frame.png");
+    buttonFrame->setAnchorPoint(Vec2(0.5,0));
+    buttonFrame->setNormalizedPosition(Vec2(0.5,0));
+    brushButton->addChild(buttonFrame);
     _toolButtonLayout->addChild(brushButton);
     
     brushButton = ui::Button::create();
@@ -437,6 +449,10 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->loadTextures(kArtAppAssetLoc + "can.png", kArtAppAssetLoc + "can.png");
     brushButton->setScale((_toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,SPRAYCAN));
+    buttonFrame = Sprite::create(kArtAppAssetLoc + "can_frame.png");
+    buttonFrame->setAnchorPoint(Vec2(0.5,0));
+    buttonFrame->setNormalizedPosition(Vec2(0.5,0));
+    brushButton->addChild(buttonFrame);
     _toolButtonLayout->addChild(brushButton);
     
     brushButton = ui::Button::create();
@@ -620,7 +636,10 @@ void DrawingCanvas::onColourChangePressed(Ref *pSender, ui::Widget::TouchEventTy
         _colourButtonLayout->setVisible(false);
         _colourSelectButton->setColor(Color3B(_selectedColour));
         setUIEnabled(true);
-        _selectedToolButton->setColor(Color3B(_selectedColour));
+        if(_selectedToolButton->getName() != "eraser")
+        {
+            _selectedToolButton->setColor(Color3B(_selectedColour));
+        }
         _drawCanvasTouchListener->setEnabled(true);
     }
     
