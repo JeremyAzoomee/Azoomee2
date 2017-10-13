@@ -6,7 +6,6 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Json.h>
-#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 #include <cocos/cocos2d.h>
 #include <memory>
@@ -78,7 +77,6 @@ void AuthAPI::logoutUser()
 {
     logoutChild();
     ParentDataParser::getInstance()->clearParentLoginDataFromUserDefaults();
-    PusherSDK::getInstance()->closeAllChannels();
 }
 
 #pragma mark - Child
@@ -123,9 +121,6 @@ void AuthAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
         if(parentDataParser->parseParentLoginData(body))
         {
             cocos2d::log("Logged in!");
-            
-            // Open Pusher channel
-            PusherSDK::getInstance()->openParentAccountChannel();
             
             // Notify observers
             for(auto observer : _observers)

@@ -51,10 +51,8 @@ private:
     void onFriendListItemSelected(const FriendRef& friendData);
     
     // - ChatAPIObserver
-    void onChatAPIGetFriendList(const FriendList& friendList) override;
-    void onChatAPIMessageRecieved(const MessageRef& message) override;
+    void onChatAPIGetFriendList(const FriendList& friendList, int amountOfNewMessages) override;
     void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) override;
-    void onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string> &messageProperties) override;
     
 protected:
     
