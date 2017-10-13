@@ -34,56 +34,56 @@ public:
     void setBaseImage(const std::string& fileName);
     void saveImage(const std::string& filePath);
     
-    int actionCounter;
+    int _actionCounter;
     
 protected:
-    static const int numberOfUndos = 3;
-    static const std::vector<cocos2d::Color3B> kColours;
+    static const int _kNumberOfUndos = 3;
+    static const std::vector<cocos2d::Color3B> _kColours;
     
-    cocos2d::LayerColor* background = nullptr;
-    cocos2d::Sprite* currentDrawing = nullptr;
-    cocos2d::RenderTexture* drawing = nullptr;
-    std::vector<cocos2d::Node*> drawingStack;
+    cocos2d::LayerColor* _background = nullptr;
+    cocos2d::Sprite* _currentDrawing = nullptr;
+    cocos2d::RenderTexture* _drawing = nullptr;
+    std::vector<cocos2d::Node*> _drawingStack;
     
-    cocos2d::EventListenerTouchOneByOne* drawCanvasTouchListener;
+    cocos2d::EventListenerTouchOneByOne* _drawCanvasTouchListener;
     
-    cocos2d::Sprite* selected = nullptr;
-    cocos2d::Color4F selectedColour;
-    cocos2d::Node* colourButtonLayout = nullptr;
-    cocos2d::ui::Button* colourSelectButton = nullptr;
-    cocos2d::ui::Button* SelectedToolButton = nullptr;
-    cocos2d::Node* toolButtonLayout = nullptr;
-    cocos2d::ui::Button* clearButton = nullptr;
-    cocos2d::ui::Slider* brushSizeSlider = nullptr;
-    cocos2d::Sprite* leftBG = nullptr;
-    cocos2d::Sprite* rightBG = nullptr;
-    cocos2d::Sprite* toolBG = nullptr;
+    cocos2d::Sprite* _selected = nullptr;
+    cocos2d::Color4F _selectedColour;
+    cocos2d::Node* _colourButtonLayout = nullptr;
+    cocos2d::ui::Button* _colourSelectButton = nullptr;
+    cocos2d::ui::Button* _selectedToolButton = nullptr;
+    cocos2d::Node* _toolButtonLayout = nullptr;
+    cocos2d::ui::Button* _clearButton = nullptr;
+    cocos2d::ui::Slider* _brushSizeSlider = nullptr;
+    cocos2d::Sprite* _leftBG = nullptr;
+    cocos2d::Sprite* _rightBG = nullptr;
+    cocos2d::Sprite* _toolBG = nullptr;
     
-    cocos2d::Node* confirmDeleteImagePopup = nullptr;
-    cocos2d::ui::Button* confrimDeleteButton = nullptr;
-    cocos2d::ui::Button* cancelDeleteButton = nullptr;
+    cocos2d::Node* _confirmDeleteImagePopup = nullptr;
+    cocos2d::ui::Button* _confrimDeleteButton = nullptr;
+    cocos2d::ui::Button* _cancelDeleteButton = nullptr;
     
-    cocos2d::ui::Button* addStickerButton = nullptr;
-    cocos2d::ui::Button* closeStickerSelectButton = nullptr;
-    cocos2d::ui::Button* confirmStickerButton = nullptr;
-    cocos2d::ui::Button* cancelStickerButton = nullptr;
+    cocos2d::ui::Button* _addStickerButton = nullptr;
+    cocos2d::ui::Button* _closeStickerSelectButton = nullptr;
+    cocos2d::ui::Button* _confirmStickerButton = nullptr;
+    cocos2d::ui::Button* _cancelStickerButton = nullptr;
     
-    cocos2d::ui::ScrollView* stickerScrollView = nullptr;
-    cocos2d::Node* StickerCategoryLayout = nullptr;
-    StickerFileStore stickerCats;
-    cocos2d::ui::Scale9Sprite* stickerCatBG = nullptr;
-    cocos2d::Sprite* selectionIndicator = nullptr;
+    cocos2d::ui::ScrollView* _stickerScrollView = nullptr;
+    cocos2d::Node* _stickerCategoryLayout = nullptr;
+    StickerFileStore _stickerCats;
+    cocos2d::ui::Scale9Sprite* _stickerCatBG = nullptr;
+    cocos2d::Sprite* _selectionIndicator = nullptr;
     
-    StickerPlacementNode* stickerNode = nullptr;
+    StickerPlacementNode* _stickerNode = nullptr;
     
-    Brush* activeBrush = nullptr;
-    std::vector<Brush*> brushes;
+    Brush* _activeBrush = nullptr;
+    std::vector<Brush*> _brushes;
     
-    float brushRadius;
+    float _brushRadius;
     
-    std::string bgImageFilename;
+    std::string _bgImageFilename;
     
-    cocos2d::LayerColor* overlay = nullptr;
+    cocos2d::LayerColor* _overlay = nullptr;
     
     bool init() override;
     void onEnter() override;

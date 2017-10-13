@@ -17,8 +17,8 @@ NS_AZOOMEE_AA_BEGIN
 class BrushEraser : public Brush
 {
 private:
-    cocos2d::ClippingNode* maskingNode = nullptr;
-    std::string bgImageFile;
+    cocos2d::ClippingNode* _maskingNode = nullptr;
+    std::string _bgImageFile;
 public:
     BrushEraser();
     

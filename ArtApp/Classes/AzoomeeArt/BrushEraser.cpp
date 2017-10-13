@@ -15,52 +15,50 @@ NS_AZOOMEE_AA_BEGIN
 
 BrushEraser::BrushEraser():Brush()
 {
-    type = ERASER;
+    _type = ERASER;
 }
 
 Node* BrushEraser::addDrawNode(const Size& visibleSize)
 {
-    drawNode = DrawNode::create();
-    drawNode->setContentSize(visibleSize);
-    maskingNode = ClippingNode::create(drawNode);
-    Sprite* background = Sprite::create(bgImageFile);
+    _drawNode = DrawNode::create();
+    _drawNode->setContentSize(visibleSize);
+    _maskingNode = ClippingNode::create(_drawNode);
+    Sprite* background = Sprite::create(_bgImageFile);
     background->setPosition(Director::getInstance()->getVisibleOrigin() + visibleSize/2);
     background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     background->setScale(visibleSize.width/background->getContentSize().width);
-    maskingNode->addChild(background);
-    return maskingNode;
+    _maskingNode->addChild(background);
+    return _maskingNode;
 }
 
 Node* BrushEraser::getDrawNode()
 {
-    return maskingNode;
+    return _maskingNode;
 }
 
 void BrushEraser::setBgImageFile(const std::string& filename)
 {
-    bgImageFile = filename;
+    _bgImageFile = filename;
 }
 
 void BrushEraser::onTouchBegin(Touch *touch, Event *event)
 {
-    lastTouchPos = drawNode->convertTouchToNodeSpace(touch);
-    
-    
+    _lastTouchPos = _drawNode->convertTouchToNodeSpace(touch);
 }
 
 void BrushEraser::onTouchMoved(Touch *touch, Event *event)
 {
-    Vec2 touchPos = touch->getLocation();//drawNode->convertTouchToNodeSpace(touch);
+    Vec2 touchPos = touch->getLocation();
     
-    float distance = lastTouchPos.distance(touchPos);
+    float distance = _lastTouchPos.distance(touchPos);
     
-    int numSprites = distance/(*brushRadius*0.15);
+    int numSprites = distance/(*_brushRadius*0.15);
     
     for(int i = 0; i < numSprites; i++)
     {
-        drawNode->drawSolidCircle(lastTouchPos + i * ((touchPos - lastTouchPos)/numSprites), *brushRadius, 0, 16, Color4F::BLACK);
+        _drawNode->drawSolidCircle(_lastTouchPos + i * ((touchPos - _lastTouchPos)/numSprites), *_brushRadius, 0, 16, Color4F::BLACK);
     }
-    lastTouchPos = touchPos;
+    _lastTouchPos = touchPos;
 }
 
 void BrushEraser::onTouchEnded(Touch *touch, Event *event)

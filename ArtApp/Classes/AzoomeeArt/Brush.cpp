@@ -19,42 +19,42 @@ Brush::Brush()
 
 bool Brush::init()
 {
-    drawNode = DrawNode::create();
+    _drawNode = DrawNode::create();
     
     return true;
 }
 
 void Brush::setupDrawNode(const Size& visibleSize)
 {
-    drawNode->setContentSize(visibleSize);
+    _drawNode->setContentSize(visibleSize);
 }
 
 void Brush::setSelectedColour(Color4F *selectedColour)
 {
-    this->selectedColour = selectedColour;
+    _selectedColour = selectedColour;
 }
 
 void Brush::setBrushRadius(float *brushRadius)
 {
-    this->brushRadius = brushRadius;
+    _brushRadius = brushRadius;
 }
 
 Node* Brush::addDrawNode(const Size& visibleSize)
 {
     DrawNode* node = DrawNode::create();
     node->setContentSize(visibleSize);
-    drawNode = node;
+    _drawNode = node;
     return node;
 }
 
 Node* Brush::getDrawNode()
 {
-    return this->drawNode;
+    return _drawNode;
 }
 
 void Brush::clearBrushDrawing()
 {
-    drawNode->clear();
+    _drawNode->clear();
 }
 
 void Brush::onTouchBegin(Touch *touch, Event *event)

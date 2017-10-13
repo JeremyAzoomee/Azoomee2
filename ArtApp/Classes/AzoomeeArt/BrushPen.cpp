@@ -14,22 +14,22 @@ NS_AZOOMEE_AA_BEGIN
 
 BrushPen::BrushPen()
 {
-    type = PEN;
+    _type = PEN;
 }
 
 void BrushPen::onTouchBegin(Touch *touch, Event *event)
 {
-    lastTouchPos = drawNode->convertTouchToNodeSpace(touch);
-    drawNode->drawDot(lastTouchPos, *brushRadius, *selectedColour);
+    _lastTouchPos = _drawNode->convertTouchToNodeSpace(touch);
+    _drawNode->drawDot(_lastTouchPos, *_brushRadius, *_selectedColour);
 }
 
 void BrushPen::onTouchMoved(Touch *touch, Event *event)
 {
-    Vec2 touchPos = drawNode->convertTouchToNodeSpace(touch);
+    Vec2 touchPos = _drawNode->convertTouchToNodeSpace(touch);
     
-    drawNode->drawSegment(lastTouchPos, touchPos, *brushRadius, *selectedColour);
+    _drawNode->drawSegment(_lastTouchPos, touchPos, *_brushRadius, *_selectedColour);
     
-    lastTouchPos = touchPos;
+    _lastTouchPos = touchPos;
 }
 
 void BrushPen::onTouchEnded(Touch *touch, Event *event)

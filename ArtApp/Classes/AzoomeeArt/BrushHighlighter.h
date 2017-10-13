@@ -17,9 +17,9 @@ NS_AZOOMEE_AA_BEGIN
 class BrushHighlighter : public Brush
 {
 private:
-    static float alphaLevel;
-    cocos2d::Vec2 points[4];
-    bool lineStarted;
+    static float _alphaLevel;
+    cocos2d::Vec2 _points[4];
+    bool _lineStarted;
 public:
     BrushHighlighter();
     

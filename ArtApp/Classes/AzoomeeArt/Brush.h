@@ -23,10 +23,10 @@ class Brush
 {
 protected:
     
-    cocos2d::DrawNode* drawNode = nullptr;
-    cocos2d::Vec2 lastTouchPos;
-    cocos2d::Color4F* selectedColour = nullptr;
-    float* brushRadius;
+    cocos2d::DrawNode* _drawNode = nullptr;
+    cocos2d::Vec2 _lastTouchPos;
+    cocos2d::Color4F* _selectedColour = nullptr;
+    float* _brushRadius;
 public:
     
     Brush();
@@ -46,7 +46,7 @@ public:
     virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
     
-    BrushType type;
+    BrushType _type;
 };
 
 NS_AZOOMEE_AA_END

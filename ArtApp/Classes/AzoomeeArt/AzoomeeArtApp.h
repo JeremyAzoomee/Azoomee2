@@ -21,8 +21,8 @@ NS_AZOOMEE_AA_BEGIN
 // Burnt in version number for the AzoomeeArtApp static library
 const char* const Version = "1.0";
 
-static const std::string ArtAppAssetLoc = "res/artapp/";
-static const std::string stickerLoc = "res/chat/stickers/";
+static const std::string kArtAppAssetLoc = "res/artapp/";
+static const std::string kStickerLoc = "res/chat/stickers/";
 
 // Delegate is used to deal with navigating outside the app
 struct Delegate {
