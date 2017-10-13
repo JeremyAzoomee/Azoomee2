@@ -566,6 +566,10 @@ void DrawingCanvas::addBrushRadiusSlider(const Size& visibleSize, const Point& v
 
 void DrawingCanvas::onClearButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
+    if(eEventType == ui::Widget::TouchEventType::BEGAN)
+    {
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+    }
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         _drawCanvasTouchListener->setEnabled(false);
@@ -576,6 +580,10 @@ void DrawingCanvas::onClearButtonPressed(Ref *pSender, ui::Widget::TouchEventTyp
 
 void DrawingCanvas::onUndoButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
+    if(eEventType == ui::Widget::TouchEventType::BEGAN)
+    {
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
+    }
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         this->removeChild(_drawingStack.back());
@@ -597,6 +605,7 @@ void DrawingCanvas::onColourChangePressed(Ref *pSender, ui::Widget::TouchEventTy
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -629,6 +638,7 @@ void DrawingCanvas::onColourSelectPressed(Ref *pSender, ui::Widget::TouchEventTy
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -654,6 +664,7 @@ void DrawingCanvas::onCloseColourSelectPressed(Ref *pSender, ui::Widget::TouchEv
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -672,30 +683,6 @@ void DrawingCanvas::onCloseColourSelectPressed(Ref *pSender, ui::Widget::TouchEv
     }
 }
 
-void DrawingCanvas::onToolSelectPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
-{
-    ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
-    float baseScale = pressedButton->getScale();
-    
-    if(eEventType == ui::Widget::TouchEventType::BEGAN)
-    {
-        pressedButton->setScale(baseScale * 0.85f);
-    }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
-    {
-        pressedButton->setScale(baseScale / 0.85f);
-        _colourSelectButton->setVisible(false);
-        _addStickerButton->setVisible(false);
-        _toolButtonLayout->setVisible(true);
-    }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
-    {
-        pressedButton->setScale(baseScale / 0.85f);
-    }
-}
-
 void DrawingCanvas::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
@@ -704,6 +691,7 @@ void DrawingCanvas::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEventType
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -742,6 +730,7 @@ void DrawingCanvas::onAddStickerButtonPressed(Ref *pSender, ui::Widget::TouchEve
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -771,6 +760,7 @@ void DrawingCanvas::onCloseStickerSelectPressed(Ref *pSender, ui::Widget::TouchE
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -801,6 +791,7 @@ void DrawingCanvas::onConfirmStickerPressed(Ref *pSender, ui::Widget::TouchEvent
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -857,6 +848,7 @@ void DrawingCanvas::onCancelStickerPressed(Ref *pSender, ui::Widget::TouchEventT
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -886,6 +878,7 @@ void DrawingCanvas::onConfirmDeletePressed(Ref *pSender, ui::Widget::TouchEventT
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -916,6 +909,7 @@ void DrawingCanvas::onCancelDeletePressed(Ref *pSender, ui::Widget::TouchEventTy
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
@@ -943,6 +937,7 @@ void DrawingCanvas::onToolChanged(Ref *pSender, ui::Widget::TouchEventType eEven
         if(pressedButton != _selectedToolButton)
         {
             pressedButton->setScale(baseScale * 1.15f);
+            AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
         }
     }
     
@@ -1000,6 +995,7 @@ void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::Tou
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(1.15f);
+        AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
