@@ -17,6 +17,7 @@ private:
     float layerHeight;
     ElectricDreamsButton *logoutButton;
     ElectricDreamsButton *iapButton;
+    ElectricDreamsButton *learnMoreButton;
     
     Layer* privacyAndTerms;
     
