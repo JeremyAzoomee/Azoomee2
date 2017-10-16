@@ -15,8 +15,9 @@ private:
     Size visibleSize;
     
     float layerHeight;
-    ElectricDreamsButton *logoutButton;
-    ElectricDreamsButton *iapButton;
+    ElectricDreamsButton *logoutButton = nullptr;
+    ElectricDreamsButton *iapButton = nullptr;
+    ElectricDreamsButton *learnMoreButton = nullptr;
     
     Layer* privacyAndTerms;
     
