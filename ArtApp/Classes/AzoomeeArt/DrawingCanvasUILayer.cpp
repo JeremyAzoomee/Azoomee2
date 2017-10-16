@@ -1,15 +1,13 @@
 //
-//  DrawingCanvas.cpp
+//  DrawingCanvasUILayer.cpp
 //  azoomee2_ArtApp
 //
-//  Created by Macauley on 24/05/2017.
+//  Created by Macauley on 16/10/2017.
 //
 //
 
-#include "DrawingCanvas.h"
+#include "DrawingCanvasUILayer.h"
 #include <AzoomeeCommon/UI/Style.h>
-#include <dirent.h>
-#include <math.h>
 
 using namespace cocos2d;
 
@@ -46,200 +44,29 @@ const std::vector<Color3B> DrawingCanvas::_kColours = {
     Color3B(Style::Color_4F::black)
 };
 
-bool DrawingCanvas::init()
+bool DrawingCanvasUILayer::init()
 {
-    
     if(!Super::init())
     {
         return false;
     }
-    
-    _background = LayerColor::create(Color4B(Style::Color_4F::pureWhite));
-    _bgImageFilename = kArtAppAssetLoc + "patterns/Glitter_2.jpg";
-    
-    this->addChild(_background,BACKGROUND_LAYER);
-    
-    const Size& visibleSize = Director::getInstance()->getWinSize();
-    
-    _drawing = RenderTexture::create(visibleSize.width, visibleSize.height, Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
-    _drawing->setAnchorPoint(Vec2(0.5,0.5));
-    _drawing->setPosition(visibleSize/2);
-    _drawing->beginWithClear(Style::Color_4F::pureWhite.r, Style::Color_4F::pureWhite.g, Style::Color_4F::pureWhite.b, Style::Color_4F::pureWhite.a);
-    _drawing->end();
-    
-    this->addChild(_drawing);
-    
-    _actionCounter = 0;
-    
     return true;
 }
 
-void DrawingCanvas::onEnter()
+void DrawingCanvasUILayer::onEnter()
 {
     Super::onEnter();
     
     const Size& visibleSize = Director::getInstance()->getVisibleSize();
-    
-    this->setContentSize(visibleSize);
-    
-    addBrushes();
-    
-    
-    for(Brush* b : _brushes)
-    {
-        b->setupDrawNode(visibleSize);
-    }
+    const Point& visibleOrigin = Director::getInstance()->getVisibleOrigin();
     
     _overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, visibleSize.width, visibleSize.height);
-    _overlay->setPosition(Director::getInstance()->getVisibleOrigin());
+    _overlay->setPosition(visibleOrigin);
     _overlay->setName("overlay");
     this->addChild(_overlay,POPUP_UI_LAYER);
     
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
-    {
-        return true; //block touches
-    };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), _overlay);
-    _overlay->setVisible(false);
-    Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(_overlay);
     
-    setupTouchHandling();
-    setupMenus();
-    
-    _stickerNode = StickerPlacementNode::create();
-    this->addChild(_stickerNode,MAIN_UI_LAYER);
-    _stickerNode->setVisible(false);
-    _stickerNode->setTouchListenerEnabled(false);
-}
-
-void DrawingCanvas::onExit()
-{
-    Super::onExit();
-    
-    for(Brush* b : _brushes)
-    {
-        delete b;
-    }
-    
-    _brushes.clear();
-    
-}
-
-void DrawingCanvas::setBrushRadius(float brushRadius)
-{
-    _brushRadius = brushRadius;
-}
-
-void DrawingCanvas::setSelectedColour(cocos2d::Color4F colour)
-{
-    _selectedColour = colour;
-}
-
-Color4F DrawingCanvas::getSelectedColour()
-{
-    return _selectedColour;
-}
-
-void DrawingCanvas::setBaseImage(const std::string& fileName)
-{
-    Director* director = Director::getInstance();
-    
-    Sprite* baseImage = Sprite::create(fileName);
-    baseImage->setAnchorPoint(Vec2(0.5,0.5));
-    baseImage->setPosition(director->getVisibleOrigin() + director->getVisibleSize()/2);
-    baseImage->setScale(director->getWinSize().width/baseImage->getContentSize().width);
-    _drawing->begin();
-    baseImage->visit();
-    _drawing->end();
-    director->getRenderer()->render();
-}
-
-void DrawingCanvas::saveImage(const std::string& filePath)
-{
-    
-    _drawing->begin();
-    for(Node* n : _drawingStack)
-    {
-        n->visit();
-    }
-    _drawing->end();
-    Director::getInstance()->getRenderer()->render();
-    
-    Sprite* drawingSprite = Sprite::createWithTexture(_drawing->getSprite()->getTexture());
-    drawingSprite->setScale(0.5);
-    drawingSprite->setAnchorPoint(Vec2(0,0));
-    drawingSprite->setPosition(Vec2(0,0));
-    drawingSprite->setFlippedY(true);
-    
-    RenderTexture* outputTexture = RenderTexture::create(drawingSprite->getContentSize().width/2, drawingSprite->getContentSize().height/2);
-    outputTexture->begin();
-    drawingSprite->visit();
-    outputTexture->end();
-    outputTexture->saveToFile(filePath,Image::Format::PNG);
-    Director::getInstance()->getRenderer()->render();
-    
-}
-
-void DrawingCanvas::setupTouchHandling()
-{
-
-    _drawCanvasTouchListener = EventListenerTouchOneByOne::create();
-    
-    _drawCanvasTouchListener->onTouchBegan = [&](Touch* touch, Event* event)
-    {
-            
-        _activeBrush->onTouchBegin(touch, event);
-
-        return true;
-    };
-    
-    _drawCanvasTouchListener->onTouchMoved = [&](Touch* touch, Event* event)
-    {
-        _activeBrush->onTouchMoved(touch, event);
-        
-    };
-    
-    _drawCanvasTouchListener->onTouchEnded = [&](Touch* touch, Event* event)
-    {
-        this->getEventDispatcher()->setEnabled(false);
-        
-        _activeBrush->onTouchEnded(touch, event);
-        
-        if(_drawingStack.size() == 0)
-        {
-            _undoButton->setEnabled(true);
-        }
-        _drawingStack.push_back(_activeBrush->getDrawNode());
-        this->addChild(_activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
-        
-        if(_drawingStack.size()>_kNumberOfUndos)
-        {
-            Node* mergingLayer = _drawingStack[0];
-            _drawingStack.erase(_drawingStack.begin());
-            _drawing->begin();
-            mergingLayer->visit();
-            _drawing->end();
-            Director::getInstance()->getRenderer()->render();
-            this->removeChild(mergingLayer);
-        }
-        this->getEventDispatcher()->setEnabled(true);
-        
-        _actionCounter++;
-        
-    };
-    
-    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_drawCanvasTouchListener, this);
-    
-}
-
-void DrawingCanvas::setupMenus()
-{
-    const Size& visibleSize = Director::getInstance()->getVisibleSize();
-    const Point& visibleOrigin = Director::getInstance()->getVisibleOrigin();
-
     addClearButton(visibleSize, visibleOrigin);
     addColourSelectButtons(visibleSize, visibleOrigin);
     addToolSelectButtons(visibleSize, visibleOrigin);
@@ -248,54 +75,22 @@ void DrawingCanvas::setupMenus()
     
 }
 
-void DrawingCanvas::addBrushes()
-{
-    _brushes.clear();
-    
-    Brush* pen = new BrushPen();
-    Brush* paintbrush = new BrushPaintBrush();
-    Brush* highlighter = new BrushHighlighter();
-    Brush* sprayCan = new BrushSprayCan();
-    Brush* eraser = new BrushEraser();
-    
-    _brushes.push_back(pen);
-    _brushes.push_back(paintbrush);
-    _brushes.push_back(highlighter);
-    _brushes.push_back(sprayCan);
-    _brushes.push_back(eraser);
-    
-    for (Brush* b : _brushes) {
-        b->init();
-        b->setSelectedColour(&_selectedColour);
-        b->setBrushRadius(&_brushRadius);
-    }
-    _activeBrush = _brushes[0];
-    this->addChild(_activeBrush->getDrawNode());
-}
-
 //UI LOADING
 
-void DrawingCanvas::addClearButton(const Size& visibleSize, const Point& visibleOrigin)
+void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& visibleOrigin)
 {
-    
-    _rightBG = Sprite::create(kArtAppAssetLoc + "art_back_left.png");
-    _rightBG->setAnchorPoint(Vec2(1,0));
-    _rightBG->setPosition(visibleOrigin.x + visibleSize.width,visibleOrigin.y - BOTTOM_UI_Y_OFFSET);
-    _rightBG->setColor(Color3B::BLACK);
-    this->addChild(_rightBG,MAIN_UI_LAYER);
-    
     _clearButton = ui::Button::create();
     _clearButton->setAnchorPoint(Vec2(0.5,0));
     _clearButton->setPosition(Vec2(_rightBG->getPosition().x - 2*_rightBG->getContentSize().width/3, visibleOrigin.y));
     _clearButton->loadTextures(kArtAppAssetLoc + "delete.png", kArtAppAssetLoc + "delete.png");
-    _clearButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onClearButtonPressed, this));
+    _clearButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onClearButtonPressed, this));
     this->addChild(_clearButton,MAIN_UI_LAYER);
     
     _undoButton = ui::Button::create();
     _undoButton->setAnchorPoint(Vec2(0.5,0));
     _undoButton->setPosition(Vec2(_rightBG->getPosition().x - _rightBG->getContentSize().width/3, visibleOrigin.y));
     _undoButton->loadTextures(kArtAppAssetLoc + "redo.png", kArtAppAssetLoc + "redo.png");
-    _undoButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onUndoButtonPressed, this));
+    _undoButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onUndoButtonPressed, this));
     _undoButton->setEnabled(false);
     this->addChild(_undoButton,MAIN_UI_LAYER);
     
@@ -318,7 +113,7 @@ void DrawingCanvas::addClearButton(const Size& visibleSize, const Point& visible
     _confrimDeleteButton->loadTextures(kArtAppAssetLoc + "stickerConfirm.png", kArtAppAssetLoc + "stickerConfirm.png");
     _confrimDeleteButton->setAnchorPoint(Vec2(1,0));
     _confrimDeleteButton->setPosition(background->getPosition() + Vec2(background->getContentSize().width/3, -background->getContentSize().height/3));
-    _confrimDeleteButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onConfirmDeletePressed, this));
+    _confrimDeleteButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onConfirmDeletePressed, this));
     
     _confirmDeleteImagePopup->addChild(_confrimDeleteButton);
     
@@ -326,7 +121,7 @@ void DrawingCanvas::addClearButton(const Size& visibleSize, const Point& visible
     _cancelDeleteButton->loadTextures(kArtAppAssetLoc + "close.png", kArtAppAssetLoc + "close.png");
     _cancelDeleteButton->setAnchorPoint(Vec2(0,0));
     _cancelDeleteButton->setPosition(background->getPosition() - Vec2(background->getContentSize().width/3, background->getContentSize().height/3));
-    _cancelDeleteButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onCancelDeletePressed, this));
+    _cancelDeleteButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCancelDeletePressed, this));
     
     _confirmDeleteImagePopup->addChild(_cancelDeleteButton);
     
@@ -337,7 +132,7 @@ void DrawingCanvas::addClearButton(const Size& visibleSize, const Point& visible
     
 }
 
-void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point& visibleOrigin)
+void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const Point& visibleOrigin)
 {
     _selected = Sprite::create(kArtAppAssetLoc + "checkMark.png");
     _selected->setAnchorPoint(Vec2(0.5,0.5));
@@ -379,10 +174,10 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
             button->setColor(_kColours[colourCount]);
             if(colourCount == 21)
             {
-                _selectedColour = Color4F(_kColours[colourCount]);
+                _drawingCanvas->setSelectedColour(Color4F(_kColours[colourCount]));
                 button->addChild(_selected);
             }
-            button->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onColourChangePressed,this));
+            button->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onColourChangePressed,this));
             _colourButtonLayout->addChild(button);
             
             colourCount++;
@@ -393,20 +188,20 @@ void DrawingCanvas::addColourSelectButtons(const Size& visibleSize, const Point&
     closeButton->setAnchorPoint(Vec2(0.5,0.5));
     closeButton->setPosition(_colourButtonLayout->getContentSize());
     closeButton->loadTextures(kArtAppAssetLoc + "close_button.png", kArtAppAssetLoc + "close_buton.png");
-    closeButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onCloseColourSelectPressed, this));
+    closeButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCloseColourSelectPressed, this));
     _colourButtonLayout->addChild(closeButton);
     
     _colourSelectButton = ui::Button::create();
     _colourSelectButton->setAnchorPoint(Vec2(1,0));
     _colourSelectButton->setPosition(Vec2(_leftBG->getPosition().x + _leftBG->getContentSize().width/2, visibleOrigin.y));
     _colourSelectButton->loadTextures(kArtAppAssetLoc + "art_button_colour.png", kArtAppAssetLoc + "art_button_colour.png");
-    _colourSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onColourSelectPressed,this));
-    _colourSelectButton->setColor(Color3B(_selectedColour));
+    _colourSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onColourSelectPressed,this));
+    _colourSelectButton->setColor(Color3B(_drawingCanvas->getSelectedColour()));
     
     this->addChild(_colourSelectButton,MAIN_UI_LAYER);
 }
 
-void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& visibleOrigin)
+void DrawingCanvasUILayer::addToolSelectButtons(const Size& visibleSize, const Point& visibleOrigin)
 {
     _toolBG = Sprite::create(kArtAppAssetLoc + "art_back_middle.png");
     _toolBG->setAnchorPoint(Vec2(0.5,0));
@@ -426,9 +221,9 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->setAnchorPoint(Vec2(0.5,0));
     brushButton->setNormalizedPosition(Vec2(0.1,0));
     brushButton->loadTextures(kArtAppAssetLoc + "pencil.png", kArtAppAssetLoc + "pencil.png");
-    brushButton->setColor(Color3B(_selectedColour));
+    brushButton->setColor(Color3B(_drawingCanvas->getSelectedColour()));
     brushButton->setScale(((_toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height) * 1.15);
-    brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,PEN));
+    brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onToolChanged,this,PEN));
     Sprite* buttonFrame = Sprite::create(kArtAppAssetLoc + "pencil_frame.png");
     buttonFrame->setAnchorPoint(Vec2(0.5,0));
     buttonFrame->setNormalizedPosition(Vec2(0.5,0));
@@ -441,7 +236,7 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->setNormalizedPosition(Vec2(0.3,0));
     brushButton->loadTextures(kArtAppAssetLoc + "brush.png", kArtAppAssetLoc + "brush.png");
     brushButton->setScale((_toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
-    brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,PAINTBRUSH));
+    brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onToolChanged,this,PAINTBRUSH));
     buttonFrame = Sprite::create(kArtAppAssetLoc + "brush_frame.png");
     buttonFrame->setAnchorPoint(Vec2(0.5,0));
     buttonFrame->setNormalizedPosition(Vec2(0.5,0));
@@ -453,7 +248,7 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->setNormalizedPosition(Vec2(0.5,0));
     brushButton->loadTextures(kArtAppAssetLoc + "felt_tip.png", kArtAppAssetLoc + "felt_tip.png");
     brushButton->setScale((_toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
-    brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,HIGHLIGHTER));
+    brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onToolChanged,this,HIGHLIGHTER));
     buttonFrame = Sprite::create(kArtAppAssetLoc + "felt_tip_frame.png");
     buttonFrame->setAnchorPoint(Vec2(0.5,0));
     buttonFrame->setNormalizedPosition(Vec2(0.5,0));
@@ -465,7 +260,7 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->setNormalizedPosition(Vec2(0.7,0));
     brushButton->loadTextures(kArtAppAssetLoc + "can.png", kArtAppAssetLoc + "can.png");
     brushButton->setScale((_toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
-    brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,SPRAYCAN));
+    brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onToolChanged,this,SPRAYCAN));
     buttonFrame = Sprite::create(kArtAppAssetLoc + "can_frame.png");
     buttonFrame->setAnchorPoint(Vec2(0.5,0));
     buttonFrame->setNormalizedPosition(Vec2(0.5,0));
@@ -478,17 +273,17 @@ void DrawingCanvas::addToolSelectButtons(const Size& visibleSize, const Point& v
     brushButton->loadTextures(kArtAppAssetLoc + "eraser.png", kArtAppAssetLoc + "eraser.png");
     brushButton->setScale((_toolButtonLayout->getContentSize().height*0.8)/brushButton->getContentSize().height);
     brushButton->setName("eraser");
-    brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onToolChanged,this,ERASER));
+    brushButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onToolChanged,this,ERASER));
     _toolButtonLayout->addChild(brushButton);
 }
 
-void DrawingCanvas::addStickerSelectButtons(const Size& visibleSize, const Point& visibleOrigin)
+void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, const Point& visibleOrigin)
 {
     _addStickerButton = ui::Button::create();
     _addStickerButton->setAnchorPoint(Vec2(1,0));
     _addStickerButton->setPosition(Vec2(_leftBG->getPositionX() + _leftBG->getContentSize().width, _colourSelectButton->getPosition().y));
     _addStickerButton->loadTextures(kArtAppAssetLoc + "art_button_sticker.png", kArtAppAssetLoc + "art_button_sticker.png");
-    _addStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerButtonPressed,this));
+    _addStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerButtonPressed,this));
     
     this->addChild(_addStickerButton,MAIN_UI_LAYER);
     
@@ -496,7 +291,7 @@ void DrawingCanvas::addStickerSelectButtons(const Size& visibleSize, const Point
     _cancelStickerButton->setAnchorPoint(Vec2(0,0));
     _cancelStickerButton->setPosition(Vec2(visibleOrigin.x + BUTTON_OFFSET.x, visibleOrigin.y + BUTTON_OFFSET.y));
     _cancelStickerButton->loadTextures(kArtAppAssetLoc + "delete.png", kArtAppAssetLoc + "delete.png");
-    _cancelStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onCancelStickerPressed,this));
+    _cancelStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCancelStickerPressed,this));
     _cancelStickerButton->setVisible(false);
     this->addChild(_cancelStickerButton,STICKER_UI_LAYER);
     
@@ -504,7 +299,7 @@ void DrawingCanvas::addStickerSelectButtons(const Size& visibleSize, const Point
     _confirmStickerButton->setAnchorPoint(Vec2(1,0));
     _confirmStickerButton->setPosition(Vec2(visibleOrigin.x + visibleSize.width - BUTTON_OFFSET.x, visibleOrigin.y + BUTTON_OFFSET.y));
     _confirmStickerButton->loadTextures(kArtAppAssetLoc + "confirm.png", kArtAppAssetLoc + "confirm.png");
-    _confirmStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onConfirmStickerPressed,this));
+    _confirmStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onConfirmStickerPressed,this));
     _confirmStickerButton->setVisible(false);
     this->addChild(_confirmStickerButton,STICKER_UI_LAYER);
     
@@ -551,14 +346,14 @@ void DrawingCanvas::addStickerSelectButtons(const Size& visibleSize, const Point
     _selectionIndicator->setVisible(false);
     _selectionIndicator->setPositionY(_stickerScrollView->getPosition().y + _stickerScrollView->getContentSize().height/2);
     _stickerCatBG->addChild(_selectionIndicator);
-
+    
     for(int i = 0; i < _stickerCats.size(); i++)
     {
         ui::Button* stickerCatButton = ui::Button::create();
         stickerCatButton->loadTextures(kStickerLoc + _stickerCats[i].first, kStickerLoc + _stickerCats[i].first);
         stickerCatButton->setAnchorPoint(Vec2(0.5,0.5));
         stickerCatButton->setNormalizedPosition(Vec2((i+0.5f)/(float)_stickerCats.size(),0.5));
-        stickerCatButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onStickerCategoryChangePressed, this,i));
+        stickerCatButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onStickerCategoryChangePressed, this,i));
         _stickerCategoryLayout->addChild(stickerCatButton);
         if(i == 0)
         {
@@ -571,24 +366,24 @@ void DrawingCanvas::addStickerSelectButtons(const Size& visibleSize, const Point
     _closeStickerSelectButton->setAnchorPoint(Vec2(0,0.5));
     _closeStickerSelectButton->setPosition(_stickerCategoryLayout->getPosition() + _stickerCategoryLayout->getContentSize()/2 + Vec2(50,0) );
     _closeStickerSelectButton->loadTextures(kArtAppAssetLoc + "close.png", kArtAppAssetLoc + "close.png");
-    _closeStickerSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onCloseStickerSelectPressed, this));
+    _closeStickerSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCloseStickerSelectPressed, this));
     _closeStickerSelectButton->setVisible(false);
     
     this->addChild(_closeStickerSelectButton,POPUP_UI_LAYER);
 }
 
-void DrawingCanvas::addBrushRadiusSlider(const Size& visibleSize, const Point& visibleOrigin)
+void DrawingCanvasUILayer::addBrushRadiusSlider(const Size& visibleSize, const Point& visibleOrigin)
 {
     _brushSizeSlider = ui::Slider::create();
     _brushSizeSlider->setTouchEnabled(true);
     _brushSizeSlider->loadBarTexture(kArtAppAssetLoc + "slideBack.png");
     _brushSizeSlider->loadSlidBallTextures(kArtAppAssetLoc + "sliderIcon.png",kArtAppAssetLoc + "sliderIcon.png","");
     _brushSizeSlider->setPercent(50);
-    _brushRadius = INITIAL_RADIUS + _brushSizeSlider->getPercent();
+    _drawingCanvas->setBrushRadius(INITIAL_RADIUS + _brushSizeSlider->getPercent());
     _brushSizeSlider->setAnchorPoint(Vec2(0.5,0.5));
     _brushSizeSlider->setRotation(-90);
     _brushSizeSlider->setPosition(Vec2(visibleOrigin.x + _brushSizeSlider->getContentSize().height,visibleOrigin.y + visibleSize.height/2));
-    _brushSizeSlider->addEventListener(CC_CALLBACK_2(DrawingCanvas::onRadiusSliderInteract, this));
+    _brushSizeSlider->addEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onRadiusSliderInteract, this));
     
     this->addChild(_brushSizeSlider,MAIN_UI_LAYER);
 }
@@ -597,7 +392,7 @@ void DrawingCanvas::addBrushRadiusSlider(const Size& visibleSize, const Point& v
  ***********************   BUTTON CALLBACKS   ****************************************
  *************************************************************************************/
 
-void DrawingCanvas::onClearButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onClearButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
@@ -611,7 +406,7 @@ void DrawingCanvas::onClearButtonPressed(Ref *pSender, ui::Widget::TouchEventTyp
     }
 }
 
-void DrawingCanvas::onUndoButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onUndoButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
@@ -630,11 +425,11 @@ void DrawingCanvas::onUndoButtonPressed(Ref *pSender, ui::Widget::TouchEventType
     }
 }
 
-void DrawingCanvas::onColourChangePressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onColourChangePressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     float baseScale = pressedButton->getScale();
-
+    
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
         pressedButton->setScale(baseScale * 0.85f);
@@ -666,7 +461,7 @@ void DrawingCanvas::onColourChangePressed(Ref *pSender, ui::Widget::TouchEventTy
     }
 }
 
-void DrawingCanvas::onColourSelectPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onColourSelectPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     float baseScale = pressedButton->getScale();
@@ -692,7 +487,7 @@ void DrawingCanvas::onColourSelectPressed(Ref *pSender, ui::Widget::TouchEventTy
     }
 }
 
-void DrawingCanvas::onCloseColourSelectPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onCloseColourSelectPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     float baseScale = pressedButton->getScale();
@@ -719,7 +514,7 @@ void DrawingCanvas::onCloseColourSelectPressed(Ref *pSender, ui::Widget::TouchEv
     }
 }
 
-void DrawingCanvas::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     float baseScale = pressedButton->getScale();
@@ -758,7 +553,7 @@ void DrawingCanvas::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEventType
     }
 }
 
-void DrawingCanvas::onAddStickerButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onAddStickerButtonPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     float baseScale = pressedButton->getScale();
@@ -788,7 +583,7 @@ void DrawingCanvas::onAddStickerButtonPressed(Ref *pSender, ui::Widget::TouchEve
     }
 }
 
-void DrawingCanvas::onCloseStickerSelectPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onCloseStickerSelectPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     float baseScale = pressedButton->getScale();
@@ -802,7 +597,7 @@ void DrawingCanvas::onCloseStickerSelectPressed(Ref *pSender, ui::Widget::TouchE
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
-
+        
         setUIEnabled(true);
         _stickerScrollView->setVisible(false);
         _stickerCategoryLayout->setVisible(false);
@@ -819,7 +614,7 @@ void DrawingCanvas::onCloseStickerSelectPressed(Ref *pSender, ui::Widget::TouchE
     }
 }
 
-void DrawingCanvas::onConfirmStickerPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onConfirmStickerPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     float baseScale = pressedButton->getScale();
@@ -876,7 +671,7 @@ void DrawingCanvas::onConfirmStickerPressed(Ref *pSender, ui::Widget::TouchEvent
     }
 }
 
-void DrawingCanvas::onCancelStickerPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onCancelStickerPressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     float baseScale = pressedButton->getScale();
@@ -906,7 +701,7 @@ void DrawingCanvas::onCancelStickerPressed(Ref *pSender, ui::Widget::TouchEventT
     }
 }
 
-void DrawingCanvas::onConfirmDeletePressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onConfirmDeletePressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     float baseScale = pressedButton->getScale();
@@ -937,7 +732,7 @@ void DrawingCanvas::onConfirmDeletePressed(Ref *pSender, ui::Widget::TouchEventT
     }
 }
 
-void DrawingCanvas::onCancelDeletePressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
+void DrawingCanvasUILayer::onCancelDeletePressed(Ref *pSender, ui::Widget::TouchEventType eEventType)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     float baseScale = pressedButton->getScale();
@@ -963,7 +758,7 @@ void DrawingCanvas::onCancelDeletePressed(Ref *pSender, ui::Widget::TouchEventTy
     }
 }
 
-void DrawingCanvas::onToolChanged(Ref *pSender, ui::Widget::TouchEventType eEventType, int index)
+void DrawingCanvasUILayer::onToolChanged(Ref *pSender, ui::Widget::TouchEventType eEventType, int index)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     float baseScale = pressedButton->getScale();
@@ -1014,7 +809,7 @@ void DrawingCanvas::onToolChanged(Ref *pSender, ui::Widget::TouchEventType eEven
     }
 }
 
-void DrawingCanvas::onRadiusSliderInteract(Ref *pSender, ui::Slider::EventType eEventType)
+void DrawingCanvasUILayer::onRadiusSliderInteract(Ref *pSender, ui::Slider::EventType eEventType)
 {
     ui::Slider* slider = static_cast<ui::Slider*>(pSender);
     
@@ -1024,7 +819,7 @@ void DrawingCanvas::onRadiusSliderInteract(Ref *pSender, ui::Slider::EventType e
     }
 }
 
-void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::TouchEventType eEventType, int index)
+void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::TouchEventType eEventType, int index)
 {
     ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     
@@ -1059,7 +854,7 @@ void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::Tou
             temp->setAnchorPoint(Vec2(0.5,0.5));
             temp->loadTextures(kStickerLoc + _stickerCats[index].second[i],kStickerLoc + _stickerCats[index].second[i]);
             temp->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),visibleSize.height/4 + temp->getContentSize().height/2));
-            temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
+            temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
             _stickerScrollView->addChild(temp);
             
             if(i+1 < numStickers)
@@ -1068,7 +863,7 @@ void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::Tou
                 temp2->setAnchorPoint(Vec2(0.5,0.5));
                 temp2->loadTextures(kStickerLoc + _stickerCats[index].second[i+1],kStickerLoc + _stickerCats[index].second[i+1]);
                 temp2->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),visibleSize.height/4 - temp2->getContentSize().height/2));
-                temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvas::onAddStickerPressed, this));
+                temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
                 _stickerScrollView->addChild(temp2);
             }
             
@@ -1082,7 +877,7 @@ void DrawingCanvas::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::Tou
     }
 }
 
-void DrawingCanvas::setUIVisible(bool isVisible)
+void DrawingCanvasUILayer::setUIVisible(bool isVisible)
 {
     _leftBG->setVisible(isVisible);
     _rightBG->setVisible(isVisible);
@@ -1095,7 +890,7 @@ void DrawingCanvas::setUIVisible(bool isVisible)
     _brushSizeSlider->setVisible(isVisible);
 }
 
-void DrawingCanvas::setUIEnabled(bool isEnabled)
+void DrawingCanvasUILayer::setUIEnabled(bool isEnabled)
 {
     auto toolButtons = _toolButtonLayout->getChildren();
     
@@ -1121,7 +916,7 @@ void DrawingCanvas::setUIEnabled(bool isEnabled)
 
 //---------------------Sticker file collection methods ----------------------------------------//
 
-StickerFileStore DrawingCanvas::getStickerFilesFromJSON()
+StickerFileStore DrawingCanvasUILayer::getStickerFilesFromJSON()
 {
     StickerFileStore fileStore = StickerFileStore();
     
@@ -1153,9 +948,13 @@ StickerFileStore DrawingCanvas::getStickerFilesFromJSON()
         fileStore.push_back(categorySet);
         
     }
-
+    
     
     return fileStore;
 }
+
+
+
+
 
 NS_AZOOMEE_AA_END

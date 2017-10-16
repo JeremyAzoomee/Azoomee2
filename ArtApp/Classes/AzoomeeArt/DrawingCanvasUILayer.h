@@ -1,58 +1,28 @@
 //
-//  DrawingCanvas.h
+//  DrawingCanvasUILayer.h
 //  azoomee2_ArtApp
 //
-//  Created by Macauley on 24/05/2017.
+//  Created by Macauley on 16/10/2017.
 //
 //
 
-#ifndef DrawingCanvas_h
-#define DrawingCanvas_h
+#ifndef DrawingCanvasUILayer_h
+#define DrawingCanvasUILayer_h
 
-#include "cocos2d.h"
-#include "ui/CocosGUI.h"
-#include "Constants.h"
-#include "Brush.h"
-#include "BrushPen.h"
-#include "BrushPaintBrush.h"
-#include "BrushHighlighter.h"
-#include "BrushSprayCan.h"
-#include "BrushEraser.h"
-#include "StickerPlacementNode.h"
-#include <vector>
 #include "AzoomeeArtApp.h"
-#include <AzoomeeCommon/Data/Json.h>
+#include "DrawingCanvas.h"
 
 NS_AZOOMEE_AA_BEGIN
-typedef std::pair<std::string,std::vector<std::string>> StickerSet;
-typedef std::vector<StickerSet> StickerFileStore;
 
-class DrawingCanvas : public cocos2d::Node{
+class DrawingCanvasUILayer: public cocos2d::Node
+{
     typedef cocos2d::Node Super;
-public:
-    CREATE_FUNC(DrawingCanvas);
-    void setBaseImage(const std::string& fileName);
-    void saveImage(const std::string& filePath);
-    
-    int _actionCounter;
-    
-    void setBrushRadius(float brushRadius);
-    void setSelectedColour(cocos2d::Color4F colour);
-    cocos2d::Color4F getSelectedColour();
-    
-protected:
-    static const int _kNumberOfUndos = 3;
+private:
     static const std::vector<cocos2d::Color3B> _kColours;
     
-    cocos2d::LayerColor* _background = nullptr;
-    cocos2d::Sprite* _currentDrawing = nullptr;
-    cocos2d::RenderTexture* _drawing = nullptr;
-    std::vector<cocos2d::Node*> _drawingStack;
-    
-    cocos2d::EventListenerTouchOneByOne* _drawCanvasTouchListener;
+    DrawingCanvas* _drawingCanvas = nullptr;
     
     cocos2d::Sprite* _selected = nullptr;
-    cocos2d::Color4F _selectedColour;
     cocos2d::Node* _colourButtonLayout = nullptr;
     cocos2d::ui::Button* _colourSelectButton = nullptr;
     cocos2d::ui::Button* _selectedToolButton = nullptr;
@@ -79,34 +49,21 @@ protected:
     cocos2d::ui::Scale9Sprite* _stickerCatBG = nullptr;
     cocos2d::Sprite* _selectionIndicator = nullptr;
     
-    StickerPlacementNode* _stickerNode = nullptr;
-    
-    Brush* _activeBrush = nullptr;
-    std::vector<Brush*> _brushes;
-    
-    float _brushRadius;
-    
-    std::string _bgImageFilename;
-    
     cocos2d::LayerColor* _overlay = nullptr;
     
     bool init() override;
     void onEnter() override;
     void onExit() override;
     
-    //Internal methods
-    
-    void setupTouchHandling();
-    void setupMenus();
-    
-    void addBrushes();
-    
+    //setup functions
     void addClearButton(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     void addColourSelectButtons(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     void addToolSelectButtons(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     void addStickerSelectButtons(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     void addBrushRadiusSlider(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     
+    
+    //button callbacks
     void onClearButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onUndoButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
     void onColourChangePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
@@ -131,12 +88,14 @@ protected:
     void setUIVisible(bool isVisible);
     void setUIEnabled(bool isEnabled);
     
-private:
-    
     StickerFileStore getStickerFilesFromJSON();
+    
+public:
+    CREATE_FUNC(DrawingCanvasUILayer);
+    void setDrawingCanvas(DrawingCanvas* drawingCanvas);
     
 };
 
 NS_AZOOMEE_AA_END
 
-#endif /* DrawingCanvas_h */
+#endif /* DrawingCanvasUILayer_h */
