@@ -116,53 +116,64 @@ void DrawingCanvasUILayer::addBackgroundFrame(const Size& visibleSize, const Poi
 
 void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& visibleOrigin)
 {
-    _rightBG = Sprite::create(kArtAppAssetLoc + "art_back_left.png");
-    _rightBG->setAnchorPoint(Vec2(1,0));
-    _rightBG->setPosition(Vec2(visibleOrigin.x + visibleSize.width, visibleOrigin.y - BOTTOM_UI_Y_OFFSET));
-    _rightBG->setColor(Color3B::BLACK);
-    this->addChild(_rightBG,MAIN_UI_LAYER);
-    
     _clearButton = ui::Button::create();
-    _clearButton->setAnchorPoint(Vec2(0.5,0));
-    _clearButton->setPosition(Vec2(_rightBG->getPosition().x - 2*_rightBG->getContentSize().width/3, visibleOrigin.y));
+    _clearButton->setAnchorPoint(Vec2(0.5,0.5));
     _clearButton->loadTextures(kArtAppAssetLoc + "delete.png", kArtAppAssetLoc + "delete.png");
+    _clearButton->setPosition(Vec2(visibleSize.width - _clearButton->getContentSize().width * 2.5, visibleOrigin.y + visibleSize.height * 0.0825f));
     _clearButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onClearButtonPressed, this));
     this->addChild(_clearButton,MAIN_UI_LAYER);
     
     _undoButton = ui::Button::create();
-    _undoButton->setAnchorPoint(Vec2(0.5,0));
-    _undoButton->setPosition(Vec2(_rightBG->getPosition().x - _rightBG->getContentSize().width/3, visibleOrigin.y));
+    _undoButton->setAnchorPoint(Vec2(0.5,0.5));
     _undoButton->loadTextures(kArtAppAssetLoc + "redo.png", kArtAppAssetLoc + "redo.png");
+    _undoButton->setPosition(Vec2(visibleSize.width - _undoButton->getContentSize().width, _clearButton->getPosition().y));
     _undoButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onUndoButtonPressed, this));
     this->addChild(_undoButton,MAIN_UI_LAYER);
     
     _confirmDeleteImagePopup = Node::create();
-    _confirmDeleteImagePopup->setContentSize(Size(visibleSize.width/2, visibleSize.height/2));
+    _confirmDeleteImagePopup->setContentSize(Size(visibleSize.width*0.6, visibleSize.height*0.53));
+    _confirmDeleteImagePopup->setPosition(visibleOrigin + Vec2(visibleSize.width * 0.5,visibleSize.height * 0.5625));
+    _confirmDeleteImagePopup->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    
+    ui::Scale9Sprite* backgroundFrame = ui::Scale9Sprite::create(kArtAppAssetLoc + "gallery/art_painting_placeholder.png");
+    backgroundFrame->setContentSize(_confirmDeleteImagePopup->getContentSize());
+    backgroundFrame->setAnchorPoint(Vec2(0.5,0.5));
+    backgroundFrame->setNormalizedPosition(Vec2(0.5,0.5));
+    backgroundFrame->setColor(Color3B(Style::Color_4F::brightAqua));
+    _confirmDeleteImagePopup->addChild(backgroundFrame);
+    
     ui::Scale9Sprite* background = ui::Scale9Sprite::create(kArtAppAssetLoc + "gallery/art_painting_placeholder.png");
-    background->setContentSize(Size(visibleSize.width/2, visibleSize.height/2));
+    background->setContentSize(_confirmDeleteImagePopup->getContentSize() - Size(24,24));
     background->setAnchorPoint(Vec2(0.5,0.5));
-    background->setPosition(visibleOrigin + visibleSize/2);
+    background->setNormalizedPosition(Vec2(0.5,0.5));
+    background->setColor(Color3B(Style::Color_4F::black));
     _confirmDeleteImagePopup->addChild(background);
     
-    Label* text = Label::createWithTTF("Delete Drawing?", Style::Font::Regular, 128);
-    text->setAnchorPoint(Vec2(0.5,0.5));
-    text->setPosition(visibleOrigin + visibleSize/2 + Vec2(0,200));
-    text->setColor(Style::Color::black);
+    Sprite* oomee = Sprite::create(kArtAppAssetLoc + "you_sure_4_x_8.png");
+    oomee->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    oomee->setNormalizedPosition(Vec2(0.23,0.5));
+    _confirmDeleteImagePopup->addChild(oomee);
+    
+    Label* text = Label::createWithTTF("Are you sure you\nwant to delete\nyour picture?", Style::Font::Regular, 100);
+    text->setAnchorPoint(Vec2(0,1));
+    text->setNormalizedPosition(Vec2(0.45,0.88));
+    text->setColor(Color3B(Style::Color_4F::brightAqua));
+    text->setLineSpacing(20);
     
     _confirmDeleteImagePopup->addChild(text);
     
     _confrimDeleteButton = ui::Button::create();
-    _confrimDeleteButton->loadTextures(kArtAppAssetLoc + "stickerConfirm.png", kArtAppAssetLoc + "stickerConfirm.png");
-    _confrimDeleteButton->setAnchorPoint(Vec2(1,0));
-    _confrimDeleteButton->setPosition(background->getPosition() + Vec2(background->getContentSize().width/3, -background->getContentSize().height/3));
+    _confrimDeleteButton->loadTextures(kArtAppAssetLoc + "yes.png", kArtAppAssetLoc + "yes.png");
+    _confrimDeleteButton->setAnchorPoint(Vec2(0.5,0.5));
+    _confrimDeleteButton->setNormalizedPosition(Vec2(0.779,0.275));
     _confrimDeleteButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onConfirmDeletePressed, this));
     
     _confirmDeleteImagePopup->addChild(_confrimDeleteButton);
     
     _cancelDeleteButton = ui::Button::create();
-    _cancelDeleteButton->loadTextures(kArtAppAssetLoc + "close.png", kArtAppAssetLoc + "close.png");
-    _cancelDeleteButton->setAnchorPoint(Vec2(0,0));
-    _cancelDeleteButton->setPosition(background->getPosition() - Vec2(background->getContentSize().width/3, background->getContentSize().height/3));
+    _cancelDeleteButton->loadTextures(kArtAppAssetLoc + "no.png", kArtAppAssetLoc + "no.png");
+    _cancelDeleteButton->setAnchorPoint(Vec2(0.5,0.5));
+    _cancelDeleteButton->setNormalizedPosition(Vec2(0.526,0.275));
     _cancelDeleteButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCancelDeletePressed, this));
     
     _confirmDeleteImagePopup->addChild(_cancelDeleteButton);
@@ -179,12 +190,6 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     _selected = Sprite::create(kArtAppAssetLoc + "checkMark.png");
     _selected->setAnchorPoint(Vec2(0.5,0.5));
     _selected->setNormalizedPosition(Vec2(0.5,0.5));
-    
-    _leftBG = Sprite::create(kArtAppAssetLoc + "art_back_left.png");
-    _leftBG->setAnchorPoint(Vec2(0,0));
-    _leftBG->setPosition(Vec2(visibleOrigin.x, visibleOrigin.y - BOTTOM_UI_Y_OFFSET));
-    _leftBG->setColor(Color3B::BLACK);
-    this->addChild(_leftBG,MAIN_UI_LAYER);
     
     const Vec2& tableDimensions =  Vec2(7,ceilf(_kColours.size()/7.0f));
     
@@ -234,28 +239,27 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     _colourButtonLayout->addChild(closeButton);
     
     _colourSelectButton = ui::Button::create();
-    _colourSelectButton->setAnchorPoint(Vec2(1,0));
-    _colourSelectButton->setPosition(Vec2(_leftBG->getPosition().x + _leftBG->getContentSize().width/2, visibleOrigin.y));
-    _colourSelectButton->loadTextures(kArtAppAssetLoc + "art_button_colour.png", kArtAppAssetLoc + "art_button_colour.png");
+    _colourSelectButton->setAnchorPoint(Vec2(0.5,0.5));
+    _colourSelectButton->loadTextures(kArtAppAssetLoc + "colour.png", kArtAppAssetLoc + "color.png");
+    _colourSelectButton->setPosition(visibleOrigin + Vec2(_colourSelectButton->getContentSize().width*2.5,visibleSize.height * 0.0825f));
     _colourSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onColourSelectPressed,this));
     _colourSelectButton->setColor(Color3B(_drawingCanvas->getSelectedColour()));
+    Sprite* buttonFrame = Sprite::create(kArtAppAssetLoc + "colour_frame.png");
+    buttonFrame->setAnchorPoint(Vec2(0.5,0.5));
+    buttonFrame->setNormalizedPosition(Vec2(0.5,0.5));
+    _colourSelectButton->addChild(buttonFrame);
+    
     
     this->addChild(_colourSelectButton,MAIN_UI_LAYER);
 }
 
 void DrawingCanvasUILayer::addToolSelectButtons(const Size& visibleSize, const Point& visibleOrigin)
 {
-    _toolBG = Sprite::create(kArtAppAssetLoc + "art_back_middle.png");
-    _toolBG->setAnchorPoint(Vec2(0.5,0));
-    _toolBG->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y - BOTTOM_UI_Y_OFFSET));
-    _toolBG->setColor(Color3B::BLACK);
-    
-    this->addChild(_toolBG,MAIN_UI_LAYER);
     
     _toolButtonLayout = Node::create();
-    _toolButtonLayout->setContentSize(_toolBG->getContentSize());
+    _toolButtonLayout->setContentSize(Size(visibleSize.width*0.6f,visibleSize.height*0.175f));
     _toolButtonLayout->setAnchorPoint(Vec2(0.5,0));
-    _toolButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y - BOTTOM_UI_Y_OFFSET));
+    _toolButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y));
     
     this->addChild(_toolButtonLayout,MAIN_UI_LAYER);
     
@@ -322,9 +326,9 @@ void DrawingCanvasUILayer::addToolSelectButtons(const Size& visibleSize, const P
 void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, const Point& visibleOrigin)
 {
     _addStickerButton = ui::Button::create();
-    _addStickerButton->setAnchorPoint(Vec2(1,0));
-    _addStickerButton->setPosition(Vec2(_leftBG->getPositionX() + _leftBG->getContentSize().width, _colourSelectButton->getPosition().y));
-    _addStickerButton->loadTextures(kArtAppAssetLoc + "art_button_sticker.png", kArtAppAssetLoc + "art_button_sticker.png");
+    _addStickerButton->setAnchorPoint(Vec2(0.5,0.5));
+    _addStickerButton->loadTextures(kArtAppAssetLoc + "star_3.png", kArtAppAssetLoc + "star_3.png");
+    _addStickerButton->setPosition(Vec2(_addStickerButton->getContentSize().width, _colourSelectButton->getPosition().y));
     _addStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerButtonPressed,this));
     
     this->addChild(_addStickerButton,MAIN_UI_LAYER);
@@ -418,14 +422,24 @@ void DrawingCanvasUILayer::addBrushRadiusSlider(const Size& visibleSize, const P
 {
     _brushSizeSlider = ui::Slider::create();
     _brushSizeSlider->setTouchEnabled(true);
-    _brushSizeSlider->loadBarTexture(kArtAppAssetLoc + "slideBack.png");
-    _brushSizeSlider->loadSlidBallTextures(kArtAppAssetLoc + "sliderIcon.png",kArtAppAssetLoc + "sliderIcon.png","");
+    _brushSizeSlider->loadBarTexture(kArtAppAssetLoc + "size_grove.png");
+    _brushSizeSlider->loadSlidBallTextures(kArtAppAssetLoc + "size_controler.png",kArtAppAssetLoc + "size_controler.png","");
     _brushSizeSlider->setPercent(50);
     _drawingCanvas->setBrushRadius(INITIAL_RADIUS + _brushSizeSlider->getPercent());
     _brushSizeSlider->setAnchorPoint(Vec2(0.5,0.5));
     _brushSizeSlider->setRotation(-90);
-    _brushSizeSlider->setPosition(Vec2(visibleOrigin.x + _brushSizeSlider->getContentSize().height,visibleOrigin.y + visibleSize.height/2));
+    _brushSizeSlider->setPosition(Vec2(visibleOrigin.x + _brushSizeSlider->getContentSize().height*2,visibleOrigin.y + visibleSize.height/2));
     _brushSizeSlider->addEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onRadiusSliderInteract, this));
+    
+    Sprite* plusIcon = Sprite::create(kArtAppAssetLoc + "fill_1.png");
+    plusIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
+    plusIcon->setNormalizedPosition(Vec2(1.1,0.5));
+    _brushSizeSlider->addChild(plusIcon);
+    
+    Sprite* minusIcon = Sprite::create(kArtAppAssetLoc + "fill_1_copy.png");
+    minusIcon->setAnchorPoint(Vec2::ANCHOR_MIDDLE_RIGHT);
+    minusIcon->setNormalizedPosition(Vec2(-0.1,0.5));
+    _brushSizeSlider->addChild(minusIcon);
     
     this->addChild(_brushSizeSlider,MAIN_UI_LAYER);
 }
@@ -869,9 +883,6 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
 
 void DrawingCanvasUILayer::setUIVisible(bool isVisible)
 {
-    _leftBG->setVisible(isVisible);
-    _rightBG->setVisible(isVisible);
-    _toolBG->setVisible(isVisible);
     _toolButtonLayout->setVisible(isVisible);
     _colourSelectButton->setVisible(isVisible);
     _addStickerButton->setVisible(isVisible);

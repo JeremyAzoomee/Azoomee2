@@ -73,9 +73,9 @@ bool MainScene::init()
 void MainScene::addBackButton()
 {
     _backButton = ui::Button::create();
-    _backButton->setPosition(Vec2(Point(100, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height - 250)));
-    _backButton->setAnchorPoint(Vec2(0,0));
-    _backButton->loadTextures("res/navigation/back_new.png", "res/navigation/back_new.png");
+    _backButton->setPosition(Vec2(Point(Director::getInstance()->getVisibleSize().width*0.025, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height * 0.975)));
+    _backButton->setAnchorPoint(Vec2(0,1));
+    _backButton->loadTextures(kArtAppAssetLoc + "back_button.png", kArtAppAssetLoc + "back_button.png");
     _backButton->addClickEventListener([this](Ref* but){backButtonCallBack();});
     this->addChild(_backButton,1);
 }

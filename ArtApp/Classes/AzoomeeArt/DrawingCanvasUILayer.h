@@ -30,9 +30,6 @@ private:
     cocos2d::ui::Button* _clearButton = nullptr;
     cocos2d::ui::Button* _undoButton = nullptr;
     cocos2d::ui::Slider* _brushSizeSlider = nullptr;
-    cocos2d::Sprite* _leftBG = nullptr;
-    cocos2d::Sprite* _rightBG = nullptr;
-    cocos2d::Sprite* _toolBG = nullptr;
     
     cocos2d::Node* _confirmDeleteImagePopup = nullptr;
     cocos2d::ui::Button* _confrimDeleteButton = nullptr;
