@@ -64,7 +64,11 @@ namespace Azoomee{
             {
                 if(ent->d_type == DT_DIR)
                 {
-                    dirNames.push_back(ent->d_name);
+                    const std::string dirName = ent->d_name;
+                    if(dirName != "." && dirName != "..")
+                    {
+                        dirNames.push_back(dirName);
+                    }
                 }
             }
             closedir (dir);
