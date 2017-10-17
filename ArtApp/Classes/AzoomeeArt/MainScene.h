@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "DrawingCanvas.h"
 #include "AzoomeeArtApp.h"
+#include "DrawingCanvasUILayer.h"
 
 NS_AZOOMEE_AA_BEGIN
 
@@ -15,6 +16,7 @@ class MainScene : public cocos2d::Layer
 private:
     cocos2d::ui::Button* _backButton = nullptr;
     DrawingCanvas* _drawingCanvas = nullptr;
+    DrawingCanvasUILayer* _uiLayer = nullptr;
     std::string _fileName;
 public:
     static cocos2d::Scene* createScene();

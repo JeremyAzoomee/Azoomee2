@@ -40,9 +40,19 @@ public:
     void setSelectedColour(cocos2d::Color4F colour);
     cocos2d::Color4F getSelectedColour();
     
+    void setListenerEnabled(bool isEnabled);
+    
+    int getDrawingStackSize();
+    void undoAction();
+    void clearDrawing();
+    
+    void setStickerNodeVisible(bool isVisible);
+    void setupStickerNode(const std::string& stickerFile);
+    void addStickerToDrawing();
+    void changeTool(int index);
+    
 protected:
     static const int _kNumberOfUndos = 3;
-    static const std::vector<cocos2d::Color3B> _kColours;
     
     cocos2d::LayerColor* _background = nullptr;
     cocos2d::Sprite* _currentDrawing = nullptr;
@@ -51,44 +61,15 @@ protected:
     
     cocos2d::EventListenerTouchOneByOne* _drawCanvasTouchListener;
     
-    cocos2d::Sprite* _selected = nullptr;
-    cocos2d::Color4F _selectedColour;
-    cocos2d::Node* _colourButtonLayout = nullptr;
-    cocos2d::ui::Button* _colourSelectButton = nullptr;
-    cocos2d::ui::Button* _selectedToolButton = nullptr;
-    cocos2d::Node* _toolButtonLayout = nullptr;
-    cocos2d::ui::Button* _clearButton = nullptr;
-    cocos2d::ui::Button* _undoButton = nullptr;
-    cocos2d::ui::Slider* _brushSizeSlider = nullptr;
-    cocos2d::Sprite* _leftBG = nullptr;
-    cocos2d::Sprite* _rightBG = nullptr;
-    cocos2d::Sprite* _toolBG = nullptr;
-    
-    cocos2d::Node* _confirmDeleteImagePopup = nullptr;
-    cocos2d::ui::Button* _confrimDeleteButton = nullptr;
-    cocos2d::ui::Button* _cancelDeleteButton = nullptr;
-    
-    cocos2d::ui::Button* _addStickerButton = nullptr;
-    cocos2d::ui::Button* _closeStickerSelectButton = nullptr;
-    cocos2d::ui::Button* _confirmStickerButton = nullptr;
-    cocos2d::ui::Button* _cancelStickerButton = nullptr;
-    
-    cocos2d::ui::ScrollView* _stickerScrollView = nullptr;
-    cocos2d::Node* _stickerCategoryLayout = nullptr;
-    StickerFileStore _stickerCats;
-    cocos2d::ui::Scale9Sprite* _stickerCatBG = nullptr;
-    cocos2d::Sprite* _selectionIndicator = nullptr;
-    
     StickerPlacementNode* _stickerNode = nullptr;
     
     Brush* _activeBrush = nullptr;
     std::vector<Brush*> _brushes;
     
     float _brushRadius;
+    cocos2d::Color4F _selectedColour;
     
     std::string _bgImageFilename;
-    
-    cocos2d::LayerColor* _overlay = nullptr;
     
     bool init() override;
     void onEnter() override;
@@ -97,39 +78,8 @@ protected:
     //Internal methods
     
     void setupTouchHandling();
-    void setupMenus();
     
     void addBrushes();
-    
-    void addClearButton(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
-    void addColourSelectButtons(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
-    void addToolSelectButtons(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
-    void addStickerSelectButtons(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
-    void addBrushRadiusSlider(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
-    
-    void onClearButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void onUndoButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void onColourChangePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void onColourSelectPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void onAddStickerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void onAddStickerButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void onCloseStickerSelectPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void onCloseColourSelectPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    
-    void onConfirmStickerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void onCancelStickerPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    
-    void onConfirmDeletePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    void onCancelDeletePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-    
-    void onToolChanged(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType, int index);
-    
-    void onRadiusSliderInteract(cocos2d::Ref* pSender, cocos2d::ui::Slider::EventType eEventType);
-    
-    void onStickerCategoryChangePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType, int index);
-    
-    void setUIVisible(bool isVisible);
-    void setUIEnabled(bool isEnabled);
     
 private:
     

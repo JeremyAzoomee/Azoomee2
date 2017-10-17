@@ -13,7 +13,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_AA_BEGIN
 
-const std::vector<Color3B> DrawingCanvas::_kColours = {
+const std::vector<Color3B> DrawingCanvasUILayer::_kColours = {
     Color3B(Style::Color_4F::darkBrown),
     Color3B(Style::Color_4F::brown),
     Color3B(Style::Color_4F::lightBrown),
@@ -65,8 +65,18 @@ void DrawingCanvasUILayer::onEnter()
     _overlay->setName("overlay");
     this->addChild(_overlay,POPUP_UI_LAYER);
     
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = [=](Touch *touch, Event *event)
+    {
+        return true; //block touches
+    };
     
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), _overlay);
+    _overlay->setVisible(false);
+    Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(_overlay);
     
+    addBackgroundFrame(visibleSize, visibleOrigin);
     addClearButton(visibleSize, visibleOrigin);
     addColourSelectButtons(visibleSize, visibleOrigin);
     addToolSelectButtons(visibleSize, visibleOrigin);
@@ -75,10 +85,43 @@ void DrawingCanvasUILayer::onEnter()
     
 }
 
+void DrawingCanvasUILayer::onExit()
+{
+    Super::onExit();
+}
+
+void DrawingCanvasUILayer::setDrawingCanvas(DrawingCanvas *drawingCanvas)
+{
+    this->_drawingCanvas = drawingCanvas;
+}
+
 //UI LOADING
+
+void DrawingCanvasUILayer::addBackgroundFrame(const Size& visibleSize, const Point& visibleOrigin)
+{
+    ClippingNode* bgClipNode = ClippingNode::create();
+    Sprite* stencil = Sprite::create(kArtAppAssetLoc + "white_bg.png");
+    Vec2 drawWindowSize = Vec2(visibleSize.width * 0.89, visibleSize.height * 0.8);
+    stencil->setScale(drawWindowSize.x/stencil->getContentSize().width, drawWindowSize.y/stencil->getContentSize().height);
+    stencil->setPosition(visibleOrigin + Vec2(visibleSize.width * 0.09,visibleSize.height * 0.175));
+    stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    bgClipNode->setStencil(stencil);
+    LayerColor* bgColour = LayerColor::create(Color4B(Style::Color_4F::black));
+    bgColour->setContentSize(visibleSize);
+    bgColour->setPosition(visibleOrigin);
+    bgClipNode->addChild(bgColour);
+    bgClipNode->setInverted(true);
+    this->addChild(bgClipNode);
+}
 
 void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& visibleOrigin)
 {
+    _rightBG = Sprite::create(kArtAppAssetLoc + "art_back_left.png");
+    _rightBG->setAnchorPoint(Vec2(1,0));
+    _rightBG->setPosition(Vec2(visibleOrigin.x + visibleSize.width, visibleOrigin.y - BOTTOM_UI_Y_OFFSET));
+    _rightBG->setColor(Color3B::BLACK);
+    this->addChild(_rightBG,MAIN_UI_LAYER);
+    
     _clearButton = ui::Button::create();
     _clearButton->setAnchorPoint(Vec2(0.5,0));
     _clearButton->setPosition(Vec2(_rightBG->getPosition().x - 2*_rightBG->getContentSize().width/3, visibleOrigin.y));
@@ -91,7 +134,6 @@ void DrawingCanvasUILayer::addClearButton(const Size& visibleSize, const Point& 
     _undoButton->setPosition(Vec2(_rightBG->getPosition().x - _rightBG->getContentSize().width/3, visibleOrigin.y));
     _undoButton->loadTextures(kArtAppAssetLoc + "redo.png", kArtAppAssetLoc + "redo.png");
     _undoButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onUndoButtonPressed, this));
-    _undoButton->setEnabled(false);
     this->addChild(_undoButton,MAIN_UI_LAYER);
     
     _confirmDeleteImagePopup = Node::create();
@@ -400,7 +442,7 @@ void DrawingCanvasUILayer::onClearButtonPressed(Ref *pSender, ui::Widget::TouchE
     }
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
-        _drawCanvasTouchListener->setEnabled(false);
+        _drawingCanvas->setListenerEnabled(false);
         _confirmDeleteImagePopup->setVisible(true);
         setUIEnabled(false);
     }
@@ -414,14 +456,10 @@ void DrawingCanvasUILayer::onUndoButtonPressed(Ref *pSender, ui::Widget::TouchEv
     }
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
-        this->removeChild(_drawingStack.back());
-        _drawingStack.pop_back();
-        if(_drawingStack.size() == 0)
+        if(_drawingCanvas->getDrawingStackSize() > 0)
         {
-            _undoButton->setEnabled(false);
+            _drawingCanvas->undoAction();
         }
-        
-        _actionCounter--;
     }
 }
 
@@ -438,7 +476,7 @@ void DrawingCanvasUILayer::onColourChangePressed(Ref *pSender, ui::Widget::Touch
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
-        _selectedColour = Color4F(pressedButton->getColor());
+        _drawingCanvas->setSelectedColour(Color4F(pressedButton->getColor()));
         _selected->retain();
         _selected->removeFromParent();
         pressedButton->addChild(_selected);
@@ -446,13 +484,13 @@ void DrawingCanvasUILayer::onColourChangePressed(Ref *pSender, ui::Widget::Touch
         pressedButton->setScale(baseScale / 0.85f);
         
         _colourButtonLayout->setVisible(false);
-        _colourSelectButton->setColor(Color3B(_selectedColour));
+        _colourSelectButton->setColor(Color3B(_drawingCanvas->getSelectedColour()));
         setUIEnabled(true);
         if(_selectedToolButton->getName() != "eraser")
         {
-            _selectedToolButton->setColor(Color3B(_selectedColour));
+            _selectedToolButton->setColor(Color3B(_drawingCanvas->getSelectedColour()));
         }
-        _drawCanvasTouchListener->setEnabled(true);
+        _drawingCanvas->setListenerEnabled(true);
     }
     
     if(eEventType == ui::Widget::TouchEventType::CANCELED)
@@ -477,7 +515,7 @@ void DrawingCanvasUILayer::onColourSelectPressed(Ref *pSender, ui::Widget::Touch
         pressedButton->setScale(baseScale / 0.85f);
         setUIEnabled(false);
         _colourButtonLayout->setVisible(true);
-        _drawCanvasTouchListener->setEnabled(false);
+        _drawingCanvas->setListenerEnabled(false);
         
     }
     
@@ -504,7 +542,7 @@ void DrawingCanvasUILayer::onCloseColourSelectPressed(Ref *pSender, ui::Widget::
         
         setUIEnabled(true);
         _colourButtonLayout->setVisible(false);
-        _drawCanvasTouchListener->setEnabled(true);
+        _drawingCanvas->setListenerEnabled(true);
         
     }
     
@@ -536,15 +574,9 @@ void DrawingCanvasUILayer::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEv
         setUIVisible(false);
         _overlay->setVisible(false);
         Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(_overlay);
-        _stickerNode->setVisible(true);
         _confirmStickerButton->setVisible(true);
         _cancelStickerButton->setVisible(true);
-        _stickerNode->setTouchListenerEnabled(true);
-        Sprite* newSticker = Sprite::create(pressedButton->getNormalFile().file);
-        newSticker->setAnchorPoint(Vec2(0.5,0.5));
-        newSticker->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
-        _stickerNode->reset();
-        _stickerNode->setSticker(newSticker);
+        _drawingCanvas->setupStickerNode(pressedButton->getNormalFile().file);
     }
     
     if(eEventType == ui::Widget::TouchEventType::CANCELED)
@@ -573,7 +605,7 @@ void DrawingCanvasUILayer::onAddStickerButtonPressed(Ref *pSender, ui::Widget::T
         _closeStickerSelectButton->setVisible(true);
         _stickerCatBG->setVisible(true);
         _selectionIndicator->setVisible(true);
-        _drawCanvasTouchListener->setEnabled(false);
+        _drawingCanvas->setListenerEnabled(false);
         
     }
     
@@ -604,7 +636,7 @@ void DrawingCanvasUILayer::onCloseStickerSelectPressed(Ref *pSender, ui::Widget:
         _closeStickerSelectButton->setVisible(false);
         _stickerCatBG->setVisible(false);
         _selectionIndicator->setVisible(false);
-        _drawCanvasTouchListener->setEnabled(true);
+        _drawingCanvas->setListenerEnabled(true);
         
     }
     
@@ -628,40 +660,16 @@ void DrawingCanvasUILayer::onConfirmStickerPressed(Ref *pSender, ui::Widget::Tou
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
-        _stickerNode->setVisible(false);
+        _drawingCanvas->setStickerNodeVisible(false);
         setUIVisible(true);
         setUIEnabled(true);
         _confirmStickerButton->setVisible(false);
         _cancelStickerButton->setVisible(false);
-        _drawCanvasTouchListener->setEnabled(true);
-        _stickerNode->setTouchListenerEnabled(false);
+        _drawingCanvas->setListenerEnabled(true);
         
         //add sticker as node in drawing scene on undo stack
         
-        if(_drawingStack.size() == 0)
-        {
-            _undoButton->setEnabled(true);
-        }
-        _drawingStack.push_back(_stickerNode->getSticker());
-        Sprite* temp = _stickerNode->getSticker();
-        temp->retain(); //move sticker from sticker node to drawing canvas
-        temp->removeFromParent();
-        this->addChild(temp);
-        temp->release();
-        if(_drawingStack.size()>_kNumberOfUndos)
-        {
-            Node* mergingLayer = _drawingStack[0];
-            _drawingStack.erase(_drawingStack.begin());
-            _drawing->begin();
-            mergingLayer->visit();
-            _drawing->end();
-            Director::getInstance()->getRenderer()->render();
-            this->removeChild(mergingLayer);
-        }
-        this->removeChild(_activeBrush->getDrawNode());
-        this->addChild(_activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
-        
-        _actionCounter++;
+        _drawingCanvas->addStickerToDrawing();
         
     }
     
@@ -685,13 +693,12 @@ void DrawingCanvasUILayer::onCancelStickerPressed(Ref *pSender, ui::Widget::Touc
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
-        _stickerNode->setVisible(false);
+        _drawingCanvas->setStickerNodeVisible(false);
         setUIVisible(true);
         setUIEnabled(true);
         _confirmStickerButton->setVisible(false);
         _cancelStickerButton->setVisible(false);
-        _drawCanvasTouchListener->setEnabled(true);
-        _stickerNode->setTouchListenerEnabled(false);
+        _drawingCanvas->setListenerEnabled(true);
         
     }
     
@@ -717,13 +724,8 @@ void DrawingCanvasUILayer::onConfirmDeletePressed(Ref *pSender, ui::Widget::Touc
         pressedButton->setScale(baseScale / 0.85f);
         _confirmDeleteImagePopup->setVisible(false);
         setUIEnabled(true);
-        _drawing->beginWithClear(Style::Color_4F::pureWhite.r,Style::Color_4F::pureWhite.g,Style::Color_4F::pureWhite.b,Style::Color_4F::pureWhite.a);
-        _drawing->end();
-        Director::getInstance()->getRenderer()->render();
-        _drawCanvasTouchListener->setEnabled(true);
-        _undoButton->setEnabled(false);
-        _actionCounter++;
-        
+        _drawingCanvas->setListenerEnabled(true);
+        _drawingCanvas->clearDrawing();
     }
     
     if(eEventType == ui::Widget::TouchEventType::CANCELED)
@@ -748,7 +750,7 @@ void DrawingCanvasUILayer::onCancelDeletePressed(Ref *pSender, ui::Widget::Touch
         pressedButton->setScale(baseScale / 0.85f);
         _confirmDeleteImagePopup->setVisible(false);
         setUIEnabled(true);
-        _drawCanvasTouchListener->setEnabled(true);
+        _drawingCanvas->setListenerEnabled(true);
         
     }
     
@@ -774,28 +776,16 @@ void DrawingCanvasUILayer::onToolChanged(Ref *pSender, ui::Widget::TouchEventTyp
     
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
-        _activeBrush->getDrawNode()->removeFromParent();
-        _activeBrush = _brushes[index];
-        if(_activeBrush->_type == ERASER)
-        {
-            BrushEraser* eraser = (BrushEraser*)_activeBrush;
-            eraser->setBgImageFile(_bgImageFilename);
-        }
-        this->addChild(_activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
-        
         if(pressedButton != _selectedToolButton)
         {
             _selectedToolButton->setScale((_toolButtonLayout->getContentSize().height*0.8)/_selectedToolButton->getContentSize().height);
-            if(_selectedToolButton->getName() != "eraser")
-            {
-                _selectedToolButton->setColor(Color3B::WHITE);
-            }
+            _selectedToolButton->setColor(Color3B::WHITE);
             if(pressedButton->getName() != "eraser")
             {
-                pressedButton->setColor(Color3B(_selectedColour));
+                pressedButton->setColor(Color3B(_drawingCanvas->getSelectedColour()));
             }
             _selectedToolButton = pressedButton;
-            
+            _drawingCanvas->changeTool(index);
         }
         
     }
@@ -815,7 +805,7 @@ void DrawingCanvasUILayer::onRadiusSliderInteract(Ref *pSender, ui::Slider::Even
     
     if(eEventType == ui::Slider::EventType::ON_PERCENTAGE_CHANGED)
     {
-        _brushRadius = INITIAL_RADIUS + slider->getPercent();
+        _drawingCanvas->setBrushRadius(INITIAL_RADIUS + slider->getPercent());
     }
 }
 

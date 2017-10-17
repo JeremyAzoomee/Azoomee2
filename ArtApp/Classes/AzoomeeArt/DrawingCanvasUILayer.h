@@ -56,6 +56,7 @@ private:
     void onExit() override;
     
     //setup functions
+    void addBackgroundFrame(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     void addClearButton(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     void addColourSelectButtons(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     void addToolSelectButtons(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);

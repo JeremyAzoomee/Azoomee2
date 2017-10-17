@@ -62,6 +62,11 @@ bool MainScene::init()
 
     this->addChild(_drawingCanvas);
     
+    _uiLayer = DrawingCanvasUILayer::create();
+    _uiLayer->setDrawingCanvas(_drawingCanvas);
+    
+    this->addChild(_uiLayer);
+    
     return true;
 }
 
