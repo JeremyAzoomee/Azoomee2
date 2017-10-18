@@ -200,7 +200,7 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     _colourButtonLayout->setVisible(false);
     this->addChild(_colourButtonLayout,POPUP_UI_LAYER);
     
-    ui::Scale9Sprite* colourBG = ui::Scale9Sprite::create(kArtAppAssetLoc + "gallery/art_painting_placeholder.png");
+    ui::Scale9Sprite* colourBG = ui::Scale9Sprite::create(kArtAppAssetLoc + "popup_bg.png");
     colourBG->setContentSize(_colourButtonLayout->getContentSize());
     colourBG->setAnchorPoint(Vec2(0.5,0.5));
     colourBG->setNormalizedPosition(Vec2(0.5,0.5));
@@ -232,15 +232,15 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     }
     
     ui::Button* closeButton = ui::Button::create();
-    closeButton->setAnchorPoint(Vec2(0.5,0.5));
+    closeButton->setAnchorPoint(Vec2(0.66,0.66));
     closeButton->setPosition(_colourButtonLayout->getContentSize());
-    closeButton->loadTextures(kArtAppAssetLoc + "close_button.png", kArtAppAssetLoc + "close_buton.png");
+    closeButton->loadTextures(kArtAppAssetLoc + "close_button.png", kArtAppAssetLoc + "close_button.png");
     closeButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCloseColourSelectPressed, this));
     _colourButtonLayout->addChild(closeButton);
     
     _colourSelectButton = ui::Button::create();
     _colourSelectButton->setAnchorPoint(Vec2(0.5,0.5));
-    _colourSelectButton->loadTextures(kArtAppAssetLoc + "colour.png", kArtAppAssetLoc + "color.png");
+    _colourSelectButton->loadTextures(kArtAppAssetLoc + "colour.png", kArtAppAssetLoc + "colour.png");
     _colourSelectButton->setPosition(visibleOrigin + Vec2(_colourSelectButton->getContentSize().width*2.5,visibleSize.height * 0.0825f));
     _colourSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onColourSelectPressed,this));
     _colourSelectButton->setColor(Color3B(_drawingCanvas->getSelectedColour()));
@@ -334,8 +334,8 @@ void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, cons
     this->addChild(_addStickerButton,MAIN_UI_LAYER);
     
     _cancelStickerButton = ui::Button::create();
-    _cancelStickerButton->setAnchorPoint(Vec2(0,0));
-    _cancelStickerButton->setPosition(Vec2(visibleOrigin.x + BUTTON_OFFSET.x, visibleOrigin.y + BUTTON_OFFSET.y));
+    _cancelStickerButton->setAnchorPoint(Vec2(1,0));
+    _cancelStickerButton->setPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.846, visibleOrigin.y + visibleSize.height * 0.03));
     _cancelStickerButton->loadTextures(kArtAppAssetLoc + "delete.png", kArtAppAssetLoc + "delete.png");
     _cancelStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCancelStickerPressed,this));
     _cancelStickerButton->setVisible(false);
@@ -343,52 +343,58 @@ void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, cons
     
     _confirmStickerButton = ui::Button::create();
     _confirmStickerButton->setAnchorPoint(Vec2(1,0));
-    _confirmStickerButton->setPosition(Vec2(visibleOrigin.x + visibleSize.width - BUTTON_OFFSET.x, visibleOrigin.y + BUTTON_OFFSET.y));
+    _confirmStickerButton->setPosition(Vec2(visibleOrigin.x + visibleSize.width*0.97, visibleOrigin.y + visibleSize.height * 0.02));
     _confirmStickerButton->loadTextures(kArtAppAssetLoc + "confirm.png", kArtAppAssetLoc + "confirm.png");
     _confirmStickerButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onConfirmStickerPressed,this));
     _confirmStickerButton->setVisible(false);
     this->addChild(_confirmStickerButton,STICKER_UI_LAYER);
     
+    _stickerPopupBG = ui::Scale9Sprite::create(kArtAppAssetLoc + "popup_bg.png");
+    _stickerPopupBG->setContentSize(Size(visibleSize.width * 0.74, visibleSize.height * 0.68));
+    _stickerPopupBG->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _stickerPopupBG->setPosition(visibleOrigin + Vec2(visibleSize.width * 0.54, visibleSize.height * 0.56));
+    _stickerPopupBG->setVisible(false);
+    this->addChild(_stickerPopupBG,POPUP_UI_LAYER);
+    
     _stickerScrollView = cocos2d::ui::ScrollView::create();
-    _stickerScrollView->setContentSize(Size(visibleSize.width*2/3.0f, visibleSize.height/2));
+    _stickerScrollView->setContentSize(Size(_stickerPopupBG->getContentSize().width - 35, visibleSize.height/2));
     _stickerScrollView->setInnerContainerSize(Size(visibleSize.width*2, visibleSize.height/2));
     _stickerScrollView->setAnchorPoint(Vec2(0.5,0.5));
-    _stickerScrollView->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y + visibleSize.height/2));
+    _stickerScrollView->setPosition(_stickerPopupBG->getPosition() - Vec2(0,_stickerPopupBG->getContentSize().height/6));
     _stickerScrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     _stickerScrollView->setBounceEnabled(true);
     _stickerScrollView->setTouchEnabled(true);
     _stickerScrollView->setSwallowTouches(true);
     _stickerScrollView->setScrollBarEnabled(false);
-    _stickerScrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
-    _stickerScrollView->setBackGroundColor(Color3B::WHITE);
-    _stickerScrollView->setBackGroundColorOpacity(0);
-    _stickerScrollView->setBackGroundImageScale9Enabled(true);
-    _stickerScrollView->setBackGroundImage(kArtAppAssetLoc + "gallery/art_painting_placeholder.png");
     _stickerScrollView->setVisible(false);
     this->addChild(_stickerScrollView,POPUP_UI_LAYER);
+    
+    _stickerCatBG = ui::Scale9Sprite::create(kArtAppAssetLoc + "popup_menu_bg.png");
+    _stickerCatBG->setContentSize(Size(_stickerPopupBG->getContentSize().width - 35, visibleSize.height*0.165));
+    _stickerCatBG->setAnchorPoint(Vec2(0.5,1));
+    _stickerCatBG->setPosition(Vec2(_stickerPopupBG->getPosition().x,_stickerPopupBG->getPosition().y + _stickerPopupBG->getContentSize().height/2 - 17.5));
+    _stickerCatBG->setVisible(false);
+    _stickerCatBG->setColor(Color3B::BLACK);
+    
+    this->addChild(_stickerCatBG,POPUP_UI_LAYER);
+    
+    
     
     //load stickers
     
     _stickerCategoryLayout = Node::create();
     _stickerCategoryLayout->setAnchorPoint(Vec2(0.5,0));
-    _stickerCategoryLayout->setContentSize(Size(visibleSize.width*2/3, visibleSize.height/5));
-    _stickerCategoryLayout->setPosition(Vec2(_stickerScrollView->getPosition().x,_stickerScrollView->getPosition().y + _stickerScrollView->getContentSize().height/2));
+    _stickerCategoryLayout->setContentSize(Size(_stickerCatBG->getContentSize().width, _stickerCatBG->getContentSize().height));
+    _stickerCategoryLayout->setPosition(Vec2(_stickerCatBG->getPosition().x,_stickerCatBG->getPosition().y - _stickerCatBG->getContentSize().height));
     _stickerCategoryLayout->setVisible(false);
     
-    _stickerCatBG = ui::Scale9Sprite::create(kArtAppAssetLoc + "gallery/art_painting_placeholder.png");
-    _stickerCatBG->setColor(Color3B(125,125,125));
-    _stickerCatBG->setContentSize(_stickerCategoryLayout->getContentSize());
-    _stickerCatBG->setAnchorPoint(Vec2(0.5,0));
-    _stickerCatBG->setPosition(_stickerCategoryLayout->getPosition());
-    _stickerCatBG->setVisible(false);
     
-    this->addChild(_stickerCatBG,POPUP_UI_LAYER);
     this->addChild(_stickerCategoryLayout,POPUP_UI_LAYER);
     
     _stickerCats = getStickerFilesFromJSON();
     
     _selectionIndicator = Sprite::create(kArtAppAssetLoc + "popup/art_selection_indicator.png");
-    _selectionIndicator->setAnchorPoint(Vec2(0.5,0));
+    _selectionIndicator->setAnchorPoint(Vec2(0.5,0.3));
     _selectionIndicator->setVisible(false);
     _selectionIndicator->setPositionY(_stickerScrollView->getPosition().y + _stickerScrollView->getContentSize().height/2);
     _stickerCatBG->addChild(_selectionIndicator);
@@ -409,9 +415,9 @@ void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, cons
     }
     
     _closeStickerSelectButton = ui::Button::create();
-    _closeStickerSelectButton->setAnchorPoint(Vec2(0,0.5));
-    _closeStickerSelectButton->setPosition(_stickerCategoryLayout->getPosition() + _stickerCategoryLayout->getContentSize()/2 + Vec2(50,0) );
-    _closeStickerSelectButton->loadTextures(kArtAppAssetLoc + "close.png", kArtAppAssetLoc + "close.png");
+    _closeStickerSelectButton->setAnchorPoint(Vec2(0.5,0.5));
+    _closeStickerSelectButton->setPosition(_stickerCategoryLayout->getPosition() + Vec2(_stickerCategoryLayout->getContentSize().width/2,_stickerCategoryLayout->getContentSize().height));
+    _closeStickerSelectButton->loadTextures(kArtAppAssetLoc + "close_button.png", kArtAppAssetLoc + "close_button.png");
     _closeStickerSelectButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCloseStickerSelectPressed, this));
     _closeStickerSelectButton->setVisible(false);
     
@@ -585,12 +591,11 @@ void DrawingCanvasUILayer::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEv
         _closeStickerSelectButton->setVisible(false);
         _stickerCatBG->setVisible(false);
         _selectionIndicator->setVisible(false);
-        setUIVisible(false);
-        _overlay->setVisible(false);
-        Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(_overlay);
-        _confirmStickerButton->setVisible(true);
-        _cancelStickerButton->setVisible(true);
+        _stickerPopupBG->setVisible(false);
+
         _drawingCanvas->setupStickerNode(pressedButton->getNormalFile().file);
+
+        setStickerUIEnabled(true);
     }
     
     if(eEventType == ui::Widget::TouchEventType::CANCELED)
@@ -619,6 +624,8 @@ void DrawingCanvasUILayer::onAddStickerButtonPressed(Ref *pSender, ui::Widget::T
         _closeStickerSelectButton->setVisible(true);
         _stickerCatBG->setVisible(true);
         _selectionIndicator->setVisible(true);
+        _stickerPopupBG->setVisible(true);
+        
         _drawingCanvas->setListenerEnabled(false);
         
     }
@@ -650,6 +657,7 @@ void DrawingCanvasUILayer::onCloseStickerSelectPressed(Ref *pSender, ui::Widget:
         _closeStickerSelectButton->setVisible(false);
         _stickerCatBG->setVisible(false);
         _selectionIndicator->setVisible(false);
+        _stickerPopupBG->setVisible(false);
         _drawingCanvas->setListenerEnabled(true);
         
     }
@@ -674,11 +682,7 @@ void DrawingCanvasUILayer::onConfirmStickerPressed(Ref *pSender, ui::Widget::Tou
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
-        _drawingCanvas->setStickerNodeVisible(false);
-        setUIVisible(true);
-        setUIEnabled(true);
-        _confirmStickerButton->setVisible(false);
-        _cancelStickerButton->setVisible(false);
+        setStickerUIEnabled(false);
         _drawingCanvas->setListenerEnabled(true);
         
         //add sticker as node in drawing scene on undo stack
@@ -707,11 +711,7 @@ void DrawingCanvasUILayer::onCancelStickerPressed(Ref *pSender, ui::Widget::Touc
     if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
-        _drawingCanvas->setStickerNodeVisible(false);
-        setUIVisible(true);
-        setUIEnabled(true);
-        _confirmStickerButton->setVisible(false);
-        _cancelStickerButton->setVisible(false);
+        setStickerUIEnabled(false);
         _drawingCanvas->setListenerEnabled(true);
         
     }
@@ -825,11 +825,11 @@ void DrawingCanvasUILayer::onRadiusSliderInteract(Ref *pSender, ui::Slider::Even
 
 void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widget::TouchEventType eEventType, int index)
 {
-    ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
+    //ui::Button* pressedButton = static_cast<ui::Button*>(pSender);
     
     if(eEventType == ui::Widget::TouchEventType::BEGAN)
     {
-        pressedButton->setScale(1.15f);
+        //pressedButton->setScale(1.15f);
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
     
@@ -837,12 +837,12 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
     {
         auto catButtons = _stickerCategoryLayout->getChildren();
         
-        for(int i = 0; i < catButtons.size(); i++)
-        {
-            catButtons.at(i)->setScale(1);
-        }
+        //for(int i = 0; i < catButtons.size(); i++)
+        //{
+        //    catButtons.at(i)->setScale(1);
+        //}
         
-        pressedButton->setScale(1.15);
+        //pressedButton->setScale(1.15);
         
         _selectionIndicator->setNormalizedPosition(Vec2((index + 0.5f)/catButtons.size(),0));
         const Size& visibleSize = Director::getInstance()->getVisibleSize();
@@ -857,7 +857,7 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
             ui::Button* temp = ui::Button::create();
             temp->setAnchorPoint(Vec2(0.5,0.5));
             temp->loadTextures(kStickerLoc + _stickerCats[index].second[i],kStickerLoc + _stickerCats[index].second[i]);
-            temp->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),visibleSize.height/4 + temp->getContentSize().height/2));
+            temp->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.8));
             temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
             _stickerScrollView->addChild(temp);
             
@@ -866,7 +866,7 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
                 ui::Button* temp2 = ui::Button::create();
                 temp2->setAnchorPoint(Vec2(0.5,0.5));
                 temp2->loadTextures(kStickerLoc + _stickerCats[index].second[i+1],kStickerLoc + _stickerCats[index].second[i+1]);
-                temp2->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),visibleSize.height/4 - temp2->getContentSize().height/2));
+                temp2->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.4));
                 temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
                 _stickerScrollView->addChild(temp2);
             }
@@ -877,7 +877,7 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
     
     if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
-        pressedButton->setScale(1.15f);
+        //pressedButton->setScale(1.15f);
     }
 }
 
@@ -913,6 +913,35 @@ void DrawingCanvasUILayer::setUIEnabled(bool isEnabled)
     {
         Director::getInstance()->getEventDispatcher()->resumeEventListenersForTarget(_overlay);
     }
+}
+
+void DrawingCanvasUILayer::setStickerUIEnabled(bool isEnabled)
+{
+    _confirmStickerButton->setVisible(isEnabled);
+    _cancelStickerButton->setVisible(isEnabled);
+    _drawingCanvas->setStickerNodeVisible(isEnabled);
+    
+    _clearButton->setVisible(!isEnabled);
+    _undoButton->setVisible(!isEnabled);
+    
+    auto toolButtons = _toolButtonLayout->getChildren();
+    
+    for(Node* btnNode : toolButtons)
+    {
+        ui::Widget* toolButt = (ui::Widget*)btnNode;
+        toolButt->setEnabled(!isEnabled);
+    }
+    _colourSelectButton->setEnabled(!isEnabled);
+    _addStickerButton->setEnabled(!isEnabled);
+    _clearButton->setEnabled(!isEnabled);
+    _brushSizeSlider->setEnabled(!isEnabled);
+    
+    if(isEnabled)
+    {
+        _overlay->setVisible(!isEnabled);
+        Director::getInstance()->getEventDispatcher()->pauseEventListenersForTarget(_overlay);
+    }
+    
 }
 
 //---------------------Sticker file collection methods ----------------------------------------//

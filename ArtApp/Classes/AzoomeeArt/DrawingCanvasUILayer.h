@@ -45,6 +45,7 @@ private:
     StickerFileStore _stickerCats;
     cocos2d::ui::Scale9Sprite* _stickerCatBG = nullptr;
     cocos2d::Sprite* _selectionIndicator = nullptr;
+    cocos2d::ui::Scale9Sprite* _stickerPopupBG = nullptr;
     
     cocos2d::LayerColor* _overlay = nullptr;
     
@@ -85,6 +86,8 @@ private:
     
     void setUIVisible(bool isVisible);
     void setUIEnabled(bool isEnabled);
+    
+    void setStickerUIEnabled(bool isEnabled);
     
     StickerFileStore getStickerFilesFromJSON();
     
