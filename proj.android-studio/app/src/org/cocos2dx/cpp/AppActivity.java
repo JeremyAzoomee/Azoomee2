@@ -27,15 +27,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import android.util.Base64;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import org.cocos2dx.cpp.util.IabBroadcastReceiver;
 import org.cocos2dx.cpp.util.IabHelper;
@@ -69,7 +65,8 @@ import io.fabric.sdk.android.Fabric;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import com.appsflyer.AppsFlyerLib;
-import com.tinizine.azoomee.R;
+
+import com.urbanairship.UAirship;
 
 
 public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
@@ -92,7 +89,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mContext = this;
         mActivity = this;
         mAppActivity = this;
-        
+
+        UAirship.shared().getPushManager().setUserNotificationsEnabled(true);
         setupIAPOnCreate();
 
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
