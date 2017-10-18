@@ -20,6 +20,8 @@ public:
     
     void deleteHttpCookies();
     
+    void addNamedUserIdentifierToPushChannel(const std::string &userid);
+    
 private:
     IosNativeFunctionsSingleton();
 };

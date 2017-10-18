@@ -278,6 +278,8 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
 void BackEndCaller::getGordon()
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    cocos2d::log("Userid for push channel set: %s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    IosNativeFunctionsSingleton::getInstance()->addNamedUserIdentifierToPushChannel(ParentDataProvider::getInstance()->getLoggedInParentId());
     IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
 #endif
     

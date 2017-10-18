@@ -1,6 +1,7 @@
 #include "IosNativeFunctionsSingleton.h"
 #import <AdSupport/ASIdentifierManager.h>
 #import <UIKit/UIKit.h>
+#import <AirshipKit/AirshipKit.h>
 
 using namespace cocos2d;
 
@@ -48,6 +49,11 @@ void IosNativeFunctionsSingleton::deleteHttpCookies()
     {
         [cookieStorage deleteCookie:each];
     }
+}
+
+void IosNativeFunctionsSingleton::addNamedUserIdentifierToPushChannel(const std::string &userid)
+{
+    [UAirship namedUser].identifier = [NSString stringWithFormat:@"%s", userid.c_str()];
 }
 
 NS_AZOOMEE_END

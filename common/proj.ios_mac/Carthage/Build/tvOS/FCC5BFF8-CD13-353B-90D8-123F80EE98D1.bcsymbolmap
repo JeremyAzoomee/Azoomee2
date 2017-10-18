@@ -1,0 +1,2733 @@
+BCSymbolMap Version: 2.0
++[UAChannelAPIClient clientWithConfig:]
++[UAChannelAPIClient clientWithConfig:session:]
+-[UAChannelAPIClient createChannelWithPayload:onSuccess:onFailure:]
+___67-[UAChannelAPIClient createChannelWithPayload:onSuccess:onFailure:]_block_invoke
+___copy_helper_block_
+___destroy_helper_block_
+___67-[UAChannelAPIClient createChannelWithPayload:onSuccess:onFailure:]_block_invoke.58
+___67-[UAChannelAPIClient createChannelWithPayload:onSuccess:onFailure:]_block_invoke_2
+___copy_helper_block_.83
+___destroy_helper_block_.84
+-[UAChannelAPIClient updateChannelWithLocation:withPayload:onSuccess:onFailure:]
+___80-[UAChannelAPIClient updateChannelWithLocation:withPayload:onSuccess:onFailure:]_block_invoke
+___copy_helper_block_.93
+___destroy_helper_block_.94
+___80-[UAChannelAPIClient updateChannelWithLocation:withPayload:onSuccess:onFailure:]_block_invoke.96
+___80-[UAChannelAPIClient updateChannelWithLocation:withPayload:onSuccess:onFailure:]_block_invoke_2
+___copy_helper_block_.103
+___destroy_helper_block_.104
+___block_descriptor_tmp
+___block_descriptor_tmp.67
+___block_literal_global
+___block_descriptor_tmp.86
+___block_descriptor_tmp.95
+___block_descriptor_tmp.97
+___block_literal_global.98
+___block_descriptor_tmp.105
+Apple LLVM version 9.0.0 (clang-900.0.38)
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAChannelAPIClient.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit
+__destroy_helper_block_
+__copy_helper_block_
+__80-[UAChannelAPIClient updateChannelWithLocation:withPayload:onSuccess:onFailure:]_block_invoke_2
+__80-[UAChannelAPIClient updateChannelWithLocation:withPayload:onSuccess:onFailure:]_block_invoke.96
+__80-[UAChannelAPIClient updateChannelWithLocation:withPayload:onSuccess:onFailure:]_block_invoke
+__67-[UAChannelAPIClient createChannelWithPayload:onSuccess:onFailure:]_block_invoke_2
+__67-[UAChannelAPIClient createChannelWithPayload:onSuccess:onFailure:]_block_invoke.58
+__67-[UAChannelAPIClient createChannelWithPayload:onSuccess:onFailure:]_block_invoke
+-[UAMediaEventTemplate initWithName:withValue:withSource:withMedium:]
++[UAMediaEventTemplate browsedTemplate]
++[UAMediaEventTemplate starredTemplate]
++[UAMediaEventTemplate sharedTemplateWithSource:withMedium:]
++[UAMediaEventTemplate sharedTemplate]
++[UAMediaEventTemplate consumedTemplate]
++[UAMediaEventTemplate consumedTemplateWithValueFromString:]
++[UAMediaEventTemplate consumedTemplateWithValue:]
+-[UAMediaEventTemplate setIsFeature:]
+-[UAMediaEventTemplate createEvent]
+-[UAMediaEventTemplate identifier]
+-[UAMediaEventTemplate setIdentifier:]
+-[UAMediaEventTemplate category]
+-[UAMediaEventTemplate setCategory:]
+-[UAMediaEventTemplate type]
+-[UAMediaEventTemplate setType:]
+-[UAMediaEventTemplate eventDescription]
+-[UAMediaEventTemplate setEventDescription:]
+-[UAMediaEventTemplate isFeature]
+-[UAMediaEventTemplate author]
+-[UAMediaEventTemplate setAuthor:]
+-[UAMediaEventTemplate publishedDate]
+-[UAMediaEventTemplate setPublishedDate:]
+-[UAMediaEventTemplate eventName]
+-[UAMediaEventTemplate setEventName:]
+-[UAMediaEventTemplate source]
+-[UAMediaEventTemplate setSource:]
+-[UAMediaEventTemplate medium]
+-[UAMediaEventTemplate setMedium:]
+-[UAMediaEventTemplate eventValue]
+-[UAMediaEventTemplate setEventValue:]
+-[UAMediaEventTemplate featureSet]
+-[UAMediaEventTemplate setFeatureSet:]
+-[UAMediaEventTemplate .cxx_destruct]
+_OBJC_IVAR_$_UAMediaEventTemplate._isFeature
+_OBJC_IVAR_$_UAMediaEventTemplate._identifier
+_OBJC_IVAR_$_UAMediaEventTemplate._category
+_OBJC_IVAR_$_UAMediaEventTemplate._type
+_OBJC_IVAR_$_UAMediaEventTemplate._eventDescription
+_OBJC_IVAR_$_UAMediaEventTemplate._author
+_OBJC_IVAR_$_UAMediaEventTemplate._publishedDate
+_OBJC_IVAR_$_UAMediaEventTemplate._eventName
+_OBJC_IVAR_$_UAMediaEventTemplate._source
+_OBJC_IVAR_$_UAMediaEventTemplate._medium
+_OBJC_IVAR_$_UAMediaEventTemplate._eventValue
+_OBJC_IVAR_$_UAMediaEventTemplate._featureSet
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAMediaEventTemplate.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAMediaEventTemplate.h
+-[UAAction initWithBlock:]
+-[UAAction runWithArguments:completionHandler:]
+___47-[UAAction runWithArguments:completionHandler:]_block_invoke
+___47-[UAAction runWithArguments:completionHandler:]_block_invoke_2
+___47-[UAAction runWithArguments:completionHandler:]_block_invoke_3
+___47-[UAAction runWithArguments:completionHandler:]_block_invoke_4
+___47-[UAAction runWithArguments:completionHandler:]_block_invoke_5
+___copy_helper_block_.36
+___destroy_helper_block_.37
+___copy_helper_block_.41
+___destroy_helper_block_.42
+-[UAAction acceptsArguments:]
+-[UAAction willPerformWithArguments:]
+-[UAAction performWithArguments:completionHandler:]
+-[UAAction didPerformWithArguments:withResult:]
++[UAAction actionWithBlock:]
++[UAAction actionWithBlock:acceptingArguments:]
+-[UAAction actionBlock]
+-[UAAction setActionBlock:]
+-[UAAction acceptsArgumentsBlock]
+-[UAAction setAcceptsArgumentsBlock:]
+-[UAAction .cxx_destruct]
+___block_descriptor_tmp.10
+___block_literal_global.11
+___block_descriptor_tmp.35
+___block_descriptor_tmp.38
+___block_descriptor_tmp.43
+_OBJC_IVAR_$_UAAction._actionBlock
+_OBJC_IVAR_$_UAAction._acceptsArgumentsBlock
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAction.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAction+Internal.h
+__47-[UAAction runWithArguments:completionHandler:]_block_invoke_5
+__47-[UAAction runWithArguments:completionHandler:]_block_invoke_4
+__47-[UAAction runWithArguments:completionHandler:]_block_invoke_3
+__47-[UAAction runWithArguments:completionHandler:]_block_invoke_2
+__47-[UAAction runWithArguments:completionHandler:]_block_invoke
+-[UAActionResult initWithValue:withFetchResult:withStatus:]
++[UAActionResult resultWithValue:]
++[UAActionResult resultWithValue:withFetchResult:]
++[UAActionResult emptyResult]
++[UAActionResult resultWithError:withFetchResult:]
++[UAActionResult resultWithError:]
++[UAActionResult rejectedArgumentsResult]
++[UAActionResult actionNotFoundResult]
+-[UAActionResult value]
+-[UAActionResult setValue:]
+-[UAActionResult fetchResult]
+-[UAActionResult setFetchResult:]
+-[UAActionResult error]
+-[UAActionResult setError:]
+-[UAActionResult status]
+-[UAActionResult setStatus:]
+-[UAActionResult .cxx_destruct]
+_OBJC_IVAR_$_UAActionResult._value
+_OBJC_IVAR_$_UAActionResult._fetchResult
+_OBJC_IVAR_$_UAActionResult._error
+_OBJC_IVAR_$_UAActionResult._status
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionResult.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionResult+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionResult.h
+-[UAEvent init]
+-[UAEvent isValid]
+-[UAEvent eventType]
+-[UAEvent priority]
+-[UAEvent description]
+-[UAEvent carrierName]
+-[UAEvent notificationTypes]
+-[UAEvent jsonEventSize]
+-[UAEvent debugQuickLookObject]
+-[UAEvent time]
+-[UAEvent setTime:]
+-[UAEvent eventID]
+-[UAEvent setEventID:]
+-[UAEvent data]
+-[UAEvent setData:]
+-[UAEvent .cxx_destruct]
+_OBJC_IVAR_$_UAEvent._time
+_OBJC_IVAR_$_UAEvent._eventID
+_OBJC_IVAR_$_UAEvent._data
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAEvent.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAEvent+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAEvent.h
+-[UAPush dealloc]
+-[UAPush initWithConfig:dataStore:]
++[UAPush pushWithConfig:dataStore:]
+-[UAPush updateAuthorizedNotificationTypes]
+___43-[UAPush updateAuthorizedNotificationTypes]_block_invoke
+-[UAPush authorizedNotificationOptions]
+-[UAPush setAuthorizedNotificationOptions:]
+-[UAPush setDeviceToken:]
+-[UAPush deviceToken]
+-[UAPush setChannelID:]
+-[UAPush channelID]
+-[UAPush setChannelLocation:]
+-[UAPush channelLocation]
+-[UAPush isAutobadgeEnabled]
+-[UAPush setAutobadgeEnabled:]
+-[UAPush alias]
+-[UAPush setAlias:]
+-[UAPush tags]
+-[UAPush setTags:]
+-[UAPush enableChannelCreation]
+-[UAPush userPushNotificationsEnabled]
+-[UAPush setUserPushNotificationsEnabled:]
+-[UAPush userPromptedForNotifications]
+-[UAPush setUserPromptedForNotifications:]
+-[UAPush backgroundPushNotificationsEnabled]
+-[UAPush setBackgroundPushNotificationsEnabled:]
+-[UAPush pushTokenRegistrationEnabled]
+-[UAPush setPushTokenRegistrationEnabled:]
+-[UAPush setCustomCategories:]
+___30-[UAPush setCustomCategories:]_block_invoke
+-[UAPush setRequireAuthorizationForDefaultCategories:]
+-[UAPush combinedCategories]
+-[UAPush quietTime]
+-[UAPush setQuietTime:]
+-[UAPush isQuietTimeEnabled]
+-[UAPush setQuietTimeEnabled:]
+-[UAPush timeZone]
+-[UAPush setTimeZone:]
+-[UAPush defaultTimeZoneForQuietTime]
+-[UAPush setNotificationOptions:]
+-[UAPush setRequireSettingsAppToDisableUserNotifications:]
+-[UAPush requireSettingsAppToDisableUserNotifications]
+-[UAPush setQuietTimeStartHour:startMinute:endHour:endMinute:]
+-[UAPush addTag:]
+-[UAPush addTags:]
+-[UAPush removeTag:]
+-[UAPush removeTags:]
+-[UAPush addTags:group:]
+-[UAPush removeTags:group:]
+-[UAPush setTags:group:]
+-[UAPush setBadgeNumber:]
+-[UAPush resetBadge]
+-[UAPush applicationDidBecomeActive]
+-[UAPush applicationDidEnterBackground]
+-[UAPush application:didRegisterForRemoteNotificationsWithDeviceToken:]
+-[UAPush application:didFailToRegisterForRemoteNotificationsWithError:]
+-[UAPush createChannelPayload]
+-[UAPush userPushNotificationsAllowed]
+-[UAPush backgroundPushNotificationsAllowed]
+-[UAPush updateRegistration]
+-[UAPush updateChannelRegistrationForcefully:]
+___46-[UAPush updateChannelRegistrationForcefully:]_block_invoke
+___copy_helper_block_.430
+___destroy_helper_block_.431
+-[UAPush updateChannelTagGroups]
+___32-[UAPush updateChannelTagGroups]_block_invoke
+___copy_helper_block_.446
+___destroy_helper_block_.447
+___32-[UAPush updateChannelTagGroups]_block_invoke.451
+___copy_helper_block_.460
+___destroy_helper_block_.461
+___32-[UAPush updateChannelTagGroups]_block_invoke.467
+___32-[UAPush updateChannelTagGroups]_block_invoke_2
+___copy_helper_block_.468
+___destroy_helper_block_.469
+___copy_helper_block_.471
+___destroy_helper_block_.472
+-[UAPush updateAPNSRegistration]
+___32-[UAPush updateAPNSRegistration]_block_invoke
+___copy_helper_block_.484
+___destroy_helper_block_.485
+-[UAPush notificationRegistrationFinishedWithOptions:]
+___54-[UAPush notificationRegistrationFinishedWithOptions:]_block_invoke
+-[UAPush registrationSucceededWithPayload:]
+-[UAPush registrationFailedWithPayload:]
+-[UAPush channelCreated:channelLocation:existing:]
+-[UAPush presentationOptionsForNotification:]
+-[UAPush handleNotificationResponse:completionHandler:]
+-[UAPush handleRemoteNotification:foreground:completionHandler:]
+___64-[UAPush handleRemoteNotification:foreground:completionHandler:]_block_invoke
+___copy_helper_block_.535
+___destroy_helper_block_.536
+___64-[UAPush handleRemoteNotification:foreground:completionHandler:]_block_invoke.540
+___copy_helper_block_.541
+___destroy_helper_block_.542
+-[UAPush setBackgroundPushNotificationsEnabledByDefault:]
+-[UAPush setUserPushNotificationsEnabledByDefault:]
+-[UAPush beginRegistrationBackgroundTask]
+___41-[UAPush beginRegistrationBackgroundTask]_block_invoke
+___copy_helper_block_.546
+___destroy_helper_block_.547
+-[UAPush endRegistrationBackgroundTask]
+-[UAPush migratePushSettings]
+___29-[UAPush migratePushSettings]_block_invoke
+___copy_helper_block_.566
+___destroy_helper_block_.567
+-[UAPush backgroundPushNotificationsEnabledByDefault]
+-[UAPush allowUnregisteringUserNotificationTypes]
+-[UAPush setAllowUnregisteringUserNotificationTypes:]
+-[UAPush userPushNotificationsEnabledByDefault]
+-[UAPush notificationOptions]
+-[UAPush customCategories]
+-[UAPush requireAuthorizationForDefaultCategories]
+-[UAPush pushNotificationDelegate]
+-[UAPush setPushNotificationDelegate:]
+-[UAPush registrationDelegate]
+-[UAPush setRegistrationDelegate:]
+-[UAPush launchNotificationResponse]
+-[UAPush setLaunchNotificationResponse:]
+-[UAPush defaultPresentationOptions]
+-[UAPush setDefaultPresentationOptions:]
+-[UAPush isChannelTagRegistrationEnabled]
+-[UAPush setChannelTagRegistrationEnabled:]
+-[UAPush isChannelCreationEnabled]
+-[UAPush setChannelCreationEnabled:]
+-[UAPush channelRegistrar]
+-[UAPush setChannelRegistrar:]
+-[UAPush registrationBackgroundTask]
+-[UAPush setRegistrationBackgroundTask:]
+-[UAPush shouldUpdateAPNSRegistration]
+-[UAPush setShouldUpdateAPNSRegistration:]
+-[UAPush dataStore]
+-[UAPush setDataStore:]
+-[UAPush tagGroupsAPIClient]
+-[UAPush setTagGroupsAPIClient:]
+-[UAPush pushRegistration]
+-[UAPush setPushRegistration:]
+-[UAPush .cxx_destruct]
+___block_descriptor_tmp.232
+_OBJC_IVAR_$_UAPush._customCategories
+_OBJC_IVAR_$_UAPush._requireAuthorizationForDefaultCategories
+_OBJC_IVAR_$_UAPush._notificationOptions
+_OBJC_IVAR_$_UAPush._requireSettingsAppToDisableUserNotifications
+___block_descriptor_tmp.433
+___block_descriptor_tmp.448
+___block_descriptor_tmp.462
+___block_descriptor_tmp.470
+___block_descriptor_tmp.473
+___block_descriptor_tmp.486
+___block_descriptor_tmp.487
+___block_literal_global.488
+___block_descriptor_tmp.537
+___block_descriptor_tmp.543
+_OBJC_IVAR_$_UAPush._backgroundPushNotificationsEnabledByDefault
+_OBJC_IVAR_$_UAPush._userPushNotificationsEnabledByDefault
+___block_descriptor_tmp.548
+___block_descriptor_tmp.569
+_OBJC_IVAR_$_UAPush._allowUnregisteringUserNotificationTypes
+_OBJC_IVAR_$_UAPush._pushNotificationDelegate
+_OBJC_IVAR_$_UAPush._registrationDelegate
+_OBJC_IVAR_$_UAPush._launchNotificationResponse
+_OBJC_IVAR_$_UAPush._defaultPresentationOptions
+_OBJC_IVAR_$_UAPush._channelTagRegistrationEnabled
+_OBJC_IVAR_$_UAPush._channelCreationEnabled
+_OBJC_IVAR_$_UAPush._channelRegistrar
+_OBJC_IVAR_$_UAPush._registrationBackgroundTask
+_OBJC_IVAR_$_UAPush._shouldUpdateAPNSRegistration
+_OBJC_IVAR_$_UAPush._dataStore
+_OBJC_IVAR_$_UAPush._tagGroupsAPIClient
+_OBJC_IVAR_$_UAPush._pushRegistration
+l_OBJC_PROTOCOL_$_NSObject
+l_OBJC_LABEL_PROTOCOL_$_NSObject
+l_OBJC_PROTOCOL_$_UAChannelRegistrarDelegate
+l_OBJC_LABEL_PROTOCOL_$_UAChannelRegistrarDelegate
+l_OBJC_PROTOCOL_$_UAAPNSRegistrationDelegate
+l_OBJC_LABEL_PROTOCOL_$_UAAPNSRegistrationDelegate
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAPush.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAPush+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAPush.h
+__29-[UAPush migratePushSettings]_block_invoke
+__41-[UAPush beginRegistrationBackgroundTask]_block_invoke
+__64-[UAPush handleRemoteNotification:foreground:completionHandler:]_block_invoke.540
+__64-[UAPush handleRemoteNotification:foreground:completionHandler:]_block_invoke
+__54-[UAPush notificationRegistrationFinishedWithOptions:]_block_invoke
+__32-[UAPush updateAPNSRegistration]_block_invoke
+__32-[UAPush updateChannelTagGroups]_block_invoke_2
+__32-[UAPush updateChannelTagGroups]_block_invoke.467
+__32-[UAPush updateChannelTagGroups]_block_invoke.451
+__32-[UAPush updateChannelTagGroups]_block_invoke
+__46-[UAPush updateChannelRegistrationForcefully:]_block_invoke
+__30-[UAPush setCustomCategories:]_block_invoke
+NSMakeRange
+/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS11.0.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSRange.h
+__43-[UAPush updateAuthorizedNotificationTypes]_block_invoke
+-[UAAccountEventTemplate initWithValue:]
++[UAAccountEventTemplate registeredTemplate]
++[UAAccountEventTemplate registeredTemplateWithValueFromString:]
++[UAAccountEventTemplate registeredTemplateWithValue:]
+-[UAAccountEventTemplate setEventValue:]
+-[UAAccountEventTemplate createEvent]
+-[UAAccountEventTemplate eventValue]
+-[UAAccountEventTemplate transactionID]
+-[UAAccountEventTemplate setTransactionID:]
+-[UAAccountEventTemplate category]
+-[UAAccountEventTemplate setCategory:]
+-[UAAccountEventTemplate eventName]
+-[UAAccountEventTemplate setEventName:]
+-[UAAccountEventTemplate .cxx_destruct]
+_OBJC_IVAR_$_UAAccountEventTemplate._eventValue
+_OBJC_IVAR_$_UAAccountEventTemplate._transactionID
+_OBJC_IVAR_$_UAAccountEventTemplate._category
+_OBJC_IVAR_$_UAAccountEventTemplate._eventName
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAccountEventTemplate.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAccountEventTemplate.h
+-[UAChannelRegistrar initWithConfig:]
++[UAChannelRegistrar channelRegistrarWithConfig:]
+-[UAChannelRegistrar registerWithChannelID:channelLocation:withPayload:forcefully:]
+-[UAChannelRegistrar cancelAllRequests]
+-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]
+___64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke
+___64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke_2
+___copy_helper_block_.39
+___destroy_helper_block_.40
+___64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke.42
+___64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke_2.50
+___copy_helper_block_.53
+___destroy_helper_block_.54
+___64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke.56
+___64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke_2.59
+___copy_helper_block_.60
+___destroy_helper_block_.61
+___64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke_2.65
+___copy_helper_block_.68
+___destroy_helper_block_.69
+___copy_helper_block_.71
+___destroy_helper_block_.72
+___64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke.75
+___64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke_2.78
+___copy_helper_block_.79
+___destroy_helper_block_.80
+___copy_helper_block_.82
+___destroy_helper_block_.83
+___copy_helper_block_.90
+___destroy_helper_block_.91
+-[UAChannelRegistrar createChannelWithPayload:]
+___47-[UAChannelRegistrar createChannelWithPayload:]_block_invoke
+___47-[UAChannelRegistrar createChannelWithPayload:]_block_invoke_2
+___copy_helper_block_.97
+___destroy_helper_block_.98
+___47-[UAChannelRegistrar createChannelWithPayload:]_block_invoke_2.100
+___copy_helper_block_.101
+___destroy_helper_block_.102
+___copy_helper_block_.104
+___destroy_helper_block_.105
+___47-[UAChannelRegistrar createChannelWithPayload:]_block_invoke.107
+___47-[UAChannelRegistrar createChannelWithPayload:]_block_invoke_2.110
+___copy_helper_block_.111
+___destroy_helper_block_.112
+___copy_helper_block_.114
+___destroy_helper_block_.115
+-[UAChannelRegistrar failedWithPayload:]
+-[UAChannelRegistrar succeededWithPayload:]
+-[UAChannelRegistrar channelCreated:channelLocation:existing:]
+-[UAChannelRegistrar delegate]
+-[UAChannelRegistrar setDelegate:]
+-[UAChannelRegistrar channelAPIClient]
+-[UAChannelRegistrar setChannelAPIClient:]
+-[UAChannelRegistrar lastSuccessPayload]
+-[UAChannelRegistrar setLastSuccessPayload:]
+-[UAChannelRegistrar isRegistrationInProgress]
+-[UAChannelRegistrar setIsRegistrationInProgress:]
+-[UAChannelRegistrar .cxx_destruct]
+___block_descriptor_tmp.41
+___block_descriptor_tmp.55
+___block_descriptor_tmp.62
+___block_descriptor_tmp.70
+___block_descriptor_tmp.74
+___block_descriptor_tmp.81
+___block_descriptor_tmp.85
+___block_descriptor_tmp.92
+___block_descriptor_tmp.99
+___block_descriptor_tmp.103
+___block_descriptor_tmp.106
+___block_descriptor_tmp.113
+___block_descriptor_tmp.116
+_OBJC_IVAR_$_UAChannelRegistrar._delegate
+_OBJC_IVAR_$_UAChannelRegistrar._channelAPIClient
+_OBJC_IVAR_$_UAChannelRegistrar._lastSuccessPayload
+_OBJC_IVAR_$_UAChannelRegistrar._isRegistrationInProgress
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAChannelRegistrar.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAChannelRegistrar+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAChannelRegistrar.h
+__47-[UAChannelRegistrar createChannelWithPayload:]_block_invoke_2.110
+__47-[UAChannelRegistrar createChannelWithPayload:]_block_invoke.107
+__47-[UAChannelRegistrar createChannelWithPayload:]_block_invoke_2.100
+__47-[UAChannelRegistrar createChannelWithPayload:]_block_invoke_2
+__47-[UAChannelRegistrar createChannelWithPayload:]_block_invoke
+__64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke_2.78
+__64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke.75
+__64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke_2.65
+__64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke_2.59
+__64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke.56
+__64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke_2.50
+__64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke.42
+__64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke_2
+__64-[UAChannelRegistrar updateChannel:channelLocation:withPayload:]_block_invoke
++[UAInteractiveNotificationEvent eventWithNotificationAction:categoryID:notification:]
++[UAInteractiveNotificationEvent eventWithNotificationAction:categoryID:notification:responseText:]
+-[UAInteractiveNotificationEvent eventType]
+-[UAInteractiveNotificationEvent priority]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAInteractiveNotificationEvent.m
++[UAirshipVersion get]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAirshipVersion.m
++[UAInstallAttributionEvent event]
++[UAInstallAttributionEvent eventWithAppPurchaseDate:iAdImpressionDate:]
+-[UAInstallAttributionEvent eventType]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAInstallAttributionEvent.m
+-[UATextInputNotificationAction initWithIdentifier:title:textInputButtonTitle:textInputPlaceholder:options:]
++[UATextInputNotificationAction actionWithIdentifier:title:textInputButtonTitle:textInputPlaceholder:options:]
+-[UATextInputNotificationAction textInputButtonTitle]
+-[UATextInputNotificationAction setTextInputButtonTitle:]
+-[UATextInputNotificationAction textInputPlaceholder]
+-[UATextInputNotificationAction setTextInputPlaceholder:]
+-[UATextInputNotificationAction forceBackgroundActivationModeInIOS9]
+-[UATextInputNotificationAction setForceBackgroundActivationModeInIOS9:]
+-[UATextInputNotificationAction .cxx_destruct]
+_OBJC_IVAR_$_UATextInputNotificationAction._textInputButtonTitle
+_OBJC_IVAR_$_UATextInputNotificationAction._textInputPlaceholder
+_OBJC_IVAR_$_UATextInputNotificationAction._forceBackgroundActivationModeInIOS9
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UATextInputNotificationAction.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UATextInputNotificationAction.h
+-[UARequestSession initWithConfig:session:queue:]
++[UARequestSession sessionWithConfig:]
++[UARequestSession sessionWithConfig:NSURLSession:]
++[UARequestSession sessionWithConfig:NSURLSession:queue:]
+-[UARequestSession setValue:forHeader:]
+-[UARequestSession dataTaskWithRequest:completionHandler:]
+-[UARequestSession dataTaskWithRequest:retryWhere:completionHandler:]
+-[UARequestSession cancelAllRequests]
+-[UARequestSession operationWithRequest:retryDelay:retryWhere:completionHandler:]
+___81-[UARequestSession operationWithRequest:retryDelay:retryWhere:completionHandler:]_block_invoke
++[UARequestSession userAgentWithAppKey:]
+-[UARequestSession session]
+-[UARequestSession setSession:]
+-[UARequestSession queue]
+-[UARequestSession setQueue:]
+-[UARequestSession headers]
+-[UARequestSession setHeaders:]
+-[UARequestSession .cxx_destruct]
+_OBJC_IVAR_$_UARequestSession._session
+_OBJC_IVAR_$_UARequestSession._queue
+_OBJC_IVAR_$_UARequestSession._headers
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UARequestSession.m
+__81-[UARequestSession operationWithRequest:retryDelay:retryWhere:completionHandler:]_block_invoke
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UADeepLinkAction.m
+-[UAJSONPredicate initWithType:jsonMatcher:subpredicates:]
+-[UAJSONPredicate payload]
+-[UAJSONPredicate evaluateObject:]
++[UAJSONPredicate predicateWithJSONMatcher:]
++[UAJSONPredicate andPredicateWithSubpredicates:]
++[UAJSONPredicate orPredicateWithSubpredicates:]
++[UAJSONPredicate notPredicateWithSubpredicate:]
++[UAJSONPredicate predicateWithJSON:error:]
+-[UAJSONPredicate type]
+-[UAJSONPredicate setType:]
+-[UAJSONPredicate subpredicates]
+-[UAJSONPredicate setSubpredicates:]
+-[UAJSONPredicate jsonMatcher]
+-[UAJSONPredicate setJsonMatcher:]
+-[UAJSONPredicate .cxx_destruct]
+_OBJC_IVAR_$_UAJSONPredicate._type
+_OBJC_IVAR_$_UAJSONPredicate._subpredicates
+_OBJC_IVAR_$_UAJSONPredicate._jsonMatcher
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAJSONPredicate.m
+-[UAAction(Operators) bind:]
+___28-[UAAction(Operators) bind:]_block_invoke
+___28-[UAAction(Operators) bind:]_block_invoke.2
+___copy_helper_block_.5
+___destroy_helper_block_.6
+-[UAAction(Operators) lift:transformingPredicate:]
+___50-[UAAction(Operators) lift:transformingPredicate:]_block_invoke
+___50-[UAAction(Operators) lift:transformingPredicate:]_block_invoke_2
+___copy_helper_block_.9
+___destroy_helper_block_.10
+___copy_helper_block_.14
+___destroy_helper_block_.15
+-[UAAction(Operators) lift:]
+___28-[UAAction(Operators) lift:]_block_invoke
+-[UAAction(Operators) continueWith:]
+___36-[UAAction(Operators) continueWith:]_block_invoke
+___36-[UAAction(Operators) continueWith:]_block_invoke_2
+___36-[UAAction(Operators) continueWith:]_block_invoke_3
+___36-[UAAction(Operators) continueWith:]_block_invoke_4
+___copy_helper_block_.35
+___destroy_helper_block_.36
+___copy_helper_block_.50
+___destroy_helper_block_.51
+___copy_helper_block_.56
+___destroy_helper_block_.57
+-[UAAction(Operators) filter:]
+___30-[UAAction(Operators) filter:]_block_invoke
+___30-[UAAction(Operators) filter:]_block_invoke_2
+___30-[UAAction(Operators) filter:]_block_invoke_3
+___copy_helper_block_.64
+___destroy_helper_block_.65
+___copy_helper_block_.67
+___destroy_helper_block_.68
+-[UAAction(Operators) map:]
+___27-[UAAction(Operators) map:]_block_invoke
+___27-[UAAction(Operators) map:]_block_invoke_2
+___copy_helper_block_.70
+___destroy_helper_block_.71
+___copy_helper_block_.73
+___destroy_helper_block_.74
+___27-[UAAction(Operators) map:]_block_invoke.76
+___27-[UAAction(Operators) map:]_block_invoke_2.77
+___copy_helper_block_.78
+___destroy_helper_block_.79
+___copy_helper_block_.81
+___destroy_helper_block_.82
+-[UAAction(Operators) preExecution:]
+___36-[UAAction(Operators) preExecution:]_block_invoke
+___36-[UAAction(Operators) preExecution:]_block_invoke_2
+___copy_helper_block_.84
+___destroy_helper_block_.85
+___copy_helper_block_.87
+___destroy_helper_block_.88
+-[UAAction(Operators) postExecution:]
+___37-[UAAction(Operators) postExecution:]_block_invoke
+___37-[UAAction(Operators) postExecution:]_block_invoke_2
+___37-[UAAction(Operators) postExecution:]_block_invoke_3
+___copy_helper_block_.96
+___destroy_helper_block_.97
+___block_descriptor_tmp.8
+___block_descriptor_tmp.11
+___block_descriptor_tmp.17
+___block_descriptor_tmp.21
+___block_descriptor_tmp.52
+___block_descriptor_tmp.59
+___block_literal_global.63
+___block_descriptor_tmp.66
+___block_descriptor_tmp.69
+___block_descriptor_tmp.72
+___block_descriptor_tmp.75
+___block_descriptor_tmp.80
+___block_descriptor_tmp.83
+___block_descriptor_tmp.89
+___block_descriptor_tmp.98
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAction+Operators.m
+__37-[UAAction(Operators) postExecution:]_block_invoke_3
+__37-[UAAction(Operators) postExecution:]_block_invoke_2
+__37-[UAAction(Operators) postExecution:]_block_invoke
+__36-[UAAction(Operators) preExecution:]_block_invoke_2
+__36-[UAAction(Operators) preExecution:]_block_invoke
+__27-[UAAction(Operators) map:]_block_invoke_2.77
+__27-[UAAction(Operators) map:]_block_invoke.76
+__27-[UAAction(Operators) map:]_block_invoke_2
+__27-[UAAction(Operators) map:]_block_invoke
+__30-[UAAction(Operators) filter:]_block_invoke_3
+__30-[UAAction(Operators) filter:]_block_invoke_2
+__30-[UAAction(Operators) filter:]_block_invoke
+__36-[UAAction(Operators) continueWith:]_block_invoke_4
+__36-[UAAction(Operators) continueWith:]_block_invoke_3
+__36-[UAAction(Operators) continueWith:]_block_invoke_2
+__36-[UAAction(Operators) continueWith:]_block_invoke
+__28-[UAAction(Operators) lift:]_block_invoke
+__50-[UAAction(Operators) lift:transformingPredicate:]_block_invoke_2
+__50-[UAAction(Operators) lift:transformingPredicate:]_block_invoke
+__28-[UAAction(Operators) bind:]_block_invoke.2
+__28-[UAAction(Operators) bind:]_block_invoke
+-[UATagGroupsMutation encodeWithCoder:]
+-[UATagGroupsMutation initWithCoder:]
++[UATagGroupsMutation mutationToAddTags:group:]
++[UATagGroupsMutation mutationToRemoveTags:group:]
++[UATagGroupsMutation mutationToSetTags:group:]
++[UATagGroupsMutation mutationWithAddTags:removeTags:]
+-[UATagGroupsMutation payload]
++[UATagGroupsMutation collapseMutations:]
++[UATagGroupsMutation normalizeTagGroup:]
++[UATagGroupsMutation prepareTagGroup:]
+-[UATagGroupsMutation addTagGroups]
+-[UATagGroupsMutation setAddTagGroups:]
+-[UATagGroupsMutation removeTagGroups]
+-[UATagGroupsMutation setRemoveTagGroups:]
+-[UATagGroupsMutation setTagGroups]
+-[UATagGroupsMutation setSetTagGroups:]
+-[UATagGroupsMutation .cxx_destruct]
+_OBJC_IVAR_$_UATagGroupsMutation._addTagGroups
+_OBJC_IVAR_$_UATagGroupsMutation._removeTagGroups
+_OBJC_IVAR_$_UATagGroupsMutation._setTagGroups
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UATagGroupsMutation.m
+-[UAActionRegistryEntry initWithAction:predicate:]
+-[UAActionRegistryEntry initWithActionClass:predicate:]
+-[UAActionRegistryEntry action]
+-[UAActionRegistryEntry actionForSituation:]
+-[UAActionRegistryEntry addSituationOverride:withAction:]
++[UAActionRegistryEntry entryForAction:predicate:]
++[UAActionRegistryEntry entryForActionClass:predicate:]
+-[UAActionRegistryEntry description]
+-[UAActionRegistryEntry names]
+-[UAActionRegistryEntry setAction:]
+-[UAActionRegistryEntry predicate]
+-[UAActionRegistryEntry setPredicate:]
+-[UAActionRegistryEntry situationOverrides]
+-[UAActionRegistryEntry setSituationOverrides:]
+-[UAActionRegistryEntry mutableNames]
+-[UAActionRegistryEntry setMutableNames:]
+-[UAActionRegistryEntry actionClass]
+-[UAActionRegistryEntry setActionClass:]
+-[UAActionRegistryEntry .cxx_destruct]
+_OBJC_IVAR_$_UAActionRegistryEntry._action
+_OBJC_IVAR_$_UAActionRegistryEntry._predicate
+_OBJC_IVAR_$_UAActionRegistryEntry._situationOverrides
+_OBJC_IVAR_$_UAActionRegistryEntry._mutableNames
+_OBJC_IVAR_$_UAActionRegistryEntry._actionClass
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionRegistryEntry.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionRegistryEntry+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionRegistryEntry.h
+-[UAFetchDeviceInfoActionPredicate applyActionArguments:]
+l_OBJC_PROTOCOL_$_UAActionPredicateProtocol
+l_OBJC_LABEL_PROTOCOL_$_UAActionPredicateProtocol
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAFetchDeviceInfoActionPredicate.m
+-[UAURLActionPredicate applyActionArguments:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAURLActionPredicate.m
+-[UARemoveTagsAction applyChannelTags:]
+-[UARemoveTagsAction applyChannelTags:group:]
+-[UARemoveTagsAction applyNamedUserTags:group:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UARemoveTagsAction.m
++[UAPushReceivedEvent eventWithNotification:]
+-[UAPushReceivedEvent eventType]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAPushReceivedEvent.m
+-[UANotificationCategory initWithIdentifier:actions:intentIdentifiers:options:]
+-[UANotificationCategory initWithIdentifier:actions:intentIdentifiers:hiddenPreviewsBodyPlaceholder:options:]
++[UANotificationCategory categoryWithIdentifier:actions:intentIdentifiers:options:]
++[UANotificationCategory categoryWithIdentifier:actions:intentIdentifiers:hiddenPreviewsBodyPlaceholder:options:]
+-[UANotificationCategory identifier]
+-[UANotificationCategory setIdentifier:]
+-[UANotificationCategory actions]
+-[UANotificationCategory setActions:]
+-[UANotificationCategory intentIdentifiers]
+-[UANotificationCategory setIntentIdentifiers:]
+-[UANotificationCategory hiddenPreviewsBodyPlaceholder]
+-[UANotificationCategory setHiddenPreviewsBodyPlaceholder:]
+-[UANotificationCategory options]
+-[UANotificationCategory setOptions:]
+-[UANotificationCategory hiddenPreviewsBodyPlaceholderSpecified]
+-[UANotificationCategory setHiddenPreviewsBodyPlaceholderSpecified:]
+-[UANotificationCategory .cxx_destruct]
+_OBJC_IVAR_$_UANotificationCategory._identifier
+_OBJC_IVAR_$_UANotificationCategory._actions
+_OBJC_IVAR_$_UANotificationCategory._intentIdentifiers
+_OBJC_IVAR_$_UANotificationCategory._hiddenPreviewsBodyPlaceholder
+_OBJC_IVAR_$_UANotificationCategory._options
+_OBJC_IVAR_$_UANotificationCategory._hiddenPreviewsBodyPlaceholderSpecified
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANotificationCategory.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANotificationCategory.h
++[UADeviceRegistrationEvent event]
+-[UADeviceRegistrationEvent eventType]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UADeviceRegistrationEvent.m
+-[UABespokeCloseView initWithFrame:]
+-[UABespokeCloseView drawRect:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UABespokeCloseView.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAEventData.m
+-[UAJSONMatcher initWithValueMatcher:key:scope:]
+-[UAJSONMatcher payload]
+-[UAJSONMatcher evaluateObject:]
++[UAJSONMatcher matcherWithValueMatcher:]
++[UAJSONMatcher matcherWithValueMatcher:key:]
++[UAJSONMatcher matcherWithValueMatcher:key:scope:]
++[UAJSONMatcher matcherWithJSON:error:]
+-[UAJSONMatcher key]
+-[UAJSONMatcher setKey:]
+-[UAJSONMatcher scope]
+-[UAJSONMatcher setScope:]
+-[UAJSONMatcher valueMatcher]
+-[UAJSONMatcher setValueMatcher:]
+-[UAJSONMatcher .cxx_destruct]
+_OBJC_IVAR_$_UAJSONMatcher._key
+_OBJC_IVAR_$_UAJSONMatcher._scope
+_OBJC_IVAR_$_UAJSONMatcher._valueMatcher
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAJSONMatcher.m
++[UAScreenTrackingEvent eventWithScreen:startTime:]
+-[UAScreenTrackingEvent isValid]
+-[UAScreenTrackingEvent eventType]
+-[UAScreenTrackingEvent duration]
++[UAScreenTrackingEvent screenTrackingEventCharacterCountIsValid:]
+-[UAScreenTrackingEvent data]
+-[UAScreenTrackingEvent startTime]
+-[UAScreenTrackingEvent setStartTime:]
+-[UAScreenTrackingEvent stopTime]
+-[UAScreenTrackingEvent setStopTime:]
+-[UAScreenTrackingEvent setDuration:]
+-[UAScreenTrackingEvent screen]
+-[UAScreenTrackingEvent setScreen:]
+-[UAScreenTrackingEvent previousScreen]
+-[UAScreenTrackingEvent setPreviousScreen:]
+-[UAScreenTrackingEvent .cxx_destruct]
+_OBJC_IVAR_$_UAScreenTrackingEvent._startTime
+_OBJC_IVAR_$_UAScreenTrackingEvent._stopTime
+_OBJC_IVAR_$_UAScreenTrackingEvent._duration
+_OBJC_IVAR_$_UAScreenTrackingEvent._screen
+_OBJC_IVAR_$_UAScreenTrackingEvent._previousScreen
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAScreenTrackingEvent.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAScreenTrackingEvent+Internal.h
+-[UAEventManager initWithConfig:dataStore:eventStore:client:queue:]
+-[UAEventManager dealloc]
++[UAEventManager eventManagerWithConfig:dataStore:]
++[UAEventManager eventManagerWithConfig:dataStore:eventStore:client:queue:]
+-[UAEventManager didBecomeActive]
+-[UAEventManager enterForeground]
+-[UAEventManager enterBackground]
+-[UAEventManager lastSendTime]
+-[UAEventManager setLastSendTime:]
+-[UAEventManager updateAnalyticsParametersWithResponse:]
+-[UAEventManager setMaxTotalDBSize:]
+-[UAEventManager maxTotalDBSize]
+-[UAEventManager setMaxBatchSize:]
+-[UAEventManager maxBatchSize]
+-[UAEventManager setMinBatchInterval:]
+-[UAEventManager minBatchInterval]
+-[UAEventManager addEvent:sessionID:]
+-[UAEventManager deleteAllEvents]
+-[UAEventManager cancelUpload]
+-[UAEventManager scheduleUpload]
+-[UAEventManager scheduleUploadWithDelay:]
+___42-[UAEventManager scheduleUploadWithDelay:]_block_invoke
+-[UAEventManager enqueueUploadOperationWithDelay:]
+___50-[UAEventManager enqueueUploadOperationWithDelay:]_block_invoke
+___50-[UAEventManager enqueueUploadOperationWithDelay:]_block_invoke_2
+___50-[UAEventManager enqueueUploadOperationWithDelay:]_block_invoke_3
+___50-[UAEventManager enqueueUploadOperationWithDelay:]_block_invoke_4
+___copy_helper_block_.219
+___destroy_helper_block_.220
+___copy_helper_block_.225
+___destroy_helper_block_.226
+___copy_helper_block_.228
+___destroy_helper_block_.229
+___copy_helper_block_.234
+___destroy_helper_block_.235
++[UAEventManager clampValue:min:max:]
+-[UAEventManager config]
+-[UAEventManager setConfig:]
+-[UAEventManager eventStore]
+-[UAEventManager setEventStore:]
+-[UAEventManager dataStore]
+-[UAEventManager setDataStore:]
+-[UAEventManager client]
+-[UAEventManager setClient:]
+-[UAEventManager earliestForegroundSendTime]
+-[UAEventManager setEarliestForegroundSendTime:]
+-[UAEventManager queue]
+-[UAEventManager setQueue:]
+-[UAEventManager nextUploadDate]
+-[UAEventManager setNextUploadDate:]
+-[UAEventManager .cxx_destruct]
+___block_descriptor_tmp.222
+___block_descriptor_tmp.227
+___block_descriptor_tmp.231
+___block_descriptor_tmp.237
+_OBJC_IVAR_$_UAEventManager._config
+_OBJC_IVAR_$_UAEventManager._eventStore
+_OBJC_IVAR_$_UAEventManager._dataStore
+_OBJC_IVAR_$_UAEventManager._client
+_OBJC_IVAR_$_UAEventManager._earliestForegroundSendTime
+_OBJC_IVAR_$_UAEventManager._queue
+_OBJC_IVAR_$_UAEventManager._nextUploadDate
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAEventManager.m
+__50-[UAEventManager enqueueUploadOperationWithDelay:]_block_invoke_4
+__50-[UAEventManager enqueueUploadOperationWithDelay:]_block_invoke_3
+__50-[UAEventManager enqueueUploadOperationWithDelay:]_block_invoke_2
+__50-[UAEventManager enqueueUploadOperationWithDelay:]_block_invoke
+__42-[UAEventManager scheduleUploadWithDelay:]_block_invoke
++[UAAppExitEvent event]
+-[UAAppExitEvent eventType]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAppExitEvent.m
++[UANamedUserAPIClient clientWithConfig:]
++[UANamedUserAPIClient clientWithConfig:session:]
+-[UANamedUserAPIClient associate:channelID:onSuccess:onFailure:]
+___64-[UANamedUserAPIClient associate:channelID:onSuccess:onFailure:]_block_invoke
+___64-[UANamedUserAPIClient associate:channelID:onSuccess:onFailure:]_block_invoke_2
+-[UANamedUserAPIClient disassociate:onSuccess:onFailure:]
+___57-[UANamedUserAPIClient disassociate:onSuccess:onFailure:]_block_invoke
+___57-[UANamedUserAPIClient disassociate:onSuccess:onFailure:]_block_invoke_2
+-[UANamedUserAPIClient requestWithPayload:urlString:]
+___53-[UANamedUserAPIClient requestWithPayload:urlString:]_block_invoke
+___copy_helper_block_.107
+___destroy_helper_block_.108
+___block_descriptor_tmp.58
+___block_descriptor_tmp.65
+___block_literal_global.66
+___block_descriptor_tmp.73
+___block_descriptor_tmp.110
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANamedUserAPIClient.m
+__53-[UANamedUserAPIClient requestWithPayload:urlString:]_block_invoke
+__57-[UANamedUserAPIClient disassociate:onSuccess:onFailure:]_block_invoke_2
+__57-[UANamedUserAPIClient disassociate:onSuccess:onFailure:]_block_invoke
+__64-[UANamedUserAPIClient associate:channelID:onSuccess:onFailure:]_block_invoke_2
+__64-[UANamedUserAPIClient associate:channelID:onSuccess:onFailure:]_block_invoke
+-[UABeveledLoadingIndicator initWithCoder:]
+-[UABeveledLoadingIndicator setup]
+-[UABeveledLoadingIndicator awakeFromNib]
+-[UABeveledLoadingIndicator show]
+-[UABeveledLoadingIndicator hide]
+-[UABeveledLoadingIndicator activity]
+-[UABeveledLoadingIndicator setActivity:]
+-[UABeveledLoadingIndicator .cxx_destruct]
+_OBJC_IVAR_$_UABeveledLoadingIndicator._activity
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UABeveledLoadingIndicator.m
+-[UANotificationContent initWithNotificationInfo:]
+-[UANotificationContent initWithUNNotification:]
++[UANotificationContent notificationWithNotificationInfo:]
++[UANotificationContent notificationWithUNNotification:]
+-[UANotificationContent localizationKeys]
+-[UANotificationContent description]
+-[UANotificationContent alertTitle]
+-[UANotificationContent setAlertTitle:]
+-[UANotificationContent alertBody]
+-[UANotificationContent setAlertBody:]
+-[UANotificationContent sound]
+-[UANotificationContent setSound:]
+-[UANotificationContent badge]
+-[UANotificationContent setBadge:]
+-[UANotificationContent contentAvailable]
+-[UANotificationContent setContentAvailable:]
+-[UANotificationContent categoryIdentifier]
+-[UANotificationContent setCategoryIdentifier:]
+-[UANotificationContent launchImage]
+-[UANotificationContent setLaunchImage:]
+-[UANotificationContent notificationInfo]
+-[UANotificationContent setNotificationInfo:]
+-[UANotificationContent notification]
+-[UANotificationContent setNotification:]
+-[UANotificationContent .cxx_destruct]
+_OBJC_IVAR_$_UANotificationContent._alertTitle
+_OBJC_IVAR_$_UANotificationContent._alertBody
+_OBJC_IVAR_$_UANotificationContent._sound
+_OBJC_IVAR_$_UANotificationContent._badge
+_OBJC_IVAR_$_UANotificationContent._contentAvailable
+_OBJC_IVAR_$_UANotificationContent._categoryIdentifier
+_OBJC_IVAR_$_UANotificationContent._launchImage
+_OBJC_IVAR_$_UANotificationContent._notificationInfo
+_OBJC_IVAR_$_UANotificationContent._notification
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANotificationContent.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANotificationContent.h
+-[UAActionArguments initWithValue:withSituation:]
+-[UAActionArguments initWithValue:withSituation:metadata:]
++[UAActionArguments argumentsWithValue:withSituation:]
++[UAActionArguments argumentsWithValue:withSituation:metadata:]
+-[UAActionArguments situationString]
+-[UAActionArguments description]
+-[UAActionArguments situation]
+-[UAActionArguments setSituation:]
+-[UAActionArguments value]
+-[UAActionArguments setValue:]
+-[UAActionArguments metadata]
+-[UAActionArguments setMetadata:]
+-[UAActionArguments .cxx_destruct]
+_OBJC_IVAR_$_UAActionArguments._situation
+_OBJC_IVAR_$_UAActionArguments._value
+_OBJC_IVAR_$_UAActionArguments._metadata
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionArguments.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionArguments+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionArguments.h
++[UAAppIntegration application:performFetchWithCompletionHandler:]
++[UAAppIntegration application:didRegisterForRemoteNotificationsWithDeviceToken:]
++[UAAppIntegration application:didFailToRegisterForRemoteNotificationsWithError:]
++[UAAppIntegration application:didReceiveRemoteNotification:fetchCompletionHandler:]
+___84+[UAAppIntegration application:didReceiveRemoteNotification:fetchCompletionHandler:]_block_invoke
++[UAAppIntegration userNotificationCenter:willPresentNotification:withCompletionHandler:]
+___89+[UAAppIntegration userNotificationCenter:willPresentNotification:withCompletionHandler:]_block_invoke
+___copy_helper_block_.57
+___destroy_helper_block_.58
++[UAAppIntegration handleForegroundNotification:mergedOptions:withCompletionHandler:]
+___85+[UAAppIntegration handleForegroundNotification:mergedOptions:withCompletionHandler:]_block_invoke
++[UAAppIntegration handleNotificationResponse:completionHandler:]
+___65+[UAAppIntegration handleNotificationResponse:completionHandler:]_block_invoke
+___copy_helper_block_.99
+___destroy_helper_block_.100
++[UAAppIntegration handleIncomingNotification:foregroundPresentation:completionHandler:]
+___Block_byref_object_copy_
+___Block_byref_object_dispose_
+___88+[UAAppIntegration handleIncomingNotification:foregroundPresentation:completionHandler:]_block_invoke
+___88+[UAAppIntegration handleIncomingNotification:foregroundPresentation:completionHandler:]_block_invoke_2
+___88+[UAAppIntegration handleIncomingNotification:foregroundPresentation:completionHandler:]_block_invoke_3
+___copy_helper_block_.127
+___destroy_helper_block_.128
+___copy_helper_block_.130
+___destroy_helper_block_.131
+___copy_helper_block_.135
+___destroy_helper_block_.136
++[UAAppIntegration actionsPayloadForNotificationContent:actionIdentifier:]
++[UAAppIntegration notificationActionForCategory:actionIdentifier:]
+___block_descriptor_tmp.102
+___block_descriptor_tmp.129
+___block_descriptor_tmp.132
+___block_descriptor_tmp.137
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAppIntegration.m
+__88+[UAAppIntegration handleIncomingNotification:foregroundPresentation:completionHandler:]_block_invoke_3
+__88+[UAAppIntegration handleIncomingNotification:foregroundPresentation:completionHandler:]_block_invoke_2
+__88+[UAAppIntegration handleIncomingNotification:foregroundPresentation:completionHandler:]_block_invoke
+__Block_byref_object_dispose_
+__Block_byref_object_copy_
+__65+[UAAppIntegration handleNotificationResponse:completionHandler:]_block_invoke
+__85+[UAAppIntegration handleForegroundNotification:mergedOptions:withCompletionHandler:]_block_invoke
+__89+[UAAppIntegration userNotificationCenter:willPresentNotification:withCompletionHandler:]_block_invoke
+__84+[UAAppIntegration application:didReceiveRemoteNotification:fetchCompletionHandler:]_block_invoke
+-[UARegionEvent eventType]
+-[UARegionEvent priority]
+-[UARegionEvent isValid]
++[UARegionEvent regionEventWithRegionID:source:boundaryEvent:]
+-[UARegionEvent data]
+-[UARegionEvent payload]
++[UARegionEvent regionEventRSSIIsValid:]
++[UARegionEvent regionEventRadiusIsValid:]
++[UARegionEvent regionEventLatitudeIsValid:]
++[UARegionEvent regionEventLongitudeIsValid:]
++[UARegionEvent regionEventCharacterCountIsValid:]
+-[UARegionEvent proximityRegion]
+-[UARegionEvent setProximityRegion:]
+-[UARegionEvent circularRegion]
+-[UARegionEvent setCircularRegion:]
+-[UARegionEvent source]
+-[UARegionEvent setSource:]
+-[UARegionEvent regionID]
+-[UARegionEvent setRegionID:]
+-[UARegionEvent boundaryEvent]
+-[UARegionEvent setBoundaryEvent:]
+-[UARegionEvent .cxx_destruct]
+_OBJC_IVAR_$_UARegionEvent._proximityRegion
+_OBJC_IVAR_$_UARegionEvent._circularRegion
+_OBJC_IVAR_$_UARegionEvent._source
+_OBJC_IVAR_$_UARegionEvent._regionID
+_OBJC_IVAR_$_UARegionEvent._boundaryEvent
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UARegionEvent.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UARegionEvent+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UARegionEvent.h
++[UATagUtils normalizeTags:]
++[UATagUtils normalizeTagGroupID:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UATagUtils.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAScheduleTriggerData.m
+-[UAAppForegroundEvent gatherData]
+-[UAAppForegroundEvent eventType]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAppForegroundEvent.m
++[UAJSONValueTransformer transformedValueClass]
++[UAJSONValueTransformer allowsReverseTransformation]
+-[UAJSONValueTransformer transformedValue:]
+-[UAJSONValueTransformer reverseTransformedValue:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAJSONValueTransformer.m
+-[UAUserData initWithUsername:password:url:]
++[UAUserData dataWithUsername:password:url:]
+-[UAUserData username]
+-[UAUserData setUsername:]
+-[UAUserData password]
+-[UAUserData setPassword:]
+-[UAUserData url]
+-[UAUserData setUrl:]
+-[UAUserData .cxx_destruct]
+_OBJC_IVAR_$_UAUserData._username
+_OBJC_IVAR_$_UAUserData._password
+_OBJC_IVAR_$_UAUserData._url
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAUserData.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAUserData+Internal.h
++[UAirship setLogging:]
++[UAirship setLogLevel:]
++[UAirship setLoudImpErrorLogging:]
++[UAirship load]
+-[UAirship initWithConfig:dataStore:]
++[UAirship takeOff]
++[UAirship takeOff:]
+___20+[UAirship takeOff:]_block_invoke
++[UAirship executeUnsafeTakeOff:]
+___33+[UAirship executeUnsafeTakeOff:]_block_invoke
++[UAirship handleAppDidFinishLaunchingNotification:]
+___52+[UAirship handleAppDidFinishLaunchingNotification:]_block_invoke
+___52+[UAirship handleAppDidFinishLaunchingNotification:]_block_invoke_2
++[UAirship handleAppTerminationNotification:]
++[UAirship land]
++[UAirship setSharedAirship:]
++[UAirship shared]
++[UAirship push]
++[UAirship location]
++[UAirship namedUser]
++[UAirship automation]
++[UAirship resources]
+___21+[UAirship resources]_block_invoke
+___copy_helper_block_.266
+___destroy_helper_block_.267
+-[UAirship validate]
+-[UAirship config]
+-[UAirship setConfig:]
+-[UAirship analytics]
+-[UAirship setAnalytics:]
+-[UAirship actionRegistry]
+-[UAirship setActionRegistry:]
+-[UAirship applicationMetrics]
+-[UAirship setApplicationMetrics:]
+-[UAirship remoteNotificationBackgroundModeEnabled]
+-[UAirship setRemoteNotificationBackgroundModeEnabled:]
+-[UAirship jsDelegate]
+-[UAirship setJsDelegate:]
+-[UAirship whitelist]
+-[UAirship setWhitelist:]
+-[UAirship channelCapture]
+-[UAirship setChannelCapture:]
+-[UAirship actionJSDelegate]
+-[UAirship setActionJSDelegate:]
+-[UAirship dataStore]
+-[UAirship setDataStore:]
+-[UAirship sharedPush]
+-[UAirship setSharedPush:]
+-[UAirship sharedInboxUser]
+-[UAirship setSharedInboxUser:]
+-[UAirship sharedInAppMessaging]
+-[UAirship setSharedInAppMessaging:]
+-[UAirship sharedDefaultMessageCenter]
+-[UAirship setSharedDefaultMessageCenter:]
+-[UAirship sharedLocation]
+-[UAirship setSharedLocation:]
+-[UAirship sharedNamedUser]
+-[UAirship setSharedNamedUser:]
+-[UAirship sharedAutomation]
+-[UAirship setSharedAutomation:]
+-[UAirship .cxx_destruct]
+_takeOffPred_
+_sharedAirship_
+_appDidFinishLaunchingNotification_
+___block_descriptor_tmp.221
+___block_descriptor_tmp.230
+___block_literal_global.231
+___block_descriptor_tmp.239
+___block_literal_global.240
+_resources.onceToken
+_resourcesBundle_
+___block_descriptor_tmp.268
+_OBJC_IVAR_$_UAirship._config
+_OBJC_IVAR_$_UAirship._analytics
+_OBJC_IVAR_$_UAirship._actionRegistry
+_OBJC_IVAR_$_UAirship._applicationMetrics
+_OBJC_IVAR_$_UAirship._remoteNotificationBackgroundModeEnabled
+_OBJC_IVAR_$_UAirship._jsDelegate
+_OBJC_IVAR_$_UAirship._whitelist
+_OBJC_IVAR_$_UAirship._channelCapture
+_OBJC_IVAR_$_UAirship._actionJSDelegate
+_OBJC_IVAR_$_UAirship._dataStore
+_OBJC_IVAR_$_UAirship._sharedPush
+_OBJC_IVAR_$_UAirship._sharedInboxUser
+_OBJC_IVAR_$_UAirship._sharedInAppMessaging
+_OBJC_IVAR_$_UAirship._sharedDefaultMessageCenter
+_OBJC_IVAR_$_UAirship._sharedLocation
+_OBJC_IVAR_$_UAirship._sharedNamedUser
+_OBJC_IVAR_$_UAirship._sharedAutomation
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAirship.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAirship+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAirship.h
+__21+[UAirship resources]_block_invoke
+_dispatch_once
+/Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS11.0.sdk/usr/include/dispatch/once.h
+__52+[UAirship handleAppDidFinishLaunchingNotification:]_block_invoke_2
+__52+[UAirship handleAppDidFinishLaunchingNotification:]_block_invoke
+__33+[UAirship executeUnsafeTakeOff:]_block_invoke
+__20+[UAirship takeOff:]_block_invoke
++[NSManagedObjectContext(UAAdditions) managedObjectContextForModelURL:concurrencyType:]
+-[NSManagedObjectContext(UAAdditions) addPersistentSqlStore:completionHandler:]
+___79-[NSManagedObjectContext(UAAdditions) addPersistentSqlStore:completionHandler:]_block_invoke
+-[NSManagedObjectContext(UAAdditions) safePerformBlock:]
+___56-[NSManagedObjectContext(UAAdditions) safePerformBlock:]_block_invoke
+-[NSManagedObjectContext(UAAdditions) safeSave]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/NSManagedContext+UAAdditions.m
+__56-[NSManagedObjectContext(UAAdditions) safePerformBlock:]_block_invoke
+__79-[NSManagedObjectContext(UAAdditions) addPersistentSqlStore:completionHandler:]_block_invoke
++[UAActionRunner runActionWithName:value:situation:]
++[UAActionRunner runActionWithName:value:situation:metadata:]
++[UAActionRunner runActionWithName:value:situation:completionHandler:]
++[UAActionRunner runActionWithName:value:situation:metadata:completionHandler:]
++[UAActionRunner runAction:value:situation:]
++[UAActionRunner runAction:value:situation:metadata:]
++[UAActionRunner runAction:value:situation:completionHandler:]
++[UAActionRunner runAction:value:situation:metadata:completionHandler:]
++[UAActionRunner runActionsWithActionValues:situation:metadata:completionHandler:]
+___82+[UAActionRunner runActionsWithActionValues:situation:metadata:completionHandler:]_block_invoke
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionRunner.m
+__82+[UAActionRunner runActionsWithActionValues:situation:metadata:completionHandler:]_block_invoke
+-[NSOperationQueue(UAAdditions) addBackgroundOperation:delay:]
+___62-[NSOperationQueue(UAAdditions) addBackgroundOperation:delay:]_block_invoke
+___62-[NSOperationQueue(UAAdditions) addBackgroundOperation:delay:]_block_invoke.9
+___copy_helper_block_.10
+___destroy_helper_block_.11
+___block_descriptor_tmp.12
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/NSOperationQueue+UAAdditions.m
+__62-[NSOperationQueue(UAAdditions) addBackgroundOperation:delay:]_block_invoke.9
+__62-[NSOperationQueue(UAAdditions) addBackgroundOperation:delay:]_block_invoke
+-[UAAddCustomEventAction acceptsArguments:]
+-[UAAddCustomEventAction performWithArguments:completionHandler:]
+-[UAAddCustomEventAction parseStringFromDictionary:key:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAddCustomEventAction.m
+-[UAPreferenceDataStore(TagGroupsMutation) setTagGroupsMutations:forKey:]
+-[UAPreferenceDataStore(TagGroupsMutation) tagGroupsMutationsForKey:]
+-[UAPreferenceDataStore(TagGroupsMutation) addTagGroupsMutation:atBeginning:forKey:]
+-[UAPreferenceDataStore(TagGroupsMutation) pollTagGroupsMutationForKey:]
+-[UAPreferenceDataStore(TagGroupsMutation) migrateTagGroupSettingsForAddTagsKey:removeTagsKey:newKey:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAPreferenceDataStore+TagGroupsMutation.m
+-[UAAddCustomEventActionPredicate applyActionArguments:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAddCustomEventActionPredicate.m
+-[UANamedUser initWithPush:config:dataStore:]
+-[UANamedUser dealloc]
++[UANamedUser namedUserWithPush:config:dataStore:]
+-[UANamedUser update]
+-[UANamedUser identifier]
+-[UANamedUser setIdentifier:]
+-[UANamedUser setChangeToken:]
+-[UANamedUser changeToken]
+-[UANamedUser setLastUpdatedToken:]
+-[UANamedUser lastUpdatedToken]
+-[UANamedUser associateNamedUser]
+___33-[UANamedUser associateNamedUser]_block_invoke
+___33-[UANamedUser associateNamedUser]_block_invoke.103
+-[UANamedUser disassociateNamedUser]
+___36-[UANamedUser disassociateNamedUser]_block_invoke
+___copy_helper_block_.112
+___destroy_helper_block_.113
+___36-[UANamedUser disassociateNamedUser]_block_invoke.115
+-[UANamedUser disassociateNamedUserIfNil]
+-[UANamedUser forceUpdate]
+-[UANamedUser addTags:group:]
+-[UANamedUser removeTags:group:]
+-[UANamedUser setTags:group:]
+-[UANamedUser updateTags]
+___25-[UANamedUser updateTags]_block_invoke
+___copy_helper_block_.157
+___destroy_helper_block_.158
+___25-[UANamedUser updateTags]_block_invoke.164
+___copy_helper_block_.167
+___destroy_helper_block_.168
+-[UANamedUser channelCreated:]
+-[UANamedUser namedUserAPIClient]
+-[UANamedUser setNamedUserAPIClient:]
+-[UANamedUser dataStore]
+-[UANamedUser setDataStore:]
+-[UANamedUser push]
+-[UANamedUser setPush:]
+-[UANamedUser config]
+-[UANamedUser setConfig:]
+-[UANamedUser tagGroupsAPIClient]
+-[UANamedUser setTagGroupsAPIClient:]
+-[UANamedUser .cxx_destruct]
+___block_descriptor_tmp.107
+___block_descriptor_tmp.114
+___block_descriptor_tmp.118
+___block_literal_global.119
+___block_descriptor_tmp.159
+___block_descriptor_tmp.169
+_OBJC_IVAR_$_UANamedUser._namedUserAPIClient
+_OBJC_IVAR_$_UANamedUser._dataStore
+_OBJC_IVAR_$_UANamedUser._push
+_OBJC_IVAR_$_UANamedUser._config
+_OBJC_IVAR_$_UANamedUser._tagGroupsAPIClient
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANamedUser.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANamedUser+Internal.h
+__25-[UANamedUser updateTags]_block_invoke.164
+__25-[UANamedUser updateTags]_block_invoke
+__36-[UANamedUser disassociateNamedUser]_block_invoke.115
+__36-[UANamedUser disassociateNamedUser]_block_invoke
+__33-[UANamedUser associateNamedUser]_block_invoke.103
+__33-[UANamedUser associateNamedUser]_block_invoke
+-[UAAssociatedIdentifiers init]
++[UAAssociatedIdentifiers identifiers]
++[UAAssociatedIdentifiers identifiersWithDictionary:]
+-[UAAssociatedIdentifiers setAdvertisingID:]
+-[UAAssociatedIdentifiers advertisingID]
+-[UAAssociatedIdentifiers setVendorID:]
+-[UAAssociatedIdentifiers vendorID]
+-[UAAssociatedIdentifiers setAdvertisingTrackingEnabled:]
+-[UAAssociatedIdentifiers advertisingTrackingEnabled]
+-[UAAssociatedIdentifiers setIdentifier:forKey:]
+-[UAAssociatedIdentifiers allIDs]
+-[UAAssociatedIdentifiers mutableIDs]
+-[UAAssociatedIdentifiers setMutableIDs:]
+-[UAAssociatedIdentifiers .cxx_destruct]
+_OBJC_IVAR_$_UAAssociatedIdentifiers._mutableIDs
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAssociatedIdentifiers.m
+-[UANotificationResponse initWithNotificationContent:actionIdentifier:responseText:]
++[UANotificationResponse notificationResponseWithNotificationInfo:actionIdentifier:responseText:]
+-[UANotificationResponse description]
+-[UANotificationResponse actionIdentifier]
+-[UANotificationResponse setActionIdentifier:]
+-[UANotificationResponse responseText]
+-[UANotificationResponse setResponseText:]
+-[UANotificationResponse notificationContent]
+-[UANotificationResponse setNotificationContent:]
+-[UANotificationResponse .cxx_destruct]
+_OBJC_IVAR_$_UANotificationResponse._actionIdentifier
+_OBJC_IVAR_$_UANotificationResponse._responseText
+_OBJC_IVAR_$_UANotificationResponse._notificationContent
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANotificationResponse.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANotificationResponse.h
+-[UAAppBackgroundEvent eventType]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAppBackgroundEvent.m
+-[UAAggregateActionResult init]
+-[UAAggregateActionResult addResult:forAction:]
+-[UAAggregateActionResult resultForAction:]
+-[UAAggregateActionResult mergeFetchResult:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAggregateActionResult.m
++[NSJSONSerialization(UAAdditions) stringWithObject:]
++[NSJSONSerialization(UAAdditions) stringWithObject:error:]
++[NSJSONSerialization(UAAdditions) stringWithObject:options:]
++[NSJSONSerialization(UAAdditions) stringWithObject:options:error:]
++[NSJSONSerialization(UAAdditions) stringWithObject:acceptingFragments:]
++[NSJSONSerialization(UAAdditions) stringWithObject:acceptingFragments:error:]
++[NSJSONSerialization(UAAdditions) stringWithObject:options:acceptingFragments:error:]
++[NSJSONSerialization(UAAdditions) objectWithString:]
++[NSJSONSerialization(UAAdditions) objectWithString:options:]
++[NSJSONSerialization(UAAdditions) objectWithString:options:error:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/NSJSONSerialization+UAAdditions.m
+-[UARetailEventTemplate initWithName:withValue:withSource:withMedium:]
++[UARetailEventTemplate browsedTemplate]
++[UARetailEventTemplate browsedTemplateWithValueFromString:]
++[UARetailEventTemplate browsedTemplateWithValue:]
++[UARetailEventTemplate addedToCartTemplate]
++[UARetailEventTemplate addedToCartTemplateWithValueFromString:]
++[UARetailEventTemplate addedToCartTemplateWithValue:]
++[UARetailEventTemplate starredProductTemplate]
++[UARetailEventTemplate starredProductTemplateWithValueFromString:]
++[UARetailEventTemplate starredProductTemplateWithValue:]
++[UARetailEventTemplate purchasedTemplate]
++[UARetailEventTemplate purchasedTemplateWithValueFromString:]
++[UARetailEventTemplate purchasedTemplateWithValue:]
++[UARetailEventTemplate sharedProductTemplate]
++[UARetailEventTemplate sharedProductTemplateWithValueFromString:]
++[UARetailEventTemplate sharedProductTemplateWithValue:]
++[UARetailEventTemplate sharedProductTemplateWithSource:withMedium:]
++[UARetailEventTemplate sharedProductTemplateWithValueFromString:withSource:withMedium:]
++[UARetailEventTemplate sharedProductTemplateWithValue:withSource:withMedium:]
+-[UARetailEventTemplate setEventValue:]
+-[UARetailEventTemplate setIsNewItem:]
+-[UARetailEventTemplate createEvent]
+-[UARetailEventTemplate eventValue]
+-[UARetailEventTemplate transactionID]
+-[UARetailEventTemplate setTransactionID:]
+-[UARetailEventTemplate identifier]
+-[UARetailEventTemplate setIdentifier:]
+-[UARetailEventTemplate category]
+-[UARetailEventTemplate setCategory:]
+-[UARetailEventTemplate eventDescription]
+-[UARetailEventTemplate setEventDescription:]
+-[UARetailEventTemplate brand]
+-[UARetailEventTemplate setBrand:]
+-[UARetailEventTemplate isNewItem]
+-[UARetailEventTemplate eventName]
+-[UARetailEventTemplate setEventName:]
+-[UARetailEventTemplate source]
+-[UARetailEventTemplate setSource:]
+-[UARetailEventTemplate medium]
+-[UARetailEventTemplate setMedium:]
+-[UARetailEventTemplate newItemSet]
+-[UARetailEventTemplate setNewItemSet:]
+-[UARetailEventTemplate .cxx_destruct]
+_OBJC_IVAR_$_UARetailEventTemplate._eventValue
+_OBJC_IVAR_$_UARetailEventTemplate._isNewItem
+_OBJC_IVAR_$_UARetailEventTemplate._transactionID
+_OBJC_IVAR_$_UARetailEventTemplate._identifier
+_OBJC_IVAR_$_UARetailEventTemplate._category
+_OBJC_IVAR_$_UARetailEventTemplate._eventDescription
+_OBJC_IVAR_$_UARetailEventTemplate._brand
+_OBJC_IVAR_$_UARetailEventTemplate._eventName
+_OBJC_IVAR_$_UARetailEventTemplate._source
+_OBJC_IVAR_$_UARetailEventTemplate._medium
+_OBJC_IVAR_$_UARetailEventTemplate._newItemSet
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UARetailEventTemplate.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UARetailEventTemplate.h
+-[UAAnalytics dealloc]
+-[UAAnalytics initWithConfig:dataStore:eventManager:]
++[UAAnalytics analyticsWithConfig:dataStore:]
++[UAAnalytics analyticsWithConfig:dataStore:eventManager:]
+-[UAAnalytics enterForeground]
+-[UAAnalytics enterBackground]
+-[UAAnalytics willTerminate]
+-[UAAnalytics didBecomeActive]
+-[UAAnalytics addEvent:]
+-[UAAnalytics launchedFromNotification:]
+-[UAAnalytics startSession]
+-[UAAnalytics isEnabled]
+-[UAAnalytics setEnabled:]
+-[UAAnalytics associateDeviceIdentifiers:]
+-[UAAnalytics currentAssociatedDeviceIdentifiers]
+-[UAAnalytics trackScreen:]
+-[UAAnalytics stopTrackingScreen]
+-[UAAnalytics cancelUpload]
+-[UAAnalytics scheduleUpload]
+-[UAAnalytics conversionSendID]
+-[UAAnalytics setConversionSendID:]
+-[UAAnalytics conversionPushMetadata]
+-[UAAnalytics setConversionPushMetadata:]
+-[UAAnalytics conversionRichPushID]
+-[UAAnalytics setConversionRichPushID:]
+-[UAAnalytics sessionID]
+-[UAAnalytics setSessionID:]
+-[UAAnalytics lastSendTime]
+-[UAAnalytics config]
+-[UAAnalytics setConfig:]
+-[UAAnalytics dataStore]
+-[UAAnalytics setDataStore:]
+-[UAAnalytics eventManager]
+-[UAAnalytics setEventManager:]
+-[UAAnalytics isEnteringForeground]
+-[UAAnalytics setIsEnteringForeground:]
+-[UAAnalytics currentScreen]
+-[UAAnalytics setCurrentScreen:]
+-[UAAnalytics previousScreen]
+-[UAAnalytics setPreviousScreen:]
+-[UAAnalytics startTime]
+-[UAAnalytics setStartTime:]
+-[UAAnalytics delegate]
+-[UAAnalytics setDelegate:]
+-[UAAnalytics .cxx_destruct]
+_OBJC_IVAR_$_UAAnalytics._conversionSendID
+_OBJC_IVAR_$_UAAnalytics._conversionPushMetadata
+_OBJC_IVAR_$_UAAnalytics._conversionRichPushID
+_OBJC_IVAR_$_UAAnalytics._sessionID
+_OBJC_IVAR_$_UAAnalytics._lastSendTime
+_OBJC_IVAR_$_UAAnalytics._config
+_OBJC_IVAR_$_UAAnalytics._dataStore
+_OBJC_IVAR_$_UAAnalytics._eventManager
+_OBJC_IVAR_$_UAAnalytics._isEnteringForeground
+_OBJC_IVAR_$_UAAnalytics._currentScreen
+_OBJC_IVAR_$_UAAnalytics._previousScreen
+_OBJC_IVAR_$_UAAnalytics._startTime
+_OBJC_IVAR_$_UAAnalytics._delegate
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAnalytics.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAnalytics+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAnalytics.h
+-[UASwizzler initWithClass:]
++[UASwizzler swizzlerForClass:]
+-[UASwizzler swizzle:protocol:implementation:]
+-[UASwizzler swizzle:implementation:]
+-[UASwizzler unswizzle]
+-[UASwizzler storeOriginalImplementation:selector:]
+-[UASwizzler originalImplementation:]
+-[UASwizzler class]
+-[UASwizzler setClass:]
+-[UASwizzler originalMethods]
+-[UASwizzler setOriginalMethods:]
+-[UASwizzler .cxx_destruct]
+_OBJC_IVAR_$_UASwizzler._class
+_OBJC_IVAR_$_UASwizzler._originalMethods
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UASwizzler.m
++[UAAppInitEvent event]
+-[UAAppInitEvent gatherData]
+-[UAAppInitEvent eventType]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAppInitEvent.m
++[UAProximityRegion proximityRegionWithID:major:minor:]
+-[UAProximityRegion setLatitude:]
+-[UAProximityRegion setLongitude:]
+-[UAProximityRegion setRSSI:]
+-[UAProximityRegion isValid]
+-[UAProximityRegion latitude]
+-[UAProximityRegion longitude]
+-[UAProximityRegion RSSI]
+-[UAProximityRegion proximityID]
+-[UAProximityRegion setProximityID:]
+-[UAProximityRegion major]
+-[UAProximityRegion setMajor:]
+-[UAProximityRegion minor]
+-[UAProximityRegion setMinor:]
+-[UAProximityRegion .cxx_destruct]
+_OBJC_IVAR_$_UAProximityRegion._latitude
+_OBJC_IVAR_$_UAProximityRegion._longitude
+_OBJC_IVAR_$_UAProximityRegion._RSSI
+_OBJC_IVAR_$_UAProximityRegion._proximityID
+_OBJC_IVAR_$_UAProximityRegion._major
+_OBJC_IVAR_$_UAProximityRegion._minor
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAProximityRegion.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAProximityRegion+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAProximityRegion.h
+-[UAAsyncOperation init]
+-[UAAsyncOperation initWithBlock:]
++[UAAsyncOperation operationWithBlock:]
+-[UAAsyncOperation isAsynchronous]
+-[UAAsyncOperation setIsExecuting:]
+-[UAAsyncOperation setIsFinished:]
+-[UAAsyncOperation dealloc]
+-[UAAsyncOperation cancel]
+-[UAAsyncOperation start]
+-[UAAsyncOperation startAsyncOperation]
+-[UAAsyncOperation finish]
+-[UAAsyncOperation isExecuting]
+-[UAAsyncOperation isFinished]
+-[UAAsyncOperation block]
+-[UAAsyncOperation setBlock:]
+-[UAAsyncOperation .cxx_destruct]
+_OBJC_IVAR_$_UAAsyncOperation._isExecuting
+_OBJC_IVAR_$_UAAsyncOperation._isFinished
+_OBJC_IVAR_$_UAAsyncOperation._block
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAsyncOperation.m
+_base64DecodeLookup
+_base64EncodeLookup
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UA_Base64.m
+UA_base64EncodedStringFromData
+UA_dataFromBase64String
+UA_NewBase64Encode
+UA_NewBase64Decode
+-[UAApplicationMetrics initWithDataStore:]
++[UAApplicationMetrics applicationMetricsWithDataStore:]
+-[UAApplicationMetrics didBecomeActive]
+-[UAApplicationMetrics lastApplicationOpenDate]
+-[UAApplicationMetrics setLastApplicationOpenDate:]
+-[UAApplicationMetrics dataStore]
+-[UAApplicationMetrics setDataStore:]
+-[UAApplicationMetrics .cxx_destruct]
+_OBJC_IVAR_$_UAApplicationMetrics._dataStore
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAApplicationMetrics.m
+-[UAJSONValueMatcher payload]
+-[UAJSONValueMatcher evaluateObject:]
++[UAJSONValueMatcher matcherWhereNumberAtLeast:]
++[UAJSONValueMatcher matcherWhereNumberAtLeast:atMost:]
++[UAJSONValueMatcher matcherWhereNumberAtMost:]
++[UAJSONValueMatcher matcherWhereNumberEquals:]
++[UAJSONValueMatcher matcherWhereStringEquals:]
++[UAJSONValueMatcher matcherWhereValueIsPresent:]
++[UAJSONValueMatcher matcherWithJSON:error:]
++[UAJSONValueMatcher isNumericMatcherExpression:]
++[UAJSONValueMatcher isStringMatcherExpression:]
++[UAJSONValueMatcher isPresentMatcherExpression:]
+-[UAJSONValueMatcher atLeast]
+-[UAJSONValueMatcher setAtLeast:]
+-[UAJSONValueMatcher atMost]
+-[UAJSONValueMatcher setAtMost:]
+-[UAJSONValueMatcher equalsNumber]
+-[UAJSONValueMatcher setEqualsNumber:]
+-[UAJSONValueMatcher equalsString]
+-[UAJSONValueMatcher setEqualsString:]
+-[UAJSONValueMatcher isPresent]
+-[UAJSONValueMatcher setIsPresent:]
+-[UAJSONValueMatcher .cxx_destruct]
+_OBJC_IVAR_$_UAJSONValueMatcher._atLeast
+_OBJC_IVAR_$_UAJSONValueMatcher._atMost
+_OBJC_IVAR_$_UAJSONValueMatcher._equalsNumber
+_OBJC_IVAR_$_UAJSONValueMatcher._equalsString
+_OBJC_IVAR_$_UAJSONValueMatcher._isPresent
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAJSONValueMatcher.m
++[UAPreferenceDataStore preferenceDataStoreWithKeyPrefix:]
+-[UAPreferenceDataStore prefixKey:]
+-[UAPreferenceDataStore valueForKey:]
+-[UAPreferenceDataStore setValue:forKey:]
+-[UAPreferenceDataStore removeObjectForKey:]
+-[UAPreferenceDataStore objectForKey:]
+-[UAPreferenceDataStore stringForKey:]
+-[UAPreferenceDataStore arrayForKey:]
+-[UAPreferenceDataStore dictionaryForKey:]
+-[UAPreferenceDataStore dataForKey:]
+-[UAPreferenceDataStore stringArrayForKey:]
+-[UAPreferenceDataStore integerForKey:]
+-[UAPreferenceDataStore floatForKey:]
+-[UAPreferenceDataStore doubleForKey:]
+-[UAPreferenceDataStore boolForKey:]
+-[UAPreferenceDataStore URLForKey:]
+-[UAPreferenceDataStore setInteger:forKey:]
+-[UAPreferenceDataStore setFloat:forKey:]
+-[UAPreferenceDataStore setDouble:forKey:]
+-[UAPreferenceDataStore setBool:forKey:]
+-[UAPreferenceDataStore setURL:forKey:]
+-[UAPreferenceDataStore setObject:forKey:]
+-[UAPreferenceDataStore migrateUnprefixedKeys:]
+-[UAPreferenceDataStore removeAll]
+-[UAPreferenceDataStore defaults]
+-[UAPreferenceDataStore setDefaults:]
+-[UAPreferenceDataStore keyPrefix]
+-[UAPreferenceDataStore setKeyPrefix:]
+-[UAPreferenceDataStore .cxx_destruct]
+_OBJC_IVAR_$_UAPreferenceDataStore._defaults
+_OBJC_IVAR_$_UAPreferenceDataStore._keyPrefix
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAPreferenceDataStore.m
+-[UALocation initWithAnalytics:dataStore:]
+-[UALocation dealloc]
++[UALocation locationWithAnalytics:dataStore:]
+-[UALocation isAutoRequestAuthorizationEnabled]
+-[UALocation setAutoRequestAuthorizationEnabled:]
+-[UALocation isLocationUpdatesEnabled]
+-[UALocation setLocationUpdatesEnabled:]
+-[UALocation isBackgroundLocationUpdatesAllowed]
+-[UALocation setBackgroundLocationUpdatesAllowed:]
+-[UALocation lastLocation]
+-[UALocation updateLocationService]
+-[UALocation stopLocationUpdates]
+-[UALocation startLocationUpdates]
+-[UALocation requestAuthorization]
+-[UALocation locationManager:didChangeAuthorizationStatus:]
+-[UALocation locationManager:didUpdateLocations:]
+-[UALocation locationManager:didFailWithError:]
+-[UALocation delegate]
+-[UALocation setDelegate:]
+-[UALocation locationManager]
+-[UALocation setLocationManager:]
+-[UALocation dataStore]
+-[UALocation setDataStore:]
+-[UALocation analytics]
+-[UALocation setAnalytics:]
+-[UALocation isLocationUpdatesStarted]
+-[UALocation setLocationUpdatesStarted:]
+-[UALocation .cxx_destruct]
+_OBJC_IVAR_$_UALocation._delegate
+_OBJC_IVAR_$_UALocation._locationManager
+_OBJC_IVAR_$_UALocation._dataStore
+_OBJC_IVAR_$_UALocation._analytics
+_OBJC_IVAR_$_UALocation._locationUpdatesStarted
+l_OBJC_PROTOCOL_$_CLLocationManagerDelegate
+l_OBJC_LABEL_PROTOCOL_$_CLLocationManagerDelegate
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UALocation.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UALocation+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UALocation.h
++[UALocationEvent locationEventWithLocation:providerType:desiredAccuracy:distanceFilter:updateType:]
++[UALocationEvent locationEventWithLocation:providerType:desiredAccuracy:distanceFilter:]
++[UALocationEvent singleLocationEventWithLocation:providerType:desiredAccuracy:distanceFilter:]
++[UALocationEvent significantChangeLocationEventWithLocation:providerType:]
++[UALocationEvent standardLocationEventWithLocation:providerType:desiredAccuracy:distanceFilter:]
+-[UALocationEvent eventType]
+-[UALocationEvent priority]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UALocationEvent.m
+-[UAEnableFeatureAction acceptsArguments:]
+-[UAEnableFeatureAction performWithArguments:completionHandler:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAEnableFeatureAction.m
+-[UAScheduleDelayBuilder seconds]
+-[UAScheduleDelayBuilder setSeconds:]
+-[UAScheduleDelayBuilder screen]
+-[UAScheduleDelayBuilder setScreen:]
+-[UAScheduleDelayBuilder regionID]
+-[UAScheduleDelayBuilder setRegionID:]
+-[UAScheduleDelayBuilder appState]
+-[UAScheduleDelayBuilder setAppState:]
+-[UAScheduleDelayBuilder cancellationTriggers]
+-[UAScheduleDelayBuilder setCancellationTriggers:]
+-[UAScheduleDelayBuilder .cxx_destruct]
+-[UAScheduleDelay initWithBuilder:]
++[UAScheduleDelay delayWithBuilderBlock:]
++[UAScheduleDelay delayWithJSON:error:]
+___39+[UAScheduleDelay delayWithJSON:error:]_block_invoke
+-[UAScheduleDelay isValid]
+-[UAScheduleDelay isEqualToDelay:]
+-[UAScheduleDelay isEqual:]
+-[UAScheduleDelay hash]
+-[UAScheduleDelay seconds]
+-[UAScheduleDelay setSeconds:]
+-[UAScheduleDelay screen]
+-[UAScheduleDelay setScreen:]
+-[UAScheduleDelay regionID]
+-[UAScheduleDelay setRegionID:]
+-[UAScheduleDelay appState]
+-[UAScheduleDelay setAppState:]
+-[UAScheduleDelay cancellationTriggers]
+-[UAScheduleDelay setCancellationTriggers:]
+-[UAScheduleDelay .cxx_destruct]
+_OBJC_IVAR_$_UAScheduleDelayBuilder._seconds
+_OBJC_IVAR_$_UAScheduleDelayBuilder._screen
+_OBJC_IVAR_$_UAScheduleDelayBuilder._regionID
+_OBJC_IVAR_$_UAScheduleDelayBuilder._appState
+_OBJC_IVAR_$_UAScheduleDelayBuilder._cancellationTriggers
+_OBJC_IVAR_$_UAScheduleDelay._seconds
+_OBJC_IVAR_$_UAScheduleDelay._screen
+_OBJC_IVAR_$_UAScheduleDelay._regionID
+_OBJC_IVAR_$_UAScheduleDelay._appState
+_OBJC_IVAR_$_UAScheduleDelay._cancellationTriggers
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAScheduleDelay.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAScheduleDelay.h
+__39+[UAScheduleDelay delayWithJSON:error:]_block_invoke
++[UAKeychainUtils createKeychainValueForUsername:withPassword:forIdentifier:]
++[UAKeychainUtils deleteKeychainValue:]
++[UAKeychainUtils updateKeychainValueForUsername:withPassword:forIdentifier:]
++[UAKeychainUtils getUserCredentials:]
++[UAKeychainUtils getPassword:]
++[UAKeychainUtils getUsername:]
++[UAKeychainUtils searchDictionaryWithIdentifier:]
++[UAKeychainUtils createDeviceID]
++[UAKeychainUtils getDeviceID]
+_cachedDeviceID_
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAKeychainUtils.m
+-[UAEnableFeatureActionPredicate applyActionArguments:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAEnableFeatureActionPredicate.m
++[UATagGroupsAPIClient clientWithConfig:]
++[UATagGroupsAPIClient clientWithConfig:session:]
+-[UATagGroupsAPIClient updateChannel:tagGroupsMutation:completionHandler:]
+-[UATagGroupsAPIClient updateNamedUser:tagGroupsMutation:completionHandler:]
+-[UATagGroupsAPIClient performTagGroupsMutation:path:audience:completionHandler:]
+___81-[UATagGroupsAPIClient performTagGroupsMutation:path:audience:completionHandler:]_block_invoke
+___81-[UATagGroupsAPIClient performTagGroupsMutation:path:audience:completionHandler:]_block_invoke.75
+___81-[UATagGroupsAPIClient performTagGroupsMutation:path:audience:completionHandler:]_block_invoke_2
+___block_descriptor_tmp.84
+___block_descriptor_tmp.104
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UATagGroupsAPIClient.m
+__81-[UATagGroupsAPIClient performTagGroupsMutation:path:audience:completionHandler:]_block_invoke_2
+__81-[UATagGroupsAPIClient performTagGroupsMutation:path:audience:completionHandler:]_block_invoke.75
+__81-[UATagGroupsAPIClient performTagGroupsMutation:path:audience:completionHandler:]_block_invoke
++[UAURLProtocol load]
++[UAURLProtocol canInitWithRequest:]
++[UAURLProtocol cachableURLs]
++[UAURLProtocol cache]
+___22+[UAURLProtocol cache]_block_invoke
++[UAURLProtocol clearCache]
++[UAURLProtocol addCachableURL:]
++[UAURLProtocol removeCachableURL:]
++[UAURLProtocol canonicalRequestForRequest:]
+-[UAURLProtocol startLoading]
+___29-[UAURLProtocol startLoading]_block_invoke
+-[UAURLProtocol stopLoading]
+-[UAURLProtocol loadFromCache]
+-[UAURLProtocol finishRequestWithResponse:responseData:]
+-[UAURLProtocol dataTask]
+-[UAURLProtocol setDataTask:]
+-[UAURLProtocol .cxx_destruct]
+_cachableURLs_
+_cache_
+_cache.onceToken_
+___block_descriptor_tmp.64
+_OBJC_IVAR_$_UAURLProtocol._dataTask
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAURLProtocol.m
+__29-[UAURLProtocol startLoading]_block_invoke
+__22+[UAURLProtocol cache]_block_invoke
+-[UADelayOperation initWithDelayInSeconds:]
+___43-[UADelayOperation initWithDelayInSeconds:]_block_invoke
+-[UADelayOperation cancel]
++[UADelayOperation operationWithDelayInSeconds:]
+-[UADelayOperation seconds]
+-[UADelayOperation setSeconds:]
+-[UADelayOperation semaphore]
+-[UADelayOperation setSemaphore:]
+-[UADelayOperation .cxx_destruct]
+_OBJC_IVAR_$_UADelayOperation._seconds
+_OBJC_IVAR_$_UADelayOperation._semaphore
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UADelayOperation.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UADelayOperation+Internal.h
+__43-[UADelayOperation initWithDelayInSeconds:]_block_invoke
+-[UACancelSchedulesAction acceptsArguments:]
+-[UACancelSchedulesAction performWithArguments:completionHandler:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UACancelSchedulesAction.m
+-[UAURLRequestOperation initWithRequest:sesssion:completionHandler:]
++[UAURLRequestOperation operationWithRequest:session:completionHandler:]
+-[UAURLRequestOperation startAsyncOperation]
+___44-[UAURLRequestOperation startAsyncOperation]_block_invoke
+-[UAURLRequestOperation finish]
+-[UAURLRequestOperation dealloc]
+-[UAURLRequestOperation task]
+-[UAURLRequestOperation setTask:]
+-[UAURLRequestOperation session]
+-[UAURLRequestOperation setSession:]
+-[UAURLRequestOperation request]
+-[UAURLRequestOperation setRequest:]
+-[UAURLRequestOperation completionHandler]
+-[UAURLRequestOperation setCompletionHandler:]
+-[UAURLRequestOperation .cxx_destruct]
+_OBJC_IVAR_$_UAURLRequestOperation._task
+_OBJC_IVAR_$_UAURLRequestOperation._session
+_OBJC_IVAR_$_UAURLRequestOperation._request
+_OBJC_IVAR_$_UAURLRequestOperation._completionHandler
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAURLRequestOperation.m
+__44-[UAURLRequestOperation startAsyncOperation]_block_invoke
++[UAAssociateIdentifiersEvent eventWithIDs:]
+-[UAAssociateIdentifiersEvent isValid]
+-[UAAssociateIdentifiersEvent eventType]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAssociateIdentifiersEvent.m
++[UANotificationCategories defaultCategories]
++[UANotificationCategories defaultCategoriesWithRequireAuth:]
++[UANotificationCategories createCategoriesFromFile:]
++[UANotificationCategories createCategoriesFromFile:requireAuth:]
+___65+[UANotificationCategories createCategoriesFromFile:requireAuth:]_block_invoke
++[UANotificationCategories createCategoriesFromFile:actionDefinitionModBlock:]
++[UANotificationCategories createCategory:actions:]
++[UANotificationCategories createCategory:actions:hiddenPreviewsBodyPlaceholder:]
++[UANotificationCategories getActionsFromActionDefinitions:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANotificationCategories.m
+__65+[UANotificationCategories createCategoriesFromFile:requireAuth:]_block_invoke
+-[UAEventStore initWithConfig:]
++[UAEventStore eventStoreWithConfig:]
+-[UAEventStore addPersistentStore]
+___34-[UAEventStore addPersistentStore]_block_invoke
+-[UAEventStore protectedDataAvailable]
+-[UAEventStore saveEvent:sessionID:]
+___36-[UAEventStore saveEvent:sessionID:]_block_invoke
+___copy_helper_block_.63
+___destroy_helper_block_.64
+-[UAEventStore fetchEventsWithMaxBatchSize:completionHandler:]
+___62-[UAEventStore fetchEventsWithMaxBatchSize:completionHandler:]_block_invoke
+___copy_helper_block_.86
+___destroy_helper_block_.87
+-[UAEventStore deleteEventsWithIDs:]
+___36-[UAEventStore deleteEventsWithIDs:]_block_invoke
+-[UAEventStore deleteAllEvents]
+___31-[UAEventStore deleteAllEvents]_block_invoke
+___copy_helper_block_.117
+___destroy_helper_block_.118
+-[UAEventStore trimEventsToStoreSize:]
+___38-[UAEventStore trimEventsToStoreSize:]_block_invoke
+___copy_helper_block_.124
+___destroy_helper_block_.125
+-[UAEventStore migrateOldDatabase]
+-[UAEventStore storeEventWithID:eventType:eventTime:eventBody:sessionID:]
+-[UAEventStore managedContext]
+-[UAEventStore setManagedContext:]
+-[UAEventStore storeName]
+-[UAEventStore setStoreName:]
+-[UAEventStore .cxx_destruct]
+___block_descriptor_tmp.88
+___block_descriptor_tmp.119
+___block_descriptor_tmp.126
+_OBJC_IVAR_$_UAEventStore._managedContext
+_OBJC_IVAR_$_UAEventStore._storeName
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAEventStore.m
+__38-[UAEventStore trimEventsToStoreSize:]_block_invoke
+__31-[UAEventStore deleteAllEvents]_block_invoke
+__36-[UAEventStore deleteEventsWithIDs:]_block_invoke
+__62-[UAEventStore fetchEventsWithMaxBatchSize:completionHandler:]_block_invoke
+__36-[UAEventStore saveEvent:sessionID:]_block_invoke
+__34-[UAEventStore addPersistentStore]_block_invoke
+-[UAOpenExternalURLAction acceptsArguments:]
+-[UAOpenExternalURLAction performWithArguments:completionHandler:]
+___66-[UAOpenExternalURLAction performWithArguments:completionHandler:]_block_invoke
+-[UAOpenExternalURLAction openURL:completionHandler:]
+___53-[UAOpenExternalURLAction openURL:completionHandler:]_block_invoke
+___53-[UAOpenExternalURLAction openURL:completionHandler:]_block_invoke_2
+___copy_helper_block_.38
+___destroy_helper_block_.39
+___copy_helper_block_.44
+___destroy_helper_block_.45
+-[UAOpenExternalURLAction createURLFromValue:]
+___block_descriptor_tmp.46
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAOpenExternalURLAction.m
+__53-[UAOpenExternalURLAction openURL:completionHandler:]_block_invoke_2
+__53-[UAOpenExternalURLAction openURL:completionHandler:]_block_invoke
+__66-[UAOpenExternalURLAction performWithArguments:completionHandler:]_block_invoke
+-[UATagsActionPredicate applyActionArguments:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UATagsActionPredicate.m
+-[NSString(UAURLEncoding) urlDecodedStringWithEncoding:]
+-[NSString(UAURLEncoding) urlEncodedStringWithEncoding:]
+-[NSString(UAURLEncoding) urlDecodedString]
+-[NSString(UAURLEncoding) urlEncodedString]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/NSString+UAURLEncoding.m
+-[UAModifyTagsAction acceptsArguments:]
+-[UAModifyTagsAction performWithArguments:completionHandler:]
+-[UAModifyTagsAction applyChannelTags:]
+-[UAModifyTagsAction applyChannelTags:group:]
+-[UAModifyTagsAction applyNamedUserTags:group:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAModifyTagsAction.m
++[UAEventAPIClient clientWithConfig:]
++[UAEventAPIClient clientWithConfig:session:]
+-[UAEventAPIClient uploadEvents:completionHandler:]
+___51-[UAEventAPIClient uploadEvents:completionHandler:]_block_invoke
+-[UAEventAPIClient requestWithEvents:]
+___38-[UAEventAPIClient requestWithEvents:]_block_invoke
+___copy_helper_block_.178
+___destroy_helper_block_.179
+-[UAEventAPIClient locationPermission]
+___block_descriptor_tmp.181
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAEventAPIClient.m
+__38-[UAEventAPIClient requestWithEvents:]_block_invoke
+__51-[UAEventAPIClient uploadEvents:completionHandler:]_block_invoke
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionScheduleData.m
++[UACircularRegion circularRegionWithRadius:latitude:longitude:]
+-[UACircularRegion isValid]
+-[UACircularRegion latitude]
+-[UACircularRegion setLatitude:]
+-[UACircularRegion longitude]
+-[UACircularRegion setLongitude:]
+-[UACircularRegion radius]
+-[UACircularRegion setRadius:]
+-[UACircularRegion .cxx_destruct]
+_OBJC_IVAR_$_UACircularRegion._latitude
+_OBJC_IVAR_$_UACircularRegion._longitude
+_OBJC_IVAR_$_UACircularRegion._radius
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UACircularRegion.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UACircularRegion+Internal.h
+-[UADisposable initWithDisposalBlock:]
+-[UADisposable dispose]
++[UADisposable disposableWithBlock:]
+-[UADisposable disposalBlock]
+-[UADisposable setDisposalBlock:]
+-[UADisposable .cxx_destruct]
+_OBJC_IVAR_$_UADisposable._disposalBlock
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UADisposable.m
+-[UAConfig init]
+-[UAConfig copyWithZone:]
+-[UAConfig configWithConfig:]
+-[UAConfig description]
++[UAConfig defaultConfig]
++[UAConfig configWithContentsOfFile:]
++[UAConfig config]
+-[UAConfig appKey]
+-[UAConfig appSecret]
+-[UAConfig logLevel]
+-[UAConfig isInProduction]
+-[UAConfig setInProduction:]
+-[UAConfig detectProvisioningMode]
+-[UAConfig setDetectProvisioningMode:]
+-[UAConfig validate]
++[UAConfig normalizeDictionary:]
+-[UAConfig usesProductionPushServer]
++[UAConfig isProductionProvisioningProfile:]
+-[UAConfig setAnalyticsURL:]
+-[UAConfig setDeviceAPIURL:]
+-[UAConfig setLandingPageContentURL:]
+-[UAConfig setValue:forUndefinedKey:]
+-[UAConfig isSimulator]
+-[UAConfig developmentAppKey]
+-[UAConfig setDevelopmentAppKey:]
+-[UAConfig developmentAppSecret]
+-[UAConfig setDevelopmentAppSecret:]
+-[UAConfig productionAppKey]
+-[UAConfig setProductionAppKey:]
+-[UAConfig productionAppSecret]
+-[UAConfig setProductionAppSecret:]
+-[UAConfig developmentLogLevel]
+-[UAConfig setDevelopmentLogLevel:]
+-[UAConfig productionLogLevel]
+-[UAConfig setProductionLogLevel:]
+-[UAConfig cacheDiskSizeInMB]
+-[UAConfig setCacheDiskSizeInMB:]
+-[UAConfig isAutomaticSetupEnabled]
+-[UAConfig setAutomaticSetupEnabled:]
+-[UAConfig whitelist]
+-[UAConfig setWhitelist:]
+-[UAConfig isAnalyticsEnabled]
+-[UAConfig setAnalyticsEnabled:]
+-[UAConfig deviceAPIURL]
+-[UAConfig analyticsURL]
+-[UAConfig landingPageContentURL]
+-[UAConfig messageCenterStyleConfig]
+-[UAConfig setMessageCenterStyleConfig:]
+-[UAConfig itunesID]
+-[UAConfig setItunesID:]
+-[UAConfig clearUserOnAppRestore]
+-[UAConfig setClearUserOnAppRestore:]
+-[UAConfig clearNamedUserOnAppRestore]
+-[UAConfig setClearNamedUserOnAppRestore:]
+-[UAConfig isChannelCaptureEnabled]
+-[UAConfig setChannelCaptureEnabled:]
+-[UAConfig isChannelCreationDelayEnabled]
+-[UAConfig setChannelCreationDelayEnabled:]
+-[UAConfig customConfig]
+-[UAConfig setCustomConfig:]
+-[UAConfig useWKWebView]
+-[UAConfig setUseWKWebView:]
+-[UAConfig profilePath]
+-[UAConfig setProfilePath:]
+-[UAConfig testingMasterSecret]
+-[UAConfig setTestingMasterSecret:]
+-[UAConfig defaultDetectProvisioningMode]
+-[UAConfig setDefaultDetectProvisioningMode:]
+-[UAConfig setUsesProductionPushServer:]
+-[UAConfig .cxx_destruct]
+_OBJC_IVAR_$_UAConfig._developmentAppKey
+_OBJC_IVAR_$_UAConfig._developmentAppSecret
+_OBJC_IVAR_$_UAConfig._productionAppKey
+_OBJC_IVAR_$_UAConfig._productionAppSecret
+_OBJC_IVAR_$_UAConfig._deviceAPIURL
+_OBJC_IVAR_$_UAConfig._analyticsURL
+_OBJC_IVAR_$_UAConfig._landingPageContentURL
+_OBJC_IVAR_$_UAConfig._developmentLogLevel
+_OBJC_IVAR_$_UAConfig._productionLogLevel
+_OBJC_IVAR_$_UAConfig._inProduction
+_OBJC_IVAR_$_UAConfig._detectProvisioningMode
+_OBJC_IVAR_$_UAConfig._automaticSetupEnabled
+_OBJC_IVAR_$_UAConfig._analyticsEnabled
+_OBJC_IVAR_$_UAConfig._profilePath
+_OBJC_IVAR_$_UAConfig._cacheDiskSizeInMB
+_OBJC_IVAR_$_UAConfig._clearUserOnAppRestore
+_OBJC_IVAR_$_UAConfig._whitelist
+_OBJC_IVAR_$_UAConfig._clearNamedUserOnAppRestore
+_OBJC_IVAR_$_UAConfig._channelCaptureEnabled
+_OBJC_IVAR_$_UAConfig._customConfig
+_OBJC_IVAR_$_UAConfig._channelCreationDelayEnabled
+_OBJC_IVAR_$_UAConfig._defaultDetectProvisioningMode
+_OBJC_IVAR_$_UAConfig._messageCenterStyleConfig
+_OBJC_IVAR_$_UAConfig._useWKWebView
+_OBJC_IVAR_$_UAConfig._itunesID
+_OBJC_IVAR_$_UAConfig._usesProductionPushServer
+_OBJC_IVAR_$_UAConfig._testingMasterSecret
+l_OBJC_PROTOCOL_$_NSCopying
+l_OBJC_LABEL_PROTOCOL_$_NSCopying
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAConfig.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAConfig+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAConfig.h
+-[UAAPNSRegistration getCurrentAuthorizationOptionsWithCompletionHandler:]
+___74-[UAAPNSRegistration getCurrentAuthorizationOptionsWithCompletionHandler:]_block_invoke
+-[UAAPNSRegistration updateRegistrationWithOptions:categories:]
+___63-[UAAPNSRegistration updateRegistrationWithOptions:categories:]_block_invoke
+___63-[UAAPNSRegistration updateRegistrationWithOptions:categories:]_block_invoke_2
+___copy_helper_block_.11
+___destroy_helper_block_.12
+___copy_helper_block_.17
+___destroy_helper_block_.18
+-[UAAPNSRegistration registrationDelegate]
+-[UAAPNSRegistration setRegistrationDelegate:]
+-[UAAPNSRegistration .cxx_destruct]
+___block_descriptor_tmp.14
+___block_descriptor_tmp.20
+_OBJC_IVAR_$_UAAPNSRegistration.registrationDelegate
+l_OBJC_PROTOCOL_$_UAAPNSRegistrationProtocol
+l_OBJC_LABEL_PROTOCOL_$_UAAPNSRegistrationProtocol
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAPNSRegistration.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAPNSRegistrationProtocol+Internal.h
+__63-[UAAPNSRegistration updateRegistrationWithOptions:categories:]_block_invoke_2
+__63-[UAAPNSRegistration updateRegistrationWithOptions:categories:]_block_invoke
+__74-[UAAPNSRegistration getCurrentAuthorizationOptionsWithCompletionHandler:]_block_invoke
+-[UAActionScheduleInfoBuilder actions]
+-[UAActionScheduleInfoBuilder setActions:]
+-[UAActionScheduleInfoBuilder limit]
+-[UAActionScheduleInfoBuilder setLimit:]
+-[UAActionScheduleInfoBuilder triggers]
+-[UAActionScheduleInfoBuilder setTriggers:]
+-[UAActionScheduleInfoBuilder group]
+-[UAActionScheduleInfoBuilder setGroup:]
+-[UAActionScheduleInfoBuilder start]
+-[UAActionScheduleInfoBuilder setStart:]
+-[UAActionScheduleInfoBuilder end]
+-[UAActionScheduleInfoBuilder setEnd:]
+-[UAActionScheduleInfoBuilder delay]
+-[UAActionScheduleInfoBuilder setDelay:]
+-[UAActionScheduleInfoBuilder .cxx_destruct]
+-[UAActionScheduleInfo isValid]
+-[UAActionScheduleInfo initWithBuilder:]
++[UAActionScheduleInfo actionScheduleInfoWithBuilderBlock:]
++[UAActionScheduleInfo actionScheduleInfoWithJSON:error:]
+___57+[UAActionScheduleInfo actionScheduleInfoWithJSON:error:]_block_invoke
+-[UAActionScheduleInfo isEqualToScheduleInfo:]
+-[UAActionScheduleInfo isEqual:]
+-[UAActionScheduleInfo hash]
+-[UAActionScheduleInfo actions]
+-[UAActionScheduleInfo setActions:]
+-[UAActionScheduleInfo triggers]
+-[UAActionScheduleInfo setTriggers:]
+-[UAActionScheduleInfo limit]
+-[UAActionScheduleInfo setLimit:]
+-[UAActionScheduleInfo group]
+-[UAActionScheduleInfo setGroup:]
+-[UAActionScheduleInfo start]
+-[UAActionScheduleInfo setStart:]
+-[UAActionScheduleInfo end]
+-[UAActionScheduleInfo setEnd:]
+-[UAActionScheduleInfo delay]
+-[UAActionScheduleInfo setDelay:]
+-[UAActionScheduleInfo .cxx_destruct]
+_OBJC_IVAR_$_UAActionScheduleInfoBuilder._actions
+_OBJC_IVAR_$_UAActionScheduleInfoBuilder._limit
+_OBJC_IVAR_$_UAActionScheduleInfoBuilder._triggers
+_OBJC_IVAR_$_UAActionScheduleInfoBuilder._group
+_OBJC_IVAR_$_UAActionScheduleInfoBuilder._start
+_OBJC_IVAR_$_UAActionScheduleInfoBuilder._end
+_OBJC_IVAR_$_UAActionScheduleInfoBuilder._delay
+_OBJC_IVAR_$_UAActionScheduleInfo._actions
+_OBJC_IVAR_$_UAActionScheduleInfo._triggers
+_OBJC_IVAR_$_UAActionScheduleInfo._limit
+_OBJC_IVAR_$_UAActionScheduleInfo._group
+_OBJC_IVAR_$_UAActionScheduleInfo._start
+_OBJC_IVAR_$_UAActionScheduleInfo._end
+_OBJC_IVAR_$_UAActionScheduleInfo._delay
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionScheduleInfo.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionScheduleInfo.h
+__57+[UAActionScheduleInfo actionScheduleInfoWithJSON:error:]_block_invoke
++[UAAutoIntegration integrate]
+___30+[UAAutoIntegration integrate]_block_invoke
++[UAAutoIntegration reset]
+-[UAAutoIntegration init]
+-[UAAutoIntegration swizzleAppDelegate]
+-[UAAutoIntegration swizzleNotificationCenter]
+-[UAAutoIntegration swizzleNotificationCenterDelegate:]
+-[UAAutoIntegration setNotificationCenterSwizzler:]
+-[UAAutoIntegration setNotificationDelegateSwizzler:]
+-[UAAutoIntegration setAppDelegateSwizzler:]
+___UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke
+___UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke_2
+___UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke_3
+___copy_helper_block_.216
+___destroy_helper_block_.217
+___UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke.223
+___UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke_2.224
+___UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke_3.225
+___copy_helper_block_.226
+___destroy_helper_block_.227
+___copy_helper_block_.229
+___destroy_helper_block_.230
+___copy_helper_block_.232
+___destroy_helper_block_.233
+___ApplicationPerformFetchWithCompletionHandler_block_invoke
+___ApplicationPerformFetchWithCompletionHandler_block_invoke_2
+___copy_helper_block_.235
+___destroy_helper_block_.236
+___copy_helper_block_.238
+___destroy_helper_block_.239
+___ApplicationPerformFetchWithCompletionHandler_block_invoke.241
+___copy_helper_block_.242
+___destroy_helper_block_.243
+___ApplicationDidReceiveRemoteNotificationFetchCompletionHandler_block_invoke
+___ApplicationDidReceiveRemoteNotificationFetchCompletionHandler_block_invoke_2
+___copy_helper_block_.247
+___destroy_helper_block_.248
+___copy_helper_block_.250
+___destroy_helper_block_.251
+___ApplicationDidReceiveRemoteNotificationFetchCompletionHandler_block_invoke.253
+___copy_helper_block_.254
+___destroy_helper_block_.255
+-[UAAutoIntegration appDelegateSwizzler]
+-[UAAutoIntegration notificationDelegateSwizzler]
+-[UAAutoIntegration notificationCenterSwizzler]
+-[UAAutoIntegration dummyNotificationDelegate]
+-[UAAutoIntegration setDummyNotificationDelegate:]
+-[UAAutoIntegration .cxx_destruct]
+l_OBJC_PROTOCOL_$_UNUserNotificationCenterDelegate
+l_OBJC_LABEL_PROTOCOL_$_UNUserNotificationCenterDelegate
+_onceToken
+_instance_
+l_OBJC_PROTOCOL_$_UIApplicationDelegate
+l_OBJC_LABEL_PROTOCOL_$_UIApplicationDelegate
+l_OBJC_PROTOCOL_REFERENCE_$_UIApplicationDelegate
+l_OBJC_PROTOCOL_REFERENCE_$_UNUserNotificationCenterDelegate
+_OBJC_IVAR_$_UAAutoIntegration._notificationCenterSwizzler
+_OBJC_IVAR_$_UAAutoIntegration._notificationDelegateSwizzler
+_OBJC_IVAR_$_UAAutoIntegration._appDelegateSwizzler
+___block_descriptor_tmp.213
+___block_descriptor_tmp.218
+___block_descriptor_tmp.228
+___block_descriptor_tmp.234
+___block_descriptor_tmp.240
+___block_descriptor_tmp.244
+___block_descriptor_tmp.249
+___block_descriptor_tmp.252
+___block_descriptor_tmp.256
+_OBJC_IVAR_$_UAAutoIntegration._dummyNotificationDelegate
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAutoIntegration.m
+__ApplicationDidReceiveRemoteNotificationFetchCompletionHandler_block_invoke.253
+__ApplicationDidReceiveRemoteNotificationFetchCompletionHandler_block_invoke_2
+__ApplicationDidReceiveRemoteNotificationFetchCompletionHandler_block_invoke
+__ApplicationPerformFetchWithCompletionHandler_block_invoke.241
+__ApplicationPerformFetchWithCompletionHandler_block_invoke_2
+__ApplicationPerformFetchWithCompletionHandler_block_invoke
+__UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke_3.225
+__UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke_2.224
+__UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke.223
+__UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke_3
+__UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke_2
+__UserNotificationCenterWillPresentNotificationWithCompletionHandler_block_invoke
+UserNotificationCenterWillPresentNotificationWithCompletionHandler
+UserNotificationCenterSetDelegate
+ApplicationPerformFetchWithCompletionHandler
+ApplicationDidReceiveRemoteNotificationFetchCompletionHandler
+ApplicationDidFailToRegisterForRemoteNotificationsWithError
+ApplicationDidRegisterForRemoteNotificationsWithDeviceToken
+__30+[UAAutoIntegration integrate]_block_invoke
++[UAUserAPIClient clientWithConfig:session:]
++[UAUserAPIClient clientWithConfig:]
+-[UAUserAPIClient createUserWithChannelID:onSuccess:onFailure:]
+___63-[UAUserAPIClient createUserWithChannelID:onSuccess:onFailure:]_block_invoke
+___63-[UAUserAPIClient createUserWithChannelID:onSuccess:onFailure:]_block_invoke_2
+-[UAUserAPIClient updateUser:channelID:onSuccess:onFailure:]
+___60-[UAUserAPIClient updateUser:channelID:onSuccess:onFailure:]_block_invoke
+___60-[UAUserAPIClient updateUser:channelID:onSuccess:onFailure:]_block_invoke_2
+___copy_helper_block_.76
+___destroy_helper_block_.77
+-[UAUserAPIClient requestToCreateUserWithPayload:]
+___50-[UAUserAPIClient requestToCreateUserWithPayload:]_block_invoke
+___copy_helper_block_.128
+___destroy_helper_block_.129
+-[UAUserAPIClient requestToUpdateUser:payload:]
+___47-[UAUserAPIClient requestToUpdateUser:payload:]_block_invoke
+___copy_helper_block_.142
+___destroy_helper_block_.143
+___block_literal_global.71
+___block_descriptor_tmp.78
+___block_descriptor_tmp.131
+___block_descriptor_tmp.144
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAUserAPIClient.m
+__47-[UAUserAPIClient requestToUpdateUser:payload:]_block_invoke
+__50-[UAUserAPIClient requestToCreateUserWithPayload:]_block_invoke
+__60-[UAUserAPIClient updateUser:channelID:onSuccess:onFailure:]_block_invoke_2
+__60-[UAUserAPIClient updateUser:channelID:onSuccess:onFailure:]_block_invoke
+__63-[UAUserAPIClient createUserWithChannelID:onSuccess:onFailure:]_block_invoke_2
+__63-[UAUserAPIClient createUserWithChannelID:onSuccess:onFailure:]_block_invoke
+-[UACustomEvent eventType]
+-[UACustomEvent initWithName:withValue:]
++[UACustomEvent eventWithName:]
++[UACustomEvent eventWithName:valueFromString:]
++[UACustomEvent eventWithName:value:]
+-[UACustomEvent setBoolProperty:forKey:]
+-[UACustomEvent setStringProperty:forKey:]
+-[UACustomEvent setNumberProperty:forKey:]
+-[UACustomEvent setStringArrayProperty:forKey:]
+-[UACustomEvent setEventValue:]
+-[UACustomEvent isValid]
+-[UACustomEvent properties]
+-[UACustomEvent data]
+-[UACustomEvent payload]
+-[UACustomEvent track]
+-[UACustomEvent eventValue]
+-[UACustomEvent eventName]
+-[UACustomEvent setEventName:]
+-[UACustomEvent interactionID]
+-[UACustomEvent setInteractionID:]
+-[UACustomEvent interactionType]
+-[UACustomEvent setInteractionType:]
+-[UACustomEvent transactionID]
+-[UACustomEvent setTransactionID:]
+-[UACustomEvent mutableProperties]
+-[UACustomEvent setMutableProperties:]
+-[UACustomEvent conversionSendID]
+-[UACustomEvent setConversionSendID:]
+-[UACustomEvent conversionPushMetadata]
+-[UACustomEvent setConversionPushMetadata:]
+-[UACustomEvent templateType]
+-[UACustomEvent setTemplateType:]
+-[UACustomEvent .cxx_destruct]
+_OBJC_IVAR_$_UACustomEvent._eventValue
+_OBJC_IVAR_$_UACustomEvent._eventName
+_OBJC_IVAR_$_UACustomEvent._interactionID
+_OBJC_IVAR_$_UACustomEvent._interactionType
+_OBJC_IVAR_$_UACustomEvent._transactionID
+_OBJC_IVAR_$_UACustomEvent._mutableProperties
+_OBJC_IVAR_$_UACustomEvent._conversionSendID
+_OBJC_IVAR_$_UACustomEvent._conversionPushMetadata
+_OBJC_IVAR_$_UACustomEvent._templateType
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UACustomEvent.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UACustomEvent+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UACustomEvent.h
+-[UANotificationAction initWithIdentifier:title:options:]
++[UANotificationAction actionWithIdentifier:title:options:]
+-[UANotificationAction identifier]
+-[UANotificationAction setIdentifier:]
+-[UANotificationAction title]
+-[UANotificationAction setTitle:]
+-[UANotificationAction options]
+-[UANotificationAction setOptions:]
+-[UANotificationAction .cxx_destruct]
+_OBJC_IVAR_$_UANotificationAction._identifier
+_OBJC_IVAR_$_UANotificationAction._title
+_OBJC_IVAR_$_UANotificationAction._options
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANotificationAction.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UANotificationAction.h
++[UAUtils connectionType]
++[UAUtils deviceID]
++[UAUtils deviceModelName]
++[UAUtils pluralize:singularForm:pluralForm:]
++[UAUtils getReadableFileSizeFromBytes:]
++[UAUtils logFailedRequest:withMessage:withError:withResponse:]
++[UAUtils appAuthHeaderString]
++[UAUtils authHeaderStringWithName:password:]
++[UAUtils ISODateFormatterUTC]
++[UAUtils ISODateFormatterUTCWithDelimiter]
++[UAUtils parseISO8601DateFromString:]
++[UAUtils addSkipBackupAttributeToItemAtURL:]
++[UAUtils mainWindow]
++[UAUtils topController]
++[UAUtils mergeFetchResults:]
++[UAUtils isSilentPush:]
++[UAUtils isAlertingPush:]
++[UAUtils deviceTokenStringFromDeviceToken:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAUtils.m
+-[UAScheduleTrigger initWithType:goal:predicate:]
++[UAScheduleTrigger triggerWithType:goal:predicate:]
++[UAScheduleTrigger appInitTriggerWithCount:]
++[UAScheduleTrigger foregroundTriggerWithCount:]
++[UAScheduleTrigger backgroundTriggerWithCount:]
++[UAScheduleTrigger regionEnterTriggerForRegionID:count:]
++[UAScheduleTrigger regionExitTriggerForRegionID:count:]
++[UAScheduleTrigger screenTriggerForScreenName:count:]
++[UAScheduleTrigger customEventTriggerWithPredicate:count:]
++[UAScheduleTrigger customEventTriggerWithPredicate:value:]
++[UAScheduleTrigger triggerWithJSON:error:]
+-[UAScheduleTrigger isEqualToTrigger:]
+-[UAScheduleTrigger isEqual:]
+-[UAScheduleTrigger hash]
+-[UAScheduleTrigger type]
+-[UAScheduleTrigger setType:]
+-[UAScheduleTrigger goal]
+-[UAScheduleTrigger setGoal:]
+-[UAScheduleTrigger predicate]
+-[UAScheduleTrigger setPredicate:]
+-[UAScheduleTrigger .cxx_destruct]
+_OBJC_IVAR_$_UAScheduleTrigger._type
+_OBJC_IVAR_$_UAScheduleTrigger._goal
+_OBJC_IVAR_$_UAScheduleTrigger._predicate
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAScheduleTrigger.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAScheduleTrigger+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAScheduleTrigger.h
+-[UAActionRegistry init]
++[UAActionRegistry defaultRegistry]
+-[UAActionRegistry registerAction:names:]
+-[UAActionRegistry registerAction:name:]
+-[UAActionRegistry registerActionClass:names:]
+-[UAActionRegistry registerActionClass:name:]
+-[UAActionRegistry registerAction:name:predicate:]
+-[UAActionRegistry checkParentClass:]
+-[UAActionRegistry registerActionClass:name:predicate:]
+-[UAActionRegistry registerActionClass:names:predicate:]
+-[UAActionRegistry registerAction:names:predicate:]
+-[UAActionRegistry registerEntry:names:]
+-[UAActionRegistry registerReservedAction:name:predicate:]
+-[UAActionRegistry registerReservedActionClass:name:predicate:]
+-[UAActionRegistry removeName:]
+-[UAActionRegistry removeEntryWithName:]
+-[UAActionRegistry addName:forEntryWithName:]
+-[UAActionRegistry registryEntryWithName:]
+-[UAActionRegistry registeredEntries]
+-[UAActionRegistry addSituationOverride:forEntryWithName:action:]
+-[UAActionRegistry updatePredicate:forEntryWithName:]
+-[UAActionRegistry updateAction:forEntryWithName:]
+-[UAActionRegistry updateActionClass:forEntryWithName:]
+-[UAActionRegistry registerDefaultActions]
+___42-[UAActionRegistry registerDefaultActions]_block_invoke
+-[UAActionRegistry registeredActionEntries]
+-[UAActionRegistry setRegisteredActionEntries:]
+-[UAActionRegistry reservedEntryNames]
+-[UAActionRegistry setReservedEntryNames:]
+-[UAActionRegistry .cxx_destruct]
+_OBJC_IVAR_$_UAActionRegistry._registeredActionEntries
+_OBJC_IVAR_$_UAActionRegistry._reservedEntryNames
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionRegistry.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionRegistry+Internal.h
+__42-[UAActionRegistry registerDefaultActions]_block_invoke
+-[UAChannelRegistrationPayload asJSONData]
+-[UAChannelRegistrationPayload payloadDictionary]
+-[UAChannelRegistrationPayload copyWithZone:]
+-[UAChannelRegistrationPayload isEqualToPayload:]
+-[UAChannelRegistrationPayload description]
+-[UAChannelRegistrationPayload userID]
+-[UAChannelRegistrationPayload setUserID:]
+-[UAChannelRegistrationPayload deviceID]
+-[UAChannelRegistrationPayload setDeviceID:]
+-[UAChannelRegistrationPayload isOptedIn]
+-[UAChannelRegistrationPayload setOptedIn:]
+-[UAChannelRegistrationPayload pushAddress]
+-[UAChannelRegistrationPayload setPushAddress:]
+-[UAChannelRegistrationPayload setTags]
+-[UAChannelRegistrationPayload setSetTags:]
+-[UAChannelRegistrationPayload tags]
+-[UAChannelRegistrationPayload setTags:]
+-[UAChannelRegistrationPayload alias]
+-[UAChannelRegistrationPayload setAlias:]
+-[UAChannelRegistrationPayload quietTime]
+-[UAChannelRegistrationPayload setQuietTime:]
+-[UAChannelRegistrationPayload language]
+-[UAChannelRegistrationPayload setLanguage:]
+-[UAChannelRegistrationPayload country]
+-[UAChannelRegistrationPayload setCountry:]
+-[UAChannelRegistrationPayload timeZone]
+-[UAChannelRegistrationPayload setTimeZone:]
+-[UAChannelRegistrationPayload badge]
+-[UAChannelRegistrationPayload setBadge:]
+-[UAChannelRegistrationPayload isBackgroundEnabled]
+-[UAChannelRegistrationPayload setBackgroundEnabled:]
+-[UAChannelRegistrationPayload .cxx_destruct]
+_OBJC_IVAR_$_UAChannelRegistrationPayload._userID
+_OBJC_IVAR_$_UAChannelRegistrationPayload._deviceID
+_OBJC_IVAR_$_UAChannelRegistrationPayload._optedIn
+_OBJC_IVAR_$_UAChannelRegistrationPayload._pushAddress
+_OBJC_IVAR_$_UAChannelRegistrationPayload._setTags
+_OBJC_IVAR_$_UAChannelRegistrationPayload._tags
+_OBJC_IVAR_$_UAChannelRegistrationPayload._alias
+_OBJC_IVAR_$_UAChannelRegistrationPayload._quietTime
+_OBJC_IVAR_$_UAChannelRegistrationPayload._language
+_OBJC_IVAR_$_UAChannelRegistrationPayload._country
+_OBJC_IVAR_$_UAChannelRegistrationPayload._timeZone
+_OBJC_IVAR_$_UAChannelRegistrationPayload._badge
+_OBJC_IVAR_$_UAChannelRegistrationPayload._backgroundEnabled
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAChannelRegistrationPayload.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAChannelRegistrationPayload+Internal.h
++[UAUser setDefaultUsername:withPassword:]
+-[UAUser dealloc]
+-[UAUser initWithPush:config:dataStore:]
++[UAUser userWithPush:config:dataStore:]
+-[UAUser saveUserData]
+-[UAUser isCreated]
+-[UAUser sendUserCreatedNotification]
+-[UAUser createUser]
+___20-[UAUser createUser]_block_invoke
+___20-[UAUser createUser]_block_invoke.111
+___20-[UAUser createUser]_block_invoke.132
+-[UAUser updateUser]
+___20-[UAUser updateUser]_block_invoke
+___copy_helper_block_.145
+___destroy_helper_block_.146
+___20-[UAUser updateUser]_block_invoke.154
+___20-[UAUser updateUser]_block_invoke.160
+___copy_helper_block_.163
+___destroy_helper_block_.164
+-[UAUser channelCreated]
+-[UAUser username]
+-[UAUser setUsername:]
+-[UAUser password]
+-[UAUser setPassword:]
+-[UAUser url]
+-[UAUser setUrl:]
+-[UAUser push]
+-[UAUser setPush:]
+-[UAUser apiClient]
+-[UAUser setApiClient:]
+-[UAUser creatingUser]
+-[UAUser setCreatingUser:]
+-[UAUser dataStore]
+-[UAUser setDataStore:]
+-[UAUser config]
+-[UAUser setConfig:]
+-[UAUser .cxx_destruct]
+___block_descriptor_tmp.138
+___block_descriptor_tmp.147
+___block_descriptor_tmp.165
+_OBJC_IVAR_$_UAUser._username
+_OBJC_IVAR_$_UAUser._password
+_OBJC_IVAR_$_UAUser._url
+_OBJC_IVAR_$_UAUser._push
+_OBJC_IVAR_$_UAUser._apiClient
+_OBJC_IVAR_$_UAUser._creatingUser
+_OBJC_IVAR_$_UAUser._dataStore
+_OBJC_IVAR_$_UAUser._config
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAUser.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAUser+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAUser.h
+__20-[UAUser updateUser]_block_invoke.160
+__20-[UAUser updateUser]_block_invoke.154
+__20-[UAUser updateUser]_block_invoke
+__20-[UAUser createUser]_block_invoke.132
+__20-[UAUser createUser]_block_invoke.111
+__20-[UAUser createUser]_block_invoke
+-[UAFetchDeviceInfoAction performWithArguments:completionHandler:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAFetchDeviceInfoAction.m
++[UAColorUtils colorWithHexString:]
++[UAColorUtils hexStringWithColor:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAColorUtils.m
+-[UAWhitelist init]
++[UAWhitelist whitelistWithConfig:]
+-[UAWhitelist escapeRegexString:escapingWildcards:]
+-[UAWhitelist matcherForURLComponent:withRegexString:]
+___54-[UAWhitelist matcherForURLComponent:withRegexString:]_block_invoke
+-[UAWhitelist schemeMatcherForPattern:]
+-[UAWhitelist hostMatcherForPattern:]
+-[UAWhitelist pathMatcherForPattern:]
+-[UAWhitelist wildcardMatcher]
+___30-[UAWhitelist wildcardMatcher]_block_invoke
+-[UAWhitelist validatePattern:]
+-[UAWhitelist addEntry:]
+___24-[UAWhitelist addEntry:]_block_invoke
+___copy_helper_block_.147
+___destroy_helper_block_.148
+-[UAWhitelist isWhitelisted:]
+-[UAWhitelist matchers]
+-[UAWhitelist setMatchers:]
+-[UAWhitelist validPatternExpression]
+-[UAWhitelist setValidPatternExpression:]
+-[UAWhitelist .cxx_destruct]
+___block_descriptor_tmp.109
+___block_descriptor_tmp.149
+_OBJC_IVAR_$_UAWhitelist._matchers
+_OBJC_IVAR_$_UAWhitelist._validPatternExpression
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAWhitelist.m
+__24-[UAWhitelist addEntry:]_block_invoke
+__30-[UAWhitelist wildcardMatcher]_block_invoke
+__54-[UAWhitelist matcherForURLComponent:withRegexString:]_block_invoke
+-[NSString(UALocalizationAdditions) sanitizedLocalizedStringWithTable:primaryBundle:fallbackBundle:]
+-[NSString(UALocalizationAdditions) localizedStringWithTable:defaultValue:fallbackLocale:]
+-[NSString(UALocalizationAdditions) localizedStringWithTable:defaultValue:]
+-[NSString(UALocalizationAdditions) localizedStringWithTable:]
+-[NSString(UALocalizationAdditions) localizedStringWithTable:fallbackLocale:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/NSString+UALocalizationAdditions.m
+-[UAAddTagsAction applyChannelTags:]
+-[UAAddTagsAction applyChannelTags:group:]
+-[UAAddTagsAction applyNamedUserTags:group:]
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAddTagsAction.m
+-[UAAPIClient initWithConfig:session:]
+-[UAAPIClient cancelAllRequests]
+-[UAAPIClient dealloc]
+-[UAAPIClient config]
+-[UAAPIClient setConfig:]
+-[UAAPIClient session]
+-[UAAPIClient setSession:]
+-[UAAPIClient .cxx_destruct]
+_OBJC_IVAR_$_UAAPIClient._config
+_OBJC_IVAR_$_UAAPIClient._session
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAPIClient.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAPIClient+Internal.h
+-[UAScheduleAction acceptsArguments:]
+-[UAScheduleAction performWithArguments:completionHandler:]
+___59-[UAScheduleAction performWithArguments:completionHandler:]_block_invoke
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAScheduleAction.m
+__59-[UAScheduleAction performWithArguments:completionHandler:]_block_invoke
+-[UARequestBuilder init]
+-[UARequestBuilder setValue:forHeader:]
+-[UARequestBuilder method]
+-[UARequestBuilder setMethod:]
+-[UARequestBuilder URL]
+-[UARequestBuilder setURL:]
+-[UARequestBuilder username]
+-[UARequestBuilder setUsername:]
+-[UARequestBuilder password]
+-[UARequestBuilder setPassword:]
+-[UARequestBuilder body]
+-[UARequestBuilder setBody:]
+-[UARequestBuilder compressBody]
+-[UARequestBuilder setCompressBody:]
+-[UARequestBuilder headers]
+-[UARequestBuilder setHeaders:]
+-[UARequestBuilder .cxx_destruct]
+-[UARequest initWithBuilder:]
++[UARequest requestWithBuilderBlock:]
++[UARequest gzipCompress:]
+-[UARequest method]
+-[UARequest setMethod:]
+-[UARequest URL]
+-[UARequest setURL:]
+-[UARequest headers]
+-[UARequest setHeaders:]
+-[UARequest body]
+-[UARequest setBody:]
+-[UARequest .cxx_destruct]
+_OBJC_IVAR_$_UARequestBuilder._method
+_OBJC_IVAR_$_UARequestBuilder._URL
+_OBJC_IVAR_$_UARequestBuilder._username
+_OBJC_IVAR_$_UARequestBuilder._password
+_OBJC_IVAR_$_UARequestBuilder._body
+_OBJC_IVAR_$_UARequestBuilder._compressBody
+_OBJC_IVAR_$_UARequestBuilder._headers
+_OBJC_IVAR_$_UARequest._method
+_OBJC_IVAR_$_UARequest._URL
+_OBJC_IVAR_$_UARequest._headers
+_OBJC_IVAR_$_UARequest._body
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UARequest.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UARequest+Internal.h
+-[UAAutomation dealloc]
+-[UAAutomation initWithConfig:dataStore:]
++[UAAutomation automationWithConfig:dataStore:]
+-[UAAutomation scheduleActions:completionHandler:]
+___50-[UAAutomation scheduleActions:completionHandler:]_block_invoke
+___50-[UAAutomation scheduleActions:completionHandler:]_block_invoke.67
+___50-[UAAutomation scheduleActions:completionHandler:]_block_invoke_2
+-[UAAutomation cancelScheduleWithIdentifier:]
+-[UAAutomation cancelAll]
+-[UAAutomation cancelSchedulesWithGroup:]
+-[UAAutomation getScheduleWithIdentifier:completionHandler:]
+___60-[UAAutomation getScheduleWithIdentifier:completionHandler:]_block_invoke
+___60-[UAAutomation getScheduleWithIdentifier:completionHandler:]_block_invoke_2
+___copy_helper_block_.102
+___destroy_helper_block_.103
+-[UAAutomation getSchedules:]
+___29-[UAAutomation getSchedules:]_block_invoke
+___29-[UAAutomation getSchedules:]_block_invoke_2
+-[UAAutomation getSchedulesWithGroup:completionHandler:]
+___56-[UAAutomation getSchedulesWithGroup:completionHandler:]_block_invoke
+___56-[UAAutomation getSchedulesWithGroup:completionHandler:]_block_invoke_2
+___copy_helper_block_.122
+___destroy_helper_block_.123
+___copy_helper_block_.125
+___destroy_helper_block_.126
+-[UAAutomation didBecomeActive]
+-[UAAutomation enterForeground]
+-[UAAutomation enterBackground]
+-[UAAutomation customEventAdded:]
+-[UAAutomation regionEventAdded:]
+-[UAAutomation screenTracked:]
+-[UAAutomation updateTriggersWithType:argument:incrementAmount:]
+___64-[UAAutomation updateTriggersWithType:argument:incrementAmount:]_block_invoke
+___64-[UAAutomation updateTriggersWithType:argument:incrementAmount:]_block_invoke_2
+___copy_helper_block_.204
+___destroy_helper_block_.205
+___copy_helper_block_.211
+___destroy_helper_block_.212
+-[UAAutomation startTimerForSchedule:]
+___38-[UAAutomation startTimerForSchedule:]_block_invoke
+___38-[UAAutomation startTimerForSchedule:]_block_invoke_2
+___copy_helper_block_.243
+___destroy_helper_block_.244
+___copy_helper_block_.261
+___destroy_helper_block_.262
+-[UAAutomation scheduleTimerFired:]
+___35-[UAAutomation scheduleTimerFired:]_block_invoke
+___35-[UAAutomation scheduleTimerFired:]_block_invoke_2
+___copy_helper_block_.276
+___destroy_helper_block_.277
+___copy_helper_block_.279
+___destroy_helper_block_.280
+-[UAAutomation cancelTimersWithIdentifiers:]
+-[UAAutomation cancelTimersWithGroup:]
+-[UAAutomation cancelTimers]
+-[UAAutomation rescheduleTimers]
+___32-[UAAutomation rescheduleTimers]_block_invoke
+___copy_helper_block_.298
+___destroy_helper_block_.299
+-[UAAutomation scheduleConditionsChanged]
+___41-[UAAutomation scheduleConditionsChanged]_block_invoke
+___copy_helper_block_.303
+___destroy_helper_block_.304
+-[UAAutomation isScheduleDelaySatisfied:delayedExecutionDate:]
+-[UAAutomation processTriggeredSchedules:]
+___42-[UAAutomation processTriggeredSchedules:]_block_invoke
+___42-[UAAutomation processTriggeredSchedules:]_block_invoke_2
+___copy_helper_block_.340
+___destroy_helper_block_.341
+___copy_helper_block_.346
+___destroy_helper_block_.347
+___42-[UAAutomation processTriggeredSchedules:]_block_invoke.349
+___copy_helper_block_.364
+___destroy_helper_block_.365
+___42-[UAAutomation processTriggeredSchedules:]_block_invoke.367
+___copy_helper_block_.368
+___destroy_helper_block_.369
+-[UAAutomation endBackgroundTask]
++[UAAutomation scheduleFromData:]
+___33+[UAAutomation scheduleFromData:]_block_invoke
+___copy_helper_block_.386
+___destroy_helper_block_.387
++[UAAutomation triggersFromData:]
++[UAAutomation predicateFromData:]
++[UAAutomation delayFromData:]
+___30+[UAAutomation delayFromData:]_block_invoke
+___copy_helper_block_.413
+___destroy_helper_block_.414
+-[UAAutomation automationStore]
+-[UAAutomation setAutomationStore:]
+-[UAAutomation preferenceDataStore]
+-[UAAutomation setPreferenceDataStore:]
+-[UAAutomation currentScreen]
+-[UAAutomation setCurrentScreen:]
+-[UAAutomation currentRegion]
+-[UAAutomation setCurrentRegion:]
+-[UAAutomation isForegrounded]
+-[UAAutomation setIsForegrounded:]
+-[UAAutomation activeTimers]
+-[UAAutomation setActiveTimers:]
+-[UAAutomation backgroundTaskIdentifier]
+-[UAAutomation setBackgroundTaskIdentifier:]
+-[UAAutomation .cxx_destruct]
+___block_descriptor_tmp.101
+___block_descriptor_tmp.124
+___block_descriptor_tmp.127
+___block_descriptor_tmp.206
+___block_descriptor_tmp.245
+___block_descriptor_tmp.263
+___block_descriptor_tmp.278
+___block_descriptor_tmp.281
+___block_descriptor_tmp.300
+___block_descriptor_tmp.305
+___block_descriptor_tmp.343
+___block_descriptor_tmp.348
+___block_descriptor_tmp.366
+___block_descriptor_tmp.370
+___block_descriptor_tmp.389
+___block_descriptor_tmp.416
+_OBJC_IVAR_$_UAAutomation._automationStore
+_OBJC_IVAR_$_UAAutomation._preferenceDataStore
+_OBJC_IVAR_$_UAAutomation._currentScreen
+_OBJC_IVAR_$_UAAutomation._currentRegion
+_OBJC_IVAR_$_UAAutomation._isForegrounded
+_OBJC_IVAR_$_UAAutomation._activeTimers
+_OBJC_IVAR_$_UAAutomation._backgroundTaskIdentifier
+l_OBJC_PROTOCOL_$_UAAnalyticsDelegate
+l_OBJC_LABEL_PROTOCOL_$_UAAnalyticsDelegate
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAutomation.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAutomation+Internal.h
+__30+[UAAutomation delayFromData:]_block_invoke
+__33+[UAAutomation scheduleFromData:]_block_invoke
+__42-[UAAutomation processTriggeredSchedules:]_block_invoke.367
+__42-[UAAutomation processTriggeredSchedules:]_block_invoke.349
+__42-[UAAutomation processTriggeredSchedules:]_block_invoke_2
+__42-[UAAutomation processTriggeredSchedules:]_block_invoke
+__41-[UAAutomation scheduleConditionsChanged]_block_invoke
+__32-[UAAutomation rescheduleTimers]_block_invoke
+__35-[UAAutomation scheduleTimerFired:]_block_invoke_2
+__35-[UAAutomation scheduleTimerFired:]_block_invoke
+__38-[UAAutomation startTimerForSchedule:]_block_invoke_2
+__38-[UAAutomation startTimerForSchedule:]_block_invoke
+__64-[UAAutomation updateTriggersWithType:argument:incrementAmount:]_block_invoke_2
+__64-[UAAutomation updateTriggersWithType:argument:incrementAmount:]_block_invoke
+__56-[UAAutomation getSchedulesWithGroup:completionHandler:]_block_invoke_2
+__56-[UAAutomation getSchedulesWithGroup:completionHandler:]_block_invoke
+__29-[UAAutomation getSchedules:]_block_invoke_2
+__29-[UAAutomation getSchedules:]_block_invoke
+__60-[UAAutomation getScheduleWithIdentifier:completionHandler:]_block_invoke_2
+__60-[UAAutomation getScheduleWithIdentifier:completionHandler:]_block_invoke
+__50-[UAAutomation scheduleActions:completionHandler:]_block_invoke_2
+__50-[UAAutomation scheduleActions:completionHandler:]_block_invoke.67
+__50-[UAAutomation scheduleActions:completionHandler:]_block_invoke
+-[UAAutomationStore initWithConfig:]
+___36-[UAAutomationStore initWithConfig:]_block_invoke
++[UAAutomationStore automationStoreWithConfig:]
+-[UAAutomationStore protectedDataAvailable]
+___43-[UAAutomationStore protectedDataAvailable]_block_invoke
+-[UAAutomationStore saveSchedule:limit:completionHandler:]
+___58-[UAAutomationStore saveSchedule:limit:completionHandler:]_block_invoke
+-[UAAutomationStore deleteSchedulesWithPredicate:]
+___50-[UAAutomationStore deleteSchedulesWithPredicate:]_block_invoke
+___copy_helper_block_.91
+___destroy_helper_block_.92
+-[UAAutomationStore fetchSchedulesWithPredicate:limit:completionHandler:]
+___73-[UAAutomationStore fetchSchedulesWithPredicate:limit:completionHandler:]_block_invoke
+___copy_helper_block_.98
+___destroy_helper_block_.99
+-[UAAutomationStore fetchTriggersWithPredicate:completionHandler:]
+___66-[UAAutomationStore fetchTriggersWithPredicate:completionHandler:]_block_invoke
+___copy_helper_block_.105
+___destroy_helper_block_.106
+-[UAAutomationStore createScheduleDataFromSchedule:]
+-[UAAutomationStore createDelayDataFromDelay:scheduleStart:]
+-[UAAutomationStore createTriggerDataFromTriggers:scheduleStart:]
+-[UAAutomationStore managedContext]
+-[UAAutomationStore setManagedContext:]
+-[UAAutomationStore storeName]
+-[UAAutomationStore setStoreName:]
+-[UAAutomationStore .cxx_destruct]
+___block_descriptor_tmp.50
+___block_literal_global.51
+___block_descriptor_tmp.93
+___block_descriptor_tmp.100
+_OBJC_IVAR_$_UAAutomationStore._managedContext
+_OBJC_IVAR_$_UAAutomationStore._storeName
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAAutomationStore.m
+__66-[UAAutomationStore fetchTriggersWithPredicate:completionHandler:]_block_invoke
+__73-[UAAutomationStore fetchSchedulesWithPredicate:limit:completionHandler:]_block_invoke
+__50-[UAAutomationStore deleteSchedulesWithPredicate:]_block_invoke
+__58-[UAAutomationStore saveSchedule:limit:completionHandler:]_block_invoke
+__43-[UAAutomationStore protectedDataAvailable]_block_invoke
+__36-[UAAutomationStore initWithConfig:]_block_invoke
+-[UASQLite init]
+-[UASQLite initWithDBPath:]
+-[UASQLite dealloc]
+-[UASQLite open:]
+-[UASQLite close]
+-[UASQLite lastErrorMessage]
+-[UASQLite lastErrorCode]
+-[UASQLite prepareSql:inStatament:]
+-[UASQLite executeStatament:]
+-[UASQLite bindObject:toColumn:inStatament:]
+-[UASQLite hasNext:]
+-[UASQLite columnData:columnIndex:]
+-[UASQLite columnName:columnIndex:]
+-[UASQLite executeQuery:]
+-[UASQLite convertResultSet:]
+-[UASQLite executeQuery:arguments:]
+-[UASQLite executeUpdate:]
+-[UASQLite executeUpdate:arguments:]
+-[UASQLite commit]
+-[UASQLite rollback]
+-[UASQLite beginTransaction]
+-[UASQLite beginDeferredTransaction]
+-[UASQLite tableExists:]
+-[UASQLite indexExists:]
+-[UASQLite busyRetryTimeout]
+-[UASQLite setBusyRetryTimeout:]
+-[UASQLite dbPath]
+-[UASQLite setDbPath:]
+-[UASQLite db]
+-[UASQLite setDb:]
+-[UASQLite .cxx_destruct]
+_OBJC_IVAR_$_UASQLite._db
+_OBJC_IVAR_$_UASQLite._busyRetryTimeout
+_OBJC_IVAR_$_UASQLite._dbPath
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UASQLite.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UASQLite+Internal.h
+-[UAActionSchedule initWithIdentifier:info:]
++[UAActionSchedule actionScheduleWithIdentifier:info:]
+-[UAActionSchedule isEqualToSchedule:]
+-[UAActionSchedule isEqual:]
+-[UAActionSchedule hash]
+-[UAActionSchedule identifier]
+-[UAActionSchedule setIdentifier:]
+-[UAActionSchedule info]
+-[UAActionSchedule setInfo:]
+-[UAActionSchedule .cxx_destruct]
+_OBJC_IVAR_$_UAActionSchedule._identifier
+_OBJC_IVAR_$_UAActionSchedule._info
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionSchedule.m
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionSchedule+Internal.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAActionSchedule.h
+/Users/tamas/Documents/works/cocos2d-x/azoomee2/common/proj.ios_mac/Carthage/Checkouts/ios-library/AirshipKit/AirshipKit/common/UAScheduleDelayData.m
+/Users/tamas/Library/Caches/org.carthage.CarthageKit/DerivedData/9.0.1_9A1004/ios-library/8.6.0/Build/Intermediates.noindex/ArchiveIntermediates/AirshipKit tvOS/IntermediateBuildFilesPath/AirshipKit.build/Release-appletvos/AirshipKit tvOS.build/DerivedSources/AirshipKit_vers.c
