@@ -60,14 +60,13 @@ bool MessageComposer::init()
     // Default to Idle
     setMode(MessageComposer::Mode::Idle);
     
-    // Border at bottom
-    _subTitleBarBorder = ui::Layout::create();
-    //_subTitleBarBorder->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-    _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
-    _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBarBorder->setBackGroundColor(Style::Color::greenishTeal);
-    _subTitleBarBorder->setAnchorPoint(Vec2(0.5f, 0.5f));
-    addChild(_subTitleBarBorder);
+    // Border at top of composer
+    _composerTopBorder = ui::Layout::create();
+    _composerTopBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
+    _composerTopBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _composerTopBorder->setBackGroundColor(Style::Color::greenishTeal);
+    _composerTopBorder->setAnchorPoint(Vec2(0.5f, 0.5f));
+    _topLayout->addChild(_composerTopBorder);
     
     return true;
 }
@@ -135,17 +134,8 @@ void MessageComposer::onSizeChanged()
     updateTextEntryHeight();
     
     //Redraw top line
-    /*if(_topLine)
-    {
-        _topLine->removeFromParent();
-    }
-    _topLine = DrawNode::create();
-    _topLine->setLineWidth(2);
-    _topLine->drawLine(Vec2(0, getContentSize().height), Vec2(getContentSize().width,getContentSize().height), Style::Color_4F::greenishTeal);
-    addChild(_topLine);*/
-    
-    _subTitleBarBorder->setContentSize(Size(getContentSize().width, 100.0f));
-    _subTitleBarBorder->setPosition(Vec2(getContentSize().width/2,getContentSize().height/2));
+    _composerTopBorder->setContentSize(Size(getContentSize().width, 2.0f));
+    _composerTopBorder->setPosition(Vec2(getContentSize().width/2,_topLayout->getContentSize().height));
 }
 
 void MessageComposer::setContentSize(const cocos2d::Size& contentSize)
