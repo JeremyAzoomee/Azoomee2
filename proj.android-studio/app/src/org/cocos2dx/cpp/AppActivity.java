@@ -90,7 +90,6 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mActivity = this;
         mAppActivity = this;
 
-        UAirship.shared().getPushManager().setUserNotificationsEnabled(true);
         setupIAPOnCreate();
 
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
@@ -494,6 +493,30 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         shareIntent.putExtra(Intent.EXTRA_TEXT, textToShare);
 
         mActivity.startActivity(shareIntent);
+    }
+
+    // PUSH NOTIFICATIONS NATIVE ANDRODID FUNCTIONS
+
+    public static void jniSetNamedUserIdentifierForPushChannel(String channelName)
+    {
+        UAirship.shared().getNamedUser().setId(channelName);
+    }
+
+    public static void jniSetTagForPushChannel(String tag)
+    {
+
+    }
+
+    public static void jniEnablePushNotifications()
+    {
+        UAirship.shared().getPushManager().setUserNotificationsEnabled(true);
+        UAirship.shared().getInAppMessageManager().setAutoDisplayEnabled(true);
+    }
+
+    public static void jniDisablePushNotifications()
+    {
+        UAirship.shared().getPushManager().setUserNotificationsEnabled(false);
+        UAirship.shared().getInAppMessageManager().setAutoDisplayEnabled(false);
     }
 
 }

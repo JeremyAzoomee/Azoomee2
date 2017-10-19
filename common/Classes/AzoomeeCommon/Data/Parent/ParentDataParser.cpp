@@ -5,6 +5,7 @@
 #include "../../Crashlytics/CrashlyticsConfig.h"
 #include "../../Analytics/AnalyticsSingleton.h"
 #include "../../ErrorCodes.h"
+#include "../../Utils/PushNotificationsHandler.h"
 
 using namespace cocos2d;
 
@@ -60,6 +61,9 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
             AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
             AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
             
+            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
+            PushNotificationsHandler::getInstance()->enablePushNotifications();
+            
             return true;
         }
     }
@@ -90,6 +94,9 @@ bool ParentDataParser::parseParentLoginDataFromAnonymousDeviceLogin(const std::s
             createCrashlyticsUserInfo(parentData->loggedInParentId, "");
             AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
             AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
+            
+            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
+            PushNotificationsHandler::getInstance()->enablePushNotifications();
             
             return true;
         }
@@ -235,6 +242,9 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
     AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(def->getStringForKey("username"));
+    
+    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
+    PushNotificationsHandler::getInstance()->enablePushNotifications();
 }
 
 bool ParentDataParser::hasParentLoginDataInUserDefaults()

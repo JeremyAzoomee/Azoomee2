@@ -17,6 +17,7 @@
 		02AE88E31F83CBC3005C0FC8 /* AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */; };
 		02BF05E01F97828E00E7D086 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BF05DF1F97828D00E7D086 /* AirshipKit.framework */; };
 		02BF05E21F97829E00E7D086 /* AirshipKit.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 02BF05E11F97829E00E7D086 /* AirshipKit.framework.dSYM */; };
+		02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */; };
 		3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */; };
 		3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */; };
 		3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF791ED5BBB700E9717C /* Application.cpp */; };
@@ -174,6 +175,9 @@
 		02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutomaticEvents.m; sourceTree = "<group>"; };
 		02BF05DF1F97828D00E7D086 /* AirshipKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AirshipKit.framework; sourceTree = "<group>"; };
 		02BF05E11F97829E00E7D086 /* AirshipKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = AirshipKit.framework.dSYM; sourceTree = "<group>"; };
+		02BF05EE1F98B80B00E7D086 /* PushNotificationsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushNotificationsHandler.h; sourceTree = "<group>"; };
+		02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PushNotificationsHandler_ios.mm; sourceTree = "<group>"; };
+		02BF05F11F98BAAF00E7D086 /* PushNotificationsHandler_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PushNotificationsHandler_android.cpp; sourceTree = "<group>"; };
 		3000FF701ED5AB7000E9717C /* AzoomeeAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeAppController.h; sourceTree = "<group>"; };
 		3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AzoomeeAppController.mm; sourceTree = "<group>"; };
 		3000FF721ED5AB7000E9717C /* AzoomeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeViewController.h; sourceTree = "<group>"; };
@@ -632,6 +636,9 @@
 				9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */,
 				9224C00D1F7D11F400108553 /* DirectorySearcher.h */,
 				9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */,
+				02BF05F11F98BAAF00E7D086 /* PushNotificationsHandler_android.cpp */,
+				02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */,
+				02BF05EE1F98B80B00E7D086 /* PushNotificationsHandler.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1128,6 +1135,7 @@
 				4349C8311EA8ADEF00FE964B /* MPEnumDescription.m in Sources */,
 				301CCA8D1EB13151009ADA0C /* MessageBox.cpp in Sources */,
 				4349C8501EA8ADEF00FE964B /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
+				02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */,
 				3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */,
 				4349C81A1EA8ADEF00FE964B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				431369811F2B7200002BEA8C /* YouTubeVideoLayer.cpp in Sources */,
