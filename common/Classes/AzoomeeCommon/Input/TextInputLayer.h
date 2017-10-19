@@ -56,8 +56,9 @@ private:
     
     void createSettingsChatEditBox(float width);
     
-    cocos2d::ui::EditBox* editBox;
-    cocos2d::ui::Scale9Sprite* editBoxArea;
+    cocos2d::ui::EditBox* editBox = nullptr;
+    cocos2d::ui::Scale9Sprite* editBoxArea = nullptr;
+    cocos2d::ui::Scale9Sprite* editBoxAreaError = nullptr;
     
     int textInputType;
     
@@ -78,6 +79,7 @@ public:
     void focusAndShowKeyboard();
     
     void setEditboxVisibility(bool visibility);
+    void setEditboxHasError(bool hasError = true);
     
     bool inputIsValid();
     

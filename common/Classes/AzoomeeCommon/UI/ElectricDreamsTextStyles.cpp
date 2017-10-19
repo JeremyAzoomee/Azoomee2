@@ -85,12 +85,12 @@ Label*  createLabelChildName(std::string text)
     return createLabelWith(text, Style::Font::Regular, Style::Color::white, 47);
 }
 
-Label*  createLabelBodyCentred(std::string text){
+Label*  createLabelBodyCentred(std::string text, cocos2d::Color3B color){
     
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::white, 59);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, color, 59);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
     newLabel->setAnchorPoint(Vec2(0.5f, 1.0f));
     newLabel->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.85);

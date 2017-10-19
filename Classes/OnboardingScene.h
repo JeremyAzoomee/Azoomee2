@@ -16,7 +16,7 @@ private:
     cocos2d::Sprite* _progressIndicatior = nullptr;
     cocos2d::Label* mainTitle = nullptr;
     
-    TextInputLayer *emailTextInput = nullptr;
+    TextInputLayer *_emailTextInput = nullptr;
     TextInputLayer *passwordTextInput = nullptr;
     TextInputLayer *pinTextInput = nullptr;
     
@@ -24,6 +24,14 @@ private:
     ElectricDreamsButton* cancelButton = nullptr;
     ElectricDreamsButton* privacyButton = nullptr;
     ElectricDreamsButton* termsButton = nullptr;
+    
+    cocos2d::Label* _emailTitle = nullptr;
+    cocos2d::Label* _emailError = nullptr;
+    cocos2d::Label* _passwordTitle = nullptr;
+    cocos2d::Label* _passwordError = nullptr;
+    cocos2d::Label* _pinTitle = nullptr;
+    cocos2d::Label* _pinError = nullptr;
+    cocos2d::Label* _pinSubTitle = nullptr;
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;

@@ -22,8 +22,8 @@ TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputT
     layer->setContentSize(inputBoxSize);
 
     layer->textInputType = textInputType;
-    layer->createEditBox();
     layer->createEditBoxArea();
+    layer->createEditBox();
     layer->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.70));
     
     return layer;
@@ -60,11 +60,17 @@ void TextInputLayer::createEditBoxArea()
     this->addChild(editBoxArea);
     
     editBoxArea->runAction(FadeTo::create(0.5, 255));
+    
+    editBoxAreaError = ui::Scale9Sprite::create("res/login/textFieldError.png", spriteRect, capInsents);
+    editBoxAreaError->setContentSize(this->getContentSize());
+    editBoxAreaError->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
+    editBoxAreaError->setVisible(false);
+    this->addChild(editBoxAreaError);
 }
 
 void TextInputLayer::createEditBox()
 {
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height), "res/login/editboxBlankFor9Scale.png");
+    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height-10), "res/login/editboxBlankFor9Scale.png");
     editBox->moveOnKeyboardDisplayRequired = false;
     editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
@@ -278,6 +284,20 @@ void TextInputLayer::setEditboxVisibility(bool visibility)
 {
     editBoxArea->setVisible(visibility);
     editBox->setVisible(visibility);
+}
+    
+void TextInputLayer::setEditboxHasError(bool hasError)
+{
+    if(hasError)
+    {
+        editBoxAreaError->setVisible(true);
+        editBox->setFontColor(Style::Color::watermelon);
+    }
+    else
+    {
+        editBoxAreaError->setVisible(false);
+        editBox->setFontColor(Color3B::BLACK);
+    }
 }
     
 void TextInputLayer::setNewWidth(float newWidth)

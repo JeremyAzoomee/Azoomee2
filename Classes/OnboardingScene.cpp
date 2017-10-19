@@ -61,13 +61,13 @@ void OnboardingScene::onEnterTransitionDidFinish()
 {
     if(FlowDataSingleton::getInstance()->hasError())
     {
-        emailTextInput->setEditboxVisibility(false);
+        _emailTextInput->setEditboxVisibility(false);
         passwordTextInput->setEditboxVisibility(false);
         pinTextInput->setEditboxVisibility(false);
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), this);
     }
     else
-        emailTextInput->focusAndShowKeyboard();
+        _emailTextInput->focusAndShowKeyboard();
 }
 
 //----------------- SCENE SETUP ---------------
@@ -97,14 +97,14 @@ void OnboardingScene::addTextboxScene()
 {
     float textInputWidth = visibleSize.width*.80;
     
-    emailTextInput = TextInputLayer::createWithSize(Size(textInputWidth,160), INPUT_IS_EMAIL);
-    emailTextInput->setPositionY(mainTitle->getPositionY()-emailTextInput->getContentSize().height*2.1);
-    emailTextInput->setDelegate(this);
-    emailTextInput->setText(FlowDataSingleton::getInstance()->getUserName());
-    this->addChild(emailTextInput);
+    _emailTextInput = TextInputLayer::createWithSize(Size(textInputWidth,160), INPUT_IS_EMAIL);
+    _emailTextInput->setPositionY(mainTitle->getPositionY()-_emailTextInput->getContentSize().height*2.1);
+    _emailTextInput->setDelegate(this);
+    _emailTextInput->setText(FlowDataSingleton::getInstance()->getUserName());
+    this->addChild(_emailTextInput);
     
     passwordTextInput = TextInputLayer::createWithSize(Size(textInputWidth,160), INPUT_IS_NEW_PASSWORD);
-    passwordTextInput->setPositionY(emailTextInput->getPositionY() -passwordTextInput->getContentSize().height*1.9 );
+    passwordTextInput->setPositionY(_emailTextInput->getPositionY() -passwordTextInput->getContentSize().height*1.9 );
     passwordTextInput->setDelegate(this);
     this->addChild(passwordTextInput);
     
@@ -116,22 +116,22 @@ void OnboardingScene::addTextboxScene()
 
 void OnboardingScene::addLabelsToScene()
 {
-    Label* emailTitle =  createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
-    emailTitle->setPositionY(emailTextInput->getPositionY()+(emailTextInput->getContentSize().height) + (emailTitle->getContentSize().height*.6));
-    this->addChild(emailTitle);
+    _emailTitle =  createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
+    _emailTitle->setPositionY(_emailTextInput->getPositionY()+(_emailTextInput->getContentSize().height) + (_emailTitle->getContentSize().height*.6));
+    this->addChild(_emailTitle);
     
-    Label* passwordTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
-    passwordTitle->setPositionY(passwordTextInput->getPositionY()+(passwordTextInput->getContentSize().height) + (passwordTitle->getContentSize().height*.6));
-    this->addChild(passwordTitle);
+    _passwordTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
+    _passwordTitle->setPositionY(passwordTextInput->getPositionY()+(passwordTextInput->getContentSize().height) + (_passwordTitle->getContentSize().height*.6));
+    this->addChild(_passwordTitle);
     
-    Label* pinTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL));
-    pinTitle->setPositionY(pinTextInput->getPositionY()+(pinTextInput->getContentSize().height) + (pinTitle->getContentSize().height*.6));
-    this->addChild(pinTitle);
+    _pinTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL));
+    _pinTitle->setPositionY(pinTextInput->getPositionY()+(pinTextInput->getContentSize().height) + (_pinTitle->getContentSize().height*.6));
+    this->addChild(_pinTitle);
     
-    Label* pinSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL));
-    pinSubTitle->setPositionY(pinTextInput->getPositionY() - (pinSubTitle->getContentSize().height*.2));
-    pinSubTitle->setLineSpacing(20);
-    this->addChild(pinSubTitle);
+    _pinSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL),Style::Color::black);
+    _pinSubTitle->setPositionY(pinTextInput->getPositionY() - (_pinSubTitle->getContentSize().height*.2));
+    _pinSubTitle->setLineSpacing(20);
+    this->addChild(_pinSubTitle);
 }
 
 void OnboardingScene::addButtonsScene()
@@ -194,16 +194,16 @@ void OnboardingScene::addTermsAndConditionsToScene()
 void OnboardingScene::signUp()
 {
     ModalMessages::getInstance()->startLoading();
-    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(emailTextInput->getText());
+    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(_emailTextInput->getText());
     auto backEndCaller = BackEndCaller::getInstance();
-    backEndCaller->registerParent(emailTextInput->getText(), passwordTextInput->getText(), pinTextInput->getText());
+    backEndCaller->registerParent(_emailTextInput->getText(), passwordTextInput->getText(), pinTextInput->getText());
 }
 
 //----------------------- Delegate Functions ----------------------------
 
 void OnboardingScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    if(emailTextInput->inputIsValid() && passwordTextInput->inputIsValid() && pinTextInput->inputIsValid())
+    if(_emailTextInput->inputIsValid() && passwordTextInput->inputIsValid() && pinTextInput->inputIsValid())
         signupButton->setVisible(true);
     else
         signupButton->setVisible(false);
@@ -211,26 +211,29 @@ void OnboardingScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 
 void OnboardingScene::textInputReturnPressed(TextInputLayer* inputLayer)
 {
-    if(inputLayer == emailTextInput)
+    if(inputLayer == _emailTextInput)
     {
         passwordTextInput->focusAndShowKeyboard();
-        AnalyticsSingleton::getInstance()->registerAzoomeeEmail(emailTextInput->getText());
+        AnalyticsSingleton::getInstance()->registerAzoomeeEmail(_emailTextInput->getText());
+        if(!_emailTextInput->inputIsValid())
+           _emailTextInput->setEditboxHasError();
     }
     else if(inputLayer == passwordTextInput)
         pinTextInput->focusAndShowKeyboard();
     else if(inputLayer == pinTextInput)
-        if(emailTextInput->inputIsValid() && passwordTextInput->inputIsValid() && pinTextInput->inputIsValid())
+        if(_emailTextInput->inputIsValid() && passwordTextInput->inputIsValid() && pinTextInput->inputIsValid())
             signUp();
 }
 
 void OnboardingScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 {
-    
+    inputLayer->setEditboxHasError(false);
 }
 
 void OnboardingScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
-    
+    if(!_emailTextInput->inputIsValid() && inputLayer == _emailTextInput)
+        _emailTextInput->setEditboxHasError();
 }
 
 void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
@@ -255,10 +258,10 @@ void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
     }
     else
     {
-        emailTextInput->setEditboxVisibility(true);
+        _emailTextInput->setEditboxVisibility(true);
         passwordTextInput->setEditboxVisibility(true);
         pinTextInput->setEditboxVisibility(true);
-        emailTextInput->focusAndShowKeyboard();
+        _emailTextInput->focusAndShowKeyboard();
     }
 }
 

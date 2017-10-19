@@ -164,7 +164,7 @@ void OfflineText::addTextTitleToScreen(std::string text)
 
 void OfflineText::addTextSubTitleToScreen(std::string text)
 {
-    auto offlineTextSubTitle = createLabelBodyCentred(text);
+    auto offlineTextSubTitle = createLabelBodyCentred(text,Style::Color::white);
     offlineTextSubTitle->setAnchorPoint(Vec2(0.5, 1.0));
     offlineTextSubTitle->setCascadeOpacityEnabled(true);
     offlineTextSubTitle->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.78);
@@ -177,7 +177,7 @@ void OfflineText::addTextSubTitleToScreen(std::string text)
 
 void OfflineText::addTextBodyToScreen(std::string text)
 {
-    auto offlineTextBody = createLabelBodyCentred(text);
+    auto offlineTextBody = createLabelBodyCentred(text,Style::Color::white);
     offlineTextBody->setAnchorPoint(Vec2(0.5, 1.0));
     offlineTextBody->setCascadeOpacityEnabled(true);
     offlineTextBody->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.52);
