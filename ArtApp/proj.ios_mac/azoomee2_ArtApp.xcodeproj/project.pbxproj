@@ -69,6 +69,8 @@
 		92A9A0751F068E5E008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A0441F068916008A19EB /* libAzoomeeArt.a */; };
 		92D1E0061F94DA820096E0FE /* DrawingCanvasUILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E0041F94DA820096E0FE /* DrawingCanvasUILayer.cpp */; };
 		92D1E0071F94DA820096E0FE /* DrawingCanvasUILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E0041F94DA820096E0FE /* DrawingCanvasUILayer.cpp */; };
+		92D1E00F1F98DC090096E0FE /* PatternFileStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E00D1F98DC090096E0FE /* PatternFileStorage.cpp */; };
+		92D1E0101F98DC090096E0FE /* PatternFileStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E00D1F98DC090096E0FE /* PatternFileStorage.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -212,6 +214,8 @@
 		92A9A0441F068916008A19EB /* libAzoomeeArt.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeArt.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		92D1E0041F94DA820096E0FE /* DrawingCanvasUILayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DrawingCanvasUILayer.cpp; path = ../../artapp/Classes/AzoomeeArt/DrawingCanvasUILayer.cpp; sourceTree = "<group>"; };
 		92D1E0081F94DAD70096E0FE /* DrawingCanvasUILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DrawingCanvasUILayer.h; path = ../../artapp/Classes/AzoomeeArt/DrawingCanvasUILayer.h; sourceTree = "<group>"; };
+		92D1E00D1F98DC090096E0FE /* PatternFileStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PatternFileStorage.cpp; path = ../../artapp/Classes/AzoomeeArt/PatternFileStorage.cpp; sourceTree = "<group>"; };
+		92D1E00E1F98DC090096E0FE /* PatternFileStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PatternFileStorage.h; path = ../../artapp/Classes/AzoomeeArt/PatternFileStorage.h; sourceTree = "<group>"; };
 		92F52EA81F20DE3D0032EF83 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../../common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -393,6 +397,8 @@
 		926174011F420043008E3F9D /* AzoomeeArt */ = {
 			isa = PBXGroup;
 			children = (
+				92D1E00D1F98DC090096E0FE /* PatternFileStorage.cpp */,
+				92D1E00E1F98DC090096E0FE /* PatternFileStorage.h */,
 				92D1E0081F94DAD70096E0FE /* DrawingCanvasUILayer.h */,
 				92D1E0041F94DA820096E0FE /* DrawingCanvasUILayer.cpp */,
 				9261740F1F420085008E3F9D /* BrushEraser.h */,
@@ -590,6 +596,7 @@
 				9261740C1F42006E008E3F9D /* AzoomeeArtApp.cpp in Sources */,
 				9261740D1F42006E008E3F9D /* Brush.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				92D1E00F1F98DC090096E0FE /* PatternFileStorage.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				9261740E1F42006E008E3F9D /* BrushEraser.cpp in Sources */,
 				9261740B1F42006E008E3F9D /* MainScene.cpp in Sources */,
@@ -618,6 +625,7 @@
 				926174351F42014F008E3F9D /* Brush.cpp in Sources */,
 				92D1E0071F94DA820096E0FE /* DrawingCanvasUILayer.cpp in Sources */,
 				926174361F42014F008E3F9D /* Brush.h in Sources */,
+				92D1E0101F98DC090096E0FE /* PatternFileStorage.cpp in Sources */,
 				926174371F42014F008E3F9D /* BrushEraser.cpp in Sources */,
 				926174231F420131008E3F9D /* BrushEraser.h in Sources */,
 				926174241F420131008E3F9D /* BrushHighlighter.cpp in Sources */,

@@ -27,6 +27,8 @@ protected:
     cocos2d::Vec2 _lastTouchPos;
     cocos2d::Color4F* _selectedColour = nullptr;
     float* _brushRadius;
+    cocos2d::ClippingNode* _maskingNode = nullptr;
+    std::string* _bgImageFile = nullptr;
 public:
     
     Brush();
@@ -37,6 +39,7 @@ public:
     
     void setSelectedColour(cocos2d::Color4F* selectedColour);
     void setBrushRadius(float* brushRadius);
+    void setBgImageFile(std::string* filename);
     
     virtual cocos2d::Node* addDrawNode(const cocos2d::Size& visibleSize);
     virtual cocos2d::Node* getDrawNode();

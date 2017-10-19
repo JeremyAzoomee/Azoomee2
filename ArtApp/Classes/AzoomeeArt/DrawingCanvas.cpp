@@ -24,7 +24,7 @@ bool DrawingCanvas::init()
     }
     
     _background = LayerColor::create(Color4B(Style::Color_4F::pureWhite));
-    _bgImageFilename = kArtAppAssetLoc + "patterns/Glitter_2.jpg";
+    _bgImageFilename = kArtAppAssetLoc + "white_bg.png";
     
     this->addChild(_background,BACKGROUND_LAYER);
     
@@ -93,6 +93,21 @@ void DrawingCanvas::setSelectedColour(cocos2d::Color4F colour)
 Color4F DrawingCanvas::getSelectedColour()
 {
     return _selectedColour;
+}
+
+void DrawingCanvas::setSelectedPattern(const std::string& pattern)
+{
+    _selectedPattern = pattern;
+}
+
+void DrawingCanvas::setSelectedPatternTansparant(const std::string &pattern)
+{
+    _selectedPatternTransparant = pattern;
+}
+
+std::string DrawingCanvas::getSelectedPattern()
+{
+    return _selectedPattern;
 }
 
 void DrawingCanvas::setListenerEnabled(bool isEnabled)
@@ -168,13 +183,18 @@ void DrawingCanvas::changeTool(int index)
 {
     _activeBrush->getDrawNode()->removeFromParent();
     _activeBrush = _brushes[index];
-    if(_activeBrush->_type == ERASER)
-    {
-        BrushEraser* eraser = (BrushEraser*)_activeBrush;
-        eraser->setBgImageFile(_bgImageFilename);
-    }
     this->addChild(_activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
 
+}
+
+void DrawingCanvas::removeCurrentDrawNode()
+{
+    _activeBrush->getDrawNode()->removeFromParent();
+}
+
+void DrawingCanvas::addNewDrawNode()
+{
+    this->addChild(_activeBrush->addDrawNode(Director::getInstance()->getVisibleSize()));
 }
 
 void DrawingCanvas::setBaseImage(const std::string& fileName)
@@ -287,7 +307,10 @@ void DrawingCanvas::addBrushes()
         b->init();
         b->setSelectedColour(&_selectedColour);
         b->setBrushRadius(&_brushRadius);
+        b->setBgImageFile(&_selectedPattern);
     }
+    eraser->setBgImageFile(&_bgImageFilename);
+    highlighter->setBgImageFile(&_selectedPatternTransparant);
     _activeBrush = _brushes[0];
     this->addChild(_activeBrush->getDrawNode());
 }

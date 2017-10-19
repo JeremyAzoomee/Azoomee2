@@ -22,8 +22,8 @@ private:
 public:
     BrushSprayCan();
     
-    cocos2d::Node* addDrawNode(const cocos2d::Size& visibleSize) override;
-    cocos2d::Node* getDrawNode() override;
+    //cocos2d::Node* addDrawNode(const cocos2d::Size& visibleSize) override;
+    //cocos2d::Node* getDrawNode() override;
     
     void onTouchBegin(cocos2d::Touch* touch, cocos2d::Event* event) override;
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) override;

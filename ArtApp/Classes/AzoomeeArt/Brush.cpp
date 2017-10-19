@@ -39,17 +39,44 @@ void Brush::setBrushRadius(float *brushRadius)
     _brushRadius = brushRadius;
 }
 
+void Brush::setBgImageFile(std::string* filename)
+{
+    _bgImageFile = filename;
+}
+
 Node* Brush::addDrawNode(const Size& visibleSize)
 {
-    DrawNode* node = DrawNode::create();
-    node->setContentSize(visibleSize);
-    _drawNode = node;
-    return node;
+    if(*_bgImageFile != "")
+    {
+        _drawNode = DrawNode::create();
+        _drawNode->setContentSize(visibleSize);
+        _maskingNode = ClippingNode::create(_drawNode);
+        Sprite* background = Sprite::create(*_bgImageFile);
+        background->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
+        background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        background->setScale(Director::getInstance()->getVisibleSize().width/background->getContentSize().width);
+        _maskingNode->addChild(background);
+        
+        return _maskingNode;
+    }
+    else
+    {
+        _drawNode = DrawNode::create();
+        _drawNode->setContentSize(visibleSize);
+        return _drawNode;
+    }
 }
 
 Node* Brush::getDrawNode()
 {
-    return _drawNode;
+    if(*_bgImageFile != "")
+    {
+        return _maskingNode;
+    }
+    else
+    {
+        return _drawNode;
+    }
 }
 
 void Brush::clearBrushDrawing()

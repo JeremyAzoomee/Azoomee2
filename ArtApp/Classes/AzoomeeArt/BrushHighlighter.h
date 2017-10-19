@@ -23,6 +23,8 @@ private:
 public:
     BrushHighlighter();
     
+    //cocos2d::Node* addDrawNode(const cocos2d::Size& visibleSize) override;
+    
     void onTouchBegin(cocos2d::Touch* touch, cocos2d::Event* event) override;
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) override;
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) override;

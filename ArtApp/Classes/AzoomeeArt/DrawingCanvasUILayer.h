@@ -11,6 +11,7 @@
 
 #include "AzoomeeArtApp.h"
 #include "DrawingCanvas.h"
+#include "PatternFileStorage.h"
 
 NS_AZOOMEE_AA_BEGIN
 
@@ -19,6 +20,7 @@ class DrawingCanvasUILayer: public cocos2d::Node
     typedef cocos2d::Node Super;
 private:
     static const std::vector<cocos2d::Color3B> _kColours;
+    static const std::vector<std::pair<std::string,std::string>> _kPatterns;
     
     DrawingCanvas* _drawingCanvas = nullptr;
     
@@ -86,6 +88,7 @@ private:
     
     void setUIVisible(bool isVisible);
     void setUIEnabled(bool isEnabled);
+    void setOnlyPatternBrushesEnabled(bool isEnabled);
     
     void setStickerUIEnabled(bool isEnabled);
     

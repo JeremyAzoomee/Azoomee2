@@ -20,14 +20,37 @@ BrushPen::BrushPen()
 void BrushPen::onTouchBegin(Touch *touch, Event *event)
 {
     _lastTouchPos = _drawNode->convertTouchToNodeSpace(touch);
-    _drawNode->drawDot(_lastTouchPos, *_brushRadius, *_selectedColour);
+    if(*_bgImageFile != "")
+    {
+        _drawNode->drawSolidCircle(_lastTouchPos, *_brushRadius, 0, 16, Color4F::BLACK);
+    }
+    else
+    {
+        _drawNode->drawDot(_lastTouchPos, *_brushRadius, *_selectedColour);
+    }
+    
 }
 
 void BrushPen::onTouchMoved(Touch *touch, Event *event)
 {
     Vec2 touchPos = _drawNode->convertTouchToNodeSpace(touch);
     
-    _drawNode->drawSegment(_lastTouchPos, touchPos, *_brushRadius, *_selectedColour);
+    if(*_bgImageFile != "")
+    {
+        float distance = _lastTouchPos.distance(touchPos);
+        
+        int numSprites = distance/(*_brushRadius*0.15);
+        
+        for(int i = 0; i < numSprites; i++)
+        {
+            _drawNode->drawSolidCircle(_lastTouchPos + i * ((touchPos - _lastTouchPos)/numSprites), *_brushRadius, 0, 16, Color4F::BLACK);
+        }
+
+    }
+    else
+    {
+        _drawNode->drawSegment(_lastTouchPos, touchPos, *_brushRadius, *_selectedColour);
+    }
     
     _lastTouchPos = touchPos;
 }

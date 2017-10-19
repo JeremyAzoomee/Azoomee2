@@ -12,21 +12,21 @@ using namespace cocos2d;
 
 NS_AZOOMEE_AA_BEGIN
 
-Node* BrushSprayCan::addDrawNode(const Size& visibleSize)
-{
-    DrawNode* node = DrawNode::create();
-    node->setContentSize(visibleSize);
-    node->setPosition(visibleSize/2);
-    node->setAnchorPoint(Vec2(0.5,0.5));
-    _drawNode = node;
+//Node* BrushSprayCan::addDrawNode(const Size& visibleSize)
+//{
+//    DrawNode* node = DrawNode::create();
+//    node->setContentSize(visibleSize);
+//    node->setPosition(visibleSize/2);
+//    node->setAnchorPoint(Vec2(0.5,0.5));
+//    _drawNode = node;
     
-    return _drawNode;
-}
+//    return _drawNode;
+//}
 
-Node* BrushSprayCan::getDrawNode()
-{
+//Node* BrushSprayCan::getDrawNode()
+//{
     
-    if(_drawnElementsCount > 10000)
+    /*if(_drawnElementsCount > 10000)
     {
         RenderTexture* sprayCanResult = RenderTexture::create(Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
         sprayCanResult->setAnchorPoint(Vec2(0.5,0.5));
@@ -44,8 +44,8 @@ Node* BrushSprayCan::getDrawNode()
     else
     {
         return _drawNode;
-    }
-}
+    }*/
+//}
 
 BrushSprayCan::BrushSprayCan():Brush()
 {

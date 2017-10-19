@@ -19,6 +19,45 @@ BrushHighlighter::BrushHighlighter():Brush()
     _type = HIGHLIGHTER;
 }
 
+/*Node* BrushHighlighter::addDrawNode(const Size& visibleSize)
+{
+    if(*_bgImageFile != "")
+    {
+        _drawNode = DrawNode::create();
+        _drawNode->setContentSize(visibleSize);
+        _maskingNode = ClippingNode::create(_drawNode);
+        Sprite* background = Sprite::create(*_bgImageFile);
+        background->retain();
+        background->setPosition(Vec2(0,0));
+        background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+        //background->setScale(Director::getInstance()->getVisibleSize().width/background->getContentSize().width);
+        background->setOpacity(255/4);
+        //make semi transparant version of sprite
+        RenderTexture* renderTex = RenderTexture::create(background->getContentSize().width, background->getContentSize().height, Texture2D::PixelFormat::RGBA8888, GL_DEPTH24_STENCIL8);
+        renderTex->beginWithClear(0, 0, 0, 0);
+        background->visit();
+        renderTex->end();
+        Director::getInstance()->getRenderer()->render();
+        background->release();
+        
+        background = Sprite::createWithTexture(renderTex->getSprite()->getTexture());
+        background->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
+        background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        background->setScale(Director::getInstance()->getVisibleSize().width/background->getContentSize().width);
+        background->setOpacity(255);
+        _maskingNode->addChild(background);
+        
+        return _maskingNode;
+    }
+    else
+    {
+        _drawNode = DrawNode::create();
+        _drawNode->setContentSize(visibleSize);
+        return _drawNode;
+    }
+}*/
+
+
 void BrushHighlighter::onTouchBegin(Touch *touch, Event *event)
 {
     _lastTouchPos = _drawNode->convertTouchToNodeSpace(touch);

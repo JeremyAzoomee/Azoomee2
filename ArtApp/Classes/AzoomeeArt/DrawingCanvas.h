@@ -39,6 +39,9 @@ public:
     void setBrushRadius(float brushRadius);
     void setSelectedColour(cocos2d::Color4F colour);
     cocos2d::Color4F getSelectedColour();
+    void setSelectedPattern(const std::string& pattern);
+    void setSelectedPatternTansparant(const std::string& pattern);
+    std::string getSelectedPattern();
     
     void setListenerEnabled(bool isEnabled);
     
@@ -50,6 +53,8 @@ public:
     void setupStickerNode(const std::string& stickerFile);
     void addStickerToDrawing();
     void changeTool(int index);
+    void removeCurrentDrawNode();
+    void addNewDrawNode();
     
 protected:
     static const int _kNumberOfUndos = 3;
@@ -68,6 +73,8 @@ protected:
     
     float _brushRadius;
     cocos2d::Color4F _selectedColour;
+    std::string _selectedPattern;
+    std::string _selectedPatternTransparant;
     
     std::string _bgImageFilename;
     
