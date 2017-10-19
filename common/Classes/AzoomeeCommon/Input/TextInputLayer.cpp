@@ -66,7 +66,7 @@ void TextInputLayer::createEditBox()
 {
     editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height), "res/login/editboxBlankFor9Scale.png");
     editBox->moveOnKeyboardDisplayRequired = false;
-    editBox->setColor(Color3B::BLACK);
+    editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::BLACK);
@@ -166,7 +166,7 @@ void TextInputLayer::createSettingsChatEditBox(float width)
     
     editBox = ui::EditBox::create(Size(this->getContentSize().width - 100,100), "res/login/editboxBlankFor9Scale.png");
     editBox->moveOnKeyboardDisplayRequired = false;
-    editBox->setColor(Color3B::BLACK);
+    editBox->setColor(Color3B::WHITE);
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(Style::Font::kidCodeRegular, 84);
     editBox->setFontColor(Color3B::BLACK);
