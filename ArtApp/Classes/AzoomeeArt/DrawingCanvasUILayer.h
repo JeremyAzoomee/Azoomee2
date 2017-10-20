@@ -63,6 +63,7 @@ private:
     void addStickerSelectButtons(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     void addBrushRadiusSlider(const cocos2d::Size& visibleSize, const cocos2d::Point& visibleOrigin);
     
+    void addBrushTool(const std::string& buttonFilename, const std::string& bodyFilename, BrushType type, cocos2d::Vec2 normalisedPos, bool selected);
     
     //button callbacks
     void onClearButtonPressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
@@ -86,11 +87,16 @@ private:
     
     void onStickerCategoryChangePressed(cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType, int index);
     
+    //UI toggle tools
     void setUIVisible(bool isVisible);
     void setUIEnabled(bool isEnabled);
     void setOnlyPatternBrushesEnabled(bool isEnabled);
     
     void setStickerUIEnabled(bool isEnabled);
+    void setStickerPopupVisible(bool isVisible);
+    
+    void setButtonBodyColour(cocos2d::ui::Button* button, cocos2d::Color3B colour);
+    void setButtonBodyPattern(cocos2d::ui::Button* button, const std::string& pattern);
     
     StickerFileStore getStickerFilesFromJSON();
     
