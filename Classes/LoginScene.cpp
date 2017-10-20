@@ -39,7 +39,7 @@ bool LoginScene::init()
     
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
-    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel("");
+    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel("NA");
     AudioMixer::getInstance()->stopBackgroundMusic();
     
     visibleSize = Director::getInstance()->getVisibleSize();
