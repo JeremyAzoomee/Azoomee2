@@ -30,9 +30,9 @@ namespace Azoomee{
         JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "jniSetNamedUserIdentifierForPushChannel", channelName.c_str());
     }
     
-    void PushNotificationsHandler::setTagForPushChannel(const std::string &tag)
+    void PushNotificationsHandler::setTagForPushChannel(const std::string &tagGroup, const std::string &tag)
     {
-        JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "jniSetTagForPushChannel", tag.c_str());
+        JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "jniSetTagForPushChannel" , tagGroup.c_str(), tag.c_str());
     }
     
     void PushNotificationsHandler::enablePushNotifications()
