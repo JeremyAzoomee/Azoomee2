@@ -566,8 +566,10 @@ void DrawingCanvasUILayer::onColourChangePressed(Ref *pSender, ui::Widget::Touch
             _drawingCanvas->setSelectedPatternTansparant(PatternFileStorage::getInstance()->getTransparantFileByName(pressedButton->getName()));
             
             setButtonBodyPattern(_colourSelectButton, pattern);
-            
-            setButtonBodyPattern(_selectedToolButton, pattern);
+            if(_selectedToolButton->getName() != "eraser")
+            {
+                setButtonBodyPattern(_selectedToolButton, pattern);
+            }
             
             setOnlyPatternBrushesEnabled(true);
         }
