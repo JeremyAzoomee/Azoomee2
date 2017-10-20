@@ -500,11 +500,13 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static void jniSetNamedUserIdentifierForPushChannel(String channelName)
     {
         UAirship.shared().getNamedUser().setId(channelName);
+        UAirship.shared().getPushManager().setChannelTagRegistrationEnabled(false);
     }
 
-    public static void jniSetTagForPushChannel(String tag)
+    public static void jniSetTagForPushChannel(String tagGroup, String tag)
     {
-
+        UAirship.shared().getNamedUser().editTagGroups().setTag(tagGroup, tag);
+        UAirship.shared().getNamedUser().editTagGroups().apply();
     }
 
     public static void jniEnablePushNotifications()

@@ -24,11 +24,13 @@ namespace Azoomee{
     void PushNotificationsHandler::setNamedUserIdentifierForPushChannel(const std::string &channelName)
     {
         [UAirship namedUser].identifier = [NSString stringWithFormat:@"%s", channelName.c_str()];
+        [[UAirship push] setChannelTagRegistrationEnabled:FALSE];
     }
     
-    void PushNotificationsHandler::setTagForPushChannel(const std::string &tag)
+    void PushNotificationsHandler::setTagForPushChannel(const std::string &tagGroup, const std::string &tag)
     {
-        
+        [[UAirship namedUser] setTags:@[[NSString stringWithFormat:@"%s", tag.c_str()]] group:[NSString stringWithFormat:@"%s", tagGroup.c_str()]];
+        [[UAirship namedUser] updateTags];
     }
     
     void PushNotificationsHandler::enablePushNotifications()

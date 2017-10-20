@@ -15,7 +15,7 @@ namespace Azoomee
         virtual ~PushNotificationsHandler();
         
         void setNamedUserIdentifierForPushChannel(const std::string &channelName);
-        void setTagForPushChannel(const std::string &tag);
+        void setTagForPushChannel(const std::string &tagGroup, const std::string &tag);
         void enablePushNotifications();
         void disablePushNotifications();
         

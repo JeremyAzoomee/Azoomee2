@@ -170,8 +170,8 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
     {
         if(billingData["billingStatus"].IsString())
         {
-            CCLOG("Billing billingStatus OK");
             parentData->loggedInParentBillingStatus = billingData["billingStatus"].GetString();
+            PushNotificationsHandler::getInstance()->setTagForPushChannel("test_device", parentData->loggedInParentBillingStatus);
             
             AnalyticsSingleton::getInstance()->registerBillingStatus(billingData["billingStatus"].GetString());
         }
