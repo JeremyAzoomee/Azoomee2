@@ -53,6 +53,7 @@ void OnboardingScene::onEnter()
     addLabelsToScene();
     addButtonsScene();
     addTermsAndConditionsToScene();
+    setNewLayout();
     
     Node::onEnter();
 }
@@ -104,12 +105,10 @@ void OnboardingScene::addTextboxScene()
     this->addChild(_emailTextInput);
     
     passwordTextInput = TextInputLayer::createWithSize(Size(textInputWidth,160), INPUT_IS_NEW_PASSWORD);
-    passwordTextInput->setPositionY(_emailTextInput->getPositionY() -passwordTextInput->getContentSize().height*1.9 );
     passwordTextInput->setDelegate(this);
     this->addChild(passwordTextInput);
     
     pinTextInput = TextInputLayer::createWithSize(Size(600,160), INPUT_IS_PIN);
-    pinTextInput->setPositionY(passwordTextInput->getPositionY() -pinTextInput->getContentSize().height*1.9 );
     pinTextInput->setDelegate(this);
     this->addChild(pinTextInput);
 }
@@ -120,16 +119,28 @@ void OnboardingScene::addLabelsToScene()
     _emailTitle->setPositionY(_emailTextInput->getPositionY()+(_emailTextInput->getContentSize().height) + (_emailTitle->getContentSize().height*.6));
     this->addChild(_emailTitle);
     
+    _emailError = createLabelBodyCentred("Email format is incorrect.",Style::Color::watermelon);
+    _emailError->setLineSpacing(20);
+    _emailError->setVisible(false);
+    this->addChild(_emailError);
+    
     _passwordTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
-    _passwordTitle->setPositionY(passwordTextInput->getPositionY()+(passwordTextInput->getContentSize().height) + (_passwordTitle->getContentSize().height*.6));
     this->addChild(_passwordTitle);
     
+    _passwordError = createLabelBodyCentred("Password requires 6 charactors with no spaces.",Style::Color::watermelon);
+    _passwordError->setLineSpacing(20);
+    _passwordError->setVisible(false);
+    this->addChild(_passwordError);
+    
     _pinTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL));
-    _pinTitle->setPositionY(pinTextInput->getPositionY()+(pinTextInput->getContentSize().height) + (_pinTitle->getContentSize().height*.6));
     this->addChild(_pinTitle);
     
+    _pinError = createLabelBodyCentred("Pin requires 4 numbers.",Style::Color::watermelon);
+    _pinError->setLineSpacing(20);
+    _pinError->setVisible(false);
+    this->addChild(_pinError);
+    
     _pinSubTitle = createLabelBodyCentred(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_SUB_LABEL),Style::Color::black);
-    _pinSubTitle->setPositionY(pinTextInput->getPositionY() - (_pinSubTitle->getContentSize().height*.2));
     _pinSubTitle->setLineSpacing(20);
     this->addChild(_pinSubTitle);
 }
@@ -137,18 +148,15 @@ void OnboardingScene::addLabelsToScene()
 void OnboardingScene::addButtonsScene()
 {
     signupButton = ElectricDreamsButton::createGreenButton(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE), visibleSize.width/3);
-    signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1.1));
     signupButton->setDelegate(this);
     signupButton->setMixPanelButtonName("signupSceneContinueButton");
     signupButton->setVisible(false);
     
-    auto placeHolder = ElectricDreamsButton::createPlaceHolderGreenButton(visibleSize.width/3);
-    placeHolder->setCenterPosition(signupButton->getCenterPosition());
+    placeHolder = ElectricDreamsButton::createPlaceHolderGreenButton(visibleSize.width/3);
     this->addChild(placeHolder);
     this->addChild(signupButton);
     
     cancelButton = ElectricDreamsButton::createSecondaryGreenButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL),visibleSize.width/3);
-    cancelButton->setCenterPosition(Vec2(visibleSize.width*.25+origin.x, signupButton->getCenterPosition().y));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("signupSceneCancelButton");
     this->addChild(cancelButton);
@@ -157,21 +165,59 @@ void OnboardingScene::addButtonsScene()
 void OnboardingScene::addTermsAndConditionsToScene()
 {
     //---------- CREATE AND ADD LABELS AND BUTTONS
-    Label* TermsAndConditionsStartLabel =createLabelWith(StringMgr::getInstance()->getStringForKey(T_and_C_Start_Text),Style::Font::Regular, Style::Color::white, 40);
+    TermsAndConditionsStartLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(T_and_C_Start_Text),Style::Font::Regular, Style::Color::black, 40);
     this->addChild(TermsAndConditionsStartLabel);
     
-    Label* andLabel =createLabelWith(StringMgr::getInstance()->getStringForKey(T_and_C_And),Style::Font::Regular, Style::Color::white, 40);
+    andLabel =createLabelWith(StringMgr::getInstance()->getStringForKey(T_and_C_And),Style::Font::Regular, Style::Color::black, 40);
     this->addChild(andLabel);
     
-    privacyButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 40, true);
+    privacyButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 40, true,Style::Color::black);
     privacyButton->setMixPanelButtonName("signupScenePrivacyPolicyButton");
     privacyButton->setDelegate(this);
     this->addChild(privacyButton);
     
-    termsButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(T_and_C_Terms_Button), 40, true);
+    termsButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(T_and_C_Terms_Button), 40, true,Style::Color::black);
     termsButton->setMixPanelButtonName("signupSceneermsButton");
     termsButton->setDelegate(this);
     this->addChild(termsButton);
+}
+
+//------------PRIVATE OTHER FUNCTIONS------------
+
+void OnboardingScene::setNewLayout()
+{
+    float additionYForErrorText = 0.0f;
+    
+    if(_emailError->isVisible())
+    {
+        additionYForErrorText = _emailError->getContentSize().height * 1.75f;
+        _emailError->setPositionY(_emailTextInput->getPositionY()-_emailError->getContentSize().height/2);
+    }
+    
+    passwordTextInput->setPositionY(_emailTextInput->getPositionY() -passwordTextInput->getContentSize().height*1.9 - additionYForErrorText);
+    
+    if(_passwordError->isVisible())
+    {
+        additionYForErrorText += _passwordError->getContentSize().height * 1.75f;
+        _passwordError->setPositionY(passwordTextInput->getPositionY()-_passwordError->getContentSize().height/2);
+    }
+    
+    pinTextInput->setPositionY(passwordTextInput->getPositionY() -pinTextInput->getContentSize().height*1.9 - additionYForErrorText);
+    
+    _passwordTitle->setPositionY(passwordTextInput->getPositionY()+(passwordTextInput->getContentSize().height) + (_passwordTitle->getContentSize().height*.6));
+    _pinTitle->setPositionY(pinTextInput->getPositionY()+(pinTextInput->getContentSize().height) + (_pinTitle->getContentSize().height*.6));
+    
+    if(_pinError->isVisible())
+    {
+        additionYForErrorText += _pinError->getContentSize().height * 1.75f;
+        _pinError->setPositionY(pinTextInput->getPositionY()-_pinError->getContentSize().height/2);
+    }
+    _pinSubTitle->setPositionY(pinTextInput->getPositionY() - (_pinSubTitle->getContentSize().height*.2)- additionYForErrorText);
+    
+    signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1.1- additionYForErrorText));
+    
+    placeHolder->setCenterPosition(signupButton->getCenterPosition());
+    cancelButton->setCenterPosition(Vec2(visibleSize.width*.25+origin.x, signupButton->getCenterPosition().y));
     
     //------- CALCULATE AND SET LOCATION OF ITEMS SO THEY ARE CENTERED
     float TermsAndConditionsStartLabelWidth = TermsAndConditionsStartLabel->getContentSize().width;
@@ -187,9 +233,8 @@ void OnboardingScene::addTermsAndConditionsToScene()
     privacyButton->setCenterPosition(Vec2(TermsAndConditionsStartLabel->getPositionX()+TermsAndConditionsStartLabelWidth/2+privacyButtonWidth/2,yPosition));
     andLabel->setPosition(privacyButton->getPositionX() + privacyButtonWidth + andLabelWidth/2,yPosition);
     termsButton->setCenterPosition(Vec2(andLabel->getPositionX()+andLabelWidth/2+termsButtonWidth/2,yPosition));
+    
 }
-
-//------------PRIVATE OTHER FUNCTIONS------------
 
 void OnboardingScene::signUp()
 {
@@ -216,7 +261,11 @@ void OnboardingScene::textInputReturnPressed(TextInputLayer* inputLayer)
         passwordTextInput->focusAndShowKeyboard();
         AnalyticsSingleton::getInstance()->registerAzoomeeEmail(_emailTextInput->getText());
         if(!_emailTextInput->inputIsValid())
+        {
+            _emailError->setVisible(true);
            _emailTextInput->setEditboxHasError();
+            setNewLayout();
+        }
     }
     else if(inputLayer == passwordTextInput)
         pinTextInput->focusAndShowKeyboard();
@@ -227,13 +276,22 @@ void OnboardingScene::textInputReturnPressed(TextInputLayer* inputLayer)
 
 void OnboardingScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 {
-    inputLayer->setEditboxHasError(false);
+    if(inputLayer == _emailTextInput)
+    {
+        _emailError->setVisible(false);
+        _emailTextInput->setEditboxHasError(false);
+        setNewLayout();
+    }
 }
 
 void OnboardingScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
     if(!_emailTextInput->inputIsValid() && inputLayer == _emailTextInput)
+    {
+        _emailError->setVisible(true);
         _emailTextInput->setEditboxHasError();
+        setNewLayout();
+    }
 }
 
 void OnboardingScene::buttonPressed(ElectricDreamsButton* button)

@@ -21,6 +21,7 @@ private:
     TextInputLayer *pinTextInput = nullptr;
     
     ElectricDreamsButton* signupButton = nullptr;
+    ElectricDreamsButton* placeHolder = nullptr;
     ElectricDreamsButton* cancelButton = nullptr;
     ElectricDreamsButton* privacyButton = nullptr;
     ElectricDreamsButton* termsButton = nullptr;
@@ -32,6 +33,9 @@ private:
     cocos2d::Label* _pinTitle = nullptr;
     cocos2d::Label* _pinError = nullptr;
     cocos2d::Label* _pinSubTitle = nullptr;
+    
+    cocos2d::Label* TermsAndConditionsStartLabel = nullptr;
+    cocos2d::Label* andLabel = nullptr;
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
@@ -47,6 +51,8 @@ private:
     void addTermsAndConditionsToScene();
     
     void signUp();
+    
+    void setNewLayout();
     
     virtual void onEnterTransitionDidFinish();
     virtual void onEnter();
