@@ -202,8 +202,8 @@ void DrawingCanvas::setBaseImage(const std::string& fileName)
     Director* director = Director::getInstance();
     
     Sprite* baseImage = Sprite::create(fileName);
-    baseImage->setAnchorPoint(Vec2(0.5,0.5));
-    baseImage->setPosition(director->getVisibleOrigin() + Vec2(director->getVisibleSize().width*0.535,director->getVisibleSize().height*0.575));
+    baseImage->setAnchorPoint(Vec2(0,0));
+    baseImage->setPosition(director->getVisibleOrigin() + Vec2(director->getVisibleSize().width*0.09,director->getVisibleSize().height*0.175));
     baseImage->setScale((director->getVisibleSize().width * 0.89)/baseImage->getContentSize().width);
     _drawing->begin();
     baseImage->visit();
@@ -227,7 +227,7 @@ void DrawingCanvas::saveImage(const std::string& filePath)
     Sprite* drawingSprite = Sprite::createWithTexture(_drawing->getSprite()->getTexture());
     drawingSprite->setScale(0.5);
     drawingSprite->setAnchorPoint(Vec2(0,0));
-    drawingSprite->setPosition(-Vec2(visibleSize.width * 0.09/2.0f,visibleSize.height * 0.175));
+    drawingSprite->setPosition(-Director::getInstance()->getVisibleOrigin()/2.0f - Vec2(visibleSize.width * 0.09/2.0f,visibleSize.height * 0.175/2.0f));
     drawingSprite->setFlippedY(true);
     
     RenderTexture* outputTexture = RenderTexture::create(visibleSize.width*0.89/2.0f, visibleSize.height*0.8/2.0f);
