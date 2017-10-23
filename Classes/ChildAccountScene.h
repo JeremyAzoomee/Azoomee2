@@ -53,6 +53,7 @@ private:
     bool DOBisDateInFuture();
     
     void setNewLayout();
+    void setDateInputHasError(bool hasError);
     
     void registerChildAccount();
     

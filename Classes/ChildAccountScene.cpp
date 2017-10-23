@@ -437,6 +437,15 @@ void ChildAccountScene::setNewLayout()
     _cancelButton->setCenterPosition(Vec2(_visibleSize.width*.25+_origin.x, _nextButton->getCenterPosition().y));
 }
 
+void ChildAccountScene::setDateInputHasError(bool hasError)
+{
+    _profileDOBError->setVisible(hasError);
+    _dayInputText->setEditboxHasError(hasError);
+    _monthInputText->setEditboxHasError(hasError);
+    _yearInputText->setEditboxHasError(hasError);
+    setNewLayout();
+}
+
 //----------------------- Delegate Functions ----------------------------
 
 void ChildAccountScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
@@ -455,20 +464,12 @@ void ChildAccountScene::textInputIsValid(TextInputLayer* inputLayer, bool isVali
     if(inputLayer == _dayInputText && _dayInputText->getText().length() == 2)
     {
         _monthInputText->focusAndShowKeyboard();
-        _profileDOBError->setVisible(false);
-        _dayInputText->setEditboxHasError(false);
-        _monthInputText->setEditboxHasError(false);
-        _yearInputText->setEditboxHasError(false);
-        setNewLayout();
+        setDateInputHasError(false);
     }
     else if(inputLayer == _monthInputText && (_monthInputText->getText().length() == 2 || std::atoi(_monthInputText->getText().c_str()) >2))
     {
         _yearInputText->focusAndShowKeyboard();
-        _profileDOBError->setVisible(false);
-        _dayInputText->setEditboxHasError(false);
-        _monthInputText->setEditboxHasError(false);
-        _yearInputText->setEditboxHasError(false);
-        setNewLayout();
+        setDateInputHasError(false);
     }
 }
 
@@ -488,12 +489,7 @@ void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
     else if(inputLayer == _dayInputText)
     {
         _monthInputText->focusAndShowKeyboard();
-        
-        _profileDOBError->setVisible(false);
-        _dayInputText->setEditboxHasError(false);
-        _monthInputText->setEditboxHasError(false);
-        _yearInputText->setEditboxHasError(false);
-        setNewLayout();
+        setDateInputHasError(false);
     }
     else if(inputLayer == _monthInputText)
     {
@@ -504,11 +500,7 @@ void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
         shouldChangeElementsToOomeeScreen();
         if(!DOBisDate())
         {
-            _profileDOBError->setVisible(true);
-            _dayInputText->setEditboxHasError();
-            _monthInputText->setEditboxHasError();
-            _yearInputText->setEditboxHasError();
-            setNewLayout();
+            setDateInputHasError(true);
         }
     }
 }
@@ -523,11 +515,7 @@ void ChildAccountScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
     }
     else
     {
-        _profileDOBError->setVisible(false);
-        _dayInputText->setEditboxHasError(false);
-        _monthInputText->setEditboxHasError(false);
-        _yearInputText->setEditboxHasError(false);
-        setNewLayout();
+        setDateInputHasError(false);
     }
 }
 
@@ -541,11 +529,7 @@ void ChildAccountScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
     }
     else if(!DOBisDate())
     {
-        _profileDOBError->setVisible(true);
-        _dayInputText->setEditboxHasError();
-        _monthInputText->setEditboxHasError();
-        _yearInputText->setEditboxHasError();
-        setNewLayout();
+        setDateInputHasError(true);
     }
 }
 
