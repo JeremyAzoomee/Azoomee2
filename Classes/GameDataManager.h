@@ -75,6 +75,15 @@ private:
     Orientation getGameOrientation(const std::string& jsonFileName);
     
     void getContentItemImageForOfflineUsage(const std::string &gameId); //if only a 2x2, 2x1 or 1x2 image is present, we still need the 1x1 image for the offline mode to be cached for.
+
+    //game data maintainance functions
+    void performGameCleanup();
+    void setupTimestampFilesForExistingGames();
+    bool gameCleanupDue(const std::string& filenameWithPath, const int cleanupInterval);
+    void addTimestampFile(const std::string& filenameWithPath);
+    
+    const int _kGameCleanupCheckFreq = 432000; //5 days in seconds
+    const int _kGameCleanupUnusedTime = 1814400; //21 days in seconds
 };
 
 NS_AZOOMEE_END

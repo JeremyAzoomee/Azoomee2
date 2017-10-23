@@ -26,6 +26,9 @@
 #include <AzoomeeCommon/ErrorCodes.h>
 #include "WebViewSelector.h"
 #include "HQDataProvider.h"
+#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <ctime>
+#include <cstdlib>
 
 using namespace cocos2d;
 using namespace cocos2d::network;
@@ -60,6 +63,8 @@ void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData
     
     processCancelled = false;
     displayLoadingScreen();
+    
+    performGameCleanup();
     
     saveFeedDataToFile(itemData);
     const std::string &itemId = itemData->getContentItemId();
@@ -398,7 +403,7 @@ void GameDataManager::startGame(const std::string &basePath, const std::string &
         showIncompatibleMessage();
         return;
     }
-    
+    addTimestampFile(basePath + "lastUsedTimestamp.txt");
     Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePath + "package.json"), basePath + fileName));
 }
 
@@ -492,6 +497,64 @@ void GameDataManager::getContentItemImageForOfflineUsage(const std::string &game
     imageDownloader->downloadImage(nullptr, HQDataProvider::getInstance()->getImageUrlForItem(gameId, Vec2(1,1)));
 }
 
+void GameDataManager::performGameCleanup()
+{
+    const std::string& basePath = getGameCachePath();
+    const std::string& cleanupCheckFile = basePath + "lastCleanupTimestamp.txt";
+    if(!FileUtils::getInstance()->isFileExist(cleanupCheckFile))
+    {
+        setupTimestampFilesForExistingGames();
+        return;
+    }
+    
+    if(gameCleanupDue(cleanupCheckFile, _kGameCleanupCheckFreq))
+    {
+        const std::vector<std::string>& gameDirs = DirectorySearcher::getInstance()->getFoldersInDirectory(basePath);
+        for(const std::string& dir : gameDirs)
+        {
+            const std::string& gameLastUsedFile = basePath + dir + "/lastUsedTimestamp.txt";
+            if(gameCleanupDue(gameLastUsedFile, _kGameCleanupUnusedTime))
+            {
+                removeGameFolderOnError(basePath + dir);
+            }
+        }
+        
+        addTimestampFile(cleanupCheckFile);
+    }
+    
+    
+}
+
+void GameDataManager::setupTimestampFilesForExistingGames()
+{
+    const std::string& basePath = getGameCachePath();
+    addTimestampFile(basePath + "lastCleanupTimestamp.txt");
+    
+    const std::vector<std::string>& gameDirs = DirectorySearcher::getInstance()->getFoldersInDirectory(basePath);
+    for(const std::string& dir : gameDirs)
+    {
+        addTimestampFile(basePath + dir + "/lastUsedTimestamp.txt");
+    }
+}
+
+bool GameDataManager::gameCleanupDue(const std::string& filenameWithPath, const int cleanupInterval)
+{
+    const std::string& fileTimeStr = FileUtils::getInstance()->getStringFromFile(filenameWithPath);
+    const long fileTime = std::strtol(fileTimeStr.c_str(),nullptr,10);
+    const std::time_t currentTime = std::time(nullptr);
+    if(cleanupInterval < (currentTime - fileTime))
+    {
+        return true;
+    }
+    return false;
+}
+
+void GameDataManager::addTimestampFile(const std::string& filenameWithPath)
+{
+    FileUtils::getInstance()->writeStringToFile(StringUtils::format("%i",(int)std::time(nullptr)), filenameWithPath);
+}
+
+
 //--------------- DELEGATE FUNCTIONS ------------------
 
 void GameDataManager::buttonPressed(ElectricDreamsButton *button)
@@ -520,5 +583,4 @@ void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
 }
-
 NS_AZOOMEE_END

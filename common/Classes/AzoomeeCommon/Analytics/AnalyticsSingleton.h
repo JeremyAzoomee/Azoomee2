@@ -30,6 +30,9 @@ private:
     std::map<std::string, std::string> storedContentItemProperties;
     std::map<std::string, std::string> storedGeneralProperties;
     
+    std::string ctaWindowNodeId = "";
+    std::string ctaWindowGroupId = "";
+    
     std::string OSManufacturer;
     
     time_t timeOpenedContent;
