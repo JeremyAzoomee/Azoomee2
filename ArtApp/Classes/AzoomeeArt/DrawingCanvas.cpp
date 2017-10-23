@@ -241,12 +241,18 @@ void DrawingCanvas::saveImage(const std::string& filePath)
 
 void DrawingCanvas::setupTouchHandling()
 {
-
+    static bool touchDetected = false;
     _drawCanvasTouchListener = EventListenerTouchOneByOne::create();
     
     _drawCanvasTouchListener->onTouchBegan = [&](Touch* touch, Event* event)
     {
-            
+        if(touchDetected)
+        {
+            return false;
+        }
+        
+        touchDetected = true;
+        
         _activeBrush->onTouchBegin(touch, event);
 
         return true;
@@ -280,6 +286,7 @@ void DrawingCanvas::setupTouchHandling()
         this->getEventDispatcher()->setEnabled(true);
         
         _actionCounter++;
+        touchDetected = false;
         
     };
     
