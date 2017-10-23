@@ -21,7 +21,6 @@ private:
     TextInputLayer *pinTextInput = nullptr;
     
     ElectricDreamsButton* signupButton = nullptr;
-    ElectricDreamsButton* placeHolder = nullptr;
     ElectricDreamsButton* cancelButton = nullptr;
     ElectricDreamsButton* privacyButton = nullptr;
     ElectricDreamsButton* termsButton = nullptr;

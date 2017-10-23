@@ -148,15 +148,11 @@ void OnboardingScene::addLabelsToScene()
 void OnboardingScene::addButtonsScene()
 {
     signupButton = ElectricDreamsButton::createGreenButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE), visibleSize.width/3);
-    signupButton->setDelegate(this);
     signupButton->setMixPanelButtonName("signupSceneContinueButton");
-    signupButton->setVisible(false);
-    
-    placeHolder = ElectricDreamsButton::createPlaceHolderGreenButton(visibleSize.width/3);
-    this->addChild(placeHolder);
+    signupButton->setOpacity(80);
     this->addChild(signupButton);
     
-    cancelButton = ElectricDreamsButton::createSecondaryGreenButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL),visibleSize.width/3);
+    cancelButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(BUTTON_CANCEL), 75, true, Color3B::BLACK);
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("signupSceneCancelButton");
     this->addChild(cancelButton);
@@ -225,7 +221,6 @@ void OnboardingScene::setNewLayout()
     
     signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1.1- additionYForErrorText));
     
-    placeHolder->setCenterPosition(signupButton->getCenterPosition());
     cancelButton->setCenterPosition(Vec2(visibleSize.width*.25+origin.x, signupButton->getCenterPosition().y));
     
     //------- CALCULATE AND SET LOCATION OF ITEMS SO THEY ARE CENTERED
@@ -235,7 +230,7 @@ void OnboardingScene::setNewLayout()
     float termsButtonWidth = termsButton->getContentSize().width;
     
     float totalWidth = TermsAndConditionsStartLabelWidth + andLabelWidth + privacyButtonWidth + termsButtonWidth;
-    float yPosition = signupButton->getPositionY() - (TermsAndConditionsStartLabel->getContentSize().height*1.5);
+    float yPosition = signupButton->getPositionY() - (TermsAndConditionsStartLabel->getContentSize().height*2);
     
     //NOTE: Buttons are Layers and the anchor point is (0,0)
     TermsAndConditionsStartLabel->setPosition(origin.x+visibleSize.width/2-totalWidth/2+TermsAndConditionsStartLabelWidth/2,yPosition);
@@ -258,9 +253,15 @@ void OnboardingScene::signUp()
 void OnboardingScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
     if(_emailTextInput->inputIsValid() && passwordTextInput->inputIsValid() && pinTextInput->inputIsValid())
-        signupButton->setVisible(true);
+    {
+        signupButton->setOpacity(255);
+        signupButton->setDelegate(this);
+    }
     else
-        signupButton->setVisible(false);
+    {
+        signupButton->setOpacity(80);
+        signupButton->setDelegate(nullptr);
+    }
 }
 
 void OnboardingScene::textInputReturnPressed(TextInputLayer* inputLayer)

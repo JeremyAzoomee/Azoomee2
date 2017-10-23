@@ -213,10 +213,7 @@ ElectricDreamsButton* ElectricDreamsButton::createPrimaryGreenButton(std::string
     auto layer = ElectricDreamsButton::create();
     layer->setCascadeOpacityEnabled(true);
     layer->setContentSize(newButton->getContentSize());
-    layer->setOpacity(0);
     layer->addChild(newButton);
-    
-    layer->runAction(FadeTo::create(0.5, 255));
     
     layer->buttonAudioFile = OK_BUTTON_AUDIO_EFFECT;
     
