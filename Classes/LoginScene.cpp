@@ -43,11 +43,12 @@ bool LoginScene::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     
+    addBackground();
     getUserDefaults();
     addTextboxScene();
-    addSideWiresToScreen(this, 0, 2);
-    addLabelToScene();
+    //addSideWiresToScreen(this, 0, 2);
     addButtonsScene();
+    addLabelToScene();
     
     return true;
 }
@@ -80,23 +81,36 @@ void LoginScene::getUserDefaults()
         storedUsername = FlowDataSingleton::getInstance()->getUserName();
 }
 
+void LoginScene::addBackground()
+{
+    auto newLayer = LayerColor::create(Color4B::WHITE, visibleSize.width,  visibleSize.height);
+    this->addChild(newLayer);
+    
+    Sprite* topGradient = Sprite::create("res/decoration/topSignupGrad.png");
+    topGradient->setAnchorPoint(Vec2(0.0f, 1.0f));
+    topGradient->setPosition(0.0f, visibleSize.height);
+    topGradient->setScaleX(visibleSize.width / topGradient->getContentSize().width);
+    newLayer->addChild(topGradient);
+}
+
 void LoginScene::addLabelToScene()
 {
     auto versionTitle = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
     this->addChild(versionTitle);
 
-    title = createLabelHeader(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    title = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(LOGINSCENE_EMAIL_LABEL));
+    title->setPositionY(backButton->getPositionY());
     this->addChild(title);
 }
 
 void LoginScene::addTextboxScene()
 {
-    passwordTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_PASSWORD);
+    passwordTextInput = TextInputLayer::createWithSize(Size(1500,160), INPUT_IS_PASSWORD);
     passwordTextInput->setDelegate(this);
     passwordTextInput->setEditboxVisibility(false);
     this->addChild(passwordTextInput);
     
-    emailTextInput = TextInputLayer::createWithSize(Size(1500,197), INPUT_IS_EMAIL);
+    emailTextInput = TextInputLayer::createWithSize(Size(1500,160), INPUT_IS_EMAIL);
     emailTextInput->setDelegate(this);
     emailTextInput->setText(storedUsername);
     this->addChild(emailTextInput);
