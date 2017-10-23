@@ -13,7 +13,7 @@
 
 
 // Enable this define to display gallery art tab on composer
-//#define AZOOMEE_CHAT_GALLERY_SHARE
+#define AZOOMEE_CHAT_GALLERY_SHARE
 
 
 NS_AZOOMEE_CHAT_BEGIN
@@ -96,6 +96,8 @@ private:
     void sendMessage(const std::string& message);
     /// Send a message (sticker type) via the delegate
     void sendMessage(const StickerRef& sticker);
+    /// Send a message (Art type) via the delegate
+    void sendArtMessage(const std::string& artFile);
     
     /// Called when we should resize UI elements to fit a keyboard
     /// If a duration > 0 is provided, it will be animated

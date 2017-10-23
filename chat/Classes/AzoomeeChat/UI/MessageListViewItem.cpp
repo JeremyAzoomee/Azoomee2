@@ -201,6 +201,10 @@ void MessageListViewItem::setData(const MessageRef& message)
                 messageText = "Sticker not recognised";
             }
         }
+        else if(messageType == Message::MessageTypeArt)
+        {
+            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(getContentSize()/4));
+        }
         else
         {
             // TODO: Get not supported text from Strings

@@ -12,6 +12,7 @@ NS_AZOOMEE_CHAT_BEGIN
 
 const char* const Message::MessageTypeText = "TEXT";
 const char* const Message::MessageTypeSticker = "STICKER";
+const char* const Message::MessageTypeArt = "ART";
 
 /// A Message object must have at least these fields to be valid
 const std::vector<std::string> kRequiredFields = { "id", "type", "status", "senderId", "recipientId", "timestamp" };
@@ -59,6 +60,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     bool moderated = (status == "MODERATED");
     std::string messageText;
     std::string stickerLocation;
+    std::string artLocation;
     
     // Active message
     if(status == "ACTIVE")
@@ -101,6 +103,15 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
             }
             
             stickerLocation = Azoomee::trim(params["sticker_location"].GetString());
+        }
+        else if(messageType == Message::MessageTypeArt)
+        {
+            if(!json.HasMember("location"))
+            {
+                return MessageRef();
+            }
+            artLocation = json["location"].GetString();
+            
         }
         else
         {
@@ -146,6 +157,14 @@ MessageRef Message::createStickerMessage(const StickerRef& sticker)
     return messageData;
 }
 
+MessageRef Message::createArtMessage(const std::string &artData)
+{
+    MessageRef messageData(new Message());
+    messageData->_messageType = Message::MessageTypeArt;
+    messageData->_artData = artData;
+    return messageData;
+}
+
 Message::Message()
 {
 }
@@ -168,6 +187,11 @@ std::string Message::messageText() const
 std::string Message::stickerURL() const
 {
     return _stickerLocation;
+}
+
+std::string Message::artURL() const
+{
+    return _artLocation;
 }
 
 std::string Message::senderId() const
@@ -230,7 +254,10 @@ rapidjson::Value Message::toJson() const
         };
         json.AddMember("params", ToJson(params), allocator);
     }
-    
+    else if(_messageType == Message::MessageTypeArt)
+    {
+        json.AddMember("data",ToJson(_artData),allocator);
+    }
     if(_timestamp > 0)
     {
         json.AddMember("timestamp", ToJson(_timestamp), allocator);

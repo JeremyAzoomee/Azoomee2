@@ -401,6 +401,21 @@ void MessageComposer::sendMessage(const StickerRef& sticker)
     setMode(MessageComposer::Mode::Idle);
 }
 
+void MessageComposer::sendArtMessage(const std::string &artFile)
+{
+    AudioMixer::getInstance()->playEffect("boing.mp3");
+    if(_delegate)
+    {
+        char* str;
+        const std::string& filecont =  FileUtils::getInstance()->getStringFromFile(artFile);
+        base64Encode((unsigned char*)filecont.c_str(), (unsigned int)filecont.length(), &str);
+        const MessageRef& messageObj = Message::createArtMessage(StringUtils::format("%s",str));
+        _delegate->onMessageComposerSendMessage(messageObj);
+    }
+    _messageEntryField->setString("");
+    setMode(MessageComposer::Mode::Idle);
+}
+
 #pragma mark - Mode
 
 MessageComposer::Mode MessageComposer::currentMode() const
@@ -474,7 +489,6 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
             textFieldRenderer->closeIME();
         }
     }
-    
     
     // Resize the view appropriately
     
@@ -726,7 +740,8 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     _galleryTab->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(tabMarginX, 0, 0, 0)));
     _galleryTab->addClickEventListener([this](Ref* button){
         // Set to idle until we support gallery feature
-        setMode(MessageComposer::Mode::Idle);
+        sendArtMessage("res/artapp/art_studio_logo.png");
+        //setMode(MessageComposer::Mode::ArtGalleryEntry);
     });
     parent->addChild(_galleryTab);
 #endif
