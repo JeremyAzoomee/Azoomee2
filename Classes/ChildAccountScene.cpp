@@ -287,11 +287,6 @@ void ChildAccountScene::changeElementsToOomeeScreen()
 //----------------OOMEE SCREEN FUNCTIONS---------------
 void ChildAccountScene::addOomeesToScene()
 {
-    _oomeeGlow = createGlow();
-    _oomeeGlow->setVisible(false);
-    _oomeeGlow->setScale(.6);
-    this->addChild(_oomeeGlow);
-    
     std::vector<cocos2d::Vec2> oomeePositions = {Vec2(0.5, 0.47), Vec2(0.3, 0.29), Vec2(0.7, 0.29), Vec2(0.3, 0.65), Vec2(0.7, 0.65)};
     
     for(int i=0;i< NO_OF_OOMEES;i++)
@@ -315,8 +310,6 @@ void ChildAccountScene::hideOomees()
         _OomeeButtons.at(i)->setVisible(false);
         _OomeeButtons.at(i)->setScale(1.3);
     }
-    
-    _oomeeGlow->setVisible(false);
 }
 
 void ChildAccountScene::showOomees()
@@ -342,8 +335,6 @@ void ChildAccountScene::selectOomee(int oomeeNumber)
             _selectedOomeeNo = oomeeNumber;
             _OomeeButtons.at(i)->playOomeeAnimation("Build_Dance_Wave", true);
             _OomeeButtons.at(i)->setScale(1.7);
-            _oomeeGlow->setPosition(_OomeeButtons.at(i)->getCenterPosition());
-            _oomeeGlow->setVisible(true);
         }
         else
         {

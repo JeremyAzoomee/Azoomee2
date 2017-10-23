@@ -58,7 +58,6 @@ private:
     void registerChildAccount();
     
     std::vector<ElectricDreamsButton*> _OomeeButtons;
-    cocos2d::Sprite* _oomeeGlow = nullptr;
     int _selectedOomeeNo;
     
     void addOomeesToScene();
