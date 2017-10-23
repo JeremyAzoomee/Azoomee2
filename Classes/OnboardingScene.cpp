@@ -147,7 +147,7 @@ void OnboardingScene::addLabelsToScene()
 
 void OnboardingScene::addButtonsScene()
 {
-    signupButton = ElectricDreamsButton::createGreenButton(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE), visibleSize.width/3);
+    signupButton = ElectricDreamsButton::createGreenButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE), visibleSize.width/3);
     signupButton->setDelegate(this);
     signupButton->setMixPanelButtonName("signupSceneContinueButton");
     signupButton->setVisible(false);
@@ -198,8 +198,12 @@ void OnboardingScene::setNewLayout()
     
     if(_passwordError->isVisible())
     {
-        additionYForErrorText += _passwordError->getContentSize().height * 1.75f;
+        additionYForErrorText = _passwordError->getContentSize().height * 1.75f;
         _passwordError->setPositionY(passwordTextInput->getPositionY()-_passwordError->getContentSize().height/2);
+    }
+    else
+    {
+        additionYForErrorText = 0.0f;
     }
     
     pinTextInput->setPositionY(passwordTextInput->getPositionY() -pinTextInput->getContentSize().height*1.9 - additionYForErrorText);
@@ -209,9 +213,14 @@ void OnboardingScene::setNewLayout()
     
     if(_pinError->isVisible())
     {
-        additionYForErrorText += _pinError->getContentSize().height * 1.75f;
+        additionYForErrorText = _pinError->getContentSize().height * 1.75f;
         _pinError->setPositionY(pinTextInput->getPositionY()-_pinError->getContentSize().height/2);
     }
+    else
+    {
+        additionYForErrorText = 0.0f;
+    }
+    
     _pinSubTitle->setPositionY(pinTextInput->getPositionY() - (_pinSubTitle->getContentSize().height*.2)- additionYForErrorText);
     
     signupButton->setCenterPosition(Vec2(visibleSize.width*.75+origin.x, pinTextInput->getPositionY()-signupButton->getContentSize().height*1.1- additionYForErrorText));
@@ -226,7 +235,7 @@ void OnboardingScene::setNewLayout()
     float termsButtonWidth = termsButton->getContentSize().width;
     
     float totalWidth = TermsAndConditionsStartLabelWidth + andLabelWidth + privacyButtonWidth + termsButtonWidth;
-    float yPosition = signupButton->getPositionY() - (TermsAndConditionsStartLabel->getContentSize().height*1.2);
+    float yPosition = signupButton->getPositionY() - (TermsAndConditionsStartLabel->getContentSize().height*1.5);
     
     //NOTE: Buttons are Layers and the anchor point is (0,0)
     TermsAndConditionsStartLabel->setPosition(origin.x+visibleSize.width/2-totalWidth/2+TermsAndConditionsStartLabelWidth/2,yPosition);
@@ -282,6 +291,18 @@ void OnboardingScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
         _emailTextInput->setEditboxHasError(false);
         setNewLayout();
     }
+    else if(inputLayer == passwordTextInput)
+    {
+        _passwordError->setVisible(false);
+        passwordTextInput->setEditboxHasError(false);
+        setNewLayout();
+    }
+    else if(inputLayer == pinTextInput)
+    {
+        _pinError->setVisible(false);
+        pinTextInput->setEditboxHasError(false);
+        setNewLayout();
+    }
 }
 
 void OnboardingScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
@@ -290,6 +311,18 @@ void OnboardingScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
     {
         _emailError->setVisible(true);
         _emailTextInput->setEditboxHasError();
+        setNewLayout();
+    }
+    else if(!passwordTextInput->inputIsValid() && inputLayer == passwordTextInput)
+    {
+        _passwordError->setVisible(true);
+        passwordTextInput->setEditboxHasError();
+        setNewLayout();
+    }
+    else if(!pinTextInput->inputIsValid() && inputLayer == pinTextInput)
+    {
+        _pinError->setVisible(true);
+        pinTextInput->setEditboxHasError();
         setNewLayout();
     }
 }
