@@ -14,26 +14,26 @@ class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, 
 private:
     cocos2d::Sprite* _progressIndicatior = nullptr;
     
-    TextInputLayer *childNameInputText = nullptr;
-    TextInputLayer *dayInputText = nullptr;
-    TextInputLayer *monthInputText = nullptr;
-    TextInputLayer *yearInputText = nullptr;
+    TextInputLayer *_childNameInputText = nullptr;
+    TextInputLayer *_dayInputText = nullptr;
+    TextInputLayer *_monthInputText = nullptr;
+    TextInputLayer *_yearInputText = nullptr;
     
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
+    cocos2d::Size _visibleSize;
+    cocos2d::Vec2 _origin;
     
-    cocos2d::Label* sceneTitle = nullptr;
-    cocos2d::Label* profileNameTitle = nullptr;
-    cocos2d::Label* profileNameError = nullptr;
-    cocos2d::Label* profileDOBTitle = nullptr;
-    cocos2d::Label* profileDOBError = nullptr;
-    cocos2d::Label* profileDOBSubTitle = nullptr;
-    cocos2d::Label* oomeesTitle = nullptr;
+    cocos2d::Label* _sceneTitle = nullptr;
+    cocos2d::Label* _profileNameTitle = nullptr;
+    cocos2d::Label* _profileNameError = nullptr;
+    cocos2d::Label* _profileDOBTitle = nullptr;
+    cocos2d::Label* _profileDOBError = nullptr;
+    cocos2d::Label* _profileDOBSubTitle = nullptr;
+    cocos2d::Label* _oomeesTitle = nullptr;
     
-    ElectricDreamsButton *cancelButton = nullptr;
-    ElectricDreamsButton *nextButton = nullptr;
-    ElectricDreamsButton *backButton = nullptr;
-    ElectricDreamsButton *submitButton = nullptr;
+    ElectricDreamsButton *_cancelButton = nullptr;
+    ElectricDreamsButton *_nextButton = nullptr;
+    ElectricDreamsButton *_backButton = nullptr;
+    ElectricDreamsButton *_submitButton = nullptr;
     
     void setupScene();
     void addBackgroundandDecoration();
@@ -56,10 +56,10 @@ private:
     
     void registerChildAccount();
     
-    std::vector<ElectricDreamsButton*> OomeeButtons;
-    cocos2d::Sprite* oomeeGlow;
+    std::vector<ElectricDreamsButton*> _OomeeButtons;
+    cocos2d::Sprite* _oomeeGlow = nullptr;
+    int _selectedOomeeNo;
     
-    int selectedOomeeNo;
     void addOomeesToScene();
     void hideOomees();
     void showOomees();
