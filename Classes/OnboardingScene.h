@@ -14,16 +14,16 @@ class OnboardingScene : public cocos2d::Layer, public TextInputLayerDelegate, pu
 private:
     
     cocos2d::Sprite* _progressIndicatior = nullptr;
-    cocos2d::Label* mainTitle = nullptr;
+    cocos2d::Label* _mainTitle = nullptr;
     
     TextInputLayer *_emailTextInput = nullptr;
-    TextInputLayer *passwordTextInput = nullptr;
-    TextInputLayer *pinTextInput = nullptr;
+    TextInputLayer *_passwordTextInput = nullptr;
+    TextInputLayer *_pinTextInput = nullptr;
     
-    ElectricDreamsButton* signupButton = nullptr;
-    ElectricDreamsButton* cancelButton = nullptr;
-    ElectricDreamsButton* privacyButton = nullptr;
-    ElectricDreamsButton* termsButton = nullptr;
+    ElectricDreamsButton* _signupButton = nullptr;
+    ElectricDreamsButton* _cancelButton = nullptr;
+    ElectricDreamsButton* _privacyButton = nullptr;
+    ElectricDreamsButton* _termsButton = nullptr;
     
     cocos2d::Label* _emailTitle = nullptr;
     cocos2d::Label* _emailError = nullptr;
@@ -33,13 +33,13 @@ private:
     cocos2d::Label* _pinError = nullptr;
     cocos2d::Label* _pinSubTitle = nullptr;
     
-    cocos2d::Label* TermsAndConditionsStartLabel = nullptr;
-    cocos2d::Label* andLabel = nullptr;
+    cocos2d::Label* _TermsAndConditionsStartLabel = nullptr;
+    cocos2d::Label* _andLabel = nullptr;
     
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
+    cocos2d::Size _visibleSize;
+    cocos2d::Vec2 _origin;
     
-    bool hasBeenSet = false;
+    bool _hasBeenSet = false;
     
     void addBackgroundandDecoration();
     void addProgressIndicator();
