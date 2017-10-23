@@ -12,28 +12,32 @@ NS_AZOOMEE_BEGIN
 class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
-    TextInputLayer *childNameInputText;
-    TextInputLayer *dayInputText;
-    TextInputLayer *monthInputText;
-    TextInputLayer *yearInputText;
+    cocos2d::Sprite* _progressIndicatior = nullptr;
+    
+    TextInputLayer *childNameInputText = nullptr;
+    TextInputLayer *dayInputText = nullptr;
+    TextInputLayer *monthInputText = nullptr;
+    TextInputLayer *yearInputText = nullptr;
     
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     
-    cocos2d::Label* sceneTitle;
-    cocos2d::Label* profileNameTitle;
-    cocos2d::Label* profileDOBTitle;
-    cocos2d::Label* profileDOBSubTitle;
-    cocos2d::Label* oomeesTitle;
+    cocos2d::Label* sceneTitle = nullptr;
+    cocos2d::Label* profileNameTitle = nullptr;
+    cocos2d::Label* profileNameError = nullptr;
+    cocos2d::Label* profileDOBTitle = nullptr;
+    cocos2d::Label* profileDOBError = nullptr;
+    cocos2d::Label* profileDOBSubTitle = nullptr;
+    cocos2d::Label* oomeesTitle = nullptr;
     
-    ElectricDreamsButton *cancelButton;
-    ElectricDreamsButton *nextButton;
-    ElectricDreamsButton *nextButtonPlaceholder;
-    ElectricDreamsButton *backButton;
-    ElectricDreamsButton *submitButton;
-    ElectricDreamsButton *submitButtonPlaceholder;
+    ElectricDreamsButton *cancelButton = nullptr;
+    ElectricDreamsButton *nextButton = nullptr;
+    ElectricDreamsButton *backButton = nullptr;
+    ElectricDreamsButton *submitButton = nullptr;
     
     void setupScene();
+    void addBackgroundandDecoration();
+    void addProgressIndicator();
     void AddTitleToScene();
     void addLabelToScene();
     void addTextboxScene();
@@ -47,6 +51,8 @@ private:
     
     bool DOBisDate();
     bool DOBisDateInFuture();
+    
+    void setNewLayout();
     
     void registerChildAccount();
     

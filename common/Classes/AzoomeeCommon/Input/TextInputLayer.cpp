@@ -77,7 +77,7 @@ void TextInputLayer::createEditBox()
     editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::BLACK);
     editBox->setPlaceholderFontColor(Style::Color::brightAqua);
-    editBox->setPlaceholderFont(Style::Font::Input, INPUT_STYLE_SIZE);
+    editBox->setPlaceholderFont(Style::Font::Input, 70);
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
    
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

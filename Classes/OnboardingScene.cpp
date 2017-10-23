@@ -278,10 +278,17 @@ void OnboardingScene::textInputReturnPressed(TextInputLayer* inputLayer)
         }
     }
     else if(inputLayer == passwordTextInput)
+    {
         pinTextInput->focusAndShowKeyboard();
+    }
     else if(inputLayer == pinTextInput)
+    {
+        //if all Text boxes do not have errors
         if(_emailTextInput->inputIsValid() && passwordTextInput->inputIsValid() && pinTextInput->inputIsValid())
+        {
             signUp();
+        }
+    }
 }
 
 void OnboardingScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
