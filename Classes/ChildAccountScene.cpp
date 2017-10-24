@@ -377,9 +377,13 @@ void ChildAccountScene::registerChildAccount()
     
     auto backEndCaller = BackEndCaller::getInstance();
     if((FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()) && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
+    {
         backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, this->_selectedOomeeNo);
+    }
     else
+    {
         backEndCaller->registerChild(profileName, gender, DOB, this->_selectedOomeeNo);
+    }
 }
 
 bool ChildAccountScene::DOBisDate()
