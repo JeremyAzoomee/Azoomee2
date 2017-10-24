@@ -137,6 +137,7 @@ MessageRef Message::createFromJson(const rapidjson::Value& json)
     messageData->_timestamp = timestamp;
     messageData->_messageText = messageText;
     messageData->_stickerLocation = stickerLocation;
+    messageData->_artLocation = artLocation;
     messageData->_moderated = moderated;
     return messageData;
 }

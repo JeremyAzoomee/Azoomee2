@@ -81,6 +81,8 @@
 		503AE10117EB989F00D1A890 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FC17EB989F00D1A890 /* main.m */; };
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
+		92D1E01F1F9F74580096E0FE /* ArtListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E01E1F9F74580096E0FE /* ArtListView.cpp */; };
+		92D1E0201F9F74580096E0FE /* ArtListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E01E1F9F74580096E0FE /* ArtListView.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -276,6 +278,10 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = ../../Resources/fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		92D1E01B1F9F617C0096E0FE /* ArtListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtListView.h; sourceTree = "<group>"; };
+		92D1E01C1F9F61990096E0FE /* ArtListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtListItem.h; sourceTree = "<group>"; };
+		92D1E01D1F9F6F590096E0FE /* ArtListItemOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtListItemOnScreenChecker.h; sourceTree = "<group>"; };
+		92D1E01E1F9F74580096E0FE /* ArtListView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtListView.cpp; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -501,6 +507,7 @@
 		305966A41ECF355B009A7130 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				92D1E0171F9F60E60096E0FE /* ArtList */,
 				305966A11ECF3558009A7130 /* MessageScene.cpp */,
 				305966A21ECF3558009A7130 /* MessageScene.h */,
 				30C36E0A1ED0568800F2FA88 /* MessageComposer.cpp */,
@@ -641,6 +648,17 @@
 			);
 			name = Classes;
 			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		92D1E0171F9F60E60096E0FE /* ArtList */ = {
+			isa = PBXGroup;
+			children = (
+				92D1E01B1F9F617C0096E0FE /* ArtListView.h */,
+				92D1E01C1F9F61990096E0FE /* ArtListItem.h */,
+				92D1E01D1F9F6F590096E0FE /* ArtListItemOnScreenChecker.h */,
+				92D1E01E1F9F74580096E0FE /* ArtListView.cpp */,
+			);
+			name = ArtList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -835,6 +853,7 @@
 				302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				300742E31EF916DC005525AE /* AuthAPI.cpp in Sources */,
+				92D1E0201F9F74580096E0FE /* ArtListView.cpp in Sources */,
 				302E84741ED1A1C7006A498C /* LoginScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -849,6 +868,7 @@
 				30790D3E1EDDC88A003654BC /* StickerCache.cpp in Sources */,
 				305966AB1ECF44E0009A7130 /* MessageListViewItem.cpp in Sources */,
 				30790D3B1EDDC77E003654BC /* StickerCategory.cpp in Sources */,
+				92D1E01F1F9F74580096E0FE /* ArtListView.cpp in Sources */,
 				304E50191EB352AD00D077E3 /* ChatAPI.cpp in Sources */,
 				3059669F1ECDE230009A7130 /* FriendListViewItem.cpp in Sources */,
 				30790D321EDDBCF0003654BC /* StickerCategoryListView.cpp in Sources */,

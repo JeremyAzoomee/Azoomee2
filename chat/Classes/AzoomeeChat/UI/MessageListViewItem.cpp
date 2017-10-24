@@ -64,6 +64,17 @@ bool MessageListViewItem::init()
     _stickerImage->setLayoutParameter(CreateCenterRelativeLayoutParam());
     _stickerLayout->addChild(_stickerImage);
     
+    // Art layout to hold art image
+    _artLayout = ui::Layout::create();
+    _artLayout->setLayoutType(ui::Layout::Type::RELATIVE);
+    _artLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
+    _contentLayout->addChild(_artLayout);
+    
+    // Art image
+    _artImage = RemoteImageSprite::create();
+    _artImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _artImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    _artLayout->addChild(_artImage);
     
     // By default setup content as blank
     setAlignment(Alignment::Left);
@@ -156,6 +167,25 @@ void MessageListViewItem::resizeItemContents()
         const Size& contentSize = Size(imageSize.width + (contentPadding.x * 2), imageSize.height + (contentPadding.y * 2));
         _contentLayout->setContentSize(contentSize);
     }
+    else if(_artLayout->isVisible())
+    {
+        // Resize the sticker, ensuring it keeps it's aspect ratio
+        const float maxHeight = 800.0f; // TODO: Get from config
+        const Size& textureSize = _artImage->getContentSize();
+        Size imageSize = Size(maxWidth - (contentPadding.x * 2.0f), maxHeight - (contentPadding.y * 2.0f));
+        if(textureSize.width > textureSize.height)
+        {
+            imageSize.height = textureSize.height / textureSize.width * imageSize.width;
+        }
+        else
+        {
+            imageSize.width = textureSize.width / textureSize.height * imageSize.height;
+        }
+        _artImage->setContentSize(imageSize);
+        _artLayout->setContentSize(imageSize);
+        const Size& contentSize = Size(imageSize.width + (contentPadding.x * 2), imageSize.height + (contentPadding.y * 2));
+        _contentLayout->setContentSize(contentSize);
+    }
     
     // Ensure the item height is big enough
     Size itemSize = getContentSize();
@@ -203,7 +233,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         }
         else if(messageType == Message::MessageTypeArt)
         {
-            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(getContentSize()/4));
+            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(getContentSize().width/2,getContentSize().width/2 * 9.0f/16.0f));
         }
         else
         {
@@ -214,11 +244,24 @@ void MessageListViewItem::setData(const MessageRef& message)
         // Update the visiblity of elements depending on the message content
         _textLabel->setString(messageText);
         _bubbleLayout->setVisible(messageText.size() > 0);
-        _stickerLayout->setVisible(messageText.size() == 0);
-        if(!_stickerLayout->isVisible())
+
+        if(_messageData->messageType() == Message::MessageTypeArt)
         {
+            _stickerLayout->setVisible(false);
             _stickerImage->loadTexture("");
+            _artLayout->setVisible(true);
         }
+        
+        if(_messageData->messageType() == Message::MessageTypeSticker)
+        {
+            _stickerLayout->setVisible(true);
+            _artLayout->setVisible(false);
+        }
+        //_stickerLayout->setVisible(messageText.size() == 0);
+        //if(!_stickerLayout->isVisible())
+        //{
+        //    _stickerImage->loadTexture("");
+        //}
         
         // Color depends also on current user
         const std::string& senderId = message->senderId();
