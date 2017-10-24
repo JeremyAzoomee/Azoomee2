@@ -138,7 +138,7 @@ void COPPA_PrivacyLayer::addBulletAndLabel(std::string regularText, float yPosit
     newLabel->setAnchorPoint(Vec2(0, 1));
     newLabel->setWidth(detailsLayer->getContentSize().width*.8);
     newLabel->setPosition(Vec2(bullet->getPositionX() + bullet->getContentSize().width,yPosition));
-    IAPDetailsLayer->addChild(newLabel);
+    detailsLayer->addChild(newLabel);
 }
 
 //----------------------- Delegate Functions ----------------------------

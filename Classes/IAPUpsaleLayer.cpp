@@ -122,28 +122,30 @@ void IAPUpsaleLayer::addButtons()
     
     addOptionalSubscriptionLabel();
     
-    float buttonSpacing = 40;
-    
-    privacyButton = ElectricDreamsButton::createTextAsButtonAqua("Your Child's Privacy", 40, true);
-    privacyButton->setPosition(UpsaleLayer->getContentSize().width - privacyButton->getContentSize().width - buttonSpacing, privacyButton->getContentSize().height*2);
+    privacyButton = ElectricDreamsButton::createTextAsButtonAqua("Your child's privacy", 40, true);
+    privacyButton->setPosition(startTrialButton->getCenterPosition().x-privacyButton->getContentSize().width/2, privacyButton->getContentSize().height*2);
     privacyButton->setDelegate(this);
     privacyButton->setMixPanelButtonName("IAPUpsaleSceneChildPrivacyButton");
     UpsaleLayer->addChild(privacyButton);
     
     if(RoutePaymentSingleton::getInstance()->osIsIos())
     {
-        learnMoreButton = ElectricDreamsButton::createTextAsButtonAqua("Learn More", 40, true);
-        learnMoreButton->setPosition(UpsaleLayer->getContentSize().width - learnMoreButton->getContentSize().width - buttonSpacing, learnMoreButton->getContentSize().height*2);
+        learnMoreButton = ElectricDreamsButton::createTextAsButtonAqua("Learn more about your subscription", 40, true);
         learnMoreButton->setDelegate(this);
         learnMoreButton->setMixPanelButtonName("IAPUpsaleSceneLearnMoreButton");
         UpsaleLayer->addChild(learnMoreButton);
         
         restoreButton = ElectricDreamsButton::createTextAsButtonAqua("Restore your purchase", 40, true);
-        restoreButton->setPosition(learnMoreButton->getPositionX()-restoreButton->getContentSize().width -buttonSpacing,learnMoreButton->getPositionY());
         restoreButton->setDelegate(this);
         restoreButton->setMixPanelButtonName("IAPUpsaleSceneRestoreButton");
         UpsaleLayer->addChild(restoreButton);
         
+        float buttonSpacing = 40.0f;
+        
+        float totalWidthOfExtraButtons = learnMoreButton->getContentSize().width + restoreButton->getContentSize().width + privacyButton->getContentSize().width + buttonSpacing * 2;
+        
+        learnMoreButton->setPosition(startTrialButton->getCenterPosition().x + totalWidthOfExtraButtons/2 - learnMoreButton->getContentSize().width, learnMoreButton->getContentSize().height*2);
+        restoreButton->setPosition(learnMoreButton->getPositionX()-restoreButton->getContentSize().width -buttonSpacing,learnMoreButton->getPositionY());
         privacyButton->setPosition(restoreButton->getPositionX() - privacyButton->getContentSize().width - buttonSpacing, learnMoreButton->getPositionY());
     }
 }
