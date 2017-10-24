@@ -6,6 +6,7 @@
 #include "IAPDetailsLayer_ios.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include "COPPA_PrivacyLayer.h"
 
 using namespace cocos2d;
 
@@ -121,10 +122,16 @@ void IAPUpsaleLayer::addButtons()
     
     addOptionalSubscriptionLabel();
     
+    float buttonSpacing = 40;
+    
+    privacyButton = ElectricDreamsButton::createTextAsButtonAqua("Your Child's Privacy", 40, true);
+    privacyButton->setPosition(UpsaleLayer->getContentSize().width - privacyButton->getContentSize().width - buttonSpacing, privacyButton->getContentSize().height*2);
+    privacyButton->setDelegate(this);
+    privacyButton->setMixPanelButtonName("IAPUpsaleSceneChildPrivacyButton");
+    UpsaleLayer->addChild(privacyButton);
+    
     if(RoutePaymentSingleton::getInstance()->osIsIos())
     {
-        float buttonSpacing = 40;
-        
         learnMoreButton = ElectricDreamsButton::createTextAsButtonAqua("Learn More", 40, true);
         learnMoreButton->setPosition(UpsaleLayer->getContentSize().width - learnMoreButton->getContentSize().width - buttonSpacing, learnMoreButton->getContentSize().height*2);
         learnMoreButton->setDelegate(this);
@@ -136,6 +143,8 @@ void IAPUpsaleLayer::addButtons()
         restoreButton->setDelegate(this);
         restoreButton->setMixPanelButtonName("IAPUpsaleSceneRestoreButton");
         UpsaleLayer->addChild(restoreButton);
+        
+        privacyButton->setPosition(restoreButton->getPositionX() - privacyButton->getContentSize().width - buttonSpacing, learnMoreButton->getPositionY());
     }
 }
 
@@ -219,6 +228,10 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == learnMoreButton)
     {
         IAPDetailsLayer_ios::create();
+    }
+    else if(button == privacyButton)
+    {
+        COPPA_PrivacyLayer::create();
     }
 }
 
