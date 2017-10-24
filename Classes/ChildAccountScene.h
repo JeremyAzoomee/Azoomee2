@@ -56,6 +56,7 @@ private:
     
     void setNewLayout();
     void setDateInputHasError(bool hasError);
+    void checkProfileNameInputForError();
     
     void registerChildAccount();
     

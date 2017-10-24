@@ -373,6 +373,24 @@ ElectricDreamsButton* ElectricDreamsButton::createBackButton()
     
     return layer;
 }
+    
+ElectricDreamsButton* ElectricDreamsButton::createNextButtonGreen()
+{
+    auto layer = ElectricDreamsButton::create();
+    layer->addChild(layer->createSpriteButton("res/login/next_btnGreen.png", NEXT_BUTTON_AUDIO_EFFECT ));
+    layer->addListener();
+    
+    return layer;
+}
+
+ElectricDreamsButton* ElectricDreamsButton::createBackButtonGreen()
+{
+    auto layer = ElectricDreamsButton::create();
+    layer->addChild(layer->createSpriteButton("res/login/back_btnGreen.png", BACK_BUTTON_AUDIO_EFFECT ));
+    layer->addListener();
+    
+    return layer;
+}
 
 ElectricDreamsButton* ElectricDreamsButton::createAcceptButton()
 {

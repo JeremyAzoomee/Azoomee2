@@ -67,6 +67,8 @@ public:
     static ElectricDreamsButton* createOutlineButtonWithText(std::string buttonText);
     static ElectricDreamsButton* createNextButton();
     static ElectricDreamsButton* createBackButton();
+    static ElectricDreamsButton* createNextButtonGreen();
+    static ElectricDreamsButton* createBackButtonGreen();
     static ElectricDreamsButton* createAcceptButton();
     static ElectricDreamsButton* createCancelButton();
     static ElectricDreamsButton* createWindowCloseButton();

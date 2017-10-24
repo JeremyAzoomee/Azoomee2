@@ -119,7 +119,7 @@ void OnboardingScene::addLabelsToScene()
     _emailTitle->setPositionY(_emailTextInput->getPositionY()+(_emailTextInput->getContentSize().height) + (_emailTitle->getContentSize().height*.6));
     this->addChild(_emailTitle);
     
-    _emailError = createLabelBodyCentred("Email format is incorrect.",Style::Color::watermelon);
+    _emailError = createLabelBodyCentred("Email doesn't look correct - please check",Style::Color::watermelon);
     _emailError->setLineSpacing(20);
     _emailError->setVisible(false);
     this->addChild(_emailError);
@@ -127,7 +127,7 @@ void OnboardingScene::addLabelsToScene()
     _passwordTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PASSWORD_LABEL));
     this->addChild(_passwordTitle);
     
-    _passwordError = createLabelBodyCentred("Password requires 6 charactors with no spaces.",Style::Color::watermelon);
+    _passwordError = createLabelBodyCentred("Password must be at least 6 characters",Style::Color::watermelon);
     _passwordError->setLineSpacing(20);
     _passwordError->setVisible(false);
     this->addChild(_passwordError);
@@ -135,7 +135,7 @@ void OnboardingScene::addLabelsToScene()
     _pinTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_PIN_LABEL));
     this->addChild(_pinTitle);
     
-    _pinError = createLabelBodyCentred("Pin requires 4 numbers.",Style::Color::watermelon);
+    _pinError = createLabelBodyCentred("PIN must be 4 digits",Style::Color::watermelon);
     _pinError->setLineSpacing(20);
     _pinError->setVisible(false);
     this->addChild(_pinError);

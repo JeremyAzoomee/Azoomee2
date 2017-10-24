@@ -144,7 +144,7 @@ void ChildAccountScene::addLabelToScene()
     _profileNameTitle->setPositionY(_childNameInputText->getPositionY()+(_childNameInputText->getContentSize().height) + (_profileNameTitle->getContentSize().height*.6));
     this->addChild(_profileNameTitle);
     
-    _profileNameError = createLabelBodyCentred("Profile (nick)name should be unique.",Style::Color::watermelon);
+    _profileNameError = createLabelBodyCentred("Profile nickname must be provided",Style::Color::watermelon);
     _profileNameError->setLineSpacing(20);
     _profileNameError->setVisible(false);
     this->addChild(_profileNameError);
@@ -152,7 +152,7 @@ void ChildAccountScene::addLabelToScene()
     _profileDOBTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_DOB_LABEL));
     this->addChild(_profileDOBTitle);
     
-    _profileDOBError = createLabelBodyCentred("Date is incorrect.",Style::Color::watermelon);
+    _profileDOBError = createLabelBodyCentred("Date is incorrect",Style::Color::watermelon);
     _profileDOBError->setLineSpacing(20);
     _profileDOBError->setVisible(false);
     this->addChild(_profileDOBError);
@@ -441,6 +441,24 @@ void ChildAccountScene::setDateInputHasError(bool hasError)
     setNewLayout();
 }
 
+void ChildAccountScene::checkProfileNameInputForError()
+{
+    if(!_childNameInputText->inputIsValid())
+    {
+        _profileNameError->setString("Profile nickname must be provided");
+        _profileNameError->setVisible(true);
+        _childNameInputText->setEditboxHasError();
+        setNewLayout();
+    }
+    else if(childNameExists(trim(_childNameInputText->getText())))
+    {
+        _profileNameError->setString("Profile nickname must be unique");
+        _profileNameError->setVisible(true);
+        _childNameInputText->setEditboxHasError();
+        setNewLayout();
+    }
+}
+
 //----------------------- Delegate Functions ----------------------------
 
 void ChildAccountScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
@@ -476,12 +494,7 @@ void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
         _doNotShowInputError = true;
         _dayInputText->focusAndShowKeyboard();
         
-        if(!_childNameInputText->inputIsValid() || childNameExists(trim(_childNameInputText->getText())))
-        {
-            _profileNameError->setVisible(true);
-            _childNameInputText->setEditboxHasError();
-            setNewLayout();
-        }
+        checkProfileNameInputForError();
     }
     else if(inputLayer == _dayInputText)
     {
@@ -505,8 +518,6 @@ void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
 
 void ChildAccountScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 {
-    
-    
     if(inputLayer == _childNameInputText)
     {
         _profileNameError->setVisible(false);
@@ -521,11 +532,9 @@ void ChildAccountScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 
 void ChildAccountScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
-    if((!_childNameInputText->inputIsValid() || childNameExists(trim(_childNameInputText->getText()))) && inputLayer == _childNameInputText)
+    if(inputLayer == _childNameInputText)
     {
-        _profileNameError->setVisible(true);
-        _childNameInputText->setEditboxHasError();
-        setNewLayout();
+        checkProfileNameInputForError();
     }
     else if(!DOBisDate() && !_doNotShowInputError)
     {
