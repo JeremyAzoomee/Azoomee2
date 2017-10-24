@@ -84,11 +84,12 @@ void LoginScene::getUserDefaults()
 void LoginScene::addBackground()
 {
     auto newLayer = LayerColor::create(Color4B::WHITE, visibleSize.width,  visibleSize.height);
+    newLayer->setPosition(origin.x, origin.y);
     this->addChild(newLayer);
     
     Sprite* topGradient = Sprite::create("res/decoration/topSignupGrad.png");
     topGradient->setAnchorPoint(Vec2(0.0f, 1.0f));
-    topGradient->setPosition(0.0f, visibleSize.height);
+    topGradient->setPosition(0.0f, origin.y + visibleSize.height);
     topGradient->setScaleX(visibleSize.width / topGradient->getContentSize().width);
     newLayer->addChild(topGradient);
 }

@@ -76,7 +76,7 @@ void TextInputLayer::createEditBox()
     editBox->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBox->setFont(Style::Font::Input, INPUT_STYLE_SIZE);
     editBox->setFontColor(Color3B::BLACK);
-    editBox->setPlaceholderFontColor(Style::Color::brightAqua);
+    editBox->setPlaceholderFontColor(Color3B::GRAY);
     editBox->setPlaceholderFont(Style::Font::Input, 70);
     editBox->setTextHorizontalAlignment(TextHAlignment::CENTER);
    
