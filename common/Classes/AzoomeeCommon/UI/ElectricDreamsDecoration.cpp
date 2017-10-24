@@ -210,6 +210,7 @@ cocos2d::Layer* createTopGradientAndParticles()
     Sprite* pixelPattern = Sprite::create("res/decoration/particlesBottom.png");
     pixelPattern->setAnchorPoint(Vec2(0.5f, 0.0f));
     pixelPattern->setPosition(visibleSize.width/2,0.0f);
+    pixelPattern->setScale(visibleSize.width / pixelPattern->getContentSize().width);
     newLayer->addChild(pixelPattern);
     
     return newLayer;

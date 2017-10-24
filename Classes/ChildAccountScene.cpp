@@ -458,13 +458,14 @@ void ChildAccountScene::textInputIsValid(TextInputLayer* inputLayer, bool isVali
     
     if(inputLayer == _dayInputText && _dayInputText->getText().length() == 2)
     {
+        
+        _doNotShowInputError = true;
         _monthInputText->focusAndShowKeyboard();
-        setDateInputHasError(false);
     }
     else if(inputLayer == _monthInputText && (_monthInputText->getText().length() == 2 || std::atoi(_monthInputText->getText().c_str()) >2))
     {
+        _doNotShowInputError = true;
         _yearInputText->focusAndShowKeyboard();
-        setDateInputHasError(false);
     }
 }
 
@@ -472,6 +473,7 @@ void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
 {
     if(inputLayer == _childNameInputText)
     {
+        _doNotShowInputError = true;
         _dayInputText->focusAndShowKeyboard();
         
         if(!_childNameInputText->inputIsValid() || childNameExists(trim(_childNameInputText->getText())))
@@ -483,11 +485,12 @@ void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
     }
     else if(inputLayer == _dayInputText)
     {
+        _doNotShowInputError = true;
         _monthInputText->focusAndShowKeyboard();
-        setDateInputHasError(false);
     }
     else if(inputLayer == _monthInputText)
     {
+        _doNotShowInputError = true;
         _yearInputText->focusAndShowKeyboard();
     }
     else if(inputLayer == _yearInputText)
@@ -502,6 +505,8 @@ void ChildAccountScene::textInputReturnPressed(TextInputLayer* inputLayer)
 
 void ChildAccountScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 {
+    
+    
     if(inputLayer == _childNameInputText)
     {
         _profileNameError->setVisible(false);
@@ -522,10 +527,12 @@ void ChildAccountScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
         _childNameInputText->setEditboxHasError();
         setNewLayout();
     }
-    else if(!DOBisDate())
+    else if(!DOBisDate() && !_doNotShowInputError)
     {
         setDateInputHasError(true);
     }
+    
+    _doNotShowInputError = false;
 }
 
 void ChildAccountScene::buttonPressed(ElectricDreamsButton* button)

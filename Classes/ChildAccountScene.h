@@ -19,6 +19,8 @@ private:
     TextInputLayer *_monthInputText = nullptr;
     TextInputLayer *_yearInputText = nullptr;
     
+    bool _doNotShowInputError = false;
+    
     cocos2d::Size _visibleSize;
     cocos2d::Vec2 _origin;
     
