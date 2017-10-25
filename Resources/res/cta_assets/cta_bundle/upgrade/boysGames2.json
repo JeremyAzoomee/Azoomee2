@@ -5,12 +5,12 @@
    "closedContent"
  ],
  "nodeSize": [
-   70,
-   67
+   70.0,
+   67.0
  ],
  "nodeText": {
     "titleText": {
-        "position": [50,96],
+        "position": [50.0,96.0],
         "text": "It's all here. It's all good.",
         "alignment": "centre",
         "fontSize": 94,
@@ -18,7 +18,7 @@
     },
     "bodyText": [
         {
-            "position": [50,34],
+            "position": [50.0,34.0],
             "text": "They can do it all on Azoomee: watch videos, play games, send\nmessages, draw pictures and listen to stories. In one safe space.",
             "alignment": "centre",
             "fontSize": 63,
@@ -27,7 +27,7 @@
         }
     ],
      "footerText": {
-         "position": [50,6],
+         "position": [50.0,6.0],
          "text": "New stuff added every week!",
          "alignment": "centre",
          "fontSize": 42,
@@ -50,12 +50,12 @@
         }
      },
      "position": [
-       50,
-       16
+       50.0,
+       16.0
      ],
      "size": [
-       25,
-       12
+       25.0,
+       12.0
      ],
      "text": "Upgrade"
    }

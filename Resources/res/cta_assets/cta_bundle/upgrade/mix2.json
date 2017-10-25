@@ -1,34 +1,33 @@
 {
- "nodeId": "boysGames3",
+ "nodeId": "mix2",
  "groupId": [
    "upgrade",
    "closedContent"
  ],
  "nodeSize": [
-   70,
-   67
+   70.0,
+   67.0
  ],
  "nodeText": {
     "titleText": {
-        "position": [50,96],
-        "text": "Smart Screen Time",
+        "position": [50.0,96.0],
+        "text": "It's all here. It's all good.",
         "alignment": "centre",
         "fontSize": 94,
         "colour": [63,170,170,255]
     },
     "bodyText": [
         {
-            "position": [50,37],
-            "text": "Learning and fun through the shows and games they love.\nAzoomee is much more than just screen time",
+            "position": [50.0,34.0],
+            "text": "They can do it all on Azoomee: watch videos, play games, send\nmessages, draw pictures and listen to stories. In one safe space.",
             "alignment": "centre",
             "fontSize": 63,
             "colour": [0,0,0,255]
-                
         }
     ],
     "footerText": {
-        "position": [50,6],
-        "text": "\"It's everything my kids want and need in one safe place! Love it\"            Claire, Mum of two",
+        "position": [50.0,6.0],
+        "text": "New stuff added every week!",
         "alignment": "centre",
         "fontSize": 42,
         "colour": [9,155,155,255]
@@ -48,29 +47,21 @@
         "params": {
             "location":"showUpgrade"
         }
-     },
+    },
      "position": [
-       50,
-       18
+       50.0,
+       16.0
      ],
      "size": [
-       25,
-       12
+       25.0,
+       12.0
      ],
      "text": "Upgrade"
    }
  ],
  "backgroundImage": {
    "displayMode": "fit",
-   "position": 87,
-   "file": "upgrade/bubbles_boys_games.jpg"
- },
- "images": [
-    {
-        "position": [71,5],
-        "size": [3,4],
-        "opacity": 255,
-        "file": "misc/love_it.png"
-    }
- ]
+   "position": 85,
+   "file": "upgrade/bubbles_mix.jpg"
+ }
 }

@@ -4,15 +4,17 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "852ED3691A47A99B0D19C820A500AE9772B2A44E" : 9223372036854775807,
+    "B982D2B7C2A87FCEF8A9E9E76F58093071ABD630" : 9223372036854775807,
     "96EAEE732829EA69A6B8331333327E67C0B943E6" : 9223372036854775807,
-    "B982D2B7C2A87FCEF8A9E9E76F58093071ABD630" : 9223372036854775807
+    "E0DF580DF0C6B499707E9217EAD6507043C9447C" : 9223372036854775807,
+    "852ED3691A47A99B0D19C820A500AE9772B2A44E" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D9E80EE9-A764-49FF-A1AC-6C1558A3E592",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "852ED3691A47A99B0D19C820A500AE9772B2A44E" : "app\/cocos2d\/",
-    "96EAEE732829EA69A6B8331333327E67C0B943E6" : "cocos2d\/",
-    "B982D2B7C2A87FCEF8A9E9E76F58093071ABD630" : "app\/"
+    "B982D2B7C2A87FCEF8A9E9E76F58093071ABD630" : "azoomee2\/",
+    "96EAEE732829EA69A6B8331333327E67C0B943E6" : "cocos2d-x-modded\/",
+    "E0DF580DF0C6B499707E9217EAD6507043C9447C" : "app-content-dynamicnode\/",
+    "852ED3691A47A99B0D19C820A500AE9772B2A44E" : "app\/cocos2d\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "azoomee2",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -32,6 +34,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:azoomee\/app-cocos-azoomee2.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B982D2B7C2A87FCEF8A9E9E76F58093071ABD630"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:azoomee\/app-content-dynamicnode.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E0DF580DF0C6B499707E9217EAD6507043C9447C"
     }
   ]
 }

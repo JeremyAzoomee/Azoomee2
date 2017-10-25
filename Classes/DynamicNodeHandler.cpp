@@ -134,7 +134,7 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
 
 void DynamicNodeHandler::getCTAFiles()
 {
-    getCTAPackageJSON(_kCTAPackageJSONURL);
+    getCTAPackageJSON(ConfigStorage::getInstance()->getCTAPackageJsonURL());
 }
 
 rapidjson::Document DynamicNodeHandler::getLocalCTAPackageJSON()
@@ -257,6 +257,7 @@ std::string DynamicNodeHandler::getResCTADirectoryPath() const
     const std::string& localFile = "close.png";
     std::string resDirPath = FileUtils::getInstance()->fullPathForFilename("res/cta_assets/" + localFile);//android needs a file in the dir to locate it
     resDirPath = resDirPath.substr(0,resDirPath.size() - localFile.length());
+    resDirPath += "cta_bundle/";
     return resDirPath;
 }
 

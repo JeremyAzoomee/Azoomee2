@@ -4,7 +4,7 @@
 //General configuration
 //#define forcereload YES;
 //#define forgetuserdata YES;
-//#define USINGCI YES
+#define USINGCI YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
@@ -39,6 +39,7 @@ public:
     std::string getServerUrlPrefix();
     std::string getServerUrl();
     std::string getImagesUrl();
+    std::string getCTAPackageJsonURL();
     std::string getMediaPrefixForXwalkCookies();
     std::string getPathForTag(std::string httpRequestTag);
     bool isParentSignatureRequiredForRequest(std::string requestTag);

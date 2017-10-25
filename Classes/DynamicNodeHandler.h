@@ -14,13 +14,14 @@
 #include "DynamicNodeCreator.h"
 #include <AzoomeeCommon/Data/Json.h>
 #include "network/HttpClient.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 NS_AZOOMEE_BEGIN
 
 class DynamicNodeHandler : cocos2d::Ref
 {
 private:
-    const std::string _kCTAPackageJSONURL = "https://media.azoomee.com/static/popups/package.json"; //change to new location when set up
+    //const std::string _kCTAPackageJSONURL = "https://media.azoomee.com/static/popups/package.json"; //change to new location when set up
     
     bool isCTAPackageJSONExist();
     

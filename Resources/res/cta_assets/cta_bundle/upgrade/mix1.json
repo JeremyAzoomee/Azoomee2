@@ -1,16 +1,16 @@
 {
- "nodeId": "girlsVideo1",
+ "nodeId": "mix1",
  "groupId": [
    "upgrade",
    "closedContent"
  ],
  "nodeSize": [
-   70,
-   67
+   70.0,
+   67.0
  ],
  "nodeText": {
     "titleText": {
-        "position": [50,96],
+        "position": [50.0,96.0],
         "text": "It's all here. It's all good.",
         "alignment": "centre",
         "fontSize": 94,
@@ -18,12 +18,11 @@
     },
     "bodyText": [
         {
-            "position": [50,34],
+            "position": [50.0,34.0],
             "text": "Learning and fun through the shows and games they love.\nAzoomee is much more than just screen time",
             "alignment": "centre",
             "fontSize": 63,
             "colour": [0,0,0,255]
-        
         }
     ]
  },
@@ -36,19 +35,19 @@
  "buttons": [
    {
      "buttonId": "upgrade1Month",
-     "action": {
+        "action": {
         "type":"internal",
         "params": {
-             "location":"showUpgrade"
+            "location":"showUpgrade"
         }
      },
      "position": [
-       50,
-       12
+       50.0,
+       12.0
      ],
      "size": [
-       33,
-       12
+       33.0,
+       12.0
      ],
      "text": "£4.99 / month"
    }
@@ -56,6 +55,6 @@
  "backgroundImage": {
    "displayMode": "fit",
    "position": 85,
-   "file": "upgrade/bubbles_girls_vid.jpg"
+   "file": "upgrade/bubbles_mix.jpg"
  }
 }
