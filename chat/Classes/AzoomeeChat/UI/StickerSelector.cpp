@@ -45,7 +45,7 @@ bool StickerSelector::init()
     
     ui::Layout* secondLayout = _splitLayout->secondLayout();
     secondLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    secondLayout->setBackGroundColor(Style::Color::dark);
+    secondLayout->setBackGroundColor(Style::Color::black);
     
     _categoryListView = StickerCategoryListView::create();
     _categoryListView->setSizeType(ui::Widget::SizeType::PERCENT);
