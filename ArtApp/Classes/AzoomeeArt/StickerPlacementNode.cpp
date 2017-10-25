@@ -35,7 +35,7 @@ void StickerPlacementNode::onEnter()
     _stickerFrame->setAnchorPoint(Vec2(0.5,0.5));
     this->addChild(_stickerFrame);
     
-    _sticker = Sprite::create(kArtAppAssetLoc + "art_button_sticker.png");
+    _sticker = Sprite::create();
     _sticker->setAnchorPoint(Vec2(0.5,0.5));
     _sticker->setPosition(visibleSize/2);
     this->addChild(_sticker);

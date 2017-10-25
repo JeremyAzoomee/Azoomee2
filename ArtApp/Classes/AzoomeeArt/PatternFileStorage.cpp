@@ -25,14 +25,11 @@ PatternFileStorage* PatternFileStorage::getInstance()
 void PatternFileStorage::init()
 {
     _fileStore = std::map<std::string, std::pair<std::string,std::string>>();
-    _fileStore["gold"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/Glitter_gold_1.png", kArtAppAssetLoc + "patterns/Glitter_gold_1t.png");
-    _fileStore["silver"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/Glitter_silver_1.png", kArtAppAssetLoc + "patterns/Glitter_silver_1t.png");
-    _fileStore["pink"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/Glitter_pink_1.png", kArtAppAssetLoc + "patterns/Glitter_pink_1t.png");
-    _fileStore["blue"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/Glitter_blue_1.png", kArtAppAssetLoc + "patterns/Glitter_blue_1t.png");
-    _fileStore["gold2"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/Glitter_gold_2.png", kArtAppAssetLoc + "patterns/Glitter_gold_2t.png");
-    _fileStore["silver2"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/Glitter_silver_2.png", kArtAppAssetLoc + "patterns/Glitter_silver_2t.png");
-    _fileStore["pink2"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/Glitter_pink_2.png", kArtAppAssetLoc + "patterns/Glitter_pink_2t.png");
-    _fileStore["blue2"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/Glitter_blue_2.png", kArtAppAssetLoc + "patterns/Glitter_blue_2t.png");
+    _fileStore["gold"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_gold.png", kArtAppAssetLoc + "patterns/glitter_gold_t.png");
+    _fileStore["silver"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_silver.png", kArtAppAssetLoc + "patterns/glitter_silver_t.png");
+    _fileStore["pink"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_pink.png", kArtAppAssetLoc + "patterns/glitter_pink_t.png");
+    _fileStore["blue"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_blue.png", kArtAppAssetLoc + "patterns/glitter_blue_t.png");
+    _fileStore["green"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_green.png", kArtAppAssetLoc + "patterns/glitter_green_t.png");
 }
 
 std::string PatternFileStorage::getNormalFileByName(const std::string &name)

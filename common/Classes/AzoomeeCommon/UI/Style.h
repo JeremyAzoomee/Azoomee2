@@ -99,6 +99,7 @@ namespace Color_4F
     const cocos2d::Color4F darkPurple = cocos2d::Color4F(142/255.0f,25/255.0f,167/255.0f, 1.0f);
     const cocos2d::Color4F purple = cocos2d::Color4F(192/255.0f,25/255.0f,194/255.0f, 1.0f);
     const cocos2d::Color4F neonPink = cocos2d::Color4F(239/255.0f,30/255.0f,239/255.0f, 1.0f);
+    const cocos2d::Color4F babyPink = cocos2d::Color4F(255/255.0f,143/255.0f,255/255.0f,1.0f);
     const cocos2d::Color4F palePink = cocos2d::Color4F(255/255.0f,196/255.0f,242/255.0f, 1.0f);
     const cocos2d::Color4F pink = cocos2d::Color4F(255/255.0f,85/255.0f,183/255.0f, 1.0f);
     const cocos2d::Color4F darkPink = cocos2d::Color4F(228/255.0f,0/255.0f,131/255.0f, 1.0f);

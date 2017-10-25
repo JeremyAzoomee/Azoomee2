@@ -13,46 +13,42 @@ using namespace cocos2d;
 
 NS_AZOOMEE_AA_BEGIN
 
-const std::vector<Color3B> DrawingCanvasUILayer::_kColours = {
-    Color3B(Style::Color_4F::darkBrown),
+const std::vector<Color3B> DrawingCanvasUILayer::_kColours = { // top left
+    Color3B(Style::Color_4F::grey), //row 1
+    Color3B(Style::Color_4F::darkGrey),
+    Color3B(Style::Color_4F::black),
+    Color3B(Style::Color_4F::darkPurple), //row 2
+    Color3B(Style::Color_4F::purple),
+    Color3B(Style::Color_4F::neonPink),
+    Color3B(Style::Color_4F::babyPink),
+    Color3B(Style::Color_4F::palePink),
+    Color3B(Style::Color_4F::pink),
+    Color3B(Style::Color_4F::darkPink),
+    Color3B(Style::Color_4F::red),
+    Color3B(Style::Color_4F::darkBlue), // row 3
+    Color3B(Style::Color_4F::blue),
+    Color3B(Style::Color_4F::lightBlue),
+    Color3B(Style::Color_4F::neonBlue),
+    Color3B(Style::Color_4F::greenBlue),
+    Color3B(Style::Color_4F::green),
+    Color3B(Style::Color_4F::grassGreen),
+    Color3B(Style::Color_4F::neonGreen),
+    Color3B(Style::Color_4F::darkBrown), //row 4
     Color3B(Style::Color_4F::brown),
     Color3B(Style::Color_4F::lightBrown),
     Color3B(Style::Color_4F::orangeBrown),
     Color3B(Style::Color_4F::orange),
     Color3B(Style::Color_4F::darkYellow),
     Color3B(Style::Color_4F::yellow),
-    Color3B(Style::Color_4F::darkBlue),
-    Color3B(Style::Color_4F::blue),
-    Color3B(Style::Color_4F::lightBlue),
-    Color3B(Style::Color_4F::greenBlue),
-    Color3B(Style::Color_4F::green),
-    Color3B(Style::Color_4F::grassGreen),
-    Color3B(Style::Color_4F::neonGreen),
-    Color3B(Style::Color_4F::darkPurple),
-    Color3B(Style::Color_4F::purple),
-    Color3B(Style::Color_4F::neonPink),
-    Color3B(Style::Color_4F::palePink),
-    Color3B(Style::Color_4F::pink),
-    Color3B(Style::Color_4F::darkPink),
-    Color3B(Style::Color_4F::red),
-    Color3B(Style::Color_4F::neonBlue),
-    Color3B(Style::Color_4F::paleGreen),
-    Color3B(Style::Color_4F::paleYellow),
-    Color3B(Style::Color_4F::lightGrey),
-    Color3B(Style::Color_4F::grey),
-    Color3B(Style::Color_4F::darkGrey),
-    Color3B(Style::Color_4F::black)
+    Color3B(Style::Color_4F::paleYellow) // bottom right
 };
 
 const std::vector<std::pair<std::string, std::string>> DrawingCanvasUILayer::_kPatterns = {
-    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/gold.png","gold"),
-    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/silver.png","silver"),
-    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/pink.png","pink"),
-    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/blue.png","blue"),
-    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/gold.png","gold2"),
-    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/silver.png","silver2"),
-    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/pink.png","pink2"),
-    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/blue.png","blue2")
+    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_gold_btn.png","gold"),
+    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_silver_btn.png","silver"),
+    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_pink_btn.png","pink"),
+    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_blue_btn.png","blue"),
+    std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_green_btn.png","green")
 };
 
 bool DrawingCanvasUILayer::init()
@@ -202,17 +198,18 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     _selected->setAnchorPoint(Vec2(0.5,0.5));
     _selected->setNormalizedPosition(Vec2(0.5,0.5));
     
-    const Vec2& tableDimensions =  Vec2(9,ceilf((_kColours.size()+ _kPatterns.size())/9.0f));
+    const Vec2& tableDimensions =  Vec2(8,ceilf((_kColours.size()+ _kPatterns.size())/8.0f));
+    const Size& windowSize = Director::getInstance()->getWinSize();
     
     _colourButtonLayout = Node::create();
-    _colourButtonLayout->setContentSize(Size(visibleSize.width*0.75,visibleSize.height*(0.18*tableDimensions.y)));
+    _colourButtonLayout->setContentSize(Size(windowSize.width*0.75,windowSize.height*(0.13*tableDimensions.y)));
     _colourButtonLayout->setAnchorPoint(Vec2(0.5,0.5));
     _colourButtonLayout->setPosition(Vec2(visibleOrigin.x + visibleSize.width/2,visibleOrigin.y + visibleSize.height/2 + 100));
     _colourButtonLayout->setVisible(false);
     this->addChild(_colourButtonLayout,POPUP_UI_LAYER);
     
     ui::Scale9Sprite* colourBG = ui::Scale9Sprite::create(kArtAppAssetLoc + "popup_bg.png");
-    colourBG->setContentSize(_colourButtonLayout->getContentSize());
+    colourBG->setContentSize(_colourButtonLayout->getContentSize() + Size(50,50));
     colourBG->setAnchorPoint(Vec2(0.5,0.5));
     colourBG->setNormalizedPosition(Vec2(0.5,0.5));
     _colourButtonLayout->addChild(colourBG);
@@ -220,11 +217,11 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     int colourCount = 0;
     int patternCount = 0;
     
-    for (int j = 1; j<=tableDimensions.y; j++)
+    for (int j = tableDimensions.y; j > 0; j--)
     {
         for (int i = 0; i<tableDimensions.x; i++)
         {
-            if(colourCount < _kColours.size())
+            if(patternCount >= _kPatterns.size())
             {
                 ui::Button* button = ui::Button::create();
                 button->setAnchorPoint(Vec2(0.5,0.5));
@@ -234,13 +231,18 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
                 button->loadTextures(kArtAppAssetLoc + "art_app_pallete_circle.png", kArtAppAssetLoc + "art_app_pallete_circle.png");
                 button->setColor(_kColours[colourCount]);
                 button->setName("");
-                if(colourCount == 21)
+                if(colourCount == 14)
                 {
                     _drawingCanvas->setSelectedColour(Color4F(_kColours[colourCount]));
                     _drawingCanvas->setSelectedPattern("");
                     button->addChild(_selected);
                 }
                 button->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onColourChangePressed,this));
+                
+                Sprite* frame = Sprite::create(kArtAppAssetLoc + "button_frame.png");
+                frame->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+                frame->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+                button->addChild(frame);
                 _colourButtonLayout->addChild(button);
             
                 colourCount++;
@@ -263,8 +265,8 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     }
     
     ui::Button* closeButton = ui::Button::create();
-    closeButton->setAnchorPoint(Vec2(0.66,0.66));
-    closeButton->setPosition(_colourButtonLayout->getContentSize());
+    closeButton->setAnchorPoint(Vec2(0.9,0.9));
+    closeButton->setPosition(colourBG->getContentSize());
     closeButton->loadTextures(kArtAppAssetLoc + "close_button.png", kArtAppAssetLoc + "close_button.png");
     closeButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCloseColourSelectPressed, this));
     _colourButtonLayout->addChild(closeButton);
@@ -952,6 +954,7 @@ void DrawingCanvasUILayer::setUIEnabled(bool isEnabled)
     _colourSelectButton->setEnabled(isEnabled);
     _addStickerButton->setEnabled(isEnabled);
     _clearButton->setEnabled(isEnabled);
+    _undoButton->setEnabled(isEnabled);
     _brushSizeSlider->setEnabled(isEnabled);
     _overlay->setVisible(!isEnabled);
     if(isEnabled)
@@ -998,6 +1001,7 @@ void DrawingCanvasUILayer::setStickerUIEnabled(bool isEnabled)
     _colourSelectButton->setEnabled(!isEnabled);
     _addStickerButton->setEnabled(!isEnabled);
     _clearButton->setEnabled(!isEnabled);
+    _undoButton->setEnabled(!isEnabled);
     _brushSizeSlider->setEnabled(!isEnabled);
     
     if(isEnabled)
