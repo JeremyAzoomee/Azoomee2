@@ -13,10 +13,13 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     void onEnter();
+    void buildMainHubScene();
     
 private:
     void addBackgroundCircles();
+    void addBackgroundWires();
     void addImageContainers();
+    void addPrivacyButton();
     
     cocos2d::Sprite* createCirclesForBackground(int circleNumber);
     

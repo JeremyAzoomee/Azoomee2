@@ -17,9 +17,6 @@ void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
     if(scrollViewChildren.size() == 1)
     {
         sender->setPosition(0, scrollViewSize.height - senderSize.height);
-        CCLOG("senderSize height: %f", senderSize.height);
-        CCLOG("scrollView size height: %f", scrollViewSize.height);
-        CCLOG("start position: %f", scrollViewSize.height - senderSize.height);
         return;
     }
     
@@ -44,8 +41,6 @@ void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
     }
     
     scrollView->setInnerContainerSize(Size(possibleNewPosition.x + senderSize.width, scrollViewSize.height));
-    
-    CCLOG("New innercontainer size: %f", scrollView->getInnerContainerSize().width);
 }
 
 NS_AZOOMEE_END

@@ -1,0 +1,49 @@
+{
+ "nodeId": "upgrade1",
+ "groupId": [
+   "upgrade",
+   "closedContent"
+ ],
+ "nodeSize": [
+   75,
+   50
+ ],
+ "closeButton": true,
+ "backgroundColour": [
+   255,
+   255,
+   255
+ ],
+ "buttons": [
+   {
+     "buttonId": "ok",
+     "actionId": "showUpgrade",
+     "position": [
+       70,
+       80
+     ],
+     "size": [
+       5,
+       5
+     ],
+     "text": "OK"
+   },
+   {
+     "buttonId": "help",
+     "actionId": "showHelp",
+     "position": [
+       80,
+       80
+     ],
+     "size": [
+       5,
+       5
+     ],
+     "text": "Help"
+   }
+ ],
+ "backgroundImage": {
+   "displayMode": "fill",
+   "data": ""
+ }
+}

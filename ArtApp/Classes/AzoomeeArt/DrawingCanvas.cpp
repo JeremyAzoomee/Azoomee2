@@ -694,8 +694,8 @@ void DrawingCanvas::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEventType
         Sprite* newSticker = Sprite::create(pressedButton->getNormalFile().file);
         newSticker->setAnchorPoint(Vec2(0.5,0.5));
         newSticker->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
-        stickerNode->setSticker(newSticker);
         stickerNode->reset();
+        stickerNode->setSticker(newSticker);
     }
     
     if(eEventType == ui::Widget::TouchEventType::CANCELED)
@@ -787,7 +787,9 @@ void DrawingCanvas::onConfirmStickerPressed(Ref *pSender, ui::Widget::TouchEvent
         //add sticker as node in drawing scene on undo stack
         
         if(drawingStack.size() == 0)
+        {
             clearButton->loadTextures(ArtAppAssetLoc + "art_button_undo.png", ArtAppAssetLoc + "undo.png");
+        }
         drawingStack.push_back(stickerNode->getSticker());
         Sprite* temp = stickerNode->getSticker();
         temp->retain(); //move sticker from sticker node to drawing canvas

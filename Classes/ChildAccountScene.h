@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/Input/TextInputLayer.h>
 #include <AzoomeeCommon/UI/ElectricDreamsButton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -13,7 +14,7 @@ class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, 
 {
 private:
     cocos2d::Sprite* _progressIndicatior = nullptr;
-    
+
     TextInputLayer *_childNameInputText = nullptr;
     TextInputLayer *_dayInputText = nullptr;
     TextInputLayer *_monthInputText = nullptr;
@@ -37,6 +38,8 @@ private:
     ElectricDreamsButton *_backButton = nullptr;
     ElectricDreamsButton *_submitButton = nullptr;
     
+    PrivacyLayer* _privacyLayer = nullptr;
+    
     void setupScene();
     void addBackgroundandDecoration();
     void addProgressIndicator();
@@ -44,6 +47,7 @@ private:
     void addLabelToScene();
     void addTextboxScene();
     void addButtonsScene();
+    void addPrivacyButton();
     
     void clearElementsOnScreen();
     
@@ -60,7 +64,7 @@ private:
     
     void registerChildAccount();
     
-    std::vector<ElectricDreamsButton*> _OomeeButtons;
+    std::vector<ElectricDreamsButton*> _oomeeButtons;
     int _selectedOomeeNo;
     
     void addOomeesToScene();

@@ -298,15 +298,19 @@ void AnalyticsSingleton::navSelectionEvent(std::string hubOrTop, int buttonNumbe
     
 void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type)
 {
-    contentItemSelectedEvent("", "", Type, "", -1, -1, "");
+    HQContentItemObjectRef contentItem = HQContentItemObject::create();
+    contentItem->setType(Type);
+    contentItemSelectedEvent(contentItem, -1, -1, "");
 }
     
 void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Type, const std::string& elementShape)
 {
-    contentItemSelectedEvent("", "", Type, "", -1, -1, elementShape);
+    HQContentItemObjectRef contentItem = HQContentItemObject::create();
+    contentItem->setType(Type);
+    contentItemSelectedEvent(contentItem, -1, -1, elementShape);
 }
     
-void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Title,const std::string& Description, const std::string& Type, const std::string& contentID, int rowNumber, int elementNumber, const std::string& elementShape)
+void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &contentItem, int rowNumber, int elementNumber, const std::string& elementShape)
 {
     SessionIdManager::getInstance()->resetBackgroundTimeInContent();
     
@@ -315,10 +319,10 @@ void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Title,const
     time(&timeOpenedContent);
 
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["Title"] = Title;
-    mixPanelProperties["Description"] = Description;
-    mixPanelProperties["Type"] = Type;
-    mixPanelProperties["ContentID"] = contentID;
+    mixPanelProperties["Title"] = contentItem->getTitle();
+    mixPanelProperties["Description"] = contentItem->getDescription();
+    mixPanelProperties["Type"] = contentItem->getType();
+    mixPanelProperties["ContentID"] = contentItem->getContentItemId();
     mixPanelProperties["rowNumber"] = cocos2d::StringUtils::format("%d", rowNumber);
     mixPanelProperties["elementNumber"] = cocos2d::StringUtils::format("%d", elementNumber);
     mixPanelProperties["elementShape"] = elementShape;
@@ -329,18 +333,16 @@ void AnalyticsSingleton::contentItemSelectedEvent(const std::string& Title,const
     appsFlyerSendEvent("contentItemSelectedEvent", mixPanelProperties);
 }
     
-void AnalyticsSingleton::updateContentItemDetails(std::map<std::string, std::string> contentItemDetails)
+void AnalyticsSingleton::updateContentItemDetails(const HQContentItemObjectRef &contentItem)
 {
-    if (contentItemDetails.find("id") == contentItemDetails.end()) return;
-    
     std::map<std::string, std::string> mixPanelProperties;
-    mixPanelProperties["Title"] = contentItemDetails["title"];
-    mixPanelProperties["Description"] = contentItemDetails["description"];
-    mixPanelProperties["Type"] = contentItemDetails["type"];
-    mixPanelProperties["ContentID"] = contentItemDetails["id"];
+    mixPanelProperties["Title"] = contentItem->getTitle();
+    mixPanelProperties["Description"] = contentItem->getDescription();
+    mixPanelProperties["Type"] = contentItem->getType();
+    mixPanelProperties["ContentID"] = contentItem->getContentItemId();
+    mixPanelProperties["elementNumber"] = contentItem->getElementNumber();
+    
     mixPanelProperties["rowNumber"] = storedContentItemProperties["rowNumber"];
-    mixPanelProperties["elementNumber"] = contentItemDetails["elementNumber"];
-    mixPanelProperties["elementShape"] = contentItemDetails["elementShape"];
     
     storedContentItemProperties = mixPanelProperties;
 }
@@ -647,7 +649,7 @@ void AnalyticsSingleton::deepLinkingContentEvent()
         
         mixPanelSendEventWithStoredProperties("settingsPendingFriendRequestsRefreshError", mixPanelProperties);
     }
-    
+
     void AnalyticsSingleton::settingsConfirmationRejectedSuccess()
     {
         mixPanelSendEventWithStoredProperties("settingsConfirmationRejectedSuccess");
@@ -725,5 +727,23 @@ void AnalyticsSingleton::deepLinkingContentEvent()
     {
         mixPanelSendEventWithStoredProperties("chatResetReportedEvent");
     }
+
+//-------------------------------------CTA ACTIONS-----------------------------
+void AnalyticsSingleton::ctaButtonPressed(const std::string &buttonId)
+{
+    const std::map<std::string, std::string> &mixPanelProperties = {{ "buttonId", buttonId }, { "groupId", ctaWindowGroupId }, {"nodeId", ctaWindowNodeId}};
     
+    mixPanelSendEventWithStoredProperties("ctaButtonPressed", mixPanelProperties);
+}
+
+void AnalyticsSingleton::ctaWindowAppeared(const std::string &groupId, const std::string &nodeId)
+{
+    ctaWindowNodeId = nodeId;
+    ctaWindowGroupId = groupId;
+    
+    const std::map<std::string, std::string> &mixPanelProperties = {{ "groupId", groupId }, {"nodeId", nodeId}};
+    
+    mixPanelSendEventWithStoredProperties("ctaWindowAppeared", mixPanelProperties);
+}
+
 }

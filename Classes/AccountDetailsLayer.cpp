@@ -10,6 +10,7 @@
 #include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
 #include "RoutePaymentSingleton.h"
+#include "IAPDetailsLayer_ios.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -70,12 +71,15 @@ void AccountDetailsLayer::addUIObjects()
         this->addChild(iapButton);
     }
     else
+    {
         addRichTextLabel("Premium Account");
+    }
     
     // ------- LOG OUT BUTTON ----------
     
-    logoutButton = ElectricDreamsButton::createGreenButton(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT), visibleSize.width/3);
-    logoutButton->setCenterPosition(Vec2(visibleSize.width /2, layerHeight*.4));
+
+    logoutButton = ElectricDreamsButton::createSecondaryButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT), visibleSize.width/3);
+    logoutButton->setCenterPosition(Vec2(visibleSize.width /2, layerHeight * 0.3f));
     logoutButton->setDelegate(this);
     logoutButton->setMixPanelButtonName("Log Out");
     this->addChild(logoutButton);
@@ -86,10 +90,20 @@ void AccountDetailsLayer::addRichTextLabel(std::string BOLDText)
     cocos2d::ui::RichText* richTextLabel = cocos2d::ui::RichText::create();
     richTextLabel->setAnchorPoint(Vec2(0.5,0.5));
     
-    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::BLACK, 255, "You have a ", Style::Font::Regular, 84));
-    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::BLACK, 255, BOLDText, Style::Font::Bold, 84));
-    richTextLabel->setPosition(Vec2(visibleSize.width/2,layerHeight*.6));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, "You have a ", Style::Font::Regular, 84));
+    richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::WHITE, 255, BOLDText, Style::Font::Bold, 84));
+    richTextLabel->setPosition(Vec2(visibleSize.width/2,layerHeight * 0.6f));
     this->addChild(richTextLabel);
+    
+    // ------- LEARN MORE BUTTON ------------
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    learnMoreButton = ElectricDreamsButton::createTextAsButtonAqua("Learn about Subscriptions", 40, true);
+    learnMoreButton->setPosition(this->getContentSize().width / 2 - learnMoreButton->getContentSize().width / 2, layerHeight * 0.5f);
+    learnMoreButton->setDelegate(this);
+    learnMoreButton->setMixPanelButtonName("IAPUpsaleSceneLearnMoreButton");
+    this->addChild(learnMoreButton);
+#endif
 }
 
 
@@ -110,6 +124,10 @@ void AccountDetailsLayer::buttonPressed(ElectricDreamsButton* button)
     {
         AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("Settings");
         IAPUpsaleLayer::create();
+    }
+    else if(button == learnMoreButton)
+    {
+        IAPDetailsLayer_ios::create();
     }
 }
 

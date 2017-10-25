@@ -4,6 +4,7 @@
 #include <cocos/cocos2d.h>
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Azoomee.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -15,7 +16,7 @@ public:
     virtual bool init();
     
     void setCategory(std::string category);
-    void setItemData(std::map<std::string, std::string> itemData);
+    void setItemData(const HQContentItemObjectRef &itemData);
     void setShape(cocos2d::Vec2 shape);
     void setDelay(float delay);
     void setCreatedForOffline(bool createdForOffline);
@@ -28,7 +29,7 @@ public:
 private:
     bool shouldDisplayVisualElementsOverImage = false;
     std::string elementCategory;
-    std::map<std::string, std::string> elementItemData;
+    HQContentItemObjectRef elementItemData;
     cocos2d::Vec2 elementShape;
     float elementDelay;
     bool elementCreatedForOffline = false;

@@ -52,12 +52,12 @@ void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer, float withDelay, fl
     auto wireLeft = Sprite::create("res/decoration/wireLeft_MainHub.png");
     wireLeft->setName("Wire");
     wireLeft->setPosition(wireLeft->getContentSize().width / -2 + origin.x, visibleSize.height / 2 + origin.y);
-    parentLayer->addChild(wireLeft);
+    parentLayer->addChild(wireLeft, 0);
     
     auto wireRight = Sprite::create("res/decoration/wireRight_MainHub.png");
     wireRight->setName("Wire");
     wireRight->setPosition(wireRight->getContentSize().width / 2 + visibleSize.width + origin.x, visibleSize.height / 2 + origin.y);
-    parentLayer->addChild(wireRight);
+    parentLayer->addChild(wireRight, 0);
     
     wireLeft->runAction(Sequence::create(DelayTime::create(withDelay), EaseOut::create(MoveTo::create(1, Vec2(wireLeft->getContentSize().width / 2+ origin.x, visibleSize.height / 2 + origin.y)), withDuration), NULL));
     
@@ -72,12 +72,12 @@ void addMainHubSideWiresToScreen(cocos2d::Node* parentLayer)
     auto wireLeft = Sprite::create("res/decoration/wireLeft_MainHub.png");
     wireLeft->setName("Wire");
     wireLeft->setPosition(wireLeft->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
-    parentLayer->addChild(wireLeft);
+    parentLayer->addChild(wireLeft, 0);
     
     auto wireRight = Sprite::create("res/decoration/wireRight_MainHub.png");
     wireRight->setName("Wire");
     wireRight->setPosition(visibleSize.width - wireRight->getContentSize().width / 2, visibleSize.height / 2 + origin.y);
-    parentLayer->addChild(wireRight);
+    parentLayer->addChild(wireRight, 0);
 
 }
     

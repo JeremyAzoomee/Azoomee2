@@ -9,8 +9,10 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "HQSceneElementPositioner.h"
 #include "ArtAppImageConverter.h"
-#include <dirent.h>
+#include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <algorithm>
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
+
 
 using namespace cocos2d;
 
@@ -29,26 +31,25 @@ bool HQSceneArtsApp::init()
 void HQSceneArtsApp::onEnter()
 {
     createArtsAppScrollView();
+    addPrivacyButton();
     
     Node::onEnter();
 }
 
 //------------------ All functions below this line are used internally ----------------------------
 
-cocos2d::ui::ScrollView* HQSceneArtsApp::createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position)
+cocos2d::ui::ScrollView* HQSceneArtsApp::createHorizontalScrollView(cocos2d::Size contentSize)
 {
     auto scrollView = cocos2d::ui::ScrollView::create();
     scrollView->setContentSize(contentSize);
     scrollView->setInnerContainerSize(contentSize);
-    scrollView->setPosition(position);
+    scrollView->setAnchorPoint(Vec2(0.0f, 0.5f));
+    scrollView->setPosition(Vec2(0,Director::getInstance()->getVisibleOrigin().y+Director::getInstance()->getVisibleSize().height*.4));
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     scrollView->setBounceEnabled(true);
     scrollView->setTouchEnabled(true);
     scrollView->setSwallowTouches(false);
     scrollView->setScrollBarEnabled(false);
-    scrollView->setBackGroundColorType(cocos2d::ui::Layout::BackGroundColorType::SOLID);
-    scrollView->setBackGroundColor(Color3B::WHITE);
-    scrollView->setBackGroundColorOpacity(25);
     
     return scrollView;
 }
@@ -58,7 +59,7 @@ void HQSceneArtsApp::createArtsAppScrollView()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height*2), Point(0, 300));
+    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height*2));
     this->addChild(horizontalScrollView);
     
     const std::string& parentOrChildId = ChildDataProvider::getInstance()->getParentOrChildId();
@@ -72,23 +73,24 @@ void HQSceneArtsApp::createArtsAppScrollView()
     addCreatedImagesToHorizontalScrollView(horizontalScrollView);
 }
 
+void HQSceneArtsApp::addPrivacyButton()
+{
+    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    privacyLayer->setCenterPosition(Vec2(Director::getInstance()->getVisibleOrigin().x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,Director::getInstance()->getVisibleOrigin().y + privacyLayer->getContentSize().height));
+    this->addChild(privacyLayer);
+}
+
 void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    bool locked = !ChildDataProvider::getInstance()->getIsChildLoggedIn();
-    
-    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), true, false, locked);
+    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), true, false);
 }
 
 void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    
-    //std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId();
     std::string path = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
-    std::vector<std::string> fileList = getFilesInDirectory(path);
+    std::vector<std::string> fileList = DirectorySearcher::getInstance()->getFilesInDirectory(path);
     
     std::reverse(fileList.begin(), fileList.end());
-    
-    CCLOG("imagepath: %s", path.c_str());
     
     for(int i = 0; i < fileList.size(); i++)
     {
@@ -96,19 +98,17 @@ void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollV
         {
             if(fileList.at(i).substr(fileList.at(i).size() -3, 3) == "png")
             {
-                bool locked = !ChildDataProvider::getInstance()->getIsChildLoggedIn();
-                
                 std::string imagePath = StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str());
-                addImageToHorizontalScrollView(toBeAddedTo, imagePath, false, true, locked);
+                addImageToHorizontalScrollView(toBeAddedTo, imagePath, false, true);
             }
         }
     }
 }
 
-void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable, bool locked)
+void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable)
 {
     auto artImage = ArtsAppHQElement::create();
-    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable, locked,false);
+    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable,false);
     
     toBeAddedTo->addChild(artImage);
     
@@ -120,7 +120,7 @@ void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toB
 std::vector<std::string> HQSceneArtsApp::getOldArtImages()
 {
     std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::vector<std::string>& fileList = getFilesInDirectory(path);
+    const std::vector<std::string>& fileList = DirectorySearcher::getInstance()->getFilesInDirectory(path);
     std::vector<std::string> imagList;
     for(int i = 0; i < fileList.size(); i++)
     {
@@ -136,26 +136,5 @@ std::vector<std::string> HQSceneArtsApp::getOldArtImages()
     return imagList;
 }
 
-std::vector<std::string> HQSceneArtsApp::getFilesInDirectory(std::string path)
-{
-    std::vector<std::string> fileNames;
-    
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir (path.c_str())) != NULL)
-    {
-        while ((ent = readdir (dir)) != NULL)
-        {
-            fileNames.push_back(ent->d_name);
-        }
-        closedir (dir);
-        return fileNames;
-    }
-    else
-    {
-        perror ("");
-        return fileNames;
-    }
-}
 
 NS_AZOOMEE_END

@@ -1,4 +1,5 @@
 #include "VideoPlaylistManager.h"
+#include "HQDataProvider.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
@@ -24,36 +25,40 @@ VideoPlaylistManager::~VideoPlaylistManager(void)
 
 bool VideoPlaylistManager::init(void)
 {
+    _storedPlaylist = HQCarouselObject::create();
     return true;
 }
 
-void VideoPlaylistManager::setPlaylist(std::vector<std::map<std::string, std::string>> playlist)
+void VideoPlaylistManager::setPlaylist(const HQCarouselObjectRef &playlist)
 {
-    storedPlaylist = playlist;
+    _storedPlaylist = playlist;
 }
 
 void VideoPlaylistManager::clearPlaylist()
 {
-    storedPlaylist.clear();
+    _storedPlaylist->removeAllItemsFromCarousel();
 }
 
 std::string VideoPlaylistManager::getPlaylist()
 {
     std::string returnString;
     
-    if(storedPlaylist.size() == 0) returnString = "noPlaylist";
+    if(_storedPlaylist->getContentItems().size() == 0) returnString = "noPlaylist";
     else
     {
         std::vector<std::map<std::string, std::string>> playlistElements;
         
-        for(int i = 0; i < storedPlaylist.size(); i++)
+        for(auto item : _storedPlaylist->getContentItems())
         {
-            std::map<std::string, std::string> elementToBeAdded;
-            elementToBeAdded["uri"] = storedPlaylist.at(i)["uri"];
-            elementToBeAdded["image"] = storedPlaylist.at(i)["image"];
-            elementToBeAdded["title"] = storedPlaylist.at(i)["title"];
-            
-            playlistElements.push_back(elementToBeAdded);
+            if(item->isEntitled())
+            {
+                std::map<std::string, std::string> elementToBeAdded;
+                elementToBeAdded["uri"] = item->getUri();
+                elementToBeAdded["image"] = HQDataProvider::getInstance()->getImageUrlForItem(item->getContentItemId(), Vec2(1,1));
+                elementToBeAdded["title"] = item->getTitle();
+                
+                playlistElements.push_back(elementToBeAdded);
+            }
         }
         
         returnString = Azoomee::getJSONStringFromVectorOfMaps(playlistElements);
@@ -66,13 +71,17 @@ std::string VideoPlaylistManager::getPlaylist()
     return StringUtils::format("%s", output);
 }
 
-std::map<std::string, std::string> VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)
+HQContentItemObjectRef VideoPlaylistManager::getContentItemDataForPlaylistElement(int elementNumber)
 {
-    std::map<std::string, std::string> returnData;
-    if(elementNumber >= storedPlaylist.size() || elementNumber < 0) return returnData;
+    HQContentItemObjectRef returnData = HQContentItemObject::create();
+    if(elementNumber >= _storedPlaylist->getContentItems().size() || elementNumber < 0)
+    {
+        return returnData;
+    }
     
-    returnData = storedPlaylist.at(elementNumber);
-    returnData["image"].clear();
+    returnData = _storedPlaylist->getContentItems().at(elementNumber);
+    returnData->setElementNumber(elementNumber);
+    returnData->setImagePath("");
     
     return returnData;
 }

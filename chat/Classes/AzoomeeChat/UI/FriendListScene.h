@@ -9,7 +9,7 @@
 #include <AzoomeeCommon/UI/Scene.h>
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
 
 NS_AZOOMEE_CHAT_BEGIN
     
@@ -25,6 +25,8 @@ private:
     cocos2d::ui::Layout* _rootLayout = nullptr;
     /// Titlebar at the top of the screen
     TitleBarWidget* _titleBar = nullptr;
+    /// Privacy Policy button, top right of Titlebar
+    PrivacyLayer* _privacyButton = nullptr;
     
     /// Container layout for the content (always sits below the titlebar)
     cocos2d::ui::Layout* _contentLayout = nullptr;

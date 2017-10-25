@@ -4,7 +4,8 @@
 #include "OfflineText.h"
 #include "OfflineGameSearch.h"
 #include "HQHistoryManager.h"
-#include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
+#include <AzoomeeCommon/Data/Child/ChildDataParser.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -27,6 +28,7 @@ bool OfflineHubScene::init()
         return false;
     }
     
+    ChildDataParser::getInstance()->setChildLoggedIn(false);
     HQHistoryManager::getInstance()->isOffline = true;
     UserDefault* def = UserDefault::getInstance();
     std::string lastLoggedInChildId = def->getStringForKey("lastLoggedInChildId");
@@ -34,8 +36,8 @@ bool OfflineHubScene::init()
     
     if(lastLoggedInChildId != "")
     {
-        ChildDataStorage::getInstance()->childLoggedIn = true;
-        ChildDataStorage::getInstance()->loggedInChildId = lastLoggedInChildId;
+        ChildDataParser::getInstance()->setChildLoggedIn(true);
+        ChildDataParser::getInstance()->setLoggedInChildId(lastLoggedInChildId);
     }
     
     return true;
@@ -46,7 +48,7 @@ void OfflineHubScene::onEnterTransitionDidFinish()
     addVisuals();
     addOfflineText();
     
-    if(ChildDataStorage::getInstance()->childLoggedIn) addHubHQ();
+    if(ChildDataProvider::getInstance()->getIsChildLoggedIn()) addHubHQ();
 }
 
 //All calls are private below this line
@@ -68,11 +70,6 @@ void OfflineHubScene::addHubHQ()
 {
     auto offlineGameSearch = OfflineGameSearch::create();
     std::vector<std::map<std::string, std::string>> gameList = offlineGameSearch->getOfflineGamesList();
-    
-    for(int i = 0; i < gameList.size(); i++)
-    {
-        CCLOG("gameList: %s", gameList.at(i)["id"].c_str());
-    }
     
     auto offlineHubHQ = OfflineHubHQ::create();
     offlineHubHQ->createOfflineHQ(gameList);

@@ -1,0 +1,75 @@
+{
+ "nodeId": "mix3",
+ "groupId": [
+   "upgrade",
+   "closedContent"
+ ],
+ "nodeSize": [
+   70,
+   67
+ ],
+ "nodeText": {
+    "titleText": {
+        "position": [50,96],
+        "text": "Smart Screen Time",
+        "alignment": "centre",
+        "fontSize": 94,
+        "colour": [63,170,170,255]
+    },
+    "bodyText": [
+        {
+            "position": [50,37],
+            "text": "Learning and fun through the shows and games they love.\nAzoomee is much more than just screen time",
+            "alignment": "centre",
+            "fontSize": 63,
+            "colour": [0,0,0,255]
+        }
+    ],
+    "footerText": {
+        "position": [50,6],
+        "text": "\"It's everything my kids want and need in one safe place! Love it\"            Claire, Mum of two",
+        "alignment": "centre",
+        "fontSize": 42,
+        "colour": [9,155,155,255]
+    }
+ },
+ "closeButton": true,
+ "backgroundColour": [
+   255,
+   255,
+   255
+ ],
+ "buttons": [
+   {
+     "buttonId": "upgrade",
+     "action": {
+        "type":"internal",
+        "params": {
+            "location":"showUpgrade"
+        }
+     },
+     "position": [
+       50,
+       18
+     ],
+     "size": [
+       25,
+       12
+     ],
+     "text": "Upgrade"
+   }
+ ],
+ "backgroundImage": {
+   "displayMode": "fit",
+   "position": 87,
+   "file": "upgrade/bubbles_mix.jpg"
+ },
+ "images": [
+    {
+        "position": [71,5],
+        "size": [3,4],
+        "opacity": 255,
+        "file": "misc/love_it.png"
+    }
+ ]
+}

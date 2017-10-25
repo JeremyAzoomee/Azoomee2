@@ -14,6 +14,7 @@
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
 
 using namespace cocos2d;
 
@@ -55,6 +56,7 @@ void ChildAccountScene::onEnter()
     addTextboxScene();
     addLabelToScene();
     addButtonsScene();
+    addPrivacyButton();
     setNewLayout();
     addOomeesToScene();
     
@@ -94,7 +96,7 @@ void ChildAccountScene::addProgressIndicator()
     }
 }
 
-void ChildAccountScene::AddTitleToScene()
+void ChildAccountScene::addTitleToScene()
 {
     float progressIndicatorHeight = 0.0f;
     
@@ -106,7 +108,7 @@ void ChildAccountScene::AddTitleToScene()
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
         _sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
-        _sceneTitle->setPositionY(_progressIndicatior->getPositionY()-_progressIndicatior->getContentSize().height-_sceneTitle->getContentSize().height/2 - progressIndicatorHeight);
+        //_sceneTitle->setPositionY(_progressIndicatior->getPositionY()-_progressIndicatior->getContentSize().height-_sceneTitle->getContentSize().height/2 - progressIndicatorHeight);
     }
     else
     {
@@ -167,10 +169,8 @@ void ChildAccountScene::addLabelToScene()
     this->addChild(_oomeesTitle);
 }
 
-
 void ChildAccountScene::addButtonsScene()
 {
-    
     _nextButton = ElectricDreamsButton::createGreenButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE),_visibleSize.width/3);
     _nextButton->setOpacity(80);
     _nextButton->setCenterPosition(Vec2(_visibleSize.width*.75+_origin.x, _dayInputText->getPositionY()-_nextButton->getContentSize().height*1.9));
@@ -203,6 +203,13 @@ void ChildAccountScene::addButtonsScene()
     this->addChild(_backButton);
 }
 
+void ChildAccountScene::addPrivacyButton()
+{
+    _privacyLayer = PrivacyLayer::create();
+    _privacyLayer->setCenterPosition(Vec2(_origin.x + _privacyLayer->getContentSize().height + _privacyLayer->getContentSize().width/2.0f,_nextButtonPlaceholder->getPositionY() - _privacyLayer->getContentSize().height*2.0f));
+    this->addChild(_privacyLayer);
+}
+
 //------------CHANGE SCREEN VISUALS ON BUTTON PRESS----------------------
 
 void ChildAccountScene::clearElementsOnScreen()
@@ -228,6 +235,8 @@ void ChildAccountScene::clearElementsOnScreen()
     _submitButton->setVisible(false);
     _submitButton->setOpacity(80);
     _submitButton->setDelegate(nullptr);
+    _privacyLayer->setVisible(false);
+
     
     hideOomees();
 }
@@ -242,9 +251,13 @@ void ChildAccountScene::changeElementsToTextInputScreen()
     }
 
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
+    {
         _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
+    }
     else
+    {
         _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
+    }
     
     _childNameInputText->setEditboxVisibility(true);
     _dayInputText->setEditboxVisibility(true);
@@ -261,6 +274,7 @@ void ChildAccountScene::changeElementsToTextInputScreen()
     }
     
     _nextButton->setVisible(true);
+    _privacyLayer->setVisible(true);
     
     _childNameInputText->focusAndShowKeyboard();
 }
@@ -273,9 +287,8 @@ void ChildAccountScene::changeElementsToOomeeScreen()
     {
         _progressIndicatior->setTexture("res/decoration/progress3.png");
     }
-    
+
     _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_SELECT_OOMEE_TITLE_LABEL));
-    
     _oomeesTitle->setVisible(true);
     
     _submitButton->setVisible(true);
@@ -287,17 +300,23 @@ void ChildAccountScene::changeElementsToOomeeScreen()
 //----------------OOMEE SCREEN FUNCTIONS---------------
 void ChildAccountScene::addOomeesToScene()
 {
-    std::vector<cocos2d::Vec2> oomeePositions = {Vec2(0.5, 0.47), Vec2(0.3, 0.29), Vec2(0.7, 0.29), Vec2(0.3, 0.65), Vec2(0.7, 0.65)};
+    std::vector<cocos2d::Vec2> oomeePositions = {
+        Vec2(0.5f, 0.47f),
+        Vec2(0.3f, 0.29f),
+        Vec2(0.7f, 0.29f),
+        Vec2(0.3f, 0.65f),
+        Vec2(0.7f, 0.65f)
+    };
     
     for(int i=0;i< NO_OF_OOMEES;i++)
     {
         auto oomeeButton = ElectricDreamsButton::createOomeeAsButton(i);
         oomeeButton->setDelegate(this);
         oomeeButton->setVisible(false);
-        oomeeButton->setScale(1.3);
+        oomeeButton->setScale(1.3f);
         oomeeButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width * oomeePositions.at(i).x, _origin.y + _visibleSize.height * oomeePositions.at(i).y));
         this->addChild(oomeeButton);
-        _OomeeButtons.push_back(oomeeButton);
+        _oomeeButtons.push_back(oomeeButton);
     }
     
     ModalMessages::getInstance()->stopLoading();
@@ -305,19 +324,19 @@ void ChildAccountScene::addOomeesToScene()
 
 void ChildAccountScene::hideOomees()
 {
-    for(int i=0;i< _OomeeButtons.size();i++)
+    for(int i=0;i< _oomeeButtons.size();i++)
     {
-        _OomeeButtons.at(i)->setVisible(false);
-        _OomeeButtons.at(i)->setScale(1.3);
+        _oomeeButtons.at(i)->setVisible(false);
+        _oomeeButtons.at(i)->setScale(1.3f);
     }
 }
 
 void ChildAccountScene::showOomees()
 {
-    for(int i=0;i< _OomeeButtons.size();i++)
+    for(int i=0;i< _oomeeButtons.size();i++)
     {
-        _OomeeButtons.at(i)->setVisible(true);
-        _OomeeButtons.at(i)->playOomeeAnimationNoSound("Build_Simple_Wave");
+        _oomeeButtons.at(i)->setVisible(true);
+        _oomeeButtons.at(i)->playOomeeAnimationNoSound("Build_Simple_Wave");
     }
 }
 
@@ -326,20 +345,20 @@ void ChildAccountScene::selectOomee(int oomeeNumber)
     AnalyticsSingleton::getInstance()->childProfileOomeeEvent(oomeeNumber);
     _selectedOomeeNo = oomeeNumber;
     
-    for(int i=0;i< _OomeeButtons.size();i++)
+    for(int i=0;i< _oomeeButtons.size();i++)
     {
-        if(_OomeeButtons.at(i)->getTag() == oomeeNumber)
+        if(_oomeeButtons.at(i)->getTag() == oomeeNumber)
         {
             _submitButton->setOpacity(255);
             _submitButton->setDelegate(this);
             _selectedOomeeNo = oomeeNumber;
-            _OomeeButtons.at(i)->playOomeeAnimation("Build_Dance_Wave", true);
-            _OomeeButtons.at(i)->setScale(1.7);
+            _oomeeButtons.at(i)->playOomeeAnimation("Build_Dance_Wave", true);
+            _oomeeButtons.at(i)->setScale(1.7f);
         }
         else
         {
-            _OomeeButtons.at(i)->playOomeeAnimationNoSound("Build_Fall_Asleep");
-            _OomeeButtons.at(i)->setScale(1);
+            _oomeeButtons.at(i)->playOomeeAnimationNoSound("Build_Fall_Asleep");
+            _oomeeButtons.at(i)->setScale(1.0f);
         }
     }
 }
@@ -378,11 +397,11 @@ void ChildAccountScene::registerChildAccount()
     auto backEndCaller = BackEndCaller::getInstance();
     if((FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()) && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
     {
-        backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, this->_selectedOomeeNo);
+        backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, _selectedOomeeNo);
     }
     else
     {
-        backEndCaller->registerChild(profileName, gender, DOB, this->_selectedOomeeNo);
+        backEndCaller->registerChild(profileName, gender, DOB, _selectedOomeeNo);
     }
 }
 

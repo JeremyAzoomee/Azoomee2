@@ -38,7 +38,7 @@ void HQSceneElementVisual::setCategory(std::string category)
     elementCategory = category;
 }
 
-void HQSceneElementVisual::setItemData(std::map<std::string, std::string> itemData)
+void HQSceneElementVisual::setItemData(const HQContentItemObjectRef &itemData)
 {
     elementItemData = itemData;
 }
@@ -65,7 +65,7 @@ cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
     setShouldDisplayVisualElementsOverImage();
     createCallbackFunction(elementDelay);
     
-    elementUrl = HQDataProvider::getInstance()->getImageUrlForItem(elementItemData["id"], elementShape);
+    elementUrl = HQDataProvider::getInstance()->getImageUrlForItem(elementItemData->getContentItemId(), elementShape);
     
     return this;
 }
@@ -86,36 +86,60 @@ void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
     // OR
     // if size is 1x2 or 2x2 AND element is Video or Video Group
     
-    if(elementItemData["type"] =="GAME")
+    if(elementItemData->getType() =="GAME")
+    {
         shouldDisplayVisualElementsOverImage = false;
+    }
     else if(elementShape.x == 1 && elementShape.y == 1)
+    {
         shouldDisplayVisualElementsOverImage = true;
-    else if(elementItemData["type"] == "VIDEO" || elementItemData["type"] =="GROUP")
+    }
+    else if(elementItemData->getType() == "VIDEO" || elementItemData->getType() =="GROUP")
+    {
         shouldDisplayVisualElementsOverImage = false;
+    }
     else
+    {
         shouldDisplayVisualElementsOverImage = true;
+    }
+    
 }
 
 void HQSceneElementVisual::createCallbackFunction(float delay)
 {
     auto funcCallAction = CallFunc::create([=](){
         
-        if(!aboutToExit) addImageDownloader();
-        if(!aboutToExit && shouldDisplayVisualElementsOverImage) addGradientToBottom();
+        if(!aboutToExit)
+        {
+            addImageDownloader();
+        }
+        
+        if(!aboutToExit && shouldDisplayVisualElementsOverImage)
+        {
+            addGradientToBottom();
+        }
         
         if(!aboutToExit && shouldDisplayVisualElementsOverImage)
         {
             auto iconSprite = addIconToImage();
             if(!isOffline)
+            {
                 addLabelsToImage(iconSprite);
+            }
         }
         
-        if(elementItemData["entitled"] != "true")
+        if(!elementItemData->isEntitled())
         {
-            if(!aboutToExit) addLockToElement();
+            if(!aboutToExit)
+            {
+                addLockToElement();
+            }
         }
         
-        if(!aboutToExit) addTouchOverlayToElement();
+        if(!aboutToExit)
+        {
+            addTouchOverlayToElement();
+        }
     });
     
     this->runAction(Sequence::create(DelayTime::create(elementDelay), funcCallAction, NULL));
@@ -126,11 +150,13 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
 void HQSceneElementVisual::addImageDownloader()
 {
     RemoteImageSprite *imageDownloader = RemoteImageSprite::create();
-    imageDownloader->initWithURLAndSize(elementUrl, elementItemData["type"], Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), elementShape);
+    imageDownloader->initWithURLAndSize(elementUrl, elementItemData->getType(), Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), elementShape);
     imageDownloader->setPosition(baseLayer->getContentSize() / 2);
     
-    if(elementItemData["newFlag"] == "true")
+    if(elementItemData->isNew())
+    {
         imageDownloader->setAttachNewBadgeToImage();
+    }
     
     baseLayer->addChild(imageDownloader);
 }
@@ -186,13 +212,13 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
 {
     float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().height);
     
-    auto descriptionLabel = createLabelContentDescription(elementItemData["description"]);
+    auto descriptionLabel = createLabelContentDescription(elementItemData->getDescription());
     descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.2f));
     descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() - nextToIcon->getContentSize().height/2 * nextToIcon->getScale());
     reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
     baseLayer->addChild(descriptionLabel);
     
-    auto titleLabel = createLabelContentTitle(elementItemData["title"]);
+    auto titleLabel = createLabelContentTitle(elementItemData->getTitle());
     titleLabel->setAnchorPoint(Vec2(0.0f, 0.6f));
     titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
     reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
@@ -204,7 +230,7 @@ void HQSceneElementVisual::addLockToElement()
     Layer* lockedOverlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, baseLayer->getContentSize().width, baseLayer->getContentSize().height);
     lockedOverlay->setPosition(0,0);
     baseLayer->addChild(lockedOverlay);
-    auto lockImage = Sprite::create(HQDataProvider::kLockFiles.at(elementItemData["type"]));
+    auto lockImage = Sprite::create(HQDataProvider::kLockFiles.at(elementItemData->getType()));
     lockImage->setPosition(baseLayer->getContentSize().width, 0);
     lockImage->setAnchorPoint(Vec2(1,0));
     baseLayer->addChild(lockImage);

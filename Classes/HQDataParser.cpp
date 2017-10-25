@@ -1,5 +1,4 @@
 #include "HQDataParser.h"
-#include "HQDataStorage.h"
 #include "HQDataProvider.h"
 
 #include <external/json/document.h>
@@ -7,12 +6,22 @@
 #include <external/json/stringbuffer.h>
 #include <external/json/prettywriter.h>
 
+#include <AzoomeeCommon/Data/Json.h>
+
 #include "HQScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
 #include "BaseScene.h"
+#include "MainHubScene.h"
+
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+
+#include <AzoomeeCommon/UI/ModalMessages.h>
 
 using namespace cocos2d;
 
@@ -40,148 +49,130 @@ bool HQDataParser::init(void)
     return true;
 }
 
-bool HQDataParser::parseHQData(std::string responseString, const char *category)
+bool HQDataParser::parseHQData(const std::string &responseString, const char *category)
 {
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
     std::vector<std::map<std::string, std::string>> HQElements;
-    std::map <std::string, Vec2> elementHighlightWithTitle;
+    
+    if ((contentData.HasParseError())||(!contentData.HasMember("items")))
+    {
+        return false;
+    }
+    
+    HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->clearData();
     
     rapidjson::Value::MemberIterator M;
-    const char *key;
-    
-    if (contentData.HasParseError()) return false; //JSON HAS ERRORS IN IT
     
     for (M=contentData["items"].MemberBegin(); M!=contentData["items"].MemberEnd(); M++)
     {
-        key   = M->name.GetString();
-        std::map<std::string, std::string> elementProperty;
+        const char *key = M->name.GetString();
         
         if (key!=NULL)
         {
-            elementProperty["id"] = key;  //first we set up the id for the content, then we go through the properties. Reason for this: the id is the key for the contents itself, not included within the record.
-            std::vector<std::string> itemNames = {"title", "description", "type", "uri"}; //we need values for these keys from the record.
+            HQContentItemObjectRef contentObject = HQContentItemObject::create();
+
+            const rapidjson::Value &itemData = contentData["items"][key];
             
-            for(int i = 0; i < itemNames.size(); i++)
-            {
-                elementProperty[itemNames.at(i).c_str()] = "";
-                
-                if(contentData["items"][key].HasMember(itemNames.at(i).c_str()))
-                    if(!contentData["items"][key][itemNames.at(i).c_str()].IsNull())
-                        if(contentData["items"][key][itemNames.at(i).c_str()].IsString())
-                            elementProperty[itemNames.at(i).c_str()] = contentData["items"][key][itemNames.at(i).c_str()].GetString();
-            }
+            contentObject->setContentItemId(key);
+            contentObject->setTitle(getStringFromJson("title", itemData));
+            contentObject->setDescription(getStringFromJson("description", itemData));
+            contentObject->setType(getStringFromJson("type", itemData));
+            contentObject->setUri(getStringFromJson("uri", itemData));
+            contentObject->setEntitled(getBoolFromJson("entitled", itemData));
+            contentObject->setNewFlag(getBoolFromJson("newFlag", itemData));
             
-            std::vector<std::string> itemProperties = {"entitled", "newFlag"};
-            
-            elementProperty["entitled"] = "true";
-            
-            if(contentData["items"][key].HasMember("entitled"))
-                if(!contentData["items"][key]["entitled"].IsNull())
-                    if(contentData["items"][key]["entitled"].IsBool())
-                        if(!contentData["items"][key]["entitled"].GetBool())
-                            elementProperty["entitled"] = "false";
-            
-            elementProperty["newFlag"] = "false";
-            
-            if(contentData["items"][key].HasMember("newFlag"))
-                if(!contentData["items"][key]["newFlag"].IsNull())
-                    if(contentData["items"][key]["newFlag"].IsBool())
-                        if(contentData["items"][key]["newFlag"].GetBool())
-                            elementProperty["newFlag"] = "true";
-            
-            HQElements.push_back(elementProperty);
+            HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addContentItemToRawStorage(key, contentObject);
         }
     }
-    
-    HQDataStorage::getInstance()->HQData[StringUtils::format("%s", category)].clear();
-    HQDataStorage::getInstance()->HQData[StringUtils::format("%s", category)] = HQElements;
     
     return true;
 }
 
-bool HQDataParser::parseHQStructure(std::string responseString, const char *category)
+bool HQDataParser::parseHQStructure(const std::string &responseString, const char *category)
 {
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
-    std::vector<std::map<std::string, std::string>> HQElements;
-    std::vector<std::string> actualListTitles;
-    std::vector<std::vector<std::string>> actualListElements;
-    std::vector<std::vector<Vec2>> actualListHighlights;
     
     if (contentData.HasParseError()) return false; //JSON HAS ERRORS IN IT
     
-    CCLOG("Category : %s, size: %d", category, contentData["rows"].Size());
-    
     for (int i = 0; i < contentData["rows"].Size(); i++)
     {
-        if(contentData["rows"][i]["title"].IsNull())
-        {
-            actualListTitles.push_back("");
-        }
-        else actualListTitles.push_back(contentData["rows"][i]["title"].GetString());
+        HQCarouselObjectRef carouselObject = HQCarouselObject::create();
         
-        std::vector<std::string> contentIds;
-        std::vector<Vec2> listHighlights;
+        carouselObject->setTitle(getStringFromJson("title", contentData["rows"][i]));
         
         if(contentData["rows"][i]["contentIds"].Size() != 0)
         {
             for(int j = 0; j < contentData["rows"][i]["contentIds"].Size(); j++)
             {
-                contentIds.push_back(contentData["rows"][i]["contentIds"][j].GetString());
-                listHighlights.push_back(Vec2(contentData["rows"][i]["shapes"][j][0].GetInt(), contentData["rows"][i]["shapes"][j][1].GetInt()));
+                const std::string &contentId = contentData["rows"][i]["contentIds"][j].GetString();
+                
+                const HQContentItemObjectRef &pointerToContentItem = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(contentId);
+                Vec2 contentItemHighlight = Vec2(contentData["rows"][i]["shapes"][j][0].GetInt(), contentData["rows"][i]["shapes"][j][1].GetInt());
+                
+                carouselObject->addContentItemToCarousel(pointerToContentItem);
+                carouselObject->addContentItemHighlight(contentItemHighlight);
             }
         }
-        actualListElements.push_back(contentIds);
-        actualListHighlights.push_back(listHighlights);
+        
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addCarusoelToHq(carouselObject);
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setHqType(category);
     }
     
-    HQDataStorage::getInstance()->HQListTitles[category] = actualListTitles;
-    HQDataStorage::getInstance()->HQListElements[category] = actualListElements;
-    HQDataStorage::getInstance()->HQElementHighlights[category] = actualListHighlights;
-    
     return true;
-
 }
 
-bool HQDataParser::parseHQGetContentUrls(std::string responseString)
+bool HQDataParser::parseHQGetContentUrls(const std::string &responseString)
 {
+    HQDataObjectStorage::getInstance()->clearAllHQData();
+    
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
     
-    rapidjson::Value::MemberIterator M;
-    
-    if (contentData.HasParseError()) return false; //JSON HAS ERRORS IN IT.
-    
-    for (M=contentData["categories"].MemberBegin(); M!=contentData["categories"].MemberEnd(); M++)
+    if( contentData.HasParseError() || !contentData.HasMember("hqs") )
     {
-        if(contentData["categories"][M->name.GetString()].HasMember("uri"))
-        {
-            if(!contentData["categories"][M->name.GetString()]["uri"].IsNull())
-            {
-                HQDataStorage::getInstance()->HQGetContentUrls[M->name.GetString()] = contentData["categories"][M->name.GetString()]["uri"].GetString();
-            }
-        }
+        return false;
     }
     
-    HQDataStorage::getInstance()->HQGetContentUrls.erase("HOME"); //On front-end home is being handled separately from all other HQ-s.
+    rapidjson::Value::MemberIterator M;
+    
+    for (M=contentData["hqs"].MemberBegin(); M!=contentData["hqs"].MemberEnd(); M++)
+    {
+        const char *key = M->name.GetString();
+        const std::string &replacedKey = ConfigStorage::getInstance()->getHQSceneNameReplacementForPermissionFeed(key);
+        
+        const rapidjson::Value &currentItem = contentData["hqs"][key];
+        
+        HQDataObjectRef dataObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(replacedKey);
+        dataObject->setHqEntitlement(getBoolFromJson("available", currentItem));
+        dataObject->setHqUrl(getStringFromJson("uri", currentItem));
+    }
     
     return true;
 }
 
 //GETTING CONTENT
 
-void HQDataParser::onGetContentAnswerReceived(std::string responseString, std::string category)
+void HQDataParser::onGetContentAnswerReceived(const std::string &responseString, const std::string &category)
 {
     if(parseHQData(responseString, category.c_str()))       //Parsing method returns true if there are no errors in the json string.
     {
+        ModalMessages::getInstance()->stopLoading();
         parseHQStructure(responseString, category.c_str());
-            
-        if(category == "HOME")    //If we have a home HQ set up, we have to get urls too.
+        
+        if(category == "HOME")
         {
-            parseHQGetContentUrls(responseString);      //Parsing method returns true if there are no errors in the json string.
             ChildDataParser::getInstance()->parseOomeeData(responseString);
-            BackEndCaller::getInstance()->getGordon();   //If both parsings went well, we move on to getting the cookies
+            
+            Scene *runningScene = Director::getInstance()->getRunningScene();
+            if(!runningScene->getChildByName("baseLayer")) return;
+            
+            Node *baseLayer = runningScene->getChildByName("baseLayer");
+            Node *contentLayer = baseLayer->getChildByName("contentLayer");
+            MainHubScene *homeLayer = (MainHubScene *)contentLayer->getChildByName("HOME");
+
+            homeLayer->buildMainHubScene();
         }
         else
         {
@@ -190,34 +181,12 @@ void HQDataParser::onGetContentAnswerReceived(std::string responseString, std::s
     }
 }
 
-void HQDataParser::onGetPreviewContentAnswerReceived(std::string responseString)
-{
-    if(parseHQData(responseString, "HOME"))
-    {
-        parseHQStructure(responseString, "HOME");
-        parseHQGetContentUrls(responseString);
-        ChildDataParser::getInstance()->parseOomeeData(responseString);
-        
-        BaseScene *baseScene = (BaseScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
-        baseScene->startBuildingHQs();
-    }
-}
-
-std::string HQDataParser::getExtensionFromUri(std::string uri)
+std::string HQDataParser::getExtensionFromUri(const std::string &uri) const
 {
     int startPoint = (int)uri.find_last_of(".") + 1;
     std::string extension = uri.substr(startPoint);
     
     return extension;
-}
-
-void HQDataParser::clearAllHQData()
-{
-    HQDataStorage::getInstance()->HQData.clear();
-    HQDataStorage::getInstance()->HQListTitles.clear();
-    HQDataStorage::getInstance()->HQListElements.clear();
-    HQDataStorage::getInstance()->HQElementHighlights.clear();
-    HQDataStorage::getInstance()->HQGetContentUrls.clear();
 }
 
 NS_AZOOMEE_END

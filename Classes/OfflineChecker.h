@@ -34,10 +34,10 @@ public:
 private:
     void sendOfflineCheckRequest();
     
-    bool offlineStatus = false;
-    bool newScene = false;
+    bool _offlineStatus = false;
+    bool _newScene = false;
     
-    int amountOfFailures;
+    int _amountOfFailures = 0;
 };
 
 NS_AZOOMEE_END

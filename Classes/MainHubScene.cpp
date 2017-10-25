@@ -1,5 +1,4 @@
 #include "MainHubScene.h"
-#include "MainHubBgElements.h"
 #include "ImageContainer.h"
 #include "OomeeLayer.h"
 #include "DisplayChildNameLayer.h"
@@ -8,6 +7,10 @@
 #include "ArtsPreviewLayer.h"
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 
 using namespace cocos2d;
 
@@ -37,6 +40,11 @@ bool MainHubScene::init()
 
 void MainHubScene::onEnter()
 {
+    Node::onEnter();
+}
+
+void MainHubScene::buildMainHubScene()
+{
     float oomeeDelay = 2.0;
     float imageContainerDelay = 0.5;
     
@@ -50,10 +58,7 @@ void MainHubScene::onEnter()
     origin = Director::getInstance()->getVisibleOrigin();
     
     auto funcCallAction = CallFunc::create([=](){
-        
-        auto bgElements = MainHubBgElements::create();
-        this->addChild(bgElements);
-        
+                
         if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
             auto displayChildNameLayer = DisplayChildNameLayer::create();
@@ -75,14 +80,14 @@ void MainHubScene::onEnter()
     
     auto funcCallAction2 = CallFunc::create([=](){
         
+        addBackgroundWires();
         addBackgroundCircles();
         addImageContainers();
+        addPrivacyButton();
         
     });
     
     this->runAction(Sequence::create(DelayTime::create(imageContainerDelay), funcCallAction2, NULL));
-    
-    Node::onEnter();
 }
 
 //----------------------------------All methods beyond this line are called internally--------------------------------------------------
@@ -119,6 +124,18 @@ void MainHubScene::addBackgroundCircles()
     }
 }
 
+void MainHubScene::addBackgroundWires()
+{
+    if(HQHistoryManager::getInstance()->noHistory())
+    {
+        addMainHubSideWiresToScreen(this, 3, 2);
+    }
+    else
+    {
+        addMainHubSideWiresToScreen(this);
+    }
+}
+
 Sprite* MainHubScene::createCirclesForBackground(int circleNumber)
 {
     Sprite *circle = Sprite::create(StringUtils::format("res/mainhub/circle_%d.png", circleNumber));
@@ -136,8 +153,9 @@ void MainHubScene::addImageContainers()
     
     for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); i++)
     {
-        std::vector<std::string> elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), i);
-        std::string fieldTitle = HQDataProvider::getInstance()->getTitleForRow(this->getName(), i);
+        const std::vector<HQContentItemObjectRef> &elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), i);
+        
+        const std::string &fieldTitle = HQDataProvider::getInstance()->getTitleForRow(this->getName(), i);
         
         for(int j = 0; j < elementsForHub.size(); j++)
         {
@@ -163,12 +181,22 @@ void MainHubScene::addImageContainers()
             
             elementPosition.y = elementPosition.y + yOffset;
             
-            imageIcon->createContainer(HQDataProvider::getInstance()->getItemDataForSpecificItem(this->getName(), elementsForHub.at(j)), 1.2 - (j * 0.3), delayTime, elementPosition);
+            imageIcon->createContainer(elementsForHub.at(j), 1.2 - (j * 0.3), delayTime, elementPosition);
         }
     }
     
-    auto artsPreviewLayer = ArtsPreviewLayer::create();
-    this->addChild(artsPreviewLayer);
+    if(HQDataObjectStorage::getInstance()->getHQDataObjectForKey("ARTS APP")->getHqEntitlement())
+    {
+        auto artsPreviewLayer = ArtsPreviewLayer::create();
+        this->addChild(artsPreviewLayer);
+    }
+}
+
+void MainHubScene::addPrivacyButton()
+{
+    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    privacyLayer->setCenterPosition(Vec2(origin.x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,origin.y + privacyLayer->getContentSize().height));
+    this->addChild(privacyLayer);
 }
 
 NS_AZOOMEE_END

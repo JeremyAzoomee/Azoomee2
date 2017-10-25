@@ -65,7 +65,6 @@ bool ConfigStorage::init(void)
         "VIDEO HQ",
         "AUDIO HQ",
         "GAME HQ",
-        "PreviewHOME",
         "HOME",
         API::TagLogin,
         API::TagChildLogin,
@@ -154,8 +153,6 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == API::TagRegisterParent) return "/api/user/v2/adult";
     if(httpRequestTag == API::TagRegisterChild) return "/api/user/child";
     if(httpRequestTag == API::TagDeleteChild) return "/api/user/child/";
-    if(httpRequestTag == "HOME") return "/api/electricdreams/view/categories/home";
-    if(httpRequestTag == "PreviewHOME") return "/api/electricdreams/anonymous/view/categories/home";
     if(httpRequestTag == API::TagParentPin) return StringUtils::format("/api/user/adult/%s", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagVerifyAmazonPayment) return StringUtils::format("/api/billing/amazon/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagVerifyApplePayment) return StringUtils::format("/api/billing/apple/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
@@ -283,6 +280,11 @@ int ConfigStorage::getContentItemImageValidityInSeconds()
 }
 
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
+
+std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName)
+{
+    return NavigationConfiguration["hqNamesReplacementForPermissionFeed"][inputHqSceneName.c_str()].GetString();
+}
 
 cocos2d::Point ConfigStorage::getRelativeCirclePositionForMenuItem(int itemNumber)
 {

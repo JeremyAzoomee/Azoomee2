@@ -65,6 +65,7 @@ public:
     int getContentItemImageValidityInSeconds();
     
     //NavigationLayer configuration
+    std::string getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName);
     cocos2d::Point getRelativeCirclePositionForMenuItem(int itemNumber);
     cocos2d::Point getHorizontalPositionForMenuItem(int itemNumber);
     float getHorizontalMenuItemsHeight();
