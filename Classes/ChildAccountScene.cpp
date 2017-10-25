@@ -52,7 +52,7 @@ void ChildAccountScene::onEnter()
     
     addBackgroundandDecoration();
     addProgressIndicator();
-    AddTitleToScene();
+    addTitleToScene();
     addTextboxScene();
     addLabelToScene();
     addButtonsScene();
@@ -205,8 +205,7 @@ void ChildAccountScene::addButtonsScene()
 
 void ChildAccountScene::addPrivacyButton()
 {
-    _privacyLayer = PrivacyLayer::create();
-    _privacyLayer->setCenterPosition(Vec2(_origin.x + _privacyLayer->getContentSize().height + _privacyLayer->getContentSize().width/2.0f,_nextButtonPlaceholder->getPositionY() - _privacyLayer->getContentSize().height*2.0f));
+    _privacyLayer = PrivacyLayer::createWithColor(Style::Color::greenish);
     this->addChild(_privacyLayer);
 }
 
@@ -449,6 +448,8 @@ void ChildAccountScene::setNewLayout()
     
     _nextButton->setCenterPosition(Vec2(_nextButton->getCenterPosition().x, _dayInputText->getPositionY() - _nextButton->getContentSize().height*1.9 - additionYForErrorText));
     _cancelButton->setCenterPosition(Vec2(_visibleSize.width*.25+_origin.x, _nextButton->getCenterPosition().y));
+    
+    _privacyLayer->setCenterPosition(Vec2(_origin.x + _privacyLayer->getContentSize().height + _privacyLayer->getContentSize().width/2.0f,_nextButton->getPositionY() - _privacyLayer->getContentSize().height*2.0f));
 }
 
 void ChildAccountScene::setDateInputHasError(bool hasError)

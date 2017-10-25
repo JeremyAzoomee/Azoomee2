@@ -46,7 +46,7 @@ bool FriendListScene::init()
     _rootLayout->addChild(_titleBar);
     
     //create Privacy Button, set location in OnSizeChanged.
-    _privacyButton = PrivacyLayer::create();
+    _privacyButton = PrivacyLayer::createWithColor();
     _titleBar->addChild(_privacyButton);
     
     createContentUI(_contentLayout);

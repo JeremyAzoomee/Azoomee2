@@ -133,7 +133,7 @@ void HQScene::createBidirectionalScrollView()
     verticalScrollView->setName("scrollView");
     this->addChild(verticalScrollView);
     
-    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
     
     if(this->getName() == "GROUP HQ")
         verticalScrollView->cocos2d::Node::setPosition(_origin.x , _origin.y - 200);

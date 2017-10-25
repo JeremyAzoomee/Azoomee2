@@ -43,7 +43,7 @@ private:
     void setupScene();
     void addBackgroundandDecoration();
     void addProgressIndicator();
-    void AddTitleToScene();
+    void addTitleToScene();
     void addLabelToScene();
     void addTextboxScene();
     void addButtonsScene();

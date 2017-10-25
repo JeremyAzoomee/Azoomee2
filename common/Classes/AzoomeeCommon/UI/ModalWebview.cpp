@@ -56,11 +56,11 @@ void ModalWebview::addListenerToBackgroundLayer()
 
 void ModalWebview::createCloseButton()
 {
-    closeButton = ElectricDreamsButton::createWindowCloseButton();
-    closeButton->setCenterPosition(Vec2(visibleSize.width - closeButton->getContentSize().width, visibleSize.height - closeButton->getContentSize().height));
-    closeButton->setDelegate(this);
-    closeButton->setMixPanelButtonName("ModalWebview-CloseButton");
-    backgroundLayer->addChild(closeButton);
+    _closeButton = ElectricDreamsButton::createWindowCloseButton();
+    _closeButton->setCenterPosition(Vec2(_visibleSize.width - _closeButton->getContentSize().width, _visibleSize.height - _closeButton->getContentSize().height));
+    _closeButton->setDelegate(this);
+    _closeButton->setMixPanelButtonName("ModalWebview-CloseButton");
+    _backgroundLayer->addChild(_closeButton);
 }
 
 void ModalWebview::createWebView(std::string url)
