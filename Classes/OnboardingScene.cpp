@@ -83,7 +83,7 @@ void OnboardingScene::addBackgroundandDecoration()
 void OnboardingScene::addProgressIndicator()
 {
     _progressIndicatior = Sprite::create("res/decoration/progress1.png");
-    _progressIndicatior->setPosition(_origin.x+_visibleSize.width/2,_origin.y+_visibleSize.height - _progressIndicatior->getContentSize().height*1.5);
+    _progressIndicatior->setPosition(_origin.x+_visibleSize.width/2,_origin.y+_visibleSize.height - _progressIndicatior->getContentSize().height * 1.5f);
     this->addChild(_progressIndicatior);
 }
 
@@ -96,7 +96,7 @@ void OnboardingScene::addMainTitleToScene()
 
 void OnboardingScene::addTextboxScene()
 {
-    float textInputWidth = _visibleSize.width*.80;
+    float textInputWidth = _visibleSize.width * 0.80f;
     
     _emailTextInput = TextInputLayer::createWithSize(Size(textInputWidth,160), INPUT_IS_EMAIL);
     _emailTextInput->setPositionY(_mainTitle->getPositionY()-_emailTextInput->getContentSize().height*2.1);
@@ -116,7 +116,7 @@ void OnboardingScene::addTextboxScene()
 void OnboardingScene::addLabelsToScene()
 {
     _emailTitle =  createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(ONBOARDINGSCENE_EMAIL_LABEL));
-    _emailTitle->setPositionY(_emailTextInput->getPositionY()+(_emailTextInput->getContentSize().height) + (_emailTitle->getContentSize().height*.6));
+    _emailTitle->setPositionY(_emailTextInput->getPositionY()+(_emailTextInput->getContentSize().height) + (_emailTitle->getContentSize().height * 0.6f));
     this->addChild(_emailTitle);
     
     _emailError = createLabelBodyCentred("Email doesn't look correct - please check",Style::Color::watermelon);
@@ -180,6 +180,13 @@ void OnboardingScene::addTermsAndConditionsToScene()
 
 //------------PRIVATE OTHER FUNCTIONS------------
 
+void OnboardingScene::textInputHasError(TextInputLayer *textInputLayer, cocos2d::Label* errorLabel, bool hasError)
+{
+    errorLabel->setVisible(hasError);
+    textInputLayer->setEditboxHasError(hasError);
+    setNewLayout();
+}
+
 void OnboardingScene::setNewLayout()
 {
     float additionYForErrorText = 0.0f;
@@ -190,7 +197,7 @@ void OnboardingScene::setNewLayout()
         _emailError->setPositionY(_emailTextInput->getPositionY()-_emailError->getContentSize().height/2);
     }
     
-    _passwordTextInput->setPositionY(_emailTextInput->getPositionY() - _passwordTextInput->getContentSize().height*1.9 - additionYForErrorText);
+    _passwordTextInput->setPositionY(_emailTextInput->getPositionY() - _passwordTextInput->getContentSize().height * 1.9f - additionYForErrorText);
     
     if(_passwordError->isVisible())
     {
@@ -202,10 +209,10 @@ void OnboardingScene::setNewLayout()
         additionYForErrorText = 0.0f;
     }
     
-    _pinTextInput->setPositionY(_passwordTextInput->getPositionY() - _pinTextInput->getContentSize().height*1.9 - additionYForErrorText);
+    _pinTextInput->setPositionY(_passwordTextInput->getPositionY() - _pinTextInput->getContentSize().height * 1.9f - additionYForErrorText);
     
-    _passwordTitle->setPositionY(_passwordTextInput->getPositionY()+(_passwordTextInput->getContentSize().height) + (_passwordTitle->getContentSize().height*.6));
-    _pinTitle->setPositionY(_pinTextInput->getPositionY() + (_pinTextInput->getContentSize().height) + (_pinTitle->getContentSize().height*.6));
+    _passwordTitle->setPositionY(_passwordTextInput->getPositionY()+(_passwordTextInput->getContentSize().height) + (_passwordTitle->getContentSize().height * 0.6f));
+    _pinTitle->setPositionY(_pinTextInput->getPositionY() + (_pinTextInput->getContentSize().height) + (_pinTitle->getContentSize().height * 0.6f));
     
     if(_pinError->isVisible())
     {
@@ -219,9 +226,9 @@ void OnboardingScene::setNewLayout()
     
     _pinSubTitle->setPositionY(_pinTextInput->getPositionY() - (_pinSubTitle->getContentSize().height*.2)- additionYForErrorText);
     
-    _signupButton->setCenterPosition(Vec2(_visibleSize.width*.75+_origin.x, _pinTextInput->getPositionY()- _signupButton->getContentSize().height*1.1- additionYForErrorText));
+    _signupButton->setCenterPosition(Vec2(_visibleSize.width * 0.75f + _origin.x, _pinTextInput->getPositionY()- _signupButton->getContentSize().height * 1.1f - additionYForErrorText));
     
-    _cancelButton->setCenterPosition(Vec2(_visibleSize.width*.25+_origin.x, _signupButton->getCenterPosition().y));
+    _cancelButton->setCenterPosition(Vec2(_visibleSize.width * 0.25f + _origin.x, _signupButton->getCenterPosition().y));
     
     //------- CALCULATE AND SET LOCATION OF ITEMS SO THEY ARE CENTERED
     float TermsAndConditionsStartLabelWidth = _TermsAndConditionsStartLabel->getContentSize().width;
@@ -272,9 +279,7 @@ void OnboardingScene::textInputReturnPressed(TextInputLayer* inputLayer)
         AnalyticsSingleton::getInstance()->registerAzoomeeEmail(_emailTextInput->getText());
         if(!_emailTextInput->inputIsValid())
         {
-            _emailError->setVisible(true);
-           _emailTextInput->setEditboxHasError();
-            setNewLayout();
+            textInputHasError(_emailTextInput, _emailError);
         }
     }
     else if(inputLayer == _passwordTextInput)
@@ -295,21 +300,15 @@ void OnboardingScene::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 {
     if(inputLayer == _emailTextInput)
     {
-        _emailError->setVisible(false);
-        _emailTextInput->setEditboxHasError(false);
-        setNewLayout();
+        textInputHasError(_emailTextInput, _emailError, false);
     }
     else if(inputLayer == _passwordTextInput)
     {
-        _passwordError->setVisible(false);
-        _passwordTextInput->setEditboxHasError(false);
-        setNewLayout();
+        textInputHasError(_passwordTextInput, _passwordError, false);
     }
     else if(inputLayer == _pinTextInput)
     {
-        _pinError->setVisible(false);
-        _pinTextInput->setEditboxHasError(false);
-        setNewLayout();
+        textInputHasError(_pinTextInput, _pinError, false);
     }
 }
 
@@ -317,28 +316,20 @@ void OnboardingScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
     if(!_emailTextInput->inputIsValid() && inputLayer == _emailTextInput)
     {
-        _emailError->setVisible(true);
-        _emailTextInput->setEditboxHasError();
-        setNewLayout();
+        textInputHasError(_emailTextInput, _emailError);
     }
     else if(!_passwordTextInput->inputIsValid() && inputLayer == _passwordTextInput)
     {
-        _passwordError->setVisible(true);
-        _passwordTextInput->setEditboxHasError();
-        setNewLayout();
+        textInputHasError(_passwordTextInput, _passwordError);
     }
     else if(!_pinTextInput->inputIsValid() && inputLayer == _pinTextInput)
     {
-        _pinError->setVisible(true);
-        _pinTextInput->setEditboxHasError();
-        setNewLayout();
+        textInputHasError(_pinTextInput, _pinError);
     }
 }
 
 void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
 {
-    //setOrientationToLandscape();
-    
     if(button == _signupButton)
         signUp();
     else if(button == _cancelButton)

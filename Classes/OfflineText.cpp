@@ -167,7 +167,7 @@ void OfflineText::addTextSubTitleToScreen(std::string text)
     auto offlineTextSubTitle = createLabelBodyCentred(text,Style::Color::white);
     offlineTextSubTitle->setAnchorPoint(Vec2(0.5, 1.0));
     offlineTextSubTitle->setCascadeOpacityEnabled(true);
-    offlineTextSubTitle->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.78);
+    offlineTextSubTitle->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.78f);
     offlineTextSubTitle->setOpacity(0);
     
     this->addChild(offlineTextSubTitle);
@@ -178,9 +178,9 @@ void OfflineText::addTextSubTitleToScreen(std::string text)
 void OfflineText::addTextBodyToScreen(std::string text)
 {
     auto offlineTextBody = createLabelBodyCentred(text,Style::Color::white);
-    offlineTextBody->setAnchorPoint(Vec2(0.5, 1.0));
+    offlineTextBody->setAnchorPoint(Vec2(0.5f, 1.0f));
     offlineTextBody->setCascadeOpacityEnabled(true);
-    offlineTextBody->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.52);
+    offlineTextBody->setPosition(visibleOrigin.x + visibleSize.width / 2, visibleOrigin.y + visibleSize.height * 0.52f);
     offlineTextBody->setOpacity(0);
     
     this->addChild(offlineTextBody);
@@ -196,7 +196,7 @@ void OfflineText::addRetryButtonToScreen()
     retryButton->setDelegate(this);
     retryButton->setName("retryButton");
     retryButton->setMixPanelButtonName("OfflineRetryButton");
-    retryButton->setCenterPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5, visibleOrigin.y + visibleSize.height * 0.61));
+    retryButton->setCenterPosition(Vec2(visibleOrigin.x + visibleSize.width * 0.5f, visibleOrigin.y + visibleSize.height * 0.61f));
     
     retryButton->setCascadeOpacityEnabled(true);
     this->addChild(retryButton);

@@ -39,7 +39,7 @@ Label*  createLabelFlowMainTitle(std::string text) {
     
     Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::black, 100);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    newLabel->setWidth(visibleSize.width*.9);
+    newLabel->setWidth(visibleSize.width * 0.9f);
     newLabel->setPosition(origin.x + visibleSize.width/2,origin.y + visibleSize.height - newLabel->getContentSize().height);
     
     return newLabel;
@@ -52,8 +52,8 @@ Label*  createLabelFlowSubTitle(std::string text) {
 
     Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::bluegreenish, 80);
     newLabel->setHorizontalAlignment(TextHAlignment::CENTER);
-    newLabel->setWidth(visibleSize.width*.90);
-    newLabel->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.9);
+    newLabel->setWidth(visibleSize.width * 0.90f);
+    newLabel->setPosition(origin.x + visibleSize.width/2, origin.y + visibleSize.height * 0.9f);
     
     return newLabel;
 }

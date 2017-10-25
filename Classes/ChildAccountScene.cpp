@@ -91,7 +91,7 @@ void ChildAccountScene::addProgressIndicator()
     if(FlowDataSingleton::getInstance()->isSignupFlow())
     {
         _progressIndicatior = Sprite::create("res/decoration/progress2.png");
-        _progressIndicatior->setPosition(_origin.x+_visibleSize.width/2,_origin.y+_visibleSize.height - _progressIndicatior->getContentSize().height*1.5);
+        _progressIndicatior->setPosition(_origin.x+_visibleSize.width/2,_origin.y+_visibleSize.height - _progressIndicatior->getContentSize().height * 1.5f);
         this->addChild(_progressIndicatior);
     }
 }
@@ -119,22 +119,22 @@ void ChildAccountScene::addTitleToScene()
 
 void ChildAccountScene::addTextboxScene()
 {
-    _childNameInputText = TextInputLayer::createWithSize(Size(_visibleSize.width*.80,160), INPUT_IS_CHILD_NAME);
-    _childNameInputText->setPositionY(_sceneTitle->getPositionY()-_childNameInputText->getContentSize().height*2.4);
+    _childNameInputText = TextInputLayer::createWithSize(Size(_visibleSize.width * 0.80f, 160.0f), INPUT_IS_CHILD_NAME);
+    _childNameInputText->setPositionY(_sceneTitle->getPositionY()-_childNameInputText->getContentSize().height * 2.4f );
     _childNameInputText->setDelegate(this);
     this->addChild(_childNameInputText);
     
-    _dayInputText = TextInputLayer::createWithSize(Size(330,160), INPUT_IS_DAY);
+    _dayInputText = TextInputLayer::createWithSize(Size(330.0f , 160.0f), INPUT_IS_DAY);
     _dayInputText->setPositionX(_origin.x+_visibleSize.width/2 - 275-_dayInputText->getContentSize().width);
     _dayInputText->setDelegate(this);
     this->addChild(_dayInputText);
     
-    _monthInputText = TextInputLayer::createWithSize(Size(330,160), INPUT_IS_MONTH);
+    _monthInputText = TextInputLayer::createWithSize(Size(330.0f , 160.0f), INPUT_IS_MONTH);
     _monthInputText->setPositionX(_origin.x+_visibleSize.width/2 - 225);
     _monthInputText->setDelegate(this);
     this->addChild(_monthInputText);
     
-    _yearInputText = TextInputLayer::createWithSize(Size(450, 160), INPUT_IS_YEAR);
+    _yearInputText = TextInputLayer::createWithSize(Size(450.0f, 160.0f), INPUT_IS_YEAR);
     _yearInputText->setPositionX(_origin.x+_visibleSize.width/2 + 155);
     _yearInputText->setDelegate(this);
     this->addChild(_yearInputText);
@@ -185,18 +185,18 @@ void ChildAccountScene::addButtonsScene()
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
         _cancelButton->setVisible(false);
-        _nextButton->setCenterPosition(Vec2(_visibleSize.width/2+_origin.x, _dayInputText->getPositionY()-_nextButton->getContentSize().height*1.9));
+        _nextButton->setCenterPosition(Vec2(_visibleSize.width/2+_origin.x, _dayInputText->getPositionY()-_nextButton->getContentSize().height * 1.9f));
     }
     
     _submitButton = ElectricDreamsButton::createGreenButtonWithWidth(StringMgr::getInstance()->getStringForKey(BUTTON_CONTINUE),_visibleSize.width/3);
-    _submitButton->setCenterPosition(Vec2(_visibleSize.width*.7+_origin.x,_origin.y + _submitButton->getContentSize().height));
+    _submitButton->setCenterPosition(Vec2(_visibleSize.width * 0.7f + _origin.x,_origin.y + _submitButton->getContentSize().height));
     _submitButton->setOpacity(80);
     _submitButton->setMixPanelButtonName("childAccountSceneDoneButton");
     _submitButton->setVisible(false);
     this->addChild(_submitButton);
     
     _backButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(BUTTON_BACK), 75, true, Color3B::BLACK);
-    _backButton->setCenterPosition(Vec2(_visibleSize.width*.25+_origin.x, _submitButton->getCenterPosition().y));
+    _backButton->setCenterPosition(Vec2(_visibleSize.width * 0.25f + _origin.x, _submitButton->getCenterPosition().y));
     _backButton->setDelegate(this);
     _backButton->setMixPanelButtonName("childAccountSceneBackFromOomeesButton");
     _backButton->setVisible(false);
@@ -446,10 +446,10 @@ void ChildAccountScene::setNewLayout()
     
     _profileDOBSubTitle->setPositionY(_dayInputText->getPositionY()- (_profileDOBSubTitle->getContentSize().height*.3) - additionYForErrorText);
     
-    _nextButton->setCenterPosition(Vec2(_nextButton->getCenterPosition().x, _dayInputText->getPositionY() - _nextButton->getContentSize().height*1.9 - additionYForErrorText));
+    _nextButton->setCenterPosition(Vec2(_nextButton->getCenterPosition().x, _dayInputText->getPositionY() - _nextButton->getContentSize().height * 1.9f - additionYForErrorText));
     _cancelButton->setCenterPosition(Vec2(_visibleSize.width*.25+_origin.x, _nextButton->getCenterPosition().y));
     
-    _privacyLayer->setCenterPosition(Vec2(_origin.x + _privacyLayer->getContentSize().height + _privacyLayer->getContentSize().width/2.0f,_nextButton->getPositionY() - _privacyLayer->getContentSize().height*2.0f));
+    _privacyLayer->setCenterPosition(Vec2(_origin.x + _privacyLayer->getContentSize().height + _privacyLayer->getContentSize().width/2.0f,_nextButton->getPositionY() - _privacyLayer->getContentSize().height * 2.0f));
 }
 
 void ChildAccountScene::setDateInputHasError(bool hasError)
@@ -561,6 +561,7 @@ void ChildAccountScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
         setDateInputHasError(true);
     }
     
+    //added to EditingDidEnd because EditingDidBegin is fired before EditingDidEnd
     _doNotShowInputError = false;
 }
 

@@ -51,6 +51,7 @@ private:
     
     void signUp();
     
+    void textInputHasError(TextInputLayer *textInputLayer, cocos2d::Label* errorLabel, bool hasError = true);
     void setNewLayout();
     
     virtual void onEnterTransitionDidFinish();

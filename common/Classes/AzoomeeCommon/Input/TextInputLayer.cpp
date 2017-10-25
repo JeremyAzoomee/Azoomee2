@@ -24,7 +24,7 @@ TextInputLayer* TextInputLayer::createWithSize(Size inputBoxSize, int textInputT
     layer->textInputType = textInputType;
     layer->createEditBoxArea();
     layer->createEditBox();
-    layer->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height*0.70));
+    layer->setCenterPosition(Vec2(origin.x+visibleSize.width/2, origin.y+visibleSize.height * 0.70f));
     
     return layer;
 }

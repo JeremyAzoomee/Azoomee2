@@ -77,7 +77,7 @@ void RequestAdultPinLayer::addUIObjects()
     
     windowLayer = ui::Scale9Sprite::create("res/decoration/whiteWindowScale9.png", spriteRect, capInsents);
     windowLayer->setContentSize(Size(currentRunningScene->getContentSize().width * percentageOfScreenForBox, 750));
-    windowLayer->setPosition(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height*.72);
+    windowLayer->setPosition(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height * 0.72f);
     this->addChild(windowLayer);
     
     //-------ACCEPT PLACEHOLDER BUTTON-------
@@ -129,10 +129,10 @@ void RequestAdultPinLayer::resizeWindowAndObjects()
     auto currentRunningScene = Director::getInstance()->getRunningScene();
     
     windowLayer->setContentSize(Size(currentRunningScene->getContentSize().width * percentageOfScreenForBox, 750));
-    windowLayer->setPosition(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height*.72);
+    windowLayer->setPosition(currentRunningScene->getContentSize().width/2,currentRunningScene->getContentSize().height * 0.72f);
     
     editBox_pin->setNewWidth(windowLayer->getContentSize().width/2);
-    editBox_pin->setPosition(Vec2(windowLayer->getContentSize().width/2 - editBox_pin->getContentSize().width/2 - acceptButton->getContentSize().width*.66, windowLayer->getContentSize().height*.25));
+    editBox_pin->setPosition(Vec2(windowLayer->getContentSize().width/2 - editBox_pin->getContentSize().width/2 - acceptButton->getContentSize().width * 0.66f, windowLayer->getContentSize().height * 0.25f));
 
     placeHolderAcceptButton->setPosition(Vec2(editBox_pin->getPositionX() + editBox_pin->getContentSize().width + acceptButton->getContentSize().width/2,editBox_pin->getPositionY()));
     
@@ -140,7 +140,7 @@ void RequestAdultPinLayer::resizeWindowAndObjects()
     
     enterYourPinTitle->setPosition(editBox_pin->getPositionX() + enterYourPinTitle->getContentSize().width/2, windowLayer->getContentSize().height*.66+enterYourPinTitle->getContentSize().height/2);
     
-    cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width*0.75, windowLayer->getContentSize().height-cancelButton->getContentSize().height*.75));
+    cancelButton->setCenterPosition(Vec2(windowLayer->getContentSize().width-cancelButton->getContentSize().width * 0.75f, windowLayer->getContentSize().height-cancelButton->getContentSize().height * 0.75f));
 }
 
 void RequestAdultPinLayer::addOrRemoveWires()

@@ -196,7 +196,7 @@ ElectricDreamsButton* ElectricDreamsButton::createPrimaryGreenButton(std::string
     if(buttonLabel->getContentSize().height >179)
         buttonHeight = buttonLabel->getContentSize().height + 100;
     
-    float buttonWidth = buttonLabel->getContentSize().width+150+textPadding;
+    float buttonWidth = buttonLabel->getContentSize().width + 150 + textPadding;
     
     if(buttonWidth < minWidth)
         buttonWidth = minWidth;
@@ -244,7 +244,7 @@ ElectricDreamsButton* ElectricDreamsButton::createSecondaryButton(std::string bu
     if(buttonLabel->getContentSize().height >110)
         buttonHeight = buttonLabel->getContentSize().height + 70;
     
-    float buttonWidth = buttonLabel->getContentSize().width+150+textPadding;
+    float buttonWidth = buttonLabel->getContentSize().width + 150 + textPadding;
     
     if(buttonWidth < minWidth)
         buttonWidth = minWidth;
@@ -285,7 +285,7 @@ ElectricDreamsButton* ElectricDreamsButton::createSecondaryGreenButton(std::stri
     if(buttonLabel->getContentSize().height >179)
         buttonHeight = buttonLabel->getContentSize().height + 70;
     
-    float buttonWidth = buttonLabel->getContentSize().width+150+textPadding;
+    float buttonWidth = buttonLabel->getContentSize().width + 150 + textPadding;
     
     if(buttonWidth < minWidth)
         buttonWidth = minWidth;
