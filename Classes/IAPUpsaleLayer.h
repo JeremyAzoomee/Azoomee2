@@ -23,6 +23,7 @@ private:
     ElectricDreamsButton* restoreButton;
     ElectricDreamsButton* notNowButton;
     ElectricDreamsButton* learnMoreButton;
+    ElectricDreamsButton* privacyButton;
     
     cocos2d::Label* titleLabel;
     cocos2d::Label* optionalLabel;

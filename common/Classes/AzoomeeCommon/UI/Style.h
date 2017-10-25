@@ -40,6 +40,7 @@ namespace Color
     const cocos2d::Color3B grapePurpleTwo(80, 17, 94);
     const cocos2d::Color3B lightTealTwo(108, 224, 215);
     const cocos2d::Color3B blueGreen(16, 117, 114);
+    const cocos2d::Color3B telish(38, 192, 180);
     
     // These colors below don't have exact names in Zeplin.
     // So the names have been chosen to be close enough to other Zeplin colors.
@@ -78,7 +79,11 @@ namespace Color_4F
     const cocos2d::Color4F watermelon(0.976, 0.29, 0.357,1);
     const cocos2d::Color4F brightAqua(0.11, 0.957,  0.957, 1.0);
     const cocos2d::Color4F macaroniAndCheese(0.964, 0.733, 0.259,1);
+<<<<<<< HEAD
     const cocos2d::Color4F greenishTeal(55/255.0f,188/255.0f,152/255.0f, 1.0f);
+=======
+    const cocos2d::Color4F greenishTeal(55/255.0f,188/255.0f,152/255.0f,1);
+>>>>>>> origin/master
     
     // These colors below don't have exact names in Zeplin.
     // Names Chosen based on where used
