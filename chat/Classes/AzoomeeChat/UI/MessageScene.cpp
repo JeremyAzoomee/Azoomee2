@@ -81,6 +81,7 @@ bool MessageScene::init()
     _titleBar->addReportResetButtonEventListener([this](Ref* button){
         onReportResetButtonPressed();
     });
+    _titleBar->underlineTitleBar();
 
     _rootLayout->addChild(_titleBar);
     

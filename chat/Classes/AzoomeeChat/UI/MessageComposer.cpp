@@ -22,7 +22,7 @@ bool MessageComposer::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::dark);
+    setBackGroundColor(Style::Color::darkTwo);
     setLayoutType(ui::Layout::Type::VERTICAL);
     
     setSizeType(ui::Widget::SizeType::PERCENT);
@@ -56,9 +56,18 @@ bool MessageComposer::init()
         sendMessage(sticker);
     });
     addChild(_stickerSelector);
-    
+
     // Default to Idle
     setMode(MessageComposer::Mode::Idle);
+    
+    // Border at top of composer
+    _composerTopBorder = ui::Layout::create();
+    _composerTopBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
+    _composerTopBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _composerTopBorder->setBackGroundColor(Style::Color::greenishTeal);
+    _composerTopBorder->setAnchorPoint(Vec2(0.5f, 0.5f));
+    _topLayout->addChild(_composerTopBorder);
+    
     return true;
 }
 
@@ -123,6 +132,10 @@ void MessageComposer::onSizeChanged()
     const float textEntryWidth = textEntryMaxSize.width - textEntryMargin.left - textEntryMargin.right;
     _messageEntryField->setContentSize(Size(textEntryWidth, _messageEntryField->getContentSize().height));
     updateTextEntryHeight();
+    
+    //Redraw top line
+    _composerTopBorder->setContentSize(Size(getContentSize().width, 2.0f));
+    _composerTopBorder->setPosition(Vec2(getContentSize().width/2,_topLayout->getContentSize().height));
 }
 
 void MessageComposer::setContentSize(const cocos2d::Size& contentSize)

@@ -17,7 +17,7 @@ bool StickerCategoryListView::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::dark);
+    setBackGroundColor(Style::Color::black);
     
     setDirection(ui::ScrollView::Direction::HORIZONTAL);
     setBounceEnabled(true);

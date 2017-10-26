@@ -82,6 +82,7 @@
 		430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */; };
 		431397721F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431397701F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp */; };
 		4315CD041EEEC99600B4F22C /* KidsControlLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4315CD021EEEC99600B4F22C /* KidsControlLayer.cpp */; };
+		43160F8A1F9F4CCB00AA8CC5 /* COPPA_PrivacyLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43160F851F9F4CCB00AA8CC5 /* COPPA_PrivacyLayer.cpp */; };
 		4319D3E21E67134600110F92 /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4319D3E01E67134600110F92 /* LoginScene.cpp */; };
 		432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */; };
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
@@ -379,6 +380,8 @@
 		431397711F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineSafetyDetailsLayer.h; sourceTree = "<group>"; };
 		4315CD021EEEC99600B4F22C /* KidsControlLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KidsControlLayer.cpp; sourceTree = "<group>"; };
 		4315CD031EEEC99600B4F22C /* KidsControlLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KidsControlLayer.h; sourceTree = "<group>"; };
+		43160F851F9F4CCB00AA8CC5 /* COPPA_PrivacyLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = COPPA_PrivacyLayer.cpp; sourceTree = "<group>"; };
+		43160F891F9F4CCB00AA8CC5 /* COPPA_PrivacyLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = COPPA_PrivacyLayer.h; sourceTree = "<group>"; };
 		4319D3E01E67134600110F92 /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
 		4319D3E11E67134600110F92 /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		432A6C0B1EA8E2A200C5842B /* ManualGameInputLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ManualGameInputLayer.cpp; sourceTree = "<group>"; };
@@ -601,6 +604,8 @@
 				439694881EAA4A5B003C17E6 /* Apple */,
 				433FA7F41E7AA9C400A8C27F /* IAPUpsaleLayer.cpp */,
 				433FA7F51E7AA9C400A8C27F /* IAPUpsaleLayer.h */,
+				43160F851F9F4CCB00AA8CC5 /* COPPA_PrivacyLayer.cpp */,
+				43160F891F9F4CCB00AA8CC5 /* COPPA_PrivacyLayer.h */,
 				02A11FF01EA6375D007EDD95 /* AmazonPaymentSingleton.cpp */,
 				02A11FF11EA6375D007EDD95 /* AmazonPaymentSingleton.h */,
 				02A11FF21EA6375D007EDD95 /* GooglePaymentSingleton.cpp */,
@@ -1500,6 +1505,7 @@
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
+				43160F8A1F9F4CCB00AA8CC5 /* COPPA_PrivacyLayer.cpp in Sources */,
 				929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */,
 				02E5959C1E56FC3A0052F395 /* OfflineChecker.cpp in Sources */,
 				02E595B91E5CA2690052F395 /* OfflineHubBackButton.cpp in Sources */,

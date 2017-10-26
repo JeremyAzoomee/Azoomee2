@@ -17,7 +17,7 @@ bool StickerCategoryListViewItem::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::dark);
+    setBackGroundColor(Style::Color::black);
     setLayoutType(ui::Layout::Type::HORIZONTAL);
     // List items are selectable in the ListView
     setTouchEnabled(true);
@@ -126,7 +126,7 @@ StickerCategoryRef StickerCategoryListViewItem::getData() const
 void StickerCategoryListViewItem::setSelected(bool selected)
 {
     _selected = selected;
-    setBackGroundColor(selected ? Style::Color::grapePurpleTwo : Style::Color::dark);
+    setBackGroundColor(selected ? Style::Color::grapePurpleTwo : Style::Color::black);
     _border->setVisible(!selected);
 }
 
