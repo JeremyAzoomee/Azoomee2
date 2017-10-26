@@ -90,7 +90,7 @@ void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
     {
         shouldDisplayVisualElementsOverImage = false;
     }
-    else if(elementShape.x == 1 && elementShape.y == 1)
+    else if(elementShape.x == 1 && elementShape.y == 1 && elementCategory != "GROUP HQ")
     {
         shouldDisplayVisualElementsOverImage = true;
     }
@@ -135,6 +135,11 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
                 addLockToElement();
             }
         }
+        
+       if(!aboutToExit && elementItemData->getType() == "VIDEO" && elementCategory == "GROUP HQ")
+       {
+           addGroupLabelsToImage();
+       }
         
         if(!aboutToExit)
         {
@@ -222,6 +227,20 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
     titleLabel->setAnchorPoint(Vec2(0.0f, 0.6f));
     titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
     reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
+    baseLayer->addChild(titleLabel);
+}
+
+void HQSceneElementVisual::addGroupLabelsToImage()
+{
+    auto descriptionLabel = createLabelContentDescriptionGroup(elementItemData->getDescription(), baseLayer->getContentSize().width);
+    descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.5f));
+    descriptionLabel->setPosition(0, baseLayer->getContentSize().height + descriptionLabel->getContentSize().height);
+    baseLayer->addChild(descriptionLabel);
+    
+    auto titleLabel = createLabelContentTitleGroup(elementItemData->getTitle(), baseLayer->getContentSize().width);
+    titleLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
+    titleLabel->setPosition(0,- titleLabel->getContentSize().height/2);
+    titleLabel->setHeight(100);
     baseLayer->addChild(titleLabel);
 }
 

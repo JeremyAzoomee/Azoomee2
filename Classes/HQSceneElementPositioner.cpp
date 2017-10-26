@@ -5,8 +5,15 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
+void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender,  bool isGroup)
 {
+    float groupHeightOffset = 0.0f;
+    
+    if(isGroup)
+    {
+        groupHeightOffset = 50.0f;
+    }
+    
     cocos2d::ui::ScrollView *scrollView = (cocos2d::ui::ScrollView *)sender->getParent()->getParent();
     Node *layout = (Node *)sender->getParent();
     
@@ -16,7 +23,7 @@ void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
     
     if(scrollViewChildren.size() == 1)
     {
-        sender->setPosition(0, scrollViewSize.height - senderSize.height);
+        sender->setPosition(0, scrollViewSize.height - senderSize.height - groupHeightOffset);
         return;
     }
     
@@ -32,11 +39,11 @@ void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender)
     Point possibleNewPosition = Point(lastStartPoint.x, lastStartPoint.y - senderSize.height);
     if(possibleNewPosition.y >= 0)
     {
-        sender->setPosition(possibleNewPosition);
+        sender->setPosition(Point(possibleNewPosition.x, possibleNewPosition.y - groupHeightOffset * 3));
     }
     else
     {
-        possibleNewPosition = Point(lastEndPoint.x, scrollViewSize.height - senderSize.height);
+        possibleNewPosition = Point(lastEndPoint.x, scrollViewSize.height - senderSize.height - groupHeightOffset);
         sender->setPosition(possibleNewPosition);
     }
     
