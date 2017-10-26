@@ -10,6 +10,7 @@
 #include "../Data/Sticker.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include "ArtListView.h"
 
 
 // Enable this define to display gallery art tab on composer
@@ -72,6 +73,8 @@ private:
 #ifdef AZOOMEE_CHAT_GALLERY_SHARE
     /// Gallery tab button
     cocos2d::ui::Button* _galleryTab = nullptr;
+    
+    ArtListView* _artListView = nullptr;
 #endif
     
     /// The stickers selector widget

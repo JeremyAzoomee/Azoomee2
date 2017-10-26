@@ -38,7 +38,7 @@ protected:
 public:
     
     /// Set the items to display in this list
-    void setItems(const std::string& data);
+    void setItems(const std::vector<std::string>& data);
     
     /// Register for item selection events
     void addItemSelectedEventListener(const ItemSelectedCallback& callback);

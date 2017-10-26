@@ -4,6 +4,8 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -56,6 +58,24 @@ bool MessageComposer::init()
         sendMessage(sticker);
     });
     addChild(_stickerSelector);
+    
+    _artListView = ArtListView::create();
+    _artListView->setSizeType(ui::Widget::SizeType::PERCENT);
+    _artListView->setSizePercent(Vec2(1.0f, 1.0f));
+    
+    const std::string& artDir = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
+    const auto& files = DirectorySearcher::getInstance()->getImagesInDirectory(artDir);
+    std::vector<std::string> fullFiles;
+    
+    for(auto file : files)
+    {
+        fullFiles.push_back(StringUtils::format("%s/%s",artDir.c_str(), file.c_str()));
+    }
+    _artListView->setItems(fullFiles);
+    _artListView->addItemSelectedEventListener([this](const std::string& artFile){
+        this->sendArtMessage(artFile);
+    });
+    addChild(_artListView);
     
     // Default to Idle
     setMode(MessageComposer::Mode::Idle);
@@ -116,6 +136,7 @@ void MessageComposer::onSizeChanged()
     // At the same time, resize to fill the width of it's parent
     const float keyboardHeight = getEstimatedKeyboardHeight();
     _stickerSelector->setContentSize(Size(_stickerSelector->getParent()->getContentSize().width, keyboardHeight));
+    _artListView->setContentSize(Size(this->getContentSize().width, keyboardHeight));
     
     // Size the text entry field
     const Size& textEntryMaxSize = _messageEntryField->getParent()->getContentSize();
@@ -220,6 +241,11 @@ void MessageComposer::onKeyboardResizeEnded(float keyboardHeight)
     if(_stickerSelector->isVisible() && _currentMode != MessageComposer::Mode::StickersEntry)
     {
         _stickerSelector->setVisible(false);
+    }
+    
+    if(_artListView->isVisible() && _currentMode != MessageComposer::Mode::ArtGalleryEntry)
+    {
+        _artListView->setVisible(false);
     }
 }
 
@@ -435,7 +461,6 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     }
     _sendButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
     
-    
     // Stickers enter/exit
     if(_currentMode == MessageComposer::Mode::StickersEntry)
     {
@@ -460,6 +485,31 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
         const float buttonWidth = _stickersTab->getContentSize().width;
         const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
         _stickersTab->setContentSize(Size(buttonWidth, buttonHeight));
+    }
+    
+    if(_currentMode == MessageComposer::Mode::ArtGalleryEntry)
+    {
+        // Stickers button requires some resizing when selected, since the aspect ratio of the
+        // selected and normal images is different
+        _galleryTab->loadTextureNormal("res/chat/ui/buttons/art_active.png");
+        const Size& textureSize = _stickersTab->getRendererNormal()->getTexture()->getContentSize();
+        const float buttonWidth = _stickersTab->getContentSize().width;
+        const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
+        _galleryTab->setContentSize(Size(buttonWidth, buttonHeight));
+        
+        // Update the sticker selector to use the latest keyboard height we have
+        const float keyboardHeight = getEstimatedKeyboardHeight();
+        _artListView->setContentSize(Size(_artListView->getContentSize().width, keyboardHeight));
+        _artListView->setVisible(true);
+    }
+    else
+    {
+        // Restore the stickers tab
+        _galleryTab->loadTextureNormal("res/chat/ui/buttons/art_btn.png");
+        const Size& textureSize = _stickersTab->getRendererNormal()->getTexture()->getContentSize();
+        const float buttonWidth = _stickersTab->getContentSize().width;
+        const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
+        _galleryTab->setContentSize(Size(buttonWidth, buttonHeight));
     }
     
     
@@ -494,6 +544,12 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     
     // Stickers enter state
     if(_currentMode == MessageComposer::Mode::StickersEntry && oldMode != MessageComposer::Mode::StickersEntry)
+    {
+        // Match the normal keyboard height or if that isn't available, an estimated height
+        const float keyboardHeight = getEstimatedKeyboardHeight();
+        resizeUIForKeyboard(keyboardHeight, 0.25f);
+    }
+    else if(_currentMode == MessageComposer::Mode::ArtGalleryEntry && oldMode != MessageComposer::Mode::ArtGalleryEntry)
     {
         // Match the normal keyboard height or if that isn't available, an estimated height
         const float keyboardHeight = getEstimatedKeyboardHeight();
@@ -740,8 +796,8 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     _galleryTab->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(tabMarginX, 0, 0, 0)));
     _galleryTab->addClickEventListener([this](Ref* button){
         // Set to idle until we support gallery feature
-        sendArtMessage("res/artapp/art_studio_logo.png");
-        //setMode(MessageComposer::Mode::ArtGalleryEntry);
+        //sendArtMessage("res/artapp/art_studio_logo.png");
+        setMode(MessageComposer::Mode::ArtGalleryEntry);
     });
     parent->addChild(_galleryTab);
 #endif

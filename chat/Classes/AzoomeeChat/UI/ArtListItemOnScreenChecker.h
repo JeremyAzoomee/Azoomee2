@@ -9,7 +9,7 @@
 #ifndef ArtListItemOnScreenChecker_h
 #define ArtListItemOnScreenChecker_h
 
-#include "../AzoomeeChat.h>"
+#include "../AzoomeeChat.h"
 #include <AzoomeeCommon/ImageDownloader/OnScreenChecker.h>
 
 NS_AZOOMEE_CHAT_BEGIN

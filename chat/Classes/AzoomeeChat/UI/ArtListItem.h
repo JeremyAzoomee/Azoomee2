@@ -21,9 +21,9 @@ class ArtListItem: public cocos2d::ui::Layout
     typedef cocos2d::ui::Layout Super;
     typedef std::function<void(const std::string&)> ItemSelectedCallback;
 private:
-    std::string _itemData;
+    std::string _itemData = "";
     
-    cocos2d::ui:Button* _itemButton;
+    cocos2d::ui::ImageView* _itemView;
     
     /// Callback for an item being selected
     ItemSelectedCallback _selectedEventCallback = nullptr;
@@ -31,10 +31,9 @@ private:
     /// Where we place the content inside the item
     cocos2d::ui::Layout* _contentLayout = nullptr;
     
-    ArtListItemOnScreenChecker* onScreenChecker = nullptr;
+    ArtListItemOnScreenChecker* _onScreenChecker = nullptr;
     
-    void resizeButton();
-    void enableOnScreenChecker();
+    
 protected:
     
     virtual void doLayout() override;
@@ -42,9 +41,8 @@ protected:
     
 public:
     
-    /// Set this item to two stickers in the list, starting with index
     void setData(const std::string& data);
-    
+    void enableOnScreenChecker();
     /// Register for item selection events
     void addItemSelectedEventListener(const ItemSelectedCallback& callback);
     
