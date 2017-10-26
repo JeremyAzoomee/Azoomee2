@@ -21,11 +21,12 @@ NS_AZOOMEE_BEGIN
 class DynamicNodeHandler : cocos2d::Ref
 {
 private:
-    //const std::string _kCTAPackageJSONURL = "https://media.azoomee.com/static/popups/package.json"; //change to new location when set up
     
     bool isCTAPackageJSONExist();
     
     rapidjson::Document getLocalCTAPackageJSON();
+    
+    void checkIfVersionChangedFromLastCTAPull();
     
     void getCTAPackageJSON(const std::string& url);
     void onGetCTAPackageJSONAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
