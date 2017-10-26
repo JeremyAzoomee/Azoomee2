@@ -42,7 +42,7 @@ void ArtListView::setItems(const std::vector<std::string>& data)
     removeAllItems();
     
     const Size& contentSize = getContentSize();
-    for(int i = 0; i < _artData.size(); i ++)
+    for(int i = 0; i < _artData.size(); i++)
     {
         ArtListItem* item = ArtListItem::create();
         item->setContentSize(Size(0.0f, contentSize.height));

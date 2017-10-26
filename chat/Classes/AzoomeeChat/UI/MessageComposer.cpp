@@ -492,8 +492,8 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
         // Stickers button requires some resizing when selected, since the aspect ratio of the
         // selected and normal images is different
         _galleryTab->loadTextureNormal("res/chat/ui/buttons/art_active.png");
-        const Size& textureSize = _stickersTab->getRendererNormal()->getTexture()->getContentSize();
-        const float buttonWidth = _stickersTab->getContentSize().width;
+        const Size& textureSize = _galleryTab->getRendererNormal()->getTexture()->getContentSize();
+        const float buttonWidth = _galleryTab->getContentSize().width;
         const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
         _galleryTab->setContentSize(Size(buttonWidth, buttonHeight));
         
@@ -506,8 +506,8 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     {
         // Restore the stickers tab
         _galleryTab->loadTextureNormal("res/chat/ui/buttons/art_btn.png");
-        const Size& textureSize = _stickersTab->getRendererNormal()->getTexture()->getContentSize();
-        const float buttonWidth = _stickersTab->getContentSize().width;
+        const Size& textureSize = _galleryTab->getRendererNormal()->getTexture()->getContentSize();
+        const float buttonWidth = _galleryTab->getContentSize().width;
         const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
         _galleryTab->setContentSize(Size(buttonWidth, buttonHeight));
     }
