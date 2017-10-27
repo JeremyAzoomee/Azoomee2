@@ -444,7 +444,7 @@ void MessageComposer::sendArtMessage(const std::string &artFile)
         char* str;
         const std::string& filecont =  FileUtils::getInstance()->getStringFromFile(artFile);
         base64Encode((unsigned char*)filecont.c_str(), (unsigned int)filecont.length(), &str);
-        const MessageRef& messageObj = Message::createArtMessage(StringUtils::format("%s",str));
+        const MessageRef& messageObj = Message::createArtMessage(std::string(str));
         _delegate->onMessageComposerSendMessage(messageObj);
     }
     _messageEntryField->setString("");

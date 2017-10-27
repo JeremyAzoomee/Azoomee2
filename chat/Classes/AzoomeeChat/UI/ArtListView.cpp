@@ -74,7 +74,7 @@ bool ArtListView::init()
     setGravity(ui::ListView::Gravity::CENTER_VERTICAL);
     
     addEventListener([this](Ref* sender, ui::ListView::EventType type) {
-        if(type == ui::ListView::EventType::ON_SELECTED_ITEM_START)
+        if(type == ui::ListView::EventType::ON_SELECTED_ITEM_END)
         {
             const int selectedIndex = (int)getCurSelectedIndex();
             if(_selectedEventCallback)

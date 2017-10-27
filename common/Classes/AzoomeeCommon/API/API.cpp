@@ -314,7 +314,6 @@ HttpRequestCreator* API::SendChatMessageRequest(const std::string& userId,
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     json.Accept(writer);
     request->requestBody = buffer.GetString();
-    
     return request;
 }
 

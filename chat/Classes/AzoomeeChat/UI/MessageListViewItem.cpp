@@ -183,6 +183,7 @@ void MessageListViewItem::resizeItemContents()
         }
         _artImage->setContentSize(imageSize);
         _artLayout->setContentSize(imageSize);
+        _artImage->resizeImage();
         const Size& contentSize = Size(imageSize.width + (contentPadding.x * 2), imageSize.height + (contentPadding.y * 2));
         _contentLayout->setContentSize(contentSize);
     }
@@ -247,15 +248,23 @@ void MessageListViewItem::setData(const MessageRef& message)
 
         if(_messageData->messageType() == Message::MessageTypeArt)
         {
-            _stickerLayout->setVisible(false);
-            _stickerImage->loadTexture("");
+            //_stickerLayout->setVisible(false);
+            //_stickerImage->loadTexture("");
             _artLayout->setVisible(true);
+        }
+        else
+        {
+            _artLayout->setVisible(false);
         }
         
         if(_messageData->messageType() == Message::MessageTypeSticker)
         {
             _stickerLayout->setVisible(true);
-            _artLayout->setVisible(false);
+            //_artLayout->setVisible(false);
+        }
+        else
+        {
+            _stickerImage->setVisible(false);
         }
         //_stickerLayout->setVisible(messageText.size() == 0);
         //if(!_stickerLayout->isVisible())
