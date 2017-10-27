@@ -232,15 +232,17 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
 
 void HQSceneElementVisual::addGroupLabelsToImage()
 {
+    float textSpacing = 10.0f;
+    
     auto descriptionLabel = createLabelContentDescriptionGroup(elementItemData->getDescription(), baseLayer->getContentSize().width);
-    descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.5f));
-    descriptionLabel->setPosition(0, baseLayer->getContentSize().height + descriptionLabel->getContentSize().height);
+    descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.0f));
+    descriptionLabel->setPosition(textSpacing, baseLayer->getContentSize().height + textSpacing);
     baseLayer->addChild(descriptionLabel);
     
     auto titleLabel = createLabelContentTitleGroup(elementItemData->getTitle(), baseLayer->getContentSize().width);
     titleLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
-    titleLabel->setPosition(0,- titleLabel->getContentSize().height/2);
-    titleLabel->setHeight(100);
+    titleLabel->setPosition(textSpacing,- textSpacing);
+    titleLabel->setHeight(ConfigStorage::getInstance()->getGroupContentItemTextHeight() * 2);
     baseLayer->addChild(titleLabel);
 }
 

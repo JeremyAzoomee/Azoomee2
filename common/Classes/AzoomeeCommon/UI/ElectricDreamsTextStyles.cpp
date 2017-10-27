@@ -140,7 +140,7 @@ Label*  createLabelContentTitleGroup(std::string text, float width)
 
 Label*  createLabelContentDescriptionGroup(std::string text, float width)
 {
-    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::watermelon, 42);
+    Label* newLabel = createLabelWith(text, Style::Font::Bold, Style::Color::watermelon, 42);
     newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     newLabel->setLineSpacing(10);
     newLabel->setWidth(width);
@@ -152,7 +152,7 @@ Label*  createLabelContentDescriptionGroup(std::string text, float width)
 
 Label*  createLabelHubContentTitle(std::string text)
 {
-    Label* newLabel = createLabelWith(text, Style::Font::Medium, Style::Color::white, 38);
+    Label* newLabel = createLabelWith(text, Style::Font::Regular, Style::Color::white, 38);
     newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     
     return newLabel;

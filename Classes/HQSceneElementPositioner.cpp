@@ -1,5 +1,6 @@
 #include "HQSceneElementPositioner.h"
 #include "ui/UIScrollView.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -11,7 +12,7 @@ void HQSceneElementPositioner::positionHQSceneElement(cocos2d::Layer* sender,  b
     
     if(isGroup)
     {
-        groupHeightOffset = 50.0f;
+        groupHeightOffset = ConfigStorage::getInstance()->getGroupContentItemTextHeight();
     }
     
     cocos2d::ui::ScrollView *scrollView = (cocos2d::ui::ScrollView *)sender->getParent()->getParent();

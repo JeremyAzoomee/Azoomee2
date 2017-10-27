@@ -142,7 +142,8 @@ void HQScene::createBidirectionalScrollView()
     {
         verticalScrollView->cocos2d::Node::setPosition(_origin.x , _origin.y);
         scrollviewTitleTextHeight = 0.0f;
-        groupVideoTextHeight = 300.0f;
+        // getGroupContentItemTextHeight() * 6 because there are 3 text spaces per line
+        groupVideoTextHeight = ConfigStorage::getInstance()->getGroupContentItemTextHeight() * 6;
     }
     else
     {
