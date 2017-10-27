@@ -234,12 +234,12 @@ void HQSceneElementVisual::addGroupLabelsToImage()
 {
     float textSpacing = 10.0f;
     
-    auto descriptionLabel = createLabelContentDescriptionGroup(elementItemData->getDescription(), baseLayer->getContentSize().width);
+    auto descriptionLabel = createLabelContentDescriptionGroup(elementItemData->getDescription(), baseLayer->getContentSize().width - textSpacing * 2);
     descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.0f));
     descriptionLabel->setPosition(textSpacing, baseLayer->getContentSize().height + textSpacing);
     baseLayer->addChild(descriptionLabel);
     
-    auto titleLabel = createLabelContentTitleGroup(elementItemData->getTitle(), baseLayer->getContentSize().width);
+    auto titleLabel = createLabelContentTitleGroup(elementItemData->getTitle(), baseLayer->getContentSize().width - textSpacing * 2);
     titleLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
     titleLabel->setPosition(textSpacing,- textSpacing);
     titleLabel->setHeight(ConfigStorage::getInstance()->getGroupContentItemTextHeight() * 2);
