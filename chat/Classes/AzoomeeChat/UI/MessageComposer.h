@@ -68,17 +68,21 @@ private:
     /// Send button
     cocos2d::ui::Button* _sendButton = nullptr;
     
+    /// Layout to hold various selectors, i.e chat & art
+    cocos2d::ui::Layout* _selectorLayout = nullptr;
+    
     /// Stickers tab button
     cocos2d::ui::Button* _stickersTab = nullptr;
+    /// The stickers selector widget
+    StickerSelector* _stickerSelector = nullptr;
+    
 #ifdef AZOOMEE_CHAT_GALLERY_SHARE
     /// Gallery tab button
     cocos2d::ui::Button* _galleryTab = nullptr;
-    
+    /// Art gallery selector
     ArtListView* _artListView = nullptr;
 #endif
     
-    /// The stickers selector widget
-    StickerSelector* _stickerSelector = nullptr;
     
     /// Touch event listener
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;

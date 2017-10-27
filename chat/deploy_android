@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd proj.android-studio
+cocos compile -p android --android-studio -m release
+gradle assembleRelease crashlyticsUploadDistributionRelease

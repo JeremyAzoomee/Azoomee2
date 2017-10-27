@@ -49,17 +49,26 @@ bool MessageComposer::init()
     
     createTopUIContent(_topLayout);
     
-    // Sticker selector sits under the top
+    // Selectors sit under the top
+    _selectorLayout = ui::Layout::create();
+    _selectorLayout->setLayoutType(ui::Layout::Type::RELATIVE);
+    addChild(_selectorLayout);
+    
+    // Stickers
     _stickerSelector = StickerSelector::create();
+    _stickerSelector->setSizeType(ui::Widget::SizeType::PERCENT);
+    _stickerSelector->setSizePercent(Vec2(1.0f, 1.0f));
     _stickerSelector->setTabBarHeight(_topLayout->getContentSize().height);
-    _stickerSelector->setLayoutParameter(CreateTopLinearLayoutParam());
+    _stickerSelector->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _stickerSelector->addStickerSelectedEventListener([this](const StickerRef& sticker) {
         // Sticker selected
         sendMessage(sticker);
     });
-    addChild(_stickerSelector);
+    _selectorLayout->addChild(_stickerSelector);
     
+    // Art
     _artListView = ArtListView::create();
+    _artListView->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _artListView->setSizeType(ui::Widget::SizeType::PERCENT);
     _artListView->setSizePercent(Vec2(1.0f, 1.0f));
     
@@ -72,10 +81,11 @@ bool MessageComposer::init()
         fullFiles.push_back(StringUtils::format("%s/%s",artDir.c_str(), file.c_str()));
     }
     _artListView->setItems(fullFiles);
+    
     _artListView->addItemSelectedEventListener([this](const std::string& artFile){
-        this->sendArtMessage(artFile);
+        sendArtMessage(artFile);
     });
-    addChild(_artListView);
+    _selectorLayout->addChild(_artListView);
     
     // Default to Idle
     setMode(MessageComposer::Mode::Idle);
@@ -135,8 +145,7 @@ void MessageComposer::onSizeChanged()
     // Update the sticker selector to use the latest keyboard height we have
     // At the same time, resize to fill the width of it's parent
     const float keyboardHeight = getEstimatedKeyboardHeight();
-    _stickerSelector->setContentSize(Size(_stickerSelector->getParent()->getContentSize().width, keyboardHeight));
-    _artListView->setContentSize(Size(this->getContentSize().width, keyboardHeight));
+    _selectorLayout->setContentSize(Size(_selectorLayout->getParent()->getContentSize().width, keyboardHeight));
     
     // Size the text entry field
     const Size& textEntryMaxSize = _messageEntryField->getParent()->getContentSize();
@@ -474,7 +483,7 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
         
         // Update the sticker selector to use the latest keyboard height we have
         const float keyboardHeight = getEstimatedKeyboardHeight();
-        _stickerSelector->setContentSize(Size(_stickerSelector->getContentSize().width, keyboardHeight));
+        _selectorLayout->setContentSize(Size(_stickerSelector->getContentSize().width, keyboardHeight));
         _stickerSelector->setVisible(true);
     }
     else
@@ -499,7 +508,7 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
         
         // Update the sticker selector to use the latest keyboard height we have
         const float keyboardHeight = getEstimatedKeyboardHeight();
-        _artListView->setContentSize(Size(_artListView->getContentSize().width, keyboardHeight));
+        _selectorLayout->setContentSize(Size(_artListView->getContentSize().width, keyboardHeight));
         _artListView->setVisible(true);
     }
     else
