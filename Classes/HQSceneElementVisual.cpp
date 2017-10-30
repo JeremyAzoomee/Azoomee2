@@ -112,37 +112,28 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
         if(!aboutToExit)
         {
             addImageDownloader();
-        }
+
         
-        if(!aboutToExit && shouldDisplayVisualElementsOverImage)
-        {
-            addGradientToBottom();
-        }
-        
-        if(!aboutToExit && shouldDisplayVisualElementsOverImage)
-        {
-            auto iconSprite = addIconToImage();
-            if(!isOffline)
+            if(shouldDisplayVisualElementsOverImage)
             {
-                addLabelsToImage(iconSprite);
+                addGradientToBottom();
+                auto iconSprite = addIconToImage();
+                if(!isOffline)
+                {
+                    addLabelsToImage(iconSprite);
+                }
             }
-        }
         
-        if(!elementItemData->isEntitled())
-        {
-            if(!aboutToExit)
+            if(!elementItemData->isEntitled())
             {
                 addLockToElement();
             }
-        }
         
-       if(!aboutToExit && elementItemData->getType() == "VIDEO" && elementCategory == "GROUP HQ")
-       {
-           addGroupLabelsToImage();
-       }
-        
-        if(!aboutToExit)
-        {
+           if(elementItemData->getType() == "VIDEO" && elementCategory == "GROUP HQ")
+           {
+               addGroupLabelsToImage();
+           }
+
             addTouchOverlayToElement();
         }
     });
@@ -232,7 +223,7 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
 
 void HQSceneElementVisual::addGroupLabelsToImage()
 {
-    float textSpacing = 10.0f;
+    const float textSpacing = 10.0f;
     
     auto descriptionLabel = createLabelContentDescriptionGroup(elementItemData->getDescription(), baseLayer->getContentSize().width - textSpacing * 2);
     descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.0f));

@@ -335,8 +335,10 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
     hqSceneElement->addHQSceneElement();
 
     toBeAddedTo->addChild(hqSceneElement);
+    
+    bool isGroup = this->getName() == "GROUP HQ";
     auto sceneElementPositioner = new HQSceneElementPositioner();
-    sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement, (this->getName() == "GROUP HQ"));
+    sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement, isGroup);
 }
 
 NS_AZOOMEE_END
