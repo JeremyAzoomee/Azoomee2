@@ -6,7 +6,6 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeChat/ChatAPI.h>
 #include <external/json/document.h>
-#include "NavigationLayer.h"
 
 using namespace cocos2d;
 
@@ -25,35 +24,27 @@ ChatNotificationsSingleton* ChatNotificationsSingleton::getInstance()
     return _sharedChatNotificationsSingleton;
 }
 
-ChatNotificationsSingleton::~ChatNotificationsSingleton(void)
+ChatNotificationsSingleton::~ChatNotificationsSingleton()
 {
     Chat::ChatAPI::getInstance()->removeObserver(this);
 }
 
-bool ChatNotificationsSingleton::init(void)
+bool ChatNotificationsSingleton::init()
 {
     Chat::ChatAPI::getInstance()->registerObserver(this);
     return true;
 }
 
-void ChatNotificationsSingleton::onChatAPINewMessageNotificationReceived(int sumOfUnreadMessages)
+void ChatNotificationsSingleton::onChatAPIGetFriendList(const Chat::FriendList& friendList, int amountOfNewMessages)
 {
-    loggedInUserHasNotifications = (sumOfUnreadMessages != 0);
-    notifyNavigationLayer();
-}
-
-void ChatNotificationsSingleton::onChatAPIMessageRecieved(const Chat::MessageRef &sentMessage)
-{
-    loggedInUserHasNotifications = true;
-    AnalyticsSingleton::getInstance()->unreadMessagesNotificationReceived();
-    AudioMixer::getInstance()->playEffect("message.mp3");
-    removeBadgeFromNavigationLayer();
+    loggedInUserHasNotifications = (amountOfNewMessages != 0);
     notifyNavigationLayer();
 }
 
 void ChatNotificationsSingleton::forceNotificationsUpdate()
 {
-    Chat::ChatAPI::getInstance()->startFriendListManualPoll();
+    Chat::ChatAPI::getInstance()->requestFriendList();
+    Chat::ChatAPI::getInstance()->scheduleFriendListPoll( Chat::ChatAPI::kScheduleRateLow );
 }
 
 void ChatNotificationsSingleton::stopNotificationsUpdate()
@@ -66,28 +57,40 @@ bool ChatNotificationsSingleton::userHasNotifications()
     return loggedInUserHasNotifications;
 }
 
-void ChatNotificationsSingleton::setNavigationLayer(cocos2d::Layer* navLayer)
+void ChatNotificationsSingleton::setNavigationLayer(NavigationLayer* navLayer)
 {
-    navigationLayer = navLayer;
+    _navigationLayer = navLayer;
 }
 
-cocos2d::Layer* ChatNotificationsSingleton::getNavigationLayer()
+NavigationLayer* ChatNotificationsSingleton::getNavigationLayer()
 {
-    return navigationLayer;
+    return _navigationLayer;
 }
 
 void ChatNotificationsSingleton::notifyNavigationLayer()
 {
-    if(!navigationLayer) return;
+    if(!_navigationLayer)
+    {
+        return;
+    }
     
-    if(loggedInUserHasNotifications) ((NavigationLayer *)navigationLayer)->showNotificationBadge();
-    else ((NavigationLayer *)navigationLayer)->hideNotificationBadge();
+    if(loggedInUserHasNotifications)
+    {
+        _navigationLayer->showNotificationBadge();
+    }
+    else
+    {
+        _navigationLayer->hideNotificationBadge();
+    }
 }
 
 void ChatNotificationsSingleton::removeBadgeFromNavigationLayer()
 {
-    if(!navigationLayer) return;
-    ((NavigationLayer *)navigationLayer)->hideNotificationBadge();
+    if(!_navigationLayer)
+    {
+        return;
+    }
+    _navigationLayer->hideNotificationBadge();
 }
 
 NS_AZOOMEE_END

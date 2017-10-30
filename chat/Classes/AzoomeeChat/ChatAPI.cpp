@@ -12,8 +12,9 @@ NS_AZOOMEE_CHAT_BEGIN
 
 #pragma mark - constants
 
-const char* const kPollScheduleKey = "requestFriendList_schedule";
-const float kPollScheduleInterval = 60.0f;
+const char* const kPollScheduleKey = "Azoomee::ChatAPI::requestFriendList";
+const float ChatAPI::kScheduleRateLow = 30.0f;
+const float ChatAPI::kScheduleRateHigh = 10.0f;
 
 #pragma mark - Init
 
@@ -30,22 +31,21 @@ ChatAPI* ChatAPI::getInstance()
 
 ChatAPI::ChatAPI()
 {
-    PusherSDK::getInstance()->registerObserver(this);
 }
 
 ChatAPI::~ChatAPI()
 {
     unscheduleFriendListPoll();
-    PusherSDK::getInstance()->removeObserver(this);
 }
 
 #pragma mark - Schedule Polling of Friendlist
 
-void ChatAPI::scheduleFriendListPoll()
+void ChatAPI::scheduleFriendListPoll(float interval)
 {
+    unscheduleFriendListPoll();
     Director::getInstance()->getScheduler()->schedule([&](float dt){
         this->requestFriendList();
-    }, this, kPollScheduleInterval, false, kPollScheduleKey);
+    }, this, interval, false, kPollScheduleKey);
 }
 
 void ChatAPI::unscheduleFriendListPoll()
@@ -53,21 +53,9 @@ void ChatAPI::unscheduleFriendListPoll()
     Director::getInstance()->getScheduler()->unschedule(kPollScheduleKey, this);
 }
 
-void ChatAPI::rescheduleFriendListPoll()
-{
-    unscheduleFriendListPoll();
-    scheduleFriendListPoll();
-}
-
-bool ChatAPI::friendListPollScheduled()
+bool ChatAPI::isFriendListPollScheduled()
 {
     return Director::getInstance()->getScheduler()->isScheduled(kPollScheduleKey, this);
-}
-
-void ChatAPI::startFriendListManualPoll()
-{
-    requestFriendList();
-    rescheduleFriendListPoll();
 }
 
 #pragma mark - Profile names
@@ -215,12 +203,10 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
             _friendIndex[friendData->friendId()] = friendData;
         }
         
-        
         // Notify observers
         for(auto observer : _observers)
         {
-            observer->onChatAPIGetFriendList(_friendList);
-            observer->onChatAPINewMessageNotificationReceived(sumOfUnreadMessages);
+            observer->onChatAPIGetFriendList(_friendList, sumOfUnreadMessages);
         }
     }
     // Get chat messages success
@@ -295,7 +281,10 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
     // appropriate action.
     if(errorCode == 401)
     {
-        if(Azoomee::Chat::delegate) Azoomee::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
+        if(Azoomee::Chat::delegate)
+        {
+            Azoomee::Chat::delegate->onChatAuthorizationError(requestTag, errorCode);
+        }
     }
     else
     {
@@ -303,58 +292,6 @@ void ChatAPI::onHttpRequestFailed(const std::string& requestTag, long errorCode)
         for(auto observer : _observers)
         {
             observer->onChatAPIErrorRecieved(requestTag, errorCode);
-        }
-    }
-}
-
-#pragma - PusherEventObserver
-
-void ChatAPI::onPusherEventRecieved(const PusherEventRef& event)
-{
-    if(friendListPollScheduled()) rescheduleFriendListPoll(); //Poll is only a double check to avoid missing any pusher events. If we receive one, we reschedule (unschedule and schedule again), to avoid having too frequent poll updates.
-    
-    // Check if this is an in_moderation event
-    if(event->eventName() == "MODERATION")
-    {
-        std::string userIdA = (event->data()["userIdA"].IsString() ? event->data()["userIdA"].GetString() : "");
-        std::string userIdB = (event->data()["userIdB"].IsString() ? event->data()["userIdB"].GetString() : "");
-        
-        std::string loggedInParentOrChildId = ChildDataProvider::getInstance()->getParentOrChildId();
-        
-        if((userIdA == loggedInParentOrChildId)||(userIdB == loggedInParentOrChildId))
-        {
-            std::string otherChildId = userIdA;
-            if(otherChildId == loggedInParentOrChildId) otherChildId = userIdB;
-            
-            std::map<std::string, std::string> messageProperties;
-            messageProperties["otherChildId"] = otherChildId;
-            messageProperties["status"] = event->data()["status"].GetString();
-            
-            for(auto observer : _observers)
-            {
-                observer->onChatAPICustomMessageReceived(event->eventName(), messageProperties);
-            }
-        }
-    }
-    
-    // Check if this is a chat event
-    else if(event->eventName() == "SEND_MESSAGE")
-    {
-        // Create the Chat message from the event data
-        const MessageRef& message = Message::createFromJson(event->data());
-        
-        if(message)
-        {
-            // Make sure this message is for the current user
-            ChildDataProvider* childData = ChildDataProvider::getInstance();
-            if(message->recipientId() == childData->getParentOrChildId())
-            {
-                // Notify observers
-                for(auto observer : _observers)
-                {
-                    observer->onChatAPIMessageRecieved(message);
-                }
-            }
         }
     }
 }
