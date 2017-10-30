@@ -26,8 +26,8 @@ public:
     
     static PatternFileStorage* getInstance();
     
-    std::string getTransparantFileByName(const std::string& name);
-    std::string getNormalFileByName(const std::string& name);
+    std::string getTransparantFileByName(const std::string& name) const;
+    std::string getNormalFileByName(const std::string& name) const;
 };
 
 NS_AZOOMEE_AA_END

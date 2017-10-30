@@ -31,7 +31,7 @@ void PatternFileStorage::init()
     _fileStore["green"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_green.png", kArtAppAssetLoc + "patterns/glitter_green_t.png");
 }
 
-std::string PatternFileStorage::getNormalFileByName(const std::string &name)
+std::string PatternFileStorage::getNormalFileByName(const std::string &name) const
 {
     try{
         const std::string& value = _fileStore.at(name).first;
@@ -42,7 +42,7 @@ std::string PatternFileStorage::getNormalFileByName(const std::string &name)
     }
 }
 
-std::string PatternFileStorage::getTransparantFileByName(const std::string &name)
+std::string PatternFileStorage::getTransparantFileByName(const std::string &name) const
 {
     try{
         const std::string& value = _fileStore.at(name).second;
