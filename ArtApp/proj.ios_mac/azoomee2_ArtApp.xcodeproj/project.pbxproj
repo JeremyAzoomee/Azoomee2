@@ -45,26 +45,15 @@
 		926174201F420085008E3F9D /* BrushSprayCan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926174161F420085008E3F9D /* BrushSprayCan.cpp */; };
 		926174211F420085008E3F9D /* DrawingCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926174191F420085008E3F9D /* DrawingCanvas.cpp */; };
 		926174221F420085008E3F9D /* StickerPlacementNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261741B1F420085008E3F9D /* StickerPlacementNode.cpp */; };
-		926174231F420131008E3F9D /* BrushEraser.h in Sources */ = {isa = PBXBuildFile; fileRef = 9261740F1F420085008E3F9D /* BrushEraser.h */; };
 		926174241F420131008E3F9D /* BrushHighlighter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926174101F420085008E3F9D /* BrushHighlighter.cpp */; };
-		926174251F420131008E3F9D /* BrushHighlighter.h in Sources */ = {isa = PBXBuildFile; fileRef = 926174111F420085008E3F9D /* BrushHighlighter.h */; };
 		926174261F420131008E3F9D /* BrushPaintBrush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926174121F420085008E3F9D /* BrushPaintBrush.cpp */; };
-		926174271F420131008E3F9D /* BrushPaintBrush.h in Sources */ = {isa = PBXBuildFile; fileRef = 926174131F420085008E3F9D /* BrushPaintBrush.h */; };
 		926174281F42014F008E3F9D /* BrushPen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926174141F420085008E3F9D /* BrushPen.cpp */; };
-		926174291F42014F008E3F9D /* BrushPen.h in Sources */ = {isa = PBXBuildFile; fileRef = 926174151F420085008E3F9D /* BrushPen.h */; };
 		9261742A1F42014F008E3F9D /* BrushSprayCan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926174161F420085008E3F9D /* BrushSprayCan.cpp */; };
-		9261742B1F42014F008E3F9D /* BrushSprayCan.h in Sources */ = {isa = PBXBuildFile; fileRef = 926174171F420085008E3F9D /* BrushSprayCan.h */; };
-		9261742C1F42014F008E3F9D /* Constants.h in Sources */ = {isa = PBXBuildFile; fileRef = 926174181F420085008E3F9D /* Constants.h */; };
 		9261742D1F42014F008E3F9D /* DrawingCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926174191F420085008E3F9D /* DrawingCanvas.cpp */; };
-		9261742E1F42014F008E3F9D /* DrawingCanvas.h in Sources */ = {isa = PBXBuildFile; fileRef = 9261741A1F420085008E3F9D /* DrawingCanvas.h */; };
 		9261742F1F42014F008E3F9D /* StickerPlacementNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261741B1F420085008E3F9D /* StickerPlacementNode.cpp */; };
-		926174301F42014F008E3F9D /* StickerPlacementNode.h in Sources */ = {isa = PBXBuildFile; fileRef = 9261741C1F420085008E3F9D /* StickerPlacementNode.h */; };
 		926174311F42014F008E3F9D /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926174041F42006E008E3F9D /* MainScene.cpp */; };
-		926174321F42014F008E3F9D /* MainScene.h in Sources */ = {isa = PBXBuildFile; fileRef = 926174051F42006E008E3F9D /* MainScene.h */; };
 		926174331F42014F008E3F9D /* AzoomeeArtApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926174061F42006E008E3F9D /* AzoomeeArtApp.cpp */; };
-		926174341F42014F008E3F9D /* AzoomeeArtApp.h in Sources */ = {isa = PBXBuildFile; fileRef = 926174071F42006E008E3F9D /* AzoomeeArtApp.h */; };
 		926174351F42014F008E3F9D /* Brush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926174081F42006E008E3F9D /* Brush.cpp */; };
-		926174361F42014F008E3F9D /* Brush.h in Sources */ = {isa = PBXBuildFile; fileRef = 926174091F42006E008E3F9D /* Brush.h */; };
 		926174371F42014F008E3F9D /* BrushEraser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261740A1F42006E008E3F9D /* BrushEraser.cpp */; };
 		92A9A0751F068E5E008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A0441F068916008A19EB /* libAzoomeeArt.a */; };
 		92D1E0061F94DA820096E0FE /* DrawingCanvasUILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E0041F94DA820096E0FE /* DrawingCanvasUILayer.cpp */; };
@@ -641,18 +630,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				926174281F42014F008E3F9D /* BrushPen.cpp in Sources */,
-				926174291F42014F008E3F9D /* BrushPen.h in Sources */,
 				9261742A1F42014F008E3F9D /* BrushSprayCan.cpp in Sources */,
-				9261742B1F42014F008E3F9D /* BrushSprayCan.h in Sources */,
-				9261742C1F42014F008E3F9D /* Constants.h in Sources */,
 				9261742D1F42014F008E3F9D /* DrawingCanvas.cpp in Sources */,
-				9261742E1F42014F008E3F9D /* DrawingCanvas.h in Sources */,
 				9261742F1F42014F008E3F9D /* StickerPlacementNode.cpp in Sources */,
-				926174301F42014F008E3F9D /* StickerPlacementNode.h in Sources */,
 				926174311F42014F008E3F9D /* MainScene.cpp in Sources */,
-				926174321F42014F008E3F9D /* MainScene.h in Sources */,
 				926174331F42014F008E3F9D /* AzoomeeArtApp.cpp in Sources */,
-				926174341F42014F008E3F9D /* AzoomeeArtApp.h in Sources */,
 				926174351F42014F008E3F9D /* Brush.cpp in Sources */,
 				92D1E0071F94DA820096E0FE /* DrawingCanvasUILayer.cpp in Sources */,
 				926174361F42014F008E3F9D /* Brush.h in Sources */,
@@ -661,9 +643,7 @@
 				92D1E0571FA769A50096E0FE /* BrushConfig.cpp in Sources */,
 				926174231F420131008E3F9D /* BrushEraser.h in Sources */,
 				926174241F420131008E3F9D /* BrushHighlighter.cpp in Sources */,
-				926174251F420131008E3F9D /* BrushHighlighter.h in Sources */,
 				926174261F420131008E3F9D /* BrushPaintBrush.cpp in Sources */,
-				926174271F420131008E3F9D /* BrushPaintBrush.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,7 +775,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -838,7 +818,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
