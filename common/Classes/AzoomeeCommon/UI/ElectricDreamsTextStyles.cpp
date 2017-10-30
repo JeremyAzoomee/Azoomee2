@@ -145,6 +145,27 @@ Label*  createLabelContentDescription(std::string text)
     
     return newLabel;
 }
+    
+Label*  createLabelContentTitleGroup(const std::string& text, float width)
+{
+    Label* newLabel = createLabelWith(text, Style::Font::Medium, Style::Color::white, 42);
+    newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    newLabel->setWidth(width);
+    
+    return newLabel;
+}
+
+Label*  createLabelContentDescriptionGroup(const std::string& text, float width)
+{
+    Label* newLabel = createLabelWith(text, Style::Font::Bold, Style::Color::watermelon, 42);
+    newLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    newLabel->setLineSpacing(10);
+    newLabel->setWidth(width);
+    
+    reduceLabelTextToFitWidth(newLabel,width);
+    
+    return newLabel;
+}
 
 Label*  createLabelHubContentTitle(std::string text)
 {

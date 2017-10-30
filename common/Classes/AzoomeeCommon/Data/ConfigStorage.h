@@ -63,6 +63,7 @@ public:
     float getScrollviewTitleTextHeight();
     cocos2d::Size getGroupHQLogoSize();
     int getContentItemImageValidityInSeconds();
+    float getGroupContentItemTextHeight();
     
     //NavigationLayer configuration
     std::string getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName);

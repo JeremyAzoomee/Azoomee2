@@ -278,6 +278,11 @@ int ConfigStorage::getContentItemImageValidityInSeconds()
 {
     return HQSceneConfiguration["ContentItemImageValidityInSeconds"].GetInt();
 }
+    
+float ConfigStorage::getGroupContentItemTextHeight()
+{
+    return HQSceneConfiguration["groupContentItemTextHeight"].GetDouble();
+}
 
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 

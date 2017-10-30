@@ -12,7 +12,6 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Net/Utils.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
@@ -121,9 +120,6 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
         updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
-        
-        // Open Pusher channel
-        PusherSDK::getInstance()->openParentAccountChannel();
     }
     else
     {
