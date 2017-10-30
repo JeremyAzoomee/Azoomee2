@@ -331,13 +331,21 @@ void OnboardingScene::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == _signupButton)
+    {
         signUp();
+    }
     else if(button == _cancelButton)
+    {
         BackEndCaller::getInstance()->anonymousDeviceLogin();
+    }
     else if(button == _privacyButton)
+    {
         ModalWebview::createWithURL(Url::PrivacyPolicy);
+    }
     else if(button == _termsButton)
+    {
         ModalWebview::createWithURL(Url::TermsOfUse);
+    }
 }
 
 void OnboardingScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
