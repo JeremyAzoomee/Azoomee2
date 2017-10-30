@@ -98,29 +98,31 @@ void ChildAccountScene::addProgressIndicator()
 
 void ChildAccountScene::addTitleToScene()
 {
-    float progressIndicatorHeight = 0.0f;
-    
-    if(_progressIndicatior != nullptr)
-    {
-        progressIndicatorHeight = _progressIndicatior->getContentSize().height;
-    }
-    
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
         _sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
-        //_sceneTitle->setPositionY(_progressIndicatior->getPositionY()-_progressIndicatior->getContentSize().height-_sceneTitle->getContentSize().height/2 - progressIndicatorHeight);
     }
     else
     {
         _sceneTitle = createLabelFlowMainTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
     }
+    
+    if(_progressIndicatior != nullptr)
+    {
+        _sceneTitle->setPositionY(_progressIndicatior->getPositionY()-_progressIndicatior->getContentSize().height-_sceneTitle->getContentSize().height/2);
+    }
+    else
+    {
+        _sceneTitle->setPositionY(_origin.y + _visibleSize.height -_sceneTitle->getContentSize().height);
+    }
+    
     this->addChild(_sceneTitle);
 }
 
 void ChildAccountScene::addTextboxScene()
 {
     _childNameInputText = TextInputLayer::createWithSize(Size(_visibleSize.width * 0.80f, 160.0f), INPUT_IS_CHILD_NAME);
-    _childNameInputText->setPositionY(_sceneTitle->getPositionY()-_childNameInputText->getContentSize().height * 2.4f );
+    _childNameInputText->setPositionY(_sceneTitle->getPositionY()- _sceneTitle->getContentSize().height/2 -_childNameInputText->getContentSize().height * 1.9f );
     _childNameInputText->setDelegate(this);
     this->addChild(_childNameInputText);
     
@@ -164,7 +166,6 @@ void ChildAccountScene::addLabelToScene()
     this->addChild(_profileDOBSubTitle);
     
     _oomeesTitle = createLabelFlowSubTitle(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_REQUEST_OOMEE_LABEL));
-    _oomeesTitle->setPosition(_profileNameTitle->getPosition());
     _oomeesTitle->setVisible(false);
     this->addChild(_oomeesTitle);
 }
@@ -244,11 +245,6 @@ void ChildAccountScene::changeElementsToTextInputScreen()
 {
     clearElementsOnScreen();
     
-    if(_progressIndicatior != nullptr)
-    {
-        _progressIndicatior->setTexture("res/decoration/progress2.png");
-    }
-
     if(FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
     {
         _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_SIGNUP_LABEL));
@@ -258,6 +254,16 @@ void ChildAccountScene::changeElementsToTextInputScreen()
         _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_MAIN_TITLE_ADD_CHILD_LABEL));
     }
     
+    if(_progressIndicatior != nullptr)
+    {
+        _progressIndicatior->setTexture("res/decoration/progress2.png");
+        _sceneTitle->setPositionY(_progressIndicatior->getPositionY()-_progressIndicatior->getContentSize().height-_sceneTitle->getContentSize().height/2);
+    }
+    else
+    {
+        _sceneTitle->setPositionY(_origin.y + _visibleSize.height -_sceneTitle->getContentSize().height);
+    }
+
     _childNameInputText->setEditboxVisibility(true);
     _dayInputText->setEditboxVisibility(true);
     _monthInputText->setEditboxVisibility(true);
@@ -282,14 +288,21 @@ void ChildAccountScene::changeElementsToOomeeScreen()
 {
     clearElementsOnScreen();
     
+    _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_SELECT_OOMEE_TITLE_LABEL));
+    
     if(_progressIndicatior != nullptr)
     {
         _progressIndicatior->setTexture("res/decoration/progress3.png");
+        _sceneTitle->setPositionY(_progressIndicatior->getPositionY()-_progressIndicatior->getContentSize().height-_sceneTitle->getContentSize().height/2);
+    }
+    else
+    {
+        _sceneTitle->setPositionY(_origin.y + _visibleSize.height -_sceneTitle->getContentSize().height);
     }
 
-    _sceneTitle->setString(StringMgr::getInstance()->getStringForKey(CHILDACCOUNTSCENE_SELECT_OOMEE_TITLE_LABEL));
-    _oomeesTitle->setVisible(true);
+    _oomeesTitle->setPositionY(_sceneTitle->getPositionY() - _sceneTitle->getContentSize().height/2 - _oomeesTitle->getContentSize().height);
     
+    _oomeesTitle->setVisible(true);
     _submitButton->setVisible(true);
     _backButton->setVisible(true);
     
