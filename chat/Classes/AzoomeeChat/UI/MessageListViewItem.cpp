@@ -245,32 +245,31 @@ void MessageListViewItem::setData(const MessageRef& message)
         // Update the visiblity of elements depending on the message content
         _textLabel->setString(messageText);
         _bubbleLayout->setVisible(messageText.size() > 0);
-
-        if(_messageData->messageType() == Message::MessageTypeArt)
+        if(!_bubbleLayout->isVisible())
         {
-            //_stickerLayout->setVisible(false);
-            //_stickerImage->loadTexture("");
-            _artLayout->setVisible(true);
+            if(_messageData->messageType() == Message::MessageTypeArt)
+            {
+                _artLayout->setVisible(true);
+            }
+            else
+            {
+                _artLayout->setVisible(false);
+            }
+        
+            if(_messageData->messageType() == Message::MessageTypeSticker)
+            {
+                _stickerLayout->setVisible(true);
+            }
+            else
+            {
+                _stickerLayout->setVisible(false);
+            }
         }
         else
         {
+            _stickerLayout->setVisible(false);
             _artLayout->setVisible(false);
         }
-        
-        if(_messageData->messageType() == Message::MessageTypeSticker)
-        {
-            _stickerLayout->setVisible(true);
-            //_artLayout->setVisible(false);
-        }
-        else
-        {
-            _stickerImage->setVisible(false);
-        }
-        //_stickerLayout->setVisible(messageText.size() == 0);
-        //if(!_stickerLayout->isVisible())
-        //{
-        //    _stickerImage->loadTexture("");
-        //}
         
         // Color depends also on current user
         const std::string& senderId = message->senderId();
@@ -285,6 +284,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         _textLabel->setTextColor(Color4B(Style::Color::black));
         _stickerLayout->setVisible(false);
         _bubbleLayout->setVisible(false);
+        _artLayout->setVisible(false);
     }
     
     if(getContentSize().width > 0)

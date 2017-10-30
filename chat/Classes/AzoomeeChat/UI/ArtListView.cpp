@@ -47,6 +47,7 @@ void ArtListView::setItems(const std::vector<std::string>& data)
         ArtListItem* item = ArtListItem::create();
         item->setContentSize(Size(0.0f, contentSize.height));
         item->setData(data[i]);
+        item->enableOnScreenChecker();
         pushBackCustomItem(item);
     }
     

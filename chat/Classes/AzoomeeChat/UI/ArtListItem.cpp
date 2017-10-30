@@ -49,7 +49,7 @@ void ArtListItem::setData(const std::string& data)
 {
     _itemData = data;
     
-    _itemView->loadTexture(_itemData);
+    _itemView->loadTexture("res/contentPlaceholders/Create1X1.png");
     
     
     forceDoLayout();
@@ -101,11 +101,11 @@ void ArtListItem::onEnter()
 
 void ArtListItem::onExit()
 {
-   // if(_onScreenChecker)
-   // {
-   //     _onScreenChecker->endCheck();
-   //     _onScreenChecker->release();
-   // }
+    if(_onScreenChecker)
+    {
+        _onScreenChecker->endCheck();
+        _onScreenChecker->release();
+    }
 
     Super::onExit();
 }
@@ -120,22 +120,22 @@ void ArtListItem::setContentSize(const cocos2d::Size& contentSize)
 
 void ArtListItem::addImage(cocos2d::Texture2D* tex)
 {
-    //_itemButton->loadTextures(tex->getPath(), tex->getPath());
-    //forceDoLayout();
+    _itemView->loadTexture(tex->getPath());
+    forceDoLayout();
 }
 
 void ArtListItem::addPlaceHolder()
 {
-    //_itemButton->loadTextures("res/contentPlaceholders/Create1X1.png", "res/contentPlaceholders/Create1X1.png");
-    //forceDoLayout();
+    _itemView->loadTexture("res/contentPlaceholders/Create1X1.png");
+    forceDoLayout();
 }
 
 void ArtListItem::loadImageTex()
 {
-   // Director::getInstance()->getTextureCache()->addImageAsync(_itemData, [&](Texture2D* tex)
-   // {
-   //     this->addImage(tex);
-   // });
+    Director::getInstance()->getTextureCache()->addImageAsync(_itemData, [&](Texture2D* tex)
+    {
+        this->addImage(tex);
+    });
 
 }
 
