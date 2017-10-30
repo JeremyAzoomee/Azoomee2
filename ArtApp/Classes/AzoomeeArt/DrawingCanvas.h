@@ -19,13 +19,12 @@
 #include "BrushSprayCan.h"
 #include "BrushEraser.h"
 #include "StickerPlacementNode.h"
+#include "BrushConfig.h"
 #include <vector>
 #include "AzoomeeArtApp.h"
 #include <AzoomeeCommon/Data/Json.h>
 
 NS_AZOOMEE_AA_BEGIN
-typedef std::pair<std::string,std::vector<std::string>> StickerSet;
-typedef std::vector<StickerSet> StickerFileStore;
 
 class DrawingCanvas : public cocos2d::Node{
     typedef cocos2d::Node Super;
@@ -68,15 +67,10 @@ protected:
     
     StickerPlacementNode* _stickerNode = nullptr;
     
-    Brush* _activeBrush = nullptr;
-    std::vector<Brush*> _brushes;
+    BrushRef _activeBrush;
+    std::vector<BrushRef> _brushes;
     
-    float _brushRadius;
-    cocos2d::Color4F _selectedColour;
-    std::string _selectedPattern;
-    std::string _selectedPatternTransparant;
-    
-    std::string _bgImageFilename;
+    BrushConfigRef _brushConfig;
     
     bool init() override;
     void onEnter() override;
@@ -87,10 +81,6 @@ protected:
     void setupTouchHandling();
     
     void addBrushes();
-    
-private:
-    
-    StickerFileStore getStickerFilesFromJSON();
     
 };
 

@@ -386,7 +386,7 @@ void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, cons
     
     this->addChild(_stickerCategoryLayout,POPUP_UI_LAYER);
     
-    _stickerCats = getStickerFilesFromJSON();
+    getStickerFilesFromJSON();
     
     _selectionIndicator = Sprite::create(kArtAppAssetLoc + "popup/art_selection_indicator.png");
     _selectionIndicator->setAnchorPoint(Vec2(0.5,0.3));
@@ -397,7 +397,7 @@ void DrawingCanvasUILayer::addStickerSelectButtons(const Size& visibleSize, cons
     for(int i = 0; i < _stickerCats.size(); i++)
     {
         ui::Button* stickerCatButton = ui::Button::create();
-        stickerCatButton->loadTextures(kStickerLoc + _stickerCats[i].first, kStickerLoc + _stickerCats[i].first);
+        stickerCatButton->loadTextures(kStickerLoc + _stickerCats[i]->first, kStickerLoc + _stickerCats[i]->first);
         stickerCatButton->setAnchorPoint(Vec2(0.5,0.5));
         stickerCatButton->setNormalizedPosition(Vec2((i+0.5f)/(float)_stickerCats.size(),0.5));
         stickerCatButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onStickerCategoryChangePressed, this,i));
@@ -499,7 +499,7 @@ void DrawingCanvasUILayer::onClearButtonPressed(Ref *pSender, ui::Widget::TouchE
     {
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         _drawingCanvas->setListenerEnabled(false);
         _confirmDeleteImagePopup->setVisible(true);
@@ -532,8 +532,7 @@ void DrawingCanvasUILayer::onColourChangePressed(Ref *pSender, ui::Widget::Touch
         pressedButton->setScale(baseScale * 0.85f);
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         _selected->retain();
         _selected->removeFromParent();
@@ -577,8 +576,7 @@ void DrawingCanvasUILayer::onColourChangePressed(Ref *pSender, ui::Widget::Touch
         }
         _drawingCanvas->addNewDrawNode();
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
         pressedButton->setScale(baseScale / 0.85f);
     }
@@ -594,8 +592,7 @@ void DrawingCanvasUILayer::onColourSelectPressed(Ref *pSender, ui::Widget::Touch
         pressedButton->setScale(baseScale * 0.85f);
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
         setUIEnabled(false);
@@ -603,8 +600,7 @@ void DrawingCanvasUILayer::onColourSelectPressed(Ref *pSender, ui::Widget::Touch
         _drawingCanvas->setListenerEnabled(false);
         
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
         pressedButton->setScale(baseScale / 0.85f);
     }
@@ -620,8 +616,7 @@ void DrawingCanvasUILayer::onCloseColourSelectPressed(Ref *pSender, ui::Widget::
         pressedButton->setScale(baseScale * 0.85f);
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
         
@@ -630,8 +625,7 @@ void DrawingCanvasUILayer::onCloseColourSelectPressed(Ref *pSender, ui::Widget::
         _drawingCanvas->setListenerEnabled(true);
         
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
         pressedButton->setScale(baseScale / 0.85f);
     }
@@ -647,8 +641,7 @@ void DrawingCanvasUILayer::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEv
         pressedButton->setScale(baseScale * 0.85f);
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
         setStickerPopupVisible(false);
@@ -657,8 +650,7 @@ void DrawingCanvasUILayer::onAddStickerPressed(Ref *pSender, ui::Widget::TouchEv
 
         setStickerUIEnabled(true);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
         pressedButton->setScale(baseScale / 0.85f);
     }
@@ -674,8 +666,7 @@ void DrawingCanvasUILayer::onAddStickerButtonPressed(Ref *pSender, ui::Widget::T
         pressedButton->setScale(baseScale * 0.85f);
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
         setUIEnabled(false);
@@ -684,8 +675,7 @@ void DrawingCanvasUILayer::onAddStickerButtonPressed(Ref *pSender, ui::Widget::T
         _drawingCanvas->setListenerEnabled(false);
         
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
         pressedButton->setScale(baseScale / 0.85f);
     }
@@ -701,8 +691,7 @@ void DrawingCanvasUILayer::onCloseStickerSelectPressed(Ref *pSender, ui::Widget:
         pressedButton->setScale(baseScale * 0.85f);
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
         
@@ -711,8 +700,7 @@ void DrawingCanvasUILayer::onCloseStickerSelectPressed(Ref *pSender, ui::Widget:
         _drawingCanvas->setListenerEnabled(true);
         
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
         pressedButton->setScale(baseScale / 0.85f);
     }
@@ -728,8 +716,7 @@ void DrawingCanvasUILayer::onConfirmStickerPressed(Ref *pSender, ui::Widget::Tou
         pressedButton->setScale(baseScale * 0.85f);
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
         setStickerUIEnabled(false);
@@ -740,8 +727,7 @@ void DrawingCanvasUILayer::onConfirmStickerPressed(Ref *pSender, ui::Widget::Tou
         _drawingCanvas->addStickerToDrawing();
         
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
         pressedButton->setScale(baseScale / 0.85f);
     }
@@ -757,16 +743,14 @@ void DrawingCanvasUILayer::onCancelStickerPressed(Ref *pSender, ui::Widget::Touc
         pressedButton->setScale(baseScale * 0.85f);
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
         setStickerUIEnabled(false);
         _drawingCanvas->setListenerEnabled(true);
         
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
         pressedButton->setScale(baseScale / 0.85f);
     }
@@ -782,8 +766,7 @@ void DrawingCanvasUILayer::onConfirmDeletePressed(Ref *pSender, ui::Widget::Touc
         pressedButton->setScale(baseScale * 0.85f);
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
         _confirmDeleteImagePopup->setVisible(false);
@@ -791,8 +774,7 @@ void DrawingCanvasUILayer::onConfirmDeletePressed(Ref *pSender, ui::Widget::Touc
         _drawingCanvas->setListenerEnabled(true);
         _drawingCanvas->clearDrawing();
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
         pressedButton->setScale(baseScale / 0.85f);
     }
@@ -808,8 +790,7 @@ void DrawingCanvasUILayer::onCancelDeletePressed(Ref *pSender, ui::Widget::Touch
         pressedButton->setScale(baseScale * 0.85f);
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         pressedButton->setScale(baseScale / 0.85f);
         _confirmDeleteImagePopup->setVisible(false);
@@ -817,8 +798,7 @@ void DrawingCanvasUILayer::onCancelDeletePressed(Ref *pSender, ui::Widget::Touch
         _drawingCanvas->setListenerEnabled(true);
         
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
         pressedButton->setScale(baseScale / 0.85f);
     }
@@ -837,8 +817,7 @@ void DrawingCanvasUILayer::onToolChanged(Ref *pSender, ui::Widget::TouchEventTyp
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
         }
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         if(pressedButton != _selectedToolButton)
         {
@@ -864,8 +843,7 @@ void DrawingCanvasUILayer::onToolChanged(Ref *pSender, ui::Widget::TouchEventTyp
         }
         
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::CANCELED)
+    else if(eEventType == ui::Widget::TouchEventType::CANCELED)
     {
         if(pressedButton != _selectedToolButton)
         {
@@ -891,15 +869,14 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
     {
         AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
     }
-    
-    if(eEventType == ui::Widget::TouchEventType::ENDED)
+    else if(eEventType == ui::Widget::TouchEventType::ENDED)
     {
         auto catButtons = _stickerCategoryLayout->getChildren();
         
         _selectionIndicator->setNormalizedPosition(Vec2((index + 0.5f)/catButtons.size(),0));
         const Size& visibleSize = Director::getInstance()->getVisibleSize();
         
-        int numStickers = (int)_stickerCats[index].second.size();
+        int numStickers = (int)_stickerCats[index]->second.size();
         
         _stickerScrollView->removeAllChildren();
         _stickerScrollView->setInnerContainerSize(Size(visibleSize.width/7.0f * numStickers/2.0f, visibleSize.height/2));
@@ -908,7 +885,7 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
         {
             ui::Button* temp = ui::Button::create();
             temp->setAnchorPoint(Vec2(0.5,0.5));
-            temp->loadTextures(kStickerLoc + _stickerCats[index].second[i],kStickerLoc + _stickerCats[index].second[i]);
+            temp->loadTextures(kStickerLoc + _stickerCats[index]->second[i],kStickerLoc + _stickerCats[index]->second[i]);
             temp->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.8));
             temp->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
             _stickerScrollView->addChild(temp);
@@ -917,7 +894,7 @@ void DrawingCanvasUILayer::onStickerCategoryChangePressed(Ref *pSender, ui::Widg
             {
                 ui::Button* temp2 = ui::Button::create();
                 temp2->setAnchorPoint(Vec2(0.5,0.5));
-                temp2->loadTextures(kStickerLoc + _stickerCats[index].second[i+1],kStickerLoc + _stickerCats[index].second[i+1]);
+                temp2->loadTextures(kStickerLoc + _stickerCats[index]->second[i+1],kStickerLoc + _stickerCats[index]->second[i+1]);
                 temp2->setPosition(Vec2(_stickerScrollView->getInnerContainerSize().width*((i+1.0f)/(numStickers+1)),_stickerScrollView->getInnerContainerSize().height*0.4));
                 temp2->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onAddStickerPressed, this));
                 _stickerScrollView->addChild(temp2);
@@ -1045,11 +1022,10 @@ void DrawingCanvasUILayer::setButtonBodyPattern(cocos2d::ui::Button *button, con
 
 //---------------------Sticker file collection methods ----------------------------------------//
 
-StickerFileStore DrawingCanvasUILayer::getStickerFilesFromJSON()
+void DrawingCanvasUILayer::getStickerFilesFromJSON()
 {
-    StickerFileStore fileStore = StickerFileStore();
     
-    std::string fullFileText = FileUtils::getInstance()->getStringFromFile(kStickerLoc + "catalogue.json");
+    const std::string& fullFileText = FileUtils::getInstance()->getStringFromFile(kStickerLoc + "catalogue.json");
     
     rapidjson::Document json;
     json.Parse(fullFileText.c_str());
@@ -1070,16 +1046,13 @@ StickerFileStore DrawingCanvasUILayer::getStickerFilesFromJSON()
             catStickers.push_back(sticker);
         }
         
-        StickerSet categorySet = StickerSet();
-        categorySet.first = catName;
-        categorySet.second = catStickers;
+        StickerSetRef categorySet = std::make_shared<StickerSet>();
+        categorySet->first = catName;
+        categorySet->second = catStickers;
         
-        fileStore.push_back(categorySet);
+        _stickerCats.push_back(categorySet);
         
     }
-    
-    
-    return fileStore;
 }
 
 

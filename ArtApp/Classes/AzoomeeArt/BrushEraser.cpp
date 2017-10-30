@@ -35,7 +35,7 @@ Node* BrushEraser::getDrawNode()
 void BrushEraser::onTouchBegin(Touch *touch, Event *event)
 {
     _lastTouchPos = _drawNode->convertTouchToNodeSpace(touch);
-    Sprite* background = Sprite::create(*_bgImageFile);
+    Sprite* background = Sprite::create(_brushConfig->getBgImageFilename());
     background->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
     background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     background->setScale(Director::getInstance()->getVisibleSize().width/background->getContentSize().width);
@@ -48,11 +48,11 @@ void BrushEraser::onTouchMoved(Touch *touch, Event *event)
     
     float distance = _lastTouchPos.distance(touchPos);
     
-    int numSprites = distance/(*_brushRadius*0.15);
+    int numSprites = distance/(_brushConfig->getBrushRadius()*0.15);
     
     for(int i = 0; i < numSprites; i++)
     {
-        _drawNode->drawSolidCircle(_lastTouchPos + i * ((touchPos - _lastTouchPos)/numSprites), *_brushRadius, 0, 16, Color4F::BLACK);
+        _drawNode->drawSolidCircle(_lastTouchPos + i * ((touchPos - _lastTouchPos)/numSprites), _brushConfig->getBrushRadius(), 0, 16, Color4F::BLACK);
     }
     _lastTouchPos = touchPos;
 }

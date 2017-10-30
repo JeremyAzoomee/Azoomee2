@@ -24,7 +24,6 @@ PatternFileStorage* PatternFileStorage::getInstance()
 
 void PatternFileStorage::init()
 {
-    _fileStore = std::map<std::string, std::pair<std::string,std::string>>();
     _fileStore["gold"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_gold.png", kArtAppAssetLoc + "patterns/glitter_gold_t.png");
     _fileStore["silver"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_silver.png", kArtAppAssetLoc + "patterns/glitter_silver_t.png");
     _fileStore["pink"] = std::pair<std::string, std::string>(kArtAppAssetLoc + "patterns/glitter_pink.png", kArtAppAssetLoc + "patterns/glitter_pink_t.png");
@@ -35,7 +34,7 @@ void PatternFileStorage::init()
 std::string PatternFileStorage::getNormalFileByName(const std::string &name)
 {
     try{
-        std::string value = _fileStore.at(name).first;
+        const std::string& value = _fileStore.at(name).first;
         return value;
     }
     catch(std::out_of_range){
@@ -46,7 +45,7 @@ std::string PatternFileStorage::getNormalFileByName(const std::string &name)
 std::string PatternFileStorage::getTransparantFileByName(const std::string &name)
 {
     try{
-        std::string value = _fileStore.at(name).second;
+        const std::string& value = _fileStore.at(name).second;
         return value;
     }
     catch(std::out_of_range){

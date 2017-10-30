@@ -15,6 +15,10 @@
 
 NS_AZOOMEE_AA_BEGIN
 
+typedef std::pair<std::string,std::vector<std::string>> StickerSet;
+typedef std::shared_ptr<StickerSet> StickerSetRef;
+typedef std::vector<StickerSetRef> StickerFileStore;
+
 class DrawingCanvasUILayer: public cocos2d::Node
 {
     typedef cocos2d::Node Super;
@@ -98,7 +102,7 @@ private:
     void setButtonBodyColour(cocos2d::ui::Button* button, cocos2d::Color3B colour);
     void setButtonBodyPattern(cocos2d::ui::Button* button, const std::string& pattern);
     
-    StickerFileStore getStickerFilesFromJSON();
+    void getStickerFilesFromJSON();
     
 public:
     CREATE_FUNC(DrawingCanvasUILayer);

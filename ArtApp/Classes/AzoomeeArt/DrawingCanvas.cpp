@@ -23,8 +23,10 @@ bool DrawingCanvas::init()
         return false;
     }
     
+    _brushConfig = BrushConfig::create();
+    
     _background = LayerColor::create(Color4B(Style::Color_4F::pureWhite));
-    _bgImageFilename = kArtAppAssetLoc + "white_bg.png";
+     _brushConfig->setBgImageFilename(kArtAppAssetLoc + "white_bg.png");
     
     this->addChild(_background,BACKGROUND_LAYER);
     
@@ -54,7 +56,7 @@ void DrawingCanvas::onEnter()
     addBrushes();
     
     
-    for(Brush* b : _brushes)
+    for(BrushRef b : _brushes)
     {
         b->setupDrawNode(visibleSize);
     }
@@ -71,43 +73,38 @@ void DrawingCanvas::onExit()
 {
     Super::onExit();
     
-    for(Brush* b : _brushes)
-    {
-        delete b;
-    }
-    
     _brushes.clear();
     
 }
 
 void DrawingCanvas::setBrushRadius(float brushRadius)
 {
-    _brushRadius = brushRadius;
+    _brushConfig->setBrushRadius(brushRadius);
 }
 
 void DrawingCanvas::setSelectedColour(cocos2d::Color4F colour)
 {
-    _selectedColour = colour;
+    _brushConfig->setSelectedColour(colour);
 }
 
 Color4F DrawingCanvas::getSelectedColour()
 {
-    return _selectedColour;
+    return _brushConfig->getSelectedColour();
 }
 
 void DrawingCanvas::setSelectedPattern(const std::string& pattern)
 {
-    _selectedPattern = pattern;
+    _brushConfig->setSelectedPattern(pattern);
 }
 
 void DrawingCanvas::setSelectedPatternTansparant(const std::string &pattern)
 {
-    _selectedPatternTransparant = pattern;
+    _brushConfig->setSelectedPatternTansparant(pattern);
 }
 
 std::string DrawingCanvas::getSelectedPattern()
 {
-    return _selectedPattern;
+    return _brushConfig->getSelectedPattern();
 }
 
 void DrawingCanvas::setListenerEnabled(bool isEnabled)
@@ -298,11 +295,11 @@ void DrawingCanvas::addBrushes()
 {
     _brushes.clear();
     
-    Brush* pen = new BrushPen();
-    Brush* paintbrush = new BrushPaintBrush();
-    Brush* highlighter = new BrushHighlighter();
-    Brush* sprayCan = new BrushSprayCan();
-    Brush* eraser = new BrushEraser();
+    BrushRef pen = std::make_shared<BrushPen>();
+    BrushRef paintbrush = std::make_shared<BrushPaintBrush>();
+    BrushRef highlighter = std::make_shared<BrushHighlighter>();
+    BrushRef sprayCan = std::make_shared<BrushSprayCan>();
+    BrushRef eraser = std::make_shared<BrushEraser>();
     
     _brushes.push_back(pen);
     _brushes.push_back(paintbrush);
@@ -310,14 +307,10 @@ void DrawingCanvas::addBrushes()
     _brushes.push_back(sprayCan);
     _brushes.push_back(eraser);
     
-    for (Brush* b : _brushes) {
+    for (BrushRef b : _brushes) {
         b->init();
-        b->setSelectedColour(&_selectedColour);
-        b->setBrushRadius(&_brushRadius);
-        b->setBgImageFile(&_selectedPattern);
+        b->setBrushConfig(_brushConfig);
     }
-    eraser->setBgImageFile(&_bgImageFilename);
-    highlighter->setBgImageFile(&_selectedPatternTransparant);
     _activeBrush = _brushes[0];
     this->addChild(_activeBrush->getDrawNode());
 }

@@ -71,6 +71,8 @@
 		92D1E0071F94DA820096E0FE /* DrawingCanvasUILayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E0041F94DA820096E0FE /* DrawingCanvasUILayer.cpp */; };
 		92D1E00F1F98DC090096E0FE /* PatternFileStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E00D1F98DC090096E0FE /* PatternFileStorage.cpp */; };
 		92D1E0101F98DC090096E0FE /* PatternFileStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E00D1F98DC090096E0FE /* PatternFileStorage.cpp */; };
+		92D1E0561FA769A50096E0FE /* BrushConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E0551FA769A50096E0FE /* BrushConfig.cpp */; };
+		92D1E0571FA769A50096E0FE /* BrushConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E0551FA769A50096E0FE /* BrushConfig.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -216,6 +218,8 @@
 		92D1E0081F94DAD70096E0FE /* DrawingCanvasUILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DrawingCanvasUILayer.h; path = ../../artapp/Classes/AzoomeeArt/DrawingCanvasUILayer.h; sourceTree = "<group>"; };
 		92D1E00D1F98DC090096E0FE /* PatternFileStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PatternFileStorage.cpp; path = ../../artapp/Classes/AzoomeeArt/PatternFileStorage.cpp; sourceTree = "<group>"; };
 		92D1E00E1F98DC090096E0FE /* PatternFileStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PatternFileStorage.h; path = ../../artapp/Classes/AzoomeeArt/PatternFileStorage.h; sourceTree = "<group>"; };
+		92D1E0521FA765BE0096E0FE /* BrushConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrushConfig.h; path = ../../artapp/Classes/AzoomeeArt/BrushConfig.h; sourceTree = "<group>"; };
+		92D1E0551FA769A50096E0FE /* BrushConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BrushConfig.cpp; path = ../../artapp/Classes/AzoomeeArt/BrushConfig.cpp; sourceTree = "<group>"; };
 		92F52EA81F20DE3D0032EF83 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../../common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -397,33 +401,59 @@
 		926174011F420043008E3F9D /* AzoomeeArt */ = {
 			isa = PBXGroup;
 			children = (
+				92D1E05A1FA771B40096E0FE /* Stickers */,
+				92D1E0591FA771790096E0FE /* Canvas */,
+				92D1E0581FA771220096E0FE /* Brush */,
 				92D1E00D1F98DC090096E0FE /* PatternFileStorage.cpp */,
 				92D1E00E1F98DC090096E0FE /* PatternFileStorage.h */,
-				92D1E0081F94DAD70096E0FE /* DrawingCanvasUILayer.h */,
-				92D1E0041F94DA820096E0FE /* DrawingCanvasUILayer.cpp */,
-				9261740F1F420085008E3F9D /* BrushEraser.h */,
-				9261740A1F42006E008E3F9D /* BrushEraser.cpp */,
-				926174101F420085008E3F9D /* BrushHighlighter.cpp */,
-				926174111F420085008E3F9D /* BrushHighlighter.h */,
-				926174121F420085008E3F9D /* BrushPaintBrush.cpp */,
-				926174131F420085008E3F9D /* BrushPaintBrush.h */,
-				926174141F420085008E3F9D /* BrushPen.cpp */,
-				926174151F420085008E3F9D /* BrushPen.h */,
-				926174161F420085008E3F9D /* BrushSprayCan.cpp */,
-				926174171F420085008E3F9D /* BrushSprayCan.h */,
 				926174181F420085008E3F9D /* Constants.h */,
-				926174191F420085008E3F9D /* DrawingCanvas.cpp */,
-				9261741A1F420085008E3F9D /* DrawingCanvas.h */,
-				9261741B1F420085008E3F9D /* StickerPlacementNode.cpp */,
-				9261741C1F420085008E3F9D /* StickerPlacementNode.h */,
 				926174041F42006E008E3F9D /* MainScene.cpp */,
 				926174051F42006E008E3F9D /* MainScene.h */,
 				926174061F42006E008E3F9D /* AzoomeeArtApp.cpp */,
 				926174071F42006E008E3F9D /* AzoomeeArtApp.h */,
-				926174081F42006E008E3F9D /* Brush.cpp */,
-				926174091F42006E008E3F9D /* Brush.h */,
 			);
 			name = AzoomeeArt;
+			sourceTree = "<group>";
+		};
+		92D1E0581FA771220096E0FE /* Brush */ = {
+			isa = PBXGroup;
+			children = (
+				92D1E0521FA765BE0096E0FE /* BrushConfig.h */,
+				92D1E0551FA769A50096E0FE /* BrushConfig.cpp */,
+				926174091F42006E008E3F9D /* Brush.h */,
+				926174081F42006E008E3F9D /* Brush.cpp */,
+				926174151F420085008E3F9D /* BrushPen.h */,
+				926174141F420085008E3F9D /* BrushPen.cpp */,
+				926174131F420085008E3F9D /* BrushPaintBrush.h */,
+				926174121F420085008E3F9D /* BrushPaintBrush.cpp */,
+				926174111F420085008E3F9D /* BrushHighlighter.h */,
+				926174101F420085008E3F9D /* BrushHighlighter.cpp */,
+				926174171F420085008E3F9D /* BrushSprayCan.h */,
+				926174161F420085008E3F9D /* BrushSprayCan.cpp */,
+				9261740F1F420085008E3F9D /* BrushEraser.h */,
+				9261740A1F42006E008E3F9D /* BrushEraser.cpp */,
+			);
+			name = Brush;
+			sourceTree = "<group>";
+		};
+		92D1E0591FA771790096E0FE /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				92D1E0081F94DAD70096E0FE /* DrawingCanvasUILayer.h */,
+				92D1E0041F94DA820096E0FE /* DrawingCanvasUILayer.cpp */,
+				9261741A1F420085008E3F9D /* DrawingCanvas.h */,
+				926174191F420085008E3F9D /* DrawingCanvas.cpp */,
+			);
+			name = Canvas;
+			sourceTree = "<group>";
+		};
+		92D1E05A1FA771B40096E0FE /* Stickers */ = {
+			isa = PBXGroup;
+			children = (
+				9261741C1F420085008E3F9D /* StickerPlacementNode.h */,
+				9261741B1F420085008E3F9D /* StickerPlacementNode.cpp */,
+			);
+			name = Stickers;
 			sourceTree = "<group>";
 		};
 		92F52EA91F20DE3D0032EF83 /* Products */ = {
@@ -588,6 +618,7 @@
 			files = (
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				92D1E0561FA769A50096E0FE /* BrushConfig.cpp in Sources */,
 				9261741E1F420085008E3F9D /* BrushPaintBrush.cpp in Sources */,
 				9261741F1F420085008E3F9D /* BrushPen.cpp in Sources */,
 				9261741D1F420085008E3F9D /* BrushHighlighter.cpp in Sources */,
@@ -627,6 +658,7 @@
 				926174361F42014F008E3F9D /* Brush.h in Sources */,
 				92D1E0101F98DC090096E0FE /* PatternFileStorage.cpp in Sources */,
 				926174371F42014F008E3F9D /* BrushEraser.cpp in Sources */,
+				92D1E0571FA769A50096E0FE /* BrushConfig.cpp in Sources */,
 				926174231F420131008E3F9D /* BrushEraser.h in Sources */,
 				926174241F420131008E3F9D /* BrushHighlighter.cpp in Sources */,
 				926174251F420131008E3F9D /* BrushHighlighter.h in Sources */,

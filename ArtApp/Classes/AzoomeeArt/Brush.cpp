@@ -29,29 +29,19 @@ void Brush::setupDrawNode(const Size& visibleSize)
     _drawNode->setContentSize(visibleSize);
 }
 
-void Brush::setSelectedColour(Color4F *selectedColour)
+void Brush::setBrushConfig(BrushConfigRef brushConfig)
 {
-    _selectedColour = selectedColour;
-}
-
-void Brush::setBrushRadius(float *brushRadius)
-{
-    _brushRadius = brushRadius;
-}
-
-void Brush::setBgImageFile(std::string* filename)
-{
-    _bgImageFile = filename;
+    _brushConfig = brushConfig;
 }
 
 Node* Brush::addDrawNode(const Size& visibleSize)
 {
-    if(*_bgImageFile != "")
+    if(_brushConfig->getSelectedPattern() != "")
     {
         _drawNode = DrawNode::create();
         _drawNode->setContentSize(visibleSize);
         _maskingNode = ClippingNode::create(_drawNode);
-        Sprite* background = Sprite::create(*_bgImageFile);
+        Sprite* background = Sprite::create(_brushConfig->getSelectedPattern());
         background->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
         background->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         background->setScale(Director::getInstance()->getVisibleSize().width/background->getContentSize().width);
@@ -69,7 +59,7 @@ Node* Brush::addDrawNode(const Size& visibleSize)
 
 Node* Brush::getDrawNode()
 {
-    if(*_bgImageFile != "")
+    if(_brushConfig->getSelectedPattern() != "")
     {
         return _maskingNode;
     }

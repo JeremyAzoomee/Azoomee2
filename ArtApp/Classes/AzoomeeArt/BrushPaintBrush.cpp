@@ -58,16 +58,16 @@ void BrushPaintBrush::onTouchMoved(Touch *touch, Event *event)
     Vec2 touchPos = _brushLayer->convertTouchToNodeSpace(touch);
     float distance = _lastTouchPos.distance(touchPos);
     
-    int numSprites = distance/(*_brushRadius*0.15);
+    int numSprites = distance/(_brushConfig->getBrushRadius()*0.15);
     
     for(int i = 0; i < numSprites; i++)
     {
         Sprite* s = Sprite::create(kArtAppAssetLoc + "paintbrush_effect.png");
-        float scale = *_brushRadius/(s->getContentSize().width/2);
+        float scale = _brushConfig->getBrushRadius()/(s->getContentSize().width/2);
         s->setScale(scale);
         s->setAnchorPoint(Vec2(0.5,0.5));
         s->setPosition(_lastTouchPos + i * ((touchPos - _lastTouchPos)/numSprites));
-        s->setColor(Color3B(*_selectedColour));
+        s->setColor(Color3B(_brushConfig->getSelectedColour()));
         _brushLayer->addChild(s);
     }
     _spriteCount += numSprites;
