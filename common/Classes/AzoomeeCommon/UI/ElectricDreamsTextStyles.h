@@ -27,6 +27,8 @@ cocos2d::Label*  createLabelMessageBoxTitle(std::string text);
 cocos2d::Label*  createLabelMessageBoxBody(std::string text);
 cocos2d::Label*  createLabelContentTitle(std::string text);
 cocos2d::Label*  createLabelContentDescription(std::string text);
+cocos2d::Label*  createLabelContentTitleGroup(const std::string& text, float width);
+cocos2d::Label*  createLabelContentDescriptionGroup(const std::string& text, float width);
 cocos2d::Label*  createLabelHubContentTitle(std::string text);
 cocos2d::Label*  createLabelSmallLoading(std::string text);
 cocos2d::Label*  createUserNameLabelWithWidth(float width);
