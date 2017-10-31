@@ -244,16 +244,16 @@ void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroun
     
     if(filename != "")
     {
-        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename))
+        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename))
         {
-            _maskedBGImage->initWithFile(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename);
+            _maskedBGImage->initWithFile(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename);
             imagefound = true;
         }
         else
         {
-            if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + "cta_bundle/images/" + filename))
+            if(FileUtils::getInstance()->isFileExist(_kCTABundleImageLoc + filename))
             {
-                _maskedBGImage->initWithFile(_kCTAAssetLoc + "cta_bundle/images/" + filename);
+                _maskedBGImage->initWithFile(_kCTABundleImageLoc + filename);
                 imagefound = true;
             }
         }
@@ -377,15 +377,15 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
             
             if(filename != "")
             {
-                if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename))
+                if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename))
                 {
-                    addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename);
+                    addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename);
                 }
                 else
                 {
-                    if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + "cta_bundle/images/" + filename))
+                    if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + _kCTABundleImageLoc + filename))
                     {
-                        addImageWithParams(size, pos, opacity,_kCTAAssetLoc +  "cta_bundle/images/" + filename);
+                        addImageWithParams(size, pos, opacity,_kCTAAssetLoc +  _kCTABundleImageLoc + filename);
                     }
                 }
             }

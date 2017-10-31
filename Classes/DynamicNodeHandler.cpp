@@ -156,7 +156,7 @@ bool DynamicNodeHandler::isCTAPackageJSONExist()
 
 void DynamicNodeHandler::checkIfVersionChangedFromLastCTAPull()
 {
-    const std::string& lastPullAppVersionFile = getCTADirectoryPath() + "lastPullAppVersion.txt";
+    const std::string& lastPullAppVersionFile = getLastPullAppVersionFilePath();
     if(!FileUtils::getInstance()->isFileExist(lastPullAppVersionFile))
     {
         FileUtils::getInstance()->writeStringToFile(ConfigStorage::getInstance()->getVersionNumber(), lastPullAppVersionFile);
@@ -258,7 +258,7 @@ void DynamicNodeHandler::onGetCTAPackageZipAnswerReceived(cocos2d::network::Http
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
         removeCTAFiles();
         unzipCTAFiles(targetPath.c_str(), basePath.c_str(), nullptr);
-        FileUtils::getInstance()->writeStringToFile(ConfigStorage::getInstance()->getVersionNumber(), basePath + "lastPullAppVersion.txt");
+        FileUtils::getInstance()->writeStringToFile(ConfigStorage::getInstance()->getVersionNumber(), getLastPullAppVersionFilePath());
     }
 }
 
@@ -279,6 +279,11 @@ std::string DynamicNodeHandler::getResCTADirectoryPath() const
     resDirPath = resDirPath.substr(0,resDirPath.size() - localFile.length());
     resDirPath += "cta_bundle/";
     return resDirPath;
+}
+
+std::string DynamicNodeHandler::getLastPullAppVersionFilePath() const
+{
+    return getCTADirectoryPath() + "lastPullAppVersion.txt";
 }
 
 bool DynamicNodeHandler::unzipCTAFiles(const char *zipPath, const char *dirpath, const char *passwd)

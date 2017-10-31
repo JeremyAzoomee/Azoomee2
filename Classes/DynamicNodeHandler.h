@@ -40,6 +40,7 @@ private:
     std::string getPackageJsonLocation() const;
     std::string getCTADirectoryPath() const;
     std::string getResCTADirectoryPath() const;
+    std::string getLastPullAppVersionFilePath() const;
     
     void createDynamicNodeFromFile(const std::string& file);
     
