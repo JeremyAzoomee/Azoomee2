@@ -1033,10 +1033,9 @@ void DrawingCanvasUILayer::getStickerFilesFromJSON()
     const rapidjson::Value& categories = json["categories"];
     for(auto it = categories.Begin(); it != categories.End(); ++it)
     {
-        std::string catName;
         std::vector<std::string> catStickers;
         const auto& jsonCatEntry = *it;
-        catName = jsonCatEntry["image_location"].GetString();
+        const std::string& catName = jsonCatEntry["image_location"].GetString();
         
         const rapidjson::Value& stickersJson = jsonCatEntry["stickers"];
         for(auto it = stickersJson.Begin(); it != stickersJson.End(); ++it)
