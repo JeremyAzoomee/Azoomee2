@@ -18,6 +18,7 @@ namespace Azoomee
         void setTagForPushChannel(const std::string &tagGroup, const std::string &tag);
         void enablePushNotifications();
         void disablePushNotifications();
+        void resetExistingNotifications();
         
     };
 }

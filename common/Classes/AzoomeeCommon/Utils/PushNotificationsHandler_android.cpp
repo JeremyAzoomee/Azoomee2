@@ -42,4 +42,9 @@ namespace Azoomee{
     {
         JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "jniDisablePushNotifications");
     }
+    
+    void PushNotificationsHandler::resetExistingNotifications()
+    {
+        JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "jniClearNotificationCenter");
+    }
 }

@@ -41,4 +41,9 @@ namespace Azoomee{
     {
         [UAirship push].userPushNotificationsEnabled = NO;
     }
+    
+    void PushNotificationsHandler::resetExistingNotifications()
+    {
+        [[UAirship push] resetBadge];
+    }
 }

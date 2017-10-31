@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -522,4 +523,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         UAirship.shared().getInAppMessageManager().setAutoDisplayEnabled(false);
     }
 
+    public static void jniClearNotificationCenter()
+    {
+        NotificationManagerCompat.from(mContext).cancelAll();
+    }
 }
