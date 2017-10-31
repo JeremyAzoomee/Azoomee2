@@ -31,22 +31,22 @@ void StickerPlacementNode::onEnter()
     
     this->setContentSize(visibleSize);
     
-    _stickerFrame = ui::Scale9Sprite::create(ArtAppAssetLoc + "dotted_box.png");
+    _stickerFrame = ui::Scale9Sprite::create(kArtAppAssetLoc + "dotted_box.png");
     _stickerFrame->setAnchorPoint(Vec2(0.5,0.5));
     this->addChild(_stickerFrame);
     
-    _sticker = Sprite::create(ArtAppAssetLoc + "art_button_sticker.png");
+    _sticker = Sprite::create();
     _sticker->setAnchorPoint(Vec2(0.5,0.5));
     _sticker->setPosition(visibleSize/2);
     this->addChild(_sticker);
     
-    _stickerButton_rotate = Sprite::create(ArtAppAssetLoc + "rotate.png");
+    _stickerButton_rotate = Sprite::create(kArtAppAssetLoc + "rotate.png");
     _stickerButton_rotate->setAnchorPoint(Vec2(0.5,0.5));
     _stickerButton_rotate->setPosition(_sticker->getPosition() - _sticker->getContentSize()/2 - _stickerButton_rotate->getContentSize()/2);
     _stickerButton_rotate->setScale(1.5);
     this->addChild(_stickerButton_rotate);
     
-    _stickerButton_scale= Sprite::create(ArtAppAssetLoc + "scale.png");
+    _stickerButton_scale= Sprite::create(kArtAppAssetLoc + "scale.png");
     _stickerButton_scale->setAnchorPoint(Vec2(0.5,0.5));
     _stickerButton_scale->setPosition(_sticker->getPosition() + _sticker->getContentSize()/2 + _stickerButton_scale->getContentSize()/2);
     _stickerButton_scale->setScale(1.5);
@@ -73,7 +73,9 @@ void StickerPlacementNode::setupTouchHandling()
     _touchListener->onTouchBegan = [=](Touch* touch, Event* event)
     {
         if(touchDetected)
+        {
             return false;
+        }
         
         if(_stickerButton_rotate->getBoundingBox().containsPoint(touch->getLocation()))
         {
@@ -157,7 +159,9 @@ void StickerPlacementNode::setTouchListenerEnabled(bool enabled)
 void StickerPlacementNode::setSticker(Sprite *sticker)
 {
     if(this->_sticker)
+    {
         this->removeChild(this->_sticker);
+    }
     this->_sticker = sticker;
     this->addChild(sticker);
     

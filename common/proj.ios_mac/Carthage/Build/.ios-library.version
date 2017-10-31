@@ -1,0 +1,25 @@
+{
+  "Mac" : [
+
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+    {
+      "name" : "AirshipKit",
+      "hash" : "56db95ef522986b8d5ecf7cc3d823f12506243f22cfb83f606fb10e61f17e878"
+    }
+  ],
+  "commitish" : "8.6.0",
+  "iOS" : [
+    {
+      "name" : "AirshipAppExtensions",
+      "hash" : "5dabb9149d3dffe7ee64436541d6556d269eab8d98bdfb7e0d8b6dd0069cec1c"
+    },
+    {
+      "name" : "AirshipKit",
+      "hash" : "0448ee88f1dc34bfca62ded3d59b156b3b1c74c3adf2af1070973e6493142151"
+    }
+  ]
+}

@@ -15,6 +15,9 @@
 		02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A120231EAF83E0007EDD95 /* VersionChecker.cpp */; };
 		02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */; };
 		02AE88E31F83CBC3005C0FC8 /* AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */; };
+		02BF05E01F97828E00E7D086 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BF05DF1F97828D00E7D086 /* AirshipKit.framework */; };
+		02BF05E21F97829E00E7D086 /* AirshipKit.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 02BF05E11F97829E00E7D086 /* AirshipKit.framework.dSYM */; };
+		02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */; };
 		3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */; };
 		3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */; };
 		3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF791ED5BBB700E9717C /* Application.cpp */; };
@@ -150,7 +153,6 @@
 		436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
-		437D9F411F61B0E80025810E /* AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 437D9F3F1F61B0E80025810E /* AutomaticEvents.m */; };
 		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
 /* End PBXBuildFile section */
 
@@ -171,6 +173,11 @@
 		02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
 		02AE88E11F83CBC3005C0FC8 /* AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutomaticEvents.h; sourceTree = "<group>"; };
 		02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutomaticEvents.m; sourceTree = "<group>"; };
+		02BF05DF1F97828D00E7D086 /* AirshipKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AirshipKit.framework; sourceTree = "<group>"; };
+		02BF05E11F97829E00E7D086 /* AirshipKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = AirshipKit.framework.dSYM; sourceTree = "<group>"; };
+		02BF05EE1F98B80B00E7D086 /* PushNotificationsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushNotificationsHandler.h; sourceTree = "<group>"; };
+		02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PushNotificationsHandler_ios.mm; sourceTree = "<group>"; };
+		02BF05F11F98BAAF00E7D086 /* PushNotificationsHandler_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PushNotificationsHandler_android.cpp; sourceTree = "<group>"; };
 		3000FF701ED5AB7000E9717C /* AzoomeeAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeAppController.h; sourceTree = "<group>"; };
 		3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AzoomeeAppController.mm; sourceTree = "<group>"; };
 		3000FF721ED5AB7000E9717C /* AzoomeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzoomeeViewController.h; sourceTree = "<group>"; };
@@ -447,9 +454,6 @@
 		9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileZipUtil.cpp; sourceTree = "<group>"; };
 		9224C00D1F7D11F400108553 /* DirectorySearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectorySearcher.h; sourceTree = "<group>"; };
 		9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectorySearcher.cpp; sourceTree = "<group>"; };
-		437D9F3E1F61B0E80025810E /* AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutomaticEvents.h; sourceTree = "<group>"; };
-		437D9F3F1F61B0E80025810E /* AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutomaticEvents.m; sourceTree = "<group>"; };
-		437D9F401F61B0E80025810E /* AutomaticEventsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutomaticEventsConstants.h; sourceTree = "<group>"; };
 		9261739D1F2A3D34008E3F9D /* OnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnScreenChecker.h; sourceTree = "<group>"; };
 		9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnScreenChecker.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -461,6 +465,7 @@
 			files = (
 				300743551EFC13B7005525AE /* Foundation.framework in Frameworks */,
 				304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */,
+				02BF05E01F97828E00E7D086 /* AirshipKit.framework in Frameworks */,
 				30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */,
 				300AD62D1F0B96310049A24F /* PusherSwift.framework in Frameworks */,
 				30DD5ECE1E965B710084305B /* Fabric.framework in Frameworks */,
@@ -540,6 +545,8 @@
 				300AD5B11F0B96310049A24F /* 5CA1B21D-FB96-3675-9651-7D94826701AB.bcsymbolmap */,
 				300AD5B21F0B96310049A24F /* PusherSwift.framework */,
 				300AD5B31F0B96310049A24F /* PusherSwift.framework.dSYM */,
+				02BF05E11F97829E00E7D086 /* AirshipKit.framework.dSYM */,
+				02BF05DF1F97828D00E7D086 /* AirshipKit.framework */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -629,6 +636,9 @@
 				9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */,
 				9224C00D1F7D11F400108553 /* DirectorySearcher.h */,
 				9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */,
+				02BF05F11F98BAAF00E7D086 /* PushNotificationsHandler_android.cpp */,
+				02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */,
+				02BF05EE1F98B80B00E7D086 /* PushNotificationsHandler.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1088,6 +1098,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02BF05E21F97829E00E7D086 /* AirshipKit.framework.dSYM in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1124,6 +1135,7 @@
 				4349C8311EA8ADEF00FE964B /* MPEnumDescription.m in Sources */,
 				301CCA8D1EB13151009ADA0C /* MessageBox.cpp in Sources */,
 				4349C8501EA8ADEF00FE964B /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
+				02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */,
 				3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */,
 				4349C81A1EA8ADEF00FE964B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				431369811F2B7200002BEA8C /* YouTubeVideoLayer.cpp in Sources */,

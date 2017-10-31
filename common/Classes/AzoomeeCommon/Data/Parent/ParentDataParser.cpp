@@ -5,6 +5,7 @@
 #include "../../Crashlytics/CrashlyticsConfig.h"
 #include "../../Analytics/AnalyticsSingleton.h"
 #include "../../ErrorCodes.h"
+#include "../../Utils/PushNotificationsHandler.h"
 
 using namespace cocos2d;
 
@@ -60,6 +61,8 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
             AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
             AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
             
+            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
+            
             return true;
         }
     }
@@ -90,6 +93,8 @@ bool ParentDataParser::parseParentLoginDataFromAnonymousDeviceLogin(const std::s
             createCrashlyticsUserInfo(parentData->loggedInParentId, "");
             AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
             AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
+            
+            PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
             
             return true;
         }
@@ -163,7 +168,6 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
     {
         if(billingData["billingStatus"].IsString())
         {
-            CCLOG("Billing billingStatus OK");
             parentData->loggedInParentBillingStatus = billingData["billingStatus"].GetString();
             
             AnalyticsSingleton::getInstance()->registerBillingStatus(billingData["billingStatus"].GetString());
@@ -235,6 +239,8 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
     AnalyticsSingleton::getInstance()->registerAccountStatus(parentData->loggedInParentActorStatus);
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(def->getStringForKey("username"));
+    
+    PushNotificationsHandler::getInstance()->setNamedUserIdentifierForPushChannel(parentData->loggedInParentId);
 }
 
 bool ParentDataParser::hasParentLoginDataInUserDefaults()

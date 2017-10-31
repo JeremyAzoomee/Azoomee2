@@ -25,6 +25,8 @@
 		02A11FF61EA6375D007EDD95 /* AmazonPaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF01EA6375D007EDD95 /* AmazonPaymentSingleton.cpp */; };
 		02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF21EA6375D007EDD95 /* GooglePaymentSingleton.cpp */; };
 		02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A11FF41EA6375D007EDD95 /* RoutePaymentSingleton.cpp */; };
+		02BF05DD1F977FE800E7D086 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BF05D91F977FE800E7D086 /* AirshipKit.framework */; };
+		02BF05EB1F9788C300E7D086 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02BF05EA1F9788C300E7D086 /* AirshipConfig.plist */; };
 		02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595841E55DE670052F395 /* OfflineHubScene.cpp */; };
 		02E595891E55DFF00052F395 /* OfflineHubSceneVisuals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */; };
 		02E5958C1E55F5ED0052F395 /* OfflineGameSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02E5958A1E55F5ED0052F395 /* OfflineGameSearch.cpp */; };
@@ -301,6 +303,9 @@
 		02A11FF31EA6375D007EDD95 /* GooglePaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GooglePaymentSingleton.h; sourceTree = "<group>"; };
 		02A11FF41EA6375D007EDD95 /* RoutePaymentSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RoutePaymentSingleton.cpp; sourceTree = "<group>"; };
 		02A11FF51EA6375D007EDD95 /* RoutePaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutePaymentSingleton.h; sourceTree = "<group>"; };
+		02BF05D91F977FE800E7D086 /* AirshipKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AirshipKit.framework; path = ../common/proj.ios_mac/Carthage/Build/iOS/AirshipKit.framework; sourceTree = "<group>"; };
+		02BF05EA1F9788C300E7D086 /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plist; sourceTree = "<group>"; };
+		02BF05EC1F97894500E7D086 /* azoomee2-mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "azoomee2-mobile.entitlements"; path = "azoomee2-mobile/azoomee2-mobile.entitlements"; sourceTree = "<group>"; };
 		02E595841E55DE670052F395 /* OfflineHubScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubScene.cpp; sourceTree = "<group>"; };
 		02E595851E55DE670052F395 /* OfflineHubScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineHubScene.h; sourceTree = "<group>"; };
 		02E595871E55DFF00052F395 /* OfflineHubSceneVisuals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineHubSceneVisuals.cpp; sourceTree = "<group>"; };
@@ -521,6 +526,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02BF05DD1F977FE800E7D086 /* AirshipKit.framework in Frameworks */,
 				92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */,
 				300742E01EF91667005525AE /* libAzoomeeChat.a in Frameworks */,
 				4396948A1EAA4ACD003C17E6 /* StoreKit.framework in Frameworks */,
@@ -707,6 +713,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				02BF05EC1F97894500E7D086 /* azoomee2-mobile.entitlements */,
+				02BF05EA1F9788C300E7D086 /* AirshipConfig.plist */,
 				46880B8319C43A87006E1F66 /* Classes */,
 				46880B7519C43A67006E1F66 /* Resources */,
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
@@ -726,6 +734,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				02BF05D91F977FE800E7D086 /* AirshipKit.framework */,
 				300AD6911F0B9ACB0049A24F /* PusherSwift.framework */,
 				439694891EAA4ACD003C17E6 /* StoreKit.framework */,
 				304D9EC81EA8F89B008CED52 /* GameController.framework */,
@@ -1258,6 +1267,11 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = Q986XSP3A8;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1379,6 +1393,7 @@
 				304D9EB31EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib in Resources */,
 				304D9EBA1EA8F849008CED52 /* MPArrowRight.png in Resources */,
 				304D9EB91EA8F849008CED52 /* MPArrowLeft@2x.png in Resources */,
+				02BF05EB1F9788C300E7D086 /* AirshipConfig.plist in Resources */,
 				304D9EC31EA8F849008CED52 /* MPLogo.png in Resources */,
 				43069CE91E3B492600D6A631 /* Images-2.xcassets in Resources */,
 				304D9EBC1EA8F849008CED52 /* MPCheckmark.png in Resources */,
@@ -1408,6 +1423,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/PusherSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AirshipKit.framework",
 			);
 			name = "Carthage Frameworks";
 			outputPaths = (
@@ -1572,6 +1588,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "azoomee2-mobile/azoomee2-mobile.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				DEVELOPMENT_TEAM = Q986XSP3A8;
@@ -1629,6 +1647,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "azoomee2-mobile/azoomee2-mobile.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				DEVELOPMENT_TEAM = Q986XSP3A8;
