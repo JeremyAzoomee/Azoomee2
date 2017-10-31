@@ -5,7 +5,6 @@
 #include "Data/Friend.h"
 #include "Data/Message.h"
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include <map>
 
 
@@ -17,7 +16,7 @@ class ChatAPIObserver;
 /**
  * Manages communication of chat APIs with the Azoomee server.
  */
-class ChatAPI : private HttpRequestCreatorResponseDelegate, public PusherEventObserver
+class ChatAPI : private HttpRequestCreatorResponseDelegate
 {
 private:
     /// Most recent friend list
@@ -40,15 +39,12 @@ private:
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body) override;
     void onHttpRequestFailed(const std::string& requestTag, long errorCode) override;
     
-    /// - PusherEventObserver
-    void onPusherEventRecieved(const PusherEventRef& event) override;
-    
-    /// - Schedule Poll
-    void scheduleFriendListPoll();
-    void rescheduleFriendListPoll();
-    bool friendListPollScheduled();
-    
 public:
+    
+    /// A low schedule rate, suitable for notifications outside of chat
+    static const float kScheduleRateLow;
+    /// A higher schedule rate, used when user is inside chat
+    static const float kScheduleRateHigh;
     
     static ChatAPI* getInstance();
     virtual ~ChatAPI();
@@ -77,14 +73,16 @@ public:
     /// Mark messages with friend as read
     void markMessagesAsRead(const FriendRef& friendObj, const MessageRef& message);
     
-    //Report a problematic chat to parents
+    /// Report a problematic chat to parents
     void reportChat(const FriendRef& friendObj);
     
-    //Reset a reported chat by the parent
+    /// Reset a reported chat by the parent
     void resetReportedChat(const FriendRef& friendObj);
     
-    /// For azoomee2 notifications we start and schedule polling of friendlist
-    void startFriendListManualPoll();
+    
+    /// - Schedule Poll
+    bool isFriendListPollScheduled();
+    void scheduleFriendListPoll(float interval = kScheduleRateLow);
     void unscheduleFriendListPoll();
 
 };
@@ -95,19 +93,13 @@ public:
 struct ChatAPIObserver
 {
     /// Friend List success response
-    virtual void onChatAPIGetFriendList(const FriendList& friendList) {};
+    virtual void onChatAPIGetFriendList(const FriendList& friendList, int amountOfNewMessages) {};
     /// Get message list success response
     virtual void onChatAPIGetChatMessages(const MessageList& messageList) {};
     /// Send message success response
     virtual void onChatAPISendMessage(const MessageRef& sentMessage) {};
     /// API error from Chat request
     virtual void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) {};
-    /// A chat message was recieved
-    virtual void onChatAPIMessageRecieved(const MessageRef& message) {};
-    /// A custom (command) message was received
-    virtual void onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string> &messageProperties) {};
-    /// Notification about new messages
-    virtual void onChatAPINewMessageNotificationReceived(int amountOfNewMessages) {};
 };
 
 NS_AZOOMEE_CHAT_END

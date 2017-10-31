@@ -58,7 +58,7 @@ void SettingsConfirmationLayer::addDetailsLabel()
     if(ParentDataProvider::getInstance()->getNoOfPendingFriendRequest() == 0)
         labelText = "There are no new friendships to approve right now.";
     
-    detailsLabel = createLabelSettingsChat(labelText,Color3B::WHITE);
+    detailsLabel = createLabelSettingsChat(labelText,Color3B::BLACK);
     detailsLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     detailsLabel->setAnchorPoint(Vec2(0,1));
     detailsLabel->setWidth(contentWidth);

@@ -85,6 +85,7 @@
 #define BUTTON_RESET "GenericButtons/reset"
 #define BUTTON_REPORT "GenericButtons/report"
 #define BUTTON_ONLINE_SAFETY_TIPS "GenericButtons/onlineSafetyTips"
+#define BUTTON_BACK "GenericButtons/back"
 
 //--------------ONLINE SAFETY SLIDES------------------
 

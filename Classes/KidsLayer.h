@@ -15,7 +15,6 @@ private:
     int childNumber;
     
     Sprite* oomeeSprite;
-    Sprite* glowSprite;
     
     void addFrame();
     void addChildName();

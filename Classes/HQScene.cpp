@@ -129,27 +129,37 @@ void HQScene::createMonodirectionalScrollView()
 
 void HQScene::createBidirectionalScrollView()
 {
-    auto verticalScrollView = createVerticalScrollView();
+    auto verticalScrollView = createVerticalScrollView(this->getName());
     verticalScrollView->setName("scrollView");
     this->addChild(verticalScrollView);
     
-    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
+    
+    float scrollviewTitleTextHeight = ConfigStorage::getInstance()->getScrollviewTitleTextHeight();
+    float groupVideoTextHeight = 0.0f;
     
     if(this->getName() == "GROUP HQ")
-        verticalScrollView->cocos2d::Node::setPosition(_origin.x , _origin.y - 200);
+    {
+        verticalScrollView->cocos2d::Node::setPosition(_origin.x , _origin.y);
+        scrollviewTitleTextHeight = 0.0f;
+        // getGroupContentItemTextHeight() * 6 because there are 3 text spaces per line
+        groupVideoTextHeight = ConfigStorage::getInstance()->getGroupContentItemTextHeight() * 6;
+    }
     else
+    {
         this->addChild(createVerticalScrollGradient());
+    }
     
-    float verticalScrollViewHeight = (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2) + (ConfigStorage::getInstance()->getScrollviewTitleTextHeight() * 2);
+    float verticalScrollViewHeight = (ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2) + (scrollviewTitleTextHeight * 2);
     
-    verticalScrollView->setInnerContainerSize(Size(_visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * verticalScrollViewHeight +privacyLayer->getContentSize().height*2));
+    verticalScrollView->setInnerContainerSize(Size(_visibleSize.width, HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()) * verticalScrollViewHeight + privacyLayer->getContentSize().height*2 + groupVideoTextHeight));
     
     for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); j++)
     {
         const std::vector<HQContentItemObjectRef> &elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), j);
         
         scrollViewSpaceAllocation.clear();
-        auto horizontalScrollView = createHorizontalScrollView(Size(_visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * verticalScrollViewHeight)));
+        auto horizontalScrollView = createHorizontalScrollView(Size(_visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2 + groupVideoTextHeight), Point(0, verticalScrollView->getInnerContainerSize().height - ((j + 1) * verticalScrollViewHeight + groupVideoTextHeight)));
         verticalScrollView->addChild(horizontalScrollView);
         
         for(int i = 0; i < elementsForRow.size(); i++)
@@ -247,9 +257,18 @@ void HQScene::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), vScrollView);
 }
 
-cocos2d::ui::ScrollView* HQScene::createVerticalScrollView()
+cocos2d::ui::ScrollView* HQScene::createVerticalScrollView(const std::string& hqTypeName)
 {
-    Size vScrollFrameSize = Size(_visibleSize.width, _visibleSize.height - ConfigStorage::getInstance()->getHorizontalMenuItemsHeight());
+    float verticalScrollViewFrameHeight = _visibleSize.height - ConfigStorage::getInstance()->getHorizontalMenuItemsHeight();
+    
+    if(hqTypeName == "GROUP HQ")
+   {
+       // change frame height for Groups
+       auto groupLogo = this->getChildByName("groupLogo");
+       verticalScrollViewFrameHeight = groupLogo->getPositionY()-groupLogo->getContentSize().height/2-_origin.y;
+   }
+    
+    Size vScrollFrameSize = Size(_visibleSize.width, verticalScrollViewFrameHeight);
     
     cocos2d::ui::ScrollView *vScrollView = cocos2d::ui::ScrollView::create();
     vScrollView->setContentSize(vScrollFrameSize);
@@ -316,8 +335,10 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
     hqSceneElement->addHQSceneElement();
 
     toBeAddedTo->addChild(hqSceneElement);
+    
+    bool isGroup = this->getName() == "GROUP HQ";
     auto sceneElementPositioner = new HQSceneElementPositioner();
-    sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement);
+    sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement, isGroup);
 }
 
 NS_AZOOMEE_END

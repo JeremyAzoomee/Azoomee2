@@ -10,7 +10,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include "OnlineSafetyDetailsLayer.h"
 #include "FlowDataSingleton.h"
-
+#include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 
 #define LINE_WIDTH 4
 #define TAB_SPACING 50
@@ -48,11 +48,15 @@ bool SettingsControlLayer::init()
 
 void SettingsControlLayer::createSettingsLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B::BLACK,origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B::WHITE,origin.x+ visibleSize.width, origin.y + visibleSize.height);
     
     this->setName("SettingsControlLayer");
     this->addChild(backgroundLayer);
     Director::getInstance()->getRunningScene()->addChild(this);
+    
+    Layer* test = createPixelsPatternAndGradient();
+    test->setPosition(origin.x,origin.y);
+    backgroundLayer->addChild(test);
     
     addListenerToLayer(backgroundLayer);
 }
@@ -84,7 +88,7 @@ void SettingsControlLayer::createSettingsController()
 
 void SettingsControlLayer::createCancelButton()
 {
-    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton = ElectricDreamsButton::createWindowCloseButtonGreen();
     cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width - cancelButton->getContentSize().width, origin.y + visibleSize.height - cancelButton->getContentSize().height));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("CancelSettingsButton");
@@ -97,7 +101,7 @@ void SettingsControlLayer::createLine()
     
     DrawNode* newDrawNode = DrawNode::create();
     newDrawNode->setLineWidth(LINE_WIDTH);
-    newDrawNode->drawLine(Vec2(0, origin.y+linePositionY), Vec2(visibleSize.width, origin.y+linePositionY), Style::Color_4F::brightAqua);
+    newDrawNode->drawLine(Vec2(0, origin.y+linePositionY), Vec2(visibleSize.width, origin.y+linePositionY), Style::Color_4F::greenish);
     backgroundLayer->addChild(newDrawNode,110);
 }
 
@@ -115,17 +119,17 @@ void SettingsControlLayer::createTabs()
     confirmationButton->setMixPanelButtonName("SettingsTab-TheirFriends");
     backgroundLayer->addChild(confirmationButton,IDLE_TAB_Z);
     
-    accountButton = ElectricDreamsButton::createTabButton("Your Account");
-    accountButton->setPosition(confirmationButton->getPositionX()+confirmationButton->getContentSize().width/2+TAB_SPACING+accountButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH);
-    accountButton->setDelegate(this);
-    accountButton->setMixPanelButtonName("SettingsTab-Account");
-    backgroundLayer->addChild(accountButton,SELECTED_TAB_Z);
-
     onlineSafetyButton = ElectricDreamsButton::createTabButton("Online Safety");
-    onlineSafetyButton->setPosition(accountButton->getPositionX()+accountButton->getContentSize().width/2+TAB_SPACING+onlineSafetyButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH);
+    onlineSafetyButton->setPosition(confirmationButton->getPositionX() + confirmationButton->getContentSize().width/2 + TAB_SPACING+onlineSafetyButton->getContentSize().width/2, origin.y + linePositionY - LINE_WIDTH);
     onlineSafetyButton->setDelegate(this);
     onlineSafetyButton->setMixPanelButtonName("SettingsTab-OnlineSafety");
     backgroundLayer->addChild(onlineSafetyButton,IDLE_TAB_Z);
+    
+    accountButton = ElectricDreamsButton::createTabButton("Your Account");
+    accountButton->setPosition(onlineSafetyButton->getPositionX() + onlineSafetyButton->getContentSize().width/2 + TAB_SPACING+accountButton->getContentSize().width/2 , origin.y + linePositionY-LINE_WIDTH);
+    accountButton->setDelegate(this);
+    accountButton->setMixPanelButtonName("SettingsTab-Account");
+    backgroundLayer->addChild(accountButton,SELECTED_TAB_Z);
 }
 
 void SettingsControlLayer::createConfirmationNotification()
