@@ -1,5 +1,3 @@
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-
 #include "PushNotificationsHandler.h"
 #include <cocos/platform/android/jni/JniHelper.h>
 
@@ -44,7 +42,4 @@ namespace Azoomee{
     {
         JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "jniDisablePushNotifications");
     }
-    
 }
-
-#endif

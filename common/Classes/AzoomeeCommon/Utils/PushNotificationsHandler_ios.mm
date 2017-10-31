@@ -1,5 +1,3 @@
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-
 #include "PushNotificationsHandler.h"
 #import <AirshipKit/AirshipKit.h>
 
@@ -45,7 +43,4 @@ namespace Azoomee{
     {
         [UAirship push].userPushNotificationsEnabled = NO;
     }
-    
 }
-
-#endif
