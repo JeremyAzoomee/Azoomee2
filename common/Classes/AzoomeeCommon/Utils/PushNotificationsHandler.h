@@ -1,14 +1,15 @@
-#ifndef DirectorySearcher_h
-#define DirectorySearcher_h
+#ifndef PushNotificationsHandler_h
+#define PushNotificationsHandler_h
 
 #include "cocos2d.h"
+#include "../Azoomee.h"
 
-namespace Azoomee
-{
+NS_AZOOMEE_BEGIN
     
     class PushNotificationsHandler : public cocos2d::Ref
     {
     private:
+        PushNotificationsHandler(); //call getInstance only
         
     public:
         static PushNotificationsHandler* getInstance(void);
@@ -21,6 +22,7 @@ namespace Azoomee
         void resetExistingNotifications();
         
     };
-}
+
+NS_AZOOMEE_END
 
 #endif

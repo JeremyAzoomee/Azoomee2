@@ -4,7 +4,7 @@
 using namespace cocos2d;
 static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppActivity";
 
-namespace Azoomee{
+NS_AZOOMEE_BEGIN
     
     static std::auto_ptr<PushNotificationsHandler> sPushNotificationsHandlerSharedInstance;
     
@@ -18,6 +18,11 @@ namespace Azoomee{
     }
     
     PushNotificationsHandler::~PushNotificationsHandler(void)
+    {
+        
+    }
+    
+    PushNotificationsHandler::PushNotificationsHandler()
     {
         
     }
@@ -47,4 +52,5 @@ namespace Azoomee{
     {
         JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "jniClearNotificationCenter");
     }
-}
+
+NS_AZOOMEE_END

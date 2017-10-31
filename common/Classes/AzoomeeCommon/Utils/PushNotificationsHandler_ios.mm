@@ -1,7 +1,7 @@
 #include "PushNotificationsHandler.h"
 #import <AirshipKit/AirshipKit.h>
 
-namespace Azoomee{
+NS_AZOOMEE_BEGIN
     
     static std::auto_ptr<PushNotificationsHandler> sPushNotificationsHandlerSharedInstance;
     
@@ -15,6 +15,11 @@ namespace Azoomee{
     }
     
     PushNotificationsHandler::~PushNotificationsHandler(void)
+    {
+        
+    }
+    
+    PushNotificationsHandler::PushNotificationsHandler()
     {
         
     }
@@ -46,4 +51,5 @@ namespace Azoomee{
     {
         [[UAirship push] resetBadge];
     }
-}
+
+NS_AZOOMEE_END
