@@ -18,12 +18,9 @@ NS_AZOOMEE_AA_BEGIN
 class BrushSprayCan : public Brush
 {
 private:
-    int drawnElementsCount;
+    int _drawnElementsCount;
 public:
     BrushSprayCan();
-    
-    cocos2d::Node* addDrawNode(const cocos2d::Size& visibleSize) override;
-    cocos2d::Node* getDrawNode() override;
     
     void onTouchBegin(cocos2d::Touch* touch, cocos2d::Event* event) override;
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) override;
