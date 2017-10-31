@@ -273,6 +273,8 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
 
 void BackEndCaller::getGordon()
 {
+    
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
 #endif

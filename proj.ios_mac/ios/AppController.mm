@@ -28,6 +28,7 @@
 #import <Mixpanel/Mixpanel.h>
 #import <AppsFlyerLib/AppsFlyerTracker.h>
 #import "../../Classes/DeepLinkingSingleton.h"
+#import <AirshipKit/AirshipKit.h>
 
 using namespace Azoomee;
 
@@ -54,6 +55,8 @@ static AppDelegate s_sharedApplication;
     
     [Mixpanel sharedInstanceWithToken:@"7e94d58938714fa180917f0f3c7de4c9"];
     [Mixpanel sharedInstance].showNotificationOnActive = NO;
+    
+    [UAirship takeOff];
     
     return YES;
 }
