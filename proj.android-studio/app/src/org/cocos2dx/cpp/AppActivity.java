@@ -513,8 +513,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static void jniEnablePushNotifications()
     {
         UAirship.shared().getPushManager().setUserNotificationsEnabled(true);
-        UAirship.shared().getInAppMessageManager().setAutoDisplayEnabled(true);
-        UAirship.shared().getInAppMessageManager().setAutoDisplayDelay(1000L);
+        UAirship.shared().getInAppMessageManager().setAutoDisplayEnabled(false);
+        UAirship.shared().getInAppMessageManager().setDisplayAsapEnabled(false);
     }
 
     public static void jniDisablePushNotifications()
