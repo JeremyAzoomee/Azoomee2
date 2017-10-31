@@ -57,6 +57,7 @@ static AppDelegate s_sharedApplication;
     [Mixpanel sharedInstance].showNotificationOnActive = NO;
     
     [UAirship takeOff];
+    [[UAirship push] resetBadge];
     
     return YES;
 }
@@ -72,6 +73,7 @@ static AppDelegate s_sharedApplication;
 -(void)applicationDidBecomeActive:(UIApplication *)application
 {
     [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+    [[UAirship push] resetBadge];
 }
 
 @end
