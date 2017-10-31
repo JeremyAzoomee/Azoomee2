@@ -8,6 +8,7 @@
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
 
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
@@ -47,6 +48,10 @@ void BaseScene::onEnterTransitionDidFinish()
  
     addParticleElementsToBackground();
     startBuildingHQs();
+    
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        PushNotificationsHandler::getInstance()->enablePushNotifications();
+    }, this, 3, 0, 0, false, "enablePush");
 }
 
 void BaseScene::startBuildingHQs()
