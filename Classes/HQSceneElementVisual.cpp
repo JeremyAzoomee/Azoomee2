@@ -90,7 +90,7 @@ void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
     {
         shouldDisplayVisualElementsOverImage = false;
     }
-    else if(elementShape.x == 1 && elementShape.y == 1)
+    else if(elementShape.x == 1 && elementShape.y == 1 && elementCategory != "GROUP HQ")
     {
         shouldDisplayVisualElementsOverImage = true;
     }
@@ -112,32 +112,28 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
         if(!aboutToExit)
         {
             addImageDownloader();
-        }
+
         
-        if(!aboutToExit && shouldDisplayVisualElementsOverImage)
-        {
-            addGradientToBottom();
-        }
-        
-        if(!aboutToExit && shouldDisplayVisualElementsOverImage)
-        {
-            auto iconSprite = addIconToImage();
-            if(!isOffline)
+            if(shouldDisplayVisualElementsOverImage)
             {
-                addLabelsToImage(iconSprite);
+                addGradientToBottom();
+                auto iconSprite = addIconToImage();
+                if(!isOffline)
+                {
+                    addLabelsToImage(iconSprite);
+                }
             }
-        }
         
-        if(!elementItemData->isEntitled())
-        {
-            if(!aboutToExit)
+            if(!elementItemData->isEntitled())
             {
                 addLockToElement();
             }
-        }
         
-        if(!aboutToExit)
-        {
+           if(elementItemData->getType() == "VIDEO" && elementCategory == "GROUP HQ")
+           {
+               addGroupLabelsToImage();
+           }
+
             addTouchOverlayToElement();
         }
     });
@@ -222,6 +218,22 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
     titleLabel->setAnchorPoint(Vec2(0.0f, 0.6f));
     titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
     reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
+    baseLayer->addChild(titleLabel);
+}
+
+void HQSceneElementVisual::addGroupLabelsToImage()
+{
+    const float textSpacing = 10.0f;
+    
+    auto descriptionLabel = createLabelContentDescriptionGroup(elementItemData->getDescription(), baseLayer->getContentSize().width - textSpacing * 2);
+    descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.0f));
+    descriptionLabel->setPosition(textSpacing, baseLayer->getContentSize().height + textSpacing);
+    baseLayer->addChild(descriptionLabel);
+    
+    auto titleLabel = createLabelContentTitleGroup(elementItemData->getTitle(), baseLayer->getContentSize().width - textSpacing * 2);
+    titleLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
+    titleLabel->setPosition(textSpacing,- textSpacing);
+    titleLabel->setHeight(ConfigStorage::getInstance()->getGroupContentItemTextHeight() * 2);
     baseLayer->addChild(titleLabel);
 }
 

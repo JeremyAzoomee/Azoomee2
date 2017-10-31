@@ -29,7 +29,7 @@ private:
     
     cocos2d::Point calculatePositionForIcon(cocos2d::Point currentPosition, cocos2d::Size currentIconSize, cocos2d::Node *toBeAddedTo);
     
-    cocos2d::ui::ScrollView* createVerticalScrollView();
+    cocos2d::ui::ScrollView* createVerticalScrollView(const std::string& hqTypeName);
     cocos2d::Sprite* createVerticalScrollGradient();
     cocos2d::ui::ScrollView* createHorizontalScrollView(cocos2d::Size contentSize, cocos2d::Point position);
     void addTitleToHorizontalScrollView(std::string title, Node *toBeAddedTo, cocos2d::Point position);

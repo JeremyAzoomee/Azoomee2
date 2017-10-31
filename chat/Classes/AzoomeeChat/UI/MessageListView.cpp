@@ -11,7 +11,7 @@ NS_AZOOMEE_CHAT_BEGIN
 
 #pragma mark - Constants
 
-const char* const MessageListView::kEventListenerFlag = "MessageListView_reached_top";
+const char* const MessageListView::kEventReachedTop = "MessageListView_reached_top";
 
 #pragma mark - Methods
 
@@ -179,10 +179,19 @@ void MessageListView::setScrollPosition(float pos)
 
 void MessageListView::onScrollEvent(cocos2d::Ref* sender, cocos2d::ui::ScrollView::EventType event)
 {
-    if((getScrollPosition() < 0.01)&&(_listView->getChildren().size() >= MessageListView::kMessagesOnPage)) //We don't start getting history, if there are less than 20 messages in the container -> the chat has just started, and the user scrolls to the top, or on the top anyways because of not having enough messages to scroll at all.
+    if(getScrollPosition() < 0.01)
     {
-        EventCustom event(MessageListView::kEventListenerFlag);
-        Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+        if(!_reachedTop)
+        {
+            // Don't trigger again until we're not at the top anymore
+            _reachedTop = true;
+            EventCustom event(MessageListView::kEventReachedTop);
+            Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+        }
+    }
+    else
+    {
+        _reachedTop = false;
     }
     
 #ifdef AVATARS_IN_LISTVIEW

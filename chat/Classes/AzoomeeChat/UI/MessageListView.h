@@ -44,6 +44,9 @@ private:
     cocos2d::ui::Layout* _blankListItem = nullptr;
 #endif
     
+    /// Have we scrolled to the top?
+    bool _reachedTop = false;
+    
     /// Calculate the item size for the listview
     cocos2d::Size calculateItemSize() const;
     
@@ -72,7 +75,7 @@ public:
     virtual void onExit() override;
     virtual void setContentSize(const cocos2d::Size& contentSize) override;
     
-    static const char* const kEventListenerFlag;
+    static const char* const kEventReachedTop;
     static const int kMessagesOnPage = 20;
 
     CREATE_FUNC(MessageListView);
