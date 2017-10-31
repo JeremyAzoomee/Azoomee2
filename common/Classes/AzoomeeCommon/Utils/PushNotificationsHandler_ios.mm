@@ -34,9 +34,7 @@ namespace Azoomee{
     void PushNotificationsHandler::enablePushNotifications()
     {
         [UAirship push].userPushNotificationsEnabled = YES;
-        [UAirship push].defaultPresentationOptions = (UNNotificationPresentationOptionAlert |
-                                                      UNNotificationPresentationOptionBadge |
-                                                      UNNotificationPresentationOptionSound);
+        [UAirship push].defaultPresentationOptions = (NULL); //this setting is for FOREGROUND presentation only
     }
     
     void PushNotificationsHandler::disablePushNotifications()
