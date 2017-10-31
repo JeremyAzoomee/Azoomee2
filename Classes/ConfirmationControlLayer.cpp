@@ -4,6 +4,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/MessageBox.h>
+#include <AzoomeeCommon/UI/Style.h>
 
 #define MARGIN 69
 
@@ -45,7 +46,7 @@ void ConfirmationControlLayer::addConfirmationFrame()
 
 void ConfirmationControlLayer::addButtons()
 {
-    confirmButton = ElectricDreamsButton::createInviteMainButton("Confirm", 400);
+    confirmButton = ElectricDreamsButton::createGreenButton("Confirm", 400);
     confirmButton->setCenterPosition(Vec2(this->getContentSize().width-confirmButton->getContentSize().width/2-MARGIN,this->getContentSize().height/2));
     confirmButton->setDelegate(this);
     confirmButton->setMixPanelButtonName("Settings-Confirmation-Confirm");
@@ -65,7 +66,7 @@ void ConfirmationControlLayer::addButtons()
     noButton->setMixPanelButtonName("Settings-Confirmation-Reject-No");
     confirmationFrameLayer->addChild(noButton);
     
-    rejectButton = ElectricDreamsButton::createTextAsButtonAqua("Reject", 48,true);
+    rejectButton = ElectricDreamsButton::createTextAsButtonWithColor("Reject", 48,true,Style::Color::greenish);
     rejectButton->setCenterPosition(noButton->getCenterPosition());
     rejectButton->setDelegate(this);
     rejectButton->setMixPanelButtonName("Settings-Confirmation-Reject");

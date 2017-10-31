@@ -56,7 +56,8 @@ void ModalWebview::addListenerToBackgroundLayer()
 
 void ModalWebview::createCloseButton()
 {
-    _closeButton = ElectricDreamsButton::createWindowCloselButton();
+    _closeButton = ElectricDreamsButton::createWindowCloseButton();
+    _closeButton->setCenterPosition(Vec2(_visibleSize.width - _closeButton->getContentSize().width, _visibleSize.height - _closeButton->getContentSize().height));
     _closeButton->setDelegate(this);
     _closeButton->setMixPanelButtonName("ModalWebview-CloseButton");
     _backgroundLayer->addChild(_closeButton);

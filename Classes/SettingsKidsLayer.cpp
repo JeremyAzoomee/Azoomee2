@@ -17,7 +17,8 @@ Layer* SettingsKidsLayer::createWithHeight(float setLayerHeight)
     auto layer = SettingsKidsLayer::create();
     layer->layerHeight = setLayerHeight;
     layer->setContentSize(Size(Director::getInstance()->getVisibleSize().width,Director::getInstance()->getVisibleSize().height));
-    layer->addUIObjects();
+    layer->addTabsCoverLayer();
+    layer->addScrollView();
     
     return layer;
 }
@@ -34,50 +35,50 @@ bool SettingsKidsLayer::init()
 
 //----------------Add UI Objects-------------
 
-void SettingsKidsLayer::addUIObjects()
+void SettingsKidsLayer::addTabsCoverLayer()
+{
+    _tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, Director::getInstance()->getVisibleSize().height);
+    _tabsCoverLayer->setVisible(false);
+    this->addChild(_tabsCoverLayer);
+    
+    addListenerToCoverLayer(_tabsCoverLayer);
+}
+
+void SettingsKidsLayer::addScrollView()
 {
     float scrollViewHeight = 1275;
     Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren()*900,scrollViewHeight);
     
-    scrollView = cocos2d::ui::ScrollView::create();
-    scrollView->setContentSize(Size(this->getContentSize().width, scrollViewHeight));
-    scrollView->setPosition(Vec2(this->getContentSize().width/2,layerHeight/2));
-    scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
-    scrollView->setBounceEnabled(false);
-    scrollView->setTouchEnabled(true);
-    scrollView->setInnerContainerSize(innerSize);
-    scrollView->setSwallowTouches(false);
-    scrollView->setScrollBarEnabled(true);
-    scrollView->setAnchorPoint(Vec2(0.5,0.5));
+    _scrollView = cocos2d::ui::ScrollView::create();
+    _scrollView->setContentSize(Size(this->getContentSize().width, scrollViewHeight));
+    _scrollView->setPosition(Vec2(this->getContentSize().width/2,layerHeight/2));
+    _scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
+    _scrollView->setBounceEnabled(false);
+    _scrollView->setTouchEnabled(true);
+    _scrollView->setInnerContainerSize(innerSize);
+    _scrollView->setSwallowTouches(false);
+    _scrollView->setScrollBarEnabled(true);
+    _scrollView->setAnchorPoint(Vec2(0.5f,0.5f));
     
-    this->addChild(scrollView,50);
+    this->addChild(_scrollView);
     
-    createBlackCoverLayer(innerSize);
-
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
         auto childLayer = KidsControlLayer::createController(this, i);
         childLayer->setPosition(i*900,70);
-        scrollView->addChild(childLayer,IDLE_KID_LAYER_Z_ORDER);
+        childLayer->setTag(i);
+        _scrollView->addChild(childLayer);
     }
-}
-
-void SettingsKidsLayer::createBlackCoverLayer(Size innerSize)
-{
-    kidsCoverLayer = LayerColor::create(Color4B::BLACK,innerSize.width, innerSize.height);
-    scrollView->addChild(kidsCoverLayer,IDLE_COVER_LAYER_Z_ORDER);
-    addListenerToCoverLayer(kidsCoverLayer);
 }
 
 void SettingsKidsLayer::addListenerToCoverLayer(Layer* listenerToLayer)
 {
-    swallowTouches = false;
-    
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event)
     {
-        return swallowTouches;
+        //only swallow the touches if the tabsCoverLayer is visble on screen
+        return _tabsCoverLayer->isVisible();
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), listenerToLayer);
@@ -87,20 +88,25 @@ void SettingsKidsLayer::addListenerToCoverLayer(Layer* listenerToLayer)
 
 void SettingsKidsLayer::selectChildForTextInput(int ChildNumber)
 {
-    addTabsCoverLayer();
-    swallowTouches = true;
+    _tabsCoverLayer->setVisible(true);
+
+    for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
+    {
+        _scrollView->getChildByTag(i)->setVisible(false);
+    }
     
-    kidsCoverLayer->setLocalZOrder(SELECTED_COVER_LAYER_Z_ORDER);
-    scrollView->stopAutoScroll();
-    scrollView->setTouchEnabled(false);
-    scrollView->setScrollBarEnabled(false);
-    scrollView->setInnerContainerPosition(Vec2(scrollView->getContentSize().width/2 - ChildNumber *900-400,0));
+    _scrollView->getChildByTag(ChildNumber)->setVisible(true);
+    
+    _scrollView->stopAutoScroll();
+    _scrollView->setTouchEnabled(false);
+    _scrollView->setScrollBarEnabled(false);
+    _scrollView->setInnerContainerPosition(Vec2(_scrollView->getContentSize().width/2 - ChildNumber *900-400,0));
 }
 
 void SettingsKidsLayer::selectChildForSharing(int ChildNumber)
 {
-    scrollView->stopAutoScroll();
-    scrollView->setInnerContainerPosition(Vec2(scrollView->getContentSize().width/2 - ChildNumber *900-400,0));
+    _scrollView->stopAutoScroll();
+    _scrollView->setInnerContainerPosition(Vec2(_scrollView->getContentSize().width/2 - ChildNumber *900-400,0));
 }
 
 void SettingsKidsLayer::deleteChild(int ChildNumber)
@@ -112,32 +118,14 @@ void SettingsKidsLayer::deleteChild(int ChildNumber)
 
 void SettingsKidsLayer::scrollReset()
 {
-    removeTabsCoverLayer();
-    swallowTouches = false;
+    _tabsCoverLayer->setVisible(false);
     
-    kidsCoverLayer->setLocalZOrder(IDLE_COVER_LAYER_Z_ORDER);
-    scrollView->setTouchEnabled(true);
-    scrollView->setScrollBarEnabled(true);
-}
-
-void SettingsKidsLayer::addTabsCoverLayer()
-{
-    removeTabsCoverLayer();
-    
-    tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, Director::getInstance()->getVisibleSize().height-layerHeight+10);
-    tabsCoverLayer->setPosition(0,layerHeight-10);
-    tabsCoverLayer->setName("tabsCoverLayer");
-    
-    this->addChild(tabsCoverLayer,40);
-    
-    addListenerToCoverLayer(tabsCoverLayer);
-
-}
-
-void SettingsKidsLayer::removeTabsCoverLayer()
-{
-    if(this->getChildByName("tabsCoverLayer"))
-        this->removeChildByName("tabsCoverLayer");
+    for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
+    {
+        _scrollView->getChildByTag(i)->setVisible(true);
+    }
+    _scrollView->setTouchEnabled(true);
+    _scrollView->setScrollBarEnabled(true);
 }
 
 //--------------- DELEGATE FUNCTIONS-------------------
@@ -168,8 +156,8 @@ void SettingsKidsLayer::onHttpRequestSuccess(const std::string& requestTag, cons
     else if(requestTag == API::TagGetAvailableChildren)
     {
         ParentDataParser::getInstance()->parseAvailableChildren(body);
-        scrollView->removeFromParent();
-        addUIObjects();
+        _scrollView->removeFromParent();
+        addScrollView();
         ModalMessages::getInstance()->stopLoading();
     }
 }
@@ -184,7 +172,7 @@ void SettingsKidsLayer::onHttpRequestFailed(const std::string& requestTag, long 
     }
     else if(requestTag == API::TagGetAvailableChildren)
     {
-        scrollView->removeFromParent();
+        _scrollView->removeFromParent();
         MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
     }
 }

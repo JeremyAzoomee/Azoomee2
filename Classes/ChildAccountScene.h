@@ -13,30 +13,36 @@ NS_AZOOMEE_BEGIN
 class ChildAccountScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
 {
 private:
+    cocos2d::Sprite* _progressIndicatior = nullptr;
+
     TextInputLayer *_childNameInputText = nullptr;
     TextInputLayer *_dayInputText = nullptr;
     TextInputLayer *_monthInputText = nullptr;
     TextInputLayer *_yearInputText = nullptr;
+    
+    bool _doNotShowInputError = false;
     
     cocos2d::Size _visibleSize;
     cocos2d::Vec2 _origin;
     
     cocos2d::Label* _sceneTitle = nullptr;
     cocos2d::Label* _profileNameTitle = nullptr;
+    cocos2d::Label* _profileNameError = nullptr;
     cocos2d::Label* _profileDOBTitle = nullptr;
+    cocos2d::Label* _profileDOBError = nullptr;
     cocos2d::Label* _profileDOBSubTitle = nullptr;
     cocos2d::Label* _oomeesTitle = nullptr;
     
     ElectricDreamsButton *_cancelButton = nullptr;
     ElectricDreamsButton *_nextButton = nullptr;
-    ElectricDreamsButton *_nextButtonPlaceholder = nullptr;
     ElectricDreamsButton *_backButton = nullptr;
     ElectricDreamsButton *_submitButton = nullptr;
-    ElectricDreamsButton *_submitButtonPlaceholder = nullptr;
     
     PrivacyLayer* _privacyLayer = nullptr;
     
     void setupScene();
+    void addBackgroundandDecoration();
+    void addProgressIndicator();
     void addTitleToScene();
     void addLabelToScene();
     void addTextboxScene();
@@ -52,10 +58,13 @@ private:
     bool DOBisDate();
     bool DOBisDateInFuture();
     
+    void setNewLayout();
+    void setDateInputHasError(bool hasError);
+    void checkProfileNameInputForError();
+    
     void registerChildAccount();
     
     std::vector<ElectricDreamsButton*> _oomeeButtons;
-    cocos2d::Sprite* _oomeeGlow = nullptr;
     int _selectedOomeeNo;
     
     void addOomeesToScene();

@@ -75,7 +75,7 @@ void HQSceneArtsApp::createArtsAppScrollView()
 
 void HQSceneArtsApp::addPrivacyButton()
 {
-    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
     privacyLayer->setCenterPosition(Vec2(Director::getInstance()->getVisibleOrigin().x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,Director::getInstance()->getVisibleOrigin().y + privacyLayer->getContentSize().height));
     this->addChild(privacyLayer);
 }

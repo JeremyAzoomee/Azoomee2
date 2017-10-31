@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "../Azoomee.h"
 #include "ElectricDreamsButton.h"
+#include "Style.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -13,11 +14,14 @@ private:
     
     Azoomee::ElectricDreamsButton *_privacyButton = nullptr;
     
-    void createButtons();
+    void createButton(cocos2d::Color3B newColor);
     void setSizeAndAddItems();
 
 public:
-    virtual bool init();
+    
+    static PrivacyLayer* createWithColor(cocos2d::Color3B newColor = Style::Color::brightAqua);
+    
+    virtual bool init() override;
     
     CREATE_FUNC(PrivacyLayer);
     
@@ -25,7 +29,7 @@ public:
     cocos2d::Vec2 getCenterPosition();
     
     //Delegate Functions
-    void buttonPressed(Azoomee::ElectricDreamsButton* button);
+    void buttonPressed(Azoomee::ElectricDreamsButton* button) override;
 };
 
 NS_AZOOMEE_END

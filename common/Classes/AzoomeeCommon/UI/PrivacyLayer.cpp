@@ -8,6 +8,15 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+PrivacyLayer* PrivacyLayer::createWithColor(cocos2d::Color3B newColor)
+{
+    auto layer = PrivacyLayer::create();
+    layer->createButton(newColor);
+    layer->setSizeAndAddItems();
+    
+    return layer;
+}
+
 bool PrivacyLayer::init()
 {
     if ( !Layer::init() )
@@ -15,17 +24,14 @@ bool PrivacyLayer::init()
         return false;
     }
     
-    createButtons();
-    setSizeAndAddItems();
-    
     return true;
 }
 
 //---------------------- Create Layer -----------------------------
 
-void PrivacyLayer::createButtons()
+void PrivacyLayer::createButton(cocos2d::Color3B newColor)
 {
-    _privacyButton = ElectricDreamsButton::createTextAsButtonAqua(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 40, true);
+    _privacyButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 40, true, newColor);
     _privacyButton->setMixPanelButtonName("PrivacyPolicyNoLinksButton");
     _privacyButton->setDelegate(this);
 }
@@ -37,7 +43,6 @@ void PrivacyLayer::setSizeAndAddItems()
     _privacyButton->setPosition(0,0);
     this->addChild(_privacyButton);
 }
-
 
 //---------------------- public Functions After Setup -----------------------------
 
