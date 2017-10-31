@@ -44,6 +44,9 @@ private:
     //Chat Report warning Label
     cocos2d::Label* _warningLabel = nullptr;
     
+    /// Sub title bar border
+    cocos2d::ui::Layout* _subTitleBarBorder = nullptr;
+    
     //Change Reported Chat Bar with size change
     void onSizeChangedReportedBar(const cocos2d::Size& contentSize);
     
@@ -88,6 +91,9 @@ public:
     
     /// Register for reportResetbutton click events
     void addReportResetButtonEventListener(const cocos2d::ui::Widget::ccWidgetClickCallback& callback);
+    
+    /// Used for MessageView TitleBar
+    void underlineTitleBar();
     
     virtual bool init() override;
     virtual void onEnter() override;

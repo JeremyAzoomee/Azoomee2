@@ -68,8 +68,9 @@ void FriendListScene::onEnter()
     // Register for API events
     ChatAPI::getInstance()->registerObserver(this);
     
-    // Get friend list
+    // Up the schedule speed of friend list polling
     ChatAPI::getInstance()->requestFriendList();
+    ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
     ModalMessages::getInstance()->startLoading();
 }
 
@@ -100,7 +101,7 @@ void FriendListScene::onSizeChanged()
     // Subtitle bar uses same height as title bar
     const Vec2& subTitleBarSize = Vec2(1.0f, titleBarSize.y / contentLayoutSize.y);
     _subTitleBar->setSizePercent(subTitleBarSize);
-    _subTitleBarBorder->setContentSize(Size(_subTitleBar->getContentSize().width * 0.9f, 4.0f));
+    _subTitleBarBorder->setContentSize(Size(_subTitleBar->getContentSize().width, 2.0f));
     
     _friendListView->setSizePercent(Vec2(0.9f, 1.0f - subTitleBarSize.y));
     // 2 column on landscape, 1 column portrait
@@ -195,7 +196,7 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     _subTitleBarBorder->setLayoutParameter(CreateBottomCenterRelativeLayoutParam());
     _subTitleBarBorder->setSizeType(ui::Widget::SizeType::ABSOLUTE);
     _subTitleBarBorder->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBarBorder->setBackGroundColor(Style::Color::brightAqua);
+    _subTitleBarBorder->setBackGroundColor(Style::Color::greenishTeal);
     parent->addChild(_subTitleBarBorder);
 }
 
@@ -205,6 +206,9 @@ void FriendListScene::onBackButtonPressed()
 {
     AudioMixer::getInstance()->playEffect(BACK_BUTTON_AUDIO_EFFECT);
     AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - BackButton");
+    
+    // Reset the polling time
+    ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateLow );
     
     Azoomee::Chat::delegate->onChatNavigationBack();
 }
@@ -233,7 +237,7 @@ void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 
 #pragma mark - ChatAPIObserver
 
-void FriendListScene::onChatAPIGetFriendList(const FriendList& friendList)
+void FriendListScene::onChatAPIGetFriendList(const FriendList& friendList, int amountOfNewMessages)
 {
     AnalyticsSingleton::getInstance()->setNumberOfChatFriends((int)friendList.size());
     
@@ -241,46 +245,6 @@ void FriendListScene::onChatAPIGetFriendList(const FriendList& friendList)
     _friendListView->setItems(friendList);
     
     ModalMessages::getInstance()->stopLoading();
-}
-
-void FriendListScene::onChatAPIMessageRecieved(const MessageRef& message)
-{
-    // Find the friend this message is from, and if necessary mark them as having unread messages
-    for(const FriendRef& frnd : _friendListData)
-    {
-        if(frnd->friendId() == message->senderId())
-        {
-            frnd->markMessagesLocalUnread();
-            // Force list to re-render
-            _friendListView->setItems(_friendListData);
-            break;
-        }
-    }
-}
-
-void FriendListScene::onChatAPICustomMessageReceived(const std::string &messageType, const std::map<std::string, std::string> &messageProperties)
-{
-    if(messageType == "MODERATION")
-    {
-        for(const FriendRef& frnd : _friendListData)
-        {
-            if(messageProperties.find("otherChildId") != messageProperties.end())
-            {
-                if(frnd->friendId() == messageProperties.at("otherChildId"))
-                {
-                    if(messageProperties.find("status") != messageProperties.end())
-                    {
-                        if(messageProperties.at("status") == "IN_MODERATION") frnd->markFriendInModeration(true);
-                        if(messageProperties.at("status") == "ACTIVE") frnd->markFriendInModeration(false);
-                        
-                        _friendListView->setItems(_friendListData);
-                    }
-
-                    break;
-                }
-            }
-        }
-    }
 }
 
 void FriendListScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)

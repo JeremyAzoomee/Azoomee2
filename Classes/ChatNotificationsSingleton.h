@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/API/API.h>
 #include <AzoomeeChat/ChatAPI.h>
 #include <AzoomeeChat/Data/Message.h>
+#include "NavigationLayer.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -13,26 +14,25 @@ class ChatNotificationsSingleton : public cocos2d::Ref, public Chat::ChatAPIObse
 {
     
 public:
-    static ChatNotificationsSingleton* getInstance(void);
+    static ChatNotificationsSingleton* getInstance();
     virtual ~ChatNotificationsSingleton();
-    bool init(void);
+    bool init();
     bool userHasNotifications();
     
-    void setNavigationLayer(cocos2d::Layer* navLayer);
+    void setNavigationLayer(NavigationLayer* navLayer);
     void forceNotificationsUpdate();
-    cocos2d::Layer* getNavigationLayer();
+    NavigationLayer* getNavigationLayer();
     
     void stopNotificationsUpdate();
     
 private:
     void notifyNavigationLayer();
     void removeBadgeFromNavigationLayer();
-    cocos2d::Layer* navigationLayer;
+    NavigationLayer* _navigationLayer = nullptr;
     bool loggedInUserHasNotifications = false;
     
     // - Chat API event observer
-    void onChatAPIMessageRecieved(const Chat::MessageRef& message) override;
-    void onChatAPINewMessageNotificationReceived(int sumOfUnreadMessages) override;
+    void onChatAPIGetFriendList(const Chat::FriendList& friendList, int amountOfNewMessages) override;
 };
 
 NS_AZOOMEE_END

@@ -94,5 +94,7 @@
     "height": 372
   },
   
-  "ContentItemImageValidityInSeconds": 604800
+  "ContentItemImageValidityInSeconds": 604800,
+    
+  "groupContentItemTextHeight": 60
 }

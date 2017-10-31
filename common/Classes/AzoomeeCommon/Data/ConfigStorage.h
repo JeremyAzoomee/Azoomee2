@@ -4,7 +4,7 @@
 //General configuration
 //#define forcereload YES;
 //#define forgetuserdata YES;
-#define USINGCI YES
+//#define USINGCI YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"
@@ -63,6 +63,7 @@ public:
     float getScrollviewTitleTextHeight();
     cocos2d::Size getGroupHQLogoSize();
     int getContentItemImageValidityInSeconds();
+    float getGroupContentItemTextHeight();
     
     //NavigationLayer configuration
     std::string getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName);

@@ -39,6 +39,34 @@ private:
     /// Message composer
     MessageComposer* _messageComposer = nullptr;
     
+    /// Listener which is triggered on the message list reaching the top
+    cocos2d::EventListenerCustom* _listReachedTopEventListener = nullptr;
+    /// Are we currently checking for new messages?
+    bool _checkingForNewMessages = false;
+    
+    /// Polling schedule
+    struct PollingSchedule {
+        /// Number of zero attempts (i.e no new messages) before moving to next stage
+        int maxAttempts;
+        /// Interval in seconds
+        float interval;
+        /// Current attempts count
+        int attempts;
+    };
+    PollingSchedule _pollingSchedule[4] = {
+        /// 5 attempts @ 5s
+        { 5, 5.0f, 0 },
+        /// 5 attempts @ 10s
+        { 5, 10.0f, 0 },
+        /// 5 attempts @ 20s
+        { 5, 20.0f, 0 },
+        /// Continue forever @ 30s
+        { 0, 30.0f, 0 }
+    };
+    const int _pollingScheduleCount = sizeof(_pollingSchedule) / sizeof(_pollingSchedule[0]);
+    int _currentPollSchedule = 0;
+    
+    
     /// Private construction: Use ::create
     MessageScene(const FriendList& participants);
     
@@ -57,9 +85,8 @@ private:
     // - ChatAPIObserver
     void onChatAPIGetChatMessages(const MessageList& messageList) override;
     void onChatAPISendMessage(const MessageRef& sentMessage) override;
-    void onChatAPIMessageRecieved(const MessageRef& message) override;
     void onChatAPIErrorRecieved(const std::string& requestTag, long errorCode) override;
-    void onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string> &messageProperties) override;
+    void onChatAPIGetFriendList(const FriendList& friendList, int amountOfNewMessages) override;
     
     // - MessageComposer::Delegate
     void onMessageComposerSendMessage(const MessageRef& message) override;
@@ -72,11 +99,14 @@ private:
     // - Retrieve history when message list view reached top
     void createEventListenerForRetrievingHistory();
     
-    //variables required for retrieving history
-    cocos2d::EventListenerCustom* _listener;
-    bool _historyUpdateInProgress = false;
-    
+    /// Check for new messages
+    void checkForNewMessages(int page = 0);
+    /// Retrieve older messages (trigged by scrolling to top)
+    void retrieveMessagesFromNextPage();
+    /// Is message already in the list of messages
     bool isMessageInHistory(const MessageRef& message);
+    /// Reset the polling schedule
+    void resetPollingSchedule();
 
 protected:
     
@@ -91,8 +121,6 @@ public:
     virtual void update(float dt) override;
     
     static MessageScene* create(const FriendList& participants);
-    
-    void getMessageHistory();
 };
 
 NS_AZOOMEE_CHAT_END
