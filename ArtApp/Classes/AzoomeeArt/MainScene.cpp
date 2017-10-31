@@ -22,7 +22,7 @@ Scene* MainScene::createScene()
     // 'layer' is an autorelease object
     auto layer = MainScene::create();
     layer->addBackButton();
-    layer->fileName = "";
+    layer->_fileName = "";
     // add layer as a child to scene
     scene->addChild(layer);
     // return the scene
@@ -37,8 +37,8 @@ Scene* MainScene::createSceneWithDrawing(const std::string& fileName)
     // 'layer' is an autorelease object
     auto layer = MainScene::create();
     layer->addBackButton();
-    layer->fileName = fileName;
-    layer->drawingCanvas->setBaseImage(fileName);
+    layer->_fileName = fileName;
+    layer->_drawingCanvas->setBaseImage(fileName);
     // add layer as a child to scene
     scene->addChild(layer);
     
@@ -58,28 +58,33 @@ bool MainScene::init()
     
     Director::getInstance()->purgeCachedData();
 
-    drawingCanvas = DrawingCanvas::create();
+    _drawingCanvas = DrawingCanvas::create();
 
-    this->addChild(drawingCanvas);
+    this->addChild(_drawingCanvas);
+    
+    _uiLayer = DrawingCanvasUILayer::create();
+    _uiLayer->setDrawingCanvas(_drawingCanvas);
+    
+    this->addChild(_uiLayer);
     
     return true;
 }
 
 void MainScene::addBackButton()
 {
-    backButton = ui::Button::create();
-    backButton->setPosition(Vec2(Point(100, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height - 250)));
-    backButton->setAnchorPoint(Vec2(0,0));
-    backButton->loadTextures("res/navigation/back_new.png", "res/navigation/back_new.png");
-    backButton->addClickEventListener([this](Ref* but){backButtonCallBack();});
-    this->addChild(backButton,1);
+    _backButton = ui::Button::create();
+    _backButton->setPosition(Vec2(Point(Director::getInstance()->getVisibleSize().width*0.025, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height * 0.975)));
+    _backButton->setAnchorPoint(Vec2(0,1));
+    _backButton->loadTextures(kArtAppAssetLoc + "back_button.png", kArtAppAssetLoc + "back_button.png");
+    _backButton->addClickEventListener([this](Ref* but){backButtonCallBack();});
+    this->addChild(_backButton,1);
 }
 
 void MainScene::backButtonCallBack()
 {
     AnalyticsSingleton::getInstance()->contentItemClosedEvent();
     
-    if(drawingCanvas->actionCounter > 0)
+    if(_drawingCanvas->_actionCounter > 0)
     {
         auto savingLabel = Label::createWithTTF("Saving...", Style::Font::Regular, 128);
         savingLabel->setColor(Style::Color::white);
@@ -113,7 +118,7 @@ void MainScene::backButtonCallBack()
 void MainScene::saveFileAndExit()
 {
     std::string saveFileName;
-    if(this->fileName == "")
+    if(this->_fileName == "")
     {
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);
@@ -124,16 +129,16 @@ void MainScene::saveFileAndExit()
         oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
         auto fileNameStr = oss.str();
         
-        saveFileName = artCacheFolder + Azoomee::ChildDataProvider::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
+        saveFileName = kArtCacheFolder + Azoomee::ChildDataProvider::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
     }
     else
     {
-        std::string truncatedPath = this->fileName.substr(this->fileName.find(artCacheFolder));
+        const std::string& truncatedPath = this->_fileName.substr(this->_fileName.find(kArtCacheFolder));
         saveFileName = truncatedPath;
         
     }
     
-    drawingCanvas->saveImage(saveFileName);
+    _drawingCanvas->saveImage(saveFileName);
     delegate->onArtAppNavigationBack();
 }
 

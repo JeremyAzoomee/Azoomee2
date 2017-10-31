@@ -17,11 +17,14 @@ NS_AZOOMEE_AA_BEGIN
 class BrushHighlighter : public Brush
 {
 private:
-    static float alphaLevel;
-    cocos2d::Vec2 points[4];
-    bool lineStarted;
+    static float _alphaLevel;
+    cocos2d::Vec2 _points[4];
+    bool _lineStarted;
 public:
     BrushHighlighter();
+    
+    cocos2d::Node* addDrawNode(const cocos2d::Size& visibleSize) override;
+    cocos2d::Node* getDrawNode() override;
     
     void onTouchBegin(cocos2d::Touch* touch, cocos2d::Event* event) override;
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) override;
