@@ -78,7 +78,7 @@ void MessageBoxChatReportChatLayer::createButtons()
 
 void MessageBoxChatReportChatLayer::createCancelButton()
 {
-    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton = ElectricDreamsButton::createWindowCloseButton();
     cancelButton->setMixPanelButtonName("messageBoxCancelButton");
     cancelButton->setDelegate(this);
 }

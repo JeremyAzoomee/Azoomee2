@@ -23,7 +23,11 @@ void addFullScreenGlowToScreen(cocos2d::Node* parentLayer);
 
 cocos2d::Layer* createWindowLayer(float height);
 cocos2d::Layer* createWindowLayer(float width, float height);
+cocos2d::Layer* createWhiteWindowLayer(float height);
 cocos2d::Layer* createWhiteWindowLayer(float width, float height);
+    
+cocos2d::Layer* createPixelsPatternAndGradient();
+    cocos2d::Layer* createTopGradientAndParticles();
   
 }
 

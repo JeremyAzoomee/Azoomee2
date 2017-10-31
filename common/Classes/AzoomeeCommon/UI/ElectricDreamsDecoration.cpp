@@ -132,7 +132,13 @@ void addFullScreenGlowToScreen(Node* parentLayer)
 cocos2d::Layer* createWindowLayer(float height)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    return createWindowLayer(visibleSize.width*.66, height);
+    return createWindowLayer(visibleSize.width * 0.66f, height);
+}
+    
+cocos2d::Layer* createWhiteWindowLayer(float height)
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    return createWhiteWindowLayer(visibleSize.width * 0.66f, height);
 }
 
 Layer* createWindowLayer(float width, float height)
@@ -164,6 +170,48 @@ cocos2d::Layer* createWhiteWindowLayer(float width, float height)
     newWindow->setPosition(newLayer->getContentSize().width/2, newLayer->getContentSize().height/2);
     
     newLayer->addChild(newWindow);
+    
+    return newLayer;
+}
+    
+cocos2d::Layer* createPixelsPatternAndGradient()
+{
+    Layer* newLayer = Layer::create();
+    
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    
+    Sprite* bottomGradient = Sprite::create("res/decoration/bottomGradient.png");
+    bottomGradient->setAnchorPoint(Vec2(0.0f, 0.0f));
+    bottomGradient->setScaleX(visibleSize.width / bottomGradient->getContentSize().width);
+    newLayer->addChild(bottomGradient);
+    
+    newLayer->setContentSize(bottomGradient->getContentSize());
+    
+    Sprite* pixelPattern = Sprite::create("res/decoration/pixelsPattern.png");
+    pixelPattern->setAnchorPoint(Vec2(0.5f, 0.0f));
+    pixelPattern->setPosition(visibleSize.width/2,0.0f);
+    newLayer->addChild(pixelPattern);
+    
+    return newLayer;
+}
+    
+cocos2d::Layer* createTopGradientAndParticles()
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    
+    auto newLayer = LayerColor::create(Color4B::WHITE, visibleSize.width,  visibleSize.height);
+    
+    Sprite* topGradient = Sprite::create("res/decoration/topSignupGrad.png");
+    topGradient->setAnchorPoint(Vec2(0.0f, 1.0f));
+    topGradient->setPosition(0.0f, visibleSize.height);
+    topGradient->setScaleX(visibleSize.width / topGradient->getContentSize().width);
+    newLayer->addChild(topGradient);
+    
+    Sprite* pixelPattern = Sprite::create("res/decoration/particlesBottom.png");
+    pixelPattern->setAnchorPoint(Vec2(0.5f, 0.0f));
+    pixelPattern->setPosition(visibleSize.width/2,0.0f);
+    pixelPattern->setScale(visibleSize.width / pixelPattern->getContentSize().width);
+    newLayer->addChild(pixelPattern);
     
     return newLayer;
 }

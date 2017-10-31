@@ -102,7 +102,7 @@ void OnboardingSuccessScene::addSubLabelsToLayer()
 {
     if(!IAPSuccess && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() == 1)
     {
-        Label* OrText = createLabelBodyCentred("- or -");
+        Label* OrText = createLabelBodyCentred("- or -",Style::Color::white);
         OrText->setAnchorPoint(Vec2(0.5,0.5));
         OrText->setPosition(origin.x + visibleSize.width/2, oomeeButton->getPositionY() - OrText->getContentSize().height * 1.5);
         this->addChild(OrText);
