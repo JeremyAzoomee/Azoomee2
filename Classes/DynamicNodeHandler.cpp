@@ -70,24 +70,6 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
         }
     }
     
-    //res folder fallback
-    const std::string& ctaPathFallBack = getResCTADirectoryPath();
-    const std::vector<std::string>& foldersFallBack = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPathFallBack);
-    
-    for(const std::string& folder : foldersFallBack)
-    {
-        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPathFallBack + folder);
-        for(const std::string& file : fileNames)
-        {
-            if(file == uniqueId)
-            {
-                AnalyticsSingleton::getInstance()->ctaWindowAppeared("N/A", uniqueId);
-                createDynamicNodeFromFile(ctaPathFallBack + folder + "/" + file);
-                return;
-            }
-        }
-    }
-    
 }
 
 void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
@@ -108,25 +90,6 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
             createDynamicNodeFromFile(ctaPath + folder + "/" + fileNames[randomFileNameIndex]);
             return;
                 
-        }
-    }
-    
-    //res folder fallback
-    const std::string& ctaPathFallBack = getResCTADirectoryPath();
-    const std::vector<std::string>& foldersFallBack = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPathFallBack);
-    
-    for(const std::string& folder : foldersFallBack)
-    {
-        if(folder == groupId)
-        {
-            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPathFallBack + folder);
-            
-            int randomFileNameIndex = rand()%fileNames.size();
-            AnalyticsSingleton::getInstance()->ctaWindowAppeared(groupId, fileNames[randomFileNameIndex]);
-            
-            createDynamicNodeFromFile(ctaPathFallBack + folder + "/" + fileNames[randomFileNameIndex]);
-            return;
-        
         }
     }
 
@@ -193,6 +156,7 @@ void DynamicNodeHandler::onGetCTAPackageJSONAnswerReceived(cocos2d::network::Htt
                 {
                     FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
                     getCTAPackageZip(getStringFromJson("uri", newPackageJSON));
+                    return;
                 }
             }
             else
@@ -201,8 +165,21 @@ void DynamicNodeHandler::onGetCTAPackageJSONAnswerReceived(cocos2d::network::Htt
                 {
                     FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
                     getCTAPackageZip(getStringFromJson("uri", newPackageJSON));
+                    return;
+                }
+                else
+                {
+                    unzipBundleCTAFiles();
+                    return;
                 }
             }
+        }
+    }
+    else
+    {
+        if(!isCTAPackageJSONExist())
+        {
+            unzipBundleCTAFiles();
         }
     }
 }
@@ -240,6 +217,10 @@ void DynamicNodeHandler::onGetCTAPackageZipAnswerReceived(cocos2d::network::Http
         removeCTAFiles();
         unzipCTAFiles(targetPath.c_str(), basePath.c_str(), nullptr);
     }
+    else
+    {
+        unzipBundleCTAFiles();
+    }
 }
 
 std::string DynamicNodeHandler::getPackageJsonLocation() const
@@ -252,12 +233,9 @@ std::string DynamicNodeHandler::getCTADirectoryPath() const
     return FileUtils::getInstance()->getWritablePath() + "DCDECache/";
 }
 
-std::string DynamicNodeHandler::getResCTADirectoryPath() const
+std::string DynamicNodeHandler::getBundledAssetsPath() const
 {
-    const std::string& localFile = "close.png";
-    std::string resDirPath = FileUtils::getInstance()->fullPathForFilename("res/cta_assets/" + localFile);//android needs a file in the dir to locate it
-    resDirPath = resDirPath.substr(0,resDirPath.size() - localFile.length());
-    return resDirPath;
+    return "res/cta_assets/CTAFiles.zip";
 }
 
 bool DynamicNodeHandler::unzipCTAFiles(const char *zipPath, const char *dirpath, const char *passwd)
@@ -270,10 +248,31 @@ bool DynamicNodeHandler::unzipCTAFiles(const char *zipPath, const char *dirpath,
     else
     {
         //unable to unzip file
+        FileUtils::getInstance()->removeFile(getCTADirectoryPath() + "CTAFiles.zip");
         return false;
     }
+}
+
+bool DynamicNodeHandler::unzipBundleCTAFiles()
+{
+    const std::string& basePath = getCTADirectoryPath();
+    const std::string& targetPath = getBundledAssetsPath();
+    const std::string& destinationPath = basePath + "CTAFiles.zip";
+    const std::string& zipFile = FileUtils::getInstance()->getStringFromFile(targetPath);
     
-    
+    FileUtils::getInstance()->writeStringToFile(zipFile, destinationPath);
+
+    if(FileZipUtil::getInstance()->unzip(destinationPath.c_str(),basePath.c_str(),nullptr))
+    {
+        FileUtils::getInstance()->removeFile(destinationPath);
+        return true;
+    }
+    else
+    {
+        //unable to unzip file
+        FileUtils::getInstance()->removeFile(destinationPath);
+        return false;
+    }
 }
 
 void DynamicNodeHandler::removeCTAFiles()

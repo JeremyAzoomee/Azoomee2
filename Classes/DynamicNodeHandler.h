@@ -33,11 +33,12 @@ private:
     void onGetCTAPackageZipAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     bool unzipCTAFiles(const char *zipPath,const char *dirpath,const char *passwd);
+    bool unzipBundleCTAFiles();
     void removeCTAFiles();
     
     std::string getPackageJsonLocation() const;
     std::string getCTADirectoryPath() const;
-    std::string getResCTADirectoryPath() const;
+    std::string getBundledAssetsPath() const;
     
     void createDynamicNodeFromFile(const std::string& file);
     
