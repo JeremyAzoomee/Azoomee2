@@ -39,7 +39,9 @@ protected:
     
     void addListener();
     static ElectricDreamsButton* createPrimaryButton(std::string buttonText, float textPadding, float minWidth);
+    static ElectricDreamsButton* createPrimaryGreenButton(std::string buttonText, float textPadding, float minWidth);
     static ElectricDreamsButton* createSecondaryButton(std::string buttonText, float textPadding, float minWidth);
+    static ElectricDreamsButton* createSecondaryGreenButton(std::string buttonText, float textPadding, float minWidth);
     cocos2d::ui::Scale9Sprite *createButtonOutline(std::string buttonText);
     void sendMixPanelEvent();
     cocos2d::Sprite* createSpriteButton(std::string buttonImage, std::string buttonAudio);
@@ -58,18 +60,24 @@ public:
     static ElectricDreamsButton* createTextAsButtonWithColor(std::string buttonText, float fontSize, bool underlined, cocos2d::Color3B color);
     static ElectricDreamsButton* createButtonWithText(std::string buttonText);
     static ElectricDreamsButton* createButtonWithWidth(std::string buttonText, float buttonWidth);
+    static ElectricDreamsButton* createGreenButtonWithWidth(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createSecondaryButtonWithWidth(std::string buttonText, float buttonWidth);
+    static ElectricDreamsButton* createSecondaryGreenButtonWithWidth(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createButtonWithText(std::string buttonText, float textPadding);
     static ElectricDreamsButton* createOutlineButtonWithText(std::string buttonText);
     static ElectricDreamsButton* createNextButton();
     static ElectricDreamsButton* createBackButton();
+    static ElectricDreamsButton* createNextButtonGreen();
+    static ElectricDreamsButton* createBackButtonGreen();
     static ElectricDreamsButton* createAcceptButton();
     static ElectricDreamsButton* createCancelButton();
-    static ElectricDreamsButton* createWindowCloselButton();
+    static ElectricDreamsButton* createWindowCloseButton();
+    static ElectricDreamsButton* createWindowCloseButtonGreen();
     static ElectricDreamsButton* createWhiteWindowCloselButton();
     static ElectricDreamsButton* createAddButton();
     static ElectricDreamsButton* createPlaceHolderButton();
     static ElectricDreamsButton* createPlaceHolderButton(float withWidth);
+    static ElectricDreamsButton* createPlaceHolderGreenButton(float withWidth);
     static ElectricDreamsButton* createChildSelectorButton();
     static ElectricDreamsButton* createTabButton(std::string buttonText);
     static ElectricDreamsButton* createChevronLeftButton();
@@ -78,7 +86,7 @@ public:
     //----------- CHAT INVITE BUTTONS -------------------
     
     static ElectricDreamsButton* createKidCodeShareButton(std::string kidCode, float buttonWidth);
-    static ElectricDreamsButton* createInviteMainButton(std::string buttonText, float buttonWidth);
+    static ElectricDreamsButton* createGreenButton(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createTextInputAsButton(std::string buttonText, float buttonWidth);
     static ElectricDreamsButton* createSendButton();
     static ElectricDreamsButton* createRedOutlineButton(std::string buttonText, float buttonWidth);

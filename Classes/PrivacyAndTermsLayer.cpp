@@ -8,16 +8,33 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+Layer* PrivacyAndTermsLayer::createGreenish()
+{
+    auto layer = PrivacyAndTermsLayer::create();
+    layer->textColor = Style::Color::greenish;
+    layer->createButtons();
+    layer->createLabel();
+    layer->setSizeAndAddItems();
+    
+    return layer;
+}
+
+Layer* PrivacyAndTermsLayer::createWhite()
+{
+    auto layer = PrivacyAndTermsLayer::create();
+    layer->createButtons();
+    layer->createLabel();
+    layer->setSizeAndAddItems();
+    
+    return layer;
+}
+
 bool PrivacyAndTermsLayer::init()
 {
     if ( !Layer::init() )
     {
         return false;
     }
-    
-    createButtons();
-    createLabel();
-    setSizeAndAddItems();
     
     return true;
 }
@@ -26,11 +43,11 @@ bool PrivacyAndTermsLayer::init()
 
 void PrivacyAndTermsLayer::createButtons()
 {
-    privacyButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 50, true);
+    privacyButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(T_and_C_Privacy_Button), 50, true, textColor);
     privacyButton->setMixPanelButtonName("PrivacyPolicyButton");
     privacyButton->setDelegate(this);
     
-    termsButton = ElectricDreamsButton::createTextAsButton(StringMgr::getInstance()->getStringForKey(T_and_C_Terms_Button), 50, true);
+    termsButton = ElectricDreamsButton::createTextAsButtonWithColor(StringMgr::getInstance()->getStringForKey(T_and_C_Terms_Button), 50, true,textColor);
     termsButton->setMixPanelButtonName("TermsButton");
     termsButton->setDelegate(this);
 }
@@ -38,6 +55,7 @@ void PrivacyAndTermsLayer::createButtons()
 void PrivacyAndTermsLayer::createLabel()
 {
     andLabel = createLabelContentDescription(StringMgr::getInstance()->getStringForKey(T_and_C_And));
+    andLabel->setColor(textColor);
 }
 
 void PrivacyAndTermsLayer::setSizeAndAddItems()

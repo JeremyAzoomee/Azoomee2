@@ -52,6 +52,8 @@ namespace Color
     const cocos2d::Color3B darkNeonPurpleTwo(83, 23, 98);
     const cocos2d::Color3B safetySlideTitleColor(9, 154, 154);
     const cocos2d::Color3B chatEnterTextColor(135, 135, 135);
+    const cocos2d::Color3B greenish(38,192,180);
+    const cocos2d::Color3B bluegreenish(0,132,132);
 }
    
 /**
@@ -77,7 +79,7 @@ namespace Color_4F
     const cocos2d::Color4F watermelon(0.976, 0.29, 0.357,1);
     const cocos2d::Color4F brightAqua(0.11, 0.957,  0.957, 1.0);
     const cocos2d::Color4F macaroniAndCheese(0.964, 0.733, 0.259,1);
-    const cocos2d::Color4F greenishTeal(55/255.0f,188/255.0f,152/255.0f,1);
+    const cocos2d::Color4F greenishTeal(55/255.0f,188/255.0f,152/255.0f, 1.0f);
     
     // These colors below don't have exact names in Zeplin.
     // Names Chosen based on where used
@@ -100,6 +102,7 @@ namespace Color_4F
     const cocos2d::Color4F darkPurple = cocos2d::Color4F(142/255.0f,25/255.0f,167/255.0f, 1.0f);
     const cocos2d::Color4F purple = cocos2d::Color4F(192/255.0f,25/255.0f,194/255.0f, 1.0f);
     const cocos2d::Color4F neonPink = cocos2d::Color4F(239/255.0f,30/255.0f,239/255.0f, 1.0f);
+    const cocos2d::Color4F babyPink = cocos2d::Color4F(255/255.0f,143/255.0f,255/255.0f,1.0f);
     const cocos2d::Color4F palePink = cocos2d::Color4F(255/255.0f,196/255.0f,242/255.0f, 1.0f);
     const cocos2d::Color4F pink = cocos2d::Color4F(255/255.0f,85/255.0f,183/255.0f, 1.0f);
     const cocos2d::Color4F darkPink = cocos2d::Color4F(228/255.0f,0/255.0f,131/255.0f, 1.0f);
@@ -120,6 +123,8 @@ namespace Color_4F
     const cocos2d::Color4F orange = cocos2d::Color4F(255/255.0f,125/255.0f,6/255.0f, 1.0f);
     const cocos2d::Color4F darkYellow = cocos2d::Color4F(255/255.0f,211/255.0f,0/255.0f, 1.0f);
     const cocos2d::Color4F yellow = cocos2d::Color4F(255/255.0f,236/255.0f,107/255.0f, 1.0f);
+    
+    const cocos2d::Color4F greenish = cocos2d::Color4F(38/255.0f,192/255.0f,180/255.0f, 1.0f);
     
 }
 

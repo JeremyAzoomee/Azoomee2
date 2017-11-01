@@ -115,7 +115,7 @@ void ChildSelectorScene::createSettingsButton()
 
 void ChildSelectorScene::addPrivacyButton()
 {
-    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
     privacyLayer->setCenterPosition(Vec2(origin.x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,origin.y + privacyLayer->getContentSize().height));
     this->addChild(privacyLayer);
 }

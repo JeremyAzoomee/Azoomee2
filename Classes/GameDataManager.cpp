@@ -438,7 +438,7 @@ void GameDataManager::displayLoadingScreen()
     
     ModalMessages::getInstance()->startLoading();
     
-    ElectricDreamsButton *cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    ElectricDreamsButton *cancelButton = ElectricDreamsButton::createWindowCloseButton();
     cancelButton->setName("cancelButton");
     cancelButton->setCenterPosition(Vec2(origin.x + size.width - cancelButton->getContentSize().width, origin.y + size.height - cancelButton->getContentSize().height));
     cancelButton->setDelegate(this);

@@ -133,7 +133,7 @@ void HQScene::createBidirectionalScrollView()
     verticalScrollView->setName("scrollView");
     this->addChild(verticalScrollView);
     
-    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
     
     float scrollviewTitleTextHeight = ConfigStorage::getInstance()->getScrollviewTitleTextHeight();
     float groupVideoTextHeight = 0.0f;

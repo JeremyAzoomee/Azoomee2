@@ -19,18 +19,18 @@ private:
     
     bool returnToChatScene = false;
     
-    Layer* currentTabLayer;
+    Layer* currentTabLayer = nullptr;
     
-    LayerColor *backgroundLayer;
+    LayerColor *backgroundLayer = nullptr;
     float linePositionY;
     
-    Sprite* confirmationNotification;
+    Sprite* confirmationNotification = nullptr;
     
-    ElectricDreamsButton *cancelButton;
-    ElectricDreamsButton *accountButton;
-    ElectricDreamsButton *confirmationButton;
-    ElectricDreamsButton *childrenButton;
-    ElectricDreamsButton *onlineSafetyButton;
+    ElectricDreamsButton *cancelButton = nullptr;
+    ElectricDreamsButton *accountButton = nullptr;
+    ElectricDreamsButton *confirmationButton = nullptr;
+    ElectricDreamsButton *childrenButton = nullptr;
+    ElectricDreamsButton *onlineSafetyButton = nullptr;
     
     void createSettingsLayer();
     void addListenerToLayer(Layer* layerToAdd);

@@ -57,9 +57,6 @@ void KidsLayer::addChildName()
 
 void KidsLayer::addOomee()
 {
-    glowSprite = createGlow();
-    this->addChild(glowSprite);
-    
     std::string oomeeUrl = ParentDataProvider::getInstance()->getAvatarForAnAvailableChildren(childNumber);
     int oomeeNr = ConfigStorage::getInstance()->getOomeeNumberForUrl(oomeeUrl);
     
@@ -86,24 +83,14 @@ ui::Scale9Sprite* KidsLayer::createText9Sprite(std::string resource, float heigh
 
 void KidsLayer::setOomeeToLargeSize()
 {
-    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.45);
-    
-    glowSprite->setPosition(position);
-    glowSprite->setScale(.7);
-    
     oomeeSprite->setScale(1.8);
-    oomeeSprite->setPosition(position);
+    oomeeSprite->setPosition(this->getContentSize().width / 2, this->getContentSize().height*.45);
 }
 
 void KidsLayer::setOomeeToSmallSize()
 {
-    Vec2 position = Vec2(this->getContentSize().width / 2, this->getContentSize().height*.67);
-    
-    glowSprite->setPosition(position);
-    glowSprite->setScale(.5);
-    
     oomeeSprite->setScale(1.1);
-    oomeeSprite->setPosition(position);
+    oomeeSprite->setPosition(this->getContentSize().width / 2, this->getContentSize().height*.67);
 }
 
 //------------------PUBLIC CHANGE STATE-------------
@@ -112,12 +99,12 @@ void KidsLayer::setToStartLayout()
 {
     removeObjects(true);
     
-    Label* ShareWithFriendLabel = createLabelWith("Share with friends", Style::Font::Regular, Style::Color::brightAqua, 40);
+    Label* ShareWithFriendLabel = createLabelWith("Share with friends", Style::Font::Regular, Style::Color::black, 40);
     ShareWithFriendLabel->setTag(1000);
-    ShareWithFriendLabel->setPosition(this->getContentSize().width/2,this->getContentSize().height - ShareWithFriendLabel->getContentSize().height*9.1);
+    ShareWithFriendLabel->setPosition(this->getContentSize().width/2,this->getContentSize().height - ShareWithFriendLabel->getContentSize().height*5.6);
     this->addChild(ShareWithFriendLabel);
     
-    Label* AddAFriendLabel = createLabelWith("To add a friend", Style::Font::Regular, Style::Color::brightAqua, 40);
+    Label* AddAFriendLabel = createLabelWith("To add a friend", Style::Font::Regular, Style::Color::black, 40);
     AddAFriendLabel->setTag(1000);
     AddAFriendLabel->setPosition(this->getContentSize().width/2,AddAFriendLabel->getContentSize().height*5.8);
     this->addChild(AddAFriendLabel);
@@ -126,7 +113,7 @@ void KidsLayer::setToStartLayout()
 void KidsLayer::setToAddAFriendTextBox()
 {
     removeObjects(true);
-    Label* detailsLabel = createLabelSettingsChat("To add a friend",Color3B::WHITE);
+    Label* detailsLabel = createLabelSettingsChat("To add a friend",Style::Color::black);
     detailsLabel->setPosition(this->getContentSize().width/2,oomeeSprite->getPositionY() - (oomeeSprite->getContentSize().height/2 * oomeeSprite->getScale()) - detailsLabel->getContentSize().height*1.5);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
@@ -145,7 +132,7 @@ void KidsLayer::setToCodeError(std::string code)
     failedTextBox->addChild(failedTextBoxLabel);
     this->addChild(failedTextBox);
     
-    Label* detailsLabel = createLabelSettingsChat("Oh No! We didn't recognise\nthat Kid Code.",Color3B::WHITE);
+    Label* detailsLabel = createLabelSettingsChat("Oh No! We didn't recognise\nthat Kid Code.",Style::Color::black);
     detailsLabel->setPosition(this->getContentSize().width/2,failedTextBox->getPositionY() + detailsLabel->getContentSize().height*1.25);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);
@@ -165,12 +152,12 @@ void KidsLayer::setToCodeSuccess(std::string code)
     displayCodeTextBox->addChild(failedTextBoxLabel);
     this->addChild(displayCodeTextBox);
     
-    Label* titleLabel = createLabelSettingsChat("Kid Code accepted",Color3B::WHITE);
+    Label* titleLabel = createLabelSettingsChat("Kid Code accepted",Style::Color::black);
     titleLabel->setPosition(this->getContentSize().width/2,displayCodeTextBox->getPositionY() + titleLabel->getContentSize().height*2.25);
     titleLabel->setTag(1000);
     this->addChild(titleLabel);
     
-    Label* detailsLabel = createLabelSettingsChat("Your friend has been added!\nTheir parents will need to\nconfirm the friendship.",Color3B::WHITE);
+    Label* detailsLabel = createLabelSettingsChat("Your friend has been added!\nTheir parents will need to\nconfirm the friendship.",Style::Color::black);
     detailsLabel->setPosition(this->getContentSize().width/2,displayCodeTextBox->getPositionY() - detailsLabel->getContentSize().height);
     detailsLabel->setTag(1000);
     this->addChild(detailsLabel);

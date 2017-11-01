@@ -19,7 +19,7 @@ class BrushPaintBrush: public Brush
 private:
     const int _kSpriteCountLimit = 1000;
 
-    cocos2d::Node* brushLayer = nullptr;
+    cocos2d::Node* _brushLayer = nullptr;
     cocos2d::RenderTexture* _paintLayer = nullptr;
     int _spriteCount = 0;
 public:

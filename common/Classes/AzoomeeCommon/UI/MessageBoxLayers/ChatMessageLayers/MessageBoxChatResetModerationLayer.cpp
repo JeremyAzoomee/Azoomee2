@@ -90,7 +90,7 @@ void MessageBoxChatResetModerationLayer::createButtons()
 
 void MessageBoxChatResetModerationLayer::createCancelButton()
 {
-    cancelButton = ElectricDreamsButton::createWindowCloselButton();
+    cancelButton = ElectricDreamsButton::createWindowCloseButton();
     cancelButton->setMixPanelButtonName("messageBoxCancelButton");
     cancelButton->setDelegate(this);
 }
