@@ -950,22 +950,23 @@ void DrawingCanvasUILayer::setOnlyPatternBrushesEnabled(bool isEnabled)
     ui::Button* brushBtn = (ui::Button*)toolButtons.at(1);
     brushBtn->setEnabled(!isEnabled);
     
-    if(_selectedToolButton == brushBtn)
-    {
-        //force tool change
-        _drawingCanvas->addNewDrawNode(); //re-add draw node from paintbruch because it will have been removed on colour change and will be removed again on tool change
-        onToolChanged(toolButtons.at(0), ui::Widget::TouchEventType::BEGAN, PEN);
-        onToolChanged(toolButtons.at(0), ui::Widget::TouchEventType::ENDED, PEN);
-    }
-    
     if(isEnabled)
     {
+        if(_selectedToolButton == brushBtn)
+        {
+            //force tool change
+            _drawingCanvas->addNewDrawNode(); //re-add draw node from paintbruch because it will have been removed on colour change and will be removed again on tool change
+            onToolChanged(toolButtons.at(0), ui::Widget::TouchEventType::BEGAN, PEN);
+            onToolChanged(toolButtons.at(0), ui::Widget::TouchEventType::ENDED, PEN);
+        }
         setButtonBodyColour(brushBtn, Style::Color::charcoalGrey);
     }
-    else
+    
+    if(!isEnabled && _selectedToolButton != brushBtn)
     {
         setButtonBodyColour(brushBtn, Color3B::WHITE);
     }
+    
     
 }
 
