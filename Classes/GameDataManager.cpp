@@ -59,6 +59,10 @@ bool GameDataManager::init(void)
 
 void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData)
 {
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://games.azoomee.ninja/" + itemData->getContentItemId() + "/export/index-azoomee.html"));
+    
+    return;
+    
     AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
     
     processCancelled = false;

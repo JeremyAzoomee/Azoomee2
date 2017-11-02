@@ -204,39 +204,39 @@ public class NativeViewUI extends Activity {
         {
             urlToBeLoaded = "file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl;
         }
-        else
-        {
-            CookieManager uiWebviewCookieManager = CookieManager.getInstance();
-            if (Build.VERSION.SDK_INT >= 21)
-            {
-                uiWebviewCookieManager.removeAllCookies(null);
-                uiWebviewCookieManager.flush();
-                uiWebviewCookieManager.setAcceptThirdPartyCookies(uiWebView, true);
-            }
-            uiWebviewCookieManager.setAcceptCookie(true);
-
-            try
-            {
-                JSONObject obj = new JSONObject(JNICalls.JNIGetAllCookies());
-                JSONArray array = obj.getJSONArray("Elements");
-
-                for(int i = 0; i < array.length(); i++)
-                {
-                    JSONObject currentObject = array.getJSONObject(i);
-                    String url = currentObject.getString("url");
-                    String cookie = currentObject.getString("cookie");
-
-                    Log.d("COOKIE URL", url);
-                    Log.d("COOKIE", cookie);
-
-                    uiWebviewCookieManager.setCookie(url, cookie);
-                }
-            }
-            catch (Exception ex)
-            {
-                JNICalls.getBackToLoginScreen();
-            }
+        else {
             urlToBeLoaded = "file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl;
+        }
+
+        CookieManager uiWebviewCookieManager = CookieManager.getInstance();
+        if (Build.VERSION.SDK_INT >= 21)
+        {
+            uiWebviewCookieManager.removeAllCookies(null);
+            uiWebviewCookieManager.flush();
+            uiWebviewCookieManager.setAcceptThirdPartyCookies(uiWebView, true);
+        }
+        uiWebviewCookieManager.setAcceptCookie(true);
+
+        try
+        {
+            JSONObject obj = new JSONObject(JNICalls.JNIGetAllCookies());
+            JSONArray array = obj.getJSONArray("Elements");
+
+            for(int i = 0; i < array.length(); i++)
+            {
+                JSONObject currentObject = array.getJSONObject(i);
+                String url = currentObject.getString("url");
+                String cookie = currentObject.getString("cookie");
+
+                Log.d("COOKIE URL", url);
+                Log.d("COOKIE", cookie);
+
+                uiWebviewCookieManager.setCookie(url, cookie);
+            }
+        }
+        catch (Exception ex)
+        {
+            JNICalls.getBackToLoginScreen();
         }
 
         if(CookieManager.getInstance().hasCookies()) Log.d("COOKIE", "HAS COOKIES");
