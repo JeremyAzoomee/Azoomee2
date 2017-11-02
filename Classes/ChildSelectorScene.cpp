@@ -18,7 +18,6 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
-#include "ForceUpdateSingleton.h"
 #include "ChatNotificationsSingleton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 
@@ -70,7 +69,6 @@ bool ChildSelectorScene::init()
 
 void ChildSelectorScene::onEnterTransitionDidFinish()
 {
-    ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
     OfflineChecker::getInstance()->setDelegate(this);
     
     if(FlowDataSingleton::getInstance()->hasError())

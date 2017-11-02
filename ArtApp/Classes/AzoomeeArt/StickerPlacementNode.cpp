@@ -147,6 +147,8 @@ void StickerPlacementNode::setupTouchHandling()
         
     };
     
+    _touchListener->onTouchCancelled = _touchListener->onTouchEnded;
+    
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, this);
     
 }

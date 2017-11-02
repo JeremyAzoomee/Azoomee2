@@ -122,7 +122,7 @@ void IAPUpsaleLayer::addButtons()
     
     addOptionalSubscriptionLabel();
     
-    privacyButton = ElectricDreamsButton::createTextAsButtonAqua("Your child's privacy", 40, true);
+    privacyButton = ElectricDreamsButton::createTextAsButtonAqua("Important Privacy Notice for Parents", 40, true);
     privacyButton->setPosition(startTrialButton->getCenterPosition().x-privacyButton->getContentSize().width/2, privacyButton->getContentSize().height*2);
     privacyButton->setDelegate(this);
     privacyButton->setMixPanelButtonName("IAPUpsaleSceneChildPrivacyButton");
@@ -142,9 +142,7 @@ void IAPUpsaleLayer::addButtons()
         
         float buttonSpacing = 40.0f;
         
-        float totalWidthOfExtraButtons = learnMoreButton->getContentSize().width + restoreButton->getContentSize().width + privacyButton->getContentSize().width + buttonSpacing * 2;
-        
-        learnMoreButton->setPosition(startTrialButton->getCenterPosition().x + totalWidthOfExtraButtons/2 - learnMoreButton->getContentSize().width, learnMoreButton->getContentSize().height*2);
+        learnMoreButton->setPosition(origin.x + visibleSize.width - learnMoreButton->getContentSize().width * 1.1, learnMoreButton->getContentSize().height*2);
         restoreButton->setPosition(learnMoreButton->getPositionX()-restoreButton->getContentSize().width -buttonSpacing,learnMoreButton->getPositionY());
         privacyButton->setPosition(restoreButton->getPositionX() - privacyButton->getContentSize().width - buttonSpacing, learnMoreButton->getPositionY());
     }

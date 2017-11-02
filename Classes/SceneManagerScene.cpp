@@ -64,7 +64,6 @@ bool SceneManagerScene::init()
 
 void SceneManagerScene::onEnterTransitionDidFinish()
 {
-    Director::getInstance()->getTextureCache()->unbindAllImageAsync();
     switch (nextScene) {
         case Login:
         {

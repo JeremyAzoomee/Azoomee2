@@ -146,6 +146,7 @@ void RemoteImageSprite::imageAddedToCache(Texture2D* resulting_texture)
         
         finalImage->runAction(FadeIn::create(0.1));
     }
+    this->release();
 }
     
 void RemoteImageSprite::addNewBadgeToLoadedImage()
@@ -190,6 +191,7 @@ void RemoteImageSprite::onImageDownloadComplete(const ImageDownloaderRef& downlo
     const std::string& filename = downloader->getLocalImagePath();
     addStarted = true;
     this->setName(filename);
+    this->retain();
     Director::getInstance()->getTextureCache()->addImageAsync(filename, CC_CALLBACK_1(RemoteImageSprite::imageAddedToCache, this));
 }
 
