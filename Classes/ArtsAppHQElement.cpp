@@ -62,14 +62,17 @@ bool ArtsAppHQElement::initWithURLAndSize(std::string filePath, Size size, bool 
 
 void ArtsAppHQElement::loadImageTex()
 {
+    this->retain();
     Director::getInstance()->getTextureCache()->addImageAsync(imageURL, [&](Texture2D* tex){
         
         if(!elementActive || ArtAppDelegate::getInstance()->ArtAppRunning)
         {
+            this->release();
             return;
         }
-
+        
         this->addImage(tex);
+        this->release();
     });
 }
 
