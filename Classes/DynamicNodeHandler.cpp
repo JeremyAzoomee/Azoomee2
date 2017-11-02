@@ -97,7 +97,8 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
 
 void DynamicNodeHandler::getCTAFiles()
 {
-    getCTAPackageJSON(_kCTAPackageJSONURL);
+    checkIfVersionChangedFromLastCTAPull();
+    getCTAPackageJSON(ConfigStorage::getInstance()->getCTAPackageJsonURL());
 }
 
 rapidjson::Document DynamicNodeHandler::getLocalCTAPackageJSON()
@@ -114,6 +115,24 @@ rapidjson::Document DynamicNodeHandler::getLocalCTAPackageJSON()
 bool DynamicNodeHandler::isCTAPackageJSONExist()
 {
     return FileUtils::getInstance()->isFileExist(getPackageJsonLocation());
+}
+
+void DynamicNodeHandler::checkIfVersionChangedFromLastCTAPull()
+{
+    const std::string& lastPullAppVersionFile = getLastPullAppVersionFilePath();
+    if(!FileUtils::getInstance()->isFileExist(lastPullAppVersionFile))
+    {
+        FileUtils::getInstance()->writeStringToFile(ConfigStorage::getInstance()->getVersionNumber(), lastPullAppVersionFile);
+        return;
+    }
+    
+    const std::string& lastPullAppVersion = FileUtils::getInstance()->getStringFromFile(lastPullAppVersionFile);
+    
+    if(!azoomeeVersionEqualsVersionNumber(lastPullAppVersion))
+    {
+        removeCTAFiles();
+        FileUtils::getInstance()->removeFile(getPackageJsonLocation());
+    }
 }
 
 void DynamicNodeHandler::getCTAPackageJSON(const std::string& url)
@@ -216,6 +235,7 @@ void DynamicNodeHandler::onGetCTAPackageZipAnswerReceived(cocos2d::network::Http
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
         removeCTAFiles();
         unzipCTAFiles(targetPath.c_str(), basePath.c_str(), nullptr);
+        FileUtils::getInstance()->writeStringToFile(ConfigStorage::getInstance()->getVersionNumber(), getLastPullAppVersionFilePath());
     }
     else
     {
@@ -236,6 +256,11 @@ std::string DynamicNodeHandler::getCTADirectoryPath() const
 std::string DynamicNodeHandler::getBundledAssetsPath() const
 {
     return "res/cta_assets/CTAFiles.zip";
+}
+
+std::string DynamicNodeHandler::getLastPullAppVersionFilePath() const
+{
+    return getCTADirectoryPath() + "lastPullAppVersion.txt";
 }
 
 bool DynamicNodeHandler::unzipCTAFiles(const char *zipPath, const char *dirpath, const char *passwd)

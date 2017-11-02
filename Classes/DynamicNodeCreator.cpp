@@ -150,6 +150,7 @@ void DynamicNodeCreator::initCTANode()
     
     _maskedBGImage = Sprite::create(_kCTAAssetLoc + "deep_free_pop_over_trans.png");
     _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
+    _maskedBGImage->setVisible(false);
     _clippingNode->addChild(_maskedBGImage);
     
     _clippingNode->setAlphaThreshold(0.5f);
@@ -199,10 +200,10 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
 {
     if(sizePercentages.Size() == 2)
     {
-        if(sizePercentages[0].IsInt() && sizePercentages[1].IsInt())
+        if(sizePercentages[0].IsFloat() && sizePercentages[1].IsFloat())
         {
-            float width = sizePercentages[0].GetInt()/100.0f;
-            float height = sizePercentages[1].GetInt()/100.0f;
+            float width = sizePercentages[0].GetFloat()/100.0f;
+            float height = sizePercentages[1].GetFloat()/100.0f;
             const Size& newSize = Size(_windowSize.width*width,_windowSize.height*height);
             
             _stencil->setContentSize(newSize);
@@ -237,21 +238,22 @@ void DynamicNodeCreator::configBackgroundColour(const rapidjson::Value &backgrou
 
 void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroundImageData)
 {
+    _maskedBGImage->setVisible(true);
     const std::string filename = getStringFromJson("file", backgroundImageData);
     bool imagefound = false;
     
     if(filename != "")
     {
-        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename))
+        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename))
         {
-            _maskedBGImage->initWithFile(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename);
+            _maskedBGImage->initWithFile(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename);
             imagefound = true;
         }
         else
         {
-            if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + "images/" + filename))
+            if(FileUtils::getInstance()->isFileExist(_kCTABundleImageLoc + filename))
             {
-                _maskedBGImage->initWithFile(_kCTAAssetLoc + "images/" + filename);
+                _maskedBGImage->initWithFile(_kCTABundleImageLoc + filename);
                 imagefound = true;
             }
         }
@@ -375,15 +377,15 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
             
             if(filename != "")
             {
-                if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename))
+                if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename))
                 {
-                    addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename);
+                    addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename);
                 }
                 else
                 {
-                    if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + "images/" + filename))
+                    if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + _kCTABundleImageLoc + filename))
                     {
-                        addImageWithParams(size, pos, opacity,_kCTAAssetLoc +  "images/" + filename);
+                        addImageWithParams(size, pos, opacity,_kCTAAssetLoc +  _kCTABundleImageLoc + filename);
                     }
                 }
             }
@@ -440,7 +442,23 @@ void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, 
 void DynamicNodeCreator::addImageWithParams(const Vec2& size, const Vec2& pos, int opacity, const std::string& filename)
 {
     Sprite* image = Sprite::create(filename);
-    image->setScale((_windowSize.width*size.x)/image->getContentSize().width, (_windowSize.height*size.y)/image->getContentSize().height);
+    if(size.x > 0 && size.y > 0)
+    {
+        image->setScale((_popupImages->getContentSize().width*size.x)/image->getContentSize().width, (_popupImages->getContentSize().height*size.y)/image->getContentSize().height);
+    }
+    else if(size.x <= 0 && size.y <= 0)
+    {
+        image->setScale(1);
+    }
+    else if(size.x <= 0)
+    {
+        image->setScale((_popupImages->getContentSize().height*size.y)/image->getContentSize().height);
+    }
+    else
+    {
+        image->setScale((_popupImages->getContentSize().width*size.x)/image->getContentSize().width);
+    }
+    
     image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     image->setNormalizedPosition(pos);
     image->setOpacity(opacity);
@@ -458,12 +476,18 @@ void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, con
         fontSize = newFontSize;
     }
     
+    int lineSpacing = getIntFromJson("lineSpacing", params);
+    if(lineSpacing == INT_MAX)
+    {
+        lineSpacing = 20;
+    }
+    
     fontColour = getColor4BFromJson("colour", params);
     
     Label* label = Label::createWithTTF(text, Style::Font::Regular, fontSize);
     label->setNormalizedPosition(pos);
     label->setTextColor(fontColour);
-    label->setLineSpacing(20);
+    label->setLineSpacing(lineSpacing);
     
     if(alignment == "left")
     {
