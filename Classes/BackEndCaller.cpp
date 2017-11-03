@@ -164,6 +164,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
 
 void BackEndCaller::updateBillingData()
 {
+    ParentDataParser::getInstance()->setBillingDataAvailable(false);
     HttpRequestCreator* request = API::UpdateBillingDataRequest(this);
     request->execute();
 }
@@ -171,6 +172,9 @@ void BackEndCaller::updateBillingData()
 void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& responseString)
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
+    // fire event to add parent button to child select scene if paid account
+    EventCustom event(ChildSelectorScene::kBillingDataRecievedEvent);
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
 //GETTING FORCE UPDATE INFORMATION
