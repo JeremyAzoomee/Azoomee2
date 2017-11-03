@@ -84,6 +84,11 @@ bool ParentDataProvider::isLoggedInParentAnonymous()
     return ParentDataStorage::getInstance()->isLoggedInParentAnonymous;
 }
 
+bool ParentDataProvider::isBillingDataAvailable()
+{
+    return ParentDataStorage::getInstance()->isBillingDataAvailable;
+}
+    
 bool ParentDataProvider::isPaidUser()
 {
     return (ParentDataStorage::getInstance()->loggedInParentBillingStatus == "SUBSCRIBED") || (ParentDataStorage::getInstance()->loggedInParentBillingStatus == "FREE_TRIAL");

@@ -197,6 +197,7 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
             AnalyticsSingleton::getInstance()->registerBillingProvider(billingData["paymentProvider"].GetString());
         }
     }
+    parentData->isBillingDataAvailable = true;
 }
 
 void ParentDataParser::logoutChild()
@@ -292,6 +293,11 @@ bool ParentDataParser::parsePendingFriendRequests(const std::string &responseDat
     }
     
     return true;
+}
+    
+void ParentDataParser::setBillingDataAvailable(bool isAvailable)
+{
+    ParentDataStorage::getInstance()->isBillingDataAvailable = isAvailable;
 }
   
 }
