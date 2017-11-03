@@ -159,7 +159,7 @@ void ChildSelectorScene::addProfilesToScrollView()
         addListenerToProfileLayer(profileLayer);
         scrollView->addChild(profileLayer);
     }
-    
+
     auto parentButton = createParentProfileButton();
     parentButton->setPosition(positionElementOnScrollView(parentButton));
     scrollView->addChild(parentButton);

@@ -126,6 +126,10 @@ void DynamicNodeCreator::initCTANode()
     
     _CTANode = Node::create();
     
+    _CTANode->setOnExitCallback([=](){
+        _CTANode = nullptr;
+    });
+    
     LayerColor* overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, _windowSize.width, _windowSize.height);
     overlay->setName("overlay");
     _CTANode->addChild(overlay);
