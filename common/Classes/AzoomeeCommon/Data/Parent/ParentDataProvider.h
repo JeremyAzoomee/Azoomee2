@@ -38,6 +38,7 @@ public:
     std::string getBillingStatus();
     std::string getBillingDate();
     std::string getBillingProvider();
+    bool isLoggedInParentAnonymous();
     
     bool isPaidUser();
     bool emailRequiresVerification();

@@ -78,6 +78,11 @@ std::string ParentDataProvider::getBillingProvider()
 {
     return ParentDataStorage::getInstance()->loggedInParentBillingProvider;
 }
+    
+bool ParentDataProvider::isLoggedInParentAnonymous()
+{
+    return ParentDataStorage::getInstance()->isLoggedInParentAnonymous;
+}
 
 bool ParentDataProvider::isPaidUser()
 {

@@ -54,6 +54,7 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
             parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", parentData->parentLoginData);
             parentData->loggedInParentAvatarId = getStringFromJson("avatar", parentData->parentLoginData);
             parentData->loggedInParentPin = getStringFromJson("pinNumber", parentData->parentLoginData);
+            parentData->isLoggedInParentAnonymous = false;
             
             addParentLoginDataToUserDefaults();
             
@@ -87,6 +88,7 @@ bool ParentDataParser::parseParentLoginDataFromAnonymousDeviceLogin(const std::s
             parentData->loggedInParentApiSecret = getStringFromJson("apiSecret", parentData->parentLoginData);
             parentData->loggedInParentApiKey = getStringFromJson("apiKey", parentData->parentLoginData);
             parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", parentData->parentLoginData);
+            parentData->isLoggedInParentAnonymous = true;
 
             parentData->loggedInParentPin = "";
             
@@ -125,6 +127,7 @@ bool ParentDataParser::parseAvailableChildren(const std::string &responseData)
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     parentData->availableChildren.clear();
     parentData->availableChildrenById.clear();
+    parentData->isLoggedInParentAnonymous = false; //if user has children, it must be non-anonymous
     
     parentData->availableChildrenData.Parse(responseData.c_str());
     
@@ -213,6 +216,7 @@ void ParentDataParser::addParentLoginDataToUserDefaults()
     def->setStringForKey("loggedInParentApiKey", parentData->loggedInParentApiKey);
     def->setStringForKey("loggedInParentActorStatus", parentData->loggedInParentActorStatus);
     def->setStringForKey("loggedInParentAvatarId", parentData->loggedInParentAvatarId);
+    def->setBoolForKey("isLoggedInParentAnonymous", parentData->isLoggedInParentAnonymous);
     def->flush();
 }
 
@@ -228,6 +232,7 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     parentData->loggedInParentApiKey = def->getStringForKey("loggedInParentApiKey");
     parentData->loggedInParentActorStatus = def->getStringForKey("loggedInParentActorStatus");
     parentData->loggedInParentAvatarId = def->getStringForKey("loggedInParentAvatarId");
+    parentData->isLoggedInParentAnonymous = def->getBoolForKey("isLoggedInParentAnonymous");
     cocos2d::log("loggedInParentId = %s", parentData->loggedInParentId.c_str());
     cocos2d::log("loggedInParentCdnSessionId = %s", parentData->loggedInParentCdnSessionId.c_str());
     cocos2d::log("loggedInParentApiSecret = %s", parentData->loggedInParentApiSecret.c_str());
