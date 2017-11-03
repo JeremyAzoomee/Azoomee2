@@ -27,6 +27,7 @@ public:
     bool hasParentLoginDataInUserDefaults();
     void clearParentLoginDataFromUserDefaults();
     bool parsePendingFriendRequests(const std::string &responseData);
+    void setBillingDataAvailable(bool isAvailable);
     
 private:
     void addParentLoginDataToUserDefaults();

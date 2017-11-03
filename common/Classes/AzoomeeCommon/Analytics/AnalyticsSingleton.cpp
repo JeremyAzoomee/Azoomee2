@@ -330,7 +330,6 @@ void AnalyticsSingleton::contentItemSelectedEvent(const HQContentItemObjectRef &
     storedContentItemProperties = mixPanelProperties;
     
     mixPanelSendEventWithStoredProperties("contentItemSelectedEvent", mixPanelProperties);
-    appsFlyerSendEvent("contentItemSelectedEvent", mixPanelProperties);
 }
     
 void AnalyticsSingleton::updateContentItemDetails(const HQContentItemObjectRef &contentItem)

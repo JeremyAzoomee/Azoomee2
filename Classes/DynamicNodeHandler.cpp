@@ -86,7 +86,6 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
             
             int randomFileNameIndex = rand()%fileNames.size();
             AnalyticsSingleton::getInstance()->ctaWindowAppeared(groupId, fileNames[randomFileNameIndex]);
-            
             createDynamicNodeFromFile(ctaPath + folder + "/" + fileNames[randomFileNameIndex]);
             return;
                 
