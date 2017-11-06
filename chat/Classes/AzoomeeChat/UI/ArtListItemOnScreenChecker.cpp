@@ -7,7 +7,7 @@
 //
 
 #include "ArtListItemOnScreenChecker.h"
-#include "ArtListItem.h"
+#include "ArtListColumn.h"
 
 using namespace cocos2d;
 
@@ -15,13 +15,13 @@ NS_AZOOMEE_CHAT_BEGIN
 
 void ArtListItemOnScreenChecker::elementAppeared(cocos2d::Node *sender)
 {
-    ArtListItem* element = (ArtListItem*)sender;
+    ArtListColumn* element = (ArtListColumn*)sender;
     element->loadImageTex();
 }
 
 void ArtListItemOnScreenChecker::elementDisappeared(cocos2d::Node *sender)
 {
-    ArtListItem* element = (ArtListItem*)sender;
+    ArtListColumn* element = (ArtListColumn*)sender;
     element->addPlaceHolder();
     Director::getInstance()->getTextureCache()->removeUnusedTextures();
 }

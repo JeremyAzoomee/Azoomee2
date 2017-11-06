@@ -8,6 +8,7 @@
 
 #include "ArtListView.h"
 #include "ArtListItem.h"
+#include "ArtListColumn.h"
 #include <AzoomeeCommon/UI/Style.h>
 
 using namespace cocos2d;
@@ -42,12 +43,24 @@ void ArtListView::setItems(const std::vector<std::string>& data)
     removeAllItems();
     
     const Size& contentSize = getContentSize();
-    for(int i = 0; i < _artData.size(); i++)
+    const float itemWidth = 2732 / 3.5f;
+    for(int i = 0; i < _artData.size(); i+=2)
     {
-        ArtListItem* item = ArtListItem::create();
+        /*ArtListItem* item = ArtListItem::create();
         item->setContentSize(Size(0.0f, contentSize.height));
         item->setData(data[i]);
         item->enableOnScreenChecker();
+        pushBackCustomItem(item);*/
+        ArtListColumn* item = ArtListColumn::create();
+        item->setContentSize(Size(itemWidth,contentSize.height));
+        item->setData(_artData, i);
+        item->enableOnScreenChecker();
+        item->addItemSelectedEventListener([this](const std::string& data) {
+            if(_selectedEventCallback)
+            {
+                _selectedEventCallback(data);
+            }
+        });
         pushBackCustomItem(item);
     }
     
@@ -74,7 +87,7 @@ bool ArtListView::init()
     setScrollBarEnabled(false);
     setGravity(ui::ListView::Gravity::CENTER_VERTICAL);
     
-    addEventListener([this](Ref* sender, ui::ListView::EventType type) {
+    /*addEventListener([this](Ref* sender, ui::ListView::EventType type) {
         if(type == ui::ListView::EventType::ON_SELECTED_ITEM_END)
         {
             const int selectedIndex = (int)getCurSelectedIndex();
@@ -83,7 +96,7 @@ bool ArtListView::init()
                 _selectedEventCallback(_artData[selectedIndex]);
             }
         }
-    });
+    });*/
 
     
     return true;

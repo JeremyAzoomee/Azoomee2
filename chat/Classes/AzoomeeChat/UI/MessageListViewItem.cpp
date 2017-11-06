@@ -234,7 +234,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         }
         else if(messageType == Message::MessageTypeArt)
         {
-            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(getContentSize().width/2,getContentSize().width/2 * 9.0f/16.0f));
+            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(getContentSize().width/2,getContentSize().width/2 * 10.0f/16.0f));
         }
         else
         {

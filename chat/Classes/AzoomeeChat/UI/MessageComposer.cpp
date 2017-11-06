@@ -65,13 +65,21 @@ bool MessageComposer::init()
         sendMessage(sticker);
     });
 
-    _selectorLayout->addChild(_stickerSelector);
+    //_selectorLayout->addChild(_stickerSelector);
     
     // Art
+    ui::Layout* artBG = ui::Layout::create();
+    artBG->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    artBG->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    artBG->setBackGroundColor(Style::Color::grapePurpleTwo);
+    artBG->setSizeType(ui::Widget::SizeType::PERCENT);
+    artBG->setSizePercent(Vec2(1.0f,1.0f));
+    _selectorLayout->addChild(artBG);
+    
     _artListView = ArtListView::create();
     _artListView->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _artListView->setSizeType(ui::Widget::SizeType::PERCENT);
-    _artListView->setSizePercent(Vec2(1.0f, 1.0f));
+    _artListView->setSizePercent(Vec2(1.0f, 0.99f));
     
     const std::string& artDir = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
     const auto& files = DirectorySearcher::getInstance()->getImagesInDirectory(artDir);
@@ -86,7 +94,9 @@ bool MessageComposer::init()
     _artListView->addItemSelectedEventListener([this](const std::string& artFile){
         sendArtMessage(artFile);
     });
-    _selectorLayout->addChild(_artListView);
+    artBG->addChild(_stickerSelector);
+    artBG->addChild(_artListView);
+    //_selectorLayout->addChild(_artListView);
 
     // Default to Idle
     setMode(MessageComposer::Mode::Idle);

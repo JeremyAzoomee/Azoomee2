@@ -82,8 +82,9 @@
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		92D1E01F1F9F74580096E0FE /* ArtListView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E01E1F9F74580096E0FE /* ArtListView.cpp */; };
-		92D1E03E1FA1EC460096E0FE /* ArtListItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E03D1FA1EC460096E0FE /* ArtListItem.cpp */; };
 		92D1E0411FA1F9B00096E0FE /* ArtListItemOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E0401FA1F9B00096E0FE /* ArtListItemOnScreenChecker.cpp */; };
+		92E3C6E91FB08366002217A8 /* ArtListColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E3C6E81FB08366002217A8 /* ArtListColumn.cpp */; };
+		92E3C6EA1FB08366002217A8 /* ArtListColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E3C6E81FB08366002217A8 /* ArtListColumn.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -280,11 +281,11 @@
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		92D1E01B1F9F617C0096E0FE /* ArtListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtListView.h; sourceTree = "<group>"; };
-		92D1E01C1F9F61990096E0FE /* ArtListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtListItem.h; sourceTree = "<group>"; };
 		92D1E01D1F9F6F590096E0FE /* ArtListItemOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtListItemOnScreenChecker.h; sourceTree = "<group>"; };
 		92D1E01E1F9F74580096E0FE /* ArtListView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtListView.cpp; sourceTree = "<group>"; };
-		92D1E03D1FA1EC460096E0FE /* ArtListItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtListItem.cpp; sourceTree = "<group>"; };
 		92D1E0401FA1F9B00096E0FE /* ArtListItemOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtListItemOnScreenChecker.cpp; sourceTree = "<group>"; };
+		92E3C6E51FB06F19002217A8 /* ArtListColumn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtListColumn.h; sourceTree = "<group>"; };
+		92E3C6E81FB08366002217A8 /* ArtListColumn.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArtListColumn.cpp; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -658,10 +659,10 @@
 			children = (
 				92D1E01B1F9F617C0096E0FE /* ArtListView.h */,
 				92D1E01E1F9F74580096E0FE /* ArtListView.cpp */,
-				92D1E01C1F9F61990096E0FE /* ArtListItem.h */,
-				92D1E03D1FA1EC460096E0FE /* ArtListItem.cpp */,
 				92D1E01D1F9F6F590096E0FE /* ArtListItemOnScreenChecker.h */,
 				92D1E0401FA1F9B00096E0FE /* ArtListItemOnScreenChecker.cpp */,
+				92E3C6E51FB06F19002217A8 /* ArtListColumn.h */,
+				92E3C6E81FB08366002217A8 /* ArtListColumn.cpp */,
 			);
 			name = ArtList;
 			sourceTree = "<group>";
@@ -855,6 +856,7 @@
 				304410571E9D001E00B7F383 /* AppDelegate.cpp in Sources */,
 				300742EB1EF93027005525AE /* ChatDelegate.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				92E3C6EA1FB08366002217A8 /* ArtListColumn.cpp in Sources */,
 				302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				300742E31EF916DC005525AE /* AuthAPI.cpp in Sources */,
@@ -874,7 +876,6 @@
 				305966AB1ECF44E0009A7130 /* MessageListViewItem.cpp in Sources */,
 				30790D3B1EDDC77E003654BC /* StickerCategory.cpp in Sources */,
 				92D1E01F1F9F74580096E0FE /* ArtListView.cpp in Sources */,
-				92D1E03E1FA1EC460096E0FE /* ArtListItem.cpp in Sources */,
 				304E50191EB352AD00D077E3 /* ChatAPI.cpp in Sources */,
 				3059669F1ECDE230009A7130 /* FriendListViewItem.cpp in Sources */,
 				30790D321EDDBCF0003654BC /* StickerCategoryListView.cpp in Sources */,
@@ -891,6 +892,7 @@
 				301849861EBB84A1005B994A /* Friend.cpp in Sources */,
 				3018498B1EBB926B005B994A /* Message.cpp in Sources */,
 				305966A81ECF44AA009A7130 /* MessageListView.cpp in Sources */,
+				92E3C6E91FB08366002217A8 /* ArtListColumn.cpp in Sources */,
 				305966A31ECF3558009A7130 /* MessageScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
