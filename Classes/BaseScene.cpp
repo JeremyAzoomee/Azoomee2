@@ -8,6 +8,9 @@
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
+#include "ForceUpdateSingleton.h"
 
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
@@ -47,6 +50,15 @@ void BaseScene::onEnterTransitionDidFinish()
  
     addParticleElementsToBackground();
     startBuildingHQs();
+    
+    if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+    {
+        Director::getInstance()->getScheduler()->schedule([&](float dt){
+            PushNotificationsHandler::getInstance()->enablePushNotifications();
+        }, this, 4, 0, 0, false, "enablePush");
+    }
+    
+    ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
 }
 
 void BaseScene::startBuildingHQs()

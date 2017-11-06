@@ -12,17 +12,7 @@
 using namespace cocos2d;
 
 
-// Enable this to use polling
-// For launch, we don't use this at all
-//#define CHAT_MESSAGES_POLL
-
-
 NS_AZOOMEE_CHAT_BEGIN
-
-#ifdef CHAT_MESSAGES_POLL
-// Interval to do an auto get call
-const float kAutoGetTimeInterval = 5.0f;
-#endif
 
 MessageScene* MessageScene::create(const FriendList& participants)
 {
@@ -81,6 +71,7 @@ bool MessageScene::init()
     _titleBar->addReportResetButtonEventListener([this](Ref* button){
         onReportResetButtonPressed();
     });
+    _titleBar->underlineTitleBar();
 
     _rootLayout->addChild(_titleBar);
     
@@ -89,7 +80,6 @@ bool MessageScene::init()
         _titleBar->setChatReportingToForbidden();
     }
 
-    
     createContentUI(_contentLayout);
     
     return true;
@@ -103,17 +93,23 @@ void MessageScene::onEnter()
     ChatAPI::getInstance()->registerObserver(this);
     
     // Get message list
-    getMessageHistory();
+    retrieveMessagesFromNextPage();
     ModalMessages::getInstance()->startLoading();
     
+    // Up the schedule speed of friend list polling
+    ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateHigh );
+    
     // Show if message list is inModeration
-    if(_participants[1]->inModeration()) _titleBar->setChatToInModeration();
+    if(_participants[1]->inModeration())
+    {
+        _titleBar->setChatToInModeration();
+    }
     
     // Get update calls
     scheduleUpdate();
     
-    //Get scrollview on top notifications
-    this->createEventListenerForRetrievingHistory();
+    // Get scrollview on top notifications
+    createEventListenerForRetrievingHistory();
 }
 
 void MessageScene::onExit()
@@ -126,42 +122,54 @@ void MessageScene::onExit()
     // Stop update calls
     unscheduleUpdate();
     
-    //Unregister history retrieving listener calls
-    Director::getInstance()->getEventDispatcher()->removeEventListener(_listener);
+    // Unregister history retrieving listener calls
+    if(_listReachedTopEventListener)
+    {
+        Director::getInstance()->getEventDispatcher()->removeEventListener(_listReachedTopEventListener);
+    }
 }
 
 void MessageScene::update(float dt)
 {
-#ifdef CHAT_MESSAGES_POLL
-    if(kAutoGetTimeInterval > 0 && _timeTillGet > -1)
+    if(_timeTillGet > -1.0f)
     {
         _timeTillGet -= dt;
         if(_timeTillGet <= 0)
         {
-            // Wait until we get results before restarting the timer
-            _timeTillGet = -1.0f;
-            
             // Make the call
-            getMessageHistory();
+            checkForNewMessages();
         }
     }
-#endif
 }
 
-void MessageScene::getMessageHistory()
+void MessageScene::checkForNewMessages(int page)
+{
+    // Wait until we get results before restarting the timer
+    _timeTillGet = -1.0f;
+    _checkingForNewMessages = true;
+    ChatAPI::getInstance()->requestMessageHistory(_participants[1], page);
+    cocos2d::log("MessageScene::checkForNewMessages: page=%d, currentPollSchedule=%d", page, _currentPollSchedule);
+}
+
+void MessageScene::retrieveMessagesFromNextPage()
 {
     int calculatedPageNumber = int(_messagesByTime.size() / MessageListView::kMessagesOnPage);
-    _historyUpdateInProgress = true;
-    ChatAPI::getInstance()->requestMessageHistory(_participants[1], calculatedPageNumber);
+    checkForNewMessages(calculatedPageNumber);
 }
 
 bool MessageScene::isMessageInHistory(const MessageRef &message)
 {
-    if(_messagesByTime.empty()) return false;
+    if(_messagesByTime.empty())
+    {
+        return false;
+    }
     
     for(auto listItem : _messagesByTime)
     {
-        if(listItem->messageId() == message->messageId()) return true;
+        if(listItem->messageId() == message->messageId())
+        {
+            return true;
+        }
     }
     
     return false;
@@ -169,14 +177,33 @@ bool MessageScene::isMessageInHistory(const MessageRef &message)
 
 void MessageScene::createEventListenerForRetrievingHistory()
 {
-    _listener = EventListenerCustom::create(MessageListView::kEventListenerFlag, [=](EventCustom* event){
-        if(!_historyUpdateInProgress)
+    _listReachedTopEventListener = EventListenerCustom::create(MessageListView::kEventReachedTop, [=](EventCustom* event) {
+        // We don't start getting history, if there are less than 20 messages in the container
+        // The chat has just started, and the user scrolls to the top, or on the top anyways
+        // because of not having enough messages to scroll at all.
+        if(_messagesByTime.size() < MessageListView::kMessagesOnPage)
         {
-            this->getMessageHistory();
+            return;
+        }
+        
+        if(!_checkingForNewMessages)
+        {
+            retrieveMessagesFromNextPage();
         }
     });
     
-    _eventDispatcher->addEventListenerWithFixedPriority(_listener, 1);
+    _eventDispatcher->addEventListenerWithFixedPriority(_listReachedTopEventListener, 1);
+}
+
+void MessageScene::resetPollingSchedule()
+{
+    // Reset attempts count
+    for(int i = 0; i < _pollingScheduleCount; ++i)
+    {
+        _pollingSchedule[i].attempts = 0;
+    }
+    // Start at the first schedule again
+    _currentPollSchedule = 0;
 }
 
 #pragma mark - Size Changes
@@ -270,9 +297,9 @@ void MessageScene::onReportResetButtonPressed()
 void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
 {
     // Make a copy of the messageList and sort it in order of timestamp
-    MessageList messagesByTime;
-    if(!_messagesByTime.empty()) messagesByTime = _messagesByTime;
+    MessageList messagesByTime = _messagesByTime;
     
+    bool gotNewMessages = false;
     for(const MessageRef& message : messageList)
     {
         // Find first item where this message is newer
@@ -284,11 +311,14 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
                 break;
             }
         }
-        if(!isMessageInHistory(message)) messagesByTime.insert(it.base(), message);
+        if(!isMessageInHistory(message))
+        {
+            gotNewMessages = true;
+            messagesByTime.insert(it.base(), message);
+        }
     }
     
     _messagesByTime = messagesByTime;
-    
     _messageListView->setData(_participants, _messagesByTime);
     
     ModalMessages::getInstance()->stopLoading();
@@ -300,46 +330,44 @@ void MessageScene::onChatAPIGetChatMessages(const MessageList& messageList)
         ChatAPI::getInstance()->markMessagesAsRead(_participants[1], _messagesByTime.back());
     }
     
-#ifdef CHAT_MESSAGES_POLL
     // Trigger auto get again
-    _timeTillGet = kAutoGetTimeInterval;
-#endif
     
-    if(messageList.size() >= MessageListView::kMessagesOnPage) _historyUpdateInProgress = false; //if downloaded messages are less than kMessagesOnPage (20 on server) in length, then we got to the beginning of the conversation, no further retrievals are required.
+    // Update schedule
+    if(gotNewMessages)
+    {
+        // Reset schedule if we got new messages
+        resetPollingSchedule();
+    }
+    else
+    {
+        // Only update schedule if the current schedule has more than 0 max attempts
+        // and we're not already on the last shedule
+        if(_pollingSchedule[_currentPollSchedule].maxAttempts > 0 &&
+           _currentPollSchedule < _pollingScheduleCount - 1)
+        {
+            if(++_pollingSchedule[_currentPollSchedule].attempts >= _pollingSchedule[_currentPollSchedule].maxAttempts)
+            {
+                ++_currentPollSchedule;
+            }
+        }
+    }
+    
+    _timeTillGet = _pollingSchedule[_currentPollSchedule].interval;
+    _checkingForNewMessages = false;
 }
 
 void MessageScene::onChatAPISendMessage(const MessageRef& sentMessage)
 {
-    _historyUpdateInProgress = true;
+    _checkingForNewMessages = true;
+    
     _messagesByTime.push_back(sentMessage);
     _messageListView->setData(_participants, _messagesByTime);
-    _historyUpdateInProgress = false;
-}
-
-void MessageScene::onChatAPIMessageRecieved(const MessageRef& message)
-{
-    _historyUpdateInProgress = true;
-    AnalyticsSingleton::getInstance()->chatIncomingMessageEvent(message->messageType());
-    _messagesByTime.push_back(message);
-    _messageListView->setData(_participants, _messagesByTime);
-    _titleBar->onChatActivityHappened();
     
-    // Mark messages as read
-    ChatAPI::getInstance()->markMessagesAsRead(_participants[1], message);
-    
-    _historyUpdateInProgress = false;
-}
-
-void MessageScene::onChatAPICustomMessageReceived(const std::string& messageType, const std::map<std::string, std::string> &messageProperties)
-{
-    if(messageType != "MODERATION") return;
-    if(messageProperties.find("otherChildId") == messageProperties.end()) return;
-    if(messageProperties.find("status") == messageProperties.end()) return;
-    
-    if(messageProperties.at("otherChildId") != _participants[1]->friendId()) return;
-    
-    if(messageProperties.at("status") == "IN_MODERATION") _titleBar->setChatToInModeration();
-    if(messageProperties.at("status") == "ACTIVE") _titleBar->setChatToActive();
+    // Trigger auto get again
+    // Reset schedule
+    resetPollingSchedule();
+    _timeTillGet = _pollingSchedule[_currentPollSchedule].interval;
+    _checkingForNewMessages = false;
 }
 
 void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long errorCode)
@@ -348,17 +376,53 @@ void MessageScene::onChatAPIErrorRecieved(const std::string& requestTag, long er
     MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
 }
 
+void MessageScene::onChatAPIGetFriendList(const FriendList& friendList, int amountOfNewMessages)
+{
+    AnalyticsSingleton::getInstance()->setNumberOfChatFriends((int)friendList.size());
+    
+    // Find the friend for the current participant
+    bool stillTalkingToAFriend = false;
+    for(const FriendRef& frnd : friendList)
+    {
+        if(frnd->friendId() == _participants[1]->friendId())
+        {
+            stillTalkingToAFriend = true;
+            // Update the participant
+            _participants[1] = frnd;
+        }
+    }
+    
+    // Update conversation moderation status
+    if(_participants[1]->inModeration())
+    {
+        _titleBar->setChatToInModeration();
+    }
+    else
+    {
+        _titleBar->setChatToActive();
+    }
+    
+    ModalMessages::getInstance()->stopLoading();
+    
+    // If we're not talking to a friend anymore, get out of here
+    // TODO: Should we display an error? TBD
+    if( !stillTalkingToAFriend )
+    {
+        onBackButtonPressed();
+    }
+}
+
 #pragma mark - MessageComposer::Delegate
 
 void MessageScene::onMessageComposerSendMessage(const MessageRef& message)
 {
+    _checkingForNewMessages = true;
     AnalyticsSingleton::getInstance()->chatOutgoingMessageEvent(message->messageType());
     ChatAPI::getInstance()->sendMessage(_participants[1], message);
     _titleBar->onChatActivityHappened();
     
-#ifdef CHAT_MESSAGES_POLL
+    // Pause schedule until the sent message has been confirmed
     _timeTillGet = -1.0f;
-#endif
 }
 
 #pragma mark - MessageBoxDelegate

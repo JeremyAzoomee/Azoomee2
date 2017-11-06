@@ -34,7 +34,7 @@ void ConfirmationLayer::addDetailsToLayer(std::string setChildName, std::string 
     bottomLine->drawLine(Vec2(0, 0), Vec2(this->getContentSize().width,0), Style::Color_4F::settingsTopBottomLines);
     this->addChild(bottomLine);
     
-    childNameLabel = createLabelBody(setChildName);
+    childNameLabel = createLabelBody(setChildName,Color3B::BLACK);
     childNameLabel->setWidth(385);
     reduceLabelTextToFitWidth(childNameLabel,childNameLabel->getWidth());
     childNameLabel->setPosition(MARGIN+childNameLabel->getContentSize().width/2, this->getContentSize().height/2);
@@ -44,12 +44,12 @@ void ConfirmationLayer::addDetailsToLayer(std::string setChildName, std::string 
     connectorSprite->setPosition(MARGIN+385+connectorSprite->getContentSize().width/2,this->getContentSize().height/2);
     this->addChild(connectorSprite);
     
-    friendNameLabel = createLabelBody(setFriendName);
+    friendNameLabel = createLabelBody(setFriendName,Color3B::BLACK);
     reduceLabelTextToFitWidth(childNameLabel,385);
     friendNameLabel->setPosition(connectorSprite->getPositionX()+connectorSprite->getContentSize().width/2+MARGIN+ friendNameLabel->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(friendNameLabel);
     
-    friendCodeLabel = createLabelSettingsChat(StringUtils::format("  /  %s",setFriendCode.c_str()), Style::Color::brightAqua);
+    friendCodeLabel = createLabelSettingsChat(StringUtils::format("  /  %s",setFriendCode.c_str()), Color3B::BLACK);
     friendCodeLabel->setPosition(friendNameLabel->getPositionX()+friendNameLabel->getContentSize().width/2+ friendCodeLabel->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(friendCodeLabel);
 }
@@ -59,7 +59,7 @@ void ConfirmationLayer::setToConfirm()
     clearUIItems();
     createRect(Style::Color_4F::macaroniAndCheese);
     
-    Label* rejectRequest = createLabelBody(StringUtils::format("%s & %s are now friends and can chat!",childNameLabel->getString().c_str(),friendNameLabel->getString().c_str()));
+    Label* rejectRequest = createLabelBody(StringUtils::format("%s & %s are now friends and can chat!",childNameLabel->getString().c_str(),friendNameLabel->getString().c_str()),Color3B::BLACK);
     rejectRequest->setTag(1000);
     rejectRequest->setPosition(this->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(rejectRequest);
@@ -75,7 +75,7 @@ void ConfirmationLayer::setToReject()
     childNameLabel->setVisible(true);
     friendNameLabel->setVisible(true);
     
-    Label* rejectRequest = createLabelBody("Reject this friendship?");
+    Label* rejectRequest = createLabelBody("Reject this friendship?",Color3B::BLACK);
     rejectRequest->setTag(1000);
     rejectRequest->setPosition(this->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(rejectRequest);
@@ -89,7 +89,7 @@ void ConfirmationLayer::setToRejected()
     childNameLabel->setVisible(false);
     friendNameLabel->setVisible(false);
     
-    Label* rejectRequest = createLabelBody("Rejected");
+    Label* rejectRequest = createLabelBody("Rejected",Style::Color::watermelon);
     rejectRequest->setTag(1000);
     rejectRequest->setPosition(this->getContentSize().width/2, this->getContentSize().height/2);
     this->addChild(rejectRequest);
@@ -98,8 +98,8 @@ void ConfirmationLayer::setToRejected()
 void ConfirmationLayer::setIdle()
 {
     clearUIItems();
-    childNameLabel->setColor(Color3B::WHITE);
-    friendNameLabel->setColor(Color3B::WHITE);
+    childNameLabel->setColor(Color3B::BLACK);
+    friendNameLabel->setColor(Color3B::BLACK);
     
     childNameLabel->setVisible(true);
     friendNameLabel->setVisible(true);

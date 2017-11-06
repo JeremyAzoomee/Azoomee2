@@ -19,7 +19,7 @@ private:
     float layerHeight;
     int currentSlideNumber;
     
-    LayerColor* backgroundLayer;
+    Layer* backgroundLayer;
     LayerColor* videoLayer;
     
     Label* titleLabel;

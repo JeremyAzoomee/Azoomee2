@@ -89,7 +89,8 @@
         "retry":"Retry",
         "reset":"Reset",
         "report":"Report",
-        "onlineSafetyTips":"online safety tips"
+        "onlineSafetyTips":"online safety tips",
+        "back":"Back"
     },
     
     "OnlineSafetySlides":

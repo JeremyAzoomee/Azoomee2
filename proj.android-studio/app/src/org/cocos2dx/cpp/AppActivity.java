@@ -27,15 +27,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import android.util.Base64;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import org.cocos2dx.cpp.util.IabBroadcastReceiver;
 import org.cocos2dx.cpp.util.IabHelper;
@@ -69,7 +66,8 @@ import io.fabric.sdk.android.Fabric;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import com.appsflyer.AppsFlyerLib;
-import com.tinizine.azoomee.R;
+
+import com.urbanairship.UAirship;
 
 
 public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
@@ -92,7 +90,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mContext = this;
         mActivity = this;
         mAppActivity = this;
-        
+
         setupIAPOnCreate();
 
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
@@ -498,4 +496,35 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mActivity.startActivity(shareIntent);
     }
 
+    // PUSH NOTIFICATIONS NATIVE ANDRODID FUNCTIONS
+
+    public static void jniSetNamedUserIdentifierForPushChannel(String channelName)
+    {
+        UAirship.shared().getNamedUser().setId(channelName);
+        UAirship.shared().getPushManager().setChannelTagRegistrationEnabled(false);
+    }
+
+    public static void jniSetTagForPushChannel(String tagGroup, String tag)
+    {
+        UAirship.shared().getNamedUser().editTagGroups().setTag(tagGroup, tag);
+        UAirship.shared().getNamedUser().editTagGroups().apply();
+    }
+
+    public static void jniEnablePushNotifications()
+    {
+        UAirship.shared().getPushManager().setUserNotificationsEnabled(true);
+        UAirship.shared().getInAppMessageManager().setAutoDisplayEnabled(false);
+        UAirship.shared().getInAppMessageManager().setDisplayAsapEnabled(false);
+    }
+
+    public static void jniDisablePushNotifications()
+    {
+        UAirship.shared().getPushManager().setUserNotificationsEnabled(false);
+        UAirship.shared().getInAppMessageManager().setAutoDisplayEnabled(false);
+    }
+
+    public static void jniClearNotificationCenter()
+    {
+        NotificationManagerCompat.from(mContext).cancelAll();
+    }
 }

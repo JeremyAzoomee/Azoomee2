@@ -4,18 +4,20 @@
 #include "cocos2d.h"
 #include "DrawingCanvas.h"
 #include "AzoomeeArtApp.h"
+#include "DrawingCanvasUILayer.h"
 
 NS_AZOOMEE_AA_BEGIN
 
-static const std::string artCacheFolder = "artCache/";
+static const std::string kArtCacheFolder = "artCache/";
 
 class MainScene : public cocos2d::Layer
 {
     typedef cocos2d::Layer Super;
 private:
-    cocos2d::ui::Button* backButton = nullptr;
-    DrawingCanvas* drawingCanvas = nullptr;
-    std::string fileName;
+    cocos2d::ui::Button* _backButton = nullptr;
+    DrawingCanvas* _drawingCanvas = nullptr;
+    DrawingCanvasUILayer* _uiLayer = nullptr;
+    std::string _fileName;
 public:
     static cocos2d::Scene* createScene();
     static cocos2d::Scene* createSceneWithDrawing(const std::string& fileName);

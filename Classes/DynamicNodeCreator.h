@@ -21,6 +21,8 @@ class DynamicNodeCreator : public cocos2d::Ref
 {
 private:
     const std::string _kCTAAssetLoc = "res/cta_assets/";
+    const std::string _kCTABundleImageLoc = "res/cta_assets/cta_bundle/images/";
+    const std::string _kCTADeviceImageCacheLoc = "DCDECache/images/";
     
     cocos2d::Node* _CTANode = nullptr;
     cocos2d::Size _windowSize;

@@ -49,6 +49,7 @@ private:
     void addGradientToBottom();
     cocos2d::Sprite* addIconToImage();
     void addLabelsToImage(cocos2d::Sprite* nextToIcon);
+    void addGroupLabelsToImage();
     void addLockToElement();
     void addTouchOverlayToElement();
     

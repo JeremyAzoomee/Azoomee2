@@ -12,7 +12,6 @@
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Net/Utils.h>
 #include <AzoomeeCommon/API/API.h>
-#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
@@ -121,9 +120,6 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
         updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
-        
-        // Open Pusher channel
-        PusherSDK::getInstance()->openParentAccountChannel();
     }
     else
     {
@@ -168,6 +164,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
 
 void BackEndCaller::updateBillingData()
 {
+    ParentDataParser::getInstance()->setBillingDataAvailable(false);
     HttpRequestCreator* request = API::UpdateBillingDataRequest(this);
     request->execute();
 }
@@ -175,6 +172,9 @@ void BackEndCaller::updateBillingData()
 void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& responseString)
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
+    // fire event to add parent button to child select scene if paid account
+    EventCustom event(ChildSelectorScene::kBillingDataRecievedEvent);
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
 //GETTING FORCE UPDATE INFORMATION
@@ -277,6 +277,8 @@ void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString
 
 void BackEndCaller::getGordon()
 {
+    
+    
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     IosNativeFunctionsSingleton::getInstance()->deleteHttpCookies(); //ios handles cookies on OS level. Removal of earlier cookies is important to avoid watching premium content with a free user.
 #endif

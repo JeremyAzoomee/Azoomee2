@@ -33,6 +33,7 @@ private:
     
     void getUserDefaults();
     
+    void addBackground();
     void addLabelToScene();
     void addTextboxScene();
     void addButtonsScene();

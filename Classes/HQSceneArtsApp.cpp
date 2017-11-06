@@ -75,7 +75,7 @@ void HQSceneArtsApp::createArtsAppScrollView()
 
 void HQSceneArtsApp::addPrivacyButton()
 {
-    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
     privacyLayer->setCenterPosition(Vec2(Director::getInstance()->getVisibleOrigin().x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,Director::getInstance()->getVisibleOrigin().y + privacyLayer->getContentSize().height));
     this->addChild(privacyLayer);
 }
@@ -113,7 +113,7 @@ void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toB
     toBeAddedTo->addChild(artImage);
     
     auto sceneElementPositioner = new HQSceneElementPositioner();
-    sceneElementPositioner->positionHQSceneElement((Layer *)artImage);
+    sceneElementPositioner->positionHQSceneElement((Layer *)artImage, false);
     artImage->enableOnScreenChecker();
 }
 

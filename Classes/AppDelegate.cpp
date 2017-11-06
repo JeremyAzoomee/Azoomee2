@@ -10,8 +10,8 @@
 #include "WebViewNative_ios.h"
 #include <AzoomeeCommon/Utils/SessionIdManager.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
 #include "FlowDataSingleton.h"
-#include <AzoomeeCommon/Pusher/PusherSDK.h>
 #include <AzoomeeCommon/ErrorCodes.h>
 
 using namespace cocos2d;
@@ -30,9 +30,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     Super::applicationDidFinishLaunching();
     
     register_all_packages();
-    
-    // Initialise Pusher
-    PusherSDK::initialise("09995b8ae8cc75b36c25");
 
     // create a scene. it's an autorelease object
     auto scene = IntroVideoScene::createScene();
@@ -42,6 +39,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
     AnalyticsSingleton::getInstance()->firstLaunchEvent();
+    
+    PushNotificationsHandler::getInstance()->resetExistingNotifications();
 
     return true;
 }
@@ -71,6 +70,8 @@ void AppDelegate::applicationWillEnterForeground()
     
     AnalyticsSingleton::getInstance()->enteredForegroundEvent();
     SessionIdManager::getInstance()->registerAppCameForegroundEvent();
+    
+    PushNotificationsHandler::getInstance()->resetExistingNotifications();
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     if(Director::getInstance()->getRunningScene()->getChildByName("iosWebView"))

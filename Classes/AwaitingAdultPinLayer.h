@@ -25,14 +25,14 @@ private:
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
     
-    cocos2d::LayerColor *backgroundLayer;
+    cocos2d::LayerColor *backgroundLayer = nullptr;
     
-    cocos2d::Layer* windowLayer;
+    cocos2d::Layer* windowLayer = nullptr;
     
-    TextInputLayer* editBox_pin;
+    TextInputLayer* editBox_pin = nullptr;
     
-    ElectricDreamsButton *acceptButton;
-    ElectricDreamsButton *cancelButton;
+    ElectricDreamsButton *acceptButton = nullptr;
+    ElectricDreamsButton *cancelButton = nullptr;
     
     void createAndFadeInLayer();
     void addListenerToBackgroundLayer();

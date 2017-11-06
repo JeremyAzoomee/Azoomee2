@@ -11,28 +11,18 @@ NS_AZOOMEE_BEGIN
 
 using namespace cocos2d;
 
-#define IDLE_COVER_LAYER_Z_ORDER 190
-#define SELECTED_COVER_LAYER_Z_ORDER 210
-#define IDLE_KID_LAYER_Z_ORDER 200
-#define SELECTED_KID_LAYER_Z_ORDER 220
-
 class SettingsKidsLayer : public Layer, public MessageBoxDelegate, public HttpRequestCreatorResponseDelegate
 {
 private:
     
     float layerHeight;
-    bool swallowTouches;
     int childNumberToDelete;
     
-    ui::ScrollView *scrollView;
-    LayerColor* kidsCoverLayer;
-    LayerColor* tabsCoverLayer;
+    ui::ScrollView *_scrollView = nullptr;
+    LayerColor *_tabsCoverLayer = nullptr;
 
-    void addUIObjects();
-    
-    void createBlackCoverLayer(Size innerSize);
+    void addScrollView();
     void addTabsCoverLayer();
-    void removeTabsCoverLayer();
     void addListenerToCoverLayer(Layer* listenerToLayer);
     
 public:

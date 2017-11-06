@@ -6,6 +6,7 @@
 #include "IAPDetailsLayer_ios.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include "COPPA_PrivacyLayer.h"
 
 using namespace cocos2d;
 
@@ -121,21 +122,29 @@ void IAPUpsaleLayer::addButtons()
     
     addOptionalSubscriptionLabel();
     
+    privacyButton = ElectricDreamsButton::createTextAsButtonAqua("Important Privacy Notice for Parents", 40, true);
+    privacyButton->setPosition(startTrialButton->getCenterPosition().x-privacyButton->getContentSize().width/2, privacyButton->getContentSize().height*2);
+    privacyButton->setDelegate(this);
+    privacyButton->setMixPanelButtonName("IAPUpsaleSceneChildPrivacyButton");
+    UpsaleLayer->addChild(privacyButton);
+    
     if(RoutePaymentSingleton::getInstance()->osIsIos())
     {
-        float buttonSpacing = 40;
-        
-        learnMoreButton = ElectricDreamsButton::createTextAsButtonAqua("Learn More", 40, true);
-        learnMoreButton->setPosition(UpsaleLayer->getContentSize().width - learnMoreButton->getContentSize().width - buttonSpacing, learnMoreButton->getContentSize().height*2);
+        learnMoreButton = ElectricDreamsButton::createTextAsButtonAqua("Learn more about your subscription", 40, true);
         learnMoreButton->setDelegate(this);
         learnMoreButton->setMixPanelButtonName("IAPUpsaleSceneLearnMoreButton");
         UpsaleLayer->addChild(learnMoreButton);
         
         restoreButton = ElectricDreamsButton::createTextAsButtonAqua("Restore your purchase", 40, true);
-        restoreButton->setPosition(learnMoreButton->getPositionX()-restoreButton->getContentSize().width -buttonSpacing,learnMoreButton->getPositionY());
         restoreButton->setDelegate(this);
         restoreButton->setMixPanelButtonName("IAPUpsaleSceneRestoreButton");
         UpsaleLayer->addChild(restoreButton);
+        
+        float buttonSpacing = 40.0f;
+        
+        learnMoreButton->setPosition(origin.x + visibleSize.width - learnMoreButton->getContentSize().width * 1.1, learnMoreButton->getContentSize().height*2);
+        restoreButton->setPosition(learnMoreButton->getPositionX()-restoreButton->getContentSize().width -buttonSpacing,learnMoreButton->getPositionY());
+        privacyButton->setPosition(restoreButton->getPositionX() - privacyButton->getContentSize().width - buttonSpacing, learnMoreButton->getPositionY());
     }
 }
 
@@ -219,6 +228,10 @@ void IAPUpsaleLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == learnMoreButton)
     {
         IAPDetailsLayer_ios::create();
+    }
+    else if(button == privacyButton)
+    {
+        COPPA_PrivacyLayer::create();
     }
 }
 

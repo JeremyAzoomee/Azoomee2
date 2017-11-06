@@ -18,7 +18,6 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
 #include "SceneManagerScene.h"
 #include "FlowDataSingleton.h"
-#include "ForceUpdateSingleton.h"
 #include "ChatNotificationsSingleton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 
@@ -29,6 +28,8 @@
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const char* const ChildSelectorScene::kBillingDataRecievedEvent  = "BillingDataRecived";
 
 Scene* ChildSelectorScene::createScene()
 {
@@ -70,7 +71,6 @@ bool ChildSelectorScene::init()
 
 void ChildSelectorScene::onEnterTransitionDidFinish()
 {
-    ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
     OfflineChecker::getInstance()->setDelegate(this);
     
     if(FlowDataSingleton::getInstance()->hasError())
@@ -79,6 +79,7 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
     }
     
     FlowDataSingleton::getInstance()->clearData();
+    
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
@@ -115,7 +116,7 @@ void ChildSelectorScene::createSettingsButton()
 
 void ChildSelectorScene::addPrivacyButton()
 {
-    PrivacyLayer* privacyLayer = PrivacyLayer::create();
+    PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
     privacyLayer->setCenterPosition(Vec2(origin.x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,origin.y + privacyLayer->getContentSize().height));
     this->addChild(privacyLayer);
 }
@@ -161,10 +162,21 @@ void ChildSelectorScene::addProfilesToScrollView()
         addListenerToProfileLayer(profileLayer);
         scrollView->addChild(profileLayer);
     }
+    if(ParentDataProvider::getInstance()->isBillingDataAvailable())
+    {
+        if(ParentDataProvider::getInstance()->isPaidUser())
+        {
+            auto parentButton = createParentProfileButton();
+            parentButton->setPosition(positionElementOnScrollView(parentButton));
+            scrollView->addChild(parentButton);
+        }
+
+    }
+    else
+    {
+        addBillingDataRecievedListener();
+    }
     
-    auto parentButton = createParentProfileButton();
-    parentButton->setPosition(positionElementOnScrollView(parentButton));
-    scrollView->addChild(parentButton);
 }
 
 Layer *ChildSelectorScene::createChildProfileButton(std::string profileName, int oomeeNumber)
@@ -452,9 +464,29 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
     }
 }
 
+void ChildSelectorScene::addBillingDataRecievedListener()
+{
+    //event will be fired from BackEndCaller::onUpdateBillingDataAnswerReceived
+    _billingDataRecievedListener = EventListenerCustom::create(kBillingDataRecievedEvent, [=](EventCustom* event) {
+        if(ParentDataProvider::getInstance()->isPaidUser())
+        {
+            auto parentButton = createParentProfileButton();
+            parentButton->setPosition(positionElementOnScrollView(parentButton));
+            scrollView->addChild(parentButton);
+        }
+        Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
+    });
+    
+    _eventDispatcher->addEventListenerWithFixedPriority(_billingDataRecievedListener, 1);
+}
+
 void ChildSelectorScene::onExit()
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
+    if(_billingDataRecievedListener)
+    {
+        Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
+    }
     Node::onExit();
 }
 
