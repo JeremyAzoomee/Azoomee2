@@ -22,12 +22,9 @@ public:
     static ArtAppDelegate* getInstance();
     
     virtual void onArtAppNavigationBack() override;
-    
-    std::string getFileName();
-    void setFileName(std::string fileName);
-    
-private:
-    std::string fileName = "";
+    virtual void onArtAppShareImage() override;
+    virtual std::string getFileName() override;
+    virtual void setFileName(std::string fileName) override;
     
 };
 

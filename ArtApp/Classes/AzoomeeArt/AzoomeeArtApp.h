@@ -28,8 +28,11 @@ static const std::string kStickerLoc = "res/chat/stickers/";
 // Delegate is used to deal with navigating outside the app
 struct Delegate {
     virtual void onArtAppNavigationBack() = 0;
-    
+    virtual void onArtAppShareImage() = 0;
+    virtual std::string getFileName() = 0;
+    virtual void setFileName(std::string fileName) = 0;
     bool ArtAppRunning = false;
+    std::string filename = "";
     // TODO: On error callbacks
 };
 

@@ -9,6 +9,7 @@
 #include "ArtAppDelegate.h"
 #include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 USING_NS_CC;
 
@@ -27,12 +28,12 @@ ArtAppDelegate* ArtAppDelegate::getInstance()
 
 std::string ArtAppDelegate::getFileName()
 {
-    return fileName;
+    return filename;
 }
 
 void ArtAppDelegate::setFileName(std::string filename)
 {
-    this->fileName = filename;
+    this->filename = filename;
 }
 
 void ArtAppDelegate::onArtAppNavigationBack()
@@ -40,11 +41,26 @@ void ArtAppDelegate::onArtAppNavigationBack()
     ArtAppRunning = false;
     
     if(HQHistoryManager::getInstance()->isOffline)
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineArtsAppHQ));
+    }
     else
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+    }
     
     
+}
+
+void ArtAppDelegate::onArtAppShareImage()
+{
+    if(filename != "")
+    {
+        if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+        }
+    }
 }
 
 

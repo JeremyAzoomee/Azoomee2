@@ -117,6 +117,19 @@ void MainScene::backButtonCallBack()
 
 void MainScene::saveFileAndExit()
 {
+    saveFile();
+    delegate->onArtAppNavigationBack();
+}
+
+void MainScene::saveAndSendFile()
+{
+    saveFile();
+    delegate->setFileName(_fileName);
+    delegate->onArtAppShareImage();
+}
+
+void MainScene::saveFile()
+{
     std::string saveFileName;
     if(this->_fileName == "")
     {
@@ -125,11 +138,11 @@ void MainScene::saveFileAndExit()
         
         
         std::ostringstream oss;
-        //oss << std::put_time(&tm, "%d%m%Y%H%M%S");
         oss << tm.tm_mday << tm.tm_mon << tm.tm_year << tm.tm_hour << tm.tm_min << tm.tm_sec;
         auto fileNameStr = oss.str();
         
         saveFileName = kArtCacheFolder + Azoomee::ChildDataProvider::getInstance()->getParentOrChildId() + "/" + fileNameStr + ".png";
+        this->_fileName = FileUtils::getInstance()->getWritablePath() + "/" + saveFileName;
     }
     else
     {
@@ -139,7 +152,6 @@ void MainScene::saveFileAndExit()
     }
     
     _drawingCanvas->saveImage(saveFileName);
-    delegate->onArtAppNavigationBack();
 }
 
 NS_AZOOMEE_AA_END

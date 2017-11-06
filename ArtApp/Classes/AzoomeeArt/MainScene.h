@@ -18,6 +18,8 @@ private:
     DrawingCanvas* _drawingCanvas = nullptr;
     DrawingCanvasUILayer* _uiLayer = nullptr;
     std::string _fileName;
+    
+    void saveFile();
 public:
     static cocos2d::Scene* createScene();
     static cocos2d::Scene* createSceneWithDrawing(const std::string& fileName);
@@ -28,7 +30,7 @@ public:
     void backButtonCallBack();
     
     void saveFileAndExit();
-    
+    void saveAndSendFile();
     // implement the "static create()" method manually
     CREATE_FUNC(MainScene);
 };
