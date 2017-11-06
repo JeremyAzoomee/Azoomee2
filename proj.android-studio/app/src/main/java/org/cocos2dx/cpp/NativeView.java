@@ -29,6 +29,7 @@ public class NativeView extends XWalkActivity {
     public static ImageButton imageButtonStatic;
     private static final int _portrait = 1;
     private static final int _horizonal = 0;
+    private boolean isWebViewReady = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +76,13 @@ public class NativeView extends XWalkActivity {
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 if(xWalkWebView != null)
                 {
+                    isWebViewReady = false;
                     xWalkWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
                     xWalkWebView.loadUrl("about:blank");
                     xWalkWebView.removeAllViews();
                     xWalkWebView.clearCache(true);
                     xWalkWebView.pauseTimers();
+                    xWalkWebView.onDestroy();
                     xWalkWebView = null;
 
                     xWalkWebViewStatic = null;
@@ -151,6 +154,7 @@ public class NativeView extends XWalkActivity {
 
     @Override
     protected void onXWalkReady() {
+        isWebViewReady = true;
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         Bundle extras = getIntent().getExtras();
@@ -213,6 +217,10 @@ public class NativeView extends XWalkActivity {
     {
         super.onPause();
         JNICalls.JNIRegisterAppWentBackgroundEvent();
+        if (xWalkWebView != null) {
+            xWalkWebView.pauseTimers();
+            xWalkWebView.onHide();
+        }
     }
 
     @Override
@@ -220,5 +228,10 @@ public class NativeView extends XWalkActivity {
     {
         super.onResume();
         JNICalls.JNIRegisterAppCameForegroundEvent();
+        if (isWebViewReady && xWalkWebView != null) {
+            xWalkWebView.resumeTimers();
+            xWalkWebView.onShow();
+        }
+
     }
 }
