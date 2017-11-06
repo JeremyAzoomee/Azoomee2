@@ -119,10 +119,9 @@ void COPPA_PrivacyLayer::addALLBulletsAndLabel()
     privacyLinks->setPosition(Vec2(MarginSize/2,yPosition-MarginSize * 3.7f));
     detailsLayer->addChild(privacyLinks);
     
-    Layer* privacyAndTerms = PrivacyAndTermsLayer::create();
+    Layer* privacyAndTerms = PrivacyAndTermsLayer::createWhite();
     privacyAndTerms->setPosition(privacyLinks->getPositionX() + privacyLinks->getContentSize().width + 15,privacyLinks->getPositionY());
     detailsLayer->addChild(privacyAndTerms);
-    
 }
 
 void COPPA_PrivacyLayer::addBulletAndLabel(std::string regularText, float yPosition)

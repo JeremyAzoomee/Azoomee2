@@ -49,6 +49,7 @@ NS_AZOOMEE_BEGIN
     
     void PushNotificationsHandler::resetExistingNotifications()
     {
+        [[UAirship push] setBadgeNumber:0];
         [[UAirship push] resetBadge];
     }
 

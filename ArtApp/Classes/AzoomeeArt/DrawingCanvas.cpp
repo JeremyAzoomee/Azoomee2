@@ -287,6 +287,8 @@ void DrawingCanvas::setupTouchHandling()
         
     };
     
+    _drawCanvasTouchListener->onTouchCancelled = _drawCanvasTouchListener->onTouchEnded;
+    
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_drawCanvasTouchListener, this);
     
 }
