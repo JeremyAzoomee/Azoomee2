@@ -15,6 +15,7 @@ class MainScene : public cocos2d::Layer
     typedef cocos2d::Layer Super;
 private:
     cocos2d::ui::Button* _backButton = nullptr;
+    cocos2d::ui::Button* _shareButton = nullptr;
     DrawingCanvas* _drawingCanvas = nullptr;
     DrawingCanvasUILayer* _uiLayer = nullptr;
     std::string _fileName;
@@ -26,8 +27,8 @@ public:
     virtual bool init();
     
     void addBackButton();
+    void addShareButton();
     
-    void backButtonCallBack();
     
     void saveFileAndExit();
     void saveAndSendFile();

@@ -22,6 +22,7 @@ Scene* MainScene::createScene()
     // 'layer' is an autorelease object
     auto layer = MainScene::create();
     layer->addBackButton();
+    layer->addShareButton();
     layer->_fileName = "";
     // add layer as a child to scene
     scene->addChild(layer);
@@ -37,6 +38,7 @@ Scene* MainScene::createSceneWithDrawing(const std::string& fileName)
     // 'layer' is an autorelease object
     auto layer = MainScene::create();
     layer->addBackButton();
+    layer->addShareButton();
     layer->_fileName = fileName;
     layer->_drawingCanvas->setBaseImage(fileName);
     // add layer as a child to scene
@@ -73,46 +75,25 @@ bool MainScene::init()
 void MainScene::addBackButton()
 {
     _backButton = ui::Button::create();
-    _backButton->setPosition(Vec2(Point(Director::getInstance()->getVisibleSize().width*0.025, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height * 0.975)));
-    _backButton->setAnchorPoint(Vec2(0,1));
+    _backButton->setPosition(Vec2(Point(Director::getInstance()->getVisibleSize().width*0.045, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height * 0.975)));
+    _backButton->setAnchorPoint(Vec2(0.5,1));
     _backButton->loadTextures(kArtAppAssetLoc + "back_button.png", kArtAppAssetLoc + "back_button.png");
-    _backButton->addClickEventListener([this](Ref* but){backButtonCallBack();});
+    _backButton->addClickEventListener([this](Ref* but){saveFileAndExit();});
     this->addChild(_backButton,1);
 }
 
-void MainScene::backButtonCallBack()
+void MainScene::addShareButton()
 {
-    AnalyticsSingleton::getInstance()->contentItemClosedEvent();
-    
-    if(_drawingCanvas->_actionCounter > 0)
-    {
-        auto savingLabel = Label::createWithTTF("Saving...", Style::Font::Regular, 128);
-        savingLabel->setColor(Style::Color::white);
-        savingLabel->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
-        savingLabel->setAnchorPoint(Vec2(0.5,0.5));
-        this->addChild(savingLabel,3);
-        
-        auto overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
-        overlay->setPosition(Director::getInstance()->getVisibleOrigin());
-        this->addChild(overlay,2);
-    
-        auto listener = EventListenerTouchOneByOne::create();
-        listener->setSwallowTouches(true);
-        listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
-        {
-            return true;
-        };
-    
-        Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
-        const std::string scheduleKey = "saveAndExit";
-        Director::getInstance()->getScheduler()->schedule([&](float dt){
-            this->saveFileAndExit();
-        }, this, 0.5, 0, 0, false, scheduleKey);
-    }
-    else
-    {
-        delegate->onArtAppNavigationBack();
-    }
+    _shareButton = ui::Button::create();
+    _shareButton->setPosition(_backButton->getPosition() - Vec2(0, _backButton->getContentSize().height * 1.33f));
+    _shareButton->setAnchorPoint(Vec2(0.5,1));
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    _shareButton->loadTextures(kArtAppAssetLoc + "share_android.png", kArtAppAssetLoc + "share_android.png");
+#else
+    _shareButton->loadTextures(kArtAppAssetLoc + "share_ios.png", kArtAppAssetLoc + "share_ios.png");
+#endif
+    _shareButton->addClickEventListener([this](Ref* but){saveAndSendFile();});
+    this->addChild(_shareButton,1);
 }
 
 void MainScene::saveFileAndExit()

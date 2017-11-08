@@ -123,6 +123,12 @@ void MessageComposer::onEnter()
     _touchListener->onTouchMoved = CC_CALLBACK_2(MessageComposer::onTouchMoved, this);
     _touchListener->onTouchEnded = CC_CALLBACK_2(MessageComposer::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
+    
+    if(delegate->_imageFileName != "")
+    {
+        sendArtMessage(delegate->_imageFileName);
+        delegate->_imageFileName = "";
+    }
 }
 
 void MessageComposer::onExit()

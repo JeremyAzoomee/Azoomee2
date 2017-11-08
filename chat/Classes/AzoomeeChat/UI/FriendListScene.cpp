@@ -117,6 +117,11 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
 {
     parent->setLayoutType(ui::Layout::Type::VERTICAL);
     
+    _artPreviewLayout = ui::Layout::create();
+    _artPreviewLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    parent->addChild(_artPreviewLayout);
+    createArtPreviewUI(_artPreviewLayout);
+    
     // Subtitle bar
     _subTitleBar = ui::Layout::create();
     _subTitleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
@@ -200,6 +205,19 @@ void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
     parent->addChild(_subTitleBarBorder);
 }
 
+void FriendListScene::createArtPreviewUI(ui::Layout *parent)
+{
+    parent->setLayoutType(ui::Layout::Type::RELATIVE);
+    
+    ui::ImageView* artPreview = ui::ImageView::create(delegate->_imageFileName);
+    artPreview->ignoreContentAdaptWithSize(false); // stretch the image
+    artPreview->setAnchorPoint(Vec2(0, 0));
+    artPreview->setLayoutParameter(CreateCenterRelativeLayoutParam());
+    parent->addChild(artPreview);
+    
+    parent->setContentSize(artPreview->getContentSize() * 1.2f);
+}
+
 #pragma mark - Interaction
 
 void FriendListScene::onBackButtonPressed()
@@ -209,7 +227,7 @@ void FriendListScene::onBackButtonPressed()
     
     // Reset the polling time
     ChatAPI::getInstance()->scheduleFriendListPoll( ChatAPI::kScheduleRateLow );
-    
+    Azoomee::Chat::delegate->_imageFileName = "";
     Azoomee::Chat::delegate->onChatNavigationBack();
 }
 

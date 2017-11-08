@@ -30,6 +30,8 @@ private:
     
     /// Container layout for the content (always sits below the titlebar)
     cocos2d::ui::Layout* _contentLayout = nullptr;
+    /// Layout for art image being set from art app
+    cocos2d::ui::Layout* _artPreviewLayout = nullptr;
     /// Sub title bar at the top of the content layout
     cocos2d::ui::Layout* _subTitleBar = nullptr;
     /// Sub title bar border
@@ -42,6 +44,9 @@ private:
     
     /// Create the content UI
     void createContentUI(cocos2d::ui::Layout* parent);
+    
+    void createArtPreviewUI(cocos2d::ui::Layout* parent);
+    
     /// Create the UI for the sub title bar
     void createSubTitleBarUI(cocos2d::ui::Layout* parent);
     

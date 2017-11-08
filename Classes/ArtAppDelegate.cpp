@@ -10,6 +10,7 @@
 #include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include "ChatDelegate.h"
 
 USING_NS_CC;
 
@@ -54,10 +55,12 @@ void ArtAppDelegate::onArtAppNavigationBack()
 
 void ArtAppDelegate::onArtAppShareImage()
 {
+    ChatDelegate::getInstance()->_imageFileName = filename;
     if(filename != "")
     {
         if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
+            ArtAppRunning = false;
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
         }
     }
