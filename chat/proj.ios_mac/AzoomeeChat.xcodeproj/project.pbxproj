@@ -85,6 +85,8 @@
 		92D1E0411FA1F9B00096E0FE /* ArtListItemOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D1E0401FA1F9B00096E0FE /* ArtListItemOnScreenChecker.cpp */; };
 		92E3C6E91FB08366002217A8 /* ArtListColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E3C6E81FB08366002217A8 /* ArtListColumn.cpp */; };
 		92E3C6EA1FB08366002217A8 /* ArtListColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E3C6E81FB08366002217A8 /* ArtListColumn.cpp */; };
+		92E3C6EC1FB49B98002217A8 /* FriendListSceneArtPreview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E3C6EB1FB49B97002217A8 /* FriendListSceneArtPreview.cpp */; };
+		92E3C6ED1FB49B98002217A8 /* FriendListSceneArtPreview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E3C6EB1FB49B97002217A8 /* FriendListSceneArtPreview.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -286,6 +288,8 @@
 		92D1E0401FA1F9B00096E0FE /* ArtListItemOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtListItemOnScreenChecker.cpp; sourceTree = "<group>"; };
 		92E3C6E51FB06F19002217A8 /* ArtListColumn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtListColumn.h; sourceTree = "<group>"; };
 		92E3C6E81FB08366002217A8 /* ArtListColumn.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArtListColumn.cpp; sourceTree = "<group>"; };
+		92E3C6EB1FB49B97002217A8 /* FriendListSceneArtPreview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FriendListSceneArtPreview.cpp; sourceTree = "<group>"; };
+		92E3C6EE1FB49B9F002217A8 /* FriendListSceneArtPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListSceneArtPreview.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -527,6 +531,8 @@
 		305966A51ECF3562009A7130 /* FriendList */ = {
 			isa = PBXGroup;
 			children = (
+				92E3C6EE1FB49B9F002217A8 /* FriendListSceneArtPreview.h */,
+				92E3C6EB1FB49B97002217A8 /* FriendListSceneArtPreview.cpp */,
 				305966731ECC59C8009A7130 /* FriendListScene.cpp */,
 				305966741ECC59C8009A7130 /* FriendListScene.h */,
 				3059668C1ECC9C21009A7130 /* FriendListView.cpp */,
@@ -858,6 +864,7 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				92E3C6EA1FB08366002217A8 /* ArtListColumn.cpp in Sources */,
 				302E84711ED1A1C5006A498C /* ChildSelectorScene.cpp in Sources */,
+				92E3C6ED1FB49B98002217A8 /* FriendListSceneArtPreview.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				300742E31EF916DC005525AE /* AuthAPI.cpp in Sources */,
 				302E84741ED1A1C7006A498C /* LoginScene.cpp in Sources */,
@@ -873,6 +880,7 @@
 				92D1E0411FA1F9B00096E0FE /* ArtListItemOnScreenChecker.cpp in Sources */,
 				30790D351EDDC0C0003654BC /* Sticker.cpp in Sources */,
 				30790D3E1EDDC88A003654BC /* StickerCache.cpp in Sources */,
+				92E3C6EC1FB49B98002217A8 /* FriendListSceneArtPreview.cpp in Sources */,
 				305966AB1ECF44E0009A7130 /* MessageListViewItem.cpp in Sources */,
 				30790D3B1EDDC77E003654BC /* StickerCategory.cpp in Sources */,
 				92D1E01F1F9F74580096E0FE /* ArtListView.cpp in Sources */,

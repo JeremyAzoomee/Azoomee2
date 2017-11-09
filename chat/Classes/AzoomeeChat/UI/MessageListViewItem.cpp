@@ -74,7 +74,17 @@ bool MessageListViewItem::init()
     _artImage = RemoteImageSprite::create();
     _artImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _artImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    _artLayout->addChild(_artImage);
+    //_artLayout->addChild(_artImage);
+    
+    // Art Stencil
+    _imageStencil = ui::Scale9Sprite::create("res/artapp/popup_bg.png");
+    _imageStencil->setContentSize(_artImage->getContentSize());
+    _imageStencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    // Art clipping node
+    _imageMask = ClippingNode::create(_imageStencil);
+    _imageMask->setAlphaThreshold(0.5f);
+    _imageMask->addChild(_artImage);
+    _artLayout->addChild(_imageMask);
     
     // By default setup content as blank
     setAlignment(Alignment::Left);
@@ -182,6 +192,8 @@ void MessageListViewItem::resizeItemContents()
             imageSize.width = textureSize.width / textureSize.height * imageSize.height;
         }
         _artImage->setContentSize(imageSize);
+        _imageStencil->setContentSize(imageSize);
+        _imageMask->setContentSize(imageSize);
         _artLayout->setContentSize(imageSize);
         _artImage->resizeImage();
         const Size& contentSize = Size(imageSize.width + (contentPadding.x * 2), imageSize.height + (contentPadding.y * 2));

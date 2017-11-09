@@ -45,6 +45,8 @@ private:
     cocos2d::ui::Layout* _artLayout = nullptr;
     /// Art image
     RemoteImageSprite* _artImage = nullptr;
+    cocos2d::ClippingNode* _imageMask = nullptr;
+    cocos2d::ui::Scale9Sprite* _imageStencil = nullptr;
     
     
     /// Resize the item height to fit the contents

@@ -1,5 +1,5 @@
-#ifndef AzoomeeChat_FriendListScene_h
-#define AzoomeeChat_FriendListScene_h
+#ifndef AzoomeeChat_FriendListSceneArtPreview_h
+#define AzoomeeChat_FriendListSceneArtPreview_h
 
 #include "../AzoomeeChat.h"
 #include "../ChatAPI.h"
@@ -13,7 +13,7 @@
 
 NS_AZOOMEE_CHAT_BEGIN
     
-class FriendListScene : public Azoomee::Scene, public ChatAPIObserver
+class FriendListSceneArtPreview : public Azoomee::Scene, public ChatAPIObserver
 {
     typedef Azoomee::Scene Super;
 private:
@@ -23,13 +23,13 @@ private:
     
     /// Root layout for all elements
     cocos2d::ui::Layout* _rootLayout = nullptr;
-    /// Titlebar at the top of the screen
-    TitleBarWidget* _titleBar = nullptr;
-    /// Privacy Policy button, top right of Titlebar
-    PrivacyLayer* _privacyButton = nullptr;
+    /// Back button
+    cocos2d::ui::Button* _backButton = nullptr;
     
     /// Container layout for the content (always sits below the titlebar)
     cocos2d::ui::Layout* _contentLayout = nullptr;
+    /// Layout for art image being set from art app
+    cocos2d::ui::Layout* _artPreviewLayout = nullptr;
     /// Sub title bar at the top of the content layout
     cocos2d::ui::Layout* _subTitleBar = nullptr;
     /// Sub title bar border
@@ -42,6 +42,9 @@ private:
     
     /// Create the content UI
     void createContentUI(cocos2d::ui::Layout* parent);
+    
+    void createArtPreviewUI(cocos2d::ui::Layout* parent);
+    
     /// Create the UI for the sub title bar
     void createSubTitleBarUI(cocos2d::ui::Layout* parent);
     
@@ -65,7 +68,7 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
 
-    CREATE_FUNC(FriendListScene);
+    CREATE_FUNC(FriendListSceneArtPreview);
 };
 
 NS_AZOOMEE_CHAT_END

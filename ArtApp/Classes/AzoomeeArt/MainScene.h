@@ -29,6 +29,8 @@ public:
     void addBackButton();
     void addShareButton();
     
+    void backButtonCallBack();
+    void shareButtonCallBack();
     
     void saveFileAndExit();
     void saveAndSendFile();
