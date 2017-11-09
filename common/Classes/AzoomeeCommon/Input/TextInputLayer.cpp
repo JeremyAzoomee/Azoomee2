@@ -54,13 +54,13 @@ void TextInputLayer::createEditBoxArea()
     Rect spriteRect = Rect(0, 0, 331, 160);
     Rect capInsents = Rect(EDITBOX_CURVE_WIDTH, 80, 1, 1);
     editBoxArea = ui::Scale9Sprite::create("res/login/textField.png", spriteRect, capInsents);
-    editBoxArea->setContentSize(Size(this->getContentSize().width, this->getContentSize().height + 10));
+    editBoxArea->setContentSize(this->getContentSize());
     editBoxArea->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBoxArea->setOpacity(255);
     this->addChild(editBoxArea);
     
     editBoxAreaError = ui::Scale9Sprite::create("res/login/textFieldError.png", spriteRect, capInsents);
-    editBoxAreaError->setContentSize(Size(this->getContentSize().width, this->getContentSize().height + 10));
+    editBoxAreaError->setContentSize(this->getContentSize());
     editBoxAreaError->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height/2));
     editBoxAreaError->setVisible(false);
     this->addChild(editBoxAreaError);
@@ -68,7 +68,7 @@ void TextInputLayer::createEditBoxArea()
 
 void TextInputLayer::createEditBox()
 {
-    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height), "res/login/editboxBlankFor9Scale.png");
+    editBox = ui::EditBox::create(Size(this->getContentSize().width - (2 * EDITBOX_CURVE_WIDTH),this->getContentSize().height - 10), "res/login/editboxBlankFor9Scale.png");
     editBox->moveOnKeyboardDisplayRequired = false;
 
     editBox->setColor(Color3B::WHITE);
