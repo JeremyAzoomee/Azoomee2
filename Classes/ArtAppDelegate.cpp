@@ -50,7 +50,6 @@ void ArtAppDelegate::onArtAppNavigationBack()
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
     
-    
 }
 
 void ArtAppDelegate::onArtAppShareImage()
@@ -61,6 +60,7 @@ void ArtAppDelegate::onArtAppShareImage()
         if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
         {
             ArtAppRunning = false;
+            Director::getInstance()->getTextureCache()->reloadTexture(filename);
             Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
         }
     }

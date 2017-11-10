@@ -134,28 +134,37 @@ void MainScene::backButtonCallBack()
 
 void MainScene::shareButtonCallBack()
 {
-    auto savingLabel = Label::createWithTTF("Saving...", Style::Font::Regular, 128);
-    savingLabel->setColor(Style::Color::white);
-    savingLabel->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
-    savingLabel->setAnchorPoint(Vec2(0.5,0.5));
-    this->addChild(savingLabel,3);
-    
-    auto overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
-    overlay->setPosition(Director::getInstance()->getVisibleOrigin());
-    this->addChild(overlay,2);
-        
-    auto listener = EventListenerTouchOneByOne::create();
-    listener->setSwallowTouches(true);
-    listener->onTouchBegan = [=](Touch *touch, Event *event)
+    if(_drawingCanvas->_actionCounter > 0 || _fileName == "")
     {
-        return true;
-    };
+        auto overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
+        overlay->setPosition(Director::getInstance()->getVisibleOrigin());
+        overlay->setName("savingOverlay");
+        this->addChild(overlay,2);
+        
+        auto savingLabel = Label::createWithTTF("Saving...", Style::Font::Regular, 128);
+        savingLabel->setColor(Style::Color::white);
+        savingLabel->setPosition(Director::getInstance()->getVisibleOrigin() + Director::getInstance()->getVisibleSize()/2);
+        savingLabel->setAnchorPoint(Vec2(0.5,0.5));
+        overlay->addChild(savingLabel);
+        
+        auto listener = EventListenerTouchOneByOne::create();
+        listener->setSwallowTouches(true);
+        listener->onTouchBegan = [=](Touch *touch, Event *event)
+        {
+            return true;
+        };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
-    const std::string scheduleKey = "saveAndShare";
-    Director::getInstance()->getScheduler()->schedule([&](float dt){
-        this->saveAndSendFile();
-    }, this, 0.5, 0, 0, false, scheduleKey);
+        Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
+        const std::string scheduleKey = "saveAndShare";
+        Director::getInstance()->getScheduler()->schedule([&](float dt){
+            this->saveAndSendFile();
+        }, this, 0.5, 0, 0, false, scheduleKey);
+    }
+    else
+    {
+        delegate->setFileName(_fileName);
+        delegate->onArtAppShareImage();
+    }
 }
 
 void MainScene::saveFileAndExit()
@@ -168,6 +177,7 @@ void MainScene::saveAndSendFile()
 {
     saveFile();
     delegate->setFileName(_fileName);
+    this->removeChildByName("savingOverlay");
     delegate->onArtAppShareImage();
 }
 
