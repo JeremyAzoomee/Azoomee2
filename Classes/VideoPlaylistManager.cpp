@@ -50,7 +50,7 @@ std::string VideoPlaylistManager::getPlaylist()
         
         for(auto item : _storedPlaylist->getContentItems())
         {
-            if(item->isEntitled())
+            if(item->isEntitled()&&(item->getType() == "AUDIO" || item->getType() == "VIDEO"))
             {
                 std::map<std::string, std::string> elementToBeAdded;
                 elementToBeAdded["uri"] = item->getUri();
