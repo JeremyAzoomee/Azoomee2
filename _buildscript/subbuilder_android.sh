@@ -9,7 +9,7 @@ STRUCTURENAME=$1
 VERSIONNUMBER=$2
 BUILDNUMBER=$3
 XWALKSTRUCTURENAME=$4
-UPLOAD=$5
+AMAZON=$5
 
 rm -rf ../_replaceTestResults
 mkdir ../_replaceTestResults
@@ -29,12 +29,19 @@ sed -i.bak 's/include '\''[^'\'']'\''$/include '\'$STRUCTURENAME\''/g' ../_repla
 cp -r ../_replaceTestResults/Application.mk ../proj.android-studio/app/jni/Application.mk
 cp -r ../_replaceTestResults/build.gradle ../proj.android-studio/app/build.gradle
 
-cocos compile -p android --android-studio -m release
-
-if [ "$UPLOAD" == "upload" ]; then
-	( cd ../proj.android-studio/ ; ./gradlew publishApkRelease )
+if [ "$AMAZON" == "amazon" ]; then
+  cp ../proj.android-studio/app/AndroidManifest.xml ../_replaceTestResults/AndroidManifest.xml
+	sed -i.bak 's/<!--appsflyerMetaPlace-->.*/<!--appsflyerMetaPlace--><meta-data android:name="CHANNEL" android:value="Amazon"\/>/g' ../_replaceTestResults/AndroidManifest.xml
+  cp -r ../_replaceTestResults/AndroidManifest.xml ../proj.android-studio/app/AndroidManifest.xml
 fi
 
-cp -r ../bin/release/android/app-release-signed.apk ../_builds/build-$BUILDNUMBER.apk
+cocos compile -p android --android-studio -m release
+
+cp -r ../bin/release/android/app-release-signed.apk ../_builds/build-$BUILDNUMBER$AMAZON.apk
 rm -rf ../bin/release/android/app-release-signed.apk
+
+if [ "$AMAZON" == "amazon" ]; then
+  cp -r ../_replaceTestResults/AndroidManifest.xml.bak ../proj.android-studio/app/AndroidManifest.xml
+fi
+
 rm -rf ../_replaceTestResults
