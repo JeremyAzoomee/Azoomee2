@@ -1,4 +1,4 @@
-while getopts v:b:p:ud option
+while getopts v:b:p:d option
 do
  case "${option}"
  in
@@ -6,7 +6,6 @@ do
  b) BUILD=${OPTARG};;
  p) PLATFORM=${OPTARG};;
  d) DEVMODE="devmode";;
- u) UPLOAD="upload";;
  esac
 done
 
@@ -56,11 +55,14 @@ echo "{\"version\": \"$VERSION ($COMMITID)\"}" > ../Resources/res/configuration/
 #$STRUCTURENAME$ - structure name (armeabi-v7a, arm64-v8a, x86)
 #$XWALKSTRUCTURENAME$ - structure name for xwalk (arm, arm64, x86)
 
+#The script builds for amazon first - while the other 3 buidls are done, the amazon one can be uploaded.
+#For testing purposes, the amazon build can be used as well - only android.xml meta tagging difference.
+
 if [ "$PLATFORM" == "" ] || [ "$PLATFORM" == "android" ] ; then
-	./subbuilder_android.sh armeabi-v7a $VERSION $ARMBUILD arm $UPLOAD
-	./subbuilder_android.sh arm64-v8a $VERSION $ARM64BUILD arm64 $UPLOAD
-	./subbuilder_android.sh x86 $VERSION $X86BUILD x86 $UPLOAD
-	./subbuilder_android.sh armeabi-v7a $VERSION $AMAZONBUILD arm
+  ./subbuilder_android.sh armeabi-v7a $VERSION $ARMBUILD arm amazon
+  ./subbuilder_android.sh armeabi-v7a $VERSION $ARMBUILD arm
+  ./subbuilder_android.sh arm64-v8a $VERSION $ARM64BUILD arm64
+  ./subbuilder_android.sh x86 $VERSION $X86BUILD x86
 fi
 
 if [ "$PLATFORM" == "" ] || [ "$PLATFORM" == "ios" ] ; then

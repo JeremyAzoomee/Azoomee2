@@ -14,7 +14,9 @@
         android:allowBackup="true"
         android:largeHeap="true"
         android:icon="@mipmap/ic_launcher">
-        
+
+        <!--appsflyerMetaPlace-->
+
         <!-- Tell Cocos2dxActivity the name of our .so -->
         <meta-data android:name="android.app.lib_name"
                    android:value="MyGame" />
