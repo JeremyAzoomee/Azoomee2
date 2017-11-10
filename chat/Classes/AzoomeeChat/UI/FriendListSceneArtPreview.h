@@ -30,6 +30,8 @@ private:
     cocos2d::ui::Layout* _contentLayout = nullptr;
     /// Layout for art image being set from art app
     cocos2d::ui::Layout* _artPreviewLayout = nullptr;
+    /// Art preview text
+    cocos2d::ui::Text* _artPreviewText = nullptr;
     /// Sub title bar at the top of the content layout
     cocos2d::ui::Layout* _subTitleBar = nullptr;
     /// Sub title bar border

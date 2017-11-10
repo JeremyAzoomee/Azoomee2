@@ -95,7 +95,10 @@ void FriendListSceneArtPreview::onSizeChanged()
     const Vec2& subTitleBarSize = Vec2(1.0f, 0);
     _subTitleBar->setSizePercent(subTitleBarSize);
     _subTitleBarBorder->setContentSize(Size(_subTitleBar->getContentSize().width, 2.0f));
-    float listViewHeight = 1 - ((isLandscape) ? 0.45f : 0.25f);
+    _artPreviewText->setFontSize((isLandscape) ? 75.0f : 67.5f);
+    // Percentage height used by art preview with padding
+    float artPreviewScreenPercent = (_artPreviewLayout->getContentSize().height + _backButton->getContentSize().height + 75.0f * 1.5f ) / contentSize.height;
+    float listViewHeight = 1 - artPreviewScreenPercent;
     _friendListView->setSizePercent(Vec2(0.9f, listViewHeight));
     // 2 column on landscape, 1 column portrait
     _friendListView->setColumns((isLandscape) ? 2 : 1);
@@ -118,7 +121,7 @@ void FriendListSceneArtPreview::createContentUI(cocos2d::ui::Layout* parent)
     _artPreviewLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
     paddingLayoutArt->addChild(_artPreviewLayout);
     createArtPreviewUI(_artPreviewLayout);
-    paddingLayoutArt->setContentSize(Size(Director::getInstance()->getVisibleSize().width,_artPreviewLayout->getContentSize().height * 1.2f));
+    paddingLayoutArt->setContentSize(Size(Director::getInstance()->getVisibleSize().width,_artPreviewLayout->getContentSize().height + _backButton->getContentSize().height));
 
     ui::Layout* paddingLayout = ui::Layout::create();
     paddingLayout->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
@@ -127,14 +130,14 @@ void FriendListSceneArtPreview::createContentUI(cocos2d::ui::Layout* parent)
     paddingLayout->setBackGroundColor(Style::Color::dark);
     parent->addChild(paddingLayout);
     
-    ui::Text* titleLabel = ui::Text::create();
-    titleLabel->setFontName(Style::Font::Regular);
-    titleLabel->setFontSize(75.0f);
-    titleLabel->setTextColor(Color4B(Style::Color::white));
-    titleLabel->setString("Who would you like to share this picture with?");
-    titleLabel->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
-    paddingLayout->addChild(titleLabel);
-    paddingLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, titleLabel->getContentSize().height * 1.5f));
+    _artPreviewText = ui::Text::create();
+    _artPreviewText->setFontName(Style::Font::Regular);
+    _artPreviewText->setFontSize(75.0f);
+    _artPreviewText->setTextColor(Color4B(Style::Color::white));
+    _artPreviewText->setString("Who would you like to share this picture with?");
+    _artPreviewText->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    paddingLayout->addChild(_artPreviewText);
+    paddingLayout->setContentSize(Size(Director::getInstance()->getVisibleSize().width, _artPreviewText->getContentSize().height * 1.5f));
     
     // Subtitle bar
     _subTitleBar = ui::Layout::create();

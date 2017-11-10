@@ -96,7 +96,6 @@ bool MessageComposer::init()
     });
     artBG->addChild(_stickerSelector);
     artBG->addChild(_artListView);
-    //_selectorLayout->addChild(_artListView);
 
     // Default to Idle
     setMode(MessageComposer::Mode::Idle);
@@ -832,10 +831,8 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     _galleryTab->getRendererNormal()->setStrechEnabled(true);
     _galleryTab->setAnchorPoint(Vec2(0.0f, 1.0f));
     _galleryTab->setContentSize(Size(buttonHeight, buttonHeight));
-    _galleryTab->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(tabMarginX, 0, 0, 0)));
+    _galleryTab->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(tabMarginX, (_topLayout->getContentSize().height - buttonHeight) / 2, 0, 0)));
     _galleryTab->addClickEventListener([this](Ref* button){
-        // Set to idle until we support gallery feature
-        //sendArtMessage("res/artapp/art_studio_logo.png");
         setMode(MessageComposer::Mode::ArtGalleryEntry);
     });
     parent->addChild(_galleryTab);
