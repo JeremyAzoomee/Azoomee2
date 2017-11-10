@@ -192,7 +192,8 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
 
 std::string JWTTool::getJWTSignature(std::string sHeader, std::string sBody)
 {
-    std::string unEncodedSignature = StringUtils::format("%s.%s", sHeader.c_str(), sBody.c_str());
+    //std::string unEncodedSignature = StringUtils::format("%s.%s", sHeader.c_str(), sBody.c_str());
+    std::string unEncodedSignature = sHeader + "." + sBody;
     std::string encodedSignature = HMACSHA256::getInstance()->getHMACSHA256Hash(unEncodedSignature, ChildDataProvider::getInstance()->getParentOrChildApiSecret());
     
     return encodedSignature;
