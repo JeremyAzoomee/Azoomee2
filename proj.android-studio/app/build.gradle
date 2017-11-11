@@ -23,8 +23,8 @@ android {
 
     defaultConfig {
         applicationId "com.tinizine.azoomee"
-        minSdkVersion 19
-        targetSdkVersion 22
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 999000
         versionName '9.9.9'
     }
