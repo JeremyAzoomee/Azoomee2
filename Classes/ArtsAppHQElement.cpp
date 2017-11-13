@@ -11,6 +11,8 @@
 #include "SceneManagerScene.h"
 #include "ArtAppDelegate.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include "HQHistoryManager.h"
+#include "HQSceneArtsApp.h"
 
 using namespace cocos2d;
 
@@ -325,12 +327,23 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, s
             {
                 AnalyticsSingleton::getInstance()->genericButtonPressEvent("artsAppDeleteButton");
                 FileUtils::getInstance()->removeFile(filePath);
-                HQScene *hqScene = (HQScene *)this->getParent()->getParent()->getParent();
-                CCLOG("Name where I am : %s", hqScene->getName().c_str());
-                hqScene->removeAllChildren();
-                Director::getInstance()->purgeCachedData();
-                hqScene->startBuildingScrollViewBasedOnName();
-                
+                if(!HQHistoryManager::getInstance()->isOffline)
+                {
+                    HQScene *hqScene = (HQScene *)this->getParent()->getParent()->getParent();
+                    CCLOG("Name where I am : %s", hqScene->getName().c_str());
+                    hqScene->removeAllChildren();
+                    Director::getInstance()->purgeCachedData();
+                    hqScene->startBuildingScrollViewBasedOnName();
+                }
+                else
+                {
+                    HQScene* hqScene = (HQScene *)this->getParent()->getParent()->getParent()->getParent();
+                    hqScene->removeChildByName("ArtScrollView");
+                    Director::getInstance()->purgeCachedData();
+                    auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+                    offlineArtsAppScrollView->setName("ArtScrollView");
+                    hqScene->addChild(offlineArtsAppScrollView);
+                }
                 return true;
             }
         }
