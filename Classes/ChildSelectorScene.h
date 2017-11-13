@@ -37,12 +37,12 @@ public:
     void onHttpRequestFailed(const std::string& requestTag, long errorCode);
     
 private:
-    cocos2d::Vec2 origin;
-    cocos2d::Size visibleSize;
+    cocos2d::Vec2 _origin;
+    cocos2d::Size _visibleSize;
     
     void addScrollViewForProfiles();
     cocos2d::Size getScrollviewInnerSize(float scrollviewWidth);
-    cocos2d::ui::ScrollView *scrollView = nullptr;
+    cocos2d::ui::ScrollView *_scrollView = nullptr;
     
     cocos2d::EventListenerCustom* _billingDataRecievedListener = nullptr;
     void addBillingDataRecievedListener();
@@ -60,9 +60,9 @@ private:
     
     Layer* createParentProfileButton();
     
-    cocos2d::Point startTouchPosition;
-    bool touchMovedAway = false;
-    bool parentIconSelected = false;
+    cocos2d::Point _startTouchPosition;
+    bool _touchMovedAway = false;
+    bool _parentIconSelected = false;
     
     void addBackgroundToScreen();
 };

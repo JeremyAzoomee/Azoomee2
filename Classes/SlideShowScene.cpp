@@ -158,15 +158,23 @@ void SlideShowScene::pageViewScrollToNextPage()
     auto vectorOfSlides = _pageView->getItems();
     
     if(vectorOfSlides.size() != _pageView->getCurrentPageIndex()+1)
+    {
         _pageView->scrollToItem(_pageView->getCurrentPageIndex()+1);
+    }
 }
 
 void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == loginButton)
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+    }
     else if (button->getName() == "startTrialButton")
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+    }
     else if (button == skipButton)
+    {
         BackEndCaller::getInstance()->anonymousDeviceLogin();
+    }
 }
