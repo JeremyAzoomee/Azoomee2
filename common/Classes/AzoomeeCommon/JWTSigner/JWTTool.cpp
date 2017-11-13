@@ -145,7 +145,8 @@ std::string JWTTool::getBodySignature(std::string method, std::string path, std:
     stringToBeEncoded += getBase64Encoded(requestBody);
     std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, ChildDataProvider::getInstance()->getParentOrChildApiSecret());
     
-    cocos2d::log("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
+    //cocos2d::log("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
+    cocos2d::log("ASITEST Payload signature size: %ld", stringToBeEncoded.length());
     
     
     return bodySignature;
