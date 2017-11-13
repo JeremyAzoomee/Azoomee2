@@ -25,9 +25,6 @@ private:
     void addNavigationLayer();
     void onEnterTransitionDidFinish();
     void addParticleElementsToBackground();
-    
-    void getTestImages();
-    void onGetTestImagesAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
 };
 
 NS_AZOOMEE_END

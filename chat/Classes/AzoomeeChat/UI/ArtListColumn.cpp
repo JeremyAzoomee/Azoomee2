@@ -55,10 +55,13 @@ bool ArtListColumn::init()
     _topRowButton->getRendererNormal()->setStrechEnabled(true);
     _topRowButton->setAnchorPoint(Vec2(0.5f, 0.5f));
     _topRowButton->setLayoutParameter(CreateCenterRelativeLayoutParam());
-    _topRowButton->addClickEventListener([this](Ref*){
-        if(_selectedEventCallback)
+    _topRowButton->addTouchEventListener([this](Ref*, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            _selectedEventCallback(_data[0]);
+            if(_selectedEventCallback)
+            {
+                _selectedEventCallback(_data[0]);
+            }
         }
     });
     _topRowLayout->addChild(_topRowButton);
@@ -76,10 +79,13 @@ bool ArtListColumn::init()
     _bottomRowButton->getRendererNormal()->setStrechEnabled(true);
     _bottomRowButton->setAnchorPoint(Vec2(0.5f, 0.5f));
     _bottomRowButton->setLayoutParameter(CreateCenterRelativeLayoutParam());
-    _bottomRowButton->addClickEventListener([this](Ref*){
-        if(_selectedEventCallback && _data[1] != "")
+    _bottomRowButton->addTouchEventListener([this](Ref*, ui::Widget::TouchEventType eType){
+        if(eType == ui::Widget::TouchEventType::ENDED)
         {
-            _selectedEventCallback(_data[1]);
+            if(_selectedEventCallback && _data[1] != "")
+            {
+                _selectedEventCallback(_data[1]);
+            }
         }
     });
     _bottomRowLayout->addChild(_bottomRowButton);
@@ -174,15 +180,19 @@ void ArtListColumn::addPlaceHolder()
 
 void ArtListColumn::loadImageTex()
 {
+    this->retain();
     Director::getInstance()->getTextureCache()->addImageAsync(_data[0], [&](Texture2D* tex)
     {
         this->addImage(tex,_topRowButton);
+        this->release();
     });
     if(_data[1] != "")
     {
+        this->retain();
         Director::getInstance()->getTextureCache()->addImageAsync(_data[1], [&](Texture2D* tex)
         {
             this->addImage(tex, _bottomRowButton);
+            this->release();
         });
     }
 }

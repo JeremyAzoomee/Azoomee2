@@ -468,16 +468,32 @@ void MessageComposer::sendMessage(const StickerRef& sticker)
 void MessageComposer::sendArtMessage(const std::string &artFile)
 {
     AudioMixer::getInstance()->playEffect("boing.mp3");
-    if(_delegate)
+    Director::getInstance()->getScheduler()->schedule([&](float)
     {
-        char* str;
-        const std::string& filecont =  FileUtils::getInstance()->getStringFromFile(artFile);
-        base64Encode((unsigned char*)filecont.c_str(), (unsigned int)filecont.length(), &str);
-        const MessageRef& messageObj = Message::createArtMessage(std::string(str));
-        _delegate->onMessageComposerSendMessage(messageObj);
-    }
-    _messageEntryField->setString("");
+        if(_delegate)
+        {
+            Sprite* artImage = Sprite::create(artFile);
+            artImage->setScale(640/artImage->getContentSize().width);
+            artImage->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+            
+            RenderTexture* renderTex = RenderTexture::create(640, artImage->getContentSize().height * artImage->getScale());
+            renderTex->beginWithClear(0, 0, 0, 0);
+            artImage->visit();
+            renderTex->end();
+            renderTex->saveToFile("temp.png", Image::Format::PNG);
+            Director::getInstance()->getRenderer()->render();
+            
+            char* str;
+            const std::string& filecont =  FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getWritablePath() + "temp.png");
+            base64Encode((unsigned char*)filecont.c_str(), (unsigned int)filecont.length(), &str);
+            FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "temp.png");
+            const MessageRef& messageObj = Message::createArtMessage(std::string(str));
+            _delegate->onMessageComposerSendMessage(messageObj);
+        }
+    }, this, 0, 0, 0.2f, false, "sendArt");
+    
     setMode(MessageComposer::Mode::Idle);
+    _messageEntryField->setString("");
 }
 
 #pragma mark - Mode

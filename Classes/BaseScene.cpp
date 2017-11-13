@@ -58,47 +58,7 @@ void BaseScene::onEnterTransitionDidFinish()
         }, this, 4, 0, 0, false, "enablePush");
     }
     
-    getTestImages();
     ForceUpdateSingleton::getInstance()->doForceUpdateLogic();
-}
-
-void BaseScene::getTestImages()
-{
-    std::string imageCachePath = FileUtils::getInstance()->getWritablePath() + "/artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/";
-    if(FileUtils::getInstance()->isDirectoryExist(imageCachePath)) return;
-    
-    FileUtils::getInstance()->createDirectory(imageCachePath);
-    
-    for(int i = 1001; i < 1005; i++)
-    {
-        std::string fileName = StringUtils::format("%d.png", i);
-        std::string url = "http://wearekids.hu/aztest/" + fileName;
-        
-        cocos2d::network::HttpRequest* jsonRequest = new cocos2d::network::HttpRequest();
-        jsonRequest->setRequestType(cocos2d::network::HttpRequest::Type::GET);
-        jsonRequest->setUrl(url);
-        
-        jsonRequest->setResponseCallback(CC_CALLBACK_2(BaseScene::onGetTestImagesAnswerReceived, this));
-        jsonRequest->setTag(fileName);
-        cocos2d::network::HttpClient::getInstance()->setTimeoutForConnect(2);
-        cocos2d::network::HttpClient::getInstance()->setTimeoutForRead(2);
-        cocos2d::network::HttpClient::getInstance()->sendImmediate(jsonRequest);
-    }
-}
-
-void BaseScene::onGetTestImagesAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
-{
-    std::string imageFileNameWithPath = FileUtils::getInstance()->getWritablePath() + "/artCache/" + ChildDataProvider::getInstance()->getLoggedInChildId() + "/" + response->getHttpRequest()->getTag();
-    
-    std::string responseString = "";
-    
-    if (response && response->getResponseData())
-    {
-        std::vector<char> myResponse = *response->getResponseData();
-        responseString = std::string(myResponse.begin(), myResponse.end());
-        
-        FileUtils::getInstance()->writeStringToFile(responseString, imageFileNameWithPath);
-    }
 }
 
 void BaseScene::startBuildingHQs()
