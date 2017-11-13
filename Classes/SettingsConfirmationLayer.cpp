@@ -34,6 +34,7 @@ bool SettingsConfirmationLayer::init()
         return false;
     }
     
+    this->retain();
     HttpRequestCreator *request = API::GetPendingFriendRequests(this);
     request->execute();
     
@@ -103,6 +104,7 @@ void SettingsConfirmationLayer::onHttpRequestSuccess(const std::string& requestT
 {
     ParentDataParser::getInstance()->parsePendingFriendRequests(body);
     confirmationDetailsReceived();
+    this->release();
 }
 
 void SettingsConfirmationLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -110,6 +112,7 @@ void SettingsConfirmationLayer::onHttpRequestFailed(const std::string& requestTa
     AnalyticsSingleton::getInstance()->settingsPendingFriendRequestsRefreshError(errorCode);
     ModalMessages::getInstance()->stopLoading();
     MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
+    this->release();
 }
 
 NS_AZOOMEE_END

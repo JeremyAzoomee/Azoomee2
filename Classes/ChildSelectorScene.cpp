@@ -432,7 +432,9 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 void ChildSelectorScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
     if(CookieDataParser::getInstance()->parseDownloadCookies(headers))
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+    {
+        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+    }
 }
 
 void ChildSelectorScene::onHttpRequestFailed(const std::string& requestTag, long errorCode)
@@ -467,14 +469,20 @@ void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std
 void ChildSelectorScene::addBillingDataRecievedListener()
 {
     //event will be fired from BackEndCaller::onUpdateBillingDataAnswerReceived
+    scrollView->retain();
     _billingDataRecievedListener = EventListenerCustom::create(kBillingDataRecievedEvent, [=](EventCustom* event) {
         if(ParentDataProvider::getInstance()->isPaidUser())
         {
-            auto parentButton = createParentProfileButton();
-            parentButton->setPosition(positionElementOnScrollView(parentButton));
-            scrollView->addChild(parentButton);
+            if(scrollView)
+            {
+                auto parentButton = createParentProfileButton();
+                parentButton->setPosition(positionElementOnScrollView(parentButton));
+                scrollView->addChild(parentButton);
+            }
         }
         Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
+        _billingDataRecievedListener = nullptr;
+        scrollView->release();
     });
     
     _eventDispatcher->addEventListenerWithFixedPriority(_billingDataRecievedListener, 1);
@@ -486,6 +494,8 @@ void ChildSelectorScene::onExit()
     if(_billingDataRecievedListener)
     {
         Director::getInstance()->getEventDispatcher()->removeEventListener(_billingDataRecievedListener);
+        _billingDataRecievedListener = nullptr;
+        scrollView->release();
     }
     Node::onExit();
 }

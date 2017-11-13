@@ -42,7 +42,7 @@ private:
     
     void addScrollViewForProfiles();
     cocos2d::Size getScrollviewInnerSize(float scrollviewWidth);
-    cocos2d::ui::ScrollView *scrollView;
+    cocos2d::ui::ScrollView *scrollView = nullptr;
     
     cocos2d::EventListenerCustom* _billingDataRecievedListener = nullptr;
     void addBillingDataRecievedListener();

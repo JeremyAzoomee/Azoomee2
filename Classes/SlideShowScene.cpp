@@ -71,6 +71,7 @@ void SlideShowScene::imageAddedToCache(Texture2D* resulting_texture)
             }
         }
     }
+    this->release();
 }
 
 void SlideShowScene::createPageView()
@@ -96,7 +97,7 @@ void SlideShowScene::createPageView()
         Layout* newLayout = Layout::create();
         newLayout->setContentSize(visibleSize);
         _pageView->insertCustomItem(newLayout,i);
-
+        this->retain();
         Director::getInstance()->getTextureCache()->addImageAsync(StringUtils::format("res/slideshow/slide_%d.jpg",i+1), CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
 
         layoutVector.push_back(newLayout);

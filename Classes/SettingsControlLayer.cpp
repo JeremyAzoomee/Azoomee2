@@ -142,6 +142,7 @@ void SettingsControlLayer::createConfirmationNotification()
 
 void SettingsControlLayer::checkForConfirmationNotifications()
 {
+    this->retain();
     HttpRequestCreator *request = API::GetPendingFriendRequests(this);
     request->execute();
 }
@@ -222,11 +223,13 @@ void SettingsControlLayer::onHttpRequestSuccess(const std::string& requestTag, c
         AnalyticsSingleton::getInstance()->settingsConfirmationTabNotificationShown();
         confirmationNotification->setOpacity(255);
     }
+    this->release();
 }
 
 void SettingsControlLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
     AnalyticsSingleton::getInstance()->settingsConfirmationTabNotificationError(errorCode);
+    this->release();
 }
 
 NS_AZOOMEE_END
