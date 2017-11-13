@@ -167,5 +167,19 @@ std::string replaceAll(std::string& str, const std::string& from, const std::str
     
     return str;
 }
+    
+std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const std::string &responseString)
+{
+    const std::vector<std::string>& responseHeaderVector = splitStringToVector(responseString, "\n");
+    for(const std::string &currentKey : responseHeaderVector)
+    {
+        if(currentKey.compare(0, key.length(), key) == 0)
+        {
+            return splitStringToVector(currentKey, ": ").back();
+        }
+    }
+    
+    return "";
+}
 
 } // Azoomee

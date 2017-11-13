@@ -229,9 +229,15 @@ void HttpRequestCreator::handleError(network::HttpResponse *response)
         return;
     }
     
-    if(response->getResponseCode() != -1) AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, getQidFromResponseHeader(responseHeaderString));
+    if(response->getResponseCode() != -1)
+    {
+        AnalyticsSingleton::getInstance()->httpRequestFailed(requestTag, errorCode, getValueFromHttpResponseHeaderForKey("x-az-qid", responseHeaderString));
+    }
     
-    if((errorCode == 401)&&(findPositionOfNthString(responseDataString, "Invalid Request Time", 1) != responseDataString.length())) errorCode = 2001;
+    if((errorCode == 401)&&(findPositionOfNthString(responseDataString, "Invalid Request Time", 1) != responseDataString.length()))
+    {
+        errorCode = 2001;
+    }
 
     handleEventAfterError(requestTag, errorCode);
 }
@@ -240,20 +246,6 @@ void HttpRequestCreator::handleEventAfterError(const std::string& requestTag, lo
 {
     if(delegate != nullptr)
         delegate->onHttpRequestFailed(requestTag, errorCode);
-}
-
-std::string HttpRequestCreator::getQidFromResponseHeader(std::string responseHeaderString)
-{
-    const std::vector<std::string>& responseHeaderVector = splitStringToVector(responseHeaderString, "\n");
-    for(int i = 0; i < responseHeaderVector.size(); i++)
-    {
-        if(responseHeaderVector.at(i).compare(0, 9, "x-az-qid:") == 0)
-        {
-            return splitStringToVector(responseHeaderVector.at(i), ": ").back();
-        }
-    }
-    
-    return "null";
 }
   
 NS_AZOOMEE_END
