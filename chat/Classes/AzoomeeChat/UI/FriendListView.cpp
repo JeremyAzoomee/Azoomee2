@@ -235,4 +235,13 @@ void FriendListView::addItemSelectedEventListener(const ItemSelectedCallback& ca
     _selectedEventCallback = callback;
 }
 
+void FriendListView::hideUnreadIndicators()
+{
+    for(auto item : this->getItems())
+    {
+        FriendListViewItem* flItem = (FriendListViewItem*)item;
+        flItem->hideUnreadIndicator();
+    }
+}
+
 NS_AZOOMEE_CHAT_END

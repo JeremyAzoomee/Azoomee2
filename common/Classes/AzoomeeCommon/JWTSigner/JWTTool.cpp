@@ -97,9 +97,7 @@ std::string JWTTool::getBase64Encoded(std::string input) //This is now used only
     char *output = NULL;
     cocos2d::base64Encode((unsigned char *)input.c_str(), (unsigned int)input.length(), &output);
     
-    //std::string outputStr = StringUtils::format("%s", output);
-    std::string outputStr = std::string(output);
-    return outputStr;
+    return output;
 }
 
 std::string JWTTool::getHeaderString(std::string kid)
@@ -140,14 +138,9 @@ std::string JWTTool::getBodySignature(std::string method, std::string path, std:
     
     std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(host)).c_str(), url_encode(stringToLower(getDateFormatString())).c_str());
     
-    //std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n%s", method.c_str(), url_encode(path).c_str(), Net::getUrlParamsInAlphabeticalOrder(stringToLower(queryParams)).c_str(), stringMandatoryHeaders.c_str(), getBase64Encoded(requestBody).c_str());
     std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n", method.c_str(), url_encode(path).c_str(), Net::getUrlParamsInAlphabeticalOrder(stringToLower(queryParams)).c_str(), stringMandatoryHeaders.c_str());
     stringToBeEncoded += getBase64Encoded(requestBody);
     std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, ChildDataProvider::getInstance()->getParentOrChildApiSecret());
-    
-    //cocos2d::log("Payload signature:\n\n%s\nend\n\n", stringToBeEncoded.c_str());
-    cocos2d::log("ASITEST Payload signature size: %ld", stringToBeEncoded.length());
-    
     
     return bodySignature;
 }
@@ -193,7 +186,6 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
 
 std::string JWTTool::getJWTSignature(std::string sHeader, std::string sBody)
 {
-    //std::string unEncodedSignature = StringUtils::format("%s.%s", sHeader.c_str(), sBody.c_str());
     std::string unEncodedSignature = sHeader + "." + sBody;
     std::string encodedSignature = HMACSHA256::getInstance()->getHMACSHA256Hash(unEncodedSignature, ChildDataProvider::getInstance()->getParentOrChildApiSecret());
     

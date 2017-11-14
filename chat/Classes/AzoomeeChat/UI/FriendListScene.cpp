@@ -215,16 +215,9 @@ void FriendListScene::onBackButtonPressed()
 
 void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 {
-    if(friendData->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId())
-    {
-        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - SelectedParent");
-        AnalyticsSingleton::getInstance()->setChatFriendIsParent(true);
-    }
-    else
-    {
-        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - SelectedFriend");
-        AnalyticsSingleton::getInstance()->setChatFriendIsParent(false);
-    }
+    const bool isParent = friendData->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId();
+    AnalyticsSingleton::getInstance()->setChatFriendIsParent(isParent);
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent(isParent ? "ChatScene - SelectedParent" : "ChatScene - SelectedFriend");
     
     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
     

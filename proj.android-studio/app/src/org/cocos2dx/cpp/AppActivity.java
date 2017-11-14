@@ -155,8 +155,6 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         String hash = "";
         try {
 
-            Log.d("ASITEST", "Java messages ize: " + message.length());
-
             Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
             SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
             sha256_HMAC.init(secret_key);
@@ -165,8 +163,6 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         } catch (Exception e) {
 
         }
-
-        Log.d("ASITEST", "Java messages ize after conversion: " + hash.trim().length());
 
         return hash.trim();
 

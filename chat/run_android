@@ -1,3 +1,0 @@
-#!/bin/bash
-
-cocos run -p android --android-studio --no-uninstall

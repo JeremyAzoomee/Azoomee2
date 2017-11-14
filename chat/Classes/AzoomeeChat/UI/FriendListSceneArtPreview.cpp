@@ -102,6 +102,7 @@ void FriendListSceneArtPreview::onSizeChanged()
     _friendListView->setSizePercent(Vec2(0.9f, listViewHeight));
     // 2 column on landscape, 1 column portrait
     _friendListView->setColumns((isLandscape) ? 2 : 1);
+    _friendListView->hideUnreadIndicators();
 }
 
 #pragma mark - UI creation
@@ -210,16 +211,9 @@ void FriendListSceneArtPreview::onBackButtonPressed()
 
 void FriendListSceneArtPreview::onFriendListItemSelected(const FriendRef& friendData)
 {
-    if(friendData->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId())
-    {
-        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - SelectedParent");
-        AnalyticsSingleton::getInstance()->setChatFriendIsParent(true);
-    }
-    else
-    {
-        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - SelectedFriend");
-        AnalyticsSingleton::getInstance()->setChatFriendIsParent(false);
-    }
+    const bool isParent = friendData->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId();
+    AnalyticsSingleton::getInstance()->setChatFriendIsParent(isParent);
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent(isParent ? "ChatScene - SelectedParent" : "ChatScene - SelectedFriend");
     
     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
     
@@ -238,6 +232,7 @@ void FriendListSceneArtPreview::onChatAPIGetFriendList(const FriendList& friendL
     
     _friendListData = friendList;
     _friendListView->setItems(friendList);
+    _friendListView->hideUnreadIndicators();
     
     ModalMessages::getInstance()->stopLoading();
 }

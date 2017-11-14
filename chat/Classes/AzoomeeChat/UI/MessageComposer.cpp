@@ -483,7 +483,7 @@ void MessageComposer::sendArtMessage(const std::string &artFile)
             renderTex->saveToFile("temp.png", Image::Format::PNG);
             Director::getInstance()->getRenderer()->render();
             
-            char* str;
+            char* str = nullptr;
             const std::string& filecont =  FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getWritablePath() + "temp.png");
             base64Encode((unsigned char*)filecont.c_str(), (unsigned int)filecont.length(), &str);
             FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "temp.png");

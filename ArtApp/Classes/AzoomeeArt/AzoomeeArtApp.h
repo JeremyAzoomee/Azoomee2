@@ -29,8 +29,8 @@ static const std::string kStickerLoc = "res/chat/stickers/";
 struct Delegate {
     virtual void onArtAppNavigationBack() = 0;
     virtual void onArtAppShareImage() = 0;
-    virtual std::string getFileName() = 0;
-    virtual void setFileName(std::string fileName) = 0;
+    virtual std::string getFileName() const = 0;
+    virtual void setFileName(const std::string& fileName) = 0;
     bool ArtAppRunning = false;
     std::string filename = "";
     // TODO: On error callbacks

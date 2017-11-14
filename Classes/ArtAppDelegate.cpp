@@ -27,12 +27,12 @@ ArtAppDelegate* ArtAppDelegate::getInstance()
     return sArtAppDelegateSharedInstance.get();
 }
 
-std::string ArtAppDelegate::getFileName()
+std::string ArtAppDelegate::getFileName() const
 {
     return filename;
 }
 
-void ArtAppDelegate::setFileName(std::string filename)
+void ArtAppDelegate::setFileName(const std::string& filename)
 {
     this->filename = filename;
 }

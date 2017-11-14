@@ -23,8 +23,8 @@ public:
     
     virtual void onArtAppNavigationBack() override;
     virtual void onArtAppShareImage() override;
-    virtual std::string getFileName() override;
-    virtual void setFileName(std::string fileName) override;
+    virtual std::string getFileName() const override;
+    virtual void setFileName(const std::string& fileName) override;
     
 };
 
