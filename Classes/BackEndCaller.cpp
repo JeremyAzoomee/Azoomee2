@@ -264,13 +264,14 @@ void BackEndCaller::childLogin(int childNumber)
     ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 
-void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString)
+void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
     if((!ChildDataParser::getInstance()->parseChildLoginData(responseString)) || (!HQDataParser::getInstance()->parseHQGetContentUrls(responseString)))
     {
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
     
+    ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
     DynamicNodeHandler::getInstance()->getCTAFiles();
     getGordon();
 }
@@ -419,7 +420,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     }
     else if(requestTag == API::TagChildLogin)
     {
-        onChildLoginAnswerReceived(body);
+        onChildLoginAnswerReceived(body, headers);
     }
     else if(requestTag == API::TagGetAvailableChildren)
     {

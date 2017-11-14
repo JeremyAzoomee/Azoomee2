@@ -33,7 +33,7 @@ private:
     // Get children API success
     void onGetChildrenAnswerReceived(const std::string& responseString);
     // Child login success
-    void onChildLoginAnswerReceived(const std::string& responseString);
+    void onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
     // Gorden returned!
     void onGetGordonAnswerReceived(const std::string& responseString);
     // Register child API success
