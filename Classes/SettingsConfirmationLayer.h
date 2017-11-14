@@ -20,10 +20,11 @@ private:
     float layerHeight;
     float contentWidth;
     
-    ui::ScrollView *scrollView;
+    ui::ScrollView *scrollView = nullptr;
     
-    Label* detailsLabel;
-
+    Label* detailsLabel = nullptr;
+    HttpRequestCreator* _pendingFRHttpRequest = nullptr;
+    
     void addDetailsLabel();
     void addScrollView();
     
@@ -39,6 +40,7 @@ public:
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
     void onHttpRequestFailed(const std::string& requestTag, long errorCode);
 
+    ~SettingsConfirmationLayer();
 };
 
 NS_AZOOMEE_END

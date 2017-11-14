@@ -25,6 +25,11 @@ void HttpRequestCreator::execute()
     sendRequest(request);
 }
 
+void HttpRequestCreator::clearDelegate()
+{
+    delegate = nullptr;
+}
+
 //-----------------------------------------------------All requests below this line are used internally-------------------------------------------------------
 
 int HttpRequestCreator::findPositionOfNthString(std::string string, std::string whatToFind, int whichOne)
