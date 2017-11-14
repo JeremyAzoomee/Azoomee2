@@ -175,11 +175,19 @@ std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const s
     {
         if(currentKey.compare(0, key.length(), key) == 0)
         {
-            return splitStringToVector(currentKey, ": ").back();
+            return trim(splitStringToVector(currentKey, ":").back());
         }
     }
     
     return "";
+}
+    
+std::string& trim(std::string& string)
+{
+    const char* t = " \t\n\r\f\v";
+    string.erase(0, string.find_first_not_of(t));
+    string.erase(string.find_last_not_of(t) + 1);
+    return string;
 }
 
 } // Azoomee
