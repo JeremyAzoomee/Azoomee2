@@ -109,13 +109,14 @@ void BackEndCaller::login(const std::string& username, const std::string& passwo
     request->execute();
 }
 
-void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
+void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
         ConfigStorage::getInstance()->setFirstSlideShowSeen();
         
+        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
         getAvailableChildren();
         updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
@@ -142,12 +143,13 @@ void BackEndCaller::anonymousDeviceLogin()
     request->execute();
 }
 
-void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString)
+void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString, const std::string& headerString)
 {
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
     {
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
+        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
         HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
         DynamicNodeHandler::getInstance()->getCTAFiles();
         getGordon();
@@ -425,11 +427,11 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     }
     else if(requestTag == API::TagLogin)
     {
-        onLoginAnswerReceived(body);
+        onLoginAnswerReceived(body, headers);
     }
     else if(requestTag == API::TagAnonymousDeviceLogin)
     {
-        onAnonymousDeviceLoginAnswerReceived(body);
+        onAnonymousDeviceLoginAnswerReceived(body, headers);
     }
     else if(requestTag == API::TagRegisterChild)
     {

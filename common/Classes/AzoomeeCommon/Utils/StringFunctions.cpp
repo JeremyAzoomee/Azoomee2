@@ -168,9 +168,9 @@ std::string replaceAll(std::string& str, const std::string& from, const std::str
     return str;
 }
     
-std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const std::string &responseString)
+std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const std::string &responseHeaderString)
 {
-    const std::vector<std::string>& responseHeaderVector = splitStringToVector(responseString, "\n");
+    const std::vector<std::string>& responseHeaderVector = splitStringToVector(responseHeaderString, "\n");
     for(const std::string &currentKey : responseHeaderVector)
     {
         if(currentKey.compare(0, key.length(), key) == 0)

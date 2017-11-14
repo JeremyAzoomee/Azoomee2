@@ -34,6 +34,7 @@ public:
     std::string getLoggedInParentApiKey();
     std::string getLoggedInParentApiSecret();
     std::string getLoggedInParentAvatarId();
+    std::string getLoggedInParentCountryCode();
     std::string getParentPin();
     std::string getBillingStatus();
     std::string getBillingDate();

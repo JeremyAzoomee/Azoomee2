@@ -234,12 +234,14 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
     parentData->loggedInParentActorStatus = def->getStringForKey("loggedInParentActorStatus");
     parentData->loggedInParentAvatarId = def->getStringForKey("loggedInParentAvatarId");
     parentData->isLoggedInParentAnonymous = def->getBoolForKey("isLoggedInParentAnonymous");
+    parentData->loggedInParentCountryCode = def->getStringForKey("loggedInParentCountryCode");
     cocos2d::log("loggedInParentId = %s", parentData->loggedInParentId.c_str());
     cocos2d::log("loggedInParentCdnSessionId = %s", parentData->loggedInParentCdnSessionId.c_str());
     cocos2d::log("loggedInParentApiSecret = %s", parentData->loggedInParentApiSecret.c_str());
     cocos2d::log("loggedInParentApiKey = %s", parentData->loggedInParentApiKey.c_str());
     cocos2d::log("loggedInParentActorStatus = %s", parentData->loggedInParentActorStatus.c_str());
     cocos2d::log("loggedInParentAvatarId = %s", parentData->loggedInParentAvatarId.c_str());
+    cocos2d::log("loggedInParentCountryCode = %s", parentData->loggedInParentCountryCode.c_str());
     
     createCrashlyticsUserInfo(parentData->loggedInParentId, "");
     AnalyticsSingleton::getInstance()->registerParentID(parentData->loggedInParentId);
@@ -299,5 +301,10 @@ void ParentDataParser::setBillingDataAvailable(bool isAvailable)
 {
     ParentDataStorage::getInstance()->isBillingDataAvailable = isAvailable;
 }
-  
+
+void ParentDataParser::setLoggedInParentCountryCode(const std::string &countryCode)
+{
+    ParentDataStorage::getInstance()->loggedInParentCountryCode = countryCode;
+    UserDefault::getInstance()->setStringForKey("loggedInParentCountryCode", countryCode);
+}
 }

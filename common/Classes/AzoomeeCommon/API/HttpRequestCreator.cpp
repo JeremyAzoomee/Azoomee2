@@ -5,6 +5,7 @@
 #include "../Data/ConfigStorage.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
+#include "../Data/Parent/ParentDataProvider.h"
 
 using namespace cocos2d;
 using namespace cocos2d::network;
@@ -137,7 +138,10 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     //Add no cache to requests, to avoid caching
     headers.push_back("Cache-Control: no-cache");
     
-    if(!requestBody.empty()) headers.push_back("Content-Type: application/json;charset=UTF-8");    //Adding content type to header only, if there is data in the request.
+    if(!requestBody.empty())
+    {
+        headers.push_back("Content-Type: application/json;charset=UTF-8");    //Adding content type to header only, if there is data in the request.
+    }
     
     if(encrypted)                                                             //parentLogin (and register parent) is the only nonencrypted call. JWTTool is called unless the request is not coming from login.
     {
@@ -156,6 +160,10 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
         
         headers.push_back("x-az-req-datetime: " + getDateFormatString());
         headers.push_back("x-az-auth-token: " + myRequestString);
+        
+        //add country code to the request headers
+        
+        headers.push_back("X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode());
     }
     
     headers.push_back(StringUtils::format("x-az-appversion: %s", ConfigStorage::getInstance()->getVersionNumberWithPlatform().c_str()));
