@@ -9,6 +9,8 @@
 #include "ArtAppDelegate.h"
 #include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include "ChatDelegate.h"
 
 USING_NS_CC;
 
@@ -25,14 +27,14 @@ ArtAppDelegate* ArtAppDelegate::getInstance()
     return sArtAppDelegateSharedInstance.get();
 }
 
-std::string ArtAppDelegate::getFileName()
+std::string ArtAppDelegate::getFileName() const
 {
-    return fileName;
+    return filename;
 }
 
-void ArtAppDelegate::setFileName(std::string filename)
+void ArtAppDelegate::setFileName(const std::string& filename)
 {
-    this->fileName = filename;
+    this->filename = filename;
 }
 
 void ArtAppDelegate::onArtAppNavigationBack()
@@ -40,11 +42,28 @@ void ArtAppDelegate::onArtAppNavigationBack()
     ArtAppRunning = false;
     
     if(HQHistoryManager::getInstance()->isOffline)
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineArtsAppHQ));
+    }
     else
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+    }
     
-    
+}
+
+void ArtAppDelegate::onArtAppShareImage()
+{
+    ChatDelegate::getInstance()->_imageFileName = filename;
+    if(filename != "")
+    {
+        if(!HQHistoryManager::getInstance()->isOffline && ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
+            ArtAppRunning = false;
+            Director::getInstance()->getTextureCache()->reloadTexture(filename);
+            Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
+        }
+    }
 }
 
 

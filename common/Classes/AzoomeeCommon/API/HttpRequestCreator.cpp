@@ -131,7 +131,6 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     
     const char* postData = requestBody.c_str();
     request->setRequestData(postData, strlen(postData) + 1); //+1 is required to get the termination string. Otherwise random memory garbage can be added to the string by accident.
-    
     std::vector<std::string> headers;
     
     //Add no cache to requests, to avoid caching
@@ -188,11 +187,12 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
     std::string requestTag = response->getHttpRequest()->getTag();
     
-    cocos2d::log("request tag: %s", requestTag.c_str());
-    cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
-    cocos2d::log("response code: %ld", response->getResponseCode());
-    cocos2d::log("response header: %s", responseHeaderString.c_str());
-    cocos2d::log("response string: %s", responseDataString.c_str());
+    cocos2d::log("ASITEST request tag: %s", requestTag.c_str());
+    //cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
+    cocos2d::log("ASITEST request body size: %ld", strlen(response->getHttpRequest()->getRequestData()));
+    cocos2d::log("ASITEST response code: %ld", response->getResponseCode());
+    cocos2d::log("ASITEST response header: %s", responseHeaderString.c_str());
+    cocos2d::log("ASITEST response string size: %ld", responseDataString.size());
     
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
     {

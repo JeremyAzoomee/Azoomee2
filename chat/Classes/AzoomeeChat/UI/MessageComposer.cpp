@@ -4,6 +4,8 @@
 #include <AzoomeeCommon/Strings.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Utils/DirectorySearcher.h>
+#include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 
 using namespace cocos2d;
 
@@ -47,15 +49,53 @@ bool MessageComposer::init()
     
     createTopUIContent(_topLayout);
     
-    // Sticker selector sits under the top
+    // Selectors sit under the top
+    _selectorLayout = ui::Layout::create();
+    _selectorLayout->setLayoutType(ui::Layout::Type::RELATIVE);
+    addChild(_selectorLayout);
+    
+    // Stickers
     _stickerSelector = StickerSelector::create();
+    _stickerSelector->setSizeType(ui::Widget::SizeType::PERCENT);
+    _stickerSelector->setSizePercent(Vec2(1.0f, 1.0f));
     _stickerSelector->setTabBarHeight(_topLayout->getContentSize().height);
-    _stickerSelector->setLayoutParameter(CreateTopLinearLayoutParam());
+    _stickerSelector->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
     _stickerSelector->addStickerSelectedEventListener([this](const StickerRef& sticker) {
         // Sticker selected
         sendMessage(sticker);
     });
-    addChild(_stickerSelector);
+
+    //_selectorLayout->addChild(_stickerSelector);
+    
+    // Art
+    ui::Layout* artBG = ui::Layout::create();
+    artBG->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    artBG->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    artBG->setBackGroundColor(Style::Color::grapePurpleTwo);
+    artBG->setSizeType(ui::Widget::SizeType::PERCENT);
+    artBG->setSizePercent(Vec2(1.0f,1.0f));
+    _selectorLayout->addChild(artBG);
+    
+    _artListView = ArtListView::create();
+    _artListView->setLayoutParameter(CreateTopCenterRelativeLayoutParam());
+    _artListView->setSizeType(ui::Widget::SizeType::PERCENT);
+    _artListView->setSizePercent(Vec2(1.0f, 0.99f));
+    
+    const std::string& artDir = FileUtils::getInstance()->getWritablePath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
+    const auto& files = DirectorySearcher::getInstance()->getImagesInDirectory(artDir);
+    std::vector<std::string> fullFiles;
+    
+    for(auto file : files)
+    {
+        fullFiles.push_back(StringUtils::format("%s/%s",artDir.c_str(), file.c_str()));
+    }
+    _artListView->setItems(fullFiles);
+    
+    _artListView->addItemSelectedEventListener([this](const std::string& artFile){
+        sendArtMessage(artFile);
+    });
+    artBG->addChild(_stickerSelector);
+    artBG->addChild(_artListView);
 
     // Default to Idle
     setMode(MessageComposer::Mode::Idle);
@@ -82,6 +122,12 @@ void MessageComposer::onEnter()
     _touchListener->onTouchMoved = CC_CALLBACK_2(MessageComposer::onTouchMoved, this);
     _touchListener->onTouchEnded = CC_CALLBACK_2(MessageComposer::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
+    
+    if(delegate->_imageFileName != "")
+    {
+        sendArtMessage(delegate->_imageFileName);
+        delegate->_imageFileName = "";
+    }
 }
 
 void MessageComposer::onExit()
@@ -124,7 +170,7 @@ void MessageComposer::onSizeChanged()
     // Update the sticker selector to use the latest keyboard height we have
     // At the same time, resize to fill the width of it's parent
     const float keyboardHeight = getEstimatedKeyboardHeight();
-    _stickerSelector->setContentSize(Size(_stickerSelector->getParent()->getContentSize().width, keyboardHeight));
+    _selectorLayout->setContentSize(Size(_selectorLayout->getParent()->getContentSize().width, keyboardHeight));
     
     // Size the text entry field
     const Size& textEntryMaxSize = _messageEntryField->getParent()->getContentSize();
@@ -233,6 +279,11 @@ void MessageComposer::onKeyboardResizeEnded(float keyboardHeight)
     if(_stickerSelector->isVisible() && _currentMode != MessageComposer::Mode::StickersEntry)
     {
         _stickerSelector->setVisible(false);
+    }
+    
+    if(_artListView->isVisible() && _currentMode != MessageComposer::Mode::ArtGalleryEntry)
+    {
+        _artListView->setVisible(false);
     }
 }
 
@@ -414,6 +465,37 @@ void MessageComposer::sendMessage(const StickerRef& sticker)
     setMode(MessageComposer::Mode::Idle);
 }
 
+void MessageComposer::sendArtMessage(const std::string &artFile)
+{
+    AudioMixer::getInstance()->playEffect("boing.mp3");
+    Director::getInstance()->getScheduler()->schedule([&](float)
+    {
+        if(_delegate)
+        {
+            Sprite* artImage = Sprite::create(artFile);
+            artImage->setScale(640/artImage->getContentSize().width);
+            artImage->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+            
+            RenderTexture* renderTex = RenderTexture::create(640, artImage->getContentSize().height * artImage->getScale());
+            renderTex->beginWithClear(0, 0, 0, 0);
+            artImage->visit();
+            renderTex->end();
+            renderTex->saveToFile("temp.png", Image::Format::PNG);
+            Director::getInstance()->getRenderer()->render();
+            
+            char* str = nullptr;
+            const std::string& filecont =  FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getWritablePath() + "temp.png");
+            base64Encode((unsigned char*)filecont.c_str(), (unsigned int)filecont.length(), &str);
+            FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "temp.png");
+            const MessageRef& messageObj = Message::createArtMessage(std::string(str));
+            _delegate->onMessageComposerSendMessage(messageObj);
+        }
+    }, this, 0, 0, 0.2f, false, "sendArt");
+    
+    setMode(MessageComposer::Mode::Idle);
+    _messageEntryField->setString("");
+}
+
 #pragma mark - Mode
 
 MessageComposer::Mode MessageComposer::currentMode() const
@@ -433,7 +515,6 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
     }
     _sendButton->setVisible(_currentMode != MessageComposer::Mode::Idle);
     
-    
     // Stickers enter/exit
     if(_currentMode == MessageComposer::Mode::StickersEntry)
     {
@@ -447,7 +528,7 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
         
         // Update the sticker selector to use the latest keyboard height we have
         const float keyboardHeight = getEstimatedKeyboardHeight();
-        _stickerSelector->setContentSize(Size(_stickerSelector->getContentSize().width, keyboardHeight));
+        _selectorLayout->setContentSize(Size(_stickerSelector->getContentSize().width, keyboardHeight));
         _stickerSelector->setVisible(true);
     }
     else
@@ -458,6 +539,31 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
         const float buttonWidth = _stickersTab->getContentSize().width;
         const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
         _stickersTab->setContentSize(Size(buttonWidth, buttonHeight));
+    }
+    
+    if(_currentMode == MessageComposer::Mode::ArtGalleryEntry)
+    {
+        // Stickers button requires some resizing when selected, since the aspect ratio of the
+        // selected and normal images is different
+        _galleryTab->loadTextureNormal("res/chat/ui/buttons/art_active.png");
+        const Size& textureSize = _galleryTab->getRendererNormal()->getTexture()->getContentSize();
+        const float buttonWidth = _galleryTab->getContentSize().width;
+        const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
+        _galleryTab->setContentSize(Size(buttonWidth, buttonHeight));
+        
+        // Update the sticker selector to use the latest keyboard height we have
+        const float keyboardHeight = getEstimatedKeyboardHeight();
+        _selectorLayout->setContentSize(Size(_artListView->getContentSize().width, keyboardHeight));
+        _artListView->setVisible(true);
+    }
+    else
+    {
+        // Restore the stickers tab
+        _galleryTab->loadTextureNormal("res/chat/ui/buttons/art_btn.png");
+        const Size& textureSize = _galleryTab->getRendererNormal()->getTexture()->getContentSize();
+        const float buttonWidth = _galleryTab->getContentSize().width;
+        const float buttonHeight = textureSize.height / textureSize.width * buttonWidth;
+        _galleryTab->setContentSize(Size(buttonWidth, buttonHeight));
     }
     
     
@@ -488,11 +594,16 @@ void MessageComposer::setMode(MessageComposer::Mode mode)
         }
     }
     
-    
     // Resize the view appropriately
     
     // Stickers enter state
     if(_currentMode == MessageComposer::Mode::StickersEntry && oldMode != MessageComposer::Mode::StickersEntry)
+    {
+        // Match the normal keyboard height or if that isn't available, an estimated height
+        const float keyboardHeight = getEstimatedKeyboardHeight();
+        resizeUIForKeyboard(keyboardHeight, 0.25f);
+    }
+    else if(_currentMode == MessageComposer::Mode::ArtGalleryEntry && oldMode != MessageComposer::Mode::ArtGalleryEntry)
     {
         // Match the normal keyboard height or if that isn't available, an estimated height
         const float keyboardHeight = getEstimatedKeyboardHeight();
@@ -736,10 +847,9 @@ void MessageComposer::createTabButtonsUI(cocos2d::ui::Layout* parent)
     _galleryTab->getRendererNormal()->setStrechEnabled(true);
     _galleryTab->setAnchorPoint(Vec2(0.0f, 1.0f));
     _galleryTab->setContentSize(Size(buttonHeight, buttonHeight));
-    _galleryTab->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(tabMarginX, 0, 0, 0)));
+    _galleryTab->setLayoutParameter(CreateLeftLinearLayoutParam(ui::Margin(tabMarginX, (_topLayout->getContentSize().height - buttonHeight) / 2, 0, 0)));
     _galleryTab->addClickEventListener([this](Ref* button){
-        // Set to idle until we support gallery feature
-        setMode(MessageComposer::Mode::Idle);
+        setMode(MessageComposer::Mode::ArtGalleryEntry);
     });
     parent->addChild(_galleryTab);
 #endif

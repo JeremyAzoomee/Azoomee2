@@ -10,10 +10,11 @@
 #include "../Data/Sticker.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
+#include "ArtListView.h"
 
 
 // Enable this define to display gallery art tab on composer
-//#define AZOOMEE_CHAT_GALLERY_SHARE
+#define AZOOMEE_CHAT_GALLERY_SHARE
 
 
 NS_AZOOMEE_CHAT_BEGIN
@@ -69,15 +70,21 @@ private:
     /// Border above composer
     cocos2d::ui::Layout* _composerTopBorder = nullptr;
     
+    /// Layout to hold various selectors, i.e chat & art
+    cocos2d::ui::Layout* _selectorLayout = nullptr;
+    
     /// Stickers tab button
     cocos2d::ui::Button* _stickersTab = nullptr;
+    /// The stickers selector widget
+    StickerSelector* _stickerSelector = nullptr;
+    
 #ifdef AZOOMEE_CHAT_GALLERY_SHARE
     /// Gallery tab button
     cocos2d::ui::Button* _galleryTab = nullptr;
+    /// Art gallery selector
+    ArtListView* _artListView = nullptr;
 #endif
     
-    /// The stickers selector widget
-    StickerSelector* _stickerSelector = nullptr;
     
     /// Touch event listener
     cocos2d::EventListenerTouchOneByOne* _touchListener = nullptr;
@@ -98,6 +105,8 @@ private:
     void sendMessage(const std::string& message);
     /// Send a message (sticker type) via the delegate
     void sendMessage(const StickerRef& sticker);
+    /// Send a message (Art type) via the delegate
+    void sendArtMessage(const std::string& artFile);
     
     /// Called when we should resize UI elements to fit a keyboard
     /// If a duration > 0 is provided, it will be animated

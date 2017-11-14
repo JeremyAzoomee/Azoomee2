@@ -64,6 +64,27 @@ bool MessageListViewItem::init()
     _stickerImage->setLayoutParameter(CreateCenterRelativeLayoutParam());
     _stickerLayout->addChild(_stickerImage);
     
+    // Art layout to hold art image
+    _artLayout = ui::Layout::create();
+    _artLayout->setLayoutType(ui::Layout::Type::RELATIVE);
+    _artLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
+    _contentLayout->addChild(_artLayout);
+    
+    // Art image
+    _artImage = RemoteImageSprite::create();
+    _artImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _artImage->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
+    //_artLayout->addChild(_artImage);
+    
+    // Art Stencil
+    _imageStencil = ui::Scale9Sprite::create("res/artapp/popup_bg.png");
+    _imageStencil->setContentSize(_artImage->getContentSize());
+    _imageStencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+    // Art clipping node
+    _imageMask = ClippingNode::create(_imageStencil);
+    _imageMask->setAlphaThreshold(0.5f);
+    _imageMask->addChild(_artImage);
+    _artLayout->addChild(_imageMask);
     
     // By default setup content as blank
     setAlignment(Alignment::Left);
@@ -156,6 +177,28 @@ void MessageListViewItem::resizeItemContents()
         const Size& contentSize = Size(imageSize.width + (contentPadding.x * 2), imageSize.height + (contentPadding.y * 2));
         _contentLayout->setContentSize(contentSize);
     }
+    else if(_artLayout->isVisible())
+    {
+        // Resize the sticker, ensuring it keeps it's aspect ratio
+        const float maxHeight = 800.0f; // TODO: Get from config
+        const Size& textureSize = _artImage->getContentSize();
+        Size imageSize = Size(maxWidth - (contentPadding.x * 2.0f), maxHeight - (contentPadding.y * 2.0f));
+        if(textureSize.width > textureSize.height)
+        {
+            imageSize.height = textureSize.height / textureSize.width * imageSize.width;
+        }
+        else
+        {
+            imageSize.width = textureSize.width / textureSize.height * imageSize.height;
+        }
+        _artImage->setContentSize(imageSize);
+        _imageStencil->setContentSize(imageSize);
+        _imageMask->setContentSize(imageSize);
+        _artLayout->setContentSize(imageSize);
+        _artImage->resizeImage();
+        const Size& contentSize = Size(imageSize.width + (contentPadding.x * 2), imageSize.height + (contentPadding.y * 2));
+        _contentLayout->setContentSize(contentSize);
+    }
     
     // Ensure the item height is big enough
     Size itemSize = getContentSize();
@@ -201,6 +244,10 @@ void MessageListViewItem::setData(const MessageRef& message)
                 messageText = "Sticker not recognised";
             }
         }
+        else if(messageType == Message::MessageTypeArt)
+        {
+            _artImage->initWithUrlAndSizeWithoutPlaceholder(message->artURL(), Size(getContentSize().width/2,getContentSize().width/2 * 10.0f/16.0f));
+        }
         else
         {
             // TODO: Get not supported text from Strings
@@ -210,10 +257,30 @@ void MessageListViewItem::setData(const MessageRef& message)
         // Update the visiblity of elements depending on the message content
         _textLabel->setString(messageText);
         _bubbleLayout->setVisible(messageText.size() > 0);
-        _stickerLayout->setVisible(messageText.size() == 0);
-        if(!_stickerLayout->isVisible())
+        if(!_bubbleLayout->isVisible())
         {
-            _stickerImage->loadTexture("");
+            if(_messageData->messageType() == Message::MessageTypeArt)
+            {
+                _artLayout->setVisible(true);
+            }
+            else
+            {
+                _artLayout->setVisible(false);
+            }
+        
+            if(_messageData->messageType() == Message::MessageTypeSticker)
+            {
+                _stickerLayout->setVisible(true);
+            }
+            else
+            {
+                _stickerLayout->setVisible(false);
+            }
+        }
+        else
+        {
+            _stickerLayout->setVisible(false);
+            _artLayout->setVisible(false);
         }
         
         // Color depends also on current user
@@ -229,6 +296,7 @@ void MessageListViewItem::setData(const MessageRef& message)
         _textLabel->setTextColor(Color4B(Style::Color::black));
         _stickerLayout->setVisible(false);
         _bubbleLayout->setVisible(false);
+        _artLayout->setVisible(false);
     }
     
     if(getContentSize().width > 0)

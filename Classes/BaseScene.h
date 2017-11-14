@@ -3,6 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include "network/HttpClient.h"
 
 NS_AZOOMEE_BEGIN
 

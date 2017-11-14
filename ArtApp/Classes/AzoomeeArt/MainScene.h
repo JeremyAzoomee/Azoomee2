@@ -15,20 +15,25 @@ class MainScene : public cocos2d::Layer
     typedef cocos2d::Layer Super;
 private:
     cocos2d::ui::Button* _backButton = nullptr;
+    cocos2d::ui::Button* _shareButton = nullptr;
     DrawingCanvas* _drawingCanvas = nullptr;
     DrawingCanvasUILayer* _uiLayer = nullptr;
     std::string _fileName;
+    
+    void saveFile();
 public:
     static cocos2d::Scene* createScene();
     static cocos2d::Scene* createSceneWithDrawing(const std::string& fileName);
     virtual bool init();
     
     void addBackButton();
+    void addShareButton();
     
     void backButtonCallBack();
+    void shareButtonCallBack();
     
     void saveFileAndExit();
-    
+    void saveAndSendFile();
     // implement the "static create()" method manually
     CREATE_FUNC(MainScene);
 };

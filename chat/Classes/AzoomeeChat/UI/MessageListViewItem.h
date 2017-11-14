@@ -5,7 +5,7 @@
 #include "../Data/Message.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
-
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 
 NS_AZOOMEE_CHAT_BEGIN
     
@@ -40,6 +40,13 @@ private:
     cocos2d::ui::Layout* _stickerLayout = nullptr;
     /// Sticker image
     cocos2d::ui::ImageView* _stickerImage = nullptr;
+    
+    /// Art container
+    cocos2d::ui::Layout* _artLayout = nullptr;
+    /// Art image
+    RemoteImageSprite* _artImage = nullptr;
+    cocos2d::ClippingNode* _imageMask = nullptr;
+    cocos2d::ui::Scale9Sprite* _imageStencil = nullptr;
     
     
     /// Resize the item height to fit the contents
