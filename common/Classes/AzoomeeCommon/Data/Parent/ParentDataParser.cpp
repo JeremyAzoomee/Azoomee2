@@ -267,6 +267,7 @@ void ParentDataParser::clearParentLoginDataFromUserDefaults()
     def->setStringForKey("loggedInParentApiSecret", "");
     def->setStringForKey("loggedInParentApiKey", "");
     def->setStringForKey("loggedInParentActorStatus", "");
+    def->setStringForKey("loggedInParentCountryCode", "");
     def->flush();
 }
     
