@@ -329,15 +329,14 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, s
                 FileUtils::getInstance()->removeFile(filePath);
                 if(!HQHistoryManager::getInstance()->isOffline)
                 {
-                    HQScene *hqScene = (HQScene *)this->getParent()->getParent()->getParent();
-                    CCLOG("Name where I am : %s", hqScene->getName().c_str());
+                    HQScene *hqScene = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName("ARTS APP");
                     hqScene->removeAllChildren();
                     Director::getInstance()->purgeCachedData();
                     hqScene->startBuildingScrollViewBasedOnName();
                 }
                 else
                 {
-                    HQScene* hqScene = (HQScene *)this->getParent()->getParent()->getParent()->getParent();
+                    HQScene* hqScene = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName("ARTS APP");
                     hqScene->removeChildByName("ArtScrollView");
                     Director::getInstance()->purgeCachedData();
                     auto offlineArtsAppScrollView = HQSceneArtsApp::create();
