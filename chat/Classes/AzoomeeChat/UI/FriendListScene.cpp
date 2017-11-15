@@ -99,9 +99,9 @@ void FriendListScene::onSizeChanged()
     const Vec2& contentLayoutSize = Vec2(1.0f, 1.0f - titleBarSize.y);
     _contentLayout->setSizePercent(contentLayoutSize);
     // Subtitle bar uses same height as title bar
-    _subTitleBar->setContentSize(Size(contentSize.width, 2.0f));
-    
-    _friendListView->setSizePercent(Vec2(0.9f, 1.0f));
+    _subTitleBar->setSizePercent(Vec2(1.0f, 0.01f));
+    _subTitleBarBorder->setContentSize(Size(contentSize.width,2.0f));
+    _friendListView->setSizePercent(Vec2(0.9f, 0.99));
     // 2 column on landscape, 1 column portrait
     _friendListView->setColumns((isLandscape) ? 2 : 1);
 
@@ -118,12 +118,10 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
     // Subtitle bar
     _subTitleBar = ui::Layout::create();
     _subTitleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
-    _subTitleBar->setSizeType(ui::Widget::SizeType::ABSOLUTE);
-    _subTitleBar->setContentSize(Size(this->getContentSize().width, 2.0f));
     _subTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBar->setBackGroundColor(Style::Color::greenishTeal);
-    _subTitleBar->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+    _subTitleBar->setBackGroundColor(Style::Color::darkTwo);
     parent->addChild(_subTitleBar);
+    createSubTitleBarUI(_subTitleBar);
     
     // Contact list
     _friendListView = FriendListView::create();
@@ -134,6 +132,7 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
 
 void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
 {
+    parent->setLayoutType(ui::Layout::Type::RELATIVE);
     
     // Border at bottom
     _subTitleBarBorder = ui::Layout::create();
