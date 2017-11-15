@@ -94,6 +94,28 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
 
 }
 
+void DynamicNodeHandler::createDynamicNodeByIdWithParams(const std::string& uniqueId, const std::string& params)
+{
+    //local device folder
+    const std::string& ctaPath = getCTADirectoryPath();
+    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPath);
+    
+    for(const std::string& folder : folders)
+    {
+        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPath + folder);
+        for(const std::string& file : fileNames)
+        {
+            if(file == uniqueId)
+            {
+                AnalyticsSingleton::getInstance()->ctaWindowAppeared("N/A", uniqueId);
+                createDynamicNodeFromFileWithParams(ctaPath + folder + "/" + file, params);
+                return;
+            }
+        }
+    }
+    
+}
+
 void DynamicNodeHandler::getCTAFiles()
 {
     checkIfVersionChangedFromLastCTAPull();
@@ -316,6 +338,12 @@ void DynamicNodeHandler::removeCTAFiles()
 void DynamicNodeHandler::createDynamicNodeFromFile(const std::string &file)
 {
     Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(file);
+    Director::getInstance()->getRunningScene()->addChild(cta);
+}
+
+void DynamicNodeHandler::createDynamicNodeFromFileWithParams(const std::string &file, const std::string& params)
+{
+    Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFileWithParams(file, params);
     Director::getInstance()->getRunningScene()->addChild(cta);
 }
 

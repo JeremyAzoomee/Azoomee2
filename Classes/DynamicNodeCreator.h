@@ -40,6 +40,10 @@ private:
     cocos2d::ui::Scale9Sprite* _stencil = nullptr;
     cocos2d::Sprite* _maskedBGImage = nullptr;
     
+    // external parameters
+    rapidjson::Document _externParams;
+    bool _usingExternalParams = false;
+    
     
     void initCTANode();
     void configNodeSize(const rapidjson::Value& sizePercentages);
@@ -54,6 +58,7 @@ private:
     void addButtonWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData);
     void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& filename);
     void addTextWithParams(int fontSize, cocos2d::Color4B fontColour, const rapidjson::Value& params);
+    std::string addExternalParamsToString(std::string str);
     
 public:
     static DynamicNodeCreator* getInstance(void);
@@ -61,6 +66,7 @@ public:
     bool init(void);
     
     cocos2d::Node* createCTAFromFile(const std::string& filepath);
+    cocos2d::Node* createCTAFromFileWithParams(const std::string& filepath, const std::string& params);
     void resetCTAPopup();
 };
 

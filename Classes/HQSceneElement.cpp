@@ -177,7 +177,8 @@ void HQSceneElement::startUpElementDependingOnType()
     
     if(elementItemData->getType() == "GAME")
     {
-        GameDataManager::getInstance()->startProcessingGame(elementItemData);
+        DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams("test.json", elementItemData->getJSONRepresentationOfStructure());
+        //GameDataManager::getInstance()->startProcessingGame(elementItemData);
     }
     else if((elementItemData->getType() == "VIDEO") || (elementItemData->getType() == "AUDIO"))
     {

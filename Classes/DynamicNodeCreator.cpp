@@ -39,9 +39,90 @@ bool DynamicNodeCreator::init(void)
 
 Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
 {
+    _usingExternalParams = false;
     //Init CTA objects
     initCTANode();
 
+    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(filepath);
+    
+    rapidjson::Document configFile;
+    configFile.Parse(jsonString.c_str());
+    
+    if(configFile.HasParseError())
+    {
+        return _CTANode;
+    }
+    
+    
+    
+    /*
+     values not used:
+     nodeId, groupId
+     these are specific for asset gathering and storing purposes, not needed in theis viewer
+     */
+    //config node size
+    if(configFile.HasMember("nodeSize"))
+    {
+        const rapidjson::Value& sizePercentages = configFile["nodeSize"];
+        configNodeSize(sizePercentages);
+    }
+    
+    //config close button
+    if(configFile.HasMember("closeButton"))
+    {
+        const rapidjson::Value& closeButtonToggle = configFile["closeButton"];
+        configCloseButton(closeButtonToggle);
+    }
+    
+    //config background colour
+    if(configFile.HasMember("backgroundColour"))
+    {
+        const rapidjson::Value& backgroundColour = configFile["backgroundColour"];
+        configBackgroundColour(backgroundColour);
+    }
+    
+    //config background image
+    if(configFile.HasMember("backgroundImage"))
+    {
+        const rapidjson::Value& backgroundImageData = configFile["backgroundImage"];
+        configBackgroundImage(backgroundImageData);
+    }
+    
+    //config text
+    if(configFile.HasMember("nodeText"))
+    {
+        const rapidjson::Value& textData = configFile["nodeText"];
+        configText(textData);
+    }
+    
+    //config buttons
+    
+    if(configFile.HasMember("buttons"))
+    {
+        const rapidjson::Value& buttonsList = configFile["buttons"];
+        configButtons(buttonsList);
+    }
+    
+    //config extra images
+    if(configFile.HasMember("images"))
+    {
+        const rapidjson::Value& imageList = configFile["images"];
+        configExtraImages(imageList);
+    }
+    
+    //return resultant CTA node
+    return _CTANode;
+    
+}
+
+Node* DynamicNodeCreator::createCTAFromFileWithParams(const std::string& filepath, const std::string& params)
+{
+    _externParams.Parse(params.c_str());
+    _usingExternalParams = !_externParams.HasParseError();
+    
+    //Init CTA objects
+    initCTANode();
+    
     const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(filepath);
     
     rapidjson::Document configFile;
@@ -243,11 +324,12 @@ void DynamicNodeCreator::configBackgroundColour(const rapidjson::Value &backgrou
 void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroundImageData)
 {
     _maskedBGImage->setVisible(true);
-    const std::string filename = getStringFromJson("file", backgroundImageData);
+    const std::string& filename = getStringFromJson("file", backgroundImageData);
     bool imagefound = false;
     
     if(filename != "")
     {
+        
         if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename))
         {
             _maskedBGImage->initWithFile(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename);
@@ -377,7 +459,7 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
             }
             
             
-            const std::string filename = getStringFromJson("file", imageList[i]);
+            const std::string& filename = getStringFromJson("file", imageList[i]);
             
             if(filename != "")
             {
@@ -472,8 +554,14 @@ void DynamicNodeCreator::addImageWithParams(const Vec2& size, const Vec2& pos, i
 void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, const rapidjson::Value& params)
 {
     Vec2 pos = getVec2FromJson("position", params)/100.0f;
-    const std::string text = getStringFromJson("text", params);
-    const std::string alignment = getStringFromJson("alignment", params);
+    std::string text = getStringFromJson("text", params);
+    
+    if(_usingExternalParams)
+    {
+        text = addExternalParamsToString(text);
+    }
+    
+    const std::string& alignment = getStringFromJson("alignment", params);
     int newFontSize = getIntFromJson("fontSize", params);
     if(newFontSize != INT_MAX)
     {
@@ -510,6 +598,26 @@ void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, con
     }
     
     _textLayer->addChild(label);
+}
+
+std::string DynamicNodeCreator::addExternalParamsToString(std::string str)
+{
+    std::string result = "";
+    long i = str.find("<");
+    
+    while (i < str.npos)
+    {
+        result += str.substr(0,i);
+        std::string paramName = str.substr(i+1,str.find(">") - (i+1));
+        str = str.substr(str.find(">") + 1);
+        result += getStringFromJson(paramName, _externParams);
+        i = str.find("<");
+    }
+    
+    result += str;
+    
+    
+    return result;
 }
 
 void DynamicNodeCreator::resetCTAPopup()
