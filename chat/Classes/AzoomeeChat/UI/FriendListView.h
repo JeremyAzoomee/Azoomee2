@@ -44,6 +44,8 @@ public:
     /// Register for backbutton click events
     void addItemSelectedEventListener(const ItemSelectedCallback& callback);
     
+    void hideUnreadIndicators();
+    
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void onExit() override;

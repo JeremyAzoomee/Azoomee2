@@ -26,6 +26,7 @@ public:
     void removeLoadedImage();
     
     void setAttachNewBadgeToImage();
+    void resizeImage();
     
 private:
     RemoteImageSprite();

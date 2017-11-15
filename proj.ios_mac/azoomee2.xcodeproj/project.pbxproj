@@ -48,8 +48,6 @@
 		300AD6921F0B9ACB0049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; };
 		300AD6991F0B9CD40049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; };
 		301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA921EB139C1009ADA0C /* SettingsButton.cpp */; };
-		302679A11F0A41770047BC7C /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		302679A31F0A41770047BC7C /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		304D9EB31EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9E9F1EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib */; };
 		304D9EB41EA8F849008CED52 /* MPTakeoverNotificationViewController~iphonelandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA01EA8F849008CED52 /* MPTakeoverNotificationViewController~iphonelandscape.xib */; };
 		304D9EB51EA8F849008CED52 /* MPTakeoverNotificationViewController~iphoneportrait.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EA11EA8F849008CED52 /* MPTakeoverNotificationViewController~iphoneportrait.xib */; };
@@ -536,11 +534,9 @@
 				304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */,
 				43A90DE51EA7603800606099 /* WatchKit.framework in Frameworks */,
 				43A90CE31EA7560500606099 /* Accelerate.framework in Frameworks */,
-				302679A31F0A41770047BC7C /* (null) in Frameworks */,
 				43A90CE11EA755FF00606099 /* CoreTelephony.framework in Frameworks */,
 				43A90CDF1EA755F000606099 /* SystemConfiguration.framework in Frameworks */,
 				43A90CDD1EA755E200606099 /* Foundation.framework in Frameworks */,
-				302679A11F0A41770047BC7C /* (null) in Frameworks */,
 				43A90CDB1EA755D600606099 /* UIKit.framework in Frameworks */,
 				300AD6991F0B9CD40049A24F /* PusherSwift.framework in Frameworks */,
 				3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */,
