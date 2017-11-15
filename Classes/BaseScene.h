@@ -21,6 +21,7 @@ public:
     
 private:
     void createHQScene(std::string sceneName, Node* toBeAddedTo);
+    void createHQScene2(std::string sceneName, Node* toBeAddedTo);
     cocos2d::Layer* createContentLayer();
     void addNavigationLayer();
     void onEnterTransitionDidFinish();

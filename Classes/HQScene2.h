@@ -1,5 +1,5 @@
-#ifndef __HQSCENE_H__
-#define __HQSCENE_H__
+#ifndef __HQSCENE2_H__
+#define __HQSCENE2_H__
 
 #include <cocos/cocos2d.h>
 #include "ui/UIScrollView.h"
@@ -24,15 +24,16 @@ private:
     
     cocos2d::Vec2 _origin;
     cocos2d::Size _visibleSize;
-    cocos2d::Size _unitSize;
+    float _unitMultiplier = 0;
     
     void addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView);
 
     cocos2d::ui::ScrollView* createScrollView();
+    cocos2d::Layer* addElementToCarousel(cocos2d::ui::ScrollView *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
     
     //creating carousel elements
     cocos2d::Layer* createNewCarousel();
-    cocos2d::Size calculateUnitSize();
+    float calculateUnitMultiplier();
 };
 
 NS_AZOOMEE_END
