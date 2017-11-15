@@ -85,7 +85,7 @@ cocos2d::Size FriendListView::calculateItemSize() const
     const cocos2d::Size& contentSize = getContentSize();
     
     const float itemWidth = contentSize.width * 1.0f / _columns;
-    const float widthToHeightRatio = (_columns == 1) ? 0.24f : 0.3f;
+    const float widthToHeightRatio = (_columns == 1) ? 0.24f : 0.28f;
     const float itemHeight = itemWidth * widthToHeightRatio;
     return cocos2d::Size(itemWidth, itemHeight);
 }
@@ -182,6 +182,10 @@ void FriendListView::setItems(const FriendList& friendList)
         }
     }
     
+    // top padding
+    ui::Layout* topPadding = ui::Layout::create();
+    topPadding->setContentSize(Size(getContentSize().width,calculateItemSize().height/5.0f));
+    pushBackCustomItem(topPadding);
     // Add items to the list in columns
     const cocos2d::Size& itemSize = calculateItemSize();
     for(int row = 0; row < itemsByColumn[0].size(); ++row)
@@ -232,7 +236,7 @@ void FriendListView::setItems(const FriendList& friendList)
     const cocos2d::Size& contentSize = getContentSize();
     
     // Have we filled the size of the list? If not add enough items to fill the height
-    const float totalHeight = ((itemMargin + itemSize.height) * itemCount) - itemMargin;
+    const float totalHeight = ((itemMargin + itemSize.height) * itemCount) - itemMargin - topPadding->getContentSize().height;
     if(totalHeight < contentSize.height)
     {
         const float heightDiff = contentSize.height - totalHeight;
