@@ -119,7 +119,7 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
     _subTitleBar = ui::Layout::create();
     _subTitleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _subTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    _subTitleBar->setBackGroundColor(Style::Color::darkTwo);
+    _subTitleBar->setBackGroundColor(Style::Color::dark);
     parent->addChild(_subTitleBar);
     createSubTitleBarUI(_subTitleBar);
     

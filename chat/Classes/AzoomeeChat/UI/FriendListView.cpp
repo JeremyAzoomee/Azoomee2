@@ -85,7 +85,7 @@ cocos2d::Size FriendListView::calculateItemSize() const
     const cocos2d::Size& contentSize = getContentSize();
     
     const float itemWidth = contentSize.width * 1.0f / _columns;
-    const float widthToHeightRatio = (_columns == 1) ? 0.175f : 0.25f;
+    const float widthToHeightRatio = (_columns == 1) ? 0.24f : 0.3f;
     const float itemHeight = itemWidth * widthToHeightRatio;
     return cocos2d::Size(itemWidth, itemHeight);
 }
@@ -314,7 +314,7 @@ ui::Layout* FriendListView::createAddFriendButton()
     label->setFontSize(70.0f);
     label->setTextColor(Color4B(Style::Color::white));
     label->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(75.0f, 0, 0, 0)));
-    label->setString("Add Friend");
+    label->setString("Add Friends");
     contentLayout->addChild(label);
     
     return addFriendButton;
