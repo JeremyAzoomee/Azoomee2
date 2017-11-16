@@ -13,7 +13,7 @@ class HQScene : public cocos2d::Layer
 public:
     CREATE_FUNC(HQScene);
     static cocos2d::Scene* createSceneForOfflineArtsAppHQ();
-    virtual bool init();
+    virtual bool init() override;
     void startBuildingScrollViewBasedOnName();
 
 private:

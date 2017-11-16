@@ -12,14 +12,14 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "HQHistoryManager.h"
+#include "ContentHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "OfflineHubBackButton.h"
 #include "HQSceneArtsApp.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
-
 #include "ImageConverterLoadingLayer.h"
-
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
@@ -92,8 +92,29 @@ void HQScene::startBuildingScrollViewBasedOnName()
                 }
             }
         }
-        else createBidirectionalScrollView();
+        else
+        {
+            createBidirectionalScrollView();
+            
+            if(ContentHistoryManager::getInstance()->getReturnedFromContent() && this->getName() != "GROUP HQ")
+            {
+                ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+                std::vector<HQCarouselObjectRef> hqCarousels = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(this->getName())->getHqCarousels();
+                if(hqCarousels.size() > 0)
+                {
+                    HQCarouselObjectRef randomCarousel = hqCarousels[rand()%hqCarousels.size()];
+                    std::vector<HQContentItemObjectRef> carouselItems = randomCarousel->getContentItems();
+                    if(carouselItems.size() > 0)
+                    {
+                        HQContentItemObjectRef randomContent = carouselItems[rand()%carouselItems.size()];
+                        DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(this->getName() + ".json", randomContent->getJSONRepresentationOfStructure());
+                    }
+                }
+            }
+        }
     }
+    
+    
 }
 
 //------------------ All functions below this line are used internally ----------------------------

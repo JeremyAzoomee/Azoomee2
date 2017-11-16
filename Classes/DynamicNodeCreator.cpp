@@ -11,6 +11,8 @@
 #include "DynamicNodeButtonListener.h"
 #include "ButtonActionData.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include "HQDataProvider.h"
 
 using namespace cocos2d;
 
@@ -405,15 +407,27 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
                 continue;
             }
             
+            const std::string& btnSprite = getStringFromJson("sprite", buttonsList[i]);
+            
             const std::string& btnString = getStringFromJson("text", buttonsList[i]);
             
             if(buttonsList[i].HasMember("action"))
             {
                 const rapidjson::Value& actionParams = buttonsList[i]["action"];
                 actionData = ButtonActionData::createWithJson(actionParams);
+                
+                if(_usingExternalParams)
+                {
+                    auto actionParamsMap = actionData->getParams();
+                    for(auto& param : actionParamsMap)
+                    {
+                        param.second = addExternalParamsToString(param.second);
+                    }
+                    actionData->setParams(actionParamsMap);
+                }
             }
             
-            addButtonWithParams(size, pos, btnString, actionData);
+            addButtonWithParams(size, pos, btnString, actionData, btnSprite);
             
         }
     }
@@ -428,6 +442,7 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
             Vec2 pos;
             Vec2 size;
             int opacity;
+            bool usingRemoteImage;
             
             pos = getVec2FromJson("position",imageList[i]);
             
@@ -458,24 +473,34 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
                 opacity = 255;
             }
             
+            usingRemoteImage = getBoolFromJson("usingRemoteImage", imageList[i]);
             
-            const std::string& filename = getStringFromJson("file", imageList[i]);
-            
-            if(filename != "")
+            if(!usingRemoteImage)
             {
-                if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename))
+                const std::string& filename = getStringFromJson("file", imageList[i]);
+            
+                if(filename != "")
                 {
-                    addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename);
-                }
-                else
-                {
-                    if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + _kCTABundleImageLoc + filename))
+                    if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename))
                     {
-                        addImageWithParams(size, pos, opacity,_kCTAAssetLoc +  _kCTABundleImageLoc + filename);
+                        addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename);
+                    }
+                    else
+                    {
+                        if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + _kCTABundleImageLoc + filename))
+                        {
+                            addImageWithParams(size, pos, opacity,_kCTAAssetLoc +  _kCTABundleImageLoc + filename);
+                        }
                     }
                 }
             }
-            
+            else
+            {
+                std::string fileurl = getStringFromJson("file", imageList[i]);
+                fileurl = addExternalParamsToString(fileurl); // file url will be the id of the HQ item object
+                fileurl = HQDataProvider::getInstance()->getImageUrlForItem(fileurl, Vec2(1,1)); //get actual url of image from HQDataProvider
+                addRemoteImageWithParams(size, pos, opacity, fileurl);
+            }
         }
     }
 
@@ -506,10 +531,19 @@ void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
     }
 }
 
-void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, const std::string &buttonText, ButtonActionDataRef buttonActionData)
+void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, const std::string &buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr)
 {
+    
     ui::Button* button = ui::Button::create();
-    button->loadTextures(_kCTAAssetLoc + "rectangle_copy_3.png", _kCTAAssetLoc + "rectangle_copy_3.png"); //will be dependent on style tag
+    if(btnSpriteStr == "" || !FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + btnSpriteStr))
+    {
+        button->loadTextures(_kCTAAssetLoc + "rectangle_copy_3.png", _kCTAAssetLoc + "rectangle_copy_3.png");
+    }
+    else
+    {
+        button->loadTextures(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + btnSpriteStr,FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + btnSpriteStr);
+    }
+    
     button->setContentSize(Size(_popupButtonsLayer->getContentSize().width * size.x,_popupButtonsLayer->getContentSize().height * size.y));
     button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     button->setNormalizedPosition(pos);
@@ -546,6 +580,36 @@ void DynamicNodeCreator::addImageWithParams(const Vec2& size, const Vec2& pos, i
     }
     
     image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    image->setNormalizedPosition(pos);
+    image->setOpacity(opacity);
+    _popupImages->addChild(image);
+}
+
+void DynamicNodeCreator::addRemoteImageWithParams(const Vec2& size, const Vec2& pos, int opacity, const std::string& url)
+{
+    Sprite* tempSizeSprite = Sprite::create("res/contentPlaceholders/Games1X1.png");
+    RemoteImageSprite* image = RemoteImageSprite::create();
+    Size imageSize;
+    if(size.x > 0 && size.y > 0)
+    {
+        imageSize = Vec2((_popupImages->getContentSize().width*size.x), (_popupImages->getContentSize().height*size.y));
+    }
+    else if(size.x <= 0 && size.y <= 0)
+    {
+        imageSize = tempSizeSprite->getContentSize();
+    }
+    else if(size.x <= 0)
+    {
+        float scaleMod = (_popupImages->getContentSize().height*size.y)/tempSizeSprite->getContentSize().height;
+        imageSize = tempSizeSprite->getContentSize() * scaleMod;
+        
+    }
+    else
+    {
+        float scaleMod = (_popupImages->getContentSize().width*size.x)/tempSizeSprite->getContentSize().width;
+        imageSize = tempSizeSprite->getContentSize() * scaleMod;
+    }
+    image->initWithUrlAndSizeWithoutPlaceholder(url, imageSize);
     image->setNormalizedPosition(pos);
     image->setOpacity(opacity);
     _popupImages->addChild(image);

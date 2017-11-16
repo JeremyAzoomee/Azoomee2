@@ -30,6 +30,8 @@ public:
     
     std::string getType();
     std::map<std::string,std::string> getParams();
+    //overide function for setting parameters manually
+    void setParams(std::map<std::string, std::string> updatedParams);
     std::string getParamForKey(const std::string& key);
     
 };
