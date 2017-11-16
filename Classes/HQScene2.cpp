@@ -93,8 +93,9 @@ cocos2d::Layer* HQScene2::addElementToCarousel(cocos2d::ui::ScrollView *toBeAdde
     hqSceneElement->setItemData(itemData);
     hqSceneElement->setElementRow(rowNumber);
     hqSceneElement->setElementIndex(elementIndex);
+    hqSceneElement->setManualSizeMultiplier(_unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
+    
     hqSceneElement->addHQSceneElement();
-    hqSceneElement->setContentSize(hqSceneElement->getContentSize() * _unitMultiplier);
     
     cocos2d::Vec2 position = Vec2(elementIndex * (_visibleSize.width / _unitsOnScreen), toBeAddedTo->getContentSize().height - (rowNumber + 1) * hqSceneElement->getContentSize().height);
     hqSceneElement->setPosition(position);
@@ -128,7 +129,7 @@ float HQScene2::calculateUnitMultiplier()
     cocos2d::Size baseSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(_hqCategory);
     float unitWidth = (_visibleSize.width - _marginSize * 2) / _unitsOnScreen;
     
-    return baseSize.width / unitWidth;
+    return unitWidth / baseSize.width;
 }
 
 
