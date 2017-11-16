@@ -123,17 +123,16 @@ void MessageComposer::onEnter()
     _touchListener->onTouchEnded = CC_CALLBACK_2(MessageComposer::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
     
-    if(delegate->_imageFileName != "")
+    if(Azoomee::Chat::delegate->_imageFileName != "")
     {
-        sendArtMessage(delegate->_imageFileName);
-        delegate->_imageFileName = "";
+        sendArtMessage(Azoomee::Chat::delegate->_imageFileName);
     }
 }
 
 void MessageComposer::onExit()
 {
     Super::onExit();
-    
+    Azoomee::Chat::delegate->_imageFileName = "";
     if(_touchListener)
     {
         _eventDispatcher->removeEventListener(_touchListener);
