@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
+#define USING_LOCAL_CTA_ASSETS YES
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -118,8 +119,13 @@ void DynamicNodeHandler::createDynamicNodeByIdWithParams(const std::string& uniq
 
 void DynamicNodeHandler::getCTAFiles()
 {
+#ifdef USING_LOCAL_CTA_ASSETS
+    removeCTAFiles();
+    unzipBundleCTAFiles();
+#else
     checkIfVersionChangedFromLastCTAPull();
     getCTAPackageJSON(ConfigStorage::getInstance()->getCTAPackageJsonURL());
+#endif
 }
 
 rapidjson::Document DynamicNodeHandler::getLocalCTAPackageJSON()
