@@ -32,6 +32,8 @@ private:
     ElectricDreamsButton *childrenButton = nullptr;
     ElectricDreamsButton *onlineSafetyButton = nullptr;
     
+    HttpRequestCreator* _pendingFRHttpRequest = nullptr;
+    
     void createSettingsLayer();
     void addListenerToLayer(Layer* layerToAdd);
     
@@ -60,6 +62,8 @@ public:
     void AdultPinAccepted(AwaitingAdultPinLayer* layer);
     void onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body);
     void onHttpRequestFailed(const std::string& requestTag, long errorCode);
+    
+    ~SettingsControlLayer();
 };
 
 NS_AZOOMEE_END

@@ -4,7 +4,7 @@
 	</head>
 	<body bgcolor="black">
 		<script src="./jwplayer/jwplayer.js"></script>
-		<script>jwplayer.key="wrR1ClbRkYGQx0IOIV2gMJQggtFCdWaDaza25g==";</script>
+		<script>jwplayer.key="BwwBSuXdS5gq/y1wfVzLoplRmFNIiRxUmmVA4PcvyYL3EkiA";</script>
 
 		<div id="videoPlayer"></div>
 		<script type="text/javascript">
@@ -12,69 +12,69 @@
 			var sent25 = false;
 			var sent50 = false;
 			var sent75 = false;
-			
+
 			startBuildingPlayer();
-		
+
 			function startBuildingPlayer()
 			{
 				var playerInstance = jwplayer("videoPlayer");
-			
+
 				var playList = [];
-			
+
 				for(var i = 0; i < 6; i++)
 				{
 					playList.push({file: "http://localhost/example.mov", mediaid: "episode", image: "http://localhost/play.png"});
 				}
-			
+
 				playerInstance.setup
 				({
 					stretching: "exactfit",
 					height: "100%",
 					width: "100%",
 					repeat: false,
-				
+
 					playlist: playList
 				});
-			
+
 				jwplayer().on('error', function(event){
 					console.log("error");
 				});
-			
+
 				jwplayer().on('setupError', function(event){
 					console.log("setuperror");
 				});
-			
+
 				jwplayer().on('play', function(event){
 					if(document.getElementById("loadingScreen"))
 					{
 						var loadingScreen = document.getElementById("loadingScreen");
 						loadingScreen.parentElement.removeChild(loadingScreen);
 					}
-				
+
 					console.log("playing");
 				});
-			
+
 				jwplayer().on('ready', function(event){
 					var loadingScreen = document.getElementById("loadingScreen");
 					loadingScreen.innerHTML = '<div button onClick="startPlayBack()" id="loadingText" style="width: 100%; height: 100%; background-image: url(./play.png); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center; background-size: auto 18%;"></div>';
 					startPlayBack();
 				});
-			
+
 					jwplayer().on('pause', function(event){
 					console.log("paused");
 				});
-			
+
 				jwplayer().on('visualQuality', function(event){
 					var currentQuality = jwplayer().getVisualQuality().level;
 					console.log("qualitychanged");
 				});
-			
+
 				jwplayer().on('time', function(event){
 					var totalDuration = jwplayer().getDuration();
 					var currentPosition = jwplayer().getPosition();
-				
+
 					var percentage = currentPosition / totalDuration * 100;
-				
+
 					if((percentage > 0)&&(!sent0))
 					{
 						sent0 = true;
@@ -96,36 +96,36 @@
 						console.log("time 75");
 					}
 				});
-			
+
 				jwplayer().on('complete', function(event){
 					console.log("time 100");
 				});
-				
+
 				jwplayer().on('playlistItem', function(event){
 					console.log("new item: " + event.index);
 				});
 			}
-			
-			
+
+
 			function startPlayBack()
 			{
 				jwplayer().play(true);
 			}
 </script>
 <style type="text/css">
-			html,body 
-			{ 
-				height:100%; 
-				width:100%; 
-				padding:0; 
-				margin:0; 
+			html,body
+			{
+				height:100%;
+				width:100%;
+				padding:0;
+				margin:0;
 			}
-			
+
 			#videoPlayer
 			{
 				height:100%;
-				width:100%; 
-				padding:0; 
+				width:100%;
+				padding:0;
 			}
 		</style>
 		<div id="loadingScreen" style="text-align: center; vertical-align: middle; background-color: #000000; position: absolute; left: 0px; top: 0px; bottom: 0px; background-image: url(./loading_bg.jpg); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;  background-size: auto 50%;">

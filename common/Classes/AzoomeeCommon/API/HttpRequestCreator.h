@@ -32,6 +32,7 @@ public:
     // Send the specified request
     void sendRequest(cocos2d::network::HttpRequest* request);
     
+    void clearDelegate();
     
     std::string requestBody = "";
     std::string urlParameters = "";

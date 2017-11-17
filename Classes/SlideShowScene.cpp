@@ -71,6 +71,8 @@ void SlideShowScene::imageAddedToCache(Texture2D* resulting_texture)
             }
         }
     }
+    // decrement reference count for object now async image has been processed. if object is no longer in scene it will be deleted next frame
+    this->release();
 }
 
 void SlideShowScene::createPageView()
@@ -96,7 +98,10 @@ void SlideShowScene::createPageView()
         Layout* newLayout = Layout::create();
         newLayout->setContentSize(visibleSize);
         _pageView->insertCustomItem(newLayout,i);
-
+        // Retain the object so it doesnt get destroyed before the add image async call returns,
+        // for some reason this can slip through th cracks and callback is called after object is destroyed,
+        // despite appropriate efforts to prevent it. called in loop so all async call returns will safely be executed
+        this->retain();
         Director::getInstance()->getTextureCache()->addImageAsync(StringUtils::format("res/slideshow/slide_%d.jpg",i+1), CC_CALLBACK_1(SlideShowScene::imageAddedToCache, this));
 
         layoutVector.push_back(newLayout);
@@ -157,15 +162,23 @@ void SlideShowScene::pageViewScrollToNextPage()
     auto vectorOfSlides = _pageView->getItems();
     
     if(vectorOfSlides.size() != _pageView->getCurrentPageIndex()+1)
+    {
         _pageView->scrollToItem(_pageView->getCurrentPageIndex()+1);
+    }
 }
 
 void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
 {
     if(button == loginButton)
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+    }
     else if (button->getName() == "startTrialButton")
+    {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+    }
     else if (button == skipButton)
+    {
         BackEndCaller::getInstance()->anonymousDeviceLogin();
+    }
 }
