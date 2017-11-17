@@ -96,18 +96,35 @@ void HQScene::startBuildingScrollViewBasedOnName()
         {
             createBidirectionalScrollView();
             
-            if(ContentHistoryManager::getInstance()->getReturnedFromContent() && this->getName() != "GROUP HQ")
+            if(ChildDataProvider::getInstance()->getIsChildLoggedIn() && ContentHistoryManager::getInstance()->getReturnedFromContent() && this->getName() != "GROUP HQ")
             {
                 ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+                HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
                 std::vector<HQCarouselObjectRef> hqCarousels = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(this->getName())->getHqCarousels();
-                if(hqCarousels.size() > 0)
+                bool possibleContentFound = false;
+                while(!possibleContentFound && hqCarousels.size() > 0) // look for available content in random carousel
                 {
-                    HQCarouselObjectRef randomCarousel = hqCarousels[rand()%hqCarousels.size()];
+                    int randCarouselIndex = rand()%hqCarousels.size();
+                    HQCarouselObjectRef randomCarousel = hqCarousels[randCarouselIndex];
                     std::vector<HQContentItemObjectRef> carouselItems = randomCarousel->getContentItems();
-                    if(carouselItems.size() > 0)
+                    while(!possibleContentFound && carouselItems.size() > 0) //look for random available content in carousel
                     {
-                        HQContentItemObjectRef randomContent = carouselItems[rand()%carouselItems.size()];
-                        DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(this->getName() + ".json", randomContent->getJSONRepresentationOfStructure());
+                        int randIndex = rand()%carouselItems.size();
+                        HQContentItemObjectRef randomContent = carouselItems[randIndex];
+                        if(randomContent->isEntitled() && randomContent->getContentItemId() != lastContent->getContentItemId())
+                        {
+                            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(this->getName() + ".json", randomContent->getJSONRepresentationOfStructure());
+                            possibleContentFound = true;
+                        }
+                        else
+                        {
+                            carouselItems.erase(carouselItems.begin() + randIndex);
+                        }
+                    }
+                    //no different available content to recomend in the carousel
+                    if(!possibleContentFound)
+                    {
+                        hqCarousels.erase(hqCarousels.begin() + randCarouselIndex);
                     }
                 }
             }
