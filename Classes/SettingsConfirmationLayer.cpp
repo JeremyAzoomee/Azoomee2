@@ -34,8 +34,8 @@ bool SettingsConfirmationLayer::init()
         return false;
     }
     
-    HttpRequestCreator *request = API::GetPendingFriendRequests(this);
-    request->execute();
+    _pendingFRHttpRequest = API::GetPendingFriendRequests(this);
+    _pendingFRHttpRequest->execute();
     
     return true;
 }
@@ -110,6 +110,14 @@ void SettingsConfirmationLayer::onHttpRequestFailed(const std::string& requestTa
     AnalyticsSingleton::getInstance()->settingsPendingFriendRequestsRefreshError(errorCode);
     ModalMessages::getInstance()->stopLoading();
     MessageBox::createWith(ERROR_CODE_SOMETHING_WENT_WRONG, nullptr);
+}
+
+SettingsConfirmationLayer::~SettingsConfirmationLayer()
+{
+    if(_pendingFRHttpRequest)
+    {
+        _pendingFRHttpRequest->clearDelegate();
+    }
 }
 
 NS_AZOOMEE_END
