@@ -142,8 +142,8 @@ void SettingsControlLayer::createConfirmationNotification()
 
 void SettingsControlLayer::checkForConfirmationNotifications()
 {
-    HttpRequestCreator *request = API::GetPendingFriendRequests(this);
-    request->execute();
+    _pendingFRHttpRequest = API::GetPendingFriendRequests(this);
+    _pendingFRHttpRequest->execute();
 }
 
 //---------------------- Actions -----------------
@@ -227,6 +227,14 @@ void SettingsControlLayer::onHttpRequestSuccess(const std::string& requestTag, c
 void SettingsControlLayer::onHttpRequestFailed(const std::string& requestTag, long errorCode)
 {
     AnalyticsSingleton::getInstance()->settingsConfirmationTabNotificationError(errorCode);
+}
+
+SettingsControlLayer::~SettingsControlLayer()
+{
+    if(_pendingFRHttpRequest)
+    {
+        _pendingFRHttpRequest->clearDelegate();
+    }
 }
 
 NS_AZOOMEE_END

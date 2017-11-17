@@ -44,7 +44,6 @@ private:
     void createContentUI(cocos2d::ui::Layout* parent);
     /// Create the UI for the sub title bar
     void createSubTitleBarUI(cocos2d::ui::Layout* parent);
-    
     /// Back button was pressed
     void onBackButtonPressed();
     /// Friend was selected

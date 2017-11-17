@@ -150,6 +150,7 @@ void FriendListSceneArtPreview::createContentUI(cocos2d::ui::Layout* parent)
     _friendListView = FriendListView::create();
     _friendListView->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
     _friendListView->addItemSelectedEventListener(CC_CALLBACK_1(FriendListSceneArtPreview::onFriendListItemSelected, this));
+    _friendListView->setIncludeAddFriendButton(false);
     parent->addChild(_friendListView);
 }
 
