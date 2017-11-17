@@ -1,24 +1,27 @@
-#ifndef AzoomeeChat_FriendListView_h
-#define AzoomeeChat_FriendListView_h
+//
+//  ArtListView.h
+//  AzoomeeChat
+//
+//  Created by Macauley on 24/10/2017.
+//
+//
+
+#ifndef ArtListView_h
+#define ArtListView_h
 
 #include "../AzoomeeChat.h"
-#include "../Data/Friend.h"
 #include <cocos/cocos2d.h>
 #include <cocos/ui/CocosGUI.h>
 
-
 NS_AZOOMEE_CHAT_BEGIN
-    
-class FriendListView : public cocos2d::ui::ListView
+
+class ArtListView : public cocos2d::ui::ListView
 {
     typedef cocos2d::ui::ListView Super;
-    typedef std::function<void(const FriendRef&)> ItemSelectedCallback;
+    typedef std::function<void(const std::string&)> ItemSelectedCallback;
 private:
-    
-    /// Data being displayed
-    FriendList _listData;
-    /// Number of columns to display the data
-    int _columns = 1;
+    /// Data to be displayed
+    std::vector<std::string> _artData;
     
     /// Callback for an item being selected
     ItemSelectedCallback _selectedEventCallback = nullptr;
@@ -31,29 +34,24 @@ protected:
     
     virtual void doLayout() override;
     virtual void onSizeChanged() override;
-    virtual void interceptTouchEvent(cocos2d::ui::Widget::TouchEventType event, cocos2d::ui::Widget *sender, cocos2d::Touch* touch) override;
     
 public:
     
-    /// Set the number of columns
-    void setColumns(int columns);
-    
     /// Set the items to display in this list
-    void setItems(const FriendList& friendList);
+    void setItems(const std::vector<std::string>& data);
     
-    /// Register for backbutton click events
+    /// Register for item selection events
     void addItemSelectedEventListener(const ItemSelectedCallback& callback);
-    
-    void hideUnreadIndicators();
-    
+
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual void setContentSize(const cocos2d::Size& contentSize) override;
-
-    CREATE_FUNC(FriendListView);
+    
+    CREATE_FUNC(ArtListView);
 };
 
 NS_AZOOMEE_CHAT_END
 
-#endif
+
+#endif /* ArtListView_h */
