@@ -12,6 +12,7 @@
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "ContentHistoryManager.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -215,10 +216,12 @@ void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &c
 {
     if(contentItem->getType() == "GAME")
     {
+        ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
     else if(contentItem->getType()  == "VIDEO" || contentItem->getType()  == "AUDIO")
     {
+        ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         VideoPlaylistManager::getInstance()->clearPlaylist();
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);

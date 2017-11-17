@@ -58,7 +58,7 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
     
     for(const std::string& folder : folders)
     {
-        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPath + folder);
+        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
         for(const std::string& file : fileNames)
         {
             if(file == uniqueId)
@@ -82,7 +82,7 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
     {
         if(folder == groupId)
         {
-            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPath + folder);
+            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
             
             int randomFileNameIndex = rand()%fileNames.size();
             AnalyticsSingleton::getInstance()->ctaWindowAppeared(groupId, fileNames[randomFileNameIndex]);
@@ -102,7 +102,7 @@ void DynamicNodeHandler::createDynamicNodeByIdWithParams(const std::string& uniq
     
     for(const std::string& folder : folders)
     {
-        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPath + folder);
+        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
         for(const std::string& file : fileNames)
         {
             if(file == uniqueId)
