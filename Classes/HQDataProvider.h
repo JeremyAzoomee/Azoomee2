@@ -23,6 +23,7 @@ public:
     
     //MainHub Area services
     HQContentItemObjectRef getItemDataForSpecificItem(const std::string &category, const std::string &itemid);
+    HQContentItemObjectRef getItemDataForSpecificItem(const std::string &itemid);
     cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber);
     std::string getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
     void getDataForHQ(const std::string &category);

@@ -99,6 +99,15 @@ bool DeepLinkingSingleton::actionDeepLink()
         BackEndCaller::getInstance()->getElectricDreamsContent("deepLinkContentRequest", path);
         return true;
     }
+    else if(host == "post-content")
+    {
+        HQContentItemObjectRef item = HQDataProvider::getInstance()->getItemDataForSpecificItem(path);
+        if(item)
+        {
+            completeContentAction(item);
+        }
+        
+    }
     else if(host == "moveto")
     {
         if(path == "signup" && !ChildDataProvider::getInstance()->getIsChildLoggedIn() && !ParentDataParser::getInstance()->hasParentLoginDataInUserDefaults())
@@ -214,6 +223,11 @@ std::string DeepLinkingSingleton::getDataForKeyFromJSON(std::string jsonString, 
 
 void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &contentItem)
 {
+    if(!contentItem->isEntitled())
+    {
+        return;
+    }
+    
     if(contentItem->getType() == "GAME")
     {
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);

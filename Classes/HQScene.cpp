@@ -96,7 +96,7 @@ void HQScene::startBuildingScrollViewBasedOnName()
         {
             createBidirectionalScrollView();
             
-            if(ChildDataProvider::getInstance()->getIsChildLoggedIn() && ContentHistoryManager::getInstance()->getReturnedFromContent() && this->getName() != "GROUP HQ")
+            if(ContentHistoryManager::getInstance()->getReturnedFromContent() && this->getName() != "GROUP HQ")
             {
                 ContentHistoryManager::getInstance()->setReturnedFromContent(false);
                 HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
