@@ -77,10 +77,10 @@ cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
 
 void HQSceneElementVisual::createBaseLayer()
 {
-    Size size = Size(this->getContentSize().width - 20, this->getContentSize().height - 20);
+    Size size = Size(this->getContentSize().width, this->getContentSize().height);
     
     _baseLayer = LayerColor::create(Color4B::BLACK, size.width, size.height);
-    _baseLayer->setPosition(10, 10);
+    _baseLayer->setPosition(0, 0);
     this->addChild(_baseLayer);
 }
 
@@ -261,7 +261,7 @@ void HQSceneElementVisual::resizeSceneElement()
     
     if(_manualSizeMultiplier != 0.0f)
     {
-        layerSize = layerSize * _manualSizeMultiplier;
+        layerSize = Size(layerSize.width * _manualSizeMultiplier, layerSize.height * _manualSizeMultiplier);
     }
     
     this->setContentSize(layerSize);

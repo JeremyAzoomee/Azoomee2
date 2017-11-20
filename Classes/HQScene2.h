@@ -29,7 +29,7 @@ private:
     void addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView);
 
     cocos2d::ui::ScrollView* createScrollView();
-    cocos2d::Layer* addElementToCarousel(cocos2d::ui::ScrollView *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
+    cocos2d::Layer* addElementToCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
     
     //creating carousel elements
     cocos2d::Layer* createNewCarousel();
