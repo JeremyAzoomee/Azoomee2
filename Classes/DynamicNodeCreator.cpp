@@ -55,62 +55,7 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
         return _CTANode;
     }
     
-    
-    
-    /*
-     values not used:
-     nodeId, groupId
-     these are specific for asset gathering and storing purposes, not needed in theis viewer
-     */
-    //config node size
-    if(configFile.HasMember("nodeSize"))
-    {
-        const rapidjson::Value& sizePercentages = configFile["nodeSize"];
-        configNodeSize(sizePercentages);
-    }
-    
-    //config close button
-    if(configFile.HasMember("closeButton"))
-    {
-        const rapidjson::Value& closeButtonToggle = configFile["closeButton"];
-        configCloseButton(closeButtonToggle);
-    }
-    
-    //config background colour
-    if(configFile.HasMember("backgroundColour"))
-    {
-        const rapidjson::Value& backgroundColour = configFile["backgroundColour"];
-        configBackgroundColour(backgroundColour);
-    }
-    
-    //config background image
-    if(configFile.HasMember("backgroundImage"))
-    {
-        const rapidjson::Value& backgroundImageData = configFile["backgroundImage"];
-        configBackgroundImage(backgroundImageData);
-    }
-    
-    //config text
-    if(configFile.HasMember("nodeText"))
-    {
-        const rapidjson::Value& textData = configFile["nodeText"];
-        configText(textData);
-    }
-    
-    //config buttons
-    
-    if(configFile.HasMember("buttons"))
-    {
-        const rapidjson::Value& buttonsList = configFile["buttons"];
-        configButtons(buttonsList);
-    }
-    
-    //config extra images
-    if(configFile.HasMember("images"))
-    {
-        const rapidjson::Value& imageList = configFile["images"];
-        configExtraImages(imageList);
-    }
+    processFile(configFile);
     
     //return resultant CTA node
     return _CTANode;
@@ -135,8 +80,15 @@ Node* DynamicNodeCreator::createCTAFromFileWithParams(const std::string& filepat
         return _CTANode;
     }
     
+    processFile(configFile);
     
+    //return resultant CTA node
+    return _CTANode;
     
+}
+
+void DynamicNodeCreator::processFile(const rapidjson::Document& configFile)
+{
     /*
      values not used:
      nodeId, groupId
@@ -191,10 +143,6 @@ Node* DynamicNodeCreator::createCTAFromFileWithParams(const std::string& filepat
         const rapidjson::Value& imageList = configFile["images"];
         configExtraImages(imageList);
     }
-    
-    //return resultant CTA node
-    return _CTANode;
-    
 }
 
 void DynamicNodeCreator::initCTANode()
@@ -672,7 +620,7 @@ std::string DynamicNodeCreator::addExternalParamsToString(std::string str)
     while (i < str.npos)
     {
         result += str.substr(0,i);
-        std::string paramName = str.substr(i+1,str.find(">") - (i+1));
+        const std::string& paramName = str.substr(i+1,str.find(">") - (i+1));
         str = str.substr(str.find(">") + 1);
         result += getStringFromJson(paramName, _externParams);
         i = str.find("<");

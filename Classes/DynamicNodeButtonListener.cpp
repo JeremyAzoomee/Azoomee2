@@ -64,7 +64,7 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             const std::string& location = buttonAction->getParamForKey("location");
             if(location == "replay")
             {
-                DeepLinkingSingleton::getInstance()->setDeepLink("azoomee://post-content/" + ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId());
+                DeepLinkingSingleton::getInstance()->setDeepLink("azoomee://post-content/" + ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId()); // fire up content directly when content opener exists
                 closeCTAPopup();
             }
             else

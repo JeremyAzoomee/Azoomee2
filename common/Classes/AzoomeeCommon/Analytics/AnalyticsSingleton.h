@@ -104,8 +104,6 @@ public:
     void contentItemWebviewStartedEvent();
     void contentItemClosedEvent();
     void updateContentItemDetails(const HQContentItemObjectRef &contentItem);
-    
-    std::string getLastContentId();
 
     //------------- PREVIEW ACTIONS ---------------
     void previewContentClickedEvent(std::string Title,std::string Description, std::string Type);

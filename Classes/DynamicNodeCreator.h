@@ -44,7 +44,7 @@ private:
     rapidjson::Document _externParams;
     bool _usingExternalParams = false;
     
-    
+    void processFile(const rapidjson::Document& configFile);
     void initCTANode();
     void configNodeSize(const rapidjson::Value& sizePercentages);
     void configCloseButton(const rapidjson::Value& closeButtonToggle);

@@ -380,11 +380,6 @@ void AnalyticsSingleton::contentItemClosedEvent()
     mixPanelSendEventWithStoredProperties("contentItemClosed", storedContentItemProperties);
     
 }
-    
-    std::string AnalyticsSingleton::getLastContentId()
-    {
-        return storedContentItemProperties["ContentID"];
-    }
 
 //------------- PREVIEW ACTIONS ---------------
 void AnalyticsSingleton::previewContentClickedEvent(std::string Title, std::string Description, std::string Type)
