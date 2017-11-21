@@ -5,7 +5,7 @@
 #include "HQScene2.h"
 #include "HQSceneElement.h"
 #include "HQDataProvider.h"
-#include "HQSceneElementPositioner.h"
+#include "HQScene2ElementPositioner.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
@@ -15,7 +15,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float HQScene2::_marginSize = 20;
+const float HQScene2::_marginSize = 20.0f;
 const int HQScene2::_unitsOnScreen = 4;
 
 bool HQScene2::init()
@@ -35,6 +35,7 @@ void HQScene2::setHQCategory(std::string hqCategory)
 {
     _hqCategory = hqCategory;
     this->setName(_hqCategory);     //this is to keep legacy code compatible
+    _unitWidth = (_visibleSize.width - 2 * _marginSize) / _unitsOnScreen;
     _unitMultiplier = calculateUnitMultiplier();
 }
 
@@ -46,21 +47,35 @@ void HQScene2::startBuildingScrollView()
     }
     
     cocos2d::ui::ScrollView* scrollView = createScrollView();
-    float lastScrollViewPosition = scrollView->getContentSize().height;
+    float lastCarouselPosition = scrollView->getInnerContainerSize().height;
     
     for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); j++)
     {
         cocos2d::Layer* carouselLayer = createNewCarousel();
-        carouselLayer->setPosition(cocos2d::Point(0, lastScrollViewPosition - _marginSize - carouselLayer->getContentSize().height));
-        lastScrollViewPosition = carouselLayer->getPosition().y;
+        carouselLayer->setPosition(cocos2d::Point(0, lastCarouselPosition - _marginSize - carouselLayer->getContentSize().height));
+        lastCarouselPosition = carouselLayer->getPosition().y;
+        
+        _carouselStorage.push_back(carouselLayer);
         scrollView->addChild(carouselLayer);
         
         const std::vector<HQContentItemObjectRef> &elementsForRow = HQDataProvider::getInstance()->getElementsForRow(_hqCategory, j);
         
-        for(int i = 0; i < elementsForRow.size(); i++)
+        //for(int i = 0; i < elementsForRow.size(); i++)
+        for(int i = 0; i < 1; i++)
         {
-            cocos2d::Layer* currentElement = addElementToCarousel(carouselLayer, elementsForRow.at(i), j, i);
+            cocos2d::Layer* currentElement = createElementForCarousel(carouselLayer, elementsForRow.at(i), j, i);
+            cocos2d::Vec2 elementShape = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_hqCategory, j, i);
             
+            HQScene2ElementPositioner* hqScene2ElementPositioner = new HQScene2ElementPositioner();
+            hqScene2ElementPositioner->setElement(currentElement);
+            hqScene2ElementPositioner->setCarouselLayer(carouselLayer);
+            hqScene2ElementPositioner->setHighlightData(elementShape);
+            hqScene2ElementPositioner->setBaseUnitSize(ConfigStorage::getInstance()->getSizeForContentItemInCategory(_hqCategory) * _unitMultiplier);
+            
+            cocos2d::Point elementPosition = hqScene2ElementPositioner->positionHQSceneElement();
+            
+            currentElement->setPosition(elementPosition);
+            carouselLayer->addChild(currentElement);
         }
     }
 }
@@ -87,7 +102,7 @@ cocos2d::ui::ScrollView*  HQScene2::createScrollView()
     return vScrollView;
 }
 
-cocos2d::Layer* HQScene2::addElementToCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex)
+cocos2d::Layer* HQScene2::createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex)
 {
     auto hqSceneElement = HQSceneElement::create();
     hqSceneElement->setCategory(_hqCategory);
@@ -97,13 +112,6 @@ cocos2d::Layer* HQScene2::addElementToCarousel(cocos2d::Node *toBeAddedTo, const
     hqSceneElement->setManualSizeMultiplier(_unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
     
     hqSceneElement->addHQSceneElement();
-    
-    cocos2d::Vec2 position = Vec2(elementIndex * hqSceneElement->getContentSize().width, 0);
-    hqSceneElement->setPosition(position);
-    
-    //TODO: get first available position for carousel
-    
-    toBeAddedTo->addChild(hqSceneElement);
     
     return hqSceneElement;
 }
@@ -117,6 +125,7 @@ cocos2d::Layer* HQScene2::createNewCarousel()
 {
     cocos2d::Layer* carouselLayer = cocos2d::Layer::create();
     carouselLayer->setContentSize(Size(_visibleSize.width - _marginSize * 2, 500));
+    
     return carouselLayer;
 }
 
@@ -128,9 +137,8 @@ float HQScene2::calculateUnitMultiplier()
     }
     
     cocos2d::Size baseSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(_hqCategory);
-    float unitWidth = (_visibleSize.width - 2 * _marginSize) / _unitsOnScreen;
     
-    return unitWidth / baseSize.width;
+    return _unitWidth / baseSize.width;
 }
 
 

@@ -25,11 +25,13 @@ private:
     cocos2d::Vec2 _origin;
     cocos2d::Size _visibleSize;
     float _unitMultiplier = 0;
+    float _unitWidth = 0;
+    std::vector<cocos2d::Layer*> _carouselStorage;
     
     void addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView);
 
     cocos2d::ui::ScrollView* createScrollView();
-    cocos2d::Layer* addElementToCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
+    cocos2d::Layer* createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
     
     //creating carousel elements
     cocos2d::Layer* createNewCarousel();
