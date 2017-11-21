@@ -38,13 +38,14 @@ cocos2d::Point HQScene2ElementPositioner::positionHQSceneElement()
     
     while(!placeFound)
     {
-        if(!isElementCovered(position, _carouselLayer))
+        if(!isElementCovered(Point(position.x + _unitSize.width /2, position.y + _unitSize.height / 2)))
         {
+            
             return position;
         }
         
         position.x += _unitSize.width;
-        if(position.x >= _carouselLayer->getContentSize().width - _element->getContentSize().width)
+        if(position.x > _carouselLayer->getContentSize().width - _element->getContentSize().width)
         {
             position.x = 0;
             position.y -= _unitSize.height;
@@ -55,11 +56,19 @@ cocos2d::Point HQScene2ElementPositioner::positionHQSceneElement()
     return cocos2d::Point(0,0);
 }
 
-bool HQScene2ElementPositioner::isElementCovered(cocos2d::Point position, cocos2d::Node *carouselElement)
+bool HQScene2ElementPositioner::isElementCovered(cocos2d::Point position)
 {
-    for(cocos2d::Node* contentItemElement : carouselElement->getChildren())
+    for(int highlightX = 0; highlightX < _highlightData.x; highlightX++)
     {
-        if(contentItemElement->getBoundingBox().containsPoint(position)) return true;
+        for(int highlightY = 0; highlightY < _highlightData.y; highlightY++)
+        {
+            cocos2d::Point checkPosition = Point(position.x + highlightX * _unitSize.width, position.y + highlightY * _unitSize.height);
+            
+            for(cocos2d::Node* contentItemElement : _carouselLayer->getChildren())
+            {
+                if(contentItemElement->getBoundingBox().containsPoint(checkPosition)) return true;
+            }
+        }
     }
     
     return false;

@@ -49,7 +49,7 @@ void HQScene2::startBuildingScrollView()
     cocos2d::ui::ScrollView* scrollView = createScrollView();
     float lastCarouselPosition = scrollView->getInnerContainerSize().height;
     
-    for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); j++)
+    for(int j = 0; j < 1; j++)//HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); j++)
     {
         cocos2d::Layer* carouselLayer = createNewCarousel();
         carouselLayer->setPosition(cocos2d::Point(0, lastCarouselPosition - _marginSize - carouselLayer->getContentSize().height));
@@ -60,8 +60,7 @@ void HQScene2::startBuildingScrollView()
         
         const std::vector<HQContentItemObjectRef> &elementsForRow = HQDataProvider::getInstance()->getElementsForRow(_hqCategory, j);
         
-        //for(int i = 0; i < elementsForRow.size(); i++)
-        for(int i = 0; i < 1; i++)
+        for(int i = 0; i < elementsForRow.size(); i++)
         {
             cocos2d::Layer* currentElement = createElementForCarousel(carouselLayer, elementsForRow.at(i), j, i);
             cocos2d::Vec2 elementShape = HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_hqCategory, j, i);

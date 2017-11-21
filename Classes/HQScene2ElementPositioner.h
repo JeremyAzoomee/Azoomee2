@@ -22,7 +22,7 @@ private:
     cocos2d::Vec2 _highlightData;
     cocos2d::Size _unitSize;
     
-    bool isElementCovered(cocos2d::Point position, cocos2d::Node* carouselElement);
+    bool isElementCovered(cocos2d::Point position);
 };
 
 NS_AZOOMEE_END
