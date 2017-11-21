@@ -11,6 +11,10 @@ NS_AZOOMEE_BEGIN
 class HQScene2 : public cocos2d::Layer
 {
 public:
+    static const float _sideMarginSize;
+    static const float _spaceAboveCarousel;
+    static const int _unitsOnScreen;
+    
     CREATE_FUNC(HQScene2);
     virtual bool init();
     void startBuildingScrollView();
@@ -19,10 +23,6 @@ public:
     std::string _hqCategory;
 
 private:
-    static const float _sideMarginSize;
-    static const float _spaceAboveCarousel;
-    static const int _unitsOnScreen;
-    
     cocos2d::Vec2 _origin;
     cocos2d::Size _visibleSize;
     float _unitMultiplier = 0;

@@ -1,6 +1,5 @@
 #include "HQScene2ElementPositioner.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -27,20 +26,13 @@ void HQScene2ElementPositioner::setBaseUnitSize(cocos2d::Size unitSize)
 }
 
 cocos2d::Point HQScene2ElementPositioner::positionHQSceneElement()
-{    
-    //return when
-    // - starting point is empty
-    // - all covered points are empty (if larger than 1,1
-    // - all covered points are visible on screen
-    
+{
     cocos2d::Point position = Point(0, -_highlightData.y * _unitSize.height);
-    bool placeFound = false;
     
-    while(!placeFound)
+    while(true)
     {
         if(!isElementCovered(Point(position.x + _unitSize.width /2, position.y + _unitSize.height / 2)))
         {
-            
             return position;
         }
         
@@ -50,10 +42,7 @@ cocos2d::Point HQScene2ElementPositioner::positionHQSceneElement()
             position.x = 0;
             position.y -= _unitSize.height;
         }
-        
     }
-    
-    return cocos2d::Point(0,0);
 }
 
 bool HQScene2ElementPositioner::isElementCovered(cocos2d::Point position)

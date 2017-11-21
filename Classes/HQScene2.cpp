@@ -2,6 +2,7 @@
 #include "HQSceneElement.h"
 #include "HQDataProvider.h"
 #include "HQScene2ElementPositioner.h"
+#include "HQScene2PlaceHolderCreator.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
@@ -75,6 +76,12 @@ void HQScene2::startBuildingScrollView()
             }
         }
         
+        HQScene2PlaceHolderCreator* hqScene2PlaceHolderCreator = new HQScene2PlaceHolderCreator();
+        hqScene2PlaceHolderCreator->setLowestElementYPosition(lowestElementYPosition);
+        hqScene2PlaceHolderCreator->setCarouselLayer(carouselLayer);
+        hqScene2PlaceHolderCreator->setBaseUnitSize(ConfigStorage::getInstance()->getSizeForContentItemInCategory(_hqCategory) * _unitMultiplier);
+        hqScene2PlaceHolderCreator->addPlaceHoldersToCarousel();
+        
         postSizeAndAlignCarousel(carouselLayer, lowestElementYPosition);  //wait until all carousels are created, then resize scrollview and add them one by one
         totalHeightOfCarousels += carouselLayer->getContentSize().height + _spaceAboveCarousel;
         _carouselStorage.push_back(carouselLayer);
@@ -136,7 +143,8 @@ void HQScene2::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
 cocos2d::LayerColor* HQScene2::createNewCarousel()
 {
     //cocos2d::Layer* carouselLayer = cocos2d::Layer::create();
-    cocos2d::LayerColor*carouselLayer = cocos2d::LayerColor::create(cocos2d::Color4B::RED, Director::getInstance()->getVisibleSize().width - 2 * _sideMarginSize, 0);
+    
+    cocos2d::LayerColor*carouselLayer = cocos2d::LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), Director::getInstance()->getVisibleSize().width - 2 * _sideMarginSize, 0);
     
     return carouselLayer;
 }
