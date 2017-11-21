@@ -3,6 +3,7 @@
 #include "HQDataProvider.h"
 #include "HQScene2ElementPositioner.h"
 #include "HQScene2PlaceHolderCreator.h"
+#include "HQScene2CarouselTitle.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
@@ -92,9 +93,17 @@ void HQScene2::startBuildingScrollView()
     scrollView->setInnerContainerSize(cocos2d::Size(Director::getInstance()->getVisibleSize().width - 2 * _sideMarginSize, totalHeightOfCarousels));
     
     float lastCarouselPosition = scrollView->getInnerContainerSize().height;
-    for(cocos2d::Node* carousel : _carouselStorage)
+    for(int i = 0; i < _carouselStorage.size(); i++)
     {
-        lastCarouselPosition -= _spaceAboveCarousel + carousel->getContentSize().height;
+        lastCarouselPosition -= _spaceAboveCarousel;
+        
+        const std::string &title = HQDataProvider::getInstance()->getTitleForRow(_hqCategory, i);
+        cocos2d::Layer *carouselTitle = HQScene2CarouselTitle::createWithText(title);
+        carouselTitle->setPosition(cocos2d::Vec2(scrollView->getContentSize().width / 2, lastCarouselPosition));
+        scrollView->addChild(carouselTitle);
+        
+        cocos2d::Node* carousel = _carouselStorage.at(i);
+        lastCarouselPosition -= carousel->getContentSize().height;
         carousel->setPosition(0, lastCarouselPosition);
         scrollView->addChild(carousel);
     }

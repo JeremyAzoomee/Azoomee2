@@ -11,6 +11,7 @@
 		02074B2A1E93968E009BB28C /* ArtAppImageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02074B281E93968E009BB28C /* ArtAppImageManager.cpp */; };
 		0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0215646E1FC4202800641C14 /* HQScene2ElementPositioner.cpp */; };
 		021564731FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021564721FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp */; };
+		021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021564751FC4C79C00641C14 /* HQScene2CarouselTitle.cpp */; };
 		0243B8CE1F0F8377005D3734 /* EmptySceneForSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0243B8CC1F0F8377005D3734 /* EmptySceneForSettings.cpp */; };
 		0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0243B8D91F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp */; };
 		0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0253C9851EC053B4005037EB /* VideoPlaylistManager.cpp */; };
@@ -277,6 +278,8 @@
 		0215646E1FC4202800641C14 /* HQScene2ElementPositioner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene2ElementPositioner.cpp; sourceTree = "<group>"; };
 		021564711FC4AB8200641C14 /* HQScene2PlaceHolderCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQScene2PlaceHolderCreator.h; sourceTree = "<group>"; };
 		021564721FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene2PlaceHolderCreator.cpp; sourceTree = "<group>"; };
+		021564741FC4C79B00641C14 /* HQScene2CarouselTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQScene2CarouselTitle.h; sourceTree = "<group>"; };
+		021564751FC4C79C00641C14 /* HQScene2CarouselTitle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene2CarouselTitle.cpp; sourceTree = "<group>"; };
 		0243B8CC1F0F8377005D3734 /* EmptySceneForSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EmptySceneForSettings.cpp; sourceTree = "<group>"; };
 		0243B8CD1F0F8377005D3734 /* EmptySceneForSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptySceneForSettings.h; sourceTree = "<group>"; };
 		0243B8D91F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatNotificationsSingleton.cpp; sourceTree = "<group>"; };
@@ -636,6 +639,8 @@
 				0215646A1FC4202700641C14 /* HQScene2ElementPositioner.h */,
 				021564721FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp */,
 				021564711FC4AB8200641C14 /* HQScene2PlaceHolderCreator.h */,
+				021564751FC4C79C00641C14 /* HQScene2CarouselTitle.cpp */,
+				021564741FC4C79B00641C14 /* HQScene2CarouselTitle.h */,
 			);
 			name = HQScene2;
 			sourceTree = "<group>";
@@ -1508,6 +1513,7 @@
 				926173C21F33850F008E3F9D /* ImageConverterLoadingLayer.cpp in Sources */,
 				A1E5FCFB1DDDCCBA0098DD29 /* ImageContainer.cpp in Sources */,
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
+				021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
 				0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */,
 				0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */,
