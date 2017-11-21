@@ -483,13 +483,14 @@ void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, 
 {
     
     ui::Button* button = ui::Button::create();
-    if(btnSpriteStr == "" || !FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + btnSpriteStr))
+    const std::string& btnSpriteFile = FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + btnSpriteStr;
+    if(btnSpriteStr == "" || !FileUtils::getInstance()->isFileExist(btnSpriteFile))
     {
         button->loadTextures(_kCTAAssetLoc + "rectangle_copy_3.png", _kCTAAssetLoc + "rectangle_copy_3.png");
     }
     else
     {
-        button->loadTextures(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + btnSpriteStr,FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + btnSpriteStr);
+        button->loadTextures(btnSpriteFile,btnSpriteFile);
     }
     
     button->setContentSize(Size(_popupButtonsLayer->getContentSize().width * size.x,_popupButtonsLayer->getContentSize().height * size.y));
@@ -612,21 +613,22 @@ void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, con
     _textLayer->addChild(label);
 }
 
-std::string DynamicNodeCreator::addExternalParamsToString(std::string str)
+std::string DynamicNodeCreator::addExternalParamsToString(const std::string& str)
 {
+    std::string sourceString = str;
     std::string result = "";
-    long i = str.find("<");
+    long i = sourceString.find("<");
     
-    while (i < str.npos)
+    while (i < sourceString.npos)
     {
-        result += str.substr(0,i);
-        const std::string& paramName = str.substr(i+1,str.find(">") - (i+1));
-        str = str.substr(str.find(">") + 1);
+        result += sourceString.substr(0,i);
+        const std::string& paramName = sourceString.substr(i+1,sourceString.find(">") - (i+1));
+        sourceString = sourceString.substr(sourceString.find(">") + 1);
         result += getStringFromJson(paramName, _externParams);
-        i = str.find("<");
+        i = sourceString.find("<");
     }
     
-    result += str;
+    result += sourceString;
     
     
     return result;

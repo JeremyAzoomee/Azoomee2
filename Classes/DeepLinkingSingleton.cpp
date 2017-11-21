@@ -18,7 +18,9 @@ using namespace cocos2d;
 using namespace Azoomee;
 
 NS_AZOOMEE_BEGIN
-    
+
+const std::string DeepLinkingSingleton::kPostContentDeeplinkStr = "azoomee://post-content/";
+
 static DeepLinkingSingleton *_sharedDeepLinkingSingleton = NULL;
 
 DeepLinkingSingleton* DeepLinkingSingleton::getInstance()

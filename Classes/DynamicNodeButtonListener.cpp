@@ -65,7 +65,7 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             if(location == "replay")
             {
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("replayContent");
-                DeepLinkingSingleton::getInstance()->setDeepLink("azoomee://post-content/" + ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId()); // fire up content directly when content opener exists
+                DeepLinkingSingleton::getInstance()->setDeepLink(DeepLinkingSingleton::kPostContentDeeplinkStr + ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId()); // fire up content directly when content opener exists
                 closeCTAPopup();
             }
             else

@@ -39,6 +39,7 @@ public:
     //Delegate Functions
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
     
+    static const std::string kPostContentDeeplinkStr;
 };
 
 NS_AZOOMEE_END

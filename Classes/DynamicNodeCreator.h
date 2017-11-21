@@ -59,7 +59,7 @@ private:
     void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& filename);
     void addRemoteImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& url);
     void addTextWithParams(int fontSize, cocos2d::Color4B fontColour, const rapidjson::Value& params);
-    std::string addExternalParamsToString(std::string str);
+    std::string addExternalParamsToString(const std::string& str);
     
 public:
     static DynamicNodeCreator* getInstance(void);
