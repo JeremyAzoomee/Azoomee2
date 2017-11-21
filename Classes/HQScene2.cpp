@@ -1,7 +1,3 @@
-//Creating a scrollview structure. vScrollView is the main, vertical scrollview, having several children of scrollViews, that can scroll horizontally.
-//We capture the the touches "under" the scrollView-s, and locking all horizontal movements on vertical touchMoves, and all vertical movements on horizontal touchMove.
-//The listener works the same way, as with all other nodes.
-
 #include "HQScene2.h"
 #include "HQSceneElement.h"
 #include "HQDataProvider.h"
@@ -15,7 +11,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const float HQScene2::_marginSize = 20.0f;
+const float HQScene2::_sideMarginSize = 20.0f;
+const float HQScene2::_spaceAboveCarousel = 200.0f;
 const int HQScene2::_unitsOnScreen = 4;
 
 bool HQScene2::init()
@@ -35,7 +32,7 @@ void HQScene2::setHQCategory(std::string hqCategory)
 {
     _hqCategory = hqCategory;
     this->setName(_hqCategory);     //this is to keep legacy code compatible
-    _unitWidth = (_visibleSize.width - 2 * _marginSize) / _unitsOnScreen;
+    _unitWidth = (_visibleSize.width - 2 * _sideMarginSize) / _unitsOnScreen;
     _unitMultiplier = calculateUnitMultiplier();
 }
 
@@ -46,19 +43,15 @@ void HQScene2::startBuildingScrollView()
         return;
     }
     
-    cocos2d::ui::ScrollView* scrollView = createScrollView();
-    float lastCarouselPosition = scrollView->getInnerContainerSize().height;
+    _carouselStorage.clear();
+    float totalHeightOfCarousels = 0;
     
-    for(int j = 0; j < 1; j++)//HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); j++)
+    for(int j = 0; j < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); j++)
     {
-        cocos2d::Layer* carouselLayer = createNewCarousel();
-        carouselLayer->setPosition(cocos2d::Point(0, lastCarouselPosition - _marginSize - carouselLayer->getContentSize().height));
-        lastCarouselPosition = carouselLayer->getPosition().y;
-        
-        _carouselStorage.push_back(carouselLayer);
-        scrollView->addChild(carouselLayer);
+        cocos2d::LayerColor* carouselLayer = createNewCarousel();
         
         const std::vector<HQContentItemObjectRef> &elementsForRow = HQDataProvider::getInstance()->getElementsForRow(_hqCategory, j);
+        float lowestElementYPosition = 0;
         
         for(int i = 0; i < elementsForRow.size(); i++)
         {
@@ -75,28 +68,48 @@ void HQScene2::startBuildingScrollView()
             
             currentElement->setPosition(elementPosition);
             carouselLayer->addChild(currentElement);
+            
+            if(elementPosition.y < lowestElementYPosition)
+            {
+                lowestElementYPosition = elementPosition.y;
+            }
         }
+        
+        postSizeAndAlignCarousel(carouselLayer, lowestElementYPosition);  //wait until all carousels are created, then resize scrollview and add them one by one
+        totalHeightOfCarousels += carouselLayer->getContentSize().height + _spaceAboveCarousel;
+        _carouselStorage.push_back(carouselLayer);
     }
+    
+    //we have all carousels in a vector, time to resize the scrollview and add them one by one
+    cocos2d::ui::ScrollView* scrollView = createScrollView();
+    scrollView->setInnerContainerSize(cocos2d::Size(Director::getInstance()->getVisibleSize().width - 2 * _sideMarginSize, totalHeightOfCarousels));
+    
+    float lastCarouselPosition = scrollView->getInnerContainerSize().height;
+    for(cocos2d::Node* carousel : _carouselStorage)
+    {
+        lastCarouselPosition -= _spaceAboveCarousel + carousel->getContentSize().height;
+        carousel->setPosition(0, lastCarouselPosition);
+        scrollView->addChild(carousel);
+    }
+    
+    this->addChild(scrollView);
 }
 
-cocos2d::ui::ScrollView*  HQScene2::createScrollView()
+cocos2d::ui::ScrollView* HQScene2::createScrollView()
 {
-    Size vScrollFrameSize = Size(_visibleSize.width - _marginSize * 2, _visibleSize.height - 200);
+    Size vScrollFrameSize = Size(_visibleSize.width - _sideMarginSize * 2, _visibleSize.height - 300.0f);
     
     cocos2d::ui::ScrollView *vScrollView = cocos2d::ui::ScrollView::create();
     vScrollView->setContentSize(vScrollFrameSize);
-    vScrollView->setPosition(Point(_origin.x + _marginSize, _origin.y));
+    vScrollView->setPosition(Point(_origin.x + _sideMarginSize, _origin.y));
     vScrollView->setDirection(cocos2d::ui::ScrollView::Direction::VERTICAL);
     vScrollView->setTouchEnabled(true);
     vScrollView->setBounceEnabled(true);
-    vScrollView->setInnerContainerSize(Size(_visibleSize.width, _visibleSize.height * 2));
     vScrollView->setScrollBarEnabled(false);
     vScrollView->setSwallowTouches(false);
     vScrollView->setName("scrollView");
     
     //addListenerToScrollView(vScrollView);
-    
-    this->addChild(vScrollView);
     
     return vScrollView;
 }
@@ -120,12 +133,22 @@ void HQScene2::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
     
 }
 
-cocos2d::Layer* HQScene2::createNewCarousel()
+cocos2d::LayerColor* HQScene2::createNewCarousel()
 {
-    cocos2d::Layer* carouselLayer = cocos2d::Layer::create();
-    carouselLayer->setContentSize(Size(_visibleSize.width - _marginSize * 2, 500));
+    //cocos2d::Layer* carouselLayer = cocos2d::Layer::create();
+    cocos2d::LayerColor*carouselLayer = cocos2d::LayerColor::create(cocos2d::Color4B::RED, Director::getInstance()->getVisibleSize().width - 2 * _sideMarginSize, 0);
     
     return carouselLayer;
+}
+
+void HQScene2::postSizeAndAlignCarousel(cocos2d::Node* carouselLayer, float lowestElementY)
+{
+    carouselLayer->setContentSize(Size(Director::getInstance()->getVisibleSize().width - 2 * _sideMarginSize, -lowestElementY));
+    
+    for(cocos2d::Node* contentItem : carouselLayer->getChildren())
+    {
+        contentItem->setPositionY(contentItem->getPositionY() - lowestElementY);
+    }
 }
 
 float HQScene2::calculateUnitMultiplier()

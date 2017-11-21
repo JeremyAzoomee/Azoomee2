@@ -19,7 +19,8 @@ public:
     std::string _hqCategory;
 
 private:
-    static const float _marginSize;
+    static const float _sideMarginSize;
+    static const float _spaceAboveCarousel;
     static const int _unitsOnScreen;
     
     cocos2d::Vec2 _origin;
@@ -34,8 +35,9 @@ private:
     cocos2d::Layer* createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
     
     //creating carousel elements
-    cocos2d::Layer* createNewCarousel();
+    cocos2d::LayerColor* createNewCarousel();
     float calculateUnitMultiplier();
+    void postSizeAndAlignCarousel(cocos2d::Node* carouselLayer, float lowestElementY);
 };
 
 NS_AZOOMEE_END

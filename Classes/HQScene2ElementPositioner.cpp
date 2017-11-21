@@ -62,11 +62,14 @@ bool HQScene2ElementPositioner::isElementCovered(cocos2d::Point position)
     {
         for(int highlightY = 0; highlightY < _highlightData.y; highlightY++)
         {
-            cocos2d::Point checkPosition = Point(position.x + highlightX * _unitSize.width, position.y + highlightY * _unitSize.height);
+            cocos2d::Point checkPosition = Point(position.x + (highlightX * _unitSize.width), position.y + (highlightY * _unitSize.height));
             
             for(cocos2d::Node* contentItemElement : _carouselLayer->getChildren())
             {
-                if(contentItemElement->getBoundingBox().containsPoint(checkPosition)) return true;
+                if(contentItemElement->getBoundingBox().containsPoint(checkPosition))
+                {
+                    return true;
+                }
             }
         }
     }
