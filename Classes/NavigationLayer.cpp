@@ -4,6 +4,7 @@
 #include "HQDataProvider.h"
 #include "HQScene.h"
 
+#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
@@ -65,6 +66,12 @@ bool NavigationLayer::init()
         if(i == 0) addNotificationBadgeToChatIcon(menuItemHolder);
         addMenuItemInactive(i, menuItemHolder);                                  //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
         addMenuItemActive(i, menuItemHolder);                                    //Active menuItem is visible, when we are in the given menu
+        
+        if(SpecialCalendarEventManager::getInstance()->isXmasTime())
+        {
+            addXmasDecorationToMenuItem(i, menuItemHolder);
+        }
+        
         addListenerToMenuItem(menuItemHolder);
         
         if(!HQHistoryManager::getInstance()->noHistory())
@@ -263,6 +270,13 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
     toBeAddedTo->addChild(menuItemInactive);
     
     return menuItemInactive;
+}
+
+void NavigationLayer::addXmasDecorationToMenuItem(int itemNumber, cocos2d::Node *toBeAddedTo)
+{
+    cocos2d::Sprite* xmasDecor = Sprite::create(StringUtils::format("res/xmasdecoration/snow%d.png", itemNumber));
+    xmasDecor->setPosition(Vec2(toBeAddedTo->getContentSize().width / 2, toBeAddedTo->getContentSize().height));
+    toBeAddedTo->addChild(xmasDecor, 9999);
 }
 
 void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
