@@ -21,6 +21,7 @@ public:
     void setDelay(float delay);
     void setCreatedForOffline(bool createdForOffline);
     void setManualSizeMultiplier(float multiplier);
+    void setMargin(float margin);
     
     cocos2d::Layer* createHQSceneElement();
     
@@ -36,6 +37,7 @@ private:
     bool _elementCreatedForOffline = false;
     std::string _elementUrl;
     float _manualSizeMultiplier = 0.0f;
+    float _margin = 20.0f;
     
     cocos2d::Sprite* _downloadedImage;
     void createColourLayer();

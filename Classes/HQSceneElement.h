@@ -22,6 +22,7 @@ public:
     void setElementRow(int rowNumber);
     void setElementIndex(int index);
     void setManualSizeMultiplier(float multiplier);
+    void setMargin(float margin);
     
     void addHQSceneElement();
     
@@ -31,6 +32,7 @@ private:
     int _elementRowNumber;
     int _elementIndex;
     float _manualSizeMultiplier = 0.0f;
+    float _margin = 0.0f;
     
     HQSceneElementVisual* _elementVisual;
     

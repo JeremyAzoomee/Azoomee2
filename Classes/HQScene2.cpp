@@ -16,6 +16,7 @@ NS_AZOOMEE_BEGIN
 const float HQScene2::_sideMarginSize = 20.0f;
 const float HQScene2::_spaceAboveCarousel = 200.0f;
 const int HQScene2::_unitsOnScreen = 4;
+const float HQScene2::_contentItemMargin = 20.0f;
 
 bool HQScene2::init()
 {
@@ -77,13 +78,15 @@ void HQScene2::startBuildingScrollView()
             }
         }
         
+        //Filling up empty spaces with placeholders (Design requirement)
+        
         HQScene2PlaceHolderCreator* hqScene2PlaceHolderCreator = new HQScene2PlaceHolderCreator();
         hqScene2PlaceHolderCreator->setLowestElementYPosition(lowestElementYPosition);
         hqScene2PlaceHolderCreator->setCarouselLayer(carouselLayer);
         hqScene2PlaceHolderCreator->setBaseUnitSize(ConfigStorage::getInstance()->getSizeForContentItemInCategory(_hqCategory) * _unitMultiplier);
         hqScene2PlaceHolderCreator->addPlaceHoldersToCarousel();
         
-        postSizeAndAlignCarousel(carouselLayer, lowestElementYPosition);  //wait until all carousels are created, then resize scrollview and add them one by one
+        postSizeAndAlignCarousel(carouselLayer, lowestElementYPosition); //with the flexible sizing method, the contentSize of the carousel is not predictable, we need to do it after all elements are in place.
         totalHeightOfCarousels += carouselLayer->getContentSize().height + _spaceAboveCarousel;
         _carouselStorage.push_back(carouselLayer);
     }
@@ -137,6 +140,7 @@ cocos2d::Layer* HQScene2::createElementForCarousel(cocos2d::Node *toBeAddedTo, c
     hqSceneElement->setItemData(itemData);
     hqSceneElement->setElementRow(rowNumber);
     hqSceneElement->setElementIndex(elementIndex);
+    hqSceneElement->setMargin(_contentItemMargin);
     hqSceneElement->setManualSizeMultiplier(_unitMultiplier); //overriding default configuration contentItem sizes. Ideally this *should* go away when only the new hub is present everywhere.
     
     hqSceneElement->addHQSceneElement();

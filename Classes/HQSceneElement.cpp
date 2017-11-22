@@ -81,6 +81,11 @@ void HQSceneElement::setManualSizeMultiplier(float multiplier)
     _manualSizeMultiplier = multiplier;
 }
 
+void HQSceneElement::setMargin(float margin)
+{
+    _margin = margin;
+}
+
 void HQSceneElement::addHQSceneElement() //This method is being called by HQScene.cpp with all variables.
 {
     _elementVisual = HQSceneElementVisual::create();
@@ -93,6 +98,11 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
     if(_manualSizeMultiplier != 0.0f)
     {
         _elementVisual->setManualSizeMultiplier(_manualSizeMultiplier);
+    }
+    
+    if(_margin != 0.0f)
+    {
+        _elementVisual->setMargin(_margin);
     }
     
     _elementVisual->createHQSceneElement();

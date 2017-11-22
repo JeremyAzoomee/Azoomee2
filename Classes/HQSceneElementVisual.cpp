@@ -64,6 +64,11 @@ void HQSceneElementVisual::setManualSizeMultiplier(float multiplier)
     _manualSizeMultiplier = multiplier;
 }
 
+void HQSceneElementVisual::setMargin(float margin)
+{
+    _margin = margin;
+}
+
 cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
 {
     resizeSceneElement();
@@ -152,7 +157,7 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
 void HQSceneElementVisual::addImageDownloader()
 {
     RemoteImageSprite *imageDownloader = RemoteImageSprite::create();
-    imageDownloader->initWithURLAndSize(_elementUrl, _elementItemData->getType(), Size(_baseLayer->getContentSize().width - 20, _baseLayer->getContentSize().height - 20), _elementShape);
+    imageDownloader->initWithURLAndSize(_elementUrl, _elementItemData->getType(), Size(_baseLayer->getContentSize().width - _margin, _baseLayer->getContentSize().height - _margin), _elementShape);
     imageDownloader->setPosition(_baseLayer->getContentSize() / 2);
     
     if(_elementItemData->isNew())
@@ -179,7 +184,7 @@ void HQSceneElementVisual::addGradientToBottom()
     
     auto gradient = Sprite::create(ConfigStorage::getInstance()->getGradientImageForCategory(_elementCategory));
     gradient->setPosition(_baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2 * iconScaleFactor +10);
-    gradient->setScaleX((_baseLayer->getContentSize().width -20) / gradient->getContentSize().width);
+    gradient->setScaleX((_baseLayer->getContentSize().width - _margin) / gradient->getContentSize().width);
     gradient->setScaleY(iconScaleFactor);
     gradient->setColor(gradientColour);
     _baseLayer->addChild(gradient);
@@ -271,8 +276,8 @@ void HQSceneElementVisual::resizeSceneElement()
 void HQSceneElementVisual::addTouchOverlayToElement()
 {
     Color4B overlayColour = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(_elementCategory);
-    _overlayWhenTouched = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, 0), _baseLayer->getContentSize().width -20, _baseLayer->getContentSize().height-20);
-    _overlayWhenTouched->setPosition(10,10);
+    _overlayWhenTouched = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, 0), _baseLayer->getContentSize().width - _margin, _baseLayer->getContentSize().height - _margin);
+    _overlayWhenTouched->setPosition(_margin / 2, _margin/2);
     _baseLayer->addChild(_overlayWhenTouched);
 }
 
