@@ -4,6 +4,7 @@
 #include "HQScene2ElementPositioner.h"
 #include "HQScene2PlaceHolderCreator.h"
 #include "HQScene2CarouselTitle.h"
+#include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
@@ -17,6 +18,7 @@ const float HQScene2::_sideMarginSize = 20.0f;
 const float HQScene2::_spaceAboveCarousel = 200.0f;
 const int HQScene2::_unitsOnScreen = 4;
 const float HQScene2::_contentItemMargin = 20.0f;
+const float HQScene2::_spaceForPrivacyPolicy = 100.0f;
 
 bool HQScene2::init()
 {
@@ -93,7 +95,7 @@ void HQScene2::startBuildingScrollView()
     
     //we have all carousels in a vector, time to resize the scrollview and add them one by one
     cocos2d::ui::ScrollView* scrollView = createScrollView();
-    scrollView->setInnerContainerSize(cocos2d::Size(Director::getInstance()->getVisibleSize().width - 2 * _sideMarginSize, totalHeightOfCarousels));
+    scrollView->setInnerContainerSize(cocos2d::Size(Director::getInstance()->getVisibleSize().width - 2 * _sideMarginSize, totalHeightOfCarousels + _spaceForPrivacyPolicy));
     
     float lastCarouselPosition = scrollView->getInnerContainerSize().height;
     for(int i = 0; i < _carouselStorage.size(); i++)
@@ -110,6 +112,13 @@ void HQScene2::startBuildingScrollView()
         carousel->setPosition(0, lastCarouselPosition);
         scrollView->addChild(carousel);
     }
+    
+    //add privacy policy to the very end to keep COPPA happy
+    
+    lastCarouselPosition -= _spaceForPrivacyPolicy;
+    PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
+    privacyLayer->setCenterPosition(Vec2(scrollView->getContentSize().width / 2, lastCarouselPosition + privacyLayer->getContentSize().height));
+    scrollView->addChild(privacyLayer);
     
     this->addChild(scrollView);
 }

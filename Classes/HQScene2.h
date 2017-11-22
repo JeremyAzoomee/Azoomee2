@@ -15,6 +15,7 @@ public:
     static const float _spaceAboveCarousel;
     static const int _unitsOnScreen;
     static const float _contentItemMargin;
+    static const float _spaceForPrivacyPolicy;
     
     CREATE_FUNC(HQScene2);
     virtual bool init();
