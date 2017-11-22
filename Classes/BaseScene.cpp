@@ -52,6 +52,11 @@ void BaseScene::onEnterTransitionDidFinish()
     addParticleElementsToBackground();
     startBuildingHQs();
     
+    if(SpecialCalendarEventManager::getInstance()->isXmasTime())
+    {
+        addXmasDecoration();
+    }
+    
     if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
         Director::getInstance()->getScheduler()->schedule([&](float dt){
@@ -150,7 +155,16 @@ void BaseScene::addParticleElementsToBackground()
 
 void BaseScene::addXmasDecoration()
 {
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
     
+    Sprite* snow1 = Sprite::create("res/xmasdecoration/snowPileLeft.png");
+    snow1->setPosition(origin.x + snow1->getContentSize().width / 2, origin.y + snow1->getContentSize().height / 2);
+    this->addChild(snow1, 9999);
+    
+    Sprite *snow2 = Sprite::create("res/xmasdecoration/snowPileRight.png");
+    snow2->setPosition(origin.x + visibleSize.width - snow2->getContentSize().width / 2, origin.y + snow2->getContentSize().height / 2);
+    this->addChild(snow2, 9999);
 }
 
 NS_AZOOMEE_END
