@@ -67,9 +67,9 @@ void BaseScene::startBuildingHQs()
     Layer *contentLayer = createContentLayer();
     
     addMainHubScene(contentLayer);
-    createHQScene("VIDEO HQ", contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
+    createHQScene2("VIDEO HQ", contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
     createHQScene2("GAME HQ", contentLayer);             //Probably worth moving these to configStorage?
-    createHQScene("AUDIO HQ", contentLayer);
+    createHQScene2("AUDIO HQ", contentLayer);
     createHQScene("ARTS APP", contentLayer);
     createHQScene("GROUP HQ", contentLayer);
     

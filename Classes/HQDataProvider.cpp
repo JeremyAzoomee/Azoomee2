@@ -60,7 +60,7 @@ void HQDataProvider::startBuildingHQ(const std::string &category)
     Node *baseLayer = runningScene->getChildByName("baseLayer");
     Node *contentLayer = baseLayer->getChildByName("contentLayer");
     
-    if(category == "GAME HQ")
+    if(category == "GAME HQ" || category == "VIDEO HQ" || category == "AUDIO HQ")
     {
         HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(category.c_str());
         hqLayer->startBuildingScrollView();
