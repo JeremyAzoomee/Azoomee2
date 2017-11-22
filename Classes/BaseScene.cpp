@@ -165,6 +165,14 @@ void BaseScene::addXmasDecoration()
     Sprite *snow2 = Sprite::create("res/xmasdecoration/snowPileRight.png");
     snow2->setPosition(origin.x + visibleSize.width - snow2->getContentSize().width / 2, origin.y + snow2->getContentSize().height / 2);
     this->addChild(snow2, 9999);
+    
+    Sprite* ice1 = Sprite::create("res/xmasdecoration/icicle1.png");
+    ice1->setPosition(origin.x + visibleSize.width * 0.18, origin.y + visibleSize.height - ice1->getContentSize().height / 2);
+    this->addChild(ice1, 9999);
+    
+    Sprite *ice2 = Sprite::create("res/xmasdecoration/icicle2.png");
+    ice2->setPosition(origin.x + visibleSize.width * 0.82, origin.y + visibleSize.height - ice2->getContentSize().height / 2);
+    this->addChild(ice2, 9999);
 }
 
 NS_AZOOMEE_END
