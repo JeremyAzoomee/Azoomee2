@@ -26,7 +26,7 @@ public:
     virtual ~ContentHistoryManager();
     bool init(void);
     
-    void setLastOppenedContent(HQContentItemObjectRef contentItem);
+    void setLastOppenedContent(const HQContentItemObjectRef& contentItem);
     HQContentItemObjectRef getLastOpenedContent();
     
     void setReturnedFromContent(bool returnedFromContent);

@@ -33,7 +33,7 @@ bool ContentHistoryManager::init(void)
     return true;
 }
 
-void ContentHistoryManager::setLastOppenedContent(HQContentItemObjectRef contentItem)
+void ContentHistoryManager::setLastOppenedContent(const HQContentItemObjectRef& contentItem)
 {
     _lastOpenedContent = contentItem;
 }
