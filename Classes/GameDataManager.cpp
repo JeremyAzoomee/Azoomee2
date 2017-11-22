@@ -168,8 +168,8 @@ void GameDataManager::getJSONGameData(const std::string &url, const std::string 
     jsonRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers{
-        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
-        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
+        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode(),
+        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url)
     };
     jsonRequest->setHeaders(headers);
 
@@ -295,7 +295,7 @@ void GameDataManager::getGameZipFile(const std::string &url, const std::string &
     zipRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers{
-        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
+        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url),
         "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
     zipRequest->setHeaders(headers);
