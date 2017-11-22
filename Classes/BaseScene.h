@@ -25,6 +25,8 @@ private:
     void addNavigationLayer();
     void onEnterTransitionDidFinish();
     void addParticleElementsToBackground();
+    
+    void addXmasDecoration();
 };
 
 NS_AZOOMEE_END

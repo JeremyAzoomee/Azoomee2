@@ -10,6 +10,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
+#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include "ForceUpdateSingleton.h"
 
 #include "HQDataParser.h"
@@ -131,11 +132,25 @@ void BaseScene::addParticleElementsToBackground()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
         auto myParticle = ParticleMeteor::create();
-        myParticle->setSpeed(30);
-        myParticle->setGravity(Vec2(0, -20));
-        myParticle->setScale(1);
-        myParticle->setPosVar(Vec2(2732, 5192));
-        this->addChild(myParticle, 0);
+    
+    if(SpecialCalendarEventManager::getInstance()->isXmasTime())
+    {
+        myParticle->setColor(cocos2d::Color3B::WHITE);
+        myParticle->setStartColor(cocos2d::Color4F::WHITE);
+        myParticle->setEndColor(cocos2d::Color4F::WHITE);
+        myParticle->setLife(20.0f);
+    }
+    
+    myParticle->setSpeed(30);
+    myParticle->setGravity(Vec2(0, -20));
+    myParticle->setScale(1);
+    myParticle->setPosVar(Vec2(2732, 5192));
+    this->addChild(myParticle, 0);
+}
+
+void BaseScene::addXmasDecoration()
+{
+    
 }
 
 NS_AZOOMEE_END
