@@ -20,6 +20,7 @@
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
@@ -167,7 +168,8 @@ void GameDataManager::getJSONGameData(const std::string &url, const std::string 
     jsonRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers{
-        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
+        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
     jsonRequest->setHeaders(headers);
 
@@ -293,7 +295,8 @@ void GameDataManager::getGameZipFile(const std::string &url, const std::string &
     zipRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers{
-        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
+        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
     zipRequest->setHeaders(headers);
     

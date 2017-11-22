@@ -10,6 +10,7 @@
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
@@ -140,9 +141,9 @@ void DynamicNodeHandler::getCTAPackageJSON(const std::string& url)
     jsonRequest->setRequestType(network::HttpRequest::Type::GET);
     jsonRequest->setUrl(url.c_str());
     
-    std::vector<std::string> headers
-    {
-        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+    std::vector<std::string> headers{
+        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
+        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
     jsonRequest->setHeaders(headers);
     
@@ -208,9 +209,9 @@ void DynamicNodeHandler::getCTAPackageZip(const std::string& url)
     zipRequest->setRequestType(network::HttpRequest::Type::GET);
     zipRequest->setUrl(url.c_str());
     
-    std::vector<std::string> headers
-    {
-        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+    std::vector<std::string> headers{
+        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
+        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
 
     zipRequest->setHeaders(headers);

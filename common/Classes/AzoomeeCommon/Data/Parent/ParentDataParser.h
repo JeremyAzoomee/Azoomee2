@@ -28,6 +28,7 @@ public:
     void clearParentLoginDataFromUserDefaults();
     bool parsePendingFriendRequests(const std::string &responseData);
     void setBillingDataAvailable(bool isAvailable);
+    void setLoggedInParentCountryCode(const std::string &countryCode);
     
 private:
     void addParentLoginDataToUserDefaults();

@@ -32,6 +32,7 @@ public:
     std::string loggedInParentBillingStatus;
     std::string loggedInParentBillingDate;
     std::string loggedInParentBillingProvider;
+    std::string loggedInParentCountryCode;
     bool isLoggedInParentAnonymous = false;
     bool isBillingDataAvailable = false;
     
