@@ -302,7 +302,7 @@ void NavigationLayer::addXmasDecorationToMenuItem(int itemNumber, cocos2d::Node 
 {
     cocos2d::Sprite* xmasDecor = Sprite::create(StringUtils::format("res/xmasdecoration/snow%d.png", itemNumber));
     xmasDecor->setPosition(Vec2(toBeAddedTo->getContentSize().width / 2, toBeAddedTo->getContentSize().height));
-    toBeAddedTo->addChild(xmasDecor, 9999);
+    toBeAddedTo->addChild(xmasDecor, DECORATION_ZORDER);
 }
 
 void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
