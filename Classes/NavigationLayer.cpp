@@ -63,7 +63,10 @@ bool NavigationLayer::init()
     {
         auto menuItemHolder = addMenuItemHolder(i);
         addMenuItemCircle(i, menuItemHolder);
-        if(i == 0) addNotificationBadgeToChatIcon(menuItemHolder);
+        if(i == 0)
+        {
+            addNotificationBadgeToChatIcon(menuItemHolder);
+        }
         addMenuItemInactive(i, menuItemHolder);                                  //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
         addMenuItemActive(i, menuItemHolder);                                    //Active menuItem is visible, when we are in the given menu
         
@@ -85,7 +88,9 @@ bool NavigationLayer::init()
     }
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    {
         createTopObjects();
+    }
     else
     {
         createPreviewLoginButton();
@@ -140,7 +145,10 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
 
     this->startLoadingHQScene(target);
     this->turnOffAllMenuItems();
-    if(target < ConfigStorage::HubTargetTagNumber::GROUP_HQ) this->turnOnMenuItem(target);
+    if(target < ConfigStorage::HubTargetTagNumber::GROUP_HQ)
+    {
+        this->turnOnMenuItem(target);
+    }
     
     if(HQHistoryManager::getInstance()->getCurrentHQ() != "GROUP HQ")
     {
@@ -305,7 +313,10 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
     notificationBadge->setScale(0.0);
     chatIcon->addChild(notificationBadge, 9);
     
-    if(!ChildDataProvider::getInstance()->getIsChildLoggedIn()) return; //not adding notifications in preview mode
+    if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    {
+        return; //not adding notifications in preview mode
+    }
     
     ChatNotificationsSingleton::getInstance()->setNavigationLayer(this);
     ChatNotificationsSingleton::getInstance()->forceNotificationsUpdate();
@@ -313,7 +324,10 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
 
 void NavigationLayer::showNotificationBadge()
 {
-    if(!this->getChildByTag(0)->getChildByName("notification")) return;
+    if(!this->getChildByTag(0)->getChildByName("notification"))
+    {
+        return;
+    }
     
     this->getChildByTag(0)->getChildByName("notification")->stopAllActions();
     this->getChildByTag(0)->getChildByName("notification")->runAction(EaseElasticOut::create(ScaleTo::create(1.0, 1.0)));
@@ -431,7 +445,10 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        {
+            return false;
+        }
         
         auto target = static_cast<Sprite*>(event->getCurrentTarget());
         
@@ -575,7 +592,10 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        {
+            return false;
+        }
         
         auto target = static_cast<Sprite*>(event->getCurrentTarget());
         
