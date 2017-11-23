@@ -17,12 +17,14 @@ public:
     void addPlaceHoldersToCarousel();
     
 private:
+    void addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2 highlightData);
     cocos2d::Node* _carouselLayer;
     cocos2d::Size _unitSize;
     float _lowestElementYPosition = 0.0f;
     float _margin = 10.0f;
     
-    cocos2d::Layer* createPlaceHolderLayer();
+    cocos2d::Layer* createPlaceHolderLayer(cocos2d::Vec2 highlightData);
+    void addPlaceHolderImageToLayer(cocos2d::Layer* placeHolderLayer, cocos2d::Vec2 highlightdata);
 };
 
 NS_AZOOMEE_END

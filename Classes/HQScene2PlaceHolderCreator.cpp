@@ -29,17 +29,25 @@ void HQScene2PlaceHolderCreator::setMargin(float margin)
 
 void HQScene2PlaceHolderCreator::addPlaceHoldersToCarousel()
 {
+    addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(2.0f, 2.0f)); //adding placeholders from bigger sizes to smaller to make sure that there are no multiple 1x1 placeholders right next to eachother
+    addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(1.0f, 2.0f));
+    addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(2.0f, 1.0f));
+    addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(1.0f, 1.0f));
+}
+
+void HQScene2PlaceHolderCreator::addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2 highlightdata)
+{
     cocos2d::Point position = Point(0, -_unitSize.height);
     
     while(true)
     {
-        cocos2d::Layer* placeHolder = createPlaceHolderLayer();
+        cocos2d::Layer* placeHolder = createPlaceHolderLayer(highlightdata);
         
         HQScene2ElementPositioner* hqScene2ElementPositioner = new HQScene2ElementPositioner();
         hqScene2ElementPositioner->setElement(placeHolder);
         hqScene2ElementPositioner->setBaseUnitSize(_unitSize);
         hqScene2ElementPositioner->setCarouselLayer(_carouselLayer);
-        hqScene2ElementPositioner->setHighlightData(cocos2d::Vec2(1.0f,1.0f));
+        hqScene2ElementPositioner->setHighlightData(highlightdata);
         
         cocos2d::Point placeHolderPosition = hqScene2ElementPositioner->positionHQSceneElement();
         
@@ -50,22 +58,32 @@ void HQScene2PlaceHolderCreator::addPlaceHoldersToCarousel()
         else
         {
             placeHolder->setPosition(placeHolderPosition);
+            addPlaceHolderImageToLayer(placeHolder, highlightdata);
             _carouselLayer->addChild(placeHolder);
         }
     }
 }
 
-cocos2d::Layer* HQScene2PlaceHolderCreator::createPlaceHolderLayer()
+cocos2d::Layer* HQScene2PlaceHolderCreator::createPlaceHolderLayer(cocos2d::Vec2 highlightdata)
 {
     cocos2d::Layer* placeHolderLayer = cocos2d::Layer::create();
-    placeHolderLayer->setContentSize(_unitSize);
+    placeHolderLayer->setContentSize(Size(highlightdata.x * _unitSize.width, highlightdata.y * _unitSize.height));
     
-    cocos2d::Sprite* placeHolderImage = cocos2d::Sprite::create("res/hqscene/placeholder.png");
+    return placeHolderLayer;
+}
+
+void HQScene2PlaceHolderCreator::addPlaceHolderImageToLayer(cocos2d::Layer *placeHolderLayer, cocos2d::Vec2 highlightdata)
+{
+    std::string fileName = StringUtils::format("res/hqscene/placeholder%d%d.png", (int)highlightdata.x, (int)highlightdata.y);
+    if(!FileUtils::getInstance()->isFileExist(fileName))
+    {
+        fileName = "res/hqscene/placeholder11.png";
+    }
+    
+    cocos2d::Sprite* placeHolderImage = cocos2d::Sprite::create(fileName);
     placeHolderImage->setScale((placeHolderLayer->getContentSize().width - _margin) / placeHolderImage->getContentSize().width, (placeHolderLayer->getContentSize().height - _margin) / placeHolderImage->getContentSize().height);
     placeHolderImage->setPosition(placeHolderLayer->getContentSize() / 2);
     placeHolderLayer->addChild(placeHolderImage);
-    
-    return placeHolderLayer;
 }
 
 NS_AZOOMEE_END
