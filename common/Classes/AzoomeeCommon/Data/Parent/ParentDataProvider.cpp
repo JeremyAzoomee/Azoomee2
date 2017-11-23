@@ -63,6 +63,11 @@ std::string ParentDataProvider::getLoggedInParentAvatarId()
 {
     return ParentDataStorage::getInstance()->loggedInParentAvatarId;
 }
+    
+std::string ParentDataProvider::getLoggedInParentCountryCode()
+{
+    return ParentDataStorage::getInstance()->loggedInParentCountryCode;
+}
 
 std::string ParentDataProvider::getBillingStatus()
 {

@@ -9,6 +9,7 @@
 #include "LoginLogicHandler.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/ErrorCodes.h>
+#include "ContentHistoryManager.h"
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -22,7 +23,7 @@ void navigateToBaseScene()
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
         return;
     }
-    
+    ContentHistoryManager::getInstance()->setReturnedFromContent(true);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }
 

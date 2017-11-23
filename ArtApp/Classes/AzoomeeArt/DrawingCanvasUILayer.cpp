@@ -114,8 +114,7 @@ void DrawingCanvasUILayer::addBackgroundFrame(const Size& visibleSize, const Poi
     stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     bgClipNode->setStencil(stencil);
     LayerColor* bgColour = LayerColor::create(Color4B(Style::Color_4F::black));
-    bgColour->setContentSize(visibleSize);
-    bgColour->setPosition(visibleOrigin);
+    bgColour->setContentSize(Director::getInstance()->getWinSize());
     bgClipNode->addChild(bgColour);
     bgClipNode->setInverted(true);
     this->addChild(bgClipNode);

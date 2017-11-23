@@ -23,7 +23,7 @@ bool TitleBarWidget::init()
     }
     
     setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    setBackGroundColor(Style::Color::darkTwo);
+    setBackGroundColor(Style::Color::dark);
     setLayoutType(ui::Layout::Type::RELATIVE);
     
     // Back button

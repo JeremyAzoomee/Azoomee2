@@ -58,12 +58,15 @@ void HQDataObject::addContentItemToRawStorage(const std::string &contentItemId, 
 
 HQContentItemObjectRef HQDataObject::getContentItemForId(const std::string &contentItemId) const
 {
-    if(contentItemId == "")
+    try
+    {
+        HQContentItemObjectRef item = _rawContentItems.at(contentItemId);
+        return item;
+    }
+    catch(std::out_of_range)
     {
         return nullptr;
     }
-    
-    return _rawContentItems.at(contentItemId);
 }
 
 void HQDataObject::clearData()

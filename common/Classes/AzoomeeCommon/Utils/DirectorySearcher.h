@@ -26,6 +26,7 @@ namespace Azoomee
         std::vector<std::string> getFoldersInDirectory(const std::string& path);
         std::vector<std::string> getAllInDirectory(const std::string& path);
         std::vector<std::string> getImagesInDirectory(const std::string& path);
+        std::vector<std::string> getJsonFilesInDirectory(const std::string& path);
         
     };
 }

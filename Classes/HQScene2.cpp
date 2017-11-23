@@ -144,8 +144,6 @@ cocos2d::ui::ScrollView* HQScene2::createScrollView()
     vScrollView->setSwallowTouches(false);
     vScrollView->setName("scrollView");
     
-    //addListenerToScrollView(vScrollView);
-    
     return vScrollView;
 }
 
@@ -181,8 +179,6 @@ void HQScene2::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
 
 cocos2d::LayerColor* HQScene2::createNewCarousel()
 {
-    //cocos2d::Layer* carouselLayer = cocos2d::Layer::create();
-    
     cocos2d::LayerColor*carouselLayer = cocos2d::LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), Director::getInstance()->getVisibleSize().width - 2 * _sideMarginSize, 0);
     
     return carouselLayer;

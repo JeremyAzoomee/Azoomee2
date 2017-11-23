@@ -10,11 +10,13 @@
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
+//#define USING_LOCAL_CTA_ASSETS YES
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -58,7 +60,7 @@ void DynamicNodeHandler::createDynamicNodeById(const std::string& uniqueId)
     
     for(const std::string& folder : folders)
     {
-        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPath + folder);
+        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
         for(const std::string& file : fileNames)
         {
             if(file == uniqueId)
@@ -82,7 +84,7 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
     {
         if(folder == groupId)
         {
-            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getFilesInDirectory(ctaPath + folder);
+            const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
             
             int randomFileNameIndex = rand()%fileNames.size();
             AnalyticsSingleton::getInstance()->ctaWindowAppeared(groupId, fileNames[randomFileNameIndex]);
@@ -94,10 +96,37 @@ void DynamicNodeHandler::createDynamicNodeByGroupId(const std::string& groupId)
 
 }
 
+void DynamicNodeHandler::createDynamicNodeByIdWithParams(const std::string& uniqueId, const std::string& params)
+{
+    //local device folder
+    const std::string& ctaPath = getCTADirectoryPath();
+    const std::vector<std::string>& folders = DirectorySearcher::getInstance()->getFoldersInDirectory(ctaPath);
+    
+    for(const std::string& folder : folders)
+    {
+        const std::vector<std::string>& fileNames = DirectorySearcher::getInstance()->getJsonFilesInDirectory(ctaPath + folder);
+        for(const std::string& file : fileNames)
+        {
+            if(file == uniqueId)
+            {
+                AnalyticsSingleton::getInstance()->ctaWindowAppeared("N/A", uniqueId);
+                createDynamicNodeFromFileWithParams(ctaPath + folder + "/" + file, params);
+                return;
+            }
+        }
+    }
+    
+}
+
 void DynamicNodeHandler::getCTAFiles()
 {
+#ifdef USING_LOCAL_CTA_ASSETS
+    removeCTAFiles();
+    unzipBundleCTAFiles();
+#else
     checkIfVersionChangedFromLastCTAPull();
     getCTAPackageJSON(ConfigStorage::getInstance()->getCTAPackageJsonURL());
+#endif
 }
 
 rapidjson::Document DynamicNodeHandler::getLocalCTAPackageJSON()
@@ -140,9 +169,9 @@ void DynamicNodeHandler::getCTAPackageJSON(const std::string& url)
     jsonRequest->setRequestType(network::HttpRequest::Type::GET);
     jsonRequest->setUrl(url.c_str());
     
-    std::vector<std::string> headers
-    {
-        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+    std::vector<std::string> headers{
+        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
+        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
     jsonRequest->setHeaders(headers);
     
@@ -208,9 +237,9 @@ void DynamicNodeHandler::getCTAPackageZip(const std::string& url)
     zipRequest->setRequestType(network::HttpRequest::Type::GET);
     zipRequest->setUrl(url.c_str());
     
-    std::vector<std::string> headers
-    {
-        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+    std::vector<std::string> headers{
+        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
+        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
 
     zipRequest->setHeaders(headers);
@@ -316,6 +345,12 @@ void DynamicNodeHandler::removeCTAFiles()
 void DynamicNodeHandler::createDynamicNodeFromFile(const std::string &file)
 {
     Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFile(file);
+    Director::getInstance()->getRunningScene()->addChild(cta);
+}
+
+void DynamicNodeHandler::createDynamicNodeFromFileWithParams(const std::string &file, const std::string& params)
+{
+    Node* cta = DynamicNodeCreator::getInstance()->createCTAFromFileWithParams(file, params);
     Director::getInstance()->getRunningScene()->addChild(cta);
 }
 
