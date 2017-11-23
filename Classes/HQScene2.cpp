@@ -122,6 +122,12 @@ void HQScene2::startBuildingScrollView()
     scrollView->addChild(privacyLayer);
     
     this->addChild(scrollView);
+    
+    //add gradient on top of scrollView
+    
+    cocos2d::Sprite* gradient = createGradientForScrollView(scrollView->getContentSize().width);
+    gradient->setPosition(scrollView->getContentSize().width / 2 + scrollView->getPosition().x, scrollView->getPosition().y + scrollView->getContentSize().height - gradient->getContentSize().width / 2 + 5);
+    this->addChild(gradient);
 }
 
 cocos2d::ui::ScrollView* HQScene2::createScrollView()
@@ -141,6 +147,16 @@ cocos2d::ui::ScrollView* HQScene2::createScrollView()
     //addListenerToScrollView(vScrollView);
     
     return vScrollView;
+}
+
+Sprite* HQScene2::createGradientForScrollView(float scrollViewWith)
+{
+    Sprite* verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
+    verticalScrollGradient->setAnchorPoint(Vec2(0.5, 1.0));
+    verticalScrollGradient->setScaleX(scrollViewWith / verticalScrollGradient->getContentSize().width);
+    verticalScrollGradient->setColor(Color3B::BLACK);
+    
+    return verticalScrollGradient;
 }
 
 cocos2d::Layer* HQScene2::createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex)

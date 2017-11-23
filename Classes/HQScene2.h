@@ -36,6 +36,8 @@ private:
     cocos2d::ui::ScrollView* createScrollView();
     cocos2d::Layer* createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
     
+    cocos2d::Sprite* createGradientForScrollView(float scrollViewWith);
+    
     //creating carousel elements
     cocos2d::LayerColor* createNewCarousel();
     float calculateUnitMultiplier();
