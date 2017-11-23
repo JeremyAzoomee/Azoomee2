@@ -133,4 +133,34 @@ namespace Azoomee{
         }
     }
     
+    std::vector<std::string> DirectorySearcher::getJsonFilesInDirectory(const std::string& path)
+    {
+        std::vector<std::string> fileNames;
+        
+        DIR *dir;
+        struct dirent *ent;
+        if ((dir = opendir (path.c_str())) != NULL)
+        {
+            while ((ent = readdir (dir)) != NULL)
+            {
+                std::string fileName(ent->d_name);
+                
+                if(fileName.size() > 4)
+                {
+                    if(fileName.substr(fileName.size() -4, 4) == "json")
+                    {
+                        fileNames.push_back(fileName);
+                    }
+                }
+            }
+            closedir (dir);
+            return fileNames;
+        }
+        else
+        {
+            perror ("");
+            return fileNames;
+        }
+    }
+    
 }

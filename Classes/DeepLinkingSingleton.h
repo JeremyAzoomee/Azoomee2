@@ -19,26 +19,27 @@ private:
     //Used to avoid loop of childLogin, if content ID is not valid.
     bool deepLinkActionWaiting;
     
-    bool setHostAndPath(std::string uriString);
+    bool setHostAndPath(const std::string& uriString);
     
     void completeContentAction(const HQContentItemObjectRef &contentItem);
     
     void moveToHQ(ConfigStorage::HubTargetTagNumber hqName);
     void resetDeepLink();
-    std::string getDataForKeyFromJSON(std::string jsonString, std::string key);
+    std::string getDataForKeyFromJSON(const std::string& jsonString, const std::string& key);
     
 public:
     static DeepLinkingSingleton* getInstance(void);
     virtual ~DeepLinkingSingleton();
     bool init(void);
     
-    void setDeepLink(std::string uriString);
+    void setDeepLink(const std::string& uriString);
     bool actionDeepLink();
-    void contentDetailsResponse(std::string responseBody);
+    void contentDetailsResponse(const std::string& responseBody);
     
     //Delegate Functions
-    void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle);
     
+    static const std::string kPostContentDeeplinkStr;
 };
 
 NS_AZOOMEE_END

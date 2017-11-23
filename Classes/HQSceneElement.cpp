@@ -29,8 +29,8 @@
 #include "ManualGameInputLayer.h"
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
-
 #include "DynamicNodeHandler.h"
+#include "ContentHistoryManager.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -177,10 +177,12 @@ void HQSceneElement::startUpElementDependingOnType()
     
     if(elementItemData->getType() == "GAME")
     {
+        ContentHistoryManager::getInstance()->setLastOppenedContent(elementItemData);
         GameDataManager::getInstance()->startProcessingGame(elementItemData);
     }
     else if((elementItemData->getType() == "VIDEO") || (elementItemData->getType() == "AUDIO"))
     {
+        ContentHistoryManager::getInstance()->setLastOppenedContent(elementItemData);
         VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(elementCategory)->getHqCarousels().at(elementRowNumber));
         
         auto webViewSelector = WebViewSelector::create();

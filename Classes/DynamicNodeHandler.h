@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/Data/Json.h>
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/Json.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -44,6 +45,7 @@ private:
     std::string getBundledAssetsPath() const;
     
     void createDynamicNodeFromFile(const std::string& file);
+    void createDynamicNodeFromFileWithParams(const std::string &file, const std::string& params);
     
 public:
     //-----start popup group names here
@@ -57,6 +59,8 @@ public:
     
     void createDynamicNodeById(const std::string& uniqueId);
     void createDynamicNodeByGroupId(const std::string& groupId);
+    
+    void createDynamicNodeByIdWithParams(const std::string& uniqueId, const std::string& params);
     
     void getCTAFiles();
     

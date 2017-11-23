@@ -13,6 +13,8 @@
 #include "PreviewLoginSignupMessageBox.h"
 #include "DynamicNodeCreator.h"
 #include "SceneManagerScene.h"
+#include "DeepLinkingSingleton.h"
+#include "ContentHistoryManager.h"
 
 using namespace cocos2d;
 
@@ -56,7 +58,23 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("close");
                 closeCTAPopup();
             }
-    }
+        }
+        else if(buttonAction->getType() == _kButtonTypeDeepLink)
+        {
+            const std::string& location = buttonAction->getParamForKey("location");
+            if(location == "replay")
+            {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("replayContent");
+                DeepLinkingSingleton::getInstance()->setDeepLink(DeepLinkingSingleton::kPostContentDeeplinkStr + ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId()); // fire up content directly when content opener exists
+                closeCTAPopup();
+            }
+            else
+            {
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("OpenRecommendedContent");
+                DeepLinkingSingleton::getInstance()->setDeepLink(location);
+                closeCTAPopup();
+            }
+        }
     }
 }
 

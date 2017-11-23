@@ -65,6 +65,11 @@ std::map<std::string, std::string> ButtonActionData::getParams()
     return _params;
 }
 
+void ButtonActionData::setParams(const std::map<std::string,std::string>& updatedParams)
+{
+    _params = updatedParams;
+}
+
 std::string ButtonActionData::getParamForKey(const std::string& key)
 {
     try{

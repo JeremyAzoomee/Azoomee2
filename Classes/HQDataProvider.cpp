@@ -132,6 +132,21 @@ HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::str
     return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(itemid);
 }
 
+HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::string &itemid)
+{
+    const std::vector<std::string>& hqNames = {"GAME HQ", "VIDEO HQ", "AUDIO_HQ"};
+    for(const std::string& cat : hqNames)
+    {
+        HQContentItemObjectRef item = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(cat)->getContentItemForId(itemid);
+        if(item)
+        {
+            return item;
+        }
+    }
+    
+    return nullptr;
+}
+
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber)
 {
     return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
