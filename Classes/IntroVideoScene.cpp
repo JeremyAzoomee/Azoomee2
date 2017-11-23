@@ -11,7 +11,7 @@
 using namespace cocos2d;
 using namespace cocos2d::experimental::ui;
 
-#define novideo
+//#define novideo
 
 NS_AZOOMEE_BEGIN
 
