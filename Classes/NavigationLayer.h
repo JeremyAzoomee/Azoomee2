@@ -44,6 +44,8 @@ private:
     cocos2d::Sprite* addMenuItemActive(int itemNumber, cocos2d::Node *toBeAddedTo);
     void addListenerToMenuItem(Node *toBeAddedTo);
     
+    void addXmasDecorationToMenuItem(int itemNumber, cocos2d::Node *toBeAddedTo);
+    
     void runDisplayAnimationForMenuItem(cocos2d::Node* node1, bool quick);
     
     void moveMenuPointsToHorizontalState(float duration);

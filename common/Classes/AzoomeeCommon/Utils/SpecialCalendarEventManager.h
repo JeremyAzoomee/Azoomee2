@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 #include "../Azoomee.h"
 
+#define DECORATION_ZORDER 9999 //usually decoration should be put on top of everything, so we define a high zorder number for that.
+
 NS_AZOOMEE_BEGIN
 
 class SpecialCalendarEventManager
