@@ -86,6 +86,7 @@ void HQScene2::startBuildingScrollView()
         hqScene2PlaceHolderCreator->setLowestElementYPosition(lowestElementYPosition);
         hqScene2PlaceHolderCreator->setCarouselLayer(carouselLayer);
         hqScene2PlaceHolderCreator->setBaseUnitSize(ConfigStorage::getInstance()->getSizeForContentItemInCategory(_hqCategory) * _unitMultiplier);
+        hqScene2PlaceHolderCreator->setMargin(_contentItemMargin);
         hqScene2PlaceHolderCreator->addPlaceHoldersToCarousel();
         
         postSizeAndAlignCarousel(carouselLayer, lowestElementYPosition); //with the flexible sizing method, the contentSize of the carousel is not predictable, we need to do it after all elements are in place.

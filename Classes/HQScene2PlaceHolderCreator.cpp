@@ -22,6 +22,11 @@ void HQScene2PlaceHolderCreator::setLowestElementYPosition(float lowestElementYP
     _lowestElementYPosition = lowestElementYPosition;
 }
 
+void HQScene2PlaceHolderCreator::setMargin(float margin)
+{
+    _margin = margin;
+}
+
 void HQScene2PlaceHolderCreator::addPlaceHoldersToCarousel()
 {
     cocos2d::Point position = Point(0, -_unitSize.height);
@@ -55,9 +60,10 @@ cocos2d::Layer* HQScene2PlaceHolderCreator::createPlaceHolderLayer()
     cocos2d::Layer* placeHolderLayer = cocos2d::Layer::create();
     placeHolderLayer->setContentSize(_unitSize);
     
-    cocos2d::LayerColor* visual = cocos2d::LayerColor::create(cocos2d::Color4B(186, 186, 186, 100), placeHolderLayer->getContentSize().width - 20, placeHolderLayer->getContentSize().height - 20);
-    visual->setPosition(Vec2(10,10));
-    placeHolderLayer->addChild(visual);
+    cocos2d::Sprite* placeHolderImage = cocos2d::Sprite::create("res/hqscene/placeholder.png");
+    placeHolderImage->setScale((placeHolderLayer->getContentSize().width - _margin) / placeHolderImage->getContentSize().width, (placeHolderLayer->getContentSize().height - _margin) / placeHolderImage->getContentSize().height);
+    placeHolderImage->setPosition(placeHolderLayer->getContentSize() / 2);
+    placeHolderLayer->addChild(placeHolderImage);
     
     return placeHolderLayer;
 }

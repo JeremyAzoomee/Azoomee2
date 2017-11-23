@@ -12,6 +12,7 @@ public:
     void setCarouselLayer(cocos2d::Node* carouselLayer);
     void setBaseUnitSize(cocos2d::Size unitSize);
     void setLowestElementYPosition(float lowestElementYPosition);
+    void setMargin(float margin);
     
     void addPlaceHoldersToCarousel();
     
@@ -19,6 +20,7 @@ private:
     cocos2d::Node* _carouselLayer;
     cocos2d::Size _unitSize;
     float _lowestElementYPosition = 0.0f;
+    float _margin = 10.0f;
     
     cocos2d::Layer* createPlaceHolderLayer();
 };
