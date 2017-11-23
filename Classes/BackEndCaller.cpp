@@ -295,6 +295,7 @@ void BackEndCaller::getGordon()
 
 void BackEndCaller::onGetGordonAnswerReceived(const std::string& responseString)
 {
+    FileUtils::getInstance()->writeStringToFile(responseString, FileUtils::getInstance()->getWritablePath() + "cookies.txt");
     if(CookieDataParser::getInstance()->parseDownloadCookies(responseString))
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(BaseWithNoHistory));
 }

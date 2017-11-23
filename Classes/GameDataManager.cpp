@@ -60,8 +60,8 @@ bool GameDataManager::init(void)
 
 void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData)
 {
-    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://games.azoomee.ninja/" + itemData->getContentItemId() + "/export/index-azoomee.html"));
-    
+    //Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://games.azoomee.ninja/" + itemData->getContentItemId() + "/export/index-azoomee.html"));
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/index.html"));
     return;
     
     AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
@@ -120,6 +120,9 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     const std::string &basePath = getGameIdPath(itemId);
     const std::string &basePathWithFileName = basePath + "package.json";
     const std::string &startFile = getStartFileFromJSONFile(basePathWithFileName);
+    
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://media.azoomee.ninja/distribution/global/" +itemId + "/" + startFile));
+    return;
     
     if(!isGameCompatibleWithCurrentAzoomeeVersion(basePathWithFileName))
     {
