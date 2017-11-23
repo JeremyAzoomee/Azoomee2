@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 	<head>
-	
+
 	</head>
 	<body bgcolor="black">
-		
+
 		<script src="./jwplayer/jwplayer.js"></script>
-		<script>jwplayer.key="wrR1ClbRkYGQx0IOIV2gMJQggtFCdWaDaza25g==";</script>
+		<script>jwplayer.key="BwwBSuXdS5gq/y1wfVzLoplRmFNIiRxUmmVA4PcvyYL3EkiA";</script>
 
 		<div id="videoPlayer"></div>
 		<script type="text/javascript">
@@ -14,18 +14,18 @@
 			var sent50 = false;
 			var sent75 = false;
 			var firstPlaylistElement = true; //android jwplayer sends 2 playlistItem events on start
-		
+
 			var contentUrl = getUrlVars()["contentUrl"];
 			var playerInstance = jwplayer("videoPlayer");
-			
+
 			var receivedPlaylist = atob(NativeInterface.getVideoPlaylist());
-			
+
 			var contentUrl = getUrlVars()["contentUrl"];
 			var playerInstance = jwplayer("videoPlayer");
-		
+
 			var playListArray = [];
 			var jumpToThisElement = -1;
-			
+
 			if(receivedPlaylist == "noPlaylist")
 			{
 				playListArray.push({file: contentUrl, mediaid: "episode"});
@@ -34,20 +34,20 @@
 			else
 			{
 				receivedPlaylist = JSON.parse(receivedPlaylist);
-			
+
 				for(i = 0; i < receivedPlaylist["Elements"].length; i++)
-				{	
+				{
 					var uri = receivedPlaylist["Elements"][i]["uri"];
 					var imageuri = receivedPlaylist["Elements"][i]["image"];
 					var titleText = receivedPlaylist["Elements"][i]["title"];
-					
+
 					playListArray.push({file: uri, mediaid: "episode", image: imageuri, title: titleText});
 					if(uri == contentUrl) jumpToThisElement = i;
-					
+
 					console.log("JWPLAYER - uri: " + uri + " image: " + imageuri + " title: " + titleText);
 				}
 			}
-			
+
 			playerInstance.setup
 			({
     			playlist: playListArray,
@@ -57,17 +57,17 @@
     			height: "100%",
       			width: "100%"
 			});
-			
+
 			jwplayer().playlistItem(jumpToThisElement);
-			
+
 			jwplayer().on('error', function(event){
 				getBackToLoginScreen();
 			});
-			
+
 			jwplayer().on('setupError', function(event){
 				getBackToLoginScreen();
 			});
-			
+
 			jwplayer().on('play', function(event){
 				console.log("play");
 				if(document.getElementById("loadingScreen"))
@@ -75,33 +75,33 @@
 					var loadingScreen = document.getElementById("loadingScreen");
 					loadingScreen.parentElement.removeChild(loadingScreen);
 				}
-				
+
 				NativeInterface.sendMediaPlayerData("play", "");
 			});
-			
+
 			jwplayer().on('ready', function(event){
 				var loadingScreen = document.getElementById("loadingScreen");
 				loadingScreen.innerHTML = '<div button onClick="startPlayBack()" id="loadingText" style="width: 100%; height: 100%; background-image: url(./play.png); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center; background-size: auto 18%;"></div>';
 				startPlayBack();
 			});
-			
+
 			jwplayer().on('pause', function(event){
 				NativeInterface.sendMediaPlayerData("pause", "");
 			});
-			
+
 			jwplayer().on('visualQuality', function(event){
 				var currentQuality = jwplayer().getVisualQuality().level;
 				NativeInterface.sendMediaPlayerData("quality", currentQuality["height"]);
 			});
-			
+
 			jwplayer().on('time', function(event){
 				var totalDuration = jwplayer().getDuration();
 				var currentPosition = jwplayer().getPosition();
-				
+
 				var percentage = currentPosition / totalDuration * 100;
-				
+
 				var eventToCall = "";
-				
+
 				if((percentage > 0)&&(!sent0))
 				{
 					sent0 = true;
@@ -122,26 +122,26 @@
 					sent75 = true;
 					eventToCall = "75";
 				}
-				
+
 				if(eventToCall != "") NativeInterface.sendMediaPlayerData("time", eventToCall);
 			});
-			
+
 			jwplayer().on('complete', function(event){
 				NativeInterface.sendMediaPlayerData("complete", "");
 			});
-			
+
 			jwplayer().on('playlistComplete', function(event){
-				NativeInterface.sendMediaPlayerData("playlistComplete", "");	
+				NativeInterface.sendMediaPlayerData("playlistComplete", "");
 				NativeInterface.exitView();
 			});
-			
+
 			jwplayer().on('playlistItem', function(event){
 				if(firstPlaylistElement)  //android jwplayer sends 2 playlistItem events on start
 				{
 					firstPlaylistElement = false;
 					return;
 				}
-				
+
 				sent0 = false;
 				sent25 = false;
 				sent50 = false;
@@ -149,7 +149,7 @@
 				var elementIndex = event.index;
 				NativeInterface.sendMediaPlayerData("playlistItem", elementIndex.toString());
 			});
-			
+
 			jwplayer().on('firstFrame', function(event){
 				sent0 = false;
 				sent25 = false;
@@ -158,41 +158,41 @@
 				var loadtime = event.loadTime;
 				NativeInterface.sendMediaPlayerData("firstFrame", loadtime.toString());
 			});
-		
-			function getUrlVars() 
+
+			function getUrlVars()
 			{
 				var vars = {};
-				var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) 
+				var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value)
 				{
 					vars[key] = value;
 				});
 				return vars;
 			}
-			
+
 			function startPlayBack()
 			{
 				jwplayer().play(true);
 			}
-			
+
 			function getBackToLoginScreen()
 			{
 				NativeInterface.errorOccurred();
 			}
 </script>
 <style type="text/css">
-			html,body 
-			{ 
-				height:100%; 
-				width:100%; 
-				padding:0; 
-				margin:0; 
+			html,body
+			{
+				height:100%;
+				width:100%;
+				padding:0;
+				margin:0;
 			}
-			
+
 			#videoPlayer
 			{
 				height:100%;
-				width:100%; 
-				padding:0; 
+				width:100%;
+				padding:0;
 			}
 		</style>
 		<div id="loadingScreen" style="text-align: center; vertical-align: middle; background-color: #000000; position: absolute; left: 0px; top: 0px; bottom: 0px; background-image: url(./loading_bg.jpg); width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;  background-size: auto 50%;">

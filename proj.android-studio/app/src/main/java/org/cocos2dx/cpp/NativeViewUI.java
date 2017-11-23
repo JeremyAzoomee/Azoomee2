@@ -30,6 +30,7 @@ public class NativeViewUI extends Activity {
     public static ImageButton imageButtonStatic;
     private static final int _portrait = 1;
     private static final int _horizonal = 0;
+    private boolean isWebViewReady = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +101,7 @@ public class NativeViewUI extends Activity {
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 if(uiWebView != null)
                 {
+                    isWebViewReady = false;
                     uiWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
 
                     uiWebView.loadUrl("about:blank");
@@ -244,6 +246,7 @@ public class NativeViewUI extends Activity {
 
         uiWebView.addJavascriptInterface(new JsInterfaceUI(), "NativeInterface");
         uiWebView.loadUrl(urlToBeLoaded);
+        isWebViewReady = true;
     }
 
     static void errorOccurred()
@@ -258,6 +261,11 @@ public class NativeViewUI extends Activity {
     {
         super.onPause();
         JNICalls.JNIRegisterAppWentBackgroundEvent();
+        if(isWebViewReady && uiWebView != null)
+        {
+            uiWebView.pauseTimers();
+            uiWebView.onPause();
+        }
     }
 
     @Override
@@ -265,5 +273,10 @@ public class NativeViewUI extends Activity {
     {
         super.onResume();
         JNICalls.JNIRegisterAppCameForegroundEvent();
+        if(isWebViewReady && uiWebView != null)
+        {
+            uiWebView.resumeTimers();
+            uiWebView.onResume();
+        }
     }
 }

@@ -154,6 +154,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static String getHMACSHA256(String message, String secret) {
         String hash = "";
         try {
+
             Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
             SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
             sha256_HMAC.init(secret_key);

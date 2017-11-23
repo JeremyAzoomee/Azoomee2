@@ -39,6 +39,7 @@ public:
     std::string getServerUrlPrefix();
     std::string getServerUrl();
     std::string getImagesUrl();
+    std::string getCTAPackageJsonURL();
     std::string getMediaPrefixForXwalkCookies();
     std::string getPathForTag(std::string httpRequestTag);
     bool isParentSignatureRequiredForRequest(std::string requestTag);

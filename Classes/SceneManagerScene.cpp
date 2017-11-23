@@ -14,6 +14,7 @@
 #include "FlowDataSingleton.h"
 #include "FTUScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
+#include <AzoomeeChat/UI/FriendListSceneArtPreview.h>
 #include "ChatDelegate.h"
 #include "../ArtApp/Classes/AzoomeeArt/MainScene.h"
 #include "../ArtApp/Classes/AzoomeeArt/AzoomeeArtApp.h"
@@ -179,7 +180,15 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Azoomee::Chat::delegate = ChatDelegate::getInstance();
             
             acceptAnyOrientation();
-            cocos2d::Scene* goToScene = Azoomee::Chat::FriendListScene::create();
+            cocos2d::Scene* goToScene;
+            if(Azoomee::Chat::delegate->_imageFileName != "")
+            {
+                goToScene = Azoomee::Chat::FriendListSceneArtPreview::create();
+            }
+            else
+            {
+                goToScene = Azoomee::Chat::FriendListScene::create();
+            }
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHAT");
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
             break;

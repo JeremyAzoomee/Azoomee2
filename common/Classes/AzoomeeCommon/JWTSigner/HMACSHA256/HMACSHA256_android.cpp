@@ -18,5 +18,5 @@ std::string HMACSHA256::getHMACSHA256Hash(const std::string& message, const std:
     
     return hmacResponse;
 }
-  
+    
 }

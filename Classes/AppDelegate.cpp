@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Utils/PushNotificationsHandler.h>
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/ErrorCodes.h>
+#include "ContentHistoryManager.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -100,7 +101,7 @@ void AppDelegate::applicationWillEnterForeground()
             Director::getInstance()->replaceScene(OfflineHubScene::createScene());
             return;
         }
-        
+        ContentHistoryManager::getInstance()->setReturnedFromContent(true);
         HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
         
         auto baseScene = BaseScene::createScene();

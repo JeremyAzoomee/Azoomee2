@@ -114,8 +114,7 @@ void DrawingCanvasUILayer::addBackgroundFrame(const Size& visibleSize, const Poi
     stencil->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     bgClipNode->setStencil(stencil);
     LayerColor* bgColour = LayerColor::create(Color4B(Style::Color_4F::black));
-    bgColour->setContentSize(visibleSize);
-    bgColour->setPosition(visibleOrigin);
+    bgColour->setContentSize(Director::getInstance()->getWinSize());
     bgClipNode->addChild(bgColour);
     bgClipNode->setInverted(true);
     this->addChild(bgClipNode);
@@ -429,7 +428,7 @@ void DrawingCanvasUILayer::addBrushRadiusSlider(const Size& visibleSize, const P
     _drawingCanvas->setBrushRadius(INITIAL_RADIUS + _brushSizeSlider->getPercent());
     _brushSizeSlider->setAnchorPoint(Vec2(0.5,0.5));
     _brushSizeSlider->setRotation(-90);
-    _brushSizeSlider->setPosition(Vec2(visibleOrigin.x + _brushSizeSlider->getContentSize().height*2,visibleOrigin.y + visibleSize.height/2));
+    _brushSizeSlider->setPosition(Vec2(visibleOrigin.x + _brushSizeSlider->getContentSize().height*2,visibleOrigin.y + visibleSize.height - _brushSizeSlider->getContentSize().width/2 - visibleSize.height * 0.35f));
     _brushSizeSlider->addEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onRadiusSliderInteract, this));
     
     Sprite* plusIcon = Sprite::create(kArtAppAssetLoc + "fill_1.png");

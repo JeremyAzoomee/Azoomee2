@@ -12,12 +12,16 @@
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "ContentHistoryManager.h"
+#include <AzoomeeCommon/Data/Json.h>
 
 using namespace cocos2d;
 using namespace Azoomee;
 
 NS_AZOOMEE_BEGIN
-    
+
+const std::string DeepLinkingSingleton::kPostContentDeeplinkStr = "azoomee://post-content/";
+
 static DeepLinkingSingleton *_sharedDeepLinkingSingleton = NULL;
 
 DeepLinkingSingleton* DeepLinkingSingleton::getInstance()
@@ -41,7 +45,7 @@ bool DeepLinkingSingleton::init(void)
     return true;
 }
 
-void DeepLinkingSingleton::setDeepLink(std::string uriString)
+void DeepLinkingSingleton::setDeepLink(const std::string& uriString)
 {
     CCLOG("DEEPLINK URI:%s",uriString.c_str());
     
@@ -49,7 +53,9 @@ void DeepLinkingSingleton::setDeepLink(std::string uriString)
     deepLinkActionWaiting = setHostAndPath(uriString);
     
     if(Director::getInstance()->getRunningScene())
+    {
         actionDeepLink();
+    }
 }
 
 void DeepLinkingSingleton::resetDeepLink()
@@ -59,22 +65,28 @@ void DeepLinkingSingleton::resetDeepLink()
     path = "";
 }
 
-bool DeepLinkingSingleton::setHostAndPath(std::string uriString)
+bool DeepLinkingSingleton::setHostAndPath(const std::string& uriString)
 {
-    std::vector<std::string> splitByAzoomeVector = splitStringToVector(stringToLower(uriString), "azoomee://");
+    const std::vector<std::string>& splitByAzoomeVector = splitStringToVector(stringToLower(uriString), "azoomee://");
     
     if(splitByAzoomeVector.size() == 0 || splitByAzoomeVector.size() > 2)
+    {
         return false;
+    }
     
     std::string uriStringWhole = splitByAzoomeVector.at(0);
     
     if(splitByAzoomeVector.size() == 2)
+    {
         uriStringWhole = splitByAzoomeVector.at(1);
+    }
     
-    std::vector<std::string>  splitByForwardSlash = splitStringToVector(uriStringWhole, "/");
+    const std::vector<std::string>&  splitByForwardSlash = splitStringToVector(uriStringWhole, "/");
     
     if(splitByForwardSlash.size() != 2)
+    {
         return false;
+    }
     
     host = splitByForwardSlash.at(0);
     path = splitByForwardSlash.at(1);
@@ -87,7 +99,9 @@ bool DeepLinkingSingleton::setHostAndPath(std::string uriString)
 bool DeepLinkingSingleton::actionDeepLink()
 {
     if(host == "" || path == "" || !deepLinkActionWaiting)
+    {
         return false;
+    }
     
     if(host == "content" && ChildDataProvider::getInstance()->getIsChildLoggedIn())
     {
@@ -97,6 +111,15 @@ bool DeepLinkingSingleton::actionDeepLink()
         deepLinkActionWaiting = false;
         BackEndCaller::getInstance()->getElectricDreamsContent("deepLinkContentRequest", path);
         return true;
+    }
+    else if(host == "post-content")
+    {
+        const HQContentItemObjectRef& item = HQDataProvider::getInstance()->getItemDataForSpecificItem(path);
+        if(item)
+        {
+            completeContentAction(item);
+        }
+        
     }
     else if(host == "moveto")
     {
@@ -111,7 +134,9 @@ bool DeepLinkingSingleton::actionDeepLink()
         }
         
         if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+        {
             return false;
+        }
         
         if(path == "chat")
         {
@@ -161,13 +186,15 @@ void DeepLinkingSingleton::moveToHQ(ConfigStorage::HubTargetTagNumber hqName)
         NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
         
         if(navigationLayer)
+        {
             navigationLayer->changeToScene(hqName, 0.1);
+        }
     }
     
     resetDeepLink();
 }
 
-void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
+void DeepLinkingSingleton::contentDetailsResponse(const std::string& responseBody)
 {
     rapidjson::Document contentData;
     contentData.Parse(responseBody.c_str());
@@ -175,7 +202,10 @@ void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
     cocos2d::log("DATA RESPONSE: %s", responseBody.c_str());
     
     //ERROR CHECK RESPONSE
-    if (contentData.HasParseError()) return;
+    if (contentData.HasParseError())
+    {
+        return;
+    }
     
     if(contentData["entitled"].GetBool())
     {
@@ -198,27 +228,29 @@ void DeepLinkingSingleton::contentDetailsResponse(std::string responseBody)
     }
 }
 
-std::string DeepLinkingSingleton::getDataForKeyFromJSON(std::string jsonString, std::string key)
+std::string DeepLinkingSingleton::getDataForKeyFromJSON(const std::string& jsonString, const std::string& key)
 {
     rapidjson::Document jsonData;
     jsonData.Parse(jsonString.c_str());
     
-    if(jsonData.HasParseError()) return "";
-    if(!jsonData.HasMember(key.c_str())) return "";
-    if(jsonData[key.c_str()].IsNull()) return "";
-    if(!jsonData[key.c_str()].IsString()) return "";
-    
-    return jsonData[key.c_str()].GetString();
+    return getStringFromJson(key, jsonData);
 }
 
 void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &contentItem)
 {
+    if(!contentItem->isEntitled())
+    {
+        return;
+    }
+    
     if(contentItem->getType() == "GAME")
     {
+        ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
     else if(contentItem->getType()  == "VIDEO" || contentItem->getType()  == "AUDIO")
     {
+        ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         VideoPlaylistManager::getInstance()->clearPlaylist();
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);
@@ -252,7 +284,7 @@ void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &c
 }
 
 //Delegate Functions
-void DeepLinkingSingleton::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
+void DeepLinkingSingleton::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
 {
     IAPUpsaleLayer::createRequiresPin();
 }

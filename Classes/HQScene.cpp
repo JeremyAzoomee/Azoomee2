@@ -12,14 +12,14 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "HQHistoryManager.h"
+#include "ContentHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "OfflineHubBackButton.h"
 #include "HQSceneArtsApp.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
-
 #include "ImageConverterLoadingLayer.h"
-
 #include <AzoomeeCommon/UI/ModalMessages.h>
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
@@ -35,6 +35,7 @@ Scene* HQScene::createSceneForOfflineArtsAppHQ()
     layer->setName("ARTS APP");
     
     auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+    offlineArtsAppScrollView->setName("ArtScrollView");
     layer->addChild(offlineArtsAppScrollView);
     
     auto offlineHubBackButton = OfflineHubBackButton::create();
@@ -91,8 +92,46 @@ void HQScene::startBuildingScrollViewBasedOnName()
                 }
             }
         }
-        else createBidirectionalScrollView();
+        else
+        {
+            createBidirectionalScrollView();
+            
+            if(ContentHistoryManager::getInstance()->getReturnedFromContent() && this->getName() != "GROUP HQ")
+            {
+                ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+                HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
+                std::vector<HQCarouselObjectRef> hqCarousels = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(this->getName())->getHqCarousels();
+                bool possibleContentFound = false;
+                while(!possibleContentFound && hqCarousels.size() > 0) // look for available content in random carousel
+                {
+                    int randCarouselIndex = rand()%hqCarousels.size();
+                    HQCarouselObjectRef randomCarousel = hqCarousels[randCarouselIndex];
+                    std::vector<HQContentItemObjectRef> carouselItems = randomCarousel->getContentItems();
+                    while(!possibleContentFound && carouselItems.size() > 0) //look for random available content in carousel
+                    {
+                        int randIndex = rand()%carouselItems.size();
+                        HQContentItemObjectRef randomContent = carouselItems[randIndex];
+                        if(randomContent->isEntitled() && randomContent->getContentItemId() != lastContent->getContentItemId())
+                        {
+                            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(this->getName() + ".json", randomContent->getJSONRepresentationOfStructure());
+                            possibleContentFound = true;
+                        }
+                        else
+                        {
+                            carouselItems.erase(carouselItems.begin() + randIndex);
+                        }
+                    }
+                    //no different available content to recomend in the carousel
+                    if(!possibleContentFound)
+                    {
+                        hqCarousels.erase(hqCarousels.begin() + randCarouselIndex);
+                    }
+                }
+            }
+        }
     }
+    
+    
 }
 
 //------------------ All functions below this line are used internally ----------------------------

@@ -20,12 +20,16 @@ private:
     /// Number of columns to display the data
     int _columns = 1;
     
+    bool _includeAddFriendButton = true;
+    
     /// Callback for an item being selected
     ItemSelectedCallback _selectedEventCallback = nullptr;
     
     
     /// Calculate the item size for the listview
     cocos2d::Size calculateItemSize() const;
+    
+    cocos2d::ui::Layout* createAddFriendButton();
     
 protected:
     
@@ -41,8 +45,12 @@ public:
     /// Set the items to display in this list
     void setItems(const FriendList& friendList);
     
+    void setIncludeAddFriendButton(bool includeButton);
+    
     /// Register for backbutton click events
     void addItemSelectedEventListener(const ItemSelectedCallback& callback);
+    
+    void hideUnreadIndicators();
     
     virtual bool init() override;
     virtual void onEnter() override;

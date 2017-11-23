@@ -63,6 +63,11 @@ std::string ParentDataProvider::getLoggedInParentAvatarId()
 {
     return ParentDataStorage::getInstance()->loggedInParentAvatarId;
 }
+    
+std::string ParentDataProvider::getLoggedInParentCountryCode()
+{
+    return ParentDataStorage::getInstance()->loggedInParentCountryCode;
+}
 
 std::string ParentDataProvider::getBillingStatus()
 {
@@ -78,7 +83,17 @@ std::string ParentDataProvider::getBillingProvider()
 {
     return ParentDataStorage::getInstance()->loggedInParentBillingProvider;
 }
+    
+bool ParentDataProvider::isLoggedInParentAnonymous()
+{
+    return ParentDataStorage::getInstance()->isLoggedInParentAnonymous;
+}
 
+bool ParentDataProvider::isBillingDataAvailable()
+{
+    return ParentDataStorage::getInstance()->isBillingDataAvailable;
+}
+    
 bool ParentDataProvider::isPaidUser()
 {
     return (ParentDataStorage::getInstance()->loggedInParentBillingStatus == "SUBSCRIBED") || (ParentDataStorage::getInstance()->loggedInParentBillingStatus == "FREE_TRIAL");

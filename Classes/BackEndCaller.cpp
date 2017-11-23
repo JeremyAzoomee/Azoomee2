@@ -109,13 +109,14 @@ void BackEndCaller::login(const std::string& username, const std::string& passwo
     request->execute();
 }
 
-void BackEndCaller::onLoginAnswerReceived(const std::string& responseString)
+void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
         ConfigStorage::getInstance()->setFirstSlideShowSeen();
         
+        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
         getAvailableChildren();
         updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
@@ -142,12 +143,13 @@ void BackEndCaller::anonymousDeviceLogin()
     request->execute();
 }
 
-void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString)
+void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString, const std::string& headerString)
 {
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
     {
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
+        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
         HQDataParser::getInstance()->parseHQGetContentUrls(responseString);
         DynamicNodeHandler::getInstance()->getCTAFiles();
         getGordon();
@@ -164,6 +166,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
 
 void BackEndCaller::updateBillingData()
 {
+    ParentDataParser::getInstance()->setBillingDataAvailable(false);
     HttpRequestCreator* request = API::UpdateBillingDataRequest(this);
     request->execute();
 }
@@ -171,6 +174,9 @@ void BackEndCaller::updateBillingData()
 void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& responseString)
 {
     ParentDataParser::getInstance()->parseParentBillingData(responseString);
+    // fire event to add parent button to child select scene if paid account
+    EventCustom event(ChildSelectorScene::kBillingDataRecievedEvent);
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 }
 
 //GETTING FORCE UPDATE INFORMATION
@@ -258,13 +264,14 @@ void BackEndCaller::childLogin(int childNumber)
     ChildDataParser::getInstance()->setLoggedInChildNumber(childNumber);
 }
 
-void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString)
+void BackEndCaller::onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
     if((!ChildDataParser::getInstance()->parseChildLoginData(responseString)) || (!HQDataParser::getInstance()->parseHQGetContentUrls(responseString)))
     {
         LoginLogicHandler::getInstance()->doLoginLogic();
     }
     
+    ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
     DynamicNodeHandler::getInstance()->getCTAFiles();
     getGordon();
 }
@@ -413,7 +420,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     }
     else if(requestTag == API::TagChildLogin)
     {
-        onChildLoginAnswerReceived(body);
+        onChildLoginAnswerReceived(body, headers);
     }
     else if(requestTag == API::TagGetAvailableChildren)
     {
@@ -421,11 +428,11 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     }
     else if(requestTag == API::TagLogin)
     {
-        onLoginAnswerReceived(body);
+        onLoginAnswerReceived(body, headers);
     }
     else if(requestTag == API::TagAnonymousDeviceLogin)
     {
-        onAnonymousDeviceLoginAnswerReceived(body);
+        onAnonymousDeviceLoginAnswerReceived(body, headers);
     }
     else if(requestTag == API::TagRegisterChild)
     {

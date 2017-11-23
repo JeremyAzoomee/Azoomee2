@@ -11,6 +11,8 @@
 #include "DynamicNodeButtonListener.h"
 #include "ButtonActionData.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
+#include "HQDataProvider.h"
 
 using namespace cocos2d;
 
@@ -39,6 +41,7 @@ bool DynamicNodeCreator::init(void)
 
 Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
 {
+    _usingExternalParams = false;
     //Init CTA objects
     initCTANode();
 
@@ -52,8 +55,40 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
         return _CTANode;
     }
     
+    processFile(configFile);
     
+    //return resultant CTA node
+    return _CTANode;
     
+}
+
+Node* DynamicNodeCreator::createCTAFromFileWithParams(const std::string& filepath, const std::string& params)
+{
+    _externParams.Parse(params.c_str());
+    _usingExternalParams = !_externParams.HasParseError();
+    
+    //Init CTA objects
+    initCTANode();
+    
+    const std::string& jsonString = FileUtils::getInstance()->getStringFromFile(filepath);
+    
+    rapidjson::Document configFile;
+    configFile.Parse(jsonString.c_str());
+    
+    if(configFile.HasParseError())
+    {
+        return _CTANode;
+    }
+    
+    processFile(configFile);
+    
+    //return resultant CTA node
+    return _CTANode;
+    
+}
+
+void DynamicNodeCreator::processFile(const rapidjson::Document& configFile)
+{
     /*
      values not used:
      nodeId, groupId
@@ -108,10 +143,6 @@ Node* DynamicNodeCreator::createCTAFromFile(const std::string& filepath)
         const rapidjson::Value& imageList = configFile["images"];
         configExtraImages(imageList);
     }
-    
-    //return resultant CTA node
-    return _CTANode;
-    
 }
 
 void DynamicNodeCreator::initCTANode()
@@ -126,7 +157,11 @@ void DynamicNodeCreator::initCTANode()
     
     _CTANode = Node::create();
     
-    LayerColor* overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, _windowSize.width, _windowSize.height);
+    _CTANode->setOnExitCallback([=](){
+        _CTANode = nullptr;
+    });
+    
+    LayerColor* overlay = LayerColor::create(Style::Color_4B::semiTransparentOverlayDark, _windowSize.width, _windowSize.height);
     overlay->setName("overlay");
     _CTANode->addChild(overlay);
     
@@ -150,6 +185,7 @@ void DynamicNodeCreator::initCTANode()
     
     _maskedBGImage = Sprite::create(_kCTAAssetLoc + "deep_free_pop_over_trans.png");
     _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
+    _maskedBGImage->setVisible(false);
     _clippingNode->addChild(_maskedBGImage);
     
     _clippingNode->setAlphaThreshold(0.5f);
@@ -199,10 +235,10 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
 {
     if(sizePercentages.Size() == 2)
     {
-        if(sizePercentages[0].IsInt() && sizePercentages[1].IsInt())
+        if(sizePercentages[0].IsFloat() && sizePercentages[1].IsFloat())
         {
-            float width = sizePercentages[0].GetInt()/100.0f;
-            float height = sizePercentages[1].GetInt()/100.0f;
+            float width = sizePercentages[0].GetFloat()/100.0f;
+            float height = sizePercentages[1].GetFloat()/100.0f;
             const Size& newSize = Size(_windowSize.width*width,_windowSize.height*height);
             
             _stencil->setContentSize(newSize);
@@ -237,21 +273,23 @@ void DynamicNodeCreator::configBackgroundColour(const rapidjson::Value &backgrou
 
 void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroundImageData)
 {
-    const std::string filename = getStringFromJson("file", backgroundImageData);
+    _maskedBGImage->setVisible(true);
+    const std::string& filename = getStringFromJson("file", backgroundImageData);
     bool imagefound = false;
     
     if(filename != "")
     {
-        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename))
+        
+        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename))
         {
-            _maskedBGImage->initWithFile(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename);
+            _maskedBGImage->initWithFile(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename);
             imagefound = true;
         }
         else
         {
-            if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + "images/" + filename))
+            if(FileUtils::getInstance()->isFileExist(_kCTABundleImageLoc + filename))
             {
-                _maskedBGImage->initWithFile(_kCTAAssetLoc + "images/" + filename);
+                _maskedBGImage->initWithFile(_kCTABundleImageLoc + filename);
                 imagefound = true;
             }
         }
@@ -317,15 +355,27 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
                 continue;
             }
             
+            const std::string& btnSprite = getStringFromJson("sprite", buttonsList[i]);
+            
             const std::string& btnString = getStringFromJson("text", buttonsList[i]);
             
             if(buttonsList[i].HasMember("action"))
             {
                 const rapidjson::Value& actionParams = buttonsList[i]["action"];
                 actionData = ButtonActionData::createWithJson(actionParams);
+                
+                if(_usingExternalParams)
+                {
+                    auto actionParamsMap = actionData->getParams();
+                    for(auto& param : actionParamsMap)
+                    {
+                        param.second = addExternalParamsToString(param.second);
+                    }
+                    actionData->setParams(actionParamsMap);
+                }
             }
             
-            addButtonWithParams(size, pos, btnString, actionData);
+            addButtonWithParams(size, pos, btnString, actionData, btnSprite);
             
         }
     }
@@ -340,6 +390,7 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
             Vec2 pos;
             Vec2 size;
             int opacity;
+            bool usingRemoteImage;
             
             pos = getVec2FromJson("position",imageList[i]);
             
@@ -370,24 +421,34 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
                 opacity = 255;
             }
             
+            usingRemoteImage = getBoolFromJson("usingRemoteImage", imageList[i]);
             
-            const std::string filename = getStringFromJson("file", imageList[i]);
-            
-            if(filename != "")
+            if(!usingRemoteImage)
             {
-                if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename))
+                const std::string& filename = getStringFromJson("file", imageList[i]);
+            
+                if(filename != "")
                 {
-                    addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + "DCDECache/images/" + filename);
-                }
-                else
-                {
-                    if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + "images/" + filename))
+                    if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename))
                     {
-                        addImageWithParams(size, pos, opacity,_kCTAAssetLoc +  "images/" + filename);
+                        addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename);
+                    }
+                    else
+                    {
+                        if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + _kCTABundleImageLoc + filename))
+                        {
+                            addImageWithParams(size, pos, opacity,_kCTAAssetLoc +  _kCTABundleImageLoc + filename);
+                        }
                     }
                 }
             }
-            
+            else
+            {
+                std::string fileurl = getStringFromJson("file", imageList[i]);
+                fileurl = addExternalParamsToString(fileurl); // file url will be the id of the HQ item object
+                fileurl = HQDataProvider::getInstance()->getImageUrlForItem(fileurl, Vec2(1,1)); //get actual url of image from HQDataProvider
+                addRemoteImageWithParams(size, pos, opacity, fileurl);
+            }
         }
     }
 
@@ -418,10 +479,20 @@ void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
     }
 }
 
-void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, const std::string &buttonText, ButtonActionDataRef buttonActionData)
+void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, const std::string &buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr)
 {
+    
     ui::Button* button = ui::Button::create();
-    button->loadTextures(_kCTAAssetLoc + "rectangle_copy_3.png", _kCTAAssetLoc + "rectangle_copy_3.png"); //will be dependent on style tag
+    const std::string& btnSpriteFile = FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + btnSpriteStr;
+    if(btnSpriteStr == "" || !FileUtils::getInstance()->isFileExist(btnSpriteFile))
+    {
+        button->loadTextures(_kCTAAssetLoc + "rectangle_copy_3.png", _kCTAAssetLoc + "rectangle_copy_3.png");
+    }
+    else
+    {
+        button->loadTextures(btnSpriteFile,btnSpriteFile);
+    }
+    
     button->setContentSize(Size(_popupButtonsLayer->getContentSize().width * size.x,_popupButtonsLayer->getContentSize().height * size.y));
     button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     button->setNormalizedPosition(pos);
@@ -440,8 +511,54 @@ void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, 
 void DynamicNodeCreator::addImageWithParams(const Vec2& size, const Vec2& pos, int opacity, const std::string& filename)
 {
     Sprite* image = Sprite::create(filename);
-    image->setScale((_windowSize.width*size.x)/image->getContentSize().width, (_windowSize.height*size.y)/image->getContentSize().height);
+    if(size.x > 0 && size.y > 0)
+    {
+        image->setScale((_popupImages->getContentSize().width*size.x)/image->getContentSize().width, (_popupImages->getContentSize().height*size.y)/image->getContentSize().height);
+    }
+    else if(size.x <= 0 && size.y <= 0)
+    {
+        image->setScale(1);
+    }
+    else if(size.x <= 0)
+    {
+        image->setScale((_popupImages->getContentSize().height*size.y)/image->getContentSize().height);
+    }
+    else
+    {
+        image->setScale((_popupImages->getContentSize().width*size.x)/image->getContentSize().width);
+    }
+    
     image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    image->setNormalizedPosition(pos);
+    image->setOpacity(opacity);
+    _popupImages->addChild(image);
+}
+
+void DynamicNodeCreator::addRemoteImageWithParams(const Vec2& size, const Vec2& pos, int opacity, const std::string& url)
+{
+    Sprite* tempSizeSprite = Sprite::create("res/contentPlaceholders/Games1X1.png");
+    RemoteImageSprite* image = RemoteImageSprite::create();
+    Size imageSize;
+    if(size.x > 0 && size.y > 0)
+    {
+        imageSize = Vec2((_popupImages->getContentSize().width*size.x), (_popupImages->getContentSize().height*size.y));
+    }
+    else if(size.x <= 0 && size.y <= 0)
+    {
+        imageSize = tempSizeSprite->getContentSize();
+    }
+    else if(size.x <= 0)
+    {
+        float scaleMod = (_popupImages->getContentSize().height*size.y)/tempSizeSprite->getContentSize().height;
+        imageSize = tempSizeSprite->getContentSize() * scaleMod;
+        
+    }
+    else
+    {
+        float scaleMod = (_popupImages->getContentSize().width*size.x)/tempSizeSprite->getContentSize().width;
+        imageSize = tempSizeSprite->getContentSize() * scaleMod;
+    }
+    image->initWithUrlAndSizeWithoutPlaceholder(url, imageSize);
     image->setNormalizedPosition(pos);
     image->setOpacity(opacity);
     _popupImages->addChild(image);
@@ -450,12 +567,24 @@ void DynamicNodeCreator::addImageWithParams(const Vec2& size, const Vec2& pos, i
 void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, const rapidjson::Value& params)
 {
     Vec2 pos = getVec2FromJson("position", params)/100.0f;
-    const std::string text = getStringFromJson("text", params);
-    const std::string alignment = getStringFromJson("alignment", params);
+    std::string text = getStringFromJson("text", params);
+    
+    if(_usingExternalParams)
+    {
+        text = addExternalParamsToString(text);
+    }
+    
+    const std::string& alignment = getStringFromJson("alignment", params);
     int newFontSize = getIntFromJson("fontSize", params);
     if(newFontSize != INT_MAX)
     {
         fontSize = newFontSize;
+    }
+    
+    int lineSpacing = getIntFromJson("lineSpacing", params);
+    if(lineSpacing == INT_MAX)
+    {
+        lineSpacing = 20;
     }
     
     fontColour = getColor4BFromJson("colour", params);
@@ -463,7 +592,7 @@ void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, con
     Label* label = Label::createWithTTF(text, Style::Font::Regular, fontSize);
     label->setNormalizedPosition(pos);
     label->setTextColor(fontColour);
-    label->setLineSpacing(20);
+    label->setLineSpacing(lineSpacing);
     
     if(alignment == "left")
     {
@@ -482,6 +611,27 @@ void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, con
     }
     
     _textLayer->addChild(label);
+}
+
+std::string DynamicNodeCreator::addExternalParamsToString(const std::string& str)
+{
+    std::string sourceString = str;
+    std::string result = "";
+    long i = sourceString.find("<");
+    
+    while (i < sourceString.npos)
+    {
+        result += sourceString.substr(0,i);
+        const std::string& paramName = sourceString.substr(i+1,sourceString.find(">") - (i+1));
+        sourceString = sourceString.substr(sourceString.find(">") + 1);
+        result += getStringFromJson(paramName, _externParams);
+        i = sourceString.find("<");
+    }
+    
+    result += sourceString;
+    
+    
+    return result;
 }
 
 void DynamicNodeCreator::resetCTAPopup()

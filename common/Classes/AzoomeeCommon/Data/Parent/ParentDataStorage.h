@@ -32,6 +32,9 @@ public:
     std::string loggedInParentBillingStatus;
     std::string loggedInParentBillingDate;
     std::string loggedInParentBillingProvider;
+    std::string loggedInParentCountryCode;
+    bool isLoggedInParentAnonymous = false;
+    bool isBillingDataAvailable = false;
     
     std::vector<std::map<std::string, std::string>> availableChildren;          //array of maps, where each child has profileName and avatar keys
     // Index map of childId to index in availableChildren

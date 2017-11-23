@@ -8,6 +8,7 @@
 namespace Azoomee
 {
     bool azoomeeMeetsVersionRequirement(std::string version);
+    bool azoomeeVersionEqualsVersionNumber(std::string version);
     
     std::string getPureVersionNumber(std::string version);
     std::vector<std::string> getVersionNumberElementsInVector(std::string version);

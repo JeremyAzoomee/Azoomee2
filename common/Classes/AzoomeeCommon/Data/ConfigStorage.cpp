@@ -138,6 +138,14 @@ std::string ConfigStorage::getImagesUrl()
     return "https://media.azoomee.com/static/images";
 }
     
+std::string ConfigStorage::getCTAPackageJsonURL()
+{
+#ifdef USINGCI
+    return "https://media.azoomee.ninja/static/popups/package.json";
+#endif
+    return "https://media.azoomee.com/static/popups/package.json";
+}
+    
 std::string ConfigStorage::getMediaPrefixForXwalkCookies()
 {
     return "https://media";

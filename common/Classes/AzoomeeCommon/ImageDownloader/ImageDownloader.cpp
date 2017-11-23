@@ -1,6 +1,7 @@
 #include "ImageDownloader.h"
 #include "../Data/Cookie/CookieDataProvider.h"
 #include "../Data/ConfigStorage.h"
+#include "../Data/Parent/ParentDataProvider.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -104,8 +105,10 @@ void ImageDownloader::downloadFileFromServer(const std::string& url)
     _downloadRequest->setRequestType(HttpRequest::Type::GET);
     _downloadRequest->setUrl(url.c_str());
     
-    std::vector<std::string> headers;
-    headers.push_back(StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str()));
+    std::vector<std::string> headers{
+        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
+        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
+    };
     _downloadRequest->setHeaders(headers);
     
     _downloadRequest->setResponseCallback(CC_CALLBACK_2(ImageDownloader::downloadFileFromServerAnswerReceived, this));
