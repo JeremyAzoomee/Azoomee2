@@ -74,10 +74,10 @@ cocos2d::Layer* HQScene2PlaceHolderCreator::createPlaceHolderLayer(cocos2d::Vec2
 
 void HQScene2PlaceHolderCreator::addPlaceHolderImageToLayer(cocos2d::Layer *placeHolderLayer, cocos2d::Vec2 highlightdata)
 {
-    std::string fileName = StringUtils::format("res/hqscene/placeholder%d%d.png", (int)highlightdata.x, (int)highlightdata.y);
+    std::string fileName = StringUtils::format("res/hqscene/placeholder%d%d.jpg", (int)highlightdata.x, (int)highlightdata.y);
     if(!FileUtils::getInstance()->isFileExist(fileName))
     {
-        fileName = "res/hqscene/placeholder11.png";
+        fileName = "res/hqscene/placeholder11.jpg";
     }
     
     cocos2d::Sprite* placeHolderImage = cocos2d::Sprite::create(fileName);
