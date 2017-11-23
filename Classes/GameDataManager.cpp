@@ -61,7 +61,7 @@ bool GameDataManager::init(void)
 void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData)
 {
     //Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://games.azoomee.ninja/" + itemData->getContentItemId() + "/export/index-azoomee.html"));
-    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/index.html"));
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://box.bonis.me"));
     return;
     
     AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
