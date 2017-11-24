@@ -44,6 +44,8 @@ private:
     cocos2d::LayerColor* createNewCarousel();
     float calculateUnitMultiplier();
     void postSizeAndAlignCarousel(cocos2d::Node* carouselLayer, float lowestElementY);
+    
+    void showPostContentCTA();
 };
 
 NS_AZOOMEE_END

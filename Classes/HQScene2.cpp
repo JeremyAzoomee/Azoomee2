@@ -4,6 +4,8 @@
 #include "HQScene2ElementPositioner.h"
 #include "HQScene2PlaceHolderCreator.h"
 #include "HQScene2CarouselTitle.h"
+#include "ContentHistoryManager.h"
+#include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -131,6 +133,46 @@ void HQScene2::startBuildingScrollView()
     cocos2d::Sprite* gradient = createGradientForScrollView(scrollView->getContentSize().width);
     gradient->setPosition(scrollView->getContentSize().width / 2 + scrollView->getPosition().x, scrollView->getPosition().y + scrollView->getContentSize().height - gradient->getContentSize().width / 2 + 5);
     this->addChild(gradient);
+    
+    showPostContentCTA();
+}
+
+void HQScene2::showPostContentCTA()
+{
+    if(!ContentHistoryManager::getInstance()->getReturnedFromContent() || _hqCategory == "GROUP HQ")
+    {
+        return;
+    }
+    
+    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
+    std::vector<HQCarouselObjectRef> hqCarousels = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(this->getName())->getHqCarousels();
+    bool possibleContentFound = false;
+    while(!possibleContentFound && hqCarousels.size() > 0) // look for available content in random carousel
+    {
+        int randCarouselIndex = rand()%hqCarousels.size();
+        HQCarouselObjectRef randomCarousel = hqCarousels[randCarouselIndex];
+        std::vector<HQContentItemObjectRef> carouselItems = randomCarousel->getContentItems();
+        while(!possibleContentFound && carouselItems.size() > 0) //look for random available content in carousel
+        {
+            int randIndex = rand()%carouselItems.size();
+            HQContentItemObjectRef randomContent = carouselItems[randIndex];
+            if(randomContent->isEntitled() && randomContent->getContentItemId() != lastContent->getContentItemId())
+            {
+                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(_hqCategory + ".json", randomContent->getJSONRepresentationOfStructure());
+                possibleContentFound = true;
+            }
+            else
+            {
+                carouselItems.erase(carouselItems.begin() + randIndex);
+            }
+        }
+        //no different available content to recomend in the carousel
+        if(!possibleContentFound)
+        {
+            hqCarousels.erase(hqCarousels.begin() + randCarouselIndex);
+        }
+    }
 }
 
 cocos2d::ui::ScrollView* HQScene2::createScrollView()
