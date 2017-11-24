@@ -41,13 +41,13 @@ void HQScene2PlaceHolderCreator::addPlaceHoldersToCarouselInGivenSize(const coco
     {
         cocos2d::Layer* placeHolder = createPlaceHolderLayer(highlightdata);
         
-        HQScene2ElementPositioner* hqScene2ElementPositioner = new HQScene2ElementPositioner();
-        hqScene2ElementPositioner->setElement(placeHolder);
-        hqScene2ElementPositioner->setBaseUnitSize(_unitSize);
-        hqScene2ElementPositioner->setCarouselLayer(_carouselLayer);
-        hqScene2ElementPositioner->setHighlightData(highlightdata);
+        HQScene2ElementPositioner hqScene2ElementPositioner;
+        hqScene2ElementPositioner.setElement(placeHolder);
+        hqScene2ElementPositioner.setBaseUnitSize(_unitSize);
+        hqScene2ElementPositioner.setCarouselLayer(_carouselLayer);
+        hqScene2ElementPositioner.setHighlightData(highlightdata);
         
-        cocos2d::Point placeHolderPosition = hqScene2ElementPositioner->positionHQSceneElement();
+        cocos2d::Point placeHolderPosition = hqScene2ElementPositioner.positionHQSceneElement();
         
         if(placeHolderPosition.y < _lowestElementYPosition)
         {
