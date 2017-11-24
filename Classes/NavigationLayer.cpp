@@ -3,6 +3,7 @@
 #include "BaseScene.h"
 #include "HQDataProvider.h"
 #include "HQScene.h"
+#include "HQScene2.h"
 
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
@@ -616,10 +617,10 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
             if(HQHistoryManager::getInstance()->getPreviousHQ() != "HOME")
             {
                 
-                HQScene *hqLayer2 = (HQScene *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
+                HQScene2 *hqLayer2 = (HQScene2 *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
                 
                 auto funcCallAction = CallFunc::create([=](){
-                    hqLayer2->startBuildingScrollViewBasedOnName();
+                    hqLayer2->startBuildingScrollView();
                 });
                 
                 this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
