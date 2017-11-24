@@ -12,7 +12,7 @@ void HQScene2PlaceHolderCreator::setCarouselLayer(cocos2d::Node* carouselLayer)
     _carouselLayer = carouselLayer;
 }
 
-void HQScene2PlaceHolderCreator::setBaseUnitSize(cocos2d::Size unitSize)
+void HQScene2PlaceHolderCreator::setBaseUnitSize(const cocos2d::Size &unitSize)
 {
     _unitSize = unitSize;
 }
@@ -35,10 +35,8 @@ void HQScene2PlaceHolderCreator::addPlaceHoldersToCarousel()
     addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(1.0f, 1.0f));
 }
 
-void HQScene2PlaceHolderCreator::addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2 highlightdata)
+void HQScene2PlaceHolderCreator::addPlaceHoldersToCarouselInGivenSize(const cocos2d::Vec2 &highlightdata)
 {
-    cocos2d::Point position = Point(0, -_unitSize.height);
-    
     while(true)
     {
         cocos2d::Layer* placeHolder = createPlaceHolderLayer(highlightdata);
@@ -64,7 +62,7 @@ void HQScene2PlaceHolderCreator::addPlaceHoldersToCarouselInGivenSize(cocos2d::V
     }
 }
 
-cocos2d::Layer* HQScene2PlaceHolderCreator::createPlaceHolderLayer(cocos2d::Vec2 highlightdata)
+cocos2d::Layer* HQScene2PlaceHolderCreator::createPlaceHolderLayer(const cocos2d::Vec2 &highlightdata)
 {
     cocos2d::Layer* placeHolderLayer = cocos2d::Layer::create();
     placeHolderLayer->setContentSize(Size(highlightdata.x * _unitSize.width, highlightdata.y * _unitSize.height));
@@ -72,7 +70,7 @@ cocos2d::Layer* HQScene2PlaceHolderCreator::createPlaceHolderLayer(cocos2d::Vec2
     return placeHolderLayer;
 }
 
-void HQScene2PlaceHolderCreator::addPlaceHolderImageToLayer(cocos2d::Layer *placeHolderLayer, cocos2d::Vec2 highlightdata)
+void HQScene2PlaceHolderCreator::addPlaceHolderImageToLayer(cocos2d::Layer *placeHolderLayer, const cocos2d::Vec2 &highlightdata)
 {
     std::string fileName = StringUtils::format("res/hqscene/placeholder%d%d.jpg", (int)highlightdata.x, (int)highlightdata.y);
     if(!FileUtils::getInstance()->isFileExist(fileName))

@@ -15,12 +15,12 @@ void HQScene2ElementPositioner::setCarouselLayer(cocos2d::Node* carouselLayer)
     _carouselLayer = carouselLayer;
 }
 
-void HQScene2ElementPositioner::setHighlightData(cocos2d::Vec2 highlightData)
+void HQScene2ElementPositioner::setHighlightData(const cocos2d::Vec2 &highlightData)
 {
     _highlightData = highlightData;
 }
 
-void HQScene2ElementPositioner::setBaseUnitSize(cocos2d::Size unitSize)
+void HQScene2ElementPositioner::setBaseUnitSize(const cocos2d::Size &unitSize)
 {
     _unitSize = unitSize;
 }

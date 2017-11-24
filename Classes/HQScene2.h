@@ -11,17 +11,18 @@ NS_AZOOMEE_BEGIN
 class HQScene2 : public cocos2d::Layer
 {
 public:
-    static const float _sideMarginSize;
-    static const float _spaceAboveCarousel;
-    static const int _unitsOnScreen;
-    static const float _contentItemMargin;
-    static const float _spaceForPrivacyPolicy;
+    static const float kSideMarginSize;
+    static const float kSpaceAboveCarousel;
+    static const int kUnitsOnScreen;
+    static const float kContentItemMargin;
+    static const float kSpaceForPrivacyPolicy;
+    static const std::string& kScrollViewName;
     
     CREATE_FUNC(HQScene2);
     virtual bool init();
     void startBuildingScrollView();
     
-    void setHQCategory(std::string hqCategory);
+    void setHQCategory(const std::string &hqCategory);
     std::string _hqCategory;
 
 private:
@@ -30,6 +31,7 @@ private:
     float _unitMultiplier = 0;
     float _unitWidth = 0;
     std::vector<cocos2d::Layer*> _carouselStorage;
+    cocos2d::Size _contentItemSize;
     
     void addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView);
 

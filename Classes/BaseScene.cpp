@@ -92,7 +92,7 @@ void BaseScene::addMainHubScene(Node* toBeAddedTo)
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 
-void BaseScene::createHQScene(std::string sceneName, Node *toBeAddedTo)
+void BaseScene::createHQScene(const std::string &sceneName, Node *toBeAddedTo)
 {
     auto hqScene = HQScene::create();
     hqScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(sceneName));
@@ -105,7 +105,7 @@ void BaseScene::createHQScene(std::string sceneName, Node *toBeAddedTo)
     }
 }
 
-void BaseScene::createHQScene2(std::string sceneName, Node *toBeAddedTo)
+void BaseScene::createHQScene2(const std::string &sceneName, Node *toBeAddedTo)
 {
     HQScene2* hqScene = HQScene2::create();
     hqScene->setHQCategory(sceneName);

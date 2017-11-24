@@ -25,8 +25,8 @@ public:
     
     cocos2d::Layer* createHQSceneElement();
     
-    cocos2d::LayerColor *_baseLayer;
-    cocos2d::LayerColor *_overlayWhenTouched;
+    cocos2d::LayerColor *_baseLayer = nullptr;
+    cocos2d::LayerColor *_overlayWhenTouched = nullptr;
     
 private:
     bool _shouldDisplayVisualElementsOverImage = false;

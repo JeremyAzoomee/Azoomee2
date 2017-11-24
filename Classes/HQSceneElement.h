@@ -34,7 +34,7 @@ private:
     float _manualSizeMultiplier = 0.0f;
     float _margin = 0.0f;
     
-    HQSceneElementVisual* _elementVisual;
+    HQSceneElementVisual* _elementVisual = nullptr;
     
     void addListenerToElement();
     void startUpElementDependingOnType();

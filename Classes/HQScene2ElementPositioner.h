@@ -11,8 +11,8 @@ class HQScene2ElementPositioner : public cocos2d::Ref
 public:
     void setElement(cocos2d::Node* element);
     void setCarouselLayer(cocos2d::Node* carouselLayer);
-    void setHighlightData(cocos2d::Vec2 highlightData);
-    void setBaseUnitSize(cocos2d::Size unitSize);
+    void setHighlightData(const cocos2d::Vec2 &highlightData);
+    void setBaseUnitSize(const cocos2d::Size &unitSize);
     
     cocos2d::Point positionHQSceneElement();
     
