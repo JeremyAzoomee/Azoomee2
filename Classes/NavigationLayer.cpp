@@ -189,24 +189,6 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
             moveMenuPointsToHorizontalState(duration);
             break;
     }
-    
-    if(SpecialCalendarEventManager::getInstance()->isXmasTime())
-    {
-        if(this->getParent()->getChildByName("ice1"))
-        {
-            Sprite* ice1 = (Sprite*)this->getParent()->getChildByName("ice1");
-            if(target == ConfigStorage::HubTargetTagNumber::HOME)
-            {
-                ice1->stopAllActions();
-                ice1->runAction(EaseOut::create(MoveTo::create(2, Vec2(ice1->getPosition().x, origin.y + visibleSize.height + ice1->getContentSize().height / 2)), 2));
-            }
-            else
-            {
-                ice1->stopAllActions();
-                ice1->runAction(EaseOut::create(MoveTo::create(2, Vec2(ice1->getPosition().x, origin.y + visibleSize.height - ice1->getContentSize().height / 2)), 2));
-            }
-        }
-    }
 }
 
 void NavigationLayer::onEnter()
