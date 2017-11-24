@@ -101,12 +101,17 @@ bool ImageDownloader::hasCacheExpired() const
 
 void ImageDownloader::downloadFileFromServer(const std::string& url)
 {
+    if(url == "")
+    {
+        return;
+    }
+    
     _downloadRequest = new HttpRequest();
     _downloadRequest->setRequestType(HttpRequest::Type::GET);
     _downloadRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers{
-        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
+        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url),
         "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
     _downloadRequest->setHeaders(headers);

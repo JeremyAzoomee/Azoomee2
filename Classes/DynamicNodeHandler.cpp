@@ -170,7 +170,7 @@ void DynamicNodeHandler::getCTAPackageJSON(const std::string& url)
     jsonRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers{
-        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
+        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url),
         "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
     jsonRequest->setHeaders(headers);
@@ -238,7 +238,7 @@ void DynamicNodeHandler::getCTAPackageZip(const std::string& url)
     zipRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers{
-        "Cookie: " + CookieDataProvider::getInstance()->getCookieMainContent(url),
+        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url),
         "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
 
