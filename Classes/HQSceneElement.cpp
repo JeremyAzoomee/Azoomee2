@@ -58,36 +58,57 @@ bool HQSceneElement::init()
 
 void HQSceneElement::setCategory(const std::string &category)
 {
-    elementCategory = category;
+    _elementCategory = category;
 }
 
 void HQSceneElement::setItemData(const HQContentItemObjectRef &itemData)
 {
-    elementItemData = itemData;
+    _elementItemData = itemData;
 }
 
 void HQSceneElement::setElementRow(int rowNumber)
 {
-    elementRowNumber = rowNumber;
+    _elementRowNumber = rowNumber;
 }
 
 void HQSceneElement::setElementIndex(int index)
 {
-    elementIndex = index;
+    _elementIndex = index;
+}
+
+void HQSceneElement::setManualSizeMultiplier(float multiplier)
+{
+    _manualSizeMultiplier = multiplier;
+}
+
+void HQSceneElement::setMargin(float margin)
+{
+    _margin = margin;
 }
 
 void HQSceneElement::addHQSceneElement() //This method is being called by HQScene.cpp with all variables.
 {
-    elementVisual = HQSceneElementVisual::create();
-    elementVisual->setCategory(elementCategory);
-    elementVisual->setItemData(elementItemData);
-    elementVisual->setShape(HQDataProvider::getInstance()->getHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
-    elementVisual->setDelay(elementRowNumber * 0.5 + elementIndex * 0.1);
-    elementVisual->setCreatedForOffline(false);
-    elementVisual->createHQSceneElement();
+    _elementVisual = HQSceneElementVisual::create();
+    _elementVisual->setCategory(_elementCategory);
+    _elementVisual->setItemData(_elementItemData);
+    _elementVisual->setShape(HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
+    _elementVisual->setDelay(_elementRowNumber * 0.5 + _elementIndex * 0.1);
+    _elementVisual->setCreatedForOffline(false);
     
-    this->addChild(elementVisual);
-    this->setContentSize(elementVisual->getContentSize());
+    if(_manualSizeMultiplier != 0.0f)
+    {
+        _elementVisual->setManualSizeMultiplier(_manualSizeMultiplier);
+    }
+    
+    if(_margin != 0.0f)
+    {
+        _elementVisual->setMargin(_margin);
+    }
+    
+    _elementVisual->createHQSceneElement();
+    
+    this->addChild(_elementVisual);
+    this->setContentSize(_elementVisual->getContentSize());
     
     addListenerToElement();
 }
@@ -109,11 +130,11 @@ void HQSceneElement::addListenerToElement()
         
         if(rect.containsPoint(locationInNode))
         {
-            if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(150);
+            if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(150);
             
-            movedAway = false;
-            iamtouched = true;
-            touchPoint = touch->getLocation();
+            _movedAway = false;
+            _iamtouched = true;
+            _touchPoint = touch->getLocation();
             
             return true;
         }
@@ -123,11 +144,11 @@ void HQSceneElement::addListenerToElement()
     
     listener->onTouchMoved = [=](Touch *touch, Event *event)
     {
-        if((touch->getLocation().distance(touchPoint) > 10)&&(!movedAway))
+        if((touch->getLocation().distance(_touchPoint) > 10)&&(!_movedAway))
         {
-            movedAway = true;
-            iamtouched = false;
-             if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(0);
+            _movedAway = true;
+            _iamtouched = false;
+             if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(0);
         }
         
         return true;
@@ -135,32 +156,32 @@ void HQSceneElement::addListenerToElement()
     
     listener->onTouchEnded = [=](Touch *touch, Event *event)
     {
-        if(iamtouched)
+        if(_iamtouched)
         {
-            if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(0);
+            if(_elementVisual->_overlayWhenTouched) _elementVisual->_overlayWhenTouched->setOpacity(0);
             
             if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
             
             AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-            iamtouched = false;
+            _iamtouched = false;
             
-            if(elementItemData->getType() == "MANUAL")
+            if(_elementItemData->getType() == "MANUAL")
             {
                 ManualGameInputLayer::create();
                 return true;
             }
             
-            if(!elementItemData->isEntitled())
+            if(!_elementItemData->isEntitled())
             {
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
-                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData, elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
+                AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
                 
                 DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
                 
                 return true;
             }
                 
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(elementItemData, elementRowNumber, elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(elementCategory, elementRowNumber, elementIndex));
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
             startUpElementDependingOnType();
             return true;
         }
@@ -168,34 +189,34 @@ void HQSceneElement::addListenerToElement()
         return false;
     };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), elementVisual->baseLayer);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), _elementVisual->_baseLayer);
 }
 
 void HQSceneElement::startUpElementDependingOnType()
 {
     this->getParent()->getParent()->getParent()->stopAllActions();
     
-    if(elementItemData->getType() == "GAME")
+    if(_elementItemData->getType() == "GAME")
     {
-        ContentHistoryManager::getInstance()->setLastOppenedContent(elementItemData);
-        GameDataManager::getInstance()->startProcessingGame(elementItemData);
+        ContentHistoryManager::getInstance()->setLastOppenedContent(_elementItemData);
+        GameDataManager::getInstance()->startProcessingGame(_elementItemData);
     }
-    else if((elementItemData->getType() == "VIDEO") || (elementItemData->getType() == "AUDIO"))
+    else if((_elementItemData->getType() == "VIDEO") || (_elementItemData->getType() == "AUDIO"))
     {
-        ContentHistoryManager::getInstance()->setLastOppenedContent(elementItemData);
-        VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(elementCategory)->getHqCarousels().at(elementRowNumber));
+        ContentHistoryManager::getInstance()->setLastOppenedContent(_elementItemData);
+        VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_elementCategory)->getHqCarousels().at(_elementRowNumber));
         
         auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(elementItemData->getUri().c_str(),Orientation::Landscape);
+        webViewSelector->loadWebView(_elementItemData->getUri().c_str(),Orientation::Landscape);
     }
-    else if((elementItemData->getType() == "AUDIOGROUP")||(elementItemData->getType() == "GROUP"))
+    else if((_elementItemData->getType() == "AUDIOGROUP")||(_elementItemData->getType() == "GROUP"))
     {
         NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-        navigationLayer->startLoadingGroupHQ(elementItemData->getUri());
+        navigationLayer->startLoadingGroupHQ(_elementItemData->getUri());
         
         auto funcCallAction = CallFunc::create([=](){
-            HQDataProvider::getInstance()->getDataForGroupHQ(elementItemData->getUri());
-            HQHistoryManager::getInstance()->setGroupHQSourceId(elementItemData->getContentItemId());
+            HQDataProvider::getInstance()->getDataForGroupHQ(_elementItemData->getUri());
+            HQHistoryManager::getInstance()->setGroupHQSourceId(_elementItemData->getContentItemId());
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));

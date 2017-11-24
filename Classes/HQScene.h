@@ -15,6 +15,7 @@ public:
     static cocos2d::Scene* createSceneForOfflineArtsAppHQ();
     virtual bool init() override;
     void startBuildingScrollViewBasedOnName();
+    static const std::string& kScrollViewName;
 
 private:
     

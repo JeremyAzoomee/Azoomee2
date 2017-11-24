@@ -67,7 +67,7 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
                 
         if(rect.containsPoint(locationInNode))
         {
-            if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(150);
+            if(elementVisual->_overlayWhenTouched) elementVisual->_overlayWhenTouched->setOpacity(150);
             movedAway = false;
             iamtouched = true;
             touchPoint = touch->getLocation();
@@ -84,7 +84,7 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
         {
             movedAway = true;
             iamtouched = false;
-            if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(0);
+            if(elementVisual->_overlayWhenTouched) elementVisual->_overlayWhenTouched->setOpacity(0);
         }
         
         return true;
@@ -94,7 +94,7 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
     {
         if(iamtouched)
         {
-            if(elementVisual->overlayWhenTouched) elementVisual->overlayWhenTouched->setOpacity(0);
+            if(elementVisual->_overlayWhenTouched) elementVisual->_overlayWhenTouched->setOpacity(0);
             
             if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")) //this is needed because of the offline hub
             {
@@ -121,7 +121,7 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
         return false;
     };
     
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), elementVisual->baseLayer);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), elementVisual->_baseLayer);
 }
 
 Orientation OfflineHubHQElement::getGameOrientation(const std::map<std::string, std::string>& itemData)

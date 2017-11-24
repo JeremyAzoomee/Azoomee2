@@ -5,6 +5,7 @@
 
 #include "MainHubScene.h"
 #include "HQScene.h"
+#include "HQScene2.h"
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -72,9 +73,9 @@ void BaseScene::startBuildingHQs()
     Layer *contentLayer = createContentLayer();
     
     addMainHubScene(contentLayer);
-    createHQScene("VIDEO HQ", contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
-    createHQScene("GAME HQ", contentLayer);             //Probably worth moving these to configStorage?
-    createHQScene("AUDIO HQ", contentLayer);
+    createHQScene2("VIDEO HQ", contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
+    createHQScene2("GAME HQ", contentLayer);             //Probably worth moving these to configStorage?
+    createHQScene2("AUDIO HQ", contentLayer);
     createHQScene("ARTS APP", contentLayer);
     createHQScene("GROUP HQ", contentLayer);
     
@@ -91,7 +92,7 @@ void BaseScene::addMainHubScene(Node* toBeAddedTo)
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 
-void BaseScene::createHQScene(std::string sceneName, Node *toBeAddedTo)
+void BaseScene::createHQScene(const std::string &sceneName, Node *toBeAddedTo)
 {
     auto hqScene = HQScene::create();
     hqScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(sceneName));
@@ -101,6 +102,19 @@ void BaseScene::createHQScene(std::string sceneName, Node *toBeAddedTo)
     if(HQHistoryManager::getInstance()->getCurrentHQ() == sceneName)
     {
         hqScene->startBuildingScrollViewBasedOnName();
+    }
+}
+
+void BaseScene::createHQScene2(const std::string &sceneName, Node *toBeAddedTo)
+{
+    HQScene2* hqScene = HQScene2::create();
+    hqScene->setHQCategory(sceneName);
+    hqScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(sceneName));
+    toBeAddedTo->addChild(hqScene);
+    
+    if(HQHistoryManager::getInstance()->getCurrentHQ() == sceneName)
+    {
+        hqScene->startBuildingScrollView();
     }
 }
 

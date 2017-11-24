@@ -200,12 +200,11 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     std::string responseDataString = std::string(response->getResponseData()->begin(), response->getResponseData()->end());
     std::string requestTag = response->getHttpRequest()->getTag();
     
-    cocos2d::log("ASITEST request tag: %s", requestTag.c_str());
-    //cocos2d::log("request body: %s", response->getHttpRequest()->getRequestData());
-    cocos2d::log("ASITEST request body size: %ld", strlen(response->getHttpRequest()->getRequestData()));
-    cocos2d::log("ASITEST response code: %ld", response->getResponseCode());
-    cocos2d::log("ASITEST response header: %s", responseHeaderString.c_str());
-    cocos2d::log("ASITEST response string size: %ld", responseDataString.size());
+    cocos2d::log("Request tag: %s", requestTag.c_str());
+    cocos2d::log("Request body: %s", response->getHttpRequest()->getRequestData());
+    cocos2d::log("Response code: %ld", response->getResponseCode());
+    cocos2d::log("Response header: %s", responseHeaderString.c_str());
+    cocos2d::log("Response string: %s", responseDataString.c_str());
     
     if((response->getResponseCode() == 200)||(response->getResponseCode() == 201)||(response->getResponseCode() == 204))
     {

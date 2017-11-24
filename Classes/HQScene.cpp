@@ -25,6 +25,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string& HQScene::kScrollViewName = "scrollview";
+
 Scene* HQScene::createSceneForOfflineArtsAppHQ()
 {
     auto scene = Scene::create();
@@ -66,7 +68,7 @@ void HQScene::startBuildingScrollViewBasedOnName()
     FileUtils::getInstance()->removeDirectory(FileUtils::getInstance()->getWritablePath() + "imageCache");
 #endif
     
-    if(!this->getChildByName("scrollView")) //Checking if this was created before, or this is the first time -> the layer has any kids.
+    if(!this->getChildByName(kScrollViewName)) //Checking if this was created before, or this is the first time -> the layer has any kids.
     {
         if(this->getName() == "GROUP HQ") addGroupHQLogo();
         
@@ -155,7 +157,7 @@ void HQScene::addGroupHQLogo()
 void HQScene::createMonodirectionalScrollView()
 {
     auto horizontalScrollView = createHorizontalScrollView(Size(_visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory(this->getName()).height * 2), Point(_origin.x, _origin.y + 50));
-    horizontalScrollView->setName("scrollView");
+    horizontalScrollView->setName(kScrollViewName);
     this->addChild(horizontalScrollView);
     
     const std::vector<HQContentItemObjectRef> &elementsForRow = HQDataProvider::getInstance()->getElementsForRow(this->getName(), 0);
@@ -169,7 +171,7 @@ void HQScene::createMonodirectionalScrollView()
 void HQScene::createBidirectionalScrollView()
 {
     auto verticalScrollView = createVerticalScrollView(this->getName());
-    verticalScrollView->setName("scrollView");
+    verticalScrollView->setName(kScrollViewName);
     this->addChild(verticalScrollView);
     
     PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
