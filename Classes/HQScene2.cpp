@@ -146,6 +146,10 @@ void HQScene2::showPostContentCTA()
     
     ContentHistoryManager::getInstance()->setReturnedFromContent(false);
     HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
+    if(lastContent == nullptr)
+    {
+        return;
+    }
     std::vector<HQCarouselObjectRef> hqCarousels = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(this->getName())->getHqCarousels();
     bool possibleContentFound = false;
     while(!possibleContentFound && hqCarousels.size() > 0) // look for available content in random carousel
