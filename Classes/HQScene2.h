@@ -16,7 +16,7 @@ public:
     static const int kUnitsOnScreen;
     static const float kContentItemMargin;
     static const float kSpaceForPrivacyPolicy;
-    static const std::string& kScrollViewName;
+    static const std::string& kScrollViewName;
     
     CREATE_FUNC(HQScene2);
     virtual bool init();
