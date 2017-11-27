@@ -31,6 +31,11 @@ void HQDataObject::addImage(const std::string &key, const std::string &value)
     _images[key] = value;
 }
 
+void HQDataObject::setImages(const std::map<std::string, std::string> &images)
+{
+    _images = images;
+}
+
 void HQDataObject::addCarusoelToHq(const HQCarouselObjectRef &inputCarouselData)
 {
     _carousels.push_back(inputCarouselData);

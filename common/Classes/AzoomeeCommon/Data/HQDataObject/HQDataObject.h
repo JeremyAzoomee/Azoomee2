@@ -32,6 +32,7 @@ public:
     void addCarusoelToHq(const HQCarouselObjectRef &inputCarouselData);
     void addContentItemToRawStorage(const std::string &contentItemId, const HQContentItemObjectRef &inputContentItemObject);
     void addImage(const std::string &key, const std::string &value);
+    void setImages(const std::map<std::string, std::string> &images);
     
     std::string getHqType() const;
     std::string getHqUrl() const;

@@ -37,7 +37,9 @@ public:
     void setUri(const std::string &inputUri);
     void setEntitled(const bool inputEntitled);
     void addTag(const std::string &tag);
+    void setTags(const std::vector<std::string> &tags);
     void addImage(const std::string &key, const std::string &value);
+    void setImages(const std::map<std::string, std::string> &images);
     
     std::string getContentItemId() const;
     std::string getTitle() const;

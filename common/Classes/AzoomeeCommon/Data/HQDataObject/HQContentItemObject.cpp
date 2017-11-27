@@ -52,9 +52,19 @@ void HQContentItemObject::addTag(const std::string &tag)
     _tags.push_back(tag);
 }
 
+void HQContentItemObject::setTags(const std::vector<std::string> &tags)
+{
+    _tags = tags;
+}
+
 void HQContentItemObject::addImage(const std::string &key, const std::string &value)
 {
     _images[key] = value;
+}
+
+void HQContentItemObject::setImages(const std::map<std::string, std::string> &images)
+{
+    _images = images;
 }
 
 std::string HQContentItemObject::getTitle() const

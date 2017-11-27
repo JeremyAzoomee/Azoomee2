@@ -31,6 +31,11 @@ void HQCarouselObject::addImage(const std::string &key, const std::string &value
     _images[key] = value;
 }
 
+void HQCarouselObject::setImages(const std::map<std::string, std::string> &images)
+{
+    _images = images;
+}
+
 void HQCarouselObject::removeAllItemsFromCarousel()
 {
     _contentItems.clear();
