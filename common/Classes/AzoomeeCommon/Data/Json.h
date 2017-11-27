@@ -177,6 +177,53 @@ inline cocos2d::Color4B getColor4BFromJson(const std::string &keyName, const rap
     }
     return cocos2d::Color4B();
 }
+
+inline std::vector<std::string> getStringArrayFromJson(const rapidjson::Value& jsonValue)
+{
+    std::vector<std::string> returnValue;
+    
+    if(jsonValue.IsNull() || !jsonValue.IsArray())
+    {
+        return returnValue;
+    }
+    
+    for(rapidjson::SizeType i = 0; i < jsonValue.Size(); i++)
+    {
+        if(!jsonValue[i].IsNull() && jsonValue[i].IsString())
+        {
+            returnValue.push_back(jsonValue[i].GetString());
+        }
+    }
+    
+    return returnValue;
+}
+
+inline std::map<std::string, std::string> getStringMapFromJson(const rapidjson::Value& jsonValue)
+{
+    std::map<std::string, std::string> returnValue;
+ 
+    if(jsonValue.IsNull())
+    {
+        return returnValue;
+    }
+    
+    rapidjson::Value::ConstMemberIterator M;
+    
+    for (M=jsonValue.MemberBegin(); M!=jsonValue.MemberEnd(); M++)
+    {
+        if(!M->name.IsNull() && M->name.IsString() && !M->value.IsNull() && M->value.IsString())
+        {
+            std::string name = M->name.GetString();
+            std::string value = M->value.GetString();
+            
+            returnValue[name] = value;
+        }
+    }
+    
+    return returnValue;
+}
+
+
 NS_AZOOMEE_END
 
 #endif

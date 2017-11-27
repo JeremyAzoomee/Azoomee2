@@ -80,7 +80,16 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
             contentObject->setType(getStringFromJson("type", itemData));
             contentObject->setUri(getStringFromJson("uri", itemData));
             contentObject->setEntitled(getBoolFromJson("entitled", itemData));
-            contentObject->setNewFlag(getBoolFromJson("newFlag", itemData));
+            
+            if(itemData.HasMember("tags"))
+            {
+                contentObject->setTags(getStringArrayFromJson(itemData["tags"]));
+            }
+            
+            if(itemData.HasMember("images"))
+            {
+                contentObject->setImages(getStringMapFromJson(itemData["images"]));
+            }
             
             HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addContentItemToRawStorage(key, contentObject);
         }
@@ -102,6 +111,11 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
         
         carouselObject->setTitle(getStringFromJson("title", contentData["rows"][i]));
         
+        if(contentData["rows"][i].HasMember("images"))
+        {
+            carouselObject->setImages(getStringMapFromJson(contentData["rows"][i]["images"]));
+        }
+        
         if(contentData["rows"][i]["contentIds"].Size() != 0)
         {
             for(int j = 0; j < contentData["rows"][i]["contentIds"].Size(); j++)
@@ -118,6 +132,11 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
         
         HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addCarusoelToHq(carouselObject);
         HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setHqType(category);
+    }
+    
+    if(contentData.HasMember("images"))
+    {
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setImages(getStringMapFromJson(contentData["images"]));
     }
     
     return true;

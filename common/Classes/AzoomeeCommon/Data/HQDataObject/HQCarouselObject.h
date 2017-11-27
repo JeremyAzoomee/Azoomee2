@@ -34,7 +34,6 @@ public:
     std::vector<HQContentItemObjectRef> getContentItems();
     std::vector<cocos2d::Vec2> getContentItemHighlights();
     std::map<std::string, std::string> getImages() const;
-    
 };
 
 NS_AZOOMEE_END

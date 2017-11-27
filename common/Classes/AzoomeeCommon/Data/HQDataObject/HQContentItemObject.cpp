@@ -3,6 +3,8 @@
 
 NS_AZOOMEE_BEGIN
 
+const std::string& HQContentItemObject::kTagNew = "NEW";
+
 HQContentItemObject::HQContentItemObject()
 {
 }
@@ -96,7 +98,7 @@ bool HQContentItemObject::isNew() const
 {
     for(const std::string &tag : _tags)
     {
-        if(tag == "new")
+        if(tag == kTagNew)
         {
             return true;
         }
@@ -199,7 +201,7 @@ HQContentItemObjectRef HQContentItemObject::createFromMap(const std::map<std::st
     
     if(inputMap.find("newFlag") != inputMap.end())
     {
-        returnObject->addTag("new");
+        returnObject->addTag(kTagNew);
     }
     
     return returnObject;

@@ -40,12 +40,6 @@ bool HQDataProvider::init(void)
     return true;
 }
 
-std::string HQDataProvider::getImageUrlForItem(const std::string &itemId, Vec2 shape) const
-{
-    std::string returnString = StringUtils::format("%s/%s/thumb_%d_%d.jpg", ConfigStorage::getInstance()->getImagesUrl().c_str(), itemId.c_str(), (int)shape.x, (int)shape.y);
-    return returnString;
-}
-
 std::string HQDataProvider::getImageUrlForGroupLogo(const std::string &itemId) const
 {
     std::string returnString = StringUtils::format("%s/%s/logo.png", ConfigStorage::getInstance()->getImagesUrl().c_str(), itemId.c_str());

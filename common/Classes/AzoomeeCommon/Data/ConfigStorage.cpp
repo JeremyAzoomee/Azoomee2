@@ -129,14 +129,6 @@ std::string ConfigStorage::getServerUrl()
 {
     return getServerUrlPrefix() + getServerHost();
 }
-
-std::string ConfigStorage::getImagesUrl()
-{
-#ifdef USINGCI
-    return "https://media.azoomee.ninja/static/images";
-#endif
-    return "https://media.azoomee.com/static/images";
-}
     
 std::string ConfigStorage::getCTAPackageJsonURL()
 {

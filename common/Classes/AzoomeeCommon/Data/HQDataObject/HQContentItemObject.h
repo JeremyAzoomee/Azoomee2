@@ -64,6 +64,8 @@ public:
     std::string getJSONRepresentationOfStructure() const;
     static HQContentItemObjectRef createFromMap(const std::map<std::string, std::string> &inputMap);
     
+    static const std::string &kTagNew;
+    
 };
 
 NS_AZOOMEE_END

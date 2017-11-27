@@ -34,7 +34,6 @@ public:
     int getNumberOfElementsForRow(const std::string &category, int index) const;
     std::vector<HQContentItemObjectRef> getElementsForRow(const std::string &category, int index);
     std::string getTitleForRow(const std::string &category, int index) const;
-    std::string getImageUrlForItem(const std::string &itemId, cocos2d::Vec2 shape) const;
     std::string getTypeForSpecificItem(const std::string &category, const std::string &itemId) const;
     
     std::string getImageUrlForGroupLogo(const std::string &itemId) const;
