@@ -165,13 +165,8 @@ public class NativeView extends XWalkActivity {
             myUrl = extras.getString("url");
             userid = extras.getString("userid");
         }
-
-        if(myUrl.substring(myUrl.length() - 4).equals("html"))
-        {
-            xWalkWebView.loadUrl("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl);
-        }
-        else
-        {
+        //else
+        //{
             XWalkCookieManager mCookieManager = new XWalkCookieManager();
             mCookieManager.removeSessionCookie();
             mCookieManager.removeExpiredCookie();
@@ -199,6 +194,15 @@ public class NativeView extends XWalkActivity {
                 JNICalls.getBackToLoginScreen();
             }
 
+            //xWalkWebView.loadUrl("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl);
+        //}
+
+        if(myUrl.substring(myUrl.length() - 4).equals("html"))
+        {
+            xWalkWebView.loadUrl("file:///android_asset/res/webcommApi/index_android.html?contentUrl=" + myUrl);
+        }
+        else
+        {
             xWalkWebView.loadUrl("file:///android_asset/res/jwplayer/index_android.html?contentUrl=" + myUrl);
         }
 

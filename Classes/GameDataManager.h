@@ -26,6 +26,8 @@ public:
     void startProcessingGame(const HQContentItemObjectRef &itemData);
     void getJSONGameData(const std::string &url, const std::string &itemId);
     
+    bool unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd);
+    
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
@@ -51,7 +53,6 @@ private:
     void getGameZipFile(const std::string &url, const std::string &itemId);
     void onGetGameZipFileAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
-    bool unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd);
     bool removeGameZip(const std::string &fileNameWithPath);
     
     void removeGameFolderOnError(const std::string &dirPath);
@@ -85,6 +86,8 @@ private:
     const int _kGameCleanupCheckFreq = 432000; //5 days in seconds
     const int _kGameCleanupUnusedTime = 1814400; //21 days in seconds
 };
+
+void asyncUnzip(std::string zipPath,std::string dirpath, std::string passwd);
 
 NS_AZOOMEE_END
 

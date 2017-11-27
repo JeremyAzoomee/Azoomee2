@@ -61,7 +61,12 @@ bool GameDataManager::init(void)
 void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData)
 {
     //Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://games.azoomee.ninja/" + itemData->getContentItemId() + "/export/index-azoomee.html"));
-    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://box.bonis.me"));
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/index.html"));
+    if(!FileUtils::getInstance()->isDirectoryExist(getGameCachePath() + "001e8b25-878c-498b-ac22-59f53c616300"))
+    {
+        FileUtils::getInstance()->createDirectory(getGameCachePath() + "001e8b25-878c-498b-ac22-59f53c616300");
+    }
+    getGameZipFile("https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/game.zip", "001e8b25-878c-498b-ac22-59f53c616300");
     return;
     
     AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
@@ -120,9 +125,6 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     const std::string &basePath = getGameIdPath(itemId);
     const std::string &basePathWithFileName = basePath + "package.json";
     const std::string &startFile = getStartFileFromJSONFile(basePathWithFileName);
-    
-    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://media.azoomee.ninja/distribution/global/" +itemId + "/" + startFile));
-    return;
     
     if(!isGameCompatibleWithCurrentAzoomeeVersion(basePathWithFileName))
     {
@@ -329,8 +331,8 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
         const std::string& basePath = getGameIdPath(response->getHttpRequest()->getTag());
         const std::string& targetPath = basePath + "game.zip";
         FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
-        
-        unzipGame(targetPath, basePath, "");
+        std::thread* unzip = new std::thread(asyncUnzip,targetPath,basePath,"");
+        //unzipGame(targetPath, basePath, "");
     }
     else
     {
@@ -355,7 +357,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     
         removeGameZip(zipPath);
     
-        if(!isGameCompatibleWithCurrentAzoomeeVersion(dirpath + "package.json"))
+        /*if(!isGameCompatibleWithCurrentAzoomeeVersion(dirpath + "package.json"))
         {
             hideLoadingScreen(); //ERROR TO BE ADDED
             showIncompatibleMessage();
@@ -366,6 +368,13 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
     
         if(FileUtils::getInstance()->isFileExist(dirpath + startFileNameWithPath))
         {
+            const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(dirpath + "package.json");
+            rapidjson::Document gameData;
+            gameData.Parse(fileContent.c_str());
+            std::string uri = gameData["uri"].GetString();
+            uri = uri.substr(0, uri.find_last_of("/"));
+            Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, uri + startFileNameWithPath));
+            return true;;
             startGame(dirpath, startFileNameWithPath);
         }
         else
@@ -375,7 +384,7 @@ void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClien
             hideLoadingScreen();
             showErrorMessage();
             return false;
-        }
+        }*/
     }
     else
     {
@@ -592,5 +601,10 @@ void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
     }
+}
+
+void asyncUnzip(std::string zipPath,std::string dirpath, std::string passwd)
+{
+    GameDataManager::getInstance()->unzipGame(zipPath, dirpath, passwd);
 }
 NS_AZOOMEE_END
