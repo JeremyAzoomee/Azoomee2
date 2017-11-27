@@ -69,14 +69,17 @@ void HQSceneElementVisual::setMargin(float margin)
     _margin = margin;
 }
 
+void HQSceneElementVisual::setThumbUrl(const std::string &url)
+{
+    _elementUrl = url;
+}
+
 cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
 {
     resizeSceneElement();
     createBaseLayer();
     setShouldDisplayVisualElementsOverImage();
     createCallbackFunction(_elementDelay);
-    
-    _elementUrl = HQDataProvider::getInstance()->getImageUrlForItem(_elementItemData->getContentItemId(), _elementShape);
     
     return this;
 }

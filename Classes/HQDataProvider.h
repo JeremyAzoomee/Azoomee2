@@ -25,6 +25,8 @@ public:
     HQContentItemObjectRef getItemDataForSpecificItem(const std::string &category, const std::string &itemid);
     HQContentItemObjectRef getItemDataForSpecificItem(const std::string &itemid);
     cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber);
+    std::string getThumbnailUrlForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
+    std::string getThumbnailUrlForSpecificItemById(const std::string &itemId) const;
     std::string getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
     void getDataForHQ(const std::string &category);
     void getDataForGroupHQ(const std::string &uri);
@@ -35,8 +37,6 @@ public:
     std::vector<HQContentItemObjectRef> getElementsForRow(const std::string &category, int index);
     std::string getTitleForRow(const std::string &category, int index) const;
     std::string getTypeForSpecificItem(const std::string &category, const std::string &itemId) const;
-    
-    std::string getImageUrlForGroupLogo(const std::string &itemId) const;
     
     std::vector<HQContentItemObjectRef> getAllContentItemsInRow(const std::string &category, int rowNumber);
     

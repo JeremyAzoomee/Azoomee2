@@ -142,8 +142,8 @@ void HQScene::addGroupHQLogo()
 {
     if(HQHistoryManager::getInstance()->getGroupHQSourceId() != "")
     {
-        std::string groupHQLogoUrl = HQDataProvider::getInstance()->getImageUrlForGroupLogo(HQHistoryManager::getInstance()->getGroupHQSourceId());
-        
+        std::string groupHQLogoUrl = HQDataObjectStorage::getInstance()->getHQDataObjectForKey("GROUP HQ")->getGroupLogo();
+                
         this->removeChild(this->getChildByName("groupLogo"));
         
         auto groupLogo = RemoteImageSprite::create();

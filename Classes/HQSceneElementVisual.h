@@ -22,6 +22,7 @@ public:
     void setCreatedForOffline(bool createdForOffline);
     void setManualSizeMultiplier(float multiplier);
     void setMargin(float margin);
+    void setThumbUrl(const std::string &url);
     
     cocos2d::Layer* createHQSceneElement();
     

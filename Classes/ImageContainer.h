@@ -13,10 +13,23 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     CREATE_FUNC(ImageContainer);
-    void createContainer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay, cocos2d::Point position);
+    
+    void setElementProperties(const HQContentItemObjectRef &elementProperties);
+    void setScale(float scale);
+    void setStartDelay(float startDelay);
+    void setPosition(const cocos2d::Point &position);
+    void setThumbUrl(const std::string &url);
+    
+    void createContainer();
 
 private:
-
+    HQContentItemObjectRef _elementProperties;
+    float _scale = 0;
+    float _startDelay = 0;
+    cocos2d::Point _position;
+    std::string _thumbUrl = "";
+    
+    
     void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, const HQContentItemObjectRef &elementProperties, bool IAPEnabled);
     
     cocos2d::LayerColor *bgLayer;
@@ -33,9 +46,9 @@ private:
     
     bool iamtouched = false;
     
-    float appearPause;
-    float interTime;
-    float scaleTime;
+    float appearPause = 0.0f;
+    float interTime = 0.0f;
+    float scaleTime = 0.0f;
     float scaleFactor;
     
     cocos2d::Sprite* icon;

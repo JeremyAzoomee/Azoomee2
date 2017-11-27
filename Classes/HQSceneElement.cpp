@@ -92,6 +92,7 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
     _elementVisual->setCategory(_elementCategory);
     _elementVisual->setItemData(_elementItemData);
     _elementVisual->setShape(HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
+    _elementVisual->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
     _elementVisual->setDelay(_elementRowNumber * 0.5 + _elementIndex * 0.1);
     _elementVisual->setCreatedForOffline(false);
     
