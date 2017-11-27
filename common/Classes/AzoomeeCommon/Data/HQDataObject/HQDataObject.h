@@ -20,6 +20,7 @@ private:
     std::vector<HQCarouselObjectRef> _carousels;
     std::map<std::string, HQContentItemObjectRef> _rawContentItems;
     bool _isDownloaded = false;
+    std::map<std::string, std::string> _images;
     
 public:
     HQDataObject();
@@ -30,12 +31,14 @@ public:
     void setHqEntitlement(bool inputHqEntitlement);
     void addCarusoelToHq(const HQCarouselObjectRef &inputCarouselData);
     void addContentItemToRawStorage(const std::string &contentItemId, const HQContentItemObjectRef &inputContentItemObject);
+    void addImage(const std::string &key, const std::string &value);
     
     std::string getHqType() const;
     std::string getHqUrl() const;
     bool getHqEntitlement() const;
     std::vector<HQCarouselObjectRef> getHqCarousels();
     HQContentItemObjectRef getContentItemForId(const std::string &contentItemId) const;
+    std::map<std::string, std::string> getImages() const;
     
     void clearData();
 };

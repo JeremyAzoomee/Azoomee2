@@ -26,6 +26,11 @@ void HQDataObject::setHqEntitlement(bool inputHqEntitlement)
     _hqEntitlement = inputHqEntitlement;
 }
 
+void HQDataObject::addImage(const std::string &key, const std::string &value)
+{
+    _images[key] = value;
+}
+
 void HQDataObject::addCarusoelToHq(const HQCarouselObjectRef &inputCarouselData)
 {
     _carousels.push_back(inputCarouselData);
@@ -69,10 +74,16 @@ HQContentItemObjectRef HQDataObject::getContentItemForId(const std::string &cont
     }
 }
 
+std::map<std::string, std::string> HQDataObject::getImages() const
+{
+    return _images;
+}
+
 void HQDataObject::clearData()
 {
     _rawContentItems.clear();
     _carousels.clear();
+    _images.clear();
 }
 
 NS_AZOOMEE_END
