@@ -19,7 +19,6 @@ private:
     std::string _uri = "";
     bool _entitled = true;
     std::vector<std::string> _tags;
-    std::map<std::string, std::string> _images;
     
     //variables that are just added when read (not storing)
     std::string _imagePath = "";
@@ -38,8 +37,6 @@ public:
     void setEntitled(const bool inputEntitled);
     void addTag(const std::string &tag);
     void setTags(const std::vector<std::string> &tags);
-    void addImage(const std::string &key, const std::string &value);
-    void setImages(const std::map<std::string, std::string> &images);
     
     std::string getContentItemId() const;
     std::string getTitle() const;
@@ -49,7 +46,6 @@ public:
     bool isEntitled() const;
     bool isNew() const;
     std::vector<std::string> getTags() const;
-    std::map<std::string, std::string> getImages() const;
     
     //getters and setters for variables only handled upon read (not storing)
     void setImagePath(const std::string &inputImagePath);

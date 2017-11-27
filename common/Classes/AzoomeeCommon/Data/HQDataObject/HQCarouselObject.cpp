@@ -26,21 +26,21 @@ void HQCarouselObject::addContentItemHighlight(const cocos2d::Vec2 &contentItemH
     _contentItemHighlights.push_back(contentItemHighlight);
 }
 
-void HQCarouselObject::addImage(const std::string &key, const std::string &value)
+void HQCarouselObject::setThumbnails(const std::vector<std::string> &thumbnails)
 {
-    _images[key] = value;
+    _thumbnails = thumbnails;
 }
 
-void HQCarouselObject::setImages(const std::map<std::string, std::string> &images)
+void HQCarouselObject::setIcon(const std::string &icon)
 {
-    _images = images;
+    _icon = icon;
 }
 
 void HQCarouselObject::removeAllItemsFromCarousel()
 {
     _contentItems.clear();
     _contentItemHighlights.clear();
-    _images.clear();
+    _thumbnails.clear();
 }
 
 std::string HQCarouselObject::getTitle() const
@@ -58,9 +58,14 @@ std::vector<cocos2d::Vec2> HQCarouselObject::getContentItemHighlights()
     return _contentItemHighlights;
 }
 
-std::map<std::string, std::string> HQCarouselObject::getImages() const
+std::vector<std::string> HQCarouselObject::getThumbnails() const
 {
-    return _images;
+    return _thumbnails;
+}
+
+std::string HQCarouselObject::getIcon() const
+{
+    return _icon;
 }
 
 NS_AZOOMEE_END

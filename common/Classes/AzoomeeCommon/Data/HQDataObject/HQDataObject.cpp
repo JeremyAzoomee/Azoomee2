@@ -26,11 +26,6 @@ void HQDataObject::setHqEntitlement(bool inputHqEntitlement)
     _hqEntitlement = inputHqEntitlement;
 }
 
-void HQDataObject::addImage(const std::string &key, const std::string &value)
-{
-    _images[key] = value;
-}
-
 void HQDataObject::setImages(const std::map<std::string, std::string> &images)
 {
     _images = images;
@@ -82,6 +77,18 @@ HQContentItemObjectRef HQDataObject::getContentItemForId(const std::string &cont
 std::map<std::string, std::string> HQDataObject::getImages() const
 {
     return _images;
+}
+
+std::string HQDataObject::getGroupLogo() const
+{
+    if(_images.find("icon") != _images.end())
+    {
+        return _images.at("icon");
+    }
+    else
+    {
+        return "";
+    }
 }
 
 void HQDataObject::clearData()

@@ -17,7 +17,8 @@ private:
     std::string _title = "";
     std::vector<HQContentItemObjectRef> _contentItems;
     std::vector<cocos2d::Vec2> _contentItemHighlights;
-    std::map<std::string, std::string> _images;
+    std::vector<std::string> _thumbnails;
+    std::string _icon = "";
     
 public:
     HQCarouselObject();
@@ -26,14 +27,15 @@ public:
     void setTitle(const std::string &inputTitle);
     void addContentItemToCarousel(const HQContentItemObjectRef &contentItem); //also: contentItemData should contain size
     void addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight);
-    void addImage(const std::string &key, const std::string &value);
-    void setImages(const std::map<std::string, std::string> &images);
+    void setThumbnails(const std::vector<std::string> &thumbnails);
+    void setIcon(const std::string &icon);
     void removeAllItemsFromCarousel();
     
     std::string getTitle() const;
     std::vector<HQContentItemObjectRef> getContentItems();
     std::vector<cocos2d::Vec2> getContentItemHighlights();
-    std::map<std::string, std::string> getImages() const;
+    std::vector<std::string> getThumbnails() const;
+    std::string getIcon() const;
 };
 
 NS_AZOOMEE_END
