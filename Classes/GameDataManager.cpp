@@ -243,7 +243,7 @@ std::string GameDataManager::getDownloadUrlForGameFromJSONFile(const std::string
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
-    return gameData["uri"].GetString();
+    return getStringFromJson("uri", gameData);
 }
 
 std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFileName)
@@ -252,7 +252,7 @@ std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFil
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
-    return gameData["pathToStartPage"].GetString();
+    return getStringFromJson("pathToStartPage", gameData);
 }
 
 int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFileName)
@@ -260,6 +260,10 @@ int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFi
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
+    if(gameData.HasParseError())
+    {
+        return 0;
+    }
     
     if(gameData.HasMember("currentVersion"))
     {
@@ -276,6 +280,10 @@ int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonStri
 {
     rapidjson::Document gameData;
     gameData.Parse(jsonString.c_str());
+    if(gameData.HasParseError())
+    {
+        return 0;
+    }
     
     if(gameData.HasMember("minVersion"))
     {
@@ -425,10 +433,10 @@ Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
-    
-    if(gameData.HasMember("isPortrait"))
-        if(gameData["isPortrait"].IsBool() && gameData["isPortrait"].GetBool())
-            return Orientation::Portrait;
+    if(getBoolFromJson("isPortrait", gameData))
+    {
+        return Orientation::Portrait;
+    }
     
     return Orientation::Landscape;
 }
@@ -474,6 +482,10 @@ bool GameDataManager::isGameCompatibleWithCurrentAzoomeeVersion(const std::strin
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
+    if(gameData.HasParseError())
+    {
+        return true;
+    }
     
     if(gameData.HasMember("minAppVersion"))
     {
