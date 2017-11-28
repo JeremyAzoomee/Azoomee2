@@ -108,11 +108,11 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
         
         if(contentData["rows"][i].HasMember("images"))
         {
-            carouselObject->setIcon(getStringFromJson("icon", contentData["rows"][i]["images"]));
+            carouselObject->setIcon(getStringFromJson("icon", contentData["rows"][i]["images"])); //parsing carousel main icon if present
             
             if(contentData["rows"][i]["images"].HasMember("thumbs"))
             {
-                carouselObject->setThumbnails(getStringArrayFromJson(contentData["rows"][i]["images"]["thumbs"]));
+                carouselObject->setThumbnails(getStringArrayFromJson(contentData["rows"][i]["images"]["thumbs"])); //parsing all thumbs if present
             }
         }
         

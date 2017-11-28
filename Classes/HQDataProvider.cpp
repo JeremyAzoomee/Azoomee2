@@ -144,11 +144,22 @@ HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::str
 
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber)
 {
+    if(rowNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().size() || itemNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()[rowNumber]->getContentItemHighlights().size())
+    {
+        cocos2d::log("HIGHLIGHT OUT OF INDEX ERROR: %d, %d", rowNumber, itemNumber);
+        return cocos2d::Vec2(1,1);
+    }
+    
     return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
 }
 
 std::string HQDataProvider::getThumbnailUrlForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const
 {
+    if(rowNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().size() || itemNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()[rowNumber]->getThumbnails().size())
+    {
+        cocos2d::log("THUMBNAIL OUT OF INDEX ERROR: %d, %d", rowNumber, itemNumber);
+        return "";
+    }
     return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getThumbnails().at(itemNumber);
 }
 
