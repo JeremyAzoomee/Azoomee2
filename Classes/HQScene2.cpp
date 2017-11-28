@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
+#include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 
 using namespace cocos2d;
 
@@ -108,8 +109,7 @@ void HQScene2::startBuildingScrollView()
     {
         lastCarouselPosition -= kSpaceAboveCarousel;
         
-        const std::string &title = HQDataProvider::getInstance()->getTitleForRow(_hqCategory, i);
-        cocos2d::Layer *carouselTitle = HQScene2CarouselTitle::createWithText(title);
+        cocos2d::Layer *carouselTitle = HQScene2CarouselTitle::createForCarousel(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory)->getHqCarousels()[i]);
         carouselTitle->setPosition(cocos2d::Vec2(scrollView->getContentSize().width / 2, lastCarouselPosition));
         scrollView->addChild(carouselTitle);
         

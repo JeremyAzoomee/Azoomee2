@@ -100,6 +100,11 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
 
 bool HQDataParser::parseHQStructure(const std::string &responseString, const char *category)
 {
+    for(int i = 0; i < responseString.size(); i += 200)
+    {
+        cocos2d::log("RES: %s", responseString.substr(i, 200).c_str());
+    }
+    
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
     
