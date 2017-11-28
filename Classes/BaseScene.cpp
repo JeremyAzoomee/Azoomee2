@@ -181,17 +181,6 @@ void BaseScene::addXmasDecoration()
     snow2->setPosition(origin.x + visibleSize.width - snow2->getContentSize().width / 2, origin.y - snow2->getContentSize().height / 2);
     this->addChild(snow2, DECORATION_ZORDER);
     snow2->runAction(Sequence::create(DelayTime::create(0.5f), EaseOut::create(MoveTo::create(2, Vec2(snow2->getPosition().x, origin.y + snow2->getContentSize().height / 2)), 2.0f), NULL));
-    
-    Sprite* ice1 = Sprite::create("res/xmasdecoration/icicle1.png");
-    ice1->setPosition(origin.x + visibleSize.width * 0.18, origin.y + visibleSize.height + ice1->getContentSize().height / 2);
-    ice1->setName("ice1");
-    this->addChild(ice1, DECORATION_ZORDER);
-    ice1->runAction(Sequence::create(DelayTime::create(0.7f), EaseOut::create(MoveTo::create(2, Vec2(ice1->getPosition().x, origin.y + visibleSize.height - ice1->getContentSize().height / 2)), 2.0f), NULL));
-    
-    Sprite *ice2 = Sprite::create("res/xmasdecoration/icicle2.png");
-    ice2->setPosition(origin.x + visibleSize.width * 0.82, origin.y + visibleSize.height + ice2->getContentSize().height / 2);
-    this->addChild(ice2, DECORATION_ZORDER);
-    ice2->runAction(Sequence::create(DelayTime::create(0.9f), EaseOut::create(MoveTo::create(2, Vec2(ice2->getPosition().x, origin.y + visibleSize.height - ice2->getContentSize().height / 2)), 2.0f), NULL));
 }
 
 NS_AZOOMEE_END
