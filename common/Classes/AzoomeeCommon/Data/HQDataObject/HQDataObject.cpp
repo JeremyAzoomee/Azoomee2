@@ -81,9 +81,9 @@ std::map<std::string, std::string> HQDataObject::getImages() const
 
 std::string HQDataObject::getGroupLogo() const
 {
-    if(_images.find("icon") != _images.end())
+    if(_images.find("logo") != _images.end())
     {
-        return _images.at("icon");
+        return _images.at("logo");
     }
     else
     {
