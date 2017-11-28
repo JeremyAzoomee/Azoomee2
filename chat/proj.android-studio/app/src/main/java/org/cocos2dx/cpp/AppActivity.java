@@ -30,6 +30,13 @@ public class AppActivity extends AzoomeeActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // If mFrameLayout hasn't been created, then the activity is going to be destroyed
+        // For context, see Cocos2dxActivity onCreate !isTaskRoot() workaround.
+        if(mFrameLayout == null)
+        {
+            return;
+        }
+
         mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
 
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
