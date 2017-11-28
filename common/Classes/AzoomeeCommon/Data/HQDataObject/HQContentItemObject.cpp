@@ -59,6 +59,11 @@ void HQContentItemObject::setTags(const std::vector<std::string> &tags)
     _tags = tags;
 }
 
+void HQContentItemObject::setImages(const std::map<std::string, std::string> &images)
+{
+    _images = images;
+}
+
 std::string HQContentItemObject::getTitle() const
 {
     return _title;
@@ -99,6 +104,11 @@ bool HQContentItemObject::isNew() const
 std::vector<std::string> HQContentItemObject::getTags() const
 {
     return _tags;
+}
+
+std::map<std::string, std::string> HQContentItemObject::getImages() const
+{
+    return _images;
 }
 
 //All functions that are being used only upon reading out

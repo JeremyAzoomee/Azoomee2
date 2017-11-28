@@ -185,7 +185,7 @@ void MainHubScene::addImageContainers()
             imageIcon->setScale(1.2 - (elementIndex * 0.3));
             imageIcon->setStartDelay(delayTime);
             imageIcon->setPosition(elementPosition);
-            imageIcon->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForSpecificItem(this->getName(), elementRowNumber, elementIndex));
+            imageIcon->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(this->getName(), elementRowNumber, elementIndex));
             
             imageIcon->createContainer();
         }

@@ -86,6 +86,11 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
                 contentObject->setTags(getStringArrayFromJson(itemData["tags"]));
             }
             
+            if(itemData.HasMember("images"))
+            {
+                contentObject->setImages(getStringMapFromJson(itemData["images"]));
+            }
+            
             HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addContentItemToRawStorage(key, contentObject);
         }
     }
@@ -109,11 +114,6 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
         if(contentData["rows"][i].HasMember("images"))
         {
             carouselObject->setIcon(getStringFromJson("icon", contentData["rows"][i]["images"])); //parsing carousel main icon if present
-            
-            if(contentData["rows"][i]["images"].HasMember("thumbs"))
-            {
-                carouselObject->setThumbnails(getStringArrayFromJson(contentData["rows"][i]["images"]["thumbs"])); //parsing all thumbs if present
-            }
         }
         
         if(contentData["rows"][i]["contentIds"].Size() != 0)

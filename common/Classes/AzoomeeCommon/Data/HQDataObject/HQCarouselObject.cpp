@@ -26,11 +26,6 @@ void HQCarouselObject::addContentItemHighlight(const cocos2d::Vec2 &contentItemH
     _contentItemHighlights.push_back(contentItemHighlight);
 }
 
-void HQCarouselObject::setThumbnails(const std::vector<std::string> &thumbnails)
-{
-    _thumbnails = thumbnails;
-}
-
 void HQCarouselObject::setIcon(const std::string &icon)
 {
     _icon = icon;
@@ -40,7 +35,7 @@ void HQCarouselObject::removeAllItemsFromCarousel()
 {
     _contentItems.clear();
     _contentItemHighlights.clear();
-    _thumbnails.clear();
+    _icon = "";
 }
 
 std::string HQCarouselObject::getTitle() const
@@ -56,11 +51,6 @@ std::vector<HQContentItemObjectRef> HQCarouselObject::getContentItems()
 std::vector<cocos2d::Vec2> HQCarouselObject::getContentItemHighlights()
 {
     return _contentItemHighlights;
-}
-
-std::vector<std::string> HQCarouselObject::getThumbnails() const
-{
-    return _thumbnails;
 }
 
 std::string HQCarouselObject::getIcon() const

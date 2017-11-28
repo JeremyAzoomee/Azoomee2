@@ -17,7 +17,6 @@ private:
     std::string _title = "";
     std::vector<HQContentItemObjectRef> _contentItems;
     std::vector<cocos2d::Vec2> _contentItemHighlights;
-    std::vector<std::string> _thumbnails;
     std::string _icon = "";
     
 public:
@@ -27,14 +26,12 @@ public:
     void setTitle(const std::string &inputTitle);
     void addContentItemToCarousel(const HQContentItemObjectRef &contentItem); //also: contentItemData should contain size
     void addContentItemHighlight(const cocos2d::Vec2 &contentItemHighlight);
-    void setThumbnails(const std::vector<std::string> &thumbnails);
     void setIcon(const std::string &icon);
     void removeAllItemsFromCarousel();
     
     std::string getTitle() const;
     std::vector<HQContentItemObjectRef> getContentItems();
     std::vector<cocos2d::Vec2> getContentItemHighlights();
-    std::vector<std::string> getThumbnails() const;
     std::string getIcon() const;
 };
 

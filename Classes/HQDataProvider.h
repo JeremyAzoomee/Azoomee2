@@ -24,10 +24,15 @@ public:
     //MainHub Area services
     HQContentItemObjectRef getItemDataForSpecificItem(const std::string &category, const std::string &itemid);
     HQContentItemObjectRef getItemDataForSpecificItem(const std::string &itemid);
-    cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber);
-    std::string getThumbnailUrlForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
-    std::string getThumbnailUrlForSpecificItemById(const std::string &itemId) const;
+    cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
+    
+    std::string getThumbnailUrlForItem(const std::string &category, int rowNumber, int itemNumber) const;
+    std::string getThumbnailUrlForItem(const std::string &itemId) const;
+    std::string getThumbnailUrlForItem(const std::string &category, const std::string &itemiId) const;
+    std::string getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 shape) const;
+    
     std::string getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
+    std::string convertShapeToThumbnailKey(const cocos2d::Vec2 &shape) const;
     void getDataForHQ(const std::string &category);
     void getDataForGroupHQ(const std::string &uri);
     

@@ -142,7 +142,7 @@ HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::str
     return nullptr;
 }
 
-Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber)
+Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const
 {
     if(rowNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().size() || itemNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()[rowNumber]->getContentItemHighlights().size())
     {
@@ -153,45 +153,69 @@ Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &category
     return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
 }
 
-std::string HQDataProvider::getThumbnailUrlForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const
+std::string HQDataProvider::getThumbnailUrlForItem(const std::string &category, int rowNumber, int itemNumber) const
 {
-    if(rowNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().size() || itemNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()[rowNumber]->getThumbnails().size())
+    if(rowNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().size() || itemNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()[rowNumber]->getContentItems().size())
     {
         cocos2d::log("THUMBNAIL OUT OF INDEX ERROR: %d, %d", rowNumber, itemNumber);
         return "";
     }
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getThumbnails().at(itemNumber);
+    
+    const cocos2d::Vec2 &shape = getHighlightDataForSpecificItem(category, rowNumber, itemNumber);
+    HQContentItemObjectRef element = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()[rowNumber]->getContentItems()[itemNumber];
+    
+    return getThumbnailUrlForItem(element, shape);
 }
 
-std::string HQDataProvider::getThumbnailUrlForSpecificItemById(const std::string &itemId) const
+std::string HQDataProvider::getThumbnailUrlForItem(const std::string &itemId) const
 {
     const std::vector<std::string>& hqNames = {"GAME HQ", "VIDEO HQ", "AUDIO_HQ", "GROUP HQ"};
+    
     for(const std::string& cat : hqNames)
     {
-        std::vector<HQCarouselObjectRef> hqCarousels = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(cat)->getHqCarousels();
-        
-        for(int rowNumber = 0; rowNumber < hqCarousels.size(); rowNumber++)
+        HQContentItemObjectRef element = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(cat)->getContentItemForId(itemId);
+        if(element)
         {
-            const HQCarouselObjectRef &hqCarousel = hqCarousels[rowNumber];
-            std::vector<HQContentItemObjectRef> hqContentItems = hqCarousel->getContentItems();
-            
-            for(int elementIndex = 0; elementIndex < hqContentItems.size(); elementIndex++)
-            {
-                if(hqContentItems[elementIndex]->getContentItemId() == itemId)
-                {
-                    return getThumbnailUrlForSpecificItem(cat, rowNumber, elementIndex);
-                }
-            }
+            return getThumbnailUrlForItem(element, Vec2(1,1));
         }
     }
     
     return nullptr;
 }
 
+std::string HQDataProvider::getThumbnailUrlForItem(const std::string &category, const std::string &itemId) const
+{
+    return getThumbnailUrlForItem(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(itemId), Vec2(1,1));
+}
+
+std::string HQDataProvider::getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 shape) const
+{
+    const std::string &key = convertShapeToThumbnailKey(shape);
+    
+    if(element->getImages().find(key) != element->getImages().end())
+    {
+        return element->getImages().at(key);
+    }
+    else if(element->getImages().find(convertShapeToThumbnailKey(Vec2(1,1))) != element->getImages().end()) //if the queried key does not exist in images map, we try to fall back to ONE_ONE first
+    {
+        return element->getImages().at(convertShapeToThumbnailKey(Vec2(1,1)));
+    }
+    else //if ONE_ONE even does not exist, we return an empty string
+    {
+        return "";
+    }
+}
+
 std::string HQDataProvider::getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const
 {
     const Vec2 &highlightData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
     return StringUtils::format("%d,%d", int(highlightData.x), int(highlightData.y));
+}
+
+std::string HQDataProvider::convertShapeToThumbnailKey(const cocos2d::Vec2 &shape) const
+{
+    const std::vector<std::string> &numbersByWords = {"ZERO", "ONE", "TWO", "THREE", "FOUR", "FIVE"};
+    return numbersByWords.at(shape.x) + "_" + numbersByWords.at(shape.y);
 }
 
 std::string HQDataProvider::getTypeForSpecificItem(const std::string &category, const std::string &itemId) const
@@ -217,7 +241,7 @@ std::vector<HQContentItemObjectRef> HQDataProvider::getAllContentItemsInRow(cons
         {
             extendedObj->setElementNumber(i);
             extendedObj->setElementShape(getHighlightDataForSpecificItem(category, rowNumber, i));
-            extendedObj->setImagePath(getThumbnailUrlForSpecificItem(category, rowNumber, i));
+            extendedObj->setImagePath(getThumbnailUrlForItem(category, rowNumber, i));
         }
         
         returnArray.push_back(extendedObj);
