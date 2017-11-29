@@ -358,6 +358,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static native String getAmazonSku();
 
+    public static native void setHumanReadablePrice(String price);
+
 //-------------------------------GOOGLE IAB----------------------------------------------
 
     public static void startGooglePurchase() {
@@ -424,6 +426,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             }
 
             Log.d("GOOGLEPLAY", "Query inventory was successful.");
+
+            setHumanReadablePrice(inventory.getSkuDetails(getGoogleSku()).getPrice());
 
             // Do we have the premium upgrade?
             Purchase premiumPurchase = inventory.getPurchase(getGoogleSku());
