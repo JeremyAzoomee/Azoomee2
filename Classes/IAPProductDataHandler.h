@@ -19,6 +19,8 @@ NS_AZOOMEE_BEGIN
         std::string _priceCurrency = "";
         
     public:
+        static const std::string& kDefaultPrice;
+        
         static IAPProductDataHandler* getInstance(void);
         virtual ~IAPProductDataHandler();
         

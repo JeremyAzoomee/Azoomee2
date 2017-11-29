@@ -10,6 +10,8 @@ static const std::string kAzoomeeActivityJavaClassName = "org/cocos2dx/cpp/AppAc
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
+
+const std::string &IAPProductDataHandler::kDefaultPrice = "£4.99";
     
 static std::auto_ptr<IAPProductDataHandler> sIAPProductDataHandlerSharedInstance;
 
@@ -78,6 +80,11 @@ void IAPProductDataHandler::setPriceCurrency(const std::string &currency)
 
 std::string IAPProductDataHandler::getHumanReadableProductPrice() const
 {
+    if(_productPriceHumanReadable == "")
+    {
+        return kDefaultPrice;
+    }
+    
     return _productPriceHumanReadable;
 }
 
