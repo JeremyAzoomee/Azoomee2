@@ -32,6 +32,7 @@ private:
     cocos2d::Node* _popupButtonsLayer = nullptr;
     cocos2d::Node* _popupImages = nullptr;
     cocos2d::Node* _textLayer = nullptr;
+    cocos2d::Node* _textInputLayer = nullptr;
     cocos2d::ui::Button* _closeButton = nullptr;
     cocos2d::LayerColor* _bgColour = nullptr;
     
@@ -53,7 +54,7 @@ private:
     void configButtons(const rapidjson::Value& buttonsList);
     void configExtraImages(const rapidjson::Value& imageList);
     void configText(const rapidjson::Value& textConfig);
-
+    void configTextInput(const rapidjson::Value& textInputConfig);
     
     void addButtonWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr);
     void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& filename);

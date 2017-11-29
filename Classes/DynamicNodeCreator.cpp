@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "HQDataProvider.h"
+#include "DynamicNodeTextInput.h"
 
 using namespace cocos2d;
 
@@ -143,6 +144,13 @@ void DynamicNodeCreator::processFile(const rapidjson::Document& configFile)
         const rapidjson::Value& imageList = configFile["images"];
         configExtraImages(imageList);
     }
+    
+    //config text input fields
+    if(configFile.HasMember("textInputFields"))
+    {
+        const rapidjson::Value& textInputList = configFile["textInputFields"];
+        configTextInput(textInputList);
+    }
 }
 
 void DynamicNodeCreator::initCTANode()
@@ -210,6 +218,12 @@ void DynamicNodeCreator::initCTANode()
     _popupImages->setPosition(_windowSize/2);
     _CTANode->addChild(_popupImages);
     
+    _textInputLayer = Node::create();
+    _textInputLayer->setContentSize(_stencil->getContentSize());
+    _textInputLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _textInputLayer->setPosition(_windowSize/2);
+    _CTANode->addChild(_textInputLayer);
+    
     _popupFrame = ui::Scale9Sprite::create(_kCTAAssetLoc + "deep_free_pop_over_trans.png");
     _popupFrame->setPosition(_windowSize/2);
     _popupFrame->setAnchorPoint(Vec2(0.5,0.5));
@@ -247,6 +261,7 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
             _popupButtonsLayer->setContentSize(newSize);
             _popupImages->setContentSize(newSize);
             _textLayer->setContentSize(newSize);
+            _textInputLayer->setContentSize(newSize);
         }
     }
 }
@@ -476,6 +491,19 @@ void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
     {
         const rapidjson::Value& footerText = textConfig["footerText"];
         addTextWithParams(42, Style::Color_4B::ctaNodeText, footerText);
+    }
+}
+
+void DynamicNodeCreator::configTextInput(const rapidjson::Value &textInputConfig)
+{
+    if(textInputConfig.IsArray())
+    {
+        for (int i = 0; i < textInputConfig.Size(); i++)
+        {
+            DynamicNodeTextInput* textInput = DynamicNodeTextInput::create();
+            textInput->initWithParams(textInputConfig[i], _textInputLayer->getContentSize());
+            _textInputLayer->addChild(textInput);
+        }
     }
 }
 
