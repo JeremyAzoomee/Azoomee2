@@ -25,6 +25,7 @@ private:
     //constants for button type
     const std::string _kButtonTypeInternal = "internal";
     const std::string _kButtonTypeWeb = "web";
+    const std::string _kButtonTypeDeepLink = "deeplink";
     //constants for button locations
     const std::string _kButtonLocationUpgrade = "showUpgrade";
     

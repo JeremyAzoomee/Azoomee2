@@ -7,6 +7,7 @@
 #include <external/json/prettywriter.h>
 
 #include "HQScene.h"
+#include "HQScene2.h"
 #include "MainHubScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -58,7 +59,13 @@ void HQDataProvider::startBuildingHQ(const std::string &category)
     Scene *runningScene = Director::getInstance()->getRunningScene();
     Node *baseLayer = runningScene->getChildByName("baseLayer");
     Node *contentLayer = baseLayer->getChildByName("contentLayer");
-    if(category != "HOME")
+    
+    if(category == "GAME HQ" || category == "VIDEO HQ" || category == "AUDIO HQ")
+    {
+        HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(category.c_str());
+        hqLayer->startBuildingScrollView();
+    }
+    else if(category != "HOME")
     {
         HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(category.c_str());
         hqLayer->startBuildingScrollViewBasedOnName();
@@ -130,6 +137,21 @@ std::string HQDataProvider::getTitleForRow(const std::string &category, int inde
 HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::string &category,  const std::string &itemid)
 {
     return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(itemid);
+}
+
+HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::string &itemid)
+{
+    const std::vector<std::string>& hqNames = {"GAME HQ", "VIDEO HQ", "AUDIO_HQ"};
+    for(const std::string& cat : hqNames)
+    {
+        HQContentItemObjectRef item = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(cat)->getContentItemForId(itemid);
+        if(item)
+        {
+            return item;
+        }
+    }
+    
+    return nullptr;
 }
 
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber)

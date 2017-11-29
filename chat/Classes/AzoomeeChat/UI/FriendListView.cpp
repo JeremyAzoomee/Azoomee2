@@ -1,6 +1,7 @@
 #include "FriendListView.h"
 #include "FriendListViewItem.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/UI/LayoutParams.h>
 
 
 using namespace cocos2d;
@@ -84,7 +85,7 @@ cocos2d::Size FriendListView::calculateItemSize() const
     const cocos2d::Size& contentSize = getContentSize();
     
     const float itemWidth = contentSize.width * 1.0f / _columns;
-    const float widthToHeightRatio = (_columns == 1) ? 0.175f : 0.25f;
+    const float widthToHeightRatio = (_columns == 1) ? 0.24f : 0.28f;
     const float itemHeight = itemWidth * widthToHeightRatio;
     return cocos2d::Size(itemWidth, itemHeight);
 }
@@ -162,6 +163,16 @@ void FriendListView::setItems(const FriendList& friendList)
     // Break down list into columns
     std::vector<FriendRef> itemsByColumn[_columns];
     int column = 0;
+    
+    if(_includeAddFriendButton)
+    {
+        itemsByColumn[column].push_back(nullptr);
+        if(++column >= _columns)
+        {
+            column = 0;
+        }
+    }
+    
     for(const auto& friendData : friendList)
     {
         itemsByColumn[column].push_back(friendData);
@@ -171,15 +182,37 @@ void FriendListView::setItems(const FriendList& friendList)
         }
     }
     
+    // top padding
+    ui::Layout* topPadding = ui::Layout::create();
+    topPadding->setContentSize(Size(getContentSize().width,calculateItemSize().height/5.0f));
+    pushBackCustomItem(topPadding);
     // Add items to the list in columns
     const cocos2d::Size& itemSize = calculateItemSize();
     for(int row = 0; row < itemsByColumn[0].size(); ++row)
     {
         // Column 0
-        FriendListViewItem* item = FriendListViewItem::create();
-        item->setContentSize(itemSize);
-        item->setData(itemsByColumn[0][row]);
-        pushBackCustomItem(item);
+        ui::Layout* item = nullptr;
+        if(_includeAddFriendButton && row == 0)
+        {
+            ui::Layout* addFriendButton = createAddFriendButton();
+            addFriendButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType event){
+                if(event == ui::Widget::TouchEventType::ENDED)
+                {
+                    Azoomee::Chat::delegate->onChatAddFriend();
+                }
+            });
+            addFriendButton->setContentSize(itemSize);
+            pushBackCustomItem(addFriendButton);
+            item = addFriendButton;
+        }
+        else
+        {
+            FriendListViewItem* flItem = FriendListViewItem::create();
+            flItem->setContentSize(itemSize);
+            flItem->setData(itemsByColumn[0][row]);
+            pushBackCustomItem(flItem);
+            item = flItem;
+        }
         
         // Add addition columns to the end of the first column
         for(int col = 1; col < _columns; ++col)
@@ -203,7 +236,7 @@ void FriendListView::setItems(const FriendList& friendList)
     const cocos2d::Size& contentSize = getContentSize();
     
     // Have we filled the size of the list? If not add enough items to fill the height
-    const float totalHeight = ((itemMargin + itemSize.height) * itemCount) - itemMargin;
+    const float totalHeight = ((itemMargin + itemSize.height) * itemCount) - itemMargin - topPadding->getContentSize().height;
     if(totalHeight < contentSize.height)
     {
         const float heightDiff = contentSize.height - totalHeight;
@@ -233,6 +266,62 @@ void FriendListView::setItems(const FriendList& friendList)
 void FriendListView::addItemSelectedEventListener(const ItemSelectedCallback& callback)
 {
     _selectedEventCallback = callback;
+}
+
+void FriendListView::hideUnreadIndicators()
+{
+    for(auto item : this->getItems())
+    {
+        FriendListViewItem* flItem = dynamic_cast<FriendListViewItem*>(item);
+        if(flItem != nullptr)
+        {
+            flItem->hideUnreadIndicator();
+        }
+    }
+}
+
+void FriendListView::setIncludeAddFriendButton(bool includeButton)
+{
+    _includeAddFriendButton = includeButton;
+}
+
+ui::Layout* FriendListView::createAddFriendButton()
+{
+    ui::Layout* addFriendButton = ui::Layout::create();
+    addFriendButton->setLayoutType(ui::Layout::Type::HORIZONTAL);
+    addFriendButton->setTouchEnabled(true);
+    
+    ui::Layout* contentLayout = ui::Layout::create();
+    contentLayout->setSizeType(ui::Widget::SizeType::PERCENT);
+    contentLayout->setSizePercent(Vec2(1.0f, 1.0f));
+    contentLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
+    addFriendButton->addChild(contentLayout);
+    
+    ui::Layout* buttonImageLayout = ui::Layout::create();
+    buttonImageLayout->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(256.0f, 0, 0, 0)));
+    const float size = calculateItemSize().height*0.6;
+    buttonImageLayout->setContentSize(Size(size,size));
+    contentLayout->addChild(buttonImageLayout);
+    
+    ui::ImageView* buttonImage = ui::ImageView::create();
+    buttonImage->ignoreContentAdaptWithSize(false); // stretch the image
+    buttonImage->setAnchorPoint(Vec2(0.5f, 0.5f));
+    buttonImage->setSizeType(ui::Widget::SizeType::PERCENT);
+    buttonImage->setSizePercent(Vec2(1.0f, 1.0f));
+    buttonImage->setPositionType(ui::Widget::PositionType::PERCENT);
+    buttonImage->setPositionPercent(Vec2(0.5f, 0.5f));
+    buttonImage->loadTexture("res/chat/ui/buttons/add_friend.png");
+    buttonImageLayout->addChild(buttonImage);
+    
+    ui::Text* label = ui::Text::create();
+    label->setFontName(Style::Font::Regular);
+    label->setFontSize(70.0f);
+    label->setTextColor(Color4B(Style::Color::white));
+    label->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(75.0f, 0, 0, 0)));
+    label->setString("Add Friends");
+    contentLayout->addChild(label);
+    
+    return addFriendButton;
 }
 
 NS_AZOOMEE_CHAT_END

@@ -3,6 +3,7 @@
 
 #include <cocos/cocos2d.h>
 #include <AzoomeeCommon/Azoomee.h>
+#include "network/HttpClient.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -19,11 +20,14 @@ public:
     void startBuildingHQs();
     
 private:
-    void createHQScene(std::string sceneName, Node* toBeAddedTo);
+    void createHQScene(const std::string &sceneName, Node* toBeAddedTo);
+    void createHQScene2(const std::string &sceneName, Node* toBeAddedTo);
     cocos2d::Layer* createContentLayer();
     void addNavigationLayer();
     void onEnterTransitionDidFinish();
     void addParticleElementsToBackground();
+    
+    void addXmasDecoration();
 };
 
 NS_AZOOMEE_END

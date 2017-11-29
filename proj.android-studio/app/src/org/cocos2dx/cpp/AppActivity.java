@@ -91,6 +91,13 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mActivity = this;
         mAppActivity = this;
 
+        // If mFrameLayout hasn't been created, then the activity is going to be destroyed
+        // For context, see Cocos2dxActivity onCreate !isTaskRoot() workaround.
+        if(mFrameLayout == null)
+        {
+            return;
+        }
+
         setupIAPOnCreate();
 
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
@@ -154,6 +161,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static String getHMACSHA256(String message, String secret) {
         String hash = "";
         try {
+
             Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
             SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
             sha256_HMAC.init(secret_key);

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		021564901FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0215648F1FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp */; };
 		021B1FC91F838A0A0044DCF7 /* HQCarouselObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */; };
 		021B1FCA1F838A0A0044DCF7 /* HQContentItemObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC31F838A0A0044DCF7 /* HQContentItemObject.cpp */; };
 		021B1FCB1F838A0A0044DCF7 /* HQDataObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021B1FC51F838A0A0044DCF7 /* HQDataObject.cpp */; };
@@ -157,6 +158,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0215648E1FC5F3DB00641C14 /* SpecialCalendarEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialCalendarEventManager.h; sourceTree = "<group>"; };
+		0215648F1FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpecialCalendarEventManager.cpp; sourceTree = "<group>"; };
 		021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HQCarouselObject.cpp; path = HQDataObject/HQCarouselObject.cpp; sourceTree = "<group>"; };
 		021B1FC21F838A0A0044DCF7 /* HQCarouselObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HQCarouselObject.h; path = HQDataObject/HQCarouselObject.h; sourceTree = "<group>"; };
 		021B1FC31F838A0A0044DCF7 /* HQContentItemObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HQContentItemObject.cpp; path = HQDataObject/HQContentItemObject.cpp; sourceTree = "<group>"; };
@@ -639,6 +642,8 @@
 				02BF05F11F98BAAF00E7D086 /* PushNotificationsHandler_android.cpp */,
 				02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */,
 				02BF05EE1F98B80B00E7D086 /* PushNotificationsHandler.h */,
+				0215648F1FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp */,
+				0215648E1FC5F3DB00641C14 /* SpecialCalendarEventManager.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1224,6 +1229,7 @@
 				434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */,
 				4349C8551EA8ADEF00FE964B /* NSInvocation+MPHelpers.m in Sources */,
 				3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */,
+				021564901FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp in Sources */,
 				4349C82A1EA8ADEF00FE964B /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				4349C81F1EA8ADEF00FE964B /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */,

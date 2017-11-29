@@ -21,9 +21,9 @@ private:
 private:
     
     // Login API success
-    void onLoginAnswerReceived(const std::string& responseString);
+    void onLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
     // Anonymous device login
-    void onAnonymousDeviceLoginAnswerReceived(const std::string& responseString);
+    void onAnonymousDeviceLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
     // Update billing API success
     void onUpdateBillingDataAnswerReceived(const std::string& responseString);
     // Update parent PIN API success
@@ -33,7 +33,7 @@ private:
     // Get children API success
     void onGetChildrenAnswerReceived(const std::string& responseString);
     // Child login success
-    void onChildLoginAnswerReceived(const std::string& responseString);
+    void onChildLoginAnswerReceived(const std::string& responseString, const std::string& headerString);
     // Gorden returned!
     void onGetGordonAnswerReceived(const std::string& responseString);
     // Register child API success

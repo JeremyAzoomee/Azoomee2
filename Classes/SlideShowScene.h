@@ -16,12 +16,12 @@ private:
     Size visibleSize;
     Vec2 origin;
     
-    ElectricDreamsButton *loginButton;
-    ElectricDreamsButton *skipButton;
+    ElectricDreamsButton *loginButton = nullptr;
+    ElectricDreamsButton *skipButton = nullptr;
     
     long currentSlideIndex;
     bool slideShowStarted;
-    PageView* _pageView;
+    PageView* _pageView = nullptr;
     
     void createPageView();
     void addLoginButton();

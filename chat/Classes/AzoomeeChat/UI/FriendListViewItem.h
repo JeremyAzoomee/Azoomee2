@@ -52,6 +52,8 @@ public:
     /// Get the data this item is displaying
     FriendRef getData() const;
     
+    void hideUnreadIndicator();
+    
     virtual bool init() override;
     virtual void onEnter() override;
     virtual void onExit() override;

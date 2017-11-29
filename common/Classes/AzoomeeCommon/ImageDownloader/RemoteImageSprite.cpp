@@ -87,9 +87,24 @@ void RemoteImageSprite::removeLoadedImage()
     }
 }
 
+void RemoteImageSprite::resizeImage()
+{
+    if(loadedImage)
+    {
+        loadedImage->setPosition(this->getContentSize() / 2);
+        loadedImage->setScaleX(this->getContentSize().width/ loadedImage->getContentSize().width);
+        loadedImage->setScaleY(this->getContentSize().height/ loadedImage->getContentSize().height);
+    }
+}
+
 void RemoteImageSprite::addPlaceHolderImage(std::string type, Size contentSize, Vec2 shape)
 {
     std::string placeholderImageFile = StringUtils::format("%s%.fX%.f.png",ConfigStorage::getInstance()->getPlaceholderImageForContentItemInCategory(type).c_str(),shape.x,shape.y);
+    if(!FileUtils::getInstance()->isFileExist(placeholderImageFile))
+    {
+        placeholderImageFile = StringUtils::format("%s1X1.png",ConfigStorage::getInstance()->getPlaceholderImageForContentItemInCategory(type).c_str());
+    }
+    
     auto placeHolderImage = Sprite::create(placeholderImageFile);
     placeHolderImage->setPosition(this->getContentSize() / 2);
     placeHolderImage->setName("placeHolderImage");

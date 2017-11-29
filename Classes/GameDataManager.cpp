@@ -20,6 +20,7 @@
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
@@ -167,7 +168,8 @@ void GameDataManager::getJSONGameData(const std::string &url, const std::string 
     jsonRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers{
-        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode(),
+        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url)
     };
     jsonRequest->setHeaders(headers);
 
@@ -241,7 +243,7 @@ std::string GameDataManager::getDownloadUrlForGameFromJSONFile(const std::string
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
-    return gameData["uri"].GetString();
+    return getStringFromJson("uri", gameData);
 }
 
 std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFileName)
@@ -250,7 +252,7 @@ std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFil
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
-    return gameData["pathToStartPage"].GetString();
+    return getStringFromJson("pathToStartPage", gameData);
 }
 
 int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFileName)
@@ -258,6 +260,10 @@ int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFi
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
+    if(gameData.HasParseError())
+    {
+        return 0;
+    }
     
     if(gameData.HasMember("currentVersion"))
     {
@@ -274,6 +280,10 @@ int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonStri
 {
     rapidjson::Document gameData;
     gameData.Parse(jsonString.c_str());
+    if(gameData.HasParseError())
+    {
+        return 0;
+    }
     
     if(gameData.HasMember("minVersion"))
     {
@@ -293,7 +303,8 @@ void GameDataManager::getGameZipFile(const std::string &url, const std::string &
     zipRequest->setUrl(url.c_str());
     
     std::vector<std::string> headers{
-        StringUtils::format("Cookie: %s", CookieDataProvider::getInstance()->getCookiesForRequest(url).c_str())
+        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url),
+        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
     };
     zipRequest->setHeaders(headers);
     
@@ -422,10 +433,10 @@ Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
-    
-    if(gameData.HasMember("isPortrait"))
-        if(gameData["isPortrait"].IsBool() && gameData["isPortrait"].GetBool())
-            return Orientation::Portrait;
+    if(getBoolFromJson("isPortrait", gameData))
+    {
+        return Orientation::Portrait;
+    }
     
     return Orientation::Landscape;
 }
@@ -471,6 +482,10 @@ bool GameDataManager::isGameCompatibleWithCurrentAzoomeeVersion(const std::strin
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
+    if(gameData.HasParseError())
+    {
+        return true;
+    }
     
     if(gameData.HasMember("minAppVersion"))
     {

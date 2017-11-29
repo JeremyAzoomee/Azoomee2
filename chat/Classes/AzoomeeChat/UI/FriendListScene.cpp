@@ -99,11 +99,9 @@ void FriendListScene::onSizeChanged()
     const Vec2& contentLayoutSize = Vec2(1.0f, 1.0f - titleBarSize.y);
     _contentLayout->setSizePercent(contentLayoutSize);
     // Subtitle bar uses same height as title bar
-    const Vec2& subTitleBarSize = Vec2(1.0f, titleBarSize.y / contentLayoutSize.y);
-    _subTitleBar->setSizePercent(subTitleBarSize);
-    _subTitleBarBorder->setContentSize(Size(_subTitleBar->getContentSize().width, 2.0f));
-    
-    _friendListView->setSizePercent(Vec2(0.9f, 1.0f - subTitleBarSize.y));
+    _subTitleBar->setSizePercent(Vec2(1.0f, 0.01f));
+    _subTitleBarBorder->setContentSize(Size(contentSize.width,2.0f));
+    _friendListView->setSizePercent(Vec2(0.9f, 0.99));
     // 2 column on landscape, 1 column portrait
     _friendListView->setColumns((isLandscape) ? 2 : 1);
 
@@ -120,6 +118,8 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
     // Subtitle bar
     _subTitleBar = ui::Layout::create();
     _subTitleBar->setLayoutParameter(CreateCenterHorizontalLinearLayoutParam());
+    _subTitleBar->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
+    _subTitleBar->setBackGroundColor(Style::Color::dark);
     parent->addChild(_subTitleBar);
     createSubTitleBarUI(_subTitleBar);
     
@@ -133,63 +133,6 @@ void FriendListScene::createContentUI(cocos2d::ui::Layout* parent)
 void FriendListScene::createSubTitleBarUI(cocos2d::ui::Layout* parent)
 {
     parent->setLayoutType(ui::Layout::Type::RELATIVE);
-    
-    // Content of the sub title bar
-    ui::Layout* contentLayout = ui::Layout::create();
-    contentLayout->setLayoutType(ui::Layout::Type::HORIZONTAL);
-    contentLayout->setLayoutParameter(CreateCenterRelativeLayoutParam());
-    contentLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    contentLayout->setBackGroundColor(Style::Color::blueGreen);
-    parent->addChild(contentLayout);
-    
-    // Title
-    ui::Text* titleLabel = ui::Text::create();
-    titleLabel->setFontName(Style::Font::Regular);
-    titleLabel->setFontSize(95.0f);
-    titleLabel->setTextColor(Color4B(Style::Color::brightAqua));
-    // TODO: Get from Strings
-    titleLabel->setString("My Friends");
-    titleLabel->setLayoutParameter(CreateCenterVerticalLinearLayoutParam());
-    contentLayout->addChild(titleLabel);
-    
-    // Add friend button
-    ui::Button* addFriendButton = ui::Button::create("res/chat/ui/buttons/outline_button.png");
-    // TODO: Get from Strings
-    addFriendButton->setTitleText("Add a friend");
-    addFriendButton->setTitleColor(Style::Color::brightAqua);
-    addFriendButton->setTitleFontName(Style::Font::Regular);
-    addFriendButton->setTitleFontSize(45.0f);
-    addFriendButton->setScale9Enabled(true);
-    addFriendButton->setTitleAlignment(TextHAlignment::LEFT, TextVAlignment::CENTER);
-    
-    ui::ImageView* plusIcon = ui::ImageView::create("res/chat/ui/buttons/add_icon.png");
-    addFriendButton->addChild(plusIcon);
-    plusIcon->setAnchorPoint(Vec2(0.5f, 0.5f));
-    // Position icon and title
-    const auto& addFriendButtonSize = addFriendButton->getContentSize();
-    plusIcon->setPosition(Vec2(addFriendButtonSize.height * 0.5f, addFriendButtonSize.height * 0.5f));
-    addFriendButton->getTitleRenderer()->setAnchorPoint(Vec2(0.0f, 0.5f));
-    // We need some offset because the title doesn't get centered vertically correctly
-    // Likely due to font renderering via TTF
-    const float lineHeightOffset = -3.0f;
-    addFriendButton->getTitleRenderer()->setPosition(Vec2(plusIcon->getPositionX() + (plusIcon->getContentSize().width * 0.5f) + 15.0f, (addFriendButtonSize.height * 0.5f) + lineHeightOffset));
-    
-//    addFriendButton->getRendererNormal()->setStrechEnabled(true);
-//    addFriendButton->getRendererClicked()->setStrechEnabled(true);
-//    addFriendButton->getRendererDisabled()->setStrechEnabled(true);
-    const float buttonLeftMargin = 50.0f;
-    addFriendButton->setLayoutParameter(CreateCenterVerticalLinearLayoutParam(ui::Margin(buttonLeftMargin, 0.0f, 0.0f, 0.0f)));
-    addFriendButton->addClickEventListener([this](Ref* button){
-        Azoomee::Chat::delegate->onChatAddFriend();
-    });
-    contentLayout->addChild(addFriendButton);
-    
-    // Size the content layer to fit, so everything is centered
-    const Size& titleSize = titleLabel->getContentSize();
-    const Size& buttonSize = addFriendButton->getContentSize();
-    const float totalWidth = titleSize.width + buttonLeftMargin + buttonSize.width;
-    contentLayout->setContentSize(Size(totalWidth, 0.0f));
-    
     
     // Border at bottom
     _subTitleBarBorder = ui::Layout::create();
@@ -215,16 +158,9 @@ void FriendListScene::onBackButtonPressed()
 
 void FriendListScene::onFriendListItemSelected(const FriendRef& friendData)
 {
-    if(friendData->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId())
-    {
-        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - SelectedParent");
-        AnalyticsSingleton::getInstance()->setChatFriendIsParent(true);
-    }
-    else
-    {
-        AnalyticsSingleton::getInstance()->genericButtonPressEvent("ChatScene - SelectedFriend");
-        AnalyticsSingleton::getInstance()->setChatFriendIsParent(false);
-    }
+    const bool isParent = friendData->friendId() == ParentDataProvider::getInstance()->getLoggedInParentId();
+    AnalyticsSingleton::getInstance()->setChatFriendIsParent(isParent);
+    AnalyticsSingleton::getInstance()->genericButtonPressEvent(isParent ? "ChatScene - SelectedParent" : "ChatScene - SelectedFriend");
     
     AnalyticsSingleton::getInstance()->contentItemSelectedEvent("CHAT");
     

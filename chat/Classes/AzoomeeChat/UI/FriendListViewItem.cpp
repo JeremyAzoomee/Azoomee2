@@ -163,5 +163,9 @@ void FriendListViewItem::onPressStateChangedToDisabled()
     onPressStateChangedToNormal();
 }
 
+void FriendListViewItem::hideUnreadIndicator()
+{
+    _unreadIndicator->setVisible(false);
+}
 
 NS_AZOOMEE_CHAT_END
