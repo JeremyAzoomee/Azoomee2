@@ -61,6 +61,7 @@ void DynamicNodeTextInput::initWithParams(const rapidjson::Value &params, const 
     
     _errorText = createLabelBodyCentred(getStringFromJson("errorText", params), Style::Color::watermelon);
     _errorText->setLineSpacing(20);
+    _errorText->setPosition(Vec2(pos.x * dynamicNodeSize.width, pos.y * dynamicNodeSize.height - _textInput->getContentSize().height/2 - _errorText->getContentSize().height/2));
     _errorText->setVisible(false);
     
     this->addChild(_errorText);
@@ -75,21 +76,34 @@ bool DynamicNodeTextInput::isInputValid()
 void DynamicNodeTextInput::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
     _inputIsValid = isValid;
+    _errorText->setVisible(!isValid);
 }
 
 void DynamicNodeTextInput::textInputReturnPressed(TextInputLayer* inputLayer)
 {
     _inputIsValid = inputLayer->inputIsValid();
+    _errorText->setVisible(!_inputIsValid);
+    if(_inputIsValid)
+    {
+        DynamicNodeDataInputStorage::getInstance()->addElementToStorage(_valueKey, inputLayer->getText());
+    }
+    
 }
 
 void DynamicNodeTextInput::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 {
     _inputIsValid = inputLayer->inputIsValid();
+    _errorText->setVisible(!_inputIsValid);
 }
 
 void DynamicNodeTextInput::editBoxEditingDidEnd(TextInputLayer* inputLayer)
 {
     _inputIsValid = inputLayer->inputIsValid();
+    _errorText->setVisible(!_inputIsValid);
+    if(!_inputIsValid)
+    {
+        DynamicNodeDataInputStorage::getInstance()->addElementToStorage(_valueKey, inputLayer->getText());
+    }
 }
 
 NS_AZOOMEE_END

@@ -28,6 +28,7 @@ private:
     const std::string _kButtonTypeDeepLink = "deeplink";
     //constants for button locations
     const std::string _kButtonLocationUpgrade = "showUpgrade";
+    const std::string _kButtonLocationSignUp = "signUp";
     
     void closeCTAPopup();
     void upgradeButtonPressed();

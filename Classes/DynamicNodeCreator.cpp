@@ -390,7 +390,9 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
                 }
             }
             
-            addButtonWithParams(size, pos, btnString, actionData, btnSprite);
+            bool underlined = getBoolFromJson("underlined", buttonsList[i]);
+            
+            addButtonWithParams(size, pos, btnString, actionData, btnSprite, underlined);
             
         }
     }
@@ -507,7 +509,7 @@ void DynamicNodeCreator::configTextInput(const rapidjson::Value &textInputConfig
     }
 }
 
-void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, const std::string &buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr)
+void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, const std::string &buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr, bool underlined)
 {
     
     ui::Button* button = ui::Button::create();
@@ -532,6 +534,10 @@ void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, 
     label->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     label->setTextColor(Color4B::BLACK);
+    if(underlined)
+    {
+        label->enableUnderline();
+    }
     button->addChild(label);
     _popupButtonsLayer->addChild(button);
 }

@@ -56,7 +56,7 @@ private:
     void configText(const rapidjson::Value& textConfig);
     void configTextInput(const rapidjson::Value& textInputConfig);
     
-    void addButtonWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr);
+    void addButtonWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr, bool underlined);
     void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& filename);
     void addRemoteImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& url);
     void addTextWithParams(int fontSize, cocos2d::Color4B fontColour, const rapidjson::Value& params);

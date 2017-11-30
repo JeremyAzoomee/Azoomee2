@@ -15,6 +15,12 @@
 #include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
 #include "ContentHistoryManager.h"
+#include "DynamicNodeDataInputStorage.h"
+#include <AzoomeeCommon/Data/Urls.h>
+#include <AzoomeeCommon/UI/ModalWebview.h>
+#include "BackEndCaller.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Input/TextInputChecker.h>
 
 using namespace cocos2d;
 
@@ -53,6 +59,19 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("upgrade");
                 upgradeButtonPressed();
             }
+            else if(location == _kButtonLocationSignUp)
+            {
+                const std::string& email = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("email");
+                const std::string& password = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("password");
+                const std::string& pin = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("pin");
+                if(isValidPin(pin.c_str()) && isValidPassword(password.c_str(), 6) && isValidEmailAddress(email.c_str()))
+                {
+                    ModalMessages::getInstance()->startLoading();
+                    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(email);
+                    BackEndCaller::getInstance()->registerParent(email, password ,pin);
+                    DynamicNodeDataInputStorage::getInstance()->clearStorage();
+                }
+            }
             else
             {
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("close");
@@ -73,6 +92,22 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("OpenRecommendedContent");
                 DeepLinkingSingleton::getInstance()->setDeepLink(location);
                 closeCTAPopup();
+            }
+        }
+        else if(buttonAction->getType() == _kButtonTypeWeb)
+        {
+            const std::string& location = buttonAction->getParamForKey("location");
+            if(location == "privacyPolicy")
+            {
+                ModalWebview::createWithURL(Url::PrivacyPolicy);
+            }
+            else if(location == "termsOfUse")
+            {
+                ModalWebview::createWithURL(Url::TermsOfUse);
+            }
+            else if(location != "")
+            {
+                ModalWebview::createWithURL(location);
             }
         }
     }
