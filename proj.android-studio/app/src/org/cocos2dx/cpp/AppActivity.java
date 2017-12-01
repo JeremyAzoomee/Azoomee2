@@ -100,15 +100,6 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             return;
         }
 
-        if (android.os.Build.MANUFACTURER.equals("Amazon"))
-        {
-            setupIAPOnCreate();
-        }
-        else
-        {
-            mAppActivity.setupGoogleIAB();
-        }
-
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
         mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
 
@@ -293,6 +284,26 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             AppsFlyerLib.getInstance().trackEvent(mContext, eventID, null);
     }
 
+
+    //------IN-APP-PURCHASES COMMON-------------------------------
+    public static void setupInAppPurchase()
+    {
+        if (android.os.Build.MANUFACTURER.equals("Amazon"))
+        {
+            mAppActivity.setupIAPOnCreate();
+        }
+        else
+        {
+            mAppActivity.setupGoogleIAB();
+        }
+    }
+
+    public static native void setHumanReadablePrice(String price);
+
+    public static native void priceFetchFailed();
+
+
+
     //----- AMAZON IAP -------------------------------------------
 
     private void setupIAPOnCreate() {
@@ -367,8 +378,6 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static native String getAmazonSku();
 
-    public static native void setHumanReadablePrice(String price);
-
 //-------------------------------GOOGLE IAB----------------------------------------------
 
     public static void startGooglePurchase() {
@@ -394,7 +403,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
                 Log.d("GOOGLEPAY", "Setup successful. Querying inventory.");
                 try {
-                    String[] moreSkus = {getGoogleSku(), "SKU_ITEMONE", "SKU_ITEMTWO"};
+                    String[] moreSkus = {getGoogleSku(), "SKU_ITEMONE"};
                     String[] moreSubSkus = {getGoogleSku(), "SUB_ITEMONE", "SUB_ITEMTWO"};
                     mHelper.queryInventoryAsync(true, Arrays.asList(moreSkus), Arrays.asList(moreSubSkus), mGotInventoryListener);
                 } catch (IabHelper.IabAsyncInProgressException e) {
@@ -432,6 +441,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             // Is it a failure?
             if (result.isFailure()) {
                 Log.d("GOOGLEPLAY", "Failed to query inventory: " + result);
+                priceFetchFailed();
                 return;
             }
 

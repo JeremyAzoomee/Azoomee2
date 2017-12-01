@@ -85,6 +85,8 @@ public class PurchasingListenerClass implements PurchasingListener {
         case NOT_SUPPORTED:
             Log.d("IAPAPIListener", "onProductDataResponse: failed, should retry request");
             iapManager.disableAllPurchases();
+
+            appActivity.priceFetchFailed();
             break;
         }
     }

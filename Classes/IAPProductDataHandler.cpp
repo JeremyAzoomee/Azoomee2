@@ -34,13 +34,25 @@ IAPProductDataHandler::IAPProductDataHandler()
     
 }
 
-//implemented in mm file only.
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 void IAPProductDataHandler::fetchProductData()
 {
-    return;
+    if(!isProductDataFetched())
+    {
+        JniHelper::callStaticStringMethod("org/cocos2dx/cpp/AppActivity", "setupInAppPurchase");
+    }
 }
 #endif
+
+bool IAPProductDataHandler::isProductDataFetched()
+{
+    return _productPriceHumanReadable != "";
+}
+
+void IAPProductDataHandler::productDataFetchFailed()
+{
+    //do some error handling logic here
+}
 
 //SETTERS
 
@@ -123,6 +135,16 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_setHumanReadablePrice(J
 {
     const char* cPrice = env->GetStringUTFChars(price, NULL);
     IAPProductDataHandler::getInstance()->setHumanReadableProductPrice(cPrice);
+}
+
+extern "C"
+{
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_priceFetchFailed(JNIEnv* env, jobject thiz);
+};
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_priceFetchFailed(JNIEnv* env, jobject thiz)
+{
+    IAPProductDataHandler::getInstance()->productDataFetchFailed();
 }
 
 #endif

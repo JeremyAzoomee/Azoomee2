@@ -7,7 +7,11 @@ NS_AZOOMEE_BEGIN
 
 void IAPProductDataHandler::fetchProductData()
 {
-    [[PaymentViewController sharedPayment_ios] startProductPriceQuery];
+    if(!isProductDataFetched())
+    {
+        [[PaymentViewController sharedPayment_ios] startProductPriceQuery];
+    }
+    
 }
 
 NS_AZOOMEE_END

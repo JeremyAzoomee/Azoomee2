@@ -25,6 +25,8 @@ NS_AZOOMEE_BEGIN
         virtual ~IAPProductDataHandler();
         
         void fetchProductData();
+        bool isProductDataFetched();
+        void productDataFetchFailed();
         
         void setHumanReadableProductPrice(const std::string &prductPriceHumanReadable);
         void setIntroductoryMonths(int introductoryMonths);

@@ -95,6 +95,7 @@ using namespace Azoomee;
         }
         else
         {
+            IAPProductDataHandler::getInstance()->productDataFetchFailed();
             _noPurchaseAfterQuery = false;
         }
     }
