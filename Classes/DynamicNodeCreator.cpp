@@ -533,10 +533,12 @@ void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, 
     Label* label = Label::createWithTTF(buttonText, Style::Font::Regular, button->getContentSize().height*0.4);
     label->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
     label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    label->setTextColor(Color4B::BLACK);
+    label->setColor(Color3B::BLACK);
     if(underlined)
     {
-        label->enableUnderline();
+        DrawNode* newDrawNode = DrawNode::create();
+        newDrawNode->drawRect(Vec2(0, -7), Vec2(label->getContentSize().width, -6), Color4F::BLACK);
+        label->addChild(newDrawNode);
     }
     button->addChild(label);
     _popupButtonsLayer->addChild(button);

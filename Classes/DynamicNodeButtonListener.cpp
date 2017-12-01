@@ -7,6 +7,7 @@
 //
 
 #include "DynamicNodeButtonListener.h"
+#include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "IAPUpsaleLayer.h"
@@ -21,6 +22,7 @@
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Input/TextInputChecker.h>
+#include "RoutePaymentSingleton.h"
 
 using namespace cocos2d;
 
@@ -49,6 +51,8 @@ bool DynamicNodeButtonListener::init(void)
 
 void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget::TouchEventType eventType, ButtonActionDataRef buttonAction)
 {
+    _buttonAction = buttonAction;
+    
     if(eventType == ui::Widget::TouchEventType::ENDED)
     {
         if(buttonAction->getType() == _kButtonTypeInternal)
@@ -61,16 +65,11 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             }
             else if(location == _kButtonLocationSignUp)
             {
-                const std::string& email = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("email");
-                const std::string& password = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("password");
-                const std::string& pin = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("pin");
-                if(isValidPin(pin.c_str()) && isValidPassword(password.c_str(), 6) && isValidEmailAddress(email.c_str()))
-                {
-                    ModalMessages::getInstance()->startLoading();
-                    AnalyticsSingleton::getInstance()->registerAzoomeeEmail(email);
-                    BackEndCaller::getInstance()->registerParent(email, password ,pin);
-                    DynamicNodeDataInputStorage::getInstance()->clearStorage();
-                }
+                signUp();
+            }
+            else if(location == _kButtonLocationIAP)
+            {
+                inAppPurchaseButtonPressed();
             }
             else
             {
@@ -110,6 +109,11 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
                 ModalWebview::createWithURL(location);
             }
         }
+        else if(buttonAction->getType() == _kButtonTypeCTATransition)
+        {
+            const std::string& location = buttonAction->getParamForKey("location");
+            DynamicNodeHandler::getInstance()->createDynamicNodeById(location);
+        }
     }
 }
 
@@ -131,5 +135,51 @@ void DynamicNodeButtonListener::closeCTAPopup()
     DynamicNodeCreator::getInstance()->resetCTAPopup();
 }
 
+void DynamicNodeButtonListener::signUp()
+{
+    const std::string& email = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("email");
+    const std::string& password = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("password");
+    const std::string& pin = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("pin");
+    if(isValidPin(pin.c_str()) && isValidPassword(password.c_str(), 6) && isValidEmailAddress(email.c_str()))
+    {
+        ModalMessages::getInstance()->startLoading();
+        AnalyticsSingleton::getInstance()->registerAzoomeeEmail(email);
+        BackEndCaller::getInstance()->registerParent(email, password ,pin);
+        DynamicNodeDataInputStorage::getInstance()->clearStorage();
+    }
+}
+
+void DynamicNodeButtonListener::inAppPurchaseButtonPressed()
+{
+    AwaitingAdultPinLayer::create()->setDelegate(this);
+}
+
+void DynamicNodeButtonListener::AdultPinCancelled(AwaitingAdultPinLayer* layer)
+{
+}
+
+void DynamicNodeButtonListener::AdultPinAccepted(AwaitingAdultPinLayer* layer)
+{
+    if(_buttonAction)
+    {
+        if(_buttonAction->getType() == _kButtonTypeInternal)
+        {
+            const std::string& location = _buttonAction->getParamForKey("location");
+            if(location == _kButtonLocationIAP)
+            {
+                const std::string& action = _buttonAction->getParamForKey("action");
+                if(action == _kButtonActionRestorePurchase)
+                {
+                    RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
+                }
+                else if(action == _kButtonActionStartPayment)
+                {
+                    RoutePaymentSingleton::getInstance()->startInAppPayment();
+                }
+            }
+        }
+    }
+        
+}
 
 NS_AZOOMEE_END
