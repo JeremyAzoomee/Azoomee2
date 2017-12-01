@@ -27,6 +27,7 @@ NS_AZOOMEE_BEGIN
         void fetchProductData();
         bool isProductDataFetched();
         void productDataFetchFailed();
+        cocos2d::Label* createOptionalSubscriptionLabel();
         
         void setHumanReadableProductPrice(const std::string &prductPriceHumanReadable);
         void setIntroductoryMonths(int introductoryMonths);

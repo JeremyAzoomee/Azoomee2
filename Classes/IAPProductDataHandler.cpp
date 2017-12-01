@@ -1,4 +1,5 @@
 #include "IAPProductDataHandler.h"
+#include <AzoomeeCommon/UI/Style.h>
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -51,7 +52,7 @@ bool IAPProductDataHandler::isProductDataFetched()
 
 void IAPProductDataHandler::productDataFetchFailed()
 {
-    //do some error handling logic here
+    cocos2d::log("Fetching IAP info was not successful");
 }
 
 //SETTERS
@@ -59,8 +60,6 @@ void IAPProductDataHandler::productDataFetchFailed()
 void IAPProductDataHandler::setHumanReadableProductPrice(const std::string &productPriceHumanReadable)
 {
     _productPriceHumanReadable = productPriceHumanReadable;
-    
-    cocos2d::log("IAPPRICESET: %s", _productPriceHumanReadable.c_str());
 }
 
 void IAPProductDataHandler::setIntroductoryMonths(int introductoryMonths)
@@ -98,6 +97,15 @@ std::string IAPProductDataHandler::getHumanReadableProductPrice() const
     }
     
     return _productPriceHumanReadable;
+}
+                 
+cocos2d::Label* IAPProductDataHandler::createOptionalSubscriptionLabel()
+{
+    cocos2d::Label *optionalLabel = Label::createWithTTF("Then " + _productPriceHumanReadable + "/month. No commitment, cancel anytime.", Style::Font::Regular, 40);
+    optionalLabel->setColor(Style::Color::brightAqua);
+    optionalLabel->setAnchorPoint(Vec2(0.5,0.5));
+    optionalLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    return optionalLabel;
 }
 
 int IAPProductDataHandler::getIntroductoryMonths()
