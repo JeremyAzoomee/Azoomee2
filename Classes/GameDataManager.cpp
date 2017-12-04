@@ -61,14 +61,14 @@ bool GameDataManager::init(void)
 void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData)
 {
     //Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://games.azoomee.ninja/" + itemData->getContentItemId() + "/export/index-azoomee.html"));
-    //Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/index.html"));
+    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/index.html"));
     //displayLoadingScreen();
-    //if(!FileUtils::getInstance()->isDirectoryExist(getGameCachePath() + "001e8b25-878c-498b-ac22-59f53c616300"))
-    //{
-    //    FileUtils::getInstance()->createDirectory(getGameCachePath() + "001e8b25-878c-498b-ac22-59f53c616300");
-    //}
-    //getGameZipFile("https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/game.zip", "001e8b25-878c-498b-ac22-59f53c616300");
-    //return;
+    if(!FileUtils::getInstance()->isDirectoryExist(getGameCachePath() + "001e8b25-878c-498b-ac22-59f53c616300"))
+    {
+        FileUtils::getInstance()->createDirectory(getGameCachePath() + "001e8b25-878c-498b-ac22-59f53c616300");
+    }
+    getGameZipFile("https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/game.zip", "001e8b25-878c-498b-ac22-59f53c616300");
+    return;
     
     AnalyticsSingleton::getInstance()->contentItemProcessingStartedEvent();
     
@@ -611,7 +611,7 @@ void GameDataManager::onAsyncUnzipComplete(bool success, std::string zipPath,std
     if(success)
     {
         removeGameZip(zipPath);
-        
+        /*
         //Director::getInstance()->getScheduler()->schedule([&](float deltat){
         //    Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, "https://media.azoomee.ninja/distribution/global/001e8b25-878c-498b-ac22-59f53c616300/index.html"));
             
@@ -642,7 +642,7 @@ void GameDataManager::onAsyncUnzipComplete(bool success, std::string zipPath,std
             removeGameFolderOnError(dirpath);
             hideLoadingScreen();
             showErrorMessage();
-        }
+        }*/
     }
     else
     {
