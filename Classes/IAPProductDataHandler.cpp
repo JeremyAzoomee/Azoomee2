@@ -39,7 +39,7 @@ void IAPProductDataHandler::fetchProductData()
 {
     if(!isProductDataFetched())
     {
-        JniHelper::callStaticVoidMethod("org/cocos2dx/cpp/AppActivity", "setupInAppPurchase");
+        JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, "setupInAppPurchase");
     }
 }
 #endif

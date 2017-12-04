@@ -299,7 +299,6 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     }
 
     public static native void setHumanReadablePrice(String price);
-
     public static native void priceFetchFailed();
 
 
@@ -403,8 +402,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
                 Log.d("GOOGLEPAY", "Setup successful. Querying inventory.");
                 try {
-                    String[] moreSkus = {getGoogleSku(), "SKU_ITEMONE"};
-                    String[] moreSubSkus = {getGoogleSku(), "SUB_ITEMONE", "SUB_ITEMTWO"};
+                    String[] moreSkus = {getGoogleSku(), "SKU_ITEMONE"}; //fake skus required by queryInventoryAsync...
+                    String[] moreSubSkus = {getGoogleSku(), "SUB_ITEMONE", "SUB_ITEMTWO"}; //fake skus required by queryInventoryAsync...
                     mHelper.queryInventoryAsync(true, Arrays.asList(moreSkus), Arrays.asList(moreSubSkus), mGotInventoryListener);
                 } catch (IabHelper.IabAsyncInProgressException e) {
                     Log.d("GOOGLEPAY", "Error querying inventory. Another async operation in progress.");
