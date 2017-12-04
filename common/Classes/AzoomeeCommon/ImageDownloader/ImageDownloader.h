@@ -29,7 +29,7 @@ public:
     };
     
 private:
-    
+    static std::vector<ImageDownloaderRef> _downloadingImagePool;
     /// Filename for the image
     std::string _filename;
     /// Category of the image
