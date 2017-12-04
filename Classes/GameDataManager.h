@@ -10,10 +10,11 @@
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/Utils/FileZipUtil.h>
 
 NS_AZOOMEE_BEGIN
 
-class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
+class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public FileZipDelegate
 {
     
 public:
@@ -31,6 +32,7 @@ public:
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void onAsyncUnzipComplete(bool success, std::string zipPath,std::string dirpath);
     
 private:
     void saveFeedDataToFile(const HQContentItemObjectRef &itemData);
@@ -87,7 +89,7 @@ private:
     const int _kGameCleanupUnusedTime = 1814400; //21 days in seconds
 };
 
-void asyncUnzip(std::string zipPath,std::string dirpath, std::string passwd);
+//void asyncUnzip(std::string zipPath,std::string dirpath, std::string passwd);
 
 NS_AZOOMEE_END
 

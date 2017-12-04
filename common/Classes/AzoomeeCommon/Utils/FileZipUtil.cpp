@@ -32,7 +32,7 @@ namespace Azoomee {
     bool FileZipUtil::unzip(const char *zipPath, const char *dirpath, const char *passwd)
     {
         static unsigned long  _maxUnzipBufSize = 0x500000;
-        CCLOG("unzip fullpath =%s",zipPath);
+        cocos2d::log("unzip fullpath =%s",zipPath);
         unzFile pFile = unzOpen(zipPath);
         if(!pFile)
         {
@@ -49,7 +49,7 @@ namespace Azoomee {
                 if(passwd)
                 {
                     openRet = unzOpenCurrentFilePassword( pFile,passwd);
-                    CCLOG("openRet %d",openRet);
+                    cocos2d::log("openRet %d",openRet);
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace Azoomee {
                 if(!pFile2)
                 {
                     unzClose(pFile);
-                    CCLOG("unzip can not create file");
+                    cocos2d::log("unzip can not create file");
                     return false;
                 }
                 unsigned long savedSize = 0;
@@ -126,7 +126,24 @@ namespace Azoomee {
         unzClose(pFile);
         
         return true;
-
+    }
+    
+    void FileZipUtil::unzipWithDelageteCallback(std::string zipPath, std::string dirpath, std::string passwd, FileZipDelegate *delegate)
+    {
+        bool result = unzip(zipPath.c_str(), dirpath.c_str(), nullptr);
+        if(delegate)
+        {
+            Director::getInstance()->getScheduler()->performFunctionInCocosThread([delegate,result,zipPath,dirpath](){
+                delegate->onAsyncUnzipComplete(result, zipPath, dirpath);
+            });
+            
+        }
+    }
+    
+    void FileZipUtil::asyncUnzip(std::string zipPath, std::string dirpath, std::string passwd, FileZipDelegate *delegate)
+    {
+        std::thread unzipThread(&FileZipUtil::unzipWithDelageteCallback,this,zipPath,dirpath,passwd,delegate);
+        unzipThread.detach();
     }
 
 }
