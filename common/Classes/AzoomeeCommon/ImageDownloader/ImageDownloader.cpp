@@ -11,6 +11,8 @@ NS_AZOOMEE_BEGIN
 
 #pragma mark - Public
 
+std::vector<ImageDownloaderRef> ImageDownloader::_downloadingImagePool = std::vector<ImageDownloaderRef>();
+
 ImageDownloaderRef ImageDownloader::create(const std::string& storageLocation, CacheMode mode)
 {
     ImageDownloaderRef downloader(new(std::nothrow) ImageDownloader(storageLocation, mode));
@@ -33,12 +35,12 @@ ImageDownloader::ImageDownloader(const std::string& storageLocation, CacheMode m
 ImageDownloader::~ImageDownloader()
 {
     _delegate = nullptr;
-    if(_downloadRequest)
+    /*if(_downloadRequest)
     {
         _downloadRequest->setResponseCallback(nullptr);
         _downloadRequest->release();
         _downloadRequest = nullptr;
-    }
+    }*/
 }
 
 void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std::string& url)
@@ -119,6 +121,7 @@ void ImageDownloader::downloadFileFromServer(const std::string& url)
     _downloadRequest->setResponseCallback(CC_CALLBACK_2(ImageDownloader::downloadFileFromServerAnswerReceived, this));
     _downloadRequest->setTag("image download");
     HttpClient::getInstance()->send(_downloadRequest);
+    _downloadingImagePool.push_back(shared_from_this());
 }
 
 void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response)
@@ -134,12 +137,10 @@ void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Htt
             {
                 saveFileToDevice(StringUtils::format("%ld", time(NULL)), getTimestampFilePath());
                 loadFileFromLocalCacheAsync();
-                return;
             }
             else
             {
                 // TODO: Failed callback
-                return;
             }
         }
     }
@@ -147,6 +148,7 @@ void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Htt
     {
         // TODO: Failed callback
     }
+    _downloadingImagePool.erase(std::find(_downloadingImagePool.begin(), _downloadingImagePool.end(), shared_from_this()));
 }
 
 void ImageDownloader::loadFileFromLocalCacheAsync()

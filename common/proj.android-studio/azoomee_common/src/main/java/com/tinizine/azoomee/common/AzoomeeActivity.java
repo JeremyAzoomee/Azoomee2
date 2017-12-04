@@ -28,6 +28,13 @@ public class AzoomeeActivity extends Cocos2dxActivity implements KeyboardHeightO
         sInstance = this;
         super.onCreate(savedInstanceState);
 
+        // If mFrameLayout hasn't been created, then the activity is going to be destroyed
+        // For context, see Cocos2dxActivity onCreate !isTaskRoot() workaround.
+        if(mFrameLayout == null)
+        {
+            return;
+        }
+
         keyboardHeightProvider = new KeyboardHeightProvider(this);
 
         // make sure to start the keyboard height provider after the onResume

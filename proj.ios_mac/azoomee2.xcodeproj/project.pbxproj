@@ -48,7 +48,6 @@
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
 		300742E01EF91667005525AE /* libAzoomeeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 300742DA1EF9162E005525AE /* libAzoomeeChat.a */; };
 		300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 300742F11EF93428005525AE /* ChatDelegate.cpp */; };
-		300AD6921F0B9ACB0049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; };
 		300AD6991F0B9CD40049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD6911F0B9ACB0049A24F /* PusherSwift.framework */; };
 		301CCA941EB139C1009ADA0C /* SettingsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA921EB139C1009ADA0C /* SettingsButton.cpp */; };
 		304D9EB31EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 304D9E9F1EA8F849008CED52 /* MPTakeoverNotificationViewController~ipad.xib */; };
@@ -560,7 +559,6 @@
 				430B21511E4485E0004ACB10 /* Security.framework in Frameworks */,
 				430B214E1E4485DA004ACB10 /* CFNetwork.framework in Frameworks */,
 				025BE95C1E3B980600EF76D1 /* WebKit.framework in Frameworks */,
-				300AD6921F0B9ACB0049A24F /* PusherSwift.framework in Frameworks */,
 				D113134C1E337D7C00E2C033 /* MediaPlayer.framework in Frameworks */,
 				294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */,
 				433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */,
