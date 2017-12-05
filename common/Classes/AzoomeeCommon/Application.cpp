@@ -98,12 +98,6 @@ void Application::applicationDidEnterBackground()
 // this function will be called when the app is active again
 void Application::applicationWillEnterForeground()
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    //Delay needed to avoid orientation issues on android.
-    std::chrono::milliseconds duration(1000);
-    std::this_thread::sleep_for(duration);
-#endif
-    
     Director::getInstance()->resume();
     Director::getInstance()->startAnimation();
     
