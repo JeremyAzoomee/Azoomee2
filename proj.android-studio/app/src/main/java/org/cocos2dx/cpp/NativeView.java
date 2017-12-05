@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -133,9 +134,15 @@ public class NativeView extends XWalkActivity {
             xWalkWebViewStatic = null;
         }
 
-        JNICalls.JNIRegisterAndroidSceneChangeEvent();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                JNICalls.JNIRegisterAndroidSceneChangeEvent();
 
-        finish();
+                finish();
+            }
+        }, 1500);
     }
 
     private  boolean loadingGame()
