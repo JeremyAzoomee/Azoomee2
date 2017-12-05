@@ -265,6 +265,7 @@ public class NativeView extends XWalkActivity {
 
         if(activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && isActivityExitRequested)
         {
+            isActivityExitRequested = false;
             cleanUpAndFinishActivity();
         }
     }
