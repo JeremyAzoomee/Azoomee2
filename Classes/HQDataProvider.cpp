@@ -231,17 +231,17 @@ std::vector<HQContentItemObjectRef> HQDataProvider::getAllContentItemsInRow(cons
     
     std::vector<HQContentItemObjectRef> returnArray;
     
-    for(int i = 0; i < contentItemObjects.size(); i++)
+    for(int elementIndex = 0; elementIndex < contentItemObjects.size(); elementIndex++)
     {
-        HQContentItemObjectRef extendedObj = contentItemObjects.at(i);
+        HQContentItemObjectRef extendedObj = contentItemObjects.at(elementIndex);
         
         //TODO objectTypes should be pre-configured.
         
         if(((extendedObj->getType() == "VIDEO" || extendedObj->getType() == "AUDIO")) && extendedObj->isEntitled())
         {
-            extendedObj->setElementNumber(i);
-            extendedObj->setElementShape(getHighlightDataForSpecificItem(category, rowNumber, i));
-            extendedObj->setImagePath(getThumbnailUrlForItem(category, rowNumber, i));
+            extendedObj->setElementNumber(elementIndex);
+            extendedObj->setElementShape(getHighlightDataForSpecificItem(category, rowNumber, elementIndex));
+            extendedObj->setImagePath(getThumbnailUrlForItem(category, rowNumber, elementIndex));
         }
         
         returnArray.push_back(extendedObj);
