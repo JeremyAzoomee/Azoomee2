@@ -16,10 +16,11 @@
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Json.h>
+#include <AzoomeeCommon/Utils/FileZipUtil.h>
 
 NS_AZOOMEE_BEGIN
 
-class DynamicNodeHandler : cocos2d::Ref
+class DynamicNodeHandler : public cocos2d::Ref, public FileZipDelegate
 {
 private:
     
@@ -63,6 +64,9 @@ public:
     void createDynamicNodeByIdWithParams(const std::string& uniqueId, const std::string& params);
     
     void getCTAFiles();
+    
+    // Delegate functions
+    void onAsyncUnzipComplete(bool success, std::string zipPath, std::string dirpath);
     
 };
 
