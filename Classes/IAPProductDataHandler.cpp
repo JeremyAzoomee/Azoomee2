@@ -107,16 +107,16 @@ cocos2d::Label* IAPProductDataHandler::createOptionalSubscriptionLabel()
     return optionalLabel;
 }
 
-int IAPProductDataHandler::getIntroductoryMonths()
+int IAPProductDataHandler::getIntroductoryMonths() const
 {
     return _introductoryMonths;
 }
-float IAPProductDataHandler::getIntroductoryPrice()
+float IAPProductDataHandler::getIntroductoryPrice() const
 {
     return _introductoryPrice;
 }
 
-float IAPProductDataHandler::getProductPrice()
+float IAPProductDataHandler::getProductPrice() const
 {
     return _productPrice;
 }
@@ -126,7 +126,7 @@ std::string IAPProductDataHandler::getPriceCurrency() const
     return _priceCurrency;
 }
 
-int IAPProductDataHandler::getTrialPeriodDays()
+int IAPProductDataHandler::getTrialPeriodDays() const
 {
     return _trialPeriodDays;
 }

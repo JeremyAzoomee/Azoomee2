@@ -37,11 +37,11 @@ NS_AZOOMEE_BEGIN
         void setTrialPeriodDays(int trialPeriodDays);
         
         std::string getHumanReadableProductPrice() const;
-        int getIntroductoryMonths();
-        float getIntroductoryPrice();
-        float getProductPrice();
+        int getIntroductoryMonths() const;
+        float getIntroductoryPrice() const;
+        float getProductPrice() const;
         std::string getPriceCurrency() const;
-        int getTrialPeriodDays();
+        int getTrialPeriodDays() const;
         
     };
 
