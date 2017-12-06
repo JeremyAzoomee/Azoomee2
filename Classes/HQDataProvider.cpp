@@ -48,12 +48,12 @@ void HQDataProvider::startBuildingHQ(const std::string &category)
     Node *baseLayer = runningScene->getChildByName("baseLayer");
     Node *contentLayer = baseLayer->getChildByName("contentLayer");
     
-    if(category == "GAME HQ" || category == "VIDEO HQ" || category == "AUDIO HQ")
+    if(category == ConfigStorage::kGameHQName || category == ConfigStorage::kVideoHQName || category == ConfigStorage::kAudioHQName)
     {
         HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(category.c_str());
         hqLayer->startBuildingScrollView();
     }
-    else if(category != "HOME")
+    else if(category != ConfigStorage::kHomeHQName)
     {
         HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(category.c_str());
         hqLayer->startBuildingScrollViewBasedOnName();
@@ -94,12 +94,12 @@ void HQDataProvider::getDataForHQ(const std::string &category)
 void HQDataProvider::getDataForGroupHQ(const std::string &uri)
 {
     displayLoadingScreen();
-    HQDataObjectRef groupHQObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey("GROUP HQ");
+    HQDataObjectRef groupHQObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName);
     
     groupHQObject->clearData();
     
-    HQDataObjectStorage::getInstance()->getHQDataObjectForKey("GROUP HQ")->setHqEntitlement(true); //group hq entitlement is not in the initial login feed, so we have to make it enabled manually.
-    BackEndCaller::getInstance()->getHQContent(uri, "GROUP HQ");
+    HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->setHqEntitlement(true); //group hq entitlement is not in the initial login feed, so we have to make it enabled manually.
+    BackEndCaller::getInstance()->getHQContent(uri, ConfigStorage::kGroupHQName);
 }
 
 int HQDataProvider::getNumberOfRowsForHQ(const std::string &category)
@@ -129,7 +129,7 @@ HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::str
 
 HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::string &itemid)
 {
-    const std::vector<std::string>& hqNames = {"GAME HQ", "VIDEO HQ", "AUDIO_HQ"};
+    static const std::vector<std::string>& hqNames = {ConfigStorage::kGameHQName, ConfigStorage::kVideoHQName, ConfigStorage::kAudioHQName};
     for(const std::string& cat : hqNames)
     {
         HQContentItemObjectRef item = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(cat)->getContentItemForId(itemid);
@@ -144,32 +144,32 @@ HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::str
 
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const
 {
-    if(rowNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().size() || itemNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()[rowNumber]->getContentItemHighlights().size())
+    try
     {
-        cocos2d::log("HIGHLIGHT OUT OF INDEX ERROR: %d, %d", rowNumber, itemNumber);
+        return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
+    }
+    catch(std::out_of_range)
+    {
         return cocos2d::Vec2(1,1);
     }
-    
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(rowNumber)->getContentItemHighlights().at(itemNumber);
 }
 
 std::string HQDataProvider::getThumbnailUrlForItem(const std::string &category, int rowNumber, int itemNumber) const
 {
-    if(rowNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().size() || itemNumber >= HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()[rowNumber]->getContentItems().size())
+    try
     {
-        cocos2d::log("THUMBNAIL OUT OF INDEX ERROR: %d, %d", rowNumber, itemNumber);
+        const cocos2d::Vec2 &shape = getHighlightDataForSpecificItem(category, rowNumber, itemNumber);
+        HQContentItemObjectRef element = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()[rowNumber]->getContentItems()[itemNumber];
+        
+        return getThumbnailUrlForItem(element, shape);
+    } catch (std::out_of_range) {
         return "";
     }
-    
-    const cocos2d::Vec2 &shape = getHighlightDataForSpecificItem(category, rowNumber, itemNumber);
-    HQContentItemObjectRef element = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels()[rowNumber]->getContentItems()[itemNumber];
-    
-    return getThumbnailUrlForItem(element, shape);
 }
 
 std::string HQDataProvider::getThumbnailUrlForItem(const std::string &itemId) const
 {
-    const std::vector<std::string>& hqNames = {"GAME HQ", "VIDEO HQ", "AUDIO_HQ", "GROUP HQ"};
+    static const std::vector<std::string>& hqNames = {ConfigStorage::kGameHQName, ConfigStorage::kVideoHQName, ConfigStorage::kAudioHQName, ConfigStorage::kGroupHQName};
     
     for(const std::string& cat : hqNames)
     {
@@ -188,7 +188,7 @@ std::string HQDataProvider::getThumbnailUrlForItem(const std::string &category, 
     return getThumbnailUrlForItem(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(itemId), Vec2(1,1));
 }
 
-std::string HQDataProvider::getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 shape) const
+std::string HQDataProvider::getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 &shape) const
 {
     const std::string &key = convertShapeToThumbnailKey(shape);
     
@@ -214,7 +214,7 @@ std::string HQDataProvider::getHumanReadableHighlightDataForSpecificItem(const s
 
 std::string HQDataProvider::convertShapeToThumbnailKey(const cocos2d::Vec2 &shape) const
 {
-    const std::vector<std::string> &numbersByWords = {"ZERO", "ONE", "TWO", "THREE", "FOUR", "FIVE"};
+    static const std::vector<std::string> &numbersByWords = {"ZERO", "ONE", "TWO", "THREE", "FOUR", "FIVE"};
     return numbersByWords.at(shape.x) + "_" + numbersByWords.at(shape.y);
 }
 
@@ -237,7 +237,7 @@ std::vector<HQContentItemObjectRef> HQDataProvider::getAllContentItemsInRow(cons
         
         //TODO objectTypes should be pre-configured.
         
-        if(((extendedObj->getType() == "VIDEO" || extendedObj->getType() == "AUDIO")) && extendedObj->isEntitled())
+        if(((extendedObj->getType() == ConfigStorage::kContentTypeVideo || extendedObj->getType() == ConfigStorage::kContentTypeAudio)) && extendedObj->isEntitled())
         {
             extendedObj->setElementNumber(elementIndex);
             extendedObj->setElementShape(getHighlightDataForSpecificItem(category, rowNumber, elementIndex));
@@ -262,9 +262,9 @@ void HQDataProvider::hideLoadingScreen()
 }
 
 const std::map<std::string, std::string> HQDataProvider::kLockFiles = {
-    { "VIDEO", "res/hqscene/locked_video.png" },
-    { "AUDIO", "res/hqscene/locked_audio_books.png" },
-    { "GAME", "res/hqscene/locked_games.png" },
+    { ConfigStorage::kContentTypeVideo, "res/hqscene/locked_video.png" },
+    { ConfigStorage::kContentTypeAudio, "res/hqscene/locked_audio_books.png" },
+    { ConfigStorage::kContentTypeGame, "res/hqscene/locked_games.png" },
     { "", "res/hqscene/locked.png" }
 };
 

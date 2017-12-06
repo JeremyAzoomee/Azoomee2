@@ -6,7 +6,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-HQScene2CarouselTitle* HQScene2CarouselTitle::createForCarousel(HQCarouselObjectRef carousel)
+HQScene2CarouselTitle* HQScene2CarouselTitle::createForCarousel(const HQCarouselObjectRef &carousel)
 {
     auto hqScene2CarouselTitle = HQScene2CarouselTitle::create();
     hqScene2CarouselTitle->addChild(hqScene2CarouselTitle->createLabel(carousel->getTitle()));

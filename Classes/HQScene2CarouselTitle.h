@@ -14,7 +14,7 @@ public:
     CREATE_FUNC(HQScene2CarouselTitle);
     virtual bool init();
     
-    static HQScene2CarouselTitle* createForCarousel(HQCarouselObjectRef carousel);
+    static HQScene2CarouselTitle* createForCarousel(const HQCarouselObjectRef &carousel);
     
 private:
     cocos2d::Label *createLabel(const std::string &text);

@@ -139,7 +139,7 @@ void HQScene2::startBuildingScrollView()
 
 void HQScene2::showPostContentCTA()
 {
-    if(!ContentHistoryManager::getInstance()->getReturnedFromContent() || _hqCategory == "GROUP HQ")
+    if(!ContentHistoryManager::getInstance()->getReturnedFromContent() || _hqCategory == ConfigStorage::kGroupHQName)
     {
         return;
     }

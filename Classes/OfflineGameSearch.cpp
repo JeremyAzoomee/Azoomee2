@@ -2,6 +2,7 @@
 #include <dirent.h>
 #include "external/json/document.h"
 #include <AzoomeeCommon/Data/Json.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -123,7 +124,7 @@ std::map<std::string, std::string> OfflineGameSearch::getGameDetails(const std::
     currentGameData["id"] = gameId;
     currentGameData["entitled"] = "true";
     currentGameData["description"] = "";
-    currentGameData["type"] = "GAME";
+    currentGameData["type"] = ConfigStorage::kContentTypeGame;
     currentGameData["isPortrait"] = "false";
     
     std::string packageFileContent = FileUtils::getInstance()->getStringFromFile(packageFileName);

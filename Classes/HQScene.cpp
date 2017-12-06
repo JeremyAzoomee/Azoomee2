@@ -34,7 +34,7 @@ Scene* HQScene::createSceneForOfflineArtsAppHQ()
     scene->addChild(layer);
     
     //if created as a scene, and not as a layer, we are in offline mode, and we are using scene only for art app, so adding initial lines:
-    layer->setName("ARTS APP");
+    layer->setName(ConfigStorage::kArtAppHQName);
     
     auto offlineArtsAppScrollView = HQSceneArtsApp::create();
     offlineArtsAppScrollView->setName("ArtScrollView");
@@ -70,11 +70,11 @@ void HQScene::startBuildingScrollViewBasedOnName()
     
     if(!this->getChildByName(kScrollViewName)) //Checking if this was created before, or this is the first time -> the layer has any kids.
     {
-        if(this->getName() == "GROUP HQ") addGroupHQLogo();
+        if(this->getName() == ConfigStorage::kGroupHQName) addGroupHQLogo();
         
-        if(this->getName() == "ARTS APP")
+        if(this->getName() == ConfigStorage::kArtAppHQName)
         {
-            auto artsLayer = this->getChildByName("ARTS APP");
+            auto artsLayer = this->getChildByName(ConfigStorage::kArtAppHQName);
             if(!artsLayer)
             {
                 auto oldImages = HQSceneArtsApp::getOldArtImages();
@@ -89,7 +89,7 @@ void HQScene::startBuildingScrollViewBasedOnName()
                 else
                 {
                     auto offlineArtsAppScrollView = HQSceneArtsApp::create();
-                    offlineArtsAppScrollView->setName("ARTS APP");
+                    offlineArtsAppScrollView->setName(ConfigStorage::kArtAppHQName);
                     this->addChild(offlineArtsAppScrollView);
                 }
             }
@@ -98,7 +98,7 @@ void HQScene::startBuildingScrollViewBasedOnName()
         {
             createBidirectionalScrollView();
             
-            if(ContentHistoryManager::getInstance()->getReturnedFromContent() && this->getName() != "GROUP HQ")
+            if(ContentHistoryManager::getInstance()->getReturnedFromContent() && this->getName() != ConfigStorage::kGroupHQName)
             {
                 ContentHistoryManager::getInstance()->setReturnedFromContent(false);
                 HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
@@ -146,7 +146,7 @@ void HQScene::addGroupHQLogo()
 {
     if(HQHistoryManager::getInstance()->getGroupHQSourceId() != "")
     {
-        std::string groupHQLogoUrl = HQDataObjectStorage::getInstance()->getHQDataObjectForKey("GROUP HQ")->getGroupLogo();
+        std::string groupHQLogoUrl = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->getGroupLogo();
                 
         this->removeChild(this->getChildByName("groupLogo"));
         
@@ -183,7 +183,7 @@ void HQScene::createBidirectionalScrollView()
     float scrollviewTitleTextHeight = ConfigStorage::getInstance()->getScrollviewTitleTextHeight();
     float groupVideoTextHeight = 0.0f;
     
-    if(this->getName() == "GROUP HQ")
+    if(this->getName() == ConfigStorage::kGroupHQName)
     {
         verticalScrollView->cocos2d::Node::setPosition(_origin.x , _origin.y);
         scrollviewTitleTextHeight = 0.0f;
@@ -306,7 +306,7 @@ cocos2d::ui::ScrollView* HQScene::createVerticalScrollView(const std::string& hq
 {
     float verticalScrollViewFrameHeight = _visibleSize.height - ConfigStorage::getInstance()->getHorizontalMenuItemsHeight();
     
-    if(hqTypeName == "GROUP HQ")
+    if(hqTypeName == ConfigStorage::kGroupHQName)
    {
        // change frame height for Groups
        auto groupLogo = this->getChildByName("groupLogo");
@@ -381,7 +381,7 @@ void HQScene::addElementToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAdde
 
     toBeAddedTo->addChild(hqSceneElement);
     
-    bool isGroup = this->getName() == "GROUP HQ";
+    bool isGroup = this->getName() == ConfigStorage::kGroupHQName;
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)hqSceneElement, isGroup);
 }

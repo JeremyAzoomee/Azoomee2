@@ -184,17 +184,17 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
                 
                 target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
                 
-                if(elementProperties->getType() == "GAME")
+                if(elementProperties->getType() == ConfigStorage::kContentTypeGame)
                 {
                     GameDataManager::getInstance()->startProcessingGame(elementProperties);
                 }
-                else if((elementProperties->getType() == "VIDEO")||(elementProperties->getType() == "AUDIO"))
+                else if((elementProperties->getType() == ConfigStorage::kContentTypeVideo)||(elementProperties->getType() == ConfigStorage::kContentTypeAudio))
                 {
                     VideoPlaylistManager::getInstance()->clearPlaylist();
                     auto webViewSelector = WebViewSelector::create();
                     webViewSelector->loadWebView(elementProperties->getUri().c_str(),Orientation::Landscape);
                 }
-                else if((elementProperties->getType() == "GROUP")||(elementProperties->getType() == "AUDIOGROUP"))
+                else if((elementProperties->getType() == ConfigStorage::kContentTypeGroup)||(elementProperties->getType() == ConfigStorage::kContentTypeAudioGroup))
                 {
                     NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
                     navigationLayer->startLoadingGroupHQ(elementProperties->getUri());

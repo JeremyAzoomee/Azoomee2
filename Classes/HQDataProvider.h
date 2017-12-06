@@ -29,7 +29,7 @@ public:
     std::string getThumbnailUrlForItem(const std::string &category, int rowNumber, int itemNumber) const;
     std::string getThumbnailUrlForItem(const std::string &itemId) const;
     std::string getThumbnailUrlForItem(const std::string &category, const std::string &itemiId) const;
-    std::string getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 shape) const;
+    std::string getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 &shape) const;
     
     std::string getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
     std::string convertShapeToThumbnailKey(const cocos2d::Vec2 &shape) const;

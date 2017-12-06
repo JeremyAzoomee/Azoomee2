@@ -32,8 +32,6 @@ bool OfflineHubHQElement::init()
 
 void OfflineHubHQElement::addHQSceneElement(const std::string &category, const std::map<std::string, std::string> &itemData, Vec2 shape, float delay)
 {
-    //category = "GAME HQ";
-    
     elementVisual = HQSceneElementVisual::create();
     elementVisual->setCategory(category);
     HQContentItemObjectRef objectToStart = HQContentItemObject::createFromMap(itemData);

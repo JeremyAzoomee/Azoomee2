@@ -462,7 +462,7 @@ void BackEndCaller::onHttpRequestSuccess(const std::string& requestTag, const st
     {
         OfflineChecker::getInstance()->onOfflineCheckAnswerReceived();
     }
-    else if(requestTag == "GROUP HQ")
+    else if(requestTag == ConfigStorage::kGroupHQName)
     {
         HQDataParser::getInstance()->onGetContentAnswerReceived(body, requestTag);
     }

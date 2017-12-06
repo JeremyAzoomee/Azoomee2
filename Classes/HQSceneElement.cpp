@@ -197,12 +197,12 @@ void HQSceneElement::startUpElementDependingOnType()
 {
     this->getParent()->getParent()->getParent()->stopAllActions();
     
-    if(_elementItemData->getType() == "GAME")
+    if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
     {
         ContentHistoryManager::getInstance()->setLastOppenedContent(_elementItemData);
         GameDataManager::getInstance()->startProcessingGame(_elementItemData);
     }
-    else if((_elementItemData->getType() == "VIDEO") || (_elementItemData->getType() == "AUDIO"))
+    else if((_elementItemData->getType() == ConfigStorage::kContentTypeVideo) || (_elementItemData->getType() == ConfigStorage::kContentTypeAudio))
     {
         ContentHistoryManager::getInstance()->setLastOppenedContent(_elementItemData);
         VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_elementCategory)->getHqCarousels().at(_elementRowNumber));
@@ -210,7 +210,7 @@ void HQSceneElement::startUpElementDependingOnType()
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(_elementItemData->getUri().c_str(),Orientation::Landscape);
     }
-    else if((_elementItemData->getType() == "AUDIOGROUP")||(_elementItemData->getType() == "GROUP"))
+    else if((_elementItemData->getType() == ConfigStorage::kContentTypeAudioGroup)||(_elementItemData->getType() == ConfigStorage::kContentTypeGroup))
     {
         NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
         navigationLayer->startLoadingGroupHQ(_elementItemData->getUri());

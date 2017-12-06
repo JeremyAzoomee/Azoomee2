@@ -62,7 +62,7 @@ ui::ScrollView* OfflineHubHQ::createHorizontalScrollView()
 
 void OfflineHubHQ::addElementsToScrollView(std::vector<std::map<std::string, std::string>> gameDataList, cocos2d::ui::ScrollView* toBeAddedTo)
 {
-    float endWidth = ConfigStorage::getInstance()->getSizeForContentItemInCategory("GAME HQ").width * 0.75;
+    float endWidth = ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName).width * 0.75;
     
     for(int i = 0; i < gameDataList.size(); i++)
     {
@@ -71,7 +71,7 @@ void OfflineHubHQ::addElementsToScrollView(std::vector<std::map<std::string, std
         std::map<std::string, std::string> itemData = gameDataList.at(i);
         
         auto hqSceneElement = OfflineHubHQElement::create();
-        hqSceneElement->addHQSceneElement("GAME HQ", itemData, Vec2(1,1), delay);
+        hqSceneElement->addHQSceneElement(ConfigStorage::kGameHQName, itemData, Vec2(1,1), delay);
         hqSceneElement->setAnchorPoint(Vec2(0,0));
         hqSceneElement->setScale(0.75);
         toBeAddedTo->addChild(hqSceneElement);
@@ -92,7 +92,7 @@ void OfflineHubHQ::addElementsToScrollView(std::vector<std::map<std::string, std
 void OfflineHubHQ::addArtAppElementToScrollView(cocos2d::ui::ScrollView* toBeAddedTo)
 {
     auto iconLayer = Layer::create();
-    iconLayer->setContentSize(ConfigStorage::getInstance()->getSizeForContentItemInCategory("GAME HQ"));
+    iconLayer->setContentSize(ConfigStorage::getInstance()->getSizeForContentItemInCategory(ConfigStorage::kGameHQName));
     iconLayer->setContentSize(iconLayer->getContentSize() * 0.75);
     
     auto artAppIcon = Sprite::create("res/offline/artAppIcon.png");
