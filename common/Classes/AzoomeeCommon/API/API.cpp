@@ -44,6 +44,13 @@ HttpRequestCreator* API::OfflineCheck(HttpRequestCreatorResponseDelegate* delega
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagOfflineCheck;
+    
+    request->url = "https://versions.azoomee.com";
+    
+#ifdef USINGCI
+    request->url = "http://versions.azoomee.ninja";
+#endif
+    
     request->encrypted = false;
     return request;
 }
