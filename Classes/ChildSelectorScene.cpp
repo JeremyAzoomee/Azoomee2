@@ -417,12 +417,7 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
 {
     if(_parentIconSelected)
     {
-        const std::string& userId = ParentDataProvider::getInstance()->getLoggedInParentId();
-        const std::string& sessionId = ParentDataProvider::getInstance()->getLoggedInParentCdnSessionId();
-        
-        HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
-        request->execute();
-        
+        refreshParentCookiesRequest();
         return;
     }
     
@@ -431,8 +426,29 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
     this->scheduleOnce(schedule_selector(ChildSelectorScene::callDelegateFunction), .5);
 }
 
+void ChildSelectorScene::refreshParentCookiesRequest()
+{
+    HttpRequestCreator* request = API::RefreshParentCookiesRequest(this);
+    request->execute();
+}
+
+void ChildSelectorScene::getParentCookiesRequest()
+{
+    const std::string& userId = ParentDataProvider::getInstance()->getLoggedInParentId();
+    const std::string& sessionId = ParentDataProvider::getInstance()->getLoggedInParentCdnSessionId();
+    
+    HttpRequestCreator* request = API::GetGordenRequest(userId, sessionId, this);
+    request->execute();
+}
+
 void ChildSelectorScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
 {
+    if(requestTag == API::TagCookieRefresh)
+    {
+        getParentCookiesRequest();
+        return;
+    }
+    
     if(CookieDataParser::getInstance()->parseDownloadCookies(headers))
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChatEntryPointScene));
