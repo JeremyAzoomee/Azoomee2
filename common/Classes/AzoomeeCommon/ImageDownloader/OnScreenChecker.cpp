@@ -17,7 +17,6 @@ namespace Azoomee
     void OnScreenChecker::startCheckingForOnScreenPosition(Node* sender)
     {
         elementOnScreen = false;
-        CCLOG("pos listerer set");
         auto scheduler = Director::getInstance()->getScheduler();
         scheduler->schedule([=](float dt)
                             {
