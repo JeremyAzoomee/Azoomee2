@@ -19,10 +19,12 @@ NS_AZOOMEE_BEGIN
 
 class DynamicNodeCreator : public cocos2d::Ref
 {
+public:
+    static const std::string kCTAAssetLoc;
+    static const std::string kCTABundleImageLoc;
+    static const std::string kCTADeviceImageCacheLoc;
 private:
-    const std::string _kCTAAssetLoc = "res/cta_assets/";
-    const std::string _kCTABundleImageLoc = "res/cta_assets/cta_bundle/images/";
-    const std::string _kCTADeviceImageCacheLoc = "DCDECache/images/";
+    
     
     cocos2d::Node* _CTANode = nullptr;
     cocos2d::Size _windowSize;
@@ -56,14 +58,14 @@ private:
     void configText(const rapidjson::Value& textConfig);
     void configTextInput(const rapidjson::Value& textInputConfig);
     
-    void addButtonWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, const std::string& buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr, bool underlined);
     void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& filename);
     void addRemoteImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& url);
     void addTextWithParams(int fontSize, cocos2d::Color4B fontColour, const rapidjson::Value& params);
-    std::string addExternalParamsToString(const std::string& str);
+    
     
 public:
     static DynamicNodeCreator* getInstance(void);
+    static std::string addExternalParamsToString(const std::string& str);
     virtual ~DynamicNodeCreator();
     bool init(void);
     

@@ -631,7 +631,7 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == previewSignUpButton)
     {
         //Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
-        DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId("signup");
+        DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
     }
     else if(button == returnToChildSelectorButton)
     {

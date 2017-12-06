@@ -14,12 +14,17 @@
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "HQDataProvider.h"
 #include "DynamicNodeTextInput.h"
+#include "DynamicNodeButton.h"
 
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
 static std::auto_ptr<DynamicNodeCreator> sDynamicNodeCreatorSharedInstance;
+
+const std::string DynamicNodeCreator::kCTAAssetLoc = "res/cta_assets/";
+const std::string DynamicNodeCreator::kCTABundleImageLoc = "res/cta_assets/cta_bundle/images/";
+const std::string DynamicNodeCreator::kCTADeviceImageCacheLoc = "DCDECache/images/";
 
 DynamicNodeCreator* DynamicNodeCreator::getInstance()
 {
@@ -182,7 +187,7 @@ void DynamicNodeCreator::initCTANode()
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), overlay);
     
-    _stencil = ui::Scale9Sprite::create(_kCTAAssetLoc + "deep_free_pop_over.png");
+    _stencil = ui::Scale9Sprite::create(kCTAAssetLoc + "deep_free_pop_over.png");
     _stencil->setContentSize(Size(_windowSize.width*0.75,_windowSize.height*0.67));
     
     _clippingNode = ClippingNode::create(_stencil);
@@ -191,7 +196,7 @@ void DynamicNodeCreator::initCTANode()
     _bgColour->setPosition(Vec2(_windowSize*-0.5f));
     _clippingNode->addChild(_bgColour);
     
-    _maskedBGImage = Sprite::create(_kCTAAssetLoc + "deep_free_pop_over_trans.png");
+    _maskedBGImage = Sprite::create(kCTAAssetLoc + "deep_free_pop_over_trans.png");
     _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
     _maskedBGImage->setVisible(false);
     _clippingNode->addChild(_maskedBGImage);
@@ -224,14 +229,14 @@ void DynamicNodeCreator::initCTANode()
     _textInputLayer->setPosition(_windowSize/2);
     _CTANode->addChild(_textInputLayer);
     
-    _popupFrame = ui::Scale9Sprite::create(_kCTAAssetLoc + "deep_free_pop_over_trans.png");
+    _popupFrame = ui::Scale9Sprite::create(kCTAAssetLoc + "deep_free_pop_over_trans.png");
     _popupFrame->setPosition(_windowSize/2);
     _popupFrame->setAnchorPoint(Vec2(0.5,0.5));
     _popupFrame->setContentSize(Size(_windowSize.width*0.75,_windowSize.height*0.67));
     _CTANode->addChild(_popupFrame);
     
     _closeButton = ui::Button::create();
-    _closeButton->loadTextures(_kCTAAssetLoc + "close.png", _kCTAAssetLoc + "close.png");
+    _closeButton->loadTextures(kCTAAssetLoc + "close.png", kCTAAssetLoc + "close.png");
     _closeButton->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _closeButton->setPosition(_popupFrame->getPosition() + _popupFrame->getContentSize()/2 - _closeButton->getContentSize()*0.75);
     _closeButton->addTouchEventListener([=](Ref* sender, ui::Widget::TouchEventType type){
@@ -295,16 +300,16 @@ void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroun
     if(filename != "")
     {
         
-        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename))
+        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + kCTADeviceImageCacheLoc + filename))
         {
-            _maskedBGImage->initWithFile(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename);
+            _maskedBGImage->initWithFile(FileUtils::getInstance()->getWritablePath() + kCTADeviceImageCacheLoc + filename);
             imagefound = true;
         }
         else
         {
-            if(FileUtils::getInstance()->isFileExist(_kCTABundleImageLoc + filename))
+            if(FileUtils::getInstance()->isFileExist(kCTABundleImageLoc + filename))
             {
-                _maskedBGImage->initWithFile(_kCTABundleImageLoc + filename);
+                _maskedBGImage->initWithFile(kCTABundleImageLoc + filename);
                 imagefound = true;
             }
         }
@@ -339,60 +344,21 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
     {
         for (int i = 0; i < buttonsList.Size(); i++)
         {
-            /*
-             Values not used:
-             buttonId, buttonType, action, style
-             These control the buttons callback function and button style
-             */
-            Vec2 pos;
-            Vec2 size;
-            ButtonActionDataRef actionData;
-            
-            pos = getVec2FromJson("position",buttonsList[i]);
-            
-            if(pos.x != 0 && pos.y != 0)
+            DynamicNodeButton* button = DynamicNodeButton::create();
+            if(_usingExternalParams)
             {
-                pos = pos/100.0f;
-            }
-            else
-            {
-                continue;
-            }
-            
-            size = getVec2FromJson("size",buttonsList[i]);
-            
-            if(size.x != 0 && size.y != 0)
-            {
-                size = size/100.0f;
-            }
-            else
-            {
-                continue;
-            }
-            
-            const std::string& btnSprite = getStringFromJson("sprite", buttonsList[i]);
-            
-            const std::string& btnString = getStringFromJson("text", buttonsList[i]);
-            
-            if(buttonsList[i].HasMember("action"))
-            {
-                const rapidjson::Value& actionParams = buttonsList[i]["action"];
-                actionData = ButtonActionData::createWithJson(actionParams);
-                
-                if(_usingExternalParams)
+                if(button->initWithParams(buttonsList[i], _popupButtonsLayer->getContentSize(), _externParams))
                 {
-                    auto actionParamsMap = actionData->getParams();
-                    for(auto& param : actionParamsMap)
-                    {
-                        param.second = addExternalParamsToString(param.second);
-                    }
-                    actionData->setParams(actionParamsMap);
+                    _popupButtonsLayer->addChild(button);
                 }
             }
-            
-            bool underlined = getBoolFromJson("underlined", buttonsList[i]);
-            
-            addButtonWithParams(size, pos, btnString, actionData, btnSprite, underlined);
+            else
+            {
+                if(button->initWithParams(buttonsList[i], _popupButtonsLayer->getContentSize()))
+                {
+                    _popupButtonsLayer->addChild(button);
+                }
+            }
             
         }
     }
@@ -446,15 +412,15 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
             
                 if(filename != "")
                 {
-                    if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename))
+                    if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + kCTADeviceImageCacheLoc + filename))
                     {
-                        addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + filename);
+                        addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + kCTADeviceImageCacheLoc + filename);
                     }
                     else
                     {
-                        if(FileUtils::getInstance()->isFileExist(_kCTAAssetLoc + _kCTABundleImageLoc + filename))
+                        if(FileUtils::getInstance()->isFileExist(kCTAAssetLoc + kCTABundleImageLoc + filename))
                         {
-                            addImageWithParams(size, pos, opacity,_kCTAAssetLoc +  _kCTABundleImageLoc + filename);
+                            addImageWithParams(size, pos, opacity,kCTAAssetLoc +  kCTABundleImageLoc + filename);
                         }
                     }
                 }
@@ -507,41 +473,6 @@ void DynamicNodeCreator::configTextInput(const rapidjson::Value &textInputConfig
             _textInputLayer->addChild(textInput);
         }
     }
-}
-
-void DynamicNodeCreator::addButtonWithParams(const Vec2 &size, const Vec2 &pos, const std::string &buttonText, ButtonActionDataRef buttonActionData, const std::string& btnSpriteStr, bool underlined)
-{
-    
-    ui::Button* button = ui::Button::create();
-    const std::string& btnSpriteFile = FileUtils::getInstance()->getWritablePath() + _kCTADeviceImageCacheLoc + btnSpriteStr;
-    if(btnSpriteStr == "" || !FileUtils::getInstance()->isFileExist(btnSpriteFile))
-    {
-        button->loadTextures(_kCTAAssetLoc + "rectangle_copy_3.png", _kCTAAssetLoc + "rectangle_copy_3.png");
-    }
-    else
-    {
-        button->loadTextures(btnSpriteFile,btnSpriteFile);
-    }
-    
-    button->setContentSize(Size(_popupButtonsLayer->getContentSize().width * size.x,_popupButtonsLayer->getContentSize().height * size.y));
-    button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    button->setNormalizedPosition(pos);
-    button->setScale9Enabled(true);
-    button->setSwallowTouches(true);
-    button->addTouchEventListener(CC_CALLBACK_2(DynamicNodeButtonListener::onButtonPressedCallFunc, DynamicNodeButtonListener::getInstance(),buttonActionData));
-    
-    Label* label = Label::createWithTTF(buttonText, Style::Font::Regular, button->getContentSize().height*0.4);
-    label->setNormalizedPosition(Vec2::ANCHOR_MIDDLE);
-    label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    label->setColor(Color3B::BLACK);
-    if(underlined)
-    {
-        DrawNode* newDrawNode = DrawNode::create();
-        newDrawNode->drawRect(Vec2(0, -7), Vec2(label->getContentSize().width, -6), Color4F::BLACK);
-        label->addChild(newDrawNode);
-    }
-    button->addChild(label);
-    _popupButtonsLayer->addChild(button);
 }
 
 void DynamicNodeCreator::addImageWithParams(const Vec2& size, const Vec2& pos, int opacity, const std::string& filename)
@@ -660,7 +591,7 @@ std::string DynamicNodeCreator::addExternalParamsToString(const std::string& str
         result += sourceString.substr(0,i);
         const std::string& paramName = sourceString.substr(i+1,sourceString.find(">") - (i+1));
         sourceString = sourceString.substr(sourceString.find(">") + 1);
-        result += getStringFromJson(paramName, _externParams);
+        result += getStringFromJson(paramName, DynamicNodeCreator::getInstance()->_externParams);
         i = sourceString.find("<");
     }
     
