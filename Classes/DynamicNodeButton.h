@@ -27,8 +27,7 @@ private:
 public:
     virtual bool init() override;
     
-    bool initWithParams(const rapidjson::Value& params, const cocos2d::Size& dynamicNodeSize);
-    bool initWithParams(const rapidjson::Value& params, const cocos2d::Size& dynamicNodeSize, const rapidjson::Document& externParams);
+    bool initWithParams(const rapidjson::Value& params, const cocos2d::Size& dynamicNodeSize, bool usingExternParams);
     
     
     CREATE_FUNC(DynamicNodeButton);

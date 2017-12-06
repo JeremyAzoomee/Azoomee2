@@ -144,6 +144,7 @@
 		9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF21FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp */; };
 		9289DAF61FCEEFF000B12435 /* DynamicNodeTextInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */; };
 		9289DB441FD8137D00B12435 /* DynamicNodeButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB431FD8137D00B12435 /* DynamicNodeButton.cpp */; };
+		9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */; };
 		929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */; };
 		92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */; };
 		92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A9A0A81F0D1775008A19EB /* ArtAppDelegate.cpp */; };
@@ -487,6 +488,8 @@
 		9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeTextInput.cpp; sourceTree = "<group>"; };
 		9289DB3F1FD80BA400B12435 /* DynamicNodeButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeButton.h; sourceTree = "<group>"; };
 		9289DB431FD8137D00B12435 /* DynamicNodeButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeButton.cpp; sourceTree = "<group>"; };
+		9289DB451FD83BC500B12435 /* DynamicNodeText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeText.h; sourceTree = "<group>"; };
+		9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeText.cpp; sourceTree = "<group>"; };
 		929D46651F73EC3B006E40CE /* DynamicNodeCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeCreator.h; sourceTree = "<group>"; };
 		929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeCreator.cpp; sourceTree = "<group>"; };
 		92A9A0A21F0D172F008A19EB /* ArtAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppDelegate.h; sourceTree = "<group>"; };
@@ -1083,6 +1086,8 @@
 				9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */,
 				9289DB3F1FD80BA400B12435 /* DynamicNodeButton.h */,
 				9289DB431FD8137D00B12435 /* DynamicNodeButton.cpp */,
+				9289DB451FD83BC500B12435 /* DynamicNodeText.h */,
+				9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */,
 			);
 			name = CallToAction;
 			sourceTree = "<group>";
@@ -1568,6 +1573,7 @@
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,
 				A1CC0C241E141B47008B469E /* HQDataParser.cpp in Sources */,
 				02A11FF61EA6375D007EDD95 /* AmazonPaymentSingleton.cpp in Sources */,
+				9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */,
 				43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */,
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
 				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,

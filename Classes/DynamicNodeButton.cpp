@@ -19,7 +19,7 @@ bool DynamicNodeButton::init()
     return true;
 }
 
-bool DynamicNodeButton::initWithParams(const rapidjson::Value &params, const cocos2d::Size &dynamicNodeSize)
+bool DynamicNodeButton::initWithParams(const rapidjson::Value &params, const cocos2d::Size &dynamicNodeSize, bool usingExtrnParams)
 {
     this->setContentSize(dynamicNodeSize);
     
@@ -57,60 +57,15 @@ bool DynamicNodeButton::initWithParams(const rapidjson::Value &params, const coc
     {
         const rapidjson::Value& actionParams = params["action"];
         actionData = ButtonActionData::createWithJson(actionParams);
-    }
-    
-    bool underlined = getBoolFromJson("underlined", params);
-    
-    addButtonWithParams(Size(size.x * dynamicNodeSize.width, size.y * dynamicNodeSize.height), pos, btnString, actionData, btnSprite, underlined);
-    
-    return true;
-}
-
-bool DynamicNodeButton::initWithParams(const rapidjson::Value &params, const cocos2d::Size &dynamicNodeSize, const rapidjson::Document& externParams)
-{
-    this->setContentSize(dynamicNodeSize);
-    
-    Vec2 pos;
-    Vec2 size;
-    ButtonActionDataRef actionData;
-    
-    pos = getVec2FromJson("position",params);
-    
-    if(pos.x != 0 && pos.y != 0)
-    {
-        pos = pos/100.0f;
-    }
-    else
-    {
-        return false;
-    }
-    
-    size = getVec2FromJson("size",params);
-    
-    if(size.x != 0 && size.y != 0)
-    {
-        size = size/100.0f;
-    }
-    else
-    {
-        return false;
-    }
-    
-    const std::string& btnSprite = getStringFromJson("sprite", params);
-    
-    const std::string& btnString = getStringFromJson("text", params);
-    
-    if(params.HasMember("action"))
-    {
-        const rapidjson::Value& actionParams = params["action"];
-        actionData = ButtonActionData::createWithJson(actionParams);
-
-        auto actionParamsMap = actionData->getParams();
-        for(auto& param : actionParamsMap)
+        if(usingExtrnParams)
         {
-            param.second = DynamicNodeCreator::addExternalParamsToString(param.second);
+            auto actionParamsMap = actionData->getParams();
+            for(auto& param : actionParamsMap)
+            {
+                param.second = DynamicNodeCreator::addExternalParamsToString(param.second);
+            }
+            actionData->setParams(actionParamsMap);
         }
-        actionData->setParams(actionParamsMap);
         
     }
     

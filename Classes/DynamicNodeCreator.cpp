@@ -15,6 +15,7 @@
 #include "HQDataProvider.h"
 #include "DynamicNodeTextInput.h"
 #include "DynamicNodeButton.h"
+#include "DynamicNodeText.h"
 
 using namespace cocos2d;
 
@@ -345,20 +346,11 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
         for (int i = 0; i < buttonsList.Size(); i++)
         {
             DynamicNodeButton* button = DynamicNodeButton::create();
-            if(_usingExternalParams)
+            if(button->initWithParams(buttonsList[i], _popupButtonsLayer->getContentSize(), _usingExternalParams))
             {
-                if(button->initWithParams(buttonsList[i], _popupButtonsLayer->getContentSize(), _externParams))
-                {
-                    _popupButtonsLayer->addChild(button);
-                }
+                _popupButtonsLayer->addChild(button);
             }
-            else
-            {
-                if(button->initWithParams(buttonsList[i], _popupButtonsLayer->getContentSize()))
-                {
-                    _popupButtonsLayer->addChild(button);
-                }
-            }
+            
             
         }
     }
@@ -443,7 +435,11 @@ void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
     if(textConfig.HasMember("titleText"))
     {
         const rapidjson::Value& titleText = textConfig["titleText"];
-        addTextWithParams(94, Style::Color_4B::ctaNodeText, titleText);
+        DynamicNodeText* text = DynamicNodeText::create();
+        if(text->initWithParams(94, Style::Color_4B::ctaNodeText, titleText, _textLayer->getContentSize(), _usingExternalParams))
+        {
+            _textLayer->addChild(text);
+        }
     }
     
     if(textConfig.HasMember("bodyText"))
@@ -451,14 +447,23 @@ void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
         for(int i = 0; i < textConfig["bodyText"].Size(); i++)
         {
             const rapidjson::Value& bodyText = textConfig["bodyText"][i];
-            addTextWithParams(63, Color4B(Style::Color::black), bodyText);
+            DynamicNodeText* text = DynamicNodeText::create();
+            if(text->initWithParams(94, Style::Color_4B::ctaNodeText, bodyText, _textLayer->getContentSize(), _usingExternalParams))
+            {
+                _textLayer->addChild(text);
+            }
         }
     }
     
     if(textConfig.HasMember("footerText"))
     {
         const rapidjson::Value& footerText = textConfig["footerText"];
-        addTextWithParams(42, Style::Color_4B::ctaNodeText, footerText);
+        DynamicNodeText* text = DynamicNodeText::create();
+        if(text->initWithParams(94, Style::Color_4B::ctaNodeText, footerText, _textLayer->getContentSize(), _usingExternalParams))
+        {
+            _textLayer->addChild(text);
+        }
+        
     }
 }
 
@@ -529,55 +534,6 @@ void DynamicNodeCreator::addRemoteImageWithParams(const Vec2& size, const Vec2& 
     image->setNormalizedPosition(pos);
     image->setOpacity(opacity);
     _popupImages->addChild(image);
-}
-
-void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, const rapidjson::Value& params)
-{
-    Vec2 pos = getVec2FromJson("position", params)/100.0f;
-    std::string text = getStringFromJson("text", params);
-    
-    if(_usingExternalParams)
-    {
-        text = addExternalParamsToString(text);
-    }
-    
-    const std::string& alignment = getStringFromJson("alignment", params);
-    int newFontSize = getIntFromJson("fontSize", params);
-    if(newFontSize != INT_MAX)
-    {
-        fontSize = newFontSize;
-    }
-    
-    int lineSpacing = getIntFromJson("lineSpacing", params);
-    if(lineSpacing == INT_MAX)
-    {
-        lineSpacing = 20;
-    }
-    
-    fontColour = getColor4BFromJson("colour", params);
-    
-    Label* label = Label::createWithTTF(text, Style::Font::Regular, fontSize);
-    label->setNormalizedPosition(pos);
-    label->setTextColor(fontColour);
-    label->setLineSpacing(lineSpacing);
-    
-    if(alignment == "left")
-    {
-        label->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-        label->setHorizontalAlignment(TextHAlignment::LEFT);
-    }
-    else if(alignment == "right")
-    {
-        label->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-        label->setHorizontalAlignment(TextHAlignment::RIGHT);
-    }
-    else
-    {
-        label->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-        label->setHorizontalAlignment(TextHAlignment::CENTER);
-    }
-    
-    _textLayer->addChild(label);
 }
 
 std::string DynamicNodeCreator::addExternalParamsToString(const std::string& str)
