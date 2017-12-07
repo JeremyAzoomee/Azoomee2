@@ -24,8 +24,15 @@ public:
     //MainHub Area services
     HQContentItemObjectRef getItemDataForSpecificItem(const std::string &category, const std::string &itemid);
     HQContentItemObjectRef getItemDataForSpecificItem(const std::string &itemid);
-    cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber);
+    cocos2d::Vec2 getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
+    
+    std::string getThumbnailUrlForItem(const std::string &category, int rowNumber, int itemNumber) const;
+    std::string getThumbnailUrlForItem(const std::string &itemId) const;
+    std::string getThumbnailUrlForItem(const std::string &category, const std::string &itemiId) const;
+    std::string getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 &shape) const;
+    
     std::string getHumanReadableHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const;
+    std::string convertShapeToThumbnailKey(const cocos2d::Vec2 &shape) const;
     void getDataForHQ(const std::string &category);
     void getDataForGroupHQ(const std::string &uri);
     
@@ -34,10 +41,7 @@ public:
     int getNumberOfElementsForRow(const std::string &category, int index) const;
     std::vector<HQContentItemObjectRef> getElementsForRow(const std::string &category, int index);
     std::string getTitleForRow(const std::string &category, int index) const;
-    std::string getImageUrlForItem(const std::string &itemId, cocos2d::Vec2 shape) const;
     std::string getTypeForSpecificItem(const std::string &category, const std::string &itemId) const;
-    
-    std::string getImageUrlForGroupLogo(const std::string &itemId) const;
     
     std::vector<HQContentItemObjectRef> getAllContentItemsInRow(const std::string &category, int rowNumber);
     

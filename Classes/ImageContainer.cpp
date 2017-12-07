@@ -42,40 +42,59 @@ bool ImageContainer::init()
     return true;
 }
 
-void ImageContainer::createContainer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay, Point position)
+void ImageContainer::setElementProperties(const HQContentItemObjectRef &elementProperties)
+{
+    _elementProperties = elementProperties;
+}
+
+void ImageContainer::setScale(float scale)
+{
+    _scale = scale;
+}
+
+void ImageContainer::setStartDelay(float startDelay)
+{
+    _startDelay = startDelay;
+}
+
+void ImageContainer::setPosition(const cocos2d::Point &position)
+{
+    _position = position;
+}
+
+void ImageContainer::setThumbUrl(const std::string &url)
+{
+    _thumbUrl = url;
+}
+
+void ImageContainer::createContainer()
 {
     if(HQHistoryManager::getInstance()->noHistory())
     {
-        appearPause = 0.1;
-        interTime = 1.0;
-        scaleTime = 0.5;
-    }
-    else
-    {
-        appearPause = 0;
-        interTime = 0;
-        scaleTime = 0;
+        appearPause = 0.1f;
+        interTime = 1.0f;
+        scaleTime = 0.5f;
     }
     
-    const std::string &type = elementProperties->getType();
+    const std::string &type = _elementProperties->getType();
     
     Color4B colour4 = ConfigStorage::getInstance()->getColourForElementType(type);
     Color3B colour3 = Color3B(colour4.r, colour4.g, colour4.b);
     
-    createBgLayer(elementProperties, scale, startDelay, position);
+    createBgLayer(_elementProperties, _scale, _startDelay, _position);
     
-    addImageToLayer(HQDataProvider::getInstance()->getImageUrlForItem(elementProperties->getContentItemId(), Vec2(1,1)), type, startDelay);
-    addGradientToBottom(colour3, startDelay);
-    addIconToImage(elementProperties->getType(), startDelay);
-    addLabelToImage(elementProperties->getTitle(), startDelay);
+    addImageToLayer(_thumbUrl, type, _startDelay);
+    addGradientToBottom(colour3, _startDelay);
+    addIconToImage(_elementProperties->getType(), _startDelay);
+    addLabelToImage(_elementProperties->getTitle(), _startDelay);
     
-    if(!elementProperties->isEntitled())
+    if(!_elementProperties->isEntitled())
     {
-        addLockToImageContainer(elementProperties->getType(), startDelay);
+        addLockToImageContainer(_elementProperties->getType(), _startDelay);
     }
         
-    addReponseLayerToImage(elementProperties, scale);
-    addListenerToContainer(bgLayer, colour4.a, elementProperties, RoutePaymentSingleton::getInstance()->showIAPContent());
+    addReponseLayerToImage(_elementProperties, _scale);
+    addListenerToContainer(bgLayer, colour4.a, _elementProperties, RoutePaymentSingleton::getInstance()->showIAPContent());
 }
 
 //-----------------------------------------------------All methods below are called internally.---------------------------------------------------
@@ -165,17 +184,17 @@ void ImageContainer::addListenerToContainer(cocos2d::Node *addTo, int maxOpacity
                 
                 target->getChildByName("responseLayer")->runAction(Sequence::create(FadeTo::create(0, maxOpacity), DelayTime::create(0.1), FadeTo::create(0, 0), DelayTime::create(0.1), FadeTo::create(0, maxOpacity), FadeTo::create(2, 0), NULL));
                 
-                if(elementProperties->getType() == "GAME")
+                if(elementProperties->getType() == ConfigStorage::kContentTypeGame)
                 {
                     GameDataManager::getInstance()->startProcessingGame(elementProperties);
                 }
-                else if((elementProperties->getType() == "VIDEO")||(elementProperties->getType() == "AUDIO"))
+                else if((elementProperties->getType() == ConfigStorage::kContentTypeVideo)||(elementProperties->getType() == ConfigStorage::kContentTypeAudio))
                 {
                     VideoPlaylistManager::getInstance()->clearPlaylist();
                     auto webViewSelector = WebViewSelector::create();
                     webViewSelector->loadWebView(elementProperties->getUri().c_str(),Orientation::Landscape);
                 }
-                else if((elementProperties->getType() == "GROUP")||(elementProperties->getType() == "AUDIOGROUP"))
+                else if((elementProperties->getType() == ConfigStorage::kContentTypeGroup)||(elementProperties->getType() == ConfigStorage::kContentTypeAudioGroup))
                 {
                     NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
                     navigationLayer->startLoadingGroupHQ(elementProperties->getUri());

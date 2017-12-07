@@ -104,7 +104,7 @@ bool NavigationLayer::init()
 
 void NavigationLayer::startLoadingGroupHQ(std::string uri)
 {
-    HQHistoryManager::getInstance()->addHQToHistoryManager("GROUP HQ");
+    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGroupHQName);
     
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
     this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(6)), 2), DelayTime::create(0.5), NULL));
@@ -151,7 +151,7 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
         this->turnOnMenuItem(target);
     }
     
-    if(HQHistoryManager::getInstance()->getCurrentHQ() != "GROUP HQ")
+    if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kGroupHQName)
     {
         this->turnOnMenuItem(target);
         removeBackButtonFromNavigation();
@@ -159,7 +159,7 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
         Scene *runningScene = Director::getInstance()->getRunningScene();
         Node *baseLayer = runningScene->getChildByName("baseLayer");
         Node *contentLayer = baseLayer->getChildByName("contentLayer");
-        HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("GROUP HQ");
+        HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(ConfigStorage::kGroupHQName);
         
         hqLayer->removeAllChildren();
         showPreviewLoginSignupButtonsAfterDelay(0);
@@ -201,12 +201,12 @@ void NavigationLayer::onEnter()
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 void NavigationLayer::loadArtsAppHQ()
 {
-    HQHistoryManager::getInstance()->addHQToHistoryManager("ARTS APP");
+    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kArtAppHQName);
     
     Scene *runningScene = Director::getInstance()->getRunningScene();
     Node *baseLayer = runningScene->getChildByName("baseLayer");
     Node *contentLayer = baseLayer->getChildByName("contentLayer");
-    HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("ARTS APP");
+    HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(ConfigStorage::kArtAppHQName);
     
     hqLayer->startBuildingScrollViewBasedOnName();
 }

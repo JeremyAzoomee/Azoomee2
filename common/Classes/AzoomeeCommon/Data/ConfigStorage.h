@@ -27,6 +27,19 @@ public:
         GROUP_HQ
     };
     
+    static const char* const kGameHQName;
+    static const char* const kVideoHQName;
+    static const char* const kAudioHQName;
+    static const char* const kGroupHQName;
+    static const char* const kHomeHQName;
+    static const char* const kArtAppHQName;
+    
+    static const char* const kContentTypeVideo;
+    static const char* const kContentTypeAudio;
+    static const char* const kContentTypeGame;
+    static const char* const kContentTypeGroup;
+    static const char* const kContentTypeAudioGroup;
+    
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
     virtual ~ConfigStorage();
@@ -38,7 +51,6 @@ public:
     std::string getServerHost();
     std::string getServerUrlPrefix();
     std::string getServerUrl();
-    std::string getImagesUrl();
     std::string getCTAPackageJsonURL();
     std::string getMediaPrefixForXwalkCookies();
     std::string getPathForTag(std::string httpRequestTag);

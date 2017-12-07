@@ -26,10 +26,16 @@ void HQCarouselObject::addContentItemHighlight(const cocos2d::Vec2 &contentItemH
     _contentItemHighlights.push_back(contentItemHighlight);
 }
 
+void HQCarouselObject::setIcon(const std::string &icon)
+{
+    _icon = icon;
+}
+
 void HQCarouselObject::removeAllItemsFromCarousel()
 {
     _contentItems.clear();
     _contentItemHighlights.clear();
+    _icon = "";
 }
 
 std::string HQCarouselObject::getTitle() const
@@ -45,6 +51,11 @@ std::vector<HQContentItemObjectRef> HQCarouselObject::getContentItems()
 std::vector<cocos2d::Vec2> HQCarouselObject::getContentItemHighlights()
 {
     return _contentItemHighlights;
+}
+
+std::string HQCarouselObject::getIcon() const
+{
+    return _icon;
 }
 
 NS_AZOOMEE_END

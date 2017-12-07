@@ -80,7 +80,16 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
             contentObject->setType(getStringFromJson("type", itemData));
             contentObject->setUri(getStringFromJson("uri", itemData));
             contentObject->setEntitled(getBoolFromJson("entitled", itemData));
-            contentObject->setNewFlag(getBoolFromJson("newFlag", itemData));
+            
+            if(itemData.HasMember("tags"))
+            {
+                contentObject->setTags(getStringArrayFromJson(itemData["tags"]));
+            }
+            
+            if(itemData.HasMember("images"))
+            {
+                contentObject->setImages(getStringMapFromJson(itemData["images"]));
+            }
             
             HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addContentItemToRawStorage(key, contentObject);
         }
@@ -96,20 +105,25 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
     
     if (contentData.HasParseError()) return false; //JSON HAS ERRORS IN IT
     
-    for (int i = 0; i < contentData["rows"].Size(); i++)
+    for (int rowNumber = 0; rowNumber < contentData["rows"].Size(); rowNumber++)
     {
         HQCarouselObjectRef carouselObject = HQCarouselObject::create();
         
-        carouselObject->setTitle(getStringFromJson("title", contentData["rows"][i]));
+        carouselObject->setTitle(getStringFromJson("title", contentData["rows"][rowNumber]));
         
-        if(contentData["rows"][i]["contentIds"].Size() != 0)
+        if(contentData["rows"][rowNumber].HasMember("images"))
         {
-            for(int j = 0; j < contentData["rows"][i]["contentIds"].Size(); j++)
+            carouselObject->setIcon(getStringFromJson("icon", contentData["rows"][rowNumber]["images"])); //parsing carousel main icon if present
+        }
+        
+        if(contentData["rows"][rowNumber]["contentIds"].Size() != 0)
+        {
+            for(int elementIndex = 0; elementIndex < contentData["rows"][rowNumber]["contentIds"].Size(); elementIndex++)
             {
-                const std::string &contentId = contentData["rows"][i]["contentIds"][j].GetString();
+                const std::string &contentId = contentData["rows"][rowNumber]["contentIds"][elementIndex].GetString();
                 
                 const HQContentItemObjectRef &pointerToContentItem = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(contentId);
-                Vec2 contentItemHighlight = Vec2(contentData["rows"][i]["shapes"][j][0].GetInt(), contentData["rows"][i]["shapes"][j][1].GetInt());
+                Vec2 contentItemHighlight = Vec2(contentData["rows"][rowNumber]["shapes"][elementIndex][0].GetInt(), contentData["rows"][rowNumber]["shapes"][elementIndex][1].GetInt());
                 
                 carouselObject->addContentItemToCarousel(pointerToContentItem);
                 carouselObject->addContentItemHighlight(contentItemHighlight);
@@ -118,6 +132,11 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
         
         HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addCarusoelToHq(carouselObject);
         HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setHqType(category);
+    }
+    
+    if(contentData.HasMember("images"))
+    {
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setImages(getStringMapFromJson(contentData["images"]));
     }
     
     return true;

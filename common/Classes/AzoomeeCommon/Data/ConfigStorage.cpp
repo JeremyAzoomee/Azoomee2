@@ -16,6 +16,19 @@ using namespace cocos2d;
 namespace Azoomee
 {
 static ConfigStorage *_sharedConfigStorage = NULL;
+    
+    const char* const ConfigStorage::kGameHQName = "GAME HQ";
+    const char* const ConfigStorage::kVideoHQName = "VIDEO HQ";
+    const char* const ConfigStorage::kAudioHQName = "AUDIO HQ";
+    const char* const ConfigStorage::kGroupHQName = "GROUP HQ";
+    const char* const ConfigStorage::kHomeHQName = "HOME";
+    const char* const ConfigStorage::kArtAppHQName = "ARTS APP";
+    
+    const char* const ConfigStorage::kContentTypeVideo = "VIDEO";
+    const char* const ConfigStorage::kContentTypeAudio = "AUDIO";
+    const char* const ConfigStorage::kContentTypeGame = "GAME";
+    const char* const ConfigStorage::kContentTypeGroup = "GROUP";
+    const char* const ConfigStorage::kContentTypeAudioGroup = "AUDIOGROUP";
 
 ConfigStorage* ConfigStorage::getInstance()
 {
@@ -61,11 +74,11 @@ bool ConfigStorage::init(void)
         API::TagResetReportedChat
     };
     requestTagsRequireImmediateSending = {
-        "GROUP HQ",
-        "VIDEO HQ",
-        "AUDIO HQ",
-        "GAME HQ",
-        "HOME",
+        kGroupHQName,
+        kVideoHQName,
+        kAudioHQName,
+        kGameHQName,
+        kHomeHQName,
         API::TagLogin,
         API::TagChildLogin,
         API::TagParentPin,
@@ -128,14 +141,6 @@ std::string ConfigStorage::getServerUrlPrefix()
 std::string ConfigStorage::getServerUrl()
 {
     return getServerUrlPrefix() + getServerHost();
-}
-
-std::string ConfigStorage::getImagesUrl()
-{
-#ifdef USINGCI
-    return "https://media.azoomee.ninja/static/images";
-#endif
-    return "https://media.azoomee.com/static/images";
 }
     
 std::string ConfigStorage::getCTAPackageJsonURL()
@@ -394,7 +399,7 @@ std::string ConfigStorage::getIconNameForCategory(std::string category)
 
 std::string ConfigStorage::getGradientImageForCategory(std::string category)
 {
-    if(category == "VIDEO HQ" || category == "GROUP HQ" )
+    if(category == kVideoHQName || category == kGroupHQName )
         return "res/hqscene/gradient_overlay.png";
     else
         return "res/hqscene/gradient_overlay_large.png";

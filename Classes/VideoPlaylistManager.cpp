@@ -54,7 +54,7 @@ std::string VideoPlaylistManager::getPlaylist()
             {
                 std::map<std::string, std::string> elementToBeAdded;
                 elementToBeAdded["uri"] = item->getUri();
-                elementToBeAdded["image"] = HQDataProvider::getInstance()->getImageUrlForItem(item->getContentItemId(), Vec2(1,1));
+                elementToBeAdded["image"] = HQDataProvider::getInstance()->getThumbnailUrlForItem(item->getContentItemId());
                 elementToBeAdded["title"] = item->getTitle();
                 
                 playlistElements.push_back(elementToBeAdded);

@@ -446,7 +446,7 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
             {
                 std::string fileurl = getStringFromJson("file", imageList[i]);
                 fileurl = addExternalParamsToString(fileurl); // file url will be the id of the HQ item object
-                fileurl = HQDataProvider::getInstance()->getImageUrlForItem(fileurl, Vec2(1,1)); //get actual url of image from HQDataProvider
+                fileurl = HQDataProvider::getInstance()->getThumbnailUrlForItem(fileurl);
                 addRemoteImageWithParams(size, pos, opacity, fileurl);
             }
         }

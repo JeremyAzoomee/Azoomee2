@@ -73,11 +73,11 @@ void BaseScene::startBuildingHQs()
     Layer *contentLayer = createContentLayer();
     
     addMainHubScene(contentLayer);
-    createHQScene2("VIDEO HQ", contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
-    createHQScene2("GAME HQ", contentLayer);             //Probably worth moving these to configStorage?
-    createHQScene2("AUDIO HQ", contentLayer);
-    createHQScene("ARTS APP", contentLayer);
-    createHQScene("GROUP HQ", contentLayer);
+    createHQScene2(ConfigStorage::kVideoHQName, contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
+    createHQScene2(ConfigStorage::kGameHQName, contentLayer);             //Probably worth moving these to configStorage?
+    createHQScene2(ConfigStorage::kAudioHQName, contentLayer);
+    createHQScene(ConfigStorage::kArtAppHQName, contentLayer);
+    createHQScene(ConfigStorage::kGroupHQName, contentLayer);
     
     addNavigationLayer();  //The navigation layer is being added to "this", because that won't move with the menu.
 }
@@ -85,7 +85,7 @@ void BaseScene::startBuildingHQs()
 void BaseScene::addMainHubScene(Node* toBeAddedTo)
 {
     auto sMainHubScene = MainHubScene::create();
-    sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions("HOME"));
+    sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(ConfigStorage::kHomeHQName));
     sMainHubScene->setTag(0);
     toBeAddedTo->addChild(sMainHubScene);
 }

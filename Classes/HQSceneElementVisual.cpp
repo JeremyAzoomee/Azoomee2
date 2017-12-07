@@ -69,14 +69,17 @@ void HQSceneElementVisual::setMargin(float margin)
     _margin = margin;
 }
 
+void HQSceneElementVisual::setThumbUrl(const std::string &url)
+{
+    _elementUrl = url;
+}
+
 cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
 {
     resizeSceneElement();
     createBaseLayer();
     setShouldDisplayVisualElementsOverImage();
     createCallbackFunction(_elementDelay);
-    
-    _elementUrl = HQDataProvider::getInstance()->getImageUrlForItem(_elementItemData->getContentItemId(), _elementShape);
     
     return this;
 }
@@ -97,15 +100,15 @@ void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
     // OR
     // if size is 1x2 or 2x2 AND element is Video or Video Group
     
-    if(_elementItemData->getType() =="GAME")
+    if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
     {
         _shouldDisplayVisualElementsOverImage = false;
     }
-    else if(_elementShape.x == 1 && _elementShape.y == 1 && _elementCategory != "GROUP HQ")
+    else if(_elementShape.x == 1 && _elementShape.y == 1 && _elementCategory != ConfigStorage::kGroupHQName)
     {
         _shouldDisplayVisualElementsOverImage = true;
     }
-    else if(_elementItemData->getType() == "VIDEO" || _elementItemData->getType() =="GROUP")
+    else if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeGroup)
     {
         _shouldDisplayVisualElementsOverImage = false;
     }
@@ -140,7 +143,7 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
                 addLockToElement();
             }
         
-           if(_elementItemData->getType() == "VIDEO" && _elementCategory == "GROUP HQ")
+            if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo && _elementCategory == ConfigStorage::kGroupHQName)
            {
                addGroupLabelsToImage();
            }
@@ -203,7 +206,7 @@ Sprite* HQSceneElementVisual::addIconToImage()
     
     float audioHeightOffset = 15;
     
-    if(_elementCategory == "VIDEO HQ" || _elementCategory == "GROUP HQ")
+    if(_elementCategory == ConfigStorage::kVideoHQName || _elementCategory == ConfigStorage::kGroupHQName)
         audioHeightOffset = 0;
     
     auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(_elementCategory));

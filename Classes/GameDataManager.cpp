@@ -509,7 +509,7 @@ void GameDataManager::getContentItemImageForOfflineUsage(const std::string &game
     }
     
     imageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-    imageDownloader->downloadImage(nullptr, HQDataProvider::getInstance()->getImageUrlForItem(gameId, Vec2(1,1)));
+    imageDownloader->downloadImage(nullptr, HQDataProvider::getInstance()->getThumbnailUrlForItem(gameId));
 }
 
 void GameDataManager::performGameCleanup()
