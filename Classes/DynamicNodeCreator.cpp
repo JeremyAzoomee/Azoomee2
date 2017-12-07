@@ -16,6 +16,7 @@
 #include "DynamicNodeTextInput.h"
 #include "DynamicNodeButton.h"
 #include "DynamicNodeText.h"
+#include "DynamicNodeImage.h"
 
 using namespace cocos2d;
 
@@ -362,67 +363,10 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
     {
         for (int i = 0; i < imageList.Size(); i++)
         {
-            Vec2 pos;
-            Vec2 size;
-            int opacity;
-            bool usingRemoteImage;
-            
-            pos = getVec2FromJson("position",imageList[i]);
-            
-            if(pos.x != 0 && pos.y != 0)
+            DynamicNodeImage* image = DynamicNodeImage::create();
+            if(image->initWithParams(imageList[i], _popupImages->getContentSize(), _usingExternalParams))
             {
-                pos = pos/100.0f;
-            }
-            else
-            {
-                continue;
-            }
-            
-            size = getVec2FromJson("size",imageList[i]);
-            
-            if(size.x != 0 && size.y != 0)
-            {
-                size = size/100.0f;
-            }
-            else
-            {
-                continue;
-            }
-            
-            opacity = getIntFromJson("opacity", imageList[i]);
-            
-            if(opacity == INT_MAX)
-            {
-                opacity = 255;
-            }
-            
-            usingRemoteImage = getBoolFromJson("usingRemoteImage", imageList[i]);
-            
-            if(!usingRemoteImage)
-            {
-                const std::string& filename = getStringFromJson("file", imageList[i]);
-            
-                if(filename != "")
-                {
-                    if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + kCTADeviceImageCacheLoc + filename))
-                    {
-                        addImageWithParams(size, pos, opacity, FileUtils::getInstance()->getWritablePath() + kCTADeviceImageCacheLoc + filename);
-                    }
-                    else
-                    {
-                        if(FileUtils::getInstance()->isFileExist(kCTAAssetLoc + kCTABundleImageLoc + filename))
-                        {
-                            addImageWithParams(size, pos, opacity,kCTAAssetLoc +  kCTABundleImageLoc + filename);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                std::string fileurl = getStringFromJson("file", imageList[i]);
-                fileurl = addExternalParamsToString(fileurl); // file url will be the id of the HQ item object
-                fileurl = HQDataProvider::getInstance()->getImageUrlForItem(fileurl, Vec2(1,1)); //get actual url of image from HQDataProvider
-                addRemoteImageWithParams(size, pos, opacity, fileurl);
+                _popupImages->addChild(image);
             }
         }
     }
