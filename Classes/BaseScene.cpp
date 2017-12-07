@@ -18,6 +18,8 @@
 #include "HQHistoryManager.h"
 #include "BackEndCaller.h"
 
+#include "IAPProductDataHandler.h"
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -45,6 +47,8 @@ bool BaseScene::init()
 void BaseScene::onEnterTransitionDidFinish()
 {
     this->setName("baseLayer");
+    
+    IAPProductDataHandler::getInstance()->fetchProductData();
     
     Director::getInstance()->purgeCachedData();
     

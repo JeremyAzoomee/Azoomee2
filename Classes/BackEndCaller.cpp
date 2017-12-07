@@ -27,6 +27,7 @@
 #include "OfflineHubScene.h"
 #include "OfflineChecker.h"
 #include "ForceUpdateSingleton.h"
+#include "IAPProductDataHandler.h"
 
 #include "DynamicNodeHandler.h"
 
@@ -111,6 +112,8 @@ void BackEndCaller::login(const std::string& username, const std::string& passwo
 
 void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, const std::string& headerString)
 {
+    IAPProductDataHandler::getInstance()->fetchProductData();
+    
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
@@ -145,6 +148,8 @@ void BackEndCaller::anonymousDeviceLogin()
 
 void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &responseString, const std::string& headerString)
 {
+    IAPProductDataHandler::getInstance()->fetchProductData();
+    
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
     {
@@ -321,6 +326,7 @@ void BackEndCaller::registerParent(const std::string& emailAddress, const std::s
 
 void BackEndCaller::onRegisterParentAnswerReceived()
 {
+    IAPProductDataHandler::getInstance()->fetchProductData();
     ConfigStorage::getInstance()->setFirstSlideShowSeen();
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
     login(FlowDataSingleton::getInstance()->getUserName(), FlowDataSingleton::getInstance()->getPassword());

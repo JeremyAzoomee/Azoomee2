@@ -48,8 +48,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -97,8 +99,6 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         {
             return;
         }
-
-        setupIAPOnCreate();
 
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "BzPYMg8dkYsCuDn8XBUN94");
         mixpanel = MixpanelAPI.getInstance(this, "7e94d58938714fa180917f0f3c7de4c9");
@@ -287,6 +287,25 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             AppsFlyerLib.getInstance().trackEvent(mContext, eventID, null);
     }
 
+
+    //------IN-APP-PURCHASES COMMON-------------------------------
+    public static void setupInAppPurchase()
+    {
+        if (android.os.Build.MANUFACTURER.equals("Amazon"))
+        {
+            mAppActivity.setupIAPOnCreate();
+        }
+        else
+        {
+            mAppActivity.setupGoogleIAB();
+        }
+    }
+
+    public static native void setHumanReadablePrice(String price);
+    public static native void priceFetchFailed();
+
+
+
     //----- AMAZON IAP -------------------------------------------
 
     private void setupIAPOnCreate() {
@@ -365,7 +384,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static void startGooglePurchase() {
         AppActivity currentActivity = mAppActivity;
-        currentActivity.setupGoogleIAB();
+        currentActivity.startGoogleSubscriptionProcess();
     }
 
     public void setupGoogleIAB() {
@@ -386,7 +405,9 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
                 Log.d("GOOGLEPAY", "Setup successful. Querying inventory.");
                 try {
-                    mHelper.queryInventoryAsync(mGotInventoryListener);
+                    String[] moreSkus = {getGoogleSku(), "SKU_ITEMONE"}; //fake skus required by queryInventoryAsync...
+                    String[] moreSubSkus = {getGoogleSku(), "SUB_ITEMONE", "SUB_ITEMTWO"}; //fake skus required by queryInventoryAsync...
+                    mHelper.queryInventoryAsync(true, Arrays.asList(moreSkus), Arrays.asList(moreSubSkus), mGotInventoryListener);
                 } catch (IabHelper.IabAsyncInProgressException e) {
                     Log.d("GOOGLEPAY", "Error querying inventory. Another async operation in progress.");
                 }
@@ -422,32 +443,40 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             // Is it a failure?
             if (result.isFailure()) {
                 Log.d("GOOGLEPLAY", "Failed to query inventory: " + result);
-                googlePurchaseFailed();
+                priceFetchFailed();
                 return;
             }
 
             Log.d("GOOGLEPLAY", "Query inventory was successful.");
+            Log.d("GOOGLEPLAY", "Google SKU: " + getGoogleSku());
+
+            if(inventory.hasDetails(getGoogleSku()))
+            {
+                setHumanReadablePrice(inventory.getSkuDetails(getGoogleSku()).getPrice());
+            }
 
             // Do we have the premium upgrade?
             Purchase premiumPurchase = inventory.getPurchase(getGoogleSku());
             mIsPremium = (premiumPurchase != null);
             Log.d("GOOGLEPLAY", "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
-
-            if(mIsPremium)
-            {
-                googlePurchaseFailedAlreadyPurchased();
-                return;
-            }
-
-            try {
-                mHelper.launchSubscriptionPurchaseFlow(mActivity, getGoogleSku(), 10001,
-                        mPurchaseFinishedListener, getLoggedInParentUserId());
-            } catch (IabHelper.IabAsyncInProgressException e) {
-                Log.d("GOOGLEPAY", "Error launching purchase flow. Another async operation in progress.");
-                googlePurchaseFailed();
-            }
         }
     };
+
+    public void startGoogleSubscriptionProcess() {
+        if(mIsPremium)
+        {
+            googlePurchaseFailedAlreadyPurchased();
+            return;
+        }
+
+        try {
+            mHelper.launchSubscriptionPurchaseFlow(mActivity, getGoogleSku(), 10001,
+                    mPurchaseFinishedListener, getLoggedInParentUserId());
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            Log.d("GOOGLEPAY", "Error launching purchase flow. Another async operation in progress.");
+            googlePurchaseFailed();
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -1,12 +1,14 @@
 package com.amazon.iap;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import android.util.Log;
 
 import com.amazon.device.iap.PurchasingListener;
 import com.amazon.device.iap.PurchasingService;
+import com.amazon.device.iap.model.Product;
 import com.amazon.device.iap.model.ProductDataResponse;
 import com.amazon.device.iap.model.PurchaseResponse;
 import com.amazon.device.iap.model.PurchaseUpdatesResponse;
@@ -66,15 +68,25 @@ public class PurchasingListenerClass implements PurchasingListener {
             Log.d("IAPAPIListener", "onProductDataResponse: successful.  The item data map in this response includes the valid SKUs");
             final Set<String> unavailableSkus = response.getUnavailableSkus();
             Log.d("IAPAPI", "onProductDataResponse: " + unavailableSkus.size() + " unavailable skus");
-            iapManager.enablePurchaseForSkus(response.getProductData());
+
+            final Map<String, Product> products = response.getProductData();
+            Product product = products.get(appActivity.getAmazonSku());
+            String price = product.getPrice();
+            appActivity.setHumanReadablePrice(price);
+
+            iapManager.enablePurchaseForSkus(products);
             iapManager.disablePurchaseForSkus(response.getUnavailableSkus());
             iapManager.refreshMagazineSubsAvailability();
+
+
 
             break;
         case FAILED:
         case NOT_SUPPORTED:
             Log.d("IAPAPIListener", "onProductDataResponse: failed, should retry request");
             iapManager.disableAllPurchases();
+
+            appActivity.priceFetchFailed();
             break;
         }
     }
