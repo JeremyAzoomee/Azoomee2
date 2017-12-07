@@ -162,7 +162,14 @@ using namespace Azoomee;
     if(RoutePaymentSingleton::getInstance()->pressedRestorePurchaseButton)
         RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"DidFailWithError: %@",error.localizedDescription] UTF8String]);
     else
-        LoginLogicHandler::getInstance()->doLoginLogic();
+        if(!_noPurchaseAfterQuery)
+        {
+            LoginLogicHandler::getInstance()->doLoginLogic();
+        }
+        else
+        {
+            _noPurchaseAfterQuery = false;
+        }
 }
 
 -(void)requestDidFinish:(SKRequest *)request
