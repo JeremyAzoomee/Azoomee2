@@ -71,7 +71,8 @@ bool ConfigStorage::init(void)
         API::TagGetPendingFriendRequests,
         API::TagFriendRequest,
         API::TagFriendRequestReaction,
-        API::TagResetReportedChat
+        API::TagResetReportedChat,
+        API::TagCookieRefresh
     };
     requestTagsRequireImmediateSending = {
         kGroupHQName,
@@ -172,6 +173,7 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     if(httpRequestTag == API::TagVerifyGooglePayment) return StringUtils::format("/api/billing/google/user/%s/receipt", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagUpdateBillingData) return StringUtils::format("/api/billing/user/%s/billingStatus", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
     if(httpRequestTag == API::TagGetPendingFriendRequests) return StringUtils::format("/api/user/adult/%s/invite/code/received", ParentDataProvider::getInstance()->getLoggedInParentId().c_str());
+    if(httpRequestTag == API::TagCookieRefresh) return "/api/cookie/refresh/adult";
     
     return "";
 }

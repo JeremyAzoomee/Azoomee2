@@ -37,6 +37,7 @@ const char* const API::TagPusherAuth = "pusher.auth";
 const char* const API::TagReportChat = "chat.report";
 const char* const API::TagResetReportedChat = "chat.resetReported";
 const char* const API::TagGetForceUpdateInformation = "forceUpdate";
+const char* const API::TagCookieRefresh = "cookieRefresh";
 
 #pragma mark - API Methods
 
@@ -135,6 +136,14 @@ HttpRequestCreator* API::GetGordenRequest(const std::string& userId,
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->urlParameters = StringUtils::format("userid=%s&sessionid=%s", userId.c_str(), sessionId.c_str());
     request->requestTag = TagGetGorden;
+    request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::RefreshParentCookiesRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagCookieRefresh;
     request->encrypted = true;
     return request;
 }
