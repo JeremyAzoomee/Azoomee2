@@ -166,7 +166,7 @@ public:
     void chatResetReportedEvent();
     
     //---------------CTA EVENTS----------------------------------
-    void ctaButtonPressed(const std::string &buttonId);
+    void ctaButtonPressed(const std::string &buttonId, const std::string &title = "");
     void ctaWindowAppeared(const std::string &groupId, const std::string &nodeId);
 };
   

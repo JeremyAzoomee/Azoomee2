@@ -728,13 +728,13 @@ void AnalyticsSingleton::deepLinkingContentEvent()
     }
 
 //-------------------------------------CTA ACTIONS-----------------------------
-void AnalyticsSingleton::ctaButtonPressed(const std::string &buttonId)
-{
-    const std::map<std::string, std::string> &mixPanelProperties = {{ "buttonId", buttonId }, { "groupId", ctaWindowGroupId }, {"nodeId", ctaWindowNodeId}};
     
-    mixPanelSendEventWithStoredProperties("ctaButtonPressed", mixPanelProperties);
+void AnalyticsSingleton::ctaButtonPressed(const std::string &buttonId, const std::string &title)
+{
+    const std::map<std::string, std::string> &mixPanelProperties = {{ "buttonId", buttonId }, { "groupId", ctaWindowGroupId }, {"nodeId", ctaWindowNodeId}, {"recommendedTitle",title}};
+    mixPanelSendEventWithStoredProperties("ctaContentButtonPressed", mixPanelProperties);
 }
-
+    
 void AnalyticsSingleton::ctaWindowAppeared(const std::string &groupId, const std::string &nodeId)
 {
     ctaWindowNodeId = nodeId;
