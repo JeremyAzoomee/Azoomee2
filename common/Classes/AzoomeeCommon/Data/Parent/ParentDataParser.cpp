@@ -200,6 +200,29 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
     parentData->isBillingDataAvailable = true;
 }
 
+    void ParentDataParser::parseParentSessionData(const std::string &responseData)
+{
+    rapidjson::Document sessionData;
+    sessionData.Parse(responseData.c_str());
+    if(sessionData.HasParseError())
+    {
+        return;
+    }
+    
+    const std::string& sessionId = getStringFromJson("sessionId", sessionData);
+    if(sessionId == "")
+    {
+        return;
+    }
+    
+    ParentDataStorage* parentData = ParentDataStorage::getInstance();
+    parentData->loggedInParentCdnSessionId = sessionId;
+    
+    UserDefault* def = UserDefault::getInstance();
+    def->setStringForKey("loggedInParentCdnSessionId", parentData->loggedInParentCdnSessionId);
+    
+}
+    
 void ParentDataParser::logoutChild()
 {
     ChildDataStorage::getInstance()->childLoggedIn = false;
@@ -308,4 +331,6 @@ void ParentDataParser::setLoggedInParentCountryCode(const std::string &countryCo
     ParentDataStorage::getInstance()->loggedInParentCountryCode = countryCode;
     UserDefault::getInstance()->setStringForKey("loggedInParentCountryCode", countryCode);
 }
+    
+
 }

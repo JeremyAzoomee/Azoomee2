@@ -445,6 +445,7 @@ void ChildSelectorScene::onHttpRequestSuccess(const std::string& requestTag, con
 {
     if(requestTag == API::TagCookieRefresh)
     {
+        ParentDataParser::getInstance()->parseParentSessionData(body);
         getParentCookiesRequest();
         return;
     }
