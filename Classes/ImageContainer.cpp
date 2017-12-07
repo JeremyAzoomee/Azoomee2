@@ -22,6 +22,8 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const cocos2d::Size _baseContentSize = cocos2d::Size(445, 339);
+
 
 Scene* ImageContainer::createScene()
 {
@@ -57,11 +59,6 @@ void ImageContainer::setStartDelay(float startDelay)
     _startDelay = startDelay;
 }
 
-void ImageContainer::setPosition(const cocos2d::Point &position)
-{
-    _position = position;
-}
-
 void ImageContainer::setThumbUrl(const std::string &url)
 {
     _thumbUrl = url;
@@ -81,7 +78,7 @@ void ImageContainer::createContainer()
     Color4B colour4 = ConfigStorage::getInstance()->getColourForElementType(type);
     Color3B colour3 = Color3B(colour4.r, colour4.g, colour4.b);
     
-    createBgLayer(_elementProperties, _scale, _startDelay, _position);
+    createBgLayer(_elementProperties, _scale, _startDelay);
     
     addImageToLayer(_thumbUrl, type, _startDelay);
     addGradientToBottom(colour3, _startDelay);
@@ -99,17 +96,16 @@ void ImageContainer::createContainer()
 
 //-----------------------------------------------------All methods below are called internally.---------------------------------------------------
 
-void ImageContainer::createBgLayer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay, Point position)
+void ImageContainer::createBgLayer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay)
 {
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    Size baseContentSize = Size(445, 339);
-    Size containerSize = baseContentSize * scale;
+    Size containerSize = _baseContentSize * scale;
     
     Color4B colour = ConfigStorage::getInstance()->getColourForElementType(elementProperties->getType());
     
     bgLayer = LayerColor::create(colour, containerSize.width + 20, containerSize.height + 20);
     bgLayer->setAnchorPoint(Vec2(0.5, 0.5));
-    bgLayer->setPosition(origin.x+position.x-bgLayer->getContentSize().width/2*bgLayer->getScale(),origin.y+position.y-bgLayer->getContentSize().height/2*bgLayer->getScale());
+    bgLayer->setPosition(0,0);
     bgLayer->setScale(0.1);
     bgLayer->setOpacity(0);
     this->addChild(bgLayer);
@@ -134,8 +130,7 @@ void ImageContainer::startAudio(std::string audioName)
 
 void ImageContainer::addReponseLayerToImage(const HQContentItemObjectRef &elementProperties, float scale)
 {
-    Size baseContentSize = Size(445, 339);
-    Size containerSize = baseContentSize * scale;
+    Size containerSize = _baseContentSize * scale;
     
     Color4B colour = ConfigStorage::getInstance()->getColourForElementType(elementProperties->getType());
     

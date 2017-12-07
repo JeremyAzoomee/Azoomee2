@@ -147,10 +147,6 @@ Sprite* MainHubScene::createCirclesForBackground(int circleNumber)
 
 void MainHubScene::addImageContainers()
 {
-    auto imageIcon = ImageContainer::create();
-    imageIcon->setPosition(visibleSize / 2);
-    this->addChild(imageIcon);
-    
     for(int elementRowNumber = 0; elementRowNumber < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); elementRowNumber++)
     {
         const std::vector<HQContentItemObjectRef> &elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), elementRowNumber);
@@ -171,15 +167,16 @@ void MainHubScene::addImageContainers()
             Point elementPosition = ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(elementIndex);
             
             //Calculate offset for the Y position to help fill screen on 4/3 ratio.
-            float yOffset= visibleSize.height/10;
+            float yOffset= visibleSize.height / 10 * (elementIndex + 1);
             
-            if(elementPosition.y < 0)
-                yOffset = -yOffset;
+            if(elementPosition.y < Director::getInstance()->getWinSize().height / 2.5)
+            {
+                yOffset *= -1;
+            }
             
-            if(elementIndex == 1)
-                yOffset = yOffset*2;
+            elementPosition.y += yOffset;
             
-            elementPosition.y = elementPosition.y + yOffset;
+            auto imageIcon = ImageContainer::create();
             
             imageIcon->setElementProperties(elementsForHub.at(elementIndex));
             imageIcon->setScale(1.2 - (elementIndex * 0.3));
@@ -188,6 +185,8 @@ void MainHubScene::addImageContainers()
             imageIcon->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(this->getName(), elementRowNumber, elementIndex));
             
             imageIcon->createContainer();
+            
+            this->addChild(imageIcon);
         }
     }
     
