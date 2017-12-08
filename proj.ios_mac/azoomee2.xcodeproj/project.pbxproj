@@ -1143,8 +1143,8 @@
 		A1817B481DDCB74900C2D13C /* MainHubScene */ = {
 			isa = PBXGroup;
 			children = (
-				A198621B1DD3836D0090F053 /* MainHubScene.cpp */,
 				A198621C1DD3836D0090F053 /* MainHubScene.h */,
+				A198621B1DD3836D0090F053 /* MainHubScene.cpp */,
 				A1E5FCF91DDDCCBA0098DD29 /* ImageContainer.cpp */,
 				A1E5FCFA1DDDCCBA0098DD29 /* ImageContainer.h */,
 				A11E738C1DDF00F100166ECA /* OomeeLayer.cpp */,

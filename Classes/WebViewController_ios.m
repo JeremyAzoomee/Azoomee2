@@ -91,6 +91,7 @@ using namespace Azoomee;
     [webview scrollView].bounces = NO;
     [webview setDelegate:self];
     [webview loadRequest:nsrequest];
+    [webview setBackgroundColor:[UIColor blackColor]];
     [self.view addSubview:webview];
 }
 

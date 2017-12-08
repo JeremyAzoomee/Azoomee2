@@ -17,7 +17,6 @@ public:
     void setElementProperties(const HQContentItemObjectRef &elementProperties);
     void setScale(float scale);
     void setStartDelay(float startDelay);
-    void setPosition(const cocos2d::Point &position);
     void setThumbUrl(const std::string &url);
     
     void createContainer();
@@ -26,14 +25,13 @@ private:
     HQContentItemObjectRef _elementProperties;
     float _scale = 0;
     float _startDelay = 0;
-    cocos2d::Point _position;
     std::string _thumbUrl = "";
     
     
     void addListenerToContainer(cocos2d::Node *addTo, int maxOpacity, const HQContentItemObjectRef &elementProperties, bool IAPEnabled);
     
     cocos2d::LayerColor *bgLayer;
-    void createBgLayer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay, cocos2d::Point position);
+    void createBgLayer(const HQContentItemObjectRef &elementProperties, float scale, float startDelay);
     
     void addImageToLayer(std::string url,std::string type, float startDelay);
     void addGradientToBottom(cocos2d::Color3B colour, float startDelay);
