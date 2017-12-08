@@ -16,7 +16,8 @@ Layer* SettingsKidsLayer::createWithHeight(float setLayerHeight)
 {
     auto layer = SettingsKidsLayer::create();
     layer->layerHeight = setLayerHeight;
-    layer->setContentSize(Size(Director::getInstance()->getVisibleSize().width,Director::getInstance()->getVisibleSize().height));
+    layer->setContentSize(Size(layer->_visibleSize.width, layer->_visibleSize.height));
+    layer->setPosition(layer->_origin.x, 0);
     layer->addTabsCoverLayer();
     layer->addScrollView();
     
@@ -28,6 +29,15 @@ bool SettingsKidsLayer::init()
     if ( !Layer::init() )
     {
         return false;
+    }
+    
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    _origin = Director::getInstance()->getVisibleOrigin();
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _visibleSize.width -= 200;
+        _origin.x += 100;
     }
     
     return true;

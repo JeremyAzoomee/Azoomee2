@@ -37,12 +37,12 @@ void KidsLayer::addFrame()
     Rect capInsents = Rect(50, 50, 100, 1);
     
     ui::Scale9Sprite* childFrame = ui::Scale9Sprite::create("res/settings/childFrame.png", spriteRect, capInsents);
-    childFrame->setContentSize(Size(800,1200));
+    childFrame->setContentSize(Size(800,1000));
     childFrame->setAnchorPoint(Vec2(0,0));
     
     this->setContentSize(childFrame->getContentSize());
     
-    childFrame->setPosition(Vec2(0, 0));
+    childFrame->setPosition(Vec2(0, 50));
     
     this->addChild(childFrame);
 }
@@ -51,7 +51,7 @@ void KidsLayer::addChildName()
 {
     Label* childNameLabel = createLabelChildNameSettings(ParentDataProvider::getInstance()->getProfileNameForAnAvailableChildren(childNumber));
     reduceLabelTextToFitWidth(childNameLabel,this->getContentSize().width*.95);
-    childNameLabel->setPosition(this->getContentSize().width/2,this->getContentSize().height-childNameLabel->getContentSize().height*1.7);
+    childNameLabel->setPosition(this->getContentSize().width / 2, this->getContentSize().height - childNameLabel->getContentSize().height * 1.1);
     this->addChild(childNameLabel);
 }
 
@@ -72,8 +72,8 @@ ui::Scale9Sprite* KidsLayer::createText9Sprite(std::string resource, float heigh
     Rect capInsents = Rect(100, 53, 1, 1);
     
     ui::Scale9Sprite* textBox9Sprite = ui::Scale9Sprite::create(resource, spriteRect, capInsents);
-    textBox9Sprite->setContentSize(Size(this->getContentSize().width*.8, 107));
-    textBox9Sprite->setPosition(Vec2(this->getContentSize().width/2, textBox9Sprite->getContentSize().height*heightPercentage));
+    textBox9Sprite->setContentSize(Size(this->getContentSize().width * 0.8f, 107));
+    textBox9Sprite->setPosition(Vec2(this->getContentSize().width / 2, textBox9Sprite->getContentSize().height*heightPercentage));
     textBox9Sprite->setTag(1000);
     
     return textBox9Sprite;
@@ -84,13 +84,13 @@ ui::Scale9Sprite* KidsLayer::createText9Sprite(std::string resource, float heigh
 void KidsLayer::setOomeeToLargeSize()
 {
     oomeeSprite->setScale(1.8);
-    oomeeSprite->setPosition(this->getContentSize().width / 2, this->getContentSize().height*.45);
+    oomeeSprite->setPosition(this->getContentSize().width / 2, this->getContentSize().height * 0.46f);
 }
 
 void KidsLayer::setOomeeToSmallSize()
 {
     oomeeSprite->setScale(1.1);
-    oomeeSprite->setPosition(this->getContentSize().width / 2, this->getContentSize().height*.67);
+    oomeeSprite->setPosition(this->getContentSize().width / 2, this->getContentSize().height * 0.67f);
 }
 
 //------------------PUBLIC CHANGE STATE-------------
@@ -101,12 +101,12 @@ void KidsLayer::setToStartLayout()
     
     Label* ShareWithFriendLabel = createLabelWith("Share with friends", Style::Font::Regular, Style::Color::black, 40);
     ShareWithFriendLabel->setTag(1000);
-    ShareWithFriendLabel->setPosition(this->getContentSize().width/2,this->getContentSize().height - ShareWithFriendLabel->getContentSize().height*5.6);
+    ShareWithFriendLabel->setPosition(this->getContentSize().width / 2, this->getContentSize().height - ShareWithFriendLabel->getContentSize().height * 4.0f);
     this->addChild(ShareWithFriendLabel);
     
     Label* AddAFriendLabel = createLabelWith("To add a friend", Style::Font::Regular, Style::Color::black, 40);
     AddAFriendLabel->setTag(1000);
-    AddAFriendLabel->setPosition(this->getContentSize().width/2,AddAFriendLabel->getContentSize().height*5.8);
+    AddAFriendLabel->setPosition(this->getContentSize().width/2,AddAFriendLabel->getContentSize().height * 5.8f);
     this->addChild(AddAFriendLabel);
 }
 

@@ -25,6 +25,9 @@ private:
     void addTabsCoverLayer();
     void addListenerToCoverLayer(Layer* listenerToLayer);
     
+    cocos2d::Vec2 _origin;
+    cocos2d::Size _visibleSize;
+    
 public:
     static Layer* createWithHeight(float setLayerHeight);
     virtual bool init() override;
