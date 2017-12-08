@@ -14,6 +14,7 @@
 #include "ui/CocosGUI.h"
 #include <AzoomeeCommon/Data/Json.h>
 #include "ButtonActionData.h"
+#include "DynamicNodeImage.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -41,7 +42,7 @@ private:
     //masking node, stencil and background image
     cocos2d::ClippingNode* _clippingNode = nullptr;
     cocos2d::ui::Scale9Sprite* _stencil = nullptr;
-    cocos2d::Sprite* _maskedBGImage = nullptr;
+    DynamicNodeImage* _maskedBGImage = nullptr;
     
     // external parameters
     rapidjson::Document _externParams;
@@ -57,11 +58,6 @@ private:
     void configExtraImages(const rapidjson::Value& imageList);
     void configText(const rapidjson::Value& textConfig);
     void configTextInput(const rapidjson::Value& textInputConfig);
-    
-    void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& filename);
-    void addRemoteImageWithParams(const cocos2d::Vec2& size, const cocos2d::Vec2& pos, int opacity, const std::string& url);
-    void addTextWithParams(int fontSize, cocos2d::Color4B fontColour, const rapidjson::Value& params);
-    
     
 public:
     static DynamicNodeCreator* getInstance(void);

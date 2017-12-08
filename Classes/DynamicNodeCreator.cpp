@@ -16,7 +16,6 @@
 #include "DynamicNodeTextInput.h"
 #include "DynamicNodeButton.h"
 #include "DynamicNodeText.h"
-#include "DynamicNodeImage.h"
 
 using namespace cocos2d;
 
@@ -198,11 +197,6 @@ void DynamicNodeCreator::initCTANode()
     _bgColour->setPosition(Vec2(_windowSize*-0.5f));
     _clippingNode->addChild(_bgColour);
     
-    _maskedBGImage = Sprite::create(kCTAAssetLoc + "deep_free_pop_over_trans.png");
-    _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
-    _maskedBGImage->setVisible(false);
-    _clippingNode->addChild(_maskedBGImage);
-    
     _clippingNode->setAlphaThreshold(0.5f);
     _clippingNode->setPosition(_windowSize/2);
     _CTANode->addChild(_clippingNode);
@@ -263,7 +257,6 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
             const Size& newSize = Size(_windowSize.width*width,_windowSize.height*height);
             
             _stencil->setContentSize(newSize);
-            _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
             _popupFrame->setContentSize(newSize);
             _popupButtonsLayer->setContentSize(newSize);
             _popupImages->setContentSize(newSize);
@@ -295,49 +288,11 @@ void DynamicNodeCreator::configBackgroundColour(const rapidjson::Value &backgrou
 
 void DynamicNodeCreator::configBackgroundImage(const rapidjson::Value &backgroundImageData)
 {
-    _maskedBGImage->setVisible(true);
-    const std::string& filename = getStringFromJson("file", backgroundImageData);
-    bool imagefound = false;
-    
-    if(filename != "")
+    _maskedBGImage = DynamicNodeImage::create();
+    if(_maskedBGImage->initWithParamsAsBGImage(backgroundImageData, _stencil->getContentSize(), _usingExternalParams))
     {
-        
-        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + kCTADeviceImageCacheLoc + filename))
-        {
-            _maskedBGImage->initWithFile(FileUtils::getInstance()->getWritablePath() + kCTADeviceImageCacheLoc + filename);
-            imagefound = true;
-        }
-        else
-        {
-            if(FileUtils::getInstance()->isFileExist(kCTABundleImageLoc + filename))
-            {
-                _maskedBGImage->initWithFile(kCTABundleImageLoc + filename);
-                imagefound = true;
-            }
-        }
+        _clippingNode->addChild(_maskedBGImage);
     }
-    
-    if(imagefound)
-    {
-        std::string displaymode = getStringFromJson("displayMode", backgroundImageData);
-        if(displaymode == "fill")
-        {
-            _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
-        }
-        else if(displaymode == "fit")
-        {
-            float widthScale = _stencil->getContentSize().width/_maskedBGImage->getContentSize().width;
-            float heightScale =   _stencil->getContentSize().height/_maskedBGImage->getContentSize().height;
-            _maskedBGImage->setScale(MIN(widthScale, heightScale));
-            int yPos = getIntFromJson("position",backgroundImageData);
-            if(yPos != INT_MAX)
-            {
-                _maskedBGImage->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-                _maskedBGImage->setPosition(Vec2(0, _stencil->getContentSize().height * ((yPos-50)/100.0f)));
-            }
-        }
-    }
-    
 }
 
 void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
@@ -351,8 +306,6 @@ void DynamicNodeCreator::configButtons(const rapidjson::Value &buttonsList)
             {
                 _popupButtonsLayer->addChild(button);
             }
-            
-            
         }
     }
 }
@@ -370,8 +323,6 @@ void DynamicNodeCreator::configExtraImages(const rapidjson::Value &imageList)
             }
         }
     }
-
-    
 }
 
 void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
@@ -422,62 +373,6 @@ void DynamicNodeCreator::configTextInput(const rapidjson::Value &textInputConfig
             _textInputLayer->addChild(textInput);
         }
     }
-}
-
-void DynamicNodeCreator::addImageWithParams(const Vec2& size, const Vec2& pos, int opacity, const std::string& filename)
-{
-    Sprite* image = Sprite::create(filename);
-    if(size.x > 0 && size.y > 0)
-    {
-        image->setScale((_popupImages->getContentSize().width*size.x)/image->getContentSize().width, (_popupImages->getContentSize().height*size.y)/image->getContentSize().height);
-    }
-    else if(size.x <= 0 && size.y <= 0)
-    {
-        image->setScale(1);
-    }
-    else if(size.x <= 0)
-    {
-        image->setScale((_popupImages->getContentSize().height*size.y)/image->getContentSize().height);
-    }
-    else
-    {
-        image->setScale((_popupImages->getContentSize().width*size.x)/image->getContentSize().width);
-    }
-    
-    image->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    image->setNormalizedPosition(pos);
-    image->setOpacity(opacity);
-    _popupImages->addChild(image);
-}
-
-void DynamicNodeCreator::addRemoteImageWithParams(const Vec2& size, const Vec2& pos, int opacity, const std::string& url)
-{
-    Sprite* tempSizeSprite = Sprite::create("res/contentPlaceholders/Games1X1.png");
-    RemoteImageSprite* image = RemoteImageSprite::create();
-    Size imageSize;
-    if(size.x > 0 && size.y > 0)
-    {
-        imageSize = Vec2((_popupImages->getContentSize().width*size.x), (_popupImages->getContentSize().height*size.y));
-    }
-    else if(size.x <= 0 && size.y <= 0)
-    {
-        imageSize = tempSizeSprite->getContentSize();
-    }
-    else if(size.x <= 0)
-    {
-        float scaleMod = (_popupImages->getContentSize().height*size.y)/tempSizeSprite->getContentSize().height;
-        imageSize = tempSizeSprite->getContentSize() * scaleMod;
-        
-    }
-    else
-    {
-        float scaleMod = (_popupImages->getContentSize().width*size.x)/tempSizeSprite->getContentSize().width;
-        imageSize = tempSizeSprite->getContentSize() * scaleMod;
-    }
-    image->initWithUrlAndSizeWithoutPlaceholder(url, imageSize);
-    image->setNormalizedPosition(pos);
-    image->setOpacity(opacity);
-    _popupImages->addChild(image);
 }
 
 std::string DynamicNodeCreator::addExternalParamsToString(const std::string& str)

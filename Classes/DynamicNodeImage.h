@@ -26,7 +26,8 @@ private:
 public:
     virtual bool init() override;
     
-     bool initWithParams(const rapidjson::Value& params, const cocos2d::Size& dynamicNodeSize, bool usingExternParams);
+    bool initWithParams(const rapidjson::Value& params, const cocos2d::Size& dynamicNodeSize, bool usingExternParams);
+    bool initWithParamsAsBGImage(const rapidjson::Value& params, const cocos2d::Size& dynamicNodeSize, bool usingExternParams);
     
     CREATE_FUNC(DynamicNodeImage);
 };

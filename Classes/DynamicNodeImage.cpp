@@ -89,6 +89,61 @@ bool DynamicNodeImage::initWithParams(const rapidjson::Value& params, const coco
     return true;
 }
 
+bool DynamicNodeImage::initWithParamsAsBGImage(const rapidjson::Value &params, const cocos2d::Size &dynamicNodeSize, bool usingExternParams)
+{
+    //this->setContentSize(dynamicNodeSize);
+    
+    const std::string& filename = getStringFromJson("file", params);
+    bool imagefound = false;
+    
+    _image = Sprite::create();
+    
+    if(filename != "")
+    {
+        
+        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename))
+        {
+            _image->initWithFile(FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename);
+            imagefound = true;
+        }
+        else
+        {
+            if(FileUtils::getInstance()->isFileExist(DynamicNodeCreator::kCTABundleImageLoc + filename))
+            {
+                _image->initWithFile(DynamicNodeCreator::kCTABundleImageLoc + filename);
+                imagefound = true;
+            }
+        }
+    }
+    
+    if(imagefound)
+    {
+        std::string displaymode = getStringFromJson("displayMode", params);
+        if(displaymode == "fill")
+        {
+            _image->setScale(dynamicNodeSize.width/_image->getContentSize().width, dynamicNodeSize.height/_image->getContentSize().height);
+        }
+        else if(displaymode == "fit")
+        {
+            float widthScale = dynamicNodeSize.width/_image->getContentSize().width;
+            float heightScale = dynamicNodeSize.height/_image->getContentSize().height;
+            _image->setScale(MIN(widthScale, heightScale));
+            int yPos = getIntFromJson("position",params);
+            if(yPos != INT_MAX)
+            {
+                _image->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+                _image->setPosition(Vec2(0, dynamicNodeSize.height * ((yPos-50)/100.0f)));
+            }
+        }
+        this->addChild(_image);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 void DynamicNodeImage::addImageWithParams(const Vec2& size, const cocos2d::Size& dynamicNodeSize, const Vec2& pos, int opacity, const std::string& filename)
 {
     _image = Sprite::create(filename);
