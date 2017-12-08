@@ -35,8 +35,14 @@ bool SettingsControlLayer::init()
         return false;
     }
     
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    _origin = Director::getInstance()->getVisibleOrigin();
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _visibleSize.width -= 200;
+        _origin.x += 100;
+    }
     
     AudioMixer::getInstance()->pauseBackgroundMusic();
     
@@ -48,14 +54,17 @@ bool SettingsControlLayer::init()
 
 void SettingsControlLayer::createSettingsLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B::WHITE,origin.x+ visibleSize.width, origin.y + visibleSize.height);
+    backgroundLayer = LayerColor::create(Color4B::WHITE, 3000, 2048);
+    backgroundLayer->setPositionX(-100);
+    
     
     this->setName("SettingsControlLayer");
     this->addChild(backgroundLayer);
+    this->setPosition(_origin.x, 0);
     Director::getInstance()->getRunningScene()->addChild(this);
     
     Layer* test = createPixelsPatternAndGradient();
-    test->setPosition(origin.x,origin.y);
+    test->setPosition(0, _origin.y);
     backgroundLayer->addChild(test);
     
     addListenerToLayer(backgroundLayer);
@@ -89,7 +98,7 @@ void SettingsControlLayer::createSettingsController()
 void SettingsControlLayer::createCancelButton()
 {
     cancelButton = ElectricDreamsButton::createWindowCloseButtonGreen();
-    cancelButton->setCenterPosition(Vec2(origin.x + visibleSize.width - cancelButton->getContentSize().width, origin.y + visibleSize.height - cancelButton->getContentSize().height));
+    cancelButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width - cancelButton->getContentSize().width, _origin.y + _visibleSize.height - cancelButton->getContentSize().height));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("CancelSettingsButton");
     backgroundLayer->addChild(cancelButton);
@@ -97,36 +106,36 @@ void SettingsControlLayer::createCancelButton()
 
 void SettingsControlLayer::createLine()
 {
-    linePositionY = visibleSize.height-cancelButton->getContentSize().height*2;
+    linePositionY = _visibleSize.height-cancelButton->getContentSize().height*2;
     
     DrawNode* newDrawNode = DrawNode::create();
     newDrawNode->setLineWidth(LINE_WIDTH);
-    newDrawNode->drawLine(Vec2(0, origin.y+linePositionY), Vec2(visibleSize.width, origin.y+linePositionY), Style::Color_4F::greenish);
+    newDrawNode->drawLine(Vec2(0, _origin.y + linePositionY), Vec2(_visibleSize.width, _origin.y + linePositionY), Style::Color_4F::greenish);
     backgroundLayer->addChild(newDrawNode,110);
 }
 
 void SettingsControlLayer::createTabs()
 {
     childrenButton = ElectricDreamsButton::createTabButton("Your Kids");
-    childrenButton->setPosition(TAB_SPACING*2,origin.y+linePositionY-LINE_WIDTH);
+    childrenButton->setPosition(TAB_SPACING*2, _origin.y + linePositionY - LINE_WIDTH);
     childrenButton->setDelegate(this);
     childrenButton->setMixPanelButtonName("SettingsTab-YourKids");
     backgroundLayer->addChild(childrenButton,IDLE_TAB_Z);
     
     confirmationButton = ElectricDreamsButton::createTabButton("Friendships");
-    confirmationButton->setPosition(childrenButton->getPositionX()+childrenButton->getContentSize().width/2+ TAB_SPACING+confirmationButton->getContentSize().width/2,origin.y+linePositionY-LINE_WIDTH);
+    confirmationButton->setPosition(childrenButton->getPositionX() + childrenButton->getContentSize().width/2 + TAB_SPACING+confirmationButton->getContentSize().width / 2, _origin.y+linePositionY-LINE_WIDTH);
     confirmationButton->setDelegate(this);
     confirmationButton->setMixPanelButtonName("SettingsTab-TheirFriends");
     backgroundLayer->addChild(confirmationButton,IDLE_TAB_Z);
     
     onlineSafetyButton = ElectricDreamsButton::createTabButton("Online Safety");
-    onlineSafetyButton->setPosition(confirmationButton->getPositionX() + confirmationButton->getContentSize().width/2 + TAB_SPACING+onlineSafetyButton->getContentSize().width/2, origin.y + linePositionY - LINE_WIDTH);
+    onlineSafetyButton->setPosition(confirmationButton->getPositionX() + confirmationButton->getContentSize().width/2 + TAB_SPACING+onlineSafetyButton->getContentSize().width/2, _origin.y + linePositionY - LINE_WIDTH);
     onlineSafetyButton->setDelegate(this);
     onlineSafetyButton->setMixPanelButtonName("SettingsTab-OnlineSafety");
     backgroundLayer->addChild(onlineSafetyButton,IDLE_TAB_Z);
     
     accountButton = ElectricDreamsButton::createTabButton("Your Account");
-    accountButton->setPosition(onlineSafetyButton->getPositionX() + onlineSafetyButton->getContentSize().width/2 + TAB_SPACING+accountButton->getContentSize().width/2 , origin.y + linePositionY-LINE_WIDTH);
+    accountButton->setPosition(onlineSafetyButton->getPositionX() + onlineSafetyButton->getContentSize().width/2 + TAB_SPACING+accountButton->getContentSize().width/2 , _origin.y + linePositionY-LINE_WIDTH);
     accountButton->setDelegate(this);
     accountButton->setMixPanelButtonName("SettingsTab-Account");
     backgroundLayer->addChild(accountButton,SELECTED_TAB_Z);
@@ -179,7 +188,7 @@ void SettingsControlLayer::selectNewTab(Layer* newCurrentLayer, ElectricDreamsBu
     buttonToBringForward->setLocalZOrder(SELECTED_TAB_Z);
     
     currentTabLayer = newCurrentLayer;
-    currentTabLayer->setPosition(origin.x,origin.y);
+    currentTabLayer->setPosition(0, _origin.y);
     backgroundLayer->addChild(currentTabLayer,CURRENT_LAYER_Z);
 }
 
