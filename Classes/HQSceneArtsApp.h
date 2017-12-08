@@ -23,6 +23,9 @@ private:
     
     void addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable);
     
+    cocos2d::Size _visibleSize;
+    cocos2d::Point _origin;
+    
 };
 
 NS_AZOOMEE_END

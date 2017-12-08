@@ -25,6 +25,15 @@ bool HQSceneArtsApp::init()
         return false;
     }
     
+    _visibleSize = Director::getInstance()->getVisibleSize();
+    _origin = Director::getInstance()->getVisibleOrigin();
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _visibleSize.width -= 200;
+        _origin.x += 100;
+    }
+    
     return true;
 }
 
@@ -44,7 +53,7 @@ cocos2d::ui::ScrollView* HQSceneArtsApp::createHorizontalScrollView(cocos2d::Siz
     scrollView->setContentSize(contentSize);
     scrollView->setInnerContainerSize(contentSize);
     scrollView->setAnchorPoint(Vec2(0.0f, 0.5f));
-    scrollView->setPosition(Vec2(0,Director::getInstance()->getVisibleOrigin().y+Director::getInstance()->getVisibleSize().height*.4));
+    scrollView->setPosition(Vec2(_origin.x, _origin.y + _visibleSize.height * 0.4f));
     scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     scrollView->setBounceEnabled(true);
     scrollView->setTouchEnabled(true);
@@ -56,10 +65,7 @@ cocos2d::ui::ScrollView* HQSceneArtsApp::createHorizontalScrollView(cocos2d::Siz
 
 void HQSceneArtsApp::createArtsAppScrollView()
 {
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    auto horizontalScrollView = createHorizontalScrollView(Size(visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height*2));
+    auto horizontalScrollView = createHorizontalScrollView(Size(_visibleSize.width, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP").height * 2));
     this->addChild(horizontalScrollView);
     
     const std::string& parentOrChildId = ChildDataProvider::getInstance()->getParentOrChildId();
@@ -76,7 +82,7 @@ void HQSceneArtsApp::createArtsAppScrollView()
 void HQSceneArtsApp::addPrivacyButton()
 {
     PrivacyLayer* privacyLayer = PrivacyLayer::createWithColor();
-    privacyLayer->setCenterPosition(Vec2(Director::getInstance()->getVisibleOrigin().x + privacyLayer->getContentSize().height/2 +privacyLayer->getContentSize().width/2,Director::getInstance()->getVisibleOrigin().y + privacyLayer->getContentSize().height));
+    privacyLayer->setCenterPosition(Vec2(_origin.x + privacyLayer->getContentSize().height / 2 + privacyLayer->getContentSize().width / 2, _origin.y + privacyLayer->getContentSize().height));
     this->addChild(privacyLayer);
 }
 

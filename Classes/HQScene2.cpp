@@ -34,6 +34,12 @@ bool HQScene2::init()
     _visibleSize = Director::getInstance()->getVisibleSize();
     _origin = Director::getInstance()->getVisibleOrigin();
     
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _visibleSize.width -= 200;
+        _origin.x += 100;
+    }
+    
     return true;
 }
 
@@ -102,7 +108,7 @@ void HQScene2::startBuildingScrollView()
     
     //we have all carousels in a vector, time to resize the scrollview and add them one by one
     cocos2d::ui::ScrollView* scrollView = createScrollView();
-    scrollView->setInnerContainerSize(cocos2d::Size(Director::getInstance()->getVisibleSize().width - 2 * kSideMarginSize, totalHeightOfCarousels + kSpaceForPrivacyPolicy));
+    scrollView->setInnerContainerSize(cocos2d::Size(_visibleSize.width - 2 * kSideMarginSize, totalHeightOfCarousels + kSpaceForPrivacyPolicy));
     
     float lastCarouselPosition = scrollView->getInnerContainerSize().height;
     for(int carouselIndex = 0; carouselIndex < _carouselStorage.size(); carouselIndex++)
@@ -228,14 +234,14 @@ void HQScene2::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
 
 cocos2d::LayerColor* HQScene2::createNewCarousel()
 {
-    cocos2d::LayerColor*carouselLayer = cocos2d::LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), Director::getInstance()->getVisibleSize().width - 2 * kSideMarginSize, 0);
+    cocos2d::LayerColor*carouselLayer = cocos2d::LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), _visibleSize.width - 2 * kSideMarginSize, 0);
     
     return carouselLayer;
 }
 
 void HQScene2::postSizeAndAlignCarousel(cocos2d::Node* carouselLayer, float lowestElementY)
 {
-    carouselLayer->setContentSize(Size(Director::getInstance()->getVisibleSize().width - 2 * kSideMarginSize, -lowestElementY));
+    carouselLayer->setContentSize(Size(_visibleSize.width - 2 * kSideMarginSize, -lowestElementY));
     
     for(cocos2d::Node* contentItem : carouselLayer->getChildren())
     {
