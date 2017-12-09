@@ -206,7 +206,7 @@ void SettingsControlLayer::buttonPressed(ElectricDreamsButton* button)
         selectNewTab(SettingsConfirmationLayer::createWithHeight(linePositionY-LINE_WIDTH/2), confirmationButton);
     }
     else if(button == accountButton)
-        selectNewTab(AccountDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), accountButton);
+        selectNewTab(AccountDetailsLayer::createWithSize(Size(this->getContentSize().width, linePositionY - LINE_WIDTH / 2)), accountButton);
     else if(button == onlineSafetyButton)
         selectNewTab(OnlineSafetyDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), onlineSafetyButton);
 }

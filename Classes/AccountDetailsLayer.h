@@ -12,9 +12,7 @@ NS_AZOOMEE_BEGIN
 class AccountDetailsLayer : public Layer, public ElectricDreamsButtonDelegate
 {
 private:
-    Size visibleSize;
     
-    float layerHeight;
     ElectricDreamsButton *logoutButton = nullptr;
     ElectricDreamsButton *iapButton = nullptr;
     ElectricDreamsButton *learnMoreButton = nullptr;
@@ -25,7 +23,7 @@ private:
     void addRichTextLabel(std::string BOLDText);
     
 public:
-    static Layer* createWithHeight(float setLayerHeight);
+    static Layer* createWithSize(cocos2d::Size contentSize);
     virtual bool init();
     
     CREATE_FUNC(AccountDetailsLayer);
