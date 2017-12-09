@@ -57,6 +57,16 @@ bool SettingsControlLayer::init()
 
 void SettingsControlLayer::createSettingsLayer()
 {
+    //we need an additional white background layer to cover the top and right edges of the screen if we are on iPhone 10
+    //we cannot extend the background, because all additional layers are added to that. This is bad practice...
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        LayerColor *additionalBackground = LayerColor::create(Color4B::WHITE, this->getContentSize().width + 200, this->getContentSize().height);
+        additionalBackground->setPosition(-100, 0);
+        this->addChild(additionalBackground);
+    }
+    
     backgroundLayer = LayerColor::create(Color4B::WHITE, this->getContentSize().width, this->getContentSize().height);    
     
     this->setName("SettingsControlLayer");
@@ -65,6 +75,12 @@ void SettingsControlLayer::createSettingsLayer()
     
     Layer* test = createPixelsPatternAndGradient();
     test->setPosition(0, 0);
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        test->setPosition(-100, 0);
+    }
+    
     backgroundLayer->addChild(test);
     
     addListenerToLayer(backgroundLayer);
