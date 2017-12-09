@@ -44,6 +44,9 @@ bool SettingsControlLayer::init()
         _origin.x += 100;
     }
     
+    this->setPosition(_origin);
+    this->setContentSize(_visibleSize);
+    
     AudioMixer::getInstance()->pauseBackgroundMusic();
     
     createSettingsLayer();
@@ -54,17 +57,14 @@ bool SettingsControlLayer::init()
 
 void SettingsControlLayer::createSettingsLayer()
 {
-    backgroundLayer = LayerColor::create(Color4B::WHITE, 3000, 2048);
-    backgroundLayer->setPositionX(-100);
-    
+    backgroundLayer = LayerColor::create(Color4B::WHITE, this->getContentSize().width, this->getContentSize().height);    
     
     this->setName("SettingsControlLayer");
     this->addChild(backgroundLayer);
-    this->setPosition(_origin.x, 0);
     Director::getInstance()->getRunningScene()->addChild(this);
     
     Layer* test = createPixelsPatternAndGradient();
-    test->setPosition(0, _origin.y);
+    test->setPosition(0, 0);
     backgroundLayer->addChild(test);
     
     addListenerToLayer(backgroundLayer);
@@ -92,13 +92,13 @@ void SettingsControlLayer::createSettingsController()
     createConfirmationNotification();
     checkForConfirmationNotifications();
     
-    selectNewTab(SettingsKidsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), childrenButton);
+    selectNewTab(SettingsKidsLayer::createWithSize(this->getContentSize()), childrenButton);
 }
 
 void SettingsControlLayer::createCancelButton()
 {
     cancelButton = ElectricDreamsButton::createWindowCloseButtonGreen();
-    cancelButton->setCenterPosition(Vec2(_origin.x + _visibleSize.width - cancelButton->getContentSize().width, _origin.y + _visibleSize.height - cancelButton->getContentSize().height));
+    cancelButton->setCenterPosition(Vec2(this->getContentSize().width - cancelButton->getContentSize().width, this->getContentSize().height - cancelButton->getContentSize().height));
     cancelButton->setDelegate(this);
     cancelButton->setMixPanelButtonName("CancelSettingsButton");
     backgroundLayer->addChild(cancelButton);
@@ -106,36 +106,36 @@ void SettingsControlLayer::createCancelButton()
 
 void SettingsControlLayer::createLine()
 {
-    linePositionY = _visibleSize.height-cancelButton->getContentSize().height*2;
+    linePositionY = this->getContentSize().height - cancelButton->getContentSize().height*2;
     
     DrawNode* newDrawNode = DrawNode::create();
     newDrawNode->setLineWidth(LINE_WIDTH);
-    newDrawNode->drawLine(Vec2(0, _origin.y + linePositionY), Vec2(_visibleSize.width, _origin.y + linePositionY), Style::Color_4F::greenish);
+    newDrawNode->drawLine(Vec2(0, linePositionY), Vec2(this->getContentSize().width, linePositionY), Style::Color_4F::greenish);
     backgroundLayer->addChild(newDrawNode,110);
 }
 
 void SettingsControlLayer::createTabs()
 {
     childrenButton = ElectricDreamsButton::createTabButton("Your Kids");
-    childrenButton->setPosition(TAB_SPACING*2, _origin.y + linePositionY - LINE_WIDTH);
+    childrenButton->setPosition(TAB_SPACING * 2, linePositionY - LINE_WIDTH);
     childrenButton->setDelegate(this);
     childrenButton->setMixPanelButtonName("SettingsTab-YourKids");
     backgroundLayer->addChild(childrenButton,IDLE_TAB_Z);
     
     confirmationButton = ElectricDreamsButton::createTabButton("Friendships");
-    confirmationButton->setPosition(childrenButton->getPositionX() + childrenButton->getContentSize().width/2 + TAB_SPACING+confirmationButton->getContentSize().width / 2, _origin.y+linePositionY-LINE_WIDTH);
+    confirmationButton->setPosition(childrenButton->getPositionX() + childrenButton->getContentSize().width / 2 + TAB_SPACING + confirmationButton->getContentSize().width / 2, linePositionY-LINE_WIDTH);
     confirmationButton->setDelegate(this);
     confirmationButton->setMixPanelButtonName("SettingsTab-TheirFriends");
-    backgroundLayer->addChild(confirmationButton,IDLE_TAB_Z);
+    backgroundLayer->addChild(confirmationButton, IDLE_TAB_Z);
     
     onlineSafetyButton = ElectricDreamsButton::createTabButton("Online Safety");
-    onlineSafetyButton->setPosition(confirmationButton->getPositionX() + confirmationButton->getContentSize().width/2 + TAB_SPACING+onlineSafetyButton->getContentSize().width/2, _origin.y + linePositionY - LINE_WIDTH);
+    onlineSafetyButton->setPosition(confirmationButton->getPositionX() + confirmationButton->getContentSize().width / 2 + TAB_SPACING + onlineSafetyButton->getContentSize().width / 2, linePositionY - LINE_WIDTH);
     onlineSafetyButton->setDelegate(this);
     onlineSafetyButton->setMixPanelButtonName("SettingsTab-OnlineSafety");
-    backgroundLayer->addChild(onlineSafetyButton,IDLE_TAB_Z);
+    backgroundLayer->addChild(onlineSafetyButton, IDLE_TAB_Z);
     
     accountButton = ElectricDreamsButton::createTabButton("Your Account");
-    accountButton->setPosition(onlineSafetyButton->getPositionX() + onlineSafetyButton->getContentSize().width/2 + TAB_SPACING+accountButton->getContentSize().width/2 , _origin.y + linePositionY-LINE_WIDTH);
+    accountButton->setPosition(onlineSafetyButton->getPositionX() + onlineSafetyButton->getContentSize().width / 2 + TAB_SPACING + accountButton->getContentSize().width / 2 , linePositionY-LINE_WIDTH);
     accountButton->setDelegate(this);
     accountButton->setMixPanelButtonName("SettingsTab-Account");
     backgroundLayer->addChild(accountButton,SELECTED_TAB_Z);
@@ -188,7 +188,7 @@ void SettingsControlLayer::selectNewTab(Layer* newCurrentLayer, ElectricDreamsBu
     buttonToBringForward->setLocalZOrder(SELECTED_TAB_Z);
     
     currentTabLayer = newCurrentLayer;
-    currentTabLayer->setPosition(0, _origin.y);
+    currentTabLayer->setPosition(0, 0);
     backgroundLayer->addChild(currentTabLayer,CURRENT_LAYER_Z);
 }
 
@@ -199,7 +199,7 @@ void SettingsControlLayer::buttonPressed(ElectricDreamsButton* button)
     if(button == cancelButton)
         removeSelf();
     else if(button == childrenButton)
-        selectNewTab(SettingsKidsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), childrenButton);
+        selectNewTab(SettingsKidsLayer::createWithSize(this->getContentSize()), childrenButton);
     else if(button == confirmationButton)
     {
         confirmationNotification->setOpacity(0);

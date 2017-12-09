@@ -12,11 +12,10 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-Layer* SettingsKidsLayer::createWithHeight(float setLayerHeight)
+Layer* SettingsKidsLayer::createWithSize(cocos2d::Size contentSize)
 {
     auto layer = SettingsKidsLayer::create();
-    layer->layerHeight = setLayerHeight;
-    layer->setContentSize(Size(layer->_visibleSize.width, layer->_visibleSize.height));
+    layer->setContentSize(contentSize);
     layer->addTabsCoverLayer();
     layer->addScrollView();
     
@@ -30,13 +29,6 @@ bool SettingsKidsLayer::init()
         return false;
     }
     
-    _visibleSize = Director::getInstance()->getVisibleSize();
-    
-    if(ConfigStorage::getInstance()->isDeviceIphoneX())
-    {
-        _visibleSize.width -= 200;
-    }
-    
     return true;
 }
 
@@ -44,7 +36,7 @@ bool SettingsKidsLayer::init()
 
 void SettingsKidsLayer::addTabsCoverLayer()
 {
-    _tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, _visibleSize.height);
+    _tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, this->getContentSize().height);
     _tabsCoverLayer->setVisible(false);
     this->addChild(_tabsCoverLayer);
     
@@ -65,7 +57,7 @@ void SettingsKidsLayer::addScrollView()
     _scrollView->setSwallowTouches(false);
     _scrollView->setScrollBarEnabled(true);
     _scrollView->setAnchorPoint(Vec2(0.5f, 0.5f));
-    _scrollView->setPosition(Vec2(this->getContentSize().width / 2, layerHeight / 2));
+    _scrollView->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height / 2.4));
     
     this->addChild(_scrollView);
     
