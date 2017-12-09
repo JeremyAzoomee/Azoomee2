@@ -13,10 +13,6 @@ NS_AZOOMEE_BEGIN
 class OnlineSafetyDetailsLayer : public Layer, public ElectricDreamsButtonDelegate
 {
 private:
-    Size visibleSize;
-    Vec2 origin;
-    
-    float layerHeight;
     int currentSlideNumber;
     
     Layer* backgroundLayer;
@@ -45,7 +41,7 @@ private:
     void addListenerToVideoLayer(Layer* listenerToLayer);
     
 public:
-    static Layer* createWithHeight(float setLayerHeight);
+    static Layer* createWithSize(cocos2d::Size contentSize);
     virtual bool init();
     
     CREATE_FUNC(OnlineSafetyDetailsLayer);

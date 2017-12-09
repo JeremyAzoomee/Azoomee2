@@ -208,7 +208,7 @@ void SettingsControlLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == accountButton)
         selectNewTab(AccountDetailsLayer::createWithSize(Size(this->getContentSize().width, linePositionY - LINE_WIDTH / 2)), accountButton);
     else if(button == onlineSafetyButton)
-        selectNewTab(OnlineSafetyDetailsLayer::createWithHeight(linePositionY-LINE_WIDTH/2), onlineSafetyButton);
+        selectNewTab(OnlineSafetyDetailsLayer::createWithSize(Size(this->getContentSize().width, linePositionY - LINE_WIDTH / 2)), onlineSafetyButton);
 }
 
 void SettingsControlLayer::AdultPinCancelled(AwaitingAdultPinLayer* layer)

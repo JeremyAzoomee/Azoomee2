@@ -10,10 +10,10 @@ NS_AZOOMEE_BEGIN
 #define MARGIN_TO_CHEVRON 150
 #define TOTAL_SLIDES 5
 
-Layer* OnlineSafetyDetailsLayer::createWithHeight(float setLayerHeight)
+Layer* OnlineSafetyDetailsLayer::createWithSize(cocos2d::Size contentSize)
 {
     auto layer = OnlineSafetyDetailsLayer::create();
-    layer->layerHeight = setLayerHeight - 30;
+    layer->setContentSize(contentSize);
     layer->currentSlideNumber = 1;
     layer->createBackground();
     layer->addUIObjects();
@@ -27,9 +27,6 @@ bool OnlineSafetyDetailsLayer::init()
     {
         return false;
     }
-    
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
     
     return true;
 }
@@ -51,7 +48,7 @@ void OnlineSafetyDetailsLayer::addListenerToVideoLayer(Layer* listenerToLayer)
 void OnlineSafetyDetailsLayer::createBackground()
 {
     backgroundLayer = Layer::create();
-    backgroundLayer->setContentSize(Size(visibleSize.width, layerHeight));
+    backgroundLayer->setContentSize(this->getContentSize());
     this->addChild(backgroundLayer);
 }
 
@@ -60,7 +57,7 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     //-------------MAIN TITLE DOES NOT CHANGE--------------
     titleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(ONLINE_SAFETY_MAIN_TITLE), Style::Font::Regular, Style::Color::black, 70);
     titleLabel->setAnchorPoint(Vec2(0.0,1));
-    titleLabel->setPosition(MARGIN_TO_CHEVRON*2,layerHeight - titleLabel->getContentSize().height);
+    titleLabel->setPosition(MARGIN_TO_CHEVRON * 2, this->getContentSize().height - titleLabel->getContentSize().height);
     backgroundLayer->addChild(titleLabel);
     
     //------------SLIDE TITLE--------------------
@@ -68,14 +65,14 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     
     slideTitleLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%sAdult%d", ONLINE_SAFETY_SLIDE_TITLE,currentSlideNumber)), Style::Font::Bold, Style::Color::greenish, 70);
     slideTitleLabel->setAnchorPoint(Vec2(0.0,1));
-    slideTitleLabel->setPosition(MARGIN_TO_CHEVRON*2,titleLabel->getPositionY() - slideTitleLabel->getContentSize().height*1.5);
+    slideTitleLabel->setPosition(MARGIN_TO_CHEVRON * 2,titleLabel->getPositionY() - slideTitleLabel->getContentSize().height * 1.5f);
     backgroundLayer->addChild(slideTitleLabel);
     
     //-----------SLIDE IMAGE--------------------
     // Location in relation to the Main Title Location
     
     mainImage = Sprite::create(StringUtils::format("res/onlineSafetySlides/safetyIll0%d.png",currentSlideNumber));
-    mainImage->setPosition(visibleSize.width-MARGIN_TO_CHEVRON*1.5-mainImage->getContentSize().width/2,slideTitleLabel->getPositionY()-slideTitleLabel->getContentSize().height*1.5- mainImage->getContentSize().height/2);
+    mainImage->setPosition(this->getContentSize().width - MARGIN_TO_CHEVRON * 1.5 - mainImage->getContentSize().width / 2, slideTitleLabel->getPositionY()-slideTitleLabel->getContentSize().height * 1.5f - mainImage->getContentSize().height / 2);
     backgroundLayer->addChild(mainImage);
     
     //-----------SLIDE MAIN TEXT--------------------
@@ -98,7 +95,7 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     backgroundLayer->addChild(chevronLeftButton);
     
     chevronRightButton = ElectricDreamsButton::createChevronRightButton();
-    chevronRightButton->setCenterPosition(Vec2(visibleSize.width - MARGIN_TO_CHEVRON,mainImage->getPositionY()));
+    chevronRightButton->setCenterPosition(Vec2(this->getContentSize().width - MARGIN_TO_CHEVRON, mainImage->getPositionY()));
     chevronRightButton->setDelegate(this);
     chevronRightButton->setMixPanelButtonName("Settings-OnlineSafety-RighChevron");
     backgroundLayer->addChild(chevronRightButton);
@@ -112,13 +109,13 @@ void OnlineSafetyDetailsLayer::addUIObjects()
 
 void OnlineSafetyDetailsLayer::playVideo()
 {
-    videoLayer = LayerColor::create(Color4B::WHITE,visibleSize.width, visibleSize.height);
+    videoLayer = LayerColor::create(Color4B::WHITE, this->getContentSize().width, this->getContentSize().height);
     this->addChild(videoLayer);
     
     addListenerToVideoLayer(videoLayer);
     
     closeVideoButton = ElectricDreamsButton::createWindowCloseButtonGreen();
-    closeVideoButton->setCenterPosition(Vec2(visibleSize.width - closeVideoButton->getContentSize().width, visibleSize.height - closeVideoButton->getContentSize().height));
+    closeVideoButton->setCenterPosition(Vec2(this->getContentSize().width - closeVideoButton->getContentSize().width, this->getContentSize().height - closeVideoButton->getContentSize().height));
     closeVideoButton->setDelegate(this);
     closeVideoButton->setMixPanelButtonName("Settings-OnlineSafety-CloseVideo");
     videoLayer->addChild(closeVideoButton);
@@ -130,7 +127,7 @@ void OnlineSafetyDetailsLayer::playVideo()
     videoWebview = experimental::ui::WebView::create();
     videoWebview->setContentSize(Size(1920,1080));
     videoWebview->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    videoWebview->setPosition(Vec2(visibleSize.width/2,visibleSize.height/2));
+    videoWebview->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height/2));
     videoWebview->loadURL(videoEmbeddedURL);
     videoLayer->addChild(videoWebview);
 }
