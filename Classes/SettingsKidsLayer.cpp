@@ -57,7 +57,7 @@ void SettingsKidsLayer::addScrollView()
     _scrollView->setSwallowTouches(false);
     _scrollView->setScrollBarEnabled(true);
     _scrollView->setAnchorPoint(Vec2(0.5f, 0.5f));
-    _scrollView->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height / 2.4));
+    _scrollView->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height / 2));
     
     this->addChild(_scrollView);
     
