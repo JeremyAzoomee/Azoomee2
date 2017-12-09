@@ -17,7 +17,6 @@ NS_AZOOMEE_BEGIN
 class SettingsConfirmationLayer : public Layer, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
-    float layerHeight;
     float contentWidth;
     
     ui::ScrollView *scrollView = nullptr;
@@ -29,7 +28,7 @@ private:
     void addScrollView();
     
 public:
-    static Layer* createWithHeight(float setLayerHeight);
+    static Layer* createWithSize(cocos2d::Size contentSize);
     virtual bool init();
     
     CREATE_FUNC(SettingsConfirmationLayer);

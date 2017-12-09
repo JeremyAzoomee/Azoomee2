@@ -203,7 +203,7 @@ void SettingsControlLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == confirmationButton)
     {
         confirmationNotification->setOpacity(0);
-        selectNewTab(SettingsConfirmationLayer::createWithHeight(linePositionY-LINE_WIDTH/2), confirmationButton);
+        selectNewTab(SettingsConfirmationLayer::createWithSize(Size(this->getContentSize().width, linePositionY-LINE_WIDTH/2)), confirmationButton);
     }
     else if(button == accountButton)
         selectNewTab(AccountDetailsLayer::createWithSize(Size(this->getContentSize().width, linePositionY - LINE_WIDTH / 2)), accountButton);
