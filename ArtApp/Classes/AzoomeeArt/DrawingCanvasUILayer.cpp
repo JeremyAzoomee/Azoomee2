@@ -8,6 +8,7 @@
 
 #include "DrawingCanvasUILayer.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -442,6 +443,14 @@ void DrawingCanvasUILayer::addBrushRadiusSlider(const Size& visibleSize, const P
     _brushSizeSlider->addChild(minusIcon);
     
     this->addChild(_brushSizeSlider,MAIN_UI_LAYER);
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _brushSizeSlider->setScale(0.75);
+        _brushSizeSlider->setPosition(_brushSizeSlider->getPosition() + Vec2(50,0));
+        
+    }
+    
 }
 
 void DrawingCanvasUILayer::addBrushTool(const std::string &buttonFilename, const std::string &bodyFilename, BrushType type, Vec2 normalisedPos, bool selected)
