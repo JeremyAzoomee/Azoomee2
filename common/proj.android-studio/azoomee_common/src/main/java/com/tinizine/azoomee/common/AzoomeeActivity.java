@@ -81,8 +81,12 @@ public class AzoomeeActivity extends Cocos2dxActivity implements KeyboardHeightO
     @Override
     public void onDestroy()
     {
+        if(keyboardHeightProvider != null)
+        {
+            keyboardHeightProvider.close();
+        }
+
         super.onDestroy();
-        keyboardHeightProvider.close();
     }
 
     /// Run a ask on the GL thread when code needs to sync with the Cocos main thread
