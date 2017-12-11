@@ -271,6 +271,11 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     closeButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCloseColourSelectPressed, this));
     _colourButtonLayout->addChild(closeButton);
     
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _colourButtonLayout->setScale(0.85);
+    }
+    
     _colourSelectButton = ui::Button::create();
     _colourSelectButton->setAnchorPoint(Vec2(0.5,0.5));
     _colourSelectButton->loadTextures(kArtAppAssetLoc + "colour_frame.png", kArtAppAssetLoc + "colour_frame.png");
