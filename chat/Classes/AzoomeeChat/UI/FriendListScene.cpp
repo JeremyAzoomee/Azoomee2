@@ -6,6 +6,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "MessageScene.h"
 
 using namespace cocos2d;
@@ -24,6 +25,13 @@ bool FriendListScene::init()
     _rootLayout = ui::Layout::create();
     _rootLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _rootLayout->setSizePercent(Vec2(1.0f, 1.0f));
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _rootLayout->setSizePercent(Vec2(0.9f, 1.0f));
+        _rootLayout->setPosition(Point(Director::getInstance()->getVisibleOrigin().x + this->getContentSize().width * 0.05 , 0));
+    }
+    
     _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _rootLayout->setBackGroundColor(Style::Color::black);
     _rootLayout->setLayoutType(ui::Layout::Type::RELATIVE);

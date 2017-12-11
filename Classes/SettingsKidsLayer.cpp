@@ -36,7 +36,8 @@ bool SettingsKidsLayer::init()
 
 void SettingsKidsLayer::addTabsCoverLayer()
 {
-    _tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, this->getContentSize().height);
+    _tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200), Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
+    _tabsCoverLayer->setPosition((this->getContentSize().width - _tabsCoverLayer->getContentSize().width) / 2, 0);
     _tabsCoverLayer->setVisible(false);
     this->addChild(_tabsCoverLayer);
     
@@ -45,11 +46,10 @@ void SettingsKidsLayer::addTabsCoverLayer()
 
 void SettingsKidsLayer::addScrollView()
 {
-    float scrollViewHeight = 1275;
-    Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() * 900 + 100,scrollViewHeight);
+    Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() * 900 + 100, this->getContentSize().height);
     
     _scrollView = cocos2d::ui::ScrollView::create();
-    _scrollView->setContentSize(Size(this->getContentSize().width, scrollViewHeight));
+    _scrollView->setContentSize(Size(this->getContentSize().width, this->getContentSize().height));
     _scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     _scrollView->setBounceEnabled(false);
     _scrollView->setTouchEnabled(true);
@@ -58,6 +58,7 @@ void SettingsKidsLayer::addScrollView()
     _scrollView->setScrollBarEnabled(true);
     _scrollView->setAnchorPoint(Vec2(0.5f, 0.5f));
     _scrollView->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height / 2));
+    _scrollView->setBackGroundColor(Color3B::ORANGE);
     
     this->addChild(_scrollView);
     
