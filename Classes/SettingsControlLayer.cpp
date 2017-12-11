@@ -108,7 +108,7 @@ void SettingsControlLayer::createSettingsController()
     createConfirmationNotification();
     checkForConfirmationNotifications();
     
-    selectNewTab(SettingsKidsLayer::createWithSize(this->getContentSize()), childrenButton);
+    selectNewTab(SettingsKidsLayer::createWithSize(Size(this->getContentSize().width, linePositionY-LINE_WIDTH/2)), childrenButton);
 }
 
 void SettingsControlLayer::createCancelButton()
@@ -215,7 +215,7 @@ void SettingsControlLayer::buttonPressed(ElectricDreamsButton* button)
     if(button == cancelButton)
         removeSelf();
     else if(button == childrenButton)
-        selectNewTab(SettingsKidsLayer::createWithSize(this->getContentSize()), childrenButton);
+        selectNewTab(SettingsKidsLayer::createWithSize(Size(this->getContentSize().width, linePositionY-LINE_WIDTH/2)), childrenButton);
     else if(button == confirmationButton)
     {
         confirmationNotification->setOpacity(0);
