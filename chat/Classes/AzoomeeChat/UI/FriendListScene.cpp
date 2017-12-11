@@ -28,8 +28,18 @@ bool FriendListScene::init()
     
     if(ConfigStorage::getInstance()->isDeviceIphoneX())
     {
-        _rootLayout->setSizePercent(Vec2(0.9f, 1.0f));
-        _rootLayout->setPosition(Point(Director::getInstance()->getVisibleOrigin().x + this->getContentSize().width * 0.05 , 0));
+        const bool isLandscape = _rootLayout->getContentSize().width > _rootLayout->getContentSize().height;
+        
+        if(isLandscape)
+        {
+            _rootLayout->setSizePercent(Vec2(0.9f, 1.0f));
+            _rootLayout->setPosition(Point(Director::getInstance()->getVisibleOrigin().x + this->getContentSize().width * 0.05 , 0));
+        }
+        else
+        {
+            _rootLayout->setSizePercent(Vec2(1.0f, 0.9f));
+            _rootLayout->setPosition(Point(0, Director::getInstance()->getVisibleOrigin().y + this->getContentSize().height * 0.05));
+        }
     }
     
     _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
@@ -98,6 +108,20 @@ void FriendListScene::onSizeChanged()
     
     const cocos2d::Size& contentSize = getContentSize();
     const bool isLandscape = contentSize.width > contentSize.height;
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        if(isLandscape)
+        {
+            _rootLayout->setSizePercent(Vec2(0.9f, 1.0f));
+            _rootLayout->setPosition(Point(Director::getInstance()->getVisibleOrigin().x + this->getContentSize().width * 0.05 , 0));
+        }
+        else
+        {
+            _rootLayout->setSizePercent(Vec2(1.0f, 0.9f));
+            _rootLayout->setPosition(Point(0, Director::getInstance()->getVisibleOrigin().y + this->getContentSize().height * 0.05));
+        }
+    }
     
     // TODO: Grab sizes from config
     
