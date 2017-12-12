@@ -78,7 +78,7 @@ void OnlineSafetyDetailsLayer::addUIObjects()
     //-----------SLIDE MAIN TEXT--------------------
     // Location in relation to the Slide Title Location
     
-    mainTextLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%sAdult%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)), Style::Font::Regular, Style::Color::black, 59);
+    mainTextLabel = createLabelWith(StringMgr::getInstance()->getStringForKey(StringUtils::format("%sAdult%d", ONLINE_SAFETY_SLIDE_MAIN_TEXT,currentSlideNumber)), Style::Font::Regular, Style::Color::black, 45);
     mainTextLabel->setLineSpacing(15);
     mainTextLabel->setAnchorPoint(Vec2(0.0,1));
     mainTextLabel->setWidth(mainImage->getPositionX()-mainImage->getContentSize().width/2-MARGIN_TO_CHEVRON*2);

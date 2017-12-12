@@ -65,7 +65,7 @@ void SettingsKidsLayer::addScrollView()
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
         auto childLayer = KidsControlLayer::createController(this, i);
-        childLayer->setPosition(100 + i * 900,70);
+        childLayer->setPosition(100 + i * 900, _scrollView->getContentSize().height / 2 - childLayer->getContentSize().height / 2);
         childLayer->setTag(i);
         _scrollView->addChild(childLayer);
     }
