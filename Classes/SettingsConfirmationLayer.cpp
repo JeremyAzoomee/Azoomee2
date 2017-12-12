@@ -14,7 +14,7 @@ NS_AZOOMEE_BEGIN
 #define MARGIN 78
 #define CONFIRMATION_HEIGHT 182
 
-Layer* SettingsConfirmationLayer::createWithSize(cocos2d::Size contentSize)
+Layer* SettingsConfirmationLayer::createWithSize(const cocos2d::Size &contentSize)
 {
     auto layer = SettingsConfirmationLayer::create();
     layer->setContentSize(contentSize);

@@ -14,7 +14,7 @@
 
 NS_AZOOMEE_BEGIN
 
-Layer* AccountDetailsLayer::createWithSize(cocos2d::Size contentSize)
+Layer* AccountDetailsLayer::createWithSize(const cocos2d::Size &contentSize)
 {
     auto layer = AccountDetailsLayer::create();
     layer->setContentSize(contentSize);

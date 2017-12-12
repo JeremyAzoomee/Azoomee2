@@ -69,10 +69,11 @@ using namespace Azoomee;
     
     float width = self.view.frame.size.width;
     
-    if([UIScreen mainScreen].bounds.size.width == 812)
+    if(isDeviceIphoneX())
     {
         width -= 50.0f;
     }
+
     webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, self.view.frame.size.height)];
     
     NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];

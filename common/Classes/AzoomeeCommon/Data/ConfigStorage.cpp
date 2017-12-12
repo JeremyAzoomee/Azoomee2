@@ -513,7 +513,7 @@ void ConfigStorage::setIsDeviceIphoneX(bool isDeviceIphoneX)
     _isDeviceIphoneX = isDeviceIphoneX;
 }
     
-bool ConfigStorage::isDeviceIphoneX()
+bool ConfigStorage::isDeviceIphoneX() const
 {
     return _isDeviceIphoneX;
 }

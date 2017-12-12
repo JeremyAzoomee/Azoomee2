@@ -10,7 +10,7 @@ NS_AZOOMEE_BEGIN
 #define MARGIN_TO_CHEVRON 150
 #define TOTAL_SLIDES 5
 
-Layer* OnlineSafetyDetailsLayer::createWithSize(cocos2d::Size contentSize)
+Layer* OnlineSafetyDetailsLayer::createWithSize(const cocos2d::Size &contentSize)
 {
     auto layer = OnlineSafetyDetailsLayer::create();
     layer->setContentSize(contentSize);

@@ -12,7 +12,7 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-Layer* SettingsKidsLayer::createWithSize(cocos2d::Size contentSize)
+Layer* SettingsKidsLayer::createWithSize(const cocos2d::Size &contentSize)
 {
     auto layer = SettingsKidsLayer::create();
     layer->setContentSize(contentSize);

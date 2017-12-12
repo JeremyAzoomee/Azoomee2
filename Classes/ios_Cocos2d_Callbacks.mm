@@ -9,6 +9,7 @@
 #include "LoginLogicHandler.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/ErrorCodes.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ContentHistoryManager.h"
 
 using namespace cocos2d;
@@ -106,6 +107,11 @@ NSString* getVideoPlaylist()
 {
     std::string returnString = VideoPlaylistManager::getInstance()->getPlaylist();
     return [NSString stringWithUTF8String:returnString.c_str()];
+}
+
+bool isDeviceIphoneX()
+{
+    return ConfigStorage::getInstance()->isDeviceIphoneX();
 }
 
 NS_AZOOMEE_END

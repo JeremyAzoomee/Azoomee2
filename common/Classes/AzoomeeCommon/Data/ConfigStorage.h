@@ -124,7 +124,7 @@ public:
     
     //Device-resolution-specific information
     void setIsDeviceIphoneX(bool isDeviceIphoneX);
-    bool isDeviceIphoneX();
+    bool isDeviceIphoneX() const;
     
 private:
     rapidjson::Document parseJsonConfigurationFile(std::string fileName);

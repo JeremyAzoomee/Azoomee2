@@ -28,7 +28,7 @@ private:
     void addScrollView();
     
 public:
-    static Layer* createWithSize(cocos2d::Size contentSize);
+    static Layer* createWithSize(const cocos2d::Size &contentSize);
     virtual bool init();
     
     CREATE_FUNC(SettingsConfirmationLayer);

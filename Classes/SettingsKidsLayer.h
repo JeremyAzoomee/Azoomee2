@@ -24,7 +24,7 @@ private:
     void addListenerToCoverLayer(Layer* listenerToLayer);
     
 public:
-    static Layer* createWithSize(cocos2d::Size contentSize);
+    static Layer* createWithSize(const cocos2d::Size &contentSize);
     virtual bool init() override;
     
     CREATE_FUNC(SettingsKidsLayer);
