@@ -7,6 +7,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
+#include "DynamicNodeHandler.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -47,12 +48,24 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
     savedDeveloperPayload = developerPayload;
     savedOrderId = orderId;
     savedToken = token;
+    if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+    {
+        auto funcCallAction = CallFunc::create([=](){
+            const std::string paymentFileString = developerPayload + "\n" + orderId + "\n" + token;
+            FileUtils::getInstance()->writeStringToFile(paymentFileString, FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
+            DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
+        });
+        
+        Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
+    }
+    else
+    {
+        auto funcCallAction = CallFunc::create([=](){
+            BackEndCaller::getInstance()->verifyGooglePayment(orderId, ConfigStorage::getInstance()->getIapSkuForProvider("google"), token);
+        });
     
-    auto funcCallAction = CallFunc::create([=](){
-        BackEndCaller::getInstance()->verifyGooglePayment(orderId, ConfigStorage::getInstance()->getIapSkuForProvider("google"), token);
-    });
-    
-    Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
+        Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash
+    }
 }
 
 void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::string responseDataString)
@@ -64,6 +77,7 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
     {
         requestAttempts = requestAttempts + 1;
         startBackEndPaymentVerification(savedDeveloperPayload, savedOrderId, savedToken);
+        FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
         return;
     }
     
@@ -72,6 +86,7 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
         if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED")
         {
             RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
+            FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
             return;
         }
         else

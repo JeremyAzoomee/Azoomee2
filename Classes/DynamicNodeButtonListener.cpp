@@ -9,6 +9,7 @@
 #include "DynamicNodeButtonListener.h"
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "IAPUpsaleLayer.h"
 #include "PreviewLoginSignupMessageBox.h"
@@ -151,7 +152,14 @@ void DynamicNodeButtonListener::signUp()
 
 void DynamicNodeButtonListener::inAppPurchaseButtonPressed()
 {
-    AwaitingAdultPinLayer::create()->setDelegate(this);
+    if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+    {
+        AwaitingAdultPinLayer::create()->setDelegate(this);
+    }
+    else
+    {
+        AdultPinAccepted(nullptr);
+    }
 }
 
 void DynamicNodeButtonListener::AdultPinCancelled(AwaitingAdultPinLayer* layer)

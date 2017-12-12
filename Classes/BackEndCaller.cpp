@@ -115,12 +115,32 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
         ConfigStorage::getInstance()->setFirstSlideShowSeen();
-        
         ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
         getAvailableChildren();
         updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
+        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt"))
+        {
+            const std::string& paymentReceiptString = FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
+            if(RoutePaymentSingleton::getInstance()->osIsIos())
+            {
+                verifyApplePayment(paymentReceiptString);
+                return;
+            }
+            
+            if(RoutePaymentSingleton::getInstance()->osIsAmazon())
+            {
+                const std::vector<std::string> stringVec = splitStringToVector(paymentReceiptString, "\n");
+                verifyAmazonPayment(stringVec[0], stringVec[1], stringVec[2]);
+            }
+            
+            if(RoutePaymentSingleton::getInstance()->osIsAndroid())
+            {
+                const std::vector<std::string> stringVec = splitStringToVector(paymentReceiptString, "\n");
+                verifyGooglePayment(stringVec[0], stringVec[1], stringVec[2]);
+            }
+        }
     }
     else
     {

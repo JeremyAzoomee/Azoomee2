@@ -7,6 +7,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
@@ -50,7 +51,15 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
 {
     savedReceipt = receiptData;
     
-    BackEndCaller::getInstance()->verifyApplePayment(receiptData);
+    if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+    {
+        FileUtils::getInstance()->writeStringToFile(receiptData, FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
+        DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
+    }
+    else
+    {
+        BackEndCaller::getInstance()->verifyApplePayment(receiptData);
+    }
 }
 
 void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
@@ -63,6 +72,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
         if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED" && RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
         {
             RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
+            FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
             return;
         }
         else if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED")
@@ -70,6 +80,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
             AnalyticsSingleton::getInstance()->iapAppleAutoRenewSubscriptionEvent();
             ModalMessages::getInstance()->stopLoading();
             BackEndCaller::getInstance()->updateBillingData();
+            FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
             return;
         }
         else

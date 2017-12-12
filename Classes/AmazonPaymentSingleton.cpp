@@ -4,6 +4,7 @@
 #include "BackEndCaller.h"
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
+#include "DynamicNodeHandler.h"
 
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -63,8 +64,16 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     savedRequestId = requestId;
     savedReceiptId = receiptId;
     savedAmazonUserid = amazonUserid;
-    
-    BackEndCaller::getInstance()->verifyAmazonPayment(requestId, receiptId, amazonUserid);
+    if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+    {
+        const std::string paymentFileString = requestId + "\n" + receiptId + "\n" + amazonUserid;
+        FileUtils::getInstance()->writeStringToFile(paymentFileString, FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
+        DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
+    }
+    else
+    {
+        BackEndCaller::getInstance()->verifyAmazonPayment(requestId, receiptId, amazonUserid);
+    }
 }
 
 void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDataString)
@@ -82,6 +91,7 @@ void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string respo
             fulfillAmazonPayment(receiptId);
             
             RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
+            FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
             return;
         }
         else
