@@ -77,6 +77,10 @@ void DynamicNodeTextInput::textInputIsValid(TextInputLayer* inputLayer, bool isV
 {
     _inputIsValid = isValid;
     _errorText->setVisible(!isValid);
+    if(_inputIsValid)
+    {
+        DynamicNodeDataInputStorage::getInstance()->addElementToStorage(_valueKey, inputLayer->getText());
+    }
 }
 
 void DynamicNodeTextInput::textInputReturnPressed(TextInputLayer* inputLayer)
