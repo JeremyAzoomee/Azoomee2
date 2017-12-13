@@ -7,23 +7,21 @@
 
 NS_AZOOMEE_BEGIN
 
-class ContentItemPool;
-typedef std::shared_ptr<ContentItemPool> ContentItemPoolRef;
-
 class ContentItemPool
 {
-private:
-    std::map<std::string, HQContentItemObjectRef> _contentItems;
-    
 public:
-    ContentItemPool();
-    static ContentItemPoolRef create();
+    static ContentItemPool* getInstance();
+    virtual ~ContentItemPool();
     
     void addContentItemToPool(const HQContentItemObjectRef &contentItem);
     void emptyContentItemPool();
     
     std::vector<HQContentItemObjectRef> getContentItems();
     HQContentItemObjectRef getContentItemForId(const std::string &contentId);
+    
+private:
+    ContentItemPool();
+    std::map<std::string, HQContentItemObjectRef> _contentItems;
 };
 
 NS_AZOOMEE_END

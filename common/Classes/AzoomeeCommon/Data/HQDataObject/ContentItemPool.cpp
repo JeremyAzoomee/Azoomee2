@@ -1,10 +1,23 @@
 #include "ContentItemPool.h"
 
+using namespace cocos2d;
+
 NS_AZOOMEE_BEGIN
 
-ContentItemPoolRef ContentItemPool::create()
+static std::auto_ptr<ContentItemPool> _sharedContentItemPool;
+
+ContentItemPool* ContentItemPool::getInstance()
 {
-    return std::make_shared<ContentItemPool>();
+    if (! _sharedContentItemPool.get())
+    {
+        _sharedContentItemPool.reset(new ContentItemPool);
+    }
+    
+    return _sharedContentItemPool.get();
+}
+
+ContentItemPool::~ContentItemPool()
+{
 }
 
 ContentItemPool::ContentItemPool()
