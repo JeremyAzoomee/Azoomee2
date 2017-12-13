@@ -34,6 +34,18 @@ void ContentItemPool::emptyContentItemPool()
     _contentItems.clear();
 }
 
+bool ContentItemPool::contentExistsForKey(const std::string &contentId)
+{
+    if(_contentItems.find(contentId) != _contentItems.end())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 std::vector<HQContentItemObjectRef> ContentItemPool::getContentItems()
 {
     std::vector<HQContentItemObjectRef> returnArray;
@@ -48,12 +60,14 @@ std::vector<HQContentItemObjectRef> ContentItemPool::getContentItems()
 
 HQContentItemObjectRef ContentItemPool::getContentItemForId(const std::string &contentId)
 {
-    if(_contentItems.find(contentId) == _contentItems.end())
+    if(contentExistsForKey(contentId))
+    {
+        return _contentItems.at(contentId);
+    }
+    else
     {
         return nullptr;
     }
-    
-    return _contentItems.at(contentId);
 }
 
 NS_AZOOMEE_END
