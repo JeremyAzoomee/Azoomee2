@@ -36,6 +36,7 @@ private:
     cocos2d::Node* _popupImages = nullptr;
     cocos2d::Node* _textLayer = nullptr;
     cocos2d::Node* _textInputLayer = nullptr;
+    cocos2d::Node* _linesLayer = nullptr;
     cocos2d::ui::Button* _closeButton = nullptr;
     cocos2d::LayerColor* _bgColour = nullptr;
     
@@ -58,6 +59,7 @@ private:
     void configExtraImages(const rapidjson::Value& imageList);
     void configText(const rapidjson::Value& textConfig);
     void configTextInput(const rapidjson::Value& textInputConfig);
+    void configLines(const rapidjson::Value& linesConfig);
     
 public:
     static DynamicNodeCreator* getInstance(void);

@@ -28,6 +28,8 @@ private:
     const std::string _kButtonTypeWeb = "web";
     const std::string _kButtonTypeDeepLink = "deeplink";
     const std::string _kButtonTypeCTATransition = "ctaTransition";
+    const std::string _kButtonTypeCTATransitionParams = "ctaTransitionParams";
+    const std::string _kButtonTypeCTATransitionGroup = "ctaTransitionGroup";
     
     //constants for button params
     const std::string _kButtonLocationUpgrade = "showUpgrade";

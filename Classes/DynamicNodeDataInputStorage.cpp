@@ -6,6 +6,7 @@
 //
 
 #include "DynamicNodeDataInputStorage.h"
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -47,6 +48,11 @@ std::string DynamicNodeDataInputStorage::getElementFromStorage(const std::string
     {
         return "";
     }
+}
+
+std::string DynamicNodeDataInputStorage::getStorageAsJsonString()
+{
+    return getJSONStringFromMap(_dataStorage);
 }
 
 void DynamicNodeDataInputStorage::clearStorage()

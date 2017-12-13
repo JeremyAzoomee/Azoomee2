@@ -115,6 +115,17 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             const std::string& location = buttonAction->getParamForKey("location");
             DynamicNodeHandler::getInstance()->createDynamicNodeById(location);
         }
+        else if(buttonAction->getType() == _kButtonTypeCTATransitionParams)
+        {
+            const std::string& location = buttonAction->getParamForKey("location");
+            const std::string& params = DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString();
+            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(location, params);
+        }
+        else if(buttonAction->getType() == _kButtonTypeCTATransitionGroup)
+        {
+            const std::string& location = buttonAction->getParamForKey("location");
+            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(location);
+        }
     }
 }
 

@@ -140,6 +140,7 @@
 		926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
 		926173BF1F3334E6008E3F9D /* ArtAppImageConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173BE1F3334E6008E3F9D /* ArtAppImageConverter.cpp */; };
 		926173C21F33850F008E3F9D /* ImageConverterLoadingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */; };
+		92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */; };
 		9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */; };
 		9289DAF31FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF21FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp */; };
 		9289DAF61FCEEFF000B12435 /* DynamicNodeTextInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */; };
@@ -481,6 +482,8 @@
 		926173BE1F3334E6008E3F9D /* ArtAppImageConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppImageConverter.cpp; sourceTree = "<group>"; };
 		926173C01F338363008E3F9D /* ImageConverterLoadingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageConverterLoadingLayer.h; sourceTree = "<group>"; };
 		926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageConverterLoadingLayer.cpp; sourceTree = "<group>"; };
+		92759E6B1FE157D500639190 /* DynamicNodeLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeLine.h; sourceTree = "<group>"; };
+		92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeLine.cpp; sourceTree = "<group>"; };
 		9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentHistoryManager.cpp; sourceTree = "<group>"; };
 		9289DA091FBDD6EB00B12435 /* ContentHistoryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentHistoryManager.h; sourceTree = "<group>"; };
 		9289DAEE1FCED6CE00B12435 /* DynamicNodeDataInputStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeDataInputStorage.h; sourceTree = "<group>"; };
@@ -1093,6 +1096,8 @@
 				9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */,
 				9289DB781FD9883100B12435 /* DynamicNodeImage.h */,
 				9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */,
+				92759E6B1FE157D500639190 /* DynamicNodeLine.h */,
+				92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */,
 			);
 			name = CallToAction;
 			sourceTree = "<group>";
@@ -1563,6 +1568,7 @@
 				025BE94D1E3A1E2D00EF76D1 /* ArtsPreviewLayer.cpp in Sources */,
 				02C66A9F1FBAF79400F33686 /* HQScene2.cpp in Sources */,
 				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
+				92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
 				4348E4431E65DD9B00486661 /* OnboardingSuccessScene.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,

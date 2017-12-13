@@ -25,6 +25,7 @@ public:
     
     void addElementToStorage(const std::string& key, const std::string& value);
     std::string getElementFromStorage(const std::string& key);
+    std::string getStorageAsJsonString();
     void clearStorage();
     
 };

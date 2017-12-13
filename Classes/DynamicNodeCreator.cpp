@@ -16,6 +16,7 @@
 #include "DynamicNodeTextInput.h"
 #include "DynamicNodeButton.h"
 #include "DynamicNodeText.h"
+#include "DynamicNodeLine.h"
 
 using namespace cocos2d;
 
@@ -157,6 +158,13 @@ void DynamicNodeCreator::processFile(const rapidjson::Document& configFile)
         const rapidjson::Value& textInputList = configFile["textInputFields"];
         configTextInput(textInputList);
     }
+    
+    //config line drawing
+    if(configFile.HasMember("lines"))
+    {
+        const rapidjson::Value& lineList = configFile["lines"];
+        configLines(lineList);
+    }
 }
 
 void DynamicNodeCreator::initCTANode()
@@ -225,6 +233,12 @@ void DynamicNodeCreator::initCTANode()
     _textInputLayer->setPosition(_windowSize/2);
     _CTANode->addChild(_textInputLayer);
     
+    _linesLayer = Node::create();
+    _linesLayer->setContentSize(_stencil->getContentSize());
+    _linesLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _linesLayer->setPosition(_windowSize/2);
+    _CTANode->addChild(_linesLayer);
+    
     _popupFrame = ui::Scale9Sprite::create(kCTAAssetLoc + "deep_free_pop_over_trans.png");
     _popupFrame->setPosition(_windowSize/2);
     _popupFrame->setAnchorPoint(Vec2(0.5,0.5));
@@ -262,6 +276,7 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
             _popupImages->setContentSize(newSize);
             _textLayer->setContentSize(newSize);
             _textInputLayer->setContentSize(newSize);
+            _linesLayer->setContentSize(newSize);
         }
     }
 }
@@ -371,6 +386,19 @@ void DynamicNodeCreator::configTextInput(const rapidjson::Value &textInputConfig
             DynamicNodeTextInput* textInput = DynamicNodeTextInput::create();
             textInput->initWithParams(textInputConfig[i], _textInputLayer->getContentSize());
             _textInputLayer->addChild(textInput);
+        }
+    }
+}
+
+void DynamicNodeCreator::configLines(const rapidjson::Value &linesConfig)
+{
+    if(linesConfig.IsArray())
+    {
+        for (int i = 0; i < linesConfig.Size(); i++)
+        {
+            DynamicNodeLine* line = DynamicNodeLine::create();
+            line->initWithParams(linesConfig[i], _linesLayer->getContentSize());
+            _linesLayer->addChild(line);
         }
     }
 }
