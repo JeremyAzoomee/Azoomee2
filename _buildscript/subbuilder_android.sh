@@ -38,8 +38,8 @@ fi
 if [ "$AMAZON" == "samsung" ]; then
   cp ../proj.android-studio/app/AndroidManifest.xml ../_replaceTestResults/AndroidManifest.xml
 	sed -i.bak 's/<!--manifestHeader-->.*/<!--manifestHeader--><manifest xmlns:android="http:\/\/schemas.android.com\/apk\/res\/android" package="com.tinizine.azoomee" android:versionCode="'$BUILDNUMBER'" android:versionName="'$VERSIONNUMBER'" android:installLocation="auto">/g' ../_replaceTestResults/AndroidManifest.xml
-  sed -i.bak 's/<!--samsungFeaturesPlace-->.*/<!--samsungFeaturesPlace--><uses-feature android:name="android.hardware.nfc " android:required="false"\/><uses-feature android:name="android.hardware.touchscreen" android:required="true"\/>/g' ../_replaceTestResults/AndroidManifest.xml
-  sed -i.bak 's/<!--samsungPermissionsPlace-->.*/<!--samsungPermissionsPlace--><uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"\/>/g' ../_replaceTestResults/AndroidManifest.xml
+  sed -i.bk2 's/<!--samsungFeaturesPlace-->.*/<!--samsungFeaturesPlace--><uses-feature android:name="android.hardware.nfc " android:required="false"\/><uses-feature android:name="android.hardware.touchscreen" android:required="true"\/>/g' ../_replaceTestResults/AndroidManifest.xml
+  sed -i.bk3 's/<!--samsungPermissionsPlace-->.*/<!--samsungPermissionsPlace--><uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"\/>/g' ../_replaceTestResults/AndroidManifest.xml
   cp -r ../_replaceTestResults/AndroidManifest.xml ../proj.android-studio/app/AndroidManifest.xml
 fi
 
