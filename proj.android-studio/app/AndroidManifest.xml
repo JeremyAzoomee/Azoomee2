@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tinizine.azoomee"
-    android:versionCode="343001"
-    android:versionName="3.4.3"
-    android:installLocation="auto">
+<!--manifestHeader--><manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.tinizine.azoomee" android:installLocation="auto">
 
     <uses-feature android:glEsVersion="0x00020000" />
     <uses-feature android:name="android.hardware.telephony" android:required="false" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
     <uses-feature android:name="android.software.sip.voip" android:required="false"/>
-    <uses-feature android:name="android.hardware.nfc " android:required="false"/>
-    <uses-feature android:name="android.hardware.touchscreen" android:required="true"/>
+    <!--samsungFeaturesPlace-->
 
 
     <uses-sdk android:minSdkVersion="13"/>
@@ -105,6 +100,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
+    <!--samsungPermissionsPlace-->
 
 </manifest>
