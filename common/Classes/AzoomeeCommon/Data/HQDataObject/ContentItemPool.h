@@ -20,6 +20,9 @@ public:
     std::vector<HQContentItemObjectRef> getContentItems();
     HQContentItemObjectRef getContentItemForId(const std::string &contentId);
     
+    void backupContentItemPool();
+    void restoreContentItemPool();
+    
 private:
     ContentItemPool();
     std::map<std::string, HQContentItemObjectRef> _contentItems;

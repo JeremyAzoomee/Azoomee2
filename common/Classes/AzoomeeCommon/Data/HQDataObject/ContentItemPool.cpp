@@ -1,4 +1,6 @@
 #include "ContentItemPool.h"
+#include "../Child/ChildDataProvider.h"
+#include "../../Utils/StringFunctions.h"
 
 using namespace cocos2d;
 
@@ -67,6 +69,51 @@ HQContentItemObjectRef ContentItemPool::getContentItemForId(const std::string &c
     else
     {
         return nullptr;
+    }
+}
+
+void ContentItemPool::backupContentItemPool()
+{
+    const std::string &contentPath = FileUtils::getInstance()->getWritablePath() + "contentCache/" + ChildDataProvider::getInstance()->getParentOrChildId() + "/";
+    
+    if(!FileUtils::getInstance()->isDirectoryExist(contentPath))
+    {
+        FileUtils::getInstance()->createDirectory(contentPath);
+    }
+    
+    std::string saveString = "";
+    
+    for(std::map<std::string, HQContentItemObjectRef>::iterator item = _contentItems.begin(); item != _contentItems.end(); ++item)
+    {
+        if(saveString.length() > 0)
+        {
+            saveString += "|";
+        }
+        
+        saveString += item->second->getJSONRepresentationOfStructure();
+    }
+    
+    FileUtils::getInstance()->writeStringToFile(saveString, contentPath + "contentCache.bak");
+}
+
+void ContentItemPool::restoreContentItemPool()
+{
+    emptyContentItemPool();
+    
+    const std::string &contentFilePath = FileUtils::getInstance()->getWritablePath() + "contentCache/" + ChildDataProvider::getInstance()->getParentOrChildId() + "/contentCache.bak";
+    if(!FileUtils::getInstance()->isFileExist(contentFilePath))
+    {
+        return;
+    }
+    
+    const std::string &fileData = FileUtils::getInstance()->getStringFromFile(contentFilePath);
+    const std::vector<std::string> &jsonStringVector = splitStringToVector(fileData, "|");
+    
+    for(std::string currentItemJsonString : jsonStringVector)
+    {
+        const std::map<std::string, std::string> &elementMap = getStringMapFromJsonString(currentItemJsonString);
+        HQContentItemObjectRef newContentItem = HQContentItemObject::createFromMap(elementMap);
+        addContentItemToPool(newContentItem);
     }
 }
 

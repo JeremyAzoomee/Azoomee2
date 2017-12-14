@@ -131,6 +131,8 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
             }
         }
         
+        ContentItemPool::getInstance()->backupContentItemPool();
+        
         HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addCarusoelToHq(carouselObject);
         HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setHqType(category);
     }
