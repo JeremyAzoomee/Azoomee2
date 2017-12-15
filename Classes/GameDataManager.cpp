@@ -163,7 +163,10 @@ std::string GameDataManager::getFileNameFromUrl(const std::string &url)
 
 void GameDataManager::getJSONGameData(const std::string &url, const std::string &itemId)
 {
-    jsonRequest = new HttpRequest();
+    _jsonDownloader = FileDownloader::create();
+    _jsonDownloader->setDelegate(this);
+    _jsonDownloader->downloadFileFromServer(url, itemId);
+    /*jsonRequest = new HttpRequest();
     jsonRequest->setRequestType(HttpRequest::Type::GET);
     jsonRequest->setUrl(url.c_str());
     
@@ -177,7 +180,7 @@ void GameDataManager::getJSONGameData(const std::string &url, const std::string 
     jsonRequest->setTag(itemId);
     HttpClient::getInstance()->setTimeoutForConnect(2);
     HttpClient::getInstance()->setTimeoutForRead(2);
-    HttpClient::getInstance()->sendImmediate(jsonRequest);
+    HttpClient::getInstance()->sendImmediate(jsonRequest);*/
 }
 
 void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -298,7 +301,10 @@ int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonStri
 
 void GameDataManager::getGameZipFile(const std::string &url, const std::string &itemId)
 {
-    zipRequest = new HttpRequest();
+    _zipDownloader = FileDownloader::create();
+    _zipDownloader->setDelegate(this);
+    _zipDownloader->downloadFileFromServer(url, itemId);
+    /*zipRequest = new HttpRequest();
     zipRequest->setRequestType(HttpRequest::Type::GET);
     zipRequest->setUrl(url.c_str());
     
@@ -312,7 +318,7 @@ void GameDataManager::getGameZipFile(const std::string &url, const std::string &
     zipRequest->setTag(itemId);
     HttpClient::getInstance()->setTimeoutForConnect(2);
     HttpClient::getInstance()->setTimeoutForRead(2);
-    HttpClient::getInstance()->sendImmediate(zipRequest);
+    HttpClient::getInstance()->sendImmediate(zipRequest);*/
 }
 
 void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -576,13 +582,22 @@ void GameDataManager::buttonPressed(ElectricDreamsButton *button)
 {
     processCancelled = true;
     
-    if(zipRequest)
+    /*if(zipRequest)
     {
         zipRequest->setResponseCallback(nullptr);
     }
     if(jsonRequest)
     {
         jsonRequest->setResponseCallback(nullptr);
+    }*/
+    
+    if(_jsonDownloader)
+    {
+        _jsonDownloader->setDelegate(nullptr);
+    }
+    if(_zipDownloader)
+    {
+        _zipDownloader->setDelegate(nullptr);
     }
     
     Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("cancelButton"));
@@ -596,6 +611,33 @@ void GameDataManager::MessageBoxButtonPressed(std::string messageBoxTitle,std::s
     if(messageBoxTitle == errorStringMap[ERROR_TITLE] && buttonTitle == errorStringMap[ERROR_BUTTON])
     {
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
+    }
+}
+
+void GameDataManager::onFileDownloadComplete(const std::string &fileString,const std::string& tag, long responseCode)
+{
+    if(responseCode != 200)
+    {
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
+        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
+        LoginLogicHandler::getInstance()->doLoginLogic();
+        return;
+    }
+    if(_jsonDownloader)
+    {
+        removeOldGameIfUpgradeNeeded(fileString, tag);
+        JSONFileIsPresent(tag);
+        _jsonDownloader = nullptr;
+        
+    }
+    else if(_zipDownloader)
+    {
+        const std::string& basePath = getGameIdPath(tag);
+        const std::string& targetPath = basePath + "game.zip";
+        FileUtils::getInstance()->writeStringToFile(fileString, targetPath);
+        
+        unzipGame(targetPath, basePath, "");
+        _zipDownloader = nullptr;
     }
 }
 NS_AZOOMEE_END

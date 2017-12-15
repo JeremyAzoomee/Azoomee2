@@ -165,7 +165,10 @@ void DynamicNodeHandler::checkIfVersionChangedFromLastCTAPull()
 
 void DynamicNodeHandler::getCTAPackageJSON(const std::string& url)
 {
-    auto jsonRequest = new network::HttpRequest();
+    _fileDownloader = FileDownloader::create();
+    _fileDownloader->setDelegate(this);
+    _fileDownloader->downloadFileFromServer(url,"json");
+    /*auto jsonRequest = new network::HttpRequest();
     jsonRequest->setRequestType(network::HttpRequest::Type::GET);
     jsonRequest->setUrl(url.c_str());
     
@@ -178,7 +181,7 @@ void DynamicNodeHandler::getCTAPackageJSON(const std::string& url)
     jsonRequest->setResponseCallback(CC_CALLBACK_2(DynamicNodeHandler::onGetCTAPackageJSONAnswerReceived , this));
     network::HttpClient::getInstance()->setTimeoutForConnect(2);
     network::HttpClient::getInstance()->setTimeoutForRead(2);
-    network::HttpClient::getInstance()->sendImmediate(jsonRequest);
+    network::HttpClient::getInstance()->sendImmediate(jsonRequest);*/
 }
 
 void DynamicNodeHandler::onGetCTAPackageJSONAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -233,7 +236,10 @@ void DynamicNodeHandler::onGetCTAPackageJSONAnswerReceived(cocos2d::network::Htt
 
 void DynamicNodeHandler::getCTAPackageZip(const std::string& url)
 {
-    auto zipRequest = new network::HttpRequest();
+    _fileDownloader = FileDownloader::create();
+    _fileDownloader->setDelegate(this);
+    _fileDownloader->downloadFileFromServer(url,"zip");
+    /*auto zipRequest = new network::HttpRequest();
     zipRequest->setRequestType(network::HttpRequest::Type::GET);
     zipRequest->setUrl(url.c_str());
     
@@ -247,7 +253,7 @@ void DynamicNodeHandler::getCTAPackageZip(const std::string& url)
     zipRequest->setResponseCallback(CC_CALLBACK_2(DynamicNodeHandler::onGetCTAPackageZipAnswerReceived, this));
     network::HttpClient::getInstance()->setTimeoutForConnect(2);
     network::HttpClient::getInstance()->setTimeoutForRead(2);
-    network::HttpClient::getInstance()->sendImmediate(zipRequest);
+    network::HttpClient::getInstance()->sendImmediate(zipRequest);*/
 }
 
 void DynamicNodeHandler::onGetCTAPackageZipAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
@@ -354,5 +360,73 @@ void DynamicNodeHandler::createDynamicNodeFromFileWithParams(const std::string &
     Director::getInstance()->getRunningScene()->addChild(cta);
 }
 
+// Delegate functions
+
+void DynamicNodeHandler::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)
+{
+    // json file download return
+    if(tag == "json")
+    {
+        if (responseCode == 200)
+        {
+            const std::string& targetPath = getPackageJsonLocation();
+            rapidjson::Document newPackageJSON;
+            newPackageJSON.Parse(fileString.c_str());
+            
+            if(!newPackageJSON.HasParseError())
+            {
+                if(isCTAPackageJSONExist())
+                {
+                    rapidjson::Document oldPackageJSON = getLocalCTAPackageJSON(); //dont need to error check as wont make it on to device if invalid
+                    
+                    if(oldPackageJSON["currentVersion"].GetInt() < newPackageJSON["currentVersion"].GetInt() && azoomeeMeetsVersionRequirement(newPackageJSON["minAzoomeeVersion"].GetString()))
+                    {
+                        FileUtils::getInstance()->writeStringToFile(fileString, targetPath);
+                        getCTAPackageZip(getStringFromJson("uri", newPackageJSON));
+                        return;
+                    }
+                }
+                else
+                {
+                    if(azoomeeMeetsVersionRequirement(newPackageJSON["minAzoomeeVersion"].GetString()))
+                    {
+                        FileUtils::getInstance()->writeStringToFile(fileString, targetPath);
+                        getCTAPackageZip(getStringFromJson("uri", newPackageJSON));
+                        return;
+                    }
+                    else
+                    {
+                        unzipBundleCTAFiles();
+                        return;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if(!isCTAPackageJSONExist())
+            {
+                unzipBundleCTAFiles();
+            }
+        }
+    }
+    // zip file return
+    else if(tag == "zip")
+    {
+        if(responseCode == 200)
+        {
+            const std::string& basePath = getCTADirectoryPath();
+            const std::string& targetPath = basePath + "CTAFiles.zip";
+            FileUtils::getInstance()->writeStringToFile(fileString, targetPath);
+            removeCTAFiles();
+            unzipCTAFiles(targetPath.c_str(), basePath.c_str(), nullptr);
+            FileUtils::getInstance()->writeStringToFile(ConfigStorage::getInstance()->getVersionNumber(), getLastPullAppVersionFilePath());
+        }
+        else
+        {
+            unzipBundleCTAFiles();
+        }
+    }
+}
 
 NS_AZOOMEE_END

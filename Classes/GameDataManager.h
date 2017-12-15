@@ -10,10 +10,11 @@
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/Utils/FileDownloader.h>
 
 NS_AZOOMEE_BEGIN
 
-class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
+class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public FileDownloaderDelegate
 {
     
 public:
@@ -29,6 +30,7 @@ public:
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
     
 private:
     void saveFeedDataToFile(const HQContentItemObjectRef &itemData);
@@ -69,6 +71,9 @@ private:
     
     cocos2d::network::HttpRequest* jsonRequest;
     cocos2d::network::HttpRequest* zipRequest;
+    FileDownloaderRef _jsonDownloader = nullptr;
+    FileDownloaderRef _zipDownloader = nullptr;
+    
     bool processCancelled = false;
     
     bool isGameCompatibleWithCurrentAzoomeeVersion(const std::string &jsonFileName);

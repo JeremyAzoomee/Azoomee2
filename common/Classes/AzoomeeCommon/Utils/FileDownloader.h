@@ -20,22 +20,24 @@ typedef std::shared_ptr<FileDownloader> FileDownloaderRef;
 
 struct FileDownloaderDelegate
 {
-    virtual void onFileDownloadComplete(const std::string& fileString, int responseCode) = 0;
+    virtual void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode) = 0;
 };
 
 class FileDownloader : public std::enable_shared_from_this<FileDownloader>
 {
 private:
     FileDownloaderDelegate* _delegate = nullptr;
+    cocos2d::network::HttpRequest* _downloadRequest = nullptr;
     std::string _url;
     
 public:
-    static FileDownloaderRef create(const std::string& url);
+    static FileDownloaderRef create();
+    FileDownloader();
     virtual ~FileDownloader();
     /// Set delegate
-    void setDelegate(ImageDownloaderDelegate* delegate);
+    void setDelegate(FileDownloaderDelegate* delegate);
     
-    void downloadFileFromServer(const std::string& url);
+    void downloadFileFromServer(const std::string& url, const std::string& tag = "");
     void downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response);
 };
 

@@ -16,12 +16,15 @@
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Json.h>
+#include <AzoomeeCommon/Utils/FileDownloader.h>
 
 NS_AZOOMEE_BEGIN
 
-class DynamicNodeHandler : cocos2d::Ref
+class DynamicNodeHandler : public cocos2d::Ref, public FileDownloaderDelegate
 {
 private:
+    
+    FileDownloaderRef _fileDownloader = nullptr;
     
     bool isCTAPackageJSONExist();
     
@@ -63,6 +66,9 @@ public:
     void createDynamicNodeByIdWithParams(const std::string& uniqueId, const std::string& params);
     
     void getCTAFiles();
+    
+    //delegate functions
+    void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
     
 };
 
