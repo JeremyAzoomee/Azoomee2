@@ -12,7 +12,6 @@
 #include <AzoomeeCommon/Application.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "FlowDataSingleton.h"
-#include "FTUScene.h"
 #include <AzoomeeChat/UI/FriendListScene.h>
 #include <AzoomeeChat/UI/FriendListSceneArtPreview.h>
 #include "ChatDelegate.h"
@@ -164,14 +163,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             cocos2d::Scene* goToScene = HQScene::createSceneForOfflineArtsAppHQ();
             AnalyticsSingleton::getInstance()->registerCurrentScene("OFFLINE_ARTS_APP");
             Director::getInstance()->replaceScene(TransitionSlideInR::create(0.25f, goToScene));
-            break;
-        }
-        case FTUScene:
-        {
-            forceToLandscape();
-            cocos2d::Scene* goToScene = FTUScene::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("FTU_SCENE");
-            Director::getInstance()->replaceScene(goToScene);
             break;
         }
         case ChatEntryPointScene:

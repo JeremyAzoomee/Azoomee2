@@ -18,7 +18,6 @@ enum SceneNameEnum {
     OnboardingSuccessScene,
     OfflineHub,
     OfflineArtsAppHQ,
-    FTUScene,
     ChatEntryPointScene,
     WebviewPortrait,
     WebviewLandscape,
