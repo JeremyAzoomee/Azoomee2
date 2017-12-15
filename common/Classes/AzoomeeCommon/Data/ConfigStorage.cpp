@@ -67,7 +67,6 @@ bool ConfigStorage::init(void)
         API::TagGetAvailableChildren,
         API::TagUpdateChild,
         API::TagDeleteChild,
-        API::TagPusherAuth,
         API::TagGetPendingFriendRequests,
         API::TagFriendRequest,
         API::TagFriendRequestReaction,
@@ -86,8 +85,7 @@ bool ConfigStorage::init(void)
         API::TagVerifyGooglePayment,
         API::TagVerifyAmazonPayment,
         API::TagVerifyApplePayment,
-        API::TagGetAvailableChildren,
-        API::TagPusherAuth
+        API::TagGetAvailableChildren
     };
     
     
