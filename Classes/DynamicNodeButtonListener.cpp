@@ -65,13 +65,15 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             const std::string& location = buttonAction->getParamForKey("location");
             if(location == "replay")
             {
+                AnalyticsSingleton::getInstance()->registerCurrentScene("REPLAY");
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("replayContent", ContentHistoryManager::getInstance()->getLastOpenedContent()->getTitle());
                 DeepLinkingSingleton::getInstance()->setDeepLink(DeepLinkingSingleton::kPostContentDeeplinkStr + ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId()); // fire up content directly when content opener exists
                 closeCTAPopup();
             }
             else
             {
-                HQContentItemObjectRef content = HQDataProvider::getInstance()->getItemDataForSpecificItem(location);
+                AnalyticsSingleton::getInstance()->registerCurrentScene("RECOMMENDED");
+                HQContentItemObjectRef content = HQDataProvider::getInstance()->getItemDataForSpecificItem(location.substr(DeepLinkingSingleton::kPostContentDeeplinkStr.length()));
                 std::string contentTitle = "";
                 if(content)
                 {
