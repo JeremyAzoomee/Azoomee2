@@ -459,6 +459,7 @@
 		9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectorySearcher.cpp; sourceTree = "<group>"; };
 		9261739D1F2A3D34008E3F9D /* OnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnScreenChecker.h; sourceTree = "<group>"; };
 		9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnScreenChecker.cpp; sourceTree = "<group>"; };
+		92759E9C1FE3DDCA00639190 /* FileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -644,6 +645,7 @@
 				02BF05EE1F98B80B00E7D086 /* PushNotificationsHandler.h */,
 				0215648F1FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp */,
 				0215648E1FC5F3DB00641C14 /* SpecialCalendarEventManager.h */,
+				92759E9C1FE3DDCA00639190 /* FileDownloader.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
