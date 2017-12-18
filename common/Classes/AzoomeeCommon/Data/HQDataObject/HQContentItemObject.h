@@ -49,6 +49,7 @@ public:
     bool isNew() const;
     std::vector<std::string> getTags() const;
     std::map<std::string, std::string> getImages() const;
+    std::string getBaseImageThumbUrl() const;
     
     //getters and setters for variables only handled upon read (not storing)
     void setImagePath(const std::string &inputImagePath);
