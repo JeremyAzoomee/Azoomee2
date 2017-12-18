@@ -180,7 +180,7 @@ std::string HQDataProvider::getThumbnailUrlForItem(const std::string &itemId) co
         }
     }
     
-    return nullptr;
+    return "";
 }
 
 std::string HQDataProvider::getThumbnailUrlForItem(const std::string &category, const std::string &itemId) const
