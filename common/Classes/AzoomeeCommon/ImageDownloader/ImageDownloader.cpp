@@ -112,47 +112,7 @@ void ImageDownloader::downloadFileFromServer(const std::string& url)
     _fileDownloader->setDelegate(this);
     _fileDownloader->downloadFileFromServer(url);
     
-    /*_downloadRequest = new HttpRequest();
-    _downloadRequest->setRequestType(HttpRequest::Type::GET);
-    _downloadRequest->setUrl(url.c_str());
-    
-    std::vector<std::string> headers{
-        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url),
-        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
-    };
-    _downloadRequest->setHeaders(headers);
-    
-    _downloadRequest->setResponseCallback(CC_CALLBACK_2(ImageDownloader::downloadFileFromServerAnswerReceived, this));
-    _downloadRequest->setTag("image download");
-     HttpClient::getInstance()->send(_downloadRequest);*/
     _downloadingImagePool.push_back(shared_from_this());
-}
-
-void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response)
-{
-    if(response->getResponseCode() == 200)
-    {
-        if(response && response->getResponseData())
-        {
-            std::vector<char> myResponse = *response->getResponseData();
-            const std::string& responseString = std::string(myResponse.begin(), myResponse.end());
-            
-            if(saveFileToDevice(responseString, getLocalImagePath()))
-            {
-                saveFileToDevice(StringUtils::format("%ld", time(NULL)), getTimestampFilePath());
-                loadFileFromLocalCacheAsync();
-            }
-            else
-            {
-                // TODO: Failed callback
-            }
-        }
-    }
-    else
-    {
-        // TODO: Failed callback
-    }
-    _downloadingImagePool.erase(std::find(_downloadingImagePool.begin(), _downloadingImagePool.end(), shared_from_this()));
 }
 
 void ImageDownloader::loadFileFromLocalCacheAsync()

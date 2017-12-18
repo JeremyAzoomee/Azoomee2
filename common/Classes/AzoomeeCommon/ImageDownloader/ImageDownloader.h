@@ -68,7 +68,6 @@ private:
     std::string getTimestampFilePath() const;
     
     void downloadFileFromServer(const std::string& url);
-    void downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response);
     void loadFileFromLocalCacheAsync();
     
 public:

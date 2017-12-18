@@ -40,8 +40,6 @@ private:
     void createGamePathDirectories(const std::string &basePath);
     std::string getFileNameFromUrl(const std::string &url);
     
-    void onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
-    
     void removeOldGameIfUpgradeNeeded(const std::string &downloadedJSONString, const std::string &gameId);
     bool checkIfFileExists(const std::string &fileWithPath);
     
@@ -51,7 +49,6 @@ private:
     int getMinGameVersionFromJSONString(const std::string &jsonString);
     
     void getGameZipFile(const std::string &url, const std::string &itemId);
-    void onGetGameZipFileAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     bool unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd);
     bool removeGameZip(const std::string &fileNameWithPath);
@@ -69,10 +66,9 @@ private:
     void showErrorMessage();
     void showIncompatibleMessage();
     
-    cocos2d::network::HttpRequest* jsonRequest;
-    cocos2d::network::HttpRequest* zipRequest;
-    FileDownloaderRef _jsonDownloader = nullptr;
-    FileDownloaderRef _zipDownloader = nullptr;
+    FileDownloaderRef _fileDownloader = nullptr;
+    
+    std::string _contentId = "";
     
     bool processCancelled = false;
     
@@ -89,6 +85,10 @@ private:
     
     const int _kGameCleanupCheckFreq = 432000; //5 days in seconds
     const int _kGameCleanupUnusedTime = 1814400; //21 days in seconds
+    
+    // file download request tags
+    const std::string _kZipTag = "zip";
+    const std::string _kJsonTag = "json";
 };
 
 NS_AZOOMEE_END
