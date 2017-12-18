@@ -75,7 +75,7 @@ void FileDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::Http
     {
         if(_delegate)
         {
-            _delegate->onFileDownloadComplete("","", response->getResponseCode());
+            _delegate->onFileDownloadComplete("",response->getHttpRequest()->getTag(), response->getResponseCode());
         }
 
     }
