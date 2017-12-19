@@ -46,7 +46,15 @@ void HQDataProvider::startBuildingHQ(const std::string &category)
     
     Scene *runningScene = Director::getInstance()->getRunningScene();
     Node *baseLayer = runningScene->getChildByName("baseLayer");
+    if(baseLayer == nullptr)
+    {
+        return;
+    }
     Node *contentLayer = baseLayer->getChildByName("contentLayer");
+    if(contentLayer == nullptr)
+    {
+        return;
+    }
     
     if(category == ConfigStorage::kGameHQName || category == ConfigStorage::kVideoHQName || category == ConfigStorage::kAudioHQName)
     {
