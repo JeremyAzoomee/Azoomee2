@@ -43,52 +43,56 @@ bool ContentOpener::init(void)
     return true;
 }
 
-void ContentOpener::openContent(const std::string &contentId)
+void ContentOpener::openContentById(const std::string &contentId)
 {
     HQContentItemObjectRef contentItem = HQDataProvider::getInstance()->getItemDataForSpecificItem(contentId);
     
     if(contentItem)
     {
+        openContentObject(contentItem);
+    }
+}
+
+void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
+{
+    if(contentItem == nullptr || !contentItem->isEntitled())
+    {
+        return;
+    }
     
-        if(!contentItem->isEntitled())
-        {
-            return;
-        }
-    
-        if(contentItem->getType() == ConfigStorage::kContentTypeGame)
-        {
-            ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-            GameDataManager::getInstance()->startProcessingGame(contentItem);
-        }
-        else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
-        {
-            ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-            VideoPlaylistManager::getInstance()->clearPlaylist();
-            auto webViewSelector = WebViewSelector::create();
-            webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);
-        }
-        else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
-        {
-            ModalMessages::getInstance()->stopLoading();
+    if(contentItem->getType() == ConfigStorage::kContentTypeGame)
+    {
+        ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
+        GameDataManager::getInstance()->startProcessingGame(contentItem);
+    }
+    else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
+    {
+        ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
+        VideoPlaylistManager::getInstance()->clearPlaylist();
+        auto webViewSelector = WebViewSelector::create();
+        webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);
+    }
+    else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
+    {
+        ModalMessages::getInstance()->stopLoading();
         
-            auto baseLayer = Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
-            if(baseLayer)
-            {
-                NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
+        auto baseLayer = Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
+        if(baseLayer)
+        {
+            NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
             
-                if(navigationLayer)
-                {
-                    navigationLayer->startLoadingGroupHQ(contentItem->getUri());
+            if(navigationLayer)
+            {
+                navigationLayer->startLoadingGroupHQ(contentItem->getUri());
                 
+                HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
+                HQHistoryManager::getInstance()->setGroupHQSourceId(contentItem->getContentItemId());
+                
+                auto funcCallAction = CallFunc::create([=](){
                     HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
-                    HQHistoryManager::getInstance()->setGroupHQSourceId(contentId);
+                });
                 
-                    auto funcCallAction = CallFunc::create([=](){
-                        HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
-                    });
-                
-                    Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
-                }
+                Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
             }
         }
     }

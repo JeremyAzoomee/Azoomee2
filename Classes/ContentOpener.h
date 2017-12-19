@@ -10,6 +10,7 @@
 
 #include <AzoomeeCommon/Azoomee.h>
 #include "cocos2d.h"
+#include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -22,7 +23,8 @@ public:
     virtual ~ContentOpener();
     bool init(void);
     
-    void openContent(const std::string& contentId);
+    void openContentById(const std::string& contentId);
+    void openContentObject(const HQContentItemObjectRef& contentItem);
 };
 
 NS_AZOOMEE_END

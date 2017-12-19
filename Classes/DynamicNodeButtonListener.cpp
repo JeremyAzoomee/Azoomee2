@@ -16,6 +16,7 @@
 #include "DeepLinkingSingleton.h"
 #include "ContentHistoryManager.h"
 #include "HQDataProvider.h"
+#include "ContentOpener.h"
 
 using namespace cocos2d;
 
@@ -66,19 +67,19 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             if(location == "replay")
             {
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("replayContent", ContentHistoryManager::getInstance()->getLastOpenedContent()->getTitle());
-                DeepLinkingSingleton::getInstance()->setDeepLink(DeepLinkingSingleton::kPostContentDeeplinkStr + ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId()); // fire up content directly when content opener exists
+                ContentOpener::getInstance()->openContentObject(ContentHistoryManager::getInstance()->getLastOpenedContent());
                 closeCTAPopup();
             }
             else
             {
-                HQContentItemObjectRef content = HQDataProvider::getInstance()->getItemDataForSpecificItem(location);
+                HQContentItemObjectRef content = HQDataProvider::getInstance()->getItemDataForSpecificItem(location.substr(DeepLinkingSingleton::kPostContentDeeplinkStr.length()));
                 std::string contentTitle = "";
                 if(content)
                 {
                     contentTitle = content->getTitle();
                 }
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("OpenRecommendedContent", contentTitle);
-                DeepLinkingSingleton::getInstance()->setDeepLink(location);
+                ContentOpener::getInstance()->openContentObject(content);
                 closeCTAPopup();
             }
         }

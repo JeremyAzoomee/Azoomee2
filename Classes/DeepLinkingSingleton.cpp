@@ -14,6 +14,7 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Data/Json.h>
+#include "ContentOpener.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -238,47 +239,7 @@ std::string DeepLinkingSingleton::getDataForKeyFromJSON(const std::string& jsonS
 
 void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &contentItem)
 {
-    if(!contentItem->isEntitled())
-    {
-        return;
-    }
-    
-    if(contentItem->getType() == ConfigStorage::kContentTypeGame)
-    {
-        ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-        GameDataManager::getInstance()->startProcessingGame(contentItem);
-    }
-    else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
-    {
-        ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-        VideoPlaylistManager::getInstance()->clearPlaylist();
-        auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);
-    }
-    else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
-    {
-        ModalMessages::getInstance()->stopLoading();
-        
-        auto baseLayer = Director::getInstance()->getRunningScene()->getChildByName("baseLayer");
-        if(baseLayer)
-        {
-            NavigationLayer *navigationLayer = (NavigationLayer *)baseLayer->getChildByName("NavigationLayer");
-            
-            if(navigationLayer)
-            {
-                navigationLayer->startLoadingGroupHQ(contentItem->getUri());
-
-                HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
-                HQHistoryManager::getInstance()->setGroupHQSourceId(path);
-                
-                auto funcCallAction = CallFunc::create([=](){
-                    HQDataProvider::getInstance()->getDataForGroupHQ(contentItem->getUri());
-                });
-                
-                Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
-            }
-        }
-    }
+    ContentOpener::getInstance()->openContentObject(contentItem);
     
     resetDeepLink();
 }
