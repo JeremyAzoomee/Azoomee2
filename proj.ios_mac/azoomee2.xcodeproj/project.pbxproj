@@ -74,6 +74,7 @@
 		304D9EC51EA8F849008CED52 /* placeholder-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 304D9EB11EA8F849008CED52 /* placeholder-image.png */; };
 		304D9EC91EA8F89B008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC81EA8F89B008CED52 /* GameController.framework */; };
 		3077F4561E8D51F7006DA465 /* libAzoomeeCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3077F4521E8D51D7006DA465 /* libAzoomeeCommon.a */; };
+		307FFC6F1FED072D00784008 /* NavigationControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307FFC6A1FED072C00784008 /* NavigationControl.cpp */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		43069CE91E3B492600D6A631 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43069CE81E3B492600D6A631 /* Images-2.xcassets */; };
@@ -394,6 +395,8 @@
 		304D9EB11EA8F849008CED52 /* placeholder-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-image.png"; sourceTree = "<group>"; };
 		304D9EC81EA8F89B008CED52 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzoomeeCommon.xcodeproj; path = ../common/proj.ios_mac/AzoomeeCommon.xcodeproj; sourceTree = "<group>"; };
+		307FFC6A1FED072C00784008 /* NavigationControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationControl.cpp; sourceTree = "<group>"; };
+		307FFC6E1FED072C00784008 /* NavigationControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationControl.h; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		43069CE81E3B492600D6A631 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "azoomee2-mobile/Images-2.xcassets"; sourceTree = SOURCE_ROOT; };
 		4306ABA11EAE2C3E001E586A /* PaymentViewController_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentViewController_ios.h; sourceTree = "<group>"; };
@@ -1009,6 +1012,8 @@
 				A198622A1DD383BD0090F053 /* AppDelegate.h */,
 				43BCD71C1EC9FD4E00A07737 /* SceneManagerScene.cpp */,
 				43BCD71D1EC9FD4E00A07737 /* SceneManagerScene.h */,
+				307FFC6A1FED072C00784008 /* NavigationControl.cpp */,
+				307FFC6E1FED072C00784008 /* NavigationControl.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -1563,6 +1568,7 @@
 				025BE9491E3A1E0000EF76D1 /* ArtsAppHQElement.cpp in Sources */,
 				025633791F3B0F5C0053FF26 /* ForceUpdateAppLockScene.cpp in Sources */,
 				02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */,
+				307FFC6F1FED072D00784008 /* NavigationControl.cpp in Sources */,
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,

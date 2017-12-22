@@ -87,6 +87,8 @@ bool IntroVideoScene::init()
     this->runAction(delayListenerAction);
 #endif
 
+    setKeypadEnabled(true);
+    
     return true;
 }
 

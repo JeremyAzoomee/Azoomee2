@@ -26,6 +26,7 @@
 #include "ContentHistoryManager.h"
 #include "ContentOpener.h"
 #include "VideoPlaylistManager.h"
+#include "NavigationControl.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -112,6 +113,11 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
 //-------------------All elements below this are used internally-----------------
 void HQSceneElement::addListenerToElement()
 {
+//    NavigationControl::getInstance()->addNavigation(this, [=](cocos2d::Node*)
+//    {
+//        CCLOG("HQSceneElement navigation event callback: %s", _elementItemData->getTitle().c_str());
+//    });
+    
     auto listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(false);
     listener->onTouchBegan = [=](Touch *touch, Event *event)

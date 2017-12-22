@@ -24,6 +24,7 @@
 #include "ChatNotificationsSingleton.h"
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "NavigationControl.h"
 
 using namespace cocos2d;
 
@@ -80,6 +81,11 @@ bool NavigationLayer::init()
         }
         
         addListenerToMenuItem(menuItemHolder);
+        
+        NavigationControl::getInstance()->addNavigation(menuItemHolder, [=](cocos2d::Node*)
+        {
+            CCLOG("NavigationLayer navigation event callback: %d", i);
+        });
         
         if(!HQHistoryManager::getInstance()->noHistory())
         {
