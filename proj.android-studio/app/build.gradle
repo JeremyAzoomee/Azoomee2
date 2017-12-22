@@ -109,7 +109,7 @@ dependencies {
     compile 'com.appsflyer:af-android-sdk:4+@aar'
 
     // Urban Airship SDK
-    compile 'com.urbanairship.android:urbanairship-sdk:8.8.+'
+    //compile 'com.urbanairship.android:urbanairship-sdk:8.8.+'
     compile 'com.google.android.gms:play-services-gcm:11.2.2'
     compile 'com.android.support:support-v4:26.0.2'
 

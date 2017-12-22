@@ -610,32 +610,32 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static void jniSetNamedUserIdentifierForPushChannel(String channelName)
     {
-        UAirship.shared().getNamedUser().setId(channelName);
-        UAirship.shared().getPushManager().setChannelTagRegistrationEnabled(false);
+//        UAirship.shared().getNamedUser().setId(channelName);
+//        UAirship.shared().getPushManager().setChannelTagRegistrationEnabled(false);
     }
 
     public static void jniSetTagForPushChannel(String tagGroup, String tag)
     {
-        UAirship.shared().getNamedUser().editTagGroups().setTag(tagGroup, tag);
-        UAirship.shared().getNamedUser().editTagGroups().apply();
+//        UAirship.shared().getNamedUser().editTagGroups().setTag(tagGroup, tag);
+//        UAirship.shared().getNamedUser().editTagGroups().apply();
     }
 
     public static void jniEnablePushNotifications()
     {
-        UAirship.shared().getPushManager().setUserNotificationsEnabled(true);
-        UAirship.shared().getInAppMessageManager().setAutoDisplayEnabled(false);
-        UAirship.shared().getInAppMessageManager().setDisplayAsapEnabled(false);
+//        UAirship.shared().getPushManager().setUserNotificationsEnabled(true);
+//        UAirship.shared().getInAppMessageManager().setAutoDisplayEnabled(false);
+//        UAirship.shared().getInAppMessageManager().setDisplayAsapEnabled(false);
     }
 
     public static void jniDisablePushNotifications()
     {
-        UAirship.shared().getPushManager().setUserNotificationsEnabled(false);
-        UAirship.shared().getInAppMessageManager().setAutoDisplayEnabled(false);
+//        UAirship.shared().getPushManager().setUserNotificationsEnabled(false);
+//        UAirship.shared().getInAppMessageManager().setAutoDisplayEnabled(false);
     }
 
     public static void jniClearNotificationCenter()
     {
-        NotificationManagerCompat.from(mContext).cancelAll();
+//        NotificationManagerCompat.from(mContext).cancelAll();
     }
 
     // FINGERPRINT NATIVE ANDROID FUNCTIONS------------------------------
