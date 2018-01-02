@@ -29,7 +29,9 @@ private:
     std::string _requestBody = "";
     bool _forceParent = false;
     
+    std::string getAppropriateAPIKey();
     std::string getAppropriateAPISecret();
+    std::string getAppropriateUserId();
     
     std::string getDateFormatString();
     std::string addLeadingZeroToDateElement(int input);
