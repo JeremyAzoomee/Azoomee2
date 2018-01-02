@@ -48,7 +48,6 @@
 		3012EDAF1E97E8450009027D /* HMACSHA256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA51E97E8450009027D /* HMACSHA256.cpp */; };
 		3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA81E97E8450009027D /* HMACSHA256_ios.mm */; };
 		3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAB1E97E8450009027D /* JWTTool.cpp */; };
-		3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */; };
 		301CCA8D1EB13151009ADA0C /* MessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8B1EB13151009ADA0C /* MessageBox.cpp */; };
 		301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */; };
 		301CCA971EB14162009ADA0C /* ParentDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA951EB14162009ADA0C /* ParentDataParser.cpp */; };
@@ -240,8 +239,6 @@
 		3012EDA91E97E8450009027D /* HMACSHA256_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HMACSHA256_android.cpp; sourceTree = "<group>"; };
 		3012EDAB1E97E8450009027D /* JWTTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTTool.cpp; sourceTree = "<group>"; };
 		3012EDAC1E97E8450009027D /* JWTTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTTool.h; sourceTree = "<group>"; };
-		3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTToolForceParent.cpp; sourceTree = "<group>"; };
-		3012EDAE1E97E8450009027D /* JWTToolForceParent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTToolForceParent.h; sourceTree = "<group>"; };
 		3018498C1EBCC100005B994A /* Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Json.h; sourceTree = "<group>"; };
 		301CCA8B1EB13151009ADA0C /* MessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBox.cpp; sourceTree = "<group>"; tabWidth = 4; };
 		301CCA8C1EB13151009ADA0C /* MessageBox.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = MessageBox.h; sourceTree = "<group>"; tabWidth = 4; };
@@ -695,8 +692,6 @@
 				3012EDA41E97E8450009027D /* HMACSHA256 */,
 				3012EDAB1E97E8450009027D /* JWTTool.cpp */,
 				3012EDAC1E97E8450009027D /* JWTTool.h */,
-				3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */,
-				3012EDAE1E97E8450009027D /* JWTToolForceParent.h */,
 			);
 			path = JWTSigner;
 			sourceTree = "<group>";
@@ -1220,7 +1215,6 @@
 				4349C83F1EA8ADEF00FE964B /* MPPassThroughValueTransformer.m in Sources */,
 				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
 				4349C84A1EA8ADEF00FE964B /* MPTweakInline.m in Sources */,
-				3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */,
 				3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */,
 				4349C83A1EA8ADEF00FE964B /* MPObjectIdentityProvider.m in Sources */,
 				4349C8301EA8ADEF00FE964B /* MPDesignerTrackMessage.m in Sources */,
