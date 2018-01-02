@@ -21,7 +21,7 @@ private:
     void addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo);
     void addPrivacyButton();
     
-    void addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable);
+    void addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, const std::string& imagePath, bool deletable, bool newImage);
     
     cocos2d::Size _visibleSize;
     cocos2d::Point _origin;
