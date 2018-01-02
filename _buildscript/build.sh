@@ -59,6 +59,7 @@ echo "{\"version\": \"$VERSION ($COMMITID)\"}" > ../Resources/res/configuration/
 #For testing purposes, the amazon build can be used as well - only android.xml meta tagging difference.
 
 if [ "$PLATFORM" == "" ] || [ "$PLATFORM" == "android" ] ; then
+  ./subbuilder_android.sh armeabi-v7a $VERSION $ARMBUILD arm samsung
   ./subbuilder_android.sh armeabi-v7a $VERSION $ARMBUILD arm amazon
   ./subbuilder_android.sh armeabi-v7a $VERSION $ARMBUILD arm
   ./subbuilder_android.sh arm64-v8a $VERSION $ARM64BUILD arm64
