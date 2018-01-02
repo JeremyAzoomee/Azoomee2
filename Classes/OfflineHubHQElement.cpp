@@ -39,6 +39,7 @@ void OfflineHubHQElement::addHQSceneElement(const std::string &category, const s
     elementVisual->setShape(shape);
     elementVisual->setDelay(delay);
     elementVisual->setCreatedForOffline(true);
+    elementVisual->setThumbUrl(objectToStart->getBaseImageThumbUrl());
     elementVisual->createHQSceneElement();
     
     

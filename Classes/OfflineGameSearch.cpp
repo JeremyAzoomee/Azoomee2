@@ -148,6 +148,7 @@ std::map<std::string, std::string> OfflineGameSearch::getGameDetails(const std::
         {
             currentGameData["title"] = getStringFromJson("title", feedData);
             currentGameData["description"] = getStringFromJson("description", feedData);
+            currentGameData["thumbUrl"] = getStringFromJson("thumbUrl", feedData);
         }
     }
     
