@@ -33,7 +33,6 @@ const char* const API::TagOfflineCheck = "offlineCheck";
 const char* const API::TagFriendRequest = "friendRequest";
 const char* const API::TagFriendRequestReaction = "friendRequestReaction";
 const char* const API::TagGetPendingFriendRequests = "getPendingFriendRequests";
-const char* const API::TagPusherAuth = "pusher.auth";
 const char* const API::TagReportChat = "chat.report";
 const char* const API::TagResetReportedChat = "chat.resetReported";
 const char* const API::TagGetForceUpdateInformation = "forceUpdate";
@@ -344,19 +343,6 @@ HttpRequestCreator* API::MarkReadMessageRequest(const std::string& userId,
     request->method = "PATCH";
     request->encrypted = true;
     request->requestBody = StringUtils::format("{\"readAt\": \"%lld\"}", readAt);
-    return request;
-}
-
-HttpRequestCreator* API::PusherAuthRequest(const std::string& parentId,
-                                           const std::string& channelName,
-                                           const std::string& socketId,
-                                           HttpRequestCreatorResponseDelegate* delegate)
-{
-    HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagPusherAuth;
-    request->requestPath = StringUtils::format("/api/share/%s/pusher/auth", parentId.c_str());
-    request->urlParameters = StringUtils::format("channelName=%s&socketId=%s", channelName.c_str(), socketId.c_str());
-    request->encrypted = true;
     return request;
 }
 

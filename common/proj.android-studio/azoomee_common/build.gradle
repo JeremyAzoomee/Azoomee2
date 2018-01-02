@@ -28,5 +28,4 @@ android {
 dependencies {
     compile fileTree(dir: 'jars', include: ['*.jar'])
     compile project(':libcocos2dx')
-    compile 'com.pusher:pusher-java-client:1.4.0'
 }
