@@ -8,6 +8,7 @@
 
 #include "DrawingCanvasUILayer.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -270,6 +271,11 @@ void DrawingCanvasUILayer::addColourSelectButtons(const Size& visibleSize, const
     closeButton->addTouchEventListener(CC_CALLBACK_2(DrawingCanvasUILayer::onCloseColourSelectPressed, this));
     _colourButtonLayout->addChild(closeButton);
     
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _colourButtonLayout->setScale(0.85);
+    }
+    
     _colourSelectButton = ui::Button::create();
     _colourSelectButton->setAnchorPoint(Vec2(0.5,0.5));
     _colourSelectButton->loadTextures(kArtAppAssetLoc + "colour_frame.png", kArtAppAssetLoc + "colour_frame.png");
@@ -442,6 +448,14 @@ void DrawingCanvasUILayer::addBrushRadiusSlider(const Size& visibleSize, const P
     _brushSizeSlider->addChild(minusIcon);
     
     this->addChild(_brushSizeSlider,MAIN_UI_LAYER);
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _brushSizeSlider->setScale(0.75);
+        _brushSizeSlider->setPosition(_brushSizeSlider->getPosition() + Vec2(50,0));
+        
+    }
+    
 }
 
 void DrawingCanvasUILayer::addBrushTool(const std::string &buttonFilename, const std::string &bodyFilename, BrushType type, Vec2 normalisedPos, bool selected)

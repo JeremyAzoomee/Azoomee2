@@ -122,6 +122,10 @@ public:
     std::string getDeviceInformation();
     std::string getDeviceAdvertisingId();
     
+    //Device-resolution-specific information
+    void setIsDeviceIphoneX(bool isDeviceIphoneX);
+    bool isDeviceIphoneX() const;
+    
 private:
     rapidjson::Document parseJsonConfigurationFile(std::string fileName);
     
@@ -136,6 +140,8 @@ private:
     
     std::vector<std::string> requestTagsRequireImmediateSending;
     std::vector<std::string> parentSignedRequestTags;
+    
+    bool _isDeviceIphoneX = false;
     
 };
   

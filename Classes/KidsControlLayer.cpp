@@ -51,13 +51,13 @@ void KidsControlLayer::addButtonsAndInput()
     childFrameLayer->addChild(closeButton);
     
     deleteButton = ElectricDreamsButton::createTextAsButtonWithColor("Delete Profile", 46, true,Style::Color::greenish);
-    deleteButton->setCenterPosition(Vec2(this->getContentSize().width/2,-deleteButton->getContentSize().height*.9));
+    deleteButton->setCenterPosition(Vec2(this->getContentSize().width/2, deleteButton->getContentSize().height * 0.3));
     deleteButton->setDelegate(this);
     deleteButton->setMixPanelButtonName("Settings-YourKids-Delete");
     childFrameLayer->addChild(deleteButton);
     
     shareButton = ElectricDreamsButton::createKidCodeShareButton(ParentDataProvider::getInstance()->getInviteCodeForAvailableChildren(childNumber), this->getContentSize().width * 0.66f);
-    shareButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height - shareButton->getContentSize().height*2.9));
+    shareButton->setCenterPosition(Vec2(this->getContentSize().width/2,this->getContentSize().height - shareButton->getContentSize().height * 1.5f));
     shareButton->setDelegate(this);
     shareButton->setMixPanelButtonName("Settings-YourKids-ShareCode");
     childFrameLayer->addChild(shareButton);
@@ -219,7 +219,7 @@ void KidsControlLayer::editBoxEditingDidBegin(TextInputLayer* inputLayer)
     
     originalYposition = parent->getParent()->getPositionY();
     
-    parent->getParent()->setPosition(parent->getParent()->getPositionX(),Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height * 0.85f);
+    parent->getParent()->setPosition(parent->getParent()->getPositionX(),Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height * 0.75f);
 }
 
 void KidsControlLayer::editBoxEditingDidEnd(TextInputLayer* inputLayer)

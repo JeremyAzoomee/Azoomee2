@@ -505,5 +505,15 @@ std::string ConfigStorage::getDeviceAdvertisingId()
     
     return deviceId;
 }
+    
+void ConfigStorage::setIsDeviceIphoneX(bool isDeviceIphoneX)
+{
+    _isDeviceIphoneX = isDeviceIphoneX;
+}
+    
+bool ConfigStorage::isDeviceIphoneX() const
+{
+    return _isDeviceIphoneX;
+}
 
 }

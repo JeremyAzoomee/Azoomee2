@@ -5,6 +5,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 #include "FriendListScene.h"
 
@@ -45,6 +46,23 @@ bool MessageScene::init()
     _rootLayout = ui::Layout::create();
     _rootLayout->setSizeType(ui::Widget::SizeType::PERCENT);
     _rootLayout->setSizePercent(Vec2(1.0f, 1.0f));
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        const bool isLandscape = _rootLayout->getContentSize().width > _rootLayout->getContentSize().height;
+        
+        if(isLandscape)
+        {
+            _rootLayout->setSizePercent(Vec2(0.9f, 1.0f));
+            _rootLayout->setPosition(Point(Director::getInstance()->getVisibleOrigin().x + this->getContentSize().width * 0.05 , 0));
+        }
+        else
+        {
+            _rootLayout->setSizePercent(Vec2(1.0f, 0.9f));
+            _rootLayout->setPosition(Point(0, Director::getInstance()->getVisibleOrigin().y + this->getContentSize().height * 0.05));
+        }
+    }
+    
     _rootLayout->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
     _rootLayout->setBackGroundColor(Style::Color::black);
     _rootLayout->setLayoutType(ui::Layout::Type::RELATIVE);
@@ -220,6 +238,20 @@ void MessageScene::onSizeChanged()
     const Vec2& titleBarSize = Vec2(1.0f, (isLandscape) ? 0.131f : 0.084f);
     _titleBar->setSizePercent(titleBarSize);
     _contentLayout->setSizePercent(Vec2(1.0f, 1.0f - titleBarSize.y));
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        if(isLandscape)
+        {
+            _rootLayout->setSizePercent(Vec2(0.9f, 1.0f));
+            _rootLayout->setPosition(Point(Director::getInstance()->getVisibleOrigin().x + this->getContentSize().width * 0.05 , 0));
+        }
+        else
+        {
+            _rootLayout->setSizePercent(Vec2(1.0f, 0.9f));
+            _rootLayout->setPosition(Point(0, Director::getInstance()->getVisibleOrigin().y + this->getContentSize().height * 0.05));
+        }
+    }
 }
 
 #pragma mark - UI creation

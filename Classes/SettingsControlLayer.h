@@ -14,8 +14,8 @@ NS_AZOOMEE_BEGIN
 class SettingsControlLayer : public Layer, public ElectricDreamsButtonDelegate, public AwaitingAdultPinLayerDelegate, public Azoomee::HttpRequestCreatorResponseDelegate
 {
 private:
-    Size visibleSize;
-    Vec2 origin;
+    Size _visibleSize;
+    Vec2 _origin;
     
     bool returnToChatScene = false;
     

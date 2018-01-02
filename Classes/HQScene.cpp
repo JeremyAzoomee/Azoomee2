@@ -57,6 +57,12 @@ bool HQScene::init()
     _visibleSize = Director::getInstance()->getVisibleSize();
     _origin = Director::getInstance()->getVisibleOrigin();
     
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _visibleSize.width -= 200;
+        _origin.x += 100;
+    }
+    
     return true;
 }
 
@@ -332,13 +338,10 @@ cocos2d::ui::ScrollView* HQScene::createVerticalScrollView(const std::string& hq
 
 Sprite* HQScene::createVerticalScrollGradient()
 {
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
     Sprite* verticalScrollGradient = Sprite::create("res/decoration/TopNavGrad.png");
     verticalScrollGradient->setAnchorPoint(Vec2(0.5, 1.0));
-    verticalScrollGradient->setScaleX(visibleSize.width / verticalScrollGradient->getContentSize().width);
-    verticalScrollGradient->setPosition(origin.x+visibleSize.width/2,origin.y + visibleSize.height - ConfigStorage::getInstance()->getHorizontalMenuItemsHeight());
+    verticalScrollGradient->setScaleX(_visibleSize.width / verticalScrollGradient->getContentSize().width);
+    verticalScrollGradient->setPosition(_origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height - ConfigStorage::getInstance()->getHorizontalMenuItemsHeight());
     verticalScrollGradient->setColor(Color3B::BLACK);
     
     return verticalScrollGradient;
