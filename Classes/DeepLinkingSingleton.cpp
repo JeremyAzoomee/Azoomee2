@@ -117,6 +117,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         const HQContentItemObjectRef& item = HQDataProvider::getInstance()->getItemDataForSpecificItem(path);
         if(item)
         {
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(item, -1, -1, "0,0");
             completeContentAction(item);
         }
         
