@@ -12,13 +12,25 @@ class JWTTool : public cocos2d::Ref
 {
     
 public:
-    /** Returns the shared instance of the Game Manager */
-    static JWTTool* getInstance(void);
-    virtual ~JWTTool();
-    bool init(void);
-    std::string buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
+    void setMethod(const std::string &method);
+    void setPath(const std::string &path);
+    void setHost(const std::string &host);
+    void setQueryParams(const std::string &queryParams);
+    void setRequestBody(const std::string &requestBody);
+    void setForceParent(bool forceParent);
+    
+    std::string buildJWTString();
     
 private:
+    std::string _method = "";
+    std::string _path = "";
+    std::string _host = "";
+    std::string _queryParams = "";
+    std::string _requestBody = "";
+    bool _forceParent = false;
+    
+    std::string getAppropriateAPISecret();
+    
     std::string getDateFormatString();
     std::string addLeadingZeroToDateElement(int input);
     std::string getBase64Encoded(std::string input);
@@ -27,8 +39,8 @@ private:
     std::string url_encode(const std::string &value);
     
     std::string getHeaderString(std::string kid);
-    std::string getBodySignature(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
-    std::string getBodyString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody);
+    std::string getBodySignature();
+    std::string getBodyString();
     std::string getJWTSignature(std::string sHeader, std::string sBody);
 };
   
