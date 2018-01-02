@@ -36,6 +36,7 @@ private:
     cocos2d::Vec2 _elementShape;
     float _elementDelay;
     bool _elementCreatedForOffline = false;
+    bool _elementCreatedForMainHub = false;
     std::string _elementUrl;
     float _manualSizeMultiplier = 0.0f;
     float _margin = 20.0f;

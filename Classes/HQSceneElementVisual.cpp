@@ -76,6 +76,7 @@ void HQSceneElementVisual::setThumbUrl(const std::string &url)
 
 cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
 {
+    _elementCreatedForMainHub = _elementCategory == ConfigStorage::kHomeHQName;
     resizeSceneElement();
     createBaseLayer();
     setShouldDisplayVisualElementsOverImage();
@@ -90,6 +91,10 @@ void HQSceneElementVisual::createBaseLayer()
     
     _baseLayer = LayerColor::create(Color4B::BLACK, size.width, size.height);
     _baseLayer->setPosition(0, 0);
+    if(_elementCreatedForMainHub)
+    {
+        _baseLayer->setColor(Color3B(ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType())));
+    }
     this->addChild(_baseLayer);
 }
 
@@ -163,7 +168,7 @@ void HQSceneElementVisual::addImageDownloader()
     imageDownloader->initWithURLAndSize(_elementUrl, _elementItemData->getType(), Size(_baseLayer->getContentSize().width - _margin, _baseLayer->getContentSize().height - _margin), _elementShape);
     imageDownloader->setPosition(_baseLayer->getContentSize() / 2);
     
-    if(_elementItemData->isNew())
+    if(_elementItemData->isNew() && _elementCategory != ConfigStorage::kHomeHQName)
     {
         imageDownloader->setAttachNewBadgeToImage();
     }
@@ -174,9 +179,17 @@ void HQSceneElementVisual::addImageDownloader()
 void HQSceneElementVisual::addGradientToBottom()
 {
     Color3B gradientColour;
-    gradientColour.r = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(_elementCategory).r;
-    gradientColour.g = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(_elementCategory).g;
-    gradientColour.b = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(_elementCategory).b;
+    std::string gradientImagefile = "";
+    if(_elementCreatedForMainHub)
+    {
+        gradientColour = Color3B(ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType()));
+        gradientImagefile = "res/hqscene/gradient_overlay.png";
+    }
+    else
+    {
+        gradientColour = Color3B(ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(_elementCategory));
+        gradientImagefile = ConfigStorage::getInstance()->getGradientImageForCategory(_elementCategory);
+    }
     
     float iconScaleFactor = 1;
     
@@ -185,7 +198,7 @@ void HQSceneElementVisual::addGradientToBottom()
         iconScaleFactor = 1.8;
     }
     
-    auto gradient = Sprite::create(ConfigStorage::getInstance()->getGradientImageForCategory(_elementCategory));
+    auto gradient = Sprite::create(gradientImagefile);
     gradient->setPosition(_baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2 * iconScaleFactor +10);
     gradient->setScaleX((_baseLayer->getContentSize().width - _margin) / gradient->getContentSize().width);
     gradient->setScaleY(iconScaleFactor);
@@ -195,7 +208,19 @@ void HQSceneElementVisual::addGradientToBottom()
 
 Sprite* HQSceneElementVisual::addIconToImage()
 {
-    if(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(_elementCategory) == "") return nullptr; //there is chance that there is no icon given for the given category.
+    std::string contentIconFile = "";
+    if(_elementCreatedForMainHub)
+    {
+        contentIconFile = StringUtils::format("res/hqscene/icon_%s.png", ConfigStorage::getInstance()->getIconNameForCategory(_elementItemData->getType()).c_str());
+    }
+    else
+    {
+        contentIconFile = ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(_elementCategory);
+    }
+    if(contentIconFile == "")
+    {
+        return nullptr; //there is chance that there is no icon given for the given category.
+    }
     
     float iconScaleFactor = 1;
     
@@ -206,10 +231,12 @@ Sprite* HQSceneElementVisual::addIconToImage()
     
     float audioHeightOffset = 15;
     
-    if(_elementCategory == ConfigStorage::kVideoHQName || _elementCategory == ConfigStorage::kGroupHQName)
+    if(_elementCategory == ConfigStorage::kVideoHQName || _elementCategory == ConfigStorage::kGroupHQName || _elementCreatedForMainHub)
+    {
         audioHeightOffset = 0;
+    }
     
-    auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(_elementCategory));
+    auto icon = Sprite::create(contentIconFile);
     icon->setAnchorPoint(Vec2(0.5, 0.5));
     icon->setPosition(icon->getContentSize().width * iconScaleFactor,(icon->getContentSize().height * iconScaleFactor) + audioHeightOffset);
     icon->setScale(iconScaleFactor);
@@ -222,17 +249,24 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
 {
     float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().height);
     
-    auto descriptionLabel = createLabelContentDescription(_elementItemData->getDescription());
-    descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.2f));
-    descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() - nextToIcon->getContentSize().height/2 * nextToIcon->getScale());
-    reduceLabelTextToFitWidth(descriptionLabel,_baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
-    _baseLayer->addChild(descriptionLabel);
-    
     auto titleLabel = createLabelContentTitle(_elementItemData->getTitle());
     titleLabel->setAnchorPoint(Vec2(0.0f, 0.6f));
     titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
     reduceLabelTextToFitWidth(titleLabel,_baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
     _baseLayer->addChild(titleLabel);
+    
+    if(_elementCategory != ConfigStorage::kHomeHQName)
+    {
+        auto descriptionLabel = createLabelContentDescription(_elementItemData->getDescription());
+        descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.2f));
+        descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() - nextToIcon->getContentSize().height/2 * nextToIcon->getScale());
+        reduceLabelTextToFitWidth(descriptionLabel,_baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
+        _baseLayer->addChild(descriptionLabel);
+    }
+    else
+    {
+        titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY());
+    }
 }
 
 void HQSceneElementVisual::addGroupLabelsToImage()
@@ -265,7 +299,11 @@ void HQSceneElementVisual::addLockToElement()
 
 void HQSceneElementVisual::resizeSceneElement()
 {
-    Size defaultSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(_elementCategory);
+    Size defaultSize = Size(470, 353);
+    if(_elementCategory != ConfigStorage::kHomeHQName)
+    {
+        defaultSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(_elementCategory);
+    }
     Size layerSize = Size(defaultSize.width * _elementShape.x, defaultSize.height * _elementShape.y);
     
     if(_manualSizeMultiplier != 0.0f)
@@ -278,7 +316,15 @@ void HQSceneElementVisual::resizeSceneElement()
 
 void HQSceneElementVisual::addTouchOverlayToElement()
 {
-    Color4B overlayColour = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(_elementCategory);
+    Color4B overlayColour;
+    if(_elementCreatedForMainHub)
+    {
+        overlayColour = ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType());
+    }
+    else
+    {
+        overlayColour = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(_elementCategory);
+    }
     _overlayWhenTouched = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, 0), _baseLayer->getContentSize().width - _margin, _baseLayer->getContentSize().height - _margin);
     _overlayWhenTouched->setPosition(_margin / 2, _margin/2);
     _baseLayer->addChild(_overlayWhenTouched);
