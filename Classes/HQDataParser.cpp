@@ -132,6 +132,11 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
                 const std::string &contentId = contentIds[elementIndex].GetString();
                 
                 const HQContentItemObjectRef &pointerToContentItem = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(contentId);
+                if(pointerToContentItem == nullptr)
+                {
+                    continue;
+                }
+                
                 Vec2 contentItemHighlight = Vec2(1,1);
                 if(rowData.HasMember("shapes") && rowData["shapes"].IsArray() && rowData["shapes"].Size() > elementIndex)
                 {
