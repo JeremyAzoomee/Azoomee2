@@ -37,7 +37,7 @@ public:
     void getDataForGroupHQ(const std::string &uri);
     
     //HQ Area services
-    int getNumberOfRowsForHQ(const std::string &category);
+    int getNumberOfRowsForHQ(const std::string &category) const;
     int getNumberOfElementsForRow(const std::string &category, int index) const;
     std::vector<HQContentItemObjectRef> getElementsForRow(const std::string &category, int index);
     std::string getTitleForRow(const std::string &category, int index) const;
