@@ -1,7 +1,6 @@
 #include "WebGameAPIDataManager.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "ArtAppImageManager.h"
 #include "VideoPlaylistManager.h"
 
 using namespace cocos2d;
@@ -139,12 +138,6 @@ void WebGameAPIDataManager::createDirectoryTree()
 
 void WebGameAPIDataManager::saveLocalStorageData(std::string stringToBeWritten)
 {
-    if(runningGameId == "artApp")
-    {
-        ArtAppImageManager::getInstance()->addImageToImagesFolder(stringToBeWritten);
-        return;
-    }
-    
     createDirectoryTree();
     
     if(stringToBeWritten.length() > 0) FileUtils::getInstance()->writeStringToFile(stringToBeWritten, getPathForLocalStorageFile());

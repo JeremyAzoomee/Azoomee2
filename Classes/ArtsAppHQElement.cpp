@@ -7,7 +7,6 @@
 #include "PreviewLoginSignupMessageBox.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "WebGameAPIDataManager.h"
-#include "ArtAppImageManager.h"
 #include "SceneManagerScene.h"
 #include "ArtAppDelegate.h"
 #include <AzoomeeCommon/UI/Style.h>

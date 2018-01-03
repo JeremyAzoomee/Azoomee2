@@ -59,7 +59,6 @@ public:
     
     //ChildAccountScene settings
     std::string getNameForOomee(int number);
-    std::string getOomeePNGName(int number);
     std::string getHumanReadableNameForOomee(int number);
     std::string getUrlForOomee(int number);
     int getOomeeNumberForUrl(std::string url);
@@ -72,7 +71,6 @@ public:
     cocos2d::Color4B getBaseColourForContentItemInCategory(std::string category);
     std::string getIconImagesForContentItemInCategory(std::string category);
     std::string getPlaceholderImageForContentItemInCategory(std::string type);
-    cocos2d::Vec2 getHighlightSizeMultiplierForContentItem(int highlightClass);
     float getScrollviewTitleTextHeight();
     cocos2d::Size getGroupHQLogoSize();
     int getContentItemImageValidityInSeconds();
@@ -91,7 +89,6 @@ public:
     
     //MainHubScene configuration
     std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(std::string categoryName);
-    std::string getRequiredTypesForHighlightCategory(int category);
     
     //ImageContainer configuration
     cocos2d::Color4B getColourForElementType(std::string type);
