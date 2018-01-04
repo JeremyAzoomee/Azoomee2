@@ -114,7 +114,7 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
 {
     IAPProductDataHandler::getInstance()->fetchProductData();
     
-    CCLOG("Response string is: %s", responseString.c_str());
+    cocos2d::log("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
         ConfigStorage::getInstance()->setFirstSlideShowSeen();
@@ -150,7 +150,7 @@ void BackEndCaller::onAnonymousDeviceLoginAnswerReceived(const std::string &resp
 {
     IAPProductDataHandler::getInstance()->fetchProductData();
     
-    CCLOG("Response string is: %s", responseString.c_str());
+    cocos2d::log("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginDataFromAnonymousDeviceLogin(responseString))
     {
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(true);
@@ -211,13 +211,13 @@ void BackEndCaller::updateParentPin(AwaitingAdultPinLayer *callBackTo)
 
 void BackEndCaller::onUpdateParentPinAnswerReceived(const std::string& responseString)
 {
-    CCLOG("Update parent response string is: %s", responseString.c_str());
+    cocos2d::log("Update parent response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseUpdateParentData(responseString))
     {
         hideLoadingScreen();
         
         AwaitingAdultPinLayer *checkBack = (AwaitingAdultPinLayer *)callBackNode;
-        CCLOG("Calling back awaitingsomething");
+        cocos2d::log("Calling back awaitingsomething");
         checkBack->secondCheckForPin();
     }
 }
@@ -246,7 +246,7 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     }
     else if(FlowDataSingleton::getInstance()->isSignupFlow())
     {
-        CCLOG("Just registered account : backendcaller");
+        cocos2d::log("Just registered account : backendcaller");
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
     }
     else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
@@ -568,7 +568,7 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     
     if(requestTag == API::TagVerifyApplePayment || requestTag == API::TagVerifyAmazonPayment || requestTag == API::TagVerifyGooglePayment)
     {
-        CCLOG("IAP Failed with Errorcode: %ld", errorCode);
+        cocos2d::log("IAP Failed with Errorcode: %ld", errorCode);
         AnalyticsSingleton::getInstance()->iapBackEndRequestFailedEvent(errorCode);
         RoutePaymentSingleton::getInstance()->backendRequestFailed(errorCode);
         return;

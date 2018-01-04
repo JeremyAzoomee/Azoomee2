@@ -32,7 +32,7 @@ bool WebGameAPIDataManager::init(void)
 
 char* WebGameAPIDataManager::handleAPIRequest(const char* method, const char* responseId, const char* score)
 {
-    CCLOG("request arrived: %s, %s, %s", method, responseId, score);
+    cocos2d::log("request arrived: %s, %s, %s", method, responseId, score);
     
     if(strncmp(method, "requestUsername", strlen(method)) == 0)
     {

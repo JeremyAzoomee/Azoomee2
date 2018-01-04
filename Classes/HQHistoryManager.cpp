@@ -39,13 +39,6 @@ void HQHistoryManager::addHQToHistoryManager(std::string hqName)
     {
         hqNames.erase(hqNames.begin());
     }
-    
-    CCLOG("Currently in history:");
-    for(int i = 0; i < hqNames.size(); i++)
-    {
-        CCLOG("Element %d : %s", i, hqNames.at(i).c_str());
-    }
-    CCLOG("End of history");
 }
 
 std::string HQHistoryManager::getCurrentHQ()
@@ -87,12 +80,12 @@ void HQHistoryManager::addHomeIfHistoryEmpty()
 
 void HQHistoryManager::getHistoryLog()
 {
-    CCLOG("Currently in history:");
+    cocos2d::log("Currently in history:");
     for(int i = 0; i < hqNames.size(); i++)
     {
-        CCLOG("Element %d : %s", i, hqNames.at(i).c_str());
+        cocos2d::log("Element %d : %s", i, hqNames.at(i).c_str());
     }
-    CCLOG("End of history");
+    cocos2d::log("End of history");
 }
 
 void HQHistoryManager::emptyHistory()

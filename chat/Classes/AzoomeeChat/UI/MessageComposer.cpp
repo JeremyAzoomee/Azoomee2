@@ -208,8 +208,6 @@ void MessageComposer::setContentSize(const cocos2d::Size& contentSize)
 void MessageComposer::updateTextEntryHeight()
 {
     ui::UICCTextField* textFieldRenderer = (ui::UICCTextField*)_messageEntryField->getVirtualRenderer();
-//    cocos2d::log("textFieldRenderer.getContentSize: %f, %f", textFieldRenderer->getContentSize().width, textFieldRenderer->getContentSize().height);
-//    cocos2d::log("_messageEntryField.getContentSize: %f, %f", _messageEntryField->getContentSize().width, _messageEntryField->getContentSize().height);
     
     _messageEntryField->setContentSize(Size(_messageEntryField->getContentSize().width, textFieldRenderer->getContentSize().height));
     
@@ -232,7 +230,6 @@ void MessageComposer::updateTextEntryHeight()
 
 void MessageComposer::resizeUIForKeyboard(float keyboardHeight, float duration)
 {
-    cocos2d::log("MessageComposer::resizeUIForKeyboard: %f, duration=%f", keyboardHeight, duration);
     
     // Resize the composer so the TextField stays in view
     // Stop any current action so we don't get overlap/conflicts
@@ -765,7 +762,6 @@ void MessageComposer::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info
 
 bool MessageComposer::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
 {
-//    cocos2d::log("MessageComposer::onTouchBegan");
     Super::onTouchBegan(touch, unusedEvent);
     
     // If we are not idle, then we should dismiss on next touch end event
@@ -781,7 +777,7 @@ void MessageComposer::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* unused
     // If the touch moved more than the sensitivity, cancel the dismiss
     const float dismissSensitivity = 5.0f;
     const Vec2& delta = touch->getDelta();
-//    cocos2d::log("MessageComposer::onTouchMoved: %f, %f", delta.x, delta.y);
+
     if(fabs(delta.x) > dismissSensitivity || fabs(delta.y) > dismissSensitivity)
     {
         _dismissOnTouchEnd = false;
@@ -790,7 +786,7 @@ void MessageComposer::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* unused
 
 void MessageComposer::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* unusedEvent)
 {
-//    cocos2d::log("MessageComposer::onTouchEnded");
+
     Super::onTouchEnded(touch, unusedEvent);
     
     if(_dismissOnTouchEnd)

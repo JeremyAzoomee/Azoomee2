@@ -52,7 +52,6 @@ void AudioMixer::playOomeeEffect(std::string oomee, std::string state, bool fall
     else if(fallbackToDefaultSound && shouldPlayOomeeIdleSounds)
         lastOomeeAudio = CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("res/audio/Azoomee_Button_Click_07_v1.mp3");
     
-    CCLOG("fullpath: %s", fullPath.c_str());
 }
 
 void AudioMixer::playOomeeIdleSounds(bool playSounds)

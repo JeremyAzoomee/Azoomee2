@@ -136,7 +136,7 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
     {
         appleReceiptRefreshchecked = true;
         
-        CCLOG("checkIfAppleReceiptRefreshNeeded Started");
+        cocos2d::log("checkIfAppleReceiptRefreshNeeded Started");
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
         {
@@ -146,7 +146,7 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
             return false;
         }
     #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        CCLOG("checkIfAppleReceiptRefreshNeeded");
+        cocos2d::log("checkIfAppleReceiptRefreshNeeded");
         if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && !ParentDataProvider::getInstance()->isPaidUser())
         {
             MessageBox::createWith(ERROR_CODE_APPLE_SUBSCRIPTION_ON_NON_APPLE, this);

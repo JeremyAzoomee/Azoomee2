@@ -107,8 +107,6 @@ void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
         newImage = true;
     }
     
-    CCLOG("PATH: %s", path.c_str());
-    
     auto hqElement = ArtsAppHQElement::create();
     hqElement->initWithURLAndSize(path, containerSize, newImage, false, locked);
     

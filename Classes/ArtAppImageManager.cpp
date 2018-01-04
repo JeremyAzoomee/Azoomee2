@@ -36,9 +36,6 @@ void ArtAppImageManager::addImageToImagesFolder(std::string dataString)
     std::string fileName = getFileNameFromString(dataString);
     std::string fileData = getFileDataFromString(dataString);
     
-    CCLOG("ART APP FILENAME: %s", fileName.c_str());
-    CCLOG("ART APP FILE DATA LENGTH: %lu", fileData.length());
-    
     if(fileData == "NEW") return;
     
     if(fileName == "NEW") fileName = StringUtils::format("%ld.imag", std::time(0));

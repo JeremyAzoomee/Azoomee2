@@ -58,7 +58,7 @@ void AmazonPaymentSingleton::startIAPPayment()
 
 void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::string receiptId, std::string amazonUserid)
 {
-    CCLOG("IAP Request made with requestid:%s receiptID:%s userID:%s", requestId.c_str(),receiptId.c_str(),amazonUserid.c_str());
+    cocos2d::log("IAP Request made with requestid:%s receiptID:%s userID:%s", requestId.c_str(),receiptId.c_str(),amazonUserid.c_str());
     
     savedRequestId = requestId;
     savedReceiptId = receiptId;
@@ -69,7 +69,7 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
 
 void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDataString)
 {
-    CCLOG("The response id is: %s", responseDataString.c_str());
+    cocos2d::log("The response id is: %s", responseDataString.c_str());
     
     rapidjson::Document paymentData;
     paymentData.Parse(responseDataString.c_str());
@@ -147,7 +147,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv
     const char* cReceiptId = env->GetStringUTFChars(receiptId, NULL);
     const char* cAmazonUserid = env->GetStringUTFChars(amazonUserid, NULL);
     
-    CCLOG("COCOS2DX: I have the data: requestid: %s, receiptid: %s, amazonuserid: %s", cRequestId, cReceiptId, cAmazonUserid);
+    cocos2d::log("COCOS2DX: I have the data: requestid: %s, receiptid: %s, amazonuserid: %s", cRequestId, cReceiptId, cAmazonUserid);
     
     AmazonPaymentSingleton::getInstance()->amazonPaymentMade(cRequestId, cReceiptId, cAmazonUserid);
 }
@@ -160,7 +160,7 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_alreadyPurchased(JNIEnv* env, jobject thiz)
 {
-    CCLOG("COCOS2DX: alreadyPurchased CALLED!!!!!");
+    cocos2d::log("COCOS2DX: alreadyPurchased CALLED!!!!!");
     showDoublePurchase();
 }
 
@@ -172,7 +172,7 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseFailed(JNIEnv* env, jobject thiz)
 {
-    CCLOG("COCOS2DX: PURCHASE FAILED");
+    cocos2d::log("COCOS2DX: PURCHASE FAILED");
     purchaseFailureErrorMessageWithDelay();
 }
 
@@ -184,7 +184,7 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_userDataFailed(JNIEnv* env, jobject thiz)
 {
-    CCLOG("COCOS2DX: USER DATA FAILED");
+    cocos2d::log("COCOS2DX: USER DATA FAILED");
     AnalyticsSingleton::getInstance()->iapUserDataFailedEvent();
 }
 

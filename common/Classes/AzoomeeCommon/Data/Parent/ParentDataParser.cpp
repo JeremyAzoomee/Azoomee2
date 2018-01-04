@@ -160,7 +160,7 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
     
     if(billingData.HasParseError())
     {
-        CCLOG("Billing Parse Error");
+        cocos2d::log("Billing Parse Error");
         return;
     }
     
@@ -182,7 +182,6 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
     {
         if(billingData["nextBillDate"].IsString())
         {
-            CCLOG("Billing nextBillDate OK");
             parentData->loggedInParentBillingDate = billingData["nextBillDate"].GetString();
         }
     }
@@ -191,7 +190,6 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
     {
         if(billingData["paymentProvider"].IsString())
         {
-            CCLOG("Billing paymentProvider OK");
             parentData->loggedInParentBillingProvider = billingData["paymentProvider"].GetString();
             
             AnalyticsSingleton::getInstance()->registerBillingProvider(billingData["paymentProvider"].GetString());
@@ -230,7 +228,6 @@ void ParentDataParser::logoutChild()
 
 void ParentDataParser::addParentLoginDataToUserDefaults()
 {
-    cocos2d::log("ParentDataParser::addParentLoginDataToUserDefaults");
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     
     UserDefault* def = UserDefault::getInstance();
@@ -283,7 +280,6 @@ bool ParentDataParser::hasParentLoginDataInUserDefaults()
 
 void ParentDataParser::clearParentLoginDataFromUserDefaults()
 {
-    cocos2d::log("ParentDataParser::clearParentLoginDataFromUserDefaults");
     UserDefault* def = UserDefault::getInstance();
     def->setStringForKey("loggedInParentId", "");
     def->setStringForKey("loggedInParentCdnSessionId", "");
