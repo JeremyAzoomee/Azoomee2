@@ -25,6 +25,7 @@ const float HQScene2::kContentItemMargin = 20.0f;
 const float HQScene2::kSpaceForPrivacyPolicy = 100.0f;
 const std::string& HQScene2::kScrollViewName = "scrollview";
 const std::string& HQScene2::kGroupLogoName = "groupLogo";
+const float HQScene2::kGroupContentItemImagePlaceholder = 150.0f;
 
 bool HQScene2::init()
 {
@@ -101,6 +102,12 @@ void HQScene2::startBuildingScrollView()
         hqScene2PlaceHolderCreator.setCarouselLayer(carouselLayer);
         hqScene2PlaceHolderCreator.setBaseUnitSize(_contentItemSize * _unitMultiplier);
         hqScene2PlaceHolderCreator.setMargin(kContentItemMargin);
+        
+        if(_hqCategory == ConfigStorage::kGroupHQName)
+        {
+            hqScene2PlaceHolderCreator.setVerticalImageOffset(kGroupContentItemImagePlaceholder);
+        }
+        
         hqScene2PlaceHolderCreator.addPlaceHoldersToCarousel();
         
         postSizeAndAlignCarousel(carouselLayer, lowestElementYPosition); //with the flexible sizing method, the contentSize of the carousel is not predictable, we need to do it after all elements are in place.
@@ -142,10 +149,14 @@ void HQScene2::startBuildingScrollView()
     gradient->setPosition(scrollView->getContentSize().width / 2 + scrollView->getPosition().x, scrollView->getPosition().y + scrollView->getContentSize().height - gradient->getContentSize().width / 2 + 5);
     this->addChild(gradient);
     
+    //add group hq logo if necessary
+    
     if(_hqCategory == ConfigStorage::kGroupHQName)
     {
         addGroupHQLogo();
     }
+    
+    //show post content cta if necessary
     
     showPostContentCTA();
 }

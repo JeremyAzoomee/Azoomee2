@@ -5,6 +5,7 @@
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -27,6 +28,7 @@ public:
     cocos2d::Layer* createHQSceneElement();
     
     cocos2d::LayerColor *_baseLayer = nullptr;
+    RemoteImageSprite *_imageDownloader = nullptr;
     cocos2d::LayerColor *_overlayWhenTouched = nullptr;
     
 private:

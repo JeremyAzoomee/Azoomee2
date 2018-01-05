@@ -18,6 +18,7 @@ public:
     static const float kSpaceForPrivacyPolicy;
     static const std::string& kScrollViewName;
     static const std::string& kGroupLogoName;
+    static const float kGroupContentItemImagePlaceholder;
     
     CREATE_FUNC(HQScene2);
     virtual bool init();
