@@ -56,15 +56,13 @@ void HQDataProvider::startBuildingHQ(const std::string &category)
         return;
     }
     
-    if(category == ConfigStorage::kGameHQName || category == ConfigStorage::kVideoHQName || category == ConfigStorage::kAudioHQName)
+    if(category != ConfigStorage::kHomeHQName)
     {
         HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(category.c_str());
         hqLayer->startBuildingScrollView();
-    }
-    else if(category != ConfigStorage::kHomeHQName)
-    {
-        HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(category.c_str());
-        hqLayer->startBuildingScrollViewBasedOnName();
+        
+        //HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(category.c_str());
+        //hqLayer->startBuildingScrollViewBasedOnName();
     }
     else
     {
