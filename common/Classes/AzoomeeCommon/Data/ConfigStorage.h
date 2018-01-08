@@ -4,7 +4,7 @@
 //General configuration
 //#define forcereload YES;
 //#define forgetuserdata YES;
-#define USINGCI YES
+//#define USINGCI YES
 
 #include <cocos/cocos2d.h>
 #include "Json.h"

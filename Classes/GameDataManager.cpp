@@ -140,13 +140,10 @@ void GameDataManager::JSONFileIsPresent(const std::string &itemId)
     }
     else
     {
-        const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(basePathWithFileName);
-        rapidjson::Document gameData;
-        gameData.Parse(fileContent.c_str());
-        std::string uri = gameData["uri"].GetString();
+        std::string uri = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
         uri = uri.substr(0, uri.find_last_of("/"));
         const std::string& startFileNameWithPath = getStartFileFromJSONFile(basePathWithFileName);
-        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(Azoomee::Orientation::Landscape, uri + startFileNameWithPath));
+        Director::getInstance()->replaceScene(SceneManagerScene::createWebview(getGameOrientation(basePathWithFileName), uri + "/" + startFileNameWithPath));
 
         const std::string &downloadUrl = getDownloadUrlForGameFromJSONFile(basePathWithFileName);
         getGameZipFile(downloadUrl, itemId); //getGameZipFile callback will call unzipGame and startGame
