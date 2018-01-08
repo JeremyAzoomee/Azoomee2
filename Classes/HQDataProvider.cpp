@@ -6,7 +6,6 @@
 #include <external/json/stringbuffer.h>
 #include <external/json/prettywriter.h>
 
-#include "HQScene.h"
 #include "HQScene2.h"
 #include "MainHubScene.h"
 #include "BackEndCaller.h"

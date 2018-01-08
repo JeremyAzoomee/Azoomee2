@@ -10,7 +10,6 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include "HQScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "RoutePaymentSingleton.h"

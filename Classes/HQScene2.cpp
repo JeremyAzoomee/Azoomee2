@@ -7,6 +7,8 @@
 #include "HQHistoryManager.h"
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
+#include "HQSceneArtsApp.h"
+#include "OfflineHubBackButton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -25,7 +27,28 @@ const float HQScene2::kContentItemMargin = 20.0f;
 const float HQScene2::kSpaceForPrivacyPolicy = 100.0f;
 const std::string& HQScene2::kScrollViewName = "scrollview";
 const std::string& HQScene2::kGroupLogoName = "groupLogo";
+const std::string& HQScene2::kArtScrollViewName = "ArtScrollView";
 const float HQScene2::kGroupContentItemImagePlaceholder = 150.0f;
+
+Scene* HQScene2::createSceneForOfflineArtsAppHQ()
+{
+    auto scene = Scene::create();
+    auto layer = HQScene2::create();
+    scene->addChild(layer);
+    
+    //if created as a scene, and not as a layer, we are in offline mode, and we are using scene only for art app, so adding initial lines:
+    layer->setName(ConfigStorage::kArtAppHQName);
+    
+    auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+    offlineArtsAppScrollView->setName(kArtScrollViewName);
+    layer->addChild(offlineArtsAppScrollView);
+    
+    auto offlineHubBackButton = OfflineHubBackButton::create();
+    offlineHubBackButton->setPosition(Point(100, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height - 250));
+    layer->addChild(offlineHubBackButton);
+    
+    return scene;
+}
 
 bool HQScene2::init()
 {
@@ -60,6 +83,18 @@ void HQScene2::startBuildingScrollView()
     
     if(_hqCategory == "" || this->getChildByName(kScrollViewName)) //Checking if this was created before, or this is the first time -> the layer has any kids.
     {
+        return;
+    }
+    
+    if(this->getName() == ConfigStorage::kArtAppHQName)
+    {
+        auto artsLayer = this->getChildByName(ConfigStorage::kArtAppHQName);
+        if(!artsLayer)
+        {
+            auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+            offlineArtsAppScrollView->setName(ConfigStorage::kArtAppHQName);
+            this->addChild(offlineArtsAppScrollView);
+        }
         return;
     }
     

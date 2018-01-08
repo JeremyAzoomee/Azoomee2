@@ -2,8 +2,8 @@
 
 #include "BaseScene.h"
 #include "HQDataProvider.h"
-#include "HQScene.h"
 #include "HQScene2.h"
+#include "HQSceneArtsApp.h"
 
 #include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
@@ -159,7 +159,7 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
         Scene *runningScene = Director::getInstance()->getRunningScene();
         Node *baseLayer = runningScene->getChildByName("baseLayer");
         Node *contentLayer = baseLayer->getChildByName("contentLayer");
-        HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(ConfigStorage::kGroupHQName);
+        HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kGroupHQName);
         
         hqLayer->removeAllChildren();
         showPreviewLoginSignupButtonsAfterDelay(0);
@@ -206,9 +206,9 @@ void NavigationLayer::loadArtsAppHQ()
     Scene *runningScene = Director::getInstance()->getRunningScene();
     Node *baseLayer = runningScene->getChildByName("baseLayer");
     Node *contentLayer = baseLayer->getChildByName("contentLayer");
-    HQScene *hqLayer = (HQScene *)contentLayer->getChildByName(ConfigStorage::kArtAppHQName);
+    HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kArtAppHQName);
     
-    hqLayer->startBuildingScrollViewBasedOnName();
+    hqLayer->startBuildingScrollView();
 }
 
 void NavigationLayer::startLoadingHQScene(ConfigStorage::HubTargetTagNumber target)
@@ -645,7 +645,7 @@ void NavigationLayer::cleanUpPreviousHQ()
     std::string previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
     if(previousHqName != "HOME")
     {
-        HQScene* lastHQLayer = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(previousHqName);
+        HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(previousHqName);
         
         auto funcCallAction = CallFunc::create([=](){
             lastHQLayer->removeAllChildrenWithCleanup(true);
