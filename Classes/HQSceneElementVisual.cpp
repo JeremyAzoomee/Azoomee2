@@ -76,7 +76,6 @@ void HQSceneElementVisual::setThumbUrl(const std::string &url)
 
 cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
 {
-    _elementCreatedForMainHub = _elementCategory == ConfigStorage::kHomeHQName;
     resizeSceneElement();
     createBaseLayer();
     setShouldDisplayVisualElementsOverImage();
@@ -91,7 +90,7 @@ void HQSceneElementVisual::createBaseLayer()
     
     _baseLayer = LayerColor::create(Color4B::BLACK, size.width, size.height);
     _baseLayer->setPosition(0, 0);
-    if(_elementCreatedForMainHub)
+    if(_elementCategory == ConfigStorage::kHomeHQName)
     {
         _baseLayer->setColor(Color3B(ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType())));
     }
@@ -180,7 +179,7 @@ void HQSceneElementVisual::addGradientToBottom()
 {
     Color3B gradientColour;
     std::string gradientImagefile = "";
-    if(_elementCreatedForMainHub)
+    if(_elementCategory == ConfigStorage::kHomeHQName)
     {
         gradientColour = Color3B(ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType()));
         gradientImagefile = "res/hqscene/gradient_overlay.png";
@@ -209,7 +208,7 @@ void HQSceneElementVisual::addGradientToBottom()
 Sprite* HQSceneElementVisual::addIconToImage()
 {
     std::string contentIconFile = "";
-    if(_elementCreatedForMainHub)
+    if(_elementCategory == ConfigStorage::kHomeHQName)
     {
         contentIconFile = StringUtils::format("res/hqscene/icon_%s.png", ConfigStorage::getInstance()->getIconNameForCategory(_elementItemData->getType()).c_str());
     }
@@ -231,7 +230,7 @@ Sprite* HQSceneElementVisual::addIconToImage()
     
     float audioHeightOffset = 15;
     
-    if(_elementCategory == ConfigStorage::kVideoHQName || _elementCategory == ConfigStorage::kGroupHQName || _elementCreatedForMainHub)
+    if(_elementCategory == ConfigStorage::kVideoHQName || _elementCategory == ConfigStorage::kGroupHQName || _elementCategory == ConfigStorage::kHomeHQName)
     {
         audioHeightOffset = 0;
     }
@@ -317,7 +316,7 @@ void HQSceneElementVisual::resizeSceneElement()
 void HQSceneElementVisual::addTouchOverlayToElement()
 {
     Color4B overlayColour;
-    if(_elementCreatedForMainHub)
+    if(_elementCategory == ConfigStorage::kHomeHQName)
     {
         overlayColour = ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType());
     }
