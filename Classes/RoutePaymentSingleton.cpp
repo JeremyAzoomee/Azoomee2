@@ -49,6 +49,13 @@ bool RoutePaymentSingleton::init(void)
 }
 void RoutePaymentSingleton::startInAppPayment()
 {
+    if(ParentDataProvider::getInstance()->getLoggedInParentId() == "")
+    {
+        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
+        LoginLogicHandler::getInstance()->doLoginLogic();
+        return;
+    }
+    
     pressedIAPStartButton = true;
     pressedRestorePurchaseButton = false;
     ModalMessages::getInstance()->startLoading();
