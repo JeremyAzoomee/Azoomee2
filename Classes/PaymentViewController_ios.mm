@@ -72,8 +72,6 @@ using namespace Azoomee;
                 }
                 else
                 {
-                    _noPurchaseAfterQuery = false;
-                    
                     NSNumberFormatter * _priceFormatter;
                     _priceFormatter = [[NSNumberFormatter alloc] init];
                     [_priceFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
@@ -174,6 +172,12 @@ using namespace Azoomee;
 
 -(void)requestDidFinish:(SKRequest *)request
 {
+    if(_noPurchaseAfterQuery)
+    {
+        _noPurchaseAfterQuery = false;
+        return;
+    }
+    
     bool receiptExist = [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] appStoreReceiptURL] path]];
     
     if(receiptExist && !RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
