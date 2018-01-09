@@ -25,6 +25,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string& RoutePaymentSingleton::kReceiptCacheFolder = "receiptCache/";
+const std::string& RoutePaymentSingleton::kReceiptDataFileName = "receiptData.dat";
+
 static RoutePaymentSingleton *_sharedRoutePaymentSingleton = NULL;
 
 RoutePaymentSingleton* RoutePaymentSingleton::getInstance()
@@ -166,6 +169,11 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
 
 void RoutePaymentSingleton::backendRequestFailed(long errorCode)
 {
+    if(errorCode == 409) //409 means the user was already upgraded, so we can remove the local receipt file.
+    {
+        RoutePaymentSingleton::getInstance()->removeReceiptDataFile();
+    }
+    
     ModalMessages::getInstance()->stopLoading();
     
     if(pressedIAPStartButton)
@@ -199,11 +207,83 @@ void RoutePaymentSingleton::doublePurchaseMessage()
 
 void RoutePaymentSingleton::inAppPaymentSuccess()
 {
+    removeReceiptDataFile();
+    
     AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
     
     BackEndCaller::getInstance()->updateBillingData();
     FlowDataSingleton::getInstance()->addIAPSuccess(true);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(OnboardingSuccessScene));
+}
+
+void RoutePaymentSingleton::writeAndroidReceiptDataToFile(const std::string& developerPayload, const std::string& orderId, const std::string& token)
+{
+    const std::string& stringToWrite = developerPayload + "|" + orderId + "|" + token;
+    writeReceiptDataToFile(stringToWrite);
+}
+
+void RoutePaymentSingleton::writeAmazonReceiptDataToFile(const std::string &requestId, const std::string &receiptId, const std::string &amazonUserId)
+{
+    const std::string& stringToWrite = requestId + "|" + receiptId + "|" + amazonUserId;
+    writeReceiptDataToFile(stringToWrite);
+}
+
+void RoutePaymentSingleton::writeReceiptDataToFile(const std::string &receiptData)
+{
+    createReceiptDataFolder();
+    FileUtils::getInstance()->writeStringToFile(receiptData, FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+}
+
+bool RoutePaymentSingleton::receiptDataFileExists()
+{
+    return FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+}
+
+void RoutePaymentSingleton::removeReceiptDataFile()
+{
+    if(receiptDataFileExists())
+    {
+        FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+    }
+}
+
+void RoutePaymentSingleton::retryReceiptValidation()
+{
+    if(!receiptDataFileExists())
+    {
+        return;
+    }
+    
+    const std::string& dataString = FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+    
+    if(osIsIos())
+    {
+        ApplePaymentSingleton::getInstance()->transactionStatePurchased(dataString);
+    }
+    else
+    {
+        const std::vector<std::string>& paymentElements = splitStringToVector(dataString, "|");
+        if(paymentElements.size() == 3)
+        {
+            if(osIsAmazon())
+            {
+                AmazonPaymentSingleton::getInstance()->amazonPaymentMade(paymentElements.at(0), paymentElements.at(1), paymentElements.at(2));
+            }
+            
+            if(osIsAndroid())
+            {
+                GooglePaymentSingleton::getInstance()->startBackEndPaymentVerification(paymentElements.at(0), paymentElements.at(1), paymentElements.at(2));
+            }
+        }
+    }
+}
+
+void RoutePaymentSingleton::createReceiptDataFolder()
+{
+    if(!FileUtils::getInstance()->isDirectoryExist(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder))
+    {
+        FileUtils::getInstance()->createDirectory(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder);
+    }
 }
 
 //Delegate Functions
