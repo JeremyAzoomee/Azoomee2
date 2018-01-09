@@ -177,18 +177,8 @@ void HQSceneElementVisual::addImageDownloader()
 
 void HQSceneElementVisual::addGradientToBottom()
 {
-    Color3B gradientColour;
-    std::string gradientImagefile = "";
-    if(_elementCategory == ConfigStorage::kHomeHQName)
-    {
-        gradientColour = Color3B(ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType()));
-        gradientImagefile = "res/hqscene/gradient_overlay.png";
-    }
-    else
-    {
-        gradientColour = Color3B(ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(_elementCategory));
-        gradientImagefile = ConfigStorage::getInstance()->getGradientImageForCategory(_elementCategory);
-    }
+    const Color3B& gradientColour = Color3B(ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType()));
+    const std::string& gradientImagefile = ConfigStorage::getInstance()->getGradientImageForCategory(_elementCategory);
     
     float iconScaleFactor = 1;
     
@@ -207,15 +197,8 @@ void HQSceneElementVisual::addGradientToBottom()
 
 Sprite* HQSceneElementVisual::addIconToImage()
 {
-    std::string contentIconFile = "";
-    if(_elementCategory == ConfigStorage::kHomeHQName)
-    {
-        contentIconFile = StringUtils::format("res/hqscene/icon_%s.png", ConfigStorage::getInstance()->getIconNameForCategory(_elementItemData->getType()).c_str());
-    }
-    else
-    {
-        contentIconFile = ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(_elementCategory);
-    }
+    const std::string& contentIconFile = ConfigStorage::getInstance()->getIconNameForCategory(_elementItemData->getType());
+    
     if(contentIconFile == "")
     {
         return nullptr; //there is chance that there is no icon given for the given category.
@@ -315,15 +298,7 @@ void HQSceneElementVisual::resizeSceneElement()
 
 void HQSceneElementVisual::addTouchOverlayToElement()
 {
-    Color4B overlayColour;
-    if(_elementCategory == ConfigStorage::kHomeHQName)
-    {
-        overlayColour = ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType());
-    }
-    else
-    {
-        overlayColour = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(_elementCategory);
-    }
+    const Color4B& overlayColour = ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType());
     _overlayWhenTouched = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, 0), _baseLayer->getContentSize().width - _margin, _baseLayer->getContentSize().height - _margin);
     _overlayWhenTouched->setPosition(_margin / 2, _margin/2);
     _baseLayer->addChild(_overlayWhenTouched);

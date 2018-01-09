@@ -161,7 +161,7 @@ std::string ArtsAppHQElement::getFileNameFromPath(std::string path)
 
 void ArtsAppHQElement::createImageBorder()
 {
-    baseLayer = LayerColor::create(ConfigStorage::getInstance()->getBaseColourForContentItemInCategory("ARTS APP"), this->getContentSize().width - 20, this->getContentSize().height - 20);
+    baseLayer = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width - 20, this->getContentSize().height - 20);
     if(notSendingFileData) baseLayer->setOpacity(0);
     baseLayer->setPosition(10,10);
     this->addChild(baseLayer);
@@ -176,7 +176,7 @@ void ArtsAppHQElement::createWhiteBackground()
 
 void ArtsAppHQElement::addOverlay()
 {
-    overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getBaseColourForContentItemInCategory("ARTS APP"), this->getContentSize().width - 20, this->getContentSize().height - 20);
+    overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width - 20, this->getContentSize().height - 20);
     overlayWhenTouched->setPosition(10,10);
     overlayWhenTouched->setOpacity(0);
     this->addChild(overlayWhenTouched,1);
@@ -329,14 +329,14 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, s
                 FileUtils::getInstance()->removeFile(filePath);
                 if(!HQHistoryManager::getInstance()->isOffline)
                 {
-                    HQScene *hqScene = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName("ARTS APP");
+                    HQScene *hqScene = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(ConfigStorage::kArtAppHQName);
                     hqScene->removeAllChildren();
                     Director::getInstance()->purgeCachedData();
                     hqScene->startBuildingScrollViewBasedOnName();
                 }
                 else
                 {
-                    HQScene* hqScene = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName("ARTS APP");
+                    HQScene* hqScene = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kArtAppHQName);
                     hqScene->removeChildByName("ArtScrollView");
                     Director::getInstance()->purgeCachedData();
                     auto offlineArtsAppScrollView = HQSceneArtsApp::create();
@@ -369,7 +369,7 @@ void ArtsAppHQElement::addListenerToElement(std::string filePath, bool preview)
         
         if(rect.containsPoint(locationInNode))
         {
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent("ARTS APP", "1,1");
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(ConfigStorage::kArtAppHQName, "1,1");
 
             overlayWhenTouched->setOpacity(150);
             iamtouched = true;
