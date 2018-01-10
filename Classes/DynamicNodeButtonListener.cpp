@@ -24,6 +24,8 @@
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include "RoutePaymentSingleton.h"
+#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include "FlowDataSingleton.h"
 
 using namespace cocos2d;
 
@@ -71,6 +73,10 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             else if(location == _kButtonLocationIAP)
             {
                 inAppPurchaseButtonPressed();
+            }
+            else if(location == _kButtonLocationAddChild)
+            {
+                addChild();
             }
             else
             {
@@ -154,11 +160,39 @@ void DynamicNodeButtonListener::signUp()
     const std::string& pin = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("pin");
     if(isValidPin(pin.c_str()) && isValidPassword(password.c_str(), 6) && isValidEmailAddress(email.c_str()))
     {
-        ModalMessages::getInstance()->startLoading();
+        //ModalMessages::getInstance()->startLoading();
         AnalyticsSingleton::getInstance()->registerAzoomeeEmail(email);
         BackEndCaller::getInstance()->registerParent(email, password ,pin);
         DynamicNodeDataInputStorage::getInstance()->clearStorage();
+        closeCTAPopup();
     }
+}
+
+void DynamicNodeButtonListener::addChild()
+{
+    const std::string& profileName = trim(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("name"));
+    
+    int day = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("day").c_str());
+    int month = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("month").c_str());
+    int year = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("year").c_str());
+    
+    const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,month,day);
+    const std::string& gender = "MALE";
+    if(!isDate(day, month, year))
+    {
+        return;
+    }
+    auto backEndCaller = BackEndCaller::getInstance();
+    if((FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()) && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
+    {
+        backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, 0);
+    }
+    else
+    {
+        backEndCaller->registerChild(profileName, gender, DOB, 0);
+    }
+    DynamicNodeDataInputStorage::getInstance()->clearStorage();
+    closeCTAPopup();
 }
 
 void DynamicNodeButtonListener::inAppPurchaseButtonPressed()

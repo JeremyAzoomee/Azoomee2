@@ -114,19 +114,12 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
     CCLOG("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
-        ConfigStorage::getInstance()->setFirstSlideShowSeen();
-        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
-        getAvailableChildren();
-        updateBillingData();
-        AnalyticsSingleton::getInstance()->signInSuccessEvent();
-        AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
         if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt"))
         {
             const std::string& paymentReceiptString = FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
             if(RoutePaymentSingleton::getInstance()->osIsIos())
             {
                 verifyApplePayment(paymentReceiptString);
-                return;
             }
             
             if(RoutePaymentSingleton::getInstance()->osIsAmazon())
@@ -141,6 +134,12 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
                 verifyGooglePayment(stringVec[0], stringVec[1], stringVec[2]);
             }
         }
+        ConfigStorage::getInstance()->setFirstSlideShowSeen();
+        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
+        getAvailableChildren();
+        updateBillingData();
+        AnalyticsSingleton::getInstance()->signInSuccessEvent();
+        AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
     }
     else
     {
@@ -249,24 +248,16 @@ void BackEndCaller::getAvailableChildren()
 
 void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseString)
 {
+    ModalMessages::getInstance()->stopLoading();
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
-    
-    if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OnboardingSuccessScene));
-    }
-    else if(FlowDataSingleton::getInstance()->isNewProfileFlow())
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccountSuccessScene));
-    }
-    else if(FlowDataSingleton::getInstance()->isSignupFlow())
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+    if(FlowDataSingleton::getInstance()->isSignupFlow())
     {
         CCLOG("Just registered account : backendcaller");
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
-    }
-    else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
+        Director::getInstance()->getScheduler()->schedule([&](float dt){
+            FlowDataSingleton::getInstance()->setFlowToSignup("", "");
+            DynamicNodeHandler::getInstance()->createDynamicNodeById("addChild.json");
+        }, this, 0.5, 0, 0, false, "addChildPopup");
     }
 }
 

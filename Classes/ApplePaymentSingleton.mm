@@ -53,6 +53,7 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
     
     if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
+        ModalMessages::getInstance()->stopLoading();
         FileUtils::getInstance()->writeStringToFile(receiptData, FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
         DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
     }
@@ -71,6 +72,7 @@ void ApplePaymentSingleton::onAnswerReceived(std::string responseDataString)
     {
         if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED" && RoutePaymentSingleton::getInstance()->pressedIAPStartButton)
         {
+            ModalMessages::getInstance()->stopLoading();
             RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
             FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
             return;

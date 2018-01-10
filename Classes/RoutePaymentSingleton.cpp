@@ -11,6 +11,7 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
+#include "AzoomeeCommon/Data/Child/ChildDataParser.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -196,7 +197,9 @@ void RoutePaymentSingleton::inAppPaymentSuccess()
     
     BackEndCaller::getInstance()->updateBillingData();
     FlowDataSingleton::getInstance()->addIAPSuccess(true);
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(OnboardingSuccessScene));
+    ChildDataParser::getInstance()->setChildLoggedIn(false);
+    BackEndCaller::getInstance()->getAvailableChildren();
+    //Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
 }
 
 //Delegate Functions

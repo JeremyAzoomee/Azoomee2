@@ -35,6 +35,7 @@ private:
     const std::string _kButtonLocationUpgrade = "showUpgrade";
     const std::string _kButtonLocationIAP = "iap";
     const std::string _kButtonLocationSignUp = "signUp";
+    const std::string _kButtonLocationAddChild = "addChild";
     
     const std::string _kButtonActionRestorePurchase = "restorePurchase";
     const std::string _kButtonActionStartPayment = "startPayment";
@@ -45,6 +46,7 @@ private:
     void upgradeButtonPressed();
     void inAppPurchaseButtonPressed();
     void signUp();
+    void addChild();
     
 public:
     static DynamicNodeButtonListener* getInstance(void);

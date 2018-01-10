@@ -20,6 +20,7 @@
 #include "FlowDataSingleton.h"
 #include "ChatNotificationsSingleton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
+#include "DynamicNodeHandler.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 450
@@ -426,9 +427,10 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
         return;
     }
     
-    ModalMessages::getInstance()->startLoading();
+    //ModalMessages::getInstance()->startLoading();
     //Delay so loading screen has time to appear, due to long loading of Spines
-    this->scheduleOnce(schedule_selector(ChildSelectorScene::callDelegateFunction), .5);
+    //this->scheduleOnce(schedule_selector(ChildSelectorScene::callDelegateFunction), .5);
+    callDelegateFunction(0);
 }
 
 void ChildSelectorScene::onHttpRequestSuccess(const std::string& requestTag, const std::string& headers, const std::string& body)
@@ -455,8 +457,9 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
     FlowDataSingleton::getInstance()->setFlowToNewProfile();
-    OfflineChecker::getInstance()->setDelegate(nullptr);
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
+    DynamicNodeHandler::getInstance()->createDynamicNodeById("addChild.json");
+    //OfflineChecker::getInstance()->setDelegate(nullptr);
+    //Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
 }
 
 void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

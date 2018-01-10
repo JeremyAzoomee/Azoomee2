@@ -66,7 +66,7 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     savedAmazonUserid = amazonUserid;
     if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
-        const std::string paymentFileString = requestId + "\n" + receiptId + "\n" + amazonUserid;
+        const std::string& paymentFileString = requestId + "\n" + receiptId + "\n" + amazonUserid;
         FileUtils::getInstance()->writeStringToFile(paymentFileString, FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
         DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
     }
