@@ -4,6 +4,7 @@
 #include "HQScene2ElementPositioner.h"
 #include "HQScene2PlaceHolderCreator.h"
 #include "HQScene2CarouselTitle.h"
+#include "HQHistoryManager.h"
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
@@ -23,6 +24,8 @@ const int HQScene2::kUnitsOnScreen = 4;
 const float HQScene2::kContentItemMargin = 20.0f;
 const float HQScene2::kSpaceForPrivacyPolicy = 100.0f;
 const std::string& HQScene2::kScrollViewName = "scrollview";
+const std::string& HQScene2::kGroupLogoName = "groupLogo";
+const float HQScene2::kGroupContentItemImagePlaceholder = 150.0f;
 
 bool HQScene2::init()
 {
@@ -93,7 +96,7 @@ void HQScene2::startBuildingScrollView()
         }
         
         //Filling up empty spaces with placeholders (Design requirement - except for Group HQ)
-        
+    
         if(_hqCategory != ConfigStorage::kGroupHQName)
         {
             HQScene2PlaceHolderCreator hqScene2PlaceHolderCreator;
@@ -142,6 +145,15 @@ void HQScene2::startBuildingScrollView()
     cocos2d::Sprite* gradient = createGradientForScrollView(scrollView->getContentSize().width);
     gradient->setPosition(scrollView->getContentSize().width / 2 + scrollView->getPosition().x, scrollView->getPosition().y + scrollView->getContentSize().height - gradient->getContentSize().width / 2 + 5);
     this->addChild(gradient);
+    
+    //add group hq logo if necessary
+    
+    if(_hqCategory == ConfigStorage::kGroupHQName)
+    {
+        addGroupHQLogo();
+    }
+    
+    //show post content cta if necessary
     
     showPostContentCTA();
 }
@@ -230,11 +242,6 @@ cocos2d::Layer* HQScene2::createElementForCarousel(cocos2d::Node *toBeAddedTo, c
     return hqSceneElement;
 }
 
-void HQScene2::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
-{
-    
-}
-
 cocos2d::LayerColor* HQScene2::createNewCarousel()
 {
     cocos2d::LayerColor*carouselLayer = cocos2d::LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), _visibleSize.width - 2 * kSideMarginSize, 0);
@@ -260,6 +267,23 @@ float HQScene2::calculateUnitMultiplier()
     }
     
     return _unitWidth / _contentItemSize.width;
+}
+
+void HQScene2::addGroupHQLogo()
+{
+    if(HQHistoryManager::getInstance()->getGroupHQSourceId() != "")
+    {
+        const std::string &groupHQLogoUrl = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->getGroupLogo();
+        
+        this->removeChild(this->getChildByName(kGroupLogoName));
+        
+        auto groupLogo = RemoteImageSprite::create();
+        groupLogo->initWithUrlAndSizeWithoutPlaceholder(groupHQLogoUrl, ConfigStorage::getInstance()->getGroupHQLogoSize());
+        groupLogo->setScale(0.8);
+        groupLogo->setPosition(_origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height - groupLogo->getBoundingBox().size.height * 0.55);
+        groupLogo->setName(kGroupLogoName);
+        this->addChild(groupLogo);
+    }
 }
 
 
