@@ -146,7 +146,6 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
     {
         appleReceiptRefreshchecked = true;
         
-        CCLOG("checkIfAppleReceiptRefreshNeeded Started");
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
         {
@@ -156,7 +155,6 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
             return false;
         }
     #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        CCLOG("checkIfAppleReceiptRefreshNeeded");
         if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && !ParentDataProvider::getInstance()->isPaidUser())
         {
             MessageBox::createWith(ERROR_CODE_APPLE_SUBSCRIPTION_ON_NON_APPLE, this);
@@ -230,8 +228,16 @@ void RoutePaymentSingleton::writeAmazonReceiptDataToFile(const std::string &requ
 
 void RoutePaymentSingleton::writeReceiptDataToFile(const std::string &receiptData)
 {
+    int attemptNumber = 0;
+    
+    if(receiptDataFileExists())
+    {
+        attemptNumber = atoi(splitStringToVector(FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName), "||").at(0).c_str());
+        attemptNumber++;
+    }
+    
     createReceiptDataFolder();
-    FileUtils::getInstance()->writeStringToFile(receiptData, FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+    FileUtils::getInstance()->writeStringToFile(StringUtils::format("%d", attemptNumber) + "||" + receiptData, FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
 }
 
 bool RoutePaymentSingleton::receiptDataFileExists()
@@ -254,28 +260,48 @@ void RoutePaymentSingleton::retryReceiptValidation()
         return;
     }
     
-    const std::string& dataString = FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+    const std::vector<std::string>& fileContentSplit = splitStringToVector(fileContent, "||");
     
-    if(osIsIos())
+    if(fileContentSplit.size() != 2)
     {
-        ApplePaymentSingleton::getInstance()->transactionStatePurchased(dataString);
+        return;
     }
-    else
+    
+    int attemptNumber = atoi(fileContentSplit.at(0).c_str());
+    const std::string& dataString = fileContentSplit.at(1);
+    
+    if(attemptNumber > 2) //we want to avoid putting users to infinite loop
     {
-        const std::vector<std::string>& paymentElements = splitStringToVector(dataString, "|");
-        if(paymentElements.size() == 3)
+        //TODO: send receipt file data to back-end
+        return;
+    }
+    
+    if(dataString != "")
+    {
+        writeReceiptDataToFile(dataString); //we do this to increase the attempt number by 1. If dataString is empty because of any issues, it is better not to rewrite the file.
+    }
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    ApplePaymentSingleton::getInstance()->transactionStatePurchased(dataString);
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    const std::vector<std::string>& paymentElements = splitStringToVector(dataString, "|");
+    if(paymentElements.size() == 3)
+    {
+        if(osIsAmazon())
         {
-            if(osIsAmazon())
-            {
-                AmazonPaymentSingleton::getInstance()->amazonPaymentMade(paymentElements.at(0), paymentElements.at(1), paymentElements.at(2));
-            }
-            
-            if(osIsAndroid())
-            {
-                GooglePaymentSingleton::getInstance()->startBackEndPaymentVerification(paymentElements.at(0), paymentElements.at(1), paymentElements.at(2));
-            }
+            AmazonPaymentSingleton::getInstance()->amazonPaymentMade(paymentElements.at(0), paymentElements.at(1), paymentElements.at(2));
+        }
+        
+        if(osIsAndroid())
+        {
+            GooglePaymentSingleton::getInstance()->startBackEndPaymentVerification(paymentElements.at(0), paymentElements.at(1), paymentElements.at(2));
         }
     }
+#endif
+    
 }
 
 void RoutePaymentSingleton::createReceiptDataFolder()

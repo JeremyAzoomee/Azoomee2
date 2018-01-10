@@ -49,7 +49,11 @@ void ApplePaymentSingleton::refreshReceipt(bool usingButton)
 void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
 {
     savedReceipt = receiptData;
-    RoutePaymentSingleton::getInstance()->writeReceiptDataToFile(receiptData);
+    
+    if(!RoutePaymentSingleton::getInstance()->receiptDataFileExists())
+    {
+        RoutePaymentSingleton::getInstance()->writeReceiptDataToFile(receiptData);
+    }
     
     BackEndCaller::getInstance()->verifyApplePayment(receiptData);
 }
