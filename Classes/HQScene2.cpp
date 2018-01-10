@@ -92,14 +92,17 @@ void HQScene2::startBuildingScrollView()
             }
         }
         
-        //Filling up empty spaces with placeholders (Design requirement)
+        //Filling up empty spaces with placeholders (Design requirement - except for Group HQ)
         
-        HQScene2PlaceHolderCreator hqScene2PlaceHolderCreator;
-        hqScene2PlaceHolderCreator.setLowestElementYPosition(lowestElementYPosition);
-        hqScene2PlaceHolderCreator.setCarouselLayer(carouselLayer);
-        hqScene2PlaceHolderCreator.setBaseUnitSize(_contentItemSize * _unitMultiplier);
-        hqScene2PlaceHolderCreator.setMargin(kContentItemMargin);
-        hqScene2PlaceHolderCreator.addPlaceHoldersToCarousel();
+        if(_hqCategory != ConfigStorage::kGroupHQName)
+        {
+            HQScene2PlaceHolderCreator hqScene2PlaceHolderCreator;
+            hqScene2PlaceHolderCreator.setLowestElementYPosition(lowestElementYPosition);
+            hqScene2PlaceHolderCreator.setCarouselLayer(carouselLayer);
+            hqScene2PlaceHolderCreator.setBaseUnitSize(_contentItemSize * _unitMultiplier);
+            hqScene2PlaceHolderCreator.setMargin(kContentItemMargin);
+            hqScene2PlaceHolderCreator.addPlaceHoldersToCarousel();
+        }
         
         postSizeAndAlignCarousel(carouselLayer, lowestElementYPosition); //with the flexible sizing method, the contentSize of the carousel is not predictable, we need to do it after all elements are in place.
         totalHeightOfCarousels += carouselLayer->getContentSize().height + kSpaceAboveCarousel;
