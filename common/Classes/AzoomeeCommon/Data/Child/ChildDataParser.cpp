@@ -38,7 +38,10 @@ bool ChildDataParser::parseChildLoginData(const std::string &responseData)
     auto childDataStorage = ChildDataStorage::getInstance();
     
     childDataStorage->childLoginData.Parse(responseData.c_str());
-    if(childDataStorage->childLoginData.HasParseError()) return false;
+    if(childDataStorage->childLoginData.HasParseError())
+    {
+        return false;
+    }
     
     childDataStorage->loggedInChildCdnSessionId = getStringFromJson("cdn-sessionid", childDataStorage->childLoginData);
     childDataStorage->loggedInChildApiSecret = getStringFromJson("apiSecret", childDataStorage->childLoginData);
@@ -63,8 +66,10 @@ void ChildDataParser::parseOomeeData(const std::string &responseData)
     rapidjson::Document hqData;
     hqData.Parse(responseData.c_str());
     
-    if(hqData.HasParseError()) return;
-    if(!hqData.HasMember("oomee")) return;
+    if(hqData.HasParseError() || !hqData.HasMember("oomee"))
+    {
+        return;
+    }
     
     const rapidjson::Value &oomeeData = hqData["oomee"];
     
