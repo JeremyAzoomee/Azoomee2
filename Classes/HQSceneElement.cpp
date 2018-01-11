@@ -19,7 +19,6 @@
 #include "NavigationLayer.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "PreviewLoginSignupMessageBox.h"
-#include "HQScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>

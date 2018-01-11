@@ -1,7 +1,6 @@
 #include "AppDelegate.h"
 #include "BaseScene.h"
 #include "IntroVideoScene.h"
-#include "HQScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
 #include "OfflineHubScene.h"

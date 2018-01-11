@@ -2,7 +2,6 @@
 #include "OfflineHubHQElement.h"
 #include "HQSceneElementPositioner.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
-#include "HQScene.h"
 #include "HQHistoryManager.h"
 #include "SceneManagerScene.h"
 
