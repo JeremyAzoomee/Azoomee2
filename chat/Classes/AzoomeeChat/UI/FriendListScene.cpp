@@ -80,7 +80,6 @@ void FriendListScene::onEnter()
     const std::string& childId = ChildDataProvider::getInstance()->getParentOrChildId();
     const std::string& childName = ChildDataProvider::getInstance()->getLoggedInChildName();
     const std::string& childAvatar = ChildDataProvider::getInstance()->getParentOrChildAvatarId();
-    cocos2d::log("my avatar id: %s", ChildDataProvider::getInstance()->getParentOrChildAvatarId().c_str());
     _currentUser = Friend::create(childId, childName, childAvatar);
     
     // Register for API events

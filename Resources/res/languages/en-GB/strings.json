@@ -1,7 +1,6 @@
 {
     "LoginScene":
         {
-            "signup_login_label":"Do you want to",
             "email_label":"Log in. Please enter your email.",
             "password_label":"Password"
         },
@@ -35,10 +34,7 @@
         "request_dob_label":"What's their date of birth",
         "request_dob_sub_label":"We need this to give them age-appropriate\nvideos, games & audiobooks",
         
-        "edit_dob_label":"Change birthday?",
         "request_oomee_label":"Pick your favourite character",
-        "request_oomee_sub_label":"Don't worry you can change it later.",
-        "edit_oomee_label":"Change your Oomee?",
         
         "dob_day_placeholder":"DD",
         "dob_month_placeholder":"MM",
@@ -69,7 +65,6 @@
     
     "GenericButtons":
     {
-        "exit_app":"Exit app",
         "log_out":"Log out",
         
         "sign_up":"Sign up",
@@ -80,10 +75,8 @@
         "cancel":"Cancel",
         
         "continue":"Continue",
-        "done":"Done",
         
         "skip":"Skip",
-        "start_exploring":"Start exploring",
         "add_another":"Add another",
         "lets_go":"Let's go",
         "retry":"Retry",

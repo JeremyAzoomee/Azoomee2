@@ -11,7 +11,6 @@
 //waiting for addHQSceneElement command from HQScene after init.
 
 #include "HQSceneElementVisual.h"
-#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
 #include "HQScene2.h"
@@ -163,16 +162,23 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
 
 void HQSceneElementVisual::addImageDownloader()
 {
-    RemoteImageSprite *imageDownloader = RemoteImageSprite::create();
-    imageDownloader->initWithURLAndSize(_elementUrl, _elementItemData->getType(), Size(_baseLayer->getContentSize().width - _margin, _baseLayer->getContentSize().height - _margin), _elementShape);
-    imageDownloader->setPosition(_baseLayer->getContentSize() / 2);
+    float groupHQVerticalImageOffset = 0.0f;
+    
+    if(_elementCategory == ConfigStorage::kGroupHQName)
+    {
+        groupHQVerticalImageOffset = HQScene2::kGroupContentItemImagePlaceholder;
+    }
+    
+    _imageDownloader = RemoteImageSprite::create();
+    _imageDownloader->initWithURLAndSize(_elementUrl, _elementItemData->getType(), Size(_baseLayer->getContentSize().width - _margin, _baseLayer->getContentSize().height - _margin - groupHQVerticalImageOffset), _elementShape);
+    _imageDownloader->setPosition(_baseLayer->getContentSize() / 2);
     
     if(_elementItemData->isNew() && _elementCategory != ConfigStorage::kHomeHQName)
     {
-        imageDownloader->setAttachNewBadgeToImage();
+        _imageDownloader->setAttachNewBadgeToImage();
     }
     
-    _baseLayer->addChild(imageDownloader);
+    _baseLayer->addChild(_imageDownloader);
 }
 
 void HQSceneElementVisual::addGradientToBottom()
@@ -257,12 +263,12 @@ void HQSceneElementVisual::addGroupLabelsToImage()
     
     auto descriptionLabel = createLabelContentDescriptionGroup(_elementItemData->getDescription(), _baseLayer->getContentSize().width - textSpacing * 2);
     descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.0f));
-    descriptionLabel->setPosition(textSpacing, _baseLayer->getContentSize().height + textSpacing);
+    descriptionLabel->setPosition(textSpacing, _imageDownloader->getPosition().y + _imageDownloader->getContentSize().height / 2 + textSpacing);
     _baseLayer->addChild(descriptionLabel);
     
     auto titleLabel = createLabelContentTitleGroup(_elementItemData->getTitle(), _baseLayer->getContentSize().width - textSpacing * 2);
     titleLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
-    titleLabel->setPosition(textSpacing,- textSpacing);
+    titleLabel->setPosition(textSpacing, _imageDownloader->getPosition().y - _imageDownloader->getBoundingBox().size.height / 2 - textSpacing);
     titleLabel->setHeight(ConfigStorage::getInstance()->getGroupContentItemTextHeight() * 2);
     _baseLayer->addChild(titleLabel);
 }

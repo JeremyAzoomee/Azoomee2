@@ -21,6 +21,8 @@ public:
     ImageDownloaderRef imageDownloader;
     
     static GameDataManager* getInstance(void);
+    static const char* const kManualGameId;
+    
     virtual ~GameDataManager();
     bool init(void);
 

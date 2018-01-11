@@ -18,7 +18,7 @@
     },
     "GROUP HQ": {
       "width": 590,
-      "height": 442
+      "height": 592
     }
   },
 
@@ -30,29 +30,14 @@
     "GROUP": "res/contentPlaceholders/Video",
       "MANUAL": "res/contentPlaceholders/Games"
   },
-  
-  "highlightSizeMultiplierForContentItem": {
-    "0": {
-      "x": 1,
-      "y": 1
-    },
-    "1": {
-      "x": 1,
-      "y": 2.04
-    },
-    "2": {
-      "x": 2.04,
-      "y": 2.04
-    }
-  },
-  
+
   "scrollViewTextHeight": 85,
-  
+
   "groupLogoSize": {
     "width": 920,
     "height": 372
   },
-  
+
   "ContentItemImageValidityInSeconds": 604800,
     
   "groupContentItemTextHeight": 60,

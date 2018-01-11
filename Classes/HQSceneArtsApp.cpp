@@ -8,7 +8,6 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "HQSceneElementPositioner.h"
-#include "ArtAppImageConverter.h"
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <algorithm>
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
@@ -88,7 +87,7 @@ void HQSceneArtsApp::addPrivacyButton()
 
 void HQSceneArtsApp::addEmptyImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
 {
-    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), true, false);
+    addImageToHorizontalScrollView(toBeAddedTo, FileUtils::getInstance()->fullPathForFilename("res/arthqscene/new.png"), false, true);
 }
 
 void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo)
@@ -105,41 +104,22 @@ void HQSceneArtsApp::addCreatedImagesToHorizontalScrollView(cocos2d::ui::ScrollV
             if(fileList.at(i).substr(fileList.at(i).size() -3, 3) == "png")
             {
                 std::string imagePath = StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str());
-                addImageToHorizontalScrollView(toBeAddedTo, imagePath, false, true);
+                addImageToHorizontalScrollView(toBeAddedTo, imagePath, true, false);
             }
         }
     }
 }
 
-void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, std::string imagePath, bool newImage, bool deletable)
+void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toBeAddedTo, const std::string& imagePath, bool deletable, bool newImage)
 {
     auto artImage = ArtsAppHQElement::create();
-    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), newImage, deletable,false);
+    artImage->initWithURLAndSize(imagePath, ConfigStorage::getInstance()->getSizeForContentItemInCategory("ARTS APP"), deletable, newImage);
     
     toBeAddedTo->addChild(artImage);
     
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)artImage, false);
     artImage->enableOnScreenChecker();
-}
-
-std::vector<std::string> HQSceneArtsApp::getOldArtImages()
-{
-    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::vector<std::string>& fileList = DirectorySearcher::getInstance()->getFilesInDirectory(path);
-    std::vector<std::string> imagList;
-    for(int i = 0; i < fileList.size(); i++)
-    {
-        if(fileList.at(i).size() > 4)
-        {
-            if(fileList.at(i).substr(fileList.at(i).size() -4, 4) == "imag")
-            {
-                imagList.push_back(StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str()));
-            }
-        }
-    }
-    
-    return imagList;
 }
 
 

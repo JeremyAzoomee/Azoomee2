@@ -167,13 +167,6 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowLandscape()
     mainImage->setPosition(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING - mainImage->getContentSize().width/2,windowLayer->getContentSize().height/2);
     windowLayer->addChild(mainImage);
     
-    // Add Search it Up button
-    //watchSearchItUpButton->setCenterPosition(Vec2(mainImage->getPositionX(),windowLayer->getContentSize().height/2-mainImage->getContentSize().height/2-MESSAGE_BOX_PADDING));
-    
-    //TODO-TAMAS - REMOVE Parent check, when youTube VideoLayer working
-    //if(!isParent)
-        //windowLayer->addChild(watchSearchItUpButton);
-    
     // Add Left chevron
     chevronLeftButton->setCenterPosition(Vec2(MESSAGE_BOX_PADDING,windowLayer->getContentSize().height/2));
     windowLayer->addChild(chevronLeftButton);
@@ -222,13 +215,6 @@ void MessageBoxOnlineSafetySlidesLayer::addObjectsToWindowPortrait()
     mainTextLabel->setWidth(windowLayer->getContentSize().width - MESSAGE_BOX_PADDING*2);
     windowLayer->addChild(mainTextLabel);
     
-    // Add Search it Up button
-    //watchSearchItUpButton->setCenterPosition(Vec2(windowLayer->getContentSize().width/2,MESSAGE_BOX_PADDING*2));
-    
-    //TODO-TAMAS - REMOVE Parent check, when youTube VideoLayer working
-    //if(!isParent)
-        //windowLayer->addChild(watchSearchItUpButton);
-    
     // Add Left chevron
     chevronLeftButton->setCenterPosition(Vec2(MESSAGE_BOX_PADDING,mainImage->getPositionY()));
     windowLayer->addChild(chevronLeftButton);
@@ -259,23 +245,6 @@ void MessageBoxOnlineSafetySlidesLayer::onSizeChanged()
     else
     {
         addObjectsToWindowPortrait();
-    }
-
-    //if(youTubeVideoLayer)
-        //youTubeVideoLayer->onSizeChanged();
-}
-    
-void MessageBoxOnlineSafetySlidesLayer::playVideo()
-{
-    if(isParent)
-    {
-        //TODO-TAMAS - will be completed when multi orientation youtube layer working
-        //youTubeVideoLayer = YouTubeVideoLayer::createWith("OxqWjHD8nMU");
-    }
-    else
-    {
-        //youtubeVideoId.at(currentSlideNumber-1)
-        //"azoomee://content/176a8cf3-e08c-43ba-a13d-554089c59e8c"
     }
 }
 

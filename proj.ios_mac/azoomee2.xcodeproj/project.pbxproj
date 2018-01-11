@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		02074B271E93966D009BB28C /* WebGameAPIDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */; };
-		02074B2A1E93968E009BB28C /* ArtAppImageManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02074B281E93968E009BB28C /* ArtAppImageManager.cpp */; };
 		0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0215646E1FC4202800641C14 /* HQScene2ElementPositioner.cpp */; };
 		021564731FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021564721FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp */; };
 		021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021564751FC4C79C00641C14 /* HQScene2CarouselTitle.cpp */; };
@@ -138,8 +137,6 @@
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
 		926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */; };
-		926173BF1F3334E6008E3F9D /* ArtAppImageConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173BE1F3334E6008E3F9D /* ArtAppImageConverter.cpp */; };
-		926173C21F33850F008E3F9D /* ImageConverterLoadingLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */; };
 		9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */; };
 		929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */; };
 		92A9A06E1F068A97008A19EB /* libAzoomeeArt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */; };
@@ -272,8 +269,6 @@
 /* Begin PBXFileReference section */
 		02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebGameAPIDataManager.cpp; sourceTree = "<group>"; };
 		02074B261E93966D009BB28C /* WebGameAPIDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebGameAPIDataManager.h; sourceTree = "<group>"; };
-		02074B281E93968E009BB28C /* ArtAppImageManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppImageManager.cpp; sourceTree = "<group>"; };
-		02074B291E93968E009BB28C /* ArtAppImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppImageManager.h; sourceTree = "<group>"; };
 		0215646A1FC4202700641C14 /* HQScene2ElementPositioner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQScene2ElementPositioner.h; sourceTree = "<group>"; };
 		0215646E1FC4202800641C14 /* HQScene2ElementPositioner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene2ElementPositioner.cpp; sourceTree = "<group>"; };
 		021564711FC4AB8200641C14 /* HQScene2PlaceHolderCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQScene2PlaceHolderCreator.h; sourceTree = "<group>"; };
@@ -473,10 +468,6 @@
 		9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = azoomee2_ArtApp.xcodeproj; path = ../ArtApp/proj.ios_mac/azoomee2_ArtApp.xcodeproj; sourceTree = "<group>"; };
 		926173A11F2A4CC5008E3F9D /* ArtImageOnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtImageOnScreenChecker.h; sourceTree = "<group>"; };
 		926173A61F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtImageOnScreenChecker.cpp; sourceTree = "<group>"; };
-		926173BD1F3333BE008E3F9D /* ArtAppImageConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtAppImageConverter.h; sourceTree = "<group>"; };
-		926173BE1F3334E6008E3F9D /* ArtAppImageConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArtAppImageConverter.cpp; sourceTree = "<group>"; };
-		926173C01F338363008E3F9D /* ImageConverterLoadingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageConverterLoadingLayer.h; sourceTree = "<group>"; };
-		926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageConverterLoadingLayer.cpp; sourceTree = "<group>"; };
 		9289DA081FBDD6EB00B12435 /* ContentHistoryManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ContentHistoryManager.cpp; sourceTree = "<group>"; };
 		9289DA091FBDD6EB00B12435 /* ContentHistoryManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContentHistoryManager.h; sourceTree = "<group>"; };
 		929D46651F73EC3B006E40CE /* DynamicNodeCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeCreator.h; sourceTree = "<group>"; };
@@ -604,8 +595,6 @@
 			children = (
 				02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */,
 				02074B261E93966D009BB28C /* WebGameAPIDataManager.h */,
-				02074B281E93968E009BB28C /* ArtAppImageManager.cpp */,
-				02074B291E93968E009BB28C /* ArtAppImageManager.h */,
 				0253C9851EC053B4005037EB /* VideoPlaylistManager.cpp */,
 				0253C9861EC053B5005037EB /* VideoPlaylistManager.h */,
 			);
@@ -905,7 +894,6 @@
 		4323120D1E1D4DC500C8606D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				926173B81F333376008E3F9D /* ArtAppImageConverter */,
 				0243B8C91F0F836A005D3734 /* EmptySceneForSettings */,
 				02074B241E93964F009BB28C /* WebGameAPIDataManager */,
 				020ACCFB1E70561F002490CE /* PaymentSingleton */,
@@ -1043,17 +1031,6 @@
 				92A9A06B1F068A7B008A19EB /* libAzoomeeArt.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		926173B81F333376008E3F9D /* ArtAppImageConverter */ = {
-			isa = PBXGroup;
-			children = (
-				926173BD1F3333BE008E3F9D /* ArtAppImageConverter.h */,
-				926173BE1F3334E6008E3F9D /* ArtAppImageConverter.cpp */,
-				926173C01F338363008E3F9D /* ImageConverterLoadingLayer.h */,
-				926173C11F33850F008E3F9D /* ImageConverterLoadingLayer.cpp */,
-			);
-			name = ArtAppImageConverter;
 			sourceTree = "<group>";
 		};
 		929D46611F73EBDE006E40CE /* CallToAction */ = {
@@ -1504,7 +1481,6 @@
 				A11E738E1DDF00F100166ECA /* OomeeLayer.cpp in Sources */,
 				9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */,
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
-				926173BF1F3334E6008E3F9D /* ArtAppImageConverter.cpp in Sources */,
 				926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */,
 				9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
@@ -1512,7 +1488,6 @@
 				A19862231DD3836D0090F053 /* HQScene.cpp in Sources */,
 				431397721F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
-				926173C21F33850F008E3F9D /* ImageConverterLoadingLayer.cpp in Sources */,
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */,
 				02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */,
@@ -1541,7 +1516,6 @@
 				D13C40151E339F5E002360A6 /* ios_Cocos2d_Callbacks.mm in Sources */,
 				430C30EA1EEAA0CF00E27589 /* SettingsKidsLayer.cpp in Sources */,
 				A1CC0C391E1E4D45008B469E /* DisplayChildNameLayer.cpp in Sources */,
-				02074B2A1E93968E009BB28C /* ArtAppImageManager.cpp in Sources */,
 				430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */,
 				02E595861E55DE670052F395 /* OfflineHubScene.cpp in Sources */,
 				02E595CA1E66E2160052F395 /* HQSceneArtsApp.cpp in Sources */,

@@ -42,7 +42,6 @@ void ImageDownloaderCacheCleanerLogic::imageRemoved()
     {
         numberOfImagesRemoved = 0;
         ImageDownloaderCacheCleanerLogic::purgeCache();
-        CCLOG("imageCache empty!");
     }
 }
   

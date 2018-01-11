@@ -194,14 +194,6 @@ std::string ConfigStorage::getNameForOomee(int number)
     return OomeeConfiguration["nameForOomee"][keyName.c_str()].GetString();
 }
 
-std::string ConfigStorage::getOomeePNGName(int number)
-{
-    std::string path1 = OomeeConfiguration["pathForOomeeImages"].GetString();
-    std::string path2 = getNameForOomee(number);
-    
-    return path1 + path2;
-}
-
 std::string ConfigStorage::getHumanReadableNameForOomee(int number)
 {
     std::string keyName = StringUtils::format("%d", number);
@@ -244,15 +236,6 @@ cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(const std::string& 
 std::string ConfigStorage::getPlaceholderImageForContentItemInCategory(const std::string& type)
 {
     return HQSceneConfiguration["placeholderImageForContentItemInCategory"][type.c_str()].GetString();
-}
-
-cocos2d::Vec2 ConfigStorage::getHighlightSizeMultiplierForContentItem(int highlightClass)
-{
-    std::string keyName = StringUtils::format("%d", highlightClass);
-    float x = HQSceneConfiguration["highlightSizeMultiplierForContentItem"][keyName.c_str()]["x"].GetDouble();
-    float y = HQSceneConfiguration["highlightSizeMultiplierForContentItem"][keyName.c_str()]["y"].GetDouble();
-    
-    return Vec2(x, y);
 }
 
 float ConfigStorage::getScrollviewTitleTextHeight()

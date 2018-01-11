@@ -103,27 +103,50 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
     
-    if (contentData.HasParseError()) return false; //JSON HAS ERRORS IN IT
+    if (contentData.HasParseError() || !contentData.HasMember("rows") || !contentData["rows"].IsArray())
+    {
+        return false; //JSON HAS ERRORS IN IT
+    }
     
     for (int rowNumber = 0; rowNumber < contentData["rows"].Size(); rowNumber++)
     {
+        const rapidjson::Value& rowData = contentData["rows"][rowNumber];
         HQCarouselObjectRef carouselObject = HQCarouselObject::create();
         
-        carouselObject->setTitle(getStringFromJson("title", contentData["rows"][rowNumber]));
+        carouselObject->setTitle(getStringFromJson("title", rowData));
         
-        if(contentData["rows"][rowNumber].HasMember("images"))
+        if(rowData.HasMember("images"))
         {
-            carouselObject->setIcon(getStringFromJson("icon", contentData["rows"][rowNumber]["images"])); //parsing carousel main icon if present
+            carouselObject->setIcon(getStringFromJson("icon", rowData["images"])); //parsing carousel main icon if present
         }
         
-        if(contentData["rows"][rowNumber]["contentIds"].Size() != 0)
+        if(rowData.HasMember("contentIds") && rowData["contentIds"].IsArray() && rowData["contentIds"].Size() != 0)
         {
-            for(int elementIndex = 0; elementIndex < contentData["rows"][rowNumber]["contentIds"].Size(); elementIndex++)
+            const rapidjson::Value& contentIds = rowData["contentIds"];
+            for(int elementIndex = 0; elementIndex < contentIds.Size(); elementIndex++)
             {
-                const std::string &contentId = contentData["rows"][rowNumber]["contentIds"][elementIndex].GetString();
+                if(!contentIds[elementIndex].IsString())
+                {
+                    continue;
+                }
+                const std::string &contentId = contentIds[elementIndex].GetString();
                 
                 const HQContentItemObjectRef &pointerToContentItem = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(contentId);
-                Vec2 contentItemHighlight = Vec2(contentData["rows"][rowNumber]["shapes"][elementIndex][0].GetInt(), contentData["rows"][rowNumber]["shapes"][elementIndex][1].GetInt());
+                if(pointerToContentItem == nullptr)
+                {
+                    continue;
+                }
+                
+                Vec2 contentItemHighlight = Vec2(1,1);
+                if(rowData.HasMember("shapes") && rowData["shapes"].IsArray() && rowData["shapes"].Size() > elementIndex)
+                {
+                    const rapidjson::Value& elementShapeData = rowData["shapes"][elementIndex];
+                    if(elementShapeData.IsArray() && elementShapeData.Size() == 2 && elementShapeData[0].IsInt() && elementShapeData[1].IsInt())
+                    {
+                       contentItemHighlight = Vec2(elementShapeData[0].GetInt(), elementShapeData[1].GetInt());
+                    }
+                }
+                
                 
                 carouselObject->addContentItemToCarousel(pointerToContentItem);
                 carouselObject->addContentItemHighlight(contentItemHighlight);
@@ -185,8 +208,10 @@ void HQDataParser::onGetContentAnswerReceived(const std::string &responseString,
             ChildDataParser::getInstance()->parseOomeeData(responseString);
             
             Scene *runningScene = Director::getInstance()->getRunningScene();
-            if(!runningScene->getChildByName("baseLayer")) return;
-            
+            if(!runningScene->getChildByName("baseLayer"))
+            {
+                return;
+            }
             Node *baseLayer = runningScene->getChildByName("baseLayer");
             Node *contentLayer = baseLayer->getChildByName("contentLayer");
             MainHubScene *homeLayer = (MainHubScene *)contentLayer->getChildByName("HOME");
