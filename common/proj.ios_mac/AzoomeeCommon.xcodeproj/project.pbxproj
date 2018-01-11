@@ -146,6 +146,7 @@
 		434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */; };
 		434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */; };
 		436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
+		9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */; };
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
 		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
@@ -436,6 +437,8 @@
 		436007871F22120C000ECBA4 /* ModalWebview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalWebview.cpp; sourceTree = "<group>"; };
 		436007881F22120C000ECBA4 /* ModalWebview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalWebview.h; sourceTree = "<group>"; };
 		4360078A1F2232CC000ECBA4 /* Urls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Urls.h; sourceTree = "<group>"; };
+		9220E9BF1FFE44C800BD7A90 /* AnalyticsProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyticsProperties.h; sourceTree = "<group>"; };
+		9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnalyticsProperties.cpp; sourceTree = "<group>"; };
 		9224C00A1F7CF8C100108553 /* FileZipUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileZipUtil.h; sourceTree = "<group>"; };
 		9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileZipUtil.cpp; sourceTree = "<group>"; };
 		9224C00D1F7D11F400108553 /* DirectorySearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectorySearcher.h; sourceTree = "<group>"; };
@@ -772,6 +775,8 @@
 				30DD5ED41E965E060084305B /* AnalyticsSingleton.h */,
 				30DD5ECF1E965E060084305B /* AnalyticsSingleton_android.cpp */,
 				30DD5ED21E965E060084305B /* AnalyticsSingleton_ios.mm */,
+				9220E9BF1FFE44C800BD7A90 /* AnalyticsProperties.h */,
+				9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -1099,6 +1104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4349C85A1EA8ADEF00FE964B /* UIColor+MPColor.m in Sources */,
+				9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */,
 				4349C8541EA8ADEF00FE964B /* MPWebSocket.m in Sources */,
 				433479491F7E42010093C7BE /* PrivacyLayer.cpp in Sources */,
 				4349C8371EA8ADEF00FE964B /* MPNotificationViewController.m in Sources */,
