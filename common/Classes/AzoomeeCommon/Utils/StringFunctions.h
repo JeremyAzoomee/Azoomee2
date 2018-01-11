@@ -20,6 +20,7 @@ std::string getJSONStringFromMap(std::map<std::string, std::string> inputMap);
 std::string replaceAll(std::string& str, const std::string& from, const std::string& to);
 std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const std::string &responseHeaderString);
 std::string& trim(std::string& string);
+std::string shortenString(const std::string& string, int maxLength);
     
 /// Trim whitespace from the start of string
 std::string ltrim(const std::string& s);

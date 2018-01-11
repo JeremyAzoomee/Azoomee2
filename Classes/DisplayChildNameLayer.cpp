@@ -6,6 +6,7 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/Style.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
 
@@ -50,7 +51,7 @@ void DisplayChildNameLayer::createChildNameToLayer()
 {
     std::string childName = ChildDataProvider::getInstance()->getLoggedInChildName();
     
-    childNameLabel = createLabelBody(childName);
+    childNameLabel = createLabelBody(shortenString(childName, 8));
     childNameLabel->setPosition(childNameLabel->getContentSize().width/2, childNameLabel->getContentSize().height*2);
     childNameLabel->setOpacity(0);
 }

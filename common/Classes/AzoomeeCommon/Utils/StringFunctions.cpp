@@ -181,5 +181,15 @@ std::string getValueFromHttpResponseHeaderForKey(const std::string &key, const s
     
     return "";
 }
+    
+std::string shortenString(const std::string& string, int maxLength)
+{
+    if(string.length() <= maxLength)
+    {
+        return string;
+    }
+    
+    return string.substr(0, maxLength) + "...";
+}
 
 } // Azoomee
