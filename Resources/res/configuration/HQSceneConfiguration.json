@@ -39,9 +39,9 @@
   },
 
   "ContentItemImageValidityInSeconds": 604800,
-    
+
   "groupContentItemTextHeight": 60,
-    
+
   "MainHubPositionsForHighlightElements": {
     "PLAY": {
       "Points": [
@@ -92,7 +92,7 @@
                 ]
     }
   },
-    
+
   "colourForElementType": {
         "AUDIO": {
             "r": 55,
@@ -107,6 +107,12 @@
             "a": 150
         },
         "GAME": {
+            "r": 84,
+            "g": 174,
+            "b": 255,
+            "a": 150
+        },
+        "MANUAL": {
             "r": 84,
             "g": 174,
             "b": 255,
@@ -131,12 +137,13 @@
             "a": 150
         }
   },
-    
+
   "iconNameForCategory": {
         "VIDEO": "res/hqscene/icon_watch.png",
         "GROUP": "res/hqscene/icon_watch.png",
         "AUDIO": "res/hqscene/icon_listen.png",
         "AUDIOGROUP": "res/hqscene/icon_listen.png",
-        "GAME": "res/hqscene/icon_play.png"
+        "GAME": "res/hqscene/icon_play.png",
+        "MANUAL": "res/hqscene/icon_play.png"
   }
 }
