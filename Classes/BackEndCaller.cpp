@@ -117,16 +117,20 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
     cocos2d::log("Response string is: %s", responseString.c_str());
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
+        ConfigStorage::getInstance()->setFirstSlideShowSeen();
+        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
+        AnalyticsSingleton::getInstance()->signInSuccessEvent();
+        AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
         if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
         {
             RoutePaymentSingleton::getInstance()->retryReceiptValidation();
         }
-        ConfigStorage::getInstance()->setFirstSlideShowSeen();
-        ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
-        getAvailableChildren();
-        updateBillingData();
-        AnalyticsSingleton::getInstance()->signInSuccessEvent();
-        AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
+        else
+        {
+            getAvailableChildren();
+            updateBillingData();
+        }
+        
     }
     else
     {
@@ -186,7 +190,7 @@ void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& respons
     EventCustom event(ChildSelectorScene::kBillingDataRecievedEvent);
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
     
-    RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+    //RoutePaymentSingleton::getInstance()->retryReceiptValidation();
 }
 
 //GETTING FORCE UPDATE INFORMATION
