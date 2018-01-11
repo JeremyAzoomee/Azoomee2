@@ -18,10 +18,10 @@
     },
     "GROUP HQ": {
       "width": 590,
-      "height": 442
+      "height": 592
     }
   },
-  
+
   "baseColourForContentItemInCategory": {
     "VIDEO HQ": {
       "r": 249,
@@ -54,7 +54,7 @@
       "a": 150
     }
   },
-  
+
   "iconImagesForContentItemInCategory": {
     "VIDEO HQ": "res/hqscene/icon_watch.png",
     "AUDIO HQ": "res/hqscene/icon_listen.png",
@@ -71,15 +71,15 @@
     "GROUP": "res/contentPlaceholders/Video",
       "MANUAL": "res/contentPlaceholders/Games"
   },
-  
+
   "scrollViewTextHeight": 85,
-  
+
   "groupLogoSize": {
     "width": 920,
     "height": 372
   },
-  
+
   "ContentItemImageValidityInSeconds": 604800,
-    
+
   "groupContentItemTextHeight": 60
 }

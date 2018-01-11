@@ -149,6 +149,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_purchaseHappened(JNIEnv
     
     CCLOG("COCOS2DX: I have the data: requestid: %s, receiptid: %s, amazonuserid: %s", cRequestId, cReceiptId, cAmazonUserid);
     
+    RoutePaymentSingleton::getInstance()->writeAmazonReceiptDataToFile(cRequestId, cReceiptId, cAmazonUserid);
     AmazonPaymentSingleton::getInstance()->amazonPaymentMade(cRequestId, cReceiptId, cAmazonUserid);
 }
 
