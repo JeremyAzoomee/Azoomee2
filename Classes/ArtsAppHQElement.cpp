@@ -2,7 +2,6 @@
 #include <AzoomeeCommon/Data/Cookie/CookieDataStorage.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
-#include "HQScene.h"
 #include "AppDelegate.h"
 #include "PreviewLoginSignupMessageBox.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -12,6 +11,7 @@
 #include <AzoomeeCommon/UI/Style.h>
 #include "HQHistoryManager.h"
 #include "HQSceneArtsApp.h"
+#include "HQScene2.h"
 
 using namespace cocos2d;
 
@@ -260,18 +260,18 @@ void ArtsAppHQElement::addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo)
                 FileUtils::getInstance()->removeFile(_imageURL);
                 if(!HQHistoryManager::getInstance()->isOffline)
                 {
-                    HQScene *hqScene = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(ConfigStorage::kArtAppHQName);
+                    HQScene2 *hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(ConfigStorage::kArtAppHQName);
                     hqScene->removeAllChildren();
                     Director::getInstance()->purgeCachedData();
-                    hqScene->startBuildingScrollViewBasedOnName();
+                    hqScene->startBuildingScrollView();
                 }
                 else
                 {
-                    HQScene* hqScene = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kArtAppHQName);
-                    hqScene->removeChildByName("ArtScrollView");
+                    HQScene2* hqScene = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName(ConfigStorage::kArtAppHQName);
+                    hqScene->removeChildByName(HQScene2::kArtScrollViewName);
                     Director::getInstance()->purgeCachedData();
                     auto offlineArtsAppScrollView = HQSceneArtsApp::create();
-                    offlineArtsAppScrollView->setName("ArtScrollView");
+                    offlineArtsAppScrollView->setName(HQScene2::kArtScrollViewName);
                     hqScene->addChild(offlineArtsAppScrollView);
                 }
                 return true;

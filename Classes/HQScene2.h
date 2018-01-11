@@ -18,6 +18,7 @@ public:
     static const float kSpaceForPrivacyPolicy;
     static const std::string& kScrollViewName;
     static const std::string& kGroupLogoName;
+    static const std::string& kArtScrollViewName;
     static const float kGroupContentItemImagePlaceholder;
     
     CREATE_FUNC(HQScene2);
@@ -26,6 +27,8 @@ public:
     
     void setHQCategory(const std::string &hqCategory);
     std::string _hqCategory;
+    
+    static cocos2d::Scene* createSceneForOfflineArtsAppHQ();
 
 private:
     cocos2d::Vec2 _origin;

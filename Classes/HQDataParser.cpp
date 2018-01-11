@@ -8,7 +8,6 @@
 
 #include <AzoomeeCommon/Data/Json.h>
 
-#include "HQScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>

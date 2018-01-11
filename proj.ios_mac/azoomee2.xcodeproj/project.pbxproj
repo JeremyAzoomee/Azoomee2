@@ -150,7 +150,6 @@
 		A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A15B2FC81DFACF3800D25334 /* HQDataProvider.cpp */; };
 		A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19759821DE4931200FEB03C /* HQSceneElement.cpp */; };
 		A19862221DD3836D0090F053 /* ChildSelectorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */; };
-		A19862231DD3836D0090F053 /* HQScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862151DD3836D0090F053 /* HQScene.cpp */; };
 		A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621B1DD3836D0090F053 /* MainHubScene.cpp */; };
 		A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A198621D1DD3836D0090F053 /* NavigationLayer.cpp */; };
 		A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A19862291DD383BD0090F053 /* AppDelegate.cpp */; };
@@ -492,8 +491,6 @@
 		A19759831DE4931200FEB03C /* HQSceneElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneElement.h; sourceTree = "<group>"; };
 		A19862131DD3836D0090F053 /* ChildSelectorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildSelectorScene.cpp; sourceTree = "<group>"; };
 		A19862141DD3836D0090F053 /* ChildSelectorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildSelectorScene.h; sourceTree = "<group>"; };
-		A19862151DD3836D0090F053 /* HQScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene.cpp; sourceTree = "<group>"; };
-		A19862161DD3836D0090F053 /* HQScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQScene.h; sourceTree = "<group>"; };
 		A198621B1DD3836D0090F053 /* MainHubScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainHubScene.cpp; sourceTree = "<group>"; };
 		A198621C1DD3836D0090F053 /* MainHubScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainHubScene.h; sourceTree = "<group>"; };
 		A198621D1DD3836D0090F053 /* NavigationLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NavigationLayer.cpp; sourceTree = "<group>"; };
@@ -1129,8 +1126,6 @@
 			isa = PBXGroup;
 			children = (
 				021564701FC4A8F100641C14 /* HQScene2 */,
-				A19862151DD3836D0090F053 /* HQScene.cpp */,
-				A19862161DD3836D0090F053 /* HQScene.h */,
 				02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */,
 				02E595C91E66E2160052F395 /* HQSceneArtsApp.h */,
 				02E595B01E5B40BE0052F395 /* HQSceneElement */,
@@ -1485,7 +1480,6 @@
 				9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
 				D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */,
-				A19862231DD3836D0090F053 /* HQScene.cpp in Sources */,
 				431397721F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp in Sources */,
 				300742F31EF93428005525AE /* ChatDelegate.cpp in Sources */,
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
