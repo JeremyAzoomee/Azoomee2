@@ -188,8 +188,6 @@ void ChatAPI::onHttpRequestSuccess(const std::string& requestTag, const std::str
                 
                 int unreadMessages = jsonEntry["unreadMessages"].GetInt();
                 sumOfUnreadMessages += unreadMessages;
-                
-                cocos2d::log("%d unread messages from %s", unreadMessages, friendData->friendName().c_str());
             }
         }
         

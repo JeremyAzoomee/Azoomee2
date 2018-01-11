@@ -85,7 +85,7 @@ Document StringMgr::parseFile(std::string languageID, std::string stringFile)
     
     if(document.HasParseError())
     {
-        CCLOG("Language file parsing error!");
+        cocos2d::log("Language file parsing error!");
     }
     
     return document;

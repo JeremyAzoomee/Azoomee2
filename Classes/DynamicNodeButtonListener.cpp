@@ -26,6 +26,8 @@
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "FlowDataSingleton.h"
+#include "HQDataProvider.h"
+
 
 using namespace cocos2d;
 
@@ -89,13 +91,21 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             const std::string& location = buttonAction->getParamForKey("location");
             if(location == "replay")
             {
-                AnalyticsSingleton::getInstance()->ctaButtonPressed("replayContent");
+                AnalyticsSingleton::getInstance()->registerCurrentScene("REPLAY");
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("replayContent", ContentHistoryManager::getInstance()->getLastOpenedContent()->getTitle());
                 DeepLinkingSingleton::getInstance()->setDeepLink(DeepLinkingSingleton::kPostContentDeeplinkStr + ContentHistoryManager::getInstance()->getLastOpenedContent()->getContentItemId()); // fire up content directly when content opener exists
                 closeCTAPopup();
             }
             else
             {
-                AnalyticsSingleton::getInstance()->ctaButtonPressed("OpenRecommendedContent");
+                AnalyticsSingleton::getInstance()->registerCurrentScene("RECOMMENDED");
+                HQContentItemObjectRef content = HQDataProvider::getInstance()->getItemDataForSpecificItem(location.substr(DeepLinkingSingleton::kPostContentDeeplinkStr.length()));
+                std::string contentTitle = "";
+                if(content)
+                {
+                    contentTitle = content->getTitle();
+                }
+                AnalyticsSingleton::getInstance()->ctaButtonPressed("OpenRecommendedContent", contentTitle);
                 DeepLinkingSingleton::getInstance()->setDeepLink(location);
                 closeCTAPopup();
             }

@@ -4,7 +4,6 @@
 #include "SimpleAudioEngine.h"
 
 #include "MainHubScene.h"
-#include "HQScene.h"
 #include "HQScene2.h"
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
@@ -17,6 +16,8 @@
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "BackEndCaller.h"
+
+#include "IAPProductDataHandler.h"
 
 using namespace cocos2d;
 
@@ -46,6 +47,8 @@ void BaseScene::onEnterTransitionDidFinish()
 {
     this->setName("baseLayer");
     
+    IAPProductDataHandler::getInstance()->fetchProductData();
+    
     Director::getInstance()->purgeCachedData();
     
     AudioMixer::getInstance()->playBackgroundMusic(HQ_BACKGROUND_MUSIC);
@@ -73,11 +76,11 @@ void BaseScene::startBuildingHQs()
     Layer *contentLayer = createContentLayer();
     
     addMainHubScene(contentLayer);
-    createHQScene2("VIDEO HQ", contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
-    createHQScene2("GAME HQ", contentLayer);             //Probably worth moving these to configStorage?
-    createHQScene2("AUDIO HQ", contentLayer);
-    createHQScene("ARTS APP", contentLayer);
-    createHQScene("GROUP HQ", contentLayer);
+    createHQScene2(ConfigStorage::kVideoHQName, contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
+    createHQScene2(ConfigStorage::kGameHQName, contentLayer);             //Probably worth moving these to configStorage?
+    createHQScene2(ConfigStorage::kAudioHQName, contentLayer);
+    createHQScene2(ConfigStorage::kArtAppHQName, contentLayer);
+    createHQScene2(ConfigStorage::kGroupHQName, contentLayer);
     
     addNavigationLayer();  //The navigation layer is being added to "this", because that won't move with the menu.
 }
@@ -85,25 +88,12 @@ void BaseScene::startBuildingHQs()
 void BaseScene::addMainHubScene(Node* toBeAddedTo)
 {
     auto sMainHubScene = MainHubScene::create();
-    sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions("HOME"));
+    sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(ConfigStorage::kHomeHQName));
     sMainHubScene->setTag(0);
     toBeAddedTo->addChild(sMainHubScene);
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
-
-void BaseScene::createHQScene(const std::string &sceneName, Node *toBeAddedTo)
-{
-    auto hqScene = HQScene::create();
-    hqScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(sceneName));
-    hqScene->setName(sceneName);
-    toBeAddedTo->addChild(hqScene);
-    
-    if(HQHistoryManager::getInstance()->getCurrentHQ() == sceneName)
-    {
-        hqScene->startBuildingScrollViewBasedOnName();
-    }
-}
 
 void BaseScene::createHQScene2(const std::string &sceneName, Node *toBeAddedTo)
 {

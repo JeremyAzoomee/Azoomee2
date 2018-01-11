@@ -8,7 +8,6 @@
 
 // ---------- LOGIN SCENE TEXT -------------
 
-#define LOGINSCENE_SIGNUP_LOGIN_LABEL "LoginScene/signup_login_label"
 #define LOGINSCENE_EMAIL_LABEL "LoginScene/email_label"
 #define LOGINSCENE_PASSWORD_LABEL "LoginScene/password_label"
 
@@ -39,10 +38,7 @@
 #define CHILDACCOUNTSCENE_REQUEST_DOB_LABEL "ChildAccountScene/request_dob_label"
 #define CHILDACCOUNTSCENE_REQUEST_DOB_SUB_LABEL "ChildAccountScene/request_dob_sub_label"
 
-#define CHILDACCOUNTSCENE_EDIT_DOB_LABEL "ChildAccountScene/edit_dob_label"
 #define CHILDACCOUNTSCENE_REQUEST_OOMEE_LABEL "ChildAccountScene/request_oomee_label"
-#define CHILDACCOUNTSCENE_REQUEST_OOMEE_SUB_LABEL "ChildAccountScene/request_oomee_sub_label"
-#define CHILDACCOUNTSCENE_EDIT_OOMEE_LABEL "ChildAccountScene/edit_oomee_label"
 
 #define CHILDACCOUNTSCENE_DOB_DAY_PLACEHOLDER "ChildAccountScene/dob_day_placeholder"
 #define CHILDACCOUNTSCENE_DOB_MONTH_PLACEHOLDER "ChildAccountScene/dob_month_placeholder"
@@ -68,7 +64,6 @@
 
 //------------ GENERIC BUTTONS ----------------
 
-#define BUTTON_EXIT_APP "GenericButtons/exit_app"
 #define BUTTON_LOG_OUT "GenericButtons/log_out"
 #define BUTTON_SIGN_UP "GenericButtons/sign_up"
 #define BUTTON_SIGN_UP_MULTILINE "GenericButtons/sign_up_multiline"
@@ -76,9 +71,7 @@
 #define BUTTON_LOG_IN_MULTILINE "GenericButtons/log_in_multiline"
 #define BUTTON_CANCEL "GenericButtons/cancel"
 #define BUTTON_CONTINUE "GenericButtons/continue"
-#define BUTTON_DONE "GenericButtons/done"
 #define BUTTON_SKIP "GenericButtons/skip"
-#define BUTTON_START_EXPLORING "GenericButtons/start_exploring"
 #define BUTTON_ADD_ANOTHER_LABEL "GenericButtons/add_another"
 #define BUTTON_LETS_GO "GenericButtons/lets_go"
 #define BUTTON_RETRY "GenericButtons/retry"

@@ -51,8 +51,6 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
     if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
         auto funcCallAction = CallFunc::create([=](){
-            const std::string paymentFileString = developerPayload + "\n" + orderId + "\n" + token;
-            FileUtils::getInstance()->writeStringToFile(paymentFileString, FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
             DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
         });
         
@@ -77,7 +75,6 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
     {
         requestAttempts = requestAttempts + 1;
         startBackEndPaymentVerification(savedDeveloperPayload, savedOrderId, savedToken);
-        FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
         return;
     }
     
@@ -86,11 +83,12 @@ void GooglePaymentSingleton::onGooglePaymentVerificationAnswerReceived(std::stri
         if(std::string(paymentData["receiptStatus"].GetString()) == "FULFILLED")
         {
             RoutePaymentSingleton::getInstance()->inAppPaymentSuccess();
-            FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getWritablePath() + "paymentReceipt.txt");
             return;
         }
         else
+        {
             AnalyticsSingleton::getInstance()->iapSubscriptionErrorEvent(StringUtils::format("%s", paymentData["receiptStatus"].GetString()));
+        }
     }
     
     if(requestAttempts < 4)
@@ -153,6 +151,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_AppActivity_googlePurchaseHappened(
     const char* cOrderId = env->GetStringUTFChars(orderId, NULL);
     const char* cToken = env->GetStringUTFChars(token, NULL);
     
+    RoutePaymentSingleton::getInstance()->writeAndroidReceiptDataToFile(std::string(cDeveloperPayload), std::string(cOrderId), std::string(cToken));
     GooglePaymentSingleton::getInstance()->startBackEndPaymentVerification(std::string(cDeveloperPayload), std::string(cOrderId), std::string(cToken));
 }
 

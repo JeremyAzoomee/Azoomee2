@@ -82,7 +82,7 @@ bool DynamicNodeImage::initWithParams(const rapidjson::Value& params, const coco
     {
         std::string fileurl = getStringFromJson("file", params);
         fileurl = DynamicNodeCreator::addExternalParamsToString(fileurl); // file url will be the id of the HQ item object
-        fileurl = HQDataProvider::getInstance()->getImageUrlForItem(fileurl, Vec2(1,1)); //get actual url of image from HQDataProvider
+        fileurl = HQDataProvider::getInstance()->getThumbnailUrlForItem(fileurl); //get actual url of image from HQDataProvider
         addRemoteImageWithParams(size, dynamicNodeSize, pos, opacity, fileurl);
     }
     

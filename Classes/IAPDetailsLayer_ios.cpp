@@ -2,6 +2,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "PrivacyAndTermsLayer.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include "IAPProductDataHandler.h"
 
 using namespace cocos2d;
 
@@ -90,9 +91,11 @@ void IAPDetailsLayer_ios::addTitle()
 
 void IAPDetailsLayer_ios::addALLBulletsAndLabel()
 {
+    const std::string &price = IAPProductDataHandler::getInstance()->getHumanReadableProductPrice();
+    
     float yPosition = IAPDetailsLayer->getContentSize().height- MarginSize * 1.2;
     
-    addBulletAndLabel("Unlimited access for £4.99 per month to everything while subscribed", yPosition);
+    addBulletAndLabel("Unlimited access for " + price + " per month to everything while subscribed", yPosition);
     addBulletAndLabel("Payment will be charged to iTunes Account at confirmation of purchase",yPosition -MarginSize*.4);
     addBulletAndLabel("Subscription automatically renews each month unless auto-renew is turned off at least 24-hours before the end of the current period", yPosition -MarginSize*.8);
     addBulletAndLabel("Your account will be charged for renewal within 24-hours prior to the end of the current period at £4.99", yPosition -MarginSize*1.3);

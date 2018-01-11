@@ -53,21 +53,25 @@ bool CookieDataProvider::checkIfCookieIsForUrl(const std::string& cookieRecord, 
         std::vector<std::string> partKeyAndValue = splitStringToVector(cookieParts.at(i), "=");
         if(partKeyAndValue.at(0) == "Domain")
         {
-            if(url.find(partKeyAndValue.at(1)) != std::string::npos)
+            if(partKeyAndValue.size() > 1 && url.find(partKeyAndValue.at(1)) != std::string::npos)
             {
                 domainFound = true;
             }
         }
         else if(partKeyAndValue.at(0) == "Path")
         {
-            if(url.find(partKeyAndValue.at(1)) != std::string::npos)
+            if(partKeyAndValue.size() > 1 && url.find(partKeyAndValue.at(1)) != std::string::npos)
             {
                 pathFound = true;
             }
         }
     }
     
-    if(domainFound&&pathFound) return true;
+    if(domainFound&&pathFound)
+    {
+        return true;
+    }
+    
     return false;
 }
 

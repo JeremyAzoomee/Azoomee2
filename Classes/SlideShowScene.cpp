@@ -51,7 +51,7 @@ void SlideShowScene::imageAddedToCache(Texture2D* resulting_texture)
             int SlideNumber = std::atoi(dotSplit.at(0).c_str()) - 1;
             layoutVector.at(SlideNumber)->addChild(slideImage);
             
-            ElectricDreamsButton *startTrialButton = ElectricDreamsButton::createGreenButton("Start your free 7-day trial", 1000);
+            ElectricDreamsButton *startTrialButton = ElectricDreamsButton::createGreenButton("Get Started", 1000);
             startTrialButton->setCenterPosition(Vec2(layoutVector.at(SlideNumber)->getContentSize().width/2, visibleSize.height/10));
             startTrialButton->setDelegate(this);
             startTrialButton->setMixPanelButtonName(StringUtils::format("SlideShow-StartTrial-%d",SlideNumber));

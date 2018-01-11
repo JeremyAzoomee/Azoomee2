@@ -67,7 +67,14 @@ using namespace Azoomee;
 - (void)addWebViewToScreen {
     if(webview) return;
     
-    webview=[[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    float width = self.view.frame.size.width;
+    
+    if(isDeviceIphoneX())
+    {
+        width -= 50.0f;
+    }
+
+    webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, width, self.view.frame.size.height)];
     
     NSString *iosurlExtension = [urlToLoad substringFromIndex:MAX((int)[urlToLoad length]-4, 0)];
     NSString *urlToCall;
@@ -91,6 +98,7 @@ using namespace Azoomee;
     [webview scrollView].bounces = NO;
     [webview setDelegate:self];
     [webview loadRequest:nsrequest];
+    [webview setBackgroundColor:[UIColor blackColor]];
     [self.view addSubview:webview];
 }
 

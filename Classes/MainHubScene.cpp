@@ -1,11 +1,11 @@
 #include "MainHubScene.h"
-#include "ImageContainer.h"
 #include "OomeeLayer.h"
 #include "DisplayChildNameLayer.h"
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ArtsPreviewLayer.h"
 #include "HQHistoryManager.h"
+#include "HQSceneElement.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
@@ -147,17 +147,13 @@ Sprite* MainHubScene::createCirclesForBackground(int circleNumber)
 
 void MainHubScene::addImageContainers()
 {
-    auto imageIcon = ImageContainer::create();
-    imageIcon->setPosition(visibleSize / 2);
-    this->addChild(imageIcon);
-    
-    for(int i = 0; i < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); i++)
+    for(int elementRowNumber = 0; elementRowNumber < HQDataProvider::getInstance()->getNumberOfRowsForHQ(this->getName()); elementRowNumber++)
     {
-        const std::vector<HQContentItemObjectRef> &elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), i);
+        const std::vector<HQContentItemObjectRef> &elementsForHub = HQDataProvider::getInstance()->getElementsForRow(this->getName(), elementRowNumber);
         
-        const std::string &fieldTitle = HQDataProvider::getInstance()->getTitleForRow(this->getName(), i);
+        const std::string &fieldTitle = HQDataProvider::getInstance()->getTitleForRow(this->getName(), elementRowNumber);
         
-        for(int j = 0; j < elementsForHub.size(); j++)
+        for(int elementIndex = 0; elementIndex < elementsForHub.size(); elementIndex++)
         {
             float delayTime = 2 + CCRANDOM_0_1();
             
@@ -166,22 +162,31 @@ void MainHubScene::addImageContainers()
                 delayTime = 0;
             }
             
-            if(j >= ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).size()) break;
+            if(elementIndex >= ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).size()) break;
             
-            Point elementPosition = ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(j);
+            Point elementPosition = ConfigStorage::getInstance()->getMainHubPositionForHighlightElements(fieldTitle).at(elementIndex);
             
             //Calculate offset for the Y position to help fill screen on 4/3 ratio.
-            float yOffset= visibleSize.height/10;
+            float yOffset= visibleSize.height / 10 * (elementIndex + 1);
             
-            if(elementPosition.y < 0)
-                yOffset = -yOffset;
+            if(elementPosition.y < Director::getInstance()->getWinSize().height / 2.5)
+            {
+                yOffset *= -1;
+            }
             
-            if(j ==1)
-                yOffset = yOffset*2;
+            elementPosition.y += yOffset;
             
-            elementPosition.y = elementPosition.y + yOffset;
+            auto hqElement = HQSceneElement::create();
+            hqElement->setCategory(this->getName());
+            hqElement->setItemData(elementsForHub.at(elementIndex));
+            hqElement->setElementRow(elementRowNumber);
+            hqElement->setElementIndex(elementIndex);
+            hqElement->addHQSceneElement();
             
-            imageIcon->createContainer(elementsForHub.at(j), 1.2 - (j * 0.3), delayTime, elementPosition);
+            hqElement->setPosition(elementPosition);
+            hqElement->setScale(1.2 - (elementIndex * 0.3));
+            
+            this->addChild(hqElement);
         }
     }
     

@@ -11,6 +11,8 @@ NS_AZOOMEE_BEGIN
 
 #pragma mark - Public
 
+std::vector<ImageDownloaderRef> ImageDownloader::_downloadingImagePool = std::vector<ImageDownloaderRef>();
+
 ImageDownloaderRef ImageDownloader::create(const std::string& storageLocation, CacheMode mode)
 {
     ImageDownloaderRef downloader(new(std::nothrow) ImageDownloader(storageLocation, mode));
@@ -33,12 +35,12 @@ ImageDownloader::ImageDownloader(const std::string& storageLocation, CacheMode m
 ImageDownloader::~ImageDownloader()
 {
     _delegate = nullptr;
-    if(_downloadRequest)
+    /*if(_downloadRequest)
     {
         _downloadRequest->setResponseCallback(nullptr);
         _downloadRequest->release();
         _downloadRequest = nullptr;
-    }
+    }*/
 }
 
 void ImageDownloader::downloadImage(ImageDownloaderDelegate* delegate, const std::string& url)
@@ -106,47 +108,11 @@ void ImageDownloader::downloadFileFromServer(const std::string& url)
         return;
     }
     
-    _downloadRequest = new HttpRequest();
-    _downloadRequest->setRequestType(HttpRequest::Type::GET);
-    _downloadRequest->setUrl(url.c_str());
+    _fileDownloader = FileDownloader::create();
+    _fileDownloader->setDelegate(this);
+    _fileDownloader->downloadFileFromServer(url);
     
-    std::vector<std::string> headers{
-        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url),
-        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
-    };
-    _downloadRequest->setHeaders(headers);
-    
-    _downloadRequest->setResponseCallback(CC_CALLBACK_2(ImageDownloader::downloadFileFromServerAnswerReceived, this));
-    _downloadRequest->setTag("image download");
-    HttpClient::getInstance()->send(_downloadRequest);
-}
-
-void ImageDownloader::downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response)
-{
-    if(response->getResponseCode() == 200)
-    {
-        if(response && response->getResponseData())
-        {
-            std::vector<char> myResponse = *response->getResponseData();
-            const std::string& responseString = std::string(myResponse.begin(), myResponse.end());
-            
-            if(saveFileToDevice(responseString, getLocalImagePath()))
-            {
-                saveFileToDevice(StringUtils::format("%ld", time(NULL)), getTimestampFilePath());
-                loadFileFromLocalCacheAsync();
-                return;
-            }
-            else
-            {
-                // TODO: Failed callback
-                return;
-            }
-        }
-    }
-    else
-    {
-        // TODO: Failed callback
-    }
+    _downloadingImagePool.push_back(shared_from_this());
 }
 
 void ImageDownloader::loadFileFromLocalCacheAsync()
@@ -233,6 +199,27 @@ bool ImageDownloader::saveFileToDevice(const std::string& data, const std::strin
     // Create new file
     if(fileUtils->writeStringToFile(data, fullPath)) return true;
     else return false;
+}
+
+void ImageDownloader::onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode)
+{
+    if(responseCode == 200)
+    {
+        if(saveFileToDevice(fileString, getLocalImagePath()))
+        {
+            saveFileToDevice(StringUtils::format("%ld", time(NULL)), getTimestampFilePath());
+            loadFileFromLocalCacheAsync();
+        }
+        else
+        {
+            // TODO: Failed callback
+        }
+    }
+    else
+    {
+        // TODO: Failed callback
+    }
+    _downloadingImagePool.erase(std::find(_downloadingImagePool.begin(), _downloadingImagePool.end(), shared_from_this()));
 }
   
 NS_AZOOMEE_END

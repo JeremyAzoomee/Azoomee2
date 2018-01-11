@@ -16,6 +16,7 @@ extern "C" {
     const char* getLocalStorageForGame();
     void saveLocalStorageData(NSString* stringToSave);
     NSString* getVideoPlaylist();
+    bool isDeviceIphoneX();
     
 #ifdef __cplusplus
 }

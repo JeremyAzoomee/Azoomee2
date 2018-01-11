@@ -5,6 +5,7 @@
 #include "network/HttpClient.h"
 #include <AzoomeeCommon/Azoomee.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 
 NS_AZOOMEE_BEGIN
 
@@ -22,10 +23,12 @@ public:
     void setCreatedForOffline(bool createdForOffline);
     void setManualSizeMultiplier(float multiplier);
     void setMargin(float margin);
+    void setThumbUrl(const std::string &url);
     
     cocos2d::Layer* createHQSceneElement();
     
     cocos2d::LayerColor *_baseLayer = nullptr;
+    RemoteImageSprite *_imageDownloader = nullptr;
     cocos2d::LayerColor *_overlayWhenTouched = nullptr;
     
 private:

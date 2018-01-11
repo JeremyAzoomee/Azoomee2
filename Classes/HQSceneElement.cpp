@@ -19,7 +19,6 @@
 #include "NavigationLayer.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "PreviewLoginSignupMessageBox.h"
-#include "HQScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
@@ -92,6 +91,7 @@ void HQSceneElement::addHQSceneElement() //This method is being called by HQScen
     _elementVisual->setCategory(_elementCategory);
     _elementVisual->setItemData(_elementItemData);
     _elementVisual->setShape(HQDataProvider::getInstance()->getHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
+    _elementVisual->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(_elementCategory, _elementRowNumber, _elementIndex));
     _elementVisual->setDelay(_elementRowNumber * 0.5 + _elementIndex * 0.1);
     _elementVisual->setCreatedForOffline(false);
     
@@ -196,12 +196,12 @@ void HQSceneElement::startUpElementDependingOnType()
 {
     this->getParent()->getParent()->getParent()->stopAllActions();
     
-    if(_elementItemData->getType() == "GAME")
+    if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
     {
         ContentHistoryManager::getInstance()->setLastOppenedContent(_elementItemData);
         GameDataManager::getInstance()->startProcessingGame(_elementItemData);
     }
-    else if((_elementItemData->getType() == "VIDEO") || (_elementItemData->getType() == "AUDIO"))
+    else if((_elementItemData->getType() == ConfigStorage::kContentTypeVideo) || (_elementItemData->getType() == ConfigStorage::kContentTypeAudio))
     {
         ContentHistoryManager::getInstance()->setLastOppenedContent(_elementItemData);
         VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_elementCategory)->getHqCarousels().at(_elementRowNumber));
@@ -209,7 +209,7 @@ void HQSceneElement::startUpElementDependingOnType()
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(_elementItemData->getUri().c_str(),Orientation::Landscape);
     }
-    else if((_elementItemData->getType() == "AUDIOGROUP")||(_elementItemData->getType() == "GROUP"))
+    else if((_elementItemData->getType() == ConfigStorage::kContentTypeAudioGroup)||(_elementItemData->getType() == ConfigStorage::kContentTypeGroup))
     {
         NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
         navigationLayer->startLoadingGroupHQ(_elementItemData->getUri());

@@ -27,44 +27,56 @@ public:
         GROUP_HQ
     };
     
+    static const char* const kGameHQName;
+    static const char* const kVideoHQName;
+    static const char* const kAudioHQName;
+    static const char* const kGroupHQName;
+    static const char* const kHomeHQName;
+    static const char* const kArtAppHQName;
+    
+    static const char* const kContentTypeVideo;
+    static const char* const kContentTypeAudio;
+    static const char* const kContentTypeGame;
+    static const char* const kContentTypeGroup;
+    static const char* const kContentTypeAudioGroup;
+    
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
     virtual ~ConfigStorage();
     bool init(void);
     
-    std::string getFileNameFromUrl(std::string url);
+    std::string getFileNameFromUrl(const std::string& url);
     
     //Backend caller configuration
     std::string getServerHost();
     std::string getServerUrlPrefix();
     std::string getServerUrl();
-    std::string getImagesUrl();
     std::string getCTAPackageJsonURL();
     std::string getMediaPrefixForXwalkCookies();
-    std::string getPathForTag(std::string httpRequestTag);
-    bool isParentSignatureRequiredForRequest(std::string requestTag);
-    bool isImmediateRequestSendingRequired(std::string requestTag);
+    std::string getPathForTag(const std::string& httpRequestTag);
+    bool isParentSignatureRequiredForRequest(const std::string& requestTag);
+    bool isImmediateRequestSendingRequired(const std::string& requestTag);
     
     //ChildAccountScene settings
     std::string getNameForOomee(int number);
-    std::string getOomeePNGName(int number);
     std::string getHumanReadableNameForOomee(int number);
     std::string getUrlForOomee(int number);
-    int getOomeeNumberForUrl(std::string url);
+    int getOomeeNumberForUrl(const std::string& url);
     
     //BaseScene configuration
-    cocos2d::Point getHQScenePositions(std::string hqSceneName);
+    cocos2d::Point getHQScenePositions(const std::string& hqSceneName);
     
     //HQSceneElementConfiguration
-    cocos2d::Size getSizeForContentItemInCategory(std::string category);
-    cocos2d::Color4B getBaseColourForContentItemInCategory(std::string category);
-    std::string getIconImagesForContentItemInCategory(std::string category);
-    std::string getPlaceholderImageForContentItemInCategory(std::string type);
+    cocos2d::Size getSizeForContentItemInCategory(const std::string& category);
+    std::string getPlaceholderImageForContentItemInCategory(const std::string& type);
     cocos2d::Vec2 getHighlightSizeMultiplierForContentItem(int highlightClass);
     float getScrollviewTitleTextHeight();
     cocos2d::Size getGroupHQLogoSize();
     int getContentItemImageValidityInSeconds();
     float getGroupContentItemTextHeight();
+    cocos2d::Color4B getColourForElementType(const std::string& type);
+    std::string getIconNameForCategory(const std::string& category);
+    std::string getGradientImageForCategory(const std::string& category);
     
     //NavigationLayer configuration
     std::string getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName);
@@ -74,21 +86,16 @@ public:
     cocos2d::Point getHorizontalPositionForMenuItemInGroupHQ(int itemNumber);
     cocos2d::Color4B getColourForMenuItem(int itemNumber);
     std::string getNameForMenuItem(int itemNumber);
-    HubTargetTagNumber getTagNumberForMenuName(std::string name);
+    HubTargetTagNumber getTagNumberForMenuName(const std::string& name);
     cocos2d::Point getTargetPositionForMove(int itemNumber);
     
     //MainHubScene configuration
-    std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(std::string categoryName);
+    std::vector<cocos2d::Point> getMainHubPositionForHighlightElements(const std::string& categoryName);
     std::string getRequiredTypesForHighlightCategory(int category);
-    
-    //ImageContainer configuration
-    cocos2d::Color4B getColourForElementType(std::string type);
-    std::string getIconNameForCategory(std::string category);
-    std::string getGradientImageForCategory(std::string category);
     
     //OomeeLayer animation states
     std::string getGreetingAnimation();
-    std::string getRandomIdForAnimationType(std::string animationType);
+    std::string getRandomIdForAnimationType(const std::string& animationType);
     
     //Android helper for arts app
     int inArtsApp;
@@ -103,19 +110,22 @@ public:
     std::string getVersionNumberToDisplay();
     
     //IAP Configuration
-    std::string getIapSkuForProvider(std::string provider);
+    std::string getIapSkuForProvider(const std::string& provider);
     std::string getDeveloperPublicKey();
     
     //Device-specific information
     std::string getDeviceInformation();
     std::string getDeviceAdvertisingId();
     
+    //Device-resolution-specific information
+    void setIsDeviceIphoneX(bool isDeviceIphoneX);
+    bool isDeviceIphoneX() const;
+    
 private:
-    rapidjson::Document parseJsonConfigurationFile(std::string fileName);
+    rapidjson::Document parseJsonConfigurationFile(const std::string& fileName);
     
     rapidjson::Document BaseSceneConfiguration;
     rapidjson::Document HQSceneConfiguration;
-    rapidjson::Document ImageContainerConfiguration;
     rapidjson::Document NavigationConfiguration;
     rapidjson::Document OomeeAnimationTypes;
     rapidjson::Document OomeeConfiguration;
@@ -124,6 +134,8 @@ private:
     
     std::vector<std::string> requestTagsRequireImmediateSending;
     std::vector<std::string> parentSignedRequestTags;
+    
+    bool _isDeviceIphoneX = false;
     
 };
   

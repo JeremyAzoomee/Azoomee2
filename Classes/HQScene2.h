@@ -17,6 +17,9 @@ public:
     static const float kContentItemMargin;
     static const float kSpaceForPrivacyPolicy;
     static const std::string& kScrollViewName;
+    static const std::string& kGroupLogoName;
+    static const std::string& kArtScrollViewName;
+    static const float kGroupContentItemImagePlaceholder;
     
     CREATE_FUNC(HQScene2);
     virtual bool init();
@@ -24,6 +27,8 @@ public:
     
     void setHQCategory(const std::string &hqCategory);
     std::string _hqCategory;
+    
+    static cocos2d::Scene* createSceneForOfflineArtsAppHQ();
 
 private:
     cocos2d::Vec2 _origin;
@@ -32,8 +37,6 @@ private:
     float _unitWidth = 0;
     std::vector<cocos2d::Layer*> _carouselStorage;
     cocos2d::Size _contentItemSize;
-    
-    void addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView);
 
     cocos2d::ui::ScrollView* createScrollView();
     cocos2d::Layer* createElementForCarousel(cocos2d::Node *toBeAddedTo, const HQContentItemObjectRef &itemData, int rowNumber, int elementIndex);
@@ -46,6 +49,9 @@ private:
     void postSizeAndAlignCarousel(cocos2d::Node* carouselLayer, float lowestElementY);
     
     void showPostContentCTA();
+    
+    //group hq modifications
+    void addGroupHQLogo();
 };
 
 NS_AZOOMEE_END

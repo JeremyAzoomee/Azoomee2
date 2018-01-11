@@ -13,29 +13,110 @@ using namespace rapidjson;
 
 namespace Azoomee
 {
+    
+#pragma mark SETTERS
 
-static JWTTool *_sharedJWTTool = NULL;
-
-JWTTool* JWTTool::getInstance()
-{
-    if (! _sharedJWTTool)
+    void JWTTool::setMethod(const std::string &method)
     {
-        _sharedJWTTool = new JWTTool();
-        _sharedJWTTool->init();
+        _method = method;
     }
     
-    return _sharedJWTTool;
-}
+    void JWTTool::setPath(const std::string &path)
+    {
+        _path = path;
+    }
+    
+    void JWTTool::setHost(const std::string &host)
+    {
+        _host = host;
+    }
+    
+    void JWTTool::setQueryParams(const std::string &queryParams)
+    {
+        _queryParams = queryParams;
+    }
+    
+    void JWTTool::setRequestBody(const std::string &requestBody)
+    {
+        _requestBody = requestBody;
+    }
+    
+    void JWTTool::setForceParent(bool forceParent)
+    {
+        _forceParent = forceParent;
+    }
+    
+#pragma mark MAIN METHOD
+    
+    std::string JWTTool::buildJWTString()
+    {
+        
+        //HEADER STRING------------------------------------------------------------------------------
+        
+        std::string sHeader = getHeaderString(getAppropriateAPIKey());
+        
+        
+        //PAYLOAD STRING------------------------------------------------------------------------------
+        
+        std::string sBody = getBodyString();
+        
+        //SIGNATURE STRING----------------------------------------------------------------------------
+        
+        std::string sSignature = getJWTSignature(sHeader, sBody);
+        
+        //DISPLAYING DEBUG INFO-----------------------------------------------------------------------
+        
+        cocos2d::log("\n\n\n apiSecret: %s\n\n\n", getAppropriateAPISecret().c_str());
+        
+        
+        //CREATE THE FINAL JWT STRING-----------------------------------------------------------------
+        
+        std::string finalJWT = StringUtils::format("%s.%s.%s", sHeader.c_str(), sBody.c_str(), sSignature.c_str());
+        
+        cocos2d::log("\n\n\n FINAL JWT STRING: %s\n\n\n", finalJWT.c_str());
+        
+        
+        return finalJWT;
+    }
 
-JWTTool::~JWTTool(void)
+#pragma mark HELPER METHODS
+    
+std::string JWTTool::getAppropriateAPISecret()
 {
+    if(_forceParent)
+    {
+        return ParentDataProvider::getInstance()->getLoggedInParentApiSecret();
+    }
+    else
+    {
+        return ChildDataProvider::getInstance()->getParentOrChildApiSecret();
+    }
 }
-
-bool JWTTool::init(void)
+    
+std::string JWTTool::getAppropriateAPIKey()
 {
-    return true;
+    if(_forceParent)
+    {
+        return ParentDataProvider::getInstance()->getLoggedInParentApiKey();
+    }
+    else
+    {
+        return ChildDataProvider::getInstance()->getParentOrChildApiKey();
+    }
 }
-
+    
+std::string JWTTool::getAppropriateUserId()
+{
+    if(_forceParent)
+    {
+        return ParentDataProvider::getInstance()->getLoggedInParentId();
+    }
+    else
+    {
+        return ChildDataProvider::getInstance()->getParentOrChildId();
+    }
+}
+    
 std::string JWTTool::getDateFormatString()
 {
     time_t rawtime;
@@ -128,24 +209,24 @@ std::string JWTTool::getHeaderString(std::string kid)
     return result;
 }
 
-std::string JWTTool::getBodySignature(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody)
+std::string JWTTool::getBodySignature()
 {
     std::string stringContentType = "";
-    if(requestBody.length() != 0)
+    if(_requestBody.length() != 0)
     {
         stringContentType = StringUtils::format("content-type=%s&", url_encode(stringToLower("application/json;charset=UTF-8")).c_str());
     }
     
-    std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(host)).c_str(), url_encode(stringToLower(getDateFormatString())).c_str());
+    std::string stringMandatoryHeaders = StringUtils::format("%shost=%s&x-az-req-datetime=%s", stringContentType.c_str(), url_encode(stringToLower(_host)).c_str(), url_encode(stringToLower(getDateFormatString())).c_str());
     
-    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n", method.c_str(), url_encode(path).c_str(), Net::getUrlParamsInAlphabeticalOrder(stringToLower(queryParams)).c_str(), stringMandatoryHeaders.c_str());
-    stringToBeEncoded += getBase64Encoded(requestBody);
-    std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, ChildDataProvider::getInstance()->getParentOrChildApiSecret());
+    std::string stringToBeEncoded = StringUtils::format("%s\n%s\n%s\n%s\n", _method.c_str(), url_encode(_path).c_str(), Net::getUrlParamsInAlphabeticalOrder(stringToLower(_queryParams)).c_str(), stringMandatoryHeaders.c_str());
+    stringToBeEncoded += getBase64Encoded(_requestBody);
+    std::string bodySignature = HMACSHA256::getInstance()->getHMACSHA256Hash(stringToBeEncoded, getAppropriateAPISecret());
     
     return bodySignature;
 }
 
-std::string JWTTool::getBodyString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody)
+std::string JWTTool::getBodyString()
 {
     rapidjson::StringBuffer s;
     rapidjson::Writer<rapidjson::StringBuffer> writer(s);
@@ -153,7 +234,7 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
     writer.StartObject();
     
     writer.String("iss", (int)StringUtils::format("iss").length());
-    writer.String(ChildDataProvider::getInstance()->getParentOrChildId().c_str(), (int)(StringUtils::format("%s", ChildDataProvider::getInstance()->getParentOrChildId().c_str()).length()));
+    writer.String(getAppropriateUserId().c_str(), (int)(StringUtils::format("%s", getAppropriateUserId().c_str()).length()));
     
     writer.String("aud", (int)StringUtils::format("aud").length());
     writer.String("", 0);
@@ -163,7 +244,7 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
     writer.StartObject();
     
     writer.String("signature", (int)StringUtils::format("signature").length());
-    writer.String(getBodySignature(method, path, host, queryParams, requestBody).c_str(), (int)getBodySignature(method, path, host, queryParams, requestBody).length());
+    writer.String(getBodySignature().c_str(), (int)getBodySignature().length());
     
     writer.String("parentKey", (int)StringUtils::format("parentKey").length());
     writer.String(ParentDataProvider::getInstance()->getLoggedInParentApiKey().c_str(), (int)ParentDataProvider::getInstance()->getLoggedInParentApiKey().length());
@@ -187,40 +268,9 @@ std::string JWTTool::getBodyString(std::string method, std::string path, std::st
 std::string JWTTool::getJWTSignature(std::string sHeader, std::string sBody)
 {
     std::string unEncodedSignature = sHeader + "." + sBody;
-    std::string encodedSignature = HMACSHA256::getInstance()->getHMACSHA256Hash(unEncodedSignature, ChildDataProvider::getInstance()->getParentOrChildApiSecret());
+    std::string encodedSignature = HMACSHA256::getInstance()->getHMACSHA256Hash(unEncodedSignature, getAppropriateAPISecret());
     
     return encodedSignature;
-}
-
-std::string JWTTool::buildJWTString(std::string method, std::string path, std::string host, std::string queryParams, std::string requestBody)
-{
-    
-    //HEADER STRING------------------------------------------------------------------------------
-    
-    std::string sHeader = getHeaderString(ChildDataProvider::getInstance()->getParentOrChildApiKey());
-    
-    
-    //PAYLOAD STRING------------------------------------------------------------------------------
-    
-    std::string sBody = getBodyString(method, path, host, queryParams, requestBody);
-    
-    //SIGNATURE STRING----------------------------------------------------------------------------
-    
-    std::string sSignature = getJWTSignature(sHeader, sBody);
-    
-    //DISPLAYING DEBUG INFO-----------------------------------------------------------------------
-    
-    cocos2d::log("\n\n\n apiSecret: %s\n\n\n", ChildDataProvider::getInstance()->getParentOrChildApiSecret().c_str());
-    
-    
-    //CREATE THE FINAL JWT STRING-----------------------------------------------------------------
-    
-    std::string finalJWT = StringUtils::format("%s.%s.%s", sHeader.c_str(), sBody.c_str(), sSignature.c_str());
-    
-    cocos2d::log("\n\n\n FINAL JWT STRING: %s\n\n\n", finalJWT.c_str());
-    
-    
-    return finalJWT;
 }
   
 }
