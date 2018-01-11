@@ -118,7 +118,6 @@ void Application::applicationWillEnterForeground()
 
 void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
 {
-    cocos2d::log( "Application::applicationScreenSizeChanged: %d, %d", newWidth, newHeight );
     
     updateResolution(newWidth, newHeight);
     
@@ -133,7 +132,6 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight)
 
 void Application::applicationScreenSizeWillChange(int newWidth, int newHeight, float duration)
 {
-    cocos2d::log( "Application::applicationScreenSizeWillChange: %d, %d, duration=%f", newWidth, newHeight, duration );
     
     updateResolution(newWidth, newHeight);
     
@@ -217,7 +215,6 @@ void Application::setOrientation(Orientation orientation)
 
 void Application::onVirtualKeyboardShown(bool shown, int height)
 {
-    cocos2d::log( "Application::onVirtualKeyboardShown: (shown=%d), %d", shown, height );
     
     // Convert height into cocos view coords
     auto director = Director::getInstance();

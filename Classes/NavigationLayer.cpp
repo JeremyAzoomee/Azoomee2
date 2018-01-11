@@ -641,7 +641,7 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
 
 void NavigationLayer::cleanUpPreviousHQ()
 {
-    CCLOG("previous hq is: %s", HQHistoryManager::getInstance()->getPreviousHQ().c_str());
+    cocos2d::log("previous hq is: %s", HQHistoryManager::getInstance()->getPreviousHQ().c_str());
     std::string previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
     if(previousHqName != "HOME")
     {

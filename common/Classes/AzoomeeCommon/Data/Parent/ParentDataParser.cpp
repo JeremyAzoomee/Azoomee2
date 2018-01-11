@@ -227,7 +227,6 @@ void ParentDataParser::logoutChild()
 
 void ParentDataParser::addParentLoginDataToUserDefaults()
 {
-    cocos2d::log("ParentDataParser::addParentLoginDataToUserDefaults");
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     
     UserDefault* def = UserDefault::getInstance();
@@ -283,7 +282,6 @@ bool ParentDataParser::hasParentLoginDataInUserDefaults()
 
 void ParentDataParser::clearParentLoginDataFromUserDefaults()
 {
-    cocos2d::log("ParentDataParser::clearParentLoginDataFromUserDefaults");
     UserDefault* def = UserDefault::getInstance();
     def->setStringForKey("loggedInParentId", "");
     def->setStringForKey("loggedInParentCdnSessionId", "");

@@ -159,7 +159,6 @@ void AwaitingAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,
 void AwaitingAdultPinLayer::secondCheckForPin()
 {
     //Please implement your second check here. If first check is not okay, please call: BackEndCaller::getInstance->updateParentPin(this);
-    CCLOG("Second check for pin callback was called");
     
     if(editBox_pin->getText() == ParentDataProvider::getInstance()->getParentPin() || ("" == ParentDataProvider::getInstance()->getParentPin() && editBox_pin->getText() == "1234"))
     {

@@ -145,7 +145,7 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
     else
     {
         appleReceiptRefreshchecked = true;
-        
+
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
         {

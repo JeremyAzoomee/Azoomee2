@@ -47,7 +47,7 @@ bool DeepLinkingSingleton::init(void)
 
 void DeepLinkingSingleton::setDeepLink(const std::string& uriString)
 {
-    CCLOG("DEEPLINK URI:%s",uriString.c_str());
+    cocos2d::log("DEEPLINK URI:%s",uriString.c_str());
     
     resetDeepLink();
     deepLinkActionWaiting = setHostAndPath(uriString);

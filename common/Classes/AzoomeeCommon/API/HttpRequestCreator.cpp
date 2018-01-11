@@ -204,7 +204,6 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     std::string requestTag = response->getHttpRequest()->getTag();
     
     cocos2d::log("Request tag: %s", requestTag.c_str());
-    //cocos2d::log("Request body: %s", response->getHttpRequest()->getRequestData());
     cocos2d::log("Response code: %ld", response->getResponseCode());
     cocos2d::log("Response header: %s", responseHeaderString.c_str());
     cocos2d::log("Response string: %s", responseDataString.c_str());
