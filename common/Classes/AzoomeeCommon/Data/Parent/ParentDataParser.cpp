@@ -39,9 +39,11 @@ bool ParentDataParser::parseParentLoginData(const std::string &responseData)
     logoutChild();
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     parentData->parentLoginData.Parse(responseData.c_str());
-    if(parentData->parentLoginData.HasParseError()) return false;
     
-    if(parentData->parentLoginData.HasParseError()) return false;
+    if(parentData->parentLoginData.HasParseError())
+    {
+        return false;
+    }
     
     if(parentData->parentLoginData.HasMember("code"))
     {
@@ -77,7 +79,10 @@ bool ParentDataParser::parseParentLoginDataFromAnonymousDeviceLogin(const std::s
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     parentData->parentLoginData.Parse(responseData.c_str());
     
-    if(parentData->parentLoginData.HasParseError()) return false;
+    if(parentData->parentLoginData.HasParseError())
+    {
+        return false;
+    }
     
     if(parentData->parentLoginData.HasMember("userType"))
     {
@@ -110,14 +115,24 @@ bool ParentDataParser::parseUpdateParentData(const std::string &responseData)
 {
     rapidjson::Document updateData;
     updateData.Parse(responseData.c_str());
-    if(updateData.HasParseError()) return false;
+    
+    if(updateData.HasParseError())
+    {
+        return false;
+    }
     
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
     
     parentData->loggedInParentPin = getStringFromJson("pinNumber", updateData);
     
-    if(updateData.HasMember("actorStatus")) parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", updateData);
-    else return false;
+    if(updateData.HasMember("actorStatus"))
+    {
+        parentData->loggedInParentActorStatus = getStringFromJson("actorStatus", updateData);
+    }
+    else
+    {
+        return false;
+    }
     
     return true;
 }
@@ -125,11 +140,16 @@ bool ParentDataParser::parseUpdateParentData(const std::string &responseData)
 bool ParentDataParser::parseAvailableChildren(const std::string &responseData)
 {
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
+    parentData->availableChildrenData.Parse(responseData.c_str());
+    
+    if(parentData->availableChildrenData.HasParseError())
+    {
+        return false;
+    }
+    
     parentData->availableChildren.clear();
     parentData->availableChildrenById.clear();
     parentData->isLoggedInParentAnonymous = false; //if user has children, it must be non-anonymous
-    
-    parentData->availableChildrenData.Parse(responseData.c_str());
     
     for(int i = 0; i < parentData->availableChildrenData.Size(); i++)
     {
@@ -165,36 +185,15 @@ void ParentDataParser::parseParentBillingData(const std::string &responseData)
     }
     
     ParentDataStorage* parentData = ParentDataStorage::getInstance();
-    parentData->loggedInParentBillingDate = "";
     
-    if(billingData.HasMember("billingStatus"))
-    {
-        if(billingData["billingStatus"].IsString())
-        {
-            parentData->loggedInParentBillingStatus = billingData["billingStatus"].GetString();
-            
-            AnalyticsSingleton::getInstance()->registerBillingStatus(billingData["billingStatus"].GetString());
-        }
-    }
+    parentData->loggedInParentBillingStatus = getStringFromJson("billingStatus", billingData);
+    AnalyticsSingleton::getInstance()->registerBillingStatus(parentData->loggedInParentBillingStatus);
     
-    //BillDate format "2017-04-04"
-    if(billingData.HasMember("nextBillDate"))
-    {
-        if(billingData["nextBillDate"].IsString())
-        {
-            parentData->loggedInParentBillingDate = billingData["nextBillDate"].GetString();
-        }
-    }
+    parentData->loggedInParentBillingDate = getStringFromJson("nextBillDate", billingData);
     
-    if(billingData.HasMember("paymentProvider"))
-    {
-        if(billingData["paymentProvider"].IsString())
-        {
-            parentData->loggedInParentBillingProvider = billingData["paymentProvider"].GetString();
-            
-            AnalyticsSingleton::getInstance()->registerBillingProvider(billingData["paymentProvider"].GetString());
-        }
-    }
+    parentData->loggedInParentBillingProvider = getStringFromJson("paymentProvider", billingData);
+    AnalyticsSingleton::getInstance()->registerBillingProvider(parentData->loggedInParentBillingProvider);
+    
     parentData->isBillingDataAvailable = true;
 }
 
@@ -274,7 +273,10 @@ void ParentDataParser::retrieveParentLoginDataFromUserDefaults()
 bool ParentDataParser::hasParentLoginDataInUserDefaults()
 {
     UserDefault* def = UserDefault::getInstance();
-    if(def->getStringForKey("loggedInParentId") != "") return true;
+    if(def->getStringForKey("loggedInParentId") != "")
+    {
+        return true;
+    }
     return false;
 }
 
@@ -296,7 +298,10 @@ bool ParentDataParser::parsePendingFriendRequests(const std::string &responseDat
     parentData->pendingFriendRequests.clear();
     
     parentData->pendingFriendRequestData.Parse(responseData.c_str());
-    if(parentData->pendingFriendRequestData.HasParseError()) return false;
+    if(parentData->pendingFriendRequestData.HasParseError())
+    {
+        return false;
+    }
     
     for(int i = 0; i < parentData->pendingFriendRequestData.Size(); i++)
     {

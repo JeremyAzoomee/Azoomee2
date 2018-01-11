@@ -109,14 +109,14 @@ void ManualGameInputLayer::buttonPressed(ElectricDreamsButton* button)
         def->setStringForKey("GameURI", uriTextInput->getText());
         def->flush();
         
-        std::string manualGamePath = FileUtils::getInstance()->getWritablePath() + "gameCache/MANUAL_GAME/";
+        std::string manualGamePath = FileUtils::getInstance()->getWritablePath() + "gameCache/" + GameDataManager::kManualGameId;
         
         if(FileUtils::getInstance()->isDirectoryExist(manualGamePath))
             FileUtils::getInstance()->removeDirectory(manualGamePath);
 
         FileUtils::getInstance()->createDirectory(manualGamePath);
         
-        GameDataManager::getInstance()->getJSONGameData(uriTextInput->getText().c_str(), "MANUAL_GAME");
+        GameDataManager::getInstance()->getJSONGameData(uriTextInput->getText().c_str(), GameDataManager::kManualGameId);
     }
 }
 

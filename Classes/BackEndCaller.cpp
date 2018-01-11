@@ -182,6 +182,8 @@ void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& respons
     // fire event to add parent button to child select scene if paid account
     EventCustom event(ChildSelectorScene::kBillingDataRecievedEvent);
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+    
+    RoutePaymentSingleton::getInstance()->retryReceiptValidation();
 }
 
 //GETTING FORCE UPDATE INFORMATION

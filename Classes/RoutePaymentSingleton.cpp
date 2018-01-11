@@ -25,6 +25,9 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const std::string& RoutePaymentSingleton::kReceiptCacheFolder = "receiptCache/";
+const std::string& RoutePaymentSingleton::kReceiptDataFileName = "receiptData.dat";
+
 static RoutePaymentSingleton *_sharedRoutePaymentSingleton = NULL;
 
 RoutePaymentSingleton* RoutePaymentSingleton::getInstance()
@@ -49,6 +52,13 @@ bool RoutePaymentSingleton::init(void)
 }
 void RoutePaymentSingleton::startInAppPayment()
 {
+    if(ParentDataProvider::getInstance()->getLoggedInParentId() == "")
+    {
+        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
+        LoginLogicHandler::getInstance()->doLoginLogic();
+        return;
+    }
+    
     pressedIAPStartButton = true;
     pressedRestorePurchaseButton = false;
     ModalMessages::getInstance()->startLoading();
@@ -135,8 +145,7 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
     else
     {
         appleReceiptRefreshchecked = true;
-        
-        cocos2d::log("checkIfAppleReceiptRefreshNeeded Started");
+
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
         if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
         {
@@ -146,7 +155,6 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
             return false;
         }
     #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        cocos2d::log("checkIfAppleReceiptRefreshNeeded");
         if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && !ParentDataProvider::getInstance()->isPaidUser())
         {
             MessageBox::createWith(ERROR_CODE_APPLE_SUBSCRIPTION_ON_NON_APPLE, this);
@@ -159,6 +167,11 @@ bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
 
 void RoutePaymentSingleton::backendRequestFailed(long errorCode)
 {
+    if(errorCode == 409) //409 means the user was already upgraded, so we can remove the local receipt file.
+    {
+        RoutePaymentSingleton::getInstance()->removeReceiptDataFile();
+    }
+    
     ModalMessages::getInstance()->stopLoading();
     
     if(pressedIAPStartButton)
@@ -192,11 +205,111 @@ void RoutePaymentSingleton::doublePurchaseMessage()
 
 void RoutePaymentSingleton::inAppPaymentSuccess()
 {
+    removeReceiptDataFile();
+    
     AnalyticsSingleton::getInstance()->iapSubscriptionSuccessEvent();
     
     BackEndCaller::getInstance()->updateBillingData();
     FlowDataSingleton::getInstance()->addIAPSuccess(true);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(OnboardingSuccessScene));
+}
+
+void RoutePaymentSingleton::writeAndroidReceiptDataToFile(const std::string& developerPayload, const std::string& orderId, const std::string& token)
+{
+    const std::string& stringToWrite = developerPayload + "|" + orderId + "|" + token;
+    writeReceiptDataToFile(stringToWrite);
+}
+
+void RoutePaymentSingleton::writeAmazonReceiptDataToFile(const std::string &requestId, const std::string &receiptId, const std::string &amazonUserId)
+{
+    const std::string& stringToWrite = requestId + "|" + receiptId + "|" + amazonUserId;
+    writeReceiptDataToFile(stringToWrite);
+}
+
+void RoutePaymentSingleton::writeReceiptDataToFile(const std::string &receiptData)
+{
+    int attemptNumber = 0;
+    
+    if(receiptDataFileExists())
+    {
+        attemptNumber = atoi(splitStringToVector(FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName), "||").at(0).c_str());
+        attemptNumber++;
+    }
+    
+    createReceiptDataFolder();
+    FileUtils::getInstance()->writeStringToFile(StringUtils::format("%d", attemptNumber) + "||" + receiptData, FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+}
+
+bool RoutePaymentSingleton::receiptDataFileExists()
+{
+    return FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+}
+
+void RoutePaymentSingleton::removeReceiptDataFile()
+{
+    if(receiptDataFileExists())
+    {
+        FileUtils::getInstance()->removeFile(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+    }
+}
+
+void RoutePaymentSingleton::retryReceiptValidation()
+{
+    if(!receiptDataFileExists())
+    {
+        return;
+    }
+    
+    const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder + kReceiptDataFileName);
+    const std::vector<std::string>& fileContentSplit = splitStringToVector(fileContent, "||");
+    
+    if(fileContentSplit.size() != 2)
+    {
+        return;
+    }
+    
+    int attemptNumber = atoi(fileContentSplit.at(0).c_str());
+    const std::string& dataString = fileContentSplit.at(1);
+    
+    if(attemptNumber > 2) //we want to avoid putting users to infinite loop
+    {
+        //TODO: send receipt file data to back-end
+        return;
+    }
+    
+    if(dataString != "")
+    {
+        writeReceiptDataToFile(dataString); //we do this to increase the attempt number by 1. If dataString is empty because of any issues, it is better not to rewrite the file.
+    }
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    ApplePaymentSingleton::getInstance()->transactionStatePurchased(dataString);
+#endif
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    const std::vector<std::string>& paymentElements = splitStringToVector(dataString, "|");
+    if(paymentElements.size() == 3)
+    {
+        if(osIsAmazon())
+        {
+            AmazonPaymentSingleton::getInstance()->amazonPaymentMade(paymentElements.at(0), paymentElements.at(1), paymentElements.at(2));
+        }
+        
+        if(osIsAndroid())
+        {
+            GooglePaymentSingleton::getInstance()->startBackEndPaymentVerification(paymentElements.at(0), paymentElements.at(1), paymentElements.at(2));
+        }
+    }
+#endif
+    
+}
+
+void RoutePaymentSingleton::createReceiptDataFolder()
+{
+    if(!FileUtils::getInstance()->isDirectoryExist(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder))
+    {
+        FileUtils::getInstance()->createDirectory(FileUtils::getInstance()->getDocumentsPath() + kReceiptCacheFolder);
+    }
 }
 
 //Delegate Functions

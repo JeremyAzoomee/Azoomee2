@@ -36,6 +36,8 @@ using namespace cocos2d::network;
 
 NS_AZOOMEE_BEGIN
 
+const char* const GameDataManager::kManualGameId = "MANUAL_GAME";
+
 static GameDataManager *_sharedGameDataManager = NULL;
 
 GameDataManager* GameDataManager::getInstance()
@@ -164,6 +166,11 @@ std::string GameDataManager::getFileNameFromUrl(const std::string &url)
 
 void GameDataManager::getJSONGameData(const std::string &url, const std::string &itemId)
 {
+    if(itemId == kManualGameId)
+    {
+        _contentId = kManualGameId;
+    }
+    
     _fileDownloader = FileDownloader::create();
     _fileDownloader->setDelegate(this);
     _fileDownloader->downloadFileFromServer(url, _kJsonTag);
