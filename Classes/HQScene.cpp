@@ -17,7 +17,6 @@
 #include "OfflineHubBackButton.h"
 #include "HQSceneArtsApp.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
-#include "ImageConverterLoadingLayer.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "DynamicNodeHandler.h"
 
@@ -83,21 +82,9 @@ void HQScene::startBuildingScrollViewBasedOnName()
             auto artsLayer = this->getChildByName(ConfigStorage::kArtAppHQName);
             if(!artsLayer)
             {
-                auto oldImages = HQSceneArtsApp::getOldArtImages();
-                if(HQSceneArtsApp::getOldArtImages().size() > 0)
-                {
-                    auto converterLayer = ImageConverterLoadingLayer::create();
-                    converterLayer->setFileNames(oldImages);
-                    this->addChild(converterLayer);
-                    //Director::getInstance()->getRunningScene()->addChild(converterLayer);
-                    
-                }
-                else
-                {
-                    auto offlineArtsAppScrollView = HQSceneArtsApp::create();
-                    offlineArtsAppScrollView->setName(ConfigStorage::kArtAppHQName);
-                    this->addChild(offlineArtsAppScrollView);
-                }
+                auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+                offlineArtsAppScrollView->setName(ConfigStorage::kArtAppHQName);
+                this->addChild(offlineArtsAppScrollView);
             }
         }
         else
