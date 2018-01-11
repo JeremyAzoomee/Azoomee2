@@ -166,7 +166,6 @@ void MessageScene::checkForNewMessages(int page)
     _timeTillGet = -1.0f;
     _checkingForNewMessages = true;
     ChatAPI::getInstance()->requestMessageHistory(_participants[1], page);
-    cocos2d::log("MessageScene::checkForNewMessages: page=%d, currentPollSchedule=%d", page, _currentPollSchedule);
 }
 
 void MessageScene::retrieveMessagesFromNextPage()

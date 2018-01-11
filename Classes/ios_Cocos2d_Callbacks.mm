@@ -37,7 +37,7 @@ void navigateToLoginScene()
 
 void sendMixPanelData(const char* host, const char* query)
 {
-    CCLOG("host: %s, query: %s", host, query);
+    cocos2d::log("host: %s, query: %s", host, query);
     std::string strHost = cocos2d::StringUtils::format("%s", host);
     std::string strQuery = cocos2d::StringUtils::format("%s", query);
     
@@ -86,7 +86,7 @@ void sendMixPanelData(const char* host, const char* query)
 const char* sendGameApiRequest(const char* method, const char* responseid, const char* score)
 {
     char* returnString = WebGameAPIDataManager::getInstance()->handleAPIRequest(method, responseid, score);
-    CCLOG("returnString in callback listener: %s", returnString);
+    cocos2d::log("returnString in callback listener: %s", returnString);
     
     return returnString;
 }

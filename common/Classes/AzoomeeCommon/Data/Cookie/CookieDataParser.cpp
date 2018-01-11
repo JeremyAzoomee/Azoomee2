@@ -31,7 +31,7 @@ bool CookieDataParser::init(void)
 
 bool CookieDataParser::parseDownloadCookies(std::string responseString)
 {
-    CCLOG("Responsestring: %s", responseString.c_str());
+    cocos2d::log("Responsestring: %s", responseString.c_str());
     
     size_t beginpos = responseString.find("Set-Cookie:");
     responseString = responseString.substr(beginpos);

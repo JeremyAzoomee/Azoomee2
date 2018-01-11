@@ -155,7 +155,6 @@ void LoginScene::changeElementsToPasswordScreen()
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(storedUsername);
     emailTextInput->setEditboxVisibility(false);
     passwordTextInput->setEditboxVisibility(true);
-    CCLOG("NEXT NextButton visible false - change to password");
     nextButton->setVisible(false);
     currentScreen = passwordLoginScreen;
     passwordTextInput->focusAndShowKeyboard();
@@ -169,7 +168,6 @@ void LoginScene::changeElementsToEmailScreen()
     passwordTextInput->setText("");
     emailTextInput->setEditboxVisibility(true);
     currentScreen = emailLoginScreen;
-    CCLOG("NEXT NextButton visible change to email %d",isValidEmailAddress(emailTextInput->getText().c_str()));
     nextButton->setVisible(isValidEmailAddress(emailTextInput->getText().c_str()));
     emailTextInput->focusAndShowKeyboard();
     backButton->setVisible(false);
@@ -207,7 +205,6 @@ void LoginScene::login(const std::string& username, const std::string& password)
 
 void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    CCLOG("NEXT Check Input TextBox is %d", isValid);
     nextButton->setVisible(isValid);
 }
 

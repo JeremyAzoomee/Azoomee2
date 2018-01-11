@@ -35,7 +35,6 @@ bool LoginScene::init()
     {
         return false;
     }
-    cocos2d::log("Cache folder: %s", FileUtils::getInstance()->getWritablePath().c_str());
     
     ChatNotificationsSingleton::getInstance()->stopNotificationsUpdate();
     AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
@@ -142,7 +141,6 @@ void LoginScene::changeElementsToPasswordScreen()
     AnalyticsSingleton::getInstance()->registerAzoomeeEmail(storedUsername);
     emailTextInput->setEditboxVisibility(false);
     passwordTextInput->setEditboxVisibility(true);
-    CCLOG("NEXT NextButton visible false - change to password");
     nextButton->setVisible(false);
     currentScreen = passwordLoginScreen;
     passwordTextInput->focusAndShowKeyboard();
@@ -155,7 +153,6 @@ void LoginScene::changeElementsToEmailScreen()
     passwordTextInput->setText("");
     emailTextInput->setEditboxVisibility(true);
     currentScreen = emailLoginScreen;
-    CCLOG("NEXT NextButton visible change to email %d",isValidEmailAddress(emailTextInput->getText().c_str()));
     nextButton->setVisible(isValidEmailAddress(emailTextInput->getText().c_str()));
     emailTextInput->focusAndShowKeyboard();
 }
@@ -193,7 +190,6 @@ void LoginScene::login(std::string username, std::string password)
 //-------------DELEGATE FUNCTIONS-------------------
 void LoginScene::textInputIsValid(TextInputLayer* inputLayer, bool isValid)
 {
-    CCLOG("NEXT Check Input TextBox is %d", isValid);
     nextButton->setVisible(isValid);
 }
 

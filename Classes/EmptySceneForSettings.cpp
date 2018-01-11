@@ -20,7 +20,6 @@ bool EmptySceneForSettings::init()
     {
         return false;
     }
-    CCLOG("Cache folder: %s", FileUtils::getInstance()->getWritablePath().c_str());
     
     return true;
 }
