@@ -69,7 +69,6 @@
 		43087FD91F03AC4C00E199EA /* NativeShare_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */; };
 		431369781F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431369761F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp */; };
 		4313697E1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4313697C1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp */; };
-		431369811F2B7200002BEA8C /* YouTubeVideoLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4313697F1F2B7200002BEA8C /* YouTubeVideoLayer.cpp */; };
 		4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */; };
 		4318E13E1F28E65400778E9A /* MessageBoxTextLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */; };
 		433479491F7E42010093C7BE /* PrivacyLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 433479471F7E42000093C7BE /* PrivacyLayer.cpp */; };
@@ -287,8 +286,6 @@
 		431369771F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxChatReportChatLayer.h; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatReportChatLayer.h; sourceTree = "<group>"; };
 		4313697C1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxOnlineSafetySlidesLayer.cpp; path = MessageBoxLayers/MessageBoxOnlineSafetySlidesLayer.cpp; sourceTree = "<group>"; };
 		4313697D1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxOnlineSafetySlidesLayer.h; path = MessageBoxLayers/MessageBoxOnlineSafetySlidesLayer.h; sourceTree = "<group>"; };
-		4313697F1F2B7200002BEA8C /* YouTubeVideoLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = YouTubeVideoLayer.cpp; sourceTree = "<group>"; };
-		431369801F2B7200002BEA8C /* YouTubeVideoLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YouTubeVideoLayer.h; sourceTree = "<group>"; };
 		4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RequestAdultPinLayer.cpp; sourceTree = "<group>"; };
 		4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestAdultPinLayer.h; sourceTree = "<group>"; };
 		4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxTextLayer.cpp; path = MessageBoxLayers/MessageBoxTextLayer.cpp; sourceTree = "<group>"; };
@@ -666,8 +663,6 @@
 				305966801ECC6987009A7130 /* Style.h */,
 				3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */,
 				3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */,
-				4313697F1F2B7200002BEA8C /* YouTubeVideoLayer.cpp */,
-				431369801F2B7200002BEA8C /* YouTubeVideoLayer.h */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1119,7 +1114,6 @@
 				02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */,
 				3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */,
 				4349C81A1EA8ADEF00FE964B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
-				431369811F2B7200002BEA8C /* YouTubeVideoLayer.cpp in Sources */,
 				021B1FC91F838A0A0044DCF7 /* HQCarouselObject.cpp in Sources */,
 				3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */,
 				3012ED611E969BF60009027D /* ChildDataParser.cpp in Sources */,
