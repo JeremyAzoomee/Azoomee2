@@ -51,7 +51,6 @@ bool ConfigStorage::init(void)
     
     BaseSceneConfiguration = parseJsonConfigurationFile("BaseSceneConfiguration.json");
     HQSceneConfiguration = parseJsonConfigurationFile("HQSceneConfiguration.json");
-    ImageContainerConfiguration = parseJsonConfigurationFile("ImageContainerConfiguration.json");
     NavigationConfiguration = parseJsonConfigurationFile("NavigationConfiguration.json");
     OomeeAnimationTypes = parseJsonConfigurationFile("OomeeAnimationTypes.json");
     OomeeConfiguration = parseJsonConfigurationFile("OomeeConfiguration.json");
@@ -92,7 +91,7 @@ bool ConfigStorage::init(void)
     return true;
 }
 
-std::string ConfigStorage::getFileNameFromUrl(std::string url)
+std::string ConfigStorage::getFileNameFromUrl(const std::string& url)
 {
     int startPoint = (int)url.find_last_of("/") + 1;
     
@@ -105,7 +104,7 @@ std::string ConfigStorage::getFileNameFromUrl(std::string url)
 
 //-------------------------PRIVATE METHOD TO PARSE CONFIG JSON FILE--------
 
-rapidjson::Document ConfigStorage::parseJsonConfigurationFile(std::string fileName)
+rapidjson::Document ConfigStorage::parseJsonConfigurationFile(const std::string& fileName)
 {
     std::string path = "res/configuration/" + fileName;
     
@@ -155,7 +154,7 @@ std::string ConfigStorage::getMediaPrefixForXwalkCookies()
     return "https://media";
 }
 
-std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
+std::string ConfigStorage::getPathForTag(const std::string& httpRequestTag)
 {
     if(httpRequestTag == API::TagLogin) return "/api/auth/login";
     if(httpRequestTag == API::TagAnonymousDeviceLogin) return "/api/anonymoususer/auth/login";
@@ -176,13 +175,13 @@ std::string ConfigStorage::getPathForTag(std::string httpRequestTag)
     return "";
 }
     
-bool ConfigStorage::isParentSignatureRequiredForRequest(std::string requestTag)
+bool ConfigStorage::isParentSignatureRequiredForRequest(const std::string& requestTag)
 {
     auto itemPosition = std::find(parentSignedRequestTags.begin(), parentSignedRequestTags.end(), requestTag);
     return itemPosition != parentSignedRequestTags.end();
 }
     
-bool ConfigStorage::isImmediateRequestSendingRequired(std::string requestTag)
+bool ConfigStorage::isImmediateRequestSendingRequired(const std::string& requestTag)
 {
     auto itemPosition = std::find(requestTagsRequireImmediateSending.begin(), requestTagsRequireImmediateSending.end(), requestTag);
     return itemPosition != requestTagsRequireImmediateSending.end();
@@ -207,7 +206,7 @@ std::string ConfigStorage::getUrlForOomee(int number)
     return OomeeConfiguration["urlForOomee"][keyName.c_str()].GetString();
 }
 
-int ConfigStorage::getOomeeNumberForUrl(std::string url)
+int ConfigStorage::getOomeeNumberForUrl(const std::string& url)
 {
     std::string fileName = getFileNameFromUrl(url);
     
@@ -216,7 +215,7 @@ int ConfigStorage::getOomeeNumberForUrl(std::string url)
 }
 
 //-------------------------BASESCENE CONFIGURATION-------------------------
-Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
+Point ConfigStorage::getHQScenePositions(const std::string& hqSceneName)
 {
     float x = BaseSceneConfiguration["HQScenePositions"][hqSceneName.c_str()]["x"].GetDouble();
     float y = BaseSceneConfiguration["HQScenePositions"][hqSceneName.c_str()]["y"].GetDouble();
@@ -226,7 +225,7 @@ Point ConfigStorage::getHQScenePositions(std::string hqSceneName)
 
 //-------------------------HQSCENEELEMENT CONFIGURATION-------------------------
 
-cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string category)
+cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(const std::string& category)
 {
     float width = HQSceneConfiguration["sizeForContentLayerInCategory"][category.c_str()]["width"].GetDouble();
     float height = HQSceneConfiguration["sizeForContentLayerInCategory"][category.c_str()]["height"].GetDouble();
@@ -234,24 +233,7 @@ cocos2d::Size ConfigStorage::getSizeForContentItemInCategory(std::string categor
     return Size(width, height);
 }
 
-cocos2d::Color4B ConfigStorage::getBaseColourForContentItemInCategory(std::string category)
-{
-    Color4B returnColour;
-    
-    returnColour.r = HQSceneConfiguration["baseColourForContentItemInCategory"][category.c_str()]["r"].GetInt();
-    returnColour.g = HQSceneConfiguration["baseColourForContentItemInCategory"][category.c_str()]["g"].GetInt();
-    returnColour.b = HQSceneConfiguration["baseColourForContentItemInCategory"][category.c_str()]["b"].GetInt();
-    returnColour.a = HQSceneConfiguration["baseColourForContentItemInCategory"][category.c_str()]["a"].GetInt();
-    
-    return returnColour;
-}
-
-std::string ConfigStorage::getIconImagesForContentItemInCategory(std::string category)
-{
-    return HQSceneConfiguration["iconImagesForContentItemInCategory"][category.c_str()].GetString();
-}
-
-std::string ConfigStorage::getPlaceholderImageForContentItemInCategory(std::string type)
+std::string ConfigStorage::getPlaceholderImageForContentItemInCategory(const std::string& type)
 {
     return HQSceneConfiguration["placeholderImageForContentItemInCategory"][type.c_str()].GetString();
 }
@@ -279,6 +261,44 @@ float ConfigStorage::getGroupContentItemTextHeight()
     return HQSceneConfiguration["groupContentItemTextHeight"].GetDouble();
 }
 
+std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(const std::string& categoryName)
+{
+    float x1 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][0]["x"].GetDouble();
+    float y1 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][0]["y"].GetDouble();
+    float x2 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][1]["x"].GetDouble();
+    float y2 = HQSceneConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][1]["y"].GetDouble();
+        
+    return std::vector<Point> {Point(x1, y1), Point(x2, y2)};
+}
+    
+cocos2d::Color4B ConfigStorage::getColourForElementType(const std::string& type)
+{
+    Color4B returnColor;
+    returnColor.r = HQSceneConfiguration["colourForElementType"][type.c_str()]["r"].GetInt();
+    returnColor.g = HQSceneConfiguration["colourForElementType"][type.c_str()]["g"].GetInt();
+    returnColor.b = HQSceneConfiguration["colourForElementType"][type.c_str()]["b"].GetInt();
+    returnColor.a = HQSceneConfiguration["colourForElementType"][type.c_str()]["a"].GetInt();
+        
+    return returnColor;
+}
+    
+std::string ConfigStorage::getIconNameForCategory(const std::string& category)
+{
+    return HQSceneConfiguration["iconNameForCategory"][category.c_str()].GetString();
+}
+    
+std::string ConfigStorage::getGradientImageForCategory(const std::string& category)
+{
+    if(category == kVideoHQName || category == kGroupHQName || category == kHomeHQName )
+    {
+        return "res/hqscene/gradient_overlay.png";
+    }
+    else
+    {
+        return "res/hqscene/gradient_overlay_large.png";
+    }
+}
+    
 //------------------NAVIGATIONLAYER CONFIGURATION--------------------------------
 
 std::string ConfigStorage::getHQSceneNameReplacementForPermissionFeed(const std::string &inputHqSceneName)
@@ -339,7 +359,7 @@ std::string ConfigStorage::getNameForMenuItem(int itemNumber)
     return NavigationConfiguration["namesForMenuItems"][itemNumber].GetString();
 }
 
-ConfigStorage::HubTargetTagNumber ConfigStorage::getTagNumberForMenuName(std::string name)
+ConfigStorage::HubTargetTagNumber ConfigStorage::getTagNumberForMenuName(const std::string& name)
 {
     return (HubTargetTagNumber)NavigationConfiguration["tagNumberForMenuItems"][name.c_str()].GetInt();
 }
@@ -352,41 +372,6 @@ Point ConfigStorage::getTargetPositionForMove(int itemNumber)
     return Point(x, y);
 }
 
-//--------------------------------IMAGECONTAINER CONFIGURATION----------------
-
-std::vector<Point> ConfigStorage::getMainHubPositionForHighlightElements(std::string categoryName)
-{
-    float x1 = ImageContainerConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][0]["x"].GetDouble();
-    float y1 = ImageContainerConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][0]["y"].GetDouble();
-    float x2 = ImageContainerConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][1]["x"].GetDouble();
-    float y2 = ImageContainerConfiguration["MainHubPositionsForHighlightElements"][categoryName.c_str()]["Points"][1]["y"].GetDouble();
-    
-    return std::vector<Point> {Point(x1, y1), Point(x2, y2)};
-}
-
-cocos2d::Color4B ConfigStorage::getColourForElementType(std::string type)
-{
-    Color4B returnColor;
-    returnColor.r = ImageContainerConfiguration["colourForElementType"][type.c_str()]["r"].GetInt();
-    returnColor.g = ImageContainerConfiguration["colourForElementType"][type.c_str()]["g"].GetInt();
-    returnColor.b = ImageContainerConfiguration["colourForElementType"][type.c_str()]["b"].GetInt();
-    returnColor.a = ImageContainerConfiguration["colourForElementType"][type.c_str()]["a"].GetInt();
-    
-    return returnColor;
-}
-
-std::string ConfigStorage::getIconNameForCategory(std::string category)
-{
-    return ImageContainerConfiguration["iconNameForCategory"][category.c_str()].GetString();
-}
-
-std::string ConfigStorage::getGradientImageForCategory(std::string category)
-{
-    if(category == kVideoHQName || category == kGroupHQName )
-        return "res/hqscene/gradient_overlay.png";
-    else
-        return "res/hqscene/gradient_overlay_large.png";
-}
 
 //-----------------------------------OOMEE animation identifier configuration----------------------------------
 
@@ -395,7 +380,7 @@ std::string ConfigStorage::getGreetingAnimation()
     return "Build_Simple_Wave";
 }
 
-std::string ConfigStorage::getRandomIdForAnimationType(std::string animationType)
+std::string ConfigStorage::getRandomIdForAnimationType(const std::string& animationType)
 {
     if(animationType == "idle") return OomeeAnimationTypes["idleAnimations"][random(0, (int)OomeeAnimationTypes["idleAnimations"].Size() - 1)].GetString();
     else if(animationType == "button") return OomeeAnimationTypes["buttonIdleAnimations"][random(0, (int)OomeeAnimationTypes["buttonIdleAnimations"].Size() - 1)].GetString();
@@ -439,7 +424,7 @@ std::string ConfigStorage::getVersionNumberToDisplay()
 
 //----------------------------- IAP Configuration -------------------------------------
 
-std::string ConfigStorage::getIapSkuForProvider(std::string provider)
+std::string ConfigStorage::getIapSkuForProvider(const std::string& provider)
 {
     return IapConfiguration[provider.c_str()].GetString();
 }

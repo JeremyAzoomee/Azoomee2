@@ -141,7 +141,7 @@ void ArtsAppHQElement::addPlaceHolder()
 
 void ArtsAppHQElement::createImageBorder()
 {
-    _baseLayer = LayerColor::create(ConfigStorage::getInstance()->getBaseColourForContentItemInCategory("ARTS APP"), this->getContentSize().width - 20, this->getContentSize().height - 20);
+    _baseLayer = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width - 20, this->getContentSize().height - 20);
     _baseLayer->setPosition(10,10);
     this->addChild(_baseLayer);
 }
@@ -155,7 +155,7 @@ void ArtsAppHQElement::createWhiteBackground()
 
 void ArtsAppHQElement::addOverlay()
 {
-    _overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getBaseColourForContentItemInCategory("ARTS APP"), this->getContentSize().width - 20, this->getContentSize().height - 20);
+    _overlayWhenTouched = LayerColor::create(ConfigStorage::getInstance()->getColourForElementType(ConfigStorage::kArtAppHQName), this->getContentSize().width - 20, this->getContentSize().height - 20);
     _overlayWhenTouched->setPosition(10,10);
     _overlayWhenTouched->setOpacity(0);
     this->addChild(_overlayWhenTouched,1);
@@ -300,7 +300,7 @@ void ArtsAppHQElement::addListenerToElement()
         
         if(rect.containsPoint(locationInNode))
         {
-            AnalyticsSingleton::getInstance()->contentItemSelectedEvent("ARTS APP", "1,1");
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(ConfigStorage::kArtAppHQName, "1,1");
 
             _overlayWhenTouched->setOpacity(150);
             _iamtouched = true;
