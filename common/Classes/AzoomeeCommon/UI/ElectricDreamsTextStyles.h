@@ -22,7 +22,6 @@ cocos2d::Label*  createLabelBody(std::string text);
 cocos2d::Label*  createLabelBody(std::string text, cocos2d::Color3B color);
 cocos2d::Label*  createLabelChildName(std::string text);
 cocos2d::Label*  createLabelBodyCentred(std::string text, cocos2d::Color3B color );
-cocos2d::Label*  createLabelButtonChildFriendly(std::string text);
 cocos2d::Label*  createLabelRailTitle(std::string text);
 cocos2d::Label*  createLabelAppVerison(std::string text);
 cocos2d::Label*  createLabelMessageBoxTitle(std::string text);

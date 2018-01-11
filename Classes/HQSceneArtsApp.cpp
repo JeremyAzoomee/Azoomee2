@@ -8,7 +8,6 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "HQSceneElementPositioner.h"
-#include "ArtAppImageConverter.h"
 #include <AzoomeeCommon/Utils/DirectorySearcher.h>
 #include <algorithm>
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
@@ -121,25 +120,6 @@ void HQSceneArtsApp::addImageToHorizontalScrollView(cocos2d::ui::ScrollView *toB
     auto sceneElementPositioner = new HQSceneElementPositioner();
     sceneElementPositioner->positionHQSceneElement((Layer *)artImage, false);
     artImage->enableOnScreenChecker();
-}
-
-std::vector<std::string> HQSceneArtsApp::getOldArtImages()
-{
-    std::string path = FileUtils::getInstance()->getDocumentsPath() + "artCache/" + ChildDataProvider::getInstance()->getParentOrChildId();
-    const std::vector<std::string>& fileList = DirectorySearcher::getInstance()->getFilesInDirectory(path);
-    std::vector<std::string> imagList;
-    for(int i = 0; i < fileList.size(); i++)
-    {
-        if(fileList.at(i).size() > 4)
-        {
-            if(fileList.at(i).substr(fileList.at(i).size() -4, 4) == "imag")
-            {
-                imagList.push_back(StringUtils::format("%s/%s", path.c_str(), fileList.at(i).c_str()));
-            }
-        }
-    }
-    
-    return imagList;
 }
 
 
