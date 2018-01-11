@@ -80,6 +80,8 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *hq
             contentObject->setUri(getStringFromJson("uri", itemData));
             contentObject->setEntitled(getBoolFromJson("entitled", itemData));
             
+            cocos2d::log( "HQContent: %s (%s)", contentObject->getTitle().c_str(), contentObject->getContentItemId().c_str() );
+            
             if(itemData.HasMember("tags"))
             {
                 contentObject->setTags(getStringArrayFromJson(itemData["tags"]));

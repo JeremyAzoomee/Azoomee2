@@ -93,6 +93,7 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
         }
     }
     
+    setKeypadEnabled(true);
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
@@ -525,8 +526,53 @@ void ChildSelectorScene::onExit()
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
     removeAdultPinLayerDelegate();
-
+    setKeypadEnabled(false);
     Node::onExit();
+}
+
+
+#pragma mark - Keypad
+
+void ChildSelectorScene::setKeypadEnabled(bool enabled)
+{
+    auto dispatcher = Director::getInstance()->getEventDispatcher();
+    
+    if(_keyboardListener != nullptr)
+    {
+        dispatcher->removeEventListener(_keyboardListener);
+    }
+    
+    if(enabled)
+    {
+        auto listener = EventListenerKeyboard::create();
+        listener->onKeyPressed = CC_CALLBACK_2(ChildSelectorScene::onKeyPressed, this);
+        listener->onKeyReleased = CC_CALLBACK_2(ChildSelectorScene::onKeyReleased, this);
+        
+        dispatcher->addEventListenerWithFixedPriority(listener, -1);
+        _keyboardListener = listener;
+    }
+}
+
+void ChildSelectorScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+    ;
+}
+
+void ChildSelectorScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+    if(keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DPAD_CENTER)
+    {
+        AudioMixer::getInstance()->playEffect(SELECT_OOMEE_AUDIO_EFFECT);
+        
+        //Oomee child pressed
+        _parentIconSelected = false;
+        OfflineChecker::getInstance()->setDelegate(nullptr);
+        int childNumber = 0;
+        auto target = _scrollView->getChildByTag(childNumber);
+        target->runAction(EaseElasticOut::create(ScaleTo::create(0.5, 1.0)));
+        AnalyticsSingleton::getInstance()->registerChildGenderAndAge(childNumber);
+        BackEndCaller::getInstance()->childLogin(childNumber);
+    }
 }
 
 NS_AZOOMEE_END

@@ -72,6 +72,8 @@ void LoginScene::onEnterTransitionDidFinish()
         emailTextInput->focusAndShowKeyboard();
     
     nextButton->setVisible(isValidEmailAddress(storedUsername.c_str()));
+    
+    setKeypadEnabled(true);
 }
 
 //----------------- SCENE SETUP ---------------
@@ -242,6 +244,7 @@ void LoginScene::connectivityStateChanged(bool online)
 void LoginScene::onExit()
 {
     OfflineChecker::getInstance()->setDelegate(nullptr);
+    setKeypadEnabled(false);
     Node::onExit();
 }
 
@@ -271,6 +274,52 @@ void LoginScene::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info)
     int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
     
     ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+}
+
+#pragma mark - Keypad
+
+void LoginScene::setKeypadEnabled(bool enabled)
+{
+    auto dispatcher = Director::getInstance()->getEventDispatcher();
+    
+    if(_keyboardListener != nullptr)
+    {
+        dispatcher->removeEventListener(_keyboardListener);
+    }
+    
+    if(enabled)
+    {
+        auto listener = EventListenerKeyboard::create();
+        listener->onKeyPressed = CC_CALLBACK_2(LoginScene::onKeyPressed, this);
+        listener->onKeyReleased = CC_CALLBACK_2(LoginScene::onKeyReleased, this);
+        
+        dispatcher->addEventListenerWithFixedPriority(listener, -1);
+        _keyboardListener = listener;
+    }
+}
+
+void LoginScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+    ;
+}
+
+void LoginScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+    if(keyCode == cocos2d::EventKeyboard::KeyCode::KEY_MENU)
+    {
+        if(currentScreen == emailLoginScreen)
+        {
+            emailTextInput->setText("tamas.bonis@azoomee.com");
+        }
+        else
+        {
+            passwordTextInput->setText("Bonis1983");
+        }
+    }
+    else if(keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DPAD_CENTER)
+    {
+        nextButtonPressed();
+    }
 }
 
 NS_AZOOMEE_END

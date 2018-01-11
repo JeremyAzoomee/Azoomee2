@@ -85,6 +85,7 @@ bool NavigationLayer::init()
         NavigationControl::getInstance()->addNavigation(menuItemHolder, [=](cocos2d::Node*)
         {
             CCLOG("NavigationLayer navigation event callback: %d", i);
+            this->changeToScene((ConfigStorage::HubTargetTagNumber)i, 0.5f);
         });
         
         if(!HQHistoryManager::getInstance()->noHistory())

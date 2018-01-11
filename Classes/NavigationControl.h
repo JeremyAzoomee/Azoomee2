@@ -15,6 +15,8 @@ private:
     std::map<cocos2d::Node*, NavigationEventCallback> _navigationPoints;
     cocos2d::Node* _currentPoint = nullptr;
     
+    cocos2d::Layer* _visualLayer = nullptr;
+    
     cocos2d::EventListener* _keyboardListener = nullptr;
     
     void setKeypadEnabled(bool enabled);

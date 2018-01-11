@@ -54,6 +54,11 @@ private:
     // - IMEDelegate
     void keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info);
     void keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info);
+
+    cocos2d::EventListener* _keyboardListener = nullptr;
+    void setKeypadEnabled(bool enabled);
+    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
+    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
     
 public:
     static cocos2d::Scene* createScene();
