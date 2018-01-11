@@ -46,7 +46,7 @@ private:
     void upgradeButtonPressed();
     void inAppPurchaseButtonPressed();
     void signUp();
-    void addChild();
+    void addChild(int oomeeNum);
     
 public:
     static DynamicNodeButtonListener* getInstance(void);

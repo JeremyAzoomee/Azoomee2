@@ -78,7 +78,8 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             }
             else if(location == _kButtonLocationAddChild)
             {
-                addChild();
+                int oomeeNum = std::atoi(buttonAction->getParamForKey("oomeeNum").c_str());
+                addChild(oomeeNum);
             }
             else
             {
@@ -178,7 +179,7 @@ void DynamicNodeButtonListener::signUp()
     }
 }
 
-void DynamicNodeButtonListener::addChild()
+void DynamicNodeButtonListener::addChild(int oomeeNum)
 {
     const std::string& profileName = trim(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("name"));
     
@@ -195,11 +196,11 @@ void DynamicNodeButtonListener::addChild()
     auto backEndCaller = BackEndCaller::getInstance();
     if((FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()) && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
     {
-        backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, 0);
+        backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, oomeeNum);
     }
     else
     {
-        backEndCaller->registerChild(profileName, gender, DOB, 0);
+        backEndCaller->registerChild(profileName, gender, DOB, oomeeNum);
     }
     DynamicNodeDataInputStorage::getInstance()->clearStorage();
     closeCTAPopup();

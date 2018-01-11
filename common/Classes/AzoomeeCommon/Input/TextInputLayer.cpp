@@ -274,6 +274,33 @@ bool TextInputLayer::inputIsValid()
             }
             break;
         }
+        case INPUT_IS_DAY:
+        {
+            int value = std::atoi(editBox->getText());
+            if(value > 0 && value <= 31)
+            {
+                isValidInput = true;
+            }
+            break;
+        }
+        case INPUT_IS_MONTH:
+        {
+            int value = std::atoi(editBox->getText());
+            if(value > 0 && value <= 12)
+            {
+                isValidInput = true;
+            }
+            break;
+        }
+        case INPUT_IS_YEAR:
+        {
+            int value = std::atoi(editBox->getText());
+            if(value > 0)
+            {
+                isValidInput = true;
+            }
+            break;
+        }
             
     }
     
