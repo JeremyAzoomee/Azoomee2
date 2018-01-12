@@ -61,7 +61,7 @@ int WebViewNativeCaller_android::findPositionOfNthString(std::string string, std
 
 void sendEventToMixPanel(const char* eventKey, const char* eventValue)
 {
-    CCLOG("sending to mixpanel: %s, %s", eventKey, eventValue);
+    cocos2d::log("sending to mixpanel: %s, %s", eventKey, eventValue);
     
     std::string strKey = StringUtils::format("%s", eventKey);
     std::string strValue = StringUtils::format("%s", eventValue);

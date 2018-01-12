@@ -2,8 +2,10 @@
 
 #include "BaseScene.h"
 #include "HQDataProvider.h"
-#include "HQScene.h"
+#include "HQScene2.h"
+#include "HQSceneArtsApp.h"
 
+#include <AzoomeeCommon/Utils/SpecialCalendarEventManager.h>
 #include <AzoomeeCommon/Data/Child/ChildDataStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Child/ChildDataParser.h>
@@ -62,9 +64,18 @@ bool NavigationLayer::init()
     {
         auto menuItemHolder = addMenuItemHolder(i);
         addMenuItemCircle(i, menuItemHolder);
-        if(i == 0) addNotificationBadgeToChatIcon(menuItemHolder);
+        if(i == 0)
+        {
+            addNotificationBadgeToChatIcon(menuItemHolder);
+        }
         addMenuItemInactive(i, menuItemHolder);                                  //Inactive menuItem is visible, when another menuItem is the selected one. The menu works as a set of radio buttons.
         addMenuItemActive(i, menuItemHolder);                                    //Active menuItem is visible, when we are in the given menu
+        
+        if(SpecialCalendarEventManager::getInstance()->isXmasTime())
+        {
+            addXmasDecorationToMenuItem(i, menuItemHolder);
+        }
+        
         addListenerToMenuItem(menuItemHolder);
         
         if(!HQHistoryManager::getInstance()->noHistory())
@@ -78,7 +89,9 @@ bool NavigationLayer::init()
     }
     
     if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    {
         createTopObjects();
+    }
     else
     {
         createPreviewLoginButton();
@@ -91,7 +104,7 @@ bool NavigationLayer::init()
 
 void NavigationLayer::startLoadingGroupHQ(std::string uri)
 {
-    HQHistoryManager::getInstance()->addHQToHistoryManager("GROUP HQ");
+    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kGroupHQName);
     
     this->getParent()->getChildByName("contentLayer")->stopAllActions();
     this->getParent()->getChildByName("contentLayer")->runAction(Sequence::create(EaseInOut::create(MoveTo::create(0.5, ConfigStorage::getInstance()->getTargetPositionForMove(6)), 2), DelayTime::create(0.5), NULL));
@@ -133,9 +146,12 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
 
     this->startLoadingHQScene(target);
     this->turnOffAllMenuItems();
-    if(target < ConfigStorage::HubTargetTagNumber::GROUP_HQ) this->turnOnMenuItem(target);
+    if(target < ConfigStorage::HubTargetTagNumber::GROUP_HQ)
+    {
+        this->turnOnMenuItem(target);
+    }
     
-    if(HQHistoryManager::getInstance()->getCurrentHQ() != "GROUP HQ")
+    if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kGroupHQName)
     {
         this->turnOnMenuItem(target);
         removeBackButtonFromNavigation();
@@ -143,7 +159,7 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
         Scene *runningScene = Director::getInstance()->getRunningScene();
         Node *baseLayer = runningScene->getChildByName("baseLayer");
         Node *contentLayer = baseLayer->getChildByName("contentLayer");
-        HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("GROUP HQ");
+        HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kGroupHQName);
         
         hqLayer->removeAllChildren();
         showPreviewLoginSignupButtonsAfterDelay(0);
@@ -185,14 +201,14 @@ void NavigationLayer::onEnter()
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 void NavigationLayer::loadArtsAppHQ()
 {
-    HQHistoryManager::getInstance()->addHQToHistoryManager("ARTS APP");
+    HQHistoryManager::getInstance()->addHQToHistoryManager(ConfigStorage::kArtAppHQName);
     
     Scene *runningScene = Director::getInstance()->getRunningScene();
     Node *baseLayer = runningScene->getChildByName("baseLayer");
     Node *contentLayer = baseLayer->getChildByName("contentLayer");
-    HQScene *hqLayer = (HQScene *)contentLayer->getChildByName("ARTS APP");
+    HQScene2 *hqLayer = (HQScene2 *)contentLayer->getChildByName(ConfigStorage::kArtAppHQName);
     
-    hqLayer->startBuildingScrollViewBasedOnName();
+    hqLayer->startBuildingScrollView();
 }
 
 void NavigationLayer::startLoadingHQScene(ConfigStorage::HubTargetTagNumber target)
@@ -265,6 +281,13 @@ Sprite* NavigationLayer::addMenuItemInactive(int itemNumber, Node* toBeAddedTo)
     return menuItemInactive;
 }
 
+void NavigationLayer::addXmasDecorationToMenuItem(int itemNumber, cocos2d::Node *toBeAddedTo)
+{
+    cocos2d::Sprite* xmasDecor = Sprite::create(StringUtils::format("res/xmasdecoration/snow%d.png", itemNumber));
+    xmasDecor->setPosition(Vec2(toBeAddedTo->getContentSize().width / 2, toBeAddedTo->getContentSize().height));
+    toBeAddedTo->addChild(xmasDecor, DECORATION_ZORDER);
+}
+
 void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
 {
     auto notificationBadge = Sprite::create("res/navigation/chatAlert.png");
@@ -273,7 +296,10 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
     notificationBadge->setScale(0.0);
     chatIcon->addChild(notificationBadge, 9);
     
-    if(!ChildDataProvider::getInstance()->getIsChildLoggedIn()) return; //not adding notifications in preview mode
+    if(!ChildDataProvider::getInstance()->getIsChildLoggedIn())
+    {
+        return; //not adding notifications in preview mode
+    }
     
     ChatNotificationsSingleton::getInstance()->setNavigationLayer(this);
     ChatNotificationsSingleton::getInstance()->forceNotificationsUpdate();
@@ -281,7 +307,10 @@ void NavigationLayer::addNotificationBadgeToChatIcon(cocos2d::Node* chatIcon)
 
 void NavigationLayer::showNotificationBadge()
 {
-    if(!this->getChildByTag(0)->getChildByName("notification")) return;
+    if(!this->getChildByTag(0)->getChildByName("notification"))
+    {
+        return;
+    }
     
     this->getChildByTag(0)->getChildByName("notification")->stopAllActions();
     this->getChildByTag(0)->getChildByName("notification")->runAction(EaseElasticOut::create(ScaleTo::create(1.0, 1.0)));
@@ -399,7 +428,10 @@ void NavigationLayer::addListenerToMenuItem(cocos2d::Node *toBeAddedTo)
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        {
+            return false;
+        }
         
         auto target = static_cast<Sprite*>(event->getCurrentTarget());
         
@@ -543,7 +575,10 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
     listener->setSwallowTouches(true);
     listener->onTouchBegan = [=](Touch *touch, Event *event) //Lambda callback, which is a C++ 11 feature.
     {
-        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0) return false;
+        if(Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getNumberOfRunningActions() > 0)
+        {
+            return false;
+        }
         
         auto target = static_cast<Sprite*>(event->getCurrentTarget());
         
@@ -564,10 +599,10 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
             if(HQHistoryManager::getInstance()->getPreviousHQ() != "HOME")
             {
                 
-                HQScene *hqLayer2 = (HQScene *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
+                HQScene2 *hqLayer2 = (HQScene2 *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
                 
                 auto funcCallAction = CallFunc::create([=](){
-                    hqLayer2->startBuildingScrollViewBasedOnName();
+                    hqLayer2->startBuildingScrollView();
                 });
                 
                 this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
@@ -606,11 +641,11 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
 
 void NavigationLayer::cleanUpPreviousHQ()
 {
-    CCLOG("previous hq is: %s", HQHistoryManager::getInstance()->getPreviousHQ().c_str());
+    cocos2d::log("previous hq is: %s", HQHistoryManager::getInstance()->getPreviousHQ().c_str());
     std::string previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
     if(previousHqName != "HOME")
     {
-        HQScene* lastHQLayer = (HQScene *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(previousHqName);
+        HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(previousHqName);
         
         auto funcCallAction = CallFunc::create([=](){
             lastHQLayer->removeAllChildrenWithCleanup(true);

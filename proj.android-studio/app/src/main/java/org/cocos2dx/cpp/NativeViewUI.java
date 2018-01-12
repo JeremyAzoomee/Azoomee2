@@ -3,8 +3,10 @@ package org.cocos2dx.cpp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ public class NativeViewUI extends Activity {
     private static final int _portrait = 1;
     private static final int _horizonal = 0;
     private boolean isWebViewReady = false;
+    private boolean isActivityExitRequested = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,29 +100,19 @@ public class NativeViewUI extends Activity {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                if(uiWebView != null)
+
+                Bundle extras = getIntent().getExtras();
+                if(extras.getInt("orientation") == _portrait)
                 {
-                    isWebViewReady = false;
-                    uiWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
-
-                    uiWebView.loadUrl("about:blank");
-                    uiWebView.removeAllViews();
-                    uiWebView.clearCache(true);
-                    uiWebView.pauseTimers();
-                    uiWebView.onPause();
-                    uiWebView.removeJavascriptInterface("NativeInterface");
-
-                    ViewGroup vg = (ViewGroup)(uiWebView.getParent());
-                    vg.removeView(uiWebView);
-
-                    uiWebView.destroy();
+                    isActivityExitRequested = true;
+                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    //cleanUpAndFinishActivity() will be called by the screen orientation change callback
+                }
+                else
+                {
+                    cleanUpAndFinishActivity();
                 }
 
-                JNICalls.JNIRegisterAndroidSceneChangeEvent();
-
-                finish();
             }
         });
 
@@ -155,6 +148,39 @@ public class NativeViewUI extends Activity {
         uiWebViewStatic = uiWebView;
 
         webviewAdditionalSettings();
+    }
+
+    private void cleanUpAndFinishActivity()
+    {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        if(uiWebView != null)
+        {
+            isWebViewReady = false;
+            uiWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
+
+            uiWebView.loadUrl("about:blank");
+            uiWebView.removeAllViews();
+            uiWebView.clearCache(true);
+            uiWebView.pauseTimers();
+            uiWebView.onPause();
+            uiWebView.removeJavascriptInterface("NativeInterface");
+
+            ViewGroup vg = (ViewGroup)(uiWebView.getParent());
+            vg.removeView(uiWebView);
+
+            uiWebView.destroy();
+        }
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                JNICalls.JNIRegisterAndroidSceneChangeEvent();
+
+                finish();
+            }
+        }, 1500);
     }
 
     private  boolean loadingGame()
@@ -277,6 +303,17 @@ public class NativeViewUI extends Activity {
         {
             uiWebView.resumeTimers();
             uiWebView.onResume();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if(activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && isActivityExitRequested)
+        {
+            isActivityExitRequested = false;
+            cleanUpAndFinishActivity();
         }
     }
 }

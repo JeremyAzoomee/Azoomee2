@@ -33,10 +33,10 @@ const char* const API::TagOfflineCheck = "offlineCheck";
 const char* const API::TagFriendRequest = "friendRequest";
 const char* const API::TagFriendRequestReaction = "friendRequestReaction";
 const char* const API::TagGetPendingFriendRequests = "getPendingFriendRequests";
-const char* const API::TagPusherAuth = "pusher.auth";
 const char* const API::TagReportChat = "chat.report";
 const char* const API::TagResetReportedChat = "chat.resetReported";
 const char* const API::TagGetForceUpdateInformation = "forceUpdate";
+const char* const API::TagCookieRefresh = "cookieRefresh";
 
 #pragma mark - API Methods
 
@@ -44,6 +44,13 @@ HttpRequestCreator* API::OfflineCheck(HttpRequestCreatorResponseDelegate* delega
 {
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->requestTag = TagOfflineCheck;
+    
+    request->url = "https://versions.azoomee.com";
+    
+#ifdef USINGCI
+    request->url = "http://versions.azoomee.ninja";
+#endif
+    
     request->encrypted = false;
     return request;
 }
@@ -128,6 +135,14 @@ HttpRequestCreator* API::GetGordenRequest(const std::string& userId,
     HttpRequestCreator* request = new HttpRequestCreator(delegate);
     request->urlParameters = StringUtils::format("userid=%s&sessionid=%s", userId.c_str(), sessionId.c_str());
     request->requestTag = TagGetGorden;
+    request->encrypted = true;
+    return request;
+}
+
+HttpRequestCreator* API::RefreshParentCookiesRequest(Azoomee::HttpRequestCreatorResponseDelegate *delegate)
+{
+    HttpRequestCreator* request = new HttpRequestCreator(delegate);
+    request->requestTag = TagCookieRefresh;
     request->encrypted = true;
     return request;
 }
@@ -328,19 +343,6 @@ HttpRequestCreator* API::MarkReadMessageRequest(const std::string& userId,
     request->method = "PATCH";
     request->encrypted = true;
     request->requestBody = StringUtils::format("{\"readAt\": \"%lld\"}", readAt);
-    return request;
-}
-
-HttpRequestCreator* API::PusherAuthRequest(const std::string& parentId,
-                                           const std::string& channelName,
-                                           const std::string& socketId,
-                                           HttpRequestCreatorResponseDelegate* delegate)
-{
-    HttpRequestCreator* request = new HttpRequestCreator(delegate);
-    request->requestTag = TagPusherAuth;
-    request->requestPath = StringUtils::format("/api/share/%s/pusher/auth", parentId.c_str());
-    request->urlParameters = StringUtils::format("channelName=%s&socketId=%s", channelName.c_str(), socketId.c_str());
-    request->encrypted = true;
     return request;
 }
 

@@ -14,10 +14,10 @@
 
 NS_AZOOMEE_BEGIN
 
-Layer* AccountDetailsLayer::createWithHeight(float setLayerHeight)
+Layer* AccountDetailsLayer::createWithSize(const cocos2d::Size &contentSize)
 {
     auto layer = AccountDetailsLayer::create();
-    layer->layerHeight = setLayerHeight;
+    layer->setContentSize(contentSize);
     layer->addUIObjects();
     
     return layer;
@@ -29,8 +29,6 @@ bool AccountDetailsLayer::init()
     {
         return false;
     }
-    
-    visibleSize = Director::getInstance()->getVisibleSize();
     
     return true;
 }
@@ -50,13 +48,13 @@ void AccountDetailsLayer::addUIObjects()
     
     auto versionTitle = createLabelAppVerison(ConfigStorage::getInstance()->getVersionNumberToDisplay());
     versionTitle->setAnchorPoint(Vec2(0,0));
-    versionTitle->setPosition(visibleSize.width - privacyAndTerms->getContentSize().height - versionTitle->getContentSize().width,privacyAndTerms->getPositionY());
+    versionTitle->setPosition(this->getContentSize().width - privacyAndTerms->getContentSize().height - versionTitle->getContentSize().width,privacyAndTerms->getPositionY());
     this->addChild(versionTitle);
     
     //-------- USERNAME---------------
     
-    Label* usernameLabel = createUserNameLabelWithWidth(visibleSize.width*.8);
-    usernameLabel->setPosition(visibleSize.width/2,layerHeight*.8);
+    Label* usernameLabel = createUserNameLabelWithWidth(this->getContentSize().width * 0.8f);
+    usernameLabel->setPosition(this->getContentSize().width / 2, this->getContentSize().height * 0.8f);
     this->addChild(usernameLabel);
     
     
@@ -64,8 +62,8 @@ void AccountDetailsLayer::addUIObjects()
     
     if(RoutePaymentSingleton::getInstance()->showIAPContent())
     {
-        iapButton = ElectricDreamsButton::createGreenButtonWithWidth("Start Trial",visibleSize.width/3);
-        iapButton->setCenterPosition(Vec2(visibleSize.width /2, layerHeight*.6));
+        iapButton = ElectricDreamsButton::createGreenButtonWithWidth("Start Trial", this->getContentSize().width / 3);
+        iapButton->setCenterPosition(Vec2(this->getContentSize().width /2, this->getContentSize().height * 0.6f));
         iapButton->setDelegate(this);
         iapButton->setMixPanelButtonName("ExitorLogoutStartTrialButton");
         this->addChild(iapButton);
@@ -78,8 +76,8 @@ void AccountDetailsLayer::addUIObjects()
     // ------- LOG OUT BUTTON ----------
     
 
-    logoutButton = ElectricDreamsButton::createGreenButton(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT), visibleSize.width/3);
-    logoutButton->setCenterPosition(Vec2(visibleSize.width /2, layerHeight * 0.3f));
+    logoutButton = ElectricDreamsButton::createGreenButton(StringMgr::getInstance()->getStringForKey(BUTTON_LOG_OUT), this->getContentSize().width / 3);
+    logoutButton->setCenterPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height * 0.3f));
     logoutButton->setDelegate(this);
     logoutButton->setMixPanelButtonName("Log Out");
     this->addChild(logoutButton);
@@ -92,14 +90,14 @@ void AccountDetailsLayer::addRichTextLabel(std::string BOLDText)
     
     richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::BLACK, 255, "You have a ", Style::Font::Regular, 84));
     richTextLabel->pushBackElement(ui::RichElementText::create(0, Color3B::BLACK, 255, BOLDText, Style::Font::Bold, 84));
-    richTextLabel->setPosition(Vec2(visibleSize.width/2,layerHeight * 0.6f));
+    richTextLabel->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height * 0.6f));
     this->addChild(richTextLabel);
     
     // ------- LEARN MORE BUTTON ------------
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     learnMoreButton = ElectricDreamsButton::createTextAsButtonWithColor("Learn about Subscriptions", 40, true, Style::Color::greenish);
-    learnMoreButton->setPosition(this->getContentSize().width / 2 - learnMoreButton->getContentSize().width / 2, layerHeight * 0.5f);
+    learnMoreButton->setPosition(this->getContentSize().width / 2 - learnMoreButton->getContentSize().width / 2, this->getContentSize().height * 0.5f);
     learnMoreButton->setDelegate(this);
     learnMoreButton->setMixPanelButtonName("ExitorLogoutLearnMoreButton");
     this->addChild(learnMoreButton);

@@ -1,7 +1,6 @@
 #include "AppDelegate.h"
 #include "BaseScene.h"
 #include "IntroVideoScene.h"
-#include "HQScene.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQHistoryManager.h"
 #include "OfflineHubScene.h"
@@ -14,6 +13,7 @@
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/ErrorCodes.h>
 #include "ContentHistoryManager.h"
+#include "IAPProductDataHandler.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -42,6 +42,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     AnalyticsSingleton::getInstance()->firstLaunchEvent();
     
     PushNotificationsHandler::getInstance()->resetExistingNotifications();
+    
+    IAPProductDataHandler::getInstance()->fetchProductData();
 
     return true;
 }

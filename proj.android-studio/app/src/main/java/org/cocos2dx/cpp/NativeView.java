@@ -3,9 +3,10 @@ package org.cocos2dx.cpp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -30,6 +31,7 @@ public class NativeView extends XWalkActivity {
     private static final int _portrait = 1;
     private static final int _horizonal = 0;
     private boolean isWebViewReady = false;
+    private boolean isActivityExitRequested = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,23 +76,18 @@ public class NativeView extends XWalkActivity {
             public void onClick(View v) {
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                if(xWalkWebView != null)
+
+                Bundle extras = getIntent().getExtras();
+                if(extras.getInt("orientation") == _portrait)
                 {
-                    isWebViewReady = false;
-                    xWalkWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
-                    xWalkWebView.loadUrl("about:blank");
-                    xWalkWebView.removeAllViews();
-                    xWalkWebView.clearCache(true);
-                    xWalkWebView.pauseTimers();
-                    xWalkWebView.onDestroy();
-                    xWalkWebView = null;
-
-                    xWalkWebViewStatic = null;
+                    isActivityExitRequested = true;
+                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    //cleanUpAndFinishActivity() will be called by the screen orientation change callback
                 }
-
-                JNICalls.JNIRegisterAndroidSceneChangeEvent();
-
-                finish();
+                else
+                {
+                    cleanUpAndFinishActivity();
+                }
             }
         });
 
@@ -119,6 +116,33 @@ public class NativeView extends XWalkActivity {
 
         imageButtonStatic = closeButton;
         xWalkWebViewStatic = xWalkWebView;
+    }
+
+    private void cleanUpAndFinishActivity()
+    {
+        if(xWalkWebView != null)
+        {
+            isWebViewReady = false;
+            xWalkWebView.evaluateJavascript("javascript:saveLocalDataBeforeExit();", null);
+            xWalkWebView.loadUrl("about:blank");
+            xWalkWebView.removeAllViews();
+            xWalkWebView.clearCache(true);
+            xWalkWebView.pauseTimers();
+            xWalkWebView.onDestroy();
+            xWalkWebView = null;
+
+            xWalkWebViewStatic = null;
+        }
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                JNICalls.JNIRegisterAndroidSceneChangeEvent();
+
+                finish();
+            }
+        }, 1500);
     }
 
     private  boolean loadingGame()
@@ -237,5 +261,16 @@ public class NativeView extends XWalkActivity {
             xWalkWebView.onShow();
         }
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if(activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && isActivityExitRequested)
+        {
+            isActivityExitRequested = false;
+            cleanUpAndFinishActivity();
+        }
     }
 }

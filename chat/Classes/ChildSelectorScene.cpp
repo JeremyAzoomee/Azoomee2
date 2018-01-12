@@ -184,7 +184,6 @@ Layer* ChildSelectorScene::createChildProfileButton(std::string profileName, int
     profileLayer->addChild(oomee);
     
     float delayTime = CCRANDOM_0_1() * 0.5;
-    CCLOG("Found delay time is: %f", delayTime);
     oomee->runAction(Sequence::create(DelayTime::create(delayTime), FadeIn::create(0), DelayTime::create(0.1), FadeOut::create(0), DelayTime::create(0.1), FadeIn::create(0), NULL));
     
     auto profileLabel = createLabelBody(profileName);

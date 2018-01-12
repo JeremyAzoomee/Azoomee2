@@ -11,9 +11,9 @@
 //waiting for addHQSceneElement command from HQScene after init.
 
 #include "HQSceneElementVisual.h"
-#include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include "HQDataProvider.h"
 #include "GameDataManager.h"
+#include "HQScene2.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
@@ -35,27 +35,42 @@ bool HQSceneElementVisual::init()
 
 void HQSceneElementVisual::setCategory(std::string category)
 {
-    elementCategory = category;
+    _elementCategory = category;
 }
 
 void HQSceneElementVisual::setItemData(const HQContentItemObjectRef &itemData)
 {
-    elementItemData = itemData;
+    _elementItemData = itemData;
 }
 
 void HQSceneElementVisual::setShape(cocos2d::Vec2 shape)
 {
-    elementShape = shape;
+    _elementShape = shape;
 }
 
 void HQSceneElementVisual::setDelay(float delay)
 {
-    elementDelay = delay;
+    _elementDelay = delay;
 }
 
 void HQSceneElementVisual::setCreatedForOffline(bool createdForOffline)
 {
-    elementCreatedForOffline = createdForOffline;
+    _elementCreatedForOffline = createdForOffline;
+}
+
+void HQSceneElementVisual::setManualSizeMultiplier(float multiplier)
+{
+    _manualSizeMultiplier = multiplier;
+}
+
+void HQSceneElementVisual::setMargin(float margin)
+{
+    _margin = margin;
+}
+
+void HQSceneElementVisual::setThumbUrl(const std::string &url)
+{
+    _elementUrl = url;
 }
 
 cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
@@ -63,20 +78,22 @@ cocos2d::Layer* HQSceneElementVisual::createHQSceneElement()
     resizeSceneElement();
     createBaseLayer();
     setShouldDisplayVisualElementsOverImage();
-    createCallbackFunction(elementDelay);
-    
-    elementUrl = HQDataProvider::getInstance()->getImageUrlForItem(elementItemData->getContentItemId(), elementShape);
+    createCallbackFunction(_elementDelay);
     
     return this;
 }
 
 void HQSceneElementVisual::createBaseLayer()
 {
-    Size size = Size(this->getContentSize().width - 20, this->getContentSize().height - 20);
+    Size size = Size(this->getContentSize().width, this->getContentSize().height);
     
-    baseLayer = LayerColor::create(Color4B::BLACK, size.width, size.height);
-    baseLayer->setPosition(10, 10);
-    this->addChild(baseLayer);
+    _baseLayer = LayerColor::create(Color4B::BLACK, size.width, size.height);
+    _baseLayer->setPosition(0, 0);
+    if(_elementCategory == ConfigStorage::kHomeHQName)
+    {
+        _baseLayer->setColor(Color3B(ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType())));
+    }
+    this->addChild(_baseLayer);
 }
 
 void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
@@ -86,21 +103,21 @@ void HQSceneElementVisual::setShouldDisplayVisualElementsOverImage()
     // OR
     // if size is 1x2 or 2x2 AND element is Video or Video Group
     
-    if(elementItemData->getType() =="GAME")
+    if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
     {
-        shouldDisplayVisualElementsOverImage = false;
+        _shouldDisplayVisualElementsOverImage = false;
     }
-    else if(elementShape.x == 1 && elementShape.y == 1 && elementCategory != "GROUP HQ")
+    else if(_elementShape.x == 1 && _elementShape.y == 1 && _elementCategory != ConfigStorage::kGroupHQName)
     {
-        shouldDisplayVisualElementsOverImage = true;
+        _shouldDisplayVisualElementsOverImage = true;
     }
-    else if(elementItemData->getType() == "VIDEO" || elementItemData->getType() =="GROUP")
+    else if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeGroup)
     {
-        shouldDisplayVisualElementsOverImage = false;
+        _shouldDisplayVisualElementsOverImage = false;
     }
     else
     {
-        shouldDisplayVisualElementsOverImage = true;
+        _shouldDisplayVisualElementsOverImage = true;
     }
     
 }
@@ -114,7 +131,7 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
             addImageDownloader();
 
         
-            if(shouldDisplayVisualElementsOverImage)
+            if(_shouldDisplayVisualElementsOverImage)
             {
                 addGradientToBottom();
                 auto iconSprite = addIconToImage();
@@ -124,12 +141,12 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
                 }
             }
         
-            if(!elementItemData->isEntitled())
+            if(!_elementItemData->isEntitled())
             {
                 addLockToElement();
             }
         
-           if(elementItemData->getType() == "VIDEO" && elementCategory == "GROUP HQ")
+            if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo && _elementCategory == ConfigStorage::kGroupHQName)
            {
                addGroupLabelsToImage();
            }
@@ -138,31 +155,36 @@ void HQSceneElementVisual::createCallbackFunction(float delay)
         }
     });
     
-    this->runAction(Sequence::create(DelayTime::create(elementDelay), funcCallAction, NULL));
+    this->runAction(Sequence::create(DelayTime::create(_elementDelay), funcCallAction, NULL));
 }
 
 //-------------------ADD VISUALS TO ELEMENT-----------------
 
 void HQSceneElementVisual::addImageDownloader()
 {
-    RemoteImageSprite *imageDownloader = RemoteImageSprite::create();
-    imageDownloader->initWithURLAndSize(elementUrl, elementItemData->getType(), Size(baseLayer->getContentSize().width - 20, baseLayer->getContentSize().height - 20), elementShape);
-    imageDownloader->setPosition(baseLayer->getContentSize() / 2);
+    float groupHQVerticalImageOffset = 0.0f;
     
-    if(elementItemData->isNew())
+    if(_elementCategory == ConfigStorage::kGroupHQName)
     {
-        imageDownloader->setAttachNewBadgeToImage();
+        groupHQVerticalImageOffset = HQScene2::kGroupContentItemImagePlaceholder;
     }
     
-    baseLayer->addChild(imageDownloader);
+    _imageDownloader = RemoteImageSprite::create();
+    _imageDownloader->initWithURLAndSize(_elementUrl, _elementItemData->getType(), Size(_baseLayer->getContentSize().width - _margin, _baseLayer->getContentSize().height - _margin - groupHQVerticalImageOffset), _elementShape);
+    _imageDownloader->setPosition(_baseLayer->getContentSize() / 2);
+    
+    if(_elementItemData->isNew() && _elementCategory != ConfigStorage::kHomeHQName)
+    {
+        _imageDownloader->setAttachNewBadgeToImage();
+    }
+    
+    _baseLayer->addChild(_imageDownloader);
 }
 
 void HQSceneElementVisual::addGradientToBottom()
 {
-    Color3B gradientColour;
-    gradientColour.r = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(elementCategory).r;
-    gradientColour.g = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(elementCategory).g;
-    gradientColour.b = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(elementCategory).b;
+    const Color3B& gradientColour = Color3B(ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType()));
+    const std::string& gradientImagefile = ConfigStorage::getInstance()->getGradientImageForCategory(_elementCategory);
     
     float iconScaleFactor = 1;
     
@@ -171,17 +193,22 @@ void HQSceneElementVisual::addGradientToBottom()
         iconScaleFactor = 1.8;
     }
     
-    auto gradient = Sprite::create(ConfigStorage::getInstance()->getGradientImageForCategory(elementCategory));
-    gradient->setPosition(baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2 * iconScaleFactor +10);
-    gradient->setScaleX((baseLayer->getContentSize().width -20) / gradient->getContentSize().width);
+    auto gradient = Sprite::create(gradientImagefile);
+    gradient->setPosition(_baseLayer->getContentSize().width / 2, gradient->getContentSize().height / 2 * iconScaleFactor +10);
+    gradient->setScaleX((_baseLayer->getContentSize().width - _margin) / gradient->getContentSize().width);
     gradient->setScaleY(iconScaleFactor);
     gradient->setColor(gradientColour);
-    baseLayer->addChild(gradient);
+    _baseLayer->addChild(gradient);
 }
 
 Sprite* HQSceneElementVisual::addIconToImage()
 {
-    if(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(elementCategory) == "") return nullptr; //there is chance that there is no icon given for the given category.
+    const std::string& contentIconFile = ConfigStorage::getInstance()->getIconNameForCategory(_elementItemData->getType());
+    
+    if(contentIconFile == "")
+    {
+        return nullptr; //there is chance that there is no icon given for the given category.
+    }
     
     float iconScaleFactor = 1;
     
@@ -192,14 +219,16 @@ Sprite* HQSceneElementVisual::addIconToImage()
     
     float audioHeightOffset = 15;
     
-    if(elementCategory == "VIDEO HQ" || elementCategory == "GROUP HQ")
+    if(_elementCategory == ConfigStorage::kVideoHQName || _elementCategory == ConfigStorage::kGroupHQName || _elementCategory == ConfigStorage::kHomeHQName)
+    {
         audioHeightOffset = 0;
+    }
     
-    auto icon = Sprite::create(ConfigStorage::getInstance()->getIconImagesForContentItemInCategory(elementCategory));
+    auto icon = Sprite::create(contentIconFile);
     icon->setAnchorPoint(Vec2(0.5, 0.5));
     icon->setPosition(icon->getContentSize().width * iconScaleFactor,(icon->getContentSize().height * iconScaleFactor) + audioHeightOffset);
     icon->setScale(iconScaleFactor);
-    baseLayer->addChild(icon);
+    _baseLayer->addChild(icon);
     
     return icon;
 }
@@ -208,61 +237,77 @@ void HQSceneElementVisual::addLabelsToImage(Sprite* nextToIcon)
 {
     float labelsXPosition = nextToIcon->getPositionX() + (nextToIcon->getContentSize().height);
     
-    auto descriptionLabel = createLabelContentDescription(elementItemData->getDescription());
-    descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.2f));
-    descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() - nextToIcon->getContentSize().height/2 * nextToIcon->getScale());
-    reduceLabelTextToFitWidth(descriptionLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
-    baseLayer->addChild(descriptionLabel);
-    
-    auto titleLabel = createLabelContentTitle(elementItemData->getTitle());
+    auto titleLabel = createLabelContentTitle(_elementItemData->getTitle());
     titleLabel->setAnchorPoint(Vec2(0.0f, 0.6f));
     titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() + nextToIcon->getContentSize().height/2* nextToIcon->getScale());
-    reduceLabelTextToFitWidth(titleLabel,baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
-    baseLayer->addChild(titleLabel);
+    reduceLabelTextToFitWidth(titleLabel,_baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
+    _baseLayer->addChild(titleLabel);
+    
+    if(_elementCategory != ConfigStorage::kHomeHQName)
+    {
+        auto descriptionLabel = createLabelContentDescription(_elementItemData->getDescription());
+        descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.2f));
+        descriptionLabel->setPosition(labelsXPosition,nextToIcon->getPositionY() - nextToIcon->getContentSize().height/2 * nextToIcon->getScale());
+        reduceLabelTextToFitWidth(descriptionLabel,_baseLayer->getContentSize().width - labelsXPosition - (nextToIcon->getContentSize().height/2));
+        _baseLayer->addChild(descriptionLabel);
+    }
+    else
+    {
+        titleLabel->setPosition(labelsXPosition,nextToIcon->getPositionY());
+    }
 }
 
 void HQSceneElementVisual::addGroupLabelsToImage()
 {
     const float textSpacing = 10.0f;
     
-    auto descriptionLabel = createLabelContentDescriptionGroup(elementItemData->getDescription(), baseLayer->getContentSize().width - textSpacing * 2);
+    auto descriptionLabel = createLabelContentDescriptionGroup(_elementItemData->getDescription(), _baseLayer->getContentSize().width - textSpacing * 2);
     descriptionLabel->setAnchorPoint(Vec2(0.0f, 0.0f));
-    descriptionLabel->setPosition(textSpacing, baseLayer->getContentSize().height + textSpacing);
-    baseLayer->addChild(descriptionLabel);
+    descriptionLabel->setPosition(textSpacing, _imageDownloader->getPosition().y + _imageDownloader->getContentSize().height / 2 + textSpacing);
+    _baseLayer->addChild(descriptionLabel);
     
-    auto titleLabel = createLabelContentTitleGroup(elementItemData->getTitle(), baseLayer->getContentSize().width - textSpacing * 2);
+    auto titleLabel = createLabelContentTitleGroup(_elementItemData->getTitle(), _baseLayer->getContentSize().width - textSpacing * 2);
     titleLabel->setAnchorPoint(Vec2(0.0f, 1.0f));
-    titleLabel->setPosition(textSpacing,- textSpacing);
+    titleLabel->setPosition(textSpacing, _imageDownloader->getPosition().y - _imageDownloader->getBoundingBox().size.height / 2 - textSpacing);
     titleLabel->setHeight(ConfigStorage::getInstance()->getGroupContentItemTextHeight() * 2);
-    baseLayer->addChild(titleLabel);
+    _baseLayer->addChild(titleLabel);
 }
 
 void HQSceneElementVisual::addLockToElement()
 {
-    Layer* lockedOverlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, baseLayer->getContentSize().width, baseLayer->getContentSize().height);
+    Layer* lockedOverlay = LayerColor::create(Style::Color_4B::semiTransparentOverlay, _baseLayer->getContentSize().width, _baseLayer->getContentSize().height);
     lockedOverlay->setPosition(0,0);
-    baseLayer->addChild(lockedOverlay);
-    auto lockImage = Sprite::create(HQDataProvider::kLockFiles.at(elementItemData->getType()));
-    lockImage->setPosition(baseLayer->getContentSize().width, 0);
+    _baseLayer->addChild(lockedOverlay);
+    auto lockImage = Sprite::create(HQDataProvider::kLockFiles.at(_elementItemData->getType()));
+    lockImage->setPosition(_baseLayer->getContentSize().width, 0);
     lockImage->setAnchorPoint(Vec2(1,0));
-    baseLayer->addChild(lockImage);
+    _baseLayer->addChild(lockImage);
     
 }
 
 void HQSceneElementVisual::resizeSceneElement()
 {
-    Size defaultSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(elementCategory);
-    Size layerSize = Size(defaultSize.width * elementShape.x, defaultSize.height * elementShape.y);
+    Size defaultSize = Size(470, 353);
+    if(_elementCategory != ConfigStorage::kHomeHQName)
+    {
+        defaultSize = ConfigStorage::getInstance()->getSizeForContentItemInCategory(_elementCategory);
+    }
+    Size layerSize = Size(defaultSize.width * _elementShape.x, defaultSize.height * _elementShape.y);
+    
+    if(_manualSizeMultiplier != 0.0f)
+    {
+        layerSize = Size(layerSize.width * _manualSizeMultiplier, layerSize.height * _manualSizeMultiplier);
+    }
     
     this->setContentSize(layerSize);
 }
 
 void HQSceneElementVisual::addTouchOverlayToElement()
 {
-    Color4B overlayColour = ConfigStorage::getInstance()->getBaseColourForContentItemInCategory(elementCategory);
-    overlayWhenTouched = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, 0), baseLayer->getContentSize().width -20, baseLayer->getContentSize().height-20);
-    overlayWhenTouched->setPosition(10,10);
-    baseLayer->addChild(overlayWhenTouched);
+    const Color4B& overlayColour = ConfigStorage::getInstance()->getColourForElementType(_elementItemData->getType());
+    _overlayWhenTouched = LayerColor::create(Color4B(overlayColour.r, overlayColour.g, overlayColour.b, 0), _baseLayer->getContentSize().width - _margin, _baseLayer->getContentSize().height - _margin);
+    _overlayWhenTouched->setPosition(_margin / 2, _margin/2);
+    _baseLayer->addChild(_overlayWhenTouched);
 }
 
 //------ OTHER FUNCTIONS----------

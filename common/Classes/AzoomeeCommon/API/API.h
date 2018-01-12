@@ -45,10 +45,10 @@ public:
     static const char* const TagFriendRequest;
     static const char* const TagFriendRequestReaction;
     static const char* const TagGetPendingFriendRequests;
-    static const char* const TagPusherAuth;
     static const char* const TagReportChat;
     static const char* const TagResetReportedChat;
     static const char* const TagGetForceUpdateInformation;
+    static const char* const TagCookieRefresh;
     
 #pragma mark - API Methods
     
@@ -75,6 +75,8 @@ public:
     static HttpRequestCreator* GetGordenRequest(const std::string& userId,
                                                 const std::string& sessionId,
                                                 HttpRequestCreatorResponseDelegate* delegate);
+    
+    static HttpRequestCreator* RefreshParentCookiesRequest(HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* RegisterParentRequest(const std::string& emailAddress,
                                                      const std::string& password,
@@ -175,12 +177,6 @@ public:
                                                       const std::string& friendId,
                                                       const uint64_t& readAt,
                                                       HttpRequestCreatorResponseDelegate* delegate);
-    
-    // Authenticate an open channel request with Pusher
-    static HttpRequestCreator* PusherAuthRequest(const std::string& parentId,
-                                                 const std::string& channelName,
-                                                 const std::string& socketId,
-                                                 HttpRequestCreatorResponseDelegate* delegate);
     
     static HttpRequestCreator* SendChatReportRequest(const std::string& userId,
                                                      const std::string& friendId,

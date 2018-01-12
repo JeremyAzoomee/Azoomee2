@@ -36,6 +36,8 @@ using namespace cocos2d::network;
 
 NS_AZOOMEE_BEGIN
 
+const char* const GameDataManager::kManualGameId = "MANUAL_GAME";
+
 static GameDataManager *_sharedGameDataManager = NULL;
 
 GameDataManager* GameDataManager::getInstance()
@@ -85,6 +87,7 @@ void GameDataManager::startProcessingGame(const HQContentItemObjectRef &itemData
     
     WebGameAPIDataManager::getInstance()->setGameId(itemId);
 
+    _contentId = itemId;
     
     saveFeedDataToFile(itemData);
     
@@ -178,44 +181,14 @@ std::string GameDataManager::getFileNameFromUrl(const std::string &url)
 
 void GameDataManager::getJSONGameData(const std::string &url, const std::string &itemId)
 {
-    jsonRequest = new HttpRequest();
-    jsonRequest->setRequestType(HttpRequest::Type::GET);
-    jsonRequest->setUrl(url.c_str());
-    
-    std::vector<std::string> headers{
-        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode(),
-        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url)
-    };
-    jsonRequest->setHeaders(headers);
-
-    jsonRequest->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetJSONGameDataAnswerReceived, this));
-    jsonRequest->setTag(itemId);
-    HttpClient::getInstance()->setTimeoutForConnect(2);
-    HttpClient::getInstance()->setTimeoutForRead(2);
-    HttpClient::getInstance()->sendImmediate(jsonRequest);
-}
-
-void GameDataManager::onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
-{
-    std::string responseString = "";
-    
-    if (response && response->getResponseData())
+    if(itemId == kManualGameId)
     {
-        std::vector<char> myResponse = *response->getResponseData();
-        responseString = std::string(myResponse.begin(), myResponse.end());
+        _contentId = kManualGameId;
     }
     
-    if(response->getResponseCode() == 200)          //Get content success
-    {
-        removeOldGameIfUpgradeNeeded(responseString, response->getHttpRequest()->getTag());
-        JSONFileIsPresent(response->getHttpRequest()->getTag());
-    }
-    else
-    {
-        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-        LoginLogicHandler::getInstance()->doLoginLogic();
-    }
+    _fileDownloader = FileDownloader::create();
+    _fileDownloader->setDelegate(this);
+    _fileDownloader->downloadFileFromServer(url, _kJsonTag);
 }
 
 void GameDataManager::removeOldGameIfUpgradeNeeded(const std::string &downloadedJSONString, const std::string &gameId)
@@ -258,7 +231,7 @@ std::string GameDataManager::getDownloadUrlForGameFromJSONFile(const std::string
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
-    return gameData["uri"].GetString();
+    return getStringFromJson("uri", gameData);
 }
 
 std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFileName)
@@ -267,7 +240,7 @@ std::string GameDataManager::getStartFileFromJSONFile(const std::string &jsonFil
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
     
-    return gameData["pathToStartPage"].GetString();
+    return getStringFromJson("pathToStartPage", gameData);
 }
 
 int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFileName)
@@ -275,6 +248,10 @@ int GameDataManager::getCurrentGameVersionFromJSONFile(const std::string &jsonFi
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
+    if(gameData.HasParseError())
+    {
+        return 0;
+    }
     
     if(gameData.HasMember("currentVersion"))
     {
@@ -291,6 +268,10 @@ int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonStri
 {
     rapidjson::Document gameData;
     gameData.Parse(jsonString.c_str());
+    if(gameData.HasParseError())
+    {
+        return 0;
+    }
     
     if(gameData.HasMember("minVersion"))
     {
@@ -305,47 +286,9 @@ int GameDataManager::getMinGameVersionFromJSONString(const std::string &jsonStri
 
 void GameDataManager::getGameZipFile(const std::string &url, const std::string &itemId)
 {
-    zipRequest = new HttpRequest();
-    zipRequest->setRequestType(HttpRequest::Type::GET);
-    zipRequest->setUrl(url.c_str());
-    
-    std::vector<std::string> headers{
-        "Cookie: " + CookieDataProvider::getInstance()->getCookiesForRequest(url),
-        "X-AZ-COUNTRYCODE: " + ParentDataProvider::getInstance()->getLoggedInParentCountryCode()
-    };
-    zipRequest->setHeaders(headers);
-    
-    zipRequest->setResponseCallback(CC_CALLBACK_2(GameDataManager::onGetGameZipFileAnswerReceived, this));
-    zipRequest->setTag(itemId);
-    HttpClient::getInstance()->setTimeoutForConnect(2);
-    HttpClient::getInstance()->setTimeoutForRead(2);
-    HttpClient::getInstance()->sendImmediate(zipRequest);
-}
-
-void GameDataManager::onGetGameZipFileAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response)
-{
-    std::string responseString = "";
-    
-    if (response && response->getResponseData())
-    {
-        std::vector<char> myResponse = *response->getResponseData();
-        responseString = std::string(myResponse.begin(), myResponse.end());
-    }
-    
-    if(response->getResponseCode() == 200)          //Get content success
-    {
-        const std::string& basePath = getGameIdPath(response->getHttpRequest()->getTag());
-        const std::string& targetPath = basePath + "game.zip";
-        FileUtils::getInstance()->writeStringToFile(responseString, targetPath);
-        //std::thread* unzip = new std::thread(asyncUnzip,targetPath,basePath,"");
-        unzipGame(targetPath, basePath, "");
-    }
-    else
-    {
-        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
-        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
-        LoginLogicHandler::getInstance()->doLoginLogic();
-    }
+    _fileDownloader = FileDownloader::create();
+    _fileDownloader->setDelegate(this);
+    _fileDownloader->downloadFileFromServer(url, _kZipTag);
 }
 
  bool GameDataManager::unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd)
@@ -449,10 +392,10 @@ Orientation GameDataManager::getGameOrientation(const std::string& jsonFileName)
     const std::string& fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
-    
-    if(gameData.HasMember("isPortrait"))
-        if(gameData["isPortrait"].IsBool() && gameData["isPortrait"].GetBool())
-            return Orientation::Portrait;
+    if(getBoolFromJson("isPortrait", gameData))
+    {
+        return Orientation::Portrait;
+    }
     
     return Orientation::Landscape;
 }
@@ -498,6 +441,10 @@ bool GameDataManager::isGameCompatibleWithCurrentAzoomeeVersion(const std::strin
     std::string fileContent = FileUtils::getInstance()->getStringFromFile(jsonFileName);
     rapidjson::Document gameData;
     gameData.Parse(fileContent.c_str());
+    if(gameData.HasParseError())
+    {
+        return true;
+    }
     
     if(gameData.HasMember("minAppVersion"))
     {
@@ -521,7 +468,7 @@ void GameDataManager::getContentItemImageForOfflineUsage(const std::string &game
     }
     
     imageDownloader = ImageDownloader::create("imageCache", ImageDownloader::CacheMode::File);
-    imageDownloader->downloadImage(nullptr, HQDataProvider::getInstance()->getImageUrlForItem(gameId, Vec2(1,1)));
+    imageDownloader->downloadImage(nullptr, HQDataProvider::getInstance()->getThumbnailUrlForItem(gameId));
 }
 
 void GameDataManager::performGameCleanup()
@@ -588,13 +535,9 @@ void GameDataManager::buttonPressed(ElectricDreamsButton *button)
 {
     processCancelled = true;
     
-    if(zipRequest)
+    if(_fileDownloader)
     {
-        zipRequest->setResponseCallback(nullptr);
-    }
-    if(jsonRequest)
-    {
-        jsonRequest->setResponseCallback(nullptr);
+        _fileDownloader->setDelegate(nullptr);
     }
     
     Director::getInstance()->getRunningScene()->removeChild(Director::getInstance()->getRunningScene()->getChildByName("cancelButton"));
@@ -655,6 +598,31 @@ void GameDataManager::onAsyncUnzipComplete(bool success, std::string zipPath,std
         removeGameFolderOnError(dirpath);
         hideLoadingScreen();
         showErrorMessage();
+    }
+}
+
+void GameDataManager::onFileDownloadComplete(const std::string &fileString,const std::string& tag, long responseCode)
+{
+    if(responseCode != 200)
+    {
+        AnalyticsSingleton::getInstance()->contentItemProcessingErrorEvent();
+        FlowDataSingleton::getInstance()->setErrorCode(ERROR_CODE_SOMETHING_WENT_WRONG);
+        LoginLogicHandler::getInstance()->doLoginLogic();
+        return;
+    }
+    if(tag == _kJsonTag)
+    {
+        removeOldGameIfUpgradeNeeded(fileString, _contentId);
+        JSONFileIsPresent(_contentId);
+        
+    }
+    else if(tag == _kZipTag)
+    {
+        const std::string& basePath = getGameIdPath(_contentId);
+        const std::string& targetPath = basePath + "game.zip";
+        FileUtils::getInstance()->writeStringToFile(fileString, targetPath);
+        
+        unzipGame(targetPath, basePath, "");
     }
 }
 

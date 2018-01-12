@@ -32,7 +32,6 @@ namespace Azoomee {
     bool FileZipUtil::unzip(const char *zipPath, const char *dirpath, const char *passwd)
     {
         static unsigned long  _maxUnzipBufSize = 0x500000;
-        cocos2d::log("unzip fullpath =%s",zipPath);
         unzFile pFile = unzOpen(zipPath);
         if(!pFile)
         {
@@ -49,7 +48,6 @@ namespace Azoomee {
                 if(passwd)
                 {
                     openRet = unzOpenCurrentFilePassword( pFile,passwd);
-                    cocos2d::log("openRet %d",openRet);
                 }
                 else
                 {

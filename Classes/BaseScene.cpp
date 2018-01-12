@@ -4,7 +4,7 @@
 #include "SimpleAudioEngine.h"
 
 #include "MainHubScene.h"
-#include "HQScene.h"
+#include "HQScene2.h"
 
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -16,6 +16,8 @@
 #include "HQDataParser.h"
 #include "HQHistoryManager.h"
 #include "BackEndCaller.h"
+
+#include "IAPProductDataHandler.h"
 
 using namespace cocos2d;
 
@@ -45,12 +47,19 @@ void BaseScene::onEnterTransitionDidFinish()
 {
     this->setName("baseLayer");
     
+    IAPProductDataHandler::getInstance()->fetchProductData();
+    
     Director::getInstance()->purgeCachedData();
     
     AudioMixer::getInstance()->playBackgroundMusic(HQ_BACKGROUND_MUSIC);
  
     addParticleElementsToBackground();
     startBuildingHQs();
+    
+    if(SpecialCalendarEventManager::getInstance()->isXmasTime())
+    {
+        addXmasDecoration();
+    }
     
     if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
@@ -67,11 +76,11 @@ void BaseScene::startBuildingHQs()
     Layer *contentLayer = createContentLayer();
     
     addMainHubScene(contentLayer);
-    createHQScene("VIDEO HQ", contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
-    createHQScene("GAME HQ", contentLayer);             //Probably worth moving these to configStorage?
-    createHQScene("AUDIO HQ", contentLayer);
-    createHQScene("ARTS APP", contentLayer);
-    createHQScene("GROUP HQ", contentLayer);
+    createHQScene2(ConfigStorage::kVideoHQName, contentLayer);            //We build each and every scene by its name. This is the name that we get from back-end.
+    createHQScene2(ConfigStorage::kGameHQName, contentLayer);             //Probably worth moving these to configStorage?
+    createHQScene2(ConfigStorage::kAudioHQName, contentLayer);
+    createHQScene2(ConfigStorage::kArtAppHQName, contentLayer);
+    createHQScene2(ConfigStorage::kGroupHQName, contentLayer);
     
     addNavigationLayer();  //The navigation layer is being added to "this", because that won't move with the menu.
 }
@@ -79,23 +88,23 @@ void BaseScene::startBuildingHQs()
 void BaseScene::addMainHubScene(Node* toBeAddedTo)
 {
     auto sMainHubScene = MainHubScene::create();
-    sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions("HOME"));
+    sMainHubScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(ConfigStorage::kHomeHQName));
     sMainHubScene->setTag(0);
     toBeAddedTo->addChild(sMainHubScene);
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
 
-void BaseScene::createHQScene(std::string sceneName, Node *toBeAddedTo)
+void BaseScene::createHQScene2(const std::string &sceneName, Node *toBeAddedTo)
 {
-    auto hqScene = HQScene::create();
+    HQScene2* hqScene = HQScene2::create();
+    hqScene->setHQCategory(sceneName);
     hqScene->setPosition(ConfigStorage::getInstance()->getHQScenePositions(sceneName));
-    hqScene->setName(sceneName);
     toBeAddedTo->addChild(hqScene);
     
     if(HQHistoryManager::getInstance()->getCurrentHQ() == sceneName)
     {
-        hqScene->startBuildingScrollViewBasedOnName();
+        hqScene->startBuildingScrollView();
     }
 }
 
@@ -150,7 +159,18 @@ void BaseScene::addParticleElementsToBackground()
 
 void BaseScene::addXmasDecoration()
 {
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    Size visibleSize = Director::getInstance()->getVisibleSize();
     
+    Sprite* snow1 = Sprite::create("res/xmasdecoration/snowPileLeft.png");
+    snow1->setPosition(origin.x + snow1->getContentSize().width / 2, origin.y - snow1->getContentSize().height / 2);
+    this->addChild(snow1, DECORATION_ZORDER);
+    snow1->runAction(Sequence::create(DelayTime::create(0.3f), EaseOut::create(MoveTo::create(2, Vec2(snow1->getPosition().x, origin.y + snow1->getContentSize().height / 2)), 2.0f), NULL));
+    
+    Sprite *snow2 = Sprite::create("res/xmasdecoration/snowPileRight.png");
+    snow2->setPosition(origin.x + visibleSize.width - snow2->getContentSize().width / 2, origin.y - snow2->getContentSize().height / 2);
+    this->addChild(snow2, DECORATION_ZORDER);
+    snow2->runAction(Sequence::create(DelayTime::create(0.5f), EaseOut::create(MoveTo::create(2, Vec2(snow2->getPosition().x, origin.y + snow2->getContentSize().height / 2)), 2.0f), NULL));
 }
 
 NS_AZOOMEE_END

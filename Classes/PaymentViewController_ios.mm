@@ -2,6 +2,7 @@
 #include "ApplePaymentSingleton.h"
 #include "RoutePaymentSingleton.h"
 #include "LoginLogicHandler.h"
+#include "IAPProductDataHandler.h"
 
 using namespace Azoomee;
 
@@ -12,6 +13,18 @@ using namespace Azoomee;
 @end
 
 @implementation PaymentViewController
+
+-(void)startProductPriceQuery
+{
+    _noPurchaseAfterQuery = true;
+    
+    NSSet * productIdentifiers = [NSSet setWithObjects:ONE_MONTH_PAYMENT, nil];
+    
+    SKProductsRequest *productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
+    
+    productsRequest.delegate = self;
+    [productsRequest start];
+}
 
 + (id)sharedPayment_ios {
     static PaymentViewController *sharedPayment_ios = nil;
@@ -52,14 +65,37 @@ using namespace Azoomee;
             
             if([skProduct.productIdentifier isEqualToString:ONE_MONTH_PAYMENT] )
             {
-                self.oneMonthSubscription = skProduct;
-                [self startPaymentQueue];
+                if(!_noPurchaseAfterQuery)
+                {
+                    self.oneMonthSubscription = skProduct;
+                    [self startPaymentQueue];
+                }
+                else
+                {
+                    NSNumberFormatter * _priceFormatter;
+                    _priceFormatter = [[NSNumberFormatter alloc] init];
+                    [_priceFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+                    [_priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+                    [_priceFormatter setLocale:skProduct.priceLocale];
+                    NSString *priceHumanReadable = [_priceFormatter stringFromNumber:skProduct.price];
+                    
+                    IAPProductDataHandler::getInstance()->setHumanReadableProductPrice(std::string([priceHumanReadable cStringUsingEncoding:NSUTF8StringEncoding]));
+                    IAPProductDataHandler::getInstance()->setProductPrice([skProduct.price floatValue]);
+                }
             }
         }
     }
     @catch (NSException * e)
     {
-        RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"%@: %@", e.name, e.userInfo] UTF8String]);
+        if(!_noPurchaseAfterQuery)
+        {
+            RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"%@: %@", e.name, e.userInfo] UTF8String]);
+        }
+        else
+        {
+            IAPProductDataHandler::getInstance()->productDataFetchFailed();
+            _noPurchaseAfterQuery = false;
+        }
     }
 }
 
@@ -124,11 +160,24 @@ using namespace Azoomee;
     if(RoutePaymentSingleton::getInstance()->pressedRestorePurchaseButton)
         RoutePaymentSingleton::getInstance()->purchaseFailureErrorMessage([[NSString stringWithFormat:@"DidFailWithError: %@",error.localizedDescription] UTF8String]);
     else
-        LoginLogicHandler::getInstance()->doLoginLogic();
+        if(!_noPurchaseAfterQuery)
+        {
+            LoginLogicHandler::getInstance()->doLoginLogic();
+        }
+        else
+        {
+            _noPurchaseAfterQuery = false;
+        }
 }
 
 -(void)requestDidFinish:(SKRequest *)request
 {
+    if(_noPurchaseAfterQuery)
+    {
+        _noPurchaseAfterQuery = false;
+        return;
+    }
+    
     bool receiptExist = [[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] appStoreReceiptURL] path]];
     
     if(receiptExist && !RoutePaymentSingleton::getInstance()->pressedIAPStartButton)

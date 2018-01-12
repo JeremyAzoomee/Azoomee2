@@ -65,6 +65,9 @@ private:
     bool _parentIconSelected = false;
     
     void addBackgroundToScreen();
+    
+    void refreshParentCookiesRequest();
+    void getParentCookiesRequest();
 };
 
 NS_AZOOMEE_END

@@ -7,6 +7,7 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/UI/Style.h>
 #include "COPPA_PrivacyLayer.h"
+#include "IAPProductDataHandler.h"
 
 using namespace cocos2d;
 
@@ -180,10 +181,7 @@ void IAPUpsaleLayer::addBulletAndLabel(std::string BOLDtext, std::string regular
 
 void IAPUpsaleLayer::addOptionalSubscriptionLabel()
 {
-    optionalLabel = Label::createWithTTF("Then £4.99/month. No commitment, cancel anytime.", Style::Font::Regular, 40);
-    optionalLabel->setColor(Style::Color::brightAqua);
-    optionalLabel->setAnchorPoint(Vec2(0.5,0.5));
-    optionalLabel->setHorizontalAlignment(TextHAlignment::CENTER);
+    optionalLabel = IAPProductDataHandler::getInstance()->createOptionalSubscriptionLabel();
     optionalLabel->setPosition(startTrialButton->getPositionX()+startTrialButton->getContentSize().width/2, startTrialButton->getPositionY() - optionalLabel->getContentSize().height*1.5);
     UpsaleLayer->addChild(optionalLabel);
 }

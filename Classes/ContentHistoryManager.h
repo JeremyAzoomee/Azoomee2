@@ -17,7 +17,7 @@ NS_AZOOMEE_BEGIN
 class ContentHistoryManager : public cocos2d::Ref
 {
 private:
-    HQContentItemObjectRef _lastOpenedContent;
+    HQContentItemObjectRef _lastOpenedContent = nullptr;
     bool _returnedFromContent = false;
     
 public:

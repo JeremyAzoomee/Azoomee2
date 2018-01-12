@@ -14,12 +14,11 @@ NS_AZOOMEE_BEGIN
 #define MARGIN 78
 #define CONFIRMATION_HEIGHT 182
 
-Layer* SettingsConfirmationLayer::createWithHeight(float setLayerHeight)
+Layer* SettingsConfirmationLayer::createWithSize(const cocos2d::Size &contentSize)
 {
     auto layer = SettingsConfirmationLayer::create();
-    layer->layerHeight = setLayerHeight;
-    layer->setContentSize(Size(Director::getInstance()->getVisibleSize().width,Director::getInstance()->getVisibleSize().height));
-    layer->contentWidth = Director::getInstance()->getVisibleSize().width - MARGIN*2;
+    layer->setContentSize(contentSize);
+    layer->contentWidth = layer->getContentSize().width - MARGIN * 2;
     layer->setName("ConfirmationLayer");
     
     ModalMessages::getInstance()->startLoading();
@@ -62,7 +61,7 @@ void SettingsConfirmationLayer::addDetailsLabel()
     detailsLabel->setHorizontalAlignment(TextHAlignment::LEFT);
     detailsLabel->setAnchorPoint(Vec2(0,1));
     detailsLabel->setWidth(contentWidth);
-    detailsLabel->setPosition(MARGIN,layerHeight - MARGIN);
+    detailsLabel->setPosition(MARGIN, this->getContentSize().height - MARGIN);
     this->addChild(detailsLabel);
 }
 
@@ -70,7 +69,7 @@ void SettingsConfirmationLayer::addScrollView()
 {
     Size innerSize = Size(contentWidth,ParentDataProvider::getInstance()->getNoOfPendingFriendRequest()*CONFIRMATION_HEIGHT + 4);
     
-    float scrollViewHeight = layerHeight-MARGIN*3-detailsLabel->getContentSize().height;
+    float scrollViewHeight = this->getContentSize().height - MARGIN * 3 - detailsLabel->getContentSize().height;
     
     if(scrollViewHeight > innerSize.height)
         scrollViewHeight = innerSize.height;
@@ -85,7 +84,7 @@ void SettingsConfirmationLayer::addScrollView()
     scrollView->setSwallowTouches(false);
     scrollView->setScrollBarEnabled(true);
     scrollView->setAnchorPoint(Vec2(0,1));
-    scrollView->setPosition(Vec2(MARGIN,layerHeight-MARGIN*2-detailsLabel->getContentSize().height));
+    scrollView->setPosition(Vec2(MARGIN, this->getContentSize().height - MARGIN * 2 - detailsLabel->getContentSize().height));
     
     this->addChild(scrollView);
 

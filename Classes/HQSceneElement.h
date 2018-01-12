@@ -21,22 +21,27 @@ public:
     void setItemData(const HQContentItemObjectRef &itemData);
     void setElementRow(int rowNumber);
     void setElementIndex(int index);
+    void setManualSizeMultiplier(float multiplier);
+    void setMargin(float margin);
     
     void addHQSceneElement();
     
 private:
-    std::string elementCategory;
-    HQContentItemObjectRef elementItemData;
-    int elementRowNumber;
-    int elementIndex;
+    std::string _elementCategory;
+    HQContentItemObjectRef _elementItemData;
+    int _elementRowNumber;
+    int _elementIndex;
+    float _manualSizeMultiplier = 0.0f;
+    float _margin = 0.0f;
     
-    HQSceneElementVisual* elementVisual;
+    HQSceneElementVisual* _elementVisual = nullptr;
+    
     void addListenerToElement();
     void startUpElementDependingOnType();
     
-    cocos2d::Point touchPoint;
-    bool movedAway = false;
-    bool iamtouched = false;
+    cocos2d::Point _touchPoint;
+    bool _movedAway = false;
+    bool _iamtouched = false;
 };
 
 NS_AZOOMEE_END

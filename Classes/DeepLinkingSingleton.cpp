@@ -47,7 +47,7 @@ bool DeepLinkingSingleton::init(void)
 
 void DeepLinkingSingleton::setDeepLink(const std::string& uriString)
 {
-    CCLOG("DEEPLINK URI:%s",uriString.c_str());
+    cocos2d::log("DEEPLINK URI:%s",uriString.c_str());
     
     resetDeepLink();
     deepLinkActionWaiting = setHostAndPath(uriString);
@@ -117,6 +117,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         const HQContentItemObjectRef& item = HQDataProvider::getInstance()->getItemDataForSpecificItem(path);
         if(item)
         {
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(item, -1, -1, "0,0");
             completeContentAction(item);
         }
         
@@ -243,19 +244,19 @@ void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &c
         return;
     }
     
-    if(contentItem->getType() == "GAME")
+    if(contentItem->getType() == ConfigStorage::kContentTypeGame)
     {
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
-    else if(contentItem->getType()  == "VIDEO" || contentItem->getType()  == "AUDIO")
+    else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
     {
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         VideoPlaylistManager::getInstance()->clearPlaylist();
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);
     }
-    else if(contentItem->getType()  == "AUDIOGROUP" || contentItem->getType()  == "GROUP")
+    else if(contentItem->getType()  == ConfigStorage::kContentTypeAudioGroup || contentItem->getType()  == ConfigStorage::kContentTypeGroup)
     {
         ModalMessages::getInstance()->stopLoading();
         

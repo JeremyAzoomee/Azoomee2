@@ -3,6 +3,8 @@
 
 NS_AZOOMEE_BEGIN
 
+const std::string& HQContentItemObject::kTagNew = "NEW";
+
 HQContentItemObject::HQContentItemObject()
 {
 }
@@ -47,9 +49,19 @@ void HQContentItemObject::setEntitled(const bool inputEntitled)
     _entitled = inputEntitled;
 }
 
-void HQContentItemObject::setNewFlag(const bool inputNewFlag)
+void HQContentItemObject::addTag(const std::string &tag)
 {
-    _newFlag = inputNewFlag;
+    _tags.push_back(tag);
+}
+
+void HQContentItemObject::setTags(const std::vector<std::string> &tags)
+{
+    _tags = tags;
+}
+
+void HQContentItemObject::setImages(const std::map<std::string, std::string> &images)
+{
+    _images = images;
 }
 
 std::string HQContentItemObject::getTitle() const
@@ -79,7 +91,34 @@ bool HQContentItemObject::isEntitled() const
 
 bool HQContentItemObject::isNew() const
 {
-    return _newFlag;
+    for(const std::string &tag : _tags)
+    {
+        if(tag == kTagNew)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<std::string> HQContentItemObject::getTags() const
+{
+    return _tags;
+}
+
+std::map<std::string, std::string> HQContentItemObject::getImages() const
+{
+    return _images;
+}
+
+std::string HQContentItemObject::getBaseImageThumbUrl() const
+{
+    if(_images.find("ONE_ONE") == _images.end())
+    {
+        return "";
+    }
+    
+    return _images.at("ONE_ONE");
 }
 
 //All functions that are being used only upon reading out
@@ -123,11 +162,12 @@ std::string HQContentItemObject::getJSONRepresentationOfStructure() const
         {"title", _title},
         {"description", _description},
         {"type", _type},
-        {"uri", _uri}
+        {"uri", _uri},
+        {"thumbUrl", getBaseImageThumbUrl()}
     };
     
     _entitled ? objectMap["entitled"] = "true" : objectMap["entitled"] = "false";
-    _newFlag ? objectMap["newFlag"] = "true" : objectMap["newFlag"] = "false";
+    isNew() ? objectMap["newFlag"] = "true" : objectMap["newFlag"] = "false";
     
     return getJSONStringFromMap(objectMap);
 }
@@ -167,7 +207,14 @@ HQContentItemObjectRef HQContentItemObject::createFromMap(const std::map<std::st
     
     if(inputMap.find("newFlag") != inputMap.end())
     {
-        returnObject->setNewFlag( inputMap.at("newFlag") == "true" );
+        returnObject->addTag(kTagNew);
+    }
+    
+    if(inputMap.find("thumbUrl") != inputMap.end())
+    {
+        std::map<std::string, std::string> imageMap;
+        imageMap["ONE_ONE"] = inputMap.at("thumbUrl");
+        returnObject->setImages(imageMap);
     }
     
     return returnObject;

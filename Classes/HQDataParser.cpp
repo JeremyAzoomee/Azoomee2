@@ -8,7 +8,6 @@
 
 #include <AzoomeeCommon/Data/Json.h>
 
-#include "HQScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -80,7 +79,16 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
             contentObject->setType(getStringFromJson("type", itemData));
             contentObject->setUri(getStringFromJson("uri", itemData));
             contentObject->setEntitled(getBoolFromJson("entitled", itemData));
-            contentObject->setNewFlag(getBoolFromJson("newFlag", itemData));
+            
+            if(itemData.HasMember("tags"))
+            {
+                contentObject->setTags(getStringArrayFromJson(itemData["tags"]));
+            }
+            
+            if(itemData.HasMember("images"))
+            {
+                contentObject->setImages(getStringMapFromJson(itemData["images"]));
+            }
             
             HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addContentItemToRawStorage(key, contentObject);
         }
@@ -94,22 +102,50 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
     rapidjson::Document contentData;
     contentData.Parse(responseString.c_str());
     
-    if (contentData.HasParseError()) return false; //JSON HAS ERRORS IN IT
-    
-    for (int i = 0; i < contentData["rows"].Size(); i++)
+    if (contentData.HasParseError() || !contentData.HasMember("rows") || !contentData["rows"].IsArray())
     {
+        return false; //JSON HAS ERRORS IN IT
+    }
+    
+    for (int rowNumber = 0; rowNumber < contentData["rows"].Size(); rowNumber++)
+    {
+        const rapidjson::Value& rowData = contentData["rows"][rowNumber];
         HQCarouselObjectRef carouselObject = HQCarouselObject::create();
         
-        carouselObject->setTitle(getStringFromJson("title", contentData["rows"][i]));
+        carouselObject->setTitle(getStringFromJson("title", rowData));
         
-        if(contentData["rows"][i]["contentIds"].Size() != 0)
+        if(rowData.HasMember("images"))
         {
-            for(int j = 0; j < contentData["rows"][i]["contentIds"].Size(); j++)
+            carouselObject->setIcon(getStringFromJson("icon", rowData["images"])); //parsing carousel main icon if present
+        }
+        
+        if(rowData.HasMember("contentIds") && rowData["contentIds"].IsArray() && rowData["contentIds"].Size() != 0)
+        {
+            const rapidjson::Value& contentIds = rowData["contentIds"];
+            for(int elementIndex = 0; elementIndex < contentIds.Size(); elementIndex++)
             {
-                const std::string &contentId = contentData["rows"][i]["contentIds"][j].GetString();
+                if(!contentIds[elementIndex].IsString())
+                {
+                    continue;
+                }
+                const std::string &contentId = contentIds[elementIndex].GetString();
                 
                 const HQContentItemObjectRef &pointerToContentItem = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(contentId);
-                Vec2 contentItemHighlight = Vec2(contentData["rows"][i]["shapes"][j][0].GetInt(), contentData["rows"][i]["shapes"][j][1].GetInt());
+                if(pointerToContentItem == nullptr)
+                {
+                    continue;
+                }
+                
+                Vec2 contentItemHighlight = Vec2(1,1);
+                if(rowData.HasMember("shapes") && rowData["shapes"].IsArray() && rowData["shapes"].Size() > elementIndex)
+                {
+                    const rapidjson::Value& elementShapeData = rowData["shapes"][elementIndex];
+                    if(elementShapeData.IsArray() && elementShapeData.Size() == 2 && elementShapeData[0].IsInt() && elementShapeData[1].IsInt())
+                    {
+                       contentItemHighlight = Vec2(elementShapeData[0].GetInt(), elementShapeData[1].GetInt());
+                    }
+                }
+                
                 
                 carouselObject->addContentItemToCarousel(pointerToContentItem);
                 carouselObject->addContentItemHighlight(contentItemHighlight);
@@ -118,6 +154,11 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
         
         HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addCarusoelToHq(carouselObject);
         HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setHqType(category);
+    }
+    
+    if(contentData.HasMember("images"))
+    {
+        HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->setImages(getStringMapFromJson(contentData["images"]));
     }
     
     return true;
@@ -166,8 +207,10 @@ void HQDataParser::onGetContentAnswerReceived(const std::string &responseString,
             ChildDataParser::getInstance()->parseOomeeData(responseString);
             
             Scene *runningScene = Director::getInstance()->getRunningScene();
-            if(!runningScene->getChildByName("baseLayer")) return;
-            
+            if(!runningScene->getChildByName("baseLayer"))
+            {
+                return;
+            }
             Node *baseLayer = runningScene->getChildByName("baseLayer");
             Node *contentLayer = baseLayer->getChildByName("contentLayer");
             MainHubScene *homeLayer = (MainHubScene *)contentLayer->getChildByName("HOME");

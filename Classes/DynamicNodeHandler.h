@@ -17,12 +17,15 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Utils/FileZipUtil.h>
+#include <AzoomeeCommon/Utils/FileDownloader.h>
 
 NS_AZOOMEE_BEGIN
 
-class DynamicNodeHandler : public cocos2d::Ref, public FileZipDelegate
+class DynamicNodeHandler : public cocos2d::Ref, public FileDownloaderDelegate, public FileZipDelegate
 {
 private:
+    
+    FileDownloaderRef _fileDownloader = nullptr;
     
     bool isCTAPackageJSONExist();
     
@@ -31,10 +34,8 @@ private:
     void checkIfVersionChangedFromLastCTAPull();
     
     void getCTAPackageJSON(const std::string& url);
-    void onGetCTAPackageJSONAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     void getCTAPackageZip(const std::string& url);
-    void onGetCTAPackageZipAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     bool unzipCTAFiles(const char *zipPath,const char *dirpath,const char *passwd);
     bool unzipBundleCTAFiles();
@@ -47,6 +48,13 @@ private:
     
     void createDynamicNodeFromFile(const std::string& file);
     void createDynamicNodeFromFileWithParams(const std::string &file, const std::string& params);
+    
+    void jsonDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
+    void zipDownloadComplte(const std::string& fileString, const std::string& tag, long responseCode);
+    
+    // file download request tags
+    const std::string _kZipTag = "zip";
+    const std::string _kJsonTag = "json";
     
 public:
     //-----start popup group names here
@@ -67,6 +75,7 @@ public:
     
     // Delegate functions
     void onAsyncUnzipComplete(bool success, std::string zipPath, std::string dirpath);
+    void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
     
 };
 
