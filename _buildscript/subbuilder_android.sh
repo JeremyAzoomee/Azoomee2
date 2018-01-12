@@ -1,7 +1,7 @@
 if [ "$1" == "" ]; then
         echo "Don't start this file as standalone!"
         echo "Use build.sh instead"
-        echo "Example: ./build.sh -v 3.2.2 -b 0 [-p ios|android] [-u]"
+        echo "Example: ./build.sh -v 3.2.2 -b 0 [-p ios|android|google|google32|google64|googlex86|amazon|samsung] [-u]"
         exit
 fi
 
@@ -53,3 +53,5 @@ if [ "$AMAZON" == "amazon" ] || [ "$AMAZON" == "samsung" ] ; then
 fi
 
 rm -rf ../_replaceTestResults
+
+osascript -e 'tell app "System Events" to display notification "Build '$BUILDNUMBER' '$AMAZON' is created" with title "Azoomee"'
