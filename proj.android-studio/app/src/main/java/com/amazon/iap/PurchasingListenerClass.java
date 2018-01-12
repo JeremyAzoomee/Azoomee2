@@ -70,9 +70,21 @@ public class PurchasingListenerClass implements PurchasingListener {
             Log.d("IAPAPI", "onProductDataResponse: " + unavailableSkus.size() + " unavailable skus");
 
             final Map<String, Product> products = response.getProductData();
-            Product product = products.get(appActivity.getAmazonSku());
-            String price = product.getPrice();
-            appActivity.setHumanReadablePrice(price);
+
+            if(products.containsKey(appActivity.getAmazonSku()))
+            {
+                Product product = products.get(appActivity.getAmazonSku());
+                String price = product.getPrice();
+
+                if(price != null)
+                {
+                    appActivity.setHumanReadablePrice(price);
+                }
+                else
+                {
+                    appActivity.priceFetchFailed();
+                }
+            }
 
             iapManager.enablePurchaseForSkus(products);
             iapManager.disablePurchaseForSkus(response.getUnavailableSkus());

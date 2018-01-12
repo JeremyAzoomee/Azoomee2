@@ -452,7 +452,16 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
             if(inventory.hasDetails(getGoogleSku()))
             {
-                setHumanReadablePrice(inventory.getSkuDetails(getGoogleSku()).getPrice());
+                String price = inventory.getSkuDetails(getGoogleSku()).getPrice();
+
+                if(price != null || price != "")
+                {
+                    setHumanReadablePrice(inventory.getSkuDetails(getGoogleSku()).getPrice());
+                }
+                else
+                {
+                    priceFetchFailed();
+                }
             }
 
             // Do we have the premium upgrade?
