@@ -172,15 +172,10 @@ std::string HQDataProvider::getThumbnailUrlForItem(const std::string &category, 
 
 std::string HQDataProvider::getThumbnailUrlForItem(const std::string &itemId) const
 {
-    static const std::vector<std::string>& hqNames = {ConfigStorage::kGameHQName, ConfigStorage::kVideoHQName, ConfigStorage::kAudioHQName, ConfigStorage::kGroupHQName};
-    
-    for(const std::string& cat : hqNames)
+    HQContentItemObjectRef element = ContentItemPool::getInstance()->getContentItemForId(itemId);
+    if(element)
     {
-        HQContentItemObjectRef element = ContentItemPool::getInstance()->getContentItemForId(itemId);
-        if(element)
-        {
-            return getThumbnailUrlForItem(element, Vec2(1,1));
-        }
+        return getThumbnailUrlForItem(element, Vec2(1,1));
     }
     
     return "";
