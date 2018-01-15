@@ -51,6 +51,7 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
     if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
         auto funcCallAction = CallFunc::create([=](){
+            ModalMessages::getInstance()->stopLoading();
             DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
         });
         

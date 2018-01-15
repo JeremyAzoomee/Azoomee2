@@ -67,6 +67,7 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
         auto funcCallAction = CallFunc::create([=](){
+            ModalMessages::getInstance()->stopLoading();
             DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
         });
         
