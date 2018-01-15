@@ -12,6 +12,7 @@
 #include "FlowDataSingleton.h"
 #include "SceneManagerScene.h"
 #include "AzoomeeCommon/Data/Child/ChildDataParser.h"
+#include "DynamicNodeHandler.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     #include "platform/android/jni/JniHelper.h"
@@ -53,6 +54,18 @@ bool RoutePaymentSingleton::init(void)
 }
 void RoutePaymentSingleton::startInAppPayment()
 {
+    if(receiptDataFileExists())
+    {
+        if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+        {
+            DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
+        }
+        else
+        {
+            retryReceiptValidation();
+        }
+    }
+    
     pressedIAPStartButton = true;
     pressedRestorePurchaseButton = false;
     ModalMessages::getInstance()->startLoading();

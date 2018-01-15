@@ -97,7 +97,6 @@ void DynamicNodeTextInput::textInputReturnPressed(TextInputLayer* inputLayer)
 void DynamicNodeTextInput::editBoxEditingDidBegin(TextInputLayer* inputLayer)
 {
     _inputIsValid = inputLayer->inputIsValid();
-    _errorText->setVisible(!_inputIsValid);
 }
 
 void DynamicNodeTextInput::editBoxEditingDidEnd(TextInputLayer* inputLayer)
