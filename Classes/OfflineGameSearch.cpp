@@ -37,8 +37,6 @@ std::vector<std::map<std::string, std::string>> OfflineGameSearch::getOfflineGam
     {
         if(jsonList.at(i).length() > 3)
         {
-            CCLOG("jsonList item: %s", jsonList.at(i).c_str());
-            
             if(isStarterFileExists(jsonList.at(i)))
             {
                 std::map<std::string, std::string> currentGameData = getGameDetails(jsonList.at(i));
@@ -83,7 +81,6 @@ std::vector<std::string> OfflineGameSearch::getJsonFileListFromDir()
 
 bool OfflineGameSearch::isStarterFileExists(const std::string &gameId)
 {
-    CCLOG("file exists: %s", getStartFileFromJson(gameId).c_str());
     if(getStartFileFromJson(gameId) == "ERROR") return false;
     
     std::string path = FileUtils::getInstance()->getWritablePath() + "gameCache/" + gameId + "/" + getStartFileFromJson(gameId);
@@ -148,6 +145,7 @@ std::map<std::string, std::string> OfflineGameSearch::getGameDetails(const std::
         {
             currentGameData["title"] = getStringFromJson("title", feedData);
             currentGameData["description"] = getStringFromJson("description", feedData);
+            currentGameData["thumbUrl"] = getStringFromJson("thumbUrl", feedData);
         }
     }
     

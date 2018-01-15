@@ -107,10 +107,8 @@ void ArtsPreviewLayer::addImageToLayer(std::string path, int index, bool locked)
         newImage = true;
     }
     
-    CCLOG("PATH: %s", path.c_str());
-    
     auto hqElement = ArtsAppHQElement::create();
-    hqElement->initWithURLAndSize(path, containerSize, newImage, false, locked);
+    hqElement->initWithURLAndSize(path, containerSize, false, newImage);
     
     hqElement->setPosition(origin.x+visibleSize.width/2+positions.at(index).x-hqElement->getContentSize().width/2*hqElement->getScale(), origin.y+visibleSize.height/2+positions.at(index).y-hqElement->getContentSize().height/2*hqElement->getScale());
     this->addChild(hqElement);

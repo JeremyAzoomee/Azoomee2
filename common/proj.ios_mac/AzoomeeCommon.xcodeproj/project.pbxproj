@@ -23,10 +23,7 @@
 		3000FF751ED5AB7100E9717C /* AzoomeeAppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF711ED5AB7000E9717C /* AzoomeeAppController.mm */; };
 		3000FF761ED5AB7100E9717C /* AzoomeeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */; };
 		3000FF7B1ED5BBB700E9717C /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3000FF791ED5BBB700E9717C /* Application.cpp */; };
-		300743501EFC09B9005525AE /* PusherSDK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3007434C1EFC09B9005525AE /* PusherSDK.cpp */; };
-		300743521EFC09B9005525AE /* PusherSDK_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3007434F1EFC09B9005525AE /* PusherSDK_ios.mm */; };
 		300743551EFC13B7005525AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300743541EFC13B7005525AE /* Foundation.framework */; };
-		300AD62D1F0B96310049A24F /* PusherSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 300AD5B21F0B96310049A24F /* PusherSwift.framework */; };
 		3012ED481E969A180009027D /* AudioMixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED461E969A180009027D /* AudioMixer.cpp */; };
 		3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4A1E969AE40009027D /* CookieDataParser.cpp */; };
 		3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012ED4C1E969AE40009027D /* CookieDataProvider.cpp */; };
@@ -52,7 +49,6 @@
 		3012EDAF1E97E8450009027D /* HMACSHA256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA51E97E8450009027D /* HMACSHA256.cpp */; };
 		3012EDB01E97E8450009027D /* HMACSHA256_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDA81E97E8450009027D /* HMACSHA256_ios.mm */; };
 		3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAB1E97E8450009027D /* JWTTool.cpp */; };
-		3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */; };
 		301CCA8D1EB13151009ADA0C /* MessageBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8B1EB13151009ADA0C /* MessageBox.cpp */; };
 		301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA8E1EB13191009ADA0C /* ElectricDreamsButton.cpp */; };
 		301CCA971EB14162009ADA0C /* ParentDataParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301CCA951EB14162009ADA0C /* ParentDataParser.cpp */; };
@@ -61,7 +57,6 @@
 		302E847A1ED1B992006A498C /* SplitLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302E84771ED1B992006A498C /* SplitLayout.cpp */; };
 		304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304D9EC61EA8F883008CED52 /* GameController.framework */; };
 		305966991ECCAF76009A7130 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305966971ECCAF76009A7130 /* Scene.cpp */; };
-		307A40491F050A51005947F3 /* PusherEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 307A40471F050A51005947F3 /* PusherEvent.cpp */; };
 		3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */; };
 		30DD5EC61E96571F0084305B /* CrashlyticsConfig_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30DD5EC21E96571F0084305B /* CrashlyticsConfig_ios.mm */; };
 		30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DD5EC81E9658B40084305B /* Crashlytics.framework */; };
@@ -74,7 +69,6 @@
 		43087FD91F03AC4C00E199EA /* NativeShare_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43087FD61F03AC4C00E199EA /* NativeShare_ios.mm */; };
 		431369781F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431369761F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.cpp */; };
 		4313697E1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4313697C1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp */; };
-		431369811F2B7200002BEA8C /* YouTubeVideoLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4313697F1F2B7200002BEA8C /* YouTubeVideoLayer.cpp */; };
 		4318E13A1F289DD500778E9A /* RequestAdultPinLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */; };
 		4318E13E1F28E65400778E9A /* MessageBoxTextLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */; };
 		433479491F7E42010093C7BE /* PrivacyLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 433479471F7E42000093C7BE /* PrivacyLayer.cpp */; };
@@ -153,9 +147,11 @@
 		434A55E41F29F9C800740601 /* MessageBoxLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E21F29F9C800740601 /* MessageBoxLayer.cpp */; };
 		434A55EB1F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434A55E91F2A40EE00740601 /* MessageBoxChatResetModerationLayer.cpp */; };
 		436007891F22120C000ECBA4 /* ModalWebview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 436007871F22120C000ECBA4 /* ModalWebview.cpp */; };
+		9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */; };
 		9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */; };
 		9224C00F1F7D13F000108553 /* DirectorySearcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */; };
 		9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */; };
+		92759E9E1FE410BB00639190 /* FileDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92759E9D1FE410BB00639190 /* FileDownloader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -190,15 +186,9 @@
 		3000FF731ED5AB7000E9717C /* AzoomeeViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AzoomeeViewController.mm; sourceTree = "<group>"; };
 		3000FF791ED5BBB700E9717C /* Application.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Application.cpp; sourceTree = "<group>"; };
 		3000FF7A1ED5BBB700E9717C /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
-		3007434C1EFC09B9005525AE /* PusherSDK.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PusherSDK.cpp; sourceTree = "<group>"; };
-		3007434D1EFC09B9005525AE /* PusherSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PusherSDK.h; sourceTree = "<group>"; };
-		3007434E1EFC09B9005525AE /* PusherSDK_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PusherSDK_android.cpp; sourceTree = "<group>"; };
-		3007434F1EFC09B9005525AE /* PusherSDK_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PusherSDK_ios.mm; sourceTree = "<group>"; };
 		300743541EFC13B7005525AE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		300AD5B01F0B96310049A24F /* 37AC06B0-9318-301A-8C99-C6730DD89152.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "37AC06B0-9318-301A-8C99-C6730DD89152.bcsymbolmap"; sourceTree = "<group>"; };
 		300AD5B11F0B96310049A24F /* 5CA1B21D-FB96-3675-9651-7D94826701AB.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "5CA1B21D-FB96-3675-9651-7D94826701AB.bcsymbolmap"; sourceTree = "<group>"; };
-		300AD5B21F0B96310049A24F /* PusherSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PusherSwift.framework; sourceTree = "<group>"; };
-		300AD5B31F0B96310049A24F /* PusherSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = PusherSwift.framework.dSYM; sourceTree = "<group>"; };
 		3012ED461E969A180009027D /* AudioMixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioMixer.cpp; sourceTree = "<group>"; };
 		3012ED471E969A180009027D /* AudioMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMixer.h; sourceTree = "<group>"; };
 		3012ED4A1E969AE40009027D /* CookieDataParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CookieDataParser.cpp; sourceTree = "<group>"; };
@@ -252,8 +242,6 @@
 		3012EDA91E97E8450009027D /* HMACSHA256_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HMACSHA256_android.cpp; sourceTree = "<group>"; };
 		3012EDAB1E97E8450009027D /* JWTTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTTool.cpp; sourceTree = "<group>"; };
 		3012EDAC1E97E8450009027D /* JWTTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTTool.h; sourceTree = "<group>"; };
-		3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JWTToolForceParent.cpp; sourceTree = "<group>"; };
-		3012EDAE1E97E8450009027D /* JWTToolForceParent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JWTToolForceParent.h; sourceTree = "<group>"; };
 		3018498C1EBCC100005B994A /* Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Json.h; sourceTree = "<group>"; };
 		301CCA8B1EB13151009ADA0C /* MessageBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageBox.cpp; sourceTree = "<group>"; tabWidth = 4; };
 		301CCA8C1EB13151009ADA0C /* MessageBox.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = MessageBox.h; sourceTree = "<group>"; tabWidth = 4; };
@@ -275,8 +263,6 @@
 		305966981ECCAF76009A7130 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		305966A01ECEF5A8009A7130 /* LayoutParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutParams.h; sourceTree = "<group>"; };
 		3077F4411E8D5048006DA465 /* libAzoomeeCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzoomeeCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		307A40471F050A51005947F3 /* PusherEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PusherEvent.cpp; sourceTree = "<group>"; };
-		307A40481F050A51005947F3 /* PusherEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PusherEvent.h; sourceTree = "<group>"; };
 		3092BCEE1EB10524006D6F4C /* HttpRequestCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpRequestCreator.cpp; sourceTree = "<group>"; };
 		3092BCEF1EB10524006D6F4C /* HttpRequestCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequestCreator.h; sourceTree = "<group>"; };
 		30DD5EBF1E96571F0084305B /* CrashlyticsConfig_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CrashlyticsConfig_android.cpp; sourceTree = "<group>"; };
@@ -301,8 +287,6 @@
 		431369771F2B60AC002BEA8C /* MessageBoxChatReportChatLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxChatReportChatLayer.h; path = MessageBoxLayers/ChatMessageLayers/MessageBoxChatReportChatLayer.h; sourceTree = "<group>"; };
 		4313697C1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxOnlineSafetySlidesLayer.cpp; path = MessageBoxLayers/MessageBoxOnlineSafetySlidesLayer.cpp; sourceTree = "<group>"; };
 		4313697D1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageBoxOnlineSafetySlidesLayer.h; path = MessageBoxLayers/MessageBoxOnlineSafetySlidesLayer.h; sourceTree = "<group>"; };
-		4313697F1F2B7200002BEA8C /* YouTubeVideoLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = YouTubeVideoLayer.cpp; sourceTree = "<group>"; };
-		431369801F2B7200002BEA8C /* YouTubeVideoLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YouTubeVideoLayer.h; sourceTree = "<group>"; };
 		4318E1381F289DD500778E9A /* RequestAdultPinLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RequestAdultPinLayer.cpp; sourceTree = "<group>"; };
 		4318E1391F289DD500778E9A /* RequestAdultPinLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestAdultPinLayer.h; sourceTree = "<group>"; };
 		4318E13C1F28E65400778E9A /* MessageBoxTextLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MessageBoxTextLayer.cpp; path = MessageBoxLayers/MessageBoxTextLayer.cpp; sourceTree = "<group>"; };
@@ -456,12 +440,16 @@
 		436007871F22120C000ECBA4 /* ModalWebview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModalWebview.cpp; sourceTree = "<group>"; };
 		436007881F22120C000ECBA4 /* ModalWebview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalWebview.h; sourceTree = "<group>"; };
 		4360078A1F2232CC000ECBA4 /* Urls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Urls.h; sourceTree = "<group>"; };
+		9220E9BF1FFE44C800BD7A90 /* AnalyticsProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyticsProperties.h; sourceTree = "<group>"; };
+		9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnalyticsProperties.cpp; sourceTree = "<group>"; };
 		9224C00A1F7CF8C100108553 /* FileZipUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileZipUtil.h; sourceTree = "<group>"; };
 		9224C00B1F7CFD7E00108553 /* FileZipUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileZipUtil.cpp; sourceTree = "<group>"; };
 		9224C00D1F7D11F400108553 /* DirectorySearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectorySearcher.h; sourceTree = "<group>"; };
 		9224C00E1F7D13F000108553 /* DirectorySearcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DirectorySearcher.cpp; sourceTree = "<group>"; };
 		9261739D1F2A3D34008E3F9D /* OnScreenChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnScreenChecker.h; sourceTree = "<group>"; };
 		9261739E1F2A3E4A008E3F9D /* OnScreenChecker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnScreenChecker.cpp; sourceTree = "<group>"; };
+		92759E9C1FE3DDCA00639190 /* FileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileDownloader.h; sourceTree = "<group>"; };
+		92759E9D1FE410BB00639190 /* FileDownloader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileDownloader.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -473,7 +461,6 @@
 				304D9EC71EA8F883008CED52 /* GameController.framework in Frameworks */,
 				02BF05E01F97828E00E7D086 /* AirshipKit.framework in Frameworks */,
 				30DD5ECD1E965B710084305B /* Crashlytics.framework in Frameworks */,
-				300AD62D1F0B96310049A24F /* PusherSwift.framework in Frameworks */,
 				30DD5ECE1E965B710084305B /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -517,19 +504,6 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
-		3007434B1EFC09B9005525AE /* Pusher */ = {
-			isa = PBXGroup;
-			children = (
-				307A40471F050A51005947F3 /* PusherEvent.cpp */,
-				307A40481F050A51005947F3 /* PusherEvent.h */,
-				3007434C1EFC09B9005525AE /* PusherSDK.cpp */,
-				3007434D1EFC09B9005525AE /* PusherSDK.h */,
-				3007434E1EFC09B9005525AE /* PusherSDK_android.cpp */,
-				3007434F1EFC09B9005525AE /* PusherSDK_ios.mm */,
-			);
-			path = Pusher;
-			sourceTree = "<group>";
-		};
 		300AD5AC1F0B96310049A24F /* Carthage */ = {
 			isa = PBXGroup;
 			children = (
@@ -551,8 +525,6 @@
 			children = (
 				300AD5B01F0B96310049A24F /* 37AC06B0-9318-301A-8C99-C6730DD89152.bcsymbolmap */,
 				300AD5B11F0B96310049A24F /* 5CA1B21D-FB96-3675-9651-7D94826701AB.bcsymbolmap */,
-				300AD5B21F0B96310049A24F /* PusherSwift.framework */,
-				300AD5B31F0B96310049A24F /* PusherSwift.framework.dSYM */,
 				02BF05E11F97829E00E7D086 /* AirshipKit.framework.dSYM */,
 				02BF05DF1F97828D00E7D086 /* AirshipKit.framework */,
 			);
@@ -649,6 +621,8 @@
 				02BF05EE1F98B80B00E7D086 /* PushNotificationsHandler.h */,
 				0215648F1FC5F3DC00641C14 /* SpecialCalendarEventManager.cpp */,
 				0215648E1FC5F3DB00641C14 /* SpecialCalendarEventManager.h */,
+				92759E9C1FE3DDCA00639190 /* FileDownloader.h */,
+				92759E9D1FE410BB00639190 /* FileDownloader.cpp */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -694,8 +668,6 @@
 				305966801ECC6987009A7130 /* Style.h */,
 				3012ED8E1E97DCC00009027D /* OomeeButtonLayer.cpp */,
 				3012ED8F1E97DCC00009027D /* OomeeButtonLayer.h */,
-				4313697F1F2B7200002BEA8C /* YouTubeVideoLayer.cpp */,
-				431369801F2B7200002BEA8C /* YouTubeVideoLayer.h */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -723,8 +695,6 @@
 				3012EDA41E97E8450009027D /* HMACSHA256 */,
 				3012EDAB1E97E8450009027D /* JWTTool.cpp */,
 				3012EDAC1E97E8450009027D /* JWTTool.h */,
-				3012EDAD1E97E8450009027D /* JWTToolForceParent.cpp */,
-				3012EDAE1E97E8450009027D /* JWTToolForceParent.h */,
 			);
 			path = JWTSigner;
 			sourceTree = "<group>";
@@ -786,7 +756,6 @@
 				43087FD41F03AC0C00E199EA /* NativeShare */,
 				30E094BA1EDF0F2B00555891 /* Net */,
 				3000FF6D1ED5AB7000E9717C /* Platform */,
-				3007434B1EFC09B9005525AE /* Pusher */,
 				3012ED861E97DB450009027D /* UI */,
 				3012ED6A1E96A3140009027D /* Utils */,
 			);
@@ -811,6 +780,8 @@
 				30DD5ED41E965E060084305B /* AnalyticsSingleton.h */,
 				30DD5ECF1E965E060084305B /* AnalyticsSingleton_android.cpp */,
 				30DD5ED21E965E060084305B /* AnalyticsSingleton_ios.mm */,
+				9220E9BF1FFE44C800BD7A90 /* AnalyticsProperties.h */,
+				9220E9C01FFE549500BD7A90 /* AnalyticsProperties.cpp */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -1138,6 +1109,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4349C85A1EA8ADEF00FE964B /* UIColor+MPColor.m in Sources */,
+				9220E9C11FFE549500BD7A90 /* AnalyticsProperties.cpp in Sources */,
 				4349C8541EA8ADEF00FE964B /* MPWebSocket.m in Sources */,
 				433479491F7E42010093C7BE /* PrivacyLayer.cpp in Sources */,
 				4349C8371EA8ADEF00FE964B /* MPNotificationViewController.m in Sources */,
@@ -1148,7 +1120,6 @@
 				02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */,
 				3012ED501E969AE40009027D /* CookieDataParser.cpp in Sources */,
 				4349C81A1EA8ADEF00FE964B /* MPABTestDesignerChangeResponseMessage.m in Sources */,
-				431369811F2B7200002BEA8C /* YouTubeVideoLayer.cpp in Sources */,
 				021B1FC91F838A0A0044DCF7 /* HQCarouselObject.cpp in Sources */,
 				3012EDB21E97E8450009027D /* JWTTool.cpp in Sources */,
 				3012ED611E969BF60009027D /* ChildDataParser.cpp in Sources */,
@@ -1189,6 +1160,7 @@
 				30DD5ED71E965E060084305B /* AnalyticsSingleton.cpp in Sources */,
 				021B1FCA1F838A0A0044DCF7 /* HQContentItemObject.cpp in Sources */,
 				30E094BF1EDF0F2B00555891 /* URI.cpp in Sources */,
+				92759E9E1FE410BB00639190 /* FileDownloader.cpp in Sources */,
 				4349C81B1EA8ADEF00FE964B /* MPABTestDesignerClearRequestMessage.m in Sources */,
 				3012ED921E97DCC00009027D /* OomeeButtonLayer.cpp in Sources */,
 				9224C00C1F7CFD7E00108553 /* FileZipUtil.cpp in Sources */,
@@ -1226,7 +1198,6 @@
 				4349C8261EA8ADEF00FE964B /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				9261739F1F2A3E4A008E3F9D /* OnScreenChecker.cpp in Sources */,
 				4349C8521EA8ADEF00FE964B /* MPUITableViewBinding.m in Sources */,
-				300743501EFC09B9005525AE /* PusherSDK.cpp in Sources */,
 				4349C84C1EA8ADEF00FE964B /* MPTypeDescription.m in Sources */,
 				3012ED701E96A3140009027D /* StringFunctions.cpp in Sources */,
 				4349C82B1EA8ADEF00FE964B /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
@@ -1250,7 +1221,6 @@
 				4349C83F1EA8ADEF00FE964B /* MPPassThroughValueTransformer.m in Sources */,
 				3012ED511E969AE40009027D /* CookieDataProvider.cpp in Sources */,
 				4349C84A1EA8ADEF00FE964B /* MPTweakInline.m in Sources */,
-				3012EDB31E97E8450009027D /* JWTToolForceParent.cpp in Sources */,
 				3092BCF01EB10524006D6F4C /* HttpRequestCreator.cpp in Sources */,
 				4349C83A1EA8ADEF00FE964B /* MPObjectIdentityProvider.m in Sources */,
 				4349C8301EA8ADEF00FE964B /* MPDesignerTrackMessage.m in Sources */,
@@ -1272,12 +1242,10 @@
 				4313697E1F2B6882002BEA8C /* MessageBoxOnlineSafetySlidesLayer.cpp in Sources */,
 				4349C8431EA8ADEF00FE964B /* MPSwizzle.m in Sources */,
 				4349C82D1EA8ADEF00FE964B /* MPClassDescription.m in Sources */,
-				307A40491F050A51005947F3 /* PusherEvent.cpp in Sources */,
 				3012EDA11E97E6A40009027D /* ImageDownloader.cpp in Sources */,
 				302E84791ED1B992006A498C /* ObservableLayout.cpp in Sources */,
 				3012ED851E97A8F50009027D /* Notifications_ios.mm in Sources */,
 				4349C8161EA8ADEF00FE964B /* MixpanelPeople.m in Sources */,
-				300743521EFC09B9005525AE /* PusherSDK_ios.mm in Sources */,
 				301CCA901EB13191009ADA0C /* ElectricDreamsButton.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

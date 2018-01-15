@@ -12,11 +12,10 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-Layer* SettingsKidsLayer::createWithHeight(float setLayerHeight)
+Layer* SettingsKidsLayer::createWithSize(const cocos2d::Size &contentSize)
 {
     auto layer = SettingsKidsLayer::create();
-    layer->layerHeight = setLayerHeight;
-    layer->setContentSize(Size(Director::getInstance()->getVisibleSize().width,Director::getInstance()->getVisibleSize().height));
+    layer->setContentSize(contentSize);
     layer->addTabsCoverLayer();
     layer->addScrollView();
     
@@ -37,7 +36,8 @@ bool SettingsKidsLayer::init()
 
 void SettingsKidsLayer::addTabsCoverLayer()
 {
-    _tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200),this->getContentSize().width, Director::getInstance()->getVisibleSize().height);
+    _tabsCoverLayer = LayerColor::create(Color4B(0,0,0,200), Director::getInstance()->getVisibleSize().width, Director::getInstance()->getVisibleSize().height);
+    _tabsCoverLayer->setPosition((this->getContentSize().width - _tabsCoverLayer->getContentSize().width) / 2, 0);
     _tabsCoverLayer->setVisible(false);
     this->addChild(_tabsCoverLayer);
     
@@ -46,26 +46,26 @@ void SettingsKidsLayer::addTabsCoverLayer()
 
 void SettingsKidsLayer::addScrollView()
 {
-    float scrollViewHeight = 1275;
-    Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren()*900,scrollViewHeight);
+    Size innerSize = Size(ParentDataProvider::getInstance()->getAmountOfAvailableChildren() * 900 + 100, this->getContentSize().height);
     
     _scrollView = cocos2d::ui::ScrollView::create();
-    _scrollView->setContentSize(Size(this->getContentSize().width, scrollViewHeight));
-    _scrollView->setPosition(Vec2(this->getContentSize().width/2,layerHeight/2));
+    _scrollView->setContentSize(Size(this->getContentSize().width, this->getContentSize().height));
     _scrollView->setDirection(cocos2d::ui::ScrollView::Direction::HORIZONTAL);
     _scrollView->setBounceEnabled(false);
     _scrollView->setTouchEnabled(true);
     _scrollView->setInnerContainerSize(innerSize);
     _scrollView->setSwallowTouches(false);
     _scrollView->setScrollBarEnabled(true);
-    _scrollView->setAnchorPoint(Vec2(0.5f,0.5f));
+    _scrollView->setAnchorPoint(Vec2(0.5f, 0.5f));
+    _scrollView->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height / 2));
+    _scrollView->setBackGroundColor(Color3B::ORANGE);
     
     this->addChild(_scrollView);
     
     for(int i = 0; i < ParentDataProvider::getInstance()->getAmountOfAvailableChildren(); i++)
     {
         auto childLayer = KidsControlLayer::createController(this, i);
-        childLayer->setPosition(i*900,70);
+        childLayer->setPosition(100 + i * 900, _scrollView->getContentSize().height / 2 - childLayer->getContentSize().height / 2);
         childLayer->setTag(i);
         _scrollView->addChild(childLayer);
     }

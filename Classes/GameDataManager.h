@@ -10,16 +10,19 @@
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/ImageDownloader/ImageDownloader.h>
+#include <AzoomeeCommon/Utils/FileDownloader.h>
 
 NS_AZOOMEE_BEGIN
 
-class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate
+class GameDataManager : public cocos2d::Ref, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public FileDownloaderDelegate
 {
     
 public:
     ImageDownloaderRef imageDownloader;
     
     static GameDataManager* getInstance(void);
+    static const char* const kManualGameId;
+    
     virtual ~GameDataManager();
     bool init(void);
 
@@ -29,6 +32,7 @@ public:
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button);
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
     
 private:
     void saveFeedDataToFile(const HQContentItemObjectRef &itemData);
@@ -37,8 +41,6 @@ private:
     void JSONFileIsPresent(const std::string &itemId);
     void createGamePathDirectories(const std::string &basePath);
     std::string getFileNameFromUrl(const std::string &url);
-    
-    void onGetJSONGameDataAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     void removeOldGameIfUpgradeNeeded(const std::string &downloadedJSONString, const std::string &gameId);
     bool checkIfFileExists(const std::string &fileWithPath);
@@ -49,7 +51,6 @@ private:
     int getMinGameVersionFromJSONString(const std::string &jsonString);
     
     void getGameZipFile(const std::string &url, const std::string &itemId);
-    void onGetGameZipFileAnswerReceived(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
     
     bool unzipGame(const std::string& zipPath,const std::string& dirpath,const std::string& passwd);
     bool removeGameZip(const std::string &fileNameWithPath);
@@ -67,8 +68,10 @@ private:
     void showErrorMessage();
     void showIncompatibleMessage();
     
-    cocos2d::network::HttpRequest* jsonRequest;
-    cocos2d::network::HttpRequest* zipRequest;
+    FileDownloaderRef _fileDownloader = nullptr;
+    
+    std::string _contentId = "";
+    
     bool processCancelled = false;
     
     bool isGameCompatibleWithCurrentAzoomeeVersion(const std::string &jsonFileName);
@@ -84,6 +87,10 @@ private:
     
     const int _kGameCleanupCheckFreq = 432000; //5 days in seconds
     const int _kGameCleanupUnusedTime = 1814400; //21 days in seconds
+    
+    // file download request tags
+    const std::string _kZipTag = "zip";
+    const std::string _kJsonTag = "json";
 };
 
 NS_AZOOMEE_END

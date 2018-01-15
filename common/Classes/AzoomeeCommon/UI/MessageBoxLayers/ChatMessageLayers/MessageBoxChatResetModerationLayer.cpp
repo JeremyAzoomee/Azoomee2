@@ -3,7 +3,6 @@
 #include "../../../Analytics/AnalyticsSingleton.h"
 #include "../../ElectricDreamsTextStyles.h"
 #include "../../ElectricDreamsDecoration.h"
-#include "../../YouTubeVideoLayer.h"
 
 using namespace cocos2d;
 
@@ -225,7 +224,6 @@ void MessageBoxChatResetModerationLayer::buttonPressed(ElectricDreamsButton* but
         dynamic_cast<MessageBox*>(_parentLayer)->sendDelegateMessageBoxButtonPressed(_messageBoxTitle, MessageBox::kCancel);
     else if(button == onlineSafetyTipsButton)
     {
-        //YouTubeVideoLayer::createWith("OxqWjHD8nMU");
         onlineSafetySlides = MessageBox::createWithLayer(OnlineSafetySlidesAdult, nullptr);
 
     }

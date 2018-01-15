@@ -47,7 +47,7 @@ bool DeepLinkingSingleton::init(void)
 
 void DeepLinkingSingleton::setDeepLink(const std::string& uriString)
 {
-    CCLOG("DEEPLINK URI:%s",uriString.c_str());
+    cocos2d::log("DEEPLINK URI:%s",uriString.c_str());
     
     resetDeepLink();
     deepLinkActionWaiting = setHostAndPath(uriString);
@@ -117,6 +117,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         const HQContentItemObjectRef& item = HQDataProvider::getInstance()->getItemDataForSpecificItem(path);
         if(item)
         {
+            AnalyticsSingleton::getInstance()->contentItemSelectedEvent(item, -1, -1, "0,0");
             completeContentAction(item);
         }
         

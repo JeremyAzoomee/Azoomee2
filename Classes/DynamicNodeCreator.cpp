@@ -237,9 +237,15 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
     {
         if(sizePercentages[0].IsFloat() && sizePercentages[1].IsFloat())
         {
+            const Size& visibleSize = Director::getInstance()->getVisibleSize();
+            if(visibleSize.width/visibleSize.height > (16.0f/9.0f))
+            {
+                _sizeMod = 0.85f;
+            }
             float width = sizePercentages[0].GetFloat()/100.0f;
             float height = sizePercentages[1].GetFloat()/100.0f;
-            const Size& newSize = Size(_windowSize.width*width,_windowSize.height*height);
+            const Size& newSize = Size(_windowSize.width*width,_windowSize.height*height) * _sizeMod;
+            
             
             _stencil->setContentSize(newSize);
             _maskedBGImage->setScale(_stencil->getContentSize().width/_maskedBGImage->getContentSize().width, _stencil->getContentSize().height/_maskedBGImage->getContentSize().height);
@@ -580,6 +586,8 @@ void DynamicNodeCreator::addTextWithParams(int fontSize, Color4B fontColour, con
     {
         fontSize = newFontSize;
     }
+    
+    fontSize *= _sizeMod;
     
     int lineSpacing = getIntFromJson("lineSpacing", params);
     if(lineSpacing == INT_MAX)

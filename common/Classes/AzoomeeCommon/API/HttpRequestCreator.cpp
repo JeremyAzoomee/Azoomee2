@@ -1,7 +1,6 @@
 #include "HttpRequestCreator.h"
 
 #include "../JWTSigner/JWTTool.h"
-#include "../JWTSigner/JWTToolForceParent.h"
 #include "../Data/ConfigStorage.h"
 #include "../Analytics/AnalyticsSingleton.h"
 #include "../Utils/StringFunctions.h"
@@ -151,16 +150,20 @@ cocos2d::network::HttpRequest* HttpRequestCreator::buildHttpRequest()           
     {
         std::string myRequestString;
         
+        auto jwtTool = JWTTool();
+        jwtTool.setRequestBody(requestBody);
+        jwtTool.setQueryParams(urlParameters);
+        jwtTool.setHost(host);
+        jwtTool.setPath(requestPath);
+        jwtTool.setMethod(method);
+        
+        
         if(ConfigStorage::getInstance()->isParentSignatureRequiredForRequest(requestTag))
         {
-            auto myJWTTool = JWTToolForceParent::getInstance();
-            myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
+            jwtTool.setForceParent(true);
         }
-        else
-        {
-            auto myJWTTool = JWTTool::getInstance();
-            myRequestString = myJWTTool->buildJWTString(method, requestPath.c_str(), host, urlParameters, requestBody);
-        }
+        
+        myRequestString = jwtTool.buildJWTString();
         
         headers.push_back("x-az-req-datetime: " + getDateFormatString());
         headers.push_back("x-az-auth-token: " + myRequestString);
@@ -201,7 +204,6 @@ void HttpRequestCreator::onHttpRequestAnswerReceived(cocos2d::network::HttpClien
     std::string requestTag = response->getHttpRequest()->getTag();
     
     cocos2d::log("Request tag: %s", requestTag.c_str());
-    //cocos2d::log("Request body: %s", response->getHttpRequest()->getRequestData());
     cocos2d::log("Response code: %ld", response->getResponseCode());
     cocos2d::log("Response header: %s", responseHeaderString.c_str());
     cocos2d::log("Response string: %s", responseDataString.c_str());

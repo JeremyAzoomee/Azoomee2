@@ -4,6 +4,7 @@
 #include "../Azoomee.h"
 #include <cocos/cocos2d.h>
 #include <cocos/network/HttpClient.h>
+#include "../Utils/FileDownloader.h"
 #include <memory>
 
 
@@ -17,7 +18,7 @@ struct ImageDownloaderDelegate
     virtual void onImageDownloadComplete(const ImageDownloaderRef& downloader) = 0;
 };
 
-class ImageDownloader : public std::enable_shared_from_this<ImageDownloader>
+class ImageDownloader : public std::enable_shared_from_this<ImageDownloader>, FileDownloaderDelegate
 {
 public:
     enum CacheMode {
@@ -45,6 +46,7 @@ private:
     /// Cached FileUtils::getInstance()
     cocos2d::FileUtils* fileUtils;
     
+    FileDownloaderRef _fileDownloader = nullptr;
     
     /// Private construction - use ::create
     ImageDownloader(const std::string& storageLocation, CacheMode mode);
@@ -66,7 +68,6 @@ private:
     std::string getTimestampFilePath() const;
     
     void downloadFileFromServer(const std::string& url);
-    void downloadFileFromServerAnswerReceived(cocos2d::network::HttpClient* sender, cocos2d::network::HttpResponse* response);
     void loadFileFromLocalCacheAsync();
     
 public:
@@ -86,6 +87,9 @@ public:
     
     /// Download or load the image from local cache
     void downloadImage(ImageDownloaderDelegate* delegate, const std::string& url);
+    
+    // Delegate functions
+    void onFileDownloadComplete(const std::string& fileString, const std::string& tag, long responseCode);
 };
   
 NS_AZOOMEE_END

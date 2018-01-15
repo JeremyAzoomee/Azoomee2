@@ -13,6 +13,7 @@ private:
     bool appleReceiptRefreshchecked = false;
     std::string OSManufacturer;
     void setOSManufacturer();
+    void createReceiptDataFolder();
     
 public:
     static RoutePaymentSingleton* getInstance(void);
@@ -39,8 +40,19 @@ public:
     void purchaseFailureErrorMessage(const std::string& failureDetails);
     void doublePurchaseMessage();
     
+    void writeReceiptDataToFile(const std::string &receiptData);
+    void writeAndroidReceiptDataToFile(const std::string& developerPayload, const std::string& orderId, const std::string& token);
+    void writeAmazonReceiptDataToFile(const std::string& requestId, const std::string& receiptId, const std::string& amazonUserId);
+    
+    bool receiptDataFileExists();
+    void removeReceiptDataFile();
+    void retryReceiptValidation();
+    
     //Delegate Functions
     void MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle);
+    
+    static const std::string& kReceiptCacheFolder;
+    static const std::string& kReceiptDataFileName;
 };
 
 NS_AZOOMEE_END

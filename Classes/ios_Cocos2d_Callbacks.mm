@@ -9,6 +9,7 @@
 #include "LoginLogicHandler.h"
 #include "FlowDataSingleton.h"
 #include <AzoomeeCommon/ErrorCodes.h>
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ContentHistoryManager.h"
 
 using namespace cocos2d;
@@ -36,7 +37,7 @@ void navigateToLoginScene()
 
 void sendMixPanelData(const char* host, const char* query)
 {
-    CCLOG("host: %s, query: %s", host, query);
+    cocos2d::log("host: %s, query: %s", host, query);
     std::string strHost = cocos2d::StringUtils::format("%s", host);
     std::string strQuery = cocos2d::StringUtils::format("%s", query);
     
@@ -85,7 +86,7 @@ void sendMixPanelData(const char* host, const char* query)
 const char* sendGameApiRequest(const char* method, const char* responseid, const char* score)
 {
     char* returnString = WebGameAPIDataManager::getInstance()->handleAPIRequest(method, responseid, score);
-    CCLOG("returnString in callback listener: %s", returnString);
+    cocos2d::log("returnString in callback listener: %s", returnString);
     
     return returnString;
 }
@@ -106,6 +107,11 @@ NSString* getVideoPlaylist()
 {
     std::string returnString = VideoPlaylistManager::getInstance()->getPlaylist();
     return [NSString stringWithUTF8String:returnString.c_str()];
+}
+
+bool isDeviceIphoneX()
+{
+    return ConfigStorage::getInstance()->isDeviceIphoneX();
 }
 
 NS_AZOOMEE_END

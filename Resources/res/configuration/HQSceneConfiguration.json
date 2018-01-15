@@ -18,49 +18,8 @@
     },
     "GROUP HQ": {
       "width": 590,
-      "height": 442
+      "height": 592
     }
-  },
-  
-  "baseColourForContentItemInCategory": {
-    "VIDEO HQ": {
-      "r": 249,
-      "g": 74,
-      "b": 91,
-      "a": 150
-    },
-    "AUDIO HQ": {
-      "r": 55,
-      "g": 188,
-      "b": 152,
-      "a": 150
-    },
-    "GAME HQ": {
-      "r": 84,
-      "g": 174,
-      "b": 255,
-      "a": 150
-    },
-    "ARTS APP": {
-      "r": 246,
-      "g": 187,
-      "b": 66,
-      "a": 150
-    },
-    "GROUP HQ": {
-      "r": 249,
-      "g": 74,
-      "b": 91,
-      "a": 150
-    }
-  },
-  
-  "iconImagesForContentItemInCategory": {
-    "VIDEO HQ": "res/hqscene/icon_watch.png",
-    "AUDIO HQ": "res/hqscene/icon_listen.png",
-    "GAME HQ": "res/hqscene/icon_play.png",
-    "ARTS APP": "res/hqscene/icon_play.png",
-    "GROUP HQ": "res/hqscene/icon_watch.png"
   },
 
   "placeholderImageForContentItemInCategory": {
@@ -71,30 +30,120 @@
     "GROUP": "res/contentPlaceholders/Video",
       "MANUAL": "res/contentPlaceholders/Games"
   },
-  
-  "highlightSizeMultiplierForContentItem": {
-    "0": {
-      "x": 1,
-      "y": 1
-    },
-    "1": {
-      "x": 1,
-      "y": 2.04
-    },
-    "2": {
-      "x": 2.04,
-      "y": 2.04
-    }
-  },
-  
+
   "scrollViewTextHeight": 85,
-  
+
   "groupLogoSize": {
     "width": 920,
     "height": 372
   },
-  
+
   "ContentItemImageValidityInSeconds": 604800,
-    
-  "groupContentItemTextHeight": 60
+
+  "groupContentItemTextHeight": 60,
+
+  "MainHubPositionsForHighlightElements": {
+    "PLAY": {
+      "Points": [
+                {
+                  "x": 2015,
+                  "y": 955
+                },
+                {
+                  "x": 1645,
+                  "y": 1105
+                }
+                ]
+        },
+    "LISTEN": {
+      "Points": [
+                {
+                  "x": 240,
+                  "y": 730
+                },
+                {
+                  "x": 620,
+                  "y": 600
+                }
+                ]
+     },
+    "WATCH": {
+      "Points": [
+                {
+                  "x": 240,
+                  "y": 955
+                },
+                {
+                  "x": 620,
+                  "y": 1105
+                }
+                ]
+      },
+    "ART": {
+      "Points": [
+                {
+                  "x": 900,
+                  "y": -130
+                },
+                {
+                  "x": 520,
+                  "y": -260
+                }
+                ]
+    }
+  },
+
+  "colourForElementType": {
+        "AUDIO": {
+            "r": 55,
+            "g": 188,
+            "b": 152,
+            "a": 150
+        },
+        "AUDIOGROUP": {
+            "r": 55,
+            "g": 188,
+            "b": 152,
+            "a": 150
+        },
+        "GAME": {
+            "r": 84,
+            "g": 174,
+            "b": 255,
+            "a": 150
+        },
+        "MANUAL": {
+            "r": 84,
+            "g": 174,
+            "b": 255,
+            "a": 150
+        },
+        "VIDEO": {
+            "r": 249,
+            "g": 74,
+            "b": 91,
+            "a": 150
+        },
+        "GROUP": {
+            "r": 249,
+            "g": 74,
+            "b": 91,
+            "a": 150
+        },
+        "ARTS APP": {
+            "r": 246,
+            "g": 187,
+            "b": 66,
+            "a": 150
+        }
+  },
+
+  "iconNameForCategory": {
+        "VIDEO": "res/hqscene/icon_watch.png",
+        "GROUP": "res/hqscene/icon_watch.png",
+        "AUDIO": "res/hqscene/icon_listen.png",
+        "AUDIOGROUP": "res/hqscene/icon_listen.png",
+        "GAME": "res/hqscene/icon_play.png",
+        "MANUAL": "res/hqscene/icon_play.png"
+  }
 }

@@ -4,14 +4,18 @@
 #include "HQScene2ElementPositioner.h"
 #include "HQScene2PlaceHolderCreator.h"
 #include "HQScene2CarouselTitle.h"
+#include "HQHistoryManager.h"
 #include "ContentHistoryManager.h"
 #include "DynamicNodeHandler.h"
+#include "HQSceneArtsApp.h"
+#include "OfflineHubBackButton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Analytics/AnalyticsProperties.h>
 
 using namespace cocos2d;
 
@@ -23,6 +27,29 @@ const int HQScene2::kUnitsOnScreen = 4;
 const float HQScene2::kContentItemMargin = 20.0f;
 const float HQScene2::kSpaceForPrivacyPolicy = 100.0f;
 const std::string& HQScene2::kScrollViewName = "scrollview";
+const std::string& HQScene2::kGroupLogoName = "groupLogo";
+const std::string& HQScene2::kArtScrollViewName = "ArtScrollView";
+const float HQScene2::kGroupContentItemImagePlaceholder = 150.0f;
+
+Scene* HQScene2::createSceneForOfflineArtsAppHQ()
+{
+    auto scene = Scene::create();
+    auto layer = HQScene2::create();
+    scene->addChild(layer);
+    
+    //if created as a scene, and not as a layer, we are in offline mode, and we are using scene only for art app, so adding initial lines:
+    layer->setName(ConfigStorage::kArtAppHQName);
+    
+    auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+    offlineArtsAppScrollView->setName(kArtScrollViewName);
+    layer->addChild(offlineArtsAppScrollView);
+    
+    auto offlineHubBackButton = OfflineHubBackButton::create();
+    offlineHubBackButton->setPosition(Point(100, Director::getInstance()->getVisibleOrigin().y + Director::getInstance()->getVisibleSize().height - 250));
+    layer->addChild(offlineHubBackButton);
+    
+    return scene;
+}
 
 bool HQScene2::init()
 {
@@ -33,6 +60,12 @@ bool HQScene2::init()
     
     _visibleSize = Director::getInstance()->getVisibleSize();
     _origin = Director::getInstance()->getVisibleOrigin();
+    
+    if(ConfigStorage::getInstance()->isDeviceIphoneX())
+    {
+        _visibleSize.width -= 200;
+        _origin.x += 100;
+    }
     
     return true;
 }
@@ -51,6 +84,18 @@ void HQScene2::startBuildingScrollView()
     
     if(_hqCategory == "" || this->getChildByName(kScrollViewName)) //Checking if this was created before, or this is the first time -> the layer has any kids.
     {
+        return;
+    }
+    
+    if(this->getName() == ConfigStorage::kArtAppHQName)
+    {
+        auto artsLayer = this->getChildByName(ConfigStorage::kArtAppHQName);
+        if(!artsLayer)
+        {
+            auto offlineArtsAppScrollView = HQSceneArtsApp::create();
+            offlineArtsAppScrollView->setName(ConfigStorage::kArtAppHQName);
+            this->addChild(offlineArtsAppScrollView);
+        }
         return;
     }
     
@@ -86,14 +131,17 @@ void HQScene2::startBuildingScrollView()
             }
         }
         
-        //Filling up empty spaces with placeholders (Design requirement)
-        
-        HQScene2PlaceHolderCreator hqScene2PlaceHolderCreator;
-        hqScene2PlaceHolderCreator.setLowestElementYPosition(lowestElementYPosition);
-        hqScene2PlaceHolderCreator.setCarouselLayer(carouselLayer);
-        hqScene2PlaceHolderCreator.setBaseUnitSize(_contentItemSize * _unitMultiplier);
-        hqScene2PlaceHolderCreator.setMargin(kContentItemMargin);
-        hqScene2PlaceHolderCreator.addPlaceHoldersToCarousel();
+        //Filling up empty spaces with placeholders (Design requirement - except for Group HQ)
+    
+        if(_hqCategory != ConfigStorage::kGroupHQName)
+        {
+            HQScene2PlaceHolderCreator hqScene2PlaceHolderCreator;
+            hqScene2PlaceHolderCreator.setLowestElementYPosition(lowestElementYPosition);
+            hqScene2PlaceHolderCreator.setCarouselLayer(carouselLayer);
+            hqScene2PlaceHolderCreator.setBaseUnitSize(_contentItemSize * _unitMultiplier);
+            hqScene2PlaceHolderCreator.setMargin(kContentItemMargin);
+            hqScene2PlaceHolderCreator.addPlaceHoldersToCarousel();
+        }
         
         postSizeAndAlignCarousel(carouselLayer, lowestElementYPosition); //with the flexible sizing method, the contentSize of the carousel is not predictable, we need to do it after all elements are in place.
         totalHeightOfCarousels += carouselLayer->getContentSize().height + kSpaceAboveCarousel;
@@ -102,7 +150,7 @@ void HQScene2::startBuildingScrollView()
     
     //we have all carousels in a vector, time to resize the scrollview and add them one by one
     cocos2d::ui::ScrollView* scrollView = createScrollView();
-    scrollView->setInnerContainerSize(cocos2d::Size(Director::getInstance()->getVisibleSize().width - 2 * kSideMarginSize, totalHeightOfCarousels + kSpaceForPrivacyPolicy));
+    scrollView->setInnerContainerSize(cocos2d::Size(_visibleSize.width - 2 * kSideMarginSize, totalHeightOfCarousels + kSpaceForPrivacyPolicy));
     
     float lastCarouselPosition = scrollView->getInnerContainerSize().height;
     for(int carouselIndex = 0; carouselIndex < _carouselStorage.size(); carouselIndex++)
@@ -134,6 +182,15 @@ void HQScene2::startBuildingScrollView()
     gradient->setPosition(scrollView->getContentSize().width / 2 + scrollView->getPosition().x, scrollView->getPosition().y + scrollView->getContentSize().height - gradient->getContentSize().width / 2 + 5);
     this->addChild(gradient);
     
+    //add group hq logo if necessary
+    
+    if(_hqCategory == ConfigStorage::kGroupHQName)
+    {
+        addGroupHQLogo();
+    }
+    
+    //show post content cta if necessary
+    
     showPostContentCTA();
 }
 
@@ -144,12 +201,24 @@ void HQScene2::showPostContentCTA()
         return;
     }
     
-    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
-    HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
-    if(lastContent == nullptr)
+    int secondsInContent = 0;
+    try
+    {
+        const std::string& secondsString = AnalyticsProperties::getInstance()->getStoredContentItemProperties().at("SecondsInContent");
+        secondsInContent = std::atoi(secondsString.substr(secondsString.find("|")+1).c_str());
+    }
+    catch(std::out_of_range)
     {
         return;
     }
+    
+    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
+    if(lastContent == nullptr || (lastContent->getType() == ConfigStorage::kContentTypeGame && secondsInContent < 180))
+    {
+        return;
+    }
+    
     std::vector<HQCarouselObjectRef> hqCarousels = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(this->getName())->getHqCarousels();
     bool possibleContentFound = false;
     while(!possibleContentFound && hqCarousels.size() > 0) // look for available content in random carousel
@@ -221,21 +290,16 @@ cocos2d::Layer* HQScene2::createElementForCarousel(cocos2d::Node *toBeAddedTo, c
     return hqSceneElement;
 }
 
-void HQScene2::addListenerToScrollView(cocos2d::ui::ScrollView *vScrollView)
-{
-    
-}
-
 cocos2d::LayerColor* HQScene2::createNewCarousel()
 {
-    cocos2d::LayerColor*carouselLayer = cocos2d::LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), Director::getInstance()->getVisibleSize().width - 2 * kSideMarginSize, 0);
+    cocos2d::LayerColor*carouselLayer = cocos2d::LayerColor::create(cocos2d::Color4B(255, 0, 0, 0), _visibleSize.width - 2 * kSideMarginSize, 0);
     
     return carouselLayer;
 }
 
 void HQScene2::postSizeAndAlignCarousel(cocos2d::Node* carouselLayer, float lowestElementY)
 {
-    carouselLayer->setContentSize(Size(Director::getInstance()->getVisibleSize().width - 2 * kSideMarginSize, -lowestElementY));
+    carouselLayer->setContentSize(Size(_visibleSize.width - 2 * kSideMarginSize, -lowestElementY));
     
     for(cocos2d::Node* contentItem : carouselLayer->getChildren())
     {
@@ -251,6 +315,23 @@ float HQScene2::calculateUnitMultiplier()
     }
     
     return _unitWidth / _contentItemSize.width;
+}
+
+void HQScene2::addGroupHQLogo()
+{
+    if(HQHistoryManager::getInstance()->getGroupHQSourceId() != "")
+    {
+        const std::string &groupHQLogoUrl = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(ConfigStorage::kGroupHQName)->getGroupLogo();
+        
+        this->removeChild(this->getChildByName(kGroupLogoName));
+        
+        auto groupLogo = RemoteImageSprite::create();
+        groupLogo->initWithUrlAndSizeWithoutPlaceholder(groupHQLogoUrl, ConfigStorage::getInstance()->getGroupHQLogoSize());
+        groupLogo->setScale(0.8);
+        groupLogo->setPosition(_origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height - groupLogo->getBoundingBox().size.height * 0.55);
+        groupLogo->setName(kGroupLogoName);
+        this->addChild(groupLogo);
+    }
 }
 
 
