@@ -2,6 +2,7 @@
 #include "external/json/document.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "BackEndCaller.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>

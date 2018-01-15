@@ -5,7 +5,7 @@
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
 #include "DynamicNodeHandler.h"
-
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
