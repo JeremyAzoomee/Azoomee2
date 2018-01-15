@@ -5,7 +5,6 @@
 #include "../ElectricDreamsButton.h"
 #include "../../ErrorCodes.h"
 #include "MessageBoxLayer.h"
-//#include "../YouTubeVideoLayer.h"
 
 namespace Azoomee
 {
@@ -39,8 +38,6 @@ private:
 
     cocos2d::Layer* windowLayer = nullptr;
     
-    //YouTubeVideoLayer* youTubeVideoLayer;
-    
     void createBackground();
     void addUIObjects();
     void setToCurrentSlideNumber();
@@ -50,8 +47,6 @@ private:
     void addObjectsToWindowLandscape();
     void addObjectsToWindowPortrait();
     void createCancelButton();
-    
-    void playVideo();
     
     //Delegate Functions
     void buttonPressed(ElectricDreamsButton* button) override;

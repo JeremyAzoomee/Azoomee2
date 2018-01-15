@@ -27,6 +27,11 @@ void HQScene2PlaceHolderCreator::setMargin(float margin)
     _margin = margin;
 }
 
+void HQScene2PlaceHolderCreator::setVerticalImageOffset(float offset)
+{
+    _verticalImageOffset = offset;
+}
+
 void HQScene2PlaceHolderCreator::addPlaceHoldersToCarousel()
 {
     addPlaceHoldersToCarouselInGivenSize(cocos2d::Vec2(2.0f, 2.0f)); //adding placeholders from bigger sizes to smaller to make sure that there are no multiple 1x1 placeholders right next to eachother
@@ -79,7 +84,7 @@ void HQScene2PlaceHolderCreator::addPlaceHolderImageToLayer(cocos2d::Layer *plac
     }
     
     cocos2d::Sprite* placeHolderImage = cocos2d::Sprite::create(fileName);
-    placeHolderImage->setScale((placeHolderLayer->getContentSize().width - _margin) / placeHolderImage->getContentSize().width, (placeHolderLayer->getContentSize().height - _margin) / placeHolderImage->getContentSize().height);
+    placeHolderImage->setScale((placeHolderLayer->getContentSize().width - _margin) / placeHolderImage->getContentSize().width, (placeHolderLayer->getContentSize().height - _margin - _verticalImageOffset) / placeHolderImage->getContentSize().height);
     placeHolderImage->setPosition(placeHolderLayer->getContentSize() / 2);
     placeHolderLayer->addChild(placeHolderImage);
 }

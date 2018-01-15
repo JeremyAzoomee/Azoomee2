@@ -111,6 +111,16 @@ std::map<std::string, std::string> HQContentItemObject::getImages() const
     return _images;
 }
 
+std::string HQContentItemObject::getBaseImageThumbUrl() const
+{
+    if(_images.find("ONE_ONE") == _images.end())
+    {
+        return "";
+    }
+    
+    return _images.at("ONE_ONE");
+}
+
 //All functions that are being used only upon reading out
 
 void HQContentItemObject::setImagePath(const std::string &inputImagePath)
@@ -152,7 +162,8 @@ std::string HQContentItemObject::getJSONRepresentationOfStructure() const
         {"title", _title},
         {"description", _description},
         {"type", _type},
-        {"uri", _uri}
+        {"uri", _uri},
+        {"thumbUrl", getBaseImageThumbUrl()}
     };
     
     _entitled ? objectMap["entitled"] = "true" : objectMap["entitled"] = "false";
@@ -197,6 +208,13 @@ HQContentItemObjectRef HQContentItemObject::createFromMap(const std::map<std::st
     if(inputMap.find("newFlag") != inputMap.end())
     {
         returnObject->addTag(kTagNew);
+    }
+    
+    if(inputMap.find("thumbUrl") != inputMap.end())
+    {
+        std::map<std::string, std::string> imageMap;
+        imageMap["ONE_ONE"] = inputMap.at("thumbUrl");
+        returnObject->setImages(imageMap);
     }
     
     return returnObject;

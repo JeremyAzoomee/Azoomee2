@@ -1,11 +1,11 @@
 #include "MainHubScene.h"
-#include "ImageContainer.h"
 #include "OomeeLayer.h"
 #include "DisplayChildNameLayer.h"
 #include "HQDataProvider.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "ArtsPreviewLayer.h"
 #include "HQHistoryManager.h"
+#include "HQSceneElement.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
@@ -176,17 +176,17 @@ void MainHubScene::addImageContainers()
             
             elementPosition.y += yOffset;
             
-            auto imageIcon = ImageContainer::create();
+            auto hqElement = HQSceneElement::create();
+            hqElement->setCategory(this->getName());
+            hqElement->setItemData(elementsForHub.at(elementIndex));
+            hqElement->setElementRow(elementRowNumber);
+            hqElement->setElementIndex(elementIndex);
+            hqElement->addHQSceneElement();
             
-            imageIcon->setElementProperties(elementsForHub.at(elementIndex));
-            imageIcon->setScale(1.2 - (elementIndex * 0.3));
-            imageIcon->setStartDelay(delayTime);
-            imageIcon->setPosition(elementPosition);
-            imageIcon->setThumbUrl(HQDataProvider::getInstance()->getThumbnailUrlForItem(this->getName(), elementRowNumber, elementIndex));
+            hqElement->setPosition(elementPosition);
+            hqElement->setScale(1.2 - (elementIndex * 0.3));
             
-            imageIcon->createContainer();
-            
-            this->addChild(imageIcon);
+            this->addChild(hqElement);
         }
     }
     

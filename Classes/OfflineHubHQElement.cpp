@@ -39,6 +39,7 @@ void OfflineHubHQElement::addHQSceneElement(const std::string &category, const s
     elementVisual->setShape(shape);
     elementVisual->setDelay(delay);
     elementVisual->setCreatedForOffline(true);
+    elementVisual->setThumbUrl(objectToStart->getBaseImageThumbUrl());
     elementVisual->createHQSceneElement();
     
     
@@ -103,7 +104,7 @@ void OfflineHubHQElement::addListenerToElement(const std::map<std::string, std::
             iamtouched = false;
             std::string startUrl = FileUtils::getInstance()->getWritablePath() + "gameCache/" + itemData.at("id") + "/" +  itemData.at("uri").c_str();
             
-            CCLOG("Action to come: %s", startUrl.c_str());
+            cocos2d::log("Action to come: %s", startUrl.c_str());
             
             HQContentItemObjectRef contentItem = HQContentItemObject::create();
             contentItem->setTitle(itemData.at("title"));

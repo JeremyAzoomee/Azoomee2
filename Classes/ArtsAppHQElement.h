@@ -11,7 +11,7 @@ class ArtsAppHQElement : public cocos2d::Layer
 {
 public:
     CREATE_FUNC(ArtsAppHQElement);
-    virtual bool initWithURLAndSize(std::string filePath, cocos2d::Size size, bool newImage, bool deletable, bool preload = true);
+    virtual bool initWithURLAndSize(const std::string& filePath, const cocos2d::Size& size, bool deletable, bool newImage, bool preload = true);
     void enableOnScreenChecker();
     void addImage(cocos2d::Texture2D* tex);
     void addPlaceHolder();
@@ -20,15 +20,14 @@ public:
 private:
     void createImageBorder();
     void createWhiteBackground();
-    void addImage(std::string filePath);
     void addOverlay();
-    void addListenerToElement(std::string filePath, bool preview);
+    void addListenerToElement();
     void addLockToElement();
-    bool elementActive = false;
+    bool _elementActive = false;
     
     cocos2d::Sprite *addDeleteButton();
-    cocos2d::Sprite *deleteButton;
-    void addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo, std::string filePath);
+    cocos2d::Sprite *_deleteButton;
+    void addListenerToDeleteButton(cocos2d::Sprite *toBeAddedTo);
     void showDeleteButton(float dt);
     void hideDeleteButton();
     bool deleteButtonIsShown();
@@ -37,20 +36,15 @@ private:
     
     void onExit() override;
     
-    std::string getBase64Encoded(std::string input);
-    std::string getFileNameFromPath(std::string path);
+    cocos2d::LayerColor *_baseLayer;
+    cocos2d::LayerColor *_overlayWhenTouched;
+    bool _movedAway = false;
+    bool _iamtouched = false;
+    cocos2d::Point _touchPoint;
+    cocos2d::Sprite* _artImage = nullptr;
+    std::string _imageURL;
     
-    bool notSendingFileData = false;
-    
-    cocos2d::LayerColor *baseLayer;
-    cocos2d::LayerColor *overlayWhenTouched;
-    bool movedAway = false;
-    bool iamtouched = false;
-    cocos2d::Point touchPoint;
-    cocos2d::Sprite* artImage = nullptr;
-    std::string imageURL;
-    
-    ArtImageOnScreenChecker* onScreenChecker = nullptr;
+    ArtImageOnScreenChecker* _onScreenChecker = nullptr;
 };
 
 NS_AZOOMEE_END

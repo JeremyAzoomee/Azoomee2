@@ -5,8 +5,6 @@
 #include "../../ElectricDreamsButton.h"
 #include "../../../ErrorCodes.h"
 #include "../MessageBoxLayer.h"
-#include "../../YouTubeVideoLayer.h"
-//#include "../../MessageBox.h"
 
 namespace Azoomee
 {
@@ -21,8 +19,6 @@ private:
     ElectricDreamsButton* reportButton = nullptr;
     ElectricDreamsButton* onlineSafetyTipsButton = nullptr;
     ElectricDreamsButton* cancelButton = nullptr;
-    
-    //YouTubeVideoLayer* youTubeVideoLayer;
     
     cocos2d::Label* messageTitleLabel = nullptr;
 

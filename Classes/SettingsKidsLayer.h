@@ -14,8 +14,6 @@ using namespace cocos2d;
 class SettingsKidsLayer : public Layer, public MessageBoxDelegate, public HttpRequestCreatorResponseDelegate
 {
 private:
-    
-    float layerHeight;
     int childNumberToDelete;
     
     ui::ScrollView *_scrollView = nullptr;
@@ -26,7 +24,7 @@ private:
     void addListenerToCoverLayer(Layer* listenerToLayer);
     
 public:
-    static Layer* createWithHeight(float setLayerHeight);
+    static Layer* createWithSize(const cocos2d::Size &contentSize);
     virtual bool init() override;
     
     CREATE_FUNC(SettingsKidsLayer);

@@ -16,7 +16,6 @@
 #include "HQDataParser.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "PreviewLoginSignupMessageBox.h"
-#include "HQScene.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
@@ -25,6 +24,7 @@
 #include "DynamicNodeHandler.h"
 #include "ContentHistoryManager.h"
 #include "ContentOpener.h"
+#include "VideoPlaylistManager.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -190,7 +190,10 @@ void HQSceneElement::addListenerToElement()
 void HQSceneElement::startUpElementDependingOnType()
 {
     this->getParent()->getParent()->getParent()->stopAllActions();
-    
+    if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeAudio)
+    {
+        VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_elementCategory)->getHqCarousels().at(_elementRowNumber));
+    }
     ContentOpener::getInstance()->openContentObject(_elementItemData);
 }
 

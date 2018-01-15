@@ -5,6 +5,7 @@
 #include "../Data/ConfigStorage.h"
 #include <time.h>
 #include "../Data/HQDataObject/HQContentItemObject.h"
+#include "AnalyticsProperties.h"
 
 #define NUMBER_IDENTIFIER "NUMBER|"
 
@@ -27,15 +28,7 @@ private:
     void appsFlyerSendEvent(const std::string& eventID);
     void appsFlyerSendEvent(const std::string& eventID, const std::map<std::string, std::string>& map);
     
-    std::map<std::string, std::string> storedContentItemProperties;
-    std::map<std::string, std::string> storedGeneralProperties;
-    
-    std::string ctaWindowNodeId = "";
-    std::string ctaWindowGroupId = "";
-    
-    std::string OSManufacturer;
-    
-    time_t timeOpenedContent;
+    AnalyticsProperties* _analyticsProperties = nullptr;
     
 public:
     static AnalyticsSingleton* getInstance(void);

@@ -68,7 +68,6 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
     {
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
-        VideoPlaylistManager::getInstance()->clearPlaylist();
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);
     }
