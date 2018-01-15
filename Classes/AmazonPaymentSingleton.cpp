@@ -66,11 +66,19 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     savedAmazonUserid = amazonUserid;
     if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
-        DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
+        auto funcCallAction = CallFunc::create([=](){
+            DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
+        });
+        
+        Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL));
     }
     else
     {
-        BackEndCaller::getInstance()->verifyAmazonPayment(requestId, receiptId, amazonUserid);
+        auto funcCallAction = CallFunc::create([=](){
+            BackEndCaller::getInstance()->verifyAmazonPayment(requestId, receiptId, amazonUserid);
+        });
+        
+        Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL));
     }
 }
 
