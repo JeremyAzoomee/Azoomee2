@@ -15,6 +15,7 @@
 #include <AzoomeeCommon/ImageDownloader/RemoteImageSprite.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
+#include <AzoomeeCommon/Utils/StringFunctions.h>
 
 using namespace cocos2d;
 
@@ -100,6 +101,54 @@ void HQScene2::startBuildingScrollView()
     
     _carouselStorage.clear();
     float totalHeightOfCarousels = 0;
+    
+    //inject recently played row
+    const std::string& favFolderLoc = FileUtils::getInstance()->getWritablePath() + "RecentlyPlayed/";
+    if(!FileUtils::getInstance()->isDirectoryExist(favFolderLoc))
+    {
+        FileUtils::getInstance()->createDirectory(favFolderLoc);
+    }
+    const std::string& childFavFolderLoc = favFolderLoc + ChildDataProvider::getInstance()->getLoggedInChildId();
+    if(!FileUtils::getInstance()->isDirectoryExist(childFavFolderLoc))
+    {
+        FileUtils::getInstance()->createDirectory(childFavFolderLoc);
+    }
+    const std::string& favContentForCategoryFile = childFavFolderLoc + "/recentContent.txt";
+    
+    const std::string& fileStr = FileUtils::getInstance()->getStringFromFile(favContentForCategoryFile);
+    
+    const std::vector<std::string>& fileIds = splitStringToVector(fileStr, "/");
+    if(fileIds.size() > 0)
+    {
+        auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
+        auto carouselData = HQData->getHqCarousels();
+        HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
+        bool carouselExists = false;
+        for(auto carousel : carouselData)
+        {
+            if(carousel->getTitle() == "recentContent")
+            {
+                recentContentCarousel = carousel;
+                carouselExists = true;
+                break;
+            }
+        }
+        if(!carouselExists)
+        {
+            HQData->addCarusoelToHqFront(recentContentCarousel);
+        }
+        
+        recentContentCarousel->removeAllItemsFromCarousel();
+        for(const std::string& id : fileIds)
+        {
+            HQContentItemObjectRef item = HQDataProvider::getInstance()->getItemDataForSpecificItem(id);
+            if(item)
+            {
+                item->setElementShape(Vec2(1,1));
+            }
+            recentContentCarousel->addContentItemToCarousel(item);
+        }
+    }
     
     for(int rowIndex = 0; rowIndex < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); rowIndex++)
     {

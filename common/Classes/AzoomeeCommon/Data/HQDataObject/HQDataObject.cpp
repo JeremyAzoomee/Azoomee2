@@ -36,6 +36,11 @@ void HQDataObject::addCarusoelToHq(const HQCarouselObjectRef &inputCarouselData)
     _carousels.push_back(inputCarouselData);
 }
 
+void HQDataObject::addCarusoelToHqFront(const HQCarouselObjectRef &inputCarouselData)
+{
+    _carousels.insert(_carousels.begin(), inputCarouselData);
+}
+
 std::string HQDataObject::getHqType() const
 {
     return _hqType;
