@@ -124,7 +124,8 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
     
     if(!currentObject->getHqEntitlement())
     {
-        DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
+        //DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
+        DynamicNodeHandler::getInstance()->createDynamicNodeById("iap_upgrade.json");
         return;
     }
     
