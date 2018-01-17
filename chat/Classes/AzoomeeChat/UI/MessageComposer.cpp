@@ -963,13 +963,13 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     secondLayoutContentSize.width += sendButtonMargin;
     secondLayout->setContentSize(secondLayoutContentSize);
     
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     auto funcCallAction = CallFunc::create([=](){
-        
         textFieldRenderer->attachWithIME(); //focus on textfield, to avoid sizing issues
-        
     });
     
     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+#endif
 }
 
 NS_AZOOMEE_CHAT_END
