@@ -32,7 +32,7 @@ if [ "$FILE1" != "$FILE2" ]; then
 	exit
 fi
 
-if grep -Fq "kRemoteDebugWebViewEnabled = false" ../proj.android-studio/app/src/org/cocos2dx/cpp/AppActivity.java;
+if grep -Fq "kRemoteDebugWebViewEnabled = true" ../proj.android-studio/app/src/org/cocos2dx/cpp/AppActivity.java;
 then
     echo "Remote debugging cannot be enabled in production build! Please check ../proj.android-studio/app/src/org/cocos2dx/cpp/AppActivity.java for private static boolean kRemoteDebugWebViewEnabled = true;"
     exit
