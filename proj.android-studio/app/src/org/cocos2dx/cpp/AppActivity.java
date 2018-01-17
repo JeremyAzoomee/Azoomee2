@@ -116,10 +116,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         if ((android.os.Build.MANUFACTURER.equals("Amazon") || remoteDebuggable) && (url.substring(url.length() - 4).equals("html")))
         {
             nvw = new Intent(mContext, NativeViewUI.class);
-            if(remoteDebuggable)
-            {
-                nvw.putExtra("remoteDebuggable", true);
-            }
+            nvw.putExtra("remoteDebuggable", remoteDebuggable);
         }
         else
         {
