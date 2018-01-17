@@ -74,7 +74,7 @@ import com.urbanairship.UAirship;
 
 public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
 
-    private static boolean remoteDebuggable = false;
+    private static boolean kRemoteDebugWebViewEnabled = false;
 
     private static Context mContext;
     private static Activity mActivity;
@@ -116,7 +116,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         if ((android.os.Build.MANUFACTURER.equals("Amazon") || remoteDebuggable) && (url.substring(url.length() - 4).equals("html")))
         {
             nvw = new Intent(mContext, NativeViewUI.class);
-            nvw.putExtra("remoteDebuggable", remoteDebuggable);
+            nvw.putExtra("remoteDebugWebViewEnabled", kRemoteDebugWebViewEnabled);
         }
         else
         {
