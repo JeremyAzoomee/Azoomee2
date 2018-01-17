@@ -16,9 +16,9 @@ public:
     void addContentItemToPool(const HQContentItemObjectRef &contentItem);
     void emptyContentItemPool();
 
-    bool contentExistsForKey(const std::string &contentId);
-    std::vector<HQContentItemObjectRef> getContentItems();
-    HQContentItemObjectRef getContentItemForId(const std::string &contentId);
+    bool contentExistsForKey(const std::string &contentId) const;
+    std::vector<HQContentItemObjectRef> getContentItems() const;
+    HQContentItemObjectRef getContentItemForId(const std::string &contentId) const;
     
     void backupContentItemPool();
     void restoreContentItemPool();

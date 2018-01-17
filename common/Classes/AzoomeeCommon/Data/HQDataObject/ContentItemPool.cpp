@@ -36,7 +36,7 @@ void ContentItemPool::emptyContentItemPool()
     _contentItems.clear();
 }
 
-bool ContentItemPool::contentExistsForKey(const std::string &contentId)
+bool ContentItemPool::contentExistsForKey(const std::string &contentId) const
 {
     if(_contentItems.find(contentId) != _contentItems.end())
     {
@@ -48,19 +48,19 @@ bool ContentItemPool::contentExistsForKey(const std::string &contentId)
     }
 }
 
-std::vector<HQContentItemObjectRef> ContentItemPool::getContentItems()
+std::vector<HQContentItemObjectRef> ContentItemPool::getContentItems() const
 {
     std::vector<HQContentItemObjectRef> returnArray;
     
-    for(std::map<std::string, HQContentItemObjectRef>::iterator item = _contentItems.begin(); item != _contentItems.end(); ++item)
+    for(auto item : _contentItems)
     {
-        returnArray.push_back(item->second);
+        returnArray.push_back(item.second);
     }
     
     return returnArray;
 }
 
-HQContentItemObjectRef ContentItemPool::getContentItemForId(const std::string &contentId)
+HQContentItemObjectRef ContentItemPool::getContentItemForId(const std::string &contentId) const
 {
     if(contentExistsForKey(contentId))
     {
@@ -83,14 +83,14 @@ void ContentItemPool::backupContentItemPool()
     
     std::string saveString = "";
     
-    for(std::map<std::string, HQContentItemObjectRef>::iterator item = _contentItems.begin(); item != _contentItems.end(); ++item)
+    for(auto item : _contentItems)
     {
         if(saveString.length() > 0)
         {
             saveString += "|";
         }
         
-        saveString += item->second->getJSONRepresentationOfStructure();
+        saveString += item.second->getJSONRepresentationOfStructure();
     }
     
     FileUtils::getInstance()->writeStringToFile(saveString, contentPath + "contentCache.bak");
@@ -109,7 +109,7 @@ void ContentItemPool::restoreContentItemPool()
     const std::string &fileData = FileUtils::getInstance()->getStringFromFile(contentFilePath);
     const std::vector<std::string> &jsonStringVector = splitStringToVector(fileData, "|");
     
-    for(std::string currentItemJsonString : jsonStringVector)
+    for(const std::string& currentItemJsonString : jsonStringVector)
     {
         const std::map<std::string, std::string> &elementMap = getStringMapFromJsonString(currentItemJsonString);
         HQContentItemObjectRef newContentItem = HQContentItemObject::createFromMap(elementMap);
