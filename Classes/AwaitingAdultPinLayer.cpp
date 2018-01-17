@@ -7,6 +7,10 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
 
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
+#endif
+
 using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
@@ -26,6 +30,7 @@ bool AwaitingAdultPinLayer::init()
     createAndFadeInLayer();
     addUIObjects();
     
+    
     return true;
 }
 
@@ -39,6 +44,44 @@ void AwaitingAdultPinLayer::createAndFadeInLayer()
     Director::getInstance()->getRunningScene()->addChild(this);
     
     addListenerToBackgroundLayer();
+    addListenerToBiometricValidationSuccess();
+    addListenerToBiometricValidationFailure();
+    
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    if(UserDefault::getInstance()->getIntegerForKey(IosNativeFunctionsSingleton::kBiometricValidation) == 1)
+    {
+        IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(false);
+    }
+#endif
+}
+
+void AwaitingAdultPinLayer::addListenerToBiometricValidationSuccess()
+{
+    _biometricValidationSuccessListener = cocos2d::EventListenerCustom::create(IosNativeFunctionsSingleton::kBiometricValidationSuccess, [=](EventCustom* event) {
+        auto funcCallAction = CallFunc::create([=](){
+            this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
+            this->getDelegate()->AdultPinAccepted(this);
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+    });
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_biometricValidationSuccessListener, 1);
+}
+
+void AwaitingAdultPinLayer::addListenerToBiometricValidationFailure()
+{
+    _biometricValidationFailureListener = cocos2d::EventListenerCustom::create(IosNativeFunctionsSingleton::kBiometricValidationFailure, [=](EventCustom* event) {
+        auto funcCallAction = CallFunc::create([=](){
+            const std::vector<std::string>& buttonTitleList = {"Retry", "Cancel"};
+            MessageBox::createWith("Authentication Failed", "Ooops! Biometric authentication failed.", buttonTitleList, this);
+            editBox_pin->hideKeyboard();
+        });
+        
+        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
+    });
+    
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_biometricValidationFailureListener, 1);
 }
 
 void AwaitingAdultPinLayer::addListenerToBackgroundLayer()
@@ -82,7 +125,10 @@ void AwaitingAdultPinLayer::addUIObjects()
     editBox_pin->setDelegate(this);
     windowLayer->addChild(editBox_pin);
     
-    editBox_pin->focusAndShowKeyboard();
+    if(UserDefault::getInstance()->getIntegerForKey(IosNativeFunctionsSingleton::kBiometricValidation) != 1)
+    {
+        editBox_pin->focusAndShowKeyboard();
+    }
     
     //--------- LOCATION FOR ACCEPT BUTTON---------
     
@@ -110,6 +156,8 @@ void AwaitingAdultPinLayer::removeSelf(float dt)
 {
     if(this)
     {
+        Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationSuccessListener);
+        Director::getInstance()->getEventDispatcher()->removeEventListener(_biometricValidationFailureListener);
         this->removeChild(backgroundLayer);
         this->removeFromParent();
     }
@@ -153,6 +201,36 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
 
 void AwaitingAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
+    if(messageBoxTitle == "Biometric Authentication")
+    {
+        if(buttonTitle == "Yes")
+        {
+            IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(false);
+            return;
+        }
+        
+        if(buttonTitle == "No")
+        {
+            UserDefault::getInstance()->setIntegerForKey(IosNativeFunctionsSingleton::kBiometricValidation, -1);
+            return;
+        }
+    }
+    
+    if(messageBoxTitle == "Authentication Failed")
+    {
+        if(buttonTitle == "Retry")
+        {
+            IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(false);
+            return;
+        }
+        
+        if(buttonTitle == "Cancel")
+        {
+            editBox_pin->focusAndShowKeyboard();
+            return;
+        }
+    }
+    
     editBox_pin->focusAndShowKeyboard();
 }
 
@@ -165,6 +243,17 @@ void AwaitingAdultPinLayer::secondCheckForPin()
         //Schedule so it calls delegate before removing self. Avoiding crash
         this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
         this->getDelegate()->AdultPinAccepted(this);
+        
+#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        if(UserDefault::getInstance()->getIntegerForKey(IosNativeFunctionsSingleton::kBiometricValidation) == 0)
+        {
+            if(IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(true))
+            {
+                const std::vector<std::string>& buttonTitleList = {"Yes", "No"};
+                MessageBox::createWith("Biometric Authentication", "Do you want to use biometric authentication to enter your PIN in the future?", buttonTitleList, this);
+            }
+        }
+#endif
     }
     else
     {

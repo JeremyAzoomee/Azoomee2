@@ -68,6 +68,8 @@
 	<true/>
 	<key>UIStatusBarHidden~ipad</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Please use Face ID to enter your PIN in the future.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

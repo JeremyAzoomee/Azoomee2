@@ -11,6 +11,10 @@ class IosNativeFunctionsSingleton
 {
     
 public:
+    static const char* const kBiometricValidationSuccess;
+    static const char* const kBiometricValidation;
+    static const char* const kBiometricValidationFailure;
+    
     static IosNativeFunctionsSingleton* getInstance();
     virtual ~IosNativeFunctionsSingleton();
     
@@ -19,6 +23,8 @@ public:
     const char* getIosDeviceIDFA();
     
     void deleteHttpCookies();
+    
+    bool doBiometricValidation(bool precheck);
     
 private:
     IosNativeFunctionsSingleton();
