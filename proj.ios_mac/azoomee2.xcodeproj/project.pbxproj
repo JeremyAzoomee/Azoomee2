@@ -133,6 +133,8 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
+		9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */; };
+		9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */; };
 		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
@@ -464,6 +466,10 @@
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		9220EACA200F5AF600BD7A90 /* DynamicNodeFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicNodeFlowController.h; sourceTree = "<group>"; };
+		9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeFlowController.cpp; sourceTree = "<group>"; };
+		9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpFlowController.h; sourceTree = "<group>"; };
+		9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignUpFlowController.cpp; sourceTree = "<group>"; };
 		9224BFAC1F79069E00108553 /* DynamicNodeButtonListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeButtonListener.h; sourceTree = "<group>"; };
 		9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeButtonListener.cpp; sourceTree = "<group>"; };
 		9224BFB21F79310100108553 /* ButtonActionData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonActionData.h; sourceTree = "<group>"; };
@@ -1039,6 +1045,49 @@
 			path = ios;
 			sourceTree = SOURCE_ROOT;
 		};
+		9220EACE200F5DB100BD7A90 /* DynamicNodeTools */ = {
+			isa = PBXGroup;
+			children = (
+				929D46651F73EC3B006E40CE /* DynamicNodeCreator.h */,
+				929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */,
+				9224BFAC1F79069E00108553 /* DynamicNodeButtonListener.h */,
+				9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */,
+				9289DAF41FCEDFC400B12435 /* DynamicNodeTextInput.h */,
+				9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */,
+				9289DB3F1FD80BA400B12435 /* DynamicNodeButton.h */,
+				9289DB431FD8137D00B12435 /* DynamicNodeButton.cpp */,
+				9289DB451FD83BC500B12435 /* DynamicNodeText.h */,
+				9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */,
+				9289DB781FD9883100B12435 /* DynamicNodeImage.h */,
+				9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */,
+				92759E6B1FE157D500639190 /* DynamicNodeLine.h */,
+				92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */,
+			);
+			name = DynamicNodeTools;
+			sourceTree = "<group>";
+		};
+		9220EACF200F5DEA00BD7A90 /* DynamicNodeData */ = {
+			isa = PBXGroup;
+			children = (
+				9224BFB21F79310100108553 /* ButtonActionData.h */,
+				9224BFB31F7932D200108553 /* ButtonActionData.cpp */,
+				9289DAEE1FCED6CE00B12435 /* DynamicNodeDataInputStorage.h */,
+				9289DAF21FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp */,
+			);
+			name = DynamicNodeData;
+			sourceTree = "<group>";
+		};
+		9220EAD0200F5E3000BD7A90 /* DynamicNodeFlowControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9220EACA200F5AF600BD7A90 /* DynamicNodeFlowController.h */,
+				9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */,
+				9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */,
+				9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */,
+			);
+			name = DynamicNodeFlowControllers;
+			sourceTree = "<group>";
+		};
 		9246EDD01F0403A8008CD359 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1051,26 +1100,11 @@
 		929D46611F73EBDE006E40CE /* CallToAction */ = {
 			isa = PBXGroup;
 			children = (
-				929D46651F73EC3B006E40CE /* DynamicNodeCreator.h */,
-				929D46661F73F04D006E40CE /* DynamicNodeCreator.cpp */,
-				9224BFAC1F79069E00108553 /* DynamicNodeButtonListener.h */,
-				9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */,
-				9224BFB21F79310100108553 /* ButtonActionData.h */,
-				9224BFB31F7932D200108553 /* ButtonActionData.cpp */,
+				9220EAD0200F5E3000BD7A90 /* DynamicNodeFlowControllers */,
+				9220EACF200F5DEA00BD7A90 /* DynamicNodeData */,
+				9220EACE200F5DB100BD7A90 /* DynamicNodeTools */,
 				9224BFB51F7949E100108553 /* DynamicNodeHandler.h */,
 				9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */,
-				9289DAEE1FCED6CE00B12435 /* DynamicNodeDataInputStorage.h */,
-				9289DAF21FCEDB1F00B12435 /* DynamicNodeDataInputStorage.cpp */,
-				9289DAF41FCEDFC400B12435 /* DynamicNodeTextInput.h */,
-				9289DAF51FCEEFF000B12435 /* DynamicNodeTextInput.cpp */,
-				9289DB3F1FD80BA400B12435 /* DynamicNodeButton.h */,
-				9289DB431FD8137D00B12435 /* DynamicNodeButton.cpp */,
-				9289DB451FD83BC500B12435 /* DynamicNodeText.h */,
-				9289DB461FD8414F00B12435 /* DynamicNodeText.cpp */,
-				9289DB781FD9883100B12435 /* DynamicNodeImage.h */,
-				9289DB7C1FD996A800B12435 /* DynamicNodeImage.cpp */,
-				92759E6B1FE157D500639190 /* DynamicNodeLine.h */,
-				92759E6F1FE1598100639190 /* DynamicNodeLine.cpp */,
 			);
 			name = CallToAction;
 			sourceTree = "<group>";
@@ -1516,6 +1550,7 @@
 				432A6C0D1EA8E2A200C5842B /* ManualGameInputLayer.cpp in Sources */,
 				021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */,
 				02D4FCD21FCEE5E2005BA020 /* IAPProductDataHandler.mm in Sources */,
+				9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */,
 				025BE9571E3B591C00EF76D1 /* PreviewLoginSignupMessageBox.cpp in Sources */,
 				9289DB441FD8137D00B12435 /* DynamicNodeButton.cpp in Sources */,
 				0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */,
@@ -1538,6 +1573,7 @@
 				4348E4431E65DD9B00486661 /* OnboardingSuccessScene.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
 				434B8BD31E6821A4004C7C88 /* OnboardingScene.cpp in Sources */,
+				9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */,
 				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
 				02A11FF81EA6375D007EDD95 /* RoutePaymentSingleton.cpp in Sources */,

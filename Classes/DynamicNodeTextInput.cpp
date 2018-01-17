@@ -7,6 +7,7 @@
 
 #include "DynamicNodeTextInput.h"
 #include <AzoomeeCommon/UI/Style.h>
+#include "DynamicNodeCreator.h"
 
 using namespace cocos2d;
 
@@ -22,7 +23,7 @@ bool DynamicNodeTextInput::init()
     return true;
 }
 
-void DynamicNodeTextInput::initWithParams(const rapidjson::Value &params, const Size& dynamicNodeSize)
+void DynamicNodeTextInput::initWithParams(const rapidjson::Value &params, const Size& dynamicNodeSize, bool usingExternParams)
 {
     Vec2 pos;
     Vec2 size;
@@ -53,10 +54,17 @@ void DynamicNodeTextInput::initWithParams(const rapidjson::Value &params, const 
     
     int inputType = getIntFromJson("inputType", params);
     
+    std::string placeholder = getStringFromJson("placeholder", params);
+    if(usingExternParams)
+    {
+        placeholder = DynamicNodeCreator::addExternalParamsToString(placeholder);
+    }
+    
     _textInput = TextInputLayer::createWithSize(Size(size.x * dynamicNodeSize.width, size.y * dynamicNodeSize.height), inputType);
     _textInput->setDelegate(this);
     _textInput->setCenterPosition(Vec2(pos.x * dynamicNodeSize.width, pos.y * dynamicNodeSize.height));
     _textInput->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _textInput->setText(placeholder);
     this->addChild(_textInput);
     
     _errorText = createLabelBodyCentred(getStringFromJson("errorText", params), Style::Color::watermelon);

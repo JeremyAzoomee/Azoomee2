@@ -239,7 +239,7 @@ bool TextInputLayer::inputIsValid()
         }
         case INPUT_IS_PASSWORD:
         {
-            if(isValidPassword(editBox->getText(),2))
+            if(isValidPassword(editBox->getText(),6))
             {
                 isValidInput = true;
             }

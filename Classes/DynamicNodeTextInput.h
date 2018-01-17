@@ -29,7 +29,7 @@ public:
     
     virtual bool init() override;
     
-    void initWithParams(const rapidjson::Value& params, const cocos2d::Size& dynamicNodeSize);
+    void initWithParams(const rapidjson::Value& params, const cocos2d::Size& dynamicNodeSize, bool usingExterParams);
     
     bool isInputValid();
     

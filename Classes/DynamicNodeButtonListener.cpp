@@ -143,6 +143,14 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             const std::string& location = buttonAction->getParamForKey("location");
             DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(location);
         }
+        else if(buttonAction->getType() == _kButtonTypeFlowAction)
+        {
+            DynamicNodeFlowControllerRef flowController = DynamicNodeHandler::getInstance()->getFlowController();
+            if(flowController)
+            {
+                flowController->processAction(buttonAction);
+            }
+        }
     }
 }
 

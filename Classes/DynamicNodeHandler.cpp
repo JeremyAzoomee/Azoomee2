@@ -7,6 +7,8 @@
 //
 
 #include "DynamicNodeHandler.h"
+#include "SignUpFlowController.h"
+#include "DynamicNodeDataInputStorage.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
@@ -116,6 +118,12 @@ void DynamicNodeHandler::createDynamicNodeByIdWithParams(const std::string& uniq
         }
     }
     
+}
+
+void DynamicNodeHandler::startSignupFlow()
+{
+    _flowController = SignUpFlowController::create();
+    createDynamicNodeByIdWithParams("signup_email.json", DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
 }
 
 void DynamicNodeHandler::getCTAFiles()
@@ -321,6 +329,16 @@ void DynamicNodeHandler::zipDownloadComplte(const std::string& fileString, const
     {
         unzipBundleCTAFiles();
     }
+}
+
+void DynamicNodeHandler::setFlowController(DynamicNodeFlowControllerRef flowController)
+{
+    _flowController = flowController;
+}
+
+DynamicNodeFlowControllerRef DynamicNodeHandler::getFlowController()
+{
+    return _flowController;
 }
 
 // Delegate functions

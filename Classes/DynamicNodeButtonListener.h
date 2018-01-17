@@ -30,6 +30,7 @@ private:
     const std::string _kButtonTypeCTATransition = "ctaTransition";
     const std::string _kButtonTypeCTATransitionParams = "ctaTransitionParams";
     const std::string _kButtonTypeCTATransitionGroup = "ctaTransitionGroup";
+    const std::string _kButtonTypeFlowAction = "flowAction";
     
     //constants for button params
     const std::string _kButtonLocationUpgrade = "showUpgrade";

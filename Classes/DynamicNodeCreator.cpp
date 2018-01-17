@@ -390,7 +390,7 @@ void DynamicNodeCreator::configTextInput(const rapidjson::Value &textInputConfig
         for (int i = 0; i < textInputConfig.Size(); i++)
         {
             DynamicNodeTextInput* textInput = DynamicNodeTextInput::create();
-            textInput->initWithParams(textInputConfig[i], _textInputLayer->getContentSize());
+            textInput->initWithParams(textInputConfig[i], _textInputLayer->getContentSize(), _usingExternalParams);
             _textInputLayer->addChild(textInput);
         }
     }
