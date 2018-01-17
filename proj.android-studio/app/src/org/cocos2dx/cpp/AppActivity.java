@@ -81,7 +81,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private IapManager iapManager;
     private static String advertisingId;
 
-    private boolean _purchaseRequeiredAfterSetup = false;
+    private boolean _purchaseRequiredAfterSetup = false;
 
     //variables for google payment
     private IabHelper mHelper;
@@ -293,7 +293,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     //------IN-APP-PURCHASES COMMON-------------------------------
     public static void setupInAppPurchase()
     {
-        mAppActivity._purchaseRequeiredAfterSetup = false;
+        mAppActivity._purchaseRequiredAfterSetup = false;
 
         if (android.os.Build.MANUFACTURER.equals("Amazon"))
         {
@@ -391,7 +391,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
         if(currentActivity.mHelper == null)
         {
-            currentActivity._purchaseRequeiredAfterSetup = true;
+            currentActivity._purchaseRequiredAfterSetup = true;
             currentActivity.setupGoogleIAB();
         }
         else
@@ -482,7 +482,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             mIsPremium = (premiumPurchase != null);
             Log.d("GOOGLEPLAY", "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
 
-            if(_purchaseRequeiredAfterSetup)
+            if(_purchaseRequiredAfterSetup)
             {
                 startGoogleSubscriptionProcess();
             }
@@ -490,7 +490,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     };
 
     public void startGoogleSubscriptionProcess() {
-        _purchaseRequeiredAfterSetup = false;
+        _purchaseRequiredAfterSetup = false;
 
         if(mIsPremium)
         {
