@@ -81,6 +81,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private IapManager iapManager;
     private static String advertisingId;
 
+    private boolean _purchaseRequeiredAfterSetup = false;
+
     //variables for google payment
     private IabHelper mHelper;
     private IabBroadcastReceiver mBroadcastReceiver;
@@ -291,6 +293,8 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     //------IN-APP-PURCHASES COMMON-------------------------------
     public static void setupInAppPurchase()
     {
+        mAppActivity._purchaseRequeiredAfterSetup = false;
+
         if (android.os.Build.MANUFACTURER.equals("Amazon"))
         {
             mAppActivity.setupIAPOnCreate();
@@ -384,7 +388,16 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
 
     public static void startGooglePurchase() {
         AppActivity currentActivity = mAppActivity;
-        currentActivity.startGoogleSubscriptionProcess();
+
+        if(currentActivity.mHelper == null)
+        {
+            currentActivity._purchaseRequeiredAfterSetup = true;
+            currentActivity.setupGoogleIAB();
+        }
+        else
+        {
+            currentActivity.startGoogleSubscriptionProcess();
+        }
     }
 
     public void setupGoogleIAB() {
@@ -468,10 +481,17 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
             Purchase premiumPurchase = inventory.getPurchase(getGoogleSku());
             mIsPremium = (premiumPurchase != null);
             Log.d("GOOGLEPLAY", "User is " + (mIsPremium ? "PREMIUM" : "NOT PREMIUM"));
+
+            if(_purchaseRequeiredAfterSetup)
+            {
+                startGoogleSubscriptionProcess();
+            }
         }
     };
 
     public void startGoogleSubscriptionProcess() {
+        _purchaseRequeiredAfterSetup = false;
+
         if(mIsPremium)
         {
             googlePurchaseFailedAlreadyPurchased();
@@ -479,6 +499,11 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         }
 
         try {
+            if(mHelper == null) //mHelper got disposed in the meantime
+            {
+                googlePurchaseFailed();
+            }
+
             mHelper.launchSubscriptionPurchaseFlow(mActivity, getGoogleSku(), 10001,
                     mPurchaseFinishedListener, getLoggedInParentUserId());
         } catch (IabHelper.IabAsyncInProgressException e) {
