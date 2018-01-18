@@ -68,7 +68,8 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     {
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();
-            DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
+            DynamicNodeHandler::getInstance()->startSignupFlow();
+            //DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
         });
         
         Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL));

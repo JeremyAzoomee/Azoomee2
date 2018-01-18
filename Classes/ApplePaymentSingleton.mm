@@ -59,7 +59,8 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
     if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
     {
         ModalMessages::getInstance()->stopLoading();
-        DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
+        DynamicNodeHandler::getInstance()->startSignupFlow();
+        //DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
     }
     else
     {
