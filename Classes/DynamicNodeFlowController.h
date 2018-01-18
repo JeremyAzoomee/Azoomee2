@@ -26,6 +26,9 @@ public:
     static DynamicNodeFlowControllerRef create();
     virtual void processAction(ButtonActionDataRef actionData);
     DynamicNodeFlowController() noexcept;
+    
+    std::string _flowEntryFile = "";
+    
 protected:
     void exitFlow();
     FlowPath convertStringToFlowPath(const std::string& flowPathStr);

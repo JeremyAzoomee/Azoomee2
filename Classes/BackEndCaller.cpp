@@ -251,7 +251,8 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
         CCLOG("Just registered account : backendcaller");
         Director::getInstance()->getScheduler()->schedule([&](float dt){
             FlowDataSingleton::getInstance()->setFlowToSignup("", "");
-            DynamicNodeHandler::getInstance()->createDynamicNodeById("addChild.json");
+            //DynamicNodeHandler::getInstance()->createDynamicNodeById("addChild.json");
+            DynamicNodeHandler::getInstance()->startAddChildFlow();
         }, this, 0.5, 0, 0, false, "addChildPopup");
     }
 }

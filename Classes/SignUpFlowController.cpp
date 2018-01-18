@@ -16,13 +16,14 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
-const std::string SignUpFlowController::_kEnterEmailCTAName = "signup_email.json";
-const std::string SignUpFlowController::_kConfirmEmailCTAName = "signup_email_confirm.json";
-const std::string SignUpFlowController::_kEnterPasswordCTAName = "signup_password.json";
-const std::string SignUpFlowController::_kEnterPinCTAName = "signup_pin.json";
+const std::string SignUpFlowController::kEnterEmailCTAName = "signup_email.json";
+const std::string SignUpFlowController::kConfirmEmailCTAName = "signup_email_confirm.json";
+const std::string SignUpFlowController::kEnterPasswordCTAName = "signup_password.json";
+const std::string SignUpFlowController::kEnterPinCTAName = "signup_pin.json";
 
 SignUpFlowController::SignUpFlowController() noexcept
 {
+    _flowEntryFile = kEnterEmailCTAName;
     _type = FlowType::SIGNUP;
 }
 
@@ -34,19 +35,19 @@ DynamicNodeFlowControllerRef SignUpFlowController::create()
 void SignUpFlowController::processAction(ButtonActionDataRef actionData)
 {
     const std::string& fileName = actionData->getParamForKey(_kCTAFilenameKey);
-    if( fileName == _kEnterEmailCTAName)
+    if( fileName == kEnterEmailCTAName)
     {
         handleEnterEmailFlow(actionData);
     }
-    else if(fileName == _kConfirmEmailCTAName)
+    else if(fileName == kConfirmEmailCTAName)
     {
         handleConfirmEmailFlow(actionData);
     }
-    else if(fileName == _kEnterPasswordCTAName)
+    else if(fileName == kEnterPasswordCTAName)
     {
         handleEnterPasswordFlow(actionData);
     }
-    else if(fileName == _kEnterPinCTAName)
+    else if(fileName == kEnterPinCTAName)
     {
         handleEnterPinFlow(actionData);
     }
@@ -67,17 +68,12 @@ void SignUpFlowController::handleEnterEmailFlow(ButtonActionDataRef actionData)
             const std::string& email = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("email");
             if(isValidEmailAddress(email.c_str()))
             {
-                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(_kConfirmEmailCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kConfirmEmailCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             }
             break;
         }
             
-        case BACK:
-        {
-            exitFlow();
-            break;
-        }
-        case CLOSE:
+        case BACK: case CLOSE:
         {
             exitFlow();
             break;
@@ -98,13 +94,13 @@ void SignUpFlowController::handleConfirmEmailFlow(ButtonActionDataRef actionData
         }
         case NEXT:
         {
-            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(_kEnterPasswordCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterPasswordCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             break;
         }
             
         case BACK:
         {
-            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(_kEnterEmailCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterEmailCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             break;
         }
         case CLOSE:
@@ -131,14 +127,14 @@ void SignUpFlowController::handleEnterPasswordFlow(ButtonActionDataRef actionDat
             const std::string& password = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("password");
             if(isValidPassword(password.c_str(),6))
             {
-                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(_kEnterPinCTAName,DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterPinCTAName,DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             }
             break;
         }
             
         case BACK:
         {
-            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(_kConfirmEmailCTAName,DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kConfirmEmailCTAName,DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             break;
         }
         case CLOSE:
@@ -172,7 +168,7 @@ void SignUpFlowController::handleEnterPinFlow(ButtonActionDataRef actionData)
             
         case BACK:
         {
-            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(_kEnterPasswordCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterPasswordCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
             break;
         }
         case CLOSE:

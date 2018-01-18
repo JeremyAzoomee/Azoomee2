@@ -177,8 +177,8 @@ void HQSceneElement::addListenerToElement()
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
                 
                 //DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
-                DynamicNodeHandler::getInstance()->createDynamicNodeById("iap_upgrade.json");
-
+                //DynamicNodeHandler::getInstance()->createDynamicNodeById("iap_upgrade.json");
+                DynamicNodeHandler::getInstance()->startIAPFlow();
                 return true;
             }
                 

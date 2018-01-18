@@ -74,6 +74,8 @@ public:
     void createDynamicNodeByIdWithParams(const std::string& uniqueId, const std::string& params);
     
     void startSignupFlow();
+    void startIAPFlow();
+    void startAddChildFlow();
     
     void getCTAFiles();
     

@@ -15,12 +15,10 @@ NS_AZOOMEE_BEGIN
 class SignUpFlowController : public DynamicNodeFlowController
 {
 private:
-    static const std::string _kEnterEmailCTAName;
-    static const std::string _kConfirmEmailCTAName;
-    static const std::string _kEnterPasswordCTAName;
-    static const std::string _kEnterPinCTAName;
-    
-    
+    static const std::string kEnterEmailCTAName;
+    static const std::string kConfirmEmailCTAName;
+    static const std::string kEnterPasswordCTAName;
+    static const std::string kEnterPinCTAName;
     
     void handleEnterEmailFlow(ButtonActionDataRef actionData);
     void handleConfirmEmailFlow(ButtonActionDataRef actionData);

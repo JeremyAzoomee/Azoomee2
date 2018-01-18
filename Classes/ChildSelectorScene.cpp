@@ -474,7 +474,8 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
     FlowDataSingleton::getInstance()->setFlowToNewProfile();
-    DynamicNodeHandler::getInstance()->createDynamicNodeById("addChild.json");
+    //DynamicNodeHandler::getInstance()->createDynamicNodeById("addChild.json");
+    DynamicNodeHandler::getInstance()->startAddChildFlow();
     //OfflineChecker::getInstance()->setDelegate(nullptr);
     //Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
 }

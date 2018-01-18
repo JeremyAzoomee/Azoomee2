@@ -8,6 +8,8 @@
 
 #include "DynamicNodeHandler.h"
 #include "SignUpFlowController.h"
+#include "IAPFlowController.h"
+#include "AddChildFlowController.h"
 #include "DynamicNodeDataInputStorage.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
@@ -123,7 +125,19 @@ void DynamicNodeHandler::createDynamicNodeByIdWithParams(const std::string& uniq
 void DynamicNodeHandler::startSignupFlow()
 {
     _flowController = SignUpFlowController::create();
-    createDynamicNodeByIdWithParams("signup_email.json", DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+    createDynamicNodeByIdWithParams(_flowController->_flowEntryFile, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+}
+
+void DynamicNodeHandler::startIAPFlow()
+{
+    _flowController = IAPFlowController::create();
+    createDynamicNodeById(_flowController->_flowEntryFile);
+}
+
+void DynamicNodeHandler::startAddChildFlow()
+{
+    _flowController = AddChildFlowController::create();
+    createDynamicNodeByIdWithParams(_flowController->_flowEntryFile, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
 }
 
 void DynamicNodeHandler::getCTAFiles()

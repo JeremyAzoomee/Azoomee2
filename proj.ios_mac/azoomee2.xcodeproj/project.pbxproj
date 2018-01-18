@@ -135,6 +135,8 @@
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		9220EAD2200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */; };
 		9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */; };
+		9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */; };
+		9220EADB2010F08200BD7A90 /* AddChildFlowController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */; };
 		9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */; };
 		9224BFB41F7932D200108553 /* ButtonActionData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB31F7932D200108553 /* ButtonActionData.cpp */; };
 		9224BFB71F794BFA00108553 /* DynamicNodeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9224BFB61F794BFA00108553 /* DynamicNodeHandler.cpp */; };
@@ -470,6 +472,10 @@
 		9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeFlowController.cpp; sourceTree = "<group>"; };
 		9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUpFlowController.h; sourceTree = "<group>"; };
 		9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignUpFlowController.cpp; sourceTree = "<group>"; };
+		9220EAD62010B42B00BD7A90 /* IAPFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IAPFlowController.h; sourceTree = "<group>"; };
+		9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IAPFlowController.cpp; sourceTree = "<group>"; };
+		9220EAD92010EC2000BD7A90 /* AddChildFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddChildFlowController.h; sourceTree = "<group>"; };
+		9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AddChildFlowController.cpp; sourceTree = "<group>"; };
 		9224BFAC1F79069E00108553 /* DynamicNodeButtonListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicNodeButtonListener.h; sourceTree = "<group>"; };
 		9224BFB01F7908D400108553 /* DynamicNodeButtonListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicNodeButtonListener.cpp; sourceTree = "<group>"; };
 		9224BFB21F79310100108553 /* ButtonActionData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonActionData.h; sourceTree = "<group>"; };
@@ -1084,6 +1090,10 @@
 				9220EAD1200F5ECA00BD7A90 /* DynamicNodeFlowController.cpp */,
 				9220EAD3200F64A200BD7A90 /* SignUpFlowController.h */,
 				9220EAD4200F77E200BD7A90 /* SignUpFlowController.cpp */,
+				9220EAD62010B42B00BD7A90 /* IAPFlowController.h */,
+				9220EAD72010C07D00BD7A90 /* IAPFlowController.cpp */,
+				9220EAD92010EC2000BD7A90 /* AddChildFlowController.h */,
+				9220EADA2010F08200BD7A90 /* AddChildFlowController.cpp */,
 			);
 			name = DynamicNodeFlowControllers;
 			sourceTree = "<group>";
@@ -1543,6 +1553,7 @@
 				A15B2FAF1DEDD1D500D25334 /* BackEndCaller.cpp in Sources */,
 				926173A71F2A4E70008E3F9D /* ArtImageOnScreenChecker.cpp in Sources */,
 				9289DA0A1FBDD6EB00B12435 /* ContentHistoryManager.cpp in Sources */,
+				9220EADB2010F08200BD7A90 /* AddChildFlowController.cpp in Sources */,
 				025BE95F1E3BD1F800EF76D1 /* WebViewNativeCaller_android.cpp in Sources */,
 				D13C401B1E33A0F0002360A6 /* AwaitingAdultPinLayer.cpp in Sources */,
 				431397721F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp in Sources */,
@@ -1607,6 +1618,7 @@
 				430C30EE1EEAB6A000E27589 /* KidsLayer.cpp in Sources */,
 				A19759841DE4931200FEB03C /* HQSceneElement.cpp in Sources */,
 				43F42E3B1EE84B9500606290 /* SettingsControlLayer.cpp in Sources */,
+				9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */,
 				0243B8CE1F0F8377005D3734 /* EmptySceneForSettings.cpp in Sources */,
 				439694811EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
