@@ -11,6 +11,8 @@
 		0215646F1FC4202800641C14 /* HQScene2ElementPositioner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0215646E1FC4202800641C14 /* HQScene2ElementPositioner.cpp */; };
 		021564731FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021564721FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp */; };
 		021564761FC4C79C00641C14 /* HQScene2CarouselTitle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 021564751FC4C79C00641C14 /* HQScene2CarouselTitle.cpp */; };
+		0240FC48201224AC00E88157 /* Stickers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0240FC47201224AC00E88157 /* Stickers.xcassets */; };
+		0240FC4C201224AC00E88157 /* stickers.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0240FC45201224AC00E88157 /* stickers.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0243B8CE1F0F8377005D3734 /* EmptySceneForSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0243B8CC1F0F8377005D3734 /* EmptySceneForSettings.cpp */; };
 		0243B8DB1F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0243B8D91F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp */; };
 		0253C9871EC053B5005037EB /* VideoPlaylistManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0253C9851EC053B4005037EB /* VideoPlaylistManager.cpp */; };
@@ -172,6 +174,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0240FC4A201224AC00E88157 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0240FC44201224AC00E88157;
+			remoteInfo = stickers;
+		};
 		1AC6FAF8180E9839004C840B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
@@ -265,6 +274,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		02FFF51A2012197E00111E7B /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				0240FC4C201224AC00E88157 /* stickers.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		02074B251E93966D009BB28C /* WebGameAPIDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebGameAPIDataManager.cpp; sourceTree = "<group>"; };
 		02074B261E93966D009BB28C /* WebGameAPIDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebGameAPIDataManager.h; sourceTree = "<group>"; };
@@ -274,6 +297,9 @@
 		021564721FC4AB8300641C14 /* HQScene2PlaceHolderCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene2PlaceHolderCreator.cpp; sourceTree = "<group>"; };
 		021564741FC4C79B00641C14 /* HQScene2CarouselTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQScene2CarouselTitle.h; sourceTree = "<group>"; };
 		021564751FC4C79C00641C14 /* HQScene2CarouselTitle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQScene2CarouselTitle.cpp; sourceTree = "<group>"; };
+		0240FC45201224AC00E88157 /* stickers.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = stickers.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0240FC47201224AC00E88157 /* Stickers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Stickers.xcassets; sourceTree = "<group>"; };
+		0240FC49201224AC00E88157 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0243B8CC1F0F8377005D3734 /* EmptySceneForSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EmptySceneForSettings.cpp; sourceTree = "<group>"; };
 		0243B8CD1F0F8377005D3734 /* EmptySceneForSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptySceneForSettings.h; sourceTree = "<group>"; };
 		0243B8D91F1F5D5C005D3734 /* ChatNotificationsSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatNotificationsSingleton.cpp; sourceTree = "<group>"; };
@@ -333,6 +359,8 @@
 		02E595C21E5D9EE70052F395 /* OfflineText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflineText.h; sourceTree = "<group>"; };
 		02E595C81E66E2160052F395 /* HQSceneArtsApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HQSceneArtsApp.cpp; sourceTree = "<group>"; };
 		02E595C91E66E2160052F395 /* HQSceneArtsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HQSceneArtsApp.h; sourceTree = "<group>"; };
+		02FFF5052012197D00111E7B /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = Library/Frameworks/Messages.framework; sourceTree = DEVELOPER_DIR; };
+		02FFF527201223F500111E7B /* stickers copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "stickers copy-Info.plist"; path = "/Users/tamas/Documents/works/cocos2d-x/azoomee2/proj.ios_mac/stickers copy-Info.plist"; sourceTree = "<absolute>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -634,6 +662,15 @@
 			name = HQScene2;
 			sourceTree = "<group>";
 		};
+		0240FC46201224AC00E88157 /* stickers */ = {
+			isa = PBXGroup;
+			children = (
+				0240FC47201224AC00E88157 /* Stickers.xcassets */,
+				0240FC49201224AC00E88157 /* Info.plist */,
+			);
+			path = stickers;
+			sourceTree = "<group>";
+		};
 		0243B8C91F0F836A005D3734 /* EmptySceneForSettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -708,6 +745,7 @@
 			children = (
 				1D6058910D05DD3D006BFB54 /* azoomee2-mobile.app */,
 				5087E76F17EB910900C73F5D /* azoomee2-desktop.app */,
+				0240FC45201224AC00E88157 /* stickers.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -733,10 +771,12 @@
 				3077F44D1E8D51D7006DA465 /* AzoomeeCommon.xcodeproj */,
 				300742D21EF9162E005525AE /* AzoomeeChat.xcodeproj */,
 				9246EDCF1F0403A8008CD359 /* azoomee2_ArtApp.xcodeproj */,
+				0240FC46201224AC00E88157 /* stickers */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* ios */,
 				503AE10617EB990700D1A890 /* mac */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				02FFF527201223F500111E7B /* stickers copy-Info.plist */,
 			);
 			indentWidth = 4;
 			name = CustomTemplate;
@@ -791,6 +831,7 @@
 				BF170DB012928DE900B8313A /* OpenGLES.framework */,
 				BF1C47EA1293683800B63C5D /* QuartzCore.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				02FFF5052012197D00111E7B /* Messages.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1214,6 +1255,21 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0240FC44201224AC00E88157 /* stickers */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0240FC52201224AC00E88157 /* Build configuration list for PBXNativeTarget "stickers" */;
+			buildPhases = (
+				0240FC43201224AC00E88157 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = stickers;
+			productName = stickers;
+			productReference = 0240FC45201224AC00E88157 /* stickers.appex */;
+			productType = "com.apple.product-type.app-extension.messages-sticker-pack";
+		};
 		1D6058900D05DD3D006BFB54 /* azoomee2-mobile */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "azoomee2-mobile" */;
@@ -1223,6 +1279,7 @@
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				43BAE6511E26568700EB8DB0 /* Fabric */,
 				30647A941F13B53600A935C9 /* Carthage Frameworks */,
+				02FFF51A2012197E00111E7B /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -1231,6 +1288,7 @@
 				300742DF1EF9163F005525AE /* PBXTargetDependency */,
 				3077F4551E8D51ED006DA465 /* PBXTargetDependency */,
 				1AC6FB25180E99E1004C840B /* PBXTargetDependency */,
+				0240FC4B201224AC00E88157 /* PBXTargetDependency */,
 			);
 			name = "azoomee2-mobile";
 			productName = iphone;
@@ -1263,6 +1321,11 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				TargetAttributes = {
+					0240FC44201224AC00E88157 = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = Q986XSP3A8;
+						ProvisioningStyle = Automatic;
+					};
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = Q986XSP3A8;
 						SystemCapabilities = {
@@ -1282,6 +1345,7 @@
 				Japanese,
 				French,
 				German,
+				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -1307,6 +1371,7 @@
 			targets = (
 				1D6058900D05DD3D006BFB54 /* azoomee2-mobile */,
 				5087E73D17EB910900C73F5D /* azoomee2-desktop */,
+				0240FC44201224AC00E88157 /* stickers */,
 			);
 		};
 /* End PBXProject section */
@@ -1371,6 +1436,14 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0240FC43201224AC00E88157 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0240FC48201224AC00E88157 /* Stickers.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1552,6 +1625,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0240FC4B201224AC00E88157 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0240FC44201224AC00E88157 /* stickers */;
+			targetProxy = 0240FC4A201224AC00E88157 /* PBXContainerItemProxy */;
+		};
 		1AC6FB16180E9959004C840B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "cocos2dx Mac";
@@ -1580,6 +1658,118 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0240FC4D201224AC00E88157 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = Q986XSP3A8;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = stickers/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee.stickers;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0240FC4E201224AC00E88157 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Q986XSP3A8;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = stickers/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tinizine.azoomee.stickers;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1807,6 +1997,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0240FC52201224AC00E88157 /* Build configuration list for PBXNativeTarget "stickers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0240FC4D201224AC00E88157 /* Debug */,
+				0240FC4E201224AC00E88157 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "azoomee2-mobile" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
