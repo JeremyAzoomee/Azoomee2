@@ -16,6 +16,7 @@
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Analytics/AnalyticsProperties.h>
 
 using namespace cocos2d;
 
@@ -249,12 +250,24 @@ void HQScene2::showPostContentCTA()
         return;
     }
     
-    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
-    HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
-    if(lastContent == nullptr)
+    int secondsInContent = 0;
+    try
+    {
+        const std::string& secondsString = AnalyticsProperties::getInstance()->getStoredContentItemProperties().at("SecondsInContent");
+        secondsInContent = std::atoi(secondsString.substr(secondsString.find("|")+1).c_str());
+    }
+    catch(std::out_of_range)
     {
         return;
     }
+    
+    ContentHistoryManager::getInstance()->setReturnedFromContent(false);
+    HQContentItemObjectRef lastContent = ContentHistoryManager::getInstance()->getLastOpenedContent();
+    if(lastContent == nullptr || (lastContent->getType() == ConfigStorage::kContentTypeGame && secondsInContent < 180))
+    {
+        return;
+    }
+    
     std::vector<HQCarouselObjectRef> hqCarousels = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(this->getName())->getHqCarousels();
     bool possibleContentFound = false;
     while(!possibleContentFound && hqCarousels.size() > 0) // look for available content in random carousel

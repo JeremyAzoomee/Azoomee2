@@ -38,7 +38,6 @@ public:
     std::string getHqUrl() const;
     bool getHqEntitlement() const;
     std::vector<HQCarouselObjectRef> getHqCarousels();
-    HQContentItemObjectRef getContentItemForId(const std::string &contentItemId) const;
     std::map<std::string, std::string> getImages() const;
     std::string getGroupLogo() const;
     
