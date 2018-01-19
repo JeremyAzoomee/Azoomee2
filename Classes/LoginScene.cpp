@@ -269,14 +269,4 @@ void LoginScene::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info)
     ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
 }
 
-void LoginScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
-{
-    
-}
-
-void LoginScene::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info)
-{
-    
-}
-
 NS_AZOOMEE_END
