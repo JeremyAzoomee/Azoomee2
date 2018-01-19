@@ -20,11 +20,12 @@ NS_AZOOMEE_BEGIN
 
 const std::string AddChildFlowController::kAddChildCTAName = "add_child.json";
 const std::string AddChildFlowController::kSelectOomeeCTAName = "add_child_oomee.json";
-
+const std::string AddChildFlowController::kNewPaidAccountCTAName = "payment_new_account.json";
 DynamicNodeFlowControllerRef AddChildFlowController::create()
 {
     return std::make_shared<AddChildFlowController>();
 }
+
 void AddChildFlowController::processAction(ButtonActionDataRef actionData)
 {
     const std::string& fileName = actionData->getParamForKey(_kCTAFilenameKey);
@@ -36,11 +37,22 @@ void AddChildFlowController::processAction(ButtonActionDataRef actionData)
     {
         handleSelectOomeeFlow(actionData);
     }
+    else if(fileName == kNewPaidAccountCTAName)
+    {
+        handleNewPaidAccountFlow(actionData);
+    }
 }
 
 AddChildFlowController::AddChildFlowController() noexcept
 {
-    _flowEntryFile = kAddChildCTAName;
+    if(FlowDataSingleton::getInstance()->getIAPSuccess() && FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
+    {
+        _flowEntryFile = kNewPaidAccountCTAName;
+    }
+    else
+    {
+        _flowEntryFile = kAddChildCTAName;
+    }
     _type = FlowType::ADDCHILD;
 }
 
@@ -104,6 +116,30 @@ void AddChildFlowController::handleSelectOomeeFlow(ButtonActionDataRef actionDat
     }
 }
 
+void AddChildFlowController::handleNewPaidAccountFlow(ButtonActionDataRef actionData)
+{
+    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(_kCTAActionKey));
+    switch(pathAction)
+    {
+        case UNKNOWN:
+        {
+            return;
+            break;
+        }
+        case NEXT:
+        {
+            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kAddChildCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+            break;
+        }
+        case CLOSE: case BACK:
+        {
+            exitFlow();
+            break;
+        }
+            
+    }
+}
+
 void AddChildFlowController::addChild(int oomeeNum)
 {
     const std::string& profileName = trim(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("name"));
@@ -119,7 +155,7 @@ void AddChildFlowController::addChild(int oomeeNum)
         return;
     }
     auto backEndCaller = BackEndCaller::getInstance();
-    if((FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()) && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
+    if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow() && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
     {
         backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, oomeeNum);
     }

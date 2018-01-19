@@ -37,6 +37,7 @@ public:
     void setFlowToLogin();
     void setFlowToSignup(std::string userName, std::string password);
     void setFlowToNewProfile();
+    void setFlowToSignUpNewProfile();
     
     void addChildData(std::string childName, int oomeeColourNumber);
     void addIAPSuccess(bool IAPSuccess);

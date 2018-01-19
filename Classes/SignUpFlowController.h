@@ -19,11 +19,13 @@ private:
     static const std::string kConfirmEmailCTAName;
     static const std::string kEnterPasswordCTAName;
     static const std::string kEnterPinCTAName;
+    static const std::string kPaymentSuccessCTAName;
     
     void handleEnterEmailFlow(ButtonActionDataRef actionData);
     void handleConfirmEmailFlow(ButtonActionDataRef actionData);
     void handleEnterPasswordFlow(ButtonActionDataRef actionData);
     void handleEnterPinFlow(ButtonActionDataRef actionData);
+    void handlePaymentSuccessFlow(ButtonActionDataRef actionData);
     
     void signUp();
     

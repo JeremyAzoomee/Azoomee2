@@ -11,6 +11,7 @@
 #include "IAPFlowController.h"
 #include "AddChildFlowController.h"
 #include "DynamicNodeDataInputStorage.h"
+#include "RoutePaymentSingleton.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
@@ -130,6 +131,19 @@ void DynamicNodeHandler::startSignupFlow()
 
 void DynamicNodeHandler::startIAPFlow()
 {
+    if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
+    {
+        if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+        {
+            startSignupFlow();
+            return;
+        }
+        else
+        {
+            RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+            return;
+        }
+    }
     _flowController = IAPFlowController::create();
     createDynamicNodeById(_flowController->_flowEntryFile);
 }

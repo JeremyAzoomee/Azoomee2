@@ -250,10 +250,18 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     {
         CCLOG("Just registered account : backendcaller");
         Director::getInstance()->getScheduler()->schedule([&](float dt){
-            FlowDataSingleton::getInstance()->setFlowToSignup("", "");
+            FlowDataSingleton::getInstance()->setFlowToSignUpNewProfile();
             //DynamicNodeHandler::getInstance()->createDynamicNodeById("addChild.json");
             DynamicNodeHandler::getInstance()->startAddChildFlow();
+            FlowDataSingleton::getInstance()->addIAPSuccess(false);
         }, this, 0.5, 0, 0, false, "addChildPopup");
+    }
+    else if(FlowDataSingleton::getInstance()->getIAPSuccess())
+    {
+        Director::getInstance()->getScheduler()->schedule([&](float dt){
+            DynamicNodeHandler::getInstance()->createDynamicNodeById("payment_existing_account.json");
+            FlowDataSingleton::getInstance()->addIAPSuccess(false);
+        }, this, 0.5, 0, 0, false, "premium_success");
     }
 }
 

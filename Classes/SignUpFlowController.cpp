@@ -9,6 +9,7 @@
 #include "DynamicNodeHandler.h"
 #include "DynamicNodeDataInputStorage.h"
 #include "BackEndCaller.h"
+#include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
@@ -20,10 +21,18 @@ const std::string SignUpFlowController::kEnterEmailCTAName = "signup_email.json"
 const std::string SignUpFlowController::kConfirmEmailCTAName = "signup_email_confirm.json";
 const std::string SignUpFlowController::kEnterPasswordCTAName = "signup_password.json";
 const std::string SignUpFlowController::kEnterPinCTAName = "signup_pin.json";
+const std::string SignUpFlowController::kPaymentSuccessCTAName = "payment_success.json";
 
 SignUpFlowController::SignUpFlowController() noexcept
 {
-    _flowEntryFile = kEnterEmailCTAName;
+    if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
+    {
+        _flowEntryFile = kPaymentSuccessCTAName;
+    }
+    else
+    {
+        _flowEntryFile = kEnterEmailCTAName;
+    }
     _type = FlowType::SIGNUP;
 }
 
@@ -50,6 +59,10 @@ void SignUpFlowController::processAction(ButtonActionDataRef actionData)
     else if(fileName == kEnterPinCTAName)
     {
         handleEnterPinFlow(actionData);
+    }
+    else if(fileName == kPaymentSuccessCTAName)
+    {
+        handlePaymentSuccessFlow(actionData);
     }
 }
 
@@ -172,6 +185,30 @@ void SignUpFlowController::handleEnterPinFlow(ButtonActionDataRef actionData)
             break;
         }
         case CLOSE:
+        {
+            exitFlow();
+            break;
+        }
+            
+    }
+}
+
+void SignUpFlowController::handlePaymentSuccessFlow(ButtonActionDataRef actionData)
+{
+    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(_kCTAActionKey));
+    switch(pathAction)
+    {
+        case UNKNOWN:
+        {
+            return;
+            break;
+        }
+        case NEXT:
+        {
+            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterEmailCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+            break;
+        }
+        case CLOSE: case BACK:
         {
             exitFlow();
             break;
