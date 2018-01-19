@@ -340,7 +340,7 @@ void OnboardingScene::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == _privacyButton)
     {
-        ModalWebview::createWithURL(Url::PrivacyPolicy);
+        ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
     }
     else if(button == _termsButton)
     {
