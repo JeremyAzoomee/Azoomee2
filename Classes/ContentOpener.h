@@ -25,6 +25,8 @@ public:
     
     void openContentById(const std::string& contentId);
     void openContentObject(const HQContentItemObjectRef& contentItem);
+    
+    void saveContentToLastPlayedList(const std::string& contentId);
 };
 
 NS_AZOOMEE_END

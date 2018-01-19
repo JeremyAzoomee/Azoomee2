@@ -104,50 +104,54 @@ void HQScene2::startBuildingScrollView()
     float totalHeightOfCarousels = 0;
     
     //inject recently played row
-    const std::string& favFolderLoc = FileUtils::getInstance()->getWritablePath() + "RecentlyPlayed/";
-    if(!FileUtils::getInstance()->isDirectoryExist(favFolderLoc))
+    if(_hqCategory != ConfigStorage::kGroupHQName)
     {
-        FileUtils::getInstance()->createDirectory(favFolderLoc);
-    }
-    const std::string& childFavFolderLoc = favFolderLoc + ChildDataProvider::getInstance()->getLoggedInChildId();
-    if(!FileUtils::getInstance()->isDirectoryExist(childFavFolderLoc))
-    {
-        FileUtils::getInstance()->createDirectory(childFavFolderLoc);
-    }
-    const std::string& favContentForCategoryFile = childFavFolderLoc + "/recentContent.txt";
-    
-    const std::string& fileStr = FileUtils::getInstance()->getStringFromFile(favContentForCategoryFile);
-    
-    const std::vector<std::string>& fileIds = splitStringToVector(fileStr, "/");
-    if(fileIds.size() > 0)
-    {
-        auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
-        auto carouselData = HQData->getHqCarousels();
-        HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
-        bool carouselExists = false;
-        for(auto carousel : carouselData)
+        const std::string& favFolderLoc = FileUtils::getInstance()->getWritablePath() + "RecentlyPlayed/";
+        if(!FileUtils::getInstance()->isDirectoryExist(favFolderLoc))
         {
-            if(carousel->getTitle() == "recentContent")
+            FileUtils::getInstance()->createDirectory(favFolderLoc);
+        }
+        const std::string& childFavFolderLoc = favFolderLoc + ChildDataProvider::getInstance()->getLoggedInChildId();
+        if(!FileUtils::getInstance()->isDirectoryExist(childFavFolderLoc))
+        {
+            FileUtils::getInstance()->createDirectory(childFavFolderLoc);
+        }
+        const std::string& favContentForCategoryFile = childFavFolderLoc + "/recentContent.txt";
+    
+        const std::string& fileStr = FileUtils::getInstance()->getStringFromFile(favContentForCategoryFile);
+    
+        const std::vector<std::string>& fileIds = splitStringToVector(fileStr, "/");
+        if(fileIds.size() > 0)
+        {
+            auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
+            auto carouselData = HQData->getHqCarousels();
+            HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
+            recentContentCarousel->setTitle("Recent Content");
+            bool carouselExists = false;
+            for(auto carousel : carouselData)
             {
-                recentContentCarousel = carousel;
-                carouselExists = true;
-                break;
+                if(carousel->getTitle() == "Recent Content")
+                {
+                    recentContentCarousel = carousel;
+                    carouselExists = true;
+                    break;
+                }
             }
-        }
-        if(!carouselExists)
-        {
-            HQData->addCarusoelToHqFront(recentContentCarousel);
-        }
+            if(!carouselExists)
+            {
+                HQData->addCarusoelToHqFront(recentContentCarousel);
+            }
         
-        recentContentCarousel->removeAllItemsFromCarousel();
-        for(const std::string& id : fileIds)
-        {
-            HQContentItemObjectRef item = HQDataProvider::getInstance()->getItemDataForSpecificItem(id);
-            if(item)
+            recentContentCarousel->removeAllItemsFromCarousel();
+            for(const std::string& id : fileIds)
             {
-                item->setElementShape(Vec2(1,1));
+                HQContentItemObjectRef item = HQDataProvider::getInstance()->getItemDataForSpecificItem(id);
+                if(item)
+                {
+                    item->setElementShape(Vec2(1,1));
+                    recentContentCarousel->addContentItemToCarousel(item);
+                }
             }
-            recentContentCarousel->addContentItemToCarousel(item);
         }
     }
     
