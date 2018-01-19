@@ -241,4 +241,42 @@ void LoginScene::onExit()
     Node::onExit();
 }
 
+#pragma mark - IMEDelegate
+
+void LoginScene::keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+    if(!isVisible())
+    {
+        return;
+    }
+    
+    // Take into account screen cropping
+    int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
+    
+    ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+}
+
+void LoginScene::keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+    if(!isVisible())
+    {
+        return;
+    }
+    
+    // Take into account screen cropping
+    int keyboardHeight = info.end.size.height - Director::getInstance()->getVisibleOrigin().y;
+    
+    ConfigStorage::getInstance()->setEstimatedKeyboardHeight(keyboardHeight);
+}
+
+void LoginScene::keyboardWillHide(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+    
+}
+
+void LoginScene::keyboardDidHide(cocos2d::IMEKeyboardNotificationInfo& info)
+{
+    
+}
+
 NS_AZOOMEE_END
