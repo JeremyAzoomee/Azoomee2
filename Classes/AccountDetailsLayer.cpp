@@ -11,6 +11,7 @@
 #include "cocos/ui/UIRichText.h"
 #include "RoutePaymentSingleton.h"
 #include "IAPDetailsLayer_ios.h"
+#include "DynamicNodeHandler.h"
 
 NS_AZOOMEE_BEGIN
 
@@ -121,7 +122,8 @@ void AccountDetailsLayer::buttonPressed(ElectricDreamsButton* button)
     else if(button == iapButton)
     {
         AnalyticsSingleton::getInstance()->displayIAPUpsaleEvent("Settings");
-        IAPUpsaleLayer::create();
+        DynamicNodeHandler::getInstance()->startIAPFlow();
+        
     }
     else if(button == learnMoreButton)
     {

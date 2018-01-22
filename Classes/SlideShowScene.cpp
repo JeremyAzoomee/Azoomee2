@@ -5,6 +5,7 @@
 #include "SceneManagerScene.h"
 #include "IAPUpsaleLayer.h"
 #include "BackEndCaller.h"
+#include "DynamicNodeHandler.h"
 
 using namespace Azoomee;
 
@@ -175,7 +176,7 @@ void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
     }
     else if (button->getName() == "startTrialButton")
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+        DynamicNodeHandler::getInstance()->startIAPFlow();
     }
     else if (button == skipButton)
     {

@@ -54,7 +54,6 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();
             DynamicNodeHandler::getInstance()->startSignupFlow();
-            //DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
         });
         
         Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL)); //need time to get focus back from google window, otherwise the app will crash

@@ -68,19 +68,6 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("upgrade");
                 upgradeButtonPressed();
             }
-            else if(location == _kButtonLocationSignUp)
-            {
-                signUp();
-            }
-            else if(location == _kButtonLocationIAP)
-            {
-                inAppPurchaseButtonPressed();
-            }
-            else if(location == _kButtonLocationAddChild)
-            {
-                int oomeeNum = std::atoi(buttonAction->getParamForKey("oomeeNum").c_str());
-                addChild(oomeeNum);
-            }
             else
             {
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("close");
@@ -116,7 +103,7 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             const std::string& location = buttonAction->getParamForKey("location");
             if(location == "privacyPolicy")
             {
-                ModalWebview::createWithURL(Url::PrivacyPolicy);
+                ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
             }
             else if(location == "termsOfUse")
             {
@@ -170,88 +157,6 @@ void DynamicNodeButtonListener::upgradeButtonPressed()
 void DynamicNodeButtonListener::closeCTAPopup()
 {
     DynamicNodeCreator::getInstance()->resetCTAPopup();
-}
-
-void DynamicNodeButtonListener::signUp()
-{
-    const std::string& email = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("email");
-    const std::string& password = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("password");
-    const std::string& pin = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("pin");
-    if(isValidPin(pin.c_str()) && isValidPassword(password.c_str(), 6) && isValidEmailAddress(email.c_str()))
-    {
-        //ModalMessages::getInstance()->startLoading();
-        AnalyticsSingleton::getInstance()->registerAzoomeeEmail(email);
-        BackEndCaller::getInstance()->registerParent(email, password ,pin);
-        DynamicNodeDataInputStorage::getInstance()->clearStorage();
-        closeCTAPopup();
-    }
-}
-
-void DynamicNodeButtonListener::addChild(int oomeeNum)
-{
-    const std::string& profileName = trim(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("name"));
-    
-    int day = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("day").c_str());
-    int month = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("month").c_str());
-    int year = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("year").c_str());
-    
-    const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,month,day);
-    const std::string& gender = "MALE";
-    if(!isDate(day, month, year))
-    {
-        return;
-    }
-    auto backEndCaller = BackEndCaller::getInstance();
-    if((FlowDataSingleton::getInstance()->isSignupFlow() || FlowDataSingleton::getInstance()->isSignupNewProfileFlow()) && ParentDataProvider::getInstance()->getAmountOfAvailableChildren() !=0)
-    {
-        backEndCaller->updateChild(ParentDataProvider::getInstance()->getIDForAvailableChildren(0), profileName, gender, DOB, oomeeNum);
-    }
-    else
-    {
-        backEndCaller->registerChild(profileName, gender, DOB, oomeeNum);
-    }
-    DynamicNodeDataInputStorage::getInstance()->clearStorage();
-    closeCTAPopup();
-}
-
-void DynamicNodeButtonListener::inAppPurchaseButtonPressed()
-{
-    if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
-    {
-        AwaitingAdultPinLayer::create()->setDelegate(this);
-    }
-    else
-    {
-        AdultPinAccepted(nullptr);
-    }
-}
-
-void DynamicNodeButtonListener::AdultPinCancelled(AwaitingAdultPinLayer* layer)
-{
-}
-
-void DynamicNodeButtonListener::AdultPinAccepted(AwaitingAdultPinLayer* layer)
-{
-    if(_buttonAction)
-    {
-        if(_buttonAction->getType() == _kButtonTypeInternal)
-        {
-            const std::string& location = _buttonAction->getParamForKey("location");
-            if(location == _kButtonLocationIAP)
-            {
-                const std::string& action = _buttonAction->getParamForKey("action");
-                if(action == _kButtonActionRestorePurchase)
-                {
-                    RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
-                }
-                else if(action == _kButtonActionStartPayment)
-                {
-                    RoutePaymentSingleton::getInstance()->startInAppPayment();
-                }
-            }
-        }
-    }
-        
 }
 
 NS_AZOOMEE_END

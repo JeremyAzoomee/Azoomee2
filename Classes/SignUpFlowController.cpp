@@ -224,7 +224,6 @@ void SignUpFlowController::signUp()
     const std::string& pin = DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("pin");
     if(isValidPin(pin.c_str()) && isValidPassword(password.c_str(), 6) && isValidEmailAddress(email.c_str()))
     {
-        //ModalMessages::getInstance()->startLoading();
         AnalyticsSingleton::getInstance()->registerAzoomeeEmail(email);
         BackEndCaller::getInstance()->registerParent(email, password ,pin);
         DynamicNodeDataInputStorage::getInstance()->clearStorage();

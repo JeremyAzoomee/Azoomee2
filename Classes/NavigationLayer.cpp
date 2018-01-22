@@ -124,8 +124,7 @@ void NavigationLayer::changeToScene(ConfigStorage::HubTargetTagNumber target, fl
     
     if(!currentObject->getHqEntitlement())
     {
-        //DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
-        DynamicNodeHandler::getInstance()->createDynamicNodeById("iap_upgrade.json");
+        DynamicNodeHandler::getInstance()->startIAPFlow();
         return;
     }
     
@@ -631,8 +630,6 @@ void NavigationLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == previewSignUpButton)
     {
-        //Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
-        //DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
         DynamicNodeHandler::getInstance()->startSignupFlow();
     }
     else if(button == returnToChildSelectorButton)

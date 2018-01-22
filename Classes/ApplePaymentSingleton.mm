@@ -60,7 +60,6 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
     {
         ModalMessages::getInstance()->stopLoading();
         DynamicNodeHandler::getInstance()->startSignupFlow();
-        //DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
     }
     else
     {

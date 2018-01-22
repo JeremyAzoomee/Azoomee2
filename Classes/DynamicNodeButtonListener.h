@@ -20,7 +20,7 @@ NS_AZOOMEE_BEGIN
 
 
 
-class DynamicNodeButtonListener : public cocos2d::Ref, AwaitingAdultPinLayerDelegate
+class DynamicNodeButtonListener : public cocos2d::Ref
 {
 private:
     //constants for button type
@@ -34,20 +34,11 @@ private:
     
     //constants for button params
     const std::string _kButtonLocationUpgrade = "showUpgrade";
-    const std::string _kButtonLocationIAP = "iap";
-    const std::string _kButtonLocationSignUp = "signUp";
-    const std::string _kButtonLocationAddChild = "addChild";
-    
-    const std::string _kButtonActionRestorePurchase = "restorePurchase";
-    const std::string _kButtonActionStartPayment = "startPayment";
     
     ButtonActionDataRef _buttonAction;
     
     void closeCTAPopup();
     void upgradeButtonPressed();
-    void inAppPurchaseButtonPressed();
-    void signUp();
-    void addChild(int oomeeNum);
     
 public:
     static DynamicNodeButtonListener* getInstance(void);
@@ -56,9 +47,6 @@ public:
     
     void onButtonPressedCallFunc(cocos2d::Ref* button, cocos2d::ui::Widget::TouchEventType evenType, ButtonActionDataRef buttonAction);
     
-    // delegate functions
-    void AdultPinCancelled(AwaitingAdultPinLayer* layer);
-    void AdultPinAccepted(AwaitingAdultPinLayer* layer);
 };
 
 NS_AZOOMEE_END
