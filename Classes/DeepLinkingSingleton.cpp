@@ -7,13 +7,13 @@
 #include "HQHistoryManager.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataParser.h>
-#include "IAPUpsaleLayer.h"
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include "VideoPlaylistManager.h"
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include "ContentHistoryManager.h"
 #include <AzoomeeCommon/Data/Json.h>
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 using namespace Azoomee;
@@ -287,7 +287,7 @@ void DeepLinkingSingleton::completeContentAction(const HQContentItemObjectRef &c
 //Delegate Functions
 void DeepLinkingSingleton::MessageBoxButtonPressed(std::string messageBoxTitle, std::string buttonTitle)
 {
-    IAPUpsaleLayer::createRequiresPin();
+    DynamicNodeHandler::getInstance()->startIAPFlow();
 }
 
 NS_AZOOMEE_END

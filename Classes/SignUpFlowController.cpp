@@ -12,6 +12,7 @@
 #include "RoutePaymentSingleton.h"
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
+#include "SceneManagerScene.h"
 
 using namespace cocos2d;
 
@@ -205,7 +206,15 @@ void SignUpFlowController::handlePaymentSuccessFlow(ButtonActionDataRef actionDa
         }
         case NEXT:
         {
-            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterEmailCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+            const std::string& path = actionData->getParamForKey("path");
+            if(path == "login")
+            {
+                Director::getInstance()->replaceScene(SceneManagerScene::createScene(Login));
+            }
+            else if(path == "signup")
+            {
+                DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kEnterEmailCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+            }
             break;
         }
         case CLOSE: case BACK:

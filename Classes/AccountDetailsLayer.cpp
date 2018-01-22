@@ -7,7 +7,6 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include "LoginLogicHandler.h"
-#include "IAPUpsaleLayer.h"
 #include "cocos/ui/UIRichText.h"
 #include "RoutePaymentSingleton.h"
 #include "IAPDetailsLayer_ios.h"

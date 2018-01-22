@@ -156,6 +156,12 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setPlaceHolder("Minimum 6 characters");
             break;
         }
+        case INPUT_IS_AGE:
+        {
+            editBox->setMaxLength(3);
+            editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
+            break;
+        }
     }
 }
     
@@ -296,6 +302,15 @@ bool TextInputLayer::inputIsValid()
         {
             int value = std::atoi(editBox->getText());
             if(value > 0)
+            {
+                isValidInput = true;
+            }
+            break;
+        }
+        case INPUT_IS_AGE:
+        {
+            int value = std::atoi(editBox->getText());
+            if(value > 0 && value < 112)
             {
                 isValidInput = true;
             }

@@ -17,7 +17,8 @@ namespace Azoomee
 #define INPUT_IS_YEAR 6
 #define INPUT_IS_KIDS_CODE 7
 #define INPUT_IS_NEW_PASSWORD 8
-
+#define INPUT_IS_AGE 9
+    
 #define EDITBOX_CURVE_WIDTH 80
 
 /* Due to first time definition of Delegate, short setup description here

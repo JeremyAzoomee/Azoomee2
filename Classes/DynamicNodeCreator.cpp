@@ -209,12 +209,6 @@ void DynamicNodeCreator::initCTANode()
     _clippingNode->setPosition(_windowSize/2);
     _CTANode->addChild(_clippingNode);
     
-    _textLayer = Node::create();
-    _textLayer->setContentSize(_windowSize);
-    _textLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _textLayer->setPosition(_windowSize/2);
-    _CTANode->addChild(_textLayer);
-    
     _popupButtonsLayer = Node::create();
     _popupButtonsLayer->setContentSize(_stencil->getContentSize());
     _popupButtonsLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
@@ -238,6 +232,12 @@ void DynamicNodeCreator::initCTANode()
     _linesLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _linesLayer->setPosition(_windowSize/2);
     _CTANode->addChild(_linesLayer);
+    
+    _textLayer = Node::create();
+    _textLayer->setContentSize(_windowSize);
+    _textLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _textLayer->setPosition(_windowSize/2);
+    _CTANode->addChild(_textLayer);
     
     _popupFrame = ui::Scale9Sprite::create(kCTAAssetLoc + "deep_free_pop_over_trans.png");
     _popupFrame->setPosition(_windowSize/2);

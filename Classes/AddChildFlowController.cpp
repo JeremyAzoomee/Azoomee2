@@ -13,6 +13,7 @@
 #include <AzoomeeCommon/Input/TextInputChecker.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
+#include <time.h>
 
 using namespace cocos2d;
 
@@ -70,11 +71,16 @@ void AddChildFlowController::handleAddChildFlow(ButtonActionDataRef actionData)
         {
             const std::string& profileName = trim(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("name"));
             
-            int day = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("day").c_str());
-            int month = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("month").c_str());
-            int year = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("year").c_str());
+            int age = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("age").c_str());
+            if(age <= 0)
+            {
+                return;
+            }
+            time_t t = time(NULL);
+            struct tm time = *localtime(&t);
+            int year = 1900 + time.tm_year - age;
             
-            if(!isDate(day, month, year) || !isValidChildName(profileName.c_str()))
+            if(!isDate(1, 1, year) || !isValidChildName(profileName.c_str()))
             {
                 return;
             }
@@ -144,13 +150,18 @@ void AddChildFlowController::addChild(int oomeeNum)
 {
     const std::string& profileName = trim(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("name"));
     
-    int day = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("day").c_str());
-    int month = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("month").c_str());
-    int year = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("year").c_str());
+    int age = std::atoi(DynamicNodeDataInputStorage::getInstance()->getElementFromStorage("age").c_str());
+    if(age <= 0)
+    {
+        return;
+    }
+    time_t t = time(NULL);
+    struct tm time = *localtime(&t);
+    int year = 1900 + time.tm_year - age;
     
-    const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,month,day);
+    const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
     const std::string& gender = "MALE";
-    if(!isDate(day, month, year))
+    if(!isDate(1, 1, year))
     {
         return;
     }

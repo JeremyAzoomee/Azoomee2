@@ -24,7 +24,6 @@
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include "RoutePaymentSingleton.h"
-#include "IAPUpsaleLayer.h"
 #include "ManualGameInputLayer.h"
 #include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
@@ -176,8 +175,6 @@ void HQSceneElement::addListenerToElement()
                 AudioMixer::getInstance()->playEffect(HQ_ELEMENT_SELECTED_AUDIO_EFFECT);
                 AnalyticsSingleton::getInstance()->contentItemSelectedEvent(_elementItemData, _elementRowNumber, _elementIndex, HQDataProvider::getInstance()->getHumanReadableHighlightDataForSpecificItem(_elementCategory, _elementRowNumber, _elementIndex));
                 
-                //DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(DynamicNodeHandler::kUpgradeGroup);
-                //DynamicNodeHandler::getInstance()->createDynamicNodeById("iap_upgrade.json");
                 DynamicNodeHandler::getInstance()->startIAPFlow();
                 return true;
             }

@@ -21,7 +21,6 @@
 #include "DeepLinkingSingleton.h"
 #include "BackEndCaller.h"
 #include "ChatNotificationsSingleton.h"
-#include "IAPUpsaleLayer.h"
 #include "DynamicNodeHandler.h"
 
 using namespace cocos2d;

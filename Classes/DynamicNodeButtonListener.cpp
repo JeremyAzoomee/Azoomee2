@@ -11,7 +11,6 @@
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "IAPUpsaleLayer.h"
 #include "PreviewLoginSignupMessageBox.h"
 #include "DynamicNodeCreator.h"
 #include "SceneManagerScene.h"
@@ -143,15 +142,7 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
 
 void DynamicNodeButtonListener::upgradeButtonPressed()
 {
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-    {
-        IAPUpsaleLayer::createRequiresPin();
-    }
-    else
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
-    }
-    closeCTAPopup();
+    DynamicNodeHandler::getInstance()->startIAPFlow();
 }
 
 void DynamicNodeButtonListener::closeCTAPopup()

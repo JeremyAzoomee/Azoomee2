@@ -3,7 +3,6 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <cstdlib>
 #include "SceneManagerScene.h"
-#include "IAPUpsaleLayer.h"
 #include "BackEndCaller.h"
 #include "DynamicNodeHandler.h"
 
