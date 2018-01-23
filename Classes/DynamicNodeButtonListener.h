@@ -34,6 +34,7 @@ private:
     
     //constants for button params
     const std::string _kButtonLocationUpgrade = "showUpgrade";
+    const std::string _kButtonLocationIAP = "iap";
     
     ButtonActionDataRef _buttonAction;
     

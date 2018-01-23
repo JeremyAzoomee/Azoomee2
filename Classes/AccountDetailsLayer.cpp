@@ -9,7 +9,6 @@
 #include "LoginLogicHandler.h"
 #include "cocos/ui/UIRichText.h"
 #include "RoutePaymentSingleton.h"
-#include "IAPDetailsLayer_ios.h"
 #include "DynamicNodeHandler.h"
 
 NS_AZOOMEE_BEGIN
@@ -126,7 +125,7 @@ void AccountDetailsLayer::buttonPressed(ElectricDreamsButton* button)
     }
     else if(button == learnMoreButton)
     {
-        IAPDetailsLayer_ios::create();
+        DynamicNodeHandler::getInstance()->createDynamicNodeById("iap_learn_more.json");
     }
 }
 

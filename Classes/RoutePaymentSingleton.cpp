@@ -58,7 +58,7 @@ void RoutePaymentSingleton::startInAppPayment()
     {
         if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
         {
-            DynamicNodeHandler::getInstance()->createDynamicNodeById("signUp_email.json");
+            DynamicNodeHandler::getInstance()->startSignupFlow();
         }
         else
         {
@@ -200,7 +200,7 @@ void RoutePaymentSingleton::purchaseFailureErrorMessage(const std::string& failu
 {
     AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent(failureDetails);
     ModalMessages::getInstance()->stopLoading();
-    MessageBox::createWith(ERROR_CODE_PURCHASE_FAILURE, nullptr);
+    DynamicNodeHandler::getInstance()->createDynamicNodeById("payment_failed.json");
 }
 
 void RoutePaymentSingleton::doublePurchaseMessage()

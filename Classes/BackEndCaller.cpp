@@ -189,8 +189,6 @@ void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& respons
     // fire event to add parent button to child select scene if paid account
     EventCustom event(ChildSelectorScene::kBillingDataRecievedEvent);
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-    
-    //RoutePaymentSingleton::getInstance()->retryReceiptValidation();
 }
 
 //GETTING FORCE UPDATE INFORMATION
@@ -251,7 +249,6 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
         CCLOG("Just registered account : backendcaller");
         Director::getInstance()->getScheduler()->schedule([&](float dt){
             FlowDataSingleton::getInstance()->setFlowToSignUpNewProfile();
-            //DynamicNodeHandler::getInstance()->createDynamicNodeById("addChild.json");
             DynamicNodeHandler::getInstance()->startAddChildFlow();
             FlowDataSingleton::getInstance()->addIAPSuccess(false);
         }, this, 0.5, 0, 0, false, "addChildPopup");
@@ -533,26 +530,27 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     if(requestTag == API::TagRegisterParent)
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
+        hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+        DynamicNodeHandler::getInstance()->startSignupFlow();
         return;
     }
     
     if(requestTag == API::TagRegisterChild)
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
-
+        hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
+        DynamicNodeHandler::getInstance()->startAddChildFlow();
         return;
     }
     
     if(requestTag == API::TagUpdateChild)
     {
         AnalyticsSingleton::getInstance()->childProfileUpdateErrorEvent(errorCode);
-        
+        hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
+        DynamicNodeHandler::getInstance()->startAddChildFlow();
         return;
     }
     

@@ -209,17 +209,17 @@ void DynamicNodeCreator::initCTANode()
     _clippingNode->setPosition(_windowSize/2);
     _CTANode->addChild(_clippingNode);
     
-    _popupButtonsLayer = Node::create();
-    _popupButtonsLayer->setContentSize(_stencil->getContentSize());
-    _popupButtonsLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    _popupButtonsLayer->setPosition(_windowSize/2);
-    _CTANode->addChild(_popupButtonsLayer);
-    
     _popupImages = Node::create();
     _popupImages->setContentSize(_stencil->getContentSize());
     _popupImages->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     _popupImages->setPosition(_windowSize/2);
     _CTANode->addChild(_popupImages);
+    
+    _popupButtonsLayer = Node::create();
+    _popupButtonsLayer->setContentSize(_stencil->getContentSize());
+    _popupButtonsLayer->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    _popupButtonsLayer->setPosition(_windowSize/2);
+    _CTANode->addChild(_popupButtonsLayer);
     
     _textInputLayer = Node::create();
     _textInputLayer->setContentSize(_stencil->getContentSize());

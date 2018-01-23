@@ -67,6 +67,11 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("upgrade");
                 upgradeButtonPressed();
             }
+            else if(location == _kButtonLocationIAP)
+            {
+                RoutePaymentSingleton::getInstance()->startInAppPayment();
+                closeCTAPopup();
+            }
             else
             {
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("close");
@@ -135,6 +140,10 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             if(flowController)
             {
                 flowController->processAction(buttonAction);
+            }
+            else
+            {
+                closeCTAPopup();
             }
         }
     }

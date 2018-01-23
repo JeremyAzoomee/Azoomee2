@@ -98,7 +98,6 @@
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
 		437395811ED3441F00C29DB1 /* FlowDataSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4373957F1ED3441F00C29DB1 /* FlowDataSingleton.cpp */; };
 		4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4396947C1EAA4855003C17E6 /* ApplePaymentSingleton.mm */; };
-		439694811EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4396947F1EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp */; };
 		439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 439694821EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp */; };
 		4396948A1EAA4ACD003C17E6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439694891EAA4ACD003C17E6 /* StoreKit.framework */; };
 		43A90CDB1EA755D600606099 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A90CDA1EA755D600606099 /* UIKit.framework */; };
@@ -420,8 +419,6 @@
 		437395801ED3441F00C29DB1 /* FlowDataSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlowDataSingleton.h; sourceTree = "<group>"; };
 		4396947B1EAA4855003C17E6 /* ApplePaymentSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplePaymentSingleton.h; sourceTree = "<group>"; };
 		4396947C1EAA4855003C17E6 /* ApplePaymentSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApplePaymentSingleton.mm; sourceTree = "<group>"; };
-		4396947F1EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IAPDetailsLayer_ios.cpp; sourceTree = "<group>"; };
-		439694801EAA4951003C17E6 /* IAPDetailsLayer_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPDetailsLayer_ios.h; sourceTree = "<group>"; };
 		439694821EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PrivacyAndTermsLayer.cpp; sourceTree = "<group>"; };
 		439694831EAA4A08003C17E6 /* PrivacyAndTermsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivacyAndTermsLayer.h; sourceTree = "<group>"; };
 		439694891EAA4ACD003C17E6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -948,8 +945,6 @@
 		439694881EAA4A5B003C17E6 /* Apple */ = {
 			isa = PBXGroup;
 			children = (
-				4396947F1EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp */,
-				439694801EAA4951003C17E6 /* IAPDetailsLayer_ios.h */,
 				4396947C1EAA4855003C17E6 /* ApplePaymentSingleton.mm */,
 				4396947B1EAA4855003C17E6 /* ApplePaymentSingleton.h */,
 				4306ABA11EAE2C3E001E586A /* PaymentViewController_ios.h */,
@@ -1608,7 +1603,6 @@
 				43F42E3B1EE84B9500606290 /* SettingsControlLayer.cpp in Sources */,
 				9220EAD82010C07D00BD7A90 /* IAPFlowController.cpp in Sources */,
 				0243B8CE1F0F8377005D3734 /* EmptySceneForSettings.cpp in Sources */,
-				439694811EAA4951003C17E6 /* IAPDetailsLayer_ios.cpp in Sources */,
 				A154CC521DFEE7440008A626 /* GameDataManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

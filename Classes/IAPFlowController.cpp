@@ -152,10 +152,12 @@ void IAPFlowController::AdultPinAccepted(AwaitingAdultPinLayer* layer)
         if(path == _kPathRestore)
         {
             RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
+            exitFlow();
         }
         else if(path == _kPathIAP)
         {
             RoutePaymentSingleton::getInstance()->startInAppPayment();
+            exitFlow();
         }
     }
     
