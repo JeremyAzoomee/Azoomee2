@@ -132,6 +132,11 @@ Layer* MessageBox::initLayer(MessageBoxLayerEnum messageBoxLayer, const std::map
     }
     return nullptr;
 }
+    
+void MessageBox::removeMessageBox()
+{
+    this->scheduleOnce(schedule_selector(MessageBox::removeSelf), 0.1);
+}
 
 bool MessageBox::init()
 {

@@ -6,10 +6,7 @@
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
 #include <AzoomeeCommon/UI/ElectricDreamsDecoration.h>
-
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-#include <AzoomeeCommon/Utils/IosNativeFunctionsSingleton.h>
-#endif
+#include <AzoomeeCommon/Utils/BiometricAuthenticationHandler.h>
 
 using namespace cocos2d;
 
@@ -47,17 +44,15 @@ void AwaitingAdultPinLayer::createAndFadeInLayer()
     addListenerToBiometricValidationSuccess();
     addListenerToBiometricValidationFailure();
     
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    if(UserDefault::getInstance()->getIntegerForKey(IosNativeFunctionsSingleton::kBiometricValidation) == 1)
+    if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
     {
-        IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(false);
+        BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
     }
-#endif
 }
 
 void AwaitingAdultPinLayer::addListenerToBiometricValidationSuccess()
 {
-    _biometricValidationSuccessListener = cocos2d::EventListenerCustom::create(IosNativeFunctionsSingleton::kBiometricValidationSuccess, [=](EventCustom* event) {
+    _biometricValidationSuccessListener = cocos2d::EventListenerCustom::create(BiometricAuthenticationHandler::kBiometricValidationSuccess, [=](EventCustom* event) {
         auto funcCallAction = CallFunc::create([=](){
             this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
             this->getDelegate()->AdultPinAccepted(this);
@@ -71,11 +66,9 @@ void AwaitingAdultPinLayer::addListenerToBiometricValidationSuccess()
 
 void AwaitingAdultPinLayer::addListenerToBiometricValidationFailure()
 {
-    _biometricValidationFailureListener = cocos2d::EventListenerCustom::create(IosNativeFunctionsSingleton::kBiometricValidationFailure, [=](EventCustom* event) {
+    _biometricValidationFailureListener = cocos2d::EventListenerCustom::create(BiometricAuthenticationHandler::kBiometricValidationFailure, [=](EventCustom* event) {
         auto funcCallAction = CallFunc::create([=](){
-            const std::vector<std::string>& buttonTitleList = {"Retry", "Cancel"};
-            MessageBox::createWith("Authentication Failed", "Ooops! Biometric authentication failed.", buttonTitleList, this);
-            editBox_pin->hideKeyboard();
+            MessageBox::createWith(BiometricAuthenticationHandler::kAuthFailedDialogTitle, BiometricAuthenticationHandler::kAuthFailedDialogBody, BiometricAuthenticationHandler::kAuthFailedDialogButtons, this);
         });
         
         this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
@@ -125,7 +118,7 @@ void AwaitingAdultPinLayer::addUIObjects()
     editBox_pin->setDelegate(this);
     windowLayer->addChild(editBox_pin);
     
-    if(UserDefault::getInstance()->getIntegerForKey(IosNativeFunctionsSingleton::kBiometricValidation) != 1)
+    if(!BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSet())
     {
         editBox_pin->focusAndShowKeyboard();
     }
@@ -201,30 +194,30 @@ void AwaitingAdultPinLayer::buttonPressed(ElectricDreamsButton* button)
 
 void AwaitingAdultPinLayer::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)
 {
-    if(messageBoxTitle == "Biometric Authentication")
+    if(messageBoxTitle == BiometricAuthenticationHandler::kStartBiometricDialogTitle)
     {
-        if(buttonTitle == "Yes")
+        if(buttonTitle == BiometricAuthenticationHandler::kStartBiometricDialogButtons.at(0))
         {
-            IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(false);
+            BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
             return;
         }
         
-        if(buttonTitle == "No")
+        if(buttonTitle == BiometricAuthenticationHandler::kStartBiometricDialogButtons.at(1))
         {
-            UserDefault::getInstance()->setIntegerForKey(IosNativeFunctionsSingleton::kBiometricValidation, -1);
+            BiometricAuthenticationHandler::getInstance()->biometricAuthenticationNotNeeded();
             return;
         }
     }
     
-    if(messageBoxTitle == "Authentication Failed")
+    if(messageBoxTitle == BiometricAuthenticationHandler::kAuthFailedDialogTitle)
     {
-        if(buttonTitle == "Retry")
+        if(buttonTitle == BiometricAuthenticationHandler::kAuthFailedDialogButtons.at(0))
         {
-            IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(false);
+            BiometricAuthenticationHandler::getInstance()->startBiometricAuthentication();
             return;
         }
         
-        if(buttonTitle == "Cancel")
+        if(buttonTitle == BiometricAuthenticationHandler::kAuthFailedDialogButtons.at(1))
         {
             editBox_pin->focusAndShowKeyboard();
             return;
@@ -244,16 +237,13 @@ void AwaitingAdultPinLayer::secondCheckForPin()
         this->scheduleOnce(schedule_selector(AwaitingAdultPinLayer::removeSelf), 0.1);
         this->getDelegate()->AdultPinAccepted(this);
         
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        if(UserDefault::getInstance()->getIntegerForKey(IosNativeFunctionsSingleton::kBiometricValidation) == 0)
+        if(UserDefault::getInstance()->getIntegerForKey(BiometricAuthenticationHandler::kBiometricValidation) == 0)
         {
-            if(IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(true))
+            if(BiometricAuthenticationHandler::getInstance()->biometricAuthenticationAvailable())
             {
-                const std::vector<std::string>& buttonTitleList = {"Yes", "No"};
-                MessageBox::createWith("Biometric Authentication", "Do you want to use biometric authentication to enter your PIN in the future?", buttonTitleList, this);
+                MessageBox::createWith(BiometricAuthenticationHandler::kStartBiometricDialogTitle, BiometricAuthenticationHandler::kStartBiometricDialogBody, BiometricAuthenticationHandler::kStartBiometricDialogButtons, this);
             }
         }
-#endif
     }
     else
     {

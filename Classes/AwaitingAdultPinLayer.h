@@ -44,6 +44,9 @@ private:
     
     void removeSelf(float dt);
     
+    void androidBiometricAuthenticationSuccess();
+    void androidBiometricAuthenticationFailure();
+    
 public:
     virtual bool init();
     

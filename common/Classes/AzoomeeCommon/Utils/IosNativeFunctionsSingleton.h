@@ -11,10 +11,6 @@ class IosNativeFunctionsSingleton
 {
     
 public:
-    static const char* const kBiometricValidationSuccess;
-    static const char* const kBiometricValidation;
-    static const char* const kBiometricValidationFailure;
-    
     static IosNativeFunctionsSingleton* getInstance();
     virtual ~IosNativeFunctionsSingleton();
     

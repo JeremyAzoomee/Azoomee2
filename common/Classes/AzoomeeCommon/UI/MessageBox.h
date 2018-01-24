@@ -70,6 +70,8 @@ public:
     static MessageBox* createWithLayer(MessageBoxLayerEnum messageBoxLayer, MessageBoxDelegate* _delegate);
     static MessageBox* createWithLayer(MessageBoxLayerEnum messageBoxLayer, const std::map<std::string, std::string>& propertiesMap, MessageBoxDelegate* _delegate);
     
+    void removeMessageBox();
+    
     void sendDelegateMessageBoxButtonPressed(const std::string& messageBoxTitle,const std::string& buttonTitle);
     
     CREATE_FUNC(MessageBox);

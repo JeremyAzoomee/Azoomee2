@@ -1,4 +1,6 @@
 #include "IosNativeFunctionsSingleton.h"
+#include "../Data/ConfigStorage.h"
+#include "BiometricAuthenticationHandler.h"
 #import <AdSupport/ASIdentifierManager.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 #import <UIKit/UIKit.h>
@@ -8,9 +10,6 @@ using namespace cocos2d;
 NS_AZOOMEE_BEGIN
 
 static std::auto_ptr<IosNativeFunctionsSingleton> _sharedIosNativeFunctionsSingleton;
-const char* const IosNativeFunctionsSingleton::kBiometricValidationSuccess = "biometricValidationSuccess";
-const char* const IosNativeFunctionsSingleton::kBiometricValidationFailure = "biometricValidationFailure";
-const char* const IosNativeFunctionsSingleton::kBiometricValidation = "biometricValidation";
 
 IosNativeFunctionsSingleton* IosNativeFunctionsSingleton::getInstance()
 {
@@ -56,8 +55,6 @@ void IosNativeFunctionsSingleton::deleteHttpCookies()
 
 bool IosNativeFunctionsSingleton::doBiometricValidation(bool precheck)
 {
-    auto userDefault = UserDefault::getInstance();
-    
     LAContext *myContext = [[LAContext alloc] init];
     NSError *authError = nil;
     NSString *myLocalizedReasonString = @"Please use Face ID to enter your pin.";
@@ -72,23 +69,16 @@ bool IosNativeFunctionsSingleton::doBiometricValidation(bool precheck)
                   localizedReason:myLocalizedReasonString
                             reply:^(BOOL success, NSError *error) {
                                 if (success) {
-                                    cocos2d::log("BIOMETRIC success");
-                                    userDefault->setIntegerForKey(kBiometricValidation, 1);
-                                    EventCustom event(kBiometricValidationSuccess);
-                                    Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+                                    BiometricAuthenticationHandler::getInstance()->biometricAuthenticationSuccess();
                                 } else {
-                                    long errorCode = [error code];
-                                    
                                     if([error code] == -6)
                                     {
-                                        userDefault->setIntegerForKey(kBiometricValidation, -1);
+                                        BiometricAuthenticationHandler::getInstance()->biometricAuthenticationNotNeeded(); //cancel pressed on faceid
                                     }
                                     else if([error code] != -2)
                                     {
-                                        EventCustom event(kBiometricValidationFailure);
-                                        Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+                                        BiometricAuthenticationHandler::getInstance()->biometricAuthenticationFailure();
                                     }
-                                    cocos2d::log("BIOMETRIC error, code: %ld", errorCode);
                                 }
                             }];
     } else {

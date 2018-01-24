@@ -125,8 +125,6 @@ void GooglePaymentSingleton::startIABPayment()
 #endif
 }
 
-NS_AZOOMEE_END
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
 extern "C"
@@ -200,3 +198,5 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_cpp_AppActivity_getDeveloperKey(JNIE
 }
 
 #endif
+
+NS_AZOOMEE_END

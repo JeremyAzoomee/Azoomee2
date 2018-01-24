@@ -80,6 +80,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     private MixpanelAPI mixpanel;
     private IapManager iapManager;
     private static String advertisingId;
+    private Biometric biometric;
 
     //variables for google payment
     private IabHelper mHelper;
@@ -92,6 +93,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         mContext = this;
         mActivity = this;
         mAppActivity = this;
+        biometric = new Biometric(this);
 
         // If mFrameLayout hasn't been created, then the activity is going to be destroyed
         // For context, see Cocos2dxActivity onCreate !isTaskRoot() workaround.
@@ -575,5 +577,37 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static void jniClearNotificationCenter()
     {
         NotificationManagerCompat.from(mContext).cancelAll();
+    }
+
+    // FINGERPRINT NATIVE ANDROID FUNCTIONS------------------------------
+
+    public static boolean fingerPrintAuthenticationAvailable()
+    {
+        if(mAppActivity.biometric == null)
+        {
+            return false;
+        }
+
+        return mAppActivity.biometric.fingerprintAuthenticationPossible();
+    }
+
+    public static void startFingerprintAuthentication()
+    {
+        if(mAppActivity.biometric == null)
+        {
+            return;
+        }
+
+        mAppActivity.biometric.startAuth();
+    }
+
+    public static void stopFingerprintAuthentication()
+    {
+        if(mAppActivity.biometric == null)
+        {
+            return;
+        }
+
+        mAppActivity.biometric.stopAuth();
     }
 }
