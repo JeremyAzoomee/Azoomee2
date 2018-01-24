@@ -21,7 +21,7 @@ NS_AZOOMEE_BEGIN
 
 const std::string AddChildFlowController::kAddChildCTAName = "add_child.json";
 const std::string AddChildFlowController::kSelectOomeeCTAName = "add_child_oomee.json";
-const std::string AddChildFlowController::kNewPaidAccountCTAName = "payment_new_account.json";
+
 DynamicNodeFlowControllerRef AddChildFlowController::create()
 {
     return std::make_shared<AddChildFlowController>();
@@ -38,22 +38,11 @@ void AddChildFlowController::processAction(ButtonActionDataRef actionData)
     {
         handleSelectOomeeFlow(actionData);
     }
-    else if(fileName == kNewPaidAccountCTAName)
-    {
-        handleNewPaidAccountFlow(actionData);
-    }
 }
 
 AddChildFlowController::AddChildFlowController() noexcept
 {
-    if(FlowDataSingleton::getInstance()->getIAPSuccess() && FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
-    {
-        _flowEntryFile = kNewPaidAccountCTAName;
-    }
-    else
-    {
-        _flowEntryFile = kAddChildCTAName;
-    }
+    _flowEntryFile = kAddChildCTAName;
     _type = FlowType::ADDCHILD;
 }
 
@@ -116,30 +105,6 @@ void AddChildFlowController::handleSelectOomeeFlow(ButtonActionDataRef actionDat
         case CLOSE: case BACK:
         {
             DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kAddChildCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
-            break;
-        }
-            
-    }
-}
-
-void AddChildFlowController::handleNewPaidAccountFlow(ButtonActionDataRef actionData)
-{
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(_kCTAActionKey));
-    switch(pathAction)
-    {
-        case UNKNOWN:
-        {
-            return;
-            break;
-        }
-        case NEXT:
-        {
-            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(kAddChildCTAName, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
-            break;
-        }
-        case CLOSE: case BACK:
-        {
-            exitFlow();
             break;
         }
             

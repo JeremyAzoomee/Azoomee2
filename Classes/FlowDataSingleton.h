@@ -7,6 +7,7 @@
 NS_AZOOMEE_BEGIN
 
 enum FlowTypeEnum { flowType_None, flowType_Signup, flowType_SignupNewProfile,flowType_NewProfile};
+enum SuccessFailPath {SUCCESS_FAIL_NONE, IAP_SUCCESS, IAP_FAIL, SIGNUP_SUCCESS, SIGNUP_FAIL, ADDCHILD_SUCCESS, ADDCHILD_FAIL, PREMIUM_NEW_ACCOUNT, PREMIUM_EXISTING_ACCOUNT};
 
 class FlowDataSingleton : public cocos2d::Ref
 {
@@ -25,6 +26,7 @@ private:
     static const char* const DataKeyIAPSuccess;
     
     FlowTypeEnum currentFlowType;
+    SuccessFailPath _currentSuccesFailPath;
     
     //Settings Deleted Child Flow
     bool childDeletedFlag = false;
@@ -63,6 +65,10 @@ public:
     void setChildDeletedFlag();
     void resetChildDeletedFlag();
     bool getChildDeletedFlag();
+    
+    void setSuccessFailPath(SuccessFailPath path);
+    SuccessFailPath getSuccessFailPath();
+    
 };
 
 NS_AZOOMEE_END

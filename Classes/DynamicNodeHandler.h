@@ -76,6 +76,7 @@ public:
     void startSignupFlow();
     void startIAPFlow();
     void startAddChildFlow();
+    void handleSuccessFailEvent();
     
     void getCTAFiles();
     

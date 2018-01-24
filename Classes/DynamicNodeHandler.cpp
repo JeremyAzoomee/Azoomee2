@@ -12,6 +12,7 @@
 #include "AddChildFlowController.h"
 #include "DynamicNodeDataInputStorage.h"
 #include "RoutePaymentSingleton.h"
+#include "FlowDataSingleton.h"
 #include <dirent.h>
 #include <AzoomeeCommon/Data/Json.h>
 #include <AzoomeeCommon/Data/Cookie/CookieDataProvider.h>
@@ -133,9 +134,10 @@ void DynamicNodeHandler::startIAPFlow()
 {
     if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
     {
-        if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+        if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() || ParentDataProvider::getInstance()->getLoggedInParentId() == "")
         {
-            startSignupFlow();
+            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
+            handleSuccessFailEvent();
             return;
         }
         else
@@ -152,6 +154,38 @@ void DynamicNodeHandler::startAddChildFlow()
 {
     _flowController = AddChildFlowController::create();
     createDynamicNodeByIdWithParams(_flowController->_flowEntryFile, DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString());
+}
+
+void DynamicNodeHandler::handleSuccessFailEvent()
+{
+    switch(FlowDataSingleton::getInstance()->getSuccessFailPath())
+    {
+        case SUCCESS_FAIL_NONE:
+            return;
+            break;
+        case IAP_SUCCESS:
+            createDynamicNodeById("payment_success.json");
+            break;
+        case IAP_FAIL:
+            createDynamicNodeById("payment_failed.json");
+            break;
+        case SIGNUP_SUCCESS: case SIGNUP_FAIL: case ADDCHILD_SUCCESS: case ADDCHILD_FAIL:
+        {
+            break;
+        }
+        case PREMIUM_NEW_ACCOUNT:
+        {
+            FlowDataSingleton::getInstance()->setFlowToSignUpNewProfile();
+            createDynamicNodeById("payment_new_account.json");
+            break;
+        }
+        case PREMIUM_EXISTING_ACCOUNT:
+        {
+            createDynamicNodeById("payment_existing_account.json");
+            break;
+        }
+    }
+    FlowDataSingleton::getInstance()->setSuccessFailPath(SUCCESS_FAIL_NONE);
 }
 
 void DynamicNodeHandler::getCTAFiles()

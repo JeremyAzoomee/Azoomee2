@@ -17,11 +17,9 @@ class AddChildFlowController : public DynamicNodeFlowController
 private:
     static const std::string kAddChildCTAName;
     static const std::string kSelectOomeeCTAName;
-    static const std::string kNewPaidAccountCTAName;
     
     void handleAddChildFlow(ButtonActionDataRef actionData);
     void handleSelectOomeeFlow(ButtonActionDataRef actionData);
-    void handleNewPaidAccountFlow(ButtonActionDataRef actionData);
     
     void addChild(int oomeeNum);
     

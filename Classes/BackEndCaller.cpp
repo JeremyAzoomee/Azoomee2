@@ -243,22 +243,10 @@ void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseStrin
     ModalMessages::getInstance()->stopLoading();
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
-    if(FlowDataSingleton::getInstance()->isSignupFlow())
-    {
-        CCLOG("Just registered account : backendcaller");
-        Director::getInstance()->getScheduler()->schedule([&](float dt){
-            FlowDataSingleton::getInstance()->setFlowToSignUpNewProfile();
-            DynamicNodeHandler::getInstance()->startAddChildFlow();
-            FlowDataSingleton::getInstance()->addIAPSuccess(false);
-        }, this, 0.5, 0, 0, false, "addChildPopup");
-    }
-    else if(FlowDataSingleton::getInstance()->getIAPSuccess())
-    {
-        Director::getInstance()->getScheduler()->schedule([&](float dt){
-            DynamicNodeHandler::getInstance()->createDynamicNodeById("payment_existing_account.json");
-            FlowDataSingleton::getInstance()->addIAPSuccess(false);
-        }, this, 0.5, 0, 0, false, "premium_success");
-    }
+    
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+    }, this, 0.5, 0, 0, false, "eventHandler");
 }
 
 //CHILDREN LOGIN----------------------------------------------------------------------------------------
@@ -335,6 +323,7 @@ void BackEndCaller::onRegisterParentAnswerReceived()
     IAPProductDataHandler::getInstance()->fetchProductData();
     ConfigStorage::getInstance()->setFirstSlideShowSeen();
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
+    FlowDataSingleton::getInstance()->setSuccessFailPath(SIGNUP_SUCCESS);
     login(FlowDataSingleton::getInstance()->getUserName(), FlowDataSingleton::getInstance()->getPassword());
 }
 

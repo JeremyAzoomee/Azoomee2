@@ -188,4 +188,14 @@ bool FlowDataSingleton::getChildDeletedFlag()
     return childDeletedFlag;
 }
 
+void FlowDataSingleton::setSuccessFailPath(SuccessFailPath path)
+{
+    _currentSuccesFailPath = path;
+}
+
+SuccessFailPath FlowDataSingleton::getSuccessFailPath()
+{
+    return _currentSuccesFailPath;
+}
+
 NS_AZOOMEE_END

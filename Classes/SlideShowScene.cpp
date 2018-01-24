@@ -175,7 +175,7 @@ void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
     }
     else if (button->getName() == "startTrialButton")
     {
-        DynamicNodeHandler::getInstance()->startIAPFlow(); // doesnt work on first start up as no cta files downloaded
+        DynamicNodeHandler::getInstance()->startIAPFlow();
     }
     else if (button == skipButton)
     {

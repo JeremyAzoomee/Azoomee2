@@ -55,7 +55,7 @@ void RoutePaymentSingleton::startInAppPayment()
 {
     if(receiptDataFileExists())
     {
-        if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+        if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() || ParentDataProvider::getInstance()->getLoggedInParentId() == "")
         {
             DynamicNodeHandler::getInstance()->startSignupFlow();
         }
@@ -199,7 +199,8 @@ void RoutePaymentSingleton::purchaseFailureErrorMessage(const std::string& failu
 {
     AnalyticsSingleton::getInstance()->iapSubscriptionFailedEvent(failureDetails);
     ModalMessages::getInstance()->stopLoading();
-    DynamicNodeHandler::getInstance()->createDynamicNodeById("payment_failed.json");
+    FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_FAIL);
+    DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
 }
 
 void RoutePaymentSingleton::doublePurchaseMessage()
@@ -217,6 +218,15 @@ void RoutePaymentSingleton::inAppPaymentSuccess()
     
     BackEndCaller::getInstance()->updateBillingData();
     FlowDataSingleton::getInstance()->addIAPSuccess(true);
+    if(FlowDataSingleton::getInstance()->isSignupFlow())
+    {
+        FlowDataSingleton::getInstance()->setSuccessFailPath(PREMIUM_NEW_ACCOUNT);
+    }
+    else
+    {
+        FlowDataSingleton::getInstance()->setSuccessFailPath(PREMIUM_EXISTING_ACCOUNT);
+    }
+    
     ChildDataParser::getInstance()->setChildLoggedIn(false);
     BackEndCaller::getInstance()->getAvailableChildren();
 }

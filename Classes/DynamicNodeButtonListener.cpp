@@ -146,6 +146,22 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
                 closeCTAPopup();
             }
         }
+        else if(buttonAction->getType() == _kButtonTypeStartFlow)
+        {
+            const std::string& flow = buttonAction->getParamForKey("flowType");
+            if(flow == "signup")
+            {
+                DynamicNodeHandler::getInstance()->startSignupFlow();
+            }
+            else if(flow == "iap")
+            {
+                DynamicNodeHandler::getInstance()->startIAPFlow();
+            }
+            else if(flow == "addchild")
+            {
+                DynamicNodeHandler::getInstance()->startAddChildFlow();
+            }
+        }
     }
 }
 

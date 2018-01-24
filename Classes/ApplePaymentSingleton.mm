@@ -56,7 +56,7 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
         RoutePaymentSingleton::getInstance()->writeReceiptDataToFile(receiptData);
     }
     
-    if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+    if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() || ParentDataProvider::getInstance()->getLoggedInParentId() == "")
     {
         ModalMessages::getInstance()->stopLoading();
         DynamicNodeHandler::getInstance()->startSignupFlow();
