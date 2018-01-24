@@ -520,7 +520,8 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
         hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        DynamicNodeHandler::getInstance()->startSignupFlow();
+        MessageBox::createWith(errorCode, nullptr);
+        //DynamicNodeHandler::getInstance()->startSignupFlow();
         return;
     }
     

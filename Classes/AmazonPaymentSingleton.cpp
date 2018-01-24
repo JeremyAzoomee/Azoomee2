@@ -9,6 +9,7 @@
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "FlowDataSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -68,7 +69,8 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     {
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();
-            DynamicNodeHandler::getInstance()->startSignupFlow();
+            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
+            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
         });
         
         Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL));

@@ -57,7 +57,8 @@ void RoutePaymentSingleton::startInAppPayment()
     {
         if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() || ParentDataProvider::getInstance()->getLoggedInParentId() == "")
         {
-            DynamicNodeHandler::getInstance()->startSignupFlow();
+            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
+            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
         }
         else
         {
