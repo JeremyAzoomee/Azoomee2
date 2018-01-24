@@ -54,6 +54,28 @@ MessageBox* MessageBox::createWith(const std::string& Title, const std::string& 
     
     return layer;
 }
+    
+    MessageBox* MessageBox::createWith(const std::string& Title, const std::string& imagePath, const std::string& Body, const std::string& Button, MessageBoxDelegate* _delegate)
+{
+    auto layer = MessageBox::create();
+    
+    if(_delegate)
+        layer->setDelegate(_delegate);
+    
+    std::vector<std::string> buttonsTitleList;
+    buttonsTitleList.push_back(Button);
+    
+    layer->windowLayer = MessageBoxTextLayer::createMessageBoxTextLayer(Title,Body,buttonsTitleList,layer);
+    
+    Sprite* image = Sprite::create(imagePath);
+    image->setPosition(layer->windowLayer->getContentSize().width / 2, Director::getInstance()->getVisibleOrigin().y + 200);
+    image->setScale(160 / image->getContentSize().width, 160 / image->getContentSize().height);
+    layer->windowLayer->addChild(image);
+    
+    layer->addChild(layer->windowLayer);
+    
+    return layer;
+}
 
 MessageBox* MessageBox::createWith(long errorCode, MessageBoxDelegate* _delegate)
 {

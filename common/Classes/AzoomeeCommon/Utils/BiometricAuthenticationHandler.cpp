@@ -34,6 +34,8 @@ const char* const kBiometricStopJavaMethodName = "stopFingerprintAuthentication"
 const char* const kBiometricDialogTitle = "Waiting for authentication";
 const char* const kBiometricDialogBody = "Please authenticate yourself to access parents area";
 const char* const kBiometricDialogCancelButtonTitle = "Cancel";
+
+const char* const kBiometricDialogImage = "res/settings/fingerprint.png";
 #endif
 
 static std::auto_ptr<BiometricAuthenticationHandler> _sharedBiometricAuthenticationHandler;
@@ -76,7 +78,7 @@ void BiometricAuthenticationHandler::startBiometricAuthentication()
 #if(CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     IosNativeFunctionsSingleton::getInstance()->doBiometricValidation(false);
 #elif(CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    waitingForFingerPrint = MessageBox::createWith(kBiometricDialogTitle, kBiometricDialogBody, kBiometricDialogCancelButtonTitle, this);
+    waitingForFingerPrint = MessageBox::createWith(kBiometricDialogTitle, kBiometricDialogImage, kBiometricDialogBody, kBiometricDialogCancelButtonTitle, this);
     JniHelper::callStaticVoidMethod(kAzoomeeActivityJavaClassName, kBiometricStartJavaMethodName);
 #endif
 }
