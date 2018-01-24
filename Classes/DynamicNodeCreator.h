@@ -29,7 +29,7 @@ private:
     
     cocos2d::Node* _CTANode = nullptr;
     cocos2d::Size _windowSize;
-    float _sizeMod = 1.0f; //size mod value if screen ratio is outside of normal range 4:3 -> 16:9
+    
     //CTA components
     cocos2d::ui::Scale9Sprite* _popupFrame = nullptr;
     cocos2d::Node* _popupButtonsLayer = nullptr;
@@ -70,6 +70,8 @@ public:
     cocos2d::Node* createCTAFromFile(const std::string& filepath);
     cocos2d::Node* createCTAFromFileWithParams(const std::string& filepath, const std::string& params);
     void resetCTAPopup();
+    
+    float _sizeMod = 1.0f; //size mod value if screen ratio is outside of normal range 4:3 -> 16:9
 };
 
 NS_AZOOMEE_END

@@ -4,6 +4,7 @@
 #include "SceneManagerScene.h"
 #include <AzoomeeCommon/UI/Style.h>
 #include "BackEndCaller.h"
+#include "DynamicNodeHandler.h"
 
 using namespace cocos2d;
 
@@ -112,7 +113,7 @@ void FTUScene::buttonPressed(ElectricDreamsButton* button)
     if(button == notNowButton)
         BackEndCaller::getInstance()->anonymousDeviceLogin();
     else
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+        DynamicNodeHandler::getInstance()->startSignupFlow();
 }
 
 NS_AZOOMEE_END

@@ -128,7 +128,7 @@ bool DeepLinkingSingleton::actionDeepLink()
         {
             AnalyticsSingleton::getInstance()->deepLinkingMoveToEvent(path);
             
-            Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+            DynamicNodeHandler::getInstance()->startSignupFlow();
             
             resetDeepLink();
             return true;

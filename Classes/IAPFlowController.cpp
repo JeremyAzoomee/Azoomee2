@@ -130,7 +130,7 @@ void IAPFlowController::handleLearnMoreFlow(ButtonActionDataRef actionData)
 
 void IAPFlowController::startIAP()
 {
-    if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+    if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && ParentDataProvider::getInstance()->getLoggedInParentId() != "")
     {
         AwaitingAdultPinLayer::create()->setDelegate(this);
     }

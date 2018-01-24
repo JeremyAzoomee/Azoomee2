@@ -81,7 +81,6 @@
 		430B215D1E448825004ACB10 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 430B215C1E448825004ACB10 /* libicucore.tbd */; };
 		430C30EA1EEAA0CF00E27589 /* SettingsKidsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430C30E81EEAA0CF00E27589 /* SettingsKidsLayer.cpp */; };
 		430C30EE1EEAB6A000E27589 /* KidsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430C30EC1EEAB6A000E27589 /* KidsLayer.cpp */; };
-		430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */; };
 		430EC1501EE992B900B0103B /* AccountDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */; };
 		431397721F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431397701F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp */; };
 		4315CD041EEEC99600B4F22C /* KidsControlLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4315CD021EEEC99600B4F22C /* KidsControlLayer.cpp */; };
@@ -90,9 +89,6 @@
 		433AD3071E252A2C003757AD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3051E252A2C003757AD /* Crashlytics.framework */; };
 		433AD3081E252A2C003757AD /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433AD3061E252A2C003757AD /* Fabric.framework */; };
 		4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4343CB9A1EBB826600247549 /* DeepLinkingSingleton.cpp */; };
-		4348E4431E65DD9B00486661 /* OnboardingSuccessScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */; };
-		434B8BD31E6821A4004C7C88 /* OnboardingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */; };
-		434B8BD61E689C29004C7C88 /* ChildAccountSuccessScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B8BD41E689C29004C7C88 /* ChildAccountSuccessScene.cpp */; };
 		435EBBDE1E55BA0400E55610 /* AppsFlyerLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */; };
 		435EBBE01E55BB1600E55610 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBDF1E55BB1600E55610 /* AdSupport.framework */; };
 		435EBBE21E55BB2400E55610 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435EBBE11E55BB2300E55610 /* iAd.framework */; };
@@ -390,8 +386,6 @@
 		430C30E91EEAA0CF00E27589 /* SettingsKidsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsKidsLayer.h; sourceTree = "<group>"; };
 		430C30EC1EEAB6A000E27589 /* KidsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KidsLayer.cpp; sourceTree = "<group>"; };
 		430C30ED1EEAB6A000E27589 /* KidsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KidsLayer.h; sourceTree = "<group>"; };
-		430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountScene.cpp; sourceTree = "<group>"; };
-		430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountScene.h; sourceTree = "<group>"; };
 		430EC14E1EE992B900B0103B /* AccountDetailsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AccountDetailsLayer.cpp; sourceTree = "<group>"; };
 		430EC14F1EE992B900B0103B /* AccountDetailsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountDetailsLayer.h; sourceTree = "<group>"; };
 		431397701F1F4E9B00E358DC /* OnlineSafetyDetailsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnlineSafetyDetailsLayer.cpp; sourceTree = "<group>"; };
@@ -406,12 +400,6 @@
 		433AD3061E252A2C003757AD /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		4343CB9A1EBB826600247549 /* DeepLinkingSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeepLinkingSingleton.cpp; sourceTree = "<group>"; };
 		4343CB9B1EBB826600247549 /* DeepLinkingSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepLinkingSingleton.h; sourceTree = "<group>"; };
-		4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingSuccessScene.cpp; sourceTree = "<group>"; };
-		4348E4421E65DD9B00486661 /* OnboardingSuccessScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingSuccessScene.h; sourceTree = "<group>"; };
-		434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OnboardingScene.cpp; sourceTree = "<group>"; };
-		434B8BD21E6821A4004C7C88 /* OnboardingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingScene.h; sourceTree = "<group>"; };
-		434B8BD41E689C29004C7C88 /* ChildAccountSuccessScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChildAccountSuccessScene.cpp; sourceTree = "<group>"; };
-		434B8BD51E689C29004C7C88 /* ChildAccountSuccessScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildAccountSuccessScene.h; sourceTree = "<group>"; };
 		435EBBDD1E55BA0400E55610 /* AppsFlyerLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppsFlyerLib.framework; sourceTree = "<group>"; };
 		435EBBDF1E55BB1600E55610 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
 		435EBBE11E55BB2300E55610 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/iAd.framework; sourceTree = DEVELOPER_DIR; };
@@ -875,21 +863,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		430B3B021DF832A8003A3AA7 /* Signup_AddChild */ = {
-			isa = PBXGroup;
-			children = (
-				434B8BD11E6821A4004C7C88 /* OnboardingScene.cpp */,
-				434B8BD21E6821A4004C7C88 /* OnboardingScene.h */,
-				4348E4411E65DD9B00486661 /* OnboardingSuccessScene.cpp */,
-				4348E4421E65DD9B00486661 /* OnboardingSuccessScene.h */,
-				430EB3E71DF961E4007E9AA4 /* ChildAccountScene.cpp */,
-				430EB3E81DF961E4007E9AA4 /* ChildAccountScene.h */,
-				434B8BD41E689C29004C7C88 /* ChildAccountSuccessScene.cpp */,
-				434B8BD51E689C29004C7C88 /* ChildAccountSuccessScene.h */,
-			);
-			name = Signup_AddChild;
-			sourceTree = "<group>";
-		};
 		4315CD001EEEC91600B4F22C /* SettingsSubLayers */ = {
 			isa = PBXGroup;
 			children = (
@@ -988,7 +961,6 @@
 				02E595821E55DE5E0052F395 /* Offline */,
 				4323120D1E1D4DC500C8606D /* Utilities */,
 				A1CC0C261E156882008B469E /* Intro */,
-				430B3B021DF832A8003A3AA7 /* Signup_AddChild */,
 				0243B9B01F387C43005D3734 /* ForceUpdate */,
 				A15B2FA41DEC73B800D25334 /* Login */,
 				A1CC0C141E1407B2008B469E /* BaseScene */,
@@ -1519,7 +1491,6 @@
 				A15B2FCA1DFACF3800D25334 /* HQDataProvider.cpp in Sources */,
 				439694841EAA4A08003C17E6 /* PrivacyAndTermsLayer.cpp in Sources */,
 				43F3844B1F1E394500ECA339 /* SlideShowScene.cpp in Sources */,
-				434B8BD61E689C29004C7C88 /* ChildAccountSuccessScene.cpp in Sources */,
 				02A11FF71EA6375D007EDD95 /* GooglePaymentSingleton.cpp in Sources */,
 				A198622E1DD480A60090F053 /* BaseScene.cpp in Sources */,
 				4343CB9C1EBB826600247549 /* DeepLinkingSingleton.cpp in Sources */,
@@ -1565,9 +1536,7 @@
 				9224BFB11F7908D400108553 /* DynamicNodeButtonListener.cpp in Sources */,
 				92759E701FE1598100639190 /* DynamicNodeLine.cpp in Sources */,
 				A19862271DD3836D0090F053 /* NavigationLayer.cpp in Sources */,
-				4348E4431E65DD9B00486661 /* OnboardingSuccessScene.cpp in Sources */,
 				A198622B1DD383BD0090F053 /* AppDelegate.cpp in Sources */,
-				434B8BD31E6821A4004C7C88 /* OnboardingScene.cpp in Sources */,
 				9220EAD5200F77E200BD7A90 /* SignUpFlowController.cpp in Sources */,
 				A19862261DD3836D0090F053 /* MainHubScene.cpp in Sources */,
 				02E595C31E5D9EE70052F395 /* OfflineText.cpp in Sources */,
@@ -1583,7 +1552,6 @@
 				9289DB471FD8414F00B12435 /* DynamicNodeText.cpp in Sources */,
 				43BCD71E1EC9FD4E00A07737 /* SceneManagerScene.cpp in Sources */,
 				92A9A0A91F0D1775008A19EB /* ArtAppDelegate.cpp in Sources */,
-				430EB3E91DF961E4007E9AA4 /* ChildAccountScene.cpp in Sources */,
 				4396947D1EAA4855003C17E6 /* ApplePaymentSingleton.mm in Sources */,
 				02D4FCD41FCF0D0C005BA020 /* IAPProductDataHandler.cpp in Sources */,
 				929D46671F73F04D006E40CE /* DynamicNodeCreator.cpp in Sources */,

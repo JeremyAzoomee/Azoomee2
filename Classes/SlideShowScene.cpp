@@ -29,7 +29,7 @@ bool SlideShowScene::init()
     
     createPageView();
     addLoginButton();
-    
+    DynamicNodeHandler::getInstance()->getCTAFiles();
     return true;
 }
 
@@ -175,7 +175,7 @@ void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
     }
     else if (button->getName() == "startTrialButton")
     {
-        DynamicNodeHandler::getInstance()->startIAPFlow();
+        DynamicNodeHandler::getInstance()->startIAPFlow(); // doesnt work on first start up as no cta files downloaded
     }
     else if (button == skipButton)
     {

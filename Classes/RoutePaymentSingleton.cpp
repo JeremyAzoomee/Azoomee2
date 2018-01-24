@@ -6,7 +6,6 @@
 #include "GooglePaymentSingleton.h"
 #include <AzoomeeCommon/Utils/StringFunctions.h>
 #include "LoginLogicHandler.h"
-#include "OnboardingSuccessScene.h"
 #include "BackEndCaller.h"
 #include <AzoomeeCommon/UI/MessageBox.h>
 #include "FlowDataSingleton.h"

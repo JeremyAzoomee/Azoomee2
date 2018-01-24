@@ -37,6 +37,8 @@ bool DynamicNodeText::initWithParams(int fontSize, Color4B fontColour, const rap
         fontSize = newFontSize;
     }
     
+    fontSize *= DynamicNodeCreator::getInstance()->_sizeMod;
+    
     int lineSpacing = getIntFromJson("lineSpacing", params);
     if(lineSpacing == INT_MAX)
     {

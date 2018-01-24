@@ -266,15 +266,19 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
     {
         if(sizePercentages[0].IsFloat() && sizePercentages[1].IsFloat())
         {
-            const Size& visibleSize = Director::getInstance()->getVisibleSize();
-            if(visibleSize.width/visibleSize.height > (16.0f/9.0f))
-            {
-                _sizeMod = 0.85f;
-            }
+            const Size& visibleSize = Director::getInstance()->getVisibleSize() * 0.95f;
+            
             float width = sizePercentages[0].GetFloat()/100.0f;
             float height = sizePercentages[1].GetFloat()/100.0f;
-            const Size& newSize = Size(_windowSize.width*width,_windowSize.height*height) * _sizeMod;
+            Size newSize = Size(_windowSize.width*width,_windowSize.height*height);
             
+            if(newSize.width > visibleSize.width || newSize.height > visibleSize.height)
+            {
+                float widthMod = visibleSize.width/newSize.width;
+                float heightMod = visibleSize.height/newSize.height;
+                _sizeMod = MIN(widthMod, heightMod);
+                newSize = newSize * _sizeMod;
+            }
             
             _stencil->setContentSize(newSize);
             _popupFrame->setContentSize(newSize);
