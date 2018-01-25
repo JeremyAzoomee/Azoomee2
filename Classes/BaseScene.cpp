@@ -132,7 +132,7 @@ void BaseScene::addNavigationLayer()
     }
     else
     {
-        sNavigationLayer->changeToScene(ConfigStorage::HubTargetTagNumber::GAME_HQ, 0.01);
+        sNavigationLayer->changeToScene(ConfigStorage::getInstance()->getTagNumberForMenuName(ConfigStorage::kDefaultHQName), 0.01);
     }
 }
 

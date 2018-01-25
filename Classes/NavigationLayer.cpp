@@ -23,6 +23,7 @@
 #include "ChatNotificationsSingleton.h"
 #include "IAPUpsaleLayer.h"
 #include "DynamicNodeHandler.h"
+#include <AzoomeeCommon/Data/ConfigStorage.h>
 
 using namespace cocos2d;
 
@@ -596,7 +597,7 @@ void NavigationLayer::addListenerToBackButton(Node* toBeAddedTo)
             
             HQHistoryManager::getInstance()->getHistoryLog();
             
-            if(HQHistoryManager::getInstance()->getPreviousHQ() != "HOME")
+            if(HQHistoryManager::getInstance()->getPreviousHQ() != ConfigStorage::kHomeHQName)
             {
                 
                 HQScene2 *hqLayer2 = (HQScene2 *)contentLayer->getChildByName(HQHistoryManager::getInstance()->getPreviousHQ());
@@ -643,7 +644,7 @@ void NavigationLayer::cleanUpPreviousHQ()
 {
     cocos2d::log("previous hq is: %s", HQHistoryManager::getInstance()->getPreviousHQ().c_str());
     std::string previousHqName = HQHistoryManager::getInstance()->getPreviousHQ();
-    if(previousHqName != "HOME")
+    if(previousHqName != ConfigStorage::kHomeHQName)
     {
         HQScene2* lastHQLayer = (HQScene2 *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("contentLayer")->getChildByName(previousHqName);
         

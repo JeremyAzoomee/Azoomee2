@@ -23,7 +23,7 @@ public:
     bool noHistory();
     void emptyHistory();
     
-    void addHomeIfHistoryEmpty();
+    void addDefaultHQIfHistoryEmpty();
     void getHistoryLog();
     
     std::vector<std::string> hqNames;
