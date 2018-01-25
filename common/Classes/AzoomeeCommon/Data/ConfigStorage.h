@@ -40,6 +40,9 @@ public:
     static const char* const kContentTypeGroup;
     static const char* const kContentTypeAudioGroup;
     
+    static const char* const kEstimatedKeyboardHeightPortrait;
+    static const char* const kEstimatedKeyboardHeightLandscape;
+    
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
     virtual ~ConfigStorage();
@@ -120,6 +123,9 @@ public:
     //Device-resolution-specific information
     void setIsDeviceIphoneX(bool isDeviceIphoneX);
     bool isDeviceIphoneX() const;
+    
+    //Set keyboard height for chat
+    void setEstimatedKeyboardHeight(float size);
     
 private:
     rapidjson::Document parseJsonConfigurationFile(const std::string& fileName);
