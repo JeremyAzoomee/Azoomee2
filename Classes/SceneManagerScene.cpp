@@ -93,7 +93,7 @@ void SceneManagerScene::onEnterTransitionDidFinish()
         {
             FlowDataSingleton::getInstance()->clearData();
             forceToLandscape();
-            HQHistoryManager::getInstance()->addHomeIfHistoryEmpty();
+            HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
             cocos2d::Scene* goToScene = BaseScene::createScene();
             Director::getInstance()->replaceScene(goToScene);
             break;

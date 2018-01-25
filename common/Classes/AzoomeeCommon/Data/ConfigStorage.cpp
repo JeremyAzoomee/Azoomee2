@@ -24,6 +24,8 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kHomeHQName = "HOME";
     const char* const ConfigStorage::kArtAppHQName = "ARTS APP";
     
+    const char* const ConfigStorage::kDefaultHQName = kGameHQName;
+    
     const char* const ConfigStorage::kContentTypeVideo = "VIDEO";
     const char* const ConfigStorage::kContentTypeAudio = "AUDIO";
     const char* const ConfigStorage::kContentTypeGame = "GAME";
