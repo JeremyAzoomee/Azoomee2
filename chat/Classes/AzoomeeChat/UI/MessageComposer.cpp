@@ -941,7 +941,16 @@ void MessageComposer::createMessageEntryUI(cocos2d::ui::Layout* parent)
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     auto funcCallAction = CallFunc::create([=](){
-        textFieldRenderer->attachWithIME(); //focus on textfield, to avoid sizing issues
+        const Size& nativeScreenSize = Director::getInstance()->getOpenGLView()->getFrameSize();
+        const bool currentOrientationPortrait = (nativeScreenSize.height > nativeScreenSize.width);
+        
+        const char* const keyToRead = currentOrientationPortrait ? ConfigStorage::kEstimatedKeyboardHeightPortrait : ConfigStorage::kEstimatedKeyboardHeightLandscape;
+        
+        if(UserDefault::getInstance()->getFloatForKey(keyToRead) < 100.0f)
+        {
+            cocos2d::log("KEYBOARD currentOrientationPortrait: %d, keyToRead: %s, float for it: %f", currentOrientationPortrait, keyToRead, UserDefault::getInstance()->getFloatForKey(keyToRead));
+            textFieldRenderer->attachWithIME(); //focus on textfield, to avoid sizing issues
+        }
     });
     
     this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
