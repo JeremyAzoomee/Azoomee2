@@ -11,25 +11,20 @@
 //waiting for addHQSceneElement command from HQScene after init.
 
 #include "HQSceneElement.h"
-#include "WebViewSelector.h"
 #include "HQDataProvider.h"
-#include "GameDataManager.h"
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include "HQDataParser.h"
-#include "NavigationLayer.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
 #include "PreviewLoginSignupMessageBox.h"
 #include <AzoomeeCommon/Audio/AudioMixer.h>
-#include "HQHistoryManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/UI/ElectricDreamsTextStyles.h>
-#include "RoutePaymentSingleton.h"
-#include "IAPUpsaleLayer.h"
 #include "ManualGameInputLayer.h"
-#include "VideoPlaylistManager.h"
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObjectStorage.h>
 #include "DynamicNodeHandler.h"
 #include "ContentHistoryManager.h"
+#include "ContentOpener.h"
+#include "VideoPlaylistManager.h"
 
 using namespace cocos2d;
 using namespace network;
@@ -195,32 +190,11 @@ void HQSceneElement::addListenerToElement()
 void HQSceneElement::startUpElementDependingOnType()
 {
     this->getParent()->getParent()->getParent()->stopAllActions();
-    
-    if(_elementItemData->getType() == ConfigStorage::kContentTypeGame)
+    if(_elementItemData->getType() == ConfigStorage::kContentTypeVideo || _elementItemData->getType() == ConfigStorage::kContentTypeAudio)
     {
-        ContentHistoryManager::getInstance()->setLastOppenedContent(_elementItemData);
-        GameDataManager::getInstance()->startProcessingGame(_elementItemData);
-    }
-    else if((_elementItemData->getType() == ConfigStorage::kContentTypeVideo) || (_elementItemData->getType() == ConfigStorage::kContentTypeAudio))
-    {
-        ContentHistoryManager::getInstance()->setLastOppenedContent(_elementItemData);
         VideoPlaylistManager::getInstance()->setPlaylist(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_elementCategory)->getHqCarousels().at(_elementRowNumber));
-        
-        auto webViewSelector = WebViewSelector::create();
-        webViewSelector->loadWebView(_elementItemData->getUri().c_str(),Orientation::Landscape);
     }
-    else if((_elementItemData->getType() == ConfigStorage::kContentTypeAudioGroup)||(_elementItemData->getType() == ConfigStorage::kContentTypeGroup))
-    {
-        NavigationLayer *navigationLayer = (NavigationLayer *)Director::getInstance()->getRunningScene()->getChildByName("baseLayer")->getChildByName("NavigationLayer");
-        navigationLayer->startLoadingGroupHQ(_elementItemData->getUri());
-        
-        auto funcCallAction = CallFunc::create([=](){
-            HQDataProvider::getInstance()->getDataForGroupHQ(_elementItemData->getUri());
-            HQHistoryManager::getInstance()->setGroupHQSourceId(_elementItemData->getContentItemId());
-        });
-        
-        this->runAction(Sequence::create(DelayTime::create(0.5), funcCallAction, NULL));
-    }
+    ContentOpener::getInstance()->openContentObject(_elementItemData);
 }
 
 NS_AZOOMEE_END

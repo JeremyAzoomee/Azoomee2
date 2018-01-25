@@ -56,24 +56,6 @@ std::vector<HQCarouselObjectRef> HQDataObject::getHqCarousels()
     return _carousels;
 }
 
-void HQDataObject::addContentItemToRawStorage(const std::string &contentItemId, const HQContentItemObjectRef &inputContentItemObject)
-{
-    _rawContentItems[contentItemId] = inputContentItemObject;
-}
-
-HQContentItemObjectRef HQDataObject::getContentItemForId(const std::string &contentItemId) const
-{
-    try
-    {
-        HQContentItemObjectRef item = _rawContentItems.at(contentItemId);
-        return item;
-    }
-    catch(std::out_of_range)
-    {
-        return nullptr;
-    }
-}
-
 std::map<std::string, std::string> HQDataObject::getImages() const
 {
     return _images;

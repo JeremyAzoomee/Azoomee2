@@ -19,6 +19,7 @@
 #include <AzoomeeCommon/Data/HQDataObject/HQDataObject.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQCarouselObject.h>
 #include <AzoomeeCommon/Data/HQDataObject/HQContentItemObject.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
 
 #include <AzoomeeCommon/UI/ModalMessages.h>
 
@@ -90,7 +91,7 @@ bool HQDataParser::parseHQData(const std::string &responseString, const char *ca
                 contentObject->setImages(getStringMapFromJson(itemData["images"]));
             }
             
-            HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->addContentItemToRawStorage(key, contentObject);
+            ContentItemPool::getInstance()->addContentItemToPool(contentObject);
         }
     }
     
@@ -130,7 +131,7 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
                 }
                 const std::string &contentId = contentIds[elementIndex].GetString();
                 
-                const HQContentItemObjectRef &pointerToContentItem = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(contentId);
+                const HQContentItemObjectRef &pointerToContentItem = ContentItemPool::getInstance()->getContentItemForId(contentId);
                 if(pointerToContentItem == nullptr)
                 {
                     continue;
@@ -145,7 +146,6 @@ bool HQDataParser::parseHQStructure(const std::string &responseString, const cha
                        contentItemHighlight = Vec2(elementShapeData[0].GetInt(), elementShapeData[1].GetInt());
                     }
                 }
-                
                 
                 carouselObject->addContentItemToCarousel(pointerToContentItem);
                 carouselObject->addContentItemHighlight(contentItemHighlight);

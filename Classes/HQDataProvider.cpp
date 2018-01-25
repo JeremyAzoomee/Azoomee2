@@ -12,6 +12,7 @@
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Utils/StringFunctions.h>
+#include <AzoomeeCommon/Data/HQDataObject/ContentItemPool.h>
 
 using namespace cocos2d;
 
@@ -139,24 +140,9 @@ std::string HQDataProvider::getTitleForRow(const std::string &category, int inde
     return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getHqCarousels().at(index)->getTitle();
 }
 
-HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::string &category,  const std::string &itemid)
-{
-    return HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(itemid);
-}
-
 HQContentItemObjectRef HQDataProvider::getItemDataForSpecificItem(const std::string &itemid)
 {
-    static const std::vector<std::string>& hqNames = {ConfigStorage::kGameHQName, ConfigStorage::kVideoHQName, ConfigStorage::kAudioHQName};
-    for(const std::string& cat : hqNames)
-    {
-        HQContentItemObjectRef item = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(cat)->getContentItemForId(itemid);
-        if(item)
-        {
-            return item;
-        }
-    }
-    
-    return nullptr;
+    return ContentItemPool::getInstance()->getContentItemForId(itemid);
 }
 
 Vec2 HQDataProvider::getHighlightDataForSpecificItem(const std::string &category, int rowNumber, int itemNumber) const
@@ -186,15 +172,10 @@ std::string HQDataProvider::getThumbnailUrlForItem(const std::string &category, 
 
 std::string HQDataProvider::getThumbnailUrlForItem(const std::string &itemId) const
 {
-    static const std::vector<std::string>& hqNames = {ConfigStorage::kGameHQName, ConfigStorage::kVideoHQName, ConfigStorage::kAudioHQName, ConfigStorage::kGroupHQName};
-    
-    for(const std::string& cat : hqNames)
+    HQContentItemObjectRef element = ContentItemPool::getInstance()->getContentItemForId(itemId);
+    if(element)
     {
-        HQContentItemObjectRef element = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(cat)->getContentItemForId(itemId);
-        if(element)
-        {
-            return getThumbnailUrlForItem(element, Vec2(1,1));
-        }
+        return getThumbnailUrlForItem(element, Vec2(1,1));
     }
     
     return "";
@@ -202,7 +183,7 @@ std::string HQDataProvider::getThumbnailUrlForItem(const std::string &itemId) co
 
 std::string HQDataProvider::getThumbnailUrlForItem(const std::string &category, const std::string &itemId) const
 {
-    return getThumbnailUrlForItem(HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(itemId), Vec2(1,1));
+    return getThumbnailUrlForItem(ContentItemPool::getInstance()->getContentItemForId(itemId), Vec2(1,1));
 }
 
 std::string HQDataProvider::getThumbnailUrlForItem(HQContentItemObjectRef element, const cocos2d::Vec2 &shape) const
@@ -248,7 +229,7 @@ std::string HQDataProvider::convertShapeToThumbnailKey(const cocos2d::Vec2 &shap
 
 std::string HQDataProvider::getTypeForSpecificItem(const std::string &category, const std::string &itemId) const
 {
-    HQContentItemObjectRef targetObject = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(category)->getContentItemForId(itemId);
+    HQContentItemObjectRef targetObject = ContentItemPool::getInstance()->getContentItemForId(itemId);
     if(targetObject)
     {
         return targetObject->getType();
