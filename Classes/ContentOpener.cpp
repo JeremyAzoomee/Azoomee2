@@ -13,6 +13,7 @@
 #include "VideoPlaylistManager.h"
 #include "WebViewSelector.h"
 #include "NavigationLayer.h"
+#include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/UI/ModalMessages.h>
@@ -63,13 +64,13 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
     
     if(contentItem->getType() == ConfigStorage::kContentTypeGame)
     {
-        saveContentToLastPlayedList(contentItem->getContentItemId());
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFile(contentItem->getContentItemId());
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         GameDataManager::getInstance()->startProcessingGame(contentItem);
     }
     else if(contentItem->getType()  == ConfigStorage::kContentTypeVideo || contentItem->getType()  == ConfigStorage::kContentTypeAudio)
     {
-        saveContentToLastPlayedList(contentItem->getContentItemId());
+        RecentlyPlayedManager::getInstance()->addContentIdToRecentlyPlayedFile(contentItem->getContentItemId());
         ContentHistoryManager::getInstance()->setLastOppenedContent(contentItem);
         auto webViewSelector = WebViewSelector::create();
         webViewSelector->loadWebView(contentItem->getUri(),Orientation::Landscape);
@@ -98,53 +99,6 @@ void ContentOpener::openContentObject(const HQContentItemObjectRef &contentItem)
             }
         }
     }
-}
-
-void ContentOpener::saveContentToLastPlayedList(const std::string& contentId)
-{
-    const std::string& recentlyPlayedFolderLoc = FileUtils::getInstance()->getWritablePath() + "RecentlyPlayed/";
-    if(!FileUtils::getInstance()->isDirectoryExist(recentlyPlayedFolderLoc))
-    {
-        FileUtils::getInstance()->createDirectory(recentlyPlayedFolderLoc);
-    }
-    const std::string& childRecentlyPlayedFolderLoc = recentlyPlayedFolderLoc + ChildDataProvider::getInstance()->getLoggedInChildId();
-    if(!FileUtils::getInstance()->isDirectoryExist(childRecentlyPlayedFolderLoc))
-    {
-        FileUtils::getInstance()->createDirectory(childRecentlyPlayedFolderLoc);
-    }
-    const std::string& recentlyPlayedContentFile = childRecentlyPlayedFolderLoc + "/recentContent.txt";
-    
-    const std::string& fileStr = FileUtils::getInstance()->getStringFromFile(recentlyPlayedContentFile);
-    
-    std::vector<std::string> fileIds = splitStringToVector(fileStr, "/");
-    
-    auto pivot = std::find_if(fileIds.begin(), fileIds.end(), [&](const std::string& id){return id == contentId;});
-    if(pivot != fileIds.end())
-    {
-        std::rotate(fileIds.begin(), pivot, pivot + 1);
-    }
-    else
-    {
-        fileIds.insert(fileIds.begin(),contentId);
-    }
-    
-    while(fileIds.size() > 8)
-    {
-        fileIds.pop_back();
-    }
-    
-    std::string newIdList = "";
-    for(int i = 0; i < fileIds.size(); i++)
-    {
-        newIdList += fileIds[i];
-        if(i < fileIds.size() -1)
-        {
-            newIdList += "/";
-        }
-    }
-    
-    FileUtils::getInstance()->writeStringToFile(newIdList, recentlyPlayedContentFile);
-    
 }
 
 

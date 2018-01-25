@@ -9,6 +9,7 @@
 #include "DynamicNodeHandler.h"
 #include "HQSceneArtsApp.h"
 #include "OfflineHubBackButton.h"
+#include "RecentlyPlayedManager.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
@@ -103,57 +104,7 @@ void HQScene2::startBuildingScrollView()
     _carouselStorage.clear();
     float totalHeightOfCarousels = 0;
     
-    //inject recently played row
-    if(_hqCategory != ConfigStorage::kGroupHQName)
-    {
-        const std::string& favFolderLoc = FileUtils::getInstance()->getWritablePath() + "RecentlyPlayed/";
-        if(!FileUtils::getInstance()->isDirectoryExist(favFolderLoc))
-        {
-            FileUtils::getInstance()->createDirectory(favFolderLoc);
-        }
-        const std::string& childFavFolderLoc = favFolderLoc + ChildDataProvider::getInstance()->getLoggedInChildId();
-        if(!FileUtils::getInstance()->isDirectoryExist(childFavFolderLoc))
-        {
-            FileUtils::getInstance()->createDirectory(childFavFolderLoc);
-        }
-        const std::string& favContentForCategoryFile = childFavFolderLoc + "/recentContent.txt";
-    
-        const std::string& fileStr = FileUtils::getInstance()->getStringFromFile(favContentForCategoryFile);
-    
-        const std::vector<std::string>& fileIds = splitStringToVector(fileStr, "/");
-        if(fileIds.size() > 0)
-        {
-            auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
-            auto carouselData = HQData->getHqCarousels();
-            HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
-            recentContentCarousel->setTitle("Recent Content");
-            bool carouselExists = false;
-            for(auto carousel : carouselData)
-            {
-                if(carousel->getTitle() == "Recent Content")
-                {
-                    recentContentCarousel = carousel;
-                    carouselExists = true;
-                    break;
-                }
-            }
-            if(!carouselExists)
-            {
-                HQData->addCarusoelToHqFront(recentContentCarousel);
-            }
-        
-            recentContentCarousel->removeAllItemsFromCarousel();
-            for(const std::string& id : fileIds)
-            {
-                HQContentItemObjectRef item = HQDataProvider::getInstance()->getItemDataForSpecificItem(id);
-                if(item)
-                {
-                    item->setElementShape(Vec2(1,1));
-                    recentContentCarousel->addContentItemToCarousel(item);
-                }
-            }
-        }
-    }
+    addRecentlyPlayedCarousel();
     
     for(int rowIndex = 0; rowIndex < HQDataProvider::getInstance()->getNumberOfRowsForHQ(_hqCategory); rowIndex++)
     {
@@ -186,7 +137,7 @@ void HQScene2::startBuildingScrollView()
         
         //Filling up empty spaces with placeholders (Design requirement - except for Group HQ)
     
-        if(_hqCategory != ConfigStorage::kGroupHQName)
+        if(_hqCategory != ConfigStorage::kGroupHQName && rowIndex != 0)
         {
             HQScene2PlaceHolderCreator hqScene2PlaceHolderCreator;
             hqScene2PlaceHolderCreator.setLowestElementYPosition(lowestElementYPosition);
@@ -245,6 +196,46 @@ void HQScene2::startBuildingScrollView()
     //show post content cta if necessary
     
     showPostContentCTA();
+}
+
+void HQScene2::addRecentlyPlayedCarousel()
+{
+    //inject recently played row
+    if(_hqCategory != ConfigStorage::kGroupHQName)
+    {
+        const std::vector<HQContentItemObjectRef> recentContent = RecentlyPlayedManager::getInstance()->getRecentlyPlayedContent();
+        if(recentContent.size() > 0)
+        {
+            auto HQData = HQDataObjectStorage::getInstance()->getHQDataObjectForKey(_hqCategory);
+            auto carouselData = HQData->getHqCarousels();
+            HQCarouselObjectRef recentContentCarousel = HQCarouselObject::create();
+            recentContentCarousel->setTitle("Recent Content");
+            bool carouselExists = false;
+            for(auto carousel : carouselData)
+            {
+                if(carousel->getTitle() == "Recent Content")
+                {
+                    recentContentCarousel = carousel;
+                    carouselExists = true;
+                    break;
+                }
+            }
+            if(!carouselExists)
+            {
+                HQData->addCarusoelToHqFront(recentContentCarousel);
+            }
+            
+            recentContentCarousel->removeAllItemsFromCarousel();
+            for(const HQContentItemObjectRef& item : recentContent)
+            {
+                if(item)
+                {
+                    //item->setElementShape(Vec2(1,1));
+                    recentContentCarousel->addContentItemToCarousel(item);
+                }
+            }
+        }
+    }
 }
 
 void HQScene2::showPostContentCTA()
