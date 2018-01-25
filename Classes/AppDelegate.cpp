@@ -36,7 +36,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     auto scene = IntroVideoScene::createScene();
     Director::getInstance()->runWithScene(scene);
     
-    RoutePaymentSingleton::getInstance();
+    RoutePaymentSingleton::getInstance()->setOSManufacturer();
     SessionIdManager::getInstance();
     AnalyticsSingleton::getInstance()->setLandscapeOrientation();
     AnalyticsSingleton::getInstance()->firstLaunchEvent();

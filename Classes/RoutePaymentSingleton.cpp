@@ -48,7 +48,6 @@ RoutePaymentSingleton::~RoutePaymentSingleton(void)
 
 bool RoutePaymentSingleton::init(void)
 {
-    setOSManufacturer();
     return true;
 }
 void RoutePaymentSingleton::startInAppPayment()
@@ -143,33 +142,6 @@ void RoutePaymentSingleton::refreshAppleReceiptFromButton()
         ModalMessages::getInstance()->startLoading();
         ApplePaymentSingleton::getInstance()->refreshReceipt(true);
     #endif
-}
-
-bool RoutePaymentSingleton::checkIfAppleReceiptRefreshNeeded()
-{
-    if(appleReceiptRefreshchecked)
-        return true;
-    else
-    {
-        appleReceiptRefreshchecked = true;
-
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && isDateStringOlderThanToday(ParentDataProvider::getInstance()->getBillingDate()))
-        {
-            pressedIAPStartButton = false;
-            pressedRestorePurchaseButton = false;
-            ApplePaymentSingleton::getInstance()->refreshReceipt(false);
-            return false;
-        }
-    #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        if(ParentDataProvider::getInstance()->getBillingProvider() == "APPLE" && !ParentDataProvider::getInstance()->isPaidUser())
-        {
-            MessageBox::createWith(ERROR_CODE_APPLE_SUBSCRIPTION_ON_NON_APPLE, this);
-            return false;
-        }
-    #endif
-        return true;
-    }
 }
 
 void RoutePaymentSingleton::backendRequestFailed(long errorCode)
