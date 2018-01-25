@@ -12,7 +12,13 @@
 
 NS_AZOOMEE_BEGIN
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+const std::string IAPFlowController::kIAPUpgradeCTAName = "iap_upgrade_android.json";
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+const std::string IAPFlowController::kIAPUpgradeCTAName = "iap_upgrade_ios.json";
+#else
 const std::string IAPFlowController::kIAPUpgradeCTAName = "iap_upgrade.json";
+#endif
 const std::string IAPFlowController::kCoppaPrivacyCTAName = "coppa_privacy_notice.json";
 const std::string IAPFlowController::kLearnMoreCTAName = "iap_learn_more.json";
 
