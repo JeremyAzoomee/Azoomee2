@@ -149,6 +149,14 @@ public class NativeViewUI extends Activity {
         uiWebView.clearCache(true);
         uiWebView.clearHistory();
 
+        if(extras.getBoolean("remoteDebugWebViewEnabled"))
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                Log.d("REMOTEDEBUG", "!!! ATTENTION: REMOTE DEBUGGING IS ON !!!");
+                uiWebView.setWebContentsDebuggingEnabled(true);
+            }
+        }
+
         imageButtonStatic = closeButton;
         uiWebViewStatic = uiWebView;
 

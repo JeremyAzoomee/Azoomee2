@@ -74,6 +74,8 @@ import com.urbanairship.UAirship;
 
 public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver.IabBroadcastListener {
 
+    private static boolean kRemoteDebugWebViewEnabled = false;
+
     private static Context mContext;
     private static Activity mActivity;
     private static AppActivity mAppActivity;
@@ -113,9 +115,10 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
     public static void startWebView(String url, String userid, int orientation) {
         Intent nvw;
 
-        if ((android.os.Build.MANUFACTURER.equals("Amazon")) && (url.substring(url.length() - 4).equals("html")))
+        if ((android.os.Build.MANUFACTURER.equals("Amazon") || kRemoteDebugWebViewEnabled) && (url.substring(url.length() - 4).equals("html")))
         {
             nvw = new Intent(mContext, NativeViewUI.class);
+            nvw.putExtra("remoteDebugWebViewEnabled", kRemoteDebugWebViewEnabled);
         }
         else
         {
@@ -125,6 +128,7 @@ public class AppActivity extends AzoomeeActivity implements IabBroadcastReceiver
         nvw.putExtra("url", url);
         nvw.putExtra("userid", userid);
         nvw.putExtra("orientation", orientation);
+
         mContext.startActivity(nvw);
 
     }
