@@ -50,7 +50,7 @@ void GooglePaymentSingleton::startBackEndPaymentVerification(std::string develop
     savedDeveloperPayload = developerPayload;
     savedOrderId = orderId;
     savedToken = token;
-    if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous())
+    if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() || ParentDataProvider::getInstance()->getLoggedInParentId() == "")
     {
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();
