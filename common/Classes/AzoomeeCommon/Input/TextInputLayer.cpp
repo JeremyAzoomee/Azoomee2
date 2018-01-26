@@ -123,7 +123,7 @@ void TextInputLayer::setupEditBoxUsingType()
             editBox->setInputFlag(ui::EditBox::InputFlag::INITIAL_CAPS_WORD);
             editBox->setInputMode(ui::EditBox::InputMode::SINGLE_LINE);
             //PLACEHOLDER TEXT WILL CHANGE/REMOVE WITH NEXT RELEASE AND CHANGE TO SIGNUP
-            editBox->setPlaceHolder("First name or nickname only!");
+            editBox->setPlaceHolder("First name or nickname only");
             break;
         }
         case INPUT_IS_DAY:
