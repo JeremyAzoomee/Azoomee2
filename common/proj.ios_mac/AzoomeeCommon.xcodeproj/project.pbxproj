@@ -16,6 +16,7 @@
 		02A120251EAF83E0007EDD95 /* VersionChecker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02A120231EAF83E0007EDD95 /* VersionChecker.cpp */; };
 		02AE88E01F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */; };
 		02AE88E31F83CBC3005C0FC8 /* AutomaticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */; };
+		02BEDF2E1FE1327500D4C9B3 /* ContentItemPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02BEDF2C1FE1327500D4C9B3 /* ContentItemPool.cpp */; };
 		02BF05E01F97828E00E7D086 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02BF05DF1F97828D00E7D086 /* AirshipKit.framework */; };
 		02BF05E21F97829E00E7D086 /* AirshipKit.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 02BF05E11F97829E00E7D086 /* AirshipKit.framework.dSYM */; };
 		02BF05F21F98BAAF00E7D086 /* PushNotificationsHandler_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02BF05F01F98BAAE00E7D086 /* PushNotificationsHandler_ios.mm */; };
@@ -172,6 +173,8 @@
 		02AE88DF1F83CAF3005C0FC8 /* IosNativeFunctionsSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IosNativeFunctionsSingleton.mm; sourceTree = "<group>"; };
 		02AE88E11F83CBC3005C0FC8 /* AutomaticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutomaticEvents.h; sourceTree = "<group>"; };
 		02AE88E21F83CBC3005C0FC8 /* AutomaticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutomaticEvents.m; sourceTree = "<group>"; };
+		02BEDF2C1FE1327500D4C9B3 /* ContentItemPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContentItemPool.cpp; path = HQDataObject/ContentItemPool.cpp; sourceTree = "<group>"; };
+		02BEDF2D1FE1327500D4C9B3 /* ContentItemPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentItemPool.h; path = HQDataObject/ContentItemPool.h; sourceTree = "<group>"; };
 		02BF05DF1F97828D00E7D086 /* AirshipKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AirshipKit.framework; sourceTree = "<group>"; };
 		02BF05E11F97829E00E7D086 /* AirshipKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = AirshipKit.framework.dSYM; sourceTree = "<group>"; };
 		02BF05EE1F98B80B00E7D086 /* PushNotificationsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushNotificationsHandler.h; sourceTree = "<group>"; };
@@ -468,6 +471,8 @@
 		021B1FC01F8389FC0044DCF7 /* HQDataObject */ = {
 			isa = PBXGroup;
 			children = (
+				02BEDF2C1FE1327500D4C9B3 /* ContentItemPool.cpp */,
+				02BEDF2D1FE1327500D4C9B3 /* ContentItemPool.h */,
 				021B1FC11F838A0A0044DCF7 /* HQCarouselObject.cpp */,
 				021B1FC21F838A0A0044DCF7 /* HQCarouselObject.h */,
 				021B1FC31F838A0A0044DCF7 /* HQContentItemObject.cpp */,
@@ -1172,6 +1177,7 @@
 				4349C85E1EA8ADEF00FE964B /* UIViewController+AutomaticEvents.m in Sources */,
 				4349C8191EA8ADEF00FE964B /* MPABTestDesignerChangeRequestMessage.m in Sources */,
 				022218CC1ECF203000AD167F /* SessionIdManager.cpp in Sources */,
+				02BEDF2E1FE1327500D4C9B3 /* ContentItemPool.cpp in Sources */,
 				301CCA9A1EB14280009ADA0C /* API.cpp in Sources */,
 				3012ED711E96A3140009027D /* StringMgr.cpp in Sources */,
 				4349C8201EA8ADEF00FE964B /* MPABTestDesignerDisconnectMessage.m in Sources */,

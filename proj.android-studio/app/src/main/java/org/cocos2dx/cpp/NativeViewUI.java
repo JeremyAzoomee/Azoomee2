@@ -121,7 +121,12 @@ public class NativeViewUI extends Activity {
         android.view.Display display = wm.getDefaultDisplay();
         android.util.DisplayMetrics metrics = new android.util.DisplayMetrics();
         display.getMetrics(metrics);
-        int buttonWidth = metrics.widthPixels/12;
+
+        int buttonWidth = metrics.widthPixels / 12;
+        if(metrics.heightPixels > metrics.widthPixels)
+        {
+            buttonWidth = metrics.heightPixels / 12;
+        }
 
         android.widget.RelativeLayout.LayoutParams buttonLayoutParams = new android.widget.RelativeLayout.LayoutParams(
                 android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -143,6 +148,14 @@ public class NativeViewUI extends Activity {
         uiWebView.loadUrl("about:blank");
         uiWebView.clearCache(true);
         uiWebView.clearHistory();
+
+        if(extras.getBoolean("remoteDebugWebViewEnabled"))
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                Log.d("REMOTEDEBUG", "!!! ATTENTION: REMOTE DEBUGGING IS ON !!!");
+                uiWebView.setWebContentsDebuggingEnabled(true);
+            }
+        }
 
         imageButtonStatic = closeButton;
         uiWebViewStatic = uiWebView;

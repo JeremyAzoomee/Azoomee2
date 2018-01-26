@@ -160,6 +160,7 @@ void TextInputLayer::setupEditBoxUsingType()
         {
             editBox->setMaxLength(3);
             editBox->setInputMode(ui::EditBox::InputMode::NUMERIC);
+            editBox->setPlaceHolder("Age");
             break;
         }
     }
@@ -245,7 +246,7 @@ bool TextInputLayer::inputIsValid()
         }
         case INPUT_IS_PASSWORD:
         {
-            if(isValidPassword(editBox->getText(),6))
+            if(isValidPassword(editBox->getText(),2))
             {
                 isValidInput = true;
             }

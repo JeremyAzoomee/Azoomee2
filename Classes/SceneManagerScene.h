@@ -14,7 +14,6 @@ enum SceneNameEnum {
     ChildSelector,
     OfflineHub,
     OfflineArtsAppHQ,
-    FTUScene,
     ChatEntryPointScene,
     WebviewPortrait,
     WebviewLandscape,

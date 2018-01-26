@@ -12,7 +12,7 @@ NS_AZOOMEE_BEGIN
 
 enum LoginScreenLocationEnum { emailLoginScreen, passwordLoginScreen};
 
-class LoginScene : public cocos2d::Layer, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public OfflineCheckerDelegate
+class LoginScene : public cocos2d::Layer, public cocos2d::IMEDelegate, public TextInputLayerDelegate, public ElectricDreamsButtonDelegate, public MessageBoxDelegate, public OfflineCheckerDelegate
 {
 private:
 
@@ -50,6 +50,10 @@ private:
     void onExit();
     
     bool shouldDisplayMessage = false;
+    
+    // - IMEDelegate
+    void keyboardWillShow(cocos2d::IMEKeyboardNotificationInfo& info);
+    void keyboardDidShow(cocos2d::IMEKeyboardNotificationInfo& info);
     
 public:
     static cocos2d::Scene* createScene();

@@ -30,14 +30,12 @@ public:
     void setHqUrl(const std::string &inputHqUrl);
     void setHqEntitlement(bool inputHqEntitlement);
     void addCarusoelToHq(const HQCarouselObjectRef &inputCarouselData);
-    void addContentItemToRawStorage(const std::string &contentItemId, const HQContentItemObjectRef &inputContentItemObject);
     void setImages(const std::map<std::string, std::string> &images);
     
     std::string getHqType() const;
     std::string getHqUrl() const;
     bool getHqEntitlement() const;
     std::vector<HQCarouselObjectRef> getHqCarousels();
-    HQContentItemObjectRef getContentItemForId(const std::string &contentItemId) const;
     std::map<std::string, std::string> getImages() const;
     std::string getGroupLogo() const;
     

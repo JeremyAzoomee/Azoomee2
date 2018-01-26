@@ -24,11 +24,16 @@ static ConfigStorage *_sharedConfigStorage = NULL;
     const char* const ConfigStorage::kHomeHQName = "HOME";
     const char* const ConfigStorage::kArtAppHQName = "ARTS APP";
     
+    const char* const ConfigStorage::kDefaultHQName = kGameHQName;
+    
     const char* const ConfigStorage::kContentTypeVideo = "VIDEO";
     const char* const ConfigStorage::kContentTypeAudio = "AUDIO";
     const char* const ConfigStorage::kContentTypeGame = "GAME";
     const char* const ConfigStorage::kContentTypeGroup = "GROUP";
     const char* const ConfigStorage::kContentTypeAudioGroup = "AUDIOGROUP";
+    
+    const char* const ConfigStorage::kEstimatedKeyboardHeightPortrait = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Portrait";
+    const char* const ConfigStorage::kEstimatedKeyboardHeightLandscape = "Azoomee::MessageComposer::EstimatedKeyboardHeight/Landscape";
 
 ConfigStorage* ConfigStorage::getInstance()
 {
@@ -484,4 +489,31 @@ bool ConfigStorage::isDeviceIphoneX() const
     return _isDeviceIphoneX;
 }
 
+//------------------------- Set estimated keyboard height for chat ---------------------------
+void ConfigStorage::setEstimatedKeyboardHeight(float height)
+{
+    cocos2d::log("KEYBOARD estimated keyboard height received: %f", height);
+    
+    // Ignore tiny values
+    // Sometimes device reports a 0 or small height (e.g Android devices can report the size of the
+    // black bottom bar which sometimes appears with or without the keyboard).
+    if(height < 100.0f)
+    {
+        return;
+    }
+    
+    const Size& nativeScreenSize = Director::getInstance()->getOpenGLView()->getFrameSize();
+    const bool currentOrientationPortrait = (nativeScreenSize.height > nativeScreenSize.width);
+    
+    if(currentOrientationPortrait)
+    {
+        UserDefault::getInstance()->setFloatForKey(kEstimatedKeyboardHeightPortrait, height);
+    }
+    else
+    {
+        UserDefault::getInstance()->setFloatForKey(kEstimatedKeyboardHeightLandscape, height);
+    }
+}
+
+    
 }

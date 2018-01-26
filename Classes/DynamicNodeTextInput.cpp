@@ -59,8 +59,9 @@ void DynamicNodeTextInput::initWithParams(const rapidjson::Value &params, const 
     {
         placeholder = DynamicNodeCreator::addExternalParamsToString(placeholder);
     }
-    
-    _textInput = TextInputLayer::createWithSize(Size(size.x * dynamicNodeSize.width, size.y * dynamicNodeSize.height), inputType);
+    const Size& unscaledNodeSize = dynamicNodeSize / DynamicNodeCreator::getInstance()->_sizeMod;
+    _textInput = TextInputLayer::createWithSize(Size(size.x * unscaledNodeSize.width, size.y * unscaledNodeSize.height), inputType);
+    _textInput->setScale(DynamicNodeCreator::getInstance()->_sizeMod);
     _textInput->setDelegate(this);
     _textInput->setCenterPosition(Vec2(pos.x * dynamicNodeSize.width, pos.y * dynamicNodeSize.height));
     _textInput->setAnchorPoint(Vec2::ANCHOR_MIDDLE);

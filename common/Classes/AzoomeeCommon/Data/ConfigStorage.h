@@ -34,11 +34,16 @@ public:
     static const char* const kHomeHQName;
     static const char* const kArtAppHQName;
     
+    static const char* const kDefaultHQName;
+    
     static const char* const kContentTypeVideo;
     static const char* const kContentTypeAudio;
     static const char* const kContentTypeGame;
     static const char* const kContentTypeGroup;
     static const char* const kContentTypeAudioGroup;
+    
+    static const char* const kEstimatedKeyboardHeightPortrait;
+    static const char* const kEstimatedKeyboardHeightLandscape;
     
     /** Returns the shared instance of the Game Manager */
     static ConfigStorage* getInstance(void);
@@ -120,6 +125,9 @@ public:
     //Device-resolution-specific information
     void setIsDeviceIphoneX(bool isDeviceIphoneX);
     bool isDeviceIphoneX() const;
+    
+    //Set keyboard height for chat
+    void setEstimatedKeyboardHeight(float size);
     
 private:
     rapidjson::Document parseJsonConfigurationFile(const std::string& fileName);

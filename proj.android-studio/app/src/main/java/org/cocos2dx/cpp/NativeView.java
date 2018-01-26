@@ -96,7 +96,12 @@ public class NativeView extends XWalkActivity {
         android.view.Display display = wm.getDefaultDisplay();
         android.util.DisplayMetrics metrics = new android.util.DisplayMetrics();
         display.getMetrics(metrics);
-        int buttonWidth = metrics.widthPixels/12;
+
+        int buttonWidth = metrics.widthPixels / 12;
+        if(metrics.heightPixels > metrics.widthPixels)
+        {
+            buttonWidth = metrics.heightPixels / 12;
+        }
 
         android.widget.RelativeLayout.LayoutParams buttonLayoutParams = new android.widget.RelativeLayout.LayoutParams(
                 android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);

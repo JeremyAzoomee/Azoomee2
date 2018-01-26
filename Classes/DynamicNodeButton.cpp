@@ -90,10 +90,11 @@ void DynamicNodeButton::addButtonWithParams(const cocos2d::Size& size, const coc
         button->loadTextures(btnSpriteFile,btnSpriteFile);
     }
     
-    button->setContentSize(size);
+    button->setContentSize(size / DynamicNodeCreator::getInstance()->_sizeMod);
     button->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     button->setNormalizedPosition(pos);
     button->setScale9Enabled(true);
+    button->setScale(DynamicNodeCreator::getInstance()->_sizeMod);
     button->setSwallowTouches(true);
     button->addTouchEventListener(CC_CALLBACK_2(DynamicNodeButtonListener::onButtonPressedCallFunc, DynamicNodeButtonListener::getInstance(),buttonActionData));
     

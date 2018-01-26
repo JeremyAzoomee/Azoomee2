@@ -116,8 +116,6 @@ private:
     
     /// Get the estimated keyboard height for the IME
     float getEstimatedKeyboardHeight() const;
-    /// Override the estimated keyboard height with a real value
-    void setEstimatedKeyboardHeight(float height);
     
     /// Called on TextField events
     void onTextFieldEvent(cocos2d::Ref* sender, cocos2d::ui::TextField::EventType type);
