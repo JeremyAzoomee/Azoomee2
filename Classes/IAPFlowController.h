@@ -20,22 +20,22 @@ private:
     static const std::string kCoppaPrivacyCTAName;
     static const std::string kLearnMoreCTAName;
     
-    const std::string _kPathIAP = "iap";
-    const std::string _kPathRestore = "restore";
-    const std::string _kPathLearnMore = "learnMore";
-    const std::string _kPathCoppa = "coppa";
+    const std::string kPathIAP = "iap";
+    const std::string kPathRestore = "restore";
+    const std::string kPathLearnMore = "learnMore";
+    const std::string kPathCoppa = "coppa";
     
     ButtonActionDataRef _actionData = nullptr;
     
-    void handleIAPUpgradeFlow(ButtonActionDataRef actionData);
-    void handleCoppaPrivacyFlow(ButtonActionDataRef actionData);
-    void handleLearnMoreFlow(ButtonActionDataRef actionData);
+    void handleIAPUpgradeFlow(const ButtonActionDataRef& actionData);
+    void handleCoppaPrivacyFlow(const ButtonActionDataRef& actionData);
+    void handleLearnMoreFlow(const ButtonActionDataRef& actionData);
     
     void startIAP();
     
 public:
     static DynamicNodeFlowControllerRef create();
-    virtual void processAction(ButtonActionDataRef actionData) override;
+    virtual void processAction(const ButtonActionDataRef& actionData) override;
     IAPFlowController() noexcept;
 
     // delegate functions

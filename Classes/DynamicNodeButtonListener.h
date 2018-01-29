@@ -47,7 +47,7 @@ public:
     virtual ~DynamicNodeButtonListener();
     bool init(void);
     
-    void onButtonPressedCallFunc(cocos2d::Ref* button, cocos2d::ui::Widget::TouchEventType evenType, ButtonActionDataRef buttonAction);
+    void onButtonPressedCallFunc(cocos2d::Ref* button, cocos2d::ui::Widget::TouchEventType evenType, const ButtonActionDataRef& buttonAction);
     
 };
 

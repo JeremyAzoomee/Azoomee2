@@ -79,8 +79,6 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
     }
     
-    //FlowDataSingleton::getInstance()->clearData();
-    
 }
 
 //-------------------------------------------All methods beyond this line are called internally-------------------------------------------------------
@@ -425,9 +423,6 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
         return;
     }
     
-    //ModalMessages::getInstance()->startLoading();
-    //Delay so loading screen has time to appear, due to long loading of Spines
-    //this->scheduleOnce(schedule_selector(ChildSelectorScene::callDelegateFunction), .5);
     callDelegateFunction(0);
 }
 
@@ -477,10 +472,7 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
     FlowDataSingleton::getInstance()->setFlowToNewProfile();
-    //DynamicNodeHandler::getInstance()->createDynamicNodeById("addChild.json");
     DynamicNodeHandler::getInstance()->startAddChildFlow();
-    //OfflineChecker::getInstance()->setDelegate(nullptr);
-    //Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
 }
 
 void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

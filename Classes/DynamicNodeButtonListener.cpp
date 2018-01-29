@@ -54,7 +54,7 @@ bool DynamicNodeButtonListener::init(void)
     return true;
 }
 
-void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget::TouchEventType eventType, ButtonActionDataRef buttonAction)
+void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget::TouchEventType eventType, const ButtonActionDataRef& buttonAction)
 {
     _buttonAction = buttonAction;
     

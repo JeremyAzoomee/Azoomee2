@@ -13,6 +13,10 @@ using namespace cocos2d;
 
 NS_AZOOMEE_BEGIN
 
+const int DynamicNodeText::kDefaultTitleFontSize = 94;
+const int DynamicNodeText::kDefaultBodyFontSize = 72;
+const int DynamicNodeText::kDefaultFooterFontSize = 48;
+
 bool DynamicNodeText::init()
 {
     return true;

@@ -24,7 +24,7 @@ class DynamicNodeFlowController
 {
 public:
     static DynamicNodeFlowControllerRef create();
-    virtual void processAction(ButtonActionDataRef actionData);
+    virtual void processAction(const ButtonActionDataRef& actionData);
     DynamicNodeFlowController() noexcept;
     
     std::string _flowEntryFile = "";
@@ -35,8 +35,8 @@ protected:
     
     FlowType _type;
     
-    static const std::string _kCTAFilenameKey;
-    static const std::string _kCTAActionKey;
+    static const std::string kCTAFilenameKey;
+    static const std::string kCTAActionKey;
 };
 
 NS_AZOOMEE_END

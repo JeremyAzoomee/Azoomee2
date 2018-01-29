@@ -18,14 +18,14 @@ private:
     static const std::string kAddChildCTAName;
     static const std::string kSelectOomeeCTAName;
     
-    void handleAddChildFlow(ButtonActionDataRef actionData);
-    void handleSelectOomeeFlow(ButtonActionDataRef actionData);
+    void handleAddChildFlow(const ButtonActionDataRef& actionData);
+    void handleSelectOomeeFlow(const ButtonActionDataRef& actionData);
     
     void addChild(int oomeeNum);
     
 public:
     static DynamicNodeFlowControllerRef create();
-    virtual void processAction(ButtonActionDataRef actionData) override;
+    virtual void processAction(const ButtonActionDataRef& actionData) override;
     AddChildFlowController() noexcept;
 };
 

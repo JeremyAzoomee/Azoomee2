@@ -25,7 +25,7 @@ private:
     static const char* const DataKeyChildRefNumber;
     static const char* const DataKeyIAPSuccess;
     
-    FlowTypeEnum currentFlowType;
+    FlowTypeEnum _currentFlowType;
     SuccessFailPath _currentSuccesFailPath;
     
     //Settings Deleted Child Flow

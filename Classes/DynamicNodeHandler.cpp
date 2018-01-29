@@ -22,7 +22,7 @@
 #include <AzoomeeCommon/Utils/VersionChecker.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 
-#define USING_LOCAL_CTA_ASSETS YES
+//#define USING_LOCAL_CTA_ASSETS YES
 
 using namespace cocos2d;
 NS_AZOOMEE_BEGIN
@@ -134,7 +134,7 @@ void DynamicNodeHandler::startIAPFlow()
 {
     if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
     {
-        if(ParentDataProvider::getInstance()->isLoggedInParentAnonymous() || ParentDataProvider::getInstance()->getLoggedInParentId() == "")
+        if(ParentDataProvider::getInstance()->isNoUserLoggedIn())
         {
             FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
             handleSuccessFailEvent();

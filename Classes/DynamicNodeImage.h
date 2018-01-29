@@ -19,10 +19,12 @@ class DynamicNodeImage : public cocos2d::Node
 {
 private:
     cocos2d::Sprite* _image = nullptr;
+    std::string _fullImagePath = "";
     
-    void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Size& dynamicNodeSize, const cocos2d::Vec2& pos, int opacity, const std::string& filename);
+    void addImageWithParams(const cocos2d::Vec2& size, const cocos2d::Size& dynamicNodeSize, const cocos2d::Vec2& pos, int opacity);
     void addRemoteImageWithParams(const cocos2d::Vec2& size, const cocos2d::Size& dynamicNodeSize, const cocos2d::Vec2& pos, int opacity, const std::string& url);
     
+    bool imageExists(const std::string& filename);
 public:
     virtual bool init() override;
     

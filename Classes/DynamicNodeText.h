@@ -25,6 +25,10 @@ public:
 
     bool initWithParams(int fontSize, cocos2d::Color4B fontColour, const rapidjson::Value& params, const cocos2d::Size& dynamicNodeSize, bool usingExternParams);
     
+    static const int kDefaultTitleFontSize;
+    static const int kDefaultBodyFontSize;
+    static const int kDefaultFooterFontSize;
+    
     CREATE_FUNC(DynamicNodeText);
 };
 

@@ -10,8 +10,8 @@
 
 NS_AZOOMEE_BEGIN
 
-const std::string DynamicNodeFlowController::_kCTAFilenameKey = "fileName";
-const std::string DynamicNodeFlowController::_kCTAActionKey = "action";
+const std::string DynamicNodeFlowController::kCTAFilenameKey = "fileName";
+const std::string DynamicNodeFlowController::kCTAActionKey = "action";
 
 DynamicNodeFlowControllerRef DynamicNodeFlowController::create()
 {
@@ -23,7 +23,7 @@ DynamicNodeFlowController::DynamicNodeFlowController() noexcept
     _type = FlowType::NONE;
 }
 
-void DynamicNodeFlowController::processAction(ButtonActionDataRef actionData)
+void DynamicNodeFlowController::processAction(const ButtonActionDataRef& actionData)
 {
     // called in DynamicNodeButtonListener
     // override in sub class to initiate processing of flow using given data

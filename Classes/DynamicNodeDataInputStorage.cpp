@@ -17,7 +17,6 @@ DynamicNodeDataInputStorage* DynamicNodeDataInputStorage::getInstance()
     if(!sDynamicNodeDataInputStorageSharedInstance.get())
     {
         sDynamicNodeDataInputStorageSharedInstance.reset(new DynamicNodeDataInputStorage());
-        sDynamicNodeDataInputStorageSharedInstance->init();
     }
     return sDynamicNodeDataInputStorageSharedInstance.get();
 }
@@ -27,21 +26,16 @@ DynamicNodeDataInputStorage::~DynamicNodeDataInputStorage(void)
     
 }
 
-bool DynamicNodeDataInputStorage::init(void)
-{
-    return true;
-}
-
 void DynamicNodeDataInputStorage::addElementToStorage(const std::string& key, const std::string& value)
 {
     _dataStorage[key] = value;
 }
 
-std::string DynamicNodeDataInputStorage::getElementFromStorage(const std::string& key)
+std::string DynamicNodeDataInputStorage::getElementFromStorage(const std::string& key) const
 {
     try
     {
-        const std::string& value = _dataStorage[key];
+        const std::string& value = _dataStorage.at(key);
         return value;
     }
     catch(std::out_of_range)
@@ -50,7 +44,7 @@ std::string DynamicNodeDataInputStorage::getElementFromStorage(const std::string
     }
 }
 
-std::string DynamicNodeDataInputStorage::getStorageAsJsonString()
+std::string DynamicNodeDataInputStorage::getStorageAsJsonString() const
 {
     return getJSONStringFromMap(_dataStorage);
 }

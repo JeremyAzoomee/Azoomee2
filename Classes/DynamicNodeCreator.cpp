@@ -266,16 +266,16 @@ void DynamicNodeCreator::configNodeSize(const rapidjson::Value &sizePercentages)
     {
         if(sizePercentages[0].IsFloat() && sizePercentages[1].IsFloat())
         {
-            const Size& visibleSize = Director::getInstance()->getVisibleSize() * 0.95f;
+            const Size& visibleSizeSafe = Director::getInstance()->getVisibleSize() * 0.95f;
             
             float width = sizePercentages[0].GetFloat()/100.0f;
             float height = sizePercentages[1].GetFloat()/100.0f;
             Size newSize = Size(_windowSize.width*width,_windowSize.height*height);
             
-            if(newSize.width > visibleSize.width || newSize.height > visibleSize.height)
+            if(newSize.width > visibleSizeSafe.width || newSize.height > visibleSizeSafe.height)
             {
-                float widthMod = visibleSize.width/newSize.width;
-                float heightMod = visibleSize.height/newSize.height;
+                float widthMod = visibleSizeSafe.width/newSize.width;
+                float heightMod = visibleSizeSafe.height/newSize.height;
                 _sizeMod = MIN(widthMod, heightMod);
                 newSize = newSize * _sizeMod;
             }
@@ -356,7 +356,7 @@ void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
     {
         const rapidjson::Value& titleText = textConfig["titleText"];
         DynamicNodeText* text = DynamicNodeText::create();
-        if(text->initWithParams(94, Style::Color_4B::ctaNodeText, titleText, _textLayer->getContentSize(), _usingExternalParams))
+        if(text->initWithParams(DynamicNodeText::kDefaultTitleFontSize, Style::Color_4B::ctaNodeText, titleText, _textLayer->getContentSize(), _usingExternalParams))
         {
             _textLayer->addChild(text);
         }
@@ -368,7 +368,7 @@ void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
         {
             const rapidjson::Value& bodyText = textConfig["bodyText"][i];
             DynamicNodeText* text = DynamicNodeText::create();
-            if(text->initWithParams(94, Style::Color_4B::ctaNodeText, bodyText, _textLayer->getContentSize(), _usingExternalParams))
+            if(text->initWithParams(DynamicNodeText::kDefaultBodyFontSize, Style::Color_4B::ctaNodeText, bodyText, _textLayer->getContentSize(), _usingExternalParams))
             {
                 _textLayer->addChild(text);
             }
@@ -379,7 +379,7 @@ void DynamicNodeCreator::configText(const rapidjson::Value& textConfig)
     {
         const rapidjson::Value& footerText = textConfig["footerText"];
         DynamicNodeText* text = DynamicNodeText::create();
-        if(text->initWithParams(94, Style::Color_4B::ctaNodeText, footerText, _textLayer->getContentSize(), _usingExternalParams))
+        if(text->initWithParams(DynamicNodeText::kDefaultFooterFontSize, Style::Color_4B::ctaNodeText, footerText, _textLayer->getContentSize(), _usingExternalParams))
         {
             _textLayer->addChild(text);
         }

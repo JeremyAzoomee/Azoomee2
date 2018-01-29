@@ -43,6 +43,7 @@ public:
     bool isBillingDataAvailable();
     bool isPaidUser();
     bool emailRequiresVerification();
+    bool isNoUserLoggedIn();
     
     //-----------Pending Friend Requests-------------
     int getNoOfPendingFriendRequest();

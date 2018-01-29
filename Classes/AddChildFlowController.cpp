@@ -27,9 +27,9 @@ DynamicNodeFlowControllerRef AddChildFlowController::create()
     return std::make_shared<AddChildFlowController>();
 }
 
-void AddChildFlowController::processAction(ButtonActionDataRef actionData)
+void AddChildFlowController::processAction(const ButtonActionDataRef& actionData)
 {
-    const std::string& fileName = actionData->getParamForKey(_kCTAFilenameKey);
+    const std::string& fileName = actionData->getParamForKey(kCTAFilenameKey);
     if( fileName == kAddChildCTAName)
     {
         handleAddChildFlow(actionData);
@@ -46,12 +46,12 @@ AddChildFlowController::AddChildFlowController() noexcept
     _type = FlowType::ADDCHILD;
 }
 
-void AddChildFlowController::handleAddChildFlow(ButtonActionDataRef actionData)
+void AddChildFlowController::handleAddChildFlow(const ButtonActionDataRef& actionData)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(_kCTAActionKey));
+    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
-        case UNKNOWN:
+        default: case UNKNOWN:
         {
             return;
             break;
@@ -65,9 +65,8 @@ void AddChildFlowController::handleAddChildFlow(ButtonActionDataRef actionData)
             {
                 return;
             }
-            time_t t = time(NULL);
-            struct tm time = *localtime(&t);
-            int year = 1900 + time.tm_year - age;
+            
+            int year = birthYearFromAge(age);
             
             if(!isDate(1, 1, year) || !isValidChildName(profileName.c_str()))
             {
@@ -86,12 +85,12 @@ void AddChildFlowController::handleAddChildFlow(ButtonActionDataRef actionData)
     }
 }
 
-void AddChildFlowController::handleSelectOomeeFlow(ButtonActionDataRef actionData)
+void AddChildFlowController::handleSelectOomeeFlow(const ButtonActionDataRef& actionData)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(_kCTAActionKey));
+    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
-        case UNKNOWN:
+        default: case UNKNOWN:
         {
             return;
             break;
@@ -120,9 +119,8 @@ void AddChildFlowController::addChild(int oomeeNum)
     {
         return;
     }
-    time_t t = time(NULL);
-    struct tm time = *localtime(&t);
-    int year = 1900 + time.tm_year - age;
+    
+    int year = birthYearFromAge(age);
     
     const std::string& DOB = StringUtils::format("%04d-%02d-%02d",year,1,1);
     const std::string& gender = "MALE";

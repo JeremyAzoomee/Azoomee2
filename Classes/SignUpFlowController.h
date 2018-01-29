@@ -20,16 +20,16 @@ private:
     static const std::string kEnterPasswordCTAName;
     static const std::string kEnterPinCTAName;
     
-    void handleEnterEmailFlow(ButtonActionDataRef actionData);
-    void handleConfirmEmailFlow(ButtonActionDataRef actionData);
-    void handleEnterPasswordFlow(ButtonActionDataRef actionData);
-    void handleEnterPinFlow(ButtonActionDataRef actionData);
+    void handleEnterEmailFlow(const ButtonActionDataRef& actionData);
+    void handleConfirmEmailFlow(const ButtonActionDataRef& actionData);
+    void handleEnterPasswordFlow(const ButtonActionDataRef& actionData);
+    void handleEnterPinFlow(const ButtonActionDataRef& actionData);
     
     void signUp();
     
 public:
     static DynamicNodeFlowControllerRef create();
-    virtual void processAction(ButtonActionDataRef actionData) override;
+    virtual void processAction(const ButtonActionDataRef& actionData) override;
     SignUpFlowController() noexcept;
 };
 

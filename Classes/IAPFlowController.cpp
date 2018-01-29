@@ -26,10 +26,10 @@ DynamicNodeFlowControllerRef IAPFlowController::create()
 {
     return std::make_shared<IAPFlowController>();
 }
-void IAPFlowController::processAction(ButtonActionDataRef actionData)
+void IAPFlowController::processAction(const ButtonActionDataRef& actionData)
 {
     _actionData = actionData;
-    const std::string& fileName = actionData->getParamForKey(_kCTAFilenameKey);
+    const std::string& fileName = actionData->getParamForKey(kCTAFilenameKey);
     if( fileName == kIAPUpgradeCTAName)
     {
         handleIAPUpgradeFlow(actionData);
@@ -50,12 +50,12 @@ IAPFlowController::IAPFlowController() noexcept
     _type = FlowType::IAP;
 }
 
-void IAPFlowController::handleIAPUpgradeFlow(ButtonActionDataRef actionData)
+void IAPFlowController::handleIAPUpgradeFlow(const ButtonActionDataRef& actionData)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(_kCTAActionKey));
+    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
-        case UNKNOWN:
+        default: case UNKNOWN:
         {
             return;
             break;
@@ -63,15 +63,15 @@ void IAPFlowController::handleIAPUpgradeFlow(ButtonActionDataRef actionData)
         case NEXT:
         {
             const std::string& path = actionData->getParamForKey("path");
-            if(path == _kPathIAP || path == _kPathRestore)
+            if(path == kPathIAP || path == kPathRestore)
             {
                 startIAP();
             }
-            else if(path == _kPathCoppa)
+            else if(path == kPathCoppa)
             {
                 DynamicNodeHandler::getInstance()->createDynamicNodeById(kCoppaPrivacyCTAName);
             }
-            else if(path == _kPathLearnMore)
+            else if(path == kPathLearnMore)
             {
                 DynamicNodeHandler::getInstance()->createDynamicNodeById(kLearnMoreCTAName);
             }
@@ -86,12 +86,12 @@ void IAPFlowController::handleIAPUpgradeFlow(ButtonActionDataRef actionData)
     }
 }
 
-void IAPFlowController::handleCoppaPrivacyFlow(ButtonActionDataRef actionData)
+void IAPFlowController::handleCoppaPrivacyFlow(const ButtonActionDataRef& actionData)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(_kCTAActionKey));
+    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
-        case UNKNOWN:
+        default: case UNKNOWN:
         {
             return;
             break;
@@ -110,12 +110,12 @@ void IAPFlowController::handleCoppaPrivacyFlow(ButtonActionDataRef actionData)
     }
 }
 
-void IAPFlowController::handleLearnMoreFlow(ButtonActionDataRef actionData)
+void IAPFlowController::handleLearnMoreFlow(const ButtonActionDataRef& actionData)
 {
-    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(_kCTAActionKey));
+    FlowPath pathAction = convertStringToFlowPath(actionData->getParamForKey(kCTAActionKey));
     switch(pathAction)
     {
-        case UNKNOWN:
+        default: case UNKNOWN:
         {
             return;
             break;
@@ -136,7 +136,7 @@ void IAPFlowController::handleLearnMoreFlow(ButtonActionDataRef actionData)
 
 void IAPFlowController::startIAP()
 {
-    if(!ParentDataProvider::getInstance()->isLoggedInParentAnonymous() && ParentDataProvider::getInstance()->getLoggedInParentId() != "")
+    if(!ParentDataProvider::getInstance()->isNoUserLoggedIn())
     {
         AwaitingAdultPinLayer::create()->setDelegate(this);
     }
@@ -155,12 +155,12 @@ void IAPFlowController::AdultPinAccepted(AwaitingAdultPinLayer* layer)
     if(_actionData)
     {
         const std::string& path = _actionData->getParamForKey("path");
-        if(path == _kPathRestore)
+        if(path == kPathRestore)
         {
             RoutePaymentSingleton::getInstance()->refreshAppleReceiptFromButton();
             exitFlow();
         }
-        else if(path == _kPathIAP)
+        else if(path == kPathIAP)
         {
             RoutePaymentSingleton::getInstance()->startInAppPayment();
             exitFlow();

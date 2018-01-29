@@ -51,24 +51,26 @@ void FlowDataSingleton::setFlowToSignup(std::string userName, std::string passwo
     clearData();
     flowData[DataKeyUserName] = userName;
     flowData[DataKeyPassword] = password;
-    currentFlowType = flowType_Signup;
+    _currentFlowType = flowType_Signup;
 }
 
 void FlowDataSingleton::setFlowToNewProfile()
 {
     clearData();
-    currentFlowType = flowType_NewProfile;
+    _currentFlowType = flowType_NewProfile;
 }
 
 void FlowDataSingleton::setFlowToSignUpNewProfile()
 {
-    currentFlowType = flowType_SignupNewProfile;
+    _currentFlowType = flowType_SignupNewProfile;
 }
 
 void FlowDataSingleton::addChildData(std::string childName, int oomeeColourNumber)
 {
     if(isSignupFlow())
-        currentFlowType = flowType_SignupNewProfile;
+    {
+        _currentFlowType = flowType_SignupNewProfile;
+    }
     
     flowData[DataKeyChildName] = childName;
     flowData[DataKeyOomeeColourNumber] = StringUtils::format("%d",oomeeColourNumber);
@@ -81,7 +83,7 @@ void FlowDataSingleton::addIAPSuccess(bool IAPSuccess)
 
 void FlowDataSingleton::clearData()
 {
-    currentFlowType = flowType_None;
+    _currentFlowType = flowType_None;
     flowData.clear();
 }
 
@@ -116,17 +118,17 @@ bool FlowDataSingleton::hasError()
 
 bool FlowDataSingleton::isSignupFlow()
 {
-    return currentFlowType == flowType_Signup;
+    return _currentFlowType == flowType_Signup;
 }
 
 bool FlowDataSingleton::isSignupNewProfileFlow()
 {
-    return currentFlowType == flowType_SignupNewProfile;
+    return _currentFlowType == flowType_SignupNewProfile;
 }
 
 bool FlowDataSingleton::isNewProfileFlow()
 {
-    return currentFlowType == flowType_NewProfile;;
+    return _currentFlowType == flowType_NewProfile;;
 }
 
 #pragma mark - Private Functions
@@ -134,8 +136,12 @@ bool FlowDataSingleton::isNewProfileFlow()
 std::string FlowDataSingleton::getStringValue(std::string keyName)
 {
     if(flowData.find( keyName ) != flowData.end())
+    {
         if(flowData.at(keyName) != "")
+        {
             return flowData[keyName];
+        }
+    }
     
     return "";
 }

@@ -63,19 +63,9 @@ bool DynamicNodeImage::initWithParams(const rapidjson::Value& params, const coco
     {
         const std::string& filename = getStringFromJson("file", params);
         
-        if(filename != "")
+        if(imageExists(filename))
         {
-            if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename))
-            {
-                addImageWithParams(size, dynamicNodeSize, pos, opacity, FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename);
-            }
-            else
-            {
-                if(FileUtils::getInstance()->isFileExist(DynamicNodeCreator::kCTAAssetLoc + DynamicNodeCreator::kCTABundleImageLoc + filename))
-                {
-                    addImageWithParams(size, dynamicNodeSize, pos, opacity,DynamicNodeCreator::kCTAAssetLoc +  DynamicNodeCreator::kCTABundleImageLoc + filename);
-                }
-            }
+            addImageWithParams(size, dynamicNodeSize, pos, opacity);
         }
     }
     else
@@ -91,33 +81,13 @@ bool DynamicNodeImage::initWithParams(const rapidjson::Value& params, const coco
 
 bool DynamicNodeImage::initWithParamsAsBGImage(const rapidjson::Value &params, const cocos2d::Size &dynamicNodeSize, bool usingExternParams)
 {
-    //this->setContentSize(dynamicNodeSize);
-    
     const std::string& filename = getStringFromJson("file", params);
-    bool imagefound = false;
     
     _image = Sprite::create();
     
-    if(filename != "")
+    if(imageExists(filename))
     {
-        
-        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename))
-        {
-            _image->initWithFile(FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename);
-            imagefound = true;
-        }
-        else
-        {
-            if(FileUtils::getInstance()->isFileExist(DynamicNodeCreator::kCTABundleImageLoc + filename))
-            {
-                _image->initWithFile(DynamicNodeCreator::kCTABundleImageLoc + filename);
-                imagefound = true;
-            }
-        }
-    }
-    
-    if(imagefound)
-    {
+        _image->initWithFile(_fullImagePath);
         std::string displaymode = getStringFromJson("displayMode", params);
         if(displaymode == "fill")
         {
@@ -144,9 +114,9 @@ bool DynamicNodeImage::initWithParamsAsBGImage(const rapidjson::Value &params, c
     }
 }
 
-void DynamicNodeImage::addImageWithParams(const Vec2& size, const cocos2d::Size& dynamicNodeSize, const Vec2& pos, int opacity, const std::string& filename)
+void DynamicNodeImage::addImageWithParams(const Vec2& size, const cocos2d::Size& dynamicNodeSize, const Vec2& pos, int opacity)
 {
-    _image = Sprite::create(filename);
+    _image = Sprite::create(_fullImagePath);
     if(size.x > 0 && size.y > 0)
     {
         _image->setScale((dynamicNodeSize.width*size.x)/_image->getContentSize().width, (dynamicNodeSize.height*size.y)/_image->getContentSize().height);
@@ -201,6 +171,27 @@ void DynamicNodeImage::addRemoteImageWithParams(const Vec2& size, const cocos2d:
     this->addChild(_image);
 }
 
+bool DynamicNodeImage::imageExists(const std::string& filename)
+{
+    if(filename != "")
+    {
+        
+        if(FileUtils::getInstance()->isFileExist(FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename))
+        {
+            _fullImagePath = FileUtils::getInstance()->getWritablePath() + DynamicNodeCreator::kCTADeviceImageCacheLoc + filename;
+            return true;
+        }
+        else
+        {
+            if(FileUtils::getInstance()->isFileExist(DynamicNodeCreator::kCTABundleImageLoc + filename))
+            {
+                _fullImagePath = DynamicNodeCreator::kCTABundleImageLoc + filename;
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 
 NS_AZOOMEE_END

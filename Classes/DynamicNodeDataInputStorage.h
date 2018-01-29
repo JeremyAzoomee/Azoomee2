@@ -21,11 +21,10 @@ private:
 public:
     static DynamicNodeDataInputStorage* getInstance(void);
     virtual ~DynamicNodeDataInputStorage();
-    bool init(void);
     
     void addElementToStorage(const std::string& key, const std::string& value);
-    std::string getElementFromStorage(const std::string& key);
-    std::string getStorageAsJsonString();
+    std::string getElementFromStorage(const std::string& key) const;
+    std::string getStorageAsJsonString() const;
     void clearStorage();
     
 };
