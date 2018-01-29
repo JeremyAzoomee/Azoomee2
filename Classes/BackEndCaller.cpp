@@ -18,7 +18,6 @@
 #include "LoginLogicHandler.h"
 #include "ChildSelectorScene.h"
 #include "BaseScene.h"
-#include "ChildAccountScene.h"
 #include "AwaitingAdultPinLayer.h"
 #include "RoutePaymentSingleton.h"
 #include "SceneManagerScene.h"
@@ -118,12 +117,19 @@ void BackEndCaller::onLoginAnswerReceived(const std::string& responseString, con
     if(ParentDataParser::getInstance()->parseParentLoginData(responseString))
     {
         ConfigStorage::getInstance()->setFirstSlideShowSeen();
-        
         ParentDataParser::getInstance()->setLoggedInParentCountryCode(getValueFromHttpResponseHeaderForKey("X-AZ-COUNTRYCODE", headerString));
-        getAvailableChildren();
-        updateBillingData();
         AnalyticsSingleton::getInstance()->signInSuccessEvent();
         AnalyticsSingleton::getInstance()->setIsUserAnonymous(false);
+        if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
+        {
+            RoutePaymentSingleton::getInstance()->retryReceiptValidation();
+        }
+        else
+        {
+            getAvailableChildren();
+            updateBillingData();
+        }
+        
     }
     else
     {
@@ -182,8 +188,6 @@ void BackEndCaller::onUpdateBillingDataAnswerReceived(const std::string& respons
     // fire event to add parent button to child select scene if paid account
     EventCustom event(ChildSelectorScene::kBillingDataRecievedEvent);
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
-    
-    RoutePaymentSingleton::getInstance()->retryReceiptValidation();
 }
 
 //GETTING FORCE UPDATE INFORMATION
@@ -236,25 +240,13 @@ void BackEndCaller::getAvailableChildren()
 
 void BackEndCaller::onGetChildrenAnswerReceived(const std::string& responseString)
 {
+    ModalMessages::getInstance()->stopLoading();
     ParentDataParser::getInstance()->parseAvailableChildren(responseString);
+    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
     
-    if(FlowDataSingleton::getInstance()->isSignupNewProfileFlow())
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(OnboardingSuccessScene));
-    }
-    else if(FlowDataSingleton::getInstance()->isNewProfileFlow())
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccountSuccessScene));
-    }
-    else if(FlowDataSingleton::getInstance()->isSignupFlow())
-    {
-        cocos2d::log("Just registered account : backendcaller");
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
-    }
-    else if(RoutePaymentSingleton::getInstance()->checkIfAppleReceiptRefreshNeeded())
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildSelector));
-    }
+    Director::getInstance()->getScheduler()->schedule([&](float dt){
+        DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+    }, this, 0.5, 0, 0, false, "eventHandler");
 }
 
 //CHILDREN LOGIN----------------------------------------------------------------------------------------
@@ -331,6 +323,7 @@ void BackEndCaller::onRegisterParentAnswerReceived()
     IAPProductDataHandler::getInstance()->fetchProductData();
     ConfigStorage::getInstance()->setFirstSlideShowSeen();
     AnalyticsSingleton::getInstance()->OnboardingAccountCreatedEvent();
+    FlowDataSingleton::getInstance()->setSuccessFailPath(SIGNUP_SUCCESS);
     login(FlowDataSingleton::getInstance()->getUserName(), FlowDataSingleton::getInstance()->getPassword());
 }
 
@@ -525,26 +518,28 @@ void BackEndCaller::onHttpRequestFailed(const std::string& requestTag, long erro
     if(requestTag == API::TagRegisterParent)
     {
         AnalyticsSingleton::getInstance()->OnboardingAccountCreatedErrorEvent(errorCode);
+        hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+        MessageBox::createWith(errorCode, nullptr);
+        //DynamicNodeHandler::getInstance()->startSignupFlow();
         return;
     }
     
     if(requestTag == API::TagRegisterChild)
     {
         AnalyticsSingleton::getInstance()->childProfileCreatedErrorEvent(errorCode);
-
+        hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
+        DynamicNodeHandler::getInstance()->startAddChildFlow();
         return;
     }
     
     if(requestTag == API::TagUpdateChild)
     {
         AnalyticsSingleton::getInstance()->childProfileUpdateErrorEvent(errorCode);
-        
+        hideLoadingScreen();
         FlowDataSingleton::getInstance()->setErrorCode(errorCode);
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
+        DynamicNodeHandler::getInstance()->startAddChildFlow();
         return;
     }
     

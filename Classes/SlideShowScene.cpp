@@ -3,8 +3,8 @@
 #include <AzoomeeCommon/Audio/AudioMixer.h>
 #include <cstdlib>
 #include "SceneManagerScene.h"
-#include "IAPUpsaleLayer.h"
 #include "BackEndCaller.h"
+#include "DynamicNodeHandler.h"
 
 using namespace Azoomee;
 
@@ -29,7 +29,7 @@ bool SlideShowScene::init()
     
     createPageView();
     addLoginButton();
-    
+    DynamicNodeHandler::getInstance()->getCTAFiles();
     return true;
 }
 
@@ -175,7 +175,7 @@ void SlideShowScene::buttonPressed(ElectricDreamsButton* button)
     }
     else if (button->getName() == "startTrialButton")
     {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
+        DynamicNodeHandler::getInstance()->startIAPFlow();
     }
     else if (button == skipButton)
     {

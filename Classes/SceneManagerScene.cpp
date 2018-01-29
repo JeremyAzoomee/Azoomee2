@@ -1,12 +1,8 @@
 #include "SceneManagerScene.h"
-#include "OnboardingScene.h"
 #include "HQHistoryManager.h"
 #include "BaseScene.h"
-#include "OnboardingSuccessScene.h"
-#include "ChildAccountScene.h"
 #include "ChildSelectorScene.h"
 #include "LoginScene.h"
-#include "ChildAccountSuccessScene.h"
 #include "OfflineHubScene.h"
 #include "HQScene2.h"
 #include <AzoomeeCommon/Application.h>
@@ -73,22 +69,6 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case Onboarding:
-        {
-            forceToPortrait();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("ONBOARDING");
-            
-            auto funcCallAction = CallFunc::create([=](){
-                
-                cocos2d::Scene* goToScene = OnboardingScene::createScene();
-                Director::getInstance()->replaceScene(goToScene);
-            });
-            
-            auto action = Sequence::create(DelayTime::create(0.6f), funcCallAction, NULL);
-            this->runAction(action);
-            
-            break;
-        }
         case Base:
         {
             FlowDataSingleton::getInstance()->clearData();
@@ -107,44 +87,11 @@ void SceneManagerScene::onEnterTransitionDidFinish()
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
-        case ChildAccount:
-        {
-            forceToPortrait();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_ACCOUNT");
-            
-            //requires delay to ensure portrait is set before rendering scene.
-            auto funcCallAction = CallFunc::create([=](){
-                
-                cocos2d::Scene* goToScene = ChildAccountScene::createScene();
-                Director::getInstance()->replaceScene(goToScene);
-            });
-            
-            auto action = Sequence::create(DelayTime::create(0.6f), funcCallAction, NULL);
-            this->runAction(action);
-            
-            break;
-        }
-        case ChildAccountSuccessScene:
-        {
-            forceToLandscape();
-            cocos2d::Scene* goToScene = ChildAccountSuccessScene::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_ACCOUNT_SUCCESS");
-            Director::getInstance()->replaceScene(goToScene);
-            break;
-        }
         case ChildSelector:
         {
             forceToLandscape();
             cocos2d::Scene* goToScene = ChildSelectorScene::createScene();
             AnalyticsSingleton::getInstance()->registerCurrentScene("CHILD_SELECTOR");
-            Director::getInstance()->replaceScene(goToScene);
-            break;
-        }
-        case OnboardingSuccessScene:
-        {
-            forceToLandscape();
-            cocos2d::Scene* goToScene = OnboardingSuccessScene::createScene();
-            AnalyticsSingleton::getInstance()->registerCurrentScene("ONBOARDING_SUCCESS");
             Director::getInstance()->replaceScene(goToScene);
             break;
         }
