@@ -4,10 +4,12 @@
 #include "BackEndCaller.h"
 #include "LoginLogicHandler.h"
 #include "RoutePaymentSingleton.h"
-
+#include "DynamicNodeHandler.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
 #include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
 #include <AzoomeeCommon/Data/ConfigStorage.h>
+#include "FlowDataSingleton.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include "platform/android/jni/JniHelper.h"
@@ -63,8 +65,24 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     savedRequestId = requestId;
     savedReceiptId = receiptId;
     savedAmazonUserid = amazonUserid;
-    
-    BackEndCaller::getInstance()->verifyAmazonPayment(requestId, receiptId, amazonUserid);
+    if(!ParentDataProvider::getInstance()->isUserLoggedIn())
+    {
+        auto funcCallAction = CallFunc::create([=](){
+            ModalMessages::getInstance()->stopLoading();
+            FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
+            DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
+        });
+        
+        Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL));
+    }
+    else
+    {
+        auto funcCallAction = CallFunc::create([=](){
+            BackEndCaller::getInstance()->verifyAmazonPayment(requestId, receiptId, amazonUserid);
+        });
+        
+        Director::getInstance()->getRunningScene()->runAction(Sequence::create(DelayTime::create(1), funcCallAction, NULL));
+    }
 }
 
 void AmazonPaymentSingleton::onAmazonPaymentMadeAnswerReceived(std::string responseDataString)

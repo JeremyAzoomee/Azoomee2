@@ -12,7 +12,6 @@ class RoutePaymentSingleton : public cocos2d::Ref, public MessageBoxDelegate
 private:
     bool appleReceiptRefreshchecked = false;
     std::string OSManufacturer;
-    void setOSManufacturer();
     void createReceiptDataFolder();
     
 public:
@@ -33,7 +32,6 @@ public:
     bool osIsAmazon();
     
     void refreshAppleReceiptFromButton();
-    bool checkIfAppleReceiptRefreshNeeded();
     
     void backendRequestFailed(long errorCode);
     
@@ -53,6 +51,8 @@ public:
     
     static const std::string& kReceiptCacheFolder;
     static const std::string& kReceiptDataFileName;
+    
+    void setOSManufacturer();
 };
 
 NS_AZOOMEE_END

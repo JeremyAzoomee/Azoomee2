@@ -21,6 +21,7 @@
 #include "ChatNotificationsSingleton.h"
 #include <AzoomeeCommon/UI/PrivacyLayer.h>
 #include "ContentHistoryManager.h"
+#include "DynamicNodeHandler.h"
 
 #define OOMEE_LAYER_WIDTH 300
 #define OOMEE_LAYER_HEIGHT 450
@@ -80,8 +81,6 @@ void ChildSelectorScene::onEnterTransitionDidFinish()
     {
         MessageBox::createWith(FlowDataSingleton::getInstance()->getErrorCode(), nullptr);
     }
-    
-    FlowDataSingleton::getInstance()->clearData();
     
 }
 
@@ -427,9 +426,7 @@ void ChildSelectorScene::AdultPinAccepted(AwaitingAdultPinLayer* layer)
         return;
     }
     
-    ModalMessages::getInstance()->startLoading();
-    //Delay so loading screen has time to appear, due to long loading of Spines
-    this->scheduleOnce(schedule_selector(ChildSelectorScene::callDelegateFunction), .5);
+    callDelegateFunction(0);
 }
 
 void ChildSelectorScene::refreshParentCookiesRequest()
@@ -478,8 +475,7 @@ void ChildSelectorScene::connectivityStateChanged(bool online)
 void ChildSelectorScene::callDelegateFunction(float dt)
 {
     FlowDataSingleton::getInstance()->setFlowToNewProfile();
-    OfflineChecker::getInstance()->setDelegate(nullptr);
-    Director::getInstance()->replaceScene(SceneManagerScene::createScene(ChildAccount));
+    DynamicNodeHandler::getInstance()->startAddChildFlow();
 }
 
 void ChildSelectorScene::MessageBoxButtonPressed(std::string messageBoxTitle,std::string buttonTitle)

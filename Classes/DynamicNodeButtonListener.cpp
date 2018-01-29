@@ -7,16 +7,27 @@
 //
 
 #include "DynamicNodeButtonListener.h"
+#include "DynamicNodeHandler.h"
 #include <AzoomeeCommon/Data/Child/ChildDataProvider.h>
+#include <AzoomeeCommon/Data/Parent/ParentDataProvider.h>
 #include <AzoomeeCommon/Analytics/AnalyticsSingleton.h>
-#include "IAPUpsaleLayer.h"
 #include "PreviewLoginSignupMessageBox.h"
 #include "DynamicNodeCreator.h"
 #include "SceneManagerScene.h"
 #include "DeepLinkingSingleton.h"
 #include "ContentHistoryManager.h"
+#include "DynamicNodeDataInputStorage.h"
+#include <AzoomeeCommon/Data/Urls.h>
+#include <AzoomeeCommon/UI/ModalWebview.h>
+#include "BackEndCaller.h"
+#include <AzoomeeCommon/UI/ModalMessages.h>
+#include <AzoomeeCommon/Input/TextInputChecker.h>
+#include "RoutePaymentSingleton.h"
+#include <AzoomeeCommon/Utils/StringFunctions.h>
+#include "FlowDataSingleton.h"
 #include "HQDataProvider.h"
 #include "ContentOpener.h"
+
 
 using namespace cocos2d;
 
@@ -43,8 +54,10 @@ bool DynamicNodeButtonListener::init(void)
     return true;
 }
 
-void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget::TouchEventType eventType, ButtonActionDataRef buttonAction)
+void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget::TouchEventType eventType, const ButtonActionDataRef& buttonAction)
 {
+    _buttonAction = buttonAction;
+    
     if(eventType == ui::Widget::TouchEventType::ENDED)
     {
         if(buttonAction->getType() == _kButtonTypeInternal)
@@ -54,6 +67,11 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
             {
                 AnalyticsSingleton::getInstance()->ctaButtonPressed("upgrade");
                 upgradeButtonPressed();
+            }
+            else if(location == _kButtonLocationIAP)
+            {
+                RoutePaymentSingleton::getInstance()->startInAppPayment();
+                closeCTAPopup();
             }
             else
             {
@@ -85,26 +103,77 @@ void DynamicNodeButtonListener::onButtonPressedCallFunc(Ref* button, ui::Widget:
                 closeCTAPopup();
             }
         }
+        else if(buttonAction->getType() == _kButtonTypeWeb)
+        {
+            const std::string& location = buttonAction->getParamForKey("location");
+            if(location == "privacyPolicy")
+            {
+                ModalWebview::createWithURL(Url::PrivacyPolicyNoLinks);
+            }
+            else if(location == "termsOfUse")
+            {
+                ModalWebview::createWithURL(Url::TermsOfUse);
+            }
+            else if(location != "")
+            {
+                ModalWebview::createWithURL(location);
+            }
+        }
+        else if(buttonAction->getType() == _kButtonTypeCTATransition)
+        {
+            const std::string& location = buttonAction->getParamForKey("location");
+            DynamicNodeHandler::getInstance()->createDynamicNodeById(location);
+        }
+        else if(buttonAction->getType() == _kButtonTypeCTATransitionParams)
+        {
+            const std::string& location = buttonAction->getParamForKey("location");
+            const std::string& params = DynamicNodeDataInputStorage::getInstance()->getStorageAsJsonString();
+            DynamicNodeHandler::getInstance()->createDynamicNodeByIdWithParams(location, params);
+        }
+        else if(buttonAction->getType() == _kButtonTypeCTATransitionGroup)
+        {
+            const std::string& location = buttonAction->getParamForKey("location");
+            DynamicNodeHandler::getInstance()->createDynamicNodeByGroupId(location);
+        }
+        else if(buttonAction->getType() == _kButtonTypeFlowAction)
+        {
+            DynamicNodeFlowControllerRef flowController = DynamicNodeHandler::getInstance()->getFlowController();
+            if(flowController)
+            {
+                flowController->processAction(buttonAction);
+            }
+            else
+            {
+                closeCTAPopup();
+            }
+        }
+        else if(buttonAction->getType() == _kButtonTypeStartFlow)
+        {
+            const std::string& flow = buttonAction->getParamForKey("flowType");
+            if(flow == "signup")
+            {
+                DynamicNodeHandler::getInstance()->startSignupFlow();
+            }
+            else if(flow == "iap")
+            {
+                DynamicNodeHandler::getInstance()->startIAPFlow();
+            }
+            else if(flow == "addchild")
+            {
+                DynamicNodeHandler::getInstance()->startAddChildFlow();
+            }
+        }
     }
 }
 
 void DynamicNodeButtonListener::upgradeButtonPressed()
 {
-    if(ChildDataProvider::getInstance()->getIsChildLoggedIn())
-    {
-        IAPUpsaleLayer::createRequiresPin();
-    }
-    else
-    {
-        Director::getInstance()->replaceScene(SceneManagerScene::createScene(Onboarding));
-    }
-    closeCTAPopup();
+    DynamicNodeHandler::getInstance()->startIAPFlow();
 }
 
 void DynamicNodeButtonListener::closeCTAPopup()
 {
     DynamicNodeCreator::getInstance()->resetCTAPopup();
 }
-
 
 NS_AZOOMEE_END
