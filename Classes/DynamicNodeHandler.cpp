@@ -134,7 +134,7 @@ void DynamicNodeHandler::startIAPFlow()
 {
     if(RoutePaymentSingleton::getInstance()->receiptDataFileExists())
     {
-        if(ParentDataProvider::getInstance()->isNoUserLoggedIn())
+        if(!ParentDataProvider::getInstance()->isUserLoggedIn())
         {
             FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
             handleSuccessFailEvent();

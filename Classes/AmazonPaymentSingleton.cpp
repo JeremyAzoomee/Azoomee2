@@ -65,7 +65,7 @@ void AmazonPaymentSingleton::amazonPaymentMade(std::string requestId, std::strin
     savedRequestId = requestId;
     savedReceiptId = receiptId;
     savedAmazonUserid = amazonUserid;
-    if(ParentDataProvider::getInstance()->isNoUserLoggedIn())
+    if(!ParentDataProvider::getInstance()->isUserLoggedIn())
     {
         auto funcCallAction = CallFunc::create([=](){
             ModalMessages::getInstance()->stopLoading();

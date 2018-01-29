@@ -57,7 +57,7 @@ void ApplePaymentSingleton::transactionStatePurchased(std::string receiptData)
         RoutePaymentSingleton::getInstance()->writeReceiptDataToFile(receiptData);
     }
     
-    if(ParentDataProvider::getInstance()->isNoUserLoggedIn())
+    if(!ParentDataProvider::getInstance()->isUserLoggedIn())
     {
         ModalMessages::getInstance()->stopLoading();
         FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);

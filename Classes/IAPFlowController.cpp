@@ -136,7 +136,7 @@ void IAPFlowController::handleLearnMoreFlow(const ButtonActionDataRef& actionDat
 
 void IAPFlowController::startIAP()
 {
-    if(!ParentDataProvider::getInstance()->isNoUserLoggedIn())
+    if(ParentDataProvider::getInstance()->isUserLoggedIn())
     {
         AwaitingAdultPinLayer::create()->setDelegate(this);
     }

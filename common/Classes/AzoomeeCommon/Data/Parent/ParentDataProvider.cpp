@@ -104,9 +104,9 @@ bool ParentDataProvider::emailRequiresVerification()
     return (ParentDataStorage::getInstance()->loggedInParentActorStatus != "VERIFIED") && (ParentDataStorage::getInstance()->loggedInParentActorStatus != "ACTIVE");
 }
     
-bool ParentDataProvider::isNoUserLoggedIn()
+bool ParentDataProvider::isUserLoggedIn()
 {
-    return (isLoggedInParentAnonymous() || getLoggedInParentId() == "");
+    return (!isLoggedInParentAnonymous() && getLoggedInParentId() != "");
 }
 
 //------------------------------------getting information from available children------------------------------------------

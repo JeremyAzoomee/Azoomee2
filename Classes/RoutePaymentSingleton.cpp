@@ -54,7 +54,7 @@ void RoutePaymentSingleton::startInAppPayment()
 {
     if(receiptDataFileExists())
     {
-        if(ParentDataProvider::getInstance()->isNoUserLoggedIn())
+        if(!ParentDataProvider::getInstance()->isUserLoggedIn())
         {
             FlowDataSingleton::getInstance()->setSuccessFailPath(IAP_SUCCESS);
             DynamicNodeHandler::getInstance()->handleSuccessFailEvent();
