@@ -24,7 +24,10 @@ void navigateToBaseScene()
         Director::getInstance()->replaceScene(SceneManagerScene::createScene(OfflineHub));
         return;
     }
-    ContentHistoryManager::getInstance()->setReturnedFromContent(true);
+    if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kHomeHQName && !(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName && HQHistoryManager::getInstance()->getPreviousHQ() == ConfigStorage::kHomeHQName))
+    {
+        ContentHistoryManager::getInstance()->setReturnedFromContent(true);
+    }
     Director::getInstance()->replaceScene(SceneManagerScene::createScene(Base));
 }
 

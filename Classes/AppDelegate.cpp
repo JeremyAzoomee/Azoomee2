@@ -103,7 +103,10 @@ void AppDelegate::applicationWillEnterForeground()
             Director::getInstance()->replaceScene(OfflineHubScene::createScene());
             return;
         }
-        ContentHistoryManager::getInstance()->setReturnedFromContent(true);
+        if(HQHistoryManager::getInstance()->getCurrentHQ() != ConfigStorage::kHomeHQName && !(HQHistoryManager::getInstance()->getCurrentHQ() == ConfigStorage::kGroupHQName && HQHistoryManager::getInstance()->getPreviousHQ() == ConfigStorage::kHomeHQName))
+        {
+            ContentHistoryManager::getInstance()->setReturnedFromContent(true);
+        }
         HQHistoryManager::getInstance()->addDefaultHQIfHistoryEmpty();
         
         auto baseScene = BaseScene::createScene();
